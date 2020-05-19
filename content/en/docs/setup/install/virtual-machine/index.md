@@ -60,6 +60,15 @@ but not production. Like all alpha features, this guide is subject to change.
     {{< text bash >}}
     $ cd "${WORK_DIR}"
     $ make -f "${ISTIO_DIR}"/samples/certs/Makefile NAME="${CLUSTER_NAME}" NAMESPACE="${SERVICE_NAMESPACE}" "${CLUSTER_NAME}"-certs-wl
+    {{< /text >}}
+
+## Install the Istio control plane
+
+The Istio control plane must be installed with virtual machine integration enabled (values.global.meshExpansion.enabled: true).
+
+1. Register the certificates needed for installation.
+
+    {{< text bash >}}
     $ kubectl create namespace istio-system
     $ kubectl create secret generic cacerts -n istio-system \
         --from-file="${WORK_DIR}"/"${CLUSTER_NAME}"/ca-cert.pem \
@@ -68,12 +77,7 @@ but not production. Like all alpha features, this guide is subject to change.
         --from-file="${WORK_DIR}"/"${CLUSTER_NAME}"/cert-chain.pem
     {{< /text >}}
 
-## Install the Istio control plane
-
-If the Istio control plane is not already installed, or isn't installed with `.spec.values.global.meshExpansion.enabled=true`, you
-must enable.
-
-1. Install or upgrade Istio with virtual machine integration features enabled.
+1. Create the install `IstioOperator` custom resource:
 
     {{< text bash >}}
     $ cat <<EOF> "${WORK_DIR}"/vmintegration.yaml
@@ -88,6 +92,11 @@ must enable.
           meshExpansion:
             enabled: true
     EOF
+    {{< /text >}}
+
+1. Install or upgrade Istio with virtual machine integration features enabled.
+
+    {{< text bash >}}
     $ istioctl install -f "${WORK_DIR}"/vmintegration.yaml
     {{< /text >}}
 
