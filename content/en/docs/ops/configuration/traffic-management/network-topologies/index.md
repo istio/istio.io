@@ -85,73 +85,73 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
 
 1. Specify `numTrustedProxies` as 2 either using `MeshConfig` or an `proxy.istop/io/config` annotation. If you are using `MeshConfig`, run the following command to create a file named `topology.yaml` and apply it to your cluster:
 
-    {{< text bash >}}
-    $ cat << EOF > topology.yaml
-      apiVersion: install.istio.io/v1alpha1
-      kind: IstioOperator
-      spec:
-        meshConfig:
-          defaultConfig:
-            gatewayTopology:
-              numTrustedProxies: 2
-      EOF
-    $ istioctl manifest apply -f topology.yaml
-    {{< /text >}}
+{{< text bash >}}
+$ cat << EOF > topology.yaml
+  apiVersion: install.istio.io/v1alpha1
+  kind: IstioOperator
+  spec:
+    meshConfig:
+      defaultConfig:
+        gatewayTopology:
+          numTrustedProxies: 2
+  EOF
+$ istioctl manifest apply -f topology.yaml
+{{< /text >}}
 
-    {{< idea >}}
-    If you previously installed an Istio ingress gateway, restart all ingress gateway pods after step 1.
-    {{</ idea >}}
+{{< idea >}}
+If you previously installed an Istio ingress gateway, restart all ingress gateway pods after step 1.
+{{</ idea >}}
 
 1. Create an `httpbin` namespace, using the following command:
 
-    {{< text bash >}}
-    $ kubectl create namespace httpbin
-    namespace/httpbin created
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl create namespace httpbin
+namespace/httpbin created
+{{< /text >}}
 
 1. Set the `istio-injection` label to `enabled` for sidecar injection, using the following command:
 
-    {{< text bash >}}
-    $ kubectl label --overwrite namespace httpbin istio-injection=enabled
-    namespace/httpbin labeled
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl label --overwrite namespace httpbin istio-injection=enabled
+namespace/httpbin labeled
+{{< /text >}}
 
 1. Deploy `httpbin` in the `httpbin` namespace, using the following command:
 
-    {{< text bash >}}
-    $ kubectl apply -n httpbin -f samples/httpbin/httpbin.yaml
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -n httpbin -f samples/httpbin/httpbin.yaml
+{{< /text >}}
 
 1. Deploy a gateway associated with `httpbin`, using the following command:
 
-    {{< text bash >}}
-    $ kubectl apply -n httpbin -f samples/httpbin/httpbin-gateway.yaml
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -n httpbin -f samples/httpbin/httpbin-gateway.yaml
+{{< /text >}}
 
 1. Set a local `GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address, using the following command:
 
-    {{< text bash >}}
-    $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    {{< /text >}}
+{{< text bash >}}
+$ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+{{< /text >}}
 
 1. Run the following `curl` command to verify the `X-Envoy-External-Address` and `X-Forwarded-For` are set correctly, using the following command:
 
-    {{< text bash >}}
-    $ curl -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' $GATEWAY_URL/get?show_env=true
-    {
-      "args": {
-        "show_env": "true"
-      },
-      "headers": {
-        ...
-        "X-Envoy-External-Address": "72.9.5.6",
-        ...
-        "X-Forwarded-For": "56.5.6.7, 72.9.5.6, 98.1.2.3, <YOUR GATEWAY IP>",
-        ...
-      },
-      ...
-    }
-    {{< /text >}}
+{{< text bash >}}
+$ curl -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' $GATEWAY_URL/get?show_env=true
+{
+  "args": {
+    "show_env": "true"
+  },
+  "headers": {
+    ...
+    "X-Envoy-External-Address": "72.9.5.6",
+    ...
+    "X-Forwarded-For": "56.5.6.7, 72.9.5.6, 98.1.2.3, <YOUR GATEWAY IP>",
+    ...
+  },
+  ...
+}
+{{< /text >}}
 
 Note that the `X-Envoy-External-Address` is set to the "second" from last address in the `X-Forwarded-For` header
 as per your `numTrustedProxies` setting. Additionally, the gateway workload appends its IP in the
