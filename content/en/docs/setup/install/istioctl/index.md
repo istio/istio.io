@@ -651,7 +651,7 @@ spec:
 {{< /text >}}
 
 Note that the patches are applied in the given order, and each patch is applied over the resulting output from the
-previous patch. In addition, paths in patches that do not exist in the output manifest are created.
+previous patch. Paths in patches that don't exist in the output manifest will be created.
 
 ### List item path selection
 
