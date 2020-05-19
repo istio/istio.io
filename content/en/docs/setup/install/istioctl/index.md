@@ -655,7 +655,7 @@ previous patch. Paths in patches that don't exist in the output manifest will be
 
 ### List item path selection
 
-Both the `--set` flag and the `k8s.overlays` support list item selection by `[index]`, `[value]` or by `[key:value]`.
+Both the `istioctl --set` flag and the `k8s.overlays` field in `IstioOperator` CR support list item selection by `[index]`, `[value]` or by `[key:value]`.
 The --set flag also creates any intermediate nodes in the path that are missing in the resource.
 
 ## Uninstall Istio
