@@ -650,7 +650,7 @@ spec:
 ---
 {{< /text >}}
 
-Note that the patches are applied in the given order, and each patch is applied over the resulting output from the
+Note that the patches are applied in the given order. Each patch is applied over the output from the
 previous patch. Paths in patches that don't exist in the output manifest will be created.
 
 ### List item path selection
