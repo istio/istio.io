@@ -116,7 +116,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
     namespace/httpbin labeled
     {{< /text >}}
 
-1. Deploy `httpbin` in the `httpbin` namespace, using the following command:
+1. Deploy `httpbin` in the `httpbin` namespace:
 
     {{< text bash >}}
     $ kubectl apply -n httpbin -f samples/httpbin/httpbin.yaml
