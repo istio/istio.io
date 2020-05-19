@@ -27,8 +27,8 @@ installation or by adding a pod annotation. Note that the `Meshconfig` configura
 
 To simplify configuring network topology during installation, create a single YAML file to pass to `istioctl`:
 
-{{< text yaml >}}
-cat <<'EOF' > topology.yaml
+{{< text bash >}}
+$ cat <<EOF > topology.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
