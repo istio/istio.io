@@ -58,7 +58,7 @@ Applications rely on reverse proxies to forward client attributes in a request, 
 topologies Istio can be deployed in, you must set the number of trusted proxies deployed in front
 of the Istio gateway proxy, so that the client address can be extracted correctly.
 
-To set the number of trusted proxies add the following to your `topology.yaml` file.
+To set the number of trusted proxies, add the following to your `topology.yaml` file.
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
