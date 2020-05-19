@@ -99,7 +99,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
     {{< /text >}}
 
     {{< idea >}}
-    If you have previously installed an Istio ingress gateway you must restart all ingressgateway pods after step 1.
+    If you previously installed an Istio ingress gateway, restart all ingress gateway pods after step 1.
     {{</ idea >}}
 
 1. Create `httpbin` namespace with the following command:
