@@ -82,7 +82,7 @@ The following configurations are impacted:
 
 ## Reach Istiod through external workloads
 
-This release makes the Istiod host cluster-local by default. This means that the Istio control plane is not accessible to workloads that reside outside the cluster. It is now recommended that external workloads access Istiod via the ingress gateway. This change was needed in order to support multicluster master/remote configurations. Future releases will remove this limitation.
+Istio 1.6 configures Istiod to be `cluster-local` by default. This means that an Istio gateway will only send traffic to an Istiod instance located in the same cluster. Workloads external to the cluster must now access Istiod via the ingress gateway. This configuration change was required to support multicluster deployments with master and remote clusters. Settting Istiod to `cluster-local` prevents the master cluster ingress gateway from seeing the Istiod endpoints in the remote cluster. The Istio team is actively investigating alternatives which do not require a cluster-local Istiod.
 
 To override the default `cluster-local` behavior, modify the configuration in the `MeshConfig` section as show below:
 
