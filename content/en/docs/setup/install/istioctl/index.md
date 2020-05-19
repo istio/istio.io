@@ -539,7 +539,7 @@ in the `manifests/` directory of the Istio release `.tgz`.
 - charts in GitHub, e.g., `istioctl install --charts https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-arm64.tar.gz`
 
 Local file system charts and profiles can be customized by editing the files in `manifests/`. For extensive changes,
-it's recommended to make a copy of this directory and make changes to the copy. `istioctl` requires the same file layout
+we recommend making a copy of the `manifests` directory and make changes there. Note, however, that the content layout
 as in `manifests` to be preserved.
 
 Profiles, found under `manifests/profiles/`, can be edited and new ones added by creating new files with the
