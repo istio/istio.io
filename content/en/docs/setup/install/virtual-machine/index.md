@@ -49,8 +49,7 @@ but not production. Like all alpha features, this guide is subject to change.
 
 ## Create certificates for use with the virtual machine and Istio control plane
 
-1. Execute the following commands to create certificates and install them in your
-    cluster for use by Istio. See
+1. Execute the following commands to create certificates for use by Istio. See
     [Certificate Authority (CA) certificates](/docs/tasks/security/cert-management/plugin-ca-cert/)
     for more details on configuring an external CA. The `NAME` variable is
     used during certificate generation to uniquely identify clusters. The
@@ -64,7 +63,7 @@ but not production. Like all alpha features, this guide is subject to change.
 
 ## Install the Istio control plane
 
-The Istio control plane must be installed with virtual machine integration enabled (values.global.meshExpansion.enabled: true).
+The Istio control plane must be installed with virtual machine integration enabled (`values.global.meshExpansion.enabled: true`).
 
 1. Register the certificates needed for installation.
 
