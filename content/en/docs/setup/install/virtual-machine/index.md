@@ -51,7 +51,7 @@ but not production. Like all alpha features, this guide is subject to change.
 
 {{< tip >}}
 This `Makefile` is limited to creating one virtual machine certificate per cluster. The Istio authors
-expects operators to read and understand this guide to formulate their own plans for creating and
+expect operators to read and understand this guide to formulate their own plans for creating and
 managing virtual machines. It is important for you to read and understand this `Makefile` for any
 deployment you place into production.
 {{< /tip >}}
