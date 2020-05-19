@@ -562,7 +562,7 @@ files. For example, the command above is equivalent to passing two user overlay 
 $ istioctl generate --charts mycharts/ --f manifests/profiles/custom1.yaml -f path-to-user-overlay.yaml
 {{< /text >}}
 
-Creating a custom profile is only required if you need to refer to a profile by name through the `IstioOperatorSpec`.
+Creating a custom profile is only required if you need to refer to the profile by name through the `IstioOperatorSpec`.
 
 ### Patching the output manifest
 
