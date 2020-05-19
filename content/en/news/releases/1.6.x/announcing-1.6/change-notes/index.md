@@ -33,8 +33,6 @@ weight: 10
 - ***Added*** automated publishing of Grafana dashboards to `grafana.com` as part of the Istio release process. Please see the [Istio org page](https://grafana.com/orgs/istio) for more information.
 - ***Updated*** Grafana dashboards to adapt to the new Istiod deployment model.
 
-## Configuration Management
-
 ## Installation
 
 - ***Added*** support for Istio in-place upgrades. See the [Upgrade guide](/docs/setup/upgrade/) for more information.
