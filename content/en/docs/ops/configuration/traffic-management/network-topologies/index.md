@@ -122,7 +122,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
     $ kubectl apply -n httpbin -f samples/httpbin/httpbin.yaml
     {{< /text >}}
 
-1. Deploy a gateway associated with `httpbin` with the following command:
+1. Deploy a gateway associated with `httpbin`, using the following command:
 
     {{< text bash >}}
     $ kubectl apply -n httpbin -f samples/httpbin/httpbin-gateway.yaml
