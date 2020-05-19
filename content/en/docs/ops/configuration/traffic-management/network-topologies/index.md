@@ -102,7 +102,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
     If you previously installed an Istio ingress gateway, restart all ingress gateway pods after step 1.
     {{</ idea >}}
 
-1. Create `httpbin` namespace with the following command:
+1. Create an `httpbin` namespace, using the following command:
 
     {{< text bash >}}
     $ kubectl create namespace httpbin
