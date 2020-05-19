@@ -556,7 +556,7 @@ In this case, the `custom1.yaml` and `user-overlay.yaml` files will be overlaid 
 final values used as the input for manifest generation.
 
 In general, creating new profiles is not necessary since a similar result can be achieved by passing multiple overlay
-files. For The command above is equivalent to passing two user overlay files:
+files. For example, the command above is equivalent to passing two user overlay files:
 
 {{< text bash >}}
 $ istioctl generate --charts mycharts/ --f manifests/profiles/custom1.yaml -f path-to-user-overlay.yaml
