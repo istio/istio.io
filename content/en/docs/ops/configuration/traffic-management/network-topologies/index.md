@@ -42,7 +42,7 @@ EOF
 If Istio ingress gateway was already running prior to application of the `MeshConfig`, restart any Istio ingress gateway pods.
 {{< /idea >}}
 
-Both of the settings discussed can also be configured using the `proxy.istio.io/config` annotation to the Pod spec
+You can configure both of these settings using the `proxy.istio.io/config` annotation to the Pod spec
 of your Istio ingress gateway.
 
 {{< text yaml >}}
