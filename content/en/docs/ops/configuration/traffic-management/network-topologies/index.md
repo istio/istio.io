@@ -128,7 +128,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
     $ kubectl apply -n httpbin -f samples/httpbin/httpbin-gateway.yaml
     {{< /text >}}
 
-1. Set a local `GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address, using the following command:
+1. Set a local `GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address:
 
     {{< text bash >}}
     $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
