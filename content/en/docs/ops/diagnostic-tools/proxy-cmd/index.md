@@ -32,16 +32,15 @@ receiving configuration or is out of sync then `proxy-status` will tell you this
 
 {{< text bash >}}
 $ istioctl proxy-status
-PROXY                                                  CDS        LDS        EDS               RDS          PILOT                            VERSION
-details-v1-6dcc6fbb9d-wsjz4.default                    SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-tfdvh     1.1.2
-istio-egressgateway-c49694485-l9d5l.istio-system       SYNCED     SYNCED     SYNCED     NOT SENT     istio-pilot-75bdf98789-tfdvh     1.1.2
-istio-ingress-6458b8c98f-7ks48.istio-system            SYNCED     SYNCED     SYNCED     NOT SENT     istio-pilot-75bdf98789-n2kqh     1.1.2
-istio-ingressgateway-7d6874b48f-qxhn5.istio-system     SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
-productpage-v1-6c886ff494-hm7zk.default                SYNCED     SYNCED     SYNCED     STALE        istio-pilot-75bdf98789-n2kqh     1.1.2
-ratings-v1-5d9ff497bb-gslng.default                    SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
-reviews-v1-55d4c455db-zjj2m.default                    SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
-reviews-v2-686bbb668-99j76.default                     SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-tfdvh     1.1.2
-reviews-v3-7b9b5fdfd6-4r52s.default                    SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
+NAME                                                   CDS        LDS        EDS        RDS          PILOT                       VERSION
+details-v1-6fc55d65c9-x6qz8.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
+istio-ingressgateway-74f5cf489f-xqcnh.istio-system     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
+productpage-v1-7f44c4d57c-5f99x.default                SYNCED     SYNCED     SYNCED     SYNCED       istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
+prometheus-68b46fc8bb-dc965.istio-system               SYNCED     SYNCED     SYNCED     SYNCED       istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
+ratings-v1-6f855c5fff-mlqmv.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
+reviews-v1-54b8794ddf-tc8hd.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
+reviews-v2-c4d6568f9-4flql.default                     SYNCED     SYNCED     SYNCED     SYNCED       istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
+reviews-v3-7f66977689-hwknn.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
 {{< /text >}}
 
 If a proxy is missing from this list it means that it is not currently connected to a Istiod instance so will not be
@@ -115,14 +114,31 @@ for listeners or routes when required):
 
 {{< text bash >}}
 $ istioctl proxy-config cluster -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
-SERVICE FQDN                                                                     PORT      SUBSET     DIRECTION     TYPE
-BlackHoleCluster                                                                 -         -          -             STATIC
-details.default.svc.cluster.local                                                9080      -          outbound      EDS
-heapster.kube-system.svc.cluster.local                                           80        -          outbound      EDS
-istio-citadel.istio-system.svc.cluster.local                                     8060      -          outbound      EDS
-istio-citadel.istio-system.svc.cluster.local                                     15014     -          outbound      EDS
-istio-egressgateway.istio-system.svc.cluster.local                               80        -          outbound      EDS
+SERVICE FQDN                                                               PORT      SUBSET     DIRECTION     TYPE
+BlackHoleCluster                                                           -         -          -             STATIC
+agent                                                                      -         -          -             STATIC
+details.default.svc.cluster.local                                          9080      -          outbound      EDS
+istio-ingressgateway.istio-system.svc.cluster.local                        80        -          outbound      EDS
+istio-ingressgateway.istio-system.svc.cluster.local                        443       -          outbound      EDS
+istio-ingressgateway.istio-system.svc.cluster.local                        15021     -          outbound      EDS
+istio-ingressgateway.istio-system.svc.cluster.local                        15443     -          outbound      EDS
+istiod.istio-system.svc.cluster.local                                      443       -          outbound      EDS
+istiod.istio-system.svc.cluster.local                                      853       -          outbound      EDS
+istiod.istio-system.svc.cluster.local                                      15010     -          outbound      EDS
+istiod.istio-system.svc.cluster.local                                      15012     -          outbound      EDS
+istiod.istio-system.svc.cluster.local                                      15014     -          outbound      EDS
+kube-dns.kube-system.svc.cluster.local                                     53        -          outbound      EDS
+kube-dns.kube-system.svc.cluster.local                                     9153      -          outbound      EDS
+kubernetes.default.svc.cluster.local                                       443       -          outbound      EDS
 ...
+productpage.default.svc.cluster.local                                      9080      -          outbound      EDS
+prometheus.istio-system.svc.cluster.local                                  9090      -          outbound      EDS
+prometheus_stats                                                           -         -          -             STATIC
+ratings.default.svc.cluster.local                                          9080      -          outbound      EDS
+reviews.default.svc.cluster.local                                          9080      -          outbound      EDS
+sds-grpc                                                                   -         -          -             STATIC
+xds-grpc                                                                   -         -          -             STRICT_DNS
+zipkin                                                                     -         -          -             STRICT_DNS
 {{< /text >}}
 
 In order to debug Envoy you need to understand Envoy clusters/listeners/routes/endpoints and how they all interact.
@@ -139,35 +155,24 @@ to send a request from the `productpage` pod to the `reviews` pod at `reviews:90
     {{< text bash >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs
     ADDRESS            PORT      TYPE
-    172.21.252.250     15005     TCP <--+
-    172.21.252.250     15011     TCP    |
-    172.21.79.56       42422     TCP    |
-    172.21.160.5       443       TCP    |
-    172.21.157.6       443       TCP    |
-    172.21.117.222     443       TCP    |
-    172.21.0.10        53        TCP    |
-    172.21.126.131     443       TCP    |   Receives outbound non-HTTP traffic for relevant IP:PORT pair from listener `0.0.0.0_15001`
-    172.21.160.5       31400     TCP    |
-    172.21.81.159      9102      TCP    |
-    172.21.0.1         443       TCP    |
-    172.21.126.131     80        TCP    |
-    172.21.119.8       443       TCP    |
-    172.21.112.64      80        TCP    |
-    172.21.179.54      443       TCP    |
-    172.21.165.197     443       TCP <--+
-    0.0.0.0            9090      HTTP <-+
-    0.0.0.0            8060      HTTP   |
-    0.0.0.0            15010     HTTP   |
-    0.0.0.0            15003     HTTP   |
-    0.0.0.0            15004     HTTP   |
-    0.0.0.0            15014     HTTP   |   Receives outbound HTTP traffic for relevant port from listener `0.0.0.0_15001`
-    0.0.0.0            15007     HTTP   |
-    0.0.0.0            8080      HTTP   |
-    0.0.0.0            9091      HTTP   |
-    0.0.0.0            9080      HTTP   |
-    0.0.0.0            80        HTTP <-+
-    0.0.0.0            15001     TCP    // Receives all inbound and outbound traffic to the pod from IP tables and hands over to virtual listener
-    172.30.164.190     9080      HTTP   // Receives all inbound traffic on 9080 from listener `0.0.0.0_15001`
+    10.96.0.10         53        TCP        <--+
+    10.109.221.105     15012     TCP           |
+    10.96.121.204      15443     TCP           | Receives outbound non-HTTP traffic for relevant IP:PORT pair from listener `0.0.0.0_15001`
+    10.96.0.1          443       TCP           |
+    10.109.221.105     443       TCP           |
+    10.96.121.204      443       TCP        <--+
+    0.0.0.0            9090      HTTP+TCP   <--+
+    10.96.0.10         9153      HTTP+TCP      |
+    0.0.0.0            15010     HTTP+TCP      |
+    0.0.0.0            80        HTTP+TCP      | Receives outbound HTTP+TCP traffic for relevant port from listener `0.0.0.0_15001`
+    0.0.0.0            15014     HTTP+TCP      |
+    10.109.221.105     853       HTTP+TCP      |
+    10.96.121.204      15021     HTTP+TCP   <--+
+    0.0.0.0            9080      HTTP+TCP   // Receives all inbound traffic on 9080 from listener `0.0.0.0_15006`
+    0.0.0.0            15001     TCP        // Receives all outbound traffic to the pod from IP tables and hands over to virtual listener
+    0.0.0.0            15006     HTTP+TCP
+    0.0.0.0            15090     HTTP
+    0.0.0.0            15021     HTTP
     {{< /text >}}
 
 1. From the above summary you can see that every sidecar has a listener bound to `0.0.0.0:15001` which is where
@@ -179,7 +184,7 @@ If it can't find any matching virtual listeners it sends the request to the `Pas
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -o json
     [
         {
-            "name": "virtual",
+            "name": "virtualOutbound",
             "address": {
                 "socketAddress": {
                     "address": "0.0.0.0",
@@ -190,16 +195,41 @@ If it can't find any matching virtual listeners it sends the request to the `Pas
                 {
                     "filters": [
                         {
+                            "name": "istio.stats",
+                            "typedConfig": {
+                                "@type": "type.googleapis.com/udpa.type.v1.TypedStruct",
+                                "typeUrl": "type.googleapis.com/envoy.extensions.filters.network.wasm.v3.Wasm",
+                                "value": {
+                                    "config": {
+                                        "configuration": "{\n  \"debug\": \"false\",\n  \"stat_prefix\": \"istio\"\n}\n",
+                                        "root_id": "stats_outbound",
+                                        "vm_config": {
+                                            "code": {
+                                                "local": {
+                                                    "inline_string": "envoy.wasm.stats"
+                                                }
+                                            },
+                                            "runtime": "envoy.wasm.runtime.null",
+                                            "vm_id": "tcp_stats_outbound"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
                             "name": "envoy.tcp_proxy",
-                            "config": {
-                                "cluster": "PassthroughCluster",
-                                "stat_prefix": "PassthroughCluster"
+                            "typedConfig": {
+                                "@type": "type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy",
+                                "statPrefix": "PassthroughCluster",
+                                "cluster": "PassthroughCluster"
                             }
                         }
-                    ]
+                    ],
+                    "name": "virtualOutbound-catchall-tcp"
                 }
             ],
-            "useOriginalDst": true
+            "useOriginalDst": true,
+            "trafficDirection": "OUTBOUND"
         }
     ]
     {{< /text >}}
@@ -212,10 +242,10 @@ up route `9080` in RDS configured by Istiod (via ADS).
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs -o json --address 0.0.0.0 --port 9080
     ...
     "rds": {
-        "config_source": {
+        "configSource": {
             "ads": {}
         },
-        "route_config_name": "9080"
+        "routeConfigName": "9080"
     }
     ...
     {{< /text >}}
@@ -245,18 +275,21 @@ one route that matches on everything. This route tells Envoy to send the request
                         "reviews.default.svc:9080",
                         "reviews.default",
                         "reviews.default:9080",
-                        "172.21.152.34",
-                        "172.21.152.34:9080"
+                        "10.98.88.0",
+                        "10.98.88.0:9080"
                     ],
                     "routes": [
                         {
+                            "name": "default",
                             "match": {
                                 "prefix": "/"
                             },
                             "route": {
                                 "cluster": "outbound|9080||reviews.default.svc.cluster.local",
-                                "timeout": "0.000s"
-                            },
+                                "timeout": "0s",
+                            }
+                        }
+                    ]
     ...
     {{< /text >}}
 
@@ -275,12 +308,17 @@ one route that matches on everything. This route tells Envoy to send the request
                 },
                 "serviceName": "outbound|9080||reviews.default.svc.cluster.local"
             },
-            "connectTimeout": "1.000s",
+            "connectTimeout": "10s",
             "circuitBreakers": {
                 "thresholds": [
-                    {}
+                    {
+                        "maxConnections": 4294967295,
+                        "maxPendingRequests": 4294967295,
+                        "maxRequests": 4294967295,
+                        "maxRetries": 4294967295
+                    }
                 ]
-            }
+            },
         }
     ]
     {{< /text >}}
@@ -289,10 +327,10 @@ one route that matches on everything. This route tells Envoy to send the request
 
     {{< text bash json >}}
     $ istioctl proxy-config endpoints productpage-v1-6c886ff494-7vxhs --cluster "outbound|9080||reviews.default.svc.cluster.local"
-    ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER
-    172.17.0.17:9080     HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
-    172.17.0.18:9080     HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
-    172.17.0.5:9080      HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
+    ENDPOINT            STATUS      OUTLIER CHECK     CLUSTER
+    172.17.0.7:9080     HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
+    172.17.0.8:9080     HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
+    172.17.0.9:9080     HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
     {{< /text >}}
 
 ## Inspecting bootstrap configuration
@@ -340,8 +378,8 @@ You should receive a response listing the "service" and "endpoint" for each serv
 To find out the Envoy version used in deployment, you can `exec` into the container and query the `server_info` endpoint:
 
 {{< text bash >}}
-$ kubectl exec -it PODNAME -c istio-proxy -n NAMESPACE pilot-agent request GET server_info
+$ kubectl exec -it prometheus-68b46fc8bb-dc965 -c istio-proxy -n istio-system pilot-agent request GET server_info
 {
- "version": "48bc83d8f0582fc060ef76d5aa3d75400e739d9e/1.12.0-dev/Clean/RELEASE/BoringSSL"
+ "version": "12cfbda324320f99e0e39d7c393109fcd824591f/1.14.1/Clean/RELEASE/BoringSSL"
 }
 {{< /text >}}
