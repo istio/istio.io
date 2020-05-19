@@ -566,7 +566,7 @@ Creating a custom profile is only required if you need to refer to the profile b
 
 ### Patching the output manifest
 
-The `IstioOperator` CR input to `istioctl` is used to generate the output manifest containing the
+The `IstioOperator` CR, input to `istioctl`, is used to generate the output manifest containing the
 Kubernetes resources to be applied to the cluster. The output manifest can be further customized to add, modify or delete resources
 through the `IstioOperator` [overlays](/docs/reference/config/istio.operator.v1alpha1/#K8sObjectOverlay) API, after it is
 generated but before it is applied to the cluster.
