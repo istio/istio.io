@@ -23,7 +23,7 @@ weight: 10
 - ***Fixed*** the Istio Agent certificate provisioning [grace period calculation](https://github.com/istio/istio/pull/22617).
 - ***Removed*** Security alpha API. Security beta API, which was introduced in Istio 1.5, is the only supported security API in Istio 1.6.
 
-## Telemetry
+## Telemetry v2
 
 - ***Added*** experimental support for [request classification](/docs/tasks/observability/metrics/classify-metrics/) filters. This enables operators to configure new attributes for use in telemetry, based on request information. A primary use case for this feature is labeling of traffic by API method.
 - ***Added*** an experimental [mesh-wide tracing configuration API](/docs/tasks/observability/distributed-tracing/configurability/). This API provides control of trace sampling rates, the [maximum tag lengths](https://github.com/istio/istio/issues/14563) for URL tags, and [custom tags extraction](https://github.com/istio/istio/issues/13018) for all traces within the mesh.
