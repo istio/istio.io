@@ -15,9 +15,10 @@ We are pleased to announce the release of Istio 1.6!
 
 {{< relnote >}}
 
-With this release, we are continuing the path we charted earlier this year in
+With this release, we continue the path we charted earlier this year in
 our [roadmap post](/blog/2020/tradewinds-2020/), sailing toward more
-simplicity, a better installation experience, and some other goodies as well.
+simplicity, a better installation experience, and we have added other goodies as
+well.
 
 Here’s some of what’s coming to you in today's release:
 
@@ -26,14 +27,14 @@ Here’s some of what’s coming to you in today's release:
 Last release, we introduced **Istiod**, a component that reduced the number of
 components in an Istio installation by combining the functionality of several
 other components. In Istio 1.6, we have completed this transition and have fully
-moved functionality into Istiod. This has allowed us to remove Citadel, the
-sidecar injector, and Galley.
+moved functionality into Istiod. This has allowed us to remove the separate
+deployments for Citadel, the sidecar injector, and Galley.
 
 Great news! We've got a simplified experience for developers who are taking
-advantage of a new feature in Kubernetes. If you
+advantage of a new alpha feature in Kubernetes. If you
 use the new `appProtocol` field in the Kubernetes
-[`EndpointPort`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#endpoints-v1-core)
-API, you will no longer need to append the name field
+[`EndpointPort`](https://github.com/kubernetes/enhancements/issues/1507)
+API (which is Alpha in 1.18), you will no longer need to append the name field
 in your `Service` to denote the protocol.
 
 ## Better lifecycle
@@ -45,7 +46,9 @@ install command, and even gives status in color!
 Upgrading Istio has been improved as well, in several powerful ways. First, we
 now support canarying of the Istio control plane itself. That means you can
 install a new version of the control plane alongside the existing version and
-selectively have proxies use the new one.
+selectively have proxies use the new one. Check out this
+[blog post](/blog/2020/multiple-control-planes/) for more details on that.
+
 
 We also have an `istioctl upgrade` command that will perform an in-place
 upgrade in your clusters (still giving you the control over updating the proxies
@@ -86,11 +89,14 @@ cluster without disrupting traffic to and from it.
 VM-based workloads remain a high priority for us, and you can expect to see more
 in this area over the coming releases.
 
-## Other improvements
+## Networking improvements
 
-There are great traffic management features (like supporting the experimental
-Kubernetes Service APIs, better support for Ingress, and better header
-handling).
+Networking is at the heart of a service mesh, so we have put in some great
+traffic management features as well. Istio has improved
+handling of secrets, which provides better support for Kubernetes Ingress.
+We are also have enabled Gateway SDS by default for a more secure experience.
+And we have added experimental support for the (also experimental)
+Kubernetes Service APIs.
 
 ## Join the Istio community
 
