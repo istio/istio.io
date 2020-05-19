@@ -54,6 +54,6 @@ weight: 10
 - ***Added*** support for key:value list selection when using --set flag paths.
 - ***Added*** support for deletes and setting non-scalar values when using the Kubernetes overlays patching mechanism.
 
-## Miscellaneous changes
+## Documentation changes
 
 - ***Added*** new and improved Istio documentation. For more information, see [Website content changes](/about/log/).
