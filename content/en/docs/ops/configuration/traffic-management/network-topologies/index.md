@@ -39,8 +39,7 @@ EOF
 {{< /text >}}
 
 {{< idea >}}
-If Istio ingress gateway was already running prior to application of the `MeshConfig` you will need
-to restart any Istio ingress gateway pods.
+If Istio ingress gateway was already running prior to application of the `MeshConfig`, restart any Istio ingress gateway pods.
 {{< /idea >}}
 
 Both of the settings discussed can also be configured using the `proxy.istio.io/config` annotation to the Pod spec
