@@ -13,7 +13,7 @@ Currently, Istio doesn't support skip-level upgrades. If you are using Istio 1.4
 
 ## Readiness port number change for Gateways
 
-If you are using port 15020 to check the health of your Istio ingress gateway with your Kubernetes network load balancer, you will need to update the port number from 15020 to 15021.
+If you are using the `15020` port to check the health of your Istio ingress gateway with your Kubernetes network load balancer, change the port  from `15020` to `15021`.
 
 ## Removal of legacy Helm charts
 
