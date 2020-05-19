@@ -146,8 +146,7 @@ We will use the `proxy-config` command with the `-o json` and filtering flags to
 to send a request from the `productpage` pod to the `reviews` pod at `reviews:9080`.
 
 1. If you query the listener summary on a pod you will notice Istio generates the following listeners:
-    * A listener on `0.0.0.0:15001` that receives all traffic into and out of the pod, then hands the request over to
-    a virtual listener.
+    * A listener on `0.0.0.0:15006` that receives all inbound traffic to the pod and a listener on `0.0.0.0:15001` that receives all outbound traffic to the pod, then hands the request over to a virtual listener.
     * A virtual listener per service IP, per each non-HTTP for outbound TCP/HTTPS traffic.
     * A virtual listener on the pod IP for each exposed port for inbound traffic.
     * A virtual listener on `0.0.0.0` per each HTTP port for outbound HTTP traffic.
@@ -175,8 +174,7 @@ to send a request from the `productpage` pod to the `reviews` pod at `reviews:90
     0.0.0.0            15021     HTTP
     {{< /text >}}
 
-1. From the above summary you can see that every sidecar has a listener bound to `0.0.0.0:15001` which is where
-IP tables routes all inbound and outbound pod traffic to. This listener has `useOriginalDst` set to true which means
+1. From the above summary you can see that every sidecar has a listener bound to `0.0.0.0:15006` which is where IP tables routes all inbound pod traffic to and a listener bound to `0.0.0.0:15001` which is where IP tables routes all outbound pod traffic to. This listener has `useOriginalDst` set to true which means
 it hands the request over to the listener that best matches the original destination of the request.
 If it can't find any matching virtual listeners it sends the request to the `PassthroughCluster` which connects to the destination directly.
 
