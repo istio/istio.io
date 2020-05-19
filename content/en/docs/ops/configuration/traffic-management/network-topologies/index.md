@@ -77,7 +77,7 @@ then `<VALUE>` would be 2.
 Note that all proxies in front of the Istio gateway proxy must parse HTTP traffic and append the `X-Forwarded-For`
 headers at each hop. If the number of entries in `X-Forwarded-For` header is less than the number of
 trusted hops configured, Envoy falls back to using the immediate downstream address as the trusted
-client address. Please refer to [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for)
+client address. Please refer to the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for)
 to understand how `X-Forwarded-For` headers and trusted client addresses are determined.
 {{< /idea >}}
 
