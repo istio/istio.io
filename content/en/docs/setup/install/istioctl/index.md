@@ -612,7 +612,7 @@ spec:
                 value: 11111 # OVERRIDDEN
 {{< /text >}}
 
-Passing the file to `istioctl manifest generate -f patch.yaml` applies the patches above to the default profile output
+Passing the file to `istioctl manifest generate -f patch.yaml` applies the above patches to the default profile output
 manifest. The two patched resources will be modified as shown below (some parts of the resources are omitted for
 brevity):
 
