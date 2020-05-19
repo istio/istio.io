@@ -24,17 +24,19 @@ Here’s some of what’s coming to you in today's release:
 
 ## Simplify, simplify, simplify
 
-Last release, we introduced **Istiod**, a component that reduced the number of
+Last release, we introduced **Istiod**, a new module that reduced the number of
 components in an Istio installation by combining the functionality of several
-other components. In Istio 1.6, we have completed this transition and have fully
+services. In Istio 1.6, we have completed this transition and have fully
 moved functionality into Istiod. This has allowed us to remove the separate
 deployments for Citadel, the sidecar injector, and Galley.
 
 Great news! We've got a simplified experience for developers who are taking
 advantage of a new alpha feature in Kubernetes. If you
-use the new `appProtocol` field in the Kubernetes
-[`EndpointPort`](https://github.com/kubernetes/enhancements/issues/1507)
-API (which is Alpha in 1.18), you will no longer need to append the name field
+use the new `appProtocol` field  (which is Alpha in 1.18) in the Kubernetes
+[`EndpointPort`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#endpointport-v1beta1-discovery-k8s-io)
+or
+['ServicePort'](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#serviceport-v1-core)
+API, you will no longer need to append the name field
 in your `Service` to denote the protocol.
 
 ## Better lifecycle
