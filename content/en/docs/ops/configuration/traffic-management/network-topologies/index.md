@@ -192,4 +192,4 @@ where `ENUM_VALUE` can be of the following type.
 | `ALWAYS_FORWARD_ONLY` | Always forward the XFCC header in the request, regardless of whether the client connection is mTLS.                            |
 
 See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
-for examples on using this capability.
+for examples of using this capability.
