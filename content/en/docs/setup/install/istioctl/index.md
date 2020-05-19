@@ -530,7 +530,7 @@ consistent, is validated, and follows the [community graduation process](https:/
 
 ### Customizing external charts and profiles
 
-`istioctl` `install`, `manifest generate` and `profile` commands can use any of the following sources for charts and
+The `istioctl` `install`, `manifest generate` and `profile` commands can use any of the following sources for charts and
 profiles:
 
 - compiled in charts. This is the default if no `--charts` option is set. The compiled in charts are the same as those
