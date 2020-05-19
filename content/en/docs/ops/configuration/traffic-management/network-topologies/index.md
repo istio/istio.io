@@ -25,7 +25,7 @@ transporting correct client attributes like IP addresses and certificates to the
 Configuration of XFF and XFCC headers is managed via `MeshConfig` during Istio
 installation or by adding a pod annotation. Note that the `Meshconfig` configuration is a global setting for all gateway workloads, while pod annotations override the global setting on a per-workload basis.
 
-To simplify configuring network topology during installation create a single YAML file to pass to `istioctl`:
+To simplify configuring network topology during installation, create a single YAML file to pass to `istioctl`:
 
 {{< text yaml >}}
 cat <<'EOF' > topology.yaml
