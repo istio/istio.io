@@ -87,14 +87,14 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
 
     {{< text bash >}}
     $ cat << EOF > topology.yaml
-      apiVersion: install.istio.io/v1alpha1
-      kind: IstioOperator
-      spec:
-        meshConfig:
-          defaultConfig:
-            gatewayTopology:
-              numTrustedProxies: 2
-      EOF
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      meshConfig:
+        defaultConfig:
+          gatewayTopology:
+            numTrustedProxies: 2
+    EOF
     $ istioctl manifest apply -f topology.yaml
     {{< /text >}}
 
