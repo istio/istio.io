@@ -13,7 +13,7 @@ Currently, Istio doesn't support skip-level upgrades. If you are using Istio 1.4
 
 ## Readiness port number change for Gateways
 
-If you are using port 15020 to check the health of your Istio ingressgateway with your Kubernetes network load balancer, you will need to update the port number from 15020 to 15021.
+If you are using port 15020 to check the health of your Istio ingress gateway with your Kubernetes network load balancer, you will need to update the port number from 15020 to 15021.
 
 ## Removal of legacy Helm charts
 
@@ -82,7 +82,7 @@ The following configurations are impacted:
 
 ## Reach Istiod through external workloads
 
-Istio 1.6 configures Istiod to be `cluster-local` by default. This means that an Istio gateway will only send traffic to an Istiod instance located in the same cluster. Workloads external to the cluster must now access Istiod via the ingress gateway. This configuration change was required to support multicluster deployments with master and remote clusters. Settting Istiod to `cluster-local` prevents the master cluster ingress gateway from seeing the Istiod endpoints in the remote cluster. The Istio team is actively investigating alternatives which do not require a cluster-local Istiod.
+Istio 1.6 configures Istiod to be `cluster-local` by default. This means that an Istio gateway will only send traffic to an Istiod instance located in the same cluster. Workloads external to the cluster must now access Istiod via the ingress gateway. This configuration change was required to support multicluster deployments with master and remote clusters. Setting Istiod to `cluster-local` prevents the master cluster ingress gateway from seeing the Istiod endpoints in the remote cluster. The Istio team is actively investigating alternatives which do not require a cluster-local Istiod.
 
 To override the default `cluster-local` behavior, modify the configuration in the `MeshConfig` section as show below:
 
