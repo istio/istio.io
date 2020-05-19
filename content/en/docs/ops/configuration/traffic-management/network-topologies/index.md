@@ -17,7 +17,7 @@ and [X-Forwarded-Client-Cert](https://www.envoyproxy.io/docs/envoy/latest/config
 (XFCC), which are dependent on how the gateway workloads are deployed. This is currently an in-development feature. For more
 information on X-Forwarded-For see the IETF's [RFC](https://tools.ietf.org/html/rfc7239).
 
-You may choose to deploy Istio ingress gateways in using various network topologies
+You might choose to deploy Istio ingress gateways in various network topologies
 (e.g. behind Cloud Load Balancers, a self-managed Load Balancer or directly expose the
 Istio ingress gateway to the Internet). As such, these topologies require different ingress gateway configurations for
 transporting correct client attributes like IP addresses and certificates to the workloads running in the cluster.
