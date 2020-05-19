@@ -15,7 +15,7 @@ considered `pre-alpha`.
 Istio provides the ability to manage settings like [X-Forwarded-For](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for) (XFF)
 and [X-Forwarded-Client-Cert](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
 (XFCC), which are dependent on how the gateway workloads are deployed. This is currently an in-development feature. For more
-information on X-Forwarded-For, see the IETF's [RFC](https://tools.ietf.org/html/rfc7239).
+information on `X-Forwarded-For`, see the IETF's [RFC](https://tools.ietf.org/html/rfc7239).
 
 You might choose to deploy Istio ingress gateways in various network topologies
 (e.g. behind Cloud Load Balancers, a self-managed Load Balancer or directly expose the
