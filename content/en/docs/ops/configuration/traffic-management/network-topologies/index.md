@@ -134,7 +134,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
     $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     {{< /text >}}
 
-1. Run the following `curl` command to verify the `X-Envoy-External-Address` and `X-Forwarded-For` are set correctly, using the following command:
+1. Run the following `curl` command to verify the `X-Envoy-External-Address` and `X-Forwarded-For` are set correctly:
 
     {{< text bash >}}
     $ curl -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' $GATEWAY_URL/get?show_env=true
