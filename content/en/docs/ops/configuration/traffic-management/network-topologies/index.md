@@ -109,7 +109,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
     namespace/httpbin created
     {{< /text >}}
 
-1. Set the `istio-injection` label to `enabled` for sidecar injection, using the following command:
+1. Set the `istio-injection` label to `enabled` for sidecar injection:
 
     {{< text bash >}}
     $ kubectl label --overwrite namespace httpbin istio-injection=enabled
