@@ -37,7 +37,7 @@ spec:
         - --log_output_level=default:info
 {{< /text >}}
 
-3. Save and quit. The deployment will be updated in the cluster. 
+3. Save and quit the editor to update the deployment configuration in the cluster. 
 
 Remove the `ValidatingWebhookConfiguration` as follows:
 
