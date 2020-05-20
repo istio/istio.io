@@ -62,9 +62,7 @@ the [Bookinfo](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
     $ kubectl get virtualservice reviews -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
-    metadata:
-      name: reviews
-      ...
+    ...
     spec:
       hosts:
       - reviews
