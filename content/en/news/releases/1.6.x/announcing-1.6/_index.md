@@ -35,7 +35,7 @@ advantage of a new alpha feature in Kubernetes. If you
 use the new `appProtocol` field  (which is Alpha in 1.18) in the Kubernetes
 [`EndpointPort`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#endpointport-v1beta1-discovery-k8s-io)
 or
-['ServicePort'](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#serviceport-v1-core)
+[`ServicePort`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#serviceport-v1-core)
 API, you will no longer need to append the name field
 in your `Service` to denote the protocol.
 
@@ -51,7 +51,6 @@ install a new version of the control plane alongside the existing version and
 selectively have proxies use the new one. Check out this
 [blog post](/blog/2020/multiple-control-planes/) for more details on that.
 
-
 We also have an `istioctl upgrade` command that will perform an in-place
 upgrade in your clusters (still giving you the control over updating the proxies
 themselves).
@@ -63,7 +62,7 @@ the new upgrade experience.
 
 Many companies adopt Istio solely to get better observability of distributed
 applications, so we continue to invest there. There are too many changes to list
-them all here, so please see the [release notes](news/releases/1.6.x/announcing-1.6/change-notes/)
+them all here, so please see the [release notes](/news/releases/1.6.x/announcing-1.6/change-notes/)
 for the full details. Some
 highlights: you'll see more configurability, better
 ability to control your trace sampling rates, and updated Grafana dashboards
