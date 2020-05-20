@@ -9,36 +9,36 @@ These notes detail the changes which purposefully break backwards compatibility 
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.5.x.
 
-Currently, Istio doesn't support skip-level upgrades. If you are using Istio 1.4, you must upgrade to Istio 1.5 first, and then upgrade to Istio 1.6. If you upgrade from versions earlier than Istio 1.4, you should first disable Galley's configuration validation. 
+Currently, Istio doesn't support skip-level upgrades. If you are using Istio 1.4, you must upgrade to Istio 1.5 first, and then upgrade to Istio 1.6. If you upgrade from versions earlier than Istio 1.4, you should first disable Galley's configuration validation.
 
-Updated the Galley deployment:
+Update the Galley deployment using the following steps:
 
 1. To edit the Galley deployment configuration, run the following command:
 
-{{< text bash >}}
-$ kubectl edit deployment -n istio-system istio-galley
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl edit deployment -n istio-system istio-galley
+    {{< /text >}}
 
-2. Add the `--enable-validation=false` option to the `command:` section as shown below: 
+1. Add the `--enable-validation=false` option to the `command:` section as shown below:
 
-{{< text yaml >}}
-apiVersion: extensions/v1beta1
-kind: Deployment
-...
-spec:
-...
-  template:
+    {{< text yaml >}}
+    apiVersion: extensions/v1beta1
+    kind: Deployment
     ...
     spec:
-      ...
-      containers:
-      - command:
+    ...
+      template:
         ...
-        - --log_output_level=default:info
-        - --enable-validation=false
-{{< /text >}}
+        spec:
+          ...
+          containers:
+          - command:
+            ...
+            - --log_output_level=default:info
+            - --enable-validation=false
+    {{< /text >}}
 
-3. Save and quit the editor to update the deployment configuration in the cluster. 
+1. Save and quit the editor to update the deployment configuration in the cluster.
 
 Remove the `ValidatingWebhookConfiguration` Custom Resource (CR) with the following command:
 
@@ -117,7 +117,7 @@ The following configurations are impacted:
 
 ## Reach Istiod through external workloads
 
-In Istio 1.6, the `cluster-local` configuration of Istiod is enabled by default.  With `cluster-local` enabled, an Istio gateway only sends traffic to an Istiod instance on the same cluster. Workloads on another cluster can only access the  Istiod instance through the Istio gateway. This configuration change supports multicluster deployments with master and remote clusters. This configuration prevents the ingress gateway of the master cluster from seeing the Istiod endpoints of the remote cluster. The Istio team is actively investigating alternatives to no longer require `cluster-local`.
+In Istio 1.6, the `cluster-local` configuration of Istiod is enabled by default.  With `cluster-local` enabled, only workloads running on the same cluster can reach Istiod. Workloads on another cluster can only access the Istiod instance through the Istio gateway. This configuration change supports multicluster deployments with master and remote clusters. This configuration prevents the ingress gateway of the master cluster from incorrectly forwarding service discovery requests to the Istiod in the remote cluster. The Istio team is actively investigating alternatives to no longer require `cluster-local`.
 
 To override the default `cluster-local` behavior, modify the configuration in the `MeshConfig` section as shown below:
 
