@@ -168,5 +168,5 @@ $ kubectl delete authorizationpolicy service-httpbin.default.svc.cluster.local
 $ kubectl delete deploy httpbin; kubectl delete service httpbin; kubectl delete serviceaccount httpbin
 $ kubectl delete deploy sleep; kubectl delete service sleep; kubectl delete serviceaccount sleep
 $ kubectl delete namespace sleep-allow
-$ istioctl manifest generate --set profile=demo -f td-installation.yaml | kubectl delete -f -
+$ istioctl manifest generate --set profile=demo -f td-installation.yaml | kubectl delete --ignore-not-found=true -f -
 {{< /text >}}
