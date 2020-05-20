@@ -35,6 +35,7 @@ spec:
       - command:
         ...
         - --log_output_level=default:info
+        - --enable-validation=false
 {{< /text >}}
 
 3. Save and quit the editor to update the deployment configuration in the cluster. 
