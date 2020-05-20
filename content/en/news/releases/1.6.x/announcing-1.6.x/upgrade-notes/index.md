@@ -13,7 +13,12 @@ Currently, Istio doesn't support skip-level upgrades. If you are using Istio 1.4
 
 Updated the Galley deployment:
 
-1. Execute `kubectl edit deployment -n istio-system istio-galley` in order to open the Galley deployment in an editor.
+1. To edit the Galley deployment configuration, run the following command:
+
+{{< text bash >}}
+$ kubectl edit deployment -n istio-system istio-galley
+{{< /text >}}
+
 2. Add `--enable-validation=false` to the command section. 
 
 {{< text yaml >}}
