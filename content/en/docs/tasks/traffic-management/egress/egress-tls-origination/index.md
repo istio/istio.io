@@ -61,7 +61,7 @@ This time, however, use a single `ServiceEntry` to enable both HTTP and HTTPS ac
 
 1.  Create a `ServiceEntry` and `VirtualService` to enable access to `edition.cnn.com`:
 
-    {{< text bash snip_id=apply_simple>}}
+    {{< text syntax=bash snip_id=apply_simple >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
@@ -102,7 +102,7 @@ This time, however, use a single `ServiceEntry` to enable both HTTP and HTTPS ac
 
 1.  Make a request to the external HTTP service:
 
-    {{< text bash snip_id=curl_simple>}}
+    {{< text syntax=bash snip_id=curl_simple >}}
     $ kubectl exec $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
@@ -135,7 +135,7 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
 1.  Redefine your `ServiceEntry` and `VirtualService` from the previous section to rewrite the HTTP request port
     and add a `DestinationRule` to perform TLS origination.
 
-    {{< text bash snip_id=apply_origination >}}
+    {{< text syntax=bash snip_id=apply_origination >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
@@ -196,7 +196,7 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
 
 1. Send an HTTP request to `http://edition.cnn.com/politics`, as in the previous section:
 
-    {{< text bash snip_id=curl_origination_http >}}
+    {{< text syntax=bash snip_id=curl_origination_http >}}
     $ kubectl exec $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 200 OK
     ...
@@ -214,7 +214,7 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
 
 1.  Note that the applications that used HTTPS to access the external service continue to work as before:
 
-    {{< text bash snip_id=curl_origination_https >}}
+    {{< text syntax=bash snip_id=curl_origination_https >}}
     $ kubectl exec $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
     HTTP/2 200
     ...
