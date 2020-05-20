@@ -19,7 +19,7 @@ Updated the Galley deployment:
 $ kubectl edit deployment -n istio-system istio-galley
 {{< /text >}}
 
-2. Add `--enable-validation=false` to the command section. 
+2. Add the `--enable-validation=false` option to the `command:` section as shown below: 
 
 {{< text yaml >}}
 apiVersion: extensions/v1beta1
