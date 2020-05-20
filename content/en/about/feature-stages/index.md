@@ -103,7 +103,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Istio CNI plugin](/docs/setup/additional-setup/cni/) | Alpha
 | IPv6 support for Kubernetes | Alpha
 | [Distroless base images for Istio](/docs/ops/configuration/security/harden-docker-images/) | Alpha
-| [Virtual Machine Integration](/docs/docs/setup/install/virtual-machine/) | Alpha
+| [Virtual Machine Integration](/docs/setup/install/virtual-machine/) | Alpha
 
 {{< idea >}}
 Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!
