@@ -191,24 +191,36 @@ __cmp_like() {
 }
 
 
-# Verify that $out is the same as $expected.  If they are not the same,
-# exponentially back off and try again.
+# Verify the output of $func is the same as $expected.  If they are not the
+# same, exponentially back off and try again.
 __verify_with_retry() {
     local cmp_func=$1
-    local cmd=$2
+    local func=$2
     local expected=$3
     local max_attempts=$4
     local attempt=1
 
     while true; do
-      out=$($cmd 2>&1)
+      # Most tests include "set -e", which causes the script to exit if a
+      # statement returns a non-true return value.  In some cases, $func may
+      # exit with a non-true return value, but we want to retry the command
+      # later.  We want to temporarily disable that "errexit" behavior.
+      local errexit_state
+      errexit_state="$(shopt -po errexit || true)"
+      set +e
+
+      # Run the command.
+      out=$($func 2>&1)
+
+      # Restore the "errexit" state.
+      eval "$errexit_state"
 
       if $cmp_func "$out" "$expected"; then
           return
       fi
 
       if (( attempt >= max_attempts )); then
-          __err_exit "$cmd" "$out" "$expected"
+          __err_exit "$func" "$out" "$expected"
       fi
 
       sleep $(( 2 ** attempt ))
