@@ -39,7 +39,7 @@ spec:
 
 3. Save and quit the editor to update the deployment configuration in the cluster. 
 
-Remove the `ValidatingWebhookConfiguration` as follows:
+Remove the `ValidatingWebhookConfiguration` Custom Resource (CR) with the following command:
 
 {{< text bash >}}
 $ kubectl delete ValidatingWebhookConfiguration istio-galley -n istio-system
