@@ -117,7 +117,7 @@ The following configurations are impacted:
 
 ## Reach Istiod through external workloads
 
-In Istio 1.6, the `cluster-local` configuration of Istiod is enabled by default.  With `cluster-local` enabled, only workloads running on the same cluster can reach Istiod. Workloads on another cluster can only access the Istiod instance through the Istio gateway. This configuration change is required for multicluster deployments with master and remote clusters. This configuration prevents the ingress gateway of the master cluster from incorrectly forwarding service discovery requests to the Istiod in the remote cluster. The Istio team is actively investigating alternatives to no longer require `cluster-local`.
+In Istio 1.6, Istiod is configured to be `cluster-local` by default.  With `cluster-local` enabled, only workloads running on the same cluster can reach Istiod. Workloads on another cluster can only access the Istiod instance through the Istio gateway. This configuration prevents the ingress gateway of the master cluster from incorrectly forwarding service discovery requests to Istiod instances in remote clusters. The Istio team is actively investigating alternatives to no longer require `cluster-local`.
 
 To override the default `cluster-local` behavior, modify the configuration in the `MeshConfig` section as shown below:
 
