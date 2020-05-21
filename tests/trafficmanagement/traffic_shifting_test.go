@@ -27,18 +27,18 @@ func TestTrafficShifting(t *testing.T) {
 		NewTest(t).
 		Run(istioio.NewBuilder("tasks__traffic_management__traffic_shifting").
 			Add(istioio.Script{
-				Input: istioio.Path("scripts/traffic_shifting.txt"),
+				Input: istioio.Path("scripts/traffic_shifting.sh"),
 			}).
 			Defer(istioio.Script{
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
-kubectl delete -n default -f samples/bookinfo/platform/kube/bookinfo.yaml || true
-kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml || true
-kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml || true
-kubectl delete -f samples/bookinfo/networking/virtual-service-all-v1.yaml || true
-kubectl delete -f samples/bookinfo/networking/bookinfo-gateway.yaml || true
-kubectl delete -f samples/sleep/sleep.yaml || true`,
+set +e # ignore cleanup errors
+source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/traffic-shifting/snips.sh
+source ${REPO_ROOT}/tests/util/samples.sh
+snip_cleanup
+cleanup_bookinfo_sample
+cleanup_sleep_sample`,
 				},
 			}).
 			Build())

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1090,SC2154
 
 # Copyright Istio Authors
 #
@@ -18,24 +19,16 @@ set -e
 set -u
 set -o pipefail
 
-source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/traffic-shifting/snips.sh
+source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/traffic-shifting/snips.sh"
+source "${REPO_ROOT}/tests/util/samples.sh"
 
-# setup bookinfo & sleep pods
-kubectl label namespace default istio-injection=enabled --overwrite || true
+kubectl label namespace default istio-injection=enabled --overwrite
+startup_sleep_sample # needed for sending test requests with curl
 
-kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
-kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
-kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
-kubectl apply -f samples/sleep/sleep.yaml
+# launch the bookinfo app
+startup_bookinfo_sample
 
-for deploy in "productpage-v1" "details-v1" "ratings-v1" "reviews-v1" "reviews-v2" "reviews-v3" "sleep"; do
-  if ! kubectl rollout status deployment "$deploy" --timeout 5m; then
-    echo "$deploy deployment rollout status check failed"
-    exit 1
-  fi
-done
-
-# Verification utils
+# Verification util
 
 SLEEP_POD=$(kubectl get pod -l app=sleep -n default -o 'jsonpath={.items..metadata.name}')
 INGRESS_URL="http://istio-ingressgateway.istio-system"
@@ -51,6 +44,7 @@ function reviews_v3_traffic_percentage() {
       v3_count=$((v3_count + 1))
     fi
   done
+  set -e
   function is_in_range() {
     local tol=10 #tolerance
     local lower_bound=$(($2 - tol))
@@ -63,19 +57,9 @@ function reviews_v3_traffic_percentage() {
   declare -a ranges=(0 25 50 75 100)
   for i in "${ranges[@]}"; do
     if is_in_range $v3_count "$i"; then
-      return "$i"
+      echo "$i"
     fi
   done
-  set -e
-}
-
-function verify_traffic_shift() {
-  reviews_v3_traffic_percentage
-  local got=$?
-  if ((got != $1)); then
-    echo "reviews-v3 traffic split mismatch: expected $1, got $got"
-    exit 1
-  fi
 }
 
 # Step 1 configure all traffic to v1
@@ -88,7 +72,7 @@ _run_and_verify_same snip_config_all_v1 "$expected"
 
 # Step 2: verify no rating stars visible, (reviews-v3 traffic=0%)
 
-verify_traffic_shift 0
+_run_and_verify_same reviews_v3_traffic_percentage 0
 
 # Step 3: switch 50% traffic to v3
 
@@ -98,14 +82,14 @@ istioctl experimental wait --for=distribution VirtualService reviews.default
 
 # Step 4: Confirm the rule was replaced
 
-_run_and_verify_contains snip_verify_config_50_v3 "subset: v3"
+_run_and_verify_elided snip_verify_config_50_v3 "$snip_verify_config_50_v3_out"
 
 # Step 5: verify rating stars visible 50% of the time
 
-verify_traffic_shift 50
+_run_and_verify_same reviews_v3_traffic_percentage 50
 
 # Step 6: route 100% traffic to v3
 
 snip_config_100_v3
 
-verify_traffic_shift 100
+_run_and_verify_same reviews_v3_traffic_percentage 100
