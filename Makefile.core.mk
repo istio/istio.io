@@ -105,7 +105,7 @@ serve: site
 # used by netlify.com when building the site. The tool versions should correspond
 # to what is included in the tools repo in docker/build-tools/Dockerfile.
 netlify_install:
-	@npm init -y
+	npm init -y
 	@npm install --production --global \
 	    sass@v1.23.7 \
 	    typescript@v3.7.2 \

@@ -21,7 +21,7 @@ archive: false
 archive_landing: true
 
 # When archive=true above, these values must be filled in
-archive_date: YYYY-MM-DD
+archive_date: 2020-05-21
 archive_search_refinement: "V1.1"
 
 # GitHub branch names used when the docs have links to GitHub

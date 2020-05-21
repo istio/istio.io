@@ -30,17 +30,17 @@ TOBUILD=(
   v1.2:release-1.2
   v1.1:release-1.1
   v1.0:release-1.0
-  v0.8:release-0.8
+  # v0.8:release-0.8
 )
 
 TOBUILD_JEKYLL=(
-  v0.7:release-0.7
-  v0.6:release-0.6
-  v0.5:release-0.5
-  v0.4:release-0.4
-  v0.3:release-0.3
-  v0.2:release-0.2
-  v0.1:release-0.1
+  # v0.7:release-0.7
+  # v0.6:release-0.6
+  # v0.5:release-0.5
+  # v0.4:release-0.4
+  # v0.3:release-0.3
+  # v0.2:release-0.2
+  # v0.1:release-0.1
 )
 
 # Prepare
@@ -51,6 +51,10 @@ pushd "${TMP}" || exit
 git clone -q https://github.com/istio/istio.io.git
 pushd "istio.io" || exit
 
+npm init -y
+npm install --save-dev \
+		babel-preset-minify@v0.5.1
+
 for rel in "${TOBUILD[@]}"; do
   NAME=$(echo "$rel" | cut -d : -f 1)
   TAG=$(echo "$rel" | cut -d : -f 2)
@@ -59,14 +63,14 @@ for rel in "${TOBUILD[@]}"; do
   echo "### Building '${NAME}' from ${TAG} for ${URL}"
   git checkout "${TAG}"
 
-  if [[ "${TAG}" == "release-1.2" || "${TAG}" == "release-1.3" || "${TAG}" == "release-1.5" ]]; then
-    scripts/build_site.sh
+  if [[ "${TAG}" == "release-1.2" || "${TAG}" == "release-1.3" ]]; then
+    scripts/build_site.sh ${URL}
   fi
 
   scripts/gen_site.sh "${URL}"
 
-  if [[ "${TAG}" != "release-0.8" && "${TAG}" != "release-1.0" && "${TAG}" != "release-1.1" && "${TAG}" != "release-1.2" && "${TAG}" != "release-1.3" && "${TAG}" == "release-1.4" ]]; then
-    scripts/build_site.sh
+  if [[ "${TAG}" == "release-1.4" || "${TAG}" == "release-1.5" ]]; then
+    scripts/build_site.sh ${URL}
   fi
 
   mv public "${TMP}/archive/${NAME}"
@@ -93,10 +97,6 @@ for rel in "${TOBUILD_JEKYLL[@]}"; do
 
   git clean -f
 done
-
-# delete this pesky command as it overrides the sass version we explicitly installed and want to be using
-# shellcheck disable=SC2230
-rm -fr "$(which sass)"
 
 echo "### Building landing page"
 popd || exit
