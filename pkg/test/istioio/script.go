@@ -17,6 +17,7 @@ package istioio
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -26,6 +27,7 @@ import (
 
 	"istio.io/istio/pkg/test/framework/resource/environment"
 	"istio.io/istio/pkg/test/scopes"
+	"istio.io/pkg/log"
 )
 
 const (
@@ -103,19 +105,35 @@ func (s Script) run(ctx Context) {
 	cmd.Env = s.getEnv(ctx, fileName)
 	cmd.Stdin = strings.NewReader(command)
 
+	// Output will be streamed to logs as well as to the output buffer (to be written to disk)
+	var output bytes.Buffer
+	cmd.Stdout = io.MultiWriter(&LogWriter{}, &output)
+	cmd.Stderr = io.MultiWriter(&LogWriter{}, &output)
+
 	// Run the command and get the output.
-	output, err := cmd.CombinedOutput()
+	cmdErr := cmd.Run()
 
 	// Copy the command output from the script to workDir
 	outputFileName := fileName + "_output.txt"
-	if err := ioutil.WriteFile(filepath.Join(ctx.WorkDir(), outputFileName), bytes.TrimSpace(output), 0644); err != nil {
-		ctx.Fatalf("failed copying output for command %s: %v", input.Name(), err)
+	if werr := ioutil.WriteFile(filepath.Join(ctx.WorkDir(), outputFileName), bytes.TrimSpace(output.Bytes()), 0644); werr != nil {
+		ctx.Fatalf("failed copying output for command %s: %v", input.Name(), werr)
 	}
 
-	if err != nil {
-		ctx.Fatalf("script %s returned an error: %v. Output:\n%s", input.Name(), err, string(output))
+	if cmdErr != nil {
+		ctx.Fatalf("script %s returned an error: %v. Output:\n%s", input.Name(), cmdErr, output.String())
 	}
 }
+
+var scriptLog = log.RegisterScope("script", "output of test scripts", 0)
+
+type LogWriter struct{}
+
+func (l LogWriter) Write(p []byte) (n int, err error) {
+	scriptLog.Debugf("%v", strings.TrimSpace(string(p)))
+	return len(p), nil
+}
+
+var _ io.Writer = &LogWriter{}
 
 func (s Script) getWorkDir(ctx Context) string {
 	if s.WorkDir != "" {
