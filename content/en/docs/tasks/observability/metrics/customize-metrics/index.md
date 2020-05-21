@@ -103,10 +103,10 @@ dimensions.
 1. Apply the following annotation to all injected pods with the list of the
    dimensions to extract into a Prometheus
    [time series](https://en.wikipedia.org/wiki/Time_series) using the following command:
-   
-    {{< tip >}} 
+
+    {{< tip >}}
     This step is needed only  if your dimensions are not already in
-    [DefaultStatTags list]({{<github_blob>}}/pkg/bootstrap/config.go) 
+    [DefaultStatTags list]({{<github_blob>}}/pkg/bootstrap/config.go)
     {{< /tip >}}
 
     {{< text yaml >}}
