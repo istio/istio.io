@@ -74,6 +74,7 @@ Last but not least, verify that there are no destination rules that apply on the
 
 {{< text bash >}}
 $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | grep "host:"
+
 {{< /text >}}
 
 {{< tip >}}
@@ -100,6 +101,7 @@ When the server doesn't have sidecar, the `X-Forwarded-Client-Cert` header is no
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.legacy:8000/headers -s | grep X-Forwarded-Client-Cert
+
 {{< /text >}}
 
 ## Globally enabling Istio mutual TLS in STRICT mode
@@ -228,6 +230,21 @@ EOF
 
 Again, run the probing command. As expected, request from `sleep.legacy` to `httpbin.bar` starts failing with the same reasons.
 
+{{< text bash >}}
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+sleep.foo to httpbin.foo: 200
+sleep.foo to httpbin.bar: 200
+sleep.foo to httpbin.legacy: 200
+sleep.bar to httpbin.foo: 200
+sleep.bar to httpbin.bar: 200
+sleep.bar to httpbin.legacy: 200
+sleep.legacy to httpbin.foo: 000
+command terminated with exit code 56
+sleep.legacy to httpbin.bar: 000
+command terminated with exit code 56
+sleep.legacy to httpbin.legacy: 200
+{{< /text >}}
+
 {{< text plain >}}
 ...
 sleep.legacy to httpbin.bar: 000
@@ -278,6 +295,20 @@ EOF
 
 1. The port value in the peer authentication policy is the container's port. The value the destination rule is the service's port.
 1. You can only use `portLevelMtls` if the port is bound to a service. Istio ignores it otherwise.
+
+{{< text bash >}}
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+sleep.foo to httpbin.foo: 200
+sleep.foo to httpbin.bar: 200
+sleep.foo to httpbin.legacy: 200
+sleep.bar to httpbin.foo: 200
+sleep.bar to httpbin.bar: 200
+sleep.bar to httpbin.legacy: 200
+sleep.legacy to httpbin.foo: 000
+command terminated with exit code 56
+sleep.legacy to httpbin.bar: 200
+sleep.legacy to httpbin.legacy: 200
+{{< /text >}}
 
 ### Policy precedence
 
