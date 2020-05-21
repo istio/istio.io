@@ -24,6 +24,7 @@ BASEURL="$1"
 # This is a list of archived versions
 # TODO: rename TOBUILD to ARCHIVED_VERSIONS
 TOBUILD=(
+  v1.5:release-1.5
   v1.4:release-1.4
   v1.3:release-1.3
   v1.2:release-1.2
