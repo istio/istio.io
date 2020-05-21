@@ -47,7 +47,7 @@ weight: 10
 - ***Removed*** built in Istio configurations from the installation, including the Gateway, `VirtualServices`, and mTLS settings.
 - ***Added*** a new profile, called `preview`, allowing users to try out new experimental features that include WASM enabled telemetry v2.
 - ***Added*** `istioctl install` command as a replacement for `istioctl manifest apply`.
-- ***Added*** istiod-remote chart to allow users to [experiment with a central Istiod managing a remote data plane] (https://github.com/istio/istio/wiki/Central-Istiod-manages-remote-data-plane).
+- ***Added*** istiod-remote chart to allow users to [experiment with a central Istiod managing a remote data plane](https://github.com/istio/istio/wiki/Central-Istiod-manages-remote-data-plane).
 
 ## istioctl
 
