@@ -30,6 +30,7 @@ import (
 
 const (
 	testOutputDirEnvVar = "TEST_OUTPUT_DIR"
+	testDebugFile       = "TEST_DEBUG_FILE"
 	kubeConfigEnvVar    = "KUBECONFIG"
 )
 
@@ -43,6 +44,8 @@ var _ Step = Script{}
 //         Set to the working directory of the current test. By default, scripts are run from this
 //         directory. This variable is useful for cases where the execution `WorkDir` has been set,
 //         but the script needs to access files in the test working directory.
+//     - TEST_DEBUG_FILE:
+//         Set to the file where debugging output will be written.
 //     - KUBECONFIG:
 //         Set to the value from the test framework. This is necessary to make kubectl commands execute
 //         with the configuration specified on the command line.
@@ -70,6 +73,7 @@ func (s Script) run(ctx Context) {
 
 	// Generate the body of the command.
 	commandLines := []string{"source ${REPO_ROOT}/tests/util/verify.sh"}
+	commandLines = append(commandLines, "source ${REPO_ROOT}/tests/util/debug.sh")
 	lines := strings.Split(content, "\n")
 	for index := 0; index < len(lines); index++ {
 		commandLines = append(commandLines, lines[index])
@@ -96,7 +100,7 @@ func (s Script) run(ctx Context) {
 	// Create the command.
 	cmd := exec.Command(shell)
 	cmd.Dir = s.getWorkDir(ctx)
-	cmd.Env = s.getEnv(ctx)
+	cmd.Env = s.getEnv(ctx, fileName)
 	cmd.Stdin = strings.NewReader(command)
 
 	// Run the command and get the output.
@@ -121,7 +125,7 @@ func (s Script) getWorkDir(ctx Context) string {
 	return ctx.WorkDir()
 }
 
-func (s Script) getEnv(ctx Context) []string {
+func (s Script) getEnv(ctx Context, fileName string) []string {
 	// Start with the environment for the current process.
 	e := os.Environ()
 
@@ -130,6 +134,7 @@ func (s Script) getEnv(ctx Context) []string {
 		// Set the output dir for the test.
 		testOutputDirEnvVar: ctx.WorkDir(),
 	}
+	customVars[testDebugFile] = fileName + "_debug.txt"
 	ctx.Environment().Case(environment.Kube, func() {
 		customVars[kubeConfigEnvVar] = ctx.KubeEnv().Settings().KubeConfig[0]
 	})
