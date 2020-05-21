@@ -2,7 +2,7 @@
 title: Introducing Workload Entries
 subtitle: Bridging Kubernetes and VMs
 description: Describing the new functionality of Workload Entries.
-publishdate: 2020-05-14
+publishdate: 2020-05-21
 attribution: "Cynthia Coan (Tetrate), Shriram Rajagopalan (Tetrate), Tia Louden (Tetrate), John Howard (Google), Sven Mawson (Google)"
 keywords: [vm,workloadentry,migration,'1.6',baremetal,serviceentry,discovery]
 ---
