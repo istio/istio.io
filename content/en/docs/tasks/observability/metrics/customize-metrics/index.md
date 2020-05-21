@@ -86,7 +86,7 @@ dimensions.
             {
                 "name": "requests_total",
                 "dimensions": {
-                    "destination_port": "destination.port",
+                    "destination_port": "string(destination.port)",
                     "request_host": "request.host"
                 }
             }
@@ -102,8 +102,12 @@ dimensions.
 
 1. Apply the following annotation to all injected pods with the list of the
    dimensions to extract into a Prometheus
-   [time series](https://en.wikipedia.org/wiki/Time_series), using the following
-   command:
+   [time series](https://en.wikipedia.org/wiki/Time_series) using the following command:
+
+    {{< tip >}}
+    This step is needed only  if your dimensions are not already in
+    [DefaultStatTags list]({{<github_blob>}}/pkg/bootstrap/config.go)
+    {{< /tip >}}
 
     {{< text yaml >}}
     apiVersion: extensions/v1beta1

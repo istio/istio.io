@@ -91,14 +91,16 @@ example configuration and commands.
 
 1.  Send traffic to the sample application.
 
-    Set `$GATEWAY_URL` using [these instructions](/docs/setup/getting-started/#determining-the-ingress-ip-and-ports)
-
     For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
     browser or use the following command:
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
+
+    {{< tip >}}
+    `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
+    {{< /tip >}}
 
 1.  Verify that the TCP metric values are being generated and collected.
 
@@ -115,11 +117,21 @@ example configuration and commands.
     **Console** tab includes entries similar to:
 
     {{< text plain >}}
-    istio_tcp_connections_opened_total{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings-v2",source_version="v2"}
+    istio_tcp_connections_opened_total{
+    destination_version="v1",
+    instance="172.17.0.18:42422",
+    job="istio-mesh",
+    canonical_service_name="ratings-v2",
+    canonical_service_revision="v2"}
     {{< /text >}}
 
     {{< text plain >}}
-    istio_tcp_connections_closed_total{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings-v2",source_version="v2"}
+    istio_tcp_connections_closed_total{
+    destination_version="v1",
+    instance="172.17.0.18:42422",
+    job="istio-mesh",
+    canonical_service_name="ratings-v2",
+    canonical_service_revision="v2"}
     {{< /text >}}
 
 ## Understanding TCP telemetry collection
@@ -127,6 +139,9 @@ example configuration and commands.
 In this task, you used Istio configuration to
 automatically generate and report metrics for all traffic to a TCP service
 within the mesh.
+TCP Metrics for all active connections are recorded every `15s` by default and this timer is configurable
+via `[tcpReportingDurationconfig](/docs/reference/config/proxy_extensions/stats/#PluginConfig)`.
+Metrics for a connection are also recorded at the end of the connection.
 
 ### TCP attributes
 
