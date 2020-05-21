@@ -35,7 +35,7 @@ weight: 10
 
 ## Installation
 
-- ***Added*** support for Istio in-place upgrades. See the [Upgrade guide](/docs/setup/upgrade/) for more information.
+- ***Added*** support for Istio canary upgrades. See the [Upgrade guide](/docs/setup/upgrade/) for more information.
 - ***Removed*** the legacy Helm charts. For migration from them please see the [Upgrade guide](/docs/setup/upgrade/).
 - ***Added*** the ability for users to add a custom hostname for istiod.
 - ***Changed*** gateway readiness port used from 15020 to 15021. If you check health on your Istio `ingressgateway` from your Kubernetes network load balancer you will need to update the port.
@@ -47,6 +47,7 @@ weight: 10
 - ***Removed*** built in Istio configurations from the installation, including the Gateway, `VirtualServices`, and mTLS settings.
 - ***Added*** a new profile, called `preview`, allowing users to try out new experimental features that include WASM enabled telemetry v2.
 - ***Added*** `istioctl install` command as a replacement for `istioctl manifest apply`.
+- ***Added*** istiod-remote chart to allow users to [experiment with a central Istiod managing a remote data plane](https://github.com/istio/istio/wiki/Central-Istiod-manages-remote-data-plane).
 
 ## istioctl
 
