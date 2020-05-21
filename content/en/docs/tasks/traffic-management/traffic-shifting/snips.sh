@@ -33,7 +33,7 @@ kubectl get virtualservice reviews -o yaml
 }
 
 ! read -r -d '' snip_verify_config_50_v3_out <<\ENDSNIP
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 ...
 spec:
