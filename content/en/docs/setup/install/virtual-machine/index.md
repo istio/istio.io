@@ -1,6 +1,6 @@
 ---
 title: Virtual Machine Installation
-description: Deploy istio and connect a virtual machine to it.
+description: Deploy istio and connect a workload running within a virtual machine to it.
 weight: 40
 keywords:
 - kubernetes
@@ -111,10 +111,10 @@ The Istio control plane must be installed with virtual machine integration enabl
 1. Make a copy of files to copy to the virtual machine
 
     {{< text bash >}}
-    $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/"{SERVICE_NAMESPACE}"/ca-cert.pem "${WORK_DIR}"/"{CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/COPY_TO_VIRTUAL_MACHINE
-    $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/"{SERVICE_NAMESPACE}"/key.pem "${WORK_DIR}"/"{CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/COPY_TO_VIRTUAL_MACHINE
-    $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/"{SERVICE_NAMESPACE}"/root-cert.pem "${WORK_DIR}"/"{CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/COPY_TO_VIRTUAL_MACHINE
-    $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/"{SERVICE_NAMESPACE}"/workload-cert-chain.pem "${WORK_DIR}"/"{CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/COPY_TO_VIRTUAL_MACHINE/cert-chain.pem
+    $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/ca-cert.pem "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/
+    $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/key.pem "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/
+    $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/root-cert.pem "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/
+    $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/workload-cert-chain.pem "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/cert-chain.pem
     {{< /text >}}
 
 1. Generate a `cluster.env` configuration file that informs the virtual machine
@@ -123,7 +123,8 @@ The Istio control plane must be installed with virtual machine integration enabl
 
     {{< text bash >}}
     $ ISTIO_SERVICE_CIDR=$(echo '{"apiVersion":"v1","kind":"Service","metadata":{"name":"tst"},"spec":{"clusterIP":"1.1.1.1","ports":[{"port":443}]}}' | kubectl apply -f - 2>&1 | sed 's/.*valid IPs is //')
-    $ echo ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR > "${WORK_DIR}"/"${SERVICE_NAMESPACE}"/COPY_TO_VIRTUAL_MACHINE/cluster.env
+    $ touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/cluster.env
+    $ echo ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/cluster.env
     {{< /text >}}
 
 1. Optionally configure configure a select set of ports for exposure from the
@@ -135,7 +136,7 @@ The Istio control plane must be installed with virtual machine integration enabl
    of the virtual machine.
 
     {{< text bash >}}
-    $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/"$COPY_TO_VIRTUAL_MACHINE/cluster.env
+    $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/cluster.env
     {{< /text >}}
 
 1. Add an IP address that represents Istiod. Replace `${INGRESS_HOST}` with the
@@ -143,20 +144,21 @@ The Istio control plane must be installed with virtual machine integration enabl
     [Determining the ingress host and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) to set the environment variable `${INGRESS_HOST}`.
 
     {{< text bash >}}
-    $ echo "${INGRESS_HOST} istiod.istio-system.svc" > $"{WORK_DIR}"/"${CLUSTER_NAME}"/"{SERVICE_NAMESPACE}"/hosts-addendum
+    $ touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/hosts-addendum
+    $ echo "${INGRESS_HOST} istiod.istio-system.svc" > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/hosts-addendum
     {{< /text >}}
 
     {{< idea >}}
     A sophisticated option involves configuring DNS within the virtual
     machine to reference an external DNS server. This option is beyond
-    the scope of this document.
+    the scope of this guide.
     {{< /idea >}}
 
 ## Configure the virtual machine
 
 Run the following commands on the virtual machine you want to add to the Istio mesh:
 
-1. Securely transfer the files from `"${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/COPY_TO_VIRTUAL_MACHINE`
+1. Securely transfer the files from `"${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"`
     to the virtual machine.  How you choose to securely transfer those files should be done with consideration for
     your information security policies.
 
