@@ -100,6 +100,25 @@ dimensions.
     $ kubectl -n istio-system apply -f stats-filter-1.6.yaml
     {{< /text >}}
 
+1. Apply the following annotation to all injected pods with the list of the
+   dimensions to extract into a Prometheus
+   [time series](https://en.wikipedia.org/wiki/Time_series) using the following command:
+   
+    {{< tip >}} 
+    This step is needed only  if your dimensions are not already in
+    [DefaultStatTags list]({{<github_blob>}}/pkg/bootstrap/config.go) 
+    {{< /tip >}}
+
+    {{< text yaml >}}
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    spec:
+    template:
+        metadata:
+        annotations:
+            sidecar.istio.io/extraStatTags: destination_port,request_host
+    {{< /text >}}
+
 ## Verify the results
 
 Use the following command to verify that Istio generates the data for your new
