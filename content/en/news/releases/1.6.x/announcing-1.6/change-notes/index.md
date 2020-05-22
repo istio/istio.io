@@ -6,6 +6,7 @@ weight: 10
 
 ## Traffic Management
 
+- ***Added*** [`VirtualService` delegation](https://github.com/istio/istio/pull/22118). This allows mesh routing configurations to be specified in multiple composable `VirtualServices`.
 - ***Added*** the new [Workload Entry](/docs/reference/config/networking/workload-entry/) resource. This allows easier configuration for non-Kubernetes workloads to join the mesh.
 - ***Added*** configuration for gateway topology. This addresses providing correct [X-Forwarded-For headers](https://github.com/istio/istio/issues/7679) and X-Forwarded-Client-Cert headers based on gateway deployment topology .
 - ***Added*** experimental support for the [Kubernetes Service APIs](https://github.com/kubernetes-sigs/service-apis/).
