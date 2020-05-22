@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1090,SC2154
 
 # Copyright Istio Authors
 #
@@ -18,7 +19,7 @@ set -e
 set -u
 set -o pipefail
 
-source ${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-http/snips.sh
+source "${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-http/snips.sh"
 
 REPEAT=${REPEAT:-100}
 THRESHOLD=${THRESHOLD:-1}

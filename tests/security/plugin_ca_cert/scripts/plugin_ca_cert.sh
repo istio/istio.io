@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1090,SC2154
 
 # Copyright Istio Authors
 #
@@ -18,7 +19,7 @@ set -e
 set -u
 set -o pipefail
 
-source ${REPO_ROOT}/content/en/docs/tasks/security/cert-management/plugin-ca-cert/snips.sh
+source "${REPO_ROOT}/content/en/docs/tasks/security/cert-management/plugin-ca-cert/snips.sh"
 
 # Disable errors, since the next command is expected to return an error.
 set +e

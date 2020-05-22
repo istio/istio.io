@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1090,SC2154
 
 # Copyright Istio Authors
 #
@@ -18,7 +19,7 @@ set -e
 set -u
 set -o pipefail
 
-source ${REPO_ROOT}/content/en/docs/tasks/security/cert-management/dns-cert/snips.sh
+source "${REPO_ROOT}/content/en/docs/tasks/security/cert-management/dns-cert/snips.sh"
 
 out=$(snip_check_the_provisioning_of_dns_certificates_1 2>&1)
 # Remove trailing spaces

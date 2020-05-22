@@ -38,7 +38,7 @@ snip_before_you_begin_1`,
 			}).
 			Add(istioio.MultiPodWait("foo")).
 			Add(istioio.Script{
-				Input: istioio.Path("scripts/authz_tcp.txt"),
+				Input: istioio.Path("scripts/authz_tcp.sh"),
 			}).
 
 			// Cleanup.

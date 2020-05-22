@@ -29,7 +29,7 @@ func TestAuthorizationForHTTPServices(t *testing.T) {
 		NewTest(t).
 		Run(istioio.NewBuilder("tasks__security__authorization_for_http_services").
 			Add(istioio.Script{
-				Input: istioio.Path("scripts/authz_http.txt"),
+				Input: istioio.Path("scripts/authz_http.sh"),
 			}).
 			// Remaining cleanup (undocumented).
 			Defer(istioio.Script{

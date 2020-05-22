@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1090,SC2154
 
 # Copyright Istio Authors
 #
@@ -18,7 +19,7 @@ set -e
 set -u
 set -o pipefail
 
-source ${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-tcp/snips.sh
+source "${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-tcp/snips.sh"
 
 export TCP_ECHO_IP=$(kubectl get pod $(kubectl get pod -l app=tcp-echo -n foo -o jsonpath={.items..metadata.name}) -n foo -o jsonpath={.status.podIP})
 

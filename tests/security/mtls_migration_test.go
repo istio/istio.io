@@ -48,7 +48,7 @@ snip_set_up_the_cluster_2`,
 				istioio.MultiPodWait("bar"),
 				istioio.MultiPodWait("legacy")).
 			Add(istioio.Script{
-				Input: istioio.Path("scripts/mtls_migration.txt"),
+				Input: istioio.Path("scripts/mtls_migration.sh"),
 			}).
 			// Cleanup.
 			Defer(istioio.Script{

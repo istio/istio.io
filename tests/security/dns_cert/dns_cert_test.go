@@ -29,7 +29,7 @@ func TestDNSCert(t *testing.T) {
 		NewTest(t).
 		Run(istioio.NewBuilder("tasks__security___dns_cert").
 			Add(istioio.Script{
-				Input: istioio.Path("scripts/dns_cert.txt"),
+				Input: istioio.Path("scripts/dns_cert.sh"),
 			}).
 			// Cleanup.
 			Defer(istioio.Script{

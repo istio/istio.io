@@ -45,7 +45,7 @@ snip_deploying_example_services_2`,
 			// Wait for pods to start.
 			Add(istioio.MultiPodWait("foo")).
 			Add(istioio.Script{
-				Input: istioio.Path("scripts/plugin_ca_cert.txt"),
+				Input: istioio.Path("scripts/plugin_ca_cert.sh"),
 			}).
 			// Cleanup.
 			Defer(istioio.Script{

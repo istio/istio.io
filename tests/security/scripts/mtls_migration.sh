@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1090,SC2154
 
 # Copyright Istio Authors
 #
@@ -18,7 +19,7 @@ set -e
 set -u
 set -o pipefail
 
-source ${REPO_ROOT}/content/en/docs/tasks/security/authentication/mtls-migration/snips.sh
+source "${REPO_ROOT}/content/en/docs/tasks/security/authentication/mtls-migration/snips.sh"
 
 # curl_foo_bar_legacy
 _run_and_verify_same snip_set_up_the_cluster_3 "$snip_set_up_the_cluster_3_out"
