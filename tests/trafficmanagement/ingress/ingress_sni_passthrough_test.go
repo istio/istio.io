@@ -34,7 +34,7 @@ func TestIngressSNIPassthrough(t *testing.T) {
 					FileName: "cleanup.sh",
 					Value: `
 set +e # ignore cleanup errors
-source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/ingress/ingress_sni_passthrough/snips.sh
+source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/snips.sh
 snip_cleanup_1
 snip_cleanup_2
 snip_cleanup_3`,
