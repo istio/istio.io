@@ -22,6 +22,8 @@ set -o pipefail
 source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/mirroring/snips.sh"
 source "${REPO_ROOT}/tests/util/samples.sh"
 
+kubectl label namespace default istio-injection=enabled --overwrite
+
 snip_before_you_begin_1
 
 snip_before_you_begin_2
@@ -38,7 +40,8 @@ sample_wait_for_deployment default sleep
 snip_creating_a_default_routing_policy_1
 
 # wait for virtual service
-istioctl experimental wait --for=distribution VirtualService httpbin.default
+#istioctl experimental wait --for=distribution VirtualService httpbin.default
+sleep 5s
 
 _run_and_verify_contains snip_creating_a_default_routing_policy_2 "headers"
 
@@ -49,7 +52,8 @@ _run_and_verify_not_contains snip_creating_a_default_routing_policy_4 "GET /head
 snip_mirroring_traffic_to_v2_1
 
 # wait for virtual service
-istioctl experimental wait --for=distribution VirtualService httpbin.default
+#istioctl experimental wait --for=distribution VirtualService httpbin.default
+sleep 5s
 
 snip_mirroring_traffic_to_v2_2
 
