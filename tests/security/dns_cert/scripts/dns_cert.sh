@@ -21,14 +21,8 @@ set -o pipefail
 
 source "${REPO_ROOT}/content/en/docs/tasks/security/cert-management/dns-cert/snips.sh"
 
-out=$(snip_check_the_provisioning_of_dns_certificates_1 2>&1)
-# Remove trailing spaces
-out=$(echo "$out" | sed 's/[ ]*$//')
-_verify_contains "$out" "$snip_check_the_provisioning_of_dns_certificates_2" "snip_check_the_provisioning_of_dns_certificates_1"
+_run_and_verify_contains snip_check_the_provisioning_of_dns_certificates_1 "$snip_check_the_provisioning_of_dns_certificates_2"
 
 snip_regenerating_a_dns_certificate_1
 
-out=$(snip_regenerating_a_dns_certificate_2 2>&1)
-# Remove trailing spaces
-out=$(echo "$out" | sed 's/[ ]*$//')
-_verify_contains "$out" "$snip_regenerating_a_dns_certificate_3" "snip_regenerating_a_dns_certificate_2"
+_run_and_verify_contains snip_regenerating_a_dns_certificate_2 "$snip_regenerating_a_dns_certificate_3"

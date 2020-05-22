@@ -21,7 +21,8 @@ set -o pipefail
 
 source "${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-tcp/snips.sh"
 
-export TCP_ECHO_IP=$(kubectl get pod $(kubectl get pod -l app=tcp-echo -n foo -o jsonpath={.items..metadata.name}) -n foo -o jsonpath={.status.podIP})
+# shellcheck disable=SC2155
+export TCP_ECHO_IP=$(kubectl get pod "$(kubectl get pod -l app=tcp-echo -n foo -o jsonpath={.items..metadata.name})" -n foo -o jsonpath={.status.podIP})
 
 # When strict-mode mTLS is enabled, only ports defined as a service are
 # protected by mTLS.  As part of this test, we connect to port 9002, which was
