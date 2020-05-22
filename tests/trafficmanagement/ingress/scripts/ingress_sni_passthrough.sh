@@ -19,7 +19,7 @@ set -e
 set -u
 set -o pipefail
 
-source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/ingress/ingress_sni_passthrough/snips.sh"
+source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/snips.sh"
 source "${REPO_ROOT}/tests/util/samples.sh"
 
 kubectl label namespace default istio-injection=enabled --overwrite
