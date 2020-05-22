@@ -25,7 +25,7 @@ import (
 func TestBookinfo(t *testing.T) {
 	framework.
 		NewTest(t).
-		Run(istioio.NewBuilder("tasks__traffic_management__request_routing").
+		Run(istioio.NewBuilder("examples__bookinfo").
 			Add(istioio.Script{
 				Input: istioio.Path("scripts/bookinfo.sh"),
 			}).
