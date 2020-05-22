@@ -207,10 +207,12 @@ function handleCodeBlocks() {
         if (cl !== "") {
             let firstLineOfOutput = 0;
             const lines = code.innerText.split("\n");
+            const heredoc = RegExp(/<<\s*\\?EOF/);
             let cmd = "";
             let escape = false;
             let escapeUntilEOF = false;
             let tmp = "";
+
             for (let j = 0; j < lines.length; j++) {
                 const line = lines[j];
 
@@ -225,14 +227,14 @@ function handleCodeBlocks() {
 
                     tmp = line.slice(2);
 
-                    if (line.includes("<<EOF")) {
+                    if (heredoc.test(line)) {
                         escapeUntilEOF = true;
                     }
                 } else if (escape) {
                     // continuation
                     tmp += "\n" + line;
 
-                    if (line.includes("<<EOF")) {
+                    if (heredoc.test(line)) {
                         escapeUntilEOF = true;
                     }
                 } else if (escapeUntilEOF) {
