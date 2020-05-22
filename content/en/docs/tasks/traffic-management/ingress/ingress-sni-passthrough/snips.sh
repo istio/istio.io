@@ -194,7 +194,7 @@ EOF
 }
 
 snip_configure_an_ingress_gateway_3() {
-curl -v --resolve nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt https://nginx.example.com:$SECURE_INGRESS_PORT
+curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert example.com.crt "https://nginx.example.com:$SECURE_INGRESS_PORT"
 }
 
 ! read -r -d '' snip_configure_an_ingress_gateway_3_out <<\ENDSNIP

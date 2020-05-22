@@ -226,7 +226,7 @@ to hold the configuration of the NGINX server:
     it is successfully verified (_SSL certificate verify ok_ is printed).
 
     {{< text bash >}}
-    $ curl -v --resolve nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt https://nginx.example.com:$SECURE_INGRESS_PORT
+    $ curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert example.com.crt "https://nginx.example.com:$SECURE_INGRESS_PORT"
     Server certificate:
       subject: CN=nginx.example.com; O=some organization
       start date: Wed, 15 Aug 2018 07:29:07 GMT
