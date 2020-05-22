@@ -40,7 +40,7 @@ events {
 
 http {
   log_format main '$remote_addr - $remote_user [$time_local]  $status '
-  '"$request" $body_bytes_sent "$http_referer" '
+  '"$request" "$body_bytes_sent" "$http_referer" '
   '"$http_user_agent" "$http_x_forwarded_for"';
   access_log /var/log/nginx/access.log main;
   error_log  /var/log/nginx/error.log;
@@ -115,7 +115,7 @@ EOF
 }
 
 snip_deploy_an_nginx_server_5() {
-kubectl exec -it $(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
+kubectl exec -it $(kubectl get pod  -l run=my-nginx -o jsonpath="{.items..metadata.name}") -c istio-proxy -- curl -v -k --resolve "nginx.example.com:443:127.0.0.1" "https://nginx.example.com"
 }
 
 ! read -r -d '' snip_deploy_an_nginx_server_5_out <<\ENDSNIP
@@ -194,7 +194,7 @@ EOF
 }
 
 snip_configure_an_ingress_gateway_3() {
-curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert example.com.crt "https://nginx.example.com:$SECURE_INGRESS_PORT"
+curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert "example.com.crt" "https://nginx.example.com:$SECURE_INGRESS_PORT"
 }
 
 ! read -r -d '' snip_configure_an_ingress_gateway_3_out <<\ENDSNIP

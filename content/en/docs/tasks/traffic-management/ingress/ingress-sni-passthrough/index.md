@@ -52,7 +52,7 @@ For this task you can use your favorite tool to generate certificates and keys. 
 
     http {
       log_format main '$remote_addr - $remote_user [$time_local]  $status '
-      '"$request" $body_bytes_sent "$http_referer" '
+      '"$request" "$body_bytes_sent" "$http_referer" '
       '"$http_user_agent" "$http_x_forwarded_for"';
       access_log /var/log/nginx/access.log main;
       error_log  /var/log/nginx/error.log;
@@ -136,7 +136,7 @@ to hold the configuration of the NGINX server:
     printed correctly, i.e., `common name` is equal to `nginx.example.com`.
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
+    $ kubectl exec -it $(kubectl get pod  -l run=my-nginx -o jsonpath="{.items..metadata.name}") -c istio-proxy -- curl -v -k --resolve "nginx.example.com:443:127.0.0.1" "https://nginx.example.com"
     ...
     SSL connection using TLS1.2 / ECDHE_RSA_AES_128_GCM_SHA256
       server certificate verification SKIPPED
@@ -226,7 +226,7 @@ to hold the configuration of the NGINX server:
     it is successfully verified (_SSL certificate verify ok_ is printed).
 
     {{< text bash >}}
-    $ curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert example.com.crt "https://nginx.example.com:$SECURE_INGRESS_PORT"
+    $ curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert "example.com.crt" "https://nginx.example.com:$SECURE_INGRESS_PORT"
     Server certificate:
       subject: CN=nginx.example.com; O=some organization
       start date: Wed, 15 Aug 2018 07:29:07 GMT
