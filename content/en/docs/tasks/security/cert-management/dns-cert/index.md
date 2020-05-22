@@ -67,7 +67,7 @@ $ kubectl get secret dns.example1-service-account -n istio-system -o jsonpath="{
 The text output should include:
 
 {{< text plain >}}
-            X509v3 Subject Alternative Name: 
+            X509v3 Subject Alternative Name:
                 DNS:example1.istio-system.svc, DNS:example1.istio-system
 {{< /text >}}
 
@@ -93,7 +93,7 @@ and view its text output with the following command:
 The output should include:
 
 {{< text plain >}}
-            X509v3 Subject Alternative Name: 
+            X509v3 Subject Alternative Name:
                 DNS:example1.istio-system.svc, DNS:example1.istio-system
 {{< /text >}}
 
