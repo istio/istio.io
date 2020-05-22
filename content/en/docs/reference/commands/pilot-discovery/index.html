@@ -91,7 +91,7 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--appNamespace &lt;string&gt;</code></td>
 <td><code>-a</code></td>
-<td>Restrict the applications namespace the controller manages; if not set, controller watches all namespaces  (default ``)</td>
+<td>Specify the applications namespace list the controller manages, separated by comma; if not set, controller watches all namespaces  (default ``)</td>
 </tr>
 <tr>
 <td><code>--caCertFile &lt;string&gt;</code></td>
@@ -565,12 +565,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Name of the mutatingwebhookconfiguration to patch, if istioctl is not used.</td>
 </tr>
 <tr>
-<td><code>ISTIOD_ADDR</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Service name of istiod. If empty the istiod listener, certs will be disabled.</td>
-</tr>
-<tr>
 <td><code>ISTIOD_CUSTOM_HOST</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -640,12 +634,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>MCP_SOURCE_REQ_FREQ</code></td>
 <td>Time Duration</td>
 <td><code>1s</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_CERT_DIR</code></td>
-<td>String</td>
-<td><code></code></td>
 <td></td>
 </tr>
 <tr>
@@ -725,6 +713,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will set the incremental flag of the options in the mcp controller to true, and then galley may push data incrementally, it depends on whether the resource supports incremental. By default, this is false.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
@@ -921,11 +915,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 </thead>
 <tbody>
 <tr><td><code>citadel_server_authentication_failure_count</code></td><td><code>Sum</code></td><td>The number of authentication failures.</td></tr>
+<tr><td><code>citadel_server_cert_chain_expiry_timestamp</code></td><td><code>LastValue</code></td><td>The unix timestamp, in seconds, when Citadel cert chain will expire. A negative time indicates the cert is expired.</td></tr>
 <tr><td><code>citadel_server_csr_count</code></td><td><code>Sum</code></td><td>The number of CSRs received by Citadel server.</td></tr>
 <tr><td><code>citadel_server_csr_parsing_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when parsing the CSR.</td></tr>
 <tr><td><code>citadel_server_csr_sign_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when signing the CSR.</td></tr>
 <tr><td><code>citadel_server_id_extraction_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when extracting the ID from CSR.</td></tr>
-<tr><td><code>citadel_server_root_cert_expiry_timestamp</code></td><td><code>LastValue</code></td><td>The unix timestamp, in seconds, when Citadel root cert will expire. We set it to negative in case of internal error.</td></tr>
+<tr><td><code>citadel_server_root_cert_expiry_timestamp</code></td><td><code>LastValue</code></td><td>The unix timestamp, in seconds, when Citadel root cert will expire. A negative time indicates the cert is expired.</td></tr>
 <tr><td><code>citadel_server_success_cert_issuance_count</code></td><td><code>Sum</code></td><td>The number of certificates issuances that have succeeded.</td></tr>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
 <tr><td><code>galley_runtime_processor_event_span_duration_milliseconds</code></td><td><code>Distribution</code></td><td>The duration between each incoming event</td></tr>
@@ -942,8 +937,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>galley_source_kube_dynamic_converter_success_total</code></td><td><code>Count</code></td><td>The number of times a dynamic kubernetes source successfully converted a resource</td></tr>
 <tr><td><code>galley_source_kube_event_error_total</code></td><td><code>Count</code></td><td>The number of times a kubernetes source encountered errored while handling an event</td></tr>
 <tr><td><code>galley_source_kube_event_success_total</code></td><td><code>Count</code></td><td>The number of times a kubernetes source successfully handled an event</td></tr>
-<tr><td><code>galley_validation_cert_key_update_errors</code></td><td><code>Count</code></td><td>Galley validation webhook certificate updates errors</td></tr>
-<tr><td><code>galley_validation_cert_key_updates</code></td><td><code>Count</code></td><td>Galley validation webhook certificate updates</td></tr>
 <tr><td><code>galley_validation_config_delete_error</code></td><td><code>Count</code></td><td>k8s webhook configuration delete error</td></tr>
 <tr><td><code>galley_validation_config_load</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)loads</td></tr>
 <tr><td><code>galley_validation_config_load_error</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)load error</td></tr>
