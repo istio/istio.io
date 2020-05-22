@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 78
+number_of_entries: 76
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -718,7 +718,10 @@ istioctl deregister my-svc 172.17.0.2
 </tbody>
 </table>
 <h2 id="istioctl-experimental-add-to-mesh">istioctl experimental add-to-mesh</h2>
-<p>Add workloads into Istio service mesh</p>
+<p>&#39;istioctl experimental add-to-mesh&#39; restarts pods with an Istio sidecar or configures meshed pod access to external services.</p>
+<p>Use &#39;add-to-mesh&#39; as an alternate to namespace-wide auto injection for troubleshooting compatibility.</p>
+<p>The &#39;remove-from-mesh&#39; command can be used to restart with the sidecar removed.</p>
+<p>THESE COMMANDS ARE UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental add-to-mesh [flags]
 </code></pre>
 <div class="aliases">
@@ -780,14 +783,27 @@ istioctl deregister my-svc 172.17.0.2
 </tr>
 </tbody>
 </table>
+<h3 id="istioctl-experimental-add-to-mesh Examples">Examples</h3>
+<pre class="language-bash"><code>
+# Restart all productpage pods with an Istio sidecar
+istioctl experimental add-to-mesh service productpage
+
+# Restart just pods from the productpage-v1 deployment
+istioctl experimental add-to-mesh deployment productpage-v1
+
+# Control how meshed pods see an external service
+istioctl experimental add-to-mesh external-service vmhttp 172.12.23.125,172.12.23.126 \
+   http:9080 tcp:8888 --labels app=test,version=v1 --annotations env=stage --serviceaccount stageAdmin
+</code></pre>
 <h2 id="istioctl-experimental-add-to-mesh-deployment">istioctl experimental add-to-mesh deployment</h2>
-<p>istioctl experimental add-to-mesh deployment restarts pods with the Istio sidecar.  Use &#39;add-to-mesh&#39;
-to test deployments for compatibility with Istio.  If your deployment does not function after
-using &#39;add-to-mesh&#39; you must re-deploy it and troubleshoot it for Istio compatibility.
-See https://istio.io/docs/setup/kubernetes/additional-setup/requirements/
-THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
+<p>&#39;istioctl experimental add-to-mesh deployment&#39; restarts pods with the Istio sidecar.  Use &#39;add-to-mesh&#39;
+to test deployments for compatibility with Istio.  It can be used instead of namespace-wide auto-injection of sidecars and is especially helpful for compatibility testing.</p>
+<p>If your deployment does not function after using &#39;add-to-mesh&#39; you must re-deploy it and troubleshoot it for Istio compatibility.
+See https://istio.io/docs/setup/kubernetes/additional-setup/requirements/</p>
+<p>See also &#39;istioctl experimental remove-from-mesh deployment&#39; which does the reverse.</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </p>
-<pre class="language-bash"><code>istioctl experimental add-to-mesh deployment [flags]
+<pre class="language-bash"><code>istioctl experimental add-to-mesh deployment &lt;deployment&gt; [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -841,7 +857,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
 <td></td>
-<td>control plane revision  (default ``)</td>
+<td>control plane revision (experimental)  (default ``)</td>
 </tr>
 <tr>
 <td><code>--valuesFile &lt;string&gt;</code></td>
@@ -851,15 +867,18 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </tbody>
 </table>
 <h3 id="istioctl-experimental-add-to-mesh-deployment Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl experimental add-to-mesh deployment productpage-v1
+<pre class="language-bash"><code>
+# Restart pods from the productpage-v1 deployment with Istio sidecar
+istioctl experimental add-to-mesh deployment productpage-v1
 </code></pre>
 <h2 id="istioctl-experimental-add-to-mesh-external-service">istioctl experimental add-to-mesh external-service</h2>
-<p>istioctl experimental add-to-mesh external-service create a ServiceEntry and\ 
+<p>istioctl experimental add-to-mesh external-service create a ServiceEntry and 
 a Service without selector for the specified external service in Istio service mesh.
-The typical usage scenario is Mesh Expansion on VMs.
-THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
+The typical usage scenario is Mesh Expansion on VMs.</p>
+<p>See also &#39;istioctl experimental remove-from-mesh external-service&#39; which does the reverse.</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </p>
-<pre class="language-bash"><code>istioctl experimental add-to-mesh external-service &lt;svcname&gt; &lt;ip&gt;... [name1:]port1 [name2:]port2 ... [flags]
+<pre class="language-bash"><code>istioctl experimental add-to-mesh external-service &lt;svcname&gt; &lt;ip&gt; [name1:]port1 [[name2:]port2] ... [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -933,17 +952,20 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </tbody>
 </table>
 <h3 id="istioctl-experimental-add-to-mesh-external-service Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl experimental add-to-mesh external-service vmhttp 172.12.23.125,172.12.23.126\
-http:9080 tcp:8888 -l app=test,version=v1 -a env=stage -s stageAdmin
+<pre class="language-bash"><code>
+# Control how meshed pods contact 172.12.23.125 and .126
+istioctl experimental add-to-mesh external-service vmhttp 172.12.23.125,172.12.23.126 \
+   http:9080 tcp:8888 --labels app=test,version=v1 --annotations env=stage --serviceaccount stageAdmin
 </code></pre>
 <h2 id="istioctl-experimental-add-to-mesh-service">istioctl experimental add-to-mesh service</h2>
 <p>istioctl experimental add-to-mesh service restarts pods with the Istio sidecar.  Use &#39;add-to-mesh&#39;
-to test deployments for compatibility with Istio.  If your service does not function after
-using &#39;add-to-mesh&#39; you must re-deploy it and troubleshoot it for Istio compatibility.
-See https://istio.io/docs/setup/kubernetes/additional-setup/requirements/
-THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
+to test deployments for compatibility with Istio.  It can be used instead of namespace-wide auto-injection of sidecars and is especially helpful for compatibility testing.</p>
+<p>If your service does not function after using &#39;add-to-mesh&#39; you must re-deploy it and troubleshoot it for Istio compatibility.
+See https://istio.io/docs/setup/kubernetes/additional-setup/requirements/</p>
+<p>See also &#39;istioctl experimental remove-from-mesh service&#39; which does the reverse.</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </p>
-<pre class="language-bash"><code>istioctl experimental add-to-mesh service [flags]
+<pre class="language-bash"><code>istioctl experimental add-to-mesh service &lt;service&gt; [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -997,7 +1019,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
 <td></td>
-<td>control plane revision  (default ``)</td>
+<td>control plane revision (experimental)  (default ``)</td>
 </tr>
 <tr>
 <td><code>--valuesFile &lt;string&gt;</code></td>
@@ -1007,7 +1029,9 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </tbody>
 </table>
 <h3 id="istioctl-experimental-add-to-mesh-service Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl experimental add-to-mesh service productpage
+<pre class="language-bash"><code>
+# Restart all productpage pods with an Istio sidecar
+istioctl experimental add-to-mesh service productpage
 </code></pre>
 <h2 id="istioctl-experimental-analyze">istioctl experimental analyze</h2>
 <p>Analyze Istio configuration and print validation messages (analyze has graduated. Use `istioctl analyze`)</p>
@@ -2148,7 +2172,10 @@ istioctl experimental post-install webhook status --validation --validation-conf
 
 </code></pre>
 <h2 id="istioctl-experimental-remove-from-mesh">istioctl experimental remove-from-mesh</h2>
-<p>Remove workloads from Istio service mesh</p>
+<p>&#39;istioctl experimental remove-from-mesh&#39; restarts pods without an Istio sidecar or removes external service access configuration.</p>
+<p>Use &#39;remove-from-mesh&#39; to quickly test uninjected behavior as part of compatibility troubleshooting.</p>
+<p>The &#39;add-to-mesh&#39; command can be used to add or restore the sidecar.</p>
+<p>THESE COMMANDS ARE UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh [flags]
 </code></pre>
 <div class="aliases">
@@ -2185,11 +2212,17 @@ istioctl experimental post-install webhook status --validation --validation-conf
 </tr>
 </tbody>
 </table>
+<h3 id="istioctl-experimental-remove-from-mesh Examples">Examples</h3>
+<pre class="language-bash"><code>
+# Restart all productpage pods without an Istio sidecar
+istioctl experimental remove-from-mesh service productpage
+</code></pre>
 <h2 id="istioctl-experimental-remove-from-mesh-deployment">istioctl experimental remove-from-mesh deployment</h2>
-<p>istioctl experimental remove-from-mesh deployment restarts pods with the Istio sidecar un-injected.
-THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
+<p>&#39;istioctl experimental remove-from-mesh deployment&#39; restarts pods with the Istio sidecar un-injected.</p>
+<p>&#39;remove-from-mesh&#39; is a compatibility troubleshooting tool.</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </p>
-<pre class="language-bash"><code>istioctl experimental remove-from-mesh deployment [flags]
+<pre class="language-bash"><code>istioctl experimental remove-from-mesh deployment &lt;deployment&gt; [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -2223,13 +2256,15 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </tbody>
 </table>
 <h3 id="istioctl-experimental-remove-from-mesh-deployment Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl experimental remove-from-mesh deployment productpage-v1
+<pre class="language-bash"><code>
+# Restart all productpage-v1 pods without an Istio sidecar
+istioctl experimental remove-from-mesh deployment productpage-v1
 </code></pre>
 <h2 id="istioctl-experimental-remove-from-mesh-external-service">istioctl experimental remove-from-mesh external-service</h2>
-<p>istioctl experimental remove-from-mesh external-service remove the ServiceEntry and\ 
-the kubernetes Service for the specified external service(eg:services running on VM) from Istio service mesh.
-The typical usage scenario is Mesh Expansion on VMs.
-THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
+<p>&#39;istioctl experimental remove-from-mesh external-service&#39; removes the ServiceEntry and
+the Kubernetes Service for the specified external service (e.g. services running on a VM) from Istio service mesh.
+The typical usage scenario is Mesh Expansion on VMs.</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </p>
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh external-service &lt;svcname&gt; [flags]
 </code></pre>
@@ -2265,13 +2300,16 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </tbody>
 </table>
 <h3 id="istioctl-experimental-remove-from-mesh-external-service Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl experimental remove-from-mesh external-service vmhttp
+<pre class="language-bash"><code>
+# Remove &#34;vmhttp&#34; service entry rules
+istioctl experimental remove-from-mesh external-service vmhttp
 </code></pre>
 <h2 id="istioctl-experimental-remove-from-mesh-service">istioctl experimental remove-from-mesh service</h2>
-<p>istioctl experimental remove-from-mesh service restarts pods with the Istio sidecar un-injected.
-THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
+<p>&#39;istioctl experimental remove-from-mesh service&#39; restarts pods with the Istio sidecar un-injected.</p>
+<p>&#39;remove-from-mesh&#39; is a compatibility troubleshooting tool.</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </p>
-<pre class="language-bash"><code>istioctl experimental remove-from-mesh service [flags]
+<pre class="language-bash"><code>istioctl experimental remove-from-mesh service &lt;service&gt; [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -2305,7 +2343,9 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </tbody>
 </table>
 <h3 id="istioctl-experimental-remove-from-mesh-service Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl experimental remove-from-mesh service productpage
+<pre class="language-bash"><code>
+# Restart all productpage pods without an Istio sidecar
+istioctl experimental remove-from-mesh service productpage
 </code></pre>
 <h2 id="istioctl-experimental-sidecar-bootstrap">istioctl experimental sidecar-bootstrap</h2>
 <p>(experimental) Takes in one or more WorkloadEntries generates identities for them, and copies to
@@ -2452,6 +2492,14 @@ Istio will be started on the host network as a docker container in capture mode.
 </thead>
 <tbody>
 <tr>
+<td><code>--charts &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -2489,7 +2537,7 @@ Istio will be started on the host network as a docker container in capture mode.
 <tr>
 <td><code>--readiness-timeout &lt;duration&gt;</code></td>
 <td></td>
-<td>Maximum time to wait for Istio resources in each component to be ready. The --wait flag must be set for this flag to apply  (default `5m0s`)</td>
+<td>Maximum time to wait for Istio resources in each component to be ready.  (default `5m0s`)</td>
 </tr>
 <tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
@@ -2497,22 +2545,12 @@ Istio will be started on the host network as a docker container in capture mode.
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
 settings (--set values.grafana.enabled=true). See documentation for more info:
-https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlaneSpec  (default `[]`)</td>
+https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
 <td><code>-y</code></td>
 <td>If skip-confirmation is set, skips the prompting confirmation for value changes in this upgrade </td>
-</tr>
-<tr>
-<td><code>--versionsURI &lt;string&gt;</code></td>
-<td><code>-u</code></td>
-<td>URI for operator versions to Istio versions map  (default ``)</td>
-</tr>
-<tr>
-<td><code>--wait</code></td>
-<td><code>-w</code></td>
-<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. DEPRECATED, will always be set to true in 1.7+. </td>
 </tr>
 </tbody>
 </table>
@@ -2602,7 +2640,7 @@ istioctl experimental wait --for=distribution --threshold=.99 --timeout=300 virt
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -2645,7 +2683,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--readiness-timeout &lt;duration&gt;</code></td>
 <td></td>
-<td>Maximum time to wait for Istio resources in each component to be ready. The --wait flag must be set for this flag to apply.  (default `5m0s`)</td>
+<td>Maximum time to wait for Istio resources in each component to be ready.  (default `5m0s`)</td>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
@@ -2658,18 +2696,13 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
 settings (--set values.grafana.enabled=true). See documentation for more info:
-https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlaneSpec  (default `[]`)</td>
+https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
 <td><code>-y</code></td>
 <td>skipConfirmation determines whether the user is prompted for confirmation.
 If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
-</tr>
-<tr>
-<td><code>--wait</code></td>
-<td><code>-w</code></td>
-<td>Wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the exiting. DEPRECATED, will always be set to true in 1.7+. </td>
 </tr>
 </tbody>
 </table>
@@ -2853,7 +2886,7 @@ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -2896,7 +2929,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--readiness-timeout &lt;duration&gt;</code></td>
 <td></td>
-<td>Maximum time to wait for Istio resources in each component to be ready. The --wait flag must be set for this flag to apply.  (default `5m0s`)</td>
+<td>Maximum time to wait for Istio resources in each component to be ready.  (default `5m0s`)</td>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
@@ -2909,18 +2942,13 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
 settings (--set values.grafana.enabled=true). See documentation for more info:
-https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlaneSpec  (default `[]`)</td>
+https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
 <td><code>-y</code></td>
 <td>skipConfirmation determines whether the user is prompted for confirmation.
 If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
-</tr>
-<tr>
-<td><code>--wait</code></td>
-<td><code>-w</code></td>
-<td>Wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the exiting. DEPRECATED, will always be set to true in 1.7+. </td>
 </tr>
 </tbody>
 </table>
@@ -3026,7 +3054,7 @@ e.g.
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -3082,7 +3110,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
 settings (--set values.grafana.enabled=true). See documentation for more info:
-https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlaneSpec  (default `[]`)</td>
+https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 </tbody>
 </table>
@@ -3100,96 +3128,6 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
   istioctl manifest generate --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
 
 </code></pre>
-<h2 id="istioctl-manifest-migrate">istioctl manifest migrate</h2>
-<p>The migrate subcommand migrates a configuration from Helm values or IstioControlPlane format to IstioOperator format.</p>
-<pre class="language-bash"><code>istioctl manifest migrate [&lt;filepath&gt;] [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--dry-run</code></td>
-<td></td>
-<td>Console/log output only, make no changes. </td>
-</tr>
-<tr>
-<td><code>--force</code></td>
-<td></td>
-<td>Proceed even with validation errors </td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="istioctl-manifest-versions">istioctl manifest versions</h2>
-<p>List the versions of Istio recommended for use or supported for upgrade by this version of istioctl.</p>
-<pre class="language-bash"><code>istioctl manifest versions [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--dry-run</code></td>
-<td></td>
-<td>Console/log output only, make no changes. </td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--versionsURI &lt;string&gt;</code></td>
-<td><code>-u</code></td>
-<td>URI for operator versions to Istio versions map  (default ``)</td>
-</tr>
-</tbody>
-</table>
 <h2 id="istioctl-operator">istioctl operator</h2>
 <p>The operator subcommand installs, removes and shows the status of the operator controller.</p>
 <table class="command-flags">
@@ -3240,7 +3178,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -3303,7 +3241,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -3493,6 +3431,14 @@ istioctl manifest apply --set profile=demo  # Use a profile from the list
 </thead>
 <tbody>
 <tr>
+<td><code>--charts &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -3532,6 +3478,14 @@ istioctl manifest apply --set profile=demo  # Use a profile from the list
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--charts &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
+  (default ``)</td>
+</tr>
 <tr>
 <td><code>--config-path &lt;string&gt;</code></td>
 <td><code>-p</code></td>
@@ -3588,6 +3542,14 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--charts &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
+  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -4204,16 +4166,6 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td></td>
 <td>control plane revision  (default ``)</td>
 </tr>
-<tr>
-<td><code>--sds</code></td>
-<td><code>-s</code></td>
-<td>(experimental) Retrieve synchronization between active secrets on Envoy instance with those on corresponding node agents </td>
-</tr>
-<tr>
-<td><code>--sds-json</code></td>
-<td></td>
-<td>Determines whether SDS dump outputs JSON </td>
-</tr>
 </tbody>
 </table>
 <h3 id="istioctl-proxy-status Examples">Examples</h3>
@@ -4288,6 +4240,14 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 </thead>
 <tbody>
 <tr>
+<td><code>--charts &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -4325,7 +4285,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <tr>
 <td><code>--readiness-timeout &lt;duration&gt;</code></td>
 <td></td>
-<td>Maximum time to wait for Istio resources in each component to be ready. The --wait flag must be set for this flag to apply  (default `5m0s`)</td>
+<td>Maximum time to wait for Istio resources in each component to be ready.  (default `5m0s`)</td>
 </tr>
 <tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
@@ -4333,22 +4293,12 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
 settings (--set values.grafana.enabled=true). See documentation for more info:
-https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlaneSpec  (default `[]`)</td>
+https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
 <td><code>-y</code></td>
 <td>If skip-confirmation is set, skips the prompting confirmation for value changes in this upgrade </td>
-</tr>
-<tr>
-<td><code>--versionsURI &lt;string&gt;</code></td>
-<td><code>-u</code></td>
-<td>URI for operator versions to Istio versions map  (default ``)</td>
-</tr>
-<tr>
-<td><code>--wait</code></td>
-<td><code>-w</code></td>
-<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. DEPRECATED, will always be set to true in 1.7+. </td>
 </tr>
 </tbody>
 </table>
@@ -4578,34 +4528,10 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If this is set to false, will not create CA server in istiod.</td>
 </tr>
 <tr>
-<td><code>GKE_CLUSTER_URL</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>The url of GKE cluster</td>
-</tr>
-<tr>
-<td><code>INGRESS_GATEWAY_FALLBACK_SECRET</code></td>
-<td>String</td>
-<td><code>gateway-fallback</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>INGRESS_GATEWAY_NAMESPACE</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
 <td>String</td>
 <td><code>istio-sidecar-injector</code></td>
 <td>Name of the mutatingwebhookconfiguration to patch, if istioctl is not used.</td>
-</tr>
-<tr>
-<td><code>ISTIOD_ADDR</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Service name of istiod. If empty the istiod listener, certs will be disabled.</td>
 </tr>
 <tr>
 <td><code>ISTIOD_CUSTOM_HOST</code></td>
@@ -4651,18 +4577,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 </tr>
 <tr>
 <td><code>K8S_INGRESS_NS</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>NAMESPACE</code></td>
-<td>String</td>
-<td><code>istio-system</code></td>
-<td>namespace that nodeagent/citadel run in</td>
-</tr>
-<tr>
-<td><code>PILOT_CERT_DIR</code></td>
 <td>String</td>
 <td><code></code></td>
 <td></td>
@@ -4744,6 +4658,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will set the incremental flag of the options in the mcp controller to true, and then galley may push data incrementally, it depends on whether the resource supports incremental. By default, this is false.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
@@ -4872,18 +4792,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, Pilot will use EndpointSlices as the source of endpoints for Kubernetes services. By default, this is false, and Endpoints will be used. This requires the Kubernetes EndpointSlice controller to be enabled. Currently this is mutual exclusive - either Endpoints or EndpointSlices will be used</td>
 </tr>
 <tr>
-<td><code>PROV_CERT</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Set to a directory containing provisioned certs, for VMs</td>
-</tr>
-<tr>
-<td><code>SECRET_WATCHER_RESYNC_PERIOD</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>TERM</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -4956,10 +4864,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>mixer_handler_workers_total</code></td><td><code>LastValue</code></td><td>The current number of active worker routines in a given adapter environment.</td></tr>
 <tr><td><code>mixer_runtime_dispatch_duration_seconds</code></td><td><code>Distribution</code></td><td>Duration in seconds for adapter dispatches handled by Mixer.</td></tr>
 <tr><td><code>mixer_runtime_dispatches_total</code></td><td><code>Count</code></td><td>Total number of adapter dispatches handled by Mixer.</td></tr>
-<tr><td><code>num_failed_outgoing_requests</code></td><td><code>Sum</code></td><td>Number of failed outgoing requests (e.g. to a token exchange server, CA, etc.)</td></tr>
-<tr><td><code>num_outgoing_requests</code></td><td><code>Sum</code></td><td>Number of total outgoing requests (e.g. to a token exchange server, CA, etc.)</td></tr>
-<tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
-<tr><td><code>outgoing_latency</code></td><td><code>Sum</code></td><td>The latency of outgoing requests (e.g. to a token exchange server, CA, etc.) in milliseconds.</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_http_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard http listeners with current wildcard tcp listener.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_http</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard tcp listeners with current wildcard http listener.</td></tr>
@@ -5003,10 +4907,5 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of Side car injection requests.</td></tr>
 <tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped injection requests.</td></tr>
 <tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful Side car injection requests.</td></tr>
-<tr><td><code>total_active_connections</code></td><td><code>Sum</code></td><td>The total number of active SDS connections.</td></tr>
-<tr><td><code>total_push_errors</code></td><td><code>Sum</code></td><td>The total number of failed SDS pushes.</td></tr>
-<tr><td><code>total_pushes</code></td><td><code>Sum</code></td><td>The total number of SDS pushes.</td></tr>
-<tr><td><code>total_secret_update_failures</code></td><td><code>Sum</code></td><td>The total number of dynamic secret update failures reported by proxy.</td></tr>
-<tr><td><code>total_stale_connections</code></td><td><code>Sum</code></td><td>The total number of stale SDS connections.</td></tr>
 </tbody>
 </table>
