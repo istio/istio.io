@@ -146,6 +146,10 @@ Add the following job to your configuration:
     'match[]':
     - '{__name__=~"workload:(.*)"}'
     - '{__name__=~"pilot(.*)"}'
+    - '{__name__=~"envoy(.*)"}'
+    - '{__name__=~"go(.*)"}'
+    - '{__name__=~"istio(.*)"}'
+
 {{< /text >}}
 
 If you are using the [Prometheus Operator](https://github.com/coreos/prometheus-operator), use the following configuration instead:
@@ -171,6 +175,9 @@ spec:
       'match[]':
       - '{__name__=~"workload:(.*)"}'
       - '{__name__=~"pilot(.*)"}'
+      - '{__name__=~"envoy(.*)"}'
+      - '{__name__=~"go(.*)"}'
+      - '{__name__=~"istio(.*)"}
     path: /federate
     targetPort: 9090
     honorLabels: true
