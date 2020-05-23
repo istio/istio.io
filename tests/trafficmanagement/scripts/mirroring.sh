@@ -33,9 +33,9 @@ snip_before_you_begin_3
 snip_before_you_begin_4
 
 # wait for deployments
-sample_wait_for_deployment default httpbin-v1
-sample_wait_for_deployment default httpbin-v2
-sample_wait_for_deployment default sleep
+#sample_wait_for_deployment default httpbin-v1
+#sample_wait_for_deployment default httpbin-v2
+#sample_wait_for_deployment default sleep
 
 snip_creating_a_default_routing_policy_1
 
