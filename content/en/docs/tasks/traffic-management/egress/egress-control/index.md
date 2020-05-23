@@ -143,11 +143,12 @@ any other unintentional accesses.
 1.  Create a `ServiceEntry` to allow access to an external HTTP service.
 
     {{< warning >}}
-    The `DNS` resolution is used in the service entry below as a security measure. If the resolution were `NONE`,
-    malicious clients could set the hostname of the allowed external service, in this case, `httpbin.org`, and use an IP
-    address of some other site. The Istio sidecar proxy would think that the traffic is allowed, since the HOST header
-    matches the hostname of the allowed external service, and let the traffic proceed to some IP address of some other
-    (not-allowed) external service.
+    The `DNS` resolution is used in the service entry below as a security measure. Setting the resolution as `NONE`
+    opens a possibility for the following attack. Malicious clients could pretend that they are
+    accessing `httpbin.org` by putting that host name in the `HOST` header,  while connecting to a different IP
+    (that is not associated with httpbin.org). The Istio sidecar proxy will trust the HOST header, and incorrectly allow
+    the traffic, even though it is being delivered to the IP address of a different host. That host can be a malicious
+    site, or a legitimate site, prohibited by the mesh security policies.
 
     With the `DNS` resolution, the sidecar proxy will ignore the original destination IP address and direct the traffic
     to `httpbin.org`, performing a DNS query to get an IP address of `httpbin.org`.
