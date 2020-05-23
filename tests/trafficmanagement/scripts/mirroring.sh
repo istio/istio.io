@@ -45,7 +45,7 @@ sleep 5s
 
 kubectl get all --all-namespaces
 
-_run_and_verify_contains snip_creating_a_default_routing_policy_2 "headers"
+#_run_and_verify_contains snip_creating_a_default_routing_policy_2 "headers"
 
 _run_and_verify_contains snip_creating_a_default_routing_policy_3 "GET /headers HTTP/1.1"
 
