@@ -41,24 +41,24 @@ snip_creating_a_default_routing_policy_1
 
 # wait for virtual service
 #istioctl experimental wait --for=distribution VirtualService httpbin.default
-sleep 5s
+#sleep 5s
 
 kubectl get all --all-namespaces
 
 #_run_and_verify_contains snip_creating_a_default_routing_policy_2 "headers"
 
-_run_and_verify_contains snip_creating_a_default_routing_policy_3 "GET /headers HTTP/1.1"
+#_run_and_verify_contains snip_creating_a_default_routing_policy_3 "GET /headers HTTP/1.1"
 
-_run_and_verify_not_contains snip_creating_a_default_routing_policy_4 "GET /headers HTTP/1.1"
+#_run_and_verify_not_contains snip_creating_a_default_routing_policy_4 "GET /headers HTTP/1.1"
 
-snip_mirroring_traffic_to_v2_1
+#snip_mirroring_traffic_to_v2_1
 
 # wait for virtual service
 #istioctl experimental wait --for=distribution VirtualService httpbin.default
-sleep 5s
+#sleep 5s
 
-snip_mirroring_traffic_to_v2_2
+#snip_mirroring_traffic_to_v2_2
 
-_run_and_verify_contains snip_mirroring_traffic_to_v2_3 "GET /headers HTTP/1.1"
+#_run_and_verify_contains snip_mirroring_traffic_to_v2_3 "GET /headers HTTP/1.1"
 
-_run_and_verify_contains snip_mirroring_traffic_to_v2_3 "GET /headers HTTP/1.1"
+#_run_and_verify_contains snip_mirroring_traffic_to_v2_3 "GET /headers HTTP/1.1"
