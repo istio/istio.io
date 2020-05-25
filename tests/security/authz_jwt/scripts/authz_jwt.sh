@@ -20,6 +20,12 @@ set -u
 set -o pipefail
 
 source "${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-jwt/snips.sh"
+source "${REPO_ROOT}/tests/util/samples.sh"
+
+snip_before_you_begin_1
+
+sample_wait_for_deployment foo httpbin
+sample_wait_for_deployment foo sleep
 
 # Pull the Istio branch from the docs configuration file.
 ISTIO_BRANCH=$(yq r "${REPO_ROOT}"/data/args.yml 'source_branch_name')
@@ -30,35 +36,33 @@ TOKEN_GROUP_URL="https://raw.githubusercontent.com/istio/istio/${ISTIO_BRANCH}/s
 export TOKEN
 export TOKEN_GROUP
 
-max_attempts=5
-
-_run_and_verify_same  snip_before_you_begin_2 "$snip_before_you_begin_2_out" $max_attempts
+_run_and_verify_same  snip_before_you_begin_2 "$snip_before_you_begin_2_out"
 
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_1
 
-_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_2 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_2_out" $max_attempts
+_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_2 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_2_out"
 
-_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_3 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_3_out" $max_attempts
+_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_3 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_3_out"
 
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_4
 
-_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_5 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_5_out" $max_attempts
+_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_5 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_5_out"
 
 # The previous step stored the JWT in TOKEN, and it's needed in the next step.
 TOKEN=$(curl "${TOKEN_URL}" -s)
 
-_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_6 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_6_out" $max_attempts
+_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_6 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_6_out"
 
-_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_7 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_7_out" $max_attempts
+_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_7 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_7_out"
 
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_8
 
-_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_9 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_9_out" $max_attempts
+_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_9 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_9_out"
 
 # The previous step stored the JWT group in TOKEN_GROUP, and it's needed in
 # the next step.
 TOKEN_GROUP=$(curl "${TOKEN_GROUP_URL}" -s)
 
-_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_10 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_10_out" $max_attempts
+_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_10 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_10_out"
 
-_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_11 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_11_out" $max_attempts
+_run_and_verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_11 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_11_out"
