@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1090,SC2154
 
 # Copyright Istio Authors
 #
@@ -18,9 +19,16 @@ set -e
 set -u
 set -o pipefail
 
-source ${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-tcp/snips.sh
+source "${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-tcp/snips.sh"
+source "${REPO_ROOT}/tests/util/samples.sh"
 
-export TCP_ECHO_IP=$(kubectl get pod $(kubectl get pod -l app=tcp-echo -n foo -o jsonpath={.items..metadata.name}) -n foo -o jsonpath={.status.podIP})
+snip_before_you_begin_1
+
+sample_wait_for_deployment foo tcp-echo
+sample_wait_for_deployment foo sleep
+
+# shellcheck disable=SC2155
+export TCP_ECHO_IP=$(kubectl get pod "$(kubectl get pod -l app=tcp-echo -n foo -o jsonpath={.items..metadata.name})" -n foo -o "jsonpath={.status.podIP}")
 
 # When strict-mode mTLS is enabled, only ports defined as a service are
 # protected by mTLS.  As part of this test, we connect to port 9002, which was
@@ -28,7 +36,7 @@ export TCP_ECHO_IP=$(kubectl get pod $(kubectl get pod -l app=tcp-echo -n foo -o
 #
 # To make this test reliable, we remove any peer authentication that may have
 # stuck around from a previous test.
-kubectl delete peerauthentication --all-namespaces --all
+#kubectl delete peerauthentication --all-namespaces --all
 
 _run_and_verify_same snip_before_you_begin_2 "$snip_before_you_begin_2_out"
 

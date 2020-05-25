@@ -29,16 +29,7 @@ func TestAuthzTCP(t *testing.T) {
 		NewTest(t).
 		Run(istioio.NewBuilder("tasks__security___authz_tcp").
 			Add(istioio.Script{
-				Input: istioio.Inline{
-					FileName: "create_ns_foo_with_tcpecho_sleep.sh",
-					Value: `
-source ${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-tcp/snips.sh
-snip_before_you_begin_1`,
-				},
-			}).
-			Add(istioio.MultiPodWait("foo")).
-			Add(istioio.Script{
-				Input: istioio.Path("scripts/authz_tcp.txt"),
+				Input: istioio.Path("scripts/authz_tcp.sh"),
 			}).
 
 			// Cleanup.
@@ -46,6 +37,7 @@ snip_before_you_begin_1`,
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
+set +e # ignore cleanup errors
 source ${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-tcp/snips.sh
 snip_clean_up_1`,
 				},

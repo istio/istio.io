@@ -28,19 +28,17 @@ func TestHealthCheck(t *testing.T) {
 		NewTest(t).
 		Run(istioio.NewBuilder("ops__configuration__mesh__app_health_check").
 			Add(istioio.Script{
-				Input: istioio.Path("scripts/liveness_and_readiness_probes_with_command.txt"),
-			}).
-			Add(istioio.Script{
-				Input: istioio.Path("scripts/liveness_and_readiness_probes_with_http_globally.txt"),
-			}).
-			Add(istioio.Script{
-				Input: istioio.Path("scripts/liveness_and_readiness_probes_with_http_annotations.txt"),
-			}).
-			Add(istioio.Script{
-				Input: istioio.Path("scripts/liveness_and_readiness_probes_with_http_separate_port.txt"),
+				Input: istioio.Path("scripts/liveness_and_readiness_probes.sh"),
 			}).
 			Defer(istioio.Script{
-				Input: istioio.Path("scripts/cleanup.txt"),
+				Input: istioio.Inline{
+					FileName: "cleanup.sh",
+					Value: `
+set +e # ignore cleanup errors
+source ${REPO_ROOT}/content/en/docs/ops/configuration/mesh/app-health-check/snips.sh
+snip_cleanup_1
+kubectl delete ns health-annotate`,
+				},
 			}).
 			Build())
 }

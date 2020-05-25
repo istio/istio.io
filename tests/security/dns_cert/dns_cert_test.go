@@ -29,13 +29,14 @@ func TestDNSCert(t *testing.T) {
 		NewTest(t).
 		Run(istioio.NewBuilder("tasks__security___dns_cert").
 			Add(istioio.Script{
-				Input: istioio.Path("scripts/dns_cert.txt"),
+				Input: istioio.Path("scripts/dns_cert.sh"),
 			}).
 			// Cleanup.
 			Defer(istioio.Script{
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
+set +e # ignore cleanup errors
 source ${REPO_ROOT}/content/en/docs/tasks/security/cert-management/dns-cert/snips.sh
 snip_cleanup_1`,
 				},
