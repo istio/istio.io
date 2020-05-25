@@ -168,12 +168,12 @@ Everery `verify_` function has a corresponding `_run_and_verify_` function that
 first runs a function and then compares the result to the expected output.
 The specified function will be retried 5 times, with exponential backoff, before failing:
 
-1. **`_run_and_verify_same`** `func` `expected` [`max_attempts`]
-1. **`_run_and_verify_contains`** `func` `expected` [`max_attempts`]
-1. **`_run_and_verify_not_contains`** `func` `expected` [`max_attempts`]
-1. **`_run_and_verify_first_line`** `func` `expected` [`max_attempts`]
-1. **`_run_and_verify_elided`** `func` `expected` [`max_attempts`]
-1. **`_run_and_verify_like`** `func` `expected` [`max_attempts`]
+1. **`_run_and_verify_same`** `func` `expected`
+1. **`_run_and_verify_contains`** `func` `expected`
+1. **`_run_and_verify_not_contains`** `func` `expected`
+1. **`_run_and_verify_first_line`** `func` `expected`
+1. **`_run_and_verify_elided`** `func` `expected`
+1. **`_run_and_verify_like`** `func` `expected`
 
 ## Running the Tests: Make
 
@@ -192,11 +192,15 @@ make test.kube.trafficmanagement
 
 ### Notes:
 
-In the case of using `kind` clusters on the Mac, an extra env var is needed,
-ADDITIONAL_CONTAINER_OPTIONS="--network host". If HUB and TAG aren't set, then their default
-values will match what is used by the prow tests. For a Mac, the
-command `TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make test.kube.presubmit`
-has been successful.
+1. In the case of using `kind` clusters on a Mac,
+   an extra env var is needed (ADDITIONAL_CONTAINER_OPTIONS="--network host").
+   Use the following command:
+
+   ```bash
+   TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make test.kube.presubmit
+   ```
+
+1. If HUB and TAG aren't set, then their default values will match what is used by the prow tests.
 
 ## Running Tests: go test
 
