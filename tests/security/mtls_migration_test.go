@@ -56,6 +56,7 @@ snip_set_up_the_cluster_2`,
 					FileName: "cleanup.sh",
 					Value: `
 source ${REPO_ROOT}/content/en/docs/tasks/security/authentication/mtls-migration/snips.sh
+snip_clean_up_the_example_1
 snip_clean_up_the_example_2`,
 				},
 			}).

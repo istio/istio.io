@@ -176,17 +176,19 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
     {{< text bash json >}}
     $ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    $ kubectl exec -it "$SLEEP_POD" -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
+    $ kubectl exec "${SLEEP_POD}" -c sleep -- curl -s http://httpbin:8000/headers
     {
       "headers": {
         "Accept": "*/*",
         "Content-Length": "0",
         "Host": "httpbin:8000",
         "User-Agent": "curl/7.35.0",
+        "X-B3-Parentspanid": "57784f8bff90ae0b",
         "X-B3-Sampled": "1",
-        "X-B3-Spanid": "eca3d7ed8f2e6a0a",
-        "X-B3-Traceid": "eca3d7ed8f2e6a0a",
-        "X-Ot-Span-Context": "eca3d7ed8f2e6a0a;eca3d7ed8f2e6a0a;0000000000000000"
+        "X-B3-Spanid": "3289ae7257c3f159",
+        "X-B3-Traceid": "b56eebd279a76f0b57784f8bff90ae0b",
+        "X-Envoy-Attempt-Count": "1",
+        "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/default/sa/default;Hash=20afebed6da091c850264cc751b8c9306abac02993f80bdb76282237422bd098;Subject=\"\";URI=spiffe://cluster.local/ns/default/sa/default"
       }
     }
     {{< /text >}}
@@ -246,7 +248,7 @@ log entries for `v1` and none for `v2`:
 1. Send in traffic:
 
     {{< text bash >}}
-    $ kubectl exec -it "$SLEEP_POD" -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
+    $ kubectl exec "${SLEEP_POD}" -c sleep -- curl -s http://httpbin:8000/headers
     {{< /text >}}
 
     Now, you should see access logging for both `v1` and `v2`. The access logs
