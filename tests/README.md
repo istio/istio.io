@@ -47,67 +47,56 @@ To write an `istio.io` test, follow these steps:
    Fix the errors, if any, by updating the corresponding command in the `index.md` file and
    then regenerate the snips.
 
-1. Pick an appropriate location under the `tests/` directory and create a directory for your new
-   test.
+1. Pick an appropriate location under the `tests/` directory for your new test.
 
-1. Add the following imports to your GoLang file:
-
-    ```golang
-    "istio.io/istio/pkg/test/framework"
-    "istio.io/istio/pkg/test/framework/components/environment"
-    "istio.io/istio/pkg/test/framework/components/istio"
-
-    "istio.io/istio.io/pkg/test/istioio"
-    ```
-
-1. Create a function called `TestMain`, following the example below. This
-   function sets up the Istio environment that the test uses. The `Setup`
-   function accepts an optional function to customize the Istio environment
-   deployed.
+1. Create Go boilderplate that will invoke your test bash script using the following pattern:
 
     ```golang
-    func TestMain(m *testing.M) {
-    framework.NewSuite("my-istioio-test", m).
-        SetupOnEnv(environment.Kube, istio.Setup(&ist, nil)).
-        RequireEnvironment(environment.Kube).
-        Run()
-    }
-    ```
+    package <your test package>
 
-1. To create a test, you use `istioio.NewBuilder` to build a series of steps that will
-   be run as part of the resulting test function:
+    import (
+        "testing"
 
-    ```golang
-    func TestCombinedMethods(t *testing.T) {
+        "istio.io/istio/pkg/test/framework"
+
+        "istio.io/istio.io/pkg/test/istioio"
+    )
+
+    func Test<your test>(t *testing.T) {
         framework.
             NewTest(t).
-            Run(istioio.NewBuilder("tasks__security__my_task").
+            Run(istioio.NewBuilder("<your test name").
                 Add(istioio.Script{
-                    Input:         istioio.Path("myscript.sh"),
-                },
-                istioio.MultiPodWait("foo"),
-                istioio.Script{
-                    Input:         istioio.Path("myotherscript.sh"),
-                }).Build())
+                    Input: istioio.Path("scripts/<your bash script>.sh"),
+                }).
+                Defer(istioio.Script{
+                    Input: istioio.Inline{
+                        FileName: "cleanup.sh",
+                        Value: `
+    set +e # ignore cleanup errors
+    source ${REPO_ROOT}/content/en/docs/<your snips dir>/snips.sh
+    <your cleanup steps>`,
+                    },
+                }).
+                Build())
     }
     ```
 
-## Running Shell Commands
+    NOTE: This Go boilerplate is a temporary requirement. It will not be needed in the future.
+    See https://docs.google.com/document/d/1r_NoxatNjzPsw0eXr6_9W0rqlkfelt7QfN2y5TF0yTo/edit#.
 
-Your test will include one or more test steps that run shell scripts that call
-the commands in the generated `snips.sh` file.
+1. Create your test bash script in the `scripts/` subdirectory.
 
-```golang
-istioio.Script{
-    Input:   istioio.Path("myscript.sh"),
-}
-```
+## Test Bash Script
+
+With the exception of the cleanup steps, your test will consist of a single
+shell scripts that calls the commands in your generated `snips.sh` file.
 
 Your script must include the `snip.sh` file for the document being tested. For example,
 a test for the traffic-shifting task will have the following line in the script:
 
 ```sh
-source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/traffic-shifting/snips.sh
+source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/traffic-shifting/snips.sh"
 ```
 
 Your test script can then invoke the commands by simply calling snip functions:
@@ -116,12 +105,21 @@ Your test script can then invoke the commands by simply calling snip functions:
 snip_config_50_v3 # Step 3: switch 50% traffic to v3
 ```
 
-For commands that produce output that needs to be verified, capture the command output
-in a variable and compare it to the expected output. For example:
+For commands that produce output, pass the snip and expected output to an appropriate
+`_run_and_verify_` function. For example:
 
 ```sh
-out=$(snip_set_up_the_cluster_3 2>&1)
-_verify_same "$out" "$snip_set_up_the_cluster_3_out" "snip_set_up_the_cluster_3"
+_run_and_verify_same snip_set_up_the_cluster_3 "$snip_set_up_the_cluster_3_out"
+```
+
+For situations where you need to perform more than one verify check, you can
+run the snip and capture the command output in a variable, and then compare
+it to the expected output:
+
+```sh
+out=$(snip_tripping_the_circuit_breaker_1 2>&1)
+_verify_contains "$out" "Code 200 :" "snip_tripping_the_circuit_breaker_1"
+_verify_contains "$out" "Code 503 :" "snip_tripping_the_circuit_breaker_1"
 ```
 
 The framework includes the following built-in verify functions:
@@ -163,102 +161,46 @@ The framework includes the following built-in verify functions:
      1. prefix match ending with a dash character (e.g., `reviews-v1-12345...` is like `reviews-v1-67890...`)
      1. expected `...` is a wildcard token, matches anything
 
-
    This function is useful for comparing the output of commands that include some run-specific
    values in the output (e.g., `kubectl get pods`), or when whitespace in the output may be different.
 
-In addition to the built-in verify functions, there is a set of functions that
-run a function and compares the result to the expected output.  An optional
-argument indicates how many times the function should be retried before failing.
-Each attempt has an exponential backoff.  The following are supported:
+Everery `verify_` function has a corresponding `_run_and_verify_` function that
+first runs a function and then compares the result to the expected output.
+The specified function will be retried 5 times, with exponential backoff, before failing:
 
-1. **`_run_and_verify_same`** `func` `expected` [`max_attempts`]
-1. **`_run_and_verify_contains`** `func` `expected` [`max_attempts`]
-1. **`_run_and_verify_not_contains`** `func` `expected` [`max_attempts`]
-1. **`_run_and_verify_first_line`** `func` `expected` [`max_attempts`]
-1. **`_run_and_verify_elided`** `func` `expected` [`max_attempts`]
-1. **`_run_and_verify_like`** `func` `expected` [`max_attempts`]
-
-## Builder
-
-The `istioio.NewBuilder` returns a `istioio.Builder` that is used to build an Istio
-test run function and has the following methods:
-
-- `Add`: adds a step to the test.
-- `Defer`: provides a step to be run after the test completes.
-- `Build`: builds an Istio test run function.
-
-## Selecting Input
-
-Many test steps require an `Input` which they obtain from an
-`istioio.InputSelector`:
-
-```golang
-type Input interface {
-    InputSelector
-    Name() string
-    ReadAll() (string, error)
-}
-
-type InputSelector interface {
-    SelectInput(Context) Input
-}
-```
-
-Some common `InputSelector` implementations include:
-
-- `istioio.Inline`: allows you to inline the content for the `Input` directly in the code.
-- `istioio.Path`: reads in a file from the specified path.
-- `istioio.BookInfo`: is like `istioio.Path` except that the value is assumed to be
-relative to the BookInfo source directory (`$GOPATH/src/istio.io/istio/samples/bookinfo/platform/kube/`).
-
-An `InputSelector` provides an `istioio.Context` at runtime, which it can use to
-dynamically choose an `Input`. For example, we could choose a different file depending on
-whether or not the test is running on Minikube:
-
-```golang
-istioio.InputSelectorFunc(func(ctx istioio.Context) Input {
-    if ctx.Env.Settings().Minikube {
-        return istioio.Path("scripts/curl-httpbin-tls-gateway-minikube.sh")
-    }
-    return istioio.Path("scripts/curl-httpbin-tls-gateway-gke.sh")
-})
-```
-
-The library also provides a utility that helps simplify this particular use case:
-
-```golang
-istioio.IfMinikube{
-    Then: istioio.Path("scripts/curl-httpbin-tls-gateway-minikube.sh")
-    Else: istioio.Path("scripts/curl-httpbin-tls-gateway-gke.sh")
-}
-```
-
-## Waiting for Pods to Start
-
-You can create a test step that waits for one or more pods to start before continuing.
-For example, to wait for all pods in the "foo"  namespace, you can do the following:
-
-```golang
-istioio.MultiPodWait("foo"),
-```
+1. **`_run_and_verify_same`** `func` `expected`
+1. **`_run_and_verify_contains`** `func` `expected`
+1. **`_run_and_verify_not_contains`** `func` `expected`
+1. **`_run_and_verify_first_line`** `func` `expected`
+1. **`_run_and_verify_elided`** `func` `expected`
+1. **`_run_and_verify_like`** `func` `expected`
 
 ## Running the Tests: Make
 
 You can execute all istio.io tests using make.
 
 ```bash
-export KUBECONFIG=~/.kube/config
 make test.kube.presubmit
+```
+
+Alternatively, you can run the tests in a particular package under `tests/`.
+For example, the following command will only run the traffic management tests:
+
+```bash
+make test.kube.trafficmanagement
 ```
 
 ### Notes:
 
-In the case of using `kind` clusters on the Mac, an extra env var is needed,
-ADDITIONAL_CONTAINER_OPTIONS="--network host". If HUB and TAG aren't set, then their default
-values will match what is used by the prow tests. For a Mac, the
-command `TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make test.kube.presubmit`
-has been successful.
+1. In the case of using `kind` clusters on a Mac,
+   an extra env var is needed (ADDITIONAL_CONTAINER_OPTIONS="--network host").
+   Use the following command:
+
+   ```bash
+   TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make test.kube.presubmit
+   ```
+
+1. If HUB and TAG aren't set, then their default values will match what is used by the prow tests.
 
 ## Running Tests: go test
 
@@ -271,12 +213,5 @@ go test ./tests/... -p 1  --istio.test.env kube \
     --istio.test.ci --istio.test.work_dir <my_dir>
 ```
 
-The value of `my_dir` will be the parent directory for your test output. Within
-`my_dir`, each test `Main` will create a directory containing a subdirectory for
-each test method. Each test method directory will contain a `snippet.txt` that
-was generated for that particular test.
-
 Make sure to have the `HUB` and `TAG` [environment variables set](https://github.com/istio/istio/wiki/Preparing-for-Development#setting-up-environment-variables) to the location of
 your Istio Docker images.
-
-You can find the complete list of arguments on [the test framework wiki page](https://github.com/istio/istio/wiki/Istio-Test-Framework).

@@ -33,6 +33,7 @@ func TestMirroring(t *testing.T) {
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
+set +e # ignore cleanup errors
 source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/mirroring/snips.sh
 snip_cleaning_up_1
 snip_cleaning_up_2
