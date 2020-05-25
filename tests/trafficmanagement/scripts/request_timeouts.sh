@@ -43,7 +43,7 @@ sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 get_productpage() {
     out=$(sample_http_request "/productpage")
-    echo $out
+    echo "$out"
 }
 
 # verify 2s delay with ratings stars displayed
