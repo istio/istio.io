@@ -91,8 +91,8 @@ startup_bookinfo_sample
 #       are configured when it demonstrates denial of access to the ratings service.
 kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
 
-istioctl experimental wait --for=distribution VirtualService reviews.default
-#sleep 5s
+#istioctl experimental wait --for=distribution VirtualService reviews.default
+sleep 5s
 
 snip_configure_access_control_for_workloads_using_http_traffic_1
 
