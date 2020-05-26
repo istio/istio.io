@@ -1,11 +1,11 @@
 # The primary Istio version identifier the docs describe, used throughout the site
-version: "1.6"
+version: "1.7"
 
 # The full Istio version identifier the docs describe
-full_version: "1.6.0"
+full_version: "1.7.0"
 
 # The previous Istio version identifier the docs describe, used for upgrade documentation
-previous_version: "1.5"
+previous_version: "1.6"
 
 # The year to display in copyright notices
 copyright_year: 2020
