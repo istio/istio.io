@@ -52,7 +52,7 @@ To write an `istio.io` test, follow these steps:
 1. Create Go boilderplate that will invoke your test bash script using the following pattern:
 
     ```golang
-    package <your test package>
+    package <your-test-package>
 
     import (
         "testing"
@@ -62,19 +62,19 @@ To write an `istio.io` test, follow these steps:
         "istio.io/istio.io/pkg/test/istioio"
     )
 
-    func Test<your test>(t *testing.T) {
+    func Test<your-test>(t *testing.T) {
         framework.
             NewTest(t).
-            Run(istioio.NewBuilder("<your test name").
+            Run(istioio.NewBuilder("<your-test-name>").
                 Add(istioio.Script{
-                    Input: istioio.Path("scripts/<your bash script>.sh"),
+                    Input: istioio.Path("scripts/<your-bash-script>.sh"),
                 }).
                 Defer(istioio.Script{
                     Input: istioio.Inline{
                         FileName: "cleanup.sh",
                         Value: `
     set +e # ignore cleanup errors
-    source ${REPO_ROOT}/content/en/docs/<your snips dir>/snips.sh
+    source ${REPO_ROOT}/content/en/docs/<your-snips-dir>/snips.sh
     <your cleanup steps>`,
                     },
                 }).

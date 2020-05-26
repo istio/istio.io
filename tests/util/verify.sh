@@ -40,7 +40,6 @@ __cmp_contains() {
     local expected=$2
 
     if [[ "$out" != *"$expected"* ]]; then
-        echo "false"
         return 1
     fi
 

@@ -45,6 +45,9 @@ sleep 5s
 
 _run_and_verify_contains snip_creating_a_default_routing_policy_2 "headers"
 
+echo "SLEEP_POD: ${SLEEP_POD:-UNSET}"
+export SLEEP_POD
+
 _run_and_verify_contains snip_creating_a_default_routing_policy_3 "GET /headers HTTP/1.1"
 
 _run_and_verify_not_contains snip_creating_a_default_routing_policy_4 "GET /headers HTTP/1.1"
