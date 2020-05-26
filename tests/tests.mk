@@ -45,6 +45,7 @@ test.kube.%: init | $(JUNIT_REPORT)
 	PATH=${PATH}:${ISTIO_OUT} $(GO) test -p 1 ${T} ./tests/$(subst .,/,$*)/... -timeout 30m \
 	--istio.test.select -postsubmit,-flaky \
 	--istio.test.env kube \
+	--log_output_level=script:debug \
 	${_INTEGRATION_TEST_FLAGS} \
 	2>&1 | tee >($(JUNIT_REPORT) > $(JUNIT_OUT))
 

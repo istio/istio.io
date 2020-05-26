@@ -40,7 +40,6 @@ __cmp_contains() {
     local expected=$2
 
     if [[ "$out" != *"$expected"* ]]; then
-        echo "false"
         return 1
     fi
 
@@ -212,10 +211,13 @@ __verify_with_retry() {
       # Run the command.
       out=$($func 2>&1)
 
+      $cmp_func "$out" "$expected"
+      local retval="$?"
+
       # Restore the "errexit" state.
       eval "$errexit_state"
 
-      if $cmp_func "$out" "$expected"; then
+      if [[ "$retval" -eq 0 ]]; then
           return
       fi
 
