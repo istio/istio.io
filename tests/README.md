@@ -164,7 +164,7 @@ The framework includes the following built-in verify functions:
    This function is useful for comparing the output of commands that include some run-specific
    values in the output (e.g., `kubectl get pods`), or when whitespace in the output may be different.
 
-Everery `verify_` function has a corresponding `_run_and_verify_` function that
+Every `verify_` function has a corresponding `_run_and_verify_` function that
 first runs a function and then compares the result to the expected output.
 The specified function will be retried 5 times, with exponential backoff, before failing:
 
