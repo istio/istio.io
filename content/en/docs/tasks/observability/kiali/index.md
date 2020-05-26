@@ -90,7 +90,7 @@ Once you create the Kiali secret, follow
 For example:
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.kiali.enabled=true
+$ istioctl install --set values.kiali.enabled=true
 {{< /text >}}
 
 {{< idea >}}
@@ -100,7 +100,7 @@ integrates with them, you must pass additional arguments to the
 `istioctl` command, for example:
 
 {{< text bash >}}
-$ istioctl manifest apply \
+$ istioctl install \
     --set values.kiali.enabled=true \
     --set "values.kiali.dashboard.jaegerURL=http://jaeger-query:16686" \
     --set "values.kiali.dashboard.grafanaURL=http://grafana:3000"

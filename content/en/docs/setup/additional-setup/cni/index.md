@@ -118,7 +118,7 @@ spec:
 {{< /text >}}
 
 {{< text bash >}}
-$ istioctl manifest apply -f cni.yaml
+$ istioctl install -f cni.yaml
 {{< /text >}}
 
 ### Hosted Kubernetes settings
@@ -167,7 +167,7 @@ EOF
 Then pass this file as an argument to `istioctl`, for example:
 
 {{< text bash >}}
-$ istioctl manifest apply -f cni-annotations.yaml
+$ istioctl install -f cni-annotations.yaml
 {{< /text >}}
 
 You can pass other command line arguments with `--set` if necessary.
@@ -189,7 +189,7 @@ In order to deploy Istio 1.4 on OpenShift with CNI you need to use at least Isti
     For example, the following `istioctl manifest` command sets the `values.cni.cniBinDir` value for a GKE cluster:
 
     {{< text bash >}}
-    $ istioctl manifest apply --set values.cni.cniBinDir=/home/kubernetes/bin \
+    $ istioctl install --set values.cni.cniBinDir=/home/kubernetes/bin \
         --set components.cni.enabled=true \
         --set components.cni.namespace=kube-system
     {{< /text >}}

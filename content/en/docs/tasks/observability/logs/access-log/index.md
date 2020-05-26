@@ -27,7 +27,7 @@ In the example below, replace `demo` with the name of the profile you used when 
 {{< /tip >}}
 
 {{< text bash >}}
-$ istioctl manifest apply --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"
+$ istioctl install --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"
 - Applying manifest for component Base...
 ✔ Finished applying manifest for component Base.
 - Applying manifest for component Pilot...
@@ -118,7 +118,7 @@ In the example below, replace `demo` with the name of the profile you used when 
 {{< /tip >}}
 
 {{< text bash >}}
-$ istioctl manifest apply --set profile=demo
+$ istioctl install --set profile=demo
 - Applying manifest for component Base...
 ✔ Finished applying manifest for component Base.
 - Applying manifest for component Pilot...
