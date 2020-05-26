@@ -15,12 +15,6 @@ deploying different services in a medium- or large-size cluster, we recommend cr
 For example, you can create a `team1-ns` namespace for `team1`, and `team2-ns` namespace for `team2`, such
 that both teams cannot access each other's services.
 
-{{< warning >}}
-If Citadel is compromised, all its managed keys and certificates in the cluster may be exposed.
-We **strongly** recommend running Citadel in a dedicated namespace (for example, `istio-citadel-ns`), to restrict access to
-the cluster to only administrators.
-{{< /warning >}}
-
 Let us consider a three-tier application with three services: `photo-frontend`,
 `photo-backend`, and `datastore`. The photo SRE team manages the
 `photo-frontend` and `photo-backend` services while the datastore SRE team
@@ -28,8 +22,8 @@ manages the `datastore` service. The `photo-frontend` service can access
 `photo-backend`, and the `photo-backend` service can access `datastore`.
 However, the `photo-frontend` service cannot access `datastore`.
 
-In this scenario, a cluster administrator creates three namespaces:
-`istio-citadel-ns`, `photo-ns`, and `datastore-ns`. The administrator has
+In this scenario, a cluster administrator creates two namespaces:
+`photo-ns` and `datastore-ns`. The administrator has
 access to all namespaces and each team only has access to its own namespace.
 The photo SRE team creates two service accounts to run `photo-frontend` and
 `photo-backend` respectively in the `photo-ns` namespace. The datastore SRE
