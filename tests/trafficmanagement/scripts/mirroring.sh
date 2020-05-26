@@ -45,12 +45,12 @@ sleep 5s
 
 _run_and_verify_contains snip_creating_a_default_routing_policy_2 "headers"
 
-echo "SLEEP_POD: ${SLEEP_POD:-UNSET}"
-export SLEEP_POD
-
 _run_and_verify_contains snip_creating_a_default_routing_policy_3 "GET /headers HTTP/1.1"
 
-_run_and_verify_not_contains snip_creating_a_default_routing_policy_4 "GET /headers HTTP/1.1"
+# No point in retrying for "not contains". TODO: some kind of _verify_worked_and_not_contains function
+#_run_and_verify_not_contains snip_creating_a_default_routing_policy_4 "GET /headers HTTP/1.1"
+out=$(snip_creating_a_default_routing_policy_4 2>&1)
+_verify_not_contains "$out" "GET /headers HTTP/1.1" "snip_creating_a_default_routing_policy_4"
 
 snip_mirroring_traffic_to_v2_1
 
@@ -58,8 +58,14 @@ snip_mirroring_traffic_to_v2_1
 #istioctl experimental wait --for=distribution VirtualService httpbin.default
 sleep 5s
 
+# Set environment variables. TODO: why didn't the exports from snip_creating_a_default_routing_policy_2/3/4 take?
+export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
+export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..metadata.name})
+
 snip_mirroring_traffic_to_v2_2
 
+# TODO: This should check for 2 lines with the GET request
 _run_and_verify_contains snip_mirroring_traffic_to_v2_3 "GET /headers HTTP/1.1"
 
 _run_and_verify_contains snip_mirroring_traffic_to_v2_3 "GET /headers HTTP/1.1"
