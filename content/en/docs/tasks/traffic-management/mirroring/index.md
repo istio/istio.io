@@ -198,13 +198,13 @@ log entries for `v1` and none for `v2`:
 
     {{< text bash >}}
     $ export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
-    $ kubectl logs -f "$V1_POD" -c httpbin
+    $ kubectl logs "$V1_POD" -c httpbin
     127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
     {{< /text >}}
 
     {{< text bash >}}
     $ export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..metadata.name})
-    $ kubectl logs -f "$V2_POD" -c httpbin
+    $ kubectl logs "$V2_POD" -c httpbin
     <none>
     {{< /text >}}
 
@@ -255,13 +255,13 @@ log entries for `v1` and none for `v2`:
     created in `v2` are the mirrored requests that are actually going to `v1`.
 
     {{< text bash >}}
-    $ kubectl logs -f "$V1_POD" -c httpbin
+    $ kubectl logs "$V1_POD" -c httpbin
     127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
     127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl logs -f "$V2_POD" -c httpbin
+    $ kubectl logs "$V2_POD" -c httpbin
     127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 361 "-" "curl/7.35.0"
     {{< /text >}}
 
