@@ -162,6 +162,9 @@ endif
 
 include tests/tests.mk
 
+test_status:
+	@scripts/test_status.sh
+
 # make lint-yaml seems to fail with pipefail, so remove now.
 #SHELL = /bin/bash
 
