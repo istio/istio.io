@@ -53,7 +53,7 @@ spec:
       ...
 {{< /text >}}
 
-Then, you can append any configuration specified as mentioned below to change tracing settings
+You can then append any of the settings specified below, to change the tracing configuration
 for this Pod specification.
 
 ## Trace sampling
