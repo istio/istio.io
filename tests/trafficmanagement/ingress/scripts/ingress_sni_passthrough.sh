@@ -41,7 +41,7 @@ snip_deploy_an_nginx_server_4
 sample_wait_for_deployment default my-nginx
 
 # validate NGINX server was deployed successfully 
-_run_and_verify_contains snip_deploy_an_nginx_server_5 "common name: nginx.example.com (matched)"
+_run_and_verify_contains snip_deploy_an_nginx_server_5 "subject: CN=nginx.example.com"
 
 # configure an ingress gateway
 snip_configure_an_ingress_gateway_1

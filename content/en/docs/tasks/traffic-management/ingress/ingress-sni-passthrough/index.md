@@ -133,31 +133,27 @@ to hold the configuration of the NGINX server:
 
 1.  To test that the NGINX server was deployed successfully, send a request to the server from its sidecar proxy
     without checking the server's certificate (use the `-k` option of `curl`). Ensure that the server's certificate is
-    printed correctly, i.e., `common name` is equal to `nginx.example.com`.
+    printed correctly, i.e., `common name (CN)` is equal to `nginx.example.com`.
 
     {{< text bash >}}
     $ kubectl exec -it "$(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name})" -c istio-proxy -- curl -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
     ...
-    SSL connection using TLS1.2 / ECDHE_RSA_AES_128_GCM_SHA256
-      server certificate verification SKIPPED
-      server certificate status verification SKIPPED
-      common name: nginx.example.com (matched)
-      server certificate expiration date OK
-      server certificate activation date OK
-      certificate public key: RSA
-      certificate version: #3
+    SSL connection using TLSv1.2 / ECDHE-RSA-AES256-GCM-SHA384
+    ALPN, server accepted to use http/1.1
+    Server certificate:
       subject: CN=nginx.example.com; O=some organization
-      start date: Wed, 15 Aug 2018 07:29:07 GMT
-      expire date: Sun, 25 Aug 2019 07:29:07 GMT
+      start date: May 27 14:18:47 2020 GMT
+      expire date: May 27 14:18:47 2021 GMT
       issuer: O=example Inc.; CN=example.com
+      SSL certificate verify result: unable to get local issuer certificate (20), continuing anyway.
 
     > GET / HTTP/1.1
-    > User-Agent: curl/7.35.0
+    > User-Agent: curl/7.58.0
     > Host: nginx.example.com
     ...
     < HTTP/1.1 200 OK
 
-    < Server: nginx/1.15.2
+    < Server: nginx/1.17.10
     ...
     <!DOCTYPE html>
     <html>
