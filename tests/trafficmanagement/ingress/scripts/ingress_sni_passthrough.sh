@@ -43,11 +43,7 @@ sample_wait_for_deployment default nginx
 # validate NGINX server was deployed successfully 
 snip_deploy_an_nginx_server_5
 
-out=$(snip_deploy_an_nginx_server_5_out 2>&1)
-
-_verify_contains "$out" "common name: nginx.example.com (matched)"
-_verify_contains "$out" "server certificate expiration date OK"
-_verify_contains "$out" "issuer: O=example Inc.; CN=example.com"
+_run_and_verify_contains snip_deploy_an_nginx_server_5 "common name: nginx.example.com (matched)"
 
 # configure an ingress gateway
 snip_configure_an_ingress_gateway_1
