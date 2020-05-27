@@ -29,7 +29,7 @@ Then, you can append any configuration options to the `tracing.yaml` file.
 
 ## Add `proxy.istio.io/config` annotation to your Pod metadata specification
 
-There are occasions where you may wish to override the mesh-wide setting for a Pod-specific
+There are occasions where you may wish to override the mesh-wide configuration for a Pod-specific
 setting. By adding the `proxy.istio.io/config` annotation to your Pod metadata
 specification you can override any mesh-wide tracing settings.
 
