@@ -1,6 +1,7 @@
 ---
 title: GatewayPortNotOnWorkload
 layout: analysis-message
+test: no
 ---
 
 This message occurs when a gateway (usually `istio-ingressgateway`) offers a

@@ -5,6 +5,7 @@ publishdate: 2020-02-20
 attribution: Lei Tang (Google)
 keywords: [security, secret discovery service, unix domain socket]
 target_release: 1.5
+test: n/a
 ---
 
 In Istio versions before 1.5, during secret discovery service (SDS) execution,

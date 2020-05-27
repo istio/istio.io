@@ -5,6 +5,7 @@ weight: 35
 aliases:
     - /docs/setup/kubernetes/additional-setup/config-profiles/
 keywords: [profiles,install,helm]
+test: n/a
 ---
 
 This page describes the built-in configuration profiles that can be used when

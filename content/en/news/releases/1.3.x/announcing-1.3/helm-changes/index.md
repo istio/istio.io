@@ -5,6 +5,7 @@ weight: 30
 keywords: []
 aliases:
     - /docs/reference/config/installation-options-changes
+test: n/a
 ---
 
 The tables below show changes made to the installation options used to customize Istio install using Helm between Istio 1.2 and Istio 1.3. The tables are grouped in to three different categories:

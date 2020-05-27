@@ -5,6 +5,7 @@ description: Istio has a new discussion board.
 publishdate: 2019-01-10
 aliases:
     - /news/2019/announcing-discuss.istio.io
+test: n/a
 ---
 
 We in the Istio community have been working to find the right medium for users to engage with other members of the community -- to ask questions,

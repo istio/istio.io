@@ -5,6 +5,7 @@ weight: 30
 aliases:
     - /docs/reference/config/security/conditions/
     - /docs/reference/config/security/constraints-and-properties/
+test: n/a
 ---
 
 This page describes the supported keys and value formats you can use as conditions

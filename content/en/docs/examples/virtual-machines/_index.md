@@ -10,4 +10,5 @@ keywords:
 - kubernetes
 - vms
 - virtual-machine
+test: n/a
 ---

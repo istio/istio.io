@@ -9,6 +9,7 @@ releases: ["1.1 to 1.1.12", "1.2 to 1.2.3"]
 publishdate: 2019-08-13
 keywords: [CVE]
 skip_seealso: true
+test: n/a
 ---
 
 {{< security_bulletin >}}

@@ -4,6 +4,7 @@ description: Istio 1.2 release notes.
 weight: 10
 aliases:
     - /about/notes/1.2
+test: n/a
 ---
 
 ## General

@@ -6,6 +6,7 @@ publishdate: 2020-01-05
 attribution: Anil Attuluri (Intuit), Jason Webb (Intuit)
 keywords: [traffic-management,automation,configuration,multicluster,multi-mesh,gateway,federated,globalidentifer]
 target_release: 1.5
+test: no
 ---
 
 At Intuit, we read the blog post [Multi-Mesh Deployments for Isolation and Boundary Protection](/blog/2019/isolated-clusters/) and immediately related to some of the problems mentioned.

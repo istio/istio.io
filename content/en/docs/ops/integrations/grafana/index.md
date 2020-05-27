@@ -3,6 +3,7 @@ title: Grafana
 description: Information on how to integrate with Grafana to set up Istio dashboards.
 weight: 20
 keywords: [integration,grafana]
+test: no
 ---
 
 [Grafana](https://grafana.com/) is an open source monitoring solution that can be used to configure dashboards for Istio. You can use Grafana to monitor the health of Istio and of applications within the service mesh.

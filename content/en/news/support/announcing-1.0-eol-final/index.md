@@ -6,6 +6,7 @@ publishdate: 2019-06-19
 aliases:
     - /blog/2019/announcing-1.0-eol-final
     - /news/2019/announcing-1.0-eol-final
+test: n/a
 ---
 
 As [previously announced](/news/support/announcing-1.0-eol/), support for Istio 1.0 has now officially ended.

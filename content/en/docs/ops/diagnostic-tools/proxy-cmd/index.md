@@ -7,6 +7,7 @@ aliases:
     - /help/ops/traffic-management/proxy-cmd
     - /help/ops/misc
     - /help/ops/troubleshooting/proxy-cmd
+test: no
 ---
 
 Istio provides two very valuable commands to help diagnose traffic management configuration problems,

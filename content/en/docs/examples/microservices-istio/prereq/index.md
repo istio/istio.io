@@ -2,6 +2,7 @@
 title: Prerequisites
 overview: Check the prerequisites for this tutorial.
 weight: 1
+test: n/a
 ---
 
 {{< boilerplate work-in-progress >}}

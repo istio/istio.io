@@ -8,6 +8,7 @@ release: 1.2.7
 aliases:
     - /news/2019/announcing-1.2.7
     - /news/announcing-1.2.7
+test: n/a
 ---
 
 We're pleased to announce the availability of Istio 1.2.7. Please see below for what's changed.

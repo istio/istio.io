@@ -5,6 +5,7 @@ weight: 40
 keywords: [traffic-management,egress]
 aliases:
   - /docs/examples/advanced-gateways/egress-gateway-tls-origination/
+test: no
 ---
 
 The [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/)

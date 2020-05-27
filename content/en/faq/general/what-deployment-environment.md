@@ -1,6 +1,7 @@
 ---
 title: What deployment environments are supported?
 weight: 60
+test: n/a
 ---
 
 Istio is designed and built to be platform-independent. For our

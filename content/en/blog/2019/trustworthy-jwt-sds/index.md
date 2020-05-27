@@ -5,6 +5,7 @@ publishdate: 2019-09-10
 attribution: Phillip Quy Le (Google)
 keywords: [security, PKI, certificate, nodeagent, sds]
 target_release: 1.2
+test: n/a
 ---
 
 In Istio 1.3, we are taking advantage of improvements in Kubernetes to issue certificates for workload instances more securely.

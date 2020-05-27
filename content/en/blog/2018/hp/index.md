@@ -5,6 +5,7 @@ subtitle: How HP is building its next-generation footwear personalization platfo
 publishdate: 2018-07-31
 attribution: Steven Ceuppens, Chief Software Architect @ HP FitStation, Open Source Advocate & Contributor
 target_release: 1.0
+test: n/a
 ---
 
 The FitStation team at HP strongly believes in the future of Kubernetes, BPF and service-mesh as the next standards in cloud infrastructure. We are also very happy to see Istio coming to its official Istio 1.0 release -- thanks to the joint collaboration that started at Google, IBM and Lyft beginning in May 2017.

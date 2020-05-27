@@ -5,6 +5,7 @@ keywords: [traffic-management,egress,telemetry,policies]
 weight: 51
 aliases:
   - /docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/
+test: no
 ---
 
 {{< warning >}}

@@ -1,6 +1,7 @@
 ---
 title: What role does Mixer play in the Istio tracing story?
 weight: 90
+test: n/a
 ---
 
 By default, Mixer participates in tracing by generating its own spans for requests that are already selected for tracing by Envoy proxies. This enables operators to observe the participation of the mixer-based policy enforcement mechanisms within the mesh. If the `istio-policy` configuration is disabled mesh-wide, Mixer does not participate in tracing in this way.

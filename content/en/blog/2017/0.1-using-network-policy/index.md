@@ -7,6 +7,7 @@ attribution: Spike Curtis
 aliases:
     - /blog/using-network-policy-in-concert-with-istio.html
 target_release: 0.1
+test: no
 ---
 
 The use of Network Policy to secure applications running on Kubernetes is a now a widely accepted industry best practice.  Given that Istio also supports policy, we want to spend some time explaining how Istio policy and Kubernetes Network Policy interact and support each other to deliver your application securely.

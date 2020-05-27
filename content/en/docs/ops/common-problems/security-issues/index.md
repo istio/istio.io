@@ -8,6 +8,7 @@ aliases:
     - /help/ops/security/repairing-citadel
     - /help/ops/troubleshooting/repairing-citadel
     - /docs/ops/troubleshooting/repairing-citadel
+test: no
 ---
 
 ## End-user authentication fails

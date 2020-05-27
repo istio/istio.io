@@ -5,6 +5,7 @@ weight: 80
 aliases:
     - /docs/reference/config/mixer/index.html
 
+test: n/a
 ---
 
 {{< warning >}}

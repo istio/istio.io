@@ -5,6 +5,7 @@ keywords: [traffic-management,egress]
 weight: 50
 aliases:
   - /docs/examples/advanced-gateways/wildcard-egress-hosts/
+test: no
 ---
 
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task and

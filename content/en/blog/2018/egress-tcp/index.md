@@ -9,6 +9,7 @@ aliases:
   - /docs/tasks/traffic-management/egress-tcp/
 keywords: [traffic-management,egress,tcp]
 target_release: 1.0
+test: no
 ---
 
 {{< tip >}}

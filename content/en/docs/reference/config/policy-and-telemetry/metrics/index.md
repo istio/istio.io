@@ -2,6 +2,7 @@
 title: Default Metrics
 description: Default Metrics exported from Istio through Mixer.
 weight: 50
+test: no
 ---
 
 This page presents details about the metrics that Istio collects when using its initial configuration. You can add and remove metrics by changing configuration at any time, but this

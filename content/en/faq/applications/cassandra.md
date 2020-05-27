@@ -3,6 +3,7 @@ title: Can I run Casandra inside an Istio mesh?
 description: How to run Cassandra with Istio.
 weight: 50
 keywords: [cassandra]
+test: n/a
 ---
 
 By default, Cassandra broadcasts the address it uses for binding

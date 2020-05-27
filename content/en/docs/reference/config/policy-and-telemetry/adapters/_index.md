@@ -5,6 +5,7 @@ weight: 40
 aliases:
     - /docs/reference/config/mixer/adapters/index.html
     - /docs/reference/config/adapters/
+test: n/a
 ---
 
 {{< warning >}}

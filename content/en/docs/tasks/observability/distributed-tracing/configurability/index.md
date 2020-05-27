@@ -3,6 +3,7 @@ title: Configurability (Beta/Development)
 description: How to configure tracing options (beta/development).
 weight: 60
 keywords: [telemetry,tracing]
+test: no
 ---
 
 Istio provides the ability to configure advanced tracing options,

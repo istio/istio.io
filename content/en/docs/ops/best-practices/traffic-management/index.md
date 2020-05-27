@@ -7,6 +7,7 @@ aliases:
   - /help/ops/traffic-management/deploy-guidelines
   - /help/ops/deploy-guidelines
   - /docs/ops/traffic-management/deploy-guidelines
+test: no
 ---
 
 This section provides specific deployment or configuration guidelines to avoid networking or traffic management issues.

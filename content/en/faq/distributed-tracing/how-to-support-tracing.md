@@ -1,6 +1,7 @@
 ---
 title: What is required for distributed tracing with Istio?
 weight: 10
+test: n/a
 ---
 
 Istio enables reporting of trace spans for workload-to-workload communications within a mesh. However, in order for various trace spans to be stitched together for a complete view of the traffic flow, applications must propagate the trace context between incoming and outgoing requests.

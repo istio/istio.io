@@ -1,6 +1,7 @@
 ---
 title: How can services that use Istio access non-Istio services?
 weight: 40
+test: no
 ---
 
 Istio detects if the destination workload has an Envoy proxy and drops mutual TLS if it doesn't. Set an explicit destination rule to disable mutual TLS. For example:

@@ -8,6 +8,7 @@ aliases:
     - /docs/tasks/multicluster/gateways/
     - /docs/setup/kubernetes/install/multicluster/gateways/
 keywords: [kubernetes,multicluster,gateway]
+test: no
 ---
 
 Follow this guide to install an Istio

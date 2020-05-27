@@ -1,5 +1,6 @@
 ---
 title: Mixer
+test: n/a
 ---
 
 The Istio component is responsible for enforcing access control and usage policies across the [service mesh](/docs/reference/glossary/#service-mesh) and collecting telemetry data

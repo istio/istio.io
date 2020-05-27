@@ -7,6 +7,7 @@ aliases:
     - /docs/setup/kubernetes/
     - /docs/setup/kubernetes/install/kubernetes/
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
+test: no
 ---
 
 This guide lets you quickly evaluate Istio. If you are already familiar with
@@ -73,11 +74,11 @@ Follow these steps to get started with Istio:
 
     {{< text bash >}}
     $ istioctl manifest apply --set profile=demo
-    ✔ Component Base installed
-    ✔ Component Pilot installed
-    ✔ Component EgressGateways installed
-    ✔ Component IngressGateways installed
-    ✔ Component AddonComponents installed
+    ✔ Istio core installed
+    ✔ Istiod installed
+    ✔ Egress gateways installed
+    ✔ Ingress gateways installed
+    ✔ Addons installed
     ✔ Installation complete
     {{< /text >}}
 

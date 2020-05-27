@@ -1,6 +1,7 @@
 ---
 title: How was Istio started?
 weight: 50
+test: n/a
 ---
 
 The Istio project was started by teams from Google and IBM in partnership with the Envoy team from Lyft. It's been

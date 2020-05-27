@@ -6,7 +6,7 @@ keywords: [security,authorization,jwt,claim]
 aliases:
     - /docs/tasks/security/rbac-groups/
     - /docs/tasks/security/authorization/rbac-groups/
-test: true
+test: yes
 ---
 
 This task shows you how to set up an Istio authorization policy to enforce access

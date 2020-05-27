@@ -1,6 +1,7 @@
 ---
 title: PodMissingProxy
 layout: analysis-message
+test: no
 ---
 
 This message occurs when the sidecar is not present or not working correctly.

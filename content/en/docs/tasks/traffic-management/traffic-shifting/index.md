@@ -5,7 +5,7 @@ weight: 30
 keywords: [traffic-management,traffic-shifting]
 aliases:
     - /docs/tasks/traffic-management/version-migration.html
-test: true
+test: yes
 ---
 
 This task shows you how to gradually migrate traffic from one version of a

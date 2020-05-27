@@ -5,6 +5,7 @@ weight: 1
 keywords: [telemetry,tracing]
 aliases:
  - /docs/tasks/telemetry/distributed-tracing/overview/
+test: no
 ---
 
 Distributed tracing enables users to track a request through mesh that is distributed across multiple services.

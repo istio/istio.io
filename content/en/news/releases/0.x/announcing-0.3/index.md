@@ -11,6 +11,7 @@ aliases:
     - /about/notes/0.3/index.html
     - /news/2017/announcing-0.3
     - /news/announcing-0.3
+test: n/a
 ---
 
 We're pleased to announce the availability of Istio 0.3. Please see below for what's changed.

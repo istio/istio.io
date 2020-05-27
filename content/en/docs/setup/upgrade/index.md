@@ -3,6 +3,7 @@ title: Upgrade Istio
 description: Upgrade or downgrade Istio.
 weight: 25
 keywords: [kubernetes,upgrading]
+test: no
 ---
 
 ## Canary upgrades

@@ -8,6 +8,7 @@ aliases:
     - /about/contribute/writing-a-new-topic.html
     - /create
 keywords: [contribute]
+test: no
 ---
 
 Hugo shortcodes are special placeholders with a certain syntax that you can add

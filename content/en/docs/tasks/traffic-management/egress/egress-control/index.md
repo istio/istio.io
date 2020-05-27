@@ -6,6 +6,7 @@ aliases:
     - /docs/tasks/egress.html
     - /docs/tasks/egress
 keywords: [traffic-management,egress]
+test: no
 ---
 
 Because all outbound traffic from an Istio-enabled pod is redirected to its sidecar proxy by default,

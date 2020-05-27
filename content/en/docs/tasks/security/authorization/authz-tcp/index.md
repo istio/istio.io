@@ -5,7 +5,7 @@ weight: 20
 keywords: [security,access-control,rbac,tcp,authorization]
 aliases:
     - /docs/tasks/security/authz-tcp/
-test: true
+test: yes
 ---
 
 This task shows you how to set up Istio authorization for TCP traffic in an Istio mesh.

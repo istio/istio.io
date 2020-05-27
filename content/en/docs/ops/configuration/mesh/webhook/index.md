@@ -5,6 +5,7 @@ weight: 10
 aliases:
   - /help/ops/setup/webhook
   - /docs/ops/setup/webhook
+test: no
 ---
 
 From [Kubernetes mutating and validating webhook mechanisms](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/):

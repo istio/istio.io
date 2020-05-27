@@ -3,6 +3,7 @@ title: Observability Best Practices
 description: Best practices for observing applications using Istio.
 force_inline_toc: true
 weight: 50
+test: no
 ---
 
 ## Using Prometheus for production-scale monitoring

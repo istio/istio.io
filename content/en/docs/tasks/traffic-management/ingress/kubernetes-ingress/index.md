@@ -3,6 +3,7 @@ title: Ingress (Kubernetes)
 description: Describes how to configure a Kubernetes Ingress object to expose a service outside of the service mesh.
 weight: 15
 keywords: [traffic-management,ingress]
+test: no
 ---
 
 This task describes how to configure Istio to expose a service outside of the service mesh cluster, using the Kubernetes [Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/).

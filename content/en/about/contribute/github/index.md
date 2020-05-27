@@ -10,6 +10,7 @@ aliases:
     - /about/contribute/editing
     - /about/contribute/staging-your-changes
 keywords: [contribute,community,github,pr]
+test: n/a
 ---
 
 The Istio documentation follows the standard [GitHub collaboration flow](https://guides.github.com/introduction/flow/)

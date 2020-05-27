@@ -2,6 +2,7 @@
 title: Setup a Local Computer
 overview: Set up your local computer for the tutorial.
 weight: 3
+test: no
 ---
 
 {{< boilerplate work-in-progress >}}

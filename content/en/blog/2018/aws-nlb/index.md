@@ -7,6 +7,7 @@ subtitle: Ingress AWS Network Load Balancer
 attribution: Julien SENON
 keywords: [ingress,traffic-management,aws]
 target_release: 1.0
+test: no
 ---
 
 {{< tip >}}

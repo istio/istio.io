@@ -5,7 +5,7 @@ weight: 90
 keywords: [security,certificate]
 aliases:
     - /docs/tasks/security/dns-cert/
-test: true
+test: yes
 ---
 
 This task shows how to provision and manage DNS certificates

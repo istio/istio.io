@@ -5,7 +5,7 @@ weight: 31
 keywords: [traffic-management,tcp-traffic-shifting]
 aliases:
     - /docs/tasks/traffic-management/tcp-version-migration.html
-test: true
+test: yes
 ---
 
 This task shows you how to gradually migrate TCP traffic from one version of a

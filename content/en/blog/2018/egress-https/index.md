@@ -7,6 +7,7 @@ subtitle: Mesh-external service entries for egress HTTPS traffic
 attribution: Vadim Eisenberg
 keywords: [traffic-management,egress,https]
 target_release: 1.1
+test: no
 ---
 
 In many cases, not all the parts of a microservices-based application reside in a _service mesh_. Sometimes, the

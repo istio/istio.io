@@ -6,6 +6,7 @@ publishdate: 2019-10-02
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,multicluster,security,gateway,tls]
 target_release: 1.3
+test: n/a
 ---
 
 Various compliance standards require protection of sensitive data environments. Some of the important standards and the

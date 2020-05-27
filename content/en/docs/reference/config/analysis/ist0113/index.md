@@ -1,6 +1,7 @@
 ---
 title: MTLSPolicyConflict
 layout: analysis-message
+test: no
 ---
 
 This message occurs when a destination rule resource and a policy resource are

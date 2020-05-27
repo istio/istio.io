@@ -70,4 +70,4 @@ snip_mirroring_traffic_to_v2_2
 # TODO: This should check for 2 lines with the GET request
 _run_and_verify_contains snip_mirroring_traffic_to_v2_3 "GET /headers HTTP/1.1"
 
-_run_and_verify_contains snip_mirroring_traffic_to_v2_3 "GET /headers HTTP/1.1"
+_run_and_verify_contains snip_mirroring_traffic_to_v2_4 "GET /headers HTTP/1.1"

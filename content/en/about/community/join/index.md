@@ -4,6 +4,7 @@ description: Information on the various ways to participate and interact with th
 weight: 10
 keywords: [community]
 icon: community
+test: n/a
 ---
 Istio is an open source project with an active community that supports its use and on-going development. We'd love for you
 to join us and get involved!

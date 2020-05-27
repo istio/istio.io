@@ -5,6 +5,7 @@ weight: 20
 aliases:
   - /help/ops/setup/injection
   - /docs/ops/setup/injection-concepts
+test: n/a
 ---
 
 Automatic sidecar injection adds the sidecar proxy into user-created

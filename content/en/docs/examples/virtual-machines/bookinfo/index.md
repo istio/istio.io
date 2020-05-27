@@ -10,6 +10,7 @@ aliases:
 - /docs/examples/integrating-vms/
 - /docs/examples/mesh-expansion/bookinfo-expanded
 - /docs/examples/vm-bookinfo
+test: no
 ---
 
 This example deploys the Bookinfo application across Kubernetes with one

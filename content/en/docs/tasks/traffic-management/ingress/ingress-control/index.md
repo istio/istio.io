@@ -6,7 +6,7 @@ keywords: [traffic-management,ingress]
 aliases:
     - /docs/tasks/ingress.html
     - /docs/tasks/ingress
-test: true
+test: yes
 ---
 
 Along with support for Kubernetes [Ingress](/docs/tasks/traffic-management/ingress/kubernetes-ingress/), Istio offers another configuration model, [Istio Gateway](/docs/reference/config/networking/gateway/). A `Gateway` provides more extensive customization and flexibility than `Ingress`, and allows Istio features such as monitoring and route rules to be applied to traffic entering the cluster.

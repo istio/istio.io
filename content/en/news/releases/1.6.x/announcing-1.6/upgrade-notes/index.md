@@ -2,6 +2,7 @@
 title: Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.6.
 weight: 20
+test: no
 ---
 
 When you upgrade from Istio 1.5.x to Istio 1.6.x, you need to consider the changes on this page.
@@ -86,17 +87,6 @@ $ kubectl get servicerolebindings.rbac.istio.io --all-namespaces
 {{< /text >}}
 
 If there are any `v1alpha1` security policies in your clusters, migrate to the new APIs before upgrading.
-
-To ensure that `v1alpha1` security policies aren't applied in the future, delete the Custom Resource Definitions (CRDs) using the `v1alpha1` security policy APIs with the following commands:
-
-{{< text bash >}}
-$ kubectl delete crd policies.authentication.istio.io
-$ kubectl delete crd meshpolicies.authentication.istio.io
-$ kubectl delete crd rbacconfigs.rbac.istio.io
-$ kubectl delete crd clusterrbacconfigs.rbac.istio.io
-$ kubectl delete crd serviceroles.rbac.istio.io
-$ kubectl delete crd servicerolebindings.rbac.istio.io
-{{< /text >}}
 
 ## Istio configuration during installation
 

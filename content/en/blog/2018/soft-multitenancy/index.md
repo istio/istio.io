@@ -6,6 +6,7 @@ subtitle: Using multiple Istio control planes and RBAC to create multi-tenancy
 attribution: John Joyce and Rich Curran
 keywords: [tenancy]
 target_release: 0.7
+test: no
 ---
 
 Multi-tenancy is commonly used in many environments across many different applications,
