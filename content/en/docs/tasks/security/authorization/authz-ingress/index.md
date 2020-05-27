@@ -3,6 +3,7 @@ title: Authorization on Ingress Gateway
 description: How to set up access control on an ingress gateway.
 weight: 50
 keywords: [security,access-control,rbac,authorization,ingress,ip,allowlist,denylist]
+test: true
 ---
 
 This task shows you how to enforce access control on an Istio ingress gateway
@@ -37,11 +38,14 @@ original client source IP on the ingress gateway using the following command:
     $ kubectl patch svc istio-ingressgateway -n istio-system -p '{"spec":{"externalTrafficPolicy":"Local"}}'
     {{< /text >}}
 
+*  Follow the instructions in
+    [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+    to define the `INGRESS_HOST` and `INGRESS_PORT` environment variables.
+
 * Verify that the `httpbin` workload and ingress gateway are working as expected using this command:
 
     {{< text bash >}}
-    $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+    $ curl "$INGRESS_HOST":"$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -49,7 +53,7 @@ original client source IP on the ingress gateway using the following command:
 the original client source IP address, which will be used in the authorization policy:
 
     {{< text bash >}}
-    $ CLIENT_IP=$(curl $INGRESS_HOST/ip -s | grep "origin" | cut -d'"' -f 4) && echo $CLIENT_IP
+    $ CLIENT_IP=$(curl "$INGRESS_HOST":"$INGRESS_PORT"/ip -s | grep "origin" | cut -d'"' -f 4) && echo "$CLIENT_IP"
     105.133.10.12
     {{< /text >}}
 
@@ -88,7 +92,7 @@ Create the authorization policy:
 1. Verify that a request to the ingress gateway is denied:
 
     {{< text bash >}}
-    $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+    $ curl "$INGRESS_HOST":"$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
@@ -116,7 +120,7 @@ Create the authorization policy:
 1. Verify that a request to the ingress gateway is allowed:
 
     {{< text bash >}}
-    $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+    $ curl "$INGRESS_HOST":"$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -146,7 +150,7 @@ not allowed to access the ingress gateway:
 1. Verify that a request to the ingress gateway is denied:
 
     {{< text bash >}}
-    $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+    $ curl "$INGRESS_HOST":"$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
