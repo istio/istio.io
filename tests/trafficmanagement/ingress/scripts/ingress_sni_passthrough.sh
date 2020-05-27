@@ -46,7 +46,6 @@ _run_and_verify_contains snip_deploy_an_nginx_server_5 "common name: nginx.examp
 # configure an ingress gateway
 snip_configure_an_ingress_gateway_1
 snip_configure_an_ingress_gateway_2
-snip_configure_an_ingress_gateway_3
 
 # validate the output
 _run_and_verify_contains snip_configure_an_ingress_gateway_3 "SSL certificate verify ok."
