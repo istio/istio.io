@@ -51,8 +51,4 @@ snip_configure_an_ingress_gateway_2
 snip_configure_an_ingress_gateway_3
 
 # validate the output
-out=$(snip_configure_an_ingress_gateway_3_out 2>&1)
-
-_verify_contains "$out" "subject: CN=nginx.example.com; O=some organization"
-_verify_contains "$out" "issuer: O=example Inc.; CN=example.com"
-_verify_contains "$out" "SSL certificate verify ok."
+_run_and_verify_contains snip_configure_an_ingress_gateway_3 "SSL certificate verify ok."
