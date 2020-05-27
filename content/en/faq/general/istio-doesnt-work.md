@@ -1,6 +1,7 @@
 ---
 title: Istio doesn't work - what do I do?
 weight: 90
+test: n/a
 ---
 
 Check out the [operations guide](/docs/ops/) for finding solutions and our

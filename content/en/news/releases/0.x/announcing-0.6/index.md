@@ -10,6 +10,7 @@ aliases:
     - /about/notes/0.6/index.html
     - /news/2018/announcing-0.6
     - /news/announcing-0.6
+test: n/a
 ---
 
 In addition to the usual pile of bug fixes and performance improvements, this release includes the new or

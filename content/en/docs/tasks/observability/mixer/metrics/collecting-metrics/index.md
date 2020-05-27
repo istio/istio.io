@@ -8,6 +8,7 @@ aliases:
     - /docs/tasks/telemetry/metrics-logs/
     - /docs/tasks/telemetry/metrics/collecting-metrics/
     - /docs/tasks/observability/metrics/collecting-metrics/
+test: no
 ---
 
 {{< warning >}}

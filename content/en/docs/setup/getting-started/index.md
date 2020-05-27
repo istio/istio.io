@@ -7,6 +7,7 @@ aliases:
     - /docs/setup/kubernetes/
     - /docs/setup/kubernetes/install/kubernetes/
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
+test: no
 ---
 
 This guide lets you quickly evaluate Istio. If you are already familiar with

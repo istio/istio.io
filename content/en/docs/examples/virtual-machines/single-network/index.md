@@ -11,6 +11,7 @@ aliases:
 - /docs/setup/kubernetes/additional-setup/mesh-expansion/
 - /docs/examples/mesh-expansion/single-network
 - /docs/tasks/virtual-machines/single-network
+test: no
 ---
 
 This example shows how to integrate a VM or a bare metal host into a single-network

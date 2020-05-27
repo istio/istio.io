@@ -5,6 +5,7 @@ description: Istio 1.1 end of life announcement.
 publishdate: 2019-10-21
 aliases:
     - /news/2019/announcing-1.1-eol-final
+test: n/a
 ---
 
 As [previously announced](/news/support/announcing-1.1-eol/), support for Istio 1.1 has now officially ended.

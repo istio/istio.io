@@ -3,7 +3,7 @@ title: Mirroring
 description: This task demonstrates the traffic mirroring/shadowing capabilities of Istio.
 weight: 60
 keywords: [traffic-management,mirroring]
-test: true
+test: yes
 ---
 
 This task demonstrates the traffic mirroring capabilities of Istio.

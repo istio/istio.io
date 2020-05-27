@@ -5,6 +5,7 @@ subtitle: Configure the IBM Cloud Kubernetes Service Application Load Balancer t
 publishdate: 2020-05-15
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,ingress,file-mount-credentials,iks]
+test: no
 ---
 
 In this blog post I show how to configure the [Ingress Application Load Balancer (ALB)](https://cloud.ibm.com/docs/containers?topic=containers-ingress-about)

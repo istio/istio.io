@@ -6,6 +6,7 @@ keywords: [telemetry,visualization]
 aliases:
     - /docs/tasks/telemetry/using-istio-dashboard/
     - /docs/tasks/telemetry/metrics/using-istio-dashboard/
+test: no
 ---
 
 This task shows you how to setup and use the Istio Dashboard to monitor mesh

@@ -5,6 +5,7 @@ description: Simplifying Istio upgrades by offering safe canary deployments of t
 publishdate: 2020-05-19
 attribution: "John Howard (Google)"
 keywords: [install,upgrade,revision,control plane]
+test: n/a
 ---
 
 Canary deployments are a core feature of Istio. Users rely on Istio's traffic management features to safely control the rollout of new versions of their applications, while making use of Istio's rich telemetry to compare the performance of canaries. However, when it came to upgrading Istio, there was not an easy way to canary the upgrade, and due to the in-place nature of the upgrade, issues or changes found affect the entire mesh at once.

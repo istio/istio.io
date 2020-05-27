@@ -7,6 +7,7 @@ subtitle: Patch Release
 release: 1.3.7
 aliases:
     - /news/announcing-1.3.7
+test: n/a
 ---
 
 This release includes bug fixes to improve robustness. This release note describes what's different between Istio 1.3.6 and Istio 1.3.7.

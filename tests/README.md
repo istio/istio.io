@@ -15,9 +15,9 @@ around the [Istio test framework](https://github.com/istio/istio/wiki/Istio-Test
 
 To write an `istio.io` test, follow these steps:
 
-1. Add a field `test: true` to the metadata at the top of the `index.md` file to be tested.
-   This field is used to indicate that the markdown file will be tested and therefore requires
-   a generated bash script containing the commands described in the document.
+1. In the metadata at the top of the `index.md` file to be tested, change the field `test: no` to
+   `test: yes`. This field is used to indicate that the markdown file will be tested and therefore
+   requires a generated bash script containing the commands described in the document.
 
 1. Run `make snips` to generate the bash script. After the command completes, you should see
    a new file, `snips.sh`, next to the `index.md` file that you modified in the previous step.

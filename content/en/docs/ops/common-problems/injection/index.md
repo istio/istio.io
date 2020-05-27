@@ -5,6 +5,7 @@ force_inline_toc: true
 weight: 40
 aliases:
   - /docs/ops/troubleshooting/injection
+test: no
 ---
 
 ## The result of sidecar injection was not what I expected

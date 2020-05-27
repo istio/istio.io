@@ -16,4 +16,4 @@
 
 set -e
 
-find content/en -name '*.md' -exec grep --quiet '^test: true$' {} \; -exec python3 scripts/snip.py {} \;
+find content/en -name '*.md' -exec grep --quiet '^test: yes$' {} \; -exec python3 scripts/snip.py {} \;

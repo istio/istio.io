@@ -4,6 +4,7 @@ description: Instructions to install Istio in a Kubernetes cluster using the Ist
 weight: 25
 keywords: [kubernetes, operator]
 aliases:
+test: no
 ---
 
 This guide installs Istio using the standalone Istio

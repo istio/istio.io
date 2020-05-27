@@ -7,6 +7,7 @@ aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/ibm/
     - /docs/setup/kubernetes/platform-setup/ibm/
 keywords: [platform-setup,ibm,iks]
+test: no
 ---
 
 Follow these instructions to prepare a cluster for Istio using the

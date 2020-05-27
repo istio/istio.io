@@ -7,6 +7,7 @@ keywords:
 - virtual-machine
 - gateways
 - vms
+test: no
 ---
 
 Follow this guide to deploy Istio and connect a virtual machine to it.

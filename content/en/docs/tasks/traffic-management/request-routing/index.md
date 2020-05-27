@@ -5,7 +5,7 @@ weight: 10
 aliases:
     - /docs/tasks/request-routing.html
 keywords: [traffic-management,routing]
-test: true
+test: yes
 ---
 
 This task shows you how to route requests dynamically to multiple versions of a

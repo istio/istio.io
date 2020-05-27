@@ -1,5 +1,6 @@
 ---
 title: Workload Instance Principal
+test: n/a
 ---
 The verifiable authority under which a [workload instance](/docs/reference/glossary/#workload-instance) runs.
 Istio's service-to-service authentication is used to produce the workload principal.

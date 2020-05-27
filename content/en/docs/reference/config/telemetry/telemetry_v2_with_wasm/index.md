@@ -2,6 +2,7 @@
 title: Telemetry V2 with Wasm runtime (Experimental)
 description: How to enable Telemetry V2 with Wasm runtime (experimental).
 weight: 60
+test: no
 ---
 
 Since Istio 1.5, by default Telemetry V2 is enabled as compiled in Istio proxy filters. The same filters are also compiled to WebAssembly (Wasm) modules and shipped with Istio proxy. To enable Telemetry V2 with Wasm runtime, install Istio with the `preview` profile:

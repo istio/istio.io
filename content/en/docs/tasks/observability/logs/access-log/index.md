@@ -6,6 +6,7 @@ keywords: [telemetry]
 aliases:
     - /docs/tasks/telemetry/access-log
     - /docs/tasks/telemetry/logs/access-log/
+test: no
 ---
 
 The simplest kind of Istio logging is

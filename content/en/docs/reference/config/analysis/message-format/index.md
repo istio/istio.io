@@ -1,5 +1,6 @@
 ---
 title: Analyzer Message Format
+test: no
 ---
 
 The `istioctl analyze` command provides messages in the format:

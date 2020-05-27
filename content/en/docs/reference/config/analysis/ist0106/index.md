@@ -1,6 +1,7 @@
 ---
 title: SchemaValidationError
 layout: analysis-message
+test: no
 ---
 
 This message occurs when your Istio configuration does not successfully pass

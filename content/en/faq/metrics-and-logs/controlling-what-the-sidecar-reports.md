@@ -1,6 +1,7 @@
 ---
 title: How can I control the data being reported by the sidecar?
 weight: 20
+test: no
 ---
 
 It is sometimes useful to exclude access to specific URLs from being reported. For example, you might wish to exclude some health-checking

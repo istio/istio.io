@@ -10,6 +10,7 @@ aliases:
     - /about/notes/0.7/index.html
     - /news/2018/announcing-0.7
     - /news/announcing-0.7
+test: n/a
 ---
 
 For this release, we focused on improving our build and test infrastructures and increasing the

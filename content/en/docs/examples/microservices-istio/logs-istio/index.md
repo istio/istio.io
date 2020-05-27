@@ -2,6 +2,7 @@
 title: Monitoring with Istio
 overview: Collecting and querying mesh metrics.
 weight: 72
+test: no
 ---
 
 Monitoring is crucial to support transitioning to the microservices architecture style. Other requirements include rapid provisioning and rapid deployment, according to [this article](https://aadrake.com/posts/2017-05-20-enough-with-the-microservices.html).

@@ -3,6 +3,7 @@ title: Remove Retired Documentation
 description: Details how to contribute retired documentation to Istio.
 weight: 4
 keywords: [contribute]
+test: n/a
 ---
 
 To remove documentation from Istio, please follow these simple steps:

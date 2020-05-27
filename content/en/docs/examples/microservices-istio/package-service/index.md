@@ -4,6 +4,7 @@ overview: Run a single microservice in a Docker container.
 
 weight: 20
 
+test: no
 ---
 
 {{< boilerplate work-in-progress >}}

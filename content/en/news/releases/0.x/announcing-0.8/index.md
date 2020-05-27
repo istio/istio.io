@@ -10,6 +10,7 @@ aliases:
     - /about/notes/0.8/index.html
     - /news/2018/announcing-0.8
     - /news/announcing-0.8
+test: n/a
 ---
 
 This is a major release for Istio on the road to 1.0. There are a great many new features and architectural improvements in addition to the usual pile of bug fixes and performance improvements.

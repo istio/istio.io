@@ -5,6 +5,7 @@ weight: 49
 keywords: [telemetry,visualization]
 aliases:
  - /docs/tasks/telemetry/kiali/
+test: no
 ---
 
 This task shows you how to visualize different aspects of your Istio mesh.

@@ -7,6 +7,7 @@ aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/oci/
     - /docs/setup/kubernetes/platform-setup/oci/
 keywords: [platform-setup,kubernetes,oke,oci,oracle]
+test: no
 ---
 
 Follow these instructions to prepare an OKE cluster for Istio.

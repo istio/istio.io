@@ -1,4 +1,5 @@
 ---
+test: no
 ---
 {{< warning >}}
 A warning from a boilerplate

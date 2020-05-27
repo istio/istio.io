@@ -8,6 +8,7 @@ aliases:
   - /help/ops/locality-load-balancing
   - /help/tasks/traffic-management/locality-load-balancing
   - /docs/ops/traffic-management/locality-load-balancing
+test: no
 ---
 
 A locality defines a geographic location within your mesh using the following triplet:

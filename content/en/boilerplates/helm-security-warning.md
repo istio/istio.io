@@ -1,4 +1,5 @@
 ---
+test: n/a
 ---
 {{< warning >}}
 The instructions for using Helm with Tiller do not use secure defaults.

@@ -1,6 +1,7 @@
 ---
 title: IstioProxyImageMismatch
 layout: analysis-message
+test: n/a
 ---
 
 This message occurs regarding a pod when:

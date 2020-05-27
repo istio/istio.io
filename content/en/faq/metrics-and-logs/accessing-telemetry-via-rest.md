@@ -1,6 +1,7 @@
 ---
 title: Can Istio metrics be accessed through REST?
 weight: 0
+test: n/a
 ---
 
 You can collect telemetry data about Istio using [Prometheus](/docs/tasks/observability/metrics/querying-metrics/). And then use

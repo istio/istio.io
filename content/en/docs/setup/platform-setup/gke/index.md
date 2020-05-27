@@ -7,6 +7,7 @@ aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/gke/
     - /docs/setup/kubernetes/platform-setup/gke/
 keywords: [platform-setup,kubernetes,gke,google]
+test: no
 ---
 
 Follow these instructions to prepare a GKE cluster for Istio.

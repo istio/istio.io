@@ -6,6 +6,7 @@ aliases:
     - /docs/concepts/what-is-istio/overview
     - /docs/concepts/what-is-istio/goals
     - /about/intro
+test: n/a
 ---
 
 Cloud platforms provide a wealth of benefits for the organizations that use them. However, there’s no denying that adopting the cloud can put strains on DevOps teams. Developers must use microservices to architect for portability, meanwhile operators are managing extremely large hybrid and multi-cloud deployments.

@@ -6,6 +6,7 @@ aliases:
     - /docs/setup/kubernetes/install/cni
     - /docs/setup/kubernetes/additional-setup/cni
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
+test: no
 ---
 
 Follow this guide to install, configure, and use an Istio mesh using the Istio Container Network Interface

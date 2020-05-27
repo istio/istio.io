@@ -7,6 +7,7 @@ attribution: Manish Chugtu
 twitter: chugtum
 keywords: [kubernetes,sidecar-injection, traffic-management]
 target_release: 1.0
+test: no
 ---
 A simple overview of an Istio service-mesh architecture always starts with describing the control-plane and data-plane.
 

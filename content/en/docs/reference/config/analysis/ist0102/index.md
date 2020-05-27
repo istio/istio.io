@@ -1,6 +1,7 @@
 ---
 title: NamespaceNotInjected
 layout: analysis-message
+test: no
 ---
 
 This message occurs when you have a namespace that is missing the

@@ -1,5 +1,6 @@
 ---
 title: Attribute
+test: no
 ---
 
 Attributes control the runtime behavior of services running in the mesh.

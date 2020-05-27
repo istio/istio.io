@@ -3,7 +3,7 @@ title: Authorization on Ingress Gateway
 description: How to set up access control on an ingress gateway.
 weight: 50
 keywords: [security,access-control,rbac,authorization,ingress,ip,allowlist,denylist]
-test: true
+test: yes
 ---
 
 This task shows you how to enforce access control on an Istio ingress gateway

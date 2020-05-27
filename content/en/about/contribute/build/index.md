@@ -3,6 +3,7 @@ title: Build and serve the website locally
 description: Explains how to locally build, test, serve, and preview the website.
 weight: 5
 keywords: [contribute, serve, Docker, Hugo, build]
+test: no
 ---
 
 After making your contribution to our website, ensure the changes

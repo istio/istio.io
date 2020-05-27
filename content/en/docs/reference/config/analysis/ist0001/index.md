@@ -1,6 +1,7 @@
 ---
 title: InternalError
 layout: analysis-message
+test: n/a
 ---
 
 This error is most likely caused by an internal problem in Istio, not user error.

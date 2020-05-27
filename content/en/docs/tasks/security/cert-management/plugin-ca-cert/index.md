@@ -5,7 +5,7 @@ weight: 80
 keywords: [security,certificates]
 aliases:
     - /docs/tasks/security/plugin-ca-cert/
-test: true
+test: yes
 ---
 
 This task shows how administrators can configure the Istio certificate authority with an existing root certificate, signing certificate and key.

@@ -2,6 +2,7 @@
 title: Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.5.
 weight: 20
+test: no
 ---
 
 This page describes changes you need to be aware of when upgrading from

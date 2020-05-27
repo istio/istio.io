@@ -3,6 +3,7 @@ title: Can I run Zookeeper inside an Istio mesh?
 description: How to run Zookeeper with Istio.
 weight: 50
 keywords: [zookeeper]
+test: no
 ---
 
 By default, Zookeeper listens on the pod IP address for communication

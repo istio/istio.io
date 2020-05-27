@@ -8,6 +8,7 @@ aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/docker/
     - /docs/setup/kubernetes/platform-setup/docker/
 keywords: [platform-setup,kubernetes,docker-desktop]
+test: no
 ---
 
 1. To run Istio with Docker Desktop, install a version which contains a supported Kubernetes version

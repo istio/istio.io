@@ -13,6 +13,7 @@ aliases:
     - /about/notes/0.1/index.html
     - /news/2017/announcing-0.1
     - /news/announcing-0.1
+test: n/a
 ---
 
 Google, IBM, and Lyft are proud to announce the first public release of [Istio](/): an open source project that provides a uniform way to connect, secure, manage and monitor microservices. Our current release is targeted at the [Kubernetes](https://kubernetes.io/) environment; we intend to add support for other environments such as virtual machines and Cloud Foundry in the coming months.

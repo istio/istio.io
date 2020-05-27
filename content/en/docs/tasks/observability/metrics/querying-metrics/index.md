@@ -6,6 +6,7 @@ keywords: [telemetry,metrics]
 aliases:
     - /docs/tasks/telemetry/querying-metrics/
     - /docs/tasks/telemetry/metrics/querying-metrics/
+test: no
 ---
 
 This task shows you how to query for Istio Metrics using Prometheus. As part of

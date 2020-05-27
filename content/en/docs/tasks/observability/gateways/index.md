@@ -5,6 +5,7 @@ weight: 98
 keywords: [telemetry,gateway,jaeger,zipkin,tracing,kiali,prometheus,addons]
 aliases:
  - /docs/tasks/telemetry/gateways/
+test: no
 ---
 
 This task shows how to configure Istio to expose and access the telemetry addons outside of

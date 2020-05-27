@@ -5,6 +5,7 @@ weight: 10
 keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 aliases:
     - /docs/tasks/zipkin-tracing.html
+test: no
 ---
 
 After completing this task, you understand how to have your application participate in tracing with [Zipkin](https://zipkin.io/),

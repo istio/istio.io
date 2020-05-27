@@ -6,6 +6,7 @@ weight: 30
 aliases:
     - /docs/ops/troubleshooting/grafana
     - /docs/ops/troubleshooting/missing-traces
+test: no
 ---
 
 ## No traces appearing in Zipkin when running Istio locally on Mac

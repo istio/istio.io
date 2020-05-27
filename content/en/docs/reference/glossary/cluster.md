@@ -1,5 +1,6 @@
 ---
 title: Cluster
+test: n/a
 ---
 
 A cluster is set of compute nodes that run containerized applications.

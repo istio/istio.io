@@ -7,6 +7,7 @@ aliases:
     - /bugs/index.html
     - /help/bugs/
 icon: bugs
+test: no
 ---
 
 Oh no! You found a bug? We'd love to hear about it.

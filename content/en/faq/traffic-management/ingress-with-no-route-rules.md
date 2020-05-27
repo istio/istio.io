@@ -1,6 +1,7 @@
 ---
 title: Can I use standard Ingress specification without any route rules?
 weight: 40
+test: no
 ---
 
 Simple ingress specifications, with host, TLS, and exact path based

@@ -7,6 +7,7 @@ aliases:
     - /docs/setup/kubernetes/multicluster/
     - /docs/setup/kubernetes/install/multicluster/
 keywords: [kubernetes,multicluster]
+test: n/a
 ---
 
 {{< tip >}}

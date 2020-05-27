@@ -1,6 +1,7 @@
 ---
 title: How do I disable tracing?
 weight: 50
+test: no
 ---
 
 If you already have installed Istio with tracing enabled, you can disable it as follows:

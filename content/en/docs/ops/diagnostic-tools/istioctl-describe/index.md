@@ -5,6 +5,7 @@ weight: 30
 keywords: [traffic-management, istioctl, debugging, kubernetes]
 aliases:
   - /docs/ops/troubleshooting/istioctl-describe
+test: no
 ---
 
 {{< boilerplate experimental-feature-warning >}}

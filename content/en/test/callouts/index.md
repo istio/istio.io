@@ -2,6 +2,7 @@
 title: Callouts
 description: Plain callouts.
 skip_sitemap: true
+test: no
 ---
 
 {{< warning >}}

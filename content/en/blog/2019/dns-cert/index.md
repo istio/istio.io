@@ -5,6 +5,7 @@ publishdate: 2019-11-14
 attribution: Lei Tang (Google)
 keywords: [security, kubernetes, certificates, DNS]
 target_release: 1.4
+test: n/a
 ---
 
 By default, Citadel manages the DNS certificates of the Istio control plane.

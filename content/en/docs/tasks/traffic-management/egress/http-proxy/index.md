@@ -5,6 +5,7 @@ weight: 60
 keywords: [traffic-management,egress]
 aliases:
   - /docs/examples/advanced-gateways/http-proxy/
+test: no
 ---
 The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) example shows how to direct
 traffic to external services from your mesh via an Istio edge component called _Egress Gateway_. However, some
