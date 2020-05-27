@@ -46,7 +46,7 @@ For this task you can use your favorite tool to generate certificates and keys. 
 1.  Create a configuration file for the NGINX server:
 
     {{< text bash >}}
-    $ cat <<EOF > ./nginx.conf
+    $ cat <<\EOF > ./nginx.conf
     events {
     }
 

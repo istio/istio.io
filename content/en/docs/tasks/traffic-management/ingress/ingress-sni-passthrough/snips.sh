@@ -33,9 +33,8 @@ snip_deploy_an_nginx_server_1() {
 kubectl create secret tls nginx-server-certs --key nginx.example.com.key --cert nginx.example.com.crt
 }
 
-# shellcheck disable=SC2154
 snip_deploy_an_nginx_server_2() {
-cat <<EOF > ./nginx.conf
+cat <<\EOF > ./nginx.conf
 events {
 }
 
@@ -116,7 +115,7 @@ EOF
 }
 
 snip_deploy_an_nginx_server_5() {
-kubectl exec -it "$(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name})" -c istio-proxy -- curl -v -k --resolve "nginx.example.com:443:127.0.0.1" "https://nginx.example.com"
+kubectl exec -it "$(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name})" -c istio-proxy -- curl -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
 }
 
 ! read -r -d '' snip_deploy_an_nginx_server_5_out <<\ENDSNIP
@@ -195,7 +194,7 @@ EOF
 }
 
 snip_configure_an_ingress_gateway_3() {
-curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert "example.com.crt" "https://nginx.example.com:$SECURE_INGRESS_PORT"
+curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert example.com.crt "https://nginx.example.com:$SECURE_INGRESS_PORT"
 }
 
 ! read -r -d '' snip_configure_an_ingress_gateway_3_out <<\ENDSNIP
