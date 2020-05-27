@@ -5,7 +5,7 @@ weight: 30
 keywords: [traffic-management,ingress,https]
 aliases:
   - /docs/examples/advanced-gateways/ingress-sni-passthrough/
-test: no
+test: yes
 ---
 
 The [Securing Gateways with HTTPS](/docs/tasks/traffic-management/ingress/secure-ingress/) task describes how to configure HTTPS
