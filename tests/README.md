@@ -1,7 +1,7 @@
 # Testing istio.io Content
 
 This folder contains tests for the content on [istio.io](http://istio.io).
-More specifically, these tests confirm that the example and task documents, which contain
+More specifically, these tests confirm that the example, task, and other documents, which contain
 instructions in the form of bash commands and expected output, are working as documented.
 
 Generated bash scripts, containing the set of commands and expected output for corresponding
@@ -10,6 +10,13 @@ This means that we extract and test the exact same commands that are published i
 
 These tests use the framework defined in the `istioio` package, which is a thin wrapper
 around the [Istio test framework](https://github.com/istio/istio/wiki/Istio-Test-Framework).
+
+Run the following command to see the current test coverage, including the list of documents
+that are in need of a test:
+
+```sh
+make test_status
+```
 
 ## Test Authoring Overview
 

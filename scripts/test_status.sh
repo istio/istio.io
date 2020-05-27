@@ -31,6 +31,7 @@ echo "Summary: \
    $(find content/en/docs/tasks -name '*.md' -exec grep --quiet '^test: no$' {} \; -print | wc -l) (untested) \
    $(find content/en/docs/tasks -name '*.md' -exec grep --quiet '^test: n/a$' {} \; -print | wc -l) (n/a)"
 
+echo ""
 echo "Untested:"
 find content/en/docs/tasks -name '*.md' -exec grep --quiet '^test: no$' {} \; -print
 
@@ -43,6 +44,7 @@ echo "Summary: \
    $(find content/en/docs/examples -name '*.md' -exec grep --quiet '^test: no$' {} \; -print | wc -l) (untested) \
    $(find content/en/docs/examples -name '*.md' -exec grep --quiet '^test: n/a$' {} \; -print | wc -l) (n/a)"
 
+echo ""
 echo "Untested:"
 find content/en/docs/examples -name '*.md' -exec grep --quiet '^test: no$' {} \; -print
 
@@ -55,6 +57,7 @@ echo "Summary: \
    $(find content/en/docs/setup -name '*.md' -exec grep --quiet '^test: no$' {} \; -print | wc -l) (untested) \
    $(find content/en/docs/setup -name '*.md' -exec grep --quiet '^test: n/a$' {} \; -print | wc -l) (n/a)"
 
+echo ""
 echo "Untested:"
 find content/en/docs/setup -name '*.md' -exec grep --quiet '^test: no$' {} \; -print
 
@@ -67,5 +70,6 @@ echo "Summary: \
    $(find content/en/docs/ops -name '*.md' -exec grep --quiet '^test: no$' {} \; -print | wc -l) (untested) \
    $(find content/en/docs/ops -name '*.md' -exec grep --quiet '^test: n/a$' {} \; -print | wc -l) (n/a)"
 
+echo ""
 echo "Untested:"
 find content/en/docs/ops -name '*.md' -exec grep --quiet '^test: no$' {} \; -print
