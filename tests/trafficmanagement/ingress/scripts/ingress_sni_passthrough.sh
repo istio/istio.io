@@ -38,7 +38,7 @@ snip_deploy_an_nginx_server_3
 snip_deploy_an_nginx_server_4
 
 # waiting for nginx deployment to start
-sample_wait_for_deployment default nginx
+sample_wait_for_deployment default my-nginx
 
 # validate NGINX server was deployed successfully 
 _run_and_verify_contains snip_deploy_an_nginx_server_5 "common name: nginx.example.com (matched)"
