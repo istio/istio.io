@@ -10,7 +10,10 @@ replace github.com/spf13/viper => github.com/istio/viper v1.3.3-0.20190515210538
 
 replace github.com/docker/docker => github.com/docker/engine v1.4.2-0.20191011211953-adfac697dc5b
 
-require istio.io/istio v0.0.0-20200518170651-df8ea82bf434
+require (
+	istio.io/istio v0.0.0-20200518170651-df8ea82bf434
+	istio.io/pkg v0.0.0-20200511212725-7bfbbf968c23
+)
 
 replace github.com/Azure/go-autorest/autorest => github.com/Azure/go-autorest/autorest v0.9.0
 

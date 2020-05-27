@@ -29,20 +29,21 @@ func TestAuthorizationForHTTPServices(t *testing.T) {
 		NewTest(t).
 		Run(istioio.NewBuilder("tasks__security__authorization_for_http_services").
 			Add(istioio.Script{
-				Input: istioio.Path("scripts/authz_http.txt"),
+				Input: istioio.Path("scripts/authz_http.sh"),
 			}).
-			// Remaining cleanup (undocumented).
 			Defer(istioio.Script{
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
+set +e # ignore cleanup errors
 source ${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-http/snips.sh
+source ${REPO_ROOT}/tests/util/samples.sh
 snip_clean_up_1
-kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml || true
-kubectl delete -f samples/bookinfo/networking/bookinfo-gateway.yaml || true
-kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml || true
-kubectl delete -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml || true
-kubectl delete -f samples/sleep/sleep.yaml || true`,
+# remaining cleanup (undocumented).
+cleanup_bookinfo_sample
+cleanup_sleep_sample
+kubectl delete -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
+`,
 				},
 			}).Build())
 }

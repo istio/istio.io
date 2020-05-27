@@ -30,25 +30,7 @@ func TestMutualTLSMigration(t *testing.T) {
 		NewTest(t).
 		Run(istioio.NewBuilder("tasks__security__mututal_tls_migration").
 			Add(istioio.Script{
-				Input: istioio.Inline{
-					FileName: "create_ns_foo_bar_legacy.sh",
-					Value: `
-set -e
-set -u
-set -o pipefail
-source ${REPO_ROOT}/content/en/docs/tasks/security/authentication/mtls-migration/snips.sh
-# create_ns_foo_bar_legacy
-snip_set_up_the_cluster_1
-snip_set_up_the_cluster_2`,
-				},
-			}).
-
-			// Wait for pods to start.
-			Add(istioio.MultiPodWait("foo"),
-				istioio.MultiPodWait("bar"),
-				istioio.MultiPodWait("legacy")).
-			Add(istioio.Script{
-				Input: istioio.Path("scripts/mtls_migration.txt"),
+				Input: istioio.Path("scripts/mtls_migration.sh"),
 			}).
 			// Cleanup.
 			Defer(istioio.Script{
@@ -56,6 +38,7 @@ snip_set_up_the_cluster_2`,
 					FileName: "cleanup.sh",
 					Value: `
 source ${REPO_ROOT}/content/en/docs/tasks/security/authentication/mtls-migration/snips.sh
+snip_clean_up_the_example_1
 snip_clean_up_the_example_2`,
 				},
 			}).

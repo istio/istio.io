@@ -12,33 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package configuration
+package egress
 
 import (
 	"testing"
 
 	"istio.io/istio/pkg/test/framework"
-
-	"istio.io/istio.io/pkg/test/istioio"
+	"istio.io/istio/pkg/test/framework/components/istio"
+	"istio.io/istio/pkg/test/framework/resource/environment"
 )
 
-// https://istio.io/docs/ops/configuration/mesh/app-health-check/
-func TestHealthCheck(t *testing.T) {
+var (
+	inst istio.Instance
+)
+
+func TestMain(m *testing.M) {
+	// Integration test for Egress
 	framework.
-		NewTest(t).
-		Run(istioio.NewBuilder("ops__configuration__mesh__app_health_check").
-			Add(istioio.Script{
-				Input: istioio.Path("scripts/liveness_and_readiness_probes.sh"),
-			}).
-			Defer(istioio.Script{
-				Input: istioio.Inline{
-					FileName: "cleanup.sh",
-					Value: `
-set +e # ignore cleanup errors
-source ${REPO_ROOT}/content/en/docs/ops/configuration/mesh/app-health-check/snips.sh
-snip_cleanup_1
-kubectl delete ns health-annotate`,
-				},
-			}).
-			Build())
+		NewSuite("trafficmanagement_egress", m).
+		SetupOnEnv(environment.Kube, istio.Setup(&inst, nil)).
+		RequireEnvironment(environment.Kube).
+		Run()
+
 }

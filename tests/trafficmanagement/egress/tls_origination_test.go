@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package configuration
+package egress
 
 import (
 	"testing"
@@ -22,22 +22,21 @@ import (
 	"istio.io/istio.io/pkg/test/istioio"
 )
 
-// https://istio.io/docs/ops/configuration/mesh/app-health-check/
-func TestHealthCheck(t *testing.T) {
+func TestTlsOrigination(t *testing.T) {
 	framework.
 		NewTest(t).
-		Run(istioio.NewBuilder("ops__configuration__mesh__app_health_check").
+		Run(istioio.NewBuilder("tasks__traffic_management__egress_tls_origination").
 			Add(istioio.Script{
-				Input: istioio.Path("scripts/liveness_and_readiness_probes.sh"),
+				Input: istioio.Path("scripts/tls_origination.sh"),
 			}).
 			Defer(istioio.Script{
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
 set +e # ignore cleanup errors
-source ${REPO_ROOT}/content/en/docs/ops/configuration/mesh/app-health-check/snips.sh
+source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/egress/egress-tls-origination/snips.sh"
 snip_cleanup_1
-kubectl delete ns health-annotate`,
+snip_cleanup_2`,
 				},
 			}).
 			Build())

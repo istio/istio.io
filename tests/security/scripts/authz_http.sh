@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1090,SC2154
 
 # Copyright Istio Authors
 #
@@ -18,7 +19,8 @@ set -e
 set -u
 set -o pipefail
 
-source ${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-http/snips.sh
+source "${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-http/snips.sh"
+source "${REPO_ROOT}/tests/util/samples.sh"
 
 REPEAT=${REPEAT:-100}
 THRESHOLD=${THRESHOLD:-1}
@@ -75,31 +77,22 @@ function verify {
     fi
   done
 
-
   echo -e "want code ${wantCode} and text: $(printf "%s, " "${wantText[@]}")\ngot: ${lastResponse}\n"
   return 1
 }
 
-kubectl label namespace default istio-injection=enabled || true
+kubectl label namespace default istio-injection=enabled --overwrite
+startup_sleep_sample # needed for sending test requests with curl
 
-kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
-kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
-kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
+# launch the bookinfo app
+startup_bookinfo_sample
 
 # TODO: Using reviews-v3 in this test. Should update the doc to do so as well, to make sure ratings request
 #       are configured when it demonstrates denial of access to the ratings service.
 kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
 
-kubectl apply -f samples/sleep/sleep.yaml
-
-# Wait for the deployments to roll out.
-for deploy in "productpage-v1" "details-v1" "ratings-v1" "reviews-v1" "reviews-v2" "reviews-v3" "sleep"; do
-  if ! kubectl rollout status deployment "$deploy" --timeout 5m
-  then
-    echo "$deploy deployment rollout status check failed"
-    exit 1
-  fi
-done
+#istioctl experimental wait --for=distribution VirtualService reviews.default
+sleep 5s
 
 snip_configure_access_control_for_workloads_using_http_traffic_1
 

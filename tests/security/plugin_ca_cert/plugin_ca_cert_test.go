@@ -30,28 +30,14 @@ func TestPluginCACert(t *testing.T) {
 		NewTest(t).
 		Run(istioio.NewBuilder("tasks__security___plugin_ca_cert").
 			Add(istioio.Script{
-				Input: istioio.Inline{
-					FileName: "create_ns_foo_with_httpbin_sleep.sh",
-					Value: `
-set -e
-set -u
-set -o pipefail
-source ${REPO_ROOT}/content/en/docs/tasks/security/cert-management/plugin-ca-cert/snips.sh
-# create_ns_foo_with_httpbin_sleep
-snip_deploying_example_services_1
-snip_deploying_example_services_2`,
-				},
-			}).
-			// Wait for pods to start.
-			Add(istioio.MultiPodWait("foo")).
-			Add(istioio.Script{
-				Input: istioio.Path("scripts/plugin_ca_cert.txt"),
+				Input: istioio.Path("scripts/plugin_ca_cert.sh"),
 			}).
 			// Cleanup.
 			Defer(istioio.Script{
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
+set +e # ignore cleanup errors
 source ${REPO_ROOT}/content/en/docs/tasks/security/cert-management/plugin-ca-cert/snips.sh
 snip_cleanup_1`,
 				},

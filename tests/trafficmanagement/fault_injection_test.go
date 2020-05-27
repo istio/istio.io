@@ -27,7 +27,7 @@ func TestFaultInjection(t *testing.T) {
 		NewTest(t).
 		Run(istioio.NewBuilder("tasks__traffic_management__fault_injection").
 			Add(istioio.Script{
-				Input: istioio.Path("scripts/request_routing.sh"),
+				Input: istioio.Path("scripts/fault_injection.sh"),
 			}).
 			Defer(istioio.Script{
 				Input: istioio.Inline{

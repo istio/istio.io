@@ -191,6 +191,7 @@ $ istioctl manifest generate > $HOME/generated-manifest.yaml
 Inspect the manifest as needed, then apply the manifest using this command:
 
 {{< text bash >}}
+$ kubectl create ns istio-system
 $ kubectl apply -f $HOME/generated-manifest.yaml
 {{< /text >}}
 

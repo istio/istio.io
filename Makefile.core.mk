@@ -96,7 +96,7 @@ lint: clean_public build_nominify lint-copyright-banner lint-python lint-yaml li
 lint-en: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@scripts/lint_site.sh en
 
-lint-fast:
+lint-fast: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
 
 serve: site

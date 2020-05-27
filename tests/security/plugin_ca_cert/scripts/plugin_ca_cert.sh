@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1090,SC2154
 
 # Copyright Istio Authors
 #
@@ -18,7 +19,15 @@ set -e
 set -u
 set -o pipefail
 
-source ${REPO_ROOT}/content/en/docs/tasks/security/cert-management/plugin-ca-cert/snips.sh
+source "${REPO_ROOT}/content/en/docs/tasks/security/cert-management/plugin-ca-cert/snips.sh"
+source "${REPO_ROOT}/tests/util/samples.sh"
+
+# create_ns_foo_with_httpbin_sleep
+snip_deploying_example_services_1
+snip_deploying_example_services_2
+
+sample_wait_for_deployment foo httpbin
+sample_wait_for_deployment foo sleep
 
 # Disable errors, since the next command is expected to return an error.
 set +e

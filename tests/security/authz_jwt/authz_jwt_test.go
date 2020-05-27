@@ -29,15 +29,6 @@ func TestAuthzJWT(t *testing.T) {
 		NewTest(t).
 		Run(istioio.NewBuilder("tasks__security___authz_jwt").
 			Add(istioio.Script{
-				Input: istioio.Inline{
-					FileName: "create_ns_foo_with_httpbin_sleep.sh",
-					Value: `
-source ${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-jwt/snips.sh
-snip_before_you_begin_1`,
-				},
-			}).
-			Add(istioio.MultiPodWait("foo")).
-			Add(istioio.Script{
 				Input: istioio.Path("scripts/authz_jwt.sh"),
 			}).
 
@@ -46,6 +37,7 @@ snip_before_you_begin_1`,
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
+set +e # ignore cleanup errors
 source ${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-jwt/snips.sh
 snip_clean_up_1`,
 				},

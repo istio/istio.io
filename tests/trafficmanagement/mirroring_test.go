@@ -22,26 +22,21 @@ import (
 	"istio.io/istio.io/pkg/test/istioio"
 )
 
-// https://preliminary.istio.io/docs/tasks/traffic-management/mirroring/
-func TestMirror(t *testing.T) {
+func TestMirroring(t *testing.T) {
 	framework.
 		NewTest(t).
 		Run(istioio.NewBuilder("tasks__traffic_management__mirroring").
 			Add(istioio.Script{
-				Input: istioio.Path("scripts/mirror_deploy.txt"),
-			}).
-			Add(istioio.MultiPodWait("istio-io-mirror")).
-			Add(istioio.Script{
-				Input: istioio.Path("scripts/mirror_traffic.txt"),
+				Input: istioio.Path("scripts/mirroring.sh"),
 			}).
 			Defer(istioio.Script{
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
+set +e # ignore cleanup errors
 source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/mirroring/snips.sh
 snip_cleaning_up_1
 snip_cleaning_up_2
-kubectl delete ns istio-io-mirror
 `,
 				},
 			}).

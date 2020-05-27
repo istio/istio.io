@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1090,SC2154
 
 # Copyright Istio Authors
 #
@@ -18,7 +19,8 @@ set -e
 set -u
 set -o pipefail
 
-source ${REPO_ROOT}/content/en/docs/examples/bookinfo/snips.sh
+source "${REPO_ROOT}/content/en/docs/examples/bookinfo/snips.sh"
+source "${REPO_ROOT}/tests/util/samples.sh"
 
 # remove the injection label to prevent the following command from failing
 kubectl label namespace default istio-injection-
@@ -43,8 +45,8 @@ _run_and_verify_like snip_determine_the_ingress_ip_and_port_2 "$snip_determine_t
 # give it some time to propagate
 sleep 5
 
-export INGRESS_HOST={{ .ingressHostCommand }}
-export INGRESS_PORT={{ .ingressPortCommand }}
+# export the INGRESS_ environment variables
+sample_set_ingress_environment_variables
 
 snip_determine_the_ingress_ip_and_port_3
 

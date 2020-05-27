@@ -152,7 +152,7 @@ EOF
 
 snip_creating_a_default_routing_policy_2() {
 export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-kubectl exec -it "$SLEEP_POD" -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
+kubectl exec "${SLEEP_POD}" -c sleep -- curl -s http://httpbin:8000/headers
 }
 
 ! read -r -d '' snip_creating_a_default_routing_policy_2_out <<\ENDSNIP
@@ -162,17 +162,19 @@ kubectl exec -it "$SLEEP_POD" -c sleep -- sh -c 'curl  http://httpbin:8000/heade
     "Content-Length": "0",
     "Host": "httpbin:8000",
     "User-Agent": "curl/7.35.0",
+    "X-B3-Parentspanid": "57784f8bff90ae0b",
     "X-B3-Sampled": "1",
-    "X-B3-Spanid": "eca3d7ed8f2e6a0a",
-    "X-B3-Traceid": "eca3d7ed8f2e6a0a",
-    "X-Ot-Span-Context": "eca3d7ed8f2e6a0a;eca3d7ed8f2e6a0a;0000000000000000"
+    "X-B3-Spanid": "3289ae7257c3f159",
+    "X-B3-Traceid": "b56eebd279a76f0b57784f8bff90ae0b",
+    "X-Envoy-Attempt-Count": "1",
+    "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/default/sa/default;Hash=20afebed6da091c850264cc751b8c9306abac02993f80bdb76282237422bd098;Subject=\"\";URI=spiffe://cluster.local/ns/default/sa/default"
   }
 }
 ENDSNIP
 
 snip_creating_a_default_routing_policy_3() {
 export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
-kubectl logs -f "$V1_POD" -c httpbin
+kubectl logs "$V1_POD" -c httpbin
 }
 
 ! read -r -d '' snip_creating_a_default_routing_policy_3_out <<\ENDSNIP
@@ -181,7 +183,7 @@ ENDSNIP
 
 snip_creating_a_default_routing_policy_4() {
 export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..metadata.name})
-kubectl logs -f "$V2_POD" -c httpbin
+kubectl logs "$V2_POD" -c httpbin
 }
 
 ! read -r -d '' snip_creating_a_default_routing_policy_4_out <<\ENDSNIP
@@ -211,11 +213,11 @@ EOF
 }
 
 snip_mirroring_traffic_to_v2_2() {
-kubectl exec -it "$SLEEP_POD" -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
+kubectl exec "${SLEEP_POD}" -c sleep -- curl -s http://httpbin:8000/headers
 }
 
 snip_mirroring_traffic_to_v2_3() {
-kubectl logs -f "$V1_POD" -c httpbin
+kubectl logs "$V1_POD" -c httpbin
 }
 
 ! read -r -d '' snip_mirroring_traffic_to_v2_3_out <<\ENDSNIP
@@ -224,7 +226,7 @@ kubectl logs -f "$V1_POD" -c httpbin
 ENDSNIP
 
 snip_mirroring_traffic_to_v2_4() {
-kubectl logs -f "$V2_POD" -c httpbin
+kubectl logs "$V2_POD" -c httpbin
 }
 
 ! read -r -d '' snip_mirroring_traffic_to_v2_4_out <<\ENDSNIP
