@@ -2,6 +2,7 @@
 title: Text Blocks
 description: Basic text blocks.
 skip_sitemap: true
+test: no
 ---
 
 Plain text block with html tag

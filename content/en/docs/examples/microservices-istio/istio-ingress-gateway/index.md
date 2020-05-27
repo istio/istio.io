@@ -3,6 +3,7 @@ title: Configure Istio Ingress Gateway
 overview: Control traffic starting from Ingress.
 weight: 71
 
+test: no
 ---
 
 Until now, you used a Kubernetes Ingress to access your application from the

@@ -10,6 +10,7 @@ aliases:
     - /docs/concepts/security/rbac/
     - /docs/concepts/security/mutual-tls.html
     - /docs/concepts/policies/
+test: no
 ---
 
 Breaking down a monolithic application into atomic services offers various

@@ -1,6 +1,7 @@
 ---
 title: How do I see all Mixer's configuration?
 weight: 10
+test: no
 ---
 
 Configuration for *instances*, *handlers*, and *rules* is stored as Kubernetes

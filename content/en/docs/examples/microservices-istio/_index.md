@@ -5,6 +5,7 @@ weight: 100
 icon: classroom
 simple_list: true
 content_above: true
+test: n/a
 ---
 
 It is intended for self-guided users or instructors who train

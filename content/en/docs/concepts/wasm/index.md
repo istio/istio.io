@@ -3,6 +3,7 @@ title: Extensibility
 description: Describes Istio's WebAssembly Plugin system.
 weight: 50
 keywords: [wasm,webassembly,emscripten,extension,plugin,filter]
+test: n/a
 ---
 
 WebAssembly is a sandboxing technology which can be used to extend the Istio proxy (Envoy).  The Proxy-Wasm sandbox API replaces Mixer as the primary extension mechanism in Istio. Istio 1.6 will provide a uniform configuration API for Proxy-Wasm plugins.

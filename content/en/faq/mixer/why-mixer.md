@@ -1,6 +1,7 @@
 ---
 title: Why does Istio need Mixer?
 weight: 1
+test: n/a
 ---
 
 Mixer provides a rich intermediation layer between the Istio components as well as Istio-based services,

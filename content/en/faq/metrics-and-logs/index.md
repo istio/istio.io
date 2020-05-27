@@ -8,4 +8,5 @@ icon: faq
 aliases:
  - /help/faq/telemetry
  - /help/faq/metrics-and-logs
+test: n/a
 ---

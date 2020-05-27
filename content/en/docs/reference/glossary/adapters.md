@@ -1,5 +1,6 @@
 ---
 title: Adapters
+test: n/a
 ---
 
 Adapters are plug-ins to [Mixer](/docs/reference/glossary/#mixer), Istio's [policy and telemetry](/docs/reference/config/policy-and-telemetry/) component, which enable it to interface

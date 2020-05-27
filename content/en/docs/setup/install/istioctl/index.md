@@ -3,6 +3,7 @@ title: Customizable Install with Istioctl
 description: Install and customize any Istio configuration profile for in-depth evaluation or production use.
 weight: 10
 keywords: [istioctl,kubernetes]
+test: no
 ---
 
 Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.

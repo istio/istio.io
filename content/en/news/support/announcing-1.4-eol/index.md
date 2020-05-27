@@ -5,6 +5,7 @@ description: Upcoming Istio 1.4 end of life announcement.
 publishdate: 2020-05-05
 aliases:
     - /news/2020/announcing-1.4-eol
+test: n/a
 ---
 
 According to Istio's [support policy](/about/release-cadence/), LTS releases like 1.4 are supported for three months after the next LTS release. Since [1.5 was released on March 5th](/news/releases/1.5.x/announcing-1.5/), support for 1.4 will end on June 5th, 2020.

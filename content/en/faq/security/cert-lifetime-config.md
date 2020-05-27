@@ -1,6 +1,7 @@
 ---
 title: How to configure the lifetime for Istio certificates?
 weight: 70
+test: no
 ---
 
 For the workloads running in Kubernetes, the lifetime of their Istio certificates is controlled by the

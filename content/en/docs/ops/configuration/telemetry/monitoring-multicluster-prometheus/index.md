@@ -5,6 +5,7 @@ weight: 10
 aliases:
   - /help/ops/telemetry/monitoring-multicluster-prometheus
   - /docs/ops/telemetry/monitoring-multicluster-prometheus
+test: no
 ---
 
 ## Overview

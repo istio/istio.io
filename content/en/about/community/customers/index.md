@@ -5,6 +5,7 @@ weight: 30
 icon: customers
 keywords: [community]
 skip_seealso: true
+test: n/a
 ---
 
 Tons of people are using Istio. Maybe you should too?

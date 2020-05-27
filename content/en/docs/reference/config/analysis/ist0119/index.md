@@ -1,6 +1,7 @@
 ---
 title: JwtFailureDueToInvalidServicePortPrefix
 layout: analysis-message
+test: no
 ---
 
 This message occurs when a authentication Policy specifies the use of JWT authentication, but

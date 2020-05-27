@@ -2,6 +2,7 @@
 title: Boilerplates
 description: Basic boilerplates.
 skip_sitemap: true
+test: n/a
 ---
 
 Plain boilerplate:

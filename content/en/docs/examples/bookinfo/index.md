@@ -6,7 +6,7 @@ aliases:
     - /docs/samples/bookinfo.html
     - /docs/guides/bookinfo/index.html
     - /docs/guides/bookinfo.html
-test: true
+test: yes
 ---
 
 This example deploys a sample application composed of four separate microservices used

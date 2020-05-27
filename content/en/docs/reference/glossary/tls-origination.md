@@ -1,5 +1,6 @@
 ---
 title: TLS Origination
+test: n/a
 ---
 
 TLS origination occurs when an Istio proxy (sidecar or egress gateway) is configured to accept unencrypted

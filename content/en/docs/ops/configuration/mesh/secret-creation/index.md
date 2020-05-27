@@ -2,6 +2,7 @@
 title: Service Account Secret Creation
 description: Describes how Citadel determines whether to create service account secrets.
 weight: 30
+test: n/a
 ---
 
     {{< warning >}}

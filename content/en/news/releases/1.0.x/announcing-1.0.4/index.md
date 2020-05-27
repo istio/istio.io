@@ -10,6 +10,7 @@ aliases:
     - /blog/2018/announcing-1.0.4
     - /news/2018/announcing-1.0.4
     - /news/announcing-1.0.4
+test: n/a
 ---
 
 We're pleased to announce the availability of Istio 1.0.4. Please see below for what's changed.

@@ -1,6 +1,7 @@
 ---
 title: ConflictingMeshGatewayVirtualServiceHosts
 layout: analysis-message
+test: no
 ---
 
 This message occurs when Istio detects an overlap between

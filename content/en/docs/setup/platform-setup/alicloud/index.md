@@ -7,6 +7,7 @@ aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/alicloud/
     - /docs/setup/kubernetes/platform-setup/alicloud/
 keywords: [platform-setup,alibaba-cloud,aliyun,alicloud]
+test: n/a
 ---
 
 Follow these instructions to prepare an

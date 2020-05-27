@@ -10,6 +10,7 @@ aliases:
     - /docs/concepts/policies-and-telemetry/overview/
     - /docs/concepts/policies-and-telemetry/config/
     - /docs/concepts/policies-and-telemetry/
+test: no
 ---
 
 Istio generates detailed telemetry for all service communications within a mesh. This telemetry provides *observability* of service behavior,

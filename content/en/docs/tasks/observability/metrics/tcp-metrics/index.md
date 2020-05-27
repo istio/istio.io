@@ -6,6 +6,7 @@ keywords: [telemetry,metrics,tcp]
 aliases:
     - /docs/tasks/telemetry/tcp-metrics
     - /docs/tasks/telemetry/metrics/tcp-metrics/
+test: no
 ---
 
 This task shows how to configure Istio to automatically gather telemetry for TCP

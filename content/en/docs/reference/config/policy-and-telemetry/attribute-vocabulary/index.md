@@ -5,6 +5,7 @@ weight: 10
 aliases:
     - /docs/reference/config/mixer/attribute-vocabulary.html
     - /docs/reference/config/mixer/aspects/attributes.html
+test: n/a
 ---
 
 Attributes are a central concept used throughout Istio. You can find a description of what attributes are

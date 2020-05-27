@@ -1,4 +1,5 @@
 ---
+test: no
 ---
 *   Start the [httpbin]({{< github_tree >}}/samples/httpbin) sample.
 

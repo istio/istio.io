@@ -7,6 +7,7 @@ aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/azure/
     - /docs/setup/kubernetes/platform-setup/azure/
 keywords: [platform-setup,azure]
+test: no
 ---
 
 Follow these instructions to prepare an Azure cluster for Istio.

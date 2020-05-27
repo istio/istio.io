@@ -7,6 +7,7 @@ publishdate: 2020-01-08
 release: 1.4.3
 aliases:
     - /news/announcing-1.4.3
+test: n/a
 ---
 
 This release includes bug fixes to improve robustness and user experience. This release note describes what’s different between Istio 1.4.2 and Istio 1.4.3.

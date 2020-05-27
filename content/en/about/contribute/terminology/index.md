@@ -6,6 +6,7 @@ aliases:
     - /docs/welcome/contribute/style-guide.html
     - /docs/reference/contribute/style-guide.html
 keywords: [contribute, documentation, guide, code-block]
+test: n/a
 ---
 
 To provide clarity to our users, use the standard terms in this section

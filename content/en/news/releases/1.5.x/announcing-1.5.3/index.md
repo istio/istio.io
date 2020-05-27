@@ -7,6 +7,7 @@ publishdate: 2020-05-12
 release: 1.5.3
 aliases:
     - /news/announcing-1.5.3
+test: n/a
 ---
 
 {{< warning >}}

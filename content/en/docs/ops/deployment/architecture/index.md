@@ -5,6 +5,7 @@ weight: 10
 aliases:
   - /docs/concepts/architecture
   - /docs/ops/architecture
+test: n/a
 ---
 
 An Istio service mesh is logically split into a **data plane** and a **control

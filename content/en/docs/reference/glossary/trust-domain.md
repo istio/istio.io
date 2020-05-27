@@ -1,5 +1,6 @@
 ---
 title: Trust Domain
+test: n/a
 ---
 
 [Trust domain](https://spiffe.io/spiffe/concepts/#trust-domain) corresponds to the trust root of a system and is part of a workload identity

@@ -1,5 +1,6 @@
 ---
 title: SPIFFE
+test: n/a
 ---
 
 The Secure Production Identity Framework For Everyone (SPIFFE) Project defines a framework and a set

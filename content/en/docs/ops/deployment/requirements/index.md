@@ -19,6 +19,7 @@ aliases:
   - /docs/ops/setup/required-pod-capabilities
   - /help/ops/setup/required-pod-capabilities
   - /docs/ops/prep/requirements
+test: no
 ---
 
 To be part of a mesh, Kubernetes pods and services must satisfy the following

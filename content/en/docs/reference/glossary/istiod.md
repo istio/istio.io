@@ -1,5 +1,6 @@
 ---
 title: Istiod
+test: n/a
 ---
 
 The Istiod component is the consolidated monolithic control plane binary that encapsulates the functions of Pilot, Citadel, Mixer, and Galley.

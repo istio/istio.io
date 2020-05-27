@@ -1,6 +1,7 @@
 ---
 title: Can I use Prometheus to scrape application metrics with Istio?
 weight: 90
+test: n/a
 ---
 
 Yes. Istio ships with [configuration for Prometheus]({{< github_file >}}/manifests/charts/istio-telemetry/prometheus/templates/configmap.yaml)

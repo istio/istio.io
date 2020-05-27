@@ -11,6 +11,7 @@ keywords:
 aliases:
 - /docs/examples/mesh-expansion/multi-network
 - /docs/tasks/virtual-machines/multi-network
+test: no
 ---
 
 This example provides instructions to integrate a VM or a bare metal host into a

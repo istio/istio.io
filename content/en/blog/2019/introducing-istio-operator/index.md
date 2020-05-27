@@ -6,6 +6,7 @@ subtitle:
 attribution: Martin Ostrowski (Google), Frank Budinsky (IBM)
 keywords: [install,configuration,istioctl,operator]
 target_release: 1.4
+test: no
 ---
 
 Kubernetes [operators](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) provide

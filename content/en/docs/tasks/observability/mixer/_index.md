@@ -5,6 +5,7 @@ weight: 99
 aliases:
  - /docs/examples/telemetry/
  - /docs/tasks/telemetry/
+test: n/a
 ---
 
 {{< warning >}}

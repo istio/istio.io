@@ -6,7 +6,7 @@ keywords: [security,access-control,rbac,authorization]
 aliases:
     - /docs/tasks/security/role-based-access-control.html
     - /docs/tasks/security/authz-http/
-test: true
+test: yes
 ---
 
 This task shows you how to set up Istio authorization for HTTP traffic in an Istio mesh.

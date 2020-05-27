@@ -6,6 +6,7 @@ keywords: [istioctl,bash,zsh,shell,command-line]
 aliases:
   - /help/ops/component-debugging
   - /docs/ops/troubleshooting/istioctl
+test: no
 ---
 
 You can gain insights into what individual components are doing by inspecting their [logs](/docs/ops/diagnostic-tools/component-logging/)

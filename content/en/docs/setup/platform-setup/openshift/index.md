@@ -7,6 +7,7 @@ aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/openshift/
     - /docs/setup/kubernetes/platform-setup/openshift/
 keywords: [platform-setup,openshift]
+test: no
 ---
 
 {{< warning >}}

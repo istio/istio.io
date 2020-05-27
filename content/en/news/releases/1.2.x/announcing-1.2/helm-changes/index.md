@@ -3,6 +3,7 @@ title: Helm Changes
 description: Details the Helm chart installation options differences between Istio 1.1 and Istio 1.2.
 weight: 30
 keywords: []
+test: n/a
 ---
 
 The tables below show changes made to the installation options used to customize Istio install using Helm between Istio 1.1 and Istio 1.2. The tables are grouped in to three different categories:

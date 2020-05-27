@@ -5,6 +5,7 @@ publishdate: 2019-11-14
 attribution: Lei Tang (Google)
 keywords: [security, kubernetes, webhook]
 target_release: 1.4
+test: n/a
 ---
 
 Istio has two webhooks: Galley and the sidecar injector.

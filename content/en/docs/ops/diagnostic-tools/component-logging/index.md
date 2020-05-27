@@ -6,6 +6,7 @@ keywords: [ops]
 aliases:
   - /help/ops/component-logging
   - /docs/ops/troubleshooting/component-logging
+test: no
 ---
 
 Istio components are built with a flexible logging framework which provides a number of features and controls to

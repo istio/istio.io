@@ -17,6 +17,7 @@ aliases:
   - /docs/performance-and-scalability/synthetic-benchmarks
   - /docs/concepts/performance-and-scalability
   - /docs/ops/performance-and-scalability
+test: n/a
 ---
 
 Istio makes it easy to create a network of deployed services with rich routing,

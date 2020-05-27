@@ -7,6 +7,7 @@ publishdate: 2020-05-13
 release: 1.5.4
 aliases:
     - /news/announcing-1.5.4
+test: n/a
 ---
 
 This release fixes the security vulnerability described in [our May 12th, 2020 news post](/news/security/istio-security-2020-005).

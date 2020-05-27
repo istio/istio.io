@@ -8,6 +8,7 @@ aliases:
   - /docs/reference/faq.html
   - /help/faq/
 icon: faq
+test: n/a
 ---
 
 You've got questions? We've got answers!

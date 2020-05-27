@@ -12,6 +12,7 @@ aliases:
     - /about/notes/0.2/index.html
     - /news/2017/announcing-0.2
     - /news/announcing-0.2
+test: n/a
 ---
 
 We launched Istio; an open platform to connect, manage, monitor, and secure microservices, on May 24, 2017. We have been humbled by the incredible interest, and

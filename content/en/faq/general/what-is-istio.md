@@ -1,6 +1,7 @@
 ---
 title: What is Istio?
 weight: 10
+test: n/a
 ---
 
 Istio is an open platform-independent service mesh that provides traffic management, policy enforcement, and telemetry collection.

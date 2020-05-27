@@ -5,6 +5,7 @@ weight: 11
 keywords: [telemetry,tracing,lightstep]
 aliases:
  - /docs/tasks/telemetry/distributed-tracing/lightstep/
+test: no
 ---
 
 This task shows you how to configure Istio to collect trace spans and send them to [Lightstep](https://lightstep.com).

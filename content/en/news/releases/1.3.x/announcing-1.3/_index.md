@@ -11,6 +11,7 @@ aliases:
     - /news/2019/announcing-1.3
     - /news/announcing-1.3.0
     - /news/announcing-1.3
+test: n/a
 ---
 
 We are pleased to announce the release of Istio 1.3!

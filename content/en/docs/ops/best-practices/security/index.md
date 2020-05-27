@@ -3,6 +3,7 @@ title: Security Best Practices
 description: Best practices for securing applications using Istio.
 force_inline_toc: true
 weight: 30
+test: no
 ---
 
 This section provides some deployment guidelines to help keep a service mesh secure.

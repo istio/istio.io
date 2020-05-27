@@ -3,6 +3,7 @@ title: Configuration Analysis Messages
 description: Documents the individual error and warning messages produced during configurarion analysis.
 weight: 70
 layout: analysis-landing
+test: n/a
 ---
 
 [`istioctl`](/docs/reference/commands/istioctl/#istioctl-analyze) provides rich analysis of Istio configuration state in

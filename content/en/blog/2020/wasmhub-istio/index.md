@@ -5,6 +5,7 @@ description: Community partner tooling of Wasm for Istio by Solo.io.
 publishdate: 2020-03-25
 attribution: "Idit Levine (Solo.io)"
 keywords: [wasm,extensibility,alpha,performance,operator]
+test: n/a
 ---
 
 [*Originally posted on the Solo.io blog*](https://www.solo.io/blog/an-extended-and-improved-webassembly-hub-to-helps-bring-the-power-of-webassembly-to-envoy-and-istio/)

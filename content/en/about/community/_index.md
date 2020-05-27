@@ -6,4 +6,5 @@ weight: 5
 aliases:
     - /community
 icon: community
+test: n/a
 ---

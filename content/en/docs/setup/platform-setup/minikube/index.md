@@ -7,6 +7,7 @@ aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/minikube/
     - /docs/setup/kubernetes/platform-setup/minikube/
 keywords: [platform-setup,kubernetes,minikube]
+test: no
 ---
 
 Follow these instructions to prepare minikube for Istio installation with sufficient

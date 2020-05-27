@@ -1,5 +1,6 @@
 ---
 title: Routing Rules
+test: n/a
 ---
 Routing rules, which you configure in a [virtual service](/docs/concepts/traffic-management/#virtual-services),
 define the paths that requests follow within the service mesh. With routing rules, you can define

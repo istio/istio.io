@@ -5,6 +5,7 @@ description: Learn how to deploy, use, and operate Istio.
 weight: 1
 sidebar_multicard: true
 icon: docs
+test: n/a
 ---
 
 In addition to the above documentation links, please consider the following resources:

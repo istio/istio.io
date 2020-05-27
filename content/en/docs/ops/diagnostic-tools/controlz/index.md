@@ -6,6 +6,7 @@ keywords: [ops]
 aliases:
   - /help/ops/controlz
   - /docs/ops/troubleshooting/controlz
+test: no
 ---
 
 Istio components are built with a flexible introspection framework which makes it easy to inspect and manipulate the internal state

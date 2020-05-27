@@ -12,6 +12,7 @@ skip_seealso: true
 aliases:
     - /blog/2019/cve-2019-12995
     - /news/2019/cve-2019-12995
+test: no
 ---
 
 {{< security_bulletin >}}
