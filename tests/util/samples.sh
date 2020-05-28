@@ -108,11 +108,11 @@ sample_http_request() {
     sleep_pod=$(kubectl get pod -l app=sleep -n default -o 'jsonpath={.items..metadata.name}')
 
     local args=""
-    #if [[ -n "$user" ]]; then
-        # TODO: make request as logged in user
-        #kubectl exec "$sleep_pod" -c sleep -n "default" -- curl -c sample.cookies "$ingress_url/login" --data "username=$user&passwd=password"
-        #args="-b sample.cookies"
-    #fi
+    if [[ -n "$user" ]]; then
+        # make request as logged in user
+        kubectl exec "$sleep_pod" -c sleep -n "default" -- curl -c sample.cookies "$ingress_url/login" --data "username=$user&passwd=password"
+        args="-b sample.cookies"
+    fi
 
     # shellcheck disable=SC2086
     response=$(kubectl exec "$sleep_pod" -c sleep -n "default" -- \
@@ -120,13 +120,7 @@ sample_http_request() {
 
     if [[ -n "$user" ]]; then
         # shellcheck disable=SC2086
-        #kubectl exec "$sleep_pod" -c sleep -n "default" -- curl $args "$ingress_url/logout"
-        response+="
-glyphicon glyphicon-star
-Sorry, product reviews are currently unavailable for this book.
-Ratings service is currently unavailable
-"
-        # ^^^ REMOVE THIS TEMPORARY KLUDGE WHEN LOGIN IMPLEMENTED
+        kubectl exec "$sleep_pod" -c sleep -n "default" -- curl $args "$ingress_url/logout"
     fi
 
     echo "$response"
