@@ -22,24 +22,39 @@ import (
 	"strings"
 	"testing"
 
-	// "istio.io/istio.io/pkg/test/istioio"
-
 	"istio.io/istio.io/pkg/test/istioio"
 	"istio.io/istio/pkg/test/framework"
 	"istio.io/istio/pkg/test/framework/components/istio"
+	"istio.io/istio/pkg/test/framework/resource/environment"
 )
 
 var inst istio.Instance
 
+// command line arguments
 var testsToRun = flag.String("test", "all", "tests to be run")
+var testEnv = flag.String("env", "kube", "environment for test")
 
 func TestMain(m *testing.M) {
+	flag.Parse()
 	fmt.Println("Starting test docs: " + *testsToRun)
+	fmt.Println("env:", *testEnv)
+
+	var env environment.Name
+	switch *testEnv {
+	case "kube":
+		env = environment.Kube
+	case "native":
+		env = environment.Native
+	default:
+		fmt.Printf("Test environment error: expecting `kube` or `native`, get `%s`\n", *testEnv)
+		return
+	}
+
 	framework.
-		NewSuite("doctest", m).Run()
-	// SetupOnEnv(environment.Kube, istio.Setup(&inst, nil)).
-	// RequireEnvironment(environment.Kube).
-	// Run()
+		NewSuite("doctest", m).
+		SetupOnEnv(env, istio.Setup(&inst, nil)).
+		RequireEnvironment(env).
+		Run()
 }
 
 func TestDocs(t *testing.T) {
@@ -86,6 +101,7 @@ func runTestFile(path string) (bool, error) {
 	// fmt.Println(testScript[len(testScript)-100:])
 	// fmt.Println(cleanupScript)
 
+	// TODO: locate the line of error?
 	t := new(testing.T)
 	framework.
 		NewTest(t).
