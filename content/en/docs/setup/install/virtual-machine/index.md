@@ -198,7 +198,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
 1. Add the istiod host to `/etc/hosts`.
 
     {{< text bash >}}
-    $ sudo cat hosts-addendum >> /etc/hosts
+    $ sudo sh -c 'cat hosts-addendum >> /etc/hosts'
     {{< /text >}}
 
 1. Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy.
