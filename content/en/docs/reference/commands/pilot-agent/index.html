@@ -23,11 +23,11 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -47,7 +47,7 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -81,12 +81,12 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -111,7 +111,7 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -184,6 +184,11 @@ remove_toc_prefix: 'pilot-agent '
 <td>Comma separated list of outbound ports to be excluded from redirection to Envoy  (default ``)</td>
 </tr>
 <tr>
+<td><code>--istio-outbound-ports &lt;string&gt;</code></td>
+<td><code>-q</code></td>
+<td>Comma separated list of outbound ports to be explicitly included for redirection to Envoy  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istio-service-cidr &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Comma separated list of IP ranges in CIDR form to redirect to envoy (optional). The wildcard character &#34;*&#34; can be used to redirect all outbound traffic. An empty list will disable all outbound  (default ``)</td>
@@ -206,12 +211,12 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -236,7 +241,7 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -313,11 +318,11 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -337,7 +342,7 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -407,11 +412,11 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -431,7 +436,7 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -460,12 +465,12 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -490,7 +495,7 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, configmapcontroller, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, stsclient, stsserver, token, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -612,12 +617,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>The url of GKE cluster</td>
 </tr>
 <tr>
-<td><code>INGRESS_GATEWAY_FALLBACK_SECRET</code></td>
-<td>String</td>
-<td><code>gateway-fallback</code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>INGRESS_GATEWAY_NAMESPACE</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -706,12 +705,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code>third-party-jwt</code></td>
 <td>The JWT validation policy.</td>
-</tr>
-<tr>
-<td><code>NAMESPACE</code></td>
-<td>String</td>
-<td><code>istio-system</code></td>
-<td>namespace that nodeagent/citadel run in</td>
 </tr>
 <tr>
 <td><code>OUTPUT_CERTS</code></td>
