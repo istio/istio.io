@@ -18,7 +18,11 @@
                     </button>
 
                     <div class="body{{if .IsAncestor $current}} default{{end}}" aria-labelledby="{{ $id }}" role="region" id="{{ $id }}-body">
-                        {{ partial "sidebar_level.html" (dict "pages" $pages "parent" $page "current" $current "collapse" false "top" true "labelledby" $id ) }}
+                        {{ if ($page.IsAncestor $current) }}
+                            {{ partial "sidebar_level.html" (dict "pages" $pages "parent" $page "current" $current "collapse" false "top" true "labelledby" $id ) }}
+                        {{ else }}
+                            {{ partialCached "sidebar_level.html" (dict "pages" $pages "parent" $page "current" $current "collapse" false "top" true "labelledby" $id ) $page.CurrentSection }}
+                        {{ end }}
                     </div>
                 </div>
             {{ end }}
