@@ -14,7 +14,6 @@
 package content
 
 import (
-	// "errors"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -32,23 +31,23 @@ import (
 
 var inst istio.Instance
 
-// command line arguments
-var testsToRun = flag.String("test", "all", "tests to be run")
-var testEnv = flag.String("env", "kube", "environment for test")
+// var repoRoot = os.Getenv("REPO_ROOT")
+var testsToRun = os.Getenv("TEST")
+var testEnv = os.Getenv("ENV")
 
 func TestMain(m *testing.M) {
 	flag.Parse()
-	log.Println("Starting test doc(s):", *testsToRun)
-	log.Println("Test environment:", *testEnv)
+	log.Println("Starting test doc(s):", testsToRun)
+	log.Println("Test environment:", testEnv)
 
 	var env environment.Name
-	switch *testEnv {
+	switch testEnv {
 	case "kube":
 		env = environment.Kube
 	case "native":
 		env = environment.Native
 	default:
-		log.Fatalf("Test environment error: expecting 'kube' or 'native', got '%v'\n", *testEnv)
+		log.Fatalf("Test environment error: expecting 'kube' or 'native', got '%v'\n", testEnv)
 	}
 
 	framework.
@@ -59,10 +58,10 @@ func TestMain(m *testing.M) {
 }
 
 func TestDocs(t *testing.T) {
-	// traverse through content/ to find the matched tests
 	testFileSuffix := "/test.sh"
-	defer log.Println("Test finished")
+	var numPassed, numFailed, numErrors int
 
+	// traverse through content/ to find the matched tests
 	err := filepath.Walk(".",
 		func(path string, info os.FileInfo, walkError error) error {
 			if walkError != nil {
@@ -70,15 +69,23 @@ func TestDocs(t *testing.T) {
 			}
 
 			checkFile := strings.HasSuffix(path, testFileSuffix) &&
-				(*testsToRun == "all" || strings.Contains(path, *testsToRun))
+				(testsToRun == "all" || strings.Contains(path, testsToRun))
 			if checkFile {
+				log.Println("Running:", path)
+
 				success, err := runTestFile(path)
 				if err != nil {
 					log.Println(err)
-
+					log.Println("Skipping to next test")
+					numErrors++
+					// TODO: aggregate
 				}
 				if success {
-
+					log.Println("Test passed:", path)
+					numPassed++
+				} else {
+					log.Println("Test failed:", path)
+					numFailed++
 				}
 			}
 			return nil
@@ -89,12 +96,13 @@ func TestDocs(t *testing.T) {
 	}
 
 	// aggregate results and report
+	log.Println("All tests finished")
+	numTotal := numPassed + numFailed + numErrors
+	t.Logf("Passed: %v/%v", numPassed, numTotal)
 }
 
 func runTestFile(path string) (bool, error) {
-	log.Println("Running:", path)
-
-	// for each matched test, find `test.sh`, parse it into test and cleanup, then run test
+	// find `test.sh`, parse it into test and cleanup, then run test
 	script, err := ioutil.ReadFile(path)
 	if err != nil {
 		return false, err
@@ -136,3 +144,13 @@ func runTestFile(path string) (bool, error) {
 
 	return true, nil
 }
+
+// func getSetupScript(path string) string {
+// 	# REPO_ROOT=~/istio.io
+// # cd $REPO_ROOT
+// `
+// source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/request-routing/snips.sh"
+// source "${REPO_ROOT}/tests/util/samples.sh"
+// source "${REPO_ROOT}/tests/util/verify.sh"
+// `
+// }

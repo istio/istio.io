@@ -19,8 +19,7 @@ set -e
 set -u
 set -o pipefail
 
-REPO_ROOT=~/istio.io
-cd $REPO_ROOT
+cd ${REPO_ROOT}
 
 source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/request-routing/snips.sh"
 source "${REPO_ROOT}/tests/util/samples.sh"
@@ -68,7 +67,6 @@ out=$(sample_http_request "/productpage")
 _verify_not_contains "$out" "glyphicon glyphicon-star" "request_ratings_response_others"
 
 #! cleanup
-REPO_ROOT=~/istio.io
 cd $REPO_ROOT
 
 source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/request-routing/snips.sh"
