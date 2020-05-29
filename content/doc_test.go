@@ -14,9 +14,11 @@
 package content
 
 import (
+	// "errors"
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -36,8 +38,8 @@ var testEnv = flag.String("env", "kube", "environment for test")
 
 func TestMain(m *testing.M) {
 	flag.Parse()
-	fmt.Println("Starting test docs: " + *testsToRun)
-	fmt.Println("env:", *testEnv)
+	log.Println("Starting test doc(s):", *testsToRun)
+	log.Println("Test environment:", *testEnv)
 
 	var env environment.Name
 	switch *testEnv {
@@ -46,60 +48,70 @@ func TestMain(m *testing.M) {
 	case "native":
 		env = environment.Native
 	default:
-		fmt.Printf("Test environment error: expecting `kube` or `native`, get `%s`\n", *testEnv)
-		return
+		log.Fatalf("Test environment error: expecting 'kube' or 'native', got '%v'\n", *testEnv)
 	}
 
 	framework.
-		NewSuite("doctest", m).
+		NewSuite("doc_test", m).
 		SetupOnEnv(env, istio.Setup(&inst, nil)).
 		RequireEnvironment(env).
 		Run()
 }
 
 func TestDocs(t *testing.T) {
-	// 2. traverse through content/* to match the folder to be tested (or test all folders)
+	// traverse through content/ to find the matched tests
 	testFileSuffix := "/test.sh"
+	defer log.Println("Test finished")
 
 	err := filepath.Walk(".",
-		func(path string, info os.FileInfo, err error) error {
+		func(path string, info os.FileInfo, walkError error) error {
+			if walkError != nil {
+				return walkError
+			}
+
 			checkFile := strings.HasSuffix(path, testFileSuffix) &&
 				(*testsToRun == "all" || strings.Contains(path, *testsToRun))
 			if checkFile {
-				runTestFile(path)
+				success, err := runTestFile(path)
+				if err != nil {
+					log.Println(err)
+
+				}
+				if success {
+
+				}
 			}
 			return nil
 		},
 	)
 	if err != nil {
-		fmt.Printf("Failed to execute tests: %s", err)
+		log.Fatalln("Error occurred while traversing the directory:", err)
 	}
 
-	// 3. for each matched folder, find `test.sh`, parse it into test and cleanup, then run test
-
-	// 4. aggregate results and report
-	fmt.Println("Test finished")
+	// aggregate results and report
 }
 
 func runTestFile(path string) (bool, error) {
-	fmt.Println("Running: " + path)
+	log.Println("Running:", path)
 
+	// for each matched test, find `test.sh`, parse it into test and cleanup, then run test
 	script, err := ioutil.ReadFile(path)
 	if err != nil {
 		return false, err
 	}
 
-	testCleanupSep := "# cleanup"
+	testCleanupSep := "#! cleanup"
 	splitScript := strings.Split(string(script), testCleanupSep)
-	if len(splitScript) != 2 {
-		fmt.Println("Expected two-part script")
-		return false, nil
+	if numParts := len(splitScript); numParts != 2 {
+		err := fmt.Errorf(
+			"Script parsing error: Expected two-part script separated by '%v', got %v part(s)",
+			testCleanupSep, numParts,
+		)
+		return false, err
 	}
 
 	testScript := splitScript[0]
 	cleanupScript := splitScript[1]
-	// fmt.Println(testScript[len(testScript)-100:])
-	// fmt.Println(cleanupScript)
 
 	// TODO: locate the line of error?
 	t := new(testing.T)

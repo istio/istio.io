@@ -67,7 +67,7 @@ _verify_contains "$out" "glyphicon glyphicon-star" "request_ratings_response_jas
 out=$(sample_http_request "/productpage")
 _verify_not_contains "$out" "glyphicon glyphicon-star" "request_ratings_response_others"
 
-# cleanup
+#! cleanup
 REPO_ROOT=~/istio.io
 cd $REPO_ROOT
 
