@@ -42,7 +42,11 @@
 
                     <button{{ if not $collapse }} class="show"{{ end }} aria-hidden="true"></button><a {{ if eq $current.Permalink .Permalink }}class="current"{{ end }} title="{{ $desc }}" href="{{ .Permalink }}">{{ .LinkTitle}}</a>
 
-                    {{ partial "sidebar_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "" ) }}
+                    {{ if (.CurrentSection.IsAncestor $current) }}
+                        {{ partial "sidebar_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "" ) }}
+                    {{- else -}}
+                        {{ partialCached "sidebar_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "" ) .CurrentSection }}
+                    {{- end -}}
                 </li>
             {{ else }}
                 <li role="none">
