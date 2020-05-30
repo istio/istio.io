@@ -29,11 +29,16 @@ import (
 	"istio.io/istio/pkg/test/framework/resource/environment"
 )
 
-var inst istio.Instance
+var (
+	inst istio.Instance
 
-// var repoRoot = os.Getenv("REPO_ROOT")
-var testsToRun = os.Getenv("TEST")
-var testEnv = os.Getenv("ENV")
+	testsToRun = os.Getenv("TEST")
+	testEnv    = os.Getenv("ENV")
+
+	snipsFileSuffix = "/snips.sh"
+	testFileSuffix  = "/test.sh"
+	testCleanupSep  = "#! cleanup"
+)
 
 func TestMain(m *testing.M) {
 	flag.Parse()
@@ -58,8 +63,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestDocs(t *testing.T) {
-	testFileSuffix := "/test.sh"
-	var numPassed, numFailed, numErrors int
+	// var numPassed, numFailed, numErrors int
 
 	// traverse through content/ to find the matched tests
 	err := filepath.Walk(".",
@@ -70,22 +74,21 @@ func TestDocs(t *testing.T) {
 
 			checkFile := strings.HasSuffix(path, testFileSuffix) &&
 				(testsToRun == "all" || strings.Contains(path, testsToRun))
-			if checkFile {
-				log.Println("Running:", path)
 
-				success, err := runTestFile(path)
+			if checkFile {
+				success, err := runTestFile(path, t)
 				if err != nil {
 					log.Println(err)
-					log.Println("Skipping to next test")
-					numErrors++
-					// TODO: aggregate
+					// log.Println("Skipping to next test")
+					// numErrors++
+					// TODO: handle error
 				}
 				if success {
-					log.Println("Test passed:", path)
-					numPassed++
+					// log.Println("Test passed:", path)
+					// numPassed++
 				} else {
-					log.Println("Test failed:", path)
-					numFailed++
+					// log.Println("Test failed:", path)
+					// numFailed++
 				}
 			}
 			return nil
@@ -95,20 +98,19 @@ func TestDocs(t *testing.T) {
 		log.Fatalln("Error occurred while traversing the directory:", err)
 	}
 
-	// aggregate results and report
-	log.Println("All tests finished")
-	numTotal := numPassed + numFailed + numErrors
-	t.Logf("Passed: %v/%v", numPassed, numTotal)
+	// TODO: aggregate results and report
+	// log.Println("All tests finished")
+	// numTotal := numPassed + numFailed + numErrors
+	// t.Logf("Passed: %v/%v", numPassed, numTotal)
 }
 
-func runTestFile(path string) (bool, error) {
+func runTestFile(path string, t *testing.T) (bool, error) {
 	// find `test.sh`, parse it into test and cleanup, then run test
 	script, err := ioutil.ReadFile(path)
 	if err != nil {
 		return false, err
 	}
 
-	testCleanupSep := "#! cleanup"
 	splitScript := strings.Split(string(script), testCleanupSep)
 	if numParts := len(splitScript); numParts != 2 {
 		err := fmt.Errorf(
@@ -118,39 +120,40 @@ func runTestFile(path string) (bool, error) {
 		return false, err
 	}
 
+	setupScript := getSetupScript(path)
 	testScript := splitScript[0]
 	cleanupScript := splitScript[1]
 
-	// TODO: locate the line of error?
-	t := new(testing.T)
-	framework.
-		NewTest(t).
-		Run(istioio.NewBuilder(path).
-			Add(istioio.Script{
-				Input: istioio.Inline{
-					FileName: "test.sh",
-					Value:    testScript,
-				},
-			}).
-			Defer(istioio.Script{
-				Input: istioio.Inline{
-					FileName: "cleanup.sh",
-					Value:    cleanupScript,
-				},
-			}).
-			Build())
+	t.Run(path, func(t *testing.T) {
+		framework.
+			NewTest(t).
+			Run(istioio.NewBuilder(path).
+				Add(istioio.Script{
+					Input: istioio.Inline{
+						FileName: "test.sh",
+						Value:    setupScript + testScript,
+					},
+				}).
+				Defer(istioio.Script{
+					Input: istioio.Inline{
+						FileName: "cleanup.sh",
+						Value:    setupScript + cleanupScript,
+					},
+				}).
+				Build())
+	})
 
-	// report if test succeeds or files with logs
+	// TODO: find logs?
 
 	return true, nil
 }
 
-// func getSetupScript(path string) string {
-// 	# REPO_ROOT=~/istio.io
-// # cd $REPO_ROOT
-// `
-// source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/request-routing/snips.sh"
-// source "${REPO_ROOT}/tests/util/samples.sh"
-// source "${REPO_ROOT}/tests/util/verify.sh"
-// `
-// }
+func getSetupScript(testPath string) string {
+	snipsPath := strings.ReplaceAll(testPath, testFileSuffix, snipsFileSuffix)
+	return fmt.Sprintf(`
+			source "${REPO_ROOT}/content/%v"
+			source "${REPO_ROOT}/tests/util/samples.sh"
+			source "${REPO_ROOT}/tests/util/verify.sh"
+			cd ${REPO_ROOT}
+			`, snipsPath)
+}

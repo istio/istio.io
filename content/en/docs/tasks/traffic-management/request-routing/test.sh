@@ -19,12 +19,6 @@ set -e
 set -u
 set -o pipefail
 
-cd ${REPO_ROOT}
-
-source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/request-routing/snips.sh"
-source "${REPO_ROOT}/tests/util/samples.sh"
-source "${REPO_ROOT}/tests/util/verify.sh"
-
 kubectl label namespace default istio-injection=enabled --overwrite
 startup_sleep_sample # needed for sending test requests with curl
 
@@ -67,12 +61,6 @@ out=$(sample_http_request "/productpage")
 _verify_not_contains "$out" "glyphicon glyphicon-star" "request_ratings_response_others"
 
 #! cleanup
-cd $REPO_ROOT
-
-source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/request-routing/snips.sh"
-source "${REPO_ROOT}/tests/util/samples.sh"
-source "${REPO_ROOT}/tests/util/verify.sh"
-
 set +e # ignore cleanup errors
 snip_cleanup_1
 cleanup_bookinfo_sample
