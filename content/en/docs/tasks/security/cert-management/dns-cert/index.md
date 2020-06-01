@@ -35,7 +35,7 @@ spec:
         - secretName: dns.example2-service-account
           dnsNames: [example2.istio-system.svc, example2.istio-system]
 EOF
-$ istioctl manifest apply -f ./istio.yaml
+$ istioctl install -f ./istio.yaml
 {{< /text >}}
 
 ## DNS certificate provisioning and management
@@ -46,7 +46,7 @@ Istio also manages the lifecycle of the DNS certificates, including their rotati
 
 ## Configure DNS certificates
 
-The `IstioControlPlane` custom resource used to configure Istio in the `istioctl manifest apply` command, above,
+The `IstioControlPlane` custom resource used to configure Istio in the `istioctl install` command, above,
 contains an example DNS certificate configuration. Within, the `dnsNames` field specifies the DNS
 names in a certificate and the `secretName` field specifies the name of the Kubernetes secret used to
 store the certificate and the key.

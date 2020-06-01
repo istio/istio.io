@@ -20,7 +20,7 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 [installation steps](/docs/setup/getting-started).
 
 {{< text bash >}}
-$ istioctl manifest apply
+$ istioctl install
 {{< /text >}}
 
 ### Setup
