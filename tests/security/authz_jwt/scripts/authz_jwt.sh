@@ -20,12 +20,11 @@ set -u
 set -o pipefail
 
 source "${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-jwt/snips.sh"
-source "${REPO_ROOT}/tests/util/samples.sh"
 
 snip_before_you_begin_1
 
-sample_wait_for_deployment foo httpbin
-sample_wait_for_deployment foo sleep
+_wait_for_deployment foo httpbin
+_wait_for_deployment foo sleep
 
 # Pull the Istio branch from the docs configuration file.
 ISTIO_BRANCH=$(yq r "${REPO_ROOT}"/data/args.yml 'source_branch_name')

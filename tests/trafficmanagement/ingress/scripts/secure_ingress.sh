@@ -28,7 +28,7 @@ kubectl label namespace default istio-injection=enabled --overwrite
 startup_httpbin_sample
 
 # export the INGRESS_ environment variables
-sample_set_ingress_environment_variables
+_set_ingress_environment_variables
 
 snip_generate_client_and_server_certificates_and_keys_1
 
@@ -44,7 +44,7 @@ snip_configure_a_tls_ingress_gateway_for_a_single_host_2
 snip_configure_a_tls_ingress_gateway_for_a_single_host_3
 
 # waiting for httpbin deployment to start
-sample_wait_for_deployment default httpbin
+_wait_for_deployment default httpbin
 
 # verifying httpbin deployment
 out=$(snip_configure_a_tls_ingress_gateway_for_a_single_host_4 2>&1)
@@ -72,7 +72,7 @@ snip_configure_a_tls_ingress_gateway_for_multiple_hosts_1
 snip_configure_a_tls_ingress_gateway_for_multiple_hosts_2
 
 # waiting for helloworldv1 deployment to start
-sample_wait_for_deployment default helloworld-v1
+_wait_for_deployment default helloworld-v1
 
 snip_configure_a_tls_ingress_gateway_for_multiple_hosts_3
 

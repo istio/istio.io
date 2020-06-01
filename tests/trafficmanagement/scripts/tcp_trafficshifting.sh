@@ -20,7 +20,6 @@ set -u
 set -o pipefail
 
 source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/tcp-traffic-shifting/snips.sh"
-source "${REPO_ROOT}/tests/util/samples.sh"
 
 # TODO: why is the following needed in the test if it's not a needed step in the doc?
 # add the TCP port to the ingress-gateway
@@ -42,12 +41,12 @@ snip_set_up_the_test_environment_2
 snip_set_up_the_test_environment_3
 
 # wait for deployments to start
-sample_wait_for_deployment istio-io-tcp-traffic-shifting tcp-echo-v1
-sample_wait_for_deployment istio-io-tcp-traffic-shifting tcp-echo-v2
-sample_wait_for_deployment istio-io-tcp-traffic-shifting sleep
+_wait_for_deployment istio-io-tcp-traffic-shifting tcp-echo-v1
+_wait_for_deployment istio-io-tcp-traffic-shifting tcp-echo-v2
+_wait_for_deployment istio-io-tcp-traffic-shifting sleep
 
 # export the INGRESS_ environment variables
-sample_set_ingress_environment_variables
+_set_ingress_environment_variables
 
 # Route all traffic to echo v1
 snip_apply_weightbased_tcp_routing_1
