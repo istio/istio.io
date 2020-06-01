@@ -208,7 +208,7 @@ EOF
 Apply the main cluster's configuration.
 
 {{< text bash >}}
-$ istioctl --context=${MAIN_CLUSTER_CTX} manifest apply -f istio-main-cluster.yaml
+$ istioctl install -f istio-main-cluster.yaml --context=${MAIN_CLUSTER_CTX}
 {{< /text >}}
 
 Wait for the control plane to be ready before proceeding.
@@ -279,7 +279,7 @@ EOF
 Apply the remote cluster configuration.
 
 {{< text bash >}}
-$ istioctl --context ${REMOTE_CLUSTER_CTX} manifest apply -f istio-remote0-cluster.yaml
+$ istioctl install -f istio-remote0-cluster.yaml --context ${REMOTE_CLUSTER_CTX}
 {{< /text >}}
 
 Wait for the remote cluster to be ready.

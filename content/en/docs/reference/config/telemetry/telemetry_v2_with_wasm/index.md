@@ -8,13 +8,13 @@ test: no
 Since Istio 1.5, by default Telemetry V2 is enabled as compiled in Istio proxy filters. The same filters are also compiled to WebAssembly (Wasm) modules and shipped with Istio proxy. To enable Telemetry V2 with Wasm runtime, install Istio with the `preview` profile:
 
 {{< text bash >}}
-$ istioctl manifest apply --set profile=preview
+$ istioctl install --set profile=preview
 {{< /text >}}
 
 Alternatively, set the following two values to enable Wasm based Telemetry v2 with the `default` profile:
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.telemetry.v2.metadataExchange.wasmEnabled=true --set values.telemetry.v2.prometheus.wasmEnabled=true
+$ istioctl install --set values.telemetry.v2.metadataExchange.wasmEnabled=true --set values.telemetry.v2.prometheus.wasmEnabled=true
 {{< /text >}}
 
 {{< warning >}}

@@ -17,7 +17,12 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 * Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and related
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
-* Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio.
+* Install Istio on a Kubernetes cluster with the `default` configuration profile, as described in
+[installation steps](/docs/setup/getting-started).
+
+{{< text bash >}}
+$ istioctl install
+{{< /text >}}
 
 ### Setup
 

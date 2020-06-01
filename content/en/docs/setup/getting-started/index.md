@@ -73,7 +73,7 @@ Follow these steps to get started with Istio:
     profiles for production or performance testing.
 
     {{< text bash >}}
-    $ istioctl manifest apply --set profile=demo
+    $ istioctl install --set profile=demo
     ✔ Istio core installed
     ✔ Istiod installed
     ✔ Egress gateways installed
