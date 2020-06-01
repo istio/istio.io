@@ -20,18 +20,17 @@ set -u
 set -o pipefail
 
 source "${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-ingress/snips.sh"
-source "${REPO_ROOT}/tests/util/samples.sh"
 
 export CLIENT_IP
 
 snip_before_you_begin_1
 
-sample_wait_for_deployment foo httpbin
+_wait_for_deployment foo httpbin
 
 snip_before_you_begin_2
 
 # Export the INGRESS_ environment variables
-sample_set_ingress_environment_variables
+_set_ingress_environment_variables
 
 _run_and_verify_same snip_before_you_begin_3 "$snip_before_you_begin_3_out"
 

@@ -20,7 +20,6 @@ set -u
 set -o pipefail
 
 source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/snips.sh"
-source "${REPO_ROOT}/tests/util/samples.sh"
 
 kubectl label namespace default istio-injection=enabled --overwrite
 
@@ -38,9 +37,9 @@ snip_deploy_an_nginx_server_3
 snip_deploy_an_nginx_server_4
 
 # waiting for nginx deployment to start
-sample_wait_for_deployment default my-nginx
+_wait_for_deployment default my-nginx
 
-# validate NGINX server was deployed successfully 
+# validate NGINX server was deployed successfully
 _run_and_verify_contains snip_deploy_an_nginx_server_5 "subject: CN=nginx.example.com"
 
 # configure an ingress gateway
