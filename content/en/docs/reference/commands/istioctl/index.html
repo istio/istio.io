@@ -103,7 +103,7 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of [json yaml log]  (default `log`)</td>
+<td>Output format: one of [json log yaml]  (default `log`)</td>
 </tr>
 <tr>
 <td><code>--output-threshold &lt;Level&gt;</code></td>
@@ -1094,7 +1094,7 @@ istioctl experimental add-to-mesh service productpage
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of [log json yaml]  (default `log`)</td>
+<td>Output format: one of [json log yaml]  (default `log`)</td>
 </tr>
 <tr>
 <td><code>--output-threshold &lt;Level&gt;</code></td>
@@ -2495,7 +2495,7 @@ Istio will be started on the host network as a docker container in capture mode.
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/manifests)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
@@ -2640,7 +2640,7 @@ istioctl experimental wait --for=distribution --threshold=.99 --timeout=300 virt
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/manifests)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
@@ -2886,7 +2886,7 @@ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/manifests)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
@@ -3054,7 +3054,7 @@ e.g.
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/manifests)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
@@ -3178,7 +3178,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpe
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/manifests)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
@@ -3241,7 +3241,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/manifests)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
@@ -3434,7 +3434,7 @@ istioctl manifest apply --set profile=demo  # Use a profile from the list
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/manifests)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
@@ -3482,7 +3482,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/manifests)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
@@ -3546,7 +3546,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/manifests)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
@@ -4243,7 +4243,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/manifests)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
