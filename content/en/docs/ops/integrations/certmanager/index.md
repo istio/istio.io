@@ -52,7 +52,7 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: ingress-cert # This should match the Certifcate secretName
+      credentialName: ingress-cert # This should match the Certificate secretName
     hosts:
     - my.example.com # This should match a DNS name in the Certificate
 {{< /text >}}
