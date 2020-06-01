@@ -63,14 +63,8 @@ out=$(snip_configure_a_tls_ingress_gateway_for_a_single_host_7 2>&1)
 _verify_contains "$out" "HTTP/2 418" "snip_configure_a_tls_ingress_gateway_for_a_single_host_7"
 _verify_contains "$out" "-=[ teapot ]=-" "snip_configure_a_tls_ingress_gateway_for_a_single_host_7"
 
-# The next command is expected to fail, but don't error the script.
-set +e
-
 # verifying old httpbin credentials no longer work
-_run_and_verify_not_contains snip_configure_a_tls_ingress_gateway_for_a_single_host_8 "HTTP/2 418"
-
-# Restore error handling
-set -e
+_run_and_verify_failure snip_configure_a_tls_ingress_gateway_for_a_single_host_8
 
 snip_configure_a_tls_ingress_gateway_for_multiple_hosts_1
 
@@ -104,13 +98,7 @@ snip_configure_a_mutual_tls_ingress_gateway_2
 # wait for the change to propagate
 sleep 5s
 
-# The next command is expected to fail, but don't error the script.
-set +e
-
-_run_and_verify_not_contains snip_configure_a_mutual_tls_ingress_gateway_3 "HTTP/2 418"
-
-# Restore error handling
-set -e
+_run_and_verify_failure snip_configure_a_mutual_tls_ingress_gateway_3
 
 snip_configure_a_mutual_tls_ingress_gateway_4
 
