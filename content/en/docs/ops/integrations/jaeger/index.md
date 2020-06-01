@@ -1,7 +1,7 @@
 ---
 title: Jaeger
 description: How to integrate with Jaeger.
-weight: 20
+weight: 28
 keywords: [integration,jaeger,tracing]
 test: n/a
 ---

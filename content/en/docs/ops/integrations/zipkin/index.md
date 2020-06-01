@@ -1,7 +1,7 @@
 ---
 title: Zipkin
 description: How to integrate with Zipkin.
-weight: 20
+weight: 30
 keywords: [integration,zipkin,tracing]
 test: n/a
 ---
