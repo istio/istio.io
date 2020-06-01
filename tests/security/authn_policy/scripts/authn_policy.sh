@@ -20,16 +20,15 @@ set -u
 set -o pipefail
 
 source "${REPO_ROOT}/content/en/docs/tasks/security/authentication/authn-policy/snips.sh"
-source "${REPO_ROOT}/tests/util/samples.sh"
 
 snip_setup_1
 
-sample_wait_for_deployment foo httpbin
-sample_wait_for_deployment foo sleep
-sample_wait_for_deployment bar httpbin
-sample_wait_for_deployment bar sleep
-sample_wait_for_deployment legacy httpbin
-sample_wait_for_deployment legacy sleep
+_wait_for_deployment foo httpbin
+_wait_for_deployment foo sleep
+_wait_for_deployment bar httpbin
+_wait_for_deployment bar sleep
+_wait_for_deployment legacy httpbin
+_wait_for_deployment legacy sleep
 
 _run_and_verify_same  snip_setup_2 "$snip_setup_2_out"
 _run_and_verify_same  snip_setup_3 "$snip_setup_3_out"
@@ -72,7 +71,7 @@ snip_enduser_authentication_1
 snip_enduser_authentication_2
 
 # Export the INGRESS_ environment variables
-sample_set_ingress_environment_variables
+_set_ingress_environment_variables
 
 _run_and_verify_same  snip_enduser_authentication_3 "$snip_enduser_authentication_3_out"
 
