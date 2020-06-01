@@ -35,6 +35,13 @@ var (
 	testsToRun = os.Getenv("TEST")
 	testEnv    = os.Getenv("ENV")
 
+	setupTemplate = `
+		source "${REPO_ROOT}/content/%v" # snips.sh
+		source "${REPO_ROOT}/tests/util/samples.sh"
+		source "${REPO_ROOT}/tests/util/verify.sh"
+		cd ${REPO_ROOT}
+	`
+
 	snipsFileSuffix = "/snips.sh"
 	testFileSuffix  = "/test.sh"
 	testCleanupSep  = "#! cleanup"
@@ -63,33 +70,16 @@ func TestMain(m *testing.M) {
 }
 
 func TestDocs(t *testing.T) {
-	// var numPassed, numFailed, numErrors int
-
-	// traverse through content/ to find the matched tests
+	// traverse through content to find the matched tests
 	err := filepath.Walk(".",
 		func(path string, info os.FileInfo, walkError error) error {
 			if walkError != nil {
 				return walkError
 			}
-
 			checkFile := strings.HasSuffix(path, testFileSuffix) &&
 				(testsToRun == "all" || strings.Contains(path, testsToRun))
-
 			if checkFile {
-				success, err := runTestFile(path, t)
-				if err != nil {
-					log.Println(err)
-					// log.Println("Skipping to next test")
-					// numErrors++
-					// TODO: handle error
-				}
-				if success {
-					// log.Println("Test passed:", path)
-					// numPassed++
-				} else {
-					// log.Println("Test failed:", path)
-					// numFailed++
-				}
+				runTestFile(path, t)
 			}
 			return nil
 		},
@@ -97,34 +87,32 @@ func TestDocs(t *testing.T) {
 	if err != nil {
 		log.Fatalln("Error occurred while traversing the directory:", err)
 	}
-
-	// TODO: aggregate results and report
-	// log.Println("All tests finished")
-	// numTotal := numPassed + numFailed + numErrors
-	// t.Logf("Passed: %v/%v", numPassed, numTotal)
 }
 
-func runTestFile(path string, t *testing.T) (bool, error) {
-	// find `test.sh`, parse it into test and cleanup, then run test
-	script, err := ioutil.ReadFile(path)
-	if err != nil {
-		return false, err
-	}
-
-	splitScript := strings.Split(string(script), testCleanupSep)
-	if numParts := len(splitScript); numParts != 2 {
-		err := fmt.Errorf(
-			"Script parsing error: Expected two-part script separated by '%v', got %v part(s)",
-			testCleanupSep, numParts,
-		)
-		return false, err
-	}
-
-	setupScript := getSetupScript(path)
-	testScript := splitScript[0]
-	cleanupScript := splitScript[1]
-
+func runTestFile(path string, t *testing.T) {
+	// run a subtest for the given test file
 	t.Run(path, func(t *testing.T) {
+		script, err := ioutil.ReadFile(path)
+		if err != nil {
+			log.Println(err)
+			t.FailNow()
+		}
+
+		// parse the script into test and cleanup
+		splitScript := strings.Split(string(script), testCleanupSep)
+		if numParts := len(splitScript); numParts != 2 {
+			log.Printf(
+				"Script parsing error: Expected two-part script separated by '%v', got %v part(s)",
+				testCleanupSep, numParts,
+			)
+			t.FailNow()
+		}
+
+		setupScript := getSetupScript(path)
+		testScript := splitScript[0]
+		cleanupScript := splitScript[1]
+
+		// run the scripts using the istio test framework
 		framework.
 			NewTest(t).
 			Run(istioio.NewBuilder(path).
@@ -142,18 +130,10 @@ func runTestFile(path string, t *testing.T) (bool, error) {
 				}).
 				Build())
 	})
-
 	// TODO: find logs?
-
-	return true, nil
 }
 
 func getSetupScript(testPath string) string {
 	snipsPath := strings.ReplaceAll(testPath, testFileSuffix, snipsFileSuffix)
-	return fmt.Sprintf(`
-			source "${REPO_ROOT}/content/%v"
-			source "${REPO_ROOT}/tests/util/samples.sh"
-			source "${REPO_ROOT}/tests/util/verify.sh"
-			cd ${REPO_ROOT}
-			`, snipsPath)
+	return fmt.Sprintf(setupTemplate, snipsPath)
 }
