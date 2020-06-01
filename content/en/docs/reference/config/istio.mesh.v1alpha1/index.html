@@ -744,7 +744,7 @@ No
 <td><code>ingressService</code></td>
 <td><code>string</code></td>
 <td>
-<p>Name of theKubernetes service used for the istio ingress controller.</p>
+<p>Name of the Kubernetes service used for the istio ingress controller.</p>
 
 </td>
 <td>
@@ -756,6 +756,21 @@ No
 <td><code><a href="#MeshConfig-IngressControllerMode">IngressControllerMode</a></code></td>
 <td>
 <p>Defines whether to use Istio ingress controller for annotated or all ingress resources.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ingress_selector">
+<td><code>ingressSelector</code></td>
+<td><code>string</code></td>
+<td>
+<p>Defines which gateway deployment to use as the Ingress controller. This field corresponds to
+the Gateway.selector field, and will be set as <code>istio: INGRESS_SELECTOR</code>.
+By default, <code>ingressgateway</code> is used, which will select the default IngressGateway as it has the
+<code>istio: ingressgateway</code> labels.
+It is recommended that this is the same value as ingress_service.</p>
 
 </td>
 <td>
