@@ -20,17 +20,16 @@ set -u
 set -o pipefail
 
 source "${REPO_ROOT}/content/en/docs/tasks/security/authentication/mtls-migration/snips.sh"
-source "${REPO_ROOT}/tests/util/samples.sh"
 
 # create_ns_foo_bar_legacy
 snip_set_up_the_cluster_1
 snip_set_up_the_cluster_2
 
-sample_wait_for_deployment foo httpbin
-sample_wait_for_deployment foo sleep
-sample_wait_for_deployment bar httpbin
-sample_wait_for_deployment bar sleep
-sample_wait_for_deployment legacy sleep
+_wait_for_deployment foo httpbin
+_wait_for_deployment foo sleep
+_wait_for_deployment bar httpbin
+_wait_for_deployment bar sleep
+_wait_for_deployment legacy sleep
 
 # curl_foo_bar_legacy
 _run_and_verify_same snip_set_up_the_cluster_3 "$snip_set_up_the_cluster_3_out"

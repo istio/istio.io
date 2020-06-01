@@ -22,7 +22,6 @@ set -u
 set -o pipefail
 
 source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/mirroring/snips.sh"
-source "${REPO_ROOT}/tests/util/samples.sh"
 
 kubectl label namespace default istio-injection=enabled --overwrite
 
@@ -35,9 +34,9 @@ snip_before_you_begin_3
 snip_before_you_begin_4
 
 # wait for deployments
-sample_wait_for_deployment default httpbin-v1
-sample_wait_for_deployment default httpbin-v2
-sample_wait_for_deployment default sleep
+_wait_for_deployment default httpbin-v1
+_wait_for_deployment default httpbin-v2
+_wait_for_deployment default sleep
 
 snip_creating_a_default_routing_policy_1
 

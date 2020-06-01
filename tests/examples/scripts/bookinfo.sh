@@ -46,7 +46,7 @@ _run_and_verify_like snip_determine_the_ingress_ip_and_port_2 "$snip_determine_t
 sleep 5
 
 # export the INGRESS_ environment variables
-sample_set_ingress_environment_variables
+_set_ingress_environment_variables
 
 snip_determine_the_ingress_ip_and_port_3
 

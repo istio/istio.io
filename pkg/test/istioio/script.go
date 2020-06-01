@@ -75,7 +75,8 @@ func (s Script) run(ctx Context) {
 
 	// Generate the body of the command.
 	commandLines := []string{"source ${REPO_ROOT}/tests/util/verify.sh"}
-	commandLines = append(commandLines, "source ${REPO_ROOT}/tests/util/debug.sh")
+	commandLines = append(commandLines, "source ${REPO_ROOT}/tests/util/debug.sh",
+		"source ${REPO_ROOT}/tests/util/helpers.sh")
 	lines := strings.Split(content, "\n")
 	for index := 0; index < len(lines); index++ {
 		commandLines = append(commandLines, lines[index])
