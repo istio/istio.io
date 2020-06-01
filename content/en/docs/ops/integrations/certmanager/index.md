@@ -77,5 +77,5 @@ spec:
   tls:
   - hosts:
     - my.example.com # This should match a DNS name in the Certificate
-    secretName: ingress-cert # This should match the Certifcate secretName
+    secretName: ingress-cert # This should match the Certificate secretName
 {{< /text >}}
