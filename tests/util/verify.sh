@@ -207,6 +207,7 @@ __cmp_lines() {
         else
             continue
         fi
+        # shellcheck disable=SC2181
         if [[ "$?" -ne 0 ]]; then
             return 1
         fi
