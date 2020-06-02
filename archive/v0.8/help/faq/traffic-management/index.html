@@ -1,0 +1,720 @@
+
+
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="https://schema.org/WebPage">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="theme-color" content="#466BB0"/>
+
+        
+
+        <meta name="title" content="Traffic Management">
+        <meta name="description" content="Traffic Management Q &amp; A">
+
+        
+        <meta name="og:title" content="Traffic Management">
+        <meta name="og:description" content="Traffic Management Q &amp; A">
+        <meta name="og:url" content="/v0.8/help/faq/traffic-management/">
+        <meta name="og.site_name" content="Istio">
+
+        
+            
+                <title>Istioldie 0.8 / Traffic Management</title>
+            
+        
+
+        
+        <script>
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+            ga('create', 'UA-98480406-2', 'auto');
+            ga('send', 'pageview');
+        </script>
+        <script async src='https://www.google-analytics.com/analytics.js'></script>
+        
+
+        <script>
+            var branchName = "release-0.8";
+        </script>
+
+        
+        <link rel="alternate" type="application/rss+xml" title="Istio Blog" href="/v0.8/feed.xml">
+
+        
+        <link rel="shortcut icon" href="/v0.8/favicons/favicon.ico" >
+        <link rel="apple-touch-icon" href="/v0.8/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/android-36x36.png" sizes="36x36">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/android-48x48.png" sizes="48x48">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/android-72x72.png" sizes="72x72">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/android-96x196.png" sizes="96x196">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/android-144x144.png" sizes="144x144">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/android-192x192.png" sizes="192x192">
+
+        
+        <link rel="manifest" href="/v0.8/manifest.json">
+        <meta name="apple-mobile-web-app-title" content="Istio">
+        <meta name="application-name" content="Istio">
+
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+
+        
+            <link rel="stylesheet" href="/v0.8/css/light_theme_archive.css" title="light">
+            <link rel="alternate stylesheet" href="/v0.8/css/dark_theme_archive.css" title="dark">
+        
+
+        <script src="/v0.8/js/styleSwitcher.min.js"></script>
+    </head>
+
+    <body class="language-unknown">
+        
+
+
+
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark justify-content-between">
+        <a class="navbar-brand" href="/v0.8/">
+            <span class="logo"><svg viewBox="0 0 300 300">
+<circle cx="150" cy="150" r="150" stroke-width="2" />
+<polygon points="65,240 225,240 125,270"/>
+<polygon points="65,230 125,220 125,110"/>
+<polygon points="135,220 225,230 135,30"/>
+</svg>
+</span>
+
+            
+                <span class="brand-name">Istioldie 0.8</span>
+            
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+            <ul id="navbar-links" class="navbar-nav active">
+                <li class="nav-item">
+                    <a class="nav-link " href="/v0.8/docs/">Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/v0.8/blog/2018/egress-monitoring-access-control/">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/v0.8/help/">Help</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/v0.8/community/">Community</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/v0.8/about/">About</a>
+                </li>
+
+                <li class="nav-item dropdown" id="gearDropdown" style="white-space: nowrap">
+                    <a href="" class="nav-link" data-toggle="dropdown" aria-label="Tools" aria-haspopup="true" aria-expanded="false">
+                        <i style="width: 1em" class='fa fa-lg fa-cog'></i>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gearDropdown">
+                        <a class="dropdown-item" id="light-theme-item" href="" onclick="setActiveStyleSheet('light');return false;">Light Theme</a>
+                        <a class="dropdown-item" id="dark-theme-item" href="" onclick="setActiveStyleSheet('dark');return false;">Dark Theme</a>
+
+                        
+
+                        <div class="dropdown-divider"></div>
+
+                        <h6 class="dropdown-header">Other versions of this site</h6>
+
+                        
+                        
+
+                        
+                            <a href="https://istio.io" class="dropdown-item">Current Release</a>
+                            <a href="https://preliminary.istio.io" class="dropdown-item">Next Release</a>
+                        
+                        <a href="https://archive.istio.io" class="dropdown-item">Older Releases</a>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a id="search_show" class="nav-link" href="" aria-label="Search"><i style="width: 1em" class="fa fa-lg fa-search"></i></a>
+                </li>
+            </ul>
+
+            <form name="cse" id="search_form" class="form-inline mr-sm-2" role="search">
+                <input type="hidden" name="cx" value="013699703217164175118:iwwf17ikgf4" />
+                <input type="hidden" name="ie" value="utf-8" />
+                <input type="hidden" name="hl" value="en" />
+                <input type="hidden" id="search_page_url" value="/v0.8/search.html" />
+                <input id="search_textbox" class="form-control" name="q" type="text" aria-label="Search this site"/>
+                <button id="search_close" type="reset" aria-label="Cancel Search"><i class="far fa-lg fa-times-circle"></i></button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+        
+
+
+
+
+<div class="container-fluid">
+    <div class="row row-offcanvas">
+        <div class="col-0 col-md-3 col-xl-2 sidebar-offcanvas">
+            
+            
+                <nav class="sidebar d-print-none">
+    <div class="spacer"></div>
+    <div class="directory" role="tablist">
+        
+
+        <div class="card">
+            <div class="card-header" role="tab">
+                <div title="A bunch of resources to help you deploy, configure and use Istio.">
+                    Help!
+                </div>
+            </div>
+
+            
+
+            <div role="tabpanel" aria-labelledby="header0">
+                <div class="card-body">
+                    
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-down'></i>
+                        
+                        <a  title="Frequently Asked Questions about Istio." href="/v0.8/help/faq/">FAQ </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree">
+    
+        
+            
+                <li>
+                    
+                        <a title="General Q &amp; A" href="/v0.8/help/faq/general/">General</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Setup Q &amp; A" href="/v0.8/help/faq/setup/">Setup</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Security Q &amp; A" href="/v0.8/help/faq/security/">Security</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Mixer Q &amp; A" href="/v0.8/help/faq/mixer/">Mixer</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <span class="current" title="Traffic Management Q &amp; A">Traffic Management</span>
+                    
+                </li>
+             
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="A glossary of common Istio terms." href="/v0.8/help/glossary/">Glossary</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="What to do about bugs" href="/v0.8/help/bugs/">Reporting Bugs</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Practical advice on practical problems with Istio" href="/v0.8/help/troubleshooting/">Troubleshooting Guide</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+</ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+            
+        </div>
+
+        
+            <div class="col-12 col-md-9 col-xl-8">
+        
+
+            <p class="d-md-none">
+                <label class="sidebar-toggler" data-toggle="offcanvas">
+                    <i class="fa fa-sign-out-alt"></i>
+                </label>
+            </p>
+
+            <main aria-labelledby="title">
+                <h1 id="title">Traffic Management</h1>
+
+                
+
+                
+
+                
+                    <nav class="toc-inlined d-xl-none d-print-none" >
+                        <div class="directory" role="directory">
+                            
+
+
+
+
+    
+    <nav id="InlinedTableOfContents"></nav>
+
+
+                        </div>
+                    </nav>
+                
+
+
+
+
+
+
+
+    <h4 id="viewing-current-rules">Q: How can I view the current route rules I have configured with Istio?</h4>
+    <p>Rules can be viewed using <code>istioctl get routerules -o yaml</code> or <code>kubectl get routerules -o yaml</code>.</p>
+
+
+    <h4 id="weighted-rules-not-working">Q: Why is creating a weighted route rule to split traffic between two versions of a service not working as expected?</h4>
+    <p>For the current Envoy sidecar implementation, up to 100 requests may be required for the desired
+distribution to be observed.</p>
+
+
+    <h4 id="unreachable-services">Q: How come some of my services are unreachable after creating route rules?</h4>
+    <p>This is an known issue with the current Envoy sidecar implementation. After two seconds of creating the
+rule, services should become available.</p>
+
+
+    <h4 id="ingress-with-no-route-rules">Q: Can I use standard Ingress specification without any route rules?</h4>
+    <p>Simple ingress specifications, with host, TLS, and exact path based
+matches will work out of the box without the need for route
+rules. However, note that the path used in the ingress resource should
+not have any <code>.</code> characters.</p>
+<p>For example, the following ingress resource matches requests for the
+example.com host, with /helloworld as the URL.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl create -f -
+</span><span style="color:#e6db74">apiVersion: extensions/v1beta1
+</span><span style="color:#e6db74">kind: Ingress
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74">name: simple-ingress
+</span><span style="color:#e6db74">annotations:
+</span><span style="color:#e6db74">  kubernetes.io/ingress.class: istio
+</span><span style="color:#e6db74">spec:
+</span><span style="color:#e6db74">rules:
+</span><span style="color:#e6db74">- host: example.com
+</span><span style="color:#e6db74">  http:
+</span><span style="color:#e6db74">    paths:
+</span><span style="color:#e6db74">    - path: /helloworld
+</span><span style="color:#e6db74">      backend:
+</span><span style="color:#e6db74">        serviceName: myservice
+</span><span style="color:#e6db74">        servicePort: grpc
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p>However, the following rules will not work because it uses regular
+expressions in the path and uses <code>ingress.kubernetes.io</code> annotations:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl create -f -
+</span><span style="color:#e6db74">apiVersion: extensions/v1beta1
+</span><span style="color:#e6db74">kind: Ingress
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74">name: this-will-not-work
+</span><span style="color:#e6db74">annotations:
+</span><span style="color:#e6db74">  kubernetes.io/ingress.class: istio
+</span><span style="color:#e6db74">  # Ingress annotations other than ingress class will not be honored
+</span><span style="color:#e6db74">  ingress.kubernetes.io/rewrite-target: /
+</span><span style="color:#e6db74">spec:
+</span><span style="color:#e6db74">rules:
+</span><span style="color:#e6db74">- host: example.com
+</span><span style="color:#e6db74">  http:
+</span><span style="color:#e6db74">    paths:
+</span><span style="color:#e6db74">    - path: /hello(.*?)world/
+</span><span style="color:#e6db74">      backend:
+</span><span style="color:#e6db74">        serviceName: myservice
+</span><span style="color:#e6db74">        servicePort: grpc
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div>
+
+    <h4 id="naming-port-convention">Q: What is the naming convention for port name inside my application deployment file?</h4>
+    <p>Named ports: Service ports must be named.</p>
+<p>The port names must be of the form <code>protocol</code>-<code>suffix</code> with http, http2, grpc, mongo, or redis as the <code>protocol</code> in order to take advantage of Istio’s routing features.</p>
+<p>For example, <code>name: http2-foo</code> or <code>name: http</code> are valid port names, but <code>name: http2foo</code> is not. If the port name does not begin with a recognized prefix or if the port is unnamed, traffic on the port will be treated as plain TCP traffic (unless the port explicitly uses Protocol: UDP to signify a UDP port).</p>
+
+
+
+
+
+
+            </main>
+
+            
+                <div class="container-fluid d-print-none">
+                    <br/><hr/><br/>
+
+                    <div class="row">
+                        <div class="col-6">
+                            
+                                <a title="Mixer Q &amp; A" href="/v0.8/help/faq/mixer/"><i class="fa fa-arrow-left"></i> Mixer</a>
+                            
+                        </div>
+                        <div class="col-6" style="text-align: right">
+                            
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="d-none d-print-block" aria-hidden="true">
+                <h2>Links</h2>
+                <ol id="endnotes"></ol>
+            </div>
+        </div>
+
+        
+            <div class="col-12 col-md-2 d-none d-xl-block d-print-none">
+                <nav class="toc">
+                    <div class="spacer"></div>
+                    <div id="toc" class="directory" role="directory">
+                        
+
+
+
+
+    
+    <nav id="TableOfContents"></nav>
+
+
+                    </div>
+                </nav>
+            </div>
+        
+    </div>
+</div>
+
+
+
+        <footer class="d-print-none container-fluid">
+    <div class="row">
+        <div class="col-6 col-lg-4" role="navigation">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="icon">
+                        <span>istio-users@</span>
+                        <a title="Join the istio-users@ mailing list to participate in discussions and get help troubleshooting problems"
+                           href="https://groups.google.com/forum/#!forum/istio-users" aria-label="istio-users mailing list">
+                            <svg viewBox="0 0 490 490">
+<path d="M480,410.248H10c-5.523,0-10-4.477-10-10V89.752c0-5.523,4.477-10,10-10h470c5.522,0,10,4.477,10,10v310.495
+	C490,405.771,485.522,410.248,480,410.248z M20,390.248h450V99.752H20V390.248z"/>
+<path d="M245,286.131c-2.083,0-4.167-0.649-5.931-1.948L48.64,143.929c-4.446-3.275-5.396-9.535-2.121-13.982
+	c3.275-4.447,9.535-5.396,13.982-2.121L245,263.712l184.5-135.886c4.447-3.274,10.709-2.326,13.982,2.121
+	c3.275,4.447,2.325,10.707-2.121,13.982L250.931,284.183C249.167,285.482,247.083,286.131,245,286.131z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>twitter</span>
+                        <a title="Follow us on Twitter to get the latest news"
+                           href="https://twitter.com/IstioMesh" aria-label="Twitter">
+                            <svg viewBox="0 0 310 310">
+<path d="M302.973,57.388c-4.87,2.16-9.877,3.983-14.993,5.463c6.057-6.85,10.675-14.91,13.494-23.73
+	c0.632-1.977-0.023-4.141-1.648-5.434c-1.623-1.294-3.878-1.449-5.665-0.39c-10.865,6.444-22.587,11.075-34.878,13.783
+	c-12.381-12.098-29.197-18.983-46.581-18.983c-36.695,0-66.549,29.853-66.549,66.547c0,2.89,0.183,5.764,0.545,8.598
+	C101.163,99.244,58.83,76.863,29.76,41.204c-1.036-1.271-2.632-1.956-4.266-1.825c-1.635,0.128-3.104,1.05-3.93,2.467
+	c-5.896,10.117-9.013,21.688-9.013,33.461c0,16.035,5.725,31.249,15.838,43.137c-3.075-1.065-6.059-2.396-8.907-3.977
+	c-1.529-0.851-3.395-0.838-4.914,0.033c-1.52,0.871-2.473,2.473-2.513,4.224c-0.007,0.295-0.007,0.59-0.007,0.889
+	c0,23.935,12.882,45.484,32.577,57.229c-1.692-0.169-3.383-0.414-5.063-0.735c-1.732-0.331-3.513,0.276-4.681,1.597
+	c-1.17,1.32-1.557,3.16-1.018,4.84c7.29,22.76,26.059,39.501,48.749,44.605c-18.819,11.787-40.34,17.961-62.932,17.961
+	c-4.714,0-9.455-0.277-14.095-0.826c-2.305-0.274-4.509,1.087-5.294,3.279c-0.785,2.193,0.047,4.638,2.008,5.895
+	c29.023,18.609,62.582,28.445,97.047,28.445c67.754,0,110.139-31.95,133.764-58.753c29.46-33.421,46.356-77.658,46.356-121.367
+	c0-1.826-0.028-3.67-0.084-5.508c11.623-8.757,21.63-19.355,29.773-31.536c1.237-1.85,1.103-4.295-0.33-5.998
+	C307.394,57.037,305.009,56.486,302.973,57.388z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>stack overflow</span>
+                        <a title="Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio"
+                           href="https://stackoverflow.com/questions/tagged/istio" aria-label="Stack Overflow">
+                            <svg viewBox="0 0 120 120">
+<polygon points="84.4,93.8 84.4,70.6 92.1,70.6 92.1,101.5 22.6,101.5 22.6,70.6 30.3,70.6 30.3,93.8 "/>
+<path d="M38.8,68.4l37.8,7.9l1.6-7.6l-37.8-7.9L38.8,68.4z M43.8,50.4l35,16.3l3.2-7l-35-16.4L43.8,50.4z M53.5,33.2
+	l29.7,24.7l4.9-5.9L58.4,27.3L53.5,33.2z M72.7,14.9l-6.2,4.6l23,31l6.2-4.6L72.7,14.9z M38,86h38.6v-7.7H38V86z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>rocket chat</span>
+                        <a title="Interactively chat with members of the Istio community."
+                           href="https://istio.rocket.chat" aria-label="Rocket Chat">
+                            <svg viewBox="0 0 512 512">
+<path d="M496.293,255.338c0-24.103-7.21-47.215-21.437-68.699c-12.771-19.288-30.666-36.362-53.184-50.745
+    c-43.474-27.771-100.612-43.065-160.885-43.065c-20.131,0-39.974,1.702-59.222,5.072c-11.942-11.176-25.919-21.233-40.712-29.187
+    c-79.026-38.298-144.561-0.9-144.561-0.9s60.931,50.053,51.023,93.93c-27.259,27.041-42.033,59.646-42.033,93.594
+    c0,0.108,0.005,0.216,0.006,0.324c-0.001,0.108-0.006,0.216-0.006,0.324c0,33.949,14.774,66.554,42.033,93.595
+    c9.907,43.874-51.023,93.93-51.023,93.93s65.535,37.397,144.561-0.901c14.792-7.953,28.77-18.01,40.712-29.188
+    c19.249,3.372,39.091,5.072,59.222,5.072c60.272,0,117.411-15.294,160.885-43.064c22.518-14.383,40.412-31.457,53.184-50.742
+    c14.227-21.487,21.437-44.599,21.437-68.702c0-0.107-0.006-0.216-0.006-0.324C496.287,255.554,496.293,255.446,496.293,255.338z
+     M260.882,387.763c-25.367,0-49.66-2.932-72.107-8.282c-22.81,27.443-72.993,65.596-121.742,53.26
+    c15.857-17.031,39.352-45.81,34.32-93.207c-29.218-22.738-46.759-51.832-46.759-83.541c0-72.776,92.36-131.769,206.288-131.769
+    c113.928,0,206.288,58.993,206.288,131.769C467.17,328.765,374.81,387.763,260.882,387.763z M288.283,255.991
+    c0,15.133-12.27,27.403-27.4,27.403c-15.134,0-27.402-12.271-27.402-27.403s12.268-27.401,27.402-27.401
+    C276.014,228.59,288.283,240.858,288.283,255.991z M356.163,228.59c-15.133,0-27.4,12.268-27.4,27.401s12.268,27.403,27.4,27.403
+    c15.134,0,27.399-12.271,27.399-27.403S371.297,228.59,356.163,228.59z M165.601,228.59c-15.133,0-27.4,12.268-27.4,27.401
+    s12.268,27.403,27.4,27.403c15.134,0,27.401-12.271,27.401-27.403S180.735,228.59,165.601,228.59z"/>
+</svg>
+
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tag row d-none d-lg-flex">
+                    for users
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-lg-4">
+            <p class="text-center copyright" role="contentinfo">
+                Istio
+                
+                    Archive
+                
+                0.8<br>&copy; 2018 Istio Authors, <a href="https://policies.google.com/privacy">Privacy Policy</a><br>
+                
+                    Archived on July 31, 2018
+                
+            </p>
+        </div>
+
+        <div class="col-6 col-lg-4 d-none d-lg-flex" role="navigation">
+            <div class="container-fluid">
+                <div class="row justify-content-end">
+                    <div class="icon">
+                        <span>istio-dev@</span>
+                        <a title="Join the istio-dev@ mailing list to discuss development issues around the Istio project"
+                           href="https://groups.google.com/forum/#!forum/istio-dev" aria-label="istio-dev mailing list">
+                            <svg viewBox="0 0 490 490">
+<path d="M480,410.248H10c-5.523,0-10-4.477-10-10V89.752c0-5.523,4.477-10,10-10h470c5.522,0,10,4.477,10,10v310.495
+	C490,405.771,485.522,410.248,480,410.248z M20,390.248h450V99.752H20V390.248z"/>
+<path d="M245,286.131c-2.083,0-4.167-0.649-5.931-1.948L48.64,143.929c-4.446-3.275-5.396-9.535-2.121-13.982
+	c3.275-4.447,9.535-5.396,13.982-2.121L245,263.712l184.5-135.886c4.447-3.274,10.709-2.326,13.982,2.121
+	c3.275,4.447,2.325,10.707-2.121,13.982L250.931,284.183C249.167,285.482,247.083,286.131,245,286.131z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>github</span>
+                        <a title="GitHub is where development takes place on Istio code"
+                           href="https://github.com/istio/community" aria-label="GitHub">
+                            <svg viewBox="0 0 478.165 478.165">
+<path d="M349.22,55.768c6.136,14.046,10.241,37.556,4.224,54.69
+	c24.426,20.999,33.073,71.904,21.079,113.704c35.006,2.73,76.666-1.235,103.642,9.484c-25.183-3.248-59.651-9.563-91.987-7.431
+	c-6.136,0.458-15.361-0.239-14.903,8.408c37.735,3.008,75.092,6.117,105.894,15.779c-30.702-4.981-67.74-12.552-105.894-13.668
+	c-15.54,30.921-47.239,46.262-90.991,49.49c4.682,10.261,13.847,14.066,15.879,30.702c3.267,24.406-4.881,60.328,3.208,76.686
+	c4.064,7.89,10.579,8.009,14.863,14.604c-10.699,12.871-37.257-1.395-40.186-14.604c-5.14-22.852,7.89-58.256-6.415-73.737
+	c0.996,24.865-5.718,59.85,0.996,82.145c2.789,8.806,10.659,12.113,8.647,20.063c-49.809,5.08-28.989-64.373-37.177-105.356
+	c-7.471,0.697-4.204,11.197-4.224,15.76c-0.199,40.106,8.189,94.836-34.846,89.556c-1.315-8.348,5.838-11.217,8.467-19.007
+	c7.91-22.434-1.454-56.045,2.112-83.161c-16.417,12.512,1.793,55.666-8.428,77.961c-5.838,12.671-24.785,18.27-39.19,12.651
+	c1.873-9.464,11.695-7.989,15.879-16.875c5.818-12.452,0.02-30.244,2.092-48.494c-30.423,6.097-53.993-0.877-65.608-20.023
+	c-5.12-8.507-6.356-18.708-12.632-26.219c-6.117-7.551-16.098-8.507-19.087-18.808c37.755-9.185,39.17,38.771,73.06,39.807
+	c10.44,0.418,15.799-2.909,25.402-5.16c2.749-12.113,8.428-21.039,16.875-27.494c-42.078-5.658-76.865-18.788-93.023-50.466
+	c-38.293,1.893-73.339,7.013-105.894,14.843c29.547-10.679,65.807-14.604,104.778-15.819c-2.351-13.807-22.434-10.022-34.866-9.543
+	C47.677,227.17,18.449,230.138,0,233.645c26.817-9.543,64.233-8.348,100.454-8.428c-11.038-34.767-7.232-90.014,17.015-110.615
+	c-6.854-17.254-4.722-45.346,4.184-58.834c27.036,1.175,43.374,12.891,60.388,24.247c21.019-6.017,43.035-9.045,71.904-7.451
+	c12.133,0.677,24.705,6.097,33.731,5.32c8.906-0.877,18.728-10.898,27.534-14.843C326.507,58.099,336.17,56.206,349.22,55.768z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>drive</span>
+                        <a title="Access our team drive if you'd like to take a look at the Istio technical design documents"
+                            href="https://groups.google.com/forum/#!forum/istio-team-drive-access" aria-label="team drive">
+                            <svg viewBox="0 0 207.027 207.027">
+<path d="M69.866,15.557L0,138.919l28.732,52.552l143.288-0.029l35.008-59.588L136.39,15.735L69.866,15.557z M17.166,139.046
+	L74.268,38.205L91.21,67.783L33.24,168.447L17.166,139.046z M99.841,82.851l23.805,41.558l-47.732-0.006L99.841,82.851z
+	 M163.434,176.443l-117.332,0.024l21.53-37.065l64.606,0.008l0.067,0.119l52.865-0.085L163.434,176.443z M140.932,124.411
+	L90.157,35.767l-2.966-5.178l40.751,0.121l57.003,93.706L140.932,124.411z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>working groups</span>
+                        <a title="If you'd like to contribute to the Istio project, consider participating in our working groups"
+                           href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" aria-label="working groups">
+                            <svg viewBox="0 -45 439.833 439.833">
+
+<polygon points="246.048,195.833 299.966,235.085 319.497,227.296 276.278,195.833"/>
+<polygon points="193.786,195.833 163.556,195.833 120.33,227.3 139.862,235.089"/>
+
+<path d="M219.927,11.558c-23.854,0-37.057,12.362-36.814,36.182c0.348,32.623,14.211,52.414,36.814,52.068
+	c0,0,36.802,1.492,36.802-52.068C256.729,23.918,244.294,11.558,219.927,11.558z"/>
+<path d="M285.017,124.567l-36.77-14.659l-8.608-7.256c-2.274-1.922-5.636-1.78-7.741,0.317l-11.973,11.904l-12.008-11.907
+	c-2.109-2.094-5.465-2.229-7.736-0.313l-8.611,7.256l-36.77,14.661c-11.842,4.715-11.83,46.647-12.848,50.497h155.93
+	C296.866,171.228,296.862,129.28,285.017,124.567z"/>
+
+<path d="M77.976,228.568c0,0,36.801,1.492,36.801-52.068c0-23.82-12.434-36.182-36.801-36.182
+	c-23.854,0-37.057,12.362-36.814,36.182C41.509,209.124,55.372,228.915,77.976,228.568z"/>
+<path d="M143.065,253.329l-36.77-14.658l-8.609-7.256c-2.275-1.923-5.635-1.781-7.742,0.315l-11.971,11.904l-12.008-11.908
+	c-2.109-2.094-5.465-2.229-7.736-0.312l-8.611,7.256l-36.77,14.66C1.006,258.045,1.018,299.977,0,303.827h155.93
+	C154.915,299.988,154.911,258.042,143.065,253.329z"/>
+
+<path d="M361.878,228.568c0,0,36.801,1.492,36.801-52.068c0-23.82-12.434-36.182-36.801-36.182
+	c-23.854,0-37.057,12.362-36.812,36.182C325.411,209.124,339.274,228.915,361.878,228.568z"/>
+<path d="M426.968,253.329l-36.77-14.658l-8.609-7.256c-2.273-1.923-5.635-1.781-7.742,0.315l-11.971,11.904l-12.008-11.908
+	c-2.109-2.094-5.465-2.229-7.736-0.312l-8.61,7.256l-36.771,14.66c-11.842,4.715-11.83,46.646-12.848,50.497h155.93
+	C438.817,299.988,438.812,258.042,426.968,253.329z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>slack</span>
+                        <a title="Interactively discuss development issues with the Istio community on Slack (invitation-only)"
+                                href="https://istio.slack.com" aria-label="slack">
+                            <svg viewBox="0 0 31.444 31.443">
+<path d="M31.202,16.369c-0.62-1.388-2.249-2.011-3.637-1.391l-1.325,0.594l-3.396-7.591l1.325-0.592
+	c1.388-0.622,2.01-2.25,1.389-3.637c-0.62-1.389-2.248-2.012-3.637-1.39l-1.324,0.593l-0.593-1.326
+	c-0.621-1.388-2.249-2.009-3.637-1.388c-1.388,0.62-2.009,2.247-1.389,3.637l0.593,1.325L7.98,8.598L7.388,7.273
+	c-0.621-1.39-2.249-2.009-3.637-1.39C2.363,6.504,1.742,8.132,2.362,9.52l0.592,1.324L1.63,11.438
+	c-1.388,0.621-2.01,2.247-1.389,3.636c0.62,1.388,2.249,2.01,3.637,1.39l1.325-0.594l3.394,7.592l-1.325,0.592
+	c-1.388,0.621-2.009,2.25-1.389,3.637c0.621,1.389,2.249,2.011,3.637,1.391l1.324-0.593l0.593,1.325
+	c0.621,1.389,2.249,2.01,3.637,1.389c1.387-0.62,2.009-2.248,1.388-3.636l-0.591-1.326l7.591-3.394l0.592,1.321
+	c0.621,1.391,2.248,2.013,3.637,1.392c1.388-0.619,2.01-2.248,1.389-3.637l-0.592-1.324l1.323-0.594
+	C31.201,19.384,31.823,17.757,31.202,16.369z M13.623,21.215l-3.395-7.593l7.591-3.394l3.395,7.591L13.623,21.215z"/>
+</svg>
+
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tag row justify-content-end text-right">
+                    for developers
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+        <div class="d-xl-none d-print-none">
+            <button id="scroll-to-top" aria-hidden="true" onclick="scrollToTop()" title="Back to top"><i class="fa fa-lg fa-arrow-up"></i></button>
+        </div>
+
+        
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+        <script src="https://www.google.com/cse/brand?form=search_form"></script>
+
+        
+        <script src="/v0.8/js/all.min.js" data-manual></script>
+    </body>
+</html>

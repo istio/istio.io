@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="en" itemscope itemtype="https://schema.org/WebPage" style="overflow-y: scroll;"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="title" content="Enabling Ingress Traffic"><meta name="og:title" content="Enabling Ingress Traffic"><meta name="og:image" content="/v0.1/img/logo.png"/><meta name="description" content="Describes how to configure Istio to expose a service outside of the service mesh."><meta name="og:description" content="Describes how to configure Istio to expose a service outside of the service mesh."><title>Istioldie 0.1 / Enabling Ingress Traffic</title><script> window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date; ga('create', 'UA-98480406-2', 'auto'); ga('send', 'pageview'); </script> <script async src='https://www.google-analytics.com/analytics.js'></script><link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'><link rel="alternate" type="application/rss+xml" title="Istio Blog RSS" href="/v0.1/feed.xml"><link rel="apple-touch-icon" href="/v0.1/favicons/apple-touch-icon.png" sizes="180x180"><link rel="icon" type="image/png" href="/v0.1/favicons/android-chrome-96x96.png" sizes="96x96" ><link rel="icon" type="image/png" href="/v0.1/favicons/favicon-32x32.png" sizes="32x32"><link rel="icon" type="image/png" href="/v0.1/favicons/favicon-16x16.png" sizes="16x16"><link rel="manifest" href="/v0.1/favicons/manifest.json"><link rel="mask-icon" href="/v0.1/favicons/safari-pinned-tab.svg" color="#2DA6B0"><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/v0.1/favicons/mstile-150x150.png"><link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="/v0.1/css/all.css"><link rel="stylesheet" href="/v0.1/css/prism.css"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script></head><body class="language-unknown"><div class="nav-hero-container" style="z-index: 200000;"><nav id="header-nav" class="navbar navbar-inverse" role="navigation"><div class="container"><div class="row"><div class="col-md-11 nofloat center-block "><div class="navbar-header"> <button type="button" class="hamburger navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/v0.1/"><div> <img src="/v0.1/img/logo.png" alt="Istio" width="36px" height="54px"/> <span class="brand-name">Istioldie 0.1</span></div></a></div><div class="collapse navbar-collapse" id="navbar-collapse-1"><ul class="nav navbar-nav navbar-right"><li><a href="/v0.1/about/" >About</a></li><li><a href="/v0.1/docs/" class='current'>Docs</a></li><li><a href="/v0.1/blog/" >Blog</a></li><li><a href="/v0.1/community/" >Community</a></li><li><a href="/v0.1/faq/" >FAQ</a></li><li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href=""> <i class='fa fa-lg fa-cog'></i> <span class="caret"></span> </a><ul class="dropdown-menu"><h6 class="dropdown-header">Other versions of this site</h6><li> <a href="https://istio.io">Current Release</a></li><li> <a href="https://preliminary.istio.io">Next Release</a></li><li> <a href="https://archive.istio.io">Older Releases</a></li></ul></li><li><form name="cse" id="searchbox_demo" class="navbar-form navbar-right" role="search"> <input type="hidden" name="cx" value="013699703217164175118:iwwf17ikgf4" /> <input type="hidden" name="ie" value="utf-8" /> <input type="hidden" name="hl" value="en" /><div class="form-group"><div class="input-group"> <input name="q" class="form-control" type="text" size="30" /><div class="input-group-addon"> <span class="btn-search glyphicon glyphicon-search"></span></div></div></div></form> <script type="text/javascript" src="https://www.google.com/cse/brand?form=searchbox_demo"></script></li></ul></div></div></div></div></nav></div><div class="container"><div class="row"><div class="col-md-11 nofloat center-block" style="margin-top: 3px;"><ul class="col-sm-10 nav nav-tabs"><li role="presentation" ><a href="/v0.1/docs/index.html">Welcome</a></li><li role="presentation" ><a href="/v0.1/docs/concepts/index.html">Concepts</a></li><li role="presentation" class='active'><a href="/v0.1/docs/tasks/index.html">Tasks</a></li><li role="presentation" ><a href="/v0.1/docs/samples/index.html">Samples</a></li><li role="presentation" ><a href="/v0.1/docs/reference/index.html">Reference</a></li></ul></div></div></div><script src="/v0.1/js/navtree.js"></script><div class="container docs"><div class="row"><div class="col-md-11 nofloat center-block"><div class="row"><div id="sidebar-container" class="col-sm-3"><ul class="doc-side-nav"><li><h5 class='doc-side-nav-title'>Tasks</h5></li><script type="text/javascript"> var docs = []; docs.push({path: [ "basic-access-control.md", ], url: "/docs/tasks/basic-access-control.html", title: "Enabling Simple Access Control", order: 90, overview: "This task shows how to use Istio to control access to a service."}); docs.push({path: [ "egress.md", ], url: "/docs/tasks/egress.html", title: "Enabling Egress Traffic", order: 40, overview: "Describes how to configure Istio to route traffic from services in the mesh to external services."}); docs.push({path: [ "fault-injection.md", ], url: "/docs/tasks/fault-injection.html", title: "Fault Injection", order: 60, overview: "This task shows how to inject delays and test the resiliency of your application."}); docs.push({path: [ "index.md", ], url: "/docs/tasks/index.html", title: "Tasks", order: 20, overview: "Tasks show you how to do a single specific targeted activity with the Istio system."}); docs.push({path: [ "ingress.md", ], url: "/docs/tasks/ingress.html", title: "Enabling Ingress Traffic", order: 30, overview: "Describes how to configure Istio to expose a service outside of the service mesh."}); docs.push({path: [ "installing-istio.md", ], url: "/docs/tasks/installing-istio.html", title: "Installing Istio", order: 10, overview: "This task shows you how to setup the Istio service mesh."}); docs.push({path: [ "integrating-services-into-istio.md", ], url: "/docs/tasks/integrating-services-into-istio.html", title: "Integrating Services into the Mesh", order: 20, overview: "This task shows you how to integrate your applications with the Istio service mesh."}); docs.push({path: [ "istio-auth.md", ], url: "/docs/tasks/istio-auth.html", title: "Testing Istio Auth", order: 100, overview: "This task shows you how to verify and test Istio-Auth."}); docs.push({path: [ "metrics-logs.md", ], url: "/docs/tasks/metrics-logs.html", title: "Collecting Metrics and Logs", order: 110, overview: "This task shows you how to configure Mixer to collect metrics and logs from Envoy instances."}); docs.push({path: [ "rate-limiting.md", ], url: "/docs/tasks/rate-limiting.html", title: "Enabling Rate Limits", order: 80, overview: "This task shows you how to use Istio to dynamically limit the traffic to a service."}); docs.push({path: [ "request-routing.md", ], url: "/docs/tasks/request-routing.html", title: "Configuring Request Routing", order: 50, overview: "This task shows you how to configure dynamic request routing based on weights and HTTP headers."}); docs.push({path: [ "request-timeouts.md", ], url: "/docs/tasks/request-timeouts.html", title: "Setting Request Timeouts", order: 70, overview: "This task shows you how to setup request timeouts in Envoy using Istio."}); docs.push({path: [ "zipkin-tracing.md", ], url: "/docs/tasks/zipkin-tracing.html", title: "Distributed Request Tracing", order: 120, overview: "How to configure the proxies to send tracing requests to Zipkin"}); genNavBarTree(docs) </script></ul></div><div id="tab-container" class="col-xs-1 tab-neg-margin pull-left"> <a id="sidebar-tab" class="glyphicon glyphicon-chevron-left" href="javascript:void 0;"></a></div><div id="content-container" class="thin-left-border col-sm-9 markdown"><div id="toc" class="toc"></div><div id="doc-content"><h1>Enabling Ingress Traffic</h1><p>This task describes how to configure Istio to expose a service outside of the service mesh cluster. In a Kubernetes environment, Istio uses <a href="https://kubernetes.io/docs/concepts/services-networking/ingress/">Kubernetes Ingress Resources</a> to configure ingress behavior.</p><h2 id="before-you-begin">Before you begin</h2><ul><li><p>Setup Istio by following the instructions in the <a href="./installing-istio.html">Installation guide</a>.</p></li><li><p>Make sure your current directory is the <code>istio</code> directory.</p></li><li><p>Start the <a href="https://github.com/istio/istio/tree/master/samples/apps/httpbin">httpbin</a> sample, which will be used as the destination service to be exposed externally.</p><pre><code class="language-bash">kubectl apply -f &lt;(istioctl kube-inject -f samples/apps/httpbin/httpbin.yaml)
+</code></pre></li></ul><h2 id="configuring-ingress-http">Configuring ingress (HTTP)</h2><ol><li><p>Create the Ingress Resource for the httpbin service</p><pre><code class="language-bash">cat &lt;&lt;EOF | kubectl create -f -
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: simple-ingress
+  annotations:
+    kubernetes.io/ingress.class: istio
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /headers
+        backend:
+          serviceName: httpbin
+          servicePort: 8000
+      - path: /delay/.*
+        backend:
+          serviceName: httpbin
+          servicePort: 8000
+EOF
+</code></pre><p>Notice that in this example we are only exposing httpbin’s two endpoints: <code>/headers</code> as an exact URI path and <code>/delay/</code> using an URI prefix.</p></li><li><p>Determine the ingress URL:</p><ul><li><p>If your cluster is running in an environment that supports external load balancers, use the ingress’ external address:</p><pre><code class="language-bash">kubectl get ingress simple-ingress -o wide
+</code></pre><pre><code class="language-bash">NAME             HOSTS     ADDRESS                 PORTS     AGE
+simple-ingress   *         130.211.10.121          80        1d
+</code></pre><pre><code class="language-bash">export INGRESS_URL=130.211.10.121
+</code></pre></li><li><p>If load balancers are not supported, use the ingress controller pod’s hostIP:</p><pre><code class="language-bash">kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+</code></pre><pre><code class="language-bash">169.47.243.100
+</code></pre><p>along with the istio-ingress service’s nodePort for port 80:</p><pre><code class="language-bash">kubectl get svc istio-ingress
+</code></pre><pre><code class="language-bash">NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+istio-ingress   10.10.10.155   &lt;pending&gt;     80:31486/TCP,443:32254/TCP   32m
+</code></pre><pre><code class="language-bash">export INGRESS_URL=169.47.243.100:31486
+</code></pre></li></ul></li><li><p>Access the httpbin service using <em>curl</em>:</p><pre><code class="language-bash">curl http://$INGRESS_URL/headers
+</code></pre><pre><code class="language-json">{
+  "headers": {
+    "Accept": "*/*", 
+    "Content-Length": "0", 
+    "Host": "httpbin.default.svc.cluster.local:8000", 
+    "User-Agent": "curl/7.51.0", 
+    "X-Envoy-Expected-Rq-Timeout-Ms": "15000", 
+    "X-Request-Id": "3dd59054-6e26-4af5-87cf-a247bc634bab"
+  }
+}
+</code></pre></li></ol><h2 id="configuring-secure-ingress-https">Configuring secure ingress (HTTPS)</h2><ol><li><p>Generate keys if necessary</p><p>A private key and certificate can be created for testing using <a href="https://www.openssl.org/">OpenSSL</a>.</p><pre><code class="language-bash">openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=foo.bar.com"
+</code></pre></li><li><p>Create the secret using <code>kubectl</code></p><pre><code class="language-bash">kubectl create secret tls ingress-secret --key /tmp/tls.key --cert /tmp/tls.crt
+</code></pre></li><li><p>Create the Ingress Resource for the httpbin service</p><pre><code class="language-bash">cat &lt;&lt;EOF | kubectl create -f -
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: secured-ingress
+  annotations:
+    kubernetes.io/ingress.class: istio
+spec:
+  tls:
+    - secretName: ingress-secret
+  rules:
+  - http:
+      paths:
+      - path: /ip
+        backend:
+          serviceName: httpbin
+          servicePort: 8000
+EOF
+</code></pre><p>Notice that in this example we are only exposing httpbin’s <code>/ip</code> endpoint.</p><blockquote><p>Note: Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported.</p></blockquote></li><li><p>Determine the secure ingress URL:</p><ul><li><p>If your cluster is running in an environment that supports external load balancers, use the ingress’ external address:</p><pre><code class="language-bash">kubectl get ingress secured-ingress -o wide
+</code></pre><pre><code class="language-bash">NAME              HOSTS     ADDRESS                 PORTS     AGE
+secured-ingress   *         130.211.10.121          80, 443   1d
+</code></pre><pre><code class="language-bash">export SECURE_INGRESS_URL=130.211.10.121
+</code></pre><blockquote><p>Note that in this case SECURE_INGRESS_URL should be the same as INGRESS_URL that you set previously.</p></blockquote></li><li><p>If load balancers are not supported, use the ingress controller pod’s hostIP:</p><pre><code class="language-bash">kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+</code></pre><pre><code class="language-bash">169.47.243.100
+</code></pre><p>along with the istio-ingress service’s nodePort for port 443:</p><pre><code class="language-bash">kubectl get svc istio-ingress
+</code></pre><pre><code class="language-bash">NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+istio-ingress   10.10.10.155   &lt;pending&gt;     80:31486/TCP,443:32254/TCP   32m
+</code></pre><pre><code class="language-bash">export SECURE_INGRESS_URL=169.47.243.100:32254
+</code></pre></li></ul></li><li><p>Access the secured httpbin service using <em>curl</em>:</p><pre><code class="language-bash">curl -k https://$SECURE_INGRESS_URL/ip
+</code></pre><pre><code class="language-json">{
+  "origin": "129.42.161.35"
+}
+</code></pre></li></ol><h2 id="setting-istio-rules-on-an-edge-service">Setting Istio rules on an edge service</h2><p>Similar to inter-cluster requests, Istio <a href="/v0.1/docs/concepts/traffic-management/rules-configuration.html">routing rules</a> can also be set for edge services that are called from outside the cluster. To illustrate we will use <a href="/v0.1/docs/reference/commands/istioctl.html">istioctl</a> to set a timeout rule on calls to the httpbin service.</p><ol><li><p>Invoke the httpbin <code>/delay</code> endpoint you exposed previously:</p><pre><code class="language-bash">time curl -o /dev/null -s -w "%{http_code}\n" http://$INGRESS_URL/delay/5
+</code></pre><pre><code class="language-bash">200
+   
+real    0m5.024s
+user    0m0.003s
+sys     0m0.003s
+</code></pre><p>The request should return 200 (OK) in approximately 5 seconds.</p></li><li><p>Use <code>istioctl</code> to set a 3s timeout on calls to the httpbin service</p><pre><code class="language-bash">cat &lt;&lt;EOF | istioctl create
+type: route-rule
+name: httpbin-3s-rule
+spec:
+  destination: httpbin.default.svc.cluster.local
+  http_req_timeout:
+    simple_timeout:
+      timeout: 3s
+EOF
+</code></pre><p>Note that you may need to change the <code>default</code> namespace to the namespace of the <code>httpbin</code> application.</p></li><li><p>Wait a few seconds, then issue the <em>curl</em> request again:</p><pre><code class="language-bash">time curl -o /dev/null -s -w "%{http_code}\n" http://$INGRESS_URL/delay/5
+</code></pre><pre><code class="language-bash">504
+   
+real    0m3.149s
+user    0m0.004s
+sys     0m0.004s
+</code></pre><p>This time a 504 (Gateway Timeout) appears after 3 seconds. Although httpbin was waiting 5 seconds, Istio cut off the request at 3 seconds.</p></li></ol><blockquote><p>Note: HTTP fault injection (abort and delay) is not currently supported by ingress proxies.</p></blockquote><h2 id="understanding-ingresses">Understanding ingresses</h2><p>Ingresses provide gateways for external traffic to enter the Istio service mesh and make the traffic management and policy features of Istio available for edge services.</p><p>In the preceding steps we created a service inside the Istio service mesh and showed how to expose both HTTP and HTTPS endpoints of the service to external traffic. We also showed how to control the ingress traffic using an Istio route rule.</p><h2 id="cleanup">Cleanup</h2><ol><li><p>Remove the secret, Ingress Resource definitions and Istio rule.</p><pre><code class="language-bash">istioctl delete route-rule httpbin-3s-rule 
+kubectl delete ingress simple-ingress secured-ingress 
+kubectl delete secret ingress-secret
+</code></pre></li><li><p>Shutdown the <a href="https://github.com/istio/istio/tree/master/samples/apps/httpbin">httpbin</a> service.</p><pre><code class="language-bash">kubectl delete -f samples/apps/httpbin/httpbin.yaml
+</code></pre></li></ol><h2 id="whats-next">What’s next</h2><ul><li><p>Learn more about <a href="/v0.1/docs/concepts/traffic-management/rules-configuration.html">routing rules</a>.</p></li><li><p>Learn how to expose external services by <a href="./egress.html">enabling egress traffic</a>.</p></li></ul></div></div></div></div></div></div><script src="/v0.1/js/sidemenu.js"></script><footer><div class="container"><div class="row"><div class="col-md-2"></div><div class="col-md-3 col-sm-4 col-xs-12 center-block"><ul class="toggle"><p class="header">Docs</p><li><a href="/v0.1/docs/">Welcome</a></li><li><a href="/v0.1/docs/concepts">Concepts</a></li><li><a href="/v0.1/docs/tasks">Tasks</a></li><li><a href="/v0.1/docs/samples">Samples</a></li><li><a href="/v0.1/docs/reference">Reference</a></li></ul></div><hr class="footer-sections" /><div class="col-md-3 col-sm-4 col-xs-12 center-block"><ul class="toggle"><p class="header">Resources</p><li><a href="/v0.1/faq">Frequently Asked Questions</a></li><li><a href="/v0.1/troubleshooting">Troubleshooting Guide</a></li><li><a href="/v0.1/bugs">Report a Bug</a></li><li><a href="https://github.com/istio/istio.github.io/issues/new?title=Issue with _docs/tasks/ingress.md">Report a Doc Issue</a></li><li><a href="https://github.com/istio/istio.github.io/edit/master/_docs/tasks/ingress.md">Edit This Page on GitHub</a></li></ul></div><hr class="footer-sections" /><div class="col-md-3 col-sm-4 col-xs-12 center-block"><ul class="toggle"><p class="header">Community</p><li><a href="https://groups.google.com/forum/#!forum/istio-users" target="_blank"><span class="group">User</span></a> | <a href="https://groups.google.com/forum/#!forum/istio-dev" target="_blank">Dev Mailing Lists</a></li><li><a href="https://twitter.com/IstioMesh" target="_blank"><span class="twitter">Twitter</span></a></li><li><a href="https://github.com/istio/istio" target="_blank"><span class="github">GitHub</span></a></li></ul></div><div class="col-md-1"></div></div><div class="row"><p class="description small text-center"> Copyright &copy; 2017 Istio Authors<br> Istio 0.1<br> Archived on 20-Jul-2017</p></div></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script> <script src="/v0.1/js/jquery.form.min.js"></script> <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script> <script src="/v0.1/js/slick.min.js"></script> <script src="/v0.1/js/jquery.visible.min.js"></script> <script src="/v0.1/js/common.js" type="text/javascript" charset="utf-8"></script> <script src="/v0.1/js/buttons.js"></script> <script src="/v0.1/js/search.js"></script> <script src="/v0.1/js/prism.js"></script></body></html>

@@ -1,0 +1,43 @@
+// Before use, remove this line and uncomment the next line
+// ---
+title: My Guide
+overview: Provide a simple one sentence overview of this guide's content
+
+order: 42
+
+layout: docs
+type: markdown
+---
+
+Provide a simple one sentence overview of this guides's content.
+
+## Overview
+
+Provide a high level overview of what users can expect to learn, why these
+features are important, and so on. This is not a task, but a feature of
+Istio.
+
+## Before you begin
+
+List action prerequisites and knowledge prerequisites.
+
+## Application Setup
+
+1. Steps to setup the application
+
+## Tasks
+
+1. some tasks that will complete the goal of this sample.
+
+## <Your Topic Headlines>
+
+<Your Topic Content>
+
+## Cleanup
+
+placeholder
+
+## Further reading
+
+It's good to close with a 'what's next' section to point people to
+other related material.
