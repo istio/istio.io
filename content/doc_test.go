@@ -52,20 +52,21 @@ func TestMain(m *testing.M) {
 	log.Println("Starting test doc(s):", testsToRun)
 	log.Println("Test environment:", testEnv)
 
-	var env environment.Name
-	switch testEnv {
-	case "kube":
-		env = environment.Kube
-	case "native":
-		env = environment.Native
-	default:
+	testEnvName := environment.Name(testEnv)
+	testEnvSupported := false
+	for _, envName := range environment.Names() {
+		if testEnvName == envName {
+			testEnvSupported = true
+			break
+		}
+	}
+	if !testEnvSupported {
 		log.Fatalf("Test environment error: expecting 'kube' or 'native', got '%v'\n", testEnv)
 	}
 
 	framework.
 		NewSuite("doc_test", m).
-		SetupOnEnv(env, istio.Setup(&inst, nil)).
-		RequireEnvironment(env).
+		SetupOnEnv(testEnvName, istio.Setup(&inst, nil)).
 		Run()
 }
 
