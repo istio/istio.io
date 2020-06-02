@@ -48,10 +48,7 @@ _run_and_verify_contains snip_creating_a_default_routing_policy_2 "headers"
 
 _run_and_verify_contains snip_creating_a_default_routing_policy_3 "GET /headers HTTP/1.1"
 
-# No point in retrying for "not contains". TODO: some kind of _verify_worked_and_not_contains function
-#_run_and_verify_not_contains snip_creating_a_default_routing_policy_4 "GET /headers HTTP/1.1"
-out=$(snip_creating_a_default_routing_policy_4 2>&1)
-_verify_not_contains "$out" "GET /headers HTTP/1.1" "snip_creating_a_default_routing_policy_4"
+_run_and_verify_not_contains snip_creating_a_default_routing_policy_4 "GET /headers HTTP/1.1"
 
 snip_mirroring_traffic_to_v2_1
 

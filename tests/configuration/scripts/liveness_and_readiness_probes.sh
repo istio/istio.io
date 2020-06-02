@@ -53,10 +53,14 @@ echo "$snip_use_annotations_on_pod_1" | kubectl -n health-annotate apply -f -
 
 kubectl -n health-annotate rollout status deployment liveness-http --timeout 30s
 
-out=$(kubectl -n health-annotate get pod 2>&1)
+# helepr function
+get_health_annotate_pods() {
+    kubectl -n health-annotate get pod
+}
+
 expected="NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-975595bb6-5b2z7c   1/1       Running   0           1m"
-_verify_like "$out" "$expected" "verify_health-annotate_pod"
+_run_and_verify_like get_health_annotate_pods "$expected"
 
 kubectl -n health-annotate delete deploy/liveness-http
 

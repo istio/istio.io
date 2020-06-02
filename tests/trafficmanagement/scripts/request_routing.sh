@@ -22,6 +22,14 @@ set -o pipefail
 source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/request-routing/snips.sh"
 source "${REPO_ROOT}/tests/util/samples.sh"
 
+# helper functions
+get_bookinfo_productpage() {
+    sample_http_request "/productpage"
+}
+get_bookinfo_productpage_jason() {
+    sample_http_request "/productpage" "jason"
+}
+
 kubectl label namespace default istio-injection=enabled --overwrite
 startup_sleep_sample # needed for sending test requests with curl
 
@@ -46,8 +54,7 @@ _run_and_verify_lines snip_apply_a_virtual_service_3 "
 "
 
 # check that requests do not return ratings
-out=$(sample_http_request "/productpage")
-_verify_not_contains "$out" "glyphicon glyphicon-star" "request_without_ratings"
+_run_and_verify_not_contains get_bookinfo_productpage "glyphicon glyphicon-star"
 
 # route traffic for user jason to reviews:v2
 snip_route_based_on_user_identity_1
@@ -59,7 +66,5 @@ sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 _run_and_verify_elided snip_route_based_on_user_identity_2 "$snip_route_based_on_user_identity_2_out"
 
 # check that requests from user jason return ratings and other requests do not
-out=$(sample_http_request "/productpage" "jason")
-_verify_contains "$out" "glyphicon glyphicon-star" "request_ratings_response_jason"
-out=$(sample_http_request "/productpage")
-_verify_not_contains "$out" "glyphicon glyphicon-star" "request_ratings_response_others"
+_run_and_verify_contains get_bookinfo_productpage_jason "glyphicon glyphicon-star"
+_run_and_verify_not_contains get_bookinfo_productpage "glyphicon glyphicon-star"

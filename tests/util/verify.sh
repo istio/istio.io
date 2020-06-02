@@ -342,9 +342,9 @@ _run_and_verify_like() {
 # can be changed by setting the VERIFY_RETRIES environment variable.
 # Conformance implies:
 #   1. For each line in $expected with the prefix "+ " there must be at least one
-#      line in $output containing the following string.
+#      line in the output containing the following string.
 #   2. For each line in $expected with the prefix "- " there must be no line in
-#      $output containing the following string.
+#      the output containing the following string.
 _run_and_verify_lines() {
     local func=$1
     local expected=$2
@@ -369,80 +369,5 @@ _run_and_verify_failure() {
 
     if [[ "$funcret" -eq 0 ]]; then
         __err_exit "$func" "$out" "NON-ZERO COMMAND EXIT STATUS"
-    fi
-}
-
-
-# Verify that $out is the same as $expected.
-_verify_same() {
-    local out=$1
-    local expected=$2
-    local msg=$3
-
-    if ! __cmp_same "$out" "$expected"; then
-        __err_exit "$msg" "$out" "$expected"
-    fi
-}
-
-# Verify that $out contains the substring $expected.
-_verify_contains() {
-    local out=$1
-    local expected=$2
-    local msg=$3
-
-    if ! __cmp_contains "$out" "$expected"; then
-        __err_exit "$msg" "$out" "$expected"
-    fi
-}
-
-# Verify that $out does not contain the substring $expected.
-_verify_not_contains() {
-    local out=$1
-    local expected=$2
-    local msg=$3
-
-    if ! __cmp_not_contains "$out" "$expected"; then
-        __err_exit "$msg" "$out" "$expected"
-    fi
-}
-
-# Verify that $out contains the lines in $expected where "..." on a line
-# matches one or more lines containing any text.
-_verify_elided() {
-    local out=$1
-    local expected=$2
-    local msg=$3
-
-    if ! __cmp_elided "$out" "$expected"; then
-        __err_exit "$msg" "$out" "$expected"
-    fi
-}
-
-# Verify that the first line of $out matches the first line in $expected.
-_verify_first_line() {
-    local out=$1
-    local expected=$2
-    local msg=$3
-
-    if ! __cmp_first_line "$out" "$expected"; then
-        __err_exit "$msg" "$out" "$expected"
-    fi
-}
-
-# Verify that $out is "like" $expected. Like implies:
-#   1. Same number of lines
-#   2. Same number of whitespace-seperated tokens per line
-#   3. Tokens can only differ in the following ways:
-#        - different elapsed time values
-#        - different ip values
-#        - prefix match ending with a dash character
-#        - expected ... is a wildcard token, matches anything
-_verify_like() {
-    local out=$1
-    local expected=$2
-    local msg=$3
-
-    if ! __cmp_like "$out" "$expected"; then
-        __err_exit "$msg" "$out" "$expected"
     fi
 }

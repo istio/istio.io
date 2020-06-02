@@ -22,6 +22,14 @@ set -o pipefail
 source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/fault-injection/snips.sh"
 source "${REPO_ROOT}/tests/util/samples.sh"
 
+# helper functions
+get_bookinfo_productpage() {
+    sample_http_request "/productpage"
+}
+get_bookinfo_productpage_jason() {
+    sample_http_request "/productpage" "jason"
+}
+
 kubectl label namespace default istio-injection=enabled --overwrite
 startup_sleep_sample # needed for sending test requests with curl
 
@@ -41,8 +49,7 @@ sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 _run_and_verify_elided snip_injecting_an_http_delay_fault_2 "$snip_injecting_an_http_delay_fault_2_out"
 
 # check that requests from user jason return error
-out=$(sample_http_request "/productpage" "jason")
-_verify_contains "$out" "$snip_testing_the_delay_configuration_1" "snip_testing_the_delay_configuration_1"
+_run_and_verify_contains get_bookinfo_productpage_jason "$snip_testing_the_delay_configuration_1"
 
 # inject the abort fault
 snip_injecting_an_http_abort_fault_1
@@ -54,7 +61,5 @@ sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 _run_and_verify_elided snip_injecting_an_http_abort_fault_2 "$snip_injecting_an_http_abort_fault_2_out"
 
 # check that requests from user jason return error and other request do not
-out=$(sample_http_request "/productpage" "jason")
-_verify_contains "$out" "Ratings service is currently unavailable" "request_ratings_response_jason"
-out=$(sample_http_request "/productpage")
-_verify_not_contains "$out" "Ratings service is currently unavailable" "request_ratings_response_others"
+_run_and_verify_contains get_bookinfo_productpage_jason "Ratings service is currently unavailable"
+_run_and_verify_not_contains get_bookinfo_productpage "Ratings service is currently unavailable"
