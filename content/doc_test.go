@@ -14,7 +14,6 @@
 package content
 
 import (
-	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -48,21 +47,10 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	flag.Parse()
 	log.Println("Starting test doc(s):", testsToRun)
 	log.Println("Test environment:", testEnv)
 
 	testEnvName := environment.Name(testEnv)
-	testEnvSupported := false
-	for _, envName := range environment.Names() {
-		if testEnvName == envName {
-			testEnvSupported = true
-			break
-		}
-	}
-	if !testEnvSupported {
-		log.Fatalf("Test environment error: expecting 'kube' or 'native', got '%v'\n", testEnv)
-	}
 
 	framework.
 		NewSuite("doc_test", m).
@@ -131,7 +119,6 @@ func runTestFile(path string, t *testing.T) {
 				}).
 				Build())
 	})
-	// TODO: find logs?
 }
 
 func getSetupScript(testPath string) string {

@@ -1,8 +1,9 @@
 export ENV ?= kube
 export TEST ?= all
 
-doc.test:
-	@${GO} test ${REPO_ROOT}/content/ -v -count=1  # gocache disabled by -count=1
+doc.test: init # gocache disabled by -count=1
+	@${GO} test ${REPO_ROOT}/content/ -v -timeout=30m -count=1 \
+		-istio.test.env=${ENV} -istio.test.hub=$(HUB) -istio.test.tag=$(TAG)
 
 doc.test.help:
 	@echo "The command \"make doc.test\" accepts two optional environment variables."

@@ -142,8 +142,8 @@ foo2:
 # which to run the `git command.
 .PHONY: preinit init
 preinit:
-	@echo "ISTIO_SHA = ${ISTIO_SHA}"
-	@echo "HUB = ${HUB}"
+	@echo "ISTIO_SHA=${ISTIO_SHA}"
+	@echo "HUB=${HUB}"
 	@bin/init.sh
 
 init: preinit
@@ -170,7 +170,7 @@ test_status:
 	@scripts/test_status.sh
 
 # make lint-yaml seems to fail with pipefail, so remove now.
-#SHELL = /bin/bash
+# SHELL = /bin/bash
 
 include common/Makefile.common.mk
 
