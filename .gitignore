@@ -25,3 +25,6 @@ out/**
 
 # contains cloned istio repository
 go/**
+
+# archived site version
+archived_version

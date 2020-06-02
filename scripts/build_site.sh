@@ -16,8 +16,14 @@
 
 set -e
 
+rm -rf ./public
+
 if [[ "$2" == "-no_minify" ]]; then
     hugo --baseURL "$1"
 else
     hugo --minify --baseURL "$1"
+fi
+
+if [[ $1 = '/'* ]]; then
+    find ./public -type f -exec sed -i "s:$1$1:$1:g" {} \;
 fi

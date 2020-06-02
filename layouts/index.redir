@@ -19,7 +19,9 @@
 https://istio.netlify.com/* https://istio.io/:splat 301!
 
 # Redirect to translated sites
-/  /zh   302  Language=zh
+/  /latest/zh   302  Language=zh
+/zh /latest/zh
+/zh/:splat /latest/zh/:splat
 
 # Redirect for the helm charts
 /charts/ https://storage.googleapis.com/istio-release/releases/{{ .Site.Data.args.full_version }}/charts/ 301
@@ -27,10 +29,19 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 # Redirects for all aliases
 {{- range $p := .Site.Pages -}}
 {{- range .Aliases }}
-{{ . | printf "%-35s" }}	{{ $p.RelPermalink }}
+{{ . | printf "%-35s" }}	{{ $p.Permalink }}
 {{- end -}}
 {{- end }}
 
 # Download scripts
 /downloadIstio https://raw.githubusercontent.com/istio/istio/release-{{ .Site.Data.args.version }}/release/downloadIstioCandidate.sh
 /downloadIstioctl https://raw.githubusercontent.com/istio/istio/release-{{ .Site.Data.args.version }}/release/downloadIstioCtl.sh
+
+#navigating to a page without /latest on front, add /latest
+{{ range $p := .Site.Pages }}
+{{ strings.TrimPrefix "/latest" $p.Permalink }} {{ $p.Permalink}}
+{{- end }}
+
+/v{{ .Site.Data.args.version }}/* /latest/:splat
+http://archive.istio.io /archive 301!
+http://archive.istio.io/* /:splat 301!
