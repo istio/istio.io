@@ -28,9 +28,9 @@ snip_before_you_begin_3
 
 # Confirm we can access plain HTTP
 snip_apply_simple
-_run_and_verify_elided snip_curl_simple "$snip_curl_simple_out"
+_verify_elided snip_curl_simple "$snip_curl_simple_out"
 
 # Apply TLS origination config, check http and https content is correct
 snip_apply_origination
-_run_and_verify_elided snip_curl_origination_http "$snip_curl_origination_http_out"
-_run_and_verify_elided snip_curl_origination_https "$snip_curl_origination_https_out"
+_verify_elided snip_curl_origination_http "$snip_curl_origination_http_out"
+_verify_elided snip_curl_origination_https "$snip_curl_origination_https_out"

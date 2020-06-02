@@ -47,7 +47,7 @@ snip_configure_a_tls_ingress_gateway_for_a_single_host_3
 _wait_for_deployment default httpbin
 
 # verifying httpbin deployment
-_run_and_verify_lines snip_configure_a_tls_ingress_gateway_for_a_single_host_4 "
+_verify_lines snip_configure_a_tls_ingress_gateway_for_a_single_host_4 "
 + HTTP/2 418
 + -=[ teapot ]=-
 "
@@ -60,13 +60,13 @@ snip_configure_a_tls_ingress_gateway_for_a_single_host_6
 sleep 5s
 
 # verifying new httpbin credentials
-_run_and_verify_lines snip_configure_a_tls_ingress_gateway_for_a_single_host_7 "
+_verify_lines snip_configure_a_tls_ingress_gateway_for_a_single_host_7 "
 + HTTP/2 418
 + -=[ teapot ]=-
 "
 
 # verifying old httpbin credentials no longer work
-_run_and_verify_failure snip_configure_a_tls_ingress_gateway_for_a_single_host_8
+_verify_failure snip_configure_a_tls_ingress_gateway_for_a_single_host_8
 
 snip_configure_a_tls_ingress_gateway_for_multiple_hosts_1
 
@@ -87,9 +87,9 @@ snip_configure_a_tls_ingress_gateway_for_multiple_hosts_6
 # waiting for configuration to propagate
 sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
-_run_and_verify_contains snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7 "$snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7_out"
+_verify_contains snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7 "$snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7_out"
 
-_run_and_verify_lines snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8 "
+_verify_lines snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8 "
 + HTTP/2 418
 + -=[ teapot ]=-
 "
@@ -101,11 +101,11 @@ snip_configure_a_mutual_tls_ingress_gateway_2
 # wait for the change to propagate
 sleep 5s
 
-_run_and_verify_failure snip_configure_a_mutual_tls_ingress_gateway_3
+_verify_failure snip_configure_a_mutual_tls_ingress_gateway_3
 
 snip_configure_a_mutual_tls_ingress_gateway_4
 
-_run_and_verify_lines snip_configure_a_mutual_tls_ingress_gateway_5 "
+_verify_lines snip_configure_a_mutual_tls_ingress_gateway_5 "
 + HTTP/2 418
 + -=[ teapot ]=-
 "

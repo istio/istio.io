@@ -31,7 +31,7 @@ startup_httpbin_sample
 snip_configuring_the_circuit_breaker_1
 
 # Confirm destination rule set
-_run_and_verify_elided snip_configuring_the_circuit_breaker_2 "$snip_configuring_the_circuit_breaker_2_out"
+_verify_elided snip_configuring_the_circuit_breaker_2 "$snip_configuring_the_circuit_breaker_2_out"
 
 # Deploy fortio client
 snip_adding_a_client_1
@@ -39,7 +39,7 @@ snip_adding_a_client_1
 _wait_for_deployment default fortio-deploy
 
 # Make one call to httpbin
-_run_and_verify_contains snip_adding_a_client_3 "HTTP/1.1 200 OK"
+_verify_contains snip_adding_a_client_3 "HTTP/1.1 200 OK"
 
 # FIXME / TODO: These tests previously relied on checking that the
 # percentage of 200 and 503 responses fell within a given range. That
@@ -52,13 +52,13 @@ _run_and_verify_contains snip_adding_a_client_3 "HTTP/1.1 200 OK"
 #          Issue: https://github.com/istio/istio.io/issues/7074
 
 # Make requests with 2 connections
-_run_and_verify_lines snip_tripping_the_circuit_breaker_1 "
+_verify_lines snip_tripping_the_circuit_breaker_1 "
 + Code 200 :
 + Code 503 :
 "
 
 # Make requests with 3 connections
-_run_and_verify_lines snip_tripping_the_circuit_breaker_3 "
+_verify_lines snip_tripping_the_circuit_breaker_3 "
 + Code 200 :
 + Code 503 :
 "
@@ -70,4 +70,4 @@ cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstrea
 cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_failure_eject: ...
 cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_overflow: ...
 cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_total: ..."
-_run_and_verify_like snip_tripping_the_circuit_breaker_5 "$expected"
+_verify_like snip_tripping_the_circuit_breaker_5 "$expected"

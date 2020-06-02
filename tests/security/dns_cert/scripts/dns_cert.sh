@@ -31,8 +31,8 @@ regen_dns_certs() {
     snip_regenerating_a_dns_certificate_2 | sed 's/[ ]*$//' # Remove trailing spaces
 }
 
-_run_and_verify_contains check_dns_certs "$snip_check_the_provisioning_of_dns_certificates_2"
+_verify_contains check_dns_certs "$snip_check_the_provisioning_of_dns_certificates_2"
 
 snip_regenerating_a_dns_certificate_1
 
-_run_and_verify_contains regen_dns_certs "$snip_regenerating_a_dns_certificate_3"
+_verify_contains regen_dns_certs "$snip_regenerating_a_dns_certificate_3"

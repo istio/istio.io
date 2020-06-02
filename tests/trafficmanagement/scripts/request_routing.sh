@@ -43,10 +43,10 @@ snip_apply_a_virtual_service_1
 sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 # confirm route rules are set
-_run_and_verify_elided snip_apply_a_virtual_service_2 "$snip_apply_a_virtual_service_2_out"
+_verify_elided snip_apply_a_virtual_service_2 "$snip_apply_a_virtual_service_2_out"
 
 # check destination rules
-_run_and_verify_lines snip_apply_a_virtual_service_3 "
+_verify_lines snip_apply_a_virtual_service_3 "
 + productpage
 + reviews
 + ratings
@@ -54,7 +54,7 @@ _run_and_verify_lines snip_apply_a_virtual_service_3 "
 "
 
 # check that requests do not return ratings
-_run_and_verify_not_contains get_bookinfo_productpage "glyphicon glyphicon-star"
+_verify_not_contains get_bookinfo_productpage "glyphicon glyphicon-star"
 
 # route traffic for user jason to reviews:v2
 snip_route_based_on_user_identity_1
@@ -63,8 +63,8 @@ snip_route_based_on_user_identity_1
 sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 # confirm route rules are set
-_run_and_verify_elided snip_route_based_on_user_identity_2 "$snip_route_based_on_user_identity_2_out"
+_verify_elided snip_route_based_on_user_identity_2 "$snip_route_based_on_user_identity_2_out"
 
 # check that requests from user jason return ratings and other requests do not
-_run_and_verify_contains get_bookinfo_productpage_jason "glyphicon glyphicon-star"
-_run_and_verify_not_contains get_bookinfo_productpage "glyphicon glyphicon-star"
+_verify_contains get_bookinfo_productpage_jason "glyphicon glyphicon-star"
+_verify_not_contains get_bookinfo_productpage "glyphicon glyphicon-star"

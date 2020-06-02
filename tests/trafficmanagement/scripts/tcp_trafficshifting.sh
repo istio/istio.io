@@ -51,7 +51,7 @@ _set_ingress_environment_variables
 # Route all traffic to echo v1
 snip_apply_weightbased_tcp_routing_1
 
-_run_and_verify_lines snip_apply_weightbased_tcp_routing_2 "
+_verify_lines snip_apply_weightbased_tcp_routing_2 "
 + one
 - two
 "
@@ -61,9 +61,9 @@ snip_apply_weightbased_tcp_routing_3
 # wait for rules to propagate
 sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
-_run_and_verify_elided snip_apply_weightbased_tcp_routing_4 "$snip_apply_weightbased_tcp_routing_4_out"
+_verify_elided snip_apply_weightbased_tcp_routing_4 "$snip_apply_weightbased_tcp_routing_4_out"
 
-_run_and_verify_lines snip_apply_weightbased_tcp_routing_5 "
+_verify_lines snip_apply_weightbased_tcp_routing_5 "
 + one
 + two
 "

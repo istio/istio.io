@@ -31,7 +31,7 @@ snip_liveness_and_readiness_probes_with_command_option_4
 
 kubectl -n istio-io-health rollout status deployment liveness --timeout 60s
 
-_run_and_verify_like snip_liveness_and_readiness_probes_with_command_option_5 "$snip_liveness_and_readiness_probes_with_command_option_5_out"
+_verify_like snip_liveness_and_readiness_probes_with_command_option_5 "$snip_liveness_and_readiness_probes_with_command_option_5_out"
 
 kubectl -n istio-io-health delete -f samples/health-check/liveness-command.yaml
 
@@ -41,7 +41,7 @@ snip_redeploy_the_liveness_health_check_app_1
 
 kubectl -n istio-same-port rollout status deployment liveness-http --timeout 60s
 
-_run_and_verify_like snip_redeploy_the_liveness_health_check_app_2 "$snip_redeploy_the_liveness_health_check_app_2_out"
+_verify_like snip_redeploy_the_liveness_health_check_app_2 "$snip_redeploy_the_liveness_health_check_app_2_out"
 
 kubectl -n istio-same-port delete -f samples/health-check/liveness-http-same-port.yaml
 
@@ -60,7 +60,7 @@ get_health_annotate_pods() {
 
 expected="NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-975595bb6-5b2z7c   1/1       Running   0           1m"
-_run_and_verify_like get_health_annotate_pods "$expected"
+_verify_like get_health_annotate_pods "$expected"
 
 kubectl -n health-annotate delete deploy/liveness-http
 
@@ -68,6 +68,6 @@ snip_separate_port_1
 
 kubectl -n istio-sep-port rollout status deployment liveness-http --timeout 60s
 
-_run_and_verify_like snip_separate_port_2 "$snip_separate_port_2_out"
+_verify_like snip_separate_port_2 "$snip_separate_port_2_out"
 
 kubectl -n istio-sep-port delete -f samples/health-check/liveness-http.yaml

@@ -269,7 +269,7 @@ __verify_with_retry() {
 # Runs $func and compares the output with $expected.  If they are not the same,
 # exponentially back off and try again, 5 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
-_run_and_verify_same() {
+_verify_same() {
     local func=$1
     local expected=$2
     __verify_with_retry __cmp_same "$func" "$expected"
@@ -279,7 +279,7 @@ _run_and_verify_same() {
 # contain the substring $expected,
 # exponentially back off and try again, 5 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
-_run_and_verify_contains() {
+_verify_contains() {
     local func=$1
     local expected=$2
     __verify_with_retry __cmp_contains "$func" "$expected"
@@ -289,7 +289,7 @@ _run_and_verify_contains() {
 # substring $expected,
 # exponentially back off and try again, 5 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
-_run_and_verify_not_contains() {
+_verify_not_contains() {
     local func=$1
     local expected=$2
     # __cmp_not_contains will return true even if func fails. Pass failonerr arg
@@ -302,7 +302,7 @@ _run_and_verify_not_contains() {
 # containing any text,
 # exponentially back off and try again, 5 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
-_run_and_verify_elided() {
+_verify_elided() {
     local func=$1
     local expected=$2
     __verify_with_retry __cmp_elided "$func" "$expected"
@@ -312,7 +312,7 @@ _run_and_verify_elided() {
 # output does not match the first line in $expected,
 # exponentially back off and try again, 5 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
-_run_and_verify_first_line() {
+_verify_first_line() {
     local func=$1
     local expected=$2
     __verify_with_retry __cmp_first_line "$func" "$expected"
@@ -330,7 +330,7 @@ _run_and_verify_first_line() {
 #        - different ip values
 #        - prefix match ending with a dash character
 #        - expected ... is a wildcard token, matches anything
-_run_and_verify_like() {
+_verify_like() {
     local func=$1
     local expected=$2
     __verify_with_retry __cmp_like "$func" "$expected"
@@ -345,7 +345,7 @@ _run_and_verify_like() {
 #      line in the output containing the following string.
 #   2. For each line in $expected with the prefix "- " there must be no line in
 #      the output containing the following string.
-_run_and_verify_lines() {
+_verify_lines() {
     local func=$1
     local expected=$2
     __verify_with_retry __cmp_lines "$func" "$expected"
@@ -353,7 +353,7 @@ _run_and_verify_lines() {
 
 # Runs $func and confirm that it fails (i.e., non-zero return code). This function is useful
 # for testing commands that demonstrate configurations that are expected to fail.
-_run_and_verify_failure() {
+_verify_failure() {
     local func=$1
     local errexit_state
 

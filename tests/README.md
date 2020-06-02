@@ -113,51 +113,49 @@ snip_config_50_v3 # Step 3: switch 50% traffic to v3
 ```
 
 For commands that produce output, pass the snip and expected output to an appropriate
-`_run_and_verify_` function. For example:
+`_verify_` function. For example:
 
 ```sh
-_run_and_verify_same snip_set_up_the_cluster_3 "$snip_set_up_the_cluster_3_out"
+_verify_same snip_set_up_the_cluster_3 "$snip_set_up_the_cluster_3_out"
 ```
 
-For situations where you need to perform more than one verify check, you can
-run the snip and capture the command output in a variable, and then compare
-it to the expected output:
+The verify functions first run the snip function and then compare the result to the
+expected output. The framework includes the following built-in verify functions:
 
-```sh
-out=$(snip_tripping_the_circuit_breaker_1 2>&1)
-_verify_contains "$out" "Code 200 :" "snip_tripping_the_circuit_breaker_1"
-_verify_contains "$out" "Code 503 :" "snip_tripping_the_circuit_breaker_1"
-```
+1. **`_verify_same`** `func` `expected`
 
-The framework includes the following built-in verify functions:
+   Runs `func` and compares the output with `expected`. If they are not the same,
+   exponentially back off and try again, 5 times by default. The number of retries
+   can be changed by setting the `VERIFY_RETRIES` environment variable.
 
-1. **`_verify_same`** `out` `expected` `msg`
+1. **`_verify_contains`** `func` `expected`
 
-   Verify that `out` is exactly the same as `expected`. Failure messages will include
-   the specified `msg`.
+   Runs `func` and compares the output with `expected`. If the output does not
+   contain the substring `expected`, exponentially back off and try again, 5 times
+   by default. The number of retries can be changed by setting the `VERIFY_RETRIES`
+   environment variable.
 
-1. **`_verify_contains`** `out` `expected` `msg`
+1. **`_verify_not_contains`** `func` `expected`
 
-   Verify that `out` contains the substring `expected`. Failure messages will include
-   the specified `msg`.
+   Runs `func` and compares the output with `expected`. If the command execution fails
+   or the output contains the substring `expected`,
+   exponentially back off and try again, 5 times by default. The number of retries
+   can be changed by setting the `VERIFY_RETRIES` environment variable.
 
-1. **`_verify_not_contains`** `out` `expected` `msg`
+1. **`_verify_elided`** `func` `expected`
 
-   Verify that `out` does not contains the substring `expected`. Failure messages will include
-   the specified `msg`.
+   Runs `func` and compares the output with `expected`. If the output does not
+   contain the lines in `expected` where "..." on a line matches one or more lines
+   containing any text, exponentially back off and try again, 5 times by default.
+   The number of retries can be changed by setting the `VERIFY_RETRIES` environment
+   variable.
 
-1. **`_verify_first_line`** `out` `expected` `msg`
+1. **`_verify_like`** `func` `expected`
 
-   Verify that the first line of `out` matches the first line in `expected`.
-
-1. **`_verify_elided`** `out` `expected` `msg`
-
-   Verify that `out` contains the lines in `expected` where `...` on a line matches one or
-   more lines with any text.
-
-1. **`_verify_like`** `out` `expected` `msg`
-
-   Verify that `out` is "like" `expected`. Like implies:
+   Runs `func` and compares the output with `expected`. If the output is not
+   "like" `expected`, exponentially back off and try again, 5 times by default. The number
+   of retries can be changed by setting the `VERIFY_RETRIES` environment variable.
+   Like implies:
 
    - Same number of lines
    - Same number of whitespace-seperated tokens per line
@@ -171,16 +169,23 @@ The framework includes the following built-in verify functions:
    This function is useful for comparing the output of commands that include some run-specific
    values in the output (e.g., `kubectl get pods`), or when whitespace in the output may be different.
 
-Every `verify_` function has a corresponding `_run_and_verify_` function that
-first runs a function and then compares the result to the expected output.
-The specified function will be retried 5 times, with exponential backoff, before failing:
+1. `_verify_lines`** `func` `expected`
 
-1. **`_run_and_verify_same`** `func` `expected`
-1. **`_run_and_verify_contains`** `func` `expected`
-1. **`_run_and_verify_not_contains`** `func` `expected`
-1. **`_run_and_verify_first_line`** `func` `expected`
-1. **`_run_and_verify_elided`** `func` `expected`
-1. **`_run_and_verify_like`** `func` `expected`
+   Runs `func` and compares the output with `expected`. If the output does not
+   "conform to" the specification in `expected`,
+   exponentially back off and try again, 5 times by default. The number of retries
+   can be changed by setting the `VERIFY_RETRIES` environment variable.
+   Conformance implies:
+
+   1. For each line in `expected` with the prefix "+ " there must be at least one
+      line in the output containing the following string.
+   1. For each line in `expected` with the prefix "- " there must be no line in
+      the output containing the following string.
+
+1. `_verify_failure`** `func`
+
+   Runs `func` and confirms that it fails (i.e., non-zero return code). This function is useful
+   for testing commands that demonstrate configurations that are expected to fail.
 
 ## Running the Tests: Make
 

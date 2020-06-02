@@ -28,7 +28,7 @@ kubectl label namespace default istio-injection=enabled --overwrite
 startup_httpbin_sample
 
 # check for external load balancer
-_run_and_verify_like snip_determining_the_ingress_ip_and_ports_1 "$snip_determining_the_ingress_ip_and_ports_1_out"
+_verify_like snip_determining_the_ingress_ip_and_ports_1 "$snip_determining_the_ingress_ip_and_ports_1_out"
 
 # set INGRESS_HOST, INGRESS_PORT, SECURE_INGRESS_PORT, and TCP_INGRESS_PORT environment variables
 if [[ "$out" != *"<none>"* && "$out" != *"<pending>"* ]]; then
@@ -48,12 +48,12 @@ snip_configuring_ingress_using_an_istio_gateway_2
 sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 # access the httpbin service
-#_run_and_verify_first_line snip_configuring_ingress_using_an_istio_gateway_3 "$snip_configuring_ingress_using_an_istio_gateway_3_out"
-_run_and_verify_contains snip_configuring_ingress_using_an_istio_gateway_3 "HTTP/1.1 200 OK"
+#_verify_first_line snip_configuring_ingress_using_an_istio_gateway_3 "$snip_configuring_ingress_using_an_istio_gateway_3_out"
+_verify_contains snip_configuring_ingress_using_an_istio_gateway_3 "HTTP/1.1 200 OK"
 
 # access the httpbin service
-#_run_and_verify_first_line snip_configuring_ingress_using_an_istio_gateway_4 "$snip_configuring_ingress_using_an_istio_gateway_4_out"
-_run_and_verify_contains snip_configuring_ingress_using_an_istio_gateway_4 "HTTP/1.1 404 Not Found"
+#_verify_first_line snip_configuring_ingress_using_an_istio_gateway_4 "$snip_configuring_ingress_using_an_istio_gateway_4_out"
+_verify_contains snip_configuring_ingress_using_an_istio_gateway_4 "HTTP/1.1 404 Not Found"
 
 # configure for web browser
 snip_accessing_ingress_services_using_a_browser_1
@@ -67,4 +67,4 @@ curl_httpbin_headers() {
 }
 
 # access httpbin without host header
-_run_and_verify_contains curl_httpbin_headers "HTTP/1.1 200 OK"
+_verify_contains curl_httpbin_headers "HTTP/1.1 200 OK"
