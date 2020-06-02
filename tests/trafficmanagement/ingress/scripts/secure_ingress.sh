@@ -47,9 +47,10 @@ snip_configure_a_tls_ingress_gateway_for_a_single_host_3
 _wait_for_deployment default httpbin
 
 # verifying httpbin deployment
-out=$(snip_configure_a_tls_ingress_gateway_for_a_single_host_4 2>&1)
-_verify_contains "$out" "HTTP/2 418" "snip_configure_a_tls_ingress_gateway_for_a_single_host_4"
-_verify_contains "$out" "-=[ teapot ]=-" "snip_configure_a_tls_ingress_gateway_for_a_single_host_4"
+_run_and_verify_lines snip_configure_a_tls_ingress_gateway_for_a_single_host_4 "
++ HTTP/2 418
++ -=[ teapot ]=-
+"
 
 # deleting httpbin secret and re-creating
 snip_configure_a_tls_ingress_gateway_for_a_single_host_5
@@ -59,9 +60,10 @@ snip_configure_a_tls_ingress_gateway_for_a_single_host_6
 sleep 5s
 
 # verifying new httpbin credentials
-out=$(snip_configure_a_tls_ingress_gateway_for_a_single_host_7 2>&1)
-_verify_contains "$out" "HTTP/2 418" "snip_configure_a_tls_ingress_gateway_for_a_single_host_7"
-_verify_contains "$out" "-=[ teapot ]=-" "snip_configure_a_tls_ingress_gateway_for_a_single_host_7"
+_run_and_verify_lines snip_configure_a_tls_ingress_gateway_for_a_single_host_7 "
++ HTTP/2 418
++ -=[ teapot ]=-
+"
 
 # verifying old httpbin credentials no longer work
 _run_and_verify_failure snip_configure_a_tls_ingress_gateway_for_a_single_host_8
@@ -87,9 +89,10 @@ sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 _run_and_verify_contains snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7 "$snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7_out"
 
-out=$(snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8 2>&1)
-_verify_contains "$out" "HTTP/2 418" "snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8"
-_verify_contains "$out" "-=[ teapot ]=-" "snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8"
+_run_and_verify_lines snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8 "
++ HTTP/2 418
++ -=[ teapot ]=-
+"
 
 snip_configure_a_mutual_tls_ingress_gateway_1
 
@@ -102,6 +105,7 @@ _run_and_verify_failure snip_configure_a_mutual_tls_ingress_gateway_3
 
 snip_configure_a_mutual_tls_ingress_gateway_4
 
-out=$(snip_configure_a_mutual_tls_ingress_gateway_5 2>&1)
-_verify_contains "$out" "HTTP/2 418" "snip_configure_a_mutual_tls_ingress_gateway_5"
-_verify_contains "$out" "-=[ teapot ]=-" "snip_configure_a_mutual_tls_ingress_gateway_5"
+_run_and_verify_lines snip_configure_a_mutual_tls_ingress_gateway_5 "
++ HTTP/2 418
++ -=[ teapot ]=-
+"
