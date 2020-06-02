@@ -189,109 +189,112 @@ __cmp_like() {
     return 0
 }
 
-
-# Verify the output of $func is the same as $expected.  If they are not the
-# same, exponentially back off and try again.
+# Verify the output of $func is the same as $expected.  If they are not the same,
+# exponentially back off and try again, 5 times by default. The number of retries
+# can be changed by setting the VERIFY_RETRIES environment variable.
 __verify_with_retry() {
     local cmp_func=$1
     local func=$2
     local expected=$3
-    local max_attempts=$4
+    local failonerr=${4:-}
+
+    local max_attempts=${VERIFY_RETRIES:-5}
     local attempt=1
 
     while true; do
-      # Most tests include "set -e", which causes the script to exit if a
-      # statement returns a non-true return value.  In some cases, $func may
-      # exit with a non-true return value, but we want to retry the command
-      # later.  We want to temporarily disable that "errexit" behavior.
-      local errexit_state
-      errexit_state="$(shopt -po errexit || true)"
-      set +e
+        # Most tests include "set -e", which causes the script to exit if a
+        # statement returns a non-true return value.  In some cases, $func may
+        # exit with a non-true return value, but we want to retry the command
+        # later.  We want to temporarily disable that "errexit" behavior.
+        local errexit_state
+        errexit_state="$(shopt -po errexit || true)"
+        set +e
 
-      # Run the command.
-      out=$($func 2>&1)
+        # Run the command.
+        out=$($func 2>&1)
+        local funcret="$?"
 
-      $cmp_func "$out" "$expected"
-      local retval="$?"
+        $cmp_func "$out" "$expected"
+        local cmpret="$?"
 
-      # Restore the "errexit" state.
-      eval "$errexit_state"
+        # Restore the "errexit" state.
+        eval "$errexit_state"
 
-      if [[ "$retval" -eq 0 ]]; then
-          return
-      fi
+        if [[ "$cmpret" -eq 0 ]]; then
+            if [[ -z "$failonerr" || "$funcret" -eq 0 ]]; then
+                return
+            fi
+        fi
 
-      if (( attempt >= max_attempts )); then
-          __err_exit "$func" "$out" "$expected"
-      fi
+        if (( attempt >= max_attempts )); then
+            __err_exit "$func" "$out" "$expected"
+        fi
 
-      sleep $(( 2 ** attempt ))
-      attempt=$(( attempt + 1 ))
+        sleep $(( 2 ** attempt ))
+        attempt=$(( attempt + 1 ))
     done
 }
 
+
 # Public Functions
 
+
 # Runs $func and compares the output with $expected.  If they are not the same,
-# will retry $max_attempts times with an exponential backoff.  If $max_attempts
-# is not set, it will retry 5 times by default.
+# exponentially back off and try again, 5 times by default. The number of retries
+# can be changed by setting the VERIFY_RETRIES environment variable.
 _run_and_verify_same() {
     local func=$1
     local expected=$2
-    local max_attempts=${3:-5}
-    __verify_with_retry __cmp_same "$func" "$expected" "$max_attempts"
+    __verify_with_retry __cmp_same "$func" "$expected"
 }
 
 # Runs $func and compares the output with $expected.  If the output does not
-# contain the substring $expected, will retry $max_attempts times with an
-# exponential backoff.  If $max_attempts is not set, it will retry 5 times by
-# default.
+# contain the substring $expected,
+# exponentially back off and try again, 5 times by default. The number of retries
+# can be changed by setting the VERIFY_RETRIES environment variable.
 _run_and_verify_contains() {
     local func=$1
     local expected=$2
-    local max_attempts=${3:-5}
-    __verify_with_retry __cmp_contains "$func" "$expected" "$max_attempts"
+    __verify_with_retry __cmp_contains "$func" "$expected"
 }
 
 # Runs $func and compares the output with $expected.  If the output contains the
-# substring $expected, will retry $max_attempts times with an exponential
-# backoff.  If $max_attempts is not set, it will retry 5 times by default.
-#
-# This function is not useful since __cmp_not_contains will return true
-# even if the function fails. The _verify_not_contains function, itself,
-# is also often not very useful for the same reason.
-# TODO Replace it with some kind of _verify_worked_and_not_contains function.
+# substring $expected,
+# exponentially back off and try again, 5 times by default. The number of retries
+# can be changed by setting the VERIFY_RETRIES environment variable.
 _run_and_verify_not_contains() {
     local func=$1
     local expected=$2
-    local max_attempts=${3:-5}
-    __verify_with_retry __cmp_not_contains "$func" "$expected" "$max_attempts"
+    # __cmp_not_contains will return true even if func fails. Pass failonerr arg
+    # to tell __verify_with_retry to fail in this case instead.
+    __verify_with_retry __cmp_not_contains "$func" "$expected" "true"
 }
 
 # Runs $func and compares the output with $expected.  If the output does not
 # contain the lines in $expected where "..." on a line matches one or more lines
-# containing any text, will retry $max_attempts times with an exponential
-# backoff.  If $max_attempts is not set, it will retry 5 times by default.
+# containing any text,
+# exponentially back off and try again, 5 times by default. The number of retries
+# can be changed by setting the VERIFY_RETRIES environment variable.
 _run_and_verify_elided() {
     local func=$1
     local expected=$2
-    local max_attempts=${3:-5}
-    __verify_with_retry __cmp_elided "$func" "$expected" "$max_attempts"
+    __verify_with_retry __cmp_elided "$func" "$expected"
 }
 
 # Runs $func and compares the output with $expected.  If the first line of
-# output does not match the first line in $expected, will retry $max_attempts
-# times with an exponential backoff.  If $max_attempts is not set, it will
-# retry 5 times by default.
+# output does not match the first line in $expected,
+# exponentially back off and try again, 5 times by default. The number of retries
+# can be changed by setting the VERIFY_RETRIES environment variable.
 _run_and_verify_first_line() {
     local func=$1
     local expected=$2
-    local max_attempts=${3:-5}
-    __verify_with_retry __cmp_first_line "$func" "$expected" "$max_attempts"
+    __verify_with_retry __cmp_first_line "$func" "$expected"
 }
 
 # Runs $func and compares the output with $expected.  If the output is not
-# "like" $ecpted, will retry $max_attempts times with an exponential backoff.
+# "like" $expected,
+# exponentially back off and try again, 5 times by default. The number of retries
+# can be changed by setting the VERIFY_RETRIES environment variable.
 # Like implies:
 #   1. Same number of lines
 #   2. Same number of whitespace-seperated tokens per line
@@ -300,13 +303,33 @@ _run_and_verify_first_line() {
 #        - different ip values
 #        - prefix match ending with a dash character
 #        - expected ... is a wildcard token, matches anything
-# If $max_attempts is not set, it will retry 5 times by default.
 _run_and_verify_like() {
     local func=$1
     local expected=$2
-    local max_attempts=${3:-5}
-    __verify_with_retry __cmp_like "$func" "$expected" "$max_attempts"
+    __verify_with_retry __cmp_like "$func" "$expected"
 }
+
+# Runs $func and confirm that it fails (i.e., non-zero return code). This function is useful
+# for testing commands that demonstrate configurations that are expected to fail.
+_run_and_verify_failure() {
+    local func=$1
+    local errexit_state
+
+    errexit_state="$(shopt -po errexit || true)"
+    set +e
+
+    # Run the command.
+    out=$($func 2>&1)
+    local funcret="$?"
+
+    # Restore the "errexit" state.
+    eval "$errexit_state"
+
+    if [[ "$funcret" -eq 0 ]]; then
+        __err_exit "$func" "$out" "NON-ZERO COMMAND EXIT STATUS"
+    fi
+}
+
 
 # Verify that $out is the same as $expected.
 _verify_same() {

@@ -20,6 +20,6 @@ Upgrading Istio is a complicated process. During the transition period between t
 
 ## Configuring
 
-Control plane selection is done based on the sidecar injection webhook. Each control plane is configured to select objects with a matching `istio.io/rev` label on the namespace. Then, the upgrade process configures the pods to connect to a control plane specific to that revision. Unlike in the current model, this means that a given proxy connects to the same revision during its lifetime. This avoids subtle issues that might arise when a proxy switches what control plane it is connected to.
+Control plane selection is done based on the sidecar injection webhook. Each control plane is configured to select objects with a matching `istio.io/rev` label on the namespace. Then, the upgrade process configures the pods to connect to a control plane specific to that revision. Unlike in the current model, this means that a given proxy connects to the same revision during its lifetime. This avoids subtle issues that might arise when a proxy switches which control plane it is connected to.
 
 The new `istio.io/rev` label will replace the `istio-injection=enabled` label when using revisions. For example, if we had a revision named canary, we would label our namespaces that we want to use this revision with istio.io/rev=canary. See the [upgrade guide](/docs/setup/upgrade) for more information.

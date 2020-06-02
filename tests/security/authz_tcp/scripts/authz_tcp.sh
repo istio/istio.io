@@ -20,12 +20,11 @@ set -u
 set -o pipefail
 
 source "${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-tcp/snips.sh"
-source "${REPO_ROOT}/tests/util/samples.sh"
 
 snip_before_you_begin_1
 
-sample_wait_for_deployment foo tcp-echo
-sample_wait_for_deployment foo sleep
+_wait_for_deployment foo tcp-echo
+_wait_for_deployment foo sleep
 
 # shellcheck disable=SC2155
 export TCP_ECHO_IP=$(kubectl get pod "$(kubectl get pod -l app=tcp-echo -n foo -o jsonpath={.items..metadata.name})" -n foo -o "jsonpath={.status.podIP}")

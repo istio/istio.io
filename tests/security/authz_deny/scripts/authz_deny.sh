@@ -20,12 +20,11 @@ set -u
 set -o pipefail
 
 source "${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-deny/snips.sh"
-source "${REPO_ROOT}/tests/util/samples.sh"
 
 snip_before_you_begin_1
 
-sample_wait_for_deployment foo httpbin
-sample_wait_for_deployment foo sleep
+_wait_for_deployment foo httpbin
+_wait_for_deployment foo sleep
 
 _run_and_verify_same snip_before_you_begin_2 "$snip_before_you_begin_2_out"
 

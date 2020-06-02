@@ -20,6 +20,10 @@
 #          docs/tasks/security/authentication/authn-policy/index.md
 ####################################################################################################
 
+snip_before_you_begin_1() {
+istioctl install
+}
+
 snip_setup_1() {
 kubectl create ns foo
 kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo

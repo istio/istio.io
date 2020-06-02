@@ -36,7 +36,7 @@ _run_and_verify_elided snip_configuring_the_circuit_breaker_2 "$snip_configuring
 # Deploy fortio client
 snip_adding_a_client_1
 
-sample_wait_for_deployment default fortio-deploy
+_wait_for_deployment default fortio-deploy
 
 # Make one call to httpbin
 _run_and_verify_contains snip_adding_a_client_3 "HTTP/1.1 200 OK"

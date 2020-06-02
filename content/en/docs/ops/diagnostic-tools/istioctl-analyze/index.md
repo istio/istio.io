@@ -149,7 +149,7 @@ status:
 You can enable this feature with:
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.global.istiod.enableAnalysis=true
+$ istioctl install --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
 ### Ignoring specific analyzer messages via CLI

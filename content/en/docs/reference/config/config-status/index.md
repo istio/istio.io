@@ -18,7 +18,7 @@ changes through the mesh, using the `status` field of the resource.
 Status is disabled by default, and can be enabled during install with:
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
+$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
 The `status` field contains the state of a resource's configuration with various
