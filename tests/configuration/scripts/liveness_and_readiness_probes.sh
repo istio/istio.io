@@ -53,7 +53,7 @@ echo "$snip_use_annotations_on_pod_1" | kubectl -n health-annotate apply -f -
 
 kubectl -n health-annotate rollout status deployment liveness-http --timeout 30s
 
-# helepr function
+# helper function
 get_health_annotate_pods() {
     kubectl -n health-annotate get pod
 }
