@@ -189,6 +189,33 @@ __cmp_like() {
     return 0
 }
 
+# Returns 0 if $out "conforms to" $expected. Conformance implies:
+#   1. For each line in $expected with the prefix "+ " there must be at least one
+#      line in $output containing the following string.
+#   2. For each line in $expected with the prefix "- " there must be no line in
+#      $output containing the following string.
+# Otherwise, returns 1.
+__cmp_lines() {
+    local out=$1
+    local expected=$2
+
+    while IFS=$'\n' read -r line; do
+        if [[ "${line:0:2}" == "+ " ]]; then
+            __cmp_contains "$out" "${line:2}"
+        elif [[ "${line:0:2}" == "- " ]]; then
+            __cmp_not_contains "$out" "${line:2}"
+        else
+            continue
+        fi
+        # shellcheck disable=SC2181
+        if [[ "$?" -ne 0 ]]; then
+            return 1
+        fi
+    done <<< "$expected"
+
+    return 0
+}
+
 # Verify the output of $func is the same as $expected.  If they are not the same,
 # exponentially back off and try again, 5 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
@@ -307,6 +334,21 @@ _run_and_verify_like() {
     local func=$1
     local expected=$2
     __verify_with_retry __cmp_like "$func" "$expected"
+}
+
+# Runs $func and compares the output with $expected.  If the output does not
+# "conform to" the specification in $expected,
+# exponentially back off and try again, 5 times by default. The number of retries
+# can be changed by setting the VERIFY_RETRIES environment variable.
+# Conformance implies:
+#   1. For each line in $expected with the prefix "+ " there must be at least one
+#      line in $output containing the following string.
+#   2. For each line in $expected with the prefix "- " there must be no line in
+#      $output containing the following string.
+_run_and_verify_lines() {
+    local func=$1
+    local expected=$2
+    __verify_with_retry __cmp_lines "$func" "$expected"
 }
 
 # Runs $func and confirm that it fails (i.e., non-zero return code). This function is useful
