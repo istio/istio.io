@@ -52,21 +52,22 @@ _run_and_verify_contains snip_adding_a_client_3 "HTTP/1.1 200 OK"
 #          Issue: https://github.com/istio/istio.io/issues/7074
 
 # Make requests with 2 connections
-out=$(snip_tripping_the_circuit_breaker_1 2>&1)
-_verify_contains "$out" "Code 200 :" "snip_tripping_the_circuit_breaker_1"
-_verify_contains "$out" "Code 503 :" "snip_tripping_the_circuit_breaker_1"
+_run_and_verify_lines snip_tripping_the_circuit_breaker_1 "
++ Code 200 :
++ Code 503 :
+"
 
 # Make requests with 3 connections
-out=$(snip_tripping_the_circuit_breaker_3 2>&1)
-_verify_contains "$out" "Code 200 :" "snip_tripping_the_circuit_breaker_3"
-_verify_contains "$out" "Code 503 :" "snip_tripping_the_circuit_breaker_3"
+_run_and_verify_lines snip_tripping_the_circuit_breaker_3 "
++ Code 200 :
++ Code 503 :
+"
 
 # Query the istio-proxy stats
-out=$(snip_tripping_the_circuit_breaker_5 2>&1)
 expected="cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.circuit_breakers.default.rq_pending_open: ...
 cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.circuit_breakers.high.rq_pending_open: ...
 cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_active: ...
 cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_failure_eject: ...
 cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_overflow: ...
 cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_total: ..."
-_verify_like "$out" "$expected" "snip_tripping_the_circuit_breaker_5"
+_run_and_verify_like snip_tripping_the_circuit_breaker_5 "$expected"

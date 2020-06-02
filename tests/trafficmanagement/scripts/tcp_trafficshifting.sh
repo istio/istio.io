@@ -52,9 +52,10 @@ sample_set_ingress_environment_variables
 # Route all traffic to echo v1
 snip_apply_weightbased_tcp_routing_1
 
-out=$(snip_apply_weightbased_tcp_routing_2 2>&1)
-_verify_contains "$out" "one" "snip_apply_weightbased_tcp_routing_2"
-_verify_not_contains "$out" "two" "snip_apply_weightbased_tcp_routing_2"
+_run_and_verify_lines snip_apply_weightbased_tcp_routing_2 "
++ one
+- two
+"
 
 snip_apply_weightbased_tcp_routing_3
 
@@ -63,6 +64,7 @@ sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 _run_and_verify_elided snip_apply_weightbased_tcp_routing_4 "$snip_apply_weightbased_tcp_routing_4_out"
 
-out=$(snip_apply_weightbased_tcp_routing_5 2>&1)
-_verify_contains "$out" "one" "snip_apply_weightbased_tcp_routing_5"
-_verify_contains "$out" "two" "snip_apply_weightbased_tcp_routing_5"
+_run_and_verify_lines snip_apply_weightbased_tcp_routing_5 "
++ one
++ two
+"

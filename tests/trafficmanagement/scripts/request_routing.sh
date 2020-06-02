@@ -38,11 +38,12 @@ sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 _run_and_verify_elided snip_apply_a_virtual_service_2 "$snip_apply_a_virtual_service_2_out"
 
 # check destination rules
-out=$(snip_apply_a_virtual_service_3 2>&1)
-_verify_contains "$out" "productpage" "snip_apply_a_virtual_service_3"
-_verify_contains "$out" "reviews" "snip_apply_a_virtual_service_3"
-_verify_contains "$out" "ratings" "snip_apply_a_virtual_service_3"
-_verify_contains "$out" "details" "snip_apply_a_virtual_service_3"
+_run_and_verify_lines snip_apply_a_virtual_service_3 "
++ productpage
++ reviews
++ ratings
++ details
+"
 
 # check that requests do not return ratings
 out=$(sample_http_request "/productpage")
