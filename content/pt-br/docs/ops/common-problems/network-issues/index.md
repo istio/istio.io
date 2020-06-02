@@ -201,30 +201,6 @@ spec:
         subset: v1
 {{< /text >}}
 
-## Headless TCP services losing connection
-
-If `istio-citadel` is deployed, Envoy is restarted every 45 days to refresh certificates.
-This causes the disconnection of TCP streams or long-running connections between services.
-
-You should build resilience into your application for this type of
-disconnect, but if you still want to prevent the disconnects from
-happening, you will need to disable mutual TLS and the `istio-citadel` deployment.
-
-First, edit your `istio` configuration to disable mutual TLS:
-
-{{< text bash >}}
-$ kubectl edit configmap -n istio-system istio
-$ kubectl delete pods -n istio-system -l istio=pilot
-{{< /text >}}
-
-Next, scale down the `istio-citadel` deployment to disable Envoy restarts:
-
-{{< text bash >}}
-$ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
-{{< /text >}}
-
-This should stop Istio from restarting Envoy and disconnecting TCP connections.
-
 ## Envoy is crashing under load
 
 Check your `ulimit -a`. Many systems have a 1024 open file descriptor limit by default which will cause Envoy to assert and crash with:
