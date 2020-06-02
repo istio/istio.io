@@ -48,6 +48,7 @@ git fetch "$ISTIO_REMOTE"
 git checkout "$ISTIO_SHA"
 
 # Build and install istioctl
+make gen-charts
 go install ./istioctl/cmd/istioctl
 
 popd > /dev/null

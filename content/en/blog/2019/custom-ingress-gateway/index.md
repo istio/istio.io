@@ -15,9 +15,9 @@ The creation of custom ingress gateway could be used in order to have different 
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the
+* Set up Istio by following the instructions in the
   [Installation guide](/docs/setup/).
-* Setup `cert-manager` with helm [chart](https://github.com/helm/charts/tree/master/stable/cert-manager#installing-the-chart)
+* Set up `cert-manager` with helm [chart](https://github.com/helm/charts/tree/master/stable/cert-manager#installing-the-chart)
 * We will use `demo.mydemo.com` for our example,
   it must be resolved with your DNS
 
