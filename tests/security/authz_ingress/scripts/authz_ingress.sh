@@ -32,20 +32,20 @@ snip_before_you_begin_2
 # Export the INGRESS_ environment variables
 _set_ingress_environment_variables
 
-_run_and_verify_same snip_before_you_begin_3 "$snip_before_you_begin_3_out"
+_verify_same snip_before_you_begin_3 "$snip_before_you_begin_3_out"
 
-_run_and_verify_like snip_before_you_begin_4 "$snip_before_you_begin_4_out"
+_verify_like snip_before_you_begin_4 "$snip_before_you_begin_4_out"
 
 CLIENT_IP=$(curl "$INGRESS_HOST":"$INGRESS_PORT"/ip -s | grep "origin" | cut -d'"' -f 4)
 
 snip_ipbased_allow_list_and_deny_list_1
 
-_run_and_verify_same snip_ipbased_allow_list_and_deny_list_2 "$snip_ipbased_allow_list_and_deny_list_2_out"
+_verify_same snip_ipbased_allow_list_and_deny_list_2 "$snip_ipbased_allow_list_and_deny_list_2_out"
 
 snip_ipbased_allow_list_and_deny_list_3
 
-_run_and_verify_same snip_ipbased_allow_list_and_deny_list_4 "$snip_ipbased_allow_list_and_deny_list_4_out"
+_verify_same snip_ipbased_allow_list_and_deny_list_4 "$snip_ipbased_allow_list_and_deny_list_4_out"
 
 snip_ipbased_allow_list_and_deny_list_5
 
-_run_and_verify_same snip_ipbased_allow_list_and_deny_list_6 "$snip_ipbased_allow_list_and_deny_list_6_out"
+_verify_same snip_ipbased_allow_list_and_deny_list_6 "$snip_ipbased_allow_list_and_deny_list_6_out"

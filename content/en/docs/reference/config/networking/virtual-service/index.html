@@ -2263,8 +2263,8 @@ spec:
         host: ratings.prod.svc.cluster.local
         subset: v1
     corsPolicy:
-      allowOrigin:
-      - example.com
+      allowOrigins:
+      - exact: https://example.com
       allowMethods:
       - POST
       - GET
@@ -2291,8 +2291,8 @@ spec:
         host: ratings.prod.svc.cluster.local
         subset: v1
     corsPolicy:
-      allowOrigin:
-      - example.com
+      allowOrigins:
+      - exact: https://example.com
       allowMethods:
       - POST
       - GET

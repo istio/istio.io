@@ -29,18 +29,18 @@ snip_start_the_application_services_1
 
 snip_start_the_application_services_2
 
-_run_and_verify_like snip_start_the_application_services_4 "$snip_start_the_application_services_4_out"
+_verify_like snip_start_the_application_services_4 "$snip_start_the_application_services_4_out"
 
 kubectl wait --for=condition=available deployment --all --timeout=300s
 kubectl wait --for=condition=Ready pod --all --timeout=300s
 
-_run_and_verify_like snip_start_the_application_services_5 "$snip_start_the_application_services_5_out"
+_verify_like snip_start_the_application_services_5 "$snip_start_the_application_services_5_out"
 
-_run_and_verify_contains snip_start_the_application_services_6 "$snip_start_the_application_services_6_out"
+_verify_contains snip_start_the_application_services_6 "$snip_start_the_application_services_6_out"
 
 snip_determine_the_ingress_ip_and_port_1
 
-_run_and_verify_like snip_determine_the_ingress_ip_and_port_2 "$snip_determine_the_ingress_ip_and_port_2_out"
+_verify_like snip_determine_the_ingress_ip_and_port_2 "$snip_determine_the_ingress_ip_and_port_2_out"
 
 # give it some time to propagate
 sleep 5
@@ -50,4 +50,4 @@ _set_ingress_environment_variables
 
 snip_determine_the_ingress_ip_and_port_3
 
-_run_and_verify_contains snip_confirm_the_app_is_accessible_from_outside_the_cluster_1 "$snip_confirm_the_app_is_accessible_from_outside_the_cluster_1_out"
+_verify_contains snip_confirm_the_app_is_accessible_from_outside_the_cluster_1 "$snip_confirm_the_app_is_accessible_from_outside_the_cluster_1_out"

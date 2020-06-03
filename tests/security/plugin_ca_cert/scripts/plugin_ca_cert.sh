@@ -42,8 +42,8 @@ set -o pipefail
 # Split the certificate chain to cert files
 snip_verifying_the_certificates_2
 
-_run_and_verify_same snip_verifying_the_certificates_3 "$snip_verifying_the_certificates_3_out"
+_verify_same snip_verifying_the_certificates_3 "$snip_verifying_the_certificates_3_out"
 
-_run_and_verify_same snip_verifying_the_certificates_4 "$snip_verifying_the_certificates_4_out"
+_verify_same snip_verifying_the_certificates_4 "$snip_verifying_the_certificates_4_out"
 
-_run_and_verify_same snip_verifying_the_certificates_5 "$snip_verifying_the_certificates_5_out"
+_verify_same snip_verifying_the_certificates_5 "$snip_verifying_the_certificates_5_out"

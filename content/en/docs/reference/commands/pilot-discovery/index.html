@@ -906,6 +906,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>istiod-${namespace}</code></td>
 <td>Name of validatingwegbhookconfiguration to patch, if istioctl is not used.</td>
 </tr>
+<tr>
+<td><code>XDS_AUTH</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, will authenticate XDS clients.</td>
+</tr>
 </tbody>
 </table>
 <h2 id="metrics">Exported metrics</h2>
@@ -942,9 +948,9 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>galley_validation_config_load_error</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)load error</td></tr>
 <tr><td><code>galley_validation_config_update_error</code></td><td><code>Count</code></td><td>k8s webhook configuration update error</td></tr>
 <tr><td><code>galley_validation_config_updates</code></td><td><code>Count</code></td><td>k8s webhook configuration updates</td></tr>
-<tr><td><code>galley_validation_failed</code></td><td><code>Count</code></td><td>Resource validation failed</td></tr>
-<tr><td><code>galley_validation_http_error</code></td><td><code>Count</code></td><td>Resource validation http serve errors</td></tr>
-<tr><td><code>galley_validation_passed</code></td><td><code>Count</code></td><td>Resource is valid</td></tr>
+<tr><td><code>galley_validation_failed</code></td><td><code>Sum</code></td><td>Resource validation failed</td></tr>
+<tr><td><code>galley_validation_http_error</code></td><td><code>Sum</code></td><td>Resource validation http serve errors</td></tr>
+<tr><td><code>galley_validation_passed</code></td><td><code>Sum</code></td><td>Resource is valid</td></tr>
 <tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
 <tr><td><code>istio_mcp_clients_total</code></td><td><code>LastValue</code></td><td>The number of streams currently connected.</td></tr>
 <tr><td><code>istio_mcp_message_sizes_bytes</code></td><td><code>Distribution</code></td><td>Size of messages received from clients.</td></tr>
@@ -1017,9 +1023,9 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>pilot_xds_pushes</code></td><td><code>Sum</code></td><td>Pilot build and send errors for lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
-<tr><td><code>sidecar_injection_failure_total</code></td><td><code>Sum</code></td><td>Total number of failed Side car injection requests.</td></tr>
-<tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of Side car injection requests.</td></tr>
-<tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped injection requests.</td></tr>
-<tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful Side car injection requests.</td></tr>
+<tr><td><code>sidecar_injection_failure_total</code></td><td><code>Sum</code></td><td>Total number of failed sidecar injection requests.</td></tr>
+<tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of sidecar injection requests.</td></tr>
+<tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped sidecar injection requests.</td></tr>
+<tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful sidecar injection requests.</td></tr>
 </tbody>
 </table>

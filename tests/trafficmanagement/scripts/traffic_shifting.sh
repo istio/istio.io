@@ -68,28 +68,28 @@ expected="virtualservice.networking.istio.io/productpage created
 virtualservice.networking.istio.io/reviews created
 virtualservice.networking.istio.io/ratings created
 virtualservice.networking.istio.io/details created"
-_run_and_verify_same snip_config_all_v1 "$expected"
+_verify_same snip_config_all_v1 "$expected"
 
 # Step 2: verify no rating stars visible, (reviews-v3 traffic=0%)
 
-_run_and_verify_same reviews_v3_traffic_percentage 0
+_verify_same reviews_v3_traffic_percentage 0
 
 # Step 3: switch 50% traffic to v3
 
-_run_and_verify_same snip_config_50_v3 "virtualservice.networking.istio.io/reviews configured"
+_verify_same snip_config_50_v3 "virtualservice.networking.istio.io/reviews configured"
 
 istioctl experimental wait --for=distribution VirtualService reviews.default
 
 # Step 4: Confirm the rule was replaced
 
-_run_and_verify_elided snip_verify_config_50_v3 "$snip_verify_config_50_v3_out"
+_verify_elided snip_verify_config_50_v3 "$snip_verify_config_50_v3_out"
 
 # Step 5: verify rating stars visible 50% of the time
 
-_run_and_verify_same reviews_v3_traffic_percentage 50
+_verify_same reviews_v3_traffic_percentage 50
 
 # Step 6: route 100% traffic to v3
 
 snip_config_100_v3
 
-_run_and_verify_same reviews_v3_traffic_percentage 100
+_verify_same reviews_v3_traffic_percentage 100
