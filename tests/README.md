@@ -124,38 +124,39 @@ expected output. The framework includes the following built-in verify functions:
 
 1. **`_verify_same`** `func` `expected`
 
-   Runs `func` and compares the output with `expected`. If they are not the same,
-   exponentially back off and try again, 5 times by default. The number of retries
-   can be changed by setting the `VERIFY_RETRIES` environment variable.
+   Runs `func` and compares the output with `expected`. If the command execution fails
+   or the output is not the same as `exected`, exponentially back off and try again, 5
+   times by default. The number of retries can be changed by setting the `VERIFY_RETRIES`
+   environment variable.
 
 1. **`_verify_contains`** `func` `expected`
 
-   Runs `func` and compares the output with `expected`. If the output does not
-   contain the substring `expected`, exponentially back off and try again, 5 times
-   by default. The number of retries can be changed by setting the `VERIFY_RETRIES`
-   environment variable.
+   Runs `func` and compares the output with `expected`. If the command execution fails
+   or the output does not contain the substring `expected`, exponentially back off and
+   try again, 5 times by default. The number of retries can be changed by setting the
+   `VERIFY_RETRIES` environment variable.
 
 1. **`_verify_not_contains`** `func` `expected`
 
    Runs `func` and compares the output with `expected`. If the command execution fails
-   or the output contains the substring `expected`,
-   exponentially back off and try again, 5 times by default. The number of retries
-   can be changed by setting the `VERIFY_RETRIES` environment variable.
+   or the output contains the substring `expected`, exponentially back off and try again,
+   5 times by default. The number of retries can be changed by setting the `VERIFY_RETRIES`
+   environment variable.
 
 1. **`_verify_elided`** `func` `expected`
 
-   Runs `func` and compares the output with `expected`. If the output does not
-   contain the lines in `expected` where "..." on a line matches one or more lines
-   containing any text, exponentially back off and try again, 5 times by default.
-   The number of retries can be changed by setting the `VERIFY_RETRIES` environment
+   Runs `func` and compares the output with `expected`. If the command execution fails
+   or the output does not contain the lines in `expected` where "..." on a line matches
+   one or more lines containing any text, exponentially back off and try again, 5 times by
+   default. The number of retries can be changed by setting the `VERIFY_RETRIES` environment
    variable.
 
 1. **`_verify_like`** `func` `expected`
 
-   Runs `func` and compares the output with `expected`. If the output is not
-   "like" `expected`, exponentially back off and try again, 5 times by default. The number
-   of retries can be changed by setting the `VERIFY_RETRIES` environment variable.
-   Like implies:
+   Runs `func` and compares the output with `expected`. If the command execution fails
+   or the output is not "like" `expected`, exponentially back off and try again, 5 times by
+   default. The number of retries can be changed by setting the `VERIFY_RETRIES` environment
+   variable. Like implies:
 
    - Same number of lines
    - Same number of whitespace-seperated tokens per line
@@ -171,11 +172,10 @@ expected output. The framework includes the following built-in verify functions:
 
 1. `_verify_lines`** `func` `expected`
 
-   Runs `func` and compares the output with `expected`. If the output does not
-   "conform to" the specification in `expected`,
-   exponentially back off and try again, 5 times by default. The number of retries
-   can be changed by setting the `VERIFY_RETRIES` environment variable.
-   Conformance implies:
+   Runs `func` and compares the output with `expected`. If the command execution fails
+   or the output does not "conform to" the specification in `expected`, exponentially back
+   off and try again, 5 times by default. The number of retries can be changed by setting the
+   `VERIFY_RETRIES` environment variable. Conformance implies:
 
    1. For each line in `expected` with the prefix "+ " there must be at least one
       line in the output containing the following string.

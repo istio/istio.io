@@ -223,37 +223,37 @@ __verify_with_retry() {
     local cmp_func=$1
     local func=$2
     local expected=$3
-    local failonerr=${4:-}
 
     local max_attempts=${VERIFY_RETRIES:-5}
     local attempt=1
 
-    while true; do
-        # Most tests include "set -e", which causes the script to exit if a
-        # statement returns a non-true return value.  In some cases, $func may
-        # exit with a non-true return value, but we want to retry the command
-        # later.  We want to temporarily disable that "errexit" behavior.
-        local errexit_state
-        errexit_state="$(shopt -po errexit || true)"
-        set +e
+    # Most tests include "set -e", which causes the script to exit if a
+    # statement returns a non-true return value.  In some cases, $func may
+    # exit with a non-true return value, but we want to retry the command
+    # later.  We want to temporarily disable that "errexit" behavior.
+    local errexit_state
+    errexit_state="$(shopt -po errexit || true)"
+    set +e
 
+    while true; do
         # Run the command.
         out=$($func 2>&1)
         local funcret="$?"
 
-        $cmp_func "$out" "$expected"
-        local cmpret="$?"
+        if [[ "$funcret" -eq 0 ]]; then
+            $cmp_func "$out" "$expected"
+            local cmpret="$?"
 
-        # Restore the "errexit" state.
-        eval "$errexit_state"
-
-        if [[ "$cmpret" -eq 0 ]]; then
-            if [[ -z "$failonerr" || "$funcret" -eq 0 ]]; then
+            if [[ "$cmpret" -eq 0 ]]; then
+                # Restore the "errexit" state.
+                eval "$errexit_state"
                 return
             fi
         fi
 
         if (( attempt >= max_attempts )); then
+            # Restore the "errexit" state.
+            eval "$errexit_state"
             __err_exit "$func" "$out" "$expected"
         fi
 
@@ -294,7 +294,7 @@ _verify_not_contains() {
     local expected=$2
     # __cmp_not_contains will return true even if func fails. Pass failonerr arg
     # to tell __verify_with_retry to fail in this case instead.
-    __verify_with_retry __cmp_not_contains "$func" "$expected" "true"
+    __verify_with_retry __cmp_not_contains "$func" "$expected"
 }
 
 # Runs $func and compares the output with $expected.  If the output does not
