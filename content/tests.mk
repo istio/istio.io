@@ -1,5 +1,4 @@
 export ENV ?= kube
-export TEST ?= all
 
 doc.test: init # gocache disabled by -count=1
 	@${GO} test ${REPO_ROOT}/content/ -v -timeout=30m -count=1 \

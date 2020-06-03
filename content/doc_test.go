@@ -31,8 +31,9 @@ import (
 var (
 	inst istio.Instance
 
-	testsToRun = os.Getenv("TEST")
-	testEnv    = os.Getenv("ENV")
+	testsToRun  = os.Getenv("TEST")
+	testEnv     = os.Getenv("ENV")
+	runAllTests = (testsToRun == "")
 
 	setupTemplate = `
 		source "${REPO_ROOT}/content/%v" # snips.sh
@@ -46,9 +47,14 @@ var (
 	testCleanupSep  = "#! cleanup"
 )
 
+// setup for all tests
 func TestMain(m *testing.M) {
-	log.Println("Starting test doc(s):", testsToRun)
-	log.Println("Test environment:", testEnv)
+	if runAllTests {
+		log.Println("Starting test doc(s): all docs will be tested")
+	} else {
+		log.Println("Starting test doc(s):", testsToRun)
+	}
+	log.Println("Setting up istio for the test environment:", testEnv)
 
 	testEnvName := environment.Name(testEnv)
 
@@ -58,15 +64,16 @@ func TestMain(m *testing.M) {
 		Run()
 }
 
+// traverse through content and run each matched test
 func TestDocs(t *testing.T) {
-	// traverse through content to find the matched tests
 	err := filepath.Walk(".",
 		func(path string, info os.FileInfo, walkError error) error {
 			if walkError != nil {
 				return walkError
 			}
+			// check if current file is a matched test.sh file
 			checkFile := strings.HasSuffix(path, testFileSuffix) &&
-				(testsToRun == "all" || strings.Contains(path, testsToRun))
+				(runAllTests || strings.Contains(path, testsToRun))
 			if checkFile {
 				runTestFile(path, t)
 			}
@@ -74,12 +81,12 @@ func TestDocs(t *testing.T) {
 		},
 	)
 	if err != nil {
-		log.Fatalln("Error occurred while traversing the directory:", err)
+		log.Fatalln("Error occurred while traversing content:", err)
 	}
 }
 
+// run a subtest for the given test.sh file
 func runTestFile(path string, t *testing.T) {
-	// run a subtest for the given test file
 	t.Run(path, func(t *testing.T) {
 		script, err := ioutil.ReadFile(path)
 		if err != nil {
@@ -121,6 +128,7 @@ func runTestFile(path string, t *testing.T) {
 	})
 }
 
+// get setup script that sources snips.sh, test utils, etc.
 func getSetupScript(testPath string) string {
 	snipsPath := strings.ReplaceAll(testPath, testFileSuffix, snipsFileSuffix)
 	return fmt.Sprintf(setupTemplate, snipsPath)
