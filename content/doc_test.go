@@ -31,9 +31,10 @@ import (
 var (
 	inst istio.Instance
 
-	testsToRun  = os.Getenv("TEST")
-	testEnv     = os.Getenv("ENV")
-	runAllTests = (testsToRun == "")
+	testsToRun   = os.Getenv("TEST")
+	testEnv      = os.Getenv("ENV")
+	runAllTests  = (testsToRun == "")
+	testsAsSlice = split(testsToRun)
 
 	setupTemplate = `
 		source "${REPO_ROOT}/content/%v" # snips.sh
@@ -46,6 +47,15 @@ var (
 	testFileSuffix  = "/test.sh"
 	testCleanupSep  = "#! cleanup"
 )
+
+func split(testsAsString string) []string {
+	testsAsSlice := strings.Split(testsAsString, ",")
+	for i := 0; i < len(testsAsSlice); i++ {
+		test := &testsAsSlice[i]
+		*test = fmt.Sprintf("/%v/", *test) // to enforce strict equality of test names
+	}
+	return testsAsSlice
+}
 
 // setup for all tests
 func TestMain(m *testing.M) {
@@ -73,7 +83,7 @@ func TestDocs(t *testing.T) {
 			}
 			// check if current file is a matched test.sh file
 			checkFile := strings.HasSuffix(path, testFileSuffix) &&
-				(runAllTests || strings.Contains(path, testsToRun))
+				(runAllTests || matched(path, testsAsSlice))
 			if checkFile {
 				runTestFile(path, t)
 			}
@@ -83,6 +93,15 @@ func TestDocs(t *testing.T) {
 	if err != nil {
 		log.Fatalln("Error occurred while traversing content:", err)
 	}
+}
+
+func matched(path string, tests []string) bool {
+	for _, test := range tests {
+		if strings.Contains(path, test) {
+			return true
+		}
+	}
+	return false
 }
 
 // run a subtest for the given test.sh file
