@@ -410,6 +410,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td><code>5</code></td>
 <td>The amount of time allowed for connections to complete on pilot-agent shutdown. On receiving SIGTERM or SIGINT, pilot-agent tells the active Envoy to start draining, preventing any new connections and allowing existing connections to complete. It then sleeps for the TerminationDrainDuration and then kills any remaining active Envoy processes.</td>
 </tr>
+<tr>
+<td><code>XDS_AUTH</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, will authenticate XDS clients.</td>
+</tr>
 </tbody>
 </table>
 <h2 id="metrics">Exported metrics</h2>
