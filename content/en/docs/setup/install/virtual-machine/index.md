@@ -67,7 +67,6 @@ deployment you place into production.
     $ cd "${WORK_DIR}"
     $ make -f "${ISTIO_DIR}"/tools/certs/Makefile NAME="${CLUSTER_NAME}" NAMESPACE="${SERVICE_NAMESPACE}" "${CLUSTER_NAME}"-certs-wl
     {{< /text >}}
-    
     {{< warning >}}
     In Istio 1.6.0, the above Makefile is located in `"${ISTIO_DIR}"/samples/certs/Makefile`.
     {{< /warning >}}
