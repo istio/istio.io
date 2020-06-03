@@ -25,9 +25,9 @@ In order to address these gaps, we have made a number of changes:
 
 * Reduced the amount of configuration required to set up telemetry Addons
 
-  * Grafana dashboards are now [published to `grafana.com`](/docs/ops/integrations/grafana/#import-from-grafana-com).
+    * Grafana dashboards are now [published to `grafana.com`](/docs/ops/integrations/grafana/#import-from-grafana-com).
 
-  * Prometheus can now scrape all Istio pods [using standard `prometheus.io` annotations](/docs/ops/integrations/prometheus/#option-2-metrics-merging). This allows most Prometheus deployments to work with Istio without any special configuration.
+    * Prometheus can now scrape all Istio pods [using standard `prometheus.io` annotations](/docs/ops/integrations/prometheus/#option-2-metrics-merging). This allows most Prometheus deployments to work with Istio without any special configuration.
 
 * We are removing the bundled addon installations from `istioctl` and the operator. Istio will not concern itself with installing components that are not delivered by the Istio project. As a result, Istio will stop shipping installation artifacts related to addons. Istio will guarantee version compatibility where necessary. It is the user's responsibility to install these components using official documentation and artifacts provided by the respective projects, following the [Integrations](/docs/ops/integrations/) documentation. For demos, users can deploy simple yaml files from the [`samples/addons/` directory]({{< github_tree >}}/samples/addons).
 
