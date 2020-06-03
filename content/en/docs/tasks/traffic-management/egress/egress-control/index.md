@@ -10,7 +10,7 @@ keywords: [traffic-management,egress]
 
 Because all outbound traffic from an Istio-enabled pod is redirected to its sidecar proxy by default,
 accessibility of URLs outside of the cluster depends on the configuration of the proxy.
-By default, Istio configures the Envoy proxy to passthrough requests for unknown services.
+By default, Istio configures the Envoy proxy to pass through requests for unknown services.
 Although this provides a convenient way to get started with Istio, configuring
 stricter control is usually preferable.
 
@@ -22,7 +22,7 @@ This task shows you how to access external services in three different ways:
 
 ## Before you begin
 
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+*   Set up Istio by following the instructions in the [Installation guide](/docs/setup/).
 
 *   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
     If you have
@@ -95,7 +95,7 @@ You can then decide to [configure access to external services](#controlled-acces
 
 Congratulations! You successfully sent egress traffic from your mesh.
 
-This simple approach to access external services, has the drawback that you lose Istio monitoring and control
+This simple approach to access external services has the drawback that you lose Istio monitoring and control
 for traffic to external services. The next section shows you how to monitor and control your mesh's access to
 external services.
 
@@ -280,7 +280,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
     This time a 504 (Gateway Timeout) appears after 3 seconds.
     Although httpbin.org was waiting 5 seconds, Istio cut off the request at 3 seconds.
 
-### Cleanup the controlled access to external services
+### Clean up the controlled access to external services
 
 {{< text bash >}}
 $ kubectl delete serviceentry httpbin-ext google
@@ -292,7 +292,7 @@ $ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
 [intercepting](/docs/concepts/traffic-management/)
-external requests. To set up the bypass, change either the `global.proxy.includeIPRanges`
+external requests. To set up the bypassing, change either the `global.proxy.includeIPRanges`
 or the `global.proxy.excludeIPRanges` [configuration option](https://archive.istio.io/v1.4/docs/reference/config/installation-options/) and
 update the `istio-sidecar-injector` configuration map using the `kubectl apply` command. This can also
 be configured on a pod by setting corresponding [annotations](/docs/reference/config/annotations/) such as
@@ -303,7 +303,7 @@ future application pod deployments.
 {{< warning >}}
 Unlike [Envoy passthrough to external services](#envoy-passthrough-to-external-services),
 which uses the `ALLOW_ANY` traffic policy to instruct the Istio sidecar proxy to
-passthrough calls to unknown services,
+pass through calls to unknown services,
 this approach completely bypasses the sidecar, essentially disabling all of Istio's features
 for the specified IPs. You cannot incrementally add service entries for specific
 destinations, as you can with the `ALLOW_ANY` approach.
@@ -411,7 +411,7 @@ Unlike accessing external services through HTTP or HTTPS, you don't see any head
 requests sent to external services do not appear in the log of the sidecar. Bypassing the Istio sidecars means you can
 no longer monitor the access to external services.
 
-### Cleanup the direct access to external services
+### Clean up the direct access to external services
 
 Update the `istio-sidecar-injector.configmap.yaml` configuration map to redirect all outbound traffic to the sidecar
 proxies:
@@ -443,7 +443,7 @@ outside of the cluster. In this task, you learned how to monitor access to exter
 rule for calls to an external service.
 
 The third approach bypasses the Istio sidecar proxy, giving your services direct access to any external server.
-However, configuring the proxy this way does require cluster-provider specific knowledge and configuration.
+However, configuring the proxy this way does require cluster-provider-specific knowledge and configuration.
 Similar to the first approach, you also lose monitoring of access to external services and you can't apply
 Istio features on traffic to external services.
 
@@ -462,7 +462,7 @@ section.
 
 ## Cleanup
 
-Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
+Shut down the [sleep]({{< github_tree >}}/samples/sleep) service:
 
 {{< text bash >}}
 $ kubectl delete -f @samples/sleep/sleep.yaml@
