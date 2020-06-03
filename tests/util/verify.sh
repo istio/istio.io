@@ -228,15 +228,15 @@ __verify_with_retry() {
     local max_attempts=${VERIFY_RETRIES:-5}
     local attempt=1
 
-    while true; do
-        # Most tests include "set -e", which causes the script to exit if a
-        # statement returns a non-true return value.  In some cases, $func may
-        # exit with a non-true return value, but we want to retry the command
-        # later.  We want to temporarily disable that "errexit" behavior.
-        local errexit_state
-        errexit_state="$(shopt -po errexit || true)"
-        set +e
+    # Most tests include "set -e", which causes the script to exit if a
+    # statement returns a non-true return value.  In some cases, $func may
+    # exit with a non-true return value, but we want to retry the command
+    # later.  We want to temporarily disable that "errexit" behavior.
+    local errexit_state
+    errexit_state="$(shopt -po errexit || true)"
+    set +e
 
+    while true; do
         # Run the command.
         out=$($func 2>&1)
         local funcret="$?"
@@ -244,16 +244,17 @@ __verify_with_retry() {
         $cmp_func "$out" "$expected"
         local cmpret="$?"
 
-        # Restore the "errexit" state.
-        eval "$errexit_state"
-
         if [[ "$cmpret" -eq 0 ]]; then
             if [[ -z "$failonerr" || "$funcret" -eq 0 ]]; then
+                # Restore the "errexit" state.
+                eval "$errexit_state"
                 return
             fi
         fi
 
         if (( attempt >= max_attempts )); then
+            # Restore the "errexit" state.
+            eval "$errexit_state"
             __err_exit "$func" "$out" "$expected"
         fi
 
