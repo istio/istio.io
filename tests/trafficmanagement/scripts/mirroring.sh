@@ -44,14 +44,11 @@ snip_creating_a_default_routing_policy_1
 #istioctl experimental wait --for=distribution VirtualService httpbin.default
 sleep 5s
 
-_run_and_verify_contains snip_creating_a_default_routing_policy_2 "headers"
+_verify_contains snip_creating_a_default_routing_policy_2 "headers"
 
-_run_and_verify_contains snip_creating_a_default_routing_policy_3 "GET /headers HTTP/1.1"
+_verify_contains snip_creating_a_default_routing_policy_3 "GET /headers HTTP/1.1"
 
-# No point in retrying for "not contains". TODO: some kind of _verify_worked_and_not_contains function
-#_run_and_verify_not_contains snip_creating_a_default_routing_policy_4 "GET /headers HTTP/1.1"
-out=$(snip_creating_a_default_routing_policy_4 2>&1)
-_verify_not_contains "$out" "GET /headers HTTP/1.1" "snip_creating_a_default_routing_policy_4"
+_verify_not_contains snip_creating_a_default_routing_policy_4 "GET /headers HTTP/1.1"
 
 snip_mirroring_traffic_to_v2_1
 
@@ -67,6 +64,6 @@ export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..m
 snip_mirroring_traffic_to_v2_2
 
 # TODO: This should check for 2 lines with the GET request
-_run_and_verify_contains snip_mirroring_traffic_to_v2_3 "GET /headers HTTP/1.1"
+_verify_contains snip_mirroring_traffic_to_v2_3 "GET /headers HTTP/1.1"
 
-_run_and_verify_contains snip_mirroring_traffic_to_v2_4 "GET /headers HTTP/1.1"
+_verify_contains snip_mirroring_traffic_to_v2_4 "GET /headers HTTP/1.1"

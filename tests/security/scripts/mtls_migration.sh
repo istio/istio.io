@@ -32,13 +32,13 @@ _wait_for_deployment bar sleep
 _wait_for_deployment legacy sleep
 
 # curl_foo_bar_legacy
-_run_and_verify_same snip_set_up_the_cluster_3 "$snip_set_up_the_cluster_3_out"
+_verify_same snip_set_up_the_cluster_3 "$snip_set_up_the_cluster_3_out"
 
 # verify_initial_peerauthentications
-_run_and_verify_same snip_set_up_the_cluster_4 "$snip_set_up_the_cluster_4_out"
+_verify_same snip_set_up_the_cluster_4 "$snip_set_up_the_cluster_4_out"
 
 # verify_initial_destinationrules
-_run_and_verify_same snip_set_up_the_cluster_5 "$snip_set_up_the_cluster_5_out"
+_verify_same snip_set_up_the_cluster_5 "$snip_set_up_the_cluster_5_out"
 
 # configure_mtls_foo_peerauthentication
 snip_lock_down_to_mutual_tls_by_namespace_1
@@ -48,7 +48,7 @@ set +e
 set +o pipefail
 
 # curl_foo_bar_legacy_post_pa
-_run_and_verify_same snip_lock_down_to_mutual_tls_by_namespace_2 "$snip_lock_down_to_mutual_tls_by_namespace_2_out"
+_verify_same snip_lock_down_to_mutual_tls_by_namespace_2 "$snip_lock_down_to_mutual_tls_by_namespace_2_out"
 
 # Restore error handling
 set -e
@@ -70,7 +70,7 @@ sleep.legacy to httpbin.foo: 000
 command terminated with exit code 56
 sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56"
-_run_and_verify_same snip_lock_down_mutual_tls_for_the_entire_mesh_2 "$expected"
+_verify_same snip_lock_down_mutual_tls_for_the_entire_mesh_2 "$expected"
 
 # Restore error handling
 set -e

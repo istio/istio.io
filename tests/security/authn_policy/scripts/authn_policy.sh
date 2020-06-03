@@ -30,40 +30,40 @@ _wait_for_deployment bar sleep
 _wait_for_deployment legacy httpbin
 _wait_for_deployment legacy sleep
 
-_run_and_verify_same  snip_setup_2 "$snip_setup_2_out"
-_run_and_verify_same  snip_setup_3 "$snip_setup_3_out"
-_run_and_verify_same  snip_setup_4 "$snip_setup_4_out"
-_run_and_verify_same  snip_setup_5 "$snip_setup_5_out"
+_verify_same  snip_setup_2 "$snip_setup_2_out"
+_verify_same  snip_setup_3 "$snip_setup_3_out"
+_verify_same  snip_setup_4 "$snip_setup_4_out"
+_verify_same  snip_setup_5 "$snip_setup_5_out"
 
-_run_and_verify_like  snip_auto_mutual_tls_1 "$snip_auto_mutual_tls_1_out"
-_run_and_verify_same  snip_auto_mutual_tls_2 "$snip_auto_mutual_tls_2_out"
+_verify_like  snip_auto_mutual_tls_1 "$snip_auto_mutual_tls_1_out"
+_verify_same  snip_auto_mutual_tls_2 "$snip_auto_mutual_tls_2_out"
 
 snip_globally_enabling_istio_mutual_tls_in_strict_mode_1
 
-_run_and_verify_same  snip_globally_enabling_istio_mutual_tls_in_strict_mode_2 "$snip_globally_enabling_istio_mutual_tls_in_strict_mode_2_out"
+_verify_same  snip_globally_enabling_istio_mutual_tls_in_strict_mode_2 "$snip_globally_enabling_istio_mutual_tls_in_strict_mode_2_out"
 
 snip_cleanup_part_1_1
 
 snip_namespacewide_policy_1
 
-_run_and_verify_same  snip_namespacewide_policy_2 "$snip_namespacewide_policy_2_out"
+_verify_same  snip_namespacewide_policy_2 "$snip_namespacewide_policy_2_out"
 
 snip_enable_mutual_tls_per_workload_1
 snip_enable_mutual_tls_per_workload_2
 
-_run_and_verify_same  snip_enable_mutual_tls_per_workload_3 "$snip_enable_mutual_tls_per_workload_3_out"
+_verify_same  snip_enable_mutual_tls_per_workload_3 "$snip_enable_mutual_tls_per_workload_3_out"
 
 # Ignore snip_enable_mutual_tls_per_workload_4()--it's just text.
 
 snip_enable_mutual_tls_per_workload_5
 snip_enable_mutual_tls_per_workload_6
 
-_run_and_verify_same  snip_enable_mutual_tls_per_workload_7 "$snip_enable_mutual_tls_per_workload_7_out"
+_verify_same  snip_enable_mutual_tls_per_workload_7 "$snip_enable_mutual_tls_per_workload_7_out"
 
 snip_policy_precedence_1
 snip_policy_precedence_2
 
-_run_and_verify_same  snip_policy_precedence_3 "$snip_policy_precedence_3_out"
+_verify_same  snip_policy_precedence_3 "$snip_policy_precedence_3_out"
 
 snip_cleanup_part_2_1
 
@@ -73,13 +73,13 @@ snip_enduser_authentication_2
 # Export the INGRESS_ environment variables
 _set_ingress_environment_variables
 
-_run_and_verify_same  snip_enduser_authentication_3 "$snip_enduser_authentication_3_out"
+_verify_same  snip_enduser_authentication_3 "$snip_enduser_authentication_3_out"
 
 snip_enduser_authentication_4
 
-_run_and_verify_same  snip_enduser_authentication_5 "$snip_enduser_authentication_5_out"
-_run_and_verify_same  snip_enduser_authentication_6 "$snip_enduser_authentication_6_out"
-_run_and_verify_same  snip_enduser_authentication_7 "$snip_enduser_authentication_7_out"
+_verify_same  snip_enduser_authentication_5 "$snip_enduser_authentication_5_out"
+_verify_same  snip_enduser_authentication_6 "$snip_enduser_authentication_6_out"
+_verify_same  snip_enduser_authentication_7 "$snip_enduser_authentication_7_out"
 
 snip_enduser_authentication_8
 snip_enduser_authentication_9
@@ -88,13 +88,13 @@ snip_enduser_authentication_9
 # that the token times out during the run.
 expected="200
 401"
-_run_and_verify_contains  snip_enduser_authentication_10 "$expected"
+_verify_contains  snip_enduser_authentication_10 "$expected"
 
 snip_require_a_valid_token_1
 
-_run_and_verify_same  snip_require_a_valid_token_2 "$snip_require_a_valid_token_2_out"
+_verify_same  snip_require_a_valid_token_2 "$snip_require_a_valid_token_2_out"
 
 snip_require_valid_tokens_perpath_1
 
-_run_and_verify_same  snip_require_valid_tokens_perpath_2 "$snip_require_valid_tokens_perpath_2_out"
-_run_and_verify_same  snip_require_valid_tokens_perpath_3 "$snip_require_valid_tokens_perpath_3_out"
+_verify_same  snip_require_valid_tokens_perpath_2 "$snip_require_valid_tokens_perpath_2_out"
+_verify_same  snip_require_valid_tokens_perpath_3 "$snip_require_valid_tokens_perpath_3_out"

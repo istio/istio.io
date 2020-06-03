@@ -228,15 +228,15 @@ __verify_with_retry() {
     local max_attempts=${VERIFY_RETRIES:-5}
     local attempt=1
 
-    while true; do
-        # Most tests include "set -e", which causes the script to exit if a
-        # statement returns a non-true return value.  In some cases, $func may
-        # exit with a non-true return value, but we want to retry the command
-        # later.  We want to temporarily disable that "errexit" behavior.
-        local errexit_state
-        errexit_state="$(shopt -po errexit || true)"
-        set +e
+    # Most tests include "set -e", which causes the script to exit if a
+    # statement returns a non-true return value.  In some cases, $func may
+    # exit with a non-true return value, but we want to retry the command
+    # later.  We want to temporarily disable that "errexit" behavior.
+    local errexit_state
+    errexit_state="$(shopt -po errexit || true)"
+    set +e
 
+    while true; do
         # Run the command.
         out=$($func 2>&1)
         local funcret="$?"
@@ -244,16 +244,17 @@ __verify_with_retry() {
         $cmp_func "$out" "$expected"
         local cmpret="$?"
 
-        # Restore the "errexit" state.
-        eval "$errexit_state"
-
         if [[ "$cmpret" -eq 0 ]]; then
             if [[ -z "$failonerr" || "$funcret" -eq 0 ]]; then
+                # Restore the "errexit" state.
+                eval "$errexit_state"
                 return
             fi
         fi
 
         if (( attempt >= max_attempts )); then
+            # Restore the "errexit" state.
+            eval "$errexit_state"
             __err_exit "$func" "$out" "$expected"
         fi
 
@@ -269,7 +270,7 @@ __verify_with_retry() {
 # Runs $func and compares the output with $expected.  If they are not the same,
 # exponentially back off and try again, 5 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
-_run_and_verify_same() {
+_verify_same() {
     local func=$1
     local expected=$2
     __verify_with_retry __cmp_same "$func" "$expected"
@@ -279,7 +280,7 @@ _run_and_verify_same() {
 # contain the substring $expected,
 # exponentially back off and try again, 5 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
-_run_and_verify_contains() {
+_verify_contains() {
     local func=$1
     local expected=$2
     __verify_with_retry __cmp_contains "$func" "$expected"
@@ -289,7 +290,7 @@ _run_and_verify_contains() {
 # substring $expected,
 # exponentially back off and try again, 5 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
-_run_and_verify_not_contains() {
+_verify_not_contains() {
     local func=$1
     local expected=$2
     # __cmp_not_contains will return true even if func fails. Pass failonerr arg
@@ -302,7 +303,7 @@ _run_and_verify_not_contains() {
 # containing any text,
 # exponentially back off and try again, 5 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
-_run_and_verify_elided() {
+_verify_elided() {
     local func=$1
     local expected=$2
     __verify_with_retry __cmp_elided "$func" "$expected"
@@ -312,7 +313,7 @@ _run_and_verify_elided() {
 # output does not match the first line in $expected,
 # exponentially back off and try again, 5 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
-_run_and_verify_first_line() {
+_verify_first_line() {
     local func=$1
     local expected=$2
     __verify_with_retry __cmp_first_line "$func" "$expected"
@@ -330,7 +331,7 @@ _run_and_verify_first_line() {
 #        - different ip values
 #        - prefix match ending with a dash character
 #        - expected ... is a wildcard token, matches anything
-_run_and_verify_like() {
+_verify_like() {
     local func=$1
     local expected=$2
     __verify_with_retry __cmp_like "$func" "$expected"
@@ -342,10 +343,10 @@ _run_and_verify_like() {
 # can be changed by setting the VERIFY_RETRIES environment variable.
 # Conformance implies:
 #   1. For each line in $expected with the prefix "+ " there must be at least one
-#      line in $output containing the following string.
+#      line in the output containing the following string.
 #   2. For each line in $expected with the prefix "- " there must be no line in
-#      $output containing the following string.
-_run_and_verify_lines() {
+#      the output containing the following string.
+_verify_lines() {
     local func=$1
     local expected=$2
     __verify_with_retry __cmp_lines "$func" "$expected"
@@ -353,7 +354,7 @@ _run_and_verify_lines() {
 
 # Runs $func and confirm that it fails (i.e., non-zero return code). This function is useful
 # for testing commands that demonstrate configurations that are expected to fail.
-_run_and_verify_failure() {
+_verify_failure() {
     local func=$1
     local errexit_state
 
@@ -369,80 +370,5 @@ _run_and_verify_failure() {
 
     if [[ "$funcret" -eq 0 ]]; then
         __err_exit "$func" "$out" "NON-ZERO COMMAND EXIT STATUS"
-    fi
-}
-
-
-# Verify that $out is the same as $expected.
-_verify_same() {
-    local out=$1
-    local expected=$2
-    local msg=$3
-
-    if ! __cmp_same "$out" "$expected"; then
-        __err_exit "$msg" "$out" "$expected"
-    fi
-}
-
-# Verify that $out contains the substring $expected.
-_verify_contains() {
-    local out=$1
-    local expected=$2
-    local msg=$3
-
-    if ! __cmp_contains "$out" "$expected"; then
-        __err_exit "$msg" "$out" "$expected"
-    fi
-}
-
-# Verify that $out does not contain the substring $expected.
-_verify_not_contains() {
-    local out=$1
-    local expected=$2
-    local msg=$3
-
-    if ! __cmp_not_contains "$out" "$expected"; then
-        __err_exit "$msg" "$out" "$expected"
-    fi
-}
-
-# Verify that $out contains the lines in $expected where "..." on a line
-# matches one or more lines containing any text.
-_verify_elided() {
-    local out=$1
-    local expected=$2
-    local msg=$3
-
-    if ! __cmp_elided "$out" "$expected"; then
-        __err_exit "$msg" "$out" "$expected"
-    fi
-}
-
-# Verify that the first line of $out matches the first line in $expected.
-_verify_first_line() {
-    local out=$1
-    local expected=$2
-    local msg=$3
-
-    if ! __cmp_first_line "$out" "$expected"; then
-        __err_exit "$msg" "$out" "$expected"
-    fi
-}
-
-# Verify that $out is "like" $expected. Like implies:
-#   1. Same number of lines
-#   2. Same number of whitespace-seperated tokens per line
-#   3. Tokens can only differ in the following ways:
-#        - different elapsed time values
-#        - different ip values
-#        - prefix match ending with a dash character
-#        - expected ... is a wildcard token, matches anything
-_verify_like() {
-    local out=$1
-    local expected=$2
-    local msg=$3
-
-    if ! __cmp_like "$out" "$expected"; then
-        __err_exit "$msg" "$out" "$expected"
     fi
 }

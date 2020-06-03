@@ -48,7 +48,7 @@ get_productpage() {
 
 # verify 2s delay with ratings stars displayed
 # TODO: should we time this request to confirm it takes ~2s?
-_run_and_verify_contains get_productpage "glyphicon glyphicon-star"
+_verify_contains get_productpage "glyphicon glyphicon-star"
 
 # confi a half second request timeout for calls to the reviews service
 snip_request_timeouts_3
@@ -57,4 +57,4 @@ snip_request_timeouts_3
 sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 # verify product reviews are unavailable
-_run_and_verify_contains get_productpage "Sorry, product reviews are currently unavailable for this book."
+_verify_contains get_productpage "Sorry, product reviews are currently unavailable for this book."
