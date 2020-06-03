@@ -1,5 +1,7 @@
 # Testing istio.io Content
 
+**NOTE: We are now migrating to a new test framework. The following content is updated for the new framework.**
+
 This folder contains tests for the content on [istio.io](http://istio.io).
 More specifically, these tests confirm that the example, task, and other documents, which contain
 instructions in the form of bash commands and expected output, are working as documented.
@@ -11,7 +13,7 @@ This means that we extract and test the exact same commands that are published i
 These tests use the framework defined in the `istioio` package, which is a thin wrapper
 around the [Istio test framework](https://github.com/istio/istio/wiki/Istio-Test-Framework).
 
-Run the following command to see the current test coverage, including the list of documents
+[UPDATE NEEDED] Run the following command to see the current test coverage, including the list of documents
 that are in need of a test:
 
 ```sh
@@ -54,59 +56,13 @@ To write an `istio.io` test, follow these steps:
    Fix the errors, if any, by updating the corresponding command in the `index.md` file and
    then regenerate the snips.
 
-1. Pick an appropriate location under the `tests/` directory for your new test.
-
-1. Create Go boilderplate that will invoke your test bash script using the following pattern:
-
-    ```golang
-    package <your-test-package>
-
-    import (
-        "testing"
-
-        "istio.io/istio/pkg/test/framework"
-
-        "istio.io/istio.io/pkg/test/istioio"
-    )
-
-    func Test<your-test>(t *testing.T) {
-        framework.
-            NewTest(t).
-            Run(istioio.NewBuilder("<your-test-name>").
-                Add(istioio.Script{
-                    Input: istioio.Path("scripts/<your-bash-script>.sh"),
-                }).
-                Defer(istioio.Script{
-                    Input: istioio.Inline{
-                        FileName: "cleanup.sh",
-                        Value: `
-    set +e # ignore cleanup errors
-    source ${REPO_ROOT}/content/en/docs/<your-snips-dir>/snips.sh
-    <your cleanup steps>`,
-                    },
-                }).
-                Build())
-    }
-    ```
-
-    NOTE: This Go boilerplate is a temporary requirement. It will not be needed in the future.
-    See https://docs.google.com/document/d/1r_NoxatNjzPsw0eXr6_9W0rqlkfelt7QfN2y5TF0yTo/edit#.
-
-1. Create your test bash script in the `scripts/` subdirectory.
+1. Create your test bash script `test.sh` next to the `snips.sh` you have just generated. Scripts that have other names will be ignored.
 
 ## Test Bash Script
 
-With the exception of the cleanup steps, your test will consist of a single
-shell scripts that calls the commands in your generated `snips.sh` file.
+Your bash script will consist of a series of test steps that call the commands in your generated `snips.sh` file, as well as a series of cleanup steps that should be run after everything is done.
 
-Your script must include the `snip.sh` file for the document being tested. For example,
-a test for the traffic-shifting task will have the following line in the script:
-
-```sh
-source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/traffic-shifting/snips.sh"
-```
-
-Your test script can then invoke the commands by simply calling snip functions:
+NOTE (for old framework authors): your script doesn't need to include the `snips.sh` or `util/samples.sh` any more. They will be automatically sourced and you can directly call any function defined in them:
 
 ```sh
 snip_config_50_v3 # Step 3: switch 50% traffic to v3
@@ -169,7 +125,7 @@ expected output. The framework includes the following built-in verify functions:
    This function is useful for comparing the output of commands that include some run-specific
    values in the output (e.g., `kubectl get pods`), or when whitespace in the output may be different.
 
-1. `_verify_lines`** `func` `expected`
+1. **`_verify_lines`** `func` `expected`
 
    Runs `func` and compares the output with `expected`. If the output does not
    "conform to" the specification in `expected`,
@@ -182,27 +138,36 @@ expected output. The framework includes the following built-in verify functions:
    1. For each line in `expected` with the prefix "- " there must be no line in
       the output containing the following string.
 
-1. `_verify_failure`** `func`
+1. **`_verify_failure`** `func`
 
    Runs `func` and confirms that it fails (i.e., non-zero return code). This function is useful
    for testing commands that demonstrate configurations that are expected to fail.
 
-## Running the Tests: Make
-
-You can execute all istio.io tests using make.
-
-```bash
-make test.kube.presubmit
+After all test steps are run, add
+```sh
+#! cleanup
 ```
+as a single line followed by the cleanup steps that clean up all the resources. These steps can also directly call the functions defined in `util/samples.sh` and `snips.sh`.
 
-Alternatively, you can run the tests in a particular package under `tests/`.
-For example, the following command will only run the traffic management tests:
+## Running the Tests
 
+Run
 ```bash
-make test.kube.trafficmanagement
+make doc.test
 ```
+to start testing all docs in the content folder within a `kube` environment. This command takes two optional environment variables. One is `ENV` that specifies the test environment (either `native` or `kube`), and is `kube` by default. The other is `TEST` that specifies the tests to be run using the name of the directory. For example, the command
+```bash
+make doc.test TEST=traffic-management
+```
+will run all the tests under `traffic-management` folder. The `TEST` variable also accepts multiple test names separated by commas, for example,
+```bash
+make doc.test TEST=request-routing,fault-injection
+```
+You can also find this information by running `make doc.test.help`.
 
-### Notes:
+### Notes
+
+NOTE: The following were written for the old test framework and has NOT been tested on the new framework.
 
 1. In the case of using `kind` clusters on a Mac,
    an extra env var is needed (ADDITIONAL_CONTAINER_OPTIONS="--network host").
@@ -214,16 +179,22 @@ make test.kube.trafficmanagement
 
 1. If HUB and TAG aren't set, then their default values will match what is used by the prow tests.
 
-## Running Tests: go test
+## Migrate from Old Framework
 
-You can execute individual tests using Go test as shown below.
+Take `traffic-management/request-routing` as an example. To migrate to the new framework, the test author should:
 
-```bash
-make init
-export REPO_ROOT=$(git rev-parse --show-toplevel)
-go test ./tests/... -p 1  --istio.test.env kube \
-    --istio.test.ci --istio.test.work_dir <my_dir>
+1. Create a `test.sh` file next to its corresponding `index.md` and `snips.sh`, i.e., `content/en/docs/tasks/traffic-management/request-routing/test.sh`.
+
+2. Copy the test script `request-routing.sh` (under `tests/trafficmanagement/scripts/`) and the cleanup script in `request_routing_test.go` (under `tests/trafficmanagement/`) into `test.sh`, and separate the two parts with a line of `#! cleanup`.
+
+3. It is okay to remove any `source *.sh` commands from `test.sh` as these will be automatically done.
+
+Every future `test.sh` will thus have a structure of:
 ```
+run_a_bunch_of_test_snippets
+no_need_to_source_snips_and_utils_ever_again
 
-Make sure to have the `HUB` and `TAG` [environment variables set](https://github.com/istio/istio/wiki/Preparing-for-Development#setting-up-environment-variables) to the location of
-your Istio Docker images.
+#! cleanup
+run_a_bunch_of_cleanup_snippets
+and_we_are_done
+```
