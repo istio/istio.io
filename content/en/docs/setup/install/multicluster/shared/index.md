@@ -214,7 +214,7 @@ $ istioctl install -f istio-main-cluster.yaml --context=${MAIN_CLUSTER_CTX}
 Wait for the control plane to be ready before proceeding.
 
 {{< text bash >}}
-$ kubectl --context=${MAIN_CLUSTER_CTX} -n istio-system get pod
+$ kubectl get pod -n istio-system --context=${MAIN_CLUSTER_CTX}
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-ingressgateway-7c8dd65766-lv9ck   1/1     Running   0          136m
 istiod-f756bbfc4-thkmk                  1/1     Running   0          136m
@@ -229,7 +229,7 @@ plane configuration option was selected earlier.
 {{< tab name="istio-ingressgateway" category-value="istio-ingressgateway" >}}
 
 {{< text bash >}}
-$ export ISTIOD_REMOTE_EP=$(kubectl --context=${MAIN_CLUSTER_CTX} -n istio-system get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ export ISTIOD_REMOTE_EP=$(kubectl get svc -n istio-system --context=${MAIN_CLUSTER_CTX} istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 $ echo "ISTIOD_REMOTE_EP is ${ISTIOD_REMOTE_EP}"
 {{< /text >}}
 
@@ -238,7 +238,7 @@ $ echo "ISTIOD_REMOTE_EP is ${ISTIOD_REMOTE_EP}"
 {{< tab name="Internal Load Balancer" category-value="internal-load-balancer" >}}
 
 {{< text bash >}}
-$ export ISTIOD_REMOTE_EP=$(kubectl --context=${MAIN_CLUSTER_CTX} -n istio-system get svc istiod -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ export ISTIOD_REMOTE_EP=$(kubectl get svc -n istio-system --context=${MAIN_CLUSTER_CTX} istiod -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 $ echo "ISTIOD_REMOTE_EP is ${ISTIOD_REMOTE_EP}"
 {{< /text >}}
 
@@ -285,7 +285,7 @@ $ istioctl install -f istio-remote0-cluster.yaml --context ${REMOTE_CLUSTER_CTX}
 Wait for the remote cluster to be ready.
 
 {{< text bash >}}
-$ kubectl --context=${REMOTE_CLUSTER_CTX} -n istio-system get pod
+$ kubectl get pod -n istio-system --context=${REMOTE_CLUSTER_CTX}
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-ingressgateway-55f784779d-s5hwl   1/1     Running   0          91m
 istiod-7b4bfd7b4f-fwmks                 1/1     Running   0          91m
@@ -338,8 +338,8 @@ EOF
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl --context=${MAIN_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
-$ kubectl --context=${REMOTE_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
+$ kubectl apply -f cluster-aware-gateway.yaml --context=${MAIN_CLUSTER_CTX}
+$ kubectl apply -f cluster-aware-gateway.yaml --context=${REMOTE_CLUSTER_CTX}
 {{< /text >}}
 
 ### Configure cross-cluster service registries
@@ -354,7 +354,7 @@ remote cluster's name. It must match the cluster name in main cluster's IstioOpe
 configuration.
 
 {{< text bash >}}
-$ istioctl x create-remote-secret --context=${REMOTE_CLUSTER_CTX} --name ${REMOTE_CLUSTER_NAME} | \
+$ istioctl x create-remote-secret --name ${REMOTE_CLUSTER_NAME} --context=${REMOTE_CLUSTER_CTX} | \
     kubectl apply -f - --context=${MAIN_CLUSTER_CTX}
 {{< /text >}}
 
@@ -373,21 +373,21 @@ between the two instances is the version of their `helloworld` image.
 1. Create a `sample` namespace with a sidecar auto-injection label:
 
     {{< text bash >}}
-    $ kubectl create --context=${REMOTE_CLUSTER_CTX} namespace sample
-    $ kubectl label --context=${REMOTE_CLUSTER_CTX} namespace sample istio-injection=enabled
+    $ kubectl create namespace sample --context=${REMOTE_CLUSTER_CTX}
+    $ kubectl label namespace sample istio-injection=enabled --context=${REMOTE_CLUSTER_CTX}
     {{< /text >}}
 
 1. Deploy `helloworld v2`:
 
     {{< text bash >}}
-    $ kubectl create --context=${REMOTE_CLUSTER_CTX} -f @samples/helloworld/helloworld.yaml@ -l app=helloworld -n sample
-    $ kubectl create --context=${REMOTE_CLUSTER_CTX} -f @samples/helloworld/helloworld.yaml@ -l version=v2 -n sample
+    $ kubectl create -f @samples/helloworld/helloworld.yaml@ -l app=helloworld -n sample --context=${REMOTE_CLUSTER_CTX}
+    $ kubectl create -f @samples/helloworld/helloworld.yaml@ -l version=v2 -n sample --context=${REMOTE_CLUSTER_CTX}
     {{< /text >}}
 
 1. Confirm `helloworld v2` is running:
 
     {{< text bash >}}
-    $ kubectl get pod --context=${REMOTE_CLUSTER_CTX} -n sample
+    $ kubectl get pod -n sample --context=${REMOTE_CLUSTER_CTX}
     NAME                             READY     STATUS    RESTARTS   AGE
     helloworld-v2-7dd57c44c4-f56gq   2/2       Running   0          35s
     {{< /text >}}
@@ -397,21 +397,21 @@ between the two instances is the version of their `helloworld` image.
 1. Create a `sample` namespace with a sidecar auto-injection label:
 
     {{< text bash >}}
-    $ kubectl create --context=${MAIN_CLUSTER_CTX} namespace sample
-    $ kubectl label --context=${MAIN_CLUSTER_CTX} namespace sample istio-injection=enabled
+    $ kubectl create namespace sample --context=${MAIN_CLUSTER_CTX}
+    $ kubectl label namespace sample istio-injection=enabled --context=${MAIN_CLUSTER_CTX}
     {{< /text >}}
 
 1. Deploy `helloworld v1`:
 
     {{< text bash >}}
-    $ kubectl create --context=${MAIN_CLUSTER_CTX} -f @samples/helloworld/helloworld.yaml@ -l app=helloworld -n sample
-    $ kubectl create --context=${MAIN_CLUSTER_CTX} -f @samples/helloworld/helloworld.yaml@ -l version=v1 -n sample
+    $ kubectl create -f @samples/helloworld/helloworld.yaml@ -l app=helloworld -n sample --context=${MAIN_CLUSTER_CTX}
+    $ kubectl create -f @samples/helloworld/helloworld.yaml@ -l version=v1 -n sample --context=${MAIN_CLUSTER_CTX}
     {{< /text >}}
 
 1. Confirm `helloworld v1` is running:
 
     {{< text bash >}}
-    $ kubectl get pod --context=${MAIN_CLUSTER_CTX} -n sample
+    $ kubectl get pod -n sample --context=${MAIN_CLUSTER_CTX}
     NAME                            READY     STATUS    RESTARTS   AGE
     helloworld-v1-d4557d97b-pv2hr   2/2       Running   0          40s
     {{< /text >}}
@@ -424,32 +424,32 @@ call the `helloworld` service from another in-mesh `sleep` service.
 1. Deploy the `sleep` service in both clusters:
 
     {{< text bash >}}
-    $ kubectl apply --context=${MAIN_CLUSTER_CTX} -f @samples/sleep/sleep.yaml@ -n sample
-    $ kubectl apply --context=${REMOTE_CLUSTER_CTX} -f @samples/sleep/sleep.yaml@ -n sample
+    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sample --context=${MAIN_CLUSTER_CTX}
+    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sample --context=${REMOTE_CLUSTER_CTX}
     {{< /text >}}
 
 1. Wait for the `sleep` service to start in each cluster:
 
     {{< text bash >}}
-    $ kubectl get pod --context=${MAIN_CLUSTER_CTX} -n sample -l app=sleep
+    $ kubectl get pod -n sample -l app=sleep --context=${MAIN_CLUSTER_CTX}
     sleep-754684654f-n6bzf           2/2     Running   0          5s
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl get pod --context=${REMOTE_CLUSTER_CTX} -n sample -l app=sleep
+    $ kubectl get pod -n sample -l app=sleep --context=${REMOTE_CLUSTER_CTX}
     sleep-754684654f-dzl9j           2/2     Running   0          5s
     {{< /text >}}
 
 1. Call the `helloworld.sample` service several times from the main cluster:
 
     {{< text bash >}}
-    $ kubectl exec --context=${MAIN_CLUSTER_CTX} -it -n sample -c sleep $(kubectl get pod --context=${MAIN_CLUSTER_CTX} -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
+    $ kubectl exec -it -n sample -c sleep --context=${MAIN_CLUSTER_CTX} $(kubectl get pod -n sample -l app=sleep --context=${MAIN_CLUSTER_CTX} -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
     {{< /text >}}
 
 1. Call the `helloworld.sample` service several times from the remote cluster:
 
     {{< text bash >}}
-    $ kubectl exec --context=${REMOTE_CLUSTER_CTX} -it -n sample -c sleep $(kubectl get pod --context=${REMOTE_CLUSTER_CTX} -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
+    $ kubectl exec -it -n sample -c sleep --context=${REMOTE_CLUSTER_CTX} $(kubectl get pod -n sample -l app=sleep --context=${REMOTE_CLUSTER_CTX} -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
     {{< /text >}}
 
 If set up correctly, the traffic to the `helloworld.sample` service will be distributed between instances
@@ -463,8 +463,8 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 You can also verify the IP addresses used to access the endpoints with `istioctl proxy-config`.
 
 {{< text bash >}}
-$ kubectl --context=${MAIN_CLUSTER_CTX} -n sample get pod -l app=sleep -o name | cut -f2 -d'/' | \
-    xargs -I{} istioctl --context=${MAIN_CLUSTER_CTX} -n sample proxy-config endpoints {} --cluster "outbound|5000||helloworld.sample.svc.cluster.local"
+$ kubectl get pod -n sample -l app=sleep --context=${MAIN_CLUSTER_CTX} -o name | cut -f2 -d'/' | \
+    xargs -I{} istioctl -n sample --context=${MAIN_CLUSTER_CTX} proxy-config endpoints {} --cluster "outbound|5000||helloworld.sample.svc.cluster.local"
 ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER
 10.10.0.90:5000      HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 192.23.120.32:443    HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
@@ -474,8 +474,8 @@ In the main cluster, the endpoints are the gateway IP of the remote cluster (`19
 the helloworld pod IP in the main cluster (`10.10.0.90:5000`).
 
 {{< text bash >}}
-$ kubectl --context=${REMOTE_CLUSTER_CTX} -n sample get pod -l app=sleep -o name | cut -f2 -d'/' | \
-    xargs -I{} istioctl --context=${REMOTE_CLUSTER_CTX} -n sample proxy-config endpoints {} --cluster "outbound|5000||helloworld.sample.svc.cluster.local"
+$ kubectl get pod -n sample -l app=sleep --context=${REMOTE_CLUSTER_CTX} -o name | cut -f2 -d'/' | \
+    xargs -I{} istioctl -n sample --context=${REMOTE_CLUSTER_CTX} proxy-config endpoints {} --cluster "outbound|5000||helloworld.sample.svc.cluster.local"
 ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER
 10.32.0.9:5000       HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 192.168.1.246:443    HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
@@ -518,11 +518,11 @@ same root of trust.
 To uninstall the remote cluster, run the following command:
 
 {{< text bash >}}
-$ istioctl --context=${REMOTE_CLUSTER_CTX} x create-remote-secret --name ${REMOTE_CLUSTER_NAME} | \
+$ istioctl x create-remote-secret --name ${REMOTE_CLUSTER_NAME} --context=${REMOTE_CLUSTER_CTX} | \
     kubectl delete -f - --context=${MAIN_CLUSTER_CTX}
-$ istioctl --context=${REMOTE_CLUSTER_CTX} manifest generate -f istio-remote0-cluster.yaml | \
+$ istioctl manifest generate -f istio-remote0-cluster.yaml --context=${REMOTE_CLUSTER_CTX} | \
     kubectl delete -f - --context=${REMOTE_CLUSTER_CTX}
-$ kubectl --context=${REMOTE_CLUSTER_CTX} delete namespace sample
+$ kubectl delete namespace sample --context=${REMOTE_CLUSTER_CTX}
 $ unset REMOTE_CLUSTER_CTX REMOTE_CLUSTER_NAME REMOTE_CLUSTER_NETWORK
 $ rm istio-remote0-cluster.yaml
 {{< /text >}}
@@ -530,9 +530,9 @@ $ rm istio-remote0-cluster.yaml
 To uninstall the main cluster, run the following command:
 
 {{< text bash >}}
-$ istioctl --context=${MAIN_CLUSTER_CTX} manifest generate -f istio-main-cluster.yaml | \
+$ istioctl manifest generate -f istio-main-cluster.yaml --context=${MAIN_CLUSTER_CTX} | \
     kubectl delete -f - --context=${MAIN_CLUSTER_CTX}
-$ kubectl --context=${MAIN_CLUSTER_CTX} delete namespace sample
+$ kubectl delete namespace sample --context=${MAIN_CLUSTER_CTX}
 $ unset MAIN_CLUSTER_CTX MAIN_CLUSTER_NAME MAIN_CLUSTER_NETWORK ISTIOD_REMOTE_EP
 $ rm istio-main-cluster.yaml cluster-aware-gateway.yaml
 {{< /text >}}
