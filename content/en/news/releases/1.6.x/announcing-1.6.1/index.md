@@ -47,3 +47,9 @@ what’s different between Istio 1.6.0 and Istio 1.6.1.
 - **Improved** telemetry plugins to not crash due invalid configuration ([Issue 23865](https://github.com/istio/istio/issues/23865))
 - **Fixed** a proxy sidecar segfault when the response to HTTP calls by WASM filters are empty ([Issue 23890](https://github.com/istio/istio/issues/23890))
 - **Fixed** a proxy sidecar segfault while parsing CEL expressions ([Issue 497](https://github.com/envoyproxy/envoy-wasm/issues/497))
+
+# Bookinfo sample application security fixes
+
+We've updated the versions of Node and jQuery used in the Bookinfo sample application. Node has been upgraded from
+version 12.9 to 12.18. jQuery has been updated from version 2.1.4 to version 3.5.0.The highest rated vulnerability fixed:
+*HTTP request smuggling using malformed Transfer-Encoding header (Critical) (CVE-2019-15605)*
