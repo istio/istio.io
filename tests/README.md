@@ -166,6 +166,10 @@ will run all the tests under `traffic-management` folder. The `TEST` variable al
 ```bash
 make doc.test TEST=request-routing,fault-injection
 ```
+In case there are two folders that share the same name and both have `test.sh` files present, more detailed specification of test file paths can tell them apart. For example,
+```bash
+make doc.test TEST=tasks/traffic-management
+```
 You can also find this information by running `make doc.test.help`.
 
 ### Notes
