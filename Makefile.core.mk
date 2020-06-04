@@ -161,10 +161,10 @@ endif
 	@echo "TAG=${TAG}"
 
 # old test framework
-include tests/tests.mk
+include tests/old_tests.mk
 
 # new test framework
-include content/tests.mk
+include tests/tests.mk
 
 test_status:
 	@scripts/test_status.sh
