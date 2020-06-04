@@ -61,7 +61,7 @@ _verify_elided snip_injecting_an_http_abort_fault_2 "$snip_injecting_an_http_abo
 _verify_contains get_bookinfo_productpage_jason "Ratings service is currently unavailable"
 _verify_not_contains get_bookinfo_productpage "Ratings service is currently unavailable"
 
-#! cleanup
+# @cleanup
 set +e # ignore cleanup errors
 snip_cleanup_1
 cleanup_bookinfo_sample

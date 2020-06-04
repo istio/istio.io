@@ -145,7 +145,7 @@ expected output. The framework includes the following built-in verify functions:
 
 After all test steps are run, add
 ```sh
-#! cleanup
+# @cleanup
 ```
 as a single line followed by the cleanup steps that clean up all the resources. These steps can also directly call the functions defined in `util/samples.sh` and `snips.sh`.
 

@@ -45,7 +45,7 @@ var (
 
 	snipsFileSuffix = "/snips.sh"
 	testFileSuffix  = "/test.sh"
-	testCleanupSep  = "#! cleanup"
+	testCleanupSep  = "# @cleanup"
 )
 
 func split(testsAsString string) []string {

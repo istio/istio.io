@@ -66,7 +66,7 @@ _verify_lines snip_apply_weightbased_tcp_routing_5 "
 + two
 "
 
-#! cleanup
+# @cleanup
 set +e # ignore cleanup errors
 snip_cleanup_1
 cleanup_sleep_sample

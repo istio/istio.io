@@ -91,7 +91,7 @@ snip_config_100_v3
 
 _verify_same reviews_v3_traffic_percentage 100
 
-#! cleanup
+# @cleanup
 set +e # ignore cleanup errors
 snip_cleanup
 cleanup_bookinfo_sample

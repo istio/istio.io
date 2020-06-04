@@ -66,7 +66,7 @@ _verify_elided snip_route_based_on_user_identity_2 "$snip_route_based_on_user_id
 _verify_contains get_bookinfo_productpage_jason "glyphicon glyphicon-star"
 _verify_not_contains get_bookinfo_productpage "glyphicon glyphicon-star"
 
-#! cleanup
+# @cleanup
 set +e # ignore cleanup errors
 snip_cleanup_1
 cleanup_bookinfo_sample
