@@ -178,23 +178,3 @@ NOTE: The following were written for the old test framework and has NOT been tes
    ```
 
 1. If HUB and TAG aren't set, then their default values will match what is used by the prow tests.
-
-## Migrate from Old Framework
-
-Take `traffic-management/request-routing` as an example. To migrate to the new framework, the test author should:
-
-1. Create a `test.sh` file next to its corresponding `index.md` and `snips.sh`, i.e., `content/en/docs/tasks/traffic-management/request-routing/test.sh`.
-
-2. Copy the test script `request-routing.sh` (under `tests/trafficmanagement/scripts/`) and the cleanup script in `request_routing_test.go` (under `tests/trafficmanagement/`) into `test.sh`, and separate the two parts with a line of `#! cleanup`.
-
-3. It is okay to remove any `source *.sh` commands from `test.sh` as these will be automatically done.
-
-Every future `test.sh` will thus have a structure of:
-```
-run_a_bunch_of_test_snippets
-no_need_to_source_snips_and_utils_ever_again
-
-#! cleanup
-run_a_bunch_of_cleanup_snippets
-and_we_are_done
-```
