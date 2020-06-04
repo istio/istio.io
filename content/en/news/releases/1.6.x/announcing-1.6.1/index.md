@@ -51,5 +51,5 @@ what’s different between Istio 1.6.0 and Istio 1.6.1.
 # Bookinfo sample application security fixes
 
 We've updated the versions of Node and jQuery used in the Bookinfo sample application. Node has been upgraded from
-version 12.9 to 12.18. jQuery has been updated from version 2.1.4 to version 3.5.0.The highest rated vulnerability fixed:
+version 12.9 to 12.18. jQuery has been updated from version 2.1.4 to version 3.5.0. The highest rated vulnerability fixed:
 *HTTP request smuggling using malformed Transfer-Encoding header (Critical) (CVE-2019-15605)*
