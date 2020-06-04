@@ -151,7 +151,7 @@ Code 503 : 3 (15.0 %)
 ENDSNIP
 
 snip_tripping_the_circuit_breaker_3() {
-kubectl exec -it "$FORTIO_POD"  -c fortio /usr/bin/fortio -- load -c 3 -qps 0 -n 30 -loglevel Warning http://httpbin:8000/get
+kubectl exec -it "$FORTIO_POD"  -c fortio -- /usr/bin/fortio load -c 3 -qps 0 -n 30 -loglevel Warning http://httpbin:8000/get
 }
 
 ! read -r -d '' snip_tripping_the_circuit_breaker_3_out <<\ENDSNIP
