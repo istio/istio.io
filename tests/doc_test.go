@@ -52,15 +52,20 @@ var (
 	testCleanupSep  = "# @cleanup"
 )
 
+// split breaks down the test names specified into a slice.
+// It receives a comma-separated string of test names that the user has
+// specified from command line, and returns a slice of separated strings.
 func split(testsAsString string) []string {
 	testsAsSlice := strings.Split(testsAsString, ",")
+
+	// tweak to enforce strict equality of test names
 	for idx := range testsAsSlice {
-		testsAsSlice[idx] = fmt.Sprintf("/%v/", testsAsSlice[idx]) // to enforce strict equality of test names
+		testsAsSlice[idx] = fmt.Sprintf("/%v/", testsAsSlice[idx])
 	}
 	return testsAsSlice
 }
 
-// setup for all tests
+// TestMain does setup for all tests
 func TestMain(m *testing.M) {
 	if runAllTests {
 		log.Println("Starting test doc(s): all docs will be tested")
@@ -77,7 +82,7 @@ func TestMain(m *testing.M) {
 		Run()
 }
 
-// traverse through content and run each matched test
+// TestDocs traverses through content and run each matched test
 func TestDocs(t *testing.T) {
 	err := filepath.Walk(".",
 		func(path string, info os.FileInfo, walkError error) error {
@@ -98,6 +103,9 @@ func TestDocs(t *testing.T) {
 	}
 }
 
+// matched checks whether a given test needs to be run according to the
+// user's request. It receives two arguments: `path`, the test file to be
+// checked, and `tests`, the names of the tests that should be run.
 func matched(path string, tests []string) bool {
 	for _, test := range tests {
 		if strings.Contains(path, test) {
@@ -107,7 +115,9 @@ func matched(path string, tests []string) bool {
 	return false
 }
 
-// run a subtest for the given test.sh file
+// runTestFile runs a subtest for the given test script file. It receives
+// `path`, the test file to be run, and a (*testing.T) variable passed down
+// from TestDocs to create subtests.
 func runTestFile(path string, t *testing.T) {
 	t.Run(path, func(t *testing.T) {
 		script, err := ioutil.ReadFile(path)
@@ -150,7 +160,9 @@ func runTestFile(path string, t *testing.T) {
 	})
 }
 
-// get setup script that sources snips.sh, test utils, etc.
+// getSetupScript returns a setup script that automatically sources the
+// snippets and some test utilities. It receives `testPath`, which is the
+// path of the test script file to be run.
 func getSetupScript(testPath string) string {
 	snipsPath := strings.ReplaceAll(testPath, testFileSuffix, snipsFileSuffix)
 	return fmt.Sprintf(setupTemplate, snipsPath)
