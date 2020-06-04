@@ -11,7 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package content
+//
+// This is the framework for doc testing. It scans through the content
+// folder and runs each matched `tesh.sh` file as a subtest.
+package framework
 
 import (
 	"fmt"
