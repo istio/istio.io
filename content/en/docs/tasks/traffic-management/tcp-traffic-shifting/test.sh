@@ -19,7 +19,7 @@ set -e
 set -u
 set -o pipefail
 
-source "${REPO_ROOT}/tests/util/samples.sh"
+source "tests/util/samples.sh"
 
 # TODO: why is the following needed in the test if it's not a needed step in the doc?
 # add the TCP port to the ingress-gateway
@@ -70,7 +70,7 @@ _verify_lines snip_apply_weightbased_tcp_routing_5 "
 
 # @cleanup
 set +e # ignore cleanup errors
-source "${REPO_ROOT}/tests/util/samples.sh"
+source "tests/util/samples.sh"
 
 snip_cleanup_1
 cleanup_sleep_sample

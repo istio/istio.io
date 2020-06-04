@@ -39,12 +39,14 @@ var (
 	runAllTests  = (testsToRun == "")
 	testsAsSlice = split(testsToRun)
 
+	contentFolder = "../content"
+
 	setupTemplate = `
-		source "${REPO_ROOT}/content/%v" # snips.sh
-		source "${REPO_ROOT}/tests/util/verify.sh"
-		source "${REPO_ROOT}/tests/util/debug.sh"
-		source "${REPO_ROOT}/tests/util/helpers.sh"
 		cd ${REPO_ROOT}
+		source "content/%v" # snips.sh
+		source "tests/util/verify.sh"
+		source "tests/util/debug.sh"
+		source "tests/util/helpers.sh"
 	`
 
 	snipsFileSuffix = "/snips.sh"
@@ -84,7 +86,8 @@ func TestMain(m *testing.M) {
 
 // TestDocs traverses through content and run each matched test
 func TestDocs(t *testing.T) {
-	err := filepath.Walk(".",
+	err := filepath.Walk(
+		contentFolder,
 		func(path string, info os.FileInfo, walkError error) error {
 			if walkError != nil {
 				return walkError

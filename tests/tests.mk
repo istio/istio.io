@@ -1,7 +1,7 @@
 export ENV ?= kube
 
 doc.test: init # gocache disabled by -count=1
-	@${GO} test ${REPO_ROOT}/content/ -v -timeout=30m -count=1 \
+	@${GO} test ${REPO_ROOT}/tests/ -v -timeout=30m -count=1 \
 		-istio.test.env=${ENV} -istio.test.hub=$(HUB) -istio.test.tag=$(TAG)
 
 doc.test.help:

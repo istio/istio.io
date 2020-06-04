@@ -65,7 +65,7 @@ Your bash script will consist of a series of test steps that call the commands i
 The framework will automatically source several bash scripts for you, including the generated `snips.sh`, `util/verify.sh`, `util/debug.sh` and `util/helpers.sh`. You can directly call any function defined in them. For other test utilities, e.g., `util/samples.sh`, you need to source them by yourself:
 
 ```sh
-source "${REPO_ROOT}/tests/util/samples.sh"
+source "tests/util/samples.sh"
 
 startup_bookinfo_sample  # from util/samples.sh
 snip_config_50_v3        # from snips.sh

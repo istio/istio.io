@@ -19,7 +19,7 @@ set -e
 set -u
 set -o pipefail
 
-source "${REPO_ROOT}/tests/util/samples.sh"
+source "tests/util/samples.sh"
 
 kubectl label namespace default istio-injection=enabled --overwrite
 startup_sleep_sample # needed for sending test requests with curl
@@ -95,7 +95,7 @@ _verify_same reviews_v3_traffic_percentage 100
 
 # @cleanup
 set +e # ignore cleanup errors
-source "${REPO_ROOT}/tests/util/samples.sh"
+source "tests/util/samples.sh"
 
 snip_cleanup
 cleanup_bookinfo_sample
