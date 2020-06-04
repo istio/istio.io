@@ -42,6 +42,8 @@ var (
 	setupTemplate = `
 		source "${REPO_ROOT}/content/%v" # snips.sh
 		source "${REPO_ROOT}/tests/util/verify.sh"
+		source "${REPO_ROOT}/tests/util/debug.sh"
+		source "${REPO_ROOT}/tests/util/helpers.sh"
 		cd ${REPO_ROOT}
 	`
 

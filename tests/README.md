@@ -62,10 +62,13 @@ To write an `istio.io` test, follow these steps:
 
 Your bash script will consist of a series of test steps that call the commands in your generated `snips.sh` file, as well as a series of cleanup steps that should be run after everything is done.
 
-NOTE (for old framework authors): your script doesn't need to include the `snips.sh` or `util/samples.sh` any more. They will be automatically sourced and you can directly call any function defined in them:
+The framework will automatically source several bash scripts for you, including the generated `snips.sh`, `util/verify.sh`, `util/debug.sh` and `util/helpers.sh`. You can directly call any function defined in them. For other test utilities, e.g., `util/samples.sh`, you need to source them by yourself:
 
 ```sh
-snip_config_50_v3 # Step 3: switch 50% traffic to v3
+source "${REPO_ROOT}/tests/util/samples.sh"
+
+startup_bookinfo_sample  # from util/samples.sh
+snip_config_50_v3        # from snips.sh
 ```
 
 For commands that produce output, pass the snip and expected output to an appropriate
@@ -147,7 +150,7 @@ After all test steps are run, add
 ```sh
 # @cleanup
 ```
-as a single line followed by the cleanup steps that clean up all the resources. These steps can also directly call the functions defined in `util/samples.sh` and `snips.sh`.
+as a single line followed by the cleanup steps that clean up all the resources. These steps can also directly call functions defined in the auto-sourced scripts as described before. But others like `util/samples.sh` need to be sourced again in cleanup, even if you have already sourced them for the test steps.
 
 ## Running the Tests
 
