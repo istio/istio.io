@@ -52,9 +52,8 @@ var (
 
 func split(testsAsString string) []string {
 	testsAsSlice := strings.Split(testsAsString, ",")
-	for i := 0; i < len(testsAsSlice); i++ {
-		test := &testsAsSlice[i]
-		*test = fmt.Sprintf("/%v/", *test) // to enforce strict equality of test names
+	for idx := range testsAsSlice {
+		testsAsSlice[idx] = fmt.Sprintf("/%v/", testsAsSlice[idx]) // to enforce strict equality of test names
 	}
 	return testsAsSlice
 }
