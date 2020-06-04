@@ -1,7 +1,7 @@
 ---
 title: Reworking our Addon Integrations
 description: A new way to manage installation of telemetry addons.
-publishdate: 2020-06-10
+publishdate: 2020-06-04
 attribution: John Howard (Google)
 keywords: [telemetry,addons,integrations,grafana,prometheus]
 test: n/a
