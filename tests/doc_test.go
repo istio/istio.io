@@ -144,6 +144,8 @@ func runTestFile(path string, t *testing.T) {
 		cleanupScript := splitScript[1]
 
 		// run the scripts using the istio test framework
+		// TODO: impose timeout for each subtest
+		// TODO: run the subtests in parallel to reduce test time
 		framework.
 			NewTest(t).
 			Run(istioio.NewBuilder(path).

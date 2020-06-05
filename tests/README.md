@@ -158,7 +158,9 @@ Run
 ```bash
 make doc.test
 ```
-to start testing all docs in the content folder within a `kube` environment. This command takes two optional environment variables. One is `ENV` that specifies the test environment (either `native` or `kube`), and is `kube` by default. The other is `TEST` that specifies the tests to be run using the name of the directory. For example, the command
+to start testing all docs in the content folder within a `kube` environment. This command takes three optional environment variables: `TEST`, `TIMEOUT` and `ENV`.
+
+`TEST` specifies the tests to be run using the name of the directory. For example, the command
 ```bash
 make doc.test TEST=traffic-management
 ```
@@ -170,6 +172,9 @@ In case there are two folders that share the same name and both have `test.sh` f
 ```bash
 make doc.test TEST=tasks/traffic-management
 ```
+
+`TIMEOUT` specifies a time limit exceeding which all tests will halt, and the default value is 30 minutes (`30m`). `ENV` specifies the test environment (either `native` or `kube`), and is `kube` by default.
+
 You can also find this information by running `make doc.test.help`.
 
 ### Notes
