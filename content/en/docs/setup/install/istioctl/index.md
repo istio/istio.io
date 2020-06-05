@@ -196,6 +196,10 @@ $ kubectl create ns istio-system
 $ kubectl apply -f $HOME/generated-manifest.yaml
 {{< /text >}}
 
+{{< warning >}}
+While `istioctl install` will automatically detect environment specific settings from your Kubernetes context, `manifest generate` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your Kubernetes environment does not support third party service account tokens.
+{{< /warning >}}
+
 {{< tip >}}
 This command might show transient errors due to resources not being available in
 the cluster in the correct order.
