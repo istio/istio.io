@@ -21,6 +21,10 @@ set -o pipefail
 
 source "${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-jwt/snips.sh"
 
+# Set retries to a higher value for some flakiness.
+# TODO: remove this when istioctl wait calls are added
+export VERIFY_RETRIES=10
+
 snip_before_you_begin_1
 
 _wait_for_deployment foo httpbin
