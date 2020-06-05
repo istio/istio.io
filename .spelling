@@ -184,6 +184,7 @@ CVE-2019-9513
 CVE-2019-9514
 CVE-2019-9515
 CVE-2019-9518
+CVE-2019-15605
 CVE-2020-1764
 CVE-2020-8595
 CVE-2020-8843
@@ -352,6 +353,7 @@ IstioOperator
 iter8
 jason
 Jog
+jQuery
 json
 JSON-formatted
 jwcrypto
