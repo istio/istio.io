@@ -3,7 +3,7 @@ title: Announcing Istio 1.6.1
 linktitle: 1.6.1
 subtitle: Patch Release
 description: Istio 1.6.1 patch release.
-publishdate: 2020-06-03
+publishdate: 2020-06-04
 release: 1.6.1
 aliases:
     - /news/announcing-1.6.1
