@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-exec 5> "${TEST_DEBUG_FILE}"
+exec 5> "${REPO_ROOT}/out/${TEST_DEBUG_FILE}"
 BASH_XTRACEFD="5"
 export PS4='+${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
 set -x

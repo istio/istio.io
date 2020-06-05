@@ -175,7 +175,7 @@ make doc.test TEST=tasks/traffic-management
 
 `TIMEOUT` specifies a time limit exceeding which all tests will halt, and the default value is 30 minutes (`30m`). `ENV` specifies the test environment (either `native` or `kube`), and is `kube` by default.
 
-You can also find this information by running `make doc.test.help`.
+You can also find this information by running `make doc.test.help`. The bash tracing output for debugging will be kept in `out/*_[test|cleanup]_debug.txt`.
 
 ### Notes
 

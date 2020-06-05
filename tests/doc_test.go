@@ -151,13 +151,13 @@ func runTestFile(path string, t *testing.T) {
 			Run(istioio.NewBuilder(path).
 				Add(istioio.Script{
 					Input: istioio.Inline{
-						FileName: "test.sh",
+						FileName: getDebugFileName(path, "test"),
 						Value:    setupScript + testScript,
 					},
 				}).
 				Defer(istioio.Script{
 					Input: istioio.Inline{
-						FileName: "cleanup.sh",
+						FileName: getDebugFileName(path, "cleanup"),
 						Value:    setupScript + cleanupScript,
 					},
 				}).
@@ -171,4 +171,13 @@ func runTestFile(path string, t *testing.T) {
 func getSetupScript(testPath string) string {
 	snipsPath := strings.ReplaceAll(testPath, testFileSuffix, snipsFileSuffix)
 	return fmt.Sprintf(setupTemplate, snipsPath)
+}
+
+// getDebugFileName returns the name of the debug file which keeps the bash
+// tracing enabled by util/debug.sh. It receives `testPath`, the path of the
+// test script`, and a suffix to tell different output files apart.
+func getDebugFileName(testPath string, debugFileSuffix string) string {
+	fileName := strings.ReplaceAll(testPath, testFileSuffix, "/" + debugFileSuffix)
+	fileName = strings.ReplaceAll(fileName, "/", "_")[len("../"):]
+	return fileName
 }
