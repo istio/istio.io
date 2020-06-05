@@ -177,7 +177,7 @@ func getSetupScript(testPath string) string {
 // tracing enabled by util/debug.sh. It receives `testPath`, the path of the
 // test script`, and a suffix to tell different output files apart.
 func getDebugFileName(testPath string, debugFileSuffix string) string {
-	fileName := strings.ReplaceAll(testPath, testFileSuffix, "/" + debugFileSuffix)
+	fileName := strings.ReplaceAll(testPath, testFileSuffix, "/"+debugFileSuffix)
 	fileName = strings.ReplaceAll(fileName, "/", "_")[len("../"):]
 	return fileName
 }
