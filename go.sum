@@ -1096,7 +1096,6 @@ istio.io/gogo-genproto v0.0.0-20200511213158-02f1fd1746e5 h1:+jL9OzDdbpqHghV6i1d
 istio.io/gogo-genproto v0.0.0-20200511213158-02f1fd1746e5/go.mod h1:OzpAts7jljZceG4Vqi5/zXy/pOg1b209T3jb7Nv5wIs=
 istio.io/istio v0.0.0-20200518170651-df8ea82bf434 h1:ReXbtIIh8lcF6ot8jbdSAeVlP+jgvcsH4k8ymfT5vI0=
 istio.io/istio v0.0.0-20200518170651-df8ea82bf434/go.mod h1:H05Mq3ZA3/FEy1d4MCA35NUePccrpIc0yBX3mFeTxQg=
-istio.io/istio v0.0.0-20200603153341-fd044a7c7d20 h1:knG1mtVIcebOGFdwNBeAIxW7623YsH7UlAo0WgFyvJQ=
 istio.io/pkg v0.0.0-20200511212725-7bfbbf968c23 h1:1GMOTQs9yVdNEBmVKxDlq6ios80gIAOMO1WfKYKYjZo=
 istio.io/pkg v0.0.0-20200511212725-7bfbbf968c23/go.mod h1:pwGaxLUDLobzL/WvWV94z72LvBbB1dr2UUUyPuasfIU=
 k8s.io/api v0.0.0-20190918155943-95b840bb6a1f/go.mod h1:uWuOHnjmNrtQomJrvEBg0c0HRNyQ+8KTEERVsK0PW48=
