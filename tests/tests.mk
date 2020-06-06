@@ -1,8 +1,10 @@
 export ENV ?= kube
 export TIMEOUT ?= 30m
 
-doc.test: init # gocache disabled by -count=1
-	@${GO} test ${REPO_ROOT}/tests/ -v -timeout=${TIMEOUT} -count=1 \
+# gocache disabled by -count=1
+# tests in different packages forced to be sequential by -p=1
+doc.test: init
+	@${GO} test ${REPO_ROOT}/tests/setup/... -v -timeout=${TIMEOUT} -count=1 -p=1 \
 		-istio.test.env=${ENV} -istio.test.hub=$(HUB) -istio.test.tag=$(TAG)
 
 doc.test.help:

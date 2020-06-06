@@ -1,0 +1,259 @@
+// Package tests include the framework for doc testing. This package will
+// first scan through all the docs to collect their information, and then
+// setup istio as appropriate to run each test.
+//
+// Copyright 2020 Istio Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+package tests
+
+import (
+	"fmt"
+	"io/ioutil"
+	"log"
+	"os"
+	"path/filepath"
+	"regexp"
+	"strings"
+	"testing"
+
+	"istio.io/istio.io/pkg/test/istioio"
+	"istio.io/istio/pkg/test/framework"
+	"istio.io/istio/pkg/test/framework/components/istio"
+)
+
+// TestCase is a description of a test extracted from a file
+type TestCase struct {
+	valid bool  // whether this is a valid test case that can be run
+	err   error // whether there is an error when constructing the test case
+
+	path          string // path of the test file
+	config        string // setup config of the test
+	testScript    string // test script to be run
+	cleanupScript string // cleanup script to be run
+}
+
+var (
+	inst istio.Instance
+
+	testsToRun   = os.Getenv("TEST")
+	testEnv      = os.Getenv("ENV")
+	runAllTests  = (testsToRun == "")
+	testsAsSlice = split(testsToRun)
+
+	// folder location to be traversed to look for test files
+	contentFolder = fmt.Sprintf("%v/content/", os.Getenv("REPO_ROOT"))
+
+	// scripts that are sourced for all tests
+	helperTemplate = `
+		cd ${REPO_ROOT}
+		source "content/%v" # snips.sh
+		source "tests/util/verify.sh"
+		source "tests/util/debug.sh"
+		source "tests/util/helpers.sh"
+	`
+
+	snipsFileSuffix = "/snips.sh"
+	testFileSuffix  = "/test.sh"
+
+	setupSpec      = "# @setup"
+	testCleanupSep = "# @cleanup"
+
+	// constructed test cases for the specified tests
+	testCases []TestCase
+)
+
+// init constructs test cases from all specified tests
+func init() {
+	if runAllTests {
+		log.Println("Starting test doc(s): all docs")
+	} else {
+		log.Println("Starting test doc(s):", testsToRun)
+	}
+
+	// scan the test script files
+	err := filepath.Walk(
+		contentFolder,
+		func(path string, info os.FileInfo, walkError error) error {
+			if walkError != nil {
+				return walkError
+			}
+			if testCase := checkFile(path); testCase.valid {
+				testCases = append(testCases, *testCase)
+			} else if testCase.err != nil {
+				log.Printf("Error occurred while processing %v: %v", testCase.path, testCase.err)
+			}
+			return nil
+		},
+	)
+	if err != nil {
+		log.Fatalln("Error occurred while traversing content:", err)
+	}
+
+	// in case no matched script files were found
+	if len(testCases) == 0 {
+		log.Printf("Warning: no test scripts are found that match '%v'", testsToRun)
+	}
+}
+
+// checkFile takes a file path as the input and returns a TestCase object
+// that is constructed out of the file as a file description
+func checkFile(path string) *TestCase {
+	// check if ends with test.sh and if required to run
+	if !strings.HasSuffix(path, testFileSuffix) {
+		return &TestCase{}
+	} else if !runAllTests && !matched(path, testsAsSlice) {
+		return &TestCase{}
+	}
+	shortPath := path[len(contentFolder):]
+
+	// read the script file
+	script, err := ioutil.ReadFile(path)
+	if err != nil {
+		return &TestCase{path: shortPath, err: err}
+	}
+
+	// parse the script into test and cleanup
+	splitScript := strings.Split(string(script), testCleanupSep)
+	if numParts := len(splitScript); numParts != 2 {
+		err := fmt.Errorf(
+			"Script parsing error: Expected two-part script separated by '%v', got %v part(s)",
+			testCleanupSep, numParts,
+		)
+		return &TestCase{path: shortPath, err: err}
+	}
+	helperScript := getHelperScript(shortPath)
+	testScript := splitScript[0]
+	cleanupScript := splitScript[1]
+
+	// copy the files sourced by test to cleanup
+	re := regexp.MustCompile("(?m)^source \".*\\.sh\"$")
+	sources := re.FindAllString(testScript, -1)
+	cleanupScript = strings.Join(sources, "\n") + cleanupScript
+
+	// find setup configuration
+	re = regexp.MustCompile(fmt.Sprintf("(?m)^%v (.*)$", setupSpec))
+	setups := re.FindAllStringSubmatch(testScript, -1)
+	if numSetups := len(setups); numSetups != 1 {
+		err := fmt.Errorf(
+			"Script parsing error: Expected one line that starts with '%v', got %v line(s)",
+			setupSpec, numSetups,
+		)
+		return &TestCase{path: shortPath, err: err}
+	}
+	config := setups[0][1]
+
+	return &TestCase{
+		valid:         true,
+		path:          shortPath,
+		config:        config,
+		testScript:    helperScript + testScript,
+		cleanupScript: helperScript + cleanupScript,
+	}
+}
+
+// NeedSetup checks if any of the test cases require the setup config
+// specified by the input
+func NeedSetup(config string) bool {
+	for idx := range testCases {
+		if testCases[idx].config == config {
+			log.Printf("Setting up istio with %v", config)
+			return true
+		}
+	}
+	log.Printf("No tests need to be run with %v", config)
+	return false
+}
+
+// TestDocs traverses through all test cases and runs those that need the
+// setup config specified by the input. The (*testing.T) variable comes
+// from the TestDocs function in each tests/setup/*/doc_test.go
+func TestDocs(t *testing.T, config string) {
+	for idx := range testCases {
+		if testCase := &testCases[idx]; testCase.config == config {
+			runTestCase(testCase, t)
+		}
+	}
+}
+
+// runTestCase runs a subtest for the given test case. It receives `testCase`,
+// the test case to be run, and a (*testing.T) variable passed down from
+// TestDocs to create subtests
+func runTestCase(testCase *TestCase, t *testing.T) {
+	path := testCase.path
+	// run the scripts using the istio test framework
+	// TODO: impose timeout for each subtest
+	// TODO: run the subtests in parallel to reduce test time
+	t.Run(path, func(t *testing.T) {
+		framework.
+			NewTest(t).
+			Run(istioio.NewBuilder(path).
+				Add(istioio.Script{
+					Input: istioio.Inline{
+						FileName: getDebugFileName(path, "test"),
+						Value:    testCase.testScript,
+					},
+				}).
+				Defer(istioio.Script{
+					Input: istioio.Inline{
+						FileName: getDebugFileName(path, "cleanup"),
+						Value:    testCase.cleanupScript,
+					},
+				}).
+				Build())
+	})
+}
+
+// Helper functions
+
+// split breaks down the test names specified into a slice.
+// It receives a comma-separated string of test names that the user has
+// specified from command line, and returns a slice of separated strings.
+func split(testsAsString string) []string {
+	testsAsSlice := strings.Split(testsAsString, ",")
+
+	// tweak to enforce strict equality of test names
+	for idx := range testsAsSlice {
+		testsAsSlice[idx] = fmt.Sprintf("/%v/", testsAsSlice[idx])
+	}
+	return testsAsSlice
+}
+
+// matched checks whether a given test needs to be run according to the
+// user's request. It receives two arguments: `path`, the test file to be
+// checked, and `tests`, the names of the tests that should be run.
+func matched(path string, tests []string) bool {
+	for _, test := range tests {
+		if strings.Contains(path, test) {
+			return true
+		}
+	}
+	return false
+}
+
+// getHelperScript returns a helper script that automatically sources the
+// snippets and some test utilities. It receives `testPath`, which is the
+// path of the test script file to be run.
+func getHelperScript(testPath string) string {
+	snipsPath := strings.ReplaceAll(testPath, testFileSuffix, snipsFileSuffix)
+	return fmt.Sprintf(helperTemplate, snipsPath)
+}
+
+// getDebugFileName returns the name of the debug file which keeps the bash
+// tracing enabled by util/debug.sh. It receives `testPath`, the path of the
+// test script`, and a suffix to tell different output files apart.
+func getDebugFileName(testPath string, debugFileSuffix string) string {
+	fileName := strings.ReplaceAll(testPath, testFileSuffix, "/"+debugFileSuffix)
+	fileName = strings.ReplaceAll(fileName, "/", "_")
+	return fileName
+}

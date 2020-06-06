@@ -62,7 +62,13 @@ To write an `istio.io` test, follow these steps:
 
 Your bash script will consist of a series of test steps that call the commands in your generated `snips.sh` file, as well as a series of cleanup steps that should be run after everything is done.
 
-The framework will automatically source several bash scripts for you, including the generated `snips.sh`, `util/verify.sh`, `util/debug.sh` and `util/helpers.sh`. You can directly call any function defined in them. For other test utilities, e.g., `util/samples.sh`, you need to source them by yourself:
+To begin with the test steps, there should always be one line that specifies the istio setup configuration for the test. The setup line should take the form of
+```sh
+# @setup <setup_config_spec>
+```
+Currently supported setup configurations include: `profile=default` for installing default profile, `profile=demo` for installing demo profile, and `profile=none` for not installing istio at all. This line can be placed anywhere before the cleanup steps.
+
+After setup, you will use snippets generated from the docs to write tests. The framework automatically sources several bash scripts for you, including the generated `snips.sh` and `tests/util/[verify|debug|helpers].sh`. You can directly call any function defined in them. For other test utilities, e.g., `util/samples.sh`, you need to source them by yourself:
 
 ```sh
 source "tests/util/samples.sh"
@@ -150,9 +156,9 @@ After all test steps are run, add
 ```sh
 # @cleanup
 ```
-as a single line followed by the cleanup steps that clean up all the resources. These steps can also directly call functions defined in the auto-sourced scripts as described before. But others like `util/samples.sh` need to be sourced again in cleanup, even if you have already sourced them for the test steps.
+on a single line, followed by the cleanup steps that clean up all the resources. These steps can also directly call functions defined in the auto-sourced scripts described before, as well as any script you have sourced by yourself for the test steps.
 
-## Running the Tests
+## Running The Tests
 
 Run
 ```bash
@@ -190,3 +196,46 @@ NOTE: The following were written for the old test framework and has NOT been tes
    ```
 
 1. If HUB and TAG aren't set, then their default values will match what is used by the prow tests.
+
+## Adding A Setup Configuration
+
+To add a setup configuration, create a new go file `tests/setup/<your_config_name>/doc_test.go` using the following template. Two modifications are required.
+
+```go
+package setupconfig
+
+import (
+	"os"
+	"testing"
+
+	"istio.io/istio.io/tests"
+	"istio.io/istio/pkg/test/framework"
+	"istio.io/istio/pkg/test/framework/components/istio"
+	"istio.io/istio/pkg/test/framework/resource/environment"
+)
+
+var (
+	inst      istio.Instance
+	setupSpec = "profile=demo" // this is to appear in test scripts following '# @setup'
+)
+
+func TestMain(m *testing.M) {
+	if !tests.NeedSetup(setupSpec) {
+		os.Exit(0)
+	}
+	testEnvName := environment.Name(os.Getenv("ENV"))
+
+	framework.
+		NewSuite("profile_demo", m). // suite name, not required
+		SetupOnEnv(testEnvName, istio.Setup(&inst, setupConfig)).
+		Run()
+}
+
+func setupConfig(cfg *istio.Config) {
+	// specify what your config requires
+}
+
+func TestDocs(t *testing.T) {
+	tests.TestDocs(t, setupSpec)
+}
+```

@@ -21,6 +21,8 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
+# @setup profile=default
+
 # helper functions
 get_bookinfo_productpage() {
     sample_http_request "/productpage"
@@ -70,8 +72,6 @@ _verify_not_contains get_bookinfo_productpage "glyphicon glyphicon-star"
 
 # @cleanup
 set +e # ignore cleanup errors
-source "tests/util/samples.sh"
-
 snip_cleanup_1
 cleanup_bookinfo_sample
 cleanup_sleep_sample

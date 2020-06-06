@@ -21,6 +21,8 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
+# @setup profile=default
+
 # TODO: why is the following needed in the test if it's not a needed step in the doc?
 # add the TCP port to the ingress-gateway
 kubectl -n istio-system patch service istio-ingressgateway --patch "
@@ -70,7 +72,5 @@ _verify_lines snip_apply_weightbased_tcp_routing_5 "
 
 # @cleanup
 set +e # ignore cleanup errors
-source "tests/util/samples.sh"
-
 snip_cleanup_1
 cleanup_sleep_sample
