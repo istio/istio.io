@@ -6,11 +6,9 @@ import (
 
 	"istio.io/istio.io/tests"
 	"istio.io/istio/pkg/test/framework"
-	"istio.io/istio/pkg/test/framework/components/istio"
 )
 
 var (
-	inst      istio.Instance
 	setupSpec = "profile=none"
 )
 

@@ -29,7 +29,6 @@ import (
 
 	"istio.io/istio.io/pkg/test/istioio"
 	"istio.io/istio/pkg/test/framework"
-	"istio.io/istio/pkg/test/framework/components/istio"
 )
 
 // TestCase is a description of a test extracted from a file
@@ -44,10 +43,7 @@ type TestCase struct {
 }
 
 var (
-	inst istio.Instance
-
 	testsToRun   = os.Getenv("TEST")
-	testEnv      = os.Getenv("ENV")
 	runAllTests  = (testsToRun == "")
 	testsAsSlice = split(testsToRun)
 
@@ -127,7 +123,7 @@ func checkFile(path string) *TestCase {
 	splitScript := strings.Split(string(script), testCleanupSep)
 	if numParts := len(splitScript); numParts != 2 {
 		err := fmt.Errorf(
-			"Script parsing error: Expected two-part script separated by '%v', got %v part(s)",
+			"script error: expected two-part script separated by '%v', got %v part(s)",
 			testCleanupSep, numParts,
 		)
 		return &TestCase{path: shortPath, err: err}
@@ -146,7 +142,7 @@ func checkFile(path string) *TestCase {
 	setups := re.FindAllStringSubmatch(testScript, -1)
 	if numSetups := len(setups); numSetups != 1 {
 		err := fmt.Errorf(
-			"Script parsing error: Expected one line that starts with '%v', got %v line(s)",
+			"script error: expected one line that starts with '%v', got %v line(s)",
 			setupSpec, numSetups,
 		)
 		return &TestCase{path: shortPath, err: err}
