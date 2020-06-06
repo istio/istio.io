@@ -28,6 +28,35 @@ EOF
 
 Then, you can append any configuration options to the `tracing.yaml` file.
 
+## Add `proxy.istio.io/config` annotation to your Pod metadata specification
+
+There are occasions where you may wish to override the mesh-wide configuration for a Pod-specific
+setting. By adding the `proxy.istio.io/config` annotation to your Pod metadata
+specification you can override any mesh-wide tracing settings.
+
+For instance, to modify the `sleep` deployment shipped with Istio you would add the following
+to `samples/sleep/sleep.yaml`:
+
+{{< text yaml >}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sleep
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      proxy.istio.io/config: |
+        tracing:
+          ...                            # custom tracing definition
+    spec:
+      ...
+{{< /text >}}
+
+You can then append any of the settings specified below, to change the tracing configuration
+for this Pod specification.
+
 ## Trace sampling
 
 Istio captures a trace for all requests by default when installing with the demo profile.

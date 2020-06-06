@@ -11,7 +11,8 @@ replace github.com/spf13/viper => github.com/istio/viper v1.3.3-0.20190515210538
 replace github.com/docker/docker => github.com/docker/engine v1.4.2-0.20191011211953-adfac697dc5b
 
 require (
-	istio.io/istio v0.0.0-20200518170651-df8ea82bf434
+	istio.io/gogo-genproto v0.0.0-20200511213158-02f1fd1746e5 // indirect
+	istio.io/istio v0.0.0-20200605150255-b5d6aeed9455
 	istio.io/pkg v0.0.0-20200511212725-7bfbbf968c23
 )
 

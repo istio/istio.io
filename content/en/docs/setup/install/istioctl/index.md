@@ -196,6 +196,10 @@ $ kubectl create ns istio-system
 $ kubectl apply -f $HOME/generated-manifest.yaml
 {{< /text >}}
 
+{{< warning >}}
+While `istioctl install` will automatically detect environment specific settings from your Kubernetes context, `manifest generate` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your Kubernetes environment does not support third party service account tokens.
+{{< /warning >}}
+
 {{< tip >}}
 This command might show transient errors due to resources not being available in
 the cluster in the correct order.
@@ -257,7 +261,7 @@ $ istioctl verify-install -f $HOME/generated-manifest.yaml
 
 In addition to installing any of Istio's built-in
 [configuration profiles](/docs/setup/additional-setup/config-profiles/),
-`istioctl manifest` provides a complete API for customizing the configuration.
+`istioctl install` provides a complete API for customizing the configuration.
 
 - [The `IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
 
