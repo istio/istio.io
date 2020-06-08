@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2034,SC2153,SC2155
+# shellcheck disable=SC2034,SC2153,SC2155,SC2164
 
 # Copyright Istio Authors. All Rights Reserved.
 #
@@ -171,11 +171,11 @@ git clone https://github.com/nicholasjackson/mtls-go-example
 }
 
 snip_generate_client_and_server_certificates_and_keys_2() {
-cd mtls-go-example || exit
+cd mtls-go-example
 }
 
 snip_generate_client_and_server_certificates_and_keys_3() {
-yes | ./generate.sh nginx.example.com password
+./generate.sh nginx.example.com password
 }
 
 snip_generate_client_and_server_certificates_and_keys_4() {
@@ -183,7 +183,7 @@ mkdir ../nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ..
 }
 
 snip_generate_client_and_server_certificates_and_keys_5() {
-cd .. || exit
+cd ..
 }
 
 snip_deploy_a_mutual_tls_server_1() {

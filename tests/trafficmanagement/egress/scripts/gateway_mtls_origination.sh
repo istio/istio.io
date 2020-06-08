@@ -24,7 +24,7 @@ source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/egress/egress-gate
 # Generate Certificates for service outside the mesh to use for mTLS
 snip_generate_client_and_server_certificates_and_keys_1
 snip_generate_client_and_server_certificates_and_keys_2
-snip_generate_client_and_server_certificates_and_keys_3
+yes | snip_generate_client_and_server_certificates_and_keys_3
 snip_generate_client_and_server_certificates_and_keys_4
 snip_generate_client_and_server_certificates_and_keys_5
 

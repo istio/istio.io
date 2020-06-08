@@ -238,16 +238,17 @@ TLS origination.
 1.  Change directory to the cloned repository:
 
     {{< text bash >}}
-    $ cd mtls-go-example || exit
+    $ cd mtls-go-example
     {{< /text >}}
 
 1.  Generate the certificates for `nginx.example.com`.
     Run the following command, replacing `password` with your choice of password:
 
     {{< text bash >}}
-    $ yes | ./generate.sh nginx.example.com password
+    $ ./generate.sh nginx.example.com password
     {{< /text >}}
-
+    
+    Select y for all prompts that appear.
 
 1.  Move the certificates into the `nginx.example.com` directory:
 
@@ -258,7 +259,7 @@ TLS origination.
 1.  Go back to your previous directory:
 
     {{< text bash >}}
-    $ cd .. || exit
+    $ cd ..
     {{< /text >}}
 
 ### Deploy a mutual TLS server
