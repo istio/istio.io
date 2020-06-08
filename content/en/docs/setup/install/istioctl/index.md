@@ -40,6 +40,9 @@ using the following command:
 $ istioctl install
 {{< /text >}}
 
+Note: `istioctl install` and `istioctl manifest apply` are exactly the same command - `install` was added in 1.6 as a
+simplification and `manifest apply` is deprecated and will be removed in 1.7.
+
 This command installs the `default` profile on the cluster defined by your
 Kubernetes configuration. The `default` profile is a good starting point
 for establishing a production environment, unlike the larger `demo` profile that
@@ -82,6 +85,12 @@ to install the `demo` profile:
 {{< text bash >}}
 $ istioctl install --set profile=demo
 {{< /text >}}
+
+## Check what's installed
+
+`Istioctl` saves a copy of the CR that was used to install Istio into the cluster, called `installed-state`. You can
+inspect this CR if you ever lose track of what is installed in a cluster. This CR is used to perform checks in some
+`istioctl` commands and should not be removed.
 
 ## Display the list of available profiles
 
@@ -182,28 +191,21 @@ $ istioctl profile diff default demo
 ## Generate a manifest before installation
 
 You can generate the manifest before installing Istio using the `manifest generate`
-sub-command, instead of `istioctl install`.
+sub-command.
 For example, use the following command to generate a manifest for the `default` profile:
 
 {{< text bash >}}
 $ istioctl manifest generate > $HOME/generated-manifest.yaml
 {{< /text >}}
 
-Inspect the manifest as needed, then apply the manifest using this command:
+The generated manifest can be used to both inspect exactly what is installed, and track changes to the manifest
+over time. While the `IstioOperator` CR represents the full user configuration and is sufficient for tracking them,
+the output from `manifest generate` also captures any changes in the underlying charts and can be used where
+tracking of the actual installed resources is desired.
 
-{{< text bash >}}
-$ kubectl create ns istio-system
-$ kubectl apply -f $HOME/generated-manifest.yaml
-{{< /text >}}
-
-{{< warning >}}
-While `istioctl install` will automatically detect environment specific settings from your Kubernetes context, `manifest generate` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your Kubernetes environment does not support third party service account tokens.
-{{< /warning >}}
-
-{{< tip >}}
-This command might show transient errors due to resources not being available in
-the cluster in the correct order.
-{{< /tip >}}
+The output from `manifest generate` can also be used to install Istio using `kubectl apply` or equivalent. Note that
+these alternative installation methods may not apply the resources with the same sequencing of dependencies as
+`istioctl install` and are not tested as part of a release. 
 
 ## Show differences in manifests
 
