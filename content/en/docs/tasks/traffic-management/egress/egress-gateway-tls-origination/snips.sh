@@ -183,7 +183,7 @@ mkdir ../nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ..
 }
 
 snip_generate_client_and_server_certificates_and_keys_5() {
-cd .. || exits
+cd .. || exit
 }
 
 snip_deploy_a_mutual_tls_server_1() {

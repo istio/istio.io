@@ -8,7 +8,7 @@ aliases:
 test: yes
 ---
 
-The [TLS Origination for Egress Traffic](/doscs/tasks/traffic-management/egress/egress-tls-origination/)
+The [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/)
 example shows how to configure Istio to perform {{< gloss >}}TLS origination{{< /gloss >}}
 for traffic to an external service. The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/)
 example shows how to configure Istio to direct egress traffic through a
@@ -258,7 +258,7 @@ TLS origination.
 1.  Go back to your previous directory:
 
     {{< text bash >}}
-    $ cd .. || exits
+    $ cd .. || exit
     {{< /text >}}
 
 ### Deploy a mutual TLS server
