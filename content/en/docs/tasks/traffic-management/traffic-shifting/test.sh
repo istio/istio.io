@@ -35,6 +35,7 @@ SLEEP_POD=$(kubectl get pod -l app=sleep -n default -o 'jsonpath={.items..metada
 INGRESS_URL="http://istio-ingressgateway.istio-system"
 # reviews_v3_traffic_percentage
 # gets the % of productpage requests with reviews from reviews:v3 service
+# TODO: maybe make this a general purpose tool
 function reviews_v3_traffic_percentage() {
   set +e
   local total_request_count=100

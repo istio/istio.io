@@ -13,10 +13,11 @@ This means that we extract and test the exact same commands that are published i
 These tests use the framework defined in the `istioio` package, which is a thin wrapper
 around the [Istio test framework](https://github.com/istio/istio/wiki/Istio-Test-Framework).
 
-[UPDATE NEEDED] Run the following command to see the current test coverage, including the list of documents
+Run the following command to see the current test coverage, including the list of documents
 that are in need of a test:
 
 ```sh
+# TODO(https://github.com/istio/istio.io/issues/7508): update for the new test framework
 make test_status
 ```
 
