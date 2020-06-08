@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090,SC2154
+
 # Copyright 2020 Istio Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,3 +38,5 @@ snip_perform_tls_origination_with_an_egress_gateway_4
 
 # Verify HTTP request to external service returns 200
 _verify_elided snip_perform_tls_origination_with_an_egress_gateway_5 "$snip_perform_tls_origination_with_an_egress_gateway_5_out"
+
+# TODO: verify that the request was routed through egressgateway
