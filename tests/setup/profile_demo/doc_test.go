@@ -40,10 +40,10 @@ func TestMain(m *testing.M) {
 		Run()
 }
 
-func setupConfig(cfg *istio.Config) {
-	cfg.ControlPlaneValues = "profile: demo"
-}
-
 func TestDocs(t *testing.T) {
 	tests.TestDocs(t, setupSpec)
+}
+
+func setupConfig(cfg *istio.Config) {
+	cfg.ControlPlaneValues = "profile: demo"
 }

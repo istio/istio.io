@@ -64,7 +64,7 @@ Your bash script will consist of a series of test steps that call the commands i
 
 To begin with the test steps, there should always be one line that specifies the istio setup configuration for the test. The setup line should take the form of
 ```sh
-# @setup <setup_config_spec>
+# @setup <setup_config>
 ```
 Currently supported setup configurations include: `profile=default` for installing default profile, `profile=demo` for installing demo profile, and `profile=none` for not installing istio at all. This line can be placed anywhere before the cleanup steps.
 
@@ -199,7 +199,7 @@ NOTE: The following were written for the old test framework and has NOT been tes
 
 ## Adding A Setup Configuration
 
-To add a setup configuration, create a new go file `tests/setup/<your_config_name>/doc_test.go` using the following template. Two modifications are required.
+To add a setup configuration, create a new go file `tests/setup/<your_config_name>/doc_test.go` using the following template. Three modifications are required.
 
 ```go
 // Copyright 2020 Istio Authors
@@ -239,16 +239,16 @@ func TestMain(m *testing.M) {
 	testEnvName := environment.Name(os.Getenv("ENV"))
 
 	framework.
-		NewSuite("profile_demo", m). // suite name, not required
+		NewSuite("profile_demo", m). // test suite name
 		SetupOnEnv(testEnvName, istio.Setup(&inst, setupConfig)).
 		Run()
 }
 
-func setupConfig(cfg *istio.Config) {
-	// specify what your config requires
-}
-
 func TestDocs(t *testing.T) {
 	tests.TestDocs(t, setupSpec)
+}
+
+func setupConfig(cfg *istio.Config) {
+	// specify what your config requires
 }
 ```
