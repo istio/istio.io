@@ -309,8 +309,8 @@ spec:
 For some match conditions, you can also choose to select them using the exact
 value, a prefix, or a regex.
 
-You can add multiple match conditions to the same `match` block to AND your
-conditions, or add multiple match blocks to the same rule to OR your conditions.
+You can add multiple match conditions to the same `match` block to OR your
+conditions, or add multiple match blocks to the same rule to AND your conditions.
 You can also have multiple routing rules for any given virtual service. This
 lets you make your routing conditions as complex or simple as you like within a
 single virtual service. A full list of match condition fields and their possible
