@@ -177,7 +177,7 @@ cd mtls-go-example
 }
 
 snip_generate_client_and_server_certificates_and_keys_3() {
-./generate.sh nginx.example.com <password>
+./generate.sh nginx.example.com password
 }
 
 snip_generate_client_and_server_certificates_and_keys_4() {
