@@ -70,6 +70,21 @@ Please check [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) notice f
 * Black Hole telemetry for TCP and HTTP protocols is not supported.
 * Histogram buckets are [significantly different](https://github.com/istio/istio/issues/20483) than Mixer Telemetry and cannot be changed.
 
+## Traffic management resource visibility changes
+
+In Istio 1.5 proxy configuration for hosts is determined by [`VirtualService`](/docs/reference/config/networking/virtual-service) visibility in
+addition to that of any relevant [`ServiceEntry`](/docs/reference/config/networking/service-entry/).
+
+If in previous versions you relied on [`Sidecar`](/docs/reference/config/networking/sidecar/) resources to
+restrict the visibility of hosts (mesh internal or external) to a target set of sidecar proxies, you now also need to
+consider the hosts implied by any [`VirtualService`](/docs/reference/config/networking/virtual-service).
+
+Depending on your use of [`Sidecar`](/docs/reference/config/networking/sidecar/) resources in your mesh, this may require
+you to review the namespaces that your [`VirtualService`](/docs/reference/config/networking/virtual-service)s are in to
+ensure only the intended workloads can see them.
+
+More details on this change can be found at [24251](https://github.com/istio/istio/issues/24251) and [20408](https://github.com/istio/istio/pull/20408).
+
 ## Authentication policy
 
 Istio 1.5 introduces [`PeerAuthentication`](/docs/reference/config/security/peer_authentication/) and [`RequestAuthentication`](/docs/reference/config/security/request_authentication/), which are replacing the alpha version of the Authentication API. For more information about how to use the new API, see the [authentication policy](/docs/tasks/security/authentication/authn-policy) tutorial.
@@ -110,4 +125,3 @@ Istio 1.5.0 multicluster setup has several known issues ([27102](https://github.
 ## Helm upgrade
 
 If you used `helm upgrade` to update your cluster to newer Istio versions, we recommend you to switch to use [`istioctl upgrade`](https://archive.istio.io/v1.5/docs/setup/upgrade/istioctl-upgrade/) or follow the [helm template](https://archive.istio.io/1.4/docs/setup/upgrade/cni-helm-upgrade/) steps.
-
