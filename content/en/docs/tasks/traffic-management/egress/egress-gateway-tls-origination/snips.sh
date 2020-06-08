@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2034,SC2153,SC2155
+# shellcheck disable=SC2034,SC2153,SC2155,SC2154
 
 # Copyright Istio Authors. All Rights Reserved.
 #
@@ -53,7 +53,7 @@ EOF
 }
 
 snip_perform_tls_origination_with_an_egress_gateway_2() {
-kubectl exec $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_perform_tls_origination_with_an_egress_gateway_2_out <<\ENDSNIP
@@ -61,8 +61,6 @@ HTTP/1.1 301 Moved Permanently
 ...
 location: https://edition.cnn.com/politics
 ...
-
-command terminated with exit code 35
 ENDSNIP
 
 snip_perform_tls_origination_with_an_egress_gateway_3() {
@@ -146,7 +144,7 @@ EOF
 }
 
 snip_perform_tls_origination_with_an_egress_gateway_5() {
-kubectl exec $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_perform_tls_origination_with_an_egress_gateway_5_out <<\ENDSNIP
@@ -173,11 +171,11 @@ git clone https://github.com/nicholasjackson/mtls-go-example
 }
 
 snip_generate_client_and_server_certificates_and_keys_2() {
-cd mtls-go-example
+cd mtls-go-example || exit
 }
 
 snip_generate_client_and_server_certificates_and_keys_3() {
-./generate.sh nginx.example.com password
+yes | ./generate.sh nginx.example.com password
 }
 
 snip_generate_client_and_server_certificates_and_keys_4() {
@@ -185,7 +183,7 @@ mkdir ../nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ..
 }
 
 snip_generate_client_and_server_certificates_and_keys_5() {
-cd ..
+cd .. || exits
 }
 
 snip_deploy_a_mutual_tls_server_1() {
@@ -409,7 +407,7 @@ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.n
 }
 
 snip_deploy_a_container_to_test_the_nginx_deployment_4() {
-kubectl exec $SOURCE_POD -c sleep -- curl -v --resolve nginx.example.com:443:1.1.1.1 --cacert /etc/nginx-ca-certs/ca-chain.cert.pem --cert /etc/nginx-client-certs/tls.crt --key /etc/nginx-client-certs/tls.key https://nginx.example.com
+kubectl exec "${SOURCE_POD}" -c sleep -- curl -v --resolve nginx.example.com:443:1.1.1.1 --cacert /etc/nginx-ca-certs/ca-chain.cert.pem --cert /etc/nginx-client-certs/tls.crt --key /etc/nginx-client-certs/tls.key https://nginx.example.com
 }
 
 ! read -r -d '' snip_deploy_a_container_to_test_the_nginx_deployment_4_out <<\ENDSNIP
@@ -437,7 +435,7 @@ Server certificate:
 ENDSNIP
 
 snip_deploy_a_container_to_test_the_nginx_deployment_5() {
-kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl -k --resolve nginx.example.com:443:1.1.1.1 https://nginx.example.com
+kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -k --resolve nginx.example.com:443:1.1.1.1 https://nginx.example.com
 }
 
 ! read -r -d '' snip_deploy_a_container_to_test_the_nginx_deployment_5_out <<\ENDSNIP
@@ -506,7 +504,7 @@ kubectl -n istio-system patch --type=json deploy istio-egressgateway -p "$(cat g
 }
 
 snip_redeploy_the_egress_gateway_with_the_client_certificates_4() {
-kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/nginx-client-certs /etc/istio/nginx-ca-certs
+kubectl exec -it -n istio-system "$(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}')" -- ls -al /etc/istio/nginx-client-certs /etc/istio/nginx-ca-certs
 }
 
 snip_configure_mutual_tls_origination_for_egress_traffic_1() {
@@ -608,7 +606,7 @@ EOF
 }
 
 snip_configure_mutual_tls_origination_for_egress_traffic_3() {
-kubectl exec $SOURCE_POD -c sleep -- curl -s --resolve nginx.example.com:80:1.1.1.1 http://nginx.example.com
+kubectl exec "${SOURCE_POD}" -c sleep -- curl -s --resolve nginx.example.com:80:1.1.1.1 http://nginx.example.com
 }
 
 ! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_3_out <<\ENDSNIP
