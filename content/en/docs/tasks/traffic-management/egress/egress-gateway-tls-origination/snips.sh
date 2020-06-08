@@ -196,10 +196,10 @@ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=nginx.
 }
 
 snip_deploy_a_mutual_tls_server_3() {
-cat <<EOF > ./nginx.conf
+cat <<\EOF > ./nginx.conf
 events {
 }
-
+s
 http {
   log_format main '$remote_addr - $remote_user [$time_local]  $status '
   '"$request" $body_bytes_sent "$http_referer" '

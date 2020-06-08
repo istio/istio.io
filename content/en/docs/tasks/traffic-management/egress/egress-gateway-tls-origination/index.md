@@ -286,10 +286,10 @@ the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injecti
 1.  Create a configuration file for the NGINX server:
 
     {{< text bash >}}
-    $ cat <<EOF > ./nginx.conf
+    $ cat <<\EOF > ./nginx.conf
     events {
     }
-
+s
     http {
       log_format main '$remote_addr - $remote_user [$time_local]  $status '
       '"$request" $body_bytes_sent "$http_referer" '
