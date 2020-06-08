@@ -22,7 +22,6 @@ import (
 	"istio.io/istio.io/pkg/test/istioio"
 )
 
-
 func TestGatewayMTlsOrigination(t *testing.T) {
 	framework.
 		NewTest(t).
@@ -36,9 +35,9 @@ func TestGatewayMTlsOrigination(t *testing.T) {
 					Value: `
 set +e # ignore cleanup errors
 source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/snips.sh"
-snip_cleanup_the_mutual_tls_origination_example_1,
-snip_cleanup_the_mutual_tls_origination_example_2,
-snip_cleanup_the_mutual_tls_origination_example_3,
+snip_mutual_tls_cleanup_1,
+snip_mutual_tls_cleanup_2,
+snip_mutual_tls_cleanup_3,
 snip_cleanup_1`,
 				},
 			}).

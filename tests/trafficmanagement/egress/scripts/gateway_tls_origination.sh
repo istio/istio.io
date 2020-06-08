@@ -20,10 +20,14 @@ set -u
 set -o pipefail
 
 source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/snips.sh"
-source "${REPO_ROOT}/tests/util/samples.sh"
+source "${REPO_ROOT}/tests/util/helpers.sh"
 
 # Deploy sleep sample and set up variable pointing to it
-startup_sleep_sample
+set +e
+kubectl delete pods -l app=sleep --force
+set -e
+snip_before_you_begin_2
+_wait_for_deployment default sleep
 snip_before_you_begin_3
 
 # Apply ServiceEntry for external workload and verify 301

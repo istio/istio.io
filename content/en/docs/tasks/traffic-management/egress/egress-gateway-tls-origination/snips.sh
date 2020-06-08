@@ -199,7 +199,7 @@ snip_deploy_a_mutual_tls_server_3() {
 cat <<\EOF > ./nginx.conf
 events {
 }
-s
+
 http {
   log_format main '$remote_addr - $remote_user [$time_local]  $status '
   '"$request" $body_bytes_sent "$http_referer" '
@@ -412,20 +412,7 @@ kubectl exec "${SOURCE_POD}" -c sleep -- curl -v --resolve nginx.example.com:443
 
 ! read -r -d '' snip_deploy_a_container_to_test_the_nginx_deployment_4_out <<\ENDSNIP
 ...
-Server certificate:
-  subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=nginx.example.com
-  start date: 2018-08-16 04:31:20 GMT
-  expire date: 2019-08-26 04:31:20 GMT
-  common name: nginx.example.com (matched)
-  issuer: C=US; ST=Denial; O=Dis; CN=nginx.example.com
-  SSL certificate verify ok.
-> GET / HTTP/1.1
-> User-Agent: curl/7.35.0
-> Host: nginx.example.com
-...
 < HTTP/1.1 200 OK
-
-< Server: nginx/1.15.2
 ...
 <!DOCTYPE html>
 <html>
@@ -439,12 +426,13 @@ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}
 }
 
 ! read -r -d '' snip_deploy_a_container_to_test_the_nginx_deployment_5_out <<\ENDSNIP
+...
 <html>
 <head><title>400 No required SSL certificate was sent</title></head>
-<body bgcolor="white">
+<body>
 <center><h1>400 Bad Request</h1></center>
 <center>No required SSL certificate was sent</center>
-<hr><center>nginx/1.15.2</center>
+...
 </body>
 </html>
 ENDSNIP
@@ -621,7 +609,7 @@ snip_configure_mutual_tls_origination_for_egress_traffic_4() {
 kubectl logs -l istio=egressgateway -n istio-system | grep 'nginx.example.com' | grep HTTP
 }
 
-snip_cleanup_the_mutual_tls_origination_example_1() {
+snip_mutual_tls_cleanup_1() {
 kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
 kubectl delete secret nginx-client-certs nginx-ca-certs
 kubectl delete secret nginx-client-certs nginx-ca-certs -n istio-system
@@ -636,11 +624,11 @@ kubectl delete destinationrule originate-mtls-for-nginx
 kubectl delete destinationrule egressgateway-for-nginx
 }
 
-snip_cleanup_the_mutual_tls_origination_example_2() {
+snip_mutual_tls_cleanup_2() {
 rm -rf nginx.example.com mtls-go-example
 }
 
-snip_cleanup_the_mutual_tls_origination_example_3() {
+snip_mutual_tls_cleanup_3() {
 rm -f ./nginx.conf ./istio-egressgateway.yaml
 }
 

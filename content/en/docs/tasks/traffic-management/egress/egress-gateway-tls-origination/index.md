@@ -247,8 +247,8 @@ TLS origination.
     {{< text bash >}}
     $ ./generate.sh nginx.example.com password
     {{< /text >}}
-    
-    Select y for all prompts that appear.
+
+    Select `y` for all prompts that appear.
 
 1.  Move the certificates into the `nginx.example.com` directory:
 
@@ -290,7 +290,7 @@ the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injecti
     $ cat <<\EOF > ./nginx.conf
     events {
     }
-s
+
     http {
       log_format main '$remote_addr - $remote_user [$time_local]  $status '
       '"$request" $body_bytes_sent "$http_referer" '
@@ -524,20 +524,7 @@ to hold the configuration of the NGINX server:
     {{< text bash >}}
     $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -v --resolve nginx.example.com:443:1.1.1.1 --cacert /etc/nginx-ca-certs/ca-chain.cert.pem --cert /etc/nginx-client-certs/tls.crt --key /etc/nginx-client-certs/tls.key https://nginx.example.com
     ...
-    Server certificate:
-      subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=nginx.example.com
-      start date: 2018-08-16 04:31:20 GMT
-      expire date: 2019-08-26 04:31:20 GMT
-      common name: nginx.example.com (matched)
-      issuer: C=US; ST=Denial; O=Dis; CN=nginx.example.com
-      SSL certificate verify ok.
-    > GET / HTTP/1.1
-    > User-Agent: curl/7.35.0
-    > Host: nginx.example.com
-    ...
     < HTTP/1.1 200 OK
-
-    < Server: nginx/1.15.2
     ...
     <!DOCTYPE html>
     <html>
@@ -550,12 +537,13 @@ to hold the configuration of the NGINX server:
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -k --resolve nginx.example.com:443:1.1.1.1 https://nginx.example.com
+    ...
     <html>
     <head><title>400 No required SSL certificate was sent</title></head>
-    <body bgcolor="white">
+    <body>
     <center><h1>400 Bad Request</h1></center>
     <center>No required SSL certificate was sent</center>
-    <hr><center>nginx/1.15.2</center>
+    ...
     </body>
     </html>
     {{< /text >}}
@@ -768,7 +756,7 @@ to hold the configuration of the NGINX server:
 
 1.  Remove created Kubernetes resources:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=mutual_tls_cleanup_1 >}}
     $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
     $ kubectl delete secret nginx-client-certs nginx-ca-certs
     $ kubectl delete secret nginx-client-certs nginx-ca-certs -n istio-system
@@ -785,13 +773,13 @@ to hold the configuration of the NGINX server:
 
 1.  Delete the directory of certificates and the repository used to generate them:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=mutual_tls_cleanup_2 >}}
     $ rm -rf nginx.example.com mtls-go-example
     {{< /text >}}
 
 1.  Delete the generated configuration files used in this example:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=mutual_tls_cleanup_3 >}}
     $ rm -f ./nginx.conf ./istio-egressgateway.yaml
     {{< /text >}}
 
