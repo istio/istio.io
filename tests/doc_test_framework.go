@@ -33,9 +33,7 @@ import (
 
 // TestCase is a description of a test extracted from a file
 type TestCase struct {
-	valid bool  // whether this is a valid test case that can be run
-	err   error // whether there is an error when constructing the test case
-
+	valid         bool   // whether it is a valid test case that can be run
 	path          string // path of the test file
 	config        string // setup config of the test
 	testScript    string // test script to be run
@@ -84,10 +82,10 @@ func init() {
 			if walkError != nil {
 				return walkError
 			}
-			if testCase := checkFile(path); testCase.valid {
+			if testCase, err := checkFile(path); testCase.valid {
 				testCases = append(testCases, *testCase)
-			} else if testCase.err != nil {
-				log.Printf("Error occurred while processing %v: %v", testCase.path, testCase.err)
+			} else if err != nil {
+				log.Printf("Error occurred while processing %v: %v", testCase.path, err)
 			}
 			return nil
 		},
@@ -104,19 +102,21 @@ func init() {
 
 // checkFile takes a file path as the input and returns a TestCase object
 // that is constructed out of the file as a file description
-func checkFile(path string) *TestCase {
+func checkFile(path string) (*TestCase, error) {
+	shortPath := path[len(contentFolder):]
+	testCase := &TestCase{path: shortPath}
+
 	// check if ends with test.sh and if required to run
 	if !strings.HasSuffix(path, testFileSuffix) {
-		return &TestCase{}
+		return testCase, nil
 	} else if !runAllTests && !matched(path, testsAsSlice) {
-		return &TestCase{}
+		return testCase, nil
 	}
-	shortPath := path[len(contentFolder):]
 
 	// read the script file
 	script, err := ioutil.ReadFile(path)
 	if err != nil {
-		return &TestCase{path: shortPath, err: err}
+		return testCase, err
 	}
 
 	// parse the script into test and cleanup
@@ -126,7 +126,7 @@ func checkFile(path string) *TestCase {
 			"script error: expected two-part script separated by '%v', got %v part(s)",
 			testCleanupSep, numParts,
 		)
-		return &TestCase{path: shortPath, err: err}
+		return testCase, err
 	}
 	helperScript := getHelperScript(shortPath)
 	testScript := splitScript[0]
@@ -145,17 +145,18 @@ func checkFile(path string) *TestCase {
 			"script error: expected one line that starts with '%v', got %v line(s)",
 			setupSpec, numSetups,
 		)
-		return &TestCase{path: shortPath, err: err}
+		return testCase, err
 	}
 	config := setups[0][1]
 
-	return &TestCase{
+	testCase = &TestCase{
 		valid:         true,
 		path:          shortPath,
 		config:        config,
 		testScript:    helperScript + testScript,
 		cleanupScript: helperScript + cleanupScript,
 	}
+	return testCase, nil
 }
 
 // NeedSetup checks if any of the test cases require the setup config
