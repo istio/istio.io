@@ -29,7 +29,7 @@ output_started = False
 snippets = []
 
 HEADER = """#!/bin/bash
-# shellcheck disable=SC2034,SC2153,SC2155
+# shellcheck disable=SC2034,SC2153,SC2155,SC2164
 
 # Copyright Istio Authors. All Rights Reserved.
 #
