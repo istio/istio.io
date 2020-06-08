@@ -244,10 +244,10 @@ TLS origination.
     {{< /text >}}
 
 1.  Generate the certificates for `nginx.example.com`.
-    Use any password with the following command:
+    Use any password with the following command by replacing password with your new password:
 
     {{< text bash >}}
-    $ ./generate.sh nginx.example.com <password>
+    $ ./generate.sh nginx.example.com password
     {{< /text >}}
 
     Select `y` for all prompts that appear.
