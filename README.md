@@ -178,7 +178,7 @@ is built and is starting it's long running qualification test. At this time, mov
 tests to use the new release to verify automated doc testing passes. To move to a new release
 (make sure you are in the patch's release branch):
 
-1. `go get istio.io/istio@<1.X.Y>`
+1. `go get istio.io/istio@1.X.Y`
 
 1. `go mod tidy`
 
