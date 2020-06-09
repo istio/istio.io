@@ -35,8 +35,8 @@ func TestAccessLog(t *testing.T) {
 					Value: `
 set +e # ignore cleanup errors
 source ${REPO_ROOT}/content/en/docs/tasks/observability/logs/access-log/snips.sh
-source ${REPO_ROOT}/tests/util/samples.sh
-snip_cleanup_1`,
+snip_cleanup_1
+snip_disable_envoys_access_logging_1`,
 				},
 			}).
 			Build())

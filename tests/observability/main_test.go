@@ -18,12 +18,27 @@ import (
 	"testing"
 
 	"istio.io/istio/pkg/test/framework"
+	"istio.io/istio/pkg/test/framework/components/istio"
+	"istio.io/istio/pkg/test/framework/label"
 	"istio.io/istio/pkg/test/framework/resource/environment"
 )
 
+var (
+	ist istio.Instance
+)
+
+const profileDemo = "profile: demo"
+
 func TestMain(m *testing.M) {
+	// Integration test for the Bookinfo flow.
 	framework.
 		NewSuite("observability", m).
+		Label(label.CustomSetup).
+		SetupOnEnv(environment.Kube, istio.Setup(&ist, setupConfig)).
 		RequireEnvironment(environment.Kube).
 		Run()
+}
+
+func setupConfig(cfg *istio.Config) {
+	cfg.ControlPlaneValues = profileDemo
 }

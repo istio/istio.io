@@ -25,37 +25,23 @@ istioctl install --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"
 }
 
 ! read -r -d '' snip_enable_envoys_access_logging_1_out <<\ENDSNIP
-- Applying manifest for component Base...
-✔ Finished applying manifest for component Base.
-- Applying manifest for component Pilot...
-✔ Finished applying manifest for component Pilot.
-- Applying manifest for component EgressGateways...
-- Applying manifest for component IngressGateways...
-- Applying manifest for component AddonComponents...
-✔ Finished applying manifest for component EgressGateways.
-✔ Finished applying manifest for component IngressGateways.
-✔ Finished applying manifest for component AddonComponents.
-
-
+...
+- Processing resources for Istiod.
+✔ Istiod installed
+...
+- Pruning removed resources
 ✔ Installation complete
 ENDSNIP
 
 snip_test_the_access_log_1() {
-SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')
-kubectl exec -it "$SLEEP_POD" -c sleep -- curl -v httpbin:8000/status/418
+kubectl exec -it "$SOURCE_POD" -c sleep -- curl -v httpbin:8000/status/418
 }
 
 ! read -r -d '' snip_test_the_access_log_1_out <<\ENDSNIP
-*   Trying 172.21.13.94...
-* TCP_NODELAY set
-* Connected to httpbin (172.21.13.94) port 8000 (#0)
-> GET /status/418 HTTP/1.1
-
 ...
 < HTTP/1.1 418 Unknown
 < server: envoy
 ...
-
     -=[ teapot ]=-
 
        _...._
@@ -65,7 +51,7 @@ kubectl exec -it "$SLEEP_POD" -c sleep -- curl -v httpbin:8000/status/418
       |       ;/
       \_     _/
         `"""`
-* Connection #0 to host httpbin left intact
+...
 ENDSNIP
 
 snip_test_the_access_log_2() {
