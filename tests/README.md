@@ -168,16 +168,13 @@ to start testing all docs in the content folder within a `kube` environment. Thi
 
 `TEST` specifies the tests to be run using the name of the directory. For example, the command
 ```bash
-make doc.test TEST=traffic-management
-```
-will run all the tests under `traffic-management` folder. The `TEST` variable also accepts multiple test names separated by commas, for example,
-```bash
-make doc.test TEST=request-routing,fault-injection
-```
-In case there are two folders that share the same name and both have `test.sh` files present, more detailed specification of test file paths can tell them apart. For example,
-```bash
 make doc.test TEST=tasks/traffic-management
 ```
+will run all the tests under `tasks/traffic-management` folder. The `TEST` variable also accepts multiple test names separated by commas, for example,
+```bash
+make doc.test TEST=tasks/traffic-management/request-routing,tasks/traffic-management/fault-injection
+```
+It is recommended to specify full paths to the tests relative to `content/en/docs/` to provide the fullest context and avoid confusion. Also, by specifying a short path, you might be inadvertently running more tests than necessary when there are two or more folders that share the same name and all have `test.sh` files present.
 
 `TIMEOUT` specifies a time limit exceeding which all tests will halt, and the default value is 30 minutes (`30m`). `ENV` specifies the test environment (either `native` or `kube`), and is `kube` by default.
 
