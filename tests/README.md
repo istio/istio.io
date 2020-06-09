@@ -153,7 +153,8 @@ expected output. The framework includes the following built-in verify functions:
    Runs `func` and confirms that it fails (i.e., non-zero return code). This function is useful
    for testing commands that demonstrate configurations that are expected to fail.
 
-After all test steps are run, add
+After all test steps are complete, add the following line to indicate the start of the cleanup steps.
+These steps will be run by the framework, even if the test fails and prematurely exits.
 ```sh
 # @cleanup
 ```
