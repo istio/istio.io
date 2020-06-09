@@ -63,7 +63,7 @@ To write an `istio.io` test, follow these steps:
 
 Your bash script will consist of a series of test steps that call the commands in your generated `snips.sh` file, as well as a series of cleanup steps that should be run after everything is done.
 
-To begin with the test steps, there should always be one line that specifies the istio setup configuration for the test. The setup line should take the form of
+Before the test steps, there should be one line that specifies the istio setup configuration for the test. The setup line should take the form of
 ```sh
 # @setup <setup_config>
 ```
