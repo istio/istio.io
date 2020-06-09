@@ -15,7 +15,6 @@ Run the following command to see the current test coverage, including the list o
 that are in need of a test:
 
 ```sh
-# TODO(https://github.com/istio/istio.io/issues/7508): update for the new test framework
 make test_status
 ```
 
@@ -191,4 +190,3 @@ You can also find this information by running `make doc.test.help`. The bash tra
    ```
 
 1. If HUB and TAG aren't set, then their default values will match what is used by the prow tests.
-
