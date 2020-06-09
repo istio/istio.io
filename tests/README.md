@@ -1,7 +1,5 @@
 # Testing istio.io Content
 
-**NOTE: We are now migrating to a new test framework. The following content is updated for the new framework.**
-
 This folder contains tests for the content on [istio.io](http://istio.io).
 More specifically, these tests confirm that the example, task, and other documents, which contain
 instructions in the form of bash commands and expected output, are working as documented.
