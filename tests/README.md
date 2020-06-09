@@ -158,7 +158,7 @@ These steps will be run by the framework, even if the test fails and prematurely
 ```sh
 # @cleanup
 ```
-on a single line, followed by the cleanup steps that clean up all the resources. These steps can also directly call functions defined in the auto-sourced scripts described before, as well as any script you have sourced by yourself for the test steps.
+The following cleanup steps must remove all resources and reverse configuration changes made during the test steps. These steps can also directly call functions defined in the auto-sourced scripts described before, as well as any script you have sourced by yourself for the test steps.
 
 ## Running The Tests
 
