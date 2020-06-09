@@ -463,6 +463,16 @@ Istio supports to control its behavior.
 				
 					<tr>
 				
+					<td><code>traffic.sidecar.istio.io/includeOutboundPorts</code></td>
+					<td>[Pod]</td>
+					<td>A comma separated list of outbound ports for which traffic is to be redirected to Envoy, regardless of the destination IP.</td>
+				</tr>
+			
+		
+			
+				
+					<tr>
+				
 					<td><code>traffic.sidecar.istio.io/kubevirtInterfaces</code></td>
 					<td>[Pod]</td>
 					<td>A comma separated list of virtual interfaces whose inbound traffic (from VM) will be treated as outbound.</td>

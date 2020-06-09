@@ -1211,6 +1211,21 @@ If not specified, this will be enabled by default.</p>
 No
 </td>
 </tr>
+<tr id="MeshConfig-termination_drain_duration">
+<td><code>terminationDrainDuration</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>The amount of time allowed for connections to complete on proxy shutdown.
+On receiving SIGTERM or SIGINT, istio-agent tells the active Envoy to start draining,
+preventing any new connections and allowing existing connections to complete. It then
+sleeps for the termination<em>drain</em>duration and then kills any remaining active Envoy processes.
+If not set, a default of 5s will be applied.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
