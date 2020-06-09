@@ -160,10 +160,7 @@ endif
 	@export TAG
 	@echo "TAG=${TAG}"
 
-# old test framework
-include tests/old_tests.mk
-
-# new test framework
+# doc test framework
 include tests/tests.mk
 
 test_status:
