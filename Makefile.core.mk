@@ -160,13 +160,17 @@ endif
 	@export TAG
 	@echo "TAG=${TAG}"
 
+# old test framework
+include tests/old_tests.mk
+
+# new test framework
 include tests/tests.mk
 
 test_status:
 	@scripts/test_status.sh
 
 # make lint-yaml seems to fail with pipefail, so remove now.
-#SHELL = /bin/bash
+# SHELL = /bin/bash
 
 include common/Makefile.common.mk
 
