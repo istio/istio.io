@@ -23,7 +23,7 @@ source "${REPO_ROOT}/content/en/docs/tasks/observability/logs/access-log/snips.s
 source "${REPO_ROOT}/tests/util/samples.sh"
 
 # Install Istio with access logging enabled
-_verify_same snip_enable_envoys_access_logging_1 "$snip_enable_envoys_access_logging_1_out"
+_verify_contains snip_enable_envoys_access_logging_1 "Installation complete"
 
 # Wait for istiod pod to be ready
 _wait_for_deployment istio-system istiod
@@ -43,4 +43,4 @@ _verify_contains snip_test_the_access_log_3 "inbound|8000|http|httpbin.default.s
 
 snip_cleanup_1
 
-_verify_same snip_disable_envoys_access_logging_1 "$snip_disable_envoys_access_logging_1"
+_verify_contains snip_disable_envoys_access_logging_1 "Installation complete"
