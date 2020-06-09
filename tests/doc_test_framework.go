@@ -41,17 +41,17 @@ type TestCase struct {
 }
 
 var (
-	testsToRun   = os.Getenv("TEST")
-	runAllTests  = (testsToRun == "")
-	testsAsSlice = split(testsToRun)
+	testsToRun  = os.Getenv("TEST")
+	runAllTests = (testsToRun == "")
 
 	// folder location to be traversed to look for test files
-	contentFolder = fmt.Sprintf("%v/content/en/docs/", os.Getenv("REPO_ROOT"))
+	defaultPath   = "content/en/docs"
+	contentFolder = fmt.Sprintf("%v/%v/", os.Getenv("REPO_ROOT"), defaultPath)
 
 	// scripts that are sourced for all tests
 	helperTemplate = `
 		cd ${REPO_ROOT}
-		source "content/en/docs/%v" # snips.sh
+		source "%v/%v" # snips.sh
 		source "tests/util/verify.sh"
 		source "tests/util/debug.sh"
 		source "tests/util/helpers.sh"
@@ -75,23 +75,28 @@ func init() {
 		log.Println("Starting test doc(s):", testsToRun)
 	}
 
-	// scan the test script files
-	err := filepath.Walk(
-		contentFolder,
-		func(path string, info os.FileInfo, walkError error) error {
-			if walkError != nil {
-				return walkError
-			}
-			if testCase, err := checkFile(path); testCase.valid {
-				testCases = append(testCases, *testCase)
-			} else if err != nil {
-				log.Printf("Error occurred while processing %v: %v", testCase.path, err)
-			}
-			return nil
-		},
-	)
-	if err != nil {
-		log.Fatalln("Error occurred while traversing content:", err)
+	// scan for the test script files
+	for _, testFolder := range split(testsToRun) {
+		err := filepath.Walk(
+			contentFolder+testFolder,
+			func(path string, info os.FileInfo, walkError error) error {
+				if walkError != nil {
+					return walkError
+				}
+				// check if ends with test.sh
+				if strings.HasSuffix(path, testFileSuffix) {
+					if testCase, err := checkFile(path); testCase.valid {
+						testCases = append(testCases, *testCase)
+					} else if err != nil {
+						log.Printf("Error occurred while processing %v: %v", testCase.path, err)
+					}
+				}
+				return nil
+			},
+		)
+		if err != nil {
+			log.Fatalln("Error occurred while traversing content:", err)
+		}
 	}
 
 	// in case no matched script files were found
@@ -105,13 +110,6 @@ func init() {
 func checkFile(path string) (*TestCase, error) {
 	shortPath := path[len(contentFolder):]
 	testCase := &TestCase{path: shortPath}
-
-	// check if ends with test.sh and if required to run
-	if !strings.HasSuffix(path, testFileSuffix) {
-		return testCase, nil
-	} else if !runAllTests && !matched(path, testsAsSlice) {
-		return testCase, nil
-	}
 
 	// read the script file
 	script, err := ioutil.ReadFile(path)
@@ -217,25 +215,7 @@ func runTestCase(testCase *TestCase, t *testing.T) {
 // It receives a comma-separated string of test names that the user has
 // specified from command line, and returns a slice of separated strings.
 func split(testsAsString string) []string {
-	testsAsSlice := strings.Split(testsAsString, ",")
-
-	// tweak to enforce strict equality of test names
-	for idx := range testsAsSlice {
-		testsAsSlice[idx] = fmt.Sprintf("/%v/", testsAsSlice[idx])
-	}
-	return testsAsSlice
-}
-
-// matched checks whether a given test needs to be run according to the
-// user's request. It receives two arguments: `path`, the test file to be
-// checked, and `tests`, the names of the tests that should be run.
-func matched(path string, tests []string) bool {
-	for _, test := range tests {
-		if strings.Contains(path, test) {
-			return true
-		}
-	}
-	return false
+	return strings.Split(testsAsString, ",")
 }
 
 // getHelperScript returns a helper script that automatically sources the
@@ -243,7 +223,7 @@ func matched(path string, tests []string) bool {
 // path of the test script file to be run.
 func getHelperScript(testPath string) string {
 	snipsPath := strings.ReplaceAll(testPath, testFileSuffix, snipsFileSuffix)
-	return fmt.Sprintf(helperTemplate, snipsPath)
+	return fmt.Sprintf(helperTemplate, defaultPath, snipsPath)
 }
 
 // getDebugFileName returns the name of the debug file which keeps the bash

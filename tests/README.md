@@ -54,7 +54,11 @@ To write an `istio.io` test, follow these steps:
    Fix the errors, if any, by updating the corresponding command in the `index.md` file and
    then regenerate the snips.
 
-1. Create your test bash script `test.sh` next to the `snips.sh` you have just generated. Scripts that have other names will be ignored.
+1. Create a test bash script named `test.sh` next to the `snips.sh` you have just generated.
+   
+   If your document is very large and you want to break it into multiple tests, create multiple scripts with the suffix `test.sh`, instead.
+   
+   Other scripts in the directory will be ignored.
 
 ## Test Bash Script
 
@@ -165,15 +169,14 @@ make doc.test
 ```
 to start testing all docs in the content folder within a `kube` environment. This command takes three optional environment variables: `TEST`, `TIMEOUT` and `ENV`.
 
-`TEST` specifies the tests to be run using the name of the directory. For example, the command
+`TEST` specifies the tests to be run using the path of the directory relative to `content/en/docs/`. For example, the command
 ```bash
 make doc.test TEST=tasks/traffic-management
 ```
-will run all the tests under `tasks/traffic-management` folder. The `TEST` variable also accepts multiple test names separated by commas, for example,
+will run all the tests under `content/en/docs/tasks/traffic-management`. The `TEST` variable also accepts multiple test names separated by commas, for example,
 ```bash
 make doc.test TEST=tasks/traffic-management/request-routing,tasks/traffic-management/fault-injection
 ```
-It is recommended to specify full paths to the tests relative to `content/en/docs/` to provide the fullest context and avoid confusion. Also, by specifying a short path, you might be inadvertently running more tests than necessary when there are two or more folders that share the same name and all have `test.sh` files present.
 
 `TIMEOUT` specifies a time limit exceeding which all tests will halt, and the default value is 30 minutes (`30m`). `ENV` specifies the test environment (either `native` or `kube`), and is `kube` by default.
 
