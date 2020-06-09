@@ -78,7 +78,7 @@ documentation repo to track this:
 
 1. Switch to the **master** branch of the istio/istio.io repo and make sure everything is up to date.
 
-1. Edit the file `Makefile.core.mk` and change the `SOURCE_BRANCH_NAME` variable to the 
+1. Edit the file `Makefile.core.mk` and change the `SOURCE_BRANCH_NAME` variable to the
 name of the newly created source branches (in this case `release-1.4`).
 
 1. Edit the file `data/args.yml` and set the `source_branch_name` field to the name of the newly created source
@@ -109,6 +109,8 @@ such branch for every release.
 
 1. Edit the file `data/args.yml`. Set the `preliminary` field to `false`
 and the the `doc_branch_name` field to the name of the release branch (in this case `release-1.4`).
+
+1. Manually update the common/Makefile.common.mk UPDATE_BRANCH to point to the new release and then run 'make update-common'.
 
 1. Commit the previous edits to your local git repo and push your **release** branch to GitHub.
 
@@ -217,7 +219,7 @@ tells the Hugo site generator to process your content.
 new content directory. This ensures that the linting rules apply to your new content.
 
 - Edit the file `src/ts/lang.ts` and add your new language. This will add your language to the language toggle button that is
-available on preliminary.istio.io and will make it so your language will be supported in the language selection menu. 
+available on preliminary.istio.io and will make it so your language will be supported in the language selection menu.
 
 - Get an Istio GitHub administrator to create a new maintainer team for your language. For Franch, this would be
 `WG - Docs Mintainers/French`.
@@ -227,7 +229,7 @@ the translated content and translation table file.
 
 You can then commit all of these changes and you can start translating the content and the translation file in a purely
 incremental fashion. When you build the site, you'll find your content at `<url>/<language code>`. For example, once you've
-checked everything in, you should be able to get to your content at `https://preliminary.istio.io/fr` if you were doing a 
+checked everything in, you should be able to get to your content at `https://preliminary.istio.io/fr` if you were doing a
 French translation.
 
 Once your translation is complete and you're ready to publish it to the world, there are a few other changes you need to make:
@@ -243,14 +245,14 @@ For French, this would be:
 - Edit fhe file `layouts/partials/headers.html`. Search for `switch-lang` and you'll find the definitions for the language selection
 menu. Add a line for your new language.
 
-And that's it. 
+And that's it.
 
 ## Regular maintenance
 
 We have a number of checks in place to ensure a number of invariants are maintained in order to
 help the site's overall quality. For example, we disallow checking in broken links and we do spell
 checking. There are some things which are hard to systematically check through automation and instead
-require a human to review on in a while to ensure everything's doing well. 
+require a human to review on in a while to ensure everything's doing well.
 
 It's a good idea to run through this list before every major release of the site:
 
