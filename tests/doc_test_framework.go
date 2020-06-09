@@ -46,12 +46,12 @@ var (
 	testsAsSlice = split(testsToRun)
 
 	// folder location to be traversed to look for test files
-	contentFolder = fmt.Sprintf("%v/content/", os.Getenv("REPO_ROOT"))
+	contentFolder = fmt.Sprintf("%v/content/en/docs/", os.Getenv("REPO_ROOT"))
 
 	// scripts that are sourced for all tests
 	helperTemplate = `
 		cd ${REPO_ROOT}
-		source "content/%v" # snips.sh
+		source "content/en/docs/%v" # snips.sh
 		source "tests/util/verify.sh"
 		source "tests/util/debug.sh"
 		source "tests/util/helpers.sh"
