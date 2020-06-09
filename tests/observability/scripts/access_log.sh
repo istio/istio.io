@@ -32,7 +32,10 @@ kubectl label namespace default istio-injection=enabled --overwrite
 
 # Start the sleep sample
 startup_sleep_sample
+startup_httpbin_sample
 
+_wait_for_deployment default sleep
+_wait_for_deployment default httpbin
 
 # Make curl request to httpbin
 _verify_contains snip_test_the_access_log_1 "-=[ teapot ]=-"
