@@ -69,7 +69,7 @@ Before the test steps, there should be one line that specifies the istio setup c
 ```
 Currently supported setup configurations include: `profile=default` to install the default profile, `profile=demo` to install the demo profile, and `profile=none` to not installing istio at all.
 
-After setup, you will use snippets generated from the docs to write tests. The framework automatically sources several bash scripts for you, including the generated `snips.sh` and `tests/util/[verify|debug|helpers].sh`. You can directly call any function defined in them. For other test utilities, e.g., `util/samples.sh`, you need to source them by yourself:
+After setup, you will use snippets generated from the docs to write tests. The framework automatically sources several bash scripts for you, including the generated `snips.sh` and `tests/util/[verify|debug|helpers].sh`. You can directly call any function defined in them. For other test utilities, e.g., `util/samples.sh`, you need to source them yourself:
 
 ```sh
 source "tests/util/samples.sh"
