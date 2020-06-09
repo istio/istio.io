@@ -185,8 +185,6 @@ You can also find this information by running `make doc.test.help`. The bash tra
 
 ### Notes
 
-NOTE: The following were written for the old test framework and has NOT been tested on the new framework.
-
 1. In the case of using `kind` clusters on a Mac,
    an extra env var is needed (ADDITIONAL_CONTAINER_OPTIONS="--network host").
    Use the following command:
