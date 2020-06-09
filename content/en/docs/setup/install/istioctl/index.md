@@ -88,7 +88,7 @@ $ istioctl install --set profile=demo
 
 ## Check what's installed
 
-`Istioctl` saves a copy of the CR that was used to install Istio into the cluster, called `installed-state`. You can
+`istioctl` saves a copy of the CR that was used to install Istio into the cluster, called `installed-state`. You can
 inspect this CR if you ever lose track of what is installed in a cluster. This CR is used to perform checks in some
 `istioctl` commands and should not be removed.
 
@@ -205,7 +205,7 @@ tracking of the actual installed resources is desired.
 
 The output from `manifest generate` can also be used to install Istio using `kubectl apply` or equivalent. Note that
 these alternative installation methods may not apply the resources with the same sequencing of dependencies as
-`istioctl install` and are not tested as part of a release. 
+`istioctl install` and are not tested as part of a release.
 
 ## Show differences in manifests
 
