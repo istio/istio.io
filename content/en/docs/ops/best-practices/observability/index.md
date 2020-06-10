@@ -184,7 +184,7 @@ spec:
 
 {{< tip >}}
 The key to the federation configuration is matching on the job in the Istio-deployed Prometheus that is collecting
-[Istio Standard Metrics](/docs/reference/config/telemetry/metrics/) and renaming any metrics collected by removing
+[Istio Standard Metrics](/docs/reference/config/metrics/) and renaming any metrics collected by removing
 the prefix used in the workload-level recording rules (`workload:`). This will allow existing dashboards and
 queries to seamlessly continue working when pointed at the production Prometheus instance (and away from the Istio instance).
 
