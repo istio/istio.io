@@ -21,7 +21,7 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
-# @setup profile=default egress=disabled
+# @setup profile=default
 
 kubectl label namespace default istio-injection=enabled --overwrite
 
