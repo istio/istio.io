@@ -23,6 +23,7 @@ set -o pipefail
 
 snip_plugging_in_existing_certificates_and_key_1
 snip_plugging_in_existing_certificates_and_key_2
+_wait_for_deployment istio-system istiod
 
 # create_ns_foo_with_httpbin_sleep
 snip_deploying_example_services_1
