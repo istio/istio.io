@@ -21,7 +21,7 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
-# @setup profile=default grafana=enabled
+# @setup profile=default
 
 REPEAT=${REPEAT:-100}
 THRESHOLD=${THRESHOLD:-1}
