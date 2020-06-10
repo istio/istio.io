@@ -19,7 +19,7 @@ set -e
 set -u
 set -o pipefail
 
-# @setup profile=default egress=disabled
+# @setup profile=default
 
 kubectl label namespace default istio-injection=enabled --overwrite
 
