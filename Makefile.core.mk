@@ -163,6 +163,12 @@ endif
 # doc test framework
 include tests/tests.mk
 
+# remains of old framework to pass istio-testing
+test.kube.presubmit: doc.test
+
+# remains of old framework to pass istio-testing
+test.kube.postsubmit: test.kube.presubmit
+
 test_status:
 	@scripts/test_status.sh
 
