@@ -115,7 +115,7 @@ groups:
 
 {{< tip >}}
 The recording rules above only aggregate across pods and instances. They still preserve the full set of
-[Istio Standard Metrics](/docs/reference/config/telemetry/metrics/), including all Istio dimensions. While this
+[Istio Standard Metrics](/docs/reference/config/metrics/), including all Istio dimensions. While this
 will help with controlling metrics cardinality via federation, you may want to further optimize the recording rules
 to match your existing dashboards, alerts, and ad-hoc queries.
 
