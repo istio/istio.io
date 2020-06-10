@@ -207,7 +207,7 @@ used to track the actual installed resources.
 
 The output from `manifest generate` can also be used to install Istio using `kubectl apply` or equivalent. However,
 these alternative installation methods may not apply the resources with the same sequencing of dependencies as
-`istioctl install` and are not tested as part of a release.
+`istioctl install` and are not tested in an Istio release.
 
 ## Show differences in manifests
 
