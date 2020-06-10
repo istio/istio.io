@@ -89,9 +89,10 @@ $ istioctl install --set profile=demo
 
 ## Check what's installed
 
-`istioctl` saves a copy of the CR that was used to install Istio into the cluster, called `installed-state`. You can
-inspect this CR if you ever lose track of what is installed in a cluster. This CR is used to perform checks in some
-`istioctl` commands and should not be removed.
+The `istioctl` command saves the `IstioOperator` CR that was used to install Istio in a copy of the CR named `installed-state`.
+You can inspect this CR if you lose track of what is installed in a cluster.
+
+The `installed-state` CR is also used to perform checks in some `istioctl` commands and should therefore not be removed.
 
 ## Display the list of available profiles
 
