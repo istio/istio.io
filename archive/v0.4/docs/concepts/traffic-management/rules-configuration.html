@@ -1,0 +1,263 @@
+<!DOCTYPE html><html lang="en" itemscope itemtype="https://schema.org/WebPage" style="overflow-y: scroll;"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="title" content="Rules Configuration"><meta name="og:title" content="Rules Configuration"><meta name="og:image" content="/v0.4/img/logo.png"/><meta name="theme-color" content="#466BB0"/><meta name="description" content="Provides a high-level overview of the domain-specific language used by Istio to configure traffic management rules in the service mesh."><meta name="og:description" content="Provides a high-level overview of the domain-specific language used by Istio to configure traffic management rules in the service mesh."><title>Istioldie 0.4 / Rules Configuration</title><script> window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date; ga('create', 'UA-98480406-2', 'auto'); ga('send', 'pageview'); </script> <script async src='https://www.google-analytics.com/analytics.js'></script><link rel="alternate" type="application/rss+xml" title="Istio Blog RSS" href="/v0.4/feed.xml"><link rel="shortcut icon" href="/v0.4/favicons/favicon.ico" ><link rel="apple-touch-icon" href="/v0.4/favicons/apple-touch-icon-180x180.png" sizes="180x180"><link rel="icon" type="image/png" href="/v0.4/favicons/favicon-16x16.png" sizes="16x16"><link rel="icon" type="image/png" href="/v0.4/favicons/favicon-32x32.png" sizes="32x32"><link rel="icon" type="image/png" href="/v0.4/favicons/android-36x36.png" sizes="36x36"><link rel="icon" type="image/png" href="/v0.4/favicons/android-48x48.png" sizes="48x48"><link rel="icon" type="image/png" href="/v0.4/favicons/android-72x72.png" sizes="72x72"><link rel="icon" type="image/png" href="/v0.4/favicons/android-96x196.png" sizes="96x196"><link rel="icon" type="image/png" href="/v0.4/favicons/android-144x144.png" sizes="144x144"><link rel="icon" type="image/png" href="/v0.4/favicons/android-192x192.png" sizes="192x192"><link rel="manifest" href="/v0.4/manifest.json"><meta name="apple-mobile-web-app-title" content="Istio"><meta name="application-name" content="Istio"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/v0.4/css/all.css"><link rel="stylesheet" href="/v0.4/css/prism.css"></head><body class="language-unknown"> <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script><div class="nav-hero-container" style="z-index: 200000;"><nav id="header-nav" class="navbar navbar-inverse" role="navigation" style="z-index: 200000;"><div class="container"><div class="row"><div class="col-md-11 nofloat center-block "><div class="navbar-header"> <button type="button" class="hamburger navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/v0.4/"><div> <img src="/v0.4/img/istio-logo.svg" alt="Istio Logo" height="54px"/> <span class="brand-name">Istioldie 0.4</span></div></a></div><div class="collapse navbar-collapse" id="navbar-collapse-1"><ul class="nav navbar-nav navbar-right"><li><a href="/v0.4/about" >About</a></li><li><a href="/v0.4/blog/posts/2017/mixer-spof-myth.html" >Blog</a></li><li><a href="/v0.4/docs/welcome" class='current'>Docs</a></li><li><a href="/v0.4/help" >Help</a></li><li><a href="/v0.4/community" >Community</a></li><li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href=""> <i class='fa fa-lg fa-cog'></i> <span class="caret"></span> </a><ul class="dropdown-menu"><h6 class="dropdown-header">Other versions of this site</h6><li> <a href="https://istio.io">Current Release</a></li><li> <a href="https://preliminary.istio.io">Next Release</a></li><li> <a href="https://archive.istio.io">Older Releases</a></li></ul></li><li><form name="cse" id="searchbox_demo" class="navbar-form navbar-right" role="search"> <input type="hidden" name="cx" value="013699703217164175118:iwwf17ikgf4" /> <input type="hidden" name="ie" value="utf-8" /> <input type="hidden" name="hl" value="en" /><div class="form-group"><div class="input-group"> <input name="q" class="form-control search-box" type="text" size="30" /><div class="input-group-addon"> <span class="btn-search glyphicon glyphicon-search"></span></div></div></div></form> <script type="text/javascript" src="https://www.google.com/cse/brand?form=searchbox_demo"></script></li></ul></div></div></div></div></nav></div><div class="container"><div class="row"><div class="col-md-11 nofloat center-block" style="margin-top: 3px;"><ul class="col-sm-10 nav nav-tabs"><li role="presentation" ><a href="/v0.4/docs/welcome/">Welcome</a></li><li role="presentation" class='active'><a href="/v0.4/docs/concepts/">Concepts</a></li><li role="presentation" ><a href="/v0.4/docs/setup/">Setup</a></li><li role="presentation" ><a href="/v0.4/docs/tasks/">Tasks</a></li><li role="presentation" ><a href="/v0.4/docs/guides/">Guides</a></li><li role="presentation" ><a href="/v0.4/docs/reference/">Reference</a></li></ul></div></div></div><script src="/v0.4/js/navtree.min.js"></script><div class="container docs"><div class="row"><div class="col-md-11 nofloat center-block"><div class="row"><div id="sidebar-container" class="col-sm-3"><ul class="sidebar"><li><h5 class='sidebar-title'>Concepts</h5></li><script type="text/javascript"> var docs = []; docs.push({path: [ "index.md", ], url: "/docs/concepts/", title: "Concepts", order: 10, overview: "Concepts help you learn about the different parts of the Istio system and the abstractions it uses."}); docs.push({path: [ "policy-and-control", "attributes.md", ], url: "/docs/concepts/policy-and-control/attributes.html", title: "Attributes", order: 10, overview: "Explains the important notion of attributes, which is a central mechanism for how policies and control are applied to services within the mesh."}); docs.push({path: [ "policy-and-control", "index.md", ], url: "/docs/concepts/policy-and-control/", title: "Policies and Control", order: 40, overview: "Introduces the policy control mechanisms."}); docs.push({path: [ "policy-and-control", "mixer-config.md", ], url: "/docs/concepts/policy-and-control/mixer-config.html", title: "Mixer Configuration", order: 30, overview: "An overview of the key concepts used to configure Mixer."}); docs.push({path: [ "policy-and-control", "mixer.md", ], url: "/docs/concepts/policy-and-control/mixer.html", title: "Mixer", order: 20, overview: "Architectural deep-dive into the design of Mixer, which provides the policy and control mechanisms within the service mesh."}); docs.push({path: [ "security", "index.md", ], url: "/docs/concepts/security/", title: "Security", order: 30, overview: "Describes Istio's authorization and authentication functionality."}); docs.push({path: [ "security", "mutual-tls.md", ], url: "/docs/concepts/security/mutual-tls.html", title: "Mutual TLS Authentication", order: 10, overview: "Describes Istio's mutual TLS authentication architecture which provides a strong service identity and secure communication channels between services."}); docs.push({path: [ "traffic-management", "fault-injection.md", ], url: "/docs/concepts/traffic-management/fault-injection.html", title: "Fault Injection", order: 40, overview: "Introduces the idea of systematic fault injection that can be used to uncover conflicting failure recovery policies across services."}); docs.push({path: [ "traffic-management", "handling-failures.md", ], url: "/docs/concepts/traffic-management/handling-failures.html", title: "Handling Failures", order: 30, overview: "An overview of failure recovery capabilities in Envoy that can be leveraged by unmodified applications to improve robustness and prevent cascading failures."}); docs.push({path: [ "traffic-management", "index.md", ], url: "/docs/concepts/traffic-management/", title: "Traffic Management", order: 20, overview: "Describes the various Istio features focused on traffic routing and control."}); docs.push({path: [ "traffic-management", "load-balancing.md", ], url: "/docs/concepts/traffic-management/load-balancing.html", title: "Discovery & Load Balancing", order: 25, overview: "Describes how traffic is load balanced across instances of a service in the mesh."}); docs.push({path: [ "traffic-management", "overview.md", ], url: "/docs/concepts/traffic-management/overview.html", title: "Overview", order: 0, overview: "Provides a conceptual overview of traffic management in Istio and the features it enables."}); docs.push({path: [ "traffic-management", "pilot.md", ], url: "/docs/concepts/traffic-management/pilot.html", title: "Pilot", order: 10, overview: "Introduces Pilot, the component responsible for managing a distributed deployment of Envoy proxies in the service mesh."}); docs.push({path: [ "traffic-management", "request-routing.md", ], url: "/docs/concepts/traffic-management/request-routing.html", title: "Request Routing", order: 20, overview: "Describes how requests are routed between services in an Istio service mesh."}); docs.push({path: [ "traffic-management", "rules-configuration.md", ], url: "/docs/concepts/traffic-management/rules-configuration.html", title: "Rules Configuration", order: 50, overview: "Provides a high-level overview of the domain-specific language used by Istio to configure traffic management rules in the service mesh."}); docs.push({path: [ "what-is-istio", "goals.md", ], url: "/docs/concepts/what-is-istio/goals.html", title: "Design Goals", order: 20, overview: "Describes the core principles that Istio's design adheres to."}); docs.push({path: [ "what-is-istio", "index.md", ], url: "/docs/concepts/what-is-istio/", title: "What is Istio?", order: 10, overview: "A broad overview of the Istio system."}); docs.push({path: [ "what-is-istio", "overview.md", ], url: "/docs/concepts/what-is-istio/overview.html", title: "Overview", order: 15, overview: "Provides a conceptual introduction to Istio, including the problems it solves and its high-level architecture."}); genSideBarTree(docs) </script></ul></div><div id="tab-container" class="col-xs-1 tab-neg-margin pull-left"> <a id="sidebar-tab" class="glyphicon glyphicon-chevron-left" href="javascript:void 0;"> </a></div><div id="content-container" class="thin-left-border col-sm-9 markdown"><div id="toc" class="toc"></div><div id="doc-content"><h1>Rules Configuration</h1><p>Istio provides a simple Domain-specific language (DSL) to control how API calls and layer-4 traffic flow across various services in the application deployment. The DSL allows the operator to configure service-level properties such as circuit breakers, timeouts, retries, as well as set up common continuous deployment tasks such as canary rollouts, A/B testing, staged rollouts with %-based traffic splits, etc. See <a href="/v0.4/docs/reference/config/traffic-rules/">routing rules reference</a> for detailed information.</p><p>For example, a simple rule to send 100% of incoming traffic for a “reviews” service to version “v1” can be described using the Rules DSL as follows:</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-default
+spec:
+  destination:
+    name: reviews
+  route:
+  - labels:
+      version: v1
+    weight: 100
+</code></pre><p>The destination is the name of the service to which the traffic is being routed. The route <em>labels</em> identify the specific service instances that will recieve traffic. For example, in a Kubernetes deployment of Istio, the route <em>label</em> “version: v1” indicates that only pods containing the label “version: v1” will receive traffic.</p><p>Rules can be configured using the <a href="/v0.4/docs/reference/commands/istioctl.html">istioctl CLI</a>, or in a Kubernetes deployment using the <code>kubectl</code> command instead. See the <a href="/v0.4/docs/tasks/traffic-management/request-routing.html">configuring request routing task</a> for examples.</p><p>There are three kinds of traffic management rules in Istio: <strong>Route Rules</strong>, <strong>Destination Policies</strong> (these are not the same as Mixer policies), and <strong>Egress Rules</strong>. All three kinds of rules control how requests are routed to a destination service.</p><h2 id="route-rules">Route Rules</h2><p>Route rules control how requests are routed within an Istio service mesh. For example, a route rule could route requests to different versions of a service. Requests can be routed based on the source and destination, HTTP header fields, and weights associated with individual service versions. The following important aspects must be kept in mind while writing route rules:</p><h3 id="qualify-rules-by-destination">Qualify rules by destination</h3><p>Every rule corresponds to some destination service identified by a <em>destination</em> field in the rule. For example, rules that apply to calls to the “reviews” service will typically include at least the following.</p><pre><code class="language-yaml">destination:
+  name: reviews
+</code></pre><p>The <em>destination</em> value specifies, implicitly or explicitly, a fully qualified domain name (FQDN). It is used by Istio Pilot for matching rules to services.</p><p>Normally, the FQDN of the service is composed from three components: <em>name</em>, <em>namespace</em>, and <em>domain</em>:</p><pre><code>FQDN = name + "." + namespace + "." + domain
+</code></pre><p>These fields can be explicitly specified as follows.</p><pre><code class="language-yaml">destination:
+  name: reviews
+  namespace: default
+  domain: svc.cluster.local
+</code></pre><p>More commonly, to simplify and maximize reuse of the rule (for example, to use the same rule in more than one namespace or domain), the rule destination specifies only the <em>name</em> field, relying on defaults for the other two.</p><p>The default value for the <em>namespace</em> is the namespace of the rule itself, which can be specified in the <em>metadata</em> field of the rule, or during rule install using the <code>istioctl -n &lt;namespace&gt; create</code> or <code>kubectl -n &lt;namespace&gt; create</code> command. The default value of the <em>domain</em> field is implementation specific. In Kubernetes, for example, the default value is <code>svc.cluster.local</code>.</p><p>In some cases, such as when referring to external services in egress rules or on platforms where <em>namespace</em> and <em>domain</em> are not meaningful, an alternative <em>service</em> field can be used to explicitly specify the destination:</p><pre><code class="language-yaml">destination:
+  service: my-service.com
+</code></pre><p>When the <em>service</em> field is specified, all other implicit or explicit values of the other fields are ignored.</p><h3 id="qualify-rules-by-sourceheaders">Qualify rules by source/headers</h3><p>Rules can optionally be qualified to only apply to requests that match some specific criteria such as the following:</p><p><em>1. Restrict to a specific caller</em>. For example, the following rule only applies to calls from the “reviews” service.</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-to-ratings
+spec:
+  destination:
+    name: ratings
+  match:
+    source:
+      name: reviews
+  ...
+</code></pre><p>The <em>source</em> value, just like <em>destination</em>, specifies a FQDN of a service, either implicitly or explicitly.</p><p><em>2. Restrict to specific versions of the caller</em>. For example, the following rule refines the previous example to only apply to calls from version “v2” of the “reviews” service.</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-v2-to-ratings
+spec:
+  destination:
+    name: ratings
+  match:
+    source:
+      name: reviews
+      labels:
+        version: v2
+  ...
+</code></pre><p><em>3. Select rule based on HTTP headers</em>. For example, the following rule will only apply to an incoming request if it includes a “cookie” header that contains the substring “user=jason”.</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ratings-jason
+spec:
+  destination:
+    name: reviews
+  match:
+    request:
+      headers:
+        cookie:
+          regex: "^(.*?;)?(user=jason)(;.*)?$"
+  ...
+</code></pre><p>If more than one header is provided, then all of the corresponding headers must match for the rule to apply.</p><p>Multiple criteria can be set simultaneously. In such a case, AND semantics apply. For example, the following rule only applies if the source of the request is “reviews:v2” AND the “cookie” header containing “user=jason” is present.</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ratings-reviews-jason
+spec:
+  destination:
+    name: ratings
+  match:
+    source:
+      name: reviews
+      labels:
+        version: v2
+    request:
+      headers:
+        cookie:
+          regex: "^(.*?;)?(user=jason)(;.*)?$"
+  ...
+</code></pre><h3 id="split-traffic-between-service-versions">Split traffic between service versions</h3><p>Each route rule identifies one or more weighted backends to call when the rule is activated. Each backend corresponds to a specific version of the destination service, where versions can be expressed using <em>labels</em>.</p><p>If there are multiple registered instances with the specified tag(s), they will be routed to based on the load balancing policy configured for the service, or round-robin by default.</p><p>For example, the following rule will route 25% of traffic for the “reviews” service to instances with the “v2” tag and the remaining traffic (i.e., 75%) to “v1”.</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-v2-rollout
+spec:
+  destination:
+    name: reviews
+  route:
+  - labels:
+      version: v2
+    weight: 25
+  - labels:
+      version: v1
+    weight: 75
+</code></pre><h3 id="timeouts-and-retries">Timeouts and retries</h3><p>By default, the timeout for http requests is 15 seconds, but this can be overridden in a route rule as follows:</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ratings-timeout
+spec:
+  destination:
+    name: ratings
+  route:
+  - labels:
+      version: v1
+  httpReqTimeout:
+    simpleTimeout:
+      timeout: 10s
+</code></pre><p>The number of retries for a given http request can also be specified in a route rule. The maximum number of attempts, or as many as possible within the default or overridden timeout period, can be set as follows:</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ratings-retry
+spec:
+  destination:
+    name: ratings
+  route:
+  - labels:
+      version: v1
+  httpReqRetries:
+    simpleRetry:
+      attempts: 3
+</code></pre><p>Note that request timeouts and retries can also be <a href="./handling-failures.html#fine-tuning">overridden on a per-request basis</a>.</p><p>See the <a href="/v0.4/docs/tasks/traffic-management/request-timeouts.html">request timeouts task</a> for a demonstration of timeout control.</p><h3 id="injecting-faults-in-the-request-path">Injecting faults in the request path</h3><p>A route rule can specify one or more faults to inject while forwarding http requests to the rule’s corresponding request destination. The faults can be either delays or aborts.</p><p>The following example will introduce a 5 second delay in 10% of the requests to the “v1” version of the “reviews” microservice.</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ratings-delay
+spec:
+  destination:
+    name: reviews
+  route:
+  - labels:
+      version: v1
+  httpFault:
+    delay:
+      percent: 10
+      fixedDelay: 5s
+</code></pre><p>The other kind of fault, abort, can be used to prematurely terminate a request, for example, to simulate a failure.</p><p>The following example will return an HTTP 400 error code for 10% of the requests to the “ratings” service “v1”.</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ratings-abort
+spec:
+   destination:
+     name: ratings
+   route:
+   - labels:
+       version: v1
+   httpFault:
+     abort:
+       percent: 10
+       httpStatus: 400
+</code></pre><p>Sometimes delays and abort faults are used together. For example, the following rule will delay by 5 seconds all requests from the “reviews” service “v2” to the “ratings” service “v1” and then abort 10 percent of them:</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ratings-delay-abort
+spec:
+  destination:
+    name: ratings
+  match:
+    source:
+      name: reviews
+      labels:
+        version: v2
+  route:
+  - labels:
+      version: v1
+  httpFault:
+    delay:
+      fixedDelay: 5s
+    abort:
+      percent: 10
+      httpStatus: 400
+</code></pre><p>To see fault injection in action, see the <a href="/v0.4/docs/tasks/traffic-management/fault-injection.html">fault injection task</a>.</p><h3 id="rules-have-precedence">Rules have precedence</h3><p>Multiple route rules could be applied to the same destination. The order of evaluation of rules corresponding to a given destination, when there is more than one, can be specified by setting the <em>precedence</em> field of the rule.</p><pre><code class="language-yaml">destination:
+  name: reviews
+precedence: 1
+</code></pre><p>The precedence field is an optional integer value, 0 by default. Rules with higher precedence values are evaluated first. <em>If there is more than one rule with the same precedence value the order of evaluation is undefined.</em></p><p><strong>When is precedence useful?</strong> Whenever the routing story for a particular service is purely weight based, it can be specified in a single rule, as shown in the earlier example. When, on the other hand, other criteria (e.g., requests from a specific user) are being used to route traffic, more than one rule will be needed to specify the routing. This is where the rule <em>precedence</em> field must be set to make sure that the rules are evaluated in the right order.</p><p>A common pattern for generalized route specification is to provide one or more higher priority rules that qualify rules by source/headers to specific destinations, and then provide a single weight-based rule with no match criteria at the lowest priority to provide the weighted distribution of traffic for all other cases.</p><p>For example, the following 2 rules, together, specify that all requests for the “reviews” service that includes a header named “Foo” with the value “bar” will be sent to the “v2” instances. All remaining requests will be sent to “v1”.</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-foo-bar
+spec:
+  destination:
+    name: reviews
+  precedence: 2
+  match:
+    request:
+      headers:
+        Foo: bar
+  route:
+  - labels:
+      version: v2
+---
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-default
+spec:
+  destination:
+    name: reviews
+  precedence: 1
+  route:
+  - labels:
+      version: v1
+    weight: 100
+</code></pre><p>Notice that the header-based rule has the higher precedence (2 vs. 1). If it was lower, these rules wouldn’t work as expected since the weight-based rule, with no specific match criteria, would be evaluated first which would then simply route all traffic to “v1”, even requests that include the matching “Foo” header. Once a rule is found that applies to the incoming request, it will be executed and the rule-evaluation process will terminate. That’s why it’s very important to carefully consider the priorities of each rule when there is more than one.</p><h2 id="destination-policies">Destination policies</h2><p>Destination policies describe various routing related policies associated with a particular service or version, such as the load balancing algorithm, the configuration of circuit breakers, health checks, etc.</p><p>Unlike route rules, destination policies cannot be qualified based on attributes of a request other than the calling service, but they can be restricted to apply to requests that are routed to destination backends with specific labels. For example, the following load balancing policy will only apply to requests targeting the “v1” version of the “ratings” microservice that are called from version “v2” of the “reviews” service.</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+metadata:
+  name: ratings-lb-policy
+spec:
+  source:
+    name: reviews
+    labels:
+      version: v2
+  destination:
+    name: ratings
+    labels:
+      version: v1
+  loadBalancing:
+    name: ROUND_ROBIN
+</code></pre><h3 id="circuit-breakers">Circuit breakers</h3><p>A simple circuit breaker can be set based on a number of criteria such as connection and request limits.</p><p>For example, the following destination policy sets a limit of 100 connections to “reviews” service version “v1” backends.</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+metadata:
+  name: reviews-v1-cb
+spec:
+  destination:
+    name: reviews
+    labels:
+      version: v1
+  circuitBreaker:
+    simpleCb:
+       maxConnections: 100
+</code></pre><p>The complete set of simple circuit breaker fields can be found <a href="/v0.4/docs/reference/config/traffic-rules/destination-policies.html#istio.proxy.v1.config.CircuitBreaker">here</a>.</p><h3 id="destination-policy-evaluation">Destination policy evaluation</h3><p>Similar to route rules, destination policies are associated with a particular <em>destination</em> however if they also include <em>labels</em> their activation depends on route rule evaluation results.</p><p>The first step in the rule evaluation process evaluates the route rules for a <em>destination</em>, if any are defined, to determine the labels (i.e., specific version) of the destination service that the current request will be routed to. Next, the set of destination policies, if any, are evaluated to determine if they apply.</p><p><strong>NOTE:</strong> One subtlety of the algorithm to keep in mind is that policies that are defined for specific tagged destinations will only be applied if the corresponding tagged instances are explicitly routed to. For example, consider the following rule, as the one and only rule defined for the “reviews” service.</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+metadata:
+  name: reviews-v1-cb
+spec:
+  destination:
+    name: reviews
+    labels:
+      version: v1
+  circuitBreaker:
+    simpleCb:
+      maxConnections: 100
+</code></pre><p>Since there is no specific route rule defined for the “reviews” service, default round-robin routing behavior will apply, which will presumably call “v1” instances on occasion, maybe even always if “v1” is the only running version. Nevertheless, the above policy will never be invoked since the default routing is done at a lower level. The rule evaluation engine will be unaware of the final destination and therefore unable to match the destination policy to the request.</p><p>You can fix the above example in one of two ways. You can either remove the <code>labels:</code> from the rule, if “v1” is the only instance anyway, or, better yet, define proper route rules for the service. For example, you can add a simple route rule for “reviews:v1”.</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-default
+spec:
+  destination:
+    name: reviews
+  route:
+  - labels:
+      version: v1
+</code></pre><p>Although the default Istio behavior conveniently sends traffic from all versions of a source service to all versions of a destination service without any rules being set, as soon as version discrimination is desired rules are going to be needed. Therefore, setting a default rule for every service, right from the start, is generally considered a best practice in Istio.</p><h2 id="egress-rules">Egress Rules</h2><p>Egress rules are used to enable requests to services outside of an Istio service mesh. For example, the following rule can be used to allow external calls to services hosted under the <code>*.foo.com</code> domain.</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+kind: EgressRule
+metadata:
+  name: foo-egress-rule
+spec:
+  destination:
+    service: *.foo.com
+  ports:
+    - port: 80
+      protocol: http
+    - port: 443
+      protocol: https
+</code></pre><p>The destination of an egress rule is specified using the <em>service</em> field, which can be either a fully qualified or wildcard domain name. It represents a white listed set of one or more external services that services in the mesh are allowed to access. The supported wildcard syntax can be found <a href="/v0.4/docs/reference/config/traffic-rules/egress-rules.html">here</a>.</p><p>Currently, only HTTP-based services can be expressed using an egress rule, however, TLS origination from the sidecar can be achieved by setting the protocol of the associated service port to “https”, as shown in the above example. The service must be accessed over HTTP (e.g., <code>http://secure-service.foo.com:443</code>, instead of <code>https://secure-service.foo.com</code>), however, the sidecar will upgrade the connection to TLS in this case.</p><p>Egress rules work well in conjunction with route rules and destination policies as long as they refer to the external services using the exact same specification for the destination service as the corresponding egress rule. For example, the following rule can be used in conjunction with the above egress rule to set a 10s timeout for calls to the external services.</p><pre><code class="language-yaml">apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: foo-timeout-rule
+spec:
+  destination:
+    service: *.foo.com
+  httpReqTimeout:
+    simpleTimeout:
+      timeout: 10s
+</code></pre><p>Destination policies and route rules to redirect and forward traffic, to define retry, timeout and fault injection policies are all supported for external destinations. Weighted (version-based) routing is not possible, however, since there is no notion of multiple versions of an external service.</p></div></div></div></div></div></div><script src="/v0.4/js/sidebar.min.js"></script><footer><div class="container"><div class="row"><div class="col-lg-2 col-md-2 col-sm-2"></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 center-block"><ul><li><a class="header" href="/v0.4/docs/welcome">Docs</a></li><li><a href="/v0.4/docs/concepts">Concepts</a></li><li><a href="/v0.4/docs/setup">Setup</a></li><li><a href="/v0.4/docs/tasks">Tasks</a></li><li><a href="/v0.4/docs/guides">Guides</a></li><li><a href="/v0.4/docs/reference">Reference</a></li></ul></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 center-block"><ul><li><a class="header" href="/v0.4/help">Help</a></li><li><a href="/v0.4/faq">FAQ</a></li><li><a href="/v0.4/glossary">Glossary</a></li><li><a href="/v0.4/troubleshooting">Troubleshooting</a></li><li><a href="/v0.4/bugs">Report Bugs</a></li><li><a href="https://github.com/istio/istio.github.io/issues/new?title=Issue with _docs/concepts/traffic-management/rules-configuration.md">Doc Bugs & Gaps</a></li><li><a href="https://github.com/istio/istio.github.io/edit/master/_docs/concepts/traffic-management/rules-configuration.md">Edit This Page</a></li></ul></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 center-block"><ul><li> <a class="header" href="/v0.4/community">Community</a></li><li> <a href="https://groups.google.com/forum/#!forum/istio-users" target="_blank" rel="noopener">User</a> | <a href="https://groups.google.com/forum/#!forum/istio-dev" target="_blank" rel="noopener">Dev Mailing Lists</a></li><li><a href="https://twitter.com/IstioMesh" target="_blank" rel="noopener">Twitter</a></li><li><a href="https://stackoverflow.com/questions/tagged/istio" target="_blank" rel="noopener">Stack Overflow</a></li><li><a href="https://github.com/istio/community" target="_blank" rel="noopener">GitHub</a></li><li><a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" target="_blank" rel="noopener">Working Groups</a></li></ul></div><div class="col-lg-1 col-md-1 col-sm-1"></div></div><div class="row"><p class="description small text-center"> Istio 0.4, Copyright &copy; 2017 Istio Authors<br> Archived on 20-Dec-2017</p></div></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.1/jquery.form.min.js"></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-visible/1.2.0/jquery.visible.min.js"></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js"></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script> <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> <script src="/v0.4/js/common.min.js"></script> <script src="/v0.4/js/search.js"></script> <script src="/v0.4/js/prism.min.js"></script></body></html>

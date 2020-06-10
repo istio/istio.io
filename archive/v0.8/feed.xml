@@ -1,0 +1,178 @@
+
+
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Istio Blog</title>
+    <description>An open platform to connect, manage, and secure microservices.</description>
+    
+    <link>/v0.8</link>
+    <image>
+      <url>/v0.8/favicons/android-192x192.png</url>
+      <link>/v0.8</link>
+    </image>
+
+    
+
+    
+      
+    
+      
+    
+      
+    
+      
+        <item>
+          <title>Introducing Istio</title>
+          <description>Istio 0.1 announcement</description>
+          <pubDate>2017-05-24 00:00:00 &#43;0000 UTC</pubDate>
+          <link>/v0.8/blog/2017/0.1-announcement/</link>
+          <author>The Istio Team</author>
+          <guid isPermaLink="true">/v0.8/blog/2017/0.1-announcement/</guid>
+        </item>
+      
+    
+      
+        <item>
+          <title>Using Istio to Improve End-to-End Security</title>
+          <description>Istio Auth 0.1 announcement</description>
+          <pubDate>2017-05-25 00:00:00 &#43;0000 UTC</pubDate>
+          <link>/v0.8/blog/2017/0.1-auth/</link>
+          <author>The Istio Team</author>
+          <guid isPermaLink="true">/v0.8/blog/2017/0.1-auth/</guid>
+        </item>
+      
+    
+      
+        <item>
+          <title>Canary Deployments using Istio</title>
+          <description>Using Istio to create autoscaled canary deployments</description>
+          <pubDate>2017-06-14 00:00:00 &#43;0000 UTC</pubDate>
+          <link>/v0.8/blog/2017/0.1-canary/</link>
+          <author>Frank Budinsky</author>
+          <guid isPermaLink="true">/v0.8/blog/2017/0.1-canary/</guid>
+        </item>
+      
+    
+      
+        <item>
+          <title>Using Network Policy with Istio</title>
+          <description>How Kubernetes Network Policy relates to Istio policy</description>
+          <pubDate>2017-08-10 00:00:00 &#43;0000 UTC</pubDate>
+          <link>/v0.8/blog/2017/0.1-using-network-policy/</link>
+          <author>Spike Curtis</author>
+          <guid isPermaLink="true">/v0.8/blog/2017/0.1-using-network-policy/</guid>
+        </item>
+      
+    
+      
+        <item>
+          <title>Announcing Istio 0.2</title>
+          <description>Istio 0.2 announcement</description>
+          <pubDate>2017-10-10 00:00:00 &#43;0000 UTC</pubDate>
+          <link>/v0.8/blog/2017/0.2-announcement/</link>
+          <author>The Istio Team</author>
+          <guid isPermaLink="true">/v0.8/blog/2017/0.2-announcement/</guid>
+        </item>
+      
+    
+      
+        <item>
+          <title>Mixer Adapter Model</title>
+          <description>Provides an overview of the Mixer plug-in architecture</description>
+          <pubDate>2017-11-03 00:00:00 &#43;0000 UTC</pubDate>
+          <link>/v0.8/blog/2017/adapter-model/</link>
+          <author>Martin Taillefer</author>
+          <guid isPermaLink="true">/v0.8/blog/2017/adapter-model/</guid>
+        </item>
+      
+    
+      
+        <item>
+          <title>Mixer and the SPOF Myth</title>
+          <description>Improving availability and reducing latency</description>
+          <pubDate>2017-12-07 00:00:00 &#43;0000 UTC</pubDate>
+          <link>/v0.8/blog/2017/mixer-spof-myth/</link>
+          <author>Martin Taillefer</author>
+          <guid isPermaLink="true">/v0.8/blog/2017/mixer-spof-myth/</guid>
+        </item>
+      
+    
+      
+        <item>
+          <title>Consuming External Web Services</title>
+          <description>Describes a simple scenario based on Istio Bookinfo sample</description>
+          <pubDate>2018-01-31 00:00:00 &#43;0000 UTC</pubDate>
+          <link>/v0.8/blog/2018/egress-https/</link>
+          <author>Vadim Eisenberg</author>
+          <guid isPermaLink="true">/v0.8/blog/2018/egress-https/</guid>
+        </item>
+      
+    
+      
+        <item>
+          <title>Consuming External TCP Services</title>
+          <description>Describes a simple scenario based on Istio Bookinfo sample</description>
+          <pubDate>2018-02-06 00:00:00 &#43;0000 UTC</pubDate>
+          <link>/v0.8/blog/2018/egress-tcp/</link>
+          <author>Vadim Eisenberg</author>
+          <guid isPermaLink="true">/v0.8/blog/2018/egress-tcp/</guid>
+        </item>
+      
+    
+      
+        <item>
+          <title>Traffic Mirroring with Istio for Testing in Production</title>
+          <description>An introduction to safer, lower-risk deployments and release to production</description>
+          <pubDate>2018-02-08 00:00:00 &#43;0000 UTC</pubDate>
+          <link>/v0.8/blog/2018/traffic-mirroring/</link>
+          <author>Christian Posta</author>
+          <guid isPermaLink="true">/v0.8/blog/2018/traffic-mirroring/</guid>
+        </item>
+      
+    
+      
+        <item>
+          <title>Istio Soft Multi-tenancy Support</title>
+          <description>Using Kubernetes namespace and RBAC to create an Istio soft multi-tenancy environment</description>
+          <pubDate>2018-04-19 00:00:00 &#43;0000 UTC</pubDate>
+          <link>/v0.8/blog/2018/soft-multitenancy/</link>
+          <author>John Joyce and Rich Curran</author>
+          <guid isPermaLink="true">/v0.8/blog/2018/soft-multitenancy/</guid>
+        </item>
+      
+    
+      
+        <item>
+          <title>Configuring Istio Ingress with AWS NLB</title>
+          <description>Describes how to configure Istio ingress with a network load balancer on AWS</description>
+          <pubDate>2018-04-20 00:00:00 &#43;0000 UTC</pubDate>
+          <link>/v0.8/blog/2018/aws-nlb/</link>
+          <author>Julien SENON</author>
+          <guid isPermaLink="true">/v0.8/blog/2018/aws-nlb/</guid>
+        </item>
+      
+    
+      
+        <item>
+          <title>Introducing the Istio v1alpha3 routing API</title>
+          <description>Introduction, motivation and design principles for the Istio v1alpha3 routing API.</description>
+          <pubDate>2018-04-25 00:00:00 &#43;0000 UTC</pubDate>
+          <link>/v0.8/blog/2018/v1alpha3-routing/</link>
+          <author>Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)</author>
+          <guid isPermaLink="true">/v0.8/blog/2018/v1alpha3-routing/</guid>
+        </item>
+      
+    
+      
+        <item>
+          <title>Monitoring and Access Policies for HTTP Egress Traffic</title>
+          <description>Describes how to configure Istio for monitoring and access policies of HTTP egress traffic.</description>
+          <pubDate>2018-06-22 00:00:00 &#43;0000 UTC</pubDate>
+          <link>/v0.8/blog/2018/egress-monitoring-access-control/</link>
+          <author>Vadim Eisenberg and Ronen Schaffer</author>
+          <guid isPermaLink="true">/v0.8/blog/2018/egress-monitoring-access-control/</guid>
+        </item>
+      
+    
+  </channel>
+</rss>
