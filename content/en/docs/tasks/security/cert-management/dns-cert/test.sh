@@ -21,7 +21,10 @@ set -e
 set -u
 set -o pipefail
 
-# @setup profile=default setup=dns_cert
+# @setup profile=none
+
+snip_before_you_begin_1
+_wait_for_deployment istio-system istiod
 
 # helper functions
 check_dns_certs() {
