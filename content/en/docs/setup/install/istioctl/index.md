@@ -201,10 +201,10 @@ For example, use the following command to generate a manifest for the `default` 
 $ istioctl manifest generate > $HOME/generated-manifest.yaml
 {{< /text >}}
 
-The generated manifest can be used to both inspect exactly what is installed, and track changes to the manifest
-over time. While the `IstioOperator` CR represents the full user configuration and is sufficient for tracking them,
-the output from `manifest generate` also captures any changes in the underlying charts and can be used where
-tracking of the actual installed resources is desired.
+The generated manifest can be used to inspect what exactly is installed as well as to track changes to the manifest
+over time. While the `IstioOperator` CR represents the full user configuration and is sufficient for tracking it,
+the output from `manifest generate` also captures possible changes in the underlying charts and therefore can be
+used to track the actual installed resources.
 
 The output from `manifest generate` can also be used to install Istio using `kubectl apply` or equivalent. Note that
 these alternative installation methods may not apply the resources with the same sequencing of dependencies as
