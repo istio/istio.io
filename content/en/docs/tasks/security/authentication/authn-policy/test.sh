@@ -19,7 +19,9 @@ set -e
 set -u
 set -o pipefail
 
-# @setup profile=default
+# @setup profile=none
+
+snip_before_you_begin_1
 
 snip_setup_1
 

@@ -19,7 +19,10 @@ set -e
 set -u
 set -o pipefail
 
-# @setup profile=default context=create_ca_cert
+# @setup profile=none
+
+snip_plugging_in_existing_certificates_and_key_1
+snip_plugging_in_existing_certificates_and_key_2
 
 # create_ns_foo_with_httpbin_sleep
 snip_deploying_example_services_1

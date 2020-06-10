@@ -189,7 +189,7 @@ You can also find this information by running `make doc.test.help`. The bash tra
    Use the following command:
 
    ```bash
-   TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make test.kube.presubmit
+   TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make doc.test
    ```
 
 1. If HUB and TAG aren't set, then their default values will match what is used by the prow tests.
