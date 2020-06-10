@@ -206,7 +206,7 @@ over time. While the `IstioOperator` CR represents the full user configuration a
 the output from `manifest generate` also captures possible changes in the underlying charts and therefore can be
 used to track the actual installed resources.
 
-The output from `manifest generate` can also be used to install Istio using `kubectl apply` or equivalent. Note that
+The output from `manifest generate` can also be used to install Istio using `kubectl apply` or equivalent. However,
 these alternative installation methods may not apply the resources with the same sequencing of dependencies as
 `istioctl install` and are not tested as part of a release.
 
