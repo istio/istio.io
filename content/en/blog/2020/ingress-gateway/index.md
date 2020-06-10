@@ -1,32 +1,25 @@
 ---
-title: Setting up Ingress for Istio
-description: Configuring ingress controller and proxy for Istio.
+title: Setting up Ingress for Service Mesh
+description: Quick guide on how to configure Kong ingress controller for Istio Mesh.
 publishdate: 2020-06-08
 attribution: "Kevin Chen"
 keywords: [ingress,gateway]
 test: no
 ---
 
----
-layout: blog
-title: 'Kong Ingress Controller and Service Mesh: Setting up Ingress to Istio on Kubernetes'
-date: 2020-03-18
-slug: kong-ingress-controller-and-istio-service-mesh
----
-
 **Author:** Kevin Chen, Kong
 
 Kubernetes has become the de facto way to orchestrate containers and the services within services. But how do we give services outside our cluster access to what is within? Kubernetes comes with the Ingress API object that manages external access to services within a cluster.
 
-Ingress is a group of rules that will proxy inbound connections to endpoints defined by a backend. However, Kubernetes does not know what to do with Ingress resources without an Ingress controller, which is where an open source controller can come into play. In this post, we are going to use one option for this: the Kong Ingress Controller. The Kong Ingress Controller was open-sourced a year ago and recently reached one million downloads. In the 0.7 release of early 2020, service mesh support was also added. Other features of this release include:
+Ingress is a group of rules that will proxy inbound connections to endpoints defined by a backend. However, Kubernetes does not know what to do with Ingress resources without an Ingress controller, which is where an open source controller can come into play. In this post, we are going to use one option for this: the Kong Ingress Controller. The Kong Ingress Controller was open-sourced a year ago and recently reached one million downloads. In the 0.7 release of early 2020, service mesh support was also added. Other features of releases in 2020 include:
 
 * **Built-In Kubernetes Admission Controller**, which validates Custom Resource Definitions (CRD) as they are created or updated and rejects any invalid configurations. 
-* **In-memory Mode** - Each pod’s controller actively configures the Kong container in its pod, which limits the blast radius of failure of a single container of Kong or controller container to that pod only.
+* **CA Certificates and Client TLS Authentication** - ability to dynamically configure CA certificates in Kong using Kubernetes Secrets, which can then be used in the plugin to verify a client’s TLS certificate.
 * **Native gRPC Routing** - gRPC traffic can now be routed via Kong Ingress Controller natively with support for method-based routing.
 
 ![K4K-gRPC](./ingress-grpc.png)
 
-If you would like a deeper dive into Kong Ingress Controller 0.7, please check out the [GitHub repository](https://github.com/Kong/kubernetes-ingress-controller).
+If you would like a deeper dive into Kong Ingress Controller, please check out the [GitHub repository](https://github.com/Kong/kubernetes-ingress-controller).
 
 But let’s get back to the service mesh support since that will be the main focal point of this blog post. Service mesh like allows organizations to address microservices challenges related to security, reliability, and observability by abstracting inter-service communication into a mesh layer. But what if our mesh layer sits within Kubernetes and we still need to expose certain services beyond our cluster? Then you need an Ingress controller such as the Kong Ingress Controller. In this blog post, we’ll cover how to deploy Kong Ingress Controller as your Ingress layer to an Istio mesh. Let’s dive right in:
 
