@@ -15,6 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# @setup profile=demo
+
 set -e
 set -u
 set -o pipefail
