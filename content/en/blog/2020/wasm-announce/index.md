@@ -19,7 +19,7 @@ extensibility to the Envoy proxy using [WebAssembly](https://webassembly.org/). 
 share that work with the world today, as well as
 unveiling [WebAssembly (Wasm) for Proxies](https://github.com/proxy-wasm/spec) (Proxy-Wasm): an ABI,
 which we intend to standardize; SDKs; and its first major implementation, the new,
-lower-latency [Istio telemetry system](/docs/reference/config/telemetry).
+lower-latency [Istio telemetry system](/docs/reference/config/proxy_extensions/wasm_telemetry/).
 
 We have also worked closely with the community to ensure that there is a great developer experience
 for users to get started quickly. The Google team has been working closely with the team
