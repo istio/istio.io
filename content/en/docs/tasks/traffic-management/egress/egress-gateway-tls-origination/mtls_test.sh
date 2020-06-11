@@ -84,3 +84,10 @@ snip_configure_mutual_tls_origination_for_egress_traffic_2
 _verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_3 "Welcome to nginx!"
 
 #TODO: verify request is actually being routed through egress gateway
+
+# @cleanup
+
+snip_mutual_tls_cleanup_1
+snip_mutual_tls_cleanup_2
+snip_mutual_tls_cleanup_3
+snip_cleanup_1

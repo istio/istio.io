@@ -46,3 +46,8 @@ snip_perform_tls_origination_with_an_egress_gateway_4
 _verify_elided snip_perform_tls_origination_with_an_egress_gateway_5 "$snip_perform_tls_origination_with_an_egress_gateway_5_out"
 
 # TODO: verify that the request was routed through egressgateway
+
+# @cleanup
+
+snip_cleanup_the_tls_origination_example_1
+snip_cleanup_the_tls_origination_example_2
