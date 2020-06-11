@@ -162,4 +162,4 @@ following extra attributes.
 | `plugin_root_id` | string | Wasm root instance ID |
 | `plugin_vm_id` | string | Wasm VM ID |
 
-For more information, see [configuration reference](/docs/reference/config/telemetry/).
+For more information, see [configuration reference](/docs/reference/config/proxy_extensions/stats/).

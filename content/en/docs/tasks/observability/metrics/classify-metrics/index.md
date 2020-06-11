@@ -38,8 +38,6 @@ the `EnvoyFilter` at
 As a result, writing classification rules involves adding attributes to the
 `EnvoyFilter`.
 
-For more information, see [configuration reference](/docs/reference/config/telemetry/).
-
 ## Classify metrics by request
 
 You can classify requests based on their type, for example `ListReview`,

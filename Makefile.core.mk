@@ -160,13 +160,20 @@ endif
 	@export TAG
 	@echo "TAG=${TAG}"
 
+# doc test framework
 include tests/tests.mk
+
+# remains of old framework to pass istio-testing
+test.kube.presubmit: doc.test
+
+# remains of old framework to pass istio-testing
+test.kube.postsubmit: test.kube.presubmit
 
 test_status:
 	@scripts/test_status.sh
 
 # make lint-yaml seems to fail with pipefail, so remove now.
-#SHELL = /bin/bash
+# SHELL = /bin/bash
 
 include common/Makefile.common.mk
 
