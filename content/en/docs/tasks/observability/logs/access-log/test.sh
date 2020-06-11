@@ -21,7 +21,7 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
-# @setup profile=none
+# @setup profile=demo
 
 # Install Istio with access logging enabled
 _verify_elided snip_enable_envoys_access_logging_1 "$snip_enable_envoys_access_logging_1_out"
