@@ -21,7 +21,7 @@
 ####################################################################################################
 
 snip_before_you_begin_1() {
-istioctl install
+istioctl install --set profile=default
 }
 
 snip_setup_1() {

@@ -5,6 +5,7 @@ description: Gloo integrates with Istio 1.5 SDS to provide API Gateway functiona
 publishdate: 2020-04-21
 attribution: "Christian Posta (Solo.io)"
 keywords: [istio, sds, mTLS, edge, ingress, gloo, solo.io]
+draft: true
 test: n/a
 ---
 

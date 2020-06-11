@@ -115,7 +115,7 @@ groups:
 
 {{< tip >}}
 The recording rules above only aggregate across pods and instances. They still preserve the full set of
-[Istio Standard Metrics](/docs/reference/config/telemetry/metrics/), including all Istio dimensions. While this
+[Istio Standard Metrics](/docs/reference/config/metrics/), including all Istio dimensions. While this
 will help with controlling metrics cardinality via federation, you may want to further optimize the recording rules
 to match your existing dashboards, alerts, and ad-hoc queries.
 
@@ -184,7 +184,7 @@ spec:
 
 {{< tip >}}
 The key to the federation configuration is matching on the job in the Istio-deployed Prometheus that is collecting
-[Istio Standard Metrics](/docs/reference/config/telemetry/metrics/) and renaming any metrics collected by removing
+[Istio Standard Metrics](/docs/reference/config/metrics/) and renaming any metrics collected by removing
 the prefix used in the workload-level recording rules (`workload:`). This will allow existing dashboards and
 queries to seamlessly continue working when pointed at the production Prometheus instance (and away from the Istio instance).
 

@@ -11,8 +11,7 @@ This guide installs Istio using the standalone Istio
 [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
 The only dependencies required are a supported Kubernetes cluster, the `kubectl` command at the version to match the cluster, and the `istioctl` command at the desired release version.
 
-To install Istio for production use, we recommend [installing with {{< istioctl >}}](/docs/setup/install/istioctl/)
-instead.
+The operator is beta in 1.6 and suitable for production use.
 
 ## Prerequisites
 
