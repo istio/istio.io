@@ -166,6 +166,10 @@ kubectl delete destinationrule originate-tls-for-edition-cnn-com
 kubectl delete destinationrule egressgateway-for-cnn
 }
 
+snip_cleanup_the_tls_origination_example_2() {
+kubectl delete -f samples/sleep/sleep.yaml
+}
+
 snip_generate_client_and_server_certificates_and_keys_1() {
 git clone https://github.com/nicholasjackson/mtls-go-example
 }

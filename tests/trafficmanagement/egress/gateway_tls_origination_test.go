@@ -36,7 +36,7 @@ func TestGatewayTlsOrigination(t *testing.T) {
 set +e # ignore cleanup errors
 source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/snips.sh"
 snip_cleanup_the_tls_origination_example_1,
-snip_cleanup_1`,
+snip_cleanup_the_tls_origination_example_2`,
 				},
 			}).
 			Build())

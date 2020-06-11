@@ -63,7 +63,7 @@ snip_deploy_a_container_to_test_the_nginx_deployment_3
 _verify_elided snip_deploy_a_container_to_test_the_nginx_deployment_4 "$snip_deploy_a_container_to_test_the_nginx_deployment_4_out"
 
 # Verify that without client certificate request is rejected
-_verify_elided snip_deploy_a_container_to_test_the_nginx_deployment_5 "$snip_deploy_a_container_to_test_the_nginx_deployment_5_out"
+_verify_contains snip_deploy_a_container_to_test_the_nginx_deployment_5 "400 No required SSL certificate was sent"
 
 # Store Client and CA certificates using k8s secret
 snip_redeploy_the_egress_gateway_with_the_client_certificates_1
@@ -79,6 +79,6 @@ snip_configure_mutual_tls_origination_for_egress_traffic_1
 snip_configure_mutual_tls_origination_for_egress_traffic_2
 
 # Verify HTTP connection to nginx
-_verify_elided snip_configure_mutual_tls_origination_for_egress_traffic_3 "$snip_configure_mutual_tls_origination_for_egress_traffic_3_out"
+_verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_3 "Welcome to nginx!"
 
 #TODO: verify request is actually being routed through egress gateway

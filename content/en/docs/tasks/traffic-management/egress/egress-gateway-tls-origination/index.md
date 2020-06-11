@@ -213,6 +213,12 @@ $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
 $ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
+Remove the sleep service and deployment:
+
+{{< text bash >}}
+$ kubectl delete -f @samples/sleep/sleep.yaml@
+{{< /text >}}
+
 ## Perform mutual TLS origination with an egress gateway
 
 Similar to the previous section, this section describes how to configure an egress gateway to perform
