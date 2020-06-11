@@ -19,9 +19,7 @@ set -e
 set -u
 set -o pipefail
 
-# @setup profile=none
-
-snip_before_you_begin_1
+# @setup profile=default
 _wait_for_deployment istio-system istiod
 
 snip_setup_1
