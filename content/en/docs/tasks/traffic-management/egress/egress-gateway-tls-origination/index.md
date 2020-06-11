@@ -181,8 +181,6 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
     $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 200 OK
     ...
-    content-length: 150793
-    ...
     {{< /text >}}
 
     The output should be the same as in the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/)

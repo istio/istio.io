@@ -150,8 +150,6 @@ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - http://editi
 ! read -r -d '' snip_perform_tls_origination_with_an_egress_gateway_5_out <<\ENDSNIP
 HTTP/1.1 200 OK
 ...
-content-length: 150793
-...
 ENDSNIP
 
 snip_perform_tls_origination_with_an_egress_gateway_6() {
