@@ -160,11 +160,14 @@ endif
 	@export TAG
 	@echo "TAG=${TAG}"
 
-# old test framework
-include tests/old_tests.mk
-
-# new test framework
+# doc test framework
 include tests/tests.mk
+
+# remains of old framework to pass istio-testing
+test.kube.presubmit: doc.test
+
+# remains of old framework to pass istio-testing
+test.kube.postsubmit: test.kube.presubmit
 
 test_status:
 	@scripts/test_status.sh
