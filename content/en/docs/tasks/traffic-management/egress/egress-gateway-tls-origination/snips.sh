@@ -623,6 +623,7 @@ kubectl delete deployment my-nginx -n mesh-external
 kubectl delete namespace mesh-external
 kubectl delete gateway istio-egressgateway
 kubectl delete serviceentry nginx
+kubectl delete virtualservice nginx
 kubectl delete virtualservice direct-nginx-through-egress-gateway
 kubectl delete destinationrule originate-mtls-for-nginx
 kubectl delete destinationrule egressgateway-for-nginx
