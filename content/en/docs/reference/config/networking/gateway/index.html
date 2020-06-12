@@ -743,10 +743,8 @@ No
 <td>
 <p>For gateways running on Kubernetes, the name of the secret that
 holds the TLS certs including the CA certificates. Applicable
-only on Kubernetes, and only if the dynamic credential fetching
-feature is enabled in the proxy by setting
-<code>ISTIO_META_USER_SDS</code> metadata variable.  The secret (of type
-<code>generic</code>) should contain the following keys and values: <code>key:
+only on Kubernetes. The secret (of type<code>generic</code>) should
+contain the following keys and values: <code>key:
 &lt;privateKey&gt;</code>, <code>cert: &lt;serverCert&gt;</code>, <code>cacert: &lt;CACertificate&gt;</code>.</p>
 
 </td>
