@@ -84,7 +84,7 @@ snip_configure_mutual_tls_origination_for_egress_traffic_2
 #TODO: verify request is actually being routed through egress gateway
 
 # @cleanup
-
+set +e # ignore cleanup errors
 snip_mutual_tls_cleanup_1
 snip_mutual_tls_cleanup_2
 snip_mutual_tls_cleanup_3

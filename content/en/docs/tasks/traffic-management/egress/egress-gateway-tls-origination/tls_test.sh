@@ -21,7 +21,6 @@ set -e
 set -u
 set -o pipefail
 
-
 # Deploy sleep sample and set up variable pointing to it
 set +e
 kubectl delete pods -l app=sleep --force
@@ -46,6 +45,6 @@ _verify_elided snip_perform_tls_origination_with_an_egress_gateway_5 "$snip_perf
 # TODO: verify that the request was routed through egressgateway
 
 # @cleanup
-
+set +e # ignore cleanup errors
 snip_cleanup_the_tls_origination_example_1
 snip_cleanup_the_tls_origination_example_2
