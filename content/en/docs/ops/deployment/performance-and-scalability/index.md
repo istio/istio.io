@@ -37,9 +37,9 @@ of **1000** services and **2000** sidecars with 70,000 mesh-wide requests per se
 After running the tests using Istio {{< istio_release_name >}}, we get the following results:
 
 - The Envoy proxy uses **0.5 vCPU** and **50 MB memory** per 1000 requests per second going through the proxy.
-- The `istio-telemetry` service uses **0.6 vCPU** per 1000 **mesh-wide** requests per second.
+- The `istio-telemetry` service uses **0.6 vCPU** per 1000 **mesh-wide** requests per second for deployments that use Mixer.
 - Pilot uses **1 vCPU** and 1.5 GB of memory.
-- The Envoy proxy adds 2.8 ms to the 90th percentile latency.
+- The Envoy proxy adds 3.12 ms to the 90th percentile latency.
 
 ## Control plane performance
 
@@ -110,7 +110,7 @@ average and tail latencies. The actual tail latency depends on the traffic patte
 ### Latency for Istio {{< istio_release_name >}}
 
 Inside the mesh, a request traverses the client-side proxy and then the server-side
-proxy. In the default configuration of Istio {{< istio_release_name >}} (i.e. Istio with telemetry v2), the two proxies add about 2.8 ms and 2.7 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency.
+proxy. In the default configuration of Istio {{< istio_release_name >}} (i.e. Istio with telemetry v2), the two proxies add about 3.12 ms and 3.13 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency.
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
 for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 16 client connections, 2 proxy workers and mutual TLS enabled.
 
@@ -118,20 +118,20 @@ In upcoming Istio releases we are moving `istio-policy` and `istio-telemetry` fu
 This will decrease the amount data flowing through the system, which will in turn reduce the CPU usage and latency.
 
 {{< image width="90%"
-    link="latency_p90.svg"
+    link="latency_p90_fortio.svg"
     alt="P90 latency vs client connections"
     caption="P90 latency vs client connections"
 >}}
 
 {{< image width="90%"
-    link="latency_p99.svg"
+    link="latency_p99_fortio.svg"
     alt="P99 latency vs client connections"
     caption="P99 latency vs client connections"
 >}}
 
 - `baseline` Client pod directly calls the server pod, no sidecars are present.
 - `none-both` Istio proxy with no Istio specific filters configured.
-- `telemetryv2-both` **Istio 1.5 default** client and server sidecars are present with telemetry v2 `nullvm` configured.
+- `telemetryv2-both` client and server sidecars are present with telemetry v2 `nullvm` configured by default.
 - `mixer-both` Client and server sidecars are present with mixer configured.
 
 ### Benchmarking tools
