@@ -131,7 +131,7 @@ This will decrease the amount data flowing through the system, which will in tur
 
 - `baseline` Client pod directly calls the server pod, no sidecars are present.
 - `none-both` Istio proxy with no Istio specific filters configured.
-- `telemetryv2-both` **Istio 1.5 default** client and server sidecars are present with telemetry v2 `nullvm` configured.
+- `telemetryv2-both` client and server sidecars are present with telemetry v2 `nullvm` configured by default.
 - `mixer-both` Client and server sidecars are present with mixer configured.
 
 ### Benchmarking tools
