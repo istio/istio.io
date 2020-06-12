@@ -13,7 +13,7 @@ apply changes to a cluster.
 
 ## Getting started in under a minute
 
-You can analyze your current Kubernetes cluster by running:
+You can analyze your current live Kubernetes cluster by running:
 
 {{< text bash >}}
 $ istioctl analyze --all-namespaces
@@ -29,74 +29,35 @@ Warn [IST0102](Namespace default) The namespace is not enabled for Istio injecti
 
 ## Analyzing live clusters, local files, or both
 
-The example above is doing analysis on a live cluster. But the tool also supports performing analysis of a set of local Kubernetes yaml configuration files,
-or on a combination of local files and a live cluster. When analyzing a set of local files, the file set is expected to be fully self-contained.
-Typically, this is used to analyze the entire set of configuration files that are intended to be deployed to a cluster.
-
-Analyze a specific set of local Kubernetes yaml files:
+Analyze the current live cluster, simulating the effect of applying additional yaml files like `bookinfo-gateway.yaml` and `destination-rule-all.yaml` in the `samples/bookinfo/networking` directory:
 
 {{< text bash >}}
-$ istioctl analyze --use-kube=false a.yaml b.yaml
+$ istioctl analyze @samples/bookinfo/networking/bookinfo-gateway.yaml@ @samples/bookinfo/networking/destination-rule-all.yaml@
 {{< /text >}}
 
-Analyze all yaml files in the current folder:
+Analyze the entire `networking` folder:
 
 {{< text bash >}}
-$ istioctl analyze --use-kube=false *.yaml
+$ istioctl analyze samples/bookinfo/networking/
 {{< /text >}}
 
-Simulate applying the files in the current folder to the current cluster:
+Analyze all yaml files in the `networking` folder:
 
 {{< text bash >}}
-$ istioctl analyze *.yaml
+$ istioctl analyze samples/bookinfo/networking/*.yaml
+{{< /text >}}
+
+The above examples are doing analysis on a live cluster. The tool also supports performing analysis of a set of local Kubernetes yaml configuration files,
+or on a combination of local files and a live cluster. When analyzing a set of local files, the file-set is expected to be fully self-contained.
+Typically, this is used to analyze the entire set of configuration files that are intended to be deployed to a cluster. To use this feature, simply add the `--use-kube=false` flag.
+
+Analyze all yaml files in the `networking` folder:
+
+{{< text bash >}}
+$ istioctl analyze --use-kube=false samples/bookinfo/networking/*.yaml
 {{< /text >}}
 
 You can run `istioctl analyze --help` to see the full set of options.
-
-## Helping us improve this tool
-
-We're continuing to add more analysis capability and we'd love your help in identifying more use cases.
-If you've discovered some Istio configuration "gotcha", some tricky situation that caused you some
-problems, open an issue and let us know. We might be able to automatically flag this problem so that
-others can discover and avoid the problem in the first place.
-
-To do this, [open an issue](https://github.com/istio/istio/issues) describing your scenario. For example:
-
-- Look at all the virtual services
-- For each, look at their list of gateways
-- If some of the gateways don’t exist, produce an error
-
-We already have an analyzer for this specific scenario, so this is just an example to illustrate what
-the kind of information you should provide.
-
-## Q&A
-
-- **What Istio release does this tool target?**
-
-      Like other `istioctl` tools, we generally recommend using a downloaded version that matches the version deployed in your cluster.
-
-      For the time being, analysis is generally backwards compatible, so that you can e.g. run the 1.4 version of `istioctl analyze` against a cluster running Istio 1.1 and expect to get useful feedback. Analysis rules that are not meaningful with an older Istio release will be skipped.
-
-      If you decide to use the latest `istioctl` for analysis purposes on a cluster running an older Istio version, we suggest that you keep it in a separate folder from the version of the binary used to manage your deployed Istio release.
-
-- **What analyzers are supported today?**
-
-      We're still working to documenting the analyzers. In the meantime, you can see all the analyzers in the [Istio source]({{<github_blob>}}/galley/pkg/config/analysis/analyzers).
-
-      You can also see what [configuration analysis messages](/docs/reference/config/analysis/)
-      are supported to get an idea of what is currently covered.
-
-- **Can analysis do anything harmful to my cluster?**
-
-      Analysis never changes configuration state. It is a completely read-only operation and so will never alter the state of a cluster.
-
-- **What about analysis that goes beyond configuration?**
-
-      Today, the analysis is purely based on Kubernetes configuration, but in the future we’d like to expand beyond that. For example, we could allow analyzers to also look at logs to generate recommendations.
-
-- **Where can I find out how to fix the errors I'm getting?**
-
-      The set of [configuration analysis messages](/docs/reference/config/analysis/) contains descriptions of each message along with suggested fixes.
 
 ## Advanced
 
@@ -190,3 +151,48 @@ To ignore multiple codes for a resource, separate each code with a comma:
 {{< text bash >}}
 $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107,IST0002
 {{< /text >}}
+
+## Helping us improve this tool
+
+We're continuing to add more analysis capability and we'd love your help in identifying more use cases.
+If you've discovered some Istio configuration "gotcha", some tricky situation that caused you some
+problems, open an issue and let us know. We might be able to automatically flag this problem so that
+others can discover and avoid the problem in the first place.
+
+To do this, [open an issue](https://github.com/istio/istio/issues) describing your scenario. For example:
+
+- Look at all the virtual services
+- For each, look at their list of gateways
+- If some of the gateways don’t exist, produce an error
+
+We already have an analyzer for this specific scenario, so this is just an example to illustrate what
+kind of information you should provide.
+
+## Q&A
+
+- **What Istio release does this tool target?**
+
+      Like other `istioctl` tools, we generally recommend using a downloaded version that matches the version deployed in your cluster.
+
+      For the time being, analysis is generally backwards compatible, so that you can, for example, run the 1.4 version of `istioctl analyze` against a cluster running Istio 1.1 and expect to get useful feedback. Analysis rules that are not meaningful with an older Istio release will be skipped.
+
+      If you decide to use the latest `istioctl` for analysis purposes on a cluster running an older Istio version, we suggest that you keep it in a separate folder from the version of the binary used to manage your deployed Istio release.
+
+- **What analyzers are supported today?**
+
+      We're still working to documenting the analyzers. In the meantime, you can see all the analyzers in the [Istio source]({{<github_blob>}}/galley/pkg/config/analysis/analyzers).
+
+      You can also see what [configuration analysis messages](/docs/reference/config/analysis/)
+      are supported to get an idea of what is currently covered.
+
+- **Can analysis do anything harmful to my cluster?**
+
+      Analysis never changes configuration state. It is a completely read-only operation that will never alter the state of a cluster.
+
+- **What about analysis that goes beyond configuration?**
+
+      Today, the analysis is purely based on Kubernetes configuration, but in the future we’d like to expand beyond that. For example, we could allow analyzers to also look at logs to generate recommendations.
+
+- **Where can I find out how to fix the errors I'm getting?**
+
+      The set of [configuration analysis messages](/docs/reference/config/analysis/) contains descriptions of each message along with suggested fixes.
