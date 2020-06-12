@@ -222,7 +222,9 @@ func split(testsAsString string) []string {
 // snippets and some test utilities. It receives `testPath`, which is the
 // path of the test script file to be run.
 func getHelperScript(testPath string) string {
-	snipsPath := strings.ReplaceAll(testPath, testFileSuffix, snipsFileSuffix)
+	splitPath := strings.Split(testPath, "/")
+	splitPath[len(splitPath)-1] = snipsFileSuffix
+	snipsPath := strings.Join(splitPath, "/")
 	return fmt.Sprintf(helperTemplate, defaultPath, snipsPath)
 }
 
