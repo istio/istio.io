@@ -49,7 +49,7 @@ $ istioctl analyze samples/bookinfo/networking/*.yaml
 
 The above examples are doing analysis on a live cluster. The tool also supports performing analysis of a set of local Kubernetes yaml configuration files,
 or on a combination of local files and a live cluster. When analyzing a set of local files, the file-set is expected to be fully self-contained.
-Typically, this is used to analyze the entire set of configuration files that are intended to be deployed to a cluster. To use this feature, simply add `--use-kube=false` flag.
+Typically, this is used to analyze the entire set of configuration files that are intended to be deployed to a cluster. To use this feature, simply add the `--use-kube=false` flag.
 
 Analyze all yaml files in the `networking` folder:
 
