@@ -21,7 +21,6 @@ set -e
 set -u
 set -o pipefail
 
-source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/snips.sh"
 source "${REPO_ROOT}/tests/util/helpers.sh"
 
 # Deploy sleep sample and set up variable pointing to it
