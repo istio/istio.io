@@ -17,7 +17,7 @@ import (
 	"os"
 	"testing"
 
-	"istio.io/istio.io/tests"
+	"istio.io/istio.io/pkg/test/istioio"
 	"istio.io/istio/pkg/test/framework"
 	"istio.io/istio/pkg/test/framework/components/istio"
 	"istio.io/istio/pkg/test/framework/resource/environment"
@@ -29,19 +29,18 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	if !tests.NeedSetup(setupSpec) {
+	if !istioio.NeedSetup(setupSpec) {
 		os.Exit(0)
 	}
-	testEnvName := environment.Name(os.Getenv("ENV"))
 
 	framework.
 		NewSuite("profile_demo", m).
-		SetupOnEnv(testEnvName, istio.Setup(&inst, setupConfig)).
+		SetupOnEnv(environment.Kube, istio.Setup(&inst, setupConfig)).
 		Run()
 }
 
 func TestDocs(t *testing.T) {
-	tests.TestDocs(t, setupSpec)
+	istioio.TestDocs(t, setupSpec)
 }
 
 func setupConfig(cfg *istio.Config) {
