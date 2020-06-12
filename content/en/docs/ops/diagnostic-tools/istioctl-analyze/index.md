@@ -173,7 +173,7 @@ kind of information you should provide.
 
       Like other `istioctl` tools, we generally recommend using a downloaded version that matches the version deployed in your cluster.
 
-      For the time being, analysis is generally backwards compatible, so that you can e.g. run the 1.4 version of `istioctl analyze` against a cluster running Istio 1.1 and expect to get useful feedback. Analysis rules that are not meaningful with an older Istio release will be skipped.
+      For the time being, analysis is generally backwards compatible, so that you can, for example, run the 1.4 version of `istioctl analyze` against a cluster running Istio 1.1 and expect to get useful feedback. Analysis rules that are not meaningful with an older Istio release will be skipped.
 
       If you decide to use the latest `istioctl` for analysis purposes on a cluster running an older Istio version, we suggest that you keep it in a separate folder from the version of the binary used to manage your deployed Istio release.
 
