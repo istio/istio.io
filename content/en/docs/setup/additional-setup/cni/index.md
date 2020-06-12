@@ -42,7 +42,32 @@ replaces the functionality provided by the `istio-init` container.
     *  The Kubernetes documentation highly recommends this for all Kubernetes installations
        where `ServiceAccounts` are utilized.
 
-## Installation
+## Basic Installation
+
+For most environments, CNI works correctly by installing with this `IstioOperator`:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  components:
+    cni:
+      enabled: true
+  values:
+    cni:
+      excludeNamespaces:
+       - istio-system
+       - kube-system
+      logLevel: info
+{{< /text >}}
+
+Then to install Istio, apply the `IstioOperator`:
+
+{{< text bash >}}
+$ istioctl install -f istio-cni.yaml
+{{< /text >}}
+
+## Advanced Installation
 
 1.  Determine the Kubernetes environment's CNI plugin `--cni-bin-dir` and `--cni-conf-dir` settings.
     Refer to [Hosted Kubernetes settings](#hosted-kubernetes-settings) for any non-default settings required.
