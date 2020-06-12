@@ -166,7 +166,7 @@ To do this, [open an issue](https://github.com/istio/istio/issues) describing yo
 - If some of the gateways don’t exist, produce an error
 
 We already have an analyzer for this specific scenario, so this is just an example to illustrate what
-the kind of information you should provide.
+kind of information you should provide.
 
 ## Q&A
 
