@@ -32,7 +32,7 @@ Warn [IST0102](Namespace default) The namespace is not enabled for Istio injecti
 Analyze the current live cluster, simulating the effect of applying additional yaml files like `bookinfo-gateway.yaml` and `destination-rule-all.yaml` in the `samples/bookinfo/networking` directory:
 
 {{< text bash >}}
-$ istioctl analyze samples/bookinfo/networking/bookinfo-gateway.yaml samples/bookinfo/networking/destination-rule-all.yaml
+$ istioctl analyze @samples/bookinfo/networking/bookinfo-gateway.yaml@ @samples/bookinfo/networking/destination-rule-all.yaml@
 {{< /text >}}
 
 Analyze the entire `networking` folder:
@@ -196,4 +196,3 @@ the kind of information you should provide.
 - **Where can I find out how to fix the errors I'm getting?**
 
       The set of [configuration analysis messages](/docs/reference/config/analysis/) contains descriptions of each message along with suggested fixes.
-
