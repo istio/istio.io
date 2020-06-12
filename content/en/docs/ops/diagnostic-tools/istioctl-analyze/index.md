@@ -186,7 +186,7 @@ kind of information you should provide.
 
 - **Can analysis do anything harmful to my cluster?**
 
-      Analysis never changes configuration state. It is a completely read-only operation and so will never alter the state of a cluster.
+      Analysis never changes configuration state. It is a completely read-only operation that will never alter the state of a cluster.
 
 - **What about analysis that goes beyond configuration?**
 
