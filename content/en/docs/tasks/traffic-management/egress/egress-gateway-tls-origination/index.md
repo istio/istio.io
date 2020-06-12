@@ -5,7 +5,7 @@ weight: 40
 keywords: [traffic-management,egress]
 aliases:
   - /docs/examples/advanced-gateways/egress-gateway-tls-origination/
-test: no
+test: yes
 ---
 
 The [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/)
@@ -80,13 +80,11 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 1.  Verify that your `ServiceEntry` was applied correctly by sending a request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
     location: https://edition.cnn.com/politics
     ...
-
-    command terminated with exit code 35
     {{< /text >}}
 
     Your `ServiceEntry` was configured correctly if you see _301 Moved Permanently_ in the output.
@@ -180,10 +178,8 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 1.  Send an HTTP request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 200 OK
-    ...
-    content-length: 150793
     ...
     {{< /text >}}
 
@@ -215,6 +211,12 @@ $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
 $ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
+Remove the sleep service and deployment:
+
+{{< text bash >}}
+$ kubectl delete -f @samples/sleep/sleep.yaml@
+{{< /text >}}
+
 ## Perform mutual TLS origination with an egress gateway
 
 Similar to the previous section, this section describes how to configure an egress gateway to perform
@@ -244,10 +246,10 @@ TLS origination.
     {{< /text >}}
 
 1.  Generate the certificates for `nginx.example.com`.
-    Use any password with the following command:
+    Run the following command, replacing `password` with your choice of password:
 
     {{< text bash >}}
-    $ ./generate.sh nginx.example.com <password>
+    $ ./generate.sh nginx.example.com password
     {{< /text >}}
 
     Select `y` for all prompts that appear.
@@ -289,7 +291,7 @@ the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injecti
 1.  Create a configuration file for the NGINX server:
 
     {{< text bash >}}
-    $ cat <<EOF > ./nginx.conf
+    $ cat <<\EOF > ./nginx.conf
     events {
     }
 
@@ -524,22 +526,9 @@ to hold the configuration of the NGINX server:
     Normally, a DNS entry exists for the destination hostname and you would not use the `--resolve` option of `curl`.
 
     {{< text bash >}}
-    $ kubectl exec $SOURCE_POD -c sleep -- curl -v --resolve nginx.example.com:443:1.1.1.1 --cacert /etc/nginx-ca-certs/ca-chain.cert.pem --cert /etc/nginx-client-certs/tls.crt --key /etc/nginx-client-certs/tls.key https://nginx.example.com
-    ...
-    Server certificate:
-      subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=nginx.example.com
-      start date: 2018-08-16 04:31:20 GMT
-      expire date: 2019-08-26 04:31:20 GMT
-      common name: nginx.example.com (matched)
-      issuer: C=US; ST=Denial; O=Dis; CN=nginx.example.com
-      SSL certificate verify ok.
-    > GET / HTTP/1.1
-    > User-Agent: curl/7.35.0
-    > Host: nginx.example.com
+    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -v --resolve nginx.example.com:443:1.1.1.1 --cacert /etc/nginx-ca-certs/ca-chain.cert.pem --cert /etc/nginx-client-certs/tls.crt --key /etc/nginx-client-certs/tls.key https://nginx.example.com
     ...
     < HTTP/1.1 200 OK
-
-    < Server: nginx/1.15.2
     ...
     <!DOCTYPE html>
     <html>
@@ -551,13 +540,14 @@ to hold the configuration of the NGINX server:
 1.  Verify that the server requires the client's certificate:
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl -k --resolve nginx.example.com:443:1.1.1.1 https://nginx.example.com
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -k --resolve nginx.example.com:443:1.1.1.1 https://nginx.example.com
+    ...
     <html>
     <head><title>400 No required SSL certificate was sent</title></head>
-    <body bgcolor="white">
+    <body>
     <center><h1>400 Bad Request</h1></center>
     <center>No required SSL certificate was sent</center>
-    <hr><center>nginx/1.15.2</center>
+    ...
     </body>
     </html>
     {{< /text >}}
@@ -629,7 +619,7 @@ to hold the configuration of the NGINX server:
 1.  Verify that the key and the certificate are successfully loaded in the `istio-egressgateway` pod:
 
     {{< text bash >}}
-    $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/nginx-client-certs /etc/istio/nginx-ca-certs
+    $ kubectl exec -it -n istio-system "$(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}')" -- ls -al /etc/istio/nginx-client-certs /etc/istio/nginx-ca-certs
     {{< /text >}}
 
     `tls.crt` and `tls.key` should exist in `/etc/istio/nginx-client-certs`, while `ca-chain.cert.pem` in
@@ -745,7 +735,7 @@ to hold the configuration of the NGINX server:
 1.  Send an HTTP request to `http://nginx.example.com`:
 
     {{< text bash >}}
-    $ kubectl exec $SOURCE_POD -c sleep -- curl -s --resolve nginx.example.com:80:1.1.1.1 http://nginx.example.com
+    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -s --resolve nginx.example.com:80:1.1.1.1 http://nginx.example.com
     <!DOCTYPE html>
     <html>
     <head>
@@ -770,7 +760,7 @@ to hold the configuration of the NGINX server:
 
 1.  Remove created Kubernetes resources:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=mutual_tls_cleanup_1 >}}
     $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
     $ kubectl delete secret nginx-client-certs nginx-ca-certs
     $ kubectl delete secret nginx-client-certs nginx-ca-certs -n istio-system
@@ -780,6 +770,7 @@ to hold the configuration of the NGINX server:
     $ kubectl delete namespace mesh-external
     $ kubectl delete gateway istio-egressgateway
     $ kubectl delete serviceentry nginx
+    $ kubectl delete virtualservice nginx
     $ kubectl delete virtualservice direct-nginx-through-egress-gateway
     $ kubectl delete destinationrule originate-mtls-for-nginx
     $ kubectl delete destinationrule egressgateway-for-nginx
@@ -787,13 +778,13 @@ to hold the configuration of the NGINX server:
 
 1.  Delete the directory of certificates and the repository used to generate them:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=mutual_tls_cleanup_2 >}}
     $ rm -rf nginx.example.com mtls-go-example
     {{< /text >}}
 
 1.  Delete the generated configuration files used in this example:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=mutual_tls_cleanup_3 >}}
     $ rm -f ./nginx.conf ./istio-egressgateway.yaml
     {{< /text >}}
 
