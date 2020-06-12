@@ -21,8 +21,6 @@ set -e
 set -u
 set -o pipefail
 
-source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/snips.sh"
-
 # Generate Certificates for service outside the mesh to use for mTLS
 snip_generate_client_and_server_certificates_and_keys_1
 snip_generate_client_and_server_certificates_and_keys_2
