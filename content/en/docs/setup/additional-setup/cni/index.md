@@ -44,9 +44,10 @@ replaces the functionality provided by the `istio-init` container.
 
 ## Basic Installation
 
-For most environments, CNI works correctly by installing with this `IstioOperator`:
+In most environments, a basic Istio cluster with CNI enabled can be installed using the following command:
 
-{{< text yaml >}}
+{{< text bash >}}
+$ cat <<EOF > istio-cni.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -59,11 +60,7 @@ spec:
        - istio-system
        - kube-system
       logLevel: info
-{{< /text >}}
-
-Then to install Istio, apply the `IstioOperator`:
-
-{{< text bash >}}
+EOF
 $ istioctl install -f istio-cni.yaml
 {{< /text >}}
 
