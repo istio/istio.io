@@ -1,7 +1,7 @@
 ---
 title: Prometheus
 description: How to integrate with Prometheus.
-weight: 29
+weight: 30
 keywords: [integration,prometheus]
 test: n/a
 ---
