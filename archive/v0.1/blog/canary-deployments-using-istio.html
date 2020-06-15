@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="en" itemscope itemtype="https://schema.org/WebPage" style="overflow-y: scroll;"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="title" content="Canary Deployments using Istio"><meta name="og:title" content="Canary Deployments using Istio"><meta name="og:image" content="/v0.1/img/logo.png"/><meta name="description" content="Using Istio to create autoscaled canary deployments"><meta name="og:description" content="Using Istio to create autoscaled canary deployments"><title>Istioldie 0.1 / Canary Deployments using Istio</title><script> window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date; ga('create', 'UA-98480406-2', 'auto'); ga('send', 'pageview'); </script> <script async src='https://www.google-analytics.com/analytics.js'></script><link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'><link rel="alternate" type="application/rss+xml" title="Istio Blog RSS" href="/v0.1/feed.xml"><link rel="apple-touch-icon" href="/v0.1/favicons/apple-touch-icon.png" sizes="180x180"><link rel="icon" type="image/png" href="/v0.1/favicons/android-chrome-96x96.png" sizes="96x96" ><link rel="icon" type="image/png" href="/v0.1/favicons/favicon-32x32.png" sizes="32x32"><link rel="icon" type="image/png" href="/v0.1/favicons/favicon-16x16.png" sizes="16x16"><link rel="manifest" href="/v0.1/favicons/manifest.json"><link rel="mask-icon" href="/v0.1/favicons/safari-pinned-tab.svg" color="#2DA6B0"><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/v0.1/favicons/mstile-150x150.png"><link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="/v0.1/css/all.css"><link rel="stylesheet" href="/v0.1/css/prism.css"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script></head><body class="language-unknown"><div class="nav-hero-container" style="z-index: 200000;"><nav id="header-nav" class="navbar navbar-inverse" role="navigation"><div class="container"><div class="row"><div class="col-md-11 nofloat center-block "><div class="navbar-header"> <button type="button" class="hamburger navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/v0.1/"><div> <img src="/v0.1/img/logo.png" alt="Istio" width="36px" height="54px"/> <span class="brand-name">Istioldie 0.1</span></div></a></div><div class="collapse navbar-collapse" id="navbar-collapse-1"><ul class="nav navbar-nav navbar-right"><li><a href="/v0.1/about/" >About</a></li><li><a href="/v0.1/docs/" >Docs</a></li><li><a href="/v0.1/blog/" class='current'>Blog</a></li><li><a href="/v0.1/community/" >Community</a></li><li><a href="/v0.1/faq/" >FAQ</a></li><li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href=""> <i class='fa fa-lg fa-cog'></i> <span class="caret"></span> </a><ul class="dropdown-menu"><h6 class="dropdown-header">Other versions of this site</h6><li> <a href="https://istio.io">Current Release</a></li><li> <a href="https://preliminary.istio.io">Next Release</a></li><li> <a href="https://archive.istio.io">Older Releases</a></li></ul></li><li><form name="cse" id="searchbox_demo" class="navbar-form navbar-right" role="search"> <input type="hidden" name="cx" value="013699703217164175118:iwwf17ikgf4" /> <input type="hidden" name="ie" value="utf-8" /> <input type="hidden" name="hl" value="en" /><div class="form-group"><div class="input-group"> <input name="q" class="form-control" type="text" size="30" /><div class="input-group-addon"> <span class="btn-search glyphicon glyphicon-search"></span></div></div></div></form> <script type="text/javascript" src="https://www.google.com/cse/brand?form=searchbox_demo"></script></li></ul></div></div></div></div></nav></div><div class="container"><div class="row"><div class="col-sm-12 col-md-10 col-lg-7 nofloat center-block markdown"><article class="post-wrapper"><h1>Canary Deployments using Istio</h1><div class="postdate"> Posted on Wednesday, June 14 2017.</div><div class="content"><p>One of the benefits of the recently announced <a href="/v0.1">Istio</a> project is that it provides the control needed to deploy canary services. The idea behind canary deployment (or rollout) is to introduce a new version of a service by first testing it using a small percentage of user traffic, and then if all goes well, increase, possibly gradually in increments, the percentage while simultaneously phasing out the old version. If anything goes wrong along the way, we abort and rollback to the previous version. In its simplest form, the traffic sent to the canary version is a randomly selected percentage of requests, but in more sophisticated schemes it can be based on the region, user, or other properties of the request.</p><p>Depending on your level of expertise in this area, you may wonder why Istio’s support for canary deployment is even needed, given that platforms like Kubernetes already provide a way to do <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#updating-a-deployment">version rollout</a> and <a href="https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#canary-deployments">canary deployment</a>. Problem solved, right? Well, not exactly. Although doing a rollout this way works in simple cases, it’s very limited, especially in large scale cloud environments receiving lots of (and especially varying amounts of) traffic, where autoscaling is needed.</p><h2 id="canary-deployment-in-kubernetes">Canary deployment in Kubernetes</h2><p>As an example, let’s say we have a deployed service, <strong>helloworld</strong> version <strong>v1</strong>, for which we would like to test (or simply rollout) a new version, <strong>v2</strong>. Using Kubernetes, you can rollout a new version of the <strong>helloworld</strong> service by simply updating the image in the service’s corresponding <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">Deployment</a> and letting the <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#updating-a-deployment">rollout</a> happen automatically. If we take particular care to ensure that there are enough <strong>v1</strong> replicas running when we start and <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#pausing-and-resuming-a-deployment">pause</a> the rollout after only one or two <strong>v2</strong> replicas have been started, we can keep the canary’s effect on the system very small. We can then observe the effect before deciding to proceed or, if necessary, <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-back-a-deployment">rollback</a>. Best of all, we can even attach a <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#scaling-a-deployment">horizontal pod autoscaler</a> to the Deployment and it will keep the replica ratios consistent if, during the rollout process, it also needs to scale replicas up or down to handle traffic load.</p><p>Although fine for what it does, this approach is only useful when we have a properly tested version that we want to deploy, i.e., more of a blue/green, a.k.a. red/black, kind of upgrade than a “dip your feet in the water” kind of canary deployment. In fact, for the latter (for example, testing a canary version that may not even be ready or intended for wider exposure), the canary deployment in Kubernetes would be done using two Deployments with <a href="https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#using-labels-effectively">common pod labels</a>. In this case, we can’t use autoscaling anymore because it’s now being done by two independent autoscalers, one for each Deployment, so the replica ratios (percentages) may vary from the desired ratio, depending purely on load.</p><p>Whether we use one deployment or two, canary management using deployment features of container orchestration platforms like Docker, Mesos/Marathon, or Kubernetes has a fundamental problem: the use of instance scaling to manage the traffic; traffic version distribution and replica deployment are not independent in these systems. All replica pods, regardless of version, are treated the same in the kube-proxy round-robin pool, so the only way to manage the amount of traffic that a particular version receives is by controlling the replica ratio. Maintaining canary traffic at small percentages requires many replicas (e.g., 1% would require a minimum of 100 replicas). Even if we ignore this problem, the deployment approach is still very limited in that it only supports the simple (random percentage) canary approach. If, instead, we wanted to limit the visibility of the canary to requests based on some specific criteria, we still need another solution.</p><h2 id="enter-istio">Enter Istio</h2><p>With Istio, traffic routing and replica deployment are two completely independent functions. The number of pods implementing services are free to scale up and down based on traffic load, completely orthogonal to the control of version traffic routing. This makes managing a canary version in the presence of autoscaling a much simpler problem. Autoscalers may, in fact, respond to load variations resulting from traffic routing changes, but they are nevertheless functioning independently and no differently than when loads change for other reasons.</p><p>Istio’s <a href="/v0.1/docs/concepts/traffic-management/rules-configuration.html">routing rules</a> also provide other important advantages; you can easily control fine grain traffic percentages (e.g., route 1% of traffic without requiring 100 pods) and you can control traffic using other criteria (e.g., route traffic for specific users to the canary version). To illustrate, let’s look at deploying the <strong>helloworld</strong> service and see how simple the problem becomes.</p><p>We begin by defining the <strong>helloworld</strong> Service, just like any other Kubernetes service, something like this:</p><pre><code class="language-yaml">apiVersion: v1
+kind: Service
+metadata:
+name: helloworld
+labels:
+  app: helloworld
+spec:
+  selector:
+    app: helloworld
+  ...
+</code></pre><p>We then add 2 Deployments, one for each version (<strong>v1</strong> and <strong>v2</strong>), both of which include the service selector’s <code>app: helloworld</code> label:</p><pre><code class="language-yaml">kind: Deployment
+metadata:
+  name: helloworld-v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: helloworld
+        version: v1
+    spec:
+      containers:
+      - image: helloworld-v1
+        ...
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: helloworld-v2
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: helloworld
+        version: v2
+    spec:
+      containers:
+      - image: helloworld-v2
+        ...
+</code></pre><p>Note that this is exactly the same way we would do a <a href="https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#canary-deployments">canary deployment</a> using plain Kubernetes, but in that case we would need to adjust the number of replicas of each Deployment to control the distribution of traffic. For example, to send 10% of the traffic to the canary version (<strong>v2</strong>), the replicas for <strong>v1</strong> and <strong>v2</strong> could be set to 9 and 1, respectively.</p><p>However, since we are going to deploy the service in an <a href="/v0.1/docs/tasks/installing-istio.html">Istio enabled</a> cluster, all we need to do is set a routing rule to control the traffic distribution. For example if we want to send 10% of the traffic to the canary, we could use the <a href="/v0.1/docs/reference/commands/istioctl.html">istioctl</a> command to set a routing rule something like this:</p><pre><code class="language-bash">$ cat &lt;&lt;EOF | istioctl create
+type: route-rule
+name: helloworld-default
+spec:
+  destination: helloworld.default.svc.cluster.local
+  route:
+  - tags:
+      version: v1
+    weight: 90
+  - tags:
+      version: v2
+    weight: 10
+EOF
+</code></pre><p>After setting this rule, Istio will ensure that only one tenth of the requests will be sent to the canary version, regardless of how many replicas of each version are running.</p><h2 id="autoscaling-the-deployments">Autoscaling the deployments</h2><p>Because we don’t need to maintain replica ratios anymore, we can safely add Kubernetes <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/">horizontal pod autoscalers</a> to manage the replicas for both version Deployments:</p><pre><code class="language-bash">$ kubectl autoscale deployment helloworld-v1 --cpu-percent=50 --min=1 --max=10
+deployment "helloworld-v1" autoscaled
+$ kubectl autoscale deployment helloworld-v2 --cpu-percent=50 --min=1 --max=10
+deployment "helloworld-v2" autoscaled
+$ kubectl get hpa
+NAME           REFERENCE                 TARGET  CURRENT  MINPODS  MAXPODS  AGE
+Helloworld-v1  Deployment/helloworld-v1  50%     47%      1        10       17s
+Helloworld-v2  Deployment/helloworld-v2  50%     40%      1        10       15s
+</code></pre><p>If we now generate some load on the <strong>helloworld</strong> service, we would notice that when scaling begins, the <strong>v1</strong> autoscaler will scale up its replicas significantly higher than the <strong>v2</strong> autoscaler will for its replicas because <strong>v1</strong> pods are handling 90% of the load.</p><pre><code class="language-bash">$ kubectl get pods | grep helloworld
+helloworld-v1-3523621687-3q5wh   0/2       Pending   0          15m
+helloworld-v1-3523621687-73642   2/2       Running   0          11m
+helloworld-v1-3523621687-7hs31   2/2       Running   0          19m
+helloworld-v1-3523621687-dt7n7   2/2       Running   0          50m
+helloworld-v1-3523621687-gdhq9   2/2       Running   0          11m
+helloworld-v1-3523621687-jxs4t   0/2       Pending   0          15m
+helloworld-v1-3523621687-l8rjn   2/2       Running   0          19m
+helloworld-v1-3523621687-wwddw   2/2       Running   0          15m
+helloworld-v1-3523621687-xlt26   0/2       Pending   0          19m
+helloworld-v2-4095161145-963wt   2/2       Running   0          50m
+</code></pre><p>If we then change the routing rule to send 50% of the traffic to <strong>v2</strong>, we should, after a short delay, notice that the <strong>v1</strong> autoscaler will scale down the replicas of <strong>v1</strong> while the <strong>v2</strong> autoscaler will perform a corresponding scale up.</p><pre><code class="language-bash">$ kubectl get pods | grep helloworld
+helloworld-v1-3523621687-73642   2/2       Running   0          35m
+helloworld-v1-3523621687-7hs31   2/2       Running   0          43m
+helloworld-v1-3523621687-dt7n7   2/2       Running   0          1h
+helloworld-v1-3523621687-gdhq9   2/2       Running   0          35m
+helloworld-v1-3523621687-l8rjn   2/2       Running   0          43m
+helloworld-v2-4095161145-57537   0/2       Pending   0          21m
+helloworld-v2-4095161145-9322m   2/2       Running   0          21m
+helloworld-v2-4095161145-963wt   2/2       Running   0          1h
+helloworld-v2-4095161145-c3dpj   0/2       Pending   0          21m
+helloworld-v2-4095161145-t2ccm   0/2       Pending   0          17m
+helloworld-v2-4095161145-v3v9n   0/2       Pending   0          13m
+</code></pre><p>The end result is very similar to the simple Kubernetes Deployment rollout, only now the whole process is not being orchestrated and managed in one place. Instead, we’re seeing several components doing their jobs independently, albeit in a cause and effect manner. What’s different, however, is that if we now stop generating load, the replicas of both versions will eventually scale down to their minimum (1), regardless of what routing rule we set.</p><pre><code class="language-bash">$ kubectl get pods | grep helloworld
+helloworld-v1-3523621687-dt7n7   2/2       Running   0          1h
+helloworld-v2-4095161145-963wt   2/2       Running   0          1h
+</code></pre><h2 id="focused-canary-testing">Focused canary testing</h2><p>As mentioned above, the Istio routing rules can be used to route traffic based on specific criteria, allowing more sophisticated canary deployment scenarios. Say, for example, instead of exposing the canary to an arbitrary percentage of users, we want to try it out on internal users, maybe even just a percentage of them. The following command could be used to send 50% of traffic from users at <em>some-company-name.com</em> to the canary version, leaving all other users unaffected:</p><pre><code class="language-bash">$ cat &lt;&lt;EOF | istioctl create
+type: route-rule
+name: helloworld-canary
+spec:
+  destination: helloworld.default.svc.cluster.local
+  precedence: 2
+  match:
+    httpHeaders:
+      cookie:
+        regex: ^(.*?;)?(email=[^;]*@some-company-name.com)(;.*)?$
+  route:
+  - tags:
+      version: v1
+    weight: 50
+  - tags:
+      version: v2
+    weight: 50
+---
+type: route-rule
+name: helloworld-default
+spec:
+  destination: helloworld.default.svc.cluster.local
+  route:
+  - tags:
+      version: v1
+EOF
+</code></pre><p>As before, the autoscalers bound to the 2 version Deployments will automatically scale the replicas accordingly, but that will have no affect on the traffic distribution.</p><h2 id="summary">Summary</h2><p>In this article we’ve shown how Istio supports general scalable canary deployments, and how this differs from the basic deployment support in Kubernetes. Istio’s service mesh provides the control necessary to manage traffic distribution with complete independence from deployment scaling. This allows for a simpler, yet significantly more functional, way to do canary test and rollout.</p><p>Intelligent routing in support of canary deployment is just one of the many features of Istio that will make the production deployment of large-scale microservices-based applications much simpler. Check out <a href="/v0.1">istio.io</a> for more information and to try it out. The sample code used in this article can be found <a href="https://github.com/istio/istio/tree/master/samples/apps/helloworld">here</a>.</p></div><div class="content-attribution"> The Istio Team</div></article></div></div></div><footer><div class="container"><div class="row"><div class="col-md-2"></div><div class="col-md-3 col-sm-4 col-xs-12 center-block"><ul class="toggle"><p class="header">Docs</p><li><a href="/v0.1/docs/">Welcome</a></li><li><a href="/v0.1/docs/concepts">Concepts</a></li><li><a href="/v0.1/docs/tasks">Tasks</a></li><li><a href="/v0.1/docs/samples">Samples</a></li><li><a href="/v0.1/docs/reference">Reference</a></li></ul></div><hr class="footer-sections" /><div class="col-md-3 col-sm-4 col-xs-12 center-block"><ul class="toggle"><p class="header">Resources</p><li><a href="/v0.1/faq">Frequently Asked Questions</a></li><li><a href="/v0.1/troubleshooting">Troubleshooting Guide</a></li><li><a href="/v0.1/bugs">Report a Bug</a></li><li><a href="https://github.com/istio/istio.github.io/issues/new?title=Issue with _posts/2017-06-14-0.1-canary.md">Report a Doc Issue</a></li><li><a href="https://github.com/istio/istio.github.io/edit/master/_posts/2017-06-14-0.1-canary.md">Edit This Page on GitHub</a></li></ul></div><hr class="footer-sections" /><div class="col-md-3 col-sm-4 col-xs-12 center-block"><ul class="toggle"><p class="header">Community</p><li><a href="https://groups.google.com/forum/#!forum/istio-users" target="_blank"><span class="group">User</span></a> | <a href="https://groups.google.com/forum/#!forum/istio-dev" target="_blank">Dev Mailing Lists</a></li><li><a href="https://twitter.com/IstioMesh" target="_blank"><span class="twitter">Twitter</span></a></li><li><a href="https://github.com/istio/istio" target="_blank"><span class="github">GitHub</span></a></li></ul></div><div class="col-md-1"></div></div><div class="row"><p class="description small text-center"> Copyright &copy; 2017 Istio Authors<br> Istio 0.1<br> Archived on 20-Jul-2017</p></div></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script> <script src="/v0.1/js/jquery.form.min.js"></script> <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script> <script src="/v0.1/js/slick.min.js"></script> <script src="/v0.1/js/jquery.visible.min.js"></script> <script src="/v0.1/js/common.js" type="text/javascript" charset="utf-8"></script> <script src="/v0.1/js/buttons.js"></script> <script src="/v0.1/js/search.js"></script> <script src="/v0.1/js/prism.js"></script></body></html>

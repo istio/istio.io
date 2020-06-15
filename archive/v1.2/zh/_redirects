@@ -1,0 +1,39 @@
+###############################################
+# set server-side redirects in this file      #
+# see https://www.netlify.com/docs/redirects/ #
+# test at https://play.netlify.com/redirects  #
+###############################################
+
+# Redirect golang vanity imports for istio.io
+/istio/* go-get=1 /golang/istio.html 200
+/pkg/* go-get=1 /golang/pkg.html 200
+/api/* go-get=1 /golang/api.html 200
+/gogo-genproto/* go-get=1 /golang/gogo-genproto.html 200
+/test-infra/* go-get=1 /golang/test-infra.html 200
+/tools/* go-get=1 /golang/tools.html 200
+/operator/* go-get=1 /golang/operator.html 200
+
+# Redirect default Netlify subdomain to primary domain
+https://istio.netlify.com/* https://istio.io/:splat 301!
+
+# Redirect to translated sites
+/  /zh   302  Language=zh
+
+# Redirect for the helm charts
+/charts/ https://gcsweb.istio.io/gcs/istio-release/releases/1.2.5/charts/ 301
+
+# Redirects for all aliases
+/zh/docs/examples/advanced-gateways/ingress-sni-passthrough	/zh/docs/tasks/traffic-management/edge-traffic/ingress-sni-passthrough/
+/zh/docs/examples/multicluster/gateways/	/zh/docs/tasks/multicluster/gateways/
+/zh/docs/examples/telemetry/       	/zh/docs/tasks/telemetry/
+/zh/docs/examples/advanced-gateways/egress-gateway-tls-origination/	/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination/
+/zh/docs/examples/advanced-gateways/egress-tls-origination/	/zh/docs/tasks/traffic-management/edge-traffic/egress-tls-origination/
+/zh/docs/examples/advanced-gateways/egress-gateway/	/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway/
+/zh/faq/telemetry                  	/zh/faq/metrics-and-logs/
+/zh/docs/examples/advanced-gateways/wildcard-egress-hosts/	/zh/docs/tasks/traffic-management/edge-traffic/wildcard-egress-hosts/
+/zh/docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/	/zh/docs/tasks/traffic-management/edge-traffic/egress_sni_monitoring_and_policies/
+/zh/docs/examples/advanced-gateways/http-proxy/	/zh/docs/tasks/traffic-management/edge-traffic/http-proxy/
+/zh/docs/examples/multicluster/gke/	/zh/docs/tasks/multicluster/gke/
+/zh/docs/examples/multicluster/icp/	/zh/docs/tasks/multicluster/icp/
+/zh/docs/examples/advanced-gateways/ingress-certmgr/	/zh/docs/tasks/traffic-management/edge-traffic/ingress-certmgr/
+/zh/docs/examples/multicluster/split-horizon-eds/	/zh/docs/tasks/multicluster/split-horizon-eds/
