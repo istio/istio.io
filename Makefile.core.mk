@@ -136,6 +136,9 @@ update_ref_docs:
 
 update_all: update_ref_docs update_examples
 
+release-%:
+	@scripts/create_version.sh $@
+
 foo2:
 	hugo version
 
