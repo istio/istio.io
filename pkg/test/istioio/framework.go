@@ -1,4 +1,4 @@
-// Package tests include the framework for doc testing. This package will
+// Package istioio includes the framework for doc testing. This package will
 // first scan through all the docs to collect their information, and then
 // setup istio as appropriate to run each test.
 //
@@ -15,7 +15,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package tests
+package istioio
 
 import (
 	"fmt"
@@ -27,7 +27,6 @@ import (
 	"strings"
 	"testing"
 
-	"istio.io/istio.io/pkg/test/istioio"
 	"istio.io/istio/pkg/test/framework"
 )
 
@@ -192,15 +191,15 @@ func runTestCase(testCase *TestCase, t *testing.T) {
 	t.Run(path, func(t *testing.T) {
 		framework.
 			NewTest(t).
-			Run(istioio.NewBuilder(path).
-				Add(istioio.Script{
-					Input: istioio.Inline{
+			Run(NewBuilder(path).
+				Add(Script{
+					Input: Inline{
 						FileName: getDebugFileName(path, "test"),
 						Value:    testCase.testScript,
 					},
 				}).
-				Defer(istioio.Script{
-					Input: istioio.Inline{
+				Defer(Script{
+					Input: Inline{
 						FileName: getDebugFileName(path, "cleanup"),
 						Value:    testCase.cleanupScript,
 					},

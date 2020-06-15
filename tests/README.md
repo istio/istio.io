@@ -68,7 +68,7 @@ Before the test steps, there should be one line that specifies the istio setup c
 ```sh
 # @setup <setup_config>
 ```
-Currently supported setup configurations include: `profile=default` to install the default profile, `profile=demo` to install the demo profile, and `profile=none` to not installing istio at all.
+Currently supported setup configurations include: `profile=default` to install the default profile, `profile=demo` to install the demo profile, and `profile=none` to not install istio at all.
 
 After setup, you will use snippets generated from the docs to write tests. The framework automatically sources several bash scripts for you, including the generated `snips.sh` and `tests/util/[verify|debug|helpers].sh`. You can directly call any function defined in them. For other test utilities, e.g., `util/samples.sh`, you need to source them yourself:
 
@@ -167,7 +167,7 @@ Run
 ```bash
 make doc.test
 ```
-to start testing all docs in the content folder within a `kube` environment. This command takes three optional environment variables: `TEST`, `TIMEOUT` and `ENV`.
+to start testing all docs in the content folder within a `kube` environment. This command takes two optional environment variables: `TEST` and `TIMEOUT`.
 
 `TEST` specifies the tests to be run using the path of the directory relative to `content/en/docs/`. For example, the command
 ```bash
@@ -178,9 +178,9 @@ will run all the tests under `content/en/docs/tasks/traffic-management`. The `TE
 make doc.test TEST=tasks/traffic-management/request-routing,tasks/traffic-management/fault-injection
 ```
 
-`TIMEOUT` specifies a time limit exceeding which all tests will halt, and the default value is 30 minutes (`30m`). `ENV` specifies the test environment (either `native` or `kube`), and is `kube` by default.
+`TIMEOUT` specifies a time limit exceeding which all tests will halt, and the default value is 30 minutes (`30m`).
 
-You can also find this information by running `make doc.test.help`. The bash tracing output for debugging will be kept in `out/*_[test|cleanup]_debug.txt`.
+You can also find this information by running `make doc.test.help`. The bash tracing output for debugging will be kept in `out/<test_path>_[test|cleanup]_debug.txt`.
 
 ### Notes
 
