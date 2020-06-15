@@ -745,7 +745,11 @@ No
 holds the TLS certs including the CA certificates. Applicable
 only on Kubernetes. The secret (of type<code>generic</code>) should
 contain the following keys and values: <code>key:
-&lt;privateKey&gt;</code>, <code>cert: &lt;serverCert&gt;</code>, <code>cacert: &lt;CACertificate&gt;</code>.</p>
+&lt;privateKey&gt;</code>, <code>cert: &lt;serverCert&gt;</code>, <code>cacert: &lt;CACertificate&gt;</code>.
+Secret of type tls for server certificates along with
+ca.crt key for CA certificates is also supported.
+Only one of server certificates and CA certificate
+or credentialName can be specified.</p>
 
 </td>
 <td>

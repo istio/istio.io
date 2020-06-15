@@ -1018,6 +1018,27 @@ Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 No
 </td>
 </tr>
+<tr id="ClientTLSSettings-credential_name">
+<td><code>credentialName</code></td>
+<td><code>string</code></td>
+<td>
+<p>The name of the secret that holds the TLS certs for the
+client including the CA certificates. Applicable
+only on Kubernetes. Secret must exist in the same
+namespace with the proxy using the certificates.
+The secret (of type <code>generic</code>)should contain the
+following keys and values: <code>key: &lt;privateKey&gt;</code>,
+<code>cert: &lt;serverCert&gt;</code>, <code>cacert: &lt;CACertificate&gt;</code>.
+Secret of type tls for client certificates along with
+ca.crt key for CA certificates is also supported.
+Only one of client certificates and CA certificate
+or credentialName can be specified.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="ClientTLSSettings-subject_alt_names">
 <td><code>subjectAltNames</code></td>
 <td><code>string[]</code></td>
