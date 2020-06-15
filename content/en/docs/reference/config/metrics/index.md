@@ -2,6 +2,9 @@
 title: Istio Standard Metrics
 description: Istio standard metrics exported by Istio telemetry.
 weight: 50
+test: no
+aliases:
+    - /docs/reference/config/telemetry/metrics/
 ---
 
 The following are the standard service level metrics exported by Istio.
