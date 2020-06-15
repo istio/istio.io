@@ -1,0 +1,209 @@
+###############################################
+# set server-side redirects in this file      #
+# see https://www.netlify.com/docs/redirects/ #
+# test at https://play.netlify.com/redirects  #
+###############################################
+
+# Redirect golang vanity imports for istio.io
+/istio/* go-get=1 /golang/istio.html 200
+/fortio/* go-get=1 /golang/fortio.html 200
+/api/* go-get=1 /golang/api.html 200
+/gogo-genproto/* go-get=1 /golang/gogo-genproto.html 200
+/extensions/* go-get=1 /golang/extensions.html 200
+/contrib/* go-get=1 /golang/contrib.html 200
+/test-infra/* go-get=1 /golang/test-infra.html 200
+/tools/* go-get=1 /golang/tools.html 200
+/pkg/* go-get=1 /golang/pkg.html 200
+
+# Redirect default Netlify subdomain to primary domain
+https://istio.netlify.com/* https://istio.io/:splat 301!
+
+# Redirect to translated sites
+/  /zh   302  Language=zh
+
+# Redirect for the helm charts
+/charts/ https://gcsweb.istio.io/gcs/istio-release/releases/1.1.9/charts/ 301
+
+# Redirects for all aliases
+/docs/setup/kubernetes/multicluster-install/gateways/	/docs/setup/kubernetes/install/multicluster/gateways/
+/docs/setup/kubernetes/platform-setup/alicloud/	/docs/setup/kubernetes/prepare/platform-setup/alicloud/
+/troubleshooting.html              	/help/ops/
+/troubleshooting/index.html        	/help/ops/
+/help/troubleshooting/index.html   	/help/ops/
+/ops                               	/help/ops/
+/docs/setup/kubernetes/spec-requirements/	/docs/setup/kubernetes/prepare/requirements/
+/docs/reference/release-notes.html 	/about/notes/
+/release-notes                     	/about/notes/
+/docs/welcome/notes/index.html     	/about/notes/
+/docs/references/notes             	/about/notes/
+/docs/setup/kubernetes/multicluster-install/vpn/	/docs/setup/kubernetes/install/multicluster/vpn/
+/docs/setup/kubernetes/platform-setup/azure	/docs/setup/kubernetes/prepare/platform-setup/azure/
+/docs/reference/config/mixer/attribute-vocabulary.html	/docs/reference/config/policy-and-telemetry/attribute-vocabulary/
+/docs/reference/config/mixer/aspects/attributes.html	/docs/reference/config/policy-and-telemetry/attribute-vocabulary/
+/docs/tasks/security/istio-auth.html	/docs/tasks/security/authn-policy/
+/docs/tasks/security/role-based-access-control.html	/docs/tasks/security/authz-http/
+/docs/samples/bookinfo.html        	/docs/examples/bookinfo/
+/docs/guides/bookinfo/index.html   	/docs/examples/bookinfo/
+/docs/tasks/metrics-logs.html      	/docs/tasks/telemetry/metrics/collecting-metrics/
+/docs/tasks/telemetry/metrics-logs/	/docs/tasks/telemetry/metrics/collecting-metrics/
+/docs/tasks/request-routing.html   	/docs/tasks/traffic-management/request-routing/
+/docs/tasks/rate-limiting.html     	/docs/tasks/policy-enforcement/rate-limiting/
+/docs/reference/release-roadmap.html	/about/feature-stages/
+/docs/reference/feature-stages.html	/about/feature-stages/
+/docs/welcome/feature-stages.html  	/about/feature-stages/
+/docs/home/roadmap.html            	/about/feature-stages/
+/docs/tasks/telemetry/access-log   	/docs/tasks/telemetry/logs/access-log/
+/docs/tasks/installing-istio.html  	/docs/setup/kubernetes/
+/docs/setup/install-kubernetes.html	/docs/setup/kubernetes/
+/docs/setup/kubernetes/quick-start/	/docs/setup/kubernetes/install/kubernetes/
+/docs/tasks/zipkin-tracing.html    	/docs/tasks/telemetry/distributed-tracing/zipkin/
+/docs/reference/config/istio.routing.v1alpha1/	/docs/reference/config/networking/
+/docs/reference/config/istio.networking.v1alpha3/	/docs/reference/config/networking/
+/docs/setup/kubernetes/platform-setup/docker-for-desktop/	/docs/setup/kubernetes/prepare/platform-setup/docker/
+/docs/setup/kubernetes/download-release/	/docs/setup/kubernetes/download/
+/docs/setup/kubernetes/platform-setup/gke	/docs/setup/kubernetes/prepare/platform-setup/gke/
+/community                         	/about/community/
+/docs/examples/intelligent-routing/	/docs/tasks/traffic-management/
+/docs/concepts/what-is-istio/overview	/docs/concepts/what-is-istio/
+/docs/concepts/what-is-istio/goals 	/docs/concepts/what-is-istio/
+/about/intro                       	/docs/concepts/what-is-istio/
+/docs/setup/kubernetes/platform-setup/ibm/	/docs/setup/kubernetes/prepare/platform-setup/ibm/
+/docs/tasks/istio-auth.html        	/docs/tasks/security/
+/docs/tasks/telemetry/tcp-metrics  	/docs/tasks/telemetry/metrics/tcp-metrics/
+/docs/setup/kubernetes/helm.html   	/docs/setup/kubernetes/install/helm/
+/docs/tasks/integrating-services-into-istio.html	/docs/setup/kubernetes/install/helm/
+/docs/setup/kubernetes/helm-install/	/docs/setup/kubernetes/install/helm/
+/docs/tasks/basic-access-control.html	/docs/tasks/policy-enforcement/denial-and-list/
+/docs/tasks/security/basic-access-control/index.html	/docs/tasks/policy-enforcement/denial-and-list/
+/docs/tasks/security/secure-access-control/index.html	/docs/tasks/policy-enforcement/denial-and-list/
+/docs/reference/config/mixer/expression-language.html	/docs/reference/config/policy-and-telemetry/expression-language/
+/faq                               	/help/faq/
+/docs/welcome/faq.html             	/help/faq/
+/docs/reference/faq.html           	/help/faq/
+/docs/tasks/fault-injection.html   	/docs/tasks/traffic-management/fault-injection/
+/docs/concepts/traffic-management/overview	/docs/concepts/traffic-management/
+/docs/concepts/traffic-management/pilot	/docs/concepts/traffic-management/
+/docs/concepts/traffic-management/rules-configuration	/docs/concepts/traffic-management/
+/docs/concepts/traffic-management/fault-injection	/docs/concepts/traffic-management/
+/docs/concepts/traffic-management/handling-failures	/docs/concepts/traffic-management/
+/docs/concepts/traffic-management/load-balancing	/docs/concepts/traffic-management/
+/docs/concepts/traffic-management/request-routing	/docs/concepts/traffic-management/
+/docs/welcome/contribute/creating-a-pull-request.html	/about/contribute/github/
+/docs/welcome/contribute/staging-your-changes.html	/about/contribute/github/
+/docs/welcome/contribute/editing.html	/about/contribute/github/
+/about/contribute/creating-a-pull-request	/about/contribute/github/
+/about/contribute/editing          	/about/contribute/github/
+/about/contribute/staging-your-changes	/about/contribute/github/
+/docs/setup/kubernetes/platform-setup/minikube/	/docs/setup/kubernetes/prepare/platform-setup/minikube/
+/docs/setup/kubernetes/platform-setup/openshift/	/docs/setup/kubernetes/prepare/platform-setup/openshift/
+/docs/tasks/traffic-management/version-migration.html	/docs/tasks/traffic-management/traffic-shifting/
+/docs/setup/kubernetes/upgrading-istio/	/docs/setup/kubernetes/upgrade/
+/docs/tasks/traffic-management/tcp-version-migration.html	/docs/tasks/traffic-management/tcp-traffic-shifting/
+/docs/setup/kubernetes/platform-setup/oci/	/docs/setup/kubernetes/prepare/platform-setup/oci/
+/docs/tasks/request-timeouts.html  	/docs/tasks/traffic-management/request-timeouts/
+/docs/tasks/ingress.html           	/docs/tasks/traffic-management/ingress/
+/docs/welcome/contribute/writing-a-new-topic.html	/about/contribute/creating-and-editing-pages/
+/docs/reference/contribute/writing-a-new-topic.html	/about/contribute/creating-and-editing-pages/
+/about/contribute/writing-a-new-topic.html	/about/contribute/creating-and-editing-pages/
+/create                            	/about/contribute/creating-and-editing-pages/
+/docs/samples/index.html           	/docs/examples/
+/docs/guides/index.html            	/docs/examples/
+/glossary                          	/help/glossary/
+/docs/welcome/glossary.html        	/help/glossary/
+/docs/reference/glossary.html      	/help/glossary/
+/docs/setup/kubernetes/multicluster-install/	/docs/setup/kubernetes/install/multicluster/
+/docs/setup/kubernetes/multicluster/	/docs/setup/kubernetes/install/multicluster/
+/docs/reference/config/mixer/index.html	/docs/reference/config/policy-and-telemetry/
+/docs/tasks/telemetry/querying-metrics/	/docs/tasks/telemetry/metrics/querying-metrics/
+/docs/concepts/network-and-auth/auth.html	/docs/concepts/security/
+/docs/concepts/security/authn-policy/	/docs/concepts/security/
+/docs/concepts/security/mutual-tls/	/docs/concepts/security/
+/docs/concepts/security/rbac/      	/docs/concepts/security/
+/docs/examples/telemetry/          	/docs/tasks/telemetry/
+/bugs.html                         	/about/bugs/
+/bugs/index.html                   	/about/bugs/
+/help/bugs/                        	/about/bugs/
+/docs/reference/config/mixer/adapters/index.html	/docs/reference/config/policy-and-telemetry/adapters/
+/docs/reference/config/adapters/   	/docs/reference/config/policy-and-telemetry/adapters/
+/docs/tasks/egress.html            	/docs/tasks/traffic-management/egress/
+/docs/concepts/policy-and-control/mixer.html	/docs/concepts/policies-and-telemetry/
+/docs/concepts/policy-and-control/mixer-config.html	/docs/concepts/policies-and-telemetry/
+/docs/concepts/policy-and-control/attributes.html	/docs/concepts/policies-and-telemetry/
+/docs/concepts/policies-and-telemetry/overview/	/docs/concepts/policies-and-telemetry/
+/docs/concepts/policies-and-telemetry/config/	/docs/concepts/policies-and-telemetry/
+/docs/tasks/telemetry/using-istio-dashboard/	/docs/tasks/telemetry/metrics/using-istio-dashboard/
+/docs/guides/endpoints/index.html  	/docs/examples/endpoints/
+/docs/setup/kubernetes/automatic-sidecar-inject.html	/docs/setup/kubernetes/additional-setup/sidecar-injection/
+/docs/setup/kubernetes/sidecar-injection/	/docs/setup/kubernetes/additional-setup/sidecar-injection/
+/help/faq/telemetry                	/help/faq/metrics-and-logs/
+/docs/performance-and-scalability/overview	/docs/concepts/performance-and-scalability/
+/docs/performance-and-scalability/microbenchmarks	/docs/concepts/performance-and-scalability/
+/docs/performance-and-scalability/performance-testing-automation	/docs/concepts/performance-and-scalability/
+/docs/performance-and-scalability/realistic-app-benchmark	/docs/concepts/performance-and-scalability/
+/docs/performance-and-scalability/scalability	/docs/concepts/performance-and-scalability/
+/docs/performance-and-scalability/scenarios	/docs/concepts/performance-and-scalability/
+/docs/performance-and-scalability/synthetic-benchmarks	/docs/concepts/performance-and-scalability/
+/docs/reference/config/template/index.html	/docs/reference/config/policy-and-telemetry/templates/
+/docs/setup/kubernetes/quick-start-alicloud-ack/	/docs/setup/kubernetes/install/platform/alicloud/
+/docs/guides/integrating-vms/index.html	/docs/examples/integrating-vms/
+/docs/setup/kubernetes/quick-start-gke-dm/	/docs/setup/kubernetes/install/platform/gke/
+/docs/setup/kubernetes/quick-start/	/docs/setup/kubernetes/install/platform/gke/
+/docs/tasks/traffic-management/app-health-check/	/help/ops/setup/app-health-check/
+/help/ops/security/health-checks-and-mtls/	/help/ops/setup/app-health-check/
+/docs/setup/kubernetes/quick-start-ibm/	/docs/setup/kubernetes/install/platform/ibm/
+/docs/setup/kubernetes/install/cni 	/docs/setup/kubernetes/additional-setup/cni/
+/docs/welcome/contribute/style-guide.html	/about/contribute/style-guide/
+/docs/reference/contribute/style-guide.html	/about/contribute/style-guide/
+/docs/tasks/telemetry/fluentd/     	/docs/tasks/telemetry/logs/fluentd/
+/docs/setup/kubernetes/mesh-expansion/	/docs/setup/kubernetes/additional-setup/mesh-expansion/
+/docs/welcome/contribute/index.html	/about/contribute/
+/docs/tasks/installing-istio.html  	/docs/setup/kubernetes/additional-setup/
+/docs/setup/install-kubernetes.html	/docs/setup/kubernetes/additional-setup/
+/about/notes/0.8/index.html        	/about/notes/older/0.8/
+/about/notes/0.7/index.html        	/about/notes/older/0.7/
+/about/notes/0.6/index.html        	/about/notes/older/0.6/
+/docs/tasks/traffic-management/egress-tcp/	/blog/2018/egress-tcp/
+/about/notes/0.5/index.html        	/about/notes/older/0.5/
+/docs/welcome/notes/0.4.html       	/about/notes/older/0.4/
+/about/notes/0.4/index.html        	/about/notes/older/0.4/
+/blog/posts/2017/mixer-spof-myth.html	/blog/2017/mixer-spof-myth/
+/blog/mixer-spof-myth.html         	/blog/2017/mixer-spof-myth/
+/docs/welcome/notes/0.3.html       	/about/notes/older/0.3/
+/about/notes/0.3/index.html        	/about/notes/older/0.3/
+/blog/mixer-adapter-model.html     	/blog/2017/adapter-model/
+/blog/istio-0.2-announcement.html  	/blog/2017/0.2-announcement/
+/docs/welcome/notes/0.2.html       	/about/notes/older/0.2/
+/about/notes/0.2/index.html        	/about/notes/older/0.2/
+/blog/using-network-policy-in-concert-with-istio.html	/blog/2017/0.1-using-network-policy/
+/blog/canary-deployments-using-istio.html	/blog/2017/0.1-canary/
+/blog/0.1-auth.html                	/blog/2017/0.1-auth/
+/blog/istio-auth-for-microservices.html	/blog/2017/0.1-auth/
+/blog/istio-service-mesh-for-microservices.html	/blog/2017/0.1-announcement/
+/blog/0.1-announcement.html        	/blog/2017/0.1-announcement/
+/docs/welcome/notes/0.1.html       	/about/notes/older/0.1/
+/about/notes/0.1/index.html        	/about/notes/older/0.1/
+/docs/reference/config/template/apikey.html	/docs/reference/config/policy-and-telemetry/templates/apikey/
+/docs/reference/config/template/authorization.html	/docs/reference/config/policy-and-telemetry/templates/authorization/
+/blog/posts/index.html             	/blog/
+/docs/reference/config/template/checknothing.html	/docs/reference/config/policy-and-telemetry/templates/checknothing/
+/docs/reference/config/adapters/circonus.html	/docs/reference/config/policy-and-telemetry/adapters/circonus/
+/docs/reference/config/adapters/cloudmonitor.html	/docs/reference/config/policy-and-telemetry/adapters/cloudmonitor/
+/docs/reference/config/adapters/cloudwatch.html	/docs/reference/config/policy-and-telemetry/adapters/cloudwatch/
+/docs/reference/config/adapters/datadog.html	/docs/reference/config/policy-and-telemetry/adapters/datadog/
+/docs/reference/config/adapters/denier.html	/docs/reference/config/policy-and-telemetry/adapters/denier/
+/docs/reference/config/adapters/fluentd.html	/docs/reference/config/policy-and-telemetry/adapters/fluentd/
+/docs/reference/config/adapters/kubernetesenv.html	/docs/reference/config/policy-and-telemetry/adapters/kubernetesenv/
+/docs/reference/config/adapters/list.html	/docs/reference/config/policy-and-telemetry/adapters/list/
+/docs/reference/config/template/listentry.html	/docs/reference/config/policy-and-telemetry/templates/listentry/
+/docs/reference/config/template/logentry.html	/docs/reference/config/policy-and-telemetry/templates/logentry/
+/docs/reference/config/adapters/memquota.html	/docs/reference/config/policy-and-telemetry/adapters/memquota/
+/docs/reference/config/template/metric.html	/docs/reference/config/policy-and-telemetry/templates/metric/
+/docs/reference/config/adapters/opa.html	/docs/reference/config/policy-and-telemetry/adapters/opa/
+/docs/reference/config/adapters/prometheus.html	/docs/reference/config/policy-and-telemetry/adapters/prometheus/
+/docs/reference/config/template/quota.html	/docs/reference/config/policy-and-telemetry/templates/quota/
+/docs/reference/config/adapters/redisquota.html	/docs/reference/config/policy-and-telemetry/adapters/redisquota/
+/docs/reference/config/template/reportnothing.html	/docs/reference/config/policy-and-telemetry/templates/reportnothing/
+/docs/reference/config/adapters/solarwinds.html	/docs/reference/config/policy-and-telemetry/adapters/solarwinds/
+/docs/reference/config/adapters/stackdriver.html	/docs/reference/config/policy-and-telemetry/adapters/stackdriver/
+/docs/reference/config/adapters/statsd.html	/docs/reference/config/policy-and-telemetry/adapters/statsd/
+/docs/reference/config/adapters/stdio.html	/docs/reference/config/policy-and-telemetry/adapters/stdio/

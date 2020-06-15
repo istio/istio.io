@@ -1,0 +1,753 @@
+<!doctype html><html lang=en itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content=#466BB0><meta name=title content="Traffic Management"><meta name=description content="Describes the various Istio features focused on traffic routing and control."><meta name=keywords content=microservices,services,mesh,traffic-management,pilot,envoy-proxies,service-discovery,load-balancing><meta property=og:title content="Traffic Management"><meta property=og:type content=website><meta property=og:description content="Describes the various Istio features focused on traffic routing and control."><meta property=og:url content=/v1.2/docs/concepts/traffic-management/><meta property=og:image content=/v1.2/img/istio-whitelogo-bluebackground-framed.svg><meta property=og:image:alt content="Istio Logo"><meta property=og:image:width content=112><meta property=og:image:height content=150><meta property=og:site_name content=Istio><meta name=twitter:card content=summary><meta name=twitter:site content=@IstioMesh><title>Istioldie 1.2 / Traffic Management</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-98480406-2');</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.2/feed.xml><link rel="shortcut icon" href=/v1.2/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.2/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.2/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.2/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.2/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.2/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.2/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.2/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.2/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.2/favicons/android-192x192.png sizes=192x192><link rel=manifest href=/v1.2/manifest.json><meta name=apple-mobile-web-app-title content=Istio><meta name=application-name content=Istio><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Work+Sans:400|Chivo:400|Work+Sans:500,300,600,300italic,400italic,500italic,600italic|Chivo:500,300,600,300italic,400italic,500italic,600italic"><link rel=stylesheet href=/v1.2/css/all.css><script src=/v1.2/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.2";const docTitle="Traffic Management";const iconFile="\/v1.2/img/icons.svg";const buttonCopy='Copy to clipboard';const buttonPrint='Print';const buttonDownload='Download';</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script><script src=/v1.2/js/all.min.js data-manual defer></script><header><nav><a id=brand href=/v1.2/><span class=logo><svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="146" stroke-width="2" /><path d="M65 240H225L125 270z"/><path d="M65 230l60-10V110z"/><path d="M135 220l90 10L135 30z"/></svg></span><span class=name>Istioldie 1.2</span></a><div id=hamburger><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#hamburger"/></svg></div><div id=header-links><span title="Learn how to deploy, use, and operate Istio.">Docs</span>
+<a title="Posts about using Istio." href=/v1.2/blog/2019/announcing-1.2.5/>Blog</a>
+<a title="Frequently Asked Questions about Istio." href=/v1.2/faq/>FAQ</a>
+<a title="Get a bit more in-depth info about the Istio project." href=/v1.2/about/>About</a><div class=menu><button id=gearDropdownButton class=menu-trigger title="Options and settings" aria-label="Options and Settings" aria-controls=gearDropdownContent><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#gear"/></svg></button><div id=gearDropdownContent class=menu-content aria-labelledby=gearDropdownButton role=menu><a tabindex=-1 role=menuitem lang=en id=switch-lang-en class=active>English</a>
+<a tabindex=-1 role=menuitem lang=zh id=switch-lang-zh>中文</a><div role=separator></div><a tabindex=-1 role=menuitem class=active id=light-theme-item>Light Theme</a>
+<a tabindex=-1 role=menuitem id=dark-theme-item>Dark Theme</a><div role=separator></div><a tabindex=-1 role=menuitem id=syntax-coloring-item>Color Examples</a><div role=separator></div><h6>Other versions of this site</h6><a tabindex=-1 role=menuitem onclick="navigateToUrlOrRoot('https://istio.io/docs\/concepts\/traffic-management\/');return false;">Current Release</a>
+<a tabindex=-1 role=menuitem onclick="navigateToUrlOrRoot('https://preliminary.istio.io/docs\/concepts\/traffic-management\/');return false;">Next Release</a>
+<a tabindex=-1 role=menuitem href=https://archive.istio.io>Older Releases</a></div></div><button id=search-show title="Search this site" aria-label=Search><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#magnifier"/></svg></button></div><form id=search-form name=cse role=search><input type=hidden name=cx value=013699703217164175118:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=en>
+<input type=hidden id=search-page-url value=/v1.2/search.html>
+<input id=search-textbox class=form-control name=q type=search aria-label="Search this site">
+<button id=search-close title="Cancel search" type=reset aria-label="Cancel search"><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#cancel-x"/></svg></button></form></nav></header><main class=primary><div id=sidebar-container class="sidebar-container sidebar-offcanvas"><nav id=sidebar aria-label="Section Navigation"><div class=directory><div class=card><button class="header dynamic" id=card24 title="Learn about the different parts of the Istio system and the abstractions it uses." aria-controls=card24-body><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#concepts"/></svg>Concepts</button><div class="body default" aria-labelledby=card24 role=region id=card24-body><ul role=tree aria-expanded=true class=leaf-section aria-labelledby=card24><li role=none><a role=treeitem title="Introduces Istio, the problems it solves, its high-level architecture and design goals." href=/v1.2/docs/concepts/what-is-istio/>What is Istio?</a></li><li role=none><span role=treeitem class=current title="Describes the various Istio features focused on traffic routing and control.">Traffic Management</span></li><li role=none><a role=treeitem title="Describes Istio's authorization and authentication functionality." href=/v1.2/docs/concepts/security/>Policies and Security</a></li><li role=none><a role=treeitem title="Describes the telemetry and monitoring features provided by Istio." href=/v1.2/docs/concepts/observability/>Observability</a></li><li role=none><a role=treeitem title="Introduces performance and scalability for Istio." href=/v1.2/docs/concepts/performance-and-scalability/>Performance and Scalability</a></li><li role=none><a role=treeitem title="Describes how a service mesh can be configured to include services from more than one cluster." href=/v1.2/docs/concepts/multicluster-deployments/>Multicluster Deployments</a></li></ul></div></div><div class=card><button class="header dynamic" id=card46 title="How to deploy and upgrade Istio in various environments such as Kubernetes and Consul." aria-controls=card46-body><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#setup"/></svg>Setup</button><div class=body aria-labelledby=card46 role=region id=card46-body><ul role=tree aria-expanded=true aria-labelledby=card46><li role=treeitem aria-label=Kubernetes><button aria-hidden=true></button><a title="Instructions for installing the Istio control plane on Kubernetes and adding virtual machines into the mesh." href=/v1.2/docs/setup/kubernetes/>Kubernetes</a><ul role=group aria-expanded=false><li role=none><a role=treeitem title="Download, install, and try out Istio." href=/v1.2/docs/setup/kubernetes/getting-started/>Getting Started</a></li><li role=treeitem aria-label="Platform Setup"><button aria-hidden=true></button><a title="How to prepare various Kubernetes platforms before installing Istio." href=/v1.2/docs/setup/kubernetes/platform-setup/>Platform Setup</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Instructions to setup an Alibaba Cloud Kubernetes cluster for Istio." href=/v1.2/docs/setup/kubernetes/platform-setup/alicloud/>Alibaba Cloud</a></li><li role=none><a role=treeitem title="Instructions to setup an Azure cluster for Istio." href=/v1.2/docs/setup/kubernetes/platform-setup/azure/>Azure</a></li><li role=none><a role=treeitem title="Instructions to setup Docker Desktop for use with Istio." href=/v1.2/docs/setup/kubernetes/platform-setup/docker/>Docker Desktop</a></li><li role=none><a role=treeitem title="Instructions to setup a Google Kubernetes Engine cluster for Istio." href=/v1.2/docs/setup/kubernetes/platform-setup/gke/>Google Kubernetes Engine</a></li><li role=none><a role=treeitem title="Instructions to setup an IBM Cloud cluster for Istio." href=/v1.2/docs/setup/kubernetes/platform-setup/ibm/>IBM Cloud</a></li><li role=none><a role=treeitem title="Instructions to setup a Gardener cluster for Istio." href=/v1.2/docs/setup/kubernetes/platform-setup/gardener/>Kubernetes Gardener</a></li><li role=none><a role=treeitem title="Instructions to setup minikube for use with Istio." href=/v1.2/docs/setup/kubernetes/platform-setup/minikube/>Minikube</a></li><li role=none><a role=treeitem title="Instructions to setup an OpenShift cluster for Istio." href=/v1.2/docs/setup/kubernetes/platform-setup/openshift/>OpenShift</a></li><li role=none><a role=treeitem title="Instructions to setup an OKE cluster for Istio." href=/v1.2/docs/setup/kubernetes/platform-setup/oci/>Oracle Cloud Infrastructure</a></li></ul></li><li role=treeitem aria-label=Install><button aria-hidden=true></button><a title="Choose the guide that best suits your needs and platform." href=/v1.2/docs/setup/kubernetes/install/>Install</a><ul role=group aria-expanded=false><li role=none><a role=treeitem title="Instructions to install Istio in a Kubernetes cluster for evaluation." href=/v1.2/docs/setup/kubernetes/install/kubernetes/>Quick Start Evaluation Install</a></li><li role=none><a role=treeitem title="Install and configure Istio for in-depth evaluation or production use." href=/v1.2/docs/setup/kubernetes/install/helm/>Customizable Install with Helm</a></li><li role=treeitem aria-label="Multicluster Installation"><button aria-hidden=true></button><a title="Configure an Istio mesh spanning multiple Kubernetes clusters." href=/v1.2/docs/setup/kubernetes/install/multicluster/>Multicluster Installation</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Install an Istio mesh across multiple Kubernetes clusters with individually deployed control planes." href=/v1.2/docs/setup/kubernetes/install/multicluster/gateways/>Multiple control planes</a></li><li role=none><a role=treeitem title="Install an Istio mesh across multiple Kubernetes clusters with a shared control plane and VPN connectivity between clusters." href=/v1.2/docs/setup/kubernetes/install/multicluster/shared-vpn/>Shared control plane (single-network)</a></li><li role=none><a role=treeitem title="Install an Istio mesh across multiple Kubernetes clusters using a shared control plane for diconnected cluster networks." href=/v1.2/docs/setup/kubernetes/install/multicluster/shared-gateways/>Shared control plane (multi-network)</a></li></ul></li><li role=treeitem aria-label="Platform-specific Instructions"><button aria-hidden=true></button><a title="Additional installation instructions for supported Kubernetes platforms." href=/v1.2/docs/setup/kubernetes/install/platform/>Platform-specific Instructions</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Instructions to install Istio using the Alibaba Cloud Kubernetes Container Service." href=/v1.2/docs/setup/kubernetes/install/platform/alicloud/>Alibaba Cloud</a></li><li role=none><a role=treeitem title="Instructions to install Istio using the Google Kubernetes Engine (GKE)." href=/v1.2/docs/setup/kubernetes/install/platform/gke/>Google Kubernetes Engine</a></li><li role=none><a role=treeitem title="Instructions to install Istio using IBM Cloud Public or IBM Cloud Private." href=/v1.2/docs/setup/kubernetes/install/platform/ibm/>IBM Cloud</a></li></ul></li></ul></li><li role=treeitem aria-label=Upgrade><button aria-hidden=true></button><a title="Information on upgrading Istio." href=/v1.2/docs/setup/kubernetes/upgrade/>Upgrade</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Important changes operators must understand before upgrading to Istio 1.2." href=/v1.2/docs/setup/kubernetes/upgrade/notice/>1.2 Upgrade Notice</a></li><li role=none><a role=treeitem title="Upgrade the Istio control plane and data plane independently." href=/v1.2/docs/setup/kubernetes/upgrade/steps/>Upgrade Steps</a></li></ul></li><li role=treeitem aria-label="More Guides"><button aria-hidden=true></button><a title="More information on additional setup tasks." href=/v1.2/docs/setup/kubernetes/additional-setup/>More Guides</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Prepare your Kubernetes pods and services to run in an Istio-enabled cluster." href=/v1.2/docs/setup/kubernetes/additional-setup/requirements/>Pods and Services</a></li><li role=none><a role=treeitem title="Describes the built-in Istio installation configuration profiles." href=/v1.2/docs/setup/kubernetes/additional-setup/config-profiles/>Installation Configuration Profiles</a></li><li role=none><a role=treeitem title="Install the Istio sidecar in application pods automatically using the sidecar injector webhook or manually using istioctl CLI." href=/v1.2/docs/setup/kubernetes/additional-setup/sidecar-injection/>Installing the Sidecar</a></li><li role=none><a role=treeitem title="Install and use Istio with the Istio CNI plugin, allowing operators to deploy services with lower privilege." href=/v1.2/docs/setup/kubernetes/additional-setup/cni/>Install Istio with the Istio CNI plugin</a></li><li role=none><a role=treeitem title="Integrate VMs and bare metal hosts into an Istio mesh deployed on Kubernetes." href=/v1.2/docs/setup/kubernetes/additional-setup/mesh-expansion/>Mesh Expansion</a></li></ul></li></ul></li><li role=treeitem aria-label="Nomad &amp; Consul"><button aria-hidden=true></button><a title="Instructions for installing the Istio control plane in a Consul based environment, with or without Nomad." href=/v1.2/docs/setup/consul/>Nomad &amp; Consul</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Quick Start instructions to setup the Istio service mesh with Docker Compose." href=/v1.2/docs/setup/consul/quick-start/>Quick Start on Docker</a></li><li role=none><a role=treeitem title="Instructions for installing the Istio control plane in a Consul-based environment, with or without Nomad." href=/v1.2/docs/setup/consul/install/>Installation</a></li></ul></li></ul></div></div><div class=card><button class="header dynamic" id=card69 title="How to do single specific targeted activities with the Istio system." aria-controls=card69-body><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#tasks"/></svg>Tasks</button><div class=body aria-labelledby=card69 role=region id=card69-body><ul role=tree aria-expanded=true aria-labelledby=card69><li role=treeitem aria-label="Traffic Management"><button aria-hidden=true></button><a title="Tasks that demonstrate Istio's traffic routing features." href=/v1.2/docs/tasks/traffic-management/>Traffic Management</a><ul role=group aria-expanded=false><li role=none><a role=treeitem title="This task shows you how to configure dynamic request routing to multiple versions of a microservice." href=/v1.2/docs/tasks/traffic-management/request-routing/>Request Routing</a></li><li role=none><a role=treeitem title="This task shows you how to inject faults to test the resiliency of your application." href=/v1.2/docs/tasks/traffic-management/fault-injection/>Fault Injection</a></li><li role=none><a role=treeitem title="Shows you how to migrate traffic from an old to new version of a service." href=/v1.2/docs/tasks/traffic-management/traffic-shifting/>Traffic Shifting</a></li><li role=none><a role=treeitem title="Shows you how to migrate TCP traffic from an old to new version of a TCP service." href=/v1.2/docs/tasks/traffic-management/tcp-traffic-shifting/>TCP Traffic Shifting</a></li><li role=none><a role=treeitem title="This task shows you how to setup request timeouts in Envoy using Istio." href=/v1.2/docs/tasks/traffic-management/request-timeouts/>Request Timeouts</a></li><li role=none><a role=treeitem title="This task shows you how to configure circuit breaking for connections, requests, and outlier detection." href=/v1.2/docs/tasks/traffic-management/circuit-breaking/>Circuit Breaking</a></li><li role=none><a role=treeitem title="This task demonstrates the traffic mirroring/shadowing capabilities of Istio." href=/v1.2/docs/tasks/traffic-management/mirroring/>Mirroring</a></li><li role=treeitem aria-label=Ingress><button aria-hidden=true></button><a title="Controlling ingress traffic for an Istio service mesh." href=/v1.2/docs/tasks/traffic-management/ingress/>Ingress</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Describes how to configure an Istio gateway to expose a service outside of the service mesh." href=/v1.2/docs/tasks/traffic-management/ingress/ingress-control/>Ingress Gateways</a></li><li role=none><a role=treeitem title="Expose a service outside of the service mesh over TLS or mTLS using file-mounted certificates." href=/v1.2/docs/tasks/traffic-management/ingress/secure-ingress-mount/>Secure Gateways (File Mount)</a></li><li role=none><a role=treeitem title="Expose a service outside of the service mesh over TLS or mTLS using the secret discovery service (SDS)." href=/v1.2/docs/tasks/traffic-management/ingress/secure-ingress-sds/>Secure Gateways (SDS)</a></li><li role=none><a role=treeitem title="Describes how to configure SNI passthrough for an ingress gateway." href=/v1.2/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/>Ingress Gateway without TLS Termination</a></li><li role=none><a role=treeitem title="Demonstrates how to obtain Let's Encrypt TLS certificates for Kubernetes Ingress automatically using Cert-Manager." href=/v1.2/docs/tasks/traffic-management/ingress/ingress-certmgr/>Kubernetes Ingress with Cert-Manager</a></li></ul></li><li role=treeitem aria-label=Egress><button aria-hidden=true></button><a title="Controlling egress traffic for an Istio service mesh." href=/v1.2/docs/tasks/traffic-management/egress/>Egress</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Describes how to configure Istio to route traffic from services in the mesh to external services." href=/v1.2/docs/tasks/traffic-management/egress/egress-control/>Accessing External Services</a></li><li role=none><a role=treeitem title="Describes how to configure Istio to perform TLS origination for traffic to external services." href=/v1.2/docs/tasks/traffic-management/egress/egress-tls-origination/>Egress TLS Origination</a></li><li role=none><a role=treeitem title="Describes how to configure Istio to direct traffic to external services through a dedicated gateway." href=/v1.2/docs/tasks/traffic-management/egress/egress-gateway/>Egress Gateways</a></li><li role=none><a role=treeitem title="Describes how to configure an Egress Gateway to perform TLS origination to external services." href=/v1.2/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/>Egress Gateways with TLS Origination</a></li><li role=none><a role=treeitem title="Describes how to enable egress traffic for a set of hosts in a common domain, instead of configuring each and every host separately." href=/v1.2/docs/tasks/traffic-management/egress/wildcard-egress-hosts/>Egress using Wildcard Hosts</a></li><li role=none><a role=treeitem title="Describes how to configure SNI monitoring and apply policies on TLS egress traffic." href=/v1.2/docs/tasks/traffic-management/egress/egress_sni_monitoring_and_policies/>Monitoring and Policies for TLS Egress</a></li><li role=none><a role=treeitem title="Describes how to configure Istio to let applications use an external HTTPS proxy." href=/v1.2/docs/tasks/traffic-management/egress/http-proxy/>Using an External HTTPS Proxy</a></li></ul></li></ul></li><li role=treeitem aria-label=Security><button aria-hidden=true></button><a title="Demonstrates how to secure the mesh." href=/v1.2/docs/tasks/security/>Security</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Shows you how to use Istio authentication policy to setup mutual TLS and basic end-user authentication." href=/v1.2/docs/tasks/security/authn-policy/>Authentication Policy</a></li><li role=none><a role=treeitem title="Shows how to set up role-based access control for HTTP services." href=/v1.2/docs/tasks/security/authz-http/>Authorization for HTTP Services</a></li><li role=none><a role=treeitem title="Shows how to set up role-based access control for TCP services." href=/v1.2/docs/tasks/security/authz-tcp/>Authorization for TCP Services</a></li><li role=none><a role=treeitem title="Tutorial on how to configure the groups-base authorization and configure the authorization of list-typed claims in Istio." href=/v1.2/docs/tasks/security/rbac-groups/>Authorization for groups and list claims</a></li><li role=none><a role=treeitem title="Shows how to use Authorization permissive mode." href=/v1.2/docs/tasks/security/authz-permissive/>Authorization permissive mode</a></li><li role=none><a role=treeitem title="This task shows you how to integrate a Vault Certificate Authority with Istio for mutual TLS." href=/v1.2/docs/tasks/security/vault-ca/>Istio Vault CA Integration</a></li><li role=none><a role=treeitem title="Shows you how to verify and test Istio's automatic mutual TLS authentication." href=/v1.2/docs/tasks/security/mutual-tls/>Mutual TLS Deep-Dive</a></li><li role=none><a role=treeitem title="Shows how operators can configure Citadel with existing root certificate, signing certificate and key." href=/v1.2/docs/tasks/security/plugin-ca-cert/>Plugging in External CA Key and Certificate</a></li><li role=none><a role=treeitem title="Shows how to enable Citadel health checking with Kubernetes." href=/v1.2/docs/tasks/security/health-check/>Citadel Health Checking</a></li><li role=none><a role=treeitem title="Shows how to enable SDS (secret discovery service) for Istio identity provisioning." href=/v1.2/docs/tasks/security/auth-sds/>Provisioning Identity through SDS</a></li><li role=none><a role=treeitem title="Shows you how to incrementally migrate your Istio services to mutual TLS." href=/v1.2/docs/tasks/security/mtls-migration/>Mutual TLS Migration</a></li><li role=none><a role=treeitem title="Shows how to enable mutual TLS on HTTPS services." href=/v1.2/docs/tasks/security/https-overlay/>Mutual TLS over HTTPS</a></li></ul></li><li role=treeitem aria-label=Policies><button aria-hidden=true></button><a title="Demonstrates policy enforcement features." href=/v1.2/docs/tasks/policy-enforcement/>Policies</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="This task shows you how to enable Istio policy enforcement." href=/v1.2/docs/tasks/policy-enforcement/enabling-policy/>Enabling Policy Enforcement</a></li><li role=none><a role=treeitem title="This task shows you how to use Istio to dynamically limit the traffic to a service." href=/v1.2/docs/tasks/policy-enforcement/rate-limiting/>Enabling Rate Limits</a></li><li role=none><a role=treeitem title="Shows how to modify request headers and routing using policy adapters." href=/v1.2/docs/tasks/policy-enforcement/control-headers/>Control Headers and Routing</a></li><li role=none><a role=treeitem title="Shows how to control access to a service using simple denials or white/black listing." href=/v1.2/docs/tasks/policy-enforcement/denial-and-list/>Denials and White/Black Listing</a></li></ul></li><li role=treeitem aria-label=Telemetry><button aria-hidden=true></button><a title="Demonstrates how to collect telemetry information from the mesh." href=/v1.2/docs/tasks/telemetry/>Telemetry</a><ul role=group aria-expanded=false><li role=treeitem aria-label=Metrics><button aria-hidden=true></button><a title="Demonstrates the configuration, collection, and processing of Istio mesh metrics." href=/v1.2/docs/tasks/telemetry/metrics/>Metrics</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="This task shows you how to configure Istio to collect and customize metrics." href=/v1.2/docs/tasks/telemetry/metrics/collecting-metrics/>Collecting Metrics</a></li><li role=none><a role=treeitem title="This task shows you how to configure Istio to collect metrics for TCP services." href=/v1.2/docs/tasks/telemetry/metrics/tcp-metrics/>Collecting Metrics for TCP services</a></li><li role=none><a role=treeitem title="This task shows you how to query for Istio Metrics using Prometheus." href=/v1.2/docs/tasks/telemetry/metrics/querying-metrics/>Querying Metrics from Prometheus</a></li><li role=none><a role=treeitem title="This task shows you how to setup and use the Istio Dashboard to monitor mesh traffic." href=/v1.2/docs/tasks/telemetry/metrics/using-istio-dashboard/>Visualizing Metrics with Grafana</a></li></ul></li><li role=treeitem aria-label=Logs><button aria-hidden=true></button><a title="Demonstrates the configuration, collection, and processing of Istio mesh logs." href=/v1.2/docs/tasks/telemetry/logs/>Logs</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="This task shows you how to configure Istio to collect and customize logs." href=/v1.2/docs/tasks/telemetry/logs/collecting-logs/>Collecting Logs</a></li><li role=none><a role=treeitem title="This task shows you how to configure Envoy proxies to print access log to their standard output." href=/v1.2/docs/tasks/telemetry/logs/access-log/>Getting Envoy&#39;s Access Logs</a></li><li role=none><a role=treeitem title="This task shows you how to configure Istio to log to a Fluentd daemon." href=/v1.2/docs/tasks/telemetry/logs/fluentd/>Logging with Fluentd</a></li></ul></li><li role=treeitem aria-label="Distributed Tracing"><button aria-hidden=true></button><a title="This task shows you how to configure Istio-enabled applications to collect trace spans." href=/v1.2/docs/tasks/telemetry/distributed-tracing/>Distributed Tracing</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Overview of distributed tracing in Istio." href=/v1.2/docs/tasks/telemetry/distributed-tracing/overview/>Overview</a></li><li role=none><a role=treeitem title="Learn how to configure the proxies to send tracing requests to Jaeger." href=/v1.2/docs/tasks/telemetry/distributed-tracing/jaeger/>Jaeger</a></li><li role=none><a role=treeitem title="Learn how to configure the proxies to send tracing requests to Zipkin." href=/v1.2/docs/tasks/telemetry/distributed-tracing/zipkin/>Zipkin</a></li><li role=none><a role=treeitem title="How to configure the proxies to send tracing requests to LightStep." href=/v1.2/docs/tasks/telemetry/distributed-tracing/lightstep/>LightStep</a></li></ul></li><li role=none><a role=treeitem title="This task shows you how to visualize your services within an Istio mesh." href=/v1.2/docs/tasks/telemetry/kiali/>Visualizing Your Mesh</a></li><li role=none><a role=treeitem title="This task shows you how to configure external access to the set of Istio telemetry addons." href=/v1.2/docs/tasks/telemetry/gateways/>Remotely Accessing Telemetry Addons</a></li></ul></li></ul></div></div><div class=card><button class="header dynamic" id=card83 title="A variety of fully working example uses for Istio that you can experiment with." aria-controls=card83-body><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#examples"/></svg>Examples</button><div class=body aria-labelledby=card83 role=region id=card83-body><ul role=tree aria-expanded=true aria-labelledby=card83><li role=none><a role=treeitem title="Deploys a sample application composed of four separate microservices used to demonstrate various Istio features." href=/v1.2/docs/examples/bookinfo/>Bookinfo Application</a></li><li role=none><a role=treeitem title="Explains how to manually integrate Google Cloud Endpoints services with Istio." href=/v1.2/docs/examples/endpoints/>Install Istio for Google Cloud Endpoints Services</a></li><li role=none><a role=treeitem title="Illustrates how to use Istio to control a Kubernetes cluster and raw VMs as a single mesh." href=/v1.2/docs/examples/integrating-vms/>Integrating Virtual Machines</a></li><li role=treeitem aria-label="Multicluster Service Mesh"><button aria-hidden=true></button><a title="Multicluster service mesh examples for Istio that you can experiment with." href=/v1.2/docs/examples/multicluster/>Multicluster Service Mesh</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Set up a multicluster mesh over two GKE clusters." href=/v1.2/docs/examples/multicluster/gke/>Google Kubernetes Engine</a></li><li role=none><a role=treeitem title="Example multicluster mesh over two IBM Cloud Private clusters." href=/v1.2/docs/examples/multicluster/icp/>IBM Cloud Private</a></li></ul></li></ul></div></div><div class=card><button class="header dynamic" id=card100 title="Hints, tips, tricks about running an Istio mesh." aria-controls=card100-body><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#guide"/></svg>Operations</button><div class=body aria-labelledby=card100 role=region id=card100-body><ul role=tree aria-expanded=true aria-labelledby=card100><li role=none><a role=treeitem title="Describes how to use component-level logging to get insights into a running component's behavior." href=/v1.2/docs/ops/component-logging/>Component Logging</a></li><li role=none><a role=treeitem title="Describes how to use ControlZ to get insight into individual running components." href=/v1.2/docs/ops/controlz/>Component Introspection</a></li><li role=none><a role=treeitem title="How to do low-level debugging of Istio components." href=/v1.2/docs/ops/component-debugging/>Component Debugging</a></li><li role=treeitem aria-label="Traffic Management"><button aria-hidden=true></button><a title="Helps you manage the networking aspects of a running mesh." href=/v1.2/docs/ops/traffic-management/>Traffic Management</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="An introduction to Istio networking operational aspects." href=/v1.2/docs/ops/traffic-management/introduction/>Introduction to Network Operations</a></li><li role=none><a role=treeitem title="Provides specific deployment and configuration guidelines." href=/v1.2/docs/ops/traffic-management/deploy-guidelines/>Deployment and Configuration Guidelines</a></li><li role=none><a role=treeitem title="Describes common networking issues and how to recognize and avoid them." href=/v1.2/docs/ops/traffic-management/troubleshooting/>Troubleshooting Networking Issues</a></li><li role=none><a role=treeitem title="Describes tools and techniques to diagnose Envoy configuration issues related to traffic management." href=/v1.2/docs/ops/traffic-management/proxy-cmd/>Debugging Envoy and Pilot</a></li><li role=none><a role=treeitem title="Information on how to enable and understand Locality Load Balancing." href=/v1.2/docs/ops/traffic-management/locality-load-balancing/>Locality Load Balancing</a></li></ul></li><li role=treeitem aria-label=Security><button aria-hidden=true></button><a title="Helps you manage the security aspects of a running mesh." href=/v1.2/docs/ops/security/>Security</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Demonstrates how to debug authorization." href=/v1.2/docs/ops/security/debugging-authorization/>Debugging Authorization</a></li><li role=none><a role=treeitem title="What to do if Citadel is not behaving properly." href=/v1.2/docs/ops/security/repairing-citadel/>Repairing Citadel</a></li><li role=none><a role=treeitem title="What to do if you suspect problems with Istio keys and certificates." href=/v1.2/docs/ops/security/keys-and-certs/>Keys and Certificates</a></li><li role=none><a role=treeitem title="What to do if mutual TLS authentication isn't working." href=/v1.2/docs/ops/security/mutual-tls/>Mutual TLS</a></li><li role=none><a role=treeitem title="Authorization is enabled, but requests make it through anyway." href=/v1.2/docs/ops/security/authorization-permissive/>Authorization Too Permissive</a></li><li role=none><a role=treeitem title="Authorization is enabled and no requests make it through to the service." href=/v1.2/docs/ops/security/authorization-restrictive/>Authorization Too Restrictive</a></li><li role=none><a role=treeitem title="What to do if end-user authentication doesn't work." href=/v1.2/docs/ops/security/end-user-auth/>End User Authentication</a></li><li role=none><a role=treeitem title="Learn how to extend the lifetime of the Istio self-signed root certificate." href=/v1.2/docs/ops/security/root-transition/>Extending Self-Signed Certificate Lifetime</a></li></ul></li><li role=treeitem aria-label=Telemetry><button aria-hidden=true></button><a title="Helps you manage telemetry collection and visualization in a running mesh." href=/v1.2/docs/ops/telemetry/>Telemetry</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Diagnose problems where metrics are not being collected." href=/v1.2/docs/ops/telemetry/missing-metrics/>Missing Metrics</a></li><li role=none><a role=treeitem title="Dealing with Grafana issues." href=/v1.2/docs/ops/telemetry/grafana/>Grafana</a></li><li role=none><a role=treeitem title="Fine-grained control of Envoy statistics." href=/v1.2/docs/ops/telemetry/envoy-stats/>Envoy Statistics</a></li></ul></li><li role=treeitem aria-label="Installation and Setup"><button aria-hidden=true></button><a title="Helps you diagnose and repair Istio installations." href=/v1.2/docs/ops/setup/>Installation and Setup</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Provides a general overview of Istio's use of Kubernetes webhooks and the related issues that can arise." href=/v1.2/docs/ops/setup/webhook/>Dynamic Admission Webhooks Overview</a></li><li role=none><a role=treeitem title="Describes Istio's use of Kubernetes webhooks for server-side configuration validation." href=/v1.2/docs/ops/setup/validation/>Configuration Validation Webhook</a></li><li role=none><a role=treeitem title="Istio includes a supplemental tool that provides debugging and diagnosis for Istio service mesh deployments." href=/v1.2/docs/ops/setup/istioctl/>Using the istioctl command-line tool</a></li><li role=none><a role=treeitem title="Describes Istio's use of Kubernetes webhooks for automatic sidecar injection." href=/v1.2/docs/ops/setup/injection/>Sidecar Injection Webhook</a></li><li role=none><a role=treeitem title="Describes how to check which capabilities are allowed for your pods." href=/v1.2/docs/ops/setup/required-pod-capabilities/>Required Pod Capabilities</a></li><li role=none><a role=treeitem title="Shows how to do health checking for Istio services." href=/v1.2/docs/ops/setup/app-health-check/>Health Checking of Istio Services</a></li></ul></li><li role=none><a role=treeitem title="Advice on tackling common problems with Istio." href=/v1.2/docs/ops/misc/>Miscellaneous</a></li></ul></div></div><div class=card><button class="header dynamic" id=card130 title="Detailed authoritative reference material such as command-line options, configuration options, and API calling parameters." aria-controls=card130-body><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#reference"/></svg>Reference</button><div class=body aria-labelledby=card130 role=region id=card130-body><ul role=tree aria-expanded=true aria-labelledby=card130><li role=treeitem aria-label=Configuration><button aria-hidden=true></button><a title="Detailed information on configuration options." href=/v1.2/docs/reference/config/>Configuration</a><ul role=group aria-expanded=false><li role=treeitem aria-label="Traffic Management"><button aria-hidden=true></button><a title="Describes how to configure HTTP/TCP routing features." href=/v1.2/docs/reference/config/networking/>Traffic Management</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Configuration affecting load balancing, outlier detection, etc." href=/v1.2/docs/reference/config/networking/v1alpha3/destination-rule/>Destination Rule</a></li><li role=none><a role=treeitem title="Configuration affecting insertion of custom Envoy filters." href=/v1.2/docs/reference/config/networking/v1alpha3/envoy-filter/>Envoy Filter</a></li><li role=none><a role=treeitem title="Configuration affecting edge load balancer." href=/v1.2/docs/reference/config/networking/v1alpha3/gateway/>Gateway</a></li><li role=none><a role=treeitem title="Configuration affecting service registry." href=/v1.2/docs/reference/config/networking/v1alpha3/service-entry/>Service Entry</a></li><li role=none><a role=treeitem title="Configuration affecting network reachability of a sidecar." href=/v1.2/docs/reference/config/networking/v1alpha3/sidecar/>Sidecar</a></li><li role=none><a role=treeitem title="Configuration affecting label/content routing, sni routing, etc." href=/v1.2/docs/reference/config/networking/v1alpha3/virtual-service/>Virtual Service</a></li></ul></li><li role=treeitem aria-label=Authorization><button aria-hidden=true></button><a title="Describes how to configure Istio's authorization features." href=/v1.2/docs/reference/config/authorization/>Authorization</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Describes the supported constraints and properties." href=/v1.2/docs/reference/config/authorization/constraints-and-properties/>Constraints and Properties</a></li><li role=none><a role=treeitem title="Configuration for Role Based Access Control." href=/v1.2/docs/reference/config/authorization/istio.rbac.v1alpha1/>RBAC</a></li></ul></li><li role=none><a role=treeitem title="Describes the options available when installing Istio using the included Helm chart." href=/v1.2/docs/reference/config/installation-options/>Installation Options</a></li><li role=none><a role=treeitem title="Details the Helm chart installation options differences between release-1.1 and release-1.2." href=/v1.2/docs/reference/config/installation-options-changes/>Installation Options Changes</a></li><li role=treeitem aria-label="Policies and Telemetry"><button aria-hidden=true></button><a title="Describes how to configure Istio's policy and telemetry features." href=/v1.2/docs/reference/config/policy-and-telemetry/>Policies and Telemetry</a><ul role=group aria-expanded=false><li role=none><a role=treeitem title="Describes the configuration model for Istio's policy enforcement and telemetry mechanisms." href=/v1.2/docs/reference/config/policy-and-telemetry/mixer-overview/>Mixer Configuration Model</a></li><li role=none><a role=treeitem title="Describes the base attribute vocabulary used for policy and control." href=/v1.2/docs/reference/config/policy-and-telemetry/attribute-vocabulary/>Attribute Vocabulary</a></li><li role=none><a role=treeitem title="Mixer configuration expression language reference." href=/v1.2/docs/reference/config/policy-and-telemetry/expression-language/>Expression Language</a></li><li role=treeitem aria-label=Adapters><button aria-hidden=true></button><a title="Mixer adapters allow Istio to interface to a variety of infrastructure backends for such things as metrics and logs." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/>Adapters</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Adapter to deliver metrics to Apache SkyWalking." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/apache-skywalking/>Apache SkyWalking</a></li><li role=none><a role=treeitem title="Adapter for Apigee's distributed policy checks and analytics." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/apigee/>Apigee</a></li><li role=none><a role=treeitem title="Adapter for circonus.com's monitoring solution." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/circonus/>Circonus</a></li><li role=none><a role=treeitem title="Adapter for cloudmonitor metrics." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/cloudmonitor/>CloudMonitor</a></li><li role=none><a role=treeitem title="Adapter for cloudwatch metrics." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/cloudwatch/>CloudWatch</a></li><li role=none><a role=treeitem title="Adapter to deliver metrics to a dogstatsd agent for delivery to DataDog." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/datadog/>Datadog</a></li><li role=none><a role=treeitem title="Adapter that always returns a precondition denial." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/denier/>Denier</a></li><li role=none><a role=treeitem title="Adapter that delivers logs to a Fluentd daemon." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/fluentd/>Fluentd</a></li><li role=none><a role=treeitem title="Adapter that extracts information from a Kubernetes environment." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/kubernetesenv/>Kubernetes Env</a></li><li role=none><a role=treeitem title="Adapter that performs whitelist or blacklist checks." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/list/>List</a></li><li role=none><a role=treeitem title="Adapter for a simple in-memory quota management system." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/memquota/>Memory quota</a></li><li role=none><a role=treeitem title="Adapter that implements an Open Policy Agent engine." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/opa/>OPA</a></li><li role=none><a role=treeitem title="Adapter that exposes Istio metrics for ingestion by a Prometheus harvester." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/prometheus/>Prometheus</a></li><li role=none><a role=treeitem title="Adapter for a Redis-based quota management system." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/redisquota/>Redis Quota</a></li><li role=none><a role=treeitem title="Adapter that sends metrics to SignalFx." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/signalfx/>SignalFx</a></li><li role=none><a role=treeitem title="Adapter to deliver logs and metrics to Papertrail and AppOptics backends." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/solarwinds/>SolarWinds</a></li><li role=none><a role=treeitem title="Adapter to deliver logs, metrics, and traces to Stackdriver." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/stackdriver/>Stackdriver</a></li><li role=none><a role=treeitem title="Adapter to deliver metrics to a StatsD backend." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/statsd/>StatsD</a></li><li role=none><a role=treeitem title="Adapter to locally output logs and metrics." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/stdio/>Stdio</a></li><li role=none><a role=treeitem title="Adapter to deliver metrics to Wavefront by VMware." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/wavefront/>Wavefront by VMware</a></li><li role=none><a role=treeitem title="Adapter to deliver tracing data to Zipkin." href=/v1.2/docs/reference/config/policy-and-telemetry/adapters/zipkin/>Zipkin</a></li></ul></li><li role=none><a role=treeitem title="Default Metrics exported from Istio through Mixer." href=/v1.2/docs/reference/config/policy-and-telemetry/metrics/>Default Metrics</a></li><li role=treeitem aria-label=Templates><button aria-hidden=true></button><a title="Mixer templates are used to send data to individual adapters." href=/v1.2/docs/reference/config/policy-and-telemetry/templates/>Templates</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="A template that represents a single API key." href=/v1.2/docs/reference/config/policy-and-telemetry/templates/apikey/>API Key</a></li><li role=none><a role=treeitem title="The Analytics template is used to dispatch runtime telemetry to Apigee." href=/v1.2/docs/reference/config/policy-and-telemetry/templates/analytics/>Analytics</a></li><li role=none><a role=treeitem title="A template used to represent an access control query." href=/v1.2/docs/reference/config/policy-and-telemetry/templates/authorization/>Authorization</a></li><li role=none><a role=treeitem title="A template that carries no data, useful for testing." href=/v1.2/docs/reference/config/policy-and-telemetry/templates/checknothing/>Check Nothing</a></li><li role=none><a role=treeitem title="A template designed to report observed communication edges between workloads." href=/v1.2/docs/reference/config/policy-and-telemetry/templates/edge/>Edge</a></li><li role=none><a role=treeitem title="A template that is used to control the production of Kubernetes-specific attributes." href=/v1.2/docs/reference/config/policy-and-telemetry/templates/kubernetes/>Kubernetes</a></li><li role=none><a role=treeitem title="A template designed to let you perform list checking operations." href=/v1.2/docs/reference/config/policy-and-telemetry/templates/listentry/>List Entry</a></li><li role=none><a role=treeitem title="A template that represents a single runtime log entry." href=/v1.2/docs/reference/config/policy-and-telemetry/templates/logentry/>Log Entry</a></li><li role=none><a role=treeitem title="A template that represents a single runtime metric." href=/v1.2/docs/reference/config/policy-and-telemetry/templates/metric/>Metric</a></li><li role=none><a role=treeitem title="A template that represents a quota allocation request." href=/v1.2/docs/reference/config/policy-and-telemetry/templates/quota/>Quota</a></li><li role=none><a role=treeitem title="A template that carries no data, useful for testing." href=/v1.2/docs/reference/config/policy-and-telemetry/templates/reportnothing/>Report Nothing</a></li><li role=none><a role=treeitem title="A template that represents an individual span within a distributed trace." href=/v1.2/docs/reference/config/policy-and-telemetry/templates/tracespan/>Trace Span</a></li></ul></li><li role=none><a role=treeitem title="Configuration state for the Mixer client library." href=/v1.2/docs/reference/config/policy-and-telemetry/istio.mixer.v1.config.client/>Mixer Client</a></li><li role=none><a role=treeitem title="Describes the rules used to configure Mixer's policy and telemetry features." href=/v1.2/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/>Rules</a></li></ul></li><li role=none><a role=treeitem title="Authentication policy for Istio services." href=/v1.2/docs/reference/config/istio.authentication.v1alpha1/>Authentication Policy</a></li><li role=none><a role=treeitem title="Configuration affecting the service mesh as a whole." href=/v1.2/docs/reference/config/istio.mesh.v1alpha1/>Service Mesh</a></li></ul></li><li role=treeitem aria-label=Commands><button aria-hidden=true></button><a title="Describes usage and options of the Istio commands and utilities." href=/v1.2/docs/reference/commands/>Commands</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Galley provides configuration management services for Istio." href=/v1.2/docs/reference/commands/galley/>galley</a></li><li role=none><a role=treeitem title="Istio Certificate Authority (CA)." href=/v1.2/docs/reference/commands/istio_ca/>istio_ca</a></li><li role=none><a role=treeitem title="Istio control interface." href=/v1.2/docs/reference/commands/istioctl/>istioctl</a></li><li role=none><a role=treeitem title="Mixer is Istio's abstraction on top of infrastructure backends." href=/v1.2/docs/reference/commands/mixs/>mixs</a></li><li role=none><a role=treeitem title="Istio security per-node agent." href=/v1.2/docs/reference/commands/node_agent/>node_agent</a></li><li role=none><a role=treeitem title="The Istio operator." href=/v1.2/docs/reference/commands/operator/>operator</a></li><li role=none><a role=treeitem title="Istio Pilot agent." href=/v1.2/docs/reference/commands/pilot-agent/>pilot-agent</a></li><li role=none><a role=treeitem title="Istio Pilot." href=/v1.2/docs/reference/commands/pilot-discovery/>pilot-discovery</a></li><li role=none><a role=treeitem title="Kubernetes webhook for automatic Istio sidecar injection." href=/v1.2/docs/reference/commands/sidecar-injector/>sidecar-injector</a></li></ul></li><li role=none><a role=treeitem title="A glossary of common Istio terms." href=/v1.2/docs/reference/glossary/>Glossary</a></li></ul></div></div></div></nav></div><div class=article-container><button tabindex=-1 id=sidebar-toggler title="Toggle the navigation bar"><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#pull"/></svg></button><nav aria-label=Breadcrumb><ol><li><a href=/v1.2/ title="Connect, secure, control, and observe services.">Istio</a></li><li><a href=/v1.2/docs/ title="Learn how to deploy, use, and operate Istio.">Docs</a></li><li><a href=/v1.2/docs/concepts/ title="Learn about the different parts of the Istio system and the abstractions it uses.">Concepts</a></li><li>Traffic Management</li></ol></nav><article aria-labelledby=title><div class=title-area><div><h1 id=title>Traffic Management</h1><p class=byline><span title="6286 words"><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#clock"/></svg><span>&nbsp;</span>30 minute read</span></p></div></div><nav class=toc-inlined aria-label="Table of Contents"><div><hr><ol><li role=none aria-label="Overview and terminology"><a href=#overview-and-terminology>Overview and terminology</a><ol><li role=none aria-label="Pilot: Core traffic management"><a href=#pilot>Pilot: Core traffic management</a><li role=none aria-label="Envoy proxies"><a href=#envoy-proxies>Envoy proxies</a><ol><li role=none aria-label="Service discovery and load balancing"><a href=#discovery>Service discovery and load balancing</a></ol></li></ol></li><li role=none aria-label="Traffic routing and configuration"><a href=#traffic-routing-and-configuration>Traffic routing and configuration</a><ol><li role=none aria-label="Traffic routing use cases"><a href=#traffic-routing-use-cases>Traffic routing use cases</a><ol><li role=none aria-label="Routing traffic to multiple versions of a service"><a href=#routing-versions>Routing traffic to multiple versions of a service</a><li role=none aria-label="Canary rollouts with autoscaling"><a href=#canary>Canary rollouts with autoscaling</a></ol></li></ol></li><li role=none aria-label="Virtual services"><a href=#virtual-services>Virtual services</a><ol><li role=none aria-label="Route requests to a subset"><a href=#routing-subset>Route requests to a subset</a><li role=none aria-label="Route requests to services in a Kubernetes namespace"><a href=#routing-namespace>Route requests to services in a Kubernetes namespace</a><li role=none aria-label="Routing rules"><a href=#routing-rules>Routing rules</a><ol><li role=none aria-label="Routing rule for HTTP traffic"><a href=#routing-rule-for-http-traffic>Routing rule for HTTP traffic</a><li role=none aria-label="Match a condition"><a href=#match-a-condition>Match a condition</a><li role=none aria-label="Conditions based on HTTP headers"><a href=#conditions-based-on-http-headers>Conditions based on HTTP headers</a><li role=none aria-label="Match request URI"><a href=#match-request-uri>Match request URI</a><li role=none aria-label="Multiple match conditions"><a href=#multi-match>Multiple match conditions</a></ol></li><li role=none aria-label="Routing rule precedence"><a href=#precedence>Routing rule precedence</a><ol><li role=none aria-label="Precedence example with 2 rules"><a href=#precedence-example-with-2-rules>Precedence example with 2 rules</a></ol></li></ol></li><li role=none aria-label="Destination rules"><a href=#destination-rules>Destination rules</a><ol><li role=none aria-label="Load balancing 3 subsets"><a href=#load-balancing-3-subsets>Load balancing 3 subsets</a><li role=none aria-label="Service subsets"><a href=#service-subsets>Service subsets</a></ol></li><li role=none aria-label=Gateways><a href=#gateways>Gateways</a><ol><li role=none aria-label="Configure a gateway for external HTTPS traffic"><a href=#configure-a-gateway-for-external-https-traffic>Configure a gateway for external HTTPS traffic</a><ol><li role=none aria-label="Bind a gateway to a virtual service"><a href=#bind-a-gateway-to-a-virtual-service>Bind a gateway to a virtual service</a></ol></li></ol></li><li role=none aria-label="Service entries"><a href=#service-entries>Service entries</a><li role=none aria-label="Add an external dependency securely"><a href=#add-an-external-dependency-securely>Add an external dependency securely</a><ol><li role=none aria-label="Secure the connection with mutual TLS"><a href=#secure-the-connection-with-mutual-tls>Secure the connection with mutual TLS</a></ol></li><li role=none aria-label=Sidecars><a href=#sidecars>Sidecars</a><ol><li role=none aria-label="Enable namespace isolation"><a href=#enable-namespace-isolation>Enable namespace isolation</a></ol></li><li role=none aria-label="Network resilience and testing"><a href=#network-resilience-and-testing>Network resilience and testing</a><li role=none aria-label="Timeouts and retries"><a href=#timeouts-and-retries>Timeouts and retries</a><ol><li role=none aria-label="Override default timeout setting"><a href=#override-default-timeout-setting>Override default timeout setting</a><li role=none aria-label="Set number and timeouts for retries"><a href=#set-number-and-timeouts-for-retries>Set number and timeouts for retries</a></ol></li><li role=none aria-label="Circuit breakers"><a href=#circuit-breakers>Circuit breakers</a><ol><li role=none aria-label="Limit connections to 100"><a href=#limit-connections-to-100>Limit connections to 100</a></ol></li><li role=none aria-label="Fault injection"><a href=#fault-injection>Fault injection</a><ol><li role=none aria-label="Introduce a 5 second delay in 10% of requests"><a href=#introduce-a-5-second-delay-in-10-of-requests>Introduce a 5 second delay in 10% of requests</a><li role=none aria-label="Return an HTTP 400 error code for 10% of requests"><a href=#return-an-http-400-error-code-for-10-of-requests>Return an HTTP 400 error code for 10% of requests</a><li role=none aria-label="Combine delay and abort faults"><a href=#combine-delay-and-abort-faults>Combine delay and abort faults</a></ol></li><li role=none aria-label="Compatibility with application-level fault handling"><a href=#compatibility-with-application-level-fault-handling>Compatibility with application-level fault handling</a><li role=none aria-label="See also"><a href=#see-also>See also</a></li></ol><hr></div></nav><ul><li><p><a href=/v1.2/docs/concepts/traffic-management/#overview-and-terminology>Overview and terminology</a>:
+Learn about Pilot, Istio&rsquo;s core traffic management component and Envoy
+proxies and how they enable service discovery and traffic control for services in the mesh.</p></li><li><p><a href=/v1.2/docs/concepts/traffic-management/#traffic-routing-and-configuration>Traffic routing and configuration</a>:
+Learn about the Istio features and resources needed to configure routing and
+control the ingress and egress of traffic for the mesh.</p></li><li><p><a href=/v1.2/docs/concepts/traffic-management/#network-resilience-and-testing>Network resilience and testing</a>:
+Learn about Istio&rsquo;s dynamic failure recovery features that you can configure
+to test and build tolerance for failing nodes, and to prevent cascading failures to
+other nodes.</p></li></ul><h2 id=overview-and-terminology>Overview and terminology</h2><p>With Istio, you can manage service discovery, traffic routing, and load balancing
+for your service mesh without having to update your services. Istio simplifies
+configuration of service-level properties like timeouts and retries, and makes
+it straightforward to set up tasks like staged rollouts with percentage-based
+traffic splits.</p><p>Istio&rsquo;s traffic management model relies on the following two components:</p><ul><li><span class=term data-title=Pilot data-body='&lt;p&gt;The Istio component that programs the &lt;a href="#envoy"&gt;Envoy&lt;/a&gt; proxies, responsible for service discovery, load balancing, and routing.&lt;/p&gt;'>Pilot</span>
+, the core traffic management component.</li><li><span class=term data-title=Envoy data-body='&lt;p&gt;The high-performance proxy that Istio uses to mediate inbound and outbound traffic for all &lt;a href="#service"&gt;services&lt;/a&gt; in the
+&lt;a href="#service-mesh"&gt;service mesh&lt;/a&gt;. &lt;a href="https://envoyproxy.github.io/envoy/"&gt;Learn more about Envoy&lt;/a&gt;.&lt;/p&gt;'>Envoy</span>
+proxies, which enforce configurations and policies set through Pilot.</li></ul><p>These components enable the following Istio traffic management features:</p><ul><li>Service discovery</li><li>Load balancing</li><li>Traffic routing and control</li></ul><h3 id=pilot>Pilot: Core traffic management</h3><p>The following diagram shows the Pilot architecture:</p><figure style=width:40%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:81.71844593589637%><a data-skipendnotes=true href=/v1.2/docs/concepts/traffic-management/./pilot-arch.svg title="Pilot architecture"><img class=element-to-stretch src=/v1.2/docs/concepts/traffic-management/./pilot-arch.svg alt="Pilot architecture"></a></div><figcaption>Pilot architecture</figcaption></figure><p>As the diagram illustrates, Pilot maintains an <strong>abstract model</strong> of all the
+services in the mesh. <strong>Platform-specific adapters</strong> in Pilot translate the
+abstract model appropriately for your platform.
+For example, the Kubernetes adapter implements controllers to watch the
+Kubernetes API server for changes to pod registration information and service
+resources. The Kubernetes adapter translates this
+data for the abstract model.</p><p>Pilot uses the abstract model to generate appropriate Envoy-specific configurations
+to let Envoy proxies know about one another in the mesh through the <strong>Envoy API.</strong></p><p>You can use Istio&rsquo;s <strong>Traffic Management API</strong> to instruct Pilot to refine
+the Envoy configuration to exercise more granular control
+over the traffic in your service mesh.</p><h3 id=envoy-proxies>Envoy proxies</h3><p>Traffic in Istio is categorized as data plane traffic and control plane
+traffic. Data plane traffic refers to the data that the business logic of the
+workloads manipulate. Control plane traffic refers to configuration and control
+data sent between Istio components to program the behavior of the mesh. Traffic
+management in Istio refers exclusively to data plane traffic.</p><p>Envoy proxies are the only Istio components that interact with data plane
+traffic. Envoy proxies route the data plane traffic across the mesh and enforce
+the configurations and traffic rules without the services having to be aware of
+them. Envoy proxies mediate all inbound and outbound traffic for all services
+in the mesh. Envoy proxies are deployed as sidecars to services, logically
+augmenting the services with traffic management features:</p><ul><li><a href=/v1.2/docs/concepts/traffic-management/#discovery>service discovery and load balancing</a></li><li><a href=/v1.2/docs/concepts/traffic-management/#traffic-routing-and-configuration>traffic routing and configuration</a></li><li><a href=/v1.2/docs/concepts/traffic-management/#network-resilience-and-testing>network resilience and testing</a></li></ul><p>Some of the features and tasks enabled by Envoy proxies include:</p><ul><li><p>Traffic control features: enforce fine-grained traffic control with rich
+routing rules for HTTP, gRPC, WebSocket, and TCP traffic.</p></li><li><p>Network resiliency features: setup retries, failovers, circuit breakers, and
+fault injection.</p></li><li><p>Security and authentication features: enforce security policies and enforce
+access control and rate limiting defined through the configuration API.</p></li></ul><h4 id=discovery>Service discovery and load balancing</h4><p>Istio service discovery leverages the service discovery features provided by
+platforms like Kubernetes for container-based applications.
+Service discovery works in a similar way regardless of what platform you&rsquo;re
+using:</p><ol><li><p>The platform starts a new instance of a service which notifies its platform
+adapter.</p></li><li><p>The platform adapter registers the instance with the Pilot abstract model.</p></li><li><p><strong>Pilot</strong> distributes traffic rules and configurations to the Envoy proxies
+to account for the change.</p></li></ol><p>The following diagram shows how the platform adapters and Envoy proxies
+interact.</p><figure style=width:40%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:66.80625964293587%><a data-skipendnotes=true href=/v1.2/docs/concepts/traffic-management/./discovery.svg title="Service discovery"><img class=element-to-stretch src=/v1.2/docs/concepts/traffic-management/./discovery.svg alt="Service discovery"></a></div><figcaption>Service discovery</figcaption></figure><p>Because the service discovery feature is platform-independent,
+a service mesh can include services across multiple platforms.</p><p>Using the abstract model, Pilot configures the Envoy proxies to perform
+load balancing for service requests, replacing any underlying
+platform-specific load balancing feature.
+In the absence of more specific routing rules, Envoy will distribute the traffic
+across the instances in the calling service&rsquo;s load balancing pool, according to
+the Pilot abstract model and load balancer configuration.</p><p>Istio supports the following load balancing methods:</p><ul><li><p>Round robin: Requests are forwarded to instances in the pool in turn, and
+the algorithm instructs the load balancer to go back to the top of the pool
+and repeat.</p></li><li><p>Random: Requests are forwarded at random to instances in the pool.</p></li><li><p>Weighted: Requests are forwarded to instances in the pool according to a
+specific percentage.</p></li><li><p>Least requests: Requests are forwarded to instances with the least number of
+requests. See the <a href=https://www.envoyproxy.io/docs/envoy/v1.5.0/intro/arch_overview/load_balancing>Envoy load balancing documentation</a>
+for more information.</p></li></ul><p>You can also choose to prioritize your load balancing pools based on geographic
+location. Visit the <a href=/v1.2/docs/ops/traffic-management/locality-load-balancing/>operations guide</a>
+for more information on the locality load balancing feature.</p><p>In addition to basic service discovery and load balancing, Istio provides a rich
+set of traffic routing and control features, which are described in the following sections.</p><h2 id=traffic-routing-and-configuration>Traffic routing and configuration</h2><p>The Istio traffic routing and configuration model relies on the following
+Istio <a href=/v1.2/docs/reference/config/networking/>traffic management API</a> resources:</p><ul><li><p><strong>Virtual services</strong></p><p>Use a <a href=/v1.2/docs/concepts/traffic-management/#virtual-services>virtual service</a>
+to configure an ordered list of routing rules to control how Envoy proxies
+route requests for a service within an Istio service mesh.</p></li><li><p><strong>Destination rules</strong></p><p>Use <a href=/v1.2/docs/concepts/traffic-management/#destination-rules>destination rules</a>
+to configure the policies you want Istio to apply to a request after
+enforcing the routing rules in your virtual service.</p></li><li><p><strong>Gateways</strong></p><p>Use <a href=/v1.2/docs/concepts/traffic-management/#gateways>gateways</a>
+to configure how the Envoy proxies load balance HTTP, TCP, or gRPC traffic.</p></li><li><p><strong>Service entries</strong></p><p>Use a <a href=/v1.2/docs/concepts/traffic-management/#service-entries>service entry</a>
+to add an entry to Istio&rsquo;s <strong>abstract model</strong> that configures
+external dependencies of the mesh.</p></li><li><p><strong>Sidecars</strong></p><p>Use a <a href=/v1.2/docs/concepts/traffic-management/#sidecars>sidecar</a>
+to configure the scope of the Envoy proxies to enable certain features,
+like namespace isolation.</p></li></ul><p>You can use these resources to configure
+fine-grained traffic control for a range of use cases:</p><ul><li><p>Configure ingress traffic, enforce traffic policing, perform a traffic
+rewrite.</p></li><li><p>Set up load balancers and define <a href=/v1.2/docs/concepts/traffic-management/#service-subsets>service subsets</a>
+as destinations in the mesh.</p></li><li><p>Set up canary rollouts, circuit breakers, timeouts, and retries to test
+network resilience.</p></li><li><p>Configure TLS settings and outlier detection.</p></li></ul><p>The next section walks through some common use cases and describes how Istio
+supports them. Following sections describe each of the traffic management API resources in
+more detail.</p><h3 id=traffic-routing-use-cases>Traffic routing use cases</h3><p>You might use all or only some of the Istio traffic management API resources,
+depending on your use case. Istio handles basic traffic routing by default,
+but configurations for advanced use cases might require the full range of Istio
+traffic routing features.</p><h4 id=routing-versions>Routing traffic to multiple versions of a service</h4><p>Typically, requests sent to services use a service&rsquo;s hostname or IP address,
+and clients sending requests don&rsquo;t distinguish between different versions of
+the service.</p><p>With Istio, because the Envoy proxy intercepts and forwards all requests and
+responses between the clients and the services, you can use routing rules with
+<a href=/v1.2/docs/concepts/traffic-management/#service-subsets>service subsets</a>
+in a virtual service to configure the <a href=/v1.2/docs/concepts/traffic-management/#routing-rules>routing rules</a>
+for multiple versions of a service.</p><p>Service subsets are used to label all instances that correspond to a specific
+version of a service.
+Before you configure routing rules, the Envoy proxies use round-robin load
+balancing across all service instances, regardless of their subset. After you
+configure routing rules for traffic to reach specific subsets, the Envoy
+proxies route traffic to the subset according to the rule but again use
+round-robin to route traffic across the instances of each subset.</p><p>This configuration method provides the following advantages:</p><ul><li>Decouples the application code from the evolution of the application&rsquo;s dependent services.</li><li>Provides monitoring benefits.
+For details, see <a href=/v1.2/docs/reference/config/policy-and-telemetry/>Mixer policies and telemetry</a>.</li></ul><p>For example, in A/B testing we often want to configure traffic routes based on
+percentages. With Istio, you can use a virtual service to specify a routing
+rule that sends 25% of requests to instances in the <code>v2</code> subset, and sends the
+remaining 75% of requests to instances in the <code>v1</code> subset. The following
+configuration accomplishes our example for the <code>reviews</code> service.</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+  - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+      weight: 75
+    - destination:
+        host: reviews
+        subset: v2
+      weight: 25
+</code></pre><h4 id=canary>Canary rollouts with autoscaling</h4><p>Canary rollouts allow you to test a new version of a service by sending a small
+amount of traffic to the new version. If the test is successful, you can
+gradually increase the percentage of traffic sent to the new version until all
+the traffic is moved. If anything goes wrong along the way, you can abort the
+rollout and return the traffic to the old version.</p><p>Container orchestration platforms like Docker or Kubernetes support canary
+rollouts, but they use instance scaling to manage traffic distribution, which
+quickly becomes complex, especially in a production environment that requires
+autoscaling.</p><p>With Istio, you can configure traffic routing and instance deployment as
+independent functions. The number of instances implementing the services can
+scale up and down based on traffic load without referring to version traffic
+routing at all. This makes managing a canary version that includes autoscaling
+a much simpler problem. For details, see the <a href=/v1.2/blog/2017/0.1-canary/>Canary Deployments</a>
+blog post.</p><h2 id=virtual-services>Virtual services</h2><p>A <a href=/v1.2/docs/reference/config/networking/v1alpha3/virtual-service/>virtual service</a>
+is a resource you can use to configure how Envoy proxies route requests
+to a service within an Istio service mesh. Virtual services let you finely
+configure traffic behavior. For example, you can use virtual services to direct
+HTTP traffic to use a different version of the service for a specific user.</p><p>Istio and your platform provide basic connectivity and discovery for your
+services. With virtual services, you can add a configuration layer to set up
+complex traffic routing. You can map user-addressable destinations to real
+workloads in the mesh, for example. Or, you can configure more advanced traffic
+routes to specific services or subsets in the mesh.</p><p>Your mesh can require multiple virtual services or none depending on your use
+case. You can add <a href=/v1.2/docs/concepts/traffic-management/#gateways>gateways</a>
+to route traffic in or out of your mesh, or combine virtual services with
+<a href=/v1.2/docs/concepts/traffic-management/#destination-rules>destination rules</a>
+to configure the behavior of the traffic. You can use a <a href=/v1.2/docs/concepts/traffic-management/#service-entries>service entry</a>
+to add external dependencies to the mesh and combine them with virtual services
+to configure the traffic to these dependencies. The following diagrams
+show some example virtual service configurations:</p><ul><li>1:1 relationship: Virtual service A configures routing rules for traffic to
+reach service X.</li></ul><figure style=width:40%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:39.94646350252239%><a data-skipendnotes=true href=/v1.2/docs/concepts/traffic-management/./virtual-services-1.svg title="1 : 1 relationship"><img class=element-to-stretch src=/v1.2/docs/concepts/traffic-management/./virtual-services-1.svg alt="1 : 1 relationship"></a></div><figcaption>1 : 1 relationship</figcaption></figure><ul><li><p>1:many relationship:</p><ul><li>Virtual service B configures routing rules for traffic to reach services
+Y and Z.</li></ul><figure style=width:40%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:54.938969008218685%><a data-skipendnotes=true href=/v1.2/docs/concepts/traffic-management/./virtual-services-2.svg title="1 : multiple services"><img class=element-to-stretch src=/v1.2/docs/concepts/traffic-management/./virtual-services-2.svg alt="1 : multiple services"></a></div><figcaption>1 : multiple services</figcaption></figure><ul><li><p>Virtual service C configures routing rules for traffic to reach different
+versions of service W.</p><figure style=width:40%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:52.113095238095234%><a data-skipendnotes=true href=/v1.2/docs/concepts/traffic-management/./virtual-services-3.svg title="1 : multiple versions"><img class=element-to-stretch src=/v1.2/docs/concepts/traffic-management/./virtual-services-3.svg alt="1 : multiple versions"></a></div><figcaption>1 : multiple versions</figcaption></figure></li></ul></li></ul><p>You can use virtual services to perform the following types of tasks:</p><ul><li><p>Configure each application service version as a
+<a href=/v1.2/docs/concepts/traffic-management/#service-subsets>subset</a> and add
+a corresponding <a href=/v1.2/docs/concepts/traffic-management/#destination-rules>destination
+rule</a> to
+determine the set of pods or VMs belonging to these subsets.</p></li><li><p>Configure traffic rules in combination with
+<a href=/v1.2/docs/concepts/traffic-management/#gateways>gateways</a>
+to control ingress and egress traffic</p></li><li><p>Add <a href=/v1.2/docs/concepts/traffic-management/#multi-match>multiple match conditions</a>
+to a virtual service configuration to eliminate redundant rules.</p></li><li><p>Configure <a href=/v1.2/docs/concepts/traffic-management/#routing-subset>traffic routes</a>
+to your application services using DNS names. These DNS names support
+wildcard prefixes or CIDR prefixes to create a single rule for all matching
+services.</p></li><li><p>Address one or more application services through a single virtual service.
+If your mesh uses Kubernetes, for example, you can configure a virtual
+service to handle all services in a specific
+<a href=/v1.2/docs/concepts/traffic-management/#routing-namespace>namespace</a>.</p></li></ul><h3 id=routing-subset>Route requests to a subset</h3><p>The following example configures the <code>my-vtl-svc</code> virtual service to route
+requests to the <code>v1</code> subset of the <code>my-svc</code> service:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: my-vtl-svc
+spec:
+  hosts:
+  - &#34;*.my-co.org&#34;
+  http:
+  - route:
+    - destination:
+        host: my-svc
+        subset: v1
+</code></pre><p>In the example, under <code>spec</code>,
+<code>hosts</code> lists the virtual service&rsquo;s hosts. In this case, the
+hosts are <code>*.my-co.org</code>, where <code>*</code> is a wildcard prefix indicating that this
+virtual service handles routing for any DNS name ending with <code>.my-co.org</code>.</p><p>You can specify user-addressable hosts by using any DNS name or an internal
+mesh service name as long as the name resolves, implicitly or explicitly, to
+one or more fully qualified domain names (FQDN). To specify multiple hosts, you
+can use wildcards.</p><p>Also, note that under <code>route</code>, which specifies the routing rule&rsquo;s
+configuration, and <code>destination</code>, which specifies the routing rule&rsquo;s
+destination, <code>host: my-svc</code> specifies the destination&rsquo;s host. If you are
+running on Kubernetes, then <code>my-svc</code> is the name of a Kubernetes service.</p><p>You use the destination&rsquo;s host to specify where you want the traffic to be
+sent. The destination&rsquo;s host must exist in the service registry. To use
+external services as destinations, use <a href=/v1.2/docs/concepts/traffic-management/#service-entries>service entries</a>
+to add those services to the registry.</p><div><aside class="callout warning"><div class=type><svg class="large-icon"><use xlink:href="/v1.2/img/icons.svg#callout-warning"/></svg></div><div class=content>Istio <strong>doesn&rsquo;t</strong> provide <a href=https://hosting.review/web-hosting-glossary/#9>DNS</a>
+resolution. Applications can try to resolve the FQDN by using the DNS service
+present in their platform of choice, for example <code>kube-dns</code>.</div></aside></div><p>The following diagram shows the configured rule:</p><figure style=width:40%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:52.801030264005156%><a data-skipendnotes=true href=/v1.2/docs/concepts/traffic-management/./virtual-services-4.svg title="Configurable traffic route to send traffic to a specific subset"><img class=element-to-stretch src=/v1.2/docs/concepts/traffic-management/./virtual-services-4.svg alt="Configurable traffic route to send traffic to a specific subset"></a></div><figcaption>Configurable traffic route to send traffic to a specific subset</figcaption></figure><h3 id=routing-namespace>Route requests to services in a Kubernetes namespace</h3><p>When you specify the <code>host</code> field for the destination of a route in a virtual service
+using a short name like <code>svc-1</code>, Istio expands the short name into a fully qualified domain name.
+To perform the expansion, Istio adds a domain suffix based on the namespace of the virtual service that
+contains the routing rule. For example, if the virtual service is defined in the <code>my-namespace</code> namespace,
+Istio adds the <code>my-namespace.svc.cluster.local</code> suffix to the abbreviated destination resulting in
+the actual destination: <code>svc-1.my-namespace.svc.cluster.local</code>.</p><p>While this approach is very convenient and commonly used to simplify examples, it can
+easily lead to misconfigurations. Therefore we do
+<a href=/v1.2/docs/reference/config/networking/v1alpha3/virtual-service/#Destination>not recommend it for production deployments</a>.</p><p>The following example shows a virtual service configuration with fully qualified traffic routes
+for two services in the <code>my-namespace</code> Kubernetes namespace.
+The configuration relies on the URI prefixes of the two services to distinguish
+them.</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: my-namespace
+spec:
+  hosts:
+  - my-namespace.com
+  http:
+  - match:
+    - uri:
+        prefix: /svc-1
+    route:
+    - destination:
+        host: svc-1.my-namespace.svc.cluster.local
+  - match:
+    - uri:
+        prefix: /svc-2
+    route:
+    - destination:
+        host: svc-2.my-namespace.svc.cluster.local
+</code></pre><p>Using fully qualified hosts in the routing rules also provides more flexibility.
+If you use short names, the destinations must be in the same namespace as the virtual service.
+If you use fully qualified domain names, the destinations can be in any namespace.</p><h3 id=routing-rules>Routing rules</h3><p>A virtual service consists of an ordered list of routing rules to define the
+paths that requests follow within the mesh. You use virtual services to
+configure the routing rules. A routing rule consists of a destination and zero
+or more conditions, depending on your use case. You can also use routing rules
+to perform some actions on the traffic, for example:</p><ul><li><p>Append or remove headers.</p></li><li><p>Rewrite the URL.</p></li><li><p>Set a retry policy.</p></li></ul><p>To learn more about the actions available, see the <a href=/v1.2/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRoute>virtual service reference documentation</a>.</p><h4 id=routing-rule-for-http-traffic>Routing rule for HTTP traffic</h4><p>The following example shows a virtual service that specifies
+two HTTP traffic routing rules. The first rule includes a <code>match</code>
+condition with a regular expression to check if the username &ldquo;jason&rdquo; is in the
+request&rsquo;s cookie. If the request matches this condition, the rule sends
+traffic to the <code>v2</code> subset of the <code>my-svc</code> service. Otherwise, the second rule
+sends traffic to the <code>v1</code> subset of the <code>my-svc</code> service.</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: my-vtl-svc
+spec:
+  hosts:
+  - &#34;*&#34;
+  http:
+  - match:
+    - headers:
+        cookie:
+          regex: &#34;^(.*?;)?(user=jason)(;.*)?$&#34;
+    route:
+    - destination:
+        host: my-svc
+        subset: v2
+  - route:
+    - destination:
+        host: my-svc
+        subset: v1
+</code></pre><p>In the preceding example, there are two routing rules in the <code>http</code> section,
+indicated by a leading <code>-</code> in front of the first field of each rule.</p><p>The first routing rule begins with the <code>match</code> field:</p><ul><li><p><code>match</code> Lists the routing rule&rsquo;s matching conditions.</p></li><li><p><code>headers</code> Specifies to look for a match in the header of the request.</p></li><li><p><code>cookie</code> Specifies to look for a match in the header&rsquo;s cookie.</p></li><li><p><code>regex</code> Specifies the regular expression used to determine a match.</p></li><li><p><code>route</code> Specifies where to route the traffic
+matching the condition. In this case, that traffic is HTTP traffic with the
+username <code>jason</code> in the cookie of the request&rsquo;s header.</p></li><li><p><code>destination</code> Specifies the route destination for the traffic matching the rule conditions.</p></li><li><p><code>host</code> Specifies the destination&rsquo;s host, <code>my-svc</code>.</p></li><li><p><code>subset</code> Specifies the destination’s subset for the traffic matching the conditions, <code>v2</code> in this case.</p></li></ul><p>The configuration of the second routing rule in the example begins with the
+<code>route</code> field with a leading <code>-</code>. This rule applies to all traffic that doesn&rsquo;t match the
+conditions specified in the first routing rule.</p><ul><li><p><code>route</code> Specifies where to route all traffic except for HTTP traffic matching the condition of the previous rule.</p></li><li><p><code>destination</code> Specifies the routing rule&rsquo;s destination.</p></li><li><p><code>host</code> Specifies the destination&rsquo;s host, <code>my-svc</code>.</p></li><li><p><code>subset</code> Specifies the destination’s subset, <code>v1</code> in this case.</p></li></ul><p>The following diagram shows the configured traffic routes for the matched traffic and for all other traffic:</p><figure style=width:40%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:45.857418111753375%><a data-skipendnotes=true href=/v1.2/docs/concepts/traffic-management/./virtual-services-6.svg title="Configurable traffic route based on the namespace of two application services"><img class=element-to-stretch src=/v1.2/docs/concepts/traffic-management/./virtual-services-6.svg alt="Configurable traffic route based on the namespace of two application services"></a></div><figcaption>Configurable traffic route based on the namespace of two application services</figcaption></figure><p>Routing rules are evaluated in a specific order. For details, refer to
+<a href=/v1.2/docs/concepts/traffic-management/#precedence>Precedence</a>.</p><h4 id=match-a-condition>Match a condition</h4><p>You can set routing rules that only apply to requests matching a specific
+condition. For example, you can restrict traffic to specific client workloads
+by using labels.</p><p>The following rule only applies to requests coming from instances of the
+<code>reviews</code> service:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+      sourceLabels:
+        app: reviews
+    route:
+    ...
+</code></pre><p>The value of the <code>sourceLabels</code> key depends on the implementation of the
+client workload. In Kubernetes, the value typically corresponds to the same labels you use in the
+pod selector of the corresponding Kubernetes service.</p><p>The following example further refines the rule to apply only to requests from
+an instance in the v2 subset:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+    route:
+    ...
+</code></pre><h4 id=conditions-based-on-http-headers>Conditions based on HTTP headers</h4><p>You can also base conditions on HTTP headers. The following configuration sets
+up a rule that only applies to an incoming request that includes a custom
+<code>end-user</code> header containing the exact <code>jason</code> string:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+  - reviews
+  http:
+  - match:
+    - headers:
+        end-user:
+          exact: jason
+    route:
+    ...
+</code></pre><p>You can specify more than one header in a rule. All corresponding headers must
+match.</p><h4 id=match-request-uri>Match request URI</h4><p>The following routing rule is based on the request&rsquo;s URI: it only applies to a
+request if the URI path starts with <code>/api/v1</code>:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: productpage
+spec:
+  hosts:
+  - productpage
+  http:
+  - match:
+    - uri:
+        prefix: /api/v1
+    route:
+    ...
+</code></pre><h4 id=multi-match>Multiple match conditions</h4><p>Conditions can have multiple matches simultaneously. In such cases, you use the
+nesting of the conditions in the routing rule to specify whether AND or OR
+semantics apply. To specify AND semantics, you nest multiple conditions in a
+single section of <code>match.</code></p><p>For example, the following rule applies only to requests that come from an
+instance of the <code>reviews</code> service in the <code>v2</code> subset AND only if the requests
+include the custom <code>end-user</code> header that contains the exact <code>jason</code> string:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+      headers:
+        end-user:
+          exact: jason
+    route:
+    ...
+</code></pre><p>To specify OR conditions, you place multiple conditions in separate sections of
+<code>match.</code> Only one of the conditions applies. For example, the following rule
+applies to requests from instances of the <code>reviews</code> service in the <code>v2</code> subset,
+OR to requests with the custom <code>end-user</code> header containing the <code>jason</code> exact
+string:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+    - headers:
+        end-user:
+          exact: jason
+    route:
+    ...
+</code></pre><div><aside class="callout warning"><div class=type><svg class="large-icon"><use xlink:href="/v1.2/img/icons.svg#callout-warning"/></svg></div><div class=content>In a YAML file, the difference between AND behavior and OR behavior in a
+routing rule is a single dash. The dash indicates two separate matches as
+opposed to one match with multiple conditions.</div></aside></div><h3 id=precedence>Routing rule precedence</h3><p>Multiple rules for a given destination in a configuration file are evaluated in
+the order they appear. The first rule on the list has the highest priority.</p><p>Rules with no match condition that direct all or weighted percentages of
+traffic to destination services are called <strong>weight-based</strong> rules to
+distinguish them from other match-based rules. When routing for a particular
+service is purely weight-based, you can specify it in a single rule.</p><p>When you use other conditions to route traffic, such as requests from a
+specific user, you must use more than one rule to specify the routing.</p><p>It&rsquo;s important to ensure that your routing rules are evaluated in the right
+order.</p><p>A best practice pattern to specify routing rules is as follows:</p><ol><li><p>Provide one or more higher priority rules that match various conditions.</p></li><li><p>Provide a single weight-based rule with no match condition last. This rule
+provides the weighted distribution of traffic for all other cases.</p></li></ol><h4 id=precedence-example-with-2-rules>Precedence example with 2 rules</h4><p>The following virtual service configuration file includes two rules. The first
+rule sends all requests for the <code>reviews</code> service that include the Foo header
+with the bar value to the <code>v2</code> subset. The second rule sends all remaining
+requests to the <code>v1</code> subset:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+  - reviews
+  http:
+  - match:
+    - headers:
+        Foo:
+          exact: bar
+    route:
+    - destination:
+        host: reviews
+        subset: v2
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+</code></pre><p>In this example, the header-based rule has the higher priority because it comes
+first in the configuration file. If the match-based rule came second, these
+rules wouldn&rsquo;t work as expected. Istio would evaluate the weight-based rule
+first and route all traffic to the instances in the <code>v1</code> subset, even requests
+including the matching <code>Foo</code> header.</p><h2 id=destination-rules>Destination rules</h2><p>You specify the path for traffic with routing rules, and then you use
+<a href=/v1.2/docs/reference/config/networking/v1alpha3/destination-rule/>destination rules</a>
+to configure the set of policies that Envoy proxies apply to a request at a
+specific destination.</p><p>Destination rules are applied after the routing rules are evaluated.
+Therefore, destination rules are matched against the destination in the routing rules,
+not the host of the virtual service itself.
+You can use wildcard prefixes in a
+destination rule to specify a single rule for multiple services.</p><p>You can use destination rules to specify service subsets, that is, to group all
+the instances of your service with a particular version together. You then
+configure <a href=/v1.2/docs/concepts/traffic-management/#routing-rules>routing rules</a>
+that route traffic to your subsets to send certain traffic to particular
+service versions.</p><p>You specify explicit routing rules to service subsets. This model allows you
+to:</p><ul><li><p>Cleanly refer to a specific service version across different
+<a href=/v1.2/docs/concepts/traffic-management/#virtual-services>virtual services</a>.</p></li><li><p>Simplify the stats that the Istio proxies emit.</p></li><li><p>Encode subsets in Server Name Indication (SNI) headers.</p></li></ul><h3 id=load-balancing-3-subsets>Load balancing 3 subsets</h3><p>The following example destination rule configures three different subsets with
+different load balancing policies for the <code>my-svc</code> destination service:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: my-destination-rule
+spec:
+  host: my-svc
+  trafficPolicy:
+    loadBalancer:
+      simple: RANDOM
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+  - name: v3
+    labels:
+      version: v3
+</code></pre><p>As shown above, you can specify multiple policies in a single destination rule.
+In this example, the default policy, defined above the subsets field,
+sets a simple random load balancer for the <code>v1</code> and <code>v3</code> subsets. A <code>v2</code>
+specific policy, a round robin load balancer, is defined in the corresponding subset&rsquo;s field.</p><p>See our <a href=/v1.2/docs/reference/config/networking/v1alpha3/destination-rule/>destination rules reference documentation</a>
+to review all the enabled keys and values.</p><h3 id=service-subsets>Service subsets</h3><p>Service subsets subdivide and label the instances of a service. To define the
+divisions and labels, use the <code>subsets</code> section in <a href=/v1.2/docs/reference/config/networking/v1alpha3/destination-rule/>destination rules</a>.
+For example, you can use subsets to configure the following traffic routing
+scenarios:</p><ul><li><p>Use subsets to route traffic to different versions of a service.</p></li><li><p>Use subsets to route traffic to the same service in different environments.</p></li></ul><p>You use service subsets in the routing rules of <a href=/v1.2/docs/concepts/traffic-management/#virtual-services>virtual services</a>
+to control the traffic to your services.
+You can also use subsets to customize Envoy&rsquo;s traffic policies when calling particular versions of a service.</p><p>Understanding service subsets in Istio allows you to configure the
+communication to services with multiple versions within your mesh and configure
+the following common use cases:</p><ul><li><p><a href=/v1.2/docs/concepts/traffic-management/#routing-subset>Splitting traffic between versions for A/B testing</a></p></li><li><p><a href=/v1.2/docs/concepts/traffic-management/#canary>Canary rollout</a></p></li></ul><p>To learn how you can use service subsets to configure failure handling use
+cases, visit our <a href=/v1.2/docs/concepts/traffic-management/#network-resilience-and-testing>Network resilience and testing concept</a>.</p><h2 id=gateways>Gateways</h2><p>You use a <a href=/v1.2/docs/reference/config/networking/v1alpha3/gateway/>gateway</a> to
+manage inbound and outbound traffic for your mesh. You can manage
+<a href=/v1.2/docs/reference/config/networking/v1alpha3/gateway/#Port>multiple types of traffic</a>
+with a gateway.</p><p>Gateway configurations apply to Envoy proxies that are running at the edge
+of the mesh, which means that the Envoy proxies are not running as service sidecars.
+To configure a gateway means configuring an Envoy
+proxy to allow or block certain traffic from entering or leaving the mesh.</p><p>Your mesh can have any number of gateway configurations, and multiple gateway
+workload implementations can co-exist within your mesh. You might use multiple
+gateways to have one gateway for private traffic and another for public
+traffic, so you can keep all private traffic inside a firewall, for example.</p><p>You can use a gateway to configure workload labels for your existing network
+tasks, including:</p><ul><li>Firewall functions</li><li>Caching</li><li>Authentication</li><li>Network address translation</li><li>IP address management</li></ul><p>Gateways are primarily used to manage ingress traffic, but you can also use a
+gateway to configure an egress gateway. You can use egress gateways to
+configure a dedicated exit node for the traffic leaving the mesh and configure
+each egress gateway to use its own policies and telemetry.</p><p>You can use egress gateways to limit which services can or should access
+external networks, or to enable <a href=/v1.2/blog/2019/egress-traffic-control-in-istio-part-1/>secure control of egress
+traffic</a> to add security to
+your mesh, for example. The following diagram shows the basic model of a
+request flowing through a service mesh with an ingress gateway and an egress
+gateway.</p><figure style=width:70%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:26.65970530223924%><a data-skipendnotes=true href=/v1.2/docs/concepts/traffic-management/./gateways-1.svg title="Request flow"><img class=element-to-stretch src=/v1.2/docs/concepts/traffic-management/./gateways-1.svg alt="Request flow"></a></div><figcaption>Request flow</figcaption></figure><p>All traffic enters the mesh through an ingress gateway workload. To configure
+the traffic, use an Istio gateway and a virtual service. You bind the virtual
+service to the gateway to use standard Istio <a href=/v1.2/docs/concepts/traffic-management/#routing-rules>routing rules</a>
+to control HTTP requests and TCP traffic entering the mesh.</p><h3 id=configure-a-gateway-for-external-https-traffic>Configure a gateway for external HTTPS traffic</h3><p>The following example shows a possible gateway configuration for external HTTPS
+ingress traffic:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: ext-host-gwy
+spec:
+  selector:
+    app: my-gateway-controller
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - ext-host
+    tls:
+      mode: SIMPLE
+      serverCertificate: /tmp/tls.crt
+      privateKey: /tmp/tls.key
+</code></pre><p>This gateway configuration lets HTTPS traffic from <code>ext-host</code> into the mesh on
+port 443, but doesn&rsquo;t specify any routing for the traffic.</p><h4 id=bind-a-gateway-to-a-virtual-service>Bind a gateway to a virtual service</h4><p>To specify routing and for the gateway to work as intended, you must also bind
+the gateway to a virtual service. You do this using the virtual service&rsquo;s
+<code>gateways</code> field, as shown in the following example:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: virtual-svc
+spec:
+  hosts:
+  - ext-svc
+  gateways:
+    - ext-host-gwy
+</code></pre><p>You can then configure the virtual service with routing rules for the external
+traffic.</p><p>For more information:</p><ul><li><p>Refer to the <a href=/v1.2/docs/reference/config/networking/v1alpha3/gateway/>gateways reference documentation</a>
+to review all the enabled keys and values.</p></li><li><p>Refer to the <a href=/v1.2/docs/tasks/traffic-management/ingress/>Ingress task topic</a> for instructions on how to configure
+an Istio gateway for ingress traffic.</p></li><li><p>Refer to the <a href=/v1.2/docs/tasks/traffic-management/egress/egress-gateway/>Egress gateway task</a> to learn how to configure egress traffic
+using a gateway resource.</p></li></ul><h2 id=service-entries>Service entries</h2><p>A <a href=/v1.2/docs/reference/config/networking/v1alpha3/service-entry>service entry</a>
+is used to add an entry to Istio&rsquo;s abstract model, or
+service registry, that Istio maintains internally. After you add the service
+entry, the Envoy proxies can send traffic to the service as if it was
+a service in your mesh.
+Configuring service entries allows you to manage traffic for services running
+outside of the mesh:</p><ul><li><p>Redirect and forward traffic for external destinations, such as APIs
+consumed from the web, or traffic to services in legacy infrastructure.</p></li><li><p>Define
+<a href=/v1.2/docs/concepts/traffic-management/#timeouts-and-retries>retry</a>,
+<a href=/v1.2/docs/concepts/traffic-management/#timeouts-and-retries>timeout</a>,
+and <a href=/v1.2/docs/concepts/traffic-management/#fault-injection>fault injection</a>
+policies for external destinations.</p></li><li><p>Add a service running in a Virtual Machine (VM) to the mesh to <a href=/v1.2/docs/setup/kubernetes/additional-setup/mesh-expansion/#running-services-on-a-mesh-expansion-machine>expand your mesh</a>.</p></li><li><p>Logically add services from a different cluster to the mesh to configure a
+<a href=/v1.2/docs/setup/kubernetes/install/multicluster/gateways/#configure-the-example-services>multicluster Istio mesh</a>
+on Kubernetes.</p></li></ul><p>You don’t need to add a service entry for every external service that you
+want your mesh services to use. By default, Istio configures the Envoy proxies
+to passthrough requests to unknown services, although you can&rsquo;t use Istio features
+to control the traffic to destinations that are not registered in the mesh.</p><p>You can use service entries to perform the following configurations:</p><ul><li>Access secure external services over plain text ports,
+to configure Envoy to perform <span class=term data-title="TLS Origination" data-body='&lt;p&gt;TLS origination occurs when an Istio proxy (sidecar or egress gateway) is configured to accept unencrypted
+internal HTTP connections, encrypt the requests, and then forward them to HTTPS servers that are secured
+using simple or mutual TLS. This is the opposite of &lt;a href="https://en.wikipedia.org/wiki/TLS_termination_proxy"&gt;TLS termination&lt;/a&gt;
+where an ingress proxy accepts incoming TLS connections, decrypts the TLS, and passes unencrypted
+requests on to internal mesh services.&lt;/p&gt;'>TLS Origination</span>
+.</li><li>Ensure, together with an egress gateway, that all external services are
+accessed through a single exit point.</li></ul><p>Refer to the <a href=/v1.2/docs/tasks/traffic-management/egress/>Egress task topic</a> for details.</p><h2 id=add-an-external-dependency-securely>Add an external dependency securely</h2><p>The following example mesh-external service entry adds the <code>ext-resource</code>
+external dependency to Istio&rsquo;s service registry:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: svc-entry
+spec:
+  hosts:
+  - ext-resource.com
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  location: MESH_EXTERNAL
+  resolution: DNS
+</code></pre><p>You must specify the external resource using the <code>hosts</code> key. You can qualify
+it fully or use a wildcard domain name. The value represents the set of one or
+more services outside the mesh that services in the mesh can access.</p><p>Configuring a service entry can be enough to call an external service, but
+typically you configure either, or both, a virtual service or destination rule
+to control traffic in a more granular way. You can configure traffic for a
+service entry in the same way you configure traffic for a service in the mesh.</p><h3 id=secure-the-connection-with-mutual-tls>Secure the connection with mutual TLS</h3><p>The following destination rule configures the traffic route to use mutual TLS
+to secure the connection to the <code>ext-resource</code> external service we
+configured using the service entry:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: ext-res-dr
+spec:
+  host: ext-resource.com
+  trafficPolicy:
+    tls:
+      mode: MUTUAL
+      clientCertificate: /etc/certs/myclientcert.pem
+      privateKey: /etc/certs/client_private_key.pem
+      caCertificates: /etc/certs/rootcacerts.pem
+</code></pre><p>Together, the <code>svc-entry</code> service entry and the <code>ext-res-dr</code> destination rule
+configure a connection for traffic to the <code>ext-resource</code> external
+dependency using port 443 and mutual TLS.</p><p>See the <a href=/v1.2/docs/reference/config/networking/v1alpha3/service-entry>service entries reference documentation</a>
+to review all the enabled keys and values.</p><h2 id=sidecars>Sidecars</h2><p>By default, Istio configures every Envoy proxy to accept traffic on all the
+ports of its associated workload, and to reach every workload in the mesh when
+forwarding traffic. You can use a sidecar configuration to do the following:</p><ul><li><p>Fine-tune the set of ports and protocols that an Envoy proxy accepts.</p></li><li><p>Limit the set of services that the Envoy proxy can reach.</p></li></ul><p>Limiting sidecar reachability reduces memory usage, which can become a problem
+for large applications in which every sidecar is configured to reach every
+other service in the mesh.</p><p>A <a href=/v1.2/docs/reference/config/networking/v1alpha3/sidecar/>Sidecar</a> resource can be used to configure one or more sidecar proxies
+selected using workload labels, or to configure all sidecars in a particular
+namespace.</p><h3 id=enable-namespace-isolation>Enable namespace isolation</h3><p>For example, the following <code>Sidecar</code> configures all services in the <code>bookinfo</code>
+namespace to only reach services running in the same namespace thanks to the
+<code>./*</code> value of the <code>hosts:</code> field:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: default
+  namespace: bookinfo
+spec:
+  egress:
+  - hosts:
+    - &#34;./*&#34;
+</code></pre><p>Sidecars have many uses. Refer to the <a href=/v1.2/docs/reference/config/networking/v1alpha3/sidecar/>sidecar reference</a>
+for details.</p><h2 id=network-resilience-and-testing>Network resilience and testing</h2><p>Istio provides opt-in failure recovery features that you can configure
+dynamically at runtime through the <a href=/v1.2/docs/concepts/traffic-management/#routing-rules>Istio traffic management rules</a>.
+With these features, the service mesh can tolerate failing nodes and Istio can
+prevent localized failures from cascading to other nodes:</p><ul><li><p><strong>Timeouts and retries</strong></p><p>A timeout is the amount of time that Istio waits for a response to a
+request. A retry is an attempt to complete an operation multiple times if
+it fails. You can set defaults and specify request-level overrides for both
+timeouts and retries or for one or the other.</p></li><li><p><strong>Circuit breakers</strong></p><p>Circuit breakers prevent your application from stalling as it waits for an
+upstream service to respond. You can configure a circuit breaker based on a
+number of conditions, such as connection and request limits.</p></li><li><p><strong>Fault injection</strong></p><p>Fault injection is a testing method that introduces errors into a system to
+ensure that it can withstand and recover from error conditions. You can
+inject faults at the application layer, rather than the network layer, to
+get more relevant results.</p></li><li><p><strong>Fault tolerance</strong></p><p>You can use Istio failure recovery features to complement application-level
+fault tolerance libraries in situations where their behaviors don’t
+conflict.</p></li></ul><div><aside class="callout warning"><div class=type><svg class="large-icon"><use xlink:href="/v1.2/img/icons.svg#callout-warning"/></svg></div><div class=content>While Istio failure recovery features improve the reliability and availability
+of services in the mesh, applications must handle the failure or errors and
+take appropriate fallback actions. For example, when all instances in a load
+balancing pool have failed, Envoy returns an <code>HTTP 503</code> code. The application
+must implement any fallback logic needed to handle the <code>HTTP 503</code> error code
+from an upstream service.</div></aside></div><h2 id=timeouts-and-retries>Timeouts and retries</h2><p>You can use Istio&rsquo;s traffic management resources to set defaults for timeouts
+and retries per service and subset that apply to all callers.</p><h3 id=override-default-timeout-setting>Override default timeout setting</h3><p>The default timeout for HTTP requests is 15 seconds. You can configure a
+virtual service with a routing rule to override the default, for example:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - route:
+    - destination:
+        host: ratings
+        subset: v1
+    timeout: 10s
+</code></pre><h3 id=set-number-and-timeouts-for-retries>Set number and timeouts for retries</h3><p>You can specify the maximum number of retries for an HTTP request in a virtual
+service, and you can provide specific timeouts for the retries to ensure that
+the calling service gets a response, either success or failure, within a
+predictable time frame.</p><p>Envoy proxies automatically add variable jitter between your retries to
+minimize the potential impact of retries on an overloaded upstream service.</p><p>The following virtual service configures three attempts with a 2-second
+timeout:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - route:
+    - destination:
+        host: ratings
+        subset: v1
+    retries:
+      attempts: 3
+      perTryTimeout: 2s
+</code></pre><p>Consumers of a service can also override timeout and retry defaults with
+request-level overrides through special HTTP headers. The Envoy proxy
+implementation makes the following headers available:</p><ul><li><p>Timeouts: <code>x-envoy-upstream-rq-timeout-ms</code></p></li><li><p>Retries: <code>X-envoy-max-retries</code></p></li></ul><h2 id=circuit-breakers>Circuit breakers</h2><p>As with timeouts and retries, you can configure a circuit breaker pattern
+without changing your services. While retries let your application recover from
+transient errors, a circuit breaker pattern prevents your application from
+stalling as it waits for an upstream service to respond. By configuring a
+circuit breaker pattern, you allow your application to fail fast and handle the
+error appropriately, for example, by triggering an alert. You can configure a
+simple circuit breaker pattern based on a number of conditions such as
+connection and request limits.</p><h3 id=limit-connections-to-100>Limit connections to 100</h3><p>The following destination rule sets a limit of 100 connections for the
+<code>reviews</code> service workloads of the v1 subset:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews
+spec:
+  host: reviews
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+    trafficPolicy:
+      connectionPool:
+        tcp:
+          maxConnections: 100
+</code></pre><p>See the <a href=/v1.2/docs/tasks/traffic-management/circuit-breaking/>circuit-breaking task</a>
+for detailed instructions on how to configure a circuit breaker pattern.</p><h2 id=fault-injection>Fault injection</h2><p>You can use fault injection to test the end-to-end failure recovery capability
+of the application as a whole. An incorrect configuration of the failure
+recovery policies could result in unavailability of critical services. Examples
+of incorrect configurations include incompatible or restrictive timeouts across
+service calls.</p><p>With Istio, you can use application-layer fault injection instead of killing
+pods, delaying packets, or corrupting packets at the TCP layer. You can inject
+more relevant failures at the application layer, such as HTTP error codes, to
+test the resilience of an application.</p><p>You can inject faults into requests that match specific conditions, and you can
+restrict the percentage of requests Istio subjects to faults.</p><p>You can inject two types of faults:</p><ul><li><p><strong>Delays:</strong> Delays are timing failures. They mimic increased network latency
+or an overloaded upstream service.</p></li><li><p><strong>Aborts:</strong> Aborts are crash failures. They mimic failures in upstream
+services. Aborts usually manifest in the form of HTTP error codes or TCP
+connection failures.</p></li></ul><p>You can configure a virtual service to inject one or more faults while
+forwarding HTTP requests to the rule&rsquo;s corresponding request destination. The
+faults can be either delays or aborts.</p><h3 id=introduce-a-5-second-delay-in-10-of-requests>Introduce a 5 second delay in 10% of requests</h3><p>You can configure a virtual service to introduce a 5 second delay for 10% of
+the requests to the <code>ratings</code> service.</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - fault:
+      delay:
+        percentage:
+          value: 0.1
+        fixedDelay: 5s
+    route:
+    - destination:
+        host: ratings
+        subset: v1
+</code></pre><h3 id=return-an-http-400-error-code-for-10-of-requests>Return an HTTP 400 error code for 10% of requests</h3><p>You can configure an abort instead to terminate a request and simulate a
+failure.</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - fault:
+      abort:
+        percentage:
+          value: 0.1
+        httpStatus: 400
+    route:
+    - destination:
+        host: ratings
+        subset: v1
+</code></pre><h3 id=combine-delay-and-abort-faults>Combine delay and abort faults</h3><p>You can use delay and abort faults together. The following configuration
+introduces a delay of 5 seconds for all requests from the <code>v2</code> subset of the
+<code>reviews</code> service to the <code>v1</code> subset of the <code>ratings</code> service and an abort for
+10% of them:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+    fault:
+      delay:
+        fixedDelay: 5s
+      abort:
+        percentage:
+          value: 0.1
+        httpStatus: 400
+    route:
+    - destination:
+        host: ratings
+        subset: v1
+</code></pre><p>For detailed instructions on how to configure delays and aborts, visit our
+<a href=/v1.2/docs/tasks/traffic-management/fault-injection/>fault injection task</a>.</p><h2 id=compatibility-with-application-level-fault-handling>Compatibility with application-level fault handling</h2><p>Istio failure recovery features are completely transparent to the application.
+Applications don&rsquo;t know if an Envoy sidecar proxy is handling
+failures for a called upstream service, before returning a response.</p><p>When you use application-level fault tolerance libraries and Envoy proxy
+failure recovery policies at the same time, you need to keep in mind that
+both work independently, and therefore might conflict.</p><p>For example: Suppose you can have two timeouts, one configured in a virtual
+service and another in the application. The application sets a
+2 second timeout for an API call to a service. However, you configured a
+3 second timeout with 1 retry in your virtual service. In this case,
+the application&rsquo;s timeout kicks in first, so your Envoy timeout and retry
+attempt has no affect.</p><nav id=see-also><h2>See also</h2><div class=see-also><div class=entry><p class=link><a data-skipendnotes=true href=/v1.2/blog/2019/egress-traffic-control-in-istio-part-3/>Secure Control of Egress Traffic in Istio, part 3</a></p><p class=desc>Comparison of alternative solutions to control egress traffic including performance considerations.</p></div><div class=entry><p class=link><a data-skipendnotes=true href=/v1.2/blog/2019/egress-traffic-control-in-istio-part-2/>Secure Control of Egress Traffic in Istio, part 2</a></p><p class=desc>Use Istio Egress Traffic Control to prevent attacks involving egress traffic.</p></div><div class=entry><p class=link><a data-skipendnotes=true href=/v1.2/blog/2019/egress-traffic-control-in-istio-part-1/>Secure Control of Egress Traffic in Istio, part 1</a></p><p class=desc>Attacks involving egress traffic and requirements for egress traffic control.</p></div><div class=entry><p class=link><a data-skipendnotes=true href=/v1.2/blog/2019/multicluster-version-routing/>Version Routing in a Multicluster Service Mesh</a></p><p class=desc>Configuring Istio route rules in a multicluster service mesh.</p></div><div class=entry><p class=link><a data-skipendnotes=true href=/v1.2/blog/2019/data-plane-setup/>Demystifying Istio&#39;s Sidecar Injection Model</a></p><p class=desc>De-mystify how Istio manages to plugin its data-plane components into an existing deployment.</p></div><div class=entry><p class=link><a data-skipendnotes=true href=/v1.2/blog/2019/egress-performance/>Egress Gateway Performance Investigation</a></p><p class=desc>Verifies the performance impact of adding an egress gateway.</p></div></div></nav></article><nav class=pagenav><div class=left><a title="Introduces Istio, the problems it solves, its high-level architecture and design goals." href=/v1.2/docs/concepts/what-is-istio/><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#left-arrow"/></svg>What is Istio?</a></div><div class=right><a title="Describes Istio's authorization and authentication functionality." href=/v1.2/docs/concepts/security/>Policies and Security<svg class="icon"><use xlink:href="/v1.2/img/icons.svg#right-arrow"/></svg></a></div></nav><div id=endnotes-container aria-hidden=true><h2>Links</h2><ol id=endnotes></ol></div></div><div class=toc-container><nav class=toc aria-label="Table of Contents"><div id=toc><ol><li role=none aria-label="Overview and terminology"><a href=#overview-and-terminology>Overview and terminology</a><ol><li role=none aria-label="Pilot: Core traffic management"><a href=#pilot>Pilot: Core traffic management</a><li role=none aria-label="Envoy proxies"><a href=#envoy-proxies>Envoy proxies</a><ol><li role=none aria-label="Service discovery and load balancing"><a href=#discovery>Service discovery and load balancing</a></ol></li></ol></li><li role=none aria-label="Traffic routing and configuration"><a href=#traffic-routing-and-configuration>Traffic routing and configuration</a><ol><li role=none aria-label="Traffic routing use cases"><a href=#traffic-routing-use-cases>Traffic routing use cases</a><ol><li role=none aria-label="Routing traffic to multiple versions of a service"><a href=#routing-versions>Routing traffic to multiple versions of a service</a><li role=none aria-label="Canary rollouts with autoscaling"><a href=#canary>Canary rollouts with autoscaling</a></ol></li></ol></li><li role=none aria-label="Virtual services"><a href=#virtual-services>Virtual services</a><ol><li role=none aria-label="Route requests to a subset"><a href=#routing-subset>Route requests to a subset</a><li role=none aria-label="Route requests to services in a Kubernetes namespace"><a href=#routing-namespace>Route requests to services in a Kubernetes namespace</a><li role=none aria-label="Routing rules"><a href=#routing-rules>Routing rules</a><ol><li role=none aria-label="Routing rule for HTTP traffic"><a href=#routing-rule-for-http-traffic>Routing rule for HTTP traffic</a><li role=none aria-label="Match a condition"><a href=#match-a-condition>Match a condition</a><li role=none aria-label="Conditions based on HTTP headers"><a href=#conditions-based-on-http-headers>Conditions based on HTTP headers</a><li role=none aria-label="Match request URI"><a href=#match-request-uri>Match request URI</a><li role=none aria-label="Multiple match conditions"><a href=#multi-match>Multiple match conditions</a></ol></li><li role=none aria-label="Routing rule precedence"><a href=#precedence>Routing rule precedence</a><ol><li role=none aria-label="Precedence example with 2 rules"><a href=#precedence-example-with-2-rules>Precedence example with 2 rules</a></ol></li></ol></li><li role=none aria-label="Destination rules"><a href=#destination-rules>Destination rules</a><ol><li role=none aria-label="Load balancing 3 subsets"><a href=#load-balancing-3-subsets>Load balancing 3 subsets</a><li role=none aria-label="Service subsets"><a href=#service-subsets>Service subsets</a></ol></li><li role=none aria-label=Gateways><a href=#gateways>Gateways</a><ol><li role=none aria-label="Configure a gateway for external HTTPS traffic"><a href=#configure-a-gateway-for-external-https-traffic>Configure a gateway for external HTTPS traffic</a><ol><li role=none aria-label="Bind a gateway to a virtual service"><a href=#bind-a-gateway-to-a-virtual-service>Bind a gateway to a virtual service</a></ol></li></ol></li><li role=none aria-label="Service entries"><a href=#service-entries>Service entries</a><li role=none aria-label="Add an external dependency securely"><a href=#add-an-external-dependency-securely>Add an external dependency securely</a><ol><li role=none aria-label="Secure the connection with mutual TLS"><a href=#secure-the-connection-with-mutual-tls>Secure the connection with mutual TLS</a></ol></li><li role=none aria-label=Sidecars><a href=#sidecars>Sidecars</a><ol><li role=none aria-label="Enable namespace isolation"><a href=#enable-namespace-isolation>Enable namespace isolation</a></ol></li><li role=none aria-label="Network resilience and testing"><a href=#network-resilience-and-testing>Network resilience and testing</a><li role=none aria-label="Timeouts and retries"><a href=#timeouts-and-retries>Timeouts and retries</a><ol><li role=none aria-label="Override default timeout setting"><a href=#override-default-timeout-setting>Override default timeout setting</a><li role=none aria-label="Set number and timeouts for retries"><a href=#set-number-and-timeouts-for-retries>Set number and timeouts for retries</a></ol></li><li role=none aria-label="Circuit breakers"><a href=#circuit-breakers>Circuit breakers</a><ol><li role=none aria-label="Limit connections to 100"><a href=#limit-connections-to-100>Limit connections to 100</a></ol></li><li role=none aria-label="Fault injection"><a href=#fault-injection>Fault injection</a><ol><li role=none aria-label="Introduce a 5 second delay in 10% of requests"><a href=#introduce-a-5-second-delay-in-10-of-requests>Introduce a 5 second delay in 10% of requests</a><li role=none aria-label="Return an HTTP 400 error code for 10% of requests"><a href=#return-an-http-400-error-code-for-10-of-requests>Return an HTTP 400 error code for 10% of requests</a><li role=none aria-label="Combine delay and abort faults"><a href=#combine-delay-and-abort-faults>Combine delay and abort faults</a></ol></li><li role=none aria-label="Compatibility with application-level fault handling"><a href=#compatibility-with-application-level-fault-handling>Compatibility with application-level fault handling</a><li role=none aria-label="See also"><a href=#see-also>See also</a></li></ol></div></nav></div></main><footer><div class=user-links><a class=channel title="Go download Istio 1.2.5 now" href=https://github.com/istio/istio/releases/tag/1.2.5 aria-label="Download Istio"><span>download</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#download"/></svg>
+</a><a class=channel title="Join the Istio discussion board to participate in discussions and get help troubleshooting problems" href=https://discuss.istio.io aria-label="Istio discussion board"><span>discuss</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#discourse"/></svg></a>
+<a class=channel title="Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio" href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><span>stack overflow</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#stackoverflow"/></svg></a>
+<a class=channel title="Interactively discuss issues with the Istio community on Slack" href=https://istio.slack.com aria-label=slack><span>slack</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#slack"/></svg></a>
+<a class=channel title="Follow us on Twitter to get the latest news" href=https://twitter.com/IstioMesh aria-label=Twitter><span>twitter</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#twitter"/></svg></a><div class=tag>for everyone</div></div><div class=info><p class=copyright>Istio Archive
+1.2.5<br>&copy; 2019 Istio Authors, <a href=https://policies.google.com/privacy>Privacy Policy</a><br>Archived on September 12, 2019</p></div><div class=dev-links><a class=channel title="GitHub is where development takes place on Istio code" href=https://github.com/istio/community aria-label=GitHub><span>github</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#github"/></svg></a>
+<a class=channel title="Access our team drive if you'd like to take a look at the Istio technical design documents" href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><span>drive</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#drive"/></svg></a>
+<a class=channel title="If you'd like to contribute to the Istio project, consider participating in our working groups" href=https://github.com/istio/community/blob/master/WORKING-GROUPS.md aria-label="working groups"><span>working groups</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#working-groups"/></svg></a><div class=tag>for developers</div></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js defer></script><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title="Back to top"><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#top"/></svg></button></div></body></html>

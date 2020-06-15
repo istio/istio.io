@@ -84,6 +84,11 @@ build: site
 build_nominify: site
 	@scripts/build_site.sh "" -no_minify
 
+build_with_archive: site
+	@scripts/gen_site.sh
+	@scripts/build_site.sh "/latest"
+	@scripts/include_archive_site.sh
+
 opt:
 	@scripts/opt_site.sh
 
@@ -100,7 +105,10 @@ lint-fast: clean_public build_nominify lint-copyright-banner lint-python lint-ya
 	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
 
 serve: site
-	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/" --bind 0.0.0.0 --disableFastRender
+	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/latest/" --bind 0.0.0.0 --disableFastRender
+	
+archive-version:
+	@scripts/archive_version.sh
 
 # used by netlify.com when building the site. The tool versions should correspond
 # to what is included in the tools repo in docker/build-tools/Dockerfile.
@@ -120,12 +128,8 @@ netlify_install:
 
 netlify: netlify_install
 	@scripts/gen_site.sh
-	@scripts/build_site.sh "$(baseurl)"
-
-netlify_archive: netlify_install archive
-
-archive:
-	@scripts/build_archive_site.sh "$(baseurl)"
+	@scripts/build_site.sh "/latest"
+	@scripts/include_archive_site.sh
 
 update_ref_docs:
 	@scripts/grab_reference_docs.sh $(SOURCE_BRANCH_NAME)
