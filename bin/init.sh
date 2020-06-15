@@ -59,6 +59,8 @@ cp -a "${ISTIO_GO}/install" "${ISTIOIO_GO}/install"
 cp -a "${ISTIO_GO}/samples" "${ISTIOIO_GO}/samples"
 mkdir "${ISTIOIO_GO}/tests/integration/"
 cp -a "${ISTIO_GO}/tests/integration/iop-integration-test-defaults.yaml" "${ISTIOIO_GO}/tests/integration/"
+mkdir -p "${ISTIOIO_GO}/pkg/test/framework/features/"
+cp -a "${ISTIO_GO}/pkg/test/framework/features/whitelist.txt" "${ISTIOIO_GO}/pkg/test/framework/features/whitelist.txt"
 cp -a "${ISTIO_GO}/manifests" "${ISTIOIO_GO}/manifests"
 
 # For generating junit.xml files

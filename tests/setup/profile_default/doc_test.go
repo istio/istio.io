@@ -20,7 +20,6 @@ import (
 	"istio.io/istio.io/pkg/test/istioio"
 	"istio.io/istio/pkg/test/framework"
 	"istio.io/istio/pkg/test/framework/components/istio"
-	"istio.io/istio/pkg/test/framework/resource/environment"
 )
 
 var (
@@ -35,7 +34,7 @@ func TestMain(m *testing.M) {
 
 	framework.
 		NewSuite("profile_default", m).
-		SetupOnEnv(environment.Kube, istio.Setup(&inst, nil)).
+		Setup(istio.Setup(&inst, nil)).
 		Run()
 }
 
