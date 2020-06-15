@@ -2,8 +2,6 @@
 title: Secure Gateways (SDS)
 description: Expose a service outside of the service mesh over TLS or mTLS using the secret discovery service (SDS).
 weight: 21
-aliases:
-    - /docs/tasks/traffic-management/ingress/secure-ingress-sds/
 keywords: [traffic-management,ingress,sds-credentials]
 ---
 
