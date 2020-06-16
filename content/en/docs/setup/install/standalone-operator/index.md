@@ -34,8 +34,14 @@ The operator is beta in 1.6 and suitable for production use.
     - A service to access operator metrics
     - Necessary Istio operator RBAC rules
 
-    See the available `istioctl operator init` flags to control which namespaces the controller and Istio are installed
-    into and the installed Istio image sources and versions.
+    You can also pass single or multiple namespaces to watch by using `--istioNamespace` flag.
+
+    {{< text bash >}}
+    $ istioctl operator init --istioNamespace=istio-namespace1,istio-namespace2
+    {{< /text >}}
+
+    See the available `istioctl operator init` flags to control which namespaces the operator controller and Istio are installed
+    into and which namespaces to watch.
 
     {{< tip >}}
     You can alternatively deploy the operator using Helm:
