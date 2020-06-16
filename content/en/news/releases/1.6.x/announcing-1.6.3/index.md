@@ -14,21 +14,19 @@ what’s different between Istio 1.6.2 and Istio 1.6.3.
 
 {{< relnote >}}
 
-<!---
-Use proxyMetadata in gateway env (#24381) (#24590)
---->
 ## Changes
-- *Fixed* an issue preventing the operator from recreating watched resources if they are deleted ([#23238](https://github.com/istio/istio/issues/23238)).
-- *Fixed* an issue where Istio crashed with the message: `proto.Message is *client.QuotaSpecBinding, not *client`([#24624](https://github.com/istio/istio/issues/24264)).
-- *Fixed* an issue preventing operator reconciliation due to improper labels on watched resources ([#23603](https://github.com/istio/istio/issues/23603)).
-- *Added* support for the `k8s.v1.cni.cncf.io/networks` annotation ([#24426](https://github.com/istio/istio/pull/24426)).
-- *Updated* the `SidecarInjectionSpec` CRD to read the `imagePullSecret` from `.Values.global` ([#24437](https://github.com/istio/istio/issues/24437)).
-- *Updated* split horizon to skip gateways that resolve hostnames.
-- *Updated* istioctl metrics to only flag error response codes as errors ([#24322](https://github.com/istio/istio/issues/24322))
-- *Updated* `istioctl analyze` to sort output formats.
-- *Updated* gateways to use `proxyMetadata`
-- *Updated* the Prometheus sidecar to use `proxyMetadata`([#24415](https://github.com/istio/istio/pull/24415)).
-- *Removed* invalid configuration from `PodSecurityContext` when `gateway.runAsRoot` is enabled ([#24469](https://github.com/istio/istio/issues/24469)).
+
+- **Fixed** an issue preventing the operator from recreating watched resources if they are deleted ([Issue 23238](https://github.com/istio/istio/issues/23238)).
+- **Fixed** an issue where Istio crashed with the message: `proto.Message is *client.QuotaSpecBinding, not *client`([Issue 24624](https://github.com/istio/istio/issues/24264)).
+- **Fixed** an issue preventing operator reconciliation due to improper labels on watched resources ([Issue 23603](https://github.com/istio/istio/issues/23603)).
+- **Added** support for the `k8s.v1.cni.cncf.io/networks` annotation ([Issue 24426](https://github.com/istio/istio/pull/24426)).
+- **Updated** the `SidecarInjectionSpec` CRD to read the `imagePullSecret` from `.Values.global` ([Issue 24437](https://github.com/istio/istio/issues/24437)).
+- **Updated** split horizon to skip gateways that resolve hostnames.
+- **Updated** istioctl metrics to only flag error response codes as errors ([Issue 24322](https://github.com/istio/istio/issues/24322))
+- **Updated** `istioctl analyze` to sort output formats.
+- **Updated** gateways to use `proxyMetadata`
+- **Updated** the Prometheus sidecar to use `proxyMetadata`([Issue 24415](https://github.com/istio/istio/pull/24415)).
+- **Removed** invalid configuration from `PodSecurityContext` when `gateway.runAsRoot` is enabled ([Issue 24469](https://github.com/istio/istio/issues/24469)).
 
 ## Grafana addon security fixes
 
