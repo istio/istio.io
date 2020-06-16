@@ -29,7 +29,7 @@ To simplify configuration, Istio has the ability to control scraping entirely by
 While `prometheus.io` annotations are not a core part of Prometheus, they have become the de facto standard to configure scraping.
 {{< /tip >}}
 
-This option is enabled by default, and can be configured by setting `--set meshConfig.enablePrometheusMerge=true|false` during [installation](/docs/setup/install/istioctl/). When this setting is enabled, appropriate `prometheus.io` annotations will be added to all workloads to set up scraping. If these annotations already exists, they will be overwritten. In these case, the Envoy sidecar will merge Istio's metrics with the application metrics.
+This option is enabled by default but can be disabled by passing `--set meshConfig.enablePrometheusMerge=false` during [installation](/docs/setup/install/istioctl/). When enabled, appropriate `prometheus.io` annotations will be added to all workloads to set up scraping. If these annotations already exist, they will be overwritten. With this option, the Envoy sidecar will merge Istio's metrics with the application metrics.
 
 This option exposes all the metrics in plain text.
 
