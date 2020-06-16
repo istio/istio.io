@@ -22,6 +22,35 @@ By sending a specially crafted packet, an attacker could cause the CPU to spike 
 
 ## Mitigation
 
+HTTP2 support could be disabled on the Ingress Gateway as a temporary workaround using the following configuration for example (Note that HTTP2 support at ingress can be disabled if you are not exposing gRPC services through ingress):
+
+{{< text yaml >}}
+
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: disable-ingress-h2
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+  configPatches:
+  - applyTo: NETWORK_FILTER # http connection manager is a filter in Envoy
+    match:
+      context: GATEWAY
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.http_connection_manager"
+    patch:
+      operation: MERGE
+      value:
+        typed_config:
+          "@type": type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager
+          codec_type: HTTP1
+{{< /text >}}
+
 * For Istio 1.5.x deployments: update to [Istio 1.5.5](/news/releases/1.5.x/announcing-1.5.5) or later.
 * For Istio 1.6.x deployments: update to [Istio 1.6.2](/news/releases/1.6.x/announcing-1.6.2) or later.
 
