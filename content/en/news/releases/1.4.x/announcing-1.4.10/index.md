@@ -3,7 +3,7 @@ title: Announcing Istio 1.4.10
 linktitle: 1.4.10
 subtitle: Patch Release
 description: Istio 1.4.10 security release.
-publishdate: 2020-06-16
+publishdate: 2020-06-18
 release: 1.4.10
 aliases:
     - /news/announcing-1.4.10
