@@ -65,8 +65,8 @@ sed -i "
 
 sed -i "s/^disableAliases = true$/disableAliases = false/" config.toml
 
-# CREDENTIAL_HELPER=$(git config --get credential.helper)
-# git config credential.helper store
+CREDENTIAL_HELPER=$(git config --get credential.helper)
+git config credential.helper cache
 
 git add -u
 git commit -m "mark v${PREV} as archived"
@@ -124,3 +124,5 @@ make update_all
 git add -A
 git commit -m "advance master to release-${NEXT}"
 git push origin master
+
+git config credential.helper ${CREDENTIAL_HELPER}
