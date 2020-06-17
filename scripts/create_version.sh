@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+### Parse the release version input ###
+
 [[ $1 =~ ^release-([0-9])\.([0-9]+)\.([0-9]+)$ ]]
 
 MAJOR="${BASH_REMATCH[1]}"
@@ -38,6 +40,7 @@ CURR="${MAJOR}.${MINOR}"     # current version
 PREV="${MAJOR}.$((MINOR-1))" # previous version
 NEXT="${MAJOR}.$((MINOR+1))" # next version
 
+# for a major release x.0, find the latest minor release
 if [ "${MINOR}" == '0' ]; then
     PREV_MINOR=$(
         git branch -a |
@@ -52,6 +55,7 @@ fi
 echo "Previous version: ${PREV}"
 echo "Upcoming version: ${NEXT}"
 
+### Archive the old release branch ###
 git checkout "release-${PREV}"
 sed -i "
     s/^archive: false$/archive: true/;
@@ -60,12 +64,15 @@ sed -i "
 " data/args.yml
 
 sed -i "s/^disableAliases = true$/disableAliases = false/" config.toml
+
+echo "Making an archive for v${PREV}..."
 make archive-version
 
 git add data/args.yml config.toml
 git commit -m "archive the release version ${PREV}"
-git push
+git push origin "release-${PREV}"
 
+# complete the archive process in master
 git checkout master
 sed -i "
     s/^preliminary: .*$/preliminary: \"${NEXT}\"/;
@@ -79,9 +86,10 @@ sed -i "0,/<li>/s//\<li>\n\
         <li>/" archive/archive/index.html
 
 git add data/versions.yml archive
-git commit -m "build an archive in the master branch"
-git push
+git commit -m "build an archive of v${PREV} in master"
+git push origin master
 
+### Create a branch for the new release ###
 git checkout -b "release-${CURR}"
 sed -i "
     s/^preliminary: true$/preliminary: false/;
@@ -97,8 +105,9 @@ make update-common
 
 git add *
 git commit -m "create a new release branch for v${CURR}"
-git push
+git push origin "release-${CURR}"
 
+### Advance master to the next release ###
 git checkout master
 sed -i "
     s/^version: .*$/version: \"${NEXT}\"/;
@@ -109,4 +118,4 @@ make update_all
 
 git add *
 git commit -m "advance master to the next release v${NEXT}"
-git push
+git push origin master
