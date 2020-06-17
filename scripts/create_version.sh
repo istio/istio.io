@@ -74,7 +74,7 @@ git push origin "release-${PREV}"
 
 # complete the archive process in master
 git checkout master
-./remake_archive.sh ${PREV}
+scripts/remake_archive.sh ${PREV}
 
 sed -i "
     s/^preliminary: .*$/preliminary: \"${NEXT}\"/;
