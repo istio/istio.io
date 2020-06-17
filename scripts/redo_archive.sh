@@ -16,19 +16,26 @@
 
 # NOTE: this would only work for v1.6+
 
-[[ $1 =~ ^redo-archive-([0-9.]+)$ ]]
+[[ $1 =~ ^redo-archive-([0-9]\.[0-9]+)\.0$ ]]
 
 VERSION="${BASH_REMATCH[1]}"
+if [ "${VERSION}" == '' ]; then
+    echo "Target format error: should be 'redo-archive-x.x.0', got '$1'"
+    exit 1
+fi
+
+set -e
+
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 ARCHIVE_BRANCH="release-${VERSION}"
 
-git checkout ${ARCHIVE_BRANCH}
+git checkout "${ARCHIVE_BRANCH}"
 echo "Making an archive for ${ARCHIVE_BRANCH}..."
 make archive-version
 
-git checkout ${CURRENT_BRANCH}
+git checkout "${CURRENT_BRANCH}"
 mv "archived_version/v${VERSION}" "archive/v${VERSION}"
 
 git add "archive/v${VERSION}"
 git commit -m "build an archive of v${VERSION} in ${CURRENT_BRANCH}"
-git push origin ${CURRENT_BRANCH}
+git push origin "${CURRENT_BRANCH}"

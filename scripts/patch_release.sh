@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+set -e
+
 MAJOR=$1
 MINOR=$2
 PATCH=$3
@@ -23,7 +25,7 @@ PREV_VERSION="${MAJOR}.${MINOR}.$((PATCH-1))"
 git checkout "release-${MAJOR}.${MINOR}"
 
 echo "Migrating to the new release ${NEW_VERSION}..."
-go get istio.io/istio@${NEW_VERSION}
+go get istio.io/istio@"${NEW_VERSION}"
 go mod tidy
 
 sed -i "s/^full_version: .*$/full_version: \"${NEW_VERSION}\"/" data/args.yml
@@ -42,7 +44,7 @@ test: n/a
 ---
 
 This release note describes what's different between Istio ${NEW_VERSION} and Istio ${PREV_VERSION}.
-" >> ${RELEASE_NOTE_PATH}
+" >> "${RELEASE_NOTE_PATH}"
 
 make update_ref_docs
 git add -A

@@ -24,15 +24,14 @@ PATCH="${BASH_REMATCH[3]}"
 if [ "${MAJOR}" == '' ]; then
     echo "Release format error: should be 'release-x.x.x', got '$1'"
     exit 1
-else
-    echo "Creating a version for ${MAJOR}.${MINOR}.${PATCH}..."
 fi
 
 set -e
+echo "Creating a version for ${MAJOR}.${MINOR}.${PATCH}..."
 
 # patch release
-if [ ${PATCH} != '0' ]; then
-    scripts/patch_release.sh ${MAJOR} ${MINOR} ${PATCH}
+if [ "${PATCH}" != '0' ]; then
+    scripts/patch_release.sh "${MAJOR}" "${MINOR}" "${PATCH}"
     exit 0
 fi
 
@@ -42,7 +41,7 @@ PREV_MINOR="${MAJOR}.$((MINOR-1))" # previous version
 NEXT_MINOR="${MAJOR}.$((MINOR+1))" # next version
 
 # for a major release x.0, find the latest minor release
-if [ ${MINOR} == '0' ]; then
+if [ "${MINOR}" == '0' ]; then
     LAST_MINOR_OF_PREV_MAJOR=$(
         git branch -a |
         grep "release-$((MAJOR-1))." |
@@ -53,8 +52,8 @@ if [ ${MINOR} == '0' ]; then
     PREV_MINOR="$((MAJOR-1)).${LAST_MINOR_OF_PREV_MAJOR}"
 fi
 
-echo "Previous version: ${PREV_MINOR}"
-echo "Upcoming version: ${NEXT_MINOR}"
+echo "Previous minor release: ${PREV_MINOR}"
+echo "Upcoming minor release: ${NEXT_MINOR}"
 
 ### Archive the old release branch ###
 echo -e "\nStep 1: archive the old release branch"
@@ -128,4 +127,4 @@ git add -A
 git commit -m "advance master to release-${NEXT_MINOR}"
 git push origin ${MASTER}
 
-git config credential.helper ${CREDENTIAL_HELPER}
+git config credential.helper "${CREDENTIAL_HELPER}"
