@@ -104,7 +104,7 @@ echo "Running make update-common..."
 sed -i "s/^UPDATE_BRANCH ?=.*$/UPDATE_BRANCH ?= release-${CURR}/" common/Makefile.common.mk
 make update-common
 
-git add --all
+git add -A
 git commit -m "create a new release branch for v${CURR}"
 git push origin "release-${CURR}"
 
@@ -118,6 +118,6 @@ sed -i "
 " data/args.yml
 make update_all
 
-git add --all
+git add -A
 git commit -m "advance master to release-${NEXT}"
 git push origin master
