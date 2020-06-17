@@ -65,13 +65,16 @@ sed -i "
 
 sed -i "s/^disableAliases = true$/disableAliases = false/" config.toml
 
+# CREDENTIAL_HELPER=$(git config --get credential.helper)
+# git config credential.helper store
+
 git add -u
 git commit -m "mark v${PREV} as archived"
 git push origin "release-${PREV}"
 
 # complete the archive process in master
 git checkout master
-scripts/remake_archive.sh ${PREV}
+./remake_archive.sh ${PREV}
 
 sed -i "
     s/^preliminary: .*$/preliminary: \"${NEXT}\"/;
