@@ -14,17 +14,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-PREV=1.6
+# NOTE: this would only work for v1.6+
 
-git checkout "release-${PREV}"
-sed -i "
-    s/^archive: false$/archive: true/;
-    s/^archive_date: .*$/archive_date: $(date +'%Y-%m-%d')/;
-    s/^archive_search_refinement: .*$/archive_search_refinement: \"V${PREV}\"/
-" data/args.yml
+VERSION=$1
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+ARCHIVE_BRANCH="release-${VERSION}"
 
-sed -i "s/^disableAliases = true$/disableAliases = false/" config.toml
+git checkout ${ARCHIVE_BRANCH}
+echo "Making an archive for ${ARCHIVE_BRANCH}..."
 make archive-version
 
-git add data/args.yml config.toml
-git commit -m "archive the release version ${PREV}"
+git checkout ${CURRENT_BRANCH}
+mv "archived_version/v${VERSION}" "archive/v${VERSION}"
+
+git add "archive/v${VERSION}"
+git commit -m "build an archive of v${VERSION} in ${CURRENT_BRANCH}"
+git push origin ${CURRENT_BRANCH}

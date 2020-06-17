@@ -65,28 +65,26 @@ sed -i "
 
 sed -i "s/^disableAliases = true$/disableAliases = false/" config.toml
 
-echo "Making an archive for release-${PREV}..."
-make archive-version
-
-git add data/args.yml config.toml
-git commit -m "archive the release version ${PREV}"
+git add -u
+git commit -m "mark v${PREV} as archived"
 git push origin "release-${PREV}"
 
 # complete the archive process in master
 git checkout master
+scripts/remake_archive.sh ${PREV}
+
 sed -i "
     s/^preliminary: .*$/preliminary: \"${NEXT}\"/;
     s/^main: .*$/main: \"${CURR}\"/
 " data/versions.yml
 
-mv "archived_version/v${PREV}" "archive/v${PREV}"
 sed -i "0,/<li>/s//\<li>\n\
             <a href=\/v${PREV}>v${PREV}<\/a>\n\
         <\/li>\n\
         <li>/" archive/archive/index.html
 
-git add data/versions.yml archive
-git commit -m "build an archive of v${PREV} in master"
+git add -u
+git commit -m "update data/versions.yml and archive index page"
 git push origin master
 
 ### Create a branch for the new release ###
