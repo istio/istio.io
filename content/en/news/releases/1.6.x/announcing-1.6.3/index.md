@@ -30,6 +30,6 @@ what’s different between Istio 1.6.2 and Istio 1.6.3.
 
 ## Grafana addon security fixes
 
-We've updated the versions of Grafana shipped with Istio from 6.5.2 to 6.7.4. This addresses a Grafana security issue,
+We've updated the version of Grafana shipped with Istio from 6.5.2 to 6.7.4. This addresses a Grafana security issue,
 rated high, that can allow access to internal cluster resources using the Grafana avatar feature.
 [(CVE-2020-13379)](https://grafana.com/blog/2020/06/03/grafana-6.7.4-and-7.0.2-released-with-important-security-fix/)
