@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2020-003
 subtitle: Security Bulletin
-description: Two Uncontrolled Resource Consumption and Two Incorrect Access Control Vulnerabilities in Envoy.
+description: Two uncontrolled resource consumption and two incorrect access control vulnerabilities in Envoy.
 cves: [CVE-2020-8659, CVE-2020-8660, CVE-2020-8661, CVE-2020-8664]
 cvss: "7.5"
 releases: ["1.4 to 1.4.5"]
