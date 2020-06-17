@@ -14,3 +14,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+PREV=1.6
+
+git checkout "release-${PREV}"
+sed -i "
+    s/^archive: false$/archive: true/;
+    s/^archive_date: .*$/archive_date: $(date +'%Y-%m-%d')/;
+    s/^archive_search_refinement: .*$/archive_search_refinement: \"V${PREV}\"/
+" data/args.yml
+
+sed -i "s/^disableAliases = true$/disableAliases = false/" config.toml
+make archive-version
+
+git add data/args.yml config.toml
+git commit -m "archive the release version ${PREV}"
