@@ -64,9 +64,7 @@ make archive-version
 
 git add data/args.yml config.toml
 git commit -m "archive the release version ${PREV}"
-
-ORIGIN="https://github.com/istio/istio.io"
-git push "${ORIGIN}"
+git push
 
 git checkout master
 sed -i "
