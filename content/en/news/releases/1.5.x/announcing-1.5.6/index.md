@@ -23,7 +23,7 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** Transfer-Encoding value case-sensitivity in Envoy ([Envoy's issue 10041](https://github.com/envoyproxy/envoy/issues/10041))
 - **Fixed** handling of user defined ingress gateway configuration ([Issue 23303](https://github.com/istio/istio/issues/23303))
 - **Fixed** Add `TCP MX ALPN` in `UpstreamTlsContext` for clusters that specify `http2_protocol_options` ([Issue 23907](https://github.com/istio/istio/issues/23907))
-- **Fixed** election lock for namespace configmap controller ([Issue 22463](https://github.com/istio/istio/issues/22463))
+- **Fixed** election lock for namespace configmap controller.
 - **Fixed** `istioctl validate -f` for `networking.istio.io/v1beta1` rules ([Issue 24064](https://github.com/istio/istio/issues/24064))
 - **Fixed** aggregate clusters configuration ([Issue 23909](https://github.com/istio/istio/issues/23909))
 - **Fixed** Prometheus mTLS poods scraping ([Issue 22391](https://github.com/istio/istio/issues/22391))
