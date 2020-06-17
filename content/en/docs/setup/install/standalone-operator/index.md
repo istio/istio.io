@@ -40,7 +40,7 @@ The operator is beta in 1.6 and suitable for production use.
     $ istioctl operator init --watchedNamespaces=istio-namespace1,istio-namespace2
     {{< /text >}}
 
-    See the available `istioctl operator init` flags to control which namespaces the operator controller and Istio are installed into and which namespaces to watch.
+    You can configure which namespaces the operator controller and Istio are installed in, the namespace(s) the operator watches, the installed Istio image sources and versions, and more. See the [`istioctl operator init` command reference](/docs/reference/commands/istioctl/#istioctl-operator-init) for details.
 
     {{< tip >}}
     You can alternatively deploy the operator using Helm:
