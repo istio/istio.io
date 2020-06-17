@@ -139,6 +139,9 @@ update_all: update_ref_docs update_examples
 release-%:
 	@scripts/create_version.sh $@
 
+redo-archive-%:
+	@scripts/redo_archive.sh $@
+
 foo2:
 	hugo version
 

@@ -16,7 +16,9 @@
 
 # NOTE: this would only work for v1.6+
 
-VERSION=$1
+[[ $1 =~ ^redo-archive-([0-9.]+)$ ]]
+
+VERSION="${BASH_REMATCH[1]}"
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 ARCHIVE_BRANCH="release-${VERSION}"
 

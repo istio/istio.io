@@ -56,6 +56,7 @@ echo "Previous version: ${PREV}"
 echo "Upcoming version: ${NEXT}"
 
 ### Archive the old release branch ###
+echo -e "\nStep 1: archive the old release branch"
 git checkout "release-${PREV}"
 sed -i "
     s/^archive: false$/archive: true/;
@@ -75,7 +76,7 @@ git push origin "release-${PREV}"
 # complete the archive process in master
 MASTER="tori-release" # master
 git checkout ${MASTER}
-scripts/remake_archive.sh ${PREV}
+scripts/redo_archive.sh "redo-archive-${PREV}"
 
 sed -i "
     s/^preliminary: .*$/preliminary: \"${NEXT}\"/;
@@ -92,7 +93,7 @@ git commit -m "update data/versions.yml and archive index page"
 git push origin ${MASTER}
 
 ### Create a branch for the new release ###
-echo "Creating a new branch for release-${CURR}..."
+echo -e "\nStep 2: create a new branch for release-${CURR}"
 git checkout -b "release-${CURR}"
 sed -i "
     s/^preliminary: true$/preliminary: false/;
@@ -113,7 +114,7 @@ git commit -m "create a new release branch for v${CURR}"
 git push origin "release-${CURR}"
 
 ### Advance master to the next release ###
-echo "Advancing master to release-${NEXT}..."
+echo -e "\nStep 3: advance master to release-${NEXT}..."
 git checkout ${MASTER}
 sed -i "
     s/^version: .*$/version: \"${NEXT}\"/;
