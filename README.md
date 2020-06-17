@@ -101,7 +101,7 @@ tests to use the new release to verify automated doc testing passes.
 
 To creating a new patch release, you need to
 
-1. Run `make release-A.X.Y` ,where `A.X.Y` is the name of the release.
+1. Run `make release-A.X.Y`, where `A.X.Y` is the name of the release.
 
 1. Complete the release note for the release by editing the generated markdown file `content/en/news/releases/A.X.x/announcing-A.X.Y/index.md`. This is where you describe the changes in the release. Please look at other existing files for example content and layout.
 
