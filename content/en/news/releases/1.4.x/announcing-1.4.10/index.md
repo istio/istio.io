@@ -27,7 +27,7 @@ __[CVE-2020-11080](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-11080
 
 ## Bug fixes
 
-- **Fixed** `istio-cni-node` crash when `COS_CONTAINERD` and Istio CNI are enabled when running on Google Kubernetes Engine ([Issue 23643](https://github.com/istio/istio/issues/23643]))
+- **Fixed** `istio-cni-node` crash when `COS_CONTAINERD` and Istio CNI are enabled when running on Google Kubernetes Engine ([Issue 23643](https://github.com/istio/istio/issues/23643))
 - **Fixed** Istio CNI causing pod initialization to experience a 30-40 second delay on startup when DNS unreachable ([Issue 23770](https://github.com/istio/istio/issues/23770))
 
 ## Bookinfo sample application security fixes
