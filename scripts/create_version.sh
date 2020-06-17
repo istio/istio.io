@@ -15,7 +15,6 @@
 # limitations under the License.
 
 ### Parse the release version input ###
-
 [[ $1 =~ ^release-([0-9])\.([0-9]+)\.([0-9]+)$ ]]
 
 MAJOR="${BASH_REMATCH[1]}"
@@ -31,11 +30,13 @@ fi
 
 set -e
 
-# TODO: patch release?
+# patch release
 if [ ${PATCH} != '0' ]; then
-    exit 1
+    scripts/patch_release.sh ${MAJOR} ${MINOR} ${PATCH}
+    exit 0
 fi
 
+# major/minor release
 CURR="${MAJOR}.${MINOR}"     # current version
 PREV="${MAJOR}.$((MINOR-1))" # previous version
 NEXT="${MAJOR}.$((MINOR+1))" # next version
