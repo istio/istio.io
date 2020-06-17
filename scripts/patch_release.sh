@@ -18,13 +18,12 @@ MAJOR=$1
 MINOR=$2
 PATCH=$3
 
-git checkout "release-${MAJOR}.${MINOR}"
-
 NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
 PREV_VERSION="${MAJOR}.${MINOR}.$((PATCH-1))"
-${GO} get istio.io/istio@${NEW_VERSION}
-${GO} mod tidy
-git add go.*
+
+git checkout "release-${MAJOR}.${MINOR}"
+go get istio.io/istio@${NEW_VERSION}
+go mod tidy
 
 sed -i "s/^full_version: .*$/full_version: \"${NEW_VERSION}.0\"/" data/args.yml
 
