@@ -22,7 +22,7 @@ what’s different between Istio 1.6.2 and Istio 1.6.3.
 - **Added** support for the `k8s.v1.cni.cncf.io/networks` annotation ([Issue 24425](https://github.com/istio/istio/issues/24425)).
 - **Updated** the `SidecarInjectionSpec` CRD to read the `imagePullSecret` from `.Values.global` ([Pull 24365](https://github.com/istio/istio/pull/24365)).
 - **Updated** split horizon to skip gateways that resolve hostnames.
-- **Updated** istioctl metrics to only flag error response codes as errors ([Issue 24322](https://github.com/istio/istio/issues/24322))
+- **Fixed** `istioctl experimental metrics` to only flag error response codes as errors ([Issue 24322](https://github.com/istio/istio/issues/24322))
 - **Updated** `istioctl analyze` to sort output formats.
 - **Updated** gateways to use `proxyMetadata`
 - **Updated** the Prometheus sidecar to use `proxyMetadata`([Issue 24415](https://github.com/istio/istio/pull/24415)).
@@ -30,6 +30,6 @@ what’s different between Istio 1.6.2 and Istio 1.6.3.
 
 ## Grafana addon security fixes
 
-We've updated the versions of Grafana shipped with Istio from 6.5.2 to 6.7.4. This addresses a Grafana security issue,
+We've updated the version of Grafana shipped with Istio from 6.5.2 to 6.7.4. This addresses a Grafana security issue,
 rated high, that can allow access to internal cluster resources using the Grafana avatar feature.
 [(CVE-2020-13379)](https://grafana.com/blog/2020/06/03/grafana-6.7.4-and-7.0.2-released-with-important-security-fix/)
