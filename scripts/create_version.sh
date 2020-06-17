@@ -65,7 +65,7 @@ sed -i "
 
 sed -i "s/^disableAliases = true$/disableAliases = false/" config.toml
 
-echo "Making an archive for v${PREV}..."
+echo "Making an archive for release-${PREV}..."
 make archive-version
 
 git add data/args.yml config.toml
@@ -106,12 +106,12 @@ echo "Running make update-common..."
 sed -i "s/^UPDATE_BRANCH ?=.*$/UPDATE_BRANCH ?= release-${CURR}/" common/Makefile.common.mk
 make update-common
 
-git add Makefile.core.mk common content data
+git add Makefile Makefile.core.mk common content data
 git commit -m "create a new release branch for v${CURR}"
 git push origin "release-${CURR}"
 
 ### Advance master to the next release ###
-echo "Advancing master to release-${NEXT}"
+echo "Advancing master to release-${NEXT}..."
 git checkout master
 sed -i "
     s/^version: .*$/version: \"${NEXT}\"/;
@@ -120,6 +120,6 @@ sed -i "
 " data/args.yml
 make update_all
 
-git add *
-git commit -m "advance master to the next release v${NEXT}"
+git add content data
+git commit -m "advance master to release-${NEXT}"
 git push origin master
