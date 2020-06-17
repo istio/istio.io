@@ -90,6 +90,7 @@ git commit -m "build an archive of v${PREV} in master"
 git push origin master
 
 ### Create a branch for the new release ###
+echo "Creating a new branch for release-${CURR}..."
 git checkout -b "release-${CURR}"
 sed -i "
     s/^preliminary: true$/preliminary: false/;
@@ -97,17 +98,20 @@ sed -i "
     s/^source_branch_name: .*$/source_branch_name: release-${CURR}/
 " data/args.yml
 
+echo "Running make update_all..."
 sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= release-${CURR}/" Makefile.core.mk
 make update_all
 
+echo "Running make update-common..."
 sed -i "s/^UPDATE_BRANCH ?=.*$/UPDATE_BRANCH ?= release-${CURR}/" common/Makefile.common.mk
 make update-common
 
-git add *
+git add Makefile.core.mk common content data
 git commit -m "create a new release branch for v${CURR}"
 git push origin "release-${CURR}"
 
 ### Advance master to the next release ###
+echo "Advancing master to release-${NEXT}"
 git checkout master
 sed -i "
     s/^version: .*$/version: \"${NEXT}\"/;
