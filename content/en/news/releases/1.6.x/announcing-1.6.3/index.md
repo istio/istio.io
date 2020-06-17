@@ -17,10 +17,10 @@ what’s different between Istio 1.6.2 and Istio 1.6.3.
 ## Changes
 
 - **Fixed** an issue preventing the operator from recreating watched resources if they are deleted ([Issue 23238](https://github.com/istio/istio/issues/23238)).
-- **Fixed** an issue where Istio crashed with the message: `proto.Message is *client.QuotaSpecBinding, not *client`([Issue 24624](https://github.com/istio/istio/issues/24264)).
+- **Fixed** an issue where Istio crashed with the message: `proto.Message is *client.QuotaSpecBinding, not *client.QuotaSpecBinding`([Issue 24624](https://github.com/istio/istio/issues/24264)).
 - **Fixed** an issue preventing operator reconciliation due to improper labels on watched resources ([Issue 23603](https://github.com/istio/istio/issues/23603)).
-- **Added** support for the `k8s.v1.cni.cncf.io/networks` annotation ([Issue 24426](https://github.com/istio/istio/pull/24426)).
-- **Updated** the `SidecarInjectionSpec` CRD to read the `imagePullSecret` from `.Values.global` ([Issue 24437](https://github.com/istio/istio/issues/24437)).
+- **Added** support for the `k8s.v1.cni.cncf.io/networks` annotation ([Issue 24425](https://github.com/istio/istio/issues/24425)).
+- **Updated** the `SidecarInjectionSpec` CRD to read the `imagePullSecret` from `.Values.global` ([Pull 24365](https://github.com/istio/istio/pull/24365)).
 - **Updated** split horizon to skip gateways that resolve hostnames.
 - **Fixed** `istioctl experimental metrics` to only flag error response codes as errors ([Issue 24322](https://github.com/istio/istio/issues/24322))
 - **Updated** `istioctl analyze` to sort output formats.
