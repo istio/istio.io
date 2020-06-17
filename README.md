@@ -66,47 +66,11 @@ version of Istio is 1.3 and you wish to introduce 1.4 which has been under devel
 
 #### When Istio source code is branched
 
-The documentation repo pulls content from the Istio source repos for inclusion in the published site.
-When the source repos are branched in preparation for a release, a few changes are needed in the
-documentation repo to track this:
+Run `make release-1.4.0`, and that's it.
 
-1. Switch to the **master** branch of the istio/istio.io repo and make sure everything is up to date.
-
-1. Edit the file `Makefile.core.mk` and change the `SOURCE_BRANCH_NAME` variable to the
-name of the newly created source branches (in this case `release-1.4`).
-
-1. Edit the file `data/args.yml` and set the `source_branch_name` field to the name of the newly created source
-branches (in this case `release-1.4`).
-
-1. Run `make update_all` in order to retrieve the latest material from the source repositories.
-
-1. Commit the previous edits to your local git repo and push your **master** branch to GitHub.
+This make target will change some variables in `master` and `release-1.3` as needed, and create a new branch `release-1.4` for the new version.
 
 #### On the day of the release
-
-##### Creating the release branch
-
-The day of a major Istio release, assuming you've previously done the steps from the above section, you need to:
-
-1. Switch to the **master** branch of the istio/istio.io repo and make sure everything is up to date.
-
-1. Edit the file `scripts/build_archive_site.sh` and add the new archive version
-(in this case `release-1.3`) to the `TOBUILD` variable.
-
-1. Edit the file `data/versions.yml`. Set the `preliminary` field to the next Istio release
-(in this case `1.5`) and the `main` field to the current release (in this case `1.4`).
-
-1. Commit the previous edits to your local git repo and push your **master** branch to GitHub.
-
-1. Create a new release branch off of master, named as release-**major**.**minor** (in this case `release-1.4`). There is one
-such branch for every release.
-
-1. Edit the file `data/args.yml`. Set the `preliminary` field to `false`
-and the the `doc_branch_name` field to the name of the release branch (in this case `release-1.4`).
-
-1. Commit the previous edits to your local git repo and push your **release** branch to GitHub.
-
-##### Updating istio.io
 
 1. Go to the istio.io project on [Netlify](https://netlify.com)
 
@@ -116,9 +80,7 @@ and the the `doc_branch_name` field to the name of the release branch (in this c
 
 1. Once deployment is done, browse istio.io and make sure everything looks good.
 
-##### Updating archive.istio.io
-
-1. Go to the [Google Custom Search Engine](https://cse.google.com) and do the following:
+1. **[NEEDS REVISION]** Go to the [Google Custom Search Engine](https://cse.google.com) and do the following:
 
     - Download the archive.istio.io CSE context file from the Advanced tab.
 
@@ -131,65 +93,19 @@ and the the `doc_branch_name` field to the name of the release branch (in this c
     case, the site URL would be archive.istio.io/v1.3/*. Set the label of this site to the name of the
     facet item created above (V1.3 in this case).
 
-1. In the **previous release's** branch (in this case `release-1.3`), edit the file `data/args.yml`. Set the
-`archive` field to true and the `archive_date` field to the current date, and the `archive_search_refinement`
-to the previous release version (in this case `V1.3`).
-
-1. In the **previous release's** branch (in this case `release-1.3`), edit the file `config.toml`. Set the
-`disableAliases` field to `false`.
-
-1. Commit the previous edits to your local git repo and push the **previous release's** branch to GitHub.
-
-1. In the **archive** branch, rebase the branch to have all changes from the current release. In this case,
-all changes from the `release-1.4` branch.
-
-1. Commit the previous edits to your local git repo and push the **archive** branch to GitHub.
-
-1. Wait a while (~20 minutes) and browse archive.istio.io to make sure everything looks good.
-
-##### Updating preliminary.istio.io
-
-1. In the **master** branch, edit the file `data/args.yml`. Set the `version` and `full_version` fields to have the version
-of the next Istio release, and `previous_version` to be the version of the previous release. In this case, you would set the fields to
-"1.5", "1.5.0", and "1.4" respectively.
-
-1. In the **master** branch, edit the file `data/args.yml`. Set the
-`source_branch_name` and `doc_branch_name` fields to `master`.
-
-1. In the **master** branch, edit the file `Makefile.core.mk`. Set the variable `SOURCE_BRANCH_NAKE` to
-`master`.
-
-1. Run `make update_all` in order to retrieve the latest material from the source repositories.
-
-1. Commit the previous edits to your local git repo and push the **master** branch to GitHub.
-
-1. Wait a while (~5 minutes) and browse preliminary.istio.io to make sure everything looks good.
-
 ### Creating a patch release
 
 A few days before the patch release, the release managers should notify the Doc WG that the release
 is built and is starting it's long running qualification test. At this time, move the doc automation
-tests to use the new release to verify automated doc testing passes. To move to a new release
-(make sure you are in the patch's release branch):
+tests to use the new release to verify automated doc testing passes. 
 
-1. `go get istio.io/istio@1.X.Y`
+To creating a new patch release, you need to
 
-1. `go mod tidy`
+1. Run `make release-A.X.Y` ,where `A.X.Y` is the name of the release.
 
-1. Create a PR with the go.* changes.
+1. Complete the release note for the release by editing the generated markdown file `content/en/news/releases/A.X.x/announcing-A.X.Y/index.md`. This is where you describe the changes in the release. Please look at other existing files for example content and layout.
 
-Creating a new patch release involves modifying a few files:
-
-1. Create the release note for the release by adding a markdown file in
-`content/en/news/<YEAR>/1.X.Y/index.md`, where 1.X.Y is the name of the release. This is where
-you describe the changes in the release.
-
-1. Edit the `data/args.yml` file and change the `full_version` field to the name of the release.
-
-1. Run `make update_ref_docs` to get the latest reference docs.
-
-For the release note file, please look at existing files in the same location for example content and
-layout.
+1. Commit all the changes, including the release note you edited, and push them to the patch release branch.
 
 ## Multi-language support
 
