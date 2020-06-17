@@ -6,8 +6,8 @@
 
 ## istio.io
 
-This repository contains the source code for the [istio.io](https://istio.io),
-[preliminary.istio.io](https://preliminary.istio.io), and [archive.istio.io](https://archive.istio.io) sites.
+This repository contains the source code for the [istio.io](https://istio.io) and
+[preliminary.istio.io](https://preliminary.istio.io).
 
 Please see the main Istio [README](https://github.com/istio/istio/blob/master/README.md)
 file to learn about the overall Istio project and how to get in touch with us. To learn how you can
@@ -30,12 +30,10 @@ To learn how to edit and build this repo's content, please refer to
 
 ## Versions and releases
 
-Istio maintains three variations of its public site.
+Istio maintains two variations of its public site.
 
 - [istio.io](https://istio.io) is the main site, showing documentation for the current release of the product.
-
-- [archive.istio.io](https://archive.istio.io) contains snapshots of the documentation for previous releases of the product.
-This is useful for customers still using these older releases.
+[istio.io/archive](https://istio.io/archive) contains snapshots of the documentation for previous releases of the product. This is useful for customers still using these older releases.
 
 - [preliminary.istio.io](https://preliminary.istio.io) contains the actively updated documentation for the next release of the product.
 
@@ -49,10 +47,6 @@ are automatically reflected on preliminary.istio.io.
 
 - The content of istio.io is taken from the latest release-XXX branch. The specific branch that
 is used is determined by the istio.io [Netlify](https://netlify.com) project's configuration.
-
-- The content of archive.istio.io is taken from the older release-XXX branches. The set of branches that
-are included on archive.istio.io is determined by the `TOBUILD` variable in this
-[script](https://github.com/istio/istio.io/blob/master/scripts/build_archive_site.sh).
 
 ### Publishing content immediately
 
@@ -112,7 +106,7 @@ and the the `doc_branch_name` field to the name of the release branch (in this c
 
 1. Commit the previous edits to your local git repo and push your **release** branch to GitHub.
 
-#### Updating istio.io
+##### Updating istio.io
 
 1. Go to the istio.io project on [Netlify](https://netlify.com)
 
