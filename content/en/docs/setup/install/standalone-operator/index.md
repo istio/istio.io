@@ -50,7 +50,7 @@ The operator is beta in 1.6 and suitable for production use.
       --set hub=docker.io/istio \
       --set tag={{< istio_full_version >}} \
       --set operatorNamespace=istio-operator \
-      --set istioNamespace=istio-system | kubectl apply -f -
+      --set watchedNamespaces=istio-system | kubectl apply -f -
     {{< /text >}}
 
     Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
