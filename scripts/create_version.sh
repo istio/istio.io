@@ -32,7 +32,7 @@ fi
 set -e
 
 # TODO: patch release?
-if [ "${PATCH}" != '0' ]; then
+if [ ${PATCH} != '0' ]; then
     exit 1
 fi
 
@@ -41,7 +41,7 @@ PREV="${MAJOR}.$((MINOR-1))" # previous version
 NEXT="${MAJOR}.$((MINOR+1))" # next version
 
 # for a major release x.0, find the latest minor release
-if [ "${MINOR}" == '0' ]; then
+if [ ${MINOR} == '0' ]; then
     PREV_MINOR=$(
         git branch -a |
         grep "release-$((MAJOR-1))." |
@@ -73,7 +73,8 @@ git commit -m "mark v${PREV} as archived"
 git push origin "release-${PREV}"
 
 # complete the archive process in master
-git checkout master
+MASTER="tori-release" # master
+git checkout ${MASTER}
 scripts/remake_archive.sh ${PREV}
 
 sed -i "
@@ -88,7 +89,7 @@ sed -i "0,/<li>/s//\<li>\n\
 
 git add -u
 git commit -m "update data/versions.yml and archive index page"
-git push origin master
+git push origin ${MASTER}
 
 ### Create a branch for the new release ###
 echo "Creating a new branch for release-${CURR}..."
@@ -113,7 +114,7 @@ git push origin "release-${CURR}"
 
 ### Advance master to the next release ###
 echo "Advancing master to release-${NEXT}..."
-git checkout master
+git checkout ${MASTER}
 sed -i "
     s/^version: .*$/version: \"${NEXT}\"/;
     s/^full_version: .*$/full_version: \"${NEXT}.0\"/;
@@ -123,6 +124,6 @@ make update_all
 
 git add -A
 git commit -m "advance master to release-${NEXT}"
-git push origin master
+git push origin ${MASTER}
 
 git config credential.helper ${CREDENTIAL_HELPER}
