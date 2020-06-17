@@ -45,6 +45,7 @@ This release note describes what's different between Istio ${NEW_VERSION} and Is
 " >> ${RELEASE_NOTE_PATH}
 
 make update_ref_docs
+git add -A
 
 echo "Almost there. Now complete the release note and push all the changes."
 echo "Release note is located at ${RELEASE_NOTE_PATH}"
