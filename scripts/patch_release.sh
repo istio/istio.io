@@ -20,12 +20,13 @@ PATCH=$3
 
 NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
 PREV_VERSION="${MAJOR}.${MINOR}.$((PATCH-1))"
-
 git checkout "release-${MAJOR}.${MINOR}"
+
+echo "Migrating to the new release ${NEW_VERSION}..."
 go get istio.io/istio@${NEW_VERSION}
 go mod tidy
 
-sed -i "s/^full_version: .*$/full_version: \"${NEW_VERSION}.0\"/" data/args.yml
+sed -i "s/^full_version: .*$/full_version: \"${NEW_VERSION}\"/" data/args.yml
 
 RELEASE_NOTE_PATH="content/en/news/releases/${MAJOR}.${MINOR}.x/announcing-${NEW_VERSION}/index.md"
 echo "---
@@ -46,5 +47,6 @@ This release note describes what's different between Istio ${NEW_VERSION} and Is
 make update_ref_docs
 git add -A
 
-echo "Almost there. Now complete the release note and push all the changes."
-echo "Release note is located at ${RELEASE_NOTE_PATH}"
+echo "
+Almost there! Now complete the release note and push all the changes.
+Release note is located at ${RELEASE_NOTE_PATH}"

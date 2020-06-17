@@ -37,32 +37,32 @@ if [ ${PATCH} != '0' ]; then
 fi
 
 # major/minor release
-CURR="${MAJOR}.${MINOR}"     # current version
-PREV="${MAJOR}.$((MINOR-1))" # previous version
-NEXT="${MAJOR}.$((MINOR+1))" # next version
+CURR_MINOR="${MAJOR}.${MINOR}"     # current version
+PREV_MINOR="${MAJOR}.$((MINOR-1))" # previous version
+NEXT_MINOR="${MAJOR}.$((MINOR+1))" # next version
 
 # for a major release x.0, find the latest minor release
 if [ ${MINOR} == '0' ]; then
-    PREV_MINOR=$(
+    LAST_MINOR_OF_PREV_MAJOR=$(
         git branch -a |
         grep "release-$((MAJOR-1))." |
         sed -r "s/^.*release-$((MAJOR-1))\.([0-9]+)$/\1/" |
         sort -n |
         tail -1
     )
-    PREV="$((MAJOR-1)).${PREV_MINOR}"
+    PREV_MINOR="$((MAJOR-1)).${LAST_MINOR_OF_PREV_MAJOR}"
 fi
 
-echo "Previous version: ${PREV}"
-echo "Upcoming version: ${NEXT}"
+echo "Previous version: ${PREV_MINOR}"
+echo "Upcoming version: ${NEXT_MINOR}"
 
 ### Archive the old release branch ###
 echo -e "\nStep 1: archive the old release branch"
-git checkout "release-${PREV}"
+git checkout "release-${PREV_MINOR}"
 sed -i "
     s/^archive: false$/archive: true/;
     s/^archive_date: .*$/archive_date: $(date +'%Y-%m-%d')/;
-    s/^archive_search_refinement: .*$/archive_search_refinement: \"V${PREV}\"/
+    s/^archive_search_refinement: .*$/archive_search_refinement: \"V${PREV_MINOR}\"/
 " data/args.yml
 
 sed -i "s/^disableAliases = true$/disableAliases = false/" config.toml
@@ -71,21 +71,21 @@ CREDENTIAL_HELPER=$(git config --get credential.helper)
 git config credential.helper cache
 
 git add -u
-git commit -m "mark v${PREV} as archived"
-git push origin "release-${PREV}"
+git commit -m "mark v${PREV_MINOR} as archived"
+git push origin "release-${PREV_MINOR}"
 
 # complete the archive process in master
-MASTER="tori-release" # master
+MASTER="master"
 git checkout ${MASTER}
-scripts/redo_archive.sh "redo-archive-${PREV}"
+scripts/redo_archive.sh "redo-archive-${PREV_MINOR}"
 
 sed -i "
-    s/^preliminary: .*$/preliminary: \"${NEXT}\"/;
-    s/^main: .*$/main: \"${CURR}\"/
+    s/^preliminary: .*$/preliminary: \"${NEXT_MINOR}\"/;
+    s/^main: .*$/main: \"${CURR_MINOR}\"/
 " data/versions.yml
 
 sed -i "0,/<li>/s//\<li>\n\
-            <a href=\/v${PREV}>v${PREV}<\/a>\n\
+            <a href=\/v${PREV_MINOR}>v${PREV_MINOR}<\/a>\n\
         <\/li>\n\
         <li>/" archive/archive/index.html
 
@@ -94,38 +94,38 @@ git commit -m "update data/versions.yml and archive index page"
 git push origin ${MASTER}
 
 ### Create a branch for the new release ###
-echo -e "\nStep 2: create a new branch for release-${CURR}"
-git checkout -b "release-${CURR}"
+echo -e "\nStep 2: create a new branch for release-${CURR_MINOR}"
+git checkout -b "release-${CURR_MINOR}"
 sed -i "
     s/^preliminary: true$/preliminary: false/;
-    s/^doc_branch_name: .*$/doc_branch_name: release-${CURR}/;
-    s/^source_branch_name: .*$/source_branch_name: release-${CURR}/
+    s/^doc_branch_name: .*$/doc_branch_name: release-${CURR_MINOR}/;
+    s/^source_branch_name: .*$/source_branch_name: release-${CURR_MINOR}/
 " data/args.yml
 
 echo "Running make update_all..."
-sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= release-${CURR}/" Makefile.core.mk
+sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= release-${CURR_MINOR}/" Makefile.core.mk
 make update_all
 
 echo "Running make update-common..."
-sed -i "s/^UPDATE_BRANCH ?=.*$/UPDATE_BRANCH ?= release-${CURR}/" common/Makefile.common.mk
+sed -i "s/^UPDATE_BRANCH ?=.*$/UPDATE_BRANCH ?= release-${CURR_MINOR}/" common/Makefile.common.mk
 make update-common
 
 git add -A
-git commit -m "create a new release branch for v${CURR}"
-git push origin "release-${CURR}"
+git commit -m "create a new release branch for v${CURR_MINOR}"
+git push origin "release-${CURR_MINOR}"
 
 ### Advance master to the next release ###
-echo -e "\nStep 3: advance master to release-${NEXT}..."
+echo -e "\nStep 3: advance master to release-${NEXT_MINOR}..."
 git checkout ${MASTER}
 sed -i "
-    s/^version: .*$/version: \"${NEXT}\"/;
-    s/^full_version: .*$/full_version: \"${NEXT}.0\"/;
-    s/^previous_version: .*$/previous_version: \"${CURR}\"/
+    s/^version: .*$/version: \"${NEXT_MINOR}\"/;
+    s/^full_version: .*$/full_version: \"${NEXT_MINOR}.0\"/;
+    s/^previous_version: .*$/previous_version: \"${CURR_MINOR}\"/
 " data/args.yml
 make update_all
 
 git add -A
-git commit -m "advance master to release-${NEXT}"
+git commit -m "advance master to release-${NEXT_MINOR}"
 git push origin ${MASTER}
 
 git config credential.helper ${CREDENTIAL_HELPER}
