@@ -1,7 +1,6 @@
 ---
 title: How to figure out what happened to a request in Istio?
 weight: 80
-test: no
 ---
 
 You can enable [tracing](/docs/tasks/observability/distributed-tracing/) to determine the flow of a request in Istio.

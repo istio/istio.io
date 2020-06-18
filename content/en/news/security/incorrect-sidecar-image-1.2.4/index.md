@@ -7,7 +7,6 @@ keywords: [community,blog,security]
 aliases:
     - /blog/2019/incorrect-sidecar-image-1.2.4
     - /news/2019/incorrect-sidecar-image-1.2.4
-test: n/a
 ---
 To the Istio’s user community,
 

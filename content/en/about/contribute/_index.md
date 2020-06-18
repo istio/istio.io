@@ -12,7 +12,6 @@ aliases:
 keywords: [contribute, github, docs, shortcodes, code-blocks, website]
 list_below: true
 icon: contribute
-test: n/a
 ---
 
 Welcome to the Istio documentation contribution guides. This section contains

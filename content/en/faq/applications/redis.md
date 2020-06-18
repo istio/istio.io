@@ -3,7 +3,6 @@ title: Can I run Redis inside an Istio mesh?
 description: How to run Redis with Istio.
 weight: 50
 keywords: [redis]
-test: no
 ---
 
 Similar to other services deployed in an Istio service mesh, Redis instances

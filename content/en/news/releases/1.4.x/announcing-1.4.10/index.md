@@ -7,7 +7,6 @@ publishdate: 2020-06-18
 release: 1.4.10
 aliases:
     - /news/announcing-1.4.10
-test: n/a
 ---
 
 This is the final release for Istio 1.4.

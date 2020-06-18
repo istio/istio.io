@@ -11,7 +11,6 @@ aliases:
     - /about/notes/0.4/index.html
     - /news/2017/announcing-0.4
     - /news/announcing-0.4
-test: n/a
 ---
 
 This release has only got a few weeks' worth of changes, as we stabilize our monthly release process.

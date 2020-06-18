@@ -7,7 +7,6 @@ publishdate: 2020-06-11
 release: 1.5.5
 aliases:
     - /news/announcing-1.5.5
-test: n/a
 ---
 
 This release fixes the security vulnerability described in [our June 11th, 2020 news post](/news/security/istio-security-2020-006).

@@ -1,7 +1,6 @@
 ---
 title: Does Mixer provide any self-monitoring?
 weight: 30
-test: no
 ---
 
 Mixer exposes a monitoring endpoint (default port: `15014`). There are a few
