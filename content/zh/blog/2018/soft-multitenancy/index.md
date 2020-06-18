@@ -97,7 +97,7 @@ roleRef:
 除了创建 RBAC 规则来限制租户管理员只能访问指定 Istio 控制平面之外，Istio 清单还需要为 Istio Pilot 指定一个用于应用程序的命名空间，以便生成 xDS 缓存。Pilot 组件提供了命令行参数 `--appNamespace, ns-1` 可以完成这一任务。*ns-1* 就是租户用来部署自己应用的命名空间。`istio-system1.yaml` 中包含的相关代码大致如下：
 
 {{< text yaml >}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: istio-pilot

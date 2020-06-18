@@ -31,7 +31,7 @@ coredump_dir /var/spool/squid
 EOF
 </code></pre></li><li><p>创建 Kubernetes <a href=https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/>ConfigMap</a>以保存代理的配置:</p><pre><code class=language-bash data-expandlinks=true>$ kubectl create configmap proxy-configmap -n external --from-file=squid.conf=./proxy.conf
 </code></pre></li><li><p>使用 Squid 部署容器:</p><pre><code class=language-bash data-expandlinks=true>$ kubectl apply -f - &lt;&lt;EOF
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: squid

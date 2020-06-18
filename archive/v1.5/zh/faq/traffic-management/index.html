@@ -15,8 +15,8 @@ gtag('js',new Date());gtag('config','UA-98480406-2');</script><link rel=alternat
 <button id=search-close title=取消搜索 type=reset aria-label=取消搜索><svg class="icon"><use xlink:href="/v1.5/img/icons.svg#cancel-x"/></svg></button></form></nav></header><div class=banner-container></div><main class="primary notoc"><div id=sidebar-container class="sidebar-container sidebar-offcanvas"><nav id=sidebar aria-label="Section Navigation"><div class=directory><div class=card><div id=header0 class=header title="关于 Istio 的常见问题。"><svg class="icon"><use xlink:href="/v1.5/img/icons.svg#faq"/></svg>FAQ</div><div class="body default" aria-labelledby=header0><ul role=tree aria-expanded=true class=leaf-section aria-labelledby=header0><li role=none><a role=treeitem title=常见问题。 href=/v1.5/zh/faq/general/>常见问题</a></li><li role=none><a role=treeitem title=安装相关问答。 href=/v1.5/zh/faq/setup/>安装</a></li><li role=none><a role=treeitem title=安全常见问题。 href=/v1.5/zh/faq/security/>安全</a></li><li role=none><a role=treeitem title=特定应用问答。 href=/v1.5/zh/faq/applications/>应用</a></li><li role=none><a role=treeitem title="Mixer Q & A." href=/v1.5/zh/faq/mixer/>Mixer</a></li><li role=none><a role=treeitem title=度量和日志的常见问题。 href=/v1.5/zh/faq/metrics-and-logs/>度量和日志</a></li><li role=none><a role=treeitem title=分布式追踪问答。 href=/v1.5/zh/faq/distributed-tracing/>分布式追踪</a></li><li role=none><span role=treeitem class=current title=流量管理的常见问题。>流量管理</span></li></ul></div></div></div></nav></div><div class=article-container><nav aria-label=Breadcrumb><ol><li><a href=/v1.5/zh/ title=用于连接、保护、控制和观测服务。>Istio</a></li><li><a href=/v1.5/zh/faq/ title="关于 Istio 的常见问题。">FAQ</a></li><li>流量管理</li></ol></nav><article aria-labelledby=title><div class=title-area><i class=title-icon><svg class="icon"><use xlink:href="/v1.5/img/icons.svg#faq"/></svg></i><div style=width:100%><h1 id=title>流量管理的常见问题</h1></div></div><nav class="toc-inlined toc-forced"><hr><div class=directory role=directory><nav id=InlineTableOfContents><ol><li role=none aria-label="怎样查看在 Istio 中已配置的当前路由规则？"><a href=#viewing-current-rules>怎样查看在 Istio 中已配置的当前路由规则？</a></li><li role=none aria-label="Sidecar 代理在哪些端口上截获入站流量？"><a href=#controlling-inbound-ports>Sidecar 代理在哪些端口上截获入站流量？</a></li><li role=none aria-label="我可以不配置任何路由规则，使用 Ingress 的标准配置吗？"><a href=#ingress-with-no-route-rules>我可以不配置任何路由规则，使用 Ingress 的标准配置吗？</a></li><li role=none aria-label="Istio 支持哪些协议？"><a href=#naming-port-convention>Istio 支持哪些协议？</a></li></ol></nav></div><hr></nav><div class=faq><h5 id=viewing-current-rules class=question>怎样查看在 Istio 中已配置的当前路由规则？</h5><div class=answer><p>可以使用这个命令查看 <code>kubectl get virtualservice -o yaml</code></p></div><h5 id=controlling-inbound-ports class=question>Sidecar 代理在哪些端口上截获入站流量？</h5><div class=answer><p>Istio 默认截获所有端口的入站流量。
 您可以通过 <code>traffic.sidecar.istio.io/includeInboundPorts</code> 这个 pod 注解指定一组端口来截获流量，或通过 <code>traffic.sidecar.istio.io/excludeOutboundPorts</code> 指定一组端口来放行流量，以更改这种默认行为。</p></div><h5 id=ingress-with-no-route-rules class=question>我可以不配置任何路由规则，使用 Ingress 的标准配置吗？</h5><div class=answer><p>简单的 <code>Ingress</code> 规范，提供了开箱即用，通过 <code>Host</code>,<code>TLS</code> 以及基本 <code>Path</code> 精确匹配就可以使用，无需配置路由规则。
 然而，<code>Path</code> 在使用 <code>Ingress</code> 资源时不应该有任何 <code>.</code> 字符。</p><p>比如，下面 <code>Ingress</code> 的资源匹配 <code>Host</code> 为 <code>example.com</code> 以及 <code>URL</code> 为 <code>/helloworld</code> 的请求。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl create -f - &lt;&lt;EOF
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
 name: simple-ingress
 annotations:
@@ -32,8 +32,8 @@ rules:
         servicePort: grpc
 EOF
 </code></pre><p>然而，这下面的规则将不工作，因为他们在 <code>Path</code> 中使用了匹配表达式，并且添加了 <code>ingress.kubernetes.io</code> 注解。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl create -f - &lt;&lt;EOF
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
 name: this-will-not-work
 annotations:

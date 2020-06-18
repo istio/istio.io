@@ -391,7 +391,7 @@ not have any <code>.</code> characters.</p>
 <p>For example, the following ingress resource matches requests for the
 example.com host, with /helloworld as the URL.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl create -f -
-</span><span style="color:#e6db74">apiVersion: extensions/v1beta1
+</span><span style="color:#e6db74">apiVersion: apps/v1
 </span><span style="color:#e6db74">kind: Ingress
 </span><span style="color:#e6db74">metadata:
 </span><span style="color:#e6db74">name: simple-ingress
@@ -410,7 +410,7 @@ example.com host, with /helloworld as the URL.</p>
 </code></pre></div><p>However, the following rules will not work because it uses regular
 expressions in the path and uses <code>ingress.kubernetes.io</code> annotations:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl create -f -
-</span><span style="color:#e6db74">apiVersion: extensions/v1beta1
+</span><span style="color:#e6db74">apiVersion: apps/v1
 </span><span style="color:#e6db74">kind: Ingress
 </span><span style="color:#e6db74">metadata:
 </span><span style="color:#e6db74">name: this-will-not-work

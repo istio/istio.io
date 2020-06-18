@@ -268,7 +268,7 @@ name: http
 selector:
 app: productpage
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: productpage-v1
@@ -300,7 +300,7 @@ name: http
 selector:
 app: details
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: details-v1
@@ -332,7 +332,7 @@ name: http
 selector:
 app: reviews
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: reviews-v1
@@ -369,7 +369,7 @@ name: http
 selector:
 app: ratings
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: ratings-v1
@@ -401,7 +401,7 @@ name: http
 selector:
 app: reviews
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: reviews-v2
@@ -420,7 +420,7 @@ imagePullPolicy: IfNotPresent
 ports:
 - containerPort: 9080
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: reviews-v3
@@ -827,7 +827,7 @@ args:
 - [[ .MeshConfig.ProxyListenPort ]]
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;还可以在 Pod 模板中使用注解 &lt;code&gt;sidecar.istio.io/inject&lt;/code&gt; 覆盖缺省策略。下面的例子中的 &lt;code&gt;Deployment&lt;/code&gt; 用这种方式禁用了自动注入：&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#39;language-yaml&#39; data-expandlinks=&#39;true&#39; &gt;apiVersion: extensions/v1beta1
+&lt;pre&gt;&lt;code class=&#39;language-yaml&#39; data-expandlinks=&#39;true&#39; &gt;apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: ignored
@@ -3902,7 +3902,7 @@ apiGroup: rbac.authorization.k8s.io
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3 id=&#34;关注特定命名空间进行服务发现&#34;&gt;关注特定命名空间进行服务发现&lt;/h3&gt;
 &lt;p&gt;除了创建 RBAC 规则来限制租户管理员只能访问指定 Istio 控制平面之外，Istio 清单还需要为 Istio Pilot 指定一个用于应用程序的命名空间，以便生成 xDS 缓存。Pilot 组件提供了命令行参数 &lt;code&gt;--appNamespace, ns-1&lt;/code&gt; 可以完成这一任务。&lt;code&gt;ns-1&lt;/code&gt; 就是租户用来部署自己应用的命名空间。&lt;code&gt;istio-system1.yaml&lt;/code&gt; 中包含的相关代码大致如下：&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#39;language-yaml&#39; data-expandlinks=&#39;true&#39; &gt;apiVersion: extensions/v1beta1
+&lt;pre&gt;&lt;code class=&#39;language-yaml&#39; data-expandlinks=&#39;true&#39; &gt;apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: istio-pilot
@@ -4813,7 +4813,7 @@ containers:
 - image: helloworld-v1
 ...
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: helloworld-v2

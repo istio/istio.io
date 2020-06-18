@@ -13,8 +13,8 @@ example.com host, with /helloworld as the URL.
 
 {{< text bash >}}
 $ kubectl create -f - <<EOF
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
 name: simple-ingress
 annotations:
@@ -36,8 +36,8 @@ expressions in the path and `ingress.kubernetes.io` annotations:
 
 {{< text bash >}}
 $ kubectl create -f - <<EOF
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
 name: this-will-not-work
 annotations:

@@ -10,8 +10,8 @@ weight: 40
 
 {{< text bash >}}
 $ kubectl create -f - <<EOF
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
 name: simple-ingress
 annotations:
@@ -32,8 +32,8 @@ EOF
 
 {{< text bash >}}
 $ kubectl create -f - <<EOF
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
 name: this-will-not-work
 annotations:

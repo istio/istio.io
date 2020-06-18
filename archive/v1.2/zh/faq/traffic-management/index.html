@@ -12,8 +12,8 @@ gtag('js',new Date());gtag('config','UA-98480406-2');</script><link rel=alternat
 <input type=hidden id=search-page-url value=/v1.2/search.html>
 <input id=search-textbox class=form-control name=q type=search aria-label=搜索istio.io>
 <button id=search-close title="Cancel search" type=reset aria-label="Cancel search"><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#cancel-x"/></svg></button></form></nav></header><main class="primary notoc"><div id=sidebar-container class="sidebar-container sidebar-offcanvas"><nav id=sidebar aria-label="Section Navigation"><div class=directory><div class=card><div id=header0 class=header title=关于Istio的常见问题。><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#faq"/></svg>FAQ</div><div class="body default" aria-labelledby=header0><ul role=tree aria-expanded=true class=leaf-section aria-labelledby=header0><li role=none><a role=treeitem title=常见问题。 href=/v1.2/zh/faq/general/>常见问题</a></li><li role=none><a role=treeitem title="安装 Q &amp; A。" href=/v1.2/zh/faq/setup/>安装</a></li><li role=none><a role=treeitem title=安全方面的常见问题。 href=/v1.2/zh/faq/security/>安全</a></li><li role=none><a role=treeitem title="Mixer Q &amp; A。" href=/v1.2/zh/faq/mixer/>Mixer</a></li><li role=none><a role=treeitem title=度量和日志的常见问题。 href=/v1.2/zh/faq/metrics-and-logs/>度量和日志</a></li><li role=none><a role=treeitem title="遥测 Q &amp; A." href=/v1.2/zh/faq/telemetry/>遥测</a></li><li role=none><a role=treeitem title=分布式追踪问答。 href=/v1.2/zh/faq/distributed-tracing/>分布式追踪</a></li><li role=none><span role=treeitem class=current title="流量管理 Q &amp; A。">流量管理</span></li></ul></div></div></div></nav></div><div class=article-container><nav aria-label=Breadcrumb><ol><li><a href=/v1.2/zh/>Istio</a></li><li><a href=/v1.2/zh/faq/ title=关于Istio的常见问题。>FAQ</a></li><li>流量管理</li></ol></nav><article aria-labelledby=title><div class=title-area><i class=title-icon><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#faq"/></svg></i><div><h1 id=title>流量管理 FAQ</h1></div></div><nav class="toc-inlined toc-forced"><hr><div class=directory role=directory><nav id=InlineTableOfContents><ol><li role=none aria-label="如何查看当前配置在 Istio 中的路由规则？"><a href=#viewing-current-rules>如何查看当前配置在 Istio 中的路由规则？</a></li><li role=none aria-label="可以使用标准的 ingress 规范而不使用任何路由规则吗？"><a href=#ingress-with-no-route-rules>可以使用标准的 ingress 规范而不使用任何路由规则吗？</a></li><li role=none aria-label=程序部署文件中的端口命名约定是怎么样的？><a href=#naming-port-convention>程序部署文件中的端口命名约定是怎么样的？</a></li></ol></nav></div><hr></nav><div class=faq><h5 id=viewing-current-rules class=question>如何查看当前配置在 Istio 中的路由规则？</h5><div class=answer><p>可以使用命令 <code>kubectl get virtualservice -o yaml</code> 查看规则。</p></div><h5 id=ingress-with-no-route-rules class=question>可以使用标准的 ingress 规范而不使用任何路由规则吗？</h5><div class=answer><p>简单的 ingress 规范，包括主机，TLS 和基于路径的精确匹配，无需路由规则即可正常工作。但需要注意，ingress 资源中使用的路径不能包含任何 “.” 字符。</p><p>例如，以下 ingress 资源匹配 example.com 主机的请求，其中 /helloworld 为 URL。</p><pre><code class=language-bash data-expandlinks=true>$ kubectl create -f - &lt;&lt;EOF
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
 name: simple-ingress
 annotations:
@@ -29,8 +29,8 @@ rules:
         servicePort: grpc
 EOF
 </code></pre><p>但是，以下的规则不能正常工作，因为在路径和 <code>ingress.kubernetes.io</code> 注释中使用了正则表达式：</p><pre><code class=language-bash data-expandlinks=true>$ kubectl create -f - &lt;&lt;EOF
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
 name: this-will-not-work
 annotations:

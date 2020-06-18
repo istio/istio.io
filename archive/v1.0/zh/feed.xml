@@ -451,7 +451,7 @@ name: ns-access-for-sales-admin-istio-system1
 apiGroup: rbac.authorization.k8s.io&lt;/code>&lt;/pre>
 &lt;h3 id="heading-3">关注特定命名空间进行服务发现&lt;/h3>
 &lt;p>除了创建 RBAC 规则来限制租户管理员只能访问指定 Istio 控制平面之外，Istio 清单还需要为 Istio Pilot 指定一个用于应用程序的命名空间，以便生成 xDS 缓存。Pilot 组件提供了命令行参数 &lt;code>--appNamespace, ns-1&lt;/code> 可以完成这一任务。&lt;code>ns-1&lt;/code> 就是租户用来部署自己应用的命名空间。&lt;code>istio-system1.yaml&lt;/code> 中包含的相关代码大致如下：&lt;/p>
-&lt;pre>&lt;code class='language-yaml'>apiVersion: extensions/v1beta1
+&lt;pre>&lt;code class='language-yaml'>apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: istio-pilot
@@ -1138,7 +1138,7 @@ containers:
 - image: helloworld-v1
 ...
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: helloworld-v2

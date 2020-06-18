@@ -143,7 +143,7 @@ is the namespace that the tenant’s application will be deployed in. An example
 the `istio-system1.yaml` file is shown below.
 
 {{< text yaml >}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: istio-pilot

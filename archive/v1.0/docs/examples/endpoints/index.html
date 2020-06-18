@@ -23,8 +23,8 @@ You may test the service using the following command:</p><pre><code class=langua
 <a href=/v1.0/docs/tasks/traffic-management/egress/#calling-external-services-directly>instructions</a>
 so that Egress is allowed to call external services directly.
 Otherwise, ESP won't be able to access Google cloud service control.</p></li><li><p>After injection, issue the same test command as above to ensure that calling ESP continues to work.</p></li><li><p>If you want to access the service through Ingress, create the following Ingress definition:</p><pre><code class=language-bash>cat &lt;&lt;EOF | kubectl apply -f -
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
   name: simple-ingress
   annotations:

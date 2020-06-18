@@ -63,8 +63,8 @@ with a curl command from your testing pod:</p><pre><code class=language-bash dat
 below successfully, you can access the application from your laptop&rsquo;s browser.</p><div><aside class="callout warning"><div class=type><svg class="large-icon"><use xlink:href="/v1.5/img/icons.svg#callout-warning"/></svg></div><div class=content><p>If your cluster runs on GKE, change the <code>productpage</code> service type to <code>LoadBalancer</code>:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl patch svc productpage -p &#39;{&#34;spec&#34;: {&#34;type&#34;: &#34;LoadBalancer&#34;}}&#39;
 service/productpage patched
 </code></pre></div></aside></div><h3 id=configure-the-kubernetes-ingress-resource-and-access-your-application-s-webpage>Configure the Kubernetes Ingress resource and access your application&rsquo;s webpage</h3><ol><li><p>Create a Kubernetes Ingress resource:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
   name: bookinfo
 spec:

@@ -7775,7 +7775,7 @@ $ export JWKS=https://www.googleapis.com/service_accounts/v1/jwk/${SVC_ACCOUNT}
 $ export TOKEN=&lt;YOUR-TOKEN&gt;
 </code></pre><p>Also, for convenience, expose <code>httpbin.foo</code> via ingress (for more details, see <a href="/v0.8/docs/tasks/traffic-management/ingress/">ingress task</a>).</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
-</span><span style="color:#e6db74">apiVersion: extensions/v1beta1
+</span><span style="color:#e6db74">apiVersion: apps/v1
 </span><span style="color:#e6db74">kind: Ingress
 </span><span style="color:#e6db74">metadata:
 </span><span style="color:#e6db74">  name: httpbin-ingress

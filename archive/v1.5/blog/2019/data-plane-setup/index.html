@@ -167,7 +167,7 @@ template: |-
     args:
     - &#34;-p&#34;
     - [[ .MeshConfig.ProxyListenPort ]]
-</code></pre><p>You can also use the annotation <code>sidecar.istio.io/inject</code> in the pod template to override the default policy. The following example disables the automatic injection of the sidecar for the pods in a <code>Deployment</code>.</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: extensions/v1beta1
+</code></pre><p>You can also use the annotation <code>sidecar.istio.io/inject</code> in the pod template to override the default policy. The following example disables the automatic injection of the sidecar for the pods in a <code>Deployment</code>.</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ignored

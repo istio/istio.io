@@ -22,7 +22,7 @@ Update the Galley deployment using the following steps:
 1. Add the `--enable-validation=false` option to the `command:` section as shown below:
 
     {{< text yaml >}}
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     ...
     spec:

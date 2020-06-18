@@ -283,7 +283,7 @@ template: |-
 您还可以在 pod 模板中使用注解 `sidecar.istio.io/inject` 覆盖默认策略。以下示例展示如何为 `Deployment` 中的 pod 禁用 sidecar 自动注入。
 
 {{< text yaml>}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ignored

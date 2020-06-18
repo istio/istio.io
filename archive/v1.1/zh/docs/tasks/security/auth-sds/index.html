@@ -33,7 +33,7 @@ sleep.bar to httpbin.bar: 200
 </code></pre><p>这里会看到，在 <code>/etc/certs</code> 文件夹中没有加载 Secret 卷生成的文件。</p><h2 id=使用-pod-安全策略提高安全性>使用 pod 安全策略提高安全性</h2><p>Istio Secret 发现服务（SDS）使用 Citadel 代理通过 Unix domain socket 将证书分发给 Envoy sidecar。
 在同一个 Kubernetes 节点中运行的所有 pod 共享 Citadel 代理和 Unix domain socket。</p><p>要防止对 Unix domain socket 进行恶意修改，请启用 pod 安全策略以限制 pod 对 Unix domain socket 的权限。
 否则，恶意 pod 可能会劫持 Unix domain socket 以破坏 SDS 服务或从同一 Kubernetes 节点上运行的其他 pod 窃取身份凭证。</p><p>要启用 pod 安全策略，请执行以下步骤：</p><ol><li><p>Citadel 代理无法启动，除非它可以创建所需的 Unix domain socket。应用以下 pod 安全策略仅允许 Citadel 代理修改 Unix domain socket：</p><pre><code class=language-bash data-expandlinks=true data-outputis=yaml>$ cat &lt;&lt;EOF | kubectl apply -f -
-apiVersion: extensions/v1beta1
+apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
   name: istio-nodeagent
@@ -81,7 +81,7 @@ subjects:
   namespace: istio-system
 EOF
 </code></pre></li><li><p>要阻止其他 pod 修改 UNIX Domain Socket，请将 Citadel 代理用于 UNIX Domain Socket 的路径的 <code>allowedHostPaths</code> 配置更改为 <code>readOnly: true</code>。</p><div><aside class="callout warning"><div class=type><svg class="large-icon"><use xlink:href="/v1.1/img/icons.svg#callout-warning"/></svg></div><div class=content>以下 pod 安全策略假定之前未应用其他 pod 安全策略。如果您已应用其他 pod 安全策略，请将以下配置值添加到现有策略，而不是直接应用配置。</div></aside></div><pre><code class=language-bash data-expandlinks=true>$ cat &lt;&lt;EOF | kubectl apply -f -
-apiVersion: extensions/v1beta1
+apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
   name: istio-sds-uds
@@ -142,7 +142,7 @@ istio-nodeagent-p4p7g   1/1     Running   0          4s
 istio-nodeagent-qdwj6   1/1     Running   0          5s
 istio-nodeagent-zsk2b   1/1     Running   0          14s
 </code></pre></li><li><p>运行以下命令以启动普通 pod。</p><pre><code class=language-bash data-expandlinks=true>$ cat &lt;&lt;EOF | kubectl apply -f -
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: normal
@@ -163,7 +163,7 @@ EOF
 NAME                      READY   STATUS    RESTARTS   AGE
 normal-64c6956774-ptpfh   2/2     Running   0          8s
 </code></pre></li><li><p>启动一个恶意 pod，尝试使用写入权限挂载 UNIX Domain Socket。</p><pre><code class=language-bash data-expandlinks=true>$ cat &lt;&lt;EOF | kubectl apply -f -
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: malicious

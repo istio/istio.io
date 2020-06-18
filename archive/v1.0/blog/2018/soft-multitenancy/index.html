@@ -90,7 +90,7 @@ Istio control plane, the Istio manifest must be updated to specify the applicati
 that Pilot should watch for creation of its xDS cache. This is done by starting the Pilot
 component with the additional command line arguments <code>--appNamespace, ns-1</code>. Where <em>ns-1</em>
 is the namespace that the tenant’s application will be deployed in. An example snippet from
-the istio-system1.yaml file is included below.</p><pre><code class=language-yaml>apiVersion: extensions/v1beta1
+the istio-system1.yaml file is included below.</p><pre><code class=language-yaml>apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: istio-pilot

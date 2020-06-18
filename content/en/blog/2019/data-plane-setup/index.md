@@ -283,7 +283,7 @@ template: |-
 You can also use the annotation `sidecar.istio.io/inject` in the pod template to override the default policy. The following example disables the automatic injection of the sidecar for the pods in a `Deployment`.
 
 {{< text yaml>}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ignored

@@ -12,7 +12,7 @@ spec:
   selector:
     app: service-one
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: service-one
@@ -43,7 +43,7 @@ spec:
   selector:
     app: service-two
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: service-two

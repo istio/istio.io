@@ -63,8 +63,8 @@ app: productpage
 sessionAffinity: None
 type: LoadBalancer
 </code></pre></div></aside></div><h3 id=configure-the-kubernetes-ingress-resource-and-access-your-application-s-webpage>Configure the Kubernetes Ingress resource and access your application&rsquo;s webpage</h3><ol><li><p>Create a Kubernetes Ingress resource:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
   name: bookinfo
 spec:

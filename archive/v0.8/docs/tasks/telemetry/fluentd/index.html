@@ -7658,7 +7658,7 @@ spec:
     app: elasticsearch
 ---
 <span style="color:#75715e"># Elasticsearch Deployment</span>
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: elasticsearch
@@ -7721,7 +7721,7 @@ spec:
     app: fluentd-es
 ---
 <span style="color:#75715e"># Fluentd Deployment</span>
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fluentd-es
@@ -7806,7 +7806,7 @@ spec:
     app: kibana
 ---
 <span style="color:#75715e"># Kibana Deployment</span>
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kibana

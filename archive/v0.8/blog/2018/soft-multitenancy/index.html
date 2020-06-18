@@ -616,7 +616,7 @@ that Pilot should watch for creation of its xDS cache. This is done by starting 
 component with the additional command line arguments <code>--appNamespace, ns-1</code>.  Where <em>ns-1</em>
 is the namespace that the tenant’s application will be deployed in. An example snippet from
 the istio-system1.yaml file is included below.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: extensions/v1beta1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: istio-pilot

@@ -3123,7 +3123,7 @@ name: http
 selector:
 app: productpage
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: productpage-v1
@@ -3155,7 +3155,7 @@ name: http
 selector:
 app: details
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: details-v1
@@ -3187,7 +3187,7 @@ name: http
 selector:
 app: reviews
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: reviews-v1
@@ -3224,7 +3224,7 @@ name: http
 selector:
 app: ratings
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: ratings-v1
@@ -3256,7 +3256,7 @@ name: http
 selector:
 app: reviews
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: reviews-v2
@@ -3275,7 +3275,7 @@ imagePullPolicy: IfNotPresent
 ports:
 - containerPort: 9080
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: reviews-v3
@@ -3828,7 +3828,7 @@ args:
 - [[ .MeshConfig.ProxyListenPort ]]
 &lt;/code>&lt;/pre>
 &lt;p>You can also use the annotation &lt;code>sidecar.istio.io/inject&lt;/code> in the pod template to override the default policy. The following example disables the automatic injection of the sidecar for the pods in a &lt;code>Deployment&lt;/code>.&lt;/p>
-&lt;pre>&lt;code class='language-yaml' data-expandlinks='true' data-repo='istio' >apiVersion: extensions/v1beta1
+&lt;pre>&lt;code class='language-yaml' data-expandlinks='true' data-repo='istio' >apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: ignored
@@ -7107,7 +7107,7 @@ that Pilot should watch for creation of its xDS cache. This is done by starting 
 component with the additional command line arguments &lt;code>--appNamespace, ns-1&lt;/code>. Where &lt;em>ns-1&lt;/em>
 is the namespace that the tenant’s application will be deployed in. An example snippet from
 the &lt;code>istio-system1.yaml&lt;/code> file is shown below.&lt;/p>
-&lt;pre>&lt;code class='language-yaml' data-expandlinks='true' data-repo='istio' >apiVersion: extensions/v1beta1
+&lt;pre>&lt;code class='language-yaml' data-expandlinks='true' data-repo='istio' >apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: istio-pilot

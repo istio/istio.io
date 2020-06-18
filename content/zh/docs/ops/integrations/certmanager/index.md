@@ -63,8 +63,8 @@ cert-manager 通过[在 Ingress 对象上配置注解](https://cert-manager.io/d
 或者，也可以按照 [Istio Gateway](#istio-gateway) 部分的描述创建 `Certificate`，然后在 `Ingress` 对象中引用它：
 
 {{< text yaml >}}
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
   name: ingress
   annotations:

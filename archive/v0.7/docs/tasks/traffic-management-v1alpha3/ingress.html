@@ -83,8 +83,8 @@ date: Mon, 29 Jan 2018 04:45:49 GMT
 server: envoy
 content-length: 0
 </code></pre></div></div></li></ol><h2 id="configuring-ingress-using-a-kubernetes-ingress-resource">Configuring ingress using a Kubernetes Ingress resource</h2><p>An Istio <code class="highlighter-rouge">Ingress</code> specification is based on the standard <a href="https://kubernetes.io/docs/concepts/services-networking/ingress/">Kubernetes Ingress Resource</a> specification, with the following differences:</p><ol><li><p>Istio <code class="highlighter-rouge">Ingress</code> specification contains a <code class="highlighter-rouge">kubernetes.io/ingress.class: istio</code> annotation.</p></li><li><p>All other annotations are ignored.</p></li><li><p>Path syntax is <a href="http://en.cppreference.com/w/cpp/regex/ecmascript">c++11 regex format</a></p></li></ol><p>Note that <code class="highlighter-rouge">Ingress</code> traffic is not affected by routing rules configured for a backend (i.e., an Istio <code class="highlighter-rouge">VirtualService</code> cannot be combined with an <code class="highlighter-rouge">Ingress</code> specification). Traffic splitting, fault injection, mirroring, header match, etc., will not work for ingress traffic. A <code class="highlighter-rouge">DestinationRule</code> associated with the backend service will, however, work as expected.</p><p>The <code class="highlighter-rouge">servicePort</code> field in the <code class="highlighter-rouge">Ingress</code> specification can take a port number (integer) or a name. The port name must follow the Istio port naming conventions (e.g., <code class="highlighter-rouge">grpc-*</code>, <code class="highlighter-rouge">http2-*</code>, <code class="highlighter-rouge">http-*</code>, etc.) in order to function properly. The name used must match the port name in the backend service declaration.</p><h3 id="configuring-simple-ingress">Configuring simple Ingress</h3><ol><li><p>Create a basic <code class="highlighter-rouge">Ingress</code> specification for the httpbin service</p><div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> | kubectl create -f -
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
   name: simple-ingress
   annotations:
@@ -128,8 +128,8 @@ server: envoy
 content-length: 0
 </code></pre></div></div></li></ol><h3 id="configuring-secure-ingress-https">Configuring secure Ingress (HTTPS)</h3><ol><li><p>Create a Kubernetes <code class="highlighter-rouge">Secret</code> to hold the key/cert</p><p>Create the secret <code class="highlighter-rouge">istio-ingress-certs</code> in namespace <code class="highlighter-rouge">istio-system</code> using <code class="highlighter-rouge">kubectl</code>. The Istio ingress controller will automatically load the secret.</p><blockquote><p>Note: the secret MUST be called <code class="highlighter-rouge">istio-ingress-certs</code> in the <code class="highlighter-rouge">istio-system</code> namespace, or it will not be mounted and available to the Istio ingress controller.</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl create <span class="nt">-n</span> istio-system secret tls istio-ingress-certs <span class="nt">--key</span> /tmp/tls.key <span class="nt">--cert</span> /tmp/tls.crt
 </code></pre></div></div><p>Note that by default all service accounts in the <code class="highlighter-rouge">istio-system</code> namespace can access this ingress key/cert, which risks leaking the key/cert. You can change the Role-Based Access Control (RBAC) rules to protect them. See (Link TBD) for details.</p></li><li><p>Create the <code class="highlighter-rouge">Ingress</code> specification for the httpbin service</p><div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> | kubectl create -f -
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
   name: secure-ingress
   annotations:

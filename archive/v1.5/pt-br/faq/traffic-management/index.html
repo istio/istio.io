@@ -20,8 +20,8 @@ matches will work out of the box without the need for route
 rules. However, note that the path used in the ingress resource should
 not have any <code>.</code> characters.</p><p>For example, the following ingress resource matches requests for the
 example.com host, with /helloworld as the URL.</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl create -f - &lt;&lt;EOF
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
 name: simple-ingress
 annotations:
@@ -38,8 +38,8 @@ rules:
 EOF
 </code></pre><p>However, the following rules will not work because they use regular
 expressions in the path and <code>ingress.kubernetes.io</code> annotations:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl create -f - &lt;&lt;EOF
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
 name: this-will-not-work
 annotations:

@@ -17,7 +17,7 @@ Mirroring sends a copy of live traffic to a mirrored service. The mirrored
 traffic happens out of band of the critical request path for the primary service.</p><p>In this task, you will first force all traffic to <code>v1</code> of a test service. Then,
 you will apply a rule to mirror a portion of traffic to <code>v2</code>.</p><h2 id=before-you-begin>Before you begin</h2><ul><li><p>Set up Istio by following the instructions in the
 <a href=/v1.1/docs/setup/>Installation guide</a>.</p></li><li><p>Start by deploying two versions of the <a href=https://github.com/istio/istio/tree/release-1.1/samples/httpbin>httpbin</a> service that have access logging enabled:</p><p><strong>httpbin-v1:</strong></p><pre><code class=language-bash data-expandlinks=true>$ cat &lt;&lt;EOF | istioctl kube-inject -f - | kubectl create -f -
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: httpbin-v1
@@ -38,7 +38,7 @@ spec:
         - containerPort: 80
 EOF
 </code></pre><p><strong>httpbin-v2:</strong></p><pre><code class=language-bash data-expandlinks=true>$ cat &lt;&lt;EOF | istioctl kube-inject -f - | kubectl create -f -
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: httpbin-v2
@@ -74,7 +74,7 @@ spec:
     app: httpbin
 EOF
 </code></pre></li><li><p>Start the <code>sleep</code> service so you can use <code>curl</code> to provide load:</p><p><strong>sleep service:</strong></p><pre><code class=language-bash data-expandlinks=true>$ cat &lt;&lt;EOF | istioctl kube-inject -f - | kubectl create -f -
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sleep

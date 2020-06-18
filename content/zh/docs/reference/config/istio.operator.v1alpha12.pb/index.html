@@ -128,7 +128,7 @@ customization at the lowest level and eliminates the need to create ad-hoc templ
       galley:
         k8s:
           overlays:
-          - apiVersion: extensions/v1beta1
+          - apiVersion: apps/v1
             kind: Deployment
             name: istio-galley
             patches:

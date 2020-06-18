@@ -7597,7 +7597,7 @@
 <p>Start two versions of the <code>httpbin</code> service that have access logging enabled</p>
 <p>httpbin-v1:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">    cat <span style="color:#e6db74">&lt;&lt;EOF | istioctl kube-inject -f - | kubectl create -f -
-</span><span style="color:#e6db74">    apiVersion: extensions/v1beta1
+</span><span style="color:#e6db74">    apiVersion: apps/v1
 </span><span style="color:#e6db74">    kind: Deployment
 </span><span style="color:#e6db74">    metadata:
 </span><span style="color:#e6db74">      name: httpbin-v1
@@ -7619,7 +7619,7 @@
 </span><span style="color:#e6db74">    EOF</span>
 </code></pre></div><p>httpbin-v2:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">    cat <span style="color:#e6db74">&lt;&lt;EOF | istioctl kube-inject -f - | kubectl create -f -
-</span><span style="color:#e6db74">    apiVersion: extensions/v1beta1
+</span><span style="color:#e6db74">    apiVersion: apps/v1
 </span><span style="color:#e6db74">    kind: Deployment
 </span><span style="color:#e6db74">    metadata:
 </span><span style="color:#e6db74">      name: httpbin-v2
@@ -7659,7 +7659,7 @@
 <p>Start the <code>sleep</code> service so we can use <code>curl</code> to provide load</p>
 <p>sleep service:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">    cat <span style="color:#e6db74">&lt;&lt;EOF | istioctl kube-inject -f - | kubectl create -f -
-</span><span style="color:#e6db74">    apiVersion: extensions/v1beta1
+</span><span style="color:#e6db74">    apiVersion: apps/v1
 </span><span style="color:#e6db74">    kind: Deployment
 </span><span style="color:#e6db74">    metadata:
 </span><span style="color:#e6db74">      name: sleep

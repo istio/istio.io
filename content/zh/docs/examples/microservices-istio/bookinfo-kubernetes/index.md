@@ -112,7 +112,7 @@ service/productpage patched
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Ingress
     metadata:
       name: bookinfo

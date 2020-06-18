@@ -164,7 +164,7 @@ template: |-
     args:
     - &#34;-p&#34;
     - [[ .MeshConfig.ProxyListenPort ]]
-</code></pre><p>还可以在 Pod 模板中使用注解 <code>sidecar.istio.io/inject</code> 覆盖缺省策略。下面的例子中的 <code>Deployment</code> 用这种方式禁用了自动注入：</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: extensions/v1beta1
+</code></pre><p>还可以在 Pod 模板中使用注解 <code>sidecar.istio.io/inject</code> 覆盖缺省策略。下面的例子中的 <code>Deployment</code> 用这种方式禁用了自动注入：</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ignored

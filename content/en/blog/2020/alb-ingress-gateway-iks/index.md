@@ -313,7 +313,7 @@ the `alb-certs` secret, required for mutual TLS.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Ingress
     metadata:
       name: alb-ingress

@@ -89,7 +89,7 @@ for more information.</p><h5 id=policy><em><strong>policy</strong></em></h5><p><
 pods by default. Add the <code>sidecar.istio.io/inject</code> annotation with
 value <code>true</code> to the pod template spec to override the default and enable injection.</p><p><code>enabled</code> - The sidecar injector will inject the sidecar into pods by
 default. Add the <code>sidecar.istio.io/inject</code> annotation with
-value <code>false</code> to the pod template spec to override the default and disable injection.</p><p>The following example uses the <code>sidecar.istio.io/inject</code> annotation to disable sidecar injection.</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: extensions/v1beta1
+value <code>false</code> to the pod template spec to override the default and disable injection.</p><p>The following example uses the <code>sidecar.istio.io/inject</code> annotation to disable sidecar injection.</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ignored

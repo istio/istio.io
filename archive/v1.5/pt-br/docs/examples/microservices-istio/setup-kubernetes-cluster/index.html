@@ -26,8 +26,8 @@ simultaneously by multiple participants.</div></aside></div></li><li><p><a href=
 the <code>kubectl</code> command shown. It is not necessary to be familiar with each of
 these services at this point in the tutorial.</p><ul><li><a href=https://grafana.com/docs/guides/getting_started/>Grafana</a></li><li><a href=https://www.jaegertracing.io/docs/1.13/getting-started/>Jaeger</a></li><li><a href=https://prometheus.io/docs/prometheus/latest/getting_started/>Prometheus</a></li><li><a href=https://www.kiali.io/documentation/getting-started/>Kiali</a></li></ul><p>The <code>kubectl</code> command can accept an in-line configuration to create the
 Ingress resources for each service:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
   name: istio-system
   namespace: istio-system

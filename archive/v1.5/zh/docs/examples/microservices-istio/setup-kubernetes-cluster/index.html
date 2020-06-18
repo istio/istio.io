@@ -18,8 +18,8 @@ gtag('js',new Date());gtag('config','UA-98480406-2');</script><link rel=alternat
 可以用任何名字，比如 <code>tutorial</code>。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ export NAMESPACE=tutorial
 </code></pre></li><li><p>创建命名空间：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl create namespace $NAMESPACE
 </code></pre><div><aside class="callout tip"><div class=type><svg class="large-icon"><use xlink:href="/v1.5/img/icons.svg#callout-tip"/></svg></div><div class=content>如果您是一位讲师，可以为每个参与者分配独立的命名空间。本教程支持多个参与者在不同的命名空间下同时运行。</div></aside></div></li><li><p><a href=/v1.5/zh/docs/setup/>安装 Istio</a>。</p></li><li><p><a href=/v1.5/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging>启用 Envoy 访问日志</a>。</p></li><li><p>使用 <code>kubectl</code> 命令为这些通用 Istio 服务创建一个 Kubernetes Ingress 资源。在教程目前这个阶段要熟悉这些服务并不是必须的。</p><ul><li><a href=https://grafana.com/docs/guides/getting_started/>Grafana</a></li><li><a href=https://www.jaegertracing.io/docs/1.13/getting-started/>Jaeger</a></li><li><a href=https://prometheus.io/docs/prometheus/latest/getting_started/>Prometheus</a></li><li><a href=https://www.kiali.io/documentation/getting-started/>Kiali</a></li></ul><p><code>kubectl</code> 命令可以接收一个行内配置去为每个服务创建 Ingress 资源：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
   name: istio-system
   namespace: istio-system

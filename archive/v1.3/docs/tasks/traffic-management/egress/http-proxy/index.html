@@ -45,7 +45,7 @@ EOF
 </code></pre></li><li><p>Create a Kubernetes <a href=https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/>ConfigMap</a>
 to hold the configuration of the proxy:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl create configmap proxy-configmap -n external --from-file=squid.conf=./proxy.conf
 </code></pre></li><li><p>Deploy a container with Squid:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: squid

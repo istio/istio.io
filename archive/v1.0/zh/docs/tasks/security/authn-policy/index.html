@@ -209,8 +209,8 @@ EOF</code></pre><p>重新从 <code>sleep.legacy</code> 发送请求，我们应�
 200</code></pre><h2 id=heading-2>设置终端用户认证</h2><p>你需要一个有效的 JWT （与在本例中你想使用的 JWKS endpoint 相一致）。请按照<a href=https://github.com/istio/istio/tree/release-1.0/security/tools/jwt>这里</a>的说明进行操作来创建一个 JWT 。你也可以在示例中使用自己的 JWT/JWKS endpoint。创建之后，在环境变量中设置相关信息。</p><pre><code class=language-command>$ export SVC_ACCOUNT=&#34;example@my-project.iam.gserviceaccount.com&#34;
 $ export JWKS=https://www.googleapis.com/service_accounts/v1/jwk/${SVC_ACCOUNT}
 $ export TOKEN=&lt;YOUR-TOKEN&gt;</code></pre><p>另外，为了方便，通过入口暴露 <code>httpbin.foo</code> 服务（详细信息参考<a href=/v1.0/zh/docs/tasks/traffic-management/ingress/>入口任务</a>）。</p><pre><code class=language-bash>cat &lt;&lt;EOF | kubectl apply -f -
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
   name: httpbin-ingress
   namespace: foo

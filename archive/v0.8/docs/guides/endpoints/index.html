@@ -7604,7 +7604,7 @@ Otherwise, ESP won't be able to access Google cloud service control.</p>
 <li>
 <p>If you want to access the service through Ingress, create the following Ingress definition:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">    cat <span style="color:#e6db74">&lt;&lt;EOF | istioctl create -f -
-</span><span style="color:#e6db74">    apiVersion: extensions/v1beta1
+</span><span style="color:#e6db74">    apiVersion: apps/v1
 </span><span style="color:#e6db74">    kind: Ingress
 </span><span style="color:#e6db74">    metadata:
 </span><span style="color:#e6db74">      name: simple-ingress

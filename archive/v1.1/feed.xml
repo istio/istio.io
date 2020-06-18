@@ -645,7 +645,7 @@ name: http
 selector:
 app: productpage
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: productpage-v1
@@ -677,7 +677,7 @@ name: http
 selector:
 app: details
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: details-v1
@@ -709,7 +709,7 @@ name: http
 selector:
 app: reviews
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: reviews-v1
@@ -746,7 +746,7 @@ name: http
 selector:
 app: ratings
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: ratings-v1
@@ -778,7 +778,7 @@ name: http
 selector:
 app: reviews
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: reviews-v2
@@ -797,7 +797,7 @@ imagePullPolicy: IfNotPresent
 ports:
 - containerPort: 9080
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: reviews-v3
@@ -1353,7 +1353,7 @@ args:
 - [[ .MeshConfig.ProxyListenPort ]]
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;You can also use the annotation &lt;code&gt;sidecar.istio.io/inject&lt;/code&gt; in the pod template to override the default policy. The following example disables the automatic injection of the sidecar for the pods in a &lt;code&gt;Deployment&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#39;language-yaml&#39; data-expandlinks=&#39;true&#39; &gt;apiVersion: extensions/v1beta1
+&lt;pre&gt;&lt;code class=&#39;language-yaml&#39; data-expandlinks=&#39;true&#39; &gt;apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: ignored
@@ -4805,7 +4805,7 @@ that Pilot should watch for creation of its xDS cache. This is done by starting 
 component with the additional command line arguments &lt;code&gt;--appNamespace, ns-1&lt;/code&gt;. Where &lt;em&gt;ns-1&lt;/em&gt;
 is the namespace that the tenant’s application will be deployed in. An example snippet from
 the &lt;code&gt;istio-system1.yaml&lt;/code&gt; file is shown below.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#39;language-yaml&#39; data-expandlinks=&#39;true&#39; &gt;apiVersion: extensions/v1beta1
+&lt;pre&gt;&lt;code class=&#39;language-yaml&#39; data-expandlinks=&#39;true&#39; &gt;apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: istio-pilot
@@ -5936,7 +5936,7 @@ containers:
 - image: helloworld-v1
 ...
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: helloworld-v2
