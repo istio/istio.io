@@ -136,6 +136,9 @@ update_ref_docs:
 
 update_all: update_ref_docs update_examples
 
+prepare-%:
+	@scripts/prepare_release.sh $@
+
 release-%:
 	@scripts/create_version.sh $@
 

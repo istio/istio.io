@@ -22,7 +22,7 @@ MINOR="${BASH_REMATCH[2]}"
 PATCH="${BASH_REMATCH[3]}"
 
 if [ "${MAJOR}" == '' ]; then
-    echo "Release format error: should be 'release-x.x.x', got '$1'"
+    echo "Target format error: should be 'release-x.x.x', got '$1'"
     exit 1
 fi
 
@@ -98,12 +98,7 @@ git checkout -b "release-${CURR_MINOR}"
 sed -i "
     s/^preliminary: true$/preliminary: false/;
     s/^doc_branch_name: .*$/doc_branch_name: release-${CURR_MINOR}/;
-    s/^source_branch_name: .*$/source_branch_name: release-${CURR_MINOR}/
 " data/args.yml
-
-echo "Running make update_all..."
-sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= release-${CURR_MINOR}/" Makefile.core.mk
-make update_all
 
 echo "Running make update-common..."
 sed -i "s/^UPDATE_BRANCH ?=.*$/UPDATE_BRANCH ?= release-${CURR_MINOR}/" common/Makefile.common.mk
@@ -119,8 +114,12 @@ git checkout ${MASTER}
 sed -i "
     s/^version: .*$/version: \"${NEXT_MINOR}\"/;
     s/^full_version: .*$/full_version: \"${NEXT_MINOR}.0\"/;
-    s/^previous_version: .*$/previous_version: \"${CURR_MINOR}\"/
+    s/^previous_version: .*$/previous_version: \"${CURR_MINOR}\"/;
+    s/^source_branch_name: .*$/source_branch_name: ${MASTER}/;
+    s/^doc_branch_name: .*$/doc_branch_name: ${MASTER}/
 " data/args.yml
+
+sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= ${MASTER}}/" Makefile.core.mk
 make update_all
 
 git add -A
