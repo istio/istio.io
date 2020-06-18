@@ -393,6 +393,21 @@ and exposed as Prometheus metrics.</p>
 No
 </td>
 </tr>
+<tr id="ProxyConfig-termination_drain_duration">
+<td><code>terminationDrainDuration</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>The amount of time allowed for connections to complete on proxy shutdown.
+On receiving SIGTERM or SIGINT, istio-agent tells the active Envoy to start draining,
+preventing any new connections and allowing existing connections to complete. It then
+sleeps for the termination<em>drain</em>duration and then kills any remaining active Envoy processes.
+If not set, a default of 5s will be applied.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="ProxyConfig-zipkin_address" class="deprecated ">
 <td><code>zipkinAddress</code></td>
 <td><code>string</code></td>
@@ -1099,21 +1114,6 @@ If you are running a separately managed Envoy with an Istio sidecar, this may ca
 In this case, it is recommended to disable aggregation on that deployment with the
 <code>prometheus.istio.io/merge-metrics: &quot;false&quot;</code> annotation.
 If not specified, this will be enabled by default.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MeshConfig-termination_drain_duration">
-<td><code>terminationDrainDuration</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
-<td>
-<p>The amount of time allowed for connections to complete on proxy shutdown.
-On receiving SIGTERM or SIGINT, istio-agent tells the active Envoy to start draining,
-preventing any new connections and allowing existing connections to complete. It then
-sleeps for the termination<em>drain</em>duration and then kills any remaining active Envoy processes.
-If not set, a default of 5s will be applied.</p>
 
 </td>
 <td>
