@@ -5,7 +5,6 @@ publishdate: 2019-06-07
 attribution: Oliver Liu
 keywords: [security, PKI, certificate, Citadel]
 target_release: 1.1
-test: n/a
 ---
 
 Istio self-signed certificates have historically had a 1 year default lifetime.

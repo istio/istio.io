@@ -2,7 +2,6 @@
 title: Upgrade Notes
 description: Important changes operators must understand before upgrading to Istio 1.2.
 weight: 20
-test: n/a
 ---
 
 This page describes changes you need to be aware of when upgrading from

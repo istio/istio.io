@@ -5,7 +5,6 @@ description: Upcoming Istio 1.2 end of life announcement.
 publishdate: 2019-11-11
 aliases:
     - /news/2019/announcing-1.2-eol
-test: n/a
 ---
 
 According to Istio's [support policy](/about/release-cadence/), LTS releases like 1.2 are supported for three months after the next LTS release. Since [1.3 was released on September 12th](/news/releases/1.3.x/announcing-1.3/), support for 1.2 will end on December 13th, 2019.

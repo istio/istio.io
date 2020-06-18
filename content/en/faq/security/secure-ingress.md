@@ -1,7 +1,6 @@
 ---
 title: How to configure Istio Ingress to only accept TLS traffic?
 weight: 130
-test: n/a
 ---
 
 By following the instructions in the

@@ -3,7 +3,6 @@ title: Diagram Creation Guidelines
 description: Provides assets and instructions to create diagrams for the Istio documentation.
 weight: 13
 keywords: [contribute,diagram,documentation,guide]
-test: n/a
 ---
 
 Welcome to the Istio diagram guide!

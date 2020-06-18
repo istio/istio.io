@@ -1,7 +1,6 @@
 ---
 title: How can I write a custom adapter for Mixer?
 weight: 40
-test: n/a
 ---
 
 Learn how to implement a new adapter for Mixer by consulting the

@@ -5,7 +5,6 @@ description: The future of Istio extensibility using WASM.
 publishdate: 2020-03-05
 attribution: "Craig Box, Mandar Jog, John Plevyak, Louis Ryan, Piotr Sikora (Google), Yuval Kohavi, Scott Weiss (Solo.io)"
 keywords: [wasm,extensibility,alpha,performance,operator]
-test: n/a
 ---
 
 Since adopting [Envoy](https://www.envoyproxy.io/) in 2016, the Istio project has always wanted to

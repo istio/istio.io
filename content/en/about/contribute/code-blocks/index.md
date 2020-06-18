@@ -3,7 +3,6 @@ title: Add Code Blocks
 description: Explains how to include code in your documentation.
 weight: 8
 keywords: [contribute, documentation, guide, code-block]
-test: no
 ---
 
 Code blocks in the Istio documentation are embedded preformatted block of

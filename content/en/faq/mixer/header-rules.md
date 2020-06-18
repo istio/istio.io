@@ -1,7 +1,6 @@
 ---
 title: Why does my rule not match?
 weight: 50
-test: n/a
 ---
 
 Mixer rules must be valid to be applied at runtime. That means the match

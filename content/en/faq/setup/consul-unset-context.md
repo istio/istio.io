@@ -1,7 +1,6 @@
 ---
 title: Consul - How do I unset the context changed by kubectl at the end?
 weight: 50
-test: n/a
 ---
 
 Your `kubectl` is switched to use the Istio context at the end of the `kubectl use-context istio` command.

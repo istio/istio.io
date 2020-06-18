@@ -2,7 +2,6 @@
 title: Boilerplates and Lists
 description: Composing boilerplates and lists.
 skip_sitemap: true
-test: n/a
 ---
 
 1. Plain boilerplate:

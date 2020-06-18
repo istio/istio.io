@@ -5,7 +5,6 @@ weight: 20
 icon: partners
 keywords: [community]
 skip_seealso: true
-test: n/a
 ---
 
 Istio benefits from an ecosystem of great partners. Check 'em out and learn how they make Istio even better.

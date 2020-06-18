@@ -1,7 +1,6 @@
 ---
 title: Why do I see `istio-mixer` spans in some of my distributed traces?
 weight: 100
-test: n/a
 ---
 
 Mixer generates application-level traces for requests that reach Mixer with tracing headers. Mixer generates spans, labeled `istio-mixer` for any critical work that it does, including dispatch to individual adapters.

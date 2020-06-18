@@ -5,7 +5,6 @@ description: Istiod consolidates the Istio control plane components into a singl
 publishdate: 2020-03-19
 attribution: "Craig Box (Google)"
 keywords: [istiod,control plane,operator]
-test: n/a
 ---
 
 Microservices are a great pattern when they map services to disparate teams that deliver them, or when the value of independent rollout and the value of independent scale are greater than the cost of orchestration. We regularly talk to customers and teams running Istio in the real world, and they told us that none of these were the case for the Istio control plane. So, in Istio 1.5, we've changed how Istio is packaged, consolidating the control plane functionality into a single binary called **istiod**.

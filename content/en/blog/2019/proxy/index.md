@@ -5,7 +5,6 @@ description: Configure Istio ingress gateway to act as a proxy for external serv
 publishdate: 2019-10-15
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,ingress,https,http]
-test: no
 ---
 
 The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/ingress-control/) and the
