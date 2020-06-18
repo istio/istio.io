@@ -5,7 +5,7 @@ description: Denial of service in the HTTP2 library used by Envoy.
 cves: [CVE-2020-11080]
 cvss: "7.5"
 vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-releases: ["1.5 to 1.5.4", "1.6 to 1.6.1"]
+releases: ["1.4 to 1.4.9", "1.5 to 1.5.4", "1.6 to 1.6.1"]
 publishdate: 2020-06-11
 keywords: [CVE]
 skip_seealso: true
@@ -51,6 +51,7 @@ spec:
           codec_type: HTTP1
 {{< /text >}}
 
+* For Istio 1.4.x deployments: update to [Istio 1.4.10](/news/releases/1.4.x/announcing-1.4.10) or later.
 * For Istio 1.5.x deployments: update to [Istio 1.5.5](/news/releases/1.5.x/announcing-1.5.5) or later.
 * For Istio 1.6.x deployments: update to [Istio 1.6.2](/news/releases/1.6.x/announcing-1.6.2) or later.
 
