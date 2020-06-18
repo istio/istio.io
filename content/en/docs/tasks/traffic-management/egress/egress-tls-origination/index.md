@@ -132,27 +132,11 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
 
 ## TLS origination for egress traffic
 
-1.  Redefine your `ServiceEntry` and `VirtualService` from the previous section to rewrite the HTTP request port
+1.  Redefine your `VirtualService` from the previous section to rewrite the HTTP request port
     and add a `DestinationRule` to perform TLS origination.
 
     {{< text syntax=bash snip_id=apply_origination >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: edition-cnn-com
-    spec:
-      hosts:
-      - edition.cnn.com
-      ports:
-      - number: 80
-        name: http-port
-        protocol: HTTP
-      - number: 443
-        name: https-port-for-tls-origination
-        protocol: HTTPS
-      resolution: DNS
-    ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -191,8 +175,6 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
 
     As you can see, the `VirtualService` redirects HTTP requests on port 80 to port 443 where the corresponding
     `DestinationRule` then performs the TLS origination.
-    Notice that unlike the `ServiceEntry` in the previous section, this time the protocol on port 443 is HTTP, instead of HTTPS.
-    This is because clients will only send HTTP requests and Istio will upgrade the connection to HTTPS.
 
 1. Send an HTTP request to `http://edition.cnn.com/politics`, as in the previous section:
 

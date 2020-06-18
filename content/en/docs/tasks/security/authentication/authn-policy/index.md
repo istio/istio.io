@@ -111,7 +111,10 @@ $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metad
 
 ## Globally enabling Istio mutual TLS in STRICT mode
 
-While Istio automatically upgrades all traffic between the proxies and the workloads to mutual TLS between, workloads can still receive plain text traffic. To prevent non-mutual TLS for the whole mesh, set a mesh-wide peer authentication policy to set mutual TLS mode to `STRICT`. The mesh-wide peer authentication policy shouldn't have a `selector` section, and it must apply to the **root namespace**, for example:
+While Istio automatically upgrades all traffic between the proxies and the workloads to mutual TLS,
+workloads can still receive plain text traffic. To prevent non-mutual TLS traffic for the whole mesh,
+set a mesh-wide peer authentication policy with the mutual TLS mode set to `STRICT`.
+The mesh-wide peer authentication policy should not have a `selector` and must be applied in the **root namespace**, for example:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -127,11 +130,11 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-The example assumes `istio-system` is the root namespace. If you used a different value during your installation, replace `istio-system` with the value you used.
+The example assumes `istio-system` is the root namespace. If you used a different value during installation, replace `istio-system` with the value you used.
  {{< /tip >}}
 
-This peer authentication policy has the following effects:
--  It configures all workloads in the mesh to only accept requests encrypted with TLS. Since it doesn't specify a value for the `selector` field, the policy applies to all workloads in the mesh.
+This peer authentication policy configures workloads to only accept requests encrypted with TLS.
+Since it doesn't specify a value for the `selector` field, the policy applies to all workloads in the mesh.
 
 Run the test command again:
 
