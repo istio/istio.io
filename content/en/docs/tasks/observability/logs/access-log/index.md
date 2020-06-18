@@ -27,18 +27,11 @@ In the example below, replace `demo` with the name of the profile you used when 
 
 {{< text bash >}}
 $ istioctl install --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"
-- Applying manifest for component Base...
-✔ Finished applying manifest for component Base.
-- Applying manifest for component Pilot...
-✔ Finished applying manifest for component Pilot.
-- Applying manifest for component EgressGateways...
-- Applying manifest for component IngressGateways...
-- Applying manifest for component AddonComponents...
-✔ Finished applying manifest for component EgressGateways.
-✔ Finished applying manifest for component IngressGateways.
-✔ Finished applying manifest for component AddonComponents.
-
-
+✔ Istio core installed
+✔ Istiod installed
+✔ Addons installed
+✔ Ingress gateways installed
+✔ Egress gateways installed
 ✔ Installation complete
 {{< /text >}}
 
@@ -118,17 +111,10 @@ In the example below, replace `demo` with the name of the profile you used when 
 
 {{< text bash >}}
 $ istioctl install --set profile=demo
-- Applying manifest for component Base...
-✔ Finished applying manifest for component Base.
-- Applying manifest for component Pilot...
-✔ Finished applying manifest for component Pilot.
-- Applying manifest for component EgressGateways...
-- Applying manifest for component IngressGateways...
-- Applying manifest for component AddonComponents...
-✔ Finished applying manifest for component EgressGateways.
-✔ Finished applying manifest for component IngressGateways.
-✔ Finished applying manifest for component AddonComponents.
-
-
+✔ Istio core installed
+✔ Istiod installed
+✔ Egress gateways installed
+✔ Ingress gateways installed
+✔ Addons installed
 ✔ Installation complete
 {{< /text >}}
