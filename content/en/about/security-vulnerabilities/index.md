@@ -3,7 +3,6 @@ title: Security Vulnerabilities
 description: How we handle security vulnerabilities.
 weight: 35
 icon: vulnerabilities
-test: n/a
 ---
 
 We are very grateful to the security researchers and users that report

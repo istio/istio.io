@@ -9,7 +9,6 @@ releases: ["1.3 to 1.3.6"]
 publishdate: 2020-02-11
 keywords: [CVE]
 skip_seealso: true
-test: n/a
 ---
 
 {{< security_bulletin >}}

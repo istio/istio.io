@@ -10,7 +10,6 @@ aliases:
     - /blog/2019/announcing-1.0.7
     - /news/2019/announcing-1.0.7
     - /news/announcing-1.0.7
-test: n/a
 ---
 
 We're announcing immediate availability of Istio 1.0.7 which contains some important security updates. Please see below for details.

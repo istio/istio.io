@@ -4,7 +4,6 @@ description: Istio 1.1 release notes.
 weight: 10
 aliases:
     - /about/notes/1.1
-test: n/a
 ---
 
 ## Incompatible changes from 1.0

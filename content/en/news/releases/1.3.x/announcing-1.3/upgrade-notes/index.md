@@ -5,7 +5,6 @@ weight: 20
 aliases:
     - /docs/setup/kubernetes/upgrade/notice/
     - /docs/setup/upgrade/notice
-test: n/a
 ---
 
 This page describes changes you need to be aware of when upgrading from

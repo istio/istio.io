@@ -1,7 +1,6 @@
 ---
 title: Does Istio authentication use Kubernetes secrets?
 weight: 120
-test: n/a
 ---
 
 Yes. The key and certificate distribution in Istio Authentication is based on [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/).

@@ -3,7 +3,6 @@ title: Build & Release Cadence
 description: How we manage, number, and support Istio releases.
 weight: 15
 icon: cadence
-test: no
 ---
 
 We produce new builds of Istio for each commit. Around once a quarter or so, we build a Long Term Support (LTS) release,

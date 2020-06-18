@@ -7,7 +7,6 @@ publishdate: 2020-03-25
 release: 1.5.1
 aliases:
     - /news/announcing-1.5.1
-test: n/a
 ---
 
 This release contains bug fixes to improve robustness and fixes for the security vulnerabilities described in [our March 25th, 2020 news post](/news/security/istio-security-2020-004). This release note describes what’s different between Istio 1.5.0 and Istio 1.5.1.

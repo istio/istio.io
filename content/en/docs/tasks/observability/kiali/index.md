@@ -27,7 +27,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as th
 
 {{< tip >}}
 The following instructions assume you have installed `istioctl` and will use it to install Kiali.
-To install Kiali without `istioctl`, follow the [Kiali installation instructions](https://www.kiali.io/documentation/getting-started/).
+To install Kiali without `istioctl`, follow the [Kiali installation instructions](https://kiali.io/documentation/latest/getting-started/).
 {{< /tip >}}
 
 ### Create a secret

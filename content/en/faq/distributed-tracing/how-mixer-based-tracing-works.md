@@ -1,7 +1,6 @@
 ---
 title: How does Mixer-based tracing work?
 weight: 12
-test: n/a
 ---
 
 For Mixer-based tracing integrations, Mixer (addressed through the `istio-telemetry` service) provides the integration with tracing backends. The Mixer integration allows additional levels of operator control of the distributed tracing, including fine-grained selection of the data included in trace spans. It also provides the ability to send traces to backends not supported by Envoy directly.

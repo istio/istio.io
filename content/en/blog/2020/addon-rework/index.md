@@ -4,7 +4,6 @@ description: A new way to manage installation of telemetry addons.
 publishdate: 2020-06-04
 attribution: John Howard (Google)
 keywords: [telemetry,addons,integrations,grafana,prometheus]
-test: n/a
 ---
 
 Starting with Istio 1.6, we are introducing a new method for integration with telemetry addons, such as Grafana, Prometheus, Zipkin, Jaeger, and Kiali.
