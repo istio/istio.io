@@ -28,7 +28,7 @@ them down once the migration is done.
 * Read the [authentication policy task](/docs/tasks/security/authentication/authn-policy) to
   learn how to configure authentication policy.
 
-* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use the demo configuration profile as described in [installation steps](/docs/setup/getting-started)).
+* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (for example, use the `default` configuration profile as described in [installation steps](/docs/setup/getting-started)).
 
 In this task, you can try out the migration process by creating sample workloads and modifying
 the policies to enforce STRICT mutual TLS between the workloads.
