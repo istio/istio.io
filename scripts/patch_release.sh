@@ -30,11 +30,12 @@ go mod tidy
 
 sed -i "s/^full_version: .*$/full_version: \"${NEW_VERSION}\"/" data/args.yml
 
-if [ "${SECURITY_PATCH}" == 'true' ]; then
+if [ "${SECURITY_PATCH}" != 'true' ]; then
     make update_ref_docs
 fi
 
-RELEASE_NOTE_PATH="content/en/news/releases/${MAJOR}.${MINOR}.x/announcing-${NEW_VERSION}/index.md"
+RELEASE_NOTE_PATH="content/en/news/releases/${MAJOR}.${MINOR}.x/announcing-${NEW_VERSION}"
+mkdir -p "${RELEASE_NOTE_PATH}"
 echo "---
 title: Announcing Istio ${NEW_VERSION}
 linktitle: ${NEW_VERSION}
@@ -48,7 +49,7 @@ test: n/a
 ---
 
 This release note describes what's different between Istio ${NEW_VERSION} and Istio ${PREV_VERSION}.
-" >> "${RELEASE_NOTE_PATH}"
+" >> "${RELEASE_NOTE_PATH}/index.md"
 
 git add -A
 
