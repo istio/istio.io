@@ -66,19 +66,19 @@ version of Istio is 1.3 and you wish to introduce 1.4 which has been under devel
 
 #### When Istio source code is branched
 
-Run `make release-1.4.0`, and that's it.
-
-This make target will change some variables in `master` and `release-1.3` as needed, and create a new branch `release-1.4` for the new version.
+Run `prepare release-1.4.0`, and that's it. This will grab the latest material from the new istio source branch.
 
 #### On the day of the release
 
-1. Go to the istio.io project on [Netlify](https://netlify.com)
+1. Run `make release-1.4.0`. This make target will change some variables in `master` and `release-1.3` as needed, and create a new branch `release-1.4` for the new version.
 
-1. Change the branch that is built from the previous release's branch to the new release branch, in this case release-1.4
+1. Go to the istio.io project on [Netlify](https://netlify.com) and do the following:
 
-1. Select the option to trigger an immediate rebuild and redeployment.
+    - Change the branch that is built from the previous release's branch to the new release branch, in this case `release-1.4`.
 
-1. Once deployment is done, browse istio.io and make sure everything looks good.
+    - Select the option to trigger an immediate rebuild and redeployment.
+
+    - Once deployment is done, browse istio.io and make sure everything looks good.
 
 1. **[NEEDS REVISION]** Go to the [Google Custom Search Engine](https://cse.google.com) and do the following:
 
@@ -101,7 +101,7 @@ tests to use the new release to verify automated doc testing passes.
 
 To creating a new patch release, you need to
 
-1. Run `make release-A.X.Y`, where `A.X.Y` is the name of the release.
+1. Run `make release-A.X.Y`, where `A.X.Y` is the name of the release. If it is a security patch, run `SECURITY_PATCH=true make release-A.X.Y`, which will prevent the branch from grabbing latest docs.
 
 1. Complete the release note for the release by editing the generated markdown file `content/en/news/releases/A.X.x/announcing-A.X.Y/index.md`. This is where you describe the changes in the release. Please look at other existing files for example content and layout.
 
