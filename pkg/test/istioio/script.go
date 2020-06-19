@@ -74,7 +74,7 @@ func (s Script) run(ctx Context) {
 	}
 
 	// Now run the command...
-	scopes.CI.Infof("Running command script %s", input.Name())
+	scopes.Framework.Infof("Running command script %s", input.Name())
 
 	// Copy the command to workDir.
 	_, fileName := filepath.Split(input.Name())

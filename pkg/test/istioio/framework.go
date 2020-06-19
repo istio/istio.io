@@ -191,6 +191,7 @@ func runTestCase(testCase *TestCase, t *testing.T) {
 	t.Run(path, func(t *testing.T) {
 		framework.
 			NewTest(t).
+			Features("documentation").
 			Run(NewBuilder(path).
 				Add(Script{
 					Input: Inline{
