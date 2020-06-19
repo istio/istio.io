@@ -40,7 +40,7 @@ echo "---
 title: Announcing Istio ${NEW_VERSION}
 linktitle: ${NEW_VERSION}
 subtitle: Patch Release
-description: Istio ${NEW_VERSION} ${SECURITY_PATCH:security }release.
+description: Istio ${NEW_VERSION} ${SECURITY_PATCH:+security }release.
 publishdate: $(date +'%Y-%m-%d')
 release: ${NEW_VERSION}
 aliases:
