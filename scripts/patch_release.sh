@@ -35,24 +35,24 @@ if [ "${SECURITY_PATCH}" != 'true' ]; then
 fi
 
 RELEASE_NOTE_PATH="content/en/news/releases/${MAJOR}.${MINOR}.x/announcing-${NEW_VERSION}"
+RELEASE_TYPE="$([[ ${SECURITY_PATCH} != 'true' ]] && echo 'patch' || echo 'security')"
 mkdir -p "${RELEASE_NOTE_PATH}"
 echo "---
 title: Announcing Istio ${NEW_VERSION}
 linktitle: ${NEW_VERSION}
 subtitle: Patch Release
-description: Istio ${NEW_VERSION} ${SECURITY_PATCH:+security }release.
+description: Istio ${NEW_VERSION} ${RELEASE_TYPE} release.
 publishdate: $(date +'%Y-%m-%d')
 release: ${NEW_VERSION}
 aliases:
     - /news/announcing-${NEW_VERSION}
-test: n/a
 ---
 
-This release note describes what's different between Istio ${NEW_VERSION} and Istio ${PREV_VERSION}.
+This release note describes what's different between Istio ${PREV_VERSION} and Istio ${NEW_VERSION}.
 " >> "${RELEASE_NOTE_PATH}/index.md"
 
 git add -A
 
 echo "
 [SUCCESS] Almost there! Now complete the release note, then commit and push all the changes.
-Release note is located at ${RELEASE_NOTE_PATH}"
+Release note is located at ${RELEASE_NOTE_PATH}/index.md"
