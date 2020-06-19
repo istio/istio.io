@@ -37,5 +37,5 @@ echo "Running make update_all..."
 make update_all
 
 git add -A
-git commit -m "prepare for v${VERSION} since istio is branched"
+git commit -m "prepare for v${VERSION} as istio source is already branched"
 git push origin "${MASTER}"

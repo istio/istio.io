@@ -66,7 +66,7 @@ version of Istio is 1.3 and you wish to introduce 1.4 which has been under devel
 
 #### When Istio source code is branched
 
-Run `prepare release-1.4.0`, and that's it. This will grab the latest material from the new istio source branch.
+Run `make prepare-1.4.0`, and that's it. This will grab the latest material from the new istio source branch.
 
 #### On the day of the release
 
