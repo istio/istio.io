@@ -48,11 +48,11 @@ sleep.legacy to httpbin.bar: 200
 ENDSNIP
 
 snip_set_up_the_cluster_4() {
-kubectl get peerauthentication --all-namespaces | grep -v istio-system
+kubectl get peerauthentication --all-namespaces
 }
 
 ! read -r -d '' snip_set_up_the_cluster_4_out <<\ENDSNIP
-NAMESPACE      NAME                          AGE
+No resources found.
 ENDSNIP
 
 snip_set_up_the_cluster_5() {
@@ -115,7 +115,7 @@ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(k
 }
 
 snip_clean_up_the_example_1() {
-kubectl delete peerauthentication --all-namespaces --all
+kubectl delete peerauthentication -n istio-system default
 }
 
 snip_clean_up_the_example_2() {
