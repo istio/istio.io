@@ -27,7 +27,7 @@ if [ "${MAJOR}" == '' ]; then
 fi
 
 set -e
-echo "Creating a version for ${MAJOR}.${MINOR}.${PATCH}..."
+echo "Creating release for ${MAJOR}.${MINOR}.${PATCH}..."
 
 # patch release
 if [ "${PATCH}" != '0' ]; then
@@ -99,10 +99,6 @@ sed -i "
     s/^preliminary: true$/preliminary: false/;
     s/^doc_branch_name: .*$/doc_branch_name: release-${CURR_MINOR}/;
 " data/args.yml
-
-echo "Running make update-common..."
-sed -i "s/^UPDATE_BRANCH ?=.*$/UPDATE_BRANCH ?= release-${CURR_MINOR}/" common/Makefile.common.mk
-make update-common
 
 git add -A
 git commit -m "create a new release branch for v${CURR_MINOR}"
