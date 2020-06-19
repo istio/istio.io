@@ -33,7 +33,7 @@ func TestMain(m *testing.M) {
 	}
 
 	framework.
-		NewSuite("profile_default", m).
+		NewSuite(m).
 		Setup(istio.Setup(&inst, nil)).
 		Run()
 }

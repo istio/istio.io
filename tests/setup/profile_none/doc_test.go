@@ -29,7 +29,7 @@ func TestMain(m *testing.M) {
 	if !istioio.NeedSetup(setupSpec) {
 		os.Exit(0)
 	}
-	framework.NewSuite("profile_none", m).Run()
+	framework.NewSuite(m).Run()
 }
 
 func TestDocs(t *testing.T) {
