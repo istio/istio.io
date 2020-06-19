@@ -88,22 +88,6 @@ ENDSNIP
 snip_apply_origination() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
-kind: ServiceEntry
-metadata:
-  name: edition-cnn-com
-spec:
-  hosts:
-  - edition.cnn.com
-  ports:
-  - number: 80
-    name: http-port
-    protocol: HTTP
-  - number: 443
-    name: https-port-for-tls-origination
-    protocol: HTTPS
-  resolution: DNS
----
-apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: edition-cnn-com
