@@ -29,6 +29,8 @@ GOOS_LOCAL := $(TARGET_OS)
 ISTIO_IMAGE_VERSION ?= 1.7-alpha
 export ISTIO_IMAGE_VERSION
 
+export ISTIOIO_GIT_SOURCE := https://github.com/istio/istio.io.git
+
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
 ISTIO_SHA ?= $(shell < ${ISTIOIO_GO}/go.mod grep 'istio.io/istio v' | cut -d'-' -f3)
 export ISTIO_SHA
@@ -138,6 +140,9 @@ update_all: update_ref_docs update_examples
 
 prepare-%:
 	@scripts/prepare_release.sh $@
+
+release-%-dry-run:
+	@DRY_RUN=1 scripts/create_version.sh $(subst -dry-run,,$@)
 
 release-%:
 	@scripts/create_version.sh $@

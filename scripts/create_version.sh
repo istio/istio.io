@@ -58,6 +58,8 @@ echo "Upcoming minor release: ${NEXT_MINOR}"
 ### Archive the old release branch ###
 echo -e "\nStep 1: archive the old release branch"
 git checkout "release-${PREV_MINOR}"
+git pull "${ISTIOIO_GIT_SOURCE}" "release-${PREV_MINOR}"
+
 sed -i "
     s/^archive: false$/archive: true/;
     s/^archive_date: .*$/archive_date: $(date +'%Y-%m-%d')/;
@@ -75,7 +77,9 @@ git push origin "release-${PREV_MINOR}"
 
 # complete the archive process in master
 MASTER="master"
-git checkout ${MASTER}
+git checkout "${MASTER}"
+git pull "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
+
 scripts/redo_archive.sh "redo-archive-${PREV_MINOR}"
 
 sed -i "
@@ -83,6 +87,7 @@ sed -i "
     s/^main: .*$/main: \"${CURR_MINOR}\"/
 " data/versions.yml
 
+# add list item to index page only once
 sed -i "0,/<li>/s//\<li>\n\
             <a href=\/v${PREV_MINOR}>v${PREV_MINOR}<\/a>\n\
         <\/li>\n\
@@ -90,7 +95,7 @@ sed -i "0,/<li>/s//\<li>\n\
 
 git add -u
 git commit -m "update data/versions.yml and archive index page"
-git push origin ${MASTER}
+git push origin "${MASTER}"
 
 ### Create a branch for the new release ###
 echo -e "\nStep 2: create a new branch for release-${CURR_MINOR}"
@@ -106,7 +111,7 @@ git push origin "release-${CURR_MINOR}"
 
 ### Advance master to the next release ###
 echo -e "\nStep 3: advance master to release-${NEXT_MINOR}..."
-git checkout ${MASTER}
+git checkout "${MASTER}"
 sed -i "
     s/^version: .*$/version: \"${NEXT_MINOR}\"/;
     s/^full_version: .*$/full_version: \"${NEXT_MINOR}.0\"/;
@@ -120,6 +125,6 @@ make update_all
 
 git add -A
 git commit -m "advance master to release-${NEXT_MINOR}"
-git push origin ${MASTER}
+git push origin "${MASTER}"
 
 git config credential.helper "${CREDENTIAL_HELPER}"

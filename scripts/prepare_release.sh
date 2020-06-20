@@ -28,7 +28,7 @@ set -e
 
 MASTER="master"
 git checkout "${MASTER}"
-git pull https://github.com/istio/istio.io.git "${MASTER}"
+git pull "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
 
 sed -i "s/^source_branch_name: .*$/source_branch_name: release-${VERSION}/" data/args.yml
 sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= release-${VERSION}/" Makefile.core.mk
