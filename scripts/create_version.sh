@@ -14,126 +14,160 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-### Parse the release version input ###
-[[ $1 =~ ^release-([0-9])\.([0-9]+)\.([0-9]+)$ ]]
+parse_input() {
+    [[ $1 =~ ^release-([0-9])\.([0-9]+)\.([0-9]+)$ ]]
 
-MAJOR="${BASH_REMATCH[1]}"
-MINOR="${BASH_REMATCH[2]}"
-PATCH="${BASH_REMATCH[3]}"
+    MAJOR="${BASH_REMATCH[1]}"
+    MINOR="${BASH_REMATCH[2]}"
+    PATCH="${BASH_REMATCH[3]}"
 
-if [ "${MAJOR}" == '' ]; then
-    echo "Target format error: should be 'release-x.x.x', got '$1'"
-    exit 1
-fi
+    if [ "${MAJOR}" == '' ]; then
+        echo "Target format error: should be 'release-x.x.x', got '$1'"
+        exit 1
+    fi
 
-set -e
-echo "Creating release for ${MAJOR}.${MINOR}.${PATCH}..."
+    echo "Creating release for ${MAJOR}.${MINOR}.${PATCH}..."
 
-# patch release
-if [ "${PATCH}" != '0' ]; then
-    scripts/patch_release.sh "${MAJOR}" "${MINOR}" "${PATCH}"
-    exit 0
-fi
+    # patch release
+    if [ "${PATCH}" != '0' ]; then
+        scripts/patch_release.sh "${MAJOR}" "${MINOR}" "${PATCH}"
+        exit 0
+    fi
 
-# major/minor release
-CURR_MINOR="${MAJOR}.${MINOR}"     # current version
-PREV_MINOR="${MAJOR}.$((MINOR-1))" # previous version
-NEXT_MINOR="${MAJOR}.$((MINOR+1))" # next version
+    # major/minor release
+    CURR_MINOR="${MAJOR}.${MINOR}"     # current version
+    PREV_MINOR="${MAJOR}.$((MINOR-1))" # previous version
+    NEXT_MINOR="${MAJOR}.$((MINOR+1))" # next version
 
-# for a major release x.0, find the latest minor release
-if [ "${MINOR}" == '0' ]; then
-    LAST_MINOR_OF_PREV_MAJOR=$(
-        git branch -a |
-        grep "release-$((MAJOR-1))." |
-        sed -r "s/^.*release-$((MAJOR-1))\.([0-9]+)$/\1/" |
-        sort -n |
-        tail -1
-    )
-    PREV_MINOR="$((MAJOR-1)).${LAST_MINOR_OF_PREV_MAJOR}"
-fi
+    if [ "${DRY_RUN}" == '1' ]; then
+        CURR_MINOR="${CURR_MINOR}-dry-run"
+        git checkout "${MASTER}"
+        git pull "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
+    fi
 
-echo "Previous minor release: ${PREV_MINOR}"
-echo "Upcoming minor release: ${NEXT_MINOR}"
+    # for a major release x.0, find the latest minor release
+    if [ "${MINOR}" == '0' ]; then
+        LAST_MINOR_OF_PREV_MAJOR=$(
+            git branch -a |
+            grep "release-$((MAJOR-1))." |
+            sed -r "s/^.*release-$((MAJOR-1))\.([0-9]+)$/\1/" |
+            sort -n |
+            tail -1
+        )
+        PREV_MINOR="$((MAJOR-1)).${LAST_MINOR_OF_PREV_MAJOR}"
+    fi
 
-### Archive the old release branch ###
-echo -e "\nStep 1: archive the old release branch"
-git checkout "release-${PREV_MINOR}"
-git pull "${ISTIOIO_GIT_SOURCE}" "release-${PREV_MINOR}"
+    echo "Previous minor release: ${PREV_MINOR}"
+    echo "Upcoming minor release: ${NEXT_MINOR}"
+}
 
-sed -i "
-    s/^archive: false$/archive: true/;
-    s/^archive_date: .*$/archive_date: $(date +'%Y-%m-%d')/;
-    s/^archive_search_refinement: .*$/archive_search_refinement: \"V${PREV_MINOR}\"/
-" data/args.yml
+archive_old_release() {
+    echo -e "\nStep 1: archive the old release branch"
+    if [ "${DRY_RUN}" == '1' ]; then
+        echo "Skipping step 1 in dry run"
+        return
+    fi
 
-sed -i "s/^disableAliases = true$/disableAliases = false/" config.toml
+    git checkout "release-${PREV_MINOR}"
+    git pull "${ISTIOIO_GIT_SOURCE}" "release-${PREV_MINOR}"
+
+    sed -i "
+        s/^archive: false$/archive: true/;
+        s/^archive_date: .*$/archive_date: $(date +'%Y-%m-%d')/;
+        s/^archive_search_refinement: .*$/archive_search_refinement: \"V${PREV_MINOR}\"/
+    " data/args.yml
+
+    sed -i "s/^disableAliases = true$/disableAliases = false/" config.toml
+
+    if [ $(git status --porcelain) ]; then # for idempotence
+        git add -u
+        git commit -m "mark v${PREV_MINOR} as archived"
+        git push origin "release-${PREV_MINOR}"
+    fi
+
+    # complete the archive process in master
+    git checkout "${MASTER}"
+    git pull "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
+
+    scripts/redo_archive.sh "redo-archive-${PREV_MINOR}"
+
+    sed -i "
+        s/^preliminary: .*$/preliminary: \"${NEXT_MINOR}\"/;
+        s/^main: .*$/main: \"${CURR_MINOR}\"/
+    " data/versions.yml
+
+    # add list item to index page only once
+    INDEX_PAGE="archive/archive/index.html"
+    grep -q "<a\ href=/v${PREV_MINOR}>v${PREV_MINOR}</a>" ${INDEX_PAGE} ||
+        sed -i "0,/<li>/s//\<li>\n\
+                <a href=\/v${PREV_MINOR}>v${PREV_MINOR}<\/a>\n\
+            <\/li>\n\
+            <li>/" ${INDEX_PAGE}
+
+    if [ $(git status --porcelain) ]; then
+        git add -u
+        git commit -m "update data/versions.yml and archive index page"
+        git push origin "${MASTER}"
+    fi
+}
+
+create_branch_for_new_release() {
+    echo -e "\nStep 2: create a new branch for release-${CURR_MINOR}"
+    git checkout -b "release-${CURR_MINOR}"
+    sed -i "
+        s/^preliminary: true$/preliminary: false/;
+        s/^doc_branch_name: .*$/doc_branch_name: release-${CURR_MINOR}/;
+    " data/args.yml
+
+    if [ "${DRY_RUN}" == '1' ]; then
+        sed -i "
+            s/^preliminary: .*$/preliminary: \"${NEXT_MINOR}\"/;
+            s/^main: .*$/main: \"${CURR_MINOR}\"/
+        " data/versions.yml
+    fi
+
+    if [ $(git status --porcelain) ]; then
+        git add -A
+        git commit -m "create a new release branch for v${CURR_MINOR}"
+        git push origin "release-${CURR_MINOR}"
+    fi
+}
+
+advance_master_to_next_release() {
+    echo -e "\nStep 3: advance master to release-${NEXT_MINOR}..."
+    if [ "${DRY_RUN}" == '1' ]; then
+        echo "Skipping step 3 in dry run"
+        return
+    fi
+
+    git checkout "${MASTER}"
+    sed -i "
+        s/^version: .*$/version: \"${NEXT_MINOR}\"/;
+        s/^full_version: .*$/full_version: \"${NEXT_MINOR}.0\"/;
+        s/^previous_version: .*$/previous_version: \"${CURR_MINOR}\"/;
+        s/^source_branch_name: .*$/source_branch_name: ${MASTER}/;
+        s/^doc_branch_name: .*$/doc_branch_name: ${MASTER}/
+    " data/args.yml
+
+    sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= ${MASTER}}/" Makefile.core.mk
+    make update_all
+
+    if [ $(git status --porcelain) ]; then
+        git add -A
+        git commit -m "advance master to release-${NEXT_MINOR}"
+        git push origin "${MASTER}"
+    fi
+}
 
 CREDENTIAL_HELPER=$(git config --get credential.helper)
 git config credential.helper cache
 
-if [ $(git status --porcelain) ]; then # for idempotence
-    git add -u
-    git commit -m "mark v${PREV_MINOR} as archived"
-    git push origin "release-${PREV_MINOR}"
-fi
+parse_input
 
-# complete the archive process in master
-git checkout "${MASTER}"
-git pull "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
-
-scripts/redo_archive.sh "redo-archive-${PREV_MINOR}"
-
-sed -i "
-    s/^preliminary: .*$/preliminary: \"${NEXT_MINOR}\"/;
-    s/^main: .*$/main: \"${CURR_MINOR}\"/
-" data/versions.yml
-
-# add list item to index page only once
-INDEX_PAGE="archive/archive/index.html"
-grep -q "<a\ href=/v${PREV_MINOR}>v${PREV_MINOR}</a>" ${INDEX_PAGE} ||
-    sed -i "0,/<li>/s//\<li>\n\
-            <a href=\/v${PREV_MINOR}>v${PREV_MINOR}<\/a>\n\
-        <\/li>\n\
-        <li>/" ${INDEX_PAGE}
-
-if [ $(git status --porcelain) ]; then
-    git add -u
-    git commit -m "update data/versions.yml and archive index page"
-    git push origin "${MASTER}"
-fi
-
-### Create a branch for the new release ###
-echo -e "\nStep 2: create a new branch for release-${CURR_MINOR}"
-git checkout -b "release-${CURR_MINOR}"
-sed -i "
-    s/^preliminary: true$/preliminary: false/;
-    s/^doc_branch_name: .*$/doc_branch_name: release-${CURR_MINOR}/;
-" data/args.yml
-
-if [ $(git status --porcelain) ]; then
-    git add -A
-    git commit -m "create a new release branch for v${CURR_MINOR}"
-    git push origin "release-${CURR_MINOR}"
-fi
-
-### Advance master to the next release ###
-echo -e "\nStep 3: advance master to release-${NEXT_MINOR}..."
-git checkout "${MASTER}"
-sed -i "
-    s/^version: .*$/version: \"${NEXT_MINOR}\"/;
-    s/^full_version: .*$/full_version: \"${NEXT_MINOR}.0\"/;
-    s/^previous_version: .*$/previous_version: \"${CURR_MINOR}\"/;
-    s/^source_branch_name: .*$/source_branch_name: ${MASTER}/;
-    s/^doc_branch_name: .*$/doc_branch_name: ${MASTER}/
-" data/args.yml
-
-sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= ${MASTER}}/" Makefile.core.mk
-make update_all
-
-if [ $(git status --porcelain) ]; then
-    git add -A
-    git commit -m "advance master to release-${NEXT_MINOR}"
-    git push origin "${MASTER}"
-fi
+set -e
+archive_old_release
+create_branch_for_new_release
+advance_master_to_next_release
+echo "[SUCCESS] New release now has been created in the branch 'release-${CURR_MINOR}'"
 
 git config credential.helper "${CREDENTIAL_HELPER}"
