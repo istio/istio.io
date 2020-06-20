@@ -29,8 +29,6 @@ GOOS_LOCAL := $(TARGET_OS)
 ISTIO_IMAGE_VERSION ?= 1.7-alpha
 export ISTIO_IMAGE_VERSION
 
-export ISTIOIO_GIT_SOURCE := https://github.com/istio/istio.io.git
-
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
 ISTIO_SHA ?= $(shell < ${ISTIOIO_GO}/go.mod grep 'istio.io/istio v' | cut -d'-' -f3)
 export ISTIO_SHA
@@ -138,6 +136,13 @@ update_ref_docs:
 
 update_all: update_ref_docs update_examples
 
+foo2:
+	hugo version
+
+# Release related targets
+export ISTIOIO_GIT_SOURCE := https://github.com/istio/istio.io.git
+export MASTER := master
+
 prepare-%:
 	@scripts/prepare_release.sh $@
 
@@ -149,9 +154,6 @@ release-%:
 
 redo-archive-%:
 	@scripts/redo_archive.sh $@
-
-foo2:
-	hugo version
 
 # The init recipe was split into two recipes to solve an issue seen in prow
 # where paralyzation is happening and some tasks in a recipe were occuring out

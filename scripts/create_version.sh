@@ -71,12 +71,13 @@ sed -i "s/^disableAliases = true$/disableAliases = false/" config.toml
 CREDENTIAL_HELPER=$(git config --get credential.helper)
 git config credential.helper cache
 
-git add -u
-git commit -m "mark v${PREV_MINOR} as archived"
-git push origin "release-${PREV_MINOR}"
+if [ $(git status --porcelain) ]; then # for idempotence
+    git add -u
+    git commit -m "mark v${PREV_MINOR} as archived"
+    git push origin "release-${PREV_MINOR}"
+fi
 
 # complete the archive process in master
-MASTER="master"
 git checkout "${MASTER}"
 git pull "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
 
@@ -88,14 +89,18 @@ sed -i "
 " data/versions.yml
 
 # add list item to index page only once
-sed -i "0,/<li>/s//\<li>\n\
+INDEX_PAGE="archive/archive/index.html"
+grep -q "<a\ href=/v${PREV_MINOR}>v${PREV_MINOR}</a>" ${INDEX_PAGE} ||
+    sed -i "0,/<li>/s//\<li>\n\
             <a href=\/v${PREV_MINOR}>v${PREV_MINOR}<\/a>\n\
         <\/li>\n\
-        <li>/" archive/archive/index.html
+        <li>/" ${INDEX_PAGE}
 
-git add -u
-git commit -m "update data/versions.yml and archive index page"
-git push origin "${MASTER}"
+if [ $(git status --porcelain) ]; then
+    git add -u
+    git commit -m "update data/versions.yml and archive index page"
+    git push origin "${MASTER}"
+fi
 
 ### Create a branch for the new release ###
 echo -e "\nStep 2: create a new branch for release-${CURR_MINOR}"
@@ -105,9 +110,11 @@ sed -i "
     s/^doc_branch_name: .*$/doc_branch_name: release-${CURR_MINOR}/;
 " data/args.yml
 
-git add -A
-git commit -m "create a new release branch for v${CURR_MINOR}"
-git push origin "release-${CURR_MINOR}"
+if [ $(git status --porcelain) ]; then
+    git add -A
+    git commit -m "create a new release branch for v${CURR_MINOR}"
+    git push origin "release-${CURR_MINOR}"
+fi
 
 ### Advance master to the next release ###
 echo -e "\nStep 3: advance master to release-${NEXT_MINOR}..."
@@ -123,8 +130,10 @@ sed -i "
 sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= ${MASTER}}/" Makefile.core.mk
 make update_all
 
-git add -A
-git commit -m "advance master to release-${NEXT_MINOR}"
-git push origin "${MASTER}"
+if [ $(git status --porcelain) ]; then
+    git add -A
+    git commit -m "advance master to release-${NEXT_MINOR}"
+    git push origin "${MASTER}"
+fi
 
 git config credential.helper "${CREDENTIAL_HELPER}"

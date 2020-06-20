@@ -26,7 +26,6 @@ fi
 
 set -e
 
-MASTER="master"
 git checkout "${MASTER}"
 git pull "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
 
@@ -36,6 +35,8 @@ sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= release-${VERSION}/" M
 echo "Running make update_all..."
 make update_all
 
-git add -A
-git commit -m "prepare for v${VERSION} as istio source is already branched"
-git push origin "${MASTER}"
+if [ $(git status --porcelain) ]; then
+    git add -A
+    git commit -m "prepare for v${VERSION} as istio source is already branched"
+    git push origin "${MASTER}"
+fi
