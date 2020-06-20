@@ -162,7 +162,7 @@ advance_master_to_next_release() {
 CREDENTIAL_HELPER=$(git config --get credential.helper)
 git config credential.helper cache
 
-parse_input
+parse_input $1
 
 set -e
 archive_old_release
