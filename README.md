@@ -72,6 +72,8 @@ Run `make prepare-1.4.0`, and that's it. This will grab the latest material from
 
 1. Run `make release-1.4.0`. This make target will change some variables in `master` and `release-1.3` as needed, and create a new branch `release-1.4` for the new version.
 
+    - For a dry run before official release, run `make release-1.4.0-dry-run`, which will only create a new branch `release-1.4-dry-run`.
+
 1. Go to the istio.io project on [Netlify](https://netlify.com) and do the following:
 
     - Change the branch that is built from the previous release's branch to the new release branch, in this case `release-1.4`.
