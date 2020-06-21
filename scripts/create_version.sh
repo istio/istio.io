@@ -122,13 +122,13 @@ create_branch_for_new_release() {
     if [ "${DRY_RUN}" == '1' ]; then
         sed -i "
             s/^preliminary: .*$/preliminary: \"${NEXT_MINOR}\"/;
-            s/^main: .*$/main: \"${CURR_MINOR}\"/
+            s/^main: .*$/main: \"${CURR_MINOR:0:-8}\"/
         " data/versions.yml
     fi
 
     if [[ $(git status --porcelain) ]]; then
         git add -A
-        git commit -m "create a new release branch for v${CURR_MINOR}"
+        git commit -m "create a new release branch for ${CURR_MINOR}"
         git push origin "release-${CURR_MINOR}"
     fi
 }
