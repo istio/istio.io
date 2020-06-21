@@ -159,15 +159,9 @@ advance_master_to_next_release() {
     fi
 }
 
-CREDENTIAL_HELPER=$(git config --get credential.helper)
-git config credential.helper cache
-
 parse_input "$1"
-
 set -e
 archive_old_release
 create_branch_for_new_release
 advance_master_to_next_release
 echo "[SUCCESS] New release now has been created in the branch 'release-${CURR_MINOR}'"
-
-git config credential.helper "${CREDENTIAL_HELPER}"
