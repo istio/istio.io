@@ -38,7 +38,7 @@ make archive-version
 git checkout "${CURRENT_BRANCH}"
 mv "archived_version/v${VERSION}" "archive/v${VERSION}"
 
-if [ $(git status --porcelain) ]; then
+if [[ $(git status --porcelain) ]]; then
     git add "archive/v${VERSION}"
     git commit -m "build an archive of v${VERSION} in ${CURRENT_BRANCH}"
     git push origin "${CURRENT_BRANCH}"

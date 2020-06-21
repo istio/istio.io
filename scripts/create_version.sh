@@ -79,7 +79,7 @@ archive_old_release() {
 
     sed -i "s/^disableAliases = true$/disableAliases = false/" config.toml
 
-    if [ $(git status --porcelain) ]; then # for idempotence
+    if [[ $(git status --porcelain) ]]; then # for idempotence
         git add -u
         git commit -m "mark v${PREV_MINOR} as archived"
         git push origin "release-${PREV_MINOR}"
@@ -104,7 +104,7 @@ archive_old_release() {
             <\/li>\n\
             <li>/" ${INDEX_PAGE}
 
-    if [ $(git status --porcelain) ]; then
+    if [[ $(git status --porcelain) ]]; then
         git add -u
         git commit -m "update data/versions.yml and archive index page"
         git push origin "${MASTER}"
@@ -126,7 +126,7 @@ create_branch_for_new_release() {
         " data/versions.yml
     fi
 
-    if [ $(git status --porcelain) ]; then
+    if [[ $(git status --porcelain) ]]; then
         git add -A
         git commit -m "create a new release branch for v${CURR_MINOR}"
         git push origin "release-${CURR_MINOR}"
@@ -152,7 +152,7 @@ advance_master_to_next_release() {
     sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= ${MASTER}}/" Makefile.core.mk
     make update_all
 
-    if [ $(git status --porcelain) ]; then
+    if [[ $(git status --porcelain) ]]; then
         git add -A
         git commit -m "advance master to release-${NEXT_MINOR}"
         git push origin "${MASTER}"
@@ -162,7 +162,7 @@ advance_master_to_next_release() {
 CREDENTIAL_HELPER=$(git config --get credential.helper)
 git config credential.helper cache
 
-parse_input $1
+parse_input "$1"
 
 set -e
 archive_old_release
