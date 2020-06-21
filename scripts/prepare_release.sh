@@ -14,8 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# NOTE: this would only work for v1.6+
-
 [[ $1 =~ ^prepare-([0-9]\.[0-9]+)\.0$ ]]
 
 VERSION="${BASH_REMATCH[1]}"
