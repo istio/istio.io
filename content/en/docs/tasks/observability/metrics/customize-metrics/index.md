@@ -114,9 +114,9 @@ dimensions.
     apiVersion: extensions/v1beta1
     kind: Deployment
     spec:
-    template:
+      template: # pod template
         metadata:
-        annotations:
+          annotations:
             sidecar.istio.io/extraStatTags: destination_port,request_host
     {{< /text >}}
 
