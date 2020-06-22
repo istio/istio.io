@@ -12,7 +12,7 @@ replace github.com/docker/docker => github.com/docker/engine v1.4.2-0.2019101121
 
 require (
 	istio.io/gogo-genproto v0.0.0-20200511213158-02f1fd1746e5 // indirect
-	istio.io/istio v0.0.0-20200619163927-99b67ebd0881
+	istio.io/istio v0.0.0-20200622140019-5d0ba6bf14a4
 	istio.io/pkg v0.0.0-20200511212725-7bfbbf968c23
 )
 
