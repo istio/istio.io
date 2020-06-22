@@ -113,7 +113,7 @@ To create a new patch release, you need to
 
 ### Updating an archive
 
-If one day the archived version in a newer branch (e.g., `archive/v1.3`) needs to be updated due to changes in the old release branch (`release-1.3` in this case), you can run `redo-archive-1.3.0` to re-archive the `release-1.3` branch and 
+If one day the archived version in a newer branch (e.g., `archive/v1.3`) needs to be updated due to changes in the old release branch (`release-1.3` in this case), you can run `redo-archive-1.3.0` to re-archive the `release-1.3` branch and update it in the current branch.
 
 ## Multi-language support
 
