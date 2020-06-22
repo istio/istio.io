@@ -76,7 +76,7 @@ Run `make prepare-1.4.0`, and that's it. This will grab the latest material from
 
 1. Go to the istio.io project on [Netlify](https://netlify.com) and do the following:
 
-    - Change the branch that is built from the previous release's branch to the new release branch, in this case `release-1.4`.
+    - Change the branch that is built from the previous release's branch to the new release branch, in this case `release-1.4` (or `release-1.4-dry-run` as appropriate).
 
     - Select the option to trigger an immediate rebuild and redeployment.
 
@@ -105,11 +105,15 @@ tests to use the new release to verify automated doc testing passes.
 
 To create a new patch release, you need to
 
-1. Run `make release-A.X.Y`, where `A.X.Y` is the name of the release. If it is a security patch, run `SECURITY_PATCH=true make release-A.X.Y`, which will prevent the branch from grabbing latest docs.
+1. Run `make release-A.X.Y`, where `A.X.Y` is the name of the release. If it is a security patch, run `SECURITY_PATCH=true make release-A.X.Y`, which will prevent the branch from grabbing the latest docs.
 
 1. Complete the release note for the release by editing the generated markdown file `content/en/news/releases/A.X.x/announcing-A.X.Y/index.md`. This is where you describe the changes in the release. Please look at other existing files for example content and layout.
 
 1. Commit all the changes, including the release note you edited, and push them to the patch release branch.
+
+### Updating an archive
+
+If one day the archived version in a newer branch (e.g., `archive/v1.3`) needs to be updated due to changes in the old release branch (`release-1.3` in this case), you can run `redo-archive-1.3.0` to re-archive the `release-1.3` branch and 
 
 ## Multi-language support
 
