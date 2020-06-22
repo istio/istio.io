@@ -63,7 +63,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: extensions/v1beta1
+    apiVersion: networking.k8s.io/v1beta1
     kind: Ingress
     metadata:
       name: istio-system
