@@ -23,4 +23,4 @@ mkdir ./public/latest
 cp -r "${TMP}"/* ./public/latest/
 
 #copy top level pages, such as landing page, redirects, headers, robots.txt, etc
-find ${TMP} -maxdepth 1 -type f -exec cp -t ./public/ {} +
+find "${TMP}" -maxdepth 1 -type f -exec cp -t ./public/ {} +
