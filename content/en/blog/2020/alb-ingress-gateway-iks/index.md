@@ -369,8 +369,6 @@ Istio ingress gateway.
     $ kubectl delete ingress alb-ingress -n istio-system
     $ kubectl delete virtualservice default-ingress -n httptools
     $ kubectl delete gateway default-ingress-gateway -n httptools
-    $ kubectl delete policy default -n httptools --ignore-not-found=true
-    $ kubectl delete destinationrule default -n httptools
     $ kubectl delete secrets istio-ingressgateway-certs istio-ingressgateway-ca-certs alb-certs -n istio-system
     $ rm -rf ingress_gateway_certs alb_certs trustid-x3-root.pem trusted.crt
     $ unset CLUSTER_NAME ALB_INGRESS_DOMAIN ALB_SECRET INGRESS_GATEWAY_DOMAIN INGRESS_GATEWAY_SECRET
