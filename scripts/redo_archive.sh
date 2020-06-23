@@ -36,7 +36,7 @@ echo "Making an archive for ${ARCHIVE_BRANCH}..."
 make archive-version
 
 git checkout "${CURRENT_BRANCH}"
-mv -f "archived_version/v${VERSION}" "archive/v${VERSION}"
+mv -f "archived_version/v${VERSION}" archive
 
 if [[ $(git status --porcelain) ]]; then
     git add "archive/v${VERSION}"
