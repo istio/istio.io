@@ -319,7 +319,7 @@ the `alb-certs` secret, required for mutual TLS.
       name: alb-ingress
       namespace: istio-system
       annotations:
-        ingress.bluemix.net/ssl-services: "ssl-service=istio-ingressgateway ssl-secret=alb-certs"
+        ingress.bluemix.net/ssl-services: "ssl-service=istio-ingressgateway ssl-secret=alb-certs proxy-ssl-name=$INGRESS_GATEWAY_DOMAIN"
     spec:
       tls:
       - hosts:
