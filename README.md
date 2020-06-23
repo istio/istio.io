@@ -72,7 +72,7 @@ Run `make prepare-1.4.0`, and that's it. This will grab the latest material from
 
 1. Run `make release-1.4.0`. This make target will change some variables in `master` and `release-1.3` as needed, and create a new branch `release-1.4` for the new version.
 
-    - For a dry run before official release, run `make release-1.4.0-dry-run`, which will only create a new branch `release-1.4-dry-run`.
+    - For a dry run before official release, run `make release-1.4.0-dry-run`, which will only create a new branch `release-1.4-dry-run`, and not touch any other branches.
 
 1. Go to the istio.io project on [Netlify](https://netlify.com) and do the following:
 
@@ -95,8 +95,6 @@ Run `make prepare-1.4.0`, and that's it. This will grab the latest material from
     case, the site URL would be archive.istio.io/v1.3/*. Set the label of this site to the name of the
     facet item created above (V1.3 in this case).
 
-1. Wait a while (~5 minutes) and browse istio.io and preliminary.istio.io to make sure everything looks good.
-
 ### Creating a patch release
 
 A few days before the patch release, the release managers should notify the Doc WG that the release
@@ -113,7 +111,7 @@ To create a new patch release, you need to
 
 ### Updating an archive
 
-If one day the archived version in a newer branch (e.g., `archive/v1.3`) needs to be updated due to changes in the old release branch (`release-1.3` in this case), you can run `redo-archive-1.3.0` to re-archive the `release-1.3` branch and update it in the current branch.
+If the archived version in a newer branch (e.g., `release-1.4:archive/v1.3`) needs to be updated due to changes in the old release branch (`release-1.3` in this case), you can run `redo-archive-1.3.0` in the `release-1.4` branch, which will re-archive `release-1.3` and substitute it for the previous archive in the current branch.
 
 ## Multi-language support
 
