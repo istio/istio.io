@@ -149,7 +149,7 @@ advance_master_to_next_release() {
         s/^doc_branch_name: .*$/doc_branch_name: ${MASTER}/
     " data/args.yml
 
-    sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= ${MASTER}}/" Makefile.core.mk
+    sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= ${MASTER}/" Makefile.core.mk
     make update_all
 
     if [[ $(git status --porcelain) ]]; then
