@@ -242,7 +242,8 @@ You use the certificates and the keys provided to you for the ingress gateway an
           privateKey: /etc/istio/ingressgateway-certs/tls.key
           caCertificates: /etc/istio/ingressgateway-ca-certs/trustid-x3-root.pem
         hosts:
-        - "*"
+        - "$INGRESS_GATEWAY_DOMAIN"
+        - "httpbin.$ALB_INGRESS_DOMAIN"
     EOF
     {{< /text >}}
 
@@ -256,7 +257,8 @@ You use the certificates and the keys provided to you for the ingress gateway an
       name: default-ingress
     spec:
       hosts:
-      - "*"
+      - "$INGRESS_GATEWAY_DOMAIN"
+      - "httpbin.$ALB_INGRESS_DOMAIN"
       gateways:
       - default-ingress-gateway
       http:
