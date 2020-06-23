@@ -5,6 +5,7 @@ subtitle: Configure the IBM Cloud Kubernetes Service Application Load Balancer t
 publishdate: 2020-05-15
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,ingress,file-mount-credentials,iks]
+last_update: 2020-06-23
 ---
 
 In this blog post I show how to configure the [Ingress Application Load Balancer (ALB)](https://cloud.ibm.com/docs/containers?topic=containers-ingress-about)
@@ -242,7 +243,8 @@ You use the certificates and the keys provided to you for the ingress gateway an
           privateKey: /etc/istio/ingressgateway-certs/tls.key
           caCertificates: /etc/istio/ingressgateway-ca-certs/trustid-x3-root.pem
         hosts:
-        - "*"
+        - "$INGRESS_GATEWAY_DOMAIN"
+        - "httpbin.$ALB_INGRESS_DOMAIN"
     EOF
     {{< /text >}}
 
@@ -256,7 +258,8 @@ You use the certificates and the keys provided to you for the ingress gateway an
       name: default-ingress
     spec:
       hosts:
-      - "*"
+      - "$INGRESS_GATEWAY_DOMAIN"
+      - "httpbin.$ALB_INGRESS_DOMAIN"
       gateways:
       - default-ingress-gateway
       http:
@@ -319,7 +322,7 @@ the `alb-certs` secret, required for mutual TLS.
       name: alb-ingress
       namespace: istio-system
       annotations:
-        ingress.bluemix.net/ssl-services: "ssl-service=istio-ingressgateway ssl-secret=alb-certs"
+        ingress.bluemix.net/ssl-services: "ssl-service=istio-ingressgateway ssl-secret=alb-certs proxy-ssl-name=$INGRESS_GATEWAY_DOMAIN"
     spec:
       tls:
       - hosts:
@@ -367,8 +370,6 @@ Istio ingress gateway.
     $ kubectl delete ingress alb-ingress -n istio-system
     $ kubectl delete virtualservice default-ingress -n httptools
     $ kubectl delete gateway default-ingress-gateway -n httptools
-    $ kubectl delete policy default -n httptools --ignore-not-found=true
-    $ kubectl delete destinationrule default -n httptools
     $ kubectl delete secrets istio-ingressgateway-certs istio-ingressgateway-ca-certs alb-certs -n istio-system
     $ rm -rf ingress_gateway_certs alb_certs trustid-x3-root.pem trusted.crt
     $ unset CLUSTER_NAME ALB_INGRESS_DOMAIN ALB_SECRET INGRESS_GATEWAY_DOMAIN INGRESS_GATEWAY_SECRET
