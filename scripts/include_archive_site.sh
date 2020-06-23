@@ -22,7 +22,5 @@ cp -r ./archive/* ./public/
 mkdir ./public/latest
 cp -r "${TMP}"/* ./public/latest/
 
-#copy home page
-cp "${TMP}"/index.html ./public/
-
-mv "${TMP}"/_redirects ./public/
+#copy top level pages, such as landing page, redirects, headers, robots.txt, etc
+find "${TMP}" -maxdepth 1 -type f -exec cp -t ./public/ {} +
