@@ -16,6 +16,10 @@
 
 set -e
 
+red="tput setaf 1"
+green="tput setaf 2"
+reset="tput sgr0"
+
 echo "Istio Documents Summary: \
    $(find content/en/docs -name '*.md' -exec grep --quiet '^test: yes$' {} \; -print | wc -l) (tested) \
    $(find content/en/docs -name '*.md' -exec grep --quiet '^test: no$' {} \; -print | wc -l) (untested) \
@@ -32,8 +36,14 @@ echo "Summary: \
    $(find content/en/docs/tasks -name '*.md' -exec grep --quiet '^test: n/a$' {} \; -print | wc -l) (n/a)"
 
 echo ""
+echo "Tested:"
+${green}
+find content/en/docs/tasks -name '*.md' -exec grep --quiet '^test: yes$' {} \; -print
+${reset}
 echo "Untested:"
+${red}
 find content/en/docs/tasks -name '*.md' -exec grep --quiet '^test: no$' {} \; -print
+${reset}
 
 echo ""
 echo "Examples Docs"
@@ -45,8 +55,14 @@ echo "Summary: \
    $(find content/en/docs/examples -name '*.md' -exec grep --quiet '^test: n/a$' {} \; -print | wc -l) (n/a)"
 
 echo ""
+echo "Tested:"
+${green}
+find content/en/docs/examples -name '*.md' -exec grep --quiet '^test: yes$' {} \; -print
+${reset}
 echo "Untested:"
+${red}
 find content/en/docs/examples -name '*.md' -exec grep --quiet '^test: no$' {} \; -print
+${reset}
 
 echo ""
 echo "Setup Docs"
@@ -58,8 +74,14 @@ echo "Summary: \
    $(find content/en/docs/setup -name '*.md' -exec grep --quiet '^test: n/a$' {} \; -print | wc -l) (n/a)"
 
 echo ""
+echo "Tested:"
+${green}
+find content/en/docs/setup -name '*.md' -exec grep --quiet '^test: yes$' {} \; -print
+${reset}
 echo "Untested:"
+${red}
 find content/en/docs/setup -name '*.md' -exec grep --quiet '^test: no$' {} \; -print
+${reset}
 
 echo ""
 echo "Operations Docs"
@@ -71,5 +93,11 @@ echo "Summary: \
    $(find content/en/docs/ops -name '*.md' -exec grep --quiet '^test: n/a$' {} \; -print | wc -l) (n/a)"
 
 echo ""
+echo "Tested:"
+${green}
+find content/en/docs/ops -name '*.md' -exec grep --quiet '^test: yes$' {} \; -print
+${reset}
 echo "Untested:"
+${red}
 find content/en/docs/ops -name '*.md' -exec grep --quiet '^test: no$' {} \; -print
+${reset}
