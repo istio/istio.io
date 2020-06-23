@@ -100,9 +100,9 @@ archive_old_release() {
     INDEX_PAGE="archive/archive/index.html"
     grep -q "<a\ href=/v${PREV_MINOR}>v${PREV_MINOR}</a>" ${INDEX_PAGE} ||
         sed -i "0,/<li>/s//\<li>\n\
-                <a href=\/v${PREV_MINOR}>v${PREV_MINOR}<\/a>\n\
-            <\/li>\n\
-            <li>/" ${INDEX_PAGE}
+            <a href=\/v${PREV_MINOR}>v${PREV_MINOR}<\/a>\n\
+        <\/li>\n\
+        <li>/" ${INDEX_PAGE}
 
     if [[ $(git status --porcelain) ]]; then
         git add -u
