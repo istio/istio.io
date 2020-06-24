@@ -38,6 +38,6 @@ fi
 
 if [[ $(git status --porcelain) ]]; then
     git add -A
-    git commit -m "prepare for v${VERSION} as istio source is already branched"
+    git commit -m "update for a patch release ${VERSION}"
     git push origin "${RELEASE_BRANCH}"
 fi
