@@ -111,7 +111,7 @@ To create a new patch release, you need to
 
 ### Updating an archive
 
-If the archived version in a newer branch (e.g., `release-1.7:archive/v1.6`) needs to be updated due to changes in the old release branch (`release-1.6` in this case), you can run `redo-archive-1.6.0` in the `release-1.7` branch, which will re-archive `release-1.6` and substitute it for the previous archive in the current branch.
+If the archived version in a newer branch (e.g., `release-1.7:archive/v1.6`) needs to be updated due to changes in the old release branch (`release-1.6` in this case), you can run `fetch-archive-1.6.0` in the `release-1.7` branch, which will re-archive `release-1.6` and substitute it for the previous archive in the current branch.
 
 ## Multi-language support
 

@@ -14,17 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# NOTE: this would only work for v1.6+
-
-[[ $1 =~ ^redo-archive-([0-9]\.[0-9]+)\.0$ ]]
-
-VERSION="${BASH_REMATCH[1]}"
-if [ "${VERSION}" == '' ]; then
-    echo "Target format error: should be 'redo-archive-x.x.0', got '$1'"
-    exit 1
-fi
+# NOTE: this only works for v1.5+ because it needs an `archive-version`
+#       make target to create an archive.
 
 set -e
+
+[[ $1 =~ ^fetch-archive-([0-9]\.[0-9]+)\.0$ ]] ||
+    { echo "Target format error: should be 'fetch-archive-x.x.0', got '$1'"; exit 1; }
+
+VERSION="${BASH_REMATCH[1]}"
 
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 ARCHIVE_BRANCH="release-${VERSION}"

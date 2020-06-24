@@ -14,15 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-[[ $1 =~ ^prepare-([0-9]\.[0-9]+)\.0$ ]]
+set -e
+
+[[ $1 =~ ^prepare-([0-9]\.[0-9]+)\.0$ ]] ||
+    { echo "Target format error: should be 'prepare-x.x.0', got '$1'"; exit 1; }
 
 VERSION="${BASH_REMATCH[1]}"
-if [ "${VERSION}" == '' ]; then
-    echo "Target format error: should be 'prepare-x.x.0', got '$1'"
-    exit 1
-fi
-
-set -e
 
 git checkout "${MASTER}"
 git pull --ff-only "${ISTIOIO_GIT_SOURCE}" "${MASTER}"

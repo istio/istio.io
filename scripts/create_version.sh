@@ -89,7 +89,7 @@ archive_old_release() {
     git checkout "${MASTER}"
     git pull --ff-only "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
 
-    scripts/redo_archive.sh "redo-archive-${PREV_MINOR}.0"
+    scripts/fetch_archive.sh "fetch-archive-${PREV_MINOR}.0"
 
     sed -i "
         s/^preliminary: .*$/preliminary: \"${NEXT_MINOR}\"/;
