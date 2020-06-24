@@ -30,7 +30,7 @@ CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 ARCHIVE_BRANCH="release-${VERSION}"
 
 git checkout "${ARCHIVE_BRANCH}"
-git pull "${ISTIOIO_GIT_SOURCE}" "${ARCHIVE_BRANCH}"
+git pull --ff-only "${ISTIOIO_GIT_SOURCE}" "${ARCHIVE_BRANCH}"
 
 echo "Making an archive for ${ARCHIVE_BRANCH}..."
 make archive-version

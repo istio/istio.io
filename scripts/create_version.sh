@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# parse_input function parses the name of the new release, determines
+# the type of the release, and runs scripts accordingly
 parse_input() {
     [[ $1 =~ ^release-([0-9])\.([0-9]+)\.([0-9]+)$ ]] ||
         { echo "Target format error: should be 'release-x.x.x', got '$1'"; exit 1; }
@@ -38,7 +40,7 @@ parse_input() {
     if [ "${DRY_RUN}" == '1' ]; then
         CURR_MINOR="${CURR_MINOR}-dry-run"
         git checkout "${MASTER}"
-        git pull "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
+        git pull --ff-only "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
     fi
 
     # for a major release x.0, find the latest minor release
@@ -57,6 +59,8 @@ parse_input() {
     echo "Upcoming minor release: ${NEXT_MINOR}"
 }
 
+# archive_old_release function checks out to the old release branch,
+# creates an archive, and stores the archive in the master branch
 archive_old_release() {
     echo -e "\nStep 1: archive the old release branch"
     if [ "${DRY_RUN}" == '1' ]; then
@@ -65,7 +69,7 @@ archive_old_release() {
     fi
 
     git checkout "release-${PREV_MINOR}"
-    git pull "${ISTIOIO_GIT_SOURCE}" "release-${PREV_MINOR}"
+    git pull --ff-only "${ISTIOIO_GIT_SOURCE}" "release-${PREV_MINOR}"
 
     sed -i "
         s/^archive: false$/archive: true/;
@@ -83,7 +87,7 @@ archive_old_release() {
 
     # complete the archive process in master
     git checkout "${MASTER}"
-    git pull "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
+    git pull --ff-only "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
 
     scripts/redo_archive.sh "redo-archive-${PREV_MINOR}.0"
 
@@ -107,6 +111,8 @@ archive_old_release() {
     fi
 }
 
+# create_branch_for_new_release function creates a branch for the
+# new release off the master branch and pushes it to origin
 create_branch_for_new_release() {
     echo -e "\nStep 2: create a new branch for release-${CURR_MINOR}"
     git checkout -B "release-${CURR_MINOR}"
@@ -129,6 +135,8 @@ create_branch_for_new_release() {
     fi
 }
 
+# advance_master_to_next_release function advances the master branch
+# to the next release from which preliminary.istio.io is built
 advance_master_to_next_release() {
     echo -e "\nStep 3: advance master to release-${NEXT_MINOR}..."
     if [ "${DRY_RUN}" == '1' ]; then

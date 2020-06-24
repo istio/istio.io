@@ -25,7 +25,7 @@ PREV_VERSION="${MAJOR}.${MINOR}.$((PATCH-1))"
 RELEASE_BRANCH="release-${MAJOR}.${MINOR}"
 
 git checkout "${RELEASE_BRANCH}"
-git pull "${ISTIOIO_GIT_SOURCE}" "${RELEASE_BRANCH}"
+git pull --ff-only "${ISTIOIO_GIT_SOURCE}" "${RELEASE_BRANCH}"
 
 echo "Migrating to the new release ${NEW_VERSION}..."
 go get istio.io/istio@"${NEW_VERSION}"

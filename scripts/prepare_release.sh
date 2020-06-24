@@ -25,7 +25,7 @@ fi
 set -e
 
 git checkout "${MASTER}"
-git pull "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
+git pull --ff-only "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
 
 sed -i "s/^source_branch_name: .*$/source_branch_name: release-${VERSION}/" data/args.yml
 sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= release-${VERSION}/" Makefile.core.mk
