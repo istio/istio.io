@@ -6,7 +6,7 @@
 
 ## istio.io
 
-This repository contains the source code for the [istio.io](https://istio.io) and
+This repository contains the source code for [istio.io](https://istio.io) and
 [preliminary.istio.io](https://preliminary.istio.io).
 
 Please see the main Istio [README](https://github.com/istio/istio/blob/master/README.md)
@@ -53,7 +53,7 @@ is used is determined by the istio.io [Netlify](https://netlify.com) project's c
 Checking in updates to the master branch will automatically update preliminary.istio.io, and will only be reflected on
 istio.io the next time a release is created, which can be several weeks in the future. If you'd like some changes to be
 immediately reflected on istio.io, you need to check your changes both to the master branch and to the
-current release branch (named release-XXX such as release-1.4).
+current release branch (named release-XXX such as release-1.7).
 
 This process can be taken care of automatically by our infrastructure. If you submit a PR
 to the master branch and annotate the PR with the `actions/merge-to-release-branch` label,
@@ -62,21 +62,21 @@ then as soon as your PR is merged into master, it will be merged into the curren
 ### Creating a version
 
 Here are the steps necessary to create a new documentation version. Let's assume the current
-version of Istio is 1.3 and you wish to introduce 1.4 which has been under development.
+version of Istio is 1.6 and you wish to introduce 1.7 which has been under development.
 
 #### When Istio source code is branched
 
-Run `make prepare-1.4.0`, and that's it. This will grab the latest material from the new istio source branch.
+Run `make prepare-1.7.0`, and that's it. This will grab the latest material from the new istio source branch.
 
 #### On the day of the release
 
-1. Run `make release-1.4.0`. This make target will change some variables in `master` and `release-1.3` as needed, and create a new branch `release-1.4` for the new version.
+1. Run `make release-1.7.0`. This make target will change some variables in `master` and `release-1.6` as needed, and create a new branch `release-1.7` for the new version.
 
-    - For a dry run before official release, run `make release-1.4.0-dry-run`, which will only create a new branch `release-1.4-dry-run`, and not touch any other branches.
+    - For a dry run before official release, run `make release-1.7.0-dry-run`, which will only create a new branch `release-1.7-dry-run`, and not touch any other branches.
 
 1. Go to the istio.io project on [Netlify](https://netlify.com) and do the following:
 
-    - Change the branch that is built from the previous release's branch to the new release branch, in this case `release-1.4` (or `release-1.4-dry-run` as appropriate).
+    - Change the branch that is built from the previous release's branch to the new release branch, in this case `release-1.7` (or `release-1.7-dry-run` as appropriate).
 
     - Select the option to trigger an immediate rebuild and redeployment.
 
@@ -87,13 +87,13 @@ Run `make prepare-1.4.0`, and that's it. This will grab the latest material from
     - Download the archive.istio.io CSE context file from the Advanced tab.
 
     - Add a new FacetItem at the top of the file containing the previous release's version number. In
-    this case, this would be "V1.3".
+    this case, this would be "V1.6".
 
     - Upload the updated CSE context file to the site.
 
     - In the Setup section, add a new site that covers the previous release's archive directory. In this
-    case, the site URL would be archive.istio.io/v1.3/*. Set the label of this site to the name of the
-    facet item created above (V1.3 in this case).
+    case, the site URL would be archive.istio.io/v1.6/*. Set the label of this site to the name of the
+    facet item created above (V1.6 in this case).
 
 ### Creating a patch release
 
@@ -111,7 +111,7 @@ To create a new patch release, you need to
 
 ### Updating an archive
 
-If the archived version in a newer branch (e.g., `release-1.4:archive/v1.3`) needs to be updated due to changes in the old release branch (`release-1.3` in this case), you can run `redo-archive-1.3.0` in the `release-1.4` branch, which will re-archive `release-1.3` and substitute it for the previous archive in the current branch.
+If the archived version in a newer branch (e.g., `release-1.7:archive/v1.6`) needs to be updated due to changes in the old release branch (`release-1.6` in this case), you can run `redo-archive-1.6.0` in the `release-1.7` branch, which will re-archive `release-1.6` and substitute it for the previous archive in the current branch.
 
 ## Multi-language support
 
