@@ -15,16 +15,12 @@
 # limitations under the License.
 
 parse_input() {
-    [[ $1 =~ ^release-([0-9])\.([0-9]+)\.([0-9]+)$ ]]
+    [[ $1 =~ ^release-([0-9])\.([0-9]+)\.([0-9]+)$ ]] ||
+        { echo "Target format error: should be 'release-x.x.x', got '$1'"; exit 1; }
 
     MAJOR="${BASH_REMATCH[1]}"
     MINOR="${BASH_REMATCH[2]}"
     PATCH="${BASH_REMATCH[3]}"
-
-    if [ "${MAJOR}" == '' ]; then
-        echo "Target format error: should be 'release-x.x.x', got '$1'"
-        exit 1
-    fi
 
     echo "Creating release for ${MAJOR}.${MINOR}.${PATCH}..."
 
@@ -159,8 +155,8 @@ advance_master_to_next_release() {
     fi
 }
 
-parse_input "$1"
 set -e
+parse_input "$1"
 archive_old_release
 create_branch_for_new_release
 advance_master_to_next_release
