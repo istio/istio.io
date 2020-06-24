@@ -46,7 +46,8 @@ snip_configuring_ingress_using_an_istio_gateway_1
 snip_configuring_ingress_using_an_istio_gateway_2
 
 # wait for rules to propagate
-sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
+_wait_for_istio gateway default httpbin-gateway
+_wait_for_istio virtualservice default httpbin
 
 # access the httpbin service
 #_verify_first_line snip_configuring_ingress_using_an_istio_gateway_3 "$snip_configuring_ingress_using_an_istio_gateway_3_out"
@@ -60,7 +61,8 @@ _verify_contains snip_configuring_ingress_using_an_istio_gateway_4 "HTTP/1.1 404
 snip_accessing_ingress_services_using_a_browser_1
 
 # wait for rules to propagate
-sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
+_wait_for_istio gateway default httpbin-gateway
+_wait_for_istio virtualservice default httpbin
 
 # helper function
 curl_httpbin_headers() {

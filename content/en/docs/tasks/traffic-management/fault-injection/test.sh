@@ -43,11 +43,14 @@ snip_before_you_begin_1
 # inject the delay fault
 snip_injecting_an_http_delay_fault_1
 
-# wait for rules to propagate
-sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
-
 # confirm rules are set
 _verify_elided snip_injecting_an_http_delay_fault_2 "$snip_injecting_an_http_delay_fault_2_out"
+
+# wait for rules to propagate
+_wait_for_istio virtualservice default productpage
+_wait_for_istio virtualservice default reviews
+_wait_for_istio virtualservice default ratings
+_wait_for_istio virtualservice default details
 
 # check that requests from user jason return error
 _verify_contains get_bookinfo_productpage_jason "$snip_testing_the_delay_configuration_1"
@@ -56,7 +59,7 @@ _verify_contains get_bookinfo_productpage_jason "$snip_testing_the_delay_configu
 snip_injecting_an_http_abort_fault_1
 
 # wait for rules to propagate
-sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
+_wait_for_istio virtualservice default ratings
 
 # confirm rules are set
 _verify_elided snip_injecting_an_http_abort_fault_2 "$snip_injecting_an_http_abort_fault_2_out"

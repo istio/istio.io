@@ -38,9 +38,11 @@ snip_request_timeouts_1
 # config a 2 second delay to calls to the ratings service
 snip_request_timeouts_2
 
-# TODO proper way to wait istioctl experimental wait --for=distribution VirtualService reviews.default
-# TODO proper way wait istioctl experimental wait --for=distribution VirtualService ratings.default
-sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
+# wait for rules to propagate
+_wait_for_istio virtualservice default productpage
+_wait_for_istio virtualservice default reviews
+_wait_for_istio virtualservice default ratings
+_wait_for_istio virtualservice default details
 
 get_productpage() {
     out=$(sample_http_request "/productpage")
@@ -51,11 +53,10 @@ get_productpage() {
 # TODO: should we time this request to confirm it takes ~2s?
 _verify_contains get_productpage "glyphicon glyphicon-star"
 
-# confi a half second request timeout for calls to the reviews service
+# config a half second request timeout for calls to the reviews service
 snip_request_timeouts_3
 
-# TODO istioctl experimental wait --for=distribution VirtualService reviews.default
-sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
+_wait_for_istio virtualservice default reviews
 
 # verify product reviews are unavailable
 _verify_contains get_productpage "Sorry, product reviews are currently unavailable for this book."

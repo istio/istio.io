@@ -785,7 +785,7 @@ to hold the configuration of the NGINX server:
 1.  Delete the generated configuration files used in this example:
 
     {{< text syntax=bash snip_id=mutual_tls_cleanup_3 >}}
-    $ rm -f ./nginx.conf ./istio-egressgateway.yaml
+    $ rm -f ./nginx.conf ./istio-egressgateway.yaml ./gateway-patch.json
     {{< /text >}}
 
 ## Cleanup

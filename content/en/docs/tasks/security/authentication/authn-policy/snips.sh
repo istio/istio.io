@@ -502,5 +502,9 @@ kubectl -n istio-system delete authorizationpolicy frontend-ingress
 }
 
 snip_cleanup_part_3_3() {
+rm -f ./gen-jwt.py ./key.pem
+}
+
+snip_cleanup_part_3_4() {
 kubectl delete ns foo bar legacy
 }
