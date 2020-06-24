@@ -32,8 +32,9 @@ snip_start_the_application_services_2
 
 _verify_like snip_start_the_application_services_4 "$snip_start_the_application_services_4_out"
 
-kubectl wait --for=condition=available deployment --all --timeout=300s
-kubectl wait --for=condition=Ready pod --all --timeout=300s
+for deploy in "productpage-v1" "details-v1" "ratings-v1" "reviews-v1" "reviews-v2" "reviews-v3"; do
+    _wait_for_deployment default "$deploy"
+done
 
 _verify_like snip_start_the_application_services_5 "$snip_start_the_application_services_5_out"
 
@@ -43,8 +44,9 @@ snip_determine_the_ingress_ip_and_port_1
 
 _verify_like snip_determine_the_ingress_ip_and_port_2 "$snip_determine_the_ingress_ip_and_port_2_out"
 
-# give it some time to propagate
-sleep 5
+# give config some time to propagate
+_wait_for_istio gateway default bookinfo-gateway
+_wait_for_istio virtualservice default bookinfo
 
 # export the INGRESS_ environment variables
 _set_ingress_environment_variables
@@ -52,6 +54,15 @@ _set_ingress_environment_variables
 snip_determine_the_ingress_ip_and_port_3
 
 _verify_contains snip_confirm_the_app_is_accessible_from_outside_the_cluster_1 "$snip_confirm_the_app_is_accessible_from_outside_the_cluster_1_out"
+
+snip_apply_default_destination_rules_1
+
+_verify_lines snip_apply_default_destination_rules_3 "
++ productpage
++ reviews
++ ratings
++ details
+"
 
 # @cleanup
 set +e # ignore cleanup errors
