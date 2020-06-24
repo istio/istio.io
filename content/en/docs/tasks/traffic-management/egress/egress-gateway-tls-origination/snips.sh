@@ -632,7 +632,7 @@ rm -rf nginx.example.com mtls-go-example
 }
 
 snip_mutual_tls_cleanup_3() {
-rm -f ./nginx.conf ./istio-egressgateway.yaml
+rm -f ./nginx.conf ./istio-egressgateway.yaml ./gateway-patch.json
 }
 
 snip_cleanup_1() {

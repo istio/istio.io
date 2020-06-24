@@ -591,6 +591,12 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/ip" -s -o /dev/null -w "%{http_code}\n"
     $ kubectl -n istio-system delete authorizationpolicy frontend-ingress
     {{< /text >}}
 
+1. Remove the token generator script and key file:
+
+    {{< text bash >}}
+    $ rm -f ./gen-jwt.py ./key.pem
+    {{< /text >}}
+
 1. If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.
 
     {{< text bash >}}

@@ -41,7 +41,10 @@ startup_bookinfo_sample
 snip_apply_a_virtual_service_1
 
 # wait for rules to propagate
-sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
+_wait_for_istio virtualservice default productpage
+_wait_for_istio virtualservice default reviews
+_wait_for_istio virtualservice default ratings
+_wait_for_istio virtualservice default details
 
 # confirm route rules are set
 _verify_elided snip_apply_a_virtual_service_2 "$snip_apply_a_virtual_service_2_out"
@@ -61,7 +64,7 @@ _verify_not_contains get_bookinfo_productpage "glyphicon glyphicon-star"
 snip_route_based_on_user_identity_1
 
 # wait for rules to propagate
-sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
+_wait_for_istio virtualservice default reviews
 
 # confirm route rules are set
 _verify_elided snip_route_based_on_user_identity_2 "$snip_route_based_on_user_identity_2_out"

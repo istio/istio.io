@@ -48,3 +48,15 @@ _wait_for_deployment() {
         exit 1
     fi
 }
+
+# Wait for Istio config to propagate
+# usage: _wait_for_istio <kind> <namespace> <name>
+_wait_for_istio() {
+    local kind="$1"
+    local namespace="$2"
+    local name="$3"
+    if ! istioctl experimental wait --for=distribution --timeout=5m "$kind" "$name.$namespace"; then
+        echo "Failed distribution of $kind $name in namespace $namespace"
+        exit 1
+    fi
+}

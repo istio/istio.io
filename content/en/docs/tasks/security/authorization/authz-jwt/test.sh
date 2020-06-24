@@ -21,8 +21,7 @@ set -o pipefail
 
 # @setup profile=default
 
-# Set retries to a higher value for some flakiness.
-# TODO: remove this when istioctl wait calls are added
+# Set retries to a higher value because config update is slow.
 export VERIFY_RETRIES=10
 
 snip_before_you_begin_1
@@ -42,12 +41,14 @@ export TOKEN_GROUP
 _verify_same  snip_before_you_begin_2 "$snip_before_you_begin_2_out"
 
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_1
+_wait_for_istio requestauthentication foo jwt-example
 
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_2 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_2_out"
 
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_3 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_3_out"
 
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_4
+_wait_for_istio authorizationpolicy foo require-jwt
 
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_5 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_5_out"
 
@@ -59,6 +60,7 @@ _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_6 "$snip_al
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_7 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_7_out"
 
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_8
+_wait_for_istio authorizationpolicy foo require-jwt
 
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_9 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_9_out"
 

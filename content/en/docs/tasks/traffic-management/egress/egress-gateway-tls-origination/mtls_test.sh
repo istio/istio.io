@@ -44,9 +44,12 @@ snip_deploy_a_mutual_tls_server_4
 
 # Create nginx deployment in external mesh
 snip_deploy_a_mutual_tls_server_5
+_wait_for_deployment mesh-external my-nginx
 
 # Generate ServiceEntry and VirtualService for the external service
 snip_deploy_a_mutual_tls_server_6
+_wait_for_istio serviceentry default nginx
+_wait_for_istio virtualservice default nginx
 
 # Generate Secret to hold client certificates
 snip_deploy_a_container_to_test_the_nginx_deployment_1
@@ -77,6 +80,10 @@ snip_redeploy_the_egress_gateway_with_the_client_certificates_3
 # Direct traffic through egress gateway by creating necessary Gateway, DR, and Virtual Service
 snip_configure_mutual_tls_origination_for_egress_traffic_1
 snip_configure_mutual_tls_origination_for_egress_traffic_2
+_wait_for_istio gateway default istio-egressgateway
+_wait_for_istio destinationrule default egressgateway-for-nginx
+_wait_for_istio virtualservice default direct-nginx-through-egress-gateway
+_wait_for_istio destinationrule default originate-mtls-for-nginx
 
 # TODO: Verify HTTP connection to nginx
 # _verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_3 "Welcome to nginx!"
