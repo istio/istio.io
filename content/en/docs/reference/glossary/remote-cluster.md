@@ -1,9 +1,9 @@
 ---
 title: Remote Cluster
-test: n/a
 ---
 
-A remote cluster is a cluster that uses a remote profile to connect to a
-control plane residing outside of the cluster. The control plane can reside
-either in another cluster or external to the mesh as is the case with managed
-control planes.
+A remote cluster is a [cluster](/docs/reference/glossary/#cluster) that
+connects to a [control plane](/docs/reference/glossary/#control-plane)
+residing outside of the cluster. A remote cluster can connect to a control plane
+running in a [primary cluster](/docs/reference/glossary/#primary-cluster)
+or to a [managed control plane](/docs/reference/glossary/#managed-control-plane).
