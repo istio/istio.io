@@ -65,7 +65,7 @@ archive_old_release() {
     echo -e "\nStep 1: archive the old release branch"
 
     build_archive() {
-        scripts/fetch_archive.sh "fetch-archive-${PREV_MINOR}.0"
+        scripts/build_old_archive.sh "build-old-archive-${PREV_MINOR}.0"
 
         sed -i "
             s/^preliminary: .*$/preliminary: \"${NEXT_MINOR}\"/;

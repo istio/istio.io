@@ -152,8 +152,8 @@ release-%-dry-run:
 release-%:
 	@scripts/create_version.sh $@
 
-fetch-archive-%:
-	@scripts/fetch_archive.sh $@
+build-old-archive-%:
+	@scripts/build_old_archive.sh $@
 
 # The init recipe was split into two recipes to solve an issue seen in prow
 # where paralyzation is happening and some tasks in a recipe were occuring out

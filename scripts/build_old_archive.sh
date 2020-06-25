@@ -19,8 +19,8 @@
 
 set -e
 
-[[ $1 =~ ^fetch-archive-([0-9]\.[0-9]+)\.0$ ]] ||
-    { echo "Target format error: should be 'fetch-archive-x.x.0', got '$1'"; exit 1; }
+[[ $1 =~ ^build-old-archive-([0-9]\.[0-9]+)\.0$ ]] ||
+    { echo "Target format error: should be 'build-old-archive-x.x.0', got '$1'"; exit 1; }
 
 VERSION="${BASH_REMATCH[1]}"
 
