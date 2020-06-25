@@ -119,13 +119,16 @@ archive_old_release() {
 # create_branch_for_new_release function creates a branch for the
 # new release off the master branch and pushes it to origin
 create_branch_for_new_release() {
-    echo -e "\nStep 2: create a new branch for release-${CURR_MINOR}"
-
     NEW_RELEASE_BRANCH="release-${CURR_MINOR}"
-    [[ $(git ls-remote --heads origin "${NEW_RELEASE_BRANCH}") ]] &&
-        git push --delete origin "${NEW_RELEASE_BRANCH}" || :
+    echo -e "\nStep 2: create a new branch for ${NEW_RELEASE_BRANCH}"
+
+    # delete branch if it already exists
+    if [[ $(git ls-remote --heads origin "${NEW_RELEASE_BRANCH}") ]]; then
+        git push --delete origin "${NEW_RELEASE_BRANCH}"
+    fi
     git checkout -B "${NEW_RELEASE_BRANCH}"
 
+    # make archive in the dry run release branch
     if [ "${DRY_RUN}" == '1' ]; then
         build_archive
     fi
