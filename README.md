@@ -38,7 +38,7 @@ Istio maintains two variations of its public site.
 - [preliminary.istio.io](https://preliminary.istio.io) contains the actively updated documentation for the next release of the product.
 
 The user can trivially navigate between the different variations of the site using the gear menu in the top right
-of each page. All three sites are hosted on [Netlify](https://netlify.com).
+of each page. Both sites are hosted on [Netlify](https://netlify.com).
 
 ### How versioning works
 
@@ -103,7 +103,7 @@ tests to use the new release to verify automated doc testing passes.
 
 To create a new patch release, you need to
 
-1. Run `make release-A.X.Y`, where `A.X.Y` is the name of the release. If it is a private security patch, run `PRIVATE_PATCH=true make release-A.X.Y`, which will prevent the branch from grabbing the latest docs.
+1. Run `make release-A.X.Y`, where `A.X.Y` is the name of the release. If it is a private security patch, run `PRIVATE_PATCH=true make release-A.X.Y`, which will prevent the branch from grabbing the latest docs and updating the istio reference for testing.
 
 1. Complete the release note for the release by editing the markdown file `content/en/news/releases/A.X.x/announcing-A.X.Y/index.md`. This is where you describe the changes in the release. Please look at other existing files for example content and layout.
 
