@@ -334,7 +334,7 @@ by viewing the Bookinfo product page using a browser.
 Istio integrates with [several](/docs/ops/integrations) different telemetry applications. These can help you gain
 an understanding of the structure of your service mesh, display the topology of the mesh, and analyze the health of your mesh.
 
-Use the following instructions to deploy the [Kiali](/ops/integrations/kiali/) dashboard.
+Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kiali/) dashboard.
 
 1.  Install Kiali and wait for it to be deployed.
 
