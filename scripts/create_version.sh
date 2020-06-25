@@ -134,7 +134,7 @@ create_branch_for_new_release() {
     if [[ $(git status --porcelain) ]]; then
         git add -A
         git commit -m "create a new release branch for ${CURR_MINOR}"
-        git push origin "release-${CURR_MINOR}"
+        git push --set-upstream origin "release-${CURR_MINOR}"
     fi
 }
 
