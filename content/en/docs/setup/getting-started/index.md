@@ -331,9 +331,17 @@ by viewing the Bookinfo product page using a browser.
 
 ## View the dashboard {#dashboard}
 
-Istio has several optional dashboards installed by the `demo` installation. The
-Kiali dashboard helps you understand the structure of your service mesh by
-displaying the topology and indicates the health of your mesh.
+Istio integrates with [several](/docs/ops/integrations) different telemetry applications. These can help you gain
+an understanding of the structure of your service mesh, display the topology of the mesh, and analyze the health of your mesh.
+
+Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kiali/) dashboard.
+
+1.  Install Kiali and wait for it to be deployed.
+
+    {{< text bash >}}
+    $ kubectl apply -f {{< github_tree >}}/samples/addons/kiali.yaml -n istio-system
+    $ while ! kubectl wait --for=condition=available --timeout=600s deployment/kiali -n istio-system; do sleep 1; done
+    {{< /text >}}
 
 1.  Access the Kiali dashboard. The default user name is `admin` and default password is `admin`.
 
@@ -396,4 +404,3 @@ If no longer needed, use the following command to remove it:
 {{< text bash >}}
 $ kubectl delete namespace istio-system
 {{< /text >}}
-

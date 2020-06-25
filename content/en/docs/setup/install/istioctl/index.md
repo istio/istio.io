@@ -50,10 +50,10 @@ Kubernetes configuration. The `default` profile is a good starting point
 for establishing a production environment, unlike the larger `demo` profile that
 is intended for evaluating a broad set of Istio features.
 
-To enable the Grafana dashboard on top of the `default` profile, set the `addonComponents.grafana.enabled` configuration parameter with the following command:
+Various settings can be configured to modify the installations. For example, to enable access logs:
 
 {{< text bash >}}
-$ istioctl install --set addonComponents.grafana.enabled=true
+$ istioctl install --set meshConfig.accessLogFile=/dev/stdout
 {{< /text >}}
 
 In general, you can use the `--set` flag in `istioctl` as you would with
@@ -118,15 +118,6 @@ run the following command:
 
 {{< text bash >}}
 $ istioctl profile dump demo
-addonComponents:
-  grafana:
-    enabled: true
-  kiali:
-    enabled: true
-  prometheus:
-    enabled: true
-  tracing:
-    enabled: true
 components:
   egressGateways:
   - enabled: true
@@ -309,36 +300,11 @@ The `IstioOperator` API defines components as shown in the table below:
 `base` |
 `pilot` |
 `proxy` |
-`sidecarInjector` |
 `telemetry` |
 `policy` |
-`citadel` |
-`nodeagent` |
-`galley` |
 `ingressGateways` |
 `egressGateways` |
 `cni` |
-
-In addition to the core Istio components, third-party addon components are also available. These can
-be enabled and configured through the `addonComponents` spec of the `IstioOperator` API or using the Helm pass-through API:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  addonComponents:
-    grafana:
-      enabled: true
-{{< /text >}}
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    grafana:
-      enabled: true
-{{< /text >}}
 
 ### Configure component settings
 
