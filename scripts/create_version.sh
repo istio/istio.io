@@ -121,14 +121,15 @@ archive_old_release() {
 create_branch_for_new_release() {
     echo -e "\nStep 2: create a new branch for release-${CURR_MINOR}"
     git checkout -B "release-${CURR_MINOR}"
-    sed -i "
-        s/^preliminary: true$/preliminary: false/;
-        s/^doc_branch_name: .*$/doc_branch_name: release-${CURR_MINOR}/;
-    " data/args.yml
 
     if [ "${DRY_RUN}" == '1' ]; then
         build_archive
     fi
+
+    sed -i "
+        s/^preliminary: true$/preliminary: false/;
+        s/^doc_branch_name: .*$/doc_branch_name: release-${CURR_MINOR}/;
+    " data/args.yml
 
     if [[ $(git status --porcelain) ]]; then
         git add -A
