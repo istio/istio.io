@@ -63,8 +63,26 @@ parse_input() {
 # creates an archive, and stores the archive in the master branch
 archive_old_release() {
     echo -e "\nStep 1: archive the old release branch"
+
+    build_archive() {
+        scripts/fetch_archive.sh "fetch-archive-${PREV_MINOR}.0"
+
+        sed -i "
+            s/^preliminary: .*$/preliminary: \"${NEXT_MINOR}\"/;
+            s/^main: .*$/main: \"${CURR_MINOR}\"/
+        " data/versions.yml
+
+        # add list item to index page only once
+        INDEX_PAGE="archive/archive/index.html"
+        grep -q "<a\ href=/v${PREV_MINOR}>v${PREV_MINOR}</a>" ${INDEX_PAGE} ||
+            sed -i "0,/<li>/s//\<li>\n\
+            <a href=\/v${PREV_MINOR}>v${PREV_MINOR}<\/a>\n\
+        <\/li>\n\
+        <li>/" ${INDEX_PAGE}
+    }
+
     if [ "${DRY_RUN}" == '1' ]; then
-        echo "Skipping step 1 in dry run"
+        echo "Archive will be added in Step 2 in dry run"
         return
     fi
 
@@ -89,20 +107,7 @@ archive_old_release() {
     git checkout "${MASTER}"
     git pull --ff-only "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
 
-    scripts/fetch_archive.sh "fetch-archive-${PREV_MINOR}.0"
-
-    sed -i "
-        s/^preliminary: .*$/preliminary: \"${NEXT_MINOR}\"/;
-        s/^main: .*$/main: \"${CURR_MINOR}\"/
-    " data/versions.yml
-
-    # add list item to index page only once
-    INDEX_PAGE="archive/archive/index.html"
-    grep -q "<a\ href=/v${PREV_MINOR}>v${PREV_MINOR}</a>" ${INDEX_PAGE} ||
-        sed -i "0,/<li>/s//\<li>\n\
-            <a href=\/v${PREV_MINOR}>v${PREV_MINOR}<\/a>\n\
-        <\/li>\n\
-        <li>/" ${INDEX_PAGE}
+    build_archive
 
     if [[ $(git status --porcelain) ]]; then
         git add -u
@@ -122,10 +127,7 @@ create_branch_for_new_release() {
     " data/args.yml
 
     if [ "${DRY_RUN}" == '1' ]; then
-        sed -i "
-            s/^preliminary: .*$/preliminary: \"${NEXT_MINOR}\"/;
-            s/^main: .*$/main: \"${CURR_MINOR:0:-8}\"/
-        " data/versions.yml
+        build_archive
     fi
 
     if [[ $(git status --porcelain) ]]; then
