@@ -120,7 +120,11 @@ archive_old_release() {
 # new release off the master branch and pushes it to origin
 create_branch_for_new_release() {
     echo -e "\nStep 2: create a new branch for release-${CURR_MINOR}"
-    git checkout -B "release-${CURR_MINOR}"
+
+    NEW_RELEASE_BRANCH="release-${CURR_MINOR}"
+    [[ $(git ls-remote --heads origin "${NEW_RELEASE_BRANCH}") ]] &&
+        git push --delete origin "${NEW_RELEASE_BRANCH}" || :
+    git checkout -B "${NEW_RELEASE_BRANCH}"
 
     if [ "${DRY_RUN}" == '1' ]; then
         build_archive
@@ -128,13 +132,13 @@ create_branch_for_new_release() {
 
     sed -i "
         s/^preliminary: true$/preliminary: false/;
-        s/^doc_branch_name: .*$/doc_branch_name: release-${CURR_MINOR}/;
+        s/^doc_branch_name: .*$/doc_branch_name: ${NEW_RELEASE_BRANCH}/;
     " data/args.yml
 
     if [[ $(git status --porcelain) ]]; then
         git add -A
         git commit -m "create a new release branch for ${CURR_MINOR}"
-        git push origin "release-${CURR_MINOR}"
+        git push origin "${NEW_RELEASE_BRANCH}"
     fi
 }
 
