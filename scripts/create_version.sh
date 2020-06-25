@@ -82,7 +82,7 @@ archive_old_release() {
     }
 
     if [ "${DRY_RUN}" == '1' ]; then
-        echo "Archive will be added in Step 2 in dry run"
+        echo "Archive will be added in Step 2 for dry run"
         return
     fi
 
