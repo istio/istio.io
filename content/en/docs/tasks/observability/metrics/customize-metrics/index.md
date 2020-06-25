@@ -42,7 +42,7 @@ installation.
 
 ## Enable custom metrics
 
-Edit the the `EnvoyFilter` to add or modify dimensions and metrics. Then, add
+Edit the `EnvoyFilter` to add or modify dimensions and metrics. Then, add
 annotations to all the Istio-enabled pods to extract the new or modified
 dimensions.
 
