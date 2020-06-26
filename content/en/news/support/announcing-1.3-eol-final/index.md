@@ -3,7 +3,6 @@ title: Support for Istio 1.3 has ended
 subtitle: Support Announcement
 description: Istio 1.3 end of life announcement.
 publishdate: 2020-02-14
-test: n/a
 ---
 
 As [previously announced](/news/support/announcing-1.3-eol/), support for Istio 1.3 has now officially ended.

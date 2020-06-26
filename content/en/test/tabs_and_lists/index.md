@@ -2,7 +2,6 @@
 title: Tabs and Lists
 description: Composing tabs and lists.
 skip_sitemap: true
-test: no
 ---
 
 {{< tabset category-name="test" >}}

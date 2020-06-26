@@ -5,7 +5,6 @@ description: The future of Istio extensibility using WASM.
 publishdate: 2020-03-05
 attribution: "Craig Box, Mandar Jog, John Plevyak, Louis Ryan, Piotr Sikora (Google), Yuval Kohavi, Scott Weiss (Solo.io)"
 keywords: [wasm,extensibility,alpha,performance,operator]
-test: n/a
 ---
 
 Since adopting [Envoy](https://www.envoyproxy.io/) in 2016, the Istio project has always wanted to
@@ -19,7 +18,7 @@ extensibility to the Envoy proxy using [WebAssembly](https://webassembly.org/). 
 share that work with the world today, as well as
 unveiling [WebAssembly (Wasm) for Proxies](https://github.com/proxy-wasm/spec) (Proxy-Wasm): an ABI,
 which we intend to standardize; SDKs; and its first major implementation, the new,
-lower-latency [Istio telemetry system](/docs/reference/config/telemetry).
+lower-latency [Istio telemetry system](/docs/reference/config/proxy_extensions/wasm_telemetry/).
 
 We have also worked closely with the community to ensure that there is a great developer experience
 for users to get started quickly. The Google team has been working closely with the team

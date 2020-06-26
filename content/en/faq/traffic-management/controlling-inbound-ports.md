@@ -1,7 +1,6 @@
 ---
 title: On what ports does a sidecar proxy capture inbound traffic?
 weight: 20
-test: n/a
 ---
 
 Istio captures inbound traffic on all ports by default.

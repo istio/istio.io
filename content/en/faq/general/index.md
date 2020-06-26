@@ -7,5 +7,4 @@ layout: faq
 icon: faq
 aliases:
   - /help/faq/general
-test: n/a
 ---

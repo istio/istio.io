@@ -43,11 +43,11 @@ remove_toc_prefix: 'pilot-discovery '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, status, validation, validationController, validationServer]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -67,7 +67,7 @@ remove_toc_prefix: 'pilot-discovery '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -136,7 +136,7 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--grpcAddr &lt;string&gt;</code></td>
 <td></td>
-<td>Discovery service grpc address  (default `:15010`)</td>
+<td>Discovery service gRPC address  (default `:15010`)</td>
 </tr>
 <tr>
 <td><code>--httpAddr &lt;string&gt;</code></td>
@@ -176,12 +176,12 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, status, validation, validationController, validationServer]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -206,7 +206,7 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -226,12 +226,12 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--mcpMaxMsgSize &lt;int&gt;</code></td>
 <td></td>
-<td>Max message size received by MCP&#39;s grpc client  (default `4194304`)</td>
+<td>Max message size received by MCP&#39;s gRPC client  (default `4194304`)</td>
 </tr>
 <tr>
 <td><code>--meshConfig &lt;string&gt;</code></td>
 <td></td>
-<td>File name for Istio mesh configuration. If not specified, a default mesh will be used.  (default `/etc/istio/config/mesh`)</td>
+<td>File name for Istio mesh configuration. If not specified, a default mesh will be used.  (default `./etc/istio/config/mesh`)</td>
 </tr>
 <tr>
 <td><code>--monitoringAddr &lt;string&gt;</code></td>
@@ -323,11 +323,11 @@ remove_toc_prefix: 'pilot-discovery '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, status, validation, validationController, validationServer]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -347,7 +347,7 @@ remove_toc_prefix: 'pilot-discovery '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -401,12 +401,12 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, status, validation, validationController, validationServer]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -431,7 +431,7 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -467,18 +467,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code></code></td>
 <td>Expected audience in the tokens. </td>
-</tr>
-<tr>
-<td><code>AUTHZ_FAILURE_LOG_BURST_SIZE</code></td>
-<td>Integer</td>
-<td><code>1</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>AUTHZ_FAILURE_LOG_FREQ</code></td>
-<td>Time Duration</td>
-<td><code>1m0s</code></td>
-<td></td>
 </tr>
 <tr>
 <td><code>BYPASS_OOP_MTLS_SAN_VERIFICATION</code></td>
@@ -553,12 +541,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If this is set to false, will not create CA server in istiod.</td>
 </tr>
 <tr>
-<td><code>ENABLE_INCREMENTAL_MCP</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
 <td>String</td>
 <td><code>istio-sidecar-injector</code></td>
@@ -623,18 +605,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Time Duration</td>
 <td><code>2160h0m0s</code></td>
 <td>The max TTL of issued workload certificates.</td>
-</tr>
-<tr>
-<td><code>MCP_SOURCE_REQ_BURST_SIZE</code></td>
-<td>Integer</td>
-<td><code>100</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>MCP_SOURCE_REQ_FREQ</code></td>
-<td>Time Duration</td>
-<td><code>1s</code></td>
-<td></td>
 </tr>
 <tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
@@ -871,22 +841,10 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Location of a local or mounted CA root</td>
 </tr>
 <tr>
-<td><code>SERVICE_ACCOUNT</code></td>
+<td><code>SPIFFE_BUNDLE_ENDPOINTS</code></td>
 <td>String</td>
 <td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>SOURCE_SERVER_STREAM_BURST_SIZE</code></td>
-<td>Integer</td>
-<td><code>100</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>SOURCE_SERVER_STREAM_FREQ</code></td>
-<td>Time Duration</td>
-<td><code>1s</code></td>
-<td></td>
+<td>The SPIFFE bundle trust domain to endpoint mappings. Istiod retrieves the root certificate from each SPIFFE bundle endpoint and uses it to verify client certifiates from that trust domain. The endpoint must be compliant to the SPIFFE Bundle Endpoint standard. For details, please refer to https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md . No need to configure this for root certificates issued via Istiod or web-PKI based root certificates. Use || between &lt;trustdomain, endpoint&gt; tuples. Use | as delimiter between trust domain and endpoint in each tuple. For example: foo|https://url/for/foo||bar|https://url/for/bar</td>
 </tr>
 <tr>
 <td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
@@ -905,6 +863,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code>istiod-${namespace}</code></td>
 <td>Name of validatingwegbhookconfiguration to patch, if istioctl is not used.</td>
+</tr>
+<tr>
+<td><code>XDS_AUTH</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, will authenticate XDS clients.</td>
 </tr>
 </tbody>
 </table>
@@ -942,9 +906,9 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>galley_validation_config_load_error</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)load error</td></tr>
 <tr><td><code>galley_validation_config_update_error</code></td><td><code>Count</code></td><td>k8s webhook configuration update error</td></tr>
 <tr><td><code>galley_validation_config_updates</code></td><td><code>Count</code></td><td>k8s webhook configuration updates</td></tr>
-<tr><td><code>galley_validation_failed</code></td><td><code>Count</code></td><td>Resource validation failed</td></tr>
-<tr><td><code>galley_validation_http_error</code></td><td><code>Count</code></td><td>Resource validation http serve errors</td></tr>
-<tr><td><code>galley_validation_passed</code></td><td><code>Count</code></td><td>Resource is valid</td></tr>
+<tr><td><code>galley_validation_failed</code></td><td><code>Sum</code></td><td>Resource validation failed</td></tr>
+<tr><td><code>galley_validation_http_error</code></td><td><code>Sum</code></td><td>Resource validation http serve errors</td></tr>
+<tr><td><code>galley_validation_passed</code></td><td><code>Sum</code></td><td>Resource is valid</td></tr>
 <tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
 <tr><td><code>istio_mcp_clients_total</code></td><td><code>LastValue</code></td><td>The number of streams currently connected.</td></tr>
 <tr><td><code>istio_mcp_message_sizes_bytes</code></td><td><code>Distribution</code></td><td>Size of messages received from clients.</td></tr>
@@ -1017,9 +981,9 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>pilot_xds_pushes</code></td><td><code>Sum</code></td><td>Pilot build and send errors for lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
-<tr><td><code>sidecar_injection_failure_total</code></td><td><code>Sum</code></td><td>Total number of failed Side car injection requests.</td></tr>
-<tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of Side car injection requests.</td></tr>
-<tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped injection requests.</td></tr>
-<tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful Side car injection requests.</td></tr>
+<tr><td><code>sidecar_injection_failure_total</code></td><td><code>Sum</code></td><td>Total number of failed sidecar injection requests.</td></tr>
+<tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of sidecar injection requests.</td></tr>
+<tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped sidecar injection requests.</td></tr>
+<tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful sidecar injection requests.</td></tr>
 </tbody>
 </table>

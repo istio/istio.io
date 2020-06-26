@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2020-005
 subtitle: Security Bulletin
-description:
+description: Denial of service affecting telemetry v2.
 cves: [CVE-2020-10739]
 cvss: "7.5"
 vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
@@ -9,7 +9,6 @@ releases: ["1.4 to 1.4.8", "1.5 to 1.5.3"]
 publishdate: 2020-05-12
 keywords: [CVE]
 skip_seealso: true
-test: no
 ---
 
 {{< security_bulletin >}}

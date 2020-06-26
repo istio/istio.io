@@ -1,0 +1,233 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content=#466BB0><meta name=title content=创建和编辑页面><meta name=description content=解释创建和维护文档页面的机制。><meta name=keywords content=microservices,services,mesh,contribute><meta property=og:title content=创建和编辑页面><meta property=og:type content=website><meta property=og:description content=解释创建和维护文档页面的机制。><meta property=og:url content=/v1.2/zh/about/contribute/creating-and-editing-pages/><meta property=og:image content=/v1.2/img/istio-whitelogo-bluebackground-framed.svg><meta property=og:image:alt content="Istio Logo"><meta property=og:image:width content=112><meta property=og:image:height content=150><meta property=og:site_name content=Istio><meta name=twitter:card content=summary><meta name=twitter:site content=@IstioMesh><title>Istioldie 1.2 / 创建和编辑页面</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-98480406-2');</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.2/feed.xml><link rel="shortcut icon" href=/v1.2/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.2/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.2/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.2/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.2/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.2/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.2/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.2/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.2/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.2/favicons/android-192x192.png sizes=192x192><link rel=manifest href=/v1.2/manifest.json><meta name=apple-mobile-web-app-title content=Istio><meta name=application-name content=Istio><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Work+Sans:400|Chivo:400|Work+Sans:500,300,600,300italic,400italic,500italic,600italic|Chivo:500,300,600,300italic,400italic,500italic,600italic"><link rel=stylesheet href=/v1.2/css/all.css><script src=/v1.2/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.2";const docTitle="创建和编辑页面";const iconFile="\/v1.2/img/icons.svg";const buttonCopy='复制到剪切板';const buttonPrint='打印';const buttonDownload='下载';</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script><script src=/v1.2/js/all.min.js data-manual defer></script><header><nav><a id=brand href=/v1.2/zh/><span class=logo><svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="146" stroke-width="2" /><path d="M65 240H225L125 270z"/><path d="M65 230l60-10V110z"/><path d="M135 220l90 10L135 30z"/></svg></span><span class=name>Istioldie 1.2</span></a><div id=hamburger><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#hamburger"/></svg></div><div id=header-links><a title="了解如何部署、使用和运维 Istio。" href=/v1.2/zh/docs/>文档</a>
+<a title="关于使用 Istio 的博客文章。" href=/v1.2/zh/blog/2019/announcing-1.1.3/>博客</a>
+<a title=关于Istio的常见问题。 href=/v1.2/zh/faq/>FAQ</a>
+<span title=关于Istio的说明。>关于</span><div class=menu><button id=gearDropdownButton class=menu-trigger title=选项和设置 aria-label="Options and Settings" aria-controls=gearDropdownContent><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#gear"/></svg></button><div id=gearDropdownContent class=menu-content aria-labelledby=gearDropdownButton role=menu><a tabindex=-1 role=menuitem lang=en id=switch-lang-en>English</a>
+<a tabindex=-1 role=menuitem lang=zh id=switch-lang-zh class=active>中文</a><div role=separator></div><a tabindex=-1 role=menuitem class=active id=light-theme-item>亮主题</a>
+<a tabindex=-1 role=menuitem id=dark-theme-item>暗主题</a><div role=separator></div><a tabindex=-1 role=menuitem id=syntax-coloring-item>代码高亮</a><div role=separator></div><h6>本站的其它版本</h6><a tabindex=-1 role=menuitem onclick="navigateToUrlOrRoot('https://istio.io/about\/contribute\/creating-and-editing-pages\/');return false;">当前版本</a>
+<a tabindex=-1 role=menuitem onclick="navigateToUrlOrRoot('https://preliminary.istio.io/about\/contribute\/creating-and-editing-pages\/');return false;">下个版本</a>
+<a tabindex=-1 role=menuitem href=https://archive.istio.io>旧版本</a></div></div><button id=search-show title=搜索istio.io aria-label=Search><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#magnifier"/></svg></button></div><form id=search-form name=cse role=search><input type=hidden name=cx value=013699703217164175118:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=en>
+<input type=hidden id=search-page-url value=/v1.2/search.html>
+<input id=search-textbox class=form-control name=q type=search aria-label=搜索istio.io>
+<button id=search-close title="Cancel search" type=reset aria-label="Cancel search"><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#cancel-x"/></svg></button></form></nav></header><main class=primary><div id=sidebar-container class="sidebar-container sidebar-offcanvas"><nav id=sidebar aria-label="Section Navigation"><div class=directory><div class=card><div id=header0 class=header title=关于Istio的说明。><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#about"/></svg>关于Istio</div><div class="body default" aria-labelledby=header0><ul role=tree aria-expanded=true aria-labelledby=header0><li role=treeitem aria-label=发行说明><button aria-hidden=true></button><a title="每个 Istio 版本的功能和改进说明。" href=/v1.2/zh/about/notes/>发行说明</a><ul role=group aria-expanded=false><li role=none><a role=treeitem href=/v1.2/zh/about/notes/1.1.3/>Istio 1.1.3</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/1.0.7/>Istio 1.0.7</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/1.1.2/>Istio 1.1.2</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/1.0.6/>Istio 1.0.6</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/1.0.5/>Istio 1.0.5</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/1.0.4/>Istio 1.0.4</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/1.0.3/>Istio 1.0.3</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/1.0.2/>Istio 1.0.2</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/1.0.1/>Istio 1.0.1</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/1.0/>Istio 1.0</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/1.1.1/>Istio 1.1.1</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/1.1/>Istio 1.1</a></li><li role=treeitem aria-label=早期版本><button aria-hidden=true></button><a title="Istio 早期版本的发布说明。" href=/v1.2/zh/about/notes/older/>早期版本</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem href=/v1.2/zh/about/notes/older/0.8/>Istio 0.8</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/older/0.7/>Istio 0.7</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/older/0.6/>Istio 0.6</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/older/0.5/>Istio 0.5</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/older/0.4/>Istio 0.4</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/older/0.3/>Istio 0.3</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/older/0.2/>Istio 0.2</a></li><li role=none><a role=treeitem href=/v1.2/zh/about/notes/older/0.1/>Istio 0.1</a></li></ul></li></ul></li><li role=none><a role=treeitem title="管理、编号和支持 Istio 发布的方式。" href=/v1.2/zh/about/release-cadence/>构建 &amp; 发布节奏</a></li><li role=none><a role=treeitem title=功能列表和发布阶段。 href=/v1.2/zh/about/feature-stages/>功能状态</a></li><li role=treeitem aria-label=我们的社区><button aria-hidden=true></button><a title=了解我们的社区、用户和合作伙伴。 href=/v1.2/zh/about/community/>我们的社区</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="有关参与 Istio 社区和与之互动的各种方式的信息。" href=/v1.2/zh/about/community/join/>加入社区</a></li><li role=none><a role=treeitem title="围绕 Istio 进行构建的用户。" href=/v1.2/zh/about/community/partners/>合作伙伴</a></li><li role=none><a role=treeitem title="使用 Istio 的用户。" href=/v1.2/zh/about/community/customers/>Istio in Action</a></li></ul></li><li role=none><a role=treeitem title="发现 Bug 怎么办。" href=/v1.2/zh/about/bugs/>报告 Bug</a></li><li role=none><a role=treeitem title="负责披露 Istio 安全漏洞。" href=/v1.2/zh/about/security-vulnerabilities/>报告 Istio 安全漏洞</a></li><li role=none><a role=treeitem title="可用于数字和印刷材料的官方 Istio 媒体资源。" href=/v1.2/zh/about/media-resources/>媒体资源</a></li><li role=treeitem aria-label=贡献文档><button class=show aria-hidden=true></button><a title="了解如何为提高和改善 Istio 的文档做贡献。" href=/v1.2/zh/about/contribute/>贡献文档</a><ul role=group aria-expanded=true class=leaf-section><li role=none><a role=treeitem title="向您展示如何使用 GitHub 处理 Istio 文档。" href=/v1.2/zh/about/contribute/github/>使用 GitHub</a></li><li role=none><span role=treeitem class=current title=解释创建和维护文档页面的机制。>创建和编辑页面</span></li><li role=none><a role=treeitem title="翻译 Istio 文档时常见术语的中文翻译。" href=/v1.2/zh/about/contribute/terms/>术语和习惯用语</a></li><li role=none><a role=treeitem title="编写 Istio 文档时候的“要”和“不要”。" href=/v1.2/zh/about/contribute/style-guide/>样式指南</a></li></ul></li></ul></div></div></div></nav></div><div class=article-container><button tabindex=-1 id=sidebar-toggler title=折叠导航栏><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#pull"/></svg></button><nav aria-label=Breadcrumb><ol><li><a href=/v1.2/zh/>Istio</a></li><li><a href=/v1.2/zh/about/ title=关于Istio的说明。>关于</a></li><li><a href=/v1.2/zh/about/contribute/ title="了解如何为提高和改善 Istio 的文档做贡献。">贡献文档</a></li><li>创建和编辑页面</li></ol></nav><article aria-labelledby=title><div class=title-area><div><h1 id=title>创建和编辑页面</h1><p class=byline><span title="947 字"><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#clock"/></svg><span>&nbsp;</span>阅读大约需要 5 分钟</span></p></div></div><nav class=toc-inlined aria-label="Table of Contents"><div><hr><ol><li role=none aria-label=开始之前><a href=#before-you-begin>开始之前</a><li role=none aria-label=选择页面类型><a href=#choosing-a-page-type>选择页面类型</a><li role=none aria-label=命名主题><a href=#naming-a-topic>命名主题</a><li role=none aria-label=设置文章的元数据信息><a href=#updating-front-matter>设置文章的元数据信息</a><li role=none aria-label=添加图片><a href=#adding-images>添加图片</a><li role=none aria-label=添加图标><a href=#adding-icons>添加图标</a><li role=none aria-label=链接到其他页面><a href=#linking-to-other-pages>链接到其他页面</a><ol><li role=none aria-label=GitHub><a href=#github>GitHub</a></ol></li><li role=none aria-label=版本信息><a href=#version-information>版本信息</a><li role=none aria-label=嵌入预先格式化的块><a href=#embedding-preformatted-blocks>嵌入预先格式化的块</a><ol><li role=none aria-label=命令和命令输出><a href=#commands-and-command-output>命令和命令输出</a><li role=none aria-label="链接到 GitHub 文件"><a href=#%e9%93%be%e6%8e%a5%e5%88%b0-github-%e6%96%87%e4%bb%b6>链接到 GitHub 文件</a><li role=none aria-label=文件和片段><a href=#files-and-snippets>文件和片段</a><li role=none aria-label=动态内容><a href=#dynamic-content>动态内容</a></ol></li><li role=none aria-label=术语表><a href=#glossary-terms>术语表</a><li role=none aria-label=标注><a href=#%e6%a0%87%e6%b3%a8>标注</a><li role=none aria-label=嵌入样板文本><a href=#embedding-boilerplate-text>嵌入样板文本</a><li role=none aria-label=使用标签><a href=#using-tabs>使用标签</a><ol><li role=none aria-label=限制><a href=#limitations>限制</a></ol></li><li role=none aria-label=重命名，移动或删除页面><a href=#renaming-moving-or-deleting-pages>重命名，移动或删除页面</a><li role=none aria-label=构建和测试网站><a href=#building-and-testing-the-site>构建和测试网站</a><ol><li role=none aria-label=Linting><a href=#linting>Linting</a></ol></li><li role=none aria-label=相关内容><a href=#see-also>相关内容</a></li></ol><hr></div></nav><p>此页面显示如何创建，测试和维护 Istio 文档主题。</p><h2 id=before-you-begin>开始之前</h2><p>在开始编写 Istio 文档之前，首先需要创建一个 Istio 文档存储库的分支，如<a href=/v1.2/zh/about/contribute/github/>与 GitHub 合作</a>中所述。</p><h2 id=choosing-a-page-type>选择页面类型</h2><p>在准备编写新主题时，请考虑您的内容最适合哪一种页面类型：</p><table><tr><td>概念</td><td>概念页面解释了 Istio 的一些重要概念。例如，概念页面可能会描述 Mixer 的配置模型并解释其中的一些细微之处。通常，概念页面不包括具体的操作步骤，而是提供指向任务的链接。</td></tr><tr><td>参考</td><td>参考页面提供了诸如 API 参数，命令行选项，配置设置和过程之类的详尽列表。</td></tr><tr><td>示例</td><td>示例页面描述了一个完整工作的独立示例，突出显示了一组特定功能。示例必须具有易于遵循的设置和使用说明，以便用户可以自己快速运行示例并尝试更改示例以探索系统。测试和维护示例以获得技术准确性。</td></tr><tr><td>任务</td><td>任务页面显示如何执行单个操作，通常通过提供一系列简短的步骤。任务页面具有最少的解释，但通常提供指向提供相关背景和知识的概念主题的链接。测试和维护任务以确保技术准确性。</td></tr><tr><td>安装</td><td>安装页面类似于任务页面，但它侧重于安装活动。测试和维护安装页面以确保技术准确性。</td></tr><tr><td>博客文章</td><td>博客文章是关于 Istio 或与之相关的产品和技术的及时文章。通常，帖子属于以下四个类别之一：<ul><li>帖子详细介绍了作者使用和配置 Istio 的经验，特别是那些能够表达新颖体验或观点的人。</li><li>帖子突出显示或宣布 Istio 功能。</li><li>宣布与 Istio 相关的活动的帖子。</li><li>帖子详细介绍了如何使用 Istio 完成任务或完成特定用例。与任务和示例不同，博客文章的技术准确性在发布后不会得到维护和测试。</li></ul></td></tr><tr><td>FAQ</td><td>常见问题解答条目可以快速解答常见的客户问题。答案通常不会引入任何新概念，而是专注于一些实用的建议或见解，并将链接返回主要文档以供用户了解更多信息。</td></tr><tr><td>Ops Guide</td><td>用于解决在实际环境中运行 Istio 时遇到的特定问题的实用解决方案。</td></tr></table><h2 id=naming-a-topic>命名主题</h2><p>为您的主题选择一个标题，其中包含您希望搜索引擎找到的关键字。
+为您的主题创建一个文件名，使用标题单词和连字符组成文件名（单词要小写）。</p><h2 id=updating-front-matter>设置文章的元数据信息</h2><p>每个文档文件都需要从头开始写<a href=https://gohugo.io/content-management/front-matter/>元数据信息</a>。
+元数据信息是介于两个 YAML 块之间的信息（通过三个<code>-</code>来分割与文章的具体信息）。
+下面就是你需要写的元数据信息：</p><pre><code class=language-yaml data-expandlinks=true>---
+title: &lt;title&gt;
+description: &lt;description&gt;
+weight: &lt;weight&gt;
+keywords: [keyword1,keyword2,...]
+---
+</code></pre><p>在新的 markdown 文件的开头复制上面的内容并更新信息字段。
+可用的字段是：</p><table><thead><tr><th>字段</th><th>描述</th></tr></thead><tbody><tr><td><code>title</code></td><td>页面标题</td></tr><tr><td><code>linktitle</code></td><td>页面的另一个（通常是较短的）标题，在侧栏中用于引用页面</td></tr><tr><td><code>subtitle</code></td><td>一个可选的副标题，显示在主标题下方</td></tr><tr><td><code>description</code></td><td>关于页面内容的单行描述</td></tr><tr><td><code>icon</code></td><td>图片文件的可选路径，显示在主标题旁边</td></tr><tr><td><code>weight</code></td><td>一个整数，用于确定此页面相对于同一目录中其他页面的排序顺序</td></tr><tr><td><code>keywords</code></td><td>描述页面的一组关键字，用于创建“请参阅”链接的Web</td></tr><tr><td><code>draft</code></td><td>如果为true，则阻止页面显示在任何导航区域中</td></tr><tr><td><code>aliases</code></td><td>有关此项目的详细信息，请参阅下面的<a href=#renaming-moving-or-deleting-pages>重命名，移动或删除页面</a></td></tr><tr><td><code>skip_toc</code></td><td>将此设置为 true 可防止页面为其生成目录</td></tr><tr><td><code>skip_byline</code></td><td>将此设置为 true 可防止页面在主标题下具有副行</td></tr><tr><td><code>skip_seealso</code></td><td>将此设置为 true 可防止页面为其生成“另请参阅”部分</td></tr><tr><td><code>force_inline_toc</code></td><td>将此属性设置为 true 可强制将生成的目录内联插入文本而不是侧边栏中</td></tr><tr><td><code>simple_list</code></td><td>将此设置为 true 可强制生成的节页面使用简单的列表布局而不是画廊布局</td></tr><tr><td><code>content_above</code></td><td>将此属性设置为 true 可强制将节索引的内容部分呈现在自动生成的内容上方</td></tr></tbody></table><p>还有一些专门针对博客文章的字段：</p><table><thead><tr><th>字段</th><th>描述</th></tr></thead><tbody><tr><td><code>publishdate</code></td><td>该帖子的原始出版日期</td></tr><tr><td><code>last_update</code></td><td>帖子上次重大修订的日期</td></tr><tr><td><code>attribution</code></td><td>帖子作者的名称（可选）</td></tr><tr><td><code>twitter</code></td><td>帖子作者的 Twitter 账号（可选）</td></tr></tbody></table><h2 id=adding-images>添加图片</h2><p>将图片文件放在与 markdown 文件相同的目录中。首选的图片格式是 SVG。
+在 markdown 内，使用以下格式添加图片：</p><pre><code class=language-html data-expandlinks=true>{{&lt; image width=&#34;75%&#34; ratio=&#34;45.34%&#34;
+    link=&#34;./myfile.svg&#34;
+    alt=&#34;无法加载图片时显示的备用文本&#34;
+    title=&#34;将鼠标悬停在图片上时显示的工具提示&#34;
+    caption=&#34;图片下方显示的标题&#34;
+    &gt;}}
+</code></pre><p><code>link</code> 和 <code>caption</code> 值是必需的，所有其他值都是可选的。</p><p>如果没有提供 <code>title</code> 值，它将默认与 <code>caption</code> 相同。如果没有提供 <code>alt</code> 值，它就会
+默认为 <code>title</code> 或者如果 <code>title</code> 没有定义，则为 <code>caption</code>。</p><p><code>width</code> 表示图片相对于周围的文字使用的空间百分比。如果未指定该值，则默认为 100％。</p><p><code>ratio</code> 表示图片高度与图片宽度的比率。这个
+对于任何本地图片内容自动计算值，但引用外部图片内容时必须手动计算。
+在这种情况下，<code>ratio</code> 应设置为（图片高度/图片宽度）* 100。</p><h2 id=adding-icons>添加图标</h2><p>您可以使用以下内容在文章中嵌入一些常用图标：</p><pre><code class=language-markdown data-expandlinks=true>{{&lt; warning_icon &gt;}}
+{{&lt; idea_icon &gt;}}
+{{&lt; checkmark_icon &gt;}}
+{{&lt; cancel_icon &gt;}}
+{{&lt; tip_icon &gt;}}
+</code></pre><p>效果如下:
+<svg class="large-icon"><use xlink:href="/v1.2/img/icons.svg#exclamation-mark"/></svg>、<svg class="large-icon"><use xlink:href="/v1.2/img/icons.svg#bulb"/></svg>、<svg class="large-icon"><use xlink:href="/v1.2/img/icons.svg#checkmark"/></svg>、<svg class="large-icon"><use xlink:href="/v1.2/img/icons.svg#cancel"/></svg>和<svg class="large-icon"><use xlink:href="/v1.2/img/icons.svg#info"/></svg>。</p><h2 id=linking-to-other-pages>链接到其他页面</h2><p>文档中可以包含三种类型的链接。每个使用不同的
+指示链接目标的方式：</p><ol><li><p><strong>互联网链接</strong>. 您可以使用经典 URL 语法（最好使用 HTTPS 协议）来引用互联网上的文件：</p><pre><code class=language-markdown data-expandlinks=true>[看这里](https://mysite/myfile.html)
+</code></pre></li><li><p><strong>相对链接</strong>. 您使用以句点开头的相对链接
+引用与当前文件处于同一级别或以下级别的任何内容
+网站的层次结构：</p><pre><code class=language-markdown data-expandlinks=true>[看这里](./adir/anotherfile.html)
+</code></pre></li><li><p><strong>绝对链接</strong>. 您使用以 <code>/</code> 开头的绝对链接来引用当前层级之外的内容：</p><pre><code class=language-markdown data-expandlinks=true>[看这里](/docs/adir/afile/)
+</code></pre></li></ol><h3 id=github>GitHub</h3><p>有几种方法可以从 GitHub 引用文件：</p><ul><li><p><strong>{{&lt; github_file &gt;}}</strong> 是 Istio 在 GitHub 中的单个文件引用，例如 yaml 文件。这将生成一个指向 <code>https://raw.githubusercontent.com/istio/istio*</code> 的链接</p><pre><code class=language-markdown data-expandlinks=true>[liveness]({{&lt; github_file &gt;}}/samples/health-check/liveness-command.yaml)
+</code></pre></li><li><p><strong>{{&lt; github_tree &gt;}}</strong> 是 Istio 在 GitHub 中的目录树引用。这将产生一个链接 <code>https://github.com/istio/istio/tree*</code></p><pre><code class=language-markdown data-expandlinks=true>[httpbin]({{&lt; github_tree &gt;}}/samples/httpbin)
+</code></pre></li><li><p><strong>{{&lt; github_blob &gt;}}</strong> 是 Istio 在 GitHub 中的源文件引用。这将产生一个链接 <code>https://github.com/istio/istio/blob*</code></p><pre><code class=language-markdown data-expandlinks=true>[RawVM MySQL]({{&lt; github_blob &gt;}}/samples/rawvm/README.md)
+</code></pre></li></ul><p>上面的注释将产生到 GitHub 中相应分支的链接，相对于该分支文档目前正在定位。如果需要手动构造 URL，可以使用 <code>{{&lt; source_branch_name &gt;}}</code> 获取当前目标分支的名称。</p><h2 id=version-information>版本信息</h2><p>您可以使用 <code>{{&lt; istio_version &gt;}}</code> 中的任何一个获取网站描述的当前 Istio 版本。
+<code>{{&lt; istio_full_version &gt;}}</code> 分别呈现为 1.2 和 1.2.5。</p><p><code>{{&lt; source_branch_name &gt;}}</code> 扩展为 <code>istio/istio</code> 网站所针对的 GitHub 存储库的分支名称
+。这将呈现为release-1.2。</p><h2 id=embedding-preformatted-blocks>嵌入预先格式化的块</h2><p>您可以使用 <code>text</code> 嵌入预格式化内容块：</p><pre><code class=language-markdown data-expandlinks=true>{{&lt; text plain &gt;}}
+func HelloWorld() {
+  fmt.Println(&#34;Hello World&#34;)
+}
+{{&lt; /text &gt;}}
+</code></pre><p>输出效果如下：</p><pre><code class=language-plain data-expandlinks=true>func HelloWorld() {
+  fmt.Println(&#34;Hello World&#34;)
+}
+</code></pre><p>您需要预格式化的块中指明内容的语法。上面的代码块被标记为 <code>plain</code> 表示不会对块应用语法高亮。代码块样式都一样，但现在使用 Go 语言语法进行注释：</p><pre><code class=language-markdown data-expandlinks=true>{{&lt; text go &gt;}}
+func HelloWorld() {
+  fmt.Println(&#34;Hello World&#34;)
+}
+{{&lt; /text &gt;}}
+</code></pre><p>效果如下：</p><pre><code class=language-go data-expandlinks=true>func HelloWorld() {
+  fmt.Println(&#34;Hello World&#34;)
+}
+</code></pre><p>你可以使用 <code>plain</code>、<code>markdown</code>、<code>yaml</code>、<code>json</code>、<code>java</code>、<code>javascript</code>、<code>c</code>、<code>cpp</code>、<code>csharp</code>、<code>go</code>、<code>html</code>、<code>protobuf</code> 、<code>perl</code>、<code>docker</code> 和 <code>bash</code>。</p><h3 id=commands-and-command-output>命令和命令输出</h3><p>显示一个或多个 bash 命令行时，每个命令行用 $ 开头：</p><pre><code class=language-markdown data-expandlinks=true>{{&lt; text bash &gt;}}
+$ echo &#34;Hello&#34;
+{{&lt; /text &gt;}}
+</code></pre><p>效果如下：</p><pre><code class=language-bash data-expandlinks=true>$ echo &#34;Hello&#34;
+</code></pre><p>您可以拥有任意数量的命令行，但只能识别一个输出块。</p><pre><code class=language-markdown data-expandlinks=true>{{&lt; text bash &gt;}}
+$ echo &#34;Hello&#34; &gt;file.txt
+$ cat file.txt
+Hello
+{{&lt; /text &gt;}}
+</code></pre><p>效果如下：</p><pre><code class=language-bash data-expandlinks=true>$ echo &#34;Hello&#34; &gt;file.txt
+$ cat file.txt
+Hello
+</code></pre><p>您还可以在命令行中使用行继续：</p><pre><code class=language-markdown data-expandlinks=true>{{&lt; text bash &gt;}}
+$ echo &#34;Hello&#34; \
+    &gt;file.txt
+$ echo &#34;There&#34; &gt;&gt;file.txt
+$ cat file.txt
+Hello
+There
+{{&lt; /text &gt;}}
+</code></pre><p>效果如下：</p><pre><code class=language-bash data-expandlinks=true>$ echo &#34;Hello&#34; \
+    &gt;file.txt
+$ echo &#34;There&#34; &gt;&gt;file.txt
+$ cat file.txt
+Hello
+There
+</code></pre><p>默认情况下，使用 <code>plain</code> 语法处理输出内容。如果输出使用众所周知的
+语法，您可以指定它并获得适当的颜色。这对于 YAML 或 JSON 输出尤其常见：</p><pre><code class=language-markdown data-expandlinks=true>{{&lt; text bash json &gt;}}
+$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath=&#39;{.items[0].metadata.name}&#39;) mixer | grep \&#34;instance\&#34;:\&#34;newlog.logentry.istio-system\&#34;
+{&#34;level&#34;:&#34;warn&#34;,&#34;ts&#34;:&#34;2017-09-21T04:33:31.249Z&#34;,&#34;instance&#34;:&#34;newlog.logentry.istio-system&#34;,&#34;destination&#34;:&#34;details&#34;,&#34;latency&#34;:&#34;6.848ms&#34;,&#34;responseCode&#34;:200,&#34;responseSize&#34;:178,&#34;source&#34;:&#34;productpage&#34;,&#34;user&#34;:&#34;unknown&#34;}
+{&#34;level&#34;:&#34;warn&#34;,&#34;ts&#34;:&#34;2017-09-21T04:33:31.291Z&#34;,&#34;instance&#34;:&#34;newlog.logentry.istio-system&#34;,&#34;destination&#34;:&#34;ratings&#34;,&#34;latency&#34;:&#34;6.753ms&#34;,&#34;responseCode&#34;:200,&#34;responseSize&#34;:48,&#34;source&#34;:&#34;reviews&#34;,&#34;user&#34;:&#34;unknown&#34;}
+{&#34;level&#34;:&#34;warn&#34;,&#34;ts&#34;:&#34;2017-09-21T04:33:31.263Z&#34;,&#34;instance&#34;:&#34;newlog.logentry.istio-system&#34;,&#34;destination&#34;:&#34;reviews&#34;,&#34;latency&#34;:&#34;39.848ms&#34;,&#34;responseCode&#34;:200,&#34;responseSize&#34;:379,&#34;source&#34;:&#34;productpage&#34;,&#34;user&#34;:&#34;unknown&#34;}
+{&#34;level&#34;:&#34;warn&#34;,&#34;ts&#34;:&#34;2017-09-21T04:33:31.239Z&#34;,&#34;instance&#34;:&#34;newlog.logentry.istio-system&#34;,&#34;destination&#34;:&#34;productpage&#34;,&#34;latency&#34;:&#34;67.675ms&#34;,&#34;responseCode&#34;:200,&#34;responseSize&#34;:5599,&#34;source&#34;:&#34;ingress.istio-system.svc.cluster.local&#34;,&#34;user&#34;:&#34;unknown&#34;}
+{&#34;level&#34;:&#34;warn&#34;,&#34;ts&#34;:&#34;2017-09-21T04:33:31.233Z&#34;,&#34;instance&#34;:&#34;newlog.logentry.istio-system&#34;,&#34;destination&#34;:&#34;ingress.istio-system.svc.cluster.local&#34;,&#34;latency&#34;:&#34;74.47ms&#34;,&#34;responseCode&#34;:200,&#34;responseSize&#34;:5599,&#34;source&#34;:&#34;unknown&#34;,&#34;user&#34;:&#34;unknown&#34;}
+{{&lt; /text &gt;}}
+</code></pre><p>效果如下：</p><pre><code class=language-bash data-expandlinks=true data-outputis=json>$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath=&#39;{.items[0].metadata.name}&#39;) mixer | grep \&#34;instance\&#34;:\&#34;newlog.logentry.istio-system\&#34;
+{&#34;level&#34;:&#34;warn&#34;,&#34;ts&#34;:&#34;2017-09-21T04:33:31.249Z&#34;,&#34;instance&#34;:&#34;newlog.logentry.istio-system&#34;,&#34;destination&#34;:&#34;details&#34;,&#34;latency&#34;:&#34;6.848ms&#34;,&#34;responseCode&#34;:200,&#34;responseSize&#34;:178,&#34;source&#34;:&#34;productpage&#34;,&#34;user&#34;:&#34;unknown&#34;}
+{&#34;level&#34;:&#34;warn&#34;,&#34;ts&#34;:&#34;2017-09-21T04:33:31.291Z&#34;,&#34;instance&#34;:&#34;newlog.logentry.istio-system&#34;,&#34;destination&#34;:&#34;ratings&#34;,&#34;latency&#34;:&#34;6.753ms&#34;,&#34;responseCode&#34;:200,&#34;responseSize&#34;:48,&#34;source&#34;:&#34;reviews&#34;,&#34;user&#34;:&#34;unknown&#34;}
+{&#34;level&#34;:&#34;warn&#34;,&#34;ts&#34;:&#34;2017-09-21T04:33:31.263Z&#34;,&#34;instance&#34;:&#34;newlog.logentry.istio-system&#34;,&#34;destination&#34;:&#34;reviews&#34;,&#34;latency&#34;:&#34;39.848ms&#34;,&#34;responseCode&#34;:200,&#34;responseSize&#34;:379,&#34;source&#34;:&#34;productpage&#34;,&#34;user&#34;:&#34;unknown&#34;}
+{&#34;level&#34;:&#34;warn&#34;,&#34;ts&#34;:&#34;2017-09-21T04:33:31.239Z&#34;,&#34;instance&#34;:&#34;newlog.logentry.istio-system&#34;,&#34;destination&#34;:&#34;productpage&#34;,&#34;latency&#34;:&#34;67.675ms&#34;,&#34;responseCode&#34;:200,&#34;responseSize&#34;:5599,&#34;source&#34;:&#34;ingress.istio-system.svc.cluster.local&#34;,&#34;user&#34;:&#34;unknown&#34;}
+{&#34;level&#34;:&#34;warn&#34;,&#34;ts&#34;:&#34;2017-09-21T04:33:31.233Z&#34;,&#34;instance&#34;:&#34;newlog.logentry.istio-system&#34;,&#34;destination&#34;:&#34;ingress.istio-system.svc.cluster.local&#34;,&#34;latency&#34;:&#34;74.47ms&#34;,&#34;responseCode&#34;:200,&#34;responseSize&#34;:5599,&#34;source&#34;:&#34;unknown&#34;,&#34;user&#34;:&#34;unknown&#34;}
+</code></pre><p>您可以指定一个可选的第三个值来控制浏览器在用户选择下载文件时的名称。例如：</p><pre><code class=language-markdown data-expandlinks=true>{{&lt; text go plain &#34;hello.go&#34; &gt;}}
+func HelloWorld() {
+  fmt.Println(&#34;Hello World&#34;)
+}
+{{&lt; /text &gt;}}
+</code></pre><p>如果未指定第三个值，则会根据当前页面的名称自动生成下载名称。</p><h3 id=链接到-github-文件>链接到 GitHub 文件</h3><p>如果你的代码块引用了 Istio 的 GitHub 存储库中的文件，你可以用一对 <code>@</code> 符号来包围文件的相对路径名。这些表明路径应该呈现为当前分支中的文件链接。例如：</p><div><a data-skipendnotes=true style=display:none href=https://raw.githubusercontent.com/istio/istio/release-1.2/samples/bookinfo/networking/virtual-service-reviews-v3.yaml>Zip</a><pre><code class=language-markdown data-expandlinks=true>{{&lt; text bash &gt;}}
+$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
+{{&lt; /text &gt;}}
+</code></pre></div><p>效果如下</p><div><a data-skipendnotes=true style=display:none href=https://raw.githubusercontent.com/istio/istio/release-1.2/samples/bookinfo/networking/virtual-service-reviews-v3.yaml>Zip</a><pre><code class=language-bash data-expandlinks=true>$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
+</code></pre></div><h3 id=files-and-snippets>文件和片段</h3><p>显示文件或文件的一部分通常很有用。您可以注释文本文件以在文件中创建命名片段
+使用 <code>$snippet</code> 和 <code>$endsnippet</code> 注释。例如，您可以使用如下所示的文本文件：</p><pre><code class=language-plain data-expandlinks=true data-downloadas=snippet_example.txt>BEFORE
+
+# $snippet SNIP1
+This is chunk 1
+on two lines
+# $endsnippet
+
+# $snippet SNIP2
+This is chunk 2
+# $endsnippet
+
+# $snippet SNIP1
+This is chunk 3
+# $endsnippet
+
+AFTER
+</code></pre><p>然后，在您的 markdown 文件中，您可以使用以下内容引用特定代码段：</p><pre><code class=language-markdown data-expandlinks=true>{{&lt; text_import file=&#34;test/snippet_example.txt&#34; syntax=&#34;plain&#34; snippet=&#34;SNIP1&#34; &gt;}}
+</code></pre><p>其中 <code>file</code> 指定文档仓库中文本文件的相对路径，<code>syntax</code> 指定
+用于语法着色的语法（使用 <code>plain</code> 表示通用文本），<code>snippet</code> 指定的名称片段。</p><p>上面的代码片段产生了这个输出：</p><pre><code class=language-plain data-expandlinks=true data-downloadas=snippet_example.txt>This is chunk 1
+on two lines</code></pre><p>如果您未指定代码段名称，则会插入整个文件。</p><p>您可以指定可选的 <code>downloadas</code> 属性来控制浏览器的名称将在用户选择下载文件时使用。例如：</p><pre><code class=language-markdown data-expandlinks=true>{{&lt; text_import file=&#34;test/snippet_example.txt&#34; syntax=&#34;plain&#34; downloadas=&#34;foo.txt&#34; &gt;}}
+</code></pre><p>如果未指定 <code>downloadas</code> 属性，则下载名称取自 <code>file</code> 属性。</p><p>常见的做法是将示例脚本或 yaml 文件从 GitHub 复制到文档中
+存储库然后在文件中使用片段来生成文档中的示例。拉
+在 GitHub 的注释文件中，在结尾处添加所需的条目
+文档存储库中的脚本 <code>scripts/grab_reference_docs.sh</code>。</p><h3 id=dynamic-content>动态内容</h3><p>您可以动态提取外部文件并将其内容显示为预格式化的块。这很方便显示一个
+配置文件或测试文件。为此，您使用如下语句：</p><pre><code class=language-markdown data-expandlinks=true>{{&lt; text_import url=&#34;https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml&#34; syntax=&#34;yaml&#34; &gt;}}
+</code></pre><p>产生以下结果：</p><div><a data-skipendnotes=true style=display:none href=https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml>Zip</a><pre><code class=language-yaml data-expandlinks=true data-downloadas=mixer-rule-ratings-ratelimit.yaml data-src=https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml></code></pre></div><p>如果文件来自不同的源站点，则应在该站点上启用 CORS。请注意
+这里可以使用 GitHub 原始内容站点（<code>raw.githubusercontent.com</code>）。</p><p>您可以指定可选的 <code>downloadas</code> 属性来控制浏览器在用户选择下载文件时使用的名称。例如：</p><pre><code class=language-markdown data-expandlinks=true>{{&lt; text_import url=&#34;https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml&#34; syntax=&#34;yaml&#34; downloadas=&#34;foo.yaml&#34; &gt;}}
+</code></pre><p>如果未指定 <code>downloadas</code> 属性，则下载名称取自 <code>url</code> 属性。</p><h2 id=glossary-terms>术语表</h2><p>首次在页面中引入专门的 Istio 术语时，最好将术语注释为词汇表中的术语。这个
+将生成特殊渲染，邀请用户单击该术语以获得带有该定义的弹出窗口。</p><pre><code class=language-markdown data-expandlinks=true>Mixer 使用{{&lt;gloss&gt;}}适配器{{&lt;/gloss&gt;}}来连接后端。
+</code></pre><p>效果如下：</p><p>Mixer 使用<span class=term data-title=适配器 data-body='&lt;p&gt;适配器（adapter）是 Istio 的&lt;a href="/zh/docs/concepts/policies-and-telemetry/"&gt;策略与遥测&lt;/a&gt;组件： Mixer 里的插件。适配器使 Mixer 可以通过接口使用开放式基础设施后端服务，去为 Istio 提供核心功能，比如日志、监控、配额、ACL 检查等等。&lt;/p&gt;
+
+&lt;p&gt;运行时确切生效的适配器是通过配置指定的，而且适配器很容易进行扩展来适配一个新的或者自定义的基础设施后端服务。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="/zh/docs/concepts/policies-and-telemetry/#适配器"&gt;了解更多关于适配器&lt;/a&gt;&lt;/p&gt;'>适配器</span>
+来连接后端。</p><p>如果页面上显示的术语与术语表中的条目不完全匹配，则可以指定替换：</p><pre><code class=language-markdown data-expandlinks=true>Mixer 使用 {{&lt;gloss 适配器&gt;}}adapter{{&lt;/gloss&gt;}} 来连接后端。
+</code></pre><p>效果如下：</p><p>Mixer 使用 <span class=term data-title=适配器 data-body='&lt;p&gt;适配器（adapter）是 Istio 的&lt;a href="/zh/docs/concepts/policies-and-telemetry/"&gt;策略与遥测&lt;/a&gt;组件： Mixer 里的插件。适配器使 Mixer 可以通过接口使用开放式基础设施后端服务，去为 Istio 提供核心功能，比如日志、监控、配额、ACL 检查等等。&lt;/p&gt;
+
+&lt;p&gt;运行时确切生效的适配器是通过配置指定的，而且适配器很容易进行扩展来适配一个新的或者自定义的基础设施后端服务。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="/zh/docs/concepts/policies-and-telemetry/#适配器"&gt;了解更多关于适配器&lt;/a&gt;&lt;/p&gt;'>adapter</span>
+来连接后端。</p><p>因此即使词汇表条目是 *adapters*，也可以在文本中使用 <em>adapter</em> 的单数形式。</p><h2 id=标注>标注</h2><p>您可以通过突出显示警告，想法，提示和引号来特别关注内容块：</p><pre><code class=language-markdown data-expandlinks=true>{{&lt; warning &gt;}}
+这是一个重要的警告
+{{&lt; /warning &gt;}}
+
+{{&lt; idea &gt;}}
+这是一个好主意
+{{&lt; /idea &gt;}}
+
+{{&lt; tip &gt;}}
+这是专家提供的有用提示
+{{&lt; /tip &gt;}}
+
+{{&lt; quote &gt;}}
+这是某个地方的引用
+{{&lt; /quote &gt;}}
+</code></pre><p>效果如下：</p><div><aside class="callout warning"><div class=type><svg class="large-icon"><use xlink:href="/v1.2/img/icons.svg#callout-warning"/></svg></div><div class=content>这是一个重要的警告</div></aside></div><div><aside class="callout idea"><div class=type><svg class="large-icon"><use xlink:href="/v1.2/img/icons.svg#callout-idea"/></svg></div><div class=content>这是一个好主意</div></aside></div><div><aside class="callout tip"><div class=type><svg class="large-icon"><use xlink:href="/v1.2/img/icons.svg#callout-tip"/></svg></div><div class=content>这是专家提供的有用提示</div></aside></div><div><aside class="callout quote"><div class=type><svg class="large-icon"><use xlink:href="/v1.2/img/icons.svg#callout-quote"/></svg></div><div class=content>这是某个地方的引用</div></aside></div><h2 id=embedding-boilerplate-text>嵌入样板文本</h2><p>您可以使用 <code>boilerplate</code> 将常见的样板文本嵌入到任何 markdown 中：</p><pre><code class=language-markdown data-expandlinks=true>{{&lt; boilerplate example &gt;}}
+</code></pre><p>效果如下：</p><p>这是一些样板 <em>markdown</em> 文本。</p><pre><code class=language-plain data-expandlinks=true>一个嵌套文本块示例。
+</code></pre><p>您提供要在当前位置插入的样板文件的名称。可用的 boilerplates 是
+位于 <code>boilerplates</code> 目录中。boilerplates 是正常的 markdown 文件。</p><h2 id=using-tabs>使用标签</h2><p>如果您有一些内容可以以各种格式显示，则可以方便地使用选项卡集并显示每个内容
+格式在不同的选项卡中。要插入选项卡式内容，可以使用 <code>tabset</code> 和 <code>tabs</code> 注释的组合：</p><pre><code class=language-markdown data-expandlinks=true>{{&lt; tabset cookie-name=&#34;platform&#34; &gt;}}
+
+{{&lt; tab name=&#34;一&#34; cookie-value=&#34;one&#34; &gt;}}
+一
+{{&lt; /tab &gt;}}
+
+{{&lt; tab name=&#34;二&#34; cookie-value=&#34;two&#34; &gt;}}
+二
+{{&lt; /tab &gt;}}
+
+{{&lt; tab name=&#34;三&#34; cookie-value=&#34;three&#34; &gt;}}
+三
+{{&lt; /tab &gt;}}
+
+{{&lt; /tabset &gt;}}
+</code></pre><p>产生如下效果：</p><div id=tabset-zh-about-contribute-creating-and-editing-pages-1 role=tablist class=tabset><div class=tab-strip data-cookie-name=platform><button aria-selected=true data-cookie-value=one aria-controls=tabset-zh-about-contribute-creating-and-editing-pages-1-0-panel id=tabset-zh-about-contribute-creating-and-editing-pages-1-0-tab role=tab><span>一</span>
+</button><button tabindex=-1 data-cookie-value=two aria-controls=tabset-zh-about-contribute-creating-and-editing-pages-1-1-panel id=tabset-zh-about-contribute-creating-and-editing-pages-1-1-tab role=tab><span>二</span>
+</button><button tabindex=-1 data-cookie-value=three aria-controls=tabset-zh-about-contribute-creating-and-editing-pages-1-2-panel id=tabset-zh-about-contribute-creating-and-editing-pages-1-2-tab role=tab><span>三</span></button></div><div class=tab-content><div id=tabset-zh-about-contribute-creating-and-editing-pages-1-0-panel role=tabpanel tabindex=0 aria-labelledby=tabset-zh-about-contribute-creating-and-editing-pages-1-0-tab>一</div><div hidden id=tabset-zh-about-contribute-creating-and-editing-pages-1-1-panel role=tabpanel tabindex=0 aria-labelledby=tabset-zh-about-contribute-creating-and-editing-pages-1-1-tab>二</div><div hidden id=tabset-zh-about-contribute-creating-and-editing-pages-1-2-panel role=tabpanel tabindex=0 aria-labelledby=tabset-zh-about-contribute-creating-and-editing-pages-1-2-tab>三</div></div></div><p>每个选项卡的 <code>name</code> 属性包含要为选项卡显示的文本。选项卡的内容几乎可以是任何正常的 markdown。</p><p>可选的 <code>cookie-name</code> 和 <code>cookie-value</code> 属性允许选项卡设置在访问页面时保持粘性。作为用户
+选择一个标签，cookie 将自动保存为给定的名称和值。如果多个选项卡集使用相同的 cookie 名称
+和值，他们的设置将自动跨页面同步。当有许多选项卡集时，这尤其有用
+在具有相同类型格式的站点中。</p><p>例如，如果使用许多选项卡集来表示 <code>GCP</code>、<code>BlueMix</code> 和 <code>AWS</code> 之间的选择，则它们都可以使用 <code>environment</code> 的 cookie 名称和值
+<code>gcp</code>、<code>bluemix</code>和<code>aws</code>。当用户在一个页面中选择选项卡时，将在任何其他选项卡集中自动选择等效选项卡。</p><h3 id=limitations>限制</h3><p>您可以在选项卡中使用几乎任何 markdown，但以下情况除外：</p><ul><li><p>*没有标题*。选项卡中的标题将显示在目录中，然后单击该条目中的条目
+目录不会自动选择选项卡。</p></li><li><p>*没有嵌套标签集*。不要尝试，这太可怕了。</p></li></ul><h2 id=renaming-moving-or-deleting-pages>重命名，移动或删除页面</h2><p>如果您移动页面或完全删除它们，您应该确保用户可能拥有的现有链接继续工作。
+您可以通过添加别名来执行此操作，该别名将导致用户从旧 URL 自动重定向到新URL。</p><p>在作为重定向*目标*的页面中（您希望用户登陆），您只需添加
+关注前面事项：</p><pre><code class=language-plain data-expandlinks=true>aliases:
+    - &lt;path&gt;
+</code></pre><p>例如</p><pre><code class=language-plain data-expandlinks=true>---
+title: Frequently Asked Questions
+description: Questions Asked Frequently.
+weight: 12
+aliases:
+    - /faq
+---
+</code></pre><p>通过以上保存为 <code>help/faq.md</code> 的页面，用户可以通过访问来访问该页面
+到 <code>istio.io/help/faq/</code> 正常，以及 <code>istio.io/faq/</code>。</p><p>您还可以添加许多重定向，如下所示：</p><pre><code class=language-plain data-expandlinks=true>---
+title: Frequently Asked Questions
+description: Questions Asked Frequently.
+weight: 12
+aliases:
+    - /faq
+    - /faq2
+    - /faq3
+---
+</code></pre><h2 id=building-and-testing-the-site>构建和测试网站</h2><p>编辑完一些内容文件后，您需要构建网站才能进行测试你的变更。我们使用 <a href=https://gohugo.io/>Hugo</a> 来生成我们的网站。要在本地构建和测试站点，我们使用包含 <code>hugo</code> 的 Docker 镜像。如果要构建和运行站点，只需到根目录执行以下操作：</p><pre><code class=language-bash data-expandlinks=true>$ make serve
+</code></pre><p>这将构建站点并启动站点的 Web 服务器。然后，您可以用 <code>http://localhost:1313</code> 访问 Web 服务器。</p><p>要从远程服务器创建和运行站点，请使用 IP 地址覆盖 <code>ISTIO_SERVE_DOMAIN</code>，如下所示
+或服务器的 DNS 域如下：</p><pre><code class=language-bash data-expandlinks=true>$ make ISTIO_SERVE_DOMAIN=192.168.7.105 serve
+</code></pre><p>这将构建站点并启动站点的 Web 服务器。然后，您可以用 <code>http://192.168.7.105:1313</code> 访问到 Web 服务器。</p><p>该网站的所有英文内容都位于 <code>content</code> 目录中，所有中文内容在 <code>content_zh</code> 目录，其他翻译的内容可能会在其他的 <code>content_xxx</code> 目录中，暂时官方只有英文和中文两种内容。</p><h3 id=linting>Linting</h3><p>我们使用 linters 来确保网站内容的基本质量。在将更改提交到存储库之前，这些链接必须在没有报错的情况下运行linters 检查：</p><ul><li><p>HTML 校对，确保您的所有链接与其他检查有效。</p></li><li><p>拼写检查。</p></li><li><p>样式检查，确保您的 markdown 文件符合我们的通用样式规则。</p></li></ul><p>您可以使用以下方式在本地运行这些 linters</p><pre><code class=language-bash data-expandlinks=true>$ make lint
+</code></pre><p>如果您遇到拼写错误，您有三种选择来解决问题：</p><ul><li><p>这是一个真正的错字，修复你的 markdown。</p></li><li><p>这是一个命令/字段/符号名称，所以在它周围粘贴一些<code>反引号</code>。</p></li><li><p>它确实有效，所以请将单词添加到位于 repo 根目录的 <code>.spelling</code> 文件中。</p></li></ul><p>如果由于 Internet 连接较差而导致链接检查程序出现问题，则可以将任何值设置为名为的环境变量
+<code>INTERNAL_ONLY</code> 以防止 linter 检查外部链接：</p><pre><code class=language-bash data-expandlinks=true>$ make INTERNAL_ONLY=True lint
+</code></pre><nav id=see-also><h2>相关内容</h2><div class=see-also><div class=entry><p class=link><a data-skipendnotes=true href=/v1.2/zh/about/contribute/github/>使用 GitHub</a></p><p class=desc>向您展示如何使用 GitHub 处理 Istio 文档。</p></div><div class=entry><p class=link><a data-skipendnotes=true href=/v1.2/zh/about/contribute/style-guide/>样式指南</a></p><p class=desc>编写 Istio 文档时候的“要”和“不要”。</p></div></div></nav></article><nav class=pagenav><div class=left><a title="向您展示如何使用 GitHub 处理 Istio 文档。" href=/v1.2/zh/about/contribute/github/><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#left-arrow"/></svg>使用 GitHub</a></div><div class=right><a title="翻译 Istio 文档时常见术语的中文翻译。" href=/v1.2/zh/about/contribute/terms/>术语和习惯用语<svg class="icon"><use xlink:href="/v1.2/img/icons.svg#right-arrow"/></svg></a></div></nav><div id=endnotes-container aria-hidden=true><h2>链接</h2><ol id=endnotes></ol></div></div><div class=toc-container><nav class=toc aria-label="Table of Contents"><div id=toc><ol><li role=none aria-label=开始之前><a href=#before-you-begin>开始之前</a><li role=none aria-label=选择页面类型><a href=#choosing-a-page-type>选择页面类型</a><li role=none aria-label=命名主题><a href=#naming-a-topic>命名主题</a><li role=none aria-label=设置文章的元数据信息><a href=#updating-front-matter>设置文章的元数据信息</a><li role=none aria-label=添加图片><a href=#adding-images>添加图片</a><li role=none aria-label=添加图标><a href=#adding-icons>添加图标</a><li role=none aria-label=链接到其他页面><a href=#linking-to-other-pages>链接到其他页面</a><ol><li role=none aria-label=GitHub><a href=#github>GitHub</a></ol></li><li role=none aria-label=版本信息><a href=#version-information>版本信息</a><li role=none aria-label=嵌入预先格式化的块><a href=#embedding-preformatted-blocks>嵌入预先格式化的块</a><ol><li role=none aria-label=命令和命令输出><a href=#commands-and-command-output>命令和命令输出</a><li role=none aria-label="链接到 GitHub 文件"><a href=#%e9%93%be%e6%8e%a5%e5%88%b0-github-%e6%96%87%e4%bb%b6>链接到 GitHub 文件</a><li role=none aria-label=文件和片段><a href=#files-and-snippets>文件和片段</a><li role=none aria-label=动态内容><a href=#dynamic-content>动态内容</a></ol></li><li role=none aria-label=术语表><a href=#glossary-terms>术语表</a><li role=none aria-label=标注><a href=#%e6%a0%87%e6%b3%a8>标注</a><li role=none aria-label=嵌入样板文本><a href=#embedding-boilerplate-text>嵌入样板文本</a><li role=none aria-label=使用标签><a href=#using-tabs>使用标签</a><ol><li role=none aria-label=限制><a href=#limitations>限制</a></ol></li><li role=none aria-label=重命名，移动或删除页面><a href=#renaming-moving-or-deleting-pages>重命名，移动或删除页面</a><li role=none aria-label=构建和测试网站><a href=#building-and-testing-the-site>构建和测试网站</a><ol><li role=none aria-label=Linting><a href=#linting>Linting</a></ol></li><li role=none aria-label=相关内容><a href=#see-also>相关内容</a></li></ol></div></nav></div></main><footer><div class=user-links><a class=channel title="Go download Istio 1.2.5 now" href=https://github.com/istio/istio/releases/tag/1.2.5 aria-label="Download Istio"><span>download</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#download"/></svg>
+</a><a class=channel title="加入 Istio discussion board 参与讨论获取帮助" href=https://discuss.istio.io aria-label="Istio discussion board"><span>discuss</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#discourse"/></svg></a>
+<a class=channel title="Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答" href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><span>stack overflow</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#stackoverflow"/></svg></a>
+<a class=channel title="在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）" href=https://istio.slack.com aria-label=slack><span>slack</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#slack"/></svg></a>
+<a class=channel title="关注我们的 Twitter 来获取最新信息" href=https://twitter.com/IstioMesh aria-label=Twitter><span>twitter</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#twitter"/></svg></a><div class=tag>对于用户</div></div><div class=info><p class=copyright>中文内容由 ServiceMesher 社区维护，部分文档可能稍微滞后于英文版本，同步工作持续进行中<br>Istio 归档
+1.2.5<br>&copy; 2019 Istio Authors, <a href=https://policies.google.com/privacy>隐私政策</a><br>归档于 2019年9月12日</p></div><div class=dev-links><a class=channel title="Istio 的代码在 GitHub 上开发" href=https://github.com/istio/community aria-label=GitHub><span>github</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#github"/></svg></a>
+<a class=channel title="如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档" href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><span>drive</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#drive"/></svg></a>
+<a class=channel title="如果您想为 Istio 项目做出贡献，请考虑加入我们的工作组" href=https://github.com/istio/community/blob/master/WORKING-GROUPS.md aria-label="working groups"><span>working groups</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#working-groups"/></svg></a><div class=tag>对于开发者</div></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js defer></script><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title=回到顶部><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#top"/></svg></button></div></body></html>

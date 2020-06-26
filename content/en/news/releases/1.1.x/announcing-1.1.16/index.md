@@ -8,7 +8,6 @@ release: 1.1.16
 aliases:
     - /news/2019/announcing-1.1.16
     - /news/announcing-1.1.16
-test: n/a
 ---
 
 We're pleased to announce the availability of Istio 1.1.16. Please see below for what's changed.

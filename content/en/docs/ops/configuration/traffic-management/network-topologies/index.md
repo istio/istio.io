@@ -96,7 +96,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
           gatewayTopology:
             numTrustedProxies: 2
     EOF
-    $ istioctl manifest apply -f topology.yaml
+    $ istioctl install -f topology.yaml
     {{< /text >}}
 
     {{< idea >}}

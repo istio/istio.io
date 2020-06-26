@@ -31,7 +31,7 @@ installation using the following command. If you enable it after installation,
 you must re-deploy the control plane.
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
+$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
 ## Wait for resource readiness

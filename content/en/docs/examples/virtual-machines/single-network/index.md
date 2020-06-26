@@ -69,7 +69,7 @@ following commands on a machine with cluster admin privileges:
 1. For a simple setup, deploy Istio control plane into the cluster
 
         {{< text bash >}}
-        $ istioctl manifest apply
+        $ istioctl install
         {{< /text >}}
 
     For further details and customization options, refer to the

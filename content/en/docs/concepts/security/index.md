@@ -122,12 +122,12 @@ provisioning flow.
     caption="Identity Provision"
     >}}
 
-Istio provisions identities through the secret discovery service (SDS) using the
-following flow:
+Istio provisions identities through the
+[secret discovery service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)
+using the following flow:
 
 1. `istiod` offers a gRPC service to take [certificate signing requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
-1. Envoy sends a certificate and key request via the Envoy secret discovery
-   service (SDS) API.
+1. Envoy sends a certificate and key request via the Envoy SDS API.
 1. Upon receiving the SDS request, the Istio agent creates the private key
    and CSR before sending the CSR with its credentials to `istiod` for signing.
 1. The CA validates the credentials carried in the CSR and signs the CSR to

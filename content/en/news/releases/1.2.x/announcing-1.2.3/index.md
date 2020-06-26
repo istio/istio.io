@@ -10,7 +10,6 @@ aliases:
     - /blog/2019/announcing-1.2.3
     - /news/2019/announcing-1.2.3
     - /news/announcing-1.2.3
-test: n/a
 ---
 
 We're pleased to announce the availability of Istio 1.2.3. Please see below for what's changed.

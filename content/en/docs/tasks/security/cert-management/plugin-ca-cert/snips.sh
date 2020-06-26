@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2034,SC2153,SC2155
+# shellcheck disable=SC2034,SC2153,SC2155,SC2164
 
 # Copyright Istio Authors. All Rights Reserved.
 #
@@ -28,7 +28,7 @@ kubectl create secret generic cacerts -n istio-system --from-file=samples/certs/
 }
 
 snip_plugging_in_existing_certificates_and_key_2() {
-istioctl manifest apply --set profile=demo
+istioctl install --set profile=demo
 }
 
 snip_deploying_example_services_1() {

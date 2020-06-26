@@ -9,7 +9,6 @@ skip_list: true
 aliases:
     - /news/announcing-1.5.0
     - /news/announcing-1.5
-test: n/a
 ---
 
 We are pleased to announce the release of Istio 1.5!

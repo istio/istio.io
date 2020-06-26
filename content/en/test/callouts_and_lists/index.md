@@ -2,7 +2,6 @@
 title: Callouts and Lists
 description: Composing callouts and lists.
 skip_sitemap: true
-test: no
 ---
 
 1. Warning

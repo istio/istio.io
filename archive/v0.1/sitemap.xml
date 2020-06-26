@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    
+    <url>
+        <loc>https://istio.io/blog/canary-deployments-using-istio.html</loc>
+    </url>
+    
+    <url>
+        <loc>https://istio.io/blog/istio-auth-for-microservices.html</loc>
+    </url>
+    
+    <url>
+        <loc>https://istio.io/blog/istio-service-mesh-for-microservices.html</loc>
+    </url>
+    
+
+    
+    
+    
+    
+    
+    
+    <url>
+        <loc>https://istio.io/feed.xml</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/blog/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/about/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/bugs/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/community/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/faq/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/search/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/troubleshooting/</loc>
+    </url>
+    
+    
+    
+    
+    
+    <url>
+        <loc>https://istio.io/robots.txt</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/js/search.js</loc>
+    </url>
+    
+    
+    
+    
+    
+    <url>
+        <loc>https://istio.io/blog/0.1-announcement.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/blog/0.1-auth.html</loc>
+    </url>
+    
+    
+
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/network-and-auth/auth.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/network-and-auth/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/policy-and-control/attributes.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/policy-and-control/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/policy-and-control/mixer-aspect-config.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/policy-and-control/mixer-config.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/policy-and-control/mixer.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/traffic-management/fault-injection.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/traffic-management/handling-failures.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/traffic-management/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/traffic-management/load-balancing.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/traffic-management/overview.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/traffic-management/pilot.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/traffic-management/request-routing.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/traffic-management/rules-configuration.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/what-is-istio/goals.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/what-is-istio/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/concepts/what-is-istio/overview.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/api/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/api/mixer/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/api/mixer/mixer-service.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/api/mixer/status.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/commands/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/commands/istioctl.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/commands/mixc.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/commands/mixs.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/adapters/denyChecker.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/adapters/genericListChecker.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/adapters/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/adapters/ipListChecker.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/adapters/kubernetes.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/adapters/memQuota.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/adapters/prometheus.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/adapters/redisquota.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/adapters/statsd.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/adapters/stdioLogger.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/aspects/accessLogs.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/aspects/applicationLogs.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/aspects/attributes.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/aspects/denials.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/aspects/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/aspects/lists.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/aspects/metrics.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/aspects/quotas.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/attribute-vocabulary.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/expression-language.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/mixer/mixer-config.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/service-mesh.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/traffic-rules/destination-policies.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/traffic-rules/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/config/traffic-rules/routing-rules.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/contribute/creating-a-pull-request.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/contribute/editing.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/contribute/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/contribute/reviewing-doc-issues.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/contribute/staging-your-changes.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/contribute/style-guide.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/contribute/writing-a-new-topic.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/glossary.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/release-notes.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/release-roadmap.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/reference/writing-config.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/samples/bookinfo.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/samples/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/tasks/basic-access-control.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/tasks/egress.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/tasks/fault-injection.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/tasks/</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/tasks/ingress.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/tasks/installing-istio.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/tasks/integrating-services-into-istio.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/tasks/istio-auth.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/tasks/metrics-logs.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/tasks/rate-limiting.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/tasks/request-routing.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/tasks/request-timeouts.html</loc>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://istio.io/docs/tasks/zipkin-tracing.html</loc>
+    </url>
+    
+    
+</urlset>

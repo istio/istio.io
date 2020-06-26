@@ -1,7 +1,7 @@
 ---
 title: Grafana
 description: Information on how to integrate with Grafana to set up Istio dashboards.
-weight: 20
+weight: 27
 keywords: [integration,grafana]
 test: no
 ---

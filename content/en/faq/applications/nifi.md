@@ -3,7 +3,6 @@ title: Can I run Apache NiFi inside an Istio mesh?
 description: How to run Apache NiFi with Istio.
 weight: 50
 keywords: [nifi]
-test: no
 ---
 
 [Apache NiFi](https://nifi.apache.org) poses some challenges to get it running on Istio. These challenges come from the clustering

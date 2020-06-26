@@ -5,7 +5,6 @@ publishdate: 2019-11-14
 attribution: Neeraj Poddar (Aspen Mesh)
 keywords: [client-go,tools,crd]
 target_release: 1.4
-test: no
 ---
 
 We are pleased to announce the initial release of the Istio

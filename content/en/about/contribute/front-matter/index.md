@@ -3,7 +3,6 @@ title: Front matter
 description: Explains the front matter used in our documentation and the fields available.
 weight: 6
 keywords: [metadata,navigation,table-of-contents]
-test: no
 ---
 
 The front matter is YAML code in between triple-dashed lines at the top of each

@@ -40,15 +40,20 @@ using the following command:
 $ istioctl install
 {{< /text >}}
 
+{{< tip >}}
+Note that `istioctl install` and `istioctl manifest apply` are exactly the same command. In Istio 1.6, the simpler `install`
+command replaces `manifest apply`, which is deprecated and will be removed in 1.7.
+{{< /tip >}}
+
 This command installs the `default` profile on the cluster defined by your
 Kubernetes configuration. The `default` profile is a good starting point
 for establishing a production environment, unlike the larger `demo` profile that
 is intended for evaluating a broad set of Istio features.
 
-To enable the Grafana dashboard on top of the `default` profile, set the `addonComponents.grafana.enabled` configuration parameter with the following command:
+Various settings can be configured to modify the installations. For example, to enable access logs:
 
 {{< text bash >}}
-$ istioctl install --set addonComponents.grafana.enabled=true
+$ istioctl install --set meshConfig.accessLogFile=/dev/stdout
 {{< /text >}}
 
 In general, you can use the `--set` flag in `istioctl` as you would with
@@ -83,6 +88,13 @@ to install the `demo` profile:
 $ istioctl install --set profile=demo
 {{< /text >}}
 
+## Check what's installed
+
+The `istioctl` command saves the `IstioOperator` CR that was used to install Istio in a copy of the CR named `installed-state`.
+You can inspect this CR if you lose track of what is installed in a cluster.
+
+The `installed-state` CR is also used to perform checks in some `istioctl` commands and should therefore not be removed.
+
 ## Display the list of available profiles
 
 You can display the names of Istio configuration profiles that are
@@ -106,15 +118,6 @@ run the following command:
 
 {{< text bash >}}
 $ istioctl profile dump demo
-addonComponents:
-  grafana:
-    enabled: true
-  kiali:
-    enabled: true
-  prometheus:
-    enabled: true
-  tracing:
-    enabled: true
 components:
   egressGateways:
   - enabled: true
@@ -182,24 +185,21 @@ $ istioctl profile diff default demo
 ## Generate a manifest before installation
 
 You can generate the manifest before installing Istio using the `manifest generate`
-sub-command, instead of `istioctl install`.
+sub-command.
 For example, use the following command to generate a manifest for the `default` profile:
 
 {{< text bash >}}
 $ istioctl manifest generate > $HOME/generated-manifest.yaml
 {{< /text >}}
 
-Inspect the manifest as needed, then apply the manifest using this command:
+The generated manifest can be used to inspect what exactly is installed as well as to track changes to the manifest
+over time. While the `IstioOperator` CR represents the full user configuration and is sufficient for tracking it,
+the output from `manifest generate` also captures possible changes in the underlying charts and therefore can be
+used to track the actual installed resources.
 
-{{< text bash >}}
-$ kubectl create ns istio-system
-$ kubectl apply -f $HOME/generated-manifest.yaml
-{{< /text >}}
-
-{{< tip >}}
-This command might show transient errors due to resources not being available in
-the cluster in the correct order.
-{{< /tip >}}
+The output from `manifest generate` can also be used to install Istio using `kubectl apply` or equivalent. However,
+these alternative installation methods may not apply the resources with the same sequencing of dependencies as
+`istioctl install` and are not tested in an Istio release.
 
 ## Show differences in manifests
 
@@ -257,7 +257,7 @@ $ istioctl verify-install -f $HOME/generated-manifest.yaml
 
 In addition to installing any of Istio's built-in
 [configuration profiles](/docs/setup/additional-setup/config-profiles/),
-`istioctl manifest` provides a complete API for customizing the configuration.
+`istioctl install` provides a complete API for customizing the configuration.
 
 - [The `IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
 
@@ -300,36 +300,11 @@ The `IstioOperator` API defines components as shown in the table below:
 `base` |
 `pilot` |
 `proxy` |
-`sidecarInjector` |
 `telemetry` |
 `policy` |
-`citadel` |
-`nodeagent` |
-`galley` |
 `ingressGateways` |
 `egressGateways` |
 `cni` |
-
-In addition to the core Istio components, third-party addon components are also available. These can
-be enabled and configured through the `addonComponents` spec of the `IstioOperator` API or using the Helm pass-through API:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  addonComponents:
-    grafana:
-      enabled: true
-{{< /text >}}
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    grafana:
-      enabled: true
-{{< /text >}}
 
 ### Configure component settings
 

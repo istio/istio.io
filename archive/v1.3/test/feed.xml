@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tests on Istio</title><link>/v1.3/test/</link><description>Recent content in Tests on Istio</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="/v1.3/test/feed.xml" rel="self" type="application/rss+xml"/><item><title>Boilerplates</title><link>/v1.3/test/boil/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/v1.3/test/boil/</guid><description>Plain boilerplate:
+This is some boilerplate text. Boilerplate with some markdown and a short code
+This is some boilerplate markdown text.
+A sample nested text block. Boilerplate with only a shortcode:
+A warning from a boilerplate Boilerplate with only a shortcode with a nested text block:
+A warning from a boilerplate
+A text block inside a warning</description></item><item><title>Boilerplates and Lists</title><link>/v1.3/test/boil_and_lists/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/v1.3/test/boil_and_lists/</guid><description> Plain boilerplate:
+This is some boilerplate text. Boilerplate with some markdown and a short code:
+This is some boilerplate markdown text.
+A sample nested text block. Boilerplate with only a shortcode:
+A warning from a boilerplate Boilerplate with only a shortcode with a nested text block:
+A warning from a boilerplate
+A text block inside a warning</description></item><item><title>Callouts</title><link>/v1.3/test/callouts/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/v1.3/test/callouts/</guid><description>This is a warning This is a warning
+with two paragraphs
+This is a warning with a reasonably long sentence.
+with two paragraphs
+A nested text block This is a warning with some very long text to see how the wrapping behavior will be like since we&amp;rsquo;ve had problems in this area previously where wrapping would actually not take place Very wide text block in a call out</description></item><item><title>Callouts and Lists</title><link>/v1.3/test/callouts_and_lists/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/v1.3/test/callouts_and_lists/</guid><description>Warning
+This is a warning This is a warning
+with two paragraphs
+This is a warning
+with two paragraphs
+A nested text block Tip
+This is a tip This is a tip
+with two paragraphs
+Idea
+This is an idea This is an idea</description></item><item><title>Tabs</title><link>/v1.3/test/tabs/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/v1.3/test/tabs/</guid><description>One Two Three Four Five Six Seven One paragraphThree
+separate
+paragraphs
+Warning in a tab Simple text
+In two paragraphs
+Warning in a tab Simple text
+Text block in a tab Simple text with markdown in a tab
+Warning with markdown in a tab
+Text block in a warning in a tab And more markdown</description></item><item><title>Tabs and Lists</title><link>/v1.3/test/tabs_and_lists/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/v1.3/test/tabs_and_lists/</guid><description>One Two Three Four Five Six Seven One paragraph in a list in a tab Three
+separate
+bullets in a list in a tab
+This last bullet with two paragraphs
+Simple text in a list in a tab
+A paragraph
+Warning in a list in a tab And another
+Second bullet
+Third bullet
+Simple text with markdown in a list in a tab</description></item><item><title>Text Blocks</title><link>/v1.3/test/tb/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/v1.3/test/tb/</guid><description>Plain text block with html tag
+$ kubectl get svc -n istio-system NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) grafana ClusterIP 172.21.211.123 &amp;lt;none&amp;gt; 3000/TCP ... Bash text block with plain output
+$ this is a text block $ echo Foo \ Bar Foo Bar Bash text block with redirection
+$ kubectl apply -f - &amp;lt;&amp;lt;EOF apiVersion: networking.istio.io/v1alpha3 kind: ServiceEntry Bash text block with html tag
+$ kubectl get svc -n istio-system NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) grafana ClusterIP 172.</description></item><item><title>Text Blocks and Lists</title><link>/v1.3/test/tb_and_lists/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/v1.3/test/tb_and_lists/</guid><description>A bullet
+A text block nested in a bullet with a second line and a third line Another bullet
+A nested warning Another nested text block with a second line and a third line Yet another bullet
+Second paragraph
+Still another bullet
+This is a warning in a bullet.
+This is a text block in a warning in a bullet with a second line and a third line Deploy your application using the kubectl command:</description></item></channel></rss>

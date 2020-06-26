@@ -8,7 +8,6 @@ release: 1.3.3
 aliases:
     - /news/2019/announcing-1.3.3
     - /news/announcing-1.3.3
-test: n/a
 ---
 
 This release includes bug fixes to improve robustness. This release note describes what's different between Istio 1.3.2 and Istio 1.3.3.

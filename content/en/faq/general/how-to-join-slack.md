@@ -1,7 +1,6 @@
 ---
 title: How can I join the Istio Slack workspace?
 weight: 180
-test: n/a
 ---
 
 If you'd like to have live interactions with members of our community, you can join us on

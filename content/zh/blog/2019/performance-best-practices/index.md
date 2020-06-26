@@ -20,7 +20,7 @@ keywords: [performance,scalability,scale,benchmarks]
 
 为了准确地大规模度量服务网格的性能，使用[适当大小的](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/istio-install#istio-setup) Kubernetes 集群很重要。我们使用三个工作节点进行测试，每个工作节点至少具有 4 vCPU 和 15 GB 的内存。
 
-然后，在该群集上使用可用于生产的 Istio **安装配置文件** 很重要。这使我们能够实现面向性能的设置，例如控制平面 pod 自动伸缩，并确保资源限制适用于繁重的流量负荷。[默认](/zh/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template) Istio 安装适用于大多数基准测试用例。为了进行广泛的性能基准测试，并提供数千种注入代理的服务，我们还提供了[调整后的 Istio 安装](https://github.com/istio/tools/blob/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/istio-install/values.yaml)，可为 Istio 控制平面分配额外的内存和 CPU。
+然后，在该群集上使用可用于生产的 Istio **安装配置文件** 很重要。这使我们能够实现面向性能的设置，例如控制平面 pod 自动伸缩，并确保资源限制适用于繁重的流量负荷。[默认](/zh/docs/setup/install/helm/#安装步骤) Istio 安装适用于大多数基准测试用例。为了进行广泛的性能基准测试，并提供数千种注入代理的服务，我们还提供了[调整后的 Istio 安装](https://github.com/istio/tools/blob/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/istio-install/values.yaml)，可为 Istio 控制平面分配额外的内存和 CPU。
 
 {{< warning_icon >}} Istio 的 [demo 安装](/zh/docs/setup/getting-started/)不适合进行性能测试，因为它被设计为部署在小型试用群集中，并且具有完整的跟踪和访问日志，可显示 Istio 的功能。
 
