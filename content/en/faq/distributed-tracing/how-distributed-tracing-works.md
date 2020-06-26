@@ -1,7 +1,6 @@
 ---
 title: How does distributed tracing work with Istio?
 weight: 0
-test: n/a
 ---
 
 Istio integrates with distributed tracing systems in two different ways: [Envoy-based](#how-envoy-based-tracing-works) and [Mixer-based](#how-mixer-based-tracing-works) tracing integrations. For both tracing integration approaches, [applications are responsible for forwarding tracing headers](#istio-copy-headers) for subsequent outgoing requests.

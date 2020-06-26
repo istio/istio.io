@@ -46,7 +46,7 @@ which enables policy checks by default.
     Execute the following command from the root Istio directory:
 
     {{< text bash >}}
-    $ istioctl manifest apply --set meshConfig.disablePolicyChecks=false --set values.pilot.policy.enabled=true
+    $ istioctl install --set meshConfig.disablePolicyChecks=false --set values.pilot.policy.enabled=true
     configuration "istio" replaced
     {{< /text >}}
 

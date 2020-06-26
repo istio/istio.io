@@ -11,7 +11,6 @@ keywords: [CVE]
 skip_seealso: true
 aliases:
     - /news/2019/istio-security-2019-005
-test: n/a
 ---
 
 {{< security_bulletin >}}

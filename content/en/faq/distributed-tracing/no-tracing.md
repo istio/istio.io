@@ -1,7 +1,6 @@
 ---
 title: Why are my requests not being traced?
 weight: 30
-test: n/a
 ---
 
 Since Istio 1.0.3, the sampling rate for tracing has been reduced to 1% in the `default`

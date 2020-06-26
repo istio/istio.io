@@ -53,7 +53,7 @@ controlled way.
 1.  Run the following command:
 
     {{< text bash >}}
-    $ istioctl manifest apply --set values.global.istioNamespace=istio-system \
+    $ istioctl install --set values.global.istioNamespace=istio-system \
         --set values.gateways.istio-ingressgateway.enabled=false \
         --set values.gateways.istio-egressgateway.enabled=true
     {{< /text >}}

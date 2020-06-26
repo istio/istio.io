@@ -1,7 +1,6 @@
 ---
 title: How do I get started using Istio?
 weight: 30
-test: n/a
 ---
 
 We recommend starting with the [Guides](/docs/examples/), which walks

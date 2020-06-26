@@ -61,7 +61,7 @@ func (b *Builder) BuildAndRun(ctx framework.TestContext) {
 // Build a run function for the test
 func (b *Builder) Build() func(ctx framework.TestContext) {
 	return func(ctx framework.TestContext) {
-		scopes.CI.Infof("Executing test %s (%d steps)", ctx.Name(), len(b.steps))
+		scopes.Framework.Infof("Executing test %s (%d steps)", ctx.Name(), len(b.steps))
 
 		eCtx := Context{
 			TestContext: ctx,
@@ -72,7 +72,7 @@ func (b *Builder) Build() func(ctx framework.TestContext) {
 		if _, err := os.Stat(samplesSymlink); os.IsNotExist(err) {
 			err = os.Symlink(path.Join(env.IstioSrc, "samples"), samplesSymlink)
 			if err != nil {
-				scopes.CI.Warnf("Could not create symlink to samples/ directory at %s", samplesSymlink)
+				scopes.Framework.Warnf("Could not create symlink to samples/ directory at %s", samplesSymlink)
 			} else {
 				defer func() {
 					_ = os.Remove(samplesSymlink)

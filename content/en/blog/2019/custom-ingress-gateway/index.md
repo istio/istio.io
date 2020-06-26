@@ -6,7 +6,6 @@ publishdate: 2019-01-10
 keywords: [ingress,traffic-management]
 attribution: Julien Senon
 target_release: 1.0
-test: no
 ---
 
 This post provides instructions to manually create a custom ingress [gateway](/docs/reference/config/networking/gateway/) with automatic provisioning of certificates based on cert-manager.
@@ -15,9 +14,9 @@ The creation of custom ingress gateway could be used in order to have different 
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the
+* Set up Istio by following the instructions in the
   [Installation guide](/docs/setup/).
-* Setup `cert-manager` with helm [chart](https://github.com/helm/charts/tree/master/stable/cert-manager#installing-the-chart)
+* Set up `cert-manager` with helm [chart](https://github.com/helm/charts/tree/master/stable/cert-manager#installing-the-chart)
 * We will use `demo.mydemo.com` for our example,
   it must be resolved with your DNS
 

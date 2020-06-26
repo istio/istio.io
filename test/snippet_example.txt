@@ -9,7 +9,7 @@ on two lines
 This is chunk 2
 # $endsnippet
 
-# $snippet SNIP1
+# $snippet SNIP3
 This is chunk 3
 # $endsnippet
 

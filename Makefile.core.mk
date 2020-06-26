@@ -26,7 +26,7 @@ GOOS_LOCAL := $(TARGET_OS)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
 # For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
-ISTIO_IMAGE_VERSION ?= 1.6-alpha
+ISTIO_IMAGE_VERSION ?= 1.7-alpha
 export ISTIO_IMAGE_VERSION
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
@@ -84,6 +84,11 @@ build: site
 build_nominify: site
 	@scripts/build_site.sh "" -no_minify
 
+build_with_archive: site
+	@scripts/gen_site.sh
+	@scripts/build_site.sh "/latest"
+	@scripts/include_archive_site.sh
+
 opt:
 	@scripts/opt_site.sh
 
@@ -100,7 +105,10 @@ lint-fast: clean_public build_nominify lint-copyright-banner lint-python lint-ya
 	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
 
 serve: site
-	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/" --bind 0.0.0.0 --disableFastRender
+	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/latest/" --bind 0.0.0.0 --disableFastRender
+	
+archive-version:
+	@scripts/archive_version.sh
 
 # used by netlify.com when building the site. The tool versions should correspond
 # to what is included in the tools repo in docker/build-tools/Dockerfile.
@@ -120,12 +128,8 @@ netlify_install:
 
 netlify: netlify_install
 	@scripts/gen_site.sh
-	@scripts/build_site.sh "$(baseurl)"
-
-netlify_archive: netlify_install archive
-
-archive:
-	@scripts/build_archive_site.sh "$(baseurl)"
+	@scripts/build_site.sh "/latest"
+	@scripts/include_archive_site.sh
 
 update_ref_docs:
 	@scripts/grab_reference_docs.sh $(SOURCE_BRANCH_NAME)
@@ -160,13 +164,20 @@ endif
 	@export TAG
 	@echo "TAG=${TAG}"
 
+# doc test framework
 include tests/tests.mk
+
+# remains of old framework to pass istio-testing
+test.kube.presubmit: doc.test
+
+# remains of old framework to pass istio-testing
+test.kube.postsubmit: test.kube.presubmit
 
 test_status:
 	@scripts/test_status.sh
 
 # make lint-yaml seems to fail with pipefail, so remove now.
-#SHELL = /bin/bash
+# SHELL = /bin/bash
 
 include common/Makefile.common.mk
 

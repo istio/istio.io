@@ -3,7 +3,6 @@ title: MySQL Connectivity Troubleshooting
 description: Troubleshooting MySQL connectivity issue due to PERMISSIVE mode.
 weight: 95
 keywords: [mysql,mtls]
-test: no
 ---
 
 You may find MySQL can't connect after installing Istio. This is because of `PERMISSIVE` mode,

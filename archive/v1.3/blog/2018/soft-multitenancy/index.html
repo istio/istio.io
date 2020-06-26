@@ -1,0 +1,220 @@
+<!doctype html><html lang=en itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content=#466BB0><meta name=title content="Istio Soft Multi-Tenancy Support"><meta name=description content="Using Kubernetes namespaces and RBAC to create an Istio soft multi-tenancy environment."><meta name=author content="John Joyce and Rich Curran"><meta name=keywords content=microservices,services,mesh,tenancy><meta property=og:title content="Istio Soft Multi-Tenancy Support"><meta property=og:type content=website><meta property=og:description content="Using Kubernetes namespaces and RBAC to create an Istio soft multi-tenancy environment."><meta property=og:url content=/v1.3/blog/2018/soft-multitenancy/><meta property=og:image content=/v1.3/img/istio-whitelogo-bluebackground-framed.svg><meta property=og:image:alt content="Istio Logo"><meta property=og:image:width content=112><meta property=og:image:height content=150><meta property=og:site_name content=Istio><meta name=twitter:card content=summary><meta name=twitter:site content=@IstioMesh><title>Istioldie 1.3 / Istio Soft Multi-Tenancy Support</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-98480406-2');</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.3/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.3/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.3/feed.xml><link rel="shortcut icon" href=/v1.3/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.3/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.3/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.3/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.3/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.3/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.3/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.3/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.3/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.3/favicons/android-192x192.png sizes=192x192><link rel=manifest href=/v1.3/manifest.json><meta name=apple-mobile-web-app-title content=Istio><meta name=application-name content=Istio><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Work+Sans:400|Chivo:400|Work+Sans:500,300,600,300italic,400italic,500italic,600italic|Chivo:500,300,600,300italic,400italic,500italic,600italic"><link rel=stylesheet href=/v1.3/css/all.css><script src=/v1.3/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.3";const docTitle="Istio Soft Multi-Tenancy Support";const iconFile="\/v1.3/img/icons.svg";const buttonCopy='Copy to clipboard';const buttonPrint='Print';const buttonDownload='Download';</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script><script src=/v1.3/js/all.min.js data-manual defer></script><header><nav><a id=brand href=/v1.3/><span class=logo><svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="146" stroke-width="2" /><path d="M65 240H225L125 270z"/><path d="M65 230l60-10V110z"/><path d="M135 220l90 10L135 30z"/></svg></span><span class=name>Istioldie 1.3</span></a><div id=hamburger><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#hamburger"/></svg></div><div id=header-links><a title="Learn how to deploy, use, and operate Istio." href=/v1.3/docs/>Docs</a>
+<span title="Posts about using Istio.">Blog</span>
+<a title="Timely news about the Istio project." href=/v1.3/news/2019/announcing-1.2-eol/>News</a>
+<a title="Frequently Asked Questions about Istio." href=/v1.3/faq/>FAQ</a>
+<a title="Get a bit more in-depth info about the Istio project." href=/v1.3/about/>About</a><div class=menu><button id=gearDropdownButton class=menu-trigger title="Options and settings" aria-label="Options and Settings" aria-controls=gearDropdownContent><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#gear"/></svg></button><div id=gearDropdownContent class=menu-content aria-labelledby=gearDropdownButton role=menu><a tabindex=-1 role=menuitem class=active id=light-theme-item>Light Theme</a>
+<a tabindex=-1 role=menuitem id=dark-theme-item>Dark Theme</a><div role=separator></div><a tabindex=-1 role=menuitem id=syntax-coloring-item>Color Examples</a><div role=separator></div><h6>Other versions of this site</h6><a tabindex=-1 role=menuitem onclick="navigateToUrlOrRoot('https://istio.io/blog\/2018\/soft-multitenancy\/');return false;">Current Release</a>
+<a tabindex=-1 role=menuitem onclick="navigateToUrlOrRoot('https://preliminary.istio.io/blog\/2018\/soft-multitenancy\/');return false;">Next Release</a>
+<a tabindex=-1 role=menuitem href=https://archive.istio.io>Older Releases</a></div></div><button id=search-show title="Search this site" aria-label=Search><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#magnifier"/></svg></button></div><form id=search-form name=cse role=search><input type=hidden name=cx value=013699703217164175118:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=en>
+<input type=hidden id=search-page-url value=/v1.3/search>
+<input id=search-textbox class=form-control name=q type=search aria-label="Search this site">
+<button id=search-close title="Cancel search" type=reset aria-label="Cancel search"><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#cancel-x"/></svg></button></form></nav></header><main class=primary><div id=sidebar-container class="sidebar-container sidebar-offcanvas"><nav id=sidebar aria-label="Section Navigation"><div class=directory><div class=card><button class="header dynamic" id=card0 title="Blog posts for 2019." aria-controls=card0-body><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#blog"/></svg>2019 Posts</button><div class=body aria-labelledby=card0 role=region id=card0-body><ul role=tree aria-expanded=true class=leaf-section aria-labelledby=card0><li role=none><a role=treeitem title="Configure Istio ingress gateway to act as a proxy for external services." href=/v1.3/blog/2019/proxy/>Istio as a Proxy for External Services</a></li><li role=none><a role=treeitem title="How can you use Istio to monitor blocked and passthrough external traffic." href=/v1.3/blog/2019/monitoring-external-service-traffic/>Monitoring blocked and passthrough external service traffic</a></li><li role=none><a role=treeitem title="Using Istio to secure multi-cloud Kubernetes applications with zero code changes." href=/v1.3/blog/2019/app-identity-and-access-adapter/>App Identity and Access Adapter</a></li><li role=none><a role=treeitem title="Demonstrates a Mixer out-of-process adapter which implements the Knative scale-from-zero logic." href=/v1.3/blog/2019/knative-activator-adapter/>Mixer out-of-process adapter for Knative</a></li><li role=none><a role=treeitem title="Taking advantage of Kubernetes trustworthy JWTs to issue certificates for workload instances more securely." href=/v1.3/blog/2019/trustworthy-jwt-sds/>Change in Secret Discovery Service in Istio 1.3</a></li><li role=none><a role=treeitem title="The design principles behind Istio's APIs and how those APIs are evolving." href=/v1.3/blog/2019/evolving-istios-apis/>The Evolution of Istio&#39;s APIs</a></li><li role=none><a role=treeitem title="Comparison of alternative solutions to control egress traffic including performance considerations." href=/v1.3/blog/2019/egress-traffic-control-in-istio-part-3/>Secure Control of Egress Traffic in Istio, part 3</a></li><li role=none><a role=treeitem title="Use Istio Egress Traffic Control to prevent attacks involving egress traffic." href=/v1.3/blog/2019/egress-traffic-control-in-istio-part-2/>Secure Control of Egress Traffic in Istio, part 2</a></li><li role=none><a role=treeitem title="Tools and guidance for evaluating Istio's data plane performance." href=/v1.3/blog/2019/performance-best-practices/>Best Practices: Benchmarking Service Mesh Performance</a></li><li role=none><a role=treeitem title="Learn how to extend the lifetime of Istio self-signed root certificate." href=/v1.3/blog/2019/root-transition/>Extending Istio Self-Signed Root Certificate Lifetime</a></li><li role=none><a role=treeitem title="Attacks involving egress traffic and requirements for egress traffic control." href=/v1.3/blog/2019/egress-traffic-control-in-istio-part-1/>Secure Control of Egress Traffic in Istio, part 1</a></li><li role=none><a role=treeitem title="An overview of Istio 1.1 performance." href=/v1.3/blog/2019/istio1.1_perf/>Architecting Istio 1.1 for Performance</a></li><li role=none><a role=treeitem title="Configuring Istio route rules in a multicluster service mesh." href=/v1.3/blog/2019/multicluster-version-routing/>Version Routing in a Multicluster Service Mesh</a></li><li role=none><a role=treeitem title="Announces the new Istio blog policy." href=/v1.3/blog/2019/sail-the-blog/>Sail the Blog!</a></li><li role=none><a role=treeitem title="De-mystify how Istio manages to plugin its data-plane components into an existing deployment." href=/v1.3/blog/2019/data-plane-setup/>Demystifying Istio&#39;s Sidecar Injection Model</a></li><li role=none><a role=treeitem title="Verifies the performance impact of adding an egress gateway." href=/v1.3/blog/2019/egress-performance/>Egress Gateway Performance Investigation</a></li><li role=none><a role=treeitem title="Addressing application startup ordering and startup latency using AppSwitch." href=/v1.3/blog/2019/appswitch/>Sidestepping Dependency Ordering with AppSwitch</a></li><li role=none><a role=treeitem title="Describes how to deploy a custom ingress gateway using cert-manager manually." href=/v1.3/blog/2019/custom-ingress-gateway/>Deploy a Custom Ingress Gateway Using Cert-Manager</a></li></ul></div></div><div class=card><button class="header dynamic" id=card1 title="Blog posts for 2018." aria-controls=card1-body><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#blog"/></svg>2018 Posts</button><div class="body default" aria-labelledby=card1 role=region id=card1-body><ul role=tree aria-expanded=true class=leaf-section aria-labelledby=card1><li role=none><a role=treeitem title="How to use Istio for traffic management without deploying sidecar proxies." href=/v1.3/blog/2018/incremental-traffic-management/>Incremental Istio Part 1, Traffic Management</a></li><li role=none><a role=treeitem title="Describes a simple scenario based on Istio's Bookinfo example." href=/v1.3/blog/2018/egress-mongo/>Consuming External MongoDB Services</a></li><li role=none><a role=treeitem title="Istio hosting an all day Twitch stream to celebrate the 1.0 release." href=/v1.3/blog/2018/istio-twitch-stream/>All Day Istio Twitch Stream</a></li><li role=none><a role=treeitem title="How HP is building its next-generation footwear personalization platform on Istio." href=/v1.3/blog/2018/hp/>Istio a Game Changer for HP&#39;s FitStation Platform</a></li><li role=none><a role=treeitem title="Automatic application onboarding and latency optimizations using AppSwitch." href=/v1.3/blog/2018/delayering-istio/>Delayering Istio with AppSwitch</a></li><li role=none><a role=treeitem title="Describe Istio's authorization feature and how to use it in various use cases." href=/v1.3/blog/2018/istio-authorization/>Micro-Segmentation with Istio Authorization</a></li><li role=none><a role=treeitem title="How to export Istio Access Logs to different sinks like BigQuery, GCS, Pub/Sub through Stackdriver." href=/v1.3/blog/2018/export-logs-through-stackdriver/>Exporting Logs to BigQuery, GCS, Pub/Sub through Stackdriver</a></li><li role=none><a role=treeitem title="Describes how to configure Istio for monitoring and access policies of HTTP egress traffic." href=/v1.3/blog/2018/egress-monitoring-access-control/>Monitoring and Access Policies for HTTP Egress Traffic</a></li><li role=none><a role=treeitem title="Introduction, motivation and design principles for the Istio v1alpha3 routing API." href=/v1.3/blog/2018/v1alpha3-routing/>Introducing the Istio v1alpha3 routing API</a></li><li role=none><a role=treeitem title="Describes how to configure Istio ingress with a network load balancer on AWS." href=/v1.3/blog/2018/aws-nlb/>Configuring Istio Ingress with AWS NLB</a></li><li role=none><span role=treeitem class=current title="Using Kubernetes namespaces and RBAC to create an Istio soft multi-tenancy environment.">Istio Soft Multi-Tenancy Support</span></li><li role=none><a role=treeitem title="An introduction to safer, lower-risk deployments and release to production." href=/v1.3/blog/2018/traffic-mirroring/>Traffic Mirroring with Istio for Testing in Production</a></li><li role=none><a role=treeitem title="Describes a simple scenario based on Istio's Bookinfo example." href=/v1.3/blog/2018/egress-tcp/>Consuming External TCP Services</a></li><li role=none><a role=treeitem title="Describes a simple scenario based on Istio's Bookinfo example." href=/v1.3/blog/2018/egress-https/>Consuming External Web Services</a></li></ul></div></div><div class=card><button class="header dynamic" id=card2 title="Blog posts for 2017." aria-controls=card2-body><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#blog"/></svg>2017 Posts</button><div class=body aria-labelledby=card2 role=region id=card2-body><ul role=tree aria-expanded=true class=leaf-section aria-labelledby=card2><li role=none><a role=treeitem title="Improving availability and reducing latency." href=/v1.3/blog/2017/mixer-spof-myth/>Mixer and the SPOF Myth</a></li><li role=none><a role=treeitem title="Provides an overview of Mixer's plug-in architecture." href=/v1.3/blog/2017/adapter-model/>Mixer Adapter Model</a></li><li role=none><a role=treeitem title="How Kubernetes Network Policy relates to Istio policy." href=/v1.3/blog/2017/0.1-using-network-policy/>Using Network Policy with Istio</a></li><li role=none><a role=treeitem title="Using Istio to create autoscaled canary deployments." href=/v1.3/blog/2017/0.1-canary/>Canary Deployments using Istio</a></li><li role=none><a role=treeitem title="Istio Auth 0.1 announcement." href=/v1.3/blog/2017/0.1-auth/>Using Istio to Improve End-to-End Security</a></li></ul></div></div></div></nav></div><div class=article-container><button tabindex=-1 id=sidebar-toggler title="Toggle the navigation bar"><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#pull"/></svg></button><nav aria-label=Breadcrumb><ol><li><a href=/v1.3/ title="Connect, secure, control, and observe services.">Istio</a></li><li><a href=/v1.3/blog/ title="Posts about using Istio.">Blog</a></li><li><a href=/v1.3/blog/2018/ title="Blog posts for 2018.">2018 Posts</a></li><li>Istio Soft Multi-Tenancy Support</li></ol></nav><article aria-labelledby=title><div class=title-area><div><h1 id=title>Istio Soft Multi-Tenancy Support</h1><p class=subtitle>Using multiple Istio control planes and RBAC to create multi-tenancy</p><p class=byline><span>By</span>
+<span class=attribution>John Joyce and Rich Curran</span><span> | </span><span><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#calendar"/></svg><span>&nbsp;</span>April 19, 2018</span><span> | </span><span title="2007 words"><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#clock"/></svg><span>&nbsp;</span>10 minute read</span></p></div></div><nav class=toc-inlined aria-label="Table of Contents"><div><hr><ol><li role=none aria-label="Soft multi-tenancy"><a href=#soft-multi-tenancy>Soft multi-tenancy</a><li role=none aria-label=Deployment><a href=#deployment>Deployment</a><ol><li role=none aria-label="Multiple Istio control planes"><a href=#multiple-istio-control-planes>Multiple Istio control planes</a><li role=none aria-label="Split common and namespace specific resources"><a href=#split-common-and-namespace-specific-resources>Split common and namespace specific resources</a><li role=none aria-label="Kubernetes RBAC for Istio control plane resources"><a href=#kubernetes-rbac-for-istio-control-plane-resources>Kubernetes RBAC for Istio control plane resources</a><li role=none aria-label="Watching specific namespaces for service discovery"><a href=#watching-specific-namespaces-for-service-discovery>Watching specific namespaces for service discovery</a><li role=none aria-label="Deploying the tenant application in a namespace"><a href=#deploying-the-tenant-application-in-a-namespace>Deploying the tenant application in a namespace</a><li role=none aria-label="Using kubectl in a multi-tenant environment"><a href=#using-kubectl-in-a-multi-tenant-environment>Using <code>kubectl</code> in a multi-tenant environment</a><li role=none aria-label="Test results"><a href=#test-results>Test results</a></ol></li><li role=none aria-label=Conclusion><a href=#conclusion>Conclusion</a><li role=none aria-label=Issues><a href=#issues>Issues</a><li role=none aria-label="Challenges with other multi-tenancy models"><a href=#challenges-with-other-multi-tenancy-models>Challenges with other multi-tenancy models</a><li role=none aria-label="Future work"><a href=#future-work>Future work</a><li role=none aria-label=References><a href=#references>References</a><li role=none aria-label="See also"><a href=#see-also>See also</a></li></ol><hr></div></nav><p>Multi-tenancy is commonly used in many environments across many different applications,
+but the implementation details and functionality provided on a per tenant basis does not
+follow one model in all environments. The <a href=https://github.com/kubernetes/community/blob/master/wg-multitenancy/README.md>Kubernetes multi-tenancy working group</a>
+is working to define the multi-tenant use cases and functionality that should be available
+within Kubernetes. However, from their work so far it is clear that only &ldquo;soft multi-tenancy&rdquo;
+is possible due to the inability to fully protect against malicious containers or workloads
+gaining access to other tenant&rsquo;s pods or kernel resources.</p><h2 id=soft-multi-tenancy>Soft multi-tenancy</h2><p>For this blog, &ldquo;soft multi-tenancy&rdquo; is defined as having a single Kubernetes control plane
+with multiple Istio control planes and multiple meshes, one control plane and one mesh
+per tenant. The cluster administrator gets control and visibility across all the Istio
+control planes, while the tenant administrator only gets control of a specific Istio
+instance. Separation between the tenants is provided by Kubernetes namespaces and RBAC.</p><p>One use case for this deployment model is a shared corporate infrastructure where malicious
+actions are not expected, but a clean separation of the tenants is still required.</p><p>Potential future Istio multi-tenant deployment models are described at the bottom of this
+blog.</p><div><aside class="callout tip"><div class=type><svg class="large-icon"><use xlink:href="/v1.3/img/icons.svg#callout-tip"/></svg></div><div class=content>This blog is a high-level description of how to deploy Istio in a
+limited multi-tenancy environment. The <a href=/v1.3/docs/>docs</a> section will be updated
+when official multi-tenancy support is provided.</div></aside></div><h2 id=deployment>Deployment</h2><h3 id=multiple-istio-control-planes>Multiple Istio control planes</h3><p>Deploying multiple Istio control planes starts by replacing all <code>namespace</code> references
+in a manifest file with the desired namespace. Using <code>istio.yaml</code> as an example, if two tenant
+level Istio control planes are required; the first can use the <code>istio.yaml</code> default name of
+<code>istio-system</code> and a second control plane can be created by generating a new yaml file with
+a different namespace. As an example, the following command creates a yaml file with
+the Istio namespace of <code>istio-system1</code>.</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat istio.yaml | sed s/istio-system/istio-system1/g &gt; istio-system1.yaml
+</code></pre><p>The <code>istio.yaml</code> file contains the details of the Istio control plane deployment, including the
+pods that make up the control plane (Mixer, Pilot, Ingress, Galley, CA). Deploying the two Istio
+control plane yaml files:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f install/kubernetes/istio.yaml
+$ kubectl apply -f install/kubernetes/istio-system1.yaml
+</code></pre><p>Results in two Istio control planes running in two namespaces.</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl get pods --all-namespaces
+NAMESPACE       NAME                                       READY     STATUS    RESTARTS   AGE
+istio-system    istio-ca-ffbb75c6f-98w6x                   1/1       Running   0          15d
+istio-system    istio-ingress-68d65fc5c6-dnvfl             1/1       Running   0          15d
+istio-system    istio-mixer-5b9f8dffb5-8875r               3/3       Running   0          15d
+istio-system    istio-pilot-678fc976c8-b8tv6               2/2       Running   0          15d
+istio-system1   istio-ca-5f496fdbcd-lqhlk                  1/1       Running   0          15d
+istio-system1   istio-ingress-68d65fc5c6-2vldg             1/1       Running   0          15d
+istio-system1   istio-mixer-7d4f7b9968-66z44               3/3       Running   0          15d
+istio-system1   istio-pilot-5bb6b7669c-779vb               2/2       Running   0          15d
+</code></pre><p>The Istio <a href=/v1.3/docs/setup/additional-setup/sidecar-injection/>sidecar</a>
+and <a href=/v1.3/docs/tasks/telemetry/>addons</a>, if required, manifests must also be
+deployed to match the configured <code>namespace</code> in use by the tenant&rsquo;s Istio
+control plane.</p><p>The execution of these two yaml files is the responsibility of the cluster
+administrator, not the tenant level administrator. Additional RBAC restrictions will also
+need to be configured and applied by the cluster administrator, limiting the tenant
+administrator to only the assigned namespace.</p><h3 id=split-common-and-namespace-specific-resources>Split common and namespace specific resources</h3><p>The manifest files in the Istio repositories create both common resources that would
+be used by all Istio control planes as well as resources that are replicated per control
+plane. Although it is a simple matter to deploy multiple control planes by replacing the
+<code>istio-system</code> namespace references as described above, a better approach is to split the
+manifests into a common part that is deployed once for all tenants and a tenant
+specific part. For the <a href=https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions>Custom Resource Definitions</a>, the roles and the role
+bindings should be separated out from the provided Istio manifests. Additionally, the
+roles and role bindings in the provided Istio manifests are probably unsuitable for a
+multi-tenant environment and should be modified or augmented as described in the next
+section.</p><h3 id=kubernetes-rbac-for-istio-control-plane-resources>Kubernetes RBAC for Istio control plane resources</h3><p>To restrict a tenant administrator to a single Istio namespace, the cluster
+administrator would create a manifest containing, at a minimum, a <code>Role</code> and <code>RoleBinding</code>
+similar to the one below. In this example, a tenant administrator named <em>sales-admin</em>
+is limited to the namespace <code>istio-system1</code>. A completed manifest would contain many
+more <code>apiGroups</code> under the <code>Role</code> providing resource access to the tenant administrator.</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: istio-system1
+  name: ns-access-for-sales-admin-istio-system1
+rules:
+- apiGroups: [&#34;&#34;] # &#34;&#34; indicates the core API group
+  resources: [&#34;*&#34;]
+  verbs: [&#34;*&#34;]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: access-all-istio-system1
+  namespace: istio-system1
+subjects:
+- kind: User
+  name: sales-admin
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: ns-access-for-sales-admin-istio-system1
+  apiGroup: rbac.authorization.k8s.io
+</code></pre><h3 id=watching-specific-namespaces-for-service-discovery>Watching specific namespaces for service discovery</h3><p>In addition to creating RBAC rules limiting the tenant administrator&rsquo;s access to a specific
+Istio control plane, the Istio manifest must be updated to specify the application namespace
+that Pilot should watch for creation of its xDS cache. This is done by starting the Pilot
+component with the additional command line arguments <code>--appNamespace, ns-1</code>. Where <em>ns-1</em>
+is the namespace that the tenant’s application will be deployed in. An example snippet from
+the <code>istio-system1.yaml</code> file is shown below.</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: istio-pilot
+  namespace: istio-system1
+  annotations:
+    sidecar.istio.io/inject: &#34;false&#34;
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        istio: pilot
+    spec:
+      serviceAccountName: istio-pilot-service-account
+      containers:
+      - name: discovery
+        image: docker.io/&lt;user ID&gt;/pilot:&lt;tag&gt;
+        imagePullPolicy: IfNotPresent
+        args: [&#34;discovery&#34;, &#34;-v&#34;, &#34;2&#34;, &#34;--admission-service&#34;, &#34;istio-pilot&#34;, &#34;--appNamespace&#34;, &#34;ns-1&#34;]
+        ports:
+        - containerPort: 8080
+        - containerPort: 443
+</code></pre><h3 id=deploying-the-tenant-application-in-a-namespace>Deploying the tenant application in a namespace</h3><p>Now that the cluster administrator has created the tenant&rsquo;s namespace (ex. <code>istio-system1</code>) and
+Pilot&rsquo;s service discovery has been configured to watch for a specific application
+namespace (ex. <em>ns-1</em>), create the application manifests to deploy in that tenant&rsquo;s specific
+namespace. For example:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: v1
+kind: Namespace
+metadata:
+  name: ns-1
+</code></pre><p>And add the namespace reference to each resource type included in the application&rsquo;s manifest
+file. For example:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: v1
+kind: Service
+metadata:
+  name: details
+  labels:
+    app: details
+  namespace: ns-1
+</code></pre><p>Although not shown, the application namespaces will also have RBAC settings limiting access
+to certain resources. These RBAC settings could be set by the cluster administrator and/or
+the tenant administrator.</p><h3 id=using-kubectl-in-a-multi-tenant-environment>Using <code>kubectl</code> in a multi-tenant environment</h3><p>When defining <a href=https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#RouteRule>route rules</a>
+or <a href=https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#DestinationPolicy>destination policies</a>,
+it is necessary to ensure that the <code>kubectl</code> command is scoped to
+the namespace the Istio control plane is running in to ensure the resource is created
+in the proper namespace. Additionally, the rule itself must be scoped to the tenant&rsquo;s namespace
+so that it will be applied properly to that tenant&rsquo;s mesh. The <em>-i</em> option is used to create
+(or get or describe) the rule in the namespace that the Istio control plane is deployed in.
+The <em>-n</em> option will scope the rule to the tenant&rsquo;s mesh and should be set to the namespace that
+the tenant&rsquo;s app is deployed in. Note that the <em>-n</em> option can be skipped on the command line if
+the .yaml file for the resource scopes it properly instead.</p><p>For example, the following command would be required to add a route rule to the <code>istio-system1</code>
+namespace:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl –i istio-system1 apply -n ns-1 -f route_rule_v2.yaml
+</code></pre><p>And can be displayed using the command:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl -i istio-system1 -n ns-1 get routerule
+NAME                  KIND                                  NAMESPACE
+details-Default       RouteRule.v1alpha2.config.istio.io    ns-1
+productpage-default   RouteRule.v1alpha2.config.istio.io    ns-1
+ratings-default       RouteRule.v1alpha2.config.istio.io    ns-1
+reviews-default       RouteRule.v1alpha2.config.istio.io    ns-1
+</code></pre><p>See the <a href=/v1.3/blog/2018/soft-multitenancy/#multiple-istio-control-planes>Multiple Istio control planes</a> section of this document for more details on <code>namespace</code> requirements in a
+multi-tenant environment.</p><h3 id=test-results>Test results</h3><p>Following the instructions above, a cluster administrator can create an environment limiting,
+via RBAC and namespaces, what a tenant administrator can deploy.</p><p>After deployment, accessing the Istio control plane pods assigned to a specific tenant
+administrator is permitted:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl get pods -n istio-system
+NAME                                      READY     STATUS    RESTARTS   AGE
+grafana-78d649479f-8pqk9                  1/1       Running   0          1d
+istio-ca-ffbb75c6f-98w6x                  1/1       Running   0          1d
+istio-ingress-68d65fc5c6-dnvfl            1/1       Running   0          1d
+istio-mixer-5b9f8dffb5-8875r              3/3       Running   0          1d
+istio-pilot-678fc976c8-b8tv6              2/2       Running   0          1d
+istio-sidecar-injector-7587bd559d-5tgk6   1/1       Running   0          1d
+prometheus-cf8456855-hdcq7                1/1       Running   0          1d
+</code></pre><p>However, accessing all the cluster&rsquo;s pods is not permitted:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl get pods --all-namespaces
+Error from server (Forbidden): pods is forbidden: User &#34;dev-admin&#34; cannot list pods at the cluster scope
+</code></pre><p>And neither is accessing another tenant&rsquo;s namespace:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl get pods -n istio-system1
+Error from server (Forbidden): pods is forbidden: User &#34;dev-admin&#34; cannot list pods in the namespace &#34;istio-system1&#34;
+</code></pre><p>The tenant administrator can deploy applications in the application namespace configured for
+that tenant. As an example, updating the <a href=/v1.3/docs/examples/bookinfo/>Bookinfo</a>
+manifests and then deploying under the tenant&rsquo;s application namespace of <em>ns-0</em>, listing the
+pods in use by this tenant&rsquo;s namespace is permitted:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl get pods -n ns-0
+NAME                              READY     STATUS    RESTARTS   AGE
+details-v1-64b86cd49-b7rkr        2/2       Running   0          1d
+productpage-v1-84f77f8747-rf2mt   2/2       Running   0          1d
+ratings-v1-5f46655b57-5b4c5       2/2       Running   0          1d
+reviews-v1-ff6bdb95b-pm5lb        2/2       Running   0          1d
+reviews-v2-5799558d68-b989t       2/2       Running   0          1d
+reviews-v3-58ff7d665b-lw5j9       2/2       Running   0          1d
+</code></pre><p>But accessing another tenant&rsquo;s application namespace is not:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl get pods -n ns-1
+Error from server (Forbidden): pods is forbidden: User &#34;dev-admin&#34; cannot list pods in the namespace &#34;ns-1&#34;
+</code></pre><p>If the <a href=/v1.3/docs/tasks/telemetry/>add-on tools</a>, example
+<a href=/v1.3/docs/tasks/telemetry/metrics/querying-metrics/>Prometheus</a>, are deployed
+(also limited by an Istio <code>namespace</code>) the statistical results returned would represent only
+that traffic seen from that tenant&rsquo;s application namespace.</p><h2 id=conclusion>Conclusion</h2><p>The evaluation performed indicates Istio has sufficient capabilities and security to meet a
+small number of multi-tenant use cases. It also shows that Istio and Kubernetes <strong>cannot</strong>
+provide sufficient capabilities and security for other use cases, especially those use
+cases that require complete security and isolation between untrusted tenants. The improvements
+required to reach a more secure model of security and isolation require work in container
+technology, ex. Kubernetes, rather than improvements in Istio capabilities.</p><h2 id=issues>Issues</h2><ul><li>The CA (Certificate Authority) and Mixer pod logs from one tenant&rsquo;s Istio control
+plane (e.g. <code>istio-system</code> namespace) contained &lsquo;info&rsquo; messages from a second tenant&rsquo;s
+Istio control plane (e.g. <code>istio-system1</code> namespace).</li></ul><h2 id=challenges-with-other-multi-tenancy-models>Challenges with other multi-tenancy models</h2><p>Other multi-tenancy deployment models were considered:</p><ol><li><p>A single mesh with multiple applications, one for each tenant on the mesh. The cluster
+administrator gets control and visibility mesh wide and across all applications, while the
+tenant administrator only gets control of a specific application.</p></li><li><p>A single Istio control plane with multiple meshes, one mesh per tenant. The cluster
+administrator gets control and visibility across the entire Istio control plane and all
+meshes, while the tenant administrator only gets control of a specific mesh.</p></li><li><p>A single cloud environment (cluster controlled), but multiple Kubernetes control planes
+(tenant controlled).</p></li></ol><p>These options either can&rsquo;t be properly supported without code changes or don&rsquo;t fully
+address the use cases.</p><p>Current Istio capabilities are poorly suited to support the first model as it lacks
+sufficient RBAC capabilities to support cluster versus tenant operations. Additionally,
+having multiple tenants under one mesh is too insecure with the current mesh model and the
+way Istio drives configuration to the Envoy proxies.</p><p>Regarding the second option, the current Istio paradigm assumes a single mesh per Istio control
+plane. The needed changes to support this model are substantial. They would require
+finer grained scoping of resources and security domains based on namespaces, as well as,
+additional Istio RBAC changes. This model will likely be addressed by future work, but not
+currently possible.</p><p>The third model doesn’t satisfy most use cases, as most cluster administrators prefer
+a common Kubernetes control plane which they provide as a
+<a href=https://en.wikipedia.org/wiki/Platform_as_a_service>PaaS</a> to their tenants.</p><h2 id=future-work>Future work</h2><p>Allowing a single Istio control plane to control multiple meshes would be an obvious next
+feature. An additional improvement is to provide a single mesh that can host different
+tenants with some level of isolation and security between the tenants. This could be done
+by partitioning within a single control plane using the same logical notion of namespace as
+Kubernetes. A <a href=https://docs.google.com/document/d/14Hb07gSrfVt5KX9qNi7FzzGwB_6WBpAnDpPG6QEEd9Q>document</a>
+has been started within the Istio community to define additional use cases and the
+Istio functionality required to support those use cases.</p><h2 id=references>References</h2><ul><li>Video on Kubernetes multi-tenancy support, <a href="https://www.youtube.com/watch?v=ahwCkJGItkU">Multi-Tenancy Support &amp; Security Modeling with RBAC and Namespaces</a>, and the <a href=https://schd.ws/hosted_files/kccncna17/21/Multi-tenancy%20Support%20%26%20Security%20Modeling%20with%20RBAC%20and%20Namespaces.pdf>supporting slide deck</a>.</li><li>Kubecon talk on security that discusses Kubernetes support for &ldquo;Cooperative soft multi-tenancy&rdquo;, <a href="https://www.youtube.com/watch?v=YRR-kZub0cA">Building for Trust: How to Secure Your Kubernetes</a>.</li><li>Kubernetes documentation on <a href=https://kubernetes.io/docs/reference/access-authn-authz/rbac/>RBAC</a> and <a href=https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/>namespaces</a>.</li><li>Kubecon slide deck on <a href=https://schd.ws/hosted_files/kccncna17/a9/kubecon-multitenancy.pdf>Multi-tenancy Deep Dive</a>.</li><li>Google document on <a href=https://docs.google.com/document/d/15w1_fesSUZHv-vwjiYa9vN_uyc--PySRoLKTuDhimjc>Multi-tenancy models for Kubernetes</a>. (Requires permission)</li><li>Cloud Foundry WIP document, <a href=https://docs.google.com/document/d/14Hb07gSrfVt5KX9qNi7FzzGwB_6WBpAnDpPG6QEEd9Q>Multi-cloud and Multi-tenancy</a></li><li><a href=https://docs.google.com/document/d/12F183NIRAwj2hprx-a-51ByLeNqbJxK16X06vwH5OWE>Istio Auto Multi-Tenancy 101</a></li></ul><nav id=see-also><h2>See also</h2><div class=see-also><div class=entry><p class=link><a data-skipendnotes=true href=/v1.3/docs/concepts/deployment-models/>Deployment Models</a></p><p class=desc>Describes the system models that impact your overall Istio depolyment.</p></div></div></nav></article><nav class=pagenav><div class=left><a title="Describes how to configure Istio ingress with a network load balancer on AWS." href=/v1.3/blog/2018/aws-nlb/><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#left-arrow"/></svg>Configuring Istio Ingress with AWS NLB</a></div><div class=right><a title="An introduction to safer, lower-risk deployments and release to production." href=/v1.3/blog/2018/traffic-mirroring/>Traffic Mirroring with Istio for Testing in Production<svg class="icon"><use xlink:href="/v1.3/img/icons.svg#right-arrow"/></svg></a></div></nav><div id=endnotes-container aria-hidden=true><h2>Links</h2><ol id=endnotes></ol></div></div><div class=toc-container><nav class=toc aria-label="Table of Contents"><div id=toc><ol><li role=none aria-label="Soft multi-tenancy"><a href=#soft-multi-tenancy>Soft multi-tenancy</a><li role=none aria-label=Deployment><a href=#deployment>Deployment</a><ol><li role=none aria-label="Multiple Istio control planes"><a href=#multiple-istio-control-planes>Multiple Istio control planes</a><li role=none aria-label="Split common and namespace specific resources"><a href=#split-common-and-namespace-specific-resources>Split common and namespace specific resources</a><li role=none aria-label="Kubernetes RBAC for Istio control plane resources"><a href=#kubernetes-rbac-for-istio-control-plane-resources>Kubernetes RBAC for Istio control plane resources</a><li role=none aria-label="Watching specific namespaces for service discovery"><a href=#watching-specific-namespaces-for-service-discovery>Watching specific namespaces for service discovery</a><li role=none aria-label="Deploying the tenant application in a namespace"><a href=#deploying-the-tenant-application-in-a-namespace>Deploying the tenant application in a namespace</a><li role=none aria-label="Using kubectl in a multi-tenant environment"><a href=#using-kubectl-in-a-multi-tenant-environment>Using <code>kubectl</code> in a multi-tenant environment</a><li role=none aria-label="Test results"><a href=#test-results>Test results</a></ol></li><li role=none aria-label=Conclusion><a href=#conclusion>Conclusion</a><li role=none aria-label=Issues><a href=#issues>Issues</a><li role=none aria-label="Challenges with other multi-tenancy models"><a href=#challenges-with-other-multi-tenancy-models>Challenges with other multi-tenancy models</a><li role=none aria-label="Future work"><a href=#future-work>Future work</a><li role=none aria-label=References><a href=#references>References</a><li role=none aria-label="See also"><a href=#see-also>See also</a></li></ol></div></nav></div></main><footer><div class=user-links><a class=channel title="Go download Istio 1.3.5 now" href=/v1.3/docs/setup#downloading-the-release aria-label="Download Istio"><span>download</span><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#download"/></svg>
+</a><a class=channel title="Join the Istio discussion board to participate in discussions and get help troubleshooting problems" href=https://discuss.istio.io aria-label="Istio discussion board"><span>discuss</span><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#discourse"/></svg></a>
+<a class=channel title="Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio" href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><span>stack overflow</span><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#stackoverflow"/></svg></a>
+<a class=channel title="Interactively discuss issues with the Istio community on Slack" href=https://istio.slack.com aria-label=slack><span>slack</span><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#slack"/></svg></a>
+<a class=channel title="Follow us on Twitter to get the latest news" href=https://twitter.com/IstioMesh aria-label=Twitter><span>twitter</span><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#twitter"/></svg></a><div class=tag>for everyone</div></div><div class=info><p class=copyright>Istio Archive
+1.3.5<br>&copy; 2019 Istio Authors, <a href=https://policies.google.com/privacy>Privacy Policy</a><br>Archived on November 14, 2019</p></div><div class=dev-links><a class=channel title="GitHub is where development takes place on Istio code" href=https://github.com/istio/community aria-label=GitHub><span>github</span><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#github"/></svg></a>
+<a class=channel title="Access our team drive if you'd like to take a look at the Istio technical design documents" href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><span>drive</span><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#drive"/></svg></a>
+<a class=channel title="If you'd like to contribute to the Istio project, consider participating in our working groups" href=https://github.com/istio/community/blob/master/WORKING-GROUPS.md aria-label="working groups"><span>working groups</span><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#working-groups"/></svg></a><div class=tag>for developers</div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title="Back to top"><svg class="icon"><use xlink:href="/v1.3/img/icons.svg#top"/></svg></button></div></body></html>

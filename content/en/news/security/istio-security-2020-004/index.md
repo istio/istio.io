@@ -9,7 +9,6 @@ releases: ["1.4 to 1.4.6", "1.5"]
 publishdate: 2020-03-25
 keywords: [CVE]
 skip_seealso: true
-test: no
 ---
 
 {{< security_bulletin >}}

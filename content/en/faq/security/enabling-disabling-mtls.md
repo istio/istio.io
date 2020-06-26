@@ -1,7 +1,6 @@
 ---
 title: How can I enable/disable mutual TLS after I installed Istio?
 weight: 10
-test: n/a
 ---
 
 You can change mutual TLS settings for your services at any time using [authentication policy](/docs/concepts/security/#authentication-policies)

@@ -1,0 +1,16 @@
+<svg id="icon-reference.svg" xmlns="http://www.w3.org/2000/svg" width="25" height="26" viewBox="0 0 25 26">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 2px;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="M2206,2188h18v24h-18v-24Zm-6.99-.5,6.49-6.49,6.49,6.49-6.49,6.49Z" transform="translate(-2200 -2187)"/>
+  <path class="cls-1" d="M2215,2203h-14" transform="translate(-2200 -2187)"/>
+  <path id="Shape_1470_copy" data-name="Shape 1470 copy" class="cls-1" d="M2214,2206v-8" transform="translate(-2200 -2187)"/>
+  <path class="cls-1" d="M2213,2188v7h-7" transform="translate(-2200 -2187)"/>
+</svg>

@@ -1,0 +1,182 @@
+<!doctype html><html lang=en itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content=#466BB0><meta name=title content="Deployment and Configuration Guidelines"><meta name=description content="Provides specific deployment and configuration guidelines."><meta name=keywords content=microservices,services,mesh><meta property=og:title content="Deployment and Configuration Guidelines"><meta property=og:type content=website><meta property=og:description content="Provides specific deployment and configuration guidelines."><meta property=og:url content=/v1.1/help/ops/traffic-management/deploy-guidelines/><meta property=og:image content=/v1.1/img/istio-whitelogo-bluebackground-framed.svg><meta property=og:image:alt content="Istio Logo"><meta property=og:image:width content=112><meta property=og:image:height content=150><meta property=og:site_name content=Istio><meta name=twitter:card content=summary><meta name=twitter:site content=@IstioMesh><title>Istioldie 1.1 / Deployment and Configuration Guidelines</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-98480406-2');</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.1/feed.xml><link rel="shortcut icon" href=/v1.1/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.1/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.1/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.1/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.1/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.1/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.1/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.1/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.1/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.1/favicons/android-192x192.png sizes=192x192><link rel=manifest href=/v1.1/manifest.json><meta name=apple-mobile-web-app-title content=Istio><meta name=application-name content=Istio><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Work+Sans:400|Chivo:400|Work+Sans:500,300,600,300italic,400italic,500italic,600italic|Chivo:500,300,600,300italic,400italic,500italic,600italic"><link rel=stylesheet href=/v1.1/css/all.css></head><body class="language-unknown archive-site"><script src=/v1.1/js/themes_init.min.js></script><script>const branchName="release-1.1";const docTitle="Deployment and Configuration Guidelines";const iconFile="\/v1.1/img/icons.svg";const buttonCopy='Copy to clipboard';const buttonPrint='Print';const buttonDownload='Download';</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script><script src=/v1.1/js/all.min.js data-manual defer></script><header><nav><a id=brand href=/v1.1/><span class=logo><svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="146" stroke-width="2" /><path d="M65 240H225L125 270z"/><path d="M65 230l60-10V110z"/><path d="M135 220l90 10L135 30z"/></svg></span><span class=name>Istioldie 1.1</span></a><div id=hamburger><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#hamburger"/></svg></div><div id=header-links><a title="Learn how to deploy, use, and operate Istio." href=/v1.1/docs/>Docs</a>
+<a title="Posts about using Istio." href=/v1.1/blog/2019/announcing-1.1.9/>Blog</a>
+<span title="A bunch of resources to help you deploy, configure and use Istio.">Help</span>
+<a title="Get a bit more in-depth info about the Istio project." href=/v1.1/about/>About</a><div class=menu><button id=gearDropdownButton class=menu-trigger title="Options and settings" aria-label="Options and Settings" aria-controls=gearDropdownContent><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#gear"/></svg></button><div id=gearDropdownContent class=menu-content aria-labelledby=gearDropdownButton role=menu><a tabindex=-1 role=menuitem lang=en id=switch-lang-en class=active>English</a>
+<a tabindex=-1 role=menuitem lang=zh id=switch-lang-zh>中文</a><div role=separator></div><a tabindex=-1 role=menuitem class=active id=light-theme-item>Light Theme</a>
+<a tabindex=-1 role=menuitem id=dark-theme-item>Dark Theme</a><div role=separator></div><a tabindex=-1 role=menuitem id=syntax-coloring-item>Color Examples</a><div role=separator></div><h6>Other versions of this site</h6><a tabindex=-1 role=menuitem onclick="navigateToUrlOrRoot('https://istio.io/help\/ops\/traffic-management\/deploy-guidelines\/');return false;">Current Release</a>
+<a tabindex=-1 role=menuitem onclick="navigateToUrlOrRoot('https://preliminary.istio.io/help\/ops\/traffic-management\/deploy-guidelines\/');return false;">Next Release</a>
+<a tabindex=-1 role=menuitem href=https://archive.istio.io>Older Releases</a></div></div><button id=search-show title="Search this site" aria-label=Search><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#magnifier"/></svg></button></div><form id=search-form name=cse role=search><input type=hidden name=cx value=013699703217164175118:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=en>
+<input type=hidden id=search-page-url value=/v1.1/search.html>
+<input id=search-textbox class=form-control name=q type=search aria-label="Search this site">
+<button id=search-close title="Cancel search" type=reset aria-label="Cancel search"><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#cancel-x"/></svg></button></form></nav></header><main class=primary><div id=sidebar-container class="sidebar-container sidebar-offcanvas"><nav id=sidebar aria-label="Section Navigation"><div class=directory><div class=card><div id=header0 class=header title="A bunch of resources to help you deploy, configure and use Istio."><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#help"/></svg>Need Help?</div><div class="body default" aria-labelledby=header0><ul role=tree aria-expanded=true aria-labelledby=header0><li role=treeitem aria-label="Operations Guide"><button class=show aria-hidden=true></button><a title="Hints, tips, tricks about running an Istio mesh." href=/v1.1/help/ops/>Operations Guide</a><ul role=group aria-expanded=true><li role=none><a role=treeitem title="Describes how to use component-level logging to get insights into a running component's behavior." href=/v1.1/help/ops/component-logging/>Component Logging</a></li><li role=none><a role=treeitem title="Describes how to use ControlZ to get insight into individual running components." href=/v1.1/help/ops/controlz/>Component Introspection</a></li><li role=none><a role=treeitem title="How to do low-level debugging of Istio components." href=/v1.1/help/ops/component-debugging/>Component Debugging</a></li><li role=treeitem aria-label="Traffic Management"><button class=show aria-hidden=true></button><a title="Helps you manage the networking aspects of a running mesh." href=/v1.1/help/ops/traffic-management/>Traffic Management</a><ul role=group aria-expanded=true class=leaf-section><li role=none><a role=treeitem title="An introduction to Istio networking operational aspects." href=/v1.1/help/ops/traffic-management/introduction/>Introduction to Network Operations</a></li><li role=none><span role=treeitem class=current title="Provides specific deployment and configuration guidelines.">Deployment and Configuration Guidelines</span></li><li role=none><a role=treeitem title="Describes common networking issues and how to recognize and avoid them." href=/v1.1/help/ops/traffic-management/troubleshooting/>Troubleshooting Networking Issues</a></li><li role=none><a role=treeitem title="Describes tools and techniques to diagnose Envoy configuration issues related to traffic management." href=/v1.1/help/ops/traffic-management/proxy-cmd/>Debugging Envoy and Pilot</a></li><li role=none><a role=treeitem title="Information on how to enable and understand Locality Load Balancing." href=/v1.1/help/ops/traffic-management/locality-load-balancing/>Locality Load Balancing</a></li></ul></li><li role=treeitem aria-label=Security><button aria-hidden=true></button><a title="Helps you manage the security aspects of a running mesh." href=/v1.1/help/ops/security/>Security</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Demonstrates how to debug authorization." href=/v1.1/help/ops/security/debugging-authorization/>Debugging Authorization</a></li><li role=none><a role=treeitem title="What to do if Citadel is not behaving properly." href=/v1.1/help/ops/security/repairing-citadel/>Repairing Citadel</a></li><li role=none><a role=treeitem title="What to do if you suspect problems with Istio keys and certificates." href=/v1.1/help/ops/security/keys-and-certs/>Keys and Certificates</a></li><li role=none><a role=treeitem title="What to do if mutual TLS authentication isn't working." href=/v1.1/help/ops/security/mutual-tls/>Mutual TLS</a></li><li role=none><a role=treeitem title="Authorization is enabled, but requests make it through anyway." href=/v1.1/help/ops/security/authorization-permissive/>Authorization Too Permissive</a></li><li role=none><a role=treeitem title="Authorization is enabled and no requests make it through to the service." href=/v1.1/help/ops/security/authorization-restrictive/>Authorization Too Restrictive</a></li><li role=none><a role=treeitem title="What to do if end-user authentication doesn't work." href=/v1.1/help/ops/security/end-user-auth/>End User Authentication</a></li><li role=none><a role=treeitem title="Learn how to extend the lifetime of the Istio self-signed root certificate." href=/v1.1/help/ops/security/root-transition/>Extending Self-Signed Certificate Lifetime</a></li></ul></li><li role=treeitem aria-label=Telemetry><button aria-hidden=true></button><a title="Helps you manage telemetry collection and visualization in a running mesh." href=/v1.1/help/ops/telemetry/>Telemetry</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Diagnose problems where metrics are not being collected." href=/v1.1/help/ops/telemetry/missing-metrics/>Missing Metrics</a></li><li role=none><a role=treeitem title="Dealing with Grafana issues." href=/v1.1/help/ops/telemetry/grafana/>Grafana</a></li><li role=none><a role=treeitem title="Fine-grained control of Envoy statistics." href=/v1.1/help/ops/telemetry/envoy-stats/>Envoy Statistics</a></li></ul></li><li role=treeitem aria-label="Installation and Setup"><button aria-hidden=true></button><a title="Helps you diagnose and repair Istio installations." href=/v1.1/help/ops/setup/>Installation and Setup</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="Provides a general overview of Istio's use of Kubernetes webhooks and the related issues that can arise." href=/v1.1/help/ops/setup/webhook/>Dynamic Admission Webhooks Overview</a></li><li role=none><a role=treeitem title="Describes Istio's use of Kubernetes webhooks for server-side configuration validation." href=/v1.1/help/ops/setup/validation/>Configuration Validation Webhook</a></li><li role=none><a role=treeitem title="Describes Istio's use of Kubernetes webhooks for automatic sidecar injection." href=/v1.1/help/ops/setup/injection/>Sidecar Injection Webhook</a></li><li role=none><a role=treeitem title="Describes how to check which capabilities are allowed for your pods." href=/v1.1/help/ops/setup/required-pod-capabilities/>Required Pod Capabilities</a></li><li role=none><a role=treeitem title="Shows how to do health checking for Istio services." href=/v1.1/help/ops/setup/app-health-check/>Health Checking of Istio Services</a></li></ul></li><li role=none><a role=treeitem title="Advice on tackling common problems with Istio." href=/v1.1/help/ops/misc/>Miscellaneous</a></li></ul></li><li role=treeitem aria-label=FAQ><button aria-hidden=true></button><a title="Frequently Asked Questions about Istio." href=/v1.1/help/faq/>FAQ</a><ul role=group aria-expanded=false class=leaf-section><li role=none><a role=treeitem title="General Q &amp; A." href=/v1.1/help/faq/general/>General</a></li><li role=none><a role=treeitem title="Setup Q &amp; A." href=/v1.1/help/faq/setup/>Setup</a></li><li role=none><a role=treeitem title="Security Q &amp; A." href=/v1.1/help/faq/security/>Security</a></li><li role=none><a role=treeitem title="Mixer Q &amp; A." href=/v1.1/help/faq/mixer/>Mixer</a></li><li role=none><a role=treeitem title="Metrics and Logs Q &amp; A." href=/v1.1/help/faq/metrics-and-logs/>Metrics and Logs</a></li><li role=none><a role=treeitem title="Distributed Tracing Q &amp; A." href=/v1.1/help/faq/distributed-tracing/>Distributed Tracing</a></li><li role=none><a role=treeitem title="Traffic Management Q &amp; A." href=/v1.1/help/faq/traffic-management/>Traffic Management</a></li></ul></li><li role=none><a role=treeitem title="A glossary of common Istio terms." href=/v1.1/help/glossary/>Glossary</a></li></ul></div></div></div></nav></div><div class=article-container><button tabindex=-1 id=sidebar-toggler title="Toggle the navigation bar"><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#pull"/></svg></button><nav aria-label=Breadcrumb><ol><li><a href=/v1.1/ title="Connect, secure, control, and observe services.">Istio</a></li><li><a href=/v1.1/help/ title="A bunch of resources to help you deploy, configure and use Istio.">Help</a></li><li><a href=/v1.1/help/ops/ title="Hints, tips, tricks about running an Istio mesh.">Operations Guide</a></li><li><a href=/v1.1/help/ops/traffic-management/ title="Helps you manage the networking aspects of a running mesh.">Traffic Management</a></li><li>Deployment and Configuration Guidelines</li></ol></nav><article aria-labelledby=title><div class=title-area><div><h1 id=title>Deployment and Configuration Guidelines</h1><p class=byline><span title="1391 words"><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#clock"/></svg><span>&nbsp;</span>7 minute read</span></p></div></div><nav class=toc-inlined aria-label="Table of Contents"><div><hr><ol><li role=none aria-label="Configuring multiple TLS hosts in a gateway"><a href=#configuring-multiple-tls-hosts-in-a-gateway>Configuring multiple TLS hosts in a gateway</a><li role=none aria-label="Multiple virtual services and destination rules for the same host"><a href=#multiple-virtual-services-and-destination-rules-for-the-same-host>Multiple virtual services and destination rules for the same host</a><li role=none aria-label="Avoid 503 errors while reconfiguring service routes"><a href=#avoid-503-errors-while-reconfiguring-service-routes>Avoid 503 errors while reconfiguring service routes</a><li role=none aria-label="Browser problem when multiple gateways configured with same TLS certificate"><a href=#browser-problem-when-multiple-gateways-configured-with-same-tls-certificate>Browser problem when multiple gateways configured with same TLS certificate</a></ol><hr></div></nav><p>This section provides specific deployment or configuration guidelines to avoid networking or traffic management issues.</p><h2 id=configuring-multiple-tls-hosts-in-a-gateway>Configuring multiple TLS hosts in a gateway</h2><p>If you apply a <code>Gateway</code> configuration that has the same <code>selector</code> labels as another
+existing <code>Gateway</code>, then if they both expose the same HTTPS port you must ensure that they have
+unique port names. Otherwise, the configuration will be applied without an immediate error indication
+but it will be ignored in the runtime gateway configuration. For example:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - &#34;myhost.com&#34;
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway2
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - &#34;myhost2.com&#34;
+</code></pre><p>With this configuration, requests to the second host, <code>myhost2.com</code>, will fail because
+both gateway ports have <code>name: https</code>.
+A <em>curl</em> request, for example, will produce an error message something like this:</p><pre><code class=language-plain data-expandlinks=true>curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to myhost2.com:443
+</code></pre><p>You can confirm that this has happened by checking Pilot&rsquo;s logs for a message similar to the following:</p><pre><code class=language-bash data-expandlinks=true>$ kubectl logs -n istio-system $(kubectl get pod -l istio=pilot -n istio-system -o jsonpath={.items..metadata.name}) -c discovery | grep &#34;non unique port&#34;
+2018-09-14T19:02:31.916960Z info    model   skipping server on gateway mygateway2 port https.443.HTTPS: non unique port name for HTTPS port
+</code></pre><p>To avoid this problem, ensure that multiple uses of the same <code>protocol: HTTPS</code> port are uniquely named.
+For example, change the second one to <code>https2</code>:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway2
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https2
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - &#34;myhost2.com&#34;
+</code></pre><h2 id=multiple-virtual-services-and-destination-rules-for-the-same-host>Multiple virtual services and destination rules for the same host</h2><p>In situations where it is inconvenient to define the complete set of route rules or policies for a particular
+host in a single <code>VirtualService</code> or <code>DestinationRule</code> resource, it may be preferable to incrementally specify
+the configuration for the host in multiple resources.
+Starting in Istio 1.0.1, an experimental feature has been added to merge such destination rules
+and merge such virtual services if they are bound to a gateway.</p><p>Consider the case of a <code>VirtualService</code> bound to an ingress gateway exposing an application host which uses
+path-based delegation to several implementation services, something like this:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp
+spec:
+  hosts:
+  - myapp.com
+  gateways:
+  - myapp-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /service1
+    route:
+    - destination:
+        host: service1.default.svc.cluster.local
+  - match:
+    - uri:
+        prefix: /service2
+    route:
+    - destination:
+        host: service2.default.svc.cluster.local
+  - match:
+    ...
+</code></pre><p>The downside of this kind of configuration is that other configuration (e.g., route rules) for any of the
+underlying microservices, will need to also be included in this single configuration file, instead of
+in separate resources associated with, and potentially owned by, the individual service teams.
+See <a href=/v1.1/help/ops/traffic-management/troubleshooting/#route-rules-have-no-effect-on-ingress-gateway-requests>Route rules have no effect on ingress gateway requests</a>
+for details.</p><p>To avoid this problem, it may be preferable to break up the configuration of <code>myapp.com</code> into several
+<code>VirtualService</code> fragments, one per backend service. For example:</p><pre><code class=language-yaml data-expandlinks=true>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp-service1
+spec:
+  hosts:
+  - myapp.com
+  gateways:
+  - myapp-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /service1
+    route:
+    - destination:
+        host: service1.default.svc.cluster.local
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp-service2
+spec:
+  hosts:
+  - myapp.com
+  gateways:
+  - myapp-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /service2
+    route:
+    - destination:
+        host: service2.default.svc.cluster.local
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp-...
+</code></pre><p>When a second and subsequent <code>VirtualService</code> for an existing host is applied, <code>istio-pilot</code> will merge
+the additional route rules into the existing configuration of the host. There are, however, several
+caveats with this feature that must be considered carefully when using it.</p><ol><li>Although the order of evaluation for rules in any given source <code>VirtualService</code> will be retained,
+the cross-resource order is UNDEFINED. In other words, there is no guaranteed order of evaluation
+for rules across the fragment configurations, so it will only have predictable behavior if there
+are no conflicting rules or order dependency between rules across fragments.</li><li>There should only be one &ldquo;catch-all&rdquo; rule (i.e., a rule that matches any request path or header) in the fragments.
+All such &ldquo;catch-all&rdquo; rules will be moved to the end of the list in the merged configuration, but
+since they catch all requests, whichever is applied first will essentially override and disable any others.</li><li>A <code>VirtualService</code> can only be fragmented this way if it is bound to a gateway.
+Host merging is not supported in sidecars.</li></ol><p>A <code>DestinationRule</code> can also be fragmented with similar merge semantic and restrictions.</p><ol><li>There should only be one definition of any given subset across multiple destination rules for the same host.
+If there is more than one with the same name, the first definition is used and any following duplicates are discarded.
+No merging of subset content is supported.</li><li>There should only be one top-level <code>trafficPolicy</code> for the same host.
+When top-level traffic policies are defined in multiple destination rules, the first one will be used.
+Any following top-level <code>trafficPolicy</code> configuration is discarded.</li><li>Unlike virtual service merging, destination rule merging works in both sidecars and gateways.</li></ol><h2 id=avoid-503-errors-while-reconfiguring-service-routes>Avoid 503 errors while reconfiguring service routes</h2><p>When setting route rules to direct traffic to specific versions (subsets) of a service, care must be taken to ensure
+that the subsets are available before they are used in the routes. Otherwise, calls to the service may return
+503 errors during a reconfiguration period.</p><p>Creating both the <code>VirtualServices</code> and <code>DestinationRules</code> that define the corresponding subsets using a single <code>kubectl</code>
+call (e.g., <code>kubectl apply -f myVirtualServiceAndDestinationRule.yaml</code> is not sufficient because the
+resources propagate (from the configuration server, i.e., Kubernetes API server) to the Pilot instances in an eventually consistent manner. If the
+<code>VirtualService</code> using the subsets arrives before the <code>DestinationRule</code> where the subsets are defined, the Envoy configuration generated by Pilot would refer to non-existent upstream pools. This results in HTTP 503 errors until all configuration objects are available to Pilot.</p><p>To make sure services will have zero down-time when configuring routes with subsets, follow a &ldquo;make-before-break&rdquo; process as described below:</p><ul><li><p>When adding new subsets:</p><ol><li><p>Update <code>DestinationRules</code> to add a new subset first, before updating any <code>VirtualServices</code> that use it. Apply the rule using <code>kubectl</code> or any platform-specific tooling.</p></li><li><p>Wait a few seconds for the <code>DestinationRule</code> configuration to propagate to the Envoy sidecars</p></li><li><p>Update the <code>VirtualService</code> to refer to the newly added subsets.</p></li></ol></li><li><p>When removing subsets:</p><ol><li><p>Update <code>VirtualServices</code> to remove any references to a subset, before removing the subset from a <code>DestinationRule</code>.</p></li><li><p>Wait a few seconds for the <code>VirtualService</code> configuration to propagate to the Envoy sidecars.</p></li><li><p>Update the <code>DestinationRule</code> to remove the unused subsets.</p></li></ol></li></ul><h2 id=browser-problem-when-multiple-gateways-configured-with-same-tls-certificate>Browser problem when multiple gateways configured with same TLS certificate</h2><p>Configuring more than one gateway using the same TLS certificate will cause browsers
+that leverage <a href=https://httpwg.org/specs/rfc7540.html#reuse>HTTP/2 connection reuse</a>
+(i.e., most browsers) to produce 404 errors when accessing a second host after a
+connection to another host has already been established.</p><p>For example, let&rsquo;s say you have 2 hosts that share the same TLS certificate like this:</p><ul><li>Wildcard certificate <code>*.test.com</code> installed in <code>istio-ingressgateway</code></li><li><code>Gateway</code> configuration <code>gw1</code> with host <code>service1.test.com</code>, selector <code>istio: ingressgateway</code>, and TLS using gateway&rsquo;s mounted (wildcard) certificate</li><li><code>Gateway</code> configuration <code>gw2</code> with host <code>service2.test.com</code>, selector <code>istio: ingressgateway</code>, and TLS using gateway&rsquo;s mounted (wildcard) certificate</li><li><code>VirtualService</code> configuration <code>vs1</code> with host <code>service1.test.com</code> and gateway <code>gw1</code></li><li><code>VirtualService</code> configuration <code>vs2</code> with host <code>service2.test.com</code> and gateway <code>gw2</code></li></ul><p>Since both gateways are served by the same workload (i.e., selector <code>istio: ingressgateway</code>) requests to both services
+(<code>service1.test.com</code> and <code>service2.test.com</code>) will resolve to the same IP. If <code>service1.test.com</code> is accessed first, it
+will return the wildcard certificate (<code>*.test.com</code>) indicating that connections to <code>service2.test.com</code> can use the same certificate.
+Browsers like Chrome and Firefox will consequently reuse the existing connection for requests to <code>service2.test.com</code>.
+Since the gateway (<code>gw1</code>) has no route for <code>service2.test.com</code>, it will then return a 404 (Not Found) response.</p><p>You can avoid this problem by configuring a single wildcard <code>Gateway</code>, instead of two (<code>gw1</code> and <code>gw2</code>).
+Then, simply bind both <code>VirtualServices</code> to it like this:</p><ul><li><code>Gateway</code> configuration <code>gw</code> with host <code>*.test.com</code>, selector <code>istio: ingressgateway</code>, and TLS using gateway&rsquo;s mounted (wildcard) certificate</li><li><code>VirtualService</code> configuration <code>vs1</code> with host <code>service1.test.com</code> and gateway <code>gw</code></li><li><code>VirtualService</code> configuration <code>vs2</code> with host <code>service2.test.com</code> and gateway <code>gw</code></li></ul></article><nav class=pagenav><div class=left><a title="An introduction to Istio networking operational aspects." href=/v1.1/help/ops/traffic-management/introduction/><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#left-arrow"/></svg>Introduction to Network Operations</a></div><div class=right><a title="Describes common networking issues and how to recognize and avoid them." href=/v1.1/help/ops/traffic-management/troubleshooting/>Troubleshooting Networking Issues<svg class="icon"><use xlink:href="/v1.1/img/icons.svg#right-arrow"/></svg></a></div></nav><div id=endnotes-container aria-hidden=true><h2>Links</h2><ol id=endnotes></ol></div></div><div class=toc-container><nav class=toc aria-label="Table of Contents"><div id=toc><ol><li role=none aria-label="Configuring multiple TLS hosts in a gateway"><a href=#configuring-multiple-tls-hosts-in-a-gateway>Configuring multiple TLS hosts in a gateway</a><li role=none aria-label="Multiple virtual services and destination rules for the same host"><a href=#multiple-virtual-services-and-destination-rules-for-the-same-host>Multiple virtual services and destination rules for the same host</a><li role=none aria-label="Avoid 503 errors while reconfiguring service routes"><a href=#avoid-503-errors-while-reconfiguring-service-routes>Avoid 503 errors while reconfiguring service routes</a><li role=none aria-label="Browser problem when multiple gateways configured with same TLS certificate"><a href=#browser-problem-when-multiple-gateways-configured-with-same-tls-certificate>Browser problem when multiple gateways configured with same TLS certificate</a></ol></div></nav></div></main><footer><div class=user-links><a class=channel title="Go download Istio 1.1.9 now" href=https://github.com/istio/istio/releases/tag/1.1.9 aria-label="Download Istio"><span>download</span><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#download"/></svg>
+</a><a class=channel title="Join the Istio discussion board to participate in discussions and get help troubleshooting problems" href=https://discuss.istio.io aria-label="Istio discussion board"><span>discuss</span><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#discourse"/></svg></a>
+<a class=channel title="Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio" href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><span>stack overflow</span><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#stackoverflow"/></svg></a>
+<a class=channel title="Follow us on Twitter to get the latest news" href=https://twitter.com/IstioMesh aria-label=Twitter><span>twitter</span><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#twitter"/></svg></a><div class=tag>for everyone</div></div><div class=info><p class=copyright>Istio Archive
+1.1.9<br>&copy; 2019 Istio Authors, <a href=https://policies.google.com/privacy>Privacy Policy</a><br>Archived on June 18, 2019</p></div><div class=dev-links><a class=channel title="GitHub is where development takes place on Istio code" href=https://github.com/istio/community aria-label=GitHub><span>github</span><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#github"/></svg></a>
+<a class=channel title="Interactively discuss issues with the Istio community on Slack" href=https://istio.slack.com aria-label=slack><span>slack</span><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#slack"/></svg></a>
+<a class=channel title="Access our team drive if you'd like to take a look at the Istio technical design documents" href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><span>drive</span><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#drive"/></svg></a>
+<a class=channel title="If you'd like to contribute to the Istio project, consider participating in our working groups" href=https://github.com/istio/community/blob/master/WORKING-GROUPS.md aria-label="working groups"><span>working groups</span><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#working-groups"/></svg></a><div class=tag>for developers</div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title="Back to top"><svg class="icon"><use xlink:href="/v1.1/img/icons.svg#top"/></svg></button></div></body></html>

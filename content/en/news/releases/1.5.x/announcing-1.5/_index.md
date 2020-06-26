@@ -9,7 +9,6 @@ skip_list: true
 aliases:
     - /news/announcing-1.5.0
     - /news/announcing-1.5
-test: n/a
 ---
 
 We are pleased to announce the release of Istio 1.5!
@@ -119,7 +118,7 @@ As always, there is a lot happening in the
 [Community Meeting](https://github.com/istio/community#community-meeting);
 join us every other Thursday at 11 AM Pacific. We'd love to have you join the
 conversation at [Istio Discuss](https://discuss.istio.io), and you can also join
-our [Slack channel](https://istio.slack.com).
+our [Slack workspace](https://slack.istio.io).
 
 We were very proud to be called out as one of the top five
 [fastest growing](https://octoverse.github.com/#top-and-trending-projects)

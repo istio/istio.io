@@ -2,7 +2,6 @@
 title: Tabs
 description: Basic tabs.
 skip_sitemap: true
-test: no
 ---
 
 {{< tabset category-name="test" >}}

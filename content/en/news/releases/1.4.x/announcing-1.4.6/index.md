@@ -7,7 +7,6 @@ publishdate: 2020-03-03
 release: 1.4.6
 aliases:
     - /news/announcing-1.4.6
-test: n/a
 ---
 
 This release contains fixes for the security vulnerabilities described in [our March 3rd, 2020 news post](/news/security/istio-security-2020-003). This release note describes what’s different between Istio 1.4.5 and Istio 1.4.6.

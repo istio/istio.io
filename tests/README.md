@@ -54,110 +54,75 @@ To write an `istio.io` test, follow these steps:
    Fix the errors, if any, by updating the corresponding command in the `index.md` file and
    then regenerate the snips.
 
-1. Pick an appropriate location under the `tests/` directory for your new test.
-
-1. Create Go boilderplate that will invoke your test bash script using the following pattern:
-
-    ```golang
-    package <your-test-package>
-
-    import (
-        "testing"
-
-        "istio.io/istio/pkg/test/framework"
-
-        "istio.io/istio.io/pkg/test/istioio"
-    )
-
-    func Test<your-test>(t *testing.T) {
-        framework.
-            NewTest(t).
-            Run(istioio.NewBuilder("<your-test-name>").
-                Add(istioio.Script{
-                    Input: istioio.Path("scripts/<your-bash-script>.sh"),
-                }).
-                Defer(istioio.Script{
-                    Input: istioio.Inline{
-                        FileName: "cleanup.sh",
-                        Value: `
-    set +e # ignore cleanup errors
-    source ${REPO_ROOT}/content/en/docs/<your-snips-dir>/snips.sh
-    <your cleanup steps>`,
-                    },
-                }).
-                Build())
-    }
-    ```
-
-    NOTE: This Go boilerplate is a temporary requirement. It will not be needed in the future.
-    See https://docs.google.com/document/d/1r_NoxatNjzPsw0eXr6_9W0rqlkfelt7QfN2y5TF0yTo/edit#.
-
-1. Create your test bash script in the `scripts/` subdirectory.
+1. Create a test bash script named `test.sh` next to the `snips.sh` you have just generated.
+   
+   If your document is very large and you want to break it into multiple tests, create multiple scripts with the suffix `test.sh`, instead.
+   
+   Other scripts in the directory will be ignored.
 
 ## Test Bash Script
 
-With the exception of the cleanup steps, your test will consist of a single
-shell scripts that calls the commands in your generated `snips.sh` file.
+Your bash script will consist of a series of test steps that call the commands in your generated `snips.sh` file, as well as a series of cleanup steps that should be run after everything is done.
 
-Your script must include the `snip.sh` file for the document being tested. For example,
-a test for the traffic-shifting task will have the following line in the script:
-
+Before the test steps, there should be one line that specifies the istio setup configuration for the test. The setup line should take the form of
 ```sh
-source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/traffic-shifting/snips.sh"
+# @setup <setup_config>
 ```
+Currently supported setup configurations include: `profile=default` to install the default profile, `profile=demo` to install the demo profile, and `profile=none` to not install istio at all.
 
-Your test script can then invoke the commands by simply calling snip functions:
+After setup, you will use snippets generated from the docs to write tests. The framework automatically sources several bash scripts for you, including the generated `snips.sh` and `tests/util/[verify|debug|helpers].sh`. You can directly call any function defined in them. For other test utilities, e.g., `util/samples.sh`, you need to source them yourself:
 
 ```sh
-snip_config_50_v3 # Step 3: switch 50% traffic to v3
+source "tests/util/samples.sh"
+
+startup_bookinfo_sample  # from util/samples.sh
+snip_config_50_v3        # from snips.sh
 ```
 
 For commands that produce output, pass the snip and expected output to an appropriate
-`_run_and_verify_` function. For example:
+`_verify_` function. For example:
 
 ```sh
-_run_and_verify_same snip_set_up_the_cluster_3 "$snip_set_up_the_cluster_3_out"
+_verify_same snip_set_up_the_cluster_3 "$snip_set_up_the_cluster_3_out"
 ```
 
-For situations where you need to perform more than one verify check, you can
-run the snip and capture the command output in a variable, and then compare
-it to the expected output:
+The verify functions first run the snip function and then compare the result to the
+expected output. The framework includes the following built-in verify functions:
 
-```sh
-out=$(snip_tripping_the_circuit_breaker_1 2>&1)
-_verify_contains "$out" "Code 200 :" "snip_tripping_the_circuit_breaker_1"
-_verify_contains "$out" "Code 503 :" "snip_tripping_the_circuit_breaker_1"
-```
+1. **`_verify_same`** `func` `expected`
 
-The framework includes the following built-in verify functions:
+   Runs `func` and compares the output with `expected`. If they are not the same,
+   exponentially back off and try again, 5 times by default. The number of retries
+   can be changed by setting the `VERIFY_RETRIES` environment variable.
 
-1. **`_verify_same`** `out` `expected` `msg`
+1. **`_verify_contains`** `func` `expected`
 
-   Verify that `out` is exactly the same as `expected`. Failure messages will include
-   the specified `msg`.
+   Runs `func` and compares the output with `expected`. If the output does not
+   contain the substring `expected`, exponentially back off and try again, 5 times
+   by default. The number of retries can be changed by setting the `VERIFY_RETRIES`
+   environment variable.
 
-1. **`_verify_contains`** `out` `expected` `msg`
+1. **`_verify_not_contains`** `func` `expected`
 
-   Verify that `out` contains the substring `expected`. Failure messages will include
-   the specified `msg`.
+   Runs `func` and compares the output with `expected`. If the command execution fails
+   or the output contains the substring `expected`,
+   exponentially back off and try again, 5 times by default. The number of retries
+   can be changed by setting the `VERIFY_RETRIES` environment variable.
 
-1. **`_verify_not_contains`** `out` `expected` `msg`
+1. **`_verify_elided`** `func` `expected`
 
-   Verify that `out` does not contains the substring `expected`. Failure messages will include
-   the specified `msg`.
+   Runs `func` and compares the output with `expected`. If the output does not
+   contain the lines in `expected` where "..." on a line matches one or more lines
+   containing any text, exponentially back off and try again, 5 times by default.
+   The number of retries can be changed by setting the `VERIFY_RETRIES` environment
+   variable.
 
-1. **`_verify_first_line`** `out` `expected` `msg`
+1. **`_verify_like`** `func` `expected`
 
-   Verify that the first line of `out` matches the first line in `expected`.
-
-1. **`_verify_elided`** `out` `expected` `msg`
-
-   Verify that `out` contains the lines in `expected` where `...` on a line matches one or
-   more lines with any text.
-
-1. **`_verify_like`** `out` `expected` `msg`
-
-   Verify that `out` is "like" `expected`. Like implies:
+   Runs `func` and compares the output with `expected`. If the output is not
+   "like" `expected`, exponentially back off and try again, 5 times by default. The number
+   of retries can be changed by setting the `VERIFY_RETRIES` environment variable.
+   Like implies:
 
    - Same number of lines
    - Same number of whitespace-seperated tokens per line
@@ -171,54 +136,60 @@ The framework includes the following built-in verify functions:
    This function is useful for comparing the output of commands that include some run-specific
    values in the output (e.g., `kubectl get pods`), or when whitespace in the output may be different.
 
-Every `verify_` function has a corresponding `_run_and_verify_` function that
-first runs a function and then compares the result to the expected output.
-The specified function will be retried 5 times, with exponential backoff, before failing:
+1. **`_verify_lines`** `func` `expected`
 
-1. **`_run_and_verify_same`** `func` `expected`
-1. **`_run_and_verify_contains`** `func` `expected`
-1. **`_run_and_verify_not_contains`** `func` `expected`
-1. **`_run_and_verify_first_line`** `func` `expected`
-1. **`_run_and_verify_elided`** `func` `expected`
-1. **`_run_and_verify_like`** `func` `expected`
+   Runs `func` and compares the output with `expected`. If the output does not
+   "conform to" the specification in `expected`,
+   exponentially back off and try again, 5 times by default. The number of retries
+   can be changed by setting the `VERIFY_RETRIES` environment variable.
+   Conformance implies:
 
-## Running the Tests: Make
+   1. For each line in `expected` with the prefix "+ " there must be at least one
+      line in the output containing the following string.
+   1. For each line in `expected` with the prefix "- " there must be no line in
+      the output containing the following string.
 
-You can execute all istio.io tests using make.
+1. **`_verify_failure`** `func`
 
+   Runs `func` and confirms that it fails (i.e., non-zero return code). This function is useful
+   for testing commands that demonstrate configurations that are expected to fail.
+
+After all test steps are complete, add the following line to indicate the start of the cleanup steps.
+These steps will be run by the framework, even if the test fails and prematurely exits.
+```sh
+# @cleanup
+```
+The following cleanup steps must remove all resources and reverse configuration changes made during the test steps. These steps can also directly call functions defined in the auto-sourced scripts described before, as well as any script you have sourced by yourself for the test steps.
+
+## Running The Tests
+
+Run
 ```bash
-make test.kube.presubmit
+make doc.test
+```
+to start testing all docs in the content folder within a `kube` environment. This command takes two optional environment variables: `TEST` and `TIMEOUT`.
+
+`TEST` specifies the tests to be run using the path of the directory relative to `content/en/docs/`. For example, the command
+```bash
+make doc.test TEST=tasks/traffic-management
+```
+will run all the tests under `content/en/docs/tasks/traffic-management`. The `TEST` variable also accepts multiple test names separated by commas, for example,
+```bash
+make doc.test TEST=tasks/traffic-management/request-routing,tasks/traffic-management/fault-injection
 ```
 
-Alternatively, you can run the tests in a particular package under `tests/`.
-For example, the following command will only run the traffic management tests:
+`TIMEOUT` specifies a time limit exceeding which all tests will halt, and the default value is 30 minutes (`30m`).
 
-```bash
-make test.kube.trafficmanagement
-```
+You can also find this information by running `make doc.test.help`. The bash tracing output for debugging will be kept in `out/<test_path>_[test|cleanup]_debug.txt`.
 
-### Notes:
+### Notes
 
 1. In the case of using `kind` clusters on a Mac,
    an extra env var is needed (ADDITIONAL_CONTAINER_OPTIONS="--network host").
    Use the following command:
 
    ```bash
-   TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make test.kube.presubmit
+   TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make doc.test
    ```
 
 1. If HUB and TAG aren't set, then their default values will match what is used by the prow tests.
-
-## Running Tests: go test
-
-You can execute individual tests using Go test as shown below.
-
-```bash
-make init
-export REPO_ROOT=$(git rev-parse --show-toplevel)
-go test ./tests/... -p 1  --istio.test.env kube \
-    --istio.test.ci --istio.test.work_dir <my_dir>
-```
-
-Make sure to have the `HUB` and `TAG` [environment variables set](https://github.com/istio/istio/wiki/Preparing-for-Development#setting-up-environment-variables) to the location of
-your Istio Docker images.

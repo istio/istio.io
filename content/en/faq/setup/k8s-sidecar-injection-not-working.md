@@ -1,7 +1,6 @@
 ---
 title: Kubernetes - How can I debug problems with automatic sidecar injection?
 weight: 20
-test: n/a
 ---
 
 Ensure that your cluster has met the

@@ -5,7 +5,6 @@ description: A vision statement and roadmap for Istio in 2020.
 publishdate: 2020-03-03
 attribution: Istio Team
 keywords: [roadmap,security,performance,operator]
-test: n/a
 ---
 
 Istio solves real problems that people encounter running microservices. Even
@@ -51,7 +50,7 @@ and [authorization](/docs/concepts/security/#authorization) policies, which
 allow you to control workload-to-workload and end-user-to-workload authorization
 directly in the proxy. Common monitoring use cases have already moved into the
 proxy too - we have
-[introduced in-proxy support](/docs/reference/config/telemetry/metrics)
+[introduced in-proxy support](/docs/reference/config/metrics)
 for sending telemetry to Prometheus and Stackdriver.
 
 Our benchmarking shows that the new telemetry model reduces our latency

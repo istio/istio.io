@@ -42,7 +42,7 @@ installation.
 
 ## Enable custom metrics
 
-Edit the the `EnvoyFilter` to add or modify dimensions and metrics. Then, add
+Edit the `EnvoyFilter` to add or modify dimensions and metrics. Then, add
 annotations to all the Istio-enabled pods to extract the new or modified
 dimensions.
 
@@ -111,12 +111,12 @@ dimensions.
     {{< /tip >}}
 
     {{< text yaml >}}
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     spec:
-    template:
+      template: # pod template
         metadata:
-        annotations:
+          annotations:
             sidecar.istio.io/extraStatTags: destination_port,request_host
     {{< /text >}}
 
@@ -162,4 +162,4 @@ following extra attributes.
 | `plugin_root_id` | string | Wasm root instance ID |
 | `plugin_vm_id` | string | Wasm VM ID |
 
-For more information, see [configuration reference](/docs/reference/config/telemetry/).
+For more information, see [configuration reference](/docs/reference/config/proxy_extensions/stats/).

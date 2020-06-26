@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Istio Blog</title>
+    <description>An open platform to connect, manage, and secure microservices.</description>
+    <pubDate>2020-05-27T14:54:15-07:00</pubDate>
+    <link>https://istio.io</link>
+    <image>
+      <url>https://istio.io/favicons/android-192x192.png</url>
+      <link>https://istio.io</link>
+    </image>
+
+      <item>
+        <title>Introducing Istio</title>
+        <description>Istio 0.1 announcement</description>
+        <pubDate>2017-05-24T00:00:00-07:00</pubDate>
+        <link>https://istio.io/blog/posts/2017/0.1-announcement.html</link>
+        <author>The Istio Team</author>
+        <guid isPermaLink="true">https://istio.io/blog/posts/2017/0.1-announcement.html</guid>
+      </item>
+
+      <item>
+        <title>Using Istio to Improve End-to-End Security</title>
+        <description>Istio Auth 0.1 announcement</description>
+        <pubDate>2017-05-25T00:00:00-07:00</pubDate>
+        <link>https://istio.io/blog/posts/2017/0.1-auth.html</link>
+        <author>The Istio Team</author>
+        <guid isPermaLink="true">https://istio.io/blog/posts/2017/0.1-auth.html</guid>
+      </item>
+
+      <item>
+        <title>Canary Deployments using Istio</title>
+        <description>Using Istio to create autoscaled canary deployments</description>
+        <pubDate>2017-06-14T00:00:00-07:00</pubDate>
+        <link>https://istio.io/blog/posts/2017/0.1-canary.html</link>
+        <author>Frank Budinsky</author>
+        <guid isPermaLink="true">https://istio.io/blog/posts/2017/0.1-canary.html</guid>
+      </item>
+
+      <item>
+        <title>Using Network Policy with Istio</title>
+        <description>How Kubernetes Network Policy relates to Istio policy</description>
+        <pubDate>2017-08-10T00:00:00-07:00</pubDate>
+        <link>https://istio.io/blog/posts/2017/0.1-using-network-policy.html</link>
+        <author>Spike Curtis</author>
+        <guid isPermaLink="true">https://istio.io/blog/posts/2017/0.1-using-network-policy.html</guid>
+      </item>
+
+      <item>
+        <title>Announcing Istio 0.2</title>
+        <description>Istio 0.2 announcement</description>
+        <pubDate>2017-10-10T00:00:00-07:00</pubDate>
+        <link>https://istio.io/blog/posts/2017/0.2-announcement.html</link>
+        <author>The Istio Team</author>
+        <guid isPermaLink="true">https://istio.io/blog/posts/2017/0.2-announcement.html</guid>
+      </item>
+
+      <item>
+        <title>Mixer Adapter Model</title>
+        <description>Provides an overview of the Mixer plug-in architecture</description>
+        <pubDate>2017-11-03T00:00:00-07:00</pubDate>
+        <link>https://istio.io/blog/posts/2017/adapter-model.html</link>
+        <author>Martin Taillefer</author>
+        <guid isPermaLink="true">https://istio.io/blog/posts/2017/adapter-model.html</guid>
+      </item>
+
+      <item>
+        <title>Mixer and the SPOF Myth</title>
+        <description>Improving availability and reducing latency</description>
+        <pubDate>2017-12-07T00:00:00-08:00</pubDate>
+        <link>https://istio.io/blog/posts/2017/mixer-spof-myth.html</link>
+        <author>Martin Taillefer</author>
+        <guid isPermaLink="true">https://istio.io/blog/posts/2017/mixer-spof-myth.html</guid>
+      </item></channel>
+</rss>

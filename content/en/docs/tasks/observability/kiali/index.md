@@ -27,7 +27,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as th
 
 {{< tip >}}
 The following instructions assume you have installed `istioctl` and will use it to install Kiali.
-To install Kiali without `istioctl`, follow the [Kiali installation instructions](https://www.kiali.io/documentation/getting-started/).
+To install Kiali without `istioctl`, follow the [Kiali installation instructions](https://kiali.io/documentation/latest/getting-started/).
 {{< /tip >}}
 
 ### Create a secret
@@ -90,7 +90,7 @@ Once you create the Kiali secret, follow
 For example:
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.kiali.enabled=true
+$ istioctl install --set values.kiali.enabled=true
 {{< /text >}}
 
 {{< idea >}}
@@ -100,7 +100,7 @@ integrates with them, you must pass additional arguments to the
 `istioctl` command, for example:
 
 {{< text bash >}}
-$ istioctl manifest apply \
+$ istioctl install \
     --set values.kiali.enabled=true \
     --set "values.kiali.dashboard.jaegerURL=http://jaeger-query:16686" \
     --set "values.kiali.dashboard.grafanaURL=http://grafana:3000"

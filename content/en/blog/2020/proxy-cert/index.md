@@ -5,7 +5,6 @@ publishdate: 2020-03-25
 attribution: Lei Tang (Google)
 keywords: [certificate,sidecar]
 target_release: 1.5
-test: no
 ---
 
 {{< boilerplate experimental-feature-warning >}}

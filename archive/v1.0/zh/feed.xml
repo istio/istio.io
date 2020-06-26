@@ -1,0 +1,1331 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Istio Blog</title><description>Connect, secure, control, and observe services.</description><link>/v1.0</link><image><url>/v1.0/favicons/android-192x192.png</url><link>/v1.0</link></image><category>Service mesh</category><item><title>宣布 Istio 1.0</title><description>&lt;p>今天，我们很高兴地宣布 &lt;a href="/v1.0/zh/about/notes/1.0">Istio 1.0&lt;/a>。这距离最初的 0.1 版本发布以来已经过了一年多时间了。从 0.1 起，Istio 就在蓬勃发展的社区、贡献者和用户的帮助下迅速发展。现在已经有许多公司成功将 Istio 应用于生产，并通过 Istio 提供的洞察力和控制力获得了真正的价值。我们帮助大型企业和快速发展的创业公司，如 &lt;a href="https://www.ebay.com/">eBay&lt;/a>、&lt;a href="https://www.autotrader.co.uk/">Auto Trader UK&lt;/a>、&lt;a href="http://www.descarteslabs.com/">Descartes Labs&lt;/a>、&lt;a href="https://www.fitstation.com/">HP FitStation&lt;/a>、&lt;a href="https://www.namely.com/">Namely&lt;/a>、&lt;a href="https://www.pubnub.com/">PubNub&lt;/a> 和 &lt;a href="https://www.trulia.com/">Trulia&lt;/a> 使用 Istio 从头开始连接、管理和保护他们的服务。将此版本作为 1.0 发布是对我们构建了一组核心功能的认可，用户们可以依赖这些功能进行生产。&lt;/p>
+&lt;h2 id="heading">生态系统&lt;/h2>
+&lt;p>去年，我们看到了 Istio 生态系统的大幅增长。&lt;a href="https://www.envoyproxy.io/">Envoy&lt;/a> 继续其令人印象深刻的增长，并增加了许多对生产级别服务网格至关重要的功能。像 &lt;a href="https://www.datadoghq.com/">Datadog&lt;/a>、
+&lt;a href="https://www.solarwinds.com/">SolarWinds&lt;/a>、 &lt;a href="https://sysdig.com/blog/monitor-istio/">Sysdig&lt;/a>、&lt;a href="https://cloud.google.com/stackdriver/">Google Stackdriver&lt;/a> 和 &lt;a href="https://aws.amazon.com/cloudwatch/">Amazon CloudWatch&lt;/a> 这样的可观察性提供商也编写了插件来将 Istio 与他们的产品集成在一起。&lt;a href="https://www.tigera.io/resources/using-network-policy-concert-istio-2/">Tigera&lt;/a>、&lt;a href="https://www.aporeto.com/">Aporeto&lt;/a>、&lt;a href="https://cilium.io/">Cilium&lt;/a>
+和 &lt;a href="https://styra.com/">Styra&lt;/a> 为我们的策略实施和网络功能构建了扩展。&lt;a href="https://www.redhat.com/en">Red Hat&lt;/a> 构建的 Kiali 为网格管理和可观察性提供了良好的用户体验。&lt;a href="https://www.cloudfoundry.org/">Cloud Foundry&lt;/a> 正在为 Istio 建立下一代流量路由堆栈，最近宣布的 &lt;a href="https://github.com/knative/docs">Knative&lt;/a> 无服务器项目也正在做同样的事情，&lt;a href="https://apigee.com/">Apigee&lt;/a> 宣布计划在他们的 API 管理解决方案中使用它。这些只是社区去年增加的项目的一些汇总。&lt;/p>
+&lt;h2 id="heading-1">功能&lt;/h2>
+&lt;p>自 0.8 发布以来，我们添加了一些重要的新功能，更重要的是将许多现有的功能标记为 Beta 表明它们可以用于生产。这在&lt;a href="/v1.0/zh/about/notes/1.0/">发行说明&lt;/a>中有更详细的介绍，但值得一提是：&lt;/p>
+&lt;ul>
+&lt;li>现在可以将多个 Kubernetes 集群&lt;a href="/v1.0/zh/docs/setup/kubernetes/multicluster-install">添加到单个网格中&lt;/a>，并启用跨集群通信和一致的策略实施。多集群支持现在是 Beta。&lt;/li>
+&lt;li>通过网格实现对流量的细粒度控制的网络 API 现在是 Beta。使用网关显式建模 ingress 和 egress 问题，允许运维人员&lt;a href="/v1.0/zh/blog/2018/v1alpha3-routing/">控制网络拓扑&lt;/a>并满足边缘的访问安全要求。&lt;/li>
+&lt;li>现在可以&lt;a href="/v1.0/zh/docs/tasks/security/mtls-migration">增量上线&lt;/a>双向 TLS，而无需更新服务的所有客户端。这是一项关键功能，可以解除在现有生产上部署采用 Istio 的障碍。&lt;/li>
+&lt;li>Mixer 现在支持&lt;a href="https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide">开发进程外适配器&lt;/a>。这将成为在即将发布的版本中扩展 Mixer 的默认方式，这将使构建适配器更加简单。&lt;/li>
+&lt;li>现在，Envoy 在本地完全评估了控制服务访问的&lt;a href="/v1.0/zh/docs/concepts/security/#%E8%AE%A4%E8%AF%81%E7%AD%96%E7%95%A5">授权策略&lt;/a>，从而提高了它们的性能和可靠性。&lt;/li>
+&lt;li>&lt;a href="/v1.0/zh/docs/setup/kubernetes/helm-install/">Helm chart 安装&lt;/a> 现在是推荐的安装方法，提供丰富的自定义选项，以便根据您的需求配置 Istio。&lt;/li>
+&lt;li>我们在性能方面投入了大量精力，包括连续回归测试、大规模环境模拟和目标修复。我们对结果非常满意，并将在未来几周内详细分享。&lt;/li>
+&lt;/ul>
+&lt;h2 id="heading-2">下一步&lt;/h2>
+&lt;p>虽然这是该项目的一个重要里程碑，但还有很多工作要做。在与采用者合作时，我们已经获得了很多关于下一步要关注的重要反馈。我们已经听到了关于支持混合云、安装模块化、更丰富的网络功能和大规模部署可扩展性的一致主题。我们在 1.0 版本中已经考虑到了一些反馈，在未来几个月内我们将继续积极地处理这些工作。&lt;/p>
+&lt;h2 id="heading-3">快速开始&lt;/h2>
+&lt;p>如果您是 Istio 的新手，并希望将其用于部署，我们很乐意听取您的意见。查看我们的&lt;a href="/v1.0/zh/docs/">文档&lt;/a>，访问我们的&lt;a href="https://istio.rocket.chat">聊天论坛&lt;/a>或访问&lt;a href="https://groups.google.com/forum/#!forum/istio-dev">邮件列表&lt;/a>。如果您想更深入地为该项目做出贡献，请参加我们的&lt;a href="/v1.0/zh/about/community">社区会议&lt;/a>并打个招呼。&lt;/p>
+&lt;h2 id="heading-4">最后&lt;/h2>
+&lt;p>Istio 团队非常感谢为项目做出贡献的每个人。没有你们的帮助，它不会有今天的成就。去年的成就非常惊人，我们期待未来与我们社区成员一起实现更伟大的成就。&lt;/p></description><pubDate>Tue, 31 Jul 2018 00:00:00 +0000</pubDate><link>/v1.0/zh/blog/2018/announcing-1.0/</link><author>The Istio Team</author><guid isPermaLink="true">/v1.0/zh/blog/2018/announcing-1.0/</guid></item><item><title>Istio v1aplha3 路由 API 介绍</title><description>&lt;p>到目前为止，Istio 提供了一个简单的API来进行流量管理，该API包括了四种资源：&lt;code>RouteRule&lt;/code>，&lt;code>DestinationPolicy&lt;/code>，&lt;code>EgressRule&lt;/code> 和 （Kubernetes 的）&lt;code>Ingress&lt;/code>。借助此 API，用户可以轻松管理 Istio 服务网格中的流量。该 API 允许用户将请求路由到特定版本的服务，为弹性测试注入延迟和失败，添加超时和断路器等，所有这些功能都不必更改应用程序本身的代码。&lt;/p>
+&lt;p>虽然目前 API 的功能已被证明是 Istio 非常引人注目的一部分，但用户的反馈也表明，这个 API 确实有一些缺点，尤其是在使用它来管理包含数千个服务的非常大的应用程序，以及使用 HTTP 以外的协议时。 此外，使用 Kubernetes Ingress 资源来配置外部流量的方式已被证明不能满足需求。&lt;/p>
+&lt;p>为了解决上述缺陷和其他的一些问题，Istio 引入了新的流量管理 API v1alpha3，新版本的 API 将完全取代之前的 API。 尽管 v1alpha3 和之前的模型在本质上是基本相同的，但它并不向后兼容的，基于旧API的模型需要进行手动转换。&lt;/p>
+&lt;p>为了证明该非兼容升级的必要性，v1alpha3 API 经历了漫长而艰苦的社区评估过程，以希望新的API能够大幅改进，并经得起时间考验。 在本文中，我们将介绍新的配置模型，并试图解释影响这次变化的一些动机和设计原则。&lt;/p>
+&lt;h2 id="heading">设计原则&lt;/h2>
+&lt;p>路由模型的重构过程中遵循了一些关键的设计原则：&lt;/p>
+&lt;ul>
+&lt;li>除支持声明式（意图）配置外，也支持显式指定模型依赖的基础设施。例如，除了配置入口网关（的功能特性）之外，负责实现 入口网关功能的组件（Controller）也可以在模型指定。&lt;/li>
+&lt;li>编写模型时应该&amp;quot;生产者导向”和&amp;quot;以 Host 为中心”，而不是通过组合多个规则来编写模型。 例如，所有与特定 Host 关联的规则被配置在一起，而不是单独配置。&lt;/li>
+&lt;li>将路由与路由后行为清晰分开。&lt;/li>
+&lt;/ul>
+&lt;h2 id="v1alpha3-">v1alpha3 中的配置资源&lt;/h2>
+&lt;p>在一个典型的网格中，通常有一个或多个用于终结外部 TLS 链接，将流量引入网格的负载均衡器（我们称之为 gateway）。 然后流量通过边车网关（sidecar gateway）流经内部服务。 应用程序使用外部服务的情况也很常见（例如访问 Google Maps API），一些情况下，这些外部服务可能被直接调用；但在某些部署中，网格中所有访问外部服务的流量可能被要求强制通过专用的出口网关（Egress gateway）。 下图描绘了网关在网格中的使用情况。&lt;/p>
+&lt;figure style="width: 80%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 35.20%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2018/v1alpha3-routing/gateways.svg">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2018/v1alpha3-routing/gateways.svg" alt="Role of gateways in the mesh" title="Istio服务网格中的网关" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>Istio服务网格中的网关&lt;/figcaption>
+&lt;/figure>
+&lt;p>考虑到上述因素，&lt;code>v1alpha3&lt;/code>引入了以下这些新的配置资源来控制进入网格，网格内部和离开网格的流量路由。&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>Gateway&lt;/code>&lt;/li>
+&lt;li>&lt;code>VirtualService&lt;/code>&lt;/li>
+&lt;li>&lt;code>DestinationRule&lt;/code>&lt;/li>
+&lt;li>&lt;code>ServiceEntry&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;p>&lt;code>VirtualService&lt;/code>，&lt;code>DestinationRule&lt;/code> 和 &lt;code>ServiceEntry&lt;/code> 分别替换了原 API 中的 &lt;code>RouteRule&lt;/code>，&lt;code>DestinationPolicy&lt;/code> 和 &lt;code>EgressRule&lt;/code>。 &lt;code>Gateway&lt;/code> 是一个独立于平台的抽象，用于对流入专用中间设备的流量进行建模。&lt;/p>
+&lt;p>下图描述了跨多个配置资源的控制流程。&lt;/p>
+&lt;figure style="width: 80%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 41.16%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2018/v1alpha3-routing/virtualservices-destrules.svg">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2018/v1alpha3-routing/virtualservices-destrules.svg" alt="不同v1alpha3元素之间的关系" title="不同v1alpha3元素之间的关系" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>不同v1alpha3元素之间的关系&lt;/figcaption>
+&lt;/figure>
+&lt;h3 id="gateway">&lt;code>Gateway&lt;/code>&lt;/h3>
+&lt;p>&lt;a href="/v1.0/docs/reference/config/istio.networking.v1alpha3/#Gateway">&lt;code>Gateway&lt;/code>&lt;/a> 用于为 HTTP / TCP 流量配置负载均衡器，并不管该负载均衡器将在哪里运行。 网格中可以存在任意数量的 Gateway，并且多个不同的 Gateway 实现可以共存。 实际上，通过在配置中指定一组工作负载（Pod）标签，可以将 Gateway 配置绑定到特定的工作负载，从而允许用户通过编写简单的 Gateway Controller 来重用现成的网络设备。&lt;/p>
+&lt;p>对于入口流量管理，您可能会问： 为什么不直接使用 Kubernetes Ingress API ？ 原因是 Ingress API 无法表达 Istio 的路由需求。 Ingress 试图在不同的 HTTP 代理之间取一个公共的交集，因此只能支持最基本的 HTTP 路由，最终导致需要将代理的其他高级功能放入到注解（annotation）中，而注解的方式在多个代理之间是不兼容的，无法移植。&lt;/p>
+&lt;p>Istio &lt;code>Gateway&lt;/code> 通过将L4-L6配置与L7配置分离的方式克服了 &lt;code>Ingress&lt;/code> 的这些缺点。 &lt;code>Gateway&lt;/code> 只用于配置L4-L6功能（例如，对外公开的端口，TLS 配置），所有主流的L7代理均以统一的方式实现了这些功能。 然后，通过在 &lt;code>Gateway&lt;/code> 上绑定 &lt;code>VirtualService&lt;/code> 的方式，可以使用标准的 Istio 规则来控制进入 &lt;code>Gateway&lt;/code> 的 HTTP 和 TCP 流量。&lt;/p>
+&lt;p>例如，下面这个简单的 &lt;code>Gateway&lt;/code> 配置了一个 Load Balancer，以允许访问 host &lt;code>bookinfo.com&lt;/code> 的 https 外部流量进入网格中：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+name: bookinfo-gateway
+spec:
+servers:
+- port:
+number: 443
+name: https
+protocol: HTTPS
+hosts:
+- bookinfo.com
+tls:
+mode: SIMPLE
+serverCertificate: /tmp/tls.crt
+privateKey: /tmp/tls.key&lt;/code>&lt;/pre>
+&lt;p>要为进入上面的 Gateway 的流量配置相应的路由，必须为同一个 host 定义一个 &lt;code>VirtualService&lt;/code>（在下一节中描述），并使用配置中的 &lt;code>gateways&lt;/code> 字段绑定到前面定义的 &lt;code>Gateway&lt;/code> 上：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+name: bookinfo
+spec:
+hosts:
+- bookinfo.com
+gateways:
+- bookinfo-gateway # &amp;lt;---- bind to gateway
+http:
+- match:
+- uri:
+prefix: /reviews
+route:
+...&lt;/code>&lt;/pre>
+&lt;p>Gateway 可以用于建模边缘代理或纯粹的内部代理，如第一张图所示。 无论在哪个位置，所有网关都可以用相同的方式进行配置和控制。&lt;/p>
+&lt;h3 id="virtualservice">&lt;code>VirtualService&lt;/code>&lt;/h3>
+&lt;p>用一种叫做 &amp;ldquo;Virtual services” 的东西代替路由规则可能看起来有点奇怪，但对于它配置的内容而言，这事实上是一个更好的名称，特别是在重新设计 API 以解决先前模型的可扩展性问题之后。&lt;/p>
+&lt;p>实际上，发生的变化是：在之前的模型中，需要用一组相互独立的配置规则来为特定的目的服务设置路由规则，并通过 precedence 字段来控制这些规则的顺序；在新的 API 中，则直接对（虚拟）服务进行配置，该虚拟服务的所有规则以一个有序列表的方式配置在对应的 &lt;a href="/v1.0/docs/reference/config/istio.networking.v1alpha3/#VirtualService">&lt;code>VirtualService&lt;/code>&lt;/a> 资源中。&lt;/p>
+&lt;p>例如，之前在 &lt;a href="/v1.0/zh/docs/examples/bookinfo/">Bookinfo&lt;/a> 应用程序的 reviews 服务中有两个 &lt;code>RouteRule&lt;/code> 资源，如下所示：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+name: reviews-default
+spec:
+destination:
+name: reviews
+precedence: 1
+route:
+- labels:
+version: v1
+---
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+name: reviews-test-v2
+spec:
+destination:
+name: reviews
+precedence: 2
+match:
+request:
+headers:
+cookie:
+regex: &amp;#34;^(.*?;)?(user=jason)(;.*)?$&amp;#34;
+route:
+- labels:
+version: v2&lt;/code>&lt;/pre>
+&lt;p>在 &lt;code>v1alph3&lt;/code>，可以在单个 &lt;code>VirtualService&lt;/code> 资源中提供相同的配置：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+name: reviews
+spec:
+hosts:
+- reviews
+http:
+- match:
+- headers:
+cookie:
+regex: &amp;#34;^(.*?;)?(user=jason)(;.*)?$&amp;#34;
+route:
+- destination:
+host: reviews
+subset: v2
+- route:
+- destination:
+host: reviews
+subset: v1&lt;/code>&lt;/pre>
+&lt;p>正如你所看到的， 和 reviews 服务相关的两个规则集中写在了一个地方。这个改变乍一看可能觉得并没有什么特别的优势， 然而，如果仔细观察这个新模型，会发现它和之前的 API 之间存在着根本的差异，这使得 v1alpha3 功能更加强大。&lt;/p>
+&lt;p>首先，请注意 &lt;code>VirtualService&lt;/code> 的目标服务是使用 &lt;code>hosts&lt;/code> 字段（实际上是重复字段）指定的，然后再在每个路由的 &lt;code>destination&lt;/code> 字段中指定。 这是与以前模型的重要区别。&lt;/p>
+&lt;p>&lt;code>VirtualService&lt;/code> 描述了一个或多个用户可寻址目标到网格内实际工作负载之间的映射。在上面的示例中，这两个地址是相同的，但实际上用户可寻址目标可以是任何用于定位服务的，具有可选通配符前缀或 CIDR 前缀的 DNS 名称。
+这对于应用从单体架构到微服务架构的迁移过程特别有用，单体应用被拆分为多个独立的微服务后，采用 &lt;code>VirtualService&lt;/code> 可以继续把多个微服务对外暴露为同一个目标地址，而不需要服务消费者进行修改以适应该变化。&lt;/p>
+&lt;p>例如，以下规则允许服务消费者访问 Bookinfo 应用程序的 reviews 和 ratings 服务，就好像它们是 &lt;code>http://bookinfo.com/&lt;/code>（虚拟）服务的一部分：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+name: bookinfo
+spec:
+hosts:
+- bookinfo.com
+http:
+- match:
+- uri:
+prefix: /reviews
+route:
+- destination:
+host: reviews
+- match:
+- uri:
+prefix: /ratings
+route:
+- destination:
+host: ratings
+...&lt;/code>&lt;/pre>
+&lt;p>实际上在 &lt;code>VirtualService&lt;/code> 中 hosts 部分设置只是虚拟的目的地,因此不一定是已在网格中注册的服务。这允许用户为在网格内没有可路由条目的虚拟主机的流量进行建模。 通过将 &lt;code>VirtualService&lt;/code> 绑定到同一 Host 的 &lt;code>Gateway&lt;/code> 配置（如前一节所述 ），可向网格外部暴露这些 Host。&lt;/p>
+&lt;p>除了这个重大的重构之外， &lt;code>VirtualService&lt;/code> 还包括其他一些重要的改变：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>可以在 &lt;code>VirtualService&lt;/code> 配置中表示多个匹配条件，从而减少对冗余的规则设置。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>每个服务版本都有一个名称（称为服务子集）。 属于某个子集的一组 Pod/VM 在 &lt;code>DestinationRule&lt;/code> 定义，具体定义参见下节。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>通过使用带通配符前缀的 DNS 来指定 &lt;code>VirtualService&lt;/code> 的 host，可以创建单个规则以作用于所有匹配的服务。 例如，在 Kubernetes 中，在 &lt;code>VirtualService&lt;/code> 中使用 &lt;code>*.foo.svc.cluster.local&lt;/code> 作为 host ,可以对 &lt;code>foo&lt;/code> 命名空间中的所有服务应用相同的重写规则。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="destinationrule">&lt;code>DestinationRule&lt;/code>&lt;/h3>
+&lt;p>&lt;a href="/v1.0/docs/reference/config/istio.networking.v1alpha3/#DestinationRule">&lt;code>DestinationRule&lt;/code>&lt;/a> 配置将流量转发到服务时应用的策略集。 这些策略应由服务提供者撰写，用于描述断路器，负载均衡设置，TLS 设置等。
+除了下述改变外，&lt;code>DestinationRule&lt;/code> 与其前身 &lt;code>DestinationPolicy&lt;/code> 大致相同。&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>DestinationRule&lt;/code> 的 &lt;code>host&lt;/code> 可以包含通配符前缀，以允许单个规则应用于多个服务。&lt;/li>
+&lt;li>&lt;code>DestinationRule&lt;/code> 定义了目的 host 的子集 &lt;code>subsets&lt;/code> （例如：命名版本）。 这些 subset 用于 &lt;code>VirtualService&lt;/code> 的路由规则设置中，可以将流量导向服务的某些特定版本。 通过这种方式为版本命名后，可以在不同的 virtual service 中明确地引用这些命名版本的 subset，简化 Istio 代理发出的统计数据，并可以将 subset 编码到 SNI 头中。
+为 reviews 服务配置策略和 subsets 的 &lt;code>DestinationRule&lt;/code> 可能如下所示：&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+name: reviews
+spec:
+host: reviews
+trafficPolicy:
+loadBalancer:
+simple: RANDOM
+subsets:
+- name: v1
+labels:
+version: v1
+- name: v2
+labels:
+version: v2
+trafficPolicy:
+loadBalancer:
+simple: ROUND_ROBIN
+- name: v3
+labels:
+version: v3&lt;/code>&lt;/pre>
+&lt;p>注意，与 &lt;code>DestinationPolicy&lt;/code> 不同的是，可在单个 &lt;code>DestinationRule&lt;/code> 中指定多个策略（例如上面实例中的缺省策略和 v2 版本特定的策略）。&lt;/p>
+&lt;h3 id="serviceentry">&lt;code>ServiceEntry&lt;/code>&lt;/h3>
+&lt;p>&lt;a href="/v1.0/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry">&lt;code>ServiceEntry&lt;/code>&lt;/a> 用于将附加条目添加到 Istio 内部维护的服务注册表中。
+它最常用于对访问网格外部依赖的流量进行建模，例如访问 Web 上的 API 或遗留基础设施中的服务。&lt;/p>
+&lt;p>所有以前使用 &lt;code>EgressRule&lt;/code> 进行配置的内容都可以通过 &lt;code>ServiceEntry&lt;/code> 轻松完成。 例如，可以使用类似这样的配置来允许从网格内部访问一个简单的外部服务：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+name: foo-ext
+spec:
+hosts:
+- foo.com
+ports:
+- number: 80
+name: http
+protocol: HTTP&lt;/code>&lt;/pre>
+&lt;p>也就是说，&lt;code>ServiceEntry&lt;/code> 比它的前身具有更多的功能。首先，&lt;code>ServiceEntry&lt;/code> 不限于外部服务配置，它可以有两种类型：网格内部或网格外部。网格内部条目只是用于向网格显式添加服务，添加的服务与其他内部服务一样。采用网格内部条目，可以把原本未被网格管理的基础设施也纳入到网格中（例如，把虚机中的服务添加到基于 Kubernetes 的服务网格中）。网格外部条目则代表了网格外部的服务。对于这些外部服务来说，双向 TLS 身份验证是禁用的，并且策略是在客户端执行的，而不是在像内部服务请求一样在服务器端执行策略。&lt;/p>
+&lt;p>由于 &lt;code>ServiceEntry&lt;/code> 配置只是将服务添加到网格内部的服务注册表中，因此它可以像注册表中的任何其他服务一样,与 &lt;code>VirtualService&lt;/code> 和/或 &lt;code>DestinationRule&lt;/code> 一起使用。例如，以下 &lt;code>DestinationRule&lt;/code> 可用于启动外部服务的 双向 TLS 连接：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+name: foo-ext
+spec:
+name: foo.com
+trafficPolicy:
+tls:
+mode: MUTUAL
+clientCertificate: /etc/certs/myclientcert.pem
+privateKey: /etc/certs/client_private_key.pem
+caCertificates: /etc/certs/rootcacerts.pem&lt;/code>&lt;/pre>
+&lt;p>除了扩展通用性以外，&lt;code>ServiceEntry&lt;/code> 还提供了其他一些有关 &lt;code>EgressRule&lt;/code> 改进，其中包括：&lt;/p>
+&lt;ol>
+&lt;li>一个 &lt;code>ServiceEntry&lt;/code> 可以配置多个服务端点，这在之前需要采用多个 &lt;code>EgressRules&lt;/code> 来实现。&lt;/li>
+&lt;li>现在可以配置服务端点的解析模式（&lt;code>NONE&lt;/code>，&lt;code>STATIC&lt;/code> 或 &lt;code>DNS&lt;/code>）。&lt;/li>
+&lt;li>此外，我们正在努力解决另一个难题：目前需要通过纯文本端口访问安全的外部服务（例如 &lt;code>http://google.com:443&lt;/code>）。该问题将会在未来几周内得到解决，届时将允许从应用程序直接访问 &lt;code>https://google.com&lt;/code>。请继续关注解决此限制的 Istio 补丁版本（0.8.x）。&lt;/li>
+&lt;/ol>
+&lt;h2 id="-v1alpha3-">创建和删除 v1alpha3 路由规则&lt;/h2>
+&lt;p>由于一个特定目的地的所有路由规则现在都存储在单个 &lt;code>VirtualService&lt;/code> 资源的一个有序列表中，因此为该目的地添加新的规则不需要再创建新的 &lt;code>RouteRule&lt;/code>，而是通过更新该目的地的 &lt;code>VirtualService&lt;/code> 资源来实现。&lt;/p>
+&lt;p>旧的路由规则：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ istioctl create -f my-second-rule-for-destination-abc.yaml&lt;/code>&lt;/pre>
+&lt;p>&lt;code>v1alpha3&lt;/code> 路由规则：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ istioctl replace -f my-updated-rules-for-destination-abc.yaml&lt;/code>&lt;/pre>
+&lt;p>删除路由规则也使用 &lt;code>istioctl&lt;/code> replace 完成，当然删除最后一个路由规则除外（删除最后一个路由规则需要删除 &lt;code>VirtualService&lt;/code>）。&lt;/p>
+&lt;p>在添加或删除引用服务版本的路由时，需要在该服务相应的 &lt;code>DestinationRule&lt;/code> 更新 subsets 。 正如你可能猜到的，这也是使用 &lt;code>istioctl replace&lt;/code> 完成的。&lt;/p>
+&lt;h2 id="heading-1">总结&lt;/h2>
+&lt;p>Istio &lt;code>v1alpha3&lt;/code> 路由 API 具有比其前身更多的功能，但不幸的是新的 API 并不向后兼容，旧的模型升级需要一次手动转换。 Istio 0.9以后将不再支持 &lt;code>RouteRule&lt;/code>，&lt;code>DesintationPolicy&lt;/code> 和 &lt;code>EgressRule&lt;/code> 这些以前的配置资源 。Kubernetes 用户可以继续使用 &lt;code>Ingress&lt;/code> 配置边缘负载均衡器来实现基本的路由。 但是，高级路由功能（例如，跨两个版本的流量分割）则需要使 &lt;code>用Gateway&lt;/code> ，这是一种功能更强大，Istio 推荐的 &lt;code>Ingress&lt;/code> 替代品。&lt;/p>
+&lt;h2 id="heading-2">致谢&lt;/h2>
+&lt;p>感谢以下人员为新版本的路由模型重构和实现工作做出的贡献（按字母顺序）&lt;/p>
+&lt;ul>
+&lt;li>Frank Budinsky (IBM)&lt;/li>
+&lt;li>Zack Butcher (Google)&lt;/li>
+&lt;li>Greg Hanson (IBM)&lt;/li>
+&lt;li>Costin Manolache (Google)&lt;/li>
+&lt;li>Martin Ostrowski (Google)&lt;/li>
+&lt;li>Shriram Rajagopalan (VMware)&lt;/li>
+&lt;li>Louis Ryan (Google)&lt;/li>
+&lt;li>Isaiah Snell-Feikema (IBM)&lt;/li>
+&lt;li>Kuat Yessenov (Google)&lt;/li>
+&lt;/ul></description><pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate><link>/v1.0/zh/blog/2018/v1alpha3-routing/</link><author>Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)</author><guid isPermaLink="true">/v1.0/zh/blog/2018/v1alpha3-routing/</guid><category>流量管理</category></item><item><title>使用AWS NLB 配置 Istio Ingress</title><description>&lt;p>本文提供了使用 &lt;a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html">AWS 网络负载均衡器&lt;/a> 配置 ingress Istio 的说明。&lt;/p>
+&lt;p>可以使用网络负载均衡器 (NLB) 来代替传统的负载均衡器。 你可以查看不同的 AWS &lt;code>负载均衡器&lt;/code> 之间的 &lt;a href="https://aws.amazon.com/elasticloadbalancing/details/#compare">比较&lt;/a>以获取更多的解释。&lt;/p>
+&lt;h2 id="heading">先行条件&lt;/h2>
+&lt;p>以下说明需要 Kubernetes &lt;strong>1.9.0 或更高版本&lt;/strong> 的集群。&lt;/p>
+&lt;p>&lt;img src="/v1.0/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 2rem; height: 2rem; display:inline" /> AWS &lt;code>nlb&lt;/code> 在 Kubernetes 上的使用是一项 Alpha 功能 ，不建议用于生产环境的集群。&lt;/p>
+&lt;h2 id="iam-">IAM 策略&lt;/h2>
+&lt;p>你需要在主角色上应用策略， 以便能够配置网络负载均衡器。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>在 AWS &lt;code>iam&lt;/code> 控制台中，点击策略并单击“创建新策略”：&lt;/p>
+&lt;figure style="width: 80%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 60%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2018/aws-nlb/./createpolicystart.png">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2018/aws-nlb/./createpolicystart.png" alt="创建一个新的策略" title="创建一个新的策略" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>创建一个新的策略&lt;/figcaption>
+&lt;/figure>
+&lt;/li>
+&lt;li>
+&lt;p>选择 &lt;code>json&lt;/code>:&lt;/p>
+&lt;figure style="width: 80%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 60%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2018/aws-nlb/./createpolicyjson.png">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2018/aws-nlb/./createpolicyjson.png" alt="选择 json" title="选择 json" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>选择 json&lt;/figcaption>
+&lt;/figure>
+&lt;/li>
+&lt;li>
+&lt;p>拷贝以下内容：&lt;/p>
+&lt;pre>&lt;code class='language-json'>{
+&amp;#34;Version&amp;#34;: &amp;#34;2012-10-17&amp;#34;,
+&amp;#34;Statement&amp;#34;: [
+{
+&amp;#34;Sid&amp;#34;: &amp;#34;kopsK8sNLBMasterPermsRestrictive&amp;#34;,
+&amp;#34;Effect&amp;#34;: &amp;#34;Allow&amp;#34;,
+&amp;#34;Action&amp;#34;: [
+&amp;#34;ec2:DescribeVpcs&amp;#34;,
+&amp;#34;elasticloadbalancing:AddTags&amp;#34;,
+&amp;#34;elasticloadbalancing:CreateListener&amp;#34;,
+&amp;#34;elasticloadbalancing:CreateTargetGroup&amp;#34;,
+&amp;#34;elasticloadbalancing:DeleteListener&amp;#34;,
+&amp;#34;elasticloadbalancing:DeleteTargetGroup&amp;#34;,
+&amp;#34;elasticloadbalancing:DescribeListeners&amp;#34;,
+&amp;#34;elasticloadbalancing:DescribeLoadBalancerPolicies&amp;#34;,
+&amp;#34;elasticloadbalancing:DescribeTargetGroups&amp;#34;,
+&amp;#34;elasticloadbalancing:DescribeTargetHealth&amp;#34;,
+&amp;#34;elasticloadbalancing:ModifyListener&amp;#34;,
+&amp;#34;elasticloadbalancing:ModifyTargetGroup&amp;#34;,
+&amp;#34;elasticloadbalancing:RegisterTargets&amp;#34;,
+&amp;#34;elasticloadbalancing:SetLoadBalancerPoliciesOfListener&amp;#34;
+],
+&amp;#34;Resource&amp;#34;: [
+&amp;#34;*&amp;#34;
+]
+},
+{
+&amp;#34;Effect&amp;#34;: &amp;#34;Allow&amp;#34;,
+&amp;#34;Action&amp;#34;: [
+&amp;#34;ec2:DescribeVpcs&amp;#34;,
+&amp;#34;ec2:DescribeRegions&amp;#34;
+],
+&amp;#34;Resource&amp;#34;: &amp;#34;*&amp;#34;
+}
+]
+}&lt;/code>&lt;/pre>
+&lt;/li>
+&lt;li>
+&lt;p>点击审核策略，填写所有字段，接着点击创建策略：&lt;/p>
+&lt;figure style="width: 80%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 60%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2018/aws-nlb/./create_policy.png">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2018/aws-nlb/./create_policy.png" alt="验证策略" title="验证策略" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>验证策略&lt;/figcaption>
+&lt;/figure>
+&lt;/li>
+&lt;li>
+&lt;p>点击角色，选择你的主角色节点，然后点击附加策略：&lt;/p>
+&lt;figure style="width: 100%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 35%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2018/aws-nlb/./roles_summary.png">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2018/aws-nlb/./roles_summary.png" alt="附加策略" title="附加策略" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>附加策略&lt;/figcaption>
+&lt;/figure>
+&lt;/li>
+&lt;li>
+&lt;p>现在，你的策略就已经附加到了主节点。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="-istio-ingress-">重写 Istio Ingress 服务&lt;/h2>
+&lt;p>你需要使用以下内容来重写 istio ingress 服务：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>apiVersion: v1
+kind: Service
+metadata:
+name: istio-ingress
+namespace: istio-system
+labels:
+istio: ingress
+annotations:
+service.beta.kubernetes.io/aws-load-balancer-type: &amp;#34;nlb&amp;#34;
+spec:
+externalTrafficPolicy: Local
+ports:
+- port: 80
+protocol: TCP
+targetPort: 80
+name: http
+- port: 443
+protocol: TCP
+targetPort: 443
+name: https
+selector:
+istio: ingress
+type: LoadBalancer&lt;/code>&lt;/pre></description><pubDate>Fri, 20 Apr 2018 00:00:00 +0000</pubDate><link>/v1.0/zh/blog/2018/aws-nlb/</link><author>Julien SENON</author><guid isPermaLink="true">/v1.0/zh/blog/2018/aws-nlb/</guid><category>ingress</category><category>traffic-management</category><category>aws</category></item><item><title>Istio 的软性多租户支持</title><description>&lt;p>多租户是一个在各种环境和各种应用中都得到了广泛应用的概念，但是不同环境中，为每租户提供的具体实现和功能性都是有差异的。&lt;a href="https://github.com/kubernetes/community/blob/master/wg-multitenancy/README.md">Kubernetes 多租户工作组&lt;/a>致力于在 Kubernetes 中定义多租户用例和功能。然而根据他们的工作进展来看，恶意容器和负载对于其他租户的 Pod 和内核资源的访问无法做到完全控制，因此只有&amp;quot;软性多租户”支持是可行的。&lt;/p>
+&lt;h2 id="heading">软性多租户&lt;/h2>
+&lt;p>文中提到的&amp;quot;软性多租户”的定义指的是单一 Kubernetes 控制平面和多个 Istio 控制平面以及多个服务网格相结合；每个租户都有自己的一个控制平面和一个服务网格。集群管理员对所有 Istio 控制面都有控制和监控的能力，而租户管理员仅能得到指定 Istio 的控制权。使用 Kubernetes 的命名空间和 RBAC 来完成不同租户的隔离。&lt;/p>
+&lt;p>这种模式的一个用例就是企业内部共享的基础设施中，虽然预计不会发生恶意行为，但租户之间的清晰隔离仍然是很有必要的。&lt;/p>
+&lt;p>本文最后会对 Istio 未来的多租户模型进行一些描述。&lt;/p>
+&lt;blockquote>
+&lt;p>注意：这里仅就在有限多租户环境中部署 Istio 做一些概要描述。当官方多租户支持实现之后，会在&lt;a href="/v1.0/zh/docs/">文档&lt;/a>中具体阐述。&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="heading-1">部署&lt;/h2>
+&lt;h3 id="-istio-">多个 Istio 控制面&lt;/h3>
+&lt;p>要部署多个 Istio 控制面，首先要在 Istio 清单文件中对所有的 &lt;code>namespace&lt;/code> 引用进行替换。以 &lt;code>istio.yaml&lt;/code> （0.8 中应该是 &lt;code>istio.yaml&lt;/code>） 为例：如果需要两个租户级的 Istio 控制面，那么第一个租户可以使用 &lt;code>istio.yaml&lt;/code> 中的缺省命名空间也就是 &lt;code>istio-system&lt;/code>；而第二个租户就要生成一个新的 Yaml 文件，并在其中使用不同的命名空间。例如使用下面的命令创建一个使用 &lt;code>istio-system1&lt;/code> 命名空间的 Yaml 文件：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ cat istio.yaml | sed s/istio-system/istio-system1/g &amp;gt; istio-system1.yaml&lt;/code>&lt;/pre>
+&lt;p>Istio Yaml 文件包含了 Istio 控制面的部署细节，包含组成控制面的 Pod（Mixer、Pilot、Ingress 以及 CA）。部署这两个控制面 Yaml 文件：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl apply -f install/kubernetes/istio.yaml
+$ kubectl apply -f install/kubernetes/istio-system1.yaml&lt;/code>&lt;/pre>
+&lt;p>会在两个命名空间生成两个 Istio 控制面&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl get pods --all-namespaces
+NAMESPACE NAME READY STATUS RESTARTS AGE
+istio-system istio-ca-ffbb75c6f-98w6x 1/1 Running 0 15d
+istio-system istio-ingress-68d65fc5c6-dnvfl 1/1 Running 0 15d
+istio-system istio-mixer-5b9f8dffb5-8875r 3/3 Running 0 15d
+istio-system istio-pilot-678fc976c8-b8tv6 2/2 Running 0 15d
+istio-system1 istio-ca-5f496fdbcd-lqhlk 1/1 Running 0 15d
+istio-system1 istio-ingress-68d65fc5c6-2vldg 1/1 Running 0 15d
+istio-system1 istio-mixer-7d4f7b9968-66z44 3/3 Running 0 15d
+istio-system1 istio-pilot-5bb6b7669c-779vb 2/2 Running 0 15d&lt;/code>&lt;/pre>
+&lt;p>如果需要 Istio &lt;a href="/v1.0/zh/docs/setup/kubernetes/sidecar-injection/">Sidecar 注入组件&lt;/a>以及&lt;a href="/v1.0/zh/docs/tasks/telemetry/">遥测组件&lt;/a>，也需要根据租户的命名空间定义，修改所需的 Yaml 文件。&lt;/p>
+&lt;p>需要由集群管理员、而不是租户自己的管理员来加载这两组 Yaml 文件。另外，要把租户管理员的操作权限限制在各自的命名空间内，还需要额外的 RBAC 配置。&lt;/p>
+&lt;h3 id="heading-2">区分通用资源和命名空间资源&lt;/h3>
+&lt;p>Istio 仓库中的清单文件中会创建两种资源，一种是能够被所有 Istio 控制面访问的通用资源，另一种是每个控制平面一份的专属资源。上面所说的在 Yaml 文件中替换 &lt;code>istio-system&lt;/code> 命名空间的方法自然是很简单的，更好的一种方法就是把 Yaml 文件拆分为两块，一块是所有租户共享的通用部分；另一块就是租户自有的部分。根据 &lt;a href="https://kubernetes.io/docs/concepts/api-extension/custom-resources/#customresourcedefinitions">CRD 资源定义（Custom Resource Definitions）&lt;/a>中的说法，角色和角色绑定资源需要从 Istio 文件中进行剥离。另外，清单文件中提供的角色和角色绑定的定义可能不适合多租户环境，还需要进一步的细化和定制。&lt;/p>
+&lt;h3 id="istio--kubernetes-rbac-">Istio 控制面的 Kubernetes RBAC 设置&lt;/h3>
+&lt;p>租户管理员应该被限制在单独的 Istio 命名空间中，要完成这个限制，集群管理员需要创建一个清单，其中至少要包含一个 &lt;code>Role&lt;/code> 和 &lt;code>RoleBinding&lt;/code> 的定义，类似下面的文件所示。例子中定义了一个租户管理员，命名为 &lt;code>sales-admin&lt;/code>，他被限制在命名空间 &lt;code>istio-system&lt;/code> 之中。完整的清单中可能要在 &lt;code>Role&lt;/code> 中包含更多的 &lt;code>apiGroups&lt;/code> 条目，来定义租户管理员的资源访问能力。&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+namespace: istio-system1
+name: ns-access-for-sales-admin-istio-system1
+rules:
+- apiGroups: [&amp;#34;&amp;#34;] # &amp;#34;&amp;#34; 代表核心 API 资源组
+resources: [&amp;#34;*&amp;#34;]
+verbs: [&amp;#34;*&amp;#34;]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+name: access-all-istio-system1
+namespace: istio-system1
+subjects:
+- kind: User
+name: sales-admin
+apiGroup: rbac.authorization.k8s.io
+roleRef:
+kind: Role
+name: ns-access-for-sales-admin-istio-system1
+apiGroup: rbac.authorization.k8s.io&lt;/code>&lt;/pre>
+&lt;h3 id="heading-3">关注特定命名空间进行服务发现&lt;/h3>
+&lt;p>除了创建 RBAC 规则来限制租户管理员只能访问指定 Istio 控制平面之外，Istio 清单还需要为 Istio Pilot 指定一个用于应用程序的命名空间，以便生成 xDS 缓存。Pilot 组件提供了命令行参数 &lt;code>--appNamespace, ns-1&lt;/code> 可以完成这一任务。&lt;code>ns-1&lt;/code> 就是租户用来部署自己应用的命名空间。&lt;code>istio-system1.yaml&lt;/code> 中包含的相关代码大致如下：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+name: istio-pilot
+namespace: istio-system1
+annotations:
+sidecar.istio.io/inject: &amp;#34;false&amp;#34;
+spec:
+replicas: 1
+template:
+metadata:
+labels:
+istio: pilot
+spec:
+serviceAccountName: istio-pilot-service-account
+containers:
+- name: discovery
+image: docker.io/&amp;lt;user ID&amp;gt;/pilot:&amp;lt;tag&amp;gt;
+imagePullPolicy: IfNotPresent
+args: [&amp;#34;discovery&amp;#34;, &amp;#34;-v&amp;#34;, &amp;#34;2&amp;#34;, &amp;#34;--admission-service&amp;#34;, &amp;#34;istio-pilot&amp;#34;, &amp;#34;--appNamespace&amp;#34;, &amp;#34;ns-1&amp;#34;]
+ports:
+- containerPort: 8080
+- containerPort: 443&lt;/code>&lt;/pre>
+&lt;h3 id="heading-4">在特定命名空间中部署租户应用&lt;/h3>
+&lt;p>现在集群管理员已经给租户创建了命名空间（&lt;code>istio-system1&lt;/code>），并且对 Istio Pilot 的服务发现进行了配置，要求它关注应用的命名空间（&lt;code>ns-1&lt;/code>），创建应用的 Yaml 文件，将其部署到租户的专属命名空间中：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>apiVersion: v1
+kind: Namespace
+metadata:
+name: ns-1&lt;/code>&lt;/pre>
+&lt;p>然后把每个资源的命名空间都指定到 &lt;code>ns-1&lt;/code>，例如：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>apiVersion: v1
+kind: Service
+metadata:
+name: details
+labels:
+app: details
+namespace: ns-1&lt;/code>&lt;/pre>
+&lt;p>虽然没有展示出来，但是应用的命名空间也应该有 RBAC 设置，用来对特定资源进行访问控制。集群管理员和租户管理员都有权完成这种 RBAC 限制。&lt;/p>
+&lt;h3 id="-istioctl">在多租户环境中使用 &lt;code>istioctl&lt;/code>&lt;/h3>
+&lt;p>定义&lt;a href="https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#RouteRule">路由规则&lt;/a>或者&lt;a href="https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#DestinationPolicy">目标策略&lt;/a>时，要确认 &lt;code>istioctl&lt;/code> 命令是针对专有的 Istio 控制面所在的命名空间运行的。另外规则自身的定义也要限制在租户的命名空间里，这样才能保证规则在租户自己的网格中生效。&lt;code>-i&lt;/code> 选项用来在 Istio 控制面所属的命名空间中创建（get 和 describe 也一样）规则。&lt;code>-n&lt;/code> 参数会限制规则的所在范围是租户的网格，取值就是租户应用所在的命名空间。如果 Yaml 文件中的资源已经指定了范围，&lt;code>-n&lt;/code> 参数会被跳过。&lt;/p>
+&lt;p>例如下面的命令会创建到 &lt;code>istio-system1&lt;/code> 命名空间的路由规则：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ istioctl –i istio-system1 create -n ns-1 -f route_rule_v2.yaml&lt;/code>&lt;/pre>
+&lt;p>用下面的命令可以查看：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ istioctl -i istio-system1 -n ns-1 get routerule
+NAME KIND NAMESPACE
+details-Default RouteRule.v1alpha2.config.istio.io ns-1
+productpage-default RouteRule.v1alpha2.config.istio.io ns-1
+ratings-default RouteRule.v1alpha2.config.istio.io ns-1
+reviews-default RouteRule.v1alpha2.config.istio.io ns-1&lt;/code>&lt;/pre>
+&lt;p>&lt;a href="/v1.0/zh/blog/2018/soft-multitenancy/#%E5%A4%9A%E4%B8%AA-istio-%E6%8E%A7%E5%88%B6%E9%9D%A2">Multiple Istio control planes&lt;/a> 中讲述了更多多租户环境下命名空间的相关问题。&lt;/p>
+&lt;h3 id="heading-5">测试结果&lt;/h3>
+&lt;p>根据前文的介绍，一个集群管理员能够创建一个受限于 RBAC 和命名空间的环境，租户管理员能在其中进行部署。&lt;/p>
+&lt;p>完成部署后，租户管理员就可以访问指定的 Istio 控制平面的 Pod 了。&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl get pods -n istio-system
+NAME READY STATUS RESTARTS AGE
+grafana-78d649479f-8pqk9 1/1 Running 0 1d
+istio-ca-ffbb75c6f-98w6x 1/1 Running 0 1d
+istio-ingress-68d65fc5c6-dnvfl 1/1 Running 0 1d
+istio-mixer-5b9f8dffb5-8875r 3/3 Running 0 1d
+istio-pilot-678fc976c8-b8tv6 2/2 Running 0 1d
+istio-sidecar-injector-7587bd559d-5tgk6 1/1 Running 0 1d
+prometheus-cf8456855-hdcq7 1/1 Running 0 1d
+servicegraph-75ff8f7c95-wcjs7 1/1 Running 0 1d&lt;/code>&lt;/pre>
+&lt;p>然而无法访问全部命名空间的 Pod：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl get pods --all-namespaces
+Error from server (Forbidden): pods is forbidden: User &amp;#34;dev-admin&amp;#34; cannot list pods at the cluster scope&lt;/code>&lt;/pre>
+&lt;p>访问其他租户的命名空间也是不可以的：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl get pods -n istio-system1
+Error from server (Forbidden): pods is forbidden: User &amp;#34;dev-admin&amp;#34; cannot list pods in the namespace &amp;#34;istio-system1&amp;#34;&lt;/code>&lt;/pre>
+&lt;p>租户管理员能够在租户指定的应用命名空间中进行应用部署。例如可以修改一下 &lt;a href="/v1.0/zh/docs/examples/bookinfo/">Bookinfo&lt;/a> 的 Yaml 然后部署到租户的命名空间 &lt;code>ns-0&lt;/code> 中，然后租户管理员就可以在这一命名空间中列出 Pod 了：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl get pods -n ns-0
+NAME READY STATUS RESTARTS AGE
+details-v1-64b86cd49-b7rkr 2/2 Running 0 1d
+productpage-v1-84f77f8747-rf2mt 2/2 Running 0 1d
+ratings-v1-5f46655b57-5b4c5 2/2 Running 0 1d
+reviews-v1-ff6bdb95b-pm5lb 2/2 Running 0 1d
+reviews-v2-5799558d68-b989t 2/2 Running 0 1d
+reviews-v3-58ff7d665b-lw5j9 2/2 Running 0 1d&lt;/code>&lt;/pre>
+&lt;p>同样也是不能访问其他租户的应用程序命名空间：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl get pods -n ns-1
+Error from server (Forbidden): pods is forbidden: User &amp;#34;dev-admin&amp;#34; cannot list pods in the namespace &amp;#34;ns-1&amp;#34;&lt;/code>&lt;/pre>
+&lt;p>如果部署了&lt;a href="/v1.0/zh/docs/tasks/telemetry/">遥测组件&lt;/a>, 例如
+&lt;a href="/v1.0/zh/docs/tasks/telemetry/querying-metrics/">Prometheus&lt;/a>（限制在 Istio 的 &lt;code>namespace&lt;/code>），其中获得的统计结果展示的也只是租户应用命名空间的私有数据。&lt;/p>
+&lt;h2 id="heading-6">结语&lt;/h2>
+&lt;p>上面的一些尝试表明 Istio 有足够的能力和安全性，符合少量多租户的用例需求。另外也很明显的，Istio 和 Kubernetes &lt;strong>无法&lt;/strong>提供足够的能力和安全性来满足其他的用例，尤其是在租户之间要求完全的安全性和隔离的要求的用例。只有等容器技术（例如 Kubernetes ）能够提供更好的安全模型以及隔离能力，我们才能进一步的增强这方面的支持，Istio 的支持并不是很重要。&lt;/p>
+&lt;h2 id="heading-7">问题&lt;/h2>
+&lt;ul>
+&lt;li>一个租户的 CA(Certificate Authority) 和 Mixer 的 Pod 中产生的 Log 包含了另一个租户的控制面的 &lt;code>info&lt;/code> 信息。&lt;/li>
+&lt;/ul>
+&lt;h2 id="heading-8">其他多租户模型的挑战&lt;/h2>
+&lt;p>还有其他值得考虑的多租户部署模型：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>一个网格中运行多个应用程序，每个租户一个应用。集群管理员能控制和监控网格范围内的所有应用，租户管理员只能控制一个特定应用。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>单独的 Istio 控制平面控制多个网格，每个租户一个网格。集群管理员控制和监控整个 Istio 控制面以及所有网格，租户管理员只能控制特定的网格。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>一个云环境（集群控制），多个 Kubernetes 控制面（租户控制）&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>这些选项，有的需要改写代码才能支持，有的无法满足用户要求。&lt;/p>
+&lt;p>目前的 Istio 能力不适合第一种方案，这是因为其 RBAC 能力无法覆盖这种租户操作。另外在当前的网格模型中，Istio 的配置信息需要传递给 Envoy 代理服务器，多个租户在同一网格内共存的做法非常不安全。&lt;/p>
+&lt;p>再看看第二个方式，目前的 Istio 假设每个 Istio 控制面对应一个网格。要支持这种模型需要大量改写。这种情况需要更好的对资源的范围限制进行调整，同时根据命名空间进行安全限制，此外还需要调整 Istio 的 RBAC 模型。这种模式未来可能会支持，但目前来说是不可能的。&lt;/p>
+&lt;p>第三个方式对多数案例都是不合适的，毕竟多数集群管理员倾向于将同一个 Kubernetes 控制面作为 &lt;a href="https://en.wikipedia.org/wiki/Platform_as_a_service">PaaS&lt;/a> 提供给他们的租户。&lt;/p>
+&lt;h2 id="heading-9">未来&lt;/h2>
+&lt;p>很明显，单一 Istio 控制面控制多个网格可能是下一个功能。还有可能就是在同一个网格中支持多个租户，并提供某种程度的隔离和安全保障。要完成这样的能力，就需要像 Kubernetes 中对命名空间的的操作那样，在一个单独的控制平面中进行分区，社区中发出了&lt;a href="https://docs.google.com/document/d/14Hb07gSrfVt5KX9qNi7FzzGwB_6WBpAnDpPG6QEEd9Q">这篇文档&lt;/a>来定义其他的用例，以及要支持这些用例所需要的 Istio 功能。&lt;/p>
+&lt;h2 id="heading-10">参考&lt;/h2>
+&lt;ul>
+&lt;li>视频：&lt;a href="https://www.youtube.com/watch?v=ahwCkJGItkU">用 RBAC 和命名空间支持的多租户功能及安全模型&lt;/a>, &lt;a href="https://schd.ws/hosted_files/kccncna17/21/Multi-tenancy%20Support%20%26%20Security%20Modeling%20with%20RBAC%20and%20Namespaces.pdf">幻灯片&lt;/a>.&lt;/li>
+&lt;li>Kubecon 讨论，关于对”协同软性多租户&amp;quot;的支持 &lt;a href="https://www.youtube.com/watch?v=YRR-kZub0cA">Building for Trust: How to Secure Your Kubernetes&lt;/a>.&lt;/li>
+&lt;li>Kubernetes &lt;a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">RBAC 文档&lt;/a> 以及 &lt;a href="https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/">命名空间文档&lt;/a>.&lt;/li>
+&lt;li>Kubecon 幻灯片 &lt;a href="https://schd.ws/hosted_files/kccncna17/a9/kubecon-multitenancy.pdf">Multi-tenancy Deep Dive&lt;/a>.&lt;/li>
+&lt;li>Google 文档 &lt;a href="https://docs.google.com/document/d/15w1_fesSUZHv-vwjiYa9vN_uyc--PySRoLKTuDhimjc">Multi-tenancy models for Kubernetes&lt;/a>. (需要授权)&lt;/li>
+&lt;li>Cloud Foundry 提出的文档：&lt;a href="https://docs.google.com/document/d/14Hb07gSrfVt5KX9qNi7FzzGwB_6WBpAnDpPG6QEEd9Q">Multi-cloud and Multi-tenancy&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://docs.google.com/document/d/12F183NIRAwj2hprx-a-51ByLeNqbJxK16X06vwH5OWE">Istio Auto Multi-Tenancy 101&lt;/a>&lt;/li>
+&lt;/ul></description><pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate><link>/v1.0/zh/blog/2018/soft-multitenancy/</link><author>John Joyce 和 Rich Curran</author><guid isPermaLink="true">/v1.0/zh/blog/2018/soft-multitenancy/</guid><category>租户</category></item><item><title>用于在生产环境进行测试的 Istio 流量镜像功能</title><description>&lt;p>在非生产/测试环境中，尝试穷举一个服务所有可能的测试用例组合是个令人望而生畏的任务, 在某些情况下，您会发现编写这些用例的所有工作都与实际生产用例不匹配, 理想情况下，我们可以使用实时生产用例和流量来帮助说明我们可能在更人为的测试环境中错过的所测试服务的所有功能区域。&lt;/p>
+&lt;p>Istio 可以在这里提供帮助, 随着&lt;a href="/v1.0/zh/about/notes/0.5/">Istio 0.5.0&lt;/a>的发布，Istio 可以镜像流量来帮助测试您的服务, 您可以编写类似于以下内容的路由规则来启用流量镜像：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+name: mirror-traffic-to-httbin-v2
+spec:
+destination:
+name: httpbin
+precedence: 11
+route:
+- labels:
+version: v1
+weight: 100
+- labels:
+version: v2
+weight: 0
+mirror:
+name: httpbin
+labels:
+version: v2&lt;/code>&lt;/pre>
+&lt;p>这里有几点需要注意：&lt;/p>
+&lt;ul>
+&lt;li>当流量镜像到不同的服务时，会发生在请求的关键路径之外&lt;/li>
+&lt;li>忽略对任何镜像流量的响应; 流量被视为&amp;quot;即发即忘”&lt;/li>
+&lt;li>必须创建一个权重为 0 的路由，让 Istio 据此通知 Envoy 创建对应的集群定义; &lt;a href="https://github.com/istio/istio/issues/3270">这应该在未来的版本中解决&lt;/a>。&lt;/li>
+&lt;/ul>
+&lt;p>访问&lt;a href="/v1.0/zh/docs/tasks/traffic-management/mirroring/">镜像任务&lt;/a>了解有关镜像的更多信息，并查看更多信息
+&lt;a href="https://blog.christianposta.com/microservices/traffic-shadowing-with-istio-reduce-the-risk-of-code-release/">在我的博客上综合处理这种情况&lt;/a>.&lt;/p></description><pubDate>Thu, 08 Feb 2018 00:00:00 +0000</pubDate><link>/v1.0/zh/blog/2018/traffic-mirroring/</link><author>Christian Posta</author><guid isPermaLink="true">/v1.0/zh/blog/2018/traffic-mirroring/</guid><category>流量管理</category><category>镜像</category></item><item><title>使用外部 TCP 服务</title><description>&lt;p>这篇博客在2018年7月23日有修改，修改的内容使用了新的 &lt;a href="/v1.0/zh/blog/2018/v1alpha3-routing/">v1alpha3 流量管理 API&lt;/a>。如果你想使用旧版本 API，请参考&lt;a href="https://archive.istio.io/v0.7/blog/2018/egress-tcp.html">这个文档&lt;/a>。&lt;/p>
+&lt;p>在我之前的博客文章&lt;a href="/v1.0/zh/blog/2018/egress-https/">使用外部Web服务&lt;/a>中，我描述了如何通过 HTTPS 在网格 Istio 应用程序中使用外部服务，在这篇文章中，我演示了通过 TCP 使用外部服务。你会用到&lt;a href="/v1.0/zh/docs/examples/bookinfo/">Istio Bookinfo示例应用程序&lt;/a>，这是将书籍评级数据保存在 MySQL 数据库中的版本。你会在集群外部署此数据库并配置 &lt;em>ratings&lt;/em> 服务以使用它，你还会定义&lt;a href="https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#EgressRule">出口规则&lt;/a>以允许网内应用程序访问外部数据库。&lt;/p>
+&lt;h2 id="bookinfo-">Bookinfo 示例应用程序与外部评级数据库&lt;/h2>
+&lt;p>首先，在 Kubernetes 集群之外设置了一个 MySQL 数据库实例来保存 Bookinfo 评级数据，然后修改 &lt;a href="/v1.0/zh/docs/examples/bookinfo/">Bookinfo 示例应用程序&lt;/a>以使用这个数据库。&lt;/p>
+&lt;h3 id="heading">为评级数据设置数据库&lt;/h3>
+&lt;p>为此，你设置了 &lt;a href="https://www.mysql.com">MySQL&lt;/a> 的实例，你可以使用任何 MySQL 实例; 我使用 &lt;a href="https://www.ibm.com/cloud/compose/mysql">Compose for MySQL&lt;/a>，我使用&lt;code>mysqlsh&lt;/code>（&lt;a href="https://dev.mysql.com/doc/mysql-shell/en/">MySQL Shell&lt;/a>）作为 MySQL 客户端来提供评级数据。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>设置 &lt;code>MYSQL_DB_HOST&lt;/code> 和 &lt;code>MYSQL_DB_PORT&lt;/code> 环境变量。&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ export MYSQL_DB_HOST=&amp;lt;你的 MySQL host&amp;gt;
+$ export MYSQL_DB_PORT=&amp;lt;你的 MySQL port&amp;gt;&lt;/code>&lt;/pre>
+&lt;p>如果你使用的是本地数据库，使用的是默认 MYSQL port，那 &lt;code>host&lt;/code> 和 &lt;code>port&lt;/code> 分别是 &lt;code>localhost&lt;/code> 和 &lt;code>3306&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>初始化数据库时，如果出现提示，执行下面的命令输入密码。这个命令通过 &lt;code>admin&lt;/code> 数据库用户凭证来执行。这个 &lt;code>admin&lt;/code> 用户是通过 &lt;a href="https://www.ibm.com/cloud/compose/mysql">Compose for Mysql&lt;/a> 创建数据库时默认存在的。&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ curl -s https://raw.githubusercontent.com/istio/istio/release-1.0/samples/bookinfo/src/mysql/mysqldb-init.sql | mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT&lt;/code>&lt;/pre>
+&lt;p>&lt;em>&lt;strong>或者&lt;/strong>&lt;/em>&lt;/p>
+&lt;p>使用&lt;code>mysql&lt;/code>客户端和本地MySQL数据库时，运行：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ curl -s https://raw.githubusercontent.com/istio/istio/release-1.0/samples/bookinfo/src/mysql/mysqldb-init.sql | mysql -u root -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT&lt;/code>&lt;/pre>
+&lt;/li>
+&lt;li>
+&lt;p>创建一个名为 &lt;code>bookinfo&lt;/code> 的用户，并在 &lt;code>test.ratings&lt;/code> 表上授予它 &lt;em>SELECT&lt;/em> 权限：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e &amp;#34;CREATE USER &amp;#39;bookinfo&amp;#39; IDENTIFIED BY &amp;#39;&amp;lt;password you choose&amp;gt;&amp;#39;; GRANT SELECT ON test.ratings to &amp;#39;bookinfo&amp;#39;;&amp;#34;&lt;/code>&lt;/pre>
+&lt;p>&lt;em>&lt;strong>或者&lt;/strong>&lt;/em>&lt;/p>
+&lt;p>对于 &lt;code>mysql&lt;/code> 和本地数据库，命令是：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ mysql -u root -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e &amp;#34;CREATE USER &amp;#39;bookinfo&amp;#39; IDENTIFIED BY &amp;#39;&amp;lt;password you choose&amp;gt;&amp;#39;; GRANT SELECT ON test.ratings to &amp;#39;bookinfo&amp;#39;;&amp;#34;&lt;/code>&lt;/pre>
+&lt;p>在这里，你会应用&lt;a href="https://en.wikipedia.org/wiki/Principle_of_least_privilege">最小特权原则&lt;/a>，这意味着不在 Bookinfo 应用程序中使用 &lt;code>admin&lt;/code> 用户。相反，你为应用程序 Bookinfo 创建了一个最小权限的特殊用户 &lt;code>bookinfo&lt;/code>， 在这种情况下，&lt;code>bookinfo&lt;/code> 用户只对单个表具有 &lt;code>SELECT&lt;/code> 特权。&lt;/p>
+&lt;p>在运行命令创建用户之后，你可能会想通过检查最后一个命令的编号并运行 &lt;code>history -d &amp;lt;创建用户的命令编号&amp;gt;&lt;/code> 来清理我的 bash 历史记录。你可能不希望新用户的密码存储在 bash 历史记录中，如果你使用了 &lt;code>mysql&lt;/code> 命令行工具，记得要删除 &lt;code>~/.mysql_history&lt;/code> 文件中的最后一个命令。在 &lt;a href="https://dev.mysql.com/doc/refman/5.5/en/create-user.html">MySQL 文档&lt;/a>中阅读有关新创建用户的密码保护的更多信息。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>检查创建的评级，看看一切都按预期工作：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ mysqlsh --sql --ssl-mode=REQUIRED -u bookinfo -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e &amp;#34;select * from test.ratings;&amp;#34;
+Enter password:
+&amp;#43;----------&amp;#43;--------&amp;#43;
+| ReviewID | Rating |
+&amp;#43;----------&amp;#43;--------&amp;#43;
+| 1 | 5 |
+| 2 | 4 |
+&amp;#43;----------&amp;#43;--------&amp;#43;&lt;/code>&lt;/pre>
+&lt;p>&lt;em>&lt;strong>或者&lt;/strong>&lt;/em>&lt;/p>
+&lt;p>对于 &lt;code>mysql&lt;/code> 和本地数据库：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ mysql -u bookinfo -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e &amp;#34;select * from test.ratings;&amp;#34;
+Enter password:
+&amp;#43;----------&amp;#43;--------&amp;#43;
+| ReviewID | Rating |
+&amp;#43;----------&amp;#43;--------&amp;#43;
+| 1 | 5 |
+| 2 | 4 |
+&amp;#43;----------&amp;#43;--------&amp;#43;&lt;/code>&lt;/pre>
+&lt;/li>
+&lt;li>
+&lt;p>暂时将评级设置为&lt;code>1&lt;/code>，以便在 Bookinfo &lt;em>ratings&lt;/em> 服务使用我们的数据库时提供可视线索：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e &amp;#34;update test.ratings set rating=1; select * from test.ratings;&amp;#34;
+Enter password:
+Rows matched: 2 Changed: 2 Warnings: 0
+&amp;#43;----------&amp;#43;--------&amp;#43;
+| ReviewID | Rating |
+&amp;#43;----------&amp;#43;--------&amp;#43;
+| 1 | 1 |
+| 2 | 1 |
+&amp;#43;----------&amp;#43;--------&amp;#43;&lt;/code>&lt;/pre>
+&lt;p>&lt;em>&lt;strong>或&lt;/strong>&lt;/em>&lt;/p>
+&lt;p>对于&lt;code>mysql&lt;/code>和本地数据库：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ mysql -u root -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e &amp;#34;update test.ratings set rating=1; select * from test.ratings;&amp;#34;
+Enter password:
+&amp;#43;----------&amp;#43;--------&amp;#43;
+| ReviewID | Rating |
+&amp;#43;----------&amp;#43;--------&amp;#43;
+| 1 | 1 |
+| 2 | 1 |
+&amp;#43;----------&amp;#43;--------&amp;#43;&lt;/code>&lt;/pre>
+&lt;p>在最后一个命令中使用了 &lt;code>admin&lt;/code> 用户（和 &lt;code>root&lt;/code> 用于本地数据库），因为 &lt;code>bookinfo&lt;/code> 用户在 &lt;code>test.ratings&lt;/code> 表上没有 &lt;code>UPDATE&lt;/code> 权限。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>现在你已经可以去部署使用外部数据库的 Bookinfo 应用程序版本了。&lt;/p>
+&lt;h3 id="bookinfo--1">Bookinfo 应用程序的初始设置&lt;/h3>
+&lt;p>为了演示使用外部数据库的场景，你首先使用安装了 &lt;a href="/v1.0/zh/docs/setup/kubernetes/quick-start/#%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4">Istio&lt;/a> 的 Kubernetes 集群，然后部署了 &lt;a href="/v1.0/zh/docs/examples/bookinfo/">Istio Bookinfo示例应用程序&lt;/a>，还&lt;a href="/v1.0/docs/examples/bookinfo/#apply-default-destination-rules">应用了默认的 destination rule&lt;/a>。&lt;/p>
+&lt;p>此应用程序使用 &lt;code>ratings&lt;/code> 微服务来获取书籍评级，评分在1到5之间。评级显示为每个评论的星号，有几个版本的 &lt;code>ratings&lt;/code> 微服务。有些人使用 &lt;a href="https://www.mongodb.com">MongoDB&lt;/a>，有些使用 &lt;a href="https://www.mysql.com">MySQL&lt;/a> 作为他们的数据库。&lt;/p>
+&lt;p>这篇博客例子里的命令是以 Istio 0.8 以上版本为基础的，无论启用或不启用&lt;a href="/v1.0/zh/docs/concepts/security/#%E5%8F%8C%E5%90%91-tls-%E8%AE%A4%E8%AF%81">双向 TLS&lt;/a>。&lt;/p>
+&lt;p>提醒一下，这是 &lt;a href="/v1.0/zh/docs/examples/bookinfo/">Bookinfo 示例应用程序&lt;/a>中应用程序的原始整体架构图。&lt;/p>
+&lt;figure style="width: 80%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 59.08%">
+&lt;a class="not-for-endnotes" href="/v1.0/docs/examples/bookinfo/withistio.svg">
+&lt;img class="element-to-stretch" src="/v1.0/docs/examples/bookinfo/withistio.svg" alt="原始的 Bookinfo 应用程序" title="原始的 Bookinfo 应用程序" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>原始的 Bookinfo 应用程序&lt;/figcaption>
+&lt;/figure>
+&lt;h3 id="-bookinfo-">将数据库用于 Bookinfo 应用程序中的评级数据&lt;/h3>
+&lt;ol>
+&lt;li>
+&lt;p>修改使用 MySQL 数据库的 &lt;em>ratings&lt;/em> 服务版本的 &lt;code>deployment spec&lt;/code>，以使用你的数据库实例。该 &lt;code>spec&lt;/code> 位于 Istio 发行档案的&lt;a href="https://github.com/istio/istio/blob/release-1.0/samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml">&lt;code>samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml&lt;/code>&lt;/a>中。编辑以下几行：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>- name: MYSQL_DB_HOST
+value: mysqldb
+- name: MYSQL_DB_PORT
+value: &amp;#34;3306&amp;#34;
+- name: MYSQL_DB_USER
+value: root
+- name: MYSQL_DB_PASSWORD
+value: password&lt;/code>&lt;/pre>
+&lt;p>替换上面代码段中的值，指定数据库主机，端口，用户和密码，请注意，在 Kubernetes 中使用容器环境变量中密码的正确方法是&lt;a href="https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables">使用 secret&lt;/a>，仅对于此示例任务，你可能会在 deployment spec 中直接配置明文的密码， &lt;strong>切记！不要在真实环境中这样做&lt;/strong>！我想你们应该也知道，&lt;code>&amp;quot;password&amp;quot;&lt;/code> 这个值也不应该用作密码。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>应用修改后的 &lt;code>spec&lt;/code> 来部署使用外部数据库的 &lt;em>ratings&lt;/em> 服务，&lt;em>v2-mysql&lt;/em> 的版本。&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@
+deployment &amp;#34;ratings-v2-mysql&amp;#34; created&lt;/code>&lt;/pre>
+&lt;a hidden style="display:none" href="https://raw.githubusercontent.com/istio/istio/release-1.0/samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml">&lt;/a>
+&lt;/li>
+&lt;li>
+&lt;p>将发往 &lt;em>reviews&lt;/em> 服务的所有流量路由到 &lt;em>v3&lt;/em> 版本，这样做是为了确保 &lt;em>reviews&lt;/em> 服务始终调用 &lt;em>ratings&lt;/em> 服务，此外，将发往 &lt;em>ratings&lt;/em> 服务的所有流量路由到使用外部数据库的 &lt;em>ratings v2-mysql&lt;/em>。&lt;/p>
+&lt;p>通过添加两个&lt;a href="/v1.0/docs/reference/config/istio.networking.v1alpha3/#VirtualService">虚拟服务(virtual service)&lt;/a>，可以为上述两种服务指定路由。这些虚拟服务在 Istio 发行档案的 &lt;code>samples/bookinfo/networking/virtual-service-ratings-mysql.yaml&lt;/code> 中指定。
+***注意：***确保你在完成了&lt;a href="/v1.0/docs/examples/bookinfo/#apply-default-destination-rules">添加默认目标路由&lt;/a>才执行下面的命令。&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@&lt;/code>&lt;/pre>
+&lt;a hidden style="display:none" href="https://raw.githubusercontent.com/istio/istio/release-1.0/samples/bookinfo/networking/virtual-service-ratings-mysql.yaml">&lt;/a>
+&lt;/li>
+&lt;/ol>
+&lt;p>更新的架构如下所示，请注意，网格内的蓝色箭头标记根据我们添加的虚拟服务配置的流量，根据虚拟服务的定义，流量将发送到 &lt;em>reviews v3&lt;/em> 和 &lt;em>ratings v2-mysql&lt;/em> 。&lt;/p>
+&lt;figure style="width: 80%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 59.31%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2018/egress-tcp/bookinfo-ratings-v2-mysql-external.svg">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2018/egress-tcp/bookinfo-ratings-v2-mysql-external.svg" alt="Bookinfo 应用程序，其评级为 v2-mysql，外部为 MySQL 数据库" title="Bookinfo 应用程序，其评级为 v2-mysql，外部为 MySQL 数据库" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>Bookinfo 应用程序，其评级为 v2-mysql，外部为 MySQL 数据库&lt;/figcaption>
+&lt;/figure>
+&lt;p>请注意，MySQL 数据库位于 Istio 服务网格之外，或者更准确地说是在 Kubernetes 集群之外，服务网格的边界由虚线标记。&lt;/p>
+&lt;h3 id="heading-1">访问网页&lt;/h3>
+&lt;p>在&lt;a href="/v1.0/zh/docs/examples/bookinfo/#%E7%A1%AE%E5%AE%9A-ingress-%E7%9A%84-ip-%E5%92%8C%E7%AB%AF%E5%8F%A3">确定入口 IP 和端口&lt;/a>之后，访问应用程序的网页。&lt;/p>
+&lt;p>你会发现问题，在每次审核下方都会显示消息 &lt;em>&amp;ldquo;Ratings service is currently unavailable”&lt;/em> 而不是评级星标。&lt;/p>
+&lt;figure style="width: 80%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 36.19%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2018/egress-tcp/errorFetchingBookRating.png">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2018/egress-tcp/errorFetchingBookRating.png" alt="Ratings 服务的错误信息" title="Ratings 服务的错误信息" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>Ratings 服务的错误信息&lt;/figcaption>
+&lt;/figure>
+&lt;p>与&lt;a href="/v1.0/zh/blog/2018/egress-https/">使用外部Web服务&lt;/a>一样，你会体验到&lt;strong>优雅的服务降级&lt;/strong>，这很好，虽然 &lt;em>ratings&lt;/em> 服务中有错误，但是应用程序并没有因此而崩溃，应用程序的网页正确显示了书籍信息，详细信息和评论，只是没有评级星。&lt;/p>
+&lt;p>你遇到的问题与&lt;a href="/v1.0/zh/blog/2018/egress-https/">使用外部Web服务&lt;/a>中的问题相同，即 Kubernetes 集群外的所有流量（TCP和HTTP）都被 sidecar 代理默认阻止，要为 TCP 启用此类流量，必须定义 TCP 的网格外部服务入口。&lt;/p>
+&lt;h3 id="-mysql-">外部 MySQL 实例的网格外部服务入口&lt;/h3>
+&lt;p>&amp;ldquo;TCP 网格外部服务入口&amp;quot;功能可以解决上面的问题。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>获取你的 MySQL 数据库事例的 IP 地址，作为参考，你可以通过 &lt;a href="https://linux.die.net/man/1/host">host&lt;/a> 命令实现：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ export MYSQL_DB_IP=$(host $MYSQL_DB_HOST | grep &amp;#34; has address &amp;#34; | cut -d&amp;#34; &amp;#34; -f4)&lt;/code>&lt;/pre>
+&lt;p>如果是本地数据库，设置 &lt;code>MYSQL_DB_IP&lt;/code> 环境变量为你的本机IP，保证这个环境变量能被集群访问到。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>定义一个网格外部服务入口：&lt;/p>
+&lt;pre>&lt;code class='language-bash'>cat &amp;lt;&amp;lt;EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1alpha3 $MYSQL_DB_PORT
+kind: ServiceEntry
+metadata:
+name: mysql-external
+spec:
+hosts:
+- $MYSQL_DB_HOST
+addresses:
+- $MYSQL_DB_IP/32
+ports:
+- name: tcp
+number: $MYSQL_DB_PORT
+protocol: tcp
+location: MESH_EXTERNAL
+EOF&lt;/code>&lt;/pre>
+&lt;/li>
+&lt;li>
+&lt;p>检查你刚刚新增的服务入口，确保它的值是正确的&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl get serviceentry mysql-external -o yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+...&lt;/code>&lt;/pre>
+&lt;/li>
+&lt;/ol>
+&lt;p>请注意，对于 TCP 服务入口，将 &lt;code>tcp&lt;/code> 指定为入口 &amp;ldquo;port&amp;rdquo; 的 &amp;ldquo;protocol&amp;rdquo; 的值，另请注意，要在 &amp;ldquo;addresses&amp;rdquo; 列表里面指定外部服务的 IP 地址，作为一个 &lt;code>32&lt;/code> 为后缀的 &lt;a href="https://tools.ietf.org/html/rfc2317">CIDR&lt;/a> 块。&lt;/p>
+&lt;p>&lt;a href="#tcp-%E6%B5%81%E9%87%8F%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%85%A5%E5%8F%A3">下面&lt;/a>我将详细讨论 TCP 服务入口。现在先来验证我们添加的出口规则是否解决了问题。访问网页看看评星是否回来了。&lt;/p>
+&lt;p>有效！ 访问应用程序的网页会显示评级而不会出现错误：&lt;/p>
+&lt;figure style="width: 80%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 36.69%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2018/egress-tcp/externalMySQLRatings.png">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2018/egress-tcp/externalMySQLRatings.png" alt="Book Ratings 显示正常" title="Book Ratings 显示正常" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>Book Ratings 显示正常&lt;/figcaption>
+&lt;/figure>
+&lt;p>请注意，正如预期的那样，你会看到两个显示评论的一星评级。将评级更改为一颗星，为我们提供了一个视觉线索，确实使用了我们的外部数据库。&lt;/p>
+&lt;p>与 HTTP/HTTPS 的服务入口一样，你可以动态地使用 &lt;code>kubectl&lt;/code> 删除和创建 TCP 的服务入口。&lt;/p>
+&lt;h2 id="-tcp-">出口 TCP 流量控制的动机&lt;/h2>
+&lt;p>一些网内 Istio 应用程序必须访问外部服务，例如遗留系统，在许多情况下，不通过 HTTP 或 HTTPS 协议执行访问，使用其他 TCP 协议，例如 &lt;a href="https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/">MongoDB wire 协议&lt;/a>和 &lt;a href="https://dev.mysql.com/doc/internals/en/client-server-protocol.html">MySQL客户端/服务器协议&lt;/a>等特定于数据库的协议，与外部数据库通信。&lt;/p>
+&lt;p>接下来我会再说说 TCP 流量的服务入口。&lt;/p>
+&lt;h2 id="tcp-">TCP 流量的服务入口&lt;/h2>
+&lt;p>启用到特定端口的 TCP 流量的服务入口必须指定 &lt;code>TCP&lt;/code> 作为端口的协议，此外，对于 &lt;a href="https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/">MongoDB wire协议&lt;/a>，协议可以指定为 &lt;code>MONGO&lt;/code>，而不是 &lt;code>TCP&lt;/code>。&lt;/p>
+&lt;p>对于服务入口配置的 &lt;code>addresses&lt;/code> 字段，必须使用 &lt;a href="https://tools.ietf.org/html/rfc2317">CIDR&lt;/a>表示法中的 IP 块。注意在 TCP 服务入口配置中，&lt;code>host&lt;/code> 字段会被忽略。&lt;/p>
+&lt;p>要通过其主机名启用到外部服务的 TCP 流量，必须指定主机名的所有 IP，每个 IP 必须由 CIDR 块指定。&lt;/p>
+&lt;p>请注意，外部服务的所有 IP 并不总是已知。要往外发送 TCP 流量，只能配置为被应用程序使用的 IP。&lt;/p>
+&lt;p>另请注意，外部服务的 IP 并不总是静态的，例如在 &lt;a href="https://en.wikipedia.org/wiki/Content_delivery_network">CDNs&lt;/a> 的情况下，有时 IP 在大多数情况下是静态的，但可以不时地更改，例如由于基础设施的变化。在这些情况下，如果已知可能 IP 的范围，则应通过 CIDR 块指定范围。如果不知道可能的IP的范围，则不能使用 TCP 服务入口，并且&lt;a href="/v1.0/zh/docs/tasks/traffic-management/egress/#%E7%9B%B4%E6%8E%A5%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E6%9C%8D%E5%8A%A1">必须直接调用外部服务&lt;/a>，绕过 sidecar 代理。&lt;/p>
+&lt;h2 id="heading-2">与网格扩展的关系&lt;/h2>
+&lt;p>请注意，本文中描述的场景与&lt;a href="/v1.0/zh/docs/examples/integrating-vms/">集成虚拟机&lt;/a>示例中描述的网格扩展场景不同。 在这种情况下，MySQL 实例在与 Istio 服务网格集成的外部（集群外）机器（裸机或VM）上运行 ，MySQL 服务成为网格的一等公民，具有 Istio 的所有有益功能，除此之外，服务可以通过本地集群域名寻址，例如通过 &lt;code>mysqldb.vm.svc.cluster.local&lt;/code>，并且可以通过&lt;a href="/v1.0/zh/docs/concepts/security/#%E5%8F%8C%E5%90%91-tls-%E8%AE%A4%E8%AF%81">双向 TLS 身份验证&lt;/a>保护与它的通信，无需创建服务入口来访问此服务; 但是，该服务必须在 Istio 注侧，要启用此类集成，必须在计算机上安装 Istio 组件（ &lt;em>Envoy proxy&lt;/em> ，&lt;em>node-agent&lt;/em> ，&lt;em>istio-agent&lt;/em> ），并且必须可以从中访问 Istio 控制平面（&lt;em>Pilot&lt;/em> ，&lt;em>Mixer&lt;/em> ，&lt;em>Citadel&lt;/em> ）。有关详细信息，请参阅 &lt;a href="/v1.0/zh/docs/setup/kubernetes/mesh-expansion/">Istio Mesh Expansion&lt;/a> 说明。&lt;/p>
+&lt;p>在我们的示例中，MySQL 实例可以在任何计算机上运行，也可以由云提供商作为服务进行配置，无需集成机器
+与 Istio ，无需从机器访问 Istio 控制平面，在 MySQL 作为服务的情况下，MySQL 运行的机器可能无法访问并在其上安装所需的组件可能是不可能的，在我们的例子中，MySQL 实例可以通过其全局域名进行寻址，如果消费应用程序希望使用该域名，这可能是有益的，当在消费应用程序的部署配置中无法更改预期的域名时，这尤其重要。&lt;/p>
+&lt;h2 id="heading-3">清理&lt;/h2>
+&lt;ol>
+&lt;li>
+&lt;p>删除 &lt;code>test&lt;/code> 数据库和 &lt;code>bookinfo&lt;/code> 用户：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e &amp;#34;drop database test; drop user bookinfo;&amp;#34;&lt;/code>&lt;/pre>
+&lt;p>&lt;em>&lt;strong>或者&lt;/strong>&lt;/em>&lt;/p>
+&lt;p>对于&lt;code>mysql&lt;/code>和本地数据库：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ mysql -u root -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e &amp;#34;drop database test; drop user bookinfo;&amp;#34;&lt;/code>&lt;/pre>
+&lt;/li>
+&lt;li>
+&lt;p>删除虚拟服务：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl delete -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
+Deleted config: virtual-service/default/reviews
+Deleted config: virtual-service/default/ratings&lt;/code>&lt;/pre>
+&lt;a hidden style="display:none" href="https://raw.githubusercontent.com/istio/istio/release-1.0/samples/bookinfo/networking/virtual-service-ratings-mysql.yaml">&lt;/a>
+&lt;/li>
+&lt;li>
+&lt;p>取消部署 &lt;em>ratings v2-mysql&lt;/em> ：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@
+deployment &amp;#34;ratings-v2-mysql&amp;#34; deleted&lt;/code>&lt;/pre>
+&lt;a hidden style="display:none" href="https://raw.githubusercontent.com/istio/istio/release-1.0/samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml">&lt;/a>
+&lt;/li>
+&lt;li>
+&lt;p>删除服务入口：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl delete serviceentry mysql-external -n default
+Deleted config: serviceentry mysql-external&lt;/code>&lt;/pre>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="heading-4">结论&lt;/h2>
+&lt;p>在这篇博文中，我演示了 Istio 服务网格中的微服务如何通过 TCP 使用外部服务，默认情况下，Istio 会阻止所有流量（TCP 和 HTTP）到集群外的主机， 要为 TCP 启用此类流量，必须为服务网格创建 TCP 网格外部服务入口。&lt;/p></description><pubDate>Tue, 06 Feb 2018 00:00:00 +0000</pubDate><link>/v1.0/zh/blog/2018/egress-tcp/</link><author>Vadim Eisenberg</author><guid isPermaLink="true">/v1.0/zh/blog/2018/egress-tcp/</guid><category>流量管理</category><category>egress</category><category>tcp</category></item><item><title>使用外部 Web 服务</title><description>&lt;p>在许多情况下，在 &lt;em>service mesh&lt;/em> 中的微服务序并不是应用程序的全部， 有时，网格内部的微服务需要使用在服务网格外部的遗留系统提供的功能， 虽然我们希望逐步将这些系统迁移到服务网格中。 但是在迁移这些系统之前，必须让服务网格内的应用程序能访问它们。 还有其他情况，应用程序使用外部组织提供的 Web 服务，通常是通过万维网提供的服务。&lt;/p>
+&lt;p>在这篇博客文章中，我修改了&lt;a href="/v1.0/zh/docs/examples/bookinfo/">Istio Bookinfo 示例应用程序&lt;/a>让它可以从外部 Web 服务（&lt;a href="https://developers.google.com/books/docs/v1/getting_started">Google Books APIs&lt;/a> ）获取图书详细信息。 我将展示如何使用 &lt;em>egress rule&lt;/em> 在 Istio 中启用外部 HTTPS 流量。 最后，我解释了当前与 Istio 出口流量控制相关的问题。&lt;/p>
+&lt;h2 id="bookinfo--web-">Bookinfo 示例应用程序使用外部的 Web 服务扩展详细信息&lt;/h2>
+&lt;h3 id="heading">初始设定&lt;/h3>
+&lt;p>为了演示使用外部 Web 服务的场景，我首先使用安装了 &lt;a href="/v1.0/zh/docs/setup/kubernetes/quick-start/#%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4">Istio&lt;/a> 的 Kubernetes 集群, 然后我部署&lt;a href="/v1.0/zh/docs/examples/bookinfo/">Istio Bookinfo 示例应用程序&lt;/a>, 此应用程序使用 &lt;em>details&lt;/em> 微服务来获取书籍详细信息，例如页数和发布者, 原始 &lt;em>details&lt;/em> 微服务提供书籍详细信息，无需咨询任何外部服务。&lt;/p>
+&lt;p>此博客文章中的示例命令与 Istio 0.2+ 一起使用，无论启用或不启用&lt;a href="/v1.0/zh/docs/concepts/security/#%E5%8F%8C%E5%90%91-tls-%E8%AE%A4%E8%AF%81">双向 TLS&lt;/a>。&lt;/p>
+&lt;p>此帖子的场景所需的 Bookinfo 配置文件显示自 &lt;a href="https://github.com/istio/istio/releases/tag/0.5.0">Istio版本0.5&lt;/a>。&lt;/p>
+&lt;p>Bookinfo 配置文件位于 Istio 发行存档的 &lt;code>samples/bookinfo/platform/kube&lt;/code> 目录中。&lt;/p>
+&lt;p>以下是原始&lt;a href="/v1.0/zh/docs/examples/bookinfo/">Bookinfo示例应用程序&lt;/a>中应用程序端到端体系结构的副本。&lt;/p>
+&lt;figure style="width: 80%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 59.08%">
+&lt;a class="not-for-endnotes" href="/v1.0/docs/examples/bookinfo/withistio.svg">
+&lt;img class="element-to-stretch" src="/v1.0/docs/examples/bookinfo/withistio.svg" alt="The Original Bookinfo Application" title="The Original Bookinfo Application" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>The Original Bookinfo Application&lt;/figcaption>
+&lt;/figure>
+&lt;h3 id="bookinfo--2">Bookinfo 详细信息版本 2&lt;/h3>
+&lt;p>让我们添加一个新版本的 &lt;em>details&lt;/em> 微服务，&lt;em>v2&lt;/em> ，从&lt;a href="https://developers.google.com/books/docs/v1/getting_started">Google Books APIs&lt;/a>中获取图书详细信息。&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl apply -f &amp;lt;(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@)&lt;/code>&lt;/pre>
+&lt;a hidden style="display:none" href="https://raw.githubusercontent.com/istio/istio/release-1.0/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml">&lt;/a>
+&lt;p>现在，应用程序的更新架构如下所示：&lt;/p>
+&lt;figure style="width: 80%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 65.16%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2018/egress-https/bookinfo-details-v2.svg">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2018/egress-https/bookinfo-details-v2.svg" alt="The Bookinfo Application with details V2" title="The Bookinfo Application with details V2" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>The Bookinfo Application with details V2&lt;/figcaption>
+&lt;/figure>
+&lt;p>请注意，Google Book 服务位于 Istio 服务网格之外，其边界由虚线标记。&lt;/p>
+&lt;p>现在让我们使用以下 &lt;em>route rule&lt;/em> 将指向 &lt;em>details&lt;/em> 微服务的所有流量定向到 &lt;em>details version v2&lt;/em>：&lt;/p>
+&lt;pre>&lt;code class='language-bash'>cat &amp;lt;&amp;lt;EOF | istioctl create -f -
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+name: details-v2
+namespace: default
+spec:
+destination:
+name: details
+route:
+- labels:
+version: v2
+EOF&lt;/code>&lt;/pre>
+&lt;p>在&lt;a href="/v1.0/zh/docs/examples/bookinfo/#%E7%A1%AE%E5%AE%9A-ingress-%E7%9A%84-ip-%E5%92%8C%E7%AB%AF%E5%8F%A3">确定入口 IP 和端口&lt;/a>之后，让我们访问应用程序的网页。&lt;/p>
+&lt;p>糟糕&amp;hellip;页面显示 &lt;em>Error fetching product details&lt;/em>，而不是书籍详细信息：&lt;/p>
+&lt;figure style="width: 80%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 36.01%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2018/egress-https/errorFetchingBookDetails.png">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2018/egress-https/errorFetchingBookDetails.png" alt="The Error Fetching Product Details Message" title="The Error Fetching Product Details Message" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>The Error Fetching Product Details Message&lt;/figcaption>
+&lt;/figure>
+&lt;p>好消息是我们的应用程序没有崩溃, 通过良好的微服务设计，我们没有让&lt;strong>故障扩散&lt;/strong>。 在我们的例子中，失败的 &lt;em>details&lt;/em> 微服务不会导致 &lt;code>productpage&lt;/code> 微服务失败, 尽管 &lt;em>details&lt;/em> 微服务失败，仍然提供了应用程序的大多数功能, 我们有&lt;strong>优雅的服务降级&lt;/strong>：正如您所看到的，评论和评级正确显示，应用程序仍然有用。&lt;/p>
+&lt;p>那可能出了什么问题？ 啊&amp;hellip;&amp;hellip;答案是我忘了启用从网格内部到外部服务的流量，在本例中是 Google Book Web服务。 默认情况下，Istio sidecar代理（&lt;a href="https://www.envoyproxy.io">Envoy proxies&lt;/a>）&lt;strong>阻止到集群外目的地的所有流量&lt;/strong>, 要启用此类流量，我们必须定义&lt;a href="https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#EgressRule">出口规则&lt;/a>。&lt;/p>
+&lt;h3 id="google-book-">Google Book 网络服务的出口规则&lt;/h3>
+&lt;p>不用担心，让我们定义&lt;strong>出口规则&lt;/strong>并修复我们的应用程序：&lt;/p>
+&lt;pre>&lt;code class='language-bash'>cat &amp;lt;&amp;lt;EOF | istioctl create -f -
+apiVersion: config.istio.io/v1alpha2
+kind: EgressRule
+metadata:
+name: googleapis
+namespace: default
+spec:
+destination:
+service: &amp;#34;*.googleapis.com&amp;#34;
+ports:
+- port: 443
+protocol: https
+EOF&lt;/code>&lt;/pre>
+&lt;p>现在访问应用程序的网页会显示书籍详细信息而不会出现错误：&lt;/p>
+&lt;figure style="width: 80%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 34.82%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2018/egress-https/externalBookDetails.png">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2018/egress-https/externalBookDetails.png" alt="Book Details Displayed Correctly" title="Book Details Displayed Correctly" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>Book Details Displayed Correctly&lt;/figcaption>
+&lt;/figure>
+&lt;p>请注意，我们的出口规则允许使用 HTTPS 协议在端口 443 上与任何与 &lt;em>*.googleapis.com&lt;/em> 匹配的域进行流量传输, 让我们假设为了示例，我们的 Istio 服务网格中的应用程序必须访问 &lt;em>googleapis.com&lt;/em> 的多个子域，例如 &lt;em>www.googleapis.com&lt;/em> 以及 &lt;em>fcm.googleapis.com&lt;/em> , 我们的规则允许流量到 &lt;em>www.googleapis.com&lt;/em> 和 &lt;em>fcm.googleapis.com&lt;/em>，因为它们都匹配 &lt;em>*.googleapis.com&lt;/em> , 此&lt;strong>通配符&lt;/strong>功能允许我们使用单个出口规则启用到多个域的流量。&lt;/p>
+&lt;p>我们可以查询我们的出口规则：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ istioctl get egressrules
+NAME KIND NAMESPACE
+googleapis EgressRule.v1alpha2.config.istio.io default&lt;/code>&lt;/pre>
+&lt;p>我们可以删除我们的出口规则：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ istioctl delete egressrule googleapis -n default
+Deleted config: egressrule googleapis&lt;/code>&lt;/pre>
+&lt;p>并在输出中看到删除出口规则。&lt;/p>
+&lt;p>删除出口规则后访问网页会产生我们之前遇到的相同错误，即_Error fetching product details_, 正如我们所看到的，出口规则是**动态定义**，与许多其他 Istio 配置工件一样 , Istio 运算符可以动态决定它们允许微服务访问哪些域, 他们可以动态启用和禁用外部域的流量，而无需重新部署微服务。&lt;/p>
+&lt;h2 id="istio">Istio出口流量控制的问题&lt;/h2>
+&lt;h3 id="-istio--tls">由 Istio 发起的 TLS&lt;/h3>
+&lt;p>这个故事有一个警告, 在 HTTPS 中，所有 HTTP 详细信息（主机名，路径，标头等）都已加密，因此 Istio 无法知道加密请求的目标域, 那么，Istio 可以通过 &lt;a href="https://tools.ietf.org/html/rfc3546#section-3.1">SNI&lt;/a>（&lt;em>Server Name Indication&lt;/em>）字段来了解目标域, 但是，此功能尚未在 Istio 中实现, 因此，目前Istio无法基于目标域执行 HTTPS 请求的过滤。&lt;/p>
+&lt;p>为了允许 Istio 基于域执行出口请求的过滤，微服务必须发出 HTTP 请求, 然后，Istio 打开到目标的 HTTPS 连接（执行 TLS 发起）, 根据微服务是在 Istio 服务网格内部还是外部运行，微服务的代码必须以不同方式编写或以不同方式配置, 这与&lt;a href="/v1.0/zh/docs/concepts/what-is-istio/#%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87">最大化透明度&lt;/a>的 Istio 设计目标相矛盾, 有时我们需要妥协&amp;hellip;&amp;hellip;&lt;/p>
+&lt;p>下图显示了如何执行外部服务的 HTTPS 流量, 在顶部，Istio 服务网格外部的微服务&lt;/p>
+&lt;p>发送常规 HTTPS 请求，端到端加密, 在底部，Istio 服务网格内的相同微服务必须在 pod 内发送未加密的HTTP请求，这些请求被 sidecar Envoy 代理拦截 , sidecar 代理执行 TLS 发起，因此 pod 和外部服务之间的流量被加密。&lt;/p>
+&lt;figure style="width: 80%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 65.16%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2018/egress-https/https_from_the_app.svg">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2018/egress-https/https_from_the_app.svg" alt="HTTPS traffic to external services, from outside vs. from inside an Istio service mesh" title="HTTPS traffic to external services, from outside vs. from inside an Istio service mesh" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>HTTPS traffic to external services, from outside vs. from inside an Istio service mesh&lt;/figcaption>
+&lt;/figure>
+&lt;p>以下是我们如何在&lt;a href="https://raw.githubusercontent.com/istio/istio/release-1.0/samples/bookinfo/src/details/details.rb">Bookinfo details microservice code&lt;/a>中使用Ruby &lt;a href="https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html">net/http模块&lt;/a>：&lt;/p>
+&lt;pre>&lt;code class='language-ruby'>uri = URI.parse(&amp;#39;https://www.googleapis.com/books/v1/volumes?q=isbn:&amp;#39; &amp;#43; isbn)
+http = Net::HTTP.new(uri.host, uri.port)
+...
+unless ENV[&amp;#39;WITH_ISTIO&amp;#39;] === &amp;#39;true&amp;#39; then
+http.use_ssl = true
+end&lt;/code>&lt;/pre>
+&lt;p>请注意，默认的 HTTPS 端口 &lt;code>443&lt;/code> 的取值是 &lt;code>URI.parse&lt;/code> 通过对 URI (&lt;code>https://&lt;/code>) 的解析得来的， 当在 Istio 服务网格内运行时，微服务必须向端口 &amp;ldquo;443” 发出 HTTP 请求，该端口是外部服务侦听的端口。&lt;/p>
+&lt;p>当定义 &lt;code>WITH_ISTIO&lt;/code> 环境变量时，请求在没有 SSL（普通 HTTP ）的情况下执行。&lt;/p>
+&lt;p>我们将 &lt;code>WITH_ISTIO&lt;/code> 环境变量设置为 &lt;em>&amp;ldquo;true&amp;rdquo;&lt;/em> &lt;a href="https://raw.githubusercontent.com/istio/istio/release-1.0/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml">details 的部署配置文件&lt;/a>,&lt;/p>
+&lt;p>&lt;code>container&lt;/code>部分：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>env:
+- name: WITH_ISTIO
+value: &amp;#34;true&amp;#34;&lt;/code>&lt;/pre>
+&lt;h4 id="istio--tls-">Istio 双向 TLS 的关系&lt;/h4>
+&lt;p>请注意，在这种情况下，TLS 的源与 Istio 应用的 &lt;a href="/v1.0/zh/docs/concepts/security/#%E5%8F%8C%E5%90%91-tls-%E8%AE%A4%E8%AF%81">双向 TLS&lt;/a> 无关, 无论 Istio 双向 TLS 是否启用，外部服务的 TLS 源都将起作用 , 保证服务网&lt;strong>内&lt;/strong>的服务到服务通信，并为每个服务提供强大的身份认证, 在 &lt;strong>外部服务&lt;/strong>的情况下，我们有&lt;strong>单向&lt;/strong> TLS，这是用于保护 Web 浏览器和 Web 服务器之间通信的相同机制 , TLS 应用于与外部服务的通信，以验证外部服务器的身份并加密流量。&lt;/p>
+&lt;h3 id="heading-1">恶意微服务威胁&lt;/h3>
+&lt;p>另一个问题是，出口规则不是一个安全方面的功能，它只是开放了到外部服务的通信功能。对基于 HTTP 的协议来说，这些规则是建立在域的基础之上的。Istio 不会检查请求的目标 IP 是否与 Host Header 相匹配。这意味着服务网格内的恶意微服务有能力对 Istio 进行欺骗，使之放行目标为恶意 IP 的流量。攻击方式就是在恶意请求中，将 Host Header 的值设置为 Egress 规则允许的域。&lt;/p>
+&lt;p>Istio 目前不支持保护出口流量，只能其他地方执行，例如通过防火墙或 Istio 外部的其他代理, 现在，我们正在努力在出口流量上启用混合器安全策略的应用，并防止上述攻击。&lt;/p>
+&lt;h3 id="-mixer-">没有跟踪，遥测和没有 Mixer 检查&lt;/h3>
+&lt;p>请注意，目前不能为出口流量收集跟踪和遥测信, 无法应用 Mixer, 我们正在努力在未来的 Istio 版本中解决这个问题。&lt;/p>
+&lt;h2 id="heading-2">未来的工作&lt;/h2>
+&lt;p>在我的下一篇博客文章中，我将演示 TCP 流量的 Istio 出口规则，并将显示组合路由规则和出口规则的示例。&lt;/p>
+&lt;p>在 Istio，我们正在努力使 Istio 出口流量更加安全，特别是在启用出口流量的跟踪，遥测和 Mixer 检查时。&lt;/p>
+&lt;h2 id="heading-3">结论&lt;/h2>
+&lt;p>在这篇博文中，我演示了 Istio 服务网格中的微服务如何通过 HTTPS 使用外部 Web 服务, 默认情况下，Istio 会阻止集群外主机的所有流量, 要启用此类流量，必须为服务网格创建出口规则, 可以通过 HTTPS 访问外部站点，但是微服务必须发出 HTTP 请求，而 Istio 将执行 TLS 发起, 目前，没有为出口流量启用跟踪，遥测和混合器检查, 出口规则目前不是安全功能，因此需要额外的机制来保护出口流量, 我们正在努力为将来版本中的出口流量启用日志记录/遥测和安全策略。&lt;/p>
+&lt;p>要了解有关 Istio 出口流量控制的更多信息，请参阅&lt;a href="/v1.0/zh/docs/tasks/traffic-management/egress/">控制出口流量任务&lt;/a>。&lt;/p></description><pubDate>Wed, 31 Jan 2018 00:00:00 +0000</pubDate><link>/v1.0/zh/blog/2018/egress-https/</link><author>Vadim Eisenberg</author><guid isPermaLink="true">/v1.0/zh/blog/2018/egress-https/</guid><category>流量管理</category><category>egress</category><category>https</category></item><item><title>Mixer 和 SPOF 神话</title><description>&lt;p>Mixer 出现在请求路径上，很自然的会引发一个疑问：他对系统可用性和延迟会产生什么样的影响？第一次看到 Istio 架构图时，人们最常见的问题就是：&amp;ldquo;这不就是一个单点失败的典型案例么？”&lt;/p>
+&lt;p>本文中我们会深入挖掘和阐述 Mixer 的设计原则，在这些设计原则的支持下 Mixer 能够令人惊奇的提高网格内的系统可用性，降低平均请求延时。&lt;/p>
+&lt;p>Istio 的 Mixer 对系统总体可用性和延迟有两个主要的好处：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>提高 SLO&lt;/strong>：Mixer 把 Proxy 和服务从基础设施后端的故障中隔离出来，提供了高级、高效的网格可用性保障。作为一个整体来说，在同基础设施后端的交互中，有了 Mixer 的帮助，会有更低的故障率。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>降低延迟&lt;/strong>：通过对各个层次的分片缓存的积极使用和共享，Mixer 能够降低平均延迟。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>接下来会对上面的内容进行一下解释。&lt;/p>
+&lt;h2 id="istio-">Istio 是怎么来的&lt;/h2>
+&lt;p>Google 在多年中都在使用一个内部的 API 和服务管理系统，用于处理 Google 提供的众多 API。这一系统支持了最大的服务群（Google Maps、YouTube 以及 Gmail 等），承受上百万 QPS 峰值的冲击。这套系统运行的虽然很好，但是仍然无法跟上 Google 快速增长的脚步，很显然，要有新的架构来降低飞涨的运维成本。&lt;/p>
+&lt;p>2014 年，我们开始了一个草案，准备替换这一系统，进行更好的伸缩。这一决定最后证明是非常正确的，在 Google 进行整体部署之后，每月降低了上百万美元的运维成本。&lt;/p>
+&lt;p>过去，流量在进入具体的服务之前，首先会进入一个较重的代理，旧系统就是以这个代理为中心构建的。新的架构摒弃了共享代理的设计，用轻量高效的 Sidecar 代理取而代之，这一代理和服务实例并行，共享一个控制平面。&lt;/p>
+&lt;figure style="width: 75%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 74.79%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2017/mixer-spof-myth/./mixer-spof-myth-1.svg">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2017/mixer-spof-myth/./mixer-spof-myth-1.svg" alt="Google 系统拓扑" title="Google 系统拓扑" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>Google 的 API 和 服务管理系统&lt;/figcaption>
+&lt;/figure>
+&lt;p>看起来很面熟吧？是的，跟 Istio 很像。Istio 就是作为这一分布式代理架构的继任者进行构思的。我们从内部系统中获取了核心的灵感，在同合作伙伴的协同工作中产生了很多概念，这些导致了 Istio 的诞生。&lt;/p>
+&lt;h2 id="heading">架构总结&lt;/h2>
+&lt;p>下图中，Mixer 在 Mesh 和基础设施之间：&lt;/p>
+&lt;figure style="width: 75%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 65.89%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2017/mixer-spof-myth/./mixer-spof-myth-2.svg">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2017/mixer-spof-myth/./mixer-spof-myth-2.svg" alt="Istio 拓扑" title="Istio 拓扑" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>Istio 拓扑&lt;/figcaption>
+&lt;/figure>
+&lt;p>逻辑上，Envoy Sidecar 会在每次请求之前调用 Mixer，进行前置检查，每次请求之后又要进行指标报告。Sidecar 中包含本地缓存，一大部分的前置检查可以通过缓存来进行。另外，Sidecar 会把待发送的指标数据进行缓冲，这样可能在几千次请求之后才调用一次 Mixer。前置检查和请求处理是同步的，指标数据上送是使用 fire-and-forget 模式异步完成的。&lt;/p>
+&lt;p>抽象一点说，Mixer 提供：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>后端抽象&lt;/strong>：Mixer 把 Istio 组件和网格中的服务从基础设施细节中隔离开来。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>中间人&lt;/strong>：Mixer 让运维人员能够对所有网格和基础设施后端之间的交互进行控制。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>除了这些纯功能方面，Mixer 还有一些其他特点，为系统提供更多益处。&lt;/p>
+&lt;h3 id="mixerslo-">Mixer：SLO 助推器&lt;/h3>
+&lt;p>有人说 Mixer 是一个 SPOF，会导致 Mesh 的崩溃，而我们认为 Mixer 增加了 Mesh 的可用性。这是如何做到的？下面是三个理由：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>无状态&lt;/strong>：Mixer 没有状态，他不管理任何自己的持久存储。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>稳固&lt;/strong>：Mixer 是一个高可靠性的组件，设计要求所有 Mixer 实例都要有超过 99.999% 的可靠性。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>缓存和缓冲&lt;/strong>：Mixer 能够积累大量的短期状态数据。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>Sidecar 代理伴随每个服务实例而运行，必须节约使用内存，这样就限制了本地缓存和缓冲的数量。但是 Mixer 是独立运行的，能使用更大的缓存和缓冲。因此 Mixer 为 Sidecar 提供了高伸缩性高可用的二级缓存服务。&lt;/p>
+&lt;p>Mixer 的预期可用性明显高于多数后端（多数是 99.9%）。他的本地缓存和缓冲区能够在后端无法响应的时候继续运行，因此有助于对基础设施故障的屏蔽，降低影响。&lt;/p>
+&lt;h3 id="mixer">Mixer：延迟削减者&lt;/h3>
+&lt;p>上面我们解释过，Istio Sidecar 具备有效的一级缓存，在为流量服务的时候多数时间都可以使用缓存来完成。Mixer 提供了更大的共享池作为二级缓存，这也帮助了 Mixer 降低平均请求的延迟。&lt;/p>
+&lt;p>不只是降低延迟，Mixer 还降低了 Mesh 到底层的请求数量，这样就能显著降低到基础设施后端的 QPS，如果你要付款给这些后端，那么这一优点就会节省更多成本。&lt;/p>
+&lt;h2 id="heading-1">下一步&lt;/h2>
+&lt;p>我们还有机会对系统做出更多改进。&lt;/p>
+&lt;h3 id="heading-2">以金丝雀部署的方式进行配置发布&lt;/h3>
+&lt;p>Mixer 具备高度的伸缩性，所以他通常不会故障。然而如果部署了错误的配置，还是会引发 Mixer 进程的崩溃。为了防止这种情况的出现，可以用金丝雀部署的方式来发布配置，首先为一小部分 Mixer 进行部署，然后扩大部署范围。&lt;/p>
+&lt;p>目前的 Mixer 并未具备这样的能力，我们期待这一功能成为 Istio 可靠性配置工作的一部分最终得以发布。&lt;/p>
+&lt;h3 id="heading-3">缓存调节&lt;/h3>
+&lt;p>我们的 Sidecar 和 Mixer 缓存还需要更好的调整，这部分的工作会着眼于资源消耗的降低和性能的提高。&lt;/p>
+&lt;h3 id="heading-4">缓存共享&lt;/h3>
+&lt;p>现在 Mixer 的实例之间是各自独立的。一个请求在被某个 Mixer 实例处理之后，并不会把过程中产生的缓存传递给其他 Mixer 实例。我们最终会试验使用 Memcached 或者 Redis 这样的分布式缓存，以期提供一个网格范围内的共享缓存，更好的降低对后端基础设施的调用频率。&lt;/p>
+&lt;h3 id="heading-5">分片&lt;/h3>
+&lt;p>在大规模的网格中，Mixer 的负载可能很重。我们可以使用大量的 Mixer 实例，每个实例都为各自承担的流量维护各自的缓存。我们希望引入智能分片能力，这样 Mixer 实例就能针对特定的数据流提供特定的服务，从而提高缓存命中率；换句话说，分片可以利用把相似的流量分配给同一个 Mixer 实例的方式来提高缓存效率，而不是把请求交给随机选择出来的 Mixer 实例进行处理。&lt;/p>
+&lt;h2 id="heading-6">结语&lt;/h2>
+&lt;p>Google 的实际经验展示了轻代理、大缓存控制平面结合的好处：提供更好的可用性和延迟。过去的经验帮助 Istio 构建了更精确更有效的缓存、预抓取以及缓冲策略等功能。我们还优化了通讯协议，用于降低缓存无法命中的时候，对性能产生的影响。&lt;/p>
+&lt;p>Mixer 还很年轻。在 Istio 0.3 中，Mixer 并没有性能方面的重要改进。这意味着如果一个请求没有被 Sidecar 缓存命中，Mixer 就会花费更多时间。未来的几个月中我们会做很多工作来优化同步的前置检查过程中的这种情况。&lt;/p>
+&lt;p>我们希望本文能够让读者能够意识到 Mixer 对 Istio 的益处。&lt;/p>
+&lt;p>如果有说明或者问题，无需犹豫，尽管去 &lt;a href="https://groups.google.com/forum/#!forum/istio-policies-and-telemetry">istio-policies-and-telemetry&lt;/a> 提出吧。&lt;/p></description><pubDate>Thu, 07 Dec 2017 00:00:00 +0000</pubDate><link>/v1.0/zh/blog/2017/mixer-spof-myth/</link><author>Martin Taillefer</author><guid isPermaLink="true">/v1.0/zh/blog/2017/mixer-spof-myth/</guid></item><item><title>Mixer 适配器模型</title><description>&lt;p>Istio 0.2 引入了一种新的 Mixer 适配器模型，这种模型使接入后端基础设施具有更多的灵活性 。本文将解释这种模型是如何工作的。&lt;/p>
+&lt;h2 id="heading">为什么是适配器模型?&lt;/h2>
+&lt;p>后端基础设施提供了支持服务构建的功能。他们包括访问控制、遥测、配额控制、计费系统等等。传统服务会直接与这些后端系统集成，并与后端紧密耦合，并集成到其中的个性化语义和操作。&lt;/p>
+&lt;p>Mixer 服务作为 Istio 和一套开放式基础设施之间的抽象层。Istio 组件和运行在 Service Mesh 中的服务，通过 Mixer 就可以在不直接访问后端接口的情况下和这些后端进行交互。&lt;/p>
+&lt;p>除了作为应用层与基础设施隔离外，Mixer 提供了一种中介模型，这种模型允许注入和控制应用和后端的策略。操作人员可以控制哪些数据汇报给哪个后端，哪个后端提供授权等等。&lt;/p>
+&lt;p>考虑到每个基础服务都有不同的接口和操作模型，Mixer 需要用户通过代码来解决这些差异，我们可以称这些用户自己封装的代码为&lt;a href="https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide">&lt;em>适配器&lt;/em>&lt;/a>。&lt;/p>
+&lt;p>适配器以 Go 包的形式直接链接到 Mixer 二进制中。如果默认的适配器不能满足特定的使用需求，自定义适配器也是很简单的。&lt;/p>
+&lt;h2 id="heading-1">设计哲学&lt;/h2>
+&lt;p>Mixer 本质上就是一个处理属性和路由的机器。代理将&lt;a href="/v1.0/zh/docs/concepts/policies-and-telemetry/#%E5%B1%9E%E6%80%A7">属性&lt;/a>作为预检和遥测报告的一部分发送出来，并且转换为一系列对适配器的调用。运维人员提供了用于描述如何将传入的属性映射为适配器的配置。&lt;/p>
+&lt;figure style="width: 60%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 42.60%">
+&lt;a class="not-for-endnotes" href="/v1.0/docs/concepts/policies-and-telemetry/machine.svg">
+&lt;img class="element-to-stretch" src="/v1.0/docs/concepts/policies-and-telemetry/machine.svg" alt="Attribute Machine" title="Attribute Machine" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>Attribute Machine&lt;/figcaption>
+&lt;/figure>
+&lt;p>配置是一个复杂的任务。有证据表明绝大多数服务中断是由配置错误造成的。为了帮助解决这一问题，Mixer 的配置模型通过做限制来避免错误。例如，在配置中使用强类型，以此来确保在上下文环境中使用了有意义的属性或者属性表达式。&lt;/p>
+&lt;h2 id="handlers-">Handlers: 适配器的配置&lt;/h2>
+&lt;p>Mixer 使用的每个适配器都需要一些配置才能运行。一般来说，适配器需要一些信息。例如，到后端的 URL 、证书、缓存选项等等。每个适配器使用一个 &lt;a href="https://developers.google.com/protocol-buffers/">protobuf&lt;/a> 消息来定义所需要的配置数据。&lt;/p>
+&lt;p>你可以通过创建 &lt;a href="/v1.0/zh/docs/concepts/policies-and-telemetry/#%E5%A4%84%E7%90%86%E5%99%A8-handler">&lt;em>handler&lt;/em>&lt;/a> 为适配器提供配置。Handler 就是一套能让一个适配器就绪的完整配置。对同一个适配器可以有任意数量的 Handler，这样就可以在不同的场景下复用了。&lt;/p>
+&lt;h2 id="templates-">Templates: 适配输入结构&lt;/h2>
+&lt;p>通常对于进入到 Mesh 服务中的请求，Mixer 会发生两次调用，一次是预检，一次是遥测报告。每一次调用，Mixer 都会调用一个或更多的适配器。不同的适配器需要不同的数据作为输入来处理。例如，日志适配器需要日志输入，metric 适配器需要 metric 数据作为输入，认证的适配器需要证书等等。Mixer &lt;a href="/v1.0/docs/reference/config/policy-and-telemetry/templates/">&lt;em>templates&lt;/em>&lt;/a> 用来描述每次请求适配器消费的数据。&lt;/p>
+&lt;p>每个 Template 被指定为 &lt;a href="https://developers.google.com/protocol-buffers/">protobuf&lt;/a> 消息。一个模板描述了一组数据，这些数据在运行时被传递给一个或多个适配器。一个适配器可以支持任意数量的模板，开发者还可以设计支持特定模板的是适配器。&lt;/p>
+&lt;p>&lt;a href="/v1.0/docs/reference/config/policy-and-telemetry/templates/metric/">&lt;code>metric&lt;/code>&lt;/a> 和 &lt;a href="/v1.0/docs/reference/config/policy-and-telemetry/templates/logentry/">&lt;code>logentry&lt;/code>&lt;/a> 是两个最重要的模板，分别表示负载的单一指标，和到适当后端的单一日志条目。&lt;/p>
+&lt;h2 id="instances-">Instances: 属性映射&lt;/h2>
+&lt;p>你可以通过创建 &lt;a href="/v1.0/zh/docs/concepts/policies-and-telemetry/#%E5%AE%9E%E4%BE%8B-instance">&lt;em>instances&lt;/em>&lt;/a> 来决定哪些数据被传递给特定的适配器。Instances 决定了 Mixer 如何通过 &lt;a href="/v1.0/zh/docs/concepts/policies-and-telemetry/#%E5%B1%9E%E6%80%A7">attributes&lt;/a> 把来自代理的属性拆分为各种数据然后分发给不同的适配器。&lt;/p>
+&lt;p>创建实例通常需要使用 &lt;a href="/v1.0/zh/docs/concepts/policies-and-telemetry/#%E5%B1%9E%E6%80%A7%E8%A1%A8%E8%BE%BE%E5%BC%8F">attribute expressions&lt;/a> 。这些表达式的功能是使用属性和常量来生成结果数据，用于给instance字段进行赋值。&lt;/p>
+&lt;p>在模板中定义的每个 instance 字段、每个属性、每个表达式都有一个 &lt;a href="https://github.com/istio/api/blob/master/policy/v1beta1/value_type.proto">type&lt;/a>，只有兼容的数据类型才能进行赋值。例如不能把整型的表达式赋值给字符串类型。强类型设计的目的就是为了降低配置出错引发的风险。&lt;/p>
+&lt;h2 id="rules-">Rules: 将数据交付给适配器&lt;/h2>
+&lt;p>最后一个问题就是告诉 Mixer 哪个 instance 在什么时候发送给哪个 handler。这个通过创建 &lt;a href="/v1.0/zh/docs/concepts/policies-and-telemetry/#%E8%A7%84%E5%88%99-rule">&lt;em>rules&lt;/em>&lt;/a> 实现。每个规则都会指定一个特定的处理程序和要发送给该处理程序的示例。当 Mixer 处理一个调用时，它会调用指定的处理程序，并给他一组特定的处理实例。&lt;/p>
+&lt;p>Rule 中包含有匹配断言，这个断言是一个返回布尔值的属性表达式。只有属性表达式断言成功的 Rule 才会生效，否则这条规则就形同虚设，当然其中的 Handler 也不会被调用。&lt;/p>
+&lt;h2 id="heading-2">未来的工作&lt;/h2>
+&lt;p>我们正在努力改进和提升适配器的使用及开发。例如，计划中包含很多新特性使用户更加方便地使用 Templates。另外，表达式语言也正在不断的发展和成熟。&lt;/p>
+&lt;p>长远来看，我们正在寻找不直接将适配器直接连接到 Mixer 二进制的方法。这将简化部署和开发使用。&lt;/p>
+&lt;h2 id="heading-3">结论&lt;/h2>
+&lt;p>新的 Mixer 适配器模型的设计是为了提供一个灵活的框架用来支持一个开放基础设施。&lt;/p>
+&lt;p>Handler 为各个适配器提供了配置数据，Template 用于在运行时确定不同的适配器所需的数据类型，Instance 让运维人员准备这些数据，Rule 将这些数据提交给一个或多个 Handler 进行处理。&lt;/p>
+&lt;p>更多信息可以关注&lt;a href="/v1.0/zh/docs/concepts/policies-and-telemetry/">这里&lt;/a>。更多关于 templates, handlers,和 rules 的内容可以关注&lt;a href="/v1.0/docs/reference/config/policy-and-telemetry/">这里&lt;/a>。你也可以在&lt;a href="https://github.com/istio/istio/tree/release-1.0/samples/bookinfo">这里&lt;/a>找到对应的示例。&lt;/p></description><pubDate>Fri, 03 Nov 2017 00:00:00 +0000</pubDate><link>/v1.0/zh/blog/2017/adapter-model/</link><author>Martin Taillefer</author><guid isPermaLink="true">/v1.0/zh/blog/2017/adapter-model/</guid><category>适配器</category><category>mixer</category><category>策略</category><category>遥测</category></item><item><title>宣布 Istio 0.2</title><description>&lt;p>我在2017年5月24日发布了 Istio ，它是一个用于连接、管理、监控和保护微服务的开放平台。看着饱含浓厚兴趣的开发者、运营商、合作伙伴和不断发展的社区，我们感到十分的欣慰。我们 0.1 版本的重点是展示 Istio 在 Kubernetes 中的所有概念。&lt;/p>
+&lt;p>今天我们十分高兴地宣布推出 0.2 版本，它提高了稳定性和性能、允许在 Kubernetes 集群中广泛部署并自动注入 sidecar 、为 TCP 服务添加策略和身份验证、同时保证扩展网格收录那些部署在虚拟机中的服务。此外，Istio 可以利用 Consul/Nomad 或 Eureka 在 Kubernetes 外部运行。 除了核心功能，Istio 的扩展已经准备由第三方公司和开发人员编写。&lt;/p>
+&lt;h2 id="02">0.2版本的亮点&lt;/h2>
+&lt;h3 id="heading">可用性改进&lt;/h3>
+&lt;ul>
+&lt;li>&lt;em>支持多命名空间&lt;/em>: Istio 现在可以跨多个名称空间在集群范围内工作，这也是来自 0.1 版本中社区最强烈的要求之一。&lt;/li>
+&lt;li>&lt;em>TCP 服务的策略与安全&lt;/em>: 除了 HTTP ，我们还为 TCP 服务增加了透明双向 TLS 认证和策略实施。这将让拥有像遥测，策略和安全等 Istio 功能的同时，保护更多 Kubernetes deployment 。&lt;/li>
+&lt;li>&lt;em>自动注入 sidecar&lt;/em>: 通过利用 Kubernetes 1.7 提供的 alpha &lt;a href="https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/">初始化程序&lt;/a> ，当您的集群启用了该程序时，envoy sidecar 就可以自动注入到应用的 deployment 里。 这使得你可以使用 &lt;code>kubectl&lt;/code> 命令部署微服务， 这与您通常在没有 Istio 的情况下部署微服务的命令完全相同。&lt;/li>
+&lt;li>&lt;em>扩展 Istio&lt;/em> : 改进的 Mixer 设计，可以允许供应商编写 Mixer 适配器以实现对其自身系统的支持，例如应用管理或策略实施。该 &lt;a href="https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide">Mixer 适配器开发指南&lt;/a> 可以轻松的帮你将 Istio 集成于你的解决方案。&lt;/li>
+&lt;li>&lt;em>使用您自己的 CA 证书&lt;/em>: 允许用户提供自己的密钥和证书给 Istio CA 和永久 CA 密钥/证书存储，允许在持久化存储中提供签名密钥/证书，以便于 CA 重启。&lt;/li>
+&lt;li>&lt;em>改进路由和指标&lt;/em>: 支持 WebSocket 、MongoDB 和 Redis 协议。 您可以将弹性功能（如熔断器）应用于第三方服务。除了 Mixer 的指标外，数以百计 Envoy 指标现在已经在 Prometheus 中可见，它们用于监控 Istio 网格中的流量吞吐。&lt;/li>
+&lt;/ul>
+&lt;h3 id="heading-1">跨环境支持&lt;/h3>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;em>网格扩展&lt;/em>: Istio 网格现在可以在 Kubernetes 之外跨服务 —— 就像那些运行在虚拟机中的服务一样，他们同时享受诸如自动双向 TLS认证、流量管理、遥测和跨网格策略实施带来的好处。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;em>运行在 Kubernetes 外部&lt;/em>: 我们知道许多客户使用其他的服务注册中心和 orchestration 解决方案（如 &lt;a href="/v1.0/docs/setup/consul/quick-start/">Consul/Nomad&lt;/a> 和 Eureka）， Istio Pilot 可以在 Kubernetes 外部单独运行，同时从这些系统中获取信息，并在虚拟机或容器中管理 Envoy fleet 。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="-istio-">加入到塑造 Istio 未来的队伍中&lt;/h2>
+&lt;p>呈现在我们面前的是一幅不断延伸的&lt;a href="/v1.0/about/feature-stages/">蓝图&lt;/a> ，它充满着强大的潜能。我们将在下个版本致力于 Istio 的稳定性，可靠性，第三方工具集成和多集群用例。&lt;/p>
+&lt;p>想要了解如何参与并为 Istio 的未来做出贡献，请查看我们在 GitHub 的&lt;a href="https://github.com/istio/community">社区&lt;/a>项目，它将会向您介绍我们的工作组，邮件列表，各种社区会议，常规流程和指南。&lt;/p>
+&lt;p>我们要感谢为我们测试新版本、提交错误报告、贡献代码、帮助其他成员以及通过参与无数次富有成效的讨论塑造 Istio 的出色社区，这让我们的项目自启动以来在GitHub上累积了3000颗星，并且在 Istio 邮件列表上有着数百名活跃的社区成员。&lt;/p>
+&lt;p>谢谢&lt;/p></description><pubDate>Tue, 10 Oct 2017 00:00:00 +0000</pubDate><link>/v1.0/zh/blog/2017/0.2-announcement/</link><author>The Istio Team</author><guid isPermaLink="true">/v1.0/zh/blog/2017/0.2-announcement/</guid></item><item><title>使用 Istio 进行金丝雀部署</title><description>&lt;blockquote>
+&lt;p>本篇博客最后更新时间 2018 年 5 月 16 号，采用了最新版本的流量管理模型。&lt;/p>
+&lt;/blockquote>
+&lt;p>采用 &lt;a href="/v1.0/zh/">Istio&lt;/a> 项目的一大好处就是为服务金丝雀方式部署提供了控制便利。 金丝雀部署（或上线）背后的想法是通过让一小部分用户流量引入的新版本进行测试，如果一切顺利，则可以增加（可能逐渐增加）百分比，逐步替换旧版本。 如在过程中出现任何问题，则可以中止并回滚到旧版本。 最简单的方式，是随机选择百分比请求到金丝雀版本，但在更复杂的方案下，则可以基于请求的区域，用户或其他属性。&lt;/p>
+&lt;p>基于领域的专业水平，您可能想知道为什么需要 Istio 来支持金丝雀部署，因为像 Kubernetes 这样的平台已经提供了进行&lt;a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#updating-a-deployment">版本上线&lt;/a>和&lt;a href="https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#canary-deployments">金丝雀部署&lt;/a>的方法。 问题解决了吗 ？不完全是。 虽然以这种方式进行部署可以在简单的情况下工作，但功能非常有限，特别是在大规模自动缩放的云环境中大流量的情况下。&lt;/p>
+&lt;h2 id="kubernetes-">Kubernetes 中的金丝雀部署&lt;/h2>
+&lt;p>假设我们有一个已部署的 &lt;strong>helloworld&lt;/strong> 服务 &lt;strong>v1&lt;/strong> 版本，我们想要测试（或简单上线）新版本 &lt;strong>v2&lt;/strong>。 使用 Kubernetes，您可以通过简单地更新服务的 &lt;a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">Deployment&lt;/a> 中的镜像并自动进行部署来&lt;a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#updating-a-deployment">上线&lt;/a>新版本的 &lt;strong>helloworld&lt;/strong> 服务。 如果我们特能够小心保证在启动并且在仅启动一个或两个 v2 副本&lt;a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#pausing-and-resuming-a-deployment">暂停&lt;/a>上线时有足够的 &lt;strong>v1&lt;/strong> 副本运行，则能够保持金丝雀发布对系统的影响非常小。 后续我们可以观察效果，或在必要时进行&lt;a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-back-a-deployment">回滚&lt;/a>。 最好，我们也能够对 Deployment 设置 &lt;a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#scaling-a-deployment">HPA&lt;/a>，在上线过程中减少或增加副本以处理流量负载时，也能够保持副本比例一致。&lt;/p>
+&lt;p>尽管这种机制能够很好工作，但这种方式只适用于部署的经过适当测试的版本，也就是说，更多的是蓝/绿发布，又称红/黑发布，而不是 “蜻蜓点水“ 式的金丝雀部署。 实际上，对于后者（例如，并没有完全准备好或者无意对外暴露的版本），Kubernetes 中的金丝雀部署将使用具有&lt;a href="https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#using-labels-effectively">公共 pod 标签&lt;/a>的两个 Deployment 来完成。 在这种情况下，我们不能再使用自动缩放器，因为是有由两个独立的自动缩放器来进行控制，不同负载情况下，副本比例（百分比）可能与所需的比例不同。&lt;/p>
+&lt;p>无论我们使用一个或者两个部署，使用 Docker，Mesos/Marathon 或 Kubernetes 等容器编排平台进行的金丝雀发布管理都存在一个根本问题：使用实例扩容来管理流量；版本流量分发和副本部署在上述平台中并独立。 所有 pod 副本，无论版本如何，在 kube-proxy 循环池中都被一视同仁地对待，因此管理特定版本接收的流量的唯一方法是控制副本比例。 以小百分比维持金丝雀流量需要许多副本（例如，1％ 将需要至少 100 个副本）。 即使我们可以忽略这个问题，部署方式功能仍然非常有限，因为它只支持简单（随机百分比）金丝雀部署。 如果我们想根据某些特定规则将请求路由到金丝雀版本上，我们仍然需要另一种解决方案。&lt;/p>
+&lt;h2 id="-istio">使用 Istio&lt;/h2>
+&lt;p>使用 Istio，流量路由和副本部署是两个完全独立的功能。 服务的 pod 数量可以根据流量负载灵活伸缩，与版本流量路由的控制完全正交。 这在自动缩放的情况下能够更加简单地管理金丝雀版本。 事实上，自动缩放管理器仍然独立运行，其在响应因流量路由导致的负载变化与其他原因导致负载变化的行为上没有区别。&lt;/p>
+&lt;p>Istio 的&lt;a href="/v1.0/zh/docs/concepts/traffic-management/#%E8%A7%84%E5%88%99%E9%85%8D%E7%BD%AE">路由规则&lt;/a>也带来了其他的便利；你可以轻松实现细粒度控制流量百分比（例如，路由 1％ 的流量而不需要 100 个 pod），当然也可以使用其他规则来控制流量（例如，将特定用户的流量路由到金丝雀版本）。 作为展示，让我们看一下采用这种方式部署 &lt;strong>helloworld&lt;/strong> 服务的简单便捷。&lt;/p>
+&lt;p>首先我们定义 &lt;strong>helloworld&lt;/strong> 服务，和普通 &lt;strong>Kubernetes&lt;/strong> 服务一样，如下所示：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>apiVersion: v1
+kind: Service
+metadata:
+name: helloworld
+labels:
+app: helloworld
+spec:
+selector:
+app: helloworld
+...&lt;/code>&lt;/pre>
+&lt;p>然后我们添加 2 个 Deployment，分别为版本 &lt;strong>v1&lt;/strong> 和 &lt;strong>v2&lt;/strong>，这两个版本都包含服务选择标签 &lt;code>app：helloworld&lt;/code> ：&lt;/p>
+&lt;pre>&lt;code class='language-yaml'>kind: Deployment
+metadata:
+name: helloworld-v1
+spec:
+replicas: 1
+template:
+metadata:
+labels:
+app: helloworld
+version: v1
+spec:
+containers:
+- image: helloworld-v1
+...
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+name: helloworld-v2
+spec:
+replicas: 1
+template:
+metadata:
+labels:
+app: helloworld
+version: v2
+spec:
+containers:
+- image: helloworld-v2
+...&lt;/code>&lt;/pre>
+&lt;p>需要注意的是，这与使用普通 Kubernetes 进行&lt;a href="https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#canary-deployments">金丝雀部署&lt;/a>的方式完全相同，但是在 Kubernetes 方式下控制流量分配需要调整每个 Deployment 的副本数目。 例如，将 10％ 的流量发送到金丝雀版本（v2），v1 和 v2 的副本可以分别设置为 9 和 1。&lt;/p>
+&lt;p>但是在&lt;a href="/v1.0/zh/docs/setup/">启用 Istio&lt;/a> 的集群中，我们可以通过设置路由规则来控制流量分配。 如将 10％ 的流量发送到金丝雀版本本，我们可以使用 &lt;code>kubectl&lt;/code> 来设置以下的路由规则：&lt;/p>
+&lt;pre>&lt;code class='language-bash'>cat &amp;lt;&amp;lt;EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+name: helloworld
+spec:
+hosts:
+- helloworld
+http:
+- route:
+- destination:
+host: helloworld
+subset: v1
+weight: 90
+- destination:
+host: helloworld
+subset: v2
+weight: 10
+EOF&lt;/code>&lt;/pre>
+&lt;p>当规则设置生效后，Istio 将确保只有 10% 的请求发送到金丝雀版本，无论每个版本的运行副本数量是多少。&lt;/p>
+&lt;h2 id="heading">部署中的自动缩放&lt;/h2>
+&lt;p>由于我们不再需要保持副本比例，所以我们可以安全地设置 Kubernetes &lt;a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/">HPA&lt;/a> 来管理两个版本 Deployment 的副本：&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl autoscale deployment helloworld-v1 --cpu-percent=50 --min=1 --max=10
+deployment &amp;#34;helloworld-v1&amp;#34; autoscaled&lt;/code>&lt;/pre>
+&lt;pre>&lt;code class='language-command'>$ kubectl autoscale deployment helloworld-v2 --cpu-percent=50 --min=1 --max=10
+deployment &amp;#34;helloworld-v2&amp;#34; autoscaled&lt;/code>&lt;/pre>
+&lt;pre>&lt;code class='language-command'>$ kubectl get hpa
+NAME REFERENCE TARGET CURRENT MINPODS MAXPODS AGE
+Helloworld-v1 Deployment/helloworld-v1 50% 47% 1 10 17s
+Helloworld-v2 Deployment/helloworld-v2 50% 40% 1 10 15s&lt;/code>&lt;/pre>
+&lt;p>如果现在对 &lt;strong>helloworld&lt;/strong> 服务上产生一些负载，我们会注意到，当扩容开始时，&lt;strong>v1&lt;/strong> 扩容副本数目远高于 &lt;strong>v2&lt;/strong> ，因为 &lt;strong>v1&lt;/strong> pod 正在处理 90％ 的负载。&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl get pods | grep helloworld
+helloworld-v1-3523621687-3q5wh 0/2 Pending 0 15m
+helloworld-v1-3523621687-73642 2/2 Running 0 11m
+helloworld-v1-3523621687-7hs31 2/2 Running 0 19m
+helloworld-v1-3523621687-dt7n7 2/2 Running 0 50m
+helloworld-v1-3523621687-gdhq9 2/2 Running 0 11m
+helloworld-v1-3523621687-jxs4t 0/2 Pending 0 15m
+helloworld-v1-3523621687-l8rjn 2/2 Running 0 19m
+helloworld-v1-3523621687-wwddw 2/2 Running 0 15m
+helloworld-v1-3523621687-xlt26 0/2 Pending 0 19m
+helloworld-v2-4095161145-963wt 2/2 Running 0 50m&lt;/code>&lt;/pre>
+&lt;p>如果更改路由规则将 50％ 的流量发送到 &lt;strong>v2&lt;/strong>，我们则可以在短暂的延迟后注意到 &lt;strong>v1&lt;/strong> 副本数的减少，而 &lt;strong>v2&lt;/strong> 副本数相应地增加。&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl get pods | grep helloworld
+helloworld-v1-3523621687-73642 2/2 Running 0 35m
+helloworld-v1-3523621687-7hs31 2/2 Running 0 43m
+helloworld-v1-3523621687-dt7n7 2/2 Running 0 1h
+helloworld-v1-3523621687-gdhq9 2/2 Running 0 35m
+helloworld-v1-3523621687-l8rjn 2/2 Running 0 43m
+helloworld-v2-4095161145-57537 0/2 Pending 0 21m
+helloworld-v2-4095161145-9322m 2/2 Running 0 21m
+helloworld-v2-4095161145-963wt 2/2 Running 0 1h
+helloworld-v2-4095161145-c3dpj 0/2 Pending 0 21m
+helloworld-v2-4095161145-t2ccm 0/2 Pending 0 17m
+helloworld-v2-4095161145-v3v9n 0/2 Pending 0 13m&lt;/code>&lt;/pre>
+&lt;p>最终结果与 Kubernetes Deployment 上线非常相似，只是整个流程并不是集中地进行编排和管理。 相反，我们看到几个组件独立完成工作，虽然它们有因果关系。&lt;/p>
+&lt;p>有一点不同的是，当我们停止负载时，无论设置路由规则如何，两个版本的副本数最终都会缩小到最小值（1）。&lt;/p>
+&lt;pre>&lt;code class='language-command'>$ kubectl get pods | grep helloworld
+helloworld-v1-3523621687-dt7n7 2/2 Running 0 1h
+helloworld-v2-4095161145-963wt 2/2 Running 0 1h&lt;/code>&lt;/pre>
+&lt;h2 id="heading-1">聚焦金丝雀测试&lt;/h2>
+&lt;p>如上所述，Istio 路由规则可用于根据特定规则准进行流量路由，从而能够提供更复杂的金丝雀部署方案。 例如，与简单通过将金丝雀版本暴露给任意百分比的用户方式不同，我们希望在内部用户上尝试，甚至可能只是内部用户的一部分。&lt;/p>
+&lt;p>以下命令可将特定网站上 50％ 的用户流量路由到金丝雀版本，而其他用户则不受影响：&lt;/p>
+&lt;pre>&lt;code class='language-bash'>cat &amp;lt;&amp;lt;EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+name: helloworld
+spec:
+hosts:
+- helloworld
+http:
+- match:
+- headers:
+cookie:
+regex: &amp;#34;^(.*?;)?(email=[^;]*@some-company-name.com)(;.*)?$&amp;#34;
+route:
+- destination:
+host: helloworld
+subset: v1
+weight: 50
+- destination:
+host: helloworld
+subset: v2
+weight: 50
+- route:
+- destination:
+host: helloworld
+subset: v1
+EOF&lt;/code>&lt;/pre>
+&lt;p>和以前一样，绑定到 2 个版本 Deployment 的自动缩放器会相应地自动管理副本，但这对流量分配没有影响。&lt;/p>
+&lt;h2 id="heading-2">总结&lt;/h2>
+&lt;p>本文中，我们展示了 Istio 如何支持通用可扩展的金丝雀部署，以及与 Kubernetes 部署的差异。 Istio 服务网格提供了管理流量分配所需的基础控制，并完全独立于部署缩放。 这允许简单而强大的方式来进行金丝雀测试和上线。&lt;/p>
+&lt;p>支持金丝雀部署的智能路由只是 Istio 的众多功能之一，它将使基于大型微服务的应用程序的生产部署变得更加简单。 查看 &lt;a href="/v1.0/zh/">istio.io&lt;/a> 了解更多信息。&lt;/p>
+&lt;p>可在&lt;a href="https://github.com/istio/istio/tree/release-1.0/samples/helloworld">此处&lt;/a>查看示例代码。&lt;/p></description><pubDate>Wed, 14 Jun 2017 00:00:00 +0000</pubDate><link>/v1.0/zh/blog/2017/0.1-canary/</link><author>Frank Budinsky</author><guid isPermaLink="true">/v1.0/zh/blog/2017/0.1-canary/</guid><category>流量管理</category><category>金丝雀部署</category></item><item><title>使用 Istio 增强端到端安全</title><description>&lt;p>传统的网络安全方式无法解决部署在动态变化环境下分布式应用的安全威胁。这里，我们将描述 &lt;code>Istio Auth&lt;/code> 如何帮助企业将其安全从边界保护转变为内部所有服务间通信保护。 使用 &lt;code>Istio Auth&lt;/code> 开发人员和运维人员可以在不改动程序的情况下，对于敏感数据进行保护，防止未经授权的内部人员访问。&lt;/p>
+&lt;p>&lt;code>Istio Auth&lt;/code> 是更广泛的 &lt;a href="/v1.0/zh">Istio 平台&lt;/a>的安全组件。它结合了 Google 生产环境中保护数百万微服务安全的经验。&lt;/p>
+&lt;h2 id="heading">背景知识&lt;/h2>
+&lt;p>现代应用程序体系结构越来越多地基于共享服务，共享服务部署在云平台上，可被方便地进行动态部署和扩容。 传统的网络边界安全性（例如防火墙）控制力度太粗，会导致部分非预期的客户端访问。使用盗取合法客户端的认证令牌进行重放攻击，就是一种常见的安全风险。对于持有敏感数据公司而言，内部威胁是一个需要关注的主要风险。其他网络安全方法（如 IP 白名单）通过静态方式定义，难以大规模管理，不适合动态变化的生产环境。&lt;/p>
+&lt;p>因此，安全管理员需要一种工具，其可以能够默认开启并且始终保护生产环境中服务间的所有通信。&lt;/p>
+&lt;h2 id="heading-1">解决方案：增强的服务身份和验证&lt;/h2>
+&lt;p>多年来，Google 通过研发架构和技术，帮助其生产环境中数百万个微服务抵御了外部攻击和内部威胁。 关键安全原则包括信任端而不是网络，基于服务身份和级别授权的双向强身份验证。&lt;code>Istio Auth&lt;/code> 基于相同的原则。&lt;/p>
+&lt;p>&lt;code>Istio Auth&lt;/code> 服务 0.1 版本在 Kubernetes 上运行，并提供以下功能：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>服务间强身份认证&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>访问控制以限制可以访问服务（及其数据）的身份&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>传输中的数据自动加密&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>密钥和证书的大规模管理&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;code>Istio Auth&lt;/code> 基于双向 TLS 和 X.509 等行业标准。 此外，Google 还积极参与一个开放的，社区驱动的 &lt;a href="https://spiffe.io/">SPIFFE&lt;/a> 服务安全框架。 随着 &lt;a href="https://spiffe.io/">SPIFFE&lt;/a> 规范的成熟，我们打算让 &lt;code>Istio Auth&lt;/code> 参考并实现。&lt;/p>
+&lt;p>下图概述了 Kubernetes 上的 &lt;code>Istio Auth&lt;/code> 服务认证体系结构。&lt;/p>
+&lt;figure style="width: 100%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 56.25%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2017/0.1-auth/istio_auth_overview.svg">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2017/0.1-auth/istio_auth_overview.svg" alt="`Istio Auth` 概览" title="`Istio Auth` 概览" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>`Istio Auth` 概览&lt;/figcaption>
+&lt;/figure>
+&lt;p>上图说明了三个关键的安全功能：&lt;/p>
+&lt;h3 id="heading-2">强身份认证&lt;/h3>
+&lt;p>&lt;code>Istio Auth&lt;/code> 使用 &lt;a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/">Kubernetes 服务帐户&lt;/a> 来识别服务运行的身份。 身份用于建立信任和定义服务级别访问策略。 身份在服务部署时分配，并在 X.509 证书的 SAN（主题备用名称）字段中进行编码。 使用服务帐户作为身份具有以下优点：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>管理员可以使用 Kubernetes 1.6 中引入的 &lt;a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">RBAC&lt;/a> 功能配置谁有权访问服务帐户&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>灵活地识别人类用户，服务或一组服务&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>稳定地支持服务身份的动态配置和工作负载自动扩展&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="heading-3">通信安全&lt;/h3>
+&lt;p>服务间通信基于高性能客户端和服务器端 &lt;a href="https://envoyproxy.github.io/envoy/">Envoy&lt;/a> 代理的传输隧道。 代理之间的通信使用双向 TLS 来进行保护。 使用双向 TLS 的好处是服务身份不会被替换为从源窃取或重放攻击的令牌。 &lt;code>Istio Auth&lt;/code> 还引入了安全命名的概念，以防止服务器欺骗攻击 - 客户端代理验证允许验证特定服务的授权的服务帐户。&lt;/p>
+&lt;h3 id="heading-4">密钥管理和分配&lt;/h3>
+&lt;p>&lt;code>Istio Auth&lt;/code> 为每个集群提供 CA（证书颁发机构），并可对密钥和证书自动管理。 这种情况下，&lt;code>Istio Auth&lt;/code> 具备以下功能 ：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>为每个服务帐户生成密钥和证书对。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>使用 &lt;a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes Secrets&lt;/a> 将密钥和证书分发到相应的 pod。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>定期轮换密钥和证书。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>必要时（未来）撤销特定密钥和证书对。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>下图说明了 Kubernetes 上的端到端 &lt;code>Istio Auth&lt;/code> 身份验证工作流程：&lt;/p>
+&lt;figure style="width: 100%">
+&lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 56.25%">
+&lt;a class="not-for-endnotes" href="/v1.0/blog/2017/0.1-auth/istio_auth_workflow.svg">
+&lt;img class="element-to-stretch" src="/v1.0/blog/2017/0.1-auth/istio_auth_workflow.svg" alt="`Istio Auth` 工作流程" title="`Istio Auth` 工作流程" />
+&lt;/a>
+&lt;/div>
+&lt;figcaption>`Istio Auth` 工作流程&lt;/figcaption>
+&lt;/figure>
+&lt;p>&lt;code>Istio Auth&lt;/code> 是更广泛的容器安全中的一部分。 Red Hat 是 Kubernetes 开发的合作伙伴，定义了 &lt;a href="https://www.redhat.com/en/resources/container-security-openshift-cloud-devops-whitepaper">10 层&lt;/a> 容器安全。 Istio 和 &lt;code>Istio Auth&lt;/code> 解决了其中两个层：”网络隔离” 和 “API 和服务端点管理”。 随着集群联邦在 Kubernetes 和其他平台上的发展，我们的目的是让 Istio 对跨越多个联邦集群的服务间通信提供保护。&lt;/p>
+&lt;h2 id="istio-auth-">&lt;code>Istio Auth&lt;/code> 优点&lt;/h2>
+&lt;p>&lt;strong>深度防御&lt;/strong>：当与 Kubernetes（或基础架构）网络策略结合使用时，用户可以获得更多的安全信心，因为他们知道 Pod 或服务间的通信在网络层和应用层上都得到保护。&lt;/p>
+&lt;p>&lt;strong>默认安全&lt;/strong>：当与 Istio 的代理和集中策略引擎一起使用时，可在极少或不更改应用的情况下部署并配置 &lt;code>Istio Auth&lt;/code>。 因此，管理员和操作员可以确保默认开启服务通信保护，并且可以跨协议和运行时一致地实施这些策略。&lt;/p>
+&lt;p>&lt;strong>强大的服务认证&lt;/strong>：&lt;code>Istio Auth&lt;/code> 使用双向 TLS 保护服务通信，以确保服务身份不会是其他来源窃取或重放攻击的令牌。 这可确保只能从经过严格身份验证和授权的客户端才能够访问具有敏感数据的服务。&lt;/p>
+&lt;h2 id="heading-5">加入我们&lt;/h2>
+&lt;p>&lt;code>Istio Auth&lt;/code> 是提供完整安全功能的第一步，安全功能可以用于抵御外部攻击和内部威胁，保护服务的敏感数据。 虽然初始版本仅在 Kubernetes 上运行，但我们的目标是使其能够在不同的生产环境中保护服务通信。 我们鼓励更多的社区&lt;a href="https://github.com/istio/istio/tree/release-1.0/security">加入我们&lt;/a>，为不同的应用技术栈和运行平台上轻松地提供强大的服务安全保障。&lt;/p></description><pubDate>Thu, 25 May 2017 00:00:00 +0000</pubDate><link>/v1.0/zh/blog/2017/0.1-auth/</link><author>The Istio Team</author><guid isPermaLink="true">/v1.0/zh/blog/2017/0.1-auth/</guid></item></channel></rss>

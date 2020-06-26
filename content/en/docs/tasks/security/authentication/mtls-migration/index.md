@@ -28,7 +28,7 @@ them down once the migration is done.
 * Read the [authentication policy task](/docs/tasks/security/authentication/authn-policy) to
   learn how to configure authentication policy.
 
-* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use the demo configuration profile as described in [installation steps](/docs/setup/getting-started)).
+* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (for example, use the `default` configuration profile as described in [installation steps](/docs/setup/getting-started)).
 
 In this task, you can try out the migration process by creating sample workloads and modifying
 the policies to enforce STRICT mutual TLS between the workloads.
@@ -53,7 +53,8 @@ the policies to enforce STRICT mutual TLS between the workloads.
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
     {{< /text >}}
 
-* Verify setup by sending an http request (using curl command) from any sleep pod (among those in namespace `foo`, `bar` or `legacy`) to `httpbin.foo`.  All requests should success with HTTP code 200.
+* Verify the setup by sending http requests (using curl) from the sleep pods, in namespaces `foo`, `bar` and `legacy`, to `httpbin.foo` and `httpbin.bar`.
+    All requests should succeed with return code 200.
 
     {{< text bash >}}
     $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -65,17 +66,21 @@ the policies to enforce STRICT mutual TLS between the workloads.
     sleep.legacy to httpbin.bar: 200
     {{< /text >}}
 
-* Also verify that there are no authentication policies or destination rules (except control plane ones) in the system:
+    {{< tip >}}
+    If any of the curl commands fail, ensure that there are no existing authentication policies or destination rules
+    that might interfere with requests to the httpbin service.
 
     {{< text bash >}}
-    $ kubectl get peerauthentication --all-namespaces | grep -v istio-system
-    NAMESPACE      NAME                          AGE
+    $ kubectl get peerauthentication --all-namespaces
+    No resources found.
     {{< /text >}}
 
     {{< text bash >}}
     $ kubectl get destinationrule --all-namespaces
     No resources found.
     {{< /text >}}
+
+    {{< /tip >}}
 
 ## Lock down to mutual TLS by namespace
 
@@ -146,13 +151,13 @@ $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$
 
 ## Clean up the example
 
-1. To remove all authentication policies
+1. Remove the mesh-wide authentication policy.
 
 {{< text bash >}}
-$ kubectl delete peerauthentication --all-namespaces --all
+$ kubectl delete peerauthentication -n istio-system default
 {{< /text >}}
 
-1. If you are not planning to explore any follow-on tasks, you can remove all test namespaces.
+1. Remove the test namespaces.
 
 {{< text bash >}}
 $ kubectl delete ns foo bar legacy

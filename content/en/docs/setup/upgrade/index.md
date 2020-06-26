@@ -143,7 +143,7 @@ can be found in the `bin/` subdirectory of the downloaded package.
 
     {{< warning >}}
     If you installed Istio using the `-f` flag, for example
-    `istioctl manifest apply -f <IstioControlPlane-custom-resource-definition-file>`,
+    `istioctl install -f <IstioControlPlane-custom-resource-definition-file>`,
     then you must provide the same `-f` flag value to the `istioctl upgrade` command.
     {{< /warning >}}
 
@@ -187,6 +187,6 @@ version (e.g., 1.4.4), and `upgrade` is experimental in 1.4. The process steps a
 identical to the upgrade process mentioned in the previous section. When completed,
 the process will restore Istio back to the Istio version that was installed before.
 
-`istioctl manifest apply` also installs the same Istio control plane, but does not
+`istioctl install` also installs the same Istio control plane, but does not
 perform any checks. For example, default values applied to the cluster for a configuration
 profile may change without warning.

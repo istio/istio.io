@@ -6,7 +6,6 @@ subtitle:
 attribution: Yangmin Zhu (Google)
 keywords: [security, RBAC, access control, authorization]
 target_release: 1.4
-test: no
 ---
 
 Istio 1.4 introduces the

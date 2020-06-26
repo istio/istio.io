@@ -66,7 +66,7 @@ deployment you place into production.
 
     {{< text bash >}}
     $ cd "${WORK_DIR}"
-    $ make -f "${ISTIO_DIR}"/samples/certs/Makefile NAME="${CLUSTER_NAME}" NAMESPACE="${SERVICE_NAMESPACE}" "${CLUSTER_NAME}"-certs-wl
+    $ make -f "${ISTIO_DIR}"/tools/certs/Makefile NAME="${CLUSTER_NAME}" NAMESPACE="${SERVICE_NAMESPACE}" "${CLUSTER_NAME}"-certs-wl
     {{< /text >}}
 
 ## Install the Istio control plane
