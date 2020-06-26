@@ -21,9 +21,7 @@ on deploying, configuring, and using Istio.
 
 {{< community_item logo="./slack.svg" alt="Slack" >}}
 If you'd like to have live interactions with members of our community, you can join us on
-[Istio's Slack](https://istio.slack.com) workspace.
-Fill out [this form](https://docs.google.com/forms/d/e/1FAIpQLSfdsupDfOWBtNVvVvXED6ULxtR4UIsYGCH_cQcRr0VcG1ZqQQ/viewform)
-to join.
+[Istio's Slack](https://slack.istio.io) workspace.
 {{< /community_item >}}
 
 {{< community_item logo="./gcal.svg" alt="Community Calendar" >}}
