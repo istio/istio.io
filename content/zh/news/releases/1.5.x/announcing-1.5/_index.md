@@ -61,6 +61,6 @@ Istio 一直都是可扩展性最好的服务网格，其 Mixer 插件允许自�
 
 ## 加入 Istio 社区{#join-the-Istio-community}
 
-与往常一样，很多事情都发生在[社区会议](https://github.com/istio/community#community-meeting)；每隔一个星期四的太平洋时间上午 11 点加入我们。我们希望您可以通过 [Istio Discuss](https://discuss.istio.io) 加入对话，此外，也可以加入我们的 [Slack 频道](https://istio.slack.com)。
+与往常一样，很多事情都发生在[社区会议](https://github.com/istio/community#community-meeting)；每隔一个星期四的太平洋时间上午 11 点加入我们。我们希望您可以通过 [Istio Discuss](https://discuss.istio.io) 加入对话，此外，也可以加入我们的 [Slack 频道](https://slack.istio.io)。
 
 我们很荣幸成为 GitHub [成长最快](https://octoverse.github.com/#top-and-trending-projects)的五个开源项目之一。想参与其中吗？加入我们的[工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)之一，帮助我们使 Istio 变得更好。
