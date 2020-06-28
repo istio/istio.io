@@ -230,7 +230,7 @@ func getHelperScript(testPath string) string {
 
 // getDebugFileName returns the name of the debug file which keeps the bash
 // tracing enabled by util/debug.sh. It receives `testPath`, the path of the
-// test script`, and a suffix to tell different output files apart.
+// test script, and a suffix to tell different output files apart.
 func getDebugFileName(testPath string, debugFileSuffix string) string {
 	fileName := strings.ReplaceAll(testPath, testFileSuffix, debugFileSuffix)
 	fileName = strings.ReplaceAll(fileName, "/", "_")
