@@ -1,10 +1,10 @@
 # Setup Configs for istio.io Doc Tests
 
-Each folder under `tests/setup` corresponds to an istio setup configuration. Currently supported setup configurations include: `profile_default` to install the default profile, `profile_demo` to install the demo profile, and `profile_none` to not installing istio at all.
+Each folder under `tests/setup` corresponds to an istio setup configuration. Currently supported setup configurations include: `profile_default` to install the default profile, `profile_demo` to install the demo profile, and `profile_none` to not install istio at all.
 
 ## Adding a Setup Config
 
-To add a setup configuration, create a new go file `tests/setup/<your_config_name>/doc_test.go` using the following template. Three modifications are required.
+To add a setup configuration, create a new go file `tests/setup/<your_config_name>/doc_test.go` using the following template. Two modifications are required.
 
 ```go
 // Copyright Istio Authors
@@ -29,7 +29,6 @@ import (
 	"istio.io/istio.io/pkg/test/istioio"
 	"istio.io/istio/pkg/test/framework"
 	"istio.io/istio/pkg/test/framework/components/istio"
-	"istio.io/istio/pkg/test/framework/resource/environment"
 )
 
 var (
@@ -43,8 +42,8 @@ func TestMain(m *testing.M) {
 	}
 
 	framework.
-		NewSuite("profile_demo", m). // test suite name
-		SetupOnEnv(environment.Kube, istio.Setup(&inst, setupConfig)).
+		NewSuite(m).
+		Setup(istio.Setup(&inst, setupConfig)).
 		Run()
 }
 
