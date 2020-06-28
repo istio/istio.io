@@ -19,8 +19,8 @@ import (
 	"path"
 
 	"istio.io/istio/pkg/test/env"
-	"istio.io/istio/pkg/test/scopes"
 	"istio.io/istio/pkg/test/framework"
+	"istio.io/istio/pkg/test/scopes"
 )
 
 // Step builds a step of the test pipeline.
