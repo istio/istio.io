@@ -560,13 +560,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td><code>DNS_AGENT</code></td>
 <td>String</td>
 <td><code></code></td>
-<td>DNS-over-TLS upstream server</td>
-</tr>
-<tr>
-<td><code>DNS_CAPTURE</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>If set, enable the capture of outgoing DNS packets on port 53, redirecting to :15013</td>
+<td>If set, enable the capture of outgoing DNS packets on port 53, redirecting to istio-agent on :15053</td>
 </tr>
 <tr>
 <td><code>DNS_SERVER</code></td>
@@ -687,6 +681,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>ISTIO_META_DNS_CAPTURE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, enable the capture of outgoing DNS packets on port 53, redirecting to envoy on :15013</td>
 </tr>
 <tr>
 <td><code>ISTIO_NAMESPACE</code></td>
