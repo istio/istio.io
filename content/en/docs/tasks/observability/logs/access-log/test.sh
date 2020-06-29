@@ -24,7 +24,9 @@ source "tests/util/samples.sh"
 # @setup profile=demo
 
 # Install Istio with access logging enabled
-_verify_elided snip_enable_envoys_access_logging_1 "$snip_enable_envoys_access_logging_1_out"
+#_verify_elided snip_enable_envoys_access_logging_1 "$snip_enable_envoys_access_logging_1_out"
+snip_enable_envoys_access_logging_1
+# TODO: verify install and wait for output ??? Don't call function multiple times.
 
 # Wait for istiod pod to be ready
 _wait_for_deployment istio-system istiod
@@ -50,3 +52,4 @@ _verify_contains snip_test_the_access_log_3 "inbound|8000|http|httpbin.default.s
 set +e # ignore cleanup errors
 snip_cleanup_1
 snip_disable_envoys_access_logging_1
+_wait_for_deployment istio-system istiod

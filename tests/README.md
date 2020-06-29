@@ -176,13 +176,13 @@ expected output. The framework includes the following built-in verify functions:
 1. **`_verify_same`** `func` `expected`
 
    Runs `func` and compares the output with `expected`. If they are not the same,
-   exponentially back off and try again, 8 times by default. The number of retries
+   exponentially back off and try again, 7 times by default. The number of retries
    can be changed by setting the `VERIFY_RETRIES` environment variable.
 
 1. **`_verify_contains`** `func` `expected`
 
    Runs `func` and compares the output with `expected`. If the output does not
-   contain the substring `expected`, exponentially back off and try again, 8 times
+   contain the substring `expected`, exponentially back off and try again, 7 times
    by default. The number of retries can be changed by setting the `VERIFY_RETRIES`
    environment variable.
 
@@ -190,21 +190,21 @@ expected output. The framework includes the following built-in verify functions:
 
    Runs `func` and compares the output with `expected`. If the command execution fails
    or the output contains the substring `expected`,
-   exponentially back off and try again, 8 times by default. The number of retries
+   exponentially back off and try again, 7 times by default. The number of retries
    can be changed by setting the `VERIFY_RETRIES` environment variable.
 
 1. **`_verify_elided`** `func` `expected`
 
    Runs `func` and compares the output with `expected`. If the output does not
    contain the lines in `expected` where "..." on a line matches one or more lines
-   containing any text, exponentially back off and try again, 8 times by default.
+   containing any text, exponentially back off and try again, 7 times by default.
    The number of retries can be changed by setting the `VERIFY_RETRIES` environment
    variable.
 
 1. **`_verify_like`** `func` `expected`
 
    Runs `func` and compares the output with `expected`. If the output is not
-   "like" `expected`, exponentially back off and try again, 8 times by default. The number
+   "like" `expected`, exponentially back off and try again, 7 times by default. The number
    of retries can be changed by setting the `VERIFY_RETRIES` environment variable.
    Like implies:
 
@@ -224,7 +224,7 @@ expected output. The framework includes the following built-in verify functions:
 
    Runs `func` and compares the output with `expected`. If the output does not
    "conform to" the specification in `expected`,
-   exponentially back off and try again, 8 times by default. The number of retries
+   exponentially back off and try again, 7 times by default. The number of retries
    can be changed by setting the `VERIFY_RETRIES` environment variable.
    Conformance implies:
 
