@@ -140,7 +140,7 @@ Many documents have cleanup instuctions in them, so simply calling the cleanup s
 reverse all changes made during the test steps. However, extra care should be taken to ensure that the
 cleanup steps are complete so that after running them, the cluster will be left in the exact same state
 that it started in. This is important because the test framework runs all tests that specify the
-same `# @setup` using the same Kubernetes cluster, so any remaing config changes after the cleanup
+same `# @setup` using the same Kubernetes cluster, so any remaining config changes after the cleanup
 steps are run, will potentially break a following test.
 
 TODO: The framework should compare the before and after state of the cluster and fail any test that does not properly clean up.
