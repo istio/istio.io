@@ -28,8 +28,6 @@ git pull --ff-only "${ISTIOIO_GIT_SOURCE}" "${RELEASE_BRANCH}"
 
 echo "Migrating to the new release ${NEW_VERSION}..."
 
-# sed -i "s/^full_version: .*$/full_version: \"${NEW_VERSION}\"/" data/args.yml
-
 go get istio.io/istio@"${NEW_VERSION}"
 go mod tidy
 make update_ref_docs
