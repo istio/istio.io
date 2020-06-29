@@ -277,4 +277,4 @@ You can also find this information by running `make doc.test.help`.
    ```
 
 1. Set the HUB and TAG environment variables to use a particular Istio build when running tests.
-   If unet, their default values will match those used by the prow tests.
+   If unset, their default values will match those used by the prow tests.
