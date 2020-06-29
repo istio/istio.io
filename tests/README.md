@@ -1,8 +1,9 @@
 # Testing istio.io Content
 
-This folder contains tests for the content on [istio.io](http://istio.io).
-More specifically, these tests confirm that the example, task, and other documents, which contain
-instructions in the form of bash commands and expected output, are working as documented.
+This folder contains framework utilies and instructions for testing the content on
+[istio.io](http://istio.io). More specifically, these tests confirm that the example, task, and
+other documents, which contain instructions in the form of bash commands and expected output,
+are working as documented.
 
 Generated bash scripts, containing the set of commands and expected output for corresponding
 istio.io markdown files, are used by test programs to invoke the commands and verify the output.
