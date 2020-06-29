@@ -28,13 +28,11 @@ git pull --ff-only "${ISTIOIO_GIT_SOURCE}" "${RELEASE_BRANCH}"
 
 echo "Migrating to the new release ${NEW_VERSION}..."
 
-sed -i "s/^full_version: .*$/full_version: \"${NEW_VERSION}\"/" data/args.yml
+# sed -i "s/^full_version: .*$/full_version: \"${NEW_VERSION}\"/" data/args.yml
 
-if [ "${PRIVATE_PATCH}" != 'true' ]; then
-    go get istio.io/istio@"${NEW_VERSION}"
-    go mod tidy
-    make update_ref_docs
-fi
+go get istio.io/istio@"${NEW_VERSION}"
+go mod tidy
+make update_ref_docs
 
 if [[ $(git status --porcelain) ]]; then
     git add -A
