@@ -134,7 +134,7 @@ After all test steps are complete, add the following line to indicate the start 
 ```sh
 # @cleanup
 ```
-The following steps will be run by the framework, even if the test fails and prematurely exits.
+All steps after this line will be run by the framework, even if the test fails and prematurely exits.
 The cleanup steps must remove all resources and reverse configuration changes made during the test steps.
 
 Many documents have cleanup instuctions in them, so simply calling the cleanup snip functions will usually
