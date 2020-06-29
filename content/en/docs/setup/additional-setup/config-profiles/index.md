@@ -10,10 +10,11 @@ test: n/a
 ---
 
 This page describes the built-in configuration profiles that can be used when
-[installing Istio](/docs/setup/install/istioctl/).
-The profiles provide customization of the Istio control plane and of the sidecars for the Istio data plane.
-You can start with one of Istio’s built-in configuration profiles and then further customize the configuration for
-your specific needs. The following built-in configuration profiles are currently available:
+[installing Istio](/docs/setup/install/istioctl/). The profiles provide
+customization of the Istio control plane and of the sidecars for the Istio data
+plane. You can start with one of Istio’s built-in configuration profiles and
+then further customize the configuration for your specific needs. The following
+built-in configuration profiles are currently available:
 
 1. **default**: enables components according to the default settings of the
     [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
@@ -32,7 +33,8 @@ your specific needs. The following built-in configuration profiles are currently
 
 1. **minimal**: the minimal set of components necessary to use Istio's [traffic management](/docs/tasks/traffic-management/) features.
 
-1. **remote**: used for configuring remote clusters of a
+1. **remote**: used for configuring
+    {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}} of a
     [multicluster mesh](/docs/ops/deployment/deployment-models/#multiple-clusters) with a
     [shared control plane](/docs/setup/install/multicluster/shared/) configuration.
 

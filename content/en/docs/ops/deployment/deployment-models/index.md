@@ -20,17 +20,21 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-When configuring a production deployment of Istio, you need to answer a number of questions.
-Will the mesh be confined to a single {{< gloss >}}cluster{{< /gloss >}} or distributed across
-multiple clusters? Will all the services be located in a single fully connected network, or will
-gateways be required to connect services across multiple networks? Is there a single
-{{< gloss >}}control plane{{< /gloss >}}, potentially shared across clusters,
-or are there multiple control planes deployed to ensure high availability (HA)?
-If there is more than one cluster being deployed, and more specifically in isolated networks,
-are they going to be connected into a single {{< gloss >}}multicluster{{< /gloss >}}
-service mesh or will they be federated into a {{< gloss >}}multi-mesh{{< /gloss >}} deployment?
+When configuring a production deployment of Istio, you need to answer a number
+of questions. Will the mesh be confined to a single
+{{< gloss >}}cluster{{< /gloss >}} or distributed across multiple clusters? Will
+all the services be located in a single fully connected network, or will
+gateways be required to connect services across multiple networks? Is there a
+single {{< gloss >}}control plane{{< /gloss >}}, potentially shared across
+{{< gloss "remote cluster" >}}remote clusters{{< /gloss >}}, or are there
+multiple {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}} deployed
+to ensure high availability (HA)? If there is more than one cluster being
+deployed, and more specifically in isolated networks, are they going to be
+connected into a single {{< gloss >}}multicluster{{< /gloss >}} service mesh or
+will they be federated into a {{< gloss >}}multi-mesh{{< /gloss >}} deployment?
 
-All of these questions, among others, represent independent dimensions of configuration for an Istio deployment.
+All of these questions, among others, represent independent dimensions of
+configuration for an Istio deployment.
 
 1. single or multiple cluster
 1. single or multiple network
@@ -42,11 +46,14 @@ some are clearly not very interesting (for example, multiple mesh in a single cl
 
 In a production deployment involving multiple clusters, the deployment may use a
 mix of patterns. For example, having more than one control plane is recommended for HA,
-but you could achieve this for a 3 cluster deployment by deploying 2 clusters with
-a single shared control plane and then adding the third cluster with a second
-control plane in a different network. All three clusters could then be configured
-to share both control planes so that all the clusters have 2 sources of control
-to ensure HA.
+and you can achieve this for a 3 cluster deployment with the following steps:
+
+1. Deploy a {{< gloss >}}primary cluster{{< /gloss >}}
+1. Deploy a {{< gloss >}}remote cluster{{< /gloss >}} on the same network
+1. Deploy a primary cluster in a different network.
+
+All three clusters could then be configured to share both control planes so that
+all the clusters have 2 sources of control to ensure HA.
 
 Choosing the right deployment model depends on the isolation, performance,
 and HA requirements for your use case. This guide describes the various options and
@@ -191,14 +198,17 @@ cluster.
     caption="A service mesh with a control plane"
     >}}
 
-Multicluster deployments can also share control plane instances. In this case,
-the control plane instances can reside in one or more clusters.
+{{< gloss "remote cluster" >}}Remote clusters{{< /gloss >}} in multicluster
+deployments can share control plane instances. In this case, the control plane
+instances can reside in one or more
+{{< gloss "primary cluster" >}}primary clusters{{< /gloss >}} or be
+{{< gloss "managed control plane" >}}managed control planes{{< /gloss >}}.
 
 {{< image width="75%"
     link="shared-control.svg"
-    alt="A service mesh with two clusters sharing a control plane"
-    title="Shared control plane"
-    caption="A service mesh with two clusters sharing a control plane"
+    alt="A service mesh with a primary and a remote cluster"
+    title="Primary and remote clusters"
+    caption="A service mesh with a primary and a remote cluster"
     >}}
 
 For high availability, you should deploy a control plane across multiple

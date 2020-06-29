@@ -1,6 +1,6 @@
 ---
-title: Shared control plane (single and multiple networks)
-description: Install an Istio mesh across multiple Kubernetes clusters with a shared control plane.
+title: Deploy Remote Clusters on Single and Multiple networks
+description: Install an Istio mesh across remote clusters.
 weight: 5
 keywords: [kubernetes,multicluster,federation,vpn,gateway]
 aliases:
@@ -15,11 +15,14 @@ test: no
 ---
 
 Setup a [multicluster Istio service mesh](/docs/ops/deployment/deployment-models/#multiple-clusters)
-across multiple clusters with a shared control plane. In this configuration, multiple Kubernetes clusters running
-a remote configuration connect to a shared Istio [control plane](/docs/ops/deployment/deployment-models/#control-plane-models)
-running in a main cluster. Clusters may be on the same network or different networks than other
-clusters in the mesh. Once one or more remote Kubernetes clusters are connected to the Istio control plane,
-Envoy can then form a mesh.
+
+across multiple {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}} that
+share a control plane. In this configuration, multiple Kubernetes clusters
+running a remote configuration connect to a shared Istio [control plane](/docs/ops/deployment/deployment-models/#control-plane-models)
+running in a {{< gloss >}}primary cluster{{< /gloss >}}. The remote clusters can
+share the same network or be in other networks. After one or more remote
+clusters are connected to the Istio control plane in the primary cluster, Envoy
+can then form a mesh.
 
 {{< image width="80%" link="./multicluster-with-vpn.svg" caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN" >}}
 
