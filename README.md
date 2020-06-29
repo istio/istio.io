@@ -103,9 +103,9 @@ tests to use the new release to verify automated doc testing passes.
 
 To create a new patch release, you need to
 
-1. Run `make release-A.X.Y`, where `A.X.Y` is the name of the release. This target should be run ~3 days before the release if the patch is built publicly, or after the release is published if it is built privately.
+1. Run `make release-A.X.Y`, where `A.X.Y` is the name of the release. This target should be run ~3 days before the release if the patch is built publicly, or after the release is published if built privately.
 
-1. On the day of release, two files need to be finished:
+1. On the day of release, two files need to be completed:
 
     - Edit `data/args.yml` and change the `full_version` field to `"A.X.Y"`.
 
