@@ -93,7 +93,7 @@ keywords: [traffic-management,circuit-breaking]
 
     {{< text bash >}}
     $ FORTIO_POD=$(kubectl get pod | grep fortio | awk '{ print $1 }')
-    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/bin/fortio -- load -curl  http://httpbin:8000/get
+    $ kubectl exec -it $FORTIO_POD  -c fortio -- /usr/bin/fortio load -curl  http://httpbin:8000/get
     HTTP/1.1 200 OK
     server: envoy
     date: Tue, 16 Jan 2018 23:47:00 GMT
