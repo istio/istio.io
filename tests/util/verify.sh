@@ -225,7 +225,7 @@ __verify_with_retry() {
     local expected=$3
     local failonerr=${4:-}
 
-    local max_attempts=${VERIFY_RETRIES:-5}
+    local max_attempts=${VERIFY_RETRIES:-7}
     local attempt=1
 
     # Most tests include "set -e", which causes the script to exit if a
