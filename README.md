@@ -84,16 +84,16 @@ Run `make prepare-1.7.0`, and that's it. This will grab the latest material from
 
 1. **[NEEDS REVISION]** Go to the [Google Custom Search Engine](https://cse.google.com) and do the following:
 
-    - Download the archive.istio.io CSE context file from the Advanced tab.
+    - Download the istio.io CSE context file from the Advanced tab.
 
     - Add a new FacetItem at the top of the file containing the previous release's version number. In
-    this case, this would be "V1.6".
+    this case, this would be `V1.6`.
 
     - Upload the updated CSE context file to the site.
 
     - In the Setup section, add a new site that covers the previous release's archive directory. In this
-    case, the site URL would be archive.istio.io/v1.6/*. Set the label of this site to the name of the
-    facet item created above (V1.6 in this case).
+    case, the site URL would be `istio.io/v1.6/*`. Set the label of this site to the name of the
+    facet item created above (`V1.6` in this case).
 
 ### Creating a patch release
 
