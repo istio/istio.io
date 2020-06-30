@@ -24,8 +24,8 @@ set -o pipefail
 # Enable access logging
 #istioctl install --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"
 #_wait_for_deployment istio-system istiod
-TODO: above command is not needed, since access logging seems to be enabled by default.
-TODO: Also, running "istioctl install" causes the test to fail?????
+# TODO: above command is not needed, since access logging seems to be enabled by default.
+# TODO: Also, running "istioctl install" causes the test to fail?????
 
 # Deploy sleep sample and set up variable pointing to it
 set +e

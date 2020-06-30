@@ -29,8 +29,8 @@ source "tests/util/samples.sh"
 # TODO: verify install and wait for output ??? Don't call function multiple times.
 #snip_enable_envoys_access_logging_1
 #_wait_for_deployment istio-system istiod
-TODO: above snip does not seem to be needed, access logging is already enabled by default?
-TODO: also, running the above snip causes failure in following test (egress/egress-gateway-tls-origination/tls_test.sh)
+# TODO: above snip does not seem to be needed, access logging is already enabled by default?
+# TODO: also, running the above snip causes failure in following test (egress/egress-gateway-tls-origination/tls_test.sh)
 
 kubectl label namespace default istio-injection=enabled --overwrite
 
