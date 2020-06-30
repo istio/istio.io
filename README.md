@@ -82,7 +82,7 @@ Run `make prepare-1.7.0`, and that's it. This will grab the latest material from
 
     - Once deployment is done, browse istio.io and make sure everything looks good.
 
-1. **[NEEDS REVISION]** Go to the [Google Custom Search Engine](https://cse.google.com) and do the following:
+1. Go to the [Google Custom Search Engine](https://cse.google.com) and do the following:
 
     - Download the istio.io CSE context file from the Advanced tab.
 
