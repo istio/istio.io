@@ -15,13 +15,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# @setup profile=none
+
 set -e
 set -u
 set -o pipefail
-
-source "tests/util/samples.sh"
-
-# @setup profile=none
 
 #export VERIFY_RETRIES=10
 
