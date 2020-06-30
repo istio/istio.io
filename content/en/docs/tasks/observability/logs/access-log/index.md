@@ -54,7 +54,7 @@ All three of these parameters may also be configured via [install options](https
 1.  Send a request from `sleep` to `httpbin`:
 
     {{< text bash >}}
-    $ kubectl exec -it "$SOURCE_POD" -c sleep -- curl -v httpbin:8000/status/418
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -v httpbin:8000/status/418
     ...
     < HTTP/1.1 418 Unknown
     < server: envoy

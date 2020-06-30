@@ -217,15 +217,15 @@ __cmp_lines() {
 }
 
 # Verify the output of $func is the same as $expected.  If they are not the same,
-# exponentially back off and try again, 5 times by default. The number of retries
-# can be changed by setting the VERIFY_RETRIES environment variable.
+# exponentially back off and try again, 7 times (~2m total) by default. The number
+# of retries can be changed by setting the VERIFY_RETRIES environment variable.
 __verify_with_retry() {
     local cmp_func=$1
     local func=$2
     local expected=$3
     local failonerr=${4:-}
 
-    local max_attempts=${VERIFY_RETRIES:-5}
+    local max_attempts=${VERIFY_RETRIES:-7}
     local attempt=1
 
     # Most tests include "set -e", which causes the script to exit if a
@@ -268,7 +268,7 @@ __verify_with_retry() {
 
 
 # Runs $func and compares the output with $expected.  If they are not the same,
-# exponentially back off and try again, 5 times by default. The number of retries
+# exponentially back off and try again, 7 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
 _verify_same() {
     local func=$1
@@ -278,7 +278,7 @@ _verify_same() {
 
 # Runs $func and compares the output with $expected.  If the output does not
 # contain the substring $expected,
-# exponentially back off and try again, 5 times by default. The number of retries
+# exponentially back off and try again, 7 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
 _verify_contains() {
     local func=$1
@@ -288,7 +288,7 @@ _verify_contains() {
 
 # Runs $func and compares the output with $expected.  If the output contains the
 # substring $expected,
-# exponentially back off and try again, 5 times by default. The number of retries
+# exponentially back off and try again, 7 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
 _verify_not_contains() {
     local func=$1
@@ -301,7 +301,7 @@ _verify_not_contains() {
 # Runs $func and compares the output with $expected.  If the output does not
 # contain the lines in $expected where "..." on a line matches one or more lines
 # containing any text,
-# exponentially back off and try again, 5 times by default. The number of retries
+# exponentially back off and try again, 7 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
 _verify_elided() {
     local func=$1
@@ -311,7 +311,7 @@ _verify_elided() {
 
 # Runs $func and compares the output with $expected.  If the first line of
 # output does not match the first line in $expected,
-# exponentially back off and try again, 5 times by default. The number of retries
+# exponentially back off and try again, 7 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
 _verify_first_line() {
     local func=$1
@@ -321,7 +321,7 @@ _verify_first_line() {
 
 # Runs $func and compares the output with $expected.  If the output is not
 # "like" $expected,
-# exponentially back off and try again, 5 times by default. The number of retries
+# exponentially back off and try again, 7 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
 # Like implies:
 #   1. Same number of lines
@@ -339,7 +339,7 @@ _verify_like() {
 
 # Runs $func and compares the output with $expected.  If the output does not
 # "conform to" the specification in $expected,
-# exponentially back off and try again, 5 times by default. The number of retries
+# exponentially back off and try again, 7 times by default. The number of retries
 # can be changed by setting the VERIFY_RETRIES environment variable.
 # Conformance implies:
 #   1. For each line in $expected with the prefix "+ " there must be at least one

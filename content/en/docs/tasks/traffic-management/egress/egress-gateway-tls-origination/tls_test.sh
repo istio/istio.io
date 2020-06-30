@@ -21,6 +21,12 @@ set -e
 set -u
 set -o pipefail
 
+# Enable access logging
+#istioctl install --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"
+#_wait_for_deployment istio-system istiod
+# TODO: above command is not needed, since access logging seems to be enabled by default.
+# TODO: Also, running "istioctl install" causes the test to fail?????
+
 # Deploy sleep sample and set up variable pointing to it
 set +e
 kubectl delete pods -l app=sleep --force
@@ -46,7 +52,8 @@ _wait_for_istio virtualservice default direct-cnn-through-egress-gateway
 # Verify HTTP request to external service returns 200
 _verify_elided snip_perform_tls_origination_with_an_egress_gateway_5 "$snip_perform_tls_origination_with_an_egress_gateway_5_out"
 
-# TODO: verify that the request was routed through egressgateway
+# Verify that the request was routed through egressgateway
+_verify_contains snip_perform_tls_origination_with_an_egress_gateway_6 "GET /politics HTTP/2"
 
 # @cleanup
 set +e # ignore cleanup errors

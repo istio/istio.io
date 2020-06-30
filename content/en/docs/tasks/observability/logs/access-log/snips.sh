@@ -34,7 +34,7 @@ istioctl install --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"
 ENDSNIP
 
 snip_test_the_access_log_1() {
-kubectl exec -it "$SOURCE_POD" -c sleep -- curl -v httpbin:8000/status/418
+kubectl exec "$SOURCE_POD" -c sleep -- curl -v httpbin:8000/status/418
 }
 
 ! read -r -d '' snip_test_the_access_log_1_out <<\ENDSNIP
