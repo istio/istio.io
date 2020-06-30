@@ -3,7 +3,7 @@ title: Authorization Policy Trust Domain Migration
 description: Shows how to migrate from one trust domain to another without changing authorization policy.
 weight: 60
 keywords: [security,access-control,rbac,authorization,trust domain, migration]
-test: no
+test: yes
 ---
 
 This task shows you how to migrate from one trust domain to another without changing authorization policy.
@@ -69,14 +69,14 @@ Notice that it may take tens of seconds for the authorization policy to be propa
     * `sleep` in the `default` namespace are denied.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
     * `sleep` in the `sleep-allow` namespace are allowed.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -103,12 +103,12 @@ Notice that it may take tens of seconds for the authorization policy to be propa
 1. Verify that requests to `httpbin` from both `sleep` in `default` namespace and `sleep-allow` namespace are denied.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
@@ -142,14 +142,14 @@ Notice that it may take tens of seconds for the authorization policy to be propa
     * `sleep` in the `default` namespace are denied.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
     * `sleep` in the `sleep-allow` namespace are allowed.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -170,4 +170,5 @@ $ kubectl delete deploy httpbin; kubectl delete service httpbin; kubectl delete 
 $ kubectl delete deploy sleep; kubectl delete service sleep; kubectl delete serviceaccount sleep
 $ kubectl delete namespace sleep-allow
 $ istioctl manifest generate --set profile=demo -f td-installation.yaml | kubectl delete --ignore-not-found=true -f -
+$ rm ./td-installation.yaml
 {{< /text >}}
