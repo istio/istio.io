@@ -18,7 +18,7 @@ see the Istio [contribution guidelines](https://github.com/istio/community/blob/
 - [Versions and releases](#versions-and-releases)
     - [How versioning works](#how-versioning-works)
     - [Publishing content immediately](#publishing-content-immediately)
-    - [Creating a version](#creating-a-version)
+    - [Creating a major/minor release](#creating-a-majorminor-release)
     - [Creating a patch release](#creating-a-patch-release)
 - [Multi-language support](#multi-language-support)
 - [Regular maintenance](#regular-maintenance)
@@ -59,7 +59,7 @@ This process can be taken care of automatically by our infrastructure. If you su
 to the master branch and annotate the PR with the `actions/merge-to-release-branch` label,
 then as soon as your PR is merged into master, it will be merged into the current release branch.
 
-### Creating a version
+### Creating a major/minor release
 
 Here are the steps necessary to create a new documentation version. Let's assume the current
 version of Istio is 1.6 and you wish to introduce 1.7 which has been under development.
