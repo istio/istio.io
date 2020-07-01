@@ -45,7 +45,7 @@ configuration for an Istio deployment.
 All combinations are possible, although some are more common than others and
 some are clearly not very interesting (for example, multiple mesh in a single cluster).
 
-In a production environment involving multiple clusters, the you can use a mix
+In a production environment involving multiple clusters, you can use a mix
 of deployment models. For example, having more than one control plane is
 recommended for HA.
 
