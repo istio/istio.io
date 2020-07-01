@@ -1,6 +1,6 @@
 ---
-title: Deploy Remote Clusters on Single and Multiple networks
-description: Install an Istio mesh across remote clusters.
+title: Configure Clusters for Multicluster Deployments
+description: Install an Istio mesh across multiple clusters.
 weight: 5
 keywords: [kubernetes,multicluster,federation,vpn,gateway]
 aliases:
@@ -15,7 +15,6 @@ test: no
 ---
 
 Setup a [multicluster Istio service mesh](/docs/ops/deployment/deployment-models/#multiple-clusters)
-
 across multiple {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}} that
 share a control plane. In this configuration, multiple Kubernetes clusters
 running a remote configuration connect to a shared Istio [control plane](/docs/ops/deployment/deployment-models/#control-plane-models)

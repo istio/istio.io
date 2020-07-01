@@ -25,13 +25,14 @@ of questions. Will the mesh be confined to a single
 {{< gloss >}}cluster{{< /gloss >}} or distributed across multiple clusters? Will
 all the services be located in a single fully connected network, or will
 gateways be required to connect services across multiple networks? Is there a
-single {{< gloss >}}control plane{{< /gloss >}}, potentially shared across
+single {{< gloss >}}control plane{{< /gloss >}} or multiple control planes in
+your mesh? Is the control plane shared across
 {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}}, or are there
-multiple {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}} deployed
-to ensure high availability (HA)? If there is more than one cluster being
-deployed, and more specifically in isolated networks, are they going to be
-connected into a single {{< gloss >}}multicluster{{< /gloss >}} service mesh or
-will they be federated into a {{< gloss >}}multi-mesh{{< /gloss >}} deployment?
+multiple {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}} to ensure
+high availability (HA)? If there is more than one cluster being deployed, and
+more specifically in isolated networks, are they going to be connected into a
+single {{< gloss >}}multicluster{{< /gloss >}} service mesh or will they be
+federated into a {{< gloss >}}multi-mesh{{< /gloss >}} deployment?
 
 All of these questions, among others, represent independent dimensions of
 configuration for an Istio deployment.
@@ -44,13 +45,9 @@ configuration for an Istio deployment.
 All combinations are possible, although some are more common than others and
 some are clearly not very interesting (for example, multiple mesh in a single cluster).
 
-In a production deployment involving multiple clusters, the deployment may use a
-mix of patterns. For example, having more than one control plane is recommended for HA,
-and you can achieve this for a 3 cluster deployment with the following steps:
-
-1. Deploy a {{< gloss >}}primary cluster{{< /gloss >}}
-1. Deploy a {{< gloss >}}remote cluster{{< /gloss >}} on the same network
-1. Deploy a primary cluster in a different network.
+In a production environment involving multiple clusters, the you can use a mix
+of deployment models. For example, having more than one control plane is
+recommended for HA.
 
 All three clusters could then be configured to share both control planes so that
 all the clusters have 2 sources of control to ensure HA.
