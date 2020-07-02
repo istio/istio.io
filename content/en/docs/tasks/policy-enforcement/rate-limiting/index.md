@@ -5,7 +5,7 @@ weight: 10
 keywords: [policies,quotas]
 aliases:
     - /docs/tasks/rate-limiting.html
-test: no
+test: n/a
 ---
 
 {{< warning >}}

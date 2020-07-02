@@ -7,7 +7,7 @@ aliases:
     - /docs/tasks/observability/logs/fluentd/
     - /docs/tasks/telemetry/fluentd/
     - /docs/tasks/telemetry/logs/fluentd/
-test: no
+test: n/a
 ---
 
 {{< warning >}}

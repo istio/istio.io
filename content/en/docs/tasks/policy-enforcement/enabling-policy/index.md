@@ -3,7 +3,7 @@ title: Enabling Policy Enforcement (Deprecated)
 description: This task shows you how to enable Istio policy enforcement.
 weight: 1
 keywords: [policies]
-test: no
+test: n/a
 ---
 
 {{< warning >}}
