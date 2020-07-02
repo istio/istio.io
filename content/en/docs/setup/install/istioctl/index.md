@@ -70,7 +70,7 @@ By default, `istioctl` uses compiled-in charts to generate the install manifest.
 the `charts` flag to a local file system path:
 
 {{< text bash >}}
-$ istioctl install --charts=manifests/
+$ istioctl install --manifests=manifests/
 {{< /text >}}
 
 If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the same installation as `istioctl install` alone, because it points to the
@@ -510,10 +510,10 @@ consistent, is validated, and follows the [community graduation process](https:/
 The `istioctl` `install`, `manifest generate` and `profile` commands can use any of the following sources for charts and
 profiles:
 
-- compiled in charts. This is the default if no `--charts` option is set. The compiled in charts are the same as those
+- compiled in charts. This is the default if no `--manifests` option is set. The compiled in charts are the same as those
 in the `manifests/` directory of the Istio release `.tgz`.
-- charts in the local file system, e.g., `istioctl install --charts istio-1.6.0/manifests`
-- charts in GitHub, e.g., `istioctl install --charts https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-arm64.tar.gz`
+- charts in the local file system, e.g., `istioctl install --manifests istio-1.6.0/manifests`
+- charts in GitHub, e.g., `istioctl install --manifests https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-arm64.tar.gz`
 
 Local file system charts and profiles can be customized by editing the files in `manifests/`. For extensive changes,
 we recommend making a copy of the `manifests` directory and make changes there. Note, however, that the content layout
@@ -526,7 +526,7 @@ overlays are applied. For example, you can create a new profile file called `cus
 from the `default` profile, and then apply a user overlay file on top of that:
 
 {{< text bash >}}
-$ istioctl generate --charts mycharts/ --set profile=custom1 -f path-to-user-overlay.yaml
+$ istioctl generate --manifests mycharts/ --set profile=custom1 -f path-to-user-overlay.yaml
 {{< /text >}}
 
 In this case, the `custom1.yaml` and `user-overlay.yaml` files will be overlaid on the `default.yaml` file to obtain the
@@ -536,7 +536,7 @@ In general, creating new profiles is not necessary since a similar result can be
 files. For example, the command above is equivalent to passing two user overlay files:
 
 {{< text bash >}}
-$ istioctl generate --charts mycharts/ -f manifests/profiles/custom1.yaml -f path-to-user-overlay.yaml
+$ istioctl generate --manifests mycharts/ -f manifests/profiles/custom1.yaml -f path-to-user-overlay.yaml
 {{< /text >}}
 
 Creating a custom profile is only required if you need to refer to the profile by name through the `IstioOperatorSpec`.
