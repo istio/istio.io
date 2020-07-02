@@ -512,8 +512,17 @@ profiles:
 
 - compiled in charts. This is the default if no `--charts` option is set. The compiled in charts are the same as those
 in the `manifests/` directory of the Istio release `.tgz`.
-- charts in the local file system, e.g., `istioctl install --charts istio-1.6.0/manifests`
-- charts in GitHub, e.g., `istioctl install --charts https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-arm64.tar.gz`
+- charts in the local file system, e.g.
+
+{{< text bash >}}
+$ istioctl install --charts istio-1.6.0/manifests
+{{< /text >}}
+
+- charts in GitHub, e.g.
+
+{{< text bash >}}
+$ istioctl install --charts https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-arm64.tar.gz
+{{< /text >}}
 
 Local file system charts and profiles can be customized by editing the files in `manifests/`. For extensive changes,
 we recommend making a copy of the `manifests` directory and make changes there. Note, however, that the content layout
