@@ -42,7 +42,7 @@ snip_adding_a_client_1
 _wait_for_deployment default fortio-deploy
 
 # Make one call to httpbin
-_verify_contains snip_adding_a_client_3 "HTTP/1.1 200 OK"
+_verify_first_line snip_adding_a_client_3 "$snip_adding_a_client_3_out"
 
 # FIXME / TODO: These tests previously relied on checking that the
 # percentage of 200 and 503 responses fell within a given range. That

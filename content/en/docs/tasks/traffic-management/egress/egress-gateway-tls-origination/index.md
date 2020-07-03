@@ -619,7 +619,7 @@ to hold the configuration of the NGINX server:
 1.  Verify that the key and the certificate are successfully loaded in the `istio-egressgateway` pod:
 
     {{< text bash >}}
-    $ kubectl exec -it -n istio-system "$(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}')" -- ls -al /etc/istio/nginx-client-certs /etc/istio/nginx-ca-certs
+    $ kubectl exec -n istio-system "$(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}')" -- ls -al /etc/istio/nginx-client-certs /etc/istio/nginx-ca-certs
     {{< /text >}}
 
     `tls.crt` and `tls.key` should exist in `/etc/istio/nginx-client-certs`, while `ca-chain.cert.pem` in

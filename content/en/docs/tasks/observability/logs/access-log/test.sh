@@ -42,8 +42,7 @@ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadat
 startup_httpbin_sample
 
 # Make curl request to httpbin
-#TODO _verify_elided snip_test_the_access_log_1 "$snip_test_the_access_log_1_out"
-_verify_contains snip_test_the_access_log_1 "-=[ teapot ]=-"
+_verify_elided snip_test_the_access_log_1 "$snip_test_the_access_log_1_out"
 
 # Check the logs
 _verify_contains snip_test_the_access_log_2 "outbound|8000||httpbin.default.svc.cluster.local"

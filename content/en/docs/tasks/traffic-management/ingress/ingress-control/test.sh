@@ -50,12 +50,10 @@ _wait_for_istio gateway default httpbin-gateway
 _wait_for_istio virtualservice default httpbin
 
 # access the httpbin service
-#_verify_first_line snip_configuring_ingress_using_an_istio_gateway_3 "$snip_configuring_ingress_using_an_istio_gateway_3_out"
-_verify_contains snip_configuring_ingress_using_an_istio_gateway_3 "HTTP/1.1 200 OK"
+_verify_elided snip_configuring_ingress_using_an_istio_gateway_3 "$snip_configuring_ingress_using_an_istio_gateway_3_out"
 
 # access the httpbin service
-#_verify_first_line snip_configuring_ingress_using_an_istio_gateway_4 "$snip_configuring_ingress_using_an_istio_gateway_4_out"
-_verify_contains snip_configuring_ingress_using_an_istio_gateway_4 "HTTP/1.1 404 Not Found"
+_verify_elided snip_configuring_ingress_using_an_istio_gateway_4 "$snip_configuring_ingress_using_an_istio_gateway_4_out"
 
 # configure for web browser
 snip_accessing_ingress_services_using_a_browser_1
