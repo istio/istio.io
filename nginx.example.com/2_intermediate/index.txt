@@ -1,2 +1,0 @@
-V	210713170131Z		100212	unknown	/C=US/ST=Denial/L=Springfield/O=Dis/CN=nginx.example.com
-V	210713170131Z		100213	unknown	/C=US/ST=Denial/L=Springfield/O=Dis/CN=nginx.example.com
