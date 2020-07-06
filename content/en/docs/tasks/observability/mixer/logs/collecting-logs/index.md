@@ -6,7 +6,7 @@ keywords: [telemetry,logs]
 aliases:
  - /docs/tasks/observability/logs/collecting-logs/
  - /docs/tasks/telemetry/logs/collecting-logs/
-test: no
+test: n/a
 ---
 
 {{< warning >}}
