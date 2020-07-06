@@ -19,7 +19,7 @@ set -e
 set -u
 set -o pipefail
 
-# @setup profile=none
+# @setup profile=none disabled
 
 snip_plugging_in_existing_certificates_and_key_1
 snip_plugging_in_existing_certificates_and_key_2
