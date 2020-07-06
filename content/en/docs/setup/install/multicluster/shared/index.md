@@ -18,10 +18,10 @@ Setup a [multicluster Istio service mesh](/docs/ops/deployment/deployment-models
 across multiple {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}} that
 share a control plane. In this configuration, multiple Kubernetes clusters
 running a remote configuration connect to a shared Istio [control plane](/docs/ops/deployment/deployment-models/#control-plane-models)
-running in a {{< gloss >}}primary cluster{{< /gloss >}}. The remote clusters can
-share the same network or be in other networks. After one or more remote
-clusters are connected to the Istio control plane in the primary cluster, Envoy
-can then form a mesh.
+running in a {{< gloss >}}primary cluster{{< /gloss >}}. Remote clusters can be
+in the same network or on a different network as the primary clusters. After one
+or more remote clusters are connected, the control plane manages the service
+mesh across all endpoints.
 
 {{< image width="80%" link="./multicluster-with-vpn.svg" caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN" >}}
 

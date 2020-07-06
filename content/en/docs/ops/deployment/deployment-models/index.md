@@ -26,13 +26,12 @@ of questions. Will the mesh be confined to a single
 all the services be located in a single fully connected network, or will
 gateways be required to connect services across multiple networks? Is there a
 single {{< gloss >}}control plane{{< /gloss >}} or multiple control planes in
-your mesh? Is the control plane shared across
-{{< gloss "remote cluster" >}}remote clusters{{< /gloss >}}, or are there
-multiple {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}} to ensure
-high availability (HA)? If there is more than one cluster being deployed, and
-more specifically in isolated networks, are they going to be connected into a
-single {{< gloss >}}multicluster{{< /gloss >}} service mesh or will they be
-federated into a {{< gloss >}}multi-mesh{{< /gloss >}} deployment?
+your mesh? Do {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}} share
+a control plane, or are there multiple {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}}
+to ensure high availability (HA)? If there is more than one cluster,
+specifically in isolated networks, are they going to be connected into a
+{{< gloss >}}multicluster{{< /gloss >}} single service mesh or will they be federated
+into a {{< gloss >}}multi-mesh{{< /gloss >}} deployment?
 
 All of these questions, among others, represent independent dimensions of
 configuration for an Istio deployment.
@@ -49,8 +48,8 @@ In a production environment involving multiple clusters, you can use a mix
 of deployment models. For example, having more than one control plane is
 recommended for HA.
 
-All three clusters could then be configured to share both control planes so that
-all the clusters have 2 sources of control to ensure HA.
+Multiple clusters in the same region can share a control plane in a zonal or
+regional cluster.
 
 Choosing the right deployment model depends on the isolation, performance,
 and HA requirements for your use case. This guide describes the various options and
@@ -195,10 +194,11 @@ cluster.
     caption="A service mesh with a control plane"
     >}}
 
-{{< gloss "remote cluster" >}}Remote clusters{{< /gloss >}} in multicluster
-deployments can share control plane instances. In this case, the control plane
-instances can reside in one or more
-{{< gloss "primary cluster" >}}primary clusters{{< /gloss >}} or be
+A {{< gloss >}}remote cluster{{< /gloss >}} in a multicluster
+deployment can use a control plane outside the cluster. In this case, the
+control plane instances can reside in one or more
+{{< gloss "primary cluster" >}}primary clusters{{< /gloss >}}, or be managed
+independently of your clusters if it is a cloud vendor's
 {{< gloss "managed control plane" >}}managed control planes{{< /gloss >}}.
 
 {{< image width="75%"
