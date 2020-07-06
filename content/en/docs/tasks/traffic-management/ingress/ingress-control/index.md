@@ -103,13 +103,20 @@ Setting the ingress IP depends on the cluster provider:
     $ export INGRESS_HOST=$(minikube ip)
     {{< /text >}}
 
+1.  _IBM Cloud Kubernetes Service:_
+
+    {{< text bash >}}
+    $ ibmcloud ks workers --cluster <cluster-name or id>
+    $ export INGRESS_HOST=<public IP of one of the worker nodes>
+    {{< /text >}}
+
 1.  _Docker For Desktop:_
 
     {{< text bash >}}
     $ export INGRESS_HOST=127.0.0.1
     {{< /text >}}
 
-1.  _Other environments (e.g., IBM Cloud Private etc):_
+1.  _Other environments:_
 
     {{< text bash >}}
     $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
