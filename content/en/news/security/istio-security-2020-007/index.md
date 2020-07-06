@@ -42,16 +42,68 @@ You must take the following additional steps to mitigate CVE-2020-8663.
 
 CVE-2020-8663 is addressed in Envoy by adding a configurable limit on [downstream connections](https://www.envoyproxy.io/docs/envoy/v1.14.3/configuration/operations/overload_manager/overload_manager#limiting-active-connections). The limit must be configured to mitigate this vulnerability. Perform the following steps to configure limits at the ingress gateway.
 
-1. Create a config map by downloading [custom-bootstrap-runtime.yaml](/news/security/istio-security-2020-007/custom-bootstrap-runtime.yaml). Update `global_downstream_max_connections` in the config map according to the number of concurrent connections needed by individual gateway instances in your deployment. Once the limit is reached, Envoy will start rejecting tcp connections.
+1. Create config map custom-bootstrap-runtime.yaml.
 
     {{< text bash >}}
-    $ kubectl -n istio-system apply -f custom-bootstrap-runtime.yaml
+    $ cat > custom-bootstrap-runtime.yaml <<EOF
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: istio-custom-bootstrap-config
+      namespace: istio-system
+    data:
+      custom_bootstrap.json: |
+        {
+          layered_runtime: {
+            layers: [
+              {name: static_layer_0,
+                static_layer: {
+                  overload: {
+                    global_downstream_max_connections: 250000
+                  }
+                }},
+              {name: admin, admin_layer: {}}
+            ]
+          }
+        }
+    EOF
     {{< /text >}}
 
-1. Patch the ingress gateway deployment to use the above configuration. Download [gateway-patch.yaml](/news/security/istio-security-2020-007/gateway-patch.yaml) and apply it using the following command.
+1. Update `global_downstream_max_connections` in the config map according to the number of concurrent connections needed by individual gateway instances in your deployment. Once the limit is reached, Envoy will start rejecting tcp connections.
+
+1. Apply the config map
 
     {{< text bash >}}
+    $ kubectl apply -f custom-bootstrap-runtime.yaml
+    configmap/istio-custom-bootstrap-config created
+    {{< /text >}}
+
+1. Patch the ingress gateway deployment to use the above config map. Create the `gateway-patch.yaml` file,
+   and apply it.
+
+    {{< text bash >}}
+    $ cat > gateway-patch.yaml <<EOF
+    spec:
+      template:
+        spec:
+          containers:
+          - name: istio-proxy
+            env:
+            - name: ISTIO_BOOTSTRAP_OVERRIDE
+              value: /etc/istio/custom-bootstrap/custom_bootstrap.json
+            volumeMounts:
+            - mountPath: /etc/istio/custom-bootstrap
+              name: custom-bootstrap-volume
+              readOnly: true
+          volumes:
+          - configMap:
+              name: istio-custom-bootstrap-config
+              defaultMode: 420
+              optional: false
+            name: custom-bootstrap-volume
+    EOF
     $ kubectl --namespace istio-system patch deployment istio-ingressgateway --patch "$(cat gateway-patch.yaml)"
+    deployment.apps/istio-ingressgateway patched
     {{< /text >}}
 
 1. Confirm that the new limits are in place.
@@ -61,20 +113,19 @@ CVE-2020-8663 is addressed in Envoy by adding a configurable limit on [downstrea
     $ kubectl --namespace istio-system exec -i -t  ${ISTIO_INGRESS_PODNAME} -c istio-proxy -- curl http://localhost:15000/runtime
 
     {
-    "entries": {
-     "overload.global_downstream_max_connections": {
-      "layer_values": [
-       "",
-       "250000",
-       ""
-      ],
-      "final_value": "250000"
+     "layers": [
+      "static_layer_0",
+      "admin"
+     ],
+     "entries": {
+      "overload.global_downstream_max_connections": {
+       "final_value": "250000",
+       "layer_values": [
+        "250000",
+        ""
+       ]
+      }
      }
-    },
-    "layers": [
-     "static_layer_0",
-     "admin"
-    ]
     }
     {{< /text >}}
 
