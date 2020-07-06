@@ -24,7 +24,7 @@ __err_exit() {
 
 # Returns 0 if $out and $expected are the same.  Otherwise, returns 1.
 __cmp_same() {
-    local out=$1
+    local out="${1//$'\r'}"
     local expected=$2
 
     if [[ "$out" != "$expected" ]]; then
@@ -36,7 +36,7 @@ __cmp_same() {
 
 # Returns 0 if $out contains the substring $expected.  Otherwise, returns 1.
 __cmp_contains() {
-    local out=$1
+    local out="${1//$'\r'}"
     local expected=$2
 
     if [[ "$out" != *"$expected"* ]]; then
@@ -49,7 +49,7 @@ __cmp_contains() {
 # Returns 0 if $out does not contain the substring $expected.  Otherwise,
 # returns 1.
 __cmp_not_contains() {
-    local out=$1
+    local out="${1//$'\r'}"
     local expected=$2
 
     if [[ "$out" == *"$expected"* ]]; then
@@ -62,7 +62,7 @@ __cmp_not_contains() {
 # Returns 0 if $out contains the lines in $expected where "..." on a line
 # matches one or more lines containing any text.  Otherwise, returns 1.
 __cmp_elided() {
-    local out=$1
+    local out="${1//$'\r'}"
     local expected=$2
 
     local contains=""
@@ -88,18 +88,13 @@ __cmp_elided() {
 
 # Returns 0 if the first line of $out matches the first line in $expected.
 # Otherwise, returns 1.
-# TODO ???? flaky behavior, doesn't seem to work as expected
 __cmp_first_line() {
     local out=$1
     local expected=$2
 
-    # TODO ???? the following seem to leave a trailing \n in some cases and then the following check fails
-    IFS=$'\n' read -r out_first_line <<< "$out"
+    IFS=$'\n\r' read -r out_first_line <<< "$out"
     IFS=$'\n' read -r expected_first_line <<< "$expected"
-    echo "out first line: \"$out_first_line\""
-    echo "expected first line: \"$expected_first_line\""
 
-    # TODO ???? following fails because one or the other might have a \n at the end of the string, when the other does not
     if [[ "$out_first_line" != "$expected_first_line" ]]; then
         return 1
     fi
@@ -117,7 +112,7 @@ __cmp_first_line() {
 #        - expected ... is a wildcard token, matches anything
 # Otherwise, returns 1.
 __cmp_like() {
-    local out=$1
+    local out="${1//$'\r'}"
     local expected=$2
 
     if [[ "$out" != "$expected" ]]; then

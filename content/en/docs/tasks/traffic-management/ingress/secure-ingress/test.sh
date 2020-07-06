@@ -61,10 +61,7 @@ snip_configure_a_tls_ingress_gateway_for_a_single_host_6
 # TODO: wait for the secret change to propagate
 
 # verifying new httpbin credentials
-_verify_lines snip_configure_a_tls_ingress_gateway_for_a_single_host_7 "
-+ HTTP/2 418
-+ -=[ teapot ]=-
-"
+_verify_elided snip_configure_a_tls_ingress_gateway_for_a_single_host_7 "$snip_configure_a_tls_ingress_gateway_for_a_single_host_7_out"
 
 # verifying old httpbin credentials no longer work
 _verify_failure snip_configure_a_tls_ingress_gateway_for_a_single_host_8
@@ -91,10 +88,7 @@ _wait_for_istio virtualservice default helloworld-v1
 
 _verify_contains snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7 "$snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7_out"
 
-_verify_lines snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8 "
-+ HTTP/2 418
-+ -=[ teapot ]=-
-"
+_verify_elided snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8 "$snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8_out"
 
 snip_configure_a_mutual_tls_ingress_gateway_1
 
@@ -107,10 +101,7 @@ _verify_failure snip_configure_a_mutual_tls_ingress_gateway_3
 
 snip_configure_a_mutual_tls_ingress_gateway_4
 
-_verify_lines snip_configure_a_mutual_tls_ingress_gateway_5 "
-+ HTTP/2 418
-+ -=[ teapot ]=-
-"
+_verify_elided snip_configure_a_mutual_tls_ingress_gateway_5 "$snip_configure_a_mutual_tls_ingress_gateway_5_out"
 
 # @cleanup
 set +e # ignore cleanup errors

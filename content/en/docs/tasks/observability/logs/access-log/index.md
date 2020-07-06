@@ -68,7 +68,6 @@ All three of these parameters may also be configured via [install options](https
           |       ;/
           \_     _/
             `"""`
-    ...
     {{< /text >}}
 
 1.  Check `sleep`'s log:

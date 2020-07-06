@@ -155,15 +155,15 @@ For this task you can use your favorite tool to generate certificates and keys. 
     ...
     HTTP/2 418
     ...
-    -=[ teapot ]=-
+        -=[ teapot ]=-
 
-       _...._
-     .'  _ _ `.
-    | ."` ^ `". _,
-    \_;`"---"`|//
-      |       ;/
-      \_     _/
-        `"""`
+           _...._
+         .'  _ _ `.
+        | ."` ^ `". _,
+        \_;`"---"`|//
+          |       ;/
+          \_     _/
+            `"""`
     {{< /text >}}
 
 1. If you try to access `httpbin` with the previous certificate chain, the attempt now fails.
@@ -327,15 +327,15 @@ retrieves unique credentials corresponding to a specific `credentialName`.
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
     --cacert example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
-    -=[ teapot ]=-
+        -=[ teapot ]=-
 
-       _...._
-     .'  _ _ `.
-    | ."` ^ `". _,
-    \_;`"---"`|//
-      |       ;/
-      \_     _/
-        `"""`
+           _...._
+         .'  _ _ `.
+        | ."` ^ `". _,
+        \_;`"---"`|//
+          |       ;/
+          \_     _/
+            `"""`
     {{< /text >}}
 
 ### Configure a mutual TLS ingress gateway
@@ -411,15 +411,15 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=t
     --cacert example.com.crt --cert client.example.com.crt --key client.example.com.key \
     "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
-    -=[ teapot ]=-
+        -=[ teapot ]=-
 
-       _...._
-     .'  _ _ `.
-    | ."` ^ `". _,
-    \_;`"---"`|//
-      |       ;/
-      \_     _/
-        `"""`
+           _...._
+         .'  _ _ `.
+        | ."` ^ `". _,
+        \_;`"---"`|//
+          |       ;/
+          \_     _/
+            `"""`
     {{< /text >}}
 
 Istio supports reading a few different Secret formats, to support integration with various tools such as [cert-manager](/docs/ops/integrations/certmanager/):

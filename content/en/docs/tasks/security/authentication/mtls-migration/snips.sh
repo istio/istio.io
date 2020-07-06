@@ -90,7 +90,7 @@ sleep.legacy to httpbin.bar: 200
 ENDSNIP
 
 snip_lock_down_to_mutual_tls_by_namespace_3() {
-kubectl exec -nfoo "$(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name})" -c istio-proxy -it -- sudo tcpdump dst port 80  -A
+kubectl exec -nfoo "$(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name})" -c istio-proxy -- sudo tcpdump dst port 80  -A
 }
 
 ! read -r -d '' snip_lock_down_to_mutual_tls_by_namespace_3_out <<\ENDSNIP

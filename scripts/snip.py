@@ -54,6 +54,7 @@ HEADER = """#!/bin/bash
 startsnip = re.compile(r"^(\s*){{< text (syntax=)?\"?(\w+)\"? .*>}}$")
 snippetid = re.compile(r"snip_id=(\w+)")
 githubfile = re.compile(r"^([^@]*)(?<![A-Za-z0-9])@([\w\.\-_/]+)@([^@]*)$")
+execit = re.compile(r"^(.*kubectl exec.*) -it (.*)$")
 heredoc = re.compile(r"<<\s*\\?EOF")
 sectionhead = re.compile(r"^##+ (.*)$")
 invalidchar = re.compile(r"[^0-9a-zA-Z_]")
@@ -142,6 +143,9 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
                     match = githubfile.match(line)
                     if match:
                         line = match.group(1) + match.group(2) + match.group(3)
+                    match = execit.match(line)
+                    if match:
+                        print("    WARNING: -it should be removed from kubectl exec of .md line: " + str(linenum))
                     if heredoc.search(line):
                         multiline_cmd = True
                 current_snip["script"].append(line)

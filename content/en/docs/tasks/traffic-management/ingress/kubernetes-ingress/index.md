@@ -3,7 +3,7 @@ title: Ingress (Kubernetes)
 description: Describes how to configure a Kubernetes Ingress object to expose a service outside of the service mesh.
 weight: 15
 keywords: [traffic-management,ingress]
-test: no
+test: yes
 ---
 
 This task describes how to configure Istio to expose a service outside of the service mesh cluster, using the Kubernetes [Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/).
@@ -22,7 +22,7 @@ A [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-ne
 
 Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
 
-1.  Create an Istio `Gateway`:
+1.  Create an `Ingress` resource:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -49,15 +49,10 @@ Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
 1.  Access the _httpbin_ service using _curl_:
 
     {{< text bash >}}
-    $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
+    $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
     HTTP/1.1 200 OK
-    server: envoy
-    date: Mon, 29 Jan 2018 04:45:49 GMT
-    content-type: text/html; charset=utf-8
-    access-control-allow-origin: *
-    access-control-allow-credentials: true
-    content-length: 0
-    x-envoy-upstream-service-time: 48
+    server: istio-envoy
+    ...
     {{< /text >}}
 
     Note that you use the `-H` flag to set the _Host_ HTTP header to
@@ -67,11 +62,9 @@ Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
 1.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
 
     {{< text bash >}}
-    $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/headers
+    $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
     HTTP/1.1 404 Not Found
-    date: Mon, 29 Jan 2018 04:45:49 GMT
-    server: envoy
-    content-length: 0
+    ...
     {{< /text >}}
 
 ## Next Steps
@@ -104,7 +97,15 @@ metadata:
   name: ingress
 spec:
   ingressClassName: istio
-  ...
+  rules:
+  - host: httpbin.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          serviceName: httpbin
+          servicePort: 8000
 {{< /text >}}
 
 ## Cleanup

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC1090,SC2154
+# shellcheck disable=SC1090,SC2154,SC2155
 
 # Copyright 2020 Istio Authors
 #
@@ -42,7 +42,7 @@ snip_adding_a_client_1
 _wait_for_deployment default fortio-deploy
 
 # Make one call to httpbin
-_verify_contains snip_adding_a_client_3 "HTTP/1.1 200 OK"
+_verify_first_line snip_adding_a_client_3 "$snip_adding_a_client_3_out"
 
 # FIXME / TODO: These tests previously relied on checking that the
 # percentage of 200 and 503 responses fell within a given range. That
@@ -53,6 +53,9 @@ _verify_contains snip_adding_a_client_3 "HTTP/1.1 200 OK"
 #    Original PR: https://github.com/istio/istio.io/pull/6609
 #  Temporary fix: https://github.com/istio/istio.io/pull/7043
 #          Issue: https://github.com/istio/istio.io/issues/7074
+
+# TODO: FORTIO_POD is set in snip_adding_a_client_3. Why is it not still set?
+export FORTIO_POD=$(kubectl get pods -lapp=fortio -o 'jsonpath={.items[0].metadata.name}')
 
 # Make requests with 2 connections
 _verify_lines snip_tripping_the_circuit_breaker_1 "
@@ -67,12 +70,12 @@ _verify_lines snip_tripping_the_circuit_breaker_3 "
 "
 
 # Query the istio-proxy stats
-expected="cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.circuit_breakers.default.rq_pending_open: ...
-cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.circuit_breakers.high.rq_pending_open: ...
-cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_active: ...
-cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_failure_eject: ...
-cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_overflow: ...
-cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_total: ..."
+expected="cluster.outbound|8000||httpbin.default.svc.cluster.local.circuit_breakers.default.rq_pending_open: ...
+cluster.outbound|8000||httpbin.default.svc.cluster.local.circuit_breakers.high.rq_pending_open: ...
+cluster.outbound|8000||httpbin.default.svc.cluster.local.upstream_rq_pending_active: ...
+cluster.outbound|8000||httpbin.default.svc.cluster.local.upstream_rq_pending_failure_eject: ...
+cluster.outbound|8000||httpbin.default.svc.cluster.local.upstream_rq_pending_overflow: ...
+cluster.outbound|8000||httpbin.default.svc.cluster.local.upstream_rq_pending_total: ..."
 _verify_like snip_tripping_the_circuit_breaker_5 "$expected"
 
 # @cleanup

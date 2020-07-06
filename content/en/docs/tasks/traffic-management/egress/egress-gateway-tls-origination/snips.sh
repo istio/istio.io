@@ -494,7 +494,7 @@ kubectl -n istio-system patch --type=json deploy istio-egressgateway -p "$(cat g
 }
 
 snip_redeploy_the_egress_gateway_with_the_client_certificates_4() {
-kubectl exec -it -n istio-system "$(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}')" -- ls -al /etc/istio/nginx-client-certs /etc/istio/nginx-ca-certs
+kubectl exec -n istio-system "$(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}')" -- ls -al /etc/istio/nginx-client-certs /etc/istio/nginx-ca-certs
 }
 
 snip_configure_mutual_tls_origination_for_egress_traffic_1() {

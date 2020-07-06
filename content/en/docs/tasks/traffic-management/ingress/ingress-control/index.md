@@ -200,13 +200,8 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
     HTTP/1.1 200 OK
-    server: envoy
-    date: Mon, 29 Jan 2018 04:45:49 GMT
-    content-type: text/html; charset=utf-8
-    access-control-allow-origin: *
-    access-control-allow-credentials: true
-    content-length: 0
-    x-envoy-upstream-service-time: 48
+    server: istio-envoy
+    ...
     {{< /text >}}
 
     Note that you use the `-H` flag to set the _Host_ HTTP header to
@@ -218,9 +213,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
     HTTP/1.1 404 Not Found
-    date: Mon, 29 Jan 2018 04:45:49 GMT
-    server: envoy
-    content-length: 0
+    ...
     {{< /text >}}
 
 ## Accessing ingress services using a browser
