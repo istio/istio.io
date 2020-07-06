@@ -297,7 +297,7 @@ _IBM Cloud Kubernetes Service:_
 
 {{< text bash >}}
 $ ibmcloud ks workers --cluster <cluster-name or id>
-$ export INGRESS_HOST= <public IP of one of the worker nodes>
+$ export INGRESS_HOST=<public IP of one of the worker nodes>
 {{< /text >}}
 
 _Other environments:_
