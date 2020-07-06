@@ -101,15 +101,19 @@ A few days before the patch release, the release managers should notify the Doc 
 is built and is starting it's long running qualification test. At this time, move the doc automation
 tests to use the new release to verify automated doc testing passes. 
 
-To create a new patch release, you need to
+To move to a new release (make sure you are in the patch's release branch):
 
-1. Run `make release-A.X.Y`, where `A.X.Y` is the name of the release. This target should be run ~3 days before the release if the patch is built publicly, or after the release is published if built privately.
+1. Run `go get istio.io/istio@A.X.Y && go mod tidy`.
 
-1. On the day of release, two files need to be completed:
+1. Create a PR with the `go.*` changes.
 
-    - Edit `data/args.yml` and change the `full_version` field to `"A.X.Y"`.
+Creating a new patch release involves modifying a few files:
 
-    - Complete the release note for the release by editing the markdown file `content/en/news/releases/A.X.x/announcing-A.X.Y/index.md`. This is where you describe the changes in the release. Please look at other existing files for example content and layout.
+1. Edit `data/args.yml` and change the `full_version` field to `"A.X.Y"`.
+
+1. Complete the release note for the release by editing the markdown file `content/en/news/releases/A.X.x/announcing-A.X.Y/index.md`. This is where you describe the changes in the release. Please look at other existing files for example content and layout.
+
+1. Run `make update_ref_docs` to get the latest reference docs.
 
 ### Updating an archive
 

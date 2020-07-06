@@ -28,7 +28,7 @@ parse_input() {
 
     # patch release
     if [ "${PATCH}" != '0' ]; then
-        scripts/patch_release.sh "${MAJOR}" "${MINOR}" "${PATCH}"
+        echo "Patch release automation is currently not supported"
         exit 0
     fi
 
