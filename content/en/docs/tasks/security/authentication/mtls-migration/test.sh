@@ -19,7 +19,7 @@ set -e
 set -u
 set -o pipefail
 
-# @setup profile=default
+# @setup profile=default disabled
 
 # create_ns_foo_bar_legacy
 snip_set_up_the_cluster_1
