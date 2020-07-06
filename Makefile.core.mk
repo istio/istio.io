@@ -33,7 +33,14 @@ export ISTIO_IMAGE_VERSION
 ISTIO_SHA ?= $(shell < ${ISTIOIO_GO}/go.mod grep 'istio.io/istio v' | cut -d'-' -f3)
 export ISTIO_SHA
 
-HUB ?= gcr.io/istio-testing
+# Update HUB and TAG to point to public release since 1.6.4 was
+# built in the private repo and there are no istio-testing images
+# that match that build. Remove HUB and TAG when moving back to
+# a public build.
+# HUB ?= gcr.io/istio-testing
+HUB := docker.io/istio
+TAG ?= 1.6.4
+
 ifeq ($(HUB),)
   $(error "HUB cannot be empty")
 endif
@@ -106,7 +113,7 @@ lint-fast:
 
 serve: site
 	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/latest/" --bind 0.0.0.0 --disableFastRender
-	
+
 archive-version:
 	@scripts/archive_version.sh
 
