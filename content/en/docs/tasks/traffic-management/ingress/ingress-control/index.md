@@ -97,7 +97,6 @@ Setting the ingress IP depends on the cluster provider:
     $ gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
     {{< /text >}}
 
-
 1.  _IBM Cloud Kubernetes Service:_
 
     {{< text bash >}}
