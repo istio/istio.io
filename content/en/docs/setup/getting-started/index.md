@@ -287,13 +287,20 @@ $ gcloud compute firewall-rules create allow-gateway-http --allow tcp:$INGRESS_P
 $ gcloud compute firewall-rules create allow-gateway-https --allow tcp:$SECURE_INGRESS_PORT
 {{< /text >}}
 
+_IBM Cloud Kubernetes Service:_
+
+{{< text bash >}}
+$ ibmcloud ks workers --cluster <cluster-name or id>
+$ export INGRESS_HOST=<public IP of one of the worker nodes>
+{{< /text >}}
+
 _Docker For Desktop:_
 
 {{< text bash >}}
 $ export INGRESS_HOST=127.0.0.1
 {{< /text >}}
 
-_Other environments (e.g., IBM Cloud Private, etc.):_
+_Other environments:_
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
