@@ -56,12 +56,12 @@ gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_IN
 }
 
 snip_determining_the_ingress_ip_and_ports_7() {
-export INGRESS_HOST=$(minikube ip)
+ibmcloud ks workers --cluster cluster-name-or-id
+export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
 }
 
 snip_determining_the_ingress_ip_and_ports_8() {
-ibmcloud ks workers --cluster <cluster-name or id>
-export INGRESS_HOST=<public IP of one of the worker nodes>
+export INGRESS_HOST=$(minikube ip)
 }
 
 snip_determining_the_ingress_ip_and_ports_9() {
