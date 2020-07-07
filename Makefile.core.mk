@@ -93,7 +93,7 @@ opt:
 	@scripts/opt_site.sh
 
 clean:
-	@rm -fr resources .htmlproofer tmp generated public out samples install go tests/integration/
+	@rm -fr resources .htmlproofer tmp generated public out samples install go tests/integration/ manifests
 
 lint: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@scripts/lint_site.sh
@@ -106,7 +106,7 @@ lint-fast: clean_public build_nominify lint-copyright-banner lint-python lint-ya
 
 serve: site
 	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/latest/" --bind 0.0.0.0 --disableFastRender
-	
+
 archive-version:
 	@scripts/archive_version.sh
 
