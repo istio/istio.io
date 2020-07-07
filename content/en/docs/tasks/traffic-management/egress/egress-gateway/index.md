@@ -54,7 +54,6 @@ controlled way.
 
     {{< text bash >}}
     $ istioctl install --set values.global.istioNamespace=istio-system \
-        --set values.gateways.istio-ingressgateway.enabled=false \
         --set values.gateways.istio-egressgateway.enabled=true
     {{< /text >}}
 
