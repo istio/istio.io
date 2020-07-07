@@ -38,7 +38,7 @@ if [[ "$out" != *"<none>"* && "$out" != *"<pending>"* ]]; then
 else
     # node port
     snip_determining_the_ingress_ip_and_ports_4
-    snip_determining_the_ingress_ip_and_ports_9
+    snip_determining_the_ingress_ip_and_ports_10
 fi
 
 # create the gateway and routes
