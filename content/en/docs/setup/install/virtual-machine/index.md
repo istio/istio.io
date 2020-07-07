@@ -66,7 +66,7 @@ deployment you place into production.
 
     {{< text bash >}}
     $ cd "${WORK_DIR}"
-    $ make -f "${ISTIO_DIR}"/tools/certs/Makefile NAME="${CLUSTER_NAME}" NAMESPACE="${SERVICE_NAMESPACE}" "${CLUSTER_NAME}"-cacerts-slefsigned
+    $ make -f "${ISTIO_DIR}"/tools/certs/Makefile NAME="${CLUSTER_NAME}" NAMESPACE="${SERVICE_NAMESPACE}" "${CLUSTER_NAME}"-cacerts-selfSigned
     {{< /text >}}
 
 1. Execute the following commands to create certificates for use on the virtual machine.
