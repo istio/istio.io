@@ -103,6 +103,7 @@ Setting the ingress IP depends on the cluster provider:
     $ ibmcloud ks workers --cluster cluster-name-or-id
     $ export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
     {{< /text >}}
+
 1.  _Minikube:_
 
     {{< text bash >}}
