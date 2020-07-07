@@ -53,7 +53,7 @@ is used is determined by the istio.io [Netlify](https://netlify.com) project's c
 Checking in updates to the master branch will automatically update preliminary.istio.io, and will only be reflected on
 istio.io the next time a release is created, which can be several weeks in the future. If you'd like some changes to be
 immediately reflected on istio.io, you need to check your changes both to the master branch and to the
-current release branch (named release-XXX such as release-1.7).
+current release branch (named `release-<MAJOR>.<MINOR>` such as `release-1.7`).
 
 This process can be taken care of automatically by our infrastructure. If you submit a PR
 to the master branch and annotate the PR with the `actions/merge-to-release-branch` label,
