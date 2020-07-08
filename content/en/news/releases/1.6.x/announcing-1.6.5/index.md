@@ -17,7 +17,7 @@ what’s different between Istio 1.6.5 and Istio 1.6.4.
 ## Changes
 
 - **Fixed** return the proper source name when mixer performing lookup by IP when multiple pods had the same IP.
-- **Improved** Support to control sidecar injection based on revision at a per-pod level ([Issue 24801](https://github.com/istio/istio/issues/24801)
+- **Improved** Support to control sidecar injection based on revision at a per-pod level ([Issue 24801](https://github.com/istio/istio/issues/24801))
 - **Improved** `istioctl validate` to disallow unknown field from spec ([Issue 24860](https://github.com/istio/istio/issues/24860))
 - **Fixed** changed `stsPort` to `sts_port` in envoy bootstrap file.
 - **Fixed** keep existing WASM state schema since it can be referenced by state objects later.
