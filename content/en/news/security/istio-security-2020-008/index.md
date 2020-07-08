@@ -5,7 +5,7 @@ description: Incorrect validation of wildcard DNS Subject Alternative Names.
 cves: [CVE-2020-15104]
 cvss: "6.6"
 vector: "AV:N/AC:H/PR:H/UI:N/S:C/C:H/I:L/A:N/E:F/RL:O/RC:C"
-releases: ["1.5.0 to 1.5.7", "1.6.0 to 1.6.4", "All releases prior to 1.5.0"]
+releases: ["1.5 to 1.5.7", "1.6 to 1.6.4", "All releases prior to 1.5"]
 publishdate: 2020-07-09
 keywords: [CVE]
 skip_seealso: true
