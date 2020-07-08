@@ -40,4 +40,3 @@ When validating TLS certificates, Envoy incorrectly allows a wildcard DNS Subjec
 - **Fixed** istio-agent to create `eliptical` curve CSRs when `ECC_SIGNATURE_ALGORITHM` is set.
 - **Improved** map grpc status codes into http domain for metrics.
 - **Fixed** fix `scaleTargetRef` naming in `HorizontalPodAutoscaler` for istiod ([Issue 24809](https://github.com/istio/istio/issues/24809))
-- **Improved** added a version label to `pilot_xds` to give more information on data plane versions.
