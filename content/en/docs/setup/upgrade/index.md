@@ -200,7 +200,7 @@ profile may change without warning.
 
 For Istio installations done with Helm, the canary upgrade process must be used.
 The canary control plane must be installed with an `IstioOperator` CR equivalent
-to the Helm `values.yaml` used to install Istio. The `istioctl manifest migrate` command (using `istioctl` v1.6)
+to the Helm `values.yaml` used to install Istio. The `istioctl manifest migrate` command (using `istioctl` 1.6)
 simplifies the migration by automatically translating `values.yaml` to IstioOperator CR format.
 To install the canary control plane, first generate an IstioOperator CR:
 
