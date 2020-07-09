@@ -27,7 +27,7 @@ Istio users are exposed to this vulnerability in the following ways:
 
 1. Use of Istio's [`subjectAltNames` in `ServiceEntry`](/docs/reference/config/networking/service-entry/).  As above, a `ServiceEntry` with a `subjectAltNames` containing `nested.subdomain.example.com`, for example, will incorrectly accept a certificate from an upstream peer with a SAN of `*.example.com`.  Instead a SAN of `*.subdomain.example.com` or `nested.subdomain.example.com` should be present.
 
-Istio (Citadel) does not issue certificates with DNS wildcard SANs, so this only impacts configurations that validate externally issued certificates.
+The Istio CA formerly known as Citadel does not issue certificates with DNS wildcard SANs, so this only impacts configurations that validate externally issued certificates.
 
 ## Mitigation
 
