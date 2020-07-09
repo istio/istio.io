@@ -47,4 +47,4 @@ The output from the above command should include non-empty key and certificate f
 
 If you want to use this mechanism to provision a certificate
 for your own application, take a look at our
-[Prometheus example application]({{< github_blob >}}/manifests/istio-telemetry/prometheus/templates/deployment.yaml) and simply follow the same pattern.
+[Prometheus example application]({{< github_blob >}}/manifests/charts/istio-telemetry/prometheus/templates/deployment.yaml) and simply follow the same pattern.
