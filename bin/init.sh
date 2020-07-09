@@ -48,8 +48,15 @@ git fetch "$ISTIO_REMOTE"
 git checkout "$ISTIO_SHA"
 
 # Build and install istioctl
-make gen-charts
-go install ./istioctl/cmd/istioctl
+export TAG=${ISTIO_IMAGE_VERSION}.$(git rev-parse ${ISTIO_SHA})
+export VERSION=${TAG}
+export ISTIO_VERSION=${TAG}
+echo "TAG=${TAG}"
+echo "VERSION=${VERSION}"
+echo "ISTIO_VERSION=${ISTIO_VERSION}"
+make gen-charts ${ISTIO_OUT}/release/istioctl-linux-amd64
+cp -a ${ISTIO_OUT}/release/istioctl-linux-amd64 /gobin/istioctl
+
 
 popd > /dev/null
 
