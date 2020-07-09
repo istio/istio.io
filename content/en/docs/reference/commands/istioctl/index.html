@@ -4291,7 +4291,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </code></pre>
 <h2 id="istioctl-proxy-status">istioctl proxy-status</h2>
 <p>
-Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in the mesh</p>
+Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in the mesh</p>
 <p></p>
 <pre class="language-bash"><code>istioctl proxy-status [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
@@ -4338,7 +4338,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <pre class="language-bash"><code># Retrieve sync status for all Envoys in a mesh
 	istioctl proxy-status
 
-# Retrieve sync diff for a single Envoy and Pilot
+# Retrieve sync diff for a single Envoy and Istiod
 	istioctl proxy-status istio-egressgateway-59585c5b9c-ndc59.istio-system
 
 </code></pre>

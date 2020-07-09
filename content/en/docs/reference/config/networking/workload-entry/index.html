@@ -25,12 +25,13 @@ custom resource will be updated to indicate the health of the
 workload along with other details, similar to how Kubernetes
 updates the status of a pod.</p>
 
-<p>The following example declares a workload entry representing a
-VM for the <code>details.bookinfo.com</code> service. This VM has
-sidecar installed and bootstrapped using the <code>details-legacy</code>
-service account. The sidecar receives HTTP traffic on port 80
-(wrapped in istio mutual TLS) and forwards it to the application on
-the localhost on the same port.</p>
+<p>The following example declares a workload entry representing a VM
+for the <code>details.bookinfo.com</code> service. This VM has sidecar
+installed and bootstrapped using the <code>details-legacy</code> service
+account. The service is exposed on port 80 to applications in the
+mesh. The HTTP traffic to this service is wrapped in Istio mutual
+TLS and sent to sidecars on VMs on target port 8080, that in turn
+forward it to the application on localhost on the same port.</p>
 
 <p>{{<tabset category-name="example">}}
 {{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
@@ -49,7 +50,6 @@ spec:
   labels:
     app: details-legacy
     instance-id: vm1
-  # ports if not specified will be the same as service ports
 </code></pre>
 
 <p>{{</tab>}}</p>
@@ -70,7 +70,6 @@ spec:
   labels:
     app: details-legacy
     instance-id: vm1
-  # ports if not specified will be the same as service ports
 </code></pre>
 
 <p>{{</tab>}}
@@ -93,6 +92,7 @@ spec:
   - number: 80
     name: http
     protocol: HTTP
+    targetPort: 8080
   resolution: STATIC
   workloadSelector:
     labels:
@@ -115,6 +115,7 @@ spec:
   - number: 80
     name: http
     protocol: HTTP
+    targetPort: 8080
   resolution: STATIC
   workloadSelector:
     labels:
@@ -147,7 +148,6 @@ spec:
   labels:
     app: details-legacy
     instance-id: vm1
-  # ports if not specified will be the same as service ports
 </code></pre>
 
 <p>{{</tab>}}</p>
@@ -168,7 +168,6 @@ spec:
   labels:
     app: details-legacy
     instance-id: vm1
-  # ports if not specified will be the same as service ports
 </code></pre>
 
 <p>{{</tab>}}
@@ -191,6 +190,7 @@ spec:
   - number: 80
     name: http
     protocol: HTTP
+    targetPort: 8080
   resolution: DNS
   workloadSelector:
     labels:
@@ -213,6 +213,7 @@ spec:
   - number: 80
     name: http
     protocol: HTTP
+    targetPort: 8080
   resolution: DNS
   workloadSelector:
     labels:
@@ -254,9 +255,20 @@ Yes
 <td><code>ports</code></td>
 <td><code>map&lt;string,&nbsp;uint32&gt;</code></td>
 <td>
-<p>Set of ports associated with the endpoint. The ports must be
-associated with a port name that was declared as part of the
-service. Do not use for <code>unix://</code> addresses.</p>
+<p>Set of ports associated with the endpoint. If the port map is
+specified, it must be a map of servicePortName to this endpoint&rsquo;s
+port, such that traffic to the service port will be forwarded to
+the endpoint port that maps to the service&rsquo;s portName. If
+omitted, and the targetPort is specified as part of the service&rsquo;s
+port specification, traffic to the service port will be forwarded
+to one of the endpoints on the specified <code>targetPort</code>. If both
+the targetPort and endpoint&rsquo;s port map are not specified, traffic
+to a service port will be forwarded to one of the endpoints on
+the same port.</p>
+
+<p><strong>NOTE 1:</strong> Do not use for <code>unix://</code> addresses.</p>
+
+<p><strong>NOTE 2:</strong> endpoint port map takes precedence over targetPort.</p>
 
 </td>
 <td>
