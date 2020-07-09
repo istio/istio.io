@@ -21,7 +21,7 @@ See additional notes for [upgrading from Helm installations](#upgrading-from-hel
 and [upgrading from 1.4.x](#upgrading-from-1.4).
 
 ### Control plane
-  
+
 To install a new revision called `canary`, you would set the `revision` field as follows:
 
 {{< text bash >}}
