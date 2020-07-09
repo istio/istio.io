@@ -23,6 +23,6 @@ When validating TLS certificates, Envoy incorrectly allows wildcards in DNS Subj
 
 ## Changes
 
-- **Fixed** a bug where setting `status.sidecar.istio.io/port` to 0 caused `istio-init` container to fail ([Issue 24722](https://github.com/istio/istio/issues/24722))
-- **Fixed** Open API spec validation by `istioctl validate` ([Issue 24860](https://github.com/istio/istio/issues/24860))
+- **Allowed** setting `status.sidecar.istio.io/port` to zero ([Issue 24722](https://github.com/istio/istio/issues/24722))
+- **Improved** `istioctl validate` to disallow unknown fields not included in the Open API specification ([Issue 24860](https://github.com/istio/istio/issues/24860))
 - **Fixed** a bug in Mixer where it would incorrectly return source names when it did lookup by IP.
