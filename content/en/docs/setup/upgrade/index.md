@@ -12,7 +12,13 @@ Upgrading Istio can be done by first running a canary deployment of the new cont
 to monitor the effect of the upgrade with a small percentage of the workloads, before migrating all of the
 traffic to the new version. This is much safer than doing an in place upgrade and is the recommended upgrade method.
 
-When installing Istio, the `revision` installation setting can be used to deploy multiple independent control planes at the same time. A canary version of an upgrade can be started by installing the new Istio version's control plane next to the old one, using a different `revision` setting. Each revision is a full Istio control plane implementation with its own `Deployment`, `Service`, etc.
+When installing Istio, the `revision` installation setting can be used to deploy multiple independent control planes
+at the same time. A canary version of an upgrade can be started by installing the new Istio version's control plane
+next to the old one, using a different `revision` setting. Each revision is a full Istio control plane implementation
+with its own `Deployment`, `Service`, etc.
+
+See additional notes for [upgrading from Helm installations](#upgrading-from-helm-installations)
+and [upgrading from 1.4.x](#upgrading-from-1.4).
 
 ### Control plane
 
@@ -190,3 +196,58 @@ the process will restore Istio back to the Istio version that was installed befo
 `istioctl install` also installs the same Istio control plane, but does not
 perform any checks. For example, default values applied to the cluster for a configuration
 profile may change without warning.
+
+## Upgrading from Helm installations
+
+For Istio installations done with Helm, the canary upgrade process must be used.
+The canary control plane must be installed with an `IstioOperator` CR equivalent
+to the Helm `values.yaml` used to install Istio. The `istioctl manifest migrate` command (using `istioctl` 1.6)
+simplifies the migration by automatically translating `values.yaml` to IstioOperator CR format.
+To install the canary control plane, first generate an IstioOperator CR:
+
+{{< text bash >}}
+$ istioctl manifest migrate <path-to-values.yaml> > iop.yaml
+{{< /text >}}
+
+Inspect the generated `iop.yaml` file to ensure it's correct. You can use this CR to install a 1.6 Istio canary
+control plane with the same settings as the Helm installed control plane.
+
+## Upgrading from 1.4
+
+Migrating from 1.4 Istio (installed with `istioctl` or Helm) is similar to the process for 1.5 using canary, with one
+additional step. Istio 1.4 validation does not recognize some 1.6 resources, and the 1.4 validation webhook prevents
+Istio 1.6 from functioning correctly.
+To work around this problem, the validation webhook must be disabled temporarily, using the following steps.
+
+1. Edit the Galley deployment configuration using the following command:
+
+{{< text bash >}}
+$ kubectl edit deployment -n istio-system istio-galley
+{{< /text >}}
+
+Add the --enable-validation=false option to the command: section as shown below:
+
+{{< text yaml >}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+...
+spec:
+...
+  template:
+    ...
+    spec:
+      ...
+      containers:
+      - command:
+        ...
+        - --log_output_level=default:info
+        - --enable-validation=false
+{{< /text >}}
+
+Save and quit the editor to update the deployment configuration in the cluster.
+
+1. Remove the `ValidatingWebhookConfiguration` Custom Resource (CR) with the following command:
+
+{{< text bash >}}
+$ kubectl delete ValidatingWebhookConfiguration istio-galley -n istio-system
+{{< /text >}}
