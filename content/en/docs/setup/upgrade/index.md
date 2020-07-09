@@ -215,7 +215,7 @@ control plane with the same settings as the Helm installed control plane.
 
 Migrating from 1.4 Istio (installed with `istioctl` or Helm) is similar to the process for 1.5 using canary, with one
 additional step. Istio 1.4 validation does not recognize some 1.6 resources, and the 1.4 validation webhook prevents
-Istio 1.6 from functioning correctly. 
+Istio 1.6 from functioning correctly.
 To work around this problem, the validation webhook must be disabled temporarily, using the following steps.
 
 1. Edit the Galley deployment configuration using the following command:
