@@ -201,6 +201,25 @@ The output from `manifest generate` can also be used to install Istio using `kub
 these alternative installation methods may not apply the resources with the same sequencing of dependencies as
 `istioctl install` and are not tested in an Istio release.
 
+{{< warning >}}
+If attempting to install and manage Istio using `istioctl manifest generate`, please note the following caveats:
+
+1. The Istio namespace (`istio-system` by default) must be created manually.
+
+1. While `istioctl install` will automatically detect environment specific settings from your Kubernetes context,
+`manifest generate` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure
+that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
+Kubernetes environment does not support third party service account tokens.
+
+1. `kubectl apply` of the generated manifest may show transient errors due to resources not being available in the
+cluster in the correct order.
+
+1. `istioctl install` automatically prunes any resources that should be removed when the configuration changes (e.g.
+if you remove a gateway). This does not happen when you use `istio manifest generate` with `kubectl` and these
+resources must be removed manually.
+
+{{< /warning >}}
+
 ## Show differences in manifests
 
 You can show the differences in the generated manifests in a YAML style diff between the default profile and a
