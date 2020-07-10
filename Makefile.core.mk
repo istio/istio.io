@@ -139,6 +139,22 @@ update_all: update_ref_docs update_examples
 foo2:
 	hugo version
 
+# Release related targets
+export ISTIOIO_GIT_SOURCE := https://github.com/istio/istio.io.git
+export MASTER := master
+
+prepare-%:
+	@scripts/prepare_release.sh $@
+
+release-%-dry-run:
+	@DRY_RUN=1 scripts/create_version.sh $(subst -dry-run,,$@)
+
+release-%:
+	@scripts/create_version.sh $@
+
+build-old-archive-%:
+	@scripts/build_old_archive.sh $@
+
 # The init recipe was split into two recipes to solve an issue seen in prow
 # where paralyzation is happening and some tasks in a recipe were occuring out
 # of order. The desired behavior is for `preinit` to do the clone and set up the
