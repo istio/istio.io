@@ -21,7 +21,7 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
-# @setup profile=default disabled
+# @setup profile=default
 
 # Deploy sample and set up variable pointing to it
 startup_sleep_sample

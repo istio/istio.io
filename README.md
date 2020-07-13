@@ -56,8 +56,8 @@ immediately reflected on istio.io, you need to check your changes both to the ma
 current release branch (named `release-<MAJOR>.<MINOR>` such as `release-1.7`).
 
 This process can be taken care of automatically by our infrastructure. If you submit a PR
-to the master branch and annotate the PR with the `actions/merge-to-release-branch` label,
-then as soon as your PR is merged into master, it will be merged into the current release branch.
+to the master branch and annotate the PR with the `cherrypick/release-<MAJOR>.<MINOR>` label,
+then as soon as your PR is merged into master, it will be merged into the specified release branch.
 
 ### Creating a major/minor release
 
@@ -66,13 +66,13 @@ version of Istio is 1.6 and you wish to introduce 1.7 which has been under devel
 
 #### When Istio source code is branched
 
-Run `make prepare-1.7.0`, and that's it. This will grab the latest material from the new istio source branch.
+Run `make prepare-1.7.0`, and that's it. This will grab the latest reference docs from the new istio source branch into the `content/en/docs/reference` folder.
 
-#### On the day of the release
+#### Approaching the day of the release
 
-1. Run `make release-1.7.0`. This make target will change some variables in `master` and `release-1.6` as needed, and create a new branch `release-1.7` for the new version.
+1. For a dry run before official release, run `make release-1.7.0-dry-run`, which will only create a new branch `release-1.7-dry-run` and not touch any other branches.
 
-    - For a dry run before official release, run `make release-1.7.0-dry-run`, which will only create a new branch `release-1.7-dry-run`, and not touch any other branches.
+1. On the day of release, run `make release-1.7.0`. This make target will change some variables in `master` and `release-1.6`, and create a new branch `release-1.7` for the new version.
 
 1. Go to the istio.io project on [Netlify](https://netlify.com) and do the following:
 
@@ -117,7 +117,7 @@ Creating a new patch release involves modifying a few files:
 
 ### Updating an archive
 
-If the archived version in a newer branch (e.g., `release-1.7:archive/v1.6`) needs to be updated due to changes in the old release branch (`release-1.6` in this case), you can run `build-old-archive-1.6.0` in the `release-1.7` branch, which will re-archive `release-1.6` and substitute it for the previous archive in the current branch.
+If the archived version in a newer branch (e.g., `release-1.7:archive/v1.6`) needs to be updated due to changes in the old release branch (`release-1.6` in this case), you can run `make build-old-archive-1.6.0` in the `release-1.7` branch, which will re-archive `release-1.6` and substitute it for the previous archive in the current branch.
 
 ## Multi-language support
 
