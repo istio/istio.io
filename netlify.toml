@@ -7,7 +7,8 @@
     BUILD_WITH_CONTAINER = "0"
 
 [[headers]]
-  for = "/blog/*"
+  for = "*/blog/*"
+  [headers.values]
     X-Frame-Options = ""
 
   for = "/*"
