@@ -33,13 +33,12 @@ export ISTIO_IMAGE_VERSION
 ISTIO_SHA ?= $(shell < ${ISTIOIO_GO}/go.mod grep 'istio.io/istio v' | cut -d'-' -f3)
 export ISTIO_SHA
 
-# Update HUB and TAG to point to public release since 1.6.4 was
-# built in the private repo and there are no istio-testing images
-# that match that build. Remove HUB and TAG when moving back to
-# a public build.
 # HUB ?= gcr.io/istio-testing
+# Update HUB and TAG to point to public release since it is available for this update.
+# If one needs to test before a docker.io build is available (using a public test build),
+# the HUB and TAG can be commented out, and the prior one un-commented
 HUB := docker.io/istio
-TAG ?= 1.6.4
+TAG ?= 1.6.5
 
 ifeq ($(HUB),)
   $(error "HUB cannot be empty")
