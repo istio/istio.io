@@ -7,13 +7,4 @@
     BUILD_WITH_CONTAINER = "0"
 
 [[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    X-XSS-Protection = "1; mode=block"
-
-[[headers]]
   for = "/*/blog/*"
-  [headers.values]
-    X-Frame-Options = ""
-
