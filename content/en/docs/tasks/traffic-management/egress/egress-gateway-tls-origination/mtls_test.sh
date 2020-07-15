@@ -80,6 +80,10 @@ snip_redeploy_the_egress_gateway_with_the_client_certificates_3
 # Direct traffic through egress gateway by creating necessary Gateway, DR, and Virtual Service
 snip_configure_mutual_tls_origination_for_egress_traffic_1
 snip_configure_mutual_tls_origination_for_egress_traffic_2
+_wait_for_istio gateway default istio-egressgateway
+_wait_for_istio destinationrule default egressgateway-for-nginx
+_wait_for_istio virtualservice default direct-nginx-through-egress-gateway
+_wait_for_istio destinationrule default originate-mtls-for-nginx
 
 # TODO: Verify HTTP connection to nginx
 #_verify_elided snip_configure_mutual_tls_origination_for_egress_traffic_3 "$snip_configure_mutual_tls_origination_for_egress_traffic_3_out"
