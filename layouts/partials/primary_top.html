@@ -108,18 +108,20 @@
                                     <span>&nbsp;</span>
 
                                     <span>
-                                        {{ if(.Params.test) }}
-                                        <a href="https://github.com/istio/istio.io/tree/master/tests" title='{{ i18n "has_test" }}'>
-                                            {{- partial "icon.html" "checkmark" -}}
-                                            <span>&nbsp;</span>
-                                            {{ i18n "tested"}}
-                                        </a>
-                                        {{ else }}
-                                        <a href="https://github.com/istio/istio.io/tree/master/tests" title='{{ i18n "needs_test" }}'>
-                                            {{- partial "icon.html" "checkmark-grey" -}}
-                                            <span>&nbsp;</span>
-                                            {{ i18n "tested"}}
-                                        </a>
+                                        {{if isset .Params "test"}}
+                                            {{ if(.Params.test) }}
+                                            <a href="https://github.com/istio/istio.io/tree/master/tests" title='{{ i18n "has_test" }}'>
+                                                {{- partial "icon.html" "checkmark" -}}
+                                                <span>&nbsp;</span>
+                                                {{ i18n "tested"}}
+                                            </a>
+                                            {{ else }}
+                                            <a href="https://github.com/istio/istio.io/tree/master/tests" title='{{ i18n "needs_test" }}'>
+                                                {{- partial "icon.html" "checkmark-grey" -}}
+                                                <span>&nbsp;</span>
+                                                {{ i18n "tested"}}
+                                            </a>
+                                            {{end}}
                                         {{end}}
                                     </span>
                                 {{- end -}}
