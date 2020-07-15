@@ -2,7 +2,7 @@
 title: Setup a Local Computer
 overview: Set up your local computer for the tutorial.
 weight: 3
-owner: @istio/wg-docs-maintainers
+owner: istio/wg-docs-maintainers
 test: no
 ---
 

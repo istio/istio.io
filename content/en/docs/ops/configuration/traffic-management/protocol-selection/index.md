@@ -8,7 +8,7 @@ aliases:
   - /help/ops/protocol-selection
   - /help/tasks/traffic-management/protocol-selection
   - /docs/ops/traffic-management/protocol-selection
-owner: @istio/wg-networking-maintainers
+owner: istio/wg-networking-maintainers
 test: no
 ---
 

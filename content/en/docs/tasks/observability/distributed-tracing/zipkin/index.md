@@ -5,7 +5,7 @@ weight: 10
 keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 aliases:
     - /docs/tasks/zipkin-tracing.html
-owner: @istio/wg-policies-and-telemetry-maintainers
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 

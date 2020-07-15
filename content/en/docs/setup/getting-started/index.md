@@ -7,7 +7,7 @@ aliases:
     - /docs/setup/kubernetes/
     - /docs/setup/kubernetes/install/kubernetes/
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
-owner: @istio/wg-environments-maintainers
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

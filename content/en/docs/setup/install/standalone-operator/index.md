@@ -4,7 +4,7 @@ description: Instructions to install Istio in a Kubernetes cluster using the Ist
 weight: 25
 keywords: [kubernetes, operator]
 aliases:
-owner: @istio/wg-environments-maintainers
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

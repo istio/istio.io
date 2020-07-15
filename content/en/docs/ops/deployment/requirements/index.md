@@ -19,7 +19,7 @@ aliases:
   - /docs/ops/setup/required-pod-capabilities
   - /help/ops/setup/required-pod-capabilities
   - /docs/ops/prep/requirements
-owner: @istio/wg-environments-maintainers
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

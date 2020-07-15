@@ -1,7 +1,7 @@
 ---
 title: Deprecated
 layout: analysis-message
-owner: @istio/wg-user-experience-maintainers
+owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 

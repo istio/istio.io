@@ -5,7 +5,7 @@ weight: 20
 aliases:
   - /help/ops/setup/injection
   - /docs/ops/setup/injection-concepts
-owner: @istio/wg-user-experience-maintainers
+owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 

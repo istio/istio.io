@@ -3,7 +3,7 @@ title: Upgrade Istio
 description: Upgrade or downgrade Istio.
 weight: 25
 keywords: [kubernetes,upgrading]
-owner: @istio/wg-environments-maintainers
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

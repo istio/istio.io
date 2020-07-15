@@ -5,7 +5,7 @@ weight: 40
 keywords: [traffic-management,egress]
 aliases:
   - /docs/examples/advanced-gateways/egress-gateway-tls-origination/
-owner: @istio/wg-networking-maintainers
+owner: istio/wg-networking-maintainers
 test: yes
 ---
 

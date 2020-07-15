@@ -5,7 +5,7 @@ weight: 40
 keywords: [security,authentication,migration]
 aliases:
     - /docs/tasks/security/mtls-migration/
-owner: @istio/wg-security-maintainers
+owner: istio/wg-security-maintainers
 test: yes
 ---
 

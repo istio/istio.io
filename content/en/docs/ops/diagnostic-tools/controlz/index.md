@@ -6,7 +6,7 @@ keywords: [ops]
 aliases:
   - /help/ops/controlz
   - /docs/ops/troubleshooting/controlz
-owner: @istio/wg-user-experience-maintainers
+owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
