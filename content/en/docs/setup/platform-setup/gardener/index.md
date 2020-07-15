@@ -6,6 +6,7 @@ aliases:
     - /docs/setup/kubernetes/platform-setup/gardener/
 skip_seealso: true
 keywords: [platform-setup,kubernetes,gardener,sap]
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

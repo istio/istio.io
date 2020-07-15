@@ -6,6 +6,7 @@ keywords: [security,access-control,rbac,authorization]
 aliases:
     - /docs/tasks/security/role-based-access-control.html
     - /docs/tasks/security/authz-http/
+owner: istio/wg-security-maintainers
 test: yes
 ---
 

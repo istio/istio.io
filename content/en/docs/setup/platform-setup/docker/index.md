@@ -8,6 +8,7 @@ aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/docker/
     - /docs/setup/kubernetes/platform-setup/docker/
 keywords: [platform-setup,kubernetes,docker-desktop]
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

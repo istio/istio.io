@@ -5,6 +5,7 @@ weight: 30
 keywords: [traffic-management,egress]
 aliases:
   - /docs/examples/advanced-gateways/egress-gateway/
+owner: istio/wg-networking-maintainers
 test: no
 ---
 

@@ -5,6 +5,7 @@ weight: 80
 keywords: [security,certificates]
 aliases:
     - /docs/tasks/security/plugin-ca-cert/
+owner: istio/wg-security-maintainers
 test: yes
 ---
 

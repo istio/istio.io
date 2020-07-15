@@ -7,6 +7,7 @@ aliases:
     - /docs/tasks/observability/logs/fluentd/
     - /docs/tasks/telemetry/fluentd/
     - /docs/tasks/telemetry/logs/fluentd/
+owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 

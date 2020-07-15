@@ -1,5 +1,6 @@
 ---
 title: Primary Cluster
+test: n/a
 ---
 
 A primary cluster is a [cluster](/docs/reference/glossary/#cluster) with a

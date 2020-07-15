@@ -3,6 +3,7 @@ title: Kiali
 description: Information on how to integrate with Kiali.
 weight: 29
 keywords: [integration,kiali]
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

@@ -5,6 +5,7 @@ weight: 60
 keywords: [traffic-management,egress]
 aliases:
   - /docs/examples/advanced-gateways/http-proxy/
+owner: istio/wg-networking-maintainers
 test: no
 ---
 The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) example shows how to direct

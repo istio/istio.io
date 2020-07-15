@@ -5,6 +5,7 @@ weight: 20
 keywords: [security,access-control,rbac,tcp,authorization]
 aliases:
     - /docs/tasks/security/authz-tcp/
+owner: istio/wg-security-maintainers
 test: yes
 ---
 

@@ -6,6 +6,7 @@ keywords: [traffic-management,ingress]
 aliases:
     - /docs/tasks/ingress.html
     - /docs/tasks/ingress
+owner: istio/wg-networking-maintainers
 test: yes
 ---
 

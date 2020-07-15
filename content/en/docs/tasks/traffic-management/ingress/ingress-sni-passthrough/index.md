@@ -5,6 +5,7 @@ weight: 30
 keywords: [traffic-management,ingress,https]
 aliases:
   - /docs/examples/advanced-gateways/ingress-sni-passthrough/
+owner: istio/wg-networking-maintainers
 test: yes
 ---
 

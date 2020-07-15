@@ -11,6 +11,7 @@ aliases:
 - /docs/setup/kubernetes/additional-setup/mesh-expansion/
 - /docs/examples/mesh-expansion/single-network
 - /docs/tasks/virtual-machines/single-network
+owner: istio/wg-user-experience-maintainers
 test: no
 ---
 

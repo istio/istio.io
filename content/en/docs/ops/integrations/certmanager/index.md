@@ -6,6 +6,7 @@ keywords: [integration,cert-manager]
 aliases:
   - /docs/tasks/traffic-management/ingress/ingress-certmgr/
   - /docs/examples/advanced-gateways/ingress-certmgr/
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

@@ -10,6 +10,7 @@ aliases:
 - /docs/examples/integrating-vms/
 - /docs/examples/mesh-expansion/bookinfo-expanded
 - /docs/examples/vm-bookinfo
+owner: istio/wg-user-experience-maintainers
 test: no
 ---
 

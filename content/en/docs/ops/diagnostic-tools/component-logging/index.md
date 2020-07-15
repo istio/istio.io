@@ -6,6 +6,7 @@ keywords: [ops]
 aliases:
   - /help/ops/component-logging
   - /docs/ops/troubleshooting/component-logging
+owner: istio/wg-user-experience-maintainers
 test: no
 ---
 

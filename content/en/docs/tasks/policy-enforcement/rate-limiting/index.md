@@ -5,6 +5,7 @@ weight: 10
 keywords: [policies,quotas]
 aliases:
     - /docs/tasks/rate-limiting.html
+owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 

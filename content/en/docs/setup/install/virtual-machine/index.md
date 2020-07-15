@@ -7,6 +7,7 @@ keywords:
 - virtual-machine
 - gateways
 - vms
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

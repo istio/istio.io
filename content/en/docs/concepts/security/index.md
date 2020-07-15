@@ -10,6 +10,7 @@ aliases:
     - /docs/concepts/security/rbac/
     - /docs/concepts/security/mutual-tls.html
     - /docs/concepts/policies/
+owner: istio/wg-security-maintainers
 test: no
 ---
 

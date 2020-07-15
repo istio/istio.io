@@ -6,6 +6,7 @@ aliases:
     - /docs/tasks/traffic-management/ingress/secure-ingress-sds/
     - /docs/tasks/traffic-management/ingress/secure-ingress-mount/
 keywords: [traffic-management,ingress,sds-credentials]
+owner: istio/wg-networking-maintainers
 test: yes
 ---
 

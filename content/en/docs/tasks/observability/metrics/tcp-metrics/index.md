@@ -6,6 +6,7 @@ keywords: [telemetry,metrics,tcp]
 aliases:
     - /docs/tasks/telemetry/tcp-metrics
     - /docs/tasks/telemetry/metrics/tcp-metrics/
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 

@@ -5,6 +5,7 @@ weight: 40
 aliases:
     - /docs/tasks/request-timeouts.html
 keywords: [traffic-management,timeouts]
+owner: istio/wg-networking-maintainers
 test: yes
 ---
 

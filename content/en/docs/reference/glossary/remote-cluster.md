@@ -1,5 +1,6 @@
 ---
 title: Remote Cluster
+test: n/a
 ---
 
 A remote cluster is a [cluster](/docs/reference/glossary/#cluster) that

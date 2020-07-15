@@ -8,6 +8,7 @@ aliases:
     - /docs/tasks/multicluster/gateways/
     - /docs/setup/kubernetes/install/multicluster/gateways/
 keywords: [kubernetes,multicluster,gateway]
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

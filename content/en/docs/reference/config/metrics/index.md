@@ -2,6 +2,7 @@
 title: Istio Standard Metrics
 description: Istio standard metrics exported by Istio telemetry.
 weight: 50
+owner: istio/wg-user-experience-maintainers
 test: no
 aliases:
     - /docs/reference/config/telemetry/metrics/
