@@ -297,3 +297,13 @@ other = "Document"
 
 [log_change]
 other = "Change"
+
+[tested]
+other = "tested"
+
+[has_test]
+other = "An automated test is available for this document."
+
+[needs_test]
+other = "This document has only been tested by hand. Help create an automated test!"
+
