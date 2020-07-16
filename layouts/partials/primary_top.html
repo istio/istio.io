@@ -108,7 +108,7 @@
                                     <span>&nbsp;</span>
 
                                     <span>
-                                        {{if isset .Params "test"}}
+                                        {{if and (isset .Params "test") (not ( eq .Params.test "n/a"))}}
                                             {{ if(.Params.test) }}
                                             <a href="https://github.com/istio/istio.io/tree/master/tests" title='{{ i18n "has_test" }}'>
                                                 {{- partial "icon.html" "checkmark" -}}
