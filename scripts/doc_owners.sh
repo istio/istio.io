@@ -17,6 +17,7 @@
 set -e
 
 owners_listing() {
+    echo "<!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->"
     echo "# Istio.io Document Owners"
     echo ""
     echo "There are $(find docs -name '*.md' -exec grep -q '^owner: istio/wg-' {} \; -print | wc -l) owned istio.io docs."
