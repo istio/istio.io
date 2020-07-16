@@ -21,8 +21,11 @@ There are      158 owned istio.io docs.
 - [docs/examples/microservices-istio/single/index.md](https://preliminary.istio.io/latest/docs/examples/microservices-istio/single)
 - [docs/reference/glossary/index.md](https://preliminary.istio.io/latest/docs/reference/glossary)
 
-## istio/wg-environments-maintainers:               34 docs
+## istio/wg-environments-maintainers:               37 docs
 
+- [docs/examples/virtual-machines/bookinfo/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/bookinfo)
+- [docs/examples/virtual-machines/multi-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/multi-network)
+- [docs/examples/virtual-machines/single-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/single-network)
 - [docs/ops/best-practices/deployment/index.md](https://preliminary.istio.io/latest/docs/ops/best-practices/deployment)
 - [docs/ops/deployment/architecture/index.md](https://preliminary.istio.io/latest/docs/ops/deployment/architecture)
 - [docs/ops/deployment/deployment-models/index.md](https://preliminary.istio.io/latest/docs/ops/deployment/deployment-models)
@@ -140,11 +143,8 @@ There are      158 owned istio.io docs.
 - [docs/tasks/security/cert-management/dns-cert/index.md](https://preliminary.istio.io/latest/docs/tasks/security/cert-management/dns-cert)
 - [docs/tasks/security/cert-management/plugin-ca-cert/index.md](https://preliminary.istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert)
 
-## istio/wg-user-experience-maintainers:               36 docs
+## istio/wg-user-experience-maintainers:               33 docs
 
-- [docs/examples/virtual-machines/bookinfo/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/bookinfo)
-- [docs/examples/virtual-machines/multi-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/multi-network)
-- [docs/examples/virtual-machines/single-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/single-network)
 - [docs/ops/common-problems/injection/index.md](https://preliminary.istio.io/latest/docs/ops/common-problems/injection)
 - [docs/ops/common-problems/validation/index.md](https://preliminary.istio.io/latest/docs/ops/common-problems/validation)
 - [docs/ops/configuration/mesh/app-health-check/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/mesh/app-health-check)
