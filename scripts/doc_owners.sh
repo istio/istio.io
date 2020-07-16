@@ -61,6 +61,6 @@ pushd content/en
 
 owners_listing > ../../DOC_OWNERS.md
 
-sed -i '' -e 's|^docs/\(.*\)/index.md|- content/en/docs/\1/index.md [site](https://preliminary.istio.io/latest/docs/\1)|' ../../DOC_OWNERS.md
+sed -i '' -e 's|^docs/\(.*\)/index.md|- [docs/\1/index.md](https://preliminary.istio.io/latest/docs/\1)|' ../../DOC_OWNERS.md
 
 popd
