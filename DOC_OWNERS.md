@@ -2,7 +2,7 @@
 
 There are      158 owned istio.io docs.
 
-## istio/wg-docs-maintainers (              15 docs)
+## istio/wg-docs-maintainers:               15 docs
 
 - [docs/examples/microservices-istio/add-istio/index.md](https://preliminary.istio.io/latest/docs/examples/microservices-istio/add-istio)
 - [docs/examples/microservices-istio/setup-local-computer/index.md](https://preliminary.istio.io/latest/docs/examples/microservices-istio/setup-local-computer)
@@ -20,7 +20,7 @@ There are      158 owned istio.io docs.
 - [docs/concepts/what-is-istio/index.md](https://preliminary.istio.io/latest/docs/concepts/what-is-istio)
 - [docs/reference/glossary/index.md](https://preliminary.istio.io/latest/docs/reference/glossary)
 
-## istio/wg-environments-maintainers (              34 docs)
+## istio/wg-environments-maintainers:               34 docs
 
 - [docs/setup/additional-setup/config-profiles/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/config-profiles)
 - [docs/setup/additional-setup/cni/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/cni)
@@ -57,7 +57,7 @@ There are      158 owned istio.io docs.
 - [docs/ops/deployment/deployment-models/index.md](https://preliminary.istio.io/latest/docs/ops/deployment/deployment-models)
 - [docs/ops/best-practices/deployment/index.md](https://preliminary.istio.io/latest/docs/ops/best-practices/deployment)
 
-## istio/wg-networking-maintainers (              25 docs)
+## istio/wg-networking-maintainers:               25 docs
 
 - [docs/tasks/traffic-management/egress/wildcard-egress-hosts/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/wildcard-egress-hosts)
 - [docs/tasks/traffic-management/egress/egress-kubernetes-services/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/egress-kubernetes-services)
@@ -85,7 +85,7 @@ There are      158 owned istio.io docs.
 - [docs/ops/common-problems/network-issues/index.md](https://preliminary.istio.io/latest/docs/ops/common-problems/network-issues)
 - [docs/ops/best-practices/traffic-management/index.md](https://preliminary.istio.io/latest/docs/ops/best-practices/traffic-management)
 
-## istio/wg-policies-and-telemetry-maintainers (              32 docs)
+## istio/wg-policies-and-telemetry-maintainers:               32 docs
 
 - [docs/tasks/observability/metrics/customize-metrics/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/metrics/customize-metrics)
 - [docs/tasks/observability/metrics/querying-metrics/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/metrics/querying-metrics)
@@ -120,7 +120,7 @@ There are      158 owned istio.io docs.
 - [docs/reference/config/policy-and-telemetry/expression-language/index.md](https://preliminary.istio.io/latest/docs/reference/config/policy-and-telemetry/expression-language)
 - [docs/reference/config/policy-and-telemetry/mixer-overview/index.md](https://preliminary.istio.io/latest/docs/reference/config/policy-and-telemetry/mixer-overview)
 
-## istio/wg-security-maintainers (              16 docs)
+## istio/wg-security-maintainers:               16 docs
 
 - [docs/tasks/security/cert-management/plugin-ca-cert/index.md](https://preliminary.istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert)
 - [docs/tasks/security/cert-management/dns-cert/index.md](https://preliminary.istio.io/latest/docs/tasks/security/cert-management/dns-cert)
@@ -139,7 +139,7 @@ There are      158 owned istio.io docs.
 - [docs/ops/best-practices/security/index.md](https://preliminary.istio.io/latest/docs/ops/best-practices/security)
 - [docs/reference/config/security/conditions/index.md](https://preliminary.istio.io/latest/docs/reference/config/security/conditions)
 
-## istio/wg-user-experience-maintainers (              36 docs)
+## istio/wg-user-experience-maintainers:               36 docs
 
 - [docs/examples/virtual-machines/multi-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/multi-network)
 - [docs/examples/virtual-machines/single-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/single-network)
