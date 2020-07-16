@@ -19,7 +19,7 @@ Public API to generate graph data in the form of consumable JSON.
 {{< idea >}}
 This task does not cover all of the features provided by Kiali.
 To learn about the full set of features it supports,
-see the [Kiali website](http://kiali.io/documentation/features/).
+see the [Kiali website](http://kiali.io/documentation/latest/features/).
 {{< /idea >}}
 
 This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as the example throughout.
