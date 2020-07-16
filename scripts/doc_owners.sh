@@ -24,43 +24,43 @@ owners_listing() {
     echo "## istio/wg-docs-maintainers: \
         $(find docs -name '*.md' -exec grep -q '^owner: istio/wg-docs-maintainers' {} \; -print | wc -l) docs"
     echo ""
-    find docs -name '*.md' -exec grep -q '^owner: istio/wg-docs-maintainers' {} \; -print
+    find docs -name '*.md' -exec grep -q '^owner: istio/wg-docs-maintainers' {} \; -print | sort
 
     echo ""
     echo "## istio/wg-environments-maintainers: \
         $(find docs -name '*.md' -exec grep -q '^owner: istio/wg-environments-maintainers' {} \; -print | wc -l) docs"
     echo ""
-    find docs -name '*.md' -exec grep -q '^owner: istio/wg-environments-maintainers' {} \; -print
+    find docs -name '*.md' -exec grep -q '^owner: istio/wg-environments-maintainers' {} \; -print | sort
 
     echo ""
     echo "## istio/wg-networking-maintainers: \
         $(find docs -name '*.md' -exec grep -q '^owner: istio/wg-networking-maintainers' {} \; -print | wc -l) docs"
     echo ""
-    find docs -name '*.md' -exec grep -q '^owner: istio/wg-networking-maintainers' {} \; -print
+    find docs -name '*.md' -exec grep -q '^owner: istio/wg-networking-maintainers' {} \; -print | sort
 
     echo ""
     echo "## istio/wg-policies-and-telemetry-maintainers: \
         $(find docs -name '*.md' -exec grep -q '^owner: istio/wg-policies-and-telemetry-maintainers' {} \; -print | wc -l) docs"
     echo ""
-    find docs -name '*.md' -exec grep -q '^owner: istio/wg-policies-and-telemetry-maintainers' {} \; -print
+    find docs -name '*.md' -exec grep -q '^owner: istio/wg-policies-and-telemetry-maintainers' {} \; -print | sort
 
     echo ""
     echo "## istio/wg-security-maintainers: \
         $(find docs -name '*.md' -exec grep -q '^owner: istio/wg-security-maintainers' {} \; -print | wc -l) docs"
     echo ""
-    find docs -name '*.md' -exec grep -q '^owner: istio/wg-security-maintainers' {} \; -print
+    find docs -name '*.md' -exec grep -q '^owner: istio/wg-security-maintainers' {} \; -print | sort
 
     echo ""
     echo "## istio/wg-user-experience-maintainers: \
         $(find docs -name '*.md' -exec grep -q '^owner: istio/wg-user-experience-maintainers' {} \; -print | wc -l) docs"
     echo ""
-    find docs -name '*.md' -exec grep -q '^owner: istio/wg-user-experience-maintainers' {} \; -print
+    find docs -name '*.md' -exec grep -q '^owner: istio/wg-user-experience-maintainers' {} \; -print | sort
 }
 
 pushd content/en
 
 owners_listing > ../../DOC_OWNERS.md
 
-sed -i '' -e 's|^docs/\(.*\)/index.md|- [docs/\1/index.md](https://preliminary.istio.io/latest/docs/\1)|' ../../DOC_OWNERS.md
+sed -i '' -e 's|^docs/\(.*\)/index.md|- [content/en/docs/\1/index.md](https://preliminary.istio.io/latest/docs/\1)|' ../../DOC_OWNERS.md
 
 popd
