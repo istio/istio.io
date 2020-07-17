@@ -305,4 +305,4 @@ other = "tested"
 other = "An automated test is available for this page. Click for details."
 
 [needs_test]
-other = "This document has only been tested by hand. Help create an automated test!"
+other = "No automated test is available for this page. Click for details or to help create one."
