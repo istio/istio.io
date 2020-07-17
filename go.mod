@@ -11,8 +11,9 @@ replace github.com/spf13/viper => github.com/istio/viper v1.3.3-0.20190515210538
 replace github.com/docker/docker => github.com/docker/engine v1.4.2-0.20191011211953-adfac697dc5b
 
 require (
+	github.com/openshift/api v3.9.1-0.20191008181517-e4fd21196097+incompatible // indirect
 	istio.io/gogo-genproto v0.0.0-20200511213158-02f1fd1746e5 // indirect
-	istio.io/istio v0.0.0-20200713172041-7915c7326a2f
+	istio.io/istio v0.0.0-20200717194948-8fe0af7a778a
 	istio.io/pkg v0.0.0-20200511212725-7bfbbf968c23
 )
 
@@ -21,5 +22,3 @@ replace github.com/Azure/go-autorest/autorest => github.com/Azure/go-autorest/au
 replace github.com/Azure/go-autorest/autorest/adal => github.com/Azure/go-autorest/autorest/adal v0.5.0
 
 replace github.com/Azure/go-autorest => github.com/Azure/go-autorest v13.2.0+incompatible
-
-replace sigs.k8s.io/service-apis => github.com/howardjohn/service-apis v0.0.0-20200625215450-120bc372d5a7
