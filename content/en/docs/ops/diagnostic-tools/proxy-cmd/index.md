@@ -189,9 +189,7 @@ to send a request from the `productpage` pod to the `reviews` pod at `reviews:90
     10.111.121.13 15443 ALL                                              Cluster: outbound|15443||istio-ingressgateway.istio-system.svc.cluster.local
     {{< /text >}}
 
-1. From the above summary you can see that every sidecar has a listener bound to `0.0.0.0:15006` which is where IP tables routes all inbound pod traffic to and a listener bound to `0.0.0.0:15001` which is where IP tables routes all outbound pod traffic to. This listener has `useOriginalDst` set to true which means
-it hands the request over to the listener that best matches the original destination of the request.
-If it can't find any matching virtual listeners it sends the request to the `PassthroughCluster` which connects to the destination directly.
+1. From the above summary you can see that every sidecar has a listener bound to `0.0.0.0:15006` which is where IP tables routes all inbound pod traffic to and a listener bound to `0.0.0.0:15001` which is where IP tables routes all outbound pod traffic to. The `PassThroughCluster` is the default cluster traffic is directed to if no listeners, routes, clusters are found during the lookup. A `Route` is both a specification of how to match a request as well as an indication of what to do next (e.g., redirect, forward, rewrite, etc.).
 
     {{< text bash json >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -o json
