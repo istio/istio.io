@@ -17,6 +17,7 @@ aliases:
   - /docs/performance-and-scalability/synthetic-benchmarks
   - /docs/concepts/performance-and-scalability
   - /docs/ops/performance-and-scalability
+owner: istio/wg-environments-maintainers
 test: n/a
 ---
 

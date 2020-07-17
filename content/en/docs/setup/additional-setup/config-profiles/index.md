@@ -5,6 +5,7 @@ weight: 35
 aliases:
     - /docs/setup/kubernetes/additional-setup/config-profiles/
 keywords: [profiles,install,helm]
+owner: istio/wg-environments-maintainers
 test: n/a
 ---
 

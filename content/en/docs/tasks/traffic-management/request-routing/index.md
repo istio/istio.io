@@ -5,6 +5,7 @@ weight: 10
 aliases:
     - /docs/tasks/request-routing.html
 keywords: [traffic-management,routing]
+owner: istio/wg-networking-maintainers
 test: yes
 ---
 

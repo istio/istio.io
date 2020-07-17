@@ -3,6 +3,7 @@ title: Customizing Istio Metrics
 description: This task shows you how to customize the Istio metrics.
 weight: 25
 keywords: [telemetry,metrics,customize]
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 

@@ -6,6 +6,7 @@ keywords: [security,authentication]
 aliases:
     - /docs/tasks/security/istio-auth.html
     - /docs/tasks/security/authn-policy/
+owner: istio/wg-security-maintainers
 test: yes
 ---
 

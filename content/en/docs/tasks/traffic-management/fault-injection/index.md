@@ -5,6 +5,7 @@ weight: 20
 keywords: [traffic-management,fault-injection]
 aliases:
     - /docs/tasks/fault-injection.html
+owner: istio/wg-networking-maintainers
 test: yes
 ---
 

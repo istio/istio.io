@@ -3,6 +3,7 @@ title: Authorization policies with a deny action
 description: Shows how to set up access control to deny traffic explicitly.
 weight: 40
 keywords: [security,access-control,rbac,authorization,deny]
+owner: istio/wg-security-maintainers
 test: yes
 ---
 

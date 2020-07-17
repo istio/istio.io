@@ -5,6 +5,7 @@ weight: 49
 keywords: [telemetry,visualization]
 aliases:
  - /docs/tasks/telemetry/kiali/
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 

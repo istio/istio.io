@@ -10,6 +10,7 @@ aliases:
     - /docs/concepts/policies-and-telemetry/overview/
     - /docs/concepts/policies-and-telemetry/config/
     - /docs/concepts/policies-and-telemetry/
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 

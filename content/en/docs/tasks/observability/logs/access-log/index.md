@@ -6,6 +6,7 @@ keywords: [telemetry]
 aliases:
     - /docs/tasks/telemetry/access-log
     - /docs/tasks/telemetry/logs/access-log/
+owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 

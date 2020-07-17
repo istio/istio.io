@@ -3,6 +3,7 @@ title: Extensibility
 description: Describes Istio's WebAssembly Plugin system.
 weight: 50
 keywords: [wasm,webassembly,emscripten,extension,plugin,filter]
+owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 

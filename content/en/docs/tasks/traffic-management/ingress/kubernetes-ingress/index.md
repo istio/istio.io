@@ -3,6 +3,7 @@ title: Ingress (Kubernetes)
 description: Describes how to configure a Kubernetes Ingress object to expose a service outside of the service mesh.
 weight: 15
 keywords: [traffic-management,ingress]
+owner: istio/wg-networking-maintainers
 test: yes
 ---
 

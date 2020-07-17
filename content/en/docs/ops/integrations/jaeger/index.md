@@ -3,6 +3,7 @@ title: Jaeger
 description: How to integrate with Jaeger.
 weight: 28
 keywords: [integration,jaeger,tracing]
+owner: istio/wg-environments-maintainers
 test: n/a
 ---
 

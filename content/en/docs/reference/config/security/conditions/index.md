@@ -5,6 +5,7 @@ weight: 30
 aliases:
     - /docs/reference/config/security/conditions/
     - /docs/reference/config/security/constraints-and-properties/
+owner: istio/wg-security-maintainers
 test: n/a
 ---
 

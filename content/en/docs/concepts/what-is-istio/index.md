@@ -6,6 +6,7 @@ aliases:
     - /docs/concepts/what-is-istio/overview
     - /docs/concepts/what-is-istio/goals
     - /about/intro
+owner: istio/wg-docs-maintainers
 test: n/a
 ---
 

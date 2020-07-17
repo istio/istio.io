@@ -5,6 +5,7 @@ weight: 98
 keywords: [telemetry,gateway,jaeger,zipkin,tracing,kiali,prometheus,addons]
 aliases:
  - /docs/tasks/telemetry/gateways/
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 

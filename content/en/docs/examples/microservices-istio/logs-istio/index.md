@@ -2,6 +2,7 @@
 title: Monitoring with Istio
 overview: Collecting and querying mesh metrics.
 weight: 72
+owner: istio/wg-docs-maintainers
 test: no
 ---
 

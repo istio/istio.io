@@ -10,6 +10,7 @@ aliases:
     - /docs/examples/multicluster/split-horizon-eds/
     - /docs/tasks/multicluster/split-horizon-eds/
     - /docs/setup/kubernetes/install/multicluster/shared-gateways/
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

@@ -7,6 +7,7 @@ aliases:
     - /help/ops/traffic-management/proxy-cmd
     - /help/ops/misc
     - /help/ops/troubleshooting/proxy-cmd
+owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
