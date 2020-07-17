@@ -1,4 +1,3 @@
-/work/content/en /work
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
@@ -179,4 +178,3 @@ There are 158 owned istio.io docs.
 - [docs/reference/config/analysis/message-format/index.md](https://preliminary.istio.io/latest/docs/reference/config/analysis/message-format)
 - [docs/reference/config/config-status/index.md](https://preliminary.istio.io/latest/docs/reference/config/config-status)
 - [docs/reference/config/metrics/index.md](https://preliminary.istio.io/latest/docs/reference/config/metrics)
-/work

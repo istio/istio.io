@@ -19,8 +19,6 @@ set -e
 WORKGROUPS="istio/wg-docs-maintainers istio/wg-environments-maintainers istio/wg-networking-maintainers istio/wg-policies-and-telemetry-maintainers istio/wg-security-maintainers istio/wg-user-experience-maintainers"
 
 owners_listing() {
-    pushd content/en
-
     echo "<!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->"
     echo "# Istio.io Document Owners"
     echo ""
@@ -33,8 +31,10 @@ owners_listing() {
         echo ""
         echo "$list"
     done
-
-    popd
 }
 
-owners_listing | sed -e 's|^docs/\(.*\)/index.md|- [docs/\1/index.md](https://preliminary.istio.io/latest/docs/\1)|' >DOC_OWNERS.md
+pushd content/en >/dev/null
+
+owners_listing | sed -e 's|^docs/\(.*\)/index.md|- [docs/\1/index.md](https://preliminary.istio.io/latest/docs/\1)|' >../../DOC_OWNERS.md
+
+popd >/dev/null
