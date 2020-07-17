@@ -299,7 +299,7 @@ other = "Document"
 other = "Change"
 
 [tested]
-other = "tested"
+other = "page test"
 
 [has_test]
 other = "An automated test is available for this page. Click for details."
