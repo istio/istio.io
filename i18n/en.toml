@@ -302,8 +302,7 @@ other = "Change"
 other = "tested"
 
 [has_test]
-other = "An automated test is available for this document."
+other = "An automated test is available for this page. Click for details."
 
 [needs_test]
 other = "This document has only been tested by hand. Help create an automated test!"
-
