@@ -427,7 +427,7 @@ Istio supports reading a few different Secret formats, to support integration wi
 
 * A TLS Secret with keys `tls.key` and `tls.crt`, as described above. For mutual TLS, a `ca.crt` key can be used.
 * A generic Secret with keys `key` and `cert`. For mutual TLS, a `cacert` key can be used.
-* A generic Secret with keys `key` and `cert`. For mutual TLS, a separate generic Secret named `<secret>-cacert`, with a `cacret` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
+* A generic Secret with keys `key` and `cert`. For mutual TLS, a separate generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
 
 ## Troubleshooting
 
