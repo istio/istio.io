@@ -86,7 +86,7 @@ _wait_for_istio virtualservice default direct-nginx-through-egress-gateway
 _wait_for_istio destinationrule default originate-mtls-for-nginx
 
 # TODO: Verify HTTP connection to nginx
-#_verify_elided snip_configure_mutual_tls_origination_for_egress_traffic_3 "$snip_configure_mutual_tls_origination_for_egress_traffic_3_out"
+_verify_elided snip_configure_mutual_tls_origination_for_egress_traffic_3 "$snip_configure_mutual_tls_origination_for_egress_traffic_3_out"
 
 #TODO: verify request is actually being routed through egress gateway
 
