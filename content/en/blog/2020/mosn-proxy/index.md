@@ -44,10 +44,10 @@ MOSN can be used not only as a stand-alone Layer 4/Layer 7 load balancer, but ca
 You can download a zip file for your operating system from the [Istio release](https://github.com/istio/istio/releases/tag/1.5.2) page. This file contains: the installation file, examples and the `istioctl` command line tool.
 To download Istio (this example uses Istio 1.5.2) uses the following command.
 
-{{< text bash >}}   
+{{< text bash >}}
 $ export ISTIO_VERSION=1.5.2
-$ curl -L https://raw.githubusercontent.com/istio/istio/release-1.5/release/downloadIstioCandidate.sh | sh - 
-{{< /text >}} 
+$ curl -L https://raw.githubusercontent.com/istio/istio/release-1.5/release/downloadIstioCandidate.sh | sh -
+{{< /text >}}
 
 The downloaded Istio package is named `istio-1.5.2` and contains:
 - `install/kubernetes`: Contains YAML installation files related to Kubernetes.
