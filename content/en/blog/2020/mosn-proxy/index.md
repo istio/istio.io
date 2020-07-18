@@ -13,13 +13,13 @@ Thanks to the efforts of the MOSN community, MOSN has completed the most of adap
 
 In the Service Mesh world, using Istio as the control plane has become the mainstream. Istio provides dynamic configuration of routes, service discovery, etc. to data plane proxies via the xDS protocol. The proxy can conveniently serve as Istio's data by simply interfacing with Envoy's xDS protocol. Istio's integration of third-party data planes can be implemented in three steps, as follows.
 
-- Implement xDS protocols to fullfill the capabilities for data plane related services.
+- Implement xDS protocols to fulfill the capabilities for data plane related services.
 - Build `proxyv2` images using Istio's script and set the relevant `SIDCAR` and other parameters.
 - Specify a specific data plane via the `istioctl` tool and set the proxy-related configuration.
 
 ## What is MOSN?
 
-MOSN is a network proxy written in Golang. It can be used as a cloud-native network data plane, providing services with the following proxy functions: multi-protocol, modular, intelligent, and secure. MOSN is the short name of Modular Open Smart Network (proxy). MOSN can be integrated with any Service Mesh which support xDS API. It can also be used as an independent Layer 4 or Layer 7 load balancer, API Gateway, cloud-native Ingress, etc.
+MOSN is a network proxy written in Golang. It can be used as a cloud-native network data plane, providing services with the following proxy functions: multi-protocol, modular, intelligent, and secure. MOSN is the short name of Modular Open Smart Network (proxy). MOSN can be integrated with any Service Mesh which supports xDS API. It can also be used as an independent Layer 4 or Layer 7 load balancer, API Gateway, cloud-native Ingress, etc.
 
 ## Architecture
 
@@ -42,11 +42,12 @@ MOSN can be used not only as a stand-alone Layer 4/Layer 7 load balancer, but ca
 ## Setup Istio
 
 You can download a zip file for your operating system from the [Istio release](https://github.com/istio/istio/releases/tag/1.5.2) page. This file contains: the installation file, examples and the `istioctl` command line tool.
-To download Istio (this example uses Istio 1.5.2) use the following command.
+To download Istio (this example uses Istio 1.5.2) uses the following command.
 
-{{< text bash >}}
-$ export ISTIO_VERSION=1.5.2 && curl -L https://raw.githubusercontent.com/istio/istio/release-1.5/release/downloadIstioCandidate.sh | sh -
-{{< /text >}}
+{{< text bash >}}   
+$ export ISTIO_VERSION=1.5.2
+$ curl -L https://raw.githubusercontent.com/istio/istio/release-1.5/release/downloadIstioCandidate.sh | sh - 
+{{< /text >}} 
 
 The downloaded Istio package is named `istio-1.5.2` and contains:
 - `install/kubernetes`: Contains YAML installation files related to Kubernetes.
@@ -85,7 +86,7 @@ If the service `STATUS` is Running, then Istio has been successfully installed a
 
 ## Bookinfo Examples
 
-You can run the BookInfo sample through [katacoda](https://katacoda.com/mosn/courses/istio/mosn-with-istio) where you can find some other tutorials for MOSN and Istio.
+You can run the BookInfo samples through [katacoda](https://katacoda.com/mosn/courses/istio/mosn-with-istio) where you can find some other tutorials for MOSN and Istio.
 
 ## Learn More
 
