@@ -376,10 +376,16 @@ Yes
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
 <p>One or more labels that indicate a specific set of pods/VMs
-on which this gateway configuration should be applied. The scope of
-label search is restricted to the configuration namespace in which the
-the resource is present. In other words, the Gateway resource must
-reside in the same namespace as the gateway workload instance.
+on which this gateway configuration should be applied.
+By default workloads are searched across all namespaces based on label selectors.
+This implies that a gateway resource in the namespace &ldquo;foo&rdquo; can select pods in
+the namespace &ldquo;bar&rdquo; based on labels.
+This behavior can be controlled via the PILOT<em>SCOPE</em>GATEWAY<em>TO</em>NAMESPACE
+environment variable in istiod. If this variable is set
+to true, the scope of label search is restricted to the configuration
+namespace in which the the resource is present. In other words, the Gateway
+resource must reside in the same namespace as the gateway workload
+instance.
 If selector is nil, the Gateway will be applied to all workloads.</p>
 
 </td>
