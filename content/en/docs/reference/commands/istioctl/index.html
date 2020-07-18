@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 77
+number_of_entries: 81
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -1251,6 +1251,80 @@ with authorization and the rules used in the authorization.</p>
   # Check Envoy authorization configuration from a config dump file:
   istioctl x authz check -f httpbin_config_dump.json
 </code></pre>
+<h2 id="istioctl-experimental-config">istioctl experimental config</h2>
+<p>Gonfigure istioctl defaults</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-config Examples">Examples</h3>
+<pre class="language-bash"><code>
+# list configuration parameters
+istioctl config list
+
+</code></pre>
+<h2 id="istioctl-experimental-config-list">istioctl experimental config list</h2>
+<p>List istio configurable defaults</p>
+<pre class="language-bash"><code>istioctl experimental config list [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="istioctl-experimental-convert-ingress">istioctl experimental convert-ingress</h2>
 <p>(convert-ingress has graduated. Use `istioctl convert-ingress`)</p>
 <pre class="language-bash"><code>istioctl experimental convert-ingress [flags]
@@ -2171,6 +2245,94 @@ istioctl experimental post-install webhook status --validation --validation-conf
 		istioctl x precheck -f iop.yaml
 
 </code></pre>
+<h2 id="istioctl-experimental-proxy-status">istioctl experimental proxy-status</h2>
+<p>
+Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in the mesh</p>
+<p></p>
+<pre class="language-bash"><code>istioctl experimental proxy-status [&lt;pod-name[.namespace]&gt;] [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl experimental ps [&lt;pod-name[.namespace]&gt;] [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--cert-dir &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Endpoint certificate directory  (default ``)</td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--insecure</code></td>
+<td></td>
+<td>Skip server certificate and domain verification. (NOT SECURE!) </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td></td>
+<td>control plane revision  (default ``)</td>
+</tr>
+<tr>
+<td><code>--timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>the duration to wait before failing  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--xds-address &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Endpoint  (default ``)</td>
+</tr>
+<tr>
+<td><code>--xds-label &lt;string&gt;</code></td>
+<td></td>
+<td>Istiod pod label selector  (default ``)</td>
+</tr>
+<tr>
+<td><code>--xds-port &lt;int&gt;</code></td>
+<td></td>
+<td>Istiod pod port  (default `15012`)</td>
+</tr>
+<tr>
+<td><code>--xds-san &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Subject Alternative Name (for example istiod.istio-system.svc)  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-proxy-status Examples">Examples</h3>
+<pre class="language-bash"><code># Retrieve sync status for all Envoys in a mesh
+	istioctl proxy-status
+
+# Retrieve sync diff for a single Envoy and Istiod
+	istioctl proxy-status istio-egressgateway-59585c5b9c-ndc59.istio-system
+
+</code></pre>
 <h2 id="istioctl-experimental-remove-from-mesh">istioctl experimental remove-from-mesh</h2>
 <p>&#39;istioctl experimental remove-from-mesh&#39; restarts pods without an Istio sidecar or removes external service access configuration.</p>
 <p>Use &#39;remove-from-mesh&#39; to quickly test uninjected behavior as part of compatibility troubleshooting.</p>
@@ -2477,6 +2639,94 @@ Istio will be started on the host network as a docker container in capture mode.
 
 	# Generate Certs locally, but do not copy them to a WorkloadEntry named &#34;we&#34; in the &#34;ns&#34; namespace:
 	istioctl x sidecar-bootstrap we.ns --local-dir path/where/i/want/certs/
+</code></pre>
+<h2 id="istioctl-experimental-uninstall">istioctl experimental uninstall</h2>
+<p>The uninstall command uninstalls Istio from a cluster</p>
+<pre class="language-bash"><code>istioctl experimental uninstall [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--filename &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>The filename of the IstioOperator CR.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td></td>
+<td>Proceed even with validation errors. </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.6.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--purge</code></td>
+<td></td>
+<td>Delete all Istio related sources for all versions </td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>Target control plane revision for the command.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--set &lt;stringArray&gt;</code></td>
+<td><code>-s</code></td>
+<td>Override an IstioOperator value, e.g. to choose a profile
+(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
+settings (--set values.grafana.enabled=true). See documentation for more info:
+https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--skip-confirmation</code></td>
+<td><code>-y</code></td>
+<td>skipConfirmation determines whether the user is prompted for confirmation.
+If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-uninstall Examples">Examples</h3>
+<pre class="language-bash"><code>  # Uninstall a single control plane by revision
+  istioctl x uninstall --revision foo
+
+  # Uninstall a single control plane by iop file
+  istioctl x uninstall -f iop.yaml
+  
+  # Uninstall all control planes and shared resources
+  istioctl x uninstall --purge
+
 </code></pre>
 <h2 id="istioctl-experimental-upgrade">istioctl experimental upgrade</h2>
 <p>The upgrade command checks for upgrade version eligibility and, if eligible, upgrades the Istio control plane components in-place. Warning: traffic may be disrupted during upgrade. Please ensure PodDisruptionBudgets are defined to maintain service continuity.</p>
@@ -4075,7 +4325,7 @@ istioctl proxy-config l [&lt;pod-name[.namespace]&gt;] [flags]
 <tr>
 <td><code>--verbose</code></td>
 <td></td>
-<td>Output filter chain information </td>
+<td>Output more information </td>
 </tr>
 </tbody>
 </table>
@@ -4212,6 +4462,11 @@ istioctl proxy-config r [&lt;pod-name[.namespace]&gt;] [flags]
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format: one of json|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Output more information </td>
 </tr>
 </tbody>
 </table>
@@ -4579,6 +4834,14 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpe
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.6.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -4709,6 +4972,54 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>String</td>
 <td><code>istio-sidecar-injector</code></td>
 <td>Name of the mutatingwebhookconfiguration to patch, if istioctl is not used.</td>
+</tr>
+<tr>
+<td><code>ISTIOCONFIG</code></td>
+<td>String</td>
+<td><code>$HOME/.istioctl/config.yaml</code></td>
+<td>Default values for istioctl flags</td>
+</tr>
+<tr>
+<td><code>ISTIOCTL_CERT_DIR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>istioctl --cert-dir override</td>
+</tr>
+<tr>
+<td><code>ISTIOCTL_INSECURE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>istioctl --insecure override</td>
+</tr>
+<tr>
+<td><code>ISTIOCTL_ISTIONAMESPACE</code></td>
+<td>String</td>
+<td><code>istio-system</code></td>
+<td>istioctl --istioNamespace override</td>
+</tr>
+<tr>
+<td><code>ISTIOCTL_PREFER_EXPERIMENTAL</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>istioctl should use experimental subcommand variants</td>
+</tr>
+<tr>
+<td><code>ISTIOCTL_XDS_ADDRESS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>istioctl --xds-address override</td>
+</tr>
+<tr>
+<td><code>ISTIOCTL_XDS_PORT</code></td>
+<td>Integer</td>
+<td><code>15012</code></td>
+<td>istioctl --xds-port override</td>
+</tr>
+<tr>
+<td><code>ISTIOCTL_XDS_SAN</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>istioctl --xds-san override</td>
 </tr>
 <tr>
 <td><code>ISTIOD_CUSTOM_HOST</code></td>
@@ -5081,6 +5392,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>pilot_invalid_out_listeners</code></td><td><code>LastValue</code></td><td>Number of invalid outbound listeners.</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
+<tr><td><code>pilot_k8s_endpoints_pending_pod</code></td><td><code>LastValue</code></td><td>Number of endpoints that do not currently have any corresponding pods.</td></tr>
 <tr><td><code>pilot_k8s_endpoints_with_no_pods</code></td><td><code>Sum</code></td><td>Endpoints that does not have any corresponding pods.</td></tr>
 <tr><td><code>pilot_k8s_reg_events</code></td><td><code>Sum</code></td><td>Events from k8s registry.</td></tr>
 <tr><td><code>pilot_no_ip</code></td><td><code>LastValue</code></td><td>Pods not found in the endpoint table, possibly invalid.</td></tr>
@@ -5095,8 +5407,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
 <tr><td><code>pilot_xds</code></td><td><code>LastValue</code></td><td>Number of endpoints connected to this pilot using XDS.</td></tr>
 <tr><td><code>pilot_xds_cds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected CDS configs.</td></tr>
-<tr><td><code>pilot_xds_eds_all_locality_endpoints</code></td><td><code>LastValue</code></td><td>Network endpoints for each cluster(across all localities), as of last push. Zero endpoints is an error.</td></tr>
-<tr><td><code>pilot_xds_eds_instances</code></td><td><code>LastValue</code></td><td>Instances for each cluster(grouped by locality), as of last push. Zero instances is an error.</td></tr>
 <tr><td><code>pilot_xds_eds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected EDS.</td></tr>
 <tr><td><code>pilot_xds_expired_nonce</code></td><td><code>Sum</code></td><td>Total number of XDS requests with an expired nonce.</td></tr>
 <tr><td><code>pilot_xds_lds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected LDS.</td></tr>
