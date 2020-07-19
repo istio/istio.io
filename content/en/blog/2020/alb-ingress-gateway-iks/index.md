@@ -158,8 +158,7 @@ of one another, and to use their private keys to encrypt and sign the traffic.
     $ export INGRESS_GATEWAY_SECRET=<the secret's name as shown in the SSL Cert Secret Name column>
     {{< /text >}}
 
-
-2.  Extract the certificate and the key from the secret provided for the ALB:
+1.  Extract the certificate and the key from the secret provided for the ALB:
 
     {{< text bash >}}
     $ mkdir alb_certs
@@ -170,7 +169,7 @@ of one another, and to use their private keys to encrypt and sign the traffic.
     -rw-r--r--   1 user  staff  1675 Sep 11 07:57 client.key
     {{< /text >}}
 
-3.  Download the issuer certificate of the [Let's Encrypt](https://letsencrypt.org) certificate, which is the
+1.  Download the issuer certificate of the [Let's Encrypt](https://letsencrypt.org) certificate, which is the
     issuer of the certificates provided by IKS. You specify this certificate as the certificate of a certificate
     authority to trust, for both the ALB and the Istio ingress gateway.
 
@@ -178,7 +177,7 @@ of one another, and to use their private keys to encrypt and sign the traffic.
     $ curl https://letsencrypt.org/certs/trustid-x3-root.pem --output trusted.crt
     {{< /text >}}
 
-4.  Create a Kubernetes secret to be used by the ALB to establish mutual TLS connection. 
+1.  Create a Kubernetes secret to be used by the ALB to establish mutual TLS connection.
 
     {{< warning >}}
     The certificates provided by IKS expire every 90 days and are automatically renewed by
@@ -193,7 +192,7 @@ of one another, and to use their private keys to encrypt and sign the traffic.
     secret "alb-certs" created
     {{< /text >}}
 
-5. For mutual TLS, a separate Secret named `<tls-cert-secret>-cacert` with a `cacert` key is needed for the ingress gateway.
+1. For mutual TLS, a separate Secret named `<tls-cert-secret>-cacert` with a `cacert` key is needed for the ingress gateway.
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret generic $INGRESS_GATEWAY_SECRET-cacert --from-file=ca.crt=trusted.crt
@@ -351,13 +350,13 @@ Istio ingress gateway.
     $ unset CLUSTER_NAME ALB_INGRESS_DOMAIN ALB_SECRET INGRESS_GATEWAY_DOMAIN INGRESS_GATEWAY_SECRET
     {{< /text >}}
 
-2.  Shutdown the `httpbin` service:
+1.  Shutdown the `httpbin` service:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/httpbin/httpbin.yaml@ -n httptools
     {{< /text >}}
 
-3.  Delete the `httptools` namespace:
+1.  Delete the `httptools` namespace:
 
     {{< text bash >}}
     $ kubectl delete namespace httptools
