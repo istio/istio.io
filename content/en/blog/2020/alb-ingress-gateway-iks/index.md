@@ -4,7 +4,7 @@ description: Configure the IBM Cloud Kubernetes Service Application Load Balance
 subtitle: Configure the IBM Cloud Kubernetes Service Application Load Balancer to direct traffic to the Istio Ingress gateway with mutual TLS
 publishdate: 2020-05-15
 attribution: Vadim Eisenberg (IBM)
-keywords: [traffic-management,ingress,file-mount-credentials,iks]
+keywords: [traffic-management,ingress,sds-credentials,iks,mutual-tls]
 last_update: 2020-07-17
 ---
 
