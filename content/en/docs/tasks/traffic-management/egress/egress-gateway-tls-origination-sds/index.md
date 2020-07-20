@@ -347,12 +347,6 @@ to hold the configuration of the NGINX server:
     [2018-08-19T18:20:40.096Z] "GET / HTTP/1.1" 200 - 0 612 7 5 "172.30.146.114" "curl/7.35.0" "b942b587-fac2-9756-8ec6-303561356204" "my-nginx.mesh-external.svc.cluster.local" "172.21.72.197:443"
     {{< /text >}}
 
-Istio supports reading a few different Secret formats, to support integration with various tools such as [cert-manager](/docs/ops/integrations/certmanager/):
-
-* For a CA only certificate, a generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential-cacert` has `cacert`.
-* A TLS Secret with keys `tls.key` and `tls.crt`. For CA certificate. For CA certificate, a separate generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
-* A generic Secret with keys `key` and `cert`. For CA certificate, a separate generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
-
 ### Cleanup the TLS origination example
 
 Remove the Istio configuration items you created:
@@ -558,6 +552,12 @@ to hold the configuration of the NGINX server:
     The secrets **must** be created in the same namespace Istio is deployed in. Assuming Istio is deployed in `istio-system`
     namespace. Gateways are only allowed to read Kubernetes secrets in `istio-system` namespace.
     {{< /warning >}}
+    
+    Istio supports reading a few different Secret formats, to support integration with various tools such as [cert-manager](/docs/ops/integrations/certmanager/):
+    
+    * For a CA only certificate, a generic Secret named `<secret>-cacert`, with a `ca.crt` key. For example, `httpbin-credential-cacert` has `ca.crt`.
+    * A TLS Secret with keys `key` and `cert`. For CA certificate, a separate generic Secret named `<secret>-cacert`, with a `ca.crt` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `ca.crt`.
+    * A generic Secret with keys `tls.key`, `tls.crt` and `ca.crt` for the client private key, client certificate and root certificate respectively.
 
 1.  Start the [sleep]({{< github_tree >}}/samples/sleep) sample
     which will be used as a test source for external calls.
