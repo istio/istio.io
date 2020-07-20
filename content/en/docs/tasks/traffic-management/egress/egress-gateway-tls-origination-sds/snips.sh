@@ -137,7 +137,7 @@ spec:
 EOF
 }
 
-snip_store_ca_certificate_used_by_egress_gateway_to_originate_tls_connection_as_a_kubernetes_secret_1() {
+snip_deploy_a_simple_tls_server_6() {
 kubectl create secret generic client-credential-cacert --from-file=ca.crt=example.com.crt -n istio-system
 }
 
@@ -275,11 +275,6 @@ snip_cleanup_the_tls_origination_example_3() {
 rm ./nginx.conf
 }
 
-snip_cleanup_the_tls_origination_example_4() {
-kubectl delete service sleep
-kubectl delete deployment sleep
-}
-
 snip_generate_client_and_server_certificates_and_keys_1() {
 openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
 }
@@ -397,14 +392,6 @@ EOF
 snip_deploy_a_mutual_tls_server_6() {
 kubectl create secret -n istio-system generic client-credential --from-file=tls.key=client.example.com.key \
   --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
-}
-
-snip_deploy_a_mutual_tls_server_7() {
-kubectl apply -f samples/sleep/sleep.yaml
-}
-
-snip_deploy_a_mutual_tls_server_8() {
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
 }
 
 snip_configure_mutual_tls_origination_for_egress_traffic_using_sds_1() {
