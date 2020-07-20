@@ -7,7 +7,7 @@ attribution: "Wang Fakang(mosn.io)"
 keywords: [mosn,sidecar,proxy]
 ---
 
-Thanks to the efforts of the MOSN community, MOSN has completed the most of adaptation for Istio. The MOSN [v0.14.0 release](https://github.com/mosn/mosn/releases/tag/v0.14.0) is now compatible with Istio 1.5.x, and it has gone through the BookInfo sample as the data plane of Istio.
+Thanks to the efforts of the MOSN community, MOSN has completed the most of adaptation for Istio. MOSN [v0.14.0 release](https://github.com/mosn/mosn/releases/tag/v0.14.0) is now compatible with Istio 1.5.x, and it has gone through the Bookinfo sample as the data plane of Istio.
 
 ## Background
 
@@ -19,7 +19,7 @@ In the Service Mesh world, using Istio as the control plane has become the mains
 
 ## What is MOSN?
 
-MOSN is a network proxy written in Golang. It can be used as a cloud-native network data plane, providing services with the following proxy functions: multi-protocol, modular, intelligent, and secure. MOSN is the short name of Modular Open Smart Network (proxy). MOSN can be integrated with any Service Mesh which supports xDS API. It can also be used as an independent Layer 4 or Layer 7 load balancer, API Gateway, cloud-native Ingress, etc.
+MOSN is a network proxy written in Golang. It can be used as a cloud-native network data plane, providing services with the following proxy functions: multi-protocol, modular, intelligent, and secure. MOSN is the short name of Modular Open Smart Network (proxy). MOSN can be integrated with any Service Mesh which supports xDS API. MOSN can also be used as an independent Layer 4 or Layer 7 load balancer, API Gateway, cloud-native Ingress, etc.
 
 ## Architecture
 
@@ -37,7 +37,7 @@ MOSN follows the OSI (Open Systems Interconnection), it has four layers, NET/IO,
 
 ## MOSN with Istio
 
-MOSN can be used not only as a stand-alone Layer 4/Layer 7 load balancer, but can also be integrated into Istio as a sidecar proxy or ingress gateway in Kubernetes. The following is an introduction to the use of MOSN as an Istio data plane. Tryout on [katacoda](https://katacoda.com/mosn/courses/istio/mosn-with-istio).
+MOSN can be used not only as a stand-alone Layer 4/Layer 7 load balancer, but can also be integrated into Istio as a sidecar proxy or ingress gateway in Kubernetes. The following is an introduction to the use of MOSN as an Istio data plane. You can tryout on [katacoda](https://katacoda.com/mosn/courses/istio/mosn-with-istio).
 
 ## Setup Istio
 
@@ -82,11 +82,11 @@ Check that Istio-related pod services are deployed successfully.
 $ kubectl get svc -n istio-system
 {{< /text >}}
 
-If the service `STATUS` is Running, then Istio has been successfully installed and you can deploy the BookInfo sample later.
+If the service `STATUS` is Running, then Istio has been successfully installed and you can deploy the Bookinfo sample later.
 
 ## Bookinfo Examples
 
-You can run the BookInfo samples through [katacoda](https://katacoda.com/mosn/courses/istio/mosn-with-istio) where you can find some other tutorials for MOSN and Istio.
+You can run the Bookinfo samples through [katacoda](https://katacoda.com/mosn/courses/istio/mosn-with-istio) where you can find some other tutorials for MOSN and Istio.
 
 ## Learn More
 
