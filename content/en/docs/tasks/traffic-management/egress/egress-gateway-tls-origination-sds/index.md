@@ -40,9 +40,9 @@ The TLS required private key, server certificate, and root certificate, are conf
 
     Note that any pod that you can `exec` and `curl` from would do.
 
-*   [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
+*   [Deploy an Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
-*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
 
 {{< tip >}}
  If you configured an egress gateway using the [file-mount based approach](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination),
@@ -55,13 +55,13 @@ The TLS required private key, server certificate, and root certificate, are conf
 This section describes how to perform the same TLS origination as in the
 [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/) example,
 only this time using an egress gateway. Note that in this case the TLS origination will
-be done by the egress gateway, as opposed to by the sidecar in the previous example. Egress Gateway will
+be done by the egress gateway, as opposed to by the sidecar in the previous example. The egress gateway will
 use SDS instead of the file-mount to provision client certificates.
 
 ### Generate CA and server certificates and keys
 
 For this task you can use your favorite tool to generate certificates and keys. The commands below use
-[openssl](https://man.openbsd.org/openssl.1)
+[openssl](https://man.openbsd.org/openssl.1).
 
 1.  Create a root certificate and private key to sign the certificate for your services:
 
@@ -196,10 +196,8 @@ to hold the configuration of the NGINX server:
     EOF
     {{< /text >}}
 
-### Store CA certificate used by Egress Gateway to originate TLS connection as a Kubernetes Secret
-
-1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the CA
-   certificates.
+1. Create a Kubernetes [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the CA
+   certificate used by egress gateway to originate TLS connections:
 
     {{< text bash >}}
     $ kubectl create secret generic client-credential-cacert --from-file=ca.crt=example.com.crt -n istio-system
@@ -349,20 +347,20 @@ to hold the configuration of the NGINX server:
 
 ### Cleanup the TLS origination example
 
-Remove the Istio configuration items you created:
+1.  Remove the Istio configuration items you created:
 
-{{< text bash >}}
-$ kubectl delete destinationrule originate-tls-for-nginx
-$ kubectl delete virtualservice direct-nginx-through-egress-gateway
-$ kubectl delete destinationrule egressgateway-for-nginx
-$ kubectl delete gateway istio-egressgateway
-$ kubectl delete secret generic client-credential -n istio-system
-$ kubectl delete service my-nginx -n mesh-external
-$ kubectl delete deployment my-nginx -n mesh-external
-$ kubectl delete configmap nginx-configmap -n mesh-external
-$ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
-$ kubectl delete namespace mesh-external
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete destinationrule originate-tls-for-nginx
+    $ kubectl delete virtualservice direct-nginx-through-egress-gateway
+    $ kubectl delete destinationrule egressgateway-for-nginx
+    $ kubectl delete gateway istio-egressgateway
+    $ kubectl delete secret generic client-credential -n istio-system
+    $ kubectl delete service my-nginx -n mesh-external
+    $ kubectl delete deployment my-nginx -n mesh-external
+    $ kubectl delete configmap nginx-configmap -n mesh-external
+    $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
+    $ kubectl delete namespace mesh-external
+    {{< /text >}}
 
 1.  Delete the certificates and private keys:
 
@@ -374,13 +372,6 @@ $ kubectl delete namespace mesh-external
 
     {{< text bash >}}
     $ rm ./nginx.conf
-    {{< /text >}}
-
-1.  Delete the `sleep` service and deployment:
-
-    {{< text bash >}}
-    $ kubectl delete service sleep
-    $ kubectl delete deployment sleep
     {{< /text >}}
 
 ## Perform mutual TLS origination with an egress gateway
@@ -558,23 +549,6 @@ to hold the configuration of the NGINX server:
     * For a CA only certificate, a generic Secret named `<secret>-cacert`, with a `ca.crt` key. For example, `httpbin-credential-cacert` has `ca.crt`.
     * A TLS Secret with keys `key` and `cert`. For CA certificate, a separate generic Secret named `<secret>-cacert`, with a `ca.crt` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `ca.crt`.
     * A generic Secret with keys `tls.key`, `tls.crt` and `ca.crt` for the client private key, client certificate and root certificate respectively.
-
-1.  Start the [sleep]({{< github_tree >}}/samples/sleep) sample
-    which will be used as a test source for external calls.
-
-    If you have enabled [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), do
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
-    {{< /text >}}
-
-    otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-    {{< /text >}}
-
-    Note that any pod that you can `exec` and `curl` from would do.
 
 ### Configure mutual TLS origination for egress traffic using SDS
 
