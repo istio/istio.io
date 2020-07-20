@@ -1,9 +1,9 @@
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
-There are      158 owned istio.io docs.
+There are 158 owned istio.io docs.
 
-## istio/wg-docs-maintainers:               15 docs
+## istio/wg-docs-maintainers: 15 docs
 
 - [docs/concepts/what-is-istio/index.md](https://preliminary.istio.io/latest/docs/concepts/what-is-istio)
 - [docs/examples/bookinfo/index.md](https://preliminary.istio.io/latest/docs/examples/bookinfo)
@@ -21,7 +21,7 @@ There are      158 owned istio.io docs.
 - [docs/examples/microservices-istio/single/index.md](https://preliminary.istio.io/latest/docs/examples/microservices-istio/single)
 - [docs/reference/glossary/index.md](https://preliminary.istio.io/latest/docs/reference/glossary)
 
-## istio/wg-environments-maintainers:               37 docs
+## istio/wg-environments-maintainers: 37 docs
 
 - [docs/examples/virtual-machines/bookinfo/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/bookinfo)
 - [docs/examples/virtual-machines/multi-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/multi-network)
@@ -61,7 +61,7 @@ There are      158 owned istio.io docs.
 - [docs/setup/platform-setup/openshift/index.md](https://preliminary.istio.io/latest/docs/setup/platform-setup/openshift)
 - [docs/setup/upgrade/index.md](https://preliminary.istio.io/latest/docs/setup/upgrade)
 
-## istio/wg-networking-maintainers:               25 docs
+## istio/wg-networking-maintainers: 25 docs
 
 - [docs/concepts/traffic-management/index.md](https://preliminary.istio.io/latest/docs/concepts/traffic-management)
 - [docs/ops/best-practices/traffic-management/index.md](https://preliminary.istio.io/latest/docs/ops/best-practices/traffic-management)
@@ -89,7 +89,7 @@ There are      158 owned istio.io docs.
 - [docs/tasks/traffic-management/tcp-traffic-shifting/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/tcp-traffic-shifting)
 - [docs/tasks/traffic-management/traffic-shifting/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/traffic-shifting)
 
-## istio/wg-policies-and-telemetry-maintainers:               32 docs
+## istio/wg-policies-and-telemetry-maintainers: 32 docs
 
 - [docs/concepts/observability/index.md](https://preliminary.istio.io/latest/docs/concepts/observability)
 - [docs/concepts/wasm/index.md](https://preliminary.istio.io/latest/docs/concepts/wasm)
@@ -124,7 +124,7 @@ There are      158 owned istio.io docs.
 - [docs/tasks/policy-enforcement/enabling-policy/index.md](https://preliminary.istio.io/latest/docs/tasks/policy-enforcement/enabling-policy)
 - [docs/tasks/policy-enforcement/rate-limiting/index.md](https://preliminary.istio.io/latest/docs/tasks/policy-enforcement/rate-limiting)
 
-## istio/wg-security-maintainers:               16 docs
+## istio/wg-security-maintainers: 16 docs
 
 - [docs/concepts/security/index.md](https://preliminary.istio.io/latest/docs/concepts/security)
 - [docs/ops/best-practices/security/index.md](https://preliminary.istio.io/latest/docs/ops/best-practices/security)
@@ -143,7 +143,7 @@ There are      158 owned istio.io docs.
 - [docs/tasks/security/cert-management/dns-cert/index.md](https://preliminary.istio.io/latest/docs/tasks/security/cert-management/dns-cert)
 - [docs/tasks/security/cert-management/plugin-ca-cert/index.md](https://preliminary.istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert)
 
-## istio/wg-user-experience-maintainers:               33 docs
+## istio/wg-user-experience-maintainers: 33 docs
 
 - [docs/ops/common-problems/injection/index.md](https://preliminary.istio.io/latest/docs/ops/common-problems/injection)
 - [docs/ops/common-problems/validation/index.md](https://preliminary.istio.io/latest/docs/ops/common-problems/validation)

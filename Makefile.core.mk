@@ -74,7 +74,10 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
-gen: snips tidy-go
+doc-owners:
+	@scripts/doc_owners.sh
+
+gen: snips doc-owners tidy-go
 
 gen-check: gen check-clean-repo
 
