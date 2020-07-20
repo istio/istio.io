@@ -4,10 +4,10 @@ subtitle: "A Cloud Native Proxy for Edge or Service Mesh"
 description: "An alternative sidecar proxy for Istio."
 publishdate: 2020-07-17
 attribution: "Wang Fakang(mosn.io)"
-keywords: [mson,sidecar,proxy]
+keywords: [mosn,sidecar,proxy]
 ---
 
-Thanks to the efforts of the MOSN community, MOSN has completed the most of adaptation for Istio. The MOSN [v0.14.0 release](https://github.com/mosn/mosn/releases/tag/v0.14.0) is now compatible with Istio 1.5.x, and it has went through the BookInfo sample as the data plane of Istio.
+Thanks to the efforts of the MOSN community, MOSN has completed the most of adaptation for Istio. The MOSN [v0.14.0 release](https://github.com/mosn/mosn/releases/tag/v0.14.0) is now compatible with Istio 1.5.x, and it has gone through the BookInfo sample as the data plane of Istio.
 
 ## Background
 
@@ -46,7 +46,7 @@ To download Istio (this example uses Istio 1.5.2) uses the following command.
 
 {{< text bash >}}
 $ export ISTIO_VERSION=1.5.2
-$ curl -L https://raw.githubusercontent.com/istio/istio/release-1.5/release/downloadIstioCandidate.sh | sh -
+$ curl -L {{< github_file >}}/release/downloadIstioCandidate.sh | sh -
 {{< /text >}}
 
 The downloaded Istio package is named `istio-1.5.2` and contains:
