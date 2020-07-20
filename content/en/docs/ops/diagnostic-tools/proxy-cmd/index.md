@@ -391,6 +391,6 @@ To find out the Envoy version used in deployment, you can `exec` into the contai
 {{< text bash >}}
 $ kubectl exec -it prometheus-68b46fc8bb-dc965 -c istio-proxy -n istio-system pilot-agent request GET server_info
 {
- "version": "80ad06b26b3f97606143871e16268eb036ca7dcd/1.14.3-dev/Clean/RELEASE/BoringSSL"
+ "version": "12cfbda324320f99e0e39d7c393109fcd824591f/1.14.1/Clean/RELEASE/BoringSSL"
 }
 {{< /text >}}
