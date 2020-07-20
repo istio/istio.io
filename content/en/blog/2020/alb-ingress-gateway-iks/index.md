@@ -4,8 +4,8 @@ description: Configure the IBM Cloud Kubernetes Service Application Load Balance
 subtitle: Configure the IBM Cloud Kubernetes Service Application Load Balancer to direct traffic to the Istio Ingress gateway with mutual TLS
 publishdate: 2020-05-15
 attribution: Vadim Eisenberg (IBM)
-keywords: [traffic-management,ingress,file-mount-credentials,iks]
-last_update: 2020-06-23
+keywords: [traffic-management,ingress,sds-credentials,iks,mutual-tls]
+last_update: 2020-07-17
 ---
 
 In this blog post I show how to configure the [Ingress Application Load Balancer (ALB)](https://cloud.ibm.com/docs/containers?topic=containers-ingress-about)
@@ -126,10 +126,10 @@ of one another, and to use their private keys to encrypt and sign the traffic.
     $ echo INGRESS_GATEWAY_IP = $INGRESS_GATEWAY_IP
     {{< /text >}}
 
-1.  Create a DNS domain for the IP of the Istio Ingress Gateway service:
+1.  Create a DNS domain and certificates for the IP of the Istio Ingress Gateway service:
 
     {{< text bash >}}
-    $ ibmcloud ks nlb-dns create classic --cluster $CLUSTER_NAME --ip $INGRESS_GATEWAY_IP
+    $ ibmcloud ks nlb-dns create classic --cluster $CLUSTER_NAME --ip $INGRESS_GATEWAY_IP --secret-namespace istio-system
     Host name subdomain is created as <some domain>
     {{< /text >}}
 
@@ -145,29 +145,17 @@ of one another, and to use their private keys to encrypt and sign the traffic.
     $ ibmcloud ks nlb-dnss --cluster $CLUSTER_NAME
     Retrieving host names, certificates, IPs, and health check monitors for network load balancer (NLB) pods in cluster <your cluster>...
     OK
-    Hostname                          IP(s)                       Health Monitor   SSL Cert Status   SSL Cert Secret Name
-    <your ingress gateway hostname>   <your ingress gateway IP>   None             created           <the matching secret name>
+    Hostname                          IP(s)                       Health Monitor   SSL Cert Status   SSL Cert Secret Name                          Secret Namespace
+    <your ingress gateway hostname>   <your ingress gateway IP>   None             created           <the matching secret name>           istio-system
     ...
     {{< /text >}}
 
-    Wait until the status of the certificate (the fourth field) in the line that matches the IP of the Istio ingress
-    gateway service becomes `enabled` (initially it is `pending`).
+    Wait until the status of the certificate (the fourth field) of the new domain name becomes `enabled` (initially it is `pending`).
 
-1.  Store the name of the secret that matches the IP of the Istio ingress gateway service:
-
-    {{< text bash >}}
-    $ export INGRESS_GATEWAY_SECRET=<the secret's name that appears as the last value in the line that matches the IP of the gateway>
-    {{< /text >}}
-
-1.  Extract the certificate and the key from the secret provided for the ingress gateway:
+1.  Store the name of the secret of the new domain name:
 
     {{< text bash >}}
-    $ mkdir ingress_gateway_certs
-    $ kubectl get secret $INGRESS_GATEWAY_SECRET --namespace=default -o yaml | grep 'tls.key:' | cut -f2 -d: | base64 --decode > ingress_gateway_certs/tls.key
-    $ kubectl get secret $INGRESS_GATEWAY_SECRET --namespace=default -o yaml | grep 'tls.crt:' | cut -f2 -d: | base64 --decode > ingress_gateway_certs/tls.crt
-    $ ls -al ingress_gateway_certs
-    -rw-r--r--   1 user  staff  1679 Sep 11 07:55 tls.key
-    -rw-r--r--   1 user  staff  3921 Sep 11 07:55 trusted.crt
+    $ export INGRESS_GATEWAY_SECRET=<the secret's name as shown in the SSL Cert Secret Name column>
     {{< /text >}}
 
 1.  Extract the certificate and the key from the secret provided for the ALB:
@@ -186,18 +174,10 @@ of one another, and to use their private keys to encrypt and sign the traffic.
     authority to trust, for both the ALB and the Istio ingress gateway.
 
     {{< text bash >}}
-    $ curl https://letsencrypt.org/certs/trustid-x3-root.pem --output trustid-x3-root.pem
+    $ curl https://letsencrypt.org/certs/trustid-x3-root.pem --output trusted.crt
     {{< /text >}}
 
-1.  Append the issuer certificate of [Let's Encrypt](https://letsencrypt.org) to the certificate of ingress gateway
-    (currently required for the ALB):
-
-    {{< text bash >}}
-    $ cat ingress_gateway_certs/tls.crt trustid-x3-root.pem > trusted.crt
-    {{< /text >}}
-
-1.  Create Kubernetes secrets to be used by Istio ingress gateway and the ALB to establish mutual TLS between them. Note
-    that the name of the secrets for the Istio ingress gateway must be exactly as in the commands.
+1.  Create a Kubernetes secret to be used by the ALB to establish mutual TLS connection.
 
     {{< warning >}}
     The certificates provided by IKS expire every 90 days and are automatically renewed by
@@ -208,12 +188,15 @@ of one another, and to use their private keys to encrypt and sign the traffic.
     {{< /warning >}}
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key ingress_gateway_certs/tls.key --cert trusted.crt
-    $ kubectl create -n istio-system secret generic istio-ingressgateway-ca-certs --from-file=trustid-x3-root.pem
     $ kubectl create secret generic alb-certs -n istio-system --from-file=trusted.crt --from-file=alb_certs/client.crt --from-file=alb_certs/client.key
-    secret "istio-ingressgateway-certs" created
-    secret "istio-ingressgateway-ca-certs" created
     secret "alb-certs" created
+    {{< /text >}}
+
+1. For mutual TLS, a separate Secret named `<tls-cert-secret>-cacert` with a `cacert` key is needed for the ingress gateway.
+
+    {{< text bash >}}
+    $ kubectl create -n istio-system secret generic $INGRESS_GATEWAY_SECRET-cacert --from-file=ca.crt=trusted.crt
+    secret/cluster_name-hash-XXXX-cacert created
     {{< /text >}}
 
 ## Configure a mutual TLS ingress gateway
@@ -239,9 +222,7 @@ You use the certificates and the keys provided to you for the ingress gateway an
           protocol: HTTPS
         tls:
           mode: MUTUAL
-          serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
-          privateKey: /etc/istio/ingressgateway-certs/tls.key
-          caCertificates: /etc/istio/ingressgateway-ca-certs/trustid-x3-root.pem
+          credentialName: $INGRESS_GATEWAY_SECRET
         hosts:
         - "$INGRESS_GATEWAY_DOMAIN"
         - "httpbin.$ALB_INGRESS_DOMAIN"
@@ -274,12 +255,6 @@ You use the certificates and the keys provided to you for the ingress gateway an
     EOF
     {{< /text >}}
 
-1.  Delete the Istio Ingress Gateway's pod to reload the certificates:
-
-    {{< text bash >}}
-    $ kubectl delete pod -l istio=ingressgateway -n istio-system
-    {{< /text >}}
-
 1.  Send a request to `httpbin` by _curl_, passing as parameters the client certificate
     (the `--cert` option) and the private key (the `--key` option):
 
@@ -300,7 +275,7 @@ You use the certificates and the keys provided to you for the ingress gateway an
 1.  Remove the directories with the ALB and ingress gateway certificates and keys.
 
     {{< text bash >}}
-    $ rm -r ingress_gateway_certs alb_certs trustid-x3-root.pem trusted.crt
+    $ rm -r alb_certs trusted.crt
     {{< /text >}}
 
 ## Configure the ALB
@@ -370,8 +345,8 @@ Istio ingress gateway.
     $ kubectl delete ingress alb-ingress -n istio-system
     $ kubectl delete virtualservice default-ingress -n httptools
     $ kubectl delete gateway default-ingress-gateway -n httptools
-    $ kubectl delete secrets istio-ingressgateway-certs istio-ingressgateway-ca-certs alb-certs -n istio-system
-    $ rm -rf ingress_gateway_certs alb_certs trustid-x3-root.pem trusted.crt
+    $ kubectl delete secrets alb-certs -n istio-system
+    $ rm -rf alb_certs trusted.crt
     $ unset CLUSTER_NAME ALB_INGRESS_DOMAIN ALB_SECRET INGRESS_GATEWAY_DOMAIN INGRESS_GATEWAY_SECRET
     {{< /text >}}
 
