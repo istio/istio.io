@@ -3,6 +3,8 @@ title: Egress Gateways with TLS Origination (SDS)
 description: Describes how to configure an Egress Gateway to perform TLS origination to external services using Secret Discovery Service.
 weight: 40
 keywords: [traffic-management,egress,sds]
+owner: istio/wg-security-maintainers
+test: yes
 aliases:
   - /docs/examples/advanced-gateways/egress-gateway-tls-origination-sds/
 ---
@@ -222,38 +224,41 @@ to hold the configuration of the NGINX server:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-      apiVersion: networking.istio.io/v1alpha3
-      kind: Gateway
-      metadata:
-        name: istio-egressgateway
-      spec:
-        selector:
-          istio: egressgateway
-        servers:
-        - port:
-            number: 80
-            name: http
-            protocol: HTTP
-          hosts:
-          - my-nginx.mesh-external.svc.cluster.local
-      ---
-      apiVersion: networking.istio.io/v1alpha3
-      kind: DestinationRule
-      metadata:
-        name: egressgateway-for-nginx
-      spec:
-        host: istio-egressgateway.istio-system.svc.cluster.local
-        subsets:
-        - name: nginx
-          trafficPolicy:
-            loadBalancer:
-              simple: ROUND_ROBIN
-            portLevelSettings:
-            - port:
-                number: 80
-              tls:
-                sni: my-nginx.mesh-external.svc.cluster.local
-      EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        hosts:
+        - my-nginx.mesh-external.svc.cluster.local
+        tls:
+          mode: ISTIO_MUTUAL
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-nginx
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: nginx
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: my-nginx.mesh-external.svc.cluster.local
+    EOF
     {{< /text >}}
 
 1.  Define a `VirtualService` to direct the traffic through the egress gateway:
@@ -280,12 +285,12 @@ to hold the configuration of the NGINX server:
             host: istio-egressgateway.istio-system.svc.cluster.local
             subset: nginx
             port:
-              number: 80
+              number: 443
           weight: 100
       - match:
         - gateways:
           - istio-egressgateway
-          port: 80
+          port: 443
         route:
         - destination:
             host: my-nginx.mesh-external.svc.cluster.local
@@ -344,8 +349,8 @@ to hold the configuration of the NGINX server:
 
 Istio supports reading a few different Secret formats, to support integration with various tools such as [cert-manager](/docs/ops/integrations/certmanager/):
 
-* A TLS Secret with keys `tls.key` and `tls.crt`. For CA certificate, a `ca.crt` key can be used.
-* A generic Secret with keys `key` and `cert`. For CA certificate, a `cacert` key can be used.
+* For a CA only certificate, a generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential-cacert` has `cacert`.
+* A TLS Secret with keys `tls.key` and `tls.crt`. For CA certificate. For CA certificate, a separate generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
 * A generic Secret with keys `key` and `cert`. For CA certificate, a separate generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
 
 ### Cleanup the TLS origination example
@@ -441,7 +446,7 @@ the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injecti
 1.  Create a configuration file for the NGINX server:
 
     {{< text bash >}}
-    $ cat <<EOF > ./nginx.conf
+    $ cat <<\EOF > ./nginx.conf
     events {
     }
 
@@ -573,9 +578,9 @@ to hold the configuration of the NGINX server:
 
 ### Configure mutual TLS origination for egress traffic using SDS
 
-1.  Create an egress `Gateway` for `my-nginx.mesh-external.svc.cluster.local`, port 80, and destination rules and
+1.  Create an egress `Gateway` for `my-nginx.mesh-external.svc.cluster.local`, port 443, and destination rules and
     virtual services to direct the traffic through the egress gateway and from the egress gateway to the external
-    service. Originating TLS connection at the egress gateway to port 443 on the nginx server.
+    service.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -588,11 +593,13 @@ to hold the configuration of the NGINX server:
         istio: egressgateway
       servers:
       - port:
-          number: 80
-          name: http
-          protocol: HTTP
+          number: 443
+          name: https
+          protocol: HTTPS
         hosts:
         - my-nginx.mesh-external.svc.cluster.local
+        tls:
+          mode: ISTIO_MUTUAL
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -607,8 +614,9 @@ to hold the configuration of the NGINX server:
             simple: ROUND_ROBIN
           portLevelSettings:
           - port:
-              number: 80
+              number: 443
             tls:
+              mode: ISTIO_MUTUAL
               sni: my-nginx.mesh-external.svc.cluster.local
     EOF
     {{< /text >}}
@@ -637,12 +645,12 @@ to hold the configuration of the NGINX server:
             host: istio-egressgateway.istio-system.svc.cluster.local
             subset: nginx
             port:
-              number: 80
+              number: 443
           weight: 100
       - match:
         - gateways:
           - istio-egressgateway
-          port: 80
+          port: 443
         route:
         - destination:
             host: my-nginx.mesh-external.svc.cluster.local
@@ -711,7 +719,6 @@ to hold the configuration of the NGINX server:
     $ kubectl delete deployment my-nginx -n mesh-external
     $ kubectl delete namespace mesh-external
     $ kubectl delete gateway istio-egressgateway
-    $ kubectl delete serviceentry nginx
     $ kubectl delete virtualservice direct-nginx-through-egress-gateway
     $ kubectl delete destinationrule -n istio-system originate-mtls-for-nginx
     $ kubectl delete destinationrule egressgateway-for-nginx
