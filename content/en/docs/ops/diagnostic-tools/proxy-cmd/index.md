@@ -34,15 +34,15 @@ receiving configuration or is out of sync then `proxy-status` will tell you this
 
 {{< text bash >}}
 $ istioctl proxy-status
-NAME                                                   CDS        LDS        EDS        RDS          PILOT                       VERSION
-details-v1-6fc55d65c9-x6qz8.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
-istio-ingressgateway-74f5cf489f-xqcnh.istio-system     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
-productpage-v1-7f44c4d57c-5f99x.default                SYNCED     SYNCED     SYNCED     SYNCED       istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
-prometheus-68b46fc8bb-dc965.istio-system               SYNCED     SYNCED     SYNCED     SYNCED       istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
-ratings-v1-6f855c5fff-mlqmv.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
-reviews-v1-54b8794ddf-tc8hd.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
-reviews-v2-c4d6568f9-4flql.default                     SYNCED     SYNCED     SYNCED     SYNCED       istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
-reviews-v3-7f66977689-hwknn.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-56b6dd58dd-fx5tx     1.6.0-rc.2
+NAME                                                   CDS        LDS        EDS        RDS          ISTIOD                      VERSION
+details-v1-558b8b4b76-qzqsg.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.6.5
+istio-ingressgateway-66c994c45c-cmb7x.istio-system     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-6cf8d4f9cb-wm7x6     1.6.5
+productpage-v1-6987489c74-nc7tj.default                SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.6.5
+prometheus-7bdc59c94d-hcp59.istio-system               SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.6.5
+ratings-v1-7dc98c7588-5m6xj.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.6.5
+reviews-v1-7f99cc4496-rtsqn.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.6.5
+reviews-v2-7d79d5bd5d-tj6kf.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.6.5
+reviews-v3-7dbcdcbc56-t8wrx.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.6.5
 {{< /text >}}
 
 If a proxy is missing from this list it means that it is not currently connected to a Istiod instance so will not be
@@ -116,10 +116,10 @@ for listeners or routes when required):
 
 {{< text bash >}}
 $ istioctl proxy-config cluster -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
-SERVICE FQDN                                                               PORT      SUBSET     DIRECTION     TYPE
+SERVICE FQDN                                                               PORT      SUBSET     DIRECTION     TYPE           DESTINATION RULE
 BlackHoleCluster                                                           -         -          -             STATIC
 agent                                                                      -         -          -             STATIC
-details.default.svc.cluster.local                                          9080      -          outbound      EDS
+details.default.svc.cluster.local                                          9080      -          outbound      EDS            details.default
 istio-ingressgateway.istio-system.svc.cluster.local                        80        -          outbound      EDS
 istio-ingressgateway.istio-system.svc.cluster.local                        443       -          outbound      EDS
 istio-ingressgateway.istio-system.svc.cluster.local                        15021     -          outbound      EDS
@@ -155,30 +155,42 @@ to send a request from the `productpage` pod to the `reviews` pod at `reviews:90
 
     {{< text bash >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs
-    ADDRESS            PORT      TYPE
-    10.96.0.10         53        TCP        <--+
-    10.109.221.105     15012     TCP           |
-    10.96.121.204      15443     TCP           | Receives outbound non-HTTP traffic for relevant IP:PORT pair from listener `0.0.0.0_15001`
-    10.96.0.1          443       TCP           |
-    10.109.221.105     443       TCP           |
-    10.96.121.204      443       TCP        <--+
-    0.0.0.0            9090      HTTP+TCP   <--+
-    10.96.0.10         9153      HTTP+TCP      |
-    0.0.0.0            15010     HTTP+TCP      |
-    0.0.0.0            80        HTTP+TCP      | Receives outbound HTTP+TCP traffic for relevant port from listener `0.0.0.0_15001`
-    0.0.0.0            15014     HTTP+TCP      |
-    10.109.221.105     853       HTTP+TCP      |
-    10.96.121.204      15021     HTTP+TCP   <--+
-    0.0.0.0            9080      HTTP+TCP   // Receives all inbound traffic on 9080 from listener `0.0.0.0_15006`
-    0.0.0.0            15001     TCP        // Receives all outbound traffic to the pod from IP tables and hands over to virtual listener
-    0.0.0.0            15006     HTTP+TCP
-    0.0.0.0            15090     HTTP
-    0.0.0.0            15021     HTTP
+    ADDRESS       PORT  MATCH                                            DESTINATION
+    10.96.0.10    53    ALL                                              Cluster: outbound|53||kube-dns.kube-system.svc.cluster.local
+    0.0.0.0       80    App: HTTP                                        Route: 80
+    0.0.0.0       80    ALL                                              PassthroughCluster
+    10.100.93.102 443   ALL                                              Cluster: outbound|443||istiod.istio-system.svc.cluster.local
+    10.111.121.13 443   ALL                                              Cluster: outbound|443||istio-ingressgateway.istio-system.svc.cluster.local
+    10.96.0.1     443   ALL                                              Cluster: outbound|443||kubernetes.default.svc.cluster.local
+    10.100.93.102 853   App: HTTP                                        Route: istiod.istio-system.svc.cluster.local:853
+    10.100.93.102 853   ALL                                              Cluster: outbound|853||istiod.istio-system.svc.cluster.local
+    0.0.0.0       9080  App: HTTP                                        Route: 9080
+    0.0.0.0       9080  ALL                                              PassthroughCluster
+    0.0.0.0       9090  App: HTTP                                        Route: 9090
+    0.0.0.0       9090  ALL                                              PassthroughCluster
+    10.96.0.10    9153  App: HTTP                                        Route: kube-dns.kube-system.svc.cluster.local:9153
+    10.96.0.10    9153  ALL                                              Cluster: outbound|9153||kube-dns.kube-system.svc.cluster.local
+    0.0.0.0       15001 ALL                                              PassthroughCluster
+    0.0.0.0       15006 Addr: 10.244.0.22/32:15021                       inbound|15021|mgmt-15021|mgmtCluster
+    0.0.0.0       15006 Addr: 10.244.0.22/32:9080                        Inline Route: /*
+    0.0.0.0       15006 Trans: tls; App: HTTP TLS; Addr: 0.0.0.0/0       Inline Route: /*
+    0.0.0.0       15006 App: HTTP; Addr: 0.0.0.0/0                       Inline Route: /*
+    0.0.0.0       15006 App: Istio HTTP Plain; Addr: 10.244.0.22/32:9080 Inline Route: /*
+    0.0.0.0       15006 Addr: 0.0.0.0/0                                  InboundPassthroughClusterIpv4
+    0.0.0.0       15006 Trans: tls; App: TCP TLS; Addr: 0.0.0.0/0        InboundPassthroughClusterIpv4
+    0.0.0.0       15010 App: HTTP                                        Route: 15010
+    0.0.0.0       15010 ALL                                              PassthroughCluster
+    10.100.93.102 15012 ALL                                              Cluster: outbound|15012||istiod.istio-system.svc.cluster.local
+    0.0.0.0       15014 App: HTTP                                        Route: 15014
+    0.0.0.0       15014 ALL                                              PassthroughCluster
+    0.0.0.0       15021 ALL                                              Inline Route: /healthz/ready*
+    10.111.121.13 15021 App: HTTP                                        Route: istio-ingressgateway.istio-system.svc.cluster.local:15021
+    10.111.121.13 15021 ALL                                              Cluster: outbound|15021||istio-ingressgateway.istio-system.svc.cluster.local
+    0.0.0.0       15090 ALL                                              Inline Route: /stats/prometheus*
+    10.111.121.13 15443 ALL                                              Cluster: outbound|15443||istio-ingressgateway.istio-system.svc.cluster.local
     {{< /text >}}
 
-1. From the above summary you can see that every sidecar has a listener bound to `0.0.0.0:15006` which is where IP tables routes all inbound pod traffic to and a listener bound to `0.0.0.0:15001` which is where IP tables routes all outbound pod traffic to. This listener has `useOriginalDst` set to true which means
-it hands the request over to the listener that best matches the original destination of the request.
-If it can't find any matching virtual listeners it sends the request to the `PassthroughCluster` which connects to the destination directly.
+1. From the above summary you can see that every sidecar has a listener bound to `0.0.0.0:15006` which is where IP tables routes all inbound pod traffic to and a listener bound to `0.0.0.0:15001` which is where IP tables routes all outbound pod traffic to. The `0.0.0.0:15001` listener hands the request over to the virtual listener that best matches the original destination of the request, if it can find a matching one. Otherwise, it sends the request to the `PassthroughCluster` which connects to the destination directly.
 
     {{< text bash json >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -o json
@@ -228,8 +240,8 @@ If it can't find any matching virtual listeners it sends the request to the `Pas
                     "name": "virtualOutbound-catchall-tcp"
                 }
             ],
-            "useOriginalDst": true,
-            "trafficDirection": "OUTBOUND"
+            "trafficDirection": "OUTBOUND",
+            "hiddenEnvoyDeprecatedUseOriginalDst": true
         }
     ]
     {{< /text >}}
