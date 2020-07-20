@@ -47,7 +47,7 @@ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=exampl
 }
 
 snip_deploy_a_simple_tls_server_3() {
-cat <<EOF > ./nginx.conf
+cat <<\EOF > ./nginx.conf
 events {
 }
 
@@ -239,7 +239,7 @@ EOF
 }
 
 snip_configure_simple_tls_origination_for_egress_traffic_4() {
-kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
+kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
 }
 
 ! read -r -d '' snip_configure_simple_tls_origination_for_egress_traffic_4_out <<\ENDSNIP
@@ -505,7 +505,7 @@ EOF
 }
 
 snip_configure_mutual_tls_origination_for_egress_traffic_using_sds_4() {
-kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
+kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
 }
 
 ! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_using_sds_4_out <<\ENDSNIP

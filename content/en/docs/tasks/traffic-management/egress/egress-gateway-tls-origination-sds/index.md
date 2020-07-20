@@ -101,7 +101,7 @@ the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injecti
 1.  Create a configuration file for the NGINX server:
 
     {{< text bash >}}
-    $ cat <<EOF > ./nginx.conf
+    $ cat <<\EOF > ./nginx.conf
     events {
     }
 
@@ -326,7 +326,7 @@ to hold the configuration of the NGINX server:
 1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>
@@ -686,7 +686,7 @@ to hold the configuration of the NGINX server:
 1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>
