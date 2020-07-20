@@ -175,10 +175,6 @@ kubectl delete destinationrule originate-tls-for-edition-cnn-com
 kubectl delete destinationrule egressgateway-for-cnn
 }
 
-snip_cleanup_the_tls_origination_example_2() {
-kubectl delete -f samples/sleep/sleep.yaml
-}
-
 snip_generate_client_and_server_certificates_and_keys_1() {
 openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
 }
@@ -291,14 +287,6 @@ spec:
         secret:
           secretName: nginx-ca-certs
 EOF
-}
-
-snip_deploy_a_mutual_tls_server_6() {
-kubectl apply -f samples/sleep/sleep.yaml
-}
-
-snip_deploy_a_mutual_tls_server_7() {
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
 }
 
 snip_redeploy_the_egress_gateway_with_the_client_certificates_1() {

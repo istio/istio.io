@@ -223,12 +223,6 @@ $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
 $ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
-Remove the sleep service and deployment:
-
-{{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
-{{< /text >}}
-
 ## Perform mutual TLS origination with an egress gateway
 
 Similar to the previous section, this section describes how to configure an egress gateway to perform
@@ -387,23 +381,6 @@ to hold the configuration of the NGINX server:
               secretName: nginx-ca-certs
     EOF
     {{< /text >}}
-
-1.  Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample to test sending requests to the NGINX server:
-
-    If you have enabled [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), do
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
-    {{< /text >}}
-
-    otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-    {{< /text >}}
-
-    Note that any pod that you can `exec` and `curl` from would do.
-
 
 ### Redeploy the egress gateway with the client certificates
 

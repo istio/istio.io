@@ -74,7 +74,8 @@ _wait_for_istio destinationrule istio-system originate-mtls-for-nginx
 # Verify that mTLS connection is set up properly
 _verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_4 "Welcome to nginx!"
 
-#TODO: verify request is actually being routed through egress gateway
+# Verify request is routed through Gateway
+_verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_5 "GET / HTTP/1.1"
 
 # @cleanup
 set +e # ignore cleanup errors
