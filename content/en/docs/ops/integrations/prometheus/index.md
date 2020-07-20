@@ -3,6 +3,7 @@ title: Prometheus
 description: How to integrate with Prometheus.
 weight: 30
 keywords: [integration,prometheus]
+owner: istio/wg-environments-maintainers
 test: n/a
 ---
 

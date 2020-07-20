@@ -5,6 +5,7 @@ weight: 11
 keywords: [telemetry,tracing,lightstep]
 aliases:
  - /docs/tasks/telemetry/distributed-tracing/lightstep/
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 

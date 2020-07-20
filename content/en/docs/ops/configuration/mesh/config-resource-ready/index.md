@@ -2,6 +2,7 @@
 title: Wait for Resource Status to Apply Configuration
 description: Describes how to wait to apply mesh configuration until a resource reaches a given status or readiness.
 weight: 15
+owner: istio/wg-user-experience-maintainers
 test: no
 ---
 

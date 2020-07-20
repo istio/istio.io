@@ -3,6 +3,7 @@ title: Circuit Breaking
 description: This task shows you how to configure circuit breaking for connections, requests, and outlier detection.
 weight: 50
 keywords: [traffic-management,circuit-breaking]
+owner: istio/wg-networking-maintainers
 test: yes
 ---
 

@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: pilot-agent
 description: Istio Pilot agent.
 generator: pkg-collateral-docs
-number_of_entries: 7
+number_of_entries: 8
 max_toc_level: 2
 remove_toc_prefix: 'pilot-agent '
 ---
@@ -519,6 +519,72 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 </tbody>
 </table>
+<h2 id="pilot-agent-wait">pilot-agent wait</h2>
+<p>Waits until the Envoy proxy is ready</p>
+<pre class="language-bash"><code>pilot-agent wait [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, googleca, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--periodMillis &lt;int&gt;</code></td>
+<td>number of milliseconds to wait between attempts  (default `500`)</td>
+</tr>
+<tr>
+<td><code>--requestTimeoutMillis &lt;int&gt;</code></td>
+<td>number of milliseconds to wait for response  (default `500`)</td>
+</tr>
+<tr>
+<td><code>--timeoutSeconds &lt;int&gt;</code></td>
+<td>maximum number of seconds to wait for Envoy to be ready  (default `60`)</td>
+</tr>
+<tr>
+<td><code>--url &lt;string&gt;</code></td>
+<td>URL to use in requests  (default `http://localhost:15021/healthz/ready`)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="envvars">Environment variables</h2>
 These environment variables affect the behavior of the <code>pilot-agent</code> command.
 <table class="envvars">
@@ -535,13 +601,13 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td><code>CA_ADDR</code></td>
 <td>String</td>
 <td><code></code></td>
-<td></td>
+<td>Address of the spiffee certificate provider. Defaults to discoveryAddress</td>
 </tr>
 <tr>
 <td><code>CA_PROVIDER</code></td>
 <td>String</td>
 <td><code>Citadel</code></td>
-<td></td>
+<td>name of authentication provider</td>
 </tr>
 <tr>
 <td><code>CENTRAL_ISTIOD</code></td>
@@ -589,7 +655,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td><code>ENABLE_INGRESS_GATEWAY_SDS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td></td>
+<td>Enable provisioning gateway secrets. Requires Secret read permission</td>
 </tr>
 <tr>
 <td><code>ENVOY_USER</code></td>
@@ -937,7 +1003,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td><code>PLUGINS</code></td>
 <td>String</td>
 <td><code></code></td>
-<td></td>
+<td>Token exchange plugins</td>
 </tr>
 <tr>
 <td><code>POD_NAME</code></td>
@@ -1009,7 +1075,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td><code>TRUST_DOMAIN</code></td>
 <td>String</td>
 <td><code></code></td>
-<td></td>
+<td>The trust domain for spiffe certificates</td>
 </tr>
 <tr>
 <td><code>XDS_AUTH</code></td>
@@ -1073,8 +1139,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
 <tr><td><code>pilot_xds</code></td><td><code>LastValue</code></td><td>Number of endpoints connected to this pilot using XDS.</td></tr>
 <tr><td><code>pilot_xds_cds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected CDS configs.</td></tr>
-<tr><td><code>pilot_xds_eds_all_locality_endpoints</code></td><td><code>LastValue</code></td><td>Network endpoints for each cluster(across all localities), as of last push. Zero endpoints is an error.</td></tr>
-<tr><td><code>pilot_xds_eds_instances</code></td><td><code>LastValue</code></td><td>Instances for each cluster(grouped by locality), as of last push. Zero instances is an error.</td></tr>
 <tr><td><code>pilot_xds_eds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected EDS.</td></tr>
 <tr><td><code>pilot_xds_expired_nonce</code></td><td><code>Sum</code></td><td>Total number of XDS requests with an expired nonce.</td></tr>
 <tr><td><code>pilot_xds_lds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected LDS.</td></tr>

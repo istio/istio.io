@@ -47,7 +47,7 @@ the root namespace called <code>istio-config</code>, that adds a custom
 protocol filter on all sidecars in the system, for outbound port
 9307. The filter should be added before the terminating tcp_proxy
 filter to take effect. In addition, it sets a 30s idle timeout for
-all HTTP connections in both gateays and sidecars.</p>
+all HTTP connections in both gateways and sidecars.</p>
 
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter

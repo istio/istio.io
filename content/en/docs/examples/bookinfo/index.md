@@ -6,6 +6,7 @@ aliases:
     - /docs/samples/bookinfo.html
     - /docs/guides/bookinfo/index.html
     - /docs/guides/bookinfo.html
+owner: istio/wg-docs-maintainers
 test: yes
 ---
 

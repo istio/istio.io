@@ -6,6 +6,7 @@ keywords: [telemetry,metrics]
 aliases:
     - /docs/tasks/telemetry/querying-metrics/
     - /docs/tasks/telemetry/metrics/querying-metrics/
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 

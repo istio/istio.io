@@ -3,6 +3,7 @@ title: Classifying Metrics Based on Request or Response (Experimental)
 description: This task shows you how to improve telemetry by grouping requests and responses by their type. 
 weight: 27
 keywords: [telemetry,metrics,classify,request-based,openapispec,swagger]
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 

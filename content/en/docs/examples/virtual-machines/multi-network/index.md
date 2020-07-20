@@ -11,6 +11,7 @@ keywords:
 aliases:
 - /docs/examples/mesh-expansion/multi-network
 - /docs/tasks/virtual-machines/multi-network
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

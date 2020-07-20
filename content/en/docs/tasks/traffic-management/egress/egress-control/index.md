@@ -6,6 +6,7 @@ aliases:
     - /docs/tasks/egress.html
     - /docs/tasks/egress
 keywords: [traffic-management,egress]
+owner: istio/wg-networking-maintainers
 test: no
 ---
 

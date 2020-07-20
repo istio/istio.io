@@ -3,6 +3,7 @@ title: Control Headers and Routing (Deprecated)
 description: Shows how to modify request headers and routing using policy adapters.
 weight: 20
 keywords: [policies,routing]
+owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 

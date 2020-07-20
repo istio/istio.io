@@ -5,6 +5,7 @@ weight: 10
 keywords: [telemetry,tracing,jaeger,span,port-forwarding]
 aliases:
  - /docs/tasks/telemetry/distributed-tracing/jaeger/
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 

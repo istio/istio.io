@@ -2,6 +2,7 @@
 title: Default Metrics
 description: Default Metrics exported from Istio through Mixer.
 weight: 50
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
