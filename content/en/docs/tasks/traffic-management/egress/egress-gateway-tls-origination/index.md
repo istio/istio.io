@@ -293,7 +293,7 @@ the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injecti
 1.  Create a configuration file for the NGINX server:
 
     {{< text bash >}}
-    $ cat <<EOF > ./nginx.conf
+    $ cat <<\EOF > ./nginx.conf
     events {
     }
 
@@ -617,14 +617,12 @@ to hold the configuration of the NGINX server:
 
     {{< text bash >}}
     $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
-    $ kubectl delete secret client-certs root-ca-certs
     $ kubectl delete secret istio-egressgateway-certs istio-egressgateway-ca-certs -n istio-system
     $ kubectl delete configmap nginx-configmap -n mesh-external
     $ kubectl delete service my-nginx -n mesh-external
     $ kubectl delete deployment my-nginx -n mesh-external
     $ kubectl delete namespace mesh-external
     $ kubectl delete gateway istio-egressgateway
-    $ kubectl delete serviceentry nginx
     $ kubectl delete virtualservice direct-nginx-through-egress-gateway
     $ kubectl delete destinationrule -n istio-system originate-mtls-for-nginx
     $ kubectl delete destinationrule egressgateway-for-nginx

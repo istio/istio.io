@@ -203,7 +203,7 @@ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=exampl
 }
 
 snip_deploy_a_mutual_tls_server_3() {
-cat <<EOF > ./nginx.conf
+cat <<\EOF > ./nginx.conf
 events {
 }
 
@@ -476,14 +476,12 @@ kubectl logs -l istio=egressgateway -n istio-system | grep 'my-nginx.mesh-extern
 
 snip_cleanup_the_mutual_tls_origination_example_1() {
 kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
-kubectl delete secret client-certs root-ca-certs
 kubectl delete secret istio-egressgateway-certs istio-egressgateway-ca-certs -n istio-system
 kubectl delete configmap nginx-configmap -n mesh-external
 kubectl delete service my-nginx -n mesh-external
 kubectl delete deployment my-nginx -n mesh-external
 kubectl delete namespace mesh-external
 kubectl delete gateway istio-egressgateway
-kubectl delete serviceentry nginx
 kubectl delete virtualservice direct-nginx-through-egress-gateway
 kubectl delete destinationrule -n istio-system originate-mtls-for-nginx
 kubectl delete destinationrule egressgateway-for-nginx
