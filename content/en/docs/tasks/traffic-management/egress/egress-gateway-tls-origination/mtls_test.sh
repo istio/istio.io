@@ -44,7 +44,7 @@ _wait_for_deployment mesh-external my-nginx
 set +e
 kubectl delete pods -l app=sleep --force
 set -e
-snip_deploy_a_mutual_tls_server_6
+snip_before_you_begin_1
 
 _wait_for_deployment default sleep
 
