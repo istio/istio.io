@@ -66,7 +66,7 @@ _wait_for_istio virtualservice default direct-nginx-through-egress-gateway
 # Originate TLS with destination rule
 snip_configure_mutual_tls_origination_for_egress_traffic_3
 
-_wait_for_istio destinationrule default originate-mtls-for-nginx
+_wait_for_istio destinationrule istio-system originate-mtls-for-nginx
 
 # Verify that mTLS connection is set up properly
 _verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_4 "Welcome to nginx!"
