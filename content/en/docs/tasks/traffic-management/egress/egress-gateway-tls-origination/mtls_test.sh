@@ -54,9 +54,6 @@ snip_redeploy_the_egress_gateway_with_the_client_certificates_2
 snip_redeploy_the_egress_gateway_with_the_client_certificates_3
 _wait_for_deployment istio-system istio-egressgateway
 
-# Verify the certs exist
-snip_redeploy_the_egress_gateway_with_the_client_certificates_4
-
 # Open Gateway Listener
 snip_configure_mutual_tls_origination_for_egress_traffic_1
 _wait_for_istio gateway default istio-egressgateway
