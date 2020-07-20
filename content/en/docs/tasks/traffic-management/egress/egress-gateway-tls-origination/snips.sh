@@ -203,7 +203,7 @@ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=exampl
 }
 
 snip_deploy_a_mutual_tls_server_3() {
-cat <<\EOF > ./nginx.conf
+cat <<EOF > ./nginx.conf
 events {
 }
 
@@ -301,13 +301,62 @@ snip_deploy_a_mutual_tls_server_7() {
 kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
 }
 
-snip_mount_client_certificates_to_the_egress_gateway_1() {
-kubectl create secret tls istio-egressgateway-certs --key client.example.com.key --cert client.example.com.crt -n istio-system
-kubectl create secret generic istio-egressgateway-ca-certs --from-file=example.com.crt -n istio-system
+snip_redeploy_the_egress_gateway_with_the_client_certificates_1() {
+kubectl create -n istio-system secret tls nginx-client-certs --key client.example.com.key --cert client.example.com.crt
+kubectl create -n istio-system secret generic nginx-ca-certs --from-file=example.com.crt
 }
 
-snip_mount_client_certificates_to_the_egress_gateway_2() {
-kubectl exec -n istio-system $(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/egressgateway-certs /etc/istio/egressgateway-ca-certs
+snip_redeploy_the_egress_gateway_with_the_client_certificates_2() {
+cat > gateway-patch.json <<EOF
+[{
+  "op": "add",
+  "path": "/spec/template/spec/containers/0/volumeMounts/0",
+  "value": {
+    "mountPath": "/etc/istio/nginx-client-certs",
+    "name": "nginx-client-certs",
+    "readOnly": true
+  }
+},
+{
+  "op": "add",
+  "path": "/spec/template/spec/volumes/0",
+  "value": {
+  "name": "nginx-client-certs",
+    "secret": {
+      "secretName": "nginx-client-certs",
+      "optional": true
+    }
+  }
+},
+{
+  "op": "add",
+  "path": "/spec/template/spec/containers/0/volumeMounts/1",
+  "value": {
+    "mountPath": "/etc/istio/nginx-ca-certs",
+    "name": "nginx-ca-certs",
+    "readOnly": true
+  }
+},
+{
+  "op": "add",
+  "path": "/spec/template/spec/volumes/1",
+  "value": {
+  "name": "nginx-ca-certs",
+    "secret": {
+      "secretName": "nginx-ca-certs",
+      "optional": true
+    }
+  }
+}]
+EOF
+}
+
+snip_redeploy_the_egress_gateway_with_the_client_certificates_3() {
+kubectl -n istio-system patch --type=json deploy istio-egressgateway -p "$(cat gateway-patch.json)"
+}
+
+snip_redeploy_the_egress_gateway_with_the_client_certificates_4() {
+kubectl exec -n istio-system "$(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}')" -- ls -al /etc/istio/nginx-client-certs /etc/istio/nginx-ca-certs
 }
 
 snip_configure_mutual_tls_origination_for_egress_traffic_1() {
@@ -402,15 +451,15 @@ spec:
         number: 443
       tls:
         mode: MUTUAL
-        clientCertificate: /etc/istio/egressgateway-certs/tls.crt
-        privateKey: /etc/istio/egressgateway-certs/tls.key
-        caCertificates: /etc/istio/egressgateway-ca-certs/example.com.crt
+        clientCertificate: /etc/istio/nginx-client-certs/tls.crt
+        privateKey: /etc/istio/nginx-client-certs/tls.key
+        caCertificates: /etc/istio/nginx-ca-certs/example.com.crt
         sni: my-nginx.mesh-external.svc.cluster.local
 EOF
 }
 
 snip_configure_mutual_tls_origination_for_egress_traffic_4() {
-kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
+kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
 }
 
 ! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_4_out <<\ENDSNIP

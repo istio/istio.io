@@ -390,50 +390,94 @@ to hold the configuration of the NGINX server:
 
 1.  Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample to test sending requests to the NGINX server:
     
-        If you have enabled [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), do
+    If you have enabled [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), do
     
-        {{< text bash >}}
-        $ kubectl apply -f @samples/sleep/sleep.yaml@
-        {{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    {{< /text >}}
     
-        otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
+    otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
     
-        {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-        {{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    {{< /text >}}
     
-        Note that any pod that you can `exec` and `curl` from would do.
+    Note that any pod that you can `exec` and `curl` from would do.
 
 
-### Mount client certificates to the egress gateway
+### Redeploy the egress gateway with the client certificates
 
 1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
    certificates.
 
     {{< text bash >}}
-    $ kubectl create secret tls istio-egressgateway-certs --key client.example.com.key --cert client.example.com.crt -n istio-system
-    $ kubectl create secret generic istio-egressgateway-ca-certs --from-file=example.com.crt -n istio-system
+    $ kubectl create -n istio-system secret tls nginx-client-certs --key client.example.com.key --cert client.example.com.crt
+    $ kubectl create -n istio-system secret generic nginx-ca-certs --from-file=example.com.crt
     {{< /text >}}
 
-    {{< warning >}}
-    The secrets **must** be named `istio-egressgateway-certs` and `istio-egressgateway-ca-certs` in the `istio-system`
-    namespace to align with the configuration of the Istio default egress gateway used in this task.
-    {{< /warning >}}
-    
-    {{< warning >}}
-    If using Gateway to originate TLS traffic to more than one server, the secrets need to be named differently and istio-egressgateway
-    deployment must be patched to manually mount more certificates which can be later used in DestinationRule with the mounted paths.
-    {{< /warning >}}
+1.  To include a volume mounted from the new created secret, update the `istio-egressgateway` deployment.
+    To patch the `istio-egressgateway` deployment, create the following `gateway-patch.json` file:
+
+    {{< text bash >}}
+    $ cat > gateway-patch.json <<EOF
+    [{
+      "op": "add",
+      "path": "/spec/template/spec/containers/0/volumeMounts/0",
+      "value": {
+        "mountPath": "/etc/istio/nginx-client-certs",
+        "name": "nginx-client-certs",
+        "readOnly": true
+      }
+    },
+    {
+      "op": "add",
+      "path": "/spec/template/spec/volumes/0",
+      "value": {
+      "name": "nginx-client-certs",
+        "secret": {
+          "secretName": "nginx-client-certs",
+          "optional": true
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/spec/template/spec/containers/0/volumeMounts/1",
+      "value": {
+        "mountPath": "/etc/istio/nginx-ca-certs",
+        "name": "nginx-ca-certs",
+        "readOnly": true
+      }
+    },
+    {
+      "op": "add",
+      "path": "/spec/template/spec/volumes/1",
+      "value": {
+      "name": "nginx-ca-certs",
+        "secret": {
+          "secretName": "nginx-ca-certs",
+          "optional": true
+        }
+      }
+    }]
+    EOF
+    {{< /text >}}
+
+1.  Apply `istio-egressgateway` deployment patch with the following command:
+
+    {{< text bash >}}
+    $ kubectl -n istio-system patch --type=json deploy istio-egressgateway -p "$(cat gateway-patch.json)"
+    {{< /text >}}
 
 1.  Verify that the key and the certificate are successfully loaded in the `istio-egressgateway` pod:
 
     {{< text bash >}}
-    $ kubectl exec -n istio-system "$(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}')" -- ls -al /etc/istio/egressgateway-certs /etc/istio/egressgateway-ca-certs
+    $ kubectl exec -n istio-system "$(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}')" -- ls -al /etc/istio/nginx-client-certs /etc/istio/nginx-ca-certs
     {{< /text >}}
 
-    `tls.crt` and `tls.key` should exist in `/etc/istio/egressgateway-certs`, while `example.com.crt` in
-    `/etc/istio/egressgateway-ca-certs`.
-
+    `tls.crt` and `tls.key` should exist in `/etc/istio/nginx-client-certs`, while `ca-chain.cert.pem` in
+    `/etc/istio/nginx-ca-certs`.
+    
 ### Configure mutual TLS origination for egress traffic
 
 1.  Create an egress `Gateway` for `my-nginx.mesh-external.svc.cluster.local`, port 443, and destination rules and
@@ -536,9 +580,9 @@ to hold the configuration of the NGINX server:
             number: 443
           tls:
             mode: MUTUAL
-            clientCertificate: /etc/istio/egressgateway-certs/tls.crt
-            privateKey: /etc/istio/egressgateway-certs/tls.key
-            caCertificates: /etc/istio/egressgateway-ca-certs/example.com.crt
+            clientCertificate: /etc/istio/nginx-client-certs/tls.crt
+            privateKey: /etc/istio/nginx-client-certs/tls.key
+            caCertificates: /etc/istio/nginx-ca-certs/example.com.crt
             sni: my-nginx.mesh-external.svc.cluster.local
     EOF
     {{< /text >}}
