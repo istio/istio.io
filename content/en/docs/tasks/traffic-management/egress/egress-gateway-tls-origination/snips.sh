@@ -208,9 +208,9 @@ events {
 }
 
 http {
-  log_format main '$remote_addr - $remote_user [$time_local]  $status '
-  '"$request" $body_bytes_sent "$http_referer" '
-  '"$http_user_agent" "$http_x_forwarded_for"';
+  log_format main ' -  []  0 '
+  '""  "" '
+  '"" ""';
   access_log /var/log/nginx/access.log main;
   error_log  /var/log/nginx/error.log;
 
