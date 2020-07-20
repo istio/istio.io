@@ -543,9 +543,9 @@ to hold the configuration of the NGINX server:
     The secrets **must** be created in the same namespace Istio is deployed in. Assuming Istio is deployed in `istio-system`
     namespace. Gateways are only allowed to read Kubernetes secrets in `istio-system` namespace.
     {{< /warning >}}
-    
+
     Istio supports reading a few different Secret formats, to support integration with various tools such as [cert-manager](/docs/ops/integrations/certmanager/):
-    
+
     * For a CA only certificate, a generic Secret named `<secret>-cacert`, with a `ca.crt` key. For example, `httpbin-credential-cacert` has `ca.crt`.
     * A TLS Secret with keys `key` and `cert`. For CA certificate, a separate generic Secret named `<secret>-cacert`, with a `ca.crt` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `ca.crt`.
     * A generic Secret with keys `tls.key`, `tls.crt` and `ca.crt` for the client private key, client certificate and root certificate respectively.
