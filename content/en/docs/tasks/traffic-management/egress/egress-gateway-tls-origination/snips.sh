@@ -75,10 +75,12 @@ spec:
   servers:
   - port:
       number: 80
-      name: http-port-for-tls-origination
-      protocol: HTTP
+      name: https-port-for-tls-origination
+      protocol: HTTPS
     hosts:
     - edition.cnn.com
+    tls:
+      mode: ISTIO_MUTUAL
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -88,6 +90,15 @@ spec:
   host: istio-egressgateway.istio-system.svc.cluster.local
   subsets:
   - name: cnn
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+      portLevelSettings:
+      - port:
+          number: 80
+        tls:
+          mode: ISTIO_MUTUAL
+          sni: edition.cnn.com
 EOF
 }
 
@@ -514,10 +525,7 @@ spec:
     hosts:
     - nginx.example.com
     tls:
-      mode: MUTUAL
-      serverCertificate: /etc/certs/cert-chain.pem
-      privateKey: /etc/certs/key.pem
-      caCertificates: /etc/certs/root-cert.pem
+      mode: ISTIO_MUTUAL
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
