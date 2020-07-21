@@ -39,15 +39,15 @@ snip_generate_ca_and_server_certificates_and_keys_1
 snip_generate_ca_and_server_certificates_and_keys_2
 
 # Create mesh-external namespace
-snip_create_secrets_for_the_server_1
+snip_deploy_a_simple_tls_server_1
 
 # Generate secrets
-snip_create_secrets_for_the_server_2
+snip_deploy_a_simple_tls_server_2
 
 # Create nginx conf and deploy server
-snip_deploy_a_simple_tls_server_1
-snip_deploy_a_simple_tls_server_2
 snip_deploy_a_simple_tls_server_3
+snip_deploy_a_simple_tls_server_4
+snip_deploy_a_simple_tls_server_5
 
 _wait_for_deployment mesh-external my-nginx
 

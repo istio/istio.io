@@ -1,6 +1,6 @@
 ---
 title: Egress Gateways with TLS Origination (File Mount)
-description: Describes how to configure an Egress Gateway to perform TLS origination to external services using File Mounts.
+description: Describes how to configure an Egress Gateway to perform TLS origination to external services using file mount certificates.
 weight: 40
 keywords: [traffic-management,egress]
 aliases:

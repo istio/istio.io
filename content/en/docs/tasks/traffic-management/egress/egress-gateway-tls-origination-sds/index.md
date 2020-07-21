@@ -77,7 +77,11 @@ For this task you can use your favorite tool to generate certificates and keys. 
     $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt
     {{< /text >}}
 
-### Create secrets for the server
+### Deploy a simple TLS server
+
+To simulate an actual external service that supports the simple TLS protocol,
+deploy an [NGINX](https://www.nginx.com) server in your Kubernetes cluster, but running outside of
+the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injection enabled.
 
 1.  Create a namespace to represent services outside the Istio mesh, namely `mesh-external`. Note that the sidecar proxy will
     not be automatically injected into the pods in this namespace since the automatic sidecar injection was not
@@ -93,12 +97,6 @@ For this task you can use your favorite tool to generate certificates and keys. 
     $ kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local.key --cert my-nginx.mesh-external.svc.cluster.local.crt
     $ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=example.com.crt
     {{< /text >}}
-
-### Deploy a simple TLS server
-
-To simulate an actual external service that supports the simple TLS protocol,
-deploy an [NGINX](https://www.nginx.com) server in your Kubernetes cluster, but running outside of
-the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injection enabled.
 
 1.  Create a configuration file for the NGINX server:
 
