@@ -34,8 +34,9 @@ for your specific needs. The following built-in configuration profiles are curre
 
 1. **minimal**: the minimal set of components necessary to use Istio's [traffic management](/docs/tasks/traffic-management/) features.
 
-1. **remote**: used for configuring {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}} of a
-    [multicluster mesh](/docs/ops/deployment/deployment-models/#multiple-clusters).
+1. **remote**: used for configuring remote clusters of a
+    [multicluster mesh](/docs/ops/deployment/deployment-models/#multiple-clusters) with a
+    [shared control plane](/docs/setup/install/multicluster/legacy/shared/) configuration.
 
 1. **empty**: deploys nothing. This can be useful as a base profile for custom configuration.
 

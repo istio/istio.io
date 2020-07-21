@@ -1,7 +1,7 @@
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
-There are 158 owned istio.io docs.
+There are 163 owned istio.io docs.
 
 ## istio/wg-docs-maintainers: 15 docs
 
@@ -21,7 +21,7 @@ There are 158 owned istio.io docs.
 - [docs/examples/microservices-istio/single/index.md](https://preliminary.istio.io/latest/docs/examples/microservices-istio/single)
 - [docs/reference/glossary/index.md](https://preliminary.istio.io/latest/docs/reference/glossary)
 
-## istio/wg-environments-maintainers: 37 docs
+## istio/wg-environments-maintainers: 42 docs
 
 - [docs/examples/virtual-machines/bookinfo/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/bookinfo)
 - [docs/examples/virtual-machines/multi-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/multi-network)
@@ -42,8 +42,13 @@ There are 158 owned istio.io docs.
 - [docs/setup/additional-setup/sidecar-injection/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/sidecar-injection)
 - [docs/setup/getting-started/index.md](https://preliminary.istio.io/latest/docs/setup/getting-started)
 - [docs/setup/install/istioctl/index.md](https://preliminary.istio.io/latest/docs/setup/install/istioctl)
-- [docs/setup/install/multicluster/gateways/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/gateways)
-- [docs/setup/install/multicluster/shared/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/shared)
+- [docs/setup/install/multicluster/legacy/gateways/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/legacy/gateways)
+- [docs/setup/install/multicluster/legacy/shared/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/legacy/shared)
+docs/setup/install/multicluster/single-network/_index.md
+- [docs/setup/install/multicluster/single-network/initial-configuration/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/single-network/initial-configuration)
+- [docs/setup/install/multicluster/single-network/primary/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/single-network/primary)
+- [docs/setup/install/multicluster/single-network/remote/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/single-network/remote)
+- [docs/setup/install/multicluster/single-network/verify/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/single-network/verify)
 - [docs/setup/install/operator/index.md](https://preliminary.istio.io/latest/docs/setup/install/operator)
 - [docs/setup/install/virtual-machine/index.md](https://preliminary.istio.io/latest/docs/setup/install/virtual-machine)
 - [docs/setup/platform-setup/MicroK8s/index.md](https://preliminary.istio.io/latest/docs/setup/platform-setup/MicroK8s)
