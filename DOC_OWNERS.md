@@ -1,7 +1,7 @@
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
-There are 158 owned istio.io docs.
+There are 159 owned istio.io docs.
 
 ## istio/wg-docs-maintainers: 15 docs
 
@@ -124,7 +124,7 @@ There are 158 owned istio.io docs.
 - [docs/tasks/policy-enforcement/enabling-policy/index.md](https://preliminary.istio.io/latest/docs/tasks/policy-enforcement/enabling-policy)
 - [docs/tasks/policy-enforcement/rate-limiting/index.md](https://preliminary.istio.io/latest/docs/tasks/policy-enforcement/rate-limiting)
 
-## istio/wg-security-maintainers: 16 docs
+## istio/wg-security-maintainers: 17 docs
 
 - [docs/concepts/security/index.md](https://preliminary.istio.io/latest/docs/concepts/security)
 - [docs/ops/best-practices/security/index.md](https://preliminary.istio.io/latest/docs/ops/best-practices/security)
@@ -142,6 +142,7 @@ There are 158 owned istio.io docs.
 - [docs/tasks/security/authorization/authz-td-migration/index.md](https://preliminary.istio.io/latest/docs/tasks/security/authorization/authz-td-migration)
 - [docs/tasks/security/cert-management/dns-cert/index.md](https://preliminary.istio.io/latest/docs/tasks/security/cert-management/dns-cert)
 - [docs/tasks/security/cert-management/plugin-ca-cert/index.md](https://preliminary.istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert)
+- [docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds)
 
 ## istio/wg-user-experience-maintainers: 33 docs
 
