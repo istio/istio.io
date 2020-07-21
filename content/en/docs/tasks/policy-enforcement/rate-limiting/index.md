@@ -85,7 +85,7 @@ so the configuration to enable rate limiting on both adapters is the same.
     {{< /warning >}}
 
     The `memquota` handler defines 4 different rate limit schemes. The default,
-    if no overrides match, is `500` requests per one second (`1s`). Two
+    if no overrides match, is `500` requests per one second (`1s`). Three
     overrides are also defined:
 
     * The first is `1` request (the `maxAmount` field) every `5s` (the
