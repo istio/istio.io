@@ -77,7 +77,7 @@ For this task you can use your favorite tool to generate certificates and keys. 
     $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt
     {{< /text >}}
 
-### Create secrets for the client and server
+### Create secrets for the server
 
 1.  Create a namespace to represent services outside the Istio mesh, namely `mesh-external`. Note that the sidecar proxy will
     not be automatically injected into the pods in this namespace since the automatic sidecar injection was not
@@ -93,19 +93,6 @@ For this task you can use your favorite tool to generate certificates and keys. 
     $ kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local.key --cert my-nginx.mesh-external.svc.cluster.local.crt
     $ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=example.com.crt
     {{< /text >}}
-
-1. Create a Kubernetes Secret to hold the CA certificate used by egress gateway to originate TLS connections:
-
-    {{< text bash >}}
-    $ kubectl create secret generic client-credential-cacert --from-file=ca.crt=example.com.crt -n istio-system
-    {{< /text >}}
-
-    Note that the secret name for an Istio CA-only certificate must end with `-cacert` and the secret **must** be
-    created in the same namespace as Istio is deployed in, `istio-system` in this case.
-
-    {{< warning >}}
-    The secret name **should not** begin with `istio` or `prometheus`, and the secret **should not** contain a `token` field.
-    {{< /warning >}}
 
 ### Deploy a simple TLS server
 
@@ -212,6 +199,19 @@ to hold the configuration of the NGINX server:
     {{< /text >}}
 
 ### Configure simple TLS origination for egress traffic
+
+1. Create a Kubernetes Secret to hold the CA certificate used by egress gateway to originate TLS connections:
+
+    {{< text bash >}}
+    $ kubectl create secret generic client-credential-cacert --from-file=ca.crt=example.com.crt -n istio-system
+    {{< /text >}}
+
+    Note that the secret name for an Istio CA-only certificate must end with `-cacert` and the secret **must** be
+    created in the same namespace as Istio is deployed in, `istio-system` in this case.
+
+    {{< warning >}}
+    The secret name **should not** begin with `istio` or `prometheus`, and the secret **should not** contain a `token` field.
+    {{< /warning >}}
 
 1.  Create an egress `Gateway` for `my-nginx.mesh-external.svc.cluster.local`, port 443, and destination rules and
     virtual services to direct the traffic through the egress gateway and from the egress gateway to the external
@@ -321,7 +321,7 @@ to hold the configuration of the NGINX server:
 1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}
-    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>
@@ -417,8 +417,7 @@ the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injecti
     $ kubectl create namespace mesh-external
     {{< /text >}}
 
-1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the server's and CA
-   certificates.
+1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the server's certificates.
 
     {{< text bash >}}
     $ kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local.key --cert my-nginx.mesh-external.svc.cluster.local.crt
@@ -523,31 +522,25 @@ to hold the configuration of the NGINX server:
     EOF
     {{< /text >}}
 
-1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
-    certificates:
+### Configure mutual TLS origination for egress traffic using SDS
+
+1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's certificates:
 
     {{< text bash >}}
     $ kubectl create secret -n istio-system generic client-credential --from-file=tls.key=client.example.com.key \
       --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
     {{< /text >}}
 
+    The secret **must** be created in the same namespace as Istio is deployed in, `istio-system` in this case.
+
+    To support integration with various tools, Istio supports a few different Secret formats.
+
+    In this example. a single generic Secret with keys `tls.key`, `tls.crt`, and `ca.crt` is used.
+
     {{< warning >}}
     The secret name **should not** begin with `istio` or `prometheus`, and
     the secret **should not** contain a `token` field.
     {{< /warning >}}
-
-    {{< warning >}}
-    The secrets **must** be created in the same namespace Istio is deployed in. Assuming Istio is deployed in `istio-system`
-    namespace. Gateways are only allowed to read Kubernetes secrets in `istio-system` namespace.
-    {{< /warning >}}
-
-    Istio supports reading a few different Secret formats, to support integration with various tools such as [cert-manager](/docs/ops/integrations/certmanager/):
-
-    * For a CA only certificate, a generic Secret named `<secret>-cacert`, with a `ca.crt` key. For example, `httpbin-credential-cacert` has `ca.crt`.
-    * A TLS Secret with keys `key` and `cert`. For CA certificate, a separate generic Secret named `<secret>-cacert`, with a `ca.crt` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `ca.crt`.
-    * A generic Secret with keys `tls.key`, `tls.crt` and `ca.crt` for the client private key, client certificate and root certificate respectively.
-
-### Configure mutual TLS origination for egress traffic using SDS
 
 1.  Create an egress `Gateway` for `my-nginx.mesh-external.svc.cluster.local`, port 443, and destination rules and
     virtual services to direct the traffic through the egress gateway and from the egress gateway to the external
@@ -657,7 +650,7 @@ to hold the configuration of the NGINX server:
 1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}
-    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>

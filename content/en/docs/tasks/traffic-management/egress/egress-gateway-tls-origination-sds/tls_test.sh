@@ -39,11 +39,10 @@ snip_generate_ca_and_server_certificates_and_keys_1
 snip_generate_ca_and_server_certificates_and_keys_2
 
 # Create mesh-external namespace
-snip_create_secrets_for_the_client_and_server_1
+snip_create_secrets_for_the_server_1
 
 # Generate secrets
-snip_create_secrets_for_the_client_and_server_2
-snip_create_secrets_for_the_client_and_server_3
+snip_create_secrets_for_the_server_2
 
 # Create nginx conf and deploy server
 snip_deploy_a_simple_tls_server_1
@@ -53,19 +52,19 @@ snip_deploy_a_simple_tls_server_3
 _wait_for_deployment mesh-external my-nginx
 
 # Create secret in istio-system
-snip_deploy_a_simple_tls_server_6
+snip_configure_simple_tls_origination_for_egress_traffic_1
 
 # Open Gateway Listener
-snip_configure_simple_tls_origination_for_egress_traffic_1
-# Configure route
 snip_configure_simple_tls_origination_for_egress_traffic_2
-# Originate TLS
+# Configure route
 snip_configure_simple_tls_origination_for_egress_traffic_3
+# Originate TLS
+snip_configure_simple_tls_origination_for_egress_traffic_4
 
 # Verify GET request works
-_verify_contains snip_configure_simple_tls_origination_for_egress_traffic_4 "Welcome to nginx!"
+_verify_contains snip_configure_simple_tls_origination_for_egress_traffic_5 "Welcome to nginx!"
 
-_verify_contains snip_configure_simple_tls_origination_for_egress_traffic_5 "GET / HTTP/1.1"
+_verify_contains snip_configure_simple_tls_origination_for_egress_traffic_6 "GET / HTTP/1.1"
 
 # @cleanup
 set +e # ignore cleanup errors
