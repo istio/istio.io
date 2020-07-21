@@ -17,7 +17,8 @@ dedicated _egress gateway_ service. This example combines the previous two by
 describing how to configure an egress gateway to perform TLS origination for
 traffic to external services.
 
-The TLS required private key, server certificate, and root certificate, are configured using the Secret Discovery Service (SDS).
+The TLS required private key, server certificate, and root certificate, are configured using the
+[Secret Discovery Service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds).
 
 ## Before you begin
 
@@ -384,7 +385,7 @@ Egress Gateway will use SDS instead of the file-mount to provision client certif
 ### Generate client and server certificates and keys
 
 For this task you can use your favorite tool to generate certificates and keys. The commands below use
-[openssl](https://man.openbsd.org/openssl.1)
+[openssl](https://man.openbsd.org/openssl.1).
 
 1.  Create a root certificate and private key to sign the certificate for your services:
 
