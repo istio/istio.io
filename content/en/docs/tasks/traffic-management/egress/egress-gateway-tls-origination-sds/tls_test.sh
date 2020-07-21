@@ -63,7 +63,7 @@ snip_configure_simple_tls_origination_for_egress_traffic_3
 _wait_for_istio virtualservice default direct-nginx-through-egress-gateway
 # Originate TLS
 snip_configure_simple_tls_origination_for_egress_traffic_4
-_wait_for_istio destinationrule isto-system originate-tls-for-nginx
+_wait_for_istio destinationrule istio-system originate-tls-for-nginx
 
 # Verify GET request works
 _verify_contains snip_configure_simple_tls_origination_for_egress_traffic_5 "Welcome to nginx!"
