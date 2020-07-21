@@ -4568,6 +4568,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>The name of the kubeconfig context to use  (default ``)</td>
 </tr>
 <tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Envoy config dump JSON file  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -4595,6 +4600,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 
 # Retrieve sync diff for a single Envoy and Istiod
 	istioctl proxy-status istio-egressgateway-59585c5b9c-ndc59.istio-system
+
+# Write proxy config-dump to file, and compare to Istio control plane
+    kubectl port-forward -n istio-system istio-egressgateway-59585c5b9c-ndc59 15000 &amp;
+    curl localhost:15000/config_dump &gt; cd.json
+    istioctl proxy-status istio-egressgateway-59585c5b9c-ndc59.istio-system --file cd.json
 
 </code></pre>
 <h2 id="istioctl-register">istioctl register</h2>
