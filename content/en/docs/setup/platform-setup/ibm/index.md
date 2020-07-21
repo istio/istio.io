@@ -7,6 +7,7 @@ aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/ibm/
     - /docs/setup/kubernetes/platform-setup/ibm/
 keywords: [platform-setup,ibm,iks]
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

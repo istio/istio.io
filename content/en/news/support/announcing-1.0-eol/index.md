@@ -6,7 +6,6 @@ publishdate: 2019-05-23
 aliases:
     - /blog/2019/announcing-1.0-eol
     - /news/2019/announcing-1.0-eol
-test: n/a
 ---
 
 According to Istio's [support policy](/about/release-cadence/), LTS releases like 1.0 are supported for three months after the next LTS release.   Since [1.1 was released on March 19th](/news/releases/1.1.x/announcing-1.1/), support for 1.0 will end on June 19th, 2019.

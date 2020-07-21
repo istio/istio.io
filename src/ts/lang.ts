@@ -20,31 +20,38 @@ function handleLanguageSwitch(): void {
     function setLang(newLang: string): void {
         const url = new URL(window.location.href);
 
-        let strippedPath = url.pathname;
-        let currentLang = 0;
-        for (const lang of languages) {
-            if (strippedPath.startsWith("/" + lang)) {
-                strippedPath = strippedPath.substr(3);
-                break;
-            }
-            currentLang++;
+        const strippedPath = url.pathname;
+
+        let versionString = "";
+        let path = "";
+        const re = /\/v\d+\.\d+\//;
+        if (strippedPath.startsWith("/latest") || re.test(strippedPath)) {
+            // get second slash
+            const pos = strippedPath.indexOf("/", 1);
+            versionString = strippedPath.substr(0, pos + 1); // include the trailing slash
+            path = strippedPath.substr(pos);
         }
 
-        if (currentLang >= languages.length) {
-            currentLang = 0;
+        for (const lang of languages) {
+            if (path.startsWith("/" + lang)) {
+                path = path.substr(3);
+                break;
+            }
         }
 
         if (newLang === "") {
-            // round-robin through the languages
-            let nextLang = currentLang + 1;
-            if (nextLang >= languages.length) {
-                nextLang = 0;
-            }
-            newLang = languages[nextLang];
+            newLang = languages[0];
         }
 
         createCookie("nf_lang", newLang);
-        url.pathname = newLang + "/" + strippedPath;
+
+        // if english, remove the /en
+        if (newLang === "en") {
+            newLang = "";
+            // remove the trailing slash
+            versionString = versionString.substr(0, versionString.length);
+        }
+        url.pathname = versionString + newLang + path;
 
         navigateToUrlOrRoot(url.toString());
     }

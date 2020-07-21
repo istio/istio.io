@@ -125,6 +125,16 @@ sleep.bar to httpbin.foo: 200
 sleep.legacy to httpbin.foo: 503
 {{< /text >}}
 
+如果你安装 Istio 时带有参数 `values.global.proxy.privileged=true`，那么你可以使用 `tcpdump` 来验证流量是否被加密。
+
+{{< text bash >}}
+$ kubectl exec -nfoo "$(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name})" -c istio-proxy -it -- sudo tcpdump dst port 80  -A
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+{{< /text >}}
+
+当分别从 `sleep.legacy` 和 `sleep.foo` 发送请求时，您将在输出中看到纯文本和加密文本。
+
 若无法将所有服务迁移至 Istio （注入 Envoy sidecar），则必须开启 `PERMISSIVE` 模式。
 然而，开启 `PERMISSIVE` 模式时，系统默认不对明文请求进行认证或授权检查。
 推荐使用 [Istio 授权](/zh/docs/tasks/security/authorization/authz-http/)来为不同的请求路径配置不同的授权策略。

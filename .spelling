@@ -91,8 +91,6 @@ Aporeto
 AppOptics
 appswitch
 AppSwitch
-archive.istio.io
-archive.istio.io.
 args.yaml
 AssemblyScript
 AttributeGen
@@ -170,6 +168,7 @@ CRDs
 CSRs
 Ctrl
 Customizable
+customizable
 CVE
 CVE-2019-12243
 CVE-2019-12995
@@ -191,8 +190,15 @@ CVE-2020-8843
 CVE-2020-8659
 CVE-2020-8660
 CVE-2020-8661
+CVE-2020-8663
 CVE-2020-8664
 CVE-2020-10739
+CVE-2020-11080
+CVE-2020-12603
+CVE-2020-12604
+CVE-2020-12605
+CVE-2020-13379
+CVE-2020-15104
 CVEs
 cves
 cvss
@@ -341,6 +347,7 @@ ISTIO-SECURITY-2020-002
 ISTIO-SECURITY-2020-003
 ISTIO-SECURITY-2020-004
 ISTIO-SECURITY-2020-005
+ISTIO-SECURITY-2020-006
 istio-system
 istio.io
 istio.io.
@@ -430,6 +437,7 @@ mysqldb
 namespace
 namespaces
 natively
+Neeraj
 netmask
 networking.istio.io
 nginx
@@ -454,6 +462,7 @@ OpenCensus
 OpenID
 OpenID_Connect
 OpenShift
+openusage.org
 OpenSSL
 openssl
 OpenTracing
@@ -481,6 +490,7 @@ Plevyak
 pluggability
 pluggable
 png
+Poddar
 Posta
 pprof
 pre-connected
@@ -618,6 +628,7 @@ team2
 team2-ns
 templated
 test-api
+Tetrate
 Tigera
 timeframe
 timestamp

@@ -7,7 +7,6 @@ publishdate: 2020-04-23
 release: 1.4.8
 aliases:
     - /news/announcing-1.4.8
-test: n/a
 ---
 
 This release includes bug fixes to improve robustness. This release note describes what’s different

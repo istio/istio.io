@@ -5,6 +5,7 @@ weight: 49
 keywords: [telemetry,visualization]
 aliases:
  - /docs/tasks/telemetry/kiali/
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
@@ -18,7 +19,7 @@ Public API to generate graph data in the form of consumable JSON.
 {{< idea >}}
 This task does not cover all of the features provided by Kiali.
 To learn about the full set of features it supports,
-see the [Kiali website](http://kiali.io/documentation/features/).
+see the [Kiali website](http://kiali.io/documentation/latest/features/).
 {{< /idea >}}
 
 This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as the example throughout.
@@ -27,7 +28,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as th
 
 {{< tip >}}
 The following instructions assume you have installed `istioctl` and will use it to install Kiali.
-To install Kiali without `istioctl`, follow the [Kiali installation instructions](https://www.kiali.io/documentation/getting-started/).
+To install Kiali without `istioctl`, follow the [Kiali installation instructions](https://kiali.io/documentation/latest/getting-started/).
 {{< /tip >}}
 
 ### Create a secret

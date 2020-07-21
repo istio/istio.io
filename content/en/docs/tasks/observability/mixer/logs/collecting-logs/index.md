@@ -6,7 +6,8 @@ keywords: [telemetry,logs]
 aliases:
  - /docs/tasks/observability/logs/collecting-logs/
  - /docs/tasks/telemetry/logs/collecting-logs/
-test: no
+owner: istio/wg-policies-and-telemetry-maintainers
+test: n/a
 ---
 
 {{< warning >}}

@@ -6,7 +6,6 @@ publishdate: 2019-01-10
 keywords: [ingress,traffic-management]
 attribution: Julien Senon
 target_release: 1.0
-test: no
 ---
 
 This post provides instructions to manually create a custom ingress [gateway](/docs/reference/config/networking/gateway/) with automatic provisioning of certificates based on cert-manager.

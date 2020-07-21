@@ -3,6 +3,7 @@ title: Grafana
 description: Information on how to integrate with Grafana to set up Istio dashboards.
 weight: 27
 keywords: [integration,grafana]
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

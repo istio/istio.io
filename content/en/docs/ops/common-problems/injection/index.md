@@ -5,6 +5,7 @@ force_inline_toc: true
 weight: 40
 aliases:
   - /docs/ops/troubleshooting/injection
+owner: istio/wg-user-experience-maintainers
 test: no
 ---
 

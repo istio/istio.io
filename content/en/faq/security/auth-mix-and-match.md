@@ -1,7 +1,6 @@
 ---
 title: Can I enable mutual TLS for some services while leaving it disabled for other services in the same cluster?
 weight: 20
-test: n/a
 ---
 
 [Authentication policy](/docs/concepts/security/#authentication-policies) can be mesh-wide (which affects all services in the mesh), namespace-wide

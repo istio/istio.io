@@ -12,7 +12,6 @@ skip_seealso: true
 aliases:
     - /blog/2019/istio-security-003-004
     - /news/2019/istio-security-003-004
-test: no
 ---
 
 {{< security_bulletin >}}

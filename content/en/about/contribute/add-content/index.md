@@ -8,7 +8,6 @@ aliases:
     - /about/contribute/writing-a-new-topic.html
     - /create
 keywords: [contribute]
-test: n/a
 ---
 
 To contribute new documentation to Istio, just follow these steps:

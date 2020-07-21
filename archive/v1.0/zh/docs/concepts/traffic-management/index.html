@@ -1,0 +1,353 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="流量管理"><meta name=description content="介绍 Istio 中关于流量路由与控制的各项功能。"><meta name=keywords content="microservices,services,mesh,流量管理"><meta property="og:title" content="流量管理"><meta property="og:type" content="website"><meta property="og:description" content="介绍 Istio 中关于流量路由与控制的各项功能。"><meta property="og:url" content="/v1.0/zh/docs/concepts/traffic-management/"><meta property="og:image" content="/v1.0/img/istio-logo-blue-background.svg"><meta property="og:image:alt" content="Istio Logo"><meta property="og:image:width" content="112"><meta property="og:image:height" content="150"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary"><meta name=twitter:site content="@IstioMesh"><title>Istioldie 1.0 / 流量管理</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-98480406-2');</script><script>var branchName="release-1.0";var docTitle="流量管理";</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.0/feed.xml><link rel="shortcut icon" href=/v1.0/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.0/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.0/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.0/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.0/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.0/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.0/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.0/favicons/android-96x196.png sizes=96x196><link rel=icon type=image/png href=/v1.0/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.0/favicons/android-192x192.png sizes=192x192><link rel=manifest href=/v1.0/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Chivo:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Work Sans:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic"><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css integrity=sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm crossorigin=anonymous><link rel=stylesheet href=https://use.fontawesome.com/releases/v5.0.6/css/all.css><link rel=stylesheet href=/v1.0/css/light_theme_archive.css title=light><link rel="alternate stylesheet" href=/v1.0/css/dark_theme_archive.css title=dark><script src=/v1.0/js/styleSwitcher.min.js></script></head><body class=language-unknown><header><nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark justify-content-between"><a class=navbar-brand href=/v1.0/zh/><span class=logo><svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="150" stroke-width="2" /><polygon points="65,240 225,240 125,270"/><polygon points="65,230 125,220 125,110"/><polygon points="135,220 225,230 135,30"/></svg></span><span class=brand-name>Istioldie 1.0</span></a>
+<button class=navbar-toggler type=button data-toggle=collapse data-target=#navbarCollapse aria-controls=navbarCollapse aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse justify-content-end" id=navbarCollapse><ul id=navbar-links class="navbar-nav active"><li class=nav-item><a class="nav-link active" title="了解如何部署、使用和运维 Istio。" href=/v1.0/zh/docs/>文档</a></li><li class=nav-item><a class=nav-link title="关于使用 Istio 的博客文章。" href=/v1.0/zh/blog/2018/announcing-1.0/>博客</a></li><li class=nav-item><a class=nav-link title="一堆帮助您部署、配置和使用 Istio 的资源。" href=/v1.0/zh/help/>帮助</a></li><li class=nav-item><a class=nav-link title=关于Istio的说明。 href=/v1.0/zh/about/>关于</a></li><li class="nav-item dropdown" id=gearDropdown style=white-space:nowrap><a title=选项和设置 href class=nav-link data-toggle=dropdown aria-label=Tools aria-haspopup=true aria-expanded=false><i style=width:1em class="fa fa-lg fa-cog"></i></a><div class="dropdown-menu dropdown-menu-right" aria-labelledby=gearDropdown><a class=dropdown-item id=light-theme-item href onclick="setActiveStyleSheet('light');return false;">亮主题</a>
+<a class=dropdown-item id=dark-theme-item href onclick="setActiveStyleSheet('dark');return false;">暗主题</a><div class=dropdown-divider></div><h6 class=dropdown-header>本站的其它版本</h6><a href=https://istio.io class=dropdown-item>当前版本</a>
+<a href=https://preliminary.istio.io class=dropdown-item>下个版本</a>
+<a href=https://archive.istio.io class=dropdown-item>旧版本</a></div></li><li class=nav-item><a id=search_show class=nav-link href title=搜索istio.io aria-label=Search><i style=width:1em class="fa fa-lg fa-search"></i></a></li></ul><form name=cse id=search_form class="form-inline mr-sm-2" role=search><input type=hidden name=cx value=013699703217164175118:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=en>
+<input type=hidden id=search_page_url value=/v1.0/search.html>
+<input id=search_textbox class=form-control name=q type=text aria-label="Search this site">
+<button id=search_close type=reset aria-label="Cancel Search"><i class="far fa-lg fa-times-circle"></i></button></form></div></nav></header><div class=container-fluid><div class="row row-offcanvas"><div class="col-0 col-md-3 col-xl-2 sidebar-offcanvas"><nav class="sidebar d-print-none"><div class=spacer></div><div class=directory role=tablist><div class=card><div class=card-header role=tab id=header13><a data-toggle=collapse href=#collapse13 title="一些概念，理解它们有助于您更好地了解 Istio 系统的不同部分及其使用的抽象。" role=button aria-controls=collapse13><div><img src=/v1.0/img/concepts.svg alt=Icon class=page_icon>
+概念</div></a></div><div id=collapse13 class="collapse show" data-parent=#sidebar role=tabpanel aria-labelledby=header13><div class=card-body><ul class=tree><li><a title="介绍 Istio 及其要解决的问题、顶层架构和设计目标。" href=/v1.0/zh/docs/concepts/what-is-istio/>Istio 是什么?</a></li><li><span class=current title="介绍 Istio 中关于流量路由与控制的各项功能。">流量管理</span></li><li><a title="描述 Istio 的授权与鉴权功能。" href=/v1.0/zh/docs/concepts/security/>安全</a></li><li><a title=描述策略实施和遥测机制。 href=/v1.0/zh/docs/concepts/policies-and-telemetry/>策略与遥测</a></li><li><a title="介绍 Istio 组件的性能与可伸缩性方法论、结果和最佳实践。" href=/v1.0/zh/docs/concepts/performance-and-scalability/>性能与可伸缩性</a></li></ul></div></div></div><div class=card><div class=card-header role=tab id=header21><a data-toggle=collapse href=#collapse21 title="安装包含在不同的环境下（如 Kubernetes、Consul 等）安装 Istio 控制平面，以及在应用程序部署中安装 sidecar。" role=button aria-controls=collapse21><div><img src=/v1.0/img/setup.svg alt=Icon class=page_icon>
+安装</div></a></div><div id=collapse21 class=collapse data-parent=#sidebar role=tabpanel aria-labelledby=header21><div class=card-body><ul class=tree><li class=sublist><label class=tree-toggle><i class="fa fa-lg fa-caret-right"></i><a title="关于如何在 Kubernetes 集群中安装 Istio 控制平面和添加虚拟机到 mesh 中的说明。" href=/v1.0/zh/docs/setup/kubernetes/>Kubernetes</a></label><ul class="tree collapse"><li><a title="关于 Istio 发布包下载过程的说明。" href=/v1.0/zh/docs/setup/kubernetes/download-release/>下载 Istio 发布包</a></li><li><a title="在 kubernetes 集群中快速安装 Istio service mesh 的说明。" href=/v1.0/zh/docs/setup/kubernetes/quick-start/>快速开始</a></li><li><a title="如何使用 Google Kubernetes Engine (GKE) 快速搭建 Istio 服务。" href=/v1.0/zh/docs/setup/kubernetes/quick-start-gke-dm/>使用 Google Kubernetes Engine 快速开始</a></li><li><a title="使用内含的 Helm chart 安装 Istio。" href=/v1.0/zh/docs/setup/kubernetes/helm-install/>使用 Helm 进行安装</a></li><li><a title="使用内置的 Ansible playbook 安装 Istio。" href=/v1.0/zh/docs/setup/kubernetes/ansible-install/>使用 Ansible 安装</a></li><li><a title="介绍两种将 Istio sidecar 注入应用 Pod 的方法：使用 Sidecar 注入 Webhook 自动完成，或使用 istioctl 客户端工具手工完成。" href=/v1.0/zh/docs/setup/kubernetes/sidecar-injection/>注入 Istio sidecar</a></li><li><a title="部署在 Kubernetes 之中的 Istio 服务网格，将虚拟机和物理机集成进入到服务网格的方法。" href=/v1.0/zh/docs/setup/kubernetes/mesh-expansion/>网格扩展</a></li><li><a title="安装支持多集群的 Istio。" href=/v1.0/zh/docs/setup/kubernetes/multicluster-install/>Istio 多集群设置</a></li><li><a title="演示如何独立升级 Istio 控制平面和数据平面。" href=/v1.0/zh/docs/setup/kubernetes/upgrading-istio/>升级 Istio</a></li><li><a title="这里讲述了 Istio 对 Kubernetes 中 Pod 和服务的要求。" href=/v1.0/zh/docs/setup/kubernetes/spec-requirements/>Istio 对 Pod 和服务的要求</a></li><li class=sublist><label class=tree-toggle><i class="fa fa-lg fa-caret-right"></i><a title="如何对各种平台上安装的 Kubernetes 集群进行配置，以满足 Istio 的安装和运行要求。" href=/v1.0/zh/docs/setup/kubernetes/platform-setup/>各平台下 Kubernetes 集群的配置</a></label><ul class="tree collapse"><li><a title="对 AWS 中以 Kops 安装的集群进行配置以便安装运行 Istio。" href=/v1.0/zh/docs/setup/kubernetes/platform-setup/aws/>Amazon Web Services</a></li><li><a title="对 Azure 集群进行配置以便安装运行 Istio。" href=/v1.0/zh/docs/setup/kubernetes/platform-setup/azure/>Azure</a></li><li><a title="对 Google Kubernetes Engine（GKE）集群进行配置以便安装运行 Istio。" href=/v1.0/zh/docs/setup/kubernetes/platform-setup/gke/>Google Kubernetes Engine</a></li><li><a title="对 IBM Cloud Kubernetes Service（IKS）集群进行配置以便安装运行 Istio。" href=/v1.0/zh/docs/setup/kubernetes/platform-setup/ibm/>IBM Cloud Kubernetes Service</a></li><li><a title="对 Minikube 集群进行配置以便安装运行 Istio。" href=/v1.0/zh/docs/setup/kubernetes/platform-setup/minikube/>Minikube</a></li><li><a title="对 OpenShift 集群进行配置以便安装运行 Istio。" href=/v1.0/zh/docs/setup/kubernetes/platform-setup/openshift/>OpenShift</a></li></ul></li></ul></li><li class=sublist><label class=tree-toggle><i class="fa fa-lg fa-caret-right"></i><a title="基于 Consul 和 Nomad 安装 Istio 控制平面。" href=/v1.0/zh/docs/setup/consul/>Nomad & Consul</a></label><ul class="tree collapse"><li><a title="通过 Docker Compose 快速安装 Istio service mesh。" href=/v1.0/zh/docs/setup/consul/quick-start/>通过 Docker 快速安装</a></li><li><a title="基于 Consul 和 Nomad 安装 Istio 控制平面。" href=/v1.0/zh/docs/setup/consul/install/>安装</a></li></ul></li></ul></div></div></div><div class=card><div class=card-header role=tab id=header27><a data-toggle=collapse href=#collapse27 title="如何用 Istio 系统实现特定目标的行为。" role=button aria-controls=collapse27><div><img src=/v1.0/img/tasks.svg alt=Icon class=page_icon>
+任务</div></a></div><div id=collapse27 class=collapse data-parent=#sidebar role=tabpanel aria-labelledby=header27><div class=card-body><ul class=tree><li class=sublist><label class=tree-toggle><i class="fa fa-lg fa-caret-right"></i><a title=演示Istio流量路由功能的任务。 href=/v1.0/zh/docs/tasks/traffic-management/>流量管理</a></label><ul class="tree collapse"><li><a title="此任务向您展示如何根据权重和 HTTP header配置动态请求路由。" href=/v1.0/zh/docs/tasks/traffic-management/request-routing/>配置请求路由</a></li><li><a title=此任务说明如何注入延迟并测试应用程序的弹性。 href=/v1.0/zh/docs/tasks/traffic-management/fault-injection/>故障注入</a></li><li><a title=向您展示如何将流量从旧版本迁移到新版本的服务。 href=/v1.0/zh/docs/tasks/traffic-management/traffic-shifting/>流量转移</a></li><li><a title="本任务用于示范如何使用 Istio 在 Envoy 中设置请求超时。" href=/v1.0/zh/docs/tasks/traffic-management/request-timeouts/>设置请求超时</a></li><li><a title="介绍在服务网格 Istio 中如何配置外部公开服务。" href=/v1.0/zh/docs/tasks/traffic-management/ingress/>控制 Ingress 流量</a></li><li><a title="配置 Istio 令其以 TLS 或双向 TLS 的方式在网格外公开服务。" href=/v1.0/zh/docs/tasks/traffic-management/secure-ingress/>用 HTTPS 加密 Gateway</a></li><li><a title="在 Istio 中配置从网格内访问外部服务的流量路由。" href=/v1.0/zh/docs/tasks/traffic-management/egress/>控制 Egress 流量</a></li><li><a title="此任务描述 Istio 如何配置出口流量的 TLS。" href=/v1.0/zh/docs/tasks/traffic-management/egress-tls-origination/>出口流量的 TLS</a></li><li><a title="描述如何通过专用网关服务将流量定向到外部服务来配置 Istio。" href=/v1.0/zh/docs/tasks/traffic-management/egress-gateway/>配置 Egress 网关</a></li><li><a title=演示弹性应用所需的熔断能力。 href=/v1.0/zh/docs/tasks/traffic-management/circuit-breaking/>熔断</a></li><li><a title="此任务演示了 Istio 的流量镜像/阴影功能。" href=/v1.0/zh/docs/tasks/traffic-management/mirroring/>镜像</a></li><li><a title="展示如何对 Istio service 进行健康检查。" href=/v1.0/zh/docs/tasks/traffic-management/app-health-check/>Istio Service 健康检查</a></li></ul></li><li class=sublist><label class=tree-toggle><i class="fa fa-lg fa-caret-right"></i><a title=演示对服务网格进行安全加固的方法。 href=/v1.0/zh/docs/tasks/security/>安全</a></label><ul class="tree collapse"><li><a title="介绍如何使用 Istio 认证策略设置双向 TLS 和基本的终端用户认证。" href=/v1.0/zh/docs/tasks/security/authn-policy/>基础认证策略</a></li><li><a title="对 Istio 的自动双向 TLS 认证功能进行体验和测试。" href=/v1.0/zh/docs/tasks/security/mutual-tls/>测试双向 TLS</a></li><li><a title=展示如何在服务网格中进行基于角色的访问控制。 href=/v1.0/zh/docs/tasks/security/role-based-access-control/>基于角色的访问控制</a></li><li><a title="运维人员如何使用现有根证书配置 Citadel 进行证书以及密钥的签发。" href=/v1.0/zh/docs/tasks/security/plugin-ca-cert/>插入外部 CA 密钥和证书</a></li><li><a title="如何在 Kubernetes 中启用 Citadel 的健康检查。" href=/v1.0/zh/docs/tasks/security/health-check/>Citadel 的健康检查</a></li><li><a title="如何渐进式的为现有 Istio 服务添加双向 TLS 支持。" href=/v1.0/zh/docs/tasks/security/mtls-migration/>双向 TLS 的迁移</a></li><li><a title="展示如何在 HTTPS 服务上启用双向 TLS。" href=/v1.0/zh/docs/tasks/security/https-overlay/>通过 HTTPS 进行双向 TLS</a></li></ul></li><li class=sublist><label class=tree-toggle><i class="fa fa-lg fa-caret-right"></i><a title=演示策略实施功能。 href=/v1.0/zh/docs/tasks/policy-enforcement/>策略</a></label><ul class="tree collapse"><li><a title="这一任务展示了如何使用 Istio 动态的对服务通信进行速率限制。" href=/v1.0/zh/docs/tasks/policy-enforcement/rate-limiting/>启用速率限制</a></li><li><a title="展示使用简单的 Denier 适配器或黑白名单对服务进行访问控制的方法。" href=/v1.0/zh/docs/tasks/policy-enforcement/denial-and-list/>Denier 适配器以及黑白名单</a></li></ul></li><li class=sublist><label class=tree-toggle><i class="fa fa-lg fa-caret-right"></i><a title=演示从服务网格收集遥测信息的方法。 href=/v1.0/zh/docs/tasks/telemetry/>遥测</a></label><ul class="tree collapse"><li><a title="如何进行代理配置将跟踪请求发送给 Zipkin 或 Jaeger。" href=/v1.0/zh/docs/tasks/telemetry/distributed-tracing/>分布式跟踪</a></li><li><a title="这一任务讲述如何配置 Istio，进行指标和日志的收集工作。" href=/v1.0/zh/docs/tasks/telemetry/metrics-logs/>收集指标和日志</a></li><li><a title="本任务展示了如何配置 Istio 进行 TCP 服务的指标收集。" href=/v1.0/zh/docs/tasks/telemetry/tcp-metrics/>获取 TCP 服务指标</a></li><li><a title="此任务说明如何使用 Prometheus 查询 Istio 指标。" href=/v1.0/zh/docs/tasks/telemetry/querying-metrics/>查询 Prometheus 的指标</a></li><li><a title="此任务说明如何设置和使用 Istio 仪表板来监视网格流量。" href=/v1.0/zh/docs/tasks/telemetry/using-istio-dashboard/>使用 Grafana 进行指标可视化</a></li><li><a title="此任务说明如何在 Istio 网格中生成服务图。" href=/v1.0/zh/docs/tasks/telemetry/servicegraph/>生成服务图</a></li><li><a title="此任务将展示如何配置 Istio 将日志记录到 Fluentd 守护进程。" href=/v1.0/zh/docs/tasks/telemetry/fluentd/>使用 Fluentd 记录日志</a></li></ul></li></ul></div></div></div><div class=card><div class=card-header role=tab id=header48><a data-toggle=collapse href=#collapse48 title="这里包括多个可供 Istio 使用的可完整工作的示例，你可以用来亲自部署和体验这些示例。" role=button aria-controls=collapse48><div><img src=/v1.0/img/examples.svg alt=Icon class=page_icon>
+示例</div></a></div><div id=collapse48 class=collapse data-parent=#sidebar role=tabpanel aria-labelledby=header48><div class=card-body><ul class=tree><li><a title="部署一个用于演示多种 Istio 特性的应用，由四个单独的微服务构成。" href=/v1.0/zh/docs/examples/bookinfo/>Bookinfo 应用</a></li><li><a title="如何在 Istio 服务网格中使用多种流量管理功能。" href=/v1.0/zh/docs/examples/intelligent-routing/>智能路由</a></li><li><a title="演示如何使用 Istio Mixer 和 Istio sidecar 获取指标和日志，并在不同的服务间进行跟踪。" href=/v1.0/zh/docs/examples/telemetry/>深入遥测</a></li><li><a title="说明如何在谷歌云 Endpoints 服务中手动整合 Istio。" href=/v1.0/zh/docs/examples/endpoints/>在谷歌云 Endpoints 服务中安装 Istio</a></li><li><a title="在单一服务网格中，如何使用 Istio 对 Kubernetes 集群以及虚拟机进行控制。" href=/v1.0/zh/docs/examples/integrating-vms/>虚拟机集成</a></li><li><a title="基于 GKE 的 Istio 多集群安装。" href=/v1.0/zh/docs/examples/multicluster/gke/>Google Kubernetes Engine</a></li><li><a title="多 IBM Cloud Private 集群安装 Istio 示例。" href=/v1.0/zh/docs/examples/multicluster/icp/>IBM Cloud Private</a></li></ul></div></div></div><div class=card><div class=card-header role=tab id=header69><a data-toggle=collapse href=#collapse69 title="参考部分包含详细的权威参考资料，如命令行选项、配置选项和 API 调用参数。" role=button aria-controls=collapse69><div><img src=/v1.0/img/reference.svg alt=Icon class=page_icon>
+参考</div></a></div><div id=collapse69 class=collapse data-parent=#sidebar role=tabpanel aria-labelledby=header69><div class=card-body><ul class=tree><li class=sublist><label class=tree-toggle><i class="fa fa-lg fa-caret-right"></i><a title=关于配置选项的详细信息。 href=/v1.0/zh/docs/reference/config/>配置</a></label><ul class="tree collapse"><li><a title="描述了使用 Helm chart 安装 Istio 时可以使用的选项。" href=/v1.0/zh/docs/reference/config/installation-options/>安装选项</a></li><li class=sublist><label class=tree-toggle><i class="fa fa-lg fa-caret-right"></i><a title=关于如何配置Istio授权特性的描述。 href=/v1.0/zh/docs/reference/config/authorization/>授权</a></label><ul class="tree collapse"></ul></li><li class=sublist><label class=tree-toggle><i class="fa fa-lg fa-caret-right"></i><a title="描述如何配置 Istio 的策略和遥测功能。" href=/v1.0/zh/docs/reference/config/policy-and-telemetry/>策略和遥测</a></label><ul class="tree collapse"><li><a title=介绍策略和控制中会用到的一些基础属性词汇。 href=/v1.0/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/>属性词汇</a></li><li><a title="Mixer 的配置表达式语言参考。" href=/v1.0/zh/docs/reference/config/policy-and-telemetry/expression-language/>表达式语言</a></li><li class=sublist><label class=tree-toggle><i class="fa fa-lg fa-caret-right"></i><a title="Mixer 适配器能够让 Istio 连接各种基础设施后端以完成类似指标和日志这样的功能。" href=/v1.0/zh/docs/reference/config/policy-and-telemetry/adapters/>适配器</a></label><ul class="tree collapse"></ul></li><li class=sublist><label class=tree-toggle><i class="fa fa-lg fa-caret-right"></i><a title="Mixer 模板用于将数据发送到各个适配器。" href=/v1.0/zh/docs/reference/config/policy-and-telemetry/templates/>模板</a></label><ul class="tree collapse"></ul></li><li><a title="通过 Mixer 从 Istio 导出的默认监控指标（Metrics）。" href=/v1.0/zh/docs/reference/config/policy-and-telemetry/metrics/>默认监控指标</a></li></ul></li><li><a title=流量路由配置。 href=/v1.0/zh/docs/reference/config/istio.networking.v1alpha3/>通信路由</a></li></ul></li><li class=sublist><label class=tree-toggle><i class="fa fa-lg fa-caret-right"></i><a title="描述 Istio 命令和工具的用法及选项。" href=/v1.0/zh/docs/reference/commands/>命令</a></label><ul class="tree collapse"><li><a title="Galley 为 Istio 提供配置管理服务。" href=/v1.0/zh/docs/reference/commands/galley/>galley</a></li><li><a title="Istio 控制界面。" href=/v1.0/zh/docs/reference/commands/istioctl/>istioctl</a></li></ul></li></ul></div></div></div></div></nav></div><div class="col-12 col-md-9 col-xl-8"><p class=d-md-none><label class=sidebar-toggler data-toggle=offcanvas><i class="fa fa-sign-out-alt"></i></label></p><main aria-labelledby=title><div class=pagenav><p><a href=/v1.0/zh/docs/concepts/ title="一些概念，理解它们有助于您更好地了解 Istio 系统的不同部分及其使用的抽象。"><i style=transform:scaleX(-1) class="fa fa-level-up-alt"></i>&nbsp;概念</a></p></div><h1 id=title>流量管理</h1><nav class="toc-inlined d-xl-none d-print-none"><hr><div class=directory role=directory><nav id=InlinedTableOfContents><ul><li><a href=#pilot--envoy>Pilot 和 Envoy</a></li><li><a href=#heading>流量管理的好处</a></li><li><a href=#heading-1>请求路由</a></li><ul><li><a href=#heading-2>服务之间的通讯</a></li><li><a href=#ingress--egress>Ingress 和 Egress</a></li></ul><li><a href=#heading-3>服务发现和负载均衡</a></li><li><a href=#heading-4>故障处理</a></li><ul><li><a href=#heading-5>微调</a></li><li><a href=#faq>FAQ</a></li></ul><li><a href=#heading-6>故障注入</a></li><li><a href=#heading-7>规则配置</a></li><li><a href=#virtual-services>Virtual Services</a></li><ul><li><a href=#heading-8>规则的目标描述</a></li><li><a href=#-header->根据来源或 Header 制定规则</a></li><li><a href=#heading-9>在服务之间分拆流量</a></li><li><a href=#heading-10>超时和重试</a></li><li><a href=#heading-11>在请求中进行错误注入</a></li><li><a href=#http->HTTP 路由的优先级</a></li><li><a href=#heading-12>目标规则</a></li><li><a href=#heading-13>断路器</a></li><li><a href=#destinationrule-><code>DestinationRule</code> 的评估</a></li><li><a href=#service-entries>Service Entries</a></li><li><a href=#gateway>Gateway</a></li></ul><li><a href=#see-also>See also</a></li></ul></nav></div><hr></nav><p>本页概述了 Istio 中流量管理的工作原理，包括流量管理原则的优点。本文假设你已经阅读了 <a href=/v1.0/zh/docs/concepts/what-is-istio/>Istio 是什么？</a>并熟悉 Istio 的高级架构。有关单个流量管理功能的更多信息，您可以在本节其他指南中了解。</p><h2 id=pilot--envoy>Pilot 和 Envoy</h2><p>Istio 流量管理的核心组件是 <a href=#pilot-%E5%92%8C-envoy>Pilot</a>，它管理和配置部署在特定 Istio 服务网格中的所有 Envoy 代理实例。它允许您指定在 Envoy 代理之间使用什么样的路由流量规则，并配置故障恢复功能，如超时、重试和熔断器。它还维护了网格中所有服务的规范模型，并使用这个模型通过发现服务让 Envoy 了解网格中的其他实例。</p><p>每个 Envoy 实例都会维护<a href=#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E5%92%8C%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1>负载均衡信息</a>，负载均衡信息是基于从 Pilot 获得的信息，以及其负载均衡池中的其他实例的定期健康检查。从而允许其在目标实例之间智能分配流量，同时遵循其指定的路由规则。</p><h2 id=heading>流量管理的好处</h2><p>使用 Istio 的流量管理模型，本质上是将流量与基础设施扩容解耦，让运维人员可以通过 Pilot 指定流量遵循什么规则，而不是执行哪些 pod/VM 应该接收流量——Pilot 和智能 Envoy 代理会帮我们搞定。因此，例如，您可以通过 Pilot 指定特定服务的 5％ 流量可以转到金丝雀版本，而不必考虑金丝雀部署的大小，或根据请求的内容将流量发送到特定版本。</p><figure style=width:85%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:69.52%><a class=not-for-endnotes href=/v1.0/docs/concepts/traffic-management/TrafficManagementOverview.svg><img class=element-to-stretch src=/v1.0/docs/concepts/traffic-management/TrafficManagementOverview.svg alt="Istio 中的流量管理" title="Istio 中的流量管理"></a></div><figcaption>Istio 中的流量管理</figcaption></figure><p>将流量从基础设施扩展中解耦，这样就可以让 Istio 提供各种流量管理功能，这些功能在应用程序代码之外。除了 A/B 测试的动态<a href=#%E8%AF%B7%E6%B1%82%E8%B7%AF%E7%94%B1>请求路由</a>，逐步推出和金丝雀发布之外，它还使用超时、重试和熔断器处理<a href=#%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86>故障恢复</a>，最后还可以通过<a href=#%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5>故障注入</a>来测试服务之间故障恢复策略的兼容性。这些功能都是通过在服务网格中部署的 Envoy sidecar/代理来实现的。</p><p>Pilot 负责部署在 Istio 服务网格中的 Envoy 实例的生命周期管理。</p><figure style=width:60%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:72.17%><a class=not-for-endnotes href=/v1.0/docs/concepts/traffic-management/PilotAdapters.svg><img class=element-to-stretch src=/v1.0/docs/concepts/traffic-management/PilotAdapters.svg alt="Pilot 架构" title="Pilot 架构"></a></div><figcaption>Pilot 架构</figcaption></figure><p>如上图所示，Pilot 维护了网格中的服务的规范表示，这个表示是独立于底层平台的。Pilot 中的平台特定适配器负责适当填充此规范模型。例如，Pilot 中的 Kubernetes 适配器实现必要的控制器来 watch Kubernetes API server 中 pod 注册信息、ingress 资源以及用于存储流量管理规则的第三方资源的更改。该数据被翻译成规范表示。Envoy 特定配置是基于规范表示生成的。</p><p>Pilot 公开了用于<a href=https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/sds>服务发现</a> 、<a href=https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cds>负载均衡池</a>和<a href=https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/rds>路由表</a>的动态更新的 API。这些 API 将 Envoy 从平台特有的细微差别中解脱出来，简化了设计并提升了跨平台的可移植性。</p><p>运维人员可以通过 <a href=/v1.0/docs/reference/config/istio.networking.v1alpha3/>Pilot 的 Rules API</a>指定高级流量管理规则。这些规则被翻译成低级配置，并通过 discovery API 分发到 Envoy 实例。</p><h2 id=heading-1>请求路由</h2><p>如 <a href=#pilot-%E5%92%8C-envoy>Pilot</a> 所述，特定网格中服务的规范表示由 Pilot 维护。服务的 Istio 模型和在底层平台（Kubernetes、Mesos 以及 Cloud Foundry 等）中的表达无关。特定平台的适配器负责从各自平台中获取元数据的各种字段，然后对服务模型进行填充。</p><p>Istio 引入了服务版本的概念，可以通过版本（<code>v1</code>、<code>v2</code>）或环境（<code>staging</code>、<code>prod</code>）对服务进行进一步的细分。这些版本不一定是不同的 API 版本：它们可能是部署在不同环境（prod、staging 或者 dev 等）中的同一服务的不同迭代。使用这种方式的常见场景包括 A/B 测试或金丝雀部署。Istio 的<a href=#%E8%A7%84%E5%88%99%E9%85%8D%E7%BD%AE>流量路由规则</a>可以根据服务版本来对服务之间流量进行附加控制。</p><h3 id=heading-2>服务之间的通讯</h3><figure style=width:60%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:100.42%><a class=not-for-endnotes href=/v1.0/docs/concepts/traffic-management/ServiceModel_Versions.svg><img class=element-to-stretch src=/v1.0/docs/concepts/traffic-management/ServiceModel_Versions.svg alt=服务版本的处理。 title=服务版本></a></div><figcaption>服务版本</figcaption></figure><p>如上图所示，服务的客户端不知道服务不同版本间的差异。他们可以使用服务的主机名或者 IP 地址继续访问服务。Envoy sidecar/代理拦截并转发客户端和服务器之间的所有请求和响应。</p><p>运维人员使用 Pilot 指定路由规则，Envoy 根据这些规则动态地确定其服务版本的实际选择。该模型使应用程序代码能够将它从其依赖服务的演进中解耦出来，同时提供其他好处（参见 <a href=/v1.0/zh/docs/concepts/policies-and-telemetry/>Mixer</a>）。路由规则让 Envoy 能够根据诸如 header、与源/目的地相关联的标签和/或分配给每个版本的权重等标准来进行版本选择。</p><p>Istio 还为同一服务版本的多个实例提供流量负载均衡。可以在<a href=/v1.0/zh/docs/concepts/traffic-management/#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E5%92%8C%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1>服务发现和负载均衡</a>中找到更多信息。</p><p>Istio 不提供 DNS。应用程序可以尝试使用底层平台（kube-dns，mesos-dns 等）中存在的 DNS 服务来解析 FQDN。</p><h3 id=ingress--egress>Ingress 和 Egress</h3><p>Istio 假定进入和离开服务网络的所有流量都会通过 Envoy 代理进行传输。通过将 Envoy 代理部署在服务之前，运维人员可以针对面向用户的服务进行 A/B 测试，部署金丝雀服务等。类似地，通过使用 Envoy 将流量路由到外部 Web 服务（例如，访问 Maps API 或视频服务 API）的方式，运维人员可以为这些服务添加超时控制、重试、断路器等功能，同时还能从服务连接中获取各种细节指标。</p><figure style=width:60%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:28.88%><a class=not-for-endnotes href=/v1.0/docs/concepts/traffic-management/ServiceModel_RequestFlow.svg><img class=element-to-stretch src=/v1.0/docs/concepts/traffic-management/ServiceModel_RequestFlow.svg alt="通过 Envoy 的 Ingress 和 Egress。" title=请求流></a></div><figcaption>请求流</figcaption></figure><h2 id=heading-3>服务发现和负载均衡</h2><p><strong>服务注册</strong>：Istio 假定存在服务注册表，以跟踪应用程序中服务的 pod/VM。它还假设服务的新实例自动注册到服务注册表，并且不健康的实例将被自动删除。诸如 Kubernetes、Mesos 等平台已经为基于容器的应用程序提供了这样的功能。为基于虚拟机的应用程序提供的解决方案就更多了。</p><p><strong>服务发现</strong>：Pilot 使用来自服务注册的信息，并提供与平台无关的服务发现接口。网格中的 Envoy 实例执行服务发现，并相应地动态更新其负载均衡池。</p><figure style=width:80%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:74.79%><a class=not-for-endnotes href=/v1.0/docs/concepts/traffic-management/LoadBalancing.svg><img class=element-to-stretch src=/v1.0/docs/concepts/traffic-management/LoadBalancing.svg alt=发现与负载均衡 title=发现与负载均衡></a></div><figcaption>发现与负载均衡</figcaption></figure><p>如上图所示，网格中的服务使用其 DNS 名称访问彼此。服务的所有 HTTP 流量都会通过 Envoy 自动重新路由。Envoy 在负载均衡池中的实例之间分发流量。虽然 Envoy 支持多种<a href=https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing>复杂的负载均衡算法</a>，但 Istio 目前仅允许三种负载平衡模式：轮循、随机和带权重的最少请求。</p><p>除了负载均衡外，Envoy 还会定期检查池中每个实例的运行状况。Envoy 遵循熔断器风格模式，根据健康检查 API 调用的失败率将实例分类为不健康或健康。换句话说，当给定实例的健康检查失败次数超过预定阈值时，它将从负载均衡池中弹出。类似地，当通过的健康检查数超过预定阈值时，该实例将被添加回负载均衡池。您可以在<a href=#%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86>处理故障</a>中了解更多有关 Envoy 的故障处理功能。</p><p>服务可以通过使用 HTTP 503 响应健康检查来主动减轻负担。在这种情况下，服务实例将立即从调用者的负载均衡池中删除。</p><h2 id=heading-4>故障处理</h2><p>Envoy 提供了一套开箱即用，<strong>可选的</strong>的故障恢复功能，对应用中的服务大有裨益。这些功能包括：</p><ol><li>超时</li><li>具备超时预算，并能够在重试之间进行可变抖动（间隔）的有限重试功能</li><li>并发连接数和上游服务请求数限制</li><li>对负载均衡池中的每个成员进行主动（定期）运行健康检查</li><li>细粒度熔断器（被动健康检查）- 适用于负载均衡池中的每个实例</li></ol><p>这些功能可以使用 <a href=#%E8%A7%84%E5%88%99%E9%85%8D%E7%BD%AE>Istio 的流量管理规则</a>在运行时进行动态配置。</p><p>对超载的上游服务来说，重试之间的抖动极大的降低了重试造成的影响，而超时预算确保调用方服务在可预测的时间范围内获得响应（成功/失败）。</p><p>主动和被动健康检查（上述 4 和 5 ）的组合最大限度地减少了在负载平衡池中访问不健康实例的机会。当与平台级健康检查（例如由 Kubernetes 或 Mesos 支持的检查）相结合时，应用程序可以确保将不健康的 Pod/容器/虚拟机 快速地从服务网格中去除，从而最小化请求失败和延迟产生影响。</p><p>总之，这些功能使得服务网格能够耐受故障节点，并防止本地故障导致的其他节点的稳定性下降。</p><h3 id=heading-5>微调</h3><p>Istio 的流量管理规则允许运维人员为每个服务/版本设置故障恢复的全局默认值。然而，服务的消费者也可以通过特殊的 HTTP 头提供的请求级别值覆盖<a href=/v1.0/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-timeout>超时</a>和<a href=/v1.0/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-retries>重试</a>的默认值。在 Envoy 代理的实现中，对应的 Header 分别是 <code>x-envoy-upstream-rq-timeout-ms</code> 和 <code>x-envoy-max-retries</code>。</p><h3 id=faq>FAQ</h3><p>Q: <em>在 Istio 中运行的应用程序是否仍需要处理故障？</em></p><p>是的。Istio可以提高网格中服务的可靠性和可用性。但是，<strong>应用程序仍然需要处理故障（错误）并采取适当的回退操作</strong>。例如，当负载均衡池中的所有实例都失败时，Envoy 将返回 HTTP 503。，应用程序有责任实现必要的逻辑，对这种来自上游服务的 HTTP 503 错误做出合适的响应。</p><p>Q: <em>已经使用容错库（例如 <a href=https://github.com/Netflix/Hystrix>Hystrix</a>）的应用程序，是否会因为 Envoy 的故障恢复功能受到破坏？</em></p><p>不会。Envoy对应用程序是完全透明的。在进行服务调用时，由 Envoy 返回的故障响应与上游服务返回的故障响应不会被区分开来。</p><p>Q: <em>同时使用应用级库和 Envoy 时，怎样处理故障？</em></p><p>假如对同一个目的服务给出两个故障恢复策略（例如，两次超时设置——一个在 Envoy 中设置，另一个在应用程序库中设置），<strong>当故障发生时，两个限制都将被触发</strong>。例如，如果应用程序为服务的 API 调用设置了 5 秒的超时时间，而运维人员配置了 10 秒的超时时间，那么应用程序的超时将会首先启动。同样，如果 Envoy 的熔断器在应用熔断器之前触发，对该服务的 API 调用将从 Envoy 收到 503 错误。</p><h2 id=heading-6>故障注入</h2><p>虽然 Envoy sidecar/proxy 为在 Istio 上运行的服务提供了大量的<a href=#%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86>故障恢复机制</a>，但测试整个应用程序端到端的故障恢复能力依然是必须的。错误配置的故障恢复策略（例如，跨服务调用的不兼容/限制性超时）可能导致应用程序中的关键服务持续不可用，从而破坏用户体验。</p><p>Istio 能在不杀死 Pod 的情况下，将协议特定的故障注入到网络中，在 TCP 层制造数据包的延迟或损坏。我们的理由是，无论网络级别的故障如何，应用层观察到的故障都是一样的，并且可以在应用层注入更有意义的故障（例如，HTTP 错误代码），以检验和改善应用的弹性。</p><p>运维人员可以为符合特定条件的请求配置故障，还可以进一步限制遭受故障的请求的百分比。可以注入两种类型的故障：延迟和中断。延迟是计时故障，模拟网络延迟上升或上游服务超载的情况。中断是模拟上游服务的崩溃故障。中断通常以 HTTP 错误代码或 TCP 连接失败的形式表现。</p><p>有关详细信息，请参阅 <a href=#%E8%A7%84%E5%88%99%E9%85%8D%E7%BD%AE>Istio 的流量管理规则</a>。</p><h2 id=heading-7>规则配置</h2><p>Istio 提供了一个简单的配置模型，用来控制 API 调用以及应用部署内多个服务之间的四层通信。运维人员可以使用这个模型来配置服务级别的属性，这些属性可以是断路器、超时、重试，以及一些普通的持续发布任务，例如金丝雀发布、A/B 测试、使用百分比对流量进行控制，从而完成应用的逐步发布等。</p><p>例如，将 <code>reviews</code> 服务 100％ 的传入流量发送到 <code>v1</code> 版本，这一需求可以用下面的规则来实现：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+  - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1</code></pre><p>这个配置的用意是，发送到 <code>reviews</code> 服务（在 <code>host</code> 字段中标识）的流量应该被路由到 <code>reviews</code> 服务实例的 <code>v1</code> 子集中。路由中的 <code>subset</code> 制定了一个预定义的子集名称，子集的定义来自于目标规则配置：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews
+spec:
+  host: reviews
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2</code></pre><p>子集中会指定一或多个标签，用这些标签来区分不同版本的实例。假设在 Kubernetes 上的 Istio 服务网格之中有一个服务，<code>version: v1</code> 代表只有标签中包含 &ldquo;version:v1&rdquo; 的 Pod 才会收到流量。</p><p>规则可以使用 <a href=/v1.0/docs/reference/commands/istioctl/><code>istioctl</code> 客户端工具</a> 进行配置，如果是 Kubernetes 部署，还可以使用 <code>kubectl</code> 命令完成同样任务，但是只有 <code>istioctl</code> 会在这个过程中对模型进行检查，所以我们推荐使用 <code>istioctl</code>。在<a href=/v1.0/zh/docs/tasks/traffic-management/request-routing/>配置请求路由任务</a>中包含有配置示例。</p><p>Istio 中包含有四种流量管理配置资源，分别是 <code>VirtualService</code>、<code>DestinationRule</code>、<code>ServiceEntry</code>、以及 <code>Gateway</code>。下面会讲一下这几个资源的一些重点。在<a href=/v1.0/docs/reference/config/istio.networking.v1alpha3/>网络参考</a>中可以获得更多这方面的信息。</p><h2 id=virtual-services>Virtual Services</h2><p>是在 Istio 服务网格内对服务的请求如何进行路由控制？<a href=/v1.0/docs/reference/config/istio.networking.v1alpha3/#VirtualService><code>VirtualService</code></a> 中就包含了这方面的定义。例如一个 Virtual Service 可以把请求路由到不同版本，甚至是可以路由到一个完全不同于请求要求的服务上去。路由可以用很多条件进行判断，例如请求的源和目的、HTTP 路径和 Header 以及各个服务版本的权重等。</p><h3 id=heading-8>规则的目标描述</h3><p>路由规则对应着一或多个用 <code>VirtualService</code> 配置指定的请求目的主机。这些主机可以是、也可以不是实际的目标负载，甚至可以不是一个网格内可路由的服务。例如要给到 <code>reviews</code> 服务的请求定义路由规则，可以使用内部的名称 <code>reviews</code>，也可以用域名 <code>bookinfo.com</code>，<code>VirtualService</code> 可以这样使用 <code>host</code> 字段：</p><pre><code class=language-yaml>hosts:
+  - reviews
+  - bookinfo.com</code></pre><p><code>host</code> 字段用显示或者隐式的方式定义了一或多个完全限定名（FQDN）。上面的 <code>reviews</code>，会隐式的扩展成为特定的 FQDN，例如在 Kubernetes 环境中，全名会从 <code>VirtualService</code> 所在的集群和命名空间中继承而来（比如说 <code>reviews.default.svc.cluster.local</code>）。</p><h3 id=-header->根据来源或 Header 制定规则</h3><p>可以选择让规则只对符合某些要求的请求生效：</p><p>**1. 根据特定用户进行限定。**例如，可以制定一个规则，只对来自 <code>reviews</code> 服务的 Pod 生效：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+      sourceLabels:
+        app: reviews
+    ...</code></pre><p><code>sourceLabels</code> 的值依赖于服务的实现。比如说在 Kubernetes 中，跟服务的 Pod 选择标签一致。</p><p>**2. 根据调用方的特定版本进行限定。**例如下面的规则对前一个例子进行修改，<code>reviews</code> 服务的 <code>v2</code> 版本发出的请求才会生效：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+    ...</code></pre><p>**3. 根据 HTTP Header 选择规则。**下面的规则只会对包含了 <code>end-user</code> 头，且值为 <code>jason</code> 的请求生效：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+    - reviews
+  http:
+  - match:
+    - headers:
+        end-user:
+          exact: jason
+    ...</code></pre><p>多个 Header 之间是"与”关系。</p><p>可以同时设置多个标准，在这个例子中，还包含了 AND 或 OR 的语义，这要根据具体嵌套情况进行判断。如果多个标准嵌套在同一个 match 中，这些条件就是 AND 关系。例如下面的规则的限制条件要求的是同时符合下面两个条件：</p><ul><li>来源于 <code>reviews:v2</code> 服务</li><li>&ldquo;end-user&rdquo; 头中包含 “jason”</li></ul><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+      headers:
+        end-user:
+          exact: jason
+    ...</code></pre><p>但如果这些标准存在于不同的 <code>match</code> 子句中，就会变成 OR 逻辑：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+    - headers:
+        end-user:
+          exact: jason
+    ...</code></pre><h3 id=heading-9>在服务之间分拆流量</h3><p>每个路由规则都需要对一或多个有权重的后端进行甄别并调用合适的后端。每个后端都对应一个特定版本的目标服务，服务的版本是依靠标签来区分的。如果一个服务版本包含多个注册实例，那么会根据为该服务定义的负载均衡策略进行路由，缺省策略是 <code>round-robin</code>。</p><p>例如下面的规则会把 25% 的 <code>reviews</code> 服务流量分配给 <code>v2</code> 标签；其余的 75% 流量分配给 <code>v1</code>：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+    - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+      weight: 75
+    - destination:
+        host: reviews
+        subset: v2
+      weight: 25</code></pre><h3 id=heading-10>超时和重试</h3><p>缺省情况下，HTTP 请求的超时设置为 15 秒，可以使用路由规则来覆盖这个限制：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+    - ratings
+  http:
+  - route:
+    - destination:
+        host: ratings
+        subset: v1
+    timeout: 10s</code></pre><p>还可以用路由规则来指定某些 http 请求的重试次数。下面的代码可以用来设置最大重试次数，或者在规定时间内一直重试，时间长度同样可以进行覆盖：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+    - ratings
+  http:
+  - route:
+    - destination:
+        host: ratings
+        subset: v1
+    retries:
+      attempts: 3
+      perTryTimeout: 2s</code></pre><p>注意请求的重试和超时还可以<a href=/v1.0/zh/docs/concepts/traffic-management/#%E5%BE%AE%E8%B0%83>针对每个请求分别设置</a>。</p><p><a href=/v1.0/zh/docs/tasks/traffic-management/request-timeouts/>请求超时任务</a>中展示了超时控制的相关示例。</p><h3 id=heading-11>在请求中进行错误注入</h3><p>在根据路由规则向选中目标转发 http 请求的时候，可以向其中注入一或多个错误。错误可以是延迟，也可以是退出。</p><p>下面的例子在目标为 <code>ratings:v1</code> 服务的流量中，对其中的 10% 注入 5 秒钟的延迟。</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - fault:
+      delay:
+        percent: 10
+        fixedDelay: 5s
+    route:
+    - destination:
+        host: ratings
+        subset: v1</code></pre><p>接下来，在目标为 <code>ratings:v1</code> 服务的流量中，对其中的 10% 注入 HTTP 400 错误。</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - fault:
+      abort:
+        percent: 10
+        httpStatus: 400
+    route:
+    - destination:
+        host: ratings
+        subset: v1</code></pre><p>有时会把延迟和退出同时使用。例如下面的规则对从 <code>reviews:v2</code> 到 <code>ratings:v1</code> 的流量生效，会让所有的请求延迟 5 秒钟，接下来把其中的 10% 退出：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+    fault:
+      delay:
+        fixedDelay: 5s
+      abort:
+        percent: 10
+        httpStatus: 400
+    route:
+    - destination:
+        host: ratings
+        subset: v1</code></pre><p>可以参考<a href=/v1.0/zh/docs/tasks/traffic-management/fault-injection/>错误注入任务</a>，进行这方面的实际体验。</p><h3 id=http->HTTP 路由的优先级</h3><p>当对同一目标有多个规则时，会按照在 <code>VirtualService</code> 中的顺序进行应用，换句话说，列表中的第一条规则具有最高优先级。</p><p>**为什么优先级很重要：**当对某个服务的路由是完全基于权重的时候，他就可以在单一规则中完成。另一方面，如果有多重条件（例如来自特定用户的请求）用来进行路由，就会需要不止一条规则。这样就出现了优先级问题，需要通过优先级来保证根据正确的顺序来执行规则。</p><p>常见的路由模式是提供一或多个高优先级规则，这些优先规则使用源服务以及 Header 来进行路由判断，然后才提供一条单独的基于权重的规则，这些低优先级规则不设置匹配规则，仅根据权重对所有剩余流量进行分流。</p><p>例如下面的 <code>VirtualService</code> 包含了两个规则，所有对 <code>reviews</code> 服务发起的请求，如果 Header 包含 <code>Foo=bar</code>，就会被路由到 <code>v2</code> 实例，而其他请求则会发送给 <code>v1</code> ：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+  - reviews
+  http:
+  - match:
+    - headers:
+        Foo:
+          exact: bar
+    route:
+    - destination:
+        host: reviews
+        subset: v2
+  - route:
+    - destination:
+        host: reviews
+        subset: v1</code></pre><p>注意，基于 Header 的规则具有更高优先级。如果降低它的优先级，那么这一规则就无法生效了，这是因为那些没有限制的权重规则会首先被执行，也就是说所有请求及时包含了符合条件的 <code>Foo</code> 头，也都会被路由到 <code>v1</code>。流量特征被判断为符合一条规则的条件的时候，就会结束规则的选择过程，这就是在存在多条规则时，需要慎重考虑优先级问题的原因。</p><h3 id=heading-12>目标规则</h3><p>在请求被 <code>VirtualService</code> 路由之后，<a href=/v1.0/docs/reference/config/istio.networking.v1alpha3/#DestinationRule><code>DestinationRule</code></a> 配置的一系列策略就生效了。这些策略由服务属主编写，包含断路器、负载均衡以及 TLS 等的配置内容。</p><p><code>DestinationRule</code> 还定义了对应目标主机的可路由 <code>subset</code>（例如有命名的版本）。<code>VirtualService</code> 在向特定服务版本发送请求时会用到这些子集。</p><p>下面是 <code>reviews</code> 服务的 <code>DestinationRule</code> 配置策略以及子集：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews
+spec:
+  host: reviews
+  trafficPolicy:
+    loadBalancer:
+      simple: RANDOM
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+  - name: v3
+    labels:
+      version: v3</code></pre><p>注意在单个 <code>DestinationRule</code> 配置中可以包含多条策略（比如 default 和 v2）。</p><h3 id=heading-13>断路器</h3><p>可以用一系列的标准，例如连接数和请求数限制来定义简单的断路器。</p><p>例如下面的 <code>DestinationRule</code> 给 <code>reviews</code> 服务的 <code>v1</code> 版本设置了 100 连接的限制：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews
+spec:
+  host: reviews
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+    trafficPolicy:
+      connectionPool:
+        tcp:
+          maxConnections: 100</code></pre><h3 id=destinationrule-><code>DestinationRule</code> 的评估</h3><p>和路由规则类似，这些策略也是和特定的 <code>host</code> 相关联的，如果指定了 <code>subset</code>，那么具体生效的 <code>subset</code> 的决策是由路由规则来决定的。</p><p>规则评估的第一步，是确认 <code>VirtualService</code> 中所请求的主机相对应的路由规则（如果有的话），这一步骤决定了将请求发往目标服务的哪一个 <code>subset</code>（就是特定版本）。下一步，被选中的 <code>subset</code> 如果定义了策略，就会开始是否生效的评估。</p><p>**注意：**这一算法需要留心是，为特定 <code>subset</code> 定义的策略，只有在该 <code>subset</code> 被显式的路由时候才能生效。例如下面的配置，只为 <code>review</code> 服务定义了规则（没有对应的 <code>VirtualService</code> 路由规则）。</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews
+spec:
+  host: reviews
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+    trafficPolicy:
+      connectionPool:
+        tcp:
+          maxConnections: 100</code></pre><p>既然没有为 <code>reviews</code> 服务定义路由规则，那么就会使用缺省的 <code>round-robin</code> 策略，偶尔会请求到 <code>v1</code> 实例，如果只有一个 <code>v1</code> 实例，那么所有请求都会发送给它。然而上面的策略是永远不会生效的，这是因为，缺省路由是在更底层完成的任务，策略引擎无法获知最终目的，也无法为请求选择匹配的 <code>subset</code> 策略。</p><p>有两种方法来解决这个问题。可以把路由策略提高一级，要求他对所有版本生效：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews
+spec:
+  host: reviews
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+  subsets:
+  - name: v1
+    labels:
+      version: v1</code></pre><p>还有一个更好的方法，就是为服务定义路由规则，例如给 <code>reviews:v1</code> 加入一个简单的路由规则：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+  - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1</code></pre><p>虽然 Istio 在没有定义任何规则的情况下，能将所有来源的流量发送给所有版本的目标服务。然而一旦需要对版本有所区别，就需要制定规则了。从一开始就给每个服务设置缺省规则，是 Istio 世界里推荐的最佳实践。</p><h3 id=service-entries>Service Entries</h3><p>Istio 内部会维护一个服务注册表，可以用 <a href=/v1.0/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry><code>ServiceEntry</code></a> 向其中加入额外的条目。通常这个对象用来启用对 Istio 服务网格之外的服务发出请求。例如下面的 <code>ServiceEntry</code> 可以用来允许外部对 <code>*.foo.com</code> 域名上的服务主机的调用。</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: foo-ext-svc
+spec:
+  hosts:
+  - *.foo.com
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+  - number: 443
+    name: https
+    protocol: HTTPS</code></pre><p><code>ServiceEntry</code> 中使用 <code>hosts</code> 字段来指定目标，字段值可以是一个完全限定名，也可以是个通配符域名。其中包含的白名单，包含一或多个允许网格中服务访问的服务。</p><p><code>ServiceEntry</code> 的配置不仅限于外部服务，他可以有两种类型：网格内部和网格外部。网格内的条目和其他的内部服务类似，用于显式的将服务加入网格。可以用来把服务作为服务网格扩展的一部分加入不受管理的基础设置（例如加入到基于 Kubernetes 的服务网格中的虚拟机）中。网格外的条目用于表达网格外的服务。对这种条目来说，双向 TLS 认证是禁止的，策略实现需要在客户端执行，而不像内部服务请求中的服务端执行。</p><p>只要 <code>ServiceEntry</code> 涉及到了匹配 <code>host</code> 的服务，就可以和 <code>VirtualService</code> 以及 <code>DestinationRule</code> 配合工作。例如下面的规则可以和上面的 <code>ServiceEntry</code> 同时使用，在访问 <code>bar.foo.com</code> 的外部服务时，设置一个 10 秒钟的超时。</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bar-foo-ext-svc
+spec:
+  hosts:
+    - bar.foo.com
+  http:
+  - route:
+    - destination:
+        host: bar.foo.com
+    timeout: 10s</code></pre><p>流量的重定向和转发、定义重试和超时以及错误注入策略都支持外部目标。然而由于外部服务没有多版本的概念，因此权重（基于版本）路由就无法实现了。</p><p>参照 <a href=https://preliminary.istio.io/docs/tasks/traffic-management/egress/>egress 任务</a>可以了解更多的访问外部服务方面的知识。</p><h3 id=gateway>Gateway</h3><p><a href=/v1.0/docs/reference/config/istio.networking.v1alpha3/#Gateway>Gateway</a> 为 HTTP/TCP 流量配置了一个负载均衡，多数情况下在网格边缘进行操作，用于启用一个服务的 Ingress 流量。</p><p>和 Kubernetes Ingress 不同，Istio <code>Gateway</code> 只配置四层到六层的功能（例如开放端口或者 TLS 配置）。绑定一个 <code>VirtualService</code> 到 <code>Gateway</code> 上，用户就可以使用标准的 Istio 规则来控制进入的 HTTP 和 TCP 流量。</p><p>例如下面提供一个简单的 <code>Gateway</code> 代码，配合一个负载均衡，允许外部针对主机 <code>bookinfo.com</code> 的 https 流量：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: bookinfo-gateway
+spec:
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - bookinfo.com
+    tls:
+      mode: SIMPLE
+      serverCertificate: /tmp/tls.crt
+      privateKey: /tmp/tls.key</code></pre><p>要为 <code>Gateway</code> 配置对应的路由，必须为定义一个同样 <code>host</code> 定义的 <code>VirtualService</code>，其中用 <code>gateways</code> 字段来绑定到定义好的 <code>Gateway</code> 上：</p><pre><code class=language-yaml>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bookinfo
+spec:
+  hosts:
+    - bookinfo.com
+  gateways:
+  - bookinfo-gateway # &lt;---- 绑定到 Gateway
+  http:
+  - match:
+    - uri:
+        prefix: /reviews
+    route:
+    ...</code></pre><p>在 <a href=/v1.0/zh/docs/tasks/traffic-management/ingress/>Ingress 任务</a> 中有完整的 Ingress Gateway 例子。</p><p>虽然主要用于管理 Ingress 流量，<code>Gateway</code> 还可以用在纯粹的内部服务之间或者 egress 场景下使用。不管处于什么位置，所有的网关都可以以同样的方式进行配置和控制。<a href=/v1.0/docs/reference/config/istio.networking.v1alpha3/#Gateway>Gateway 参考</a> 中包含更多细节描述。</p><h2 id=see-also>See also</h2><div class=see-also><div class=container-fluid><div class=row><div class="col-xs-12 col-sm-6 col-xl-4"><p class=link><a href=/v1.0/zh/blog/2018/v1alpha3-routing/>Istio v1aplha3 路由 API 介绍</a></p><p class=desc>Istio v1alpha3 路由 API 介绍,动机及其设计原则。</p></div><div class="col-xs-12 col-sm-6 col-xl-4"><p class=link><a href=/v1.0/zh/blog/2018/traffic-mirroring/>用于在生产环境进行测试的 Istio 流量镜像功能</a></p><p class=desc>介绍更安全，低风险的部署和发布到生产。</p></div><div class="col-xs-12 col-sm-6 col-xl-4"><p class=link><a href=/v1.0/zh/blog/2018/egress-tcp/>使用外部 TCP 服务</a></p><p class=desc>描述基于 Istio 的 Bookinfo 示例的简单场景。</p></div><div class="col-xs-12 col-sm-6 col-xl-4"><p class=link><a href=/v1.0/zh/blog/2018/egress-https/>使用外部 Web 服务</a></p><p class=desc>描述基于 Istio Bookinfo 示例的简单场景。</p></div><div class="col-xs-12 col-sm-6 col-xl-4"><p class=link><a href=/v1.0/zh/blog/2017/0.1-canary/>使用 Istio 进行金丝雀部署</a></p><p class=desc>使用 Istio 创建自动缩放的金丝雀部署。</p></div><div class="col-xs-12 col-sm-6 col-xl-4"><p class=link><a href=/v1.0/zh/docs/tasks/traffic-management/egress/>控制 Egress 流量</a></p><p class=desc>在 Istio 中配置从网格内访问外部服务的流量路由。</p></div></div></div></div></main><div class="container-fluid d-print-none"><br><div class=row><div class="col-6 pagenav"><p><a title="介绍 Istio 及其要解决的问题、顶层架构和设计目标。" href=/v1.0/zh/docs/concepts/what-is-istio/><i class="fa fa-long-arrow-alt-left"></i>Istio 是什么?</a></p></div><div class="col-6 pagenav" style=text-align:right><p><a title="描述 Istio 的授权与鉴权功能。" href=/v1.0/zh/docs/concepts/security/>安全
+<i class="fa fa-long-arrow-alt-right"></i></a></p></div></div></div><div class="d-none d-print-block" aria-hidden=true><h2>Links</h2><ol id=endnotes></ol></div></div><div class="col-12 col-md-2 d-none d-xl-block d-print-none"><nav class=toc><div class=spacer></div><div id=toc class=directory role=directory><nav id=TableOfContents><ul><li><a href=#pilot--envoy>Pilot 和 Envoy</a></li><li><a href=#heading>流量管理的好处</a></li><li><a href=#heading-1>请求路由</a></li><ul><li><a href=#heading-2>服务之间的通讯</a></li><li><a href=#ingress--egress>Ingress 和 Egress</a></li></ul><li><a href=#heading-3>服务发现和负载均衡</a></li><li><a href=#heading-4>故障处理</a></li><ul><li><a href=#heading-5>微调</a></li><li><a href=#faq>FAQ</a></li></ul><li><a href=#heading-6>故障注入</a></li><li><a href=#heading-7>规则配置</a></li><li><a href=#virtual-services>Virtual Services</a></li><ul><li><a href=#heading-8>规则的目标描述</a></li><li><a href=#-header->根据来源或 Header 制定规则</a></li><li><a href=#heading-9>在服务之间分拆流量</a></li><li><a href=#heading-10>超时和重试</a></li><li><a href=#heading-11>在请求中进行错误注入</a></li><li><a href=#http->HTTP 路由的优先级</a></li><li><a href=#heading-12>目标规则</a></li><li><a href=#heading-13>断路器</a></li><li><a href=#destinationrule-><code>DestinationRule</code> 的评估</a></li><li><a href=#service-entries>Service Entries</a></li><li><a href=#gateway>Gateway</a></li></ul><li><a href=#see-also>See also</a></li></ul></nav></div></nav></div></div></div><footer class="d-print-none container-fluid"><div class=row><div class="col-5 col-lg-4" role=navigation><div class=container-fluid><div class=row><div class=icon><span>discuss</span>
+<a title="Join the Istio discussion board to participate in discussions and get help troubleshooting problems" href=https://discuss.istio.io aria-label="Istio discussion board"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M225.9 32C103.3 32 0 130.5.0 252.1.0 256 .1 480 .1 480l225.8-.2c122.7.0 222.1-102.3 222.1-223.9S348.6 32 225.9 32zM224 384c-19.4.0-37.9-4.3-54.4-12.1L88.5 392l22.9-75c-9.8-18.1-15.4-38.9-15.4-61 0-70.7 57.3-128 128-128s128 57.3 128 128-57.3 128-128 128z" /></svg></a></div><div class=icon><span>slack</span>
+<a title="在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）" href=https://istio.slack.com aria-label=slack><svg viewBox="0 0 31.444 31.443"><path d="M31.202 16.369c-.62-1.388-2.249-2.011-3.637-1.391l-1.325.594-3.396-7.591 1.325-.592c1.388-.622 2.01-2.25 1.389-3.637-.62-1.389-2.248-2.012-3.637-1.39l-1.324.593-.593-1.326c-.621-1.388-2.249-2.009-3.637-1.388-1.388.62-2.009 2.247-1.389 3.637l.593 1.325L7.98 8.598 7.388 7.273c-.621-1.39-2.249-2.009-3.637-1.39C2.363 6.504 1.742 8.132 2.362 9.52l.592 1.324L1.63 11.438c-1.388.621-2.01 2.247-1.389 3.636.62 1.388 2.249 2.01 3.637 1.39l1.325-.594 3.394 7.592-1.325.592c-1.388.621-2.009 2.25-1.389 3.637.621 1.389 2.249 2.011 3.637 1.391l1.324-.593.593 1.325c.621 1.389 2.249 2.01 3.637 1.389 1.387-.62 2.009-2.248 1.388-3.636l-.591-1.326 7.591-3.394.592 1.321c.621 1.391 2.248 2.013 3.637 1.392 1.388-.619 2.01-2.248 1.389-3.637l-.592-1.324 1.323-.594C31.201 19.384 31.823 17.757 31.202 16.369zM13.623 21.215l-3.395-7.593 7.591-3.394 3.395 7.591L13.623 21.215z"/></svg></a></div><div class=icon><span>twitter</span>
+<a title="关注我们的 Twitter 来获最新信息" href=https://twitter.com/IstioMesh aria-label=Twitter><svg viewBox="0 0 310 310"><path d="M302.973 57.388c-4.87 2.16-9.877 3.983-14.993 5.463 6.057-6.85 10.675-14.91 13.494-23.73.632-1.977-.023-4.141-1.648-5.434-1.623-1.294-3.878-1.449-5.665-.39-10.865 6.444-22.587 11.075-34.878 13.783-12.381-12.098-29.197-18.983-46.581-18.983-36.695.0-66.549 29.853-66.549 66.547.0 2.89.183 5.764.545 8.598C101.163 99.244 58.83 76.863 29.76 41.204c-1.036-1.271-2.632-1.956-4.266-1.825-1.635.128-3.104 1.05-3.93 2.467-5.896 10.117-9.013 21.688-9.013 33.461.0 16.035 5.725 31.249 15.838 43.137-3.075-1.065-6.059-2.396-8.907-3.977-1.529-.851-3.395-.838-4.914.033-1.52.871-2.473 2.473-2.513 4.224-.007.295-.007.59-.007.889.0 23.935 12.882 45.484 32.577 57.229-1.692-.169-3.383-.414-5.063-.735-1.732-.331-3.513.276-4.681 1.597-1.17 1.32-1.557 3.16-1.018 4.84 7.29 22.76 26.059 39.501 48.749 44.605-18.819 11.787-40.34 17.961-62.932 17.961-4.714.0-9.455-.277-14.095-.826-2.305-.274-4.509 1.087-5.294 3.279-.785 2.193.047 4.638 2.008 5.895 29.023 18.609 62.582 28.445 97.047 28.445 67.754.0 110.139-31.95 133.764-58.753 29.46-33.421 46.356-77.658 46.356-121.367.0-1.826-.028-3.67-.084-5.508 11.623-8.757 21.63-19.355 29.773-31.536 1.237-1.85 1.103-4.295-.33-5.998C307.394 57.037 305.009 56.486 302.973 57.388z"/></svg></a></div><div class=icon><span>stack overflow</span>
+<a title="Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答" href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg viewBox="0 0 120 120"><polygon points="84.4,93.8 84.4,70.6 92.1,70.6 92.1,101.5 22.6,101.5 22.6,70.6 30.3,70.6 30.3,93.8"/><path d="M38.8 68.4l37.8 7.9 1.6-7.6-37.8-7.9L38.8 68.4zM43.8 50.4l35 16.3 3.2-7-35-16.4L43.8 50.4zM53.5 33.2l29.7 24.7 4.9-5.9L58.4 27.3 53.5 33.2zM72.7 14.9l-6.2 4.6 23 31 6.2-4.6-23-31zM38 86h38.6v-7.7H38V86z"/></svg></a></div></div><div class="tag row d-none d-lg-flex">对于用户</div></div></div><div class="col-7 col-lg-4"><p class="text-center copyright" role=contentinfo>Istio
+Archive
+1.0<br>&copy; 2019 Istio Authors, <a href=https://policies.google.com/privacy>Privacy Policy</a><br>Archived on March 19, 2019</p></div><div class="col-6 col-lg-4 d-none d-lg-flex" role=navigation><div class=container-fluid><div class="row justify-content-end"><div class=icon><span>github</span>
+<a title="Istio 的代码在 GitHub 上开发" href=https://github.com/istio/community aria-label=GitHub><svg viewBox="0 0 478.165 478.165"><path d="M349.22 55.768c6.136 14.046 10.241 37.556 4.224 54.69 24.426 20.999 33.073 71.904 21.079 113.704 35.006 2.73 76.666-1.235 103.642 9.484-25.183-3.248-59.651-9.563-91.987-7.431-6.136.458-15.361-.239-14.903 8.408 37.735 3.008 75.092 6.117 105.894 15.779-30.702-4.981-67.74-12.552-105.894-13.668-15.54 30.921-47.239 46.262-90.991 49.49 4.682 10.261 13.847 14.066 15.879 30.702 3.267 24.406-4.881 60.328 3.208 76.686 4.064 7.89 10.579 8.009 14.863 14.604-10.699 12.871-37.257-1.395-40.186-14.604-5.14-22.852 7.89-58.256-6.415-73.737.996 24.865-5.718 59.85.996 82.145 2.789 8.806 10.659 12.113 8.647 20.063-49.809 5.08-28.989-64.373-37.177-105.356-7.471.697-4.204 11.197-4.224 15.76-.199 40.106 8.189 94.836-34.846 89.556-1.315-8.348 5.838-11.217 8.467-19.007 7.91-22.434-1.454-56.045 2.112-83.161-16.417 12.512 1.793 55.666-8.428 77.961-5.838 12.671-24.785 18.27-39.19 12.651 1.873-9.464 11.695-7.989 15.879-16.875 5.818-12.452.02-30.244 2.092-48.494-30.423 6.097-53.993-.877-65.608-20.023-5.12-8.507-6.356-18.708-12.632-26.219-6.117-7.551-16.098-8.507-19.087-18.808 37.755-9.185 39.17 38.771 73.06 39.807 10.44.418 15.799-2.909 25.402-5.16 2.749-12.113 8.428-21.039 16.875-27.494-42.078-5.658-76.865-18.788-93.023-50.466-38.293 1.893-73.339 7.013-105.894 14.843 29.547-10.679 65.807-14.604 104.778-15.819-2.351-13.807-22.434-10.022-34.866-9.543C47.677 227.17 18.449 230.138.0 233.645c26.817-9.543 64.233-8.348 100.454-8.428-11.038-34.767-7.232-90.014 17.015-110.615-6.854-17.254-4.722-45.346 4.184-58.834 27.036 1.175 43.374 12.891 60.388 24.247 21.019-6.017 43.035-9.045 71.904-7.451 12.133.677 24.705 6.097 33.731 5.32 8.906-.877 18.728-10.898 27.534-14.843C326.507 58.099 336.17 56.206 349.22 55.768z"/></svg></a></div><div class=icon><span>drive</span>
+<a title="如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档" href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg viewBox="0 0 207.027 207.027"><path d="M69.866 15.557.0 138.919l28.732 52.552 143.288-.029 35.008-59.588L136.39 15.735 69.866 15.557zM17.166 139.046 74.268 38.205 91.21 67.783 33.24 168.447 17.166 139.046zM99.841 82.851l23.805 41.558-47.732-.006L99.841 82.851zM163.434 176.443l-117.332.024 21.53-37.065 64.606.008.067.119 52.865-.085L163.434 176.443zM140.932 124.411 90.157 35.767l-2.966-5.178 40.751.121 57.003 93.706L140.932 124.411z"/></svg></a></div><div class=icon><span>working groups</span>
+<a title="如果您想为 Istio 项目做出贡献，请考虑加入我们的工作组" href=https://github.com/istio/community/blob/master/WORKING-GROUPS.md aria-label="working groups"><svg viewBox="0 -45 439.833 439.833"><polygon points="246.048,195.833 299.966,235.085 319.497,227.296 276.278,195.833"/><polygon points="193.786,195.833 163.556,195.833 120.33,227.3 139.862,235.089"/><path d="M219.927 11.558c-23.854.0-37.057 12.362-36.814 36.182.348 32.623 14.211 52.414 36.814 52.068.0.0 36.802 1.492 36.802-52.068C256.729 23.918 244.294 11.558 219.927 11.558z"/><path d="M285.017 124.567l-36.77-14.659-8.608-7.256c-2.274-1.922-5.636-1.78-7.741.317l-11.973 11.904-12.008-11.907c-2.109-2.094-5.465-2.229-7.736-.313l-8.611 7.256-36.77 14.661c-11.842 4.715-11.83 46.647-12.848 50.497h155.93C296.866 171.228 296.862 129.28 285.017 124.567z"/><path d="M77.976 228.568s36.801 1.492 36.801-52.068c0-23.82-12.434-36.182-36.801-36.182-23.854.0-37.057 12.362-36.814 36.182C41.509 209.124 55.372 228.915 77.976 228.568z"/><path d="M143.065 253.329l-36.77-14.658-8.609-7.256c-2.275-1.923-5.635-1.781-7.742.315l-11.971 11.904-12.008-11.908c-2.109-2.094-5.465-2.229-7.736-.312l-8.611 7.256-36.77 14.66C1.006 258.045 1.018 299.977.0 303.827h155.93C154.915 299.988 154.911 258.042 143.065 253.329z"/><path d="M361.878 228.568s36.801 1.492 36.801-52.068c0-23.82-12.434-36.182-36.801-36.182-23.854.0-37.057 12.362-36.812 36.182C325.411 209.124 339.274 228.915 361.878 228.568z"/><path d="M426.968 253.329l-36.77-14.658-8.609-7.256c-2.273-1.923-5.635-1.781-7.742.315l-11.971 11.904-12.008-11.908c-2.109-2.094-5.465-2.229-7.736-.312l-8.61 7.256-36.771 14.66c-11.842 4.715-11.83 46.646-12.848 50.497h155.93C438.817 299.988 438.812 258.042 426.968 253.329z"/></svg></a></div></div><div class="tag row justify-content-end text-right">对于开发者</div></div></div></div></footer><div class="d-xl-none d-print-none"><button id=scroll-to-top aria-hidden=true onclick=scrollToTop() title="Back to top"><i class="fa fa-lg fa-arrow-up"></i></button></div><script src=https://code.jquery.com/jquery-3.2.1.slim.min.js integrity=sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN crossorigin=anonymous></script><script src=https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js integrity=sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js></script><script src="https://www.google.com/cse/brand?form=search_form"></script><script src=/v1.0/js/all.min.js data-manual></script></body></html>

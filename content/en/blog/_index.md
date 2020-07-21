@@ -10,5 +10,4 @@ aliases:
 outputs:
     - html
     - rss    
-test: n/a
 ---

@@ -13,7 +13,7 @@ aliases:
 最后，您使用 Kiali Public API 返回的 JSON 数据生成图形数据。
 
 {{< idea >}}
-这个任务并不包括 Kiali 提供的所有特性。要了解它所支持的全部功能，请查看 [Kiali 官网](http://kiali.io/documentation/features/)。
+这个任务并不包括 Kiali 提供的所有特性。要了解它所支持的全部功能，请查看 [Kiali 官网](http://kiali.io/documentation/latest/features/)。
 {{< /idea >}}
 
 此任务始终将 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用程序作为示例。

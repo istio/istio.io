@@ -8,5 +8,4 @@ decoration: pill
 outputs:
     - html
     - rss    
-test: n/a
 ---

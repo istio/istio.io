@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2034,SC2153,SC2155
+# shellcheck disable=SC2034,SC2153,SC2155,SC2164
 
 # Copyright Istio Authors. All Rights Reserved.
 #
@@ -48,11 +48,11 @@ sleep.legacy to httpbin.bar: 200
 ENDSNIP
 
 snip_set_up_the_cluster_4() {
-kubectl get peerauthentication --all-namespaces | grep -v istio-system
+kubectl get peerauthentication --all-namespaces
 }
 
 ! read -r -d '' snip_set_up_the_cluster_4_out <<\ENDSNIP
-NAMESPACE      NAME                          AGE
+No resources found.
 ENDSNIP
 
 snip_set_up_the_cluster_5() {
@@ -90,7 +90,7 @@ sleep.legacy to httpbin.bar: 200
 ENDSNIP
 
 snip_lock_down_to_mutual_tls_by_namespace_3() {
-kubectl exec -nfoo "$(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name})" -c istio-proxy -it -- sudo tcpdump dst port 80  -A
+kubectl exec -nfoo "$(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name})" -c istio-proxy -- sudo tcpdump dst port 80  -A
 }
 
 ! read -r -d '' snip_lock_down_to_mutual_tls_by_namespace_3_out <<\ENDSNIP
@@ -115,7 +115,7 @@ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(k
 }
 
 snip_clean_up_the_example_1() {
-kubectl delete peerauthentication --all-namespaces --all
+kubectl delete peerauthentication -n istio-system default
 }
 
 snip_clean_up_the_example_2() {

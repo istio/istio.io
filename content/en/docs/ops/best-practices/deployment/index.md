@@ -5,6 +5,7 @@ force_inline_toc: true
 weight: 10
 aliases:
   - /docs/ops/prep/deployment
+owner: istio/wg-environments-maintainers
 test: n/a
 ---
 

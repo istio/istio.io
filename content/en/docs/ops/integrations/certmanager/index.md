@@ -6,6 +6,7 @@ keywords: [integration,cert-manager]
 aliases:
   - /docs/tasks/traffic-management/ingress/ingress-certmgr/
   - /docs/examples/advanced-gateways/ingress-certmgr/
+owner: istio/wg-environments-maintainers
 test: no
 ---
 
@@ -64,8 +65,8 @@ cert-manager provides direct integration with Kubernetes Ingress by configuring 
 Alternatively, a `Certificate` can be created as described in [Istio Gateway](#istio-gateway), then referenced in the `Ingress` object:
 
 {{< text yaml >}}
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
   name: ingress
   annotations:

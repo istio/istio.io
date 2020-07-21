@@ -1,7 +1,6 @@
 ---
 title: Where is the documentation?
 weight: 80
-test: n/a
 ---
 
 Check out the [documentation](/docs/) right here on istio.io. The docs include

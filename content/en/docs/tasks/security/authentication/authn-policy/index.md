@@ -6,6 +6,7 @@ keywords: [security,authentication]
 aliases:
     - /docs/tasks/security/istio-auth.html
     - /docs/tasks/security/authn-policy/
+owner: istio/wg-security-maintainers
 test: yes
 ---
 
@@ -21,7 +22,7 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 [installation steps](/docs/setup/getting-started).
 
 {{< text bash >}}
-$ istioctl install
+$ istioctl install --set profile=default
 {{< /text >}}
 
 ### Setup
@@ -111,7 +112,10 @@ $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metad
 
 ## Globally enabling Istio mutual TLS in STRICT mode
 
-While Istio automatically upgrades all traffic between the proxies and the workloads to mutual TLS between, workloads can still receive plain text traffic. To prevent non-mutual TLS for the whole mesh, set a mesh-wide peer authentication policy to set mutual TLS mode to `STRICT`. The mesh-wide peer authentication policy shouldn't have a `selector` section, and it must apply to the **root namespace**, for example:
+While Istio automatically upgrades all traffic between the proxies and the workloads to mutual TLS,
+workloads can still receive plain text traffic. To prevent non-mutual TLS traffic for the whole mesh,
+set a mesh-wide peer authentication policy with the mutual TLS mode set to `STRICT`.
+The mesh-wide peer authentication policy should not have a `selector` and must be applied in the **root namespace**, for example:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -127,11 +131,11 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-The example assumes `istio-system` is the root namespace. If you used a different value during your installation, replace `istio-system` with the value you used.
+The example assumes `istio-system` is the root namespace. If you used a different value during installation, replace `istio-system` with the value you used.
  {{< /tip >}}
 
-This peer authentication policy has the following effects:
--  It configures all workloads in the mesh to only accept requests encrypted with TLS. Since it doesn't specify a value for the `selector` field, the policy applies to all workloads in the mesh.
+This peer authentication policy configures workloads to only accept requests encrypted with TLS.
+Since it doesn't specify a value for the `selector` field, the policy applies to all workloads in the mesh.
 
 Run the test command again:
 
@@ -586,6 +590,12 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/ip" -s -o /dev/null -w "%{http_code}\n"
 
     {{< text bash >}}
     $ kubectl -n istio-system delete authorizationpolicy frontend-ingress
+    {{< /text >}}
+
+1. Remove the token generator script and key file:
+
+    {{< text bash >}}
+    $ rm -f ./gen-jwt.py ./key.pem
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.

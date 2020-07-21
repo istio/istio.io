@@ -74,7 +74,10 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
-gen: snips tidy-go
+doc-owners:
+	@scripts/doc_owners.sh
+
+gen: snips doc-owners tidy-go
 
 gen-check: gen check-clean-repo
 
@@ -84,11 +87,16 @@ build: site
 build_nominify: site
 	@scripts/build_site.sh "" -no_minify
 
+build_with_archive: site
+	@scripts/gen_site.sh
+	@scripts/build_site.sh "/latest"
+	@scripts/include_archive_site.sh
+
 opt:
 	@scripts/opt_site.sh
 
 clean:
-	@rm -fr resources .htmlproofer tmp generated public out samples install go tests/integration/
+	@rm -fr resources .htmlproofer tmp generated public out samples install go tests/integration/ manifests
 
 lint: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@scripts/lint_site.sh
@@ -100,7 +108,10 @@ lint-fast: clean_public build_nominify lint-copyright-banner lint-python lint-ya
 	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
 
 serve: site
-	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/" --bind 0.0.0.0 --disableFastRender
+	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/latest/" --bind 0.0.0.0 --disableFastRender
+
+archive-version:
+	@scripts/archive_version.sh
 
 # used by netlify.com when building the site. The tool versions should correspond
 # to what is included in the tools repo in docker/build-tools/Dockerfile.
@@ -120,12 +131,8 @@ netlify_install:
 
 netlify: netlify_install
 	@scripts/gen_site.sh
-	@scripts/build_site.sh "$(baseurl)"
-
-netlify_archive: netlify_install archive
-
-archive:
-	@scripts/build_archive_site.sh "$(baseurl)"
+	@scripts/build_site.sh "/latest"
+	@scripts/include_archive_site.sh
 
 update_ref_docs:
 	@scripts/grab_reference_docs.sh $(SOURCE_BRANCH_NAME)
@@ -134,6 +141,22 @@ update_all: update_ref_docs update_examples
 
 foo2:
 	hugo version
+
+# Release related targets
+export ISTIOIO_GIT_SOURCE := https://github.com/istio/istio.io.git
+export MASTER := master
+
+prepare-%:
+	@scripts/prepare_release.sh $@
+
+release-%-dry-run:
+	@DRY_RUN=1 scripts/create_version.sh $(subst -dry-run,,$@)
+
+release-%:
+	@scripts/create_version.sh $@
+
+build-old-archive-%:
+	@scripts/build_old_archive.sh $@
 
 # The init recipe was split into two recipes to solve an issue seen in prow
 # where paralyzation is happening and some tasks in a recipe were occuring out
@@ -160,13 +183,20 @@ endif
 	@export TAG
 	@echo "TAG=${TAG}"
 
+# doc test framework
 include tests/tests.mk
+
+# remains of old framework to pass istio-testing
+test.kube.presubmit: doc.test
+
+# remains of old framework to pass istio-testing
+test.kube.postsubmit: test.kube.presubmit
 
 test_status:
 	@scripts/test_status.sh
 
 # make lint-yaml seems to fail with pipefail, so remove now.
-#SHELL = /bin/bash
+# SHELL = /bin/bash
 
 include common/Makefile.common.mk
 

@@ -1,5 +1,4 @@
 ---
-test: n/a
 ---
 {{< warning >}}
 The following information describes an experimental feature, which is intended

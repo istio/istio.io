@@ -5,6 +5,7 @@ weight: 10
 aliases:
   - /docs/concepts/architecture
   - /docs/ops/architecture
+owner: istio/wg-environments-maintainers
 test: n/a
 ---
 

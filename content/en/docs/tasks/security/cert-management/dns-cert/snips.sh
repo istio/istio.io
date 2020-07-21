@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2034,SC2153,SC2155
+# shellcheck disable=SC2034,SC2153,SC2155,SC2164
 
 # Copyright Istio Authors. All Rights Reserved.
 #
@@ -25,13 +25,12 @@ cat <<EOF > ./istio.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  values:
-    global:
-      certificates:
-        - secretName: dns.example1-service-account
-          dnsNames: [example1.istio-system.svc, example1.istio-system]
-        - secretName: dns.example2-service-account
-          dnsNames: [example2.istio-system.svc, example2.istio-system]
+  meshConfig:
+    certificates:
+      - secretName: dns.example1-service-account
+        dnsNames: [example1.istio-system.svc, example1.istio-system]
+      - secretName: dns.example2-service-account
+        dnsNames: [example2.istio-system.svc, example2.istio-system]
 EOF
 istioctl install -f ./istio.yaml
 }

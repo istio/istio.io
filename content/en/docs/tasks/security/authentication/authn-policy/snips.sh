@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2034,SC2153,SC2155
+# shellcheck disable=SC2034,SC2153,SC2155,SC2164
 
 # Copyright Istio Authors. All Rights Reserved.
 #
@@ -21,7 +21,7 @@
 ####################################################################################################
 
 snip_before_you_begin_1() {
-istioctl install
+istioctl install --set profile=default
 }
 
 snip_setup_1() {
@@ -502,5 +502,9 @@ kubectl -n istio-system delete authorizationpolicy frontend-ingress
 }
 
 snip_cleanup_part_3_3() {
+rm -f ./gen-jwt.py ./key.pem
+}
+
+snip_cleanup_part_3_4() {
 kubectl delete ns foo bar legacy
 }

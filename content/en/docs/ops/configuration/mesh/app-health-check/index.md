@@ -10,6 +10,7 @@ aliases:
   - /docs/ops/app-health-check
   - /docs/ops/setup/app-health-check
 keywords: [security,health-check]
+owner: istio/wg-user-experience-maintainers
 test: yes
 ---
 

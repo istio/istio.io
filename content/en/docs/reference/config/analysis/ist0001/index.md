@@ -1,6 +1,7 @@
 ---
 title: InternalError
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 

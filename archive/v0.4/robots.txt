@@ -1,0 +1,5 @@
+User-agent: *
+Disallow:
+
+Disallow: /v-0.1
+Sitemap: https://istio.io/sitemap.xml

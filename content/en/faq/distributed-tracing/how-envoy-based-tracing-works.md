@@ -1,7 +1,6 @@
 ---
 title: How does Envoy-based tracing work?
 weight: 11
-test: n/a
 ---
 
 For Envoy-based tracing integrations, Envoy (the sidecar proxy) sends tracing information directly to tracing backends on behalf of the applications being proxied.

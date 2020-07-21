@@ -1,0 +1,1519 @@
+
+
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="https://schema.org/WebPage">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="theme-color" content="#466BB0"/>
+
+        
+
+        <meta name="title" content="Monitoring and Access Policies for HTTP Egress Traffic">
+        <meta name="description" content="Describes how to configure Istio for monitoring and access policies of HTTP egress traffic.">
+
+        
+        <meta name="og:title" content="Monitoring and Access Policies for HTTP Egress Traffic">
+        <meta name="og:description" content="Describes how to configure Istio for monitoring and access policies of HTTP egress traffic.">
+        <meta name="og:url" content="/v0.8/blog/2018/egress-monitoring-access-control/">
+        <meta name="og.site_name" content="Istio">
+
+        
+            
+                <title>Istioldie 0.8 / Monitoring and Access Policies for HTTP Egress Traffic</title>
+            
+        
+
+        
+        <script>
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+            ga('create', 'UA-98480406-2', 'auto');
+            ga('send', 'pageview');
+        </script>
+        <script async src='https://www.google-analytics.com/analytics.js'></script>
+        
+
+        <script>
+            var branchName = "release-0.8";
+        </script>
+
+        
+        <link rel="alternate" type="application/rss+xml" title="Istio Blog" href="/v0.8/feed.xml">
+
+        
+        <link rel="shortcut icon" href="/v0.8/favicons/favicon.ico" >
+        <link rel="apple-touch-icon" href="/v0.8/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/android-36x36.png" sizes="36x36">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/android-48x48.png" sizes="48x48">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/android-72x72.png" sizes="72x72">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/android-96x196.png" sizes="96x196">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/android-144x144.png" sizes="144x144">
+        <link rel="icon" type="image/png" href="/v0.8/favicons/android-192x192.png" sizes="192x192">
+
+        
+        <link rel="manifest" href="/v0.8/manifest.json">
+        <meta name="apple-mobile-web-app-title" content="Istio">
+        <meta name="application-name" content="Istio">
+
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+
+        
+            <link rel="stylesheet" href="/v0.8/css/light_theme_archive.css" title="light">
+            <link rel="alternate stylesheet" href="/v0.8/css/dark_theme_archive.css" title="dark">
+        
+
+        <script src="/v0.8/js/styleSwitcher.min.js"></script>
+    </head>
+
+    <body class="language-unknown">
+        
+
+
+
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark justify-content-between">
+        <a class="navbar-brand" href="/v0.8/">
+            <span class="logo"><svg viewBox="0 0 300 300">
+<circle cx="150" cy="150" r="150" stroke-width="2" />
+<polygon points="65,240 225,240 125,270"/>
+<polygon points="65,230 125,220 125,110"/>
+<polygon points="135,220 225,230 135,30"/>
+</svg>
+</span>
+
+            
+                <span class="brand-name">Istioldie 0.8</span>
+            
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+            <ul id="navbar-links" class="navbar-nav active">
+                <li class="nav-item">
+                    <a class="nav-link " href="/v0.8/docs/">Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/v0.8/blog/2018/egress-monitoring-access-control/">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/v0.8/help/">Help</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/v0.8/community/">Community</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/v0.8/about/">About</a>
+                </li>
+
+                <li class="nav-item dropdown" id="gearDropdown" style="white-space: nowrap">
+                    <a href="" class="nav-link" data-toggle="dropdown" aria-label="Tools" aria-haspopup="true" aria-expanded="false">
+                        <i style="width: 1em" class='fa fa-lg fa-cog'></i>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gearDropdown">
+                        <a class="dropdown-item" id="light-theme-item" href="" onclick="setActiveStyleSheet('light');return false;">Light Theme</a>
+                        <a class="dropdown-item" id="dark-theme-item" href="" onclick="setActiveStyleSheet('dark');return false;">Dark Theme</a>
+
+                        
+
+                        <div class="dropdown-divider"></div>
+
+                        <h6 class="dropdown-header">Other versions of this site</h6>
+
+                        
+                        
+
+                        
+                            <a href="https://istio.io" class="dropdown-item">Current Release</a>
+                            <a href="https://preliminary.istio.io" class="dropdown-item">Next Release</a>
+                        
+                        <a href="https://archive.istio.io" class="dropdown-item">Older Releases</a>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a id="search_show" class="nav-link" href="" aria-label="Search"><i style="width: 1em" class="fa fa-lg fa-search"></i></a>
+                </li>
+            </ul>
+
+            <form name="cse" id="search_form" class="form-inline mr-sm-2" role="search">
+                <input type="hidden" name="cx" value="013699703217164175118:iwwf17ikgf4" />
+                <input type="hidden" name="ie" value="utf-8" />
+                <input type="hidden" name="hl" value="en" />
+                <input type="hidden" id="search_page_url" value="/v0.8/search.html" />
+                <input id="search_textbox" class="form-control" name="q" type="text" aria-label="Search this site"/>
+                <button id="search_close" type="reset" aria-label="Cancel Search"><i class="far fa-lg fa-times-circle"></i></button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+        
+
+
+
+<div class="blog">
+
+
+
+<div class="container-fluid">
+    <div class="row row-offcanvas">
+        <div class="col-0 col-md-3 col-xl-2 sidebar-offcanvas">
+            
+            
+                <nav class="sidebar d-print-none">
+    <div class="spacer"></div>
+    <div class="directory" role="tablist">
+        
+
+        
+        
+
+        
+            
+
+                <div class="card">
+                    <div class="card-header" role="tab" id="header0">
+                        <a data-toggle="collapse" href="#collapse0" title="Blog posts for 2018" role="button" aria-controls="collapse0">
+                            <div>
+                                2018 Posts
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="collapse0" class="collapse show" data-parent="#sidebar" role="tabpanel" aria-labelledby="header0">
+                        <div class="card-body">
+                            
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <span class="current" title="Describes how to configure Istio for monitoring and access policies of HTTP egress traffic.">Monitoring and Access Policies for HTTP Egress Traffic</span>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Introduction, motivation and design principles for the Istio v1alpha3 routing API." href="/v0.8/blog/2018/v1alpha3-routing/">Introducing the Istio v1alpha3 routing API</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Describes how to configure Istio ingress with a network load balancer on AWS" href="/v0.8/blog/2018/aws-nlb/">Configuring Istio Ingress with AWS NLB</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Using Kubernetes namespace and RBAC to create an Istio soft multi-tenancy environment" href="/v0.8/blog/2018/soft-multitenancy/">Istio Soft Multi-tenancy Support</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="An introduction to safer, lower-risk deployments and release to production" href="/v0.8/blog/2018/traffic-mirroring/">Traffic Mirroring with Istio for Testing in Production</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Describes a simple scenario based on Istio Bookinfo sample" href="/v0.8/blog/2018/egress-tcp/">Consuming External TCP Services</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Describes a simple scenario based on Istio Bookinfo sample" href="/v0.8/blog/2018/egress-https/">Consuming External Web Services</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                        </div>
+                    </div>
+                </div>
+            
+        
+            
+
+                <div class="card">
+                    <div class="card-header" role="tab" id="header1">
+                        <a data-toggle="collapse" href="#collapse1" title="Blog posts for 2017" role="button" aria-controls="collapse1">
+                            <div>
+                                2017 Posts
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="collapse1" class="collapse" data-parent="#sidebar" role="tabpanel" aria-labelledby="header1">
+                        <div class="card-body">
+                            
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Improving availability and reducing latency" href="/v0.8/blog/2017/mixer-spof-myth/">Mixer and the SPOF Myth</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Provides an overview of the Mixer plug-in architecture" href="/v0.8/blog/2017/adapter-model/">Mixer Adapter Model</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Istio 0.2 announcement" href="/v0.8/blog/2017/0.2-announcement/">Announcing Istio 0.2</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="How Kubernetes Network Policy relates to Istio policy" href="/v0.8/blog/2017/0.1-using-network-policy/">Using Network Policy with Istio</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Using Istio to create autoscaled canary deployments" href="/v0.8/blog/2017/0.1-canary/">Canary Deployments using Istio</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Istio Auth 0.1 announcement" href="/v0.8/blog/2017/0.1-auth/">Using Istio to Improve End-to-End Security</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Istio 0.1 announcement" href="/v0.8/blog/2017/0.1-announcement/">Introducing Istio</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+</ul>
+
+                        </div>
+                    </div>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+
+        
+    </div>
+</nav>
+
+            
+        </div>
+
+        
+            <div class="col-12 col-md-9 col-xl-8">
+        
+
+            <p class="d-md-none">
+                <label class="sidebar-toggler" data-toggle="offcanvas">
+                    <i class="fa fa-sign-out-alt"></i>
+                </label>
+            </p>
+
+            <main aria-labelledby="title">
+                <h1 id="title">Monitoring and Access Policies for HTTP Egress Traffic</h1>
+
+                
+
+                
+                    <p class="byline">
+                        
+                            By <span class="attribution">Vadim Eisenberg and Ronen Schaffer</span> /
+                        
+                        <span class="publish_date">June 22, 2018</span>
+                    </p>
+                
+
+                
+                    <nav class="toc-inlined d-xl-none d-print-none" >
+                        <div class="directory" role="directory">
+                            
+
+
+
+
+    
+    <nav id="InlinedTableOfContents">
+  <ul>
+    <li><a href="#use-case">Use case</a></li>
+    <li><a href="#related-tasks">Related tasks</a></li>
+    <li><a href="#before-you-begin">Before you begin</a></li>
+    <li><a href="#configure-monitoring-and-access-policies">Configure monitoring and access policies</a>
+      <ul>
+        <li><a href="#logging">Logging</a></li>
+        <li><a href="#access-control-by-routing">Access control by routing</a></li>
+        <li><a href="#access-control-by-mixer-policy-checks">Access control by Mixer policy checks</a></li>
+        <li><a href="#access-control-by-mixer-policy-checks-part-2">Access control by Mixer policy checks, part 2</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+      </ul>
+    </li>
+    <li><a href="#comparison-with-https-egress-traffic-control">Comparison with HTTPS egress traffic control</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#cleanup">Cleanup</a></li>
+  </ul>
+</nav>
+
+
+                        </div>
+                    </nav>
+                
+
+<p>While Istio's main focus is management of traffic between microservices inside a service mesh, Istio can also manage
+ingress (from outside into the mesh) and egress (from the mesh outwards) traffic. Istio can uniformly enforce access
+policies and aggregate telemetry data for mesh-internal, ingress and egress traffic.</p>
+<p>In this blog post we show how Istio monitoring and access policies are applied to HTTP egress traffic. The instructions
+in this blog post are valid for Istio <a href="https://github.com/istio/istio/releases/tag/0.8.0">0.8.0</a> or later.</p>
+<h2 id="use-case">Use case</h2>
+<p>Consider an organization that runs applications that process content from <em>cnn.com</em>. The applications are decomposed
+into microservices deployed in an Istio service mesh. The applications access pages of various topics from <em>cnn.com</em>: <a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a>, <a href="https://edition.cnn.com/sport">edition.cnn.com/sport</a> and  <a href="https://edition.cnn.com/health">edition.cnn.com/health</a>. The organization <a href="/v0.8/docs/tasks/traffic-management/egress-tls-origination/">configures Istio to allow access to edition.cnn.com</a> and everything works fine. However, at some
+point in time the organization decides to banish politics. Practically, it means blocking access to
+<a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a> and allowing access to
+<a href="https://edition.cnn.com/sport">edition.cnn.com/sport</a> and  <a href="https://edition.cnn.com/health">edition.cnn.com/health</a>
+only. The organization will grant permissions to individual applications, to applications in particular namespaces and
+to particular users to access <a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a>, on a case-by-case basis.</p>
+<p>To achieve that goal, the organization's operations people will monitor access to the external services and will
+analyze Istio logs to verify that no unauthorized request was sent to
+<a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a>. They will also configure Istio to prevent access to <a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a> automatically.</p>
+<p>The organization is resolved to prevent any tampering with the new policy. It decides to put mechanisms in place that
+will prevent any possibility for a malicious application to access the forbidden topic.</p>
+<h2 id="related-tasks">Related tasks</h2>
+<p>The <a href="/v0.8/docs/tasks/traffic-management/egress/">Control Egress Traffic</a> task demonstrates how external (outside the
+Kubernetes cluster) HTTP and HTTPS services can be accessed by applications inside the mesh. The
+<a href="/v0.8/docs/tasks/traffic-management/egress-tls-origination/">TLS Origination for Egress Traffic</a> task demonstrates how to
+allow applications to send HTTP requests to external servers that require HTTPS. The <a href="/v0.8/docs/tasks/traffic-management/egress-gateway/">Configure an Egress Gateway</a> task describes how to configure Istio to direct egress
+traffic through a dedicated gateway service called <em>egress gateway</em>.</p>
+<p>The <a href="/v0.8/docs/tasks/telemetry/metrics-logs/">Collecting Metrics and Logs</a> task describes how to configure metrics and logs
+for services in a mesh. The <a href="/v0.8/docs/tasks/telemetry/using-istio-dashboard/">Visualizing Metrics with Grafana</a> describes
+the Istio Dashboard to monitor mesh traffic. The <a href="/v0.8/docs/tasks/security/basic-access-control/">Basic Access Control</a>
+task shows how to control access to in-mesh services. The
+<a href="http://localhost:1313/docs/tasks/security/secure-access-control/">Secure Access Control</a> task shows how to configure
+access policies using black or white list checkers. As opposed to the telemetry and security tasks above, this blog
+post describes Istio's monitoring and access policies applied exclusively to the egress traffic.</p>
+<h2 id="before-you-begin">Before you begin</h2>
+<p>Follow the steps in the <a href="/v0.8/docs/tasks/traffic-management/egress-gateway/#perform-tls-origination-with-the-egress-gateway">Configure an Egress Gateway, Perform TLS origination with the egress Gateway</a> task, without
+the <a href="/v0.8/docs/tasks/traffic-management/egress-gateway/#cleanup">Cleanup</a> step. After you accomplish this, you will be able
+to access <a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a> from an in-mesh container that has <em>curl</em>
+installed. In the instructions of this blog post we assume that the <code>SOURCE_POD</code> environment variable contains the pod
+name.</p>
+<h2 id="configure-monitoring-and-access-policies">Configure monitoring and access policies</h2>
+<p>Note that since you want to accomplish your tasks in a <em>secure way</em>, you must direct egress traffic through
+<em>egress gateway</em>, as described in the <a href="/v0.8/docs/tasks/traffic-management/egress-gateway/">Configure an Egress Gateway</a>
+task. The <em>secure way</em> here means that you want to prevent malicious applications from bypassing Istio monitoring and
+policy enforcement.</p>
+<p>In our scenario, the organization performed the instructions in the <a href="#before-you-begin">Before you begin</a> section. It
+enabled traffic to <em>edition.cnn.com</em> and configured that traffic to pass through the egress gateway. Now it is ready to
+configure Istio for monitoring and access policies for the traffic to <em>edition.cnn.com</em>.</p>
+<h3 id="logging">Logging</h3>
+<p>Configure Istio to log access to <em>*.cnn.com</em>. You create a <code>logentry</code> and two
+<a href="/v0.8/docs/reference/config/policy-and-telemetry/adapters/stdio/">stdio</a> <code>handlers</code>, one for logging forbidden access
+(<em>error</em> log level) and another one for logging all access to <em>*.cnn.com</em> (<em>info</em> log level). Then you create <code>rules</code> to
+direct your <code>logentry</code> instances to your <code>handlers</code>. One rule directs access to <em>*.cnn.com/politics</em> to the handler for
+logging forbidden access, another rule directs log entries to the handler that outputs each access to <em>*.cnn.com</em> as an
+<em>info</em> log entry. To understand the Istio <code>logentries</code>, <code>rules</code>, and <code>handlers</code>, see
+<a href="/v0.8/blog/2017/adapter-model/">Istio Adapter Model</a>. A diagram with the involved entities and dependencies between them
+appears below:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+        
+        
+            
+        
+    
+
+
+
+<figure style="width: 80%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 68.27%">
+        <a class="not-for-endnotes" href="/v0.8/blog/2018/img/egress-adapters-monitoring.svg">
+            <img class="element-to-stretch" src="/v0.8/blog/2018/img/egress-adapters-monitoring.svg" alt="Instances, rules and handlers for egress monitoring" title="Instances, rules and handlers for egress monitoring" />
+        </a>
+    </div>
+    <figcaption>Instances, rules and handlers for egress monitoring</figcaption>
+</figure>
+
+<ol>
+<li>
+<p>Create the <code>logentry</code>, <code>rules</code> and <code>handlers</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">    cat <span style="color:#e6db74">&lt;&lt;EOF | istioctl create -f -
+</span><span style="color:#e6db74">    # Log entry for egress access
+</span><span style="color:#e6db74">    apiVersion: &#34;config.istio.io/v1alpha2&#34;
+</span><span style="color:#e6db74">    kind: logentry
+</span><span style="color:#e6db74">    metadata:
+</span><span style="color:#e6db74">      name: egress-access
+</span><span style="color:#e6db74">      namespace: istio-system
+</span><span style="color:#e6db74">    spec:
+</span><span style="color:#e6db74">      severity: &#39;&#34;info&#34;&#39;
+</span><span style="color:#e6db74">      timestamp: request.time
+</span><span style="color:#e6db74">      variables:
+</span><span style="color:#e6db74">        destination: request.host | &#34;unknown&#34;
+</span><span style="color:#e6db74">        path: request.path | &#34;unknown&#34;
+</span><span style="color:#e6db74">        source: source.labels[&#34;app&#34;] | source.service | &#34;unknown&#34;
+</span><span style="color:#e6db74">        sourceNamespace: source.namespace | &#34;unknown&#34;
+</span><span style="color:#e6db74">        user: source.user | &#34;unknown&#34;
+</span><span style="color:#e6db74">        responseCode: response.code | 0
+</span><span style="color:#e6db74">        responseSize: response.size | 0
+</span><span style="color:#e6db74">      monitored_resource_type: &#39;&#34;UNSPECIFIED&#34;&#39;
+</span><span style="color:#e6db74">    ---
+</span><span style="color:#e6db74">    # Handler for error egress access entries
+</span><span style="color:#e6db74">    apiVersion: &#34;config.istio.io/v1alpha2&#34;
+</span><span style="color:#e6db74">    kind: stdio
+</span><span style="color:#e6db74">    metadata:
+</span><span style="color:#e6db74">      name: egress-error-logger
+</span><span style="color:#e6db74">      namespace: istio-system
+</span><span style="color:#e6db74">    spec:
+</span><span style="color:#e6db74">     severity_levels:
+</span><span style="color:#e6db74">       info: 2 # output log level as error
+</span><span style="color:#e6db74">     outputAsJson: true
+</span><span style="color:#e6db74">    ---
+</span><span style="color:#e6db74">    # Rule to handle access to *.cnn.com/politics
+</span><span style="color:#e6db74">    apiVersion: &#34;config.istio.io/v1alpha2&#34;
+</span><span style="color:#e6db74">    kind: rule
+</span><span style="color:#e6db74">    metadata:
+</span><span style="color:#e6db74">      name: handle-politics
+</span><span style="color:#e6db74">      namespace: istio-system
+</span><span style="color:#e6db74">    spec:
+</span><span style="color:#e6db74">      match: request.host.endsWith(&#34;cnn.com&#34;) &amp;&amp; request.path.startsWith(&#34;/politics&#34;)
+</span><span style="color:#e6db74">      actions:
+</span><span style="color:#e6db74">      - handler: egress-error-logger.stdio
+</span><span style="color:#e6db74">        instances:
+</span><span style="color:#e6db74">        - egress-access.logentry
+</span><span style="color:#e6db74">    ---
+</span><span style="color:#e6db74">    # Handler for info egress access entries
+</span><span style="color:#e6db74">    apiVersion: &#34;config.istio.io/v1alpha2&#34;
+</span><span style="color:#e6db74">    kind: stdio
+</span><span style="color:#e6db74">    metadata:
+</span><span style="color:#e6db74">      name: egress-access-logger
+</span><span style="color:#e6db74">      namespace: istio-system
+</span><span style="color:#e6db74">    spec:
+</span><span style="color:#e6db74">      severity_levels:
+</span><span style="color:#e6db74">        info: 0 # output log level as info
+</span><span style="color:#e6db74">      outputAsJson: true
+</span><span style="color:#e6db74">    ---
+</span><span style="color:#e6db74">    # Rule to handle access to *.cnn.com
+</span><span style="color:#e6db74">    apiVersion: &#34;config.istio.io/v1alpha2&#34;
+</span><span style="color:#e6db74">    kind: rule
+</span><span style="color:#e6db74">    metadata:
+</span><span style="color:#e6db74">      name: handle-cnn-access
+</span><span style="color:#e6db74">      namespace: istio-system
+</span><span style="color:#e6db74">    spec:
+</span><span style="color:#e6db74">      match: request.host.endsWith(&#34;.cnn.com&#34;)
+</span><span style="color:#e6db74">      actions:
+</span><span style="color:#e6db74">      - handler: egress-access-logger.stdio
+</span><span style="color:#e6db74">        instances:
+</span><span style="color:#e6db74">          - egress-access.logentry
+</span><span style="color:#e6db74">    EOF</span>
+</code></pre></div></li>
+<li>
+<p>Send three HTTP requests to <em>cnn.com</em>, to <a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a>, <a href="https://edition.cnn.com/sport">edition.cnn.com/sport</a> and <a href="https://edition.cnn.com/health">edition.cnn.com/health</a>.
+All three should return <em>200 OK</em>.</p>
+<pre><code class="language-command" data-lang="command">$ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/politics; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/sport; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/health'
+200
+200
+200
+</code></pre></li>
+<li>
+<p>Query the Mixer log and see that the information about the requests appears in the log:</p>
+<pre><code class="language-command-output-as-json" data-lang="command-output-as-json">$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2018-06-18T13:22:58.317448Z&quot;,&quot;instance&quot;:&quot;egress-access.logentry.istio-system&quot;,&quot;destination&quot;:&quot;edition.cnn.com&quot;,&quot;path&quot;:&quot;/politics&quot;,&quot;responseCode&quot;:200,&quot;responseSize&quot;:150448,&quot;source&quot;:&quot;sleep&quot;,&quot;user&quot;:&quot;unknown&quot;}
+{&quot;level&quot;:&quot;error&quot;,&quot;time&quot;:&quot;2018-06-18T13:22:58.317448Z&quot;,&quot;instance&quot;:&quot;egress-access.logentry.istio-system&quot;,&quot;destination&quot;:&quot;edition.cnn.com&quot;,&quot;path&quot;:&quot;/politics&quot;,&quot;responseCode&quot;:200,&quot;responseSize&quot;:150448,&quot;source&quot;:&quot;sleep&quot;,&quot;user&quot;:&quot;unknown&quot;}
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2018-06-18T13:22:59.234426Z&quot;,&quot;instance&quot;:&quot;egress-access.logentry.istio-system&quot;,&quot;destination&quot;:&quot;edition.cnn.com&quot;,&quot;path&quot;:&quot;/sport&quot;,&quot;responseCode&quot;:200,&quot;responseSize&quot;:358651,&quot;source&quot;:&quot;sleep&quot;,&quot;user&quot;:&quot;unknown&quot;}
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2018-06-18T13:22:59.354943Z&quot;,&quot;instance&quot;:&quot;egress-access.logentry.istio-system&quot;,&quot;destination&quot;:&quot;edition.cnn.com&quot;,&quot;path&quot;:&quot;/health&quot;,&quot;responseCode&quot;:200,&quot;responseSize&quot;:332218,&quot;source&quot;:&quot;sleep&quot;,&quot;user&quot;:&quot;unknown&quot;}
+</code></pre><p>You see four log entries related to your three requests. Three <em>info</em> entries about the access to <em>edition.cnn.com</em>
+and one <em>error</em> entry about the access to <em>edition.cnn.com/politics</em>. The service mesh operators can see all the
+access instances, and can also search the log for <em>error</em> log entries that represent forbidden accesses. This is the
+first security measure the organization can apply before blocking the forbidden accesses automatically, namely logging
+all the forbidden access instances as errors. In some settings this can be a sufficient security measure.</p>
+</li>
+</ol>
+<h3 id="access-control-by-routing">Access control by routing</h3>
+<p>After enabling logging of access to <em>edition.cnn.com</em>, automatically enforce an access policy, namely allow
+accessing <em>/health</em> and <em>/sport</em> URL paths only. Such a simple policy control can be implemented with Istio routing.</p>
+<ol>
+<li>
+<p>Redefine your <code>VirtualService</code> for <em>edition.cnn.com</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">    cat <span style="color:#e6db74">&lt;&lt;EOF | istioctl replace -f -
+</span><span style="color:#e6db74">    apiVersion: networking.istio.io/v1alpha3
+</span><span style="color:#e6db74">    kind: VirtualService
+</span><span style="color:#e6db74">    metadata:
+</span><span style="color:#e6db74">      name: direct-through-egress-gateway
+</span><span style="color:#e6db74">    spec:
+</span><span style="color:#e6db74">      hosts:
+</span><span style="color:#e6db74">      - edition.cnn.com
+</span><span style="color:#e6db74">      gateways:
+</span><span style="color:#e6db74">      - istio-egressgateway
+</span><span style="color:#e6db74">      - mesh
+</span><span style="color:#e6db74">      http:
+</span><span style="color:#e6db74">      - match:
+</span><span style="color:#e6db74">        - gateways:
+</span><span style="color:#e6db74">          - mesh
+</span><span style="color:#e6db74">          port: 80
+</span><span style="color:#e6db74">        route:
+</span><span style="color:#e6db74">        - destination:
+</span><span style="color:#e6db74">            host: istio-egressgateway.istio-system.svc.cluster.local
+</span><span style="color:#e6db74">            port:
+</span><span style="color:#e6db74">              number: 443
+</span><span style="color:#e6db74">          weight: 100
+</span><span style="color:#e6db74">      - match:
+</span><span style="color:#e6db74">        - gateways:
+</span><span style="color:#e6db74">          - istio-egressgateway
+</span><span style="color:#e6db74">          port: 443
+</span><span style="color:#e6db74">          uri:
+</span><span style="color:#e6db74">            regex: &#34;/health|/sport&#34;
+</span><span style="color:#e6db74">        route:
+</span><span style="color:#e6db74">        - destination:
+</span><span style="color:#e6db74">            host: edition.cnn.com
+</span><span style="color:#e6db74">            port:
+</span><span style="color:#e6db74">              number: 443
+</span><span style="color:#e6db74">          weight: 100
+</span><span style="color:#e6db74">    EOF</span>
+</code></pre></div><p>Note that you added a <code>match</code> by <code>uri</code> condition that checks that the URL path is
+either <em>/health</em> or <em>/sport</em>. Also note that this condition is added to the <code>istio-egressgateway</code>
+section of the <code>VirtualService</code>, since the egress gateway is a hardened component in terms of security (see
+[egress gateway security considerations]
+(/docs/tasks/traffic-management/egress-gateway/#additional-security-considerations)). You don't want any tampering
+with your policies.</p>
+</li>
+<li>
+<p>Send the previous three HTTP requests to <em>cnn.com</em>:</p>
+<pre><code class="language-command" data-lang="command">$ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/politics; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/sport; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/health'
+404
+200
+200
+</code></pre><p>The request to <a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a> returned <em>404 Not Found</em>, while requests
+to <a href="https://edition.cnn.com/sport">edition.cnn.com/sport</a> and
+<a href="https://edition.cnn.com/health">edition.cnn.com/health</a> returned <em>200 OK</em>, as expected.</p>
+<blockquote>
+<p>You may need to wait several seconds for the update of the <code>VirtualService</code> to propagate to the egress
+gateway.</p>
+</blockquote>
+</li>
+<li>
+<p>Query the Mixer log and see that the information about the requests appears again in the log:</p>
+<pre><code class="language-command-output-as-json" data-lang="command-output-as-json">$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2018-06-19T12:39:48.050666Z&quot;,&quot;instance&quot;:&quot;egress-access.logentry.istio-system&quot;,&quot;destination&quot;:&quot;edition.cnn.com&quot;,&quot;path&quot;:&quot;/politics&quot;,&quot;responseCode&quot;:404,&quot;responseSize&quot;:0,&quot;source&quot;:&quot;sleep&quot;,&quot;sourceNamespace&quot;:&quot;default&quot;,&quot;user&quot;:&quot;unknown&quot;}
+{&quot;level&quot;:&quot;error&quot;,&quot;time&quot;:&quot;2018-06-19T12:39:48.050666Z&quot;,&quot;instance&quot;:&quot;egress-access.logentry.istio-system&quot;,&quot;destination&quot;:&quot;edition.cnn.com&quot;,&quot;path&quot;:&quot;/politics&quot;,&quot;responseCode&quot;:404,&quot;responseSize&quot;:0,&quot;source&quot;:&quot;sleep&quot;,&quot;sourceNamespace&quot;:&quot;default&quot;,&quot;user&quot;:&quot;unknown&quot;}
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2018-06-19T12:39:48.091268Z&quot;,&quot;instance&quot;:&quot;egress-access.logentry.istio-system&quot;,&quot;destination&quot;:&quot;edition.cnn.com&quot;,&quot;path&quot;:&quot;/health&quot;,&quot;responseCode&quot;:200,&quot;responseSize&quot;:334027,&quot;source&quot;:&quot;sleep&quot;,&quot;sourceNamespace&quot;:&quot;default&quot;,&quot;user&quot;:&quot;unknown&quot;}
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2018-06-19T12:39:48.063812Z&quot;,&quot;instance&quot;:&quot;egress-access.logentry.istio-system&quot;,&quot;destination&quot;:&quot;edition.cnn.com&quot;,&quot;path&quot;:&quot;/sport&quot;,&quot;responseCode&quot;:200,&quot;responseSize&quot;:355267,&quot;source&quot;:&quot;sleep&quot;,&quot;sourceNamespace&quot;:&quot;default&quot;,&quot;user&quot;:&quot;unknown&quot;}
+</code></pre><p>You still get info and error messages regarding accesses to
+<a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a>, however this time the <code>responseCode</code> is <code>404</code>, as
+expected.</p>
+</li>
+</ol>
+<p>While implementing access control using Istio routing worked for us in this simple case, it would not suffice for more
+complex cases. For example, the organization may want to allow access to
+<a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a> under certain conditions, so more complex policy logic than
+just filtering by URL paths will be required. You may want to apply <a href="/v0.8/blog/2017/adapter-model/">Istio Mixer Adapters</a>,
+for example <a href="/v0.8/docs/tasks/security/basic-access-control/#access-control-using-whitelists">white lists</a> or <a href="/v0.8/docs/tasks/security/basic-access-control/#access-control-using-denials">black lists</a> of allowed/forbidden URL paths,
+respectively. <a href="/v0.8/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/">Policy Rules</a> allow specifying
+complex conditions, specified in a
+<a href="/v0.8/docs/reference/config/policy-and-telemetry/expression-language/">rich expression language</a>, which includes AND and OR
+logical operators. The rules can be reused for both logging and policy checks. More advanced users may want to apply
+<a href="/v0.8/docs/concepts/security/rbac/">Istio Role-Based Access Control</a>.</p>
+<p>An additional aspect is integration with remote access policy systems. If the organization in our use case operates some
+<a href="https://en.wikipedia.org/wiki/Identity_management">Identity and Access Management</a> system, you may want to configure
+Istio to use access policy information from such a system. You implement this integration by applying
+<a href="/v0.8/blog/2017/adapter-model/">Istio Mixer Adapters</a>.</p>
+<p>Cancel the access control by routing you used in this section and implement access control by Mixer policy checks
+in the next section.</p>
+<ol>
+<li>
+<p>Replace the <code>VirtualService</code> for <em>edition.cnn.com</em> with your previous version from the <a href="/v0.8/docs/tasks/traffic-management/egress-gateway/#perform-tls-origination-with-the-egress-gateway">Configure an Egress Gateway</a> task:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">    cat <span style="color:#e6db74">&lt;&lt;EOF | istioctl replace -f -
+</span><span style="color:#e6db74">    apiVersion: networking.istio.io/v1alpha3
+</span><span style="color:#e6db74">    kind: VirtualService
+</span><span style="color:#e6db74">    metadata:
+</span><span style="color:#e6db74">      name: direct-through-egress-gateway
+</span><span style="color:#e6db74">    spec:
+</span><span style="color:#e6db74">      hosts:
+</span><span style="color:#e6db74">      - edition.cnn.com
+</span><span style="color:#e6db74">      gateways:
+</span><span style="color:#e6db74">      - istio-egressgateway
+</span><span style="color:#e6db74">      - mesh
+</span><span style="color:#e6db74">      http:
+</span><span style="color:#e6db74">      - match:
+</span><span style="color:#e6db74">        - gateways:
+</span><span style="color:#e6db74">          - mesh
+</span><span style="color:#e6db74">          port: 80
+</span><span style="color:#e6db74">        route:
+</span><span style="color:#e6db74">        - destination:
+</span><span style="color:#e6db74">            host: istio-egressgateway.istio-system.svc.cluster.local
+</span><span style="color:#e6db74">            port:
+</span><span style="color:#e6db74">              number: 443
+</span><span style="color:#e6db74">          weight: 100
+</span><span style="color:#e6db74">      - match:
+</span><span style="color:#e6db74">        - gateways:
+</span><span style="color:#e6db74">          - istio-egressgateway
+</span><span style="color:#e6db74">          port: 443
+</span><span style="color:#e6db74">        route:
+</span><span style="color:#e6db74">        - destination:
+</span><span style="color:#e6db74">            host: edition.cnn.com
+</span><span style="color:#e6db74">            port:
+</span><span style="color:#e6db74">              number: 443
+</span><span style="color:#e6db74">          weight: 100
+</span><span style="color:#e6db74">    EOF</span>
+</code></pre></div></li>
+<li>
+<p>Send the previous three HTTP requests to <em>cnn.com</em>, this time you should get three <em>200 OK</em> responses as
+previously:</p>
+<pre><code class="language-command" data-lang="command">$ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/politics; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/sport; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/health'
+200
+200
+200
+</code></pre></li>
+</ol>
+<blockquote>
+<p>You may need to wait several seconds for the update of the <code>VirtualService</code> to propagate to the egress
+gateway.</p>
+</blockquote>
+<h3 id="access-control-by-mixer-policy-checks">Access control by Mixer policy checks</h3>
+<p>In this step you use a Mixer
+<a href="https://istio.io/docs/reference/config/policy-and-telemetry/adapters/list/">Listchecker adapter</a>, its whitelist
+variety. You define a <code>listentry</code> with the URL path of the request and a <code>listchecker</code> to check the <code>listentry</code> using a
+static list of allowed URL paths, specified by the <code>overrides</code> field. For an external <a href="https://en.wikipedia.org/wiki/Identity_management">Identity and Access Management</a> system, use the <code>providerurl</code> field instead. The updated
+diagram of the instances, rules and handlers appears below. Note that you reuse the same policy rule, <code>handle-cnn-access</code>
+both for logging and for access policy checks.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+        
+        
+            
+        
+    
+
+
+
+<figure style="width: 80%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 65.45%">
+        <a class="not-for-endnotes" href="/v0.8/blog/2018/img/egress-adapters-monitoring-policy.svg">
+            <img class="element-to-stretch" src="/v0.8/blog/2018/img/egress-adapters-monitoring-policy.svg" alt="Instances, rules and handlers for egress monitoring and access policies" title="Instances, rules and handlers for egress monitoring and access policies" />
+        </a>
+    </div>
+    <figcaption>Instances, rules and handlers for egress monitoring and access policies</figcaption>
+</figure>
+
+<ol>
+<li>
+<p>Define <code>path-checker</code> and <code>request-path</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">    cat <span style="color:#e6db74">&lt;&lt;EOF | istioctl create -f -
+</span><span style="color:#e6db74">    apiVersion: &#34;config.istio.io/v1alpha2&#34;
+</span><span style="color:#e6db74">    kind: listchecker
+</span><span style="color:#e6db74">    metadata:
+</span><span style="color:#e6db74">      name: path-checker
+</span><span style="color:#e6db74">      namespace: istio-system
+</span><span style="color:#e6db74">    spec:
+</span><span style="color:#e6db74">      overrides: [&#34;/health&#34;, &#34;/sport&#34;]  # overrides provide a static list
+</span><span style="color:#e6db74">      blacklist: false
+</span><span style="color:#e6db74">    ---
+</span><span style="color:#e6db74">    apiVersion: &#34;config.istio.io/v1alpha2&#34;
+</span><span style="color:#e6db74">    kind: listentry
+</span><span style="color:#e6db74">    metadata:
+</span><span style="color:#e6db74">      name: request-path
+</span><span style="color:#e6db74">      namespace: istio-system
+</span><span style="color:#e6db74">    spec:
+</span><span style="color:#e6db74">      value: request.path
+</span><span style="color:#e6db74">    EOF</span>
+</code></pre></div></li>
+<li>
+<p>Modify the <code>handle-cnn-access</code> policy rule to send <code>request-path</code> instances to the <code>path-checker</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">    cat <span style="color:#e6db74">&lt;&lt;EOF | istioctl replace -f -
+</span><span style="color:#e6db74">    # Rule handle egress access to cnn.com
+</span><span style="color:#e6db74">    apiVersion: &#34;config.istio.io/v1alpha2&#34;
+</span><span style="color:#e6db74">    kind: rule
+</span><span style="color:#e6db74">    metadata:
+</span><span style="color:#e6db74">      name: handle-cnn-access
+</span><span style="color:#e6db74">      namespace: istio-system
+</span><span style="color:#e6db74">    spec:
+</span><span style="color:#e6db74">      match: request.host.endsWith(&#34;.cnn.com&#34;)
+</span><span style="color:#e6db74">      actions:
+</span><span style="color:#e6db74">      - handler: egress-access-logger.stdio
+</span><span style="color:#e6db74">        instances:
+</span><span style="color:#e6db74">          - egress-access.logentry
+</span><span style="color:#e6db74">      - handler: path-checker.listchecker
+</span><span style="color:#e6db74">        instances:
+</span><span style="color:#e6db74">          - request-path.listentry
+</span><span style="color:#e6db74">    EOF</span>
+</code></pre></div></li>
+<li>
+<p>Perform your usual test by sending HTTP requests to
+<a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a>, <a href="https://edition.cnn.com/sport">edition.cnn.com/sport</a>
+and <a href="https://edition.cnn.com/health">edition.cnn.com/health</a>. As expected, the request to
+<a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a> returns <em>404</em>.</p>
+<pre><code class="language-command" data-lang="command">$ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/politics; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/sport; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/health'
+404
+200
+200
+</code></pre></li>
+</ol>
+<h3 id="access-control-by-mixer-policy-checks-part-2">Access control by Mixer policy checks, part 2</h3>
+<p>After the organization in our use case managed to configure logging and access control, it decided to extend its access
+policy by allowing the applications in the <em>politics</em> namespace to access any topic of <em>cnn.com</em>, without being
+monitored. You'll see how this requirement can be configured in Istio.</p>
+<ol>
+<li>
+<p>Create the <em>politics</em> namespace:</p>
+<pre><code class="language-command" data-lang="command">$ kubectl create namespace politics
+namespace &quot;politics&quot; created
+</code></pre></li>
+<li>
+<p>Start the <a href="https://github.com/istio/istio/tree/release-0.8/samples/sleep">sleep</a> sample
+in the <em>politics</em> namespace.</p>
+<p>If you have enabled
+<a href="/v0.8/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection">automatic sidecar injection</a>, do</p>
+<pre><code class="language-command" data-lang="command">$ kubectl apply -n politics -f @samples/sleep/sleep.yaml@
+</code></pre><p>otherwise, you have to manually inject the sidecar before deploying the <code>sleep</code> application:</p>
+<pre><code class="language-command" data-lang="command">$ kubectl apply -n politics -f &lt;(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+</code></pre></li>
+<li>
+<p>Define a shell variable to hold the name of the source pod in the <em>politics</em> namespace for sending requests to
+external services.
+If you used the <a href="https://github.com/istio/istio/tree/release-0.8/samples/sleep">sleep</a> sample, you run:</p>
+<pre><code class="language-command" data-lang="command">$ export SOURCE_POD_IN_POLITICS=$(kubectl get pod -n politics -l app=sleep -o jsonpath={.items..metadata.name})
+</code></pre></li>
+<li>
+<p>Perform your usual test of sending three HTTP requests this time from <code>$SOURCE_POD_IN_POLITICS</code>.
+The request to <a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a> returns <em>404</em>, since you did not configure
+the exception for the <em>politics</em> namespace.</p>
+<pre><code class="language-command" data-lang="command">$ kubectl exec -it $SOURCE_POD_IN_POLITICS -n politics -c sleep -- bash -c 'curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/politics; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/sport; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/health'
+404
+200
+200
+</code></pre></li>
+<li>
+<p>Query the Mixer log and see that the information about the requests from the <em>politics</em> namespace appears in
+the log:</p>
+<pre><code class="language-command-output-as-json" data-lang="command-output-as-json">$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2018-06-19T17:37:14.639102Z&quot;,&quot;instance&quot;:&quot;egress-access.logentry.istio-system&quot;,&quot;destination&quot;:&quot;edition.cnn.com&quot;,&quot;path&quot;:&quot;/politics&quot;,&quot;responseCode&quot;:404,&quot;responseSize&quot;:76,&quot;source&quot;:&quot;sleep&quot;,&quot;sourceNamespace&quot;:&quot;politics&quot;,&quot;user&quot;:&quot;unknown&quot;}
+{&quot;level&quot;:&quot;error&quot;,&quot;time&quot;:&quot;2018-06-19T17:37:14.639102Z&quot;,&quot;instance&quot;:&quot;egress-access.logentry.istio-system&quot;,&quot;destination&quot;:&quot;edition.cnn.com&quot;,&quot;path&quot;:&quot;/politics&quot;,&quot;responseCode&quot;:404,&quot;responseSize&quot;:76,&quot;source&quot;:&quot;sleep&quot;,&quot;sourceNamespace&quot;:&quot;politics&quot;,&quot;user&quot;:&quot;unknown&quot;}
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2018-06-19T17:37:14.653225Z&quot;,&quot;instance&quot;:&quot;egress-access.logentry.istio-system&quot;,&quot;destination&quot;:&quot;edition.cnn.com&quot;,&quot;path&quot;:&quot;/sport&quot;,&quot;responseCode&quot;:200,&quot;responseSize&quot;:356349,&quot;source&quot;:&quot;sleep&quot;,&quot;sourceNamespace&quot;:&quot;politics&quot;,&quot;user&quot;:&quot;unknown&quot;}
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2018-06-19T17:37:14.767923Z&quot;,&quot;instance&quot;:&quot;egress-access.logentry.istio-system&quot;,&quot;destination&quot;:&quot;edition.cnn.com&quot;,&quot;path&quot;:&quot;/health&quot;,&quot;responseCode&quot;:200,&quot;responseSize&quot;:334027,&quot;source&quot;:&quot;sleep&quot;,&quot;sourceNamespace&quot;:&quot;politics&quot;,&quot;user&quot;:&quot;unknown&quot;}
+</code></pre><p>Note that <code>sourceNamespace</code> equals <code>politics</code> in the output above.</p>
+</li>
+<li>
+<p>Redefine <code>handle-cnn-access</code> and <code>handle-politics</code> policy rules, to make the applications in the <em>politics</em>
+namespace exempt from monitoring and policy enforcement.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">    cat <span style="color:#e6db74">&lt;&lt;EOF | istioctl replace -f -
+</span><span style="color:#e6db74">    # Rule to handle access to *.cnn.com/politics
+</span><span style="color:#e6db74">    apiVersion: &#34;config.istio.io/v1alpha2&#34;
+</span><span style="color:#e6db74">    kind: rule
+</span><span style="color:#e6db74">    metadata:
+</span><span style="color:#e6db74">      name: handle-politics
+</span><span style="color:#e6db74">      namespace: istio-system
+</span><span style="color:#e6db74">    spec:
+</span><span style="color:#e6db74">      match: request.host.endsWith(&#34;cnn.com&#34;) &amp;&amp; request.path.startsWith(&#34;/politics&#34;) &amp;&amp; source.namespace != &#34;politics&#34;
+</span><span style="color:#e6db74">      actions:
+</span><span style="color:#e6db74">      - handler: egress-error-logger.stdio
+</span><span style="color:#e6db74">        instances:
+</span><span style="color:#e6db74">        - egress-access.logentry
+</span><span style="color:#e6db74">    ---
+</span><span style="color:#e6db74">    # Rule handle egress access to cnn.com
+</span><span style="color:#e6db74">    apiVersion: &#34;config.istio.io/v1alpha2&#34;
+</span><span style="color:#e6db74">    kind: rule
+</span><span style="color:#e6db74">    metadata:
+</span><span style="color:#e6db74">      name: handle-cnn-access
+</span><span style="color:#e6db74">      namespace: istio-system
+</span><span style="color:#e6db74">    spec:
+</span><span style="color:#e6db74">      match: request.host.endsWith(&#34;.cnn.com&#34;) &amp;&amp; source.namespace != &#34;politics&#34;
+</span><span style="color:#e6db74">      actions:
+</span><span style="color:#e6db74">      - handler: egress-access-logger.stdio
+</span><span style="color:#e6db74">        instances:
+</span><span style="color:#e6db74">          - egress-access.logentry
+</span><span style="color:#e6db74">      - handler: path-checker.listchecker
+</span><span style="color:#e6db74">        instances:
+</span><span style="color:#e6db74">          - request-path.listentry
+</span><span style="color:#e6db74">    EOF</span>
+</code></pre></div></li>
+<li>
+<p>Perform your usual test from <code>$SOURCE_POD</code>:</p>
+<pre><code class="language-command" data-lang="command">$ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/politics; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/sport; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/health'
+404
+200
+200
+</code></pre><p>Since <code>$SOURCE_POD</code> is in the <code>default</code> namespace, access to  <a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a> is forbidden, as previously.</p>
+</li>
+<li>
+<p>Perform the previous test from <code>$SOURCE_POD_IN_POLITICS</code>:</p>
+<pre><code class="language-command" data-lang="command">$ kubectl exec -it $SOURCE_POD_IN_POLITICS -n politics -c sleep -- bash -c 'curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/politics; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/sport; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/health'
+200
+200
+200
+</code></pre><p>Access to all the topics of <em>edition.cnn.com</em> is allowed.</p>
+</li>
+<li>
+<p>Examine the Mixer log and see that no more requests with <code>sourceNamespace</code> equal <code>&quot;politics&quot;</code> appear in the
+log.</p>
+<pre><code class="language-command" data-lang="command">$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn
+</code></pre></li>
+</ol>
+<h3 id="dashboard">Dashboard</h3>
+<p>As an additional security measure, let our organization's operation people visually monitor egress traffic.</p>
+<ol>
+<li>
+<p>Follow the steps 1-3 of the <a href="/v0.8/docs/tasks/telemetry/using-istio-dashboard/#viewing-the-istio-dashboard">Visualizing Metrics with Grafana</a> task.</p>
+</li>
+<li>
+<p>Send requests to <em>cnn.com</em> from <code>$SOURCE_POD</code>:</p>
+<pre><code class="language-command" data-lang="command">$ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/politics; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/sport; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/health'
+404
+200
+200
+</code></pre><p>Since <code>$SOURCE_POD</code> is in the <code>default</code> namespace, access to  <a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a> is forbidden, as previously.</p>
+</li>
+<li>
+<p>Send requests to <em>cnn.com</em> from <code>$SOURCE_POD_IN_POLITICS</code>:</p>
+<pre><code class="language-command" data-lang="command">$ kubectl exec -it $SOURCE_POD_IN_POLITICS -n politics -c sleep -- bash -c 'curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/politics; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/sport; curl -sL -o /dev/null -w &quot;%{http_code}\n&quot; http://edition.cnn.com/health'
+200
+200
+200
+</code></pre></li>
+<li>
+<p>Scroll the dashboard to <em>HTTP services</em>, <em>istio-egressgateway.istio-system.svc.cluster.local</em> section. You should
+see a graph similar to the following:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+        
+        
+            
+        
+    
+
+
+
+<figure style="width: 100%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 19.47%">
+        <a class="not-for-endnotes" href="/v0.8/blog/2018/img/dashboard-egress-gateway.png">
+            <img class="element-to-stretch" src="/v0.8/blog/2018/img/dashboard-egress-gateway.png" alt="Dashboard section of istio-egressgateway" title="Dashboard section of istio-egressgateway" />
+        </a>
+    </div>
+    <figcaption>Dashboard section of istio-egressgateway</figcaption>
+</figure>
+
+<p>You can see the <em>404</em> error code received by the <em>sleep</em> application from the <em>default</em> namespace, <em>unknown</em> version,
+in the <em>Requests by Source, Version and Response Code</em> section on the left. This information can give the operations
+people a visual clue regarding which application tries to perform forbidden access. You can also see the <em>200</em> code
+received by <em>sleep</em> applications from the <em>default</em> and <em>politics</em> namespaces, so you can know which applications
+performed valid access to external services.</p>
+</li>
+</ol>
+<h2 id="comparison-with-https-egress-traffic-control">Comparison with HTTPS egress traffic control</h2>
+<p>In this use case the applications used HTTP and Istio Egress Gateway performed TLS origination for them. Alternatively,
+the applications could originate TLS themselves by issuing HTTPS requests to <em>edition.cnn.com</em>. In this section we
+describe both approaches and their pros and cons.</p>
+<p>In the HTTP approach, the requests are sent unencrypted on the local host, intercepted by the Istio sidecar proxy and
+forwarded to the egress gateway. If Istio is deployed with mutual TLS, the traffic between the sidecar proxy and the
+egress gateway is encrypted. The egress gateway decrypts the traffic, inspects the URL path, the HTTP method and
+headers, reports telemetry and performs policy checks. If the request is not blocked by some policy check, the egress
+gateway performs TLS origination to the external destination (<em>cnn.com</em> in our case), so the request is encrypted again
+and sent encrypted to the external destination. The diagram below demonstrates the network flow of this approach. The
+HTTP protocol inside the gateway designates the protocol as seen by the gateway after decryption.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+        
+        
+            
+        
+    
+
+
+
+<figure style="width: 80%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 73.96%">
+        <a class="not-for-endnotes" href="/v0.8/blog/2018/img/http-to-gateway.svg">
+            <img class="element-to-stretch" src="/v0.8/blog/2018/img/http-to-gateway.svg" alt="HTTP egress traffic through an egress gateway" title="HTTP egress traffic through an egress gateway" />
+        </a>
+    </div>
+    <figcaption>HTTP egress traffic through an egress gateway</figcaption>
+</figure>
+
+<p>The drawback of this approach is that the requests are sent unencrypted on the localhost, which may be against security
+policies in some organizations. Also some SDKs have external service URLs hard-coded, including the protocol, so
+sending HTTP requests could be impossible. The advantage of this approach is the ability to inspect HTTP methods,
+headers and URL paths, and to apply policies based on them.</p>
+<p>In the HTTPS approach, the requests are encrypted end-to-end, from the application to the external destination. The
+diagram below demonstrates the network flow of this approach. The HTTPS protocol inside the gateway designates the
+protocol as seen by the gateway.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+        
+        
+            
+        
+    
+
+
+
+<figure style="width: 80%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 73.96%">
+        <a class="not-for-endnotes" href="/v0.8/blog/2018/img/https-to-gateway.svg">
+            <img class="element-to-stretch" src="/v0.8/blog/2018/img/https-to-gateway.svg" alt="HTTPS egress traffic through an egress gateway" title="HTTPS egress traffic through an egress gateway" />
+        </a>
+    </div>
+    <figcaption>HTTPS egress traffic through an egress gateway</figcaption>
+</figure>
+
+<p>The end-to-end HTTPS is considered a better approach from the security point of view. However, since the traffic is
+encrypted the Istio proxies and the egress gateway can only see the source and destination IPs and the <a href="https://en.wikipedia.org/wiki/Server_Name_Indication">SNI</a> of the destination. In case of Istio with mutual TLS, the
+<a href="/v0.8/docs/concepts/security/mutual-tls/#identity">identity of the source</a> is also known. The gateway is unable to inspect
+the URL path, the HTTP method and the headers of the requests, so no monitoring and policies based on the HTTP
+information can be possible. In our use case, the organization would be able to allow access to <em>edition.cnn.com</em>. For
+Istio with mutual TLS, the organization will be able to specify which applications are allowed to access
+<em>edition.cnn.com</em>. However, it will not be possible to allow or block access to specific URL paths of <em>edition.cnn.com</em>.
+Neither blocking access to <a href="https://edition.cnn.com/politics">edition.cnn.com/politics</a> nor monitoring such access are
+possible with the HTTPS approach.</p>
+<p>We guess that each organization will consider the pros and cons of the two approaches and choose the one most
+appropriate to its needs.</p>
+<h2 id="summary">Summary</h2>
+<p>In this blog post we showed how different monitoring and policy mechanisms of Istio can be applied to HTTP egress
+traffic. Monitoring can be implemented by configuring a logging adapter and deploying the Istio dashboard. Access
+policies can be implemented by configuring <code>VirtualServices</code> or by configuring various policy check adapters. We
+demonstrated a simple policy that allowed certain URL paths only. We also showed a more complex policy that extended the
+simple policy by making an exemption to the applications from a certain namespace. Finally, we compared
+HTTP-with-TLS-origination egress traffic with HTTPS egress traffic, in terms of control possibilities by Istio.</p>
+<h2 id="cleanup">Cleanup</h2>
+<ol>
+<li>
+<p>Perform the instructions in <a href="/v0.8/docs/tasks/traffic-management/egress-gateway/#cleanup">Cleanup</a> section of the
+<a href="/v0.8/docs/tasks/traffic-management/egress-gateway/">Configure an Egress Gateway</a> task.</p>
+</li>
+<li>
+<p>Delete the logging and policy checks configuration:</p>
+<pre><code class="language-command" data-lang="command">$ kubectl delete logentry egress-access -n istio-system
+$ kubectl delete stdio egress-error-logger -n istio-system
+$ kubectl delete stdio egress-access-logger -n istio-system
+$ kubectl delete rule handle-politics -n istio-system
+$ kubectl delete rule handle-cnn-access -n istio-system
+$ kubectl delete -n istio-system listchecker path-checker
+$ kubectl delete -n istio-system listentry request-path
+</code></pre></li>
+<li>
+<p>Delete the <em>politics</em> namespace:</p>
+<pre><code class="language-command" data-lang="command">$ kubectl delete namespace politics
+</code></pre></li>
+<li>
+<p>Perform the instructions in <a href="/v0.8/docs/tasks/telemetry/using-istio-dashboard/#cleanup">Cleanup</a> section of the
+<a href="/v0.8/docs/tasks/telemetry/using-istio-dashboard/">Visualizing Metrics with Grafana</a> task.</p>
+</li>
+</ol>
+
+
+
+
+            </main>
+
+            
+                <div class="container-fluid d-print-none">
+                    <br/><hr/><br/>
+
+                    <div class="row">
+                        <div class="col-6">
+                            
+                        </div>
+                        <div class="col-6" style="text-align: right">
+                            
+                                <a title="Introduction, motivation and design principles for the Istio v1alpha3 routing API." href="/v0.8/blog/2018/v1alpha3-routing/">Introducing the Istio v1alpha3 routing API <i class="fa fa-arrow-right"></i></a>
+                            
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="d-none d-print-block" aria-hidden="true">
+                <h2>Links</h2>
+                <ol id="endnotes"></ol>
+            </div>
+        </div>
+
+        
+            <div class="col-12 col-md-2 d-none d-xl-block d-print-none">
+                <nav class="toc">
+                    <div class="spacer"></div>
+                    <div id="toc" class="directory" role="directory">
+                        
+
+
+
+
+    
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#use-case">Use case</a></li>
+    <li><a href="#related-tasks">Related tasks</a></li>
+    <li><a href="#before-you-begin">Before you begin</a></li>
+    <li><a href="#configure-monitoring-and-access-policies">Configure monitoring and access policies</a>
+      <ul>
+        <li><a href="#logging">Logging</a></li>
+        <li><a href="#access-control-by-routing">Access control by routing</a></li>
+        <li><a href="#access-control-by-mixer-policy-checks">Access control by Mixer policy checks</a></li>
+        <li><a href="#access-control-by-mixer-policy-checks-part-2">Access control by Mixer policy checks, part 2</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+      </ul>
+    </li>
+    <li><a href="#comparison-with-https-egress-traffic-control">Comparison with HTTPS egress traffic control</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#cleanup">Cleanup</a></li>
+  </ul>
+</nav>
+
+
+                    </div>
+                </nav>
+            </div>
+        
+    </div>
+</div>
+
+</div>
+
+
+        <footer class="d-print-none container-fluid">
+    <div class="row">
+        <div class="col-6 col-lg-4" role="navigation">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="icon">
+                        <span>istio-users@</span>
+                        <a title="Join the istio-users@ mailing list to participate in discussions and get help troubleshooting problems"
+                           href="https://groups.google.com/forum/#!forum/istio-users" aria-label="istio-users mailing list">
+                            <svg viewBox="0 0 490 490">
+<path d="M480,410.248H10c-5.523,0-10-4.477-10-10V89.752c0-5.523,4.477-10,10-10h470c5.522,0,10,4.477,10,10v310.495
+	C490,405.771,485.522,410.248,480,410.248z M20,390.248h450V99.752H20V390.248z"/>
+<path d="M245,286.131c-2.083,0-4.167-0.649-5.931-1.948L48.64,143.929c-4.446-3.275-5.396-9.535-2.121-13.982
+	c3.275-4.447,9.535-5.396,13.982-2.121L245,263.712l184.5-135.886c4.447-3.274,10.709-2.326,13.982,2.121
+	c3.275,4.447,2.325,10.707-2.121,13.982L250.931,284.183C249.167,285.482,247.083,286.131,245,286.131z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>twitter</span>
+                        <a title="Follow us on Twitter to get the latest news"
+                           href="https://twitter.com/IstioMesh" aria-label="Twitter">
+                            <svg viewBox="0 0 310 310">
+<path d="M302.973,57.388c-4.87,2.16-9.877,3.983-14.993,5.463c6.057-6.85,10.675-14.91,13.494-23.73
+	c0.632-1.977-0.023-4.141-1.648-5.434c-1.623-1.294-3.878-1.449-5.665-0.39c-10.865,6.444-22.587,11.075-34.878,13.783
+	c-12.381-12.098-29.197-18.983-46.581-18.983c-36.695,0-66.549,29.853-66.549,66.547c0,2.89,0.183,5.764,0.545,8.598
+	C101.163,99.244,58.83,76.863,29.76,41.204c-1.036-1.271-2.632-1.956-4.266-1.825c-1.635,0.128-3.104,1.05-3.93,2.467
+	c-5.896,10.117-9.013,21.688-9.013,33.461c0,16.035,5.725,31.249,15.838,43.137c-3.075-1.065-6.059-2.396-8.907-3.977
+	c-1.529-0.851-3.395-0.838-4.914,0.033c-1.52,0.871-2.473,2.473-2.513,4.224c-0.007,0.295-0.007,0.59-0.007,0.889
+	c0,23.935,12.882,45.484,32.577,57.229c-1.692-0.169-3.383-0.414-5.063-0.735c-1.732-0.331-3.513,0.276-4.681,1.597
+	c-1.17,1.32-1.557,3.16-1.018,4.84c7.29,22.76,26.059,39.501,48.749,44.605c-18.819,11.787-40.34,17.961-62.932,17.961
+	c-4.714,0-9.455-0.277-14.095-0.826c-2.305-0.274-4.509,1.087-5.294,3.279c-0.785,2.193,0.047,4.638,2.008,5.895
+	c29.023,18.609,62.582,28.445,97.047,28.445c67.754,0,110.139-31.95,133.764-58.753c29.46-33.421,46.356-77.658,46.356-121.367
+	c0-1.826-0.028-3.67-0.084-5.508c11.623-8.757,21.63-19.355,29.773-31.536c1.237-1.85,1.103-4.295-0.33-5.998
+	C307.394,57.037,305.009,56.486,302.973,57.388z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>stack overflow</span>
+                        <a title="Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio"
+                           href="https://stackoverflow.com/questions/tagged/istio" aria-label="Stack Overflow">
+                            <svg viewBox="0 0 120 120">
+<polygon points="84.4,93.8 84.4,70.6 92.1,70.6 92.1,101.5 22.6,101.5 22.6,70.6 30.3,70.6 30.3,93.8 "/>
+<path d="M38.8,68.4l37.8,7.9l1.6-7.6l-37.8-7.9L38.8,68.4z M43.8,50.4l35,16.3l3.2-7l-35-16.4L43.8,50.4z M53.5,33.2
+	l29.7,24.7l4.9-5.9L58.4,27.3L53.5,33.2z M72.7,14.9l-6.2,4.6l23,31l6.2-4.6L72.7,14.9z M38,86h38.6v-7.7H38V86z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>rocket chat</span>
+                        <a title="Interactively chat with members of the Istio community."
+                           href="https://istio.rocket.chat" aria-label="Rocket Chat">
+                            <svg viewBox="0 0 512 512">
+<path d="M496.293,255.338c0-24.103-7.21-47.215-21.437-68.699c-12.771-19.288-30.666-36.362-53.184-50.745
+    c-43.474-27.771-100.612-43.065-160.885-43.065c-20.131,0-39.974,1.702-59.222,5.072c-11.942-11.176-25.919-21.233-40.712-29.187
+    c-79.026-38.298-144.561-0.9-144.561-0.9s60.931,50.053,51.023,93.93c-27.259,27.041-42.033,59.646-42.033,93.594
+    c0,0.108,0.005,0.216,0.006,0.324c-0.001,0.108-0.006,0.216-0.006,0.324c0,33.949,14.774,66.554,42.033,93.595
+    c9.907,43.874-51.023,93.93-51.023,93.93s65.535,37.397,144.561-0.901c14.792-7.953,28.77-18.01,40.712-29.188
+    c19.249,3.372,39.091,5.072,59.222,5.072c60.272,0,117.411-15.294,160.885-43.064c22.518-14.383,40.412-31.457,53.184-50.742
+    c14.227-21.487,21.437-44.599,21.437-68.702c0-0.107-0.006-0.216-0.006-0.324C496.287,255.554,496.293,255.446,496.293,255.338z
+     M260.882,387.763c-25.367,0-49.66-2.932-72.107-8.282c-22.81,27.443-72.993,65.596-121.742,53.26
+    c15.857-17.031,39.352-45.81,34.32-93.207c-29.218-22.738-46.759-51.832-46.759-83.541c0-72.776,92.36-131.769,206.288-131.769
+    c113.928,0,206.288,58.993,206.288,131.769C467.17,328.765,374.81,387.763,260.882,387.763z M288.283,255.991
+    c0,15.133-12.27,27.403-27.4,27.403c-15.134,0-27.402-12.271-27.402-27.403s12.268-27.401,27.402-27.401
+    C276.014,228.59,288.283,240.858,288.283,255.991z M356.163,228.59c-15.133,0-27.4,12.268-27.4,27.401s12.268,27.403,27.4,27.403
+    c15.134,0,27.399-12.271,27.399-27.403S371.297,228.59,356.163,228.59z M165.601,228.59c-15.133,0-27.4,12.268-27.4,27.401
+    s12.268,27.403,27.4,27.403c15.134,0,27.401-12.271,27.401-27.403S180.735,228.59,165.601,228.59z"/>
+</svg>
+
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tag row d-none d-lg-flex">
+                    for users
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-lg-4">
+            <p class="text-center copyright" role="contentinfo">
+                Istio
+                
+                    Archive
+                
+                0.8<br>&copy; 2018 Istio Authors, <a href="https://policies.google.com/privacy">Privacy Policy</a><br>
+                
+                    Archived on July 31, 2018
+                
+            </p>
+        </div>
+
+        <div class="col-6 col-lg-4 d-none d-lg-flex" role="navigation">
+            <div class="container-fluid">
+                <div class="row justify-content-end">
+                    <div class="icon">
+                        <span>istio-dev@</span>
+                        <a title="Join the istio-dev@ mailing list to discuss development issues around the Istio project"
+                           href="https://groups.google.com/forum/#!forum/istio-dev" aria-label="istio-dev mailing list">
+                            <svg viewBox="0 0 490 490">
+<path d="M480,410.248H10c-5.523,0-10-4.477-10-10V89.752c0-5.523,4.477-10,10-10h470c5.522,0,10,4.477,10,10v310.495
+	C490,405.771,485.522,410.248,480,410.248z M20,390.248h450V99.752H20V390.248z"/>
+<path d="M245,286.131c-2.083,0-4.167-0.649-5.931-1.948L48.64,143.929c-4.446-3.275-5.396-9.535-2.121-13.982
+	c3.275-4.447,9.535-5.396,13.982-2.121L245,263.712l184.5-135.886c4.447-3.274,10.709-2.326,13.982,2.121
+	c3.275,4.447,2.325,10.707-2.121,13.982L250.931,284.183C249.167,285.482,247.083,286.131,245,286.131z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>github</span>
+                        <a title="GitHub is where development takes place on Istio code"
+                           href="https://github.com/istio/community" aria-label="GitHub">
+                            <svg viewBox="0 0 478.165 478.165">
+<path d="M349.22,55.768c6.136,14.046,10.241,37.556,4.224,54.69
+	c24.426,20.999,33.073,71.904,21.079,113.704c35.006,2.73,76.666-1.235,103.642,9.484c-25.183-3.248-59.651-9.563-91.987-7.431
+	c-6.136,0.458-15.361-0.239-14.903,8.408c37.735,3.008,75.092,6.117,105.894,15.779c-30.702-4.981-67.74-12.552-105.894-13.668
+	c-15.54,30.921-47.239,46.262-90.991,49.49c4.682,10.261,13.847,14.066,15.879,30.702c3.267,24.406-4.881,60.328,3.208,76.686
+	c4.064,7.89,10.579,8.009,14.863,14.604c-10.699,12.871-37.257-1.395-40.186-14.604c-5.14-22.852,7.89-58.256-6.415-73.737
+	c0.996,24.865-5.718,59.85,0.996,82.145c2.789,8.806,10.659,12.113,8.647,20.063c-49.809,5.08-28.989-64.373-37.177-105.356
+	c-7.471,0.697-4.204,11.197-4.224,15.76c-0.199,40.106,8.189,94.836-34.846,89.556c-1.315-8.348,5.838-11.217,8.467-19.007
+	c7.91-22.434-1.454-56.045,2.112-83.161c-16.417,12.512,1.793,55.666-8.428,77.961c-5.838,12.671-24.785,18.27-39.19,12.651
+	c1.873-9.464,11.695-7.989,15.879-16.875c5.818-12.452,0.02-30.244,2.092-48.494c-30.423,6.097-53.993-0.877-65.608-20.023
+	c-5.12-8.507-6.356-18.708-12.632-26.219c-6.117-7.551-16.098-8.507-19.087-18.808c37.755-9.185,39.17,38.771,73.06,39.807
+	c10.44,0.418,15.799-2.909,25.402-5.16c2.749-12.113,8.428-21.039,16.875-27.494c-42.078-5.658-76.865-18.788-93.023-50.466
+	c-38.293,1.893-73.339,7.013-105.894,14.843c29.547-10.679,65.807-14.604,104.778-15.819c-2.351-13.807-22.434-10.022-34.866-9.543
+	C47.677,227.17,18.449,230.138,0,233.645c26.817-9.543,64.233-8.348,100.454-8.428c-11.038-34.767-7.232-90.014,17.015-110.615
+	c-6.854-17.254-4.722-45.346,4.184-58.834c27.036,1.175,43.374,12.891,60.388,24.247c21.019-6.017,43.035-9.045,71.904-7.451
+	c12.133,0.677,24.705,6.097,33.731,5.32c8.906-0.877,18.728-10.898,27.534-14.843C326.507,58.099,336.17,56.206,349.22,55.768z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>drive</span>
+                        <a title="Access our team drive if you'd like to take a look at the Istio technical design documents"
+                            href="https://groups.google.com/forum/#!forum/istio-team-drive-access" aria-label="team drive">
+                            <svg viewBox="0 0 207.027 207.027">
+<path d="M69.866,15.557L0,138.919l28.732,52.552l143.288-0.029l35.008-59.588L136.39,15.735L69.866,15.557z M17.166,139.046
+	L74.268,38.205L91.21,67.783L33.24,168.447L17.166,139.046z M99.841,82.851l23.805,41.558l-47.732-0.006L99.841,82.851z
+	 M163.434,176.443l-117.332,0.024l21.53-37.065l64.606,0.008l0.067,0.119l52.865-0.085L163.434,176.443z M140.932,124.411
+	L90.157,35.767l-2.966-5.178l40.751,0.121l57.003,93.706L140.932,124.411z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>working groups</span>
+                        <a title="If you'd like to contribute to the Istio project, consider participating in our working groups"
+                           href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" aria-label="working groups">
+                            <svg viewBox="0 -45 439.833 439.833">
+
+<polygon points="246.048,195.833 299.966,235.085 319.497,227.296 276.278,195.833"/>
+<polygon points="193.786,195.833 163.556,195.833 120.33,227.3 139.862,235.089"/>
+
+<path d="M219.927,11.558c-23.854,0-37.057,12.362-36.814,36.182c0.348,32.623,14.211,52.414,36.814,52.068
+	c0,0,36.802,1.492,36.802-52.068C256.729,23.918,244.294,11.558,219.927,11.558z"/>
+<path d="M285.017,124.567l-36.77-14.659l-8.608-7.256c-2.274-1.922-5.636-1.78-7.741,0.317l-11.973,11.904l-12.008-11.907
+	c-2.109-2.094-5.465-2.229-7.736-0.313l-8.611,7.256l-36.77,14.661c-11.842,4.715-11.83,46.647-12.848,50.497h155.93
+	C296.866,171.228,296.862,129.28,285.017,124.567z"/>
+
+<path d="M77.976,228.568c0,0,36.801,1.492,36.801-52.068c0-23.82-12.434-36.182-36.801-36.182
+	c-23.854,0-37.057,12.362-36.814,36.182C41.509,209.124,55.372,228.915,77.976,228.568z"/>
+<path d="M143.065,253.329l-36.77-14.658l-8.609-7.256c-2.275-1.923-5.635-1.781-7.742,0.315l-11.971,11.904l-12.008-11.908
+	c-2.109-2.094-5.465-2.229-7.736-0.312l-8.611,7.256l-36.77,14.66C1.006,258.045,1.018,299.977,0,303.827h155.93
+	C154.915,299.988,154.911,258.042,143.065,253.329z"/>
+
+<path d="M361.878,228.568c0,0,36.801,1.492,36.801-52.068c0-23.82-12.434-36.182-36.801-36.182
+	c-23.854,0-37.057,12.362-36.812,36.182C325.411,209.124,339.274,228.915,361.878,228.568z"/>
+<path d="M426.968,253.329l-36.77-14.658l-8.609-7.256c-2.273-1.923-5.635-1.781-7.742,0.315l-11.971,11.904l-12.008-11.908
+	c-2.109-2.094-5.465-2.229-7.736-0.312l-8.61,7.256l-36.771,14.66c-11.842,4.715-11.83,46.646-12.848,50.497h155.93
+	C438.817,299.988,438.812,258.042,426.968,253.329z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>slack</span>
+                        <a title="Interactively discuss development issues with the Istio community on Slack (invitation-only)"
+                                href="https://istio.slack.com" aria-label="slack">
+                            <svg viewBox="0 0 31.444 31.443">
+<path d="M31.202,16.369c-0.62-1.388-2.249-2.011-3.637-1.391l-1.325,0.594l-3.396-7.591l1.325-0.592
+	c1.388-0.622,2.01-2.25,1.389-3.637c-0.62-1.389-2.248-2.012-3.637-1.39l-1.324,0.593l-0.593-1.326
+	c-0.621-1.388-2.249-2.009-3.637-1.388c-1.388,0.62-2.009,2.247-1.389,3.637l0.593,1.325L7.98,8.598L7.388,7.273
+	c-0.621-1.39-2.249-2.009-3.637-1.39C2.363,6.504,1.742,8.132,2.362,9.52l0.592,1.324L1.63,11.438
+	c-1.388,0.621-2.01,2.247-1.389,3.636c0.62,1.388,2.249,2.01,3.637,1.39l1.325-0.594l3.394,7.592l-1.325,0.592
+	c-1.388,0.621-2.009,2.25-1.389,3.637c0.621,1.389,2.249,2.011,3.637,1.391l1.324-0.593l0.593,1.325
+	c0.621,1.389,2.249,2.01,3.637,1.389c1.387-0.62,2.009-2.248,1.388-3.636l-0.591-1.326l7.591-3.394l0.592,1.321
+	c0.621,1.391,2.248,2.013,3.637,1.392c1.388-0.619,2.01-2.248,1.389-3.637l-0.592-1.324l1.323-0.594
+	C31.201,19.384,31.823,17.757,31.202,16.369z M13.623,21.215l-3.395-7.593l7.591-3.394l3.395,7.591L13.623,21.215z"/>
+</svg>
+
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tag row justify-content-end text-right">
+                    for developers
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+        <div class="d-xl-none d-print-none">
+            <button id="scroll-to-top" aria-hidden="true" onclick="scrollToTop()" title="Back to top"><i class="fa fa-lg fa-arrow-up"></i></button>
+        </div>
+
+        
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+        <script src="https://www.google.com/cse/brand?form=search_form"></script>
+
+        
+        <script src="/v0.8/js/all.min.js" data-manual></script>
+    </body>
+</html>

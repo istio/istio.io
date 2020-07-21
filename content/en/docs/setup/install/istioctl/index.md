@@ -3,6 +3,7 @@ title: Customizable Install with Istioctl
 description: Install and customize any Istio configuration profile for in-depth evaluation or production use.
 weight: 10
 keywords: [istioctl,kubernetes]
+owner: istio/wg-environments-maintainers
 test: no
 ---
 
@@ -40,15 +41,20 @@ using the following command:
 $ istioctl install
 {{< /text >}}
 
+{{< tip >}}
+Note that `istioctl install` and `istioctl manifest apply` are exactly the same command. In Istio 1.6, the simpler `install`
+command replaces `manifest apply`, which is deprecated and will be removed in 1.7.
+{{< /tip >}}
+
 This command installs the `default` profile on the cluster defined by your
 Kubernetes configuration. The `default` profile is a good starting point
 for establishing a production environment, unlike the larger `demo` profile that
 is intended for evaluating a broad set of Istio features.
 
-To enable the Grafana dashboard on top of the `default` profile, set the `addonComponents.grafana.enabled` configuration parameter with the following command:
+Various settings can be configured to modify the installations. For example, to enable access logs:
 
 {{< text bash >}}
-$ istioctl install --set addonComponents.grafana.enabled=true
+$ istioctl install --set meshConfig.accessLogFile=/dev/stdout
 {{< /text >}}
 
 In general, you can use the `--set` flag in `istioctl` as you would with
@@ -65,7 +71,7 @@ By default, `istioctl` uses compiled-in charts to generate the install manifest.
 the `charts` flag to a local file system path:
 
 {{< text bash >}}
-$ istioctl install --charts=manifests/
+$ istioctl install --manifests=manifests/
 {{< /text >}}
 
 If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the same installation as `istioctl install` alone, because it points to the
@@ -82,6 +88,13 @@ to install the `demo` profile:
 {{< text bash >}}
 $ istioctl install --set profile=demo
 {{< /text >}}
+
+## Check what's installed
+
+The `istioctl` command saves the `IstioOperator` CR that was used to install Istio in a copy of the CR named `installed-state`.
+You can inspect this CR if you lose track of what is installed in a cluster.
+
+The `installed-state` CR is also used to perform checks in some `istioctl` commands and should therefore not be removed.
 
 ## Display the list of available profiles
 
@@ -106,15 +119,6 @@ run the following command:
 
 {{< text bash >}}
 $ istioctl profile dump demo
-addonComponents:
-  grafana:
-    enabled: true
-  kiali:
-    enabled: true
-  prometheus:
-    enabled: true
-  tracing:
-    enabled: true
 components:
   egressGateways:
   - enabled: true
@@ -182,28 +186,40 @@ $ istioctl profile diff default demo
 ## Generate a manifest before installation
 
 You can generate the manifest before installing Istio using the `manifest generate`
-sub-command, instead of `istioctl install`.
+sub-command.
 For example, use the following command to generate a manifest for the `default` profile:
 
 {{< text bash >}}
 $ istioctl manifest generate > $HOME/generated-manifest.yaml
 {{< /text >}}
 
-Inspect the manifest as needed, then apply the manifest using this command:
+The generated manifest can be used to inspect what exactly is installed as well as to track changes to the manifest
+over time. While the `IstioOperator` CR represents the full user configuration and is sufficient for tracking it,
+the output from `manifest generate` also captures possible changes in the underlying charts and therefore can be
+used to track the actual installed resources.
 
-{{< text bash >}}
-$ kubectl create ns istio-system
-$ kubectl apply -f $HOME/generated-manifest.yaml
-{{< /text >}}
+The output from `manifest generate` can also be used to install Istio using `kubectl apply` or equivalent. However,
+these alternative installation methods may not apply the resources with the same sequencing of dependencies as
+`istioctl install` and are not tested in an Istio release.
 
 {{< warning >}}
-While `istioctl install` will automatically detect environment specific settings from your Kubernetes context, `manifest generate` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your Kubernetes environment does not support third party service account tokens.
-{{< /warning >}}
+If attempting to install and manage Istio using `istioctl manifest generate`, please note the following caveats:
 
-{{< tip >}}
-This command might show transient errors due to resources not being available in
-the cluster in the correct order.
-{{< /tip >}}
+1. The Istio namespace (`istio-system` by default) must be created manually.
+
+1. While `istioctl install` will automatically detect environment specific settings from your Kubernetes context,
+`manifest generate` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure
+that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
+Kubernetes environment does not support third party service account tokens.
+
+1. `kubectl apply` of the generated manifest may show transient errors due to resources not being available in the
+cluster in the correct order.
+
+1. `istioctl install` automatically prunes any resources that should be removed when the configuration changes (e.g.
+if you remove a gateway). This does not happen when you use `istio manifest generate` with `kubectl` and these
+resources must be removed manually.
+
+{{< /warning >}}
 
 ## Show differences in manifests
 
@@ -304,36 +320,11 @@ The `IstioOperator` API defines components as shown in the table below:
 `base` |
 `pilot` |
 `proxy` |
-`sidecarInjector` |
 `telemetry` |
 `policy` |
-`citadel` |
-`nodeagent` |
-`galley` |
 `ingressGateways` |
 `egressGateways` |
 `cni` |
-
-In addition to the core Istio components, third-party addon components are also available. These can
-be enabled and configured through the `addonComponents` spec of the `IstioOperator` API or using the Helm pass-through API:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  addonComponents:
-    grafana:
-      enabled: true
-{{< /text >}}
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    grafana:
-      enabled: true
-{{< /text >}}
 
 ### Configure component settings
 
@@ -539,10 +530,10 @@ consistent, is validated, and follows the [community graduation process](https:/
 The `istioctl` `install`, `manifest generate` and `profile` commands can use any of the following sources for charts and
 profiles:
 
-- compiled in charts. This is the default if no `--charts` option is set. The compiled in charts are the same as those
+- compiled in charts. This is the default if no `--manifests` option is set. The compiled in charts are the same as those
 in the `manifests/` directory of the Istio release `.tgz`.
-- charts in the local file system, e.g., `istioctl install --charts istio-1.6.0/manifests`
-- charts in GitHub, e.g., `istioctl install --charts https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-arm64.tar.gz`
+- charts in the local file system, e.g., `istioctl install --manifests istio-1.6.0/manifests`
+- charts in GitHub, e.g., `istioctl install --manifests https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-arm64.tar.gz`
 
 Local file system charts and profiles can be customized by editing the files in `manifests/`. For extensive changes,
 we recommend making a copy of the `manifests` directory and make changes there. Note, however, that the content layout
@@ -555,7 +546,7 @@ overlays are applied. For example, you can create a new profile file called `cus
 from the `default` profile, and then apply a user overlay file on top of that:
 
 {{< text bash >}}
-$ istioctl generate --charts mycharts/ --set profile=custom1 -f path-to-user-overlay.yaml
+$ istioctl generate --manifests mycharts/ --set profile=custom1 -f path-to-user-overlay.yaml
 {{< /text >}}
 
 In this case, the `custom1.yaml` and `user-overlay.yaml` files will be overlaid on the `default.yaml` file to obtain the
@@ -565,7 +556,7 @@ In general, creating new profiles is not necessary since a similar result can be
 files. For example, the command above is equivalent to passing two user overlay files:
 
 {{< text bash >}}
-$ istioctl generate --charts mycharts/ -f manifests/profiles/custom1.yaml -f path-to-user-overlay.yaml
+$ istioctl generate --manifests mycharts/ -f manifests/profiles/custom1.yaml -f path-to-user-overlay.yaml
 {{< /text >}}
 
 Creating a custom profile is only required if you need to refer to the profile by name through the `IstioOperatorSpec`.

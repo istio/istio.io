@@ -2,6 +2,7 @@
 title: Configuration Status Field
 description: Describes the role of the `status` field in configuration workflow.
 weight: 21
+owner: istio/wg-user-experience-maintainers
 test: no
 ---
 

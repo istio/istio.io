@@ -4,6 +4,7 @@ description: Instructions to setup kind for Istio.
 weight: 30
 skip_seealso: true
 keywords: [platform-setup,kubernetes,kind]
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

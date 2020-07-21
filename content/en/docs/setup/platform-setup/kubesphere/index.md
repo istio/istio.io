@@ -4,6 +4,7 @@ description: Instructions to setup a KubeSphere Container Platform for Istio.
 weight: 40
 skip_seealso: true
 keywords: [platform-setup,kubesphere,kubernetes]
+owner: istio/wg-environments-maintainers
 test: no
 ---
 

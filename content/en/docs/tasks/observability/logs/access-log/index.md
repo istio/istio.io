@@ -6,7 +6,8 @@ keywords: [telemetry]
 aliases:
     - /docs/tasks/telemetry/access-log
     - /docs/tasks/telemetry/logs/access-log/
-test: no
+owner: istio/wg-policies-and-telemetry-maintainers
+test: yes
 ---
 
 The simplest kind of Istio logging is
@@ -28,18 +29,11 @@ In the example below, replace `demo` with the name of the profile you used when 
 
 {{< text bash >}}
 $ istioctl install --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"
-- Applying manifest for component Base...
-✔ Finished applying manifest for component Base.
-- Applying manifest for component Pilot...
-✔ Finished applying manifest for component Pilot.
-- Applying manifest for component EgressGateways...
-- Applying manifest for component IngressGateways...
-- Applying manifest for component AddonComponents...
-✔ Finished applying manifest for component EgressGateways.
-✔ Finished applying manifest for component IngressGateways.
-✔ Finished applying manifest for component AddonComponents.
-
-
+...
+- Processing resources for Istiod.
+✔ Istiod installed
+...
+- Pruning removed resources
 ✔ Installation complete
 {{< /text >}}
 
@@ -61,17 +55,11 @@ All three of these parameters may also be configured via [install options](https
 1.  Send a request from `sleep` to `httpbin`:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -v httpbin:8000/status/418
-    *   Trying 172.21.13.94...
-    * TCP_NODELAY set
-    * Connected to httpbin (172.21.13.94) port 8000 (#0)
-    > GET /status/418 HTTP/1.1
-
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -v httpbin:8000/status/418
     ...
     < HTTP/1.1 418 Unknown
     < server: envoy
     ...
-
         -=[ teapot ]=-
 
            _...._
@@ -81,7 +69,6 @@ All three of these parameters may also be configured via [install options](https
           |       ;/
           \_     _/
             `"""`
-    * Connection #0 to host httpbin left intact
     {{< /text >}}
 
 1.  Check `sleep`'s log:

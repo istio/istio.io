@@ -25,7 +25,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"istio.io/istio/pkg/test/framework/resource/environment"
 	"istio.io/istio/pkg/test/scopes"
 	"istio.io/pkg/log"
 )
@@ -68,25 +67,13 @@ type Script struct {
 
 func (s Script) run(ctx Context) {
 	input := s.Input.SelectInput(ctx)
-	content, err := input.ReadAll()
+	command, err := input.ReadAll()
 	if err != nil {
 		ctx.Fatalf("failed reading command input %s: %v", input.Name(), err)
 	}
 
-	// Generate the body of the command.
-	commandLines := []string{"source ${REPO_ROOT}/tests/util/verify.sh"}
-	commandLines = append(commandLines, "source ${REPO_ROOT}/tests/util/debug.sh",
-		"source ${REPO_ROOT}/tests/util/helpers.sh")
-	lines := strings.Split(content, "\n")
-	for index := 0; index < len(lines); index++ {
-		commandLines = append(commandLines, lines[index])
-	}
-
-	// Merge the command lines together.
-	command := strings.TrimSpace(strings.Join(commandLines, "\n"))
-
 	// Now run the command...
-	scopes.CI.Infof("Running command script %s", input.Name())
+	scopes.Framework.Infof("Running command script %s", input.Name())
 
 	// Copy the command to workDir.
 	_, fileName := filepath.Split(input.Name())
@@ -154,9 +141,9 @@ func (s Script) getEnv(ctx Context, fileName string) []string {
 		testOutputDirEnvVar: ctx.WorkDir(),
 	}
 	customVars[testDebugFile] = fileName + "_debug.txt"
-	ctx.Environment().Case(environment.Kube, func() {
-		customVars[kubeConfigEnvVar] = ctx.KubeEnv().Settings().KubeConfig[0]
-	})
+
+	customVars[kubeConfigEnvVar] = ctx.KubeEnv().Settings().KubeConfig[0]
+
 	for k, v := range s.Env {
 		customVars[k] = v
 	}

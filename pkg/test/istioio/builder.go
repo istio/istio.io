@@ -19,9 +19,8 @@ import (
 	"path"
 
 	"istio.io/istio/pkg/test/env"
-	"istio.io/istio/pkg/test/scopes"
-
 	"istio.io/istio/pkg/test/framework"
+	"istio.io/istio/pkg/test/scopes"
 )
 
 // Step builds a step of the test pipeline.
@@ -53,15 +52,10 @@ func (b *Builder) Defer(steps ...Step) *Builder {
 	return b
 }
 
-// BuildAndRun is a utility method for building and running the test function in one step.
-func (b *Builder) BuildAndRun(ctx framework.TestContext) {
-	b.Build()(ctx)
-}
-
 // Build a run function for the test
 func (b *Builder) Build() func(ctx framework.TestContext) {
 	return func(ctx framework.TestContext) {
-		scopes.CI.Infof("Executing test %s (%d steps)", ctx.Name(), len(b.steps))
+		scopes.Framework.Infof("Executing test %s (%d steps)", ctx.Name(), len(b.steps))
 
 		eCtx := Context{
 			TestContext: ctx,
@@ -72,7 +66,7 @@ func (b *Builder) Build() func(ctx framework.TestContext) {
 		if _, err := os.Stat(samplesSymlink); os.IsNotExist(err) {
 			err = os.Symlink(path.Join(env.IstioSrc, "samples"), samplesSymlink)
 			if err != nil {
-				scopes.CI.Warnf("Could not create symlink to samples/ directory at %s", samplesSymlink)
+				scopes.Framework.Warnf("Could not create symlink to samples/ directory at %s", samplesSymlink)
 			} else {
 				defer func() {
 					_ = os.Remove(samplesSymlink)

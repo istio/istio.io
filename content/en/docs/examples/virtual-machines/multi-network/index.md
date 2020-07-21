@@ -11,6 +11,7 @@ keywords:
 aliases:
 - /docs/examples/mesh-expansion/multi-network
 - /docs/tasks/virtual-machines/multi-network
+owner: istio/wg-environments-maintainers
 test: no
 ---
 
@@ -43,7 +44,7 @@ following commands on a machine with cluster admin privileges:
 
     {{< text bash >}}
     $ istioctl install \
-       -f install/kubernetes/operator/examples/vm/values-istio-meshexpansion.yaml
+       -f manifests/examples/vm/values-istio-meshexpansion.yaml
     {{< /text >}}
 
 ### Setting up the VM

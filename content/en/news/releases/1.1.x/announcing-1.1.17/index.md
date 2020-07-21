@@ -8,7 +8,6 @@ release: 1.1.17
 aliases:
     - /news/2019/announcing-1.1.7
     - /news/announcing-1.1.7
-test: n/a
 ---
 
 We're pleased to announce the availability of Istio 1.1.17.  This will be the last 1.1.x patch release.  Please see below for what's changed.

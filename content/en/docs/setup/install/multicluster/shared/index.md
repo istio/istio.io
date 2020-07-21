@@ -10,6 +10,7 @@ aliases:
     - /docs/examples/multicluster/split-horizon-eds/
     - /docs/tasks/multicluster/split-horizon-eds/
     - /docs/setup/kubernetes/install/multicluster/shared-gateways/
+owner: istio/wg-environments-maintainers
 test: no
 ---
 
@@ -482,7 +483,7 @@ ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER
 {{< /text >}}
 
 In the remote cluster, the endpoints are the gateway IP of the main cluster (`192.168.1.246:443`) and
-the pod IP in the main cluster (`10.32.0.9:5000`).
+the pod IP in the remote cluster (`10.32.0.9:5000`).
 
 **Congratulations!**
 

@@ -3,6 +3,7 @@ title: Classifying Metrics Based on Request or Response (Experimental)
 description: This task shows you how to improve telemetry by grouping requests and responses by their type. 
 weight: 27
 keywords: [telemetry,metrics,classify,request-based,openapispec,swagger]
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
@@ -37,8 +38,6 @@ the `EnvoyFilter` at
 [`manifests/charts/istio-control/istio-discovery/templates/telemetryv2_1.6.yaml`]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_1.6.yaml).
 As a result, writing classification rules involves adding attributes to the
 `EnvoyFilter`.
-
-For more information, see [configuration reference](/docs/reference/config/telemetry/).
 
 ## Classify metrics by request
 

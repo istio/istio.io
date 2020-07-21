@@ -5,6 +5,7 @@ weight: 31
 keywords: [traffic-management,tcp-traffic-shifting]
 aliases:
     - /docs/tasks/traffic-management/tcp-version-migration.html
+owner: istio/wg-networking-maintainers
 test: yes
 ---
 

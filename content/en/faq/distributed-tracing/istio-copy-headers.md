@@ -1,7 +1,6 @@
 ---
 title: Why can't Istio propagate headers instead of the application?
 weight: 20
-test: n/a
 ---
 
 Although an Istio sidecar will process both inbound and outbound requests for an associated application instance, it has no implicit way of correlating

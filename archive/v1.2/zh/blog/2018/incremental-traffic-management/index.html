@@ -1,0 +1,144 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content=#466BB0><meta name=title content="增量式应用 Istio 第一部分，流量管理"><meta name=description content="如何在不部署 Sidecar 代理的情况下使用 Istio 进行流量管理。"><meta name=author content="Sandeep Parikh"><meta name=keywords content=microservices,services,mesh,traffic-management,gateway><meta property=og:title content="增量式应用 Istio 第一部分，流量管理"><meta property=og:type content=website><meta property=og:description content="如何在不部署 Sidecar 代理的情况下使用 Istio 进行流量管理。"><meta property=og:url content=/v1.2/zh/blog/2018/incremental-traffic-management/><meta property=og:image content=/v1.2/img/istio-whitelogo-bluebackground-framed.svg><meta property=og:image:alt content="Istio Logo"><meta property=og:image:width content=112><meta property=og:image:height content=150><meta property=og:site_name content=Istio><meta name=twitter:card content=summary><meta name=twitter:site content=@IstioMesh><meta name=twitter:creator content=@crcsmnky><title>Istioldie 1.2 / 增量式应用 Istio 第一部分，流量管理</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-98480406-2');</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.2/feed.xml><link rel="shortcut icon" href=/v1.2/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.2/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.2/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.2/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.2/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.2/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.2/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.2/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.2/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.2/favicons/android-192x192.png sizes=192x192><link rel=manifest href=/v1.2/manifest.json><meta name=apple-mobile-web-app-title content=Istio><meta name=application-name content=Istio><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Work+Sans:400|Chivo:400|Work+Sans:500,300,600,300italic,400italic,500italic,600italic|Chivo:500,300,600,300italic,400italic,500italic,600italic"><link rel=stylesheet href=/v1.2/css/all.css><script src=/v1.2/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.2";const docTitle="增量式应用 Istio 第一部分，流量管理";const iconFile="\/v1.2/img/icons.svg";const buttonCopy='复制到剪切板';const buttonPrint='打印';const buttonDownload='下载';</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script><script src=/v1.2/js/all.min.js data-manual defer></script><header><nav><a id=brand href=/v1.2/zh/><span class=logo><svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="146" stroke-width="2" /><path d="M65 240H225L125 270z"/><path d="M65 230l60-10V110z"/><path d="M135 220l90 10L135 30z"/></svg></span><span class=name>Istioldie 1.2</span></a><div id=hamburger><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#hamburger"/></svg></div><div id=header-links><a title="了解如何部署、使用和运维 Istio。" href=/v1.2/zh/docs/>文档</a>
+<span title="关于使用 Istio 的博客文章。">博客</span>
+<a title=关于Istio的常见问题。 href=/v1.2/zh/faq/>FAQ</a>
+<a title=关于Istio的说明。 href=/v1.2/zh/about/>关于</a><div class=menu><button id=gearDropdownButton class=menu-trigger title=选项和设置 aria-label="Options and Settings" aria-controls=gearDropdownContent><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#gear"/></svg></button><div id=gearDropdownContent class=menu-content aria-labelledby=gearDropdownButton role=menu><a tabindex=-1 role=menuitem lang=en id=switch-lang-en>English</a>
+<a tabindex=-1 role=menuitem lang=zh id=switch-lang-zh class=active>中文</a><div role=separator></div><a tabindex=-1 role=menuitem class=active id=light-theme-item>亮主题</a>
+<a tabindex=-1 role=menuitem id=dark-theme-item>暗主题</a><div role=separator></div><a tabindex=-1 role=menuitem id=syntax-coloring-item>代码高亮</a><div role=separator></div><h6>本站的其它版本</h6><a tabindex=-1 role=menuitem onclick="navigateToUrlOrRoot('https://istio.io/blog\/2018\/incremental-traffic-management\/');return false;">当前版本</a>
+<a tabindex=-1 role=menuitem onclick="navigateToUrlOrRoot('https://preliminary.istio.io/blog\/2018\/incremental-traffic-management\/');return false;">下个版本</a>
+<a tabindex=-1 role=menuitem href=https://archive.istio.io>旧版本</a></div></div><button id=search-show title=搜索istio.io aria-label=Search><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#magnifier"/></svg></button></div><form id=search-form name=cse role=search><input type=hidden name=cx value=013699703217164175118:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=en>
+<input type=hidden id=search-page-url value=/v1.2/search.html>
+<input id=search-textbox class=form-control name=q type=search aria-label=搜索istio.io>
+<button id=search-close title="Cancel search" type=reset aria-label="Cancel search"><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#cancel-x"/></svg></button></form></nav></header><main class=primary><div id=sidebar-container class="sidebar-container sidebar-offcanvas"><nav id=sidebar aria-label="Section Navigation"><div class=directory><div class=card><button class="header dynamic" id=card0 title="2019 年的博客文章。" aria-controls=card0-body><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#blog"/></svg>2019 年的博客文章</button><div class=body aria-labelledby=card0 role=region id=card0-body><ul role=tree aria-expanded=true class=leaf-section aria-labelledby=card0><li role=none><a role=treeitem title="Istio 1.1.3。" href=/v1.2/zh/blog/2019/announcing-1.1.3/>安全更新：发布 Istio 1.1.3</a></li><li role=none><a role=treeitem title="Istio 1.0.7 的补丁版本。" href=/v1.2/zh/blog/2019/announcing-1.0.7/>安全更新：发布 Istio 1.0.7</a></li><li role=none><a role=treeitem title="Istio 1.1.2 的补丁版本。" href=/v1.2/zh/blog/2019/announcing-1.1.2/>安全更新：发布 Istio 1.1.2</a></li><li role=none><a role=treeitem title="Istio 1.1 发布声明。" href=/v1.2/zh/blog/2019/announcing-1.1/>宣布 Istio 1.1 发布</a></li><li role=none><a role=treeitem title="Istio 1.1 性能概览." href=/v1.2/zh/blog/2019/istio1.1_perf/>面向性能而架构的 Istio 1.1</a></li><li role=none><a role=treeitem title="Istio 1.0.6 补丁版本。" href=/v1.2/zh/blog/2019/announcing-1.0.6/>Istio 1.0.6 发布</a></li><li role=none><a role=treeitem title="在多集群服务网格环境中配置 Istio 的路由规则。" href=/v1.2/zh/blog/2019/multicluster-version-routing/>多集群服务网格中的分版本路由</a></li><li role=none><a role=treeitem title=宣布新的博客策略。 href=/v1.2/zh/blog/2019/sail-the-blog/>博客策略更新</a></li><li role=none><a role=treeitem title="评估加入 Egress gateway 对性能造成的影响。" href=/v1.2/zh/blog/2019/egress-performance/>Egress gateway 性能测试</a></li><li role=none><a role=treeitem title="Istio 将数据面组件注入到现存部署之中的过程。" href=/v1.2/zh/blog/2019/data-plane-setup/>Istio Sidecar 注入过程解密</a></li><li role=none><a role=treeitem title="使用 AppSwitch 解决应用程序启动顺序和启动延迟。" href=/v1.2/zh/blog/2019/appswitch/>使用 AppSwitch 进行 Sidestepping 依赖性排序</a></li><li role=none><a role=treeitem title="如何使用 cert-manager 手工部署一个自定义 Ingress 网关。" href=/v1.2/zh/blog/2019/custom-ingress-gateway/>使用 Cert-Manager 部署一个自定义 Ingress 网关</a></li><li role=none><a role=treeitem title="Istio 推出新的讨论板。" href=/v1.2/zh/blog/2019/announcing-discuss.istio.io/>宣布 discuss.istio.io</a></li></ul></div></div><div class=card><button class="header dynamic" id=card1 title="2017 年的博客文章。" aria-controls=card1-body><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#blog"/></svg>2017 年的博客文章</button><div class=body aria-labelledby=card1 role=region id=card1-body><ul role=tree aria-expanded=true class=leaf-section aria-labelledby=card1><li role=none><a role=treeitem title=提高可用，降低延迟。 href=/v1.2/zh/blog/2017/mixer-spof-myth/>Mixer 和 SPOF 神话</a></li><li role=none><a role=treeitem title="概要说明 Mixer 的插件架构。" href=/v1.2/zh/blog/2017/adapter-model/>Mixer 适配器模型</a></li><li role=none><a role=treeitem title="Istio 0.2 公告。" href=/v1.2/zh/blog/2017/0.2-announcement/>宣布 Istio 0.2</a></li><li role=none><a role=treeitem title="Istio 的策略如何关联 Kubernetes 的网络策略 。" href=/v1.2/zh/blog/2017/0.1-using-network-policy/>Istio 使用网络策略</a></li><li role=none><a role=treeitem title="使用 Istio 创建自动缩放的金丝雀部署。" href=/v1.2/zh/blog/2017/0.1-canary/>使用 Istio 进行金丝雀部署</a></li><li role=none><a role=treeitem title="Istio Auth 0.1 公告。" href=/v1.2/zh/blog/2017/0.1-auth/>使用 Istio 增强端到端安全</a></li><li role=none><a role=treeitem title="Istio 0.1 宣布。" href=/v1.2/zh/blog/2017/0.1-announcement/>初次了解 Istio</a></li></ul></div></div><div class=card><button class="header dynamic" id=card2 title="2018 年的博客文章。" aria-controls=card2-body><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#blog"/></svg>2018 年的博客文章</button><div class="body default" aria-labelledby=card2 role=region id=card2-body><ul role=tree aria-expanded=true class=leaf-section aria-labelledby=card2><li role=none><a role=treeitem title="Istio 1.0.5 补丁版本发布。" href=/v1.2/zh/blog/2018/announcing-1.0.5/>Istio 1.0.5 发布</a></li><li role=none><a role=treeitem title="Istio 1.0.4 补丁版本发布。" href=/v1.2/zh/blog/2018/announcing-1.0.4/>Istio 1.0.4 发布</a></li><li role=none><span role=treeitem class=current title="如何在不部署 Sidecar 代理的情况下使用 Istio 进行流量管理。">增量式应用 Istio 第一部分，流量管理</span></li><li role=none><a role=treeitem title="描述了一个基于 Istio 的 Bookinfo 示例的简单场景。" href=/v1.2/zh/blog/2018/egress-mongo/>使用外部 MongoDB 服务</a></li><li role=none><a role=treeitem title="Istio 1.0.3 修补版本。" href=/v1.2/zh/blog/2018/announcing-1.0.3/>宣布 Istio 1.0.3</a></li><li role=none><a role=treeitem title="Istio 1.0.2 补丁版本." href=/v1.2/zh/blog/2018/announcing-1.0.2/>Istio 1.0.2 发布</a></li><li role=none><a role=treeitem title="Istio 1.0.1 补丁版本。" href=/v1.2/zh/blog/2018/announcing-1.0.1/>Istio 1.0.1 发布</a></li><li role=none><a role=treeitem title="Istio 在 Twitch 举办了为期一天的直播庆祝 1.0 的发布。" href=/v1.2/zh/blog/2018/istio-twitch-stream/>Istio 在 Twitch 上全天直播</a></li><li role=none><a role=treeitem title="惠普如何在 Istio 上构建其下一代鞋类个性化平台。" href=/v1.2/zh/blog/2018/hp/>Istio 是惠普 FitStation 平台的改变者</a></li><li role=none><a role=treeitem title="Istio 1.0 已生产就绪。" href=/v1.2/zh/blog/2018/announcing-1.0/>宣布 Istio 1.0</a></li><li role=none><a role=treeitem title="使用 AppSwitch 自动接入应用并降低延迟。" href=/v1.2/zh/blog/2018/delayering-istio/>使用 AppSwitch 精简 Istio 层次</a></li><li role=none><a role=treeitem title="描述 Istio 的授权功能以及如何在各种用例中使用它。" href=/v1.2/zh/blog/2018/istio-authorization/>基于 Istio 的 Micro-Segmentation 授权</a></li><li role=none><a role=treeitem title="如何通过 Stackdriver 将 Istio 访问日志导出到 BigQuery、GCS、Pub/Sub 等不同的接收器。" href=/v1.2/zh/blog/2018/export-logs-through-stackdriver/>通过 Stackdriver 将日志导出到 BigQuery、GCS、Pub/Sub</a></li><li role=none><a role=treeitem title="描述如何配置 Istio 进行 HTTP Egress 流量监控和访问策略。" href=/v1.2/zh/blog/2018/egress-monitoring-access-control/>HTTP Egress 流量监控和访问策略</a></li><li role=none><a role=treeitem title="Istio v1alpha3 路由 API 介绍,动机及其设计原则。" href=/v1.2/zh/blog/2018/v1alpha3-routing/>Istio v1aplha3 路由 API 介绍</a></li><li role=none><a role=treeitem title="描述如何在AWS上使用网络负载均衡器配置 Istio Ingress。" href=/v1.2/zh/blog/2018/aws-nlb/>使用AWS NLB 配置 Istio Ingress</a></li><li role=none><a role=treeitem title="使用 Kubernetes 命名空间和 RBAC 为 Istio 构建软性多租户环境。" href=/v1.2/zh/blog/2018/soft-multitenancy/>Istio 的软性多租户支持</a></li><li role=none><a role=treeitem title=介绍更安全，低风险的部署和发布到生产。 href=/v1.2/zh/blog/2018/traffic-mirroring/>用于在生产环境进行测试的 Istio 流量镜像功能</a></li><li role=none><a role=treeitem title="描述基于 Istio 的 Bookinfo 示例的简单场景。" href=/v1.2/zh/blog/2018/egress-tcp/>使用外部 TCP 服务</a></li><li role=none><a role=treeitem title="描述基于 Istio Bookinfo 示例的简单场景。" href=/v1.2/zh/blog/2018/egress-https/>使用外部 Web 服务</a></li></ul></div></div></div></nav></div><div class=article-container><button tabindex=-1 id=sidebar-toggler title=折叠导航栏><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#pull"/></svg></button><nav aria-label=Breadcrumb><ol><li><a href=/v1.2/zh/>Istio</a></li><li><a href=/v1.2/zh/blog/ title="关于使用 Istio 的博客文章。">博客</a></li><li><a href=/v1.2/zh/blog/2018/ title="2018 年的博客文章。">2018 年的博客文章</a></li><li>增量式应用 Istio 第一部分，流量管理</li></ol></nav><article aria-labelledby=title><div class=title-area><div><h1 id=title>增量式应用 Istio 第一部分，流量管理</h1><p class=byline><span>作者</span>
+<span class=attribution>Sandeep Parikh</span>(<a href=https://twitter.com/crcsmnky>@crcsmnky</a>)<span> | </span><span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#calendar"/></svg><span>&nbsp;</span>2018年11月21日</span><span> | </span><span title="598 字"><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#clock"/></svg><span>&nbsp;</span>阅读大约需要 3 分钟</span></p></div></div><nav class=toc-inlined aria-label="Table of Contents"><div><hr><ol><li role=none aria-label="设置：为什么要实施 Istio 流量管理功能？"><a href=#%e8%ae%be%e7%bd%ae-%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%ae%9e%e6%96%bd-istio-%e6%b5%81%e9%87%8f%e7%ae%a1%e7%90%86%e5%8a%9f%e8%83%bd>设置：为什么要实施 Istio 流量管理功能？</a><li role=none aria-label="背景：Istio 网格中的流量路由"><a href=#%e8%83%8c%e6%99%af-istio-%e7%bd%91%e6%a0%bc%e4%b8%ad%e7%9a%84%e6%b5%81%e9%87%8f%e8%b7%af%e7%94%b1>背景：Istio 网格中的流量路由</a><li role=none aria-label="实践：Istio 流量路由"><a href=#%e5%ae%9e%e8%b7%b5-istio-%e6%b5%81%e9%87%8f%e8%b7%af%e7%94%b1>实践：Istio 流量路由</a><li role=none aria-label=测试您的部署><a href=#%e6%b5%8b%e8%af%95%e6%82%a8%e7%9a%84%e9%83%a8%e7%bd%b2>测试您的部署</a><li role=none aria-label=相关内容><a href=#see-also>相关内容</a></li></ol><hr></div></nav><p>流量管理是 Istio 提供的重要优势之一。Istio 流量管理的核心是在将通信流量和基础设施的伸缩进行解耦。如果没有 Istio 这样的服务网格，这种流量控制方式是不可能实现的。</p><p>例如，您希望执行一次<a href=https://martinfowler.com/bliki/CanaryRelease.html>金丝雀发布</a>。当使用 Istio 时，您可以指定 service 的 <strong>v1</strong> 版本接收 90% 的传入流量，而该 service <strong>v2</strong> 版本仅接收 10%。如果使用标准的 Kubernetes deployment，实现此目的的唯一方法是手动控制每个版本的可用 Pod 数量，例如使 9 个 Pod 运行 v1 版本，使 1 个 Pod 运行 v2 版本。这种类型的手动控制难以实现，并且随着时间的推移可能无法扩展。有关更多信息，请查看<a href=/v1.2/zh/blog/2017/0.1-canary/>使用 Istio 进行金丝雀发布</a>。</p><p>部署现有 service 的更新时存在同样的问题。虽然您可以使用 Kubernetes 更新 deployment，但它需要将 v1 Pod 替换为 v2 Pod。使用 Istio，您可以部署 service 的 v2 版本，并使用内置流量管理机制在网络层面将流量转移到更新后的 service，然后删除 v1 版本的 Pod。</p><p>除了金丝雀发布和一般流量转移之外，Istio 还使您能够实现动态请求路由（基于 HTTP header）、故障恢复、重试、断路器和故障注入。有关更多信息，请查看<a href=/v1.2/zh/docs/concepts/traffic-management/>流量管理文档</a>。</p><p>这篇文章介绍的技术重点突出了一种特别有用的方法，可以逐步实现 Istio（在这种情况下，只有流量管理功能），而无需单独更新每个 Pod。</p><h2 id=设置-为什么要实施-istio-流量管理功能>设置：为什么要实施 Istio 流量管理功能？</h2><p>当然，第一个问题是：为什么要这样做？</p><p>如果你是众多拥有大量团队和大型集群的组织中的一员，那么答案是很清楚的。假设 A 团队正在开始使用 Istio，并希望在 service A 上开始一些金丝雀发布，但是 B 团队还没有开始使用 Istio，所以他们没有部署 sidecar。</p><p>使用 Istio，A 团队仍然可以让 service B 通过 Istio 的 ingress gateway 调用 service A 来实现他们的金丝雀发布。</p><h2 id=背景-istio-网格中的流量路由>背景：Istio 网格中的流量路由</h2><p>但是，如何在不更新每个应用程序的 Pod 的情况下，使用 Istio 的流量管理功能来包含 Istio sidecar？在回答这个问题之前，让我们以高层视角，快速地看看流量如何进入 Istio 网格以及如何被路由。</p><p>Pod 包含一个 sidecar 代理，该代理作为 Istio 网格的一部分，负责协调 Pod 的所有入站和出站流量。在 Istio 网格中，Pilot 负责将高级路由规则转换为配置并将它们传播到 sidecar 代理。这意味着当服务彼此通信时，它们的路由决策是由客户端确定的。</p><p>假设您有 service A 和 service B 两个服务，他们是 Istio 网格的一部分。当 A 想要与 B 通信时，Pod A 的 sidecar 代理负责将流量引导到 service B。例如，如果你希望到 service B v1 版本和 v2 版本之间的流量按 <sup>50</sup>&frasl;<sub>50</sub> 分割，流量将按如下方式流动：</p><figure style=width:60%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:42.66666666666667%><a data-skipendnotes=true href=/v1.2/blog/2018/incremental-traffic-management/./fifty-fifty.png title="50/50 流量分割"><img class=element-to-stretch src=/v1.2/blog/2018/incremental-traffic-management/./fifty-fifty.png alt="50/50 流量分割"></a></div><figcaption>50/50 流量分割</figcaption></figure><p>如果 service A 和 B 不是 Istio 网格的一部分，则没有 sidecar 代理知道如何将流量路由到 service B 的不同版本。在这种情况下，您需要使用另一种方法来使 service A 到 service B 的流量遵循您设置的 <sup>50</sup>&frasl;<sub>50</sub> 规则。</p><p>幸运的是，标准的 Istio 部署已经包含了一个 <a href=/v1.2/zh/docs/concepts/traffic-management/#gateway>Gateway</a>，它专门处理 Istio 网格之外的入口流量。此 Gateway 用于允许通过外部负载均衡器进入的集群外部入口流量；或来自 Kubernetes 集群，但在服务网格之外的入口流量。网关可以进行配置，对没有 Sidecar 支持的入口流量进行代理，引导流量进入相应的 Pod。这种方法允许您利用 Istio 的流量管理功能，其代价是通过入口网关的流量将产生额外的跃点。</p><figure style=width:60%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:54.83870967741935%><a data-skipendnotes=true href=/v1.2/blog/2018/incremental-traffic-management/./fifty-fifty-ingress-gateway.png title="使用 Ingress Gateway 的 50/50 流量分割"><img class=element-to-stretch src=/v1.2/blog/2018/incremental-traffic-management/./fifty-fifty-ingress-gateway.png alt="使用 Ingress Gateway 的 50/50 流量分割"></a></div><figcaption>使用 Ingress Gateway 的 50/50 流量分割</figcaption></figure><h2 id=实践-istio-流量路由>实践：Istio 流量路由</h2><p>一种实践的简单方法是首先按照<a href=/v1.2/zh/docs/setup/kubernetes/prepare/platform-setup/>平台设置</a>说明设置 Kubernetes 环境，然后使用 <a href=/v1.2/zh/docs/setup/kubernetes/install/helm/>Helm</a> 安装仅包含流量管理组件（ingress gateway、egress gateway、Pilot）的 Istio。下面的示例使用 <a href=https://cloud.google.com/gke>Google Kubernetes Engine</a>。</p><p>首先，<strong>安装并配置 <a href=/v1.2/zh/docs/setup/kubernetes/prepare/platform-setup/gke/>GKE</a></strong>：</p><pre><code class=language-bash data-expandlinks=true>$ gcloud container clusters create istio-inc --zone us-central1-f
+$ gcloud container clusters get-credentials istio-inc
+$ kubectl create clusterrolebinding cluster-admin-binding \
+   --clusterrole=cluster-admin \
+   --user=$(gcloud config get-value core/account)
+</code></pre><p>然后，<strong><a href=https://helm.sh/docs/securing_installation/>安装 Helm</a> 并<a href=/v1.2/zh/docs/setup/kubernetes/install/helm/>生成 Istio 最小配置安装</a></strong> &ndash; 只有流量管理组件：</p><pre><code class=language-bash data-expandlinks=true>$ helm template install/kubernetes/helm/istio \
+  --name istio \
+  --namespace istio-system \
+  --set security.enabled=false \
+  --set galley.enabled=false \
+  --set sidecarInjectorWebhook.enabled=false \
+  --set mixer.enabled=false \
+  --set prometheus.enabled=false \
+  --set pilot.sidecar=false &gt; istio-minimal.yaml
+</code></pre><p>然后<strong>创建 <code>istio-system</code> namespace 并部署 Istio</strong>：</p><pre><code class=language-bash data-expandlinks=true>$ kubectl create namespace istio-system
+$ kubectl apply -f istio-minimal.yaml
+</code></pre><p>然后，在没有 Istio sidecar 容器的前提下<strong>部署 Bookinfo 示例</strong>：</p><div><a data-skipendnotes=true style=display:none href=https://raw.githubusercontent.com/istio/istio/release-1.2/samples/bookinfo/platform/kube/bookinfo.yaml>Zip</a><pre><code class=language-bash data-expandlinks=true>$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+</code></pre></div><p>现在，<strong>配置一个新的 Gateway</strong> 允许从 Istio 网格外部访问 reviews service；一个新的 <code>VirtualService</code> 用于平均分配到 reviews service v1 和 v2 版本的流量；以及一系列新的、将目标子集与服务版本相匹配的 <code>DestinationRule</code> 资源：</p><pre><code class=language-bash data-expandlinks=true>$ cat &lt;&lt;EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: reviews-gateway
+spec:
+  selector:
+    istio: ingressgateway # 使用 istio 默认控制器
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - &#34;*&#34;
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+  - &#34;*&#34;
+  gateways:
+  - reviews-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /reviews
+    route:
+    - destination:
+        host: reviews
+        subset: v1
+      weight: 50
+    - destination:
+        host: reviews
+        subset: v2
+      weight: 50
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews
+spec:
+  host: reviews
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+  - name: v3
+    labels:
+      version: v3
+EOF
+</code></pre><p>最后，使用 <code>curl</code> <strong>部署一个用于测试的 Pod</strong>（没有 Istio sidecar 容器）：</p><div><a data-skipendnotes=true style=display:none href=https://raw.githubusercontent.com/istio/istio/release-1.2/samples/sleep/sleep.yaml>Zip</a><pre><code class=language-bash data-expandlinks=true>$ kubectl apply -f @samples/sleep/sleep.yaml@
+</code></pre></div><h2 id=测试您的部署>测试您的部署</h2><p>现在就可以通过 Sleep pod 使用 curl 命令来测试不同的行为了。</p><p>第一个示例是使用标准 Kubernetes service DNS 行为向 reviews service 发出请求（<strong>注意</strong>：下面的示例中使用了 <a href=https://stedolan.github.io/jq/><code>jq</code></a> 来过滤 <code>curl</code> 的输出）：</p><pre><code class=language-bash data-expandlinks=true>$ export SLEEP_POD=$(kubectl get pod -l app=sleep \
+  -o jsonpath={.items..metadata.name})
+$ for i in `seq 3`; do \
+  kubectl exec -it $SLEEP_POD curl http://reviews:9080/reviews/0 | \
+  jq &#39;.reviews|.[]|.rating?&#39;; \
+  done
+</code></pre><pre><code class=language-json data-expandlinks=true>{
+  &#34;stars&#34;: 5,
+  &#34;color&#34;: &#34;black&#34;
+}
+{
+  &#34;stars&#34;: 4,
+  &#34;color&#34;: &#34;black&#34;
+}
+null
+null
+{
+  &#34;stars&#34;: 5,
+  &#34;color&#34;: &#34;red&#34;
+}
+{
+  &#34;stars&#34;: 4,
+  &#34;color&#34;: &#34;red&#34;
+}
+</code></pre><p>请注意我们是如何从 reviews service 的所有三个版本获得响应（<code>null</code> 来自 reviews v1 版本，它没有评级数据）并且流量没有在 v1 和 v2 版本间平均拆分。这是预期的行为，因为 <code>curl</code> 命令在 reviews service 所有三个版本之间进行 Kubernetes service 负载均衡。为了以 <sup>50</sup>&frasl;<sub>50</sub> 的流量拆分形式访问 reviews，我们需要通过 ingress Gateway 访问 service：</p><pre><code class=language-bash data-expandlinks=true>$ for i in `seq 4`; do \
+  kubectl exec -it $SLEEP_POD curl http://istio-ingressgateway.istio-system/reviews/0 | \
+  jq &#39;.reviews|.[]|.rating?&#39;; \
+  done
+</code></pre><pre><code class=language-json data-expandlinks=true>{
+  &#34;stars&#34;: 5,
+  &#34;color&#34;: &#34;black&#34;
+}
+{
+  &#34;stars&#34;: 4,
+  &#34;color&#34;: &#34;black&#34;
+}
+null
+null
+{
+  &#34;stars&#34;: 5,
+  &#34;color&#34;: &#34;black&#34;
+}
+{
+  &#34;stars&#34;: 4,
+  &#34;color&#34;: &#34;black&#34;
+}
+null
+null
+</code></pre><p>任务完成！这篇文章展示了如何部署仅包含流量管理组件（Pilot、ingress Gateway）的 Istio 的最小安装，然后使用这些组件将流量定向到特定版本的 reviews service。由于不是必须通过部署 Istio sidecar 代理来获得这些功能，因此几乎没有给现有工作负载或应用程序造成中断。</p><p>这篇文章展示了如何利用 Istio 及内置的 ingress Gateway（以及一些 <code>VirtualService</code> 和 <code>DestinationRule</code> 资源），轻松实现集群外部入口流量和集群内部服务到服务的流量管理。这种技术是增量式应用 Istio 的一个很好的例子，在 Pod 由不同团队拥有，或部署到不同命名空间的现实案例中尤其有用。</p><nav id=see-also><h2>相关内容</h2><div class=see-also><div class=entry><p class=link><a data-skipendnotes=true href=/v1.2/zh/blog/2019/multicluster-version-routing/>多集群服务网格中的分版本路由</a></p><p class=desc>在多集群服务网格环境中配置 Istio 的路由规则。</p></div><div class=entry><p class=link><a data-skipendnotes=true href=/v1.2/zh/blog/2019/egress-performance/>Egress gateway 性能测试</a></p><p class=desc>评估加入 Egress gateway 对性能造成的影响。</p></div><div class=entry><p class=link><a data-skipendnotes=true href=/v1.2/zh/blog/2019/data-plane-setup/>Istio Sidecar 注入过程解密</a></p><p class=desc>Istio 将数据面组件注入到现存部署之中的过程。</p></div><div class=entry><p class=link><a data-skipendnotes=true href=/v1.2/zh/blog/2019/custom-ingress-gateway/>使用 Cert-Manager 部署一个自定义 Ingress 网关</a></p><p class=desc>如何使用 cert-manager 手工部署一个自定义 Ingress 网关。</p></div><div class=entry><p class=link><a data-skipendnotes=true href=/v1.2/zh/blog/2018/egress-mongo/>使用外部 MongoDB 服务</a></p><p class=desc>描述了一个基于 Istio 的 Bookinfo 示例的简单场景。</p></div><div class=entry><p class=link><a data-skipendnotes=true href=/v1.2/zh/blog/2018/egress-monitoring-access-control/>HTTP Egress 流量监控和访问策略</a></p><p class=desc>描述如何配置 Istio 进行 HTTP Egress 流量监控和访问策略。</p></div></div></nav></article><nav class=pagenav><div class=left><a title="Istio 1.0.4 补丁版本发布。" href=/v1.2/zh/blog/2018/announcing-1.0.4/><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#left-arrow"/></svg>Istio 1.0.4 发布</a></div><div class=right><a title="描述了一个基于 Istio 的 Bookinfo 示例的简单场景。" href=/v1.2/zh/blog/2018/egress-mongo/>使用外部 MongoDB 服务<svg class="icon"><use xlink:href="/v1.2/img/icons.svg#right-arrow"/></svg></a></div></nav><div id=endnotes-container aria-hidden=true><h2>链接</h2><ol id=endnotes></ol></div></div><div class=toc-container><nav class=toc aria-label="Table of Contents"><div id=toc><ol><li role=none aria-label="设置：为什么要实施 Istio 流量管理功能？"><a href=#%e8%ae%be%e7%bd%ae-%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%ae%9e%e6%96%bd-istio-%e6%b5%81%e9%87%8f%e7%ae%a1%e7%90%86%e5%8a%9f%e8%83%bd>设置：为什么要实施 Istio 流量管理功能？</a><li role=none aria-label="背景：Istio 网格中的流量路由"><a href=#%e8%83%8c%e6%99%af-istio-%e7%bd%91%e6%a0%bc%e4%b8%ad%e7%9a%84%e6%b5%81%e9%87%8f%e8%b7%af%e7%94%b1>背景：Istio 网格中的流量路由</a><li role=none aria-label="实践：Istio 流量路由"><a href=#%e5%ae%9e%e8%b7%b5-istio-%e6%b5%81%e9%87%8f%e8%b7%af%e7%94%b1>实践：Istio 流量路由</a><li role=none aria-label=测试您的部署><a href=#%e6%b5%8b%e8%af%95%e6%82%a8%e7%9a%84%e9%83%a8%e7%bd%b2>测试您的部署</a><li role=none aria-label=相关内容><a href=#see-also>相关内容</a></li></ol></div></nav></div></main><footer><div class=user-links><a class=channel title="Go download Istio 1.2.5 now" href=https://github.com/istio/istio/releases/tag/1.2.5 aria-label="Download Istio"><span>download</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#download"/></svg>
+</a><a class=channel title="加入 Istio discussion board 参与讨论获取帮助" href=https://discuss.istio.io aria-label="Istio discussion board"><span>discuss</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#discourse"/></svg></a>
+<a class=channel title="Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答" href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><span>stack overflow</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#stackoverflow"/></svg></a>
+<a class=channel title="在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）" href=https://istio.slack.com aria-label=slack><span>slack</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#slack"/></svg></a>
+<a class=channel title="关注我们的 Twitter 来获取最新信息" href=https://twitter.com/IstioMesh aria-label=Twitter><span>twitter</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#twitter"/></svg></a><div class=tag>对于用户</div></div><div class=info><p class=copyright>中文内容由 ServiceMesher 社区维护，部分文档可能稍微滞后于英文版本，同步工作持续进行中<br>Istio 归档
+1.2.5<br>&copy; 2019 Istio Authors, <a href=https://policies.google.com/privacy>隐私政策</a><br>归档于 2019年9月12日</p></div><div class=dev-links><a class=channel title="Istio 的代码在 GitHub 上开发" href=https://github.com/istio/community aria-label=GitHub><span>github</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#github"/></svg></a>
+<a class=channel title="如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档" href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><span>drive</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#drive"/></svg></a>
+<a class=channel title="如果您想为 Istio 项目做出贡献，请考虑加入我们的工作组" href=https://github.com/istio/community/blob/master/WORKING-GROUPS.md aria-label="working groups"><span>working groups</span><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#working-groups"/></svg></a><div class=tag>对于开发者</div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title=回到顶部><svg class="icon"><use xlink:href="/v1.2/img/icons.svg#top"/></svg></button></div></body></html>

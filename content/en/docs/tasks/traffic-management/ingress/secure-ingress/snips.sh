@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2034,SC2153,SC2155
+# shellcheck disable=SC2034,SC2153,SC2155,SC2164
 
 # Copyright Istio Authors. All Rights Reserved.
 #
@@ -116,15 +116,15 @@ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRES
 ...
 HTTP/2 418
 ...
--=[ teapot ]=-
+    -=[ teapot ]=-
 
-   _...._
- .'  _ _ `.
-| ."` ^ `". _,
-\_;`"---"`|//
-  |       ;/
-  \_     _/
-    `"""`
+       _...._
+     .'  _ _ `.
+    | ."` ^ `". _,
+    \_;`"---"`|//
+      |       ;/
+      \_     _/
+        `"""`
 ENDSNIP
 
 snip_configure_a_tls_ingress_gateway_for_a_single_host_8() {
@@ -270,15 +270,15 @@ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRES
 
 ! read -r -d '' snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8_out <<\ENDSNIP
 ...
--=[ teapot ]=-
+    -=[ teapot ]=-
 
-   _...._
- .'  _ _ `.
-| ."` ^ `". _,
-\_;`"---"`|//
-  |       ;/
-  \_     _/
-    `"""`
+       _...._
+     .'  _ _ `.
+    | ."` ^ `". _,
+    \_;`"---"`|//
+      |       ;/
+      \_     _/
+        `"""`
 ENDSNIP
 
 snip_configure_a_mutual_tls_ingress_gateway_1() {
@@ -342,15 +342,15 @@ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRES
 
 ! read -r -d '' snip_configure_a_mutual_tls_ingress_gateway_5_out <<\ENDSNIP
 ...
--=[ teapot ]=-
+    -=[ teapot ]=-
 
-   _...._
- .'  _ _ `.
-| ."` ^ `". _,
-\_;`"---"`|//
-  |       ;/
-  \_     _/
-    `"""`
+       _...._
+     .'  _ _ `.
+    | ."` ^ `". _,
+    \_;`"---"`|//
+      |       ;/
+      \_     _/
+        `"""`
 ENDSNIP
 
 snip_troubleshooting_1() {
