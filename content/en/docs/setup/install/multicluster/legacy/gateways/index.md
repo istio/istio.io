@@ -7,10 +7,17 @@ aliases:
     - /docs/examples/multicluster/gateways/
     - /docs/tasks/multicluster/gateways/
     - /docs/setup/kubernetes/install/multicluster/gateways/
+    - /docs/setup/install/multicluster/gateways
 keywords: [kubernetes,multicluster,gateway]
 owner: istio/wg-environments-maintainers
 test: no
 ---
+
+{{< warning >}}
+This is legacy content. If you are deploying a multicluster service mesh on a
+flat network, go to the [new multicluster guide.](/docs/setup/install/multicluster/single-network)
+Only use this guide if you are deploying a mesh spanning multiple networks.
+{{< /warning >}}
 
 Follow this guide to install an Istio
 [multicluster deployment](/docs/ops/deployment/deployment-models/#multiple-clusters)

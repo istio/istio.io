@@ -14,6 +14,12 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
+{{< warning >}}
+This is legacy content. If you are deploying a multicluster service mesh on a
+flat network, go to the [new multicluster guide.](/docs/setup/install/multicluster/single-network)
+Only use this guide if you are deploying a mesh spanning multiple networks.
+{{< /warning >}}
+
 Setup a [multicluster Istio service mesh](/docs/ops/deployment/deployment-models/#multiple-clusters)
 across multiple clusters with a shared control plane. In this configuration, multiple Kubernetes clusters running
 a remote configuration connect to a shared Istio [control plane](/docs/ops/deployment/deployment-models/#control-plane-models)

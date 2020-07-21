@@ -34,7 +34,7 @@ your specific needs. The following built-in configuration profiles are currently
 
 1. **remote**: used for configuring remote clusters of a
     [multicluster mesh](/docs/ops/deployment/deployment-models/#multiple-clusters) with a
-    [shared control plane](/docs/setup/install/multicluster/shared/) configuration.
+    [shared control plane](/docs/setup/install/multicluster/legacy/shared/) configuration.
 
 1. **empty**: deploys nothing. This can be useful as a base profile for custom configuration.
 
