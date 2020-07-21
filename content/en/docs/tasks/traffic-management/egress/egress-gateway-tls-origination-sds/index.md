@@ -82,6 +82,10 @@ For this task you can use your favorite tool to generate certificates and keys. 
 1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the server's and CA certificates.
 
     {{< text bash >}}
+    $ kubectl create namespace mesh-external
+    {{< /text >}}
+
+    {{< text bash >}}
     $ kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local.key --cert my-nginx.mesh-external.svc.cluster.local.crt
     $ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=example.com.crt
     {{< /text >}}
@@ -92,11 +96,11 @@ For this task you can use your favorite tool to generate certificates and keys. 
     $ kubectl create secret generic client-credential-cacert --from-file=ca.crt=example.com.crt -n istio-system
     {{< /text >}}
 
-    Note that the secret name for an Istio CA-only certificate must end with `-cacert` and the secret **must** be 
+    Note that the secret name for an Istio CA-only certificate must end with `-cacert` and the secret **must** be
     created in the same namespace as Istio is deployed in, `istio-system` in this case.
-    
+
     {{< warning >}}
-    The secret name **should not** begin with `istio` or `prometheus`, and the secret **should not** contain a `token` field. 
+    The secret name **should not** begin with `istio` or `prometheus`, and the secret **should not** contain a `token` field.
     {{< /warning >}}
 
 ### Deploy a simple TLS server
@@ -108,10 +112,6 @@ the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injecti
 1.  Create a namespace to represent services outside the Istio mesh, namely `mesh-external`. Note that the sidecar proxy will
     not be automatically injected into the pods in this namespace since the automatic sidecar injection was not
     [enabled](/docs/setup/additional-setup/sidecar-injection/#deploying-an-app) on it.
-
-    {{< text bash >}}
-    $ kubectl create namespace mesh-external
-    {{< /text >}}
 
 1.  Create a configuration file for the NGINX server:
 

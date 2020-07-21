@@ -38,19 +38,19 @@ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_seri
 }
 
 snip_create_secrets_for_the_client_and_server_1() {
+kubectl create namespace mesh-external
+}
+
+snip_create_secrets_for_the_client_and_server_2() {
 kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local.key --cert my-nginx.mesh-external.svc.cluster.local.crt
 kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=example.com.crt
 }
 
-snip_create_secrets_for_the_client_and_server_2() {
+snip_create_secrets_for_the_client_and_server_3() {
 kubectl create secret generic client-credential-cacert --from-file=ca.crt=example.com.crt -n istio-system
 }
 
 snip_deploy_a_simple_tls_server_1() {
-kubectl create namespace mesh-external
-}
-
-snip_deploy_a_simple_tls_server_2() {
 cat <<\EOF > ./nginx.conf
 events {
 }
@@ -78,11 +78,11 @@ http {
 EOF
 }
 
-snip_deploy_a_simple_tls_server_3() {
+snip_deploy_a_simple_tls_server_2() {
 kubectl create configmap nginx-configmap -n mesh-external --from-file=nginx.conf=./nginx.conf
 }
 
-snip_deploy_a_simple_tls_server_4() {
+snip_deploy_a_simple_tls_server_3() {
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: Service
