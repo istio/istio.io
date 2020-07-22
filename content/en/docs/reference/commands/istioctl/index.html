@@ -2264,6 +2264,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </thead>
 <tbody>
 <tr>
+<td><code>--authority &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Subject Alternative Name (for example istiod.istio-system.svc)  (default ``)</td>
+</tr>
+<tr>
 <td><code>--cert-dir &lt;string&gt;</code></td>
 <td></td>
 <td>XDS Endpoint certificate directory  (default ``)</td>
@@ -2317,11 +2322,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td><code>--xds-port &lt;int&gt;</code></td>
 <td></td>
 <td>Istiod pod port  (default `15012`)</td>
-</tr>
-<tr>
-<td><code>--xds-san &lt;string&gt;</code></td>
-<td></td>
-<td>XDS Subject Alternative Name (for example istiod.istio-system.svc)  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -2823,6 +2823,11 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpe
 </thead>
 <tbody>
 <tr>
+<td><code>--authority &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Subject Alternative Name (for example istiod.istio-system.svc)  (default ``)</td>
+</tr>
+<tr>
 <td><code>--cert-dir &lt;string&gt;</code></td>
 <td></td>
 <td>XDS Endpoint certificate directory  (default ``)</td>
@@ -2891,11 +2896,6 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpe
 <td><code>--xds-port &lt;int&gt;</code></td>
 <td></td>
 <td>Istiod pod port  (default `15012`)</td>
-</tr>
-<tr>
-<td><code>--xds-san &lt;string&gt;</code></td>
-<td></td>
-<td>XDS Subject Alternative Name (for example istiod.istio-system.svc)  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -4990,6 +4990,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Default values for istioctl flags</td>
 </tr>
 <tr>
+<td><code>ISTIOCTL_AUTHORITY</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>istioctl --authority override</td>
+</tr>
+<tr>
 <td><code>ISTIOCTL_CERT_DIR</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -5024,12 +5030,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Integer</td>
 <td><code>15012</code></td>
 <td>istioctl --xds-port override</td>
-</tr>
-<tr>
-<td><code>ISTIOCTL_XDS_SAN</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>istioctl --xds-san override</td>
 </tr>
 <tr>
 <td><code>ISTIOD_CUSTOM_HOST</code></td>
@@ -5425,6 +5425,8 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>pilot_xds_pushes</code></td><td><code>Sum</code></td><td>Pilot build and send errors for lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
+<tr><td><code>scrape_failures_total</code></td><td><code>Sum</code></td><td>The total number of failed scrapes.</td></tr>
+<tr><td><code>scrapes_total</code></td><td><code>Sum</code></td><td>The total number of scrapes.</td></tr>
 <tr><td><code>sidecar_injection_failure_total</code></td><td><code>Sum</code></td><td>Total number of failed sidecar injection requests.</td></tr>
 <tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of sidecar injection requests.</td></tr>
 <tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped sidecar injection requests.</td></tr>
