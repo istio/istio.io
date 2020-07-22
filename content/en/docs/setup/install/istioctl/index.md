@@ -41,11 +41,6 @@ using the following command:
 $ istioctl install
 {{< /text >}}
 
-{{< tip >}}
-Note that `istioctl install` and `istioctl manifest apply` are exactly the same command. In Istio 1.6, the simpler `install`
-command replaces `manifest apply`, which is deprecated and will be removed in 1.7.
-{{< /tip >}}
-
 This command installs the `default` profile on the cluster defined by your
 Kubernetes configuration. The `default` profile is a good starting point
 for establishing a production environment, unlike the larger `demo` profile that
