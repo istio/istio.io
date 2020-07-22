@@ -41,6 +41,17 @@ The TLS required private key, server certificate, and root certificate, are conf
 
     Note that any pod that you can `exec` and `curl` from would do.
 
+*   For macOS users, verify that you are using `openssl` version 1.1 or later:
+
+    {{< text bash >}}
+    $ openssl version -a | grep OpenSSL
+    OpenSSL 1.1.1g  21 Apr 2020
+    {{< /text >}}
+
+    If the previous command outputs a version `1.1` or later, as shown, your `openssl` command
+    should work correctly with the instructions in this task. Otherwise, upgrade your `openssl` or try
+    a different implementation of `openssl`, for example on a Linux machine.
+
 *   [Deploy an Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
 *   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
@@ -349,7 +360,7 @@ to hold the configuration of the NGINX server:
     $ kubectl delete virtualservice direct-nginx-through-egress-gateway
     $ kubectl delete destinationrule egressgateway-for-nginx
     $ kubectl delete gateway istio-egressgateway
-    $ kubectl delete secret generic client-credential -n istio-system
+    $ kubectl delete secret client-credential-cacert -n istio-system
     $ kubectl delete service my-nginx -n mesh-external
     $ kubectl delete deployment my-nginx -n mesh-external
     $ kubectl delete configmap nginx-configmap -n mesh-external
