@@ -7,11 +7,11 @@ attribution: "Wang Fakang(mosn.io)"
 keywords: [mosn,sidecar,proxy]
 ---
 
-Thanks to the efforts of the MOSN community, MOSN has completed the most of adaptation for Istio. MOSN [v0.14.0 release](https://github.com/mosn/mosn/releases/tag/v0.14.0) is now compatible with Istio 1.5.x, and it has gone through the Bookinfo sample as the data plane of Istio.
+Thanks to the efforts of the MOSN community, make MOSN has completed the most of adaptation for Istio. MOSN [v0.14.0 release](https://github.com/mosn/mosn/releases/tag/v0.14.0) is now compatible with Istio 1.5.x, and it has gone through the Bookinfo sample as the data plane of Istio.
 
 ## Background
 
-In the Service Mesh world, using Istio as the control plane has become the mainstream. Istio provides dynamic configuration of routes, service discovery, etc. to data plane proxies via the xDS protocol. The proxy can conveniently serve as Istio's data by simply interfacing with Envoy's xDS protocol. Istio's integration of third-party data planes can be implemented in three steps, as follows.
+In the service mesh world, using Istio as the control plane has become the mainstream. Istio provides dynamic configuration of routes, service discovery, etc. to data plane proxies via the xDS protocol. The proxy can conveniently serve as Istio's data by simply interfacing with Envoy's xDS protocol. Istio's integration of third-party data planes can be implemented in three steps, as follows.
 
 - Implement xDS protocols to fulfill the capabilities for data plane related services.
 - Build `proxyv2` images using Istio's script and set the relevant `SIDCAR` and other parameters.
@@ -19,7 +19,7 @@ In the Service Mesh world, using Istio as the control plane has become the mains
 
 ## What is MOSN?
 
-MOSN is a network proxy written in GoLang. It can be used as a cloud-native network data plane, providing services with the following proxy functions: multi-protocol, modular, intelligent, and secure. MOSN is the short name of Modular Open Smart Network (proxy). MOSN can be integrated with any Service Mesh which supports xDS API. MOSN can also be used as an independent Layer 4 or Layer 7 load balancer, API Gateway, cloud-native Ingress, etc.
+MOSN is a network proxy written in GoLang. It can be used as a cloud-native network data plane, providing services with the following proxy functions: multi-protocol, modular, intelligent, and secure. MOSN is the short name of Modular Open Smart Network (proxy). MOSN can be integrated with any service mesh which supports xDS API. MOSN can also be used as an independent Layer 4 or Layer 7 load balancer, API Gateway, cloud-native Ingress, etc.
 
 ## Architecture
 
@@ -35,9 +35,30 @@ MOSN follows the OSI (Open Systems Interconnection), it has four layers, NET/IO,
 - Stream does a secondary encapsulation of the decode packet into stream, which acts as a mount for the stream filter.
 - Proxy acts as a forwarding framework for MOSN, and does proxy processing on the encapsulated streams.
 
+
+## Why use MOSN?
+
+Before the service mesh transformation, we have expected that as the next generation of Ant Group's infrastructure, Meshization will inevitably bring revolutionary changes and evolution costs. We have a very ambitious blueprint: ready to integrate the original network and middleware various capabilities have been re-precipitated and polished to create a low-level platform for the next-generation architecture of the future, which will carry the responsibility of various service communications.
+
+This is a long-term planning project that takes many years to build and meets the needs of the next five or even ten years, and cooperates to build a team that spans business, SRE, middleware, and infrastructure departments. We must have a network proxy forwarding plane with flexible expansion, high performance, and long-term evolution. Nginx and Envoy have a very long-term capacity accumulation and active community in the field of network agents. We have also borrowed from other excellent open source network agents such as Nginx and Envoy. At the same time, we have enhanced research and development efficiency and flexible expansion. Mesh transformation involves a large number of departments and R & D personnel. We must consider the landing cost of cross-team cooperation. Therefore, we have developed a new network proxy MOSN based on GoLang in the cloud-native scenario. For GoLang's performance, we also did a full investigation and test in the early stage to meet the performance requirements of Ant Group's services.
+
+At the same time, we received a lot of feedback and needs from the end user community. Everyone has the same needs and thoughts. So we combined the actual situation of the community and ourselves to conduct the research and development of MOSN from the perspective of satisfying the community and users. We believe that the open source competition is mainly competition between standards and specifications. We need to make the most suitable implementation choice based on open source standards.
+
+## What is the difference between MOSN and Istio default proxy? What are the advantages of MOSN?
+
+### Differences in language stacks
+
+MOSN is written in GoLang. GoLang has strong guarantees in terms of production efficiency and memory security. At the same time, GoLang has an extensive library ecosystem in the cloud-native era. The performance is acceptable and usable in the service mesh scenario. Therefore, MOSN has a lower intellectual cost for companies and individuals using languages such as GoLang and Java.
+
+### Differentiation of core competence
+
+ * MOSN supports a multi-protocol framework, and users can easily access private protocols with a unified routing framework.
+ * Multi-process plug-in mechanism, which can easily extend the plug-ins of independent MOSN processes through the plug-in framework, and do some other management, bypass and other functional module extensions.
+ * Transport layer national secret algorithm support with Chinese encryption compliance, etc.
+
 ## MOSN with Istio
 
-MOSN can be used not only as a stand-alone Layer 4/Layer 7 load balancer, but can also be integrated into Istio as a sidecar proxy or ingress gateway in Kubernetes. The following is an introduction to the use of MOSN as an Istio data plane. You can tryout on [katacoda](https://katacoda.com/mosn/courses/istio/mosn-with-istio).
+MOSN can be used not only as a stand-alone Layer 4/Layer 7 load balancer, but can also be integrated into Istio as a sidecar proxy or ingress gateway in Kubernetes. The following is an introduction to the use of MOSN as an Istio data plane.
 
 ## Setup Istio
 
@@ -86,7 +107,7 @@ If the service `STATUS` is Running, then Istio has been successfully installed a
 
 ## Bookinfo Examples
 
-You can run the Bookinfo samples through [katacoda](https://katacoda.com/mosn/courses/istio/mosn-with-istio) where you can find some other tutorials for MOSN and Istio.
+You can run the Bookinfo samples through [MOSN with Istio tutorial](https://katacoda.com/mosn/courses/istio/mosn-with-istio) where you can find some other tutorials for MOSN and Istio.
 
 ## Learn More
 
