@@ -6,6 +6,8 @@ aliases:
     - /docs/tasks/egress.html
     - /docs/tasks/egress
 keywords: [traffic-management,egress]
+owner: istio/wg-networking-maintainers
+test: no
 ---
 
 Because all outbound traffic from an Istio-enabled pod is redirected to its sidecar proxy by default,
@@ -390,7 +392,7 @@ Update your `istio-sidecar-injector` configuration map using the IP ranges speci
 For example, if the range is 10.0.0.1&#47;24, use the following command:
 
 {{< text bash >}}
-$ istioctl manifest apply <the flags you used to install Istio> --set values.global.proxy.includeIPRanges="10.0.0.1/24"
+$ istioctl install <the flags you used to install Istio> --set values.global.proxy.includeIPRanges="10.0.0.1/24"
 {{< /text >}}
 
 Use the same command that you used to [install Istio](/docs/setup/install/istioctl) and
@@ -429,7 +431,7 @@ Update the `istio-sidecar-injector.configmap.yaml` configuration map to redirect
 proxies:
 
 {{< text bash >}}
-$ istioctl manifest apply <the flags you used to install Istio>
+$ istioctl install <the flags you used to install Istio>
 {{< /text >}}
 
 ## Understanding what happened

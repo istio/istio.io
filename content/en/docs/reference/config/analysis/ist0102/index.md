@@ -1,6 +1,8 @@
 ---
 title: NamespaceNotInjected
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 This message occurs when you have a namespace that is missing the

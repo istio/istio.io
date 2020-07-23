@@ -1,5 +1,6 @@
 ---
 title: Service Registry
+test: n/a
 ---
 
 Istio maintains an internal service registry containing the set of [services](/docs/reference/glossary/#service),

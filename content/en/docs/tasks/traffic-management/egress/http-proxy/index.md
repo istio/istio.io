@@ -5,6 +5,8 @@ weight: 60
 keywords: [traffic-management,egress]
 aliases:
   - /docs/examples/advanced-gateways/http-proxy/
+owner: istio/wg-networking-maintainers
+test: no
 ---
 The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) example shows how to direct
 traffic to external services from your mesh via an Istio edge component called _Egress Gateway_. However, some
@@ -71,6 +73,9 @@ This example uses [Squid](http://www.squid-cache.org) but you can use any HTTPS 
       namespace: external
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: squid
       template:
         metadata:
           labels:

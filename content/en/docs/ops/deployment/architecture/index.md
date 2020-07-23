@@ -5,6 +5,8 @@ weight: 10
 aliases:
   - /docs/concepts/architecture
   - /docs/ops/architecture
+owner: istio/wg-environments-maintainers
+test: n/a
 ---
 
 An Istio service mesh is logically split into a **data plane** and a **control
@@ -104,13 +106,3 @@ to control who can access your services.
 
 Istiod maintains a CA and generates certificates to allow secure mTLS communication
 in the data plane.
-
-## Application design
-
-A design goal for Istio is that the developer can do minimum work
-to get real value from the system. Istio can automatically inject itself into
-the network paths between services and program the networking layer to
-securely route traffic and extract telemetry. If the application code
-uses TLS and uses its own policy and telemetry, Istio can only get minimal
-information from the encrypted communication between workloads.
-

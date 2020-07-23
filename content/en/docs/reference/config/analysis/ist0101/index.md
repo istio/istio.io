@@ -1,6 +1,8 @@
 ---
 title: ReferencedResourceNotFound
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 This message occurs when an Istio resource references another resource that does

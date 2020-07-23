@@ -9,6 +9,8 @@ aliases:
     - /docs/concepts/policy-and-control/attributes.html
     - /docs/concepts/policies-and-telemetry/overview/
     - /docs/concepts/policies-and-telemetry/config/
+owner: istio/wg-policies-and-telemetry-maintainers
+test: no
 ---
 
 Istio provides a flexible model to enforce authorization policies and collect telemetry for the

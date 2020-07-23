@@ -3,6 +3,8 @@ title: Kubernetes Services for Egress Traffic
 description: Shows how to configure Istio for Kubernetes External Services.
 keywords: [traffic-management,egress]
 weight: 60
+owner: istio/wg-networking-maintainers
+test: no
 ---
 
 Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname)

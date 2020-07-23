@@ -1,6 +1,8 @@
 ---
 title: GatewayPortNotOnWorkload
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 This message occurs when a gateway (usually `istio-ingressgateway`) offers a

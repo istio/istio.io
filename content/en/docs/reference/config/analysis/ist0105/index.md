@@ -1,6 +1,8 @@
 ---
 title: IstioProxyImageMismatch
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: n/a
 ---
 
 This message occurs regarding a pod when:

@@ -11,6 +11,8 @@ aliases:
 - /docs/setup/kubernetes/additional-setup/mesh-expansion/
 - /docs/examples/mesh-expansion/single-network
 - /docs/tasks/virtual-machines/single-network
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 This example shows how to integrate a VM or a bare metal host into a single-network
@@ -52,7 +54,7 @@ following commands on a machine with cluster admin privileges:
 
     {{< warning >}}
     The root and intermediate certificate from the samples directory are widely
-    distributed and known.  Do **not** use these certificates in production as
+    distributed and known.  Do **NOT** use these certificates in production as
     your clusters would then be open to security vulnerabilities and compromise.
     {{< /warning >}}
 
@@ -68,7 +70,7 @@ following commands on a machine with cluster admin privileges:
 1. For a simple setup, deploy Istio control plane into the cluster
 
         {{< text bash >}}
-        $ istioctl manifest apply
+        $ istioctl install
         {{< /text >}}
 
     For further details and customization options, refer to the
@@ -132,7 +134,7 @@ following commands on a machine with cluster admin privileges:
     It is recommended to follow the instructions for "Plugging in External CA Key and Certificates", and use a
      separate intermediary CA for provisioning the VM. There are many tools and procedures for managing
      certificates for VMs - Istio requirement is that the VM will get a certificate with an Istio-compatible
-     SPIFEE SAN, with the correct trust domain, namespace and service account.
+     {{< gloss >}}SPIFFE{{< /gloss >}} SAN, with the correct trust domain, namespace and service account.
 
     As an example, for very simple demo setups, you can also use:
 

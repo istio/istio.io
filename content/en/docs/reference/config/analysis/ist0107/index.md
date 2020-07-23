@@ -1,6 +1,8 @@
 ---
 title: MisplacedAnnotation
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: n/a
 ---
 
 This message occurs when an Istio {{< gloss >}}annotation{{< /gloss >}} is attached to an invalid resource,

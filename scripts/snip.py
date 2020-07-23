@@ -17,6 +17,7 @@
 import sys
 import re
 import os
+import yaml
 
 linenum = 0
 snipnum = 0
@@ -28,7 +29,7 @@ output_started = False
 snippets = []
 
 HEADER = """#!/bin/bash
-# shellcheck disable=SC2034,SC2153,SC2155
+# shellcheck disable=SC2034,SC2153,SC2155,SC2164
 
 # Copyright Istio Authors. All Rights Reserved.
 #
@@ -52,7 +53,9 @@ HEADER = """#!/bin/bash
 
 startsnip = re.compile(r"^(\s*){{< text (syntax=)?\"?(\w+)\"? .*>}}$")
 snippetid = re.compile(r"snip_id=(\w+)")
-githubfile = re.compile(r"^([^@]*)@([\w\.\-_/]+)@([^@]*)$")
+githubfile = re.compile(r"^([^@]*)(?<![A-Za-z0-9])@([\w\.\-_/]+)@([^@]*)$")
+execit = re.compile(r"^(.*kubectl exec.*) -it (.*)$")
+heredoc = re.compile(r"<<\s*\\?EOF")
 sectionhead = re.compile(r"^##+ (.*)$")
 invalidchar = re.compile(r"[^0-9a-zA-Z_]")
 
@@ -71,9 +74,22 @@ snipfile = "snips.sh" if markdown.split('/')[-1] == "index.md" else markdown.spl
 
 print("generating snips: " + os.path.join(snipdir, snipfile))
 
+with open("data/args.yml", 'r') as stream:
+    docs_config = yaml.safe_load(stream)
+
+try:
+    source_branch_name = docs_config['source_branch_name']
+except:
+    sys.stderr.write('"source_branch_name" not defined in "data/args.yml"\n')
+    sys.exit(1)
+
 with open(markdown, 'rt', encoding='utf-8') as mdfile:
     for line in mdfile:
         linenum += 1
+
+        # Replace github file token with release-specific URL.
+        github_url = "https://raw.githubusercontent.com/istio/istio/" + source_branch_name
+        line = line.replace("{{< github_file >}}", github_url)
 
         match = sectionhead.match(line)
         if match:
@@ -127,7 +143,10 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
                     match = githubfile.match(line)
                     if match:
                         line = match.group(1) + match.group(2) + match.group(3)
-                    if "<<EOF" in line:
+                    match = execit.match(line)
+                    if match:
+                        print("    WARNING: -it should be removed from kubectl exec of .md line: " + str(linenum))
+                    if heredoc.search(line):
                         multiline_cmd = True
                 current_snip["script"].append(line)
 

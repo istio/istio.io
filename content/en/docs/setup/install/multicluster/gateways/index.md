@@ -8,6 +8,8 @@ aliases:
     - /docs/tasks/multicluster/gateways/
     - /docs/setup/kubernetes/install/multicluster/gateways/
 keywords: [kubernetes,multicluster,gateway]
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 Follow this guide to install an Istio
@@ -83,7 +85,7 @@ Cross-cluster communication occurs over the Istio gateways of the respective clu
     * Install Istio:
 
         {{< text bash >}}
-        $ istioctl manifest apply \
+        $ istioctl install \
             -f manifests/examples/multicluster/values-istio-multicluster-gateways.yaml
         {{< /text >}}
 

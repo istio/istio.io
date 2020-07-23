@@ -16,6 +16,8 @@ aliases:
   - /docs/concepts/multicluster-deployments
   - /docs/concepts/deployment-models
   - /docs/ops/prep/deployment-models
+owner: istio/wg-environments-maintainers
+test: n/a
 ---
 
 When configuring a production deployment of Istio, you need to answer a number of questions.

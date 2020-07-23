@@ -5,6 +5,8 @@ weight: 11
 keywords: [telemetry,tracing,lightstep]
 aliases:
  - /docs/tasks/telemetry/distributed-tracing/lightstep/
+owner: istio/wg-policies-and-telemetry-maintainers
+test: no
 ---
 
 This task shows you how to configure Istio to collect trace spans and send them to [Lightstep](https://lightstep.com).
@@ -43,7 +45,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     when you run the install command. For example:
 
     {{< text bash >}}
-    $ istioctl manifest apply \
+    $ istioctl install \
         --set values.pilot.traceSampling=100 \
         --set values.global.proxy.tracer="lightstep" \
         --set values.global.tracer.lightstep.address="<satellite-address>" \

@@ -2,6 +2,8 @@
 title: Configuration Status Field
 description: Describes the role of the `status` field in configuration workflow.
 weight: 21
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 {{< warning >}}
@@ -17,7 +19,7 @@ changes through the mesh, using the `status` field of the resource.
 Status is disabled by default, and can be enabled during install with:
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
+$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
 The `status` field contains the state of a resource's configuration with various

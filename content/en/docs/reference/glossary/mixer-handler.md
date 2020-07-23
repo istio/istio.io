@@ -1,5 +1,6 @@
 ---
 title: Mixer Handler
+test: n/a
 ---
 
 Handlers represent fully configured Mixer adapters. A single binary adapter can be used

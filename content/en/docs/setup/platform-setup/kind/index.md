@@ -4,6 +4,8 @@ description: Instructions to setup kind for Istio.
 weight: 30
 skip_seealso: true
 keywords: [platform-setup,kubernetes,kind]
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 [kind](https://kind.sigs.k8s.io/) is a tool for running local Kubernetes clusters using Docker container `nodes`.

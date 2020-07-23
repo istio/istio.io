@@ -6,7 +6,8 @@ aliases:
     - /docs/tasks/traffic-management/ingress/secure-ingress-sds/
     - /docs/tasks/traffic-management/ingress/secure-ingress-mount/
 keywords: [traffic-management,ingress,sds-credentials]
-test: true
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress)
@@ -155,15 +156,15 @@ For this task you can use your favorite tool to generate certificates and keys. 
     ...
     HTTP/2 418
     ...
-    -=[ teapot ]=-
+        -=[ teapot ]=-
 
-       _...._
-     .'  _ _ `.
-    | ."` ^ `". _,
-    \_;`"---"`|//
-      |       ;/
-      \_     _/
-        `"""`
+           _...._
+         .'  _ _ `.
+        | ."` ^ `". _,
+        \_;`"---"`|//
+          |       ;/
+          \_     _/
+            `"""`
     {{< /text >}}
 
 1. If you try to access `httpbin` with the previous certificate chain, the attempt now fails.
@@ -327,15 +328,15 @@ retrieves unique credentials corresponding to a specific `credentialName`.
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
     --cacert example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
-    -=[ teapot ]=-
+        -=[ teapot ]=-
 
-       _...._
-     .'  _ _ `.
-    | ."` ^ `". _,
-    \_;`"---"`|//
-      |       ;/
-      \_     _/
-        `"""`
+           _...._
+         .'  _ _ `.
+        | ."` ^ `". _,
+        \_;`"---"`|//
+          |       ;/
+          \_     _/
+            `"""`
     {{< /text >}}
 
 ### Configure a mutual TLS ingress gateway
@@ -411,22 +412,22 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=t
     --cacert example.com.crt --cert client.example.com.crt --key client.example.com.key \
     "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
-    -=[ teapot ]=-
+        -=[ teapot ]=-
 
-       _...._
-     .'  _ _ `.
-    | ."` ^ `". _,
-    \_;`"---"`|//
-      |       ;/
-      \_     _/
-        `"""`
+           _...._
+         .'  _ _ `.
+        | ."` ^ `". _,
+        \_;`"---"`|//
+          |       ;/
+          \_     _/
+            `"""`
     {{< /text >}}
 
 Istio supports reading a few different Secret formats, to support integration with various tools such as [cert-manager](/docs/ops/integrations/certmanager/):
 
 * A TLS Secret with keys `tls.key` and `tls.crt`, as described above. For mutual TLS, a `ca.crt` key can be used.
 * A generic Secret with keys `key` and `cert`. For mutual TLS, a `cacert` key can be used.
-* A generic Secret with keys `key` and `cert`. For mutual TLS, a separate generic Secret named `<secret>-cacert`, with a `cacret` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
+* A generic Secret with keys `key` and `cert`. For mutual TLS, a separate generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
 
 ## Troubleshooting
 

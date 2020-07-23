@@ -1,8 +1,9 @@
 # Testing istio.io Content
 
-This folder contains tests for the content on [istio.io](http://istio.io).
-More specifically, these tests confirm that the example and task documents, which contain
-instructions in the form of bash commands and expected output, are working as documented.
+This folder contains framework utilies and instructions for testing the content on
+[istio.io](http://istio.io). More specifically, these tests confirm that the example, task, and
+other documents, which contain instructions in the form of bash commands and expected output,
+are working as documented.
 
 Generated bash scripts, containing the set of commands and expected output for corresponding
 istio.io markdown files, are used by test programs to invoke the commands and verify the output.
@@ -11,13 +12,20 @@ This means that we extract and test the exact same commands that are published i
 These tests use the framework defined in the `istioio` package, which is a thin wrapper
 around the [Istio test framework](https://github.com/istio/istio/wiki/Istio-Test-Framework).
 
+Run the following command to see the current test coverage, including the list of tested documents
+and those that are in need of a test:
+
+```sh
+make test_status
+```
+
 ## Test Authoring Overview
 
 To write an `istio.io` test, follow these steps:
 
-1. Add a field `test: true` to the metadata at the top of the `index.md` file to be tested.
-   This field is used to indicate that the markdown file will be tested and therefore requires
-   a generated bash script containing the commands described in the document.
+1. In the metadata at the top of the `index.md` file to be tested, change the field `test: no` to
+   `test: yes`. This field is used to indicate that the markdown file will be tested and therefore
+   requires a generated bash script containing the commands described in the document.
 
 1. Run `make snips` to generate the bash script. After the command completes, you should see
    a new file, `snips.sh`, next to the `index.md` file that you modified in the previous step.
@@ -47,112 +55,158 @@ To write an `istio.io` test, follow these steps:
    Fix the errors, if any, by updating the corresponding command in the `index.md` file and
    then regenerate the snips.
 
-1. Pick an appropriate location under the `tests/` directory and create a directory for your new
-   test.
+1. Create a test bash script named `test.sh` next to the `snips.sh` you have just generated.
+   
+   If your document is very large and you want to break it into multiple tests, create multiple scripts with
+   the suffix `test.sh` (e.g., `part1_test.sh`, `part2_test.sh`), instead.
 
-1. Add the following imports to your GoLang file:
+   Other scripts in the directory will be ignored.
 
-    ```golang
-    "istio.io/istio/pkg/test/framework"
-    "istio.io/istio/pkg/test/framework/components/environment"
-    "istio.io/istio/pkg/test/framework/components/istio"
+## Test Bash Script
 
-    "istio.io/istio.io/pkg/test/istioio"
-    ```
+Your bash script will consist of a series of test steps that call the commands in your
+generated `snips.sh` file.
 
-1. Create a function called `TestMain`, following the example below. This
-   function sets up the Istio environment that the test uses. The `Setup`
-   function accepts an optional function to customize the Istio environment
-   deployed.
-
-    ```golang
-    func TestMain(m *testing.M) {
-    framework.NewSuite("my-istioio-test", m).
-        SetupOnEnv(environment.Kube, istio.Setup(&ist, nil)).
-        RequireEnvironment(environment.Kube).
-        Run()
-    }
-    ```
-
-1. To create a test, you use `istioio.NewBuilder` to build a series of steps that will
-   be run as part of the resulting test function:
-
-    ```golang
-    func TestCombinedMethods(t *testing.T) {
-        framework.
-            NewTest(t).
-            Run(istioio.NewBuilder("tasks__security__my_task").
-                Add(istioio.Script{
-                    Input:         istioio.Path("myscript.sh"),
-                },
-                istioio.MultiPodWait("foo"),
-                istioio.Script{
-                    Input:         istioio.Path("myotherscript.sh"),
-                }).Build())
-    }
-    ```
-
-## Running Shell Commands
-
-Your test will include one or more test steps that run shell scripts that call
-the commands in the generated `snips.sh` file.
-
-```golang
-istioio.Script{
-    Input:   istioio.Path("myscript.sh"),
-}
-```
-
-Your script must include the `snip.sh` file for the document being tested. For example,
-a test for the traffic-shifting task will have the following line in the script:
-
-```sh
-source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/traffic-shifting/snips.sh
-```
-
-Your test script can then invoke the commands by simply calling snip functions:
+Your script can invoke the commands by simply calling snip functions:
 
 ```sh
 snip_config_50_v3 # Step 3: switch 50% traffic to v3
 ```
 
-For commands that produce output that needs to be verified, capture the command output
-in a variable and compare it to the expected output. For example:
+For commands that produce output, pass the snip and expected output to an appropriate
+`_verify_` function. For example:
 
 ```sh
-out=$(snip_set_up_the_cluster_3 2>&1)
-_verify_same "$out" "$snip_set_up_the_cluster_3_out" "snip_set_up_the_cluster_3"
+_verify_same snip_set_up_the_cluster_3 "$snip_set_up_the_cluster_3_out"
 ```
 
-The framework includes the following built-in verify functions:
+This will run the function `snip_set_up_the_cluster_3` and confirm that the output is exactly
+the same as specified in the variable `snip_set_up_the_cluster_3_out`.
 
-1. **`_verify_same`** `out` `expected` `msg`
+Snip functions often update Istio configuration (e.g., virtual services, destination rules, etc.).
+Use the `_wait_for_istio` function to allow the change to propogate to the Istio sidecars
+before proceeding with the next step of the test:
 
-   Verify that `out` is exactly the same as `expected`. Failure messages will include
-   the specified `msg`.
+```sh
+snip_config_50_v3 # Step 3: switch 50% traffic to v3
+_wait_for_istio virtualservice default reviews # wait for routing change to propagate
+```
 
-1. **`_verify_contains`** `out` `expected` `msg`
+For snips that deploy Kubernetes services (e.g., `kubectl apply -f samples/httpbin/httpbin.yaml`),
+use the `_wait_for_deployment` function to wait for the deployment to roll out:
 
-   Verify that `out` contains the substring `expected`. Failure messages will include
-   the specified `msg`.
+```sh
+_wait_for_deployment default httpbin
+```
 
-1. **`_verify_not_contains`** `out` `expected` `msg`
+You can also use this function to wait for installation changes resulting from `istioctl install` commands:
 
-   Verify that `out` does not contains the substring `expected`. Failure messages will include
-   the specified `msg`.
+```sh
+_wait_for_deployment istio-system istiod
+```
 
-1. **`_verify_first_line`** `out` `expected` `msg`
+### Test Setup and Cleanup
 
-   Verify that the first line of `out` matches the first line in `expected`.
+Before the test steps, there must be one line that specifies the istio setup configuration for the test:
 
-1. **`_verify_elided`** `out` `expected` `msg`
+```sh
+# @setup <setup_config>
+```
 
-   Verify that `out` contains the lines in `expected` where `...` on a line matches one or
-   more lines with any text.
+Currently supported setup configurations include: `profile=default` to install the default profile,
+`profile=demo` to install the demo profile, and `profile=none` to not install istio at all.
 
-1. **`_verify_like`** `out` `expected` `msg`
+Choose the setup configuration that best matches the document prerequisites. For example, if the
+document being tested includes snips with explicit install commands (e.g., setup docs), use:
 
-   Verify that `out` is "like" `expected`. Like implies:
+```sh
+# @setup profile=none
+```
+
+This will start the test using a clean Kubernetes cluster without Istio installed.
+
+If, on the other hand, the doc's `Before you begin` section refers the user to the standard
+Istio installation instructions, chose the profile specified in the doc or `default` if there is
+no specific profile mentioned in the instructions.
+
+After all test steps are complete, add the following line to indicate the start of the cleanup steps:
+
+```sh
+# @cleanup
+```
+All steps after this line will be run by the framework, even if the test fails and prematurely exits.
+The cleanup steps must remove all resources and reverse configuration changes made during the test steps.
+
+Many documents have cleanup instuctions in them, so simply calling the cleanup snip functions will usually
+reverse all changes made during the test steps. However, extra care should be taken to ensure that the
+cleanup steps are complete so that after running them, the cluster will be left in the exact same state
+that it started in. This is important because the test framework runs all tests that specify the
+same `# @setup` using the same Kubernetes cluster, so any remaining config changes after the cleanup
+steps are run, will potentially break a following test.
+
+TODO: The framework should compare the before and after state of the cluster and fail any test that does not properly clean up.
+
+### Include Files
+
+The framework automatically includes several bash scripts into your `test.sh` file, so you
+don't have to `source` them yourself. This includes your generated `snips.sh` file as well
+as some scripts containing framework utility functions:
+
+* [tests/util/verify.sh](./util/verify.sh)
+* [tests/util/helpers.sh](./util/helpers.sh)
+
+You can directly call any function defined in them.
+
+Other optional include files need to be explicitly sourced.
+For example, tests that use the standard Istio sample services, will typically want to leverage
+some of the functions in [tests/util/samples.sh](./util/samples.sh):
+
+```sh
+source "tests/util/samples.sh"
+
+startup_bookinfo_sample  # from tests/util/samples.sh
+snip_config_50_v3        # from ./snips.sh
+```
+
+### Verify Functions
+
+The verify functions first run the snip function and then compare the result to the
+expected output. The framework includes the following built-in verify functions:
+
+1. **`_verify_same`** `func` `expected`
+
+   Runs `func` and compares the output with `expected`. If they are not the same,
+   exponentially back off and try again, 7 times by default. The number of retries
+   can be changed by setting the `VERIFY_RETRIES` environment variable.
+
+1. **`_verify_contains`** `func` `expected`
+
+   Runs `func` and compares the output with `expected`. If the output does not
+   contain the substring `expected`, exponentially back off and try again, 7 times
+   by default. The number of retries can be changed by setting the `VERIFY_RETRIES`
+   environment variable.
+
+1. **`_verify_not_contains`** `func` `expected`
+
+   Runs `func` and compares the output with `expected`. If the command execution fails
+   or the output contains the substring `expected`,
+   exponentially back off and try again, 7 times by default. The number of retries
+   can be changed by setting the `VERIFY_RETRIES` environment variable.
+
+1. **`_verify_elided`** `func` `expected`
+
+   Runs `func` and compares the output with `expected`. If the output does not
+   contain the lines in `expected` where "..." on a line matches one or more lines
+   containing any text, exponentially back off and try again, 7 times by default.
+   The number of retries can be changed by setting the `VERIFY_RETRIES` environment
+   variable.
+
+1. **`_verify_like`** `func` `expected`
+
+   Runs `func` and compares the output with `expected`. If the output is not
+   "like" `expected`, exponentially back off and try again, 7 times by default. The number
+   of retries can be changed by setting the `VERIFY_RETRIES` environment variable.
+   Like implies:
 
    - Same number of lines
    - Same number of whitespace-seperated tokens per line
@@ -163,120 +217,65 @@ The framework includes the following built-in verify functions:
      1. prefix match ending with a dash character (e.g., `reviews-v1-12345...` is like `reviews-v1-67890...`)
      1. expected `...` is a wildcard token, matches anything
 
-
    This function is useful for comparing the output of commands that include some run-specific
    values in the output (e.g., `kubectl get pods`), or when whitespace in the output may be different.
 
-In addition to the built-in verify functions, there is a set of functions that
-run a function and compares the result to the expected output.  An optional
-argument indicates how many times the function should be retried before failing.
-Each attempt has an exponential backoff.  The following are supported:
+1. **`_verify_lines`** `func` `expected`
 
-1. **`_run_and_verify_same`** `func` `expected` [`max_attempts`]
-1. **`_run_and_verify_contains`** `func` `expected` [`max_attempts`]
-1. **`_run_and_verify_not_contains`** `func` `expected` [`max_attempts`]
-1. **`_run_and_verify_first_line`** `func` `expected` [`max_attempts`]
-1. **`_run_and_verify_elided`** `func` `expected` [`max_attempts`]
-1. **`_run_and_verify_like`** `func` `expected` [`max_attempts`]
+   Runs `func` and compares the output with `expected`. If the output does not
+   "conform to" the specification in `expected`,
+   exponentially back off and try again, 7 times by default. The number of retries
+   can be changed by setting the `VERIFY_RETRIES` environment variable.
+   Conformance implies:
 
-## Builder
+   1. For each line in `expected` with the prefix "+ " there must be at least one
+      line in the output containing the following string.
+   1. For each line in `expected` with the prefix "- " there must be no line in
+      the output containing the following string.
 
-The `istioio.NewBuilder` returns a `istioio.Builder` that is used to build an Istio
-test run function and has the following methods:
+1. **`_verify_failure`** `func`
 
-- `Add`: adds a step to the test.
-- `Defer`: provides a step to be run after the test completes.
-- `Build`: builds an Istio test run function.
+   Runs `func` and confirms that it fails (i.e., non-zero return code). This function is useful
+   for testing commands that demonstrate configurations that are expected to fail.
 
-## Selecting Input
+## Running the Tests
 
-Many test steps require an `Input` which they obtain from an
-`istioio.InputSelector`:
-
-```golang
-type Input interface {
-    InputSelector
-    Name() string
-    ReadAll() (string, error)
-}
-
-type InputSelector interface {
-    SelectInput(Context) Input
-}
-```
-
-Some common `InputSelector` implementations include:
-
-- `istioio.Inline`: allows you to inline the content for the `Input` directly in the code.
-- `istioio.Path`: reads in a file from the specified path.
-- `istioio.BookInfo`: is like `istioio.Path` except that the value is assumed to be
-relative to the BookInfo source directory (`$GOPATH/src/istio.io/istio/samples/bookinfo/platform/kube/`).
-
-An `InputSelector` provides an `istioio.Context` at runtime, which it can use to
-dynamically choose an `Input`. For example, we could choose a different file depending on
-whether or not the test is running on Minikube:
-
-```golang
-istioio.InputSelectorFunc(func(ctx istioio.Context) Input {
-    if ctx.Env.Settings().Minikube {
-        return istioio.Path("scripts/curl-httpbin-tls-gateway-minikube.sh")
-    }
-    return istioio.Path("scripts/curl-httpbin-tls-gateway-gke.sh")
-})
-```
-
-The library also provides a utility that helps simplify this particular use case:
-
-```golang
-istioio.IfMinikube{
-    Then: istioio.Path("scripts/curl-httpbin-tls-gateway-minikube.sh")
-    Else: istioio.Path("scripts/curl-httpbin-tls-gateway-gke.sh")
-}
-```
-
-## Waiting for Pods to Start
-
-You can create a test step that waits for one or more pods to start before continuing.
-For example, to wait for all pods in the "foo"  namespace, you can do the following:
-
-```golang
-istioio.MultiPodWait("foo"),
-```
-
-## Running the Tests: Make
-
-You can execute all istio.io tests using make.
+The following command will run all the doc tests within a `kube` environment:
 
 ```bash
-export KUBECONFIG=~/.kube/config
-make test.kube.presubmit
+make doc.test
 ```
 
-### Notes:
+The `make doc.test` rule can be passed two optional environment variables: `TEST` and `TIMEOUT`.
 
-In the case of using `kind` clusters on the Mac, an extra env var is needed,
-ADDITIONAL_CONTAINER_OPTIONS="--network host". If HUB and TAG aren't set, then their default
-values will match what is used by the prow tests. For a Mac, the
-command `TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make test.kube.presubmit`
-has been successful.
-
-## Running Tests: go test
-
-You can execute individual tests using Go test as shown below.
+`TEST` specifies a directory relative to `content/en/docs/` containing the tests to run.
+For example, the following command will only run the tests under `content/en/docs/tasks/traffic-management`:
 
 ```bash
-make init
-export REPO_ROOT=$(git rev-parse --show-toplevel)
-go test ./tests/... -p 1  --istio.test.env kube \
-    --istio.test.ci --istio.test.work_dir <my_dir>
+make doc.test TEST=tasks/traffic-management
 ```
 
-The value of `my_dir` will be the parent directory for your test output. Within
-`my_dir`, each test `Main` will create a directory containing a subdirectory for
-each test method. Each test method directory will contain a `snippet.txt` that
-was generated for that particular test.
+You can also run one or more individual test by listing the full test names separated by commas. For example:
 
-Make sure to have the `HUB` and `TAG` [environment variables set](https://github.com/istio/istio/wiki/Preparing-for-Development#setting-up-environment-variables) to the location of
-your Istio Docker images.
+```bash
+make doc.test TEST=tasks/traffic-management/request-routing,tasks/traffic-management/fault-injection
+```
 
-You can find the complete list of arguments on [the test framework wiki page](https://github.com/istio/istio/wiki/Istio-Test-Framework).
+`TIMEOUT` specifies a time limit exceeding which all tests will halt, and the default value is 30 minutes (`30m`).
+
+You can also find this information by running `make doc.test.help`.
+
+### Notes
+
+1. The [tests/util/debug.sh](./util/debug.sh) script is automatically included in every `test.sh` script
+   to enable bash tracing. The bash tracing output can be found in `out/<test_path>_[test|cleanup]_debug.txt`.
+
+1. When using `kind` clusters on a Mac, an extra env var is needed (ADDITIONAL_CONTAINER_OPTIONS="--network host").
+   Use the following command:
+
+   ```sh
+   TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make doc.test
+   ```
+
+1. Set the HUB and TAG environment variables to use a particular Istio build when running tests.
+   If unset, their default values will match those used by the prow tests.

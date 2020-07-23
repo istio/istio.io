@@ -3,7 +3,8 @@ title: Authorization policies with a deny action
 description: Shows how to set up access control to deny traffic explicitly.
 weight: 40
 keywords: [security,access-control,rbac,authorization,deny]
-test: true
+owner: istio/wg-security-maintainers
+test: yes
 ---
 
 This task shows you how to set up Istio authorization policy that denies HTTP traffic

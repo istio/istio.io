@@ -1,5 +1,7 @@
 ---
 title: Analyzer Message Format
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 The `istioctl analyze` command provides messages in the format:

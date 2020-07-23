@@ -5,7 +5,8 @@ weight: 10
 aliases:
     - /docs/tasks/request-routing.html
 keywords: [traffic-management,routing]
-test: true
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 This task shows you how to route requests dynamically to multiple versions of a

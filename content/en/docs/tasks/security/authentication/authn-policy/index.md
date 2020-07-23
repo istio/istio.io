@@ -6,6 +6,8 @@ keywords: [security,authentication]
 aliases:
     - /docs/tasks/security/istio-auth.html
     - /docs/tasks/security/authn-policy/
+owner: istio/wg-security-maintainers
+test: yes
 ---
 
 This task covers the primary activities you might need to perform when enabling, configuring, and using Istio authentication policies. Find out more about
@@ -20,7 +22,7 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 [installation steps](/docs/setup/getting-started).
 
 {{< text bash >}}
-$ istioctl manifest apply
+$ istioctl install --set profile=default
 {{< /text >}}
 
 ### Setup
@@ -47,14 +49,14 @@ You can verify setup by sending an HTTP request with `curl` from any `sleep` pod
 For example, here is a command to check `sleep.bar` to `httpbin.foo` reachability:
 
 {{< text bash >}}
-$ kubectl exec $(kubectl get pod -l app=sleep -n bar -o jsonpath={.items..metadata.name}) -c sleep -n bar -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+$ kubectl exec "$(kubectl get pod -l app=sleep -n bar -o jsonpath={.items..metadata.name})" -c sleep -n bar -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
 This one-liner command conveniently iterates through all reachability combinations:
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.foo to httpbin.legacy: 200
@@ -78,6 +80,7 @@ Last but not least, verify that there are no destination rules that apply on the
 
 {{< text bash >}}
 $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | grep "host:"
+
 {{< /text >}}
 
 {{< tip >}}
@@ -96,19 +99,23 @@ upstream request to the backend. That header's presence is evidence that mutual 
 used. For example:
 
 {{< text bash >}}
-$ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert
-"X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>"
+$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
+    "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"
 {{< /text >}}
 
 When the server doesn't have sidecar, the `X-Forwarded-Client-Cert` header is not there, which implies requests are in plain text.
 
 {{< text bash >}}
-$ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.legacy:8000/headers -s | grep X-Forwarded-Client-Cert
+$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.legacy:8000/headers -s | grep X-Forwarded-Client-Cert
+
 {{< /text >}}
 
 ## Globally enabling Istio mutual TLS in STRICT mode
 
-While Istio automatically upgrades all traffic between the proxies and the workloads to mutual TLS between, workloads can still receive plain text traffic. To prevent non-mutual TLS for the whole mesh, set a mesh-wide peer authentication policy to set mutual TLS mode to `STRICT`. The mesh-wide peer authentication policy shouldn't have a `selector` section, and it must apply to the **root namespace**, for example:
+While Istio automatically upgrades all traffic between the proxies and the workloads to mutual TLS,
+workloads can still receive plain text traffic. To prevent non-mutual TLS traffic for the whole mesh,
+set a mesh-wide peer authentication policy with the mutual TLS mode set to `STRICT`.
+The mesh-wide peer authentication policy should not have a `selector` and must be applied in the **root namespace**, for example:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -124,16 +131,16 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-The example assumes `istio-system` is the root namespace. If you used a different value during your installation, replace `istio-system` with the value you used.
+The example assumes `istio-system` is the root namespace. If you used a different value during installation, replace `istio-system` with the value you used.
  {{< /tip >}}
 
-This peer authentication policy has the following effects:
--  It configures all workloads in the mesh to only accept requests encrypted with TLS. Since it doesn't specify a value for the `selector` field, the policy applies to all workloads in the mesh.
+This peer authentication policy configures workloads to only accept requests encrypted with TLS.
+Since it doesn't specify a value for the `selector` field, the policy applies to all workloads in the mesh.
 
 Run the test command again:
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.foo to httpbin.legacy: 200
@@ -179,7 +186,7 @@ EOF
 As this policy is applied on workloads in namespace `foo` only, you should see only request from client-without-sidecar (`sleep.legacy`) to `httpbin.foo` start to fail.
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.foo to httpbin.legacy: 200
@@ -232,6 +239,21 @@ EOF
 
 Again, run the probing command. As expected, request from `sleep.legacy` to `httpbin.bar` starts failing with the same reasons.
 
+{{< text bash >}}
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+sleep.foo to httpbin.foo: 200
+sleep.foo to httpbin.bar: 200
+sleep.foo to httpbin.legacy: 200
+sleep.bar to httpbin.foo: 200
+sleep.bar to httpbin.bar: 200
+sleep.bar to httpbin.legacy: 200
+sleep.legacy to httpbin.foo: 000
+command terminated with exit code 56
+sleep.legacy to httpbin.bar: 000
+command terminated with exit code 56
+sleep.legacy to httpbin.legacy: 200
+{{< /text >}}
+
 {{< text plain >}}
 ...
 sleep.legacy to httpbin.bar: 000
@@ -283,6 +305,20 @@ EOF
 1. The port value in the peer authentication policy is the container's port. The value the destination rule is the service's port.
 1. You can only use `portLevelMtls` if the port is bound to a service. Istio ignores it otherwise.
 
+{{< text bash >}}
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+sleep.foo to httpbin.foo: 200
+sleep.foo to httpbin.bar: 200
+sleep.foo to httpbin.legacy: 200
+sleep.bar to httpbin.foo: 200
+sleep.bar to httpbin.bar: 200
+sleep.bar to httpbin.legacy: 200
+sleep.legacy to httpbin.foo: 000
+command terminated with exit code 56
+sleep.legacy to httpbin.bar: 200
+sleep.legacy to httpbin.legacy: 200
+{{< /text >}}
+
 ### Policy precedence
 
 A workload-specific peer authentication policy takes precedence over a namespace-wide policy. You can test this behavior if you add a policy to disable mutual TLS for the `httpbin.foo` workload, for example.
@@ -324,7 +360,7 @@ EOF
 Re-running the request from `sleep.legacy`, you should see a success return code again (200), confirming service-specific policy overrides the namespace-wide policy.
 
 {{< text bash >}}
-$ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+$ kubectl exec "$(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name})" -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
@@ -387,16 +423,14 @@ spec:
 EOF
 {{< /text >}}
 
-Get ingress IP
-
-{{< text bash >}}
-$ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-{{< /text >}}
+Follow the instructions in
+    [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+to define the `INGRESS_HOST` and `INGRESS_PORT` environment variables.
 
 And run a test query
 
 {{< text bash >}}
-$ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+$ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
@@ -424,18 +458,18 @@ Apply the policy to the namespace of the workload it selects, `ingressgateway` i
 If you provide a token in the authorization header, its implicitly default location, Istio validates the token using the [public key set]({{< github_file >}}/security/tools/jwt/samples/jwks.json), and rejects requests if the bearer token is invalid. However, requests without tokens are accepted. To observe this behavior, retry the request without a token, with a bad token, and with a valid token:
 
 {{< text bash >}}
-$ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+$ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
 {{< text bash >}}
-$ curl --header "Authorization: Bearer deadbeef" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+$ curl --header "Authorization: Bearer deadbeef" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 401
 {{< /text >}}
 
 {{< text bash >}}
 $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
-$ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+$ curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
@@ -443,14 +477,13 @@ To observe other aspects of JWT validation, use the script [`gen-jwt.py`]({{< gi
 generate new tokens to test with different issuer, audiences, expiry date, etc. The script can be downloaded from the Istio repository:
 
 {{< text bash >}}
-$ wget {{< github_file >}}/security/tools/jwt/samples/gen-jwt.py
-$ chmod +x gen-jwt.py
+$ wget --no-verbose {{< github_file >}}/security/tools/jwt/samples/gen-jwt.py
 {{< /text >}}
 
 You also need the `key.pem` file:
 
 {{< text bash >}}
-$ wget {{< github_file >}}/security/tools/jwt/samples/key.pem
+$ wget --no-verbose {{< github_file >}}/security/tools/jwt/samples/key.pem
 {{< /text >}}
 
 {{< tip >}}
@@ -462,8 +495,8 @@ For example, the command below creates a token that
 expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 5 seconds:
 
 {{< text bash >}}
-$ TOKEN=$(./gen-jwt.py ./key.pem --expire 5)
-$ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"; sleep 1; done
+$ TOKEN=$(python3 ./gen-jwt.py ./key.pem --expire 5)
+$ for i in $(seq 1 10); do curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"; sleep 1; done
 200
 200
 200
@@ -505,13 +538,13 @@ EOF
 Retry the request without a token. The request now fails with error code `403`:
 
 {{< text bash >}}
-$ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+$ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 403
 {{< /text >}}
 
 ### Require valid tokens per-path
 
-To refine authorization with a token requirement per host, path, or method, change the authorization policy to only require JWT on `/headers`. When this authorization rule takes effect, requests to `$INGRESS_HOST/headers` fail with the error code `403`. Requests to all other paths succeed, for example `$INGRESS_HOST/ip`.
+To refine authorization with a token requirement per host, path, or method, change the authorization policy to only require JWT on `/headers`. When this authorization rule takes effect, requests to `$INGRESS_HOST:$INGRESS_PORT/headers` fail with the error code `403`. Requests to all other paths succeed, for example `$INGRESS_HOST:$INGRESS_PORT/ip`.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -536,12 +569,12 @@ EOF
 {{< /text >}}
 
 {{< text bash >}}
-$ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+$ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 403
 {{< /text >}}
 
 {{< text bash >}}
-$ curl $INGRESS_HOST/ip -s -o /dev/null -w "%{http_code}\n"
+$ curl "$INGRESS_HOST:$INGRESS_PORT/ip" -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
@@ -557,6 +590,12 @@ $ curl $INGRESS_HOST/ip -s -o /dev/null -w "%{http_code}\n"
 
     {{< text bash >}}
     $ kubectl -n istio-system delete authorizationpolicy frontend-ingress
+    {{< /text >}}
+
+1. Remove the token generator script and key file:
+
+    {{< text bash >}}
+    $ rm -f ./gen-jwt.py ./key.pem
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.

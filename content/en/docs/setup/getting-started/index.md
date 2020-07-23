@@ -7,6 +7,8 @@ aliases:
     - /docs/setup/kubernetes/
     - /docs/setup/kubernetes/install/kubernetes/
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 This guide lets you quickly evaluate Istio. If you are already familiar with
@@ -72,12 +74,12 @@ Follow these steps to get started with Istio:
     profiles for production or performance testing.
 
     {{< text bash >}}
-    $ istioctl manifest apply --set profile=demo
-    ✔ Component Base installed
-    ✔ Component Pilot installed
-    ✔ Component EgressGateways installed
-    ✔ Component IngressGateways installed
-    ✔ Component AddonComponents installed
+    $ istioctl install --set profile=demo
+    ✔ Istio core installed
+    ✔ Istiod installed
+    ✔ Egress gateways installed
+    ✔ Ingress gateways installed
+    ✔ Addons installed
     ✔ Installation complete
     {{< /text >}}
 
@@ -286,13 +288,20 @@ $ gcloud compute firewall-rules create allow-gateway-http --allow tcp:$INGRESS_P
 $ gcloud compute firewall-rules create allow-gateway-https --allow tcp:$SECURE_INGRESS_PORT
 {{< /text >}}
 
+_IBM Cloud Kubernetes Service:_
+
+{{< text bash >}}
+$ ibmcloud ks workers --cluster <cluster-name or id>
+$ export INGRESS_HOST=<public IP of one of the worker nodes>
+{{< /text >}}
+
 _Docker For Desktop:_
 
 {{< text bash >}}
 $ export INGRESS_HOST=127.0.0.1
 {{< /text >}}
 
-_Other environments (e.g., IBM Cloud Private, etc.):_
+_Other environments:_
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
@@ -330,9 +339,17 @@ by viewing the Bookinfo product page using a browser.
 
 ## View the dashboard {#dashboard}
 
-Istio has several optional dashboards installed by the `demo` installation. The
-Kiali dashboard helps you understand the structure of your service mesh by
-displaying the topology and indicates the health of your mesh.
+Istio integrates with [several](/docs/ops/integrations) different telemetry applications. These can help you gain
+an understanding of the structure of your service mesh, display the topology of the mesh, and analyze the health of your mesh.
+
+Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kiali/) dashboard.
+
+1.  Install Kiali and wait for it to be deployed.
+
+    {{< text bash >}}
+    $ kubectl apply -f {{< github_tree >}}/samples/addons/kiali.yaml -n istio-system
+    $ while ! kubectl wait --for=condition=available --timeout=600s deployment/kiali -n istio-system; do sleep 1; done
+    {{< /text >}}
 
 1.  Access the Kiali dashboard. The default user name is `admin` and default password is `admin`.
 
@@ -395,4 +412,3 @@ If no longer needed, use the following command to remove it:
 {{< text bash >}}
 $ kubectl delete namespace istio-system
 {{< /text >}}
-

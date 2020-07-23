@@ -5,6 +5,8 @@ weight: 10
 aliases:
   - /help/ops/telemetry/envoy-stats
   - /docs/ops/telemetry/envoy-stats
+owner: istio/wg-policies-and-telemetry-maintainers
+test: no
 ---
 
 The Envoy proxy keeps detailed statistics about network traffic.

@@ -1,5 +1,6 @@
 ---
 title: Workload Instance
+test: n/a
 ---
 A single instantiation of a [workload's](/docs/reference/glossary/#workload) binary.
 A workload instance can expose zero or more [service endpoints](/docs/reference/glossary/#service-endpoint),

@@ -3,6 +3,8 @@ title: Configure Istio Ingress Gateway
 overview: Control traffic starting from Ingress.
 weight: 71
 
+owner: istio/wg-docs-maintainers
+test: no
 ---
 
 Until now, you used a Kubernetes Ingress to access your application from the

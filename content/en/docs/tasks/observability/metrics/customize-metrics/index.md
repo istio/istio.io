@@ -3,6 +3,8 @@ title: Customizing Istio Metrics
 description: This task shows you how to customize the Istio metrics.
 weight: 25
 keywords: [telemetry,metrics,customize]
+owner: istio/wg-policies-and-telemetry-maintainers
+test: no
 ---
 
 This task shows you how to customize the metrics that Istio generates.
@@ -41,7 +43,7 @@ installation.
 
 ## Enable custom metrics
 
-Edit the the `EnvoyFilter` to add or modify dimensions and metrics. Then, add
+Edit the `EnvoyFilter` to add or modify dimensions and metrics. Then, add
 annotations to all the Istio-enabled pods to extract the new or modified
 dimensions.
 
@@ -86,7 +88,7 @@ dimensions.
             {
                 "name": "requests_total",
                 "dimensions": {
-                    "destination_port": "destination.port",
+                    "destination_port": "string(destination.port)",
                     "request_host": "request.host"
                 }
             }
@@ -102,16 +104,20 @@ dimensions.
 
 1. Apply the following annotation to all injected pods with the list of the
    dimensions to extract into a Prometheus
-   [time series](https://en.wikipedia.org/wiki/Time_series), using the following
-   command:
+   [time series](https://en.wikipedia.org/wiki/Time_series) using the following command:
+
+    {{< tip >}}
+    This step is needed only  if your dimensions are not already in
+    [DefaultStatTags list]({{<github_blob>}}/pkg/bootstrap/config.go)
+    {{< /tip >}}
 
     {{< text yaml >}}
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     spec:
-    template:
+      template: # pod template
         metadata:
-        annotations:
+          annotations:
             sidecar.istio.io/extraStatTags: destination_port,request_host
     {{< /text >}}
 
@@ -157,4 +163,4 @@ following extra attributes.
 | `plugin_root_id` | string | Wasm root instance ID |
 | `plugin_vm_id` | string | Wasm VM ID |
 
-For more information, see [configuration reference](/docs/reference/config/telemetry/).
+For more information, see [configuration reference](/docs/reference/config/proxy_extensions/stats/).

@@ -6,7 +6,8 @@ keywords: [traffic-management,ingress]
 aliases:
     - /docs/tasks/ingress.html
     - /docs/tasks/ingress
-test: true
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 Along with support for Kubernetes [Ingress](/docs/tasks/traffic-management/ingress/kubernetes-ingress/), Istio offers another configuration model, [Istio Gateway](/docs/reference/config/networking/gateway/). A `Gateway` provides more extensive customization and flexibility than `Ingress`, and allows Istio features such as monitoring and route rules to be applied to traffic entering the cluster.
@@ -97,6 +98,13 @@ Setting the ingress IP depends on the cluster provider:
     $ gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
     {{< /text >}}
 
+1.  _IBM Cloud Kubernetes Service:_
+
+    {{< text bash >}}
+    $ ibmcloud ks workers --cluster cluster-name-or-id
+    $ export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
+    {{< /text >}}
+
 1.  _Minikube:_
 
     {{< text bash >}}
@@ -109,7 +117,7 @@ Setting the ingress IP depends on the cluster provider:
     $ export INGRESS_HOST=127.0.0.1
     {{< /text >}}
 
-1.  _Other environments (e.g., IBM Cloud Private etc):_
+1.  _Other environments:_
 
     {{< text bash >}}
     $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
@@ -200,13 +208,8 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
     HTTP/1.1 200 OK
-    server: envoy
-    date: Mon, 29 Jan 2018 04:45:49 GMT
-    content-type: text/html; charset=utf-8
-    access-control-allow-origin: *
-    access-control-allow-credentials: true
-    content-length: 0
-    x-envoy-upstream-service-time: 48
+    server: istio-envoy
+    ...
     {{< /text >}}
 
     Note that you use the `-H` flag to set the _Host_ HTTP header to
@@ -218,9 +221,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
     HTTP/1.1 404 Not Found
-    date: Mon, 29 Jan 2018 04:45:49 GMT
-    server: envoy
-    content-length: 0
+    ...
     {{< /text >}}
 
 ## Accessing ingress services using a browser

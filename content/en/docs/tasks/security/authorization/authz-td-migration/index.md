@@ -3,6 +3,8 @@ title: Authorization Policy Trust Domain Migration
 description: Shows how to migrate from one trust domain to another without changing authorization policy.
 weight: 60
 keywords: [security,access-control,rbac,authorization,trust domain, migration]
+owner: istio/wg-security-maintainers
+test: yes
 ---
 
 This task shows you how to migrate from one trust domain to another without changing authorization policy.
@@ -20,7 +22,7 @@ In Istio 1.4, we introduce an alpha feature to support {{< gloss >}}trust domain
 1. Install Istio with a custom trust domain and mutual TLS enabled.
 
     {{< text bash >}}
-    $ istioctl manifest apply --set profile=demo --set values.global.trustDomain=old-td
+    $ istioctl install --set profile=demo --set values.global.trustDomain=old-td
     {{< /text >}}
 
 1. Deploy the [httpbin]({{< github_tree >}}/samples/httpbin) sample in the `default` namespace
@@ -68,14 +70,14 @@ Notice that it may take tens of seconds for the authorization policy to be propa
     * `sleep` in the `default` namespace are denied.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
     * `sleep` in the `sleep-allow` namespace are allowed.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -84,7 +86,7 @@ Notice that it may take tens of seconds for the authorization policy to be propa
 1. Install Istio with a new trust domain.
 
     {{< text bash >}}
-    $ istioctl manifest apply --set profile=demo --set values.global.trustDomain=new-td
+    $ istioctl install --set profile=demo --set values.global.trustDomain=new-td
     {{< /text >}}
 
     Istio mesh is now running with a new trust domain, `new-td`.
@@ -102,12 +104,12 @@ Notice that it may take tens of seconds for the authorization policy to be propa
 1. Verify that requests to `httpbin` from both `sleep` in `default` namespace and `sleep-allow` namespace are denied.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
@@ -133,7 +135,7 @@ Notice that it may take tens of seconds for the authorization policy to be propa
           trustDomainAliases:
             - old-td
     EOF
-    $ istioctl manifest apply --set profile=demo -f td-installation.yaml
+    $ istioctl install --set profile=demo -f td-installation.yaml
     {{< /text >}}
 
 1. Without changing the authorization policy, verify that requests to `httpbin` from:
@@ -141,14 +143,14 @@ Notice that it may take tens of seconds for the authorization policy to be propa
     * `sleep` in the `default` namespace are denied.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
     * `sleep` in the `sleep-allow` namespace are allowed.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -168,5 +170,6 @@ $ kubectl delete authorizationpolicy service-httpbin.default.svc.cluster.local
 $ kubectl delete deploy httpbin; kubectl delete service httpbin; kubectl delete serviceaccount httpbin
 $ kubectl delete deploy sleep; kubectl delete service sleep; kubectl delete serviceaccount sleep
 $ kubectl delete namespace sleep-allow
-$ istioctl manifest generate --set profile=demo -f td-installation.yaml | kubectl delete -f -
+$ istioctl manifest generate --set profile=demo -f td-installation.yaml | kubectl delete --ignore-not-found=true -f -
+$ rm ./td-installation.yaml
 {{< /text >}}

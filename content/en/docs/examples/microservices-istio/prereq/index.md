@@ -2,6 +2,8 @@
 title: Prerequisites
 overview: Check the prerequisites for this tutorial.
 weight: 1
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 {{< boilerplate work-in-progress >}}

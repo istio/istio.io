@@ -1,6 +1,8 @@
 ---
 title: MTLSPolicyConflict
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 This message occurs when a destination rule resource and a policy resource are

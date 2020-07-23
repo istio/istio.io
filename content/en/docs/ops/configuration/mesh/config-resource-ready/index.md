@@ -2,6 +2,8 @@
 title: Wait for Resource Status to Apply Configuration
 description: Describes how to wait to apply mesh configuration until a resource reaches a given status or readiness.
 weight: 15
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 {{< warning >}}
@@ -30,7 +32,7 @@ installation using the following command. If you enable it after installation,
 you must re-deploy the control plane.
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
+$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
 ## Wait for resource readiness

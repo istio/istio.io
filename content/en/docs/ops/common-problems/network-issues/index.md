@@ -7,6 +7,8 @@ aliases:
   - /help/ops/traffic-management/troubleshooting
   - /help/ops/troubleshooting/network-issues
   - /docs/ops/troubleshooting/network-issues
+owner: istio/wg-networking-maintainers
+test: no
 ---
 
 ## Requests are rejected by Envoy
@@ -194,30 +196,6 @@ spec:
         host: helloworld.default.svc.cluster.local
         subset: v1
 {{< /text >}}
-
-## Headless TCP services losing connection
-
-If `istio-citadel` is deployed, Envoy is restarted every 45 days to refresh certificates.
-This causes the disconnection of TCP streams or long-running connections between services.
-
-You should build resilience into your application for this type of
-disconnect, but if you still want to prevent the disconnects from
-happening, you will need to disable mutual TLS and the `istio-citadel` deployment.
-
-First, edit your `istio` configuration to disable mutual TLS:
-
-{{< text bash >}}
-$ kubectl edit configmap -n istio-system istio
-$ kubectl delete pods -n istio-system -l istio=pilot
-{{< /text >}}
-
-Next, scale down the `istio-citadel` deployment to disable Envoy restarts:
-
-{{< text bash >}}
-$ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
-{{< /text >}}
-
-This should stop Istio from restarting Envoy and disconnecting TCP connections.
 
 ## Envoy is crashing under load
 

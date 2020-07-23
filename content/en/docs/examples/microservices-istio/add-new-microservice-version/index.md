@@ -4,6 +4,8 @@ overview: Deploy a new version of a microservice.
 
 weight: 50
 
+owner: istio/wg-docs-maintainers
+test: no
 ---
 
 In this module, you deploy a new version of the `reviews` service, `_v2_`,

@@ -10,7 +10,8 @@ aliases:
   - /docs/ops/app-health-check
   - /docs/ops/setup/app-health-check
 keywords: [security,health-check]
-test: true
+owner: istio/wg-user-experience-maintainers
+test: yes
 ---
 
 [Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)

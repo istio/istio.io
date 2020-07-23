@@ -3,6 +3,8 @@ title: Enabling Policy Enforcement (Deprecated)
 description: This task shows you how to enable Istio policy enforcement.
 weight: 1
 keywords: [policies]
+owner: istio/wg-policies-and-telemetry-maintainers
+test: n/a
 ---
 
 {{< warning >}}
@@ -45,7 +47,7 @@ which enables policy checks by default.
     Execute the following command from the root Istio directory:
 
     {{< text bash >}}
-    $ istioctl manifest apply --set meshConfig.disablePolicyChecks=false --set values.pilot.policy.enabled=true
+    $ istioctl install --set meshConfig.disablePolicyChecks=false --set values.pilot.policy.enabled=true
     configuration "istio" replaced
     {{< /text >}}
 

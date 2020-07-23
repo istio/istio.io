@@ -3,6 +3,8 @@ title: Enable Istio on all the microservices
 overview: Enable Istio on your whole application.
 weight: 70
 
+owner: istio/wg-docs-maintainers
+test: no
 ---
 
 Previously, you enabled Istio on a single microservice, `productpage`. You can

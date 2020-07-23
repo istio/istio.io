@@ -7,6 +7,8 @@ aliases:
     - /docs/tasks/basic-access-control.html
     - /docs/tasks/security/basic-access-control/index.html
     - /docs/tasks/security/secure-access-control/index.html
+owner: istio/wg-policies-and-telemetry-maintainers
+test: n/a
 ---
 
 {{< warning >}}

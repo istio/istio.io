@@ -1,5 +1,6 @@
 ---
 title: Failure Domain
+test: n/a
 ---
 
 A failure domain is a physical or logical section of the computing environment

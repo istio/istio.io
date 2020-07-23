@@ -6,7 +6,8 @@ aliases:
     - /docs/samples/bookinfo.html
     - /docs/guides/bookinfo/index.html
     - /docs/guides/bookinfo.html
-test: true
+owner: istio/wg-docs-maintainers
+test: yes
 ---
 
 This example deploys a sample application composed of four separate microservices used
@@ -137,7 +138,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     example from `ratings`:
 
     {{< text bash >}}
-    $ kubectl exec -it "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+    $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 

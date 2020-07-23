@@ -10,6 +10,8 @@ aliases:
     - /docs/concepts/security/rbac/
     - /docs/concepts/security/mutual-tls.html
     - /docs/concepts/policies/
+owner: istio/wg-security-maintainers
+test: no
 ---
 
 Breaking down a monolithic application into atomic services offers various
@@ -121,12 +123,12 @@ provisioning flow.
     caption="Identity Provision"
     >}}
 
-Istio provisions identities through the secret discovery service (SDS) using the
-following flow:
+Istio provisions identities through the
+[secret discovery service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)
+using the following flow:
 
 1. `istiod` offers a gRPC service to take [certificate signing requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
-1. Envoy sends a certificate and key request via the Envoy secret discovery
-   service (SDS) API.
+1. Envoy sends a certificate and key request via the Envoy SDS API.
 1. Upon receiving the SDS request, the Istio agent creates the private key
    and CSR before sending the CSR with its credentials to `istiod` for signing.
 1. The CA validates the credentials carried in the CSR and signs the CSR to
@@ -263,9 +265,9 @@ proxy receives the configuration, the new authentication requirement takes
 effect immediately on that pod.
 
 Client services, those that send requests, are responsible for following the
-necessary authentication mechanism. For peer authentication, the application is
+necessary authentication mechanism. For request authentication, the application is
 responsible for acquiring and attaching the JWT credential to the request. For
-mutual TLS, Istio automatically upgrades all traffic between two PEPs to mutual
+peer authentication, Istio automatically upgrades all traffic between two PEPs to mutual
 TLS. If authentication policies disable mutual TLS mode, Istio continues to use
 plain text between PEPs. To override this behavior explicitly disable mutual
 TLS mode with
@@ -606,9 +608,9 @@ policies first to ensure that an allow policy can't bypass a deny policy.
 
 #### Policy Target
 
-You can specify a policy's scope or target is determined with the
+You can specify a policy's scope or target with the
 `metadata/namespace` field and an optional `selector` field.
-A policy applies to the namespace in the `metadata/namespace` field tells. If
+A policy applies to the namespace in the `metadata/namespace` field. If
 set its value to the root namespace, the policy applies to all namespaces in a
 mesh. The value of the root namespace is configurable, and the default is
 `istio-system`. If set to any other namespace, the policy only applies to the

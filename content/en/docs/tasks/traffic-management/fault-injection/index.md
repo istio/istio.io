@@ -5,7 +5,8 @@ weight: 20
 keywords: [traffic-management,fault-injection]
 aliases:
     - /docs/tasks/fault-injection.html
-test: true
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 This task shows you how to inject faults to test the resiliency of your application.

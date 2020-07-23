@@ -1,11 +1,13 @@
 ---
 title: cert-manager
 description: Information on how to integrate with cert-manager.
-weight: 20
+weight: 26
 keywords: [integration,cert-manager]
 aliases:
   - /docs/tasks/traffic-management/ingress/ingress-certmgr/
   - /docs/examples/advanced-gateways/ingress-certmgr/
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 [cert-manager](https://cert-manager.io/) is a tool that automates certificate management. This can be integrated with Istio gateways to manage TLS certificates.
@@ -51,7 +53,7 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: ingress-cert # This should match the Certifcate secretName
+      credentialName: ingress-cert # This should match the Certificate secretName
     hosts:
     - my.example.com # This should match a DNS name in the Certificate
 {{< /text >}}
@@ -63,8 +65,8 @@ cert-manager provides direct integration with Kubernetes Ingress by configuring 
 Alternatively, a `Certificate` can be created as described in [Istio Gateway](#istio-gateway), then referenced in the `Ingress` object:
 
 {{< text yaml >}}
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+Kind: Ingress
 metadata:
   name: ingress
   annotations:
@@ -76,5 +78,5 @@ spec:
   tls:
   - hosts:
     - my.example.com # This should match a DNS name in the Certificate
-    secretName: ingress-cert # This should match the Certifcate secretName
+    secretName: ingress-cert # This should match the Certificate secretName
 {{< /text >}}

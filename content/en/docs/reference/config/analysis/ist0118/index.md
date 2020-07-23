@@ -1,6 +1,8 @@
 ---
 title: PortNameIsNotUnderNamingConvention
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 This message occurs when the port doesn't follow the [Istio service port naming convention](/docs/ops/deployment/requirements/)

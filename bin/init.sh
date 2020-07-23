@@ -48,7 +48,16 @@ git fetch "$ISTIO_REMOTE"
 git checkout "$ISTIO_SHA"
 
 # Build and install istioctl
-go install ./istioctl/cmd/istioctl
+LONG_SHA=$(git rev-parse "${ISTIO_SHA}")
+export TAG=${ISTIO_IMAGE_VERSION}.${LONG_SHA}
+export VERSION=${TAG}
+export ISTIO_VERSION=${TAG}
+echo "TAG=${TAG}"
+echo "VERSION=${VERSION}"
+echo "ISTIO_VERSION=${ISTIO_VERSION}"
+make gen-charts "${ISTIO_OUT}/release/istioctl-linux-amd64"
+cp -a "${ISTIO_OUT}/release/istioctl-linux-amd64" /gobin/istioctl
+
 
 popd > /dev/null
 
@@ -61,5 +70,9 @@ cp -a "${ISTIO_GO}/tests/integration/iop-integration-test-defaults.yaml" "${ISTI
 cp -a "${ISTIO_GO}/manifests" "${ISTIOIO_GO}/manifests"
 
 # For generating junit.xml files
+function install-junit-report() {
+  (cd /tmp; go get github.com/jstemmer/go-junit-report)
+}
+
 echo "Installing go-junit-report..."
-unset GOOS && unset GOARCH && CGO_ENABLED=1 go get github.com/jstemmer/go-junit-report
+command -v go-junit-report || install-junit-report

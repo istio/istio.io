@@ -1,0 +1,49 @@
+
+
+
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Istio</title>
+    <description>An open platform to connect, manage, and secure microservices.</description>
+    <pubDate>2020-05-27T14:49:37-07:00</pubDate>
+    <link>/v0.1/index.html</link>
+    <image>
+      <url>img/android-chrome-96x96.png</url>
+      <link>/v0.1/index.html</link>
+    </image>
+    
+      
+        <item>
+          <title>Canary Deployments using Istio</title>
+          <description>Using Istio to create autoscaled canary deployments</description>
+          <pubDate>2017-06-14T00:00:00-07:00</pubDate>
+          <link>http://github.com/pages/istio/istio.io/blog/canary-deployments-using-istio.html</link>
+          <author>The Istio Team</author>
+          <guid isPermaLink="true">http://github.com/pages/istio/istio.io/blog/canary-deployments-using-istio.html</guid>
+        </item>
+      
+    
+      
+        <item>
+          <title>Istio Auth: secure by default service to service communications</title>
+          <description>Istio Auth 0.1 announcement</description>
+          <pubDate>2017-05-25T00:00:00-07:00</pubDate>
+          <link>http://github.com/pages/istio/istio.io/blog/istio-auth-for-microservices.html</link>
+          <author>The Istio Team</author>
+          <guid isPermaLink="true">http://github.com/pages/istio/istio.io/blog/istio-auth-for-microservices.html</guid>
+        </item>
+      
+    
+      
+        <item>
+          <title>Introducing Istio: A robust service mesh for microservices</title>
+          <description>Istio 0.1 announcement</description>
+          <pubDate>2017-05-24T00:00:00-07:00</pubDate>
+          <link>http://github.com/pages/istio/istio.io/blog/istio-service-mesh-for-microservices.html</link>
+          <author>The Istio Team</author>
+          <guid isPermaLink="true">http://github.com/pages/istio/istio.io/blog/istio-service-mesh-for-microservices.html</guid>
+        </item>
+      
+    
+  </channel>
+</rss>

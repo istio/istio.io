@@ -19,6 +19,8 @@ aliases:
   - /docs/ops/setup/required-pod-capabilities
   - /help/ops/setup/required-pod-capabilities
   - /docs/ops/prep/requirements
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 To be part of a mesh, Kubernetes pods and services must satisfy the following
@@ -65,6 +67,7 @@ The following ports and protocols are used by Istio.
 | 15000 | TCP | Envoy | Envoy admin port (commands/diagnostics) |
 | 15001 | TCP | Envoy | Envoy Outbound |
 | 15006 | TCP | Envoy | Envoy Inbound |
+| 15008 | TCP | Envoy | Envoy Tunnel port (Inbound) |
 | 15020 | HTTP | Envoy | Istio agent Prometheus telemetry |
 | 15021 | HTTP | Envoy | Health checks |
 | 15090 | HTTP | Envoy | Envoy Prometheus telemetry |

@@ -5,6 +5,8 @@ weight: 30
 keywords: [traffic-management,egress]
 aliases:
   - /docs/examples/advanced-gateways/egress-gateway/
+owner: istio/wg-networking-maintainers
+test: no
 ---
 
 {{<warning>}}
@@ -52,8 +54,7 @@ controlled way.
 1.  Run the following command:
 
     {{< text bash >}}
-    $ istioctl manifest apply --set values.global.istioNamespace=istio-system \
-        --set values.gateways.istio-ingressgateway.enabled=false \
+    $ istioctl install --set values.global.istioNamespace=istio-system \
         --set values.gateways.istio-egressgateway.enabled=true
     {{< /text >}}
 

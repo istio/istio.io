@@ -5,6 +5,8 @@ weight: 10
 keywords: [telemetry,tracing,jaeger,span,port-forwarding]
 aliases:
  - /docs/tasks/telemetry/distributed-tracing/jaeger/
+owner: istio/wg-policies-and-telemetry-maintainers
+test: no
 ---
 
 After completing this task, you understand how to have your application participate in tracing with [Jaeger](https://www.jaegertracing.io/),

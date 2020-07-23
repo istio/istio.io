@@ -1,0 +1,11 @@
+---
+apiVersion: install.istio.io/v1alpha2
+kind: IstioControlPlane
+metadata:
+  namespace: istio-operator
+  name: example-istiocontrolplane
+spec:
+  profile: default
+  tag: 1.4.0
+  hub: docker.io/istio  
+...

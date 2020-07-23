@@ -1,5 +1,6 @@
 ---
 title: Workload
+test: n/a
 ---
 A binary deployed by [operators](/docs/reference/glossary/#operator) to deliver some function of a service mesh application.
 Workloads have names, namespaces, and unique ids. These properties are available in policy and telemetry configuration

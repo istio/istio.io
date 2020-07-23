@@ -5,7 +5,8 @@ weight: 80
 keywords: [security,certificates]
 aliases:
     - /docs/tasks/security/plugin-ca-cert/
-test: true
+owner: istio/wg-security-maintainers
+test: yes
 ---
 
 This task shows how administrators can configure the Istio certificate authority with an existing root certificate, signing certificate and key.
@@ -54,7 +55,7 @@ which will be read by Istio's CA:
     Istio's CA will read certificates and key from the secret-mount files.
 
     {{< text bash >}}
-    $ istioctl manifest apply --set profile=demo
+    $ istioctl install --set profile=demo
     {{< /text >}}
 
 ## Deploying example services

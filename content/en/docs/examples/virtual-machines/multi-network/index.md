@@ -11,6 +11,8 @@ keywords:
 aliases:
 - /docs/examples/mesh-expansion/multi-network
 - /docs/tasks/virtual-machines/multi-network
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 This example provides instructions to integrate a VM or a bare metal host into a
@@ -41,8 +43,8 @@ following commands on a machine with cluster admin privileges:
    cluster and certificates with the change of how you deploy Istio control plane:
 
     {{< text bash >}}
-    $ istioctl manifest apply \
-       -f install/kubernetes/operator/examples/vm/values-istio-meshexpansion.yaml
+    $ istioctl install \
+       -f manifests/examples/vm/values-istio-meshexpansion.yaml
     {{< /text >}}
 
 ### Setting up the VM

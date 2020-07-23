@@ -5,6 +5,8 @@ weight: 10
 aliases:
     - /docs/reference/config/mixer/attribute-vocabulary.html
     - /docs/reference/config/mixer/aspects/attributes.html
+owner: istio/wg-policies-and-telemetry-maintainers
+test: n/a
 ---
 
 Attributes are a central concept used throughout Istio. You can find a description of what attributes are
@@ -25,7 +27,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `source.name`               | string | Source workload instance name. | `redis-master-2353460263-1ecey` |
 | `source.namespace`          | string | Source workload instance namespace. | `my-namespace` |
 | `source.principal`          | string | Authority under which the source workload instance is running. | `service-account-foo` |
-| `source.owner`              | string | Reference to the workload controlling the source workload instance. | `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-policy` |
+| `source.owner`              | string | Reference to the workload controlling the source workload instance. | `kubernetes://apis/apps/v1/namespaces/istio-system/deployments/istio-policy` |
 | `source.workload.uid`       | string | Unique identifier of the source workload. | `istio://istio-system/workloads/istio-policy` |
 | `source.workload.name`      | string | Source workload name. | `istio-policy` |
 | `source.workload.namespace` | string | Source workload namespace.  | `istio-system` |
@@ -36,7 +38,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `destination.name`              | string | Destination workload instance name. | `istio-telemetry-2359333` |
 | `destination.namespace`         | string | Destination workload instance namespace. | `istio-system` |
 | `destination.principal`         | string | Authority under which the destination workload instance is running. | `service-account` |
-| `destination.owner`             | string | Reference to the workload controlling the destination workload instance.| `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-telemetry` |
+| `destination.owner`             | string | Reference to the workload controlling the destination workload instance.| `kubernetes://apis/apps/v1/namespaces/istio-system/deployments/istio-telemetry` |
 | `destination.workload.uid`      | string | Unique identifier of the destination workload. | `istio://istio-system/workloads/istio-telemetry` |
 | `destination.workload.name`     | string | Destination workload name. | `istio-telemetry` |
 | `destination.workload.namespace` | string | Destination workload namespace. | `istio-system` |

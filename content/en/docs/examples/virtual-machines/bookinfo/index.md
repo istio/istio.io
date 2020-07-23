@@ -10,6 +10,8 @@ aliases:
 - /docs/examples/integrating-vms/
 - /docs/examples/mesh-expansion/bookinfo-expanded
 - /docs/examples/vm-bookinfo
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 This example deploys the Bookinfo application across Kubernetes with one

@@ -4,6 +4,8 @@ description: Instructions to setup a KubeSphere Container Platform for Istio.
 weight: 40
 skip_seealso: true
 keywords: [platform-setup,kubesphere,kubernetes]
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 Follow these instructions to prepare the [KubeSphere Container Platform](https://github.com/kubesphere/kubesphere) for Istio. You can download KubeSphere to easily install a Kubernetes cluster on your Linux machines.

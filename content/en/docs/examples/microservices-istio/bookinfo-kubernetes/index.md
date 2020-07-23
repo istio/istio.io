@@ -3,6 +3,8 @@ title: Run Bookinfo with Kubernetes
 overview: Deploy the Bookinfo application that uses the ratings microservice in Kubernetes.
 weight: 30
 
+owner: istio/wg-docs-maintainers
+test: no
 ---
 
 {{< boilerplate work-in-progress >}}
@@ -119,7 +121,7 @@ service/productpage patched
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: extensions/v1beta1
+    apiVersion: networking.k8s.io/v1beta1
     kind: Ingress
     metadata:
       name: bookinfo

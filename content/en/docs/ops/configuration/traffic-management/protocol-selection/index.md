@@ -8,6 +8,8 @@ aliases:
   - /help/ops/protocol-selection
   - /help/tasks/traffic-management/protocol-selection
   - /docs/ops/traffic-management/protocol-selection
+owner: istio/wg-networking-maintainers
+test: no
 ---
 
 Istio supports proxying all TCP traffic by default, but in order to provide additional capabilities,

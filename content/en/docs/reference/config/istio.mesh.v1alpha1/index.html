@@ -191,7 +191,8 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>The time in seconds that Envoy will drain connections during a hot
-restart. MUST be &gt;=1s (e.g., <em>1s/1m/1h</em>)</p>
+restart. MUST be &gt;=1s (e.g., <em>1s/1m/1h</em>)
+Default drain duration is 45s.</p>
 
 </td>
 <td>
@@ -204,7 +205,8 @@ No
 <td>
 <p>The time in seconds that Envoy will wait before shutting down the
 parent process during a hot restart. MUST be &gt;=1s (e.g., <em>1s/1m/1h</em>).
-MUST BE greater than <em>drain</em>duration_ parameter.</p>
+MUST BE greater than <em>drain</em>duration_ parameter.
+Default shutdown duration is 60s.</p>
 
 </td>
 <td>
@@ -238,7 +240,8 @@ No
 <td><code>proxyAdminPort</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Port on which Envoy should listen for administrative commands.</p>
+<p>Port on which Envoy should listen for administrative commands.
+Default port is 15000.</p>
 
 </td>
 <td>
@@ -249,8 +252,8 @@ No
 <td><code>controlPlaneAuthPolicy</code></td>
 <td><code><a href="#AuthenticationPolicy">AuthenticationPolicy</a></code></td>
 <td>
-<p>Authentication policy defines the global switch to control authentication
-for Envoy-to-Envoy communication for istio components Mixer and Pilot.</p>
+<p>AuthenticationPolicy defines how the proxy is authenticated when it connects to the control plane.
+Default is set to MUTUAL_TLS.</p>
 
 </td>
 <td>
@@ -286,9 +289,12 @@ No
 </tr>
 <tr id="ProxyConfig-concurrency">
 <td><code>concurrency</code></td>
-<td><code>int32</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></code></td>
 <td>
-<p>The number of worker threads to run. Default value is number of cores on the machine.</p>
+<p>The number of worker threads to run.
+If unset, this will be automatically determined based on CPU requests/limits.
+If set to 0, all cores on the machine will be used.
+Default is 2 worker threads.</p>
 
 </td>
 <td>
@@ -370,7 +376,8 @@ No
 <td><code>statusPort</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Port on which the agent should listen for administrative commands such as readiness probe.</p>
+<p>Port on which the agent should listen for administrative commands such as readiness probe.
+Default is set to port 15020.</p>
 
 </td>
 <td>
@@ -385,6 +392,34 @@ No
 added by configuring the telemetry extension. Each additional tag needs to be present in this list.
 Extra tags emitted by the telemetry extensions must be listed here so that they can be processed
 and exposed as Prometheus metrics.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-termination_drain_duration">
+<td><code>terminationDrainDuration</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>The amount of time allowed for connections to complete on proxy shutdown.
+On receiving SIGTERM or SIGINT, istio-agent tells the active Envoy to start draining,
+preventing any new connections and allowing existing connections to complete. It then
+sleeps for the termination<em>drain</em>duration and then kills any remaining active Envoy processes.
+If not set, a default of 5s will be applied.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-mesh_id">
+<td><code>meshId</code></td>
+<td><code>int32</code></td>
+<td>
+<p>The unique identifier for the <a href="/docs/reference/glossary/#service-mesh">service mesh</a>
+All control planes running in the same service mesh should specify the same mesh ID.
+Mesh ID is used to label telemetry reports for cases where telemetry from multiple meshes is mixed together.</p>
 
 </td>
 <td>
@@ -593,79 +628,12 @@ tracing configuration).</p>
 </tr>
 </thead>
 <tbody>
-<tr id="MeshConfig-mixer_check_server">
-<td><code>mixerCheckServer</code></td>
-<td><code>string</code></td>
-<td>
-<p>Address of the server that will be used by the proxies for policy
-check calls. By using different names for mixerCheckServer and
-mixerReportServer, it is possible to have one set of Mixer servers handle
-policy check calls while another set of Mixer servers handle telemetry
-calls.</p>
-
-<p>NOTE: Omitting mixerCheckServer while specifying mixerReportServer is
-equivalent to setting disablePolicyChecks to true.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MeshConfig-mixer_report_server">
-<td><code>mixerReportServer</code></td>
-<td><code>string</code></td>
-<td>
-<p>Address of the server that will be used by the proxies for policy report
-calls.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MeshConfig-disable_policy_checks">
-<td><code>disablePolicyChecks</code></td>
-<td><code>bool</code></td>
-<td>
-<p>Disable policy checks by the Mixer service. Default
-is false, i.e. Mixer policy check is enabled by default.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MeshConfig-policy_check_fail_open">
-<td><code>policyCheckFailOpen</code></td>
-<td><code>bool</code></td>
-<td>
-<p>Allow all traffic in cases when the Mixer policy service cannot be reached.
-Default is false which means the traffic is denied when the client is unable
-to connect to Mixer.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MeshConfig-sidecar_to_telemetry_session_affinity">
-<td><code>sidecarToTelemetrySessionAffinity</code></td>
-<td><code>bool</code></td>
-<td>
-<p>Enable session affinity for Envoy Mixer reports so that calls from a proxy will
-always target the same Mixer instance.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="MeshConfig-proxy_listen_port">
 <td><code>proxyListenPort</code></td>
 <td><code>int32</code></td>
 <td>
 <p>Port on which Envoy should listen for incoming connections from
-other services.</p>
+other services. Default port is 15001.</p>
 
 </td>
 <td>
@@ -687,7 +655,8 @@ No
 <td><code>connectTimeout</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>Connection timeout used by Envoy. (MUST BE &gt;=1ms)</p>
+<p>Connection timeout used by Envoy. (MUST BE &gt;=1ms)
+Default timeout is 10s.</p>
 
 </td>
 <td>
@@ -703,11 +672,11 @@ determine whether the connection is using TLS or not (on the
 server side), as well as the application protocol being used
 (e.g., http vs tcp). These heuristics rely on the client sending
 the first bits of data. For server first protocols like MySQL,
-MongoDB, etc., Envoy will timeout on the protocol detection after
+MongoDB, etc. Envoy will timeout on the protocol detection after
 the specified period, defaulting to non mTLS plain TCP
 traffic. Set this field to tweak the period that Envoy will wait
 for the client to send the first bits of data. (MUST BE &gt;=1ms or
-0s to disable)</p>
+0s to disable). Default detection timeout is 5s.</p>
 
 </td>
 <td>
@@ -742,7 +711,8 @@ No
 <td><code>ingressService</code></td>
 <td><code>string</code></td>
 <td>
-<p>Name of theKubernetes service used for the istio ingress controller.</p>
+<p>Name of the Kubernetes service used for the istio ingress controller.
+If no ingress controller is specified, the default value <code>istio-ingressgateway</code> is used.</p>
 
 </td>
 <td>
@@ -753,7 +723,23 @@ No
 <td><code>ingressControllerMode</code></td>
 <td><code><a href="#MeshConfig-IngressControllerMode">IngressControllerMode</a></code></td>
 <td>
-<p>Defines whether to use Istio ingress controller for annotated or all ingress resources.</p>
+<p>Defines whether to use Istio ingress controller for annotated or all ingress resources.
+Default mode is STRICT.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ingress_selector">
+<td><code>ingressSelector</code></td>
+<td><code>string</code></td>
+<td>
+<p>Defines which gateway deployment to use as the Ingress controller. This field corresponds to
+the Gateway.selector field, and will be set as <code>istio: INGRESS_SELECTOR</code>.
+By default, <code>ingressgateway</code> is used, which will select the default IngressGateway as it has the
+<code>istio: ingressgateway</code> labels.
+It is recommended that this is the same value as ingress_service.</p>
 
 </td>
 <td>
@@ -814,7 +800,8 @@ No
 <td>
 <p>This flag enables Envoy&rsquo;s gRPC Access Log Service.
 See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/accesslog/v2/als.proto">Access Log Service</a>
-for details about Envoy&rsquo;s gRPC Access Log Service API.</p>
+for details about Envoy&rsquo;s gRPC Access Log Service API.
+Default value is false.</p>
 
 </td>
 <td>
@@ -845,12 +832,13 @@ traffic from the application.  If your application uses one or
 more external services that are not known apriori, setting the
 policy to ALLOW<em>ANY will cause the sidecars to route any unknown
 traffic originating from the application to its requested
-destination.  Users are strongly encouraged to use ServiceEntries
+destination. Users are strongly encouraged to use ServiceEntries
 to explicitly declare any external dependencies, instead of using
 allow</em>any, so that traffic to these services can be
 monitored. Can be overridden at a Sidecar level by setting the
 OutboundTrafficPolicy in the <a href="/docs/reference/config/networking/sidecar/#OutboundTrafficPolicy">Sidecar
-API</a>.</p>
+API</a>.
+Default mode is ALLOW_ANY which means outbound traffic to unknown destinations will be allowed.</p>
 
 </td>
 <td>
@@ -886,7 +874,7 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
 <p>This flag is used to enable mutual TLS automatically for service to service communication
-within the mesh, default false.
+within the mesh, default true.
 If set to true, and a given service does not have a corresponding DestinationRule configured,
 or its DestinationRule does not have ClientTLSSettings specified, Istio configures client side
 TLS configuration appropriately. More specifically,
@@ -1032,46 +1020,8 @@ No
 <td><code>dnsRefreshRate</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>Configures DNS refresh rate for Envoy clusters of type STRICT_DNS</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MeshConfig-disable_report_batch">
-<td><code>disableReportBatch</code></td>
-<td><code>bool</code></td>
-<td>
-<p>The flag to disable report batch.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MeshConfig-report_batch_max_entries">
-<td><code>reportBatchMaxEntries</code></td>
-<td><code>uint32</code></td>
-<td>
-<p>When disable<em>report</em>batch is false, this value specifies the maximum number
-of requests that are batched in report. If left unspecified, the default value
-of report<em>batch</em>max_entries == 0 will use the hardcoded defaults of
-istio::mixerclient::ReportOptions.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MeshConfig-report_batch_max_time">
-<td><code>reportBatchMaxTime</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
-<td>
-<p>When disable<em>report</em>batch is false, this value specifies the maximum elapsed
-time a batched report will be sent after a user request is processed. If left
-unspecified, the default report<em>batch</em>max_time == 0 will use the hardcoded
-defaults of istio::mixerclient::ReportOptions.</p>
+<p>Configures DNS refresh rate for Envoy clusters of type STRICT_DNS
+Default refresh rate is 5s.</p>
 
 </td>
 <td>
@@ -1188,6 +1138,112 @@ If you are running a separately managed Envoy with an Istio sidecar, this may ca
 In this case, it is recommended to disable aggregation on that deployment with the
 <code>prometheus.istio.io/merge-metrics: &quot;false&quot;</code> annotation.
 If not specified, this will be enabled by default.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-mixer_check_server" class="deprecated ">
+<td><code>mixerCheckServer</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the server that will be used by the proxies for policy
+check calls. By using different names for mixerCheckServer and
+mixerReportServer, it is possible to have one set of Mixer servers handle
+policy check calls while another set of Mixer servers handle telemetry
+calls.</p>
+
+<p>NOTE: Omitting mixerCheckServer while specifying mixerReportServer is
+equivalent to setting disablePolicyChecks to true.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-mixer_report_server" class="deprecated ">
+<td><code>mixerReportServer</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the server that will be used by the proxies for policy report
+calls.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-disable_policy_checks" class="deprecated ">
+<td><code>disablePolicyChecks</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Disable policy checks by the Mixer service. Default
+is true, i.e. Mixer policy check is disabled by default.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-policy_check_fail_open" class="deprecated ">
+<td><code>policyCheckFailOpen</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Allow all traffic in cases when the Mixer policy service cannot be reached.
+Default is false which means the traffic is denied when the client is unable
+to connect to Mixer.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-sidecar_to_telemetry_session_affinity" class="deprecated ">
+<td><code>sidecarToTelemetrySessionAffinity</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Enable session affinity for Envoy Mixer reports so that calls from a proxy will
+always target the same Mixer instance. Default value is false.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-disable_report_batch" class="deprecated ">
+<td><code>disableReportBatch</code></td>
+<td><code>bool</code></td>
+<td>
+<p>The flag to disable report batch.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-report_batch_max_entries" class="deprecated ">
+<td><code>reportBatchMaxEntries</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>When disable<em>report</em>batch is false, this value specifies the maximum number
+of requests that are batched in report. If left unspecified, the default value
+of report<em>batch</em>max_entries == 0 will use the hardcoded defaults of
+istio::mixerclient::ReportOptions. Default value is 100.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-report_batch_max_time" class="deprecated ">
+<td><code>reportBatchMaxTime</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>When disable<em>report</em>batch is false, this value specifies the maximum elapsed
+time a batched report will be sent after a user request is processed. If left
+unspecified, the default report<em>batch</em>max_time == 0 will use the hardcoded
+defaults of istio::mixerclient::ReportOptions. Default max time is 1s.</p>
 
 </td>
 <td>
@@ -1679,9 +1735,8 @@ CAP<em>NET</em>ADMIN capability, which is required to use TPROXY.</p>
 </section>
 <h2 id="AuthenticationPolicy">AuthenticationPolicy</h2>
 <section>
-<p>AuthenticationPolicy defines authentication policy. It can be set for
-different scopes (mesh, service …), and the most narrow scope with
-non-INHERIT value will be used.
+<p>AuthenticationPolicy defines how the proxy is authenticated when it connects to the control plane.
+It can be set for two different scopes, mesh-wide or set on a per-pod basis using the ProxyConfig annotation.
 Mesh policy cannot be INHERIT.</p>
 
 <table class="enum-values">
@@ -1695,14 +1750,14 @@ Mesh policy cannot be INHERIT.</p>
 <tr id="AuthenticationPolicy-NONE">
 <td><code>NONE</code></td>
 <td>
-<p>Do not encrypt Envoy to Envoy traffic.</p>
+<p>Do not encrypt proxy to control plane traffic.</p>
 
 </td>
 </tr>
 <tr id="AuthenticationPolicy-MUTUAL_TLS">
 <td><code>MUTUAL_TLS</code></td>
 <td>
-<p>Envoy to Envoy traffic is wrapped into mutual TLS connections.</p>
+<p>Proxy to control plane traffic is wrapped into mutual TLS connections.</p>
 
 </td>
 </tr>

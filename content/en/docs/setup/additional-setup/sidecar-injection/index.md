@@ -7,6 +7,8 @@ aliases:
     - /docs/setup/kubernetes/automatic-sidecar-inject.html
     - /docs/setup/kubernetes/sidecar-injection/
     - /docs/setup/kubernetes/additional-setup/sidecar-injection/
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 ## Injection

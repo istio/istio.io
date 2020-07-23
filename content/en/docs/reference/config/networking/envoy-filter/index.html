@@ -36,7 +36,7 @@ workload in a given namespace, all patches will be processed
 sequentially in order of creation time.  The behavior is undefined
 if multiple EnvoyFilter configurations conflict with each other.</p>
 
-<p><strong>NOTE 3</strong>: *_To apply an EnvoyFilter resource to all workloads
+<p><strong>NOTE 3</strong>: To apply an EnvoyFilter resource to all workloads
 (sidecars and gateways) in the system, define the resource in the
 config <a href="/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig">root
 namespace</a>,
@@ -47,7 +47,7 @@ the root namespace called <code>istio-config</code>, that adds a custom
 protocol filter on all sidecars in the system, for outbound port
 9307. The filter should be added before the terminating tcp_proxy
 filter to take effect. In addition, it sets a 30s idle timeout for
-all HTTP connections in both gateays and sidecars.</p>
+all HTTP connections in both gateways and sidecars.</p>
 
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
@@ -119,10 +119,10 @@ spec:
     patch:
       operation: INSERT_BEFORE
       value: # lua filter specification
-       name: envoy.lua
-       typed_config:
-         &quot;@type&quot;: &quot;type.googleapis.com/envoy.config.filter.http.lua.v2.Lua&quot;
-         inlineCode: |
+        name: envoy.lua
+        typed_config:
+          &quot;@type&quot;: &quot;type.googleapis.com/envoy.config.filter.http.lua.v2.Lua&quot;
+          inlineCode: |
            function envoy_on_request(request_handle)
              -- Make an HTTP call to an upstream host with the following headers, body, and timeout.
              local headers, body = request_handle:httpCall(
@@ -168,7 +168,7 @@ metadata:
 spec:
   workloadSelector:
     labels:
-      istio: ingress-gateway
+      istio: ingressgateway
   configPatches:
   - applyTo: NETWORK_FILTER # http connection manager is a filter in Envoy
     match:

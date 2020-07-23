@@ -1,6 +1,8 @@
 ---
 title: UnknownAnnotation
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: n/a
 ---
 
 This message occurs when you attach an unrecognized annotation in the format `*.istio.io` to a namespace.

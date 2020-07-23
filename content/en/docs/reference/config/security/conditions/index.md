@@ -5,6 +5,8 @@ weight: 30
 aliases:
     - /docs/reference/config/security/conditions/
     - /docs/reference/config/security/constraints-and-properties/
+owner: istio/wg-security-maintainers
+test: n/a
 ---
 
 This page describes the supported keys and value formats you can use as conditions

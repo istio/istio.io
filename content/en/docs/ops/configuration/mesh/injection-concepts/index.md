@@ -5,6 +5,8 @@ weight: 20
 aliases:
   - /help/ops/setup/injection
   - /docs/ops/setup/injection-concepts
+owner: istio/wg-user-experience-maintainers
+test: n/a
 ---
 
 Automatic sidecar injection adds the sidecar proxy into user-created

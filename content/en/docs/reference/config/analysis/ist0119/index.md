@@ -1,6 +1,8 @@
 ---
 title: JwtFailureDueToInvalidServicePortPrefix
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 This message occurs when a authentication Policy specifies the use of JWT authentication, but

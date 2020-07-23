@@ -17,6 +17,7 @@ package istioio
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -24,12 +25,13 @@ import (
 	"path/filepath"
 	"strings"
 
-	"istio.io/istio/pkg/test/framework/resource/environment"
 	"istio.io/istio/pkg/test/scopes"
+	"istio.io/pkg/log"
 )
 
 const (
 	testOutputDirEnvVar = "TEST_OUTPUT_DIR"
+	testDebugFile       = "TEST_DEBUG_FILE"
 	kubeConfigEnvVar    = "KUBECONFIG"
 )
 
@@ -43,6 +45,8 @@ var _ Step = Script{}
 //         Set to the working directory of the current test. By default, scripts are run from this
 //         directory. This variable is useful for cases where the execution `WorkDir` has been set,
 //         but the script needs to access files in the test working directory.
+//     - TEST_DEBUG_FILE:
+//         Set to the file where debugging output will be written.
 //     - KUBECONFIG:
 //         Set to the value from the test framework. This is necessary to make kubectl commands execute
 //         with the configuration specified on the command line.
@@ -63,23 +67,13 @@ type Script struct {
 
 func (s Script) run(ctx Context) {
 	input := s.Input.SelectInput(ctx)
-	content, err := input.ReadAll()
+	command, err := input.ReadAll()
 	if err != nil {
 		ctx.Fatalf("failed reading command input %s: %v", input.Name(), err)
 	}
 
-	// Generate the body of the command.
-	commandLines := []string{"source ${REPO_ROOT}/tests/util/verify.sh"}
-	lines := strings.Split(content, "\n")
-	for index := 0; index < len(lines); index++ {
-		commandLines = append(commandLines, lines[index])
-	}
-
-	// Merge the command lines together.
-	command := strings.TrimSpace(strings.Join(commandLines, "\n"))
-
 	// Now run the command...
-	scopes.CI.Infof("Running command script %s", input.Name())
+	scopes.Framework.Infof("Running command script %s", input.Name())
 
 	// Copy the command to workDir.
 	_, fileName := filepath.Split(input.Name())
@@ -96,22 +90,38 @@ func (s Script) run(ctx Context) {
 	// Create the command.
 	cmd := exec.Command(shell)
 	cmd.Dir = s.getWorkDir(ctx)
-	cmd.Env = s.getEnv(ctx)
+	cmd.Env = s.getEnv(ctx, fileName)
 	cmd.Stdin = strings.NewReader(command)
 
+	// Output will be streamed to logs as well as to the output buffer (to be written to disk)
+	var output bytes.Buffer
+	cmd.Stdout = io.MultiWriter(&LogWriter{}, &output)
+	cmd.Stderr = io.MultiWriter(&LogWriter{}, &output)
+
 	// Run the command and get the output.
-	output, err := cmd.CombinedOutput()
+	cmdErr := cmd.Run()
 
 	// Copy the command output from the script to workDir
 	outputFileName := fileName + "_output.txt"
-	if err := ioutil.WriteFile(filepath.Join(ctx.WorkDir(), outputFileName), bytes.TrimSpace(output), 0644); err != nil {
-		ctx.Fatalf("failed copying output for command %s: %v", input.Name(), err)
+	if werr := ioutil.WriteFile(filepath.Join(ctx.WorkDir(), outputFileName), bytes.TrimSpace(output.Bytes()), 0644); werr != nil {
+		ctx.Fatalf("failed copying output for command %s: %v", input.Name(), werr)
 	}
 
-	if err != nil {
-		ctx.Fatalf("script %s returned an error: %v. Output:\n%s", input.Name(), err, string(output))
+	if cmdErr != nil {
+		ctx.Fatalf("script %s returned an error: %v. Output:\n%s", input.Name(), cmdErr, output.String())
 	}
 }
+
+var scriptLog = log.RegisterScope("script", "output of test scripts", 0)
+
+type LogWriter struct{}
+
+func (l LogWriter) Write(p []byte) (n int, err error) {
+	scriptLog.Debugf("%v", strings.TrimSpace(string(p)))
+	return len(p), nil
+}
+
+var _ io.Writer = &LogWriter{}
 
 func (s Script) getWorkDir(ctx Context) string {
 	if s.WorkDir != "" {
@@ -121,7 +131,7 @@ func (s Script) getWorkDir(ctx Context) string {
 	return ctx.WorkDir()
 }
 
-func (s Script) getEnv(ctx Context) []string {
+func (s Script) getEnv(ctx Context, fileName string) []string {
 	// Start with the environment for the current process.
 	e := os.Environ()
 
@@ -130,9 +140,10 @@ func (s Script) getEnv(ctx Context) []string {
 		// Set the output dir for the test.
 		testOutputDirEnvVar: ctx.WorkDir(),
 	}
-	ctx.Environment().Case(environment.Kube, func() {
-		customVars[kubeConfigEnvVar] = ctx.KubeEnv().Settings().KubeConfig[0]
-	})
+	customVars[testDebugFile] = fileName + "_debug.txt"
+
+	customVars[kubeConfigEnvVar] = ctx.KubeEnv().Settings().KubeConfig[0]
+
 	for k, v := range s.Env {
 		customVars[k] = v
 	}
