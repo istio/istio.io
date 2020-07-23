@@ -25,7 +25,7 @@ your specific needs. The following built-in configuration profiles are currently
     to enable additional features if you wish to explore more advanced tasks.
 
     {{< warning >}}
-    This profile enables high levels of tracing and access logging so it is not suitable for performance tests.
+    This profile enables high levels of access logging so it is not suitable for performance tests.
     {{< /warning >}}
 
 1. **minimal**: the minimal set of components necessary to use Istio's [traffic management](/docs/tasks/traffic-management/) features.
