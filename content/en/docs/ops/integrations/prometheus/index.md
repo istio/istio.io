@@ -30,7 +30,7 @@ To simplify configuration, Istio has the ability to control scraping entirely by
 While `prometheus.io` annotations are not a core part of Prometheus, they have become the de facto standard to configure scraping.
 {{< /tip >}}
 
-This option is enabled by default but can be disabled by passing `--set meshConfig.enablePrometheusMerge=false` during [installation](/docs/setup/install/istioctl/). When enabled, appropriate `prometheus.io` annotations will be added to all workloads to set up scraping. If these annotations already exist, they will be overwritten. With this option, the Envoy sidecar will merge Istio's metrics with the application metrics.
+This option is enabled by default but can be disabled by passing `--set meshConfig.enablePrometheusMerge=false` during [installation](/docs/setup/install/istioctl/). When enabled, appropriate `prometheus.io` annotations will be added to all data plane pods to set up scraping. If these annotations already exist, they will be overwritten. With this option, the Envoy sidecar will merge Istio's metrics with the application metrics. The merged metrics will be scraped from `/stats/prometheus:15020`.
 
 This option exposes all the metrics in plain text.
 
@@ -48,11 +48,17 @@ The built-in demo installation of Prometheus contains all the required scraping 
 
 This built-in deployment of Prometheus is intended for new users to help them quickly getting started. However, it does not offer advanced customization, like persistence or authentication and as such should not be considered production ready. To use an existing Prometheus instance, add the scraping configurations in [`prometheus/configmap.yaml`]({{< github_file>}}/manifests/charts/istio-telemetry/prometheus/templates/configmap.yaml) to your configuration.
 
-This configuration will add scrape job configurations for the control plane, as well as for all Envoy sidecars. Additionally, a job is configured to scrape application metrics for all pods with relevant `prometheus.io` annotations:
+This configuration will add scrape job configurations for the control plane, as well as for all Envoy sidecars. Additionally, a job is configured to scrape application metrics for all data plane pods with relevant `prometheus.io` annotations:
 
-* `prometheus.io/scrape` determines if a pod should be scraped. Set to `true` to enable scraping.
-* `prometheus.io/path` determines the path to scrape metrics at. Defaults to `/metrics`.
-* `prometheus.io/port` determines the port to scrape metrics at. Defaults to `80`.
+{{< text yaml >}}
+spec:
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: true   # determines if a pod should be scraped. Set to true to enable scraping.
+        prometheus.io/path: /metrics # determines the path to scrape metrics at. Defaults to /metrics.
+        prometheus.io/port: 80       # determines the port to scrape metrics at. Defaults to 80.
+{{< /text >}}
 
 #### TLS settings
 
