@@ -35,7 +35,6 @@ MOSN follows the OSI (Open Systems Interconnection), it has four layers, NET/IO,
 - Stream does a secondary encapsulation of the decode packet into stream, which acts as a mount for the stream filter.
 - Proxy acts as a forwarding framework for MOSN, and does proxy processing on the encapsulated streams.
 
-
 ## Why use MOSN?
 
 Before the service mesh transformation, we have expected that as the next generation of Ant Group's infrastructure, Meshization will inevitably bring revolutionary changes and evolution costs. We have a very ambitious blueprint: ready to integrate the original network and middleware various capabilities have been re-precipitated and polished to create a low-level platform for the next-generation architecture of the future, which will carry the responsibility of various service communications.
@@ -52,9 +51,9 @@ MOSN is written in GoLang. GoLang has strong guarantees in terms of production e
 
 ### Differentiation of core competence
 
- * MOSN supports a multi-protocol framework, and users can easily access private protocols with a unified routing framework.
- * Multi-process plug-in mechanism, which can easily extend the plug-ins of independent MOSN processes through the plug-in framework, and do some other management, bypass and other functional module extensions.
- * Transport layer national secret algorithm support with Chinese encryption compliance, etc.
+- MOSN supports a multi-protocol framework, and users can easily access private protocols with a unified routing framework.
+- Multi-process plug-in mechanism, which can easily extend the plug-ins of independent MOSN processes through the plug-in framework, and do some other management, bypass and other functional module extensions.
+- Transport layer national secret algorithm support with Chinese encryption compliance, etc.
 
 ## MOSN with Istio
 
