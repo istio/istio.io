@@ -43,8 +43,8 @@ Follow these steps to get started with Istio:
     {{< tip >}}
     The command above downloads the latest release (numerically) of Istio.
     To download a specific version, you can add a variable on the command line.
-    For example to download Istio 1.4.3, you would run
-      `curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.4.3 sh -`
+    For example to download Istio 1.6.3, you would run
+      `curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.3 sh -`
     {{< /tip >}}
 
 1.  Move to the Istio package directory. For example, if the package is
