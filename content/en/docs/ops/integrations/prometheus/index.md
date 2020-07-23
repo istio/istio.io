@@ -50,10 +50,15 @@ This built-in deployment of Prometheus is intended for new users to help them qu
 
 This configuration will add scrape job configurations for the control plane, as well as for all Envoy sidecars. Additionally, a job is configured to scrape application metrics for all data plane pods with relevant `prometheus.io` annotations:
 
-* `spec.template.metadata.annotations`
-  * `prometheus.io/scrape` determines if a pod should be scraped. Set to `true` to enable scraping.
-  * `prometheus.io/path` determines the path to scrape metrics at. Defaults to `/metrics`.
-  * `prometheus.io/port` determines the port to scrape metrics at. Defaults to `80`.
+{{< text yaml >}}
+spec:
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: true   # determines if a pod should be scraped. Default to true.
+        prometheus.io/path: /metrics # determines the path to scrape metrics at. Defaults to /metrics.
+        prometheus.io/port: 80       # determines the port to scrape metrics at. Defaults to 80.
+{{< /text >}}
 
 #### TLS settings
 
