@@ -55,7 +55,7 @@ spec:
   template:
     metadata:
       annotations:
-        prometheus.io/scrape: true   # determines if a pod should be scraped. Default to true.
+        prometheus.io/scrape: true   # determines if a pod should be scraped. Set to true to enable scraping.
         prometheus.io/path: /metrics # determines the path to scrape metrics at. Defaults to /metrics.
         prometheus.io/port: 80       # determines the port to scrape metrics at. Defaults to 80.
 {{< /text >}}
