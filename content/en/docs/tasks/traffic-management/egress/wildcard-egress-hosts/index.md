@@ -339,6 +339,9 @@ The SNI proxy will forward the traffic to port `443`.
             - name: sni-proxy-config
               mountPath: /etc/nginx
               readOnly: true
+            securityContext:
+              runAsNonRoot: false
+              runAsUser: 0
     EOF
     {{< /text >}}
 
