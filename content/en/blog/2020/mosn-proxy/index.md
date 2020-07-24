@@ -7,7 +7,7 @@ attribution: "Wang Fakang (mosn.io)"
 keywords: [mosn,sidecar,proxy]
 ---
 
-[MOSN](https://github.com/mosn/mosn) (the Modular Open Smart Network) is a network proxy server written in GoLang. It was built at ___ for ___ /sidecar/use case, and over time, we've added ___ features. This new ___ thing means we are now able to use MOSN as the network proxy for Istio.
+[MOSN](https://github.com/mosn/mosn) (the Modular Open Smart Network) is a network proxy server written in GoLang. It was built at _for_ /sidecar/use case, and over time, we've added _features_. This _new_ thing means we are now able to use MOSN as the network proxy for Istio.
 
 ## Background
 
