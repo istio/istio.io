@@ -417,13 +417,6 @@ The SNI proxy will forward the traffic to port `443`.
 1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS, and a virtual service to direct the
     traffic destined for _*.wikipedia.org_ through the gateway.
 
-    Choose the instructions corresponding to whether or not you want to enable
-    [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) between the source pod and the egress gateway.
-
-    {{< tabset category-name="mtls" >}}
-
-    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
-
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
@@ -548,81 +541,6 @@ The SNI proxy will forward the traffic to port `443`.
              config: {}
     EOF
     {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-     name: istio-egressgateway-with-sni-proxy
-    spec:
-     selector:
-       istio: egressgateway-with-sni-proxy
-     servers:
-     - port:
-         number: 443
-         name: https
-         protocol: HTTPS
-       hosts:
-       - "*.wikipedia.org"
-       tls:
-         mode: PASSTHROUGH
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-     name: egressgateway-for-wikipedia
-    spec:
-     host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
-     subsets:
-       - name: wikipedia
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-     name: direct-wikipedia-through-egress-gateway
-    spec:
-     hosts:
-     - "*.wikipedia.org"
-     gateways:
-     - mesh
-     - istio-egressgateway-with-sni-proxy
-     tls:
-     - match:
-       - gateways:
-         - mesh
-         port: 443
-         sniHosts:
-         - "*.wikipedia.org"
-       route:
-       - destination:
-           host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
-           subset: wikipedia
-           port:
-             number: 443
-         weight: 100
-     - match:
-       - gateways:
-         - istio-egressgateway-with-sni-proxy
-         port: 443
-         sniHosts:
-         - "*.wikipedia.org"
-       route:
-       - destination:
-           host: sni-proxy.local
-           port:
-             number: 8443
-         weight: 100
-    EOF
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
 
 1.  Send HTTPS requests to
     [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
