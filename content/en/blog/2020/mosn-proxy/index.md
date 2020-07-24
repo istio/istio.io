@@ -1,9 +1,9 @@
 ---
-title: "Introducing MOSN: An Alternative Data Plane"
+title: "Using MOSN with Istio: an alternative data plane"
 subtitle: "A Cloud Native Proxy for Edge or Service Mesh"
 description: "An alternative sidecar proxy for Istio."
 publishdate: 2020-07-17
-attribution: "Wang Fakang(mosn.io)"
+attribution: "Wang Fakang (mosn.io)"
 keywords: [mosn,sidecar,proxy]
 ---
 
@@ -11,7 +11,7 @@ Thanks to the efforts of the MOSN community, make MOSN has completed the most of
 
 ## Background
 
-In the service mesh world, using Istio as the control plane has become the mainstream. Istio provides dynamic configuration of routes, service discovery, etc. to data plane proxies via the xDS protocol. The proxy can conveniently serve as Istio's data by simply interfacing with Envoy's xDS protocol. Istio's integration of third-party data planes can be implemented in three steps, as follows.
+In the service mesh world, using Istio as the control plane has become the mainstream. Because Istio was built on Envoy, it uses Envoy's data plane [APIs](https://blog.envoyproxy.io/the-universal-data-plane-api-d15cec7a) (collectively known as the xDS APIs). These APIs have been standardized separately from Envoy, and so by implementing them in MOSN, we are able to drop in MOSN as a replacement for Envoy. Istio's integration of third-party data planes can be implemented in three steps, as follows.
 
 - Implement xDS protocols to fulfill the capabilities for data plane related services.
 - Build `proxyv2` images using Istio's script and set the relevant `SIDCAR` and other parameters.
@@ -66,7 +66,7 @@ To download Istio (this example uses Istio 1.5.2) uses the following command.
 
 {{< text bash >}}
 $ export ISTIO_VERSION=1.5.2
-$ curl -L {{< github_file >}}/release/downloadIstioCandidate.sh | sh -
+$ curl -L https://istio.io/downloadIstio | sh -
 {{< /text >}}
 
 The downloaded Istio package is named `istio-1.5.2` and contains:
@@ -74,7 +74,7 @@ The downloaded Istio package is named `istio-1.5.2` and contains:
 - `examples/`: Contains example applications.
 - `bin/`: Contains the istioctl client files.
 
-Switch to the folder where of Istio located.
+Switch to the folder where Istio is located.
 
 {{< text bash >}}
 $ cd istio-$ISTIO_VERSION/
@@ -86,23 +86,21 @@ Add the `istioctl` client path to `$PATH` with the following command.
 $ export PATH=$PATH:$(pwd)/bin
 {{< /text >}}
 
-Until now, it has been possible to flexibly customize the Istio control plane and data plane configuration parameters via the `istioctl` command line tool.
-
 ## Setting MOSN as the Data Plane
 
-MOSN is specified as the data plane in Istio via the parameters of the istioctl command.
+Until now, it has been possible to flexibly customize the Istio control plane and data plane configuration parameters via the `istioctl` command line tool. MOSN is specified as the data plane in Istio via the parameters of the istioctl command.
 
 {{< text bash >}}
-$ istioctl manifest apply  --set .values.global.proxy.image="mosnio/proxyv2:1.5.2-mosn"   --set meshConfig.defaultConfig.binaryPath="/usr/local/bin/mosn"
+$ istioctl manifest apply  --set .values.global.proxy.image="mosnio/proxyv2:1.5.2-mosn"  --set meshConfig.defaultConfig.binaryPath="/usr/local/bin/mosn"
 {{< /text >}}
 
-Check that Istio-related pod services are deployed successfully.
+Check that Istio-related pods and services are deployed successfully.
 
 {{< text bash >}}
 $ kubectl get svc -n istio-system
 {{< /text >}}
 
-If the service `STATUS` is Running, then Istio has been successfully installed and you can deploy the Bookinfo sample later.
+If the service `STATUS` is Running, then Istio has been successfully installed using MOSN and you can deploy the Bookinfo sample later.
 
 ## Bookinfo Examples
 
