@@ -63,25 +63,25 @@ service entry defined within the mesh.
 without controlling access to external services.
 You can then decide to [configure access to external services](#controlled-access-to-external-services) later.
 
-1. To see this approach in action you need to ensure that your Istio installation is configured
+1.  To see this approach in action you need to ensure that your Istio installation is configured
     with the `meshConfig.outboundTrafficPolicy.mode` option set to `ALLOW_ANY`. Unless you explicitly
     set it to `REGISTRY_ONLY` mode when you installed Istio, it is probably enabled by default.
 
-    Run the following command to confirm it is configured correctly:
+    Run the following command to verify that `meshConfig.outboundTrafficPolicy.mode` option is set to `ALLOW_ANY`
+    or is omitted:
 
     {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY" | uniq
-    mode: ALLOW_ANY
+    $ kubectl get istiooperator installed-state -n istio-system -o jsonpath={.spec.meshConfig.outboundTrafficPolicy.mode}
+    ALLOW_ANY
     {{< /text >}}
 
-    The string `mode: ALLOW_ANY` should appear in the output if it is enabled.
+    You should either see `ALLOW_ANY` or empty output.
 
     {{< tip >}}
     If you have explicitly configured `REGISTRY_ONLY` mode, you can run the following command to change it:
 
     {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
-    configmap "istio" replaced
+    $ kubectl patch istiooperator installed-state -n istio-system --type='json' -p='[{"op": "replace", "path": "/spec/meshConfig/outboundTrafficPolicy/mode", "value": "ALLOW_ANY"}]'
     {{< /text >}}
 
     {{< /tip >}}
@@ -123,8 +123,7 @@ any other unintentional accesses.
 1.  Run the following command to change the `meshConfig.outboundTrafficPolicy.mode` option to `REGISTRY_ONLY`:
 
     {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -
-    configmap "istio" replaced
+    $ kubectl patch istiooperator installed-state -n istio-system --type='json' -p='[{"op": "replace", "path": "/spec/meshConfig/outboundTrafficPolicy/mode", "value": "REGISTRY_ONLY"}]'
     {{< /text >}}
 
 1.  Make a couple of requests to external HTTPS services from `SOURCE_POD` to verify that they are now blocked:
