@@ -19,9 +19,10 @@ across multiple {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}} that
 share a control plane. In this configuration, multiple Kubernetes clusters
 running a remote configuration connect to a shared Istio [control plane](/docs/ops/deployment/deployment-models/#control-plane-models)
 running in a {{< gloss >}}primary cluster{{< /gloss >}}. Remote clusters can be
-in the same network or on a different network as the primary clusters. After one
-or more remote clusters are connected, the control plane manages the service
-mesh across all endpoints.
+in the same network or on a different network than the primary cluster. After
+one or more remote clusters are connected, the {{< gloss >}}control plane{{< /gloss >}}
+of the primary cluster manages the service mesh across all
+{{< gloss "service endpoint" >}}endpoints{{< /gloss >}}.
 
 {{< image width="80%" link="./multicluster-with-vpn.svg" caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN" >}}
 
