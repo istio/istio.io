@@ -2,19 +2,19 @@
 title: "Using MOSN with Istio: an alternative data plane"
 subtitle: "A Cloud Native Proxy for Edge or Service Mesh"
 description: "An alternative sidecar proxy for Istio."
-publishdate: 2020-07-17
+publishdate: 2020-07-24
 attribution: "Wang Fakang (mosn.io)"
 keywords: [mosn,sidecar,proxy]
 ---
 
-Thanks to the efforts of the MOSN community, make MOSN has completed the most of adaptation for Istio. MOSN [v0.14.0 release](https://github.com/mosn/mosn/releases/tag/v0.14.0) is now compatible with Istio 1.5.x, and it has gone through the Bookinfo sample as the data plane of Istio.
+[MOSN](https://github.com/mosn/mosn) (the Modular Open Smart Network) is a network proxy server written in GoLang. It was built at ___ for ___ /sidecar/use case, and over time, we've added ___ features. This new ___ thing means we are now able to use MOSN as the network proxy for Istio.
 
 ## Background
 
 In the service mesh world, using Istio as the control plane has become the mainstream. Because Istio was built on Envoy, it uses Envoy's data plane [APIs](https://blog.envoyproxy.io/the-universal-data-plane-api-d15cec7a) (collectively known as the xDS APIs). These APIs have been standardized separately from Envoy, and so by implementing them in MOSN, we are able to drop in MOSN as a replacement for Envoy. Istio's integration of third-party data planes can be implemented in three steps, as follows.
 
 - Implement xDS protocols to fulfill the capabilities for data plane related services.
-- Build `proxyv2` images using Istio's script and set the relevant `SIDCAR` and other parameters.
+- Build `proxyv2` images using Istio's script and set the relevant `SIDECAR` and other parameters.
 - Specify a specific data plane via the `istioctl` tool and set the proxy-related configuration.
 
 ## What is MOSN?
