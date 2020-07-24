@@ -2,7 +2,7 @@
 title: "Using MOSN with Istio: an alternative data plane"
 subtitle: "A Cloud Native Proxy for Edge or Service Mesh"
 description: "An alternative sidecar proxy for Istio."
-publishdate: 2020-07-24
+publishdate: 2020-07-25
 attribution: "Wang Fakang (mosn.io)"
 keywords: [mosn,sidecar,proxy]
 ---
@@ -104,7 +104,7 @@ If the service `STATUS` is Running, then Istio has been successfully installed u
 
 ## Bookinfo Examples
 
-You can run the Bookinfo samples through [MOSN with Istio tutorial](https://katacoda.com/mosn/courses/istio/mosn-with-istio) where you can find some other tutorials for MOSN and Istio.
+You can run the Bookinfo samples through [MOSN with Istio tutorial](https://katacoda.com/mosn/courses/istio/mosn-with-istio) where you can find some other tutorials for MOSN and Istio. You can install MOSN and get to the same point you would have if you’d just followed the defaults and got Envoy.
 
 ## Learn More
 
