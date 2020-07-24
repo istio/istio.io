@@ -24,13 +24,27 @@ snip_analyze_all_namespaces() {
 istioctl analyze --all-namespaces
 }
 
-! read -r -d '' snip_analyze_all_namespaces_sample_response <<\ENDSNIP
-Warn [IST0102](Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
+! read -r -d '' snip_analyze_all_namespace_sample_response <<\ENDSNIP
+...
+Warn [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
+ENDSNIP
+
+snip_fix_default_namespace() {
+kubectl label namespace default istio-injection=enabled --overwrite
+istioctl analyze --namespace default
+}
+
+! read -r -d '' snip_fix_default_namespace_out <<\ENDSNIP
+✔ No validation issues found when analyzing namespace: default.
 ENDSNIP
 
 snip_analyze_sample_destrule() {
 istioctl analyze samples/bookinfo/networking/bookinfo-gateway.yaml samples/bookinfo/networking/destination-rule-all.yaml
 }
+
+! read -r -d '' snip_analyze_sample_destrule_out <<\ENDSNIP
+Error [IST0101] (VirtualService bookinfo.default samples/bookinfo/networking/bookinfo-gateway.yaml:16) Referenced host not found: "productpage"
+ENDSNIP
 
 snip_analyze_networking_directory() {
 istioctl analyze samples/bookinfo/networking/
@@ -45,34 +59,27 @@ istioctl analyze --use-kube=false samples/bookinfo/networking/*.yaml
 }
 
 ! read -r -d '' snip_vs_yaml_with_status <<\ENDSNIP
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"networking.istio.io/v1alpha3","kind":"VirtualService","metadata":{"annotations":{},"name":"ratings","namespace":"default"},"spec":{"hosts":["ratings"],"http":[{"route":[{"destination":{"host":"ratings","subset":"v1"}}]}]}}
-  creationTimestamp: "2019-09-04T17:31:46Z"
-  generation: 11
+...
   name: ratings
   namespace: default
-  resourceVersion: "12760039"
-  selfLink: /apis/networking.istio.io/v1alpha3/namespaces/default/virtualservices/ratings
-  uid: dec86702-cf39-11e9-b803-42010a8a014a
+...
 spec:
   gateways:
   - bogus-gateway
   hosts:
   - ratings
-  http:
-  - route:
-    - destination:
-        host: ratings
-        subset: v1
+...
 status:
   validationMessages:
+...
   - code: IST0101
+    documentation_url: https://istio.io/docs/reference/config/analysis/IST0101?ref=status-controller
     level: Error
     message: 'Referenced gateway not found: "bogus-gateway"'
+...
 ENDSNIP
 
 snip_install_with_custom_config_analysis() {

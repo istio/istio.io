@@ -20,31 +20,37 @@ set -u  # Unset is an error
 # There is no need to echo, output appears in ops_diagnostic-tools_istioctl-analyze_test_debug.txt
 set -o pipefail
 
-# Use 'at' setup profile=default to install default profile?
-# This script doesn't need a control plane, but we need base CRDs
+# This script doesn't need a control plane initially and will install Istio when needed
 # @setup profile=none
 
-# This command is allowed to fail
-snip_analyze_all_namespaces || true
+echo '*** istioctl-analyze step 1 ***'
+_verify_elided snip_analyze_all_namespaces "$snip_analyze_all_namespace_sample_response" 
 
-# The following step is 'usually' done by cleanup.  Do it here, just in case
-kubectl delete vs ratings || true
+echo '*** istioctl-analyze step 2 ***'
+_verify_contains snip_fix_default_namespace "$snip_fix_default_namespace_out"
 
-snip_analyze_sample_destrule
+echo '*** istioctl-analyze step 3 ***'
+_verify_contains snip_analyze_sample_destrule "$snip_analyze_sample_destrule_out"
 
-# TODO Check the output on failure for 'Referenced host+subset in destinationrule not found: "details+v2"' 
-_verify_failure snip_analyze_networking_directory
+# TODO It is unclear if this should ALWAYS fail, NEVER fail, or sometimes fail.
+# There are multiple DestinationRules, some are valid for the VirtualService, some lack subsets 
+echo '*** istioctl-analyze step ***'
+snip_analyze_networking_directory || true
 
+echo '*** istioctl-analyze step 5 ***'
 snip_analyze_all_networking_yaml
 
+echo '*** istioctl-analyze step 6 ***'
 snip_analyze_all_networking_yaml_no_kube
 
+echo '*** istioctl-analyze step 7 ***'
 istioctl analyze --help
 
-# TODO Is it safe to install testing Istio with custom config here?
-# TODO Uncomment?
-# snip_install_with_custom_config_analysis
+echo '*** istioctl-analyze step 8 ***'
+snip_install_with_custom_config_analysis
+_wait_for_deployment istio-system istiod
 
+echo '*** istioctl-analyze step 9 ***'
 set +e  # Don't exit on failure
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
@@ -61,34 +67,43 @@ spec:
   - route:
     - destination:
         host: ratings
-        subset: v1
 EOF
 set -e  # Exit on failure
 
+echo '*** istioctl-analyze step 10 ***'
+get_ratings_virtual_service() {
 kubectl get vs ratings -o yaml
-# TODO scrape the above output for 'Referenced gateway not found: "bogus-gateway"'
+}
+_verify_elided get_ratings_virtual_service "$snip_vs_yaml_with_status"
 
+echo '*** istioctl-analyze step 11 ***'
 kubectl create ns frod
-
 _verify_failure analyze_k_frod
 # TODO Replace the above with _verify_failure_same when it is available
 # _verify_same analyze_k_frod "$snip_analyze_k_frod_out"
 
+echo '*** istioctl-analyze step 12 ***'
 _verify_same snip_analyze_suppress0102 "$snip_analyze_suppress0102_out"
 
+echo '*** istioctl-analyze step 13 ***'
 # TODO This will return errors on non-Istio namespaces, e.g. ibm-cert-store and kube-node-lease
 # It is hard to know what to supply to fix that problem for testing.
 snip_analyze_suppress_frod_0107_baz || true
 
+echo '*** istioctl-analyze step 14 ***'
 kubectl create deployment my-deployment --image=docker.io/kennethreitz/httpbin
-
 snip_annotate_for_deployment_suppression
 
+echo '*** istioctl-analyze step 15 ***'
 kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress-
 snip_annotate_for_deployment_suppression_107
 
 # @cleanup
-set +e # ignore cleanup errors
-snip_cleanup_1
-kubectl delete ns frod || true
-kubectl delete deployment my-deployment || true
+kubectl label namespace default istio-injection-
+kubectl delete ns frod
+kubectl delete deployment my-deployment
+kubectl delete vs ratings
+# Delete the Istio this test installed
+kubectl delete ValidatingWebhookConfiguration istiod-istio-system
+kubectl get mutatingwebhookconfigurations -o custom-columns=NAME:.metadata.name --no-headers | xargs kubectl delete mutatingwebhookconfigurations
+kubectl delete ns istio-system

@@ -24,9 +24,19 @@ And that’s it! It’ll give you any recommendations that apply.
 
 For example, if you forgot to enable Istio injection (a very common issue), you would get the following warning:
 
-{{< text syntax=plain snip_id=analyze_all_namespaces_sample_response >}}
-Warn [IST0102](Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
+{{< text syntax=plain snip_id=analyze_all_namespace_sample_response >}}
+...
+Warn [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
 {{< /text >}}
+
+Fix the issue and try again:
+
+{{< text syntax=bash snip_id=fix_default_namespace >}}
+$ kubectl label namespace default istio-injection=enabled --overwrite
+$ istioctl analyze --namespace default
+✔ No validation issues found when analyzing namespace: default.
+{{< /text >}}
+
 
 ## Analyzing live clusters, local files, or both
 
@@ -34,6 +44,7 @@ Analyze the current live cluster, simulating the effect of applying additional y
 
 {{< text syntax=bash snip_id=analyze_sample_destrule >}}
 $ istioctl analyze samples/bookinfo/networking/bookinfo-gateway.yaml samples/bookinfo/networking/destination-rule-all.yaml
+Error [IST0101] (VirtualService bookinfo.default samples/bookinfo/networking/bookinfo-gateway.yaml:16) Referenced host not found: "productpage"
 {{< /text >}}
 
 Analyze the entire `networking` folder:
@@ -72,34 +83,27 @@ This analysis uses the same logic and error messages as when using `istioctl ana
 For example. if you have a misconfigured gateway on your "ratings" virtual service, running `kubectl get virtualservice ratings` would give you something like:
 
 {{< text syntax=yaml snip_id=vs_yaml_with_status >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"networking.istio.io/v1alpha3","kind":"VirtualService","metadata":{"annotations":{},"name":"ratings","namespace":"default"},"spec":{"hosts":["ratings"],"http":[{"route":[{"destination":{"host":"ratings","subset":"v1"}}]}]}}
-  creationTimestamp: "2019-09-04T17:31:46Z"
-  generation: 11
+...
   name: ratings
   namespace: default
-  resourceVersion: "12760039"
-  selfLink: /apis/networking.istio.io/v1alpha3/namespaces/default/virtualservices/ratings
-  uid: dec86702-cf39-11e9-b803-42010a8a014a
+...
 spec:
   gateways:
   - bogus-gateway
   hosts:
   - ratings
-  http:
-  - route:
-    - destination:
-        host: ratings
-        subset: v1
+...
 status:
   validationMessages:
+...
   - code: IST0101
+    documentation_url: https://istio.io/docs/reference/config/analysis/IST0101?ref=status-controller
     level: Error
     message: 'Referenced gateway not found: "bogus-gateway"'
+...
 {{< /text >}}
 
 `enableAnalysis` runs in the background, and will keep the status field of a resource up to date with its current validation status. Note that this isn't a replacement for `istioctl analyze`:
