@@ -29,6 +29,8 @@ without the need to specify every language's site separately.
 
 *   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
+*   [Apply the blocking-by-default policy to the egress traffic control](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)
+
 ## Configure direct traffic to a wildcard host
 
 The first, and simplest, way to access a set of hosts within a common domain is by configuring
