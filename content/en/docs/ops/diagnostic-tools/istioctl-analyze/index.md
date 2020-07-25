@@ -37,7 +37,6 @@ $ istioctl analyze --namespace default
 ✔ No validation issues found when analyzing namespace: default.
 {{< /text >}}
 
-
 ## Analyzing live clusters, local files, or both
 
 Analyze the current live cluster, simulating the effect of applying additional yaml files like `bookinfo-gateway.yaml` and `destination-rule-all.yaml` in the `samples/bookinfo/networking` directory:

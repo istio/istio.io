@@ -23,6 +23,10 @@ set -o pipefail
 # This script doesn't need a control plane initially and will install Istio when needed
 # @setup profile=none
 
+# The test harness labels the default namespace.  Remove that label
+# so the output matches the expect output on a fresh K8s cluster.
+kubectl label namespace default istio-injection- || true
+
 echo '*** istioctl-analyze step 1 ***'
 _verify_elided snip_analyze_all_namespaces "$snip_analyze_all_namespace_sample_response" 
 
@@ -99,7 +103,8 @@ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress-
 snip_annotate_for_deployment_suppression_107
 
 # @cleanup
-kubectl label namespace default istio-injection-
+# Don't remove the injection label on default, as that was the original state of the test harness
+# kubectl label namespace default istio-injection-
 kubectl delete ns frod
 kubectl delete deployment my-deployment
 kubectl delete vs ratings
