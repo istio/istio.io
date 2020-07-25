@@ -7,7 +7,7 @@ attribution: "Wang Fakang (mosn.io)"
 keywords: [mosn,sidecar,proxy]
 ---
 
-[MOSN](https://github.com/mosn/mosn)(the Modular Open Smart Network) is a network proxy server written in GoLang. It was built at Ant Group for sidecar/API Gateway/cloud-native Ingress/Layer 4 or Layer 7 load balancer etc use case, and over time, we've added multi-protocol framework/multi-process plug-in mechanism/DSL/xDS APIs etc feature. This new [xDS API](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol) thing means we are now able to use MOSN as the network proxy for Istio.
+[MOSN](https://github.com/mosn/mosn) (Modular Open Smart Network) is a network proxy server written in GoLang. It was built at [Ant Group](https://www.antfin.com) as a sidecar/API Gateway/cloud-native Ingress/Layer 4 or Layer 7 load balancer etc. Over time, we've added extra features, like a multi-protocol framework, multi-process plug-in mechanism, a DSL, and support for the [xDS APIs](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol). Supporting xDS means we are now able to use MOSN as the network proxy for Istio.
 
 ## Background
 
@@ -16,10 +16,6 @@ In the service mesh world, using Istio as the control plane has become the mains
 - Implement xDS protocols to fulfill the capabilities for data plane related services.
 - Build `proxyv2` images using Istio's script and set the relevant `SIDECAR` and other parameters.
 - Specify a specific data plane via the `istioctl` tool and set the proxy-related configuration.
-
-## What is MOSN?
-
-MOSN is a network proxy written in GoLang. It can be used as a cloud-native network data plane, providing services with the following proxy functions: multi-protocol, modular, intelligent, and secure. MOSN is the short name of Modular Open Smart Network (proxy). MOSN can be integrated with any service mesh which supports xDS API. MOSN can also be used as an independent Layer 4 or Layer 7 load balancer, API Gateway, cloud-native Ingress, etc.
 
 ## Architecture
 
@@ -110,7 +106,7 @@ You can run the Bookinfo samples through [MOSN with Istio tutorial](https://kata
 
 Next, MOSN will not only be compatible with the features of the new version of Istio, but also evolve in the following aspects.
 
-- _As a micro service runtime_, MOSN oriented programming makes services lighter, smaller and faster.
+- _As a microservices runtime_, MOSN oriented programming makes services lighter, smaller and faster.
 - _Programmable_, support WASM.
 - _More scenario support_, Cache Mesh/Message Mesh/Block-chain Mesh etc.
 
