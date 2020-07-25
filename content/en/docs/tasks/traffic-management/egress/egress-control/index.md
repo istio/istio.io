@@ -152,7 +152,7 @@ any other unintentional accesses.
     the traffic, even though it is being delivered to the IP address of a different host. That host can be a malicious
     site, or a legitimate site, prohibited by the mesh security policies.
 
-    With the `DNS` resolution, the sidecar proxy will ignore the original destination IP address and direct the traffic
+    With `DNS` resolution, the sidecar proxy will ignore the original destination IP address and direct the traffic
     to `httpbin.org`, performing a DNS query to get an IP address of `httpbin.org`.
     {{< /warning >}}
 
