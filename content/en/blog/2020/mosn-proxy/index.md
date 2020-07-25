@@ -106,6 +106,16 @@ If the service `STATUS` is Running, then Istio has been successfully installed u
 
 You can run the Bookinfo samples through [MOSN with Istio tutorial](https://katacoda.com/mosn/courses/istio/mosn-with-istio) where you can find some other tutorials for MOSN and Istio. You can install MOSN and get to the same point you would have if you’d just followed the defaults and got Envoy.
 
+## Moving forward
+
+Next, MOSN will not only be compatible with the features of the new version of Istio, but also evolve in the following aspects.
+
+- _As a micro service runtime_, MOSN oriented programming makes services lighter, smaller and faster.
+- _Programmable_, support WASM.
+- _More scenario support_, Cache Mesh/Message Mesh/Block-chain Mesh etc.
+
+MOSN is an open source project that anyone in the community can use, improve, and enjoy. We'd love you to join us! [Here's](https://github.com/mosn/community) a few ways to find out what's happening and get involved.
+
 ## Learn More
 
 - [MOSN website](https://mosn.io/en)
