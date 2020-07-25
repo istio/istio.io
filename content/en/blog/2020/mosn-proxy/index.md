@@ -7,7 +7,7 @@ attribution: "Wang Fakang (mosn.io)"
 keywords: [mosn,sidecar,proxy]
 ---
 
-[MOSN](https://github.com/mosn/mosn) (the Modular Open Smart Network) is a network proxy server written in GoLang. It was built at _for_ /sidecar/use case, and over time, we've added _features_. This _new_ thing means we are now able to use MOSN as the network proxy for Istio.
+[MOSN](https://github.com/mosn/mosn)(the Modular Open Smart Network) is a network proxy server written in GoLang. It was built at Ant Group for sidecar/API Gateway/cloud-native Ingress/Layer 4 or Layer 7 load balancer etc use case, and over time, we've added multi-protocol framework/multi-process plug-in mechanism/DSL/xDS APIs etc feature. This new [xDS API](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol) thing means we are now able to use MOSN as the network proxy for Istio.
 
 ## Background
 
@@ -23,7 +23,7 @@ MOSN is a network proxy written in GoLang. It can be used as a cloud-native netw
 
 ## Architecture
 
-MOSN follows the OSI (Open Systems Interconnection), it has four layers, NET/IO, Protocol, Stream, and Proxy, as shown in the following figure.
+MOSN has a layered architecture with four layers, NET/IO, Protocol, Stream, and Proxy, as shown in the following figure.
 
 {{< image width="80%"
     link="./mosn-arch.png"
