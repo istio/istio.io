@@ -71,7 +71,17 @@ and the client requests will fail.
 
 First create a `ServiceEntry` to allow direct traffic to an external service.
 
-1.  Define a `ServiceEntry` for `edition.cnn.com`:
+1.  Define a `ServiceEntry` for `edition.cnn.com`.
+
+    {{< warning >}}
+    `DNS` resolution must be used in the service entry below. If the resolution is `NONE`, the gateway will
+    direct the traffic to itself in an infinite loop. This is because the gateway receives a request with the original
+    destination IP address which is equal to the service IP of the gateway (since the request is directed by sidecar
+    proxies to the gateway).
+
+    With `DNS` resolution, the gateway performs a DNS query to get an IP address of the external service and directs
+    the traffic to that IP address.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
