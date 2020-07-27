@@ -66,12 +66,10 @@ kind: VirtualService
 ...
 status:
   validationMessages:
-...
   - code: IST0101
     documentation_url: https://istio.io/docs/reference/config/analysis/IST0101?ref=status-controller
     level: Error
     message: 'Referenced gateway not found: "bogus-gateway"'
-...
 ENDSNIP
 
 snip_install_with_custom_config_analysis() {

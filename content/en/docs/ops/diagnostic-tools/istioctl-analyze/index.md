@@ -91,12 +91,10 @@ kind: VirtualService
 ...
 status:
   validationMessages:
-...
   - code: IST0101
     documentation_url: https://istio.io/docs/reference/config/analysis/IST0101?ref=status-controller
     level: Error
     message: 'Referenced gateway not found: "bogus-gateway"'
-...
 {{< /text >}}
 
 `enableAnalysis` runs in the background, and will keep the status field of a resource up to date with its current validation status. Note that this isn't a replacement for `istioctl analyze`:
