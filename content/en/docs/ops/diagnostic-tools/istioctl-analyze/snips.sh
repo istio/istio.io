@@ -64,6 +64,10 @@ istioctl analyze --use-kube=false samples/bookinfo/networking/*.yaml
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 ...
+spec:
+  gateways:
+  - bogus-gateway
+...
 status:
   validationMessages:
   - code: IST0101
@@ -102,5 +106,5 @@ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST01
 }
 
 snip_annotate_for_deployment_suppression_107() {
-kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107,IST0002 --overwrite
+kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107,IST0002
 }

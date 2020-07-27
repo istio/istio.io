@@ -46,14 +46,14 @@ $ istioctl analyze --namespace default
 Analyze the current live cluster, simulating the effect of applying additional yaml files like `bookinfo-gateway.yaml` and `destination-rule-all.yaml` in the `samples/bookinfo/networking` directory:
 
 {{< text syntax=bash snip_id=analyze_sample_destrule >}}
-$ istioctl analyze samples/bookinfo/networking/bookinfo-gateway.yaml samples/bookinfo/networking/destination-rule-all.yaml
+$ istioctl analyze @samples/bookinfo/networking/bookinfo-gateway.yaml@ samples/bookinfo/networking/destination-rule-all.yaml
 Error [IST0101] (VirtualService bookinfo.default samples/bookinfo/networking/bookinfo-gateway.yaml:16) Referenced host not found: "productpage"
 {{< /text >}}
 
 Analyze the entire `networking` folder:
 
 {{< text syntax=bash snip_id=analyze_networking_directory >}}
-$ istioctl analyze samples/bookinfo/networking/
+$ istioctl analyze @samples/bookinfo/networking/@
 {{< /text >}}
 
 Analyze all yaml files in the `networking` folder:
@@ -88,6 +88,10 @@ For example. if you have a misconfigured gateway on your "ratings" virtual servi
 {{< text syntax=yaml snip_id=vs_yaml_with_status >}}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
+...
+spec:
+  gateways:
+  - bogus-gateway
 ...
 status:
   validationMessages:
@@ -143,7 +147,7 @@ $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST
 To ignore multiple codes for a resource, separate each code with a comma:
 
 {{< text syntax=bash snip_id=annotate_for_deployment_suppression_107 >}}
-$ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107,IST0002 --overwrite
+$ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107,IST0002
 {{< /text >}}
 
 ## Helping us improve this tool
