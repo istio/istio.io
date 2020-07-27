@@ -2986,7 +2986,7 @@ istioctl x version --xds-label istio.io/rev=default --xds-port 15010
 istioctl experimental wait --for=distribution virtualservice bookinfo.default
 
 # Wait until 99% of the proxies receive the distribution, timing out after 5 minutes
-istioctl experimental wait --for=distribution --threshold=.99 --timeout=300 virtualservice bookinfo.default
+istioctl experimental wait --for=distribution --threshold=.99 --timeout=300s virtualservice bookinfo.default
 
 </code></pre>
 <h2 id="istioctl-install">istioctl install</h2>
