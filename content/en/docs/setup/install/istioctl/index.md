@@ -41,11 +41,6 @@ using the following command:
 $ istioctl install
 {{< /text >}}
 
-{{< tip >}}
-Note that `istioctl install` and `istioctl manifest apply` are exactly the same command. In Istio 1.6, the simpler `install`
-command replaces `manifest apply`, which is deprecated and will be removed in 1.7.
-{{< /tip >}}
-
 This command installs the `default` profile on the cluster defined by your
 Kubernetes configuration. The `default` profile is a good starting point
 for establishing a production environment, unlike the larger `demo` profile that
@@ -532,8 +527,8 @@ profiles:
 
 - compiled in charts. This is the default if no `--manifests` option is set. The compiled in charts are the same as those
 in the `manifests/` directory of the Istio release `.tgz`.
-- charts in the local file system, e.g., `istioctl install --manifests istio-1.6.0/manifests`
-- charts in GitHub, e.g., `istioctl install --manifests https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-arm64.tar.gz`
+- charts in the local file system, e.g., `istioctl install --manifests istio-{{< istio_full_version >}}/manifests`
+- charts in GitHub, e.g., `istioctl install --manifests https://github.com/istio/istio/releases/download/{{< istio_full_version >}}/istio-{{< istio_full_version >}}-linux-arm64.tar.gz`
 
 Local file system charts and profiles can be customized by editing the files in `manifests/`. For extensive changes,
 we recommend making a copy of the `manifests` directory and make changes there. Note, however, that the content layout

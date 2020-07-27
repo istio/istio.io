@@ -30,6 +30,9 @@ sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= release-${VERSION}/" M
 echo "Running make update_all..."
 make update_all
 
+echo "Running make gen..."
+make gen
+
 if [[ $(git status --porcelain) ]]; then
     git add -A
     git commit -m "prepare for v${VERSION} as istio source is already branched"

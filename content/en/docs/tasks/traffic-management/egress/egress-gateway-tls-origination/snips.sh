@@ -32,6 +32,14 @@ snip_before_you_begin_3() {
 export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 }
 
+snip_before_you_begin_4() {
+openssl version -a | grep OpenSSL
+}
+
+! read -r -d '' snip_before_you_begin_4_out <<\ENDSNIP
+OpenSSL 1.1.1g  21 Apr 2020
+ENDSNIP
+
 snip_perform_tls_origination_with_an_egress_gateway_1() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3

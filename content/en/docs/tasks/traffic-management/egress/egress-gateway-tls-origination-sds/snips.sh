@@ -28,6 +28,14 @@ snip_before_you_begin_2() {
 kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
 }
 
+snip_before_you_begin_3() {
+openssl version -a | grep OpenSSL
+}
+
+! read -r -d '' snip_before_you_begin_3_out <<\ENDSNIP
+OpenSSL 1.1.1g  21 Apr 2020
+ENDSNIP
+
 snip_generate_ca_and_server_certificates_and_keys_1() {
 openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
 }
@@ -259,7 +267,7 @@ kubectl delete destinationrule originate-tls-for-nginx
 kubectl delete virtualservice direct-nginx-through-egress-gateway
 kubectl delete destinationrule egressgateway-for-nginx
 kubectl delete gateway istio-egressgateway
-kubectl delete secret generic client-credential -n istio-system
+kubectl delete secret client-credential-cacert -n istio-system
 kubectl delete service my-nginx -n mesh-external
 kubectl delete deployment my-nginx -n mesh-external
 kubectl delete configmap nginx-configmap -n mesh-external

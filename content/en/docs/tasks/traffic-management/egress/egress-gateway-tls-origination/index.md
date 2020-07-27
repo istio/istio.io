@@ -45,6 +45,17 @@ traffic to external services.
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
+*   For macOS users, verify that you are using `openssl` version 1.1 or later:
+
+    {{< text bash >}}
+    $ openssl version -a | grep OpenSSL
+    OpenSSL 1.1.1g  21 Apr 2020
+    {{< /text >}}
+
+    If the previous command outputs a version `1.1` or later, as shown, your `openssl` command
+    should work correctly with the instructions in this task. Otherwise, upgrade your `openssl` or try
+    a different implementation of `openssl`, for example on a Linux machine.
+
 *   [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
 *   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
