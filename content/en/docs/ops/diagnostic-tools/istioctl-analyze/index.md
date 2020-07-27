@@ -118,8 +118,6 @@ Sometimes you might find it useful to hide or ignore analyzer messages in certai
 {{< text syntax=bash snip_id=analyze_k_frod >}}
 $ istioctl analyze -k --namespace frod
 Warn [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection
-Error: Analyzers found issues.
-See https://istio.io/docs/reference/config/analysis for more information about causes and resolutions.
 {{< /text >}}
 
 Because you don't have permissions to update the namespace, you cannot resolve the message by annotating the namespace. Instead, you can direct `istioctl analyze` to suppress the above message on the resource:

@@ -37,7 +37,6 @@ _verify_same snip_try_with_fixed_namespace "$snip_try_with_fixed_namespace_out"
 echo '*** istioctl-analyze step 3 ***'
 _verify_contains snip_analyze_sample_destrule "$snip_analyze_sample_destrule_out"
 
-# TODO It is unclear if this should ALWAYS fail, NEVER fail, or sometimes fail.
 # There are multiple DestinationRules, some are valid for the VirtualService, some lack subsets 
 echo '*** istioctl-analyze step ***'
 snip_analyze_networking_directory || true
@@ -58,7 +57,7 @@ _wait_for_deployment istio-system istiod
 echo '*** istioctl-analyze step 9 ***'
 set +e  # Don't exit on failure
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: ratings
@@ -83,17 +82,13 @@ _verify_elided get_ratings_virtual_service "$snip_vs_yaml_with_status"
 
 echo '*** istioctl-analyze step 11 ***'
 kubectl create ns frod
-_verify_failure analyze_k_frod
-# TODO Replace the above with _verify_failure_same when it is available
-# _verify_same analyze_k_frod "$snip_analyze_k_frod_out"
+_verify_contains snip_analyze_k_frod "$snip_analyze_k_frod_out"
 
 echo '*** istioctl-analyze step 12 ***'
 _verify_same snip_analyze_suppress0102 "$snip_analyze_suppress0102_out"
 
 echo '*** istioctl-analyze step 13 ***'
-# TODO This will return errors on non-Istio namespaces, e.g. ibm-cert-store and kube-node-lease
-# It is hard to know what to supply to fix that problem for testing.
-snip_analyze_suppress_frod_0107_baz || true
+_verify_lines snip_analyze_suppress_frod_0107_baz "-Warn [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection"
 
 echo '*** istioctl-analyze step 14 ***'
 kubectl create deployment my-deployment --image=docker.io/kennethreitz/httpbin
@@ -104,8 +99,8 @@ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress-
 snip_annotate_for_deployment_suppression_107
 
 # @cleanup
-# Don't remove the injection label on default, as that was the original state of the test harness
-# kubectl label namespace default istio-injection-
+set +e # ignore cleanup errors
+kubectl label namespace default istio-injection-
 kubectl delete ns frod
 kubectl delete deployment my-deployment
 kubectl delete vs ratings

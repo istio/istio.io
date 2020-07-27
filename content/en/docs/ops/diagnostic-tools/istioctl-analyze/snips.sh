@@ -63,16 +63,6 @@ istioctl analyze --use-kube=false samples/bookinfo/networking/*.yaml
 ! read -r -d '' snip_vs_yaml_with_status <<\ENDSNIP
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
-metadata:
-...
-  name: ratings
-  namespace: default
-...
-spec:
-  gateways:
-  - bogus-gateway
-  hosts:
-  - ratings
 ...
 status:
   validationMessages:
@@ -94,8 +84,6 @@ istioctl analyze -k --namespace frod
 
 ! read -r -d '' snip_analyze_k_frod_out <<\ENDSNIP
 Warn [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection
-Error: Analyzers found issues.
-See https://istio.io/docs/reference/config/analysis for more information about causes and resolutions.
 ENDSNIP
 
 snip_analyze_suppress0102() {
