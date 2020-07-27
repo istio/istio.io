@@ -37,6 +37,7 @@ NAME                                    READY   STATUS    RESTARTS   AGE
 istiod-786779888b-p9s5n                 1/1     Running   0          114m
 istiod-canary-6956db645c-vwhsk          1/1     Running   0          1m
 {{< /text >}}
+
 {{< text bash >}}
 $ kubectl -n istio-system get svc -lapp=istiod
 NAME            TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                                                AGE
@@ -92,26 +93,28 @@ $ istioctl proxy-config endpoints ${pod_name}.test-ns --cluster xds-grpc -ojson 
 The output confirms that the pod is using `istiod-canary` revision of the control plane.
 
 ### Uninstall old control plane
+
 After upgrading both control plane and data plane, you can uninstall old control plane. For example the following command uninstalls control plane with `revision=default`
 
 {{< text bash >}}
 $ istioctl x uninstall --revision default
 {{< /text >}}
 
-or if you previously installed Istio with customized installation options, you can run the following command: 
+or if you previously installed Istio with customized installation options, you can run the following command:
 
 {{< text bash >}}
 $ istioctl x uninstall <your original installation options>
 {{< /text >}}
 
-After removal of the old control plane, only the new one still exist in the cluster:
+After removal of the old control plane, only the new one still exists in the cluster:
+
 {{< text bash >}}
 $ kubectl get pods -n istio-system -lapp=istiod
 NAME                             READY   STATUS    RESTARTS   AGE
 istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 {{< /text >}}
 
-Note that the above commands would only remove resources own by specific control plane, if you want to uninstall Istio completely, consider using `--purge` flag, for more details refer to [unintall guide](/docs/setup/install/istioctl/#uninstall-istio).
+Note that the above commands would only remove resources own by specific control plane, if you want to uninstall Istio completely, consider using `--purge` flag, for more details refer to [uninstall guide](/docs/setup/install/istioctl/#uninstall-istio).
 
 ## In place upgrades
 

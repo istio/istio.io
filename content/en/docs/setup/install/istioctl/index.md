@@ -653,10 +653,12 @@ The --set flag also creates any intermediate nodes in the path that are missing 
 To uninstall Istio completely, run the following command:
 
 {{< text bash >}}
-$ istioctl x uninstall <your original installation options> --purge
+$ istioctl x uninstall --purge
 {{< /text >}}
 
+{{< warning >}}
 The optional `--purge` flag is used to indicate removing all Istio resources, including cluster scoped resources shared between different Istio control planes.
+{{< /warning >}}
 
 Alternatively, you can run
 
