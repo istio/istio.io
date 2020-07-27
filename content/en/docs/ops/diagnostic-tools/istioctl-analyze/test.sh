@@ -28,10 +28,11 @@ set -o pipefail
 kubectl label namespace default istio-injection- || true
 
 echo '*** istioctl-analyze step 1 ***'
-_verify_elided snip_analyze_all_namespaces "$snip_analyze_all_namespace_sample_response" 
+_verify_contains snip_analyze_all_namespaces "$snip_analyze_all_namespace_sample_response"
 
 echo '*** istioctl-analyze step 2 ***'
-_verify_contains snip_fix_default_namespace "$snip_fix_default_namespace_out"
+snip_fix_default_namespace
+_verify_same snip_try_with_fixed_namespace "$snip_try_with_fixed_namespace_out"
 
 echo '*** istioctl-analyze step 3 ***'
 _verify_contains snip_analyze_sample_destrule "$snip_analyze_sample_destrule_out"

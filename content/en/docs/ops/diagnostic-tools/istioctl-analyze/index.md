@@ -25,14 +25,18 @@ And that’s it! It’ll give you any recommendations that apply.
 For example, if you forgot to enable Istio injection (a very common issue), you would get the following warning:
 
 {{< text syntax=plain snip_id=analyze_all_namespace_sample_response >}}
-...
 Warn [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
 {{< /text >}}
 
-Fix the issue and try again:
+Fix the issue:
 
 {{< text syntax=bash snip_id=fix_default_namespace >}}
-$ kubectl label namespace default istio-injection=enabled --overwrite
+$ kubectl label namespace default istio-injection=enabled
+{{< /text >}}
+
+Then try again:
+
+{{< text syntax=bash snip_id=try_with_fixed_namespace >}}
 $ istioctl analyze --namespace default
 ✔ No validation issues found when analyzing namespace: default.
 {{< /text >}}
@@ -84,16 +88,6 @@ For example. if you have a misconfigured gateway on your "ratings" virtual servi
 {{< text syntax=yaml snip_id=vs_yaml_with_status >}}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
-metadata:
-...
-  name: ratings
-  namespace: default
-...
-spec:
-  gateways:
-  - bogus-gateway
-  hosts:
-  - ratings
 ...
 status:
   validationMessages:
