@@ -4,7 +4,7 @@ description: Shows you how to use istioctl analyze to identify potential issues 
 weight: 40
 keywords: [istioctl, debugging, kubernetes]
 owner: istio/wg-user-experience-maintainers
-test: no
+test: yes
 ---
 
 `istioctl analyze` is a diagnostic tool that can detect potential issues with your
@@ -16,7 +16,7 @@ apply changes to a cluster.
 
 You can analyze your current live Kubernetes cluster by running:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=analyze_all_namespaces >}}
 $ istioctl analyze --all-namespaces
 {{< /text >}}
 
@@ -24,27 +24,41 @@ And that’s it! It’ll give you any recommendations that apply.
 
 For example, if you forgot to enable Istio injection (a very common issue), you would get the following warning:
 
-{{< text plain >}}
-Warn [IST0102](Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
+{{< text syntax=plain snip_id=analyze_all_namespace_sample_response >}}
+Warn [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
+{{< /text >}}
+
+Fix the issue:
+
+{{< text syntax=bash snip_id=fix_default_namespace >}}
+$ kubectl label namespace default istio-injection=enabled
+{{< /text >}}
+
+Then try again:
+
+{{< text syntax=bash snip_id=try_with_fixed_namespace >}}
+$ istioctl analyze --namespace default
+✔ No validation issues found when analyzing namespace: default.
 {{< /text >}}
 
 ## Analyzing live clusters, local files, or both
 
 Analyze the current live cluster, simulating the effect of applying additional yaml files like `bookinfo-gateway.yaml` and `destination-rule-all.yaml` in the `samples/bookinfo/networking` directory:
 
-{{< text bash >}}
-$ istioctl analyze @samples/bookinfo/networking/bookinfo-gateway.yaml@ @samples/bookinfo/networking/destination-rule-all.yaml@
+{{< text syntax=bash snip_id=analyze_sample_destrule >}}
+$ istioctl analyze @samples/bookinfo/networking/bookinfo-gateway.yaml@ samples/bookinfo/networking/destination-rule-all.yaml
+Error [IST0101] (VirtualService bookinfo.default samples/bookinfo/networking/bookinfo-gateway.yaml:16) Referenced host not found: "productpage"
 {{< /text >}}
 
 Analyze the entire `networking` folder:
 
-{{< text bash >}}
-$ istioctl analyze samples/bookinfo/networking/
+{{< text syntax=bash snip_id=analyze_networking_directory >}}
+$ istioctl analyze @samples/bookinfo/networking/@
 {{< /text >}}
 
 Analyze all yaml files in the `networking` folder:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=analyze_all_networking_yaml >}}
 $ istioctl analyze samples/bookinfo/networking/*.yaml
 {{< /text >}}
 
@@ -54,7 +68,7 @@ Typically, this is used to analyze the entire set of configuration files that ar
 
 Analyze all yaml files in the `networking` folder:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=analyze_all_networking_yaml_no_kube >}}
 $ istioctl analyze --use-kube=false samples/bookinfo/networking/*.yaml
 {{< /text >}}
 
@@ -71,33 +85,18 @@ This analysis uses the same logic and error messages as when using `istioctl ana
 
 For example. if you have a misconfigured gateway on your "ratings" virtual service, running `kubectl get virtualservice ratings` would give you something like:
 
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+{{< text syntax=yaml snip_id=vs_yaml_with_status >}}
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
-metadata:
-  annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"networking.istio.io/v1alpha3","kind":"VirtualService","metadata":{"annotations":{},"name":"ratings","namespace":"default"},"spec":{"hosts":["ratings"],"http":[{"route":[{"destination":{"host":"ratings","subset":"v1"}}]}]}}
-  creationTimestamp: "2019-09-04T17:31:46Z"
-  generation: 11
-  name: ratings
-  namespace: default
-  resourceVersion: "12760039"
-  selfLink: /apis/networking.istio.io/v1alpha3/namespaces/default/virtualservices/ratings
-  uid: dec86702-cf39-11e9-b803-42010a8a014a
+...
 spec:
   gateways:
   - bogus-gateway
-  hosts:
-  - ratings
-  http:
-  - route:
-    - destination:
-        host: ratings
-        subset: v1
+...
 status:
   validationMessages:
   - code: IST0101
+    documentation_url: https://istio.io/docs/reference/config/analysis/IST0101?ref=status-controller
     level: Error
     message: 'Referenced gateway not found: "bogus-gateway"'
 {{< /text >}}
@@ -110,7 +109,7 @@ status:
 
 You can enable this feature with:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=install_with_custom_config_analysis >}}
 $ istioctl install --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
@@ -118,23 +117,21 @@ $ istioctl install --set values.global.istiod.enableAnalysis=true
 
 Sometimes you might find it useful to hide or ignore analyzer messages in certain cases. For example, imagine a situation where a message is emitted about a resource you don't have permissions to update:
 
-{{< text bash >}}
-$ istioctl analyze -k --all-namespaces
+{{< text syntax=bash snip_id=analyze_k_frod >}}
+$ istioctl analyze -k --namespace frod
 Warn [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection
-Error: Analyzers found issues.
-See https://istio.io/docs/reference/config/analysis for more information about causes and resolutions.
 {{< /text >}}
 
 Because you don't have permissions to update the namespace, you cannot resolve the message by annotating the namespace. Instead, you can direct `istioctl analyze` to suppress the above message on the resource:
 
-{{< text bash >}}
-$ istioctl analyze -k --all-namespaces --suppress "IST0102=Namespace frod"
-✔ No validation issues found.
+{{< text syntax=bash snip_id=analyze_suppress0102 >}}
+$ istioctl analyze -k --namespace frod --suppress "IST0102=Namespace frod"
+✔ No validation issues found when analyzing namespace: frod.
 {{< /text >}}
 
 The syntax used for suppression is the same syntax used throughout `istioctl` when referring to resources: `<kind> <name>.<namespace>`, or just `<kind> <name>` for cluster-scoped resources like `Namespace`. If you want to suppress multiple objects, you can either repeat the `--suppress` argument or use wildcards:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=analyze_suppress_frod_0107_baz >}}
 $ # Suppress code IST0102 on namespace frod and IST0107 on all pods in namespace baz
 $ istioctl analyze -k --all-namespaces --suppress "IST0102=Namespace frod" --suppress "IST0107=Pod *.baz"
 {{< /text >}}
@@ -143,13 +140,13 @@ $ istioctl analyze -k --all-namespaces --suppress "IST0102=Namespace frod" --sup
 
 You can also ignore specific analyzer messages using an annotation on the resource. For example, to ignore code IST0107 (`MisplacedAnnotation`) on resource `deployment/my-deployment`:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=annotate_for_deployment_suppression >}}
 $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107
 {{< /text >}}
 
 To ignore multiple codes for a resource, separate each code with a comma:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=annotate_for_deployment_suppression_107 >}}
 $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107,IST0002
 {{< /text >}}
 
