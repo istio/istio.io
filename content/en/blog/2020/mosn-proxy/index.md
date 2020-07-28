@@ -39,7 +39,7 @@ This is a long-term planning project that takes many years to build and meets th
 
 At the same time, we received a lot of feedback and needs from the end user community. Everyone has the same needs and thoughts. So we combined the actual situation of the community and ourselves to conduct the research and development of MOSN from the perspective of satisfying the community and users. We believe that the open source competition is mainly competition between standards and specifications. We need to make the most suitable implementation choice based on open source standards.
 
-## What is the difference between MOSN and Istio default proxy? What are the advantages of MOSN?
+## What is the difference between MOSN and Istio's default proxy?
 
 ### Differences in language stacks
 
