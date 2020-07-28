@@ -2,7 +2,7 @@
 title: "Using MOSN with Istio: an alternative data plane"
 subtitle: "A Cloud Native Proxy for Edge or Service Mesh"
 description: "An alternative sidecar proxy for Istio."
-publishdate: 2020-07-25
+publishdate: 2020-07-28
 attribution: "Wang Fakang (mosn.io)"
 keywords: [mosn,sidecar,proxy]
 ---
