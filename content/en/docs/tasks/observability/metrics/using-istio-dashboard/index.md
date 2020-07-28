@@ -19,7 +19,8 @@ the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio](/docs/setup) in your cluster. If not enabled in your chosen configuration profile, enable the Grafana addon `--set values.grafana.enabled=true` [option](https://archive.istio.io/v1.4/docs/reference/config/installation-options/).
+* [Install Istio](/docs/setup) in your cluster.
+* Follow the [Grafana installation](/docs/ops/integrations/grafana/#configuration) documentation to deploy Grafana into your cluster.
 * Deploy [Bookinfo](/docs/examples/bookinfo/) application.
 
 ## Viewing the Istio dashboard
@@ -110,15 +111,7 @@ the example application throughout this task.
     This gives details about metrics for each workload and then inbound workloads (workloads that are sending request to
     this workload) and outbound services (services to which this workload send requests) for that workload.
 
-### About the Grafana addon
-
-The Grafana addon is a preconfigured instance of Grafana. The base image
-([`grafana/grafana`](https://hub.docker.com/r/grafana/grafana/)) has been
-modified to start with both a Prometheus data source and the Istio Dashboard
-installed. The base install files for Istio, and Mixer in particular, ship with
-a default configuration of global (used for every service) metrics. The Istio
-Dashboard is built to be used in conjunction with the default Istio metrics
-configuration and a Prometheus backend.
+### About the Grafana dashboards
 
 The Istio Dashboard consists of three main sections:
 
