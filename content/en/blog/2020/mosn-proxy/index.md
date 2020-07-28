@@ -53,7 +53,7 @@ MOSN is written in GoLang. GoLang has strong guarantees in terms of production e
 
 ### what are the drawbacks of MOSN
 
-- Because MOSN is written in GoLang, it has no better performance than Istio default proxy, but the performance is acceptable and usable in the service mesh scenario.
+- Because MOSN is written in GoLang, it doesn't have as good performance as Istio default proxy, but the performance is acceptable and usable in the service mesh scenario.
 - Compared with Istio default proxy, some features are not fully supported, such as WASM/HTTP3/Lua etc, but these are all in the [roadmap](https://docs.google.com/document/d/12lgyCW-GmlErr_ihvAO7tMmRe87i70bv2xqe4h2LUz4/edit?usp=sharing) of MOSN, and the goal is to be fully compatible with Istio.
 
 ## MOSN with Istio
