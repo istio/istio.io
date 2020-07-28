@@ -46,14 +46,14 @@ $ istioctl analyze --namespace default
 Analyze the current live cluster, simulating the effect of applying additional yaml files like `bookinfo-gateway.yaml` and `destination-rule-all.yaml` in the `samples/bookinfo/networking` directory:
 
 {{< text syntax=bash snip_id=analyze_sample_destrule >}}
-$ istioctl analyze @samples/bookinfo/networking/bookinfo-gateway.yaml@ samples/bookinfo/networking/destination-rule-all.yaml
+$ istioctl analyze @samples/bookinfo/networking/bookinfo-gateway.yaml@ @samples/bookinfo/networking/destination-rule-all.yaml@
 Error [IST0101] (VirtualService bookinfo.default samples/bookinfo/networking/bookinfo-gateway.yaml:16) Referenced host not found: "productpage"
 {{< /text >}}
 
 Analyze the entire `networking` folder:
 
 {{< text syntax=bash snip_id=analyze_networking_directory >}}
-$ istioctl analyze @samples/bookinfo/networking/@
+$ istioctl analyze samples/bookinfo/networking/
 {{< /text >}}
 
 Analyze all yaml files in the `networking` folder:
@@ -92,6 +92,8 @@ kind: VirtualService
 spec:
   gateways:
   - bogus-gateway
+  hosts:
+  - ratings
 ...
 status:
   validationMessages:

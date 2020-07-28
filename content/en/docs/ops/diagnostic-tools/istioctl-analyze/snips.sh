@@ -67,6 +67,8 @@ kind: VirtualService
 spec:
   gateways:
   - bogus-gateway
+  hosts:
+  - ratings
 ...
 status:
   validationMessages:
