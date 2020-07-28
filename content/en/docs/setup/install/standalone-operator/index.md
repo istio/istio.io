@@ -189,6 +189,22 @@ Then run the following command with corresponding version of istioctl to install
 $ istioctl operator init --revision canary
 {{< /text >}}
 
+{{< tip >}}
+You can alternatively deploy the operator of different revision using Helm by setting revision value:
+
+{{< text bash >}}
+$ helm template manifests/charts/istio-operator/ \
+  --set hub=docker.io/istio \
+  --set tag={{< istio_full_version >}} \
+  --set operatorNamespace=istio-operator \
+  --set revision=canary \
+  --set watchedNamespaces=istio-system | kubectl apply -f -
+{{< /text >}}
+
+Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
+to run the above command.
+{{< /tip >}}
+
 After running the command, you will have two control plane deployments and services running side-by-side:
 
 {{< text bash >}}
