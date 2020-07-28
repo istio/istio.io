@@ -27,7 +27,6 @@ whereas with an operator, an in-cluster pod will run the operation in its securi
 To avoid a vulnerability, ensure that the operator deployment is sufficiently secured.
 {{< /warning >}}
 
-
 ## Prerequisites
 
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
