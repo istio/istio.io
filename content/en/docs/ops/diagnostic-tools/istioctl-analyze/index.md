@@ -53,7 +53,7 @@ Error [IST0101] (VirtualService bookinfo.default samples/bookinfo/networking/boo
 Analyze the entire `networking` folder:
 
 {{< text syntax=bash snip_id=analyze_networking_directory >}}
-$ istioctl analyze @samples/bookinfo/networking/@
+$ istioctl analyze samples/bookinfo/networking/
 {{< /text >}}
 
 Analyze all yaml files in the `networking` folder:
