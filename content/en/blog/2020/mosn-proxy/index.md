@@ -101,7 +101,7 @@ Check that Istio-related pods and services are deployed successfully.
 $ kubectl get svc -n istio-system
 {{< /text >}}
 
-If the service `STATUS` is Running, then Istio has been successfully installed using MOSN and you can deploy the Bookinfo sample later.
+If the service `STATUS` is Running, then Istio has been successfully installed using MOSN and you can now deploy the Bookinfo sample.
 
 ## Bookinfo Examples
 
