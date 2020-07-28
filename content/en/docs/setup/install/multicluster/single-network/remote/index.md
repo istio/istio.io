@@ -40,7 +40,7 @@ before you continue.
 Next, deploy Istio in `Cluster_2` with the discovery address pointing at the
 ingress gateway of `Cluster_1`. Your [initial configuration](/docs/setup/install/multicluster/single-network/initial-configuration)
 enabled mesh expansion on `Cluster_1`, and now `Cluster_2` can access the
-discovery server in `Cluster_1` via the ingress gateway.
+discovery server in `Cluster_1` via the ingress [gateway.](/docs/concepts/traffic-management/#gateways)
 
 The new remote cluster requires the following configurations:
 
@@ -73,8 +73,8 @@ The new remote cluster requires the following configurations:
         </tr>
         <tr>
             <td><code>remotePilotAddress</code></td>
-            <td>IP address of the Istio ingress gateway of `Cluster_1`. </td>
-            <td>${DISCOVERY_ADDRESS}</td>
+            <td>IP address of the Istio ingress gateway of `Cluster_1`.</td>
+            <td><code>${DISCOVERY_ADDRESS}</code></td>
         </tr>
     </tbody>
 </table>
@@ -86,49 +86,49 @@ deploy Istio in `Cluster_2` with the following steps:
    address of the Istio ingress gateway of `Cluster_1` with the following
    command:
 
-{{< text bash >}}
-$ export DISCOVERY_ADDRESS=$(kubectl \
-  --context=${CTX_1} \
-  -n istio-system get svc istio-ingressgateway \
-  -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-{{< /text >}}
+    {{< text bash >}}
+    $ export DISCOVERY_ADDRESS=$(kubectl \
+      --context=${CTX_1} \
+      -n istio-system get svc istio-ingressgateway \
+      -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    {{< /text >}}
 
 1. To pass configuration values to the Istio operator for installation, you
    define a custom resource (CR). Define and save the `install.yaml` CR with
    the following command:
 
-{{< text bash >}}
-$ cat <<EOF> ${WORK_DIR}/${CLUSTER_2}/install.yaml
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    global:
-      meshID: ${MESH}
-      multiCluster:
-        clusterName: ${CLUSTER_2}
-      network: ${NETWORK_1}
-      # Access the control plane discovery server via the ingress
-      remotePilotAddress: ${DISCOVERY_ADDRESS}
-EOF
-{{< /text >}}
+    {{< text bash >}}
+    $ cat <<EOF> ${WORK_DIR}/${CLUSTER_2}/install.yaml
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      values:
+        global:
+          meshID: ${MESH}
+          multiCluster:
+            clusterName: ${CLUSTER_2}
+          network: ${NETWORK_1}
+          # Access the control plane discovery server via the ingress
+          remotePilotAddress: ${DISCOVERY_ADDRESS}
+    EOF
+    {{< /text >}}
 
 1. Install Istio on `Cluster_2` with the following command:
 
-{{< text bash >}}
-$ istioctl --context=${CTX_2} manifest apply -f \
-  ${WORK_DIR}/${CLUSTER_2}/install.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl --context=${CTX_2} manifest apply -f \
+      ${WORK_DIR}/${CLUSTER_2}/install.yaml
+    {{< /text >}}
 
 1. Verify that the control plane of `Cluster_2` is ready with the following
    command:
 
-{{< text bash >}}
-$ kubectl --context=${CTX_2} -n istio-system get pod
-NAME                                    READY   STATUS    RESTARTS   AGE
-istiod-f756bbfc4-thkmk                  1/1     Running   0          136m
-prometheus-b54c6f66b-q8hbt              2/2     Running   0          136m
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl --context=${CTX_2} -n istio-system get pod
+    NAME                                    READY   STATUS    RESTARTS   AGE
+    istiod-f756bbfc4-thkmk                  1/1     Running   0          136m
+    prometheus-b54c6f66b-q8hbt              2/2     Running   0          136m
+    {{< /text >}}
 
 1. After the status of all pods is `Running`, you can continue configuring
    your deployment.
@@ -145,12 +145,12 @@ discovery with the following steps:
 
 1. Share the secret of `Cluster_2` with `Cluster_1` with the following command:
 
-{{< text bash >}}
-$ istioctl x create-remote-secret \
-  --context=${CTX_2} \
-  --name=${CLUSTER_2} | \
-  kubectl apply -f - --context=${CTX_1}
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl x create-remote-secret \
+      --context=${CTX_2} \
+      --name=${CLUSTER_2} | \
+      kubectl apply -f - --context=${CTX_1}
+    {{< /text >}}
 
 **Congratulations!**
 

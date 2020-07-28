@@ -89,7 +89,7 @@ the HelloWorld service as an example, but you can use your own service. To
 follow the best practice, create a namespace for your
 service before deploying it.
 
-Using the previously [set environment variables,](/docs/setup/install/multicluster/#env-var)
+Using the [previously set environment variables,](/docs/setup/install/multicluster/#env-var)
 deploy the `HelloWorld` service to `Cluster_1` with the following steps:
 
 1. Create the `sample` namespace in `Cluster_1` with the following command:
@@ -114,8 +114,8 @@ deploy the `HelloWorld` service to `Cluster_1` with the following steps:
         -l app=helloworld -n sample
     {{< /text >}}
 
-Using the previously [set environment variables,](/docs/setup/install/multicluster/#env-var)
-deploy the HelloWorld service to `Cluster_2` with the following steps:
+Using the [previously set environment variables,](/docs/setup/install/multicluster/#env-var)
+deploy the `HelloWorld` service to `Cluster_2` with the following steps:
 
 1. Create the `sample` namespace in `Cluster_2` with the following command:
 
@@ -144,7 +144,7 @@ deploy the HelloWorld service to `Cluster_2` with the following steps:
 To verify cross-cluster load balancing, deploy `v1` of the `HelloWorld` service to
 `CLUSTER_1` and `v2` to `CLUSTER_2`.
 
-Using the previously [set environment variables,](/docs/setup/install/multicluster/#env-var)
+Using the [previously set environment variables,](/docs/setup/install/multicluster/#env-var)
 deploy the different versions of the service to the clusters with the following
 steps:
 
@@ -190,11 +190,12 @@ steps:
 ## Deploy a load-generating service
 
 To generate the traffic needed to verify your deployment, deploy the `sleep`
-service to your clusters. The `sleep` service is a simple load-generating
-service. If you are using your own service to verify your deployment, ensure
-that you have a traffic source creating a load for your services.
+service to your clusters. We are using the `sleep` service as a simple
+load-generating service. If you are using your own service to verify your
+deployment, ensure that you have a traffic source creating a load for your
+services.
 
-Using the previously [set environment variables,](/docs/setup/install/multicluster/#env-var)
+Using the [previously set environment variables,](/docs/setup/install/multicluster/#env-var)
 deploy the load-generating service to the clusters with the following steps:
 
 1. Deploy the `sleep` service to `Cluster_1` with the following command:
@@ -238,7 +239,7 @@ HelloWorld service several times using the sleep service. To ensure load
 balancing is working properly, call the HelloWorld service from all clusters in
 your deployment.
 
-Using the previously [set environment variables,](/docs/setup/install/multicluster/#env-var)
+Using the [previously set environment variables,](/docs/setup/install/multicluster/#env-var)
 verify cross-cluster load balancing with following steps:
 
 1. Send one request on port 5000 from the `sleep` service on `Cluster_1` to the

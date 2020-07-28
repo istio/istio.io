@@ -83,7 +83,7 @@ requires the following configurations to enable a multicluster deployment:
     </tbody>
 </table>
 
-Using the previously [set environment variables,](/docs/setup/install/multicluster/#env-var)
+Using the [previously set environment variables,](/docs/setup/install/multicluster/#env-var)
 deploy an Istio control plane with the following steps:
 
 1. To pass configuration values to the Istio operator for installation,
@@ -148,28 +148,33 @@ Next, configure endpoint discovery to support cross-cluster load balancing.
 
 To enable cross-cluster load balancing in your mesh, configure endpoint
 discovery. This feature requires that clusters share secrets between them. If
-the shared secrets provide the [needed trust](#heading=h.ww2golqkax84), each
+the shared secrets provide the [needed trust](#configure-trust), each
 cluster in the mesh can access the API server in the other clusters directly.
 Using the previously set environment variables, configure endpoint discovery
 with the following steps:
 
 1. Share the secret of `Cluster_1` with `Cluster_2`:
 
-{{< text bash >}}
-$ istioctl x create-remote-secret \
-  --context=${CTX_1} \
-  --name=${CLUSTER_1} | \
-  kubectl apply -f - --context=${CTX_2}
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl x create-remote-secret \
+      --context=${CTX_1} \
+      --name=${CLUSTER_1} | \
+      kubectl apply -f - --context=${CTX_2}
+    {{< /text >}}
 
 1. Share the secret of `Cluster_2` with `Cluster_1`:
 
-{{< text bash >}}
-$ istioctl x create-remote-secret \
-  --context=${CTX_2} \
-  --name=${CLUSTER_2} | \
-  kubectl apply -f - --context=${CTX_1}
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl x create-remote-secret \
+      --context=${CTX_2} \
+      --name=${CLUSTER_2} | \
+      kubectl apply -f - --context=${CTX_1}
+    {{< /text >}}
+
+    {{< tip >}}
+    If you have added other clusters to your deployment, you must share the
+    secret of `Cluster_2` with those clusters too.
+    {{< /tip >}}
 
 **Congratulations!**
 
