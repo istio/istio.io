@@ -17,11 +17,11 @@ what’s different between Istio 1.6.5 and Istio 1.6.6.
 ## Changes
 
 - **Optimized** `ResolveGatewayName` to greatly reduce the CPU usage and number of memory allocations.
-- **Fixed** `istioctl upgrade` so that it no longer checks remote component versions on dry run. ([Issue 24865](https://github.com/istio/istio/issues/24865))
-- **Fixed** Gateway missing error to produce a short error message even when several clusters with many gateways are present in the configuration. 
+- **Fixed** `istioctl upgrade` so that it no longer checks remote component versions when using `--dry-run`. ([Issue 24865](https://github.com/istio/istio/issues/24865))
+- **Fixed** long log messages for clusters with many gateways.
 - **Fixed** route configuration generation to greatly reduce the load when processing virtual services on gateways. ([Issue 25116](https://github.com/istio/istio/issues/25116))
 - **Fixed** outlier detection to only fire on gateway errors and not depend on success rate.([Issue 25220](https://github.com/istio/istio/issues/25220))
-- **Fixed** demo profile to use port 15021 as the status port. Also performed general cleanup of unused resources. ([Issue #25626](https://github.com/istio/istio/issues/25626))
+- **Fixed** demo profile to use port 15021 as the status port. Also general cleanup of unused resources. ([Issue #25626](https://github.com/istio/istio/issues/25626))
 - **Fixed** Galley to properly handle errors from Kubernetes tombstones.
 - **Fixed** Istio to encrypt traffic between sidecars and egress gateways.([Issue 23910](https://github.com/istio/istio/issues/23910))
 - **Fixed** Bookinfo demo application to verify if a specified namespace exists and if not, use the default namespace.
