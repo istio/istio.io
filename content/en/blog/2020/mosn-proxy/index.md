@@ -109,7 +109,7 @@ You can run the Bookinfo sample by following the [MOSN with Istio tutorial](http
 
 ## Moving forward
 
-Next, MOSN will not only be compatible with the features of the new version of Istio, but also evolve in the following aspects.
+Next, MOSN will not only be compatible with the features of the latest version of Istio, but also evolve in the following aspects.
 
 - _As a microservices runtime_, MOSN oriented programming makes services lighter, smaller and faster.
 - _Programmable_, support WASM.
