@@ -51,6 +51,11 @@ MOSN is written in GoLang. GoLang has strong guarantees in terms of production e
 - Multi-process plug-in mechanism, which can easily extend the plug-ins of independent MOSN processes through the plug-in framework, and do some other management, bypass and other functional module extensions.
 - Transport layer national secret algorithm support with Chinese encryption compliance, etc.
 
+### what are the drawbacks of MOSN
+
+- Because MOSN is written in GoLang, it has no better performance than Istio default proxy, but the performance is acceptable and usable in the service mesh scenario.
+- Compared with Istio default proxy, some features are not fully supported, such as WASM/HTTP3/Lua etc, but these are all in the [roadmap](https://docs.google.com/document/d/12lgyCW-GmlErr_ihvAO7tMmRe87i70bv2xqe4h2LUz4/edit?usp=sharing) of MOSN, and the goal is to be fully compatible with Istio.
+
 ## MOSN with Istio
 
 MOSN can be used not only as a stand-alone Layer 4/Layer 7 load balancer, but can also be integrated into Istio as a sidecar proxy or ingress gateway in Kubernetes. The following is an introduction to the use of MOSN as an Istio data plane.
