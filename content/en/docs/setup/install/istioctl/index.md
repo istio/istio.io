@@ -657,10 +657,10 @@ $ istioctl x uninstall --purge
 {{< /text >}}
 
 {{< warning >}}
-The optional `--purge` flag is used to indicate removing all Istio resources, including cluster scoped resources shared between different Istio control planes.
+The optional `--purge` flag indicates removal of all Istio resources, including cluster-scoped resources shared between different Istio control planes.
 {{< /warning >}}
 
-Alternatively, you can run
+Alternatively, to remove only a specific Istio control plane, run the following command:
 
 {{< text bash >}}
 $ istioctl manifest generate <your original installation options> | kubectl delete -f -

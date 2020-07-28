@@ -173,9 +173,9 @@ for the complete set of configuration settings.
 
 ## Canary Upgrade
 
-You can use operator to do canary upgrade of Istio control plane, similar to what istioctl does, refer to [upgrade guide]((/docs/setup/upgrade/#canary-upgrades))
+You can use the standalone operator to do canary upgrade of Istio control plane, the process is similar to the [canary upgrade with `istioctl`]((/docs/setup/upgrade/#canary-upgrades))
 
-For example, if you have already installed Istio following the previous step, check existence of in-cluster `IstioOperator` CR "example-istiocontrolplane":
+For example, if you used the operator to install Istio in the previous section, verify that the `example-istiocontrolplane` custom resource for the `IstioOperator` exists in your cluster::
 
 {{< text bash >}}
 $ kubectl get iop --all-namespaces
@@ -183,14 +183,14 @@ NAMESPACE      NAME                        REVISION   STATUS    AGE
 istio-system   example-istiocontrolplane              HEALTHY   11m
 {{< /text >}}
 
-Then run the following command with corresponding version of istioctl to install Istio of new revision based on the in-cluster `IstioOperator` CR:
+Then run the following command to install the new revision of the Istio control plane based on the in-cluster `IstioOperator` Custom Resource:
 
 {{< text bash >}}
-$ istioctl operator init --revision canary
+$ istioctl operator init --revision 1-7-0
 {{< /text >}}
 
 {{< tip >}}
-You can alternatively deploy the operator of different revision using Helm by setting revision value:
+You can alternatively use Helm to deploy the operator of a different by setting revision value:
 
 {{< text bash >}}
 $ helm template manifests/charts/istio-operator/ \
@@ -211,7 +211,7 @@ After running the command, you will have two control plane deployments and servi
 $ kubectl get pods -n istio-system -l app=istiod
 NAME                             READY   STATUS    RESTARTS   AGE
 istiod-5f4f9dd5fc-4xc8p          1/1     Running   0          10m
-istiod-canary-55887f699c-t8bh8   1/1     Running   0          8m13s
+istiod-1-7-0-55887f699c-t8bh8    1/1     Running   0          8m13s
 {{< /text >}}
 
 {{< text bash >}}
@@ -223,13 +223,13 @@ istiod-canary   ClusterIP   10.87.4.92   <none>        15010/TCP,15012/TCP,443/T
 
 ## Uninstall
 
-Delete the Istio deployment:
+Delete the Istio deployment. Note that if you have multiple operators with different revisions running, this might result in uninstalling Istio of different revisions. 
 
 {{< text bash >}}
 $ kubectl delete istiooperators.install.istio.io -n istio-system example-istiocontrolplane
 {{< /text >}}
 
-Note that if you have multiple operators running, this would result in uninstalling different Istio Control Planes. Wait until Istio is uninstalled - this may take some time.
+Wait until Istio is uninstalled - this may take some time.
 Delete the Istio operator:
 
 {{< text bash >}}
@@ -242,7 +242,7 @@ Or:
 $ kubectl delete ns istio-operator --grace-period=0 --force
 {{< /text >}}
 
-To uninstall a single Istio control plane but keep the new one during canary upgrade, do not delete the in-cluster `IstioOperator` CR, Run:
+If you used the operator to perform a canary upgrade of the control plane, do not delete the in-cluster `IstioOperator` CR. Instead, you can uninstall the old control plane and keep the new one by running the following command:
 
 {{< text bash >}}
 $ istioctl operator remove --revision <revision>
