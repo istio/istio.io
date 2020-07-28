@@ -7,7 +7,7 @@ attribution: "Wang Fakang (mosn.io)"
 keywords: [mosn,sidecar,proxy]
 ---
 
-[MOSN](https://github.com/mosn/mosn) (Modular Open Smart Network) is a network proxy server written in GoLang. It was built at [Ant Group](https://www.antfin.com) as a sidecar/API Gateway/cloud-native Ingress/Layer 4 or Layer 7 load balancer etc. Over time, we've added extra features, like a multi-protocol framework, multi-process plug-in mechanism, a DSL, and support for the [xDS APIs](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol). Supporting xDS means we are now able to use MOSN as the network proxy for Istio.
+[MOSN](https://github.com/mosn/mosn) (Modular Open Smart Network) is a network proxy server written in GoLang. It was built at [Ant Group](https://www.antfin.com) as a sidecar/API Gateway/cloud-native Ingress/Layer 4 or Layer 7 load balancer etc. Over time, we've added extra features, like a multi-protocol framework, multi-process plug-in mechanism, a DSL, and support for the [xDS APIs](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol). Supporting xDS means we are now able to use MOSN as the network proxy for Istio. This configuration is not supported by the Istio project; for help, please see [Learn More](#learn-more) below.
 
 ## Background
 
@@ -16,10 +16,6 @@ In the service mesh world, using Istio as the control plane has become the mains
 - Implement xDS protocols to fulfill the capabilities for data plane related services.
 - Build `proxyv2` images using Istio's script and set the relevant `SIDECAR` and other parameters.
 - Specify a specific data plane via the `istioctl` tool and set the proxy-related configuration.
-
-## Support
-
-Using MOSN with Istio is supported by the MOSN project; for help, please see [Learn More](#learn-more) below.
 
 ## Architecture
 
