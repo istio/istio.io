@@ -58,7 +58,7 @@ MOSN is written in GoLang. GoLang has strong guarantees in terms of production e
 
 ## MOSN with Istio
 
-MOSN can be used not only as a stand-alone Layer 4/Layer 7 load balancer, but can also be integrated into Istio as a sidecar proxy or ingress gateway in Kubernetes. The following is an introduction to the use of MOSN as an Istio data plane.
+The following describes how to set up MOSN as the data plane for Istio.
 
 ## Setup Istio
 
