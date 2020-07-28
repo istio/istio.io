@@ -17,6 +17,10 @@ In the service mesh world, using Istio as the control plane has become the mains
 - Build `proxyv2` images using Istio's script and set the relevant `SIDECAR` and other parameters.
 - Specify a specific data plane via the `istioctl` tool and set the proxy-related configuration.
 
+## Support
+
+Using MOSN with Istio is supported by the MOSN project; for help, please see [Learn More](#learn-more) below.
+
 ## Architecture
 
 MOSN has a layered architecture with four layers, NET/IO, Protocol, Stream, and Proxy, as shown in the following figure.
