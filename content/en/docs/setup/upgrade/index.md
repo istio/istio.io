@@ -94,13 +94,13 @@ The output confirms that the pod is using `istiod-canary` revision of the contro
 
 ### Uninstall old control plane
 
-After upgrading both control plane and data plane, you can uninstall old control plane. For example the following command uninstalls control plane with `revision=default`
+After upgrading both the control plane and data plane, you can uninstall the old control plane. For example the following command uninstalls control plane with `revision=default`
 
 {{< text bash >}}
 $ istioctl x uninstall --revision default
 {{< /text >}}
 
-or if you previously installed Istio with customized installation options, you can run the following command:
+If you previously installed Istio with customized installation options, you can run the following command:
 
 {{< text bash >}}
 $ istioctl x uninstall <your original installation options>
@@ -114,7 +114,7 @@ NAME                             READY   STATUS    RESTARTS   AGE
 istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 {{< /text >}}
 
-Note that the above commands would only remove resources own by specific control plane, if you want to uninstall Istio completely, consider using `--purge` flag, for more details refer to [uninstall guide](/docs/setup/install/istioctl/#uninstall-istio).
+Note that the above commands only remove resources owned by specific control plane. To uninstall Istio completely, consider using the `--purge` flag, for more details refer to [uninstall guide](/docs/setup/install/istioctl/#uninstall-istio).
 
 ## In place upgrades
 

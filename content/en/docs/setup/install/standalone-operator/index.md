@@ -213,7 +213,7 @@ Delete the Istio deployment:
 $ kubectl delete istiooperators.install.istio.io -n istio-system example-istiocontrolplane
 {{< /text >}}
 
-Note that if you have multiple operator running, this would result in removing all Istio control plane resources. Wait until Istio is uninstalled - this may take some time.
+Note that if you have multiple operators running, this would result in uninstalling different Istio Control Planes. Wait until Istio is uninstalled - this may take some time.
 Delete the Istio operator:
 
 {{< text bash >}}
@@ -226,7 +226,7 @@ Or:
 $ kubectl delete ns istio-operator --grace-period=0 --force
 {{< /text >}}
 
-If you just want to uninstall old Istio control plane but keep the new one during canary upgrade, do not delete the in-cluster CR, otherwise the new control plane resources would be uninstalled as well. Run this command instead:
+To uninstall a single Istio control plane but keep the new one during canary upgrade, do not delete the in-cluster `IstioOperator` CR, Run:
 
 {{< text bash >}}
 $ istioctl operator remove --revision <revision>
