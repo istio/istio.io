@@ -21,7 +21,7 @@ Using these instructions, you can select any one of Istio's built-in
 and then further customize the configuration for your specific needs.
 
 The `istioctl` command supports the full [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
-via command options for individual settings or passing a yaml file containing an `IstioOperator`
+via command-line options for individual settings or for passing a yaml file containing an `IstioOperator`
 {{<gloss CRDs>}}custom resource (CR){{</gloss>}}.
 
 {{< tip >}}

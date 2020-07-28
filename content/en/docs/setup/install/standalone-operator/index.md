@@ -11,7 +11,7 @@ test: no
 Instead of manually installing, upgrading, and uninstalling Istio in a production environment,
 you can instead let the Istio [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 manage the installation for you.
-This relieves you of the burden of managing different Istio versions.
+This relieves you of the burden of managing different `istioctl` versions.
 Simply update the operator {{<gloss CRDs>}}custom resource (CR){{</gloss>}} and the
 operator controller will apply the corresponding configuration changes for you.
 
