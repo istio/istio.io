@@ -89,7 +89,7 @@ $ export PATH=$PATH:$(pwd)/bin
 
 ## Setting MOSN as the Data Plane
 
-Until now, it has been possible to flexibly customize the Istio control plane and data plane configuration parameters via the `istioctl` command line tool. MOSN is specified as the data plane in Istio via the parameters of the istioctl command.
+It has is possible to flexibly customize the Istio control plane and data plane configuration parameters using the `istioctl` command line tool. MOSN can be specified as the data plane for Istio using the following command.
 
 {{< text bash >}}
 $ istioctl manifest apply  --set .values.global.proxy.image="mosnio/proxyv2:1.5.2-mosn"  --set meshConfig.defaultConfig.binaryPath="/usr/local/bin/mosn"
