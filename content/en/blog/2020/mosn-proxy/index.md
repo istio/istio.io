@@ -115,7 +115,7 @@ Next, MOSN will not only be compatible with the features of the new version of I
 - _Programmable_, support WASM.
 - _More scenario support_, Cache Mesh/Message Mesh/Block-chain Mesh etc.
 
-MOSN is an open source project that anyone in the community can use, improve, and enjoy. We'd love you to join us! [Here's](https://github.com/mosn/community) a few ways to find out what's happening and get involved.
+MOSN is an open source project that anyone in the community can use, improve, and enjoy. We'd love you to join us! [Here](https://github.com/mosn/community) are a few ways to find out what's happening and get involved.
 
 ## Learn More
 
