@@ -105,7 +105,7 @@ If the service `STATUS` is Running, then Istio has been successfully installed u
 
 ## Bookinfo Examples
 
-You can run the Bookinfo samples through [MOSN with Istio tutorial](https://katacoda.com/mosn/courses/istio/mosn-with-istio) where you can find some other tutorials for MOSN and Istio. You can install MOSN and get to the same point you would have if you’d just followed the defaults and got Envoy.
+You can run the Bookinfo sample by following the [MOSN with Istio tutorial](https://katacoda.com/mosn/courses/istio/mosn-with-istio) where you can find instructions for using MOSN and Istio. You can install MOSN and get to the same point you would have using the default Istio instructions with Envoy.
 
 ## Moving forward
 
