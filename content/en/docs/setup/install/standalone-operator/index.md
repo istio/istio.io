@@ -1,5 +1,5 @@
 ---
-title: Standalone Operator Install
+title: Istio Operator Install
 description: Instructions to install Istio in a Kubernetes cluster using the Istio operator.
 weight: 25
 keywords: [kubernetes, operator]
@@ -8,11 +8,24 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-This guide installs Istio using the standalone Istio
-[operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
-The only dependencies required are a supported Kubernetes cluster, the `kubectl` command at the version to match the cluster, and the `istioctl` command at the desired release version.
+Instead of manually installing, upgrading, and uninstalling Istio in a production environment,
+you can instead let the Istio [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
+manage the installation for you.
+This relieves you of the burden of managing different `istioctl` versions.
+Simply update the operator {{<gloss CRDs>}}custom resource (CR){{</gloss>}} and the
+operator controller will apply the corresponding configuration changes for you.
 
-The operator is beta in 1.6 and suitable for production use.
+The same [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/) is used
+to install Istio with the operator as when using the [istioctl install instructions](/docs/setup/install/istioctl).
+In both cases, configuration is validated against a schema and the same correctness
+checks are performed.
+
+{{< warning >}}
+Using an operator does have a security implication.
+With the `istioctl install` command, the operation will run in the admin user’s security context,
+whereas with an operator, an in-cluster pod will run the operation in its security context.
+To avoid a vulnerability, ensure that the operator deployment is sufficiently secured.
+{{< /warning >}}
 
 ## Prerequisites
 
