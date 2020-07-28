@@ -2682,8 +2682,8 @@ Istio will be started on the host network as a docker container in capture mode.
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.7.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/istio-1.7.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -2780,8 +2780,8 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.7.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/istio-1.7.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -2986,7 +2986,7 @@ istioctl x version --xds-label istio.io/rev=default --xds-port 15010
 istioctl experimental wait --for=distribution virtualservice bookinfo.default
 
 # Wait until 99% of the proxies receive the distribution, timing out after 5 minutes
-istioctl experimental wait --for=distribution --threshold=.99 --timeout=300s virtualservice bookinfo.default
+istioctl experimental wait --for=distribution --threshold=.99 --timeout=300 virtualservice bookinfo.default
 
 </code></pre>
 <h2 id="istioctl-install">istioctl install</h2>
@@ -3042,8 +3042,8 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.7.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/istio-1.7.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3293,8 +3293,8 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.7.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/istio-1.7.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3466,8 +3466,8 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.7.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/istio-1.7.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3589,8 +3589,8 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpe
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.7.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/istio-1.7.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3662,8 +3662,8 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.7.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/istio-1.7.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3675,6 +3675,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/
 <td><code>--operatorNamespace &lt;string&gt;</code></td>
 <td></td>
 <td>The namespace the operator controller is installed into  (default `istio-operator`)</td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>Target control plane revision for the command.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--tag &lt;string&gt;</code></td>
@@ -3735,6 +3740,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/
 <td><code>--operatorNamespace &lt;string&gt;</code></td>
 <td></td>
 <td>The namespace the operator controller is installed into  (default `istio-operator`)</td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>Target control plane revision for the command.  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -3855,8 +3865,8 @@ istioctl manifest apply --set profile=demo  # Use a profile from the list
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.7.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/istio-1.7.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3919,8 +3929,8 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.7.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/istio-1.7.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3977,8 +3987,8 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.7.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/istio-1.7.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -4709,8 +4719,8 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.7.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/istio-1.7.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -4847,8 +4857,8 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpe
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.7.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/istio-1.7.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
