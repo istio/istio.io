@@ -23,14 +23,14 @@ diagram shows a service mesh spanning a single primary cluster.
     caption="A service mesh with a single primary cluster"
     >}}
 
+Complete the [Before you begin instructions](/docs/setup/install/multicluster/#before-you-begin)
+before you continue.
+
 To set up a cluster as the primary cluster of a multicluster service
 mesh, complete the following configuration steps:
 
 1. [Configure trust for the cluster](#configure-trust)
 1. [Deploy Istio to the cluster](#deploy-istio)
-
-Complete the [Before you begin instructions](/docs/setup/install/multicluster/#before-you-begin)
-before you continue.
 
 ## Configure trust
 
@@ -145,7 +145,7 @@ values to enable a multicluster deployment:
     </tbody>
 </table>
 
-Using the previously [set environment variables,](/docs/setup/install/multicluster/#env-var)
+Using the [previously set environment variables,](/docs/setup/install/multicluster/#env-var)
 deploy Istio with the following steps:
 
 1. To pass configuration values to the Istio operator for installation,
