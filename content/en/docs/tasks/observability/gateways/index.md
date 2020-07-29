@@ -23,12 +23,7 @@ For both options, first follow these steps:
 
 1. [Install Istio](/docs/setup/install/istioctl) in your cluster.
 
-    To additionally install the telemetry addons, use the following installation options:
-
-    * Grafana: `--set values.grafana.enabled=true`
-    * Kiali: `--set values.kiali.enabled=true`
-    * Prometheus: `--set values.prometheus.enabled=true`
-    * Tracing: `--set values.tracing.enabled=true`
+    To additionally install the telemetry addons, follow the [integrations](/docs/ops/integrations/) documentation.
 
 1. Set up the domain to expose addons. In this example, you expose each addon on a subdomain, such as `grafana.example.com`.
 

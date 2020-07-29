@@ -9,6 +9,22 @@ test: n/a
 
 [Prometheus](https://prometheus.io/) is an open source monitoring system and time series database. You can use Prometheus with Istio to record metrics that track the health of Istio and of applications within the service mesh. You can visualize metrics using tools like [Grafana](/docs/ops/integrations/grafana/) and [Kiali](/docs/tasks/observability/kiali/).
 
+## Installation
+
+### Option 1: Quick start
+
+Istio provides a basic sample installation to quickly get Prometheus up and running:
+
+{{< text bash >}}
+$ kubectl apply {{< github_file >}}/samples/addons/prometheus.yaml -n istio-system
+{{< /text >}}
+
+This will deploy Prometheus into your cluster. This is intended for demonstration only, and is not tuned for performance or security.
+
+### Option 2: Customizable install
+
+Consult the [Prometheus documentation](https://www.prometheus.io/) to get started deploying Prometheus into your environment. See [Configuration](#Configuration) for more information on configuring Prometheus to scrape Istio deployments.
+
 ## Configuration
 
 In an Istio mesh, each component exposes an endpoint that emits metrics. Prometheus works by scraping these endpoints and collecting the results. This is configured through the [Prometheus configuration file](https://prometheus.io/docs/prometheus/latest/configuration/configuration/) which controls settings for which endpoints to query, the port and path to query, TLS settings, and more.

@@ -12,7 +12,7 @@ It helps you understand the structure and health of your service mesh by monitor
 Kiali provides detailed metrics and a basic [Grafana](/docs/ops/integrations/grafana) integration, which can be used for advanced queries.
 Distributed tracing is provided by integration with [Jaeger](/docs/ops/integrations/jaeger).
 
-## Configuration
+## Installation
 
 ### Option 1: Quick start
 
@@ -22,7 +22,7 @@ Istio provides a basic sample installation to quickly get Kiali up and running:
 $ kubectl apply {{< github_file >}}/samples/addons/kiali.yaml -n istio-system
 {{< /text >}}
 
-This will deploy Kiali into your cluster.
+This will deploy Kiali into your cluster. This is intended for demonstration only, and is not tuned for performance or security.
 
 ### Option 2: Customizable install
 

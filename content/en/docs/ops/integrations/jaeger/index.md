@@ -9,7 +9,19 @@ test: n/a
 
 [Jaeger](https://www.jaegertracing.io/) is an open source end to end distributed tracing system, allowing users to monitor and troubleshoot transactions in complex distributed systems.
 
-## Configuration
+## Installation
+
+### Option 1: Quick start
+
+Istio provides a basic sample installation to quickly get Jaeger up and running:
+
+{{< text bash >}}
+$ kubectl apply {{< github_file >}}/samples/addons/jaeger.yaml -n istio-system
+{{< /text >}}
+
+This will deploy Jaeger into your cluster. This is intended for demonstration only, and is not tuned for performance or security.
+
+### Option 2: Customizable install
 
 Consult the [Jaeger documentation](https://www.jaegertracing.io/) to get started. No special changes are needed for Jaeger to work with Istio.
 

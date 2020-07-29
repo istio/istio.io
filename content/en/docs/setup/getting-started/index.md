@@ -79,7 +79,6 @@ Follow these steps to get started with Istio:
     ✔ Istiod installed
     ✔ Egress gateways installed
     ✔ Ingress gateways installed
-    ✔ Addons installed
     ✔ Installation complete
     {{< /text >}}
 
@@ -342,16 +341,16 @@ by viewing the Bookinfo product page using a browser.
 Istio integrates with [several](/docs/ops/integrations) different telemetry applications. These can help you gain
 an understanding of the structure of your service mesh, display the topology of the mesh, and analyze the health of your mesh.
 
-Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kiali/) dashboard.
+Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kiali/) dashboard, along with [Prometheus](/docs/ops/integrations/prometheus/), [Grafana](/docs/ops/integrations/grafana), and [Jaeger](/docs/ops/integrations/jaeger/).
 
 1.  Install Kiali and wait for it to be deployed.
 
     {{< text bash >}}
-    $ kubectl apply -f {{< github_tree >}}/samples/addons/kiali.yaml -n istio-system
+    $ kubectl apply -f {{< github_file >}}/samples/addons -n istio-system
     $ while ! kubectl wait --for=condition=available --timeout=600s deployment/kiali -n istio-system; do sleep 1; done
     {{< /text >}}
 
-1.  Access the Kiali dashboard. The default user name is `admin` and default password is `admin`.
+1.  Access the Kiali dashboard.
 
     {{< text bash >}}
     $ istioctl dashboard kiali
