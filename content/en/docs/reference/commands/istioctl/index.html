@@ -3240,108 +3240,6 @@ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-manifest-apply">istioctl manifest apply</h2>
-<p>The apply subcommand generates an Istio install manifest and applies it to a cluster. Deprecated, use &#39;istioctl install&#39; instead.</p>
-<pre class="language-bash"><code>istioctl manifest apply [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--charts &lt;string&gt;</code></td>
-<td></td>
-<td>Deprecated, use --manifests instead.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--dry-run</code></td>
-<td></td>
-<td>Console/log output only, make no changes. </td>
-</tr>
-<tr>
-<td><code>--filename &lt;stringSlice&gt;</code></td>
-<td><code>-f</code></td>
-<td>Path to file containing IstioOperator custom resource
-This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--force</code></td>
-<td></td>
-<td>Proceed even with validation errors. </td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--manifests &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.7.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/istio-1.7.0-linux-amd64.tar.gz).
-  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--readiness-timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Maximum time to wait for Istio resources in each component to be ready.  (default `5m0s`)</td>
-</tr>
-<tr>
-<td><code>--revision &lt;string&gt;</code></td>
-<td><code>-r</code></td>
-<td>Target control plane revision for the command.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--set &lt;stringArray&gt;</code></td>
-<td><code>-s</code></td>
-<td>Override an IstioOperator value, e.g. to choose a profile
-(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
-settings (--set values.grafana.enabled=true). See documentation for more info:
-https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--skip-confirmation</code></td>
-<td><code>-y</code></td>
-<td>skipConfirmation determines whether the user is prompted for confirmation.
-If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-manifest-apply Examples">Examples</h3>
-<pre class="language-bash"><code>  # Apply a default Istio installation
-  istioctl manifest apply
-
-  # Enable grafana dashboard
-  istioctl manifest apply --set values.grafana.enabled=true
-
-  # Generate the demo profile and don&#39;t wait for confirmation
-  istioctl manifest apply --set profile=demo --skip-confirmation
-
-  # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
-  istioctl manifest apply --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
-
-</code></pre>
 <h2 id="istioctl-manifest-diff">istioctl manifest diff</h2>
 <p>The diff subcommand compares manifests from two files or directories.</p>
 <pre class="language-bash"><code>istioctl manifest diff &lt;file|dir&gt; &lt;file|dir&gt; [flags]
@@ -3507,6 +3405,108 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpe
 
   # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
   istioctl manifest generate --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
+
+</code></pre>
+<h2 id="istioctl-manifest-install">istioctl manifest install</h2>
+<p>The install generates an Istio install manifest and applies it to a cluster.</p>
+<pre class="language-bash"><code>istioctl manifest install [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--charts &lt;string&gt;</code></td>
+<td></td>
+<td>Deprecated, use --manifests instead.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--filename &lt;stringSlice&gt;</code></td>
+<td><code>-f</code></td>
+<td>Path to file containing IstioOperator custom resource
+This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td></td>
+<td>Proceed even with validation errors. </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.7.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/istio-1.7.0-linux-amd64.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--readiness-timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Maximum time to wait for Istio resources in each component to be ready.  (default `5m0s`)</td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>Target control plane revision for the command.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--set &lt;stringArray&gt;</code></td>
+<td><code>-s</code></td>
+<td>Override an IstioOperator value, e.g. to choose a profile
+(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
+settings (--set values.grafana.enabled=true). See documentation for more info:
+https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--skip-confirmation</code></td>
+<td><code>-y</code></td>
+<td>skipConfirmation determines whether the user is prompted for confirmation.
+If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-manifest-install Examples">Examples</h3>
+<pre class="language-bash"><code>  # Apply a default Istio installation
+  istioctl install
+
+  # Enable grafana dashboard
+  istioctl install --set values.grafana.enabled=true
+
+  # Generate the demo profile and don&#39;t wait for confirmation
+  istioctl install --set profile=demo --skip-confirmation
+
+  # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
+  istioctl install --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
 
 </code></pre>
 <h2 id="istioctl-operator">istioctl operator</h2>
@@ -3821,7 +3821,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/
 </table>
 <h3 id="istioctl-profile Examples">Examples</h3>
 <pre class="language-bash"><code>istioctl profile list
-istioctl manifest apply --set profile=demo  # Use a profile from the list
+istioctl install --set profile=demo  # Use a profile from the list
 </code></pre>
 <h2 id="istioctl-profile-diff">istioctl profile diff</h2>
 <p>The diff subcommand displays the differences between two Istio configuration profiles.</p>
