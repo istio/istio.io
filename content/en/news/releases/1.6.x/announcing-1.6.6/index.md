@@ -25,7 +25,7 @@ what’s different between Istio 1.6.5 and Istio 1.6.6.
 - **Fixed** Galley to properly handle errors from Kubernetes tombstones.
 - **Fixed** an issue where manually enabling TLS/mTLS for communication between a sidecar and an egress gateway did not work. ([Issue 23910](https://github.com/istio/istio/issues/23910))
 - **Fixed** Bookinfo demo application to verify if a specified namespace exists and if not, use the default namespace.
-- **Added** a label to the `pilot_xds` metric in order to give more information on data plane versions without scraping the data plane. 
+- **Added** a label to the `pilot_xds` metric in order to give more information on data plane versions without scraping the data plane.
 - **Added** `CA_ADDR` field to allow configuring the certificate authority address on the egress gateway configuration and fixed the `istio-certs` mount secret name.
-- **Updated** Bookinfo demo application to latest versions of libraries. 
+- **Updated** Bookinfo demo application to latest versions of libraries.
 - **Updated** Istio to disable auto mTLS when sending traffic to headless services without a sidecar.
