@@ -100,13 +100,7 @@ After upgrading both the control plane and data plane, you can uninstall the old
 $ istioctl x uninstall --revision istio-1-6-5
 {{< /text >}}
 
-If you previously installed Istio with customized installation options, you can run the following command:
-
-{{< text bash >}}
-$ istioctl x uninstall <your original installation options>
-{{< /text >}}
-
-After removal of the old control plane, only the new one still exists in the cluster:
+Confirm that the old control plane has been removed and only the new one still exists in the cluster:
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system -lapp=istiod
@@ -114,7 +108,7 @@ NAME                             READY   STATUS    RESTARTS   AGE
 istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 {{< /text >}}
 
-Note that the above commands remove the resources for the specified control plane, but not cluster-scoped resources shared between different Istio control planes. To uninstall Istio completely, consider using the `--purge` flag. For more information, refer to the [uninstall guide](/docs/setup/install/istioctl/#uninstall-istio).
+Note that the above instructions only removed the resources for the specified control plane revision, but not cluster-scoped resources shared with other control planes. To uninstall Istio completely, consider using the `--purge` flag. For more information, refer to the [uninstall guide](/docs/setup/install/istioctl/#uninstall-istio).
 
 ## In place upgrades
 

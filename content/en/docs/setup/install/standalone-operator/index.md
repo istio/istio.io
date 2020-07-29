@@ -173,9 +173,9 @@ for the complete set of configuration settings.
 
 ## Canary Upgrade
 
-You can use the standalone operator to do canary upgrade of Istio control plane, the process is similar to the [canary upgrade with `istioctl`]((/docs/setup/upgrade/#canary-upgrades))
+You can use the operator to do a canary upgrade of an Istio control plane, the process is similar to the [canary upgrade with `istioctl`]((/docs/setup/upgrade/#canary-upgrades)).
 
-For example, if you used the operator to install Istio in the previous section, verify that the `example-istiocontrolplane` custom resource for the `IstioOperator` exists in your cluster::
+For example, to upgrade the revision of Istio installed in the previous section, first verify that the `IstioOperator` CR named `example-istiocontrolplane` exists in your cluster:
 
 {{< text bash >}}
 $ kubectl get iop --all-namespaces
@@ -183,14 +183,14 @@ NAMESPACE      NAME                        REVISION   STATUS    AGE
 istio-system   example-istiocontrolplane              HEALTHY   11m
 {{< /text >}}
 
-Then run the following command to install the new revision of the Istio control plane based on the in-cluster `IstioOperator` Custom Resource:
+Then run the following command to install the new revision of the Istio control plane based on the in-cluster `IstioOperator` CR:
 
 {{< text bash >}}
 $ istioctl operator init --revision 1-7-0
 {{< /text >}}
 
 {{< tip >}}
-You can alternatively use Helm to deploy the operator of a different by setting revision value:
+You can alternatively use Helm to deploy another operator with a different revision setting:
 
 {{< text bash >}}
 $ helm template manifests/charts/istio-operator/ \
@@ -223,7 +223,13 @@ istiod-canary   ClusterIP   10.87.4.92   <none>        15010/TCP,15012/TCP,443/T
 
 ## Uninstall
 
-Delete the Istio deployment. Note that if you have multiple operators with different revisions running, this might result in uninstalling Istio of different revisions. 
+If you used the operator to perform a canary upgrade of the control plane, you can uninstall the old control plane and keep the new one by running the following command:
+
+{{< text bash >}}
+$ istioctl operator remove --revision <revision>
+{{< /text >}}
+
+Otherwise, delete the in-cluster `IstioOperator` CR, which will uninstall all revisions of Istio that may be running:
 
 {{< text bash >}}
 $ kubectl delete istiooperators.install.istio.io -n istio-system example-istiocontrolplane
