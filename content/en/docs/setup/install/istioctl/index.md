@@ -45,13 +45,15 @@ The simplest option is to install the `default` Istio
 using the following command:
 
 {{< text bash >}}
-$ istioctl install
+$ istioctl install --manifests=manifests/
 {{< /text >}}
 
 This command installs the `default` profile on the cluster defined by your
 Kubernetes configuration. The `default` profile is a good starting point
 for establishing a production environment, unlike the larger `demo` profile that
 is intended for evaluating a broad set of Istio features.
+
+The `manifests` flag determines which installation manifests should be used for installation. The installation manifests are included in the release tar in the `manifests` directory.
 
 Various settings can be configured to modify the installations. For example, to enable access logs:
 
@@ -64,41 +66,20 @@ Helm. The only difference is you must
 prefix the setting paths with `values.` because this is the path to the Helm pass-through API in the
 [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/).
 
-## Install from external charts
+## Installation profiles
 
-By default, `istioctl` uses compiled-in charts to generate the install manifest. These charts are released together with
-`istioctl` for auditing and customization purposes and can be found in the release tar in the
-`manifests` directory.
-`istioctl` can also use external charts rather than the compiled-in ones. To select external charts, set
-the `charts` flag to a local file system path:
+Istio comes with a number of different [installation profiles](/docs/setup/additional-setup/config-profiles/) to preset common configurations.
 
-{{< text bash >}}
-$ istioctl install --manifests=manifests/
-{{< /text >}}
+### Selecting a profile
 
-If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the same installation as `istioctl install` alone, because it points to the
-same charts as the compiled-in ones.
-Other than for experimenting with or testing new features, we recommend using the compiled-in charts rather than external ones to ensure compatibility of the
-`istioctl` binary with the charts.
-
-## Install a different profile
-
-Other Istio configuration profiles can be installed in a cluster by passing the
-profile name on the command line. For example, the following command can be used
-to install the `demo` profile:
+A profile can be selected by passing the profile name on the command line.
+For example, the following command can be used to install the `demo` profile:
 
 {{< text bash >}}
 $ istioctl install --set profile=demo
 {{< /text >}}
 
-## Check what's installed
-
-The `istioctl` command saves the `IstioOperator` CR that was used to install Istio in a copy of the CR named `installed-state`.
-You can inspect this CR if you lose track of what is installed in a cluster.
-
-The `installed-state` CR is also used to perform checks in some `istioctl` commands and should therefore not be removed.
-
-## Display the list of available profiles
+### Display the list of available profiles
 
 You can display the names of Istio configuration profiles that are
 accessible to `istioctl` by using this command:
@@ -114,7 +95,7 @@ Istio configuration profiles:
     empty
 {{< /text >}}
 
-## Display the configuration of a profile
+### Display the configuration of a profile
 
 You can view the configuration settings of a profile. For example, to view the setting for the `demo` profile
 run the following command:
@@ -161,7 +142,7 @@ k8s:
 ...
 {{< /text >}}
 
-## Show differences in profiles
+### Show differences in profiles
 
 The `profile diff` sub-command can be used to show the differences between profiles,
 which is useful for checking the effects of customizations before applying changes to a cluster.
@@ -184,6 +165,13 @@ $ istioctl profile diff default demo
        strategy:
 ...
 {{< /text >}}
+
+## Check what's installed
+
+The `istioctl` command saves the `IstioOperator` CR that was used to install Istio in a copy of the CR named `installed-state`.
+You can inspect this CR if you lose track of what is installed in a cluster.
+
+The `installed-state` CR is also used to perform checks in some `istioctl` commands and should therefore not be removed.
 
 ## Generate a manifest before installation
 
@@ -222,40 +210,6 @@ if you remove a gateway). This does not happen when you use `istio manifest gene
 resources must be removed manually.
 
 {{< /warning >}}
-
-## Show differences in manifests
-
-You can show the differences in the generated manifests in a YAML style diff between the default profile and a
-customized install using these commands:
-
-{{< text bash >}}
-$ istioctl manifest generate > 1.yaml
-$ istioctl manifest generate -f samples/operator/pilot-k8s.yaml > 2.yaml
-$ istioctl manifest diff 1.yaml 2.yaml
-Differences of manifests are:
-
-Object Deployment:istio-system:istio-pilot has diffs:
-
-spec:
-  template:
-    spec:
-      containers:
-        '[0]':
-          resources:
-            requests:
-              cpu: 500m -> 1000m
-              memory: 2048Mi -> 4096Mi
-      nodeSelector: -> map[master:true]
-      tolerations: -> [map[effect:NoSchedule key:dedicated operator:Exists] map[key:CriticalAddonsOnly
-        operator:Exists]]
-
-
-Object HorizontalPodAutoscaler:istio-system:istio-pilot has diffs:
-
-spec:
-  maxReplicas: 5 -> 10
-  minReplicas: 1 -> 2
-{{< /text >}}
 
 ## Verify a successful installation
 
@@ -322,8 +276,6 @@ The `IstioOperator` API defines components as shown in the table below:
 `base` |
 `pilot` |
 `proxy` |
-`telemetry` |
-`policy` |
 `ingressGateways` |
 `egressGateways` |
 `cni` |
@@ -532,8 +484,6 @@ consistent, is validated, and follows the [community graduation process](https:/
 The `istioctl` `install`, `manifest generate` and `profile` commands can use any of the following sources for charts and
 profiles:
 
-- compiled in charts. This is the default if no `--manifests` option is set. The compiled in charts are the same as those
-in the `manifests/` directory of the Istio release `.tgz`.
 - charts in the local file system, e.g., `istioctl install --manifests istio-{{< istio_full_version >}}/manifests`
 - charts in GitHub, e.g., `istioctl install --manifests https://github.com/istio/istio/releases/download/{{< istio_full_version >}}/istio-{{< istio_full_version >}}-linux-arm64.tar.gz`
 
