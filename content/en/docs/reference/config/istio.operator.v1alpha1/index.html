@@ -186,7 +186,19 @@ No
 - If one or more components are RECONCILING and others are HEALTHY, overall status is RECONCILING.
 - If one or more components are UPDATING and others are HEALTHY, overall status is UPDATING.
 - If components are a mix of RECONCILING, UPDATING and HEALTHY, overall status is UPDATING.
-- If any component is in ERROR state, overall status is ERROR.</p>
+- If any component is in ERROR state, overall status is ERROR.
+- If further action is needed for reconciliation to proceed, overall status is ACTION_REQUIRED.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="InstallStatus-message">
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>
+<p>Optional message providing additional information about the existing overall status.</p>
 
 </td>
 <td>
@@ -2911,6 +2923,15 @@ No
 <td><code>ERROR</code></td>
 <td>
 <p>Component is in an error state.</p>
+
+</td>
+</tr>
+<tr id="InstallStatus-Status-ACTION_REQUIRED">
+<td><code>ACTION_REQUIRED</code></td>
+<td>
+<p>Overall status only and would not be set as a component status.
+Action is needed from the user for reconciliation to proceed
+e.g. There are proxies still pointing to the control plane revision when try to remove an IstioOperator CR.</p>
 
 </td>
 </tr>

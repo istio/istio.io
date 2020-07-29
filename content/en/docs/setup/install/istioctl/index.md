@@ -11,7 +11,7 @@ Follow this guide to install and configure an Istio mesh for in-depth evaluation
 If you are new to Istio, and just want to try it out, follow the
 [quick start instructions](/docs/setup/getting-started) instead.
 
-This installation guide uses the [`istioctl`](/docs/reference/commands/istioctl/) command line
+This installation guide uses the [istioctl](/docs/reference/commands/istioctl/) command line
 tool to provide rich customization of the Istio control plane and of the sidecars for the Istio data plane.
 It has user input validation to help prevent installation errors and customization options to
 override any aspect of the configuration.
@@ -20,8 +20,15 @@ Using these instructions, you can select any one of Istio's built-in
 [configuration profiles](/docs/setup/additional-setup/config-profiles/)
 and then further customize the configuration for your specific needs.
 
-Full customization of the installation can be done through the
-[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/).
+The `istioctl` command supports the full [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
+via command-line options for individual settings or for passing a yaml file containing an `IstioOperator`
+{{<gloss CRDs>}}custom resource (CR){{</gloss>}}.
+
+{{< tip >}}
+Providing the full configuration in an `IstioOperator` CR is considered an Istio best practice for production
+environments. It also gives you the option of completely delegating the job of install management to an
+[Istio Operator](/docs/setup/install/standalone-operator), instead of doing it manually using `istioctl`.
+{{< /tip >}}
 
 ## Prerequisites
 
@@ -40,11 +47,6 @@ using the following command:
 {{< text bash >}}
 $ istioctl install
 {{< /text >}}
-
-{{< tip >}}
-Note that `istioctl install` and `istioctl manifest apply` are exactly the same command. In Istio 1.6, the simpler `install`
-command replaces `manifest apply`, which is deprecated and will be removed in 1.7.
-{{< /tip >}}
 
 This command installs the `default` profile on the cluster defined by your
 Kubernetes configuration. The `default` profile is a good starting point
@@ -532,8 +534,8 @@ profiles:
 
 - compiled in charts. This is the default if no `--manifests` option is set. The compiled in charts are the same as those
 in the `manifests/` directory of the Istio release `.tgz`.
-- charts in the local file system, e.g., `istioctl install --manifests istio-1.6.0/manifests`
-- charts in GitHub, e.g., `istioctl install --manifests https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-arm64.tar.gz`
+- charts in the local file system, e.g., `istioctl install --manifests istio-{{< istio_full_version >}}/manifests`
+- charts in GitHub, e.g., `istioctl install --manifests https://github.com/istio/istio/releases/download/{{< istio_full_version >}}/istio-{{< istio_full_version >}}-linux-arm64.tar.gz`
 
 Local file system charts and profiles can be customized by editing the files in `manifests/`. For extensive changes,
 we recommend making a copy of the `manifests` directory and make changes there. Note, however, that the content layout

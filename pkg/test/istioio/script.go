@@ -25,7 +25,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"istio.io/istio/pkg/test/framework/resource/environment"
 	"istio.io/istio/pkg/test/scopes"
 	"istio.io/pkg/log"
 )
@@ -142,9 +141,9 @@ func (s Script) getEnv(ctx Context, fileName string) []string {
 		testOutputDirEnvVar: ctx.WorkDir(),
 	}
 	customVars[testDebugFile] = fileName + "_debug.txt"
-	ctx.Environment().Case(environment.Kube, func() {
-		customVars[kubeConfigEnvVar] = ctx.KubeEnv().Settings().KubeConfig[0]
-	})
+
+	customVars[kubeConfigEnvVar] = ctx.KubeEnv().Settings().KubeConfig[0]
+
 	for k, v := range s.Env {
 		customVars[k] = v
 	}

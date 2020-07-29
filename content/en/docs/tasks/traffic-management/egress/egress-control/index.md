@@ -63,25 +63,25 @@ service entry defined within the mesh.
 without controlling access to external services.
 You can then decide to [configure access to external services](#controlled-access-to-external-services) later.
 
-1. To see this approach in action you need to ensure that your Istio installation is configured
+1.  To see this approach in action you need to ensure that your Istio installation is configured
     with the `meshConfig.outboundTrafficPolicy.mode` option set to `ALLOW_ANY`. Unless you explicitly
     set it to `REGISTRY_ONLY` mode when you installed Istio, it is probably enabled by default.
 
-    Run the following command to confirm it is configured correctly:
+    Run the following command to verify that `meshConfig.outboundTrafficPolicy.mode` option is set to `ALLOW_ANY`
+    or is omitted:
 
     {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY" | uniq
-    mode: ALLOW_ANY
+    $ kubectl get istiooperator installed-state -n istio-system -o jsonpath={.spec.meshConfig.outboundTrafficPolicy.mode}
+    ALLOW_ANY
     {{< /text >}}
 
-    The string `mode: ALLOW_ANY` should appear in the output if it is enabled.
+    You should either see `ALLOW_ANY` or empty output.
 
     {{< tip >}}
     If you have explicitly configured `REGISTRY_ONLY` mode, you can run the following command to change it:
 
     {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
-    configmap "istio" replaced
+    $ kubectl patch istiooperator installed-state -n istio-system --type='json' -p='[{"op": "replace", "path": "/spec/meshConfig/outboundTrafficPolicy", "value": { mode: "ALLOW_ANY"}}]'
     {{< /text >}}
 
     {{< /tip >}}
@@ -123,8 +123,7 @@ any other unintentional accesses.
 1.  Run the following command to change the `meshConfig.outboundTrafficPolicy.mode` option to `REGISTRY_ONLY`:
 
     {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -
-    configmap "istio" replaced
+    $ kubectl patch istiooperator installed-state -n istio-system --type='json' -p='[{"op": "replace", "path": "/spec/meshConfig/outboundTrafficPolicy", "value": { mode: "REGISTRY_ONLY"}}]'
     {{< /text >}}
 
 1.  Make a couple of requests to external HTTPS services from `SOURCE_POD` to verify that they are now blocked:
@@ -142,7 +141,19 @@ any other unintentional accesses.
 
 ### Access an external HTTP service
 
-1.  Create a `ServiceEntry` to allow access to an external HTTP service:
+1.  Create a `ServiceEntry` to allow access to an external HTTP service.
+
+    {{< warning >}}
+    `DNS` resolution is used in the service entry below as a security measure. Setting the resolution to `NONE`
+    opens a possibility for attack. A malicious client could pretend that it's
+    accessing `httpbin.org` by setting it in the `HOST` header, while really connecting to a different IP
+    (that is not associated with `httpbin.org`). The Istio sidecar proxy will trust the HOST header, and incorrectly allow
+    the traffic, even though it is being delivered to the IP address of a different host. That host can be a malicious
+    site, or a legitimate site, prohibited by the mesh security policies.
+
+    With `DNS` resolution, the sidecar proxy will ignore the original destination IP address and direct the traffic
+    to `httpbin.org`, performing a DNS query to get an IP address of `httpbin.org`.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
