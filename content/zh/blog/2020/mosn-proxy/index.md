@@ -102,7 +102,7 @@ $ istioctl manifest apply  --set .values.global.proxy.image="mosnio/proxyv2:1.5.
 $ kubectl get svc -n istio-system
 {{< /text >}}
 
-如果服务状态 STATUS 为 Running，则表示 Istio 已经成功安装，后面就可以部署 Bookinfo 事例了。
+如果服务状态 STATUS 为 Running，则表示 Istio 已经成功安装，后面就可以部署 Bookinfo 示例了。
 
 ## Bookinfo 示例
 
