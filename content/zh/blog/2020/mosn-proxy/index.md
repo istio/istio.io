@@ -106,7 +106,7 @@ $ kubectl get svc -n istio-system
 
 ## Bookinfo 示例
 
-可以通过 [MOSN with Istio](https://katacoda.com/mosn/courses/istio/mosn-with-istio) 的教程来进行 Bookinfo 事例的演示操作，另外在该教程中您也可以找到更多关于使用 MOSN 和 Istio 的说明。
+可以通过 [MOSN with Istio](https://katacoda.com/mosn/courses/istio/mosn-with-istio) 的教程来进行 Bookinfo 示例的演示操作，另外在该教程中您也可以找到更多关于使用 MOSN 和 Istio 的说明。
 
 ## 展望
 
