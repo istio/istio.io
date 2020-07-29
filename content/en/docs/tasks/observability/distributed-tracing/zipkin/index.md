@@ -26,7 +26,7 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 ## Accessing the dashboard
 
-[Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways) details how to configure access to the Istio addons through a gateway. 
+[Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways) details how to configure access to the Istio addons through a gateway.
 
 For testing (and temporary access), you may also use port-forwarding. Use the following, assuming you've deployed Zipkin to the `istio-system` namespace:
 
