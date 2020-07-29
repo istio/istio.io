@@ -75,6 +75,7 @@ Follow these steps to get started with Istio:
 
     {{< text bash >}}
     $ istioctl install --set profile=demo
+    ! MeshConfig.disablePolicyChecks is deprecated. Mixer is deprecated and will be removed from Istio with the 1.8 release. Please consult our docs on the replacement.
     ✔ Istio core installed
     ✔ Istiod installed
     ✔ Egress gateways installed
