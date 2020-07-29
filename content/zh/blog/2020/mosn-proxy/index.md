@@ -25,7 +25,7 @@ MOSN 是一个分层的体系结构，其系统分为 NET/IO、Protocol、Stream
     link="./mosn-arch.png"
     caption="MOSN 架构图"
     >}}
-                         
+
 - NET/IO 作为网络层，监测连接和数据包的到来，同时作为 listener filter 和 network filter 的挂载点;
 - Protocol 作为多协议引擎层，对数据包进行检测，并使用对应协议做 decode/encode 处理;
 - Stream 对 decode 的数据包做二次封装为 stream，作为 stream filter 的挂载点;
