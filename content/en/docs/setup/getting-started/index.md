@@ -79,7 +79,6 @@ Follow these steps to get started with Istio:
     ✔ Istiod installed
     ✔ Egress gateways installed
     ✔ Ingress gateways installed
-    ✔ Addons installed
     ✔ Installation complete
     {{< /text >}}
 
