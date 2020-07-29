@@ -3,7 +3,7 @@ title: "在 Istio 中使用 MOSN：另一个数据平面"
 subtitle: "用于边缘或服务网格的云原生代理"
 description: "Istio 的另一个 Sidecar 代理。"
 publishdate: 2020-07-29
-attribution: "Wang Fakang (mosn.io)"
+attribution: "王发康 (mosn.io)"
 keywords: [mosn,sidecar,proxy]
 ---
 
