@@ -14,7 +14,7 @@ MOSN（Modular Open Smart Network）是用 GoLang 编写的网络代理服务器
 在 Service Mesh 领域，使用 Istio 作为控制平面已成为主流。由于 Istio 的数据面默认是基于 Envoy 构建的，因此它使用了 Envoy 的数据平面 API（统称为 xDS API）。这些 API 已与 Envoy 分开并进行了标准化，因此，通过在 MOSN 中实现它们，我们就可以使用 MOSN 替代 Envoy。Istio 的第三方数据平面集成可以通过以下三个步骤实现：
 
 - 实现 xDS 协议，对齐数据面相关服务治理能力;
-- 使用 Istio 的脚本并设置相关 SIDECAR 等参数构建 proxyv2 镜像;
+- 使用 Istio 的脚本并设置相关 `SIDECAR` 等参数构建 `proxyv2` 镜像;
 - 通过 istioctl 工具并设置 proxy 相关配置指定具体的数据面;
 
 ## MOSN 架构
@@ -68,7 +68,7 @@ MOSN 使用 GoLang 语言编写，GoLang 语言在生产效率，内存安全上
 $ export ISTIO_VERSION=1.5.2 && curl -L https://istio.io/downloadIstio | sh -
 {{< /text >}}
 
-下载的 Istio 包名为 istio-1.5.2，包含：
+下载的 Istio 包名为 `istio-1.5.2`，包含：
 
 - `install/kubernetesi`：包含 Kubernetes 相关的 YAML 安装文件;
 - `examples/`：包含示例应用程序;
@@ -112,7 +112,7 @@ $ kubectl get svc -n istio-system
 
 接下来，MOSN 不仅会持续兼容适配新版本的 Istio 的功能，而且还将在以下几个方面进行发展：
 
-- 作为微服务运行时，面向 MOSN 的编程使使得务更轻、更小、更快;
+- 作为微服务运行时，使得面向 MOSN 编程的服务更轻、更小、更快;
 - 可编程，如支持 WASM;
 - 更多场景 mesh 化方案支持，缓存/消息/区块链 mesh 化等;
 
