@@ -173,7 +173,7 @@ for the complete set of configuration settings.
 
 ## Canary Upgrade
 
-You can use the operator to do a canary upgrade of an Istio control plane, the process is similar to the [canary upgrade with `istioctl`]((/docs/setup/upgrade/#canary-upgrades)).
+You can use the operator to do a canary upgrade of an Istio control plane, the process is similar to the [canary upgrade with `istioctl`](/docs/setup/upgrade/#canary-upgrades).
 
 For example, to upgrade the revision of Istio installed in the previous section, first verify that the `IstioOperator` CR named `example-istiocontrolplane` exists in your cluster:
 
