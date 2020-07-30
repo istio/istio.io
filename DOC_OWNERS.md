@@ -44,7 +44,7 @@ There are 159 owned istio.io docs.
 - [docs/setup/install/istioctl/index.md](https://preliminary.istio.io/latest/docs/setup/install/istioctl)
 - [docs/setup/install/multicluster/gateways/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/gateways)
 - [docs/setup/install/multicluster/shared/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/shared)
-- [docs/setup/install/standalone-operator/index.md](https://preliminary.istio.io/latest/docs/setup/install/standalone-operator)
+- [docs/setup/install/operator/index.md](https://preliminary.istio.io/latest/docs/setup/install/operator)
 - [docs/setup/install/virtual-machine/index.md](https://preliminary.istio.io/latest/docs/setup/install/virtual-machine)
 - [docs/setup/platform-setup/MicroK8s/index.md](https://preliminary.istio.io/latest/docs/setup/platform-setup/MicroK8s)
 - [docs/setup/platform-setup/alicloud/index.md](https://preliminary.istio.io/latest/docs/setup/platform-setup/alicloud)
