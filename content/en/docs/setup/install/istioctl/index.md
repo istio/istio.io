@@ -27,7 +27,7 @@ via command-line options for individual settings or for passing a yaml file cont
 {{< tip >}}
 Providing the full configuration in an `IstioOperator` CR is considered an Istio best practice for production
 environments. It also gives you the option of completely delegating the job of install management to an
-[Istio Operator](/docs/setup/install/standalone-operator), instead of doing it manually using `istioctl`.
+[Istio Operator](/docs/setup/install/operator), instead of doing it manually using `istioctl`.
 {{< /tip >}}
 
 ## Prerequisites
