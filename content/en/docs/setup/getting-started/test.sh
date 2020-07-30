@@ -34,6 +34,9 @@ _wait_for_deployment istio-system istiod
 kubectl label namespace default istio-injection-
 snip_install_istio_install_2
 
+# Cleanup sleep (not sure where it comes from)
+cleanup_sleep_sample
+
 # Deploy the sample Application
 snip_deploy_the_sample_application_bookinfo_1
 
