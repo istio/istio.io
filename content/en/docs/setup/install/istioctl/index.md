@@ -657,7 +657,23 @@ The --set flag also creates any intermediate nodes in the path that are missing 
 
 ## Uninstall Istio
 
-To uninstall Istio, run the following command:
+To completely uninstall Istio from a cluster, run the following command:
+
+{{< text bash >}}
+$ istioctl x uninstall --purge
+{{< /text >}}
+
+{{< warning >}}
+The optional `--purge` flag will remove all Istio resources, including cluster-scoped resources that may be shared with other Istio control planes.
+{{< /warning >}}
+
+Alternatively, to remove only a specific Istio control plane, run the following command:
+
+{{< text bash >}}
+$ istioctl x uninstall <your original installation options>
+{{< /text >}}
+
+or
 
 {{< text bash >}}
 $ istioctl manifest generate <your original installation options> | kubectl delete -f -
