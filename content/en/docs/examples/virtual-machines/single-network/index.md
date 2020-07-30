@@ -60,7 +60,7 @@ following commands on a machine with cluster admin privileges:
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
-    $ kubectl create secret generic cacerts -n istio-system \
+    $ kubectl create secret generic istio-ca-cert -n istio-system \
         --from-file=@samples/certs/ca-cert.pem@ \
         --from-file=@samples/certs/ca-key.pem@ \
         --from-file=@samples/certs/root-cert.pem@ \
