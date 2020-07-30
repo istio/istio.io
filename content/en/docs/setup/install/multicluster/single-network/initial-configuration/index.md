@@ -71,7 +71,7 @@ Using [the set environment variables](/docs/setup/install/multicluster/#env-var)
    following command:
 
     {{< text bash >}}
-    $ make -f ${ISTIO}/install/certs/Makefile ${CLUSTER_1}-certs
+    $ make -f ${ISTIO}/tools/certs/Makefile ${CLUSTER_1}-cacerts-k8s
     {{< /text >}}
 
 1. To ensure that the Istio {{< gloss >}}control plane{{< /gloss >}} and the
@@ -157,12 +157,12 @@ deploy Istio with the following steps:
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
-    values:
-        global:
-        meshID: ${MESH}
-        multiCluster:
-            clusterName: ${CLUSTER_1}
-        network: ${NETWORK_1}
+        values:
+            global:
+                meshID: ${MESH}
+                multiCluster:
+                    clusterName: ${CLUSTER_1}
+                network: ${NETWORK_1}
 
         meshNetworks:
             ${NETWORK_1}:
@@ -173,7 +173,7 @@ deploy Istio with the following steps:
             - fromRegistry: Kubernetes
             gateways:
             - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
-                port: 443
+            port: 443
         # Expose the control plane through istio-ingressgateway.
         meshExpansion:
             enabled: true
@@ -184,7 +184,7 @@ deploy Istio with the following steps:
 
     {{< text bash >}}
     $ istioctl --context=${CTX_1} manifest apply -f \
-        {WORK_DIR}/${CLUSTER_1}/install.yaml
+        ${WORK_DIR}/${CLUSTER_1}/install.yaml
     {{< /text >}}
 
 1. Verify that the control plane is ready with the following command:

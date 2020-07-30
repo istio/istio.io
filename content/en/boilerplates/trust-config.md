@@ -15,7 +15,7 @@ $ cd ${WORK_DIR}
 1. Generate the intermediate CA files for `Cluster_2` with the following command:
 
 {{< text bash >}}
-$ make -f ${ISTIO}/samples/certs/Makefile ${CLUSTER_2}-certs
+$ make -f ${ISTIO}/tools/certs/Makefile ${CLUSTER_2}-cacerts-k8s
 {{< /text >}}
 
 1. To ensure that the Istio control plane and the secret share the same
