@@ -252,7 +252,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
 1. Add VM services to the mesh
 
     {{< text bash >}}
-    $ istioctl experimental add-to-mesh external-service vmhttp ${VM_IP} http:8080 -n ${SERVICE_NAMESPACE}
+    $ istioctl experimental add-to-mesh external-service vmhttp ${GCE_IP} http:8080 -n ${SERVICE_NAMESPACE}
     {{< /text >}}
 
     {{< tip >}}
