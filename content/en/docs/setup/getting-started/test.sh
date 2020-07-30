@@ -70,13 +70,15 @@ snip_determining_the_ingress_ip_and_ports_16
 # Cannot verify in browser
 
 # Install addons
-snip_view_the_dashboard_dashboard_1
+# For now Kiali has a problem being cleaned up: https://github.com/istio/istio/pull/25886
+# snip_view_the_dashboard_dashboard_1
 
 # Verify Kiala dashboard
 # We cannot very the browser output
 
 # @cleanup
 set +e # ignore cleanup errors
-snip_uninstall_1
-snip_uninstall_2
+# kubectl delete kiali kiali -n istio-system
+# kubectl delete -f samples/addons -n istio-system
 samples/bookinfo/platform/kube/cleanup.sh
+snip_uninstall_1
