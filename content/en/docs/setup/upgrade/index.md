@@ -108,7 +108,7 @@ NAME                             READY   STATUS    RESTARTS   AGE
 istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 {{< /text >}}
 
-Note that the above instructions only removed the resources for the specified control plane revision, but not cluster-scoped resources shared with other control planes. To uninstall Istio completely, consider using the `--purge` flag. For more information, refer to the [uninstall guide](/docs/setup/install/istioctl/#uninstall-istio).
+Note that the above instructions only removed the resources for the specified control plane revision, but not cluster-scoped resources shared with other control planes. To uninstall Istio completely, refer to the [uninstall guide](/docs/setup/install/istioctl/#uninstall-istio).
 
 ## In place upgrades
 

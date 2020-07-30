@@ -197,7 +197,7 @@ $ helm template manifests/charts/istio-operator/ \
   --set hub=docker.io/istio \
   --set tag={{< istio_full_version >}} \
   --set operatorNamespace=istio-operator \
-  --set revision=canary \
+  --set revision=1-7-0 \
   --set watchedNamespaces=istio-system | kubectl apply -f -
 {{< /text >}}
 
@@ -218,7 +218,7 @@ istiod-1-7-0-55887f699c-t8bh8    1/1     Running   0          8m13s
 $ kubectl -n istio-system get svc -l app=istiod
 NAME            TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                                         AGE
 istiod          ClusterIP   10.87.7.69   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   10m
-istiod-canary   ClusterIP   10.87.4.92   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   7m55s
+istiod-1-7-0    ClusterIP   10.87.4.92   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   7m55s
 {{< /text >}}
 
 ## Uninstall
