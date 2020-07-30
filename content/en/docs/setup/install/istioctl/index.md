@@ -1,5 +1,5 @@
 ---
-title: Customizable Install with Istioctl
+title: Install with Istioctl
 description: Install and customize any Istio configuration profile for in-depth evaluation or production use.
 weight: 10
 keywords: [istioctl,kubernetes]

@@ -261,12 +261,6 @@ Or:
 $ kubectl delete ns istio-operator --grace-period=0 --force
 {{< /text >}}
 
-If you used the operator to perform a canary upgrade of the control plane, do not delete the in-cluster `IstioOperator` CR. Instead, you can uninstall the old control plane and keep the new one by running the following command:
-
-{{< text bash >}}
-$ istioctl operator remove --revision <revision>
-{{< /text >}}
-
 Note that deleting the operator before Istio is fully removed may result in leftover Istio resources.
 To clean up anything not removed by the operator:
 
