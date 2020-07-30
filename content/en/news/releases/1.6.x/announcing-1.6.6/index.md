@@ -10,7 +10,7 @@ aliases:
 ---
 
 {{< warning >}}
-This release contains a regression from 1.6.5 that prevents endpoints not associated with pods from working. Please upgrade to 1.6.7 instead.
+This release contains a regression from 1.6.5 that prevents endpoints not associated with pods from working. Please upgrade to 1.6.7 when it is available.
 {{< /warning >}}
 
 This release contains bug fixes to improve robustness. This release note describes
