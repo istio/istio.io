@@ -9,6 +9,11 @@ aliases:
     - /news/announcing-1.6.6
 ---
 
+
+{{< warning >}}
+This release contains a regression from 1.6.5. Please upgrade to 1.6.7 instead. 
+{{< /warning >}}
+
 This release contains bug fixes to improve robustness. This release note describes
 what’s different between Istio 1.6.5 and Istio 1.6.6.
 
