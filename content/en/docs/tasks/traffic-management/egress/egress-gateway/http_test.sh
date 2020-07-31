@@ -27,13 +27,14 @@ set -o pipefail
 # TODO: above command is not needed, since access logging seems to be enabled by default.
 # TODO: Also, running "istioctl install" causes the test to fail?????
 
+source "tests/util/samples.sh"
+
 # Deploy sleep sample and set up variable pointing to it
 set +e
 kubectl delete pods -l app=sleep --force
 set -e
-snip_before_you_begin_2
-_wait_for_deployment default sleep
-snip_before_you_begin_3
+startup_sleep_sample
+export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')
 
 # Verify egress gateway is running
 _verify_contains snip_deploy_istio_egress_gateway_1 "Running"
@@ -63,3 +64,4 @@ _verify_contains snip_egress_gateway_for_http_traffic_6 "GET /politics HTTP/2"
 # @cleanup
 set +e # ignore cleanup errors
 snip_cleanup_http_gateway_1
+cleanup_sleep_sample

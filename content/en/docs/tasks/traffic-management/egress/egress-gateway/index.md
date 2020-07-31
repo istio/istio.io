@@ -106,7 +106,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 1.  Verify that your `ServiceEntry` was applied correctly by sending an HTTP request to [http://edition.cnn.com/politics](http://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
     location: https://edition.cnn.com/politics
@@ -197,7 +197,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 1.  Resend the HTTP request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
     location: https://edition.cnn.com/politics
@@ -266,7 +266,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 1.  Verify that your `ServiceEntry` was applied correctly by sending an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
     HTTP/2 200
     Content-Type: text/html; charset=utf-8
     ...
@@ -347,7 +347,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     The output should be the same as before.
 
     {{< text bash >}}
-    $ kubectl exec $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
     HTTP/2 200
     Content-Type: text/html; charset=utf-8
     ...
@@ -424,7 +424,7 @@ external service.
 1.  Check that the deployed pod has a single container with no Istio sidecar attached:
 
     {{< text bash >}}
-    $ kubectl get pod $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress
+    $ kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress
     NAME                     READY     STATUS    RESTARTS   AGE
     sleep-776b7bcdcd-z7mc4   1/1       Running   0          18m
     {{< /text >}}
@@ -433,7 +433,7 @@ external service.
     the `test-egress` namespace. The request will succeed since you did not define any restrictive policies yet.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
+    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
     200
     {{< /text >}}
 
@@ -485,7 +485,7 @@ external service.
     bypass its sidecar proxy, it will not be able to access external sites and will be blocked by the network policy.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -c sleep -- curl -sv https://edition.cnn.com/politics --connect-timeout 5
+    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -sv https://edition.cnn.com/politics --connect-timeout 5
     ...
     * TCP_NODELAY set
     * Expire in 2478 ms for 3 (transfer 0x555fe380c680)
@@ -521,7 +521,7 @@ external service.
 1.  Check that the deployed pod has two containers, including the Istio sidecar proxy (`istio-proxy`):
 
     {{< text bash >}}
-    $ kubectl get pod $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -o jsonpath='{.spec.containers[*].name}'
+    $ kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
     sleep istio-proxy
     {{< /text >}}
 
@@ -545,7 +545,7 @@ external service.
     Network Policy you defined. `istio-egressgateway` forwards the traffic to `edition.cnn.com`.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
+    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
     200
     {{< /text >}}
 
@@ -583,7 +583,7 @@ external service.
     _openssl_ has an explicit option for setting the SNI, namely `-servername`.
 
     {{< text bash >}}
-    $ kubectl exec $SOURCE_POD -c sleep -- openssl s_client -connect edition.cnn.com:443 -servername edition.cnn.com
+    $ kubectl exec "${SOURCE_POD}" -c sleep -- openssl s_client -connect edition.cnn.com:443 -servername edition.cnn.com
     CONNECTED(00000003)
     ...
     Certificate chain
@@ -600,7 +600,7 @@ external service.
     If you get the certificate as in the output above, your traffic is routed correctly. Check the statistics of the egress gateway's proxy and see a counter that corresponds to your requests (sent by _openssl_ and _curl_) to _edition.cnn.com_.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- pilot-agent request GET stats | grep edition.cnn.com.upstream_cx_total
+    $ kubectl exec "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')" -c istio-proxy -n istio-system -- pilot-agent request GET stats | grep edition.cnn.com.upstream_cx_total
     cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
     {{< /text >}}
 

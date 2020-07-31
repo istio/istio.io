@@ -27,13 +27,14 @@ set -o pipefail
 # TODO: above command is not needed, since access logging seems to be enabled by default.
 # TODO: Also, running "istioctl install" causes the test to fail?????
 
+source "tests/util/samples.sh"
+
 # Deploy sleep sample and set up variable pointing to it
 set +e
 kubectl delete pods -l app=sleep --force
 set -e
-snip_before_you_begin_2
-_wait_for_deployment default sleep
-snip_before_you_begin_3
+startup_sleep_sample
+export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')
 
 # Apply ServiceEntry for external worklad and verify 200
 snip_egress_gateway_for_https_traffic_1
@@ -56,3 +57,4 @@ _verify_contains snip_egress_gateway_for_https_traffic_5 '\"\- \- \-\"'
 # @cleanup
 set +e # ignore cleanup errors
 snip_cleanup_https_gateway_1
+cleanup_sleep_sample

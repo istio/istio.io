@@ -27,6 +27,8 @@ set -o pipefail
 # TODO: above command is not needed, since access logging seems to be enabled by default.
 # TODO: Also, running "istioctl install" causes the test to fail?????
 
+source "tests/util/samples.sh"
+
 # Apply ServiceEntry, Gateway, DR and VS for external traffic to be routed through egress gateway
 snip_egress_gateway_for_https_traffic_1
 _wait_for_istio serviceentry default cnn
@@ -39,7 +41,7 @@ _wait_for_istio virtualservice default direct-cnn-through-egress-gateway
 snip_apply_kubernetes_network_policies_1
 snip_apply_kubernetes_network_policies_2
 _wait_for_deployment test-egress sleep
-_verify_contains snip_apply_kubernetes_network_policies_3 "1\/1"
+_verify_contains snip_apply_kubernetes_network_policies_3 "1/1"
 
 # Verify request to external workload returns 200
 _verify_elided snip_apply_kubernetes_network_policies_4 "$snip_apply_kubernetes_network_policies_4_out"
@@ -72,3 +74,4 @@ _verify_contains snip_apply_kubernetes_network_policies_14 '\"\- \- \-\"'
 set +e # ignore cleanup errors
 snip_cleanup_network_policies_1
 snip_cleanup_https_gateway_1
+cleanup_sleep_sample
