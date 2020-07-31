@@ -66,6 +66,7 @@ kubectl exec -it "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - http://edi
 }
 
 ! read -r -d '' snip_egress_gateway_for_http_traffic_2_out <<\ENDSNIP
+...
 HTTP/1.1 301 Moved Permanently
 ...
 location: https://edition.cnn.com/politics
@@ -146,6 +147,7 @@ kubectl exec -it "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - http://edi
 }
 
 ! read -r -d '' snip_egress_gateway_for_http_traffic_5_out <<\ENDSNIP
+...
 HTTP/1.1 301 Moved Permanently
 ...
 location: https://edition.cnn.com/politics
@@ -193,6 +195,7 @@ kubectl exec -it "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - https://ed
 }
 
 ! read -r -d '' snip_egress_gateway_for_https_traffic_2_out <<\ENDSNIP
+...
 HTTP/2 200
 Content-Type: text/html; charset=utf-8
 ...
@@ -269,6 +272,7 @@ kubectl exec -it "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - https://ed
 }
 
 ! read -r -d '' snip_egress_gateway_for_https_traffic_4_out <<\ENDSNIP
+...
 HTTP/2 200
 Content-Type: text/html; charset=utf-8
 ...
