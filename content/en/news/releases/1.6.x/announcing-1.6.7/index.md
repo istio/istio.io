@@ -16,4 +16,4 @@ what’s different between Istio 1.6.6 and Istio 1.6.7.
 
 ## Changes
 
-- **Fixed** an issue which prevented endpoints that are not associated with pods from working. ([Issue #25974](https://github.com/istio/istio/issues/25974))
+- **Fixed** an issue which prevented endpoints not associated with pods from working. ([Issue #25974](https://github.com/istio/istio/issues/25974))
