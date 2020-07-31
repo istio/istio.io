@@ -58,6 +58,13 @@ controlled way.
 
     Note that any pod that you can `exec` and `curl` from would do.
 
+*   Create a shell variable to hold the name of the source pod for sending requests to external services.
+    If you used the [sleep]({{< github_tree >}}/samples/sleep) sample, run:
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    {{< /text >}}
+
 *   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 ## Deploy Istio egress gateway
