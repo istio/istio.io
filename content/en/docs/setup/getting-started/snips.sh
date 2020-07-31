@@ -234,7 +234,7 @@ istioctl dashboard kiali
 }
 
 snip_uninstall_1() {
-istioctl manifest generate --set profile=demo | kubectl delete -f -
+istioctl manifest generate --set profile=demo | kubectl delete --ignore-not-found=true -f -
 }
 
 snip_uninstall_2() {

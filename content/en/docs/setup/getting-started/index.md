@@ -402,7 +402,7 @@ under the `istio-system` namespace. It is safe to ignore errors for non-existent
 resources because they may have been deleted hierarchically.
 
 {{< text bash >}}
-$ istioctl manifest generate --set profile=demo | kubectl delete -f -
+$ istioctl manifest generate --set profile=demo | kubectl delete --ignore-not-found=true -f -
 {{< /text >}}
 
 The `istio-system` namespace is not removed by default.
