@@ -56,14 +56,11 @@ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 snip_collecting_new_telemetry_data_9
 
 # Next steps talk about looking at the Prometheus browser
-snip_collecting_new_telemetry_data_10
-sleep 10
-curl -g 'http://127.0.0.1:9090/api/v1/query?query=istio_tcp_connections_opened_total'
-curl -g 'http://127.0.0.1:9090/api/v1/query?query=istio_tcp_connections_closed_total'
-sleep 10
-echo AAA
-killall kubectl
-echo BBB
+# We dont have any browser testing
+# Not sure if we can curl proetheus (I didn't get to work)
+#   ex. curl -g 'http://127.0.0.1:9090/api/v1/query?query=istio_tcp_connections_closed_total'
+# snip_collecting_new_telemetry_data_10
+# killall kubectl
 
 # @cleanup
 set +e # ignore cleanup errors
