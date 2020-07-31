@@ -36,7 +36,9 @@ $ kubectl get pods -n istio-system
 NAME                                    READY   STATUS    RESTARTS   AGE
 istiod-786779888b-p9s5n                 1/1     Running   0          114m
 istiod-canary-6956db645c-vwhsk          1/1     Running   0          1m
+{{< /text >}}
 
+{{< text bash >}}
 $ kubectl -n istio-system get svc -lapp=istiod
 NAME            TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                                                AGE
 istiod          ClusterIP   10.32.5.247   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP                  33d
@@ -89,6 +91,24 @@ $ istioctl proxy-config endpoints ${pod_name}.test-ns --cluster xds-grpc -ojson 
 {{< /text >}}
 
 The output confirms that the pod is using `istiod-canary` revision of the control plane.
+
+### Uninstall old control plane
+
+After upgrading both the control plane and data plane, you can uninstall the old control plane. For example, the following command uninstalls a control plane of revision `istio-1-6-5`:
+
+{{< text bash >}}
+$ istioctl x uninstall --revision istio-1-6-5
+{{< /text >}}
+
+Confirm that the old control plane has been removed and only the new one still exists in the cluster:
+
+{{< text bash >}}
+$ kubectl get pods -n istio-system -lapp=istiod
+NAME                             READY   STATUS    RESTARTS   AGE
+istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
+{{< /text >}}
+
+Note that the above instructions only removed the resources for the specified control plane revision, but not cluster-scoped resources shared with other control planes. To uninstall Istio completely, refer to the [uninstall guide](/docs/setup/install/istioctl/#uninstall-istio).
 
 ## In place upgrades
 

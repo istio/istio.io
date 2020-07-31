@@ -707,6 +707,7 @@ to hold the configuration of the NGINX server:
 
     {{< text bash >}}
     $ rm ./nginx.conf
+    $ rm ./gateway-patch.json
     {{< /text >}}
 
 ## Cleanup

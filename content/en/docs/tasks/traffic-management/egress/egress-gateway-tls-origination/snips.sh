@@ -489,6 +489,7 @@ rm example.com.crt example.com.key my-nginx.mesh-external.svc.cluster.local.crt 
 
 snip_cleanup_the_mutual_tls_origination_example_3() {
 rm ./nginx.conf
+rm ./gateway-patch.json
 }
 
 snip_cleanup_1() {

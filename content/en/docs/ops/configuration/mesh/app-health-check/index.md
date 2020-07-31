@@ -106,7 +106,7 @@ This approach rewrites the application `PodSpec` readiness/liveness probe, such 
 [Pilot agent](/docs/reference/commands/pilot-agent/). Pilot agent then redirects the
 request to application, and strips the response body only returning the response code.
 
-You have two ways to enable Istio to rewrite the liveness HTTP probes.
+This feature is enabled when installing with the `default` profile. If you find that the profile used to install Istio does not have it enabled, you have two ways to enable the rewrite of the liveness HTTP probes:
 
 #### Enable globally via install option
 
@@ -180,9 +180,6 @@ $ kubectl -n istio-same-port get pod
 NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 {{< /text >}}
-
-This feature is not currently turned on by default. We'd like to [hear your feedback](https://github.com/istio/istio/issues/10357)
-on whether we should change this to default behavior for Istio installation.
 
 ### Separate port
 

@@ -12,9 +12,8 @@ replace github.com/docker/docker => github.com/docker/engine v1.4.2-0.2019101121
 
 require (
 	github.com/openshift/api v3.9.1-0.20191008181517-e4fd21196097+incompatible // indirect
-	istio.io/gogo-genproto v0.0.0-20200511213158-02f1fd1746e5 // indirect
-	istio.io/istio v0.0.0-20200717194948-8fe0af7a778a
-	istio.io/pkg v0.0.0-20200511212725-7bfbbf968c23
+	istio.io/istio v0.0.0-20200729114235-7cb448bf1457
+	istio.io/pkg v0.0.0-20200728111233-bf9553504e38
 )
 
 replace github.com/Azure/go-autorest/autorest => github.com/Azure/go-autorest/autorest v0.9.0

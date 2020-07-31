@@ -81,7 +81,7 @@ You can then decide to [configure access to external services](#controlled-acces
     If you have explicitly configured `REGISTRY_ONLY` mode, you can run the following command to change it:
 
     {{< text bash >}}
-    $ kubectl patch istiooperator installed-state -n istio-system --type='json' -p='[{"op": "replace", "path": "/spec/meshConfig/outboundTrafficPolicy/mode", "value": "ALLOW_ANY"}]'
+    $ kubectl patch istiooperator installed-state -n istio-system --type='json' -p='[{"op": "replace", "path": "/spec/meshConfig/outboundTrafficPolicy", "value": { mode: "ALLOW_ANY"}}]'
     {{< /text >}}
 
     {{< /tip >}}
@@ -123,7 +123,7 @@ any other unintentional accesses.
 1.  Run the following command to change the `meshConfig.outboundTrafficPolicy.mode` option to `REGISTRY_ONLY`:
 
     {{< text bash >}}
-    $ kubectl patch istiooperator installed-state -n istio-system --type='json' -p='[{"op": "replace", "path": "/spec/meshConfig/outboundTrafficPolicy/mode", "value": "REGISTRY_ONLY"}]'
+    $ kubectl patch istiooperator installed-state -n istio-system --type='json' -p='[{"op": "replace", "path": "/spec/meshConfig/outboundTrafficPolicy", "value": { mode: "REGISTRY_ONLY"}}]'
     {{< /text >}}
 
 1.  Make a couple of requests to external HTTPS services from `SOURCE_POD` to verify that they are now blocked:
