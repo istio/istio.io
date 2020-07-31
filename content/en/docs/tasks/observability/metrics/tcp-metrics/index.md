@@ -19,7 +19,7 @@ as the example throughout this task.
 ## Before you begin
 
 * [Install Istio](/docs/setup) in your cluster and deploy an
-application. You must also install [Promethus](docs/ops/integrations/prometheus/).
+application. You must also install [Prometheus](/docs/ops/integrations/prometheus/).
 
 * This task assumes that the Bookinfo sample will be deployed in the `default`
 namespace. If you use a different namespace, update the
