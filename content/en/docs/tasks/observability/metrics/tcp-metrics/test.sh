@@ -66,6 +66,7 @@ snip_collecting_new_telemetry_data_9
 set +e # ignore cleanup errors
 snip_cleanup_1
 kubectl delete -f samples/bookinfo/networking/virtual-service-ratings-db.yaml
+kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml
 kubectl delete -f samples/bookinfo/platform/kube/bookinfo-db.yaml
 kubectl delete -f samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml
 kubectl delete -f samples/addons/prometheus.yaml -n istio-system
