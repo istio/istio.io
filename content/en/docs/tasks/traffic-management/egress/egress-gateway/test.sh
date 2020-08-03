@@ -32,7 +32,7 @@ snip_before_you_begin_3
 # Create ServiceEntry
 snip_egress_gateway_for_http_traffic_1
 # Verify curl to cnn
-_verify_elided snip_egress_gateway_for_http_traffic_2 "$snip_egress_gateway_for_http_traffic_2_out"
+_verify_contains snip_egress_gateway_for_http_traffic_2 "HTTP/2 200"
 
 # Create Gateway
 snip_egress_gateway_for_http_traffic_3
@@ -44,7 +44,7 @@ snip_egress_gateway_for_http_traffic_4
 _wait_for_istio virtualservice default direct-cnn-through-egress-gateway
 
 # Verify successful curl
-_verify_elided snip_egress_gateway_for_http_traffic_5 "$snip_egress_gateway_for_http_traffic_5_out"
+_verify_contains snip_egress_gateway_for_http_traffic_5 "HTTP/2 200"
 
 # Verify routing through gateway
 _verify_contains snip_egress_gateway_for_http_traffic_6 "GET /politics HTTP/2"
@@ -58,7 +58,7 @@ set -e
 snip_egress_gateway_for_https_traffic_1
 
 # Try and verify curl
-_verify_elided snip_egress_gateway_for_https_traffic_2 "$snip_egress_gateway_for_https_traffic_2_out"
+_verify_contains snip_egress_gateway_for_https_traffic_2 "HTTP/2 200"
 
 # Gateway Passthrough dr and vs
 snip_egress_gateway_for_https_traffic_3
@@ -67,7 +67,7 @@ _wait_for_istio destinationrule default egressgateway-for-cnn
 _wait_for_istio virtualservice default direct-cnn-through-egress-gateway
 
 # Verify successful curl
-_verify_elided snip_egress_gateway_for_https_traffic_4 "$snip_egress_gateway_for_https_traffic_4_out"
+_verify_contains snip_egress_gateway_for_https_traffic_4 "HTTP/2 200"
 
 # Verify gateway routing
 _verify_contains snip_egress_gateway_for_https_traffic_5 "outbound|443||edition.cnn.com"
@@ -86,7 +86,7 @@ snip_apply_kubernetes_network_policies_1
 snip_apply_kubernetes_network_policies_2
 
 # Verify 200 response
-_verify_elided snip_apply_kubernetes_network_policies_4 "$snip_apply_kubernetes_network_policies_4_out"
+_verify_contains snip_apply_kubernetes_network_policies_4 "200"
 
 # label
 snip_apply_kubernetes_network_policies_5
@@ -106,14 +106,14 @@ snip_apply_kubernetes_network_policies_10
 _wait_for_deployment test-egress sleep
 
 # verify containers
-_verify_elided snip_apply_kubernetes_network_policies_11 "$snip_apply_kubernetes_network_policies_11_out"
+_verify_contains snip_apply_kubernetes_network_policies_11 "sleep istio-proxy"
 
 # configure DR
 snip_apply_kubernetes_network_policies_12
 _wait_for_istio destinationrule test-egress egressgateway-for-cnn
 
 # Verify 200 response
-_verify_elided snip_apply_kubernetes_network_policies_13 "$snip_apply_kubernetes_network_policies_13_out"
+_verify_contains snip_apply_kubernetes_network_policies_13 "200"
 
 # Verify routing through gateway
 _verify_contains snip_apply_kubernetes_network_policies_14 "outbound|443||edition.cnn.com"
