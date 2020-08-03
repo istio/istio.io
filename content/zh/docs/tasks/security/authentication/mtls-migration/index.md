@@ -107,7 +107,7 @@ kind: "PeerAuthentication"
 metadata:
   name: "default"
 spec:
-  ntls:
+  mtls:
     mode: STRICT
 EOF
 {{< /text >}}
