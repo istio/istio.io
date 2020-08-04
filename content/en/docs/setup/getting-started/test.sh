@@ -34,8 +34,10 @@ _wait_for_deployment istio-system istiod
 kubectl label namespace default istio-injection-
 snip_install_istio_install_2
 
-# Cleanup sleep (not sure where it comes from)
-cleanup_sleep_sample
+# TODO: how to make sure previous test cleaned up everything?
+set +e
+kubectl delete pods -l app=sleep --force
+set -e
 
 # Deploy the sample Application
 snip_deploy_the_sample_application_bookinfo_1
@@ -63,22 +65,27 @@ _verify_contains snip_open_the_application_to_outside_traffic_ip_2 "$snip_open_t
 
 # Get GATEWAY_URL
 # export the INGRESS_ environment variables
-_set_ingress_environment_variables
+# TODO make this work more generally. Currently using snips for Kind.
+snip_determining_the_ingress_ip_and_ports_10
+snip_determining_the_ingress_ip_and_ports_15
 snip_determining_the_ingress_ip_and_ports_16
 
 # Verify external access
-# Cannot verify in browser
+get_bookinfo_productpage() {
+    curl -s "http://${GATEWAY_URL}/productpage" | grep -o "<title>.*</title>"
+}
+_verify_contains get_bookinfo_productpage "<title>Simple Bookstore App</title>"
 
 # Install addons
-# For now Kiali has a problem being cleaned up: https://github.com/istio/istio/pull/25886
+# TODO Fix this. For now Kiali has a problem being cleaned up: https://github.com/istio/istio/pull/25886
 # snip_view_the_dashboard_dashboard_1
 
 # Verify Kiala dashboard
-# We cannot very the browser output
+# TODO Verify the browser output
 
 # @cleanup
 set +e # ignore cleanup errors
 # kubectl delete kiali kiali -n istio-system
 # kubectl delete -f samples/addons -n istio-system
-samples/bookinfo/platform/kube/cleanup.sh
+cleanup_bookinfo_sample
 snip_uninstall_1
