@@ -27,7 +27,6 @@ source "tests/util/samples.sh"
 # Start the sleep sample
 startup_sleep_sample
 export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')
-_wait_for_deployment default sleep
 
 # Create ServiceEntry
 snip_egress_gateway_for_http_traffic_1
