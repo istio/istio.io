@@ -1,7 +1,7 @@
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
-There are 159 owned istio.io docs.
+There are 158 owned istio.io docs.
 
 ## istio/wg-docs-maintainers: 15 docs
 
@@ -144,14 +144,13 @@ There are 159 owned istio.io docs.
 - [docs/tasks/security/cert-management/plugin-ca-cert/index.md](https://preliminary.istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert)
 - [docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds)
 
-## istio/wg-user-experience-maintainers: 33 docs
+## istio/wg-user-experience-maintainers: 32 docs
 
 - [docs/ops/common-problems/injection/index.md](https://preliminary.istio.io/latest/docs/ops/common-problems/injection)
 - [docs/ops/common-problems/validation/index.md](https://preliminary.istio.io/latest/docs/ops/common-problems/validation)
 - [docs/ops/configuration/mesh/app-health-check/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/mesh/app-health-check)
 - [docs/ops/configuration/mesh/config-resource-ready/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/mesh/config-resource-ready)
 - [docs/ops/configuration/mesh/injection-concepts/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/mesh/injection-concepts)
-- [docs/ops/configuration/mesh/secret-creation/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/mesh/secret-creation)
 - [docs/ops/configuration/mesh/webhook/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/mesh/webhook)
 - [docs/ops/diagnostic-tools/component-logging/index.md](https://preliminary.istio.io/latest/docs/ops/diagnostic-tools/component-logging)
 - [docs/ops/diagnostic-tools/controlz/index.md](https://preliminary.istio.io/latest/docs/ops/diagnostic-tools/controlz)
