@@ -48,10 +48,10 @@ Follow these steps to get started with Istio:
     {{< /tip >}}
 
 1.  Move to the Istio package directory. For example, if the package is
-    `istio-1.7.0`:
+    `istio-{{< istio_full_version >}}`:
 
-    {{< text bash >}}
-    $ cd istio-1.7.0
+    {{< text syntax=bash snip_id=none >}}
+    $ cd istio-{{< istio_full_version >}}
     {{< /text >}}
 
     The installation directory contains:
@@ -331,7 +331,7 @@ by viewing the Bookinfo product page using a browser.
 1.  Run the following command to retrieve the external address of the Bookinfo application.
 
     {{< text bash >}}
-    $ echo http://"$GATEWAY_URL"/productpage
+    $ echo http://"$GATEWAY_URL/productpage"
     {{< /text >}}
 
 1.  Paste the output from the previous command into your web browser and confirm that the Bookinfo product page is displayed.

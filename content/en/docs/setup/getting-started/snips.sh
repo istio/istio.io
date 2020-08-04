@@ -24,10 +24,6 @@ snip_download_istio_download_1() {
 curl -L https://istio.io/downloadIstio | sh -
 }
 
-snip_download_istio_download_2() {
-cd istio-1.7.0
-}
-
 snip_download_istio_download_3() {
 export PATH=$PWD/bin:$PATH
 }
@@ -221,7 +217,7 @@ echo "$GATEWAY_URL"
 ENDSNIP
 
 snip_verify_external_access_confirm_1() {
-echo http://"$GATEWAY_URL"/productpage
+echo http://"$GATEWAY_URL/productpage"
 }
 
 snip_view_the_dashboard_dashboard_1() {
