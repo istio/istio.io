@@ -109,7 +109,7 @@ Pass in `-curl` to indicate that you just want to make one call:
 
     {{< text bash >}}
     $ export FORTIO_POD=$(kubectl get pods -lapp=fortio -o 'jsonpath={.items[0].metadata.name}')
-    $ kubectl exec "$FORTIO_POD" -c fortio -- /usr/bin/fortio load -curl http://httpbin:8000/get
+    $ kubectl exec "$FORTIO_POD" -c fortio -- /usr/bin/fortio load -curl http://httpbin:8000/get -quiet
     HTTP/1.1 200 OK
     server: envoy
     date: Tue, 25 Feb 2020 20:25:52 GMT
