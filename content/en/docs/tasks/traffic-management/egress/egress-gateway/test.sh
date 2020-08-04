@@ -21,13 +21,13 @@ set -e
 set -u
 set -o pipefail
 
+source "tests/util/samples.sh"
+
 # Deploy sleep sample and set up variable pointing to it
-set +e
-kubectl delete pods -l app=sleep --force
-set -e
-snip_before_you_begin_2
+# Start the sleep sample
+startup_sleep_sample
+export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')
 _wait_for_deployment default sleep
-snip_before_you_begin_3
 
 # Create ServiceEntry
 snip_egress_gateway_for_http_traffic_1

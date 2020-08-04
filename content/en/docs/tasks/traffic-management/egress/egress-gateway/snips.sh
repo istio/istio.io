@@ -20,18 +20,6 @@
 #          docs/tasks/traffic-management/egress/egress-gateway/index.md
 ####################################################################################################
 
-snip_before_you_begin_1() {
-kubectl apply -f samples/sleep/sleep.yaml
-}
-
-snip_before_you_begin_2() {
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
-}
-
-snip_before_you_begin_3() {
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-}
-
 snip_deploy_istio_egress_gateway_1() {
 kubectl get pod -l istio=egressgateway -n istio-system
 }
