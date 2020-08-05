@@ -77,11 +77,11 @@ virtualservice.networking.istio.io/ratings created
 ENDSNIP
 
 snip_collecting_new_telemetry_data_9() {
-curl http://"$GATEWAY_URL"/productpage
+curl http://"$GATEWAY_URL/productpage"
 }
 
 snip_collecting_new_telemetry_data_10() {
-kubectl -n istio-system port-forward "$(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}')" 9090:9090 &
+istioctl dashboard prometheus
 }
 
 ! read -r -d '' snip_collecting_new_telemetry_data_11 <<\ENDSNIP
@@ -103,5 +103,5 @@ canonical_service_revision="v2"}
 ENDSNIP
 
 snip_cleanup_1() {
-killall kubectl
+killall istioctl
 }

@@ -31,6 +31,7 @@ startup_bookinfo_sample  # from tests/util/samples.sh
 
 # Install Prometheus
 kubectl apply -f samples/addons/prometheus.yaml -n istio-system
+_wait_for_deployment istio-system prometheus
 
 # Setup bookinfo to use MongoDB
 # Install Ratings v2
@@ -51,20 +52,29 @@ _wait_for_istio virtualservice default ratings
 
 # Get GATEWAY_URL
 # export the INGRESS_ environment variables
-_set_ingress_environment_variables
+# TODO make this work more generally. Currently using snips for Kind.
+export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
+export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
-snip_collecting_new_telemetry_data_9
 
-# Next steps talk about looking at the Prometheus browser
-# We dont have any browser testing
-# Not sure if we can curl proetheus (I didn't get to work)
-#   ex. curl -g 'http://127.0.0.1:9090/api/v1/query?query=istio_tcp_connections_closed_total'
+# Next steps look at the Prometheus browser. Start redirection.
 # snip_collecting_new_telemetry_data_10
-# killall kubectl
+istioctl dashboard prometheus &
+
+# Hit the GATEWAY_URL and verify metrics exist
+get_metrics_1() {
+    curl -s "http://${GATEWAY_URL}/productpage" | grep -o "<title>.*</title>"
+    curl -sg 'http://localhost:9090/api/v1/query?query=istio_tcp_connections_opened_total' | jq .data.result[0].metric.__name__
+}
+
+# Because of retries we can't validate values, but verify that metric exists.
+_verify_contains get_metrics_1 '"istio_tcp_connections_opened_total"'
+pgrep istioctl | xargs kill
 
 # @cleanup
 set +e # ignore cleanup errors
-snip_cleanup_1
+pgrep istioctl | xargs kill
 kubectl delete -f samples/bookinfo/networking/virtual-service-ratings-db.yaml
 kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml
 kubectl delete -f samples/bookinfo/platform/kube/bookinfo-db.yaml

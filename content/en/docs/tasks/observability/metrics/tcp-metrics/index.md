@@ -101,7 +101,7 @@ example configuration and commands.
     browser or use the following command:
 
     {{< text bash >}}
-    $ curl http://"$GATEWAY_URL"/productpage
+    $ curl http://"$GATEWAY_URL/productpage"
     {{< /text >}}
 
     {{< tip >}}
@@ -114,7 +114,7 @@ example configuration and commands.
     using the following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward "$(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}')" 9090:9090 &
+    $ istioctl dashboard prometheus
     {{< /text >}}
 
     View the values for the TCP metrics in the Prometheus browser window.  Select **Graph**.
@@ -175,7 +175,7 @@ This protocol extends TCP as follows:
 *   Remove the `port-forward` process:
 
     {{< text bash >}}
-    $ killall kubectl
+    $ killall istioctl
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
