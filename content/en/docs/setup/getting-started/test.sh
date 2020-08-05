@@ -34,10 +34,9 @@ _wait_for_deployment istio-system istiod
 kubectl label namespace default istio-injection-
 snip_install_istio_install_2
 
-# TODO: how to make sure previous test cleaned up everything?
-set +e
-kubectl delete pods -l app=sleep --force
-set -e
+# TODO: how to make sure previous tests cleaned up everything?
+# Cleanup sleep
+cleanup_sleep_sample
 
 # Deploy the sample Application
 snip_deploy_the_sample_application_bookinfo_1
