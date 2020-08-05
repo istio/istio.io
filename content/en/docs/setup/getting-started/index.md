@@ -346,8 +346,8 @@ Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kial
 1.  Install Kiali and wait for it to be deployed.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/addons@ -n istio-system
-    $ while ! kubectl wait --for=condition=available --timeout=600s deployment/kiali-operator -n istio-system; do sleep 1; done
+    $ kubectl apply -f @samples/addons@
+    $ while ! kubectl wait --for=condition=available --timeout=600s deployment/kiali -n istio-system; do sleep 1; done
     {{< /text >}}
 
 1.  Access the Kiali dashboard.

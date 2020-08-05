@@ -77,14 +77,14 @@ _verify_contains get_bookinfo_productpage "<title>Simple Bookstore App</title>"
 
 # Install addons
 # TODO Fix this. For now Kiali has a problem being cleaned up: https://github.com/istio/istio/pull/25886
-# snip_view_the_dashboard_dashboard_1
+snip_view_the_dashboard_dashboard_1
 
 # Verify Kiala dashboard
 # TODO Verify the browser output
 
 # @cleanup
 set +e # ignore cleanup errors
-# kubectl delete kiali kiali -n istio-system
-# kubectl delete -f samples/addons -n istio-system
+kubectl delete kiali kiali -n istio-system
+kubectl delete -f samples/addons
 cleanup_bookinfo_sample
 snip_uninstall_1
