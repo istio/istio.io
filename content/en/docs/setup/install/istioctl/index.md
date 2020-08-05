@@ -362,26 +362,6 @@ spec:
 $ istioctl install -f telemetry_off.yaml
 {{< /text >}}
 
-Another customization is to select different namespaces for features and components. The following is an example
-of installation namespace customization:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-metadata:
-  namespace: istio-system
-spec:
-  components:
-    citadel:
-      namespace: istio-citadel
-{{< /text >}}
-
-Applying this file will cause the default profile to be applied, with components being installed into the following
-namespaces:
-
-- The Citadel component is installed into `istio-citadel` namespace
-- Remaining Istio components installed into istio-system namespace
-
 ### Configure gateways
 
 Gateways are a special type of component, since multiple ingress and egress gateways can be defined. In the
