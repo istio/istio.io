@@ -32,6 +32,7 @@ Here are just a few of the organizations we know are using Istio. If you want to
     {{< company_logo link="https://www.giffgaff.com/" logo="./giffgaff.svg" alt="Giffgaff" >}}
     {{< company_logo link="https://www.giphy.com/" logo="./giphy.svg" alt="GIPHY" >}}
     {{< company_logo link="https://www.gojek.com/" logo="./gojek.svg" alt="Gojek" >}}
+    {{< company_logo link="https://www.gov.uk/" logo="./gov-uk.svg" alt="GOV.UK" >}}
     {{< company_logo link="https://www.hellofresh.com/" logo="./hellofresh.svg" alt="HelloFresh" >}}
     {{< company_logo link="https://www.hsbc.com/" logo="./hsbc.svg" alt="HSBC" >}}
     {{< company_logo link="https://iherb.com" logo="./iherb.svg" alt="iHerb" >}}
