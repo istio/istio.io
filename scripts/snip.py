@@ -104,6 +104,8 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
             kind = match.group(3)
             match = snippetid.search(line)
             if match:
+                if match.group(1) == "none":
+                    continue
                 id = "snip_" + match.group(1)
             else:
                 id = "snip_%s_%d" % (section, snipnum)
