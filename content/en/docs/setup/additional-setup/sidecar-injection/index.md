@@ -107,6 +107,7 @@ Injection occurs at pod creation time. Kill the running pod and verify a new pod
 {{< text bash >}}
 $ kubectl delete pod -l app=sleep
 $ kubectl get pod -l app=sleep
+pod "sleep-776b7bcdcd-7hpnk" deleted
 NAME                     READY     STATUS        RESTARTS   AGE
 sleep-776b7bcdcd-7hpnk   1/1       Terminating   0          1m
 sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
@@ -124,6 +125,8 @@ Disable injection for the `default` namespace and verify new pods are created wi
 $ kubectl label namespace default istio-injection-
 $ kubectl delete pod -l app=sleep
 $ kubectl get pod
+namespace/default labeled
+pod "sleep-776b7bcdcd-bhn9m" deleted
 NAME                     READY     STATUS        RESTARTS   AGE
 sleep-776b7bcdcd-bhn9m   2/2       Terminating   0          2m
 sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
