@@ -1,6 +1,6 @@
 ---
 title: Who's using Istio
-description: Learn some of the companies have adopted Istio.
+description: Some of the companies that have adopted Istio.
 weight: 30
 icon: customers
 keywords: [community]
