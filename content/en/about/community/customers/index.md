@@ -1,6 +1,6 @@
 ---
 title: Who's using Istio
-description: Organizations runnign Who's using Istio out there.
+description: What companies have adopted Istio
 weight: 30
 icon: customers
 keywords: [community]
@@ -71,5 +71,3 @@ Here are just a few of the organizations we know are using Istio. If you want to
     {{< company_logo link="https://ygrene.com" logo="./ygrene.jpeg" alt="Ygrene Energy Fund" >}}
     {{< company_logo link="https://www.zendesk.com" logo="./zendesk.svg" alt="Zendesk" >}}
 </div>
-
-Want your logo up there? Just submit a [pull request](https://github.com/istio/istio.io/pulls).
