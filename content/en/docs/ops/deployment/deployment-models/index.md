@@ -185,7 +185,7 @@ cluster.
 
 {{< image width="50%"
     link="single-cluster.svg"
-    alt="A service mesh with a control plane"
+    alt="A single cluster with a control plane"
     title="Single control plane"
     caption="A single cluster with a control plane"
     >}}
@@ -196,7 +196,7 @@ Multicluster deployments can also share control plane instances. In this case,
 the control plane instances can reside in one or more primary clusters,
 or in a cloud vendor's {{< gloss >}}managed control plane{{< /gloss >}}.
 
-Cluster without their own control plane, are referred to as {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}}.
+Clusters without their own control plane are referred to as {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}}.
 
 {{< image width="75%"
     link="shared-control.svg"
