@@ -19,7 +19,7 @@ for your specific needs. The following built-in configuration profiles are curre
 
 1. **default**: enables components according to the default settings of the
     [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/).
-    This profile is recommend for production deployments and for
+    This profile is recommended for production deployments and for
     {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}} in a
     [multicluster mesh](/docs/ops/deployment/deployment-models/#multiple-clusters).
     You can display the default setting by running the command `istioctl profile dump`.
