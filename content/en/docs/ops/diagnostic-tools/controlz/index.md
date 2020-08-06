@@ -14,7 +14,7 @@ Istio components are built with a flexible introspection framework which makes i
 of a running component. Components open a port which can be used from a web browser to get an interactive view into the state of the
 component, or via REST for access and control from external tools.
 
-Istiod implement the ControlZ functionality. When the component start, a message is logged indicating the
+Istiod implement the ControlZ functionality. When it starts, a message is logged indicating the
 IP address and port to connect to in order to interact with ControlZ.
 
 {{< text plain >}}
@@ -25,7 +25,7 @@ Here's sample of the ControlZ interface:
 
 {{< image width="90%" link="./ctrlz.png" caption="ControlZ User Interface" >}}
 
-To access the ControlZ page of deployed component (i.e. istiod), you can port-forward their ControlZ endpoints
+To access the ControlZ page of istiod, you can port-forward its ControlZ endpoint
 locally and connect through your local browser:
 
 {{< text bash >}}
