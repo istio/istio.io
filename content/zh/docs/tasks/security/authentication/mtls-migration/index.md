@@ -102,17 +102,13 @@ sleep.legacy to httpbin.foo: 200
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
 metadata:
-  name: "example-httpbin-strict"
-  namespace: foo
+  name: "default"
 spec:
-  targets:
-  - name: httpbin
-  peers:
-  - mtls:
-      mode: STRICT
+  mtls:
+    mode: STRICT
 EOF
 {{< /text >}}
 
