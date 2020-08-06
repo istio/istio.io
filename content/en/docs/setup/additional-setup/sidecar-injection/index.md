@@ -107,6 +107,7 @@ Injection occurs at pod creation time. Kill the running pod and verify a new pod
 {{< text bash >}}
 $ kubectl delete pod -l app=sleep
 $ kubectl get pod -l app=sleep
+pod "sleep-776b7bcdcd-7hpnk" deleted
 NAME                     READY     STATUS        RESTARTS   AGE
 sleep-776b7bcdcd-7hpnk   1/1       Terminating   0          1m
 sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
@@ -124,6 +125,8 @@ Disable injection for the `default` namespace and verify new pods are created wi
 $ kubectl label namespace default istio-injection-
 $ kubectl delete pod -l app=sleep
 $ kubectl get pod
+namespace/default labeled
+pod "sleep-776b7bcdcd-bhn9m" deleted
 NAME                     READY     STATUS        RESTARTS   AGE
 sleep-776b7bcdcd-bhn9m   2/2       Terminating   0          2m
 sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
@@ -131,7 +134,7 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 #### Understanding what happened
 
-When Kubernetes invokes the webhook, the [`admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
+When Kubernetes invokes the webhook, the [`admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#mutatingwebhookconfiguration-v1-admissionregistration-k8s-io)
 configuration is applied. The default configuration injects the sidecar into
 pods in any namespace with the `istio-injection=enabled label`. The
 `istio-sidecar-injector` configuration map specifies the configuration for the
@@ -150,7 +153,7 @@ the `MutatingWebhookConfiguration`.
 For example, you can modify the `MutatingWebhookConfiguration` to always inject
 the sidecar into every namespace, unless a label is set. Editing this
 configuration is an advanced operation. Refer to the Kubernetes documentation
-for the [`MutatingWebhookConfiguration` API](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
+for the [`MutatingWebhookConfiguration` API](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#mutatingwebhookconfiguration-v1-admissionregistration-k8s-io)
 for more information.
 
 ##### _**policy**_
