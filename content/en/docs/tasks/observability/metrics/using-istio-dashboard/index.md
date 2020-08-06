@@ -20,9 +20,9 @@ the example application throughout this task.
 ## Before you begin
 
 * [Install Istio](/docs/setup) in your cluster.
-* Deploy [Bookinfo](/docs/examples/bookinfo/) application.
-* Add [Grafana Addon](/docs/ops/integrations/grafana/#option-1-quick-start) in your cluster.
-* Add [Prometheus Addon](/docs/ops/integrations/prometheus/#option-1-quick-start) in your cluster.
+* Install the [Grafana Addon](/docs/ops/integrations/grafana/#option-1-quick-start).
+* Install the [Prometheus Addon](/docs/ops/integrations/prometheus/#option-1-quick-start).
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) application.
 
 ## Viewing the Istio dashboard
 

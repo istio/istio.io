@@ -19,8 +19,8 @@ the example application throughout this task.
 ## Before you begin
 
 * [Install Istio](/docs/setup) in your cluster.
-* Deploy [Bookinfo](/docs/examples/bookinfo/) application.
-* Add [Prometheus Addon](/docs/ops/integrations/prometheus/#option-1-quick-start) in your cluster.
+* Install the [Prometheus Addon](/docs/ops/integrations/prometheus/#option-1-quick-start).
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) application.
 
 ## Querying Istio metrics
 
