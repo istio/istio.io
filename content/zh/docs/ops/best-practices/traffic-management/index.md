@@ -127,7 +127,7 @@ spec:
 
 如果从 `ns1` 中的客户端向 `myservice` 服务发送请求，则将应用该 `DestinationRule` ，因为它在查找路径的第一个命名空间中，即在客户端命名空间中。
 
-如果现在从另一个命名空间（例如 `ns2`）发送请求，则客户端将不再与 `DestinationRule` 处于相同的命名空间，即ns1。因为相应的服务 `myservice.default.svc.cluster.local` 也不在 `ns1` 中，而是在 `default` 命名空间中，所以在查找路径的第二个命名空间中也找不到 `DestinationRule` ，即服务命名空间。
+如果现在从另一个命名空间（例如 `ns2`）发送请求，则客户端将不再与 `DestinationRule` 处于相同的命名空间，即 `ns1` 。因为相应的服务 `myservice.default.svc.cluster.local` 也不在 `ns1` 中，而是在 `default` 命名空间中，所以在查找路径的第二个命名空间中也找不到 `DestinationRule` ，即服务命名空间。
 
 即使将 `myservice` 服务导出到所有命名空间，并因此在 `ns2` 中可见，并且 `DestinationRule` 也导出到包括 `ns2` 在内的所有命名空间。来自 `ns2` 的请求依然不会应用该规则，因为它不在查找路径上的任何命名空间中。
 
