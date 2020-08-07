@@ -86,7 +86,7 @@ The Istio control plane must be installed with virtual machine integration enabl
     {{< text bash >}}
     $ kubectl create namespace istio-system
     $ kubectl create secret generic cacerts -n istio-system \
-        --from-file=ca-cert.pem=="${WORK_DIR}"/"${CLUSTER_NAME}"/selfSigned-ca-cert.pem \
+        --from-file=ca-cert.pem="${WORK_DIR}"/"${CLUSTER_NAME}"/selfSigned-ca-cert.pem \
         --from-file=ca-key.pem="${WORK_DIR}"/"${CLUSTER_NAME}"/selfSigned-ca-key.pem \
         --from-file=root-cert.pem="${WORK_DIR}"/"${CLUSTER_NAME}"/root-cert.pem \
         --from-file=cert-chain.pem="${WORK_DIR}"/"${CLUSTER_NAME}"/selfSigned-ca-cert-chain.pem

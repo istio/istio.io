@@ -98,7 +98,7 @@ spec:
 status:
   validationMessages:
   - code: IST0101
-    documentation_url: https://istio.io/docs/reference/config/analysis/IST0101?ref=status-controller
+    documentation_url: https://istio.io/docs/reference/config/analysis/ist0101/?ref=status-controller
     level: Error
     message: 'Referenced gateway not found: "bogus-gateway"'
 {{< /text >}}

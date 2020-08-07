@@ -68,7 +68,7 @@ Leverage Istio to integrate with Kubernetes and handle large fleets of Envoys in
 
 - Organized the content in of our [Operations Guide](/docs/ops/) and created a [section with all troubleshooting tasks](/docs/ops/common-problems) to help you find the information you seek faster.
 
-As always, there is a lot happening in the [Community Meeting](https://github.com/istio/community#community-meeting); join us every other Thursday at 11 AM Pacific.
+As always, there is a lot happening in the [Community Meeting](https://github.com/istio/community#community-meeting); join us every other Thursday at 10 AM Pacific.
 
 The growth and success of Istio is due to its 400+ contributors from over 300 companies. Join one of our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us make Istio even better.
 

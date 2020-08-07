@@ -16,7 +16,7 @@ test: n/a
 Istio provides a basic sample installation to quickly get Prometheus up and running:
 
 {{< text bash >}}
-$ kubectl apply {{< github_file >}}/samples/addons/prometheus.yaml -n istio-system
+$ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
 {{< /text >}}
 
 This will deploy Prometheus into your cluster. This is intended for demonstration only, and is not tuned for performance or security.

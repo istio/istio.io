@@ -204,16 +204,16 @@ VirtualService: reviews
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
 metadata:
   name: "ratings-strict"
 spec:
-  targets:
-  - name: ratings
-  peers:
-  - mtls:
-      mode: STRICT
+  selector:
+    matchLabels:
+      app: ratings
+  mtls:
+    mode: STRICT
 EOF
 {{< /text >}}
 
