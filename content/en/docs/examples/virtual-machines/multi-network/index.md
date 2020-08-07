@@ -39,13 +39,30 @@ following commands on a machine with cluster admin privileges:
 
 1. Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/cert-management/plugin-ca-cert/) for more details.
 
-1. Follow the same steps as [setting up single-network](/docs/examples/virtual-machines/single-network) configuration for the initial setup of the
-   cluster and certificates with the change of how you deploy Istio control plane:
+    {{< warning >}}
+    The root and intermediate certificate from the samples directory are widely
+    distributed and known.  Do **NOT** use these certificates in production as
+    your clusters would then be open to security vulnerabilities and compromise.
+    {{< /warning >}}
 
     {{< text bash >}}
-    $ istioctl install \
-       -f manifests/examples/vm/values-istio-meshexpansion.yaml
+    $ kubectl create namespace istio-system
+    $ kubectl create secret generic cacerts -n istio-system \
+        --from-file=@samples/certs/ca-cert.pem@ \
+        --from-file=@samples/certs/ca-key.pem@ \
+        --from-file=@samples/certs/root-cert.pem@ \
+        --from-file=@samples/certs/cert-chain.pem@
     {{< /text >}}
+
+1. For a simple setup, deploy Istio control plane into the cluster
+
+        {{< text bash >}}
+        $ istioctl install \
+            -f manifests/examples/vm/values-istio-meshexpansion.yaml
+        {{< /text >}}
+
+    For further details and customization options, refer to the
+    [installation instructions](/docs/setup/install/istioctl/).
 
 ### Setting up the VM
 
