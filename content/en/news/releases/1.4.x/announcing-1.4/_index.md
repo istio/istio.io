@@ -73,7 +73,7 @@ has been pushed to all proxies in the mesh.
 
 As always, there is a lot happening in the
 [Community Meeting](https://github.com/istio/community#community-meeting);
-join us every other Thursday at 11 AM Pacific.
+join us every other Thursday at 10 AM Pacific.
 
 We were very proud to be called out as one of the top five
 [fastest growing](https://octoverse.github.com/#top-and-trending-projects)

@@ -4,4 +4,4 @@ weight: 180
 ---
 
 If you'd like to have live interactions with members of our community, you can join us on
-[Istio's Slack](https://istio.slack.com) workspace.
+[Istio's Slack](https://slack.istio.io) workspace.
