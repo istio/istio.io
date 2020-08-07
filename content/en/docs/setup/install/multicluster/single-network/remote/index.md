@@ -110,6 +110,8 @@ deploy Istio in `Cluster_2` with the following steps:
           network: ${NETWORK_1}
           # Access the control plane discovery server via the ingress
           remotePilotAddress: ${DISCOVERY_ADDRESS}
+          # Use the cluster-local istiod for CA
+          caAddress: istiod.istio-system.svc:15012
     EOF
     {{< /text >}}
 
