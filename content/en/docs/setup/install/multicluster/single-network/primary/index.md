@@ -92,6 +92,7 @@ deploy an Istio control plane with the following steps:
 
 {{< text bash >}}
 $ cat <<EOF> ${WORK_DIR}/${CLUSTER_2}/install.yaml
+
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -105,10 +106,10 @@ spec:
       meshNetworks:
         ${NETWORK_1}:
           endpoints:
-          # Always use ‘Kubernetes' as the registry name for
-          # endpoints that reside on the same network as this
-          # instance of the Istio control plane.
-          - fromRegistry: Kubernetes
+          # fromRegistry should match the clusterName used above.
+          # There should be a fromRegistry entry for each cluster on the network. 
+          - fromRegistry: ${CLUSTER_1}
+          - fromRegistry: ${CLUSTER_2}
           gateways:
           - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
             port: 443

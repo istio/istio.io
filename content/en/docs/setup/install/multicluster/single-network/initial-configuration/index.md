@@ -157,26 +157,24 @@ deploy Istio with the following steps:
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
-        values:
-            global:
-                meshID: ${MESH}
-                multiCluster:
-                    clusterName: ${CLUSTER_1}
-                network: ${NETWORK_1}
-
-        meshNetworks:
+      values:
+        global:
+          # Expose the control plane through istio-ingressgateway.
+          meshExpansion:
+            enabled: true
+          meshID: ${MESH}
+          multiCluster:
+            clusterName: ${CLUSTER_1}
+          network: ${NETWORK_1}
+          meshNetworks:
             ${NETWORK_1}:
             endpoints:
-            # Always use ‘Kubernetes' as the registry name for
-            # endpoints that reside on the same network as this
-            # instance of the Istio control plane.
-            - fromRegistry: Kubernetes
+              # fromRegistry should match the clusterName used above.
+              # There should be a fromRegistry entry for each cluster on the network. 
+              - fromRegistry: ${CLUSTER_1}
             gateways:
-            - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
-            port: 443
-        # Expose the control plane through istio-ingressgateway.
-        meshExpansion:
-            enabled: true
+              - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
+                port: 443
     EOF
     {{< /text >}}
 
