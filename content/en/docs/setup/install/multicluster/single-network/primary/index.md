@@ -107,7 +107,7 @@ spec:
         ${NETWORK_1}:
           endpoints:
           # fromRegistry should match the clusterName used above.
-          # There should be a fromRegistry entry for each cluster on the network. 
+          # There should be a fromRegistry entry for each cluster on the network.
           - fromRegistry: ${CLUSTER_1}
           - fromRegistry: ${CLUSTER_2}
           gateways:

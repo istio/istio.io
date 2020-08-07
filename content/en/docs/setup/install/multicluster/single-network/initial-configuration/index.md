@@ -170,7 +170,7 @@ deploy Istio with the following steps:
             ${NETWORK_1}:
             endpoints:
               # fromRegistry should match the clusterName used above.
-              # There should be a fromRegistry entry for each cluster on the network. 
+              # There should be a fromRegistry entry for each cluster on the network.
               - fromRegistry: ${CLUSTER_1}
             gateways:
               - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
