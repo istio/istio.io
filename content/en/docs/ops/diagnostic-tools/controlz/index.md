@@ -1,6 +1,6 @@
 ---
-title: Component Introspection
-description: Describes how to use ControlZ to get insight into individual running components.
+title: Istiod Introspection
+description: Describes how to use ControlZ to get insight into a running istiod component.
 weight: 60
 keywords: [ops]
 aliases:
@@ -10,12 +10,11 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-Istio components are built with a flexible introspection framework which makes it easy to inspect and manipulate the internal state
-of a running component. Components open a port which can be used from a web browser to get an interactive view into the state of the
-component, or via REST for access and control from external tools.
+Istiod is build with a flexible introspection framework, called ControlZ, which makes it easy to inspect and manipulate the internal state
+of an istiod instance. Istiod opens a port which can be used from a web browser to get an interactive view into its state,
+or via REST for access and control from external tools.
 
-Istiod implement the ControlZ functionality. When it starts, a message is logged indicating the
-IP address and port to connect to in order to interact with ControlZ.
+When Istiod starts, a message is logged indicating the IP address and port to connect to in order to interact with ControlZ.
 
 {{< text plain >}}
 2020-08-04T23:28:48.889370Z     info    ControlZ available at 100.76.122.230:9876
