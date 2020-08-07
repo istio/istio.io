@@ -37,8 +37,8 @@ _verify_same snip_try_with_fixed_namespace "$snip_try_with_fixed_namespace_out"
 echo '*** istioctl-analyze step 3 ***'
 _verify_contains snip_analyze_sample_destrule "$snip_analyze_sample_destrule_out"
 
-# There are multiple DestinationRules, some are valid for the VirtualService, some lack subsets 
-echo '*** istioctl-analyze step ***'
+# There are multiple DestinationRules, some are valid for the VirtualService, some lack subsets
+echo '*** istioctl-analyze step 4 ***'
 snip_analyze_networking_directory || true
 
 echo '*** istioctl-analyze step 5 ***'

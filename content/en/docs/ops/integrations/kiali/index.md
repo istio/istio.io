@@ -19,7 +19,7 @@ Distributed tracing is provided by integration with [Jaeger](/docs/ops/integrati
 Istio provides a basic sample installation to quickly get Kiali up and running:
 
 {{< text bash >}}
-$ kubectl apply {{< github_file >}}/samples/addons/kiali.yaml -n istio-system
+$ kubectl apply -f {{< github_file >}}/samples/addons/kiali.yaml
 {{< /text >}}
 
 This will deploy Kiali into your cluster. This is intended for demonstration only, and is not tuned for performance or security.

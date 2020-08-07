@@ -20,15 +20,11 @@ Logging messages output by a component are categorized by *scopes*. A scope repr
 you can control as a whole. Different components have different scopes, depending on the features the component
 provides. All components have the `default` scope, which is used for non-categorized log messages.
 
-As an example, as of this writing, Mixer has 5 scopes, representing different functional areas within Mixer:
+As an example, as of this writing, `istioctl` has 24 scopes, representing different functional areas within the command:
 
-- `adapters`
-- `api`
-- `attributes`
-- `default`
-- `grpcAdapter`
+- `ads`, `adsc`, `analysis`, `attributes`, `authn`, `authorization`, `cache`, `cli`, `default`, `grpcAdapter`, `installer`, `mcp`, `model`, `patch`, `processing`, `resource`, `secretfetcher`, `source`, `spiffe`, `tpath`, `translator`, `util`, `validation`, `validationController`
 
-Pilot, Citadel, and Galley have their own scopes which you can discover by looking at their [reference documentation](/docs/reference/commands/).
+Pilot-Agent, Pilot-Discovery, Mixer, and the Istio Operator have their own scopes which you can discover by looking at their [reference documentation](/docs/reference/commands/).
 
 Each scope has a unique output level which is one of:
 
@@ -44,7 +40,7 @@ is `info` which is intended to provide the right amount of logging information f
 To control the output level, you use the `--log_output_level` command-line option. For example:
 
 {{< text bash >}}
-$ mixs server --log_output_level attributes=debug,adapters=warning
+$ istioctl analyze --log_output_level attributes:debug,cli:warn
 {{< /text >}}
 
 In addition to controlling the output level from the command-line, you can also control the output level of a running component
@@ -61,7 +57,7 @@ which can be easier for tools to process.
 
 ## Log rotation
 
-Istio components can automatically manage log rotation, which make it simple to break up large logs into smaller log files.
+Istio control plane components can automatically manage log rotation, which make it simple to break up large logs into smaller log files.
 The `--log_rotate` option lets you specify the base file name to use for rotation. Derived names will be used for individual
 log files.
 
