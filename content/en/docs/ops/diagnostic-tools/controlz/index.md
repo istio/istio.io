@@ -29,7 +29,7 @@ To access the ControlZ page of istiod, you can port-forward its ControlZ endpoin
 locally and connect through your local browser:
 
 {{< text bash >}}
-$ istioctl dashboard controlz istiod-954c974bb-qgb4h -n istio-system
+$ istioctl dashboard controlz <istiod pod name> -n istio-system
 {{< /text >}}
 
 This will redirect the component's ControlZ page to `http://localhost:9876` for remote access.
