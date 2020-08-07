@@ -356,7 +356,7 @@ to hold the configuration of the NGINX server:
 1.  Remove the Istio configuration items you created:
 
     {{< text bash >}}
-    $ kubectl delete destinationrule originate-tls-for-nginx
+    $ kubectl delete destinationrule originate-tls-for-nginx -n istio-system
     $ kubectl delete virtualservice direct-nginx-through-egress-gateway
     $ kubectl delete destinationrule egressgateway-for-nginx
     $ kubectl delete gateway istio-egressgateway

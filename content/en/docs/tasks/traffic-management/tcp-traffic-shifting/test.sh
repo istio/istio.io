@@ -21,17 +21,7 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
-# @setup profile=default
-
-# TODO: why is the following needed in the test if it's not a needed step in the doc?
-# add the TCP port to the ingress-gateway
-kubectl -n istio-system patch service istio-ingressgateway --patch "
-spec:
-  ports:
-    - port: 31400
-      targetPort: 31400
-      name: tcp
-"
+# @setup profile=demo
 
 # create a new namespace for testing purposes and enable automatic Istio sidecar injection
 snip_set_up_the_test_environment_1
@@ -78,4 +68,3 @@ _verify_lines snip_apply_weightbased_tcp_routing_5 "
 # @cleanup
 set +e # ignore cleanup errors
 snip_cleanup_1
-cleanup_sleep_sample

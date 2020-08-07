@@ -56,6 +56,14 @@ var (
 		source "tests/util/helpers.sh"
 	`
 
+	clusterSnapshot = `
+		__cluster_snapshot
+	`
+
+	clusterCleanupCheck = `
+		__cluster_cleanup_check
+	`
+
 	snipsFileSuffix = "snips.sh"
 	testFileSuffix  = "test.sh"
 
@@ -150,8 +158,8 @@ func checkFile(path string) (*TestCase, error) {
 		valid:         true,
 		path:          shortPath,
 		config:        config,
-		testScript:    helperScript + testScript,
-		cleanupScript: helperScript + cleanupScript,
+		testScript:    helperScript + clusterSnapshot + testScript,
+		cleanupScript: helperScript + cleanupScript + clusterCleanupCheck,
 	}
 	return testCase, nil
 }

@@ -258,6 +258,47 @@ __verify_with_retry() {
     done
 }
 
+# Get the resource state of the cluster. Used by the test framework to compare the
+# cluster state before and after running each test:
+#
+# __cluster_snapshot
+#
+# ... test commands
+# ... cleanup commands
+#
+# __cluster_cleanup_check
+#
+__cluster_state() {
+    # kubectl get ns -o name
+    # kubectl get all -n default -n istio-system
+    # TODO: ^^^ fails because istio-system ns is sometimes incorrectly in snapshot, still cleaning up from previous test.
+
+    kubectl get ns -o name | sed '/istio-system/d' # TEMP WORKAROUND, don't check istio-system
+    kubectl get all -n default # TEMP WORKAROUND, don't check istio-system
+
+    kubectl get istiooperators -n default -n istio-system
+    kubectl get destinationrules -n default -n istio-system
+    kubectl get envoyfilters -n default -n istio-system
+    kubectl get gateways -n default -n istio-system
+    kubectl get serviceentries -n default -n istio-system
+    kubectl get sidecars -n default -n istio-system
+    kubectl get virtualservices -n default -n istio-system
+    kubectl get workloadentries -n default -n istio-system
+    kubectl get authorizationpolicies -n default -n istio-system
+    kubectl get peerauthentications -n default -n istio-system
+    kubectl get requestauthentications -n default -n istio-system
+}
+
+__cluster_snapshot() {
+    __cluster_state > __cluster_snapshot.txt 2>&1
+}
+
+__cluster_cleanup_check() {
+    snapshot=$(<__cluster_snapshot.txt)
+    rm __cluster_snapshot.txt
+    _verify_like __cluster_state "$snapshot"
+}
+
 
 # Public Functions
 
