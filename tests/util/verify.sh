@@ -271,22 +271,33 @@ __verify_with_retry() {
 __cluster_state() {
     # kubectl get ns -o name
     # kubectl get all -n default -n istio-system
+    # kubectl get istiooperators -n default -n istio-system
+    # kubectl get destinationrules -n default -n istio-system
+    # kubectl get envoyfilters -n default -n istio-system
+    # kubectl get gateways -n default -n istio-system
+    # kubectl get serviceentries -n default -n istio-system
+    # kubectl get sidecars -n default -n istio-system
+    # kubectl get virtualservices -n default -n istio-system
+    # kubectl get workloadentries -n default -n istio-system
+    # kubectl get authorizationpolicies -n default -n istio-system
+    # kubectl get peerauthentications -n default -n istio-system
+    # kubectl get requestauthentications -n default -n istio-system
     # TODO: ^^^ fails because istio-system ns is sometimes incorrectly in snapshot, still cleaning up from previous test.
 
-    kubectl get ns -o name | sed '/istio-system/d' # TEMP WORKAROUND, don't check istio-system
-    kubectl get all -n default # TEMP WORKAROUND, don't check istio-system
-
-    kubectl get istiooperators -n default -n istio-system
-    kubectl get destinationrules -n default -n istio-system
-    kubectl get envoyfilters -n default -n istio-system
-    kubectl get gateways -n default -n istio-system
-    kubectl get serviceentries -n default -n istio-system
-    kubectl get sidecars -n default -n istio-system
-    kubectl get virtualservices -n default -n istio-system
-    kubectl get workloadentries -n default -n istio-system
-    kubectl get authorizationpolicies -n default -n istio-system
-    kubectl get peerauthentications -n default -n istio-system
-    kubectl get requestauthentications -n default -n istio-system
+    # TEMP WORKAROUND, don't check istio-system
+    kubectl get ns -o name | sed '/istio-system/d'
+    kubectl get all -n default
+    kubectl get istiooperators -n default
+    kubectl get destinationrules -n default
+    kubectl get envoyfilters -n default
+    kubectl get gateways -n default
+    kubectl get serviceentries -n default
+    kubectl get sidecars -n default
+    kubectl get virtualservices -n default
+    kubectl get workloadentries -n default
+    kubectl get authorizationpolicies -n default
+    kubectl get peerauthentications -n default
+    kubectl get requestauthentications -n default
 }
 
 __cluster_snapshot() {
