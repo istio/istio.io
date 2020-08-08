@@ -790,12 +790,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>The output directory for the key and certificate. If empty, key and certificate will not be saved. Must be set for VMs using provisioning certificates.</td>
 </tr>
 <tr>
-<td><code>PARSE_TOKEN</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>Parse token to inspect information like expiration time in proxy. This may not always be possible because token may not be a JWT.</td>
-</tr>
-<tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
 <td>String</td>
 <td><code>istiod</code></td>
@@ -1064,6 +1058,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>SKIP_PARSE_TOKEN</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Skip Parse token to inspect information like expiration time in proxy. This may be possible for example in vm we don&#39;t use token to rotate cert.</td>
 </tr>
 <tr>
 <td><code>SPIFFE_BUNDLE_ENDPOINTS</code></td>
