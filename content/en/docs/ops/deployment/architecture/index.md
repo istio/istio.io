@@ -55,7 +55,7 @@ for example:
 * Rich metrics
 
 This sidecar deployment allows Istio to enforce policy decisions and extract
-rich telemetry which can be send to monitoring systems to provide information
+rich telemetry which can be sent to monitoring systems to provide information
 about the behavior of the entire mesh.
 
 The sidecar proxy model also allows you to add Istio capabilities to an
