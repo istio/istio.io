@@ -68,6 +68,7 @@ get_metrics_1() {
 
 # Because of retries we can't validate values, but verify that metric exists.
 _verify_contains get_metrics_1 '"istio_tcp_connections_opened_total"'
+pgrep istioctl | xargs kill
 
 # @cleanup
 set +e # ignore cleanup errors
