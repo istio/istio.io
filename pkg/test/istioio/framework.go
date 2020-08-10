@@ -158,7 +158,7 @@ func checkFile(path string) (*TestCase, error) {
 	//if !runAllTests {
 	if runAllTests { // TEMP TEST
 		testScript = clusterSnapshot + testScript
-		cleanupScript = cleanupScript + clusterCleanupCheck
+		cleanupScript += clusterCleanupCheck
 	}
 
 	testCase = &TestCase{
