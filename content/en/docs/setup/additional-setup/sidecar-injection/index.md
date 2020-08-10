@@ -134,7 +134,7 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 #### Understanding what happened
 
-When Kubernetes invokes the webhook, the [`admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#mutatingwebhookconfiguration-v1-admissionregistration-k8s-io)
+When Kubernetes invokes the webhook, the [`admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
 configuration is applied. The default configuration injects the sidecar into
 pods in any namespace with the `istio-injection=enabled label`. The
 `istio-sidecar-injector` configuration map specifies the configuration for the
@@ -153,7 +153,7 @@ the `MutatingWebhookConfiguration`.
 For example, you can modify the `MutatingWebhookConfiguration` to always inject
 the sidecar into every namespace, unless a label is set. Editing this
 configuration is an advanced operation. Refer to the Kubernetes documentation
-for the [`MutatingWebhookConfiguration` API](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#mutatingwebhookconfiguration-v1-admissionregistration-k8s-io)
+for the [`MutatingWebhookConfiguration` API](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
 for more information.
 
 ##### _**policy**_
