@@ -50,7 +50,6 @@ _verify_contains snip_deploy_an_https_proxy_9 "CONNECT en.wikipedia.org:443"
 
 # create service entry
 snip_configure_traffic_to_external_https_proxy_1
-kubectl get serviceentries -o yaml # debug
 
 _verify_contains snip_configure_traffic_to_external_https_proxy_2 "<title>Wikipedia, the free encyclopedia</title>"
 _verify_contains snip_configure_traffic_to_external_https_proxy_3 "outbound|3128||my-company-proxy.com"
@@ -61,5 +60,3 @@ snip_cleanup_1
 snip_cleanup_2
 snip_cleanup_3
 snip_cleanup_4
-kubectl get serviceentries -o yaml # debug
-snip_cleanup_5
