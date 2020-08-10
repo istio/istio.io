@@ -155,7 +155,7 @@ func checkFile(path string) (*TestCase, error) {
 	config := setups[0][1]
 
 	// Check for proper test cleanup when running individual tests
-	#if !runAllTests {
+	//if !runAllTests {
 	if runAllTests { // TEMP TEST
 		testScript = clusterSnapshot + testScript
 		cleanupScript = cleanupScript + clusterCleanupCheck
