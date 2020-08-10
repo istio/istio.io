@@ -286,18 +286,18 @@ __cluster_state() {
 
     # TEMP WORKAROUND, don't check istio-system
     kubectl get ns -o name | sed '/istio-system/d'
-    kubectl get all -n default
-    kubectl get istiooperators -n default
-    kubectl get destinationrules -n default
-    kubectl get envoyfilters -n default
-    kubectl get gateways -n default
-    kubectl get serviceentries -n default
-    kubectl get sidecars -n default
-    kubectl get virtualservices -n default
-    kubectl get workloadentries -n default
-    kubectl get authorizationpolicies -n default
-    kubectl get peerauthentications -n default
-    kubectl get requestauthentications -n default
+    kubectl get all --ignore-not-found -n default
+    kubectl get istiooperators --ignore-not-found -n default
+    kubectl get destinationrules --ignore-not-found -n default
+    kubectl get envoyfilters --ignore-not-found -n default
+    kubectl get gateways --ignore-not-found -n default
+    kubectl get serviceentries --ignore-not-found -n default
+    kubectl get sidecars --ignore-not-found -n default
+    kubectl get virtualservices --ignore-not-found -n default
+    kubectl get workloadentries --ignore-not-found -n default
+    kubectl get authorizationpolicies --ignore-not-found -n default
+    kubectl get peerauthentications --ignore-not-found -n default
+    kubectl get requestauthentications --ignore-not-found -n default
 }
 
 __cluster_snapshot() {
@@ -307,6 +307,8 @@ __cluster_snapshot() {
 __cluster_cleanup_check() {
     snapshot=$(<__cluster_snapshot.txt)
     rm __cluster_snapshot.txt
+
+    VERIFY_RETRIES=10
     _verify_like __cluster_state "$snapshot"
 }
 

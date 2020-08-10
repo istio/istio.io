@@ -154,12 +154,19 @@ func checkFile(path string) (*TestCase, error) {
 	}
 	config := setups[0][1]
 
+	// Check for proper test cleanup when running individual tests
+	#if !runAllTests {
+	if runAllTests { // TEMP TEST
+		testScript = clusterSnapshot + testScript
+		cleanupScript = cleanupScript + clusterCleanupCheck
+	}
+
 	testCase = &TestCase{
 		valid:         true,
 		path:          shortPath,
 		config:        config,
-		testScript:    helperScript + clusterSnapshot + testScript,
-		cleanupScript: helperScript + cleanupScript + clusterCleanupCheck,
+		testScript:    helperScript + testScript,
+		cleanupScript: helperScript + cleanupScript,
 	}
 	return testCase, nil
 }
