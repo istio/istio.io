@@ -68,10 +68,6 @@ deployment you place into production.
     $ make -f "${ISTIO_DIR}"/tools/certs/Makefile NAME="${CLUSTER_NAME}" NAMESPACE="${SERVICE_NAMESPACE}" "${CLUSTER_NAME}"-certs-wl
     {{< /text >}}
 
-    {{< warning >}}
-    In Istio 1.6.0, the above Makefile is located in `"${ISTIO_DIR}"/samples/certs/Makefile`.
-    {{< /warning >}}
-
 ## Install the Istio control plane
 
 The Istio control plane must be installed with virtual machine integration enabled (`values.global.meshExpansion.enabled: true`).
