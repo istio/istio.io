@@ -154,11 +154,9 @@ func checkFile(path string) (*TestCase, error) {
 	}
 	config := setups[0][1]
 
-	// Check for proper test cleanup when running individual tests
-	if !runAllTests {
-		testScript = clusterSnapshot + testScript
-		cleanupScript += clusterCleanupCheck
-	}
+	// Check for proper test cleanup
+	testScript = clusterSnapshot + testScript
+	cleanupScript += clusterCleanupCheck
 
 	testCase = &TestCase{
 		valid:         true,
