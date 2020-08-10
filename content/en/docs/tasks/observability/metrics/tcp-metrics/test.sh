@@ -53,9 +53,7 @@ _wait_for_istio virtualservice default ratings
 # Get GATEWAY_URL
 # export the INGRESS_ environment variables
 # TODO make this work more generally. Currently using snips for Kind.
-export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
-export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
+_set_ingress_environment_variables
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 
 # Next steps look at the Prometheus browser. Start redirection.
@@ -70,7 +68,6 @@ get_metrics_1() {
 
 # Because of retries we can't validate values, but verify that metric exists.
 _verify_contains get_metrics_1 '"istio_tcp_connections_opened_total"'
-pgrep istioctl | xargs kill
 
 # @cleanup
 set +e # ignore cleanup errors
