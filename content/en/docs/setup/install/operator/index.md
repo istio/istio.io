@@ -138,8 +138,8 @@ spec:
 EOF
 {{< /text >}}
 
-You can also modify resource settings.
-For example, to increase pilot memory requests:
+You can also enable or disable components and modify resource settings.
+For example, to enable the `egressGateways` component and increase pilot memory requests:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -156,6 +156,9 @@ spec:
         resources:
           requests:
             memory: 3072Mi
+    egressGateways:
+    - name: istio-egressgateway
+      enabled: true
 EOF
 {{< /text >}}
 
