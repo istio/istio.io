@@ -139,7 +139,7 @@ EOF
 {{< /text >}}
 
 You can also enable or disable components and modify resource settings.
-For example, to enable the `egressGateways` component and increase pilot memory requests:
+For example, to enable the `istio-egressgateway` component and increase pilot memory requests:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
