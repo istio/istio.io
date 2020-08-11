@@ -149,7 +149,9 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
                         line = match.group(1) + match.group(2) + match.group(3) + "\n"
                     match = execit.match(line)
                     if match:
-                        print("    WARNING: -it should be removed from kubectl exec of .md line: " + str(linenum))
+                        msg = "ERROR: 'kubectl exec -it' will not work in test environment. Please remove -it from .md line: " + str(linenum)
+                        line = line + ">>> %s\n" % msg
+                        print("    " + msg)
                     if heredoc.search(line):
                         multiline_cmd = True
                 current_snip["script"].append(line)

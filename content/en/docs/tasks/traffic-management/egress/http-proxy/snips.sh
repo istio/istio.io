@@ -89,7 +89,7 @@ export PROXY_PORT=3128
 }
 
 snip_deploy_an_https_proxy_8() {
-kubectl exec -it "$(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name})" -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
+kubectl exec "$(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name})" -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
 }
 
 ! read -r -d '' snip_deploy_an_https_proxy_8_out <<\ENDSNIP
@@ -97,7 +97,7 @@ kubectl exec -it "$(kubectl get pod -n external -l app=sleep -o jsonpath={.items
 ENDSNIP
 
 snip_deploy_an_https_proxy_9() {
-kubectl exec -it "$(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name})" -n external -- tail -f /var/log/squid/access.log
+kubectl exec "$(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name})" -n external -- tail /var/log/squid/access.log
 }
 
 ! read -r -d '' snip_deploy_an_https_proxy_9_out <<\ENDSNIP
@@ -124,7 +124,7 @@ EOF
 }
 
 snip_configure_traffic_to_external_https_proxy_2() {
-kubectl exec -it "$SOURCE_POD" -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
+kubectl exec "$SOURCE_POD" -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
 }
 
 ! read -r -d '' snip_configure_traffic_to_external_https_proxy_2_out <<\ENDSNIP
@@ -140,7 +140,7 @@ kubectl logs "$SOURCE_POD" -c istio-proxy
 ENDSNIP
 
 snip_configure_traffic_to_external_https_proxy_4() {
-kubectl exec -it "$(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name})" -n external -- tail -f /var/log/squid/access.log
+kubectl exec "$(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name})" -n external -- tail /var/log/squid/access.log
 }
 
 ! read -r -d '' snip_configure_traffic_to_external_https_proxy_4_out <<\ENDSNIP
