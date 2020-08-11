@@ -42,11 +42,10 @@ Follow these steps to get started with Istio:
     The command above downloads the latest release (numerically) of Istio.
     To download a specific version, you can add a variable on the command line.
     For example to download Istio 1.4.3, you would run
-      `curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.8 sh -`. 
-      
-    The processor architecture will be detected automatically, but can alternatively
-    be overridden with the `TARGET_ARCH` environment variable. For example: 
-    `curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.8 TARGET_ARCH=x86_64 sh -`. 
+    `curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.8 sh -`. The
+    processor architecture can be overridden with the `TARGET_ARCH` environment
+    variable. For example, to download the x86_64, architecture, you would run
+    `curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.8 TARGET_ARCH=x86_64 sh -`.
     {{< /tip >}}
 
 1.  Move to the Istio package directory. For example, if the package is
