@@ -65,65 +65,20 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 ENDSNIP
 
-snip_enable_globally_via_install_option_1() {
-kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": false/"rewriteAppHTTPProbe": true/' | kubectl apply -f -
+snip_disable_the_probe_rewrite_option_globally_1() {
+kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
 }
 
-! read -r -d '' snip_use_annotations_on_pod_1 <<\ENDSNIP
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: liveness-http
-spec:
-  selector:
-    matchLabels:
-      app: liveness-http
-      version: v1
-  template:
-    metadata:
-      labels:
-        app: liveness-http
-        version: v1
-      annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: "true"
-    spec:
-      containers:
-      - name: liveness-http
-        image: docker.io/istio/health:example
-        ports:
-        - containerPort: 8001
-        livenessProbe:
-          httpGet:
-            path: /foo
-            port: 8001
-          initialDelaySeconds: 5
-          periodSeconds: 5
-ENDSNIP
-
-snip_redeploy_the_liveness_health_check_app_1() {
-kubectl create ns istio-same-port
-kubectl -n istio-same-port apply -f <(istioctl kube-inject -f samples/health-check/liveness-http-same-port.yaml)
-}
-
-snip_redeploy_the_liveness_health_check_app_2() {
-kubectl -n istio-same-port get pod
-}
-
-! read -r -d '' snip_redeploy_the_liveness_health_check_app_2_out <<\ENDSNIP
-NAME                             READY     STATUS    RESTARTS   AGE
-liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
-ENDSNIP
-
-snip_separate_port_1() {
+snip_explore_the_seperate_port_option_1() {
 kubectl create ns istio-sep-port
 kubectl -n istio-sep-port apply -f <(istioctl kube-inject -f samples/health-check/liveness-http.yaml)
 }
 
-snip_separate_port_2() {
+snip_explore_the_seperate_port_option_2() {
 kubectl -n istio-sep-port get pod
 }
 
-! read -r -d '' snip_separate_port_2_out <<\ENDSNIP
+! read -r -d '' snip_explore_the_seperate_port_option_2_out <<\ENDSNIP
 NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-67d5db65f5-765bb   2/2       Running   0          1m
 ENDSNIP
