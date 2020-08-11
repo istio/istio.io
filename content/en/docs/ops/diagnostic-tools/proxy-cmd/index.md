@@ -61,7 +61,46 @@ where the issue may lie.
 
 {{< text bash json >}}
 $ istioctl proxy-status details-v1-6dcc6fbb9d-wsjz4.default
-Clusters Match
+--- Istiod Clusters
++++ Envoy Clusters
+@@ -374,36 +374,14 @@
+             "edsClusterConfig": {
+                "edsConfig": {
+                   "ads": {
+
+                   }
+                },
+                "serviceName": "outbound|443||public-cr0bdc785ce3f14722918080a97e1f26be-alb1.kube-system.svc.cluster.local"
+-            },
+-            "connectTimeout": "1.000s",
+-            "circuitBreakers": {
+-               "thresholds": [
+-                  {
+-
+-                  }
+-               ]
+-            }
+-         }
+-      },
+-      {
+-         "cluster": {
+-            "name": "outbound|53||kube-dns.kube-system.svc.cluster.local",
+-            "type": "EDS",
+-            "edsClusterConfig": {
+-               "edsConfig": {
+-                  "ads": {
+-
+-                  }
+-               },
+-               "serviceName": "outbound|53||kube-dns.kube-system.svc.cluster.local"
+             },
+             "connectTimeout": "1.000s",
+             "circuitBreakers": {
+                "thresholds": [
+                   {
+
+                   }
+
 Listeners Match
 Routes Match (RDS last loaded at Tue, 04 Aug 2020 11:52:54 IST)
 {{< /text >}}
