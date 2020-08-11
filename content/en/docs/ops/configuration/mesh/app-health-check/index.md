@@ -110,7 +110,7 @@ This feature is enabled by default when installing with any of our [profiles](/d
 
 ### Separate port
 
-Another alternative is to use separate port for health checking and regular traffic.
+Another alternative is to use separate port for health checking and regular traffic.  Seperate port is not recommended as it requires changing your health check on a seperate port. This option should only be explored when Probe rewrite doesn't work.
 
 Run these commands to re-deploy the service:
 
