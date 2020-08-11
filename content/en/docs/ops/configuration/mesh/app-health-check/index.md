@@ -106,11 +106,21 @@ This approach rewrites the application `PodSpec` readiness/liveness probe, such 
 [Pilot agent](/docs/reference/commands/pilot-agent/). Pilot agent then redirects the
 request to application, and strips the response body only returning the response code.
 
-This feature is enabled by default when installing with any of our [profiles](/docs/setup/additional-setup/config-profiles/).
+This feature is enabled by default when installing with any of our [profiles](/docs/setup/additional-setup/config-profiles/). This option is recommended because it requires no code change in your application.
 
 ### Separate port
 
-Another alternative is to use separate port for health checking and regular traffic.  Seperate port is not recommended as it requires changing your health check on a seperate port. This option should only be explored when Probe rewrite doesn't work.
+Another alternative is to use separate port for health checking and regular traffic.  Seperate port is not recommended as it requires changing your application's health check on a seperate port. This option should only be explored when the `probe rewrite` option doesn't work.
+
+### Disable the probe rewrite option globally
+
+[Install Istio](/docs/setup/install/istioctl/) with `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=false` to disable the probe rewrite globally. **Alternatively**, update the configuration map of Istio sidecar injection:
+
+{{< text bash >}}
+$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
+{{< /text >}}
+
+### Explore the seperate port option
 
 Run these commands to re-deploy the service:
 
