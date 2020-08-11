@@ -67,7 +67,7 @@ my-httpbin   ExternalName   <none>       httpbin.org   80/TCP    4s
 ENDSNIP
 
 snip_kubernetes_externalname_service_to_access_an_external_service_3() {
-kubectl exec -it "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
+kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
 }
 
 ! read -r -d '' snip_kubernetes_externalname_service_to_access_an_external_service_3_out <<\ENDSNIP
@@ -95,7 +95,7 @@ EOF
 }
 
 snip_kubernetes_externalname_service_to_access_an_external_service_5() {
-kubectl exec -it "$SOURCE_POD" -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
+kubectl exec "$SOURCE_POD" -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
 }
 
 ! read -r -d '' snip_kubernetes_externalname_service_to_access_an_external_service_5_out <<\ENDSNIP
@@ -160,7 +160,7 @@ my-wikipedia   ClusterIP   172.21.156.230   <none>        443/TCP   21h
 ENDSNIP
 
 snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_4() {
-kubectl exec -it "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl -s --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
+kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl -s --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
 }
 
 ! read -r -d '' snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_4_out <<\ENDSNIP
@@ -182,7 +182,7 @@ EOF
 }
 
 snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_6() {
-kubectl exec -it "$SOURCE_POD" -c sleep -- curl -s --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
+kubectl exec "$SOURCE_POD" -c sleep -- curl -s --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
 }
 
 ! read -r -d '' snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_6_out <<\ENDSNIP
@@ -190,7 +190,7 @@ kubectl exec -it "$SOURCE_POD" -c sleep -- curl -s --resolve en.wikipedia.org:44
 ENDSNIP
 
 snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_7() {
-kubectl exec -it "$SOURCE_POD" -c sleep -- curl -v --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page -o /dev/null
+kubectl exec "$SOURCE_POD" -c sleep -- curl -v --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page -o /dev/null
 }
 
 ! read -r -d '' snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_7_out <<\ENDSNIP
