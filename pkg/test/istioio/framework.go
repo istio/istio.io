@@ -56,6 +56,14 @@ var (
 		source "tests/util/helpers.sh"
 	`
 
+	clusterSnapshot = `
+		__cluster_snapshot
+	`
+
+	clusterCleanupCheck = `
+		__cluster_cleanup_check
+	`
+
 	snipsFileSuffix = "snips.sh"
 	testFileSuffix  = "test.sh"
 
@@ -145,6 +153,10 @@ func checkFile(path string) (*TestCase, error) {
 		return testCase, err
 	}
 	config := setups[0][1]
+
+	// Check for proper test cleanup
+	testScript = clusterSnapshot + testScript
+	cleanupScript += clusterCleanupCheck
 
 	testCase = &TestCase{
 		valid:         true,

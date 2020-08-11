@@ -258,6 +258,51 @@ __verify_with_retry() {
     done
 }
 
+# Get the resource state of the cluster. Used by the test framework to compare the
+# cluster state before and after running each test:
+#
+# __cluster_snapshot
+#
+# ... test commands
+# ... cleanup commands
+#
+# __cluster_cleanup_check
+#
+__cluster_state() {
+    # kubectl get ns -o name
+    # kubectl get all --ignore-not-found -n default -n istio-system
+    # kubectl get istiooperators --ignore-not-found -n default -n istio-system
+    # TODO: ^^^ fails because istio-system ns is sometimes incorrectly in snapshot, still cleaning up from previous test.
+
+    # TEMP WORKAROUND, don't check istio-system
+    kubectl get ns -o name | sed '/istio-system/d'
+    kubectl get all --ignore-not-found -n default
+    kubectl get istiooperators --ignore-not-found -n default
+
+    kubectl get destinationrules --ignore-not-found -n default -n istio-system
+    kubectl get envoyfilters --ignore-not-found -n default -n istio-system
+    kubectl get gateways --ignore-not-found -n default -n istio-system
+    kubectl get serviceentries --ignore-not-found -n default -n istio-system
+    kubectl get sidecars --ignore-not-found -n default -n istio-system
+    kubectl get virtualservices --ignore-not-found -n default -n istio-system
+    kubectl get workloadentries --ignore-not-found -n default -n istio-system
+    kubectl get authorizationpolicies --ignore-not-found -n default -n istio-system
+    kubectl get peerauthentications --ignore-not-found -n default -n istio-system
+    kubectl get requestauthentications --ignore-not-found -n default -n istio-system
+}
+
+__cluster_snapshot() {
+    __cluster_state > __cluster_snapshot.txt 2>&1
+}
+
+__cluster_cleanup_check() {
+    snapshot=$(<__cluster_snapshot.txt)
+    rm __cluster_snapshot.txt
+
+    VERIFY_RETRIES=10
+    _verify_like __cluster_state "$snapshot"
+}
+
 
 # Public Functions
 

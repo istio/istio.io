@@ -263,7 +263,7 @@ kubectl logs -l istio=egressgateway -n istio-system | grep 'my-nginx.mesh-extern
 }
 
 snip_cleanup_the_tls_origination_example_1() {
-kubectl delete destinationrule originate-tls-for-nginx
+kubectl delete destinationrule originate-tls-for-nginx -n istio-system
 kubectl delete virtualservice direct-nginx-through-egress-gateway
 kubectl delete destinationrule egressgateway-for-nginx
 kubectl delete gateway istio-egressgateway

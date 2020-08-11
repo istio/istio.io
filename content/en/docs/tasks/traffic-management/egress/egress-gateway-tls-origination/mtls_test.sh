@@ -21,6 +21,13 @@ set -e
 set -u
 set -o pipefail
 
+# Make sure automatic sidecar injection is enabled
+kubectl label namespace default istio-injection=enabled || true
+
+# Deploy sleep sample
+snip_before_you_begin_1
+_wait_for_deployment default sleep
+
 # Generate Certificates for service outside the mesh to use for mTLS
 set +e # suppress harmless "No such file or directory:../crypto/bio/bss_file.c:72:fopen('1_root/index.txt.attr','r')" error
 snip_generate_client_and_server_certificates_and_keys_1
@@ -39,14 +46,6 @@ snip_deploy_a_mutual_tls_server_5
 
 # Wait for nginx
 _wait_for_deployment mesh-external my-nginx
-
-# Deploy Sleep example
-set +e
-kubectl delete pods -l app=sleep --force
-set -e
-snip_before_you_begin_1
-
-_wait_for_deployment default sleep
 
 # Mount certs to Egress Gateway
 snip_redeploy_the_egress_gateway_with_the_client_certificates_1
