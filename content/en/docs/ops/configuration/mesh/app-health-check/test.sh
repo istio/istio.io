@@ -40,11 +40,11 @@ kubectl -n istio-io-health delete -f samples/health-check/liveness-command.yaml
 
 snip_disable_the_probe_rewrite_option_globally_1
 
-snip_explore_the_seperate_port_option_1
+snip_explore_the_separate_port_option_1
 
 kubectl -n istio-sep-port rollout status deployment liveness-http --timeout 60s
 
-_verify_like snip_explore_the_seperate_port_option_2 "$snip_explore_the_seperate_port_option_2_out"
+_verify_like snip_explore_the_separate_port_option_2 "$snip_explore_the_separate_port_option_2_out"
 
 kubectl -n istio-sep-port delete -f samples/health-check/liveness-http.yaml
 

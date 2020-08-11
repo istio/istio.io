@@ -110,7 +110,7 @@ This feature is enabled by default when installing with any of our [profiles](/d
 
 ### Separate port
 
-Another alternative is to use separate port for health checking and regular traffic.  Seperate port is not recommended as it requires changing your application's health check on a seperate port. This option should only be explored when the `probe rewrite` option doesn't work.
+Another alternative is to use separate port for health checking and regular traffic.  Separate port is not recommended as it requires changing your application's health check on a separate port. This option should only be explored when the `probe rewrite` option doesn't work.
 
 ### Disable the probe rewrite option globally
 
@@ -120,7 +120,7 @@ Another alternative is to use separate port for health checking and regular traf
 $ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
 {{< /text >}}
 
-### Explore the seperate port option
+### Explore the separate port option
 
 Run these commands to re-deploy the service:
 
