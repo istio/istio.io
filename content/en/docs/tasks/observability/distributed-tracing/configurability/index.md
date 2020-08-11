@@ -24,7 +24,7 @@ considered in-development for this release.
 
 You can configure the following tracing options in Istio:
 
-1.  Random sampling rate for percentage of requests that will selected for trace
+1.  Random sampling rate for percentage of requests that will be selected for trace
     generation.
 
 1.  Maximum length of the request path after which the path will be truncated for
