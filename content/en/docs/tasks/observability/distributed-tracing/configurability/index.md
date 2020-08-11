@@ -13,12 +13,11 @@ Sampling is a beta feature, but adding custom tags and tracing tag length are
 considered in-development for this release.
 
 ## Before you begin
+1.  Ensure that your applications propagate tracing headers as described [here](/docs/tasks/observability/distributed-tracing/overview/).
 
 1.  Follow the tracing installation guide located under [Integrations](/docs/ops/integrations/)
     based on your preferred tracing backend to install the appropriate addon and
     configure your Istio proxies to send traces to the tracing deployment.
-
-1.  Ensure that your applications propagate tracing headers as described [here](/docs/tasks/observability/distributed-tracing/overview/).
 
 ## Available tracing configurations
 
@@ -50,7 +49,7 @@ options you need to restart pods injected with Istio proxies.
 
 All tracing options can be configured globally via `MeshConfig`.
 To simplify configuration, it is recommended to create a single YAML file
-which you can pass to `istioctl install -f` command.
+which you can pass to the `istioctl install -f` command.
 
 {{< text yaml >}}
 cat <<'EOF' > tracing.yaml
@@ -62,7 +61,7 @@ spec:
       tracing:
         sampling: 10
         custom_tags:
-          my_header:                    # user-defined name
+          my_tag_header:                    
             header:
               name: host
 EOF
@@ -89,7 +88,7 @@ spec:
         tracing:
           sampling: 10
           custom_tags:
-            my_header:                    # user-defined name
+            my_tag_header:                   
               header:
                 name: host
     spec:
@@ -151,7 +150,7 @@ You can customize the tags using any of the three supported options below.
         defaultConfig:
           tracing:
             custom_tags:
-              tag_literal:                   # user-defined name
+              my_tag_literal:                 
                 literal:
                   value: <VALUE>
     {{< /text >}}
@@ -167,7 +166,7 @@ You can customize the tags using any of the three supported options below.
         defaultConfig:
           tracing:
             custom_tags:
-              tag_env:                       # user-defined name
+              my_tag_env:                      
                 environment:
                   name: <ENV_VARIABLE_NAME>
                   defaultValue: <VALUE>      # optional
@@ -189,7 +188,7 @@ You can customize the tags using any of the three supported options below.
         defaultConfig:
           tracing:
             custom_tags:
-              tag_header:                    # user-defined name
+              my_tag_header:                    
                 header:
                   name: <CLIENT-HEADER>
                   defaultValue: <VALUE>      # optional
