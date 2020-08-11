@@ -65,10 +65,6 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 ENDSNIP
 
-snip_disable_the_probe_rewrite_option_globally_1() {
-kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
-}
-
 ! read -r -d '' snip_disable_the_probe_rewrite_option_for_your_pod_1 <<\ENDSNIP
 apiVersion: apps/v1
 kind: Deployment
@@ -99,6 +95,10 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 5
 ENDSNIP
+
+snip_disable_the_probe_rewrite_option_globally_1() {
+kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
+}
 
 snip_cleanup_1() {
 kubectl delete ns istio-io-health istio-same-port istio-sep-port

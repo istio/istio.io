@@ -104,15 +104,7 @@ This approach rewrites the application `PodSpec` readiness/liveness probe, such 
 [Pilot agent](/docs/reference/commands/pilot-agent/). Pilot agent then redirects the
 request to application, and strips the response body only returning the response code.
 
-This feature is enabled by default when installing with any of our [profiles](/docs/setup/additional-setup/config-profiles/). This option is recommended because it requires no code change in your application.
-
-### Disable the probe rewrite option globally
-
-[Install Istio](/docs/setup/install/istioctl/) with `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=false` to disable the probe rewrite globally. **Alternatively**, update the configuration map of Istio sidecar injection:
-
-{{< text bash >}}
-$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
-{{< /text >}}
+This feature is enabled by default when installing with any of our [profiles](/docs/setup/additional-setup/config-profiles/).
 
 ### Disable the probe rewrite option for your pod
 
@@ -150,6 +142,14 @@ spec:
 {{< /text >}}
 
 This approach allows you to disable the health check probe rewrite gradually on each deployment without reinstalling Istio.
+
+### Disable the probe rewrite option globally
+
+[Install Istio](/docs/setup/install/istioctl/) with `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=false` to disable the probe rewrite globally. **Alternatively**, update the configuration map of Istio sidecar injection:
+
+{{< text bash >}}
+$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
+{{< /text >}}
 
 ### Cleanup
 
