@@ -61,7 +61,7 @@ spec:
       tracing:
         sampling: 10
         custom_tags:
-          my_tag_header:                    
+          my_tag_header:
             header:
               name: host
 EOF
@@ -88,7 +88,7 @@ spec:
         tracing:
           sampling: 10
           custom_tags:
-            my_tag_header:                   
+            my_tag_header:
               header:
                 name: host
     spec:
@@ -150,7 +150,7 @@ You can customize the tags using any of the three supported options below.
         defaultConfig:
           tracing:
             custom_tags:
-              my_tag_literal:                 
+              my_tag_literal:
                 literal:
                   value: <VALUE>
     {{< /text >}}
@@ -166,7 +166,7 @@ You can customize the tags using any of the three supported options below.
         defaultConfig:
           tracing:
             custom_tags:
-              my_tag_env:                      
+              my_tag_env:
                 environment:
                   name: <ENV_VARIABLE_NAME>
                   defaultValue: <VALUE>      # optional
@@ -188,7 +188,7 @@ You can customize the tags using any of the three supported options below.
         defaultConfig:
           tracing:
             custom_tags:
-              my_tag_header:                    
+              my_tag_header:
                 header:
                   name: <CLIENT-HEADER>
                   defaultValue: <VALUE>      # optional
