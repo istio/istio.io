@@ -94,7 +94,16 @@ $ istioctl install --set profile=demo
 ## Check what's installed
 
 The `istioctl` command saves the `IstioOperator` CR that was used to install Istio in a copy of the CR named `installed-state`.
-If you lose track of what is installed in a cluster, you can inspect this CR.
+Instead of inspecting the deployments, pods, services and other resources that were installed by Istio, for example:
+
+{{< text bash >}}
+$ kubectl -n istio-system get deploy
+NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
+istio-ingressgateway   1/1     1            1           49m
+istiod                 1/1     1            1           49m
+{{< /text >}}
+
+You can inspect the `installed-state` CR, to see what is installed in the cluster, as well as all custom settings.
 For example, dump its content into a YAML file using the following command:
 
 {{< text bash >}}
