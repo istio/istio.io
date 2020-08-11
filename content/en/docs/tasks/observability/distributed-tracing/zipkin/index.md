@@ -41,12 +41,12 @@ $ istioctl dashboard zipkin
 
     {{< boilerplate trace-generation >}}
 
-1.  From the search panel, click on the plus sign. Select `serviceName` from the first dropdown and `productpage.default` from second dropdown and click the search icon:
+1.  From the search panel, click on the plus sign. Select `serviceName` from the first drop-down list, `productpage.default` from second drop-down, and then click the search icon:
 
     {{< image link="./istio-tracing-list-zipkin.png" caption="Tracing Dashboard" >}}
 
 1.  Click on the `TRACE ID` to see the details corresponding to the
-    latest request to the `/productpage`:
+    latest request to `/productpage`:
 
     {{< image link="./istio-tracing-details-zipkin.png" caption="Detailed Trace View" >}}
 
