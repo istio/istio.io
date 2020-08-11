@@ -87,11 +87,11 @@ spec:
       ...
       proxy.istio.io/config: |
         tracing:
-        sampling: 10
-        custom_tags:
-          my_header:                    # user-defined name
-            header:
-              name: host
+          sampling: 10
+          custom_tags:
+            my_header:                    # user-defined name
+              header:
+                name: host
     spec:
       ...
 {{< /text >}}
