@@ -13,6 +13,7 @@ Sampling is a beta feature, but adding custom tags and tracing tag length are
 considered in-development for this release.
 
 ## Before you begin
+
 1.  Ensure that your applications propagate tracing headers as described [here](/docs/tasks/observability/distributed-tracing/overview/).
 
 1.  Follow the tracing installation guide located under [Integrations](/docs/ops/integrations/)
