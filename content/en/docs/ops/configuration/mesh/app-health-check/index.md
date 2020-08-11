@@ -106,84 +106,21 @@ This approach rewrites the application `PodSpec` readiness/liveness probe, such 
 [Pilot agent](/docs/reference/commands/pilot-agent/). Pilot agent then redirects the
 request to application, and strips the response body only returning the response code.
 
-This feature is enabled when installing with the `default` profile. If you find that the profile used to install Istio does not have it enabled, you have two ways to enable the rewrite of the liveness HTTP probes:
-
-#### Enable globally via install option
-
-[Install Istio](/docs/setup/install/istioctl/) with `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
-
-**Alternatively**, update the configuration map of Istio sidecar injection:
-
-{{< text bash >}}
-$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": false/"rewriteAppHTTPProbe": true/' | kubectl apply -f -
-{{< /text >}}
-
-The above installation option and configuration map, each instruct the sidecar injection process to automatically
-rewrite the Kubernetes pod's spec, so health checks are able to work under mutual TLS. No need to update your app or pod
-spec by yourself.
-
-{{< warning >}}
-The configuration changes above (by install or by the configuration map) effect all Istio app deployments.
-{{< /warning >}}
-
-#### Use annotations on pod
-
-<!-- Add samples YAML or kubectl patch? -->
-
-Rather than install Istio with different options, you can [annotate the pod](/docs/reference/config/annotations/) with `sidecar.istio.io/rewriteAppHTTPProbers: "true"`. Make sure you add the annotation to the [pod resource](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) because it will be ignored anywhere else (for example, on an enclosing deployment resource).
-
-{{< text yaml >}}
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: liveness-http
-spec:
-  selector:
-    matchLabels:
-      app: liveness-http
-      version: v1
-  template:
-    metadata:
-      labels:
-        app: liveness-http
-        version: v1
-      annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: "true"
-    spec:
-      containers:
-      - name: liveness-http
-        image: docker.io/istio/health:example
-        ports:
-        - containerPort: 8001
-        livenessProbe:
-          httpGet:
-            path: /foo
-            port: 8001
-          initialDelaySeconds: 5
-          periodSeconds: 5
-{{< /text >}}
-
-This approach allows you to enable the health check prober rewrite gradually on each deployment without reinstalling Istio.
-
-#### Re-deploy the liveness health check app
-
-Instructions below assume you turn on the feature globally via install option.
-Annotations works the same.
-
-{{< text bash >}}
-$ kubectl create ns istio-same-port
-$ kubectl -n istio-same-port apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http-same-port.yaml@)
-{{< /text >}}
-
-{{< text bash >}}
-$ kubectl -n istio-same-port get pod
-NAME                             READY     STATUS    RESTARTS   AGE
-liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
-{{< /text >}}
+This feature is enabled by default when installing with any of our [profiles](/docs/setup/additional-setup/config-profiles/). This option is recommended because it requires no code change in your application.
 
 ### Separate port
 
-Another alternative is to use separate port for health checking and regular traffic.
+Another alternative is to use separate port for health checking and regular traffic.  Seperate port is not recommended as it requires changing your application's health check on a seperate port. This option should only be explored when the `probe rewrite` option doesn't work.
+
+### Disable the probe rewrite option globally
+
+[Install Istio](/docs/setup/install/istioctl/) with `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=false` to disable the probe rewrite globally. **Alternatively**, update the configuration map of Istio sidecar injection:
+
+{{< text bash >}}
+$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
+{{< /text >}}
+
+### Explore the seperate port option
 
 Run these commands to re-deploy the service:
 
