@@ -14,7 +14,7 @@ This task shows you how to visualize different aspects of your Istio mesh.
 As part of this task, you install the [Kiali](https://www.kiali.io) add-on
 and use the web-based graphical user interface to view service graphs of
 the mesh and your Istio configuration objects. Lastly, you use the Kiali
-Public API to generate graph data in the form of consumable JSON.
+Developer API to generate graph data in the form of consumable JSON.
 
 {{< idea >}}
 This task does not cover all of the features provided by Kiali.
@@ -59,8 +59,6 @@ Follow the [Kiali installation](/docs/ops/integrations/kiali/#installation) docu
     {{< text bash >}}
     $ istioctl dashboard kiali
     {{< /text >}}
-
-1.  To log into the Kiali UI, go to the Kiali login screen and enter the username and passphrase stored in the Kiali secret.
 
 1.  View the overview of your mesh in the **Overview** page that appears immediately after you log in.
     The **Overview** page displays all the namespaces that have services in your mesh.
@@ -253,20 +251,28 @@ when it detects incorrect configurations.
     $ kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml
     {{< /text >}}
 
-## About the Kiali Public API
+## About the Kiali Developer API
 
 To generate JSON files representing the graphs and other metrics, health, and
 configuration information, you can access the
-[Kiali Public API](https://www.kiali.io/api).
+[Kiali Developer API](https://www.kiali.io/api).
 For example, point your browser to `$KIALI_URL/api/namespaces/graph?namespaces=bookinfo&graphType=app`
 to get the JSON representation of your graph using the `app` graph type.
 
-The Kiali Public API is built on top of Prometheus queries and depends on the
+The Kiali Developer API is built on top of Prometheus queries and depends on the
 standard Istio metric configuration.  It also makes Kubernetes API calls to
 obtain additional details about your services. For the best experience using
 Kiali, use the metadata labels `app` and `version` on your application
 components. As a template, the Bookinfo sample application follows this
 convention.
+
+Please note the Kiali Developer API can change from version to version with no guarantee of backward compatibility.
+
+## Additional Features
+
+Kiali has more features than reviewed in this task, such as an [integration with Jaeger tracing](https://kiali.io/documentation/latest/features/#_detail_traces).
+
+For more details on these additional features, see the [Kiali documentation](https://kiali.io/documentation/latest/features/).
 
 ## Cleanup
 
