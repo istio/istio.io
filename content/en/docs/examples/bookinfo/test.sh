@@ -57,7 +57,7 @@ _verify_contains snip_confirm_the_app_is_accessible_from_outside_the_cluster_1 "
 
 snip_apply_default_destination_rules_1
 
-_verify_lines snip_apply_default_destination_rules_3 "
+_verify_lines snip_apply_default_destination_rules_2 "
 + productpage
 + reviews
 + ratings
