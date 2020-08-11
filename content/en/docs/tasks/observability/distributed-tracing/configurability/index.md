@@ -17,6 +17,7 @@ considered in-development for this release.
 1.  Follow the tracing installation guide located under [Integrations](/docs/ops/integrations/)
     based on your preferred tracing backend to install the appropriate addon and
     configure your Istio proxies to send traces to the tracing deployment.
+
 1.  Ensure that your applications propagate tracing headers as described [here](/docs/tasks/observability/distributed-tracing/overview/).
 
 ## Available tracing configurations
@@ -30,7 +31,7 @@ You can configure the following tracing options in Istio:
     reporting. This can be useful in limiting trace data storage specially if you're
     collecting traces at ingress gateways.
 
-1.  Add custom tags in spans. These tags can be added based on static literal
+1.  Adding custom tags in spans. These tags can be added based on static literal
     values, environment values or fields from request headers. This can be used to
     inject additional information in spans specific to your environment.
 
@@ -70,9 +71,9 @@ EOF
 ### Using `proxy.istio.io/config` annotation for trace settings
 
 You can add the `proxy.istio.io/config` annotation to your Pod metadata
-specification you can override any mesh-wide tracing settings.
-For instance, to modify the `sleep` deployment shipped with Istio you would add the following
-to `samples/sleep/sleep.yaml`:
+specification to override any mesh-wide tracing settings.
+For instance, to modify the `sleep` deployment shipped with Istio you would add
+the following to `samples/sleep/sleep.yaml`:
 
 {{< text yaml >}}
 apiVersion: apps/v1
@@ -97,14 +98,15 @@ spec:
 
 ## Customizing Trace sampling
 
-The sampling rate option can be used to control what
-percentage of requests get reported as traces. This should be configured
-depending upon your traffic in the mesh and the amount of tracing data you want to
-collect. The default rate is 1%:
+The sampling rate option can be used to control what percentage of requests get
+reported to your tracing system. This should be configured depending upon your
+traffic in the mesh and the amount of tracing data you want to collect.
+The default rate is 1%:
 
 {{< warning >}}
-Previously, the recommended method was to change the `values.pilot.traceSampling` setting during the mesh setup
-or to change the `PILOT_TRACE_SAMPLE` environment variable in the pilot or istiod deployment.
+Previously, the recommended method was to change the `values.pilot.traceSampling`
+setting during the mesh setup or to change the `PILOT_TRACE_SAMPLE`
+environment variable in the pilot or istiod deployment.
 While this method to alter sampling continues to work, the following method
 is strongly recommended instead.
 
@@ -196,7 +198,6 @@ You can customize the tags using any of the three supported options below.
 ## Customizing tracing tag length
 
 By default, the maximum length for the request path included as part of the `HttpUrl` span tag is 256.
-
 To modify this maximum length, add the following to your `tracing.yaml` file.
 
 {{< text yaml >}}
