@@ -1,7 +1,7 @@
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
-There are 158 owned istio.io docs.
+There are 159 owned istio.io docs.
 
 ## istio/wg-docs-maintainers: 15 docs
 
@@ -89,7 +89,7 @@ There are 158 owned istio.io docs.
 - [docs/tasks/traffic-management/tcp-traffic-shifting/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/tcp-traffic-shifting)
 - [docs/tasks/traffic-management/traffic-shifting/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/traffic-shifting)
 
-## istio/wg-policies-and-telemetry-maintainers: 32 docs
+## istio/wg-policies-and-telemetry-maintainers: 33 docs
 
 - [docs/concepts/observability/index.md](https://preliminary.istio.io/latest/docs/concepts/observability)
 - [docs/concepts/wasm/index.md](https://preliminary.istio.io/latest/docs/concepts/wasm)
@@ -97,6 +97,7 @@ There are 158 owned istio.io docs.
 - [docs/ops/common-problems/observability-issues/index.md](https://preliminary.istio.io/latest/docs/ops/common-problems/observability-issues)
 - [docs/ops/configuration/telemetry/envoy-stats/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/telemetry/envoy-stats)
 - [docs/ops/configuration/telemetry/monitoring-multicluster-prometheus/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/telemetry/monitoring-multicluster-prometheus)
+- [docs/ops/configuration/telemetry/telemetry-v1-vs-v2/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/telemetry/telemetry-v1-vs-v2)
 - [docs/reference/config/policy-and-telemetry/attribute-vocabulary/index.md](https://preliminary.istio.io/latest/docs/reference/config/policy-and-telemetry/attribute-vocabulary)
 - [docs/reference/config/policy-and-telemetry/expression-language/index.md](https://preliminary.istio.io/latest/docs/reference/config/policy-and-telemetry/expression-language)
 - [docs/reference/config/policy-and-telemetry/metrics/index.md](https://preliminary.istio.io/latest/docs/reference/config/policy-and-telemetry/metrics)
