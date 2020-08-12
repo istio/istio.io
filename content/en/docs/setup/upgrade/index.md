@@ -94,10 +94,18 @@ The output confirms that the pod is using `istiod-canary` revision of the contro
 
 ### Uninstall old control plane
 
-After upgrading both the control plane and data plane, you can uninstall the old control plane. For example, the following command uninstalls a control plane of revision `istio-1-6-5`:
+After upgrading both the control plane and data plane, you can uninstall the old control plane.
+
+To uninstall a control plane of revision `istio-1-6-5`, run:
 
 {{< text bash >}}
 $ istioctl x uninstall --revision istio-1-6-5
+{{< /text >}}
+
+If the old control plane does not have a revision label, uninstall it using its original installation options, for example:
+
+{{< text bash >}}
+$ istioctl x uninstall -f manifests/profiles/default.yaml
 {{< /text >}}
 
 Confirm that the old control plane has been removed and only the new one still exists in the cluster:
@@ -208,9 +216,9 @@ version 1.4.4.
 
 ### Steps to downgrade to a lower Istio version
 
-You can use `istioctl experimental upgrade` to downgrade to a lower version of Istio. Please
+You can use `istioctl upgrade` to downgrade to a lower version of Istio. Please
 notice that you need to use the `istioctl` binary corresponding to the lower
-version (e.g., 1.4.4), and `upgrade` is experimental in 1.4. The process steps are
+version (e.g., 1.6.5). The process steps are
 identical to the upgrade process mentioned in the previous section. When completed,
 the process will restore Istio back to the Istio version that was installed before.
 
