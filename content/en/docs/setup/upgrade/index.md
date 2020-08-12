@@ -23,7 +23,7 @@ and [upgrading from 1.4.x](#upgrading-from-1.4).
 
 ### Control plane
 
-To install a new revision called `canary` or the istio version you would set the `revision` field as follows.  If you use istio version, replace `.` in the version with `-` as `.` is not currently supported as a valid revision value.
+To install a new revision called `canary` or the Istio version you would set the `revision` field as follows. If you use your Istio version, replace `.` in the version with `-` as `.` is not currently supported as a valid revision value.
 
 {{< text bash >}}
 $ istioctl install --set revision=canary
@@ -56,7 +56,7 @@ istio-sidecar-injector-canary   2020-04-28T19:03:26Z
 
 ### Data plane
 
-Unlike istiod, installing the new revision has in place upgraded all the istio gateway pods and services, which are automatically configured to point to the 'istiod-canary' control plane.  To verify that the `istio-ingress` gateway pod are using the `istiod-canary` service corresponding to the `canary` revision, select one newly created `istio-ingress` pod and use the following command:
+Unlike Istiod, installing the new revision has in place upgraded all the Istio gateway pods and services, which are automatically configured to point to the 'istiod-canary' control plane.  To verify that the `istio-ingress` gateway pod are using the `istiod-canary` service corresponding to the `canary` revision, select one newly created `istio-ingress` pod and use the following command:
 
 {{< text bash >}} 
 $ istioctl proxy-config endpoints $(kubectl -n istio-system get  pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}').istio-system --cluster xds-grpc -ojson | grep hostname
