@@ -45,7 +45,7 @@ $ istioctl dashboard zipkin
 
     {{< image link="./istio-tracing-list-zipkin.png" caption="Tracing Dashboard" >}}
 
-1.  Click on the `TRACE ID` to see the details corresponding to the
+1.  Click on the `ISTIO-INGRESSGATEWAY` search result to see the details corresponding to the
     latest request to `/productpage`:
 
     {{< image link="./istio-tracing-details-zipkin.png" caption="Detailed Trace View" >}}
