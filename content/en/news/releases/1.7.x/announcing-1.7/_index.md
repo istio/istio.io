@@ -37,7 +37,7 @@ conversation at [Istio Discuss](https://discuss.istio.io), and you can also join
 our [Slack workspace](https://slack.istio.io).
 
 We were very proud to be called out as one of the top five
-[fastest growing](https://octoverse.github.com/#top-and-trending-projects)
+[fastest growing](https://octoverse.github.com/#fastest-growing-oss-projects-by-contributors)
 open source projects in all of GitHub. Want to get involved? Join one of our
 [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)
 and help us make Istio even better.

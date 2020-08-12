@@ -10,4 +10,5 @@ The notes also mention changes which preserve backwards compatibility while intr
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.6.x.
 
 ## Require Kubernetes 1.16+
+
 Kubernetes 1.16+ is now required for installation.
