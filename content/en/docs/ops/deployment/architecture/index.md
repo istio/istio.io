@@ -54,15 +54,12 @@ for example:
 * Fault injection
 * Rich metrics
 
-This sidecar deployment allows Istio to extract a wealth of signals about traffic behavior as
-[attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes).
-Istio can use these attributes to enforce policy decisions, and send them to monitoring systems
-to provide information about the behavior of the entire mesh.
+This sidecar deployment allows Istio to enforce policy decisions and extract
+rich telemetry which can be sent to monitoring systems to provide information
+about the behavior of the entire mesh.
 
 The sidecar proxy model also allows you to add Istio capabilities to an
-existing deployment with no need to rearchitect or rewrite code. You can read
-more about why we chose this approach in our
-[Design Goals](#design-goals).
+existing deployment without requiring you to rearchitect or rewrite code.
 
 Some of the Istio features and tasks enabled by Envoy proxies include:
 
@@ -100,9 +97,9 @@ Istiod [security](/docs/concepts/security/) enables strong service-to-service an
 end-user authentication with built-in identity and credential management. You
 can use Istio to upgrade unencrypted traffic in the service mesh. Using
 Istio, operators can enforce policies based on service identity rather than
-on relatively unstable layer 3 or layer 4 network identifiers. Starting from
-release 0.5, you can use [Istio's authorization feature](/docs/concepts/security/#authorization)
+on relatively unstable layer 3 or layer 4 network identifiers.
+Additionally, you can use [Istio's authorization feature](/docs/concepts/security/#authorization)
 to control who can access your services.
 
-Istiod maintains a CA and generates certificates to allow secure mTLS communication
-in the data plane.
+Istiod acts as a Certificate Authority (CA) and generates certificates to allow
+secure mTLS communication in the data plane.

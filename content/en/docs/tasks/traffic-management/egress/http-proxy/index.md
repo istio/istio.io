@@ -6,7 +6,7 @@ keywords: [traffic-management,egress]
 aliases:
   - /docs/examples/advanced-gateways/http-proxy/
 owner: istio/wg-networking-maintainers
-test: no
+test: yes
 ---
 The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) example shows how to direct
 traffic to external services from your mesh via an Istio edge component called _Egress Gateway_. However, some
@@ -106,7 +106,7 @@ This example uses [Squid](http://www.squid-cache.org) but you can use any HTTPS 
 1.  Obtain the IP address of the proxy pod and define the `PROXY_IP` environment variable to store it:
 
     {{< text bash >}}
-    $ export PROXY_IP=$(kubectl get pod -n external -l app=squid -o jsonpath={.items..podIP})
+    $ export PROXY_IP="$(kubectl get pod -n external -l app=squid -o jsonpath={.items..podIP})"
     {{< /text >}}
 
 1.  Define the `PROXY_PORT` environment variable to store the port of your proxy. In this case, Squid uses port
@@ -119,14 +119,14 @@ This example uses [Squid](http://www.squid-cache.org) but you can use any HTTPS 
 1.  Send a request from the `sleep` pod in the `external` namespace to an external service via the proxy:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name}) -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
+    $ kubectl exec "$(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name})" -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
 1.  Check the access log of the proxy for your request:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name}) -n external -- tail -f /var/log/squid/access.log
+    $ kubectl exec "$(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name})" -n external -- tail /var/log/squid/access.log
     1544160065.248    228 172.30.109.89 TCP_TUNNEL/200 87633 CONNECT en.wikipedia.org:443 - HIER_DIRECT/91.198.174.192 -
     {{< /text >}}
 
@@ -145,7 +145,7 @@ Next, you must configure the traffic from the Istio-enabled pods to use the HTTP
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1beta1
     kind: ServiceEntry
     metadata:
       name: proxy
@@ -166,21 +166,21 @@ Next, you must configure the traffic from the Istio-enabled pods to use the HTTP
     Istio controls its traffic.
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
+    $ kubectl exec "$SOURCE_POD" -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
 1.  Check the Istio sidecar proxy's logs for your request:
 
     {{< text bash >}}
-    $ kubectl logs $SOURCE_POD -c istio-proxy
+    $ kubectl logs "$SOURCE_POD" -c istio-proxy
     [2018-12-07T10:38:02.841Z] "- - -" 0 - 702 87599 92 - "-" "-" "-" "-" "172.30.109.95:3128" outbound|3128||my-company-proxy.com 172.30.230.52:44478 172.30.109.95:3128 172.30.230.52:44476 -
     {{< /text >}}
 
 1.  Check the access log of the proxy for your request:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name}) -n external -- tail -f /var/log/squid/access.log
+    $ kubectl exec "$(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name})" -n external -- tail /var/log/squid/access.log
     1544160065.248    228 172.30.109.89 TCP_TUNNEL/200 87633 CONNECT en.wikipedia.org:443 - HIER_DIRECT/91.198.174.192 -
     {{< /text >}}
 

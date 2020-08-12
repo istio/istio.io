@@ -8,13 +8,56 @@ test: no
 ---
 
 Istio provides the ability to configure advanced tracing options,
-including sampling rates and span tags. Sampling is a beta feature, but
-custom tags and tracing tag length are considered in-development for this release.
+such as sampling rate and adding custom tags to reported spans.
+Sampling is a beta feature, but adding custom tags and tracing tag length are
+considered in-development for this release.
 
-## Create a `MeshConfig` with trace settings
+## Before you begin
 
-All tracing options are configured by using `MeshConfig` during Istio *installation*.
-To simplify configuration, create a single YAML file to pass to `istioctl`.
+1.  Ensure that your applications propagate tracing headers as described [here](/docs/tasks/observability/distributed-tracing/overview/).
+
+1.  Follow the tracing installation guide located under [Integrations](/docs/ops/integrations/)
+    based on your preferred tracing backend to install the appropriate addon and
+    configure your Istio proxies to send traces to the tracing deployment.
+
+## Available tracing configurations
+
+You can configure the following tracing options in Istio:
+
+1.  Random sampling rate for percentage of requests that will be selected for trace
+    generation.
+
+1.  Maximum length of the request path after which the path will be truncated for
+    reporting. This can be useful in limiting trace data storage specially if you're
+    collecting traces at ingress gateways.
+
+1.  Adding custom tags in spans. These tags can be added based on static literal
+    values, environment values or fields from request headers. This can be used to
+    inject additional information in spans specific to your environment.
+
+There are two ways you can configure tracing options:
+
+1.  Globally via `MeshConfig` options.
+
+1.  Per pod annotations for workload specific customization.
+
+{{< warning >}}
+In order for the new tracing configuration to take effect for either of these
+options you need to restart pods injected with Istio proxies.
+{{< /warning >}}
+
+Note that any pod annotations added for tracing configuration overrides global settings.
+In order to preserve any global settings you should copy them from
+global mesh config to pod annotations along with workload specific
+customization. In particular, make sure that the tracing backend address is
+always provided in the annotations to ensure that the traces are reported
+correctly for the workload.
+
+### Using `MeshConfig` for trace settings
+
+All tracing options can be configured globally via `MeshConfig`.
+To simplify configuration, it is recommended to create a single YAML file
+which you can pass to the `istioctl install -f` command.
 
 {{< text yaml >}}
 cat <<'EOF' > tracing.yaml
@@ -24,19 +67,20 @@ spec:
   meshConfig:
     defaultConfig:
       tracing:
+        sampling: 10
+        custom_tags:
+          my_tag_header:
+            header:
+              name: host
 EOF
 {{< /text >}}
 
-Then, you can append any configuration options to the `tracing.yaml` file.
+### Using `proxy.istio.io/config` annotation for trace settings
 
-## Add `proxy.istio.io/config` annotation to your Pod metadata specification
-
-There are occasions where you may wish to override the mesh-wide configuration for a Pod-specific
-setting. By adding the `proxy.istio.io/config` annotation to your Pod metadata
-specification you can override any mesh-wide tracing settings.
-
-For instance, to modify the `sleep` deployment shipped with Istio you would add the following
-to `samples/sleep/sleep.yaml`:
+You can add the `proxy.istio.io/config` annotation to your Pod metadata
+specification to override any mesh-wide tracing settings.
+For instance, to modify the `sleep` deployment shipped with Istio you would add
+the following to `samples/sleep/sleep.yaml`:
 
 {{< text yaml >}}
 apiVersion: apps/v1
@@ -50,34 +94,34 @@ spec:
       ...
       proxy.istio.io/config: |
         tracing:
-          ...                            # custom tracing definition
+          sampling: 10
+          custom_tags:
+            my_tag_header:
+              header:
+                name: host
     spec:
       ...
 {{< /text >}}
 
-You can then append any of the settings specified below, to change the tracing configuration
-for this Pod specification.
+## Customizing Trace sampling
 
-## Trace sampling
-
-Istio captures a trace for all requests by default when installing with the demo profile.
-For example, when using the Bookinfo sample application, every time you access
-`/productpage` you see a corresponding trace in the
-[dashboard](../jaeger/). This sampling rate is suitable for a test or low traffic
-mesh. For a high traffic mesh you can lower the trace sampling
-percentage in one of two ways:
+The sampling rate option can be used to control what percentage of requests get
+reported to your tracing system. This should be configured depending upon your
+traffic in the mesh and the amount of tracing data you want to collect.
+The default rate is 1%.
 
 {{< warning >}}
-Previously, the recommended method was to change the `values.pilot.traceSampling` setting during the mesh setup
-or to change the `PILOT_TRACE_SAMPLE` environment variable in the pilot or istiod deployment.
+Previously, the recommended method was to change the `values.pilot.traceSampling`
+setting during the mesh setup or to change the `PILOT_TRACE_SAMPLE`
+environment variable in the pilot or istiod deployment.
 While this method to alter sampling continues to work, the following method
 is strongly recommended instead.
 
 In the event that both are specified, the value specified in the `MeshConfig` will override any other setting.
 {{< /warning >}}
 
-To modify the default random sampling, which is defaulted to a value of 100 in the demo profile
-and 1 for the default profile, add the following to your `tracing.yaml` file.
+To modify the default random sampling to 50, add the following option to your
+`tracing.yaml` file.
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -86,81 +130,81 @@ spec:
   meshConfig:
     defaultConfig:
       tracing:
-        sampling: <VALUE>
+        sampling: 50
 {{< /text >}}
 
-Where the `<VALUE>` should be in the range of 0.0 to 100.0 with a precision of 0.01.
+The sampling rate should be in the range of 0.0 to 100.0 with a precision of 0.01.
 For example, to trace 5 requests out of every 10000, use 0.05 as the value here.
 
 ## Customizing tracing tags
 
-The ability to add custom tracing tags to spans has also been implemented.
-
-Tags can be added to spans based on literals, environmental variables and
-client request headers.
+Custom tags can be added to spans based on literals, environmental variables and
+client request headers in order to provide additional information in spans
+specific to your environment.
 
 {{< warning >}}
 There is no limit on the number of custom tags that you can add, but tag names must be unique.
 {{< /warning >}}
 
-To add custom tags to your spans, add the following to your `tracing.yaml` file.
+You can customize the tags using any of the three supported options below.
 
-Literals:
+1.  Literal represents a static value that gets added to each span.
 
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    defaultConfig:
-      tracing:
-        custom_tags:
-          tag_literal:                   # user-defined name
-            literal:
-              value: <VALUE>
-{{< /text >}}
+    {{< text yaml >}}
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      meshConfig:
+        defaultConfig:
+          tracing:
+            custom_tags:
+              my_tag_literal:
+                literal:
+                  value: <VALUE>
+    {{< /text >}}
 
-Environmental variables:
+1.  Environmental variables can be used where the value of the custom tag is
+    populated from a workload proxy environment variable.
 
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    defaultConfig:
-      tracing:
-        custom_tags:
-          tag_env:                       # user-defined name
-            environment:
-              name: <ENV_VARIABLE_NAME>
-              defaultValue: <VALUE>      # optional
-{{< /text >}}
+    {{< text yaml >}}
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      meshConfig:
+        defaultConfig:
+          tracing:
+            custom_tags:
+              my_tag_env:
+                environment:
+                  name: <ENV_VARIABLE_NAME>
+                  defaultValue: <VALUE>      # optional
+    {{< /text >}}
 
-{{< warning >}}
-In order to add custom tags based on environmental variables, you must
-modify the `istio-sidecar-injector` ConfigMap in your root Istio system namespace.
-{{< /warning >}}
+    {{< warning >}}
+    In order to add custom tags based on environmental variables, you must
+    modify the `istio-sidecar-injector` ConfigMap in your root Istio system namespace.
+    {{< /warning >}}
 
-Client request headers:
+1.  Client request header option can be used to populate tag value from an
+    incoming client request header.
 
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    defaultConfig:
-      tracing:
-        custom_tags:
-          tag_header:                    # user-defined name
-            header:
-              name: <CLIENT-HEADER>
-              defaultValue: <VALUE>      # optional
-{{< /text >}}
+    {{< text yaml >}}
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      meshConfig:
+        defaultConfig:
+          tracing:
+            custom_tags:
+              my_tag_header:
+                header:
+                  name: <CLIENT-HEADER>
+                  defaultValue: <VALUE>      # optional
+    {{< /text >}}
 
 ## Customizing tracing tag length
 
 By default, the maximum length for the request path included as part of the `HttpUrl` span tag is 256.
-
 To modify this maximum length, add the following to your `tracing.yaml` file.
 
 {{< text yaml >}}
