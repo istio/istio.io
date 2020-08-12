@@ -56,7 +56,7 @@ istio-sidecar-injector-canary   2020-04-28T19:03:26Z
 
 ### Data plane
 
-Installing the new revision has in place upgraded the istio-ingress gateway pod and service, which are automatically configured to point to the 'istiod-canary' control plane.
+Installing the new revision has in place upgraded all the istio gateway pods and services, which are automatically configured to point to the 'istiod-canary' control plane.  The command below shows the istio-ingress gateway pod is updated without an extra canary pod.
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system -l app=istio-ingressgateway
