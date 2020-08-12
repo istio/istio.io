@@ -75,6 +75,8 @@ accurate.
 - **Added** `istioctl x uninstall` command to uninstall Istio control plane.
  ([Issue #24360](https://github.com/istio/istio/issues/24360))
 
+-  **Added** `istioctl analyze` now warns if DestinationRule is not using CaCertificates to validate server identity.
+
 - **Improved** `istioctl validate` to check for unknown fields in resources.
  ([Issue #24861](https://github.com/istio/istio/issues/24861))
 
