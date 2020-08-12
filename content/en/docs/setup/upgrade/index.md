@@ -153,13 +153,6 @@ can be found in the `bin/` subdirectory of the downloaded package.
 1. [Download the new Istio release](/docs/setup/getting-started/#download)
    and change directory to the new release directory.
 
-1. Verify that `istoctl` supports upgrading from your current Istio version by
-   viewing the supported versions list:
-
-    {{< text bash >}}
-    $ istioctl manifest versions
-    {{< /text >}}
-
 1. Ensure that your Kubernetes configuration points to the cluster to upgrade:
 
     {{< text bash >}}
