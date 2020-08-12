@@ -4814,8 +4814,10 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpe
 		you specified when you installed Istio. It loops through all the installation
 		resources defined in your installation file and reports whether all of them are
 		in ready status. It will report failure when any of them are not ready.</p>
-<p>		If you do not specify installation file it will perform pre-check for your cluster
-		and report whether the cluster is ready for Istio installation.
+<p>		If you do not specify an installation it will check for an IstioOperator resource
+		and will verify if pods and services defined in it are present.</p>
+<p>		Note: For verifying whether your cluster is ready for Istio installation, see
+		istioctl experimental precheck.
 </p>
 <pre class="language-bash"><code>istioctl verify-install [-f &lt;deployment or istio operator file&gt;] [--revision &lt;revision&gt;] [flags]
 </code></pre>
@@ -4880,7 +4882,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/
 </table>
 <h3 id="istioctl-verify-install Examples">Examples</h3>
 <pre class="language-bash"><code>
-		# Verify that Istio can be freshly installed
+		# Verify that Istio is installed correctly via Istio Operator
 		istioctl verify-install
 
 		# Verify the deployment matches a custom Istio deployment configuration
