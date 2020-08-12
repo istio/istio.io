@@ -58,12 +58,6 @@ istio-sidecar-injector-{{< istio_full_version >}}   2020-04-28T19:03:26Z
 
 Unlike istiod, installing the new revision has in place upgraded all the istio gateway pods and services, which are automatically configured to point to the 'istiod-canary' control plane.  The command below shows the istio-ingress gateway pod is updated without an extra canary pod.
 
-{{< text bash >}}
-$ kubectl get pods -n istio-system -l app=istio-ingressgateway
-NAME                                    READY   STATUS    RESTARTS   AGE
-istio-ingressgateway-7bf8767888-9cchz   1/1     Running   0          8m30s
-{{< /text >}}
-
 However, simply installing the new revision has no impact on the existing sidecar proxies. To upgrade these,
 you must configure them to point to the new `istiod-{{< istio_full_version >}}` control plane. This is controlled during sidecar injection
 based on the namespace label `istio.io/rev`.
