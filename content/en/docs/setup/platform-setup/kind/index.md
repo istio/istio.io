@@ -4,6 +4,7 @@ description: Instructions to setup kind for Istio.
 weight: 30
 skip_seealso: true
 keywords: [platform-setup,kubernetes,kind]
+owner: istio/wg-environments-maintainers
 test: no
 ---
 
@@ -74,7 +75,7 @@ Follow these instructions to setup Dashboard for kind.
 1.  To deploy Dashboard, run the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
     {{< /text >}}
 
 1.  Verify that Dashboard is deployed and running.

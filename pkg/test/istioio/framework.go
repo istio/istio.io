@@ -56,6 +56,14 @@ var (
 		source "tests/util/helpers.sh"
 	`
 
+	clusterSnapshot = `
+		__cluster_snapshot
+	`
+
+	clusterCleanupCheck = `
+		__cluster_cleanup_check
+	`
+
 	snipsFileSuffix = "snips.sh"
 	testFileSuffix  = "test.sh"
 
@@ -146,6 +154,10 @@ func checkFile(path string) (*TestCase, error) {
 	}
 	config := setups[0][1]
 
+	// Check for proper test cleanup
+	testScript = clusterSnapshot + testScript
+	cleanupScript += clusterCleanupCheck
+
 	testCase = &TestCase{
 		valid:         true,
 		path:          shortPath,
@@ -230,7 +242,7 @@ func getHelperScript(testPath string) string {
 
 // getDebugFileName returns the name of the debug file which keeps the bash
 // tracing enabled by util/debug.sh. It receives `testPath`, the path of the
-// test script`, and a suffix to tell different output files apart.
+// test script, and a suffix to tell different output files apart.
 func getDebugFileName(testPath string, debugFileSuffix string) string {
 	fileName := strings.ReplaceAll(testPath, testFileSuffix, debugFileSuffix)
 	fileName = strings.ReplaceAll(fileName, "/", "_")

@@ -8,13 +8,15 @@ aliases:
     - /docs/tasks/multicluster/gateways/
     - /docs/setup/kubernetes/install/multicluster/gateways/
 keywords: [kubernetes,multicluster,gateway]
+owner: istio/wg-environments-maintainers
 test: no
 ---
 
 Follow this guide to install an Istio
 [multicluster deployment](/docs/ops/deployment/deployment-models/#multiple-clusters)
-with replicated [control plane](/docs/ops/deployment/deployment-models/#control-plane-models) instances
-in every cluster and using gateways to connect services across clusters.
+using multiple {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}},
+each with its own replicated [control plane](/docs/ops/deployment/deployment-models/#control-plane-models),
+and using gateways to connect services across clusters.
 
 Instead of using a shared Istio control plane to manage the mesh,
 in this configuration each cluster has its own Istio control plane
@@ -105,13 +107,13 @@ To provide a similar setup for services from remote clusters, you name
 services from remote clusters in the format
 `<name>.<namespace>.global`. Istio also ships with a CoreDNS server that
 will provide DNS resolution for these services. In order to utilize this
-DNS, Kubernetes' DNS must be configured to `stub a domain` for `.global`.
+DNS, Kubernetes' DNS must be configured to *stub a domain* for `.global`.
 
 {{< warning >}}
-Some cloud providers have different specific `DNS domain stub` capabilities
+Some cloud providers have different specific DNS domain stub capabilities
 and procedures for their Kubernetes services.  Reference the cloud provider's
-documentation to determine how to `stub DNS domains` for each unique
-environment.  The objective of this bash is to stub a domain for `.global` on
+documentation to determine how to stub DNS domains for each unique
+environment.  The objective here is to stub a domain for `.global` on
 port `53` to reference or proxy the `istiocoredns` service in Istio's service
 namespace.
 {{< /warning >}}

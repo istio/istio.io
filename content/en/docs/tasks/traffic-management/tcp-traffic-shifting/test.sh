@@ -21,17 +21,7 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
-# @setup profile=default
-
-# TODO: why is the following needed in the test if it's not a needed step in the doc?
-# add the TCP port to the ingress-gateway
-kubectl -n istio-system patch service istio-ingressgateway --patch "
-spec:
-  ports:
-    - port: 31400
-      targetPort: 31400
-      name: tcp
-"
+# @setup profile=demo
 
 # create a new namespace for testing purposes and enable automatic Istio sidecar injection
 snip_set_up_the_test_environment_1
@@ -53,6 +43,11 @@ _set_ingress_environment_variables
 # Route all traffic to echo v1
 snip_apply_weightbased_tcp_routing_1
 
+# wait for rules to propagate
+_wait_for_istio gateway istio-io-tcp-traffic-shifting tcp-echo-gateway
+_wait_for_istio destinationrule istio-io-tcp-traffic-shifting tcp-echo-destination
+_wait_for_istio virtualservice istio-io-tcp-traffic-shifting tcp-echo
+
 _verify_lines snip_apply_weightbased_tcp_routing_2 "
 + one
 - two
@@ -61,7 +56,7 @@ _verify_lines snip_apply_weightbased_tcp_routing_2 "
 snip_apply_weightbased_tcp_routing_3
 
 # wait for rules to propagate
-sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
+_wait_for_istio virtualservice istio-io-tcp-traffic-shifting tcp-echo
 
 _verify_elided snip_apply_weightbased_tcp_routing_4 "$snip_apply_weightbased_tcp_routing_4_out"
 
@@ -73,4 +68,3 @@ _verify_lines snip_apply_weightbased_tcp_routing_5 "
 # @cleanup
 set +e # ignore cleanup errors
 snip_cleanup_1
-cleanup_sleep_sample

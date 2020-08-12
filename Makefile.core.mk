@@ -66,7 +66,7 @@ baseurl := "$(URL)"
 endif
 
 # Which branch of the Istio source code do we fetch stuff from
-SOURCE_BRANCH_NAME ?= master
+SOURCE_BRANCH_NAME ?= release-1.7
 
 site:
 	@scripts/gen_site.sh
@@ -74,7 +74,10 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
-gen: snips tidy-go
+doc-owners:
+	@scripts/doc_owners.sh
+
+gen: snips doc-owners tidy-go
 
 gen-check: gen check-clean-repo
 
@@ -93,7 +96,7 @@ opt:
 	@scripts/opt_site.sh
 
 clean:
-	@rm -fr resources .htmlproofer tmp generated public out samples install go tests/integration/
+	@rm -fr resources .htmlproofer tmp generated public out samples install go tests/integration/ manifests
 
 lint: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@scripts/lint_site.sh
@@ -106,7 +109,7 @@ lint-fast: clean_public build_nominify lint-copyright-banner lint-python lint-ya
 
 serve: site
 	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/latest/" --bind 0.0.0.0 --disableFastRender
-	
+
 archive-version:
 	@scripts/archive_version.sh
 
@@ -138,6 +141,22 @@ update_all: update_ref_docs update_examples
 
 foo2:
 	hugo version
+
+# Release related targets
+export ISTIOIO_GIT_SOURCE := https://github.com/istio/istio.io.git
+export MASTER := master
+
+prepare-%:
+	@scripts/prepare_release.sh $@
+
+release-%-dry-run:
+	@DRY_RUN=1 scripts/create_version.sh $(subst -dry-run,,$@)
+
+release-%:
+	@scripts/create_version.sh $@
+
+build-old-archive-%:
+	@scripts/build_old_archive.sh $@
 
 # The init recipe was split into two recipes to solve an issue seen in prow
 # where paralyzation is happening and some tasks in a recipe were occuring out

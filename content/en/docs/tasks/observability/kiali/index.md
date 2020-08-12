@@ -5,6 +5,7 @@ weight: 49
 keywords: [telemetry,visualization]
 aliases:
  - /docs/tasks/telemetry/kiali/
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
@@ -13,113 +14,19 @@ This task shows you how to visualize different aspects of your Istio mesh.
 As part of this task, you install the [Kiali](https://www.kiali.io) add-on
 and use the web-based graphical user interface to view service graphs of
 the mesh and your Istio configuration objects. Lastly, you use the Kiali
-Public API to generate graph data in the form of consumable JSON.
+Developer API to generate graph data in the form of consumable JSON.
 
 {{< idea >}}
 This task does not cover all of the features provided by Kiali.
 To learn about the full set of features it supports,
-see the [Kiali website](http://kiali.io/documentation/features/).
+see the [Kiali website](http://kiali.io/documentation/latest/features/).
 {{< /idea >}}
 
 This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as the example throughout.
 
 ## Before you begin
 
-{{< tip >}}
-The following instructions assume you have installed `istioctl` and will use it to install Kiali.
-To install Kiali without `istioctl`, follow the [Kiali installation instructions](https://kiali.io/documentation/latest/getting-started/).
-{{< /tip >}}
-
-### Create a secret
-
-{{< tip >}}
-If you plan on installing Kiali using the Istio demo profile as described in the [Istio Quick Start Installation Steps](/docs/setup/getting-started/) then a default secret will be created for you with a username of `admin` and passphrase of `admin`. You can therefore skip this section.
-{{< /tip >}}
-
-Create a secret in your Istio namespace with the credentials that you use to
-authenticate to Kiali.
-
-First, define the credentials you want to use as the Kiali username and passphrase.
-
-Enter a Kiali username when prompted:
-
-{{< text bash >}}
-$ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo -n $uval | base64)
-{{< /text >}}
-
-Enter a Kiali passphrase when prompted:
-
-{{< text bash >}}
-$ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo -n $pval | base64)
-{{< /text >}}
-
-If you are using the Z Shell, `zsh`, use the following to define the credentials:
-
-{{< text bash >}}
-$ KIALI_USERNAME=$(read '?Kiali Username: ' uval && echo -n $uval | base64)
-$ KIALI_PASSPHRASE=$(read -s "?Kiali Passphrase: " pval && echo -n $pval | base64)
-{{< /text >}}
-
-To create a secret, run the following commands:
-
-{{< text bash >}}
-$ NAMESPACE=istio-system
-$ kubectl create namespace $NAMESPACE
-{{< /text >}}
-
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: Secret
-metadata:
-  name: kiali
-  namespace: $NAMESPACE
-  labels:
-    app: kiali
-type: Opaque
-data:
-  username: $KIALI_USERNAME
-  passphrase: $KIALI_PASSPHRASE
-EOF
-{{< /text >}}
-
-### Install via `istioctl`
-
-Once you create the Kiali secret, follow
-[the install instructions](/docs/setup/install/istioctl/) to install Kiali via `istioctl`.
-For example:
-
-{{< text bash >}}
-$ istioctl install --set values.kiali.enabled=true
-{{< /text >}}
-
-{{< idea >}}
-This task does not discuss Jaeger and Grafana. If
-you already installed them in your cluster and you want to see how Kiali
-integrates with them, you must pass additional arguments to the
-`istioctl` command, for example:
-
-{{< text bash >}}
-$ istioctl install \
-    --set values.kiali.enabled=true \
-    --set "values.kiali.dashboard.jaegerURL=http://jaeger-query:16686" \
-    --set "values.kiali.dashboard.grafanaURL=http://grafana:3000"
-{{< /text >}}
-
-{{< /idea >}}
-
-Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
-
-### Running on OpenShift
-
-When Kiali runs on OpenShift it needs access to some OpenShift specific resources in order to function properly,
-which can be done using the following commands after Kiali has been installed:
-
-{{< text bash >}}
-$ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiGroups":["apps.openshift.io"], "resources":["deploymentconfigs"],"verbs": ["get", "list", "watch"]}}]' --type json
-$ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiGroups":["project.openshift.io"], "resources":["projects"],"verbs": ["get"]}}]' --type json
-$ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiGroups":["route.openshift.io"], "resources":["routes"],"verbs": ["get"]}}]' --type json
-{{< /text >}}
+Follow the [Kiali installation](/docs/ops/integrations/kiali/#installation) documentation to deploy Kiali into your cluster.
 
 ## Generating a service graph
 
@@ -152,8 +59,6 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
     {{< text bash >}}
     $ istioctl dashboard kiali
     {{< /text >}}
-
-1.  To log into the Kiali UI, go to the Kiali login screen and enter the username and passphrase stored in the Kiali secret.
 
 1.  View the overview of your mesh in the **Overview** page that appears immediately after you log in.
     The **Overview** page displays all the namespaces that have services in your mesh.
@@ -346,20 +251,28 @@ when it detects incorrect configurations.
     $ kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml
     {{< /text >}}
 
-## About the Kiali Public API
+## About the Kiali Developer API
 
 To generate JSON files representing the graphs and other metrics, health, and
 configuration information, you can access the
-[Kiali Public API](https://www.kiali.io/api).
+[Kiali Developer API](https://www.kiali.io/api).
 For example, point your browser to `$KIALI_URL/api/namespaces/graph?namespaces=bookinfo&graphType=app`
 to get the JSON representation of your graph using the `app` graph type.
 
-The Kiali Public API is built on top of Prometheus queries and depends on the
+The Kiali Developer API is built on top of Prometheus queries and depends on the
 standard Istio metric configuration.  It also makes Kubernetes API calls to
 obtain additional details about your services. For the best experience using
 Kiali, use the metadata labels `app` and `version` on your application
 components. As a template, the Bookinfo sample application follows this
 convention.
+
+Please note the Kiali Developer API can change from version to version with no guarantee of backward compatibility.
+
+## Additional Features
+
+Kiali has more features than reviewed in this task, such as an [integration with Jaeger tracing](https://kiali.io/documentation/latest/features/#_detail_traces).
+
+For more details on these additional features, see the [Kiali documentation](https://kiali.io/documentation/latest/features/).
 
 ## Cleanup
 

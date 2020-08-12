@@ -5,6 +5,7 @@ weight: 40
 keywords: [security,authentication,migration]
 aliases:
     - /docs/tasks/security/mtls-migration/
+owner: istio/wg-security-maintainers
 test: yes
 ---
 
@@ -116,7 +117,7 @@ If you installed Istio with `values.global.proxy.privileged=true`, you can use `
 traffic is encrypted or not.
 
 {{< text bash >}}
-$ kubectl exec -nfoo "$(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name})" -c istio-proxy -it -- sudo tcpdump dst port 80  -A
+$ kubectl exec -nfoo "$(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name})" -c istio-proxy -- sudo tcpdump dst port 80  -A
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 {{< /text >}}

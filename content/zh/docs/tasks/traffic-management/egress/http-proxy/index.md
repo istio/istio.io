@@ -59,6 +59,9 @@ aliases:
       namespace: external
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: squid
       template:
         metadata:
           labels:

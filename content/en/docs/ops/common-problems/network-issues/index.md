@@ -7,6 +7,7 @@ aliases:
   - /help/ops/traffic-management/troubleshooting
   - /help/ops/troubleshooting/network-issues
   - /docs/ops/troubleshooting/network-issues
+owner: istio/wg-networking-maintainers
 test: no
 ---
 

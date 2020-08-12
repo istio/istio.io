@@ -6,6 +6,7 @@ keywords: [telemetry]
 aliases:
     - /docs/tasks/telemetry/access-log
     - /docs/tasks/telemetry/logs/access-log/
+owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
@@ -54,7 +55,7 @@ All three of these parameters may also be configured via [install options](https
 1.  Send a request from `sleep` to `httpbin`:
 
     {{< text bash >}}
-    $ kubectl exec -it "$SOURCE_POD" -c sleep -- curl -v httpbin:8000/status/418
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -v httpbin:8000/status/418
     ...
     < HTTP/1.1 418 Unknown
     < server: envoy
@@ -68,7 +69,6 @@ All three of these parameters may also be configured via [install options](https
           |       ;/
           \_     _/
             `"""`
-    ...
     {{< /text >}}
 
 1.  Check `sleep`'s log:
@@ -106,17 +106,9 @@ In the example below, replace `demo` with the name of the profile you used when 
 
 {{< text bash >}}
 $ istioctl install --set profile=demo
-- Applying manifest for component Base...
-✔ Finished applying manifest for component Base.
-- Applying manifest for component Pilot...
-✔ Finished applying manifest for component Pilot.
-- Applying manifest for component EgressGateways...
-- Applying manifest for component IngressGateways...
-- Applying manifest for component AddonComponents...
-✔ Finished applying manifest for component EgressGateways.
-✔ Finished applying manifest for component IngressGateways.
-✔ Finished applying manifest for component AddonComponents.
-
-
+✔ Istio core installed
+✔ Istiod installed
+✔ Egress gateways installed
+✔ Ingress gateways installed
 ✔ Installation complete
 {{< /text >}}

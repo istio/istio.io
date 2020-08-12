@@ -8,7 +8,8 @@ aliases:
     - /docs/tasks/telemetry/metrics-logs/
     - /docs/tasks/telemetry/metrics/collecting-metrics/
     - /docs/tasks/observability/metrics/collecting-metrics/
-test: no
+owner: istio/wg-policies-and-telemetry-maintainers
+test: n/a
 ---
 
 {{< warning >}}

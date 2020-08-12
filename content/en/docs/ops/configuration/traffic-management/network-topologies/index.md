@@ -3,6 +3,7 @@ title: Configuring Gateway Network Topology (Development)
 description: How to configure gateway network topology (Development).
 weight: 60
 keywords: [traffic-management,ingress,gateway]
+owner: istio/wg-networking-maintainers
 test: no
 ---
 

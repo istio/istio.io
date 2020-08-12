@@ -5,6 +5,7 @@ weight: 98
 keywords: [telemetry,gateway,jaeger,zipkin,tracing,kiali,prometheus,addons]
 aliases:
  - /docs/tasks/telemetry/gateways/
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
@@ -22,12 +23,7 @@ For both options, first follow these steps:
 
 1. [Install Istio](/docs/setup/install/istioctl) in your cluster.
 
-    To additionally install the telemetry addons, use the following installation options:
-
-    * Grafana: `--set values.grafana.enabled=true`
-    * Kiali: `--set values.kiali.enabled=true`
-    * Prometheus: `--set values.prometheus.enabled=true`
-    * Tracing: `--set values.tracing.enabled=true`
+    To additionally install the telemetry addons, follow the [integrations](/docs/ops/integrations/) documentation.
 
 1. Set up the domain to expose addons. In this example, you expose each addon on a subdomain, such as `grafana.example.com`.
 
@@ -61,7 +57,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
 {{< text bash >}}
 $ CERT_DIR=/tmp/certs
 $ mkdir -p ${CERT_DIR}
-$ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=*.${INGRESS_DOMAIN}' -keyout ${CERT_DIR}/ca.key -out ${CERT_DIR}/ca.crt
+$ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj "/O=example Inc./CN=*.${INGRESS_DOMAIN}" -keyout ${CERT_DIR}/ca.key -out ${CERT_DIR}/ca.crt
 $ openssl req -out ${CERT_DIR}/cert.csr -newkey rsa:2048 -nodes -keyout ${CERT_DIR}/tls.key -subj "/CN=*.${INGRESS_DOMAIN}/O=example organization"
 $ openssl x509 -req -days 365 -CA ${CERT_DIR}/ca.crt -CAkey ${CERT_DIR}/ca.key -set_serial 0 -in ${CERT_DIR}/cert.csr -out ${CERT_DIR}/tls.crt
 $ kubectl create -n istio-system secret tls telemetry-gw-cert --key=${CERT_DIR}/tls.key --cert=${CERT_DIR}/tls.crt

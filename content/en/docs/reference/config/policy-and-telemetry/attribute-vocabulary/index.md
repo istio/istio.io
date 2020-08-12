@@ -5,6 +5,7 @@ weight: 10
 aliases:
     - /docs/reference/config/mixer/attribute-vocabulary.html
     - /docs/reference/config/mixer/aspects/attributes.html
+owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 

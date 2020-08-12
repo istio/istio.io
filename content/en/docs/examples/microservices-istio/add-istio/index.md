@@ -4,6 +4,7 @@ overview: Deploy the Istio control plane and enable Istio on a single microservi
 
 weight: 60
 
+owner: istio/wg-docs-maintainers
 test: no
 ---
 

@@ -24,10 +24,13 @@ source "tests/util/samples.sh"
 # @setup profile=demo
 
 # Install Istio with access logging enabled
-_verify_elided snip_enable_envoys_access_logging_1 "$snip_enable_envoys_access_logging_1_out"
 
-# Wait for istiod pod to be ready
-_wait_for_deployment istio-system istiod
+#_verify_elided snip_enable_envoys_access_logging_1 "$snip_enable_envoys_access_logging_1_out"
+# TODO: verify install and wait for output ??? Don't call function multiple times.
+#snip_enable_envoys_access_logging_1
+#_wait_for_deployment istio-system istiod
+# TODO: above snip does not seem to be needed, access logging is already enabled by default?
+# TODO: also, running the above snip causes failure in following test (egress/egress-gateway-tls-origination/tls_test.sh)
 
 kubectl label namespace default istio-injection=enabled --overwrite
 
@@ -39,8 +42,7 @@ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadat
 startup_httpbin_sample
 
 # Make curl request to httpbin
-#TODO _verify_elided snip_test_the_access_log_1 "$snip_test_the_access_log_1_out"
-_verify_contains snip_test_the_access_log_1 "-=[ teapot ]=-"
+_verify_elided snip_test_the_access_log_1 "$snip_test_the_access_log_1_out"
 
 # Check the logs
 _verify_contains snip_test_the_access_log_2 "outbound|8000||httpbin.default.svc.cluster.local"
@@ -49,4 +51,5 @@ _verify_contains snip_test_the_access_log_3 "inbound|8000|http|httpbin.default.s
 # @cleanup
 set +e # ignore cleanup errors
 snip_cleanup_1
-snip_disable_envoys_access_logging_1
+#snip_disable_envoys_access_logging_1
+#_wait_for_deployment istio-system istiod

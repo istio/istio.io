@@ -44,8 +44,9 @@ snip_configure_a_tls_ingress_gateway_for_a_single_host_2
 # deploying httpbin virtual service
 snip_configure_a_tls_ingress_gateway_for_a_single_host_3
 
-# waiting for httpbin deployment to start
-_wait_for_deployment default httpbin
+# wait for config to propagate
+_wait_for_istio gateway default mygateway
+_wait_for_istio virtualservice default httpbin
 
 # verifying httpbin deployment
 _verify_lines snip_configure_a_tls_ingress_gateway_for_a_single_host_4 "
@@ -57,14 +58,10 @@ _verify_lines snip_configure_a_tls_ingress_gateway_for_a_single_host_4 "
 snip_configure_a_tls_ingress_gateway_for_a_single_host_5
 snip_configure_a_tls_ingress_gateway_for_a_single_host_6
 
-# wait for the change to propagate
-sleep 5s
+# TODO: wait for the secret change to propagate
 
 # verifying new httpbin credentials
-_verify_lines snip_configure_a_tls_ingress_gateway_for_a_single_host_7 "
-+ HTTP/2 418
-+ -=[ teapot ]=-
-"
+_verify_elided snip_configure_a_tls_ingress_gateway_for_a_single_host_7 "$snip_configure_a_tls_ingress_gateway_for_a_single_host_7_out"
 
 # verifying old httpbin credentials no longer work
 _verify_failure snip_configure_a_tls_ingress_gateway_for_a_single_host_8
@@ -86,30 +83,25 @@ snip_configure_a_tls_ingress_gateway_for_multiple_hosts_5
 snip_configure_a_tls_ingress_gateway_for_multiple_hosts_6
 
 # waiting for configuration to propagate
-sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
+_wait_for_istio gateway default mygateway
+_wait_for_istio virtualservice default helloworld-v1
 
 _verify_contains snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7 "$snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7_out"
 
-_verify_lines snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8 "
-+ HTTP/2 418
-+ -=[ teapot ]=-
-"
+_verify_elided snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8 "$snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8_out"
 
 snip_configure_a_mutual_tls_ingress_gateway_1
 
 snip_configure_a_mutual_tls_ingress_gateway_2
 
 # wait for the change to propagate
-sleep 5s
+_wait_for_istio gateway default mygateway
 
 _verify_failure snip_configure_a_mutual_tls_ingress_gateway_3
 
 snip_configure_a_mutual_tls_ingress_gateway_4
 
-_verify_lines snip_configure_a_mutual_tls_ingress_gateway_5 "
-+ HTTP/2 418
-+ -=[ teapot ]=-
-"
+_verify_elided snip_configure_a_mutual_tls_ingress_gateway_5 "$snip_configure_a_mutual_tls_ingress_gateway_5_out"
 
 # @cleanup
 set +e # ignore cleanup errors

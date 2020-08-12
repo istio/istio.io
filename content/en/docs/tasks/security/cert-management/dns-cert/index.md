@@ -5,6 +5,7 @@ weight: 90
 keywords: [security,certificate]
 aliases:
     - /docs/tasks/security/dns-cert/
+owner: istio/wg-security-maintainers
 test: yes
 ---
 

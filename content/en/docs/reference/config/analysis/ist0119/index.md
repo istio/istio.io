@@ -1,6 +1,7 @@
 ---
 title: JwtFailureDueToInvalidServicePortPrefix
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
 test: no
 ---
 

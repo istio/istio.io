@@ -56,14 +56,19 @@ gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_IN
 }
 
 snip_determining_the_ingress_ip_and_ports_7() {
-export INGRESS_HOST=$(minikube ip)
+ibmcloud ks workers --cluster cluster-name-or-id
+export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
 }
 
 snip_determining_the_ingress_ip_and_ports_8() {
-export INGRESS_HOST=127.0.0.1
+export INGRESS_HOST=$(minikube ip)
 }
 
 snip_determining_the_ingress_ip_and_ports_9() {
+export INGRESS_HOST=127.0.0.1
+}
+
+snip_determining_the_ingress_ip_and_ports_10() {
 export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
 }
 
@@ -117,13 +122,8 @@ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status
 
 ! read -r -d '' snip_configuring_ingress_using_an_istio_gateway_3_out <<\ENDSNIP
 HTTP/1.1 200 OK
-server: envoy
-date: Mon, 29 Jan 2018 04:45:49 GMT
-content-type: text/html; charset=utf-8
-access-control-allow-origin: *
-access-control-allow-credentials: true
-content-length: 0
-x-envoy-upstream-service-time: 48
+server: istio-envoy
+...
 ENDSNIP
 
 snip_configuring_ingress_using_an_istio_gateway_4() {
@@ -132,9 +132,7 @@ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/header
 
 ! read -r -d '' snip_configuring_ingress_using_an_istio_gateway_4_out <<\ENDSNIP
 HTTP/1.1 404 Not Found
-date: Mon, 29 Jan 2018 04:45:49 GMT
-server: envoy
-content-length: 0
+...
 ENDSNIP
 
 snip_accessing_ingress_services_using_a_browser_1() {

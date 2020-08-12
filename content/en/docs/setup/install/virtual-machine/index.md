@@ -1,12 +1,13 @@
 ---
 title: Virtual Machine Installation
-description: Deploy istio and connect a workload running within a virtual machine to it.
+description: Deploy Istio and connect a workload running within a virtual machine to it.
 weight: 40
 keywords:
 - kubernetes
 - virtual-machine
 - gateways
 - vms
+owner: istio/wg-environments-maintainers
 test: no
 ---
 
@@ -66,7 +67,14 @@ deployment you place into production.
 
     {{< text bash >}}
     $ cd "${WORK_DIR}"
-    $ make -f "${ISTIO_DIR}"/tools/certs/Makefile NAME="${CLUSTER_NAME}" NAMESPACE="${SERVICE_NAMESPACE}" "${CLUSTER_NAME}"-certs-wl
+    $ make -f "${ISTIO_DIR}"/tools/certs/Makefile NAME="${CLUSTER_NAME}" NAMESPACE="${SERVICE_NAMESPACE}" "${CLUSTER_NAME}"-cacerts-selfSigned
+    {{< /text >}}
+
+1. Execute the following commands to create certificates for use on the virtual machine.
+
+    {{< text bash >}}
+    $ cd "${WORK_DIR}"
+    $ make -f "${ISTIO_DIR}"/tools/certs/Makefile NAME="${CLUSTER_NAME}" NAMESPACE="${SERVICE_NAMESPACE}" "${NAMESPACE}"-certs-selfSigned
     {{< /text >}}
 
 ## Install the Istio control plane
@@ -78,10 +86,10 @@ The Istio control plane must be installed with virtual machine integration enabl
     {{< text bash >}}
     $ kubectl create namespace istio-system
     $ kubectl create secret generic cacerts -n istio-system \
-        --from-file="${WORK_DIR}"/"${CLUSTER_NAME}"/ca-cert.pem \
-        --from-file="${WORK_DIR}"/"${CLUSTER_NAME}"/ca-key.pem \
-        --from-file="${WORK_DIR}"/"${CLUSTER_NAME}"/root-cert.pem \
-        --from-file="${WORK_DIR}"/"${CLUSTER_NAME}"/cert-chain.pem
+        --from-file=ca-cert.pem="${WORK_DIR}"/"${CLUSTER_NAME}"/selfSigned-ca-cert.pem \
+        --from-file=ca-key.pem="${WORK_DIR}"/"${CLUSTER_NAME}"/selfSigned-ca-key.pem \
+        --from-file=root-cert.pem="${WORK_DIR}"/"${CLUSTER_NAME}"/root-cert.pem \
+        --from-file=cert-chain.pem="${WORK_DIR}"/"${CLUSTER_NAME}"/selfSigned-ca-cert-chain.pem
     {{< /text >}}
 
 1. Create the install `IstioOperator` custom resource:
@@ -112,10 +120,9 @@ The Istio control plane must be installed with virtual machine integration enabl
 1. Make a copy of files to copy to the virtual machine
 
     {{< text bash >}}
-    $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/ca-cert.pem "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/
-    $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/key.pem "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/
-    $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/root-cert.pem "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/
-    $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/workload-cert-chain.pem "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/cert-chain.pem
+    $ cp -a "${WORK_DIR}"/"${SERVICE_NAMESPACE}"/key.pem "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/
+    $ cp -a "${WORK_DIR}"/"${SERVICE_NAMESPACE}"/root-cert.pem "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/
+    $ cp -a "${WORK_DIR}"/"${SERVICE_NAMESPACE}"/selfSigned-workload-cert-chain.pem "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/cert-chain.pem
     {{< /text >}}
 
 1. Generate a `cluster.env` configuration file that informs the virtual machine

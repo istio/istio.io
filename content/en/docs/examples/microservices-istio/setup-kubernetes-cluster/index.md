@@ -2,6 +2,7 @@
 title: Setup a Kubernetes Cluster
 overview: Set up your Kubernetes cluster for the tutorial.
 weight: 2
+owner: istio/wg-docs-maintainers
 test: no
 ---
 

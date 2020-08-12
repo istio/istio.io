@@ -3,10 +3,27 @@ title: Prometheus
 description: How to integrate with Prometheus.
 weight: 30
 keywords: [integration,prometheus]
+owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
 [Prometheus](https://prometheus.io/) is an open source monitoring system and time series database. You can use Prometheus with Istio to record metrics that track the health of Istio and of applications within the service mesh. You can visualize metrics using tools like [Grafana](/docs/ops/integrations/grafana/) and [Kiali](/docs/tasks/observability/kiali/).
+
+## Installation
+
+### Option 1: Quick start
+
+Istio provides a basic sample installation to quickly get Prometheus up and running:
+
+{{< text bash >}}
+$ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
+{{< /text >}}
+
+This will deploy Prometheus into your cluster. This is intended for demonstration only, and is not tuned for performance or security.
+
+### Option 2: Customizable install
+
+Consult the [Prometheus documentation](https://www.prometheus.io/) to get started deploying Prometheus into your environment. See [Configuration](#Configuration) for more information on configuring Prometheus to scrape Istio deployments.
 
 ## Configuration
 
@@ -29,7 +46,7 @@ To simplify configuration, Istio has the ability to control scraping entirely by
 While `prometheus.io` annotations are not a core part of Prometheus, they have become the de facto standard to configure scraping.
 {{< /tip >}}
 
-This option is enabled by default but can be disabled by passing `--set meshConfig.enablePrometheusMerge=false` during [installation](/docs/setup/install/istioctl/). When enabled, appropriate `prometheus.io` annotations will be added to all workloads to set up scraping. If these annotations already exist, they will be overwritten. With this option, the Envoy sidecar will merge Istio's metrics with the application metrics.
+This option is enabled by default but can be disabled by passing `--set meshConfig.enablePrometheusMerge=false` during [installation](/docs/setup/install/istioctl/). When enabled, appropriate `prometheus.io` annotations will be added to all data plane pods to set up scraping. If these annotations already exist, they will be overwritten. With this option, the Envoy sidecar will merge Istio's metrics with the application metrics. The merged metrics will be scraped from `/stats/prometheus:15020`.
 
 This option exposes all the metrics in plain text.
 
@@ -47,11 +64,17 @@ The built-in demo installation of Prometheus contains all the required scraping 
 
 This built-in deployment of Prometheus is intended for new users to help them quickly getting started. However, it does not offer advanced customization, like persistence or authentication and as such should not be considered production ready. To use an existing Prometheus instance, add the scraping configurations in [`prometheus/configmap.yaml`]({{< github_file>}}/manifests/charts/istio-telemetry/prometheus/templates/configmap.yaml) to your configuration.
 
-This configuration will add scrape job configurations for the control plane, as well as for all Envoy sidecars. Additionally, a job is configured to scrape application metrics for all pods with relevant `prometheus.io` annotations:
+This configuration will add scrape job configurations for the control plane, as well as for all Envoy sidecars. Additionally, a job is configured to scrape application metrics for all data plane pods with relevant `prometheus.io` annotations:
 
-* `prometheus.io/scrape` determines if a pod should be scraped. Set to `true` to enable scraping.
-* `prometheus.io/path` determines the path to scrape metrics at. Defaults to `/metrics`.
-* `prometheus.io/port` determines the port to scrape metrics at. Defaults to `80`.
+{{< text yaml >}}
+spec:
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: true   # determines if a pod should be scraped. Set to true to enable scraping.
+        prometheus.io/path: /metrics # determines the path to scrape metrics at. Defaults to /metrics.
+        prometheus.io/port: 80       # determines the port to scrape metrics at. Defaults to 80.
+{{< /text >}}
 
 #### TLS settings
 

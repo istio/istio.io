@@ -3,6 +3,7 @@ title: Mirroring
 description: This task demonstrates the traffic mirroring/shadowing capabilities of Istio.
 weight: 60
 keywords: [traffic-management,mirroring]
+owner: istio/wg-networking-maintainers
 test: yes
 ---
 

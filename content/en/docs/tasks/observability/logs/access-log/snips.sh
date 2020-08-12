@@ -34,7 +34,7 @@ istioctl install --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"
 ENDSNIP
 
 snip_test_the_access_log_1() {
-kubectl exec -it "$SOURCE_POD" -c sleep -- curl -v httpbin:8000/status/418
+kubectl exec "$SOURCE_POD" -c sleep -- curl -v httpbin:8000/status/418
 }
 
 ! read -r -d '' snip_test_the_access_log_1_out <<\ENDSNIP
@@ -51,7 +51,6 @@ kubectl exec -it "$SOURCE_POD" -c sleep -- curl -v httpbin:8000/status/418
       |       ;/
       \_     _/
         `"""`
-...
 ENDSNIP
 
 snip_test_the_access_log_2() {
@@ -80,17 +79,9 @@ istioctl install --set profile=demo
 }
 
 ! read -r -d '' snip_disable_envoys_access_logging_1_out <<\ENDSNIP
-- Applying manifest for component Base...
-✔ Finished applying manifest for component Base.
-- Applying manifest for component Pilot...
-✔ Finished applying manifest for component Pilot.
-- Applying manifest for component EgressGateways...
-- Applying manifest for component IngressGateways...
-- Applying manifest for component AddonComponents...
-✔ Finished applying manifest for component EgressGateways.
-✔ Finished applying manifest for component IngressGateways.
-✔ Finished applying manifest for component AddonComponents.
-
-
+✔ Istio core installed
+✔ Istiod installed
+✔ Egress gateways installed
+✔ Ingress gateways installed
 ✔ Installation complete
 ENDSNIP

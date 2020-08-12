@@ -27,9 +27,12 @@ snip_liveness_and_readiness_probes_with_command_option_2
 
 snip_liveness_and_readiness_probes_with_command_option_3
 
+_wait_for_istio peerauthentication istio-io-health default
+_wait_for_istio destinationrule istio-io-health default
+
 snip_liveness_and_readiness_probes_with_command_option_4
 
-kubectl -n istio-io-health rollout status deployment liveness --timeout 60s
+_wait_for_deployment istio-io-health liveness
 
 _verify_like snip_liveness_and_readiness_probes_with_command_option_5 "$snip_liveness_and_readiness_probes_with_command_option_5_out"
 
@@ -39,7 +42,7 @@ snip_enable_globally_via_install_option_1
 
 snip_redeploy_the_liveness_health_check_app_1
 
-kubectl -n istio-same-port rollout status deployment liveness-http --timeout 60s
+_wait_for_deployment istio-same-port liveness-http
 
 _verify_like snip_redeploy_the_liveness_health_check_app_2 "$snip_redeploy_the_liveness_health_check_app_2_out"
 
@@ -51,7 +54,7 @@ kubectl create ns health-annotate
 
 echo "$snip_use_annotations_on_pod_1" | kubectl -n health-annotate apply -f -
 
-kubectl -n health-annotate rollout status deployment liveness-http --timeout 30s
+_wait_for_deployment health-annotate liveness-http
 
 # helper function
 get_health_annotate_pods() {

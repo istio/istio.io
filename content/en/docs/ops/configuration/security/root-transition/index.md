@@ -6,6 +6,7 @@ keywords: [security, PKI, certificate, Citadel]
 aliases:
   - /help/ops/security/root-transition
   - /docs/ops/security/root-transition
+owner: istio/wg-security-maintainers
 test: n/a
 ---
 

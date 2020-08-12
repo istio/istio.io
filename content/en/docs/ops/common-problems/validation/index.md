@@ -7,6 +7,7 @@ aliases:
     - /help/ops/setup/validation
     - /help/ops/troubleshooting/validation
     - /docs/ops/troubleshooting/validation
+owner: istio/wg-user-experience-maintainers
 test: no
 ---
 

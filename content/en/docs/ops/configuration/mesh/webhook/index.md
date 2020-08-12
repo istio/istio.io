@@ -5,6 +5,7 @@ weight: 10
 aliases:
   - /help/ops/setup/webhook
   - /docs/ops/setup/webhook
+owner: istio/wg-user-experience-maintainers
 test: no
 ---
 

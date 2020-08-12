@@ -3,6 +3,7 @@ title: Authorization on Ingress Gateway
 description: How to set up access control on an ingress gateway.
 weight: 50
 keywords: [security,access-control,rbac,authorization,ingress,ip,allowlist,denylist]
+owner: istio/wg-security-maintainers
 test: yes
 ---
 

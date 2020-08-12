@@ -53,7 +53,8 @@ HEADER = """#!/bin/bash
 
 startsnip = re.compile(r"^(\s*){{< text (syntax=)?\"?(\w+)\"? .*>}}$")
 snippetid = re.compile(r"snip_id=(\w+)")
-githubfile = re.compile(r"^([^@]*)(?<![A-Za-z0-9])@([\w\.\-_/]+)@([^@]*)$")
+githubfile = re.compile(r"^(.*)(?<![A-Za-z0-9])@([\w\.\-_/]+)@(.*)$")
+execit = re.compile(r"^(.*kubectl exec.*) -it (.*)$")
 heredoc = re.compile(r"<<\s*\\?EOF")
 sectionhead = re.compile(r"^##+ (.*)$")
 invalidchar = re.compile(r"[^0-9a-zA-Z_]")
@@ -103,6 +104,8 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
             kind = match.group(3)
             match = snippetid.search(line)
             if match:
+                if match.group(1) == "none":
+                    continue
                 id = "snip_" + match.group(1)
             else:
                 id = "snip_%s_%d" % (section, snipnum)
@@ -139,9 +142,16 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
                             if not output_started:
                                 current_snip["script"].append("}\n\n! read -r -d '' %s_out <<\ENDSNIP\n" % id)
                                 output_started = True
-                    match = githubfile.match(line)
+                    while True:
+                        match = githubfile.match(line)
+                        if not match:
+                            break
+                        line = match.group(1) + match.group(2) + match.group(3) + "\n"
+                    match = execit.match(line)
                     if match:
-                        line = match.group(1) + match.group(2) + match.group(3)
+                        msg = "ERROR: 'kubectl exec -it' will not work in test environment. Please remove -it from .md line: " + str(linenum)
+                        line = line + ">>> %s\n" % msg
+                        print("    " + msg)
                     if heredoc.search(line):
                         multiline_cmd = True
                 current_snip["script"].append(line)

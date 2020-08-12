@@ -11,6 +11,7 @@ aliases:
 - /docs/setup/kubernetes/additional-setup/mesh-expansion/
 - /docs/examples/mesh-expansion/single-network
 - /docs/tasks/virtual-machines/single-network
+owner: istio/wg-environments-maintainers
 test: no
 ---
 
@@ -69,7 +70,8 @@ following commands on a machine with cluster admin privileges:
 1. For a simple setup, deploy Istio control plane into the cluster
 
         {{< text bash >}}
-        $ istioctl install
+        $ istioctl install \
+            -f manifests/examples/vm/values-istio-meshexpansion.yaml
         {{< /text >}}
 
     For further details and customization options, refer to the
@@ -101,7 +103,7 @@ following commands on a machine with cluster admin privileges:
 
 1. Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges
     to intercept and redirect via Envoy. You specify the CIDR range when you install Kubernetes as `servicesIpv4Cidr`.
-    Replace `$MY_ZONE` and `$MY_PROJECT` in the following example commands with the appropriate values to obtain the CIDR
+    Replace `$MY_ZONE`, `$MY_PROJECT` and `$K8S_CLUSTER` in the following example commands with the appropriate values to obtain the CIDR
     after installation:
 
     {{< text bash >}}
@@ -251,7 +253,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
 1. Add VM services to the mesh
 
     {{< text bash >}}
-    $ istioctl experimental add-to-mesh external-service vmhttp ${VM_IP} http:8080 -n ${SERVICE_NAMESPACE}
+    $ istioctl experimental add-to-mesh external-service vmhttp ${GCE_IP} http:8080 -n ${SERVICE_NAMESPACE}
     {{< /text >}}
 
     {{< tip >}}

@@ -3,6 +3,7 @@ title: Extensibility
 description: Describes Istio's WebAssembly Plugin system.
 weight: 50
 keywords: [wasm,webassembly,emscripten,extension,plugin,filter]
+owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 
@@ -12,7 +13,7 @@ WebAssembly sandbox goals:
 
 - **Efficiency** - An extension adds low latency, CPU, and memory overhead.
 - **Function** - An extension can enforce policy, collect telemetry, and perform payload mutations.
-- **Isolation** - A programming error or crash in one plugin does affect other plugins.
+- **Isolation** - A programming error or crash in one plugin doesn't affect other plugins.
 - **Configuration** - The plugins are configured using an API that is consistent with other Istio APIs. An extension can be configured dynamically.
 - **Operator** - An extension can be canaried and deployed as log-only, fail-open or fail-close.
 - **Extension developer** - The plugin can be written in several programming languages.

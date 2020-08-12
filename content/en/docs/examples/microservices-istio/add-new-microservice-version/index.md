@@ -4,6 +4,7 @@ overview: Deploy a new version of a microservice.
 
 weight: 50
 
+owner: istio/wg-docs-maintainers
 test: no
 ---
 

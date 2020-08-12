@@ -46,6 +46,12 @@ _verify_contains snip_deploy_an_nginx_server_5 "subject: CN=nginx.example.com"
 snip_configure_an_ingress_gateway_1
 snip_configure_an_ingress_gateway_2
 
+# wait for configuration to propagate
+_wait_for_istio gateway default mygateway
+_wait_for_istio virtualservice default nginx
+
+_set_ingress_environment_variables
+
 # validate the output
 _verify_contains snip_configure_an_ingress_gateway_3 "SSL certificate verify ok."
 

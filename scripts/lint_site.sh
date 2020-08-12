@@ -113,6 +113,20 @@ for lang in $LANGS; do
     SKIP_LANGS=( "${SKIP_LANGS[@]}" )
 
     if [[ "$lang" == "en" ]]; then
+        list=$(find ./content/en/docs -name '*.md' -not -exec grep -q '^test: ' {} \; -print)
+        if [[ -n $list ]]; then
+            echo "$list"
+            echo "Ensure every document *.md file includes a test: attribute in its metadata"
+            FAILED=1
+        fi
+
+        list=$(find ./content/en/docs -name 'index.md' -not -exec grep -q '^owner: ' {} \; -print)
+        if [[ -n $list ]]; then
+            echo "$list"
+            echo "Ensure every document index.md file includes an owner: attribute in its metadata"
+            FAILED=1
+        fi
+
         check_content "content/$lang" --en-us
 
         while IFS= read -r -d '' f; do

@@ -5,6 +5,7 @@ keywords: [traffic-management,egress]
 weight: 50
 aliases:
   - /docs/examples/advanced-gateways/wildcard-egress-hosts/
+owner: istio/wg-networking-maintainers
 test: no
 ---
 

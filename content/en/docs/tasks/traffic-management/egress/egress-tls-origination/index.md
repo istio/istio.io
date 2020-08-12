@@ -3,6 +3,7 @@ title: Egress TLS Origination
 description: Describes how to configure Istio to perform TLS origination for traffic to external services.
 keywords: [traffic-management,egress]
 weight: 20
+owner: istio/wg-networking-maintainers
 test: yes
 aliases:
   - /docs/examples/advanced-gateways/egress-tls-origination/

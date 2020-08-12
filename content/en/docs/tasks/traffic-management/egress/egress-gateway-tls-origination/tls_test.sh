@@ -21,30 +21,35 @@ set -e
 set -u
 set -o pipefail
 
+# Make sure automatic sidecar injection is enabled
+kubectl label namespace default istio-injection=enabled || true
+
 # Deploy sleep sample and set up variable pointing to it
-set +e
-kubectl delete pods -l app=sleep --force
-set -e
-snip_before_you_begin_2
+snip_before_you_begin_1
 _wait_for_deployment default sleep
 snip_before_you_begin_3
 
 # Apply ServiceEntry for external workload and verify 301
 snip_perform_tls_origination_with_an_egress_gateway_1
+_wait_for_istio serviceentry default cnn
 _verify_elided snip_perform_tls_origination_with_an_egress_gateway_2 "$snip_perform_tls_origination_with_an_egress_gateway_2_out"
 
 # Create Gateway and DR to forward sidecar requests to egress gateway
 snip_perform_tls_origination_with_an_egress_gateway_3
+_wait_for_istio gateway default istio-egressgateway
+_wait_for_istio destinationrule default egressgateway-for-cnn
 
 # Create VirtualService to direct traffic through gateway and deploy DR to originate Simple TLS
 snip_perform_tls_origination_with_an_egress_gateway_4
+_wait_for_istio virtualservice default direct-cnn-through-egress-gateway
 
 # Verify HTTP request to external service returns 200
 _verify_elided snip_perform_tls_origination_with_an_egress_gateway_5 "$snip_perform_tls_origination_with_an_egress_gateway_5_out"
 
-# TODO: verify that the request was routed through egressgateway
+# Verify that the request was routed through egressgateway
+_verify_contains snip_perform_tls_origination_with_an_egress_gateway_6 "GET /politics HTTP/2"
 
 # @cleanup
 set +e # ignore cleanup errors
 snip_cleanup_the_tls_origination_example_1
-snip_cleanup_the_tls_origination_example_2
+snip_cleanup_1

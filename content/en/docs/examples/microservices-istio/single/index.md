@@ -2,6 +2,7 @@
 title: Run a Microservice Locally
 overview: Learn how to work on a single service on your local machine.
 weight: 10
+owner: istio/wg-docs-maintainers
 test: no
 ---
 

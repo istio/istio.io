@@ -3,6 +3,7 @@ title: Customizing Istio Metrics
 description: This task shows you how to customize the Istio metrics.
 weight: 25
 keywords: [telemetry,metrics,customize]
+owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
@@ -42,7 +43,7 @@ installation.
 
 ## Enable custom metrics
 
-Edit the the `EnvoyFilter` to add or modify dimensions and metrics. Then, add
+Edit the `EnvoyFilter` to add or modify dimensions and metrics. Then, add
 annotations to all the Istio-enabled pods to extract the new or modified
 dimensions.
 

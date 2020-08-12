@@ -19,9 +19,8 @@ import (
 	"path"
 
 	"istio.io/istio/pkg/test/env"
-	"istio.io/istio/pkg/test/scopes"
-
 	"istio.io/istio/pkg/test/framework"
+	"istio.io/istio/pkg/test/scopes"
 )
 
 // Step builds a step of the test pipeline.
@@ -51,11 +50,6 @@ func (b *Builder) Add(steps ...Step) *Builder {
 func (b *Builder) Defer(steps ...Step) *Builder {
 	b.cleanupSteps = append(b.cleanupSteps, steps...)
 	return b
-}
-
-// BuildAndRun is a utility method for building and running the test function in one step.
-func (b *Builder) BuildAndRun(ctx framework.TestContext) {
-	b.Build()(ctx)
 }
 
 // Build a run function for the test

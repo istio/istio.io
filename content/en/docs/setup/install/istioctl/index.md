@@ -1,8 +1,9 @@
 ---
-title: Customizable Install with Istioctl
+title: Install with Istioctl
 description: Install and customize any Istio configuration profile for in-depth evaluation or production use.
 weight: 10
 keywords: [istioctl,kubernetes]
+owner: istio/wg-environments-maintainers
 test: no
 ---
 
@@ -10,7 +11,7 @@ Follow this guide to install and configure an Istio mesh for in-depth evaluation
 If you are new to Istio, and just want to try it out, follow the
 [quick start instructions](/docs/setup/getting-started) instead.
 
-This installation guide uses the [`istioctl`](/docs/reference/commands/istioctl/) command line
+This installation guide uses the [istioctl](/docs/reference/commands/istioctl/) command line
 tool to provide rich customization of the Istio control plane and of the sidecars for the Istio data plane.
 It has user input validation to help prevent installation errors and customization options to
 override any aspect of the configuration.
@@ -19,8 +20,15 @@ Using these instructions, you can select any one of Istio's built-in
 [configuration profiles](/docs/setup/additional-setup/config-profiles/)
 and then further customize the configuration for your specific needs.
 
-Full customization of the installation can be done through the
-[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/).
+The `istioctl` command supports the full [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
+via command-line options for individual settings or for passing a yaml file containing an `IstioOperator`
+{{<gloss CRDs>}}custom resource (CR){{</gloss>}}.
+
+{{< tip >}}
+Providing the full configuration in an `IstioOperator` CR is considered an Istio best practice for production
+environments. It also gives you the option of completely delegating the job of install management to an
+[Istio Operator](/docs/setup/install/operator), instead of doing it manually using `istioctl`.
+{{< /tip >}}
 
 ## Prerequisites
 
@@ -40,20 +48,15 @@ using the following command:
 $ istioctl install
 {{< /text >}}
 
-{{< tip >}}
-Note that `istioctl install` and `istioctl manifest apply` are exactly the same command. In Istio 1.6, the simpler `install`
-command replaces `manifest apply`, which is deprecated and will be removed in 1.7.
-{{< /tip >}}
-
 This command installs the `default` profile on the cluster defined by your
 Kubernetes configuration. The `default` profile is a good starting point
 for establishing a production environment, unlike the larger `demo` profile that
 is intended for evaluating a broad set of Istio features.
 
-To enable the Grafana dashboard on top of the `default` profile, set the `addonComponents.grafana.enabled` configuration parameter with the following command:
+Various settings can be configured to modify the installations. For example, to enable access logs:
 
 {{< text bash >}}
-$ istioctl install --set addonComponents.grafana.enabled=true
+$ istioctl install --set meshConfig.accessLogFile=/dev/stdout
 {{< /text >}}
 
 In general, you can use the `--set` flag in `istioctl` as you would with
@@ -67,10 +70,10 @@ By default, `istioctl` uses compiled-in charts to generate the install manifest.
 `istioctl` for auditing and customization purposes and can be found in the release tar in the
 `manifests` directory.
 `istioctl` can also use external charts rather than the compiled-in ones. To select external charts, set
-the `charts` flag to a local file system path:
+the `manifests` flag to a local file system path:
 
 {{< text bash >}}
-$ istioctl install --charts=manifests/
+$ istioctl install --manifests=manifests/
 {{< /text >}}
 
 If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the same installation as `istioctl install` alone, because it points to the
@@ -91,7 +94,21 @@ $ istioctl install --set profile=demo
 ## Check what's installed
 
 The `istioctl` command saves the `IstioOperator` CR that was used to install Istio in a copy of the CR named `installed-state`.
-You can inspect this CR if you lose track of what is installed in a cluster.
+Instead of inspecting the deployments, pods, services and other resources that were installed by Istio, for example:
+
+{{< text bash >}}
+$ kubectl -n istio-system get deploy
+NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
+istio-ingressgateway   1/1     1            1           49m
+istiod                 1/1     1            1           49m
+{{< /text >}}
+
+You can inspect the `installed-state` CR, to see what is installed in the cluster, as well as all custom settings.
+For example, dump its content into a YAML file using the following command:
+
+{{< text bash >}}
+$ kubectl -n istio-system get IstioOperator installed-state -o yaml > installed-state.yaml
+{{< /text >}}
 
 The `installed-state` CR is also used to perform checks in some `istioctl` commands and should therefore not be removed.
 
@@ -118,15 +135,6 @@ run the following command:
 
 {{< text bash >}}
 $ istioctl profile dump demo
-addonComponents:
-  grafana:
-    enabled: true
-  kiali:
-    enabled: true
-  prometheus:
-    enabled: true
-  tracing:
-    enabled: true
 components:
   egressGateways:
   - enabled: true
@@ -148,23 +156,23 @@ $ istioctl profile dump --config-path components.pilot demo
 enabled: true
 k8s:
   env:
-  - name: POD_NAME
-    valueFrom:
-      fieldRef:
-        apiVersion: v1
-        fieldPath: metadata.name
-  - name: POD_NAMESPACE
-    valueFrom:
-      fieldRef:
-        apiVersion: v1
-        fieldPath: metadata.namespace
-  - name: GODEBUG
-    value: gctrace=1
   - name: PILOT_TRACE_SAMPLING
     value: "100"
-  - name: CONFIG_NAMESPACE
-    value: istio-config
-...
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: 8080
+    initialDelaySeconds: 1
+    periodSeconds: 3
+    timeoutSeconds: 5
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100Mi
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 25%
 {{< /text >}}
 
 ## Show differences in profiles
@@ -209,6 +217,25 @@ used to track the actual installed resources.
 The output from `manifest generate` can also be used to install Istio using `kubectl apply` or equivalent. However,
 these alternative installation methods may not apply the resources with the same sequencing of dependencies as
 `istioctl install` and are not tested in an Istio release.
+
+{{< warning >}}
+If attempting to install and manage Istio using `istioctl manifest generate`, please note the following caveats:
+
+1. The Istio namespace (`istio-system` by default) must be created manually.
+
+1. While `istioctl install` will automatically detect environment specific settings from your Kubernetes context,
+`manifest generate` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure
+that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
+Kubernetes environment does not support third party service account tokens.
+
+1. `kubectl apply` of the generated manifest may show transient errors due to resources not being available in the
+cluster in the correct order.
+
+1. `istioctl install` automatically prunes any resources that should be removed when the configuration changes (e.g.
+if you remove a gateway). This does not happen when you use `istio manifest generate` with `kubectl` and these
+resources must be removed manually.
+
+{{< /warning >}}
 
 ## Show differences in manifests
 
@@ -309,36 +336,11 @@ The `IstioOperator` API defines components as shown in the table below:
 `base` |
 `pilot` |
 `proxy` |
-`sidecarInjector` |
 `telemetry` |
 `policy` |
-`citadel` |
-`nodeagent` |
-`galley` |
 `ingressGateways` |
 `egressGateways` |
 `cni` |
-
-In addition to the core Istio components, third-party addon components are also available. These can
-be enabled and configured through the `addonComponents` spec of the `IstioOperator` API or using the Helm pass-through API:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  addonComponents:
-    grafana:
-      enabled: true
-{{< /text >}}
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    grafana:
-      enabled: true
-{{< /text >}}
 
 ### Configure component settings
 
@@ -373,26 +375,6 @@ spec:
 {{< text bash >}}
 $ istioctl install -f telemetry_off.yaml
 {{< /text >}}
-
-Another customization is to select different namespaces for features and components. The following is an example
-of installation namespace customization:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-metadata:
-  namespace: istio-system
-spec:
-  components:
-    citadel:
-      namespace: istio-citadel
-{{< /text >}}
-
-Applying this file will cause the default profile to be applied, with components being installed into the following
-namespaces:
-
-- The Citadel component is installed into `istio-citadel` namespace
-- Remaining Istio components installed into istio-system namespace
 
 ### Configure gateways
 
@@ -544,10 +526,10 @@ consistent, is validated, and follows the [community graduation process](https:/
 The `istioctl` `install`, `manifest generate` and `profile` commands can use any of the following sources for charts and
 profiles:
 
-- compiled in charts. This is the default if no `--charts` option is set. The compiled in charts are the same as those
+- compiled in charts. This is the default if no `--manifests` option is set. The compiled in charts are the same as those
 in the `manifests/` directory of the Istio release `.tgz`.
-- charts in the local file system, e.g., `istioctl install --charts istio-1.6.0/manifests`
-- charts in GitHub, e.g., `istioctl install --charts https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-arm64.tar.gz`
+- charts in the local file system, e.g., `istioctl install --manifests istio-{{< istio_full_version >}}/manifests`
+- charts in GitHub, e.g., `istioctl install --manifests https://github.com/istio/istio/releases/download/{{< istio_full_version >}}/istio-{{< istio_full_version >}}-linux-arm64.tar.gz`
 
 Local file system charts and profiles can be customized by editing the files in `manifests/`. For extensive changes,
 we recommend making a copy of the `manifests` directory and make changes there. Note, however, that the content layout
@@ -560,7 +542,7 @@ overlays are applied. For example, you can create a new profile file called `cus
 from the `default` profile, and then apply a user overlay file on top of that:
 
 {{< text bash >}}
-$ istioctl generate --charts mycharts/ --set profile=custom1 -f path-to-user-overlay.yaml
+$ istioctl manifest generate --manifests mycharts/ --set profile=custom1 -f path-to-user-overlay.yaml
 {{< /text >}}
 
 In this case, the `custom1.yaml` and `user-overlay.yaml` files will be overlaid on the `default.yaml` file to obtain the
@@ -570,7 +552,7 @@ In general, creating new profiles is not necessary since a similar result can be
 files. For example, the command above is equivalent to passing two user overlay files:
 
 {{< text bash >}}
-$ istioctl generate --charts mycharts/ -f manifests/profiles/custom1.yaml -f path-to-user-overlay.yaml
+$ istioctl manifest generate --manifests mycharts/ -f manifests/profiles/custom1.yaml -f path-to-user-overlay.yaml
 {{< /text >}}
 
 Creating a custom profile is only required if you need to refer to the profile by name through the `IstioOperatorSpec`.
@@ -669,7 +651,23 @@ The --set flag also creates any intermediate nodes in the path that are missing 
 
 ## Uninstall Istio
 
-To uninstall Istio, run the following command:
+To completely uninstall Istio from a cluster, run the following command:
+
+{{< text bash >}}
+$ istioctl x uninstall --purge
+{{< /text >}}
+
+{{< warning >}}
+The optional `--purge` flag will remove all Istio resources, including cluster-scoped resources that may be shared with other Istio control planes.
+{{< /warning >}}
+
+Alternatively, to remove only a specific Istio control plane, run the following command:
+
+{{< text bash >}}
+$ istioctl x uninstall <your original installation options>
+{{< /text >}}
+
+or
 
 {{< text bash >}}
 $ istioctl manifest generate <your original installation options> | kubectl delete -f -

@@ -7,7 +7,8 @@ aliases:
     - /docs/setup/kubernetes/
     - /docs/setup/kubernetes/install/kubernetes/
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
-test: no
+owner: istio/wg-environments-maintainers
+test: yes
 ---
 
 This guide lets you quickly evaluate Istio. If you are already familiar with
@@ -49,7 +50,7 @@ Follow these steps to get started with Istio:
 1.  Move to the Istio package directory. For example, if the package is
     `istio-{{< istio_full_version >}}`:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=none >}}
     $ cd istio-{{< istio_full_version >}}
     {{< /text >}}
 
@@ -78,7 +79,6 @@ Follow these steps to get started with Istio:
     ✔ Istiod installed
     ✔ Egress gateways installed
     ✔ Ingress gateways installed
-    ✔ Addons installed
     ✔ Installation complete
     {{< /text >}}
 
@@ -129,13 +129,13 @@ Follow these steps to get started with Istio:
 
     {{< text bash >}}
     $ kubectl get pods
-    NAME                              READY   STATUS            RESTARTS   AGE
-    details-v1-78d78fbddf-tj56d       0/2     PodInitializing   0          2m30s
-    productpage-v1-85b9bf9cd7-zg7tr   0/2     PodInitializing   0          2m29s
-    ratings-v1-6c9dbf6b45-5djtx       0/2     PodInitializing   0          2m29s
-    reviews-v1-564b97f875-dzdt5       0/2     PodInitializing   0          2m30s
-    reviews-v2-568c7c9d8f-p5wrj       1/2     Running           0          2m29s
-    reviews-v3-67b4988599-7nhwz       0/2     PodInitializing   0          2m29s
+    NAME                              READY   STATUS    RESTARTS   AGE
+    details-v1-558b8b4b76-2llld       2/2     Running   0          2m41s
+    productpage-v1-6987489c74-lpkgl   2/2     Running   0          2m40s
+    ratings-v1-7dc98c7588-vzftc       2/2     Running   0          2m41s
+    reviews-v1-7f99cc4496-gdxfn       2/2     Running   0          2m41s
+    reviews-v2-7d79d5bd5d-8zzqd       2/2     Running   0          2m41s
+    reviews-v3-7dbcdcbc56-m8dph       2/2     Running   0          2m41s
     {{< /text >}}
 
     {{< tip >}}
@@ -149,7 +149,7 @@ Follow these steps to get started with Istio:
     checking for the page title in the response:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+    $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -s productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
@@ -195,12 +195,12 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 Ensure a port was successfully assigned to each environment variable:
 
 {{< text bash >}}
-$ echo $INGRESS_PORT
+$ echo "$INGRESS_PORT"
 32194
 {{< /text >}}
 
 {{< text bash >}}
-$ echo $SECURE_INGRESS_PORT
+$ echo "$SECURE_INGRESS_PORT"
 31632
 {{< /text >}}
 
@@ -213,7 +213,7 @@ $ export INGRESS_HOST=$(minikube ip)
 Ensure an IP address was successfully assigned to the environment variable:
 
 {{< text bash >}}
-$ echo $INGRESS_HOST
+$ echo "$INGRESS_HOST"
 192.168.4.102
 {{< /text >}}
 
@@ -276,15 +276,22 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 _GKE:_
 
 {{< text bash >}}
-$ export INGRESS_HOST=<workerNodeAddress>
+$ export INGRESS_HOST=workerNodeAddress
 {{< /text >}}
 
 You need to create firewall rules to allow the TCP traffic to the `ingressgateway` service's ports.
 Run the following commands to allow the traffic for the HTTP port, the secure port (HTTPS) or both:
 
 {{< text bash >}}
-$ gcloud compute firewall-rules create allow-gateway-http --allow tcp:$INGRESS_PORT
-$ gcloud compute firewall-rules create allow-gateway-https --allow tcp:$SECURE_INGRESS_PORT
+$ gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_PORT"
+$ gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
+{{< /text >}}
+
+_IBM Cloud Kubernetes Service:_
+
+{{< text bash >}}
+$ ibmcloud ks workers --cluster cluster-name-or-id
+$ export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
 {{< /text >}}
 
 _Docker For Desktop:_
@@ -293,7 +300,7 @@ _Docker For Desktop:_
 $ export INGRESS_HOST=127.0.0.1
 {{< /text >}}
 
-_Other environments (e.g., IBM Cloud Private, etc.):_
+_Other environments:_
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
@@ -312,7 +319,7 @@ $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -
 1.  Ensure an IP address and port were successfully assigned to the environment variable:
 
     {{< text bash >}}
-    $ echo $GATEWAY_URL
+    $ echo "$GATEWAY_URL"
     192.168.99.100:32194
     {{< /text >}}
 
@@ -324,18 +331,26 @@ by viewing the Bookinfo product page using a browser.
 1.  Run the following command to retrieve the external address of the Bookinfo application.
 
     {{< text bash >}}
-    $ echo http://$GATEWAY_URL/productpage
+    $ echo http://"$GATEWAY_URL/productpage"
     {{< /text >}}
 
 1.  Paste the output from the previous command into your web browser and confirm that the Bookinfo product page is displayed.
 
 ## View the dashboard {#dashboard}
 
-Istio has several optional dashboards installed by the `demo` installation. The
-Kiali dashboard helps you understand the structure of your service mesh by
-displaying the topology and indicates the health of your mesh.
+Istio integrates with [several](/docs/ops/integrations) different telemetry applications. These can help you gain
+an understanding of the structure of your service mesh, display the topology of the mesh, and analyze the health of your mesh.
 
-1.  Access the Kiali dashboard. The default user name is `admin` and default password is `admin`.
+Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kiali/) dashboard, along with [Prometheus](/docs/ops/integrations/prometheus/), [Grafana](/docs/ops/integrations/grafana), and [Jaeger](/docs/ops/integrations/jaeger/).
+
+1.  Install Kiali and wait for it to be deployed.
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/addons@
+    $ while ! kubectl wait --for=condition=available --timeout=600s deployment/kiali -n istio-system; do sleep 1; done
+    {{< /text >}}
+
+1.  Access the Kiali dashboard.
 
     {{< text bash >}}
     $ istioctl dashboard kiali
@@ -387,7 +402,7 @@ under the `istio-system` namespace. It is safe to ignore errors for non-existent
 resources because they may have been deleted hierarchically.
 
 {{< text bash >}}
-$ istioctl manifest generate --set profile=demo | kubectl delete -f -
+$ istioctl manifest generate --set profile=demo | kubectl delete --ignore-not-found=true -f -
 {{< /text >}}
 
 The `istio-system` namespace is not removed by default.
@@ -396,4 +411,3 @@ If no longer needed, use the following command to remove it:
 {{< text bash >}}
 $ kubectl delete namespace istio-system
 {{< /text >}}
-
