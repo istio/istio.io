@@ -223,7 +223,6 @@ $ kubectl get pod -n istio-system --context=${MAIN_CLUSTER_CTX}
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-ingressgateway-7c8dd65766-lv9ck   1/1     Running   0          136m
 istiod-f756bbfc4-thkmk                  1/1     Running   0          136m
-prometheus-b54c6f66b-q8hbt              2/2     Running   0          136m
 {{< /text >}}
 
 Set the `ISTIOD_REMOTE_EP` environment variable based on which remote control
@@ -294,7 +293,6 @@ $ kubectl get pod -n istio-system --context=${REMOTE_CLUSTER_CTX}
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-ingressgateway-55f784779d-s5hwl   1/1     Running   0          91m
 istiod-7b4bfd7b4f-fwmks                 1/1     Running   0          91m
-prometheus-c6df65594-pdxc4              2/2     Running   0          91m
 {{< /text >}}
 
 {{< tip >}}

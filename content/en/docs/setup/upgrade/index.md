@@ -100,6 +100,12 @@ After upgrading both the control plane and data plane, you can uninstall the old
 $ istioctl x uninstall --revision 1-6-5
 {{< /text >}}
 
+If the old control plane does not have a revision label, uninstall it using its original installation options, for example:
+
+{{< text bash >}}
+$ istioctl x uninstall -f manifests/profiles/default.yaml
+{{< /text >}}
+
 Confirm that the old control plane has been removed and only the new one still exists in the cluster:
 
 {{< text bash >}}
@@ -144,13 +150,6 @@ can be found in the `bin/` subdirectory of the downloaded package.
 
 1. [Download the new Istio release](/docs/setup/getting-started/#download)
    and change directory to the new release directory.
-
-1. Verify that `istoctl` supports upgrading from your current Istio version by
-   viewing the supported versions list:
-
-    {{< text bash >}}
-    $ istioctl manifest versions
-    {{< /text >}}
 
 1. Ensure that your Kubernetes configuration points to the cluster to upgrade:
 
@@ -208,9 +207,9 @@ version 1.4.4.
 
 ### Steps to downgrade to a lower Istio version
 
-You can use `istioctl experimental upgrade` to downgrade to a lower version of Istio. Please
+You can use `istioctl upgrade` to downgrade to a lower version of Istio. Please
 notice that you need to use the `istioctl` binary corresponding to the lower
-version (e.g., 1.4.4), and `upgrade` is experimental in 1.4. The process steps are
+version (e.g., 1.6.5). The process steps are
 identical to the upgrade process mentioned in the previous section. When completed,
 the process will restore Istio back to the Istio version that was installed before.
 
