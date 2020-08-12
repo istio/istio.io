@@ -45,7 +45,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
 
 1.  [Install Istio](/docs/setup/getting-started/) using the `demo` profile.
 
-1.  The [Kiali](docs/ops/integrations/kiali) and [Prometheus](docs/ops/integrations/prometheus) addons are used in this example and need to be installed. All addons are installed using:
+1.  The [Kiali](/docs/ops/integrations/kiali/) and [Prometheus](/docs/ops/integrations/prometheus/) addons are used in this example and need to be installed. All addons are installed using:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/addons@
