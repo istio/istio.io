@@ -39,18 +39,19 @@ There are two ways you can configure tracing options:
 
 1.  Globally via `MeshConfig` options.
 
-1.  Per pod annotations for workload specific customization. Note that any pod
-    annotations added for tracing configuration overrides global settings. In order
-    to preserve any global settings you should copy them from
-    global mesh config to pod annotations along with workload specific
-    customization. In particular, make sure that the tracing backend address is
-    always provided in the annotations to ensure that the traces are reported
-    correctly for the workload.
+1.  Per pod annotations for workload specific customization.
 
 {{< warning >}}
 In order for the new tracing configuration to take effect for either of these
 options you need to restart pods injected with Istio proxies.
 {{< /warning >}}
+
+Note that any pod annotations added for tracing configuration overrides global settings.
+In order to preserve any global settings you should copy them from
+global mesh config to pod annotations along with workload specific
+customization. In particular, make sure that the tracing backend address is
+always provided in the annotations to ensure that the traces are reported
+correctly for the workload.
 
 ### Using `MeshConfig` for trace settings
 
