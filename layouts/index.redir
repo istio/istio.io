@@ -38,11 +38,16 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 /downloadIstio https://raw.githubusercontent.com/istio/istio/release-{{ .Site.Data.args.version }}/release/downloadIstioCandidate.sh
 /downloadIstioctl https://raw.githubusercontent.com/istio/istio/release-{{ .Site.Data.args.version }}/release/downloadIstioCtl.sh
 
-#navigating to a page without /latest on front, add /latest
+# navigating to a page without /latest on front, add /latest
 {{ range $p := .Site.Pages }}
 {{ strings.TrimPrefix "/latest" $p.Permalink }} {{ $p.Permalink}}
 {{- end }}
 
+# redirect current version to /latest
 /v{{ .Site.Data.args.version }}/* /latest/:splat
+
+#redirect next version to preliminary
+/v{{ .Site.Data.versions.preliminary }}/* https://preliminary.istio.io/latest/:splat
+
 http://archive.istio.io /archive 301!
 http://archive.istio.io/* /:splat 301!
