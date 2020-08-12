@@ -94,15 +94,15 @@ The output confirms that the pod is using `istiod-canary` revision of the contro
 
 ### Uninstall old control plane
 
-After upgrading both the control plane and data plane, you can uninstall the old control plane. 
+After upgrading both the control plane and data plane, you can uninstall the old control plane.
 
-To uninstalls a control plane of revision `istio-1-6-5`, run:
+To uninstall a control plane of revision `istio-1-6-5`, run:
 
 {{< text bash >}}
 $ istioctl x uninstall --revision istio-1-6-5
 {{< /text >}}
 
-But if the existing control plane does not have revision label, you can uninstall it with original installation options, for example:
+If the old control plane does not have a revision label, uninstall it using its original installation options, for example:
 
 {{< text bash >}}
 $ istioctl x uninstall -f manifests/profiles/default.yaml
