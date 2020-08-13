@@ -18,31 +18,31 @@ import yaml
 
 from typing import Dict
 
-def patch_config_for_adding_custom_metric(config: Dict[str,object]):
+
+def patch_config_for_adding_custom_metric(config: Dict[str, object]):
     patches = config['spec']['configPatches']
     outbound_patch = None
     for patch in patches:
         if patch['match']['context'] == 'SIDECAR_OUTBOUND':
             outbound_patch = patch
             break
-            
+
     metric_config = json.loads(outbound_patch['patch']['value']['typed_config']['value']['config']['configuration'])
     metric_config['metrics'] = {
         'name': 'requests_total',
         'dimensions': {
             'destination_port': 'string(destination.port)',
-            'request_host'    : 'request.host'
+            'request_host': 'request.host'
         }
     }
     outbound_patch['patch']['value']['typed_config']['value']['config']['configuration'] = json.dumps(metric_config)
 
-    
+
 if __name__ == '__main__':
     config_file = sys.argv[1]
     patched_output = sys.argv[2]
     with open(config_file, 'r') as f:
         config = yaml.safe_load(f)
-        patch_config_for_adding_custom_metric(config)        
+        patch_config_for_adding_custom_metric(config)
         with open(patched_output, 'w+') as out:
             out.write(yaml.dump(config))
-        
