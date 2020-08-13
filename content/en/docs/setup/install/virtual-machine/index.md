@@ -31,7 +31,7 @@ but not production. Like all alpha features, this guide is subject to change.
 1. Virtual machines must have IP connectivity to the ingress gateway in the connecting mesh, and optionally every pod in the mesh via L3 networking if enhanced performance is desired.
 
 ## Prepare the guide environment
-1. Create a VM in one of the cloud provider
+1. Create a virtual machine
 1. Set the environment variables `"${VM_NAME}"`, `"${WORK_DIR}"`,`"${CLUSTER_NAME}"` , `"${SERVICE_ACCOUNT}"`,
 ，`"${SERVICE_ACCOUNT}"` your cluster name, and the service namespace. Ensure `"${WORK_DIR}"` is prefixed with `"${HOME}"`
     (e.g. `WORK_DIR="${HOME}"/vmintegration`).
@@ -41,7 +41,7 @@ but not production. Like all alpha features, this guide is subject to change.
     $ CLUSTER_NAME="<the name of your cluster>"
     $ SERVICE_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
-    $ SERVICE_ACCOUNT="<name of the service account you want to create for k8s>"
+    $ SERVICE_ACCOUNT="<name of the service account you want to create for Kubernetes>"
     {{< /text >}}
 
 1. Create the `"${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"` working directories.
@@ -49,11 +49,13 @@ but not production. Like all alpha features, this guide is subject to change.
     {{< text bash >}}
     $ mkdir -p "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"
     {{< /text >}}
+    
 ## Install the Istio control plane
 
-The Istio control plane must be installed with virtual machine integration enabled (`values.global.meshExpansion.enabled: true`).
+The Istio control plane must be installed with virtual machine integration enabled (
+set the IstioOperator spec `values.global.meshExpansion.enabled: true`).
 
-1. Register the certificates needed for installation.
+1. Create namespace to install istio.
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
@@ -82,34 +84,36 @@ The Istio control plane must be installed with virtual machine integration enabl
     $ istioctl install -f "${WORK_DIR}"/vmintegration.yaml
     {{< /text >}}
 
-## Create Namespace and Setup policies for VM
-1. Create Namespace that will host the VM
+## Create Namespace and Setup policies for virtual machine
+1. Create Namespace that will host the virtual machine
 
     {{< text bash >}}
-    $ kubectl create namespace $SERVICE_NAMESPACE
+    $ kubectl create namespace "${SERVICE_NAMESPACE}"
     {{< /text >}}
 
-1. Create a serviceaccount for VM
+1. Create a serviceaccount for virtual machine
 
     {{< text bash >}}
-    $kubectl create serviceaccount $SERVICE_ACCOUNT -n $SERVICE_NAMESPACE 
+    $ kubectl create serviceaccount "${SERVICE_ACCOUNT}" -n "${SERVICE_NAMESPACE}" 
     {{< /text >}}
 
-1. Get the external ip or internal ip of the VM and store to `"${VM_IP}"`
+1. Get the external ip or internal ip of the virtual machine and store to `"${VM_IP}"`
+    for example nat external ip 34.94.87.55 in Google Cloud or IPv4 Public IP
+    18.183.135.37 in AWS
 
     {{< text bash >}}
-    $ VM_IP="<the external ip or internal ip of the VM>"
+    $ VM_IP="<the external ip or internal ip of the virtual machine>"
     {{< /text >}}
     
 1. Create a new service
     {{< text bash >}}
-    $ cat <<EOF | kubectl -n $SERVICE_NAMESPACE apply -f -
+    $ cat <<EOF | kubectl -n "${SERVICE_NAMESPACE}" apply -f -
     apiVersion: v1
     kind: Service
     metadata:
-      name: gce-vm
+      name: cloud-vm
       labels:
-        app: gce-vm
+        app: cloud-vm
     spec:
       ports:
       - port: 7070
@@ -117,24 +121,24 @@ The Istio control plane must be installed with virtual machine integration enabl
       - port: 8090
         name: http
       selector:
-        app: gce-vm
+        app: cloud-vm
     EOF
     {{< /text >}}
 1. Create workload entry
 
 {{< text bash >}}
-$ cat <<EOF | kubectl -n $namespace apply -f -
-  apiVersion: networking.istio.io/v1beta1
-  kind: WorkloadEntry
-  metadata:
-    name: $VM_NAME
-    namespace: $SERVICE_NAMESPACE
-  spec:
-    address: $VM_IP
-    labels:
-      app: gce-vm
-    serviceAccount: $SERVICE_ACCOUNT
-  EOF
+    $ cat <<EOF | kubectl -n "${SERVICE_NAMESPACE}" apply -f -
+      apiVersion: networking.istio.io/v1beta1
+      kind: WorkloadEntry
+      metadata:
+        name: "${VM_NAME}"
+        namespace: "${SERVICE_NAMESPACE}"
+      spec:
+        address: "${VM_IP}"
+        labels:
+          app: gce-vm
+        serviceAccount: "${SERVICE_ACCOUNT}"
+      EOF
 {{< /text >}}
 
 ## Create files to transfer to the virtual machine
@@ -147,9 +151,8 @@ $ cat <<EOF | kubectl -n $namespace apply -f -
     {{< /text >}}
 
 1. Get the root cert
-
 {{< text bash >}}
-    $ kubectl -n $SERVICE_NAMESPACE get configmaps istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/root-cert
+    $ kubectl -n "${SERVICE_NAMESPACE}" get configmaps istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/root-cert
 {{< /text >}}
 
 1. Generate a `cluster.env` configuration file that informs the virtual machine
@@ -199,7 +202,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
 1. Securely transfer the files from `"${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"`
     to the virtual machine.  How you choose to securely transfer those files should be done with consideration for
     your information security policies. For convenience in this guide we think you transfer all the required files 
-    under ${HOME}
+    under `${HOME}`
 
 1. Update the cache of package updates for your `deb` packaged distro.
 
@@ -260,10 +263,10 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
 1. Set the Environment variable for cert rotation cert received and rotated in `/var/run/secrets/istio` 
     {{< text bash >}}
-    $ export ISTIO_INBOUND_PORTS="*"
-    $ export ISTIO_LOCAL_EXCLUDE_PORTS="15090,15021,15020"
-    $ export PROV_CERT="/var/run/secrets/istio"
-    $ export OUTPUT_CERTS="/var/run/secrets/istio"
+    $ ISTIO_INBOUND_PORTS="*"
+    $ ISTIO_LOCAL_EXCLUDE_PORTS="15090,15021,15020"
+    $ PROV_CERT="/var/run/secrets/istio"
+    $ OUTPUT_CERTS="/var/run/secrets/istio"
     {{< /text >}}
 
 1. Start Istio within the virtual machine.
@@ -279,9 +282,9 @@ Run the following commands on the virtual machine you want to add to the Istio m
         $ dpkg -s istio-sideca
     {{< /text >}}
     
-1. Upload new istio-sidecar.deb to VM
+1. Upload new istio-sidecar.deb to virtual machine
 
-1. Regenerate istio-token and upload to VM
+1. Regenerate istio-token and upload to virtual machine
     {{< text bash >}}
         $ sudo cp ~/istio-token /var/run/secrets/tokens/istio-token
     {{< /text >}}
