@@ -23,7 +23,13 @@ and [upgrading from 1.4.x](#upgrading-from-1.4).
 
 ### Control plane
 
-To install a new revision called `canary` or the Istio version you would set the `revision` field as follows. If you use your Istio version, replace `.` in the version with `-` as `.` is not currently supported as a valid revision value.
+To install a new revision called `canary`, you would set the `revision` field as follows:
+
+<tip>
+In a production environment, a better revision name would correspond to the Istio version.
+However, you must replace `.` characters in the revision name, for example, `revision=1-6-8` for Istio `1.6.8`,
+because `.` is not a valid revision name character.
+</tip>
 
 {{< text bash >}}
 $ istioctl install --set revision=canary
