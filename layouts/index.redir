@@ -35,8 +35,8 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 {{- end }}
 
 # Download scripts
-/downloadIstio https://raw.githubusercontent.com/istio/istio/release-{{ .Site.Data.args.version }}/release/downloadIstioCandidate.sh
-/downloadIstioctl https://raw.githubusercontent.com/istio/istio/release-{{ .Site.Data.args.version }}/release/downloadIstioCtl.sh
+/downloadIstio https://raw.githubusercontent.com/istio/istio/master/release/downloadIstioCandidate.sh
+/downloadIstioctl https://raw.githubusercontent.com/istio/istio/master/release/downloadIstioCtl.sh
 
 # navigating to a page without /latest on front, add /latest
 {{ range $p := .Site.Pages }}
