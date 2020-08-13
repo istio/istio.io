@@ -26,6 +26,7 @@ but not production. Like all alpha features, this guide is subject to change.
 1. Virtual machines must have IP connectivity to the ingress gateway in the connecting mesh, and optionally every pod in the mesh via L3 networking if enhanced performance is desired.
 
 ## Prepare the guide environment
+
 1. Create a virtual machine
 1. Set the environment variables `"${VM_NAME}"`, `"${WORK_DIR}"`,`"${CLUSTER_NAME}"` , `"${SERVICE_ACCOUNT}"`,
 ，`"${SERVICE_ACCOUNT}"` your cluster name, and the service namespace. Ensure `"${WORK_DIR}"` is prefixed with `"${HOME}"`
@@ -79,6 +80,7 @@ but not production. Like all alpha features, this guide is subject to change.
     {{< /text >}}
 
 ## Create Namespace 
+
 1. Create Namespace that will host the virtual machine
 
     {{< text bash >}}
@@ -100,9 +102,9 @@ but not production. Like all alpha features, this guide is subject to change.
     {{< /text >}}
 
 1. Get the root cert
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl -n "${SERVICE_NAMESPACE}" get configmaps istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/root-cert
-{{< /text >}}
+    {{< /text >}}
 
 1. Generate a `cluster.env` configuration file that informs the virtual machine
    deployment which network CIDR to capture and redirect to the Kubernetes
@@ -180,6 +182,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     {{< /text >}}
     
 1. Install the token to the `/var/run/secrets/tokens`
+
     {{< text bash >}}
     $ sudo  mkdir -p /var/run/secrets/tokens
     $ sudo cp "${HOME}"/istio-token /var/run/secrets/tokens/istio-token
@@ -192,13 +195,13 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1. Install `cluster.env` within `/var/lib/istio/envoy/`.
+1. Install `cluster.env` within the directory `/var/lib/istio/envoy/`.
 
     {{< text bash >}}
     $ sudo cp "${HOME}"/cluster.env /var/lib/istio/envoy/cluster.env
     {{< /text >}}
 
-1. Install `sidecar.env` within `/var/lib/istio/envoy/`.
+1. Install `sidecar.env` within the directory`/var/lib/istio/envoy/`.
 
     {{< text bash >}}
     $ sudo cp "${HOME}"/sidecar.env /var/lib/istio/envoy/sidecar.env
@@ -210,8 +213,8 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo sh -c 'cat $(eval echo ~$SUDO_USER)/hosts-addendum >> /etc/hosts'
     {{< /text >}}
 
-1. Install the root cert to the `/etc/certs`
-    
+1. Install the root certificate in the directory  `/etc/certs`
+
     {{< text bash >}}
     $ sudo cp "${HOME}"/root-cert.pem /var/run/secrets/istio/root-cert.pem
     {{< /text >}}
@@ -231,6 +234,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     {{< /text >}}
     
 1. Create a new service
+
     {{< text bash >}}
     $ cat <<EOF | kubectl -n "${SERVICE_NAMESPACE}" apply -f -
     apiVersion: v1
@@ -251,7 +255,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     {{< /text >}}
 1. Create workload entry
 
-{{< text bash >}}
+    {{< text bash >}}
     $ cat <<EOF | kubectl -n "${SERVICE_NAMESPACE}" apply -f -
       apiVersion: networking.istio.io/v1beta1
       kind: WorkloadEntry
@@ -264,10 +268,12 @@ Run the following commands on the virtual machine you want to add to the Istio m
           app: gce-vm
         serviceAccount: "${SERVICE_ACCOUNT}"
       EOF
-{{< /text >}}
+    {{< /text >}}
 
 ## Start Istio within the virtual machine.
+
 1. start the istio agent
+
     {{< text bash >}}
     $ sudo systemctl start istio
     {{< /text >}}
