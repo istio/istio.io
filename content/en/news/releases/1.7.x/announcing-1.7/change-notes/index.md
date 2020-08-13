@@ -24,7 +24,7 @@ containers until the proxy is ready.  This option is disabled by default.
 
 - **Improved** Istio Gateways to allow use of source principal based authorization when the Server's TLS mode is `ISTIO_MUTUAL`.
 
--  **Added**  SDS support for Client Certificate and CA certificate used for TLS/mTLS Origination from Egress 
+-  **Added** SDS support for Client Certificate and CA certificate used for TLS/mTLS Origination from Egress 
     Gateway.
   ([Issue #14039](https://github.com/istio/istio/issues/14039))
   
