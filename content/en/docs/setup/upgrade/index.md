@@ -25,6 +25,12 @@ and [upgrading from 1.4.x](#upgrading-from-1.4).
 
 To install a new revision called `canary`, you would set the `revision` field as follows:
 
+<tip>
+In a production environment, a better revision name would correspond to the Istio version.
+However, you must replace `.` characters in the revision name, for example, `revision=1-6-8` for Istio `1.6.8`,
+because `.` is not a valid revision name character.
+</tip>
+
 {{< text bash >}}
 $ istioctl install --set revision=canary
 {{< /text >}}
@@ -32,14 +38,14 @@ $ istioctl install --set revision=canary
 After running the command, you will have two control plane deployments and services running side-by-side:
 
 {{< text bash >}}
-$ kubectl get pods -n istio-system
+$ kubectl get pods -n istio-system -l app=istiod
 NAME                                    READY   STATUS    RESTARTS   AGE
 istiod-786779888b-p9s5n                 1/1     Running   0          114m
 istiod-canary-6956db645c-vwhsk          1/1     Running   0          1m
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl -n istio-system get svc -lapp=istiod
+$ kubectl get svc -n istio-system -l app=istiod
 NAME            TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                                                AGE
 istiod          ClusterIP   10.32.5.247   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP                  33d
 istiod-canary   ClusterIP   10.32.6.58    <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,53/UDP,853/TCP   12m
@@ -56,17 +62,23 @@ istio-sidecar-injector-canary   2020-04-28T19:03:26Z
 
 ### Data plane
 
-Simply installing the new revision has no impact on the existing proxies. To upgrade these,
-you must configure them to point to the new control plane. This is controlled during sidecar injection
-based on the namespace label `istio.io/rev`.
-
-To upgrade the namespace `test-ns`, add the `istio.io/rev` label to point to the `canary` revision and remove the `istio-injection` label.
+Unlike istiod, Istio gateways do not run revision-specific instances, but are instead in-place upgraded to use the new control plane revision.
+You can verify that the `istio-ingress` gateway is using the `canary` revision by running the following command:
 
 {{< text bash >}}
-$ kubectl label namespace test-ns istio-injection- istio.io/rev=canary
+$ istioctl proxy-config endpoints $(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}').istio-system --cluster xds-grpc -ojson | grep hostname
+"hostname": "istiod-canary.istio-system.svc"
 {{< /text >}}
 
-The `istio-injection` label must be removed because it takes precedence over the `istio.io/rev` label for backward compatibility.
+However, simply installing the new revision has no impact on the existing sidecar proxies. To upgrade these,
+you must configure them to point to the new `istiod-canary` control plane. This is controlled during sidecar injection
+based on the namespace label `istio.io/rev`.
+
+To upgrade the namespace `test-ns`, remove the `istio-injection` label, and add the `istio.io/rev` label to point to the `canary` revision. The `istio-injection` label must be removed because it takes precedence over the `istio.io/rev` label for backward compatibility.
+
+{{< text bash >}}
+$ kubectl label namespace test-ns istio-injection- istio.io/rev=istio-canary
+{{< /text >}}
 
 After the namespace updates, you need to restart the pods to trigger re-injection. One way to do
 this is using:
@@ -80,7 +92,7 @@ When the pods are re-injected, they will be configured to point to the `istiod-c
 For example, the following command will show all the pods using the `canary` revision:
 
 {{< text bash >}}
-$ kubectl get pods -n test-ns -l istio.io/rev=canary
+$ kubectl get pods -n test-ns -l istio.io/rev=istio-canary
 {{< /text >}}
 
 To verify that the new pods in the `test-ns` namespace are using the `istiod-canary` service corresponding to the `canary` revision, select one newly created pod and use the `pod_name` in the following command:
@@ -94,12 +106,10 @@ The output confirms that the pod is using `istiod-canary` revision of the contro
 
 ### Uninstall old control plane
 
-After upgrading both the control plane and data plane, you can uninstall the old control plane.
-
-To uninstall a control plane of revision `istio-1-6-5`, run:
+After upgrading both the control plane and data plane, you can uninstall the old control plane. For example, the following command uninstalls a control plane of revision `1-6-5`:
 
 {{< text bash >}}
-$ istioctl x uninstall --revision istio-1-6-5
+$ istioctl x uninstall --revision 1-6-5
 {{< /text >}}
 
 If the old control plane does not have a revision label, uninstall it using its original installation options, for example:
@@ -111,7 +121,7 @@ $ istioctl x uninstall -f manifests/profiles/default.yaml
 Confirm that the old control plane has been removed and only the new one still exists in the cluster:
 
 {{< text bash >}}
-$ kubectl get pods -n istio-system -lapp=istiod
+$ kubectl get pods -n istio-system -l app=istiod
 NAME                             READY   STATUS    RESTARTS   AGE
 istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 {{< /text >}}
