@@ -7,7 +7,7 @@ attribution: "王发康 (mosn.io)"
 keywords: [mosn,sidecar,proxy]
 ---
 
-MOSN（Modular Open Smart Network）是用 GoLang 编写的网络代理服务器。它是 [蚂蚁集团](https://www.antfin.com/) 为 Sidecar / API Gateway / cloud-native Ingress / Layer 4 或 Layer 7 负载均衡器等场景构建的。随着时间的推移，我们添加了额外的功能，例如多协议框架，多进程插件机制，DSL 和对 [xDS API](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol) 的支持。支持 xDS 意味着我们现在可以将 MOSN 用作 Istio 的数据平面。Istio 项目不支持此配置。如需帮助，请参阅下面的[了解更多](#了解更多)。
+MOSN（Modular Open Smart Network）是用 GoLang 编写的网络代理服务器。它是 [蚂蚁集团](https://www.antfin.com/) 为 Sidecar、API Gateway、云原生 Ingress、Layer 4 或 Layer 7 负载均衡器等场景构建的。随着时间的推移，我们添加了额外的功能，例如多协议框架，多进程插件机制，DSL 和对 [xDS API](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol) 的支持。支持 xDS 意味着我们现在可以将 MOSN 用作 Istio 的数据平面。Istio 项目不支持此配置。如需帮助，请参阅下面的[了解更多](#了解更多)。
 
 ## 背景
 
@@ -53,8 +53,8 @@ MOSN 使用 GoLang 语言编写，GoLang 语言在生产效率，内存安全上
 
 ### MOSN 的不足
 
-- 由于 MOSN 是用 GoLang 编写的，因此它的性能不如 Istio 的默认代理（默认代理使用的是 C++ 语言），但是在服务网格场景中该性能是可以接受的并且可以使用;
-- 与 Istio 默认代理相比，不完全支持某些功能，例如 WASM、HTTP3、Lua 等。但是，这些功能在 MOSN 的 [roadmap](https://docs.google.com/spreadsheets/d/1fALompY9nKZNImOuxQw23xtMD-5rCBrXWziJZkj76bo/edit?usp=sharing) 计划之中，我们的目标是和 Istio 完全兼容;
+- 由于 MOSN 是用 GoLang 编写的，因此它的性能不如 Istio 的默认代理（默认代理使用的是 C++ 语言），但是在服务网格场景中该性能是可以接受的并且可以使用；
+- 与 Istio 默认代理相比，不完全支持某些功能，例如 WASM、HTTP3、Lua 等。但是，这些功能在 MOSN 的 [roadmap](https://docs.google.com/spreadsheets/d/1fALompY9nKZNImOuxQw23xtMD-5rCBrXWziJZkj76bo/edit?usp=sharing) 计划之中，我们的目标是和 Istio 完全兼容；
 
 ## MOSN 结合 Istio
 
