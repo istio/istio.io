@@ -102,15 +102,15 @@ To uninstall a control plane of revision `istio-1-6-5`, run:
 $ istioctl x uninstall --revision istio-1-6-5
 {{< /text >}}
 
+{{< warning >}}
+This command will also remove gateway deployments for specified revision. If you want to remove the canary revision, please reinstall the gateway(s) with previous revision first to avoid down time.
+{{< /warning >}}
+
 If the old control plane does not have a revision label, uninstall it using its original installation options, for example:
 
 {{< text bash >}}
 $ istioctl x uninstall -f manifests/profiles/default.yaml
 {{< /text >}}
-
-{{< warning >}}
-Note that this command would also remove gateway deployments, use it with caution. The issue would be fixed in release `1.7.1`
-{{< /warning >}}
 
 Confirm that the old control plane has been removed and only the new one still exists in the cluster:
 
