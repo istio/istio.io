@@ -149,10 +149,10 @@ but not production. Like all alpha features, this guide is subject to change.
 
     {{< text bash >}}
     $ touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/sidecar.env
-    $ echo "ISTIO_INBOUND_PORTS=* >> /var/lib/istio/envoy/sidecar.env"
-    $ echo "ISTIO_LOCAL_EXCLUDE_PORTS=15090,15021,15020 >> /var/lib/istio/envoy/sidecar.env"
-    $ echo "PROV_CERT=/var/run/secrets/istio >> /var/lib/istio/envoy/sidecar.env"
-    $ echo "OUTPUT_CERTS=/var/run/secrets/istio >> /var/lib/istio/envoy/sidecar.env"
+    $ echo "ISTIO_INBOUND_PORTS=*" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/sidecar.env
+    $ echo "ISTIO_LOCAL_EXCLUDE_PORTS=15090,15021,15020" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/sidecar.env
+    $ echo "PROV_CERT=/var/run/secrets/istio" >>"${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/sidecar.env
+    $ echo "OUTPUT_CERTS=/var/run/secrets/istio" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/sidecar.env
     {{< /text >}}
 ## Configure the virtual machine
 
