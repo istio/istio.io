@@ -31,9 +31,9 @@ supports creating new metrics by name, the expected value expression, and the
 metric type (`counter`, `gauge`, and `histogram`). The `metrics` section
 provides values for the metric dimensions as expressions, and allows you to
 remove or override the existing metric dimensions. You can modify the standard
-metric definitions using `tags_to_remove` or by re-defining a dimension. These 
-configuration sections are also exposed as istioctl installation options, which 
-allow you to customize metrics differently for gateway and sidecar at inbound 
+metric definitions using `tags_to_remove` or by re-defining a dimension. These
+configuration sections are also exposed as istioctl installation options, which
+allow you to customize metrics differently for gateway and sidecar at inbound
 or outbound direction.
 
 For more information, see [Stats Config reference](/docs/reference/config/proxy_extensions/stats/).
@@ -69,12 +69,12 @@ spec:
               disable_host_header_fallback: true
     {{< /text >}}
 
-    To customize Telemetry v2 metrics, for example to add `request_host` 
-    and `destionation_port` tags to `requests_total` metric emitted by gateway 
-    and sidecars both at inbound and outbound direction, you can augment installation 
-    options as following. Note you only need to specify the configuration override 
-    section that you need customization. For example, if you only want to customize 
-    sidecar inbound `requests_count` metric, you can omit `outboundSidecar` and 
+    To customize Telemetry v2 metrics, for example to add `request_host`
+    and `destionation_port` tags to `requests_total` metric emitted by gateway
+    and sidecars both at inbound and outbound direction, you can augment installation
+    options as following. Note you only need to specify the configuration override
+    section that you need customization. For example, if you only want to customize
+    sidecar inbound `requests_count` metric, you can omit `outboundSidecar` and
     `inboundSidecar` sections in the following configuration.
    
     {{< text yaml >}}
