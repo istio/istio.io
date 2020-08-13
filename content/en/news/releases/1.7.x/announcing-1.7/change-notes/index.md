@@ -69,7 +69,7 @@ accurate.
 - **Added** `--revision` flag to `istioctl operator init` and `istioctl operator remove` commands to support multiple control plane upgrade.
  ([Issue #23479](https://github.com/istio/istio/issues/23479))
 
-- **Added** `istioctl analyze` now warns if deprecated mixer resources are present
+- **Improved** `istioctl analyze` to warn if deprecated mixer resources are present
  ([Issue #24471](https://github.com/istio/istio/issues/24471))
 
 - **Added** `istioctl x uninstall` command to uninstall Istio control plane.
