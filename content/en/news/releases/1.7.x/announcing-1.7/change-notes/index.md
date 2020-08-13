@@ -20,14 +20,13 @@ containers until the proxy is ready.  This option is disabled by default.
 - **Added** support for creation of CSRs using ECC based certificates.
  ([Issue #23226](https://github.com/istio/istio/issues/23226))
 
--  **Improved** Trust Domain Validation to validate TCP traffic as well, previously only HTTP traffic was validated
+- **Added** SDS support for Client Certificate and CA certificate used for TLS/mTLS Origination from Egress Gateway.
+  ([Issue #14039](https://github.com/istio/istio/issues/14039))
+
+- **Improved** Trust Domain Validation to validate TCP traffic as well, previously only HTTP traffic was validated
 
 - **Improved** Istio Gateways to allow use of source principal based authorization when the Server's TLS mode is `ISTIO_MUTUAL`.
 
--  **Added** SDS support for Client Certificate and CA certificate used for TLS/mTLS Origination from Egress 
-    Gateway.
-  ([Issue #14039](https://github.com/istio/istio/issues/14039))
-  
 ## Telemetry
 
 - **Added** Prometheus metrics to istio-agent.
@@ -69,13 +68,13 @@ accurate.
 - **Added** `--revision` flag to `istioctl operator init` and `istioctl operator remove` commands to support multiple control plane upgrade.
  ([Issue #23479](https://github.com/istio/istio/issues/23479))
 
-- **Improved** `istioctl analyze` to warn if deprecated mixer resources are present
- ([Issue #24471](https://github.com/istio/istio/issues/24471))
-
 - **Added** `istioctl x uninstall` command to uninstall Istio control plane.
  ([Issue #24360](https://github.com/istio/istio/issues/24360))
 
--  **Improved** `istioctl analyze` to warn if DestinationRule is not using CaCertificates to validate server identity.
+- **Improved** `istioctl analyze` to warn if deprecated mixer resources are present
+ ([Issue #24471](https://github.com/istio/istio/issues/24471))
+
+- **Improved** `istioctl analyze` to warn if `DestinationRule` is not using `CaCertificates` to validate server identity.
 
 - **Improved** `istioctl validate` to check for unknown fields in resources.
  ([Issue #24861](https://github.com/istio/istio/issues/24861))

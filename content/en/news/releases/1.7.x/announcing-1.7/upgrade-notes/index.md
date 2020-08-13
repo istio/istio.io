@@ -12,3 +12,8 @@ Changes are only included if the new behavior would be unexpected to a user of I
 ## Require Kubernetes 1.16+
 
 Kubernetes 1.16+ is now required for installation.
+
+## Installation
+
+- `istioctl manifest apply` is removed, please use `istioctl install` instead.
+- Installation of telemetry addons by istioctl is deprecated, please use these [addons integration instructions](/docs/ops/integrations/).
