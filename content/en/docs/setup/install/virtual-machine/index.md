@@ -93,8 +93,7 @@ but not production. Like all alpha features, this guide is subject to change.
 
 ## Create files to transfer to the virtual machine
 
-1. Create Kubernetes token
-    in the example you can set the  
+1. Create Kubernetes token in the example you can set the  
     {{< text bash >}}
     $ tokenexpiretime=3600
     $ echo '{"kind":"TokenRequest","apiVersion":"authentication.k8s.io/v1","spec":{"audiences":["istio-ca"],"expirationSeconds":'$tokenexpiretime'}}' | kubectl create --raw /api/v1/namespaces/$SERVICE_NAMESPACE/serviceaccounts/$SERVICE_ACCOUNT/token -f - | jq -j '.status.token' > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/istio-token
@@ -145,12 +144,13 @@ but not production. Like all alpha features, this guide is subject to change.
     {{< /idea >}}
 
 1. Create `sidecar.env` to import required environment variable 
+
     {{< text bash >}}
-     $ touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/sidecar.env
-     $ echo "ISTIO_INBOUND_PORTS=* >> /var/lib/istio/envoy/sidecar.env"
-     $ echo "ISTIO_LOCAL_EXCLUDE_PORTS=15090,15021,15020 >> /var/lib/istio/envoy/sidecar.env"
-     $ echo "PROV_CERT=/var/run/secrets/istio >> /var/lib/istio/envoy/sidecar.env"
-     $ echo "OUTPUT_CERTS=/var/run/secrets/istio >> /var/lib/istio/envoy/sidecar.env"
+    $ touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/sidecar.env
+    $ echo "ISTIO_INBOUND_PORTS=* >> /var/lib/istio/envoy/sidecar.env"
+    $ echo "ISTIO_LOCAL_EXCLUDE_PORTS=15090,15021,15020 >> /var/lib/istio/envoy/sidecar.env"
+    $ echo "PROV_CERT=/var/run/secrets/istio >> /var/lib/istio/envoy/sidecar.env"
+    $ echo "OUTPUT_CERTS=/var/run/secrets/istio >> /var/lib/istio/envoy/sidecar.env"
     {{< /text >}}
 ## Configure the virtual machine
 
