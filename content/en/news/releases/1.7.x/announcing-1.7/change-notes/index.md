@@ -85,5 +85,5 @@ accurate.
 
 ## Documentation changes
 
-- **Added** support for auto generating release notes based off of a file present in the `releasenotes/notes` directory.
+- **Added** visual indication if an istio.io page has been tested by istio.io automated tests.
  ([Issue #23622](https://github.com/istio/istio/issues/23622))
