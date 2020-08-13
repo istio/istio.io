@@ -108,6 +108,10 @@ If the old control plane does not have a revision label, uninstall it using its 
 $ istioctl x uninstall -f manifests/profiles/default.yaml
 {{< /text >}}
 
+{{< warning >}}
+Note that this command would also remove gateway deployments, use it with caution. The issue would be fixed in release `1.7.1`
+{{< /warning >}}
+
 Confirm that the old control plane has been removed and only the new one still exists in the cluster:
 
 {{< text bash >}}
