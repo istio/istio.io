@@ -20,7 +20,7 @@ containers until the proxy is ready.  This option is disabled by default.
 - **Added** support for creation of CSRs using ECC based certificates.
  ([Issue #23226](https://github.com/istio/istio/issues/23226))
 
--  **Improved** Trust Domain Validation to validate TCP traffic as well, previously only HTTP traffic was validated"
+-  **Improved** Trust Domain Validation to validate TCP traffic as well, previously only HTTP traffic was validated
 
 - **Fixed** an issue preventing the use of source principal based authorization at Istio Gateway when the Server's TLS mode is `ISTIO_MUTUAL`.
 
