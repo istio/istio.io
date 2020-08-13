@@ -144,6 +144,14 @@ but not production. Like all alpha features, this guide is subject to change.
     the scope of this guide.
     {{< /idea >}}
 
+1. Create `sidecar.env` to import required environment variable 
+    {{< text bash >}}
+     $ touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/sidecar.env
+     $ echo "ISTIO_INBOUND_PORTS=* >> /var/lib/istio/envoy/sidecar.env"
+     $ echo "ISTIO_LOCAL_EXCLUDE_PORTS=15090,15021,15020 >> /var/lib/istio/envoy/sidecar.env"
+     $ echo "PROV_CERT=/var/run/secrets/istio >> /var/lib/istio/envoy/sidecar.env"
+     $ echo "OUTPUT_CERTS=/var/run/secrets/istio >> /var/lib/istio/envoy/sidecar.env"
+    {{< /text >}}
 ## Configure the virtual machine
 
 Run the following commands on the virtual machine you want to add to the Istio mesh:
@@ -190,10 +198,16 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo cp "${HOME}"/cluster.env /var/lib/istio/envoy/cluster.env
     {{< /text >}}
 
+1. Install `sidecar.env` within `/var/lib/istio/envoy/`.
+
+    {{< text bash >}}
+    $ sudo cp "${HOME}"/sidecar.env /var/lib/istio/envoy/sidecar.env
+    {{< /text >}}
+
 1. Add the istiod host to `/etc/hosts`.
 
     {{< text bash >}}
-    $ sudo cp "${HOME}"/hosts /etc/hosts
+    $ sudo sh -c 'cat $(eval echo ~$SUDO_USER)/hosts-addendum >> /etc/hosts'
     {{< /text >}}
 
 1. Install the root cert to the `/etc/certs`
@@ -209,18 +223,8 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo chown -R istio-proxy /var/lib/istio /etc/certs /etc/istio/proxy  /var/run/secrets
     {{< /text >}}
 
-1. Set the Environment variable for cert rotation cert received and rotated in `/var/run/secrets/istio` 
-    {{< text bash >}}
-    $ ISTIO_INBOUND_PORTS="*"
-    $ ISTIO_LOCAL_EXCLUDE_PORTS="15090,15021,15020"
-    $ PROV_CERT="/var/run/secrets/istio"
-    $ OUTPUT_CERTS="/var/run/secrets/istio"
-    {{< /text >}}
 ## Setup policies for virtual machine
-
 1. Get the external ip or internal ip of the virtual machine and store to `"${VM_IP}"`
-    for example nat external ip 34.94.87.55 in Google Cloud or IPv4 Public IP
-    18.183.135.37 in AWS
 
     {{< text bash >}}
     $ VM_IP="<the external ip or internal ip of the virtual machine>"
@@ -265,10 +269,15 @@ Run the following commands on the virtual machine you want to add to the Istio m
 ## Start Istio within the virtual machine.
 1. start the istio agent
     {{< text bash >}}
-    $ sudo -E /usr/local/bin/istio-start.sh
+    $ sudo systemctl start istio
     {{< /text >}}
     
 ## Uninstall
+Stop the istio
+    {{< text bash >}}
+    $ sudo systemctl stop istio
+    {{< /text >}}
+
 Remove existing istio-sidecar package
     {{< text bash >}}
     $ sudo dpkg -r istio-sidecar
