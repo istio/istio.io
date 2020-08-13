@@ -133,10 +133,10 @@ but not production. Like all alpha features, this guide is subject to change.
     [Determining the ingress host and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) to set the environment variable `${INGRESS_HOST}`.
 
     {{< text bash >}}
-    $ touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/hosts
-    $ echo "${INGRESS_HOST} istiod.istio-system.svc" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/hosts
-    $ echo "1.1.1.1 pod.${SERVICE_NAMESPACE}.svc.cluster.local" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/hosts
-    $ echo "1.1.1.1 vm.${SERVICE_NAMESPACE}.svc.cluster.local" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/hosts
+    $ touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/hosts-addendum
+    $ echo "${INGRESS_HOST} istiod.istio-system.svc" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/hosts-addendum
+    $ echo "1.1.1.1 pod.${SERVICE_NAMESPACE}.svc.cluster.local" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/hosts-addendum
+    $ echo "1.1.1.1 vm.${SERVICE_NAMESPACE}.svc.cluster.local" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/hosts-addendum
     {{< /text >}}
 
     {{< idea >}}
