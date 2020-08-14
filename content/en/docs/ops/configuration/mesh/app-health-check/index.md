@@ -37,46 +37,27 @@ but can be disabled as described below.
 ## Liveness and readiness probes using the command approach
 
 Istio provides a [liveness sample]({{< github_file >}}/samples/health-check/liveness-command.yaml) that
-implements this approach. To demonstrate it working with mutual TLS enabled, first configure an authentication policy
-and a destination rule:
+implements this approach. To demonstrate it working with mutual TLS enabled,
+first create a namespace for the example:
 
-1. Create a namespace for the resources:
+{{< text bash >}}
+$ kubectl create ns istio-io-health
+{{< /text >}}
 
-    {{< text bash >}}
-    $ kubectl create ns istio-io-health
-    {{< /text >}}
+To configure strict mutual TLS, run:
 
-1. To configure the authentication policy, run:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "PeerAuthentication"
-    metadata:
-      name: "default"
-      namespace: "istio-io-health"
-    spec:
-      mtls:
-        mode: STRICT
-    EOF
-    {{< /text >}}
-
-1. To configure the destination rule, run:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: "networking.istio.io/v1alpha3"
-    kind: "DestinationRule"
-    metadata:
-      name: "default"
-      namespace: "istio-io-health"
-    spec:
-      host: "*.default.svc.cluster.local"
-      trafficPolicy:
-        tls:
-          mode: ISTIO_MUTUAL
-    EOF
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
+metadata:
+  name: "default"
+  namespace: "istio-io-health"
+spec:
+  mtls:
+    mode: STRICT
+EOF
+{{< /text >}}
 
 Next, run the following command to deploy the sample service:
 
