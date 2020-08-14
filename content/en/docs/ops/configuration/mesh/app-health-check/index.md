@@ -94,7 +94,7 @@ liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 
 ## Liveness and readiness probes using the HTTP request approach
 
-As stated previouly, Istio uses probe rewrite to implement HTTP probes by default. You can disable this
+As stated previously, Istio uses probe rewrite to implement HTTP probes by default. You can disable this
 feature either for specific pods, or globally.
 
 ### Disable the HTTP probe rewrite for a pod
