@@ -136,6 +136,12 @@ you can uninstall the canary revision using `istioctl x uninstall --revsion=cana
 However, in this case you must first reinstall the gateway(s) for the previous revision manually,
 because the uninstall command will not automatically revert the previously in-place upgraded ones.
 
+{{< tip >}}
+Make sure to use the `istioctl` version corresponding to the old control plane to reinstall the
+old gateways and, to avoid downtime, make sure the old gateways are up and running before proceeding
+with the canary uninstall.
+{{< /tip >}}
+
 ## In place upgrades
 
 The `istioctl upgrade` command performs an upgrade of Istio. Before performing
