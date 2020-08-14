@@ -217,7 +217,7 @@ Ensure you meet these requirements before starting the downgrade process:
 
 * Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
 
-* The Istio version you intend to downgrade to is 1 minor version lower than {{< istio_full_version >}}.
+* The Istio version you intend to downgrade to is 1 minor version less than {{< istio_full_version >}}.
 
 * Downgrade must be done using the `istioctl` binary version that
 corresponds to the Istio version that you intend to downgrade to.
