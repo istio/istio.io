@@ -77,7 +77,7 @@ installation.
     {{< tip >}}
     You only need to specify the configuration for the settings that you want to customize.
     For example, to only customize the sidecar inbound `requests_count` metric, you can omit
-    the `outboundSidecar` and `inboundSidecar` sections in the configuration. Unspecified
+    the `outboundSidecar` and `gateway` sections in the configuration. Unspecified
     settings will retain the default configuration, equivalent to the explicit settings shown above.
     {{< /tip >}}
 
