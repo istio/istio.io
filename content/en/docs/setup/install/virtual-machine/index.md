@@ -154,6 +154,7 @@ but not production. Like all alpha features, this guide is subject to change.
     $ echo "PROV_CERT=/var/run/secrets/istio" >>"${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/sidecar.env
     $ echo "OUTPUT_CERTS=/var/run/secrets/istio" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/sidecar.env
     {{< /text >}}
+    
 ## Configure the virtual machine
 
 Run the following commands on the virtual machine you want to add to the Istio mesh:
@@ -253,6 +254,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
         app: cloud-vm
     EOF
     {{< /text >}}
+
 1. Create workload entry
 
     {{< text bash >}}
@@ -267,7 +269,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
         labels:
           app: gce-vm
         serviceAccount: "${SERVICE_ACCOUNT}"
-      EOF
+    EOF
     {{< /text >}}
 
 ## Start Istio within the virtual machine.
