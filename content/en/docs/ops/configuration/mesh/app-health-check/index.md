@@ -96,9 +96,7 @@ liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 
 This section shows how to configure health checking with the HTTP request option when mutual TLS is enabled.
 
-Kubernetes HTTP health check request is sent from Kubelet, which does not have Istio issued certificate to the `liveness-http` service. So when mutual TLS is enabled, the health check request will fail.
-
-We have two options to solve the problem: probe rewrites and separate ports.
+Kubernetes HTTP health check request is sent from Kubelet, which does not have Istio issued certificate to the `liveness-http` service. So when mutual TLS is enabled, the health check request will fail. We have the probe rewrite option to solve the problem.
 
 ### Probe rewrite
 
@@ -106,31 +104,11 @@ This approach rewrites the application `PodSpec` readiness/liveness probe, such 
 [Pilot agent](/docs/reference/commands/pilot-agent/). Pilot agent then redirects the
 request to application, and strips the response body only returning the response code.
 
-This feature is enabled when installing with the `default` profile. If you find that the profile used to install Istio does not have it enabled, you have two ways to enable the rewrite of the liveness HTTP probes:
+This feature is enabled by default when installing with any of our [profiles](/docs/setup/additional-setup/config-profiles/).
 
-#### Enable globally via install option
+### Disable the probe rewrite option for your pod
 
-[Install Istio](/docs/setup/install/istioctl/) with `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
-
-**Alternatively**, update the configuration map of Istio sidecar injection:
-
-{{< text bash >}}
-$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": false/"rewriteAppHTTPProbe": true/' | kubectl apply -f -
-{{< /text >}}
-
-The above installation option and configuration map, each instruct the sidecar injection process to automatically
-rewrite the Kubernetes pod's spec, so health checks are able to work under mutual TLS. No need to update your app or pod
-spec by yourself.
-
-{{< warning >}}
-The configuration changes above (by install or by the configuration map) effect all Istio app deployments.
-{{< /warning >}}
-
-#### Use annotations on pod
-
-<!-- Add samples YAML or kubectl patch? -->
-
-Rather than install Istio with different options, you can [annotate the pod](/docs/reference/config/annotations/) with `sidecar.istio.io/rewriteAppHTTPProbers: "true"`. Make sure you add the annotation to the [pod resource](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) because it will be ignored anywhere else (for example, on an enclosing deployment resource).
+You can [annotate the pod](/docs/reference/config/annotations/) with `sidecar.istio.io/rewriteAppHTTPProbers: "false"` to disable the probe rewrite option. Make sure you add the annotation to the [pod resource](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) because it will be ignored anywhere else (for example, on an enclosing deployment resource).
 
 {{< text yaml >}}
 apiVersion: apps/v1
@@ -148,7 +126,7 @@ spec:
         app: liveness-http
         version: v1
       annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+        sidecar.istio.io/rewriteAppHTTPProbers: "false"
     spec:
       containers:
       - name: liveness-http
@@ -163,44 +141,15 @@ spec:
           periodSeconds: 5
 {{< /text >}}
 
-This approach allows you to enable the health check prober rewrite gradually on each deployment without reinstalling Istio.
+This approach allows you to disable the health check probe rewrite gradually on each deployment without reinstalling Istio.
 
-#### Re-deploy the liveness health check app
+### Disable the probe rewrite option globally
 
-Instructions below assume you turn on the feature globally via install option.
-Annotations works the same.
-
-{{< text bash >}}
-$ kubectl create ns istio-same-port
-$ kubectl -n istio-same-port apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http-same-port.yaml@)
-{{< /text >}}
+[Install Istio](/docs/setup/install/istioctl/) with `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=false` to disable the probe rewrite globally. **Alternatively**, update the configuration map of Istio sidecar injection:
 
 {{< text bash >}}
-$ kubectl -n istio-same-port get pod
-NAME                             READY     STATUS    RESTARTS   AGE
-liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
+$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
 {{< /text >}}
-
-### Separate port
-
-Another alternative is to use separate port for health checking and regular traffic.
-
-Run these commands to re-deploy the service:
-
-{{< text bash >}}
-$ kubectl create ns istio-sep-port
-$ kubectl -n istio-sep-port apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http.yaml@)
-{{< /text >}}
-
-Wait for a minute and check the pod status to make sure the liveness probes work with '0' in the 'RESTARTS' column.
-
-{{< text bash >}}
-$ kubectl -n istio-sep-port get pod
-NAME                             READY     STATUS    RESTARTS   AGE
-liveness-http-67d5db65f5-765bb   2/2       Running   0          1m
-{{< /text >}}
-
-Note that the image in [liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml) exposes two ports: 8001 and 8002 ([source code]({{< github_file >}}/samples/health-check/server.go)). In this deployment, port 8001 serves the regular traffic while port 8002 is used for liveness probes.
 
 ### Cleanup
 
