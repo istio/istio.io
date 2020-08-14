@@ -18,9 +18,6 @@ at the same time. A canary version of an upgrade can be started by installing th
 next to the old one, using a different `revision` setting. Each revision is a full Istio control plane implementation
 with its own `Deployment`, `Service`, etc.
 
-See additional notes for [upgrading from Helm installations](#upgrading-from-helm-installations)
-and [upgrading from 1.4.x](#upgrading-from-1.4).
-
 ### Control plane
 
 To install a new revision called `canary`, you would set the `revision` field as follows:
@@ -158,7 +155,7 @@ for all the options provided by the `istioctl upgrade` command.
 
 Ensure you meet these requirements before starting the upgrade process:
 
-* Istio version 1.4.4 or higher is installed.
+* Istio version is 1 minor version less than {{< istio_full_version >}}. For example, 1.6.0 or higher is required before you start the upgrade process to 1.7.0.
 
 * Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
 
@@ -189,10 +186,6 @@ can be found in the `bin/` subdirectory of the downloaded package.
     $ istioctl upgrade -f `<your-custom-configuration-file>`
     {{< /text >}}
 
-    `<your-custom-configuration-file>` is the
-    [IstioOperator API Configuration](/docs/setup/install/istioctl/#configure-component-settings)
-    file you used to customize the installation of the currently-running version of Istio.
-
     {{< warning >}}
     If you installed Istio using the `-f` flag, for example
     `istioctl install -f <IstioControlPlane-custom-resource-definition-file>`,
@@ -208,7 +201,7 @@ can be found in the `bin/` subdirectory of the downloaded package.
 
     After performing several checks, `istioctl` will ask you to confirm whether to proceed.
 
-1. `istioctl` will install the new version of Istio control plane and indicate the
+1. `istioctl` will in-place upgrade the Istio control plane and gateways to the new version and indicate the
    completion status.
 
 1. After `istioctl` completes the upgrade, you must manually update the Istio data plane
@@ -222,14 +215,14 @@ can be found in the `bin/` subdirectory of the downloaded package.
 
 Ensure you meet these requirements before starting the downgrade process:
 
-* Istio version 1.5 or higher is installed.
-
 * Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
+
+* The Istio version you intend to downgrade to is 1 minor version less than {{< istio_full_version >}}.
 
 * Downgrade must be done using the `istioctl` binary version that
 corresponds to the Istio version that you intend to downgrade to.
-For example, if you are downgrading from Istio 1.5 to 1.4.4, use `istioctl`
-version 1.4.4.
+For example, if you are downgrading from Istio 1.7 to 1.6.5, use `istioctl`
+version 1.6.5.
 
 ### Steps to downgrade to a lower Istio version
 
@@ -239,6 +232,6 @@ version (e.g., 1.6.5). The process steps are
 identical to the upgrade process mentioned in the previous section. When completed,
 the process will restore Istio back to the Istio version that was installed before.
 
-`istioctl install` also installs the same Istio control plane, but does not
-perform any checks. For example, default values applied to the cluster for a configuration
+`istioctl install` can be used to install an older version of the Istio control plane, but is not recommended
+because it does not perform any checks. For example, default values applied to the cluster for a configuration
 profile may change without warning.
