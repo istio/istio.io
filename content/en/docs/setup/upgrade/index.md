@@ -232,6 +232,6 @@ version (e.g., 1.6.5). The process steps are
 identical to the upgrade process mentioned in the previous section. When completed,
 the process will restore Istio back to the Istio version that was installed before.
 
-`istioctl install` can be used to install the lower version of Istio control plane, but it does not
-perform any checks thus not recommended. For example, default values applied to the cluster for a configuration
+`istioctl install` can be used to install an older version of the Istio control plane, but is not recommended
+because it does not perform any checks. For example, default values applied to the cluster for a configuration
 profile may change without warning.
