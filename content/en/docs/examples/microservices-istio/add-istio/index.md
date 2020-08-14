@@ -21,12 +21,13 @@ disrupt your application, it continues to run and serve user requests.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "authentication.istio.io/v1alpha1"
-    kind: Policy
+    apiVersion: security.istio.io/v1beta1
+    kind: PeerAuthentication
     metadata:
-      name: default
+      name: ${NAMESPACE}-no-mtls
     spec:
-      peers: []
+      mtls:
+        mode: PERMISSIVE
     EOF
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all.yaml
     {{< /text >}}
