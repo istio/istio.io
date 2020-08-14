@@ -158,7 +158,7 @@ for all the options provided by the `istioctl upgrade` command.
 
 Ensure you meet these requirements before starting the upgrade process:
 
-* Istio version is 1 minor version lower than {{< istio_full_version >}}.  For example, 1.6.0 or higher is required before you start the upgrade process to {{< istio_full_version >}}.
+* Istio version is 1 minor version lower than {{< istio_full_version >}}.  For example, 1.6.0 or higher is required before you start the upgrade process to 1.7.0.
 
 * Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
 
