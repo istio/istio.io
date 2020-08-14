@@ -38,29 +38,14 @@ EOF
 }
 
 snip_liveness_and_readiness_probes_using_the_command_approach_3() {
-kubectl apply -f - <<EOF
-apiVersion: "networking.istio.io/v1alpha3"
-kind: "DestinationRule"
-metadata:
-  name: "default"
-  namespace: "istio-io-health"
-spec:
-  host: "*.default.svc.cluster.local"
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
-EOF
-}
-
-snip_liveness_and_readiness_probes_using_the_command_approach_4() {
 kubectl -n istio-io-health apply -f <(istioctl kube-inject -f samples/health-check/liveness-command.yaml)
 }
 
-snip_liveness_and_readiness_probes_using_the_command_approach_5() {
+snip_liveness_and_readiness_probes_using_the_command_approach_4() {
 kubectl -n istio-io-health get pod
 }
 
-! read -r -d '' snip_liveness_and_readiness_probes_using_the_command_approach_5_out <<\ENDSNIP
+! read -r -d '' snip_liveness_and_readiness_probes_using_the_command_approach_4_out <<\ENDSNIP
 NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 ENDSNIP
