@@ -73,7 +73,7 @@ installation.
     and `destination_port` dimensions to the `requests_total` metric emitted by both
     gateways and sidecars in the inbound and outbound direction, change the installation
     options as follows:
-    
+
     {{< tip >}}
     You only need to specify the configuration for the settings that you want to customize.
     For example, to only customize the sidecar inbound `requests_count` metric, you can omit
