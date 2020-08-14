@@ -76,7 +76,7 @@ spec:
     section that you need customization. For example, if you only want to customize
     sidecar inbound `requests_count` metric, you can omit `outboundSidecar` and
     `inboundSidecar` sections in the following configuration.
-   
+
     {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -89,7 +89,7 @@ spec:
             inboundSidecar:
               debug: false
               stat_prefix: istio
-              metrics: 
+              metrics:
                 - name: requests_total
                   dimensions:
                     destination_port: string(destination.port)
@@ -97,7 +97,7 @@ spec:
             outboundSidecar:
               debug: false
               stat_prefix: istio
-              metrics: 
+              metrics:
                 - name: requests_total
                   dimensions:
                     destination_port: string(destination.port)
@@ -106,7 +106,7 @@ spec:
               debug: false
               stat_prefix: istio
               disable_host_header_fallback: true
-              metrics: 
+              metrics:
                 - name: requests_total
                   dimensions:
                     destination_port: string(destination.port)
