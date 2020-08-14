@@ -32,9 +32,9 @@ metric type (`counter`, `gauge`, and `histogram`). The `metrics` section
 provides values for the metric dimensions as expressions, and allows you to
 remove or override the existing metric dimensions. You can modify the standard
 metric definitions using `tags_to_remove` or by re-defining a dimension. These
-configuration sections are also exposed as istioctl installation options, which
-allow you to customize metrics differently for gateway and sidecar at inbound
-or outbound direction.
+configuration settings are also exposed as istioctl installation options, which
+allow you to customize different metrics for gateways and sidecars as well as
+for the inbound or outbound direction.
 
 For more information, see [Stats Config reference](/docs/reference/config/proxy_extensions/stats/).
 
@@ -46,71 +46,75 @@ installation.
 
 ## Enable custom metrics
 
-1. By default, Telemetry v2 `EnvoyFilter` configuration is equivalent to the following installation options:
+1. The default telemetry v2 `EnvoyFilter` configuration is equivalent to the following installation options:
 
     {{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  value:
-    telemetry:
-      v2:
-        prometheus:
-          configOverride:
-            inboundSidecar:
-              debug: false
-              stat_prefix: istio
-            outboundSidecar:
-              debug: false
-              stat_prefix: istio
-            gateway:
-              debug: false
-              stat_prefix: istio
-              disable_host_header_fallback: true
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      value:
+        telemetry:
+          v2:
+            prometheus:
+              configOverride:
+                inboundSidecar:
+                  debug: false
+                  stat_prefix: istio
+                outboundSidecar:
+                  debug: false
+                  stat_prefix: istio
+                gateway:
+                  debug: false
+                  stat_prefix: istio
+                  disable_host_header_fallback: true
     {{< /text >}}
 
-    To customize Telemetry v2 metrics, for example to add `request_host`
-    and `destionation_port` tags to `requests_total` metric emitted by gateway
-    and sidecars both at inbound and outbound direction, you can augment installation
-    options as following. Note you only need to specify the configuration override
-    section that you need customization. For example, if you only want to customize
-    sidecar inbound `requests_count` metric, you can omit `outboundSidecar` and
-    `inboundSidecar` sections in the following configuration.
+    To customize telemetry v2 metrics, for example, to add `request_host`
+    and `destination_port` dimensions to the `requests_total` metric emitted by both
+    gateways and sidecars in the inbound and outbound direction, change the installation
+    options as follows:
+    
+    {{< tip >}}
+    You only need to specify the configuration for the settings that you want to customize.
+    For example, to only customize the sidecar inbound `requests_count` metric, you can omit
+    the `outboundSidecar` and `inboundSidecar` sections in the configuration. Unspecified
+    settings will retain the default configuration, equivalent to the explicit settings shown above.
+    {{< /tip >}}
 
     {{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  value:
-    telemetry:
-      v2:
-        prometheus:
-          configOverride:
-            inboundSidecar:
-              debug: false
-              stat_prefix: istio
-              metrics:
-                - name: requests_total
-                  dimensions:
-                    destination_port: string(destination.port)
-                    request_host: request.host
-            outboundSidecar:
-              debug: false
-              stat_prefix: istio
-              metrics:
-                - name: requests_total
-                  dimensions:
-                    destination_port: string(destination.port)
-                    request_host: request.host
-            gateway:
-              debug: false
-              stat_prefix: istio
-              disable_host_header_fallback: true
-              metrics:
-                - name: requests_total
-                  dimensions:
-                    destination_port: string(destination.port)
-                    request_host: request.host
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      value:
+        telemetry:
+          v2:
+            prometheus:
+              configOverride:
+                inboundSidecar:
+                  debug: false
+                  stat_prefix: istio
+                  metrics:
+                    - name: requests_total
+                      dimensions:
+                        destination_port: string(destination.port)
+                        request_host: request.host
+                outboundSidecar:
+                  debug: false
+                  stat_prefix: istio
+                  metrics:
+                    - name: requests_total
+                      dimensions:
+                        destination_port: string(destination.port)
+                        request_host: request.host
+                gateway:
+                  debug: false
+                  stat_prefix: istio
+                  disable_host_header_fallback: true
+                  metrics:
+                    - name: requests_total
+                      dimensions:
+                        destination_port: string(destination.port)
+                        request_host: request.host
     {{< /text >}}
 
 1. Apply the following annotation to all injected pods with the list of the
