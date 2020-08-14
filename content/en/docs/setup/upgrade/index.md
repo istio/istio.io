@@ -18,9 +18,6 @@ at the same time. A canary version of an upgrade can be started by installing th
 next to the old one, using a different `revision` setting. Each revision is a full Istio control plane implementation
 with its own `Deployment`, `Service`, etc.
 
-See additional notes for [upgrading from Helm installations](#upgrading-from-helm-installations)
-and [upgrading from 1.4.x](#upgrading-from-1.4).
-
 ### Control plane
 
 To install a new revision called `canary`, you would set the `revision` field as follows:
