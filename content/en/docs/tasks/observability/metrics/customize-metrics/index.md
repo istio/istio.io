@@ -23,7 +23,7 @@ By default, Istio defines and generates a set of standard metrics (e.g.
 
 Istio uses the Envoy proxy to generate metrics and provides its configuration in
 the `EnvoyFilter` at
-[`manifests/charts/istio-control/istio-discovery/templates/telemetryv2_1.6.yaml`]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_1.6.yaml).
+[`manifests/charts/istio-control/istio-discovery/templates/telemetryv2_1.7.yaml`]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_1.7.yaml).
 
 Configuring custom statistics involves two sections of the
 `EnvoyFilter`: `definitions` and `metrics`. The `definitions` section
@@ -31,7 +31,10 @@ supports creating new metrics by name, the expected value expression, and the
 metric type (`counter`, `gauge`, and `histogram`). The `metrics` section
 provides values for the metric dimensions as expressions, and allows you to
 remove or override the existing metric dimensions. You can modify the standard
-metric definitions using `tags_to_remove` or by re-defining a dimension.
+metric definitions using `tags_to_remove` or by re-defining a dimension. These
+configuration settings are also exposed as istioctl installation options, which
+allow you to customize different metrics for gateways and sidecars as well as
+for the inbound or outbound direction.
 
 For more information, see [Stats Config reference](/docs/reference/config/proxy_extensions/stats/).
 
@@ -43,63 +46,75 @@ installation.
 
 ## Enable custom metrics
 
-Edit the `EnvoyFilter` to add or modify dimensions and metrics. Then, add
-annotations to all the Istio-enabled pods to extract the new or modified
-dimensions.
+1. The default telemetry v2 `EnvoyFilter` configuration is equivalent to the following installation options:
 
-1. Find the `stats-filter-1.6` `EnvoyFilter` resource from the `istio-system`
-   namespace, using the following command:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system get envoyfilter | grep ^stats-filter-1.6
-    stats-filter-1.6                    2d
+    {{< text yaml >}}
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      value:
+        telemetry:
+          v2:
+            prometheus:
+              configOverride:
+                inboundSidecar:
+                  debug: false
+                  stat_prefix: istio
+                outboundSidecar:
+                  debug: false
+                  stat_prefix: istio
+                gateway:
+                  debug: false
+                  stat_prefix: istio
+                  disable_host_header_fallback: true
     {{< /text >}}
 
-1. Create a local file system copy of the `EnvoyFilter` configuration, using the
-   following command:
+    To customize telemetry v2 metrics, for example, to add `request_host`
+    and `destination_port` dimensions to the `requests_total` metric emitted by both
+    gateways and sidecars in the inbound and outbound direction, change the installation
+    options as follows:
 
-    {{< text bash >}}
-    $ kubectl -n istio-system get envoyfilter stats-filter-1.6 -o yaml > stats-filter-1.6.yaml
-    {{< /text >}}
+    {{< tip >}}
+    You only need to specify the configuration for the settings that you want to customize.
+    For example, to only customize the sidecar inbound `requests_count` metric, you can omit
+    the `outboundSidecar` and `inboundSidecar` sections in the configuration. Unspecified
+    settings will retain the default configuration, equivalent to the explicit settings shown above.
+    {{< /tip >}}
 
-1. Open `stats-filter-1.6.yaml` with a text editor and locate the
-   `envoy.wasm.stats` extension configuration. The default configuration is in
-   the `configuration` section and looks like this example:
-
-    {{< text json >}}
-    {
-    "debug": "false",
-    "stat_prefix": "istio"
-    }
-    {{< /text >}}
-
-1. Edit `stats-filter-1.6.yaml` and modify the configuration section for each
-   instance of the extension configuration. For example, to add
-   `destination_port` and `request_host` dimensions to the standard
-   `requests_total` metric, change the configuration section to look like the
-   following. Istio automatically prefixes all metric names with `istio_`, so
-   omit the prefix from the name field in the metric specification.
-
-    {{< text json >}}
-    {
-        "debug": "false",
-        "stat_prefix": "istio",
-        "metrics": [
-            {
-                "name": "requests_total",
-                "dimensions": {
-                    "destination_port": "string(destination.port)",
-                    "request_host": "request.host"
-                }
-            }
-        ]
-    }
-    {{< /text >}}
-
-1. Save `stats-filter-1.6.yaml` and then apply the configuration using the following command:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system apply -f stats-filter-1.6.yaml
+    {{< text yaml >}}
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      value:
+        telemetry:
+          v2:
+            prometheus:
+              configOverride:
+                inboundSidecar:
+                  debug: false
+                  stat_prefix: istio
+                  metrics:
+                    - name: requests_total
+                      dimensions:
+                        destination_port: string(destination.port)
+                        request_host: request.host
+                outboundSidecar:
+                  debug: false
+                  stat_prefix: istio
+                  metrics:
+                    - name: requests_total
+                      dimensions:
+                        destination_port: string(destination.port)
+                        request_host: request.host
+                gateway:
+                  debug: false
+                  stat_prefix: istio
+                  disable_host_header_fallback: true
+                  metrics:
+                    - name: requests_total
+                      dimensions:
+                        destination_port: string(destination.port)
+                        request_host: request.host
     {{< /text >}}
 
 1. Apply the following annotation to all injected pods with the list of the
