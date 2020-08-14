@@ -12,20 +12,19 @@ pod's container list and configures it to block the start of all other
 containers until the proxy is ready.  This option is disabled by default.
  ([Issue #11130](https://github.com/istio/istio/issues/11130))
 
-## Security
-
-- **Added** Enabled the workload cert rotate automatically in VM
- ([Issue #24554](https://github.com/istio/istio/issues/24554))
-
-- **Added** support for creation of CSRs using ECC based certificates.
- ([Issue #23226](https://github.com/istio/istio/issues/23226))
-
-- **Added** SDS support for Client Certificate and CA certificate used for TLS/mTLS Origination from Egress Gateway.
+- **Added** SDS support for Client Certificate and CA certificate used for [TLS/mTLS Origination from Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds/) using `DestinationRule`.
   ([Issue #14039](https://github.com/istio/istio/issues/14039))
 
-- **Improved** Trust Domain Validation to validate TCP traffic as well, previously only HTTP traffic was validated
+## Security
+
+- **Improved** Trust Domain Validation to validate TCP traffic as well, previously only HTTP traffic was validated. See the [design doc](https://docs.google.com/document/d/1yfYFp2Pw3-pPACYGRWQQdrEtroAunCD3fjOF9ZGtcrU/edit#heading=h.78z3fc6weip0) for details.
+([Issue #26224](https://github.com/istio/istio/issues/26224))
 
 - **Improved** Istio Gateways to allow use of source principal based authorization when the Server's TLS mode is `ISTIO_MUTUAL`.
+([Issue #25818](https://github.com/istio/istio/issues/25818))
+
+- **Improved** VM security. VM identity is now bootstrapped from a short-lived Kubernetes service account token. And VM's workload certificate is automatically rotated.
+ ([Issue #24554](https://github.com/istio/istio/issues/24554))
 
 ## Telemetry
 
