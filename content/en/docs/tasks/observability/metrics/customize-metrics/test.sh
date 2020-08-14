@@ -23,39 +23,53 @@ source "tests/util/samples.sh"
 
 # @setup profile=demo
 
+## Setting up application
 # Set to known setting of sidecar injection
 kubectl label namespace default istio-injection=enabled --overwrite
 
 # Install Bookinfo application
 startup_bookinfo_sample
 
+## Before patching configuration
+# First make sure that the metric dimensions we are going to add as
+# part of this task don't exist yet
+function send_productpage_requests() {
+  _set_ingress_environment_variables
+  gateway_url=$INGRESS_HOST:$INGRESS_PORT
+  for i in {1..100}; do
+    curl -s http://$gateway_url/productpage > /dev/null
+  done
+}
+
+function check_sidecar_metrics() {
+  productpage_pod=$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')
+  kubectl exec $productpage_pod -c istio-proxy -- curl -s 'localhost:15000/stats/prometheus' | grep 'istio_requests_total'
+}
+
+send_productpage_requests
+_verify_not_contains check_sidecar_metrics "destination_port"
+_verify_not_contains check_sidecar_metrics "request_host"
+
+## Patching configuration
 # Find and get the stats filter file and tweak metrics configuration
+filter_name="stats-filter-1.7"
 _verify_like snip_enable_custom_metrics_1 "$snip_enable_custom_metrics_1_out"
-snip_enable_custom_metrics_2
+kubectl -n istio-system get envoyfilter $filter_name -o yaml > $filter_name.yaml
 
 echo "patch stats-filter configuration to add custom metrics"
-stats_filter_config="stats-filter-1.6.yaml"
+stats_filter_config="$filter_name.yaml"
 script_path="content/en/docs/tasks/observability/metrics/customize-metrics"
 python3 "$script_path"/patch_stats_filter_config.py $stats_filter_config $stats_filter_config
 
 # After editing the filter apply changes and wait for propagation
-snip_enable_custom_metrics_5
-kubectl -n istio-system get envoyfilter stats-filter-1.6 -o yaml
-_wait_for_istio envoyfilter istio-system stats-filter-1.6
+kubectl -n istio-system apply -f $filter_name.yaml
+kubectl -n istio-system get envoyfilter $filter_name -o yaml
+_wait_for_istio envoyfilter istio-system $filter_name
 
-# Fire some requests at productpage so that we will have some requests
-_set_ingress_environment_variables
-gateway_url=$INGRESS_HOST:$INGRESS_PORT
-for i in {1..100}; do
-  curl http://$gateway_url/productpage > /dev/null
-done
-
-# Finally verify results
-# I cannot use the command in the snippet because it has pod-name, but I need an actual pod
-productpage_pod=$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')
-metric_count=$(kubectl exec $productpage_pod -c istio-proxy -- curl 'localhost:15000/stats/prometheus' | grep 'istio_requests_total' | wc -l)
-echo "obtained count: $metric_count"
-__cmp_at_least $metric_count 1
+## Verify if patching works correctly
+send_productpage_requests
+_verify_contains check_sidecar_metrics "destination_port"
+_verify_contains check_sidecar_metrics "request_host"
 
 # @cleanup
 set +e # ignore cleanup errors

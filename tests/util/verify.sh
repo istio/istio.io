@@ -102,19 +102,6 @@ __cmp_first_line() {
     return 0
 }
 
-# Returns 0 if the output (which should be a number) is greater than or
-# equal to the given lower bound. Otherwise, it returns 1.
-__cmp_at_least() {
-    local out=$1
-    local lower_bound=$2
-
-    if [[ "$out" -ge "$lower_bound" ]]; then
-        return 0
-    fi
-
-    return 1
-}
-
 # Returns 0 if $out is "like" $expected. Like implies:
 #   1. Same number of lines
 #   2. Same number of whitespace-seperated tokens per line

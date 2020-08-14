@@ -21,21 +21,16 @@ from typing import Dict
 
 def patch_config_for_adding_custom_metric(config: Dict[str, object]):
     patches = config['spec']['configPatches']
-    outbound_patch = None
     for patch in patches:
-        if patch['match']['context'] == 'SIDECAR_OUTBOUND':
-            outbound_patch = patch
-            break
-
-    metric_config = json.loads(outbound_patch['patch']['value']['typed_config']['value']['config']['configuration'])
-    metric_config['metrics'] = {
-        'name': 'requests_total',
-        'dimensions': {
-            'destination_port': 'string(destination.port)',
-            'request_host': 'request.host'
-        }
-    }
-    outbound_patch['patch']['value']['typed_config']['value']['config']['configuration'] = json.dumps(metric_config)
+        metric_config = json.loads(patch['patch']['value']['typed_config']['value']['config']['configuration']['value'])
+        metric_config['metrics'] = [{
+            'name': 'requests_total',
+            'dimensions': {
+                'destination_port': 'string(destination.port)',
+                'request_host': 'request.host'
+            }
+        }]
+        patch['patch']['value']['typed_config']['value']['config']['configuration']['value'] = json.dumps(metric_config)
 
 
 if __name__ == '__main__':
