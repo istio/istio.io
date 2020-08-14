@@ -2582,7 +2582,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpe
 istioctl experimental wait --for=distribution virtualservice bookinfo.default
 
 # Wait until 99% of the proxies receive the distribution, timing out after 5 minutes
-istioctl experimental wait --for=distribution --threshold=.99 --timeout=300s virtualservice bookinfo.default
+istioctl experimental wait --for=distribution --threshold=.99 --timeout=300 virtualservice bookinfo.default
 
 </code></pre>
 <h2 id="istioctl-install">istioctl install</h2>
@@ -3351,6 +3351,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.6.0/
 <td><code>--tag &lt;string&gt;</code></td>
 <td></td>
 <td>The tag for the operator controller image  (default `unknown`)</td>
+</tr>
+<tr>
+<td><code>--watchedNamespaces &lt;string&gt;</code></td>
+<td></td>
+<td>The namespaces the operator controller watches, could be namespace list separated by comma, eg. &#39;ns1,ns2&#39;  (default `istio-system`)</td>
 </tr>
 </tbody>
 </table>
@@ -4973,6 +4978,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_k8s_cfg_events</code></td><td><code>Sum</code></td><td>Events from k8s config.</td></tr>
+<tr><td><code>pilot_k8s_endpoints_pending_pod</code></td><td><code>LastValue</code></td><td>Number of endpoints that do not currently have any corresponding pods.</td></tr>
 <tr><td><code>pilot_k8s_endpoints_with_no_pods</code></td><td><code>Sum</code></td><td>Endpoints that does not have any corresponding pods.</td></tr>
 <tr><td><code>pilot_k8s_object_errors</code></td><td><code>LastValue</code></td><td>Errors converting k8s CRDs</td></tr>
 <tr><td><code>pilot_k8s_reg_events</code></td><td><code>Sum</code></td><td>Events from k8s registry.</td></tr>
