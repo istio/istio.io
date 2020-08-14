@@ -53,7 +53,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
 
     {{< tip >}}
     If there are errors trying to install the addons, try running the command again. There may
-    be some timing issues which will be reolved when the command is run again.
+    be some timing issues which will be resolved when the command is run again.
     {{< /tip >}}
 
 1.  Next, enable Envoy's access logging as described in
@@ -85,28 +85,32 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
       - host: my-istio-dashboard.io
         http:
           paths:
-          - path: /*
+          - path: /
+            pathType: Prefix
             backend:
               serviceName: grafana
               servicePort: 3000
       - host: my-istio-tracing.io
         http:
           paths:
-          - path: /*
+          - path: /
+            pathType: Prefix
             backend:
               serviceName: tracing
               servicePort: 9411
       - host: my-istio-logs-database.io
         http:
           paths:
-          - path: /*
+          - path: /
+            pathType: Prefix
             backend:
               serviceName: prometheus
               servicePort: 9090
       - host: my-kiali.io
         http:
           paths:
-          - path: /*
+          - path: /
+            pathType: Prefix
             backend:
               serviceName: kiali
               servicePort: 20001
@@ -162,7 +166,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
       namespace: $NAMESPACE
     rules:
     - apiGroups: ["", "extensions", "apps", "networking.k8s.io", "networking.istio.io", "authentication.istio.io",
-                  "rbac.istio.io", "config.istio.io"]
+                  "rbac.istio.io", "config.istio.io", "security.istio.io"]
       resources: ["*"]
       verbs: ["*"]
     ---

@@ -52,7 +52,7 @@ microservice.
     reviews-v1-77c65dc5c6-kjvxs     1/1     Running   0          9s
     {{< /text >}}
 
-1.  After the four services achieve the `Running` status, you can scale the deployment. To let each version of each microservice run in three pods, execute the following command:
+1.  After the four pods achieve the `Running` status, you can scale the deployment. To let each version of each microservice run in three pods, execute the following command:
 
     {{< text bash >}}
     $ kubectl scale deployments --all --replicas 3
@@ -142,7 +142,8 @@ service/productpage patched
             backend:
               serviceName: productpage
               servicePort: 9080
-          - path: /static/*
+          - path: /static
+            pathType: Prefix
             backend:
               serviceName: productpage
               servicePort: 9080
