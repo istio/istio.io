@@ -25,11 +25,11 @@ and [upgrading from 1.4.x](#upgrading-from-1.4).
 
 To install a new revision called `canary`, you would set the `revision` field as follows:
 
-<tip>
+{{< tip >}}
 In a production environment, a better revision name would correspond to the Istio version.
 However, you must replace `.` characters in the revision name, for example, `revision=1-6-8` for Istio `1.6.8`,
 because `.` is not a valid revision name character.
-</tip>
+{{< /tip >}}
 
 {{< text bash >}}
 $ istioctl install --set revision=canary
@@ -127,6 +127,20 @@ istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 {{< /text >}}
 
 Note that the above instructions only removed the resources for the specified control plane revision, but not cluster-scoped resources shared with other control planes. To uninstall Istio completely, refer to the [uninstall guide](/docs/setup/install/istioctl/#uninstall-istio).
+
+### Uninstall canary control plane
+
+If you decide to rollback to the old control plane, instead of completing the canary upgrade,
+you can uninstall the canary revision using `istioctl x uninstall --revsion=canary`.
+
+However, in this case you must first reinstall the gateway(s) for the previous revision manually,
+because the uninstall command will not automatically revert the previously in-place upgraded ones.
+
+{{< tip >}}
+Make sure to use the `istioctl` version corresponding to the old control plane to reinstall the
+old gateways and, to avoid downtime, make sure the old gateways are up and running before proceeding
+with the canary uninstall.
+{{< /tip >}}
 
 ## In place upgrades
 
