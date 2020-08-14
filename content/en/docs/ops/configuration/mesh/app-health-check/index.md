@@ -138,7 +138,7 @@ spec:
 This approach allows you to disable the health check probe rewrite gradually on individual deployments,
 without reinstalling Istio.
 
-## Disable the probe rewrite globally
+### Disable the probe rewrite globally
 
 [Install Istio](/docs/setup/install/istioctl/) using `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=false`
 to disable the probe rewrite globally. **Alternatively**, update the configuration map for the Istio sidecar injector:
