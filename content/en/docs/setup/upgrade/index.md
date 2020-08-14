@@ -201,7 +201,7 @@ can be found in the `bin/` subdirectory of the downloaded package.
 
     After performing several checks, `istioctl` will ask you to confirm whether to proceed.
 
-1. `istioctl` will in place upgrade the Istio control plane and gateways to the new version and indicate the
+1. `istioctl` will in-place upgrade the Istio control plane and gateways to the new version and indicate the
    completion status.
 
 1. After `istioctl` completes the upgrade, you must manually update the Istio data plane
