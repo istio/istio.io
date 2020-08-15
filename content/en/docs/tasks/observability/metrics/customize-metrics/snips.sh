@@ -20,46 +20,64 @@
 #          docs/tasks/observability/metrics/customize-metrics/index.md
 ####################################################################################################
 
-snip_enable_custom_metrics_1() {
-kubectl -n istio-system get envoyfilter | grep ^stats-filter-1.6
-}
-
-! read -r -d '' snip_enable_custom_metrics_1_out <<\ENDSNIP
-stats-filter-1.6                    2d
+! read -r -d '' snip_enable_custom_metrics_1 <<\ENDSNIP
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  values:
+    telemetry:
+      v2:
+        prometheus:
+          configOverride:
+            inboundSidecar:
+              debug: false
+              stat_prefix: istio
+            outboundSidecar:
+              debug: false
+              stat_prefix: istio
+            gateway:
+              debug: false
+              stat_prefix: istio
+              disable_host_header_fallback: true
 ENDSNIP
 
-snip_enable_custom_metrics_2() {
-kubectl -n istio-system get envoyfilter stats-filter-1.6 -o yaml > stats-filter-1.6.yaml
-}
+! read -r -d '' snip_enable_custom_metrics_2 <<\ENDSNIP
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  values:
+    telemetry:
+      v2:
+        prometheus:
+          configOverride:
+            inboundSidecar:
+              debug: false
+              stat_prefix: istio
+              metrics:
+                - name: requests_total
+                  dimensions:
+                    destination_port: string(destination.port)
+                    request_host: request.host
+            outboundSidecar:
+              debug: false
+              stat_prefix: istio
+              metrics:
+                - name: requests_total
+                  dimensions:
+                    destination_port: string(destination.port)
+                    request_host: request.host
+            gateway:
+              debug: false
+              stat_prefix: istio
+              disable_host_header_fallback: true
+              metrics:
+                - name: requests_total
+                  dimensions:
+                    destination_port: string(destination.port)
+                    request_host: request.host
+ENDSNIP
 
 ! read -r -d '' snip_enable_custom_metrics_3 <<\ENDSNIP
-{
-"debug": "false",
-"stat_prefix": "istio"
-}
-ENDSNIP
-
-! read -r -d '' snip_enable_custom_metrics_4 <<\ENDSNIP
-{
-    "debug": "false",
-    "stat_prefix": "istio",
-    "metrics": [
-        {
-            "name": "requests_total",
-            "dimensions": {
-                "destination_port": "string(destination.port)",
-                "request_host": "request.host"
-            }
-        }
-    ]
-}
-ENDSNIP
-
-snip_enable_custom_metrics_5() {
-kubectl -n istio-system apply -f stats-filter-1.6.yaml
-}
-
-! read -r -d '' snip_enable_custom_metrics_6 <<\ENDSNIP
 apiVersion: apps/v1
 kind: Deployment
 spec:
