@@ -20,11 +20,11 @@
 #          docs/ops/configuration/mesh/app-health-check/index.md
 ####################################################################################################
 
-snip_liveness_and_readiness_probes_with_command_option_1() {
+snip_liveness_and_readiness_probes_using_the_command_approach_1() {
 kubectl create ns istio-io-health
 }
 
-snip_liveness_and_readiness_probes_with_command_option_2() {
+snip_liveness_and_readiness_probes_using_the_command_approach_2() {
 kubectl apply -f - <<EOF
 apiVersion: "security.istio.io/v1beta1"
 kind: "PeerAuthentication"
@@ -37,35 +37,20 @@ spec:
 EOF
 }
 
-snip_liveness_and_readiness_probes_with_command_option_3() {
-kubectl apply -f - <<EOF
-apiVersion: "networking.istio.io/v1alpha3"
-kind: "DestinationRule"
-metadata:
-  name: "default"
-  namespace: "istio-io-health"
-spec:
-  host: "*.default.svc.cluster.local"
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
-EOF
-}
-
-snip_liveness_and_readiness_probes_with_command_option_4() {
+snip_liveness_and_readiness_probes_using_the_command_approach_3() {
 kubectl -n istio-io-health apply -f <(istioctl kube-inject -f samples/health-check/liveness-command.yaml)
 }
 
-snip_liveness_and_readiness_probes_with_command_option_5() {
+snip_liveness_and_readiness_probes_using_the_command_approach_4() {
 kubectl -n istio-io-health get pod
 }
 
-! read -r -d '' snip_liveness_and_readiness_probes_with_command_option_5_out <<\ENDSNIP
+! read -r -d '' snip_liveness_and_readiness_probes_using_the_command_approach_4_out <<\ENDSNIP
 NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 ENDSNIP
 
-! read -r -d '' snip_disable_the_probe_rewrite_option_for_your_pod_1 <<\ENDSNIP
+! read -r -d '' snip_disable_the_http_probe_rewrite_for_a_pod_1 <<\ENDSNIP
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -96,10 +81,10 @@ spec:
           periodSeconds: 5
 ENDSNIP
 
-snip_disable_the_probe_rewrite_option_globally_1() {
+snip_disable_the_probe_rewrite_globally_1() {
 kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
 }
 
 snip_cleanup_1() {
-kubectl delete ns istio-io-health istio-same-port istio-sep-port
+kubectl delete ns istio-io-health
 }

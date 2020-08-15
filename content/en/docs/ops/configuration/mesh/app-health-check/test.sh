@@ -21,26 +21,24 @@ set -o pipefail
 
 # @setup profile=default
 
-snip_liveness_and_readiness_probes_with_command_option_1
+snip_liveness_and_readiness_probes_using_the_command_approach_1
 
-snip_liveness_and_readiness_probes_with_command_option_2
-
-snip_liveness_and_readiness_probes_with_command_option_3
+snip_liveness_and_readiness_probes_using_the_command_approach_2
 
 _wait_for_istio peerauthentication istio-io-health default
-_wait_for_istio destinationrule istio-io-health default
 
-snip_liveness_and_readiness_probes_with_command_option_4
+snip_liveness_and_readiness_probes_using_the_command_approach_3
 
 _wait_for_deployment istio-io-health liveness
 
-_verify_like snip_liveness_and_readiness_probes_with_command_option_5 "$snip_liveness_and_readiness_probes_with_command_option_5_out"
+_verify_like snip_liveness_and_readiness_probes_using_the_command_approach_4 "$snip_liveness_and_readiness_probes_using_the_command_approach_4_out"
 
 kubectl -n istio-io-health delete -f samples/health-check/liveness-command.yaml
 
-snip_disable_the_probe_rewrite_option_globally_1
+snip_disable_the_probe_rewrite_globally_1
+
+# TODO test annotation approach and verify both disable approaches work.
 
 # @cleanup
 set +e # ignore cleanup errors
 snip_cleanup_1
-kubectl delete ns health-annotate
