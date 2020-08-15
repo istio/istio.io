@@ -96,12 +96,14 @@ but not production. Like all alpha features, this guide is subject to change.
 ## Create files to transfer to the virtual machine
 
 1. Create Kubernetes token in the example you can set the  
+
     {{< text bash >}}
     $ tokenexpiretime=3600
     $ echo '{"kind":"TokenRequest","apiVersion":"authentication.k8s.io/v1","spec":{"audiences":["istio-ca"],"expirationSeconds":'$tokenexpiretime'}}' | kubectl create --raw /api/v1/namespaces/$VM_NAMESPACE/serviceaccounts/$SERVICE_ACCOUNT/token -f - | jq -j '.status.token' > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/istio-token
     {{< /text >}}
 
 1. Get the root cert
+
     {{< text bash >}}
     $ kubectl -n "${VM_NAMESPACE}" get configmaps istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/root-cert
     {{< /text >}}
@@ -202,7 +204,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo cp "${HOME}"/cluster.env /var/lib/istio/envoy/cluster.env
     {{< /text >}}
 
-1. Install `sidecar.env` within the directory`/var/lib/istio/envoy/`.
+1. Install `sidecar.env` within the directory `/var/lib/istio/envoy/`.
 
     {{< text bash >}}
     $ sudo cp "${HOME}"/sidecar.env /var/lib/istio/envoy/sidecar.env
@@ -228,6 +230,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     {{< /text >}}
 
 ## Setup policies for virtual machine
+
 1. Get the external ip or internal ip of the virtual machine and store to `"${VM_IP}"`
 
     {{< text bash >}}
@@ -267,7 +270,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
       spec:
         address: "${VM_IP}"
         labels:
-          app: gce-vm
+          app: cloud-vm
         serviceAccount: "${SERVICE_ACCOUNT}"
     EOF
     {{< /text >}}
@@ -281,12 +284,14 @@ Run the following commands on the virtual machine you want to add to the Istio m
     {{< /text >}}
     
 ## Uninstall
-Stop the Istio
+Stop the Istio running on VM
+
     {{< text bash >}}
     $ sudo systemctl stop istio
     {{< /text >}}
 
 Remove existing Istio-sidecar package
+
     {{< text bash >}}
     $ sudo dpkg -r istio-sidecar
     $ dpkg -s istio-sidecar
