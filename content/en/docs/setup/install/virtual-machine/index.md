@@ -50,7 +50,7 @@ but not production. Like all alpha features, this guide is subject to change.
 
  Set the IstioOperator spec `values.global.meshExpansion.enabled: true`
 
-1. Create namespace to install istio.
+1. Create namespace to install Istio.
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
@@ -274,19 +274,19 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
 ## Start Istio within the virtual machine.
 
-1. start the istio agent
+1. start the Istio agent
 
     {{< text bash >}}
     $ sudo systemctl start istio
     {{< /text >}}
     
 ## Uninstall
-Stop the istio
+Stop the Istio
     {{< text bash >}}
     $ sudo systemctl stop istio
     {{< /text >}}
 
-Remove existing istio-sidecar package
+Remove existing Istio-sidecar package
     {{< text bash >}}
     $ sudo dpkg -r istio-sidecar
     $ dpkg -s istio-sidecar
