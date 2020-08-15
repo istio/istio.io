@@ -31,6 +31,12 @@ containers until the proxy is ready.  This option is disabled by default.
 - **Added** Prometheus metrics to istio-agent.
  ([Issue #22825](https://github.com/istio/istio/issues/22825))
 
+- **Added** Metric customization with `istioctl`.
+  ([Issue #25963](https://github.com/istio/istio/issues/25963))
+
+- **Added** TCP Metrics and Access Logs to Stackdriver.
+ ([Issue #23134](https://github.com/istio/istio/issues/23134))
+
 - **Deprecated** installation of telemetry addons by `istioctl`. These will be disabled by default, and in a future release removed entirely. More information on installing these addons can be found in the [Integrations](/docs/ops/integrations/) page.
  ([Issue #22762](https://github.com/istio/istio/issues/22762))
 
@@ -39,6 +45,9 @@ containers until the proxy is ready.  This option is disabled by default.
 
 - **Fixed** Prometheus [metrics merging](/docs/ops/integrations/prometheus/#option-1-metrics-merging) to not drop Envoy metrics during application failures.
  ([Issue #22825](https://github.com/istio/istio/issues/22825))
+
+- **Fixed** Fix unexplained telemetry which affects Kiali graph. This fix increases default outbound protocol sniffing timeout to `5s`, which has impact on server first protocol like `mysql`.
+   ([Issue #24379](https://github.com/istio/istio/issues/24379))
 
 - **Removed** the `pilot_xds_eds_instances` and `pilot_xds_eds_all_locality_endpoints` Istiod metrics, which were not
 accurate.
