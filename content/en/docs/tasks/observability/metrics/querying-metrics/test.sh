@@ -36,7 +36,7 @@ _set_ingress_environment_variables
 export INGRESS_URL="$INGRESS_HOST:$INGRESS_PORT"
 echo "$INGRESS_URL"
 for _ in {1..50}; do
-    curl -s -m 3.0 http://"$INGRESS_URL"/productpage > /dev/null
+    curl -s http://"$INGRESS_URL"/productpage > /dev/null
 done
 
 # Now check Prometheus dashboard for the metric. It should be present
