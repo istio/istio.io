@@ -31,26 +31,59 @@ startup_bookinfo_sample
 kubectl apply -f samples/addons/prometheus.yaml -n istio-system
 _wait_for_deployment istio-system prometheus
 
-# Prometheus living inside cluster is not accessible from outside.
-# So we need some sort of port redirection mechanism
-istioctl dashboard prometheus &
-
 # Fire a couple of requests
 _set_ingress_environment_variables
-export INGRESS_URL=$INGRESS_HOST:$INGRESS_PORT
-for i in {1..50}; do
-    curl -s http://$INGRESS_URL/productpage > /dev/null
+export INGRESS_URL="$INGRESS_HOST:$INGRESS_PORT"
+echo "$INGRESS_URL"
+for _ in {1..50}; do
+    curl -s -m 3.0 http://"$INGRESS_URL"/productpage > /dev/null
 done
 
 # Now check Prometheus dashboard for the metric. It should be present
-function query_prometheus() {
-    curl -sg 'http://localhost:9090/api/v1/query?query=istio_requests_total' | jq .data.result[0].metric.__name__
+function urlencode() {
+    local value=$1
+    python3 -c "import urllib.parse; print(urllib.parse.quote('''$value'''))"
 }
 
-_verify_contains query_prometheus '"istio_requests_total"'
+function query_prometheus() {
+    local query_expr=$1
+    local prometheus_api_root='localhost:9090/api/v1'
+    local encoded_query=$(urlencode "$query_expr")
+    curl -sg -m 3.0 http://"$prometheus_api_root"/query?query="$encoded_query"
+}
+
+function query_total_requests() {
+    query_prometheus 'istio_requests_total' | jq .data.result[0].metric.__name__
+}
+
+function query_requests_to_productpage() {
+    local query='istio_requests_total{destination_service="productpage.default.svc.cluster.local"}'
+    query_prometheus "$query" | jq .data.result[0].metric.destination_service
+}
+
+function query_requests_to_reviews_v3() {
+    local query='istio_requests_total{destination_service="reviews.default.svc.cluster.local",destination_version="v3"}'
+    query_prometheus "$query" | jq '.data.result[0].metric.destination_service,.data.result[0].metric.destination_version'
+}
+
+function query_rate_of_requests_to_productpage_5m() {
+    local query='rate(istio_requests_total{destination_service=~"productpage.*",response_code="200"}[5m])'
+    query_prometheus "$query" | jq .data.result[0].metric.destination_service
+}
+
+# Prometheus living inside cluster is not accessible from outside.
+# So we need some sort of port forwarding mechanism
+istioctl dashboard prometheus &
+
+_verify_contains query_total_requests '"istio_requests_total"'
+_verify_contains query_requests_to_productpage '"productpage.default.svc.cluster.local"'
+_verify_contains query_requests_to_reviews_v3 '"reviews.default.svc.cluster.local"'
+# _verify_contains query_requests_to_reviews_v3 '"v3"'
+# _verify_contains query_rate_of_requests_to_productpage_5m '"productpage.default.svc.cluster.local"'
+pgrep istioctl | xargs kill
 
 # @cleanup
 set +e
-killall istioctl
+pgrep istioctl | xargs kill
 kubectl delete -f samples/addons/prometheus.yaml -n istio-system
 cleanup_bookinfo_sample
