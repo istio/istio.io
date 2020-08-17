@@ -33,7 +33,7 @@ aliases:
     以 Bookinfo 为例，在 web 浏览器中访问 `http://$GATEWAY_URL/productpage` 或执行如下命令：
 
     {{< text bash >}}
-    $ curl http://$GATEWAY_URL/productpage
+    $ curl http://"$GATEWAY_URL"/productpage
     {{< /text >}}
 
     {{< tip >}}

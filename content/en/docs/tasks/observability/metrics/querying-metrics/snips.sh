@@ -30,7 +30,7 @@ prometheus   ClusterIP   10.109.160.254   <none>        9090/TCP   4m
 ENDSNIP
 
 snip_querying_istio_metrics_2() {
-curl http://$GATEWAY_URL/productpage
+curl http://"$GATEWAY_URL"/productpage
 }
 
 snip_querying_istio_metrics_3() {
