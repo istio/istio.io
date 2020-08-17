@@ -92,7 +92,8 @@ snip_apply_kubernetes_network_policies_7
 
 # Verify failure
 #_verify_contains snip_apply_kubernetes_network_policies_8 "port 443 failed: Connection timed out"
-# TODO: ^^^ this check is not working - gets 200 repsonse
+# TODO: ^^^ this check fails as the test cluster doesn't have a network plugin
+# installed which can enforce network policies.
 
 # Enable sidecar injection
 snip_apply_kubernetes_network_policies_9

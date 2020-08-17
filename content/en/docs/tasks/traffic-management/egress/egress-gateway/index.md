@@ -474,12 +474,12 @@ external service.
     EOF
     {{< /text >}}
 
-{{< warning >}}
-[Network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/)
-are implemented by the network plugin in your Kubernetes cluster.
-Depending on your test cluster, the traffic may not be blocked as described in
-this step.
-{{< /warning >}}
+    {{< warning >}}
+    [Network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/)
+    are implemented by the network plugin in your Kubernetes cluster.
+    Depending on your test cluster, the traffic may not be blocked in the following
+    step.
+    {{< /warning >}}
 
 1.  Resend the previous HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics). Now it
     should fail since the traffic is blocked by the network policy. Note that the `sleep` pod cannot bypass
