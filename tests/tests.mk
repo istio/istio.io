@@ -7,7 +7,6 @@ doc.test: init | $(JUNIT_REPORT)
 		-v -timeout=${TIMEOUT} -count=1 -p=1 \
 		-istio.test.hub=$(HUB) \
 		-istio.test.tag=$(TAG) \
-		-istio.test.pullpolicy=IfNotPresent \
 		2>&1 | tee >($(JUNIT_REPORT) > $(JUNIT_OUT))
 
 doc.test.help:
