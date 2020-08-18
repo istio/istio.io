@@ -11,7 +11,7 @@ test: no
 
 This task shows you how to visualize different aspects of your Istio mesh.
 
-As part of this task, you install the [Kiali](https://www.kiali.io) add-on
+As part of this task, you install the [Kiali](https://www.kiali.io) addon
 and use the web-based graphical user interface to view service graphs of
 the mesh and your Istio configuration objects. Lastly, you use the Kiali
 Developer API to generate graph data in the form of consumable JSON.
@@ -22,7 +22,8 @@ To learn about the full set of features it supports,
 see the [Kiali website](http://kiali.io/documentation/latest/features/).
 {{< /idea >}}
 
-This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as the example throughout.
+This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as the example throughout. This task
+assumes the Bookinfo application is installed in the `bookinfo` namespace.
 
 ## Before you begin
 
@@ -280,8 +281,8 @@ If you are not planning any follow-up tasks, remove the Bookinfo sample applicat
 
 1. To remove the Bookinfo application, refer to the [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions.
 
-1. To remove Kiali from a Kubernetes environment, remove all components with the `app=kiali` label:
+1. To remove Kiali from a Kubernetes environment:
 
 {{< text bash >}}
-$ kubectl delete all,secrets,sa,configmaps,deployments,ingresses,clusterroles,clusterrolebindings,customresourcedefinitions --selector=app=kiali -n istio-system
+$ kubectl delete -f {{< github_file >}}/samples/addons/kiali.yaml
 {{< /text >}}
