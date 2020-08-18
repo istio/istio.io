@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 81
+number_of_entries: 79
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -1325,41 +1325,6 @@ istioctl config list
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-experimental-convert-ingress">istioctl experimental convert-ingress</h2>
-<p>(convert-ingress has graduated. Use `istioctl convert-ingress`)</p>
-<pre class="language-bash"><code>istioctl experimental convert-ingress [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-</tbody>
-</table>
 <h2 id="istioctl-experimental-create-remote-secret">istioctl experimental create-remote-secret</h2>
 <p>Create a secret with credentials to allow Istio to access remote Kubernetes apiservers</p>
 <pre class="language-bash"><code>istioctl experimental create-remote-secret [flags]
@@ -1435,41 +1400,6 @@ istioctl --Kubeconfig=c0.yaml x create-remote-secret --name c0 --auth-type=plugi
     | kubectl --Kubeconfig=c1.yaml apply -f -
 
 </code></pre>
-<h2 id="istioctl-experimental-dashboard">istioctl experimental dashboard</h2>
-<p>(dashboard has graduated. Use `istioctl dashboard`)</p>
-<pre class="language-bash"><code>istioctl experimental dashboard [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-</tbody>
-</table>
 <h2 id="istioctl-experimental-describe">istioctl experimental describe</h2>
 <p>Describe resource and related Istio configuration</p>
 <pre class="language-bash"><code>istioctl experimental describe [flags]
