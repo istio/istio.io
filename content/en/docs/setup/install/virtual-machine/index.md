@@ -154,7 +154,7 @@ but not production. Like all alpha features, this guide is subject to change.
     $ echo "PROV_CERT=/var/run/secrets/istio" >>"${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/sidecar.env
     $ echo "OUTPUT_CERTS=/var/run/secrets/istio" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/sidecar.env
     {{< /text >}}
-    
+
 ## Configure the virtual machine
 
 Run the following commands on the virtual machine you want to add to the Istio mesh:
@@ -176,19 +176,19 @@ Run the following commands on the virtual machine you want to add to the Istio m
     {{< /text >}}
 
 1. Install the root cert to the `/var/run/secrets/istio`
-    
+
     {{< text bash >}}
     $ sudo mkdir -p /var/run/secrets/istio
     $ sudo cp "${HOME}"/root-cert.pem /var/run/secrets/istio/root-cert.pem
     {{< /text >}}
-    
+
 1. Install the token to the `/var/run/secrets/tokens`
 
     {{< text bash >}}
     $ sudo  mkdir -p /var/run/secrets/tokens
     $ sudo cp "${HOME}"/istio-token /var/run/secrets/tokens/istio-token
     {{< /text >}}
-        
+
 1. Install the `deb` package containing the Istio virtual machine integration runtime.
 
     {{< text bash >}}
@@ -227,14 +227,14 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo chown -R istio-proxy /var/lib/istio /etc/certs /etc/istio/proxy  /var/run/secrets
     {{< /text >}}
 
-## Start Istio within the virtual machine.
+## Start Istio within the virtual machine
 
 1. start the Istio agent
 
     {{< text bash >}}
     $ sudo systemctl start istio
     {{< /text >}}
-    
+
 ## Verify the Istio Work Successfully
 
 1. check the log under  `/var/log/istio/istio.log`. you should see that some logs
