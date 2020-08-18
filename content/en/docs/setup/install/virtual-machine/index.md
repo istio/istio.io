@@ -40,10 +40,10 @@ but not production. Like all alpha features, this guide is subject to change.
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
     {{< /text >}}
 
-1. Create the `"${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"` working directories.
+1. Create the `"${WORK_DIR}"` working directories.
 
     {{< text bash >}}
-    $ mkdir -p "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"
+    $ mkdir -p "${WORK_DIR}"
     {{< /text >}}
 
 ## Install the Istio control plane
@@ -90,13 +90,13 @@ but not production. Like all alpha features, this guide is subject to change.
 
     {{< text bash >}}
     $ tokenexpiretime=3600
-    $ echo '{"kind":"TokenRequest","apiVersion":"authentication.k8s.io/v1","spec":{"audiences":["istio-ca"],"expirationSeconds":'$tokenexpiretime'}}' | kubectl create --raw /api/v1/namespaces/$VM_NAMESPACE/serviceaccounts/$SERVICE_ACCOUNT/token -f - | jq -j '.status.token' > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/istio-token
+    $ echo '{"kind":"TokenRequest","apiVersion":"authentication.k8s.io/v1","spec":{"audiences":["istio-ca"],"expirationSeconds":'$tokenexpiretime'}}' | kubectl create --raw /api/v1/namespaces/$VM_NAMESPACE/serviceaccounts/$SERVICE_ACCOUNT/token -f - | jq -j '.status.token' > "${WORK_DIR}"/istio-token
     {{< /text >}}
 
 1. Get the root cert
 
     {{< text bash >}}
-    $ kubectl -n "${VM_NAMESPACE}" get configmaps istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/root-cert
+    $ kubectl -n "${VM_NAMESPACE}" get configmaps istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > "${WORK_DIR}"/root-cert
     {{< /text >}}
 
 1. Generate a `cluster.env` configuration file that informs the virtual machine
@@ -105,8 +105,8 @@ but not production. Like all alpha features, this guide is subject to change.
 
     {{< text bash >}}
     $ ISTIO_SERVICE_CIDR=$(echo '{"apiVersion":"v1","kind":"Service","metadata":{"name":"tst"},"spec":{"clusterIP":"1.1.1.1","ports":[{"port":443}]}}' | kubectl apply -f - 2>&1 | sed 's/.*valid IPs is //')
-    $ touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/cluster.env
-    $ echo ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/cluster.env
+    $ touch "${WORK_DIR}"/cluster.env
+    $ echo ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR > "${WORK_DIR}"/cluster.env
     {{< /text >}}
 
 1. Optionally configure configure a select set of ports for exposure from the
@@ -118,7 +118,7 @@ but not production. Like all alpha features, this guide is subject to change.
    of the virtual machine.
 
     {{< text bash >}}
-    $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/cluster.env
+    $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> "${WORK_DIR}"/cluster.env
     {{< /text >}}
 
 1. Add an IP address that represents Istiod. Replace `${INGRESS_HOST}` with the
@@ -126,8 +126,8 @@ but not production. Like all alpha features, this guide is subject to change.
     [Determining the ingress host and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) to set the environment variable `${INGRESS_HOST}`.
 
     {{< text bash >}}
-    $ touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/hosts-addendum
-    $ echo "${INGRESS_HOST} istiod.istio-system.svc" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/hosts-addendum
+    $ touch "${WORK_DIR}"/hosts-addendum
+    $ echo "${INGRESS_HOST} istiod.istio-system.svc" >> "${WORK_DIR}"/hosts-addendum
     {{< /text >}}
 
     {{< idea >}}
@@ -139,18 +139,18 @@ but not production. Like all alpha features, this guide is subject to change.
 1. Create `sidecar.env` to import required environment variable
 
     {{< text bash >}}
-    $ touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/sidecar.env
-    $ echo "ISTIO_INBOUND_PORTS=*" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/sidecar.env
-    $ echo "ISTIO_LOCAL_EXCLUDE_PORTS=15090,15021,15020" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/sidecar.env
-    $ echo "PROV_CERT=/var/run/secrets/istio" >>"${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/sidecar.env
-    $ echo "OUTPUT_CERTS=/var/run/secrets/istio" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/sidecar.env
+    $ touch "${WORK_DIR}"/sidecar.env
+    $ echo "ISTIO_INBOUND_PORTS=*" >> "${WORK_DIR}"/sidecar.env
+    $ echo "ISTIO_LOCAL_EXCLUDE_PORTS=15090,15021,15020" >> "${WORK_DIR}"/sidecar.env
+    $ echo "PROV_CERT=/var/run/secrets/istio" >>"${WORK_DIR}"/sidecar.env
+    $ echo "OUTPUT_CERTS=/var/run/secrets/istio" >> "${WORK_DIR}"/sidecar.env
     {{< /text >}}
 
 ## Configure the virtual machine
 
 Run the following commands on the virtual machine you want to add to the Istio mesh:
 
-1. Securely transfer the files from `"${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"`
+1. Securely transfer the files from `"${WORK_DIR}"`
     to the virtual machine.  How you choose to securely transfer those files should be done with consideration for
     your information security policies. For convenience in this guide, you should transfer all of the required files to `"${HOME}"` in the virtual machine
 
