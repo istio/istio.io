@@ -92,10 +92,10 @@ but not production. Like all alpha features, this guide is subject to change.
 
 ## Create files to transfer to the virtual machine
 
-1. Create Kubernetes token in the example we set the token expire time to 1 day
+1. Create Kubernetes token in the example we set the token expire time to 1 hour
 
     {{< text bash >}}
-    $ tokenexpiretime=518400
+    $ tokenexpiretime=3600
     $ echo '{"kind":"TokenRequest","apiVersion":"authentication.k8s.io/v1","spec":{"audiences":["istio-ca"],"expirationSeconds":'$tokenexpiretime'}}' | kubectl create --raw /api/v1/namespaces/$VM_NAMESPACE/serviceaccounts/$SERVICE_ACCOUNT/token -f - | jq -j '.status.token' > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/istio-token
     {{< /text >}}
 
