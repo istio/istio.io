@@ -31,12 +31,13 @@ startup_bookinfo_sample
 kubectl apply -f samples/addons/prometheus.yaml -n istio-system
 _wait_for_deployment istio-system prometheus
 
+_verify_like snip_querying_istio_metrics_1 "$snip_querying_istio_metrics_1_out"
+
 # Fire a couple of requests
 _set_ingress_environment_variables
-export INGRESS_URL="$INGRESS_HOST:$INGRESS_PORT"
-echo "$INGRESS_URL"
+export GATEWAY_URL="$INGRESS_HOST:$INGRESS_PORT"
 for _ in {1..50}; do
-    curl -s "http://$INGRESS_URL/productpage" > /dev/null
+    snip_querying_istio_metrics_2 > /dev/null
 done
 
 # Now check Prometheus dashboard for the metric. It should be present
@@ -68,7 +69,7 @@ function query_rate_of_requests_to_productpage_5m() {
 
 # Prometheus living inside cluster is not accessible from outside.
 # So we need some sort of port forwarding mechanism
-istioctl dashboard prometheus &
+snip_querying_istio_metrics_3 &
 
 _verify_contains query_total_requests '"istio_requests_total"'
 _verify_contains query_requests_to_productpage '"productpage.default.svc.cluster.local"'
