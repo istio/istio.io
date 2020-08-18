@@ -45,7 +45,7 @@ but not production. Like all alpha features, this guide is subject to change.
     {{< text bash >}}
     $ mkdir -p "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"
     {{< /text >}}
-    
+
 ## Install the Istio control plane
 
  Set the IstioOperator spec `values.global.meshExpansion.enabled: true`
@@ -79,7 +79,7 @@ but not production. Like all alpha features, this guide is subject to change.
     $ istioctl install -f "${WORK_DIR}"/vmintegration.yaml
     {{< /text >}}
 
-## Create Namespace 
+## Create Namespace
 
 1. Create Namespace that will host the virtual machine
 
@@ -90,15 +90,15 @@ but not production. Like all alpha features, this guide is subject to change.
 1. Create a serviceaccount for virtual machine
 
     {{< text bash >}}
-    $ kubectl create serviceaccount "${SERVICE_ACCOUNT}" -n "${VM_NAMESPACE}" 
+    $ kubectl create serviceaccount "${SERVICE_ACCOUNT}" -n "${VM_NAMESPACE}"
     {{< /text >}}
 
 ## Create files to transfer to the virtual machine
 
-1. Create Kubernetes token in the example you can set the  
+1. Create Kubernetes token in the example we set the token expire time to 1 day
 
     {{< text bash >}}
-    $ tokenexpiretime=3600
+    $ tokenexpiretime=518400
     $ echo '{"kind":"TokenRequest","apiVersion":"authentication.k8s.io/v1","spec":{"audiences":["istio-ca"],"expirationSeconds":'$tokenexpiretime'}}' | kubectl create --raw /api/v1/namespaces/$VM_NAMESPACE/serviceaccounts/$SERVICE_ACCOUNT/token -f - | jq -j '.status.token' > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/istio-token
     {{< /text >}}
 
@@ -145,7 +145,7 @@ but not production. Like all alpha features, this guide is subject to change.
     the scope of this guide.
     {{< /idea >}}
 
-1. Create `sidecar.env` to import required environment variable 
+1. Create `sidecar.env` to import required environment variable
 
     {{< text bash >}}
     $ touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/sidecar.env
@@ -188,7 +188,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo  mkdir -p /var/run/secrets/tokens
     $ sudo cp "${HOME}"/istio-token /var/run/secrets/tokens/istio-token
     {{< /text >}}
-    
+        
 1. Install the `deb` package containing the Istio virtual machine integration runtime.
 
     {{< text bash >}}
@@ -236,10 +236,12 @@ Run the following commands on the virtual machine you want to add to the Istio m
     {{< /text >}}
     
 ## Verify the Istio Work Successfully
+
 1. check the log under  `/var/log/istio/istio.log`. you should see that some logs
     like this: resource:default pushed key/cert pair to proxy
 
 ## Uninstall
+
 Stop the Istio running on VM
 
     {{< text bash >}}
