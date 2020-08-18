@@ -29,7 +29,7 @@ but not production. Like all alpha features, this guide is subject to change.
 
 1. Create a virtual machine
 1. Set the environment variables `"${VM_NAME}"`, `"${WORK_DIR}"` , `"${VM_NAMESPACE}"`,
-，`"${SERVICE_ACCOUNT}"` your cluster name, and the service namespace.
+，`"${SERVICE_ACCOUNT}"`
     (e.g. `WORK_DIR="${HOME}"/vmintegration`).
 
     {{< text bash >}}
