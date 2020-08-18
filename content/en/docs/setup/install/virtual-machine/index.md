@@ -28,13 +28,12 @@ but not production. Like all alpha features, this guide is subject to change.
 ## Prepare the guide environment
 
 1. Create a virtual machine
-1. Set the environment variables `"${VM_NAME}"`, `"${WORK_DIR}"`,`"${CLUSTER_NAME}"` , `"${VM_NAMESPACE}"`,
+1. Set the environment variables `"${VM_NAME}"`, `"${WORK_DIR}"` , `"${VM_NAMESPACE}"`,
 ，`"${SERVICE_ACCOUNT}"` your cluster name, and the service namespace.
     (e.g. `WORK_DIR="${HOME}"/vmintegration`).
 
     {{< text bash >}}
     $ VM_NAME="<the name of your vm instance you created>"
-    $ CLUSTER_NAME="<the name of your cluster>"
     $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
