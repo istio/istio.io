@@ -50,12 +50,6 @@ but not production. Like all alpha features, this guide is subject to change.
 
  Set the IstioOperator spec `values.global.meshExpansion.enabled: true`
 
-1. Create namespace to install Istio.
-
-    {{< text bash >}}
-    $ kubectl create namespace istio-system
-    {{< /text >}}
-
 1. Create the install `IstioOperator` custom resource:
 
     {{< text bash >}}
