@@ -21,7 +21,7 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
-# @setup profile=demo
+# @setup profile=default
 
 ## Setting up application
 # Set to known setting of sidecar injection
@@ -37,7 +37,7 @@ function send_productpage_requests() {
   _set_ingress_environment_variables
   local gateway_url="$INGRESS_HOST:$INGRESS_PORT"
   for _ in {1..100}; do
-    curl -s http://"$gateway_url"/productpage > /dev/null
+    curl -s "http://$gateway_url/productpage" > /dev/null
   done
 }
 
