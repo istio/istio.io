@@ -29,7 +29,7 @@ but not production. Like all alpha features, this guide is subject to change.
 
 1. Create a virtual machine
 1. Set the environment variables `"${VM_NAME}"`, `"${WORK_DIR}"`,`"${CLUSTER_NAME}"` , `"${VM_NAMESPACE}"`,
-，`"${SERVICE_ACCOUNT}"` your cluster name, and the service namespace. Ensure `"${WORK_DIR}"` is prefixed with `"${HOME}"`
+，`"${SERVICE_ACCOUNT}"` your cluster name, and the service namespace.
     (e.g. `WORK_DIR="${HOME}"/vmintegration`).
 
     {{< text bash >}}
@@ -61,9 +61,6 @@ but not production. Like all alpha features, this guide is subject to change.
     {{< text bash >}}
     $ cat <<EOF> "${WORK_DIR}"/vmintegration.yaml
     apiVersion: install.istio.io/v1alpha1
-    metadata:
-      namespace: istio-system
-      name: example-istiocontrolplane
     kind: IstioOperator
     spec:
       values:
@@ -229,7 +226,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
 ## Start Istio within the virtual machine
 
-1. start the Istio agent
+1. Start the Istio agent
 
     {{< text bash >}}
     $ sudo systemctl start istio
