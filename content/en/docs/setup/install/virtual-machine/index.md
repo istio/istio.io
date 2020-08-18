@@ -137,8 +137,6 @@ but not production. Like all alpha features, this guide is subject to change.
     {{< text bash >}}
     $ touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/hosts-addendum
     $ echo "${INGRESS_HOST} istiod.istio-system.svc" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/hosts-addendum
-    $ echo "1.1.1.1 pod.${VM_NAMESPACE}.svc.cluster.local" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/hosts-addendum
-    $ echo "1.1.1.1 vm.${VM_NAMESPACE}.svc.cluster.local" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/hosts-addendum
     {{< /text >}}
 
     {{< idea >}}
@@ -229,52 +227,6 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo chown -R istio-proxy /var/lib/istio /etc/certs /etc/istio/proxy  /var/run/secrets
     {{< /text >}}
 
-## Setup policies for virtual machine
-
-1. Get the external ip or internal ip of the virtual machine and store to `"${VM_IP}"`
-
-    {{< text bash >}}
-    $ VM_IP="<the external ip or internal ip of the virtual machine>"
-    {{< /text >}}
-    
-1. Create a new service
-
-    {{< text bash >}}
-    $ cat <<EOF | kubectl -n "${VM_NAMESPACE}" apply -f -
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: cloud-vm
-      labels:
-        app: cloud-vm
-    spec:
-      ports:
-      - port: 7070
-        name: grpc
-      - port: 8090
-        name: http
-      selector:
-        app: cloud-vm
-    EOF
-    {{< /text >}}
-
-1. Create workload entry
-
-    {{< text bash >}}
-    $ cat <<EOF | kubectl -n "${VM_NAMESPACE}" apply -f -
-      apiVersion: networking.istio.io/v1beta1
-      kind: WorkloadEntry
-      metadata:
-        name: "${VM_NAME}"
-        namespace: "${VM_NAMESPACE}"
-      spec:
-        address: "${VM_IP}"
-        labels:
-          app: cloud-vm
-        serviceAccount: "${SERVICE_ACCOUNT}"
-    EOF
-    {{< /text >}}
-
 ## Start Istio within the virtual machine.
 
 1. start the Istio agent
@@ -283,6 +235,10 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo systemctl start istio
     {{< /text >}}
     
+## Verify the Istio Work Successfully
+1. check the log under  `/var/log/istio/istio.log`. you should see that some logs
+    like this: resource:default pushed key/cert pair to proxy
+
 ## Uninstall
 Stop the Istio running on VM
 

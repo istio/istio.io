@@ -5,6 +5,7 @@
 | archive.istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/f8c3eecb-3c5c-48d9-b952-54c7ed0ece8f/deploy-status)](https://app.netlify.com/sites/archive-istio/deploys)
 
 ## istio.io
+
 This repository contains the source code for [istio.io](https://istio.io) and
 [preliminary.istio.io](https://preliminary.istio.io).
 
