@@ -68,7 +68,7 @@ accurate.
 
 ## istioctl
 
-- **Added** Allow proxy-status <pod> command for non Kubernetes workloads with proxy config passed in from the `--file` parameter.  https://istio.io/latest/docs/reference/commands/istioctl/#istioctl-proxy-status
+- **Added** Allow `proxy-status <pod>` command for non Kubernetes workloads with proxy config passed in from the `--file` parameter.  https://istio.io/latest/docs/reference/commands/istioctl/#istioctl-proxy-status
 
 
 - **Added** a configuration file to hold istioctl default flags. Its default location (`$HOME/.istioctl/config.yaml`) can be changed using the environment variable `ISTIOCONFIG`. The new command `istioctl experimental config list` shows the default flags.
