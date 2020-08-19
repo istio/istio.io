@@ -51,6 +51,9 @@ accurate.
 - **Fixed** an issue preventing `NodePort` services from being used as the `registryServiceName` in `meshNetworks`.
 - **Improved** gateway deployments to run as non-root by default.
  ([Issue #23379](https://github.com/istio/istio/issues/23379))
+- **Improved** standalone operator to run as non-root by default.
+- **Improved** Kubernetes strategic merge is used to overlay IstioOperator user files, which improves how list items are handled.
+ ([Issue #24432](https://github.com/istio/istio/issues/24432))
 - **Upgraded** the CRD and Webhook versions to `v1`.
  ([Issue #18771](https://github.com/istio/istio/issues/18771)),([Issue #18838](https://github.com/istio/istio/issues/18838))
 
@@ -68,6 +71,8 @@ accurate.
 - **Improved** `istioctl analyze` to warn if `DestinationRule` is not using `CaCertificates` to validate server identity.
 - **Improved** `istioctl validate` to check for unknown fields in resources.
  ([Issue #24861](https://github.com/istio/istio/issues/24861))
+- **Improved** `istioctl install` to emit a warning when attempting to install Istio in an old, non supported Kubernetes version.
+ ([Issue #26141](https://github.com/istio/istio/issues/26141))
 - **Removed** `istioctl manifest apply`. The simpler `install` command replaces manifest apply.
  ([Issue #25737](https://github.com/istio/istio/issues/25737))
 
