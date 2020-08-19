@@ -1,10 +1,10 @@
 ---
-title: New Deployment Models for Istio: Clear Separation between Mesh Operator and Mesh Users
-description: A new deployment model for Istio
+title: New Deployment Models for Istio
+subtitle: Clear Separation between Mesh Operator and Mesh Users
+description: A new deployment model for Istio.
 publishdate: 2020-08-19
-attribution: Lin Sun (IBM), Iris Ding (IBM)
-keywords: [install,multicluster,deployment model]
-last_update: 2020-08-19
+attribution: "Lin Sun (IBM), Iris Ding (IBM)"
+keywords: [multicluster,install,deploy,'1.7']
 ---
 
 ## Background
@@ -30,12 +30,19 @@ Let’s take a close look of what has been deployed in your cluster if you insta
     * Service account, role binding, etc: Istio security settings
     * Secrets: stores key and certs and credentials related to service account or Istiod.
 
-Below diagram shows how resources are deployed in the cluster after following the [default install](https://istio.io/latest/docs/setup/install/istioctl/#install-istio-using-the-default-profile):
+Below diagram shows how resources are deployed in the cluster after following the [default install](https://istio.io/latest/docs/setup/install/istioctl/#install-istio-using-the-default-profile).
 
-{{< image width="100%" link="./default-install.svg" caption="Default deployment model for istio" >}}
+{{< image
+    link="./default-install.jpeg"
+    caption="default deployment model for istio"
+>}}
 
-With istio 1.7, it is possible to run Istiod on a separate cluster like the diagram below:
-{{< image width="100%" link="./central-istiod-single-cluster.svg" caption="New deployment model for one data plane cluster" >}}
+With istio 1.7, it is possible to run Istiod on a separate cluster like the diagram below.
+
+{{< image
+    link="./central-istiod-single-cluster.jpeg"
+    caption="New deployment model for one data plane cluster"
+    >}}
 
 In this setup, the `cluster1` should be set up first with `istiodRemote` and `base` components, then istiod on the control plane cluster is installed second, with its KUBECONFIG configured to `cluster1`. With this new deployment model, mesh operators can work purely on the control plane cluster when there is a need to upgrade or reconfig istio. Platform owners and service owners can instead work solely on cluster1 to focus on their istio configs or services.  
 
@@ -83,11 +90,11 @@ If you are interested in exploring this, you can follow the [central istiod sing
 
 The diagram above shows a single cluster as data plane for an Istio mesh, however, you may expand the setup to multiple clusters as data plane where these multiple clusters are managed by Istiod running on the control plane cluster and are getting configs from the config cluster per diagram below. 
 
-{{< image width="100%" link="./central-istiod-multi-cluster.svg" caption="New deployment model for multi data plane clusters" >}}
+{{< image width="100%" link="./central-istiod-multi-cluster.jpeg" caption="New deployment model for multi data plane clusters" >}}
 
 You can further expand this deployment model to manage multiple istio mesh from a centralized control plane cluster that runs multiple Istiods, per diagram below:
 
-{{< image width="100%" link="./central-istiod-multi-mesh.svg" caption="New deployment model for multi mesh" >}}
+{{< image width="100%" link="./central-istiod-multi-mesh.jpeg" caption="New deployment model for multi mesh" >}}
 
 Control plane cluster can be used to host multiple Istiods and each Istiod manages his own data plane remotely.  In this model we can install Istio into the control plane cluster and use Istio ingress gateway and virtual services to route traffic between different istiod instances.
 
