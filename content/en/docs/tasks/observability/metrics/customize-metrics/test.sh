@@ -35,20 +35,15 @@ startup_bookinfo_sample
 # part of this task don't exist yet
 function send_productpage_requests() {
   _set_ingress_environment_variables
-  local gateway_url="$INGRESS_HOST:$INGRESS_PORT"
+  local GATEWAY_URL="$INGRESS_HOST:$INGRESS_PORT"
   for _ in {1..100}; do
-    curl -s "http://$gateway_url/productpage" > /dev/null
+    snip_verify_the_results_1 > /dev/null
   done
 }
 
-function check_sidecar_metrics() {
-  local productpage_pod=$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')
-  kubectl exec "$productpage_pod" -c istio-proxy -- curl -s 'localhost:15000/stats/prometheus' | grep 'istio_requests_total'
-}
-
 send_productpage_requests
-_verify_not_contains check_sidecar_metrics "destination_port"
-_verify_not_contains check_sidecar_metrics "request_host"
+_verify_not_contains snip_verify_the_results_2 "destination_port"
+_verify_not_contains snip_verify_the_results_2 "request_host"
 
 echo "$snip_enable_custom_metrics_2" | istioctl install --set tag="$TAG" --set hub="$HUB" -f -
 
@@ -58,8 +53,8 @@ _wait_for_istio envoyfilter istio-system stats-filter-1.7
 
 ## Verify if patching works correctly
 send_productpage_requests
-_verify_contains check_sidecar_metrics "destination_port"
-_verify_contains check_sidecar_metrics "request_host"
+_verify_contains snip_verify_the_results_2 "destination_port"
+_verify_contains snip_verify_the_results_2 "request_host"
 
 # @cleanup
 set +e # ignore cleanup errors
