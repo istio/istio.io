@@ -48,7 +48,7 @@ In this setup, the `cluster1` should be set up first with `istiodRemote` and `ba
 
 To support this, we introduced a new `istiodRemote` component in Isito 1.7. You can see now in cluster1, it only has istio configs and services that belong to data plane. Istiod runs in a separate cluster(control plane cluster) and is pointing its KUBECONFIG to cluster1.  Some sample snippet you can reference to install Istio on cluster1:
 
-```text
+{{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -65,11 +65,11 @@ spec:
     pilot:
       enabled: false
 
-```
+{{< /text >}}
 
 And sample snippet you can reference to install Istio on control plane cluster:
 
-```text
+{{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -84,7 +84,7 @@ values:
   global:
     operatorManageWebhooks: true
 
-```
+{{< /text >}}
 
 If you are interested in exploring this, you can follow the [central istiod single cluster step by step guide.](https://github.com/istio/istio/wiki/Central-Istiod-single-cluster-steps)
 
