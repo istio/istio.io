@@ -4,7 +4,7 @@ description: This task shows you how to customize the Istio metrics.
 weight: 25
 keywords: [telemetry,metrics,customize]
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 This task shows you how to customize the metrics that Istio generates.
@@ -44,6 +44,9 @@ For more information, see [Stats Config reference](/docs/reference/config/proxy_
 Alternatively, you can set up custom statistics as part of the Istio
 installation.
 
+The [Bookinfo](/docs/examples/bookinfo/) sample application is used as
+the example application throughout this task.
+
 ## Enable custom metrics
 
 1. The default telemetry v2 `EnvoyFilter` configuration is equivalent to the following installation options:
@@ -52,7 +55,7 @@ installation.
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
-      value:
+      values:
         telemetry:
           v2:
             prometheus:
@@ -85,7 +88,7 @@ installation.
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
-      value:
+      values:
         telemetry:
           v2:
             prometheus:
@@ -138,11 +141,22 @@ installation.
 
 ## Verify the results
 
+Send traffic to the mesh. For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+browser or issue the following command:
+
+{{< text bash >}}
+$ curl "http://$GATEWAY_URL/productpage"
+{{< /text >}}
+
+{{< tip >}}
+`$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
+{{< /tip >}}
+
 Use the following command to verify that Istio generates the data for your new
 or modified dimensions:
 
 {{< text bash >}}
-$ kubectl exec pod-name -c istio-proxy -- curl 'localhost:15000/stats/prometheus' | grep istio
+$ kubectl exec "$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')" -c istio-proxy -- curl 'localhost:15000/stats/prometheus' | grep istio_requests_total
 {{< /text >}}
 
 For example, in the output, locate the metric `istio_requests_total` and
