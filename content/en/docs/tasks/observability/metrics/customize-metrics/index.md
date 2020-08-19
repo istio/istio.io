@@ -175,8 +175,8 @@ has(request.host) ? request.host : "unknown"
 
 For more information, see [Common Expression Language](https://opensource.google/projects/cel).
 
-Istio exposes all standard Envoy attributes. Additionally, you can use the
-following extra attributes.
+Istio exposes all standard [Envoy attributes](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/rbac_filter#condition).
+Additionally, you can use the following extra attributes.
 
 |Attribute   | Type  | Value |
 |---|---|---|
