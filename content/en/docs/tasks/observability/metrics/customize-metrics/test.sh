@@ -21,7 +21,8 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
-# @setup profile=default
+# @setup profile=none
+echo "$snip_enable_custom_metrics_1" | istioctl install --set tag="$TAG" --set hub="$HUB" -f -
 
 ## Setting up application
 # Set to known setting of sidecar injection
@@ -53,9 +54,16 @@ _wait_for_istio envoyfilter istio-system stats-filter-1.7
 
 ## Verify if patching works correctly
 send_productpage_requests
-_verify_contains snip_verify_the_results_2 "destination_port"
-_verify_contains snip_verify_the_results_2 "request_host"
+_verify_lines snip_verify_the_results_2 "
++ destination_port
++ request_host
+"
 
 # @cleanup
 set +e # ignore cleanup errors
 cleanup_bookinfo_sample
+
+# Clean up Istio. NOTE: Don't wipe out CRDs as doing
+# so would take a lot of time for the test to finish
+# TODO: find out why?
+kubectl delete ns istio-system
