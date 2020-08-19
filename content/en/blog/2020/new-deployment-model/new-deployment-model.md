@@ -1,6 +1,6 @@
 ---
 title: New Deployment Models for Istio: Clear Separation between Mesh Operator and Mesh Users
-description: A new deployment model for Istio.
+description: A new deployment model for Istio
 publishdate: 2020-08-19
 attribution: Lin Sun (IBM), Iris Ding (IBM)
 keywords: [install,multicluster,deployment model]
@@ -14,7 +14,7 @@ In working with various service mesh users and vendors, we believe there are 3 k
 * Platform Owner
 * Service Owner
 
-It is common to have all these personas work on the same clusters without any clear separation.  For example, there are multiple ways to deploy Istio according to the docs, which all started with mesh operator, platform owner and service owner sharing the single cluster first and then gradually expanding the mesh to multiple clusters or VMs.  None of these provided a clear separation between mesh operator and platform/service owner at the boundary of a cluster.  You may be thinking you could set up Kubernetes RBAC rules (link) and namespaces to control which personas can do what within the cluster, however, sometimes you need stronger separation between the istio control plane and the rest at the cluster level.  Introduce a new deployment model for Istio which enables mesh operators to install and manage mesh control plane on dedicated clusters, separated from the data plane clusters.  This new deployment model could easily enable Istio vendors to run Istio control plane for service mesh users while users can focus on their workloads and Istio resources without worrying about installing or managing the Istio control plane.
+It is common to have all these personas work on the same clusters without any clear separation.  For example, there are multiple ways to deploy Istio according to the docs, which all started with mesh operator, platform owner and service owner sharing the single cluster first and then gradually expanding the mesh to multiple clusters or VMs.  None of these provided a clear separation between mesh operator and platform/service owner at the boundary of a cluster.  You may be thinking you could set up [Kubernetes RBAC rules](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) and namespaces to control which personas can do what within the cluster, however, sometimes you need stronger separation between the istio control plane and the rest at the cluster level.  Introduce a new deployment model for Istio which enables mesh operators to install and manage mesh control plane on dedicated clusters, separated from the data plane clusters.  This new deployment model could easily enable Istio vendors to run Istio control plane for service mesh users while users can focus on their workloads and Istio resources without worrying about installing or managing the Istio control plane.
 
 
 ## New Deployment model
