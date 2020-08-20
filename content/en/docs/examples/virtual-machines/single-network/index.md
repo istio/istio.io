@@ -40,7 +40,7 @@ The following instructions:
 - Use Google platform-specific commands for some steps.
 
 ## Installation steps
-
+Determine and store the IP address of the Istiod since the VMs
 Setup consists of preparing the mesh for expansion and installing and configuring each VM.
 
 ### Preparing the Kubernetes cluster for VMs
@@ -92,13 +92,13 @@ following commands on a machine with cluster admin privileges:
     $ export SERVICE_NAMESPACE="vm"
     {{< /text >}}
 
-1. Determine and store the IP address of the Istiod since the VMs
-   access [Istiod](/docs/ops/deployment/architecture/#pilot) through this IP address.
+1. Determine and store the IP address of the IngressGateway since the VMs
+   access Istiod through this IP address.
 
     {{< text bash >}}
-    $ export IstiodIP=$(kubectl get -n istio-system service istiod -o jsonpath='{.spec.clusterIP}')
-    $ echo $IstiodIP
-    10.55.240.12
+    $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ echo $INGRESS_HOST
+    35.236.90.221
     {{< /text >}}
 
 1. Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges
@@ -128,6 +128,15 @@ following commands on a machine with cluster admin privileges:
     {{< text bash >}}
     $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> cluster.env
     {{< /text >}}
+    
+1. Generate a `sidecar.env` to enable the cert rotation. The file contains
+   the directory path to store the cert and update the cert for cert rotation
+
+    {{< text bash >}}
+    $ echo "ISTIO_LOCAL_EXCLUDE_PORTS=15090,15021,15020" >> sidecar.env
+    $ echo "PROV_CERT=/var/run/secrets/istio" >> sidecar.env
+    $ echo "OUTPUT_CERTS=/var/run/secrets/istio" >> sidecar.env
+    {{< /text >}}
 
 1. In order to use mesh expansion, the VM must be provisioned with certificates signed by the same root CA as
     the rest of the mesh.
@@ -149,7 +158,7 @@ following commands on a machine with cluster admin privileges:
 
 Next, run the following commands on each machine that you want to add to the mesh:
 
-1.  Copy the previously created `cluster.env` and `*.pem` files to the VM. For example:
+1.  Copy the previously created `cluster.env`,`*.pem`, and `sidecar.env` files to the VM. For example:
 
     {{< text bash >}}
     $ export GCE_NAME="your-gce-instance"
@@ -164,11 +173,11 @@ Next, run the following commands on each machine that you want to add to the mes
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1.  Add the IP address of the Istiod to `/etc/hosts`. Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-vms) section to learn how to obtain the IP address.
-The following example updates the `/etc/hosts` file with the Istiod address:
+1.  Add the Ingress Gateway IP address of the Istiod to `/etc/hosts`. Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-vms) section to learn how to obtain the Ingress Gateway IP address.
+The following example updates the `/etc/hosts` file with the Ingress Gateway IP address:
 
     {{< text bash >}}
-    $ echo "${IstiodIP} istiod.istio-system.svc" | sudo tee -a /etc/hosts
+    $ echo "${INGRESS_HOST} istiod.istio-system.svc" | sudo tee -a /etc/hosts
     {{< /text >}}
 
    A better options is to configure the DNS resolver of the VM to resolve the address, using a split-DNS server. Using
@@ -184,16 +193,23 @@ The following example updates the `/etc/hosts` file with the Istiod address:
 
 1.  Install `root-cert.pem` under `/var/run/secrets/istio/`.
 
-1.  Install `cluster.env` under `/var/lib/istio/envoy/`.
+1.  Install `cluster.env`, `sidecar.env` under `/var/lib/istio/envoy/`.
 
     {{< text bash >}}
     $ sudo cp cluster.env /var/lib/istio/envoy
+    $ sudo cp sidecar.env /var/lib/istio/envoy
     {{< /text >}}
+    
+1. Prepare some paths for Envoy
 
-1.  Transfer ownership of the files in `/etc/certs/` , `/var/lib/istio/envoy/` and `/var/run/secrets/istio/`to the Istio proxy.
+     {{< text bash >}}
+     $ sudo mkdir -p /etc/istio/proxy
+     {{< /text >}}
+
+1.  Transfer ownership of the files in `/etc/certs/`,/etc/istio/proxy,`/var/lib/istio/envoy/` and `/var/run/secrets/istio/`to the Istio proxy.
 
     {{< text bash >}}
-    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy /var/run/secrets/istio/
+    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy /etc/istio/proxy /var/run/secrets/istio/
     {{< /text >}}
 
 1.  Start Istio using `systemctl`.
@@ -250,15 +266,49 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     $ echo ${GCE_IP}
     {{< /text >}}
 
-1. Add VM services to the mesh
+1. Create a service account 
 
     {{< text bash >}}
-    $ istioctl experimental add-to-mesh external-service vmhttp ${GCE_IP} http:8080 -n ${SERVICE_NAMESPACE}
+    $ kubectl create serviceaccount "${SERVICE_ACCOUNT}" -n "${SERVICE_NAMESPACE}"
     {{< /text >}}
 
-    {{< tip >}}
-    Ensure you have added the `istioctl` client to your path, as described in the [download page](/docs/setup/getting-started/#download).
-    {{< /tip >}}
+1. Create a new service (in the example we enable the 8080 http port for demo)
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl -n "${SERVICE_NAMESPACE}" apply -f -
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: vmhttp
+            labels:
+              app: vmhttp
+          spec:
+            ports:
+            - port: 7070
+              name: grpc
+            - port: 8080
+              name: http
+            selector:
+              app: vmhttp
+    EOF
+    {{< /text >}}
+
+1. Create workload entry
+
+    {{< text bash >}}
+    cat <<EOF | kubectl -n "${SERVICE_NAMESPACE}" apply -f -
+    apiVersion: networking.istio.io/v1beta1
+    kind: WorkloadEntry
+    metadata:
+      name: "${GCE_NAME}"
+      namespace: "${SERVICE_NAMESPACE}"
+    spec:
+      address: "${GCE_IP}"
+      labels:
+        app: vmhttp
+      serviceAccount: "${SERVICE_ACCOUNT}"
+    EOF
+    {{< /text >}}
 
 1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:
 
@@ -297,14 +347,13 @@ the configuration worked.
 
 ## Cleanup
 
-Run the following commands to remove the expansion VM from the mesh's abstract
+Run the following commands to remove the WorkloadEntry and Service from the mesh's abstract
 model.
 
-{{< text bash >}}
-$ istioctl experimental remove-from-mesh -n ${SERVICE_NAMESPACE} vmhttp
-Kubernetes Service "vmhttp.vm" has been deleted for external service "vmhttp"
-Service Entry "mesh-expansion-vmhttp" has been deleted for external service "vmhttp"
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete service vmhttp 
+    $ kubectl delete workloadentry "${GCE_NAME}" 
+    {{< /text >}}
 
 ## Troubleshooting
 
