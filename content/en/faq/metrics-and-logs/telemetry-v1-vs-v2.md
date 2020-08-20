@@ -14,7 +14,7 @@ v2 which are listed below:
   information like peer workload name, namespace and labels. In Mixer-based telemetry
   this functionality was performed by Mixer as part of combining request attributes
   with the platform data. This metadata exchange is performed by the Envoy proxies
-  by adding specific a HTTP header for HTTP protocol or augmenting
+  by adding a specific HTTP header for HTTP protocol or augmenting
   ALPN protocol for TCP protocol as described
   [here](/docs/tasks/observability/metrics/tcp-metrics/#understanding-tcp-telemetry-collection).
   This requires Envoy proxies to be injected at both the client & server workloads,
