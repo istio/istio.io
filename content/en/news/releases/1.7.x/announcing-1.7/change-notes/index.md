@@ -51,7 +51,9 @@ accurate.
 - **Fixed** an issue preventing `NodePort` services from being used as the `registryServiceName` in `meshNetworks`.
 - **Improved** gateway deployments to run as non-root by default.
  ([Issue #23379](https://github.com/istio/istio/issues/23379))
-- **Improved** standalone operator to run as non-root by default.
+- **Improved** the operator to run as non-root by default. ([Issue #24960](https://github.com/istio/istio/issues/24960))
+- **Improved** the operator by specifying a rigorous security context. ([Issue #24963](https://github.com/istio/istio/issues/24963))
+- **Improved** Istiod to run as non-root by default. ([Issue #24961](https://github.com/istio/istio/issues/24961))
 - **Improved** Kubernetes strategic merge is used to overlay IstioOperator user files, which improves how list items are handled.
  ([Issue #24432](https://github.com/istio/istio/issues/24432))
 - **Upgraded** the CRD and Webhook versions to `v1`.
