@@ -1,6 +1,6 @@
 ---
 title: What are the differences in telemetry reported by in-proxy telemetry (aka v2) and Mixer-based telemetry (aka v1)?
-weight: 40
+weight: 10
 ---
 
 In-proxy telemetry (aka v2) reduces resource cost and improves proxy
@@ -30,7 +30,7 @@ v2 which are listed below:
   enabled in your cluster, telemetry for TCP protocol will not include
   peer information like workload name, namespace and labels.
 
-* **No mechanism for configuring custom bucketization for histogram metrics**
+* **No mechanism for configuring custom buckets for histogram metrics**
   Mixer-based telemetry supported customizing buckets for histogram type metrics
   like request duration and TCP byte sizes. In-proxy telemetry has no such
   available mechanism. Additionally, the buckets available for latency metrics
