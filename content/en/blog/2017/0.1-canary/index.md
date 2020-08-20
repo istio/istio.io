@@ -43,13 +43,14 @@ We begin by defining the **helloworld** Service, just like any other Kubernetes 
 apiVersion: v1
 kind: Service
 metadata:
-name: helloworld
-labels:
-  app: helloworld
+  name: helloworld
 spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
   selector:
     app: helloworld
-  ...
 {{< /text >}}
 
 We then add 2 Deployments, one for each version (**v1** and **v2**), both of which include the service selector’s `app: helloworld` label:
@@ -59,8 +60,15 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: helloworld-v1
+  labels:
+    app: helloworld
+    version: v1
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld
+      version: v1
   template:
     metadata:
       labels:
@@ -68,15 +76,24 @@ spec:
         version: v1
     spec:
       containers:
-      - image: helloworld-v1
-        ...
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: helloworld-v2
+  labels:
+    app: helloworld
+    version: v2
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld
+      version: v2
   template:
     metadata:
       labels:
@@ -84,8 +101,10 @@ spec:
         version: v2
     spec:
       containers:
-      - image: helloworld-v2
-        ...
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
 {{< /text >}}
 
 Note that this is exactly the same way we would do a [canary deployment](https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#canary-deployments) using plain Kubernetes, but in that case we would need to adjust the number of replicas of each Deployment to control the distribution of traffic. For example, to send 10% of the traffic to the canary version (**v2**), the replicas for **v1** and **v2** could be set to 9 and 1, respectively.
