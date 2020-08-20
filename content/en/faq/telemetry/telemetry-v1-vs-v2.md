@@ -1,5 +1,5 @@
 ---
-title: What are the differences in telemetry reported between in-proxy telemetry (aka v2) and Mixer-based telemetry (aka v1)?
+title: What are the differences in telemetry reported by in-proxy telemetry (aka v2) and Mixer-based telemetry (aka v1)?
 weight: 40
 ---
 
