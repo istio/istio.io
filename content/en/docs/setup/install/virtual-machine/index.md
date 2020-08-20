@@ -85,7 +85,7 @@ but not production. Like all alpha features, this guide is subject to change.
 
 ## Create files to transfer to the virtual machine
 
-1. Create Kubernetes token in the example we set the token expire time to 1 hour
+1. Create Kubernetes token in the example you set the token expire time to 1 hour
 
     {{< text bash >}}
     $ tokenexpiretime=3600
@@ -126,7 +126,7 @@ but not production. Like all alpha features, this guide is subject to change.
 
     {{< text bash >}}
     $ touch "${WORK_DIR}"/hosts-addendum
-    $ echo "${INGRESS_HOST} istiod.istio-system.svc" >> "${WORK_DIR}"/hosts-addendum
+    $ echo "${INGRESS_HOST} istiod.istio-system.svc" > "${WORK_DIR}"/hosts-addendum
     {{< /text >}}
 
     {{< idea >}}
@@ -225,7 +225,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo systemctl start istio
     {{< /text >}}
 
-## Verify the Istio Work Successfully
+## Verify Istio Works Successfully
 
 1. check the log under  `/var/log/istio/istio.log`. you should see that some logs
     like this: resource:default pushed key/cert pair to proxy
