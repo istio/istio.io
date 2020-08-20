@@ -24,7 +24,7 @@ v2 which are listed below:
   [here](/docs/reference/config/metrics/) are available in the generated metrics.
 
 * **TCP metadata exchange requires mTLS**
-  TCP metadata exchange relies on [Istio ALPN protocol](/docs/tasks/observability/metrics/tcp-metrics/#understanding-tcp-telemetry-collection)
+  TCP metadata exchange relies on the [Istio ALPN protocol](/docs/tasks/observability/metrics/tcp-metrics/#understanding-tcp-telemetry-collection)
   which requires mutual TLS (mTLS) to be enabled for the Envoy proxies
   to exchange metadata successfully. This implies that if mTLS is not
   enabled in your cluster, telemetry for TCP protocol will not include
