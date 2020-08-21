@@ -1,5 +1,5 @@
 ---
-title: New Deployment Models for Istio
+title: A New Istiod Deployment Model
 subtitle: Clear Separation between Mesh Operator and Mesh Users
 description: A new deployment model for Istio.
 publishdate: 2020-08-19
