@@ -228,16 +228,16 @@ Run the following commands on the virtual machine you want to add to the Istio m
 1. check the log under  `/var/log/istio/istio.log`. you should see that some logs like this:
 
     {{< text bash >}}
-    2020-08-21T01:32:17.748413Z	info	sds	resource:default pushed key/cert pair to proxy
-    2020-08-21T01:32:20.270073Z	info	sds	resource:ROOTCA new connection
-    2020-08-21T01:32:20.270142Z	info	sds	Skipping waiting for gateway secret
-    2020-08-21T01:32:20.270279Z	info	cache	adding watcher for file ./etc/certs/root-cert.pem
-    2020-08-21T01:32:20.270347Z	info	cache	GenerateSecret from file ROOTCA
-    2020-08-21T01:32:20.270494Z	info	sds	resource:ROOTCA pushed root cert to proxy
-    2020-08-21T01:32:20.270734Z	info	sds	resource:default new connection
-    2020-08-21T01:32:20.270763Z	info	sds	Skipping waiting for gateway secret
-    2020-08-21T01:32:20.695478Z	info	cache	GenerateSecret default
-    2020-08-21T01:32:20.695595Z	info	sds	resource:default pushed key/cert pair to proxy
+    $2020-08-21T01:32:17.748413Z	info	sds	resource:default pushed key/cert pair to proxy
+    $2020-08-21T01:32:20.270073Z	info	sds	resource:ROOTCA new connection
+    $2020-08-21T01:32:20.270142Z	info	sds	Skipping waiting for gateway secret
+    $2020-08-21T01:32:20.270279Z	info	cache	adding watcher for file ./etc/certs/root-cert.pem
+    $2020-08-21T01:32:20.270347Z	info	cache	GenerateSecret from file ROOTCA
+    $2020-08-21T01:32:20.270494Z	info	sds	resource:ROOTCA pushed root cert to proxy
+    $2020-08-21T01:32:20.270734Z	info	sds	resource:default new connection
+    $2020-08-21T01:32:20.270763Z	info	sds	Skipping waiting for gateway secret
+    $2020-08-21T01:32:20.695478Z	info	cache	GenerateSecret default
+    $2020-08-21T01:32:20.695595Z	info	sds	resource:default pushed key/cert pair to proxy
     {{< /text >}}
 
 ## Uninstall
