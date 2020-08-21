@@ -54,8 +54,8 @@ respected. [This got fixed](https://github.com/istio/istio/blob/release-1.7/rele
 A big part of making systems like Istio easy to use is in their "day 2" usage,
 especially in their ability to help you see potential problems. We're adding to
 the ability of the very useful [istioctl analyze tool](/docs/ops/diagnostic-tools/istioctl-analyze/):
- - [Warn on a potentially insecure DestinationRule configuration](https://github.com/istio/istio/blob/release-1.7/releasenotes/notes/dr-analyzer.yaml)
- - [Warn on deprecated Mixer resource usage](https://github.com/istio/istio/blob/release-1.7/releasenotes/notes/24471.yaml)
+- [Warn on a potentially insecure DestinationRule configuration](https://github.com/istio/istio/blob/release-1.7/releasenotes/notes/dr-analyzer.yaml)
+- [Warn on deprecated Mixer resource usage](https://github.com/istio/istio/blob/release-1.7/releasenotes/notes/24471.yaml)
 
 For frequent users of istioctl, it can be useful to customize your default
 configuration, rather than typing it every time. We added the ability to [put
@@ -123,13 +123,13 @@ on Red Hat-based images a very easy proposition.
 ## Other fixes
 
 We removed some [invalid control plane metrics](https://github.com/istio/istio/issues/25154),
-and [stopped installing telemetry addons](https://istio.io/latest/blog/2020/addon-rework/)
+and [stopped installing telemetry addons](/blog/2020/addon-rework/)
 by default.
 
 We fixed an issue with [SNI routing](https://github.com/istio/istio/pull/25691).
 
 Istio now [works better with headless services](https://github.com/istio/istio/pull/24319),
-as it will no longer send mTLS traffic to headless services without sidecars.  
+as it will no longer send mTLS traffic to headless services without sidecars.
 
 ## Join the Istio community
 
