@@ -196,7 +196,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo cp "${HOME}"/sidecar.env /var/lib/istio/envoy/sidecar.env
     {{< /text >}}
 
-1. Add the istiod host to `/etc/hosts`.
+1. Add the istiod host to `/etc/hosts`:
 
     {{< text bash >}}
     $ sudo sh -c 'cat $(eval echo ~$SUDO_USER)/hosts-addendum >> /etc/hosts'
