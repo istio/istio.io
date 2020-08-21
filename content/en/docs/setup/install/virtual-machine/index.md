@@ -76,6 +76,12 @@ Install Istio with the installation setting `values.global.meshExpansion.enabled
     $ kubectl create namespace "${VM_NAMESPACE}"
     {{< /text >}}
 
+1. Enable the Istio sidecar auto Injection
+
+    {{< text bash >}}
+    $ kubectl label namespace $VM_NAMESPACE istio-injection=enabled
+    {{< /text >}}
+
 1. Create a serviceaccount for the virtual machine:
 
     {{< text bash >}}
@@ -102,9 +108,9 @@ Install Istio with the installation setting `values.global.meshExpansion.enabled
    cluster:
 
     {{< text bash >}}
-    $ ISTIO_SERVICE_CIDR=$(echo '{"apiVersion":"v1","kind":"Service","metadata":{"name":"tst"},"spec":{"clusterIP":"1.1.1.1","ports":[{"port":443}]}}' | kubectl apply -f - 2>&1 | sed 's/.*valid IPs is //')
     $ touch "${WORK_DIR}"/cluster.env
-    $ echo ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR > "${WORK_DIR}"/cluster.env
+    $ echo "ISTIO_SERVICE_CIDR=*" > "${WORK_DIR}"/cluster.env
+    $ echo "ISTIO_PILOT_PORT=15012" > "${WORK_DIR}"/cluster.env
     {{< /text >}}
 
 1. Optionally configure configure a select set of ports for exposure from the
@@ -207,11 +213,11 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo cp "${HOME}"/root-cert.pem /var/run/secrets/istio/root-cert.pem
     {{< /text >}}
 
-1. Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy:
+1. Transfer ownership of the files in `/var/lib/istio`,`/etc/certs/`,`/etc/istio/proxy` and `/var/run/secrets` to the Istio proxy:
 
     {{< text bash >}}
     $ sudo mkdir -p /etc/istio/proxy
-    $ sudo chown -R istio-proxy /var/lib/istio /etc/certs /etc/istio/proxy  /var/run/secrets
+    $ sudo chown -R istio-proxy /var/lib/istio /etc/certs /etc/istio/proxy /var/run/secrets
     {{< /text >}}
 
 ## Start Istio within the virtual machine
