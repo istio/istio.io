@@ -49,7 +49,7 @@ and `SERVICE_ACCOUNT`
 
 Install istio with the installation setting `values.global.meshExpansion.enabled: true`.
 
-1. Create the install `IstioOperator` custom resource:
+1. Create the `IstioOperator` custom resource:
 
     {{< text bash >}}
     $ cat <<EOF> "${WORK_DIR}"/vmintegration.yaml
