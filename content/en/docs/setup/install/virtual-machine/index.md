@@ -208,7 +208,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo cp "${HOME}"/root-cert.pem /var/run/secrets/istio/root-cert.pem
     {{< /text >}}
 
-1. Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy.
+1. Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy:
 
     {{< text bash >}}
     $ sudo mkdir -p /etc/istio/proxy
