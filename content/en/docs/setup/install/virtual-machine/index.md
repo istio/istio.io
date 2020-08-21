@@ -39,7 +39,7 @@ and `SERVICE_ACCOUNT`
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
     {{< /text >}}
 
-1. Create the `"${WORK_DIR}"` working directories.
+1. Create the working directory:
 
     {{< text bash >}}
     $ mkdir -p "${WORK_DIR}"
