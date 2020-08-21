@@ -3,7 +3,7 @@ title: Announcing Istio 1.7
 linktitle: 1.7
 subtitle: Major Update
 description: Istio 1.7 release announcement.
-publishdate: 2020-08-20
+publishdate: 2020-08-21
 release: 1.7.0
 skip_list: true
 aliases:
