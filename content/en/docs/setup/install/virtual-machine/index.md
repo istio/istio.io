@@ -225,7 +225,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
 ## Verify Istio Works Successfully
 
-1. check the log under  `/var/log/istio/istio.log`. you should see that some logs like this:
+1. Check the log in `/var/log/istio/istio.log`. You should see entries similar to the following:
 
     {{< text bash >}}
     $ 2020-08-21T01:32:17.748413Z info sds resource:default pushed key/cert pair to proxy
