@@ -135,7 +135,7 @@ Install istio with the installation setting `values.global.meshExpansion.enabled
     the scope of this guide.
     {{< /idea >}}
 
-1. Create `sidecar.env` to import required environment variable
+1. Create `sidecar.env` file to import the required environment variables:
 
     {{< text bash >}}
     $ touch "${WORK_DIR}"/sidecar.env
