@@ -29,35 +29,6 @@ the VM (non-Kubernetes) use case.
 
 Here are some highlights for this release:
 
-## VM support with added security
-
-Since the early days of Istio, we've been working on support for incorporating
-workloads on VMs into a service mesh. While we've had users doing it for
-several releases now, with Istio 1.7 we have leaned in to add several
-improvements. 
-
-One of the most used features of Istio is its security feature set. At its core
-is assigning a strong identity to each workload, in the form of short-lived
-certificates. In this release we are ensuring that workloads running on [VMs in
-the mesh](/docs/examples/virtual-machines/) get a [secure bootstrapping
-process, along with automatic certificate rotation.](https://github.com/istio/istio/issues/24554)
-
-For example, you might have a Kubernetes cluster hosting stateless web services
-(Frontends) that serve data coming from stateful databases (Backends) running
-in VMs outside of Kubernetes. You'd still like to encrypt the Frontends'
-accesses to these Backends with mTLS. With this change, you can easily do that.
-Furthermore, this is done in a "zero trust" manner, where the compromise of one 
-Frontend or Backend doesn't allow the impersonation or compromise of the others,
-because the bootstrapping and certificate rotation is following best practices.
-
-We also extended istioctl to be able to [validate the proxy's status](https://github.com/istio/istio/blob/release-1.7/releasenotes/notes/psfile.yaml) for
-VM-based workloads, where validation was previously only available for
-Kubernetes-based workloads.
-
-Finally [we added official RPM packages](https://github.com/istio/istio/issues/9117),
-alongside the already-existing Debian packages. This should make installation
-on Red Hat-based images a very easy proposition.
-
 ## Security enhancements
 
 [We made sure](https://github.com/istio/istio/issues/21833) that destination
@@ -119,6 +90,35 @@ so you can watch what's going on with it.
 We have [made several improvements](https://github.com/istio/istio/issues/21366)
 to our Prometheus metrics pipeline, getting more data there in an easier and
 more efficient manner.
+
+## VM support with added security
+
+Since the early days of Istio, we've been working on support for incorporating
+workloads on VMs into a service mesh. While we've had users doing it for
+several releases now, with Istio 1.7 we have leaned in to add several
+improvements. Please note that this is still an Alpha feature.
+
+One of the most used features of Istio is its security feature set. At its core
+is assigning a strong identity to each workload, in the form of short-lived
+certificates. In this release we are ensuring that workloads running on [VMs in
+the mesh](/docs/setup/install/virtual-machine/) get a [secure bootstrapping
+process, along with automatic certificate rotation.](https://github.com/istio/istio/issues/24554)
+
+For example, you might have a Kubernetes cluster hosting stateless web services
+(Frontends) that serve data coming from stateful databases (Backends) running
+in VMs outside of Kubernetes. You'd still like to encrypt the Frontends'
+accesses to these Backends with mTLS. With this change, you can easily do that.
+Furthermore, this is done in a "zero trust" manner, where the compromise of one
+Frontend or Backend doesn't allow the impersonation or compromise of the others,
+because the bootstrapping and certificate rotation is following best practices.
+
+We also extended istioctl to be able to [validate the proxy's status](https://github.com/istio/istio/blob/release-1.7/releasenotes/notes/psfile.yaml) for
+VM-based workloads, where validation was previously only available for
+Kubernetes-based workloads.
+
+Finally [we added official RPM packages](https://github.com/istio/istio/issues/9117),
+alongside the already-existing Debian packages. This should make installation
+on Red Hat-based images a very easy proposition.
 
 ## Other fixes
 
