@@ -110,8 +110,8 @@ the mesh](/docs/setup/install/virtual-machine/) get a [secure bootstrapping
 process, along with automatic certificate rotation.](https://github.com/istio/istio/issues/24554)
 
 For example, you might have a Kubernetes cluster hosting stateless web services
-(front ends) that serve data coming from stateful databases (back ends) running
-in VMs outside of Kubernetes. You'd still like to encrypt the front end
+(frontends) that serve data coming from stateful databases (backends) running
+in VMs outside of Kubernetes. You'd still like to encrypt the frontends'
 accesses to these backends with mTLS. With this change, you can easily do that.
 Furthermore, this is done in a "zero trust" manner, where the compromise of one
 frontend or backend doesn't allow the impersonation or compromise of the others,
