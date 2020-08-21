@@ -21,6 +21,8 @@
 1.5.x.
 1.6.x
 1.6.x.
+1.7.x
+1.7.x.
 1.x
 10ms
 10s
@@ -270,6 +272,7 @@ fortio
 FQDNs
 FQDN
 frontend
+frontends
 gbd
 GCP
 GCP-IAM
@@ -601,6 +604,7 @@ SPIFFE
 SPIFFE-compliant
 SREs
 Stackdriver
+stateful
 Statsd
 stdout
 Steitz

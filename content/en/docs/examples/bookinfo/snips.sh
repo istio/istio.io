@@ -97,10 +97,6 @@ kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
 }
 
 snip_apply_default_destination_rules_2() {
-kubectl apply -f samples/bookinfo/networking/destination-rule-all-mtls.yaml
-}
-
-snip_apply_default_destination_rules_3() {
 kubectl get destinationrules -o yaml
 }
 

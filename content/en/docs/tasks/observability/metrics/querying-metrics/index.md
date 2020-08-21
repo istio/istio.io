@@ -7,7 +7,7 @@ aliases:
     - /docs/tasks/telemetry/querying-metrics/
     - /docs/tasks/telemetry/metrics/querying-metrics/
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 This task shows you how to query for Istio Metrics using Prometheus. As part of
@@ -40,7 +40,7 @@ the example application throughout this task.
     browser or issue the following command:
 
     {{< text bash >}}
-    $ curl http://$GATEWAY_URL/productpage
+    $ curl "http://$GATEWAY_URL/productpage"
     {{< /text >}}
 
     {{< tip >}}

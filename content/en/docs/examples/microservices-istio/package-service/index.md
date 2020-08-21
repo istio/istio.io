@@ -45,7 +45,7 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
     `ratings` microservice on port `9081`.
 
     {{< text bash >}}
-    $ docker run -d -p 9081:9080 $USER/ratings
+    $ docker run --rm -d -p 9081:9080 $USER/ratings
     {{< /text >}}
 
 1.  Access [http://localhost:9081/ratings/7](http://localhost:9081/ratings/7) in your browser or use the following `curl` command:
