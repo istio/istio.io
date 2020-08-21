@@ -77,7 +77,7 @@ Install istio with the installation setting `values.global.meshExpansion.enabled
     $ kubectl create namespace "${VM_NAMESPACE}"
     {{< /text >}}
 
-1. Create a serviceaccount for virtual machine
+1. Create a serviceaccount for the virtual machine:
 
     {{< text bash >}}
     $ kubectl create serviceaccount "${SERVICE_ACCOUNT}" -n "${VM_NAMESPACE}"
