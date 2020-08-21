@@ -23,13 +23,21 @@ It is common to have all these personas work on the same clusters without any cl
 
 Let’s take a close look of what gets deployed in your cluster if you install Istio following the default install:
 * Deployment and Services:
+
     * Istiod: Istio control plane component, which includes an XDS server, CA server and a webhook server.
+    
     * Gateway: the default Istio ingress and egress gateways.
+    
 * Configs:
+
     * CRDs: Various Istio CRDs such as Gateway, Virtual Services, Destination Rules etc.
+    
     * ConfigMaps: Istio mesh configurations and Injection templates.
+    
     * Webhook configurations: configurations for two Istio webhooks (validation webhook and sidecar injector webhook)
+    
     * Service account, role binding, etc: Istio security settings
+    
     * Secrets: stores key and certs and credentials related to service account or Istiod.
 
 Below diagram shows how resources are deployed in the cluster after following the [default install](https://istio.io/latest/docs/setup/install/istioctl/#install-istio-using-the-default-profile).
