@@ -270,6 +270,7 @@ fortio
 FQDNs
 FQDN
 frontend
+frontends
 gbd
 GCP
 GCP-IAM
@@ -601,6 +602,7 @@ SPIFFE
 SPIFFE-compliant
 SREs
 Stackdriver
+stateful
 Statsd
 stdout
 Steitz
