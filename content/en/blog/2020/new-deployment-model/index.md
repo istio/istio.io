@@ -90,7 +90,7 @@ values:
 
 If you are interested in exploring this, you can follow the [central istiod single cluster step by step guide.](https://github.com/istio/istio/wiki/Central-Istiod-single-cluster-steps)
 
-The diagram above shows a single cluster as data plane for an Istio mesh, however, you may expand the setup to multiple clusters as data plane where these multiple clusters are managed by Istiod running on the control plane cluster and are getting configs from the config cluster per diagram below. 
+The diagram above shows a single cluster as the data plane for an Istio mesh. However, you may expand your data plane to multiple clusters, all managed by the same Istiod running on the control plane cluster. All of the data plane clusters will receive their configs from the config cluster per diagram below. 
 
 {{< image width="100%" link="./central-istiod-multi-cluster.jpeg" caption="New deployment model for multi data plane clusters" >}}
 
