@@ -202,7 +202,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo sh -c 'cat $(eval echo ~$SUDO_USER)/hosts-addendum >> /etc/hosts'
     {{< /text >}}
 
-1. Install the root certificate in the directory  `/etc/certs`
+1. Install the root certificate in the directory `/var/run/secrets/istio`
 
     {{< text bash >}}
     $ sudo cp "${HOME}"/root-cert.pem /var/run/secrets/istio/root-cert.pem
