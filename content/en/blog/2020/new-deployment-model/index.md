@@ -98,7 +98,7 @@ You can further expand this deployment model to manage multiple Istio meshes fro
 
 {{< image width="100%" link="./central-istiod-multi-mesh.jpeg" caption="New deployment model for multi mesh" >}}
 
-Control plane cluster can be used to host multiple Istiods and each Istiod manages his own data plane remotely.  In this model we can install Istio into the control plane cluster and use Istio ingress gateway and virtual services to route traffic between different istiod instances.
+Control plane cluster can be used to host multiple Istiods and each Istiod manages its own remote data plane.  In this model we can install Istio into the control plane cluster and use Istio ingress gateway and virtual services to route traffic between different Istiod instances.
 
 ## Conclusion
 
