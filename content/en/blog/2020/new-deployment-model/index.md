@@ -44,7 +44,9 @@ With the new `istiodRemote` component in Istio 1.7, it is possible to run Istiod
     caption="New deployment model for one data plane cluster"
     >}}
 
-In this setup, the `cluster1` should be set up first with `istiodRemote` and `base` components, then istiod on the control plane cluster is installed second, with its KUBECONFIG configured to `cluster1`. With this new deployment model, mesh operators can work purely on the control plane cluster when there is a need to upgrade or reconfig istio. Platform owners and service owners can instead work solely on cluster1 to focus on their istio configs or services.  
+In this setup, the `cluster1` should be set up first with `istiodRemote` and `base` components. Then, istiod is installed on the control plane cluster, with its KUBECONFIG configured to `cluster1`. 
+
+With this new deployment model, mesh operators can work purely on the control plane cluster when there is a need to upgrade or re-configure Istio. Platform owners and service owners will work solely on `cluster1` to deploy their applications and apply any Istio config.
 
 To support this, we introduced a new `istiodRemote` component in Isito 1.7. You can see now in cluster1, it only has istio configs and services that belong to data plane. Istiod runs in a separate cluster(control plane cluster) and is pointing its KUBECONFIG to cluster1.  Some sample snippet you can reference to install Istio on cluster1:
 
