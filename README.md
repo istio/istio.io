@@ -70,9 +70,9 @@ Run `make prepare-1.7.0`, and that's it. This will grab the latest reference doc
 
 #### Approaching the day of the release
 
-1. For a dry run before official release, run `make release-1.7.0-dry-run`, which will only create a new branch `release-1.7-dry-run` and not touch any other branches.
+1. For a dry run before official release, run `make release-1.7.0-dry-run GIT_EMAIL="example@example.com" GIT_NAME="First Last"`, which will only create a new branch `release-1.7-dry-run` and not touch any other branches.
 
-1. On the day of release, run `make release-1.7.0`. This make target will change some variables in `master` and `release-1.6`, and create a new branch `release-1.7` for the new version.
+1. On the day of release, run `make release-1.7.0 GIT_EMAIL="example@example.com" GIT_NAME="First Last"`. This make target will change some variables in `master` and `release-1.6`, and create a new branch `release-1.7` for the new version.
 
 1. Go to the istio.io project on [Netlify](https://netlify.com) and do the following:
 

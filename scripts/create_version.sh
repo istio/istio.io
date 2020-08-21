@@ -100,7 +100,8 @@ archive_old_release() {
     if [[ $(git status --porcelain) ]]; then # for idempotence
         git add -u
         git commit -m "mark v${PREV_MINOR} as archived"
-        git push origin "release-${PREV_MINOR}"
+        # TODO: Figure out permissions to run the following line
+        # git push origin "release-${PREV_MINOR}"
     fi
 
     # complete the archive process in master
@@ -112,7 +113,8 @@ archive_old_release() {
     if [[ $(git status --porcelain) ]]; then
         git add -u
         git commit -m "update data/versions.yml and archive index page"
-        git push origin "${MASTER}"
+        # TODO: Figure out permissions to run the following line
+        # git push origin "${MASTER}"
     fi
 }
 
@@ -124,7 +126,9 @@ create_branch_for_new_release() {
 
     # delete branch if it already exists
     if [[ $(git ls-remote --heads origin "${NEW_RELEASE_BRANCH}") ]]; then
-        git push --delete origin "${NEW_RELEASE_BRANCH}"
+        echo "ERROR: You must delete branch ${NEW_RELEASE_BRANCH}" on origin
+        exit -1
+        # git push --delete origin "${NEW_RELEASE_BRANCH}"
     fi
     git checkout -B "${NEW_RELEASE_BRANCH}"
 
@@ -141,7 +145,7 @@ create_branch_for_new_release() {
     if [[ $(git status --porcelain) ]]; then
         git add -A
         git commit -m "create a new release branch for ${CURR_MINOR}"
-        git push origin "${NEW_RELEASE_BRANCH}"
+        # git push origin "${NEW_RELEASE_BRANCH}"
     fi
 }
 
@@ -169,13 +173,28 @@ advance_master_to_next_release() {
     if [[ $(git status --porcelain) ]]; then
         git add -A
         git commit -m "advance master to release-${NEXT_MINOR}"
-        git push origin "${MASTER}"
+        # git push origin "${MASTER}"
     fi
 }
 
 set -e
+if [ -z ${GIT_EMAIL+x} ]; then 
+    echo "GIT_EMAIL needs to be set";
+    exit -1
+fi
+if [ -z ${GIT_NAME+x} ]; then 
+    echo "GIT_NAME needs to be set";
+    exit -1
+fi
+git config --global user.email ${GIT_EMAIL}
+git config --global user.name ${GIT_NAME}
 parse_input "$1"
 archive_old_release
 create_branch_for_new_release
 advance_master_to_next_release
 echo "[SUCCESS] New release now has been created in the branch 'release-${CURR_MINOR}'"
+if [ "${DRY_RUN}" != '1' ]; then
+    echo "You now need to git push 'master', 'release-${CURR_MINOR}', and any old versions that may have been built"
+else
+    echo "You may now git push 'release-${CURR_MINOR}' to a remote for testing"
+fi

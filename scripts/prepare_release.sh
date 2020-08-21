@@ -36,5 +36,5 @@ make gen
 if [[ $(git status --porcelain) ]]; then
     git add -A
     git commit -m "prepare for v${VERSION} as istio source is already branched"
-    git push origin "${MASTER}"
+    # git push origin "${MASTER}"
 fi
