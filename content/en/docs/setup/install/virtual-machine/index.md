@@ -47,7 +47,7 @@ and `SERVICE_ACCOUNT`
 
 ## Install the Istio control plane
 
-Install istio with the installation setting `values.global.meshExpansion.enabled: true`.
+Install Istio with the installation setting `values.global.meshExpansion.enabled: true`.
 
 1. Create the `IstioOperator` custom resource:
 
