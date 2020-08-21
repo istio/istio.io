@@ -42,7 +42,7 @@ to provision client certificates as secrets.
 
 [We improved](https://github.com/istio/istio/issues/26224) Trust Domain Validation to validate TCP traffic as well.
 Previously only HTTP traffic was validated. Trust Domain Validation now also supports `trustDomainAliases`
-in [MeshConfig](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
+in [MeshConfig](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
 
 [ECC cryptography](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography)
 is helpful for providing high security while being highly efficient. We added
