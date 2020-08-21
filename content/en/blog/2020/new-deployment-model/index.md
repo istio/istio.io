@@ -94,7 +94,7 @@ The diagram above shows a single cluster as the data plane for an Istio mesh. Ho
 
 {{< image width="100%" link="./central-istiod-multi-cluster.jpeg" caption="New deployment model for multi data plane clusters" >}}
 
-You can further expand this deployment model to manage multiple istio mesh from a centralized control plane cluster that runs multiple Istiods, per diagram below:
+You can further expand this deployment model to manage multiple Istio meshes from a centralized control plane cluster that runs multiple Istiods, per diagram below:
 
 {{< image width="100%" link="./central-istiod-multi-mesh.jpeg" caption="New deployment model for multi mesh" >}}
 
