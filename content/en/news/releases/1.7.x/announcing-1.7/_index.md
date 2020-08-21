@@ -29,25 +29,26 @@ the VM (non-Kubernetes) use case.
 
 Here are some highlights for this release:
 
-## VM support with security
+## VM support with added security
 
-Since the early days of Istio, we've gotten lots of requests for incorporating
+Since the early days of Istio, we've been working on support for incorporating
 workloads on VMs into a service mesh. While we've had users doing it for
 several releases now, with Istio 1.7 we have leaned in to add several
 improvements. 
 
-One of the most used features of Istio is its security featureset. At its core
+One of the most used features of Istio is its security feature set. At its core
 is assigning a strong identity to each workload, in the form of short-lived
 certificates. In this release we are ensuring that workloads running on [VMs in
 the mesh](/docs/examples/virtual-machines/) get a [secure bootstrapping
 process, along with automatic certificate rotation.](https://github.com/istio/istio/issues/24554)
 
 For example, you might have a Kubernetes cluster hosting stateless web services
-(Frontends) which serve data coming from stateful databases (Backends) running
+(Frontends) that serve data coming from stateful databases (Backends) running
 in VMs outside of Kubernetes. You'd still like to encrypt the Frontends'
 accesses to these Backends with mTLS. With this change, you can easily do that.
 Furthermore, this is done in a "zero trust" manner, where the compromise of one 
-Frontend or Backend doesn't allow the impersonation or compromise of the others,because the bootstrapping and certificate rotation is following best practices.
+Frontend or Backend doesn't allow the impersonation or compromise of the others,
+because the bootstrapping and certificate rotation is following best practices.
 
 We also extended istioctl to be able to [validate the proxy's status](https://github.com/istio/istio/blob/release-1.7/releasenotes/notes/psfile.yaml) for
 VM-based workloads, where validation was previously only available for
@@ -55,7 +56,7 @@ Kubernetes-based workloads.
 
 Finally [we added official RPM packages](https://github.com/istio/istio/issues/9117),
 alongside the already-existing Debian packages. This should make installation
-on RedHat-based images a very easy proposition.
+on Red Hat-based images a very easy proposition.
 
 ## Security enhancements
 
@@ -103,7 +104,7 @@ improvements to its day 2 usability:
 
 You can [delay the application start until after the sidecar is started](https://medium.com/@marko.luksa/delaying-application-start-until-sidecar-is-ready-2ec2d21a7b74). This
 increases the reliability for deployments where the application needs to access
-resources via its proxy, immediately upon its boot.
+resources via its proxy immediately upon its boot.
 
 Sometimes stale endpoints could make Pilot become unhealthy. [We fixed that](https://github.com/istio/istio/issues/25112).
 
@@ -130,10 +131,6 @@ We fixed an issue with [SNI routing](https://github.com/istio/istio/pull/25691).
 Istio now [works better with headless services](https://github.com/istio/istio/pull/24319),
 as it will no longer send mTLS traffic to headless services without sidecars.  
 
-Join the Istio community
-As always, there is a lot happening in the Community Meeting; join us every other Thursday at 10 AM Pacific. We'd love to have you join the conversation at Istio Discuss, and you can also join our Slack workspacel.
-We were very proud to be called out as one of the top five fastest growing open source projects in all of GitHub. Want to get involved? Join one of our Working Groups and help us make Istio even better.
-
 ## Join the Istio community
 
 As always, there is a lot happening in the
@@ -144,6 +141,6 @@ our [Slack workspace](https://slack.istio.io).
 
 We were very proud to be called out as one of the top five
 [fastest growing](https://octoverse.github.com/#top-and-trending-projects)
-open source projects in all of GitHub. Want to get involved? Join one of our
+open source projects in all of GitHub in 2019. Want to get involved? Join one of our
 [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)
 and help us make Istio even better.
