@@ -184,7 +184,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1. Install `cluster.env` within the directory `/var/lib/istio/envoy/`.
+1. Install `cluster.env` within the directory `/var/lib/istio/envoy/`:
 
     {{< text bash >}}
     $ sudo cp "${HOME}"/cluster.env /var/lib/istio/envoy/cluster.env
