@@ -54,7 +54,7 @@ respected. [This got fixed]({{<github_blob>}}/releasenotes/notes/25818.yaml).
 A big part of making systems like Istio easy to use is in their "day 2" usage,
 especially in their ability to help you see potential problems. We're adding to
 the ability of the very useful [istioctl analyze tool](/docs/ops/diagnostic-tools/istioctl-analyze/):
-- [Warn on a potentially insecure DestinationRule configuration]({{<github_blob>}}/releasenotes/notes/dr-analyzer.yaml)
+- [Warn on a potentially insecure `DestinationRule` configuration]({{<github_blob>}}/releasenotes/notes/dr-analyzer.yaml)
 - [Warn on deprecated Mixer resource usage]({{<github_blob>}}/releasenotes/notes/24471.yaml)
 
 For frequent users of istioctl, it can be useful to customize your default
