@@ -1,0 +1,2490 @@
++ export DOCKER_IN_DOCKER_IPV6_ENABLED=false
++ DOCKER_IN_DOCKER_IPV6_ENABLED=false
++ [[ false == \t\r\u\e ]]
++ service docker start
+ * Starting Docker: docker
+   ...done.
++ echo 'Waiting for dockerd to start...'
+Waiting for dockerd to start...
++ :
++ echo 'Checking for running docker daemon.'
+Checking for running docker daemon.
++ docker ps -q
++ sleep 1
++ :
++ echo 'Checking for running docker daemon.'
+Checking for running docker daemon.
++ docker ps -q
++ echo 'The docker daemon is running.'
+The docker daemon is running.
++ break
++ trap cleanup EXIT
++ [[ -n '' ]]
++ set +x
++ source /home/prow/go/src/istio.io/istio.io/prow/lib.sh
++ export TEST_ENV=kind
++ TEST_ENV=kind
++ export PULL_POLICY=IfNotPresent
++ PULL_POLICY=IfNotPresent
++ export HUB=gcr.io/istio-testing
++ HUB=gcr.io/istio-testing
++ export T=-v
++ T=-v
++ export CI=true
++ CI=true
++ [[ -z '' ]]
++ setup_kind_cluster ''
++ IMAGE=kindest/node:v1.18.2
++ NAME=istio-testing
++ CONFIG=
++ echo 'Deleting previous KinD cluster with name=istio-testing'
+Deleting previous KinD cluster with name=istio-testing
++ kind delete cluster --name=istio-testing -v9
+Deleting cluster "istio-testing" ...
++ trap 'cleanup_kind_cluster istio-testing' EXIT
++ [[ -z '' ]]
++ CONFIG=./prow/config/trustworthy-jwt.yaml
++ kind create cluster --name=istio-testing --config ./prow/config/trustworthy-jwt.yaml -v9 --retain --image kindest/node:v1.18.2 --wait=60s
+Creating cluster "istio-testing" ...
+ • Ensuring node image (kindest/node:v1.18.2) 🖼  ...
+DEBUG: docker/images.go:67] Pulling image: kindest/node:v1.18.2 ...
+ ✓ Ensuring node image (kindest/node:v1.18.2) 🖼
+ • Preparing nodes 📦   ...
+ ✓ Preparing nodes 📦
+ • Writing configuration 📜  ...
+DEBUG: config/config.go:83] Using the following kubeadm config for node istio-testing-control-plane:
+apiServer:
+  certSANs:
+  - localhost
+  - 127.0.0.1
+  extraArgs:
+    service-account-issuer: kubernetes.default.svc
+    service-account-signing-key-file: /etc/kubernetes/pki/sa.key
+apiVersion: kubeadm.k8s.io/v1beta2
+clusterName: istio-testing
+controlPlaneEndpoint: istio-testing-control-plane:6443
+controllerManager:
+  extraArgs:
+    enable-hostpath-provisioner: "true"
+kind: ClusterConfiguration
+kubernetesVersion: v1.18.2
+networking:
+  podSubnet: 10.244.0.0/16
+  serviceSubnet: 10.96.0.0/12
+scheduler:
+  extraArgs: null
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+bootstrapTokens:
+- token: abcdef.0123456789abcdef
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: ""
+  bindPort: 6443
+nodeRegistration:
+  criSocket: /run/containerd/containerd.sock
+  kubeletExtraArgs:
+    fail-swap-on: "false"
+    node-ip: ""
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+controlPlane:
+  localAPIEndpoint:
+    advertiseAddress: ""
+    bindPort: 6443
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: istio-testing-control-plane:6443
+    token: abcdef.0123456789abcdef
+    unsafeSkipCAVerification: true
+kind: JoinConfiguration
+nodeRegistration:
+  criSocket: /run/containerd/containerd.sock
+  kubeletExtraArgs:
+    fail-swap-on: "false"
+    node-ip: ""
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+evictionHard:
+  imagefs.available: 0%
+  nodefs.available: 0%
+  nodefs.inodesFree: 0%
+imageGCHighThresholdPercent: 100
+kind: KubeletConfiguration
+---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+ ✓ Writing configuration 📜
+ • Starting control-plane 🕹️  ...
+DEBUG: kubeadminit/init.go:73] I0604 18:41:51.753421     174 initconfiguration.go:200] loading configuration from "/kind/kubeadm.conf"
+[config] WARNING: Ignored YAML document with GroupVersionKind kubeadm.k8s.io/v1beta2, Kind=JoinConfiguration
+I0604 18:41:51.757964     174 interface.go:400] Looking for default routes with IPv4 addresses
+I0604 18:41:51.757985     174 interface.go:405] Default route transits interface "eth0"
+I0604 18:41:51.758114     174 interface.go:208] Interface eth0 is up
+I0604 18:41:51.758164     174 interface.go:256] Interface "eth0" has 3 addresses :[172.18.0.2/16 fc00:f853:ccd:e793::2/64 fe80::42:acff:fe12:2/64].
+I0604 18:41:51.758184     174 interface.go:223] Checking addr  172.18.0.2/16.
+I0604 18:41:51.758209     174 interface.go:230] IP found 172.18.0.2
+I0604 18:41:51.758215     174 interface.go:262] Found valid IPv4 address 172.18.0.2 for interface "eth0".
+I0604 18:41:51.758220     174 interface.go:411] Found active IP 172.18.0.2
+W0604 18:41:51.758302     174 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
+[init] Using Kubernetes version: v1.18.2
+[preflight] Running pre-flight checks
+I0604 18:41:51.758556     174 checks.go:577] validating Kubernetes and kubeadm version
+I0604 18:41:51.758609     174 checks.go:166] validating if the firewall is enabled and active
+I0604 18:41:51.768986     174 checks.go:201] validating availability of port 6443
+I0604 18:41:51.769279     174 checks.go:201] validating availability of port 10259
+I0604 18:41:51.769336     174 checks.go:201] validating availability of port 10257
+I0604 18:41:51.769385     174 checks.go:286] validating the existence of file /etc/kubernetes/manifests/kube-apiserver.yaml
+I0604 18:41:51.769438     174 checks.go:286] validating the existence of file /etc/kubernetes/manifests/kube-controller-manager.yaml
+I0604 18:41:51.769454     174 checks.go:286] validating the existence of file /etc/kubernetes/manifests/kube-scheduler.yaml
+I0604 18:41:51.769462     174 checks.go:286] validating the existence of file /etc/kubernetes/manifests/etcd.yaml
+I0604 18:41:51.769486     174 checks.go:432] validating if the connectivity type is via proxy or direct
+I0604 18:41:51.769588     174 checks.go:471] validating http connectivity to first IP address in the CIDR
+I0604 18:41:51.769620     174 checks.go:471] validating http connectivity to first IP address in the CIDR
+I0604 18:41:51.769634     174 checks.go:102] validating the container runtime
+I0604 18:41:51.782111     174 checks.go:376] validating the presence of executable crictl
+I0604 18:41:51.782158     174 checks.go:335] validating the contents of file /proc/sys/net/bridge/bridge-nf-call-iptables
+I0604 18:41:51.782216     174 checks.go:335] validating the contents of file /proc/sys/net/ipv4/ip_forward
+I0604 18:41:51.782271     174 checks.go:649] validating whether swap is enabled or not
+I0604 18:41:51.782306     174 checks.go:376] validating the presence of executable conntrack
+I0604 18:41:51.782405     174 checks.go:376] validating the presence of executable ip
+I0604 18:41:51.782441     174 checks.go:376] validating the presence of executable iptables
+I0604 18:41:51.782488     174 checks.go:376] validating the presence of executable mount
+I0604 18:41:51.782520     174 checks.go:376] validating the presence of executable nsenter
+I0604 18:41:51.782578     174 checks.go:376] validating the presence of executable ebtables
+I0604 18:41:51.782644     174 checks.go:376] validating the presence of executable ethtool
+I0604 18:41:51.782681     174 checks.go:376] validating the presence of executable socat
+I0604 18:41:51.782733     174 checks.go:376] validating the presence of executable tc
+I0604 18:41:51.782804     174 checks.go:376] validating the presence of executable touch
+I0604 18:41:51.782865     174 checks.go:520] running all checks
+I0604 18:41:51.787997     174 checks.go:406] checking whether the given node name is reachable using net.LookupHost
+I0604 18:41:51.828199     174 checks.go:618] validating kubelet version
+I0604 18:41:51.893986     174 checks.go:128] validating if the service is enabled and active
+I0604 18:41:51.905824     174 checks.go:201] validating availability of port 10250
+I0604 18:41:51.905902     174 checks.go:201] validating availability of port 2379
+I0604 18:41:51.905951     174 checks.go:201] validating availability of port 2380
+I0604 18:41:51.905981     174 checks.go:249] validating the existence and emptiness of directory /var/lib/etcd
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'
+I0604 18:41:51.917107     174 checks.go:838] image exists: k8s.gcr.io/kube-apiserver:v1.18.2
+I0604 18:41:51.926367     174 checks.go:838] image exists: k8s.gcr.io/kube-controller-manager:v1.18.2
+I0604 18:41:51.938134     174 checks.go:838] image exists: k8s.gcr.io/kube-scheduler:v1.18.2
+I0604 18:41:51.948291     174 checks.go:838] image exists: k8s.gcr.io/kube-proxy:v1.18.2
+I0604 18:41:51.957563     174 checks.go:838] image exists: k8s.gcr.io/pause:3.2
+I0604 18:41:51.968404     174 checks.go:838] image exists: k8s.gcr.io/etcd:3.4.3-0
+I0604 18:41:51.978190     174 checks.go:838] image exists: k8s.gcr.io/coredns:1.6.7
+I0604 18:41:51.978221     174 kubelet.go:64] Stopping the kubelet
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Starting the kubelet
+I0604 18:41:52.083409     174 certs.go:103] creating a new certificate authority for ca
+[certs] Using certificateDir folder "/etc/kubernetes/pki"
+[certs] Generating "ca" certificate and key
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [istio-testing-control-plane kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local istio-testing-control-plane localhost] and IPs [10.96.0.1 172.18.0.2 127.0.0.1]
+[certs] Generating "apiserver-kubelet-client" certificate and key
+I0604 18:41:52.711364     174 certs.go:103] creating a new certificate authority for front-proxy-ca
+[certs] Generating "front-proxy-ca" certificate and key
+[certs] Generating "front-proxy-client" certificate and key
+I0604 18:41:54.013779     174 certs.go:103] creating a new certificate authority for etcd-ca
+[certs] Generating "etcd/ca" certificate and key
+[certs] Generating "etcd/server" certificate and key
+[certs] etcd/server serving cert is signed for DNS names [istio-testing-control-plane localhost] and IPs [172.18.0.2 127.0.0.1 ::1]
+[certs] Generating "etcd/peer" certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [istio-testing-control-plane localhost] and IPs [172.18.0.2 127.0.0.1 ::1]
+[certs] Generating "etcd/healthcheck-client" certificate and key
+[certs] Generating "apiserver-etcd-client" certificate and key
+I0604 18:41:54.752779     174 certs.go:69] creating new public/private key files for signing service account users
+[certs] Generating "sa" key and public key
+I0604 18:41:55.057923     174 kubeconfig.go:79] creating kubeconfig file for admin.conf
+[kubeconfig] Using kubeconfig folder "/etc/kubernetes"
+[kubeconfig] Writing "admin.conf" kubeconfig file
+I0604 18:41:55.315230     174 kubeconfig.go:79] creating kubeconfig file for kubelet.conf
+[kubeconfig] Writing "kubelet.conf" kubeconfig file
+I0604 18:41:56.027897     174 kubeconfig.go:79] creating kubeconfig file for controller-manager.conf
+[kubeconfig] Writing "controller-manager.conf" kubeconfig file
+I0604 18:41:56.190923     174 kubeconfig.go:79] creating kubeconfig file for scheduler.conf
+[kubeconfig] Writing "scheduler.conf" kubeconfig file
+I0604 18:41:56.293118     174 manifests.go:91] [control-plane] getting StaticPodSpecs
+[control-plane] Using manifest folder "/etc/kubernetes/manifests"
+[control-plane] Creating static Pod manifest for "kube-apiserver"
+I0604 18:41:56.293629     174 manifests.go:104] [control-plane] adding volume "ca-certs" for component "kube-apiserver"
+I0604 18:41:56.293661     174 manifests.go:104] [control-plane] adding volume "etc-ca-certificates" for component "kube-apiserver"
+I0604 18:41:56.293666     174 manifests.go:104] [control-plane] adding volume "k8s-certs" for component "kube-apiserver"
+I0604 18:41:56.293670     174 manifests.go:104] [control-plane] adding volume "usr-local-share-ca-certificates" for component "kube-apiserver"
+I0604 18:41:56.293674     174 manifests.go:104] [control-plane] adding volume "usr-share-ca-certificates" for component "kube-apiserver"
+I0604 18:41:56.302138     174 manifests.go:121] [control-plane] wrote static Pod manifest for component "kube-apiserver" to "/etc/kubernetes/manifests/kube-apiserver.yaml"
+I0604 18:41:56.302165     174 manifests.go:91] [control-plane] getting StaticPodSpecs
+W0604 18:41:56.302229     174 manifests.go:225] the default kube-apiserver authorization-mode is "Node,RBAC"; using "Node,RBAC"
+[control-plane] Creating static Pod manifest for "kube-controller-manager"
+I0604 18:41:56.302506     174 manifests.go:104] [control-plane] adding volume "ca-certs" for component "kube-controller-manager"
+I0604 18:41:56.302540     174 manifests.go:104] [control-plane] adding volume "etc-ca-certificates" for component "kube-controller-manager"
+I0604 18:41:56.302545     174 manifests.go:104] [control-plane] adding volume "flexvolume-dir" for component "kube-controller-manager"
+I0604 18:41:56.302564     174 manifests.go:104] [control-plane] adding volume "k8s-certs" for component "kube-controller-manager"
+I0604 18:41:56.302567     174 manifests.go:104] [control-plane] adding volume "kubeconfig" for component "kube-controller-manager"
+I0604 18:41:56.302571     174 manifests.go:104] [control-plane] adding volume "usr-local-share-ca-certificates" for component "kube-controller-manager"
+I0604 18:41:56.302575     174 manifests.go:104] [control-plane] adding volume "usr-share-ca-certificates" for component "kube-controller-manager"
+I0604 18:41:56.303480     174 manifests.go:121] [control-plane] wrote static Pod manifest for component "kube-controller-manager" to "/etc/kubernetes/manifests/kube-controller-manager.yaml"
+I0604 18:41:56.303505     174 manifests.go:91] [control-plane] getting StaticPodSpecs
+W0604 18:41:56.303555     174 manifests.go:225] the default kube-apiserver authorization-mode is "Node,RBAC"; using "Node,RBAC"
+[control-plane] Creating static Pod manifest for "kube-scheduler"
+I0604 18:41:56.303824     174 manifests.go:104] [control-plane] adding volume "kubeconfig" for component "kube-scheduler"
+[etcd] Creating static Pod manifest for local etcd in "/etc/kubernetes/manifests"
+I0604 18:41:56.304387     174 manifests.go:121] [control-plane] wrote static Pod manifest for component "kube-scheduler" to "/etc/kubernetes/manifests/kube-scheduler.yaml"
+I0604 18:41:56.305131     174 local.go:72] [etcd] wrote Static Pod manifest for a local etcd member to "/etc/kubernetes/manifests/etcd.yaml"
+I0604 18:41:56.305153     174 waitcontrolplane.go:87] [wait-control-plane] Waiting for the API server to be healthy
+I0604 18:41:56.306086     174 loader.go:375] Config loaded from file:  /etc/kubernetes/admin.conf
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
+I0604 18:41:56.336433     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 29 milliseconds
+I0604 18:41:56.886719     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 49 milliseconds
+I0604 18:41:57.372938     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 36 milliseconds
+I0604 18:41:57.870326     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 33 milliseconds
+I0604 18:41:58.354815     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 17 milliseconds
+I0604 18:41:58.875705     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 38 milliseconds
+I0604 18:41:59.369977     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 33 milliseconds
+I0604 18:41:59.863664     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 26 milliseconds
+I0604 18:42:00.352969     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 16 milliseconds
+I0604 18:42:00.852424     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 15 milliseconds
+I0604 18:42:05.518874     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s 500 Internal Server Error in 4182 milliseconds
+I0604 18:42:05.838583     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s 500 Internal Server Error in 1 milliseconds
+I0604 18:42:06.338452     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s 500 Internal Server Error in 1 milliseconds
+I0604 18:42:06.838639     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s 500 Internal Server Error in 1 milliseconds
+[apiclient] All control plane components are healthy after 11.032147 seconds
+[upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
+I0604 18:42:07.339025     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s 200 OK in 2 milliseconds
+I0604 18:42:07.339209     174 uploadconfig.go:108] [upload-config] Uploading the kubeadm ClusterConfiguration to a ConfigMap
+I0604 18:42:07.344453     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s 201 Created in 3 milliseconds
+I0604 18:42:07.349195     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles?timeout=10s 201 Created in 3 milliseconds
+I0604 18:42:07.352897     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings?timeout=10s 201 Created in 2 milliseconds
+[kubelet] Creating a ConfigMap "kubelet-config-1.18" in namespace kube-system with the configuration for the kubelets in the cluster
+I0604 18:42:07.353433     174 uploadconfig.go:122] [upload-config] Uploading the kubelet component config to a ConfigMap
+I0604 18:42:07.356499     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s 201 Created in 2 milliseconds
+I0604 18:42:07.359885     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles?timeout=10s 201 Created in 3 milliseconds
+I0604 18:42:07.364969     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings?timeout=10s 201 Created in 4 milliseconds
+I0604 18:42:07.365208     174 uploadconfig.go:127] [upload-config] Preserving the CRISocket information for the control-plane node
+I0604 18:42:07.365233     174 patchnode.go:30] [patchnode] Uploading the CRI Socket information "/run/containerd/containerd.sock" to the Node API object "istio-testing-control-plane" as an annotation
+I0604 18:42:07.868180     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/api/v1/nodes/istio-testing-control-plane?timeout=10s 200 OK in 2 milliseconds
+I0604 18:42:07.875239     174 round_trippers.go:443] PATCH https://istio-testing-control-plane:6443/api/v1/nodes/istio-testing-control-plane?timeout=10s 200 OK in 3 milliseconds
+[upload-certs] Skipping phase. Please see --upload-certs
+[mark-control-plane] Marking the node istio-testing-control-plane as control-plane by adding the label "node-role.kubernetes.io/master=''"
+[mark-control-plane] Marking the node istio-testing-control-plane as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule]
+I0604 18:42:08.378693     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/api/v1/nodes/istio-testing-control-plane?timeout=10s 200 OK in 2 milliseconds
+I0604 18:42:08.384537     174 round_trippers.go:443] PATCH https://istio-testing-control-plane:6443/api/v1/nodes/istio-testing-control-plane?timeout=10s 200 OK in 4 milliseconds
+[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+I0604 18:42:08.387451     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/secrets/bootstrap-token-abcdef?timeout=10s 404 Not Found in 2 milliseconds
+I0604 18:42:08.391267     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/secrets?timeout=10s 201 Created in 3 milliseconds
+[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to get nodes
+I0604 18:42:08.395342     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterroles?timeout=10s 201 Created in 3 milliseconds
+I0604 18:42:08.398896     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 2 milliseconds
+[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+I0604 18:42:08.403104     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 3 milliseconds
+[bootstrap-token] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+I0604 18:42:08.406450     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 3 milliseconds
+[bootstrap-token] configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+I0604 18:42:08.410218     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 3 milliseconds
+[bootstrap-token] Creating the "cluster-info" ConfigMap in the "kube-public" namespace
+I0604 18:42:08.410739     174 clusterinfo.go:45] [bootstrap-token] loading admin kubeconfig
+I0604 18:42:08.412143     174 loader.go:375] Config loaded from file:  /etc/kubernetes/admin.conf
+I0604 18:42:08.412173     174 clusterinfo.go:53] [bootstrap-token] copying the cluster from admin.conf to the bootstrap kubeconfig
+I0604 18:42:08.412521     174 clusterinfo.go:65] [bootstrap-token] creating/updating ConfigMap in kube-public namespace
+I0604 18:42:08.417048     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-public/configmaps?timeout=10s 201 Created in 4 milliseconds
+I0604 18:42:08.417227     174 clusterinfo.go:79] creating the RBAC rules for exposing the cluster-info ConfigMap in the kube-public namespace
+I0604 18:42:08.419659     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-public/roles?timeout=10s 201 Created in 2 milliseconds
+I0604 18:42:08.422134     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-public/rolebindings?timeout=10s 201 Created in 2 milliseconds
+[kubelet-finalize] Updating "/etc/kubernetes/kubelet.conf" to point to a rotatable kubelet client certificate and key
+I0604 18:42:08.422387     174 kubeletfinalize.go:88] [kubelet-finalize] Assuming that kubelet client certificate rotation is enabled: found "/var/lib/kubelet/pki/kubelet-client-current.pem"
+I0604 18:42:08.422947     174 loader.go:375] Config loaded from file:  /etc/kubernetes/kubelet.conf
+I0604 18:42:08.423511     174 kubeletfinalize.go:132] [kubelet-finalize] Restarting the kubelet to enable client certificate rotation
+I0604 18:42:08.610206     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/apis/apps/v1/namespaces/kube-system/deployments?labelSelector=k8s-app%3Dkube-dns 200 OK in 3 milliseconds
+I0604 18:42:08.618160     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/configmaps/kube-dns?timeout=10s 404 Not Found in 1 milliseconds
+I0604 18:42:08.620662     174 round_trippers.go:443] GET https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/configmaps/coredns?timeout=10s 404 Not Found in 1 milliseconds
+I0604 18:42:08.623750     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s 201 Created in 2 milliseconds
+I0604 18:42:08.626655     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterroles?timeout=10s 201 Created in 2 milliseconds
+I0604 18:42:08.630091     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 3 milliseconds
+I0604 18:42:08.633788     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/serviceaccounts?timeout=10s 201 Created in 2 milliseconds
+I0604 18:42:08.659594     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/apps/v1/namespaces/kube-system/deployments?timeout=10s 201 Created in 16 milliseconds
+I0604 18:42:08.668357     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/services?timeout=10s 201 Created in 6 milliseconds
+[addons] Applied essential addon: CoreDNS
+I0604 18:42:08.670915     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/serviceaccounts?timeout=10s 201 Created in 2 milliseconds
+I0604 18:42:08.776193     174 request.go:557] Throttling request took 103.696014ms, request: POST:https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s
+I0604 18:42:08.779528     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s 201 Created in 3 milliseconds
+I0604 18:42:08.795152     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/apps/v1/namespaces/kube-system/daemonsets?timeout=10s 201 Created in 9 milliseconds
+I0604 18:42:08.797958     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 2 milliseconds
+I0604 18:42:08.800447     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles?timeout=10s 201 Created in 2 milliseconds
+I0604 18:42:08.802671     174 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings?timeout=10s 201 Created in 2 milliseconds
+[addons] Applied essential addon: kube-proxy
+I0604 18:42:08.803451     174 loader.go:375] Config loaded from file:  /etc/kubernetes/admin.conf
+I0604 18:42:08.804132     174 loader.go:375] Config loaded from file:  /etc/kubernetes/admin.conf
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+You can now join any number of control-plane nodes by copying certificate authorities
+and service account keys on each node and then running the following as root:
+
+  kubeadm join istio-testing-control-plane:6443 --token <value withheld> \
+    --discovery-token-ca-cert-hash sha256:b8dd874e386a76e2320f96bc56e158bbf4a242e0afec87635b35dbb3d767fef0 \
+    --control-plane
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join istio-testing-control-plane:6443 --token <value withheld> \
+    --discovery-token-ca-cert-hash sha256:b8dd874e386a76e2320f96bc56e158bbf4a242e0afec87635b35dbb3d767fef0
+ ✓ Starting control-plane 🕹️
+ • Installing CNI 🔌  ...
+ ✓ Installing CNI 🔌
+ • Installing StorageClass 💾  ...
+ ✓ Installing StorageClass 💾
+ • Waiting ≤ 1m0s for control-plane = Ready ⏳  ...
+ ✓ Waiting ≤ 1m0s for control-plane = Ready ⏳
+ • Ready after 18s 💚
+Set kubectl context to "kind-istio-testing"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-istio-testing
+
+Thanks for using kind! 😊
+
+real	1m15.041s
+user	0m4.798s
+sys	0m4.554s
++ make test.kube.presubmit
+ISTIO_SHA = df8ea82bf434
+HUB = gcr.io/istio-testing
+ISTIOIO_GO=/home/prow/go/src/istio.io/istio.io
+ISTIO_GO=/home/prow/go/src/istio.io/istio
+ISTIO_REMOTE=origin
+ISTIO_BRANCH=master
+ISTIO_SHA=df8ea82bf434
+/home/prow/go/src/istio.io/istio not found. Cloning Istio repository ...
+Cloning into '/home/prow/go/src/istio.io/istio'...
+Note: checking out 'df8ea82bf434'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b <new-branch-name>
+
+HEAD is now at df8ea82bf Automator: update istio/api@release-1.6 dependency in istio/istio@release-1.6 (#23935)
+make[1]: Entering directory '/home/prow/go/src/istio.io/istio'
+go: downloading github.com/pmezard/go-difflib v1.0.0
+go: downloading github.com/envoyproxy/go-control-plane v0.9.5-0.20200326174812-e8bd2869ff56
+go: downloading fortio.org/fortio v1.3.1
+go: downloading istio.io/api v0.0.0-20200518162646-2c1705ec4d0b
+go: downloading github.com/hashicorp/go-multierror v1.0.0
+go: downloading k8s.io/client-go v0.18.0
+go: downloading k8s.io/apimachinery v0.18.1
+go: downloading istio.io/pkg v0.0.0-20200511212725-7bfbbf968c23
+go: downloading k8s.io/api v0.18.1
+go: downloading k8s.io/apiextensions-apiserver v0.18.0
+go: downloading github.com/mitchellh/go-homedir v1.1.0
+go: downloading google.golang.org/grpc v1.28.1
+go: downloading github.com/gogo/protobuf v1.3.1
+go: downloading github.com/golang/protobuf v1.3.5
+go: downloading github.com/istio/klog v0.0.0-20190424230111-fb7481ea8bcf
+go: downloading github.com/prometheus/common v0.6.0
+go: downloading golang.org/x/net v0.0.0-20191014212845-da9a3fd4c582
+go: downloading github.com/davecgh/go-spew v1.1.1
+go: downloading github.com/mitchellh/copystructure v1.0.0
+go: downloading github.com/fsnotify/fsnotify v1.4.7
+go: downloading github.com/docker/engine v1.4.2-0.20191011211953-adfac697dc5b
+go: downloading github.com/prometheus/client_golang v1.1.0
+go: downloading github.com/google/uuid v1.1.1
+go: downloading istio.io/gogo-genproto v0.0.0-20200511213158-02f1fd1746e5
+go: downloading github.com/hashicorp/errwrap v1.0.0
+go: downloading github.com/mitchellh/reflectwalk v1.0.1
+go: downloading github.com/cncf/udpa/go v0.0.0-20200313221541-5f7e5dd04533
+go: downloading github.com/gophercloud/gophercloud v0.1.0
+go: downloading k8s.io/utils v0.0.0-20200324210504-a9aa75ae1b89
+go: downloading github.com/google/gofuzz v1.1.0
+go: downloading go.opencensus.io v0.22.2
+go: downloading github.com/Azure/go-autorest/autorest v0.9.4
+go: downloading golang.org/x/time v0.0.0-20190921001708-c4c64cad1fd0
+go: downloading github.com/json-iterator/go v1.1.9
+go: downloading github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
+go: downloading go.uber.org/zap v1.10.0
+go: downloading golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45
+go: downloading github.com/spf13/cobra v1.0.0
+go: downloading github.com/Azure/go-autorest/logger v0.1.0
+go: downloading github.com/howeyc/fsnotify v0.9.0
+go: downloading github.com/openshift/api v3.9.1-0.20191008181517-e4fd21196097+incompatible
+go: downloading google.golang.org/genproto v0.0.0-20191223191004-3caeed10a8bf
+go: downloading contrib.go.opencensus.io/exporter/prometheus v0.1.0
+go: downloading github.com/envoyproxy/protoc-gen-validate v0.1.0
+go: downloading golang.org/x/crypto v0.0.0-20200414173820-0848c9571904
+go: downloading github.com/docker/spdystream v0.0.0-20181023171402-6480d4af844c
+go: downloading github.com/googleapis/gnostic v0.3.1
+go: downloading github.com/grpc-ecosystem/go-grpc-middleware v1.0.1-0.20190118093823-f849b5445de4
+go: downloading gopkg.in/yaml.v2 v2.2.8
+go: downloading github.com/Azure/go-autorest/tracing v0.5.0
+go: downloading github.com/yl2chen/cidranger v0.0.0-20180214081945-928b519e5268
+go: downloading github.com/google/go-cmp v0.4.0
+go: downloading gopkg.in/inf.v0 v0.9.1
+go: downloading golang.org/x/sys v0.0.0-20200116001909-b77594299b42
+go: downloading cloud.google.com/go v0.50.0
+go: downloading sigs.k8s.io/service-apis v0.0.0-20200227172328-b9010cfacdbe
+go: downloading github.com/docker/go-units v0.4.0
+go: downloading github.com/pkg/errors v0.9.1
+go: downloading github.com/spf13/pflag v1.0.5
+go: downloading github.com/prometheus/client_model v0.2.0
+go: downloading github.com/census-instrumentation/opencensus-proto v0.2.1
+go: downloading github.com/matttproud/golang_protobuf_extensions v1.0.1
+go: downloading sigs.k8s.io/structured-merge-diff v0.0.0-20190817042607-6149e4549fca
+go: downloading github.com/google/cel-go v0.4.1
+go: downloading golang.org/x/text v0.3.2
+go: downloading github.com/coreos/go-oidc v2.1.0+incompatible
+go: downloading sigs.k8s.io/yaml v1.2.0
+go: downloading sigs.k8s.io/structured-merge-diff/v3 v3.0.0
+go: downloading github.com/gorilla/mux v1.7.3
+go: downloading go.uber.org/multierr v1.1.0
+go: downloading gopkg.in/d4l3k/messagediff.v1 v1.2.1
+go: downloading github.com/docker/go-connections v0.4.0
+go: downloading github.com/beorn7/perks v1.0.1
+go: downloading go.uber.org/atomic v1.4.0
+go: downloading github.com/opencontainers/image-spec v1.0.1
+go: downloading github.com/ryanuber/go-glob v1.0.0
+go: downloading github.com/modern-go/reflect2 v1.0.1
+go: downloading github.com/prometheus/procfs v0.0.8
+go: downloading github.com/docker/distribution v2.7.1+incompatible
+go: downloading gopkg.in/square/go-jose.v2 v2.3.1
+go: downloading github.com/cenkalti/backoff v2.0.0+incompatible
+go: downloading github.com/antlr/antlr4 v0.0.0-20190819145818-b43a4c3a8015
+go: downloading sigs.k8s.io/controller-runtime v0.5.1-0.20200327213554-2d4c4877f906
+go: downloading github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
+go: downloading github.com/pquerna/cachecontrol v0.0.0-20180306154005-525d0eb5f91d
+go: downloading github.com/hashicorp/golang-lru v0.5.4
+go: downloading github.com/Azure/go-autorest/autorest/adal v0.8.3
+go: downloading github.com/imdario/mergo v0.3.5
+go: downloading github.com/Masterminds/sprig v2.20.0+incompatible
+go: downloading github.com/gorilla/websocket v1.4.1
+go: downloading github.com/dgrijalva/jwt-go v3.2.0+incompatible
+go: downloading github.com/cpuguy83/go-md2man v1.0.10
+go: downloading github.com/cpuguy83/go-md2man/v2 v2.0.0
+go: downloading github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72
+go: downloading k8s.io/cli-runtime v0.18.0
+go: downloading github.com/natefinch/lumberjack v2.0.0+incompatible
+go: downloading github.com/golang/sync v0.0.0-20180314180146-1d60e4601c6f
+go: downloading github.com/russross/blackfriday v1.5.2
+go: downloading github.com/opencontainers/go-digest v1.0.0-rc1
+go: downloading golang.org/x/tools v0.0.0-20191216173652-a0e659d51361
+go: downloading github.com/mholt/archiver v3.1.1+incompatible
+go: downloading github.com/russross/blackfriday/v2 v2.0.1
+go: downloading github.com/golang/groupcache v0.0.0-20191027212112-611e8accdfc9
+go: downloading github.com/dsnet/compress v0.0.1
+go: downloading github.com/ulikunitz/xz v0.5.6
+go: downloading github.com/fatih/color v1.7.0
+go: downloading github.com/mattn/go-isatty v0.0.12
+go: downloading github.com/ghodss/yaml v1.0.0
+go: downloading github.com/Masterminds/semver v1.4.2
+go: downloading github.com/hashicorp/consul v1.3.1
+go: downloading github.com/nwaples/rardecode v1.0.0
+go: downloading github.com/miekg/dns v1.0.14
+go: downloading helm.sh/helm/v3 v3.2.0
+go: downloading github.com/shurcooL/sanitized_anchor_name v1.0.0
+go: downloading github.com/pierrec/lz4 v2.2.7+incompatible
+go: downloading github.com/evanphx/json-patch v4.5.0+incompatible
+go: downloading github.com/Azure/go-autorest/autorest/date v0.2.0
+go: downloading github.com/BurntSushi/toml v0.3.1
+go: downloading k8s.io/kubectl v0.18.0
+go: downloading github.com/gregjones/httpcache v0.0.0-20190611155906-901d90724c79
+go: downloading github.com/cheggaaa/pb/v3 v3.0.4
+go: downloading github.com/xeipuuv/gojsonschema v1.1.0
+go: downloading github.com/Masterminds/goutils v1.1.0
+go: downloading github.com/mattn/go-colorable v0.1.2
+go: downloading github.com/VividCortex/ewma v1.1.1
+go: downloading github.com/kr/pretty v0.1.0
+go: downloading github.com/onsi/gomega v1.9.0
+go: downloading github.com/kylelemons/godebug v1.1.0
+go: downloading github.com/Masterminds/sprig/v3 v3.1.0
+go: downloading github.com/istio/viper v1.3.3-0.20190515210538-2789fed3109c
+go: downloading sigs.k8s.io/kustomize v2.0.3+incompatible
+go: downloading github.com/sirupsen/logrus v1.4.2
+go: downloading github.com/spf13/jwalterweatherman v1.1.0
+go: downloading github.com/golang/snappy v0.0.1
+go: downloading github.com/peterbourgon/diskv v2.0.1+incompatible
+go: downloading github.com/gobwas/glob v0.2.3
+go: downloading github.com/xi2/xz v0.0.0-20171230120015-48954b6210f8
+go: downloading github.com/prometheus/prom2json v1.2.2
+go: downloading github.com/spf13/afero v1.2.2
+go: downloading github.com/magiconair/properties v1.8.1
+go: downloading github.com/containerd/containerd v1.3.2
+go: downloading github.com/mattn/go-runewidth v0.0.7
+go: downloading github.com/pelletier/go-toml v1.3.0
+go: downloading github.com/huandu/xstrings v1.3.1
+go: downloading github.com/mitchellh/mapstructure v1.1.2
+go: downloading github.com/google/btree v1.0.0
+go: downloading github.com/hashicorp/vault/api v1.0.3
+go: downloading github.com/hashicorp/go-version v1.2.0
+go: downloading github.com/hashicorp/hcl v1.0.0
+go: downloading github.com/Masterminds/semver/v3 v3.1.0
+go: downloading github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415
+go: downloading github.com/kr/text v0.1.0
+go: downloading github.com/spf13/cast v1.3.1
+go: downloading github.com/hashicorp/vault/sdk v0.1.12
+go: downloading github.com/liggitt/tabwriter v0.0.0-20181228230101-89fcab3d43de
+go: downloading github.com/hashicorp/go-cleanhttp v0.5.1
+go: downloading k8s.io/kube-openapi v0.0.0-20200121204235-bf4fb3bd569c
+go: downloading github.com/hashicorp/go-rootcerts v1.0.1
+go: downloading github.com/cyphar/filepath-securejoin v0.2.2
+go: downloading github.com/go-openapi/spec v0.19.5
+go: downloading github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb
+go: downloading github.com/hashicorp/go-sockaddr v1.0.2
+go: downloading github.com/hashicorp/go-retryablehttp v0.5.4
+go: downloading golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
+go: downloading github.com/go-openapi/swag v0.19.6
+go: downloading github.com/go-openapi/jsonreference v0.19.3
+go: downloading github.com/go-openapi/jsonpointer v0.19.3
+go: downloading github.com/PuerkitoBio/purell v1.1.1
+go: downloading github.com/mailru/easyjson v0.7.0
+go: downloading github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578
+go: downloading github.com/emicklei/go-restful v2.9.6+incompatible
+go: downloading github.com/hashicorp/serf v0.8.5
+go: downloading github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da
+go: downloading github.com/hashicorp/go-immutable-radix v1.0.0
++ set -e
+++ mktemp -d -t istio-charts.XXXXXXXXXX
++ OUT_DIR=/tmp/tmp.RsZfZGhHT9/istio-charts.P1COV7m5WU
++++ dirname operator/scripts/create_assets_gen.sh
+++ cd operator/scripts
+++ pwd
++ SCRIPTPATH=/home/prow/go/src/istio.io/istio/operator/scripts
++ ROOTDIR=/home/prow/go/src/istio.io/istio/operator/scripts/../..
++ OPERATOR_DIR=/home/prow/go/src/istio.io/istio/operator/scripts/../../operator
++ /home/prow/go/src/istio.io/istio/operator/scripts/create_release_charts.sh -o /tmp/tmp.RsZfZGhHT9/istio-charts.P1COV7m5WU
++++ dirname /home/prow/go/src/istio.io/istio/operator/scripts/create_release_charts.sh
+++ cd /home/prow/go/src/istio.io/istio/operator/scripts
+++ pwd
++ SCRIPT_DIR=/home/prow/go/src/istio.io/istio/operator/scripts
++ OPERATOR_BASE_DIR=/home/prow/go/src/istio.io/istio/operator/scripts/..
++ INSTALLER_DIR=/home/prow/go/src/istio.io/istio/operator/scripts/../../manifests
++ mkdir -p /tmp/tmp.RsZfZGhHT9/istio-charts.P1COV7m5WU
++ cp -R /home/prow/go/src/istio.io/istio/operator/scripts/../../manifests/charts /tmp/tmp.RsZfZGhHT9/istio-charts.P1COV7m5WU
++ cp -R /home/prow/go/src/istio.io/istio/operator/scripts/../../manifests/profiles /tmp/tmp.RsZfZGhHT9/istio-charts.P1COV7m5WU
++ cp -R /home/prow/go/src/istio.io/istio/operator/scripts/../data/examples /home/prow/go/src/istio.io/istio/operator/scripts/../data/translateConfig /home/prow/go/src/istio.io/istio/operator/scripts/../data/versions.yaml /tmp/tmp.RsZfZGhHT9/istio-charts.P1COV7m5WU
++ cd /tmp/tmp.RsZfZGhHT9/istio-charts.P1COV7m5WU
++ go-bindata --nocompress --nometadata --pkg vfs -o /home/prow/go/src/istio.io/istio/operator/scripts/../../operator/pkg/vfs/assets.gen.go ./...
++ rm -Rf /tmp/tmp.RsZfZGhHT9/istio-charts.P1COV7m5WU
+make[1]: Leaving directory '/home/prow/go/src/istio.io/istio'
+Installing go-junit-report...
+/usr/bin/go-junit-report
+ISTIO_LONG_SHA=df8ea82bf434fece015767579ef2e4a16e6a3fb3
+TAG=1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3
+PATH=/usr/local/go/bin:/gobin:/usr/local/google-cloud-sdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/prow/go/src/istio.io/istio.io/out/linux_amd64 go test -p 1 -v ./tests/... -timeout 30m \
+--istio.test.select -postsubmit,-flaky \
+--istio.test.env kube \
+--istio.test.tag=1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3 --istio.test.ci --istio.test.pullpolicy=IfNotPresent --istio.test.kube.minikube --istio.test.work_dir=/logs/artifacts --istio.test.hub=gcr.io/istio-testing --istio.test.kube.config=~/.kube/config \
+2>&1 | tee >(/usr/bin/go-junit-report > /logs/artifacts/junit.xml)
+go: downloading istio.io/istio v0.0.0-20200518170651-df8ea82bf434
+go: downloading github.com/Azure/go-autorest v13.2.0+incompatible
+go: downloading github.com/imdario/mergo v0.3.8
+go: downloading github.com/Azure/go-autorest/autorest v0.9.0
+go: downloading github.com/Azure/go-autorest/autorest/adal v0.5.0
+go: downloading github.com/Azure/go-autorest/autorest/date v0.1.0
+2020-06-04T18:45:26.434482Z	info	ci	=== Test Framework Settings ===
+2020-06-04T18:45:26.434540Z	info	ci	Environment:       kube
+TestID:            configuration
+RunID:             be36121f-2e8e-4641-b280-46ad0857d942
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T18:45:26.434545Z	info	ci	===============================
+2020-06-04T18:45:26.434676Z	info	tf	Test run dir: /logs/artifacts/configuration-be36121f2e8e4641b
+2020-06-04T18:45:26.434808Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+
+2020-06-04T18:45:26.437056Z	info	ci	=== BEGIN: Setup: 'configuration' ===
+2020-06-04T18:45:26.437140Z	info	ci	=== BEGIN: Deploy Istio [Suite=configuration] ===
+2020-06-04T18:45:26.437146Z	info	ci	=== Istio Component Config ===
+2020-06-04T18:45:26.437175Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+ControlPlaneTopology:           map[]
+
+2020-06-04T18:45:26.437179Z	info	ci	================================
+2020-06-04T18:45:26.438432Z	warn	Config not found: ~/.kube/config
+2020-06-04T18:45:26.757158Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation --wait -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/configuration-be36121f2e8e4641b/_suite_context/istio-deployment-278588625/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3 --set values.global.imagePullPolicy=IfNotPresent]
+2020-06-04T18:45:26.759506Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✔ Istiod installed
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✔ Ingress gateways installed
+- Pruning removed resources
+✔ Installation complete2020-06-04T18:45:45.993614Z	info	ci	Creating dummy rule to check for validation webhook readiness
+2020-06-04T18:45:45.994051Z	info	ci	Applying YAML: kubectl apply --kubeconfig=/home/.kube/config  -f /logs/artifacts/configuration-be36121f2e8e4641b/_suite_context/env-kube-531497658/istio-kube-accessor-550418428/accessor_838557995
+2020-06-04T18:45:46.501037Z	info	ci	Deleting YAML file: /logs/artifacts/configuration-be36121f2e8e4641b/_suite_context/env-kube-531497658/istio-kube-accessor-550418428/accessor_187874958
+2020-06-04T18:45:46.587106Z	info	ci	=== SUCCEEDED: Deploy Istio [Suite=configuration]===
+2020-06-04T18:45:46.587187Z	info	ci	=== DONE: Setup: 'configuration' ===
+2020-06-04T18:45:46.587195Z	info	ci	=== BEGIN: Test Run: 'configuration' ===
+=== RUN   TestHealthCheck
+2020-06-04T18:45:46.587409Z	info	ci	=== BEGIN: Test: 'configuration[TestHealthCheck]' ===
+2020-06-04T18:45:46.587434Z	info	ci	Executing test TestHealthCheck (1 steps)
+2020-06-04T18:45:46.587566Z	info	ci	Running command script scripts/liveness_and_readiness_probes.sh
+2020-06-04T18:46:14.722778Z	info	ci	Running command script cleanup.sh
+2020-06-04T18:46:46.832258Z	info	ci	=== DONE (passed):  Test: 'configuration[TestHealthCheck] (1m0.244783716s)' ===
+--- PASS: TestHealthCheck (60.25s)
+PASS
+2020-06-04T18:46:46.832380Z	info	ci	=== DONE: Test Run: 'configuration' ===
+2020-06-04T18:46:46.832703Z	info	ci	=== Suite "configuration" run time: 1m20.395638889s ===
+2020-06-04T18:46:46.832746Z	info	ci	=== BEGIN: Cleanup Istio [Suite=configuration] ===
+2020-06-04T18:46:46.930860Z	info	ci	Deleting YAML file: /logs/artifacts/configuration-be36121f2e8e4641b/_suite_context/env-kube-531497658/istio-kube-accessor-550418428/accessor_254113429
+2020-06-04T18:46:51.429935Z	info	ci	=== DONE: Cleanup Istio [Suite=configuration] ===
+ok  	istio.io/istio.io/tests/configuration	85.070s
+2020-06-04T18:46:56.771478Z	info	ci	=== Test Framework Settings ===
+2020-06-04T18:46:56.771548Z	info	ci	Environment:       kube
+TestID:            examples
+RunID:             85e71c06-ef3e-4a5e-aab1-a456a165b790
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T18:46:56.771553Z	info	ci	===============================
+2020-06-04T18:46:56.771658Z	info	tf	Test run dir: /logs/artifacts/examples-85e71c06ef3e4a5eaab1a4
+2020-06-04T18:46:56.771724Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+
+2020-06-04T18:46:56.774801Z	info	ci	=== BEGIN: Setup: 'examples' ===
+2020-06-04T18:46:56.774871Z	info	ci	=== BEGIN: Deploy Istio [Suite=examples] ===
+2020-06-04T18:46:56.774878Z	info	ci	=== Istio Component Config ===
+2020-06-04T18:46:56.774944Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+ControlPlaneTopology:           map[]
+
+2020-06-04T18:46:56.774970Z	info	ci	================================
+2020-06-04T18:46:56.776453Z	warn	Config not found: ~/.kube/config
+2020-06-04T18:46:57.262825Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation --wait -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/examples-85e71c06ef3e4a5eaab1a4/_suite_context/istio-deployment-782549018/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3 --set values.global.imagePullPolicy=IfNotPresent]
+2020-06-04T18:46:57.263768Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✔ Istiod installed
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+✔ Addons installed
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✔ Ingress gateways installed
+- Pruning removed resources
+✔ Installation complete2020-06-04T18:47:47.061865Z	info	ci	Creating dummy rule to check for validation webhook readiness
+2020-06-04T18:47:47.062317Z	info	ci	Applying YAML: kubectl apply --kubeconfig=/home/.kube/config  -f /logs/artifacts/examples-85e71c06ef3e4a5eaab1a4/_suite_context/env-kube-168765927/istio-kube-accessor-240061617/accessor_539123804
+2020-06-04T18:47:47.277903Z	info	ci	Deleting YAML file: /logs/artifacts/examples-85e71c06ef3e4a5eaab1a4/_suite_context/env-kube-168765927/istio-kube-accessor-240061617/accessor_186865675
+2020-06-04T18:47:47.358619Z	info	ci	=== SUCCEEDED: Deploy Istio [Suite=examples]===
+2020-06-04T18:47:47.358655Z	info	ci	=== DONE: Setup: 'examples' ===
+2020-06-04T18:47:47.358659Z	info	ci	=== BEGIN: Test Run: 'examples' ===
+=== RUN   TestBookinfo
+2020-06-04T18:47:47.358865Z	info	ci	=== BEGIN: Test: 'examples[TestBookinfo]' ===
+2020-06-04T18:47:47.358895Z	info	ci	Executing test TestBookinfo (1 steps)
+2020-06-04T18:47:47.359038Z	info	ci	Running command script scripts/bookinfo.sh
+2020-06-04T18:48:29.306286Z	info	ci	Running command script cleanup.sh
+2020-06-04T18:48:30.631744Z	info	ci	=== DONE (passed):  Test: 'examples[TestBookinfo] (43.272808739s)' ===
+--- PASS: TestBookinfo (43.27s)
+PASS
+2020-06-04T18:48:30.631864Z	info	ci	=== DONE: Test Run: 'examples' ===
+2020-06-04T18:48:30.632066Z	info	ci	=== Suite "examples" run time: 1m33.85726033s ===
+2020-06-04T18:48:30.632114Z	info	ci	=== BEGIN: Cleanup Istio [Suite=examples] ===
+2020-06-04T18:48:32.098752Z	info	ci	Deleting YAML file: /logs/artifacts/examples-85e71c06ef3e4a5eaab1a4/_suite_context/env-kube-168765927/istio-kube-accessor-240061617/accessor_818075118
+2020-06-04T18:48:41.520143Z	info	ci	=== DONE: Cleanup Istio [Suite=examples] ===
+ok  	istio.io/istio.io/tests/examples	104.827s
+2020-06-04T18:48:46.813889Z	info	ci	=== Test Framework Settings ===
+2020-06-04T18:48:46.813978Z	info	ci	Environment:       kube
+TestID:            security
+RunID:             789c996a-92b6-4d00-a921-82b7cf166c25
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T18:48:46.813984Z	info	ci	===============================
+2020-06-04T18:48:46.814168Z	info	tf	Test run dir: /logs/artifacts/security-789c996a92b64d00a92182
+2020-06-04T18:48:46.814283Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+
+2020-06-04T18:48:46.816550Z	info	ci	=== BEGIN: Setup: 'security' ===
+2020-06-04T18:48:46.816598Z	info	ci	=== BEGIN: Deploy Istio [Suite=security] ===
+2020-06-04T18:48:46.816602Z	info	ci	=== Istio Component Config ===
+2020-06-04T18:48:46.816639Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3 grafana.enabled:true]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+ControlPlaneTopology:           map[]
+
+2020-06-04T18:48:46.816653Z	info	ci	================================
+2020-06-04T18:48:46.818249Z	warn	Config not found: ~/.kube/config
+2020-06-04T18:48:47.247051Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation --wait -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/security-789c996a92b64d00a92182/_suite_context/istio-deployment-196103861/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3 --set values.global.imagePullPolicy=IfNotPresent --set values.grafana.enabled=true]
+2020-06-04T18:48:47.248202Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✔ Istiod installed
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+✔ Ingress gateways installed
+- Processing resources for Addons. Waiting for Deployment/istio-system/grafana
+- Processing resources for Addons. Waiting for Deployment/istio-system/grafana
+- Processing resources for Addons. Waiting for Deployment/istio-system/grafana
+✔ Addons installed
+- Pruning removed resources
+✔ Installation complete2020-06-04T18:49:09.149690Z	info	ci	Creating dummy rule to check for validation webhook readiness
+2020-06-04T18:49:09.150120Z	info	ci	Applying YAML: kubectl apply --kubeconfig=/home/.kube/config  -f /logs/artifacts/security-789c996a92b64d00a92182/_suite_context/env-kube-871422254/istio-kube-accessor-278639248/accessor_583322799
+2020-06-04T18:49:09.372566Z	info	ci	Deleting YAML file: /logs/artifacts/security-789c996a92b64d00a92182/_suite_context/env-kube-871422254/istio-kube-accessor-278639248/accessor_937772098
+2020-06-04T18:49:09.461980Z	info	ci	=== SUCCEEDED: Deploy Istio [Suite=security]===
+2020-06-04T18:49:09.462014Z	info	ci	=== DONE: Setup: 'security' ===
+2020-06-04T18:49:09.462019Z	info	ci	=== BEGIN: Test Run: 'security' ===
+=== RUN   TestAuthorizationForHTTPServices
+2020-06-04T18:49:09.462216Z	info	ci	=== BEGIN: Test: 'security[TestAuthorizationForHTTPServices]' ===
+2020-06-04T18:49:09.462266Z	info	ci	Executing test TestAuthorizationForHTTPServices (1 steps)
+2020-06-04T18:49:09.462446Z	info	ci	Running command script scripts/authz_http.sh
+2020-06-04T18:49:40.360806Z	info	ci	Running command script cleanup.sh
+2020-06-04T18:49:43.233499Z	info	ci	=== DONE (passed):  Test: 'security[TestAuthorizationForHTTPServices] (33.771270657s)' ===
+--- PASS: TestAuthorizationForHTTPServices (33.77s)
+=== RUN   TestMutualTLSMigration
+2020-06-04T18:49:43.233736Z	info	ci	=== BEGIN: Test: 'security[TestMutualTLSMigration]' ===
+2020-06-04T18:49:43.233775Z	info	ci	Executing test TestMutualTLSMigration (1 steps)
+2020-06-04T18:49:43.233885Z	info	ci	Running command script scripts/mtls_migration.sh
+2020-06-04T18:50:09.416018Z	info	ci	Running command script cleanup.sh
+2020-06-04T18:50:54.033955Z	info	ci	=== DONE (passed):  Test: 'security[TestMutualTLSMigration] (1m10.800183495s)' ===
+--- PASS: TestMutualTLSMigration (70.80s)
+PASS
+2020-06-04T18:50:54.034065Z	info	ci	=== DONE: Test Run: 'security' ===
+2020-06-04T18:50:54.034354Z	info	ci	=== Suite "security" run time: 2m7.217760426s ===
+2020-06-04T18:50:54.034382Z	info	ci	=== BEGIN: Cleanup Istio [Suite=security] ===
+2020-06-04T18:50:55.198161Z	info	ci	Deleting YAML file: /logs/artifacts/security-789c996a92b64d00a92182/_suite_context/env-kube-871422254/istio-kube-accessor-278639248/accessor_050139833
+2020-06-04T18:51:01.784376Z	info	ci	=== DONE: Cleanup Istio [Suite=security] ===
+ok  	istio.io/istio.io/tests/security	135.044s
+2020-06-04T18:51:07.057388Z	info	ci	=== Test Framework Settings ===
+2020-06-04T18:51:07.057431Z	info	ci	Environment:       kube
+TestID:            authn_policy
+RunID:             3d5cf284-61dc-46bc-8cb2-f352c00e6c10
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T18:51:07.057436Z	info	ci	===============================
+2020-06-04T18:51:07.057519Z	info	tf	Test run dir: /logs/artifacts/authn-policy-3d5cf28461dc46bc8c
+2020-06-04T18:51:07.057654Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+
+2020-06-04T18:51:07.059739Z	info	ci	=== BEGIN: Setup: 'authn_policy' ===
+2020-06-04T18:51:07.059783Z	info	ci	=== BEGIN: Deploy Istio [Suite=authn_policy] ===
+2020-06-04T18:51:07.059789Z	info	ci	=== Istio Component Config ===
+2020-06-04T18:51:07.059816Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+ControlPlaneTopology:           map[]
+
+2020-06-04T18:51:07.059861Z	info	ci	================================
+2020-06-04T18:51:07.060910Z	warn	Config not found: ~/.kube/config
+2020-06-04T18:51:07.343938Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation --wait -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/authn-policy-3d5cf28461dc46bc8c/_suite_context/istio-deployment-236779973/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3 --set values.global.imagePullPolicy=IfNotPresent]
+2020-06-04T18:51:07.345829Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✔ Istiod installed
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✔ Ingress gateways installed
+- Pruning removed resources
+✔ Installation complete2020-06-04T18:51:58.516914Z	info	ci	Creating dummy rule to check for validation webhook readiness
+2020-06-04T18:51:58.517480Z	info	ci	Applying YAML: kubectl apply --kubeconfig=/home/.kube/config  -f /logs/artifacts/authn-policy-3d5cf28461dc46bc8c/_suite_context/env-kube-454758526/istio-kube-accessor-359045216/accessor_182296127
+2020-06-04T18:51:58.743286Z	info	ci	Deleting YAML file: /logs/artifacts/authn-policy-3d5cf28461dc46bc8c/_suite_context/env-kube-454758526/istio-kube-accessor-359045216/accessor_704237714
+2020-06-04T18:51:58.823335Z	info	ci	=== SUCCEEDED: Deploy Istio [Suite=authn_policy]===
+2020-06-04T18:51:58.823368Z	info	ci	=== DONE: Setup: 'authn_policy' ===
+2020-06-04T18:51:58.823376Z	info	ci	=== BEGIN: Test Run: 'authn_policy' ===
+=== RUN   TestAuthnPolicy
+2020-06-04T18:51:58.823601Z	info	ci	=== BEGIN: Test: 'authn_policy[TestAuthnPolicy]' ===
+2020-06-04T18:51:58.823641Z	info	ci	Executing test TestAuthnPolicy (1 steps)
+2020-06-04T18:51:58.823806Z	info	ci	Running command script scripts/authn_policy.sh
+2020-06-04T18:52:43.319793Z	info	ci	Running command script cleanup.sh
+2020-06-04T18:53:38.881582Z	info	ci	=== DONE (passed):  Test: 'authn_policy[TestAuthnPolicy] (1m40.057957441s)' ===
+--- PASS: TestAuthnPolicy (100.06s)
+PASS
+2020-06-04T18:53:38.881698Z	info	ci	=== DONE: Test Run: 'authn_policy' ===
+2020-06-04T18:53:38.881894Z	info	ci	=== Suite "authn_policy" run time: 2m31.822151015s ===
+2020-06-04T18:53:38.881938Z	info	ci	=== BEGIN: Cleanup Istio [Suite=authn_policy] ===
+2020-06-04T18:53:38.982456Z	info	ci	Deleting YAML file: /logs/artifacts/authn-policy-3d5cf28461dc46bc8c/_suite_context/env-kube-454758526/istio-kube-accessor-359045216/accessor_000170697
+2020-06-04T18:53:43.453309Z	info	ci	=== DONE: Cleanup Istio [Suite=authn_policy] ===
+ok  	istio.io/istio.io/tests/security/authn_policy	156.474s
+2020-06-04T18:53:48.783941Z	info	ci	=== Test Framework Settings ===
+2020-06-04T18:53:48.784024Z	info	ci	Environment:       kube
+TestID:            authz_deny
+RunID:             1676357d-97b6-4fc1-979b-db02fd54f3ff
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T18:53:48.784030Z	info	ci	===============================
+2020-06-04T18:53:48.784284Z	info	tf	Test run dir: /logs/artifacts/authz-deny-1676357d97b64fc1979b
+2020-06-04T18:53:48.784464Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+
+2020-06-04T18:53:48.786555Z	info	ci	=== BEGIN: Setup: 'authz_deny' ===
+2020-06-04T18:53:48.786631Z	info	ci	=== BEGIN: Deploy Istio [Suite=authz_deny] ===
+2020-06-04T18:53:48.786637Z	info	ci	=== Istio Component Config ===
+2020-06-04T18:53:48.786664Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+ControlPlaneTopology:           map[]
+
+2020-06-04T18:53:48.786677Z	info	ci	================================
+2020-06-04T18:53:48.787732Z	warn	Config not found: ~/.kube/config
+2020-06-04T18:53:49.079644Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation --wait -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/authz-deny-1676357d97b64fc1979b/_suite_context/istio-deployment-928234824/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3 --set values.global.imagePullPolicy=IfNotPresent]
+2020-06-04T18:53:49.080435Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✔ Istiod installed
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✔ Ingress gateways installed
+- Pruning removed resources
+✔ Installation complete2020-06-04T18:54:10.332760Z	info	ci	Creating dummy rule to check for validation webhook readiness
+2020-06-04T18:54:10.333404Z	info	ci	Applying YAML: kubectl apply --kubeconfig=/home/.kube/config  -f /logs/artifacts/authz-deny-1676357d97b64fc1979b/_suite_context/env-kube-692723789/istio-kube-accessor-383760391/accessor_012201914
+2020-06-04T18:54:10.555476Z	info	ci	Deleting YAML file: /logs/artifacts/authz-deny-1676357d97b64fc1979b/_suite_context/env-kube-692723789/istio-kube-accessor-383760391/accessor_547497425
+2020-06-04T18:54:10.643337Z	info	ci	=== SUCCEEDED: Deploy Istio [Suite=authz_deny]===
+2020-06-04T18:54:10.643383Z	info	ci	=== DONE: Setup: 'authz_deny' ===
+2020-06-04T18:54:10.643391Z	info	ci	=== BEGIN: Test Run: 'authz_deny' ===
+=== RUN   TestAuthzDeny
+2020-06-04T18:54:10.643651Z	info	ci	=== BEGIN: Test: 'authz_deny[TestAuthzDeny]' ===
+2020-06-04T18:54:10.643685Z	info	ci	Executing test TestAuthzDeny (1 steps)
+2020-06-04T18:54:10.643797Z	info	ci	Running command script scripts/authz_deny.sh
+2020-06-04T18:54:54.503454Z	info	ci	Running command script cleanup.sh
+2020-06-04T18:55:33.578725Z	info	ci	=== DONE (passed):  Test: 'authz_deny[TestAuthzDeny] (1m22.935056598s)' ===
+--- PASS: TestAuthzDeny (82.94s)
+PASS
+2020-06-04T18:55:33.578844Z	info	ci	=== DONE: Test Run: 'authz_deny' ===
+2020-06-04T18:55:33.579034Z	info	ci	=== Suite "authz_deny" run time: 1m44.792472879s ===
+2020-06-04T18:55:33.579104Z	info	ci	=== BEGIN: Cleanup Istio [Suite=authz_deny] ===
+2020-06-04T18:55:33.682926Z	info	ci	Deleting YAML file: /logs/artifacts/authz-deny-1676357d97b64fc1979b/_suite_context/env-kube-692723789/istio-kube-accessor-383760391/accessor_033052412
+2020-06-04T18:55:38.174796Z	info	ci	=== DONE: Cleanup Istio [Suite=authz_deny] ===
+ok  	istio.io/istio.io/tests/security/authz_deny	109.464s
+2020-06-04T18:55:43.480994Z	info	ci	=== Test Framework Settings ===
+2020-06-04T18:55:43.481057Z	info	ci	Environment:       kube
+TestID:            authz_ingress
+RunID:             d5d9d31f-ba1b-43da-9581-501356caf237
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T18:55:43.481066Z	info	ci	===============================
+2020-06-04T18:55:43.481239Z	info	tf	Test run dir: /logs/artifacts/authz-ingress-d5d9d31fba1b43da9
+2020-06-04T18:55:43.481413Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+
+2020-06-04T18:55:43.485205Z	info	ci	=== BEGIN: Setup: 'authz_ingress' ===
+2020-06-04T18:55:43.485246Z	info	ci	=== BEGIN: Deploy Istio [Suite=authz_ingress] ===
+2020-06-04T18:55:43.485254Z	info	ci	=== Istio Component Config ===
+2020-06-04T18:55:43.485296Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+ControlPlaneTopology:           map[]
+
+2020-06-04T18:55:43.485304Z	info	ci	================================
+2020-06-04T18:55:43.486809Z	warn	Config not found: ~/.kube/config
+2020-06-04T18:55:43.766669Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation --wait -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/authz-ingress-d5d9d31fba1b43da9/_suite_context/istio-deployment-756547939/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3 --set values.global.imagePullPolicy=IfNotPresent]
+2020-06-04T18:55:43.767643Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✔ Istiod installed
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✔ Ingress gateways installed
+- Pruning removed resources
+✔ Installation complete2020-06-04T18:56:20.986060Z	info	ci	Creating dummy rule to check for validation webhook readiness
+2020-06-04T18:56:20.986533Z	info	ci	Applying YAML: kubectl apply --kubeconfig=/home/.kube/config  -f /logs/artifacts/authz-ingress-d5d9d31fba1b43da9/_suite_context/env-kube-322147604/istio-kube-accessor-970946406/accessor_746604941
+2020-06-04T18:56:21.217914Z	info	ci	Deleting YAML file: /logs/artifacts/authz-ingress-d5d9d31fba1b43da9/_suite_context/env-kube-322147604/istio-kube-accessor-970946406/accessor_319726472
+2020-06-04T18:56:21.296982Z	info	ci	=== SUCCEEDED: Deploy Istio [Suite=authz_ingress]===
+2020-06-04T18:56:21.297017Z	info	ci	=== DONE: Setup: 'authz_ingress' ===
+2020-06-04T18:56:21.297022Z	info	ci	=== BEGIN: Test Run: 'authz_ingress' ===
+=== RUN   TestAuthzIngress
+2020-06-04T18:56:21.297309Z	info	ci	=== BEGIN: Test: 'authz_ingress[TestAuthzIngress]' ===
+2020-06-04T18:56:21.297339Z	info	ci	Executing test TestAuthzIngress (1 steps)
+2020-06-04T18:56:21.297515Z	info	ci	Running command script scripts/authz_ingress.sh
+2020-06-04T18:56:41.146530Z	info	ci	Running command script cleanup.sh
+2020-06-04T18:57:08.019022Z	info	ci	=== DONE (passed):  Test: 'authz_ingress[TestAuthzIngress] (46.721696664s)' ===
+--- PASS: TestAuthzIngress (46.72s)
+PASS
+2020-06-04T18:57:08.019153Z	info	ci	=== DONE: Test Run: 'authz_ingress' ===
+2020-06-04T18:57:08.019318Z	info	ci	=== Suite "authz_ingress" run time: 1m24.534107585s ===
+2020-06-04T18:57:08.019423Z	info	ci	=== BEGIN: Cleanup Istio [Suite=authz_ingress] ===
+2020-06-04T18:57:08.122038Z	info	ci	Deleting YAML file: /logs/artifacts/authz-ingress-d5d9d31fba1b43da9/_suite_context/env-kube-322147604/istio-kube-accessor-970946406/accessor_027095367
+2020-06-04T18:57:12.593090Z	info	ci	=== DONE: Cleanup Istio [Suite=authz_ingress] ===
+ok  	istio.io/istio.io/tests/security/authz_ingress	89.187s
+2020-06-04T18:57:17.960487Z	info	ci	=== Test Framework Settings ===
+2020-06-04T18:57:17.960529Z	info	ci	Environment:       kube
+TestID:            authz_jwt
+RunID:             6ba2697f-26ea-41c8-b881-08ed72c22423
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T18:57:17.960534Z	info	ci	===============================
+2020-06-04T18:57:17.960624Z	info	tf	Test run dir: /logs/artifacts/authz-jwt-6ba2697f26ea41c8b8810
+2020-06-04T18:57:17.960702Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+
+2020-06-04T18:57:17.962780Z	info	ci	=== BEGIN: Setup: 'authz_jwt' ===
+2020-06-04T18:57:17.962818Z	info	ci	=== BEGIN: Deploy Istio [Suite=authz_jwt] ===
+2020-06-04T18:57:17.962823Z	info	ci	=== Istio Component Config ===
+2020-06-04T18:57:17.962843Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+ControlPlaneTopology:           map[]
+
+2020-06-04T18:57:17.962847Z	info	ci	================================
+2020-06-04T18:57:17.963940Z	warn	Config not found: ~/.kube/config
+2020-06-04T18:57:18.242740Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation --wait -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/authz-jwt-6ba2697f26ea41c8b8810/_suite_context/istio-deployment-441540563/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3 --set values.global.imagePullPolicy=IfNotPresent]
+2020-06-04T18:57:18.243670Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✔ Istiod installed
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✔ Ingress gateways installed
+- Pruning removed resources
+✔ Installation complete2020-06-04T18:57:33.448704Z	info	ci	Creating dummy rule to check for validation webhook readiness
+2020-06-04T18:57:33.449318Z	info	ci	Applying YAML: kubectl apply --kubeconfig=/home/.kube/config  -f /logs/artifacts/authz-jwt-6ba2697f26ea41c8b8810/_suite_context/env-kube-704118084/istio-kube-accessor-350340886/accessor_201093501
+2020-06-04T18:57:33.667530Z	info	ci	Deleting YAML file: /logs/artifacts/authz-jwt-6ba2697f26ea41c8b8810/_suite_context/env-kube-704118084/istio-kube-accessor-350340886/accessor_940477624
+2020-06-04T18:57:33.749596Z	info	ci	=== SUCCEEDED: Deploy Istio [Suite=authz_jwt]===
+2020-06-04T18:57:33.749636Z	info	ci	=== DONE: Setup: 'authz_jwt' ===
+2020-06-04T18:57:33.749640Z	info	ci	=== BEGIN: Test Run: 'authz_jwt' ===
+=== RUN   TestAuthzJWT
+2020-06-04T18:57:33.749918Z	info	ci	=== BEGIN: Test: 'authz_jwt[TestAuthzJWT]' ===
+2020-06-04T18:57:33.749949Z	info	ci	Executing test TestAuthzJWT (1 steps)
+2020-06-04T18:57:33.750106Z	info	ci	Running command script scripts/authz_jwt.sh
+2020-06-04T18:58:14.612580Z	info	ci	Running command script cleanup.sh
+2020-06-04T18:58:53.663747Z	info	ci	=== DONE (passed):  Test: 'authz_jwt[TestAuthzJWT] (1m19.913811114s)' ===
+--- PASS: TestAuthzJWT (79.91s)
+PASS
+2020-06-04T18:58:53.663846Z	info	ci	=== DONE: Test Run: 'authz_jwt' ===
+2020-06-04T18:58:53.664093Z	info	ci	=== Suite "authz_jwt" run time: 1m35.70128462s ===
+2020-06-04T18:58:53.664131Z	info	ci	=== BEGIN: Cleanup Istio [Suite=authz_jwt] ===
+2020-06-04T18:58:53.773747Z	info	ci	Deleting YAML file: /logs/artifacts/authz-jwt-6ba2697f26ea41c8b8810/_suite_context/env-kube-704118084/istio-kube-accessor-350340886/accessor_671077559
+2020-06-04T18:58:58.246575Z	info	ci	=== DONE: Cleanup Istio [Suite=authz_jwt] ===
+ok  	istio.io/istio.io/tests/security/authz_jwt	100.367s
+2020-06-04T18:59:03.584050Z	info	ci	=== Test Framework Settings ===
+2020-06-04T18:59:03.584138Z	info	ci	Environment:       kube
+TestID:            authz_tcp
+RunID:             260662f1-c476-4a27-9bbe-7c93c883e851
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T18:59:03.584143Z	info	ci	===============================
+2020-06-04T18:59:03.584232Z	info	tf	Test run dir: /logs/artifacts/authz-tcp-260662f1c4764a279bbe7
+2020-06-04T18:59:03.584383Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+
+2020-06-04T18:59:03.586571Z	info	ci	=== BEGIN: Setup: 'authz_tcp' ===
+2020-06-04T18:59:03.586610Z	info	ci	=== BEGIN: Deploy Istio [Suite=authz_tcp] ===
+2020-06-04T18:59:03.586614Z	info	ci	=== Istio Component Config ===
+2020-06-04T18:59:03.586720Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+ControlPlaneTopology:           map[]
+
+2020-06-04T18:59:03.586736Z	info	ci	================================
+2020-06-04T18:59:03.587766Z	warn	Config not found: ~/.kube/config
+2020-06-04T18:59:03.871383Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation --wait -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/authz-tcp-260662f1c4764a279bbe7/_suite_context/istio-deployment-361785737/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3 --set values.global.imagePullPolicy=IfNotPresent]
+2020-06-04T18:59:03.872380Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✔ Istiod installed
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✔ Ingress gateways installed
+- Pruning removed resources
+✔ Installation complete2020-06-04T18:59:45.115581Z	info	ci	Creating dummy rule to check for validation webhook readiness
+2020-06-04T18:59:45.116148Z	info	ci	Applying YAML: kubectl apply --kubeconfig=/home/.kube/config  -f /logs/artifacts/authz-tcp-260662f1c4764a279bbe7/_suite_context/env-kube-329152594/istio-kube-accessor-132278612/accessor_572114083
+2020-06-04T18:59:45.327886Z	info	ci	Deleting YAML file: /logs/artifacts/authz-tcp-260662f1c4764a279bbe7/_suite_context/env-kube-329152594/istio-kube-accessor-132278612/accessor_879171494
+2020-06-04T18:59:45.407104Z	info	ci	=== SUCCEEDED: Deploy Istio [Suite=authz_tcp]===
+2020-06-04T18:59:45.407154Z	info	ci	=== DONE: Setup: 'authz_tcp' ===
+2020-06-04T18:59:45.407161Z	info	ci	=== BEGIN: Test Run: 'authz_tcp' ===
+=== RUN   TestAuthzTCP
+2020-06-04T18:59:45.407401Z	info	ci	=== BEGIN: Test: 'authz_tcp[TestAuthzTCP]' ===
+2020-06-04T18:59:45.407428Z	info	ci	Executing test TestAuthzTCP (1 steps)
+2020-06-04T18:59:45.407542Z	info	ci	Running command script scripts/authz_tcp.sh
+2020-06-04T18:59:57.181657Z	info	ci	Running command script cleanup.sh
+2020-06-04T19:00:36.222871Z	info	ci	=== DONE (passed):  Test: 'authz_tcp[TestAuthzTCP] (50.8154503s)' ===
+--- PASS: TestAuthzTCP (50.82s)
+PASS
+2020-06-04T19:00:36.223010Z	info	ci	=== DONE: Test Run: 'authz_tcp' ===
+2020-06-04T19:00:36.223261Z	info	ci	=== Suite "authz_tcp" run time: 1m32.636683426s ===
+2020-06-04T19:00:36.223294Z	info	ci	=== BEGIN: Cleanup Istio [Suite=authz_tcp] ===
+2020-06-04T19:00:36.332804Z	info	ci	Deleting YAML file: /logs/artifacts/authz-tcp-260662f1c4764a279bbe7/_suite_context/env-kube-329152594/istio-kube-accessor-132278612/accessor_047525581
+2020-06-04T19:00:40.826097Z	info	ci	=== DONE: Cleanup Istio [Suite=authz_tcp] ===
+ok  	istio.io/istio.io/tests/security/authz_tcp	97.317s
+2020-06-04T19:00:46.069289Z	info	ci	=== Test Framework Settings ===
+2020-06-04T19:00:46.069347Z	info	ci	Environment:       kube
+TestID:            dns_cert
+RunID:             e36b4ead-63be-4b3c-b141-cc69100fde2c
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T19:00:46.069352Z	info	ci	===============================
+2020-06-04T19:00:46.069466Z	info	tf	Test run dir: /logs/artifacts/dns-cert-e36b4ead63be4b3cb141cc
+2020-06-04T19:00:46.069545Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+
+2020-06-04T19:00:46.072652Z	info	ci	=== BEGIN: Setup: 'dns_cert' ===
+2020-06-04T19:00:46.072712Z	info	ci	=== BEGIN: Deploy Istio [Suite=dns_cert] ===
+2020-06-04T19:00:46.072716Z	info	ci	=== Istio Component Config ===
+2020-06-04T19:00:46.072773Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+ControlPlaneTopology:           map[]
+
+2020-06-04T19:00:46.072777Z	info	ci	================================
+2020-06-04T19:00:46.074006Z	warn	Config not found: ~/.kube/config
+2020-06-04T19:00:46.349310Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation --wait -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/dns-cert-e36b4ead63be4b3cb141cc/_suite_context/istio-deployment-009032383/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3 --set values.global.imagePullPolicy=IfNotPresent]
+2020-06-04T19:00:46.350786Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✔ Istiod installed
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✔ Ingress gateways installed
+- Pruning removed resources
+✔ Installation complete2020-06-04T19:01:27.540280Z	info	ci	Creating dummy rule to check for validation webhook readiness
+2020-06-04T19:01:27.540682Z	info	ci	Applying YAML: kubectl apply --kubeconfig=/home/.kube/config  -f /logs/artifacts/dns-cert-e36b4ead63be4b3cb141cc/_suite_context/env-kube-902742752/istio-kube-accessor-795214610/accessor_526562121
+2020-06-04T19:01:27.758577Z	info	ci	Deleting YAML file: /logs/artifacts/dns-cert-e36b4ead63be4b3cb141cc/_suite_context/env-kube-902742752/istio-kube-accessor-795214610/accessor_226300948
+2020-06-04T19:01:27.836351Z	info	ci	=== SUCCEEDED: Deploy Istio [Suite=dns_cert]===
+2020-06-04T19:01:27.836389Z	info	ci	=== DONE: Setup: 'dns_cert' ===
+2020-06-04T19:01:27.836394Z	info	ci	=== BEGIN: Test Run: 'dns_cert' ===
+=== RUN   TestDNSCert
+2020-06-04T19:01:27.836590Z	info	ci	=== BEGIN: Test: 'dns_cert[TestDNSCert]' ===
+2020-06-04T19:01:27.836617Z	info	ci	Executing test TestDNSCert (1 steps)
+2020-06-04T19:01:27.836787Z	info	ci	Running command script scripts/dns_cert.sh
+2020-06-04T19:01:38.080131Z	info	ci	Running command script cleanup.sh
+2020-06-04T19:02:10.758014Z	info	ci	=== DONE (passed):  Test: 'dns_cert[TestDNSCert] (42.921400356s)' ===
+--- PASS: TestDNSCert (42.92s)
+PASS
+2020-06-04T19:02:10.758171Z	info	ci	=== DONE: Test Run: 'dns_cert' ===
+2020-06-04T19:02:10.758386Z	info	ci	=== Suite "dns_cert" run time: 1m24.685727487s ===
+2020-06-04T19:02:10.758416Z	info	ci	=== BEGIN: Cleanup Istio [Suite=dns_cert] ===
+2020-06-04T19:02:10.858066Z	info	ci	Deleting YAML file: /logs/artifacts/dns-cert-e36b4ead63be4b3cb141cc/_suite_context/env-kube-902742752/istio-kube-accessor-795214610/accessor_456646755
+2020-06-04T19:02:15.230005Z	info	ci	=== DONE: Cleanup Istio [Suite=dns_cert] ===
+ok  	istio.io/istio.io/tests/security/dns_cert	89.235s
+2020-06-04T19:02:31.706823Z	info	ci	=== Test Framework Settings ===
+2020-06-04T19:02:31.706859Z	info	ci	Environment:       kube
+TestID:            plugin_ca_cert
+RunID:             c645b8ac-a73e-4393-b616-324d3be2d4f0
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T19:02:31.706864Z	info	ci	===============================
+2020-06-04T19:02:31.706951Z	info	tf	Test run dir: /logs/artifacts/plugin-ca-cert-c645b8aca73e4393
+2020-06-04T19:02:31.707052Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+
+2020-06-04T19:02:31.709688Z	info	ci	=== BEGIN: Setup: 'plugin_ca_cert' ===
+2020-06-04T19:02:31.732751Z	info	configmap istio-ca-root-cert may not exist and the deletion returns err (configmaps "istio-ca-root-cert" not found)
+2020-06-04T19:02:31.732793Z	info	ci	=== SUCCESS: context setup function ===
+2020-06-04T19:02:31.732803Z	info	ci	=== BEGIN: Deploy Istio [Suite=plugin_ca_cert] ===
+2020-06-04T19:02:31.732809Z	info	ci	=== Istio Component Config ===
+2020-06-04T19:02:31.732860Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+ControlPlaneTopology:           map[]
+
+2020-06-04T19:02:31.732882Z	info	ci	================================
+2020-06-04T19:02:31.734273Z	warn	Config not found: ~/.kube/config
+2020-06-04T19:02:32.005742Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation --wait -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/plugin-ca-cert-c645b8aca73e4393/_suite_context/istio-deployment-435395400/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.imagePullPolicy=IfNotPresent --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3]
+2020-06-04T19:02:32.006701Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✔ Istiod installed
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✔ Ingress gateways installed
+- Pruning removed resources
+✔ Installation complete2020-06-04T19:02:43.165369Z	info	ci	Creating dummy rule to check for validation webhook readiness
+2020-06-04T19:02:43.165774Z	info	ci	Applying YAML: kubectl apply --kubeconfig=/home/.kube/config  -f /logs/artifacts/plugin-ca-cert-c645b8aca73e4393/_suite_context/env-kube-265263181/istio-kube-accessor-890030087/accessor_390156730
+2020-06-04T19:02:43.571033Z	info	ci	Deleting YAML file: /logs/artifacts/plugin-ca-cert-c645b8aca73e4393/_suite_context/env-kube-265263181/istio-kube-accessor-890030087/accessor_193982417
+2020-06-04T19:02:43.650842Z	info	ci	=== SUCCEEDED: Deploy Istio [Suite=plugin_ca_cert]===
+2020-06-04T19:02:43.650898Z	info	ci	=== DONE: Setup: 'plugin_ca_cert' ===
+2020-06-04T19:02:43.650907Z	info	ci	=== BEGIN: Test Run: 'plugin_ca_cert' ===
+=== RUN   TestPluginCACert
+2020-06-04T19:02:43.651247Z	info	ci	=== BEGIN: Test: 'plugin_ca_cert[TestPluginCACert]' ===
+2020-06-04T19:02:43.651279Z	info	ci	Executing test TestPluginCACert (1 steps)
+2020-06-04T19:02:43.651461Z	info	ci	Running command script scripts/plugin_ca_cert.sh
+2020-06-04T19:03:08.493861Z	info	ci	Running command script cleanup.sh
+2020-06-04T19:03:52.983021Z	info	ci	=== DONE (passed):  Test: 'plugin_ca_cert[TestPluginCACert] (1m9.331754235s)' ===
+--- PASS: TestPluginCACert (69.33s)
+PASS
+2020-06-04T19:03:52.983166Z	info	ci	=== DONE: Test Run: 'plugin_ca_cert' ===
+2020-06-04T19:03:52.983308Z	info	ci	=== Suite "plugin_ca_cert" run time: 1m21.273615616s ===
+2020-06-04T19:03:52.983384Z	info	ci	=== BEGIN: Cleanup Istio [Suite=plugin_ca_cert] ===
+2020-06-04T19:03:53.090465Z	info	ci	Deleting YAML file: /logs/artifacts/plugin-ca-cert-c645b8aca73e4393/_suite_context/env-kube-265263181/istio-kube-accessor-890030087/accessor_084715772
+2020-06-04T19:03:57.467015Z	info	ci	=== DONE: Cleanup Istio [Suite=plugin_ca_cert] ===
+ok  	istio.io/istio.io/tests/security/plugin_ca_cert	85.835s
+2020-06-04T19:04:02.742194Z	info	ci	=== Test Framework Settings ===
+2020-06-04T19:04:02.742238Z	info	ci	Environment:       kube
+TestID:            trafficmanagement
+RunID:             7de83d41-52cf-404a-b7bf-29617f0298d3
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T19:04:02.742242Z	info	ci	===============================
+2020-06-04T19:04:02.742328Z	info	tf	Test run dir: /logs/artifacts/trafficmanagement-7de83d4152cf4
+2020-06-04T19:04:02.742462Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+
+2020-06-04T19:04:02.744577Z	info	ci	=== BEGIN: Setup: 'trafficmanagement' ===
+2020-06-04T19:04:02.744614Z	info	ci	=== BEGIN: Deploy Istio [Suite=trafficmanagement] ===
+2020-06-04T19:04:02.744619Z	info	ci	=== Istio Component Config ===
+2020-06-04T19:04:02.744643Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+ControlPlaneTopology:           map[]
+
+2020-06-04T19:04:02.744646Z	info	ci	================================
+2020-06-04T19:04:02.745679Z	warn	Config not found: ~/.kube/config
+2020-06-04T19:04:03.021206Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation --wait -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/trafficmanagement-7de83d4152cf4/_suite_context/istio-deployment-063594930/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.imagePullPolicy=IfNotPresent --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3]
+2020-06-04T19:04:03.023237Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✔ Istiod installed
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✔ Ingress gateways installed
+- Pruning removed resources
+✔ Installation complete2020-06-04T19:04:14.201052Z	info	ci	Creating dummy rule to check for validation webhook readiness
+2020-06-04T19:04:14.201460Z	info	ci	Applying YAML: kubectl apply --kubeconfig=/home/.kube/config  -f /logs/artifacts/trafficmanagement-7de83d4152cf4/_suite_context/env-kube-627607519/istio-kube-accessor-974819177/accessor_864375732
+2020-06-04T19:04:14.416357Z	info	ci	Deleting YAML file: /logs/artifacts/trafficmanagement-7de83d4152cf4/_suite_context/env-kube-627607519/istio-kube-accessor-974819177/accessor_639757187
+2020-06-04T19:04:14.497125Z	info	ci	=== SUCCEEDED: Deploy Istio [Suite=trafficmanagement]===
+2020-06-04T19:04:14.497155Z	info	ci	=== DONE: Setup: 'trafficmanagement' ===
+2020-06-04T19:04:14.497159Z	info	ci	=== BEGIN: Test Run: 'trafficmanagement' ===
+=== RUN   TestCircuitBreaking
+2020-06-04T19:04:14.497333Z	info	ci	=== BEGIN: Test: 'trafficmanagement[TestCircuitBreaking]' ===
+2020-06-04T19:04:14.497361Z	info	ci	Executing test TestCircuitBreaking (1 steps)
+2020-06-04T19:04:14.497486Z	info	ci	Running command script scripts/circuit_breaking.sh
+2020-06-04T19:04:27.812773Z	info	ci	Running command script cleanup.sh
+2020-06-04T19:04:28.124860Z	info	ci	=== DONE (passed):  Test: 'trafficmanagement[TestCircuitBreaking] (13.627514183s)' ===
+--- PASS: TestCircuitBreaking (13.63s)
+=== RUN   TestFaultInjection
+2020-06-04T19:04:28.125164Z	info	ci	=== BEGIN: Test: 'trafficmanagement[TestFaultInjection]' ===
+2020-06-04T19:04:28.125187Z	info	ci	Executing test TestFaultInjection (1 steps)
+2020-06-04T19:04:28.125290Z	info	ci	Running command script scripts/fault_injection.sh
+2020-06-04T19:05:04.456326Z	info	ci	Running command script cleanup.sh
+2020-06-04T19:05:06.049776Z	info	ci	=== DONE (passed):  Test: 'trafficmanagement[TestFaultInjection] (37.924599716s)' ===
+--- PASS: TestFaultInjection (37.92s)
+=== RUN   TestMirroring
+2020-06-04T19:05:06.050055Z	info	ci	=== BEGIN: Test: 'trafficmanagement[TestMirroring]' ===
+2020-06-04T19:05:06.050105Z	info	ci	Executing test TestMirroring (1 steps)
+2020-06-04T19:05:06.050253Z	info	ci	Running command script scripts/mirroring.sh
+2020-06-04T19:05:58.033169Z	info	ci	Running command script cleanup.sh
+2020-06-04T19:05:58.464278Z	info	ci	=== DONE (passed):  Test: 'trafficmanagement[TestMirroring] (52.414209547s)' ===
+--- PASS: TestMirroring (52.41s)
+=== RUN   TestRequestRouting
+2020-06-04T19:05:58.464538Z	info	ci	=== BEGIN: Test: 'trafficmanagement[TestRequestRouting]' ===
+2020-06-04T19:05:58.464570Z	info	ci	Executing test TestRequestRouting (1 steps)
+2020-06-04T19:05:58.464705Z	info	ci	Running command script scripts/request_routing.sh
+2020-06-04T19:07:43.115768Z	info	ci	Running command script cleanup.sh
+2020-06-04T19:07:44.709326Z	info	ci	=== DONE (passed):  Test: 'trafficmanagement[TestRequestRouting] (1m46.244763296s)' ===
+--- PASS: TestRequestRouting (106.25s)
+=== RUN   TestRequestTimeouts
+2020-06-04T19:07:44.709625Z	info	ci	=== BEGIN: Test: 'trafficmanagement[TestRequestTimeouts]' ===
+2020-06-04T19:07:44.709656Z	info	ci	Executing test TestRequestTimeouts (1 steps)
+2020-06-04T19:07:44.709813Z	info	ci	Running command script scripts/request_timeouts.sh
+2020-06-04T19:09:25.299453Z	info	ci	Running command script cleanup.sh
+2020-06-04T19:09:27.162943Z	info	ci	=== DONE (passed):  Test: 'trafficmanagement[TestRequestTimeouts] (1m42.453300063s)' ===
+--- PASS: TestRequestTimeouts (102.45s)
+=== RUN   TestTCPTrafficShifting
+2020-06-04T19:09:27.163325Z	info	ci	=== BEGIN: Test: 'trafficmanagement[TestTCPTrafficShifting]' ===
+2020-06-04T19:09:27.163356Z	info	ci	Executing test TestTCPTrafficShifting (1 steps)
+2020-06-04T19:09:27.163541Z	info	ci	Running command script scripts/tcp_trafficshifting.sh
+2020-06-04T19:10:39.851374Z	info	ci	Running command script cleanup.sh
+2020-06-04T19:11:20.441958Z	info	ci	=== DONE (passed):  Test: 'trafficmanagement[TestTCPTrafficShifting] (1m53.278598045s)' ===
+--- PASS: TestTCPTrafficShifting (113.28s)
+=== RUN   TestTrafficShifting
+2020-06-04T19:11:20.442388Z	info	ci	=== BEGIN: Test: 'trafficmanagement[TestTrafficShifting]' ===
+2020-06-04T19:11:20.442421Z	info	ci	Executing test TestTrafficShifting (1 steps)
+2020-06-04T19:11:20.442590Z	info	ci	Running command script scripts/traffic_shifting.sh
+2020-06-04T19:13:25.036694Z	info	ci	Running command script cleanup.sh
+2020-06-04T19:13:26.664924Z	info	ci	=== DONE (passed):  Test: 'trafficmanagement[TestTrafficShifting] (2m6.222513s)' ===
+--- PASS: TestTrafficShifting (126.22s)
+PASS
+2020-06-04T19:13:26.665034Z	info	ci	=== DONE: Test Run: 'trafficmanagement' ===
+2020-06-04T19:13:26.665471Z	info	ci	=== Suite "trafficmanagement" run time: 9m23.920886625s ===
+2020-06-04T19:13:26.665509Z	info	ci	=== BEGIN: Cleanup Istio [Suite=trafficmanagement] ===
+2020-06-04T19:13:26.809713Z	info	ci	Deleting YAML file: /logs/artifacts/trafficmanagement-7de83d4152cf4/_suite_context/env-kube-627607519/istio-kube-accessor-974819177/accessor_949192454
+2020-06-04T19:13:31.660814Z	info	ci	=== DONE: Cleanup Istio [Suite=trafficmanagement] ===
+ok  	istio.io/istio.io/tests/trafficmanagement	568.996s
+2020-06-04T19:13:38.048670Z	info	ci	=== Test Framework Settings ===
+2020-06-04T19:13:38.048724Z	info	ci	Environment:       kube
+TestID:            trafficmanagement_egress
+RunID:             d666acec-65e1-4c22-b1c3-7954e7d9c87d
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T19:13:38.048731Z	info	ci	===============================
+2020-06-04T19:13:38.048910Z	info	tf	Test run dir: /logs/artifacts/trafficmanagement-egress-d666ac
+2020-06-04T19:13:38.049034Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+
+2020-06-04T19:13:38.051278Z	info	ci	=== BEGIN: Setup: 'trafficmanagement_egress' ===
+2020-06-04T19:13:38.051330Z	info	ci	=== BEGIN: Deploy Istio [Suite=trafficmanagement_egress] ===
+2020-06-04T19:13:38.051334Z	info	ci	=== Istio Component Config ===
+2020-06-04T19:13:38.051368Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+ControlPlaneTopology:           map[]
+
+2020-06-04T19:13:38.051373Z	info	ci	================================
+2020-06-04T19:13:38.052682Z	warn	Config not found: ~/.kube/config
+2020-06-04T19:13:38.433761Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation --wait -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/trafficmanagement-egress-d666ac/_suite_context/istio-deployment-632429118/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.imagePullPolicy=IfNotPresent --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3]
+2020-06-04T19:13:38.434974Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✔ Istiod installed
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✔ Ingress gateways installed
+- Pruning removed resources
+✔ Installation complete2020-06-04T19:14:06.438592Z	info	ci	Creating dummy rule to check for validation webhook readiness
+2020-06-04T19:14:06.439047Z	info	ci	Applying YAML: kubectl apply --kubeconfig=/home/.kube/config  -f /logs/artifacts/trafficmanagement-egress-d666ac/_suite_context/env-kube-439819675/istio-kube-accessor-110795397/accessor_164407840
+2020-06-04T19:14:06.690853Z	info	ci	Deleting YAML file: /logs/artifacts/trafficmanagement-egress-d666ac/_suite_context/env-kube-439819675/istio-kube-accessor-110795397/accessor_585616127
+2020-06-04T19:14:06.789397Z	info	ci	=== SUCCEEDED: Deploy Istio [Suite=trafficmanagement_egress]===
+2020-06-04T19:14:06.789452Z	info	ci	=== DONE: Setup: 'trafficmanagement_egress' ===
+2020-06-04T19:14:06.789460Z	info	ci	=== BEGIN: Test Run: 'trafficmanagement_egress' ===
+=== RUN   TestTlsOrigination
+2020-06-04T19:14:06.789716Z	info	ci	=== BEGIN: Test: 'trafficmanagement_egress[TestTlsOrigination]' ===
+2020-06-04T19:14:06.789751Z	info	ci	Executing test TestTlsOrigination (1 steps)
+2020-06-04T19:14:06.789925Z	info	ci	Running command script scripts/tls_origination.sh
+2020-06-04T19:14:13.958190Z	info	ci	Running command script cleanup.sh
+2020-06-04T19:14:14.410858Z	info	ci	=== DONE (passed):  Test: 'trafficmanagement_egress[TestTlsOrigination] (7.621123268s)' ===
+--- PASS: TestTlsOrigination (7.62s)
+PASS
+2020-06-04T19:14:14.410969Z	info	ci	=== DONE: Test Run: 'trafficmanagement_egress' ===
+2020-06-04T19:14:14.411268Z	info	ci	=== Suite "trafficmanagement_egress" run time: 36.359991347s ===
+2020-06-04T19:14:14.411298Z	info	ci	=== BEGIN: Cleanup Istio [Suite=trafficmanagement_egress] ===
+2020-06-04T19:14:14.537007Z	info	ci	Deleting YAML file: /logs/artifacts/trafficmanagement-egress-d666ac/_suite_context/env-kube-439819675/istio-kube-accessor-110795397/accessor_179134546
+2020-06-04T19:14:19.076652Z	info	ci	=== DONE: Cleanup Istio [Suite=trafficmanagement_egress] ===
+ok  	istio.io/istio.io/tests/trafficmanagement/egress	41.122s
+2020-06-04T19:14:25.295138Z	info	ci	=== Test Framework Settings ===
+2020-06-04T19:14:25.295181Z	info	ci	Environment:       kube
+TestID:            trafficmanagement_ingress
+RunID:             5a8d49f6-e428-4026-bc03-2faf1272250f
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T19:14:25.295186Z	info	ci	===============================
+2020-06-04T19:14:25.295267Z	info	tf	Test run dir: /logs/artifacts/trafficmanagement-ingress-5a8d4
+2020-06-04T19:14:25.295340Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+
+2020-06-04T19:14:25.298601Z	info	ci	=== BEGIN: Setup: 'trafficmanagement_ingress' ===
+2020-06-04T19:14:25.298648Z	info	ci	=== BEGIN: Deploy Istio [Suite=trafficmanagement_ingress] ===
+2020-06-04T19:14:25.298655Z	info	ci	=== Istio Component Config ===
+2020-06-04T19:14:25.298722Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[gateways.istio-egressgateway.enabled:false global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+ControlPlaneTopology:           map[]
+
+2020-06-04T19:14:25.298729Z	info	ci	================================
+2020-06-04T19:14:25.300263Z	warn	Config not found: ~/.kube/config
+2020-06-04T19:14:25.658949Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation --wait -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/trafficmanagement-ingress-5a8d4/_suite_context/istio-deployment-825622641/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.df8ea82bf434fece015767579ef2e4a16e6a3fb3 --set values.global.imagePullPolicy=IfNotPresent --set values.gateways.istio-egressgateway.enabled=false]
+2020-06-04T19:14:25.659901Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✔ Istiod installed
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✔ Ingress gateways installed
+- Pruning removed resources
+✔ Installation complete2020-06-04T19:14:53.653242Z	info	ci	Creating dummy rule to check for validation webhook readiness
+2020-06-04T19:14:53.653848Z	info	ci	Applying YAML: kubectl apply --kubeconfig=/home/.kube/config  -f /logs/artifacts/trafficmanagement-ingress-5a8d4/_suite_context/env-kube-359349978/istio-kube-accessor-264779036/accessor_809256395
+2020-06-04T19:14:53.926377Z	info	ci	Deleting YAML file: /logs/artifacts/trafficmanagement-ingress-5a8d4/_suite_context/env-kube-359349978/istio-kube-accessor-264779036/accessor_051215022
+2020-06-04T19:14:54.038935Z	info	ci	=== SUCCEEDED: Deploy Istio [Suite=trafficmanagement_ingress]===
+2020-06-04T19:14:54.039002Z	info	ci	=== DONE: Setup: 'trafficmanagement_ingress' ===
+2020-06-04T19:14:54.039011Z	info	ci	=== BEGIN: Test Run: 'trafficmanagement_ingress' ===
+=== RUN   TestIngressControl
+2020-06-04T19:14:54.039356Z	info	ci	=== BEGIN: Test: 'trafficmanagement_ingress[TestIngressControl]' ===
+2020-06-04T19:14:54.039397Z	info	ci	Executing test TestIngressControl (1 steps)
+2020-06-04T19:14:54.039600Z	info	ci	Running command script scripts/ingress_control.sh
+2020-06-04T19:15:11.889711Z	info	ci	Running command script cleanup.sh
+2020-06-04T19:15:12.265866Z	info	ci	=== DONE (passed):  Test: 'trafficmanagement_ingress[TestIngressControl] (18.226496806s)' ===
+--- PASS: TestIngressControl (18.23s)
+=== RUN   TestIngressSNIPassthrough
+2020-06-04T19:15:12.266117Z	info	ci	=== BEGIN: Test: 'trafficmanagement_ingress[TestIngressSNIPassthrough]' ===
+2020-06-04T19:15:12.266163Z	info	ci	Executing test TestIngressSNIPassthrough (1 steps)
+2020-06-04T19:15:12.266300Z	info	ci	Running command script scripts/ingress_sni_passthrough.sh
+2020-06-04T19:15:24.969413Z	info	ci	Running command script cleanup.sh
+2020-06-04T19:15:25.576176Z	info	ci	=== DONE (passed):  Test: 'trafficmanagement_ingress[TestIngressSNIPassthrough] (13.310048152s)' ===
+--- PASS: TestIngressSNIPassthrough (13.31s)
+=== RUN   TestSecureIngress
+2020-06-04T19:15:25.576417Z	info	ci	=== BEGIN: Test: 'trafficmanagement_ingress[TestSecureIngress]' ===
+2020-06-04T19:15:25.576448Z	info	ci	Executing test TestSecureIngress (1 steps)
+2020-06-04T19:15:25.576606Z	info	ci	Running command script scripts/secure_ingress.sh
+2020-06-04T19:16:13.003890Z	info	ci	Running command script cleanup.sh
+2020-06-04T19:16:13.637043Z	info	ci	=== DONE (passed):  Test: 'trafficmanagement_ingress[TestSecureIngress] (48.060610202s)' ===
+--- PASS: TestSecureIngress (48.06s)
+PASS
+2020-06-04T19:16:13.637203Z	info	ci	=== DONE: Test Run: 'trafficmanagement_ingress' ===
+2020-06-04T19:16:13.637438Z	info	ci	=== Suite "trafficmanagement_ingress" run time: 1m48.33883127s ===
+2020-06-04T19:16:13.637464Z	info	ci	=== BEGIN: Cleanup Istio [Suite=trafficmanagement_ingress] ===
+2020-06-04T19:16:13.763687Z	info	ci	Deleting YAML file: /logs/artifacts/trafficmanagement-ingress-5a8d4/_suite_context/env-kube-359349978/istio-kube-accessor-264779036/accessor_935575605
+2020-06-04T19:16:18.261747Z	info	ci	=== DONE: Cleanup Istio [Suite=trafficmanagement_ingress] ===
+ok  	istio.io/istio.io/tests/trafficmanagement/ingress	113.057s
++ cleanup_kind_cluster istio-testing
++ NAME=istio-testing
++ echo 'Test exited with exit code 0.'
+Test exited with exit code 0.
++ kind export logs --name istio-testing /logs/artifacts/kind -v9
++ true
++ [[ -z '' ]]
++ echo 'Cleaning up kind cluster'
+Cleaning up kind cluster
++ kind delete cluster --name istio-testing -v9
+Deleting cluster "istio-testing" ...
+++ docker ps -q
++ docker kill
+"docker kill" requires at least 1 argument.
+See 'docker kill --help'.
+
+Usage:  docker kill [OPTIONS] CONTAINER [CONTAINER...]
+
+Kill one or more running containers
++ true
++ docker system prune -af
+Deleted Networks:
+kind
+
+Deleted Images:
+untagged: kindest/node:v1.18.2
+untagged: kindest/node@sha256:1ab458c61fbd408081c9d321ceec1a50adffc2d060e1013d823af3c61fe90ff2
+deleted: sha256:354eeddd21f3970b23df890fed3290a32951e843ca9de5a7c623c35b01ad3684
+deleted: sha256:43a15eb684bf0dc161f1672bd5aa58f240707400a99f772cd612b98d3b1b86e5
+deleted: sha256:f78f68e06ef8c4ad45ca676372ead5182f24e4618058efe2bfd4941858b012c7
+deleted: sha256:ca5d35f5e785477c5a835741932736e41f89876c4fa86603b5f8b6efacf89a81
+deleted: sha256:279e836b58d9996b5715e82a97b024563f2b175e86a53176846684f0717661c3
+deleted: sha256:39865913f677c50ea236b68d81560d8fefe491661ce6e668fd331b4b680b1d47
+deleted: sha256:cac81188485e011e56459f1d9fc9936625a1b62cacdb4fcd3526e5f32e280387
+deleted: sha256:7789f1a3d4e9258fbe5469a8d657deb6aba168d86967063e9b80ac3e1154333f
+
+Total reclaimed space: 1.26GB
++ exit 0
++ cleanup
++ docker system prune -af
+Total reclaimed space: 0B

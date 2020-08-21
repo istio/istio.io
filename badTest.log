@@ -1,0 +1,1173 @@
++ export DOCKER_IN_DOCKER_IPV6_ENABLED=false
++ DOCKER_IN_DOCKER_IPV6_ENABLED=false
++ [[ false == \t\r\u\e ]]
++ service docker start
+ * Starting Docker: docker
+   ...done.
++ echo 'Waiting for dockerd to start...'
+Waiting for dockerd to start...
++ :
++ echo 'Checking for running docker daemon.'
+Checking for running docker daemon.
++ docker ps -q
++ sleep 1
++ :
++ echo 'Checking for running docker daemon.'
+Checking for running docker daemon.
++ docker ps -q
++ echo 'The docker daemon is running.'
+The docker daemon is running.
++ break
++ trap cleanup EXIT
++ [[ -n '' ]]
++ set +x
++ source /home/prow/go/src/istio.io/istio.io/prow/lib.sh
++ export TEST_ENV=kind
++ TEST_ENV=kind
++ export PULL_POLICY=IfNotPresent
++ PULL_POLICY=IfNotPresent
++ export HUB=gcr.io/istio-testing
++ HUB=gcr.io/istio-testing
++ export T=-v
++ T=-v
++ export CI=true
++ CI=true
++ [[ -z '' ]]
++ setup_kind_cluster ''
++ IMAGE=kindest/node:v1.18.2
++ NAME=istio-testing
++ CONFIG=
++ echo 'Deleting previous KinD cluster with name=istio-testing'
+Deleting previous KinD cluster with name=istio-testing
++ kind delete cluster --name=istio-testing -v9
+Deleting cluster "istio-testing" ...
++ trap 'cleanup_kind_cluster istio-testing' EXIT
++ [[ -z '' ]]
++ CONFIG=./prow/config/trustworthy-jwt.yaml
++ kind create cluster --name=istio-testing --config ./prow/config/trustworthy-jwt.yaml -v9 --retain --image kindest/node:v1.18.2 --wait=60s
+Creating cluster "istio-testing" ...
+ • Ensuring node image (kindest/node:v1.18.2) 🖼  ...
+DEBUG: docker/images.go:67] Pulling image: kindest/node:v1.18.2 ...
+ ✓ Ensuring node image (kindest/node:v1.18.2) 🖼
+ • Preparing nodes 📦   ...
+ ✓ Preparing nodes 📦
+ • Writing configuration 📜  ...
+DEBUG: config/config.go:83] Using the following kubeadm config for node istio-testing-control-plane:
+apiServer:
+  certSANs:
+  - localhost
+  - 127.0.0.1
+  extraArgs:
+    service-account-issuer: kubernetes.default.svc
+    service-account-signing-key-file: /etc/kubernetes/pki/sa.key
+apiVersion: kubeadm.k8s.io/v1beta2
+clusterName: istio-testing
+controlPlaneEndpoint: istio-testing-control-plane:6443
+controllerManager:
+  extraArgs:
+    enable-hostpath-provisioner: "true"
+kind: ClusterConfiguration
+kubernetesVersion: v1.18.2
+networking:
+  podSubnet: 10.244.0.0/16
+  serviceSubnet: 10.96.0.0/12
+scheduler:
+  extraArgs: null
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+bootstrapTokens:
+- token: abcdef.0123456789abcdef
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: ""
+  bindPort: 6443
+nodeRegistration:
+  criSocket: /run/containerd/containerd.sock
+  kubeletExtraArgs:
+    fail-swap-on: "false"
+    node-ip: ""
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+controlPlane:
+  localAPIEndpoint:
+    advertiseAddress: ""
+    bindPort: 6443
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: istio-testing-control-plane:6443
+    token: abcdef.0123456789abcdef
+    unsafeSkipCAVerification: true
+kind: JoinConfiguration
+nodeRegistration:
+  criSocket: /run/containerd/containerd.sock
+  kubeletExtraArgs:
+    fail-swap-on: "false"
+    node-ip: ""
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+evictionHard:
+  imagefs.available: 0%
+  nodefs.available: 0%
+  nodefs.inodesFree: 0%
+imageGCHighThresholdPercent: 100
+kind: KubeletConfiguration
+---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+ ✓ Writing configuration 📜
+ • Starting control-plane 🕹️  ...
+DEBUG: kubeadminit/init.go:73] I0604 19:16:48.419443     180 initconfiguration.go:200] loading configuration from "/kind/kubeadm.conf"
+[config] WARNING: Ignored YAML document with GroupVersionKind kubeadm.k8s.io/v1beta2, Kind=JoinConfiguration
+I0604 19:16:48.424114     180 interface.go:400] Looking for default routes with IPv4 addresses
+I0604 19:16:48.424136     180 interface.go:405] Default route transits interface "eth0"
+I0604 19:16:48.424253     180 interface.go:208] Interface eth0 is up
+I0604 19:16:48.424382     180 interface.go:256] Interface "eth0" has 3 addresses :[172.18.0.2/16 fc00:f853:ccd:e793::2/64 fe80::42:acff:fe12:2/64].
+I0604 19:16:48.424423     180 interface.go:223] Checking addr  172.18.0.2/16.
+I0604 19:16:48.424432     180 interface.go:230] IP found 172.18.0.2
+I0604 19:16:48.424525     180 interface.go:262] Found valid IPv4 address 172.18.0.2 for interface "eth0".
+I0604 19:16:48.424536     180 interface.go:411] Found active IP 172.18.0.2
+W0604 19:16:48.424729     180 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
+[init] Using Kubernetes version: v1.18.2
+[preflight] Running pre-flight checks
+I0604 19:16:48.425099     180 checks.go:577] validating Kubernetes and kubeadm version
+I0604 19:16:48.425128     180 checks.go:166] validating if the firewall is enabled and active
+I0604 19:16:48.435912     180 checks.go:201] validating availability of port 6443
+I0604 19:16:48.436347     180 checks.go:201] validating availability of port 10259
+I0604 19:16:48.436399     180 checks.go:201] validating availability of port 10257
+I0604 19:16:48.436442     180 checks.go:286] validating the existence of file /etc/kubernetes/manifests/kube-apiserver.yaml
+I0604 19:16:48.436482     180 checks.go:286] validating the existence of file /etc/kubernetes/manifests/kube-controller-manager.yaml
+I0604 19:16:48.436499     180 checks.go:286] validating the existence of file /etc/kubernetes/manifests/kube-scheduler.yaml
+I0604 19:16:48.436508     180 checks.go:286] validating the existence of file /etc/kubernetes/manifests/etcd.yaml
+I0604 19:16:48.436519     180 checks.go:432] validating if the connectivity type is via proxy or direct
+I0604 19:16:48.436561     180 checks.go:471] validating http connectivity to first IP address in the CIDR
+I0604 19:16:48.436586     180 checks.go:471] validating http connectivity to first IP address in the CIDR
+I0604 19:16:48.436599     180 checks.go:102] validating the container runtime
+I0604 19:16:48.449677     180 checks.go:376] validating the presence of executable crictl
+I0604 19:16:48.449756     180 checks.go:335] validating the contents of file /proc/sys/net/bridge/bridge-nf-call-iptables
+I0604 19:16:48.449827     180 checks.go:335] validating the contents of file /proc/sys/net/ipv4/ip_forward
+I0604 19:16:48.449908     180 checks.go:649] validating whether swap is enabled or not
+I0604 19:16:48.449957     180 checks.go:376] validating the presence of executable conntrack
+I0604 19:16:48.450010     180 checks.go:376] validating the presence of executable ip
+I0604 19:16:48.450037     180 checks.go:376] validating the presence of executable iptables
+I0604 19:16:48.450070     180 checks.go:376] validating the presence of executable mount
+I0604 19:16:48.450090     180 checks.go:376] validating the presence of executable nsenter
+I0604 19:16:48.450143     180 checks.go:376] validating the presence of executable ebtables
+I0604 19:16:48.450185     180 checks.go:376] validating the presence of executable ethtool
+I0604 19:16:48.450209     180 checks.go:376] validating the presence of executable socat
+I0604 19:16:48.450262     180 checks.go:376] validating the presence of executable tc
+I0604 19:16:48.450293     180 checks.go:376] validating the presence of executable touch
+I0604 19:16:48.450332     180 checks.go:520] running all checks
+I0604 19:16:48.455752     180 checks.go:406] checking whether the given node name is reachable using net.LookupHost
+I0604 19:16:48.482322     180 checks.go:618] validating kubelet version
+I0604 19:16:48.544570     180 checks.go:128] validating if the service is enabled and active
+I0604 19:16:48.555730     180 checks.go:201] validating availability of port 10250
+I0604 19:16:48.555822     180 checks.go:201] validating availability of port 2379
+I0604 19:16:48.555862     180 checks.go:201] validating availability of port 2380
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'
+I0604 19:16:48.555902     180 checks.go:249] validating the existence and emptiness of directory /var/lib/etcd
+I0604 19:16:48.567125     180 checks.go:838] image exists: k8s.gcr.io/kube-apiserver:v1.18.2
+I0604 19:16:48.577271     180 checks.go:838] image exists: k8s.gcr.io/kube-controller-manager:v1.18.2
+I0604 19:16:48.587093     180 checks.go:838] image exists: k8s.gcr.io/kube-scheduler:v1.18.2
+I0604 19:16:48.597093     180 checks.go:838] image exists: k8s.gcr.io/kube-proxy:v1.18.2
+I0604 19:16:48.608467     180 checks.go:838] image exists: k8s.gcr.io/pause:3.2
+I0604 19:16:48.618785     180 checks.go:838] image exists: k8s.gcr.io/etcd:3.4.3-0
+I0604 19:16:48.628306     180 checks.go:838] image exists: k8s.gcr.io/coredns:1.6.7
+I0604 19:16:48.628348     180 kubelet.go:64] Stopping the kubelet
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Starting the kubelet
+[certs] Using certificateDir folder "/etc/kubernetes/pki"
+I0604 19:16:48.736480     180 certs.go:103] creating a new certificate authority for ca
+[certs] Generating "ca" certificate and key
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [istio-testing-control-plane kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local istio-testing-control-plane localhost] and IPs [10.96.0.1 172.18.0.2 127.0.0.1]
+[certs] Generating "apiserver-kubelet-client" certificate and key
+I0604 19:16:49.295803     180 certs.go:103] creating a new certificate authority for front-proxy-ca
+[certs] Generating "front-proxy-ca" certificate and key
+[certs] Generating "front-proxy-client" certificate and key
+I0604 19:16:50.078232     180 certs.go:103] creating a new certificate authority for etcd-ca
+[certs] Generating "etcd/ca" certificate and key
+[certs] Generating "etcd/server" certificate and key
+[certs] etcd/server serving cert is signed for DNS names [istio-testing-control-plane localhost] and IPs [172.18.0.2 127.0.0.1 ::1]
+[certs] Generating "etcd/peer" certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [istio-testing-control-plane localhost] and IPs [172.18.0.2 127.0.0.1 ::1]
+[certs] Generating "etcd/healthcheck-client" certificate and key
+[certs] Generating "apiserver-etcd-client" certificate and key
+I0604 19:16:51.747073     180 certs.go:69] creating new public/private key files for signing service account users
+[certs] Generating "sa" key and public key
+I0604 19:16:51.884974     180 kubeconfig.go:79] creating kubeconfig file for admin.conf
+[kubeconfig] Using kubeconfig folder "/etc/kubernetes"
+[kubeconfig] Writing "admin.conf" kubeconfig file
+I0604 19:16:52.058940     180 kubeconfig.go:79] creating kubeconfig file for kubelet.conf
+[kubeconfig] Writing "kubelet.conf" kubeconfig file
+I0604 19:16:52.297372     180 kubeconfig.go:79] creating kubeconfig file for controller-manager.conf
+[kubeconfig] Writing "controller-manager.conf" kubeconfig file
+I0604 19:16:52.481452     180 kubeconfig.go:79] creating kubeconfig file for scheduler.conf
+[kubeconfig] Writing "scheduler.conf" kubeconfig file
+[control-plane] Using manifest folder "/etc/kubernetes/manifests"
+[control-plane] Creating static Pod manifest for "kube-apiserver"
+I0604 19:16:52.623841     180 manifests.go:91] [control-plane] getting StaticPodSpecs
+I0604 19:16:52.624420     180 manifests.go:104] [control-plane] adding volume "ca-certs" for component "kube-apiserver"
+I0604 19:16:52.624442     180 manifests.go:104] [control-plane] adding volume "etc-ca-certificates" for component "kube-apiserver"
+I0604 19:16:52.624447     180 manifests.go:104] [control-plane] adding volume "k8s-certs" for component "kube-apiserver"
+I0604 19:16:52.624451     180 manifests.go:104] [control-plane] adding volume "usr-local-share-ca-certificates" for component "kube-apiserver"
+I0604 19:16:52.624456     180 manifests.go:104] [control-plane] adding volume "usr-share-ca-certificates" for component "kube-apiserver"
+I0604 19:16:52.632917     180 manifests.go:121] [control-plane] wrote static Pod manifest for component "kube-apiserver" to "/etc/kubernetes/manifests/kube-apiserver.yaml"
+I0604 19:16:52.632955     180 manifests.go:91] [control-plane] getting StaticPodSpecs
+W0604 19:16:52.633040     180 manifests.go:225] the default kube-apiserver authorization-mode is "Node,RBAC"; using "Node,RBAC"
+[control-plane] Creating static Pod manifest for "kube-controller-manager"
+I0604 19:16:52.633318     180 manifests.go:104] [control-plane] adding volume "ca-certs" for component "kube-controller-manager"
+I0604 19:16:52.633334     180 manifests.go:104] [control-plane] adding volume "etc-ca-certificates" for component "kube-controller-manager"
+I0604 19:16:52.633339     180 manifests.go:104] [control-plane] adding volume "flexvolume-dir" for component "kube-controller-manager"
+I0604 19:16:52.633343     180 manifests.go:104] [control-plane] adding volume "k8s-certs" for component "kube-controller-manager"
+I0604 19:16:52.633347     180 manifests.go:104] [control-plane] adding volume "kubeconfig" for component "kube-controller-manager"
+I0604 19:16:52.633352     180 manifests.go:104] [control-plane] adding volume "usr-local-share-ca-certificates" for component "kube-controller-manager"
+I0604 19:16:52.633356     180 manifests.go:104] [control-plane] adding volume "usr-share-ca-certificates" for component "kube-controller-manager"
+I0604 19:16:52.634222     180 manifests.go:121] [control-plane] wrote static Pod manifest for component "kube-controller-manager" to "/etc/kubernetes/manifests/kube-controller-manager.yaml"
+I0604 19:16:52.634248     180 manifests.go:91] [control-plane] getting StaticPodSpecs
+[control-plane] Creating static Pod manifest for "kube-scheduler"
+W0604 19:16:52.634305     180 manifests.go:225] the default kube-apiserver authorization-mode is "Node,RBAC"; using "Node,RBAC"
+I0604 19:16:52.634543     180 manifests.go:104] [control-plane] adding volume "kubeconfig" for component "kube-scheduler"
+[etcd] Creating static Pod manifest for local etcd in "/etc/kubernetes/manifests"
+I0604 19:16:52.635046     180 manifests.go:121] [control-plane] wrote static Pod manifest for component "kube-scheduler" to "/etc/kubernetes/manifests/kube-scheduler.yaml"
+I0604 19:16:52.635819     180 local.go:72] [etcd] wrote Static Pod manifest for a local etcd member to "/etc/kubernetes/manifests/etcd.yaml"
+I0604 19:16:52.635843     180 waitcontrolplane.go:87] [wait-control-plane] Waiting for the API server to be healthy
+I0604 19:16:52.636846     180 loader.go:375] Config loaded from file:  /etc/kubernetes/admin.conf
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
+I0604 19:16:52.664955     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 27 milliseconds
+I0604 19:16:53.188251     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 22 milliseconds
+I0604 19:16:53.693955     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 28 milliseconds
+I0604 19:16:54.212330     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 46 milliseconds
+I0604 19:16:54.693302     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 27 milliseconds
+I0604 19:16:55.210217     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 44 milliseconds
+I0604 19:16:55.710445     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 45 milliseconds
+I0604 19:16:56.187681     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 22 milliseconds
+I0604 19:16:56.695932     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 30 milliseconds
+I0604 19:16:57.196601     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s  in 31 milliseconds
+I0604 19:17:01.400320     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s 500 Internal Server Error in 3734 milliseconds
+I0604 19:17:01.667088     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s 500 Internal Server Error in 1 milliseconds
+I0604 19:17:02.167873     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s 500 Internal Server Error in 2 milliseconds
+I0604 19:17:02.667682     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s 500 Internal Server Error in 2 milliseconds
+[apiclient] All control plane components are healthy after 10.530107 seconds
+[upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
+I0604 19:17:03.167666     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/healthz?timeout=10s 200 OK in 2 milliseconds
+I0604 19:17:03.167804     180 uploadconfig.go:108] [upload-config] Uploading the kubeadm ClusterConfiguration to a ConfigMap
+I0604 19:17:03.173051     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s 201 Created in 3 milliseconds
+I0604 19:17:03.177127     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles?timeout=10s 201 Created in 3 milliseconds
+I0604 19:17:03.181545     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings?timeout=10s 201 Created in 3 milliseconds
+[kubelet] Creating a ConfigMap "kubelet-config-1.18" in namespace kube-system with the configuration for the kubelets in the cluster
+I0604 19:17:03.182325     180 uploadconfig.go:122] [upload-config] Uploading the kubelet component config to a ConfigMap
+I0604 19:17:03.186111     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s 201 Created in 2 milliseconds
+I0604 19:17:03.189145     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles?timeout=10s 201 Created in 2 milliseconds
+I0604 19:17:03.191863     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings?timeout=10s 201 Created in 2 milliseconds
+I0604 19:17:03.192074     180 uploadconfig.go:127] [upload-config] Preserving the CRISocket information for the control-plane node
+I0604 19:17:03.192129     180 patchnode.go:30] [patchnode] Uploading the CRI Socket information "/run/containerd/containerd.sock" to the Node API object "istio-testing-control-plane" as an annotation
+I0604 19:17:03.695964     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/api/v1/nodes/istio-testing-control-plane?timeout=10s 200 OK in 3 milliseconds
+I0604 19:17:03.705375     180 round_trippers.go:443] PATCH https://istio-testing-control-plane:6443/api/v1/nodes/istio-testing-control-plane?timeout=10s 200 OK in 5 milliseconds
+[upload-certs] Skipping phase. Please see --upload-certs
+[mark-control-plane] Marking the node istio-testing-control-plane as control-plane by adding the label "node-role.kubernetes.io/master=''"
+[mark-control-plane] Marking the node istio-testing-control-plane as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule]
+I0604 19:17:04.209361     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/api/v1/nodes/istio-testing-control-plane?timeout=10s 200 OK in 3 milliseconds
+I0604 19:17:04.215897     180 round_trippers.go:443] PATCH https://istio-testing-control-plane:6443/api/v1/nodes/istio-testing-control-plane?timeout=10s 200 OK in 5 milliseconds
+[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+I0604 19:17:04.219031     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/secrets/bootstrap-token-abcdef?timeout=10s 404 Not Found in 2 milliseconds
+I0604 19:17:04.223495     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/secrets?timeout=10s 201 Created in 3 milliseconds
+[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to get nodes
+I0604 19:17:04.228124     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterroles?timeout=10s 201 Created in 3 milliseconds
+I0604 19:17:04.232136     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 3 milliseconds
+[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+I0604 19:17:04.236608     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 2 milliseconds
+[bootstrap-token] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+I0604 19:17:04.239503     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 2 milliseconds
+[bootstrap-token] configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+I0604 19:17:04.242416     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 2 milliseconds
+[bootstrap-token] Creating the "cluster-info" ConfigMap in the "kube-public" namespace
+I0604 19:17:04.242569     180 clusterinfo.go:45] [bootstrap-token] loading admin kubeconfig
+I0604 19:17:04.243185     180 loader.go:375] Config loaded from file:  /etc/kubernetes/admin.conf
+I0604 19:17:04.243242     180 clusterinfo.go:53] [bootstrap-token] copying the cluster from admin.conf to the bootstrap kubeconfig
+I0604 19:17:04.243552     180 clusterinfo.go:65] [bootstrap-token] creating/updating ConfigMap in kube-public namespace
+I0604 19:17:04.246427     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-public/configmaps?timeout=10s 201 Created in 2 milliseconds
+I0604 19:17:04.246603     180 clusterinfo.go:79] creating the RBAC rules for exposing the cluster-info ConfigMap in the kube-public namespace
+I0604 19:17:04.249364     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-public/roles?timeout=10s 201 Created in 2 milliseconds
+I0604 19:17:04.252458     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-public/rolebindings?timeout=10s 201 Created in 2 milliseconds
+[kubelet-finalize] Updating "/etc/kubernetes/kubelet.conf" to point to a rotatable kubelet client certificate and key
+I0604 19:17:04.252667     180 kubeletfinalize.go:88] [kubelet-finalize] Assuming that kubelet client certificate rotation is enabled: found "/var/lib/kubelet/pki/kubelet-client-current.pem"
+I0604 19:17:04.253403     180 loader.go:375] Config loaded from file:  /etc/kubernetes/kubelet.conf
+I0604 19:17:04.254010     180 kubeletfinalize.go:132] [kubelet-finalize] Restarting the kubelet to enable client certificate rotation
+I0604 19:17:04.380263     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/apis/apps/v1/namespaces/kube-system/deployments?labelSelector=k8s-app%3Dkube-dns 200 OK in 5 milliseconds
+I0604 19:17:04.388652     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/configmaps/kube-dns?timeout=10s 404 Not Found in 2 milliseconds
+I0604 19:17:04.391245     180 round_trippers.go:443] GET https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/configmaps/coredns?timeout=10s 404 Not Found in 2 milliseconds
+I0604 19:17:04.393987     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s 201 Created in 2 milliseconds
+I0604 19:17:04.400163     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterroles?timeout=10s 201 Created in 5 milliseconds
+I0604 19:17:04.403853     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 2 milliseconds
+I0604 19:17:04.409186     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/serviceaccounts?timeout=10s 201 Created in 4 milliseconds
+I0604 19:17:04.433583     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/apps/v1/namespaces/kube-system/deployments?timeout=10s 201 Created in 13 milliseconds
+I0604 19:17:04.442866     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/services?timeout=10s 201 Created in 7 milliseconds
+[addons] Applied essential addon: CoreDNS
+I0604 19:17:04.446862     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/serviceaccounts?timeout=10s 201 Created in 3 milliseconds
+I0604 19:17:04.606495     180 request.go:557] Throttling request took 157.941575ms, request: POST:https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s
+I0604 19:17:04.610444     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s 201 Created in 3 milliseconds
+I0604 19:17:04.628388     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/apps/v1/namespaces/kube-system/daemonsets?timeout=10s 201 Created in 11 milliseconds
+I0604 19:17:04.632044     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 3 milliseconds
+I0604 19:17:04.634914     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles?timeout=10s 201 Created in 2 milliseconds
+I0604 19:17:04.637613     180 round_trippers.go:443] POST https://istio-testing-control-plane:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings?timeout=10s 201 Created in 2 milliseconds
+[addons] Applied essential addon: kube-proxy
+I0604 19:17:04.638360     180 loader.go:375] Config loaded from file:  /etc/kubernetes/admin.conf
+I0604 19:17:04.639038     180 loader.go:375] Config loaded from file:  /etc/kubernetes/admin.conf
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+You can now join any number of control-plane nodes by copying certificate authorities
+and service account keys on each node and then running the following as root:
+
+  kubeadm join istio-testing-control-plane:6443 --token <value withheld> \
+    --discovery-token-ca-cert-hash sha256:e998007f96803e641051277bfeebe5734723adea8293f967d34710875c58e5f3 \
+    --control-plane
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join istio-testing-control-plane:6443 --token <value withheld> \
+    --discovery-token-ca-cert-hash sha256:e998007f96803e641051277bfeebe5734723adea8293f967d34710875c58e5f3
+ ✓ Starting control-plane 🕹️
+ • Installing CNI 🔌  ...
+ ✓ Installing CNI 🔌
+ • Installing StorageClass 💾  ...
+ ✓ Installing StorageClass 💾
+ • Waiting ≤ 1m0s for control-plane = Ready ⏳  ...
+ ✓ Waiting ≤ 1m0s for control-plane = Ready ⏳
+ • Ready after 19s 💚
+Set kubectl context to "kind-istio-testing"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-istio-testing
+
+Not sure what to do next? 😅  Check out https://kind.sigs.k8s.io/docs/user/quick-start/
+
+real	1m11.441s
+user	0m4.842s
+sys	0m4.274s
++ make test.kube.presubmit
+ISTIO_SHA = 704a6514b5d3
+HUB = gcr.io/istio-testing
+ISTIOIO_GO=/home/prow/go/src/istio.io/istio.io
+ISTIO_GO=/home/prow/go/src/istio.io/istio
+ISTIO_REMOTE=origin
+ISTIO_BRANCH=master
+ISTIO_SHA=704a6514b5d3
+/home/prow/go/src/istio.io/istio not found. Cloning Istio repository ...
+Cloning into '/home/prow/go/src/istio.io/istio'...
+Note: checking out '704a6514b5d3'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b <new-branch-name>
+
+HEAD is now at 704a6514b TLS Context Tests (#24435)
+make[1]: Entering directory '/home/prow/go/src/istio.io/istio'
+go: downloading k8s.io/apimachinery v0.18.3
+go: downloading github.com/docker/engine v1.4.2-0.20191011211953-adfac697dc5b
+go: downloading k8s.io/client-go v0.18.3
+go: downloading github.com/prometheus/common v0.6.0
+go: downloading github.com/prometheus/client_model v0.2.0
+go: downloading github.com/envoyproxy/go-control-plane v0.9.5-0.20200326174812-e8bd2869ff56
+go: downloading github.com/gogo/protobuf v1.3.1
+go: downloading github.com/gorilla/websocket v1.4.1
+go: downloading github.com/golang/protobuf v1.3.5
+go: downloading istio.io/pkg v0.0.0-20200504224939-261164cc57da
+go: downloading go.opencensus.io v0.22.2
+go: downloading istio.io/api v0.0.0-20200603210121-2ade53f717e4
+go: downloading google.golang.org/grpc v1.28.1
+go: downloading github.com/cenkalti/backoff v2.0.0+incompatible
+go: downloading github.com/istio/klog v0.0.0-20190424230111-fb7481ea8bcf
+go: downloading go.uber.org/atomic v1.4.0
+go: downloading github.com/google/gofuzz v1.1.0
+go: downloading github.com/evanphx/json-patch v4.5.0+incompatible
+go: downloading k8s.io/api v0.18.3
+go: downloading google.golang.org/genproto v0.0.0-20191223191004-3caeed10a8bf
+go: downloading github.com/spf13/cobra v1.0.0
+go: downloading github.com/pkg/errors v0.9.1
+go: downloading go.uber.org/zap v1.10.0
+go: downloading gopkg.in/d4l3k/messagediff.v1 v1.2.1
+go: downloading sigs.k8s.io/yaml v1.2.0
+go: downloading k8s.io/utils v0.0.0-20200324210504-a9aa75ae1b89
+go: downloading github.com/cncf/udpa/go v0.0.0-20200313221541-5f7e5dd04533
+go: downloading github.com/prometheus/client_golang v1.1.0
+go: downloading go.uber.org/multierr v1.1.0
+go: downloading github.com/davecgh/go-spew v1.1.1
+go: downloading github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
+go: downloading golang.org/x/net v0.0.0-20191014212845-da9a3fd4c582
+go: downloading github.com/mitchellh/copystructure v1.0.0
+go: downloading github.com/golang/sync v0.0.0-20180314180146-1d60e4601c6f
+go: downloading k8s.io/cli-runtime v0.18.3
+go: downloading sigs.k8s.io/controller-runtime v0.5.1-0.20200327213554-2d4c4877f906
+go: downloading k8s.io/kubectl v0.18.3
+go: downloading gopkg.in/inf.v0 v0.9.1
+go: downloading k8s.io/apiextensions-apiserver v0.18.3
+go: downloading github.com/ghodss/yaml v1.0.0
+go: downloading golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45
+go: downloading github.com/spf13/pflag v1.0.5
+go: downloading github.com/grpc-ecosystem/go-grpc-middleware v1.0.1-0.20190118093823-f849b5445de4
+go: downloading golang.org/x/text v0.3.2
+go: downloading github.com/matttproud/golang_protobuf_extensions v1.0.1
+go: downloading sigs.k8s.io/kustomize v2.0.3+incompatible
+go: downloading github.com/imdario/mergo v0.3.5
+go: downloading github.com/gophercloud/gophercloud v0.1.0
+go: downloading github.com/docker/go-connections v0.4.0
+go: downloading github.com/opencontainers/image-spec v1.0.1
+go: downloading github.com/google/go-cmp v0.4.0
+go: downloading golang.org/x/time v0.0.0-20190921001708-c4c64cad1fd0
+go: downloading istio.io/gogo-genproto v0.0.0-20200422223746-8166b73efbae
+go: downloading github.com/fatih/color v1.7.0
+go: downloading github.com/opencontainers/go-digest v1.0.0-rc1
+go: downloading github.com/istio/viper v1.3.3-0.20190515210538-2789fed3109c
+go: downloading sigs.k8s.io/service-apis v0.0.0-20200227172328-b9010cfacdbe
+go: downloading github.com/docker/distribution v2.7.1+incompatible
+go: downloading github.com/hashicorp/go-version v1.2.0
+go: downloading github.com/fsnotify/fsnotify v1.4.7
+go: downloading github.com/mattn/go-colorable v0.1.2
+go: downloading github.com/miekg/dns v1.0.14
+go: downloading github.com/spf13/cast v1.3.1
+go: downloading github.com/beorn7/perks v1.0.1
+go: downloading github.com/googleapis/gnostic v0.3.1
+go: downloading github.com/kylelemons/godebug v1.1.0
+go: downloading github.com/onsi/gomega v1.9.0
+go: downloading github.com/hashicorp/hcl v1.0.0
+go: downloading github.com/spf13/jwalterweatherman v1.1.0
+go: downloading k8s.io/kube-openapi v0.0.0-20200410145947-61e04a5be9a6
+go: downloading github.com/howeyc/fsnotify v0.9.0
+go: downloading github.com/docker/go-units v0.4.0
+go: downloading contrib.go.opencensus.io/exporter/prometheus v0.1.0
+go: downloading github.com/containerd/containerd v1.3.2
+go: downloading helm.sh/helm/v3 v3.2.0
+go: downloading golang.org/x/crypto v0.0.0-20200414173820-0848c9571904
+go: downloading github.com/hashicorp/go-multierror v1.0.0
+go: downloading github.com/sirupsen/logrus v1.4.2
+go: downloading github.com/hashicorp/consul v1.3.1
+go: downloading golang.org/x/sys v0.0.0-20200116001909-b77594299b42
+go: downloading github.com/mitchellh/reflectwalk v1.0.1
+go: downloading cloud.google.com/go v0.50.0
+go: downloading github.com/census-instrumentation/opencensus-proto v0.2.1
+go: downloading github.com/gregjones/httpcache v0.0.0-20190611155906-901d90724c79
+go: downloading github.com/coreos/go-oidc v2.1.0+incompatible
+go: downloading github.com/yl2chen/cidranger v0.0.0-20180214081945-928b519e5268
+go: downloading github.com/google/uuid v1.1.1
+go: downloading github.com/hashicorp/errwrap v1.0.0
+go: downloading github.com/mattn/go-isatty v0.0.12
+go: downloading k8s.io/component-base v0.18.3
+go: downloading github.com/peterbourgon/diskv v2.0.1+incompatible
+go: downloading github.com/cpuguy83/go-md2man v1.0.10
+go: downloading github.com/Azure/go-autorest/autorest v0.9.4
+go: downloading github.com/cpuguy83/go-md2man/v2 v2.0.0
+go: downloading github.com/json-iterator/go v1.1.9
+go: downloading github.com/openshift/api v3.9.1-0.20191008181517-e4fd21196097+incompatible
+go: downloading github.com/mholt/archiver v3.1.1+incompatible
+go: downloading github.com/ulikunitz/xz v0.5.6
+go: downloading github.com/xi2/xz v0.0.0-20171230120015-48954b6210f8
+go: downloading github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
+go: downloading github.com/spf13/afero v1.2.2
+go: downloading github.com/liggitt/tabwriter v0.0.0-20181228230101-89fcab3d43de
+go: downloading gopkg.in/yaml.v2 v2.2.8
+go: downloading github.com/magiconair/properties v1.8.1
+go: downloading github.com/mitchellh/go-homedir v1.1.0
+go: downloading sigs.k8s.io/structured-merge-diff v0.0.0-20190817042607-6149e4549fca
+go: downloading gopkg.in/square/go-jose.v2 v2.3.1
+go: downloading github.com/exponent-io/jsonpath v0.0.0-20151013193312-d6023ce2651d
+go: downloading github.com/ryanuber/go-glob v1.0.0
+go: downloading github.com/google/btree v1.0.0
+go: downloading github.com/pelletier/go-toml v1.3.0
+go: downloading github.com/mitchellh/mapstructure v1.1.2
+go: downloading github.com/Masterminds/sprig v2.20.0+incompatible
+go: downloading github.com/modern-go/reflect2 v1.0.1
+go: downloading github.com/Azure/go-autorest/autorest/adal v0.8.3
+go: downloading github.com/envoyproxy/protoc-gen-validate v0.1.0
+go: downloading github.com/nwaples/rardecode v1.0.0
+go: downloading github.com/Masterminds/sprig/v3 v3.1.0
+go: downloading github.com/prometheus/prom2json v1.2.2
+go: downloading sigs.k8s.io/structured-merge-diff/v3 v3.0.0
+go: downloading golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
+go: downloading github.com/cyphar/filepath-securejoin v0.2.2
+go: downloading github.com/go-openapi/spec v0.19.5
+go: downloading github.com/chai2010/gettext-go v0.0.0-20160711120539-c6fed771bfd5
+go: downloading github.com/golang/groupcache v0.0.0-20191027212112-611e8accdfc9
+go: downloading github.com/BurntSushi/toml v0.3.1
+go: downloading github.com/golang/snappy v0.0.1
+go: downloading github.com/pquerna/cachecontrol v0.0.0-20180306154005-525d0eb5f91d
+go: downloading github.com/huandu/xstrings v1.3.1
+go: downloading github.com/Azure/go-autorest/logger v0.1.0
+go: downloading github.com/cheggaaa/pb/v3 v3.0.4
+go: downloading github.com/kr/pretty v0.1.0
+go: downloading github.com/Azure/go-autorest/autorest/date v0.2.0
+go: downloading github.com/jonboulle/clockwork v0.1.0
+go: downloading github.com/gorilla/mux v1.7.3
+go: downloading fortio.org/fortio v1.3.1
+go: downloading github.com/MakeNowJust/heredoc v0.0.0-20170808103936-bb23615498cd
+go: downloading github.com/Azure/go-autorest/tracing v0.5.0
+go: downloading github.com/kr/text v0.1.0
+go: downloading github.com/docker/spdystream v0.0.0-20181023171402-6480d4af844c
+go: downloading github.com/VividCortex/ewma v1.1.1
+go: downloading github.com/xeipuuv/gojsonschema v1.1.0
+go: downloading github.com/russross/blackfriday v1.5.2
+go: downloading github.com/Masterminds/goutils v1.1.0
+go: downloading github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72
+go: downloading github.com/fatih/camelcase v1.0.0
+go: downloading github.com/Masterminds/semver v1.4.2
+go: downloading github.com/go-openapi/jsonpointer v0.19.3
+go: downloading github.com/go-openapi/swag v0.19.6
+go: downloading github.com/dgrijalva/jwt-go v3.2.0+incompatible
+go: downloading github.com/pmezard/go-difflib v1.0.0
+go: downloading github.com/russross/blackfriday/v2 v2.0.1
+go: downloading github.com/go-openapi/jsonreference v0.19.3
+go: downloading github.com/pierrec/lz4 v2.2.7+incompatible
+go: downloading github.com/prometheus/procfs v0.0.8
+go: downloading github.com/natefinch/lumberjack v2.0.0+incompatible
+go: downloading github.com/gobwas/glob v0.2.3
+go: downloading github.com/Masterminds/semver/v3 v3.1.0
+go: downloading github.com/PuerkitoBio/purell v1.1.1
+go: downloading github.com/hashicorp/golang-lru v0.5.4
+go: downloading github.com/mitchellh/go-wordwrap v1.0.0
+go: downloading github.com/dsnet/compress v0.0.1
+go: downloading github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415
+go: downloading github.com/mattn/go-runewidth v0.0.7
+go: downloading github.com/mailru/easyjson v0.7.0
+go: downloading github.com/emicklei/go-restful v2.9.6+incompatible
+go: downloading github.com/google/cel-go v0.4.1
+go: downloading github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb
+go: downloading golang.org/x/tools v0.0.0-20191216173652-a0e659d51361
+go: downloading github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578
+go: downloading github.com/shurcooL/sanitized_anchor_name v1.0.0
+go: downloading github.com/antlr/antlr4 v0.0.0-20190819145818-b43a4c3a8015
+go: downloading github.com/hashicorp/go-cleanhttp v0.5.1
+go: downloading github.com/hashicorp/go-rootcerts v1.0.1
+go: downloading github.com/hashicorp/serf v0.8.5
+go: downloading github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da
+go: downloading github.com/hashicorp/go-immutable-radix v1.0.0
++ set -e
+++ mktemp -d -t istio-charts.XXXXXXXXXX
++ OUT_DIR=/tmp/tmp.RBribPeUql/istio-charts.dTrm0vGbaW
++++ dirname operator/scripts/create_assets_gen.sh
+++ cd operator/scripts
+++ pwd
++ SCRIPTPATH=/home/prow/go/src/istio.io/istio/operator/scripts
++ ROOTDIR=/home/prow/go/src/istio.io/istio/operator/scripts/../..
++ OPERATOR_DIR=/home/prow/go/src/istio.io/istio/operator/scripts/../../operator
++ /home/prow/go/src/istio.io/istio/operator/scripts/create_release_charts.sh -o /tmp/tmp.RBribPeUql/istio-charts.dTrm0vGbaW
++++ dirname /home/prow/go/src/istio.io/istio/operator/scripts/create_release_charts.sh
+++ cd /home/prow/go/src/istio.io/istio/operator/scripts
+++ pwd
++ SCRIPT_DIR=/home/prow/go/src/istio.io/istio/operator/scripts
++ INSTALLER_DIR=/home/prow/go/src/istio.io/istio/operator/scripts/../../manifests
++ mkdir -p /tmp/tmp.RBribPeUql/istio-charts.dTrm0vGbaW
++ cp -R /home/prow/go/src/istio.io/istio/operator/scripts/../../manifests/charts /tmp/tmp.RBribPeUql/istio-charts.dTrm0vGbaW
++ cp -R /home/prow/go/src/istio.io/istio/operator/scripts/../../manifests/profiles /tmp/tmp.RBribPeUql/istio-charts.dTrm0vGbaW
++ cd /tmp/tmp.RBribPeUql/istio-charts.dTrm0vGbaW
++ go-bindata --nocompress --nometadata --pkg vfs -o /home/prow/go/src/istio.io/istio/operator/scripts/../../operator/pkg/vfs/assets.gen.go ./...
++ rm -Rf /tmp/tmp.RBribPeUql/istio-charts.dTrm0vGbaW
+make[1]: Leaving directory '/home/prow/go/src/istio.io/istio'
+Installing go-junit-report...
+/usr/bin/go-junit-report
+ISTIO_LONG_SHA=704a6514b5d36aecaa686e8c1ff1ed6604e0ac17
+TAG=1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17
+PATH=/usr/local/go/bin:/gobin:/usr/local/google-cloud-sdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/prow/go/src/istio.io/istio.io/out/linux_amd64 go test -p 1 -v ./tests/... -timeout 30m \
+--istio.test.select -postsubmit,-flaky \
+--istio.test.env kube \
+--istio.test.tag=1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17 --istio.test.ci --istio.test.pullpolicy=IfNotPresent --istio.test.kube.minikube --istio.test.work_dir=/logs/artifacts --istio.test.hub=gcr.io/istio-testing --istio.test.kube.config=~/.kube/config \
+2>&1 | tee >(/usr/bin/go-junit-report > /logs/artifacts/junit.xml)
+go: downloading istio.io/istio v0.0.0-20200604190413-704a6514b5d3
+go: downloading istio.io/pkg v0.0.0-20200511212725-7bfbbf968c23
+go: downloading github.com/Azure/go-autorest v13.2.0+incompatible
+go: downloading github.com/Azure/go-autorest/autorest v0.9.0
+go: downloading istio.io/gogo-genproto v0.0.0-20200511213158-02f1fd1746e5
+go: downloading github.com/imdario/mergo v0.3.8
+go: downloading github.com/Azure/go-autorest/autorest/adal v0.5.0
+go: downloading github.com/Azure/go-autorest/autorest/date v0.1.0
+2020-06-04T19:21:02.979077Z	info	ci	=== Test Framework Settings ===
+2020-06-04T19:21:02.979141Z	info	ci	Environment:       kube
+TestID:            configuration
+RunID:             fe0b61f0-e08c-4f3c-b77f-fa87d8920858
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T19:21:02.979146Z	info	ci	===============================
+2020-06-04T19:21:02.979264Z	info	tf	Test run dir: /logs/artifacts/configuration-fe0b61f0e08c4f3cb
+2020-06-04T19:21:02.979375Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+NetworkTopology:      map[]
+
+2020-06-04T19:21:02.982731Z	info	ci	=== BEGIN: Setup: 'configuration' ===
+2020-06-04T19:21:02.982778Z	info	ci	=== BEGIN: Deploy Istio [Suite=configuration] ===
+2020-06-04T19:21:02.982783Z	info	ci	=== Istio Component Config ===
+2020-06-04T19:21:02.982817Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+
+2020-06-04T19:21:02.982821Z	info	ci	================================
+2020-06-04T19:21:02.984158Z	warn	Config not found: ~/.kube/config
+2020-06-04T19:21:03.295767Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/configuration-fe0b61f0e08c4f3cb/_suite_context/istio-deployment-414930552/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17 --set values.global.imagePullPolicy=IfNotPresent]
+2020-06-04T19:21:03.296675Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✘ Istiod encountered an error: failed to wait for resource: resources not ready after 5m0s: timed out waiting for the condition
+Deployment/istio-system/istiod
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✘ Ingress gateways encountered an error: failed to wait for resource: resources not ready after 5m0s: timed out waiting for the condition
+Deployment/istio-system/istio-ingressgateway
+- Pruning removed resources2020-06-04T19:31:08.577554Z	info	ci	=== FAILED: Deploy Istio [Suite=configuration] ===
+2020-06-04T19:31:08.577631Z	error	ci	=== Dumping Istio Deployment State...
+2020-06-04T19:31:09.078298Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istio-ingressgateway-db8657994-kjfkk, container: istio-proxy) (err: container "istio-proxy" in pod "istio-ingressgateway-db8657994-kjfkk" is waiting to start: ContainerCreating):
+2020-06-04T19:31:09.078366Z	error	ci	Unable to get logs for pod/container: istio-system/istio-ingressgateway-db8657994-kjfkk/istio-proxy
+2020-06-04T19:31:09.145972Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istiod-85bdc8bb8d-xs9k2, container: discovery) (err: container "discovery" in pod "istiod-85bdc8bb8d-xs9k2" is waiting to start: trying and failing to pull image):
+2020-06-04T19:31:09.146036Z	error	ci	Unable to get logs for pod/container: istio-system/istiod-85bdc8bb8d-xs9k2/discovery
+2020-06-04T19:31:09.199969Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-kjfkk, container: istio-proxy, command: pilot-agent request GET config_dump: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:31:09.200020Z	error	ci	Unable to get istio-proxy config dump for pod: istio-system/istio-ingressgateway-db8657994-kjfkk
+2020-06-04T19:31:09.693557Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-kjfkk, container: istio-proxy, command: pilot-agent request GET clusters: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:31:09.693613Z	error	ci	Unable to get istio-proxy clusters for pod: istio-system/istio-ingressgateway-db8657994-kjfkk
+2020-06-04T19:31:09.693637Z	error	tf	Test setup error: failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation
+2020-06-04T19:31:09.693647Z	info	ci	=== FAILED: Setup: 'configuration' (failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation) ===
+2020-06-04T19:31:09.693688Z	error	tf	Exiting due to setup failure: failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation
+2020-06-04T19:31:09.693735Z	error	ci	=== Dumping Istio Deployment State...
+2020-06-04T19:31:09.776350Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istio-ingressgateway-db8657994-kjfkk, container: istio-proxy) (err: container "istio-proxy" in pod "istio-ingressgateway-db8657994-kjfkk" is waiting to start: ContainerCreating):
+2020-06-04T19:31:09.776401Z	error	ci	Unable to get logs for pod/container: istio-system/istio-ingressgateway-db8657994-kjfkk/istio-proxy
+2020-06-04T19:31:09.801606Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istiod-85bdc8bb8d-xs9k2, container: discovery) (err: container "discovery" in pod "istiod-85bdc8bb8d-xs9k2" is waiting to start: trying and failing to pull image):
+2020-06-04T19:31:09.801661Z	error	ci	Unable to get logs for pod/container: istio-system/istiod-85bdc8bb8d-xs9k2/discovery
+2020-06-04T19:31:09.851885Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-kjfkk, container: istio-proxy, command: pilot-agent request GET config_dump: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:31:09.851944Z	error	ci	Unable to get istio-proxy config dump for pod: istio-system/istio-ingressgateway-db8657994-kjfkk
+2020-06-04T19:31:09.924102Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-kjfkk, container: istio-proxy, command: pilot-agent request GET clusters: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:31:09.924166Z	error	ci	Unable to get istio-proxy clusters for pod: istio-system/istio-ingressgateway-db8657994-kjfkk
+2020-06-04T19:31:09.924192Z	info	ci	=== BEGIN: Cleanup Istio [Suite=configuration] ===
+2020-06-04T19:31:10.169856Z	info	ci	Deleting YAML file: /logs/artifacts/configuration-fe0b61f0e08c4f3cb/_suite_context/env-kube-541477949/istio-kube-accessor-646236654/accessor_060653685
+2020-06-04T19:31:21.015907Z	info	ci	=== DONE: Cleanup Istio [Suite=configuration] ===
+2020-06-04T19:31:21.015979Z	error	tf	Error during close: 4 errors occurred:
+	* configmaps "istio-leader" not found
+	* configmaps "istio-namespace-controller-election" not found
+	* configmaps "istio-validation-controller-election" not found
+	* configmaps "istio-status-leader" not found
+
+
+FAIL	istio.io/istio.io/tests/configuration	618.143s
+2020-06-04T19:31:31.126645Z	info	ci	=== Test Framework Settings ===
+2020-06-04T19:31:31.126733Z	info	ci	Environment:       kube
+TestID:            examples
+RunID:             565b21d1-b8c5-445a-ae6a-37a17872421d
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T19:31:31.126744Z	info	ci	===============================
+2020-06-04T19:31:31.126902Z	info	tf	Test run dir: /logs/artifacts/examples-565b21d1b8c5445aae6a37
+2020-06-04T19:31:31.127042Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+NetworkTopology:      map[]
+
+2020-06-04T19:31:31.130840Z	info	ci	=== BEGIN: Setup: 'examples' ===
+2020-06-04T19:31:31.130900Z	info	ci	=== BEGIN: Deploy Istio [Suite=examples] ===
+2020-06-04T19:31:31.130908Z	info	ci	=== Istio Component Config ===
+2020-06-04T19:31:31.130954Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+
+2020-06-04T19:31:31.130971Z	info	ci	================================
+2020-06-04T19:31:31.132316Z	warn	Config not found: ~/.kube/config
+2020-06-04T19:31:32.000416Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/examples-565b21d1b8c5445aae6a37/_suite_context/istio-deployment-259516387/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17 --set values.global.imagePullPolicy=IfNotPresent]
+2020-06-04T19:31:32.001528Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✘ Istiod encountered an error: failed to wait for resource: resources not ready after 5m0s: timed out waiting for the condition
+Deployment/istio-system/istiod
+- Processing resources for Egress gateways, Ingress gateways.
+- Processing resources for Egress gateways, Ingress gateways. Waiting for Deployment/istio-system...
+- Processing resources for Addons, Egress gateways, Ingress gateways. Waiting for Deployment/isti...
+✔ Addons installed
+- Processing resources for Egress gateways, Ingress gateways. Waiting for Deployment/istio-system...
+✘ Egress gateways encountered an error: failed to wait for resource: resources not ready after 5m0s: timed out waiting for the condition
+Deployment/istio-system/istio-egressgateway
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✘ Ingress gateways encountered an error: failed to wait for resource: resources not ready after 5m0s: timed out waiting for the condition
+Deployment/istio-system/istio-ingressgateway
+- Pruning removed resources2020-06-04T19:41:41.990982Z	info	ci	=== FAILED: Deploy Istio [Suite=examples] ===
+2020-06-04T19:41:41.991083Z	error	ci	=== Dumping Istio Deployment State...
+2020-06-04T19:41:42.316681Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istio-egressgateway-68d64dd5f-qzsk9, container: istio-proxy) (err: container "istio-proxy" in pod "istio-egressgateway-68d64dd5f-qzsk9" is waiting to start: ContainerCreating):
+2020-06-04T19:41:42.316786Z	error	ci	Unable to get logs for pod/container: istio-system/istio-egressgateway-68d64dd5f-qzsk9/istio-proxy
+2020-06-04T19:41:42.331987Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istio-ingressgateway-76bf85b8b9-zwz65, container: istio-proxy) (err: container "istio-proxy" in pod "istio-ingressgateway-76bf85b8b9-zwz65" is waiting to start: ContainerCreating):
+2020-06-04T19:41:42.332030Z	error	ci	Unable to get logs for pod/container: istio-system/istio-ingressgateway-76bf85b8b9-zwz65/istio-proxy
+2020-06-04T19:41:42.357482Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istiod-85bc66d9c6-pt9hr, container: discovery) (err: container "discovery" in pod "istiod-85bc66d9c6-pt9hr" is waiting to start: trying and failing to pull image):
+2020-06-04T19:41:42.357523Z	error	ci	Unable to get logs for pod/container: istio-system/istiod-85bc66d9c6-pt9hr/discovery
+2020-06-04T19:41:42.396328Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-egressgateway-68d64dd5f-qzsk9, container: istio-proxy, command: pilot-agent request GET config_dump: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:41:42.396379Z	error	ci	Unable to get istio-proxy config dump for pod: istio-system/istio-egressgateway-68d64dd5f-qzsk9
+2020-06-04T19:41:42.421075Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-egressgateway-68d64dd5f-qzsk9, container: istio-proxy, command: pilot-agent request GET clusters: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:41:42.421117Z	error	ci	Unable to get istio-proxy clusters for pod: istio-system/istio-egressgateway-68d64dd5f-qzsk9
+2020-06-04T19:41:42.445498Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-76bf85b8b9-zwz65, container: istio-proxy, command: pilot-agent request GET config_dump: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:41:42.445543Z	error	ci	Unable to get istio-proxy config dump for pod: istio-system/istio-ingressgateway-76bf85b8b9-zwz65
+2020-06-04T19:41:42.470003Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-76bf85b8b9-zwz65, container: istio-proxy, command: pilot-agent request GET clusters: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:41:42.470068Z	error	ci	Unable to get istio-proxy clusters for pod: istio-system/istio-ingressgateway-76bf85b8b9-zwz65
+2020-06-04T19:41:42.470089Z	error	tf	Test setup error: failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation
+2020-06-04T19:41:42.470096Z	info	ci	=== FAILED: Setup: 'examples' (failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation) ===
+2020-06-04T19:41:42.470099Z	error	tf	Exiting due to setup failure: failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation
+2020-06-04T19:41:42.470106Z	error	ci	=== Dumping Istio Deployment State...
+2020-06-04T19:41:43.630886Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istio-egressgateway-68d64dd5f-qzsk9, container: istio-proxy) (err: container "istio-proxy" in pod "istio-egressgateway-68d64dd5f-qzsk9" is waiting to start: ContainerCreating):
+2020-06-04T19:41:43.630936Z	error	ci	Unable to get logs for pod/container: istio-system/istio-egressgateway-68d64dd5f-qzsk9/istio-proxy
+2020-06-04T19:41:43.643580Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istio-ingressgateway-76bf85b8b9-zwz65, container: istio-proxy) (err: container "istio-proxy" in pod "istio-ingressgateway-76bf85b8b9-zwz65" is waiting to start: ContainerCreating):
+2020-06-04T19:41:43.643625Z	error	ci	Unable to get logs for pod/container: istio-system/istio-ingressgateway-76bf85b8b9-zwz65/istio-proxy
+2020-06-04T19:41:43.670556Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istiod-85bc66d9c6-pt9hr, container: discovery) (err: container "discovery" in pod "istiod-85bc66d9c6-pt9hr" is waiting to start: trying and failing to pull image):
+2020-06-04T19:41:43.670607Z	error	ci	Unable to get logs for pod/container: istio-system/istiod-85bc66d9c6-pt9hr/discovery
+2020-06-04T19:41:43.818833Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-egressgateway-68d64dd5f-qzsk9, container: istio-proxy, command: pilot-agent request GET config_dump: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:41:43.818879Z	error	ci	Unable to get istio-proxy config dump for pod: istio-system/istio-egressgateway-68d64dd5f-qzsk9
+2020-06-04T19:41:44.016720Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-egressgateway-68d64dd5f-qzsk9, container: istio-proxy, command: pilot-agent request GET clusters: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:41:44.016772Z	error	ci	Unable to get istio-proxy clusters for pod: istio-system/istio-egressgateway-68d64dd5f-qzsk9
+2020-06-04T19:41:44.217784Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-76bf85b8b9-zwz65, container: istio-proxy, command: pilot-agent request GET config_dump: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:41:44.217824Z	error	ci	Unable to get istio-proxy config dump for pod: istio-system/istio-ingressgateway-76bf85b8b9-zwz65
+2020-06-04T19:41:44.415975Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-76bf85b8b9-zwz65, container: istio-proxy, command: pilot-agent request GET clusters: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:41:44.416010Z	error	ci	Unable to get istio-proxy clusters for pod: istio-system/istio-ingressgateway-76bf85b8b9-zwz65
+2020-06-04T19:41:44.416033Z	info	ci	=== BEGIN: Cleanup Istio [Suite=examples] ===
+2020-06-04T19:41:46.130548Z	info	ci	Deleting YAML file: /logs/artifacts/examples-565b21d1b8c5445aae6a37/_suite_context/env-kube-956234644/istio-kube-accessor-696237441/accessor_204839660
+2020-06-04T19:41:57.092964Z	info	ci	=== DONE: Cleanup Istio [Suite=examples] ===
+2020-06-04T19:41:57.093039Z	error	tf	Error during close: 4 errors occurred:
+	* configmaps "istio-leader" not found
+	* configmaps "istio-namespace-controller-election" not found
+	* configmaps "istio-validation-controller-election" not found
+	* configmaps "istio-status-leader" not found
+
+
+FAIL	istio.io/istio.io/tests/examples	626.099s
+2020-06-04T19:42:04.188282Z	info	ci	=== Test Framework Settings ===
+2020-06-04T19:42:04.188337Z	info	ci	Environment:       kube
+TestID:            security
+RunID:             8f5d474e-5320-4fcf-a537-22e6cd69d080
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T19:42:04.188342Z	info	ci	===============================
+2020-06-04T19:42:04.188441Z	info	tf	Test run dir: /logs/artifacts/security-8f5d474e53204fcfa53722
+2020-06-04T19:42:04.188526Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+NetworkTopology:      map[]
+
+2020-06-04T19:42:04.191229Z	info	ci	=== BEGIN: Setup: 'security' ===
+2020-06-04T19:42:04.191277Z	info	ci	=== BEGIN: Deploy Istio [Suite=security] ===
+2020-06-04T19:42:04.191282Z	info	ci	=== Istio Component Config ===
+2020-06-04T19:42:04.191319Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17 grafana.enabled:true]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+
+2020-06-04T19:42:04.191353Z	info	ci	================================
+2020-06-04T19:42:04.192477Z	warn	Config not found: ~/.kube/config
+2020-06-04T19:42:04.702018Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/security-8f5d474e53204fcfa53722/_suite_context/istio-deployment-210578555/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17 --set values.global.imagePullPolicy=IfNotPresent --set values.grafana.enabled=true]
+2020-06-04T19:42:04.704776Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✘ Istiod encountered an error: failed to wait for resource: resources not ready after 5m0s: timed out waiting for the condition
+Deployment/istio-system/istiod
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/istio-in...
+- Processing resources for Addons, Ingress gateways. Waiting for Deployment/istio-system/grafana,...
+✔ Addons installed
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✘ Ingress gateways encountered an error: failed to wait for resource: resources not ready after 5m0s: timed out waiting for the condition
+Deployment/istio-system/istio-ingressgateway
+- Pruning removed resources2020-06-04T19:52:11.584292Z	info	ci	=== FAILED: Deploy Istio [Suite=security] ===
+2020-06-04T19:52:11.584350Z	error	ci	=== Dumping Istio Deployment State...
+2020-06-04T19:52:11.861186Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istio-ingressgateway-db8657994-9n5hd, container: istio-proxy) (err: container "istio-proxy" in pod "istio-ingressgateway-db8657994-9n5hd" is waiting to start: ContainerCreating):
+2020-06-04T19:52:11.861231Z	error	ci	Unable to get logs for pod/container: istio-system/istio-ingressgateway-db8657994-9n5hd/istio-proxy
+2020-06-04T19:52:11.873247Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istiod-85bdc8bb8d-bkmrl, container: discovery) (err: container "discovery" in pod "istiod-85bdc8bb8d-bkmrl" is waiting to start: trying and failing to pull image):
+2020-06-04T19:52:11.873291Z	error	ci	Unable to get logs for pod/container: istio-system/istiod-85bdc8bb8d-bkmrl/discovery
+2020-06-04T19:52:11.897650Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-9n5hd, container: istio-proxy, command: pilot-agent request GET config_dump: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:52:11.897719Z	error	ci	Unable to get istio-proxy config dump for pod: istio-system/istio-ingressgateway-db8657994-9n5hd
+2020-06-04T19:52:11.922151Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-9n5hd, container: istio-proxy, command: pilot-agent request GET clusters: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:52:11.922210Z	error	ci	Unable to get istio-proxy clusters for pod: istio-system/istio-ingressgateway-db8657994-9n5hd
+2020-06-04T19:52:11.922259Z	error	tf	Test setup error: failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation
+2020-06-04T19:52:11.922291Z	info	ci	=== FAILED: Setup: 'security' (failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation) ===
+2020-06-04T19:52:11.922308Z	error	tf	Exiting due to setup failure: failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation
+2020-06-04T19:52:11.922318Z	error	ci	=== Dumping Istio Deployment State...
+2020-06-04T19:52:11.979396Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istio-ingressgateway-db8657994-9n5hd, container: istio-proxy) (err: container "istio-proxy" in pod "istio-ingressgateway-db8657994-9n5hd" is waiting to start: ContainerCreating):
+2020-06-04T19:52:11.979442Z	error	ci	Unable to get logs for pod/container: istio-system/istio-ingressgateway-db8657994-9n5hd/istio-proxy
+2020-06-04T19:52:11.990890Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istiod-85bdc8bb8d-bkmrl, container: discovery) (err: container "discovery" in pod "istiod-85bdc8bb8d-bkmrl" is waiting to start: trying and failing to pull image):
+2020-06-04T19:52:11.990933Z	error	ci	Unable to get logs for pod/container: istio-system/istiod-85bdc8bb8d-bkmrl/discovery
+2020-06-04T19:52:12.014600Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-9n5hd, container: istio-proxy, command: pilot-agent request GET config_dump: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:52:12.014643Z	error	ci	Unable to get istio-proxy config dump for pod: istio-system/istio-ingressgateway-db8657994-9n5hd
+2020-06-04T19:52:12.038556Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-9n5hd, container: istio-proxy, command: pilot-agent request GET clusters: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T19:52:12.038605Z	error	ci	Unable to get istio-proxy clusters for pod: istio-system/istio-ingressgateway-db8657994-9n5hd
+2020-06-04T19:52:12.038627Z	info	ci	=== BEGIN: Cleanup Istio [Suite=security] ===
+2020-06-04T19:52:13.339556Z	info	ci	Deleting YAML file: /logs/artifacts/security-8f5d474e53204fcfa53722/_suite_context/env-kube-322669196/istio-kube-accessor-012562265/accessor_230823652
+2020-06-04T19:52:20.743465Z	info	ci	=== DONE: Cleanup Istio [Suite=security] ===
+2020-06-04T19:52:20.743550Z	error	tf	Error during close: 4 errors occurred:
+	* configmaps "istio-leader" not found
+	* configmaps "istio-namespace-controller-election" not found
+	* configmaps "istio-validation-controller-election" not found
+	* configmaps "istio-status-leader" not found
+
+
+FAIL	istio.io/istio.io/tests/security	616.649s
+2020-06-04T19:52:27.823756Z	info	ci	=== Test Framework Settings ===
+2020-06-04T19:52:27.823816Z	info	ci	Environment:       kube
+TestID:            authn_policy
+RunID:             b857b626-5035-4126-b097-1c755836e5eb
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T19:52:27.823822Z	info	ci	===============================
+2020-06-04T19:52:27.823926Z	info	tf	Test run dir: /logs/artifacts/authn-policy-b857b62650354126b0
+2020-06-04T19:52:27.824058Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+NetworkTopology:      map[]
+
+2020-06-04T19:52:27.828408Z	info	ci	=== BEGIN: Setup: 'authn_policy' ===
+2020-06-04T19:52:27.828471Z	info	ci	=== BEGIN: Deploy Istio [Suite=authn_policy] ===
+2020-06-04T19:52:27.828480Z	info	ci	=== Istio Component Config ===
+2020-06-04T19:52:27.828524Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+
+2020-06-04T19:52:27.828570Z	info	ci	================================
+2020-06-04T19:52:27.829986Z	warn	Config not found: ~/.kube/config
+2020-06-04T19:52:28.148056Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/authn-policy-b857b62650354126b0/_suite_context/istio-deployment-309507360/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17 --set values.global.imagePullPolicy=IfNotPresent]
+2020-06-04T19:52:28.149116Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✘ Istiod encountered an error: failed to wait for resource: resources not ready after 5m0s: timed out waiting for the condition
+Deployment/istio-system/istiod
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✘ Ingress gateways encountered an error: failed to wait for resource: resources not ready after 5m0s: timed out waiting for the condition
+Deployment/istio-system/istio-ingressgateway
+- Pruning removed resources2020-06-04T20:02:32.029984Z	info	ci	=== FAILED: Deploy Istio [Suite=authn_policy] ===
+2020-06-04T20:02:32.030047Z	error	ci	=== Dumping Istio Deployment State...
+2020-06-04T20:02:32.332994Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istio-ingressgateway-db8657994-b7lmg, container: istio-proxy) (err: container "istio-proxy" in pod "istio-ingressgateway-db8657994-b7lmg" is waiting to start: ContainerCreating):
+2020-06-04T20:02:32.333064Z	error	ci	Unable to get logs for pod/container: istio-system/istio-ingressgateway-db8657994-b7lmg/istio-proxy
+2020-06-04T20:02:32.346048Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istiod-85bdc8bb8d-krrft, container: discovery) (err: container "discovery" in pod "istiod-85bdc8bb8d-krrft" is waiting to start: trying and failing to pull image):
+2020-06-04T20:02:32.346103Z	error	ci	Unable to get logs for pod/container: istio-system/istiod-85bdc8bb8d-krrft/discovery
+2020-06-04T20:02:32.374151Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-b7lmg, container: istio-proxy, command: pilot-agent request GET config_dump: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T20:02:32.374215Z	error	ci	Unable to get istio-proxy config dump for pod: istio-system/istio-ingressgateway-db8657994-b7lmg
+2020-06-04T20:02:32.400240Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-b7lmg, container: istio-proxy, command: pilot-agent request GET clusters: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T20:02:32.400281Z	error	ci	Unable to get istio-proxy clusters for pod: istio-system/istio-ingressgateway-db8657994-b7lmg
+2020-06-04T20:02:32.400297Z	error	tf	Test setup error: failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation
+2020-06-04T20:02:32.400303Z	info	ci	=== FAILED: Setup: 'authn_policy' (failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation) ===
+2020-06-04T20:02:32.400308Z	error	tf	Exiting due to setup failure: failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation
+2020-06-04T20:02:32.400314Z	error	ci	=== Dumping Istio Deployment State...
+2020-06-04T20:02:32.437893Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istio-ingressgateway-db8657994-b7lmg, container: istio-proxy) (err: container "istio-proxy" in pod "istio-ingressgateway-db8657994-b7lmg" is waiting to start: ContainerCreating):
+2020-06-04T20:02:32.437941Z	error	ci	Unable to get logs for pod/container: istio-system/istio-ingressgateway-db8657994-b7lmg/istio-proxy
+2020-06-04T20:02:32.450342Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istiod-85bdc8bb8d-krrft, container: discovery) (err: container "discovery" in pod "istiod-85bdc8bb8d-krrft" is waiting to start: trying and failing to pull image):
+2020-06-04T20:02:32.450387Z	error	ci	Unable to get logs for pod/container: istio-system/istiod-85bdc8bb8d-krrft/discovery
+2020-06-04T20:02:32.473228Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-b7lmg, container: istio-proxy, command: pilot-agent request GET config_dump: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T20:02:32.473275Z	error	ci	Unable to get istio-proxy config dump for pod: istio-system/istio-ingressgateway-db8657994-b7lmg
+2020-06-04T20:02:32.499330Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-b7lmg, container: istio-proxy, command: pilot-agent request GET clusters: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T20:02:32.499379Z	error	ci	Unable to get istio-proxy clusters for pod: istio-system/istio-ingressgateway-db8657994-b7lmg
+2020-06-04T20:02:32.499401Z	info	ci	=== BEGIN: Cleanup Istio [Suite=authn_policy] ===
+2020-06-04T20:02:32.630427Z	info	ci	Deleting YAML file: /logs/artifacts/authn-policy-b857b62650354126b0/_suite_context/env-kube-097596293/istio-kube-accessor-348026710/accessor_487984317
+2020-06-04T20:02:37.944111Z	info	ci	=== DONE: Cleanup Istio [Suite=authn_policy] ===
+2020-06-04T20:02:37.944195Z	error	tf	Error during close: 4 errors occurred:
+	* configmaps "istio-leader" not found
+	* configmaps "istio-namespace-controller-election" not found
+	* configmaps "istio-validation-controller-election" not found
+	* configmaps "istio-status-leader" not found
+
+
+FAIL	istio.io/istio.io/tests/security/authn_policy	610.219s
+2020-06-04T20:02:45.020008Z	info	ci	=== Test Framework Settings ===
+2020-06-04T20:02:45.020073Z	info	ci	Environment:       kube
+TestID:            authz_deny
+RunID:             0bddc284-d85b-4101-b1a4-84729fdd8844
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T20:02:45.020078Z	info	ci	===============================
+2020-06-04T20:02:45.020236Z	info	tf	Test run dir: /logs/artifacts/authz-deny-0bddc284d85b4101b1a4
+2020-06-04T20:02:45.020425Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+NetworkTopology:      map[]
+
+2020-06-04T20:02:45.025109Z	info	ci	=== BEGIN: Setup: 'authz_deny' ===
+2020-06-04T20:02:45.025165Z	info	ci	=== BEGIN: Deploy Istio [Suite=authz_deny] ===
+2020-06-04T20:02:45.025170Z	info	ci	=== Istio Component Config ===
+2020-06-04T20:02:45.025205Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+
+2020-06-04T20:02:45.025209Z	info	ci	================================
+2020-06-04T20:02:45.026987Z	warn	Config not found: ~/.kube/config
+2020-06-04T20:02:45.353241Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/authz-deny-0bddc284d85b4101b1a4/_suite_context/istio-deployment-538644679/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17 --set values.global.imagePullPolicy=IfNotPresent]
+2020-06-04T20:02:45.354989Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✘ Istiod encountered an error: failed to wait for resource: resources not ready after 5m0s: timed out waiting for the condition
+Deployment/istio-system/istiod
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✘ Ingress gateways encountered an error: failed to wait for resource: resources not ready after 5m0s: timed out waiting for the condition
+Deployment/istio-system/istio-ingressgateway
+- Pruning removed resources2020-06-04T20:12:50.536740Z	info	ci	=== FAILED: Deploy Istio [Suite=authz_deny] ===
+2020-06-04T20:12:50.536798Z	error	ci	=== Dumping Istio Deployment State...
+2020-06-04T20:12:50.849650Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istio-ingressgateway-db8657994-42hjm, container: istio-proxy) (err: container "istio-proxy" in pod "istio-ingressgateway-db8657994-42hjm" is waiting to start: ContainerCreating):
+2020-06-04T20:12:50.849721Z	error	ci	Unable to get logs for pod/container: istio-system/istio-ingressgateway-db8657994-42hjm/istio-proxy
+2020-06-04T20:12:50.867369Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istiod-85bdc8bb8d-jqtmk, container: discovery) (err: container "discovery" in pod "istiod-85bdc8bb8d-jqtmk" is waiting to start: trying and failing to pull image):
+2020-06-04T20:12:50.867429Z	error	ci	Unable to get logs for pod/container: istio-system/istiod-85bdc8bb8d-jqtmk/discovery
+2020-06-04T20:12:50.894271Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-42hjm, container: istio-proxy, command: pilot-agent request GET config_dump: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T20:12:50.894323Z	error	ci	Unable to get istio-proxy config dump for pod: istio-system/istio-ingressgateway-db8657994-42hjm
+2020-06-04T20:12:50.922332Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-42hjm, container: istio-proxy, command: pilot-agent request GET clusters: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T20:12:50.922380Z	error	ci	Unable to get istio-proxy clusters for pod: istio-system/istio-ingressgateway-db8657994-42hjm
+2020-06-04T20:12:50.922395Z	error	tf	Test setup error: failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation
+2020-06-04T20:12:50.922400Z	info	ci	=== FAILED: Setup: 'authz_deny' (failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation) ===
+2020-06-04T20:12:50.922405Z	error	tf	Exiting due to setup failure: failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation
+2020-06-04T20:12:50.922411Z	error	ci	=== Dumping Istio Deployment State...
+2020-06-04T20:12:50.957959Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istio-ingressgateway-db8657994-42hjm, container: istio-proxy) (err: container "istio-proxy" in pod "istio-ingressgateway-db8657994-42hjm" is waiting to start: ContainerCreating):
+2020-06-04T20:12:50.958002Z	error	ci	Unable to get logs for pod/container: istio-system/istio-ingressgateway-db8657994-42hjm/istio-proxy
+2020-06-04T20:12:50.977100Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istiod-85bdc8bb8d-jqtmk, container: discovery) (err: container "discovery" in pod "istiod-85bdc8bb8d-jqtmk" is waiting to start: trying and failing to pull image):
+2020-06-04T20:12:50.977164Z	error	ci	Unable to get logs for pod/container: istio-system/istiod-85bdc8bb8d-jqtmk/discovery
+2020-06-04T20:12:51.006905Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-42hjm, container: istio-proxy, command: pilot-agent request GET config_dump: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T20:12:51.006960Z	error	ci	Unable to get istio-proxy config dump for pod: istio-system/istio-ingressgateway-db8657994-42hjm
+2020-06-04T20:12:51.034999Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-42hjm, container: istio-proxy, command: pilot-agent request GET clusters: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T20:12:51.035047Z	error	ci	Unable to get istio-proxy clusters for pod: istio-system/istio-ingressgateway-db8657994-42hjm
+2020-06-04T20:12:51.035070Z	info	ci	=== BEGIN: Cleanup Istio [Suite=authz_deny] ===
+2020-06-04T20:12:51.191599Z	info	ci	Deleting YAML file: /logs/artifacts/authz-deny-0bddc284d85b4101b1a4/_suite_context/env-kube-471585544/istio-kube-accessor-062757701/accessor_790122464
+2020-06-04T20:12:56.521454Z	info	ci	=== DONE: Cleanup Istio [Suite=authz_deny] ===
+2020-06-04T20:12:56.521534Z	error	tf	Error during close: 4 errors occurred:
+	* configmaps "istio-leader" not found
+	* configmaps "istio-namespace-controller-election" not found
+	* configmaps "istio-validation-controller-election" not found
+	* configmaps "istio-status-leader" not found
+
+
+FAIL	istio.io/istio.io/tests/security/authz_deny	611.601s
+2020-06-04T20:13:03.879046Z	info	ci	=== Test Framework Settings ===
+2020-06-04T20:13:03.879135Z	info	ci	Environment:       kube
+TestID:            authz_ingress
+RunID:             93812573-bb95-41b8-af80-cff64bd093f0
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T20:13:03.879145Z	info	ci	===============================
+2020-06-04T20:13:03.879304Z	info	tf	Test run dir: /logs/artifacts/authz-ingress-93812573bb9541b8a
+2020-06-04T20:13:03.879451Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+NetworkTopology:      map[]
+
+2020-06-04T20:13:03.884359Z	info	ci	=== BEGIN: Setup: 'authz_ingress' ===
+2020-06-04T20:13:03.884458Z	info	ci	=== BEGIN: Deploy Istio [Suite=authz_ingress] ===
+2020-06-04T20:13:03.884466Z	info	ci	=== Istio Component Config ===
+2020-06-04T20:13:03.884521Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+
+2020-06-04T20:13:03.884567Z	info	ci	================================
+2020-06-04T20:13:03.886574Z	warn	Config not found: ~/.kube/config
+2020-06-04T20:13:04.235852Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/authz-ingress-93812573bb9541b8a/_suite_context/istio-deployment-751889865/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17 --set values.global.imagePullPolicy=IfNotPresent]
+2020-06-04T20:13:04.236809Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✘ Istiod encountered an error: failed to wait for resource: resources not ready after 5m0s: timed out waiting for the condition
+Deployment/istio-system/istiod
+- Processing resources for Ingress gateways.
+- Processing resources for Ingress gateways. Waiting for Deployment/istio-system/istio-ingressgat...
+✘ Ingress gateways encountered an error: failed to wait for resource: resources not ready after 5m0s: timed out waiting for the condition
+Deployment/istio-system/istio-ingressgateway
+- Pruning removed resources2020-06-04T20:23:08.300533Z	info	ci	=== FAILED: Deploy Istio [Suite=authz_ingress] ===
+2020-06-04T20:23:08.300594Z	error	ci	=== Dumping Istio Deployment State...
+2020-06-04T20:23:08.606222Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istio-ingressgateway-db8657994-bsn49, container: istio-proxy) (err: container "istio-proxy" in pod "istio-ingressgateway-db8657994-bsn49" is waiting to start: ContainerCreating):
+2020-06-04T20:23:08.606273Z	error	ci	Unable to get logs for pod/container: istio-system/istio-ingressgateway-db8657994-bsn49/istio-proxy
+2020-06-04T20:23:08.619357Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istiod-85bdc8bb8d-2fsh5, container: discovery) (err: container "discovery" in pod "istiod-85bdc8bb8d-2fsh5" is waiting to start: trying and failing to pull image):
+2020-06-04T20:23:08.619405Z	error	ci	Unable to get logs for pod/container: istio-system/istiod-85bdc8bb8d-2fsh5/discovery
+2020-06-04T20:23:08.647366Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-bsn49, container: istio-proxy, command: pilot-agent request GET config_dump: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T20:23:08.647416Z	error	ci	Unable to get istio-proxy config dump for pod: istio-system/istio-ingressgateway-db8657994-bsn49
+2020-06-04T20:23:08.672947Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-bsn49, container: istio-proxy, command: pilot-agent request GET clusters: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T20:23:08.672998Z	error	ci	Unable to get istio-proxy clusters for pod: istio-system/istio-ingressgateway-db8657994-bsn49
+2020-06-04T20:23:08.673016Z	error	tf	Test setup error: failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation
+2020-06-04T20:23:08.673030Z	info	ci	=== FAILED: Setup: 'authz_ingress' (failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation) ===
+2020-06-04T20:23:08.673034Z	error	tf	Exiting due to setup failure: failed deploying control plane to cluster 0: manifest apply failed: failed to apply manifests: errors occurred during operation
+2020-06-04T20:23:08.673042Z	error	ci	=== Dumping Istio Deployment State...
+2020-06-04T20:23:08.714665Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istio-ingressgateway-db8657994-bsn49, container: istio-proxy) (err: container "istio-proxy" in pod "istio-ingressgateway-db8657994-bsn49" is waiting to start: ContainerCreating):
+2020-06-04T20:23:08.714740Z	error	ci	Unable to get logs for pod/container: istio-system/istio-ingressgateway-db8657994-bsn49/istio-proxy
+2020-06-04T20:23:08.729436Z	info	ci	(FAILED) Executing kubectl logs (ns: istio-system, pod: istiod-85bdc8bb8d-2fsh5, container: discovery) (err: container "discovery" in pod "istiod-85bdc8bb8d-2fsh5" is waiting to start: trying and failing to pull image):
+2020-06-04T20:23:08.729485Z	error	ci	Unable to get logs for pod/container: istio-system/istiod-85bdc8bb8d-2fsh5/discovery
+2020-06-04T20:23:08.755528Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-bsn49, container: istio-proxy, command: pilot-agent request GET config_dump: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T20:23:08.755584Z	error	ci	Unable to get istio-proxy config dump for pod: istio-system/istio-ingressgateway-db8657994-bsn49
+2020-06-04T20:23:08.783187Z	info	ci	(FAILED) Executing kubectl exec (ns: istio-system, pod: istio-ingressgateway-db8657994-bsn49, container: istio-proxy, command: pilot-agent request GET clusters: unable to upgrade connection: container not found ("istio-proxy"):
+2020-06-04T20:23:08.783230Z	error	ci	Unable to get istio-proxy clusters for pod: istio-system/istio-ingressgateway-db8657994-bsn49
+2020-06-04T20:23:08.783252Z	info	ci	=== BEGIN: Cleanup Istio [Suite=authz_ingress] ===
+2020-06-04T20:23:08.914509Z	info	ci	Deleting YAML file: /logs/artifacts/authz-ingress-93812573bb9541b8a/_suite_context/env-kube-826781586/istio-kube-accessor-042465079/accessor_922736426
+2020-06-04T20:23:14.251938Z	info	ci	=== DONE: Cleanup Istio [Suite=authz_ingress] ===
+2020-06-04T20:23:14.252016Z	error	tf	Error during close: 4 errors occurred:
+	* configmaps "istio-leader" not found
+	* configmaps "istio-namespace-controller-election" not found
+	* configmaps "istio-validation-controller-election" not found
+	* configmaps "istio-status-leader" not found
+
+
+FAIL	istio.io/istio.io/tests/security/authz_ingress	610.480s
+2020-06-04T20:23:21.977926Z	info	ci	=== Test Framework Settings ===
+2020-06-04T20:23:21.978008Z	info	ci	Environment:       kube
+TestID:            authz_jwt
+RunID:             0f9e5a05-aff3-4c46-86d0-6841ebff5f92
+NoCleanup:         false
+BaseDir:           /logs/artifacts
+Selector:          -flaky,-postsubmit
+FailOnDeprecation: false
+
+2020-06-04T20:23:21.978015Z	info	ci	===============================
+2020-06-04T20:23:21.978185Z	info	tf	Test run dir: /logs/artifacts/authz-jwt-0f9e5a05aff34c4686d06
+2020-06-04T20:23:21.978347Z	info	ci	Test Framework Kubernetes environment Settings:
+KubeConfig:           [/home/.kube/config]
+MiniKubeIngress:      true
+ControlPlaneTopology: map[0:0]
+NetworkTopology:      map[]
+
+2020-06-04T20:23:21.984127Z	info	ci	=== BEGIN: Setup: 'authz_jwt' ===
+2020-06-04T20:23:21.984198Z	info	ci	=== BEGIN: Deploy Istio [Suite=authz_jwt] ===
+2020-06-04T20:23:21.984207Z	info	ci	=== Istio Component Config ===
+2020-06-04T20:23:21.984265Z	info	ci
+SystemNamespace:                istio-system
+IstioNamespace:                 istio-system
+ConfigNamespace:                istio-system
+TelemetryNamespace:             istio-system
+PolicyNamespace:                istio-system
+IngressNamespace:               istio-system
+EgressNamespace:                istio-system
+DeployIstio:                    true
+DeployTimeout:                  10m0s
+UndeployTimeout:                15m0s
+Values:                         map[global.hub:gcr.io/istio-testing global.imagePullPolicy:IfNotPresent global.tag:1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17]
+IOPFile:                        tests/integration/iop-integration-test-defaults.yaml
+SkipWaitForValidationWebhook:   false
+CustomSidecarInjectorNamespace:
+
+2020-06-04T20:23:21.984286Z	info	ci	================================
+2020-06-04T20:23:21.985905Z	warn	Config not found: ~/.kube/config
+2020-06-04T20:23:22.335518Z	info	ci	Running istio control plane on cluster cluster-0 [manifest apply --skip-confirmation -f /home/prow/go/src/istio.io/istio.io/tests/integration/iop-integration-test-defaults.yaml -f /logs/artifacts/authz-jwt-0f9e5a05aff34c4686d06/_suite_context/istio-deployment-375575181/iop.yaml --set values.global.imagePullPolicy=IfNotPresent --charts /home/prow/go/src/istio.io/istio.io/manifests --set values.global.hub=gcr.io/istio-testing --set values.global.tag=1.6-alpha.704a6514b5d36aecaa686e8c1ff1ed6604e0ac17 --set values.global.imagePullPolicy=IfNotPresent]
+2020-06-04T20:23:22.336575Z	warn	Config not found: ~/.kube/config
+
+- Processing resources for Istio core.
+✔ Istio core installed
+- Processing resources for Istiod.
+- Processing resources for Istiod. Waiting for Deployment/istio-system/istiod
+✘ Istiod encountered an error: failed to wait for resource: resources not ready after 5m0s: timed out waiting for the condition
+Deployment/istio-system/istiod
+- Processing resources for Ingress gateways.

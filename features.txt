@@ -1,0 +1,6 @@
+Default: Citadel, Galley, Ingress Gateway, Mixer, Pilot, Prometheus, Sidecar Injector, Telemetery
+Demo: Citadel, Egress Gateway, Galley, Grafana, Ingress Gateway, Jaeger, Kiali, Mixer, Pilot, Prometheus, Service Graph, Sidecar Injector, Telemetery
+Demo-Auth: Citadel, Control Plane Security, Egress Gateway, Galley, Grafana, Ingress Gateway, Jaeger, Kiali, Mixer, mTLS, Pilot, Prometheus, Service Graph, Sidecar Injector, Telemetery
+Minimal: Mixer, Pilot (no sidecar injection)
+Remote: Citadel, Galley, Ingress Gateway, Mixer, Sidecar Injector
+SDS_Auth: Citadel, Galley, Ingress Gateway, Mixer, mTLS, Node Agent, Pilot, Prometheus, SDS, Sidecar Injector, Telemetry
