@@ -177,7 +177,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo cp "${HOME}"/istio-token /var/run/secrets/tokens/istio-token
     {{< /text >}}
 
-1. Install the `deb` package containing the Istio virtual machine integration runtime.
+1. Install the `deb` package containing the Istio virtual machine integration runtime:
 
     {{< text bash >}}
     $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb
