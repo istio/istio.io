@@ -69,7 +69,7 @@ Install istio with the installation setting `values.global.meshExpansion.enabled
     $ istioctl install -f "${WORK_DIR}"/vmintegration.yaml
     {{< /text >}}
 
-## Create Namespace
+## Configure the VM namespace
 
 1. Create Namespace that will host the virtual machine
 
