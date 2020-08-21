@@ -163,7 +163,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo apt -y upgrade
     {{< /text >}}
 
-1. Install the root cert to the `/var/run/secrets/istio`
+1. Install the root certificate at `/var/run/secrets/istio`:
 
     {{< text bash >}}
     $ sudo mkdir -p /var/run/secrets/istio
