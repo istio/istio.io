@@ -37,7 +37,7 @@ Below diagram shows how resources are deployed in the cluster after following th
     caption="default deployment model for istio"
 >}}
 
-With istio 1.7, it is possible to run Istiod on a separate cluster like the diagram below.
+With the new `istiodRemote` component in Istio 1.7, it is possible to run Istiod on a separate, dedicated cluster (control plane cluster) as shown in the diagram below.
 
 {{< image
     link="./central-istiod-single-cluster.jpeg"
