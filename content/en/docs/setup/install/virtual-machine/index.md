@@ -85,7 +85,7 @@ Install istio with the installation setting `values.global.meshExpansion.enabled
 
 ## Create files to transfer to the virtual machine
 
-1. Create Kubernetes token in the example you set the token expire time to 1 hour
+1. Create a Kubernetes token. This example sets the token expire time to 1 hour:
 
     {{< text bash >}}
     $ tokenexpiretime=3600
