@@ -9,7 +9,7 @@ keywords: [multicluster,install,deploy,'1.7']
 
 ## Background
 
-In working with various service mesh users and vendors, we believe there are 3 key personas for a typical service mesh:
+From experience working with various service mesh users and vendors, we believe there are 3 key personas for a typical service mesh:
 * Mesh Operator
 * Platform Owner
 * Service Owner
