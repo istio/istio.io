@@ -248,7 +248,7 @@ Stop the Istio running on VM
     $ sudo systemctl stop istio
     {{< /text >}}
 
-Remove existing Istio-sidecar package
+Then, remove the Istio-sidecar package:
 
     {{< text bash >}}
     $ sudo dpkg -r istio-sidecar
