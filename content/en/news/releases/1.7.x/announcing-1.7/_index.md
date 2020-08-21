@@ -47,26 +47,26 @@ by default.
 
 If you were using source principal-based security policies, there was a bug
 with the Istio Gateway and mTLS that could have caused them to not be
-respected. [This got fixed](https://github.com/istio/istio/blob/release-1.7/releasenotes/notes/25818.yaml).
+respected. [This got fixed]({{<github_blob>}}/releasenotes/notes/25818.yaml).
 
 ## Ease of use improvements
 
 A big part of making systems like Istio easy to use is in their "day 2" usage,
 especially in their ability to help you see potential problems. We're adding to
 the ability of the very useful [istioctl analyze tool](/docs/ops/diagnostic-tools/istioctl-analyze/):
-- [Warn on a potentially insecure DestinationRule configuration](https://github.com/istio/istio/blob/release-1.7/releasenotes/notes/dr-analyzer.yaml)
-- [Warn on deprecated Mixer resource usage](https://github.com/istio/istio/blob/release-1.7/releasenotes/notes/24471.yaml)
+- [Warn on a potentially insecure DestinationRule configuration]({{<github_blob>}}/releasenotes/notes/dr-analyzer.yaml)
+- [Warn on deprecated Mixer resource usage]({{<github_blob>}}/releasenotes/notes/24471.yaml)
 
 For frequent users of istioctl, it can be useful to customize your default
 configuration, rather than typing it every time. We added the ability to [put
-your personal defaults in your home directory](https://github.com/istio/istio/blob/release-1.7/releasenotes/notes/25280.yaml). (Or wherever else you prefer.)
+your personal defaults in your home directory]({{<github_blob>}}/releasenotes/notes/25280.yaml). (Or wherever else you prefer.)
 
 Human-readable text is easier than numbers — that's why we have DNS! — so we
 also added it for port numbers. You can now specify [port types using mnemonics](https://github.com/istio/istio/issues/23052)
 like http instead of 80.
 
 Unlike the Hotel California, you can both check out and leave, so we added
-['istioctl x uninstall'](https://github.com/istio/istio/blob/release-1.7/releasenotes/notes/istioctl-uninstall.yaml) to make that very easy.
+['istioctl x uninstall']({{<github_blob>}}/releasenotes/notes/istioctl-uninstall.yaml) to make that very easy.
 
 ## Production operability improvements
 
@@ -112,7 +112,7 @@ Furthermore, this is done in a "zero trust" manner, where the compromise of one
 Frontend or Backend doesn't allow the impersonation or compromise of the others,
 because the bootstrapping and certificate rotation is following best practices.
 
-We also extended istioctl to be able to [validate the proxy's status](https://github.com/istio/istio/blob/release-1.7/releasenotes/notes/psfile.yaml) for
+We also extended istioctl to be able to [validate the proxy's status]({{<github_blob>}}/releasenotes/notes/psfile.yaml) for
 VM-based workloads, where validation was previously only available for
 Kubernetes-based workloads.
 
