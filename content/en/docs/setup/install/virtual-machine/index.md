@@ -170,7 +170,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo cp "${HOME}"/root-cert.pem /var/run/secrets/istio/root-cert.pem
     {{< /text >}}
 
-1. Install the token to the `/var/run/secrets/tokens`
+1. Install the token at `/var/run/secrets/tokens`:
 
     {{< text bash >}}
     $ sudo  mkdir -p /var/run/secrets/tokens
