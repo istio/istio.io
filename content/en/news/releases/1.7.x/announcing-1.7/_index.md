@@ -105,11 +105,11 @@ the mesh](/docs/setup/install/virtual-machine/) get a [secure bootstrapping
 process, along with automatic certificate rotation.](https://github.com/istio/istio/issues/24554)
 
 For example, you might have a Kubernetes cluster hosting stateless web services
-(Frontends) that serve data coming from stateful databases (Backends) running
-in VMs outside of Kubernetes. You'd still like to encrypt the Frontends'
-accesses to these Backends with mTLS. With this change, you can easily do that.
+(frontends) that serve data coming from stateful databases (backends) running
+in VMs outside of Kubernetes. You'd still like to encrypt the frontends'
+accesses to these backends with mTLS. With this change, you can easily do that.
 Furthermore, this is done in a "zero trust" manner, where the compromise of one
-Frontend or Backend doesn't allow the impersonation or compromise of the others,
+frontend or backend doesn't allow the impersonation or compromise of the others,
 because the bootstrapping and certificate rotation is following best practices.
 
 We also extended istioctl to be able to [validate the proxy's status]({{<github_blob>}}/releasenotes/notes/psfile.yaml) for
