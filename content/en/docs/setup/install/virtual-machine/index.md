@@ -71,7 +71,7 @@ Install istio with the installation setting `values.global.meshExpansion.enabled
 
 ## Configure the VM namespace
 
-1. Create Namespace that will host the virtual machine
+1. Create the namespace that will host the virtual machine:
 
     {{< text bash >}}
     $ kubectl create namespace "${VM_NAMESPACE}"
