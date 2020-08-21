@@ -19,7 +19,7 @@ It is common to have all these personas work on the same clusters without any cl
 
 ## New Deployment model
 
-Let’s take a close look of what has been deployed in your cluster if you install Istio following the default install:
+Let’s take a close look of what gets deployed in your cluster if you install Istio following the default install:
 * Deployment and Services:
     * Istiod: Istio control plane component, which includes an XDS server, CA server and a webhook server.
     * Gateway: the default Istio ingress and egress gateways.
