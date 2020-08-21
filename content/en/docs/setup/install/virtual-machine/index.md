@@ -217,7 +217,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
 ## Start Istio within the virtual machine
 
-1. Start the Istio agent
+1. Start the Istio agent:
 
     {{< text bash >}}
     $ sudo systemctl start istio
