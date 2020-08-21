@@ -111,7 +111,7 @@ process, along with automatic certificate rotation.](https://github.com/istio/is
 
 For example, you might have a Kubernetes cluster hosting stateless web services
 (front ends) that serve data coming from stateful databases (back ends) running
-in VMs outside of Kubernetes. You'd still like to encrypt the frontends'
+in VMs outside of Kubernetes. You'd still like to encrypt the front end
 accesses to these backends with mTLS. With this change, you can easily do that.
 Furthermore, this is done in a "zero trust" manner, where the compromise of one
 frontend or backend doesn't allow the impersonation or compromise of the others,
