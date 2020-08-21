@@ -149,7 +149,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
 1. Securely transfer the files from `"${WORK_DIR}"`
     to the virtual machine.  How you choose to securely transfer those files should be done with consideration for
-    your information security policies. For convenience in this guide, you should transfer all of the required files to `"${HOME}"` in the virtual machine
+    your information security policies. For convenience in this guide, transfer all of the required files to `"${HOME}"` in the virtual machine.
 
 1. Update the cache of package updates for your `deb` packaged distro.
 
