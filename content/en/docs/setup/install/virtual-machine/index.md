@@ -242,7 +242,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
 ## Uninstall
 
-Stop the Istio running on VM
+Stop Istio on the virtual machine:
 
     {{< text bash >}}
     $ sudo systemctl stop istio
