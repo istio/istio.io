@@ -6,7 +6,7 @@ weight: 51
 aliases:
   - /docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/
 owner: istio/wg-networking-maintainers
-test: no
+test: n/a
 ---
 
 {{< warning >}}

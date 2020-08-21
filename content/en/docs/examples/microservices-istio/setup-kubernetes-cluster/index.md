@@ -45,6 +45,17 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
 
 1.  [Install Istio](/docs/setup/getting-started/) using the `demo` profile.
 
+1.  The [Kiali](/docs/ops/integrations/kiali/) and [Prometheus](/docs/ops/integrations/prometheus/) addons are used in this example and need to be installed. All addons are installed using:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/addons@
+    {{< /text >}}
+
+    {{< tip >}}
+    If there are errors trying to install the addons, try running the command again. There may
+    be some timing issues which will be resolved when the command is run again.
+    {{< /tip >}}
+
 1.  Next, enable Envoy's access logging as described in
     [Enable Envoy's access logging](/docs/tasks/observability/logs/access-log/#before-you-begin).
     Skip the clean up and delete steps, because you need the sleep
@@ -74,28 +85,32 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
       - host: my-istio-dashboard.io
         http:
           paths:
-          - path: /*
+          - path: /
+            pathType: Prefix
             backend:
               serviceName: grafana
               servicePort: 3000
       - host: my-istio-tracing.io
         http:
           paths:
-          - path: /*
+          - path: /
+            pathType: Prefix
             backend:
               serviceName: tracing
               servicePort: 9411
       - host: my-istio-logs-database.io
         http:
           paths:
-          - path: /*
+          - path: /
+            pathType: Prefix
             backend:
               serviceName: prometheus
               servicePort: 9090
       - host: my-kiali.io
         http:
           paths:
-          - path: /*
+          - path: /
+            pathType: Prefix
             backend:
               serviceName: kiali
               servicePort: 20001
@@ -151,7 +166,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
       namespace: $NAMESPACE
     rules:
     - apiGroups: ["", "extensions", "apps", "networking.k8s.io", "networking.istio.io", "authentication.istio.io",
-                  "rbac.istio.io", "config.istio.io"]
+                  "rbac.istio.io", "config.istio.io", "security.istio.io"]
       resources: ["*"]
       verbs: ["*"]
     ---
@@ -229,7 +244,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     configuration file:
 
     {{< text bash >}}
-    $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
+    $ export KUBECONFIG=$PWD/${NAMESPACE}-user-config.yaml
     {{< /text >}}
 
 1.  Verify that the configuration took effect by printing the current namespace:

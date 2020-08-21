@@ -47,7 +47,7 @@ but not production. Like all alpha features, this guide is subject to change.
 
 ## Install the Istio control plane
 
- Set the IstioOperator spec `values.global.meshExpansion.enabled: true`
+Set the IstioOperator spec `values.global.meshExpansion.enabled: true`
 
 1. Create the install `IstioOperator` custom resource:
 

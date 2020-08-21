@@ -123,4 +123,4 @@ Istio 1.5.0 multicluster setup has several known issues ([27102](https://github.
 
 ## Helm upgrade
 
-If you used `helm upgrade` to update your cluster to newer Istio versions, we recommend you to switch to use [`istioctl upgrade`](https://archive.istio.io/v1.5/docs/setup/upgrade/istioctl-upgrade/) or follow the [helm template](https://archive.istio.io/1.4/docs/setup/upgrade/cni-helm-upgrade/) steps.
+If you used `helm upgrade` to update your cluster to newer Istio versions, we recommend you to switch to use [`istioctl upgrade`](https://archive.istio.io/v1.5/docs/setup/upgrade/istioctl-upgrade/) or follow the [helm template](https://istio.io/v1.4/docs/setup/upgrade/cni-helm-upgrade/) steps.
