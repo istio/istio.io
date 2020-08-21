@@ -30,7 +30,7 @@ but not production. Like all alpha features, this guide is subject to change.
 1. Create a virtual machine
 1. Set the environment variables `VM_NAME`, `WORK_DIR` , `VM_NAMESPACE`,
 and `SERVICE_ACCOUNT`
-    (e.g. `WORK_DIR="${HOME}"/vmintegration`).
+    (e.g., `WORK_DIR="${HOME}/vmintegration"`):
 
     {{< text bash >}}
     $ VM_NAME="<the name of your vm instance you created>"
