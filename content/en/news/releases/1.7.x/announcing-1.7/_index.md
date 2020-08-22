@@ -3,7 +3,7 @@ title: Announcing Istio 1.7
 linktitle: 1.7
 subtitle: Major Update
 description: Istio 1.7 release announcement.
-publishdate: 2020-08-20
+publishdate: 2020-08-21
 release: 1.7.0
 skip_list: true
 aliases:
@@ -32,13 +32,17 @@ Here are some highlights for this release:
 ## Security enhancements
 
 [We made sure](https://github.com/istio/istio/issues/21833) that destination
-rule/gateway certificates get the full benefits of secure secret distribution
+rule certificates get the full benefits of secure secret distribution
 with SDS (especially automatic rotation), even if they are mounted as files.
 This is an important security best practice.
 
-The above item applies to ingress-gateway pods. The same is
-[now possible](https://github.com/istio/istio/issues/14039) for
-[Egress gateways that do TLS/mTLS origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds/).
+The above item applies to Gateway pods. It is [now possible](https://github.com/istio/istio/issues/14039) for
+[Egress Gateways that do TLS/mTLS origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds/)
+to provision client certificates as secrets.
+
+[We improved](https://github.com/istio/istio/issues/26224) Trust Domain Validation to validate TCP traffic as well.
+Previously only HTTP traffic was validated. Trust Domain Validation now also supports `trustDomainAliases`
+in the [`MeshConfig` resource](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
 
 [ECC cryptography](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography)
 is helpful for providing high security while being highly efficient. We added
