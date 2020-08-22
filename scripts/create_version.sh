@@ -100,7 +100,7 @@ archive_old_release() {
     if [[ $(git status --porcelain) ]]; then # for idempotence
         git add -u
         git commit -m "mark v${PREV_MINOR} as archived"
-        git push origin "release-${PREV_MINOR}"
+        # git push origin "release-${PREV_MINOR}"
     fi
 
     # complete the archive process in master
@@ -112,7 +112,7 @@ archive_old_release() {
     if [[ $(git status --porcelain) ]]; then
         git add -u
         git commit -m "update data/versions.yml and archive index page"
-        git push origin "${MASTER}"
+        # git push origin "${MASTER}"
     fi
 }
 
@@ -123,9 +123,9 @@ create_branch_for_new_release() {
     echo -e "\nStep 2: create a new branch for ${NEW_RELEASE_BRANCH}"
 
     # delete branch if it already exists
-    if [[ $(git ls-remote --heads origin "${NEW_RELEASE_BRANCH}") ]]; then
-        git push --delete origin "${NEW_RELEASE_BRANCH}"
-    fi
+    #if [[ $(git ls-remote --heads origin "${NEW_RELEASE_BRANCH}") ]]; then
+        # git push --delete origin "${NEW_RELEASE_BRANCH}"
+    #fi
     git checkout -B "${NEW_RELEASE_BRANCH}"
 
     # make archive in the dry run release branch
@@ -141,7 +141,7 @@ create_branch_for_new_release() {
     if [[ $(git status --porcelain) ]]; then
         git add -A
         git commit -m "create a new release branch for ${CURR_MINOR}"
-        git push origin "${NEW_RELEASE_BRANCH}"
+        # git push origin "${NEW_RELEASE_BRANCH}"
     fi
 }
 
@@ -169,7 +169,7 @@ advance_master_to_next_release() {
     if [[ $(git status --porcelain) ]]; then
         git add -A
         git commit -m "advance master to release-${NEXT_MINOR}"
-        git push origin "${MASTER}"
+        # git push origin "${MASTER}"
     fi
 }
 
