@@ -40,14 +40,9 @@ for _ in {1..50}; do
     snip_querying_istio_metrics_2 > /dev/null
 done
 
-# Now check Prometheus dashboard for the metric. It should be present
-function urlencode() {
-    python3 -c "import urllib.parse; print(urllib.parse.quote('''$1'''))"
-}
-
 function query_prometheus() {
     local prometheus_api_root="localhost:9090/api/v1"
-    local encoded_query=$(urlencode "$1")
+    local encoded_query=$(_urlencode "$1")
     curl -sg -m 3.0 "http://$prometheus_api_root/query?query=$encoded_query"
 }
 
