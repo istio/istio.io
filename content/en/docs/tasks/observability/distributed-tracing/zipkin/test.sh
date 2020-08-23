@@ -54,7 +54,7 @@ function get_and_verify_zipkin_trace() {
   local trace_present=0
   while [[ $attempt -le $max_attempts ]]; do
     local trace="$(curl -sS 'http://localhost:9411/zipkin/api/v2/traces?serviceName=productpage.default')"
-    local trace_item="$(echo $trace | jq '.[0]')"
+    local trace_item=$(echo "$trace" | jq '.[0]')
     if [[ $trace_item != "null" ]]; then
       trace_present=1
       echo "$trace" | python3 "content/en/docs/tasks/observability/distributed-tracing/zipkin/verify_traces.py"
