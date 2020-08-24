@@ -46,7 +46,7 @@ and `SERVICE_ACCOUNT`
 
 ## Install the Istio control plane
 
-Install Istio and expose the control plane so that virtual machines can reach it.
+Install Istio and expose the control plane so that your virtual machine can access it.
 
 1. Install Istio.
 
