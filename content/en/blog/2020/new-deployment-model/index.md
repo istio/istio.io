@@ -28,7 +28,7 @@ Following the [default install](/docs/setup/install/istioctl/#install-istio-usin
     caption="default deployment model for istio"
 >}}
 
-In Istio 1.7, it is possible to run Istiod on a separate, dedicated cluster (central control plane cluster) as shown in the diagram below. With this new deployment model, mesh operators can work purely on the control plane cluster when there is a need to upgrade or re-configure Istio. Platform owners and service owners will work solely on `cluster1` to deploy their applications and apply any Istio resources or configs. They don't have direct access to the central control plane cluster, neither will the central control plane cluster processes any Istio resources on that cluster.
+In Istio 1.7, it is possible to run Istiod on a separate, dedicated cluster (central control plane cluster) as shown in the diagram below. With this new deployment model, mesh operators can work purely on the central control plane cluster when there is a need to upgrade or re-configure Istio. Platform/service owners will work solely on `cluster1` to deploy their applications and apply any Istio resources or configs. They don't have direct access to the central control plane cluster to deploy anything there, neither will the central control plane cluster processes any Istio resources on that cluster.
 
 
 {{< image
@@ -38,15 +38,14 @@ In Istio 1.7, it is possible to run Istiod on a separate, dedicated cluster (cen
 
 If you are interested in exploring this, you can follow the [central istiod single cluster step by step guide.](https://github.com/istio/istio/wiki/Central-Istiod-single-cluster-steps)
 
-The diagram above shows a single cluster as the data plane for an Istio mesh. However, you may expand your data plane to multiple clusters, all managed by the same Istiod running on the control plane cluster. All of the data plane clusters will receive their configs from the config cluster per diagram below. 
-
-{{< image width="100%" link="./central-istiod-multi-cluster.jpeg" caption="New deployment model for multi data plane clusters" >}}
-
-You can further expand this deployment model to manage multiple Istio meshes from a centralized control plane cluster that runs multiple Istiods, per diagram below:
-
+The diagram above shows a single cluster as the data plane for an Istio mesh. However, you can expand this deployment model to manage multiple Istio meshes from a central control plane cluster that runs multiple Istiods, per diagram below:
 {{< image width="100%" link="./central-istiod-multi-mesh.jpeg" caption="New deployment model for multi mesh" >}}
 
-Central control plane cluster can be used to host multiple Istiods and each Istiod manages its own remote data plane.  In this model we can install Istio into the control plane cluster and use Istio ingress gateway and virtual services to route traffic between different Istiod instances.
+Central control plane cluster can be used to host multiple Istiods and each Istiod manages its own remote data plane.  In this model we can install Istio into the central control plane cluster and use Istio ingress gateway to route traffic between different Istiods.
+
+You may further expand your data plane to multiple clusters, all managed by the same Istiod running on the central control plane cluster. All of the data plane clusters will receive their configs from the primary cluster per diagram below. 
+{{< image width="100%" link="./central-istiod-multi-cluster.jpeg" caption="New deployment model for multi data plane clusters" >}}
+
 
 ## Conclusion
 
