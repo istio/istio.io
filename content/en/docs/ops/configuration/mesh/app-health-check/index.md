@@ -28,8 +28,8 @@ which does not have an Istio issued certificate. Therefore when mutual TLS is en
 the health check requests will fail.
 
 Istio solves this problem by rewriting the application `PodSpec` readiness/liveness probe,
-so that the probe request is sent to [Pilot agent](/docs/reference/commands/pilot-agent/).
-Pilot agent then redirects the request to the application, strips the response body, only returning the response code.
+so that the probe request is sent to the [sidecar agent](/docs/reference/commands/pilot-agent/).
+The sidecar agent then redirects the request to the application, strips the response body, only returning the response code.
 
 This feature is enabled by default in all built-in Istio [configuration profiles](/docs/setup/additional-setup/config-profiles/)
 but can be disabled as described below.
