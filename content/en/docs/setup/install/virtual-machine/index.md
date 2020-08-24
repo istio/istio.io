@@ -46,26 +46,18 @@ and `SERVICE_ACCOUNT`
 
 ## Install the Istio control plane
 
-Install Istio with the installation setting `values.global.meshExpansion.enabled: true`.
+Install Istio and expose the control plane so that your virtual machine can access it.
 
-1. Create the `IstioOperator` custom resource:
+1. Install Istio.
 
     {{< text bash >}}
-    $ cat <<EOF> "${WORK_DIR}"/vmintegration.yaml
-    apiVersion: install.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      values:
-        global:
-          meshExpansion:
-            enabled: true
-    EOF
+    $ istioctl install
     {{< /text >}}
 
-1. Install or upgrade Istio with virtual machine integration features enabled.
+1. Expose the control plane using the provided sample configuration.
 
     {{< text bash >}}
-    $ istioctl install -f "${WORK_DIR}"/vmintegration.yaml
+    $ kubectl apply -f @samples/istiod-gateway/istiod-gateway.yaml@
     {{< /text >}}
 
 ## Configure the VM namespace
@@ -257,7 +249,8 @@ Then, remove the Istio-sidecar package:
 To uninstall Istio, run the following command:
 
 {{< text bash >}}
-$ istioctl manifest generate -f "${WORK_DIR}"/vmintegration.yaml | kubectl delete -f -
+$ kubectl delete -f @samples/istiod-gateway/istiod-gateway.yaml@
+$ istioctl manifest generate | kubectl delete -f -
 {{< /text >}}
 
 The control plane namespace (e.g., `istio-system`) is not removed by default.
