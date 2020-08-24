@@ -51,4 +51,4 @@ You may further expand your data plane to multiple clusters, all managed by the 
 
 ## Conclusion
 
-This new deployment model enables the Istio control plane to be managed by others who have operation expertise in Istio and are able to keep up with the constant innovation of the Istio project.  We believe this deployment model will provide the best experience to platform/service owners where they can focus on architecturing the deployment or configuration of their services or the core business logic of their services.  While Istio has been perceived as complex by some users, the Istio community will continue working on making Istio simpler so users can focus on their core business.
+This new deployment model enables the Istio control plane to be run and managed by others who have the operational expertise in Istio.  This reduces the complexity and provides the best experience to platform/service owners by allowing them to focus on the core business logic of their applications and the configuration of their services. 
