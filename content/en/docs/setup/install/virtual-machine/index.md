@@ -54,7 +54,7 @@ Install Istio and expose the control plane so that virtual machines can reach it
     $ istioctl install
     {{< /text >}}
 
-1. Expose the control plane by using the provided code sample.
+1. Expose the control plane using the provided sample configuration.
 
     {{< text bash >}}
     $ kubectl apply -f @samples/istiod-gateway/istiod-gateway.yaml@
