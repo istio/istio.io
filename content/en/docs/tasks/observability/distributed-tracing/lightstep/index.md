@@ -6,7 +6,6 @@ keywords: [telemetry,tracing,lightstep]
 aliases:
  - /docs/tasks/telemetry/distributed-tracing/lightstep/
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
 ---
 
 This task shows you how to configure Istio to collect trace spans and send them to [Lightstep](https://lightstep.com).

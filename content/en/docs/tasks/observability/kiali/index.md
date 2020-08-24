@@ -6,7 +6,6 @@ keywords: [telemetry,visualization]
 aliases:
  - /docs/tasks/telemetry/kiali/
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
 ---
 
 This task shows you how to visualize different aspects of your Istio mesh.
