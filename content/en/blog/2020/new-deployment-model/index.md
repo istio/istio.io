@@ -16,87 +16,25 @@ From experience working with various service mesh users and vendors, we believe 
 
 * Service Owner, who owns one or more services.
 
-It is common to have all these personas work on the same clusters without any clear separation.  For example, there are multiple ways to deploy Istio according to the docs, which all start with mesh operator, platform owner and service owner sharing the single cluster first and then gradually expanding the mesh to multiple clusters or VMs.  None of these provided a clear separation between mesh operator and platform/service owner at the boundary of a cluster.  You may be thinking you could set up [Kubernetes RBAC rules](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) and namespaces to control which personas can do what within the cluster, however, sometimes you need stronger separation between the Istio control plane and the rest at the cluster level.  We're introducing a new deployment model for Istio which enables mesh operators to install and manage the mesh control plane on dedicated clusters, separated from the data plane clusters.  This new deployment model could easily enable Istio vendors to run Istio control plane for service mesh users while users can focus on their workloads and Istio resources without worrying about installing or managing the Istio control plane.
+It is common to have all these personas work on the same clusters without any clear separation.  For example, there are multiple ways to deploy Istio according to the docs, which all start with mesh operator, platform owner and service owner sharing the single cluster first and then gradually expanding the mesh to multiple clusters or VMs.  None of these provided a clear separation between mesh operator and platform/service owner at the boundary of a cluster.  You may be thinking you could set up [Kubernetes RBAC rules](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) and namespaces to control which personas can do what within the cluster, however, sometimes you need stronger separation between the Istio control plane and the rest at the cluster level.  We're introducing a new deployment model for Istiod which enables mesh operators to install and manage the mesh control plane on dedicated clusters, separated from the data plane clusters.  This new deployment model could easily enable Istio vendors to run Istio control plane for service mesh users while users can focus on their workloads and Istio resources without worrying about installing or managing the Istio control plane.
 
 
 ## New Deployment model
 
-Let’s take a close look of what gets deployed in your cluster if you install Istio following the default install:
-* Deployment and Services:
-
-    * Istiod: Istio control plane component, which includes an XDS server, CA server and a webhook server.
-    
-    * Gateway: the default Istio ingress and egress gateways.
-    
-* Configs:
-
-    * CRDs: Various Istio CRDs such as Gateway, Virtual Services, Destination Rules etc.
-    
-    * ConfigMaps: Istio mesh configurations and Injection templates.
-    
-    * Webhook configurations: configurations for two Istio webhooks (validation webhook and sidecar injector webhook)
-    
-    * Service account, role binding, etc: Istio security settings
-    
-    * Secrets: stores key and certs and credentials related to service account or Istiod.
-
-Below diagram shows how resources are deployed in the cluster after following the [default install](https://istio.io/latest/docs/setup/install/istioctl/#install-istio-using-the-default-profile).
+Following the [default install](/docs/setup/install/istioctl/#install-istio-using-the-default-profile), you will have Istiod installed. You can deploy your services to the mesh, like the diagram below:
 
 {{< image
     link="./default-install.jpeg"
     caption="default deployment model for istio"
 >}}
 
-With the new `istiodRemote` component in Istio 1.7, it is possible to run Istiod on a separate, dedicated cluster (control plane cluster) as shown in the diagram below.
+In Istio 1.7, it is possible to run Istiod on a separate, dedicated cluster (central control plane cluster) as shown in the diagram below. With this new deployment model, mesh operators can work purely on the control plane cluster when there is a need to upgrade or re-configure Istio. Platform owners and service owners will work solely on `cluster1` to deploy their applications and apply any Istio resources or configs. They don't have direct access to the central control plane cluster, neither will the central control plane cluster processes any Istio resources on that cluster.
+
 
 {{< image
     link="./central-istiod-single-cluster.jpeg"
     caption="New deployment model for one data plane cluster"
     >}}
-
-In this setup, the `cluster1` should be set up first with `istiodRemote` and `base` components. Then, istiod is installed on the control plane cluster, with its KUBECONFIG configured to `cluster1`. 
-
-With this new deployment model, mesh operators can work purely on the control plane cluster when there is a need to upgrade or re-configure Istio. Platform owners and service owners will work solely on `cluster1` to deploy their applications and apply any Istio config.
-
-To support this, we introduced a new `istiodRemote` component in Isito 1.7. `cluster1`only has Istio configs and services that belong to data plane. Istiod runs in a separate cluster (control plane cluster) and is pointing its KUBECONFIG to `cluster1`.  Here is a sample snippet you can reference to install Istio on cluster1:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  addonComponents:
-    prometheus:
-      enabled: false
-  components:
-    base:
-      enabled: true
-    ingressGateways:
-    - enabled: true
-    istiodRemote:
-      enabled: true
-    pilot:
-      enabled: false
-
-{{< /text >}}
-
-And sample snippet you can reference to install Istio on control plane cluster:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  components:
-    base:
-      enabled: false
-    ingressGateways:
-    - enabled: false
-    pilot:
-      enabled: true
-values:
-  global:
-    operatorManageWebhooks: true
-
-{{< /text >}}
 
 If you are interested in exploring this, you can follow the [central istiod single cluster step by step guide.](https://github.com/istio/istio/wiki/Central-Istiod-single-cluster-steps)
 
@@ -108,7 +46,7 @@ You can further expand this deployment model to manage multiple Istio meshes fro
 
 {{< image width="100%" link="./central-istiod-multi-mesh.jpeg" caption="New deployment model for multi mesh" >}}
 
-Control plane cluster can be used to host multiple Istiods and each Istiod manages its own remote data plane.  In this model we can install Istio into the control plane cluster and use Istio ingress gateway and virtual services to route traffic between different Istiod instances.
+Central control plane cluster can be used to host multiple Istiods and each Istiod manages its own remote data plane.  In this model we can install Istio into the control plane cluster and use Istio ingress gateway and virtual services to route traffic between different Istiod instances.
 
 ## Conclusion
 
