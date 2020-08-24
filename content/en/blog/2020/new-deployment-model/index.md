@@ -4,7 +4,7 @@ subtitle: Clear Separation between Mesh Operator and Mesh Users
 description: A new deployment model for Istio.
 publishdate: 2020-08-19
 attribution: "Lin Sun (IBM), Iris Ding (IBM)"
-keywords: [istiod, deployment model, central istiod,install,deploy,'1.7']
+keywords: [istiod,deployment model,central istiod,install,deploy,'1.7']
 ---
 
 ## Background
