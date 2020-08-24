@@ -212,7 +212,7 @@ Apply the primary cluster's configuration.
 $ istioctl install -f istio-main-cluster.yaml --context=${MAIN_CLUSTER_CTX}
 {{< /text >}}
 
-If you're using the `istio-ingressgateway` option, expose the control plane by using the provided sample configuration.
+If you selected the `istio-ingressgateway` option, expose the control plane using the provided sample configuration.
 
 {{< text bash >}}
 $ kubectl apply -f @samples/istiod-gateway/istiod-gateway.yaml@
