@@ -2,7 +2,7 @@
 title: A New Istiod Deployment Model
 subtitle: Clear Separation between Mesh Operator and Mesh Users
 description: A new deployment model for Istio.
-publishdate: 2020-08-19
+publishdate: 2020-08-24
 attribution: "Lin Sun (IBM), Iris Ding (IBM)"
 keywords: [istiod,deployment model,central istiod,install,deploy,'1.7']
 ---
@@ -49,7 +49,7 @@ The diagram above shows a single cluster as the data plane for an Istio mesh. Ho
     caption="Multiple single clusters with multiple Istiod control planes on a central control plane cluster"
     >}}
 
-Central control plane cluster can be used to host multiple Istiod control planes and each Istiod manages its own data plane clusters. In this model we can leverage Istio mesh in the central control plane cluster and use `istio-ingress` gateway to route traffic between different Istiods.
+Central control plane cluster can be used to host multiple Istiod control planes and each Istiod manages its own data plane clusters. In this model we can leverage Istio mesh in the central control plane cluster and use `istio-ingress` gateway to route traffic between different Istiod control planes.
 
 You may further expand your data plane to multiple clusters, which are managed by the same Istiod running on the central control plane cluster. All of the data plane clusters will receive their configurations from the primary cluster per the diagram below.
 
