@@ -13,14 +13,14 @@ From experience working with various service mesh users and vendors, we believe 
 
 * Mesh Operator, who manages the service mesh installation and upgrade.
 
-* Mesh Users:
+* Mesh Admin/Users:
 
   1. Platform Owner, who owns the service mesh platform and defines the overall strategy and implementation for service owners to adopt service mesh.
   1. Service Owner, who owns one or more services.
 
-It is common to have all these personas work on the same clusters without any clear separation.  For example, there are multiple ways to deploy Istio according to the [docs](/docs/setup/install/), which all start with mesh operator, platform owner and service owner sharing the single cluster first and then gradually expanding the mesh to multiple clusters or VMs.  None of these provided a clear separation between mesh operator and platform/service owner at the boundary of a cluster.  You may be thinking you could set up [Kubernetes RBAC rules](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) and namespaces to control which personas can do what within the cluster, however, sometimes you need stronger separation between the Istio control plane and the rest at the cluster level.  We're introducing a new deployment model for Istiod which enables mesh operators to install and manage the mesh control plane on dedicated clusters, separated from the data plane clusters.  This new deployment model could easily enable Istio vendors to run Istio control plane for service mesh users while users can focus on their workloads and Istio resources without worrying about installing or managing the Istio control plane.
+It is common to have all these personas work on the same clusters without any clear separation.  For example, there are multiple ways to deploy Istio according to the [docs](/docs/setup/install/), which all start with mesh operator, platform owner and service owner sharing the single cluster first and then gradually expanding the mesh to multiple clusters or VMs.  None of these provided a clear separation between mesh operator and platform/service owner at the boundary of a cluster.  You may be thinking you could set up [Kubernetes RBAC rules](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) and namespaces to control which personas can do what within the cluster, however, sometimes you need stronger separation between the Istio control plane and the rest at the cluster level.  We're introducing a new deployment model for Istiod which enables mesh operators to install and manage the mesh control plane on dedicated clusters, separated from the data plane clusters.  This new deployment model could easily enable Istio vendors to run Istio control plane for service mesh users while users can focus on their workloads and Istio resources without worrying about installing or managing the Istio control plane. This model enables vendors to build managed Istio offerings that automatically upgrade Istio control plane for mesh users.
 
-## New Deployment model
+## Central Cluster Deployment model
 
 After installing Istio using the [default installation profile](/docs/setup/install/istioctl/#install-istio-using-the-default-profile), you can deploy your services to the mesh, like the diagram below:
 
@@ -51,7 +51,7 @@ The diagram above shows a single cluster as the data plane for an Istio mesh. Ho
 
 Central control plane cluster can be used to host multiple Istiod control planes and each Istiod manages its own data plane clusters. In this model we can leverage Istio mesh in the central control plane cluster and use `istio-ingress` gateway to route traffic between different Istiod control planes.
 
-You may further expand your data plane to multiple clusters, which are managed by the same Istiod running on the central control plane cluster. All of the data plane clusters will receive their configurations from the primary cluster per the diagram below.
+You may further expand your data plane to multiple clusters, which are managed by the same Istiod running on the central control plane cluster. All of the data plane clusters will receive their configurations from the central control plane cluster per the diagram below.
 
 {{< image width="100%"
     link="multiple-clusters-central-Istiod.svg"
