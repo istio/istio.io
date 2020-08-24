@@ -49,7 +49,7 @@ The diagram above shows a single cluster as the data plane for an Istio mesh. Ho
     caption="Multiple single clusters with multiple Istiod control planes in a central control plane cluster"
     >}}
 
-Central control plane cluster can be used to host multiple Istiod control planes and each Istiod manages its own data plane clusters. In this model we can leverage Istio mesh in the central control plane cluster and use `istio-ingress` gateway to route traffic between different Istiod control planes.
+Central control plane cluster can be used to host multiple Istiod control planes and each Istiod manages its own data plane clusters. In this model vendors could install another Istio mesh in the central control plane cluster and configure its `istio-ingress` gateway to route traffic from a data plane cluster to its corresponding Istiod control plane.
 
 You may further expand your data plane to multiple clusters, which are managed by the same Istiod running on the central control plane cluster. All of the data plane clusters will receive their configurations from the central control plane cluster per the diagram below.
 
