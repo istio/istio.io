@@ -45,7 +45,6 @@ REPOS=(
 
 # The components to build and extract usage docs from.
 COMPONENTS=(
-    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@mixer/cmd/mixs@mixs
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@istioctl/cmd/istioctl@istioctl
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@pilot/cmd/pilot-agent@pilot-agent
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@pilot/cmd/pilot-discovery@pilot-discovery
