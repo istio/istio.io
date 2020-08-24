@@ -15,47 +15,45 @@ From experience working with various service mesh users and vendors, we believe 
 
 * Mesh Users:
 
-  * Platform Owner, who owns the service mesh platform and defines the overall strategy and implementation for service owners to adopt service mesh.
-  * Service Owner, who owns one or more services.
+  1. Platform Owner, who owns the service mesh platform and defines the overall strategy and implementation for service owners to adopt service mesh.
+  1. Service Owner, who owns one or more services.
 
 It is common to have all these personas work on the same clusters without any clear separation.  For example, there are multiple ways to deploy Istio according to the docs, which all start with mesh operator, platform owner and service owner sharing the single cluster first and then gradually expanding the mesh to multiple clusters or VMs.  None of these provided a clear separation between mesh operator and platform/service owner at the boundary of a cluster.  You may be thinking you could set up [Kubernetes RBAC rules](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) and namespaces to control which personas can do what within the cluster, however, sometimes you need stronger separation between the Istio control plane and the rest at the cluster level.  We're introducing a new deployment model for Istiod which enables mesh operators to install and manage the mesh control plane on dedicated clusters, separated from the data plane clusters.  This new deployment model could easily enable Istio vendors to run Istio control plane for service mesh users while users can focus on their workloads and Istio resources without worrying about installing or managing the Istio control plane.
 
 ## New Deployment model
 
-Following the [default install](/docs/setup/install/istioctl/#install-istio-using-the-default-profile), you will have Istiod installed. You can deploy your services to the mesh, like the diagram below:
+After installing Istio using the [default installation profile](/docs/setup/install/istioctl/#install-istio-using-the-default-profile), you can deploy your services to the mesh, like the diagram below:
 
-{{< image width="50%"
+{{< image width="100%"
     link="single-cluster.svg"
     alt="Istio mesh in a single cluster"
     title="Single cluster Istio mesh"
     caption="Istio mesh with a single cluster"
     >}}
 
-In Istio 1.7, it is possible to run Istiod on a separate, dedicated cluster (central control plane cluster) as shown in the diagram below. With this new deployment model, mesh operators can work purely on the central control plane cluster when there is a need to upgrade or re-configure Istio. Platform/service owners will work solely on `cluster1` to deploy their applications and apply any Istio resources or configs. They don't have direct access to the central control plane cluster to deploy anything there, neither will the central control plane cluster processes any Istio resources on that cluster.
+In Istio 1.7, it is possible to run Istiod on a separate, dedicated cluster (central control plane cluster) as shown in the diagram below. With this new deployment model, mesh operators can work purely on the central control plane cluster when there is a need to upgrade or re-configure Istio. Platform/service owners will work solely on the data plane cluster to deploy their applications and apply any Istio resources or configs. They don't have direct access to the central control plane cluster to deploy anything there, neither can the central control plane cluster process any Istio resources in that cluster. If you are interested in exploring this, you can follow the [central istiod single cluster step by step guide](https://github.com/istio/istio/wiki/Central-Istiod-single-cluster-steps).
 
-{{< image width="50%"
+{{< image width="100%"
     link="single-cluster-central-Istiod.svg"
     alt="Istio mesh in a single cluster with Istiod outside"
     title="Single cluster Istio mesh with Istiod outside"
     caption="Single cluster Istio mesh with Istiod on a central control plane cluster"
     >}}
 
-If you are interested in exploring this, you can follow the [central istiod single cluster step by step guide.](https://github.com/istio/istio/wiki/Central-Istiod-single-cluster-steps)
+The diagram above shows a single cluster as the data plane for an Istio mesh. However, you can expand this deployment model to manage multiple Istio meshes from a central control plane cluster that runs multiple Istiods:
 
-The diagram above shows a single cluster as the data plane for an Istio mesh. However, you can expand this deployment model to manage multiple Istio meshes from a central control plane cluster that runs multiple Istiods, per diagram below:
-
-{{< image width="50%"
+{{< image width="80%"
     link="multiple-central-Istiods.svg"
     alt="Istio meshes in single clusters with Istiod outside"
     title="Multiple single clusters Istio meshes with Istiod outside"
     caption="Multiple single clusters with multiple Istiods on a central control plane cluster"
     >}}
 
-Central control plane cluster can be used to host multiple Istiods and each Istiod manages its own remote data plane. In this model we can install Istio into the central control plane cluster and use Istio ingress gateway to route traffic between different Istiods.
+Central control plane cluster can be used to host multiple Istiods and each Istiod manages its own data plane clusters. In this model we can leverage Istio mesh in the central control plane cluster and use `istio-ingress` gateway to route traffic between different Istiods.
 
-You may further expand your data plane to multiple clusters, all managed by the same Istiod running on the central control plane cluster. All of the data plane clusters will receive their configs from the primary cluster per diagram below.
+You may further expand your data plane to multiple clusters, which are managed by the same Istiod running on the central control plane cluster. All of the data plane clusters will receive their configs from the primary cluster per the diagram below.
 
-{{< image width="50%"
+{{< image width="80%"
     link="multiple-clusters-central-Istiod.svg"
     title="Multicluster Istio mesh with Istiod outside"
     caption="Multicluster Istio mesh with Istiod in a central control plane cluster"
