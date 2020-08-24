@@ -113,8 +113,8 @@ Follow these steps to get started with Istio:
     deployment.apps/productpage-v1 created
     {{< /text >}}
 
-1.  The application will start. As each pod becomes ready, the Istio sidecar will
-    deploy along with it.
+1.  The application will start. As each pod becomes ready, the Istio sidecar will be
+    deployed along with it.
 
     {{< text bash >}}
     $ kubectl get services
