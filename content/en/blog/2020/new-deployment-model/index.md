@@ -40,7 +40,7 @@ With this new deployment model in Istio 1.7, it is possible to run Istiod on a s
     caption="Single cluster Istio mesh with Istiod in a control plane cluster"
     >}}
     
-Mesh admin may further expand your data plane to multiple clusters, which are managed by the same Istiod running on the `control plane cluster`. The first cluster usually serves as the Istio configuration cluster, which is often referred as primary data plane cluster. The `control plane cluster` reads the Istio configuration from that cluster and pushes them to all of the data plane clusters per the diagram below.
+Mesh admin can expand your data plane to multiple clusters, which are managed by the same Istiod running on the `control plane cluster`. The first cluster usually serves as the Istio configuration cluster, which is often referred as primary data plane cluster. The `control plane cluster` reads the Istio configuration from that cluster and pushes them to all of the data plane clusters per the diagram below.
 
 {{< image width="100%"
     link="multiple-clusters-central-Istiod.svg"
@@ -48,7 +48,7 @@ Mesh admin may further expand your data plane to multiple clusters, which are ma
     caption="Multicluster Istio mesh with Istiod in a control plane cluster"
     >}}    
 
-The 2nd diagram above shows a single cluster as the data plane for an Istio mesh. However, mesh operators can expand this deployment model to manage multiple Istio meshes from a central control plane cluster that runs multiple Istiod control planes:
+Mesh operators may further expand this deployment model to manage multiple Istio control planes from a central control plane cluster that runs multiple Istiod control planes:
 
 {{< image width="100%"
     link="multiple-central-Istiods.svg"
