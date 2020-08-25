@@ -205,7 +205,7 @@ Clusters without their own control plane are referred to as {{< gloss "remote cl
 
 Instead of running control planes in primary clusters inside the mesh, a service mesh composed entirely of
 remote clusters can be controlled by an {{< gloss >}}external control plane{{< /gloss >}}.
-This provides management and complete separation of the control plane deployment from the
+This provides isolated management and complete separation of the control plane deployment from the
 data plane services that comprise the mesh.
 
 {{< image width="100%"
