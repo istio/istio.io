@@ -131,7 +131,7 @@ keywords: [traffic-management,circuit-breaking]
 1. 发送并发数为 2 的连接（`-c 2`），请求 20 次（`-n 20`）：
 
     {{< text bash >}}
-    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/bin/fortio -- load -c 2 -qps 0 -n 20 -loglevel Warning http://httpbin:8000/get
+    $ kubectl exec -it $FORTIO_POD  -c fortio -- /usr/bin/fortio load -c 2 -qps 0 -n 20 -loglevel Warning http://httpbin:8000/get
     Fortio 0.6.2 running at 0 queries per second, 2->2 procs, for 5s: http://httpbin:8000/get
     Starting at max qps with 2 thread(s) [gomax 2] for exactly 20 calls (10 per thread + 0)
     23:51:10 W http.go:617> Parsed non ok code 503 (HTTP/1.1 503)
@@ -169,7 +169,7 @@ keywords: [traffic-management,circuit-breaking]
 1. 将并发连接数提高到 3 个：
 
     {{< text bash >}}
-    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/bin/fortio -- load -c 3 -qps 0 -n 30 -loglevel Warning http://httpbin:8000/get
+    $ kubectl exec -it $FORTIO_POD  -c fortio -- /usr/bin/fortio load -c 3 -qps 0 -n 30 -loglevel Warning http://httpbin:8000/get
     Fortio 0.6.2 running at 0 queries per second, 2->2 procs, for 5s: http://httpbin:8000/get
     Starting at max qps with 3 thread(s) [gomax 2] for exactly 30 calls (10 per thread + 0)
     23:51:51 W http.go:617> Parsed non ok code 503 (HTTP/1.1 503)
