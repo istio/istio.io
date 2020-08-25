@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import argparse
 import sys
 import re
 import os
@@ -27,6 +28,7 @@ current_snip = None
 multiline_cmd = False
 output_started = False
 snippets = []
+boilerplates = set()
 
 HEADER = """#!/bin/bash
 # shellcheck disable=SC2034,SC2153,SC2155,SC2164
@@ -52,6 +54,7 @@ HEADER = """#!/bin/bash
 """
 
 startsnip = re.compile(r"^(\s*){{< text (syntax=)?\"?(\w+)\"? .*>}}$")
+boilerplate = re.compile(r"^\s*{{< boilerplate\s*\"?([a-zA-Z0-9-]+)\"? >}}$")
 snippetid = re.compile(r"snip_id=(\w+)")
 githubfile = re.compile(r"^(.*)(?<![A-Za-z0-9])@([\w\.\-_/]+)@(.*)$")
 execit = re.compile(r"^(.*kubectl exec.*) -it (.*)$")
@@ -59,16 +62,15 @@ heredoc = re.compile(r"<<\s*\\?EOF")
 sectionhead = re.compile(r"^##+ (.*)$")
 invalidchar = re.compile(r"[^0-9a-zA-Z_]")
 
-if len(sys.argv) < 2:
-    print("usage: python snip.py mdfile [ snipdir ]")
-    sys.exit(1)
+parser = argparse.ArgumentParser()
+parser.add_argument("markdown", help="markdown file from which snippets are extracted")
+parser.add_argument("-o", "--snipdir", help="output directory for extracted snippets, default=markdown directory")
+parser.add_argument("-p", "--prefix", help="prefix for each snippet, default=snip", default="snip")
+args = parser.parse_args()
 
-markdown = sys.argv[1]
-
-if len(sys.argv) > 2:
-    snipdir = sys.argv[2]
-else:
-    snipdir = os.path.dirname(markdown)
+markdown = args.markdown
+snipdir = args.snipdir if args.snipdir else os.path.dirname(markdown)
+snipprefix = args.prefix if args.prefix else "snip"
 
 snipfile = "snips.sh" if markdown.split('/')[-1] == "index.md" else markdown.split('/')[-1] + "_snips.sh"
 
@@ -106,15 +108,22 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
             if match:
                 if match.group(1) == "none":
                     continue
-                id = "snip_" + match.group(1)
+                id = snipprefix + "_" + match.group(1)
             else:
-                id = "snip_%s_%d" % (section, snipnum)
+                id = "%s_%s_%d" % (snipprefix, section, snipnum)
             if kind == "bash":
                 script = "\n%s() {\n" % id
             else:
                 script = "\n! read -r -d '' %s <<\ENDSNIP\n" % id
             current_snip = {"start": linenum, "id": id, "kind": kind, "indent": indent, "script": ["", script]}
             snippets.append(current_snip)
+            continue
+
+        match = boilerplate.match(line)
+        if match:
+            name = match.group(1)
+            if not name in boilerplates:
+                boilerplates.add(name)
             continue
 
         if current_snip != None:
@@ -158,6 +167,9 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
 
 with open(os.path.join(snipdir, snipfile), 'w', encoding='utf-8') as f:
     f.write(HEADER % markdown.split("content/en/")[1] if "content/en/" in markdown else markdown)
+    for bp in boilerplates:
+        source_line = f"source 'content/en/boilerplates/snips/{bp}.md_snips.sh'\n"
+        f.write(source_line)
     for snippet in snippets:
         lines = snippet["script"]
         for line in lines:
