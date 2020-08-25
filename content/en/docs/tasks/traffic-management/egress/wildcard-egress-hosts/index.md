@@ -25,11 +25,11 @@ without the need to specify every language's site separately.
 
 {{< boilerplate before-you-begin-egress >}}
 
-*   [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
+*   [Deploy the Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
-*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
 
-*   [Apply the blocking-by-default policy to the egress traffic control](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)
+*   [Apply the blocking-by-default policy for egress traffic](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy).
 
 ## Configure direct traffic to a wildcard host
 

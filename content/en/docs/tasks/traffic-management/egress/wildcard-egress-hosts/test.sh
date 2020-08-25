@@ -23,20 +23,31 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
-istioctl install --set profile=demo
+cat > ./egressgateway.yaml <<EOF
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: default
+  meshConfig:
+    accessLogFile: /dev/stdout
+    outboundTrafficPolicy:
+      mode: REGISTRY_ONLY
+  components:
+    egressGateways:
+    - name: istio-egressgateway
+      enabled: true
+EOF
+istioctl install -f ./egressgateway.yaml
 
 kubectl label namespace default istio-injection=enabled --overwrite
 
 startup_sleep_sample
 export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')
 
-# Configure blocking by default
-#kubectl patch istiooperator installed-state -n istio-system --type='json' -p='[{"op": "replace", "path": "/spec/meshConfig/outboundTrafficPolicy", "value": { mode: "REGISTRY_ONLY"}}]'
-#confirm_blocking() {
-#kubectl exec "$SOURCE_POD" -c sleep -- curl -I https://www.google.com | grep  "HTTP/"; kubectl exec $SOURCE_POD -c sleep -- curl -I https://edition.cnn.com | grep "HTTP/"
-#}
-#_verify_contains confirm_blocking "command terminated with exit code 35"
-# TODO: ^^^ not working
+confirm_blocking() {
+kubectl exec "$SOURCE_POD" -c sleep -- curl -I https://www.google.com | grep  "HTTP/"; kubectl exec $SOURCE_POD -c sleep -- curl -I https://edition.cnn.com | grep "HTTP/"
+}
+_verify_contains confirm_blocking "command terminated with exit code 35"
 
 snip_configure_direct_traffic_to_a_wildcard_host_1
 _wait_for_istio serviceentry default wikipedia
@@ -113,5 +124,6 @@ snip_cleanup_wildcard_configuration_for_arbitrary_domains_3
 
 snip_cleanup_1
 
+rm ./egressgateway.yaml
+kubectl delete ns istio-system
 kubectl label namespace default istio-injection- 
-#kubectl patch istiooperator installed-state -n istio-system --type='json' -p='[{"op": "replace", "path": "/spec/meshConfig/outboundTrafficPolicy", "value": { mode: "ALLOW_ANY"}}]'
