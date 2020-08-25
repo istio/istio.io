@@ -16,4 +16,16 @@
 
 set -e
 
+BOILERPLATE_DIR="content/en/boilerplates"
+
+if [ ! -d "$BOILERPLATE_DIR/snips" ]; then
+  echo "boilerplate snippets directory does not exist. creating one..."
+  mkdir -p content/en/boilerplates/snips
+fi
+
+for f in "$BOILERPLATE_DIR"/*.md; do
+  bp_func_name=$(echo "$f" | awk -F'/' '{ print $NF }' | cut -f1 -d'.' | tr '-' '_')
+  python3 scripts/snip.py "$f" -o content/en/boilerplates/snips -p "bpsnip_$bp_func_name"
+done
+
 find content/en/docs -name '*.md' -exec grep --quiet '^test: yes$' {} \; -exec python3 scripts/snip.py {} \;
