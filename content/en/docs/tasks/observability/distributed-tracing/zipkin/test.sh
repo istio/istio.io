@@ -34,17 +34,11 @@ _wait_for_deployment istio-system zipkin
 # Install Bookinfo application
 startup_bookinfo_sample
 
-# This shows up in many places. Should move to util? 
-function send_productpage_requests() {
-  _set_ingress_environment_variables
-  local GATEWAY_URL="$INGRESS_HOST:$INGRESS_PORT"
-  for _ in {1..250}; do
-    curl -s "http://$GATEWAY_URL/productpage" > /dev/null
-  done
-}
-
 snip_accessing_the_dashboard_1 &
-send_productpage_requests
+
+_set_ingress_environment_variables
+GATEWAY_URL="$INGRESS_HOST:$INGRESS_PORT"
+bpsnip_trace_generation__1
 
 # Although test says, take a look at traces, we don't have to do that in this task
 # as it is covered by an integration test in istio/istio
@@ -59,6 +53,8 @@ pgrep istioctl | xargs kill
 # @cleanup
 set +e
 cleanup_bookinfo_sample
+
+# TODO: Fix issue with using killall. Also why do we need to do this in setup and cleanup?
 pgrep istioctl | xargs kill
 
 # Had to repeat again, as setup and cleanup are split into separate scripts
