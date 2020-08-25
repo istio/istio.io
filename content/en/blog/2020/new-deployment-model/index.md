@@ -14,6 +14,7 @@ From experience working with various service mesh users and vendors, we believe 
 * Mesh Operator, who manages the service mesh control plane installation and upgrade.
 
 * Mesh Admin, often referred as Platform Owner, who owns the service mesh platform and defines the overall strategy and implementation for service owners to adopt service mesh.
+
 * Mesh User, often referred as Service Owner, who owns one or more services in the mesh.
 
 It is common to have all these personas work on the same clusters without any clear separation.  For example, there are multiple ways to deploy Istio according to the [docs](/docs/setup/install/), which all start with mesh operator, mesh admin/user sharing the single cluster first and then gradually expanding the mesh to multiple clusters or VMs.  None of these provided a clear separation between mesh operator and mesh admin/user at the boundary of a cluster.  You may be thinking you could set up [Kubernetes RBAC rules](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) and namespaces to control which personas can do what within the cluster, however, sometimes you need stronger separation between the mesh control plane and the rest at the cluster level.
