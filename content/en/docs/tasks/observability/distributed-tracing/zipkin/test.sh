@@ -27,7 +27,6 @@ source "tests/util/samples.sh"
 # Set to known setting of sidecar injection
 kubectl label namespace default istio-injection=enabled --overwrite
 
-# ZIPKIN_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/extras/zipkin.yaml"
 kubectl apply -f "https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/extras/zipkin.yaml"
 _wait_for_deployment istio-system zipkin
 
