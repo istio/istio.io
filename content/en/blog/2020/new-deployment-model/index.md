@@ -39,14 +39,14 @@ With this new deployment model in Istio 1.7, it is possible to run Istiod on a s
     title="Single cluster Istio mesh with Istiod outside"
     caption="Single cluster Istio mesh with Istiod in a control plane cluster"
     >}}
-    
-Mesh admin can expand your data plane to multiple clusters, which are managed by the same Istiod running on the `control plane cluster`. The first cluster usually serves as the Istio configuration cluster, which is often referred as primary data plane cluster. The `control plane cluster` reads the Istio configuration from that cluster and pushes them to all of the data plane clusters per the diagram below.
+
+Mesh admin can expand your data plane to multiple clusters, which are managed by the same Istiod running on the `control plane cluster`. The primary data plane cluster serves as the Istio configuration cluster. The `control plane cluster` reads the Istio configuration from that cluster and pushes them to all of the data plane clusters per the diagram below.
 
 {{< image width="100%"
     link="multiple-clusters-central-Istiod.svg"
     title="Multicluster Istio mesh with Istiod outside"
     caption="Multicluster Istio mesh with Istiod in a control plane cluster"
-    >}}    
+    >}}
 
 Mesh operators may further expand this deployment model to manage multiple Istio control planes from a central control plane cluster that runs multiple Istiod control planes:
 
@@ -61,6 +61,6 @@ The `control plane cluster` can be used to host multiple Istiod control planes a
 
 ## Conclusion
 
-This new deployment model enables the Istio control plane to be run and managed by mesh operators who have operational expertise in Istio. Mesh operators can run the control plane in their own control plane clusters, provide it as a service to mesh admins. Mesh operators can optionally run multiple Istiod control planes in the control plane cluster, deploy their own Istio mesh and use istio-ingress gateway to control access to these multiple Istiod control planes.
+This new deployment model enables the Istio control plane to be run and managed by mesh operators who have operational expertise in Istio. Mesh operators can run the control plane in their own control plane clusters, provide it as a service to mesh admins. Mesh operators can optionally run multiple Istiod control planes in the control plane cluster, deploy their own Istio mesh and use their `istio-ingress` gateway to control access to these multiple Istiod control planes.
 
 This model reduces complexity for mesh admins by allowing them to focus on mesh configurations without operating the control plane themselves. Mesh admin could continue to configure mesh-wide settings and Istio resources without any access to control plane clusters. Mesh users can continue to interact with the service mesh without any change.
