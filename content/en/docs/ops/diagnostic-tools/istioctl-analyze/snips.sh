@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/ops/diagnostic-tools/istioctl-analyze/index.md
 ####################################################################################################
+source 'content/en/boilerplates/snips/experimental-feature-warning.md_snips.sh'
 
 snip_analyze_all_namespaces() {
 istioctl analyze --all-namespaces

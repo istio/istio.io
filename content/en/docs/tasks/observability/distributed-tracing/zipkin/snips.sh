@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/observability/distributed-tracing/zipkin/index.md
 ####################################################################################################
+source 'content/en/boilerplates/snips/trace-generation.md_snips.sh'
 
 snip_accessing_the_dashboard_1() {
 istioctl dashboard zipkin
