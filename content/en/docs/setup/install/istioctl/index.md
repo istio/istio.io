@@ -393,7 +393,7 @@ generated gateway resources. The built-in gateways can be customized just like a
 
 {{< warning >}}
 From 1.7 onward, the gateway name must always be specified when overlaying. Not specifying any name no longer
-defaults to `istio-ingressgateway`.
+defaults to `istio-ingressgateway` or `istio-egressgateway`.
 {{< /warning >}}
 
 A new user gateway can be created by adding a new list entry:
