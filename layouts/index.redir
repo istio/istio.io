@@ -49,7 +49,7 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 #redirect next version to preliminary
 /v{{ .Site.Data.versions.preliminary }}/* https://preliminary.istio.io/latest/:splat
 
-http://archive.istio.io http://istio.io/archive 301!
+http://archive.istio.io/ http://istio.io/archive 301!
 http://archive.istio.io/* http://istio.io/:splat 301!
-https://archive.istio.io https://istio.io/archive 301!
+https://archive.istio.io/ https://istio.io/archive 301!
 https://archive.istio.io/* https://istio.io/:splat 301!
