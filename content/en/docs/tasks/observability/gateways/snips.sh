@@ -511,3 +511,14 @@ virtualservice.networking.istio.io "kiali-vs" deleted
 virtualservice.networking.istio.io "prometheus-vs" deleted
 virtualservice.networking.istio.io "tracing-vs" deleted
 ENDSNIP
+
+snip_cleanup_3() {
+kubectl -n istio-system delete destinationrule grafana kiali prometheus tracing
+}
+
+! read -r -d '' snip_cleanup_3_out <<\ENDSNIP
+destinationrule.networking.istio.io "grafana" deleted
+destinationrule.networking.istio.io "kiali" deleted
+destinationrule.networking.istio.io "prometheus" deleted
+destinationrule.networking.istio.io "tracing" deleted
+ENDSNIP

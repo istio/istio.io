@@ -22,11 +22,8 @@ set -o pipefail
 source "tests/util/samples.sh"
 source "content/en/docs/tasks/observability/gateways/deploy_addons.sh"
 
-# @setup profile=none
+# @setup profile=demo
 
-istioctl install -y --set profile=demo --set hub="$HUB" --set tag="$TAG"
-
-# TODO: We could probably turn addons with --set in istioctl?
 _deploy_addons
 _wait_for_deployment istio-system grafana
 _wait_for_deployment istio-system kiali
@@ -77,7 +74,7 @@ _verify_same access_tracing "200"
 # @cleanup
 _verify_same snip_cleanup_1 "$snip_cleanup_1_out"
 _verify_same snip_cleanup_2 "$snip_cleanup_2_out"
+_verify_same snip_cleanup_3 "$snip_cleanup_3_out"
 
 set +e
 _undeploy_addons
-kubectl delete ns istio-system
