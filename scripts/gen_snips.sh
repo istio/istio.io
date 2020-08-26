@@ -24,8 +24,12 @@ if [ ! -d "$BOILERPLATE_DIR/snips" ]; then
 fi
 
 for f in "$BOILERPLATE_DIR"/*.md; do
-  bp_func_name=$(echo "$f" | awk -F'/' '{ print $NF }' | cut -f1 -d'.' | tr '-' '_')
-  python3 scripts/snip.py "$f" -o content/en/boilerplates/snips -p "bpsnip_$bp_func_name"
+  bp_file=$(echo "$f" | awk -F'/' '{ print $NF }' | cut -f1 -d'.')
+  bp_func_name=$(echo "$bp_file" | tr '-' '_')
+  python3 scripts/snip.py "$f" \
+      -d content/en/boilerplates/snips \
+      -p "bpsnip_$bp_func_name" \
+      -f "$bp_file.sh"
 done
 
 find content/en/docs -name '*.md' -exec grep --quiet '^test: yes$' {} \; -exec python3 scripts/snip.py {} \;

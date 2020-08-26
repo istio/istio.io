@@ -64,15 +64,19 @@ invalidchar = re.compile(r"[^0-9a-zA-Z_]")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("markdown", help="markdown file from which snippets are extracted")
-parser.add_argument("-o", "--snipdir", help="output directory for extracted snippets, default=markdown directory")
+parser.add_argument("-d", "--snipdir", help="output directory for extracted snippets, default=markdown directory")
 parser.add_argument("-p", "--prefix", help="prefix for each snippet, default=snip", default="snip")
+parser.add_argument("-f", "--snipfile", help="name of the output snippet file")
 args = parser.parse_args()
 
 markdown = args.markdown
 snipdir = args.snipdir if args.snipdir else os.path.dirname(markdown)
 snipprefix = args.prefix if args.prefix else "snip"
 
-snipfile = "snips.sh" if markdown.split('/')[-1] == "index.md" else markdown.split('/')[-1] + "_snips.sh"
+if args.snipfile:
+    snipfile = args.snipfile
+else:
+    snipfile = "snips.sh" if markdown.split('/')[-1] == "index.md" else markdown.split('/')[-1] + "_snips.sh"
 
 print("generating snips: " + os.path.join(snipdir, snipfile))
 
@@ -167,8 +171,12 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
 
 with open(os.path.join(snipdir, snipfile), 'w', encoding='utf-8') as f:
     f.write(HEADER % markdown.split("content/en/")[1] if "content/en/" in markdown else markdown)
+
+    # There is an assumption here that boilerplate snippets generated
+    # would be named <boilerplate-name>.sh. See scripts/gen_snip.sh
+    # for generating all snippets. There is some coupling between the two.
     for bp in boilerplates:
-        source_line = f"source 'content/en/boilerplates/snips/{bp}.md_snips.sh'\n"
+        source_line = f'source "content/en/boilerplates/snips/{bp}.sh"\n'
         f.write(source_line)
     for snippet in snippets:
         lines = snippet["script"]
