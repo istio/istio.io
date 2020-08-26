@@ -67,11 +67,13 @@ parser.add_argument("markdown", help="markdown file from which snippets are extr
 parser.add_argument("-d", "--snipdir", help="output directory for extracted snippets, default=markdown directory")
 parser.add_argument("-p", "--prefix", help="prefix for each snippet, default=snip", default="snip")
 parser.add_argument("-f", "--snipfile", help="name of the output snippet file")
+parser.add_argument("-b", "--boilerplatedir", help="directory containing boilerplate snippets")
 args = parser.parse_args()
 
 markdown = args.markdown
 snipdir = args.snipdir if args.snipdir else os.path.dirname(markdown)
 snipprefix = args.prefix if args.prefix else "snip"
+boilerplatedir = args.boilerplatedir if args.boilerplatedir else None
 
 if args.snipfile:
     snipfile = args.snipfile
@@ -169,6 +171,15 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
                         multiline_cmd = True
                 current_snip["script"].append(line)
 
+if len(boilerplates) > 0:
+    if boilerplatedir is None:
+        print("boilerplate snippet directory is not defined. Use -b option to specify it")
+        sys.exit(1)
+
+if len(snippets) == 0 and len(boilerplates) == 0:
+    print("--> no snippet or boilerplate. skipping..")
+    sys.exit(0)
+
 with open(os.path.join(snipdir, snipfile), 'w', encoding='utf-8') as f:
     f.write(HEADER % markdown.split("content/en/")[1] if "content/en/" in markdown else markdown)
 
@@ -176,8 +187,17 @@ with open(os.path.join(snipdir, snipfile), 'w', encoding='utf-8') as f:
     # would be named <boilerplate-name>.sh. See scripts/gen_snip.sh
     # for generating all snippets. There is some coupling between the two.
     for bp in boilerplates:
-        source_line = f'source "content/en/boilerplates/snips/{bp}.sh"\n'
+        boilerplate_snippets = f'{boilerplatedir}/{bp}.sh'
+
+        # This step is required so that we do not source
+        # script files which don't exist. (shellcheck catches
+        # this issue thankfully)
+        if not os.path.isfile(boilerplate_snippets):
+            print(f"--> boilerplate {bp} does not have snippets. skipping..")
+            continue
+        source_line = f'source "{boilerplate_snippets}"\n'
         f.write(source_line)
+
     for snippet in snippets:
         lines = snippet["script"]
         for line in lines:
