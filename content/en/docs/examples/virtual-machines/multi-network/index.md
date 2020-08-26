@@ -32,9 +32,9 @@ bare metal and the clusters.
 
 ### Preparing your environment
 
-When expanding Istio's mesh capabilities to VMs across multiple networks (where the VM is in a network where traffic cannot directly route to pods in the Kubernetes cluster, for example), we'll need to take advantage of Istio's split-horizon DNS capabilities. 
+When expanding Istio's mesh capabilities to VMs across multiple networks (where the VM is in a network where traffic cannot directly route to pods in the Kubernetes cluster, for example), we'll need to take advantage of Istio's split-horizon DNS capabilities.
 
-Before we get started, you should prepare a VM and connect it to the Istio control plane through the Ingress Gateway. These steps are detailed in [Setup: Install: Virtual Machine Installation](/docs/setup/install/virtual-machine/). 
+Before we get started, you should prepare a VM and connect it to the Istio control plane through the Ingress Gateway. These steps are detailed in [Setup: Install: Virtual Machine Installation](/docs/setup/install/virtual-machine/).
 
 **Note** There are a few alterations to that document as follows:
 
@@ -42,9 +42,9 @@ Before we get started, you should prepare a VM and connect it to the Istio contr
 You must alter the VM set up instructions based on the suggestions in this section!
 {{< /warning >}}
 
-* When we create the `IstioOperator` resource, we need to specify which networks we expect, and how to treat them
-* When creating the `sidecar.env` we need to specify which network in which the VM belongs
-* We need to create a `Gateway` resource to allow application traffic from the VM to the workload items running in the mesh
+1. When we create the `IstioOperator` resource, we need to specify which networks we expect, and how to treat them
+1. When creating the `sidecar.env` we need to specify which network in which the VM belongs
+1. We need to create a `Gateway` resource to allow application traffic from the VM to the workload items running in the mesh
 
 #### Installing the Istio Control Plane
 
@@ -69,14 +69,14 @@ spec:
           endpoints:
           - fromRegistry: kube-cluster
           gateways:
-          - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
+          - registryServiceName: istio-ingressgateway.istio-system.svc.cluster.local
             port: 443
         vm-network:
 
 EOF
     {{< /text >}}
 
-2. Install with the virtual-machine features enabled:
+1. Install with the virtual-machine features enabled:
 
     {{< text bash >}}
 $ istioctl install -f ./vmintegration.yaml
@@ -92,7 +92,7 @@ $ echo "ISTIO_META_NETWORK=vm-network" >> sidecar.env
 
 #### Create Gateway for application traffic
 
-The last step is to create a `Gateway` resource that allows application traffic from the VMs to route correctly. 
+The last step is to create a `Gateway` resource that allows application traffic from the VMs to route correctly.
 
     {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -112,16 +112,16 @@ spec:
       mode: AUTO_PASSTHROUGH
     hosts:
     - "*.local"
-    {{< /text >}}    
+    {{< /text >}}
 
 Applying this gateway will route any of the traffic from the VM destined for the workloads in the mesh running on `*.local`
 
-At this point, you can continue with the [Setup Virtual Machine documentation](/docs/setup/install/virtual-machine/). 
+At this point, you can continue with the [Setup Virtual Machine documentation](/docs/setup/install/virtual-machine/).
 
 ## Verify setup
 
 After setup, the machine can access services running in the Kubernetes cluster
-or on other VMs. When a service on the VM tries to access a service in the mesh running on Kubernetes, the endpoints (ie, IPs) for those services will be the ingress gateway on the Kubernetes Cluster. To verify that, on the VM run the following command (assuming you have a service named `httpbin` on the Kubernetes cluster):
+or on other VMs. When a service on the VM tries to access a service in the mesh running on Kubernetes, the endpoints (i.e., IPs) for those services will be the ingress gateway on the Kubernetes Cluster. To verify that, on the VM run the following command (assuming you have a service named `httpbin` on the Kubernetes cluster):
 
     {{< text bash >}}
 $ curl -v localhost:15000/clusters | grep httpbin
@@ -136,7 +136,7 @@ outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::cx_total::1
 outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::rq_active::0
     {{< /text >}}
 
-The IP `34.72.46.113` in this case is the ingress gateway public endpoint.    
+The IP `34.72.46.113` in this case is the ingress gateway public endpoint.
 
 ## Send requests from VM workloads to Kubernetes services
 
@@ -145,7 +145,6 @@ At this point we should be able to send traffic to `httpbin.default.svc.cluster.
     {{< text bash >}}
 $ curl -v httpbin.default.svc.cluster.local:8000/headers
     {{< /text >}}
-
 
 ## Running services on the added VM
 
@@ -158,7 +157,7 @@ $ curl -v httpbin.default.svc.cluster.local:8000/headers
 
 {{< idea >}}
 Note, you may have to open firewalls to be able to access the 8080 port on your VM
-{{< /idea >}}    
+{{< /idea >}}
 
 1. Determine the VM instance's IP address. For example, find the IP address
     of the GCE instance with the following commands:
@@ -170,7 +169,7 @@ Note, you may have to open firewalls to be able to access the 8080 port on your 
 
 1. Add VM services to the mesh
 
-Add a service to the Kubernetes cluster into a namespace (in this example, `<vm-namespace>`) where you prefer to keep resources (Service/ServiceEntry/WorkloadEntry/ServiceAccount) with the VM services:
+Add a service to the Kubernetes cluster into a namespace (in this example, `<vm-namespace>`) where you prefer to keep resources (like `Service`, `ServiceEntry`, `WorkloadEntry`, `ServiceAccount`) with the VM services:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl -n <vm-namespace> apply -f -
@@ -206,7 +205,6 @@ Lastly create a workload with the external IP of the VM:
     serviceAccount: "<service-account>"
 EOF
     {{< /text >}}
-
 
 1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:
 
@@ -245,4 +243,4 @@ the configuration worked.
 
 ## Cleanup
 
-At this point, you can remove the VM resources from the Kubernetes cluster in the ${VM_NAMESPACE} namespace.
+At this point, you can remove the VM resources from the Kubernetes cluster in the `<vm-namespace>` namespace.
