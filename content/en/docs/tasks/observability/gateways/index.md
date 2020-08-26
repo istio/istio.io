@@ -552,3 +552,13 @@ $ kubectl create -n istio-system secret tls telemetry-gw-cert --key=${CERT_DIR}/
     virtualservice.networking.istio.io "prometheus-vs" deleted
     virtualservice.networking.istio.io "tracing-vs" deleted
     {{< /text >}}
+
+* Remove all related Destination Rules:
+
+    {{< text bash >}}
+    $ kubectl -n istio-system delete destinationrule grafana kiali prometheus tracing
+    destinationrule.networking.istio.io "grafana" deleted
+    destinationrule.networking.istio.io "kiali" deleted
+    destinationrule.networking.istio.io "prometheus" deleted
+    destinationrule.networking.istio.io "tracing" deleted
+    {{< /text >}}
