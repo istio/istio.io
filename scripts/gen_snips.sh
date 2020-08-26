@@ -29,7 +29,8 @@ for f in "$BOILERPLATE_DIR"/*.md; do
   python3 scripts/snip.py "$f" \
       -d content/en/boilerplates/snips \
       -p "bpsnip_$bp_func_name" \
-      -f "$bp_file.sh"
+      -f "$bp_file.sh" \
+      -b "$BOILERPLATE_DIR/snips"
 done
 
-find content/en/docs -name '*.md' -exec grep --quiet '^test: yes$' {} \; -exec python3 scripts/snip.py {} \;
+find content/en/docs -name '*.md' -exec grep --quiet '^test: yes$' {} \; -exec python3 scripts/snip.py -b "$BOILERPLATE_DIR/snips" {} \;
