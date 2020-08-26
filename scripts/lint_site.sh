@@ -24,6 +24,13 @@ else
     LANGS="en zh"
 fi
 
+SCRIPT_DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$SCRIPT_DIR" ]]; then SCRIPT_DIR="$PWD"; fi
+. "$SCRIPT_DIR/common.sh"
+if ! find_inplace_sed; then
+    exit 1
+fi
+
 # This performs spell checking and style checking over markdown files in a content
 # directory. It transforms the shortcode sequences we use to annotate code blocks
 # into classic markdown ``` code blocks, so that the linters aren't confused
@@ -48,21 +55,21 @@ check_content() {
     cp mdl.rb "${TMP}"
 
     # replace the {{< text >}} shortcodes with ```plain
-    find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< text .*>\}\}/\`\`\`plain/g" {} ";"
+    find "${TMP}" -type f -name \*.md -exec ${INPLACE_SED} -E "s/\\{\\{< text .*>\}\}/\`\`\`plain/g" {} ";"
 
     # replace the {{< /text >}} shortcodes with ```
-    find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< \/text .*>\}\}/\`\`\`/g" {} ";"
+    find "${TMP}" -type f -name \*.md -exec ${INPLACE_SED} -E "s/\\{\\{< \/text .*>\}\}/\`\`\`/g" {} ";"
 
     # elide url="*"
-    find "${TMP}" -type f -name \*.md -exec sed -E -i "s/url=\".*\"/URL/g" {} ";"
+    find "${TMP}" -type f -name \*.md -exec ${INPLACE_SED} -E "s/url=\".*\"/URL/g" {} ";"
 
     # elide link="*"
-    find "${TMP}" -type f -name \*.md -exec sed -E -i "s/link=\".*\"/LINK/g" {} ";"
+    find "${TMP}" -type f -name \*.md -exec ${INPLACE_SED} -E "s/link=\".*\"/LINK/g" {} ";"
 
     # switch to the temp dir
     pushd "${TMP}" >/dev/null
 
-    if ! find . -type f -name '*.md' -print0 | xargs -0 -r mdspell "${LANG}" --ignore-acronyms --ignore-numbers --no-suggestions --report; then
+    if ! find . -type f -name '*.md' -print0 | xargs -0 mdspell "${LANG}" --ignore-acronyms --ignore-numbers --no-suggestions --report; then
         echo "To learn how to address spelling errors, please see https://istio.io/about/contribute/creating-and-editing-pages/#linting"
         FAILED=1
     fi
@@ -71,6 +78,8 @@ check_content() {
         FAILED=1
     fi
 
+    # TODO: BSD grep (on OSX) does not support -P, so this check is broken. Figure out another way to do this
+    # check
     if grep -nrP -e "\(https://istio.io/(?!v[0-9]\.[0-9]/)" .; then
         echo "Ensure markdown content uses relative references to istio.io"
         FAILED=1
