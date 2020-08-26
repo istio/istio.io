@@ -67,7 +67,7 @@ If you need to run as root, this option can be enabled with `--set values.gatewa
 
 EnvoyFilter using the legacy `config` syntax will need to be migrated to the new `typed_config`. This is due to [underlying changes](https://github.com/istio/istio/issues/19885) in Envoy's API.
 
-As EnvoyFilter is a [break glass API](docs/reference/config/networking/envoy-filter/) without backwards compatibility guarantees, we recommend users explicitly bind EnvoyFilters to specific versions and appropriately test them prior to upgrading.
+As EnvoyFilter is a [break glass API](/docs/reference/config/networking/envoy-filter/) without backwards compatibility guarantees, we recommend users explicitly bind EnvoyFilters to specific versions and appropriately test them prior to upgrading.
 
 For example, a configuration for Istio 1.6, using the legacy `config` syntax:
 
