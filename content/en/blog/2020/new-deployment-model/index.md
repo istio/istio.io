@@ -2,7 +2,7 @@
 title: A Alternative Istiod Deployment Model
 subtitle: Clear Separation between Mesh Operator and Mesh Admin
 description: A new deployment model for Istio.
-publishdate: 2020-08-25
+publishdate: 2020-08-26
 attribution: "Lin Sun (IBM), Iris Ding (IBM)"
 keywords: [istiod,deployment model,install,deploy,'1.7']
 ---
@@ -19,7 +19,7 @@ From experience working with various service mesh users and vendors, we believe 
 
 Istio currently requires the control plane to run in one of the clusters in the mesh, leading to a lack of separation between the mesh operator and the mesh admin. We're introducing an alternative deployment model for Istiod which enables mesh operators to install and manage the mesh control plane on separate clusters. This new deployment model allows a clear separation between mesh operators and mesh admins. With this new model, Istio mesh operators can run Istio control plane for mesh admins while mesh admins can still control the configuration of the control plane without worrying about installing or managing the Istio control plane. This model is transparent to mesh users.
 
-## Control Plane Cluster Deployment model
+## External Control Plane Deployment model
 
 After installing Istio using the [default installation profile](/docs/setup/install/istioctl/#install-istio-using-the-default-profile), you will have an Istiod control plane installed in a single cluster like the diagram below:
 
