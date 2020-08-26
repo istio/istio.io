@@ -128,6 +128,9 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
         match = boilerplate.match(line)
         if match:
             name = match.group(1)
+            if not os.path.isfile(f'{boilerplatedir}/{name}.sh'):
+                print(f"--> boilerplate {name} does not have snippets")
+                continue
             if not name in boilerplates:
                 boilerplates.append(name)
             continue
@@ -188,13 +191,6 @@ with open(os.path.join(snipdir, snipfile), 'w', encoding='utf-8') as f:
     # for generating all snippets. There is some coupling between the two.
     for bp in boilerplates:
         boilerplate_snippets = f'{boilerplatedir}/{bp}.sh'
-
-        # This step is required so that we do not source
-        # script files which don't exist. (shellcheck catches
-        # this issue thankfully)
-        if not os.path.isfile(boilerplate_snippets):
-            print(f"--> boilerplate {bp} does not have snippets. skipping..")
-            continue
         source_line = f'source "{boilerplate_snippets}"\n'
         f.write(source_line)
 
