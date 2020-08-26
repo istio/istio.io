@@ -28,7 +28,7 @@ current_snip = None
 multiline_cmd = False
 output_started = False
 snippets = []
-boilerplates = [] # Should be ordered to avoid non-deterministic results in `gencheck_istio`
+boilerplates = []  # Should be ordered to avoid non-deterministic results in `gencheck_istio`
 
 HEADER = """#!/bin/bash
 # shellcheck disable=SC2034,SC2153,SC2155,SC2164
