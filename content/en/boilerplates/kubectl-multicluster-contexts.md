@@ -16,7 +16,7 @@
     {{< text bash >}}
     $ export CTX_CLUSTER1=$(kubectl config view -o jsonpath='{.contexts[0].name}')
     $ export CTX_CLUSTER2=$(kubectl config view -o jsonpath='{.contexts[1].name}')
-    $ echo CTX_CLUSTER1 = ${CTX_CLUSTER1}, CTX_CLUSTER2 = ${CTX_CLUSTER2}
+    $ echo "CTX_CLUSTER1 = ${CTX_CLUSTER1}, CTX_CLUSTER2 = ${CTX_CLUSTER2}"
     CTX_CLUSTER1 = cluster1, CTX_CLUSTER2 = cluster2
     {{< /text >}}
 
