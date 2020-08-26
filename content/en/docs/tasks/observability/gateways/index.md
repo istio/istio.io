@@ -6,7 +6,7 @@ keywords: [telemetry,gateway,jaeger,zipkin,tracing,kiali,prometheus,addons]
 aliases:
  - /docs/tasks/telemetry/gateways/
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 This task shows how to configure Istio to expose and access the telemetry addons outside of
@@ -27,10 +27,10 @@ For both options, first follow these steps:
 
 1. Set up the domain to expose addons. In this example, you expose each addon on a subdomain, such as `grafana.example.com`.
 
-    * If you have an existing domain pointing to the external IP address of `istio-ingressgateway`:
+    * If you have an existing domain pointing to the external IP address of `istio-ingressgateway` (say example.com):
 
     {{< text bash >}}
-    $ export INGRESS_DOMAIN=<your.desired.domain>
+    $ export INGRESS_DOMAIN="example.com"
     {{< /text >}}
 
     * If you do not have a domain, you may use [`nip.io`](https://nip.io/) which will automatically resolve to the IP address provided. This is not recommended for production usage.
