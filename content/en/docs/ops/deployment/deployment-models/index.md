@@ -193,9 +193,7 @@ cluster.
 A cluster like this one, with its own local control plane, is referred to as a {{< gloss >}}primary cluster{{< /gloss >}}.
 
 Multicluster deployments can also share control plane instances. In this case,
-the control plane instances can reside in one or more primary clusters,
-or in a cloud vendor's {{< gloss >}}managed control plane{{< /gloss >}}.
-
+the control plane instances can reside in one or more primary clusters.
 Clusters without their own control plane are referred to as {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}}.
 
 {{< image width="75%"
@@ -204,6 +202,20 @@ Clusters without their own control plane are referred to as {{< gloss "remote cl
     title="Shared control plane"
     caption="A service mesh with a primary and a remote cluster"
     >}}
+
+Instead of running control planes in primary clusters inside the mesh, a service mesh composed entirely of
+remote clusters can be controlled by an {{< gloss >}}external control plane{{< /gloss >}}.
+This provides isolated management and complete separation of the control plane deployment from the
+data plane services that comprise the mesh.
+
+{{< image width="100%"
+    link="single-cluster-external-control-plane.svg"
+    alt="A single cluster with an external control plane"
+    title="External control plane"
+    caption="A single cluster with an external control plane"
+    >}}
+
+A cloud vendor's {{< gloss >}}managed control plane{{< /gloss >}} is a typical example of an external control plane.
 
 For high availability, you should deploy a control plane across multiple
 clusters, zones, or regions.
