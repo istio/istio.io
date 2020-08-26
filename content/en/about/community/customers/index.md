@@ -47,6 +47,7 @@ Here are just a few of the organizations we know are using Istio. If you want to
     {{< company_logo link="https://www.nandos.com" logo="./nandos.svg" alt="Nando's" >}}
     {{< company_logo link="https://www.namely.com" logo="./namely.svg" alt="Namely" >}}
     {{< company_logo link="https://www.nashtechglobal.com" logo="./nashtech.png" alt="NashTech" >}}
+    {{< company_logo link="https://www.nearpod.com" logo="./nearpod.svg" alt="NearPod" >}}
     {{< company_logo link="https://www.postman.com" logo="./postman.svg" alt="Postman" >}}
     {{< company_logo link="https://www.plangrid.com" logo="./plangrid.svg" alt="PlanGrid" >}}
     {{< company_logo link="https://www.pubnub.com" logo="./pubnub.svg" alt="PubNub" >}}
