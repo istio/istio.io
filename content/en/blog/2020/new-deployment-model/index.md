@@ -1,5 +1,5 @@
 ---
-title: A New Istiod Deployment Model
+title: A Alternative Istiod Deployment Model
 subtitle: Clear Separation between Mesh Operator and Mesh Admin
 description: A new deployment model for Istio.
 publishdate: 2020-08-25
@@ -17,7 +17,7 @@ From experience working with various service mesh users and vendors, we believe 
 
 * Mesh User, often referred as Service Owner, who owns one or more services in the mesh.
 
-Istio currently requires the control plane to run in one of the clusters in the mesh, leading to a lack of separation between the mesh operator and the mesh admin. We're introducing a new deployment model for Istiod which enables mesh operators to install and manage the mesh control plane on separate clusters. This new deployment model allows a clear separation between mesh operators and mesh admins. With this new model, Istio mesh operators can run Istio control plane for mesh admins while mesh admins can still control the configuration of the control plane without worrying about installing or managing the Istio control plane. This model is transparent to mesh users.
+Istio currently requires the control plane to run in one of the clusters in the mesh, leading to a lack of separation between the mesh operator and the mesh admin. We're introducing an alternative deployment model for Istiod which enables mesh operators to install and manage the mesh control plane on separate clusters. This new deployment model allows a clear separation between mesh operators and mesh admins. With this new model, Istio mesh operators can run Istio control plane for mesh admins while mesh admins can still control the configuration of the control plane without worrying about installing or managing the Istio control plane. This model is transparent to mesh users.
 
 ## Control Plane Cluster Deployment model
 
@@ -60,6 +60,6 @@ The `external control plane cluster` can be used to host multiple Istiod control
 
 ## Conclusion
 
-This new deployment model enables the Istio control plane to be run and managed by mesh operators who have operational expertise in Istio. Mesh operators can run the control plane in their own control plane clusters or other environments, provide it as a service to mesh admins. Mesh operators can optionally run multiple Istiod control planes in the control plane cluster, deploy their own Istio mesh and use their `istio-ingress` gateway to control access to these Istiod control planes. Through these examples provided here, mesh operators can explore different implementation choices and choose what works best for them.
+This new deployment model enables the Istio control plane to be run and managed by mesh operators who have operational expertise in Istio, and provides a clean separation between service mesh control and data planes. Mesh operators can run the control plane in their own control plane clusters or other environments, provide it as a service to mesh admins. Mesh operators can optionally run multiple Istiod control planes in the control plane cluster, deploy their own Istio mesh and use their `istio-ingress` gateway to control access to these Istiod control planes. Through these examples provided here, mesh operators can explore different implementation choices and choose what works best for them.
 
 This model reduces complexity for mesh admins by allowing them to focus on mesh configurations without operating the control plane themselves. Mesh admin could continue to configure mesh-wide settings and Istio resources without any access to external control plane clusters. Mesh users can continue to interact with the service mesh without any change.
