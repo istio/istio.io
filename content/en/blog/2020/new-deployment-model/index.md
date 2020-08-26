@@ -33,7 +33,7 @@ After installing Istio using the [default installation profile](/docs/setup/inst
 With this new deployment model in Istio 1.7, it is possible to run Istiod on a separate cluster (the `external control plane cluster`) from services, as shown in the diagram below. The `external control plane cluster` is owned by mesh operator while the mesh admin owns the cluster that has services deployed in the mesh. Mesh admin has no access to the `external control plane cluster`. For mesh operators, you can follow the [external istiod single cluster step by step guide](https://github.com/istio/istio/wiki/External-Istiod-single-cluster-steps) to explore more on this.
 
 {{< image width="100%"
-    link="single-cluster-central-Istiod.svg"
+    link="single-cluster-external-Istiod.svg"
     alt="Istio mesh in a single cluster with Istiod outside"
     title="Single cluster Istio mesh with Istiod outside"
     caption="Single cluster Istio mesh with Istiod in an external control plane cluster"
@@ -42,7 +42,7 @@ With this new deployment model in Istio 1.7, it is possible to run Istiod on a s
 Mesh admins can expand the service mesh to multiple clusters, which are managed by the same Istiod running in the `external control plane cluster`. The `config cluster` also serves as the Istio configuration cluster, in addition to run services. The `external control plane cluster` reads Istio configurations from the `primary data plane cluster` and pushes them to both the `config cluster` and `remote cluster` per the diagram below.
 
 {{< image width="100%"
-    link="multiple-clusters-central-Istiod.svg"
+    link="multiple-clusters-external-Istiod.svg"
     title="Multicluster Istio mesh with Istiod outside"
     caption="Multicluster Istio mesh with Istiod in an external control plane cluster"
     >}}
@@ -50,7 +50,7 @@ Mesh admins can expand the service mesh to multiple clusters, which are managed 
 Mesh operators may further expand this deployment model to manage multiple Istio control planes from an external control plane cluster that runs multiple Istiod control planes:
 
 {{< image width="100%"
-    link="multiple-central-Istiods.svg"
+    link="multiple-external-Istiods.svg"
     alt="Istio meshes in single clusters with Istiod outside"
     title="Multiple single clusters Istio meshes with Istiod outside"
     caption="Multiple single clusters with multiple Istiod control planes in an external control plane cluster"
