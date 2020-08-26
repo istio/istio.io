@@ -804,4 +804,4 @@ availability of services in the mesh, applications must handle the failure
 or errors and take appropriate fallback actions. For example, when all
 instances in a load balancing pool have failed, Envoy returns an `HTTP 503`
 code. The application must implement any fallback logic needed to handle the
-`HTTP 503` error code..
+`HTTP 503` error code.
