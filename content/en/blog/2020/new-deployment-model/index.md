@@ -23,7 +23,7 @@ We're introducing a new deployment model for Istiod which enables mesh operators
 
 ## Control Plane Cluster Deployment model
 
-After installing Istio using the [default installation profile](/docs/setup/install/istioctl/#install-istio-using-the-default-profile), you have Istiod control plane installed in a single cluster like the diagram below:
+After installing Istio using the [default installation profile](/docs/setup/install/istioctl/#install-istio-using-the-default-profile), you will have an Istiod control plane installed in a single cluster like the diagram below:
 
 {{< image width="100%"
     link="single-cluster.svg"
