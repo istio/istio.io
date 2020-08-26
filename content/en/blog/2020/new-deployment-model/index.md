@@ -44,7 +44,7 @@ Mesh admins can expand the service mesh to multiple clusters, which are managed 
 {{< image width="100%"
     link="multiple-clusters-central-Istiod.svg"
     title="Multicluster Istio mesh with Istiod outside"
-    caption="Multicluster Istio mesh with Istiod in a control plane cluster"
+    caption="Multicluster Istio mesh with Istiod in an external control plane cluster"
     >}}
 
 Mesh operators may further expand this deployment model to manage multiple Istio control planes from an external control plane cluster that runs multiple Istiod control planes:
