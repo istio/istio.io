@@ -209,7 +209,7 @@ This provides isolated management and complete separation of the control plane d
 data plane services that comprise the mesh.
 
 {{< image width="100%"
-    link="single-cluster-central-Istiod.svg"
+    link="single-cluster-external-control-plane.svg"
     alt="A single cluster with an external control plane"
     title="External control plane"
     caption="A single cluster with an external control plane"
