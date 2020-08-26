@@ -1,5 +1,5 @@
 ---
-title: A Alternative Istiod Deployment Model
+title: An Alternative Istiod Deployment Model
 subtitle: Clear Separation between Mesh Operator and Mesh Admin
 description: A new deployment model for Istio.
 publishdate: 2020-08-26
