@@ -30,7 +30,7 @@ After installing Istio using the [default installation profile](/docs/setup/inst
     caption="Istio mesh in a single cluster"
     >}}
 
-With this new deployment model in Istio 1.7, it is possible to run Istiod on a separate cluster (the `external control plane cluster`) from services, as shown in the diagram below. The `external control plane cluster` is owned by mesh operator while the mesh admin owns the cluster that has services deployed in the mesh. Mesh admin has no access to the `external control plane cluster`. For mesh operators, you can follow the [external istiod single cluster step by step guide](https://github.com/istio/istio/wiki/External-Istiod-single-cluster-steps) to explore more on this. This model was called central Istiod among Istio maintainers but external Istiod is the official name now.
+With this new deployment model in Istio 1.7, it is possible to run Istiod on a separate cluster (the `external control plane cluster`) from services, as shown in the diagram below. The `external control plane cluster` is owned by mesh operator while the mesh admin owns the cluster that has services deployed in the mesh. Mesh admin has no access to the `external control plane cluster`. For mesh operators, you can follow the [external istiod single cluster step by step guide](https://github.com/istio/istio/wiki/External-Istiod-single-cluster-steps) to explore more on this. Note: In some internal discussions among Istio maintainers this model was known as "central istiod".
 
 {{< image width="100%"
     link="single-cluster-external-Istiod.svg"
