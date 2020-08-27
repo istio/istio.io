@@ -20,7 +20,7 @@ set -u
 set -o pipefail
 
 source "tests/util/samples.sh"
-source "content/en/docs/tasks/observability/gateways/deploy_addons.sh"
+source "content/en/docs/tasks/observability/gateways/test_utils.sh"
 
 # @setup profile=none
 
@@ -32,10 +32,7 @@ _wait_for_deployment istio-system istiod
 _wait_for_deployment istio-system istio-ingressgateway
 
 _deploy_addons
-_wait_for_deployment istio-system grafana
-_wait_for_deployment istio-system kiali
-_wait_for_deployment istio-system prometheus
-_wait_for_deployment istio-system zipkin
+_wait_for_addon_deployment
 
 # Setup TLS certificates and ingress access
 snip_configuring_remote_access_2
@@ -48,38 +45,28 @@ _verify_lines snip_option_1_secure_access_https_3 snip_option_1_secure_access_ht
 _verify_lines snip_option_1_secure_access_https_4 snip_option_1_secure_access_https_4_out
 _verify_lines snip_option_1_secure_access_https_5 snip_option_1_secure_access_https_5_out
 
-function wait_for_addon() {
-  local addon_name=$1
-  _wait_for_istio Gateway istio-system "$addon_name-gateway"
-  _wait_for_istio VirtualService istio-system "$addon_name-vs"
-  _wait_for_istio DestinationRule istio-system "$addon_name"
-}
+_wait_for_config_distribution
 
-wait_for_addon grafana
-wait_for_addon kiali
-wait_for_addon prometheus
-wait_for_addon tracing
-
-function access_kiali() {
+function insecure_access_kiali() {
   curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://kiali.$INGRESS_DOMAIN/kiali/"
 }
 
-function access_prometheus() {
+function insecure_access_prometheus() {
   curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://prometheus.$INGRESS_DOMAIN/api/v1/status/config"
 }
 
-function access_grafana() {
+function insecure_access_grafana() {
   curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://grafana.$INGRESS_DOMAIN"
 }
 
-function access_tracing() {
+function insecure_access_tracing() {
   curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://tracing.$INGRESS_DOMAIN/zipkin/api/v2/traces"
 }
 
-_verify_same access_kiali "200"
-_verify_same access_prometheus "200"
-_verify_same access_grafana "200"
-_verify_same access_tracing "200"
+_verify_same insecure_access_kiali "200"
+_verify_same insecure_access_prometheus "200"
+_verify_same insecure_access_grafana "200"
+_verify_same insecure_access_tracing "200"
 
 # @cleanup
 set +e

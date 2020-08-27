@@ -20,15 +20,12 @@ set -u
 set -o pipefail
 
 source "tests/util/samples.sh"
-source "content/en/docs/tasks/observability/gateways/deploy_addons.sh"
+source "content/en/docs/tasks/observability/gateways/test_utils.sh"
 
 # @setup profile=demo
 
 _deploy_addons
-_wait_for_deployment istio-system grafana
-_wait_for_deployment istio-system kiali
-_wait_for_deployment istio-system prometheus
-_wait_for_deployment istio-system zipkin
+_wait_for_addon_deployment
 
 # Setup ingress URL (using nip.io here)
 snip_configuring_remote_access_2
@@ -38,38 +35,28 @@ _verify_lines snip_option_2_insecure_access_http_2 snip_option_2_insecure_access
 _verify_lines snip_option_2_insecure_access_http_3 snip_option_2_insecure_access_http_3_out
 _verify_lines snip_option_2_insecure_access_http_4 snip_option_2_insecure_access_http_4_out
 
-function wait_for_addon() {
-  local addon_name=$1
-  _wait_for_istio Gateway istio-system "$addon_name-gateway"
-  _wait_for_istio VirtualService istio-system "$addon_name-vs"
-  _wait_for_istio DestinationRule istio-system "$addon_name"
-}
+_wait_for_config_distribution
 
-wait_for_addon grafana
-wait_for_addon kiali
-wait_for_addon prometheus
-wait_for_addon tracing
-
-function access_kiali() {
+function secure_access_kiali() {
   curl -s -o /dev/null -w "%{http_code}" "http://kiali.$INGRESS_DOMAIN/kiali/"
 }
 
-function access_prometheus() {
+function secure_access_prometheus() {
   curl -s -o /dev/null -w "%{http_code}" "http://prometheus.$INGRESS_DOMAIN/api/v1/status/config"
 }
 
-function access_grafana() {
+function secure_access_grafana() {
   curl -s -o /dev/null -w "%{http_code}" "http://grafana.$INGRESS_DOMAIN"
 }
 
-function access_tracing() {
+function secure_access_tracing() {
   curl -s -o /dev/null -w "%{http_code}" "http://tracing.$INGRESS_DOMAIN/zipkin/api/v2/traces"
 }
 
-_verify_same access_kiali "200"
-_verify_same access_prometheus "200"
-_verify_same access_grafana "200"
-_verify_same access_tracing "200"
+_verify_same secure_access_kiali "200"
+_verify_same secure_access_prometheus "200"
+_verify_same secure_access_grafana "200"
+_verify_same secure_access_tracing "200"
 
 # @cleanup
 _verify_same snip_cleanup_1 "$snip_cleanup_1_out"
