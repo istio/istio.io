@@ -47,7 +47,7 @@ Mesh admins can expand the service mesh to multiple clusters, which are managed 
     caption="Multicluster Istio mesh with Istiod in an external control plane cluster"
     >}}
 
-Mesh operators may further expand this deployment model to manage multiple Istio control planes from an external control plane cluster that runs multiple Istiod control planes:
+Mesh operators may further expand this deployment model to manage multiple Istio control planes from an `external control plane cluster` that runs multiple Istiod control planes:
 
 {{< image width="100%"
     link="multiple-external-Istiods.svg"
@@ -56,7 +56,7 @@ Mesh operators may further expand this deployment model to manage multiple Istio
     caption="Multiple single clusters with multiple Istiod control planes in an external control plane cluster"
     >}}
 
-The `external control plane cluster` can be used to host multiple Istiod control planes and each Istiod manages its own `config cluster`. Mesh operators could install another Istio mesh in the `external control plane cluster` and configure its `istio-ingress` gateway to route traffic from a config cluster to its corresponding Istiod control plane.
+The `external control plane cluster` can be used to host multiple Istiod control planes and each Istiod reads configurations from its own `config cluster`. Mesh operators could install another Istio mesh in the `external control plane cluster` and configure its `istio-ingress` gateway to route traffic from a config cluster to its corresponding Istiod control plane.
 
 ## Conclusion
 
