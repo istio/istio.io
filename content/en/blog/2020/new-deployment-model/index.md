@@ -19,7 +19,7 @@ From experience working with various service mesh users and vendors, we believe 
 
 Prior to version 1.7, Istio required the control plane to run in one of the {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}} in the mesh, leading to a lack of separation between the mesh operator and the mesh admin. Istio 1.7 introduces a new {{< gloss >}}external control plane{{< /gloss >}} deployment model which enables mesh operators to install and manage mesh control planes on separate external clusters. This deployment model allows a clear separation between mesh operators and mesh admins. Istio mesh operators can now run Istio control planes for mesh admins while mesh admins can still control the configuration of the control plane without worrying about installing or managing the control plane. This model is transparent to mesh users.
 
-## External Control Plane Deployment model
+## External control plane deployment model
 
 After installing Istio using the [default installation profile](/docs/setup/install/istioctl/#install-istio-using-the-default-profile), you will have an Istiod control plane installed in a single cluster like the diagram below:
 
