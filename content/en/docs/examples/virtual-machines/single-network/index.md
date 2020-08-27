@@ -48,26 +48,10 @@ Setup consists of preparing the mesh for expansion and installing and configurin
 The first step when adding non-Kubernetes services to an Istio mesh is to
 configure the Istio installation itself, and generate the configuration files
 that let VMs connect to the mesh. Prepare the cluster for the VM with the
-following commands on a machine with cluster admin privileges:
+following commands on a machine with cluster admin privileges. Following steps are mostly same as 
+[Virtual Machine Installation](/docs/setup/install/virtual-machine/)
 
-1. Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/cert-management/plugin-ca-cert/) for more details.
-
-    {{< warning >}}
-    The root and intermediate certificate from the samples directory are widely
-    distributed and known.  Do **NOT** use these certificates in production as
-    your clusters would then be open to security vulnerabilities and compromise.
-    {{< /warning >}}
-
-    {{< text bash >}}
-    $ kubectl create namespace istio-system
-    $ kubectl create secret generic cacerts -n istio-system \
-        --from-file=@samples/certs/ca-cert.pem@ \
-        --from-file=@samples/certs/ca-key.pem@ \
-        --from-file=@samples/certs/root-cert.pem@ \
-        --from-file=@samples/certs/cert-chain.pem@
-    {{< /text >}}
-
-1. For a simple setup, deploy Istio control plane into the cluster
+1. For a simple setup, deploy Istio control plane into the cluster with vm meshExpansion enabled
 
         {{< text bash >}}
         $ istioctl install \
