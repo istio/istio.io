@@ -17,7 +17,7 @@ From experience working with various service mesh users and vendors, we believe 
 
 * Mesh User, often referred as Service Owner, who owns one or more services in the mesh.
 
-Istio currently requires the control plane to run in one of the clusters in the mesh, leading to a lack of separation between the mesh operator and the mesh admin. We're introducing an alternative deployment model for Istiod which enables mesh operators to install and manage the mesh control plane on separate clusters. This new deployment model allows a clear separation between mesh operators and mesh admins. With this new model, Istio mesh operators can run Istio control plane for mesh admins while mesh admins can still control the configuration of the control plane without worrying about installing or managing the Istio control plane. This model is transparent to mesh users.
+Prior to version 1.7, Istio required the control plane to run in one of the {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}} in the mesh, leading to a lack of separation between the mesh operator and the mesh admin. Istio 1.7 introduces a new {{< gloss >}}external control plane{{< /gloss >}} deployment model which enables mesh operators to install and manage mesh control planes on separate external clusters. This deployment model allows a clear separation between mesh operators and mesh admins. Istio mesh operators can now run Istio control planes for mesh admins while mesh admins can still control the configuration of the control plane without worrying about installing or managing the control plane. This model is transparent to mesh users.
 
 ## External Control Plane Deployment model
 
