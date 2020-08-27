@@ -56,7 +56,7 @@ Mesh operators may further expand this deployment model to manage multiple Istio
     caption="Multiple single clusters with multiple Istiod control planes in an external control plane cluster"
     >}}
 
-The `external control plane cluster` can be used to host multiple Istiod control planes and each Istiod manages its own `remote cluster`. Mesh operators could install their own Istio mesh in the `external control plane cluster` and configure its `istio-ingress` gateway to route traffic from a `remote cluster` to its corresponding Istiod control plane.
+The `external control plane cluster` can be used to host multiple Istiod control planes and each Istiod manages its own `remote cluster`. Mesh operators could install their own Istio mesh in the `external control plane cluster` and configure its `istio-ingress` gateway to route traffic from a `remote cluster` to its corresponding Istiod control plane. To learn more about this, check out [these steps](https://github.com/istio/istio/wiki/External-Istiod-single-cluster-steps#deploy-istio-mesh-on-external-control-plane-cluster-to-manage-traffic-to-istiod-deployments).
 
 ## Conclusion
 
