@@ -113,8 +113,8 @@ Follow these steps to get started with Istio:
     deployment.apps/productpage-v1 created
     {{< /text >}}
 
-1.  The application will start. As each pod becomes ready, the Istio sidecar will
-    deploy along with it.
+1.  The application will start. As each pod becomes ready, the Istio sidecar will be
+    deployed along with it.
 
     {{< text bash >}}
     $ kubectl get services
@@ -351,6 +351,11 @@ Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kial
     $ while ! kubectl wait --for=condition=available --timeout=600s deployment/kiali -n istio-system; do sleep 1; done
     {{< /text >}}
 
+    {{< tip >}}
+    If there are errors trying to install the addons, try running the command again. There may
+    be some timing issues which will be resolved when the command is run again.
+    {{< /tip >}}
+
 1.  Access the Kiali dashboard.
 
     {{< text bash >}}
@@ -403,6 +408,7 @@ under the `istio-system` namespace. It is safe to ignore errors for non-existent
 resources because they may have been deleted hierarchically.
 
 {{< text bash >}}
+$ kubectl delete -f @samples/addons@
 $ istioctl manifest generate --set profile=demo | kubectl delete --ignore-not-found=true -f -
 {{< /text >}}
 

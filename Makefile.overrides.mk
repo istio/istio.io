@@ -17,3 +17,6 @@ CONTAINER_OPTIONS = -p 1313:1313 ${ADDITIONAL_CONTAINER_OPTIONS}
 
 # this repo is on the container plan by default
 BUILD_WITH_CONTAINER ?= 1
+
+# The release branching scripts use git commands so mount the global .gitconfig into the container
+CONDITIONAL_HOST_MOUNTS = --mount type=bind,source=${HOME}/.gitconfig,destination=/config/.gitconfig,readonly ${}

@@ -154,10 +154,6 @@ spec:
           gateways:
           - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
             port: 443
-
-      # Use the existing istio-ingressgateway.
-      meshExpansion:
-        enabled: true
 EOF
 {{< /text >}}
 
@@ -214,6 +210,12 @@ Apply the primary cluster's configuration.
 
 {{< text bash >}}
 $ istioctl install -f istio-main-cluster.yaml --context=${MAIN_CLUSTER_CTX}
+{{< /text >}}
+
+If you selected the `istio-ingressgateway` option, expose the control plane using the provided sample configuration.
+
+{{< text bash >}}
+$ kubectl apply -f @samples/istiod-gateway/istiod-gateway.yaml@
 {{< /text >}}
 
 Wait for the control plane to be ready before proceeding.
@@ -533,6 +535,7 @@ $ rm istio-remote0-cluster.yaml
 To uninstall the primary cluster, run the following command:
 
 {{< text bash >}}
+$ kubectl delete --ignore-not-found=true -f @samples/istiod-gateway/istiod-gateway.yaml@
 $ istioctl manifest generate -f istio-main-cluster.yaml --context=${MAIN_CLUSTER_CTX} | \
     kubectl delete -f - --context=${MAIN_CLUSTER_CTX}
 $ kubectl delete namespace sample --context=${MAIN_CLUSTER_CTX}

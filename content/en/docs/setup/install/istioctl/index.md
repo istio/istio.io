@@ -390,6 +390,12 @@ $ istioctl profile dump --config-path values.gateways.istio-ingressgateway
 
 These commands show both the `IstioOperator` and Helm settings for the gateway, which are used together to define the
 generated gateway resources. The built-in gateways can be customized just like any other component.
+
+{{< warning >}}
+From 1.7 onward, the gateway name must always be specified when overlaying. Not specifying any name no longer
+defaults to `istio-ingressgateway` or `istio-egressgateway`.
+{{< /warning >}}
+
 A new user gateway can be created by adding a new list entry:
 
 {{< text yaml >}}
