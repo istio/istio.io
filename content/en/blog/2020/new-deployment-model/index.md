@@ -2,7 +2,7 @@
 title: Deploying Istio Control Planes Outside the Mesh
 subtitle: Clear Separation between Mesh Operator and Mesh Admin
 description: A new deployment model for Istio.
-publishdate: 2020-08-26
+publishdate: 2020-08-27
 attribution: "Lin Sun (IBM), Iris Ding (IBM)"
 keywords: [istiod,deployment model,install,deploy,'1.7']
 ---
