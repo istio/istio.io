@@ -76,6 +76,19 @@ following commands on a machine with cluster admin privileges. Following steps a
     $ export SERVICE_NAMESPACE="vm"
     {{< /text >}}
 
+1. Define the Service account. This service account are used to create workload Entry
+to enable pod talk to vm
+
+    {< text bash >}}
+    $ export SERVICE_ACCOUNT="vmtestdefault"
+    {{< /text >}}
+
+1. Enable the Istio sidecar auto Injection
+
+    {{< text bash >}}
+    $ kubectl label namespace "${SERVICE_NAMESPACE}" istio-injection=enabled
+    {{< /text >}}
+
 1. Determine and store the IP address of the IngressGateway since the VMs
    access Istiod through this IP address.
 
@@ -117,9 +130,21 @@ following commands on a machine with cluster admin privileges. Following steps a
    the directory path to store the cert and update the cert for cert rotation
 
     {{< text bash >}}
-    $ echo "ISTIO_LOCAL_EXCLUDE_PORTS=15090,15021,15020" >> sidecar.env
     $ echo "PROV_CERT=/var/run/secrets/istio" >> sidecar.env
     $ echo "OUTPUT_CERTS=/var/run/secrets/istio" >> sidecar.env
+    {{< /text >}}
+
+1. Create a Kubernetes token. This example sets the token expire time to 1 hour:
+
+    {{< text bash >}}
+    $ tokenexpiretime=3600
+    $ echo '{"kind":"TokenRequest","apiVersion":"authentication.k8s.io/v1","spec":{"audiences":["istio-ca"],"expirationSeconds":'$tokenexpiretime'}}' | kubectl create --raw /api/v1/namespaces/$SERVICE_NAMESPACE/serviceaccounts/$SERVICE_ACCOUNT/token -f - | jq -j '.status.token' > istio-token
+    {{< /text >}}
+
+1. Get the root certificate:
+
+    {{< text bash >}}
+    $ kubectl -n "${SERVICE_NAMESPACE}" get configmaps istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > root-cert
     {{< /text >}}
 
 1. In order to use mesh expansion, the VM must be provisioned with certificates signed by the same root CA as
@@ -133,27 +158,25 @@ following commands on a machine with cluster admin privileges. Following steps a
     As an example, for very simple demo setups, you can also use:
 
     {{< text bash >}}
-    $ go run istio.io/istio/security/tools/generate_cert \
-          -client -host spiffee://cluster.local/vm/vmname --out-priv key.pem --out-cert cert-chain.pem  -mode citadel
-    $ kubectl -n istio-system get cm istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' > root-cert.pem
+        $ kubectl -n "${SERVICE_NAMESPACE}" get configmaps istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > root-cert
     {{< /text >}}
 
 ### Setting up the VM
 
 Next, run the following commands on each machine that you want to add to the mesh:
 
-1.  Copy the previously created `cluster.env`,`*.pem`, and `sidecar.env` files to the VM. For example:
+1.  Copy the previously created `cluster.env`,`root-cert`,`istio-token`, and `sidecar.env` to the VM. For example:
 
     {{< text bash >}}
     $ export GCE_NAME="your-gce-instance"
-    $ gcloud compute scp --project=${MY_PROJECT} --zone=${MY_ZONE} {key.pem,cert-chain.pem,cluster.env,root-cert.pem} ${GCE_NAME}:~
+    $ gcloud compute scp --project=${MY_PROJECT} --zone=${MY_ZONE} {cluster.env,root-cert,sidecar.env,istio-token} ${GCE_NAME}:~
     {{< /text >}}
 
 1.  Install the Debian package with the Envoy sidecar.
 
     {{< text bash >}}
     $ gcloud compute ssh --project=${MY_PROJECT} --zone=${MY_ZONE} "${GCE_NAME}"
-    $ curl -L https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb > istio-sidecar.deb
+    $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
@@ -168,14 +191,19 @@ The following example updates the `/etc/hosts` file with the Ingress Gateway IP 
    /etc/hosts is an easy to use example. It is also possible to use a real DNS and certificate for Istiod, this is beyond
    the scope of this document.
 
-1.  Install `root-cert.pem`, `key.pem` and `cert-chain.pem` under `/etc/certs/`.
+1.  Install `root-cert.pem` under `/etc/certs/` and `/var/run/secrets/istio`.
 
     {{< text bash >}}
     $ sudo mkdir -p /etc/certs
-    $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
+    $ sudo cp {root-cert.pem} /etc/certs
     {{< /text >}}
 
-1.  Install `root-cert.pem` under `/var/run/secrets/istio/`.
+1. Install the token at `/var/run/secrets/tokens`:
+
+    {{< text bash >}}
+    $ sudo  mkdir -p /var/run/secrets/tokens
+    $ sudo cp "${HOME}"/istio-token /var/run/secrets/tokens/istio-token
+    {{< /text >}}
 
 1.  Install `cluster.env`, `sidecar.env` under `/var/lib/istio/envoy/`.
 
@@ -190,10 +218,11 @@ The following example updates the `/etc/hosts` file with the Ingress Gateway IP 
      $ sudo mkdir -p /etc/istio/proxy
      {{< /text >}}
 
-1.  Transfer ownership of the files in `/etc/certs/`,/etc/istio/proxy,`/var/lib/istio/envoy/` and `/var/run/secrets/istio/`to the Istio proxy.
+1. Transfer ownership of the files in `/var/lib/istio`,`/etc/certs/`,`/etc/istio/proxy` and `/var/run/secrets` to the Istio proxy:
 
     {{< text bash >}}
-    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy /etc/istio/proxy /var/run/secrets/istio/
+    $ sudo mkdir -p /etc/istio/proxy
+    $ sudo chown -R istio-proxy /var/lib/istio /etc/certs /etc/istio/proxy /var/run/secrets
     {{< /text >}}
 
 1.  Start Istio using `systemctl`.
