@@ -1,7 +1,7 @@
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
-There are 158 owned istio.io docs.
+There are 154 owned istio.io docs.
 
 ## istio/wg-docs-maintainers: 15 docs
 
@@ -89,7 +89,7 @@ There are 158 owned istio.io docs.
 - [docs/tasks/traffic-management/tcp-traffic-shifting/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/tcp-traffic-shifting)
 - [docs/tasks/traffic-management/traffic-shifting/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/traffic-shifting)
 
-## istio/wg-policies-and-telemetry-maintainers: 32 docs
+## istio/wg-policies-and-telemetry-maintainers: 28 docs
 
 - [docs/concepts/observability/index.md](https://preliminary.istio.io/latest/docs/concepts/observability)
 - [docs/concepts/wasm/index.md](https://preliminary.istio.io/latest/docs/concepts/wasm)
@@ -115,10 +115,6 @@ There are 158 owned istio.io docs.
 - [docs/tasks/observability/metrics/querying-metrics/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/metrics/querying-metrics)
 - [docs/tasks/observability/metrics/tcp-metrics/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/metrics/tcp-metrics)
 - [docs/tasks/observability/metrics/using-istio-dashboard/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/metrics/using-istio-dashboard)
-- [docs/tasks/observability/mixer/logs/collecting-logs/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/mixer/logs/collecting-logs)
-- [docs/tasks/observability/mixer/logs/fluentd/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/mixer/logs/fluentd)
-- [docs/tasks/observability/mixer/metrics/collecting-metrics/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/mixer/metrics/collecting-metrics)
-- [docs/tasks/observability/mixer/metrics/tcp-metrics/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/mixer/metrics/tcp-metrics)
 - [docs/tasks/policy-enforcement/control-headers/index.md](https://preliminary.istio.io/latest/docs/tasks/policy-enforcement/control-headers)
 - [docs/tasks/policy-enforcement/denial-and-list/index.md](https://preliminary.istio.io/latest/docs/tasks/policy-enforcement/denial-and-list)
 - [docs/tasks/policy-enforcement/enabling-policy/index.md](https://preliminary.istio.io/latest/docs/tasks/policy-enforcement/enabling-policy)
