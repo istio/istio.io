@@ -1,5 +1,5 @@
 ---
-title: An Alternative Istiod Deployment Model
+title: Deploying Istio Control Planes Outside the Mesh
 subtitle: Clear Separation between Mesh Operator and Mesh Admin
 description: A new deployment model for Istio.
 publishdate: 2020-08-26
