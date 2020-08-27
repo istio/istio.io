@@ -39,7 +39,7 @@ With this new deployment model in Istio 1.7, it is possible to run Istiod on a s
     caption="Single cluster Istio mesh with Istiod in an external control plane cluster"
     >}}
 
-Mesh admins can expand the service mesh to multiple clusters, which are managed by the same Istiod running in the `external control plane cluster`. The `config cluster` also serves as the Istio configuration cluster, in addition to run services. The `external control plane cluster` reads Istio configurations from the `primary data plane cluster` and pushes them to both the `config cluster` and `remote cluster` per the diagram below.
+Mesh admins can expand the service mesh to multiple clusters, which are managed by the same Istiod running in the `external control plane cluster`. The `config cluster` also serves as the Istio configuration cluster, in addition to running services. The `external control plane cluster` reads Istio configurations from the `config cluster` and Istiod pushes configuration to the data plane running in both the `config cluster` and `remote cluster` per the diagram below.
 
 {{< image width="100%"
     link="multiple-clusters-external-Istiod.svg"
