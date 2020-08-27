@@ -75,12 +75,10 @@ The following ports and protocols are used by Istio.
 | 15012 | GRPC | Istiod | XDS and CA services (TLS) |
 | 8080 | HTTP | Istiod | Debug interface |
 | 443 | HTTPS | Istiod | Webhooks |
-| 15014 | HTTP | Mixer, Istiod | Control plane monitoring |
+| 15014 | HTTP | Istiod | Control plane monitoring |
 | 15443 | TLS | Ingress and Egress Gateways | SNI |
 | 9090 | HTTP |  Prometheus | Prometheus |
-| 42422 | TCP | Mixer | Telemetry - Prometheus |
-| 15004 | HTTP | Mixer, Pilot | Policy/Telemetry - `mTLS` |
-| 9091 | HTTP | Mixer | Policy/Telemetry |
+| 15004 | HTTP | Istiod | Policy/Telemetry - `mTLS` |
 
 ## Required pod capabilities
 
