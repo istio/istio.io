@@ -348,8 +348,8 @@ The SNI proxy will forward the traffic to port `443`.
     {{< text bash >}}
     $ istioctl install -f ./egressgateway-with-sni-proxy.yaml
     {{< /text >}}
-    
-1. Patch the deployment with a second pod container for the SNI proxy:
+
+1.  Patch the deployment with a second pod container for the SNI proxy:
 
     {{< text bash >}}
     $ cat <<EOF > ./egressgateway-with-sni-proxy-patch.yaml
@@ -378,7 +378,6 @@ The SNI proxy will forward the traffic to port `443`.
     $ kubectl patch deployment istio-egressgateway-with-sni-proxy -n istio-system --patch "$(cat ./egressgateway-with-sni-proxy-patch.yaml)"
     deployment.apps/istio-egressgateway-with-sni-proxy patched
     {{< /text >}}
-
 
 1.  Verify that the new egress gateway is running. Note that the pod has two containers (one is the Envoy proxy and the
     second one is the SNI proxy).
