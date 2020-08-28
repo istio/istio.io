@@ -74,7 +74,7 @@ based on the namespace label `istio.io/rev`.
 To upgrade the namespace `test-ns`, remove the `istio-injection` label, and add the `istio.io/rev` label to point to the `canary` revision. The `istio-injection` label must be removed because it takes precedence over the `istio.io/rev` label for backward compatibility.
 
 {{< text bash >}}
-$ kubectl label namespace test-ns istio-injection- istio.io/rev=istio-canary
+$ kubectl label namespace test-ns istio-injection- istio.io/rev=canary
 {{< /text >}}
 
 After the namespace updates, you need to restart the pods to trigger re-injection. One way to do
@@ -89,7 +89,7 @@ When the pods are re-injected, they will be configured to point to the `istiod-c
 For example, the following command will show all the pods using the `canary` revision:
 
 {{< text bash >}}
-$ kubectl get pods -n test-ns -l istio.io/rev=istio-canary
+$ kubectl get pods -n test-ns -l istio.io/rev=canary
 {{< /text >}}
 
 To verify that the new pods in the `test-ns` namespace are using the `istiod-canary` service corresponding to the `canary` revision, select one newly created pod and use the `pod_name` in the following command:

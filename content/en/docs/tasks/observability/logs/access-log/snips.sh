@@ -19,6 +19,8 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/observability/logs/access-log/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/before-you-begin-egress.sh"
+source "content/en/boilerplates/snips/start-httpbin-service.sh"
 
 snip_enable_envoys_access_logging_1() {
 istioctl install --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"

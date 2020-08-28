@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/traffic-management/circuit-breaking/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/start-httpbin-service.sh"
 
 snip_configuring_the_circuit_breaker_1() {
 kubectl apply -f - <<EOF
