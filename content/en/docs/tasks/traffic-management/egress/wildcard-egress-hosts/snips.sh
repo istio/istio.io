@@ -20,6 +20,22 @@
 #          docs/tasks/traffic-management/egress/wildcard-egress-hosts/index.md
 ####################################################################################################
 
+snip_before_you_begin_1() {
+istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
+}
+
+snip_before_you_begin_2() {
+kubectl apply -f samples/sleep/sleep.yaml
+}
+
+snip_before_you_begin_3() {
+kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+}
+
+snip_before_you_begin_4() {
+export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+}
+
 snip_configure_direct_traffic_to_a_wildcard_host_1() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
@@ -191,7 +207,10 @@ cat > ./egressgateway-with-sni-proxy.yaml <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  profile: default
+  profile: demo
+  meshConfig:
+    outboundTrafficPolicy:
+      mode: REGISTRY_ONLY
   components:
     egressGateways:
     - name: istio-egressgateway-with-sni-proxy
