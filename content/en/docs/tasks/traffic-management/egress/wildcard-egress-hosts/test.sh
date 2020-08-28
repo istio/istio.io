@@ -30,7 +30,7 @@ snip_before_you_begin_2
 snip_before_you_begin_4
 
 confirm_blocking() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -I https://www.google.com | grep  "HTTP/"; kubectl exec $SOURCE_POD -c sleep -- curl -I https://edition.cnn.com | grep "HTTP/"
+kubectl exec "$SOURCE_POD" -c sleep -- curl -I https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -I https://edition.cnn.com | grep "HTTP/"
 }
 _verify_contains confirm_blocking "command terminated with exit code 35"
 
