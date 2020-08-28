@@ -23,13 +23,39 @@ Each version of `wikipedia.org` in a particular language has its own hostname, e
 You want to enable egress traffic by common configuration items for all the Wikipedia sites,
 without the need to specify every language's site separately.
 
-{{< boilerplate before-you-begin-egress >}}
+## Before you begin
 
-*   [Deploy the Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
+*   Install Istio using the `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/)
+    and with the blocking-by-default outbound traffic policy:
 
-*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
+    {{< text bash >}}
+    $ istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
+    {{< /text >}}
 
-*   [Apply the blocking-by-default policy for egress traffic](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy).
+*   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
+    If you have
+    [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+    enabled, run the following command to deploy the sample app:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    {{< /text >}}
+
+    Otherwise, manually inject the sidecar before deploying the `sleep` application with the following command:
+
+    {{< text bash >}}
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    {{< /text >}}
+
+    {{< tip >}}
+    You can use any pod with `curl` installed as a test source.
+    {{< /tip >}}
+
+*   Set the `SOURCE_POD` environment variable to the name of your source pod:
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    {{< /text >}}
 
 ## Configure direct traffic to a wildcard host
 
@@ -291,14 +317,17 @@ The SNI proxy will forward the traffic to port `443`.
     $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=./sni-proxy.conf
     {{< /text >}}
 
-1.  Create an `IstioOperator` CR for a new egress gateway with SNI proxy:
+1.  Create an `IstioOperator` CR to add a new egress gateway with SNI proxy:
 
     {{< text bash >}}
     $ cat > ./egressgateway-with-sni-proxy.yaml <<EOF
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
-      profile: default
+      profile: demo
+      meshConfig:
+        outboundTrafficPolicy:
+          mode: REGISTRY_ONLY
       components:
         egressGateways:
         - name: istio-egressgateway-with-sni-proxy
@@ -602,8 +631,8 @@ The SNI proxy will forward the traffic to port `443`.
 
 ## Cleanup
 
-Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
+* Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 
-{{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    {{< /text >}}

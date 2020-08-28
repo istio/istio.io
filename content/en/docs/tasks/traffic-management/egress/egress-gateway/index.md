@@ -41,6 +41,14 @@ controlled way.
 
 *   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
+{{< warning >}}
+The instructions in this task create a destination rule for the egress gateway in the `default` namespace
+and assume that the client, `SOURCE_POD`, is also running in the `default` namespace.
+If not, the destination rule will not be found on the
+[destination rule lookup path](/docs/ops/best-practices/traffic-management/#cross-namespace-configuration)
+and the client requests will fail.
+{{< /warning >}}
+
 ## Deploy Istio egress gateway
 
 1.  Check if the Istio egress gateway is deployed:
@@ -57,15 +65,6 @@ controlled way.
     $ istioctl install --set values.global.istioNamespace=istio-system \
         --set values.gateways.istio-egressgateway.enabled=true
     {{< /text >}}
-
-{{< warning >}}
-The following instructions create a destination rule for the egress gateway in the `default` namespace
-and assume that the client, `SOURCE_POD`, is also running in the `default` namespace.
-If not, the destination rule will not be found on the
-[destination rule lookup path](/docs/ops/best-practices/traffic-management/#cross-namespace-configuration)
-and the client requests will fail.
-
-{{< /warning >}}
 
 ## Egress gateway for HTTP traffic
 

@@ -21,28 +21,13 @@ set -e
 set -u
 set -o pipefail
 
-source "tests/util/samples.sh"
-
-cat > ./egressgateway.yaml <<EOF
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  profile: default
-  meshConfig:
-    accessLogFile: /dev/stdout
-    outboundTrafficPolicy:
-      mode: REGISTRY_ONLY
-  components:
-    egressGateways:
-    - name: istio-egressgateway
-      enabled: true
-EOF
-istioctl install -f ./egressgateway.yaml
+snip_before_you_begin_1
+_wait_for_deployment istio-system istiod
 
 kubectl label namespace default istio-injection=enabled --overwrite
 
-startup_sleep_sample
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')
+snip_before_you_begin_2
+snip_before_you_begin_4
 
 confirm_blocking() {
 kubectl exec "$SOURCE_POD" -c sleep -- curl -I https://www.google.com | grep  "HTTP/"; kubectl exec $SOURCE_POD -c sleep -- curl -I https://edition.cnn.com | grep "HTTP/"
@@ -124,6 +109,5 @@ snip_cleanup_wildcard_configuration_for_arbitrary_domains_3
 
 snip_cleanup_1
 
-rm ./egressgateway.yaml
 kubectl delete ns istio-system
 kubectl label namespace default istio-injection- 
