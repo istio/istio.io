@@ -125,7 +125,7 @@ $ kubectl -n istio-system edit cm prometheus -o yaml
 
 Then add configurations for the *remote* clusters (replacing the ingress domain and cluster name for each cluster) and
 add one configuration for the *local* cluster:
-
+# Trigger recheck
 {{< text yaml >}}
 scrape_configs:
 - job_name: 'federate-{{REMOTE_CLUSTER_NAME}}'
