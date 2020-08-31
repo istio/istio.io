@@ -58,9 +58,9 @@ _verify_same insecure_access_grafana "200"
 _verify_same insecure_access_tracing "200"
 
 # @cleanup
-_verify_same snip_cleanup_1 "$snip_cleanup_1_out"
-_verify_same snip_cleanup_2 "$snip_cleanup_2_out"
-_verify_same snip_cleanup_3 "$snip_cleanup_3_out"
-
 set +e
+snip_cleanup_1
+snip_cleanup_2
+snip_cleanup_3
+
 _undeploy_addons kiali prometheus grafana zipkin
