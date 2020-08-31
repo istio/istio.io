@@ -15,6 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+source "tests/util/helpers.sh"
+
 GRAFANA_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/master/samples/addons/grafana.yaml"
 KIALI_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/master/samples/addons/kiali.yaml"
 PROMETHEUS_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/master/samples/addons/prometheus.yaml"
