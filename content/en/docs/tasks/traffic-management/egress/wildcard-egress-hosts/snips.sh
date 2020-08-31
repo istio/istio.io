@@ -410,6 +410,7 @@ spec:
       value:
          name: forward_downstream_sni
          config: {}
+EOF
 }
 
 snip_configure_traffic_through_egress_gateway_with_sni_proxy_3() {
