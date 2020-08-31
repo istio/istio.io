@@ -24,15 +24,11 @@ source "tests/util/addons.sh"
 
 # @setup profile=none
 
-####### TODO: Lots of copy paste from insecure_access_test.sh
-####### REFACTOR to a common file and source it.
-
 istioctl install --set profile=demo --set hub="$HUB" --set tag="$TAG"
 _wait_for_deployment istio-system istiod
 _wait_for_deployment istio-system istio-ingressgateway
 
-_deploy_addons
-_wait_for_addon_deployment
+_deploy_and_wait_for_addons kiali prometheus grafana zipkin
 
 # Setup TLS certificates and ingress access
 snip_configuring_remote_access_2
@@ -45,34 +41,34 @@ _verify_lines snip_option_1_secure_access_https_3 snip_option_1_secure_access_ht
 _verify_lines snip_option_1_secure_access_https_4 snip_option_1_secure_access_https_4_out
 _verify_lines snip_option_1_secure_access_https_5 snip_option_1_secure_access_https_5_out
 
-_wait_for_config_distribution
+_wait_for_addon_config_distribution kiali prometheus grafana tracing
 
-function insecure_access_kiali() {
+function secure_access_kiali() {
   curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://kiali.$INGRESS_DOMAIN/kiali/"
 }
 
-function insecure_access_prometheus() {
+function secure_access_prometheus() {
   curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://prometheus.$INGRESS_DOMAIN/api/v1/status/config"
 }
 
-function insecure_access_grafana() {
+function secure_access_grafana() {
   curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://grafana.$INGRESS_DOMAIN"
 }
 
-function insecure_access_tracing() {
+function secure_access_tracing() {
   curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://tracing.$INGRESS_DOMAIN/zipkin/api/v2/traces"
 }
 
-_verify_same insecure_access_kiali "200"
-_verify_same insecure_access_prometheus "200"
-_verify_same insecure_access_grafana "200"
-_verify_same insecure_access_tracing "200"
+_verify_same secure_access_kiali "200"
+_verify_same secure_access_prometheus "200"
+_verify_same secure_access_grafana "200"
+_verify_same secure_access_tracing "200"
 
 # @cleanup
-set +e
-snip_cleanup_1
-snip_cleanup_2
-snip_cleanup_3
+_verify_same snip_cleanup_1 "$snip_cleanup_1_out"
+_verify_same snip_cleanup_2 "$snip_cleanup_2_out"
+_verify_same snip_cleanup_3 "$snip_cleanup_3_out"
 
-_undeploy_addons
+set +e
+_undeploy_addons kiali prometheus grafana zipkin
 kubectl delete ns istio-system
