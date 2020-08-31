@@ -20,7 +20,7 @@ set -u
 set -o pipefail
 
 source "tests/util/samples.sh"
-source "content/en/docs/tasks/observability/gateways/test_utils.sh"
+source "tests/util/addons.sh"
 
 # @setup profile=demo
 
