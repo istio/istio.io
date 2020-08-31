@@ -33,7 +33,6 @@ _deploy_and_wait_for_addons kiali prometheus grafana zipkin
 # Setup TLS certificates and ingress access
 snip_configuring_remote_access_2
 
-kubectl delete secret telemetry-gw-cert -n istio-system --ignore-not-found
 snip_option_1_secure_access_https_1
 
 _verify_lines snip_option_1_secure_access_https_2 snip_option_1_secure_access_https_2_out
@@ -65,10 +64,9 @@ _verify_same secure_access_grafana "200"
 _verify_same secure_access_tracing "200"
 
 # @cleanup
-_verify_same snip_cleanup_1 "$snip_cleanup_1_out"
-_verify_same snip_cleanup_2 "$snip_cleanup_2_out"
-_verify_same snip_cleanup_3 "$snip_cleanup_3_out"
-
 set +e
+snip_cleanup
+snip_cleanup
+snip_cleanup
 _undeploy_addons kiali prometheus grafana zipkin
 kubectl delete ns istio-system
