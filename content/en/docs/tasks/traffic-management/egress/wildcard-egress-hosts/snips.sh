@@ -388,9 +388,9 @@ spec:
           number: 8443
       weight: 100
 ---
-# The following filter is used to forward the original SNI (sent by the application) as the SNI of the mutual TLS
-# connection.
-# The forwarded SNI will be reported to Mixer so that policies will be enforced based on the original SNI value.
+# The following filter is used to forward the original SNI (sent by the application) as the SNI of the
+# mutual TLS connection.
+# The forwarded SNI will be will be used to enforce policies based on the original SNI value.
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
@@ -410,12 +410,15 @@ spec:
       value:
          name: forward_downstream_sni
          config: {}
----
-# The following filter verifies that the SNI of the mutual TLS connection (the SNI reported to Mixer) is
+}
+
+snip_configure_traffic_through_egress_gateway_with_sni_proxy_3() {
+kubectl apply -n istio-system -f - <<EOF
+# The following filter verifies that the SNI of the mutual TLS connection is
 # identical to the original SNI issued by the client (the SNI used for routing by the SNI proxy).
-# The filter prevents Mixer from being deceived by a malicious client: routing to one SNI while
-# reporting some other value of SNI. If the original SNI does not match the SNI of the mutual TLS connection, the
-# filter will block the connection to the external service.
+# The filter prevents the gateway from being deceived by a malicious client: routing to one SNI while
+# reporting some other value of SNI. If the original SNI does not match the SNI of the mutual TLS connection,
+# the filter will block the connection to the external service.
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
@@ -441,29 +444,29 @@ spec:
 EOF
 }
 
-snip_configure_traffic_through_egress_gateway_with_sni_proxy_3() {
+snip_configure_traffic_through_egress_gateway_with_sni_proxy_4() {
 kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
 }
 
-! read -r -d '' snip_configure_traffic_through_egress_gateway_with_sni_proxy_3_out <<\ENDSNIP
+! read -r -d '' snip_configure_traffic_through_egress_gateway_with_sni_proxy_4_out <<\ENDSNIP
 <title>Wikipedia, the free encyclopedia</title>
 <title>Wikipedia – Die freie Enzyklopädie</title>
 ENDSNIP
 
-snip_configure_traffic_through_egress_gateway_with_sni_proxy_4() {
+snip_configure_traffic_through_egress_gateway_with_sni_proxy_5() {
 kubectl logs -l istio=egressgateway-with-sni-proxy -c istio-proxy -n istio-system
 }
 
-! read -r -d '' snip_configure_traffic_through_egress_gateway_with_sni_proxy_5 <<\ENDSNIP
+! read -r -d '' snip_configure_traffic_through_egress_gateway_with_sni_proxy_6 <<\ENDSNIP
 [2019-01-02T16:34:23.312Z] "- - -" 0 - 578 79141 624 - "-" "-" "-" "-" "127.0.0.1:8443" outbound|8443||sni-proxy.local 127.0.0.1:55018 172.30.109.84:443 172.30.109.112:45346 en.wikipedia.org
 [2019-01-02T16:34:24.079Z] "- - -" 0 - 586 65770 638 - "-" "-" "-" "-" "127.0.0.1:8443" outbound|8443||sni-proxy.local 127.0.0.1:55034 172.30.109.84:443 172.30.109.112:45362 de.wikipedia.org
 ENDSNIP
 
-snip_configure_traffic_through_egress_gateway_with_sni_proxy_6() {
+snip_configure_traffic_through_egress_gateway_with_sni_proxy_7() {
 kubectl logs -l istio=egressgateway-with-sni-proxy -n istio-system -c sni-proxy
 }
 
-! read -r -d '' snip_configure_traffic_through_egress_gateway_with_sni_proxy_6_out <<\ENDSNIP
+! read -r -d '' snip_configure_traffic_through_egress_gateway_with_sni_proxy_7_out <<\ENDSNIP
 127.0.0.1 [01/Aug/2018:15:32:02 +0000] TCP [en.wikipedia.org]200 81513 280 0.600
 127.0.0.1 [01/Aug/2018:15:32:03 +0000] TCP [de.wikipedia.org]200 67745 291 0.659
 ENDSNIP
@@ -480,7 +483,6 @@ snip_cleanup_wildcard_configuration_for_arbitrary_domains_2() {
 kubectl delete serviceentry sni-proxy
 kubectl delete destinationrule disable-mtls-for-sni-proxy
 kubectl delete configmap egress-sni-proxy-configmap -n istio-system
-istioctl x uninstall
 }
 
 snip_cleanup_wildcard_configuration_for_arbitrary_domains_3() {
@@ -489,4 +491,5 @@ rm ./sni-proxy.conf ./egressgateway-with-sni-proxy.yaml ./egressgateway-with-sni
 
 snip_cleanup_1() {
 kubectl delete -f samples/sleep/sleep.yaml
+istioctl x uninstall
 }

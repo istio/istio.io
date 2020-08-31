@@ -516,9 +516,9 @@ The SNI proxy will forward the traffic to port `443`.
               number: 8443
           weight: 100
     ---
-    # The following filter is used to forward the original SNI (sent by the application) as the SNI of the mutual TLS
-    # connection.
-    # The forwarded SNI will be reported to Mixer so that policies will be enforced based on the original SNI value.
+    # The following filter is used to forward the original SNI (sent by the application) as the SNI of the
+    # mutual TLS connection.
+    # The forwarded SNI will be will be used to enforce policies based on the original SNI value.
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:
@@ -538,12 +538,17 @@ The SNI proxy will forward the traffic to port `443`.
           value:
              name: forward_downstream_sni
              config: {}
-    ---
-    # The following filter verifies that the SNI of the mutual TLS connection (the SNI reported to Mixer) is
+    {{< /text >}}
+
+1.  Add an `EnvoyFilter` to the gateway, to prevent if from being deceived.
+
+    {{< text bash >}}
+    $ kubectl apply -n istio-system -f - <<EOF
+    # The following filter verifies that the SNI of the mutual TLS connection is
     # identical to the original SNI issued by the client (the SNI used for routing by the SNI proxy).
-    # The filter prevents Mixer from being deceived by a malicious client: routing to one SNI while
-    # reporting some other value of SNI. If the original SNI does not match the SNI of the mutual TLS connection, the
-    # filter will block the connection to the external service.
+    # The filter prevents the gateway from being deceived by a malicious client: routing to one SNI while
+    # reporting some other value of SNI. If the original SNI does not match the SNI of the mutual TLS connection,
+    # the filter will block the connection to the external service.
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:
@@ -619,7 +624,6 @@ The SNI proxy will forward the traffic to port `443`.
     $ kubectl delete serviceentry sni-proxy
     $ kubectl delete destinationrule disable-mtls-for-sni-proxy
     $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
-    $ istioctl x uninstall
     {{< /text >}}
 
 1.  Remove the configuration files you created:
@@ -634,4 +638,5 @@ The SNI proxy will forward the traffic to port `443`.
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ istioctl x uninstall
     {{< /text >}}
