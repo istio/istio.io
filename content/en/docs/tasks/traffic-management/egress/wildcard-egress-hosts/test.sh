@@ -82,17 +82,19 @@ _wait_for_istio gateway default istio-egressgateway-with-sni-proxy
 _wait_for_istio destinationrule default egressgateway-for-wikipedia
 _wait_for_istio virtualservice default direct-wikipedia-through-egress-gateway
 _wait_for_istio envoyfilter default forward-downstream-sni
-_wait_for_istio envoyfilter default egress-gateway-sni-verifier
 
-_verify_same snip_configure_traffic_through_egress_gateway_with_sni_proxy_3 "$snip_configure_traffic_through_egress_gateway_with_sni_proxy_3_out"
+snip_configure_traffic_through_egress_gateway_with_sni_proxy_3
+_wait_for_istio envoyfilter istio-system egress-gateway-sni-verifier
 
-_verify_lines snip_configure_traffic_through_egress_gateway_with_sni_proxy_4 "
+_verify_same snip_configure_traffic_through_egress_gateway_with_sni_proxy_4 "$snip_configure_traffic_through_egress_gateway_with_sni_proxy_4_out"
+
+_verify_lines snip_configure_traffic_through_egress_gateway_with_sni_proxy_5 "
 + outbound|8443||sni-proxy.local
 + en.wikipedia.org
 + de.wikipedia.org
 "
 
-_verify_lines snip_configure_traffic_through_egress_gateway_with_sni_proxy_6 "
+_verify_lines snip_configure_traffic_through_egress_gateway_with_sni_proxy_7 "
 + TCP [en.wikipedia.org]200
 + TCP [de.wikipedia.org]200
 "
