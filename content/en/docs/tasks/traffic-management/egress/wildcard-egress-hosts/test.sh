@@ -81,8 +81,8 @@ snip_configure_traffic_through_egress_gateway_with_sni_proxy_2
 _wait_for_istio gateway default istio-egressgateway-with-sni-proxy
 _wait_for_istio destinationrule default egressgateway-for-wikipedia
 _wait_for_istio virtualservice default direct-wikipedia-through-egress-gateway
-_wait_for_istio virtualservice default envoyfilter forward-downstream-sni
-_wait_for_istio virtualservice default envoyfilter forward-downstream-sni
+_wait_for_istio envoyfilter default forward-downstream-sni
+_wait_for_istio envoyfilter default egress-gateway-sni-verifier
 
 _verify_same snip_configure_traffic_through_egress_gateway_with_sni_proxy_3 "$snip_configure_traffic_through_egress_gateway_with_sni_proxy_3_out"
 
