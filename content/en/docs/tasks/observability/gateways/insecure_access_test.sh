@@ -26,7 +26,9 @@ source "tests/util/addons.sh"
 _deploy_and_wait_for_addons kiali prometheus grafana zipkin
 
 # Setup ingress URL (using nip.io here)
-snip_configuring_remote_access_2
+_set_ingress_environment_variables
+INGRESS_DOMAIN="$INGRESS_HOST.nip.io"
+INGRESS_URL="$INGRESS_DOMAIN:$INGRESS_PORT"
 
 snip_option_2_insecure_access_http_1
 snip_option_2_insecure_access_http_2
@@ -36,19 +38,19 @@ snip_option_2_insecure_access_http_4
 _wait_for_addon_config_distribution kiali prometheus grafana tracing
 
 function insecure_access_kiali() {
-  curl -s -o /dev/null -w "%{http_code}" "http://kiali.$INGRESS_DOMAIN/kiali/"
+  curl -s -o /dev/null -w "%{http_code}" "http://kiali.$INGRESS_URL/kiali/"
 }
 
 function insecure_access_prometheus() {
-  curl -s -o /dev/null -w "%{http_code}" "http://prometheus.$INGRESS_DOMAIN/api/v1/status/config"
+  curl -s -o /dev/null -w "%{http_code}" "http://prometheus.$INGRESS_URL/api/v1/status/config"
 }
 
 function insecure_access_grafana() {
-  curl -s -o /dev/null -w "%{http_code}" "http://grafana.$INGRESS_DOMAIN"
+  curl -s -o /dev/null -w "%{http_code}" "http://grafana.$INGRESS_URL"
 }
 
 function insecure_access_tracing() {
-  curl -s -o /dev/null -w "%{http_code}" "http://tracing.$INGRESS_DOMAIN/zipkin/api/v2/traces"
+  curl -s -o /dev/null -w "%{http_code}" "http://tracing.$INGRESS_URL/zipkin/api/v2/traces"
 }
 
 _verify_same insecure_access_kiali "200"

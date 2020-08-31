@@ -30,7 +30,9 @@ _wait_for_deployment istio-system istio-ingressgateway
 _deploy_and_wait_for_addons kiali prometheus grafana zipkin
 
 # Setup TLS certificates and ingress access
-snip_configuring_remote_access_2
+_set_ingress_environment_variables
+INGRESS_DOMAIN="$INGRESS_HOST.nip.io"
+INGRESS_URL="$INGRESS_DOMAIN:$SECURE_INGRESS_PORT"
 
 snip_option_1_secure_access_https_1
 
@@ -42,19 +44,19 @@ snip_option_1_secure_access_https_5
 _wait_for_addon_config_distribution kiali prometheus grafana tracing
 
 function secure_access_kiali() {
-  curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://kiali.$INGRESS_DOMAIN/kiali/"
+  curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://kiali.$INGRESS_URL/kiali/"
 }
 
 function secure_access_prometheus() {
-  curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://prometheus.$INGRESS_DOMAIN/api/v1/status/config"
+  curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://prometheus.$INGRESS_URL/api/v1/status/config"
 }
 
 function secure_access_grafana() {
-  curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://grafana.$INGRESS_DOMAIN"
+  curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://grafana.$INGRESS_URL"
 }
 
 function secure_access_tracing() {
-  curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://tracing.$INGRESS_DOMAIN/zipkin/api/v2/traces"
+  curl -s -o /dev/null -w "%{http_code}" --cacert "$CERT_DIR/ca.crt" "https://tracing.$INGRESS_URL/zipkin/api/v2/traces"
 }
 
 _verify_same secure_access_kiali "200"
