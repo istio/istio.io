@@ -346,7 +346,7 @@ The SNI proxy will forward the traffic to port `443`.
 1.  Deploy the new gateway:
 
     {{< text bash >}}
-    $ istioctl install -f ./egressgateway-with-sni-proxy.yaml
+    $ istioctl install -f ./egressgateway-with-sni-proxy.yaml --set values.gateways.istio-egressgateway.runAsRoot=true
     {{< /text >}}
 
 1.  Patch the deployment with a second pod container for the SNI proxy:
@@ -436,8 +436,8 @@ The SNI proxy will forward the traffic to port `443`.
       - "*.wikipedia.org"
       ports:
       - number: 443
-        name: https
-        protocol: HTTPS
+        name: tls
+        protocol: TLS
     EOF
     {{< /text >}}
 
@@ -456,8 +456,8 @@ The SNI proxy will forward the traffic to port `443`.
       servers:
       - port:
           number: 443
-          name: https-egress
-          protocol: HTTPS
+          name: tls-egress
+          protocol: TLS
         hosts:
         - "*.wikipedia.org"
         tls:
@@ -532,11 +532,11 @@ The SNI proxy will forward the traffic to port `443`.
             portNumber: 443
             filterChain:
               filter:
-                name: mixer
+                name: istio.stats
         patch:
           operation: INSERT_BEFORE
           value:
-             name: forward-downstream-sni
+             name: forward_downstream_sni
              config: {}
     ---
     # The following filter verifies that the SNI of the mutual TLS connection (the SNI reported to Mixer) is
@@ -557,10 +557,10 @@ The SNI proxy will forward the traffic to port `443`.
         match:
           context: GATEWAY
           listener:
-            portNumber: 15444
+            portNumber: 443
             filterChain:
               filter:
-                name: mixer
+                name: istio.stats
         patch:
           operation: INSERT_BEFORE
           value:
@@ -618,8 +618,8 @@ The SNI proxy will forward the traffic to port `443`.
     {{< text bash >}}
     $ kubectl delete serviceentry sni-proxy
     $ kubectl delete destinationrule disable-mtls-for-sni-proxy
-    $ kubectl delete IstioOperator istio-egressgateway-with-sni-proxy -n istio-system
     $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
+    $ istioctl x uninstall
     {{< /text >}}
 
 1.  Remove the configuration files you created:

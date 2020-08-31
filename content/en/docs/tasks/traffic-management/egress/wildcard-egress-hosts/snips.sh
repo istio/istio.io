@@ -227,7 +227,7 @@ EOF
 }
 
 snip_setup_egress_gateway_with_sni_proxy_4() {
-istioctl install -f ./egressgateway-with-sni-proxy.yaml
+istioctl install -f ./egressgateway-with-sni-proxy.yaml --set values.gateways.istio-egressgateway.runAsRoot=true
 }
 
 snip_setup_egress_gateway_with_sni_proxy_5() {
@@ -311,8 +311,8 @@ spec:
   - "*.wikipedia.org"
   ports:
   - number: 443
-    name: https
-    protocol: HTTPS
+    name: tls
+    protocol: TLS
 EOF
 }
 
@@ -328,8 +328,8 @@ spec:
   servers:
   - port:
       number: 443
-      name: https-egress
-      protocol: HTTPS
+      name: tls-egress
+      protocol: TLS
     hosts:
     - "*.wikipedia.org"
     tls:
@@ -404,11 +404,11 @@ spec:
         portNumber: 443
         filterChain:
           filter:
-            name: mixer
+            name: istio.stats
     patch:
       operation: INSERT_BEFORE
       value:
-         name: forward-downstream-sni
+         name: forward_downstream_sni
          config: {}
 ---
 # The following filter verifies that the SNI of the mutual TLS connection (the SNI reported to Mixer) is
@@ -429,10 +429,10 @@ spec:
     match:
       context: GATEWAY
       listener:
-        portNumber: 15444
+        portNumber: 443
         filterChain:
           filter:
-            name: mixer
+            name: istio.stats
     patch:
       operation: INSERT_BEFORE
       value:
@@ -479,8 +479,8 @@ kubectl delete --ignore-not-found=true envoyfilter forward-downstream-sni egress
 snip_cleanup_wildcard_configuration_for_arbitrary_domains_2() {
 kubectl delete serviceentry sni-proxy
 kubectl delete destinationrule disable-mtls-for-sni-proxy
-kubectl delete IstioOperator istio-egressgateway-with-sni-proxy -n istio-system
 kubectl delete configmap egress-sni-proxy-configmap -n istio-system
+istioctl x uninstall
 }
 
 snip_cleanup_wildcard_configuration_for_arbitrary_domains_3() {
