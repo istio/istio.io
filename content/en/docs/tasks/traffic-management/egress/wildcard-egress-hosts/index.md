@@ -538,6 +538,7 @@ The SNI proxy will forward the traffic to port `443`.
           value:
              name: forward_downstream_sni
              config: {}
+    EOF
     {{< /text >}}
 
 1.  Add an `EnvoyFilter` to the gateway, to prevent if from being deceived.
