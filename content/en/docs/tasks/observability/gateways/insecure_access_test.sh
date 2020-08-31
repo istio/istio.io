@@ -19,7 +19,6 @@ set -e
 set -u
 set -o pipefail
 
-source "tests/util/samples.sh"
 source "tests/util/addons.sh"
 
 # @setup profile=demo
