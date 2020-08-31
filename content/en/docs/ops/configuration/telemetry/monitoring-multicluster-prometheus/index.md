@@ -150,9 +150,9 @@ scrape_configs:
     honor_labels: true
     metrics_path: '/federate'
 
-    metrics_relabel_configs:
+    metric_relabel_configs:
     - replacement: '{{CLUSTER_NAME}}'
-      targetLabel: cluster
+      target_label: cluster
 
     kubernetes_sd_configs:
     - role: pod
