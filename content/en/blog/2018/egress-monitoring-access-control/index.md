@@ -72,7 +72,7 @@ the traffic to _edition.cnn.com_.
 ### Logging
 
 Configure Istio to log access to _*.cnn.com_. You create a `logentry` and two
-[stdio](/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`, one for logging forbidden access
+[stdio](/v1.6/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`, one for logging forbidden access
 (_error_ log level) and another one for logging all access to _*.cnn.com_ (_info_ log level). Then you create `rules` to
 direct your `logentry` instances to your `handlers`. One rule directs access to _*.cnn.com/politics_ to the handler for
 logging forbidden access, another rule directs log entries to the handler that outputs each access to _*.cnn.com_ as an
@@ -283,7 +283,7 @@ just filtering by URL paths will be required. You may want to apply [Istio Mixer
 for example
 [white lists or black lists](/docs/tasks/policy-enforcement/denial-and-list/#attribute-based-whitelists-or-blacklists)
 of allowed/forbidden URL paths, respectively.
-[Policy Rules](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/) allow specifying complex conditions,
+[Policy Rules](/v1.6/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/) allow specifying complex conditions,
 specified in a [rich expression language](/docs/reference/config/policy-and-telemetry/expression-language/), which
 includes AND and OR logical operators. The rules can be reused for both logging and policy checks. More advanced users
 may want to apply [Istio Role-Based Access Control](/docs/concepts/security/#authorization).

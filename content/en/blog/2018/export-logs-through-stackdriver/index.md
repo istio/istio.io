@@ -22,7 +22,7 @@ application throughout this task.
 
 ## Configuring Istio to export logs
 
-Istio exports logs using the `logentry` [template](/docs/reference/config/policy-and-telemetry/templates/logentry).
+Istio exports logs using the `logentry` [template](/v1.6/docs/reference/config/policy-and-telemetry/templates/logentry).
 This specifies all the variables that are available for analysis. It
 contains information like source service, destination service, auth
 metrics (coming..) among others. Following is a diagram of the pipeline:
