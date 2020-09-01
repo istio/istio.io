@@ -30,10 +30,10 @@ _set_ingress_environment_variables
 INGRESS_DOMAIN="$INGRESS_HOST.nip.io"
 INGRESS_URL="$INGRESS_DOMAIN:$INGRESS_PORT"
 
-snip_option_2_insecure_access_http_1
-snip_option_2_insecure_access_http_2
-snip_option_2_insecure_access_http_3
-snip_option_2_insecure_access_http_4
+_verify_same snip_option_2_insecure_access_http_1 "$snip_option_2_insecure_access_http_1_out"
+_verify_same snip_option_2_insecure_access_http_2 "$snip_option_2_insecure_access_http_2_out"
+_verify_same snip_option_2_insecure_access_http_3 "$snip_option_2_insecure_access_http_3_out"
+_verify_same snip_option_2_insecure_access_http_4 "$snip_option_2_insecure_access_http_4_out"
 
 _wait_for_addon_config_distribution kiali prometheus grafana tracing
 
