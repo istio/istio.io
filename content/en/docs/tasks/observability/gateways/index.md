@@ -117,9 +117,9 @@ $ kubectl create -n istio-system secret tls telemetry-gw-cert --key=${CERT_DIR}/
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "grafana-gateway" configured
-        virtualservice.networking.istio.io "grafana-vs" configured
-        destinationrule.networking.istio.io "grafana" configured
+        gateway.networking.istio.io/grafana-gateway created
+        virtualservice.networking.istio.io/grafana-vs created
+        destinationrule.networking.istio.io/grafana created
         {{< /text >}}
 
     1. Apply the following configuration to expose Kiali:
@@ -174,9 +174,9 @@ $ kubectl create -n istio-system secret tls telemetry-gw-cert --key=${CERT_DIR}/
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "kiali-gateway" configured
-        virtualservice.networking.istio.io "kiali-vs" configured
-        destinationrule.networking.istio.io "kiali" configured
+        gateway.networking.istio.io/kiali-gateway created
+        virtualservice.networking.istio.io/kiali-vs created
+        destinationrule.networking.istio.io/kiali created
         {{< /text >}}
 
     1. Apply the following configuration to expose Prometheus:
@@ -231,9 +231,9 @@ $ kubectl create -n istio-system secret tls telemetry-gw-cert --key=${CERT_DIR}/
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "prometheus-gateway" configured
-        virtualservice.networking.istio.io "prometheus-vs" configured
-        destinationrule.networking.istio.io "prometheus" configured
+        gateway.networking.istio.io/prometheus-gateway created
+        virtualservice.networking.istio.io/prometheus-vs created
+        destinationrule.networking.istio.io/prometheus created
         {{< /text >}}
 
     1. Apply the following configuration to expose the tracing service:
@@ -288,9 +288,9 @@ $ kubectl create -n istio-system secret tls telemetry-gw-cert --key=${CERT_DIR}/
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "tracing-gateway" configured
-        virtualservice.networking.istio.io "tracing-vs" configured
-        destinationrule.networking.istio.io "tracing" configured
+        gateway.networking.istio.io/tracing-gateway created
+        virtualservice.networking.istio.io/tracing-vs created
+        destinationrule.networking.istio.io/tracing created
         {{< /text >}}
 
 1. Visit the telemetry addons via your browser.
@@ -357,9 +357,9 @@ $ kubectl create -n istio-system secret tls telemetry-gw-cert --key=${CERT_DIR}/
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "grafana-gateway" configured
-        virtualservice.networking.istio.io "grafana-vs" configured
-        destinationrule.networking.istio.io "grafana" configured
+        gateway.networking.istio.io/grafana-gateway created
+        virtualservice.networking.istio.io/grafana-vs created
+        destinationrule.networking.istio.io/grafana created
         {{< /text >}}
 
     1. Apply the following configuration to expose Kiali:
@@ -411,9 +411,9 @@ $ kubectl create -n istio-system secret tls telemetry-gw-cert --key=${CERT_DIR}/
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "kiali-gateway" configured
-        virtualservice.networking.istio.io "kiali-vs" configured
-        destinationrule.networking.istio.io "kiali" configured
+        gateway.networking.istio.io/kiali-gateway created
+        virtualservice.networking.istio.io/kiali-vs created
+        destinationrule.networking.istio.io/kiali created
         {{< /text >}}
 
     1. Apply the following configuration to expose Prometheus:
@@ -465,9 +465,9 @@ $ kubectl create -n istio-system secret tls telemetry-gw-cert --key=${CERT_DIR}/
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "prometheus-gateway" configured
-        virtualservice.networking.istio.io "prometheus-vs" configured
-        destinationrule.networking.istio.io "prometheus" configured
+        gateway.networking.istio.io/prometheus-gateway created
+        virtualservice.networking.istio.io/prometheus-vs created
+        destinationrule.networking.istio.io/prometheus created
         {{< /text >}}
 
     1. Apply the following configuration to expose the tracing service:
@@ -519,9 +519,9 @@ $ kubectl create -n istio-system secret tls telemetry-gw-cert --key=${CERT_DIR}/
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "tracing-gateway" configured
-        virtualservice.networking.istio.io "tracing-vs" configured
-        destinationrule.networking.istio.io "tracing" configured
+        gateway.networking.istio.io/tracing-gateway created
+        virtualservice.networking.istio.io/tracing-vs created
+        destinationrule.networking.istio.io/tracing created
         {{< /text >}}
 
 1. Visit the telemetry addons via your browser.

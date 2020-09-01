@@ -91,9 +91,9 @@ EOF
 }
 
 ! read -r -d '' snip_option_1_secure_access_https_2_out <<\ENDSNIP
-gateway.networking.istio.io "grafana-gateway" configured
-virtualservice.networking.istio.io "grafana-vs" configured
-destinationrule.networking.istio.io "grafana" configured
+gateway.networking.istio.io/grafana-gateway created
+virtualservice.networking.istio.io/grafana-vs created
+destinationrule.networking.istio.io/grafana created
 ENDSNIP
 
 snip_option_1_secure_access_https_3() {
@@ -149,9 +149,9 @@ EOF
 }
 
 ! read -r -d '' snip_option_1_secure_access_https_3_out <<\ENDSNIP
-gateway.networking.istio.io "kiali-gateway" configured
-virtualservice.networking.istio.io "kiali-vs" configured
-destinationrule.networking.istio.io "kiali" configured
+gateway.networking.istio.io/kiali-gateway created
+virtualservice.networking.istio.io/kiali-vs created
+destinationrule.networking.istio.io/kiali created
 ENDSNIP
 
 snip_option_1_secure_access_https_4() {
@@ -207,9 +207,9 @@ EOF
 }
 
 ! read -r -d '' snip_option_1_secure_access_https_4_out <<\ENDSNIP
-gateway.networking.istio.io "prometheus-gateway" configured
-virtualservice.networking.istio.io "prometheus-vs" configured
-destinationrule.networking.istio.io "prometheus" configured
+gateway.networking.istio.io/prometheus-gateway created
+virtualservice.networking.istio.io/prometheus-vs created
+destinationrule.networking.istio.io/prometheus created
 ENDSNIP
 
 snip_option_1_secure_access_https_5() {
@@ -265,9 +265,9 @@ EOF
 }
 
 ! read -r -d '' snip_option_1_secure_access_https_5_out <<\ENDSNIP
-gateway.networking.istio.io "tracing-gateway" configured
-virtualservice.networking.istio.io "tracing-vs" configured
-destinationrule.networking.istio.io "tracing" configured
+gateway.networking.istio.io/tracing-gateway created
+virtualservice.networking.istio.io/tracing-vs created
+destinationrule.networking.istio.io/tracing created
 ENDSNIP
 
 snip_option_2_insecure_access_http_1() {
@@ -320,9 +320,9 @@ EOF
 }
 
 ! read -r -d '' snip_option_2_insecure_access_http_1_out <<\ENDSNIP
-gateway.networking.istio.io "grafana-gateway" configured
-virtualservice.networking.istio.io "grafana-vs" configured
-destinationrule.networking.istio.io "grafana" configured
+gateway.networking.istio.io/grafana-gateway created
+virtualservice.networking.istio.io/grafana-vs created
+destinationrule.networking.istio.io/grafana created
 ENDSNIP
 
 snip_option_2_insecure_access_http_2() {
@@ -375,9 +375,9 @@ EOF
 }
 
 ! read -r -d '' snip_option_2_insecure_access_http_2_out <<\ENDSNIP
-gateway.networking.istio.io "kiali-gateway" configured
-virtualservice.networking.istio.io "kiali-vs" configured
-destinationrule.networking.istio.io "kiali" configured
+gateway.networking.istio.io/kiali-gateway created
+virtualservice.networking.istio.io/kiali-vs created
+destinationrule.networking.istio.io/kiali created
 ENDSNIP
 
 snip_option_2_insecure_access_http_3() {
@@ -430,9 +430,9 @@ EOF
 }
 
 ! read -r -d '' snip_option_2_insecure_access_http_3_out <<\ENDSNIP
-gateway.networking.istio.io "prometheus-gateway" configured
-virtualservice.networking.istio.io "prometheus-vs" configured
-destinationrule.networking.istio.io "prometheus" configured
+gateway.networking.istio.io/prometheus-gateway created
+virtualservice.networking.istio.io/prometheus-vs created
+destinationrule.networking.istio.io/prometheus created
 ENDSNIP
 
 snip_option_2_insecure_access_http_4() {
@@ -485,9 +485,9 @@ EOF
 }
 
 ! read -r -d '' snip_option_2_insecure_access_http_4_out <<\ENDSNIP
-gateway.networking.istio.io "tracing-gateway" configured
-virtualservice.networking.istio.io "tracing-vs" configured
-destinationrule.networking.istio.io "tracing" configured
+gateway.networking.istio.io/tracing-gateway created
+virtualservice.networking.istio.io/tracing-vs created
+destinationrule.networking.istio.io/tracing created
 ENDSNIP
 
 snip_cleanup_1() {
