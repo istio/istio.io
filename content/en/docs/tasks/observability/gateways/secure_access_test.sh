@@ -36,10 +36,10 @@ INGRESS_URL="$INGRESS_DOMAIN:$SECURE_INGRESS_PORT"
 
 snip_option_1_secure_access_https_1
 
-snip_option_1_secure_access_https_2
-snip_option_1_secure_access_https_3
-snip_option_1_secure_access_https_4
-snip_option_1_secure_access_https_5
+_verify_like snip_option_1_secure_access_https_2 "$snip_option_1_secure_access_https_2_out"
+_verify_like snip_option_1_secure_access_https_3 "$snip_option_1_secure_access_https_3_out"
+_verify_like snip_option_1_secure_access_https_4 "$snip_option_1_secure_access_https_4_out"
+_verify_like snip_option_1_secure_access_https_5 "$snip_option_1_secure_access_https_5_out"
 
 _wait_for_addon_config_distribution kiali prometheus grafana tracing
 
@@ -65,9 +65,13 @@ _verify_same secure_access_grafana "200"
 _verify_same secure_access_tracing "200"
 
 # @cleanup
+
 set +e
-snip_cleanup
-snip_cleanup
-snip_cleanup
+# Not verifying output for cleanup as failures would
+# prevent proper cleanup which could fail other tests
+snip_cleanup_1
+snip_cleanup_2
+snip_cleanup_3
+
 _undeploy_addons kiali prometheus grafana zipkin
 kubectl delete ns istio-system
