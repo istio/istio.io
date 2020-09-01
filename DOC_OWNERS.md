@@ -116,9 +116,7 @@ There are 154 owned istio.io docs.
 - [docs/tasks/observability/metrics/tcp-metrics/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/metrics/tcp-metrics)
 - [docs/tasks/observability/metrics/using-istio-dashboard/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/metrics/using-istio-dashboard)
 - [docs/tasks/policy-enforcement/control-headers/index.md](https://preliminary.istio.io/latest/docs/tasks/policy-enforcement/control-headers)
-- [docs/tasks/policy-enforcement/denial-and-list/index.md](https://preliminary.istio.io/latest/docs/tasks/policy-enforcement/denial-and-list)
 - [docs/tasks/policy-enforcement/enabling-policy/index.md](https://preliminary.istio.io/latest/docs/tasks/policy-enforcement/enabling-policy)
-- [docs/tasks/policy-enforcement/rate-limiting/index.md](https://preliminary.istio.io/latest/docs/tasks/policy-enforcement/rate-limiting)
 
 ## istio/wg-security-maintainers: 17 docs
 
