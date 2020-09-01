@@ -44,7 +44,7 @@ which helps with incremental migration to Istio.
 significant drop in average latency for authorization checks.
 
 - **Improved list Adapter**. The Mixer 'list' adapter now supports regular expression matching. See the adapter's
-[configuration options](/docs/reference/config/policy-and-telemetry/adapters/list/) for details.
+[configuration options](https://istio.io/v0.3/docs/reference/config/policy-and-telemetry/adapters/list/) for details.
 
 - **Configuration Validation**. Mixer does more extensive validation of configuration state in order to catch problems earlier.
 We expect to invest more in this area in coming releases.

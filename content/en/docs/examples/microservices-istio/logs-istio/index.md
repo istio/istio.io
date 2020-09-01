@@ -68,7 +68,6 @@ features using this `demo` installation:
 - [Traffic shifting](/docs/tasks/traffic-management/traffic-shifting/)
 - [Querying metrics](/docs/tasks/observability/metrics/querying-metrics/)
 - [Visualizing metrics](/docs/tasks/observability/metrics/using-istio-dashboard/)
-- [Rate limiting](/docs/tasks/policy-enforcement/rate-limiting/)
 - [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
 - [Visualizing your mesh](/docs/tasks/observability/kiali/)
 
