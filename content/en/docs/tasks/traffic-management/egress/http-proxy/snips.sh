@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/traffic-management/egress/http-proxy/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/before-you-begin-egress.sh"
 
 snip_deploy_an_https_proxy_1() {
 kubectl create namespace external

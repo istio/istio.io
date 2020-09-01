@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/traffic-management/ingress/ingress-control/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/start-httpbin-service.sh"
 
 snip_determining_the_ingress_ip_and_ports_1() {
 kubectl get svc istio-ingressgateway -n istio-system
