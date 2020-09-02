@@ -1,0 +1,32 @@
+namespace/default
+namespace/kube-node-lease
+namespace/kube-public
+namespace/kube-system
+namespace/local-path-storage
+NAME                        READY   STATUS    RESTARTS   AGE
+pod/sleep-8f795f47d-29kjv   2/2     Running   0          39m
+
+
+NAME                 TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1      <none>        443/TCP   14d
+service/sleep        ClusterIP   10.97.239.76   <none>        80/TCP    39m
+
+
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/sleep   1/1     1            1           39m
+
+NAME                              DESIRED   CURRENT   READY   AGE
+replicaset.apps/sleep-8f795f47d   1         1         1       39m
+
+
+
+
+NAME                        AGE
+metadata-exchange-1.6       26s
+metadata-exchange-1.7       26s
+stats-filter-1.6            26s
+stats-filter-1.7            26s
+tcp-metadata-exchange-1.6   26s
+tcp-metadata-exchange-1.7   26s
+tcp-stats-filter-1.6        26s
+tcp-stats-filter-1.7        26s

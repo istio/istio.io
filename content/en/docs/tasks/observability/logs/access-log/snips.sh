@@ -22,17 +22,10 @@
 source "content/en/boilerplates/snips/before-you-begin-egress.sh"
 source "content/en/boilerplates/snips/start-httpbin-service.sh"
 
-snip_enable_envoys_access_logging_1() {
-istioctl install --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"
-}
-
-! read -r -d '' snip_enable_envoys_access_logging_1_out <<\ENDSNIP
-...
-- Processing resources for Istiod.
-✔ Istiod installed
-...
-- Pruning removed resources
-✔ Installation complete
+! read -r -d '' snip_enable_envoys_access_logging_1 <<\ENDSNIP
+spec:
+  meshConfig:
+    accessLogFile: /dev/stdout
 ENDSNIP
 
 snip_test_the_access_log_1() {
@@ -77,13 +70,12 @@ kubectl delete -f samples/httpbin/httpbin.yaml
 }
 
 snip_disable_envoys_access_logging_1() {
-istioctl install --set profile=demo
+istioctl install --set profile=default
 }
 
 ! read -r -d '' snip_disable_envoys_access_logging_1_out <<\ENDSNIP
 ✔ Istio core installed
 ✔ Istiod installed
-✔ Egress gateways installed
 ✔ Ingress gateways installed
 ✔ Installation complete
 ENDSNIP

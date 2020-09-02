@@ -7,7 +7,7 @@ aliases:
     - /docs/tasks/egress
 keywords: [traffic-management,egress]
 owner: istio/wg-networking-maintainers
-test: no
+test: yes
 ---
 
 Because all outbound traffic from an Istio-enabled pod is redirected to its sidecar proxy by default,
@@ -25,6 +25,8 @@ This task shows you how to access external services in three different ways:
 ## Before you begin
 
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+    Use the `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/) or otherwise
+    [enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
 
 *   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
     If you have
@@ -78,10 +80,11 @@ You can then decide to [configure access to external services](#controlled-acces
     You should either see `ALLOW_ANY` or empty output.
 
     {{< tip >}}
-    If you have explicitly configured `REGISTRY_ONLY` mode, you can run the following command to change it:
+    If you have explicitly configured `REGISTRY_ONLY` mode, you can change it
+    by rerunning your original `istioctl install` command with the changed setting, for example:
 
-    {{< text bash >}}
-    $ kubectl patch istiooperator installed-state -n istio-system --type='json' -p='[{"op": "replace", "path": "/spec/meshConfig/outboundTrafficPolicy", "value": { mode: "ALLOW_ANY"}}]'
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.outboundTrafficPolicy.mode=ALLOW_ANY
     {{< /text >}}
 
     {{< /tip >}}
@@ -90,7 +93,7 @@ You can then decide to [configure access to external services](#controlled-acces
     successful `200` responses:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://www.google.com | grep  "HTTP/"; kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://edition.cnn.com | grep "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
     HTTP/2 200
     HTTP/2 200
     {{< /text >}}
@@ -120,16 +123,28 @@ Once you've configured all of your services, you can then switch the mode to `RE
 any other unintentional accesses.
 {{< /tip >}}
 
-1.  Run the following command to change the `meshConfig.outboundTrafficPolicy.mode` option to `REGISTRY_ONLY`:
+1.  Change the `meshConfig.outboundTrafficPolicy.mode` option to `REGISTRY_ONLY`.
 
-    {{< text bash >}}
-    $ kubectl patch istiooperator installed-state -n istio-system --type='json' -p='[{"op": "replace", "path": "/spec/meshConfig/outboundTrafficPolicy", "value": { mode: "REGISTRY_ONLY"}}]'
+    If you used an `IstioOperator` CR to install Istio, add the following field to your configuration:
+
+    {{< text yaml >}}
+    spec:
+      meshConfig:
+        outboundTrafficPolicy:
+          mode: REGISTRY_ONLY
+    {{< /text >}}
+
+    Otherwise, add the equivalent setting to your original `istioctl install` command, for example:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl install <flags-you-used-to-install-Istio> \
+                       --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
     {{< /text >}}
 
 1.  Make a couple of requests to external HTTPS services from `SOURCE_POD` to verify that they are now blocked:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://www.google.com | grep  "HTTP/"; kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://edition.cnn.com | grep "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
     command terminated with exit code 35
     command terminated with exit code 35
     {{< /text >}}
@@ -176,15 +191,15 @@ any other unintentional accesses.
 1.  Make a request to the external HTTP service from `SOURCE_POD`:
 
     {{< text bash >}}
-    $  kubectl exec -it $SOURCE_POD -c sleep -- curl http://httpbin.org/headers
+    $  kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
     {
       "headers": {
-      "Accept": "*/*",
-      "Connection": "close",
-      "Host": "httpbin.org",
-      "User-Agent": "curl/7.60.0",
-      ...
-      "X-Envoy-Decorator-Operation": "httpbin.org:80/*",
+        "Accept": "*/*",
+        "Content-Length": "0",
+        "Host": "httpbin.org",
+        ...
+        "X-Envoy-Decorator-Operation": "httpbin.org:80/*",
+        ...
       }
     }
     {{< /text >}}
@@ -225,7 +240,7 @@ any other unintentional accesses.
 1.  Make a request to the external HTTPS service from `SOURCE_POD`:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://www.google.com | grep  "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://www.google.com | grep  "HTTP/"
     HTTP/2 200
     {{< /text >}}
 
@@ -249,9 +264,8 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
     httpbin.org external service:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
     200
-
     real    0m5.024s
     user    0m0.003s
     sys     0m0.003s
@@ -282,7 +296,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 1.  Wait a few seconds, then make the _curl_ request again:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
     504
 
     real    0m3.149s
@@ -331,7 +345,7 @@ These IP range values depend on the platform where your cluster runs.
 
 ### Determine the internal IP ranges for your platform
 
-Set the value of `global.proxy.includeIPRanges` according to your cluster provider.
+Set the value of `values.global.proxy.includeIPRanges` according to your cluster provider.
 
 #### IBM Cloud Private
 
@@ -347,11 +361,11 @@ Set the value of `global.proxy.includeIPRanges` according to your cluster provid
     service_cluster_ip_range: 10.0.0.1/24
     {{< /text >}}
 
-1.  Use `--set global.proxy.includeIPRanges="10.0.0.1/24"`
+1.  Use `--set values.global.proxy.includeIPRanges="10.0.0.1/24"`
 
 #### IBM Cloud Kubernetes Service
 
-Use `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.21.0.0/16\,10.10.10.0/24"`
+Use `--set values.global.proxy.includeIPRanges="172.30.0.0/16\,172.21.0.0/16\,10.10.10.0/24"`
 
 #### Google Container Engine (GKE)
 
@@ -364,11 +378,11 @@ clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
 {{< /text >}}
 
-Use `--set global.proxy.includeIPRanges="10.4.0.0/14\,10.7.240.0/20"`
+Use `--set values.global.proxy.includeIPRanges="10.4.0.0/14\,10.7.240.0/20"`
 
 #### Azure Container Service(ACS)
 
-Use `--set global.proxy.includeIPRanges="10.244.0.0/16\,10.240.0.0/16`
+Use `--set values.global.proxy.includeIPRanges="10.244.0.0/16\,10.240.0.0/16`
 
 #### Minikube, Docker For Desktop, Bare Metal
 
@@ -379,7 +393,7 @@ $ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-
       --service-cluster-ip-range=10.96.0.0/12
 {{< /text >}}
 
-Use `--set global.proxy.includeIPRanges="10.96.0.0/12"`
+Use `--set values.global.proxy.includeIPRanges="10.96.0.0/12"`
 
 ### Configuring the proxy bypass
 
@@ -390,8 +404,8 @@ Remove the service entry and virtual service previously deployed in this guide.
 Update your `istio-sidecar-injector` configuration map using the IP ranges specific to your platform.
 For example, if the range is 10.0.0.1&#47;24, use the following command:
 
-{{< text bash >}}
-$ istioctl install <the flags you used to install Istio> --set values.global.proxy.includeIPRanges="10.0.0.1/24"
+{{< text syntax=bash snip_id=none >}}
+$ istioctl install <flags-you-used-to-install-Istio> --set values.global.proxy.includeIPRanges="10.0.0.1/24"
 {{< /text >}}
 
 Use the same command that you used to [install Istio](/docs/setup/install/istioctl) and
@@ -408,14 +422,12 @@ within the cluster. Any external request bypasses the sidecar and goes straight 
 For example:
 
 {{< text bash >}}
-$ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-$ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
+$ kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
 {
   "headers": {
     "Accept": "*/*",
-    "Connection": "close",
     "Host": "httpbin.org",
-    "User-Agent": "curl/7.60.0"
+    ...
   }
 }
 {{< /text >}}
@@ -429,8 +441,8 @@ no longer monitor the access to external services.
 Update the `istio-sidecar-injector.configmap.yaml` configuration map to redirect all outbound traffic to the sidecar
 proxies:
 
-{{< text bash >}}
-$ istioctl install <the flags you used to install Istio>
+{{< text syntax=bash snip_id=none >}}
+$ istioctl install <flags-you-used-to-install-Istio>
 {{< /text >}}
 
 ## Understanding what happened

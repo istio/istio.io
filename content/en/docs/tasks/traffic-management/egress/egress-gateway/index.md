@@ -57,13 +57,24 @@ and the client requests will fail.
     $ kubectl get pod -l istio=egressgateway -n istio-system
     {{< /text >}}
 
-    If no pods are returned, deploy the Istio egress gateway by performing the next step.
+    If no pods are returned, deploy the Istio egress gateway by performing the following step.
 
-1.  Run the following command:
+1.  If you used an `IstioOperator` CR to install Istio, add the following fields to your configuration:
 
-    {{< text bash >}}
-    $ istioctl install --set values.global.istioNamespace=istio-system \
-        --set values.gateways.istio-egressgateway.enabled=true
+    {{< text yaml >}}
+    spec:
+      components:
+        egressGateways:
+        - name: istio-egressgateway
+          enabled: true
+    {{< /text >}}
+
+    Otherwise, add the equivalent settings to your original `istioctl install` command, for example:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl install <flags-you-used-to-install-Istio> \
+                       --set components.egressGateways.name=istio-egressgateway \
+                       --set components.egressGateways.enabled=true
     {{< /text >}}
 
 ## Egress gateway for HTTP traffic
