@@ -1578,10 +1578,13 @@ No
 <p>Describes how traffic originating in the &lsquo;from&rsquo; zone or sub-zone is
 distributed over a set of &lsquo;to&rsquo; zones. Syntax for specifying a zone is
 {region}/{zone}/{sub-zone} and terminal wildcards are allowed on any
-segment of the specification. Examples:
-* - matches all localities
-us-west/* - all zones and sub-zones within the us-west region
-us-west/zone-1/* - all sub-zones within us-west/zone-1</p>
+segment of the specification. Examples:</p>
+
+<p><code>*</code> - matches all localities</p>
+
+<p><code>us-west/*</code> - all zones and sub-zones within the us-west region</p>
+
+<p><code>us-west/zone-1/*</code> - all sub-zones within us-west/zone-1</p>
 
 <table class="message-fields">
 <thead>
@@ -1609,7 +1612,7 @@ No
 <td><code>map&lt;string,&nbsp;uint32&gt;</code></td>
 <td>
 <p>Map of upstream localities to traffic distribution weights. The sum of
-all weights should be == 100. Any locality not assigned a weight will
+all weights should be 100. Any locality not present will
 receive no traffic.</p>
 
 </td>
