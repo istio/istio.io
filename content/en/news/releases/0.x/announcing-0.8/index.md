@@ -52,7 +52,7 @@ management functionality without dealing with Mixer or Citadel.
 ## Mixer adapters
 
 - **CloudWatch**. Mixer can now report metrics to AWS CloudWatch.
-[Learn more](/docs/reference/config/policy-and-telemetry/adapters/cloudwatch/)
+[Learn more](https://istio.io/v0.8/docs/reference/config/policy-and-telemetry/adapters/cloudwatch/)
 
 ## Known issues with 0.8
 

@@ -159,6 +159,18 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If this is set to false, will not create CA server in istiod.</td>
 </tr>
 <tr>
+<td><code>ENABLE_DEBUG_ON_HTTP</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to false, the debug interface will not be ebabled on Http, recommended for production</td>
+</tr>
+<tr>
+<td><code>ENVOY_READINESS_CHECK_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>5s</code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>INGRESS_GATEWAY_NAMESPACE</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -175,6 +187,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>String</td>
 <td><code></code></td>
 <td>Custom host name of istiod that istiod signs the server cert.</td>
+</tr>
+<tr>
+<td><code>ISTIOD_ENABLE_SDS_SERVER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Istiod will serve SDS for credentialName secrets (rather than in-proxy). To ensure proper security, PILOT_ENABLE_XDS_IDENTITY_CHECK=true is required as well. This option temporarily only supports gateways running in istio-system namespace.</td>
 </tr>
 <tr>
 <td><code>ISTIO_DEFAULT_REQUEST_TIMEOUT</code></td>
@@ -207,10 +225,16 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>The JWT validation policy.</td>
 </tr>
 <tr>
+<td><code>PILOT_ALLOW_METADATA_CERTS_DR_MUTUAL_TLS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, Pilot will allow certs specified in Metadata to override DR certs in MUTUAL TLS mode. This is only enabled for migration and will be removed soon.</td>
+</tr>
+<tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
 <td>String</td>
 <td><code>istiod</code></td>
-<td>the provider of Pilot DNS certificate.</td>
+<td>The provider of Pilot DNS certificate.</td>
 </tr>
 <tr>
 <td><code>PILOT_DEBOUNCE_AFTER</code></td>
@@ -223,12 +247,6 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>The maximum amount of time to wait for events while debouncing. If events keep showing up with no breaks for this time, we&#39;ll trigger a push.</td>
-</tr>
-<tr>
-<td><code>PILOT_DEBUG_ADSZ_CONFIG</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td></td>
 </tr>
 <tr>
 <td><code>PILOT_DISTRIBUTION_HISTORY_RETENTION</code></td>
@@ -259,6 +277,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will validate CRDs while retrieving CRDs from kubernetes cache.Use this flag to enable validation of CRDs in Pilot, especially in deployments that do not have galley installed.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_EDS_CACHE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will cache EDS responses.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
@@ -341,13 +365,19 @@ These environment variables affect the behavior of the <code>operator</code> com
 <tr>
 <td><code>PILOT_ENABLE_VIRTUAL_SERVICE_DELEGATE</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, Pilot will merge virtual services with delegates. By default, this is false, and virtualService with delegate will be ignored</td>
+<td><code>true</code></td>
+<td>If set to false, virtualService delegate will not be supported.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_XDS_IDENTITY_CHECK</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, pilot will authorize XDS clients, to ensure they are acting only as namespaces they have permissions for.</td>
 </tr>
 <tr>
 <td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td></td>
 </tr>
 <tr>
@@ -423,6 +453,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td></td>
 </tr>
 <tr>
+<td><code>REQUIRE_3P_TOKEN</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Reject k8s default tokens, without audience. If false, default K8S token will be accepted</td>
+</tr>
+<tr>
 <td><code>SECRET_WATCHER_RESYNC_PERIOD</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -439,6 +475,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Integer</td>
 <td><code>5</code></td>
 <td>The amount of time allowed for connections to complete on pilot-agent shutdown. On receiving SIGTERM or SIGINT, pilot-agent tells the active Envoy to start draining, preventing any new connections and allowing existing connections to complete. It then sleeps for the TerminationDrainDuration and then kills any remaining active Envoy processes.</td>
+</tr>
+<tr>
+<td><code>TOKEN_AUDIENCES</code></td>
+<td>String</td>
+<td><code>istio-ca</code></td>
+<td>A list of comma separated audiences to check in the JWT token before issuing a certificate. The token is accepted if it matches with one of the audiences</td>
 </tr>
 <tr>
 <td><code>XDS_AUTH</code></td>

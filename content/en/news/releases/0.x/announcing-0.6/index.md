@@ -25,13 +25,13 @@ proxy. [Learn more](https://github.com/mandarjog/istioluawebhook)
 ## Mixer adapters
 
 - **SolarWinds**. Mixer can now interface to AppOptics and Papertrail.
-[Learn more](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/)
+[Learn more](https://istio.io/v0.6/docs/reference/config/policy-and-telemetry/adapters/solarwinds/)
 
 - **Redis Quota**. Mixer now supports a Redis-based adapter for rate limit tracking.
-[Learn more](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
+[Learn more](https://istio.io/v0.6/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
 
 - **Datadog**. Mixer now provides an adapter to deliver metric data to a Datadog agent.
-[Learn more](/docs/reference/config/policy-and-telemetry/adapters/datadog/)
+[Learn more](https://istio.io/v0.6/docs/reference/config/policy-and-telemetry/adapters/datadog/)
 
 ## Other
 

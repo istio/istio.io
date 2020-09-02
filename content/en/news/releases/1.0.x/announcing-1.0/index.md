@@ -103,7 +103,7 @@ in addition to the server-side telemetry.
 
 - **SignalFX**. There is a new `signalfx` adapter.
 
-- **Stackdriver**. The [`stackdriver`](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) adapter has been substantially enhanced in this
+- **Stackdriver**. The [`stackdriver`](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) adapter has been substantially enhanced in this
 release to add new features and improve performance.
 
 ### Security

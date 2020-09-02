@@ -1,0 +1,137 @@
+---
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/api' REPO
+source_repo: https://github.com/istio/api
+title: Workload Group
+description: Describes a collection of workload instances.
+location: https://istio.io/docs/reference/config/networking/workload-group.html
+layout: protoc-gen-docs
+generator: protoc-gen-docs
+schema: istio.networking.v1alpha3.WorkloadGroup
+aliases: [/docs/reference/config/networking/v1alpha3/workload-group]
+number_of_entries: 2
+---
+<p><code>WorkloadGroup</code> describes a collection of workload instances.
+It provides a specification that the workload instances can use to bootstrap
+their proxies, including the metadata and identity. It is only intended to
+be used with non-k8s workloads like Virtual Machines, and is meant to mimic
+the existing sidecar injection and deployment specification model used for
+Kubernetes workloads to bootstrap Istio proxies.</p>
+
+<p>The following example declares a workload group representing a collection
+of workloads that will be registered under <code>reviews</code> in namespace
+<code>bookinfo</code>. The set of labels will be associated with each workload
+instance during the bootstrap process, and the ports 3550 and 8080
+will be associated with the workload group and use service account <code>default</code>.
+<code>app.kubernetes.io/version</code> is just an arbitrary example of a label.</p>
+
+<p>{{<tabset category-name="example">}}
+{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: WorkloadGroup
+metadata:
+  name: reviews
+  namespace: bookinfo
+spec:
+  metadata:
+    labels:
+      app.kubernetes.io/name: reviews
+      app.kubernetes.io/version: &quot;1.3.4&quot;
+  template:
+    ports:
+      grpc: 3550
+      http: 8080
+    serviceAccount: default
+</code></pre>
+
+<p>{{</tab>}}
+{{</tabset>}}</p>
+
+<h2 id="WorkloadGroup">WorkloadGroup</h2>
+<section>
+<p><code>WorkloadGroup</code> enables specifying the properties of a single workload for bootstrap and
+provides a template for <code>WorkloadEntry</code>, similar to how <code>Deployment</code> specifies properties
+of workloads via <code>Pod</code> templates. A <code>WorkloadGroup</code> can have more than one <code>WorkloadEntry</code>.
+<code>WorkloadGroup</code> has no relationship to resources which control service registry like <code>ServiceEntry</code>
+and as such doesn&rsquo;t configure host name for these workloads.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="WorkloadGroup-metadata">
+<td><code>metadata</code></td>
+<td><code><a href="#WorkloadGroup-ObjectMeta">ObjectMeta</a></code></td>
+<td>
+<p>Metadata that will be used for all corresponding <code>WorkloadEntries</code>.
+User labels for a workload group should be set here in <code>metadata</code> rather than in <code>template</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WorkloadGroup-template">
+<td><code>template</code></td>
+<td><code><a href="/docs/reference/config/networking/workload-entry/#WorkloadEntry">WorkloadEntry</a></code></td>
+<td>
+<p>Template to be used for the generation of <code>WorkloadEntry</code> resources that belong to this <code>WorkloadGroup</code>.
+Please note that <code>address</code> and <code>labels</code> fields should not be set in the template, and an empty <code>serviceAccount</code>
+should default to <code>default</code>. The workload identities (mTLS certificates) will be bootstrapped using the
+specified service account&rsquo;s token. Workload entries in this group will be in the same namespace as the
+workload group, and inherit the labels and annotations from the above <code>metadata</code> field.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="WorkloadGroup-ObjectMeta">WorkloadGroup.ObjectMeta</h2>
+<section>
+<p><code>ObjectMeta</code> describes metadata that will be attached to a <code>WorkloadEntry</code>.
+It is a subset of the supported Kubernetes metadata.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="WorkloadGroup-ObjectMeta-labels">
+<td><code>labels</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>Labels to attach</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WorkloadGroup-ObjectMeta-annotations">
+<td><code>annotations</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>Annotations to attach</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>

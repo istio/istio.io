@@ -50,7 +50,7 @@ Mixer [*templates*](/docs/reference/config/policy-and-telemetry/templates/) are 
 
 Each template is specified as a [protobuf](https://developers.google.com/protocol-buffers/) message. A single template describes a bundle of data that is delivered to one or more adapters at runtime. Any given adapter can be designed to support any number of templates, the specific templates the adapter supports is determined by the adapter developer.
 
-[`metric`](/docs/reference/config/policy-and-telemetry/templates/metric/) and [`logentry`](/docs/reference/config/policy-and-telemetry/templates/logentry/) are two of the most essential templates used within Istio. They represent respectively the payload to report a single metric and a single log entry to appropriate backends.
+[`metric`](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/templates/metric/) and [`logentry`](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/templates/logentry/) are two of the most essential templates used within Istio. They represent respectively the payload to report a single metric and a single log entry to appropriate backends.
 
 ## Instances: attribute mapping
 
