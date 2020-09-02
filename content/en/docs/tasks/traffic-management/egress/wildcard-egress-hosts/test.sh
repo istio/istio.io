@@ -112,4 +112,4 @@ snip_cleanup_wildcard_configuration_for_arbitrary_domains_3
 snip_cleanup_1
 
 kubectl delete ns istio-system
-kubectl label namespace default istio-injection- 
+kubectl label namespace default istio-injection-

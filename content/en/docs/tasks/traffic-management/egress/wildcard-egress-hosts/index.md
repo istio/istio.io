@@ -32,6 +32,16 @@ without the need to specify every language's site separately.
     $ istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
     {{< /text >}}
 
+    {{< tip >}}
+    You can run this task on an Istio configuration other than the `demo` profile as long as you make sure to
+    [deploy the Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway),
+    [enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging), and
+    [apply the blocking-by-default outbound traffic policy](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)
+    in your installation.
+    You will also need to add the second gateway using your own `IstioOperator` CR instead of the one
+    shown in [setup egress gateway with SNI proxy](#setup-egress-gateway-with-sni-proxy).
+    {{< /tip >}}
+
 *   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
     If you have
     [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
@@ -541,7 +551,7 @@ The SNI proxy will forward the traffic to port `443`.
     EOF
     {{< /text >}}
 
-1.  Add an `EnvoyFilter` to the gateway, to prevent if from being deceived.
+1.  Add an `EnvoyFilter` to the gateway, to prevent it from being deceived.
 
     {{< text bash >}}
     $ kubectl apply -n istio-system -f - <<EOF
@@ -616,7 +626,8 @@ The SNI proxy will forward the traffic to port `443`.
     $ kubectl delete gateway istio-egressgateway-with-sni-proxy
     $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
     $ kubectl delete destinationrule egressgateway-for-wikipedia
-    $ kubectl delete --ignore-not-found=true envoyfilter forward-downstream-sni egress-gateway-sni-verifier
+    $ kubectl delete --ignore-not-found=true envoyfilter forward-downstream-sni
+    $ kubectl delete --ignore-not-found=true envoyfilter -n istio-system egress-gateway-sni-verifier
     {{< /text >}}
 
 1.  Delete the configuration items for the `egressgateway-with-sni-proxy` deployment:

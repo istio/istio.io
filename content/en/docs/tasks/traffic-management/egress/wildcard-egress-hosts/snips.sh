@@ -477,7 +477,8 @@ kubectl delete serviceentry wikipedia
 kubectl delete gateway istio-egressgateway-with-sni-proxy
 kubectl delete virtualservice direct-wikipedia-through-egress-gateway
 kubectl delete destinationrule egressgateway-for-wikipedia
-kubectl delete --ignore-not-found=true envoyfilter forward-downstream-sni egress-gateway-sni-verifier
+kubectl delete --ignore-not-found=true envoyfilter forward-downstream-sni
+kubectl delete --ignore-not-found=true envoyfilter -n istio-system egress-gateway-sni-verifier
 }
 
 snip_cleanup_wildcard_configuration_for_arbitrary_domains_2() {

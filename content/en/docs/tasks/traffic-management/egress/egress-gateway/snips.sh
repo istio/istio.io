@@ -25,10 +25,13 @@ snip_deploy_istio_egress_gateway_1() {
 kubectl get pod -l istio=egressgateway -n istio-system
 }
 
-snip_deploy_istio_egress_gateway_2() {
-istioctl install --set values.global.istioNamespace=istio-system \
-    --set values.gateways.istio-egressgateway.enabled=true
-}
+! read -r -d '' snip_deploy_istio_egress_gateway_2 <<\ENDSNIP
+spec:
+  components:
+    egressGateways:
+    - name: istio-egressgateway
+      enabled: true
+ENDSNIP
 
 snip_egress_gateway_for_http_traffic_1() {
 kubectl apply -f - <<EOF
