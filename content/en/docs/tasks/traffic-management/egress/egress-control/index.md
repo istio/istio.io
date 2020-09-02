@@ -50,7 +50,7 @@ This task shows you how to access external services in three different ways:
 *   Set the `SOURCE_POD` environment variable to the name of your source pod:
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
     {{< /text >}}
 
 ## Envoy passthrough to external services
@@ -73,7 +73,7 @@ You can then decide to [configure access to external services](#controlled-acces
     or is omitted:
 
     {{< text bash >}}
-    $ kubectl get istiooperator installed-state -n istio-system -o jsonpath={.spec.meshConfig.outboundTrafficPolicy.mode}
+    $ kubectl get istiooperator installed-state -n istio-system -o jsonpath='{.spec.meshConfig.outboundTrafficPolicy.mode}'
     ALLOW_ANY
     {{< /text >}}
 
@@ -209,7 +209,7 @@ any other unintentional accesses.
 1.  Check the log of the sidecar proxy of `SOURCE_POD`:
 
     {{< text bash >}}
-    $  kubectl logs $SOURCE_POD -c istio-proxy | tail
+    $  kubectl logs "$SOURCE_POD" -c istio-proxy | tail
     [2019-01-24T12:17:11.640Z] "GET /headers HTTP/1.1" 200 - 0 599 214 214 "-" "curl/7.60.0" "17fde8f7-fa62-9b39-8999-302324e6def2" "httpbin.org" "35.173.6.94:80" outbound|80||httpbin.org - 35.173.6.94:80 172.30.109.82:55314 -
     {{< /text >}}
 
@@ -247,7 +247,7 @@ any other unintentional accesses.
 1.  Check the log of the sidecar proxy of `SOURCE_POD`:
 
     {{< text bash >}}
-    $ kubectl logs $SOURCE_POD -c istio-proxy | tail
+    $ kubectl logs "$SOURCE_POD" -c istio-proxy | tail
     [2019-01-24T12:48:54.977Z] "- - -" 0 - 601 17766 1289 - "-" "-" "-" "-" "172.217.161.36:443" outbound|443||www.google.com 172.30.109.82:59480 172.217.161.36:443 172.30.109.82:59478 www.google.com
     {{< /text >}}
 
@@ -352,7 +352,7 @@ Set the value of `values.global.proxy.includeIPRanges` according to your cluster
 1.  Get your `service_cluster_ip_range` from IBM Cloud Private configuration file under `cluster/config.yaml`:
 
     {{< text bash >}}
-    $ cat cluster/config.yaml | grep service_cluster_ip_range
+    $ grep service_cluster_ip_range < cluster/config.yaml
     {{< /text >}}
 
     The following is a sample output:
