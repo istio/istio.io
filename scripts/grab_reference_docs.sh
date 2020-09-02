@@ -34,8 +34,6 @@ REPOS=(
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"
     https://github.com/istio/api.git@"${SOURCE_BRANCH_NAME}"
     https://github.com/istio/proxy.git@"${SOURCE_BRANCH_NAME}"
-    https://github.com/apache/skywalking-data-collect-protocol.git@master
-    https://github.com/ibm-cloud-security/app-identity-and-access-adapter.git@master
 )
 
 # The components to build and extract usage docs from.

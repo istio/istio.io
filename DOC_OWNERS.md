@@ -1,7 +1,7 @@
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
-There are 154 owned istio.io docs.
+There are 152 owned istio.io docs.
 
 ## istio/wg-docs-maintainers: 15 docs
 
@@ -89,7 +89,7 @@ There are 154 owned istio.io docs.
 - [docs/tasks/traffic-management/tcp-traffic-shifting/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/tcp-traffic-shifting)
 - [docs/tasks/traffic-management/traffic-shifting/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/traffic-shifting)
 
-## istio/wg-policies-and-telemetry-maintainers: 28 docs
+## istio/wg-policies-and-telemetry-maintainers: 26 docs
 
 - [docs/concepts/observability/index.md](https://preliminary.istio.io/latest/docs/concepts/observability)
 - [docs/concepts/wasm/index.md](https://preliminary.istio.io/latest/docs/concepts/wasm)

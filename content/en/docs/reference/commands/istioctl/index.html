@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 82
+number_of_entries: 84
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -194,6 +194,246 @@ istioctl analyze -L
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-bug-report">istioctl bug-report</h2>
+<p>This command selectively captures cluster information and logs into an archive to help diagnose problems. It optionally uploads the archive to a GCS bucket.</p>
+<pre class="language-bash"><code>istioctl bug-report [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--critical-errs &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>List of comma separated glob patters to match against log error strings. If any pattern matches an error in the log, the logs is given the highest priority for archive inclusion.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--dir &lt;string&gt;</code></td>
+<td></td>
+<td>Set a specific directory for temporary artifact storage.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Only log commands that would be run, don&#39;t fetch or write. </td>
+</tr>
+<tr>
+<td><code>--duration &lt;duration&gt;</code></td>
+<td></td>
+<td>How far to go back in time from end-time for log entries to include in the archive. Default is infinity. If set, start-time must be unset.  (default `0s`)</td>
+</tr>
+<tr>
+<td><code>--end-time &lt;string&gt;</code></td>
+<td></td>
+<td>End time for the range of log entries to include in the archive. Default is now.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--exclude &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>Spec for which pods&#39; proxy logs to exclude from the archive, after the include spec is processed. See &#39;help&#39; for examples.  (default `["kube-system,kube-public"]`)</td>
+</tr>
+<tr>
+<td><code>--filename &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Path to a file containing configuration in YAML format.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--full-secrets</code></td>
+<td></td>
+<td>If set, secret contents are included in output. </td>
+</tr>
+<tr>
+<td><code>--gcs-url &lt;string&gt;</code></td>
+<td></td>
+<td>URL of the GCS bucket where the archive is uploaded.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--ignore-errs &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>List of comma separated glob patters to match against log error strings. Any error matching these patters is ignored when calculating the log importance heuristic.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--include &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>Spec for which pods&#39; proxy logs to include in the archive. See &#39;help&#39; for examples.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--istio-namespace &lt;string&gt;</code></td>
+<td></td>
+<td>List of comma-separated namespaces where Istio control planes are installed.  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--max-size &lt;int32&gt;</code></td>
+<td></td>
+<td>Maximum size of the compressed archive in Mb. Logs are prioritizedaccording to importance heuristics.  (default `500`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--start-time &lt;string&gt;</code></td>
+<td></td>
+<td>Start time for the range of log entries to include in the archive. Default is the infinite past. If set, Since must be unset.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Maximum amount of time to spend fetching logs. When timeout is reached only the logs captured so far are saved to the archive.  (default `30m0s`)</td>
+</tr>
+<tr>
+<td><code>--upload</code></td>
+<td></td>
+<td>Upload archive to GCS bucket. If gcs-url is unset, a new bucket is created. </td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-bug-report-version">istioctl bug-report version</h2>
+<p>Prints out build version information</p>
+<pre class="language-bash"><code>istioctl bug-report version [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>Name of the kubeconfig Context to use.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--critical-errs &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>List of comma separated glob patters to match against log error strings. If any pattern matches an error in the log, the logs is given the highest priority for archive inclusion.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--dir &lt;string&gt;</code></td>
+<td></td>
+<td>Set a specific directory for temporary artifact storage.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Only log commands that would be run, don&#39;t fetch or write. </td>
+</tr>
+<tr>
+<td><code>--duration &lt;duration&gt;</code></td>
+<td></td>
+<td>How far to go back in time from end-time for log entries to include in the archive. Default is infinity. If set, start-time must be unset.  (default `0s`)</td>
+</tr>
+<tr>
+<td><code>--end-time &lt;string&gt;</code></td>
+<td></td>
+<td>End time for the range of log entries to include in the archive. Default is now.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--exclude &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>Spec for which pods&#39; proxy logs to exclude from the archive, after the include spec is processed. See &#39;help&#39; for examples.  (default `["kube-system,kube-public"]`)</td>
+</tr>
+<tr>
+<td><code>--filename &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Path to a file containing configuration in YAML format.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--full-secrets</code></td>
+<td></td>
+<td>If set, secret contents are included in output. </td>
+</tr>
+<tr>
+<td><code>--gcs-url &lt;string&gt;</code></td>
+<td></td>
+<td>URL of the GCS bucket where the archive is uploaded.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--ignore-errs &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>List of comma separated glob patters to match against log error strings. Any error matching these patters is ignored when calculating the log importance heuristic.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--include &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>Spec for which pods&#39; proxy logs to include in the archive. See &#39;help&#39; for examples.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--istio-namespace &lt;string&gt;</code></td>
+<td></td>
+<td>List of comma-separated namespaces where Istio control planes are installed.  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Path to kube config.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--max-size &lt;int32&gt;</code></td>
+<td></td>
+<td>Maximum size of the compressed archive in Mb. Logs are prioritizedaccording to importance heuristics.  (default `500`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--short</code></td>
+<td><code>-s</code></td>
+<td>Use --short=false to generate full version information </td>
+</tr>
+<tr>
+<td><code>--start-time &lt;string&gt;</code></td>
+<td></td>
+<td>Start time for the range of log entries to include in the archive. Default is the infinite past. If set, Since must be unset.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Maximum amount of time to spend fetching logs. When timeout is reached only the logs captured so far are saved to the archive.  (default `30m0s`)</td>
+</tr>
+<tr>
+<td><code>--upload</code></td>
+<td></td>
+<td>Upload archive to GCS bucket. If gcs-url is unset, a new bucket is created. </td>
 </tr>
 </tbody>
 </table>
@@ -4756,6 +4996,9 @@ settings (--set meshConfig.enableTracing=true). See documentation for more info:
 <p>Validate Istio policy and rules files</p>
 <pre class="language-bash"><code>istioctl validate -f FILENAME [options] [flags]
 </code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl v -f FILENAME [options] [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <tr>
@@ -4800,13 +5043,16 @@ settings (--set meshConfig.enableTracing=true). See documentation for more info:
 <h3 id="istioctl-validate Examples">Examples</h3>
 <pre class="language-bash"><code>
 		# Validate bookinfo-gateway.yaml
-		istioctl validate -f bookinfo-gateway.yaml
+		istioctl validate -f samples/bookinfo/networking/bookinfo-gateway.yaml
+
+		# Validate bookinfo-gateway.yaml with shorthand syntax
+		istioctl v -f samples/bookinfo/networking/bookinfo-gateway.yaml
 		
 		# Validate current deployments under &#39;default&#39; namespace within the cluster
-		kubectl get deployments -o yaml |istioctl validate -f -
+		kubectl get deployments -o yaml | istioctl validate -f -
 
 		# Validate current services under &#39;default&#39; namespace within the cluster
-		kubectl get services -o yaml |istioctl validate -f -
+		kubectl get services -o yaml | istioctl validate -f -
 
 		# Also see the related command &#39;istioctl analyze&#39;
 		istioctl analyze samples/bookinfo/networking/bookinfo-gateway.yaml

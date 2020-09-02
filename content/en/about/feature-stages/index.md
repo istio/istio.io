@@ -56,8 +56,8 @@ Below is our list of existing features and their current phases. This informatio
 | [Prometheus Integration](/docs/tasks/observability/metrics/querying-metrics/) | Stable
 | [Client and Server Telemetry Reporting](/docs/reference/config/policy-and-telemetry/) | Stable
 | [Service Dashboard in Grafana](/docs/tasks/observability/metrics/using-istio-dashboard/) | Stable
-| [Istio Component Dashboard in Grafana](/docs/tasks/observability/metrics/using-istio-dashboard/) | Stable
 | [Distributed Tracing](/docs/tasks/observability/distributed-tracing/) | Stable
+| [Stackdriver Integration - BETTER LINK NEEDED](/docs/reference/config/policy-and-telemetry/adapters/) | Stable
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/observability/distributed-tracing/) | Beta
 | [Trace Sampling](/docs/tasks/observability/distributed-tracing/configurability/#trace-sampling) | Beta
 
