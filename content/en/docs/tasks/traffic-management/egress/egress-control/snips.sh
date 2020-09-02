@@ -29,11 +29,11 @@ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
 }
 
 snip_before_you_begin_3() {
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
 }
 
 snip_envoy_passthrough_to_external_services_1() {
-kubectl get istiooperator installed-state -n istio-system -o jsonpath={.spec.meshConfig.outboundTrafficPolicy.mode}
+kubectl get istiooperator installed-state -n istio-system -o jsonpath='{.spec.meshConfig.outboundTrafficPolicy.mode}'
 }
 
 ! read -r -d '' snip_envoy_passthrough_to_external_services_1_out <<\ENDSNIP
@@ -101,7 +101,7 @@ snip_access_an_external_http_service_2() {
 ENDSNIP
 
 snip_access_an_external_http_service_3() {
- kubectl logs $SOURCE_POD -c istio-proxy | tail
+ kubectl logs "$SOURCE_POD" -c istio-proxy | tail
 }
 
 ! read -r -d '' snip_access_an_external_http_service_3_out <<\ENDSNIP
@@ -135,7 +135,7 @@ HTTP/2 200
 ENDSNIP
 
 snip_access_an_external_https_service_3() {
-kubectl logs $SOURCE_POD -c istio-proxy | tail
+kubectl logs "$SOURCE_POD" -c istio-proxy | tail
 }
 
 ! read -r -d '' snip_access_an_external_https_service_3_out <<\ENDSNIP
@@ -189,7 +189,7 @@ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 }
 
 snip_ibm_cloud_private_1() {
-cat cluster/config.yaml | grep service_cluster_ip_range
+grep service_cluster_ip_range < cluster/config.yaml
 }
 
 ! read -r -d '' snip_ibm_cloud_private_2 <<\ENDSNIP
