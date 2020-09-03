@@ -236,7 +236,9 @@ __verify_with_retry() {
         out=$($func 2>&1)
         local funcret="$?"
 
-        out=$(sed 's/[[:space:]]+$//g' <<< "$out")
+        # shellcheck disable=SC2001
+        out=$(sed 's/[[:space:]]*$//g' <<< "$out")
+
         $cmp_func "$out" "$expected"
         local cmpret="$?"
 
