@@ -189,7 +189,7 @@ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 }
 
 snip_ibm_cloud_private_1() {
-grep service_cluster_ip_range < cluster/config.yaml
+grep service_cluster_ip_range cluster/config.yaml
 }
 
 ! read -r -d '' snip_ibm_cloud_private_2 <<\ENDSNIP
