@@ -23,21 +23,21 @@ The following test cases are run in an environment which consists of a fortio cl
     caption="Environment setup"
     >}}
 
-The policies that are applied are made to not match with any request or only the very last rule, this makes makes sure that the RBAC filter has to go through all the rules and policies. This forces the system to never short circuit (when the RBAC filter matches before viewing all the policies). Even though this is not necessarily what will happen in your individual system, this gives data of the worst possible performance of each test case.
+The policies that are applied are made to not match with any request or only the very last rule, this makes sure that the RBAC filter has to go through all the rules and policies. This forces the system to never short circuit (when the RBAC filter matches before viewing all the policies). Even though this is not necessarily what will happen in your individual system, this gives data of the worst possible performance of each test case.
 
 ## Test cases
 
-- 1: MTLS STRICT vs plaintext.
+1. MTLS STRICT vs plaintext.
 
-- 2: A single authorization policy with a variable number of principal rules. For the RBAC filter to activate this rule a peer authentication policy must also be applied to the system.
+1. A single authorization policy with a variable number of principal rules. For the RBAC filter to activate this rule a peer authentication policy must also be applied to the system.
 
-- 3: Authorization policy with a variable number of requestPrincipal rules. For the RBAC filter to activate this rule a requestAuthentication policy must also be applied to the system.
+1. Authorization policy with a variable number of `requestPrincipal` rules. For the RBAC filter to activate this rule a `requestAuthentication` policy must also be applied to the system.
 
-- 4: A single authorization policy with variable number of paths vs sourceIP rules
+1. A single authorization policy with variable number of paths vs `sourceIP` rules
 
-- 5: Variable number of authorization policies each consisting of a single paths or sourceIP rule
+1. Variable number of authorization policies each consisting of a single paths or `sourceIP` rule
 
-- 6: A single requestAuthentication policy with variable number of JWTRules rules
+1. A single `requestAuthentication` policy with variable number of `JWTRules` rules
 
 ## Data
 
@@ -70,15 +70,15 @@ For Authorization policies with 10 vs 1000 principal rules, there is a larger in
     alt="Authorization policy with variable principals"
     caption=""
     >}}
-    For Authorization policies with a variable number of requestPrincipal rules, the difference of latency of having 10 requestPrincipal rules compared to no policies is nearly the same as the increase of having 1000 requestPrincipal rules compared to having 10 requestPrincipal rules.
+    For Authorization policies with a variable number of `requestPrincipal` rules, the difference of latency of having 10 `requestPrincipal` rules compared to no policies is nearly the same as the increase of having 1000 `requestPrincipal` rules compared to having 10 `requestPrincipal` rules.
 {{< /tab >}}
 
 {{< tab name="paths vs sourceIP" category-value="four" >}}
-To compare the latency of having a variable number of path vs sourceIP the data is broken into 3 graphs.
-The first showing the data of having a variable number of sourceIP rules in a single Authorization policy as well as the baseline.
+To compare the latency of having a variable number of path vs `sourceIP` the data is broken into 3 graphs.
+The first showing the data of having a variable number of `sourceIP` rules in a single Authorization policy as well as the baseline.
 {{< image width="90%" ratio="45.34%"
     link="./AuthZ_var_sourceIP.svg"
-    alt="Authorization policy with variable sourceIP rules"
+    alt="Authorization policy with variable `sourceIP` rules"
     caption=""
     >}}
 The second graph shows the data of having a variable number of path rules in a single Authorization policy as well as the baseline.
@@ -87,34 +87,34 @@ The second graph shows the data of having a variable number of path rules in a s
     alt="Authorization policy with variable number of paths"
     caption=""
     >}}
-And finally the last graph shows the data of having a variable number of sourceIP rules vs path rules without the baseline.
+And finally the last graph shows the data of having a variable number of `sourceIP` rules vs path rules without the baseline.
 {{< image width="90%" ratio="45.34%"
     link="./AuthZ_paths_vs_sourceIP.svg"
-    alt="Authorization policy with both paths and sourceIP"
+    alt="Authorization policy with both paths and `sourceIP`"
     caption=""
     >}}
-Having sourceIP rules increases the latency of request in a minimal amount compared to that of path rules.
+Having `sourceIP` rules increases the latency of request in a minimal amount compared to that of path rules.
 {{< /tab >}}
 
 {{< tab name="JWTRule" category-value="five" >}}
 {{< image width="90%" ratio="45.34%"
     link="./RequestAuthN_jwks.svg"
-    alt="Request Authentication with variable number of JWTRules"
+    alt="Request Authentication with variable number of `JWTRules`"
     caption=""
     >}}
-Having a single JWTRule applied to the system is comparable to that of having no policies applied, but as the number of JWTRules increase the latency increases disproportionately larger.
+Having a single `JWTRule` applied to the system is comparable to that of having no policies applied, but as the number of `JWTRules` increase the latency increases disproportionately larger.
 {{< /tab >}}
 
 {{< tab name="Variable Authorization policies" category-value="six" >}}
 To test how the number of Authorization policies effect runtime the tests can be broken into two cases.
 
-- 1: Every Authorization policy has a single sourceIP rule.
+- 1: Every Authorization policy has a single `sourceIP` rule.
 
 - 2: Every Authorization policy has a single path rule.
 
 {{< image width="90%" ratio="45.34%"
     link="./AuthZ_var_policies_sourceIP.svg"
-    alt="Authorization policy with variable number of policies, with sourceIP rule"
+    alt="Authorization policy with variable number of policies, with `sourceIP` rule"
     caption=""
     >}}
 {{< image width="90%" ratio="45.34%"
@@ -122,20 +122,20 @@ To test how the number of Authorization policies effect runtime the tests can be
     alt="Authorization policy with variable number of policies, with path rule"
     caption=""
     >}}
-The overall trend of both graphs are similar. This is consistent to the paths vs sourceIP data which showed that the latency is marginally higher for sourceIP rules compared to that of path rules.
+The overall trend of both graphs are similar. This is consistent to the paths vs `sourceIP` data which showed that the latency is marginally higher for `sourceIP` rules compared to that of path rules.
 {{< /tab >}}
 
 {{< /tabset >}}
 
 ## Conclusion
 
-In general adding security policies does not add relatively high overhead to the system, with the heavier policies being:
+- In general adding security policies does not add relatively high overhead to the system, with the heavier policies being:
 
-1: Authorization policy with JWTRules rules.
+    1. Authorization policy with `JWTRules` rules.
 
-2: Authorization policy with requestPrincipal rules.
+    1. Authorization policy with `requestPrincipal` rules.
 
-3: Authorization policy with principals rules.
+    1. Authorization policy with principals rules.
 
 - In lower loads (requests with lower qps and conn) the difference in latency for most policies is minimal.
 
@@ -143,6 +143,6 @@ In general adding security policies does not add relatively high overhead to the
 
 - The overhead of having these extremely large policies add is relatively similar to the increase of latency of adding the Envoy proxies compared to that of no Envoy proxies.
 
-- In a more particular note, with two different tests it was determined that the sourceIP rule is marginally slower than that of a path rule.
+- In a more particular note, with two different tests it was determined that the `sourceIP` rule is marginally slower than that of a path rule.
 
-If you are interesting in creating your own large scale Security policies and running performance tests with them see [README](https://github.com/istio/tools/tree/master/perf/benchmark/security/generate_policies)
+If you are interested in creating your own large scale Security policies and running performance tests with them see [README](https://github.com/istio/tools/tree/master/perf/benchmark/security/generate_policies)
