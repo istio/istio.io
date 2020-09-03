@@ -109,14 +109,14 @@ immediately. This process adds to the queue wait time of the next request and af
 average and tail latencies. The actual tail latency depends on the traffic pattern.
 
 Note: in Istio release 1.7, we are introducing a new way of measuring performance by enabling `jitter` in
-the load generator. It helps by modelling random traffic from the client side when using connection pools. In the next 
+the load generator. It helps by modelling random traffic from the client side when using connection pools. In the next
 section, we will present both `jitter` and `non-jitter` performance measurements.
 
 ### Latency for Istio {{< istio_release_name >}}
 
 Inside the mesh, a request traverses the client-side proxy and then the server-side
-proxy. In the default configuration of Istio {{< istio_release_name >}} (i.e. Istio with telemetry v2), 
-the two proxies add about 2.76 ms and 2.88 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency. 
+proxy. In the default configuration of Istio {{< istio_release_name >}} (i.e. Istio with telemetry v2),
+the two proxies add about 2.76 ms and 2.88 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency.
 After enabling `jitter`, those numbers reduced to 1.72 ms and 1.91 ms, respectively. We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
 for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 16 client connections, 2 proxy workers and mutual TLS enabled.
 
