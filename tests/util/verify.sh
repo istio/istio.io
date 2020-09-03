@@ -233,10 +233,12 @@ __verify_with_retry() {
 
     while true; do
         # Run the command.
-        out=$($func 2>&1)
+        local out=$($func 2>&1)
         local funcret="$?"
 
-        $cmp_func "$out" "$expected"
+        local out_stripws=$(sed 's/[[:space:]]+$//g' <<< "$out")
+
+        $cmp_func "$out_stripws" "$expected"
         local cmpret="$?"
 
         if [[ "$cmpret" -eq 0 ]]; then
