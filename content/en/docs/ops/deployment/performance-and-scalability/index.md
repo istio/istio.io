@@ -146,10 +146,10 @@ for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second usi
 
 - `baseline` Client pod directly calls the server pod, no sidecars are present.
 - `none_both` Istio proxy with no Istio specific filters configured.
-- `v2-stats-wasm_both` client and server sidecars are present with telemetry v2 `v8` configured.
-- `v2-stats-nullvm_both` client and server sidecars are present with telemetry v2 `nullvm` configured by default.
-- `v2-sd-full-nullvm_both` Export stackdriver metrics, accesslogs and edges with telemetry v2 `nullvm` configured.
-- `v2-sd-nologging-nullvm_both` Same as above, but does not export accesslogs.
+- `v2-stats-wasm_both` Client and server sidecars are present with telemetry v2 `v8` configured.
+- `v2-stats-nullvm_both` Client and server sidecars are present with telemetry v2 `nullvm` configured by default.
+- `v2-sd-full-nullvm_both` Export stackdriver metrics, access logs and edges with telemetry v2 `nullvm` configured.
+- `v2-sd-nologging-nullvm_both` Same as above, but does not export access logs.
 
 ### Benchmarking tools
 
