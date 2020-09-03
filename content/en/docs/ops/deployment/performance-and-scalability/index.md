@@ -98,7 +98,7 @@ request rate doesn't affect the memory consumption.
 ### Latency
 
 Since Istio injects a sidecar proxy on the data path, latency is an important
-consideration. Istio adds an authentication and a telemetry filter and a metadata exchange filter
+consideration. Istio adds an authentication filter and a telemetry filter and a metadata exchange filter
 to the proxy. Every additional filter adds to the path length inside the proxy and affects latency.
 
 The Envoy proxy collects raw telemetry data after a response is sent to the
@@ -109,7 +109,7 @@ immediately. This process adds to the queue wait time of the next request and af
 average and tail latencies. The actual tail latency depends on the traffic pattern.
 
 Note: in Istio release 1.7, we are introducing a new way of measuring performance by enabling `jitter` in
-the load generator. It helps by modelling random traffic from the client side when using connection pools. In the next
+the load generator. It helps by modeling random traffic from the client side when using connection pools. In the next
 section, we will present both `jitter` and `non-jitter` performance measurements.
 
 ### Latency for Istio {{< istio_release_name >}}
@@ -148,7 +148,7 @@ for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second usi
 - `none_both` Istio proxy with no Istio specific filters configured.
 - `v2-stats-wasm_both` Client and server sidecars are present with telemetry v2 `v8` configured.
 - `v2-stats-nullvm_both` Client and server sidecars are present with telemetry v2 `nullvm` configured by default.
-- `v2-sd-full-nullvm_both` Export stackdriver metrics, access logs and edges with telemetry v2 `nullvm` configured.
+- `v2-sd-full-nullvm_both` Export Stackdriver metrics, access logs and edges with telemetry v2 `nullvm` configured.
 - `v2-sd-nologging-nullvm_both` Same as above, but does not export access logs.
 
 ### Benchmarking tools
