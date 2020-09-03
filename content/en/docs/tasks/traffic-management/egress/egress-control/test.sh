@@ -51,7 +51,7 @@ _verify_first_line snip_manage_traffic_to_external_services_3 "$snip_manage_traf
 
 snip_cleanup_the_controlled_access_to_external_services_1
 
-_verify_same snip_minikube_docker_for_desktop_bare_metal_1 "$snip_minikube_docker_for_desktop_bare_metal_1_out"
+_verify_contains snip_minikube_docker_for_desktop_bare_metal_1 "$snip_minikube_docker_for_desktop_bare_metal_1_out"
 istioctl install --set profile=demo \
                  --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --set values.global.proxy.includeIPRanges="10.96.0.0/12"
 
