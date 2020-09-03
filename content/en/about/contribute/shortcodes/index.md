@@ -151,24 +151,24 @@ The shortcode produces a special rendering that invites readers to click on the
 term to get a pop-up with the definition. For example:
 
 {{< text markdown >}}
-Mixer uses {{</*gloss*/>}}adapters{{</*/gloss*/>}} to interface to backends.
+The Istio component that programs the {{</*gloss*/>}}Envoy{{</*/gloss*/>}} proxies, responsible for service discovery, load balancing, and routing.
 {{< /text >}}
 
 Is rendered as follows:
 
-Mixer uses {{< gloss >}}adapters{{< /gloss >}} to interface to backends.
+The Istio component that programs the {{</*gloss*/>}}Envoy{{</*/gloss*/>}} proxies, responsible for service discovery, load balancing, and routing.
 
 If you use a variant of the term in your text, you can still use this shortcode
 to include the pop up with the definition. To specify a substitution, just
 include the glossary entry within the shortcode. For example:
 
 {{< text markdown >}}
-Mixer uses an {{</*gloss adapters*/>}}adapter{{</*/gloss*/>}} to interface to a backend.
+The Istio component that programs the {{</*gloss envoy*/>}}Envoy{{</*/gloss*/>}} proxies, responsible for service discovery, load balancing, and routing.
 {{< /text >}}
 
-Renders with the pop up for the `adapters` glossary entry as follows:
+Renders with the pop up for the `envoy` glossary entry as follows:
 
-Mixer uses an {{< gloss adapters >}}adapter{{</ gloss >}} to interface to a backend.
+The Istio component that programs the {{< gloss envoy >}}Envoy{{</ gloss >}} proxies, responsible for service discovery, load balancing, and routing.
 
 ## Callouts
 

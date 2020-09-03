@@ -31,7 +31,7 @@ possible for Pilot to discover CF services and service instances.
 - **Helm Charts**. We now provide Helm charts to install Istio.
 
 - **Enhanced Attribute Expressions**. Mixer's expression language gained a few new functions
-to make it easier to write policy rules. [Learn more](/docs/reference/config/policy-and-telemetry/expression-language/)
+to make it easier to write policy rules. [Learn more](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/expression-language/)
 
 If you're into the nitty-gritty details, you can see our more detailed low-level
 release notes [here](https://github.com/istio/istio/wiki/v0.4.0).

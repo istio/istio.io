@@ -126,7 +126,7 @@ concise list of things you should know before upgrading your deployment to Istio
 ## Policies and telemetry
 
 - **Policy Checks Off By Default**. Changed policy checks to be turned off by
-  default to improve performance for most customer scenarios. [Enabling Policy Enforcement](/docs/tasks/policy-enforcement/enabling-policy/)
+  default to improve performance for most customer scenarios. [Enabling Policy Enforcement](https://istio.io/v1.6/docs/tasks/policy-enforcement/enabling-policy/)
   details how to turn on Istio policy checks, if needed.
 
 - **Kiali**. Replaced the [Service Graph addon](https://github.com/istio/istio/issues/9066)
@@ -145,7 +145,7 @@ concise list of things you should know before upgrading your deployment to Istio
     - Improved the protocol between Envoy and Mixer.
 
 - **Control Headers and Routing**. Added the option to create adapters to
-  influence the headers and routing of an incoming request. See the [Control Headers and Routing](/docs/tasks/policy-enforcement/control-headers)
+  influence the headers and routing of an incoming request. See the [Control Headers and Routing](https://istio.io/v1.6/docs/tasks/policy-enforcement/control-headers)
   task for more information.
 
 - **Out of Process Adapters**. Added the out-of-process adapter functionality

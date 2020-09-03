@@ -31,7 +31,7 @@ The photo SRE team creates two service accounts to run `photo-frontend` and
 `photo-backend` respectively in the `photo-ns` namespace. The datastore SRE
 team creates one service account to run the `datastore` service in the
 `datastore-ns` namespace. Moreover, we need to enforce the service access
-control in [Istio Mixer](/docs/reference/config/policy-and-telemetry/) such that
+control in [Istio Mixer](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/) such that
 `photo-frontend` cannot access datastore.
 
 In this setup, Kubernetes can isolate the operator privileges on managing the services.

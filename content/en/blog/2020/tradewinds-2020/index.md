@@ -38,7 +38,7 @@ More details on our major efforts in 2020 below.
 
 Istio provided for extensibility from day one, implemented by a component called
 Mixer. Mixer is a platform that allows custom
-[adapters](/docs/reference/config/policy-and-telemetry/mixer-overview/#adapters)
+[adapters](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/mixer-overview/#adapters)
 to act as an intermediary between the data plane and the backends you use for
 policy or telemetry. Mixer necessarily added overhead to requests because it
 required extensions to be out-of-process. So, we're moving to a model that

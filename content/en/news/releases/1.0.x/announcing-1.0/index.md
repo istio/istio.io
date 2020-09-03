@@ -78,7 +78,7 @@ has been removed.
 
 ### Policy and telemetry
 
-- **Updated Attributes**. The set of [attributes](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/) used to describe the source and
+- **Updated Attributes**. The set of [attributes](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/attribute-vocabulary/) used to describe the source and
 destination of traffic have been completely revamped in order to be more
 precise and comprehensive.
 

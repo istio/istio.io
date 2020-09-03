@@ -22,7 +22,7 @@ requested feature by production users of Istio and we are excited that the
 support for this was added in release 1.3.
 
 To implement this, the Istio [default
-metrics](/docs/reference/config/policy-and-telemetry/metrics) are augmented with
+metrics](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/metrics) are augmented with
 explicit labels to capture blocked and passthrough external service traffic.
 This blog will cover how you can use these augmented metrics to monitor all
 external service traffic.
