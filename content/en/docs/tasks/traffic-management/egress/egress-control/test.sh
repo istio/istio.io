@@ -15,12 +15,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# @setup profile=demo
+# @setup profile=none
 
 set -e
 set -u
 set -o pipefail
 
+istioctl install --set profile=demo
 kubectl label namespace default istio-injection=enabled --overwrite
 
 snip_before_you_begin_1
@@ -40,7 +41,7 @@ _verify_contains snip_access_an_external_http_service_3 "outbound|80||httpbin.or
 
 snip_access_an_external_https_service_1
 _wait_for_istio serviceentry default google
-_verify_same snip_access_an_external_https_service_2 "$snip_access_an_external_https_service_1_out"
+_verify_same snip_access_an_external_https_service_2 "$snip_access_an_external_https_service_2_out"
 _verify_contains snip_access_an_external_https_service_3 "outbound|443||www.google.com"
 
 _verify_first_line snip_manage_traffic_to_external_services_1 "$snip_manage_traffic_to_external_services_1_out"
@@ -60,6 +61,6 @@ _verify_elided snip_access_the_external_services_1 "$snip_access_the_external_se
 set +e # ignore cleanup errors
 snip_cleanup_the_controlled_access_to_external_services_1
 snip_cleanup_1
-istioctl install --set profile=demo
-
+istioctl x uninstall
+kubectl delete ns istio-system
 kubectl label namespace default istio-injection-
