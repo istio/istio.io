@@ -352,7 +352,7 @@ Set the value of `values.global.proxy.includeIPRanges` according to your cluster
 1.  Get your `service_cluster_ip_range` from IBM Cloud Private configuration file under `cluster/config.yaml`:
 
     {{< text bash >}}
-    $ grep service_cluster_ip_range < cluster/config.yaml
+    $ grep service_cluster_ip_range cluster/config.yaml
     {{< /text >}}
 
     The following is a sample output:
