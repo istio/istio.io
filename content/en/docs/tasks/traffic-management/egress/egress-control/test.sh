@@ -22,6 +22,8 @@ set -u
 set -o pipefail
 
 istioctl install --set profile=demo
+_wait_for_deployment istio-system istiod
+
 kubectl label namespace default istio-injection=enabled --overwrite
 
 snip_before_you_begin_1
@@ -54,6 +56,7 @@ snip_cleanup_the_controlled_access_to_external_services_1
 _verify_contains snip_minikube_docker_for_desktop_bare_metal_1 "$snip_minikube_docker_for_desktop_bare_metal_1_out"
 istioctl install --set profile=demo \
                  --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --set values.global.proxy.includeIPRanges="10.96.0.0/12"
+_wait_for_deployment istio-system istiod
 
 _verify_elided snip_access_the_external_services_1 "$snip_access_the_external_services_1_out"
 
