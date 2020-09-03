@@ -163,7 +163,7 @@ request traffic to route to two or more workloads.
 
 ## Validating Istio configuration
 
-Kiali can validate your Istio resources to ensure they follow proper conventions and semantics. Any problems detected in the configuration of your Istio resources can be flagged as errors or warnings depending on the severity of the incorrect configuration. See the [Kiali validations page](http://kiali.io/documentation/validations/) for the list of all validation checks Kiali performs.
+Kiali can validate your Istio resources to ensure they follow proper conventions and semantics. Any problems detected in the configuration of your Istio resources can be flagged as errors or warnings depending on the severity of the incorrect configuration. See the [Kiali validations page](https://kiali.io/documentation/latest/validations/) for the list of all validation checks Kiali performs.
 
 {{< idea >}}
 Istio 1.4 introduces `istioctl analyze` which lets you perform similar analysis in a way that can be used in a CI pipeline.
@@ -236,13 +236,13 @@ when it detects incorrect configurations.
 
 1.  Hover over the yellow icon to view the tool tip message that informs you of the validation check that triggered the warning.
     For more details on the cause of the warning and how to resolve it, look up the validation warning message on the
-    [Kiali Validations page](http://kiali.io/documentation/validations/).
+    [Kiali Validations page](https://kiali.io/documentation/latest/validations/).
 
     {{< image width="80%" link="./kiali-istioconfig3-details-yaml2.png" caption="YAML Editor Showing Warning Tool Tip" >}}
 
 1.  Hover over the red icon to view the tool tip message that informs you of the validation check that triggered the error.
     For more details on the cause of the error and how to resolve it, look up the validation error message on the
-    [Kiali Validations page](http://kiali.io/documentation/validations/).
+    [Kiali Validations page](https://kiali.io/documentation/latest/validations/).
 
     {{< image width="80%" link="./kiali-istioconfig3-details-yaml3.png" caption="YAML Editor Showing Error Tool Tip" >}}
 
