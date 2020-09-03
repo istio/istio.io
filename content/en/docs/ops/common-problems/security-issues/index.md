@@ -521,33 +521,33 @@ second ensure that [keys and certificates are being delivered](#keys-and-certifi
 If everything appears to be working so far, the next step is to verify that the right [authentication policy](/docs/tasks/security/authentication/authn-policy/)
 is applied and the right destination rules are in place.
 
-## Citadel is not behaving properly {#repairing-citadel}
+## Istiod is not behaving properly {#repairing-istiod}
 
 {{< warning >}}
-Workloads with new Kubernetes service accounts can not be started when Citadel is
+Workloads with new Kubernetes service accounts can not be started when Istiod is
 disabled for maintenance since they can't get their certificates generated.
 {{< /warning >}}
 
-Citadel is not a critical data plane component. The default workload certificate lifetime is 3
-months. Certificates will be rotated by Citadel before they expire. If Citadel is disabled for
+The default workload certificate lifetime is 3
+months. Certificates will be rotated by Istiod before they expire. If Istiod is disabled for
 short maintenance periods, existing mutual TLS traffic will not be affected.
 
-If you suspect Citadel isn't working properly, verify the status of the `istio-citadel` pod:
+If you suspect Istiod isn't working properly, verify the status of the `istiod` pod:
 
 {{< text bash >}}
-$ kubectl get pod -l istio=citadel -n istio-system
-NAME                                     READY     STATUS   RESTARTS   AGE
-istio-citadel-ff5696f6f-ht4gq            1/1       Running  0          25d
+$ kubectl get pod -l app=istiod -n istio-system
+NAME                      READY   STATUS    RESTARTS   AGE
+istiod-6f5fd7cb8f-w9vpw   1/1     Running   0          1d
 {{< /text >}}
 
-If the `istio-citadel` pod doesn't exist, try to re-deploy the pod.
+If the `istiod` pod doesn't exist, try to re-deploy the pod.
 
-If the `istio-citadel` pod is present but its status is not `Running`, run the commands below to get more
+If the `istiod` pod is present but its status is not `Running`, run the commands below to get more
 debugging information and check if there are any errors:
 
 {{< text bash >}}
-$ kubectl logs -l istio=citadel -n istio-system
-$ kubectl describe pod -l istio=citadel -n istio-system
+$ kubectl logs -l app=istiod -n istio-system
+$ kubectl describe pod -l app=istiod -n istio-system
 {{< /text >}}
 
 If you want to check a workload (with `default` service account and `default` namespace)
@@ -562,6 +562,6 @@ Subject:
 
 {{< tip >}}
 Remember to replace `istio.default` and `-n default` with `istio.YourServiceAccount` and
-`-n YourNamespace` for other workloads. If the certificate is expired, Citadel did not
-update the secret properly. Check Citadel logs for more information.
+`-n YourNamespace` for other workloads. If the certificate is expired, Istiod did not
+update the secret properly. Check Istiod logs for more information.
 {{< /tip >}}
