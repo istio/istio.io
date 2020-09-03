@@ -371,6 +371,8 @@ json
 JSON-formatted
 jwcrypto
 JWT
+JWTRule
+JWTRules
 jwt.io
 JWTs
 katacoda
@@ -541,6 +543,9 @@ rearchitect
 recomposition
 redeployments
 relabeling
+requestAuthentication
+requestPrincipal
+requestPrincipals
 RedHat
 Redis
 redis
@@ -600,6 +605,7 @@ Snell-Feikema
 SNI
 SolarWinds
 Solo.io
+sourceIP
 Splunk
 SPIFFE
 SPIFFE-compliant
