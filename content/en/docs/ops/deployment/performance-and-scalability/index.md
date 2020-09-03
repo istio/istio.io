@@ -28,7 +28,7 @@ these benefits with minimal resource overhead and aims to support very
 large meshes with high request rates while adding minimal latency.
 
 The Istio data plane components, the Envoy proxies, handle data flowing through
-the system. The Istio control plane components, Pilot, Galley and Citadel, configure
+the system. The Istio control plane component, Istiod, configures
 the data plane. The data plane and control plane have distinct performance concerns.
 
 ## Performance summary for Istio {{< istio_release_name >}}
@@ -38,33 +38,32 @@ of **1000** services and **2000** sidecars with 70,000 mesh-wide requests per se
 After running the tests using Istio {{< istio_release_name >}}, we get the following results:
 
 - The Envoy proxy uses **0.5 vCPU** and **50 MB memory** per 1000 requests per second going through the proxy.
-- The `istio-telemetry` service uses **0.6 vCPU** per 1000 **mesh-wide** requests per second for deployments that use Mixer.
-- Pilot uses **1 vCPU** and 1.5 GB of memory.
-- The Envoy proxy adds 3.12 ms to the 90th percentile latency.
+- Istiod uses **1 vCPU** and 1.5 GB of memory.
+- The Envoy proxy adds 2.76 ms to the 90th percentile latency.
 
 ## Control plane performance
 
-Pilot configures sidecar proxies based on user authored configuration files and the current
+Istiod configures sidecar proxies based on user authored configuration files and the current
 state of the system. In a Kubernetes environment, Custom Resource Definitions (CRDs) and deployments
 constitute the configuration and state of the system. The Istio configuration objects like gateways and virtual
 services, provide the user-authored configuration.
-To produce the configuration for the proxies, Pilot processes the combined configuration and system state
+To produce the configuration for the proxies, Istiod processes the combined configuration and system state
 from the Kubernetes environment and the user-authored configuration.
 
 The control plane supports thousands of services, spread across thousands of pods with a
 similar number of user authored virtual services and other configuration objects.
-Pilot's CPU and memory requirements scale with the amount of configurations and possible system states.
+Istiod's CPU and memory requirements scale with the amount of configurations and possible system states.
 The CPU consumption scales with the following factors:
 
 - The rate of deployment changes.
 - The rate of configuration changes.
-- The number of proxies connecting to Pilot.
+- The number of proxies connecting to Istiod.
 
 however this part is inherently horizontally scalable.
 
 When [namespace isolation](/docs/reference/config/networking/sidecar/) is enabled,
-a single Pilot instance can support 1000 services, 2000 sidecars with 1 vCPU and 1.5 GB of memory.
-You can increase the number of Pilot instances to reduce the amount of time it takes for the configuration
+a single Istiod instance can support 1000 services, 2000 sidecars with 1 vCPU and 1.5 GB of memory.
+You can increase the number of Istiod instances to reduce the amount of time it takes for the configuration
 to reach all proxies.
 
 ## Data plane performance
@@ -77,14 +76,14 @@ Data plane performance depends on many factors, for example:
 - Number of proxy worker threads
 - Protocol
 - CPU cores
-- Number and types of proxy filters, specifically Mixer filter.
+- Number and types of proxy filters, specifically telemetry v2 related filters.
 
 The latency, throughput, and the proxies' CPU and memory consumption are measured as a function of said factors.
 
 ### CPU and memory
 
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
-and memory. As of Istio 1.1, a proxy consumes about 0.6 vCPU per 1000
+and memory. As of Istio 1.7, a proxy consumes about 0.5 vCPU per 1000
 requests per second.
 
 The memory consumption of the proxy depends on the total configuration state the proxy holds.
