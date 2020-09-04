@@ -28,7 +28,7 @@ these benefits with minimal resource overhead and aims to support very
 large meshes with high request rates while adding minimal latency.
 
 The Istio data plane components, the Envoy proxies, handle data flowing through
-the system. The Istio control plane components, Pilot, Galley and Citadel, configure
+the system. The Istio control plane component, Istiod, configures
 the data plane. The data plane and control plane have distinct performance concerns.
 
 ## Performance summary for Istio {{< istio_release_name >}}
@@ -38,33 +38,32 @@ of **1000** services and **2000** sidecars with 70,000 mesh-wide requests per se
 After running the tests using Istio {{< istio_release_name >}}, we get the following results:
 
 - The Envoy proxy uses **0.5 vCPU** and **50 MB memory** per 1000 requests per second going through the proxy.
-- The `istio-telemetry` service uses **0.6 vCPU** per 1000 **mesh-wide** requests per second for deployments that use Mixer.
-- Pilot uses **1 vCPU** and 1.5 GB of memory.
-- The Envoy proxy adds 3.12 ms to the 90th percentile latency.
+- Istiod uses **1 vCPU** and 1.5 GB of memory.
+- The Envoy proxy adds 2.76 ms to the 90th percentile latency.
 
 ## Control plane performance
 
-Pilot configures sidecar proxies based on user authored configuration files and the current
+Istiod configures sidecar proxies based on user authored configuration files and the current
 state of the system. In a Kubernetes environment, Custom Resource Definitions (CRDs) and deployments
 constitute the configuration and state of the system. The Istio configuration objects like gateways and virtual
 services, provide the user-authored configuration.
-To produce the configuration for the proxies, Pilot processes the combined configuration and system state
+To produce the configuration for the proxies, Istiod processes the combined configuration and system state
 from the Kubernetes environment and the user-authored configuration.
 
 The control plane supports thousands of services, spread across thousands of pods with a
 similar number of user authored virtual services and other configuration objects.
-Pilot's CPU and memory requirements scale with the amount of configurations and possible system states.
+Istiod's CPU and memory requirements scale with the amount of configurations and possible system states.
 The CPU consumption scales with the following factors:
 
 - The rate of deployment changes.
 - The rate of configuration changes.
-- The number of proxies connecting to Pilot.
+- The number of proxies connecting to Istiod.
 
 however this part is inherently horizontally scalable.
 
 When [namespace isolation](/docs/reference/config/networking/sidecar/) is enabled,
-a single Pilot instance can support 1000 services, 2000 sidecars with 1 vCPU and 1.5 GB of memory.
-You can increase the number of Pilot instances to reduce the amount of time it takes for the configuration
+a single Istiod instance can support 1000 services, 2000 sidecars with 1 vCPU and 1.5 GB of memory.
+You can increase the number of Istiod instances to reduce the amount of time it takes for the configuration
 to reach all proxies.
 
 ## Data plane performance
@@ -77,14 +76,14 @@ Data plane performance depends on many factors, for example:
 - Number of proxy worker threads
 - Protocol
 - CPU cores
-- Number and types of proxy filters, specifically Mixer filter.
+- Number and types of proxy filters, specifically telemetry v2 related filters.
 
 The latency, throughput, and the proxies' CPU and memory consumption are measured as a function of said factors.
 
 ### CPU and memory
 
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
-and memory. As of Istio 1.1, a proxy consumes about 0.6 vCPU per 1000
+and memory. As of Istio 1.7, a proxy consumes about 0.5 vCPU per 1000
 requests per second.
 
 The memory consumption of the proxy depends on the total configuration state the proxy holds.
@@ -98,8 +97,8 @@ request rate doesn't affect the memory consumption.
 ### Latency
 
 Since Istio injects a sidecar proxy on the data path, latency is an important
-consideration. Istio adds an authentication and a Mixer filter to the proxy. Every
-additional filter adds to the path length inside the proxy and affects latency.
+consideration. Istio adds an authentication filter and a telemetry filter and a metadata exchange filter
+to the proxy. Every additional filter adds to the path length inside the proxy and affects latency.
 
 The Envoy proxy collects raw telemetry data after a response is sent to the
 client. The time spent collecting raw telemetry for a request does not contribute
@@ -108,32 +107,48 @@ is busy handling the request, the worker won't start handling the next request
 immediately. This process adds to the queue wait time of the next request and affects
 average and tail latencies. The actual tail latency depends on the traffic pattern.
 
+Note: in Istio release 1.7, we are introducing a new way of measuring performance by enabling `jitter` in
+the load generator. It helps by modeling random traffic from the client side when using connection pools. In the next
+section, we will present both `jitter` and `non-jitter` performance measurements.
+
 ### Latency for Istio {{< istio_release_name >}}
 
 Inside the mesh, a request traverses the client-side proxy and then the server-side
-proxy. In the default configuration of Istio {{< istio_release_name >}} (i.e. Istio with telemetry v2), the two proxies add about 3.12 ms and 3.13 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency.
-We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
+proxy. In the default configuration of Istio {{< istio_release_name >}} (i.e. Istio with telemetry v2),
+the two proxies add about 2.76 ms and 2.88 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency.
+After enabling `jitter`, those numbers reduced to 1.72 ms and 1.91 ms, respectively. We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
 for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 16 client connections, 2 proxy workers and mutual TLS enabled.
 
-In upcoming Istio releases we are moving `istio-policy` and `istio-telemetry` functionality into the proxy as `TelemetryV2`.
-This will decrease the amount data flowing through the system, which will in turn reduce the CPU usage and latency.
-
 {{< image width="90%"
-    link="latency_p90_fortio.svg"
+    link="latency_p90_fortio_without_jitter.svg"
     alt="P90 latency vs client connections"
-    caption="P90 latency vs client connections"
+    caption="P90 latency vs client connections without jitter"
 >}}
 
 {{< image width="90%"
-    link="latency_p99_fortio.svg"
+    link="latency_p99_fortio_without_jitter.svg"
     alt="P99 latency vs client connections"
-    caption="P99 latency vs client connections"
+    caption="P99 latency vs client connections without jitter"
+>}}
+
+{{< image width="90%"
+    link="latency_p90_fortio_with_jitter.svg"
+    alt="P90 latency vs client connections"
+    caption="P90 latency vs client connections with jitter"
+>}}
+
+{{< image width="90%"
+    link="latency_p99_fortio_with_jitter.svg"
+    alt="P99 latency vs client connections"
+    caption="P99 latency vs client connections with jitter"
 >}}
 
 - `baseline` Client pod directly calls the server pod, no sidecars are present.
-- `none-both` Istio proxy with no Istio specific filters configured.
-- `telemetryv2-both` client and server sidecars are present with telemetry v2 `nullvm` configured by default.
-- `mixer-both` Client and server sidecars are present with mixer configured.
+- `none_both` Istio proxy with no Istio specific filters configured.
+- `v2-stats-wasm_both` Client and server sidecars are present with telemetry v2 `v8` configured.
+- `v2-stats-nullvm_both` Client and server sidecars are present with telemetry v2 `nullvm` configured by default.
+- `v2-sd-full-nullvm_both` Export Stackdriver metrics, access logs and edges with telemetry v2 `nullvm` configured.
+- `v2-sd-nologging-nullvm_both` Same as above, but does not export access logs.
 
 ### Benchmarking tools
 
