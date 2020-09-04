@@ -527,24 +527,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>The default TTL of issued workload certificates. Applied when the client sets a non-positive TTL in the CSR.</td>
 </tr>
 <tr>
-<td><code>DNS_ADDR</code></td>
-<td>String</td>
-<td><code>:15053</code></td>
-<td>DNS listen address</td>
-</tr>
-<tr>
-<td><code>DNS_AGENT</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>If set, enable the capture of outgoing DNS packets on port 53, redirecting to istio-agent on :15053</td>
-</tr>
-<tr>
-<td><code>DNS_SERVER</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Protocol and DNS server to use. Currently only tcp-tls: is supported.</td>
-</tr>
-<tr>
 <td><code>ENABLE_CA_SERVER</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -695,12 +677,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, pilot will validate CRDs while retrieving CRDs from kubernetes cache.Use this flag to enable validation of CRDs in Pilot, especially in deployments that do not have galley installed.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_EDS_CACHE</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If true, Pilot will cache EDS responses.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -785,6 +761,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If set to false, virtualService delegate will not be supported.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_XDS_CACHE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will cache XDS responses.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_XDS_IDENTITY_CHECK</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -861,6 +843,18 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, Pilot will use EndpointSlices as the source of endpoints for Kubernetes services. By default, this is false, and Endpoints will be used. This requires the Kubernetes EndpointSlice controller to be enabled. Currently this is mutual exclusive - either Endpoints or EndpointSlices will be used</td>
+</tr>
+<tr>
+<td><code>PILOT_XDS_CACHE_SIZE</code></td>
+<td>Integer</td>
+<td><code>20000</code></td>
+<td>The maximum number of cache entries for the XDS cache. If the size is &lt;= 0, the cache will have no upper bound.</td>
+</tr>
+<tr>
+<td><code>PILOT_XDS_CACHE_STATS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, Pilot will collect metrics for XDS cache efficiency.</td>
 </tr>
 <tr>
 <td><code>POD_NAME</code></td>
@@ -1035,5 +1029,8 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of sidecar injection requests.</td></tr>
 <tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped sidecar injection requests.</td></tr>
 <tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful sidecar injection requests.</td></tr>
+<tr><td><code>xds_cache_evictions</code></td><td><code>Sum</code></td><td>Total number of xds cache evictions.</td></tr>
+<tr><td><code>xds_cache_reads</code></td><td><code>Sum</code></td><td>Total number of xds cache xdsCacheReads.</td></tr>
+<tr><td><code>xds_cache_size</code></td><td><code>LastValue</code></td><td>Current size of xds cache</td></tr>
 </tbody>
 </table>

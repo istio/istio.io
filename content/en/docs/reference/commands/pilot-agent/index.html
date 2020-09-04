@@ -632,24 +632,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>The type of the credential fetcher. Currently supported types include GoogleComputeEngine</td>
 </tr>
 <tr>
-<td><code>DNS_ADDR</code></td>
-<td>String</td>
-<td><code>:15053</code></td>
-<td>DNS listen address</td>
-</tr>
-<tr>
-<td><code>DNS_AGENT</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>If set, enable the capture of outgoing DNS packets on port 53, redirecting to istio-agent on :15053</td>
-</tr>
-<tr>
-<td><code>DNS_SERVER</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Protocol and DNS server to use. Currently only tcp-tls: is supported.</td>
-</tr>
-<tr>
 <td><code>ECC_SIGNATURE_ALGORITHM</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -788,6 +770,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If set, enable the capture of outgoing DNS packets on port 53, redirecting to istio-agent on :15053</td>
 </tr>
 <tr>
+<td><code>ISTIO_META_PROXY_XDS_VIA_AGENT</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set to enable or true or 1, envoy will proxy XDS calls via the agent instead of directly connecting to istiod. This option will be removed once the feature is stabilized.</td>
+</tr>
+<tr>
 <td><code>ISTIO_PROMETHEUS_ANNOTATIONS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -870,12 +858,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will validate CRDs while retrieving CRDs from kubernetes cache.Use this flag to enable validation of CRDs in Pilot, especially in deployments that do not have galley installed.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_EDS_CACHE</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If true, Pilot will cache EDS responses.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
@@ -962,6 +944,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If set to false, virtualService delegate will not be supported.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_XDS_CACHE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will cache XDS responses.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_XDS_IDENTITY_CHECK</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1040,6 +1028,18 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, Pilot will use EndpointSlices as the source of endpoints for Kubernetes services. By default, this is false, and Endpoints will be used. This requires the Kubernetes EndpointSlice controller to be enabled. Currently this is mutual exclusive - either Endpoints or EndpointSlices will be used</td>
 </tr>
 <tr>
+<td><code>PILOT_XDS_CACHE_SIZE</code></td>
+<td>Integer</td>
+<td><code>20000</code></td>
+<td>The maximum number of cache entries for the XDS cache. If the size is &lt;= 0, the cache will have no upper bound.</td>
+</tr>
+<tr>
+<td><code>PILOT_XDS_CACHE_STATS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, Pilot will collect metrics for XDS cache efficiency.</td>
+</tr>
+<tr>
 <td><code>PKCS8_KEY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1074,12 +1074,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code></code></td>
 <td>The proxy configuration. This will be set by the injection - gateways will use file mounts.</td>
-</tr>
-<tr>
-<td><code>PROXY_XDS_VIA_AGENT</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>If set to enable or true or 1, envoy will proxy XDS calls via the agent instead of directly connecting to istiod. This option will be removed once the feature is stabilized.</td>
 </tr>
 <tr>
 <td><code>REQUIRE_3P_TOKEN</code></td>
@@ -1236,5 +1230,8 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr><td><code>total_pushes</code></td><td><code>Sum</code></td><td>The total number of SDS pushes.</td></tr>
 <tr><td><code>total_secret_update_failures</code></td><td><code>Sum</code></td><td>The total number of dynamic secret update failures reported by proxy.</td></tr>
 <tr><td><code>total_stale_connections</code></td><td><code>Sum</code></td><td>The total number of stale SDS connections.</td></tr>
+<tr><td><code>xds_cache_evictions</code></td><td><code>Sum</code></td><td>Total number of xds cache evictions.</td></tr>
+<tr><td><code>xds_cache_reads</code></td><td><code>Sum</code></td><td>Total number of xds cache xdsCacheReads.</td></tr>
+<tr><td><code>xds_cache_size</code></td><td><code>LastValue</code></td><td>Current size of xds cache</td></tr>
 </tbody>
 </table>
