@@ -81,7 +81,7 @@ Istio configuration profiles:
 
 ## 显示配置文件的配置{#display-the-configuration-of-a-profile}
 
-您可以查看配置文件的配置设置。例如，通过以下命令查看 `default` 配置文件的设置：
+您可以查看配置文件的配置设置。例如，通过以下命令查看 `demo` 配置文件的设置：
 
 {{< text bash >}}
 $ istioctl profile dump demo
