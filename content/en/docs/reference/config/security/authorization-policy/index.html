@@ -31,7 +31,7 @@ Requests will be allowed or denied based solely on ALLOW and DENY policies.</p>
 <p>A request will be internally marked that it should be audited if there is an AUDIT policy on the workload that matches the request.
 A separate plugin must be configured and enabled to actually fulfill the audit decision and complete the audit behavior.
 The request will not be audited if there are no such supporting plugins enabled.
-Currently, the only supported plugin is the <a href="/docs/reference/config/proxy_extensions/stackdriver/">Telemetry v2 Stackdriver</a> plugin.</p>
+Currently, the only supported plugin is the <a href="/docs/reference/config/proxy_extensions/stackdriver/">Stackdriver</a> plugin.</p>
 
 <p>Here is an example of Istio Authorization Policy:</p>
 
@@ -118,7 +118,7 @@ spec:
   - to:
     - operation:
         methods: [&quot;GET&quot;]
-        paths: ["/user/profile/*"]
+        paths: [&quot;/user/profile/*&quot;]
 ````
 
 Authorization Policy scope (target) is determined by &quot;metadata/namespace&quot; and
