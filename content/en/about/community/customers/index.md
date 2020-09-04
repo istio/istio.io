@@ -10,7 +10,7 @@ skip_seealso: true
 Here are just a few of the organizations we know are using Istio. If you want to edit this page, [please send a pull request!](https://github.com/istio/istio.io/tree/master/content/en/about/community/customers)
 
 <div class="logo-gallery">
-    {{< company_logo link="https://www.aihuishu.com" logo="./aihuishou.jpeg" alt="Aihuishou" >}}
+    {{< company_logo link="https://www.aihuishou.com" logo="./aihuishou.jpeg" alt="Aihuishou" >}}
     {{< company_logo link="https://www.amadeus.com" logo="./amadeus.svg" alt="Amadeus" >}}
     {{< company_logo link="https://www.anz.com" logo="./anz.svg" alt="ANZ" >}}
     {{< company_logo link="https://www.autodesk.com" logo="./autodesk.png" alt="Autodesk" >}}
