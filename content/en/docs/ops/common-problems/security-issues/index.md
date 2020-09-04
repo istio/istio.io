@@ -521,7 +521,7 @@ second ensure that [keys and certificates are being delivered](#keys-and-certifi
 If everything appears to be working so far, the next step is to verify that the right [authentication policy](/docs/tasks/security/authentication/authn-policy/)
 is applied and the right destination rules are in place.
 
-## Istiod is not behaving properly {#repairing-istiod}
+## Istiod certificate management is not behaving properly {#repairing-istiod}
 
 {{< warning >}}
 Workloads with new Kubernetes service accounts can not be started when Istiod is
@@ -529,7 +529,7 @@ disabled for maintenance since they can't get their certificates generated.
 {{< /warning >}}
 
 The default workload certificate lifetime is 3
-months. Certificates will be rotated by Istiod before they expire. If Istiod is disabled for
+months. Certificates will be rotated by Istiod before they expire. If Istiod certificate management is disabled for
 short maintenance periods, existing mutual TLS traffic will not be affected.
 
 If you suspect Istiod isn't working properly, verify the status of the `istiod` pod:
