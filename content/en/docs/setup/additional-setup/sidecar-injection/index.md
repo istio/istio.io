@@ -80,14 +80,14 @@ Deploy sleep app. Verify both deployment and pod have a single container.
 {{< text bash >}}
 $ kubectl apply -f @samples/sleep/sleep.yaml@
 $ kubectl get deployment -o wide
-NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS   IMAGES       SELECTOR
-sleep     1         1         1            1           12m       sleep        tutum/curl   app=sleep
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                    SELECTOR
+sleep   1/1     1            1           12s   sleep        governmentpaas/curl-ssl   app=sleep
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get pod
-NAME                     READY     STATUS        RESTARTS   AGE
-sleep-776b7bcdcd-7hpnk   1/1       Running       0          4
+NAME                    READY   STATUS    RESTARTS   AGE
+sleep-8f795f47d-hdcgs   1/1     Running   0          42s
 {{< /text >}}
 
 Label the `default` namespace with `istio-injection=enabled`
@@ -95,11 +95,13 @@ Label the `default` namespace with `istio-injection=enabled`
 {{< text bash >}}
 $ kubectl label namespace default istio-injection=enabled
 $ kubectl get namespace -L istio-injection
-NAME           STATUS    AGE       ISTIO-INJECTION
-default        Active    1h        enabled
-istio-system   Active    1h
-kube-public    Active    1h
-kube-system    Active    1h
+NAME                 STATUS   AGE     ISTIO-INJECTION
+default              Active   5m9s    enabled
+istio-system         Active   4m58s   disabled
+kube-node-lease      Active   5m10s
+kube-public          Active   5m10s
+kube-system          Active   5m10s
+local-path-storage   Active   5m7s
 {{< /text >}}
 
 Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has 1&#47;1 READY containers and the pod with injected sidecar has 2&#47;2 READY containers.
@@ -168,21 +170,30 @@ value `false` to the pod template spec to override the default and disable injec
 
 The following example uses the `sidecar.istio.io/inject` annotation to disable sidecar injection.
 
-{{< text yaml >}}
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ignored
+  labels:
+    app: ignored
 spec:
+  selector:
+    matchLabels:
+      app: ignored
   template:
     metadata:
+      labels:
+        app: ignored
       annotations:
         sidecar.istio.io/inject: "false"
     spec:
       containers:
       - name: ignored
-        image: tutum/curl
+        image: governmentpaas/curl-ssl
         command: ["/bin/sleep","infinity"]
+EOF
 {{< /text >}}
 
 ##### _**template**_
