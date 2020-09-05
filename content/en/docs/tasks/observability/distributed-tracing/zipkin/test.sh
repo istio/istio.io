@@ -20,6 +20,7 @@ set -u
 set -o pipefail
 
 source "tests/util/samples.sh"
+source "tests/util/addons.sh"
 
 # @setup profile=demo
 
@@ -27,8 +28,7 @@ source "tests/util/samples.sh"
 # Set to known setting of sidecar injection
 kubectl label namespace default istio-injection=enabled --overwrite
 
-kubectl apply -f "https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/extras/zipkin.yaml"
-_wait_for_deployment istio-system zipkin
+_deploy_and_wait_for_addons zipkin
 
 # Install Bookinfo application
 startup_bookinfo_sample
@@ -55,7 +55,4 @@ cleanup_bookinfo_sample
 
 # TODO: Fix issue with using killall. Also why do we need to do this in setup and cleanup?
 pgrep istioctl | xargs kill
-
-# Had to repeat again, as setup and cleanup are split into separate scripts
-# and are invoked separately by istio.io docs test framework
-kubectl delete -f "https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/extras/zipkin.yaml"
+_undeploy_addons zipkin
