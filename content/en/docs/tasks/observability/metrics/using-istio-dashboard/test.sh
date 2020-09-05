@@ -42,11 +42,11 @@ snip_viewing_the_istio_dashboard_3 &
 # For verification, we only check if the dashboards are accessible, but not its actual contents
 # TODO: Is it worth checking API calls and output for Grafana case? 
 function access_grafana_istio_mesh_dashboard() {
-  curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/dashboard/db/istio-mesh-dashboard
+  curl -L -s -o /dev/null -w '%{http_code}' "http://localhost:3000/dashboard/db/istio-mesh-dashboard"
 }
 
 function access_grafana_istio_service_dashboard() {
-  curl -s -o /dev/null -w '%{http_code}'http://localhost:3000/dashboard/db/istio-service-dashboard
+  curl -L -s -o /dev/null -w '%{http_code}' "http://localhost:3000/dashboard/db/istio-service-dashboard"
 }
 
 _verify_same access_grafana_istio_mesh_dashboard "200"
