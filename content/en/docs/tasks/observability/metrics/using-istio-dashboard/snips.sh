@@ -43,7 +43,7 @@ istioctl dashboard grafana
 }
 
 snip_viewing_the_istio_dashboard_4() {
-curl http://$GATEWAY_URL/productpage
+curl "http://$GATEWAY_URL/productpage"
 }
 
 snip_cleanup_1() {

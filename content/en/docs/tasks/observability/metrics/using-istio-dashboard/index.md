@@ -66,7 +66,7 @@ the example application throughout this task.
     browser or issue the following command:
 
     {{< text bash >}}
-    $ curl http://$GATEWAY_URL/productpage
+    $ curl "http://$GATEWAY_URL/productpage"
     {{< /text >}}
 
     {{< tip >}}
