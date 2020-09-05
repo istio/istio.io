@@ -1031,6 +1031,9 @@ istioctl experimental add-to-mesh service productpage
 # Restart just pods from the productpage-v1 deployment
 istioctl experimental add-to-mesh deployment productpage-v1
 
+# Restart just pods from the details-v1 deployment
+istioctl x add deployment details-v1
+
 # Control how meshed pods see an external service
 istioctl experimental add-to-mesh external-service vmhttp 172.12.23.125,172.12.23.126 \
    http:9080 tcp:8888 --labels app=test,version=v1 --annotations env=stage --serviceaccount stageAdmin
@@ -1114,6 +1117,13 @@ istioctl experimental add-to-mesh dep &lt;deployment&gt; [flags]
 <pre class="language-bash"><code>
 # Restart pods from the productpage-v1 deployment with Istio sidecar
 istioctl experimental add-to-mesh deployment productpage-v1
+
+# Restart pods from the details-v1 deployment with Istio sidecar
+istioctl x add-to-mesh deploy details-v1
+
+# Restart pods from the ratings-v1 deployment with Istio sidecar
+istioctl x add dep ratings-v1
+
 </code></pre>
 <h2 id="istioctl-experimental-add-to-mesh-external-service">istioctl experimental add-to-mesh external-service</h2>
 <p>istioctl experimental add-to-mesh external-service create a ServiceEntry and 
@@ -1124,6 +1134,9 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 </p>
 <pre class="language-bash"><code>istioctl experimental add-to-mesh external-service &lt;svcname&gt; &lt;ip&gt; [name1:]port1 [[name2:]port2] ... [flags]
 </code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl experimental add-to-mesh es &lt;svcname&gt; &lt;ip&gt; [name1:]port1 [[name2:]port2] ... [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <tr>
@@ -1279,6 +1292,13 @@ See https://istio.io/v1.8/docs/ops/deployment/requirements/</p>
 <pre class="language-bash"><code>
 # Restart all productpage pods with an Istio sidecar
 istioctl experimental add-to-mesh service productpage
+
+# Restart all details-v1 pods with an Istio sidecar
+istioctl x add-to-mesh svc details-v1
+
+# Restart all ratings-v1 pods with an Istio sidecar
+istioctl x add svc ratings-v1
+
 </code></pre>
 <h2 id="istioctl-experimental-authz">istioctl experimental authz</h2>
 <p>Inspect Istio AuthorizationPolicy</p>
@@ -2446,6 +2466,13 @@ istioctl x ps --xds-label istio.io/rev=default
 <pre class="language-bash"><code>
 # Restart all productpage pods without an Istio sidecar
 istioctl experimental remove-from-mesh service productpage
+
+# Restart all details-v1 pods without an Istio sidecar
+istioctl x rm service details-v1
+
+# Restart all ratings-v1 pods without an Istio sidecar
+istioctl x rm deploy ratings-v1
+
 </code></pre>
 <h2 id="istioctl-experimental-remove-from-mesh-deployment">istioctl experimental remove-from-mesh deployment</h2>
 <p>&#39;istioctl experimental remove-from-mesh deployment&#39; restarts pods with the Istio sidecar un-injected.</p>
@@ -2493,6 +2520,13 @@ istioctl experimental remove-from-mesh dep &lt;deployment&gt; [flags]
 <pre class="language-bash"><code>
 # Restart all productpage-v1 pods without an Istio sidecar
 istioctl experimental remove-from-mesh deployment productpage-v1
+
+# Restart all details-v1 pods without an Istio sidecar
+istioctl x remove-from-mesh deploy details-v1
+
+# Restart all ratings-v1 pods without an Istio sidecar
+istioctl x rm dep ratings-v1
+
 </code></pre>
 <h2 id="istioctl-experimental-remove-from-mesh-external-service">istioctl experimental remove-from-mesh external-service</h2>
 <p>&#39;istioctl experimental remove-from-mesh external-service&#39; removes the ServiceEntry and
@@ -2502,6 +2536,9 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 </p>
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh external-service &lt;svcname&gt; [flags]
 </code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl experimental remove-from-mesh es &lt;svcname&gt; [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <tr>
@@ -2537,6 +2574,13 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <pre class="language-bash"><code>
 # Remove &#34;vmhttp&#34; service entry rules
 istioctl experimental remove-from-mesh external-service vmhttp
+
+# Remove &#34;vmhttp&#34; service entry rules
+istioctl x remove-from-mesh es vmhttp
+
+# Remove &#34;vmhttp&#34; service entry rules
+istioctl x rm es vmhttp
+
 </code></pre>
 <h2 id="istioctl-experimental-remove-from-mesh-service">istioctl experimental remove-from-mesh service</h2>
 <p>&#39;istioctl experimental remove-from-mesh service&#39; restarts pods with the Istio sidecar un-injected.</p>
@@ -2583,6 +2627,13 @@ istioctl experimental remove-from-mesh external-service vmhttp
 <pre class="language-bash"><code>
 # Restart all productpage pods without an Istio sidecar
 istioctl experimental remove-from-mesh service productpage
+
+# Restart all details-v1 pods without an Istio sidecar
+istioctl x remove-from-mesh svc details-v1
+
+# Restart all ratings-v1 pods without an Istio sidecar
+istioctl x rm svc ratings-v1
+
 </code></pre>
 <h2 id="istioctl-experimental-sidecar-bootstrap">istioctl experimental sidecar-bootstrap</h2>
 <p>(experimental) Takes in one or more WorkloadEntries generates identities for them, and copies to
@@ -3582,6 +3633,11 @@ e.g.
 <td><code>--charts &lt;string&gt;</code></td>
 <td></td>
 <td>Deprecated, use --manifests instead.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--component &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>Specify which component to generate manifests for.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
