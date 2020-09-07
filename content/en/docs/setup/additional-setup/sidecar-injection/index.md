@@ -311,11 +311,6 @@ It's worth noting that annotations in the pods have higher precedence than the l
 
 {{< text bash >}}
 $ kubectl delete mutatingwebhookconfiguration istio-sidecar-injector
-$ kubectl -n istio-system delete service istio-sidecar-injector
-$ kubectl -n istio-system delete deployment istio-sidecar-injector
-$ kubectl -n istio-system delete serviceaccount istio-sidecar-injector-service-account
-$ kubectl delete clusterrole istio-sidecar-injector-istio-system
-$ kubectl delete clusterrolebinding istio-sidecar-injector-admin-role-binding-istio-system
 {{< /text >}}
 
 The above command will not remove the injected sidecars from Pods. A
