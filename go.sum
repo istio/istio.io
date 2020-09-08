@@ -1096,8 +1096,8 @@ istio.io/api v0.0.0-20200813195615-8ab1a23cc673/go.mod h1:kyq3g5w42zl/AKlbzDGppY
 istio.io/gogo-genproto v0.0.0-20190930162913-45029607206a/go.mod h1:OzpAts7jljZceG4Vqi5/zXy/pOg1b209T3jb7Nv5wIs=
 istio.io/gogo-genproto v0.0.0-20200709220749-8607e17318e8 h1:41vUsZxxi7Kq9pyxmk7xjSKrYEYyXCQsTvP4mWOXzoI=
 istio.io/gogo-genproto v0.0.0-20200709220749-8607e17318e8/go.mod h1:OzpAts7jljZceG4Vqi5/zXy/pOg1b209T3jb7Nv5wIs=
-istio.io/istio v0.0.0-20200831172844-4e92d484b9fc h1:BfzGZZiFPGa8E4TZHzlS9dm3PN2yIojSA+fX0f7iJr0=
-istio.io/istio v0.0.0-20200831172844-4e92d484b9fc/go.mod h1:6qSy5DUl2S9RLEwpypDcbLPS481kbc6769OgnnCYxB0=
+istio.io/istio v0.0.0-20200903024532-6b4199d7f133 h1:sdZ+GMzuu3rR9C29HaRdn2EhgLBiZ7u/yYY2za3gLkc=
+istio.io/istio v0.0.0-20200903024532-6b4199d7f133/go.mod h1:6qSy5DUl2S9RLEwpypDcbLPS481kbc6769OgnnCYxB0=
 istio.io/pkg v0.0.0-20200709220414-14d5de656564 h1:iaOIWnzUh6T7O2ViQL9EDY6TtnPgDkNSohIcpJ92bHw=
 istio.io/pkg v0.0.0-20200709220414-14d5de656564/go.mod h1:pwGaxLUDLobzL/WvWV94z72LvBbB1dr2UUUyPuasfIU=
 k8s.io/api v0.0.0-20190918155943-95b840bb6a1f/go.mod h1:uWuOHnjmNrtQomJrvEBg0c0HRNyQ+8KTEERVsK0PW48=
