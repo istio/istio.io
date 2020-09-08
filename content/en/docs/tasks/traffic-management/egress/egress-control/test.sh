@@ -58,12 +58,14 @@ istioctl install --set profile=demo \
                  --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --set values.global.proxy.includeIPRanges="10.96.0.0/12"
 _wait_for_deployment istio-system istiod
 
+kubectl delete po -l app=sleep
+SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+
 _verify_elided snip_access_the_external_services_1 "$snip_access_the_external_services_1_out"
 
 # @cleanup
 set +e # ignore cleanup errors
 snip_cleanup_the_controlled_access_to_external_services_1
 snip_cleanup_1
-istioctl x uninstall
 kubectl delete ns istio-system
 kubectl label namespace default istio-injection-
