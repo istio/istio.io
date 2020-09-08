@@ -123,6 +123,12 @@ Now, with the controller running, you can change the Istio configuration by edit
 the `IstioOperator` resource. The controller will detect the change and respond by updating
 the Istio installation correspondingly.
 
+{{< warning >}}
+The current behavior of the Istio operator is to _merge_ configuration of some components rather than to _override_
+configuration. This applies to components that have immutable fields such as the Kubernetes `Service` object's
+`clusterIP` field. This can cause Istio components to display a mix of current configuration and previous configuration.
+{{< /warning >}}
+
 For example, you can switch the installation to the `default`
 profile with the following command:
 
