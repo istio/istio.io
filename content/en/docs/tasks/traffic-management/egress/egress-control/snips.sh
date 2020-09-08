@@ -177,7 +177,6 @@ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -s -w "%{http_code
 
 ! read -r -d '' snip_manage_traffic_to_external_services_3_out <<\ENDSNIP
 504
-
 real    0m3.149s
 user    0m0.004s
 sys     0m0.004s
