@@ -32,6 +32,9 @@ set -x
 # shellcheck source=prow/lib.sh
 source "${ROOT}/prow/lib.sh"
 
+# shellcheck source=prow/lib-multicluster.sh
+source "${ROOT}/prow/lib-multicluster.sh"
+
 # KinD will not have a LoadBalancer, so we need to disable it
 export TEST_ENV=kind
 
@@ -45,8 +48,20 @@ export HUB=${HUB:-"gcr.io/istio-testing"}
 export T="${T:-"-v"}"
 export CI="true"
 
+export TOPOLOGY=${TOPOLOGY:-"SINGLE_CLUSTER"}
+
 if [[ -z "${SKIP_SETUP:-}" ]]; then
-  time setup_kind_cluster "${NODE_IMAGE:-}"
+  if [[ "${TOPOLOGY}" == "SINGLE_CLUSTER" ]]; then
+    time setup_kind_cluster "${NODE_IMAGE:-}"
+  else
+    time setup_kind_clusters "${TOPOLOGY}" "${NODE_IMAGE:-}"
+
+    # Set the kube configs to point to the clusters.
+    # This will be picked up by make target running multicluster tests
+    export KUBECONFIG="${CLUSTER1_KUBECONFIG}:${CLUSTER2_KUBECONFIG}:${CLUSTER3_KUBECONFIG}"
+    export MULTICLUSTER_DOCTEST_NETWORKS="0:test-network-0,1:test-network-0,2:test-network-1"
+    export MULTICLUSTER_DOCTEST_CONTROLPLANE_TOPOLOGY="0:0,1:0,2:2"
+  fi
 fi
 
 make "${@}"
