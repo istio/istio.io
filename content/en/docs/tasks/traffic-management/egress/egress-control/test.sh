@@ -62,7 +62,17 @@ _wait_for_deployment istio-system istiod
 snip_cleanup_1
 snip_before_you_begin_1
 kubectl wait --for=delete "pod/$SOURCE_POD" --timeout=60s
-snip_before_you_begin_3
+
+kubectl get po
+
+get_source_pod() {
+    snip_before_you_begin_3
+    echo "$SOURCE_POD"
+}
+_verify_like get_source_pod "sleep-8f795f47d-7wxbq
+"
+
+echo "SOURCE_POD: $SOURCE_POD"
 
 _verify_elided snip_access_the_external_services_1 "$snip_access_the_external_services_1_out"
 
