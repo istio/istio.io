@@ -302,7 +302,7 @@ __cluster_cleanup_check() {
     snapshot=$(<__cluster_snapshot.txt)
     rm __cluster_snapshot.txt
 
-    VERIFY_RETRIES=10
+    VERIFY_RETRIES=9
     _verify_like __cluster_state "$snapshot"
 }
 

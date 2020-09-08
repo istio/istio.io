@@ -298,7 +298,6 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
     {{< text bash >}}
     $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
     504
-
     real    0m3.149s
     user    0m0.004s
     sys     0m0.004s
@@ -413,7 +412,7 @@ add `--set values.global.proxy.includeIPRanges="10.0.0.1/24"`.
 
 ### Access the external services
 
-Because the bypass configuration only affects new deployments, you need to redeploy the `sleep`
+Because the bypass configuration only affects new deployments, you need to terminate and then redeploy the `sleep`
 application as described in the [Before you begin](#before-you-begin) section.
 
 After updating the `istio-sidecar-injector` configmap and redeploying the `sleep` application,
