@@ -363,8 +363,6 @@ istio-system   istio.istio-citadel-service-account                  istio.io/key
 istio-system   istio.istio-cleanup-old-ca-service-account           istio.io/key-and-cert                 3         14d
 istio-system   istio.istio-egressgateway-service-account            istio.io/key-and-cert                 3         14d
 istio-system   istio.istio-ingressgateway-service-account           istio.io/key-and-cert                 3         14d
-istio-system   istio.istio-mixer-post-install-account               istio.io/key-and-cert                 3         14d
-istio-system   istio.istio-mixer-service-account                    istio.io/key-and-cert                 3         14d
 istio-system   istio.istio-pilot-service-account                    istio.io/key-and-cert                 3         14d
 istio-system   istio.istio-sidecar-injector-service-account         istio.io/key-and-cert                 3         14d
 istio-system   istio.prometheus                                     istio.io/key-and-cert                 3         14d

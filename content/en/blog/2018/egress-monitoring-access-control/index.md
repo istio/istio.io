@@ -284,7 +284,7 @@ for example
 [white lists or black lists](https://istio.io/v1.6/docs/tasks/policy-enforcement/denial-and-list/#attribute-based-whitelists-or-blacklists)
 of allowed/forbidden URL paths, respectively.
 [Policy Rules](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/) allow specifying complex conditions,
-specified in a [rich expression language](/docs/reference/config/policy-and-telemetry/expression-language/), which
+specified in a [rich expression language](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/expression-language/), which
 includes AND and OR logical operators. The rules can be reused for both logging and policy checks. More advanced users
 may want to apply [Istio Role-Based Access Control](/docs/concepts/security/#authorization).
 
