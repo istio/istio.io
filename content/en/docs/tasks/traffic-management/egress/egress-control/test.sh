@@ -59,7 +59,7 @@ istioctl install --set profile=demo \
 _wait_for_deployment istio-system istiod
 
 kubectl delete po -l app=sleep
-SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
 
 _verify_elided snip_access_the_external_services_1 "$snip_access_the_external_services_1_out"
 
