@@ -58,8 +58,11 @@ istioctl install --set profile=demo \
                  --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --set values.global.proxy.includeIPRanges="10.96.0.0/12"
 _wait_for_deployment istio-system istiod
 
-kubectl delete po -l app=sleep
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+# Restart the sleep service
+snip_cleanup_1
+snip_before_you_begin_1
+kubectl wait --for=delete "pod/$SOURCE_POD" --timeout=60s
+snip_before_you_begin_3
 
 _verify_elided snip_access_the_external_services_1 "$snip_access_the_external_services_1_out"
 
