@@ -70,7 +70,6 @@ containing:
 
     {{< text bash >}}
     $ kubectl logs -n istio-system -l istio=pilot -c discovery
-    $ kubectl logs -n istio-system -l istio=pilot -c istio-proxy
     {{< /text >}}
 
 * All Istio configuration artifacts:
