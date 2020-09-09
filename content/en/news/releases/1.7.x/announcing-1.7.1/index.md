@@ -26,7 +26,7 @@ which makes Mixer based configuration and out of process adapter still work afte
 - **Fixed** Remove unreachable endpoints for non-injected workloads across networks.
   ([Issue #26517](https://github.com/istio/istio/issues/26517))
 
-- **Fixed** HoldApplicationUntilProxyStarts breaks rewriteAppProbers.
+- **Fixed** enabling hold application until proxy starts feature flag breaking rewriting application probe logic.
   ([Issue #26873](https://github.com/istio/istio/issues/26873))
 
 - **Fixed** deleting the remote-secret for multicluster installation removes remote endpoints.
