@@ -77,7 +77,7 @@ You can then decide to [configure access to external services](#controlled-acces
     ALLOW_ANY
     {{< /text >}}
 
-    You should either see `ALLOW_ANY` or empty output.
+    You should either see `ALLOW_ANY` or no output (default `ALLOW_ANY`).
 
     {{< tip >}}
     If you have explicitly configured `REGISTRY_ONLY` mode, you can change it
@@ -437,8 +437,7 @@ no longer monitor the access to external services.
 
 ### Cleanup the direct access to external services
 
-Update the `istio-sidecar-injector.configmap.yaml` configuration map to redirect all outbound traffic to the sidecar
-proxies:
+Update the configuration to stop bypassing sidecar proxies for a range of IPs:
 
 {{< text syntax=bash snip_id=none >}}
 $ istioctl install <flags-you-used-to-install-Istio>
@@ -491,39 +490,3 @@ Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 {{< text bash >}}
 $ kubectl delete -f @samples/sleep/sleep.yaml@
 {{< /text >}}
-
-### Set the outbound traffic policy mode to your desired value
-
-1.  Check the current value:
-
-    {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY" | uniq
-    $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: REGISTRY_ONLY" | uniq
-    mode: ALLOW_ANY
-    {{< /text >}}
-
-    The output will be either `mode: ALLOW_ANY` or `mode: REGISTRY_ONLY`.
-
-1.  If you want to change the mode, perform the following commands:
-
-    {{< tabset category-name="outbound_traffic_policy_mode" >}}
-
-    {{< tab name="change from ALLOW_ANY to REGISTRY_ONLY" category-value="REGISTRY_ONLY" >}}
-
-    {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -
-    configmap/istio replaced
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< tab name="change from REGISTRY_ONLY to ALLOW_ANY" category-value="ALLOW_ANY" >}}
-
-    {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
-    configmap/istio replaced
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
