@@ -35,7 +35,7 @@ which makes Mixer based configuration and out of process adapter still work afte
 - **Fixed** missing endpoints when Service is populated later than Endpoints.
   
 
-- **Fixed** headless services endpoints update will not trigger any xds pushes for sidecar proxies
+- **Fixed** any issue causing headless Service updates to be missed ([Issue #26617](https://github.com/istio/istio/issues/26617)).
   ([Issue #26617](https://github.com/istio/istio/issues/26617))
 
 - **Fixed** an issue with Kiali RBAC permissions which prevented its deployment from working properly.
