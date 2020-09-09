@@ -191,7 +191,7 @@ any other unintentional accesses.
 1.  Make a request to the external HTTP service from `SOURCE_POD`:
 
     {{< text bash >}}
-    $  kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -209,7 +209,7 @@ any other unintentional accesses.
 1.  Check the log of the sidecar proxy of `SOURCE_POD`:
 
     {{< text bash >}}
-    $  kubectl logs "$SOURCE_POD" -c istio-proxy | tail
+    $ kubectl logs "$SOURCE_POD" -c istio-proxy | tail
     [2019-01-24T12:17:11.640Z] "GET /headers HTTP/1.1" 200 - 0 599 214 214 "-" "curl/7.60.0" "17fde8f7-fa62-9b39-8999-302324e6def2" "httpbin.org" "35.173.6.94:80" outbound|80||httpbin.org - 35.173.6.94:80 172.30.109.82:55314 -
     {{< /text >}}
 
@@ -421,7 +421,7 @@ within the cluster. Any external request bypasses the sidecar and goes straight 
 For example:
 
 {{< text bash >}}
-$ kubectl exec "$SOURCE_POD" -c sleep -- curl http://httpbin.org/headers
+$ kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
 {
   "headers": {
     "Accept": "*/*",

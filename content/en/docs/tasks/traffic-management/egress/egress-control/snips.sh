@@ -84,7 +84,7 @@ EOF
 }
 
 snip_access_an_external_http_service_2() {
- kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
+kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
 }
 
 ! read -r -d '' snip_access_an_external_http_service_2_out <<\ENDSNIP
@@ -101,7 +101,7 @@ snip_access_an_external_http_service_2() {
 ENDSNIP
 
 snip_access_an_external_http_service_3() {
- kubectl logs "$SOURCE_POD" -c istio-proxy | tail
+kubectl logs "$SOURCE_POD" -c istio-proxy | tail
 }
 
 ! read -r -d '' snip_access_an_external_http_service_3_out <<\ENDSNIP
@@ -213,7 +213,7 @@ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-ra
 ENDSNIP
 
 snip_access_the_external_services_1() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl http://httpbin.org/headers
+kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
 }
 
 ! read -r -d '' snip_access_the_external_services_1_out <<\ENDSNIP
