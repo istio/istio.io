@@ -62,8 +62,9 @@ cp -a "${ISTIO_OUT}/release/istioctl-linux-amd64" /gobin/istioctl
 popd > /dev/null
 
 # Copy install/samples files over from Istio. These are needed by the tests.
-rm -rf "${ISTIOIO_GO}/samples" "${ISTIOIO_GO}/tests/integration" "${ISTIOIO_GO}/manifests"
+rm -rf "${ISTIOIO_GO}/samples" "${ISTIOIO_GO}/tools" "${ISTIOIO_GO}/tests/integration" "${ISTIOIO_GO}/manifests"
 cp -a "${ISTIO_GO}/samples" "${ISTIOIO_GO}/samples"
+cp -a "${ISTIO_GO}/tools" "${ISTIOIO_GO}/tools"
 mkdir "${ISTIOIO_GO}/tests/integration/"
 cp -a "${ISTIO_GO}/tests/integration/iop-integration-test-defaults.yaml" "${ISTIOIO_GO}/tests/integration/"
 cp -a "${ISTIO_GO}/manifests" "${ISTIOIO_GO}/manifests"
