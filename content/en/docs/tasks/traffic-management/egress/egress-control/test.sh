@@ -74,7 +74,8 @@ snip_before_you_begin_3
 
 echo "SOURCE_POD: $SOURCE_POD"
 
-_verify_elided snip_access_the_external_services_1 "$snip_access_the_external_services_1_out"
+#_verify_elided snip_access_the_external_services_1 "$snip_access_the_external_services_1_out"
+_verify_contains snip_access_the_external_services_1 '"headers": {'
 
 # @cleanup
 set +e # ignore cleanup errors

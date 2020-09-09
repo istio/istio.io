@@ -421,7 +421,7 @@ within the cluster. Any external request bypasses the sidecar and goes straight 
 For example:
 
 {{< text bash >}}
-$ kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
+$ kubectl exec "$SOURCE_POD" -c sleep -- curl http://httpbin.org/headers
 {
   "headers": {
     "Accept": "*/*",
