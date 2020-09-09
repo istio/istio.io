@@ -43,3 +43,6 @@ which makes Mixer based configuration and out of process adapter still work afte
 
 - **Fixed** remove-from-mesh does not remove the init containers when using Istio CNI
   ([Issue #26938](https://github.com/istio/istio/issues/26938))
+
+## Default auth strategy for Kiali switched to anonymous.
+Newer versions of Kiali that are compatible with Istio 1.7+, removed login auth strategy so we moved to the updated default one.
