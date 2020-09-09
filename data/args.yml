@@ -2,7 +2,7 @@
 version: "1.6"
 
 # The full Istio version identifier the docs describe
-full_version: "1.6.8"
+full_version: "1.6.9"
 
 # The previous Istio version identifier the docs describe, used for upgrade documentation
 previous_version: "1.5"
