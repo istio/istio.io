@@ -70,6 +70,7 @@ get_source_pod() {
     echo "$SOURCE_POD"
 }
 _verify_like get_source_pod "sleep-8f795f47d-7wxbq"
+snip_before_you_begin_3
 
 echo "SOURCE_POD: $SOURCE_POD"
 
