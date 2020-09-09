@@ -86,7 +86,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 1. Get the root certificate:
 
     {{< text bash >}}
-    $ kubectl -n "${VM_NAMESPACE}" get configmaps istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > "${WORK_DIR}"/root-cert
+    $ kubectl -n "${VM_NAMESPACE}" get configmaps istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > "${WORK_DIR}"/root-cert.pem
     {{< /text >}}
 
 1. Generate a `cluster.env` configuration file that informs the virtual machine
