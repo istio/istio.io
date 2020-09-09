@@ -21,7 +21,8 @@ This release contains bug fixes to improve robustness. This release note describ
 which makes Mixer based configuration and out of process adapter still work after upgrading to future version of Istio. 
   ([Issue #23580](https://github.com/istio/istio/issues/23580))
 
-
+- **Fixed** the `istioctl x authz check` command to work properly with the v1beta1 AuthorizationPolicy.
+  ([PR #26625](https://github.com/istio/istio/pull/26625))
 
 - **Fixed** Remove unreachable endpoints for non-injected workloads across networks.
   ([Issue #26517](https://github.com/istio/istio/issues/26517))
@@ -44,5 +45,4 @@ which makes Mixer based configuration and out of process adapter still work afte
 - **Fixed** an issue where `remove-from-mesh` did not remove the init containers when using Istio CNI
   ([Issue #26938](https://github.com/istio/istio/issues/26938))
 
-## Default auth strategy for Kiali switched to anonymous.
-Newer versions of Kiali that are compatible with Istio 1.7+, removed login auth strategy so we moved to the updated default one.
+- **Fixed** Kiali to use anonymous authentication strategy since newer versions have removed the login authentication strategy.
