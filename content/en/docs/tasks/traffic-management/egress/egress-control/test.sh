@@ -65,17 +65,13 @@ kubectl wait --for=delete "pod/$SOURCE_POD" --timeout=60s
 
 kubectl get po
 
-get_source_pod() {
-    snip_before_you_begin_3
-    echo "$SOURCE_POD"
-}
-_verify_like get_source_pod "sleep-8f795f47d-7wxbq"
 snip_before_you_begin_3
 
 echo "SOURCE_POD: $SOURCE_POD"
 
-#_verify_elided snip_access_the_external_services_1 "$snip_access_the_external_services_1_out"
-_verify_contains snip_access_the_external_services_1 '"headers": {'
+kubectl exec "$SOURCE_POD" -c sleep -- curl -v http://httpbin.org/headers
+
+_verify_elided snip_access_the_external_services_1 "$snip_access_the_external_services_1_out"
 
 # @cleanup
 set +e # ignore cleanup errors
