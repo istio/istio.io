@@ -115,7 +115,7 @@ spec:
             filter:
               name: envoy.http_connection_manager
         proxy:
-          proxyVersion: ^1\.6.*
+          proxyVersion: ^1\.7.*
       patch:
         operation: INSERT_BEFORE
         value:
