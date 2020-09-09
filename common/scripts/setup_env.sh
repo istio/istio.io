@@ -59,7 +59,7 @@ fi
 
 # Build image to use
 if [[ "${IMAGE_VERSION:-}" == "" ]]; then
-  export IMAGE_VERSION=master-2020-08-19T17-29-34
+  export IMAGE_VERSION=release-1.7-2020-08-07T14-22-41
 fi
 if [[ "${IMAGE_NAME:-}" == "" ]]; then
   export IMAGE_NAME=build-tools
@@ -145,7 +145,7 @@ fi
 
 KUBECONFIG=${KUBECONFIG:="$HOME/.kube/config"}
 parse_KUBECONFIG "${KUBECONFIG}"
-if [[ "${BUILD_WITH_CONTAINER:-1}" -eq "1" ]]; then
+if [[ "$BUILD_WITH_CONTAINER" -eq "1" ]]; then
   export KUBECONFIG="${container_kubeconfig%?}"
 fi
 
