@@ -41,7 +41,7 @@ which makes Mixer based configuration and out of process adapter still work afte
 - **Fixed** an issue with Kiali RBAC permissions which prevented its deployment from working properly.
   ([Issue #27109](https://github.com/istio/istio/issues/27109))
 
-- **Fixed** remove-from-mesh does not remove the init containers when using Istio CNI
+- **Fixed** an issue where `remove-from-mesh` did not remove the init containers when using Istio CNI
   ([Issue #26938](https://github.com/istio/istio/issues/26938))
 
 ## Default auth strategy for Kiali switched to anonymous.
