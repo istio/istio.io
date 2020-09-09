@@ -236,6 +236,9 @@ __verify_with_retry() {
         out=$($func 2>&1)
         local funcret="$?"
 
+        # shellcheck disable=SC2001
+        out=$(sed 's/[[:space:]]*$//g' <<< "$out")
+
         $cmp_func "$out" "$expected"
         local cmpret="$?"
 
@@ -299,7 +302,7 @@ __cluster_cleanup_check() {
     snapshot=$(<__cluster_snapshot.txt)
     rm __cluster_snapshot.txt
 
-    VERIFY_RETRIES=10
+    VERIFY_RETRIES=9
     _verify_like __cluster_state "$snapshot"
 }
 
