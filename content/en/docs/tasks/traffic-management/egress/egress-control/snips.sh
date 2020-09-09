@@ -213,7 +213,7 @@ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-ra
 ENDSNIP
 
 snip_access_the_external_services_1() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
+kubectl exec "$SOURCE_POD" -c sleep -- curl http://httpbin.org/headers
 }
 
 ! read -r -d '' snip_access_the_external_services_1_out <<\ENDSNIP
