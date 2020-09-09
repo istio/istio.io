@@ -32,7 +32,7 @@ which makes Mixer based configuration and out of process adapter still work afte
 - **Fixed** deleting the remote-secret for multicluster installation removes remote endpoints.
   
 
-- **Fixed** endpoint missed from eds when kubernetes service populated later than endpoints.
+- **Fixed** missing endpoints when Service is populated later than Endpoints.
   
 
 - **Fixed** headless services endpoints update will not trigger any xds pushes for sidecar proxies
