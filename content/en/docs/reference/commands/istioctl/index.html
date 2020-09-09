@@ -138,29 +138,27 @@ debug and diagnose their Istio mesh.
 </tbody>
 </table>
 <h3 id="istioctl-analyze Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Analyze the current live cluster
-istioctl analyze
+<pre class="language-bash"><code>  # Analyze the current live cluster
+  istioctl analyze
 
-# Analyze the current live cluster, simulating the effect of applying additional yaml files
-istioctl analyze a.yaml b.yaml my-app-config/
+  # Analyze the current live cluster, simulating the effect of applying additional yaml files
+  istioctl analyze a.yaml b.yaml my-app-config/
 
-# Analyze the current live cluster, simulating the effect of applying a directory of config recursively
-istioctl analyze --recursive my-istio-config/
+  # Analyze the current live cluster, simulating the effect of applying a directory of config recursively
+  istioctl analyze --recursive my-istio-config/
 
-# Analyze yaml files without connecting to a live cluster
-istioctl analyze --use-kube=false a.yaml b.yaml my-app-config/
+  # Analyze yaml files without connecting to a live cluster
+  istioctl analyze --use-kube=false a.yaml b.yaml my-app-config/
 
-# Analyze the current live cluster and suppress PodMissingProxy for pod mypod in namespace &#39;testing&#39;.
-istioctl analyze -S &#34;IST0103=Pod mypod.testing&#34;
+  # Analyze the current live cluster and suppress PodMissingProxy for pod mypod in namespace &#39;testing&#39;.
+  istioctl analyze -S &#34;IST0103=Pod mypod.testing&#34;
 
-# Analyze the current live cluster and suppress PodMissingProxy for all pods in namespace &#39;testing&#39;,
-# and suppress MisplacedAnnotation on deployment foobar in namespace default.
-istioctl analyze -S &#34;IST0103=Pod *.testing&#34; -S &#34;IST0107=Deployment foobar.default&#34;
+  # Analyze the current live cluster and suppress PodMissingProxy for all pods in namespace &#39;testing&#39;,
+  # and suppress MisplacedAnnotation on deployment foobar in namespace default.
+  istioctl analyze -S &#34;IST0103=Pod *.testing&#34; -S &#34;IST0107=Deployment foobar.default&#34;
 
-# List available analyzers
-istioctl analyze -L
-
+  # List available analyzers
+  istioctl analyze -L
 </code></pre>
 <h2 id="istioctl-authz">istioctl authz</h2>
 <p>(authz is experimental. Use `istioctl experimental authz`)</p>
@@ -590,7 +588,11 @@ istioctl d [flags]
 </tbody>
 </table>
 <h3 id="istioctl-dashboard-controlz Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl dashboard controlz pilot-123-456.istio-system
+<pre class="language-bash"><code>  istioctl dashboard controlz pilot-123-456.istio-system
+
+  # with short syntax
+  istioctl dash controlz pilot-123-456.istio-system
+  istioctl d controlz pilot-123-456.istio-system
 </code></pre>
 <h2 id="istioctl-dashboard-envoy">istioctl dashboard envoy</h2>
 <p>Open the Envoy admin dashboard for a sidecar</p>
@@ -643,7 +645,11 @@ istioctl d [flags]
 </tbody>
 </table>
 <h3 id="istioctl-dashboard-envoy Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl dashboard envoy productpage-123-456.default
+<pre class="language-bash"><code>  istioctl dashboard envoy productpage-123-456.default
+
+  # with short syntax
+  istioctl dash envoy productpage-123-456.default
+  istioctl d envoy productpage-123-456.default
 </code></pre>
 <h2 id="istioctl-dashboard-grafana">istioctl dashboard grafana</h2>
 <p>Open Istio&#39;s Grafana dashboard</p>
@@ -691,7 +697,11 @@ istioctl d [flags]
 </tbody>
 </table>
 <h3 id="istioctl-dashboard-grafana Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl dashboard grafana
+<pre class="language-bash"><code>  istioctl dashboard grafana
+
+  # with short syntax
+  istioctl dash grafana
+  istioctl d grafana
 </code></pre>
 <h2 id="istioctl-dashboard-jaeger">istioctl dashboard jaeger</h2>
 <p>Open Istio&#39;s Jaeger dashboard</p>
@@ -739,7 +749,11 @@ istioctl d [flags]
 </tbody>
 </table>
 <h3 id="istioctl-dashboard-jaeger Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl dashboard jaeger
+<pre class="language-bash"><code>  istioctl dashboard jaeger
+
+  # with short syntax
+  istioctl dash jaeger
+  istioctl d jaeger
 </code></pre>
 <h2 id="istioctl-dashboard-kiali">istioctl dashboard kiali</h2>
 <p>Open Istio&#39;s Kiali dashboard</p>
@@ -787,7 +801,11 @@ istioctl d [flags]
 </tbody>
 </table>
 <h3 id="istioctl-dashboard-kiali Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl dashboard kiali
+<pre class="language-bash"><code>  istioctl dashboard kiali
+
+  # with short syntax
+  istioctl dash kiali
+  istioctl d kiali
 </code></pre>
 <h2 id="istioctl-dashboard-prometheus">istioctl dashboard prometheus</h2>
 <p>Open Istio&#39;s Prometheus dashboard</p>
@@ -835,7 +853,11 @@ istioctl d [flags]
 </tbody>
 </table>
 <h3 id="istioctl-dashboard-prometheus Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl dashboard prometheus
+<pre class="language-bash"><code>  istioctl dashboard prometheus
+
+  # with short syntax
+  istioctl dash prometheus
+  istioctl d prometheus
 </code></pre>
 <h2 id="istioctl-dashboard-zipkin">istioctl dashboard zipkin</h2>
 <p>Open Istio&#39;s Zipkin dashboard</p>
@@ -883,7 +905,11 @@ istioctl d [flags]
 </tbody>
 </table>
 <h3 id="istioctl-dashboard-zipkin Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl dashboard zipkin
+<pre class="language-bash"><code>  istioctl dashboard zipkin
+
+  # with short syntax
+  istioctl dash zipkin
+  istioctl d zipkin
 </code></pre>
 <h2 id="istioctl-deregister">istioctl deregister</h2>
 <p>De-registers a service instance</p>
@@ -921,8 +947,8 @@ istioctl d [flags]
 </tbody>
 </table>
 <h3 id="istioctl-deregister Examples">Examples</h3>
-<pre class="language-bash"><code># de-register an endpoint 172.17.0.2 from service my-svc:
-istioctl deregister my-svc 172.17.0.2
+<pre class="language-bash"><code>  # de-register an endpoint 172.17.0.2 from service my-svc:
+  istioctl deregister my-svc 172.17.0.2
 </code></pre>
 <h2 id="istioctl-experimental">istioctl experimental</h2>
 <p>Experimental commands that may be modified or deprecated</p>
@@ -1024,18 +1050,17 @@ istioctl deregister my-svc 172.17.0.2
 </tbody>
 </table>
 <h3 id="istioctl-experimental-add-to-mesh Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Restart all productpage pods with an Istio sidecar
-istioctl experimental add-to-mesh service productpage
+<pre class="language-bash"><code>  # Restart all productpage pods with an Istio sidecar
+  istioctl experimental add-to-mesh service productpage
 
-# Restart just pods from the productpage-v1 deployment
-istioctl experimental add-to-mesh deployment productpage-v1
+  # Restart just pods from the productpage-v1 deployment
+  istioctl experimental add-to-mesh deployment productpage-v1
 
-# Restart just pods from the details-v1 deployment
-istioctl x add deployment details-v1
+  # Restart just pods from the details-v1 deployment
+  istioctl x add deployment details-v1
 
-# Control how meshed pods see an external service
-istioctl experimental add-to-mesh external-service vmhttp 172.12.23.125,172.12.23.126 \
+  # Control how meshed pods see an external service
+  istioctl experimental add-to-mesh external-service vmhttp 172.12.23.125,172.12.23.126 \
    http:9080 tcp:8888 --labels app=test,version=v1 --annotations env=stage --serviceaccount stageAdmin
 </code></pre>
 <h2 id="istioctl-experimental-add-to-mesh-deployment">istioctl experimental add-to-mesh deployment</h2>
@@ -1114,16 +1139,14 @@ istioctl experimental add-to-mesh dep &lt;deployment&gt; [flags]
 </tbody>
 </table>
 <h3 id="istioctl-experimental-add-to-mesh-deployment Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Restart pods from the productpage-v1 deployment with Istio sidecar
-istioctl experimental add-to-mesh deployment productpage-v1
+<pre class="language-bash"><code>  # Restart pods from the productpage-v1 deployment with Istio sidecar
+  istioctl experimental add-to-mesh deployment productpage-v1
 
-# Restart pods from the details-v1 deployment with Istio sidecar
-istioctl x add-to-mesh deploy details-v1
+  # Restart pods from the details-v1 deployment with Istio sidecar
+  istioctl x add-to-mesh deploy details-v1
 
-# Restart pods from the ratings-v1 deployment with Istio sidecar
-istioctl x add dep ratings-v1
-
+  # Restart pods from the ratings-v1 deployment with Istio sidecar
+  istioctl x add dep ratings-v1
 </code></pre>
 <h2 id="istioctl-experimental-add-to-mesh-external-service">istioctl experimental add-to-mesh external-service</h2>
 <p>istioctl experimental add-to-mesh external-service create a ServiceEntry and 
@@ -1209,9 +1232,8 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-add-to-mesh-external-service Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Control how meshed pods contact 172.12.23.125 and .126
-istioctl experimental add-to-mesh external-service vmhttp 172.12.23.125,172.12.23.126 \
+<pre class="language-bash"><code> # Control how meshed pods contact 172.12.23.125 and .126
+  istioctl experimental add-to-mesh external-service vmhttp 172.12.23.125,172.12.23.126 \
    http:9080 tcp:8888 --labels app=test,version=v1 --annotations env=stage --serviceaccount stageAdmin
 </code></pre>
 <h2 id="istioctl-experimental-add-to-mesh-service">istioctl experimental add-to-mesh service</h2>
@@ -1289,16 +1311,14 @@ See https://istio.io/v1.8/docs/ops/deployment/requirements/</p>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-add-to-mesh-service Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Restart all productpage pods with an Istio sidecar
-istioctl experimental add-to-mesh service productpage
+<pre class="language-bash"><code>  # Restart all productpage pods with an Istio sidecar
+  istioctl experimental add-to-mesh service productpage
 
-# Restart all details-v1 pods with an Istio sidecar
-istioctl x add-to-mesh svc details-v1
+  # Restart all details-v1 pods with an Istio sidecar
+  istioctl x add-to-mesh svc details-v1
 
-# Restart all ratings-v1 pods with an Istio sidecar
-istioctl x add svc ratings-v1
-
+  # Restart all ratings-v1 pods with an Istio sidecar
+  istioctl x add svc ratings-v1
 </code></pre>
 <h2 id="istioctl-experimental-authz">istioctl experimental authz</h2>
 <p>Inspect Istio AuthorizationPolicy</p>
@@ -1420,10 +1440,8 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-config Examples">Examples</h3>
-<pre class="language-bash"><code>
-# list configuration parameters
-istioctl config list
-
+<pre class="language-bash"><code>  # list configuration parameters
+  istioctl config list
 </code></pre>
 <h2 id="istioctl-experimental-config-list">istioctl experimental config list</h2>
 <p>List istio configurable defaults</p>
@@ -1521,19 +1539,17 @@ istioctl config list
 </tbody>
 </table>
 <h3 id="istioctl-experimental-create-remote-secret Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Create a secret to access cluster c0&#39;s apiserver and install it in cluster c1.
-istioctl --kubeconfig=c0.yaml x create-remote-secret --name c0 \
+<pre class="language-bash"><code>  # Create a secret to access cluster c0&#39;s apiserver and install it in cluster c1.
+  istioctl --kubeconfig=c0.yaml x create-remote-secret --name c0 \
     | kubectl --kubeconfig=c1.yaml apply -f -
 
-# Delete a secret that was previously installed in c1
-istioctl --kubeconfig=c0.yaml x create-remote-secret --name c0 \
+  # Delete a secret that was previously installed in c1
+  istioctl --kubeconfig=c0.yaml x create-remote-secret --name c0 \
     | kubectl --kubeconfig=c1.yaml delete -f -
 
-# Create a secret access a remote cluster with an auth plugin
-istioctl --kubeconfig=c0.yaml x create-remote-secret --name c0 --auth-type=plugin --auth-plugin-name=gcp \
+  # Create a secret access a remote cluster with an auth plugin
+  istioctl --kubeconfig=c0.yaml x create-remote-secret --name c0 --auth-type=plugin --auth-plugin-name=gcp \
     | kubectl --kubeconfig=c1.yaml apply -f -
-
 </code></pre>
 <h2 id="istioctl-experimental-describe">istioctl experimental describe</h2>
 <p>Describe resource and related Istio configuration</p>
@@ -1617,7 +1633,7 @@ the configuration objects that affect that pod.</p>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-describe-pod Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl experimental describe pod productpage-v1-c7765c886-7zzd4
+<pre class="language-bash"><code>  istioctl experimental describe pod productpage-v1-c7765c886-7zzd4
 </code></pre>
 <h2 id="istioctl-experimental-describe-service">istioctl experimental describe service</h2>
 <p>Analyzes service, pods, DestinationRules, and VirtualServices and reports
@@ -1666,13 +1682,13 @@ the configuration objects that affect that service.</p>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-describe-service Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl experimental describe service productpage
+<pre class="language-bash"><code>  istioctl experimental describe service productpage
 </code></pre>
 <h2 id="istioctl-experimental-kube-uninject">istioctl experimental kube-uninject</h2>
-<p></p>
-<p>kube-uninject is used to prevent Istio from adding a sidecar and
-also provides the inverse of &#34;istioctl kube-inject -f&#34;.</p>
-<p></p>
+<p>
+kube-uninject is used to prevent Istio from adding a sidecar and
+also provides the inverse of &#34;istioctl kube-inject -f&#34;.
+</p>
 <pre class="language-bash"><code>istioctl experimental kube-uninject [flags]
 </code></pre>
 <table class="command-flags">
@@ -1717,16 +1733,14 @@ also provides the inverse of &#34;istioctl kube-inject -f&#34;.</p>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-kube-uninject Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Update resources before applying.
-kubectl apply -f &lt;(istioctl experimental kube-uninject -f &lt;resource.yaml&gt;)
+<pre class="language-bash"><code>  # Update resources before applying.
+  kubectl apply -f &lt;(istioctl experimental kube-uninject -f &lt;resource.yaml&gt;)
 
-# Create a persistent version of the deployment by removing Envoy sidecar.
-istioctl experimental kube-uninject -f deployment.yaml -o deployment-uninjected.yaml
+  # Create a persistent version of the deployment by removing Envoy sidecar.
+  istioctl experimental kube-uninject -f deployment.yaml -o deployment-uninjected.yaml
 
-# Update an existing deployment.
-kubectl get deployment -o yaml | istioctl experimental kube-uninject -f - | kubectl apply -f -
-
+  # Update an existing deployment.
+  kubectl get deployment -o yaml | istioctl experimental kube-uninject -f - | kubectl apply -f -
 </code></pre>
 <h2 id="istioctl-experimental-metrics">istioctl experimental metrics</h2>
 <p>
@@ -1778,13 +1792,11 @@ calculated over a time interval of 1 minute.
 </tbody>
 </table>
 <h3 id="istioctl-experimental-metrics Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Retrieve workload metrics for productpage-v1 workload
-istioctl experimental metrics productpage-v1
+<pre class="language-bash"><code>  # Retrieve workload metrics for productpage-v1 workload
+  istioctl experimental metrics productpage-v1
 
-# Retrieve workload metrics for various services in the different namespaces
-istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
-
+  # Retrieve workload metrics for various services in the different namespaces
+  istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 </code></pre>
 <h2 id="istioctl-experimental-multicluster">istioctl experimental multicluster</h2>
 <p>Commands to assist in managing a multi-cluster mesh</p>
@@ -2076,13 +2088,11 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 </tbody>
 </table>
 <h3 id="istioctl-experimental-post-install-webhook-disable Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Disable all webhooks
-istioctl experimental post-install webhook disable
+<pre class="language-bash"><code>  # Disable all webhooks
+  istioctl experimental post-install webhook disable
 
-# Disable all webhooks except injection
-istioctl experimental post-install webhook disable --injection=false
-
+  # Disable all webhooks except injection
+  istioctl experimental post-install webhook disable --injection=false
 </code></pre>
 <h2 id="istioctl-experimental-post-install-webhook-enable">istioctl experimental post-install webhook enable</h2>
 <p>This command is used to enable webhook configurations after installing Istio.
@@ -2172,13 +2182,12 @@ because in previous versions webhooks manage their own configurations.</p>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-post-install-webhook-enable Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Enable the webhook configuration of Galley with the given webhook configuration
-istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley 
+<pre class="language-bash"><code>  # Enable the webhook configuration of Galley with the given webhook configuration
+  istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley 
     --namespace istio-system --validation-path validatingwebhookconfiguration.yaml
 
-# Enable the webhook configuration of Galley with the given webhook configuration and CA certificate
-istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley 
+  # Enable the webhook configuration of Galley with the given webhook configuration and CA certificate
+  istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley 
     --namespace istio-system --validation-path validatingwebhookconfiguration.yaml --ca-bundle-file ./k8s-ca-cert.pem
 
 </code></pre>
@@ -2238,17 +2247,16 @@ istioctl experimental post-install webhook enable --validation --webhook-secret 
 </tbody>
 </table>
 <h3 id="istioctl-experimental-post-install-webhook-status Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Display the webhook configuration of Galley
-istioctl experimental post-install webhook status --validation --validation-config istio-galley
-# Display the webhook configuration of Galley and Sidecar Injector
-istioctl experimental post-install webhook status --validation --validation-config istio-galley 
-  --injection --injection-config istio-sidecar-injector
+<pre class="language-bash"><code>  # Display the webhook configuration of Galley
+  istioctl experimental post-install webhook status --validation --validation-config istio-galley
 
+  # Display the webhook configuration of Galley and Sidecar Injector
+  istioctl experimental post-install webhook status --validation --validation-config istio-galley 
+    --injection --injection-config istio-sidecar-injector
 </code></pre>
 <h2 id="istioctl-experimental-precheck">istioctl experimental precheck</h2>
 <p>
-		precheck inspects a Kubernetes cluster for Istio install requirements.
+  precheck inspects a Kubernetes cluster for Istio install requirements.
 </p>
 <pre class="language-bash"><code>istioctl experimental precheck [-f &lt;deployment or istio operator file&gt;] [flags]
 </code></pre>
@@ -2299,21 +2307,19 @@ istioctl experimental post-install webhook status --validation --validation-conf
 </tbody>
 </table>
 <h3 id="istioctl-experimental-precheck Examples">Examples</h3>
-<pre class="language-bash"><code>
-		# Verify that Istio can be installed
-		istioctl experimental precheck
+<pre class="language-bash"><code>  # Verify that Istio can be installed
+  istioctl experimental precheck
 
-		# Verify the deployment matches a custom Istio deployment configuration
-		istioctl x precheck --set profile=demo
+  # Verify the deployment matches a custom Istio deployment configuration
+  istioctl x precheck --set profile=demo
 
-		# Verify the deployment matches the Istio Operator deployment definition
-		istioctl x precheck -f iop.yaml
-
+  # Verify the deployment matches the Istio Operator deployment definition
+  istioctl x precheck -f iop.yaml
 </code></pre>
 <h2 id="istioctl-experimental-proxy-status">istioctl experimental proxy-status</h2>
 <p>
-Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in the mesh</p>
-<p></p>
+Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in the mesh
+</p>
 <pre class="language-bash"><code>istioctl experimental proxy-status [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
 <div class="aliases">
@@ -2396,35 +2402,35 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </tbody>
 </table>
 <h3 id="istioctl-experimental-proxy-status Examples">Examples</h3>
-<pre class="language-bash"><code># Retrieve sync status for all Envoys in a mesh
-istioctl x proxy-status
+<pre class="language-bash"><code>  # Retrieve sync status for all Envoys in a mesh
+  istioctl x proxy-status
 
-# Retrieve sync diff for a single Envoy and Istiod
-istioctl x proxy-status istio-egressgateway-59585c5b9c-ndc59.istio-system
+  # Retrieve sync diff for a single Envoy and Istiod
+  istioctl x proxy-status istio-egressgateway-59585c5b9c-ndc59.istio-system
 
-# SECURITY OPTIONS
+  # SECURITY OPTIONS
 
-# Retrieve proxy status information directly from the control plane, using token security
-# (This is the usual way to get the proxy-status with an out-of-cluster control plane.)
-istioctl x ps --xds-address istio.cloudprovider.example.com:15012
+  # Retrieve proxy status information directly from the control plane, using token security
+  # (This is the usual way to get the proxy-status with an out-of-cluster control plane.)
+  istioctl x ps --xds-address istio.cloudprovider.example.com:15012
 
-# Retrieve proxy status information via Kubernetes config, using token security
-# (This is the usual way to get the proxy-status with an in-cluster control plane.)
-istioctl x proxy-status
+  # Retrieve proxy status information via Kubernetes config, using token security
+  # (This is the usual way to get the proxy-status with an in-cluster control plane.)
+  istioctl x proxy-status
 
-# Retrieve proxy status information directly from the control plane, using RSA certificate security
-# (Certificates must be obtained before this step.  The --cert-dir flag lets istioctl bypass the Kubernetes API server.)
-istioctl x ps --xds-address istio.example.com:15012 --cert-dir ~/.istio-certs
+  # Retrieve proxy status information directly from the control plane, using RSA certificate security
+  # (Certificates must be obtained before this step.  The --cert-dir flag lets istioctl bypass the Kubernetes API server.)
+  istioctl x ps --xds-address istio.example.com:15012 --cert-dir ~/.istio-certs
 
-# Retrieve proxy status information via XDS from specific control plane in multi-control plane in-cluster configuration
-# (Select a specific control plane in an in-cluster canary Istio configuration.)
-istioctl x ps --xds-label istio.io/rev=default
+  # Retrieve proxy status information via XDS from specific control plane in multi-control plane in-cluster configuration
+  # (Select a specific control plane in an in-cluster canary Istio configuration.)
+  istioctl x ps --xds-label istio.io/rev=default
 
 </code></pre>
 <h2 id="istioctl-experimental-remove-from-mesh">istioctl experimental remove-from-mesh</h2>
-<p>&#39;istioctl experimental remove-from-mesh&#39; restarts pods without an Istio sidecar or removes external service access configuration.</p>
-<p>Use &#39;remove-from-mesh&#39; to quickly test uninjected behavior as part of compatibility troubleshooting.</p>
-<p>The &#39;add-to-mesh&#39; command can be used to add or restore the sidecar.</p>
+<p>&#39;istioctl experimental remove-from-mesh&#39; restarts pods without an Istio sidecar or removes external service access configuration.
+Use &#39;remove-from-mesh&#39; to quickly test uninjected behavior as part of compatibility troubleshooting.
+The &#39;add-to-mesh&#39; command can be used to add or restore the sidecar.</p>
 <p>THESE COMMANDS ARE UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh [flags]
 </code></pre>
@@ -2463,20 +2469,18 @@ istioctl x ps --xds-label istio.io/rev=default
 </tbody>
 </table>
 <h3 id="istioctl-experimental-remove-from-mesh Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Restart all productpage pods without an Istio sidecar
-istioctl experimental remove-from-mesh service productpage
+<pre class="language-bash"><code>  # Restart all productpage pods without an Istio sidecar
+  istioctl experimental remove-from-mesh service productpage
 
-# Restart all details-v1 pods without an Istio sidecar
-istioctl x rm service details-v1
+  # Restart all details-v1 pods without an Istio sidecar
+  istioctl x rm service details-v1
 
-# Restart all ratings-v1 pods without an Istio sidecar
-istioctl x rm deploy ratings-v1
-
+  # Restart all ratings-v1 pods without an Istio sidecar
+  istioctl x rm deploy ratings-v1
 </code></pre>
 <h2 id="istioctl-experimental-remove-from-mesh-deployment">istioctl experimental remove-from-mesh deployment</h2>
-<p>&#39;istioctl experimental remove-from-mesh deployment&#39; restarts pods with the Istio sidecar un-injected.</p>
-<p>&#39;remove-from-mesh&#39; is a compatibility troubleshooting tool.</p>
+<p>&#39;istioctl experimental remove-from-mesh deployment&#39; restarts pods with the Istio sidecar un-injected.
+&#39;remove-from-mesh&#39; is a compatibility troubleshooting tool.</p>
 <p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </p>
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh deployment &lt;deployment&gt; [flags]
@@ -2517,16 +2521,14 @@ istioctl experimental remove-from-mesh dep &lt;deployment&gt; [flags]
 </tbody>
 </table>
 <h3 id="istioctl-experimental-remove-from-mesh-deployment Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Restart all productpage-v1 pods without an Istio sidecar
-istioctl experimental remove-from-mesh deployment productpage-v1
+<pre class="language-bash"><code>  # Restart all productpage-v1 pods without an Istio sidecar
+  istioctl experimental remove-from-mesh deployment productpage-v1
 
-# Restart all details-v1 pods without an Istio sidecar
-istioctl x remove-from-mesh deploy details-v1
+  # Restart all details-v1 pods without an Istio sidecar
+  istioctl x remove-from-mesh deploy details-v1
 
-# Restart all ratings-v1 pods without an Istio sidecar
-istioctl x rm dep ratings-v1
-
+  # Restart all ratings-v1 pods without an Istio sidecar
+  istioctl x rm dep ratings-v1
 </code></pre>
 <h2 id="istioctl-experimental-remove-from-mesh-external-service">istioctl experimental remove-from-mesh external-service</h2>
 <p>&#39;istioctl experimental remove-from-mesh external-service&#39; removes the ServiceEntry and
@@ -2571,20 +2573,18 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-remove-from-mesh-external-service Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Remove &#34;vmhttp&#34; service entry rules
-istioctl experimental remove-from-mesh external-service vmhttp
+<pre class="language-bash"><code>  # Remove &#34;vmhttp&#34; service entry rules
+  istioctl experimental remove-from-mesh external-service vmhttp
 
-# Remove &#34;vmhttp&#34; service entry rules
-istioctl x remove-from-mesh es vmhttp
+  # Remove &#34;vmhttp&#34; service entry rules
+  istioctl x remove-from-mesh es vmhttp
 
-# Remove &#34;vmhttp&#34; service entry rules
-istioctl x rm es vmhttp
-
+  # Remove &#34;vmhttp&#34; service entry rules
+  istioctl x rm es vmhttp
 </code></pre>
 <h2 id="istioctl-experimental-remove-from-mesh-service">istioctl experimental remove-from-mesh service</h2>
-<p>&#39;istioctl experimental remove-from-mesh service&#39; restarts pods with the Istio sidecar un-injected.</p>
-<p>&#39;remove-from-mesh&#39; is a compatibility troubleshooting tool.</p>
+<p>&#39;istioctl experimental remove-from-mesh service&#39; restarts pods with the Istio sidecar un-injected.
+&#39;remove-from-mesh&#39; is a compatibility troubleshooting tool.</p>
 <p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </p>
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh service &lt;service&gt; [flags]
@@ -2624,16 +2624,14 @@ istioctl x rm es vmhttp
 </tbody>
 </table>
 <h3 id="istioctl-experimental-remove-from-mesh-service Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Restart all productpage pods without an Istio sidecar
-istioctl experimental remove-from-mesh service productpage
+<pre class="language-bash"><code>  # Restart all productpage pods without an Istio sidecar
+  istioctl experimental remove-from-mesh service productpage
 
-# Restart all details-v1 pods without an Istio sidecar
-istioctl x remove-from-mesh svc details-v1
+  # Restart all details-v1 pods without an Istio sidecar
+  istioctl x remove-from-mesh svc details-v1
 
-# Restart all ratings-v1 pods without an Istio sidecar
-istioctl x rm svc ratings-v1
-
+  # Restart all ratings-v1 pods without an Istio sidecar
+  istioctl x rm svc ratings-v1
 </code></pre>
 <h2 id="istioctl-experimental-sidecar-bootstrap">istioctl experimental sidecar-bootstrap</h2>
 <p>(experimental) Takes in one or more WorkloadEntries generates identities for them, and copies to
@@ -2758,13 +2756,13 @@ Istio will be started on the host network as a docker container in capture mode.
 </table>
 <h3 id="istioctl-experimental-sidecar-bootstrap Examples">Examples</h3>
 <pre class="language-bash"><code>  # Copy certificates to a WorkloadEntry named &#34;we&#34; in the &#34;ns&#34; namespace:
-	istioctl x sidecar-bootstrap we.ns
+  istioctl x sidecar-bootstrap we.ns
 
-	# Copy certificates, and start istio to a WorkloadEntry named &#34;we&#34; in the &#34;ns&#34; namespace:
-	istioctl x sidecar-bootstrap we.ns --start-istio-proxy
+  # Copy certificates, and start istio to a WorkloadEntry named &#34;we&#34; in the &#34;ns&#34; namespace:
+  istioctl x sidecar-bootstrap we.ns --start-istio-proxy
 
-	# Generate Certs locally, but do not copy them to a WorkloadEntry named &#34;we&#34; in the &#34;ns&#34; namespace:
-	istioctl x sidecar-bootstrap we.ns --local-dir path/where/i/want/certs/
+  # Generate Certs locally, but do not copy them to a WorkloadEntry named &#34;we&#34; in the &#34;ns&#34; namespace:
+  istioctl x sidecar-bootstrap we.ns --local-dir path/where/i/want/certs/
 </code></pre>
 <h2 id="istioctl-experimental-uninstall">istioctl experimental uninstall</h2>
 <p>The uninstall command uninstalls Istio from a cluster</p>
@@ -2856,7 +2854,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
   
   # Uninstall all control planes and shared resources
   istioctl x uninstall --purge
-
 </code></pre>
 <h2 id="istioctl-experimental-version">istioctl experimental version</h2>
 <p>Prints out build version information</p>
@@ -3032,12 +3029,11 @@ istioctl x version --xds-label istio.io/rev=default
 </tbody>
 </table>
 <h3 id="istioctl-experimental-wait Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Wait until the bookinfo virtual service has been distributed to all proxies in the mesh
-istioctl experimental wait --for=distribution virtualservice bookinfo.default
+<pre class="language-bash"><code>  # Wait until the bookinfo virtual service has been distributed to all proxies in the mesh
+  istioctl experimental wait --for=distribution virtualservice bookinfo.default
 
-# Wait until 99% of the proxies receive the distribution, timing out after 5 minutes
-istioctl experimental wait --for=distribution --threshold=.99 --timeout=300 virtualservice bookinfo.default
+  # Wait until 99% of the proxies receive the distribution, timing out after 5 minutes
+  istioctl experimental wait --for=distribution --threshold=.99 --timeout=300 virtualservice bookinfo.default
 
 </code></pre>
 <h2 id="istioctl-experimental-workload">istioctl experimental workload</h2>
@@ -3074,11 +3070,11 @@ istioctl experimental wait --for=distribution --threshold=.99 --timeout=300 virt
 </tbody>
 </table>
 <h3 id="istioctl-experimental-workload Examples">Examples</h3>
-<pre class="language-bash"><code># workload group yaml generation
-workload group create
+<pre class="language-bash"><code>  # workload group yaml generation
+  workload group create
 
-# workload entry configuration generation
-workload entry configure
+  # workload entry configuration generation
+  workload entry configure
 </code></pre>
 <h2 id="istioctl-experimental-workload-entry">istioctl experimental workload entry</h2>
 <p>Commands dealing with WorkloadEntry resources</p>
@@ -3189,11 +3185,11 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 </tbody>
 </table>
 <h3 id="istioctl-experimental-workload-entry-configure Examples">Examples</h3>
-<pre class="language-bash"><code># configure example using a local WorkloadGroup artifact
-configure -f workloadgroup.yaml -o config
+<pre class="language-bash"><code>  # configure example using a local WorkloadGroup artifact
+  configure -f workloadgroup.yaml -o config
 
-# configure example using the API server
-configure --name foo --namespace bar -o config
+  # configure example using the API server
+  configure --name foo --namespace bar -o config
 </code></pre>
 <h2 id="istioctl-experimental-workload-group">istioctl experimental workload group</h2>
 <p>Commands dealing with WorkloadGroup resources</p>
@@ -3397,8 +3393,8 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 
 </code></pre>
 <h2 id="istioctl-kube-inject">istioctl kube-inject</h2>
-<p></p>
-<p>kube-inject manually injects the Envoy sidecar into Kubernetes
+<p>
+kube-inject manually injects the Envoy sidecar into Kubernetes
 workloads. Unsupported resources are left unmodified so it is safe to
 run kube-inject over a single file that contains multiple Service,
 ConfigMap, Deployment, etc. definitions for a complex application. It&#39;s
@@ -3485,26 +3481,25 @@ kube-inject on deployments to get the most up-to-date changes.
 </tbody>
 </table>
 <h3 id="istioctl-kube-inject Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Update resources on the fly before applying.
-kubectl apply -f &lt;(istioctl kube-inject -f &lt;resource.yaml&gt;)
+<pre class="language-bash"><code>  # Update resources on the fly before applying.
+  kubectl apply -f &lt;(istioctl kube-inject -f &lt;resource.yaml&gt;)
 
-# Create a persistent version of the deployment with Envoy sidecar
-# injected.
-istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml
+  # Create a persistent version of the deployment with Envoy sidecar injected.
+  istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml
 
-# Update an existing deployment.
-kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
+  # Update an existing deployment.
+  kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
 
-# Capture cluster configuration for later use with kube-inject
-kubectl -n istio-system get cm istio-sidecar-injector  -o jsonpath=&#34;{.data.config}&#34; &gt; /tmp/inj-template.tmpl
-kubectl -n istio-system get cm istio -o jsonpath=&#34;{.data.mesh}&#34; &gt; /tmp/mesh.yaml
-kubectl -n istio-system get cm istio-sidecar-injector -o jsonpath=&#34;{.data.values}&#34; &gt; /tmp/values.json
-# Use kube-inject based on captured configuration
-istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
-	--injectConfigFile /tmp/inj-template.tmpl \
-	--meshConfigFile /tmp/mesh.yaml \
-	--valuesFile /tmp/values.json
+  # Capture cluster configuration for later use with kube-inject
+  kubectl -n istio-system get cm istio-sidecar-injector  -o jsonpath=&#34;{.data.config}&#34; &gt; /tmp/inj-template.tmpl
+  kubectl -n istio-system get cm istio -o jsonpath=&#34;{.data.mesh}&#34; &gt; /tmp/mesh.yaml
+  kubectl -n istio-system get cm istio-sidecar-injector -o jsonpath=&#34;{.data.values}&#34; &gt; /tmp/values.json
+
+  # Use kube-inject based on captured configuration
+  istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
+    --injectConfigFile /tmp/inj-template.tmpl \
+    --meshConfigFile /tmp/mesh.yaml \
+    --valuesFile /tmp/values.json
 
 </code></pre>
 <h2 id="istioctl-manifest">istioctl manifest</h2>
@@ -4865,7 +4860,7 @@ istioctl proxy-config r [&lt;pod-name[.namespace]&gt;] [flags]
   ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
   istioctl proxy-config secret --file envoy-config.json
 
-THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
+  THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 
 </code></pre>
 <h2 id="istioctl-proxy-status">istioctl proxy-status</h2>
@@ -4919,16 +4914,16 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </tbody>
 </table>
 <h3 id="istioctl-proxy-status Examples">Examples</h3>
-<pre class="language-bash"><code># Retrieve sync status for all Envoys in a mesh
-	istioctl proxy-status
+<pre class="language-bash"><code>  # Retrieve sync status for all Envoys in a mesh
+  istioctl proxy-status
 
-# Retrieve sync diff for a single Envoy and Istiod
-	istioctl proxy-status istio-egressgateway-59585c5b9c-ndc59.istio-system
+  # Retrieve sync diff for a single Envoy and Istiod
+  istioctl proxy-status istio-egressgateway-59585c5b9c-ndc59.istio-system
 
-# Write proxy config-dump to file, and compare to Istio control plane
-    kubectl port-forward -n istio-system istio-egressgateway-59585c5b9c-ndc59 15000 &amp;
-    curl localhost:15000/config_dump &gt; cd.json
-    istioctl proxy-status istio-egressgateway-59585c5b9c-ndc59.istio-system --file cd.json
+  # Write proxy config-dump to file, and compare to Istio control plane
+  kubectl port-forward -n istio-system istio-egressgateway-59585c5b9c-ndc59 15000 &amp;
+  curl localhost:15000/config_dump &gt; cd.json
+  istioctl proxy-status istio-egressgateway-59585c5b9c-ndc59.istio-system --file cd.json
 
 </code></pre>
 <h2 id="istioctl-register">istioctl register</h2>
@@ -5111,33 +5106,32 @@ settings (--set meshConfig.enableTracing=true). See documentation for more info:
 </tbody>
 </table>
 <h3 id="istioctl-validate Examples">Examples</h3>
-<pre class="language-bash"><code>
-		# Validate bookinfo-gateway.yaml
-		istioctl validate -f samples/bookinfo/networking/bookinfo-gateway.yaml
+<pre class="language-bash"><code>  # Validate bookinfo-gateway.yaml
+  istioctl validate -f samples/bookinfo/networking/bookinfo-gateway.yaml
 
-		# Validate bookinfo-gateway.yaml with shorthand syntax
-		istioctl v -f samples/bookinfo/networking/bookinfo-gateway.yaml
-		
-		# Validate current deployments under &#39;default&#39; namespace within the cluster
-		kubectl get deployments -o yaml | istioctl validate -f -
+  # Validate bookinfo-gateway.yaml with shorthand syntax
+  istioctl v -f samples/bookinfo/networking/bookinfo-gateway.yaml
 
-		# Validate current services under &#39;default&#39; namespace within the cluster
-		kubectl get services -o yaml | istioctl validate -f -
+  # Validate current deployments under &#39;default&#39; namespace within the cluster
+  kubectl get deployments -o yaml | istioctl validate -f -
 
-		# Also see the related command &#39;istioctl analyze&#39;
-		istioctl analyze samples/bookinfo/networking/bookinfo-gateway.yaml
+  # Validate current services under &#39;default&#39; namespace within the cluster
+  kubectl get services -o yaml | istioctl validate -f -
+
+  # Also see the related command &#39;istioctl analyze&#39;
+  istioctl analyze samples/bookinfo/networking/bookinfo-gateway.yaml
 
 </code></pre>
 <h2 id="istioctl-verify-install">istioctl verify-install</h2>
 <p>
-		verify-install verifies Istio installation status against the installation file
-		you specified when you installed Istio. It loops through all the installation
-		resources defined in your installation file and reports whether all of them are
-		in ready status. It will report failure when any of them are not ready.</p>
-<p>		If you do not specify an installation it will check for an IstioOperator resource
-		and will verify if pods and services defined in it are present.</p>
-<p>		Note: For verifying whether your cluster is ready for Istio installation, see
-		istioctl experimental precheck.
+verify-install verifies Istio installation status against the installation file
+you specified when you installed Istio. It loops through all the installation
+resources defined in your installation file and reports whether all of them are
+in ready status. It will report failure when any of them are not ready.</p>
+<p>If you do not specify an installation it will check for an IstioOperator resource
+and will verify if pods and services defined in it are present.</p>
+<p>Note: For verifying whether your cluster is ready for Istio installation, see
+istioctl experimental precheck.
 </p>
 <pre class="language-bash"><code>istioctl verify-install [-f &lt;deployment or istio operator file&gt;] [--revision &lt;revision&gt;] [flags]
 </code></pre>
@@ -5201,16 +5195,14 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.8.0/
 </tbody>
 </table>
 <h3 id="istioctl-verify-install Examples">Examples</h3>
-<pre class="language-bash"><code>
-		# Verify that Istio is installed correctly via Istio Operator
-		istioctl verify-install
+<pre class="language-bash"><code>  # Verify that Istio is installed correctly via Istio Operator
+  istioctl verify-install
 
-		# Verify the deployment matches a custom Istio deployment configuration
-		istioctl verify-install -f $HOME/istio.yaml
+  # Verify the deployment matches a custom Istio deployment configuration
+  istioctl verify-install -f $HOME/istio.yaml
 
-		# Verify the deployment matches the Istio Operator deployment definition
-		istioctl verify-install --revision &lt;canary&gt;
-
+  # Verify the deployment matches the Istio Operator deployment definition
+  istioctl verify-install --revision &lt;canary&gt;
 </code></pre>
 <h2 id="istioctl-version">istioctl version</h2>
 <p>Prints out build version information</p>
