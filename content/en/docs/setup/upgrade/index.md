@@ -128,7 +128,7 @@ Note that the above instructions only removed the resources for the specified co
 ### Uninstall canary control plane
 
 If you decide to rollback to the old control plane, instead of completing the canary upgrade,
-you can uninstall the canary revision using `istioctl x uninstall --revsion=canary`.
+you can uninstall the canary revision using `istioctl x uninstall --revision=canary`.
 
 However, in this case you must first reinstall the gateway(s) for the previous revision manually,
 because the uninstall command will not automatically revert the previously in-place upgraded ones.
