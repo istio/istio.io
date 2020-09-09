@@ -30,6 +30,8 @@ bare metal and the clusters.
 
 ## Installation steps
 
+Setup consists of preparing the mesh for expansion and installing and configuring each VM.
+
 ### Preparing your environment
 
 When expanding Istio's mesh capabilities to VMs across multiple networks (where the VM is in a network where traffic cannot directly route to pods in the Kubernetes cluster, for example), we'll need to take advantage of Istio's split-horizon DNS capabilities.
@@ -46,72 +48,71 @@ You must alter the VM set up instructions based on the suggestions in this secti
 1. When creating the `sidecar.env` we need to specify which network in which the VM belongs
 1. We need to create a `Gateway` resource to allow application traffic from the VM to the workload items running in the mesh
 
-#### Installing the Istio Control Plane
+### Installing the Istio Control Plane
 
 When following the [Virtual Machine Installation](/docs/setup/install/virtual-machine/) setup guide to install the control plane, we will need to tweak the installation as follows:
 
 1. Specify the expected networks in the mesh, including the `vm-network`
 
     {{< text bash yaml >}}
-$ cat <<EOF> ./vmintegration.yaml
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    global:
-      meshExpansion:
-        enabled: true
-      multiCluster:
-        clusterName: kube-cluster
-      network: main-network
-      meshNetworks:
-        main-network:
-          endpoints:
-          - fromRegistry: kube-cluster
-          gateways:
-          - registryServiceName: istio-ingressgateway.istio-system.svc.cluster.local
-            port: 443
-        vm-network:
+    $ cat <<EOF> ./vmintegration.yaml
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      values:
+        global:
+          meshExpansion:
+            enabled: true
+          multiCluster:
+            clusterName: kube-cluster
+          network: main-network
+          meshNetworks:
+            main-network:
+              endpoints:
+              - fromRegistry: kube-cluster
+              gateways:
+              - registryServiceName: istio-ingressgateway.istio-system.svc.cluster.local
+                port: 443
 
-EOF
+    EOF
     {{< /text >}}
 
 1. Install with the virtual-machine features enabled:
 
     {{< text bash >}}
-$ istioctl install -f ./vmintegration.yaml
+    $ istioctl install -f ./vmintegration.yaml
     {{< /text >}}
 
-#### Specify the network for the VM sidecar
+### Specify the network for the VM sidecar
 
 When following the [Virtual Machine Installation](/docs/setup/install/virtual-machine/) setup guide for creating the `sidecar.env` file we need to tweak the installation by adding the following entry:
 
     {{< text bash >}}
-$ echo "ISTIO_META_NETWORK=vm-network" >> sidecar.env
+    $ echo "ISTIO_META_NETWORK=vm-network" >> sidecar.env
     {{< /text >}}
 
-#### Create Gateway for application traffic
+### Create Gateway for application traffic
 
 The last step is to create a `Gateway` resource that allows application traffic from the VMs to route correctly.
 
     {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: cluster-aware-gateway
-  namespace: istio-system
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - port:
-      number: 443
-      name: tls
-      protocol: TLS
-    tls:
-      mode: AUTO_PASSTHROUGH
-    hosts:
-    - "*.local"
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: cluster-aware-gateway
+      namespace: istio-system
+    spec:
+      selector:
+        istio: ingressgateway
+      servers:
+      - port:
+          number: 443
+          name: tls
+          protocol: TLS
+        tls:
+          mode: AUTO_PASSTHROUGH
+        hosts:
+        - "*.local"
     {{< /text >}}
 
 Applying this gateway will route any of the traffic from the VM destined for the workloads in the mesh running on `*.local`
@@ -124,86 +125,77 @@ After setup, the machine can access services running in the Kubernetes cluster
 or on other VMs. When a service on the VM tries to access a service in the mesh running on Kubernetes, the endpoints (i.e., IPs) for those services will be the ingress gateway on the Kubernetes Cluster. To verify that, on the VM run the following command (assuming you have a service named `httpbin` on the Kubernetes cluster):
 
     {{< text bash >}}
-$ curl -v localhost:15000/clusters | grep httpbin
+    $ curl -v localhost:15000/clusters | grep httpbin
     {{< /text >}}
 
 This should show endpoints for `httpbin` that point to the ingress gateway similar to this:
 
     {{< text text >}}
-outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::cx_active::1
-outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::cx_connect_fail::0
-outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::cx_total::1
-outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::rq_active::0
+    outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::cx_active::1
+    outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::cx_connect_fail::0
+    outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::cx_total::1
+    outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::rq_active::0
     {{< /text >}}
 
 The IP `34.72.46.113` in this case is the ingress gateway public endpoint.
 
-## Send requests from VM workloads to Kubernetes services
+### Send requests from VM workloads to Kubernetes services
 
 At this point we should be able to send traffic to `httpbin.default.svc.cluster.local` and get a response from the server. You may have to set up DNS in `/etc/hosts` to map the `httpbin.default.svc.cluster.local` domain name to an IP since the IP will not resolve. In this case, the IP should be an IP that gets routed to the local Istio Proxy sidecar. You can use the IP from the `ISTIO_SERVICE_CIDR` variable in the `cluster.env` file you created in the [Setup Virtual Machine documentation](/docs/setup/install/virtual-machine/).
 
     {{< text bash >}}
-$ curl -v httpbin.default.svc.cluster.local:8000/headers
+    $ curl -v httpbin.default.svc.cluster.local:8000/headers
     {{< /text >}}
 
-## Running services on the added VM
+### Running services on the added VM
 
 1. Setup an HTTP server on the VM instance to serve HTTP traffic on port 8080:
 
     {{< text bash >}}
-    $ gcloud compute ssh ${GCE_NAME}
     $ python -m SimpleHTTPServer 8080
     {{< /text >}}
 
-{{< idea >}}
-Note, you may have to open firewalls to be able to access the 8080 port on your VM
-{{< /idea >}}
-
-1. Determine the VM instance's IP address. For example, find the IP address
-    of the GCE instance with the following commands:
-
-    {{< text bash >}}
-    $ export VM_IP=$(gcloud --format="value(networkInterfaces[0].networkIP)" compute instances describe ${GCE_NAME})
-    $ echo ${VM_IP}
-    {{< /text >}}
+    {{< idea >}}
+    Note, you may have to open firewalls to be able to access the 8080 port on your VM
+    {{< /idea >}}
 
 1. Add VM services to the mesh
 
-Add a service to the Kubernetes cluster into a namespace (in this example, `<vm-namespace>`) where you prefer to keep resources (like `Service`, `ServiceEntry`, `WorkloadEntry`, `ServiceAccount`) with the VM services:
+    Add a service to the Kubernetes cluster into a namespace (in this example, `<vm-namespace>`) where you prefer to keep resources (like `Service`, `ServiceEntry`, `WorkloadEntry`, `ServiceAccount`) with the VM services:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl -n <vm-namespace> apply -f -
-apiVersion: v1
-kind: Service
-metadata:
-  name: cloud-vm
-  labels:
-    app: cloud-vm
-spec:
-  ports:
-  - port: 8080
-    name: http-vm
-    targetPort: 8080
-  selector:
-    app: cloud-vm
-EOF
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: cloud-vm
+      labels:
+        app: cloud-vm
+    spec:
+      ports:
+      - port: 8080
+        name: http-vm
+        targetPort: 8080
+      selector:
+        app: cloud-vm
+    EOF
     {{< /text >}}
 
-Lastly create a workload with the external IP of the VM:
+    Lastly create a workload with the external IP of the VM (substitute `VM_IP` with the IP of your VM):
 
     {{< text bash >}}
     $ cat <<EOF | kubectl -n <vm-namespace> apply -f -
-  apiVersion: networking.istio.io/v1beta1
-  kind: WorkloadEntry
-  metadata:
-    name: "cloud-vm"
-    namespace: "<vm-namespace>"
-  spec:
-    address: "${VM_IP}"
-    labels:
-      app: cloud-vm
-    serviceAccount: "<service-account>"
-EOF
+    apiVersion: networking.istio.io/v1beta1
+    kind: WorkloadEntry
+    metadata:
+      name: "cloud-vm"
+      namespace: "<vm-namespace>"
+    spec:
+      address: "${VM_IP}"
+      labels:
+        app: cloud-vm
+      serviceAccount: "<service-account>"
+    EOF
     {{< /text >}}
 
 1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:
