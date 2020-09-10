@@ -15,7 +15,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Added** Envoy [ext authz and gRPC access log API support](https://github.com/istio/istio/wiki/Enabling-Envoy-Authorization-Service-and-gRPC-Access-Log-Service-With-Mixer) in Mixer,
+- **Added** Envoy [ext `authz` and gRPC access log API support](https://github.com/istio/istio/wiki/Enabling-Envoy-Authorization-Service-and-gRPC-Access-Log-Service-With-Mixer) in Mixer,
 which makes Mixer based configuration and out of process adapter still work after upgrading to future version of Istio.
   ([Issue #23580](https://github.com/istio/istio/issues/23580))
 
