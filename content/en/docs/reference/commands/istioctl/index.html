@@ -1154,9 +1154,7 @@ istioctl analyze -L
 
 </code></pre>
 <h2 id="istioctl-experimental-authz">istioctl experimental authz</h2>
-<p>Commands to inspect and interact with the authorization policies
-  check - check Envoy config dump for authorization configuration
-</p>
+<p>Inspect Istio AuthorizationPolicy</p>
 <table class="command-flags">
 <thead>
 <tr>
@@ -1188,17 +1186,12 @@ istioctl analyze -L
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-authz Examples">Examples</h3>
-<pre class="language-bash"><code>  # Check Envoy authorization configuration for pod httpbin-88ddbcfdd-nt5jb:
-  istioctl x authz check httpbin-88ddbcfdd-nt5jb
-
-</code></pre>
 <h2 id="istioctl-experimental-authz-check">istioctl experimental authz check</h2>
-<p>Check reads the Envoy config dump and checks the filter configuration
-related to authorization. For example, it shows whether or not the Envoy is configured
-with authorization and the rules used in the authorization.</p>
-<p>The Envoy config dump could be provided either by pod name or from a config dump file
-(the whole output of http://localhost:15000/config_dump of an Envoy instance).</p>
+<p>Check prints the AuthorizationPolicy applied to a pod by directly checking
+the Envoy configuration of the pod. The command is especially useful for inspecting 
+the policy propagation from Istiod to Envoy and the final AuthorizationPolicy list merged 
+from multiple sources (mesh-level, namespace-level and workload-level).</p>
+<p>The command also supports reading from a standalone config dump file with flag -f.</p>
 <p>THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </p>
 <pre class="language-bash"><code>istioctl experimental authz check &lt;pod-name&gt;[.&lt;pod-namespace&gt;] [flags]
@@ -1212,11 +1205,6 @@ with authorization and the rules used in the authorization.</p>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>--all</code></td>
-<td><code>-a</code></td>
-<td>Show additional information (e.g. SNI and ALPN) </td>
-</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -1245,14 +1233,14 @@ with authorization and the rules used in the authorization.</p>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-authz-check Examples">Examples</h3>
-<pre class="language-bash"><code>  # Check Envoy authorization configuration for pod httpbin-88ddbcfdd-nt5jb:
+<pre class="language-bash"><code>  # Check AuthorizationPolicy applied to pod httpbin-88ddbcfdd-nt5jb:
   istioctl x authz check httpbin-88ddbcfdd-nt5jb
 
-  # Check Envoy authorization configuration from a config dump file:
+  # Check AuthorizationPolicy from Envoy config dump file:
   istioctl x authz check -f httpbin_config_dump.json
 </code></pre>
 <h2 id="istioctl-experimental-config">istioctl experimental config</h2>
-<p>Gonfigure istioctl defaults</p>
+<p>Configure istioctl defaults</p>
 <table class="command-flags">
 <thead>
 <tr>
@@ -2636,7 +2624,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
-settings (--set values.grafana.enabled=true). See documentation for more info:
+settings (--set meshConfig.enableTracing=true). See documentation for more info:
 https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
@@ -2734,7 +2722,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
-settings (--set values.grafana.enabled=true). See documentation for more info:
+settings (--set meshConfig.enableTracing=true). See documentation for more info:
 https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
@@ -3001,7 +2989,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
-settings (--set values.grafana.enabled=true). See documentation for more info:
+settings (--set meshConfig.enableTracing=true). See documentation for more info:
 https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
@@ -3016,8 +3004,8 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <pre class="language-bash"><code>  # Apply a default Istio installation
   istioctl install
 
-  # Enable grafana dashboard
-  istioctl install --set values.grafana.enabled=true
+  # Enable Tracing
+  istioctl install --set meshConfig.enableTracing=true
 
   # Generate the demo profile and don&#39;t wait for confirmation
   istioctl install --set profile=demo --skip-confirmation
@@ -3323,7 +3311,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
-settings (--set values.grafana.enabled=true). See documentation for more info:
+settings (--set meshConfig.enableTracing=true). See documentation for more info:
 https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 </tbody>
@@ -3332,8 +3320,8 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpe
 <pre class="language-bash"><code>  # Generate a default Istio installation
   istioctl manifest generate
 
-  # Enable grafana dashboard
-  istioctl manifest generate --set values.grafana.enabled=true
+  # Enable Tracing
+  istioctl install --set meshConfig.enableTracing=true
 
   # Generate the demo profile
   istioctl manifest generate --set profile=demo
@@ -3419,7 +3407,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
-settings (--set values.grafana.enabled=true). See documentation for more info:
+settings (--set meshConfig.enableTracing=true). See documentation for more info:
 https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
@@ -3434,8 +3422,8 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <pre class="language-bash"><code>  # Apply a default Istio installation
   istioctl install
 
-  # Enable grafana dashboard
-  istioctl install --set values.grafana.enabled=true
+  # Enable Tracing
+  istioctl install --set meshConfig.enableTracing=true
 
   # Generate the demo profile and don&#39;t wait for confirmation
   istioctl install --set profile=demo --skip-confirmation
@@ -4673,7 +4661,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.7.0/
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
-settings (--set values.grafana.enabled=true). See documentation for more info:
+settings (--set meshConfig.enableTracing=true). See documentation for more info:
 https://istio.io/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
@@ -4917,6 +4905,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to false, will not create CA server in istiod.</td>
+</tr>
+<tr>
+<td><code>ENVOY_READINESS_CHECK_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>5s</code></td>
+<td></td>
 </tr>
 <tr>
 <td><code>INGRESS_GATEWAY_NAMESPACE</code></td>
