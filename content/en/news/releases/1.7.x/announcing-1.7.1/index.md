@@ -22,7 +22,7 @@ which makes Mixer based configuration and out of process adapter still work afte
 - **Fixed** the `istioctl x authz check` command to work properly with the v1beta1 AuthorizationPolicy.
   ([PR #26625](https://github.com/istio/istio/pull/26625))
 
-- **Fixed** Remove unreachable endpoints for non-injected workloads across networks.
+- **Fixed** unreachable endpoints for non-injected workloads across networks by removing them.
   ([Issue #26517](https://github.com/istio/istio/issues/26517))
 
 - **Fixed** enabling hold application until proxy starts feature flag breaking rewriting application probe logic.
