@@ -15,8 +15,6 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-
-
 - **Added** Envoy [ext authz and gRPC access log API support](https://github.com/istio/istio/wiki/Enabling-Envoy-Authorization-Service-and-gRPC-Access-Log-Service-With-Mixer) in Mixer,
 which makes Mixer based configuration and out of process adapter still work after upgrading to future version of Istio.
   ([Issue #23580](https://github.com/istio/istio/issues/23580))
@@ -33,7 +31,7 @@ which makes Mixer based configuration and out of process adapter still work afte
 - **Fixed** deleting the remote-secret for multicluster installation removes remote endpoints.
   ([Issue #27187](https://github.com/istio/istio/issues/27187))
 
-- **Fixed** missing endpoints when Service is populated later than Endpoints. 
+- **Fixed** missing endpoints when Service is populated later than Endpoints.
 
 - **Fixed** any issue causing headless Service updates to be missed ([Issue #26617](https://github.com/istio/istio/issues/26617)).
   ([Issue #26617](https://github.com/istio/istio/issues/26617))
