@@ -101,7 +101,6 @@ Auth0
 AuthenticationPolicy
 AuthorizationPolicy
 AuthPolicy
-authz
 autoscaler
 Autoscalers
 autoscalers
