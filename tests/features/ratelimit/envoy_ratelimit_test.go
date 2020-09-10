@@ -15,16 +15,17 @@
 package policy
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
-
+	"os"
 	"strings"
 	"testing"
+	"time"
 
 	"fortio.org/fortio/fhttp"
 	"fortio.org/fortio/periodic"
 
-	"fmt"
 	"istio.io/istio/pkg/test/framework"
 	"istio.io/istio/pkg/test/framework/components/bookinfo"
 	"istio.io/istio/pkg/test/framework/components/istio"
@@ -34,8 +35,6 @@ import (
 	"istio.io/istio/pkg/test/framework/resource"
 	"istio.io/istio/pkg/test/kube"
 	"istio.io/istio/pkg/test/scopes"
-	"os"
-	"time"
 )
 
 var (
