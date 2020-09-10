@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.operator.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 60
+number_of_entries: 65
 ---
 <p>Configuration affecting Istio control plane installation version and shape.</p>
 
@@ -1656,6 +1656,280 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="PodSecurityContext">PodSecurityContext</h2>
+<section>
+<p>See k8s.io.api.core.v1.PodSecurityContext.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PodSecurityContext-seLinuxOptions">
+<td><code>seLinuxOptions</code></td>
+<td><code><a href="#SELinuxOptions">SELinuxOptions</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-runAsUser">
+<td><code>runAsUser</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-runAsNonRoot">
+<td><code>runAsNonRoot</code></td>
+<td><code>bool</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-supplementalGroups">
+<td><code>supplementalGroups</code></td>
+<td><code>int64[]</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-fsGroup">
+<td><code>fsGroup</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-runAsGroup">
+<td><code>runAsGroup</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-sysctls">
+<td><code>sysctls</code></td>
+<td><code><a href="#Sysctl">Sysctl[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-windowsOptions">
+<td><code>windowsOptions</code></td>
+<td><code><a href="#WindowsSecurityContextOptions">WindowsSecurityContextOptions</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-fsGroupChangePolicy">
+<td><code>fsGroupChangePolicy</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-seccompProfile">
+<td><code>seccompProfile</code></td>
+<td><code><a href="#SeccompProfile">SeccompProfile</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SELinuxOptions">SELinuxOptions</h2>
+<section>
+<p>See k8s.io.api.core.v1.SELinuxOptions.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SELinuxOptions-user">
+<td><code>user</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SELinuxOptions-role">
+<td><code>role</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SELinuxOptions-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SELinuxOptions-level">
+<td><code>level</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Sysctl">Sysctl</h2>
+<section>
+<p>See k8s.io.api.core.v1.Sysctl.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Sysctl-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Sysctl-value">
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="WindowsSecurityContextOptions">WindowsSecurityContextOptions</h2>
+<section>
+<p>See k8s.io.api.core.v1.WindowsSecurityContextOptions.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="WindowsSecurityContextOptions-gmsaCredentialSpecName">
+<td><code>gmsaCredentialSpecName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WindowsSecurityContextOptions-gmsaCredentialSpec">
+<td><code>gmsaCredentialSpec</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WindowsSecurityContextOptions-runAsUserName">
+<td><code>runAsUserName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SeccompProfile">SeccompProfile</h2>
+<section>
+<p>See k8s.io.api.core.v1.SeccompProfile.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SeccompProfile-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SeccompProfile-localhostProfile">
+<td><code>localhostProfile</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="TypeIntOrStringForPB">TypeIntOrStringForPB</h2>
 <section>
 <p>GOTYPE: *IntOrStringForPB</p>
@@ -2416,6 +2690,18 @@ No
 <td>
 <p>k8s service annotations.
 <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/">https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/</a></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-securityContext">
+<td><code>securityContext</code></td>
+<td><code><a href="#PodSecurityContext">PodSecurityContext</a></code></td>
+<td>
+<p>k8s pod security context
+<a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod">https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod</a></p>
 
 </td>
 <td>
