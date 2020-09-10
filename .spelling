@@ -99,7 +99,9 @@ AssemblyScript
 AttributeGen
 Auth0
 AuthenticationPolicy
+AuthorizationPolicy
 AuthPolicy
+authz
 autoscaler
 Autoscalers
 autoscalers
@@ -683,6 +685,7 @@ v1.7.6_coreos.0
 v1.9
 v1alpha1
 v1alpha3
+v1beta1
 v1beta1#MutatingWebhookConfiguration
 v2
 V2
