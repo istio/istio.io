@@ -29,8 +29,8 @@ set -u
 # Print commands
 set -x
 
-# shellcheck source=prow/lib.sh
-source "${ROOT}/prow/lib.sh"
+# shellcheck source=common/scripts/kind_provisioner.sh
+source "${ROOT}/common/scripts/kind_provisioner.sh"
 
 # KinD will not have a LoadBalancer, so we need to disable it
 export TEST_ENV=kind
@@ -38,15 +38,31 @@ export TEST_ENV=kind
 # KinD will have the images loaded into it; it should not attempt to pull them
 # See https://kind.sigs.k8s.io/docs/user/quick-start/#loading-an-image-into-your-cluster
 export PULL_POLICY=IfNotPresent
-
 export HUB=${HUB:-"gcr.io/istio-testing"}
 
 # Setup junit report and verbose logging
 export T="${T:-"-v"}"
 export CI="true"
 
+# TOPOLOGY must be specified. Based on that we pick the topology
+# configuration file that is used to bring up KinD environment.
+TOPOLOGY="${TOPOLOGY:-"SINGLE_CLUSTER"}"
+if [[ "${TOPOLOGY}" == "SINGLE_CLUSTER" ]]; then
+  CLUSTER_TOPOLOGY_CONFIG_FILE="./prow/config/cluster_config_single.json"
+else
+  CLUSTER_TOPOLOGY_CONFIG_FILE="./prow/config/cluster_config_multi.json"
+fi
+
 if [[ -z "${SKIP_SETUP:-}" ]]; then
-  time setup_kind_cluster "${NODE_IMAGE:-}"
+  export ARTIFACTS="${ARTIFACTS:-$(mktemp -d)}"
+  export DEFAULT_CLUSTER_YAML="./prow/config/trustworthy-jwt.yaml"
+  export METRICS_SERVER_CONFIG_DIR=''
+  
+  time load_cluster_topology "${CLUSTER_TOPOLOGY_CONFIG_FILE}"
+  time setup_kind_clusters
+
+  export KUBECONFIG
+  KUBECONFIG=$(IFS=':'; echo "${KUBECONFIGS[*]}")
 fi
 
 make "${@}"
