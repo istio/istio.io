@@ -22,7 +22,7 @@ In Istio 1.4, we introduce an alpha feature to support {{< gloss >}}trust domain
 1. Install Istio with a custom trust domain and mutual TLS enabled.
 
     {{< text bash >}}
-    $ istioctl install --set profile=demo --set values.global.trustDomain=old-td
+    $ istioctl install --skip-confirmation --set profile=demo --set values.global.trustDomain=old-td
     {{< /text >}}
 
 1. Deploy the [httpbin]({{< github_tree >}}/samples/httpbin) sample in the `default` namespace
@@ -86,7 +86,7 @@ Notice that it may take tens of seconds for the authorization policy to be propa
 1. Install Istio with a new trust domain.
 
     {{< text bash >}}
-    $ istioctl install --set profile=demo --set values.global.trustDomain=new-td
+    $ istioctl install --skip-confirmation --set profile=demo --set values.global.trustDomain=new-td
     {{< /text >}}
 
     Istio mesh is now running with a new trust domain, `new-td`.
@@ -135,7 +135,7 @@ Notice that it may take tens of seconds for the authorization policy to be propa
           trustDomainAliases:
             - old-td
     EOF
-    $ istioctl install --set profile=demo -f td-installation.yaml
+    $ istioctl install --skip-confirmation --set profile=demo -f td-installation.yaml
     {{< /text >}}
 
 1. Without changing the authorization policy, verify that requests to `httpbin` from:

@@ -55,7 +55,7 @@ which will be read by Istio's CA:
     Istio's CA will read certificates and key from the secret-mount files.
 
     {{< text bash >}}
-    $ istioctl install --set profile=demo
+    $ istioctl install --skip-confirmation --set profile=demo
     {{< /text >}}
 
 ## Deploying example services

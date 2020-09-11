@@ -29,7 +29,7 @@ export PATH=$PWD/bin:$PATH
 }
 
 snip_install_istio_install_1() {
-istioctl install --set profile=demo
+istioctl install --skip-confirmation --set profile=demo
 }
 
 ! read -r -d '' snip_install_istio_install_1_out <<\ENDSNIP
