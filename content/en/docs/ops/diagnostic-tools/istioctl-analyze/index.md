@@ -25,7 +25,7 @@ And that’s it! It’ll give you any recommendations that apply.
 For example, if you forgot to enable Istio injection (a very common issue), you would get the following warning:
 
 {{< text syntax=plain snip_id=analyze_all_namespace_sample_response >}}
-Warn [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
+Warning [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
 {{< /text >}}
 
 Fix the issue:

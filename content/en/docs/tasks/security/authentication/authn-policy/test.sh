@@ -34,7 +34,7 @@ _wait_for_deployment legacy sleep
 _verify_same  snip_setup_2 "$snip_setup_2_out"
 _verify_same  snip_setup_3 "$snip_setup_3_out"
 _verify_same  snip_setup_4 "$snip_setup_4_out"
-_verify_same  snip_setup_5 "$snip_setup_5_out"
+snip_setup_5
 
 _verify_like  snip_auto_mutual_tls_1 "$snip_auto_mutual_tls_1_out"
 _verify_same  snip_auto_mutual_tls_2 "$snip_auto_mutual_tls_2_out"
