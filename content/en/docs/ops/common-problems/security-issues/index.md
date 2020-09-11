@@ -93,12 +93,12 @@ matching requests should flow through. If all requests continue to be denied, yo
 1. Make sure that your authorization policies with ALLOW action don't use any HTTP only fields for TCP traffic.
 Otherwise, Istio ignores the ALLOW policies as if they don't exist.
 
-1. A HTTP Response with the value `RBAC: Access Denied` indicates an authorization policy is in effect. You can determine the authorization policy in effect by running `istioctl x authz check POD-NAME`.
+1. A HTTP Response with the value `RBAC: Access Denied` indicates an authorization policy is in effect. You can determine the authorization policy in effect by running `istioctl x authz check POD-NAME.POD-NAMESPACE`. This command is available in istioctl v1.7.1+
 
 1. Make sure that your authorization policies with DENY action don't use any HTTP only fields for TCP traffic.
 Otherwise, Istio ignores the rules with HTTP only fields within the DENY policies as if they don't exist.
 
-1. A HTTP Response with the value `upstream connect error or disconnect/reset before headers. reset reason: connection termination` indicates an authorization policy with HTTP only fields applied to TCP traffic. Read the [port selection documentation](docs/ops/configuration/traffic-management/protocol-selection/) for how Istio determines whether a service using http or tcp protocol.
+1. An HTTP response with the value `upstream connect error or disconnect/reset before headers. reset reason: connection termination` can indicate an authorization policy with HTTP only fields applied to TCP traffic. Read the [port selection documentation](docs/ops/configuration/traffic-management/protocol-selection/) for how Istio determines whether a service is using the http or tcp protocol.
 
 ## Authorization is too permissive
 
@@ -121,19 +121,13 @@ to the right workload and namespace.
 Istiod converts and distributes your authorization policies to the proxies. The following steps help
 you ensure Istiod is working as expected:
 
-1. Run the following command to export the Istiod `ControlZ`:
+1. Run the following command to open the Istiod `ControlZ` UI Page:
 
     {{< text bash >}}
-    $ kubectl port-forward $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}') -n istio-system 9876:9876
+    $ istioctl dashboard controlz $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}').istio-system
     {{< /text >}}
 
-1. Verify you see the following output:
-
-    {{< text plain >}}
-    Forwarding from 127.0.0.1:9876 -> 9876
-    {{< /text >}}
-
-1. Start your browser and open the `ControlZ` page at `http://127.0.0.1:9876/scopez/`.
+1. Istioctl should open your browser and then click Logging Scopes on the left menu.
 
 1. Change the `authorization` Output Level to `debug`.
 
