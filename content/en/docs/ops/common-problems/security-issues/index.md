@@ -96,6 +96,8 @@ Otherwise, Istio ignores the ALLOW policies as if they don't exist.
 1. Make sure that your authorization policies with DENY action don't use any HTTP only fields for TCP traffic.
 Otherwise, Istio ignores the rules with HTTP only fields within the DENY policies as if they don't exist.
 
+1. A HTTP Response with the following value `upstream connect error or disconnect/reset before headers. reset reason: connection termination` indicates an Authorization policy with HTTP only fields applied to TCP traffic. Read the [port selection documentation](docs/ops/configuration/traffic-management/protocol-selection) for how Istio determines whether a service using the http or tcp protocol.
+
 ## Authorization is too permissive
 
 If authorization checks are enabled for a service and yet requests to the
@@ -131,11 +133,11 @@ you ensure Istiod is working as expected:
 
 1. Start your browser and open the `ControlZ` page at `http://127.0.0.1:9876/scopez/`.
 
-1. Change the `rbac` Output Level to `debug`.
+1. Change the `authorization` Output Level to `debug`.
 
 1. Use `Ctrl+C` in the terminal you started in step 1 to stop the port-forward command.
 
-1. Print the log of Istiod and search for `rbac` with the following command:
+1. Print the log of Istiod and search for `authorization` with the following command:
 
     {{< tip >}}
     You probably need to first delete and then re-apply your authorization policies so that
@@ -143,7 +145,7 @@ you ensure Istiod is working as expected:
     {{< /tip >}}
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system | grep rbac
+    $ kubectl logs $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system | grep authorization
     {{< /text >}}
 
 1. Check the output and verify:
@@ -155,20 +157,20 @@ you ensure Istiod is working as expected:
 1. For example, you might see something similar to the following:
 
     {{< text plain >}}
-    2020-03-05T23:43:21.621339Z   debug   rbac   found authorization allow policies for workload [app=ext-authz-server,pod-template-hash=5fd587cc9d,security.istio.io/tlsMode=istio,service.istio.io/canonical-name=ext-authz-server,service.istio.io/canonical-revision=latest] in foo
-    2020-03-05T23:43:21.621348Z   debug   rbac   building filter for HTTP listener protocol
-    2020-03-05T23:43:21.621351Z   debug   rbac   building v1beta1 policy
-    2020-03-05T23:43:21.621399Z   debug   rbac   constructed internal model: &{Permissions:[{Services:[] Hosts:[] NotHosts:[] Paths:[] NotPaths:[] Methods:[] NotMethods:[] Ports:[] NotPorts:[] Constraints:[] AllowAll:true v1beta1:true}] Principals:[{Users:[] Names:[cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account] NotNames:[] Group: Groups:[] NotGroups:[] Namespaces:[] NotNamespaces:[] IPs:[] NotIPs:[] RequestPrincipals:[] NotRequestPrincipals:[] Properties:[] AllowAll:false v1beta1:true}]}
+    2020-03-05T23:43:21.621339Z   debug   authorization   found authorization allow policies for workload [app=ext-authz-server,pod-template-hash=5fd587cc9d,security.istio.io/tlsMode=istio,service.istio.io/canonical-name=ext-authz-server,service.istio.io/canonical-revision=latest] in foo
+    2020-03-05T23:43:21.621348Z   debug   authorization   building filter for HTTP listener protocol
+    2020-03-05T23:43:21.621351Z   debug   authorization   building v1beta1 policy
+    2020-03-05T23:43:21.621399Z   debug   authorization   constructed internal model: &{Permissions:[{Services:[] Hosts:[] NotHosts:[] Paths:[] NotPaths:[] Methods:[] NotMethods:[] Ports:[] NotPorts:[] Constraints:[] AllowAll:true v1beta1:true}] Principals:[{Users:[] Names:[cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account] NotNames:[] Group: Groups:[] NotGroups:[] Namespaces:[] NotNamespaces:[] IPs:[] NotIPs:[] RequestPrincipals:[] NotRequestPrincipals:[] Properties:[] AllowAll:false v1beta1:true}]}
     2020-03-05T23:43:21.621528Z   info    ads    LDS: PUSH for node:sleep-6bdb595bcb-vmchz.foo listeners:38
-    2020-03-05T23:43:21.621997Z   debug   rbac   generated policy ns[foo]-policy[ext-authz-server]-rule[0]: permissions:<and_rules:<rules:<any:true > > > principals:<and_ids:<ids:<or_ids:<ids:<metadata:<filter:"istio_authn" path:<key:"source.principal" > value:<string_match:<exact:"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account" > > > > > > > >
-    2020-03-05T23:43:21.622052Z   debug   rbac   added HTTP filter to filter chain 0
-    2020-03-05T23:43:21.623532Z   debug   rbac   found authorization allow policies for workload [app=ext-authz-server,pod-template-hash=5fd587cc9d,security.istio.io/tlsMode=istio,service.istio.io/canonical-name=ext-authz-server,service.istio.io/canonical-revision=latest] in foo
-    2020-03-05T23:43:21.623543Z   debug   rbac   building filter for TCP listener protocol
-    2020-03-05T23:43:21.623546Z   debug   rbac   building v1beta1 policy
-    2020-03-05T23:43:21.623572Z   debug   rbac   constructed internal model: &{Permissions:[{Services:[] Hosts:[] NotHosts:[] Paths:[] NotPaths:[] Methods:[] NotMethods:[] Ports:[] NotPorts:[] Constraints:[] AllowAll:true v1beta1:true}] Principals:[{Users:[] Names:[cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account] NotNames:[] Group: Groups:[] NotGroups:[] Namespaces:[] NotNamespaces:[] IPs:[] NotIPs:[] RequestPrincipals:[] NotRequestPrincipals:[] Properties:[] AllowAll:false v1beta1:true}]}
-    2020-03-05T23:43:21.623625Z   debug   rbac   generated policy ns[foo]-policy[ext-authz-server]-rule[0]: permissions:<and_rules:<rules:<any:true > > > principals:<and_ids:<ids:<or_ids:<ids:<authenticated:<principal_name:<exact:"spiffe://cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account" > > > > > > >
-    2020-03-05T23:43:21.623645Z   debug   rbac   added TCP filter to filter chain 0
-    2020-03-05T23:43:21.623648Z   debug   rbac   added TCP filter to filter chain 1
+    2020-03-05T23:43:21.621997Z   debug   authorization   generated policy ns[foo]-policy[ext-authz-server]-rule[0]: permissions:<and_rules:<rules:<any:true > > > principals:<and_ids:<ids:<or_ids:<ids:<metadata:<filter:"istio_authn" path:<key:"source.principal" > value:<string_match:<exact:"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account" > > > > > > > >
+    2020-03-05T23:43:21.622052Z   debug   authorization   added HTTP filter to filter chain 0
+    2020-03-05T23:43:21.623532Z   debug   authorization   found authorization allow policies for workload [app=ext-authz-server,pod-template-hash=5fd587cc9d,security.istio.io/tlsMode=istio,service.istio.io/canonical-name=ext-authz-server,service.istio.io/canonical-revision=latest] in foo
+    2020-03-05T23:43:21.623543Z   debug   authorization   building filter for TCP listener protocol
+    2020-03-05T23:43:21.623546Z   debug   authorization   building v1beta1 policy
+    2020-03-05T23:43:21.623572Z   debug   authorization   constructed internal model: &{Permissions:[{Services:[] Hosts:[] NotHosts:[] Paths:[] NotPaths:[] Methods:[] NotMethods:[] Ports:[] NotPorts:[] Constraints:[] AllowAll:true v1beta1:true}] Principals:[{Users:[] Names:[cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account] NotNames:[] Group: Groups:[] NotGroups:[] Namespaces:[] NotNamespaces:[] IPs:[] NotIPs:[] RequestPrincipals:[] NotRequestPrincipals:[] Properties:[] AllowAll:false v1beta1:true}]}
+    2020-03-05T23:43:21.623625Z   debug   authorization   generated policy ns[foo]-policy[ext-authz-server]-rule[0]: permissions:<and_rules:<rules:<any:true > > > principals:<and_ids:<ids:<or_ids:<ids:<authenticated:<principal_name:<exact:"spiffe://cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account" > > > > > > >
+    2020-03-05T23:43:21.623645Z   debug   authorization   added TCP filter to filter chain 0
+    2020-03-05T23:43:21.623648Z   debug   authorization   added TCP filter to filter chain 1
     {{< /text >}}
 
     This shows that Istiod generated:
@@ -195,7 +197,8 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
 
 1. Check the log and verify:
 
-    - The log includes an `envoy.filters.http.rbac` filter to enforce the authorization policy
+    - The log includes an `envoy.filters.http.
+    ` filter to enforce the authorization policy
       on each incoming request.
     - Istio updates the filter accordingly after you update your authorization policy.
 
