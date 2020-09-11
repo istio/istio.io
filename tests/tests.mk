@@ -1,4 +1,13 @@
-export TIMEOUT ?= 30m
+export TIMEOUT ?= 40m
+
+# gocache disabled by -count=1
+# tests in different packages forced to be sequential by -p=1
+%.test: init | $(JUNIT_REPORT)
+	@${GO} test ${REPO_ROOT}/tests/setup/$*/... \
+		-v -timeout=${TIMEOUT} -count=1 -p=1 \
+		-istio.test.hub=$(HUB) \
+		-istio.test.tag=$(TAG) \
+		2>&1 | tee >($(JUNIT_REPORT) > $(JUNIT_OUT))
 
 # gocache disabled by -count=1
 # tests in different packages forced to be sequential by -p=1
