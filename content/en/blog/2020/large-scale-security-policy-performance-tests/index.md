@@ -1,7 +1,7 @@
 ---
 title: Large Scale Security Policy Performance Tests
 subtitle: The effect of security policies on latency of requests
-description: The effect of security policies on latency of requests
+description: The effect of security policies on latency of requests.
 publishdate: 2020-09-10
 attribution: "Michael Eizaguirre (Google), Yangmin Zhu (Google), Carolyn Hu (Google)"
 keywords: [test,security policy,performance]
