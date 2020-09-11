@@ -437,6 +437,19 @@ Mesh ID is used to label telemetry reports for cases where telemetry from multip
 No
 </td>
 </tr>
+<tr id="ProxyConfig-readiness_probe">
+<td><code>readinessProbe</code></td>
+<td><code><a href="/docs/reference/config/networking/workload-group/#ReadinessProbe">ReadinessProbe</a></code></td>
+<td>
+<p>VM Health Checking readiness probe. This health check config exactly mirrors the
+kubernetes readiness probe configuration both in schema and logic.
+Only one health check method of 3 can be set at a time.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="ProxyConfig-zipkin_address" class="deprecated ">
 <td><code>zipkinAddress</code></td>
 <td><code>string</code></td>
