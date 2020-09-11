@@ -153,6 +153,10 @@ the JWT to have a claim named `groups` containing the value `group1`:
     EOF
     {{< /text >}}
 
+    {{< warning >}}
+    Don't include quotes in the request.auth.claims field unless the claim itself has quotes in it.
+    {{< /warning >}}
+
 1. Get the JWT that sets the `groups` claim to a list of strings: `group1` and `group2`:
 
     {{< text syntax="bash" expandlinks="false" >}}
