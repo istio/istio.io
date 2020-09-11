@@ -52,7 +52,8 @@ kubectl get peerauthentication --all-namespaces
 }
 
 ! read -r -d '' snip_set_up_the_cluster_4_out <<\ENDSNIP
-No resources found.
+    NAMESPACE      NAME                      HOST                                    AGE
+    istio-system   meshexpansion-dr-istiod   istiod.istio-system.svc.cluster.local   5m4s
 ENDSNIP
 
 snip_set_up_the_cluster_5() {

@@ -38,7 +38,7 @@ _verify_same snip_set_up_the_cluster_3 "$snip_set_up_the_cluster_3_out"
 _verify_same snip_set_up_the_cluster_4 "$snip_set_up_the_cluster_4_out"
 
 # verify_initial_destinationrules
-_verify_same snip_set_up_the_cluster_5 "$snip_set_up_the_cluster_5_out"
+_verify_like snip_set_up_the_cluster_5 "$snip_set_up_the_cluster_5_out"
 
 # configure_mtls_foo_peerauthentication
 snip_lock_down_to_mutual_tls_by_namespace_1

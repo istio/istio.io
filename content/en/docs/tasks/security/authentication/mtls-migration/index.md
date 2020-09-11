@@ -73,7 +73,8 @@ the policies to enforce STRICT mutual TLS between the workloads.
 
     {{< text bash >}}
     $ kubectl get peerauthentication --all-namespaces
-    No resources found.
+        NAMESPACE      NAME                      HOST                                    AGE
+        istio-system   meshexpansion-dr-istiod   istiod.istio-system.svc.cluster.local   5m4s
     {{< /text >}}
 
     {{< text bash >}}
