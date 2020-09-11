@@ -14,7 +14,6 @@ doc.test.default: init | $(JUNIT_REPORT)
 		-v -timeout=${TIMEOUT} -count=1 -p=1 \
 		-istio.test.hub=$(HUB) \
 		-istio.test.tag=$(TAG) \
-		-istio.test.kube.helm.values=meshConfig.defaultConfig.proxyMetadata.ISTIO_META_DNS_CAPTURE="" \
 		2>&1 | tee >($(JUNIT_REPORT) > $(JUNIT_OUT))
 
 doc.test.demo: init | $(JUNIT_REPORT)
@@ -22,7 +21,6 @@ doc.test.demo: init | $(JUNIT_REPORT)
 		-v -timeout=${TIMEOUT} -count=1 -p=1 \
 		-istio.test.hub=$(HUB) \
 		-istio.test.tag=$(TAG) \
-		-istio.test.kube.helm.values=meshConfig.defaultConfig.proxyMetadata.ISTIO_META_DNS_CAPTURE="" \
 		2>&1 | tee >($(JUNIT_REPORT) > $(JUNIT_OUT))
 
 doc.test.none: init | $(JUNIT_REPORT)
@@ -30,7 +28,6 @@ doc.test.none: init | $(JUNIT_REPORT)
 		-v -timeout=${TIMEOUT} -count=1 -p=1 \
 		-istio.test.hub=$(HUB) \
 		-istio.test.tag=$(TAG) \
-		-istio.test.kube.helm.values=meshConfig.defaultConfig.proxyMetadata.ISTIO_META_DNS_CAPTURE="" \
 		2>&1 | tee >($(JUNIT_REPORT) > $(JUNIT_OUT))
 
 doc.test.help:
