@@ -197,8 +197,7 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
 
 1. Check the log and verify:
 
-    - The log includes an `envoy.filters.http.
-    ` filter to enforce the authorization policy
+    - The log includes an `envoy.filters.http.rbac` filter to enforce the authorization policy
       on each incoming request.
     - Istio updates the filter accordingly after you update your authorization policy.
 
