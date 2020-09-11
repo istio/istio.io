@@ -47,7 +47,7 @@ accurate.
 
 - **Added** RPM packages for running the Istio sidecar on a VM to the release.
  ([Issue #9117](https://github.com/istio/istio/issues/9117))
-- **Added** experimental central Istiod support for [single cluster](https://github.com/istio/istio/wiki/Central-Istiod-single-cluster-steps) and [multi-clusters](https://github.com/istio/istio/wiki/Central-Istiod-manages-remote-data-plane)
+- **Added** experimental [external Istiod](/blog/2020/new-deployment-model/) support.
 - **Fixed** an issue preventing `NodePort` services from being used as the `registryServiceName` in `meshNetworks`.
 - **Improved** gateway deployments to run as non-root by default.
  ([Issue #23379](https://github.com/istio/istio/issues/23379))
