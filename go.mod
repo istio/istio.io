@@ -29,7 +29,7 @@ require (
 	github.com/prometheus/prom2json v1.2.2 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	istio.io/gogo-genproto v0.0.0-20200807182027-a780f93e8ee1 // indirect
-	istio.io/istio v0.0.0-20200910040521-d529576d5622
+	istio.io/istio v0.0.0-20200911192100-a85f9c0aa1fd
 	istio.io/pkg v0.0.0-20200807223740-7c8bbc23c476
 )
 

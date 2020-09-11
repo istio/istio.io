@@ -25,7 +25,7 @@ istioctl analyze --all-namespaces
 }
 
 ! read -r -d '' snip_analyze_all_namespace_sample_response <<\ENDSNIP
-Warn [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
+Warning [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
 ENDSNIP
 
 snip_fix_default_namespace() {
