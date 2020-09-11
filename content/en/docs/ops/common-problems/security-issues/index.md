@@ -93,7 +93,7 @@ matching requests should flow through. If all requests continue to be denied, yo
 1. Make sure that your authorization policies with ALLOW action don't use any HTTP only fields for TCP traffic.
 Otherwise, Istio ignores the ALLOW policies as if they don't exist.
 
-1. A HTTP Response with the value `upstream connect error or disconnect/reset before headers. reset reason: connection termination` indicates an authorization policy with HTTP only fields applied to TCP traffic. Read the [port selection documentation](docs/ops/configuration/traffic-management/protocol-selection/) for how Istio determines whether a service using http or tcp protocol.
+1. A HTTP Response with the value `RBAC: Access Denied` indicates an authorization policy is in effect. You can determine the authorization policy in effect by running `istioctl x authz check POD-NAME`.
 
 1. Make sure that your authorization policies with DENY action don't use any HTTP only fields for TCP traffic.
 Otherwise, Istio ignores the rules with HTTP only fields within the DENY policies as if they don't exist.
