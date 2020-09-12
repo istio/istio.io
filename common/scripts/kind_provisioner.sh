@@ -204,6 +204,7 @@ function setup_kind_clusters() {
 networking:
   podSubnet: ${CLUSTER_POD_SUBNET}
   serviceSubnet: ${CLUSTER_SVC_SUBNET}
+  ipFamily: ${IP_FAMILY}
 EOF
     fi
 
