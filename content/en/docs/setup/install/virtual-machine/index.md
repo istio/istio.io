@@ -94,7 +94,7 @@ Install Istio with the installation setting `values.global.meshExpansion.enabled
 1. Get the root certificate:
 
     {{< text bash >}}
-    $ kubectl -n "${VM_NAMESPACE}" get configmaps istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > "${WORK_DIR}"/root-cert
+    $ kubectl -n "${VM_NAMESPACE}" get configmaps istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > "${WORK_DIR}"/root-cert.pem
     {{< /text >}}
 
 1. Generate a `cluster.env` configuration file that informs the virtual machine
