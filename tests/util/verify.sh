@@ -299,6 +299,7 @@ __cluster_snapshot() {
 }
 
 __cluster_cleanup_check() {
+    # shellcheck disable=SC2034
     snapshot=$(<__cluster_snapshot.txt)
     rm __cluster_snapshot.txt
 
