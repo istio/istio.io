@@ -23,7 +23,7 @@ set -o pipefail
 
 # @setup profile=default
 
-kubectl label namespace default istio-injection=enabled --overwrite
+kubectl label namespace default istio-injection= --overwrite
 
 snip_before_you_begin_1
 

@@ -84,7 +84,5 @@ snip_view_the_dashboard_dashboard_1
 
 # @cleanup
 set +e # ignore cleanup errors
-kubectl delete kiali kiali -n istio-system
-kubectl delete -f samples/addons
 cleanup_bookinfo_sample
 snip_uninstall_1
