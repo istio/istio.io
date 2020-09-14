@@ -8,4 +8,4 @@ test: n/a
 Istio uses a trust domain to create all [identities](/docs/reference/glossary/#identity) within a mesh.
 For example in `spiffe://mytrustdomain.com/ns/default/sa/myname` the substring `mytrustdomain.com` specifies that the workload is from a trust domain called `mytrustdomain.com`.
 
-Depending upon your configuration, you can choose to have a single trust domain for the entire mesh across clusters or a trust domain for each cluster, as long as the clusters share the same root of trust.
+You can have one or more trust domains in a multicluster mesh, as long as the clusters share the same root of trust.
