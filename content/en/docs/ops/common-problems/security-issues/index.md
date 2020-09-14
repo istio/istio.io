@@ -98,7 +98,7 @@ Otherwise, Istio ignores the ALLOW policies as if they don't exist.
 1. Make sure that your authorization policies with DENY action don't use any HTTP only fields for TCP traffic.
 Otherwise, Istio ignores the rules with HTTP only fields within the DENY policies as if they don't exist.
 
-1. An HTTP response with the value `upstream connect error or disconnect/reset before headers. reset reason: connection termination` can indicate an authorization policy with HTTP only fields applied to TCP traffic. Read the [port selection documentation](docs/ops/configuration/traffic-management/protocol-selection/) for how Istio determines whether a service is using the http or tcp protocol.
+1. An HTTP response with the value `upstream connect error or disconnect/reset before headers. reset reason: connection termination` can indicate an authorization policy with HTTP only fields applied to TCP traffic. Read the [port selection documentation](/docs/ops/configuration/traffic-management/protocol-selection/) for how Istio determines whether a service is using the http or tcp protocol.
 
 ## Authorization is too permissive
 
