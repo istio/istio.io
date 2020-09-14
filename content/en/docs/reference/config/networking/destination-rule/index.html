@@ -1514,6 +1514,19 @@ No
 No
 </td>
 </tr>
+<tr id="ConnectionPoolSettings-HTTPSettings-use_client_protocol">
+<td><code>useClientProtocol</code></td>
+<td><code>bool</code></td>
+<td>
+<p>If set to true, client protocol will be preserved while initiating connection to backend.
+Note that when this is set to true, h2<em>upgrade</em>policy will be ineffective i.e. the client
+connections will not be upgraded to http2.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
