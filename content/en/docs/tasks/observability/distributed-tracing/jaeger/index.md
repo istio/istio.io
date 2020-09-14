@@ -20,7 +20,7 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 1.  Follow the [Jaeger installation](/docs/ops/integrations/jaeger/#installation) documentation to deploy Jaeger into your cluster.
 
-1.  When you enable tracing, you can set the sampling rate that Istio uses for tracing. Use the `values.pilot.traceSampling` option during installation to set the sampling rate. The default sampling rate is 1%.
+1.  When you enable tracing, you can set the sampling rate that Istio uses for tracing. Use the [`values.meshConfig.defaultConfig.tracing.sampling`](/docs/tasks/observability/distributed-tracing/configurability/#customizing-trace-sampling) option during installation to set the sampling rate. The default sampling rate is 1%.
 
 1.  Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
