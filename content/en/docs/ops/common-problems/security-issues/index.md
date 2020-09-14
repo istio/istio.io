@@ -93,7 +93,7 @@ matching requests should flow through. If all requests continue to be denied, yo
 1. Make sure that your authorization policies with ALLOW action don't use any HTTP only fields for TCP traffic.
 Otherwise, Istio ignores the ALLOW policies as if they don't exist.
 
-1. A HTTP Response with the value `RBAC: Access Denied` indicates an authorization policy is in effect. You can determine the authorization policy in effect by running `istioctl x authz check POD-NAME.POD-NAMESPACE`. This command is available in istioctl v1.7.1+
+1. An HTTP response with the value `RBAC: Access Denied` indicates an authorization policy is in effect. You can determine the authorization policy in effect by running `istioctl x authz check POD-NAME.POD-NAMESPACE`.
 
 1. Make sure that your authorization policies with DENY action don't use any HTTP only fields for TCP traffic.
 Otherwise, Istio ignores the rules with HTTP only fields within the DENY policies as if they don't exist.
