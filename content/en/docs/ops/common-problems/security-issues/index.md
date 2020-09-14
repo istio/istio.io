@@ -127,7 +127,7 @@ you ensure Istiod is working as expected:
     $ istioctl dashboard controlz $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}').istio-system
     {{< /text >}}
 
-1. Istioctl should open your browser and then click Logging Scopes on the left menu.
+1. After your browser opens, click `Logging Scopes` in the left menu.
 
 1. Change the `authorization` Output Level to `debug`.
 
