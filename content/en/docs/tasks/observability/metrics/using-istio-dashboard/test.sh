@@ -49,8 +49,47 @@ function access_grafana_istio_service_dashboard() {
   curl -L -s -o /dev/null -w '%{http_code}' "http://localhost:3000/dashboard/db/istio-service-dashboard"
 }
 
+function access_grafana_istio_workload_dashboard() {
+  curl -L -s -o /dev/null -w '%{http_code}' "http://localhost:3000/dashboard/db/istio-workload-dashboard"
+}
+
+# Grafana calls this behind the scenes. It sends a query to prometheus
+# The long and scary query is copied straight from requests page in browser
+# and some parameters are edited. Basically it is a URL-encoded prometheus query
+function query_request_count_to_productpage() {
+  curl -L -s 'http://localhost:3000/api/datasources/proxy/1/api/v1/query?query=%20sum(istio_requests_total%7Breporter%3D%22destination%22%2C%20destination_service%3D~%22productpage.default.svc.cluster.local%22%2C%20source_workload_namespace%3D~%22istio-system%22%7D)%20by%20(source_workload)%20or%20sum(istio_tcp_sent_bytes_total%7Breporter%3D%22destination%22%2C%20destination_service%3D~%22productpage.default.svc.cluster.local%22%2C%20source_workload_namespace%3D~%22istio-system%22%7D)%20by%20(source_workload)' | jq -r '.status' 
+}
+
+# This Prometheus query is from Mesh dashboard
+function query_request_for_all_workloads() {
+  curl -L -s 'http://localhost:3000/api/datasources/proxy/1/api/v1/query?query=label_join(sum(rate(istio_requests_total%7Breporter%3D%22destination%22%2C%20response_code%3D%22200%22%7D%5B1m%5D))%20by%20(destination_workload%2C%20destination_workload_namespace%2C%20destination_service)%2C%20%22destination_workload_var%22%2C%20%22.%22%2C%20%22destination_workload%22%2C%20%22destination_workload_namespace%22)' \
+  | jq -r '.data.result[].metric.destination_workload_var' | sort
+}
+
+function query_request_from_productpage_workload() {
+  curl -L -s 'http://localhost:3000/api/datasources/proxy/1/api/v1/query?query=%20sum(istio_requests_total%7Breporter%3D%22source%22%2C%20source_workload%3D~%22productpage-v1%22%2C%20source_workload_namespace%3D~%22default%22%7D)%20by%20(destination_service)%20or%20sum(istio_tcp_sent_bytes_total%7Breporter%3D%22source%22%2C%20source_workload%3D~%22productpage-v1%22%2C%20source_workload_namespace%3D~%22default%22%7D)%20by%20(destination_service)' \
+  | jq -r '.data.result[].metric.destination_service' | sort
+}
+
 _verify_same access_grafana_istio_mesh_dashboard "200"
+_verify_lines query_request_for_all_workloads "
++ details-v1.default
++ productpage-v1.default
++ ratings-v1.default
++ reviews-v1.default
++ reviews-v2.default
++ reviews-v3.default
+"
+
 _verify_same access_grafana_istio_service_dashboard "200"
+_verify_same query_request_count_to_productpage "success"
+
+_verify_same access_grafana_istio_workload_dashboard "200"
+_verify_lines query_request_from_productpage_workload "
++ details.default.svc.cluster.local
++ reviews.default.svc.cluster.local
+"
+
 pgrep istioctl | xargs kill
 
 # @cleanup

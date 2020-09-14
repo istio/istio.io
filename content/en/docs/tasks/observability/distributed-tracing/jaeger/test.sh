@@ -39,7 +39,7 @@ snip_accessing_the_dashboard_1 &
 # Although test says, take a look at traces, we don't have to do that in this task
 # as it is covered by an integration test in istio/istio.
 function access_jaeger_by_port_forward() {
-  curl -s -o /dev/null -w '%{http_code}' http://localhost:16686/jaeger
+  curl -s -o /dev/null -w '%{http_code}' "http://localhost:16686/jaeger/api/traces?service=productpage.default&limit=20"
 }
 
 _verify_same access_jaeger_by_port_forward "200"
