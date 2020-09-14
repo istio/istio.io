@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/observability/metrics/using-istio-dashboard/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/trace-generation.sh"
 
 snip_viewing_the_istio_dashboard_1() {
 kubectl -n istio-system get svc prometheus
@@ -40,10 +41,6 @@ ENDSNIP
 
 snip_viewing_the_istio_dashboard_3() {
 istioctl dashboard grafana
-}
-
-snip_viewing_the_istio_dashboard_4() {
-curl "http://$GATEWAY_URL/productpage"
 }
 
 snip_cleanup_1() {

@@ -65,9 +65,7 @@ the example application throughout this task.
     For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
     browser or issue the following command:
 
-    {{< text bash >}}
-    $ curl "http://$GATEWAY_URL/productpage"
-    {{< /text >}}
+    {{< boilerplate trace-generation >}}
 
     {{< tip >}}
     `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
