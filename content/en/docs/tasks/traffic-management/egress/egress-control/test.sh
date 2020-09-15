@@ -53,9 +53,9 @@ _verify_first_line snip_manage_traffic_to_external_services_3 "$snip_manage_traf
 
 snip_cleanup_the_controlled_access_to_external_services_1
 
-_verify_contains snip_minikube_docker_for_desktop_bare_metal_1 "$snip_minikube_docker_for_desktop_bare_metal_1_out"
+IP_RANGE=$(snip_minikube_docker_for_desktop_bare_metal_1 | sed -e 's/^[[:space:]]*--service-cluster-ip-range=//')
 istioctl install --set profile=demo \
-                 --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --set values.global.proxy.includeIPRanges="10.96.0.0/12"
+                 --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --set values.global.proxy.includeIPRanges="$IP_RANGE"
 _wait_for_deployment istio-system istiod
 
 # Restart the sleep service
