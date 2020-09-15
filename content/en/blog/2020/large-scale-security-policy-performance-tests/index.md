@@ -2,22 +2,22 @@
 title: Large Scale Security Policy Performance Tests
 subtitle: The effect of security policies on latency of requests
 description: The effect of security policies on latency of requests.
-publishdate: 2020-09-10
+publishdate: 2020-09-15
 attribution: "Michael Eizaguirre (Google), Yangmin Zhu (Google), Carolyn Hu (Google)"
 keywords: [test,security policy,performance]
 ---
 
 ## Overview
 
-Istio has a wide range of Security policies which can be easily configured into systems of services. As the number of applied Security policies increases, it is important to understand the relationship of latency, memory usage, and CPU usage of the system.
+Istio has a wide range of security policies which can be easily configured into systems of services. As the number of applied policies increases, it is important to understand the relationship of latency, memory usage, and CPU usage of the system.
 
-This blog post goes over common Security policies use cases and how the number of Security policies or the number of specific rules in a Security policy can affect the overall latency of requests.
+This blog post goes over common security policies use cases and how the number of security policies or the number of specific rules in a security policy can affect the overall latency of requests.
 
 ## Setup
 
-There are a wide range of Security policies and many more combinations of those policies. We will go over 6 of the most commonly used test cases.
+There are a wide range of security policies and many more combinations of those policies. We will go over 6 of the most commonly used test cases.
 
-The following test cases are run in an environment which consists of a Fortio client sending requests to a Fortio server, with a baseline of no Envoy sidecars deployed. The following data was gathered by using the performance benchmarking tool that can be found [here](https://github.com/istio/tools/tree/master/perf/benchmark).
+The following test cases are run in an environment which consists of a [Fortio](https://fortio.org/) client sending requests to a Fortio server, with a baseline of no Envoy sidecars deployed. The following data was gathered by using the [Istio performance benchmarking tool](https://github.com/istio/tools/tree/master/perf/benchmark).
 {{< image width="55%" ratio="45.34%"
     link="istio_setup.svg"
     alt="Environment setup"
@@ -27,13 +27,13 @@ In these test cases, requests either do not match any rules or match only the ve
 
 ## Test cases
 
-1. MTLS STRICT vs plaintext.
+1. Mutual TLS STRICT vs plaintext.
 
-1. A single authorization policy with a variable number of principal rules as well as a `PeerAuthentication` policy. The principal rule is dependent on the`PeerAuthentication` policy being applied to the system.
+1. A single authorization policy with a variable number of principal rules as well as a `PeerAuthentication` policy. The principal rule is dependent on the `PeerAuthentication` policy being applied to the system.
 
 1. A single authorization policy with a variable number of `requestPrincipal` rules as well as a `RequestAuthentication` policy. The `requestPrincipal` is dependent on the `RequestAuthentication` policy being applied to the system.
 
-1. A single authorization policy with a variable number of paths vs `sourceIP` rules.
+1. A single authorization policy with a variable number of `paths` vs `sourceIP` rules.
 
 1. A variable number of authorization policies consisting of a single path or `sourceIP` rule.
 
@@ -104,7 +104,7 @@ The latency increase of a single `AuthZ` policy with 10 path rules is not propor
 The latency of a variable number of paths rules is marginally lesser than that of `sourceIP` rules.
 {{< /tab >}}
 
-{{< tab name="RequeatAuthN JWT Issuer" category-value="six" >}}
+{{< tab name="RequestAuthN JWT Issuer" category-value="six" >}}
 {{< image width="90%" ratio="45.34%"
     link="RequestAuthN_jwks.svg"
     alt="Request Authentication with variable number of JWT issuers"
@@ -116,9 +116,9 @@ The latency of a single JWT issuer is comparable to that of no policies, but as 
 {{< tab name="Variable AuthZ" category-value="seven" >}}
 To test how the number of Authorization policies affect runtime, the tests can be broken into two cases:
 
-- 1: Every Authorization policy has a single `sourceIP` rule.
+1. Every Authorization policy has a single `sourceIP` rule.
 
-- 2: Every Authorization policy has a single path rule.
+1. Every Authorization policy has a single path rule.
 
 {{< image width="90%" ratio="45.34%"
     link="AuthZ_var_policies_sourceIP.svg"
@@ -153,6 +153,6 @@ The overall trends of both graphs are similar. This is consistent to the paths v
 
 - Two different tests determined that the `sourceIP` rule is marginally slower than a path rule.
 
-If you are interested in creating your own large scale Security policies and running performance tests with them, see the performance benchmarking tool [README](https://github.com/istio/tools/tree/master/perf/benchmark/security/generate_policies).
+If you are interested in creating your own large scale security policies and running performance tests with them, see the [performance benchmarking tool README](https://github.com/istio/tools/tree/master/perf/benchmark/security/generate_policies).
 
-If you are interested in reading more about the Security policies tests, see this [doc](https://docs.google.com/document/d/1ZP9eQ_2EJEG12xnfsoo7125FDN38r62iqY1PUn9Dz-0/edit?usp=sharing).
+If you are interested in reading more about the security policies tests, see [our design doc](https://docs.google.com/document/d/1ZP9eQ_2EJEG12xnfsoo7125FDN38r62iqY1PUn9Dz-0/edit?usp=sharing). If you don't already have access, you can [join the Istio team drive](https://istio.io/latest/about/community/join/).
