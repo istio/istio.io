@@ -280,18 +280,17 @@ __cluster_state() {
     # TEMP WORKAROUND, don't check istio-system
     kubectl get ns -o name | sed '/istio-system/d'
     kubectl get all --ignore-not-found -n default
-    kubectl get istiooperators --ignore-not-found -n default
-
-    kubectl get destinationrules --ignore-not-found -n default -n istio-system
-    kubectl get envoyfilters --ignore-not-found -n default -n istio-system
-    kubectl get gateways --ignore-not-found -n default -n istio-system
-    kubectl get serviceentries --ignore-not-found -n default -n istio-system
-    kubectl get sidecars --ignore-not-found -n default -n istio-system
-    kubectl get virtualservices --ignore-not-found -n default -n istio-system
-    kubectl get workloadentries --ignore-not-found -n default -n istio-system
-    kubectl get authorizationpolicies --ignore-not-found -n default -n istio-system
-    kubectl get peerauthentications --ignore-not-found -n default -n istio-system
-    kubectl get requestauthentications --ignore-not-found -n default -n istio-system
+    kubectl get istiooperators --ignore-not-found -n default 2>&1 | grep -v "error: the server doesn't have a resource type"
+    kubectl get destinationrules --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
+    kubectl get envoyfilters --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
+    kubectl get gateways --ignore-not-found -n default -n istio-system  2>&1| grep -v "error: the server doesn't have a resource type"
+    kubectl get serviceentries --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
+    kubectl get sidecars --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
+    kubectl get virtualservices --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
+    kubectl get workloadentries --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
+    kubectl get authorizationpolicies --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
+    kubectl get peerauthentications --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
+    kubectl get requestauthentications --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
 }
 
 __cluster_snapshot() {
@@ -304,8 +303,7 @@ __cluster_cleanup_check() {
     rm __cluster_snapshot.txt
 
     VERIFY_RETRIES=9
-#    _verify_like __cluster_state "$snapshot"
-# TODO ^^^ TEMPORARY disable cleanup check until we properly fix problem with missing CRDs at start of profile_none
+    _verify_like __cluster_state "$snapshot"
 }
 
 
