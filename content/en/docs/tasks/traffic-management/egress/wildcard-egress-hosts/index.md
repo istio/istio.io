@@ -330,14 +330,14 @@ The SNI proxy will forward the traffic to port `443`.
 1.  Create an `IstioOperator` CR to add a new egress gateway with SNI proxy:
 
     {{< text bash >}}
-    $ cat > ./egressgateway-with-sni-proxy.yaml <<EOF
+    $ istioctl manifest generate -f - <<EOF > ./egressgateway-with-sni-proxy.yaml
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
-      profile: demo
-      meshConfig:
-        outboundTrafficPolicy:
-          mode: REGISTRY_ONLY
+      # Only generate a gateway component defined below.
+      # Using this with "istioctl install" will reconcile and remove existing control-plane components.
+      # Instead use "istioctl manifest generate" or "kubectl create" if using the istio operator.
+      profile: empty
       components:
         egressGateways:
         - name: istio-egressgateway-with-sni-proxy
@@ -350,43 +350,34 @@ The SNI proxy will forward the traffic to port `443`.
               ports:
               - port: 443
                 name: https
+            overlays:
+            - kind: Deployment
+              name: istio-egressgateway-with-sni-proxy
+              patches:
+              - path: spec.template.spec.containers[-1]
+                value: |
+                  name: sni-proxy
+                  image: nginx
+                  volumeMounts:
+                  - name: sni-proxy-config
+                    mountPath: /etc/nginx
+                    readOnly: true
+                  securityContext:
+                    runAsNonRoot: false
+                    runAsUser: 0
+              - path: spec.template.spec.volumes[-1]
+                value: |
+                  name: sni-proxy-config
+                  configMap:
+                    name: egress-sni-proxy-configmap
+                    defaultMode: 292 # 0444
     EOF
     {{< /text >}}
 
 1.  Deploy the new gateway:
 
     {{< text bash >}}
-    $ istioctl install -f ./egressgateway-with-sni-proxy.yaml --set values.gateways.istio-egressgateway.runAsRoot=true
-    {{< /text >}}
-
-1.  Patch the deployment with a second pod container for the SNI proxy:
-
-    {{< text bash >}}
-    $ cat <<EOF > ./egressgateway-with-sni-proxy-patch.yaml
-    spec:
-      template:
-        spec:
-          volumes:
-          - name: sni-proxy-config
-            configMap:
-              name: egress-sni-proxy-configmap
-              defaultMode: 292 # 0444
-          containers:
-          - name: sni-proxy
-            image: nginx
-            volumeMounts:
-            - name: sni-proxy-config
-              mountPath: /etc/nginx
-              readOnly: true
-            securityContext:
-              runAsNonRoot: false
-              runAsUser: 0
-    EOF
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl patch deployment istio-egressgateway-with-sni-proxy -n istio-system --patch "$(cat ./egressgateway-with-sni-proxy-patch.yaml)"
-    deployment.apps/istio-egressgateway-with-sni-proxy patched
+    $ kubectl apply -f ./egressgateway-with-sni-proxy.yaml
     {{< /text >}}
 
 1.  Verify that the new egress gateway is running. Note that the pod has two containers (one is the Envoy proxy and the
@@ -636,12 +627,13 @@ The SNI proxy will forward the traffic to port `443`.
     $ kubectl delete serviceentry sni-proxy
     $ kubectl delete destinationrule disable-mtls-for-sni-proxy
     $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
+    $ kubectl delete -f ./egressgateway-with-sni-proxy.yaml
     {{< /text >}}
 
 1.  Remove the configuration files you created:
 
     {{< text bash >}}
-    $ rm ./sni-proxy.conf ./egressgateway-with-sni-proxy.yaml ./egressgateway-with-sni-proxy-patch.yaml
+    $ rm ./sni-proxy.conf ./egressgateway-with-sni-proxy.yaml
     {{< /text >}}
 
 ## Cleanup

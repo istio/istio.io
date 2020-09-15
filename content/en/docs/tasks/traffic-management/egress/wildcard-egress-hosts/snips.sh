@@ -203,14 +203,14 @@ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=
 }
 
 snip_setup_egress_gateway_with_sni_proxy_3() {
-cat > ./egressgateway-with-sni-proxy.yaml <<EOF
+istioctl manifest generate -f - <<EOF > ./egressgateway-with-sni-proxy.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  profile: demo
-  meshConfig:
-    outboundTrafficPolicy:
-      mode: REGISTRY_ONLY
+  # Only generate a gateway component defined below.
+  # Using this with "istioctl install" will reconcile and remove existing control-plane components.
+  # Instead use "istioctl manifest generate" or "kubectl create" if using the istio operator.
+  profile: empty
   components:
     egressGateways:
     - name: istio-egressgateway-with-sni-proxy
@@ -223,54 +223,44 @@ spec:
           ports:
           - port: 443
             name: https
+        overlays:
+        - kind: Deployment
+          name: istio-egressgateway-with-sni-proxy
+          patches:
+          - path: spec.template.spec.containers[-1]
+            value: |
+              name: sni-proxy
+              image: nginx
+              volumeMounts:
+              - name: sni-proxy-config
+                mountPath: /etc/nginx
+                readOnly: true
+              securityContext:
+                runAsNonRoot: false
+                runAsUser: 0
+          - path: spec.template.spec.volumes[-1]
+            value: |
+              name: sni-proxy-config
+              configMap:
+                name: egress-sni-proxy-configmap
+                defaultMode: 292 # 0444
 EOF
 }
 
 snip_setup_egress_gateway_with_sni_proxy_4() {
-istioctl install -f ./egressgateway-with-sni-proxy.yaml --set values.gateways.istio-egressgateway.runAsRoot=true
+kubectl apply -f ./egressgateway-with-sni-proxy.yaml
 }
 
 snip_setup_egress_gateway_with_sni_proxy_5() {
-cat <<EOF > ./egressgateway-with-sni-proxy-patch.yaml
-spec:
-  template:
-    spec:
-      volumes:
-      - name: sni-proxy-config
-        configMap:
-          name: egress-sni-proxy-configmap
-          defaultMode: 292 # 0444
-      containers:
-      - name: sni-proxy
-        image: nginx
-        volumeMounts:
-        - name: sni-proxy-config
-          mountPath: /etc/nginx
-          readOnly: true
-        securityContext:
-          runAsNonRoot: false
-          runAsUser: 0
-EOF
-}
-
-snip_setup_egress_gateway_with_sni_proxy_6() {
-kubectl patch deployment istio-egressgateway-with-sni-proxy -n istio-system --patch "$(cat ./egressgateway-with-sni-proxy-patch.yaml)"
-}
-
-! read -r -d '' snip_setup_egress_gateway_with_sni_proxy_6_out <<\ENDSNIP
-deployment.apps/istio-egressgateway-with-sni-proxy patched
-ENDSNIP
-
-snip_setup_egress_gateway_with_sni_proxy_7() {
 kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system
 }
 
-! read -r -d '' snip_setup_egress_gateway_with_sni_proxy_7_out <<\ENDSNIP
+! read -r -d '' snip_setup_egress_gateway_with_sni_proxy_5_out <<\ENDSNIP
 NAME                                                  READY     STATUS    RESTARTS   AGE
 istio-egressgateway-with-sni-proxy-79f6744569-pf9t2   2/2       Running   0          17s
 ENDSNIP
 
-snip_setup_egress_gateway_with_sni_proxy_8() {
+snip_setup_egress_gateway_with_sni_proxy_6() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
@@ -485,10 +475,11 @@ snip_cleanup_wildcard_configuration_for_arbitrary_domains_2() {
 kubectl delete serviceentry sni-proxy
 kubectl delete destinationrule disable-mtls-for-sni-proxy
 kubectl delete configmap egress-sni-proxy-configmap -n istio-system
+kubectl delete -f ./egressgateway-with-sni-proxy.yaml
 }
 
 snip_cleanup_wildcard_configuration_for_arbitrary_domains_3() {
-rm ./sni-proxy.conf ./egressgateway-with-sni-proxy.yaml ./egressgateway-with-sni-proxy-patch.yaml
+rm ./sni-proxy.conf ./egressgateway-with-sni-proxy.yaml
 }
 
 snip_cleanup_1() {

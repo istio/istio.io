@@ -62,15 +62,11 @@ snip_setup_egress_gateway_with_sni_proxy_2
 snip_setup_egress_gateway_with_sni_proxy_3
 
 snip_setup_egress_gateway_with_sni_proxy_4
-
-snip_setup_egress_gateway_with_sni_proxy_5
-
-_verify_same snip_setup_egress_gateway_with_sni_proxy_6 "$snip_setup_egress_gateway_with_sni_proxy_6_out"
-
-_verify_like snip_setup_egress_gateway_with_sni_proxy_7 "$snip_setup_egress_gateway_with_sni_proxy_7_out"
 _wait_for_deployment istio-system istio-egressgateway-with-sni-proxy
 
-snip_setup_egress_gateway_with_sni_proxy_8
+_verify_same snip_setup_egress_gateway_with_sni_proxy_5 "$snip_setup_egress_gateway_with_sni_proxy_5_out"
+
+snip_setup_egress_gateway_with_sni_proxy_6
 _wait_for_istio serviceentry default sni-proxy
 _wait_for_istio destinationrule default disable-mtls-for-sni-proxy
 
