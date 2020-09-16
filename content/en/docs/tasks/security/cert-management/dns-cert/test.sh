@@ -25,7 +25,7 @@ set -o pipefail
 
 export VERIFY_RETRIES=10
 
-snip_before_you_begin_1
+echo y | snip_before_you_begin_1
 _wait_for_deployment istio-system istiod
 
 # helper functions
