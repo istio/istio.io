@@ -58,7 +58,6 @@ _wait_for_istio() {
     if ! istioctl experimental wait --for=distribution --timeout=30s "$kind" "$name.$namespace"; then
         echo "Failed distribution of $kind $name in namespace $namespace"
         istioctl ps
-        exit 1
     fi
 }
 
