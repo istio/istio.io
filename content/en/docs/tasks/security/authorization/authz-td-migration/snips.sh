@@ -112,7 +112,7 @@ spec:
       trustDomainAliases:
         - old-td
 EOF
-istioctl install --set profile=demo -f td-installation.yaml
+istioctl install --set profile=demo -f td-installation.yaml -y
 }
 
 snip_migrate_trust_domain_with_trust_domain_aliases_2() {
@@ -135,7 +135,7 @@ snip_clean_up_1() {
 kubectl delete authorizationpolicy service-httpbin.default.svc.cluster.local
 kubectl delete deploy httpbin; kubectl delete service httpbin; kubectl delete serviceaccount httpbin
 kubectl delete deploy sleep; kubectl delete service sleep; kubectl delete serviceaccount sleep
-kubectl delete namespace sleep-allow
-istioctl manifest generate --set profile=demo -f td-installation.yaml | kubectl delete --ignore-not-found=true -f -
+istioctl x uninstall --purge
+kubectl delete namespace sleep-allow istio-system
 rm ./td-installation.yaml
 }

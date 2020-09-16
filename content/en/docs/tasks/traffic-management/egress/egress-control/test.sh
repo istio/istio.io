@@ -21,7 +21,7 @@ set -e
 set -u
 set -o pipefail
 
-istioctl install --set profile=demo
+istioctl install --set profile=demo -y
 _wait_for_deployment istio-system istiod
 
 kubectl label namespace default istio-injection=enabled --overwrite
@@ -32,7 +32,7 @@ snip_before_you_begin_3
 _verify_not_contains snip_envoy_passthrough_to_external_services_1 "REGISTRY_ONLY"
 _verify_same snip_envoy_passthrough_to_external_services_3 "$snip_envoy_passthrough_to_external_services_3_out"
 
-istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
+istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY -y
 _wait_for_deployment istio-system istiod
 _verify_same snip_change_to_the_blockingbydefault_policy_3 "$snip_change_to_the_blockingbydefault_policy_3_out"
 
@@ -55,7 +55,7 @@ snip_cleanup_the_controlled_access_to_external_services_1
 
 IP_RANGE=$(snip_minikube_docker_for_desktop_bare_metal_1 | sed -e 's/^[[:space:]]*--service-cluster-ip-range=//')
 istioctl install --set profile=demo \
-                 --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --set values.global.proxy.includeIPRanges="$IP_RANGE"
+                 --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --set values.global.proxy.includeIPRanges="$IP_RANGE" -y
 _wait_for_deployment istio-system istiod
 
 # Restart the sleep service

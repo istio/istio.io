@@ -21,7 +21,7 @@ set -e
 set -u
 set -o pipefail
 
-snip_before_you_begin_1
+echo y | snip_before_you_begin_1
 _wait_for_deployment istio-system istiod
 
 kubectl label namespace default istio-injection=enabled --overwrite
@@ -61,7 +61,7 @@ snip_setup_egress_gateway_with_sni_proxy_2
 
 snip_setup_egress_gateway_with_sni_proxy_3
 
-snip_setup_egress_gateway_with_sni_proxy_4
+echo y | snip_setup_egress_gateway_with_sni_proxy_4
 
 snip_setup_egress_gateway_with_sni_proxy_5
 
