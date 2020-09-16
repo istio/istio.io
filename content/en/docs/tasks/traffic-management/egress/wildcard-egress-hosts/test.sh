@@ -64,7 +64,7 @@ snip_setup_egress_gateway_with_sni_proxy_3
 snip_setup_egress_gateway_with_sni_proxy_4
 _wait_for_deployment istio-system istio-egressgateway-with-sni-proxy
 
-_verify_same snip_setup_egress_gateway_with_sni_proxy_5 "$snip_setup_egress_gateway_with_sni_proxy_5_out"
+_verify_like snip_setup_egress_gateway_with_sni_proxy_5 "$snip_setup_egress_gateway_with_sni_proxy_5_out"
 
 snip_setup_egress_gateway_with_sni_proxy_6
 _wait_for_istio serviceentry default sni-proxy
@@ -106,6 +106,7 @@ snip_cleanup_wildcard_configuration_for_arbitrary_domains_2
 snip_cleanup_wildcard_configuration_for_arbitrary_domains_3
 
 snip_cleanup_1
+echo y | snip_cleanup_2
 
 kubectl delete ns istio-system
 kubectl label namespace default istio-injection-

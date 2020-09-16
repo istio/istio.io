@@ -642,5 +642,10 @@ The SNI proxy will forward the traffic to port `443`.
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@
-    $ istioctl x uninstall
+    {{< /text >}}
+
+* Uninstall Istio from your cluster:
+
+    {{< text bash >}}
+    $ istioctl x uninstall --purge
     {{< /text >}}

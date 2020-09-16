@@ -484,5 +484,8 @@ rm ./sni-proxy.conf ./egressgateway-with-sni-proxy.yaml
 
 snip_cleanup_1() {
 kubectl delete -f samples/sleep/sleep.yaml
-istioctl x uninstall
+}
+
+snip_cleanup_2() {
+istioctl x uninstall --purge
 }
