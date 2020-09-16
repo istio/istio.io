@@ -85,6 +85,9 @@ while (( "$#" )); do
   esac
 done
 
+export IP_FAMILY="${IP_FAMILY:-ipv4}"
+export NODE_IMAGE="kindest/node:v1.18.2"
+
 if [[ -z "${SKIP_SETUP:-}" ]]; then
   export ARTIFACTS="${ARTIFACTS:-$(mktemp -d)}"
   export DEFAULT_CLUSTER_YAML="./prow/config/trustworthy-jwt.yaml"
@@ -94,7 +97,7 @@ if [[ -z "${SKIP_SETUP:-}" ]]; then
     time setup_kind_cluster
   else
     time load_cluster_topology "${CLUSTER_TOPOLOGY_CONFIG_FILE}"
-    time setup_kind_clusters
+    time setup_kind_clusters "${NODE_IMAGE}" "${IP_FAMILY}"
 
     export TEST_ENV=kind-metallb
     export DOCTEST_KUBECONFIG
