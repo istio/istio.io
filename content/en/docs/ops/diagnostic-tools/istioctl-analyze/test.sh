@@ -32,7 +32,7 @@ _verify_contains snip_analyze_all_namespaces "$snip_analyze_all_namespace_sample
 
 echo '*** istioctl-analyze step 2 ***'
 snip_fix_default_namespace
-_verify_same snip_try_with_fixed_namespace "$snip_try_with_fixed_namespace_out"
+_verify_contains snip_try_with_fixed_namespace "$snip_try_with_fixed_namespace_out"
 
 echo '*** istioctl-analyze step 3 ***'
 _verify_contains snip_analyze_sample_destrule "$snip_analyze_sample_destrule_out"
@@ -85,7 +85,7 @@ kubectl create ns frod
 _verify_contains snip_analyze_k_frod "$snip_analyze_k_frod_out"
 
 echo '*** istioctl-analyze step 12 ***'
-_verify_same snip_analyze_suppress0102 "$snip_analyze_suppress0102_out"
+_verify_contains snip_analyze_suppress0102 "$snip_analyze_suppress0102_out"
 
 echo '*** istioctl-analyze step 13 ***'
 _verify_lines snip_analyze_suppress_frod_0107_baz "- Warn [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection"
