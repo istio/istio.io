@@ -51,7 +51,7 @@ echo '*** istioctl-analyze step 7 ***'
 istioctl analyze --help
 
 echo '*** istioctl-analyze step 8 ***'
-yes | snip_install_with_custom_config_analysis
+echo y | snip_install_with_custom_config_analysis
 _wait_for_deployment istio-system istiod
 
 echo '*** istioctl-analyze step 9 ***'
