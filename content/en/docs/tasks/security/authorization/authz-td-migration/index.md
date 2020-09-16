@@ -135,7 +135,7 @@ Notice that it may take tens of seconds for the authorization policy to be propa
           trustDomainAliases:
             - old-td
     EOF
-    $ istioctl install --set profile=demo -f td-installation.yaml
+    $ istioctl install --set profile=demo -f td-installation.yaml -y
     {{< /text >}}
 
 1. Without changing the authorization policy, verify that requests to `httpbin` from:
@@ -169,7 +169,7 @@ as the old trust domain without you having to include the aliases.
 $ kubectl delete authorizationpolicy service-httpbin.default.svc.cluster.local
 $ kubectl delete deploy httpbin; kubectl delete service httpbin; kubectl delete serviceaccount httpbin
 $ kubectl delete deploy sleep; kubectl delete service sleep; kubectl delete serviceaccount sleep
-$ kubectl delete namespace sleep-allow
-$ istioctl manifest generate --set profile=demo -f td-installation.yaml | kubectl delete --ignore-not-found=true -f -
+$ istioctl x uninstall --purge
+$ kubectl delete namespace sleep-allow istio-system
 $ rm ./td-installation.yaml
 {{< /text >}}

@@ -23,7 +23,7 @@ source "tests/util/addons.sh"
 
 # @setup profile=none
 
-istioctl install --set profile=demo --set hub="$HUB" --set tag="$TAG"
+istioctl install --set profile=demo --set hub="$HUB" --set tag="$TAG" -y
 _wait_for_deployment istio-system istiod
 _wait_for_deployment istio-system istio-ingressgateway
 
@@ -65,7 +65,7 @@ _verify_same secure_access_grafana "200"
 _verify_same secure_access_tracing "200"
 
 # @cleanup
-_verify_same snip_cleanup_1 "$snip_cleanup_1_out" 
+_verify_same snip_cleanup_1 "$snip_cleanup_1_out"
 _verify_same snip_cleanup_2 "$snip_cleanup_2_out"
 _verify_same snip_cleanup_3 "$snip_cleanup_3_out"
 

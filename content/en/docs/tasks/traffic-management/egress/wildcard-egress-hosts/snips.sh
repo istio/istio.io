@@ -203,7 +203,7 @@ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=
 }
 
 snip_setup_egress_gateway_with_sni_proxy_3() {
-istioctl manifest generate -f - <<EOF > ./egressgateway-with-sni-proxy.yaml
+istioctl manifest generate --set values.gateways.istio-egressgateway.runAsRoot=true -f - <<EOF > ./egressgateway-with-sni-proxy.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:

@@ -20,6 +20,7 @@ import (
 	"istio.io/istio.io/pkg/test/istioio"
 	"istio.io/istio/pkg/test/framework"
 	"istio.io/istio/pkg/test/framework/components/istio"
+	"istio.io/istio/pkg/test/framework/resource"
 )
 
 var (
@@ -42,6 +43,6 @@ func TestDocs(t *testing.T) {
 	istioio.TestDocs(t, setupSpec)
 }
 
-func setupConfig(cfg *istio.Config) {
+func setupConfig(ctx resource.Context, cfg *istio.Config) {
 	cfg.ControlPlaneValues = "profile: demo"
 }

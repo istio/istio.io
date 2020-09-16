@@ -21,7 +21,7 @@ set -e
 set -u
 set -o pipefail
 
-snip_before_you_begin_1
+echo y | snip_before_you_begin_1
 _wait_for_deployment istio-system istiod
 
 kubectl label namespace default istio-injection=enabled --overwrite

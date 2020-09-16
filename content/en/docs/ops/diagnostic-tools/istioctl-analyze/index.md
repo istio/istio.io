@@ -25,7 +25,7 @@ And that’s it! It’ll give you any recommendations that apply.
 For example, if you forgot to enable Istio injection (a very common issue), you would get the following warning:
 
 {{< text syntax=plain snip_id=analyze_all_namespace_sample_response >}}
-Warn [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
+Warning [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
 {{< /text >}}
 
 Fix the issue:
@@ -47,7 +47,10 @@ Analyze the current live cluster, simulating the effect of applying additional y
 
 {{< text syntax=bash snip_id=analyze_sample_destrule >}}
 $ istioctl analyze @samples/bookinfo/networking/bookinfo-gateway.yaml@ @samples/bookinfo/networking/destination-rule-all.yaml@
-Error [IST0101] (VirtualService bookinfo.default samples/bookinfo/networking/bookinfo-gateway.yaml:16) Referenced host not found: "productpage"
+Error [IST0101] (Gateway bookinfo-gateway.default samples/bookinfo/networking/bookinfo-gateway.yaml:7) Referenced selector not found: "istio=ingressgateway"
+Error [IST0101] (VirtualService bookinfo.default samples/bookinfo/networking/bookinfo-gateway.yaml:39) Referenced host not found: "productpage"
+Error: Analyzers found issues when analyzing namespace: default.
+See https://istio.io/v1.8/docs/reference/config/analysis for more information about causes and resolutions.
 {{< /text >}}
 
 Analyze the entire `networking` folder:
@@ -97,10 +100,9 @@ spec:
 ...
 status:
   validationMessages:
-  - code: IST0101
-    documentation_url: https://istio.io/docs/reference/config/analysis/ist0101/?ref=status-controller
-    level: Error
-    message: 'Referenced gateway not found: "bogus-gateway"'
+  - documentation_url: https://istio.io/v1.8/docs/reference/config/analysis/ist0101/?ref=status-controller
+    type:
+      code: IST0101
 {{< /text >}}
 
 `enableAnalysis` runs in the background, and will keep the status field of a resource up to date with its current validation status. Note that this isn't a replacement for `istioctl analyze`:
@@ -121,7 +123,9 @@ Sometimes you might find it useful to hide or ignore analyzer messages in certai
 
 {{< text syntax=bash snip_id=analyze_k_frod >}}
 $ istioctl analyze -k --namespace frod
-Warn [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection
+Warning [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection
+Error: Analyzers found issues when analyzing namespace: frod.
+See https://istio.io/v1.8/docs/reference/config/analysis for more information about causes and resolutions.
 {{< /text >}}
 
 Because you don't have permissions to update the namespace, you cannot resolve the message by annotating the namespace. Instead, you can direct `istioctl analyze` to suppress the above message on the resource:

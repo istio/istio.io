@@ -21,7 +21,7 @@ set -o pipefail
 
 # @setup profile=default
 
-kubectl label namespace default istio-injection=enabled --overwrite
+kubectl label namespace default istio-injection= --overwrite
 
 # Generate client and server certificates and keys
 snip_generate_client_and_server_certificates_and_keys_1
