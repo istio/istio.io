@@ -534,7 +534,7 @@ istioctl d [flags]
 </table>
 <h2 id="istioctl-dashboard-controlz">istioctl dashboard controlz</h2>
 <p>Open the ControlZ web UI for a pod in the Istio control plane</p>
-<pre class="language-bash"><code>istioctl dashboard controlz &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl dashboard controlz [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -588,15 +588,20 @@ istioctl d [flags]
 </tbody>
 </table>
 <h3 id="istioctl-dashboard-controlz Examples">Examples</h3>
-<pre class="language-bash"><code>  istioctl dashboard controlz pilot-123-456.istio-system
+<pre class="language-bash"><code>  # Open ControlZ web UI for the istiod-123-456.istio-system pod
+  istioctl dashboard controlz istiod-123-456.istio-system
+
+  # Open ControlZ web UI for any Istiod pod
+  istioctl dashboard controlz deployment/istiod.istio-system
 
   # with short syntax
   istioctl dash controlz pilot-123-456.istio-system
   istioctl d controlz pilot-123-456.istio-system
+
 </code></pre>
 <h2 id="istioctl-dashboard-envoy">istioctl dashboard envoy</h2>
 <p>Open the Envoy admin dashboard for a sidecar</p>
-<pre class="language-bash"><code>istioctl dashboard envoy &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl dashboard envoy [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -645,11 +650,16 @@ istioctl d [flags]
 </tbody>
 </table>
 <h3 id="istioctl-dashboard-envoy Examples">Examples</h3>
-<pre class="language-bash"><code>  istioctl dashboard envoy productpage-123-456.default
+<pre class="language-bash"><code>  # Open Envoy dashboard for the productpage-123-456.default pod
+  istioctl dashboard envoy productpage-123-456.default
+
+  # Open Envoy dashboard for one pod under a deployment
+  istioctl dashboard envoy deployment/productpage-v1
 
   # with short syntax
   istioctl dash envoy productpage-123-456.default
   istioctl d envoy productpage-123-456.default
+
 </code></pre>
 <h2 id="istioctl-dashboard-grafana">istioctl dashboard grafana</h2>
 <p>Open Istio&#39;s Grafana dashboard</p>
@@ -1361,7 +1371,7 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <p>The command also supports reading from a standalone config dump file with flag -f.</p>
 <p>THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </p>
-<pre class="language-bash"><code>istioctl experimental authz check &lt;pod-name&gt;[.&lt;pod-namespace&gt;] [flags]
+<pre class="language-bash"><code>istioctl experimental authz check [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1402,6 +1412,9 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <h3 id="istioctl-experimental-authz-check Examples">Examples</h3>
 <pre class="language-bash"><code>  # Check AuthorizationPolicy applied to pod httpbin-88ddbcfdd-nt5jb:
   istioctl x authz check httpbin-88ddbcfdd-nt5jb
+
+  # Check AuthorizationPolicy applied to one pod under a deployment
+  istioctl proxy-status deployment/productpage-v1
 
   # Check AuthorizationPolicy from Envoy config dump file:
   istioctl x authz check -f httpbin_config_dump.json
@@ -2320,10 +2333,10 @@ because in previous versions webhooks manage their own configurations.</p>
 <p>
 Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in the mesh
 </p>
-<pre class="language-bash"><code>istioctl experimental proxy-status [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl experimental proxy-status [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl experimental ps [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl experimental ps [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -4351,10 +4364,10 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.8.0/
 </code></pre>
 <h2 id="istioctl-proxy-config-bootstrap">istioctl proxy-config bootstrap</h2>
 <p>Retrieve information about bootstrap configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config bootstrap [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-config bootstrap [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl proxy-config b [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-config b [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -4408,11 +4421,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.8.0/
 </code></pre>
 <h2 id="istioctl-proxy-config-cluster">istioctl proxy-config cluster</h2>
 <p>Retrieve information about cluster configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config cluster [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-config cluster [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl proxy-config clusters [&lt;pod-name[.namespace]&gt;] [flags]
-istioctl proxy-config c [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-config clusters [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -4492,11 +4505,11 @@ istioctl proxy-config c [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
 <h2 id="istioctl-proxy-config-endpoint">istioctl proxy-config endpoint</h2>
 <p>Retrieve information about endpoint configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config endpoint [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-config endpoint [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl proxy-config endpoints [&lt;pod-name[.namespace]&gt;] [flags]
-istioctl proxy-config ep [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-config endpoints [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+istioctl proxy-config ep [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -4581,11 +4594,11 @@ istioctl proxy-config ep [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
 <h2 id="istioctl-proxy-config-listener">istioctl proxy-config listener</h2>
 <p>Retrieve information about listener configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config listener [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-config listener [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl proxy-config listeners [&lt;pod-name[.namespace]&gt;] [flags]
-istioctl proxy-config l [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-config listeners [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -4665,10 +4678,10 @@ istioctl proxy-config l [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
 <h2 id="istioctl-proxy-config-log">istioctl proxy-config log</h2>
 <p>(experimental) Retrieve information about logging levels of the Envoy instance in the specified pod, and update optionally</p>
-<pre class="language-bash"><code>istioctl proxy-config log &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config log [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl proxy-config o &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config o [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -4732,11 +4745,11 @@ istioctl proxy-config l [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
 <h2 id="istioctl-proxy-config-route">istioctl proxy-config route</h2>
 <p>Retrieve information about route configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config route [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-config route [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl proxy-config routes [&lt;pod-name[.namespace]&gt;] [flags]
-istioctl proxy-config r [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-config routes [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -4806,10 +4819,10 @@ istioctl proxy-config r [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
 <h2 id="istioctl-proxy-config-secret">istioctl proxy-config secret</h2>
 <p>(experimental) Retrieve information about secret configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config secret [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-config secret [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl proxy-config s [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-config s [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -4867,10 +4880,10 @@ istioctl proxy-config r [&lt;pod-name[.namespace]&gt;] [flags]
 <p>
 Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in the mesh</p>
 <p></p>
-<pre class="language-bash"><code>istioctl proxy-status [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-status [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl ps [&lt;pod-name[.namespace]&gt;] [flags]
+<pre class="language-bash"><code>istioctl ps [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -4919,6 +4932,9 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 
   # Retrieve sync diff for a single Envoy and Istiod
   istioctl proxy-status istio-egressgateway-59585c5b9c-ndc59.istio-system
+
+  # Retrieve sync diff between Istiod and one pod under a deployment
+  istioctl proxy-status deployment/productpage-v1
 
   # Write proxy config-dump to file, and compare to Istio control plane
   kubectl port-forward -n istio-system istio-egressgateway-59585c5b9c-ndc59 15000 &amp;
