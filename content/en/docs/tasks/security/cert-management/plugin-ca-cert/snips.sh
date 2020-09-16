@@ -28,7 +28,7 @@ kubectl create secret generic cacerts -n istio-system --from-file=samples/certs/
 }
 
 snip_plugging_in_existing_certificates_and_key_2() {
-istioctl install --skip-confirmation --set profile=demo
+istioctl install --set profile=demo
 }
 
 snip_deploying_example_services_1() {

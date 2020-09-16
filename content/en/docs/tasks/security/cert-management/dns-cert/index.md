@@ -35,7 +35,7 @@ spec:
       - secretName: dns.example2-service-account
         dnsNames: [example2.istio-system.svc, example2.istio-system]
 EOF
-$ istioctl install --skip-confirmation -f ./istio.yaml
+$ istioctl install -f ./istio.yaml
 {{< /text >}}
 
 ## DNS certificate provisioning and management

@@ -21,7 +21,7 @@
 ####################################################################################################
 
 snip_before_you_begin_1() {
-istioctl install --skip-confirmation --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
+istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
 }
 
 snip_before_you_begin_2() {
@@ -227,7 +227,7 @@ EOF
 }
 
 snip_setup_egress_gateway_with_sni_proxy_4() {
-istioctl install --skip-confirmation -f ./egressgateway-with-sni-proxy.yaml --set values.gateways.istio-egressgateway.runAsRoot=true
+istioctl install -f ./egressgateway-with-sni-proxy.yaml --set values.gateways.istio-egressgateway.runAsRoot=true
 }
 
 snip_setup_egress_gateway_with_sni_proxy_5() {

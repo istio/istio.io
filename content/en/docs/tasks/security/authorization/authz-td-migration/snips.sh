@@ -21,7 +21,7 @@
 ####################################################################################################
 
 snip_before_you_begin_1() {
-istioctl install --skip-confirmation --set profile=demo --set values.global.trustDomain=old-td
+istioctl install --set profile=demo --set values.global.trustDomain=old-td
 }
 
 snip_before_you_begin_2() {
@@ -74,7 +74,7 @@ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items.
 ENDSNIP
 
 snip_migrate_trust_domain_without_trust_domain_aliases_1() {
-istioctl install --skip-confirmation --set profile=demo --set values.global.trustDomain=new-td
+istioctl install --set profile=demo --set values.global.trustDomain=new-td
 }
 
 snip_migrate_trust_domain_without_trust_domain_aliases_2() {
@@ -112,7 +112,7 @@ spec:
       trustDomainAliases:
         - old-td
 EOF
-istioctl install --skip-confirmation --set profile=demo -f td-installation.yaml
+istioctl install --set profile=demo -f td-installation.yaml -y
 }
 
 snip_migrate_trust_domain_with_trust_domain_aliases_2() {

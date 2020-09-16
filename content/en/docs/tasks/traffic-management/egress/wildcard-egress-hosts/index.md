@@ -29,7 +29,7 @@ without the need to specify every language's site separately.
     and with the blocking-by-default outbound traffic policy:
 
     {{< text bash >}}
-    $ istioctl install --skip-confirmation --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
+    $ istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
     {{< /text >}}
 
     {{< tip >}}
@@ -356,7 +356,7 @@ The SNI proxy will forward the traffic to port `443`.
 1.  Deploy the new gateway:
 
     {{< text bash >}}
-    $ istioctl install --skip-confirmation -f ./egressgateway-with-sni-proxy.yaml --set values.gateways.istio-egressgateway.runAsRoot=true
+    $ istioctl install -f ./egressgateway-with-sni-proxy.yaml --set values.gateways.istio-egressgateway.runAsRoot=true
     {{< /text >}}
 
 1.  Patch the deployment with a second pod container for the SNI proxy:

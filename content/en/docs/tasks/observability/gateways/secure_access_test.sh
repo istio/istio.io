@@ -23,7 +23,7 @@ source "tests/util/addons.sh"
 
 # @setup profile=none
 
-istioctl install --skip-confirmation --set profile=demo --set hub="$HUB" --set tag="$TAG"
+istioctl install --set profile=demo --set hub="$HUB" --set tag="$TAG" -y
 _wait_for_deployment istio-system istiod
 _wait_for_deployment istio-system istio-ingressgateway
 
