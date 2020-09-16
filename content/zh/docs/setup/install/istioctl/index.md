@@ -27,7 +27,7 @@ keywords: [istioctl, kubernetes]
 最简单的选择是安装 `default` Istio [配置文件](/zh/docs/setup/additional-setup/config-profiles/)使用以下命令：
 
 {{< text bash >}}
-$ istioctl manifest apply
+$ istioctl manifest install
 {{< /text >}}
 
 此命令将在您配置的 Kubernetes 集群上安装 `default` 配置文件。
@@ -36,7 +36,7 @@ $ istioctl manifest apply
 如果要在 `default` 配置文件之上启用 Grafana dashboard，用下面的命令设置 `addonComponents.grafana.enabled` 配置参数：
 
 {{< text bash >}}
-$ istioctl manifest apply --set addonComponents.grafana.enabled=true
+$ istioctl manifest install --set addonComponents.grafana.enabled=true
 {{< /text >}}
 
 通常，您可以像使用 [helm](/zh/docs/setup/install/helm/) 一样在 `istioctl` 中配置 `--set` 标志。
@@ -49,10 +49,10 @@ $ istioctl manifest apply --set addonComponents.grafana.enabled=true
 除了使用内置 Chart 外，`istioctl` 还可以使用外部 Chart 生成安装清单。要选择外部 Chart ，请配置 `installPackagePath` 参数（接收本地文件系统路径）：
 
 {{< text bash >}}
-$ istioctl manifest apply --set installPackagePath=< base directory where installed >/istio-releases/istio-{{< istio_full_version >}}/install/kubernetes/operator/charts
+$ istioctl manifest install --set installPackagePath=< base directory where installed >/istio-releases/istio-{{< istio_full_version >}}/install/kubernetes/operator/charts
 {{< /text >}}
 
-如果使用 `istioctl` {{< istio_full_version >}} 二进制文件，该命令执行结果与通过 `istioctl manifest apply` 安装相同，因为它指向的 Chart 与内置 Chart 相同。
+如果使用 `istioctl` {{< istio_full_version >}} 二进制文件，该命令执行结果与通过 `istioctl manifest install` 安装相同，因为它指向的 Chart 与内置 Chart 相同。
 除了试验或测试新特性之外，我们建议使用内置 Chart 而不是外部提供，以确保 `istioctl` 二进制文件与 Chart 的兼容性。
 
 ## 安装其他配置文件{#install-a-different-profile}
@@ -61,7 +61,7 @@ $ istioctl manifest apply --set installPackagePath=< base directory where instal
 例如，可以使用以下命令，安装 `demo` 配置文件：
 
 {{< text bash >}}
-$ istioctl manifest apply --set profile=demo
+$ istioctl manifest install --set profile=demo
 {{< /text >}}
 
 ## 显示可用配置文件的列表{#display-the-list-of-available-profiles}
@@ -397,10 +397,10 @@ spec:
           operator: Exists
 {{< /text >}}
 
-使用 `manifest apply` 将修改后的设置应用于集群：
+使用 `manifest install` 将修改后的设置应用于集群：
 
 {{< text syntax="bash" repo="operator" >}}
-$ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
+$ istioctl manifest install -f samples/operator/pilot-k8s.yaml
 {{< /text >}}
 
 ### 使用 Helm API 自定义 Istio 设置{#customize-Istio-settings-using-the-helm-API}
