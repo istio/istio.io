@@ -19,40 +19,36 @@ set -e
 set -u
 set -o pipefail
 
+source "tests/util/helpers.sh"
 source "tests/util/samples.sh"
 source "tests/util/addons.sh"
 
-# @setup profile=demo
+# @setup profile=default
 
-## Setting up application
-# Set to known setting of sidecar injection
+# NOTE: This test is very similar to the one for zipkin.
+_deploy_and_wait_for_addons jaeger
+
 kubectl label namespace default istio-injection=enabled --overwrite
-
-_deploy_and_wait_for_addons zipkin
-
-# Install Bookinfo application
 startup_bookinfo_sample
-
-snip_accessing_the_dashboard_1 &
-
 _set_ingress_environment_variables
 GATEWAY_URL="$INGRESS_HOST:$INGRESS_PORT"
 bpsnip_trace_generation__1
 
+snip_accessing_the_dashboard_1 &
+
 # Although test says, take a look at traces, we don't have to do that in this task
-# as it is covered by an integration test in istio/istio
-function access_zipkin_with_portforward() {
-  local zipkin_url='http://localhost:9411/zipkin/api/v2/traces?serviceName=productpage.default'
-  curl -s -o /dev/null -w "%{http_code}" "$zipkin_url"
+# as it is covered by an integration test in istio/istio.
+function access_jaeger_by_port_forward() {
+  curl -s -o /dev/null -w '%{http_code}' "http://localhost:16686/jaeger/api/traces?service=productpage.default"
 }
 
-_verify_same access_zipkin_with_portforward "200"
+_verify_same access_jaeger_by_port_forward "200"
 pgrep istioctl | xargs kill
 
 # @cleanup
 set +e
-cleanup_bookinfo_sample
 
-# TODO: Fix issue with using killall. Also why do we need to do this in setup and cleanup?
+# TODO: Fix issue of killing twice (https://github.com/istio/istio.io/issues/8014)
 pgrep istioctl | xargs kill
-_undeploy_addons zipkin
+cleanup_bookinfo_sample
+_undeploy_addons jaeger

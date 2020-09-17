@@ -20,4 +20,4 @@ BUILD_WITH_CONTAINER ?= 1
 
 # The release branching scripts use git commands so mount the global .gitconfig into the container
 CONDITIONAL_HOST_MOUNTS = --mount type=bind,source=${HOME}/.gitconfig,destination=/config/.gitconfig,readonly \
-													--mount type=bind,source=/tmp,destination=/tmp ${}
+                          --mount type=bind,source=/tmp,destination=/tmp ${}
