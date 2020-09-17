@@ -209,7 +209,8 @@ Many documents on the Istio site demonstrate features using commands that may or
 Istio evolves from release to release. To ensure the documented instructions stay up to date with as little
 continuous manual testing as possible, we have created a framework to automate the testing of these doucments.
 
-Every document that can be tested includes a `PAGE TEST` indiciation under the page title. For example:
+Every page on [istio.io](https://istio.io) that can be tested includes a `PAGE TEST` indiciation under
+the page title. For example:
 
 <img src="page-test.png" alt="PAGE TEST" title="PAGE TEST" />
 
@@ -218,6 +219,6 @@ documented.
 
 A grey X, on the other hand, means that there is no automated test available for the page, yet.
 We'd appreciate it if you'd like to help create one! Our goal is to eventually have an automated test in place
-for every testable document published on [istio.io](https://istio.io).
+for every testable document published on the Istio site.
 
 See the [tests README](tests/README.md) for more information.
