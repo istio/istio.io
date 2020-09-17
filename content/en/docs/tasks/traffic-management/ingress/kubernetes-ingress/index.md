@@ -72,7 +72,7 @@ Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
 
 ### Specifying Istio Gateway
 
-When using `Kubernetes Ingress` with `Istio Ingress Controller`, `Istio Pilot` will generate a `gateway` and `VirtualService` per `ingress` automatically. Sometimes we want to specify an existing gateway instead. To do so, you can use the `ingress.kubernetes.io/istio-gateway: {namespace}/{existing-gateway-name}` annotation. `VirtualService` will still be generated automatically, together with the pre-defined `gateway`.
+When using `Kubernetes Ingress` with `Istio Ingress Controller`, `Istio Pilot` will generate a `gateway` and `VirtualService` per `ingress` automatically. Sometimes we want to specify an existing gateway instead. To do so, you can use the `ingress.kubernetes.io/istio-gateway: {namespace}/{existing-gateway-name}` annotation. `VirtualService` will still be generated automatically, and its `gateway` will be set accordingly as pre-defined.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
