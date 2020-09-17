@@ -22,6 +22,7 @@ see the Istio [contribution guidelines](https://github.com/istio/community/blob/
     - [Creating a patch release](#creating-a-patch-release)
 - [Multi-language support](#multi-language-support)
 - [Regular maintenance](#regular-maintenance)
+- [Testing document content](#testing-document-content)
 
 ## Editing and building
 
@@ -201,3 +202,22 @@ while section headings should use first letter capitalization only (e.g. "This i
 - Ensure that preformatted text blocks that reference files from the Istio GitHub repos use the @@ syntax
 to produce links to the content. See [here](https://istio.io/about/contribute/creating-and-editing-pages/#links-to-github-files)
 for context.
+
+## Testing document content
+
+Many documents on the Istio site demonstrate features using commands that may or may not continue to work as
+Istio evolves from release to release. To ensure the documented instructions stay up to date with as little
+continuous manual testing as possible, we have created a framework to automate the testing of these doucments.
+
+Every document that can be tested includes a `PAGE TEST` indiciation under the page title. For example:
+
+<img src="page-test.png" alt="PAGE TEST" title="PAGE TEST" />
+
+A green checkmark indicates an automated test is available for the page. The page is up to date and working as
+documented.
+
+A grey X, on the other hand, means that there is no automated test available for the page, yet.
+We'd appreciate it if you'd like to help create one! Our goal is to eventually have an automated test in place
+for every testable document published on [istio.io](https://istio.io).
+
+See the [tests README](tests/README.md) for more information.
