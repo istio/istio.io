@@ -330,7 +330,7 @@ The SNI proxy will forward the traffic to port `443`.
 1.  Create an `IstioOperator` CR to add a new egress gateway with SNI proxy:
 
     {{< text bash >}}
-    $ istioctl manifest generate --set values.gateways.istio-egressgateway.runAsRoot=true -f - <<EOF > ./egressgateway-with-sni-proxy.yaml
+    $ istioctl manifest generate -f - <<EOF > ./egressgateway-with-sni-proxy.yaml
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
@@ -371,6 +371,10 @@ The SNI proxy will forward the traffic to port `443`.
                   configMap:
                     name: egress-sni-proxy-configmap
                     defaultMode: 292 # 0444
+      values:
+        gateways:
+          istio-egressgateway:
+            runAsRoot: true
     EOF
     {{< /text >}}
 
