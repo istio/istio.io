@@ -71,7 +71,7 @@ To make it easy to visually inspect the difference in the output of the Bookinfo
 following commands to inspect the ratings:
 
 {{< text bash >}}
-$ mysql -u root -password test -e "select * from ratings;"
+$ mysql -u root -ppassword test -e "select * from ratings;"
 +----------+--------+
 | ReviewID | Rating |
 +----------+--------+
