@@ -70,6 +70,24 @@ Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
 
 ## Next Steps
 
+### Specify an existing Istio Gateway via annotation
+
+When using `Kubernetes Ingress` with `Istio Ingress Controller`, `Istio Pilot` generates a `gateway` per `ingress` automatically. To specify an existing gateway instead, you can use the `ingress.kubernetes.io/istio-gateway: {namespace}/{existing-gateway-name}` annotation.
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.k8s.io/v1beta1
+    kind: Ingress
+    metadata:
+      annotations:
+        kubernetes.io/ingress.class: istio
+        ingress.kubernetes.io/istio-gateway: "istio-system/my-existing-gateway"
+      name: ingress
+    spec:
+      ...
+    EOF
+    {{< /text >}}
+
 ### TLS
 
 `Ingress` supports [specifying TLS settings](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls). This is supported by Istio, but the referenced `Secret` must exist in the namespace of the `istio-ingressgateway` deployment (typically `istio-system`). [cert-manager](/docs/ops/integrations/certmanager/) can be used to generate these certificates.
