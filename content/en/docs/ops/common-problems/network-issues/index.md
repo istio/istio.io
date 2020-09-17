@@ -261,7 +261,7 @@ Then, simply bind both `VirtualServices` to it like this:
 - `VirtualService` configuration `vs1` with host `service1.test.com` and gateway `gw`
 - `VirtualService` configuration `vs2` with host `service2.test.com` and gateway `gw`
 
-When using `Kubernetes Ingress` with `Istio Ingress Controller`, `Istio Pilot` generates `gateway` per `ingress` automatically. When TLS is configured such problem might occur as well. In this case, it is possible to avoid this problem by configuring a single `gateway` manually, using the [istio-gateway annotation](/docs/tasks/traffic-management/ingress/kubernetes-ingress/).
+When using `Kubernetes Ingress` with `Istio Ingress Controller`, `Istio Pilot` generates `gateway` per `ingress` automatically. When TLS is configured such problem might occur as well. In this case, it is possible to avoid this problem by configuring a single `gateway` manually, using the [istio-gateway annotation](/docs/tasks/traffic-management/ingress/kubernetes-ingress/#specifying-istio-gateway).
 
 ## Port conflict when configuring multiple TLS hosts in a gateway
 

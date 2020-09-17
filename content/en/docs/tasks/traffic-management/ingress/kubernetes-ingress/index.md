@@ -70,7 +70,7 @@ Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
 
 ## Next Steps
 
-### Specify an existing Istio Gateway via annotation
+### Specifying Istio Gateway
 
 When using `Kubernetes Ingress` with `Istio Ingress Controller`, `Istio Pilot` generates a `gateway` per `ingress` automatically. To specify an existing gateway instead, you can use the `ingress.kubernetes.io/istio-gateway: {namespace}/{existing-gateway-name}` annotation.
 
