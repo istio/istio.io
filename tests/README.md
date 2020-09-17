@@ -42,7 +42,7 @@ To write an `istio.io` test, follow these steps:
    For example `{{< text syntax=bash snip_id=config_all_v1 >}}` will generate `snip_config_all_v1()`.
 
    > You can also entirely supress generation of a snip function by setting `snip_id=none`. This is useful for
-   > commands that are not intended to be directly executable (e.g., `kubectl get pod <your pod name>` and are
+   > commands that are not intended to be directly executable (e.g., `kubectl get pod <your pod name>`) and are
    > causing lint errors (see next step, below).
 
    If a bash code block contains both commands and output, the `snips.sh` script will include
