@@ -101,7 +101,7 @@ if [[ -z "${SKIP_SETUP:-}" ]]; then
 
     export TEST_ENV=kind-metallb
     export DOCTEST_KUBECONFIG
-    DOCTEST_KUBECONFIG=$(IFS=':'; echo "${KUBECONFIGS[*]}")
+    DOCTEST_KUBECONFIG=$(IFS=','; echo "${KUBECONFIGS[*]}")
   fi
 fi
 

@@ -19,6 +19,14 @@ doc.test: init | $(JUNIT_REPORT)
 		-istio.test.tag=$(TAG) \
 		2>&1 | tee >($(JUNIT_REPORT) > $(JUNIT_OUT))
 
+doc.multicluster.test: init | $(JUNIT_REPORT)
+	${GO} test ${REPO_ROOT}/tests/multicluster/setup/... \
+	-v -timeout=${TIMEOUT} -count=1 -p=1 \
+	-istio.test.hub=$(HUB) \
+	-istio.test.tag=$(TAG) \
+	-istio.test.kube.config=${DOCTEST_KUBECONFIG} \
+	2>&1 | tee >($(JUNIT_REPORT) > $(JUNIT_OUT))
+
 doc.test.help:
 	@echo "The command \"make doc.test\" accepts three optional environment variables."
 	@echo -e "TEST: \n\tSpecify the test(s) to run using the directory path relative to content/en/docs. Default is all."
