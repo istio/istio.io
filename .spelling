@@ -169,7 +169,6 @@ coreos
 Costin
 CRD
 CRDs
-cron
 CSRs
 Ctrl
 Customizable
@@ -406,7 +405,6 @@ Linkerd
 linter
 linters
 liveness
-loadbalancing
 loopback
 Lua
 Lyft
