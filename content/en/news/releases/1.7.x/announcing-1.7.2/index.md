@@ -15,7 +15,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Fixed** a bug that locality load balancer settings were applied to inbound clusters unnecessarily. ([Issue #27293](https://github.com/istio/istio/issues/27293))
+- **Fixed** locality load balancer settings being applied to inbound clusters unnecessarily. ([Issue #27293](https://github.com/istio/istio/issues/27293))
 
 - **Fixed** unbounded cardinality of Istio metrics for `CronJob` job workloads. ([Issue #24058](https://github.com/istio/istio/issues/24058))
 
