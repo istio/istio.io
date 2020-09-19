@@ -34,7 +34,7 @@ import (
 type TestCase struct {
 	valid         bool   // whether it is a valid test case that can be run
 	path          string // path of the test file
-	config        string // Configuration for doctest
+	config        string // setup config of the test
 	testScript    string // test script to be run
 	cleanupScript string // cleanup script to be run
 }
