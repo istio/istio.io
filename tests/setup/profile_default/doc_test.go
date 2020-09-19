@@ -35,9 +35,10 @@ func TestMain(m *testing.M) {
 	framework.
 		NewSuite(m).
 		Setup(istio.Setup(&inst, nil)).
+		RequireSingleCluster().
 		Run()
 }
 
 func TestDocs(t *testing.T) {
-	istioio.TestDocs(t, istioio.TestConfig{Profile: setupSpec, Multicluster: false})
+	istioio.TestDocs(t, setupSpec)
 }

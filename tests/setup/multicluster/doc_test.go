@@ -22,7 +22,7 @@ import (
 )
 
 var (
-	setupSpec = "profile=none"
+	setupSpec = "multicluster"
 )
 
 func TestMain(m *testing.M) {
@@ -36,5 +36,5 @@ func TestMain(m *testing.M) {
 }
 
 func TestDocs(t *testing.T) {
-	istioio.TestDocs(t, istioio.TestConfig{Profile: setupSpec, Multicluster: true})
+	istioio.TestDocs(t, setupSpec)
 }

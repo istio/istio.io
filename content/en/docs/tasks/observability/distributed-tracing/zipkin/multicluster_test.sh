@@ -19,12 +19,13 @@ set -e
 set -u
 set -o pipefail
 
-# @setup profile=none
-# @multicluster
+# @setup multicluster
 
 # TODO: Remove this once we have a real multicluster test
 
 echo "start multicluster test with KUBECONFIG=${KUBECONFIG}"
+echo "DOCTEST_KUBECONFIG=${DOCTEST_KUBECONFIG}"
+echo "DOCTEST_NETWORK_TOPOLOGY=${DOCTEST_NETWORK_TOPOLOGY}"
 
 IFS=',' read -r -a CONFIGS <<< "${KUBECONFIG}"
 for kcfg in "${CONFIGS[@]}"; do

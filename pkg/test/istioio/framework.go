@@ -30,20 +30,13 @@ import (
 	"istio.io/istio/pkg/test/framework"
 )
 
-// TestConfig represents the Istio configuration
-// required for the test
-type TestConfig struct {
-	Profile      string
-	Multicluster bool
-}
-
 // TestCase is a description of a test extracted from a file
 type TestCase struct {
-	valid         bool       // whether it is a valid test case that can be run
-	path          string     // path of the test file
-	config        TestConfig // Configuration for doctest
-	testScript    string     // test script to be run
-	cleanupScript string     // cleanup script to be run
+	valid         bool   // whether it is a valid test case that can be run
+	path          string // path of the test file
+	config        string // Configuration for doctest
+	testScript    string // test script to be run
+	cleanupScript string // cleanup script to be run
 }
 
 var (
@@ -153,10 +146,6 @@ func checkFile(path string) (*TestCase, error) {
 	re = regexp.MustCompile(fmt.Sprintf("(?m)^%v (.*)$", setupSpec))
 	setups := re.FindAllStringSubmatch(testScript, -1)
 
-	// check multicluster annotation
-	re = regexp.MustCompile(`(?m)^#\s+@multicluster.*$`)
-	isMulticluster := len(re.FindString(testScript)) > 0
-
 	if numSetups := len(setups); numSetups != 1 {
 		err := fmt.Errorf(
 			"script error: expected one line that starts with '%v', got %v line(s)",
@@ -171,12 +160,9 @@ func checkFile(path string) (*TestCase, error) {
 	cleanupScript += clusterCleanupCheck
 
 	testCase = &TestCase{
-		valid: true,
-		path:  shortPath,
-		config: TestConfig{
-			Profile:      config,
-			Multicluster: isMulticluster,
-		},
+		valid:         true,
+		path:          shortPath,
+		config:        config,
 		testScript:    helperScript + testScript,
 		cleanupScript: helperScript + cleanupScript,
 	}
@@ -187,7 +173,7 @@ func checkFile(path string) (*TestCase, error) {
 // specified by the input
 func NeedSetup(config string) bool {
 	for idx := range testCases {
-		if testCases[idx].config.Profile == config {
+		if testCases[idx].config == config {
 			log.Printf("Setting up istio with %v", config)
 			return true
 		}
@@ -199,7 +185,7 @@ func NeedSetup(config string) bool {
 // TestDocs traverses through all test cases and runs those that need the
 // setup config specified by the input. The (*testing.T) variable comes
 // from the TestDocs function in each tests/setup/*/doc_test.go
-func TestDocs(t *testing.T, config TestConfig) {
+func TestDocs(t *testing.T, config string) {
 	for idx := range testCases {
 		if testCase := &testCases[idx]; testCase.config == config {
 			runTestCase(testCase, t)
@@ -216,24 +202,23 @@ func runTestCase(testCase *TestCase, t *testing.T) {
 	// TODO: impose timeout for each subtest
 	// TODO: run the subtests in parallel to reduce test time
 	t.Run(path, func(t *testing.T) {
-		test := framework.NewTest(t).Features("documentation")
-		if testCase.config.Multicluster {
-			test = test.RequiresMinClusters(2)
-		}
-		test.Run(NewBuilder(path).
-			Add(Script{
-				Input: Inline{
-					FileName: getDebugFileName(path, "test"),
-					Value:    testCase.testScript,
-				},
-			}).
-			Defer(Script{
-				Input: Inline{
-					FileName: getDebugFileName(path, "cleanup"),
-					Value:    testCase.cleanupScript,
-				},
-			}).
-			Build())
+		framework.
+			NewTest(t).
+			Features("documentation").
+			Run(NewBuilder(path).
+				Add(Script{
+					Input: Inline{
+						FileName: getDebugFileName(path, "test"),
+						Value:    testCase.testScript,
+					},
+				}).
+				Defer(Script{
+					Input: Inline{
+						FileName: getDebugFileName(path, "cleanup"),
+						Value:    testCase.cleanupScript,
+					},
+				}).
+				Build())
 	})
 }
 

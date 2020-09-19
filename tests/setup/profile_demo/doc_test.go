@@ -41,7 +41,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestDocs(t *testing.T) {
-	istioio.TestDocs(t, istioio.TestConfig{Profile: setupSpec, Multicluster: false})
+	istioio.TestDocs(t, setupSpec)
 }
 
 func setupConfig(ctx resource.Context, cfg *istio.Config) {
