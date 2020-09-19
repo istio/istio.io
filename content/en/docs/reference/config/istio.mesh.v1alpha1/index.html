@@ -763,7 +763,7 @@ No
 <td><code>tcpKeepalive</code></td>
 <td><code><a href="/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-TCPSettings-TcpKeepalive">TcpKeepalive</a></code></td>
 <td>
-<p>If set then set SO_KEEPALIVE on the socket to enable TCP Keepalives.</p>
+<p>If set then set <code>SO_KEEPALIVE</code> on the socket to enable TCP Keepalives.</p>
 
 </td>
 <td>
@@ -776,7 +776,7 @@ No
 <td>
 <p>Class of ingress resources to be processed by Istio ingress
 controller. This corresponds to the value of
-&ldquo;kubernetes.io/ingress.class&rdquo; annotation.</p>
+<code>kubernetes.io/ingress.class</code> annotation.</p>
 
 </td>
 <td>
@@ -800,7 +800,7 @@ No
 <td><code><a href="#MeshConfig-IngressControllerMode">IngressControllerMode</a></code></td>
 <td>
 <p>Defines whether to use Istio ingress controller for annotated or all ingress resources.
-Default mode is STRICT.</p>
+Default mode is <code>STRICT</code>.</p>
 
 </td>
 <td>
@@ -862,8 +862,8 @@ No
 <td><code>accessLogEncoding</code></td>
 <td><code><a href="#MeshConfig-AccessLogEncoding">AccessLogEncoding</a></code></td>
 <td>
-<p>Encoding for the proxy access log (text or json).
-Default value is text.</p>
+<p>Encoding for the proxy access log (<code>TEXT</code> or <code>JSON</code>).
+Default value is <code>TEXT</code>.</p>
 
 </td>
 <td>
@@ -877,7 +877,7 @@ No
 <p>This flag enables Envoy&rsquo;s gRPC Access Log Service.
 See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/accesslog/v2/als.proto">Access Log Service</a>
 for details about Envoy&rsquo;s gRPC Access Log Service API.
-Default value is false.</p>
+Default value is <code>false</code>.</p>
 
 </td>
 <td>
@@ -906,15 +906,15 @@ No
 <p>Set the default behavior of the sidecar for handling outbound
 traffic from the application.  If your application uses one or
 more external services that are not known apriori, setting the
-policy to ALLOW<em>ANY will cause the sidecars to route any unknown
+policy to <code>ALLOW_ANY</code> will cause the sidecars to route any unknown
 traffic originating from the application to its requested
 destination. Users are strongly encouraged to use ServiceEntries
 to explicitly declare any external dependencies, instead of using
-allow</em>any, so that traffic to these services can be
+<code>ALLOW_ANY</code>, so that traffic to these services can be
 monitored. Can be overridden at a Sidecar level by setting the
-OutboundTrafficPolicy in the <a href="/docs/reference/config/networking/sidecar/#OutboundTrafficPolicy">Sidecar
+<code>OutboundTrafficPolicy</code> in the <a href="/docs/reference/config/networking/sidecar/#OutboundTrafficPolicy">Sidecar
 API</a>.
-Default mode is ALLOW_ANY which means outbound traffic to unknown destinations will be allowed.</p>
+Default mode is <code>ALLOW_ANY</code> which means outbound traffic to unknown destinations will be allowed.</p>
 
 </td>
 <td>
@@ -938,17 +938,17 @@ No
 <td><code>enableAutoMtls</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
-<p>This flag is used to enable mutual TLS automatically for service to service communication
+<p>This flag is used to enable mutual <code>TLS</code> automatically for service to service communication
 within the mesh, default true.
-If set to true, and a given service does not have a corresponding DestinationRule configured,
-or its DestinationRule does not have ClientTLSSettings specified, Istio configures client side
+If set to true, and a given service does not have a corresponding <code>DestinationRule</code> configured,
+or its <code>DestinationRule</code> does not have ClientTLSSettings specified, Istio configures client side
 TLS configuration appropriately. More specifically,
-If the upstream authentication policy is in STRICT mode, use Istio provisioned certificate
-for mutual TLS to connect to upstream.
+If the upstream authentication policy is in <code>STRICT</code> mode, use Istio provisioned certificate
+for mutual <code>TLS</code> to connect to upstream.
 If upstream service is in plain text mode, use plain text.
 If the upstream authentication policy is in PERMISSIVE mode, Istio configures clients to use
-mutual TLS when server sides are capable of accepting mutual TLS traffic.
-If service DestinationRule exists and has ClientTLSSettings specified, that is always used instead.</p>
+mutual <code>TLS</code> when server sides are capable of accepting mutual <code>TLS</code> traffic.
+If service <code>DestinationRule</code> exists and has <code>ClientTLSSettings</code> specified, that is always used instead.</p>
 
 </td>
 <td>
@@ -995,27 +995,26 @@ imported through container registry integrations, e.g. this applies to
 Kubernetes Service resources. The value is a list of namespace names and
 reserved namespace aliases. The allowed namespace aliases are:</p>
 
-<ul>
-<li>- All Namespaces
+<pre><code>* - All Namespaces
 . - Current Namespace
-~ - No Namespace</li>
-</ul>
+~ - No Namespace
+</code></pre>
 
 <p>If not set the system will use &ldquo;*&rdquo; as the default value which implies that
 services are exported to all namespaces.</p>
 
-<p>&lsquo;All namespaces&rsquo; is a reasonable default for implementations that don&rsquo;t
+<p><code>All namespaces</code> is a reasonable default for implementations that don&rsquo;t
 need to restrict access or visibility of services across namespace
 boundaries. If that requirement is present it is generally good practice to
-make the default &lsquo;Current namespace&rsquo; so that services are only visible
+make the default <code>Current namespace</code> so that services are only visible
 within their own namespaces by default. Operators can then expand the
-visibility of services to other namespaces as needed. Use of &lsquo;No Namespace&rsquo;
+visibility of services to other namespaces as needed. Use of <code>No Namespace</code>
 is expected to be rare but can have utility for deployments where
 dependency management needs to be precise even within the scope of a single
 namespace.</p>
 
-<p>For further discussion see the reference documentation for ServiceEntry,
-Sidecar, and Gateway.</p>
+<p>For further discussion see the reference documentation for <code>ServiceEntry</code>,
+<code>Sidecar</code>, and <code>Gateway</code>.</p>
 
 </td>
 <td>
@@ -1026,8 +1025,8 @@ No
 <td><code>defaultVirtualServiceExportTo</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>The default value for the VirtualService.export<em>to field. Has the same
-syntax as &lsquo;default</em>service<em>export</em>to&rsquo;.</p>
+<p>The default value for the VirtualService.export_to field. Has the same
+syntax as <code>default_service_export_to</code>.</p>
 
 <p>If not set the system will use &ldquo;*&rdquo; as the default value which implies that
 virtual services are exported to all namespaces</p>
@@ -1041,8 +1040,8 @@ No
 <td><code>defaultDestinationRuleExportTo</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>The default value for the DestinationRule.export<em>to field. Has the same
-syntax as &lsquo;default</em>service<em>export</em>to&rsquo;.</p>
+<p>The default value for the <code>DestinationRule.export_to</code> field. Has the same
+syntax as <code>default_service_export_to</code>.</p>
 
 <p>If not set the system will use &ldquo;*&rdquo; as the default value which implies that
 destination rules are exported to all namespaces</p>
@@ -1085,8 +1084,8 @@ No
 <td><code>dnsRefreshRate</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>Configures DNS refresh rate for Envoy clusters of type STRICT_DNS
-Default refresh rate is 5s.</p>
+<p>Configures DNS refresh rate for Envoy clusters of type <code>STRICT_DNS</code>
+Default refresh rate is <code>5s</code>.</p>
 
 </td>
 <td>
@@ -1098,9 +1097,9 @@ No
 <td><code><a href="#MeshConfig-H2UpgradePolicy">H2UpgradePolicy</a></code></td>
 <td>
 <p>Specify if http1.1 connections should be upgraded to http2 by default.
-if sidecar is installed on all pods in the mesh, then this should be set to UPGRADE.
-If one or more services or namespaces do not have sidecar(s), then this should be set to DO<em>NOT</em>UPGRADE.
-It can be enabled by destination using the destinationRule.trafficPolicy.connectionPool.http.h2UpgradePolicy override.</p>
+if sidecar is installed on all pods in the mesh, then this should be set to <code>UPGRADE</code>.
+If one or more services or namespaces do not have sidecar(s), then this should be set to <code>DO_NOT_UPGRADE</code>.
+It can be enabled by destination using the <code>destinationRule.trafficPolicy.connectionPool.http.h2UpgradePolicy</code> override.</p>
 
 </td>
 <td>
@@ -1159,7 +1158,7 @@ For example <code>outbound|8080|v2|reviews.prod.svc.cluster.local</code>. This c
 <p>Following are some examples of supported patterns for reviews:</p>
 
 <ul>
-<li><code>%SERVICE_FQDN%_%SERVICE_PORT%</code> will use reviews.prod.svc.cluster.local_7443 as the stats name.</li>
+<li><code>%SERVICE_FQDN%_%SERVICE_PORT%</code> will use <code>reviews.prod.svc.cluster.local_7443</code> as the stats name.</li>
 <li><code>%SERVICE%</code> will use reviews.prod as the stats name.</li>
 </ul>
 
@@ -1213,26 +1212,26 @@ No
 <td><code>verifyCertificateAtClient</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
-<p>VerifyCertificateAtClient sets the mesh global default for peer certificate validation
-at the client-side proxy when <code>SIMPLE</code> TLS or <code>MUTUAL</code> TLS (non ISTIO_MUTUAL) origination
+<p><code>VerifyCertificateAtClient</code> sets the mesh global default for peer certificate validation
+at the client-side proxy when <code>SIMPLE</code> TLS or <code>MUTUAL</code> TLS (non <code>ISTIO_MUTUAL</code>) origination
 modes are used. This setting can be overridden at the host level via DestinationRule API.
-By default, VerifyCertificateAtClient is true.</p>
+By default, <code>VerifyCertificateAtClient</code> is <code>true</code>.</p>
 
-<p>CaCertificates: If set, proxy verifies CA signature based on given CaCertificates. If unset,
+<p><code>CaCertificates</code>: If set, proxy verifies CA signature based on given CaCertificates. If unset,
 and VerifyCertificateAtClient is true, proxy uses default System CA bundle. If unset and
-VerifyCertificateAtClient is false, proxy will not verify the CA.</p>
+<code>VerifyCertificateAtClient</code> is false, proxy will not verify the CA.</p>
 
-<p>SubjectAltNames: If set, proxy verifies subject alt names are present in the SAN. If unset,
-and VerifyCertificateAtClient is true, proxy uses host in destination rule to verify the SANs.
-If unset, and VerifyCertificateAtClient is false, proxy does not verify SANs.</p>
+<p><code>SubjectAltNames</code>: If set, proxy verifies subject alt names are present in the SAN. If unset,
+and <code>VerifyCertificateAtClient</code> is true, proxy uses host in destination rule to verify the SANs.
+If unset, and <code>VerifyCertificateAtClient</code> is false, proxy does not verify SANs.</p>
 
-<p>For SAN, client-side proxy will exact match host in DestinationRule as well as one level
+<p>For SAN, client-side proxy will exact match host in <code>DestinationRule</code> as well as one level
 wildcard if the specified host in DestinationRule doesn&rsquo;t contain a wildcard.
-For example, if the host in DestinationRule is x.y.com, client-side proxy will
-match either x.y.com or *.y.com for the SAN in the presented server certificate.
+For example, if the host in <code>DestinationRule</code> is <code>x.y.com</code>, client-side proxy will
+match either <code>x.y.com</code> or <code>*.y.com</code> for the SAN in the presented server certificate.
 For wildcard host name in DestinationRule, client-side proxy will do a suffix match. For example,
-if host is *.x.y.com, client-side proxy will verify the presented server certificate SAN matches
-.x.y.com suffix.</p>
+if host is <code>*.x.y.com</code>, client-side proxy will verify the presented server certificate SAN matches
+`<code>.x.y.com</code> suffix.</p>
 
 </td>
 <td>
@@ -1275,9 +1274,9 @@ No
 <td><code>tlsSettings</code></td>
 <td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
-<p>Use the tls<em>settings to specify the tls mode to use. If the MCP server
+<p>Use the tls_settings to specify the tls mode to use. If the MCP server
 uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
-mode as ISTIO</em>MUTUAL.</p>
+mode as <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
 <td>
@@ -1301,19 +1300,24 @@ No
 <h2 id="Certificate">Certificate</h2>
 <section>
 <p>Certificate configures the provision of a certificate and its key.
-Example 1: key and cert stored in a secret
-{ secretName: galley-cert
+Example 1: key and cert stored in a secret</p>
+
+<pre><code>{ secretName: galley-cert
   secretNamespace: istio-system
   dnsNames:
     - galley.istio-system.svc
     - galley.mydomain.com
 }
-Example 2: key and cert stored in a directory
-{ dnsNames:
+</code></pre>
+
+<p>Example 2: key and cert stored in a directory</p>
+
+<pre><code>{ dnsNames:
     - pilot.istio-system
     - pilot.istio-system.svc
     - pilot.mydomain.com
-}</p>
+}
+</code></pre>
 
 <table class="message-fields">
 <thead>
@@ -1406,7 +1410,7 @@ No
 <td><code>rateLimitTimeout</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>Specify thrift rate limit service timeout, in milliseconds. Default is 50ms</p>
+<p>Specify thrift rate limit service timeout, in milliseconds. Default is <code>50ms</code></p>
 
 </td>
 <td>
@@ -1971,11 +1975,15 @@ cloud-provided ingress controller).</p>
 <tr id="MeshConfig-AccessLogEncoding-TEXT">
 <td><code>TEXT</code></td>
 <td>
+<p>text encoding for the proxy access log</p>
+
 </td>
 </tr>
 <tr id="MeshConfig-AccessLogEncoding-JSON">
 <td><code>JSON</code></td>
 <td>
+<p>json encoding for the proxy access log</p>
+
 </td>
 </tr>
 </tbody>
