@@ -19,23 +19,19 @@ import (
 
 	"istio.io/istio.io/pkg/test/istioio"
 	"istio.io/istio/pkg/test/framework"
-	"istio.io/istio/pkg/test/framework/components/istio"
 )
 
 var (
-	inst      istio.Instance
-	setupSpec = "profile=default"
+	setupSpec = "multicluster"
 )
 
 func TestMain(m *testing.M) {
 	if !istioio.NeedSetup(setupSpec) {
 		os.Exit(0)
 	}
-
 	framework.
 		NewSuite(m).
-		Setup(istio.Setup(&inst, nil)).
-		RequireSingleCluster().
+		RequireMinClusters(2).
 		Run()
 }
 

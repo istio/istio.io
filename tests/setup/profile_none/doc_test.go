@@ -29,7 +29,9 @@ func TestMain(m *testing.M) {
 	if !istioio.NeedSetup(setupSpec) {
 		os.Exit(0)
 	}
-	framework.NewSuite(m).Run()
+	framework.NewSuite(m).
+		RequireSingleCluster().
+		Run()
 }
 
 func TestDocs(t *testing.T) {

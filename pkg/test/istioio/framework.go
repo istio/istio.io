@@ -145,6 +145,7 @@ func checkFile(path string) (*TestCase, error) {
 	// find setup configuration
 	re = regexp.MustCompile(fmt.Sprintf("(?m)^%v (.*)$", setupSpec))
 	setups := re.FindAllStringSubmatch(testScript, -1)
+
 	if numSetups := len(setups); numSetups != 1 {
 		err := fmt.Errorf(
 			"script error: expected one line that starts with '%v', got %v line(s)",

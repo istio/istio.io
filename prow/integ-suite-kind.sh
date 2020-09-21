@@ -101,7 +101,17 @@ if [[ -z "${SKIP_SETUP:-}" ]]; then
 
     export TEST_ENV=kind-metallb
     export DOCTEST_KUBECONFIG
-    DOCTEST_KUBECONFIG=$(IFS=':'; echo "${KUBECONFIGS[*]}")
+    DOCTEST_KUBECONFIG=$(IFS=','; echo "${KUBECONFIGS[*]}")
+
+    ITER_END=$((NUM_CLUSTERS-1))
+    declare -a NETWORK_TOPOLOGIES
+
+    for i in $(seq 0 $ITER_END); do
+      NETWORK_TOPOLOGIES+=("$i:test-network-${CLUSTER_NETWORK_ID[$i]}")
+    done
+
+    export DOCTEST_NETWORK_TOPOLOGY
+    DOCTEST_NETWORK_TOPOLOGY=$(IFS=','; echo "${NETWORK_TOPOLOGIES[*]}")
   fi
 fi
 
