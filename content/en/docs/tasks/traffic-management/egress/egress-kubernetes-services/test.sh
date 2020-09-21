@@ -43,7 +43,7 @@ _verify_contains snip_kubernetes_externalname_service_to_access_an_external_serv
 
 # apply dr
 snip_kubernetes_externalname_service_to_access_an_external_service_4
-wait_for_istio destinationrule default my-httpbin 2s true
+_wait_for_istio destinationrule default my-httpbin
 
 _verify_contains snip_kubernetes_externalname_service_to_access_an_external_service_5 "\"X-Envoy-Decorator-Operation\": \"my-httpbin.default.svc.cluster.local:80/*\""
 
