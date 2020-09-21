@@ -57,14 +57,14 @@ snip_configure_mutual_tls_origination_for_egress_traffic_using_sds_1
 
 # Open Gateway Listener
 snip_configure_mutual_tls_origination_for_egress_traffic_using_sds_2
-_wait_for_istio gateway default istio-egressgateway
-_wait_for_istio destinationrule default egressgateway-for-nginx
+_wait_for_istio gateway default istio-egressgateway 2s true
+_wait_for_istio destinationrule default egressgateway-for-nginx 2s true
 # Configure route
 snip_configure_mutual_tls_origination_for_egress_traffic_using_sds_3
-_wait_for_istio virtualservice default direct-nginx-through-egress-gateway
+_wait_for_istio virtualservice default direct-nginx-through-egress-gateway 2s true
 # Originate TLS
 snip_configure_mutual_tls_origination_for_egress_traffic_using_sds_4
-_wait_for_istio destinationrule istio-system originate-mtls-for-nginx
+_wait_for_istio destinationrule istio-system originate-mtls-for-nginx 2s true
 
 # Verify GET request works
 _verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_using_sds_5 "Welcome to nginx!"

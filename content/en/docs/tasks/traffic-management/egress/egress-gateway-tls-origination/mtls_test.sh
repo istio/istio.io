@@ -55,17 +55,17 @@ _wait_for_deployment istio-system istio-egressgateway
 
 # Open Gateway Listener
 snip_configure_mutual_tls_origination_for_egress_traffic_1
-_wait_for_istio gateway default istio-egressgateway
-_wait_for_istio destinationrule default egressgateway-for-nginx
+_wait_for_istio gateway default istio-egressgateway 2s true
+_wait_for_istio destinationrule default egressgateway-for-nginx 2s true
 
 # Configure routing from sleep to egress gateway to nginx
 snip_configure_mutual_tls_origination_for_egress_traffic_2
-_wait_for_istio virtualservice default direct-nginx-through-egress-gateway
+_wait_for_istio virtualservice default direct-nginx-through-egress-gateway 2s true
 
 # Originate TLS with destination rule
 snip_configure_mutual_tls_origination_for_egress_traffic_3
 
-_wait_for_istio destinationrule istio-system originate-mtls-for-nginx
+_wait_for_istio destinationrule istio-system originate-mtls-for-nginx 2s true
 
 # Verify that mTLS connection is set up properly
 _verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_4 "Welcome to nginx!"

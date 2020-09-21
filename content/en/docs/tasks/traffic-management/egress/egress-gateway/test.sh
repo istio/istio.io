@@ -35,12 +35,12 @@ _verify_contains snip_egress_gateway_for_http_traffic_2 "HTTP/2 200"
 
 # Create Gateway
 snip_egress_gateway_for_http_traffic_3
-_wait_for_istio gateway default istio-egressgateway
-_wait_for_istio destinationrule default egressgateway-for-cnn
+_wait_for_istio gateway default istio-egressgateway 2s true
+_wait_for_istio destinationrule default egressgateway-for-cnn 2s true
 
 # Create VS
 snip_egress_gateway_for_http_traffic_4
-_wait_for_istio virtualservice default direct-cnn-through-egress-gateway
+_wait_for_istio virtualservice default direct-cnn-through-egress-gateway 2s true
 
 # Verify successful curl
 _verify_contains snip_egress_gateway_for_http_traffic_5 "HTTP/2 200"
@@ -59,9 +59,9 @@ _verify_contains snip_egress_gateway_for_https_traffic_2 "HTTP/2 200"
 
 # Gateway Passthrough dr and vs
 snip_egress_gateway_for_https_traffic_3
-_wait_for_istio gateway default istio-egressgateway
-_wait_for_istio destinationrule default egressgateway-for-cnn
-_wait_for_istio virtualservice default direct-cnn-through-egress-gateway
+_wait_for_istio gateway default istio-egressgateway 2s true
+_wait_for_istio destinationrule default egressgateway-for-cnn 2s true
+_wait_for_istio virtualservice default direct-cnn-through-egress-gateway 2s true
 
 # Verify successful curl
 _verify_contains snip_egress_gateway_for_https_traffic_4 "HTTP/2 200"
@@ -107,7 +107,7 @@ _verify_contains snip_apply_kubernetes_network_policies_11 "sleep istio-proxy"
 
 # configure DR
 snip_apply_kubernetes_network_policies_12
-_wait_for_istio destinationrule test-egress egressgateway-for-cnn
+_wait_for_istio destinationrule test-egress egressgateway-for-cnn 2s true
 
 # Verify 200 response
 _verify_contains snip_apply_kubernetes_network_policies_13 "200"

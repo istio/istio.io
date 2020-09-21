@@ -50,16 +50,22 @@ _wait_for_deployment() {
 }
 
 # Wait for Istio config to propagate
-# usage: _wait_for_istio <kind> <namespace> <name>
+# usage: _wait_for_istio <kind> <namespace> <name> <optional timeout> <optional if set, don't fail>
 _wait_for_istio() {
     local kind="$1"
     local namespace="$2"
     local name="$3"
-    if ! istioctl experimental wait --for=distribution --timeout=5m "$kind" "$name.$namespace"; then
-        echo "Failed distribution of $kind $name in namespace $namespace"
-        istioctl ps
-        exit 1
+    local timeout="${4:-5m}"
+    start=$(date +%s)
+    if ! istioctl experimental wait --for=distribution --timeout="$timeout" "$kind" "$name.$namespace"; then
+        echo "Failed distribution of $kind $name in namespace $namespace after $(($(date +%s)-start)) second(s) duration"
+        if [ -z "$5" ]; then
+          istioctl ps
+          exit 1
+        fi
+        echo "TEST: wait for failed, but continuing."
     fi
+    echo "Duration: $(($(date +%s)-start)) seconds"
 }
 
 # Encode the string to a URL
