@@ -31,7 +31,7 @@ snip_before_you_begin_3
 
 # Apply ServiceEntry for external workload and verify 301
 snip_perform_tls_origination_with_an_egress_gateway_1
-_wait_for_istio serviceentry default cnn 2s true
+_wait_for_istio serviceentry default cnn
 _verify_elided snip_perform_tls_origination_with_an_egress_gateway_2 "$snip_perform_tls_origination_with_an_egress_gateway_2_out"
 
 # Create Gateway and DR to forward sidecar requests to egress gateway
@@ -41,7 +41,7 @@ _wait_for_istio destinationrule default egressgateway-for-cnn
 
 # Create VirtualService to direct traffic through gateway and deploy DR to originate Simple TLS
 snip_perform_tls_origination_with_an_egress_gateway_4
-_wait_for_istio virtualservice default direct-cnn-through-egress-gateway 2s true
+_wait_for_istio virtualservice default direct-cnn-through-egress-gateway
 
 # Verify HTTP request to external service returns 200
 _verify_elided snip_perform_tls_origination_with_an_egress_gateway_5 "$snip_perform_tls_origination_with_an_egress_gateway_5_out"

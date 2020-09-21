@@ -55,7 +55,7 @@ _verify_contains snip_use_a_kubernetes_service_with_endpoints_to_access_an_exter
 
 # apply dr
 snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_5
-_wait_for_istio destinationrule default my-wikipedia 2s true
+_wait_for_istio destinationrule default my-wikipedia
 
 _verify_contains snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_6 "<title>Wikipedia, the free encyclopedia</title>"
 
