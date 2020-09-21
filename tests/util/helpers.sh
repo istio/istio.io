@@ -56,11 +56,11 @@ _wait_for_istio() {
     local namespace="$2"
     local name="$3"
     local start=$(date +%s)
-    if ! istioctl experimental wait --for=distribution --timeout=10s "$kind" "$name.$namespace"; then
-        echo "Failed distribution of $kind $name in namespace $namespace"
-        istioctl ps
-        echo "TEST: wait for failed, but continuing."
-    fi
+#    if ! istioctl experimental wait --for=distribution --timeout=10s "$kind" "$name.$namespace"; then
+#        echo "Failed distribution of $kind $name in namespace $namespace"
+#        istioctl ps
+#        echo "TEST: wait for failed, but continuing."
+#    fi
     echo "Duration: $(($(date +%s)-start)) seconds"
 }
 
