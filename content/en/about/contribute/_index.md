@@ -1,6 +1,6 @@
 ---
-title: Contribute Documentation to Istio
-description: Details how to create and maintain documentation pages.
+title: Contribute Documentation
+description: Details how to create and maintain Istio documentation pages.
 weight: 100
 aliases:
     - /docs/welcome/contribute/writing-a-new-topic.html
