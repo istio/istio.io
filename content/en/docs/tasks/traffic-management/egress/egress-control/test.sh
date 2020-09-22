@@ -27,6 +27,7 @@ _wait_for_deployment istio-system istiod
 kubectl label namespace default istio-injection=enabled --overwrite
 
 snip_before_you_begin_1
+_wait_for_deployment default sleep
 snip_before_you_begin_3
 
 _verify_not_contains snip_envoy_passthrough_to_external_services_1 "REGISTRY_ONLY"
