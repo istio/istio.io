@@ -14,12 +14,16 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-Setup a [multicluster Istio service mesh](/docs/ops/deployment/deployment-models/#multiple-clusters)
-across multiple clusters with a shared control plane. In this configuration, multiple Kubernetes clusters running
-a remote configuration connect to a shared Istio [control plane](/docs/ops/deployment/deployment-models/#control-plane-models)
-running in a main cluster. Clusters may be on the same network or different networks than other
-clusters in the mesh. Once one or more remote Kubernetes clusters are connected to the Istio control plane,
-Envoy can then form a mesh.
+Follow this guide to
+set up a [multicluster Istio service mesh](/docs/ops/deployment/deployment-models/#multiple-clusters)
+across multiple clusters with a shared control plane.
+
+In this configuration, multiple Kubernetes {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}}
+connect to a shared Istio [control plane](/docs/ops/deployment/deployment-models/#control-plane-models)
+running in a {{< gloss >}}primary cluster{{< /gloss >}}.
+Remote clusters can be in the same network as the primary cluster or in different networks.
+After one or more remote clusters are connected, the control plane of the primary cluster will
+manage the service mesh across all {{< gloss "service endpoint" >}}service endpoints{{< /gloss >}}.
 
 {{< image width="80%" link="./multicluster-with-vpn.svg" caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN" >}}
 
@@ -70,7 +74,7 @@ your clusters would then be open to security vulnerabilities and compromise.
 
 ### Cross-cluster control plane access
 
-Decide how to expose the main cluster's Istiod discovery service to
+Decide how to expose the primary cluster's Istiod discovery service to
 the remote clusters. Pick one of the two options:
 
 * Option (1) - Use the `istio-ingressgateway` gateway shared with data traffic.
@@ -87,7 +91,7 @@ Determine the name of the clusters and networks in the mesh. These names will be
 in the mesh network configuration and when configuring the mesh's service registries.
 Assign a unique name to each cluster. The name must be a
 [DNS label name](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names).
-In the example below the main cluster is called `main0` and the remote cluster is `remote0`.
+In the example below the primary cluster is called `main0` and the remote cluster is `remote0`.
 
 {{< text bash >}}
 $ export MAIN_CLUSTER_CTX=<...>
@@ -115,9 +119,9 @@ $ export REMOTE_CLUSTER_NETWORK=network1
 
 ## Deployment
 
-### Main cluster
+### Primary cluster
 
-Create the main cluster's configuration. Pick one of the two options for cross-cluster
+Create the primary cluster's configuration. Pick one of the two options for cross-cluster
 control plane access.
 
 {{< tabset category-name="platform" >}}
@@ -150,10 +154,6 @@ spec:
           gateways:
           - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
             port: 443
-
-      # Use the existing istio-ingressgateway.
-      meshExpansion:
-        enabled: true
 EOF
 {{< /text >}}
 
@@ -206,10 +206,16 @@ EOF
 
 {{< /tabset >}}
 
-Apply the main cluster's configuration.
+Apply the primary cluster's configuration.
 
 {{< text bash >}}
 $ istioctl install -f istio-main-cluster.yaml --context=${MAIN_CLUSTER_CTX}
+{{< /text >}}
+
+If you selected the `istio-ingressgateway` option, expose the control plane using the provided sample configuration.
+
+{{< text bash >}}
+$ kubectl apply -f @samples/istiod-gateway/istiod-gateway.yaml@
 {{< /text >}}
 
 Wait for the control plane to be ready before proceeding.
@@ -219,7 +225,6 @@ $ kubectl get pod -n istio-system --context=${MAIN_CLUSTER_CTX}
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-ingressgateway-7c8dd65766-lv9ck   1/1     Running   0          136m
 istiod-f756bbfc4-thkmk                  1/1     Running   0          136m
-prometheus-b54c6f66b-q8hbt              2/2     Running   0          136m
 {{< /text >}}
 
 Set the `ISTIOD_REMOTE_EP` environment variable based on which remote control
@@ -259,7 +264,7 @@ spec:
   values:
     global:
       # The remote cluster's name and network name must match the values specified in the
-      # mesh network configuration of the main cluster.
+      # mesh network configuration of the primary cluster.
       multiCluster:
         clusterName: ${REMOTE_CLUSTER_NAME}
       network: ${REMOTE_CLUSTER_NETWORK}
@@ -290,14 +295,13 @@ $ kubectl get pod -n istio-system --context=${REMOTE_CLUSTER_CTX}
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-ingressgateway-55f784779d-s5hwl   1/1     Running   0          91m
 istiod-7b4bfd7b4f-fwmks                 1/1     Running   0          91m
-prometheus-c6df65594-pdxc4              2/2     Running   0          91m
 {{< /text >}}
 
 {{< tip >}}
 The istiod deployment running in the remote cluster is providing automatic sidecar injection and CA
 services to the remote cluster's pods. These services were previously provided by the sidecar injector
 and Citadel deployments, which no longer exist with Istiod. The remote cluster's pods are
-getting configuration from the main cluster's Istiod for service discovery.
+getting configuration from the primary cluster's Istiod for service discovery.
 {{< /tip >}}
 
 ## Cross-cluster load balancing
@@ -349,9 +353,9 @@ To enable cross-cluster load balancing, the Istio control plane requires
 access to all clusters in the mesh to discover services, endpoints, and
 pod attributes. To configure access, create a secret for each remote
 cluster with credentials to access the remote cluster's `kube-apiserver` and
-install it in the main cluster. This secret uses the credentials of the
+install it in the primary cluster. This secret uses the credentials of the
 `istio-reader-service-account` in the remote cluster. `--name` specifies the
-remote cluster's name. It must match the cluster name in main cluster's IstioOperator
+remote cluster's name. It must match the cluster name in primary cluster's IstioOperator
 configuration.
 
 {{< text bash >}}
@@ -393,7 +397,7 @@ between the two instances is the version of their `helloworld` image.
     helloworld-v2-7dd57c44c4-f56gq   2/2       Running   0          35s
     {{< /text >}}
 
-### Deploy helloworld v1 in the main cluster
+### Deploy helloworld v1 in the primary cluster
 
 1. Create a `sample` namespace with a sidecar auto-injection label:
 
@@ -441,7 +445,7 @@ call the `helloworld` service from another in-mesh `sleep` service.
     sleep-754684654f-dzl9j           2/2     Running   0          5s
     {{< /text >}}
 
-1. Call the `helloworld.sample` service several times from the main cluster:
+1. Call the `helloworld.sample` service several times from the primary cluster:
 
     {{< text bash >}}
     $ kubectl exec -it -n sample -c sleep --context=${MAIN_CLUSTER_CTX} $(kubectl get pod -n sample -l app=sleep --context=${MAIN_CLUSTER_CTX} -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
@@ -471,8 +475,8 @@ ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER
 192.23.120.32:443    HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
-In the main cluster, the endpoints are the gateway IP of the remote cluster (`192.23.120.32:443`) and
-the helloworld pod IP in the main cluster (`10.10.0.90:5000`).
+In the primary cluster, the endpoints are the gateway IP of the remote cluster (`192.23.120.32:443`) and
+the helloworld pod IP in the primary cluster (`10.10.0.90:5000`).
 
 {{< text bash >}}
 $ kubectl get pod -n sample -l app=sleep --context=${REMOTE_CLUSTER_CTX} -o name | cut -f2 -d'/' | \
@@ -482,7 +486,7 @@ ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER
 192.168.1.246:443    HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
-In the remote cluster, the endpoints are the gateway IP of the main cluster (`192.168.1.246:443`) and
+In the remote cluster, the endpoints are the gateway IP of the primary cluster (`192.168.1.246:443`) and
 the pod IP in the remote cluster (`10.32.0.9:5000`).
 
 **Congratulations!**
@@ -528,9 +532,10 @@ $ unset REMOTE_CLUSTER_CTX REMOTE_CLUSTER_NAME REMOTE_CLUSTER_NETWORK
 $ rm istio-remote0-cluster.yaml
 {{< /text >}}
 
-To uninstall the main cluster, run the following command:
+To uninstall the primary cluster, run the following command:
 
 {{< text bash >}}
+$ kubectl delete --ignore-not-found=true -f @samples/istiod-gateway/istiod-gateway.yaml@
 $ istioctl manifest generate -f istio-main-cluster.yaml --context=${MAIN_CLUSTER_CTX} | \
     kubectl delete -f - --context=${MAIN_CLUSTER_CTX}
 $ kubectl delete namespace sample --context=${MAIN_CLUSTER_CTX}

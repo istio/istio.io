@@ -16,7 +16,7 @@ test: n/a
 Istio provides a basic sample installation to quickly get Jaeger up and running:
 
 {{< text bash >}}
-$ kubectl apply {{< github_file >}}/samples/addons/jaeger.yaml -n istio-system
+$ kubectl apply -f {{< github_file >}}/samples/addons/jaeger.yaml
 {{< /text >}}
 
 This will deploy Jaeger into your cluster. This is intended for demonstration only, and is not tuned for performance or security.

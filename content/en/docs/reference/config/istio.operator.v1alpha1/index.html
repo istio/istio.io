@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.operator.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 57
+number_of_entries: 61
 ---
 <p>Configuration affecting Istio control plane installation version and shape.</p>
 
@@ -139,7 +139,7 @@ No
 <td><code><a href="#TypeMapStringInterface">TypeMapStringInterface</a></code></td>
 <td>
 <p>Overrides for default values.yaml. This is a validated pass-through to Helm templates.
-See the Helm installation options for schema details: https://istio.io/docs/reference/config/installation-options/.
+See the Helm installation options for schema details: https://istio.io/v1.5/docs/reference/config/installation-options/.
 Anything that is available in IstioOperatorSpec should be set above rather than using the passthrough. This
 includes Kubernetes resource settings for components in KubernetesResourcesSpec.</p>
 
@@ -244,24 +244,6 @@ No
 </tr>
 <tr id="IstioComponentSetSpec-pilot">
 <td><code>pilot</code></td>
-<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-policy">
-<td><code>policy</code></td>
-<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-telemetry">
-<td><code>telemetry</code></td>
 <td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
 <td>
 </td>
@@ -802,6 +784,18 @@ No
 No
 </td>
 </tr>
+<tr id="KubernetesResourcesSpec-securityContext">
+<td><code>securityContext</code></td>
+<td><code><a href="#PodSecurityContext">PodSecurityContext</a></code></td>
+<td>
+<p>k8s pod security context
+<a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod">https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod</a></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="KubernetesResourcesSpec-overlays">
 <td><code>overlays</code></td>
 <td><code><a href="#K8sObjectOverlay">K8sObjectOverlay[]</a></code></td>
@@ -1228,7 +1222,7 @@ No
 </tr>
 <tr id="ExternalMetricSource-targetValue">
 <td><code>targetValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1237,7 +1231,7 @@ No
 </tr>
 <tr id="ExternalMetricSource-targetAverageValue">
 <td><code>targetAverageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1272,7 +1266,7 @@ No
 </tr>
 <tr id="HTTPGetAction-port">
 <td><code>port</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1729,7 +1723,7 @@ No
 </tr>
 <tr id="ObjectMetricSource-targetValue">
 <td><code>targetValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1747,7 +1741,7 @@ No
 </tr>
 <tr id="ObjectMetricSource-averageValue">
 <td><code>averageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1940,7 +1934,7 @@ No
 </tr>
 <tr id="PodsMetricSource-targetAverageValue">
 <td><code>targetAverageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2117,7 +2111,7 @@ No
 </tr>
 <tr id="ResourceFieldSelector-divisor">
 <td><code>divisor</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2152,7 +2146,7 @@ No
 </tr>
 <tr id="ResourceMetricSource-targetAverageUtilization">
 <td><code>targetAverageUtilization</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code>int32</code></td>
 <td>
 </td>
 <td>
@@ -2161,7 +2155,7 @@ No
 </tr>
 <tr id="ResourceMetricSource-targetAverageValue">
 <td><code>targetAverageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2222,7 +2216,7 @@ No
 <tbody>
 <tr id="RollingUpdateDeployment-maxUnavailable">
 <td><code>maxUnavailable</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2231,7 +2225,7 @@ No
 </tr>
 <tr id="RollingUpdateDeployment-maxSurge">
 <td><code>maxSurge</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2462,7 +2456,7 @@ No
 </tr>
 <tr id="ServicePort-targetPort">
 <td><code>targetPort</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2523,7 +2517,7 @@ No
 <tbody>
 <tr id="TCPSocketAction-port">
 <td><code>port</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2630,6 +2624,280 @@ No
 <tr id="WeightedPodAffinityTerm-podAffinityTerm">
 <td><code>podAffinityTerm</code></td>
 <td><code><a href="#PodAffinityTerm">PodAffinityTerm</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PodSecurityContext">PodSecurityContext</h2>
+<section>
+<p>See k8s.io.api.core.v1.PodSecurityContext.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PodSecurityContext-seLinuxOptions">
+<td><code>seLinuxOptions</code></td>
+<td><code><a href="#SELinuxOptions">SELinuxOptions</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-runAsUser">
+<td><code>runAsUser</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-runAsNonRoot">
+<td><code>runAsNonRoot</code></td>
+<td><code>bool</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-supplementalGroups">
+<td><code>supplementalGroups</code></td>
+<td><code>int64[]</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-fsGroup">
+<td><code>fsGroup</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-runAsGroup">
+<td><code>runAsGroup</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-sysctls">
+<td><code>sysctls</code></td>
+<td><code><a href="#Sysctl">Sysctl[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-windowsOptions">
+<td><code>windowsOptions</code></td>
+<td><code><a href="#WindowsSecurityContextOptions">WindowsSecurityContextOptions</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-fsGroupChangePolicy">
+<td><code>fsGroupChangePolicy</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-seccompProfile">
+<td><code>seccompProfile</code></td>
+<td><code><a href="#SeccompProfile">SeccompProfile</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SELinuxOptions">SELinuxOptions</h2>
+<section>
+<p>See k8s.io.api.core.v1.SELinuxOptions.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SELinuxOptions-user">
+<td><code>user</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SELinuxOptions-role">
+<td><code>role</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SELinuxOptions-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SELinuxOptions-level">
+<td><code>level</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Sysctl">Sysctl</h2>
+<section>
+<p>See k8s.io.api.core.v1.Sysctl.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Sysctl-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Sysctl-value">
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="WindowsSecurityContextOptions">WindowsSecurityContextOptions</h2>
+<section>
+<p>See k8s.io.api.core.v1.WindowsSecurityContextOptions.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="WindowsSecurityContextOptions-gmsaCredentialSpecName">
+<td><code>gmsaCredentialSpecName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WindowsSecurityContextOptions-gmsaCredentialSpec">
+<td><code>gmsaCredentialSpec</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WindowsSecurityContextOptions-runAsUserName">
+<td><code>runAsUserName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SeccompProfile">SeccompProfile</h2>
+<section>
+<p>See k8s.io.api.core.v1.SeccompProfile.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SeccompProfile-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SeccompProfile-localhostProfile">
+<td><code>localhostProfile</code></td>
+<td><code>string</code></td>
 <td>
 </td>
 <td>
@@ -2788,89 +3056,6 @@ No
 <p>matchExpressions is a list of label selector requirements. The requirements are ANDed.
 +optional</p>
 
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="k8s-io-apimachinery-pkg-api-resource-Quantity">k8s.io.apimachinery.pkg.api.resource.Quantity</h2>
-<section>
-<p>Quantity is a fixed-point representation of a number.
-It provides convenient marshaling/unmarshaling in JSON and YAML,
-in addition to String() and Int64() accessors.</p>
-
-<p>The serialization format is:</p>
-
-<p><quantity>        ::= <signedNumber><suffix>
-  (Note that <suffix> may be empty, from the &ldquo;&rdquo; case in <decimalSI>.)
-<digit>           ::= 0 | 1 | &hellip; | 9
-<digits>          ::= <digit> | <digit><digits>
-<number>          ::= <digits> | <digits>.<digits> | <digits>. | .<digits>
-<sign>            ::= &ldquo;+&rdquo; | &ldquo;-&rdquo;
-<signedNumber>    ::= <number> | <sign><number>
-<suffix>          ::= <binarySI> | <decimalExponent> | <decimalSI>
-<binarySI>        ::= Ki | Mi | Gi | Ti | Pi | Ei
-  (International System of units; See: http://physics.nist.gov/cuu/Units/binary.html)
-<decimalSI>       ::= m | &ldquo;&rdquo; | k | M | G | T | P | E
-  (Note that 1024 = 1Ki but 1000 = 1k; I didn&rsquo;t choose the capitalization.)
-<decimalExponent> ::= &ldquo;e&rdquo; <signedNumber> | &ldquo;E&rdquo; <signedNumber></p>
-
-<p>No matter which of the three exponent forms is used, no quantity may represent
-a number greater than 2^63-1 in magnitude, nor may it have more than 3 decimal
-places. Numbers larger or more precise will be capped or rounded up.
-(E.g.: 0.1m will rounded up to 1m.)
-This may be extended in the future if we require larger or smaller quantities.</p>
-
-<p>When a Quantity is parsed from a string, it will remember the type of suffix
-it had, and will use the same type again when it is serialized.</p>
-
-<p>Before serializing, Quantity will be put in &ldquo;canonical form&rdquo;.
-This means that Exponent/suffix will be adjusted up or down (with a
-corresponding increase or decrease in Mantissa) such that:
-  a. No precision is lost
-  b. No fractional digits will be emitted
-  c. The exponent (or suffix) is as large as possible.
-The sign will be omitted unless the number is negative.</p>
-
-<p>Examples:
-  1.5 will be serialized as &ldquo;1500m&rdquo;
-  1.5Gi will be serialized as &ldquo;1536Mi&rdquo;</p>
-
-<p>Note that the quantity will NEVER be internally represented by a
-floating point number. That is the whole point of this exercise.</p>
-
-<p>Non-canonical values will still parse as long as they are well formed,
-but will be re-emitted in their canonical form. (So always use canonical
-form, or don&rsquo;t diff.)</p>
-
-<p>This format is intended to make it difficult to use these numbers without
-writing some sort of special handling code in the hopes that that will
-cause implementors to also use a fixed point implementation.</p>
-
-<p>+protobuf=true
-+protobuf.embed=string
-+protobuf.options.marshal=false
-+protobuf.options.(gogoproto.goproto_stringer)=false
-+k8s:deepcopy-gen=true
-+k8s:openapi-gen=true</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="k8s-io-apimachinery-pkg-api-resource-Quantity-string">
-<td><code>string</code></td>
-<td><code>string</code></td>
-<td>
 </td>
 <td>
 No

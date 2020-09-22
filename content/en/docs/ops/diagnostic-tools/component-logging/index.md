@@ -24,7 +24,7 @@ As an example, as of this writing, `istioctl` has 24 scopes, representing differ
 
 - `ads`, `adsc`, `analysis`, `attributes`, `authn`, `authorization`, `cache`, `cli`, `default`, `grpcAdapter`, `installer`, `mcp`, `model`, `patch`, `processing`, `resource`, `secretfetcher`, `source`, `spiffe`, `tpath`, `translator`, `util`, `validation`, `validationController`
 
-Pilot-Agent, Pilot-Discovery, Mixer, and the Istio Operator have their own scopes which you can discover by looking at their [reference documentation](/docs/reference/commands/).
+Pilot-Agent, Pilot-Discovery, and the Istio Operator have their own scopes which you can discover by looking at their [reference documentation](/docs/reference/commands/).
 
 Each scope has a unique output level which is one of:
 

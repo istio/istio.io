@@ -26,7 +26,7 @@ There are a few ways to configure Grafana to use these dashboards:
 Istio provides a basic sample installation to quickly get Grafana up and running, bundled with all of the Istio dashboards already installed:
 
 {{< text bash >}}
-$ kubectl apply {{< github_file >}}/samples/addons/grafana.yaml -n istio-system
+$ kubectl apply -f {{< github_file >}}/samples/addons/grafana.yaml
 {{< /text >}}
 
 This will deploy Grafana into your cluster. This is intended for demonstration only, and is not tuned for performance or security.

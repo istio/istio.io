@@ -142,7 +142,11 @@ func (s Script) getEnv(ctx Context, fileName string) []string {
 	}
 	customVars[testDebugFile] = fileName + "_debug.txt"
 
-	customVars[kubeConfigEnvVar] = ctx.KubeEnv().Settings().KubeConfig[0]
+	if ctx.TestContext.Clusters().IsMulticluster() {
+		customVars[kubeConfigEnvVar] = strings.Join(ctx.KubeEnv().Settings().KubeConfig, ",")
+	} else {
+		customVars[kubeConfigEnvVar] = ctx.KubeEnv().Settings().KubeConfig[0]
+	}
 
 	for k, v := range s.Env {
 		customVars[k] = v

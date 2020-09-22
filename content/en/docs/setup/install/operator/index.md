@@ -104,30 +104,17 @@ You can confirm the Istio control plane services have been deployed with the fol
 {{< text bash >}}
 $ kubectl get svc -n istio-system
 NAME                        TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                                                      AGE
-grafana                     ClusterIP      10.104.1.213     <none>        3000/TCP                                                                     13s
 istio-egressgateway         ClusterIP      10.103.243.113   <none>        80/TCP,443/TCP,15443/TCP                                                     17s
 istio-ingressgateway        LoadBalancer   10.101.204.227   <pending>     15020:31077/TCP,80:30689/TCP,443:32419/TCP,31400:31411/TCP,15443:30176/TCP   17s
-istiod                      ClusterIP      10.96.237.249    <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,53/UDP,853/TCP                         30s
-jaeger-agent                ClusterIP      None             <none>        5775/UDP,6831/UDP,6832/UDP                                                   13s
-jaeger-collector            ClusterIP      10.109.244.165   <none>        14267/TCP,14268/TCP,14250/TCP                                                13s
-jaeger-collector-headless   ClusterIP      None             <none>        14250/TCP                                                                    13s
-jaeger-query                ClusterIP      10.105.128.63    <none>        16686/TCP                                                                    13s
-kiali                       ClusterIP      10.102.172.30    <none>        20001/TCP                                                                    13s
-prometheus                  ClusterIP      10.102.190.194   <none>        9090/TCP                                                                     13s
-tracing                     ClusterIP      10.110.231.250   <none>        80/TCP                                                                       13s
-zipkin                      ClusterIP      10.96.63.117     <none>        9411/TCP                                                                     13s
+istiod                      ClusterIP      10.96.237.249    <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,53/UDP,853/TCP                         30s                                                              13s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
 NAME                                   READY   STATUS    RESTARTS   AGE
-grafana-54b54568fc-fk6p5               1/1     Running   0          82s
 istio-egressgateway-5444c68db8-9h6dz   1/1     Running   0          87s
 istio-ingressgateway-5c68cb968-x7qv9   1/1     Running   0          87s
-istio-tracing-9dd6c4f7c-hd9qq          1/1     Running   0          82s
 istiod-598984548d-wjq9j                1/1     Running   0          99s
-kiali-d45468dc4-4nqdv                  1/1     Running   0          82s
-prometheus-6cf46c47fb-tvvkv            2/2     Running   0          82s
 {{< /text >}}
 
 ## Update
@@ -152,7 +139,7 @@ EOF
 {{< /text >}}
 
 You can also enable or disable components and modify resource settings.
-For example, to enable the `Grafana` component and increase pilot memory requests:
+For example, to enable the `istio-egressgateway` component and increase pilot memory requests:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -169,8 +156,8 @@ spec:
         resources:
           requests:
             memory: 3072Mi
-  addonComponents:
-    grafana:
+    egressGateways:
+    - name: istio-egressgateway
       enabled: true
 EOF
 {{< /text >}}

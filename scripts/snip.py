@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import argparse
 import sys
 import re
 import os
@@ -27,6 +28,7 @@ current_snip = None
 multiline_cmd = False
 output_started = False
 snippets = []
+boilerplates = []  # Should be ordered to avoid non-deterministic results in `gencheck_istio`
 
 HEADER = """#!/bin/bash
 # shellcheck disable=SC2034,SC2153,SC2155,SC2164
@@ -52,6 +54,7 @@ HEADER = """#!/bin/bash
 """
 
 startsnip = re.compile(r"^(\s*){{< text (syntax=)?\"?(\w+)\"? .*>}}$")
+boilerplate = re.compile(r"^\s*{{< boilerplate\s*\"?([a-zA-Z0-9-]+)\"? >}}$")
 snippetid = re.compile(r"snip_id=(\w+)")
 githubfile = re.compile(r"^(.*)(?<![A-Za-z0-9])@([\w\.\-_/]+)@(.*)$")
 execit = re.compile(r"^(.*kubectl exec.*) -it (.*)$")
@@ -59,18 +62,23 @@ heredoc = re.compile(r"<<\s*\\?EOF")
 sectionhead = re.compile(r"^##+ (.*)$")
 invalidchar = re.compile(r"[^0-9a-zA-Z_]")
 
-if len(sys.argv) < 2:
-    print("usage: python snip.py mdfile [ snipdir ]")
-    sys.exit(1)
+parser = argparse.ArgumentParser()
+parser.add_argument("markdown", help="markdown file from which snippets are extracted")
+parser.add_argument("-d", "--snipdir", help="output directory for extracted snippets, default=markdown directory")
+parser.add_argument("-p", "--prefix", help="prefix for each snippet, default=snip", default="snip")
+parser.add_argument("-f", "--snipfile", help="name of the output snippet file")
+parser.add_argument("-b", "--boilerplatedir", help="directory containing boilerplate snippets")
+args = parser.parse_args()
 
-markdown = sys.argv[1]
+markdown = args.markdown
+snipdir = args.snipdir if args.snipdir else os.path.dirname(markdown)
+snipprefix = args.prefix if args.prefix else "snip"
+boilerplatedir = args.boilerplatedir if args.boilerplatedir else None
 
-if len(sys.argv) > 2:
-    snipdir = sys.argv[2]
+if args.snipfile:
+    snipfile = args.snipfile
 else:
-    snipdir = os.path.dirname(markdown)
-
-snipfile = "snips.sh" if markdown.split('/')[-1] == "index.md" else markdown.split('/')[-1] + "_snips.sh"
+    snipfile = "snips.sh" if markdown.split('/')[-1] == "index.md" else markdown.split('/')[-1] + "_snips.sh"
 
 print("generating snips: " + os.path.join(snipdir, snipfile))
 
@@ -104,15 +112,27 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
             kind = match.group(3)
             match = snippetid.search(line)
             if match:
-                id = "snip_" + match.group(1)
+                if match.group(1) == "none":
+                    continue
+                id = snipprefix + "_" + match.group(1)
             else:
-                id = "snip_%s_%d" % (section, snipnum)
+                id = "%s_%s_%d" % (snipprefix, section, snipnum)
             if kind == "bash":
                 script = "\n%s() {\n" % id
             else:
                 script = "\n! read -r -d '' %s <<\ENDSNIP\n" % id
             current_snip = {"start": linenum, "id": id, "kind": kind, "indent": indent, "script": ["", script]}
             snippets.append(current_snip)
+            continue
+
+        match = boilerplate.match(line)
+        if match:
+            name = match.group(1)
+            if not os.path.isfile(f'{boilerplatedir}/{name}.sh'):
+                print(f"--> boilerplate {name} does not have snippets")
+                continue
+            if not name in boilerplates:
+                boilerplates.append(name)
             continue
 
         if current_snip != None:
@@ -147,13 +167,33 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
                         line = match.group(1) + match.group(2) + match.group(3) + "\n"
                     match = execit.match(line)
                     if match:
-                        print("    WARNING: -it should be removed from kubectl exec of .md line: " + str(linenum))
+                        msg = "ERROR: 'kubectl exec -it' will not work in test environment. Please remove -it from .md line: " + str(linenum)
+                        line = line + ">>> %s\n" % msg
+                        print("    " + msg)
                     if heredoc.search(line):
                         multiline_cmd = True
                 current_snip["script"].append(line)
 
+if len(boilerplates) > 0:
+    if boilerplatedir is None:
+        print("boilerplate snippet directory is not defined. Use -b option to specify it")
+        sys.exit(1)
+
+if len(snippets) == 0 and len(boilerplates) == 0:
+    print("--> no snippet or boilerplate. skipping..")
+    sys.exit(0)
+
 with open(os.path.join(snipdir, snipfile), 'w', encoding='utf-8') as f:
     f.write(HEADER % markdown.split("content/en/")[1] if "content/en/" in markdown else markdown)
+
+    # There is an assumption here that boilerplate snippets generated
+    # would be named <boilerplate-name>.sh. See scripts/gen_snip.sh
+    # for generating all snippets. There is some coupling between the two.
+    for bp in boilerplates:
+        boilerplate_snippets = f'{boilerplatedir}/{bp}.sh'
+        source_line = f'source "{boilerplate_snippets}"\n'
+        f.write(source_line)
+
     for snippet in snippets:
         lines = snippet["script"]
         for line in lines:

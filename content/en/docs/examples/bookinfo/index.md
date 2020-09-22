@@ -192,22 +192,14 @@ versions, called *subsets*, in [destination rules](/docs/concepts/traffic-manage
 
 Run the following command to create default destination rules for the Bookinfo services:
 
-* If you did **not** enable mutual TLS, execute this command:
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
+{{< /text >}}
 
-    {{< tip >}}
-    Choose this option if you are new to Istio and are using the `demo`
-    [configuration profile](/docs/setup/additional-setup/config-profiles/).
-    {{< /tip >}}
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
-    {{< /text >}}
-
-* If you **did** enable mutual TLS, execute this command:
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
-    {{< /text >}}
+{{< tip >}}
+The `default` and `demo` [configuration profiles](/docs/setup/additional-setup/config-profiles/) have [auto mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) enabled by default.
+To enforce mutual TLS, use the destination rules in `samples/bookinfo/networking/destination-rule-all-mtls.yaml`.
+{{< /tip >}}
 
 Wait a few seconds for the destination rules to propagate.
 

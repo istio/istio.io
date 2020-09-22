@@ -80,14 +80,14 @@ Deploy sleep app. Verify both deployment and pod have a single container.
 {{< text bash >}}
 $ kubectl apply -f @samples/sleep/sleep.yaml@
 $ kubectl get deployment -o wide
-NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS   IMAGES       SELECTOR
-sleep     1         1         1            1           12m       sleep        tutum/curl   app=sleep
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                    SELECTOR
+sleep   1/1     1            1           12s   sleep        governmentpaas/curl-ssl   app=sleep
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get pod
-NAME                     READY     STATUS        RESTARTS   AGE
-sleep-776b7bcdcd-7hpnk   1/1       Running       0          4
+NAME                    READY   STATUS    RESTARTS   AGE
+sleep-8f795f47d-hdcgs   1/1     Running   0          42s
 {{< /text >}}
 
 Label the `default` namespace with `istio-injection=enabled`
@@ -95,11 +95,13 @@ Label the `default` namespace with `istio-injection=enabled`
 {{< text bash >}}
 $ kubectl label namespace default istio-injection=enabled
 $ kubectl get namespace -L istio-injection
-NAME           STATUS    AGE       ISTIO-INJECTION
-default        Active    1h        enabled
-istio-system   Active    1h
-kube-public    Active    1h
-kube-system    Active    1h
+NAME                 STATUS   AGE     ISTIO-INJECTION
+default              Active   5m9s    enabled
+istio-system         Active   4m58s   disabled
+kube-node-lease      Active   5m10s
+kube-public          Active   5m10s
+kube-system          Active   5m10s
+local-path-storage   Active   5m7s
 {{< /text >}}
 
 Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has 1&#47;1 READY containers and the pod with injected sidecar has 2&#47;2 READY containers.
@@ -107,6 +109,7 @@ Injection occurs at pod creation time. Kill the running pod and verify a new pod
 {{< text bash >}}
 $ kubectl delete pod -l app=sleep
 $ kubectl get pod -l app=sleep
+pod "sleep-776b7bcdcd-7hpnk" deleted
 NAME                     READY     STATUS        RESTARTS   AGE
 sleep-776b7bcdcd-7hpnk   1/1       Terminating   0          1m
 sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
@@ -124,6 +127,8 @@ Disable injection for the `default` namespace and verify new pods are created wi
 $ kubectl label namespace default istio-injection-
 $ kubectl delete pod -l app=sleep
 $ kubectl get pod
+namespace/default labeled
+pod "sleep-776b7bcdcd-bhn9m" deleted
 NAME                     READY     STATUS        RESTARTS   AGE
 sleep-776b7bcdcd-bhn9m   2/2       Terminating   0          2m
 sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
@@ -131,7 +136,7 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 #### Understanding what happened
 
-When Kubernetes invokes the webhook, the [`admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
+When Kubernetes invokes the webhook, the [`admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
 configuration is applied. The default configuration injects the sidecar into
 pods in any namespace with the `istio-injection=enabled label`. The
 `istio-sidecar-injector` configuration map specifies the configuration for the
@@ -150,7 +155,7 @@ the `MutatingWebhookConfiguration`.
 For example, you can modify the `MutatingWebhookConfiguration` to always inject
 the sidecar into every namespace, unless a label is set. Editing this
 configuration is an advanced operation. Refer to the Kubernetes documentation
-for the [`MutatingWebhookConfiguration` API](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
+for the [`MutatingWebhookConfiguration` API](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
 for more information.
 
 ##### _**policy**_
@@ -165,21 +170,30 @@ value `false` to the pod template spec to override the default and disable injec
 
 The following example uses the `sidecar.istio.io/inject` annotation to disable sidecar injection.
 
-{{< text yaml >}}
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ignored
+  labels:
+    app: ignored
 spec:
+  selector:
+    matchLabels:
+      app: ignored
   template:
     metadata:
+      labels:
+        app: ignored
       annotations:
         sidecar.istio.io/inject: "false"
     spec:
       containers:
       - name: ignored
-        image: tutum/curl
+        image: governmentpaas/curl-ssl
         command: ["/bin/sleep","infinity"]
+EOF
 {{< /text >}}
 
 ##### _**template**_
@@ -297,11 +311,6 @@ It's worth noting that annotations in the pods have higher precedence than the l
 
 {{< text bash >}}
 $ kubectl delete mutatingwebhookconfiguration istio-sidecar-injector
-$ kubectl -n istio-system delete service istio-sidecar-injector
-$ kubectl -n istio-system delete deployment istio-sidecar-injector
-$ kubectl -n istio-system delete serviceaccount istio-sidecar-injector-service-account
-$ kubectl delete clusterrole istio-sidecar-injector-istio-system
-$ kubectl delete clusterrolebinding istio-sidecar-injector-admin-role-binding-istio-system
 {{< /text >}}
 
 The above command will not remove the injected sidecars from Pods. A

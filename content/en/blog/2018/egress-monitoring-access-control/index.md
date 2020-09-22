@@ -40,12 +40,11 @@ will prevent any possibility for a malicious application to access the forbidden
 * The [Egress Gateway with TLS Origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) example
   demonstrates how to allow applications to send HTTP requests to external servers that require HTTPS, while directing
   traffic through egress gateway.
-* The [Collecting Metrics](/docs/tasks/observability/mixer/metrics/collecting-metrics/) task describes how to configure metrics for services in a mesh.
 * The [Visualizing Metrics with Grafana](/docs/tasks/observability/metrics/using-istio-dashboard/)
   describes the Istio Dashboard to monitor mesh traffic.
-* The [Basic Access Control](/docs/tasks/policy-enforcement/denial-and-list/) task shows how to control access to
+* The [Basic Access Control](https://istio.io/v1.6/docs/tasks/policy-enforcement/denial-and-list/) task shows how to control access to
   in-mesh services.
-* The [Denials and White/Black Listing](/docs/tasks/policy-enforcement/denial-and-list/) task shows how to configure
+* The [Denials and White/Black Listing](https://istio.io/v1.6/docs/tasks/policy-enforcement/denial-and-list/) task shows how to configure
   access policies using black or white list checkers.
 
 As opposed to the observability and security tasks above, this blog post describes Istio's monitoring and access policies
@@ -73,7 +72,7 @@ the traffic to _edition.cnn.com_.
 ### Logging
 
 Configure Istio to log access to _*.cnn.com_. You create a `logentry` and two
-[stdio](/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`, one for logging forbidden access
+[stdio](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`, one for logging forbidden access
 (_error_ log level) and another one for logging all access to _*.cnn.com_ (_info_ log level). Then you create `rules` to
 direct your `logentry` instances to your `handlers`. One rule directs access to _*.cnn.com/politics_ to the handler for
 logging forbidden access, another rule directs log entries to the handler that outputs each access to _*.cnn.com_ as an
@@ -282,10 +281,10 @@ complex cases. For example, the organization may want to allow access to
 [edition.cnn.com/politics](https://edition.cnn.com/politics) under certain conditions, so more complex policy logic than
 just filtering by URL paths will be required. You may want to apply [Istio Mixer Adapters](/blog/2017/adapter-model/),
 for example
-[white lists or black lists](/docs/tasks/policy-enforcement/denial-and-list/#attribute-based-whitelists-or-blacklists)
+[white lists or black lists](https://istio.io/v1.6/docs/tasks/policy-enforcement/denial-and-list/#attribute-based-whitelists-or-blacklists)
 of allowed/forbidden URL paths, respectively.
-[Policy Rules](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/) allow specifying complex conditions,
-specified in a [rich expression language](/docs/reference/config/policy-and-telemetry/expression-language/), which
+[Policy Rules](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/) allow specifying complex conditions,
+specified in a [rich expression language](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/expression-language/), which
 includes AND and OR logical operators. The rules can be reused for both logging and policy checks. More advanced users
 may want to apply [Istio Role-Based Access Control](/docs/concepts/security/#authorization).
 
@@ -354,7 +353,7 @@ gateway.
 ### Access control by Mixer policy checks
 
 In this step you use a Mixer
-[`Listchecker` adapter](/docs/reference/config/policy-and-telemetry/adapters/list/), its whitelist
+[`Listchecker` adapter](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/adapters/list/), its whitelist
 variety. You define a `listentry` with the URL path of the request and a `listchecker` to check the `listentry` using a
 static list of allowed URL paths, specified by the `overrides` field. For an external [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, use the `providerurl` field instead. The updated
 diagram of the instances, rules and handlers appears below. Note that you reuse the same policy rule, `handle-cnn-access`

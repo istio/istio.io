@@ -6,7 +6,7 @@ keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 aliases:
     - /docs/tasks/zipkin-tracing.html
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 After completing this task, you understand how to have your application participate in tracing with [Zipkin](https://zipkin.io/),
@@ -41,13 +41,12 @@ $ istioctl dashboard zipkin
 
     {{< boilerplate trace-generation >}}
 
-1.  From the top panel, select a service of interest (or 'all') from the **Service Name** drop-down list and click
-    **Find Traces**:
+1.  From the search panel, click on the plus sign. Select `serviceName` from the first drop-down list, `productpage.default` from second drop-down, and then click the search icon:
 
     {{< image link="./istio-tracing-list-zipkin.png" caption="Tracing Dashboard" >}}
 
-1.  Click on the most recent trace at the top to see the details corresponding to the
-    latest request to the `/productpage`:
+1.  Click on the `ISTIO-INGRESSGATEWAY` search result to see the details corresponding to the
+    latest request to `/productpage`:
 
     {{< image link="./istio-tracing-details-zipkin.png" caption="Detailed Trace View" >}}
 

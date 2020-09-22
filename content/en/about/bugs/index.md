@@ -66,11 +66,10 @@ containing:
 
 * Current and previous logs from all Istio components and sidecar
 
-* Pilot logs:
+* Istiod logs:
 
     {{< text bash >}}
-    $ kubectl logs -n istio-system -l istio=pilot -c discovery
-    $ kubectl logs -n istio-system -l istio=pilot -c istio-proxy
+    $ kubectl logs -n istio-system -l app=istiod
     {{< /text >}}
 
 * All Istio configuration artifacts:

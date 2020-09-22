@@ -35,14 +35,14 @@ receiving configuration or is out of sync then `proxy-status` will tell you this
 {{< text bash >}}
 $ istioctl proxy-status
 NAME                                                   CDS        LDS        EDS        RDS          ISTIOD                      VERSION
-details-v1-558b8b4b76-qzqsg.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.6.5
-istio-ingressgateway-66c994c45c-cmb7x.istio-system     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-6cf8d4f9cb-wm7x6     1.6.5
-productpage-v1-6987489c74-nc7tj.default                SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.6.5
-prometheus-7bdc59c94d-hcp59.istio-system               SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.6.5
-ratings-v1-7dc98c7588-5m6xj.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.6.5
-reviews-v1-7f99cc4496-rtsqn.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.6.5
-reviews-v2-7d79d5bd5d-tj6kf.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.6.5
-reviews-v3-7dbcdcbc56-t8wrx.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.6.5
+details-v1-558b8b4b76-qzqsg.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.7.0
+istio-ingressgateway-66c994c45c-cmb7x.istio-system     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-6cf8d4f9cb-wm7x6     1.7.0
+productpage-v1-6987489c74-nc7tj.default                SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.7.0
+prometheus-7bdc59c94d-hcp59.istio-system               SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.7.0
+ratings-v1-7dc98c7588-5m6xj.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.7.0
+reviews-v1-7f99cc4496-rtsqn.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.7.0
+reviews-v2-7d79d5bd5d-tj6kf.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.7.0
+reviews-v3-7dbcdcbc56-t8wrx.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.7.0
 {{< /text >}}
 
 If a proxy is missing from this list it means that it is not currently connected to a Istiod instance so will not be
@@ -102,7 +102,7 @@ $ istioctl proxy-status details-v1-6dcc6fbb9d-wsjz4.default
                    }
 
 Listeners Match
-Routes Match
+Routes Match (RDS last loaded at Tue, 04 Aug 2020 11:52:54 IST)
 {{< /text >}}
 
 Here you can see that the listeners and routes match but the clusters are out of sync.
@@ -134,7 +134,6 @@ kube-dns.kube-system.svc.cluster.local                                     9153 
 kubernetes.default.svc.cluster.local                                       443       -          outbound      EDS
 ...
 productpage.default.svc.cluster.local                                      9080      -          outbound      EDS
-prometheus.istio-system.svc.cluster.local                                  9090      -          outbound      EDS
 prometheus_stats                                                           -         -          -             STATIC
 ratings.default.svc.cluster.local                                          9080      -          outbound      EDS
 reviews.default.svc.cluster.local                                          9080      -          outbound      EDS
@@ -255,7 +254,8 @@ up route `9080` in RDS configured by Istiod (via ADS).
     ...
     "rds": {
         "configSource": {
-            "ads": {}
+            "ads": {},
+            "resourceApiVersion": "V3"
         },
         "routeConfigName": "9080"
     }
@@ -316,7 +316,8 @@ one route that matches on everything. This route tells Envoy to send the request
             "type": "EDS",
             "edsClusterConfig": {
                 "edsConfig": {
-                    "ads": {}
+                    "ads": {},
+                    "resourceApiVersion": "V3"
                 },
                 "serviceName": "outbound|9080||reviews.default.svc.cluster.local"
             },
@@ -358,10 +359,42 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
             "id": "router~172.30.86.14~istio-ingressgateway-7d6874b48f-qxhn5.istio-system~istio-system.svc.cluster.local",
             "cluster": "istio-ingressgateway",
             "metadata": {
-                    "POD_NAME": "istio-ingressgateway-7d6874b48f-qxhn5",
-                    "istio": "sidecar"
+                    "CLUSTER_ID": "Kubernetes",
+                    "EXCHANGE_KEYS": "NAME,NAMESPACE,INSTANCE_IPS,LABELS,OWNER,PLATFORM_METADATA,WORKLOAD_NAME,MESH_ID,SERVICE_ACCOUNT,CLUSTER_ID",
+                    "INSTANCE_IPS": "10.244.0.7",
+                    "ISTIO_PROXY_SHA": "istio-proxy:f98b7e538920abc408fbc91c22a3b32bc854d9dc",
+                    "ISTIO_VERSION": "1.7.0",
+                    "LABELS": {
+                                "app": "istio-ingressgateway",
+                                "chart": "gateways",
+                                "heritage": "Tiller",
+                                "istio": "ingressgateway",
+                                "pod-template-hash": "68bf7d7f94",
+                                "release": "istio",
+                                "service.istio.io/canonical-name": "istio-ingressgateway",
+                                "service.istio.io/canonical-revision": "latest"
+                            },
+                    "MESH_ID": "cluster.local",
+                    "NAME": "istio-ingressgateway-68bf7d7f94-sp226",
+                    "NAMESPACE": "istio-system",
+                    "OWNER": "kubernetes://apis/apps/v1/namespaces/istio-system/deployments/istio-ingressgateway",
+                    "ROUTER_MODE": "sni-dnat",
+                    "SDS": "true",
+                    "SERVICE_ACCOUNT": "istio-ingressgateway-service-account",
+                    "WORKLOAD_NAME": "istio-ingressgateway"
                 },
-            "buildVersion": "0/1.8.0-dev//RELEASE"
+            "userAgentBuildVersion": {
+                "version": {
+                    "majorNumber": 1,
+                    "minorNumber": 15
+                },
+                "metadata": {
+                        "build.type": "RELEASE",
+                        "revision.sha": "f98b7e538920abc408fbc91c22a3b32bc854d9dc",
+                        "revision.status": "Clean",
+                        "ssl.version": "BoringSSL"
+                    }
+            },
         },
 ...
 {{< /text >}}
@@ -392,6 +425,6 @@ To find out the Envoy version used in deployment, you can `exec` into the contai
 {{< text bash >}}
 $ kubectl exec -it prometheus-68b46fc8bb-dc965 -c istio-proxy -n istio-system pilot-agent request GET server_info
 {
- "version": "12cfbda324320f99e0e39d7c393109fcd824591f/1.14.1/Clean/RELEASE/BoringSSL"
+ "version": "f98b7e538920abc408fbc91c22a3b32bc854d9dc/1.15.0/Clean/RELEASE/BoringSSL"
 }
 {{< /text >}}

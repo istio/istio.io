@@ -19,18 +19,13 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/observability/logs/access-log/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/before-you-begin-egress.sh"
+source "content/en/boilerplates/snips/start-httpbin-service.sh"
 
-snip_enable_envoys_access_logging_1() {
-istioctl install --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"
-}
-
-! read -r -d '' snip_enable_envoys_access_logging_1_out <<\ENDSNIP
-...
-- Processing resources for Istiod.
-✔ Istiod installed
-...
-- Pruning removed resources
-✔ Installation complete
+! read -r -d '' snip_enable_envoys_access_logging_1 <<\ENDSNIP
+spec:
+  meshConfig:
+    accessLogFile: /dev/stdout
 ENDSNIP
 
 snip_test_the_access_log_1() {
@@ -75,21 +70,12 @@ kubectl delete -f samples/httpbin/httpbin.yaml
 }
 
 snip_disable_envoys_access_logging_1() {
-istioctl install --set profile=demo
+istioctl install --set profile=default
 }
 
 ! read -r -d '' snip_disable_envoys_access_logging_1_out <<\ENDSNIP
-- Applying manifest for component Base...
-✔ Finished applying manifest for component Base.
-- Applying manifest for component Pilot...
-✔ Finished applying manifest for component Pilot.
-- Applying manifest for component EgressGateways...
-- Applying manifest for component IngressGateways...
-- Applying manifest for component AddonComponents...
-✔ Finished applying manifest for component EgressGateways.
-✔ Finished applying manifest for component IngressGateways.
-✔ Finished applying manifest for component AddonComponents.
-
-
+✔ Istio core installed
+✔ Istiod installed
+✔ Ingress gateways installed
 ✔ Installation complete
 ENDSNIP

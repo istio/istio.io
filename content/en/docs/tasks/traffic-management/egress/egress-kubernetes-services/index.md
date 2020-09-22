@@ -4,7 +4,7 @@ description: Shows how to configure Istio for Kubernetes External Services.
 keywords: [traffic-management,egress]
 weight: 60
 owner: istio/wg-networking-maintainers
-test: no
+test: yes
 ---
 
 Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname)
@@ -50,13 +50,13 @@ Kubernetes Services for egress traffic work with other protocols as well.
     pod:
 
     {{< text bash >}}
-    $ export SOURCE_POD_WITHOUT_ISTIO=$(kubectl get pod -n without-istio -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD_WITHOUT_ISTIO="$(kubectl get pod -n without-istio -l app=sleep -o jsonpath={.items..metadata.name})"
     {{< /text >}}
 
 *   Verify that the Istio sidecar was not injected, that is the pod has one container:
 
     {{< text bash >}}
-    $ kubectl get pod $SOURCE_POD_WITHOUT_ISTIO -n without-istio
+    $ kubectl get pod "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio
     NAME                     READY   STATUS    RESTARTS   AGE
     sleep-66c8d79ff5-8tqrl   1/1     Running   0          32s
     {{< /text >}}
@@ -95,7 +95,7 @@ Kubernetes Services for egress traffic work with other protocols as well.
     Note that the _curl_ command below uses the [Kubernetes DNS format for services](https://v1-13.docs.kubernetes.io/docs/concepts/services-networking/dns-pod-service/#a-records): `<service name>.<namespace>.svc.cluster.local`.
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD_WITHOUT_ISTIO -n without-istio -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
+    $ kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -128,7 +128,7 @@ Kubernetes Services for egress traffic work with other protocols as well.
     the `Host` header equals to your service's hostname.
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -201,7 +201,7 @@ $ kubectl delete service my-httpbin
     Use the `--resolve` option of `curl` to access `wikipedia.org` by the cluster IP:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD_WITHOUT_ISTIO -n without-istio -c sleep -- curl -s --resolve en.wikipedia.org:443:$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}') https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
+    $ kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl -s --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
@@ -225,7 +225,7 @@ $ kubectl delete service my-httpbin
 1.  Access `wikipedia.org` by your Kubernetes service's cluster IP from the source pod with Istio sidecar:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s --resolve en.wikipedia.org:443:$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}') https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -s --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
@@ -234,7 +234,7 @@ $ kubectl delete service my-httpbin
     in the output of your service as the cluster IP.
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -v --resolve en.wikipedia.org:443:$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}') https://en.wikipedia.org/wiki/Main_Page -o /dev/null
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -v --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page -o /dev/null
     * Added en.wikipedia.org:443:172.21.156.230 to DNS cache
     * Hostname en.wikipedia.org was found in DNS cache
     *   Trying 172.21.156.230...

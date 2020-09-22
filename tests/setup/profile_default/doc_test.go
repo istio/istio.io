@@ -35,6 +35,7 @@ func TestMain(m *testing.M) {
 	framework.
 		NewSuite(m).
 		Setup(istio.Setup(&inst, nil)).
+		RequireSingleCluster().
 		Run()
 }
 

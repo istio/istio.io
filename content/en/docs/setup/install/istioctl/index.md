@@ -70,7 +70,7 @@ By default, `istioctl` uses compiled-in charts to generate the install manifest.
 `istioctl` for auditing and customization purposes and can be found in the release tar in the
 `manifests` directory.
 `istioctl` can also use external charts rather than the compiled-in ones. To select external charts, set
-the `charts` flag to a local file system path:
+the `manifests` flag to a local file system path:
 
 {{< text bash >}}
 $ istioctl install --manifests=manifests/
@@ -94,7 +94,21 @@ $ istioctl install --set profile=demo
 ## Check what's installed
 
 The `istioctl` command saves the `IstioOperator` CR that was used to install Istio in a copy of the CR named `installed-state`.
-You can inspect this CR if you lose track of what is installed in a cluster.
+Instead of inspecting the deployments, pods, services and other resources that were installed by Istio, for example:
+
+{{< text bash >}}
+$ kubectl -n istio-system get deploy
+NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
+istio-ingressgateway   1/1     1            1           49m
+istiod                 1/1     1            1           49m
+{{< /text >}}
+
+You can inspect the `installed-state` CR, to see what is installed in the cluster, as well as all custom settings.
+For example, dump its content into a YAML file using the following command:
+
+{{< text bash >}}
+$ kubectl -n istio-system get IstioOperator installed-state -o yaml > installed-state.yaml
+{{< /text >}}
 
 The `installed-state` CR is also used to perform checks in some `istioctl` commands and should therefore not be removed.
 
@@ -142,23 +156,23 @@ $ istioctl profile dump --config-path components.pilot demo
 enabled: true
 k8s:
   env:
-  - name: POD_NAME
-    valueFrom:
-      fieldRef:
-        apiVersion: v1
-        fieldPath: metadata.name
-  - name: POD_NAMESPACE
-    valueFrom:
-      fieldRef:
-        apiVersion: v1
-        fieldPath: metadata.namespace
-  - name: GODEBUG
-    value: gctrace=1
   - name: PILOT_TRACE_SAMPLING
     value: "100"
-  - name: CONFIG_NAMESPACE
-    value: istio-config
-...
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: 8080
+    initialDelaySeconds: 1
+    periodSeconds: 3
+    timeoutSeconds: 5
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100Mi
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 25%
 {{< /text >}}
 
 ## Show differences in profiles
@@ -362,26 +376,6 @@ spec:
 $ istioctl install -f telemetry_off.yaml
 {{< /text >}}
 
-Another customization is to select different namespaces for features and components. The following is an example
-of installation namespace customization:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-metadata:
-  namespace: istio-system
-spec:
-  components:
-    citadel:
-      namespace: istio-citadel
-{{< /text >}}
-
-Applying this file will cause the default profile to be applied, with components being installed into the following
-namespaces:
-
-- The Citadel component is installed into `istio-citadel` namespace
-- Remaining Istio components installed into istio-system namespace
-
 ### Configure gateways
 
 Gateways are a special type of component, since multiple ingress and egress gateways can be defined. In the
@@ -396,6 +390,12 @@ $ istioctl profile dump --config-path values.gateways.istio-ingressgateway
 
 These commands show both the `IstioOperator` and Helm settings for the gateway, which are used together to define the
 generated gateway resources. The built-in gateways can be customized just like any other component.
+
+{{< warning >}}
+From 1.7 onward, the gateway name must always be specified when overlaying. Not specifying any name no longer
+defaults to `istio-ingressgateway` or `istio-egressgateway`.
+{{< /warning >}}
+
 A new user gateway can be created by adding a new list entry:
 
 {{< text yaml >}}
@@ -548,7 +548,7 @@ overlays are applied. For example, you can create a new profile file called `cus
 from the `default` profile, and then apply a user overlay file on top of that:
 
 {{< text bash >}}
-$ istioctl generate --manifests mycharts/ --set profile=custom1 -f path-to-user-overlay.yaml
+$ istioctl manifest generate --manifests mycharts/ --set profile=custom1 -f path-to-user-overlay.yaml
 {{< /text >}}
 
 In this case, the `custom1.yaml` and `user-overlay.yaml` files will be overlaid on the `default.yaml` file to obtain the
@@ -558,7 +558,7 @@ In general, creating new profiles is not necessary since a similar result can be
 files. For example, the command above is equivalent to passing two user overlay files:
 
 {{< text bash >}}
-$ istioctl generate --manifests mycharts/ -f manifests/profiles/custom1.yaml -f path-to-user-overlay.yaml
+$ istioctl manifest generate --manifests mycharts/ -f manifests/profiles/custom1.yaml -f path-to-user-overlay.yaml
 {{< /text >}}
 
 Creating a custom profile is only required if you need to refer to the profile by name through the `IstioOperatorSpec`.

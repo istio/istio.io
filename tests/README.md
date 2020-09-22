@@ -41,19 +41,23 @@ To write an `istio.io` test, follow these steps:
    You can override the default name by adding `snip_id=<some name>` to the corresponding text block attributes.
    For example `{{< text syntax=bash snip_id=config_all_v1 >}}` will generate `snip_config_all_v1()`.
 
+   > You can also entirely supress generation of a snip function by setting `snip_id=none`. This is useful for
+   > commands that are not intended to be directly executable (e.g., `kubectl get pod <your pod name>`) and are
+   > causing lint errors (see next step, below).
+
    If a bash code block contains both commands and output, the `snips.sh` script will include
    both a bash function and a variable containing the expected output. The name of the variable
    will be the same as the function, only with `_out` appended.
 
 1. Run `make lint-fast` to check for script errors.
 
-   If there are any lint errors in the generated `snip.sh` file,
+   If there are any lint errors in the generated `snips.sh` file,
    it means that a command in the `index.md` file is not following `bash` best practices.
    Because we are extracting the commands from the markdown file into a script file, we get the
    added benefit of lint checking of the commands that appear in the docs.
 
-   Fix the errors, if any, by updating the corresponding command in the `index.md` file and
-   then regenerate the snips.
+   Fix the errors, if any, by updating the corresponding command (or set `snip_id=none`) in the `index.md`
+   file and then regenerate the snips.
 
 1. Create a test bash script named `test.sh` next to the `snips.sh` you have just generated.
    
@@ -144,7 +148,9 @@ that it started in. This is important because the test framework runs all tests 
 same `# @setup` using the same Kubernetes cluster, so any remaining config changes after the cleanup
 steps are run, will potentially break a following test.
 
-TODO: The framework should compare the before and after state of the cluster and fail any test that does not properly clean up.
+> The framework compares the before and after cluster state and will fail tests that it
+> detects are not properly cleaning up. This comparison, however, is currently not a complete
+> verification, so tests that pass this check may still not be cleaning up completely.
 
 ### Include Files
 

@@ -47,79 +47,6 @@ function handleCodeBlocks() {
             return true;
         });
 
-        const downloadButton = document.createElement(button);
-        downloadButton.title = buttonDownload;
-        downloadButton.className = "download";
-        downloadButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#download'/></svg>";
-        downloadButton.setAttribute(ariaLabel, buttonDownload);
-        listen(downloadButton, mouseenter, e => (e.currentTarget as HTMLElement).classList.add(toolbarShow));
-        listen(downloadButton, mouseleave, e => (e.currentTarget as HTMLElement).classList.remove(toolbarShow));
-        listen(downloadButton, "focus", e => (e.currentTarget as HTMLElement).classList.add(toolbarShow));
-        listen(downloadButton, "blur", e => (e.currentTarget as HTMLElement).classList.remove(toolbarShow));
-
-        listen(downloadButton, click, e => {
-            const div = (e.currentTarget as HTMLElement).parentElement;
-            if (!div) {
-                return false;
-            }
-
-            const codes = div.getElementsByTagName("code");
-            if ((codes !== null) && (codes.length > 0)) {
-                const code = codes[0];
-                if (!code) {
-                    return false;
-                }
-
-                const text = getToolbarDivText(div);
-                let downloadas = code.dataset.downloadas;
-                if (!downloadas || downloadas === "") {
-                    let lang = "";
-                    for (const cl of code.classList) {
-                        if (!cl) {
-                            continue;
-                        }
-
-                        if (cl.startsWith("language-")) {
-                            lang = cl.substr(9);
-                            break;
-                        } else if (cl.startsWith("command-")) {
-                            lang = "bash";
-                            break;
-                        }
-                    }
-
-                    if (lang === "markdown") {
-                        lang = "md";
-                    } else if (lang === "") {
-                        lang = "txt";
-                    }
-
-                    downloadas = docTitle + "." + lang;
-                }
-                saveFile(downloadas, text);
-            }
-            return true;
-        });
-
-        const printButton = document.createElement(button);
-        printButton.title = buttonPrint;
-        printButton.className = "print";
-        printButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#printer'/></svg>";
-        printButton.setAttribute(ariaLabel, buttonPrint);
-        listen(printButton, mouseenter, e => (e.currentTarget as HTMLElement).classList.add(toolbarShow));
-        listen(printButton, mouseleave, e => (e.currentTarget as HTMLElement).classList.remove(toolbarShow));
-        listen(printButton, "focus", e => (e.currentTarget as HTMLElement).classList.add(toolbarShow));
-        listen(printButton, "blur", e => (e.currentTarget as HTMLElement).classList.remove(toolbarShow));
-
-        listen(printButton, click, e => {
-            const div = (e.currentTarget as HTMLElement).parentElement;
-            if (div) {
-                const text = getToolbarDivText(div);
-                printText(text);
-            }
-            return true;
-        });
-
         // wrap the PRE block in a DIV so we have a place to attach the toolbar buttons
         const div = document.createElement("div");
         div.className = "toolbar";
@@ -129,8 +56,6 @@ function handleCodeBlocks() {
             parent.insertBefore(div, pre);
         }
         div.appendChild(pre);
-        div.appendChild(printButton);
-        div.appendChild(downloadButton);
         div.appendChild(copyButton);
 
         listen(pre, mouseenter, o => {

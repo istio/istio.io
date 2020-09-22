@@ -21,8 +21,13 @@ set -o pipefail
 
 # @setup profile=none
 
-snip_plugging_in_existing_certificates_and_key_1
-snip_plugging_in_existing_certificates_and_key_2
+snip_plug_in_certificates_and_key_into_the_cluster_1
+snip_plug_in_certificates_and_key_into_the_cluster_2
+snip_plug_in_certificates_and_key_into_the_cluster_3
+snip_plug_in_certificates_and_key_into_the_cluster_4
+snip_plug_in_certificates_and_key_into_the_cluster_5
+
+echo y | snip_deploy_istio_1
 _wait_for_deployment istio-system istiod
 
 # create_ns_foo_with_httpbin_sleep
@@ -55,3 +60,4 @@ _verify_same snip_verifying_the_certificates_5 "$snip_verifying_the_certificates
 # @cleanup
 set +e # ignore cleanup errors
 snip_cleanup_1
+snip_cleanup_2

@@ -14,8 +14,9 @@ test: no
 
 Follow this guide to install an Istio
 [multicluster deployment](/docs/ops/deployment/deployment-models/#multiple-clusters)
-with replicated [control plane](/docs/ops/deployment/deployment-models/#control-plane-models) instances
-in every cluster and using gateways to connect services across clusters.
+using multiple {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}},
+each with its own replicated [control plane](/docs/ops/deployment/deployment-models/#control-plane-models),
+and using gateways to connect services across clusters.
 
 Instead of using a shared Istio control plane to manage the mesh,
 in this configuration each cluster has its own Istio control plane

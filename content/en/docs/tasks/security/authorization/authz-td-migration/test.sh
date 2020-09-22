@@ -23,7 +23,7 @@ set -o pipefail
 
 #export VERIFY_RETRIES=10
 
-snip_before_you_begin_1
+echo y | snip_before_you_begin_1
 
 # Remove the injection label to prevent the following command from failing
 kubectl label namespace default istio-injection-
@@ -43,7 +43,7 @@ _verify_same snip_before_you_begin_4 "$snip_before_you_begin_4_out"
 
 _verify_same snip_before_you_begin_5 "$snip_before_you_begin_5_out"
 
-snip_migrate_trust_domain_without_trust_domain_aliases_1
+echo y | snip_migrate_trust_domain_without_trust_domain_aliases_1
 
 _wait_for_deployment istio-system istiod
 
@@ -55,7 +55,7 @@ _verify_same snip_migrate_trust_domain_without_trust_domain_aliases_4 "$snip_mig
 
 _verify_same snip_migrate_trust_domain_without_trust_domain_aliases_5 "$snip_migrate_trust_domain_without_trust_domain_aliases_5_out"
 
-snip_migrate_trust_domain_with_trust_domain_aliases_1
+echo y | snip_migrate_trust_domain_with_trust_domain_aliases_1
 
 _wait_for_deployment istio-system istiod
 
@@ -67,4 +67,4 @@ _verify_same snip_migrate_trust_domain_with_trust_domain_aliases_2 "$snip_migrat
 # @cleanup
 
 set +e # ignore cleanup errors
-snip_clean_up_1
+echo y | snip_clean_up_1

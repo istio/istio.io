@@ -21,17 +21,11 @@ set -e
 set -u
 set -o pipefail
 
-# Enable access logging
-#istioctl install --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"
-#_wait_for_deployment istio-system istiod
-# TODO: above command is not needed, since access logging seems to be enabled by default.
-# TODO: Also, running "istioctl install" causes the test to fail?????
+# Make sure automatic sidecar injection is enabled
+kubectl label namespace default istio-injection=enabled || true
 
 # Deploy sleep sample and set up variable pointing to it
-set +e
-kubectl delete pods -l app=sleep --force
-set -e
-snip_before_you_begin_2
+snip_before_you_begin_1
 _wait_for_deployment default sleep
 snip_before_you_begin_3
 
@@ -58,3 +52,4 @@ _verify_contains snip_perform_tls_origination_with_an_egress_gateway_6 "GET /pol
 # @cleanup
 set +e # ignore cleanup errors
 snip_cleanup_the_tls_origination_example_1
+snip_cleanup_1

@@ -21,20 +21,18 @@ The standard output of Envoy's containers can then be printed by the `kubectl lo
 
 ## Enable Envoy's access logging
 
-Edit the `istio` configuration map:
+If you used an `IstioOperator` CR to install Istio, add the following field to your configuration:
 
-{{< tip >}}
-In the example below, replace `demo` with the name of the profile you used when you installed Istio.
-{{< /tip >}}
+{{< text yaml >}}
+spec:
+  meshConfig:
+    accessLogFile: /dev/stdout
+{{< /text >}}
 
-{{< text bash >}}
-$ istioctl install --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"
-...
-- Processing resources for Istiod.
-✔ Istiod installed
-...
-- Pruning removed resources
-✔ Installation complete
+Otherwise, add the equivalent setting to your original `istioctl install` command, for example:
+
+{{< text syntax=bash snip_id=none >}}
+$ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
 {{< /text >}}
 
 You can also choose between JSON and text by setting `accessLogEncoding` to `JSON` or `TEXT`.
@@ -42,9 +40,8 @@ You can also choose between JSON and text by setting `accessLogEncoding` to `JSO
 You may also want to customize the
 [format](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#format-rules) of the access log by editing `accessLogFormat`.
 
-{{< tip >}}
-All three of these parameters may also be configured via [install options](https://archive.istio.io/v1.4/docs/reference/config/installation-options/):
-{{< /tip >}}
+Refer to [global mesh options](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) for more information
+on all three of these settings:
 
 * `meshConfig.accessLogFile`
 * `meshConfig.accessLogEncoding`
@@ -98,25 +95,16 @@ $ kubectl delete -f @samples/httpbin/httpbin.yaml@
 
 ### Disable Envoy's access logging
 
-Edit the `istio` configuration map and set `accessLogFile` to `""`.
+Remove, or set to `""`, the `meshConfig.accessLogFile` setting in your Istio install configuration.
 
 {{< tip >}}
-In the example below, replace `demo` with the name of the profile you used when you installed Istio.
+In the example below, replace `default` with the name of the profile you used when you installed Istio.
 {{< /tip >}}
 
 {{< text bash >}}
-$ istioctl install --set profile=demo
-- Applying manifest for component Base...
-✔ Finished applying manifest for component Base.
-- Applying manifest for component Pilot...
-✔ Finished applying manifest for component Pilot.
-- Applying manifest for component EgressGateways...
-- Applying manifest for component IngressGateways...
-- Applying manifest for component AddonComponents...
-✔ Finished applying manifest for component EgressGateways.
-✔ Finished applying manifest for component IngressGateways.
-✔ Finished applying manifest for component AddonComponents.
-
-
+$ istioctl install --set profile=default
+✔ Istio core installed
+✔ Istiod installed
+✔ Ingress gateways installed
 ✔ Installation complete
 {{< /text >}}

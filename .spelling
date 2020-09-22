@@ -21,6 +21,8 @@
 1.5.x.
 1.6.x
 1.6.x.
+1.7.x
+1.7.x.
 1.x
 10ms
 10s
@@ -97,6 +99,7 @@ AssemblyScript
 AttributeGen
 Auth0
 AuthenticationPolicy
+AuthorizationPolicy
 AuthPolicy
 autoscaler
 Autoscalers
@@ -200,6 +203,7 @@ CVE-2020-12604
 CVE-2020-12605
 CVE-2020-13379
 CVE-2020-15104
+CVE-2020-16844
 CVEs
 cves
 cvss
@@ -269,6 +273,7 @@ fortio
 FQDNs
 FQDN
 frontend
+frontends
 gbd
 GCP
 GCP-IAM
@@ -600,6 +605,7 @@ SPIFFE
 SPIFFE-compliant
 SREs
 Stackdriver
+stateful
 Statsd
 stdout
 Steitz
@@ -678,6 +684,7 @@ v1.7.6_coreos.0
 v1.9
 v1alpha1
 v1alpha3
+v1beta1
 v1beta1#MutatingWebhookConfiguration
 v2
 V2

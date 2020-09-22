@@ -21,8 +21,8 @@ which is fixed in the release, actually represents a security vulnerability.
 
 Initially we thought the bug was impacting the [TCP Authorization](/about/feature-stages/#security-and-policy-enforcement) feature advertised
 as alpha stability, which would not have required invoking this security advisory process, but we later realized that the
-[Deny Checker](/docs/reference/config/policy-and-telemetry/adapters/denier/) and
-[List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/) feature were affected and those are considered stable features.
+[Deny Checker](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/adapters/denier/) and
+[List Checker](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/adapters/list/) feature were affected and those are considered stable features.
 We are revisiting our processes to flag vulnerabilities that are initially reported as bugs instead of through the
 [private disclosure process](/about/security-vulnerabilities/).
 

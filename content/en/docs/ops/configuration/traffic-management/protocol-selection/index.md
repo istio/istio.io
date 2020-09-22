@@ -22,8 +22,8 @@ Protocols can be specified manually in the Service definition.
 
 This can be configured in two ways:
 
-- By the name of port the port, like `name: <protocol>[-<suffix>]`.
-- In Kubernetes 1.18+, by the `appProtocol` field, like `appProtocol: <protocol>`.
+- By the name of the port: `name: <protocol>[-<suffix>]`.
+- In Kubernetes 1.18+, by the `appProtocol` field: `appProtocol: <protocol>`.
 
 The following protocols are supported:
 

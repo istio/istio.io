@@ -27,10 +27,10 @@ set -o pipefail
 # TODO: above command is not needed, since access logging seems to be enabled by default.
 # TODO: Also, running "istioctl install" causes the test to fail?????
 
-# Deploy sleep sample and set up variable pointing to it
-set +e
-kubectl delete pods -l app=sleep --force
-set -e
+# Make sure automatic sidecar injection is enabled
+kubectl label namespace default istio-injection=enabled || true
+
+# Deploy sleep sample
 snip_before_you_begin_1
 _wait_for_deployment default sleep
 

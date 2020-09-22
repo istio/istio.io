@@ -34,7 +34,7 @@ If the application sends HTTP requests and the egress gateway performs TLS origi
 information like HTTP methods, headers, and URL paths. You can also
 [define policies](/blog/2018/egress-monitoring-access-control) based on said HTTP information. If the application
 performs TLS origination, you can
-[monitor SNI and the service account](/docs/tasks/traffic-management/egress/egress_sni_monitoring_and_policies/) of the
+[monitor SNI and the service account](https://istio.io/v1.6/docs/tasks/traffic-management/egress/egress_sni_monitoring_and_policies/) of the
 source pod's TLS traffic, and define policies based on SNI and service accounts.
 
 You must ensure that traffic from your cluster to the outside cannot bypass the egress gateway. Istio cannot enforce it

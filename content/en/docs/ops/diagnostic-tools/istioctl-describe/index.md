@@ -61,12 +61,11 @@ the Bookinfo `ratings` service for example, but instead will output the Istio co
 {{< text bash >}}
 $ export RATINGS_POD=$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')
 $ istioctl experimental describe pod $RATINGS_POD
-Pod: ratings-v1-f745cf57b-qrxl2
-Pod Ports: 9080 (ratings), 15090 (istio-proxy)
+Pod: ratings-v1-7dc98c7588-8jsbw
+   Pod Ports: 9080 (ratings), 15090 (istio-proxy)
 --------------------
 Service: ratings
-   Port: http 9080/HTTP
-Pilot reports that pod enforces HTTP/mTLS and clients speak HTTP
+   Port: http 9080/HTTP targets pod port 9080
 {{< /text >}}
 
 The output shows the following information:
@@ -74,7 +73,6 @@ The output shows the following information:
 - The ports of the service container in the pod, `9080` for the `ratings` container in this example.
 - The ports of the `istio-proxy` container in the pod, `15090` in this example.
 - The protocol used by the service in the pod, `HTTP` over port `9080` in this example.
-- The mutual TLS settings for the pod.
 
 ## Verify destination rule configurations
 
@@ -100,7 +98,6 @@ DestinationRule: ratings for "ratings"
    Matching subsets: v1
       (Non-matching subsets v2,v2-mysql,v2-mysql-vm)
    Traffic Policy TLS Mode: ISTIO_MUTUAL
-Pilot reports that pod enforces HTTP/mTLS and clients speak mTLS
 {{< /text >}}
 
 The command now shows additional output:

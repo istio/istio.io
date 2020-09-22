@@ -247,7 +247,7 @@ reserved name <code>mesh</code>.</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: bookinfo-Mongo
+  name: bookinfo-mongo
   namespace: bookinfo-namespace
 spec:
   hosts:
@@ -272,7 +272,7 @@ spec:
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: bookinfo-Mongo
+  name: bookinfo-mongo
   namespace: bookinfo-namespace
 spec:
   hosts:
@@ -380,7 +380,7 @@ on which this gateway configuration should be applied.
 By default workloads are searched across all namespaces based on label selectors.
 This implies that a gateway resource in the namespace &ldquo;foo&rdquo; can select pods in
 the namespace &ldquo;bar&rdquo; based on labels.
-This behavior can be controlled via the PILOT<em>SCOPE</em>GATEWAY<em>TO</em>NAMESPACE
+This behavior can be controlled via the <code>PILOT_SCOPE_GATEWAY_TO_NAMESPACE</code>
 environment variable in istiod. If this variable is set
 to true, the scope of label search is restricted to the configuration
 namespace in which the the resource is present. In other words, the Gateway

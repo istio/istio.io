@@ -20,14 +20,33 @@
 #          docs/tasks/security/cert-management/plugin-ca-cert/index.md
 ####################################################################################################
 
-snip_plugging_in_existing_certificates_and_key_1() {
-kubectl create namespace istio-system
-kubectl create secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem \
-    --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem \
-    --from-file=samples/certs/cert-chain.pem
+snip_plug_in_certificates_and_key_into_the_cluster_1() {
+mkdir -p certs
+pushd certs
 }
 
-snip_plugging_in_existing_certificates_and_key_2() {
+snip_plug_in_certificates_and_key_into_the_cluster_2() {
+make -f ../tools/certs/Makefile.selfsigned.mk root-ca
+}
+
+snip_plug_in_certificates_and_key_into_the_cluster_3() {
+make -f ../tools/certs/Makefile.selfsigned.mk cluster1-cacerts
+}
+
+snip_plug_in_certificates_and_key_into_the_cluster_4() {
+kubectl create namespace istio-system
+kubectl create secret generic cacerts -n istio-system \
+      --from-file=cluster1/ca-cert.pem \
+      --from-file=cluster1/ca-key.pem \
+      --from-file=cluster1/root-cert.pem \
+      --from-file=cluster1/cert-chain.pem
+}
+
+snip_plug_in_certificates_and_key_into_the_cluster_5() {
+popd
+}
+
+snip_deploy_istio_1() {
 istioctl install --set profile=demo
 }
 
@@ -59,7 +78,7 @@ awk 'BEGIN {counter=0;} /BEGIN CERT/{counter++} { print > "proxy-cert-" counter 
 }
 
 snip_verifying_the_certificates_3() {
-openssl x509 -in samples/certs/root-cert.pem -text -noout > /tmp/root-cert.crt.txt
+openssl x509 -in certs/cluster1/root-cert.pem -text -noout > /tmp/root-cert.crt.txt
 openssl x509 -in ./proxy-cert-3.pem -text -noout > /tmp/pod-root-cert.crt.txt
 diff -s /tmp/root-cert.crt.txt /tmp/pod-root-cert.crt.txt
 }
@@ -69,7 +88,7 @@ Files /tmp/root-cert.crt.txt and /tmp/pod-root-cert.crt.txt are identical
 ENDSNIP
 
 snip_verifying_the_certificates_4() {
-openssl x509 -in samples/certs/ca-cert.pem -text -noout > /tmp/ca-cert.crt.txt
+openssl x509 -in certs/cluster1/ca-cert.pem -text -noout > /tmp/ca-cert.crt.txt
 openssl x509 -in ./proxy-cert-2.pem -text -noout > /tmp/pod-cert-chain-ca.crt.txt
 diff -s /tmp/ca-cert.crt.txt /tmp/pod-cert-chain-ca.crt.txt
 }
@@ -79,7 +98,7 @@ Files /tmp/ca-cert.crt.txt and /tmp/pod-cert-chain-ca.crt.txt are identical
 ENDSNIP
 
 snip_verifying_the_certificates_5() {
-openssl verify -CAfile <(cat samples/certs/ca-cert.pem samples/certs/root-cert.pem) ./proxy-cert-1.pem
+openssl verify -CAfile <(cat certs/cluster1/ca-cert.pem certs/cluster1/root-cert.pem) ./proxy-cert-1.pem
 }
 
 ! read -r -d '' snip_verifying_the_certificates_5_out <<\ENDSNIP
@@ -87,6 +106,10 @@ openssl verify -CAfile <(cat samples/certs/ca-cert.pem samples/certs/root-cert.p
 ENDSNIP
 
 snip_cleanup_1() {
+rm -rf certs
+}
+
+snip_cleanup_2() {
 kubectl delete secret cacerts -n istio-system
 kubectl delete ns foo istio-system
 }

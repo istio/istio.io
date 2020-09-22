@@ -13,14 +13,8 @@ test: no
 
 Follow this guide to deploy Istio and connect a virtual machine to it.
 
-{{< warning >}}
-This guide has a requirement that the user is using a [plugin root CA](/docs/tasks/security/cert-management/plugin-ca-cert/)
-and has configured Istio as an intermediate CA.
-{{< /warning >}}
-
 {{< tip >}}
-This guide is tested and validated. The Istio authors feel this guide is suitable for experimentation
-but not production. Like all alpha features, this guide is subject to change.
+This guide is tested and validated but note that VM support is still an alpha feature not recommended for production.
 {{< /tip >}}
 
 ## Prerequisites
@@ -32,97 +26,67 @@ but not production. Like all alpha features, this guide is subject to change.
 
 ## Prepare the guide environment
 
-1. Set the environment variables `"${ISTIO_DIR}"`, `"${WORK_DIR}"`, your cluster
-    name, and the service namespace. Ensure `"${WORK_DIR}"` is prefixed with `"${HOME}"`
-    (e.g. `WORK_DIR="${HOME}"/vmintegration`).
+1. Create a virtual machine
+1. Set the environment variables `VM_NAME`, `WORK_DIR` , `VM_NAMESPACE`,
+and `SERVICE_ACCOUNT`
+    (e.g., `WORK_DIR="${HOME}/vmintegration"`):
 
     {{< text bash >}}
-    $ ISTIO_DIR="<the directory containing an unarchived version of Istio>"
-    $ CLUSTER_NAME="<the name of your cluster>"
-    $ SERVICE_NAMESPACE="<the name of your service namespace>"
+    $ VM_NAME="<the name of your vm instance you created>"
+    $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
+    $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
     {{< /text >}}
 
-1. Create the `"${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"` working directories.
+1. Create the working directory:
 
     {{< text bash >}}
-    $ mkdir -p "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"
-    {{< /text >}}
-
-## Create certificates for use with the virtual machine and Istio control plane
-
-{{< tip >}}
-This `Makefile` is limited to creating one virtual machine certificate per cluster. The Istio authors
-expect operators to read and understand this guide to formulate their own plans for creating and
-managing virtual machines. It is important for you to read and understand this `Makefile` for any
-deployment you place into production.
-{{< /tip >}}
-
-1. Execute the following commands to create certificates for use by Istio. See
-    [Certificate Authority (CA) certificates](/docs/tasks/security/cert-management/plugin-ca-cert/)
-    for more details on configuring an external CA. The `NAME` variable is
-    used during certificate generation to uniquely identify clusters. The
-    `NAMESPACE` variable identifies the namespace where the virtual machine
-    connectivity is hosted.
-
-    {{< text bash >}}
-    $ cd "${WORK_DIR}"
-    $ make -f "${ISTIO_DIR}"/tools/certs/Makefile NAME="${CLUSTER_NAME}" NAMESPACE="${SERVICE_NAMESPACE}" "${CLUSTER_NAME}"-cacerts-selfSigned
-    {{< /text >}}
-
-1. Execute the following commands to create certificates for use on the virtual machine.
-
-    {{< text bash >}}
-    $ cd "${WORK_DIR}"
-    $ make -f "${ISTIO_DIR}"/tools/certs/Makefile NAME="${CLUSTER_NAME}" NAMESPACE="${SERVICE_NAMESPACE}" "${NAMESPACE}"-certs-selfSigned
+    $ mkdir -p "${WORK_DIR}"
     {{< /text >}}
 
 ## Install the Istio control plane
 
-The Istio control plane must be installed with virtual machine integration enabled (`values.global.meshExpansion.enabled: true`).
+Install Istio and expose the control plane so that your virtual machine can access it.
 
-1. Register the certificates needed for installation.
+1. Install Istio.
 
     {{< text bash >}}
-    $ kubectl create namespace istio-system
-    $ kubectl create secret generic cacerts -n istio-system \
-        --from-file=ca-cert.pem="${WORK_DIR}"/"${CLUSTER_NAME}"/selfSigned-ca-cert.pem \
-        --from-file=ca-key.pem="${WORK_DIR}"/"${CLUSTER_NAME}"/selfSigned-ca-key.pem \
-        --from-file=root-cert.pem="${WORK_DIR}"/"${CLUSTER_NAME}"/root-cert.pem \
-        --from-file=cert-chain.pem="${WORK_DIR}"/"${CLUSTER_NAME}"/selfSigned-ca-cert-chain.pem
+    $ istioctl install
     {{< /text >}}
 
-1. Create the install `IstioOperator` custom resource:
+1. Expose the control plane using the provided sample configuration.
 
     {{< text bash >}}
-    $ cat <<EOF> "${WORK_DIR}"/vmintegration.yaml
-    apiVersion: install.istio.io/v1alpha1
-    metadata:
-      namespace: istio-system
-      name: example-istiocontrolplane
-    kind: IstioOperator
-    spec:
-      values:
-        global:
-          meshExpansion:
-            enabled: true
-    EOF
+    $ kubectl apply -f @samples/istiod-gateway/istiod-gateway.yaml@
     {{< /text >}}
 
-1. Install or upgrade Istio with virtual machine integration features enabled.
+## Configure the VM namespace
+
+1. Create the namespace that will host the virtual machine:
 
     {{< text bash >}}
-    $ istioctl install -f "${WORK_DIR}"/vmintegration.yaml
+    $ kubectl create namespace "${VM_NAMESPACE}"
+    {{< /text >}}
+
+1. Create a serviceaccount for the virtual machine:
+
+    {{< text bash >}}
+    $ kubectl create serviceaccount "${SERVICE_ACCOUNT}" -n "${VM_NAMESPACE}"
     {{< /text >}}
 
 ## Create files to transfer to the virtual machine
 
-1. Make a copy of files to copy to the virtual machine
+1. Create a Kubernetes token. This example sets the token expire time to 1 hour:
 
     {{< text bash >}}
-    $ cp -a "${WORK_DIR}"/"${SERVICE_NAMESPACE}"/key.pem "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/
-    $ cp -a "${WORK_DIR}"/"${SERVICE_NAMESPACE}"/root-cert.pem "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/
-    $ cp -a "${WORK_DIR}"/"${SERVICE_NAMESPACE}"/selfSigned-workload-cert-chain.pem "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/cert-chain.pem
+    $ tokenexpiretime=3600
+    $ echo '{"kind":"TokenRequest","apiVersion":"authentication.k8s.io/v1","spec":{"audiences":["istio-ca"],"expirationSeconds":'$tokenexpiretime'}}' | kubectl create --raw /api/v1/namespaces/$VM_NAMESPACE/serviceaccounts/$SERVICE_ACCOUNT/token -f - | jq -j '.status.token' > "${WORK_DIR}"/istio-token
+    {{< /text >}}
+
+1. Get the root certificate:
+
+    {{< text bash >}}
+    $ kubectl -n "${VM_NAMESPACE}" get configmaps istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > "${WORK_DIR}"/root-cert.pem
     {{< /text >}}
 
 1. Generate a `cluster.env` configuration file that informs the virtual machine
@@ -131,8 +95,8 @@ The Istio control plane must be installed with virtual machine integration enabl
 
     {{< text bash >}}
     $ ISTIO_SERVICE_CIDR=$(echo '{"apiVersion":"v1","kind":"Service","metadata":{"name":"tst"},"spec":{"clusterIP":"1.1.1.1","ports":[{"port":443}]}}' | kubectl apply -f - 2>&1 | sed 's/.*valid IPs is //')
-    $ touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/cluster.env
-    $ echo ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/cluster.env
+    $ touch "${WORK_DIR}"/cluster.env
+    $ echo ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR > "${WORK_DIR}"/cluster.env
     {{< /text >}}
 
 1. Optionally configure configure a select set of ports for exposure from the
@@ -144,7 +108,7 @@ The Istio control plane must be installed with virtual machine integration enabl
    of the virtual machine.
 
     {{< text bash >}}
-    $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/cluster.env
+    $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> "${WORK_DIR}"/cluster.env
     {{< /text >}}
 
 1. Add an IP address that represents Istiod. Replace `${INGRESS_HOST}` with the
@@ -152,8 +116,8 @@ The Istio control plane must be installed with virtual machine integration enabl
     [Determining the ingress host and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) to set the environment variable `${INGRESS_HOST}`.
 
     {{< text bash >}}
-    $ touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/hosts-addendum
-    $ echo "${INGRESS_HOST} istiod.istio-system.svc" > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/hosts-addendum
+    $ touch "${WORK_DIR}"/hosts-addendum
+    $ echo "${INGRESS_HOST} istiod.istio-system.svc" > "${WORK_DIR}"/hosts-addendum
     {{< /text >}}
 
     {{< idea >}}
@@ -162,13 +126,21 @@ The Istio control plane must be installed with virtual machine integration enabl
     the scope of this guide.
     {{< /idea >}}
 
+1. Create `sidecar.env` file to import the required environment variables:
+
+    {{< text bash >}}
+    $ touch "${WORK_DIR}"/sidecar.env
+    $ echo "PROV_CERT=/var/run/secrets/istio" >>"${WORK_DIR}"/sidecar.env
+    $ echo "OUTPUT_CERTS=/var/run/secrets/istio" >> "${WORK_DIR}"/sidecar.env
+    {{< /text >}}
+
 ## Configure the virtual machine
 
 Run the following commands on the virtual machine you want to add to the Istio mesh:
 
-1. Securely transfer the files from `"${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"`
+1. Securely transfer the files from `"${WORK_DIR}"`
     to the virtual machine.  How you choose to securely transfer those files should be done with consideration for
-    your information security policies.
+    your information security policies. For convenience in this guide, transfer all of the required files to `"${HOME}"` in the virtual machine.
 
 1. Update the cache of package updates for your `deb` packaged distro.
 
@@ -182,50 +154,103 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo apt -y upgrade
     {{< /text >}}
 
-1. Install the `deb` package containing the Istio virtual machine integration runtime.
+1. Install the root certificate at `/var/run/secrets/istio`:
+
+    {{< text bash >}}
+    $ sudo mkdir -p /var/run/secrets/istio
+    $ sudo cp "${HOME}"/root-cert.pem /var/run/secrets/istio/root-cert.pem
+    {{< /text >}}
+
+1. Install the token at `/var/run/secrets/tokens`:
+
+    {{< text bash >}}
+    $ sudo  mkdir -p /var/run/secrets/tokens
+    $ sudo cp "${HOME}"/istio-token /var/run/secrets/tokens/istio-token
+    {{< /text >}}
+
+1. Install the `deb` package containing the Istio virtual machine integration runtime:
 
     {{< text bash >}}
     $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1. Install `root-cert.pem`, `key.pem` and `cert-chain.pem` within the directory `/etc/certs/`.
+1. Install `cluster.env` within the directory `/var/lib/istio/envoy/`:
 
     {{< text bash >}}
-    $ sudo mkdir -p /etc/certs
-    $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
+    $ sudo cp "${HOME}"/cluster.env /var/lib/istio/envoy/cluster.env
     {{< /text >}}
 
-1. Install `cluster.env` within `/var/lib/istio/envoy/`.
+1. Install `sidecar.env` within the directory `/var/lib/istio/envoy/`:
 
     {{< text bash >}}
-    $ sudo cp cluster.env /var/lib/istio/envoy
+    $ sudo cp "${HOME}"/sidecar.env /var/lib/istio/envoy/sidecar.env
     {{< /text >}}
 
-1. Add the istiod host to `/etc/hosts`.
+1. Add the istiod host to `/etc/hosts`:
 
     {{< text bash >}}
-    $ sudo sh -c 'cat hosts-addendum >> /etc/hosts'
+    $ sudo sh -c 'cat $(eval echo ~$SUDO_USER)/hosts-addendum >> /etc/hosts'
     {{< /text >}}
 
-1. Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy.
+1. Install the root certificate in the directory `/var/run/secrets/istio`
 
     {{< text bash >}}
-    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy
+    $ sudo cp "${HOME}"/root-cert.pem /var/run/secrets/istio/root-cert.pem
     {{< /text >}}
 
-1. Start Istio within the virtual machine.
+1. Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy:
+
+    {{< text bash >}}
+    $ sudo mkdir -p /etc/istio/proxy
+    $ sudo chown -R istio-proxy /var/lib/istio /etc/certs /etc/istio/proxy  /var/run/secrets
+    {{< /text >}}
+
+## Start Istio within the virtual machine
+
+1. Start the Istio agent:
 
     {{< text bash >}}
     $ sudo systemctl start istio
     {{< /text >}}
 
+## Verify Istio Works Successfully
+
+1. Check the log in `/var/log/istio/istio.log`. You should see entries similar to the following:
+
+    {{< text bash >}}
+    $ 2020-08-21T01:32:17.748413Z info sds resource:default pushed key/cert pair to proxy
+    $ 2020-08-21T01:32:20.270073Z info sds resource:ROOTCA new connection
+    $ 2020-08-21T01:32:20.270142Z info sds Skipping waiting for gateway secret
+    $ 2020-08-21T01:32:20.270279Z info cache adding watcher for file ./etc/certs/root-cert.pem
+    $ 2020-08-21T01:32:20.270347Z info cache GenerateSecret from file ROOTCA
+    $ 2020-08-21T01:32:20.270494Z info sds resource:ROOTCA pushed root cert to proxy
+    $ 2020-08-21T01:32:20.270734Z info sds resource:default new connection
+    $ 2020-08-21T01:32:20.270763Z info sds Skipping waiting for gateway secret
+    $ 2020-08-21T01:32:20.695478Z info cache GenerateSecret default
+    $ 2020-08-21T01:32:20.695595Z info sds resource:default pushed key/cert pair to proxy
+    {{< /text >}}
+
 ## Uninstall
+
+Stop Istio on the virtual machine:
+
+    {{< text bash >}}
+    $ sudo systemctl stop istio
+    {{< /text >}}
+
+Then, remove the Istio-sidecar package:
+
+    {{< text bash >}}
+    $ sudo dpkg -r istio-sidecar
+    $ dpkg -s istio-sidecar
+    {{< /text >}}
 
 To uninstall Istio, run the following command:
 
 {{< text bash >}}
-$ istioctl manifest generate -f "${WORK_DIR}"/vmintegration.yaml | kubectl delete -f -
+$ kubectl delete -f @samples/istiod-gateway/istiod-gateway.yaml@
+$ istioctl manifest generate | kubectl delete -f -
 {{< /text >}}
 
 The control plane namespace (e.g., `istio-system`) is not removed by default.

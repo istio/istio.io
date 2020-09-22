@@ -157,46 +157,7 @@ The following table shows the required settings for many common Kubernetes envir
 | IKS (IBM cloud) | _(none)_ | _(none)_ |
 | EKS (AWS) | _(none)_ | _(none)_ |
 | AKS (Azure) | _(none)_ | _(none)_ |
-| Red Hat OpenShift 3.10+ | _(none)_ | _(none)_ |
 | Red Hat OpenShift 4.2+ | `--set components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/etc/cni/multus/net.d --set values.cni.chained=false --set values.cni.cniConfFileName="istio-cni.conf" --set values.sidecarInjectorWebhook.injectedAnnotations."k8s\.v1\.cni\.cncf\.io/networks"=istio-cni` | _(none)_ |
-
-#### Instructions for Istio 1.4.x and OpenShift
-
-Due to a [limitation](https://github.com/istio/istio/issues/19196) in `istioctl` 1.4.x using `--set` with
-escaped strings, a YAML file is necessary to set `values.sidecarInjectorWebhook.injectedAnnotations` to install Istio on OpenShift. Create the YAML file:
-
-{{< text yaml >}}
-cat <<'EOF' > cni-annotations.yaml
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  components:
-    cni:
-      enabled: true
-      namespace: kube-system
-  values:
-    cni:
-      chained: false
-      cniBinDir: /var/lib/cni/bin
-      cniConfDir: /etc/cni/multus/net.d
-      cniConfFileName: istio-cni.conf
-    sidecarInjectorWebhook:
-      injectedAnnotations:
-        "k8s.v1.cni.cncf.io/networks": istio-cni
-EOF
-{{< /text >}}
-
-Then pass this file as an argument to `istioctl`, for example:
-
-{{< text bash >}}
-$ istioctl install -f cni-annotations.yaml
-{{< /text >}}
-
-You can pass other command line arguments with `--set` if necessary.
-
-{{< warning >}}
-In order to deploy Istio 1.4 on OpenShift with CNI you need to use at least Istio 1.4.8.
-{{< /warning >}}
 
 ### GKE setup
 

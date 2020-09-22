@@ -71,7 +71,7 @@ check_content() {
         FAILED=1
     fi
 
-    if grep -nr -e "(https://istio.io" .; then
+    if grep -nrP -e "\(https://istio.io/(?!v[0-9]\.[0-9]/)" .; then
         echo "Ensure markdown content uses relative references to istio.io"
         FAILED=1
     fi

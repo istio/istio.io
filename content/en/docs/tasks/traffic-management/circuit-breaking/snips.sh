@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/traffic-management/circuit-breaking/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/start-httpbin-service.sh"
 
 snip_configuring_the_circuit_breaker_1() {
 kubectl apply -f - <<EOF
@@ -77,7 +78,7 @@ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/sample-client/fortio-
 
 snip_adding_a_client_3() {
 export FORTIO_POD=$(kubectl get pods -lapp=fortio -o 'jsonpath={.items[0].metadata.name}')
-kubectl exec "$FORTIO_POD" -c fortio -- /usr/bin/fortio load -curl http://httpbin:8000/get
+kubectl exec "$FORTIO_POD" -c fortio -- /usr/bin/fortio curl -quiet http://httpbin:8000/get
 }
 
 ! read -r -d '' snip_adding_a_client_3_out <<\ENDSNIP

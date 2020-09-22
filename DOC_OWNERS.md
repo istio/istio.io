@@ -1,7 +1,7 @@
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
-There are 158 owned istio.io docs.
+There are 145 owned istio.io docs.
 
 ## istio/wg-docs-maintainers: 15 docs
 
@@ -61,7 +61,7 @@ There are 158 owned istio.io docs.
 - [docs/setup/platform-setup/openshift/index.md](https://preliminary.istio.io/latest/docs/setup/platform-setup/openshift)
 - [docs/setup/upgrade/index.md](https://preliminary.istio.io/latest/docs/setup/upgrade)
 
-## istio/wg-networking-maintainers: 25 docs
+## istio/wg-networking-maintainers: 24 docs
 
 - [docs/concepts/traffic-management/index.md](https://preliminary.istio.io/latest/docs/concepts/traffic-management)
 - [docs/ops/best-practices/traffic-management/index.md](https://preliminary.istio.io/latest/docs/ops/best-practices/traffic-management)
@@ -75,7 +75,6 @@ There are 158 owned istio.io docs.
 - [docs/tasks/traffic-management/egress/egress-gateway/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway)
 - [docs/tasks/traffic-management/egress/egress-kubernetes-services/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/egress-kubernetes-services)
 - [docs/tasks/traffic-management/egress/egress-tls-origination/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/egress-tls-origination)
-- [docs/tasks/traffic-management/egress/egress_sni_monitoring_and_policies/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/egress_sni_monitoring_and_policies)
 - [docs/tasks/traffic-management/egress/http-proxy/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/http-proxy)
 - [docs/tasks/traffic-management/egress/wildcard-egress-hosts/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/wildcard-egress-hosts)
 - [docs/tasks/traffic-management/fault-injection/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/fault-injection)
@@ -89,7 +88,7 @@ There are 158 owned istio.io docs.
 - [docs/tasks/traffic-management/tcp-traffic-shifting/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/tcp-traffic-shifting)
 - [docs/tasks/traffic-management/traffic-shifting/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/traffic-shifting)
 
-## istio/wg-policies-and-telemetry-maintainers: 32 docs
+## istio/wg-policies-and-telemetry-maintainers: 20 docs
 
 - [docs/concepts/observability/index.md](https://preliminary.istio.io/latest/docs/concepts/observability)
 - [docs/concepts/wasm/index.md](https://preliminary.istio.io/latest/docs/concepts/wasm)
@@ -97,10 +96,6 @@ There are 158 owned istio.io docs.
 - [docs/ops/common-problems/observability-issues/index.md](https://preliminary.istio.io/latest/docs/ops/common-problems/observability-issues)
 - [docs/ops/configuration/telemetry/envoy-stats/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/telemetry/envoy-stats)
 - [docs/ops/configuration/telemetry/monitoring-multicluster-prometheus/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/telemetry/monitoring-multicluster-prometheus)
-- [docs/reference/config/policy-and-telemetry/attribute-vocabulary/index.md](https://preliminary.istio.io/latest/docs/reference/config/policy-and-telemetry/attribute-vocabulary)
-- [docs/reference/config/policy-and-telemetry/expression-language/index.md](https://preliminary.istio.io/latest/docs/reference/config/policy-and-telemetry/expression-language)
-- [docs/reference/config/policy-and-telemetry/metrics/index.md](https://preliminary.istio.io/latest/docs/reference/config/policy-and-telemetry/metrics)
-- [docs/reference/config/policy-and-telemetry/mixer-overview/index.md](https://preliminary.istio.io/latest/docs/reference/config/policy-and-telemetry/mixer-overview)
 - [docs/reference/config/proxy_extensions/wasm_telemetry/index.md](https://preliminary.istio.io/latest/docs/reference/config/proxy_extensions/wasm_telemetry)
 - [docs/tasks/observability/distributed-tracing/configurability/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/distributed-tracing/configurability)
 - [docs/tasks/observability/distributed-tracing/jaeger/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/distributed-tracing/jaeger)
@@ -115,14 +110,6 @@ There are 158 owned istio.io docs.
 - [docs/tasks/observability/metrics/querying-metrics/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/metrics/querying-metrics)
 - [docs/tasks/observability/metrics/tcp-metrics/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/metrics/tcp-metrics)
 - [docs/tasks/observability/metrics/using-istio-dashboard/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/metrics/using-istio-dashboard)
-- [docs/tasks/observability/mixer/logs/collecting-logs/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/mixer/logs/collecting-logs)
-- [docs/tasks/observability/mixer/logs/fluentd/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/mixer/logs/fluentd)
-- [docs/tasks/observability/mixer/metrics/collecting-metrics/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/mixer/metrics/collecting-metrics)
-- [docs/tasks/observability/mixer/metrics/tcp-metrics/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/mixer/metrics/tcp-metrics)
-- [docs/tasks/policy-enforcement/control-headers/index.md](https://preliminary.istio.io/latest/docs/tasks/policy-enforcement/control-headers)
-- [docs/tasks/policy-enforcement/denial-and-list/index.md](https://preliminary.istio.io/latest/docs/tasks/policy-enforcement/denial-and-list)
-- [docs/tasks/policy-enforcement/enabling-policy/index.md](https://preliminary.istio.io/latest/docs/tasks/policy-enforcement/enabling-policy)
-- [docs/tasks/policy-enforcement/rate-limiting/index.md](https://preliminary.istio.io/latest/docs/tasks/policy-enforcement/rate-limiting)
 
 ## istio/wg-security-maintainers: 17 docs
 

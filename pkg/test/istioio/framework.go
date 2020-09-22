@@ -56,6 +56,14 @@ var (
 		source "tests/util/helpers.sh"
 	`
 
+	clusterSnapshot = `
+		__cluster_snapshot
+	`
+
+	clusterCleanupCheck = `
+		__cluster_cleanup_check
+	`
+
 	snipsFileSuffix = "snips.sh"
 	testFileSuffix  = "test.sh"
 
@@ -137,6 +145,7 @@ func checkFile(path string) (*TestCase, error) {
 	// find setup configuration
 	re = regexp.MustCompile(fmt.Sprintf("(?m)^%v (.*)$", setupSpec))
 	setups := re.FindAllStringSubmatch(testScript, -1)
+
 	if numSetups := len(setups); numSetups != 1 {
 		err := fmt.Errorf(
 			"script error: expected one line that starts with '%v', got %v line(s)",
@@ -145,6 +154,10 @@ func checkFile(path string) (*TestCase, error) {
 		return testCase, err
 	}
 	config := setups[0][1]
+
+	// Check for proper test cleanup
+	testScript = clusterSnapshot + testScript
+	cleanupScript += clusterCleanupCheck
 
 	testCase = &TestCase{
 		valid:         true,
