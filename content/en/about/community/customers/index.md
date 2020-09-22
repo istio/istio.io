@@ -12,7 +12,6 @@ Here are just a few of the organizations we know are using Istio. If you want to
 <div class="logo-gallery">
     {{< company_logo link="https://www.aihuishou.com" logo="./aihuishou.jpeg" alt="Aihuishou" >}}
     {{< company_logo link="https://www.amadeus.com" logo="./amadeus.svg" alt="Amadeus" >}}
-    {{< company_logo link="https://www.anz.com" logo="./anz.svg" alt="ANZ" >}}
     {{< company_logo link="https://www.autodesk.com" logo="./autodesk.png" alt="Autodesk" >}}
     {{< company_logo link="https://www.autotrader.co.uk" logo="./autotrader.uk.svg" alt="AutoTrader UK" >}}
     {{< company_logo link="https://www.bol.com" logo="./bol-com.svg" alt="bol.com" >}}
