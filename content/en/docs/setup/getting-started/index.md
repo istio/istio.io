@@ -48,7 +48,7 @@ Follow these steps to get started with Istio:
     run:
 
     {{< text bash >}}
-    curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.8 TARGET_ARCH=x86_64 sh -
+    $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.8 TARGET_ARCH=x86_64 sh -
     {{< /text >}}
 
     {{< /tip >}}
