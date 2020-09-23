@@ -48,6 +48,24 @@ git fetch "$ISTIO_REMOTE"
 git checkout "$ISTIO_SHA"
 
 # Build and install istioctl
+ISTIOCTL_ARTIFACT="${ISTIO_OUT}/release/"
+case "$GOOS_LOCAL" in
+  linux)
+    ISTIOCTL_ARTIFACT+="istioctl-${GOOS_LOCAL}-${GOARCH_LOCAL}"
+    ;;
+  darwin)
+    ISTIOCTL_ARTIFACT+="istioctl-osx"
+    ;;
+  windows)
+    ISTIOCTL_ARTIFACT+="istioctl-win.exe"
+    ;;
+  *)
+    echo "Unsupported platform: $GOOS_LOCAL"
+    exit 0
+    ;;
+esac
+# Location where istioctl will be run from.
+export ISTIOIO_BIN=${ISTIOIO_BIN:-"/gobin"}
 LONG_SHA=$(git rev-parse "${ISTIO_SHA}")
 export TAG=${ISTIO_IMAGE_VERSION}.${LONG_SHA}
 export VERSION=${TAG}
@@ -55,9 +73,8 @@ export ISTIO_VERSION=${TAG}
 echo "TAG=${TAG}"
 echo "VERSION=${VERSION}"
 echo "ISTIO_VERSION=${ISTIO_VERSION}"
-make gen-charts "${ISTIO_OUT}/release/istioctl-linux-amd64"
-cp -a "${ISTIO_OUT}/release/istioctl-linux-amd64" /gobin/istioctl
-
+make gen-charts "$ISTIOCTL_ARTIFACT"
+cp -a "$ISTIOCTL_ARTIFACT" "${ISTIOIO_BIN}/istioctl"
 
 popd > /dev/null
 
