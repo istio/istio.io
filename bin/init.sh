@@ -73,9 +73,15 @@ export ISTIO_VERSION=${TAG}
 echo "TAG=${TAG}"
 echo "VERSION=${VERSION}"
 echo "ISTIO_VERSION=${ISTIO_VERSION}"
-make gen-charts "$ISTIOCTL_ARTIFACT"
-cp -a "$ISTIOCTL_ARTIFACT" "${ISTIOIO_BIN}/istioctl"
-
+make gen-charts
+if [ -z "$IN_BUILD_CONTAINER" ]
+then
+  make "$ISTIOCTL_ARTIFACT"
+  cp -a "$ISTIOCTL_ARTIFACT" "${ISTIOIO_BIN}/istioctl"
+else
+  make "${ISTIO_OUT}/release/istioctl-linux-amd64"
+  cp -a "${ISTIO_OUT}/release/istioctl-linux-amd64" /gobin/istioctl
+fi
 popd > /dev/null
 
 # Copy install, samples, and tool files over from Istio. These are needed by the tests.
