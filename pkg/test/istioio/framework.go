@@ -95,7 +95,7 @@ func init() {
 					if testCase, err := checkFile(path); testCase.valid {
 						testCases = append(testCases, *testCase)
 					} else if err != nil {
-						log.Printf("Error occurred while processing %v: %v", testCase.path, err)
+						log.Fatalf("Error occurred while processing %v: %v\n", testCase.path, err)
 					}
 				}
 				return nil
