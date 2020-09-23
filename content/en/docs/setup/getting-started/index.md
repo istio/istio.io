@@ -145,8 +145,8 @@ Follow these steps to get started with Istio:
     {{< /text >}}
 
     {{< tip >}}
-    Re-run the previous command and wait until all pods report READY 2 / 2 and
-    STATUS Running before you go to the next step. This might take a few minutes
+    Re-run the previous command and wait until all pods report READY `2/2` and
+    STATUS `Running` before you go to the next step. This might take a few minutes
     depending on your platform.
     {{< /tip >}}
 
@@ -337,7 +337,7 @@ by viewing the Bookinfo product page using a browser.
 1.  Run the following command to retrieve the external address of the Bookinfo application.
 
     {{< text bash >}}
-    $ echo http://"$GATEWAY_URL/productpage"
+    $ echo "http://$GATEWAY_URL/productpage"
     {{< /text >}}
 
 1.  Paste the output from the previous command into your web browser and confirm that the Bookinfo product page is displayed.

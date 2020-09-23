@@ -221,7 +221,7 @@ echo "$GATEWAY_URL"
 ENDSNIP
 
 snip_verify_external_access_confirm_1() {
-echo http://"$GATEWAY_URL/productpage"
+echo "http://$GATEWAY_URL/productpage"
 }
 
 snip_view_the_dashboard_dashboard_1() {
