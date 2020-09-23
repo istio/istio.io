@@ -196,7 +196,15 @@ debug and diagnose their Istio mesh.
 </tbody>
 </table>
 <h2 id="istioctl-bug-report">istioctl bug-report</h2>
-<p>This command selectively captures cluster information and logs into an archive to help diagnose problems. It optionally uploads the archive to a GCS bucket.</p>
+<p>bug-report selectively captures cluster information and logs into an archive to help diagnose problems and optionally uploads the archive to a GCS bucket. 
+Proxy logs can be filtered using:
+  --include|--exclude ns1,ns2.../dep1,dep2.../pod1,pod2.../cntr1,cntr.../lbl1=val1,lbl2=val2.../ann1=val1,ann2=val2...
+    where ns=namespace, dep=deployment, cntr=container, lbl=label, ann=annotationThe filter spec is interpreted as &#39;must be in (ns1 OR ns2) AND (dep1 OR dep2) AND (cntr1 OR cntr2)...&#39;The log will be included only if the container matches at least one include filter and does not match any exclude filters.All parts of the filter are optional and can be omitted e.g. ns1//pod1 filters only for namespace ns1 and pod1.
+All names except label and annotation keys support &#39;*&#39; glob matching pattern.
+e.g. --include ns1,ns2 (only namespaces ns1 and ns2)
+     --include n*//p*/l=v* (pods with name beginning with &#39;p&#39; in namespaces
+         beginning with &#39;n&#39; and having label &#39;l&#39; with value beginning with &#39;v&#39;.)
+</p>
 <pre class="language-bash"><code>istioctl bug-report [flags]
 </code></pre>
 <table class="command-flags">
@@ -241,12 +249,12 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--exclude &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pods&#39; proxy logs to exclude from the archive, after the include spec is processed. See &#39;help&#39; for examples.  (default `["kube-system,kube-public"]`)</td>
+<td>Spec for which pods&#39; proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-system,kube-public"]`)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to a file containing configuration in YAML format.  (default ``)</td>
+<td>Path to a file containing configuration in YAML format. The file contents are applied over the default values and flag settings, with lists being replaced per JSON merge semantics.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--full-secrets</code></td>
@@ -266,12 +274,12 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--include &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pods&#39; proxy logs to include in the archive. See &#39;help&#39; for examples.  (default `[]`)</td>
+<td>Spec for which pods&#39; proxy logs to include in the archive. See above for format and examples.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--istio-namespace &lt;string&gt;</code></td>
 <td></td>
-<td>List of comma-separated namespaces where Istio control planes are installed.  (default `istio-system`)</td>
+<td>Namespace where Istio control plane is installed.  (default `istio-system`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -356,12 +364,12 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--exclude &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pods&#39; proxy logs to exclude from the archive, after the include spec is processed. See &#39;help&#39; for examples.  (default `["kube-system,kube-public"]`)</td>
+<td>Spec for which pods&#39; proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-system,kube-public"]`)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to a file containing configuration in YAML format.  (default ``)</td>
+<td>Path to a file containing configuration in YAML format. The file contents are applied over the default values and flag settings, with lists being replaced per JSON merge semantics.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--full-secrets</code></td>
@@ -381,12 +389,12 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--include &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pods&#39; proxy logs to include in the archive. See &#39;help&#39; for examples.  (default `[]`)</td>
+<td>Spec for which pods&#39; proxy logs to include in the archive. See above for format and examples.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--istio-namespace &lt;string&gt;</code></td>
 <td></td>
-<td>List of comma-separated namespaces where Istio control planes are installed.  (default `istio-system`)</td>
+<td>Namespace where Istio control plane is installed.  (default `istio-system`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -5310,6 +5318,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to false, the debug interface will not be ebabled on Http, recommended for production</td>
+</tr>
+<tr>
+<td><code>ENABLE_LEGACY_FSGROUP_INJECTION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
 </tr>
 <tr>
 <td><code>INGRESS_GATEWAY_NAMESPACE</code></td>
