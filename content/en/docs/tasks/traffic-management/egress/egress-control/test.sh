@@ -62,7 +62,9 @@ _wait_for_deployment istio-system istiod
 # Restart the sleep service
 snip_cleanup_1
 snip_before_you_begin_1
-kubectl wait --for=delete "pod/$SOURCE_POD" --timeout=60s
+start=$(date +%s)
+kubectl wait --for=delete "pod/$SOURCE_POD" --timeout=180s
+echo "Wait for termination duration: $(($(date +%s)-start)) seconds"
 
 kubectl get po
 
