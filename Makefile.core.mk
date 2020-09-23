@@ -22,8 +22,8 @@ export GO_TOP
 GO ?= go
 
 GOARCH_LOCAL := $(TARGET_ARCH)
-GOOS_LOCAL := $(TARGET_OS)
-export GOOS_LOCAL
+export GOOS_LOCAL := $(TARGET_OS)
+export IN_BUILD_CONTAINER := $(IN_BUILD_CONTAINER)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
 # For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
