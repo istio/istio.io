@@ -196,15 +196,17 @@ debug and diagnose their Istio mesh.
 </tbody>
 </table>
 <h2 id="istioctl-bug-report">istioctl bug-report</h2>
-<p>bug-report selectively captures cluster information and logs into an archive to help diagnose problems and optionally uploads the archive to a GCS bucket. 
+<p>bug-report selectively captures cluster information and logs into an archive to help diagnose problems.
 Proxy logs can be filtered using:
   --include|--exclude ns1,ns2.../dep1,dep2.../pod1,pod2.../cntr1,cntr.../lbl1=val1,lbl2=val2.../ann1=val1,ann2=val2...
-    where ns=namespace, dep=deployment, cntr=container, lbl=label, ann=annotationThe filter spec is interpreted as &#39;must be in (ns1 OR ns2) AND (dep1 OR dep2) AND (cntr1 OR cntr2)...&#39;The log will be included only if the container matches at least one include filter and does not match any exclude filters.All parts of the filter are optional and can be omitted e.g. ns1//pod1 filters only for namespace ns1 and pod1.
-All names except label and annotation keys support &#39;*&#39; glob matching pattern.
-e.g. --include ns1,ns2 (only namespaces ns1 and ns2)
-     --include n*//p*/l=v* (pods with name beginning with &#39;p&#39; in namespaces
-         beginning with &#39;n&#39; and having label &#39;l&#39; with value beginning with &#39;v&#39;.)
-</p>
+where ns=namespace, dep=deployment, cntr=container, lbl=label, ann=annotation</p>
+<p>The filter spec is interpreted as &#39;must be in (ns1 OR ns2) AND (dep1 OR dep2) AND (cntr1 OR cntr2)...&#39;
+The log will be included only if the container matches at least one include filter and does not match any exclude filters.
+All parts of the filter are optional and can be omitted e.g. ns1//pod1 filters only for namespace ns1 and pod1.
+All names except label and annotation keys support &#39;*&#39; glob matching pattern.</p>
+<p>e.g.
+--include ns1,ns2 (only namespaces ns1 and ns2)
+--include n*//p*/l=v* (pods with name beginning with &#39;p&#39; in namespaces beginning with &#39;n&#39; and having label &#39;l&#39; with value beginning with &#39;v&#39;.)</p>
 <pre class="language-bash"><code>istioctl bug-report [flags]
 </code></pre>
 <table class="command-flags">
@@ -262,11 +264,6 @@ e.g. --include ns1,ns2 (only namespaces ns1 and ns2)
 <td>If set, secret contents are included in output. </td>
 </tr>
 <tr>
-<td><code>--gcs-url &lt;string&gt;</code></td>
-<td></td>
-<td>URL of the GCS bucket where the archive is uploaded.  (default ``)</td>
-</tr>
-<tr>
 <td><code>--ignore-errs &lt;stringSlice&gt;</code></td>
 <td></td>
 <td>List of comma separated glob patters to match against log error strings. Any error matching these patters is ignored when calculating the log importance heuristic.  (default `[]`)</td>
@@ -292,11 +289,6 @@ e.g. --include ns1,ns2 (only namespaces ns1 and ns2)
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--max-size &lt;int32&gt;</code></td>
-<td></td>
-<td>Maximum size of the compressed archive in Mb. Logs are prioritizedaccording to importance heuristics.  (default `500`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -310,11 +302,6 @@ e.g. --include ns1,ns2 (only namespaces ns1 and ns2)
 <td><code>--timeout &lt;duration&gt;</code></td>
 <td></td>
 <td>Maximum amount of time to spend fetching logs. When timeout is reached only the logs captured so far are saved to the archive.  (default `30m0s`)</td>
-</tr>
-<tr>
-<td><code>--upload</code></td>
-<td></td>
-<td>Upload archive to GCS bucket. If gcs-url is unset, a new bucket is created. </td>
 </tr>
 </tbody>
 </table>
@@ -377,11 +364,6 @@ e.g. --include ns1,ns2 (only namespaces ns1 and ns2)
 <td>If set, secret contents are included in output. </td>
 </tr>
 <tr>
-<td><code>--gcs-url &lt;string&gt;</code></td>
-<td></td>
-<td>URL of the GCS bucket where the archive is uploaded.  (default ``)</td>
-</tr>
-<tr>
 <td><code>--ignore-errs &lt;stringSlice&gt;</code></td>
 <td></td>
 <td>List of comma separated glob patters to match against log error strings. Any error matching these patters is ignored when calculating the log importance heuristic.  (default `[]`)</td>
@@ -407,11 +389,6 @@ e.g. --include ns1,ns2 (only namespaces ns1 and ns2)
 <td>Path to kube config.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--max-size &lt;int32&gt;</code></td>
-<td></td>
-<td>Maximum size of the compressed archive in Mb. Logs are prioritizedaccording to importance heuristics.  (default `500`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -435,11 +412,6 @@ e.g. --include ns1,ns2 (only namespaces ns1 and ns2)
 <td><code>--timeout &lt;duration&gt;</code></td>
 <td></td>
 <td>Maximum amount of time to spend fetching logs. When timeout is reached only the logs captured so far are saved to the archive.  (default `30m0s`)</td>
-</tr>
-<tr>
-<td><code>--upload</code></td>
-<td></td>
-<td>Upload archive to GCS bucket. If gcs-url is unset, a new bucket is created. </td>
 </tr>
 </tbody>
 </table>
