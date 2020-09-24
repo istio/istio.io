@@ -10,12 +10,11 @@ keywords: [kubernetes,multicluster]
 test: yes
 owner: istio/wg-environments-maintainers
 ---
-When installing Istio across multiple clusters, there are more things to
-consider than with a [single cluster installation](/docs/setup/getting-started).
+Follow this guide to install an Istio {{< gloss >}}service mesh{{< /gloss >}}
+that spans multiple {{< gloss "cluster" >}}clusters{{< /gloss >}}.
 
-Although there is no default installation procedure for a multicluster mesh, as it will
-be different based on your cluster and network architecture, this guide covers some
-of the most common concerns:
+This guide covers some of the most common concerns when creating a
+{{< gloss >}}multicluster{{< /gloss >}} mesh:
 
 - [Network topologies](/docs/ops/deployment/deployment-models#network-models):
   one or two networks
@@ -29,16 +28,15 @@ which describes the foundational concepts used throughout this guide.
 ## Requirements
 
 This guide requires that you have two Kubernetes clusters with any of the
-[supported versions](/docs/setup/platform-setup).
+[supported Kubernetes versions](/docs/setup/platform-setup).
 
-If the clusters are on different networks (i.e. no direct connectivity between
-pods on different clusters), they must have ingress gateway services which are
-accessible from the other cluster, ideally using L4 network load balancers
-(NLBs). Not all cloud providers support NLBs and some require special
-annotations to use them, so please consult your cloud provider’s documentation
-for enabling NLBs for service object type load balancers. When deploying on
-platforms without NLB support, it may be necessary to modify the health checks
-for the load balancer to register the ingress gateway.
+The API Server in each cluster must be accessible to the other clusters in the
+mesh. Many cloud providers make API Servers publicly accessible via network
+load balancers (NLB). If the API Server is not directly accessible, you will
+have to modify the installation procedure to enable access. For example, the
+[east-west](https://en.wikipedia.org/wiki/East-west_traffic) gateway used in
+the multi-network and primary-remote configurations below could also be used
+to enable access to the API Server.
 
 ## Environment Variables
 
@@ -69,22 +67,24 @@ Istio may change slightly.
 
 This guide will assume that you use a common root to generate intermediate
 certificates for each cluster. Follow the [instructions](/docs/tasks/security/cert-management/plugin-ca-cert/)
-to generate and push a secret to both the `FRED` and `BARNEY` clusters.
+to generate and push a ca certificate secrets to both the `FRED` and `BARNEY`
+clusters.
 
 {{< tip >}}
 If you currently have a single cluster with a self-signed CA (as described
-in [Getting Started](/docs/setup/getting-started/)), you’ll need to
-[change the CA](/docs/tasks/security/cert-management/) to support multiple
-clusters and then reinstall Istio using the standard installation
-instructions below.
+in [Getting Started](/docs/setup/getting-started/)), you need to
+change the CA using one of the methods described in
+[certificate management](/docs/tasks/security/cert-management/). Changing the
+CA typically requires reinstalling Istio. The installation instructions
+below may have to be altered based on your choice of CA.
 {{< /tip >}}
 
 ## Install Istio
 
 The steps for installing Istio on multiple clusters depend on your
 requirements for network and control plane topology. This section
-illustrates the options for two clusters. Large systems may employ more
-than one of these options for meshes that span many clusters. See
+illustrates the options for two clusters. Meshes that span many clusters may
+employ more than one of these options. See
 [deployment models](/docs/ops/deployment/deployment-models) for more
 information.
 
@@ -94,9 +94,11 @@ information.
 
 The steps that follow will install the Istio control plane on both `FRED` and
 `BARNEY`, making each a {{< gloss >}}primary cluster{{< /gloss >}}. Both
-clusters reside on the `EAST` network.
+clusters reside on the `EAST` network, meaning there is direct
+connectivity between the pods in both clusters.
 
 Each control plane observes the API Servers in both clusters for endpoints.
+
 Service workloads communicate directly (pod-to-pod) across cluster boundaries.
 
 {{< image width="75%"
@@ -109,7 +111,7 @@ Service workloads communicate directly (pod-to-pod) across cluster boundaries.
 Install Istio on `FRED`:
 
 {{< text bash >}}
-$ istioctl --context=${CTX_FRED} -f - <<EOF
+$ cat <<EOF > ./fred.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -128,6 +130,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
+$ istioctl install --context=${CTX_FRED} -f fred.yaml
 {{< /text >}}
 
 ### Configure `BARNEY` as a primary
@@ -135,7 +138,7 @@ EOF
 Install Istio on `BARNEY`:
 
 {{< text bash >}}
-$ istioctl --context=${CTX_BARNEY} -f - <<EOF
+$ cat <<EOF > ./barney.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -154,6 +157,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
+$ istioctl install --context=${CTX_BARNEY} -f barney.yaml
 {{< /text >}}
 
 ### Enable Endpoint Discovery
@@ -182,12 +186,14 @@ $ istioctl x create-remote-secret \
 
 The following steps will install the Istio control plane on both `FRED` and
 `BARNEY`, making each a {{< gloss >}}primary cluster{{< /gloss >}}. `FRED` is
-on the `WEST` network, while `BARNEY` is on the `EAST` network.
+on the `WEST` network, while `BARNEY` is on the `EAST` network. This means there
+is no direct connectivity between pods across cluster boundaries.
 
 Both `FRED` and `BARNEY` observe the API Servers in each cluster for endpoints.
+
 Service workloads across cluster boundaries communicate indirectly, via
 dedicated gateways for [east-west](https://en.wikipedia.org/wiki/East-west_traffic)
-traffic.
+traffic. The gateway in each cluster must be reachable from the other cluster.
 
 {{< image width="75%"
     link="multi-primary-multi-network.svg"
@@ -199,7 +205,7 @@ traffic.
 Install Istio on `FRED`:
 
 {{< text bash >}}
-$ istioctl --context=${CTX_FRED} -f - <<EOF
+$ cat <<EOF > ./fred.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -223,6 +229,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
+$ istioctl install --context=${CTX_FRED} -f fred.yaml
 {{< /text >}}
 
 Install a gateway in `FRED` that is dedicated to
@@ -254,7 +261,7 @@ $ kubectl --context=${CTX_FRED} apply -n istio-system -f \
 Install Istio on `BARNEY`:
 
 {{< text bash >}}
-$ istioctl --context=${CTX_BARNEY} -f - <<EOF
+$ cat <<EOF > ./barney.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -278,6 +285,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
+$ istioctl install --context=${CTX_BARNEY} -f barney.yaml
 {{< /text >}}
 
 As we did with `FRED` above, install a gateway in `BARNEY` that is dedicated
@@ -320,14 +328,19 @@ $ istioctl x create-remote-secret \
 
 The following steps will install the Istio control plane on `FRED` (the
 {{< gloss >}}primary cluster{{< /gloss >}}) and configure `BARNEY` (the
-{{< gloss >}}remote cluster{{< /gloss >}}) to use the control plane in `FRED`. Both
-clusters reside on the `EAST` network.
+{{< gloss >}}remote cluster{{< /gloss >}}) to use the control plane in `FRED`.
+Both clusters reside on the `EAST` network, meaning there is direct
+connectivity between the pods in both clusters.
 
 `FRED` will be configured to observe the API Servers in both clusters for
 endpoints. In this way, the control plane will be able to provide service
-discovery for workloads in both clusters. Service workloads across cluster
-boundaries communicate indirectly, via dedicated
-[east-west](https://en.wikipedia.org/wiki/East-west_traffic) gateways.
+discovery for workloads in both clusters.
+
+Service workloads communicate directly (pod-to-pod) across cluster boundaries.
+
+Services in `BARNEY` will reach the control plane in `FRED` via a
+dedicated gateway for [east-west](https://en.wikipedia.org/wiki/East-west_traffic)
+traffic.
 
 {{< image width="75%"
     link="primary-remote.svg"
@@ -339,7 +352,7 @@ boundaries communicate indirectly, via dedicated
 Install Istio on `FRED`:
 
 {{< text bash >}}
-$ istioctl --context=${CTX_FRED} -f - <<EOF
+$ cat <<EOF > ./fred.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -358,9 +371,10 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
+$ istioctl install --context=${CTX_FRED} -f fred.yaml
 {{< /text >}}
 
-Install a gateway in the `FRED` that is dedicated to
+Install a gateway in `FRED` that is dedicated to
 [east-west](https://en.wikipedia.org/wiki/East-west_traffic) traffic. By
 default, this gateway will be public on the Internet. Production systems may
 require additional access restrictions (e.g. via firewall rules) to prevent
@@ -395,7 +409,7 @@ $ export DISCOVERY_ADDRESS=$(kubectl \
 Now install a remote configuration on `BARNEY`.
 
 {{< text bash >}}
-$ istioctl --context=${CTX_BARNEY} -f - <<EOF
+$ cat <<EOF > ./barney.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -407,6 +421,7 @@ spec:
       network: EAST
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
+$ istioctl install --context=${CTX_BARNEY} -f barney.yaml
 {{< /text >}}
 
 ### Enable Endpoint Discovery for `BARNEY`
@@ -429,16 +444,19 @@ The following steps will install the Istio control plane on `FRED` (the
 {{< gloss >}}primary cluster{{< /gloss >}}) and configure `BARNEY` (the
 {{< gloss >}}remote cluster{{< /gloss >}}) to use the control plane in `FRED`.
 `FRED` is on the `WEST` network, while `BARNEY` is on the `EAST` network.
+This means there is no direct connectivity between pods across cluster
+boundaries.
 
 `FRED` will be configured to observe the API Servers in both clusters for
 endpoints. In this way, the control plane will be able to provide service
 discovery for workloads in both clusters.
 
-Services in the `BARNEY` will reach the control plane in the `FRED` via a dedicated
-[east-west](https://en.wikipedia.org/wiki/East-west_traffic) gateway.
-
 Service workloads across cluster boundaries communicate indirectly, via
-the dedicated gateways for east-west traffic.
+dedicated gateways for [east-west](https://en.wikipedia.org/wiki/East-west_traffic)
+traffic. The gateway in each cluster must be reachable from the other cluster.
+
+Services in `BARNEY` will reach the control plane in `FRED` via the
+same east-west gateway.
 
 {{< image width="75%"
     link="primary-remote-multi-network.svg"
@@ -448,7 +466,7 @@ the dedicated gateways for east-west traffic.
 ### Configure `FRED` as a primary with control plane and services exposed
 
 {{< text bash >}}
-$ istioctl --context=${CTX_FRED} -f - <<EOF
+$ cat <<EOF > ./fred.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -472,6 +490,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
+$ istioctl install --context=${CTX_FRED} -f fred.yaml
 {{< /text >}}
 
 Install a gateway in `FRED` that is dedicated to east-west traffic. By
@@ -519,7 +538,7 @@ $ export DISCOVERY_ADDRESS=$(kubectl \
 Now install a remote configuration on `BARNEY`.
 
 {{< text bash >}}
-$ istioctl --context=${CTX_BARNEY} -f - <<EOF
+$ cat <<EOF > ./barney.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -531,6 +550,7 @@ spec:
       network: EAST
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
+$ istioctl install --context=${CTX_BARNEY} -f - barney.yaml
 {{< /text >}}
 
 As we did with `FRED` above, install a gateway in `BARNEY` that is dedicated
@@ -597,7 +617,7 @@ $ kubectl label --context=${CTX_BARNEY} namespace sample \
     istio-injection=enabled
 {{< /text >}}
 
-Deploy the `HelloWorld` service to both clusters:
+Create the `HelloWorld` service in both clusters:
 
 {{< text bash >}}
 $ kubectl apply --context=${CTX_FRED} \

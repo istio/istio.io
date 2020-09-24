@@ -26,7 +26,7 @@ export CTX_BARNEY=cluster-barney
 }
 
 snip_configure_fred_as_a_primary_1() {
-istioctl --context=${CTX_FRED} -f - <<EOF
+cat <<EOF > ./fred.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -45,10 +45,11 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
+istioctl install --context=${CTX_FRED} -f fred.yaml
 }
 
 snip_configure_barney_as_a_primary_1() {
-istioctl --context=${CTX_BARNEY} -f - <<EOF
+cat <<EOF > ./barney.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -67,6 +68,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
+istioctl install --context=${CTX_BARNEY} -f barney.yaml
 }
 
 snip_enable_endpoint_discovery_1() {
@@ -84,7 +86,7 @@ istioctl x create-remote-secret \
 }
 
 snip_configure_fred_as_a_primary_with_services_exposed_1() {
-istioctl --context=${CTX_FRED} -f - <<EOF
+cat <<EOF > ./fred.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -108,6 +110,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
+istioctl install --context=${CTX_FRED} -f fred.yaml
 }
 
 snip_configure_fred_as_a_primary_with_services_exposed_2() {
@@ -122,7 +125,7 @@ kubectl --context=${CTX_FRED} apply -n istio-system -f \
 }
 
 snip_configure_barney_as_a_primary_with_services_exposed_1() {
-istioctl --context=${CTX_BARNEY} -f - <<EOF
+cat <<EOF > ./barney.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -146,6 +149,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
+istioctl install --context=${CTX_BARNEY} -f barney.yaml
 }
 
 snip_configure_barney_as_a_primary_with_services_exposed_2() {
@@ -174,7 +178,7 @@ istioctl x create-remote-secret \
 }
 
 snip_configure_fred_as_a_primary_with_control_plane_exposed_1() {
-istioctl --context=${CTX_FRED} -f - <<EOF
+cat <<EOF > ./fred.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -193,6 +197,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
+istioctl install --context=${CTX_FRED} -f fred.yaml
 }
 
 snip_configure_fred_as_a_primary_with_control_plane_exposed_2() {
@@ -214,7 +219,7 @@ export DISCOVERY_ADDRESS=$(kubectl \
 }
 
 snip_configure_barney_as_a_remote_2() {
-istioctl --context=${CTX_BARNEY} -f - <<EOF
+cat <<EOF > ./barney.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -226,6 +231,7 @@ spec:
       network: EAST
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
+istioctl install --context=${CTX_BARNEY} -f barney.yaml
 }
 
 snip_enable_endpoint_discovery_for_barney_1() {
@@ -236,7 +242,7 @@ istioctl x create-remote-secret \
 }
 
 snip_configure_fred_as_a_primary_with_control_plane_and_services_exposed_1() {
-istioctl --context=${CTX_FRED} -f - <<EOF
+cat <<EOF > ./fred.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -260,6 +266,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
+istioctl install --context=${CTX_FRED} -f fred.yaml
 }
 
 snip_configure_fred_as_a_primary_with_control_plane_and_services_exposed_2() {
@@ -286,7 +293,7 @@ export DISCOVERY_ADDRESS=$(kubectl \
 }
 
 snip_configure_barney_as_a_remote_with_services_exposed_2() {
-istioctl --context=${CTX_BARNEY} -f - <<EOF
+cat <<EOF > ./barney.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -298,6 +305,7 @@ spec:
       network: EAST
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
+istioctl install --context=${CTX_BARNEY} -f - barney.yaml
 }
 
 snip_configure_barney_as_a_remote_with_services_exposed_3() {
