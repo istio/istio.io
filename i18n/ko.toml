@@ -1,0 +1,308 @@
+[download_desc]
+other = "이스티오 %s 다운로드 하러 가기"
+
+[discuss_istio_io_desc]
+other = "Join the Istio discussion board to participate in discussions and get help troubleshooting problems"
+
+[twitter_desc]
+other = "Follow us on Twitter to get the latest news"
+
+[stackoverflow_desc]
+other = "Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio"
+
+[for_everyone]
+other = "모두를 위한"
+
+[for_developers]
+other = "개발자를 위한"
+
+[github_desc]
+other = "GitHub은 이스티오 코드에 대한 개발이 이루어지는 곳입니다."
+
+[team_drive_desc]
+other = "Access our team drive if you'd like to take a look at the Istio technical design documents"
+
+[working_group_desc]
+other = "If you'd like to contribute to the Istio project, consider participating in our working groups"
+
+[slack_desc]
+other = "Interactively discuss issues with the Istio community on Slack"
+
+[report_site_bugs]
+other = "사이트 버그 신고"
+
+[edit_on_github]
+other = "GitHub에서 페이지 편집"
+
+[light_theme]
+other = "밝은 테마"
+
+[dark_theme]
+other = "어두운 테마"
+
+[other_versions_of_site]
+other = "사이트의 다른 버전"
+
+[current_release]
+other = "현재 릴리스"
+
+[next_release]
+other = "다음 릴리스"
+
+[archived_releases]
+other = "지난 릴리스"
+
+[options_menu]
+other = "옵션 및 설정"
+
+[search]
+other = "Search this site"
+
+[search_label]
+other = "Search"
+
+[search_cancel]
+other = "Cancel search"
+
+[footer_istio]
+other = "이스티오"
+
+[footer_istio_preliminary]
+other = "이스티오 예비"
+
+[footer_istio_archive]
+other = "이스티오 보관소"
+
+[footer_archived_on]
+other = "%s 보관"
+
+[footer_last_modified]
+other = "페이지 수정 날짜: %s"
+
+[footer_date_format]
+other = "2006년 1월 2일"
+
+[footer_privacy_policy]
+other = "개인정보처리방침"
+
+[page_publish_date_format]
+other = "2006년 1월 2일"
+
+[page_last_update_format]
+other = "(updated on %s)"
+
+[page_word_count]
+other = "%d 글자"
+
+[page_reading_time]
+other = "%v 분 분량"
+
+[relnote_update_advice]
+other = "Before you download %s, you should know that there's a newer patch release with the latest bug fixes and perf improvements."
+
+[relnote_update_button]
+other = "LEARN ABOUT ISTIO %s"
+
+[relnote_update_notice]
+other = "Update Notice"
+
+[relnote_change_notes_title]
+other = "CHANGE NOTES"
+
+[relnote_change_notes_detail]
+other = "Get a detailed list of what's changed."
+
+[relnote_before_you_upgrade_title]
+other = "업그레이드 하기 전"
+
+[relnote_before_you_upgrade_detail]
+other = "업그레이드하기 전에 알아야 할 사항 및 준비해야 할 사항."
+
+[relnote_download_title]
+other = "다운로드"
+
+[relnote_download_detail]
+other = "해당 릴리스 다운로드 및 설치하기."
+
+[relnote_docs_title]
+other = "문서"
+
+[relnote_docs_detail]
+other = "해당 릴리스 문서 보기."
+
+[relnote_helm_changes_title]
+other = "헬름 변경"
+
+[relnote_helm_changes_detail]
+other = "헬름 옵션 변경 학습하기."
+
+[relnote_source_changes_title]
+other = "소스 변경"
+
+[relnote_source_changes_detail]
+other = "소스 코드 변경 부분 살펴보기."
+
+[page_attribution]
+other = "By "
+
+[button_copy]
+other = "클립보드에 복사"
+
+[button_print]
+other = "출력"
+
+[button_download]
+other = "다운로드"
+
+[button_top]
+other = "맨위로"
+
+[button_sidenav]
+other = "네비게이션 바 토글"
+
+[partner_component_notice]
+other = "This component was created and is maintained by an Istio partner. Please address support questions to the partner directly."
+
+[partner_component_partner]
+other = "파트너"
+
+[partner_component_contact]
+other = "연락처"
+
+[partner_component_support_site]
+other = "지원 사이트"
+
+[partner_component_source_code]
+other = "소스 코드"
+
+[partner_component_latest_release]
+other = "최신 릴리스"
+
+[partner_component_helm_chart]
+other = "헬름 차트"
+
+[partner_component_istio_versions]
+other = "Tested by %s with these Istio Versions"
+
+[partner_component_supported_templates]
+other = "지원되는 템플릿"
+
+[adapter]
+other = "Adapter"
+
+[supported_templates]
+other = "지원되는 템플릿"
+
+[adapters]
+other = "Adapters"
+
+[template]
+other = "템플릿"
+
+[subscribe]
+other = "구독"
+
+[see_also]
+other = "더 보기"
+
+[links]
+other = "링크"
+
+[generated_file]
+other = "This is an auto-generated file, please edit the source in the %s repo."
+
+[switch_lang]
+other = "언어 변경"
+
+[advisory]
+other = "-"
+
+[syntax_coloring]
+other = "Color Examples"
+
+[analysis_name]
+other = "Message Name"
+
+[analysis_code]
+other = "Message Code"
+
+[analysis_description]
+other = "Description"
+
+[analysis_level]
+other = "Level"
+
+[target_release]
+other = "This blog post was written assuming Istio %v, so some of this content may now be outdated."
+
+[security_disclosure]
+other = "Disclosure"
+
+[security_related]
+other = "Related"
+
+[security_date]
+other = "Date"
+
+[security_affected_releases]
+other = "Affected Releases"
+
+[security_impact_score]
+other = "Impact Score"
+
+[mark_all_as_read]
+other = "Mark all as read"
+
+[security_bulletin_title]
+other = "Disclosure Details"
+
+[security_bulletin_cves]
+other = "CVE(s)"
+
+[security_bulletin_cvss]
+other = "CVSS Impact Score"
+
+[security_bulletin_affected_releases]
+other = "Affected Releases"
+
+[feedback_title]
+other = "이 페이지가 유용한가요?"
+
+[feedback_yes]
+other = "네"
+
+[feedback_no]
+other = "아니요"
+
+[feedback_ask_for_comment]
+other = "Do you have any suggestions for improvement?"
+
+[feedback_thankyou]
+other = "피드백 감사합니다!"
+
+[feedback_comment_placeholder]
+other = "Help us improve..."
+
+[log_month_format]
+other = "2006년 1월"
+
+[log_change_format]
+other = "2006/01/02"
+
+[log_when]
+other = "날짜"
+
+[log_doc]
+other = "문서"
+
+[log_change]
+other = "수정"
+
+[tested]
+other = "페이지 테스트"
+
+[has_test]
+other = "An automated test is available for this page. Click for details."
+
+[needs_test]
+other = "No automated test is available for this page. Click for details or to help create one."
