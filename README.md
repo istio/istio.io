@@ -153,7 +153,7 @@ new content directory. This ensures that the linting rules apply to your new con
 - Edit the file `src/ts/lang.ts` and add your new language. This will add your language to the language toggle button that is
 available on preliminary.istio.io and will make it so your language will be supported in the language selection menu.
 
-- Get an Istio GitHub administrator to create a new maintainer team for your language. For Franch, this would be
+- Get an Istio GitHub administrator to create a new maintainer team for your language. For French, this would be
 `WG - Docs Mintainers/French`.
 
 - Edit the file `CODEOWNERS` and add entries for your language to give the new team you've created ownership over
