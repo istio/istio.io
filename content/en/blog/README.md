@@ -39,7 +39,7 @@ To submit a blog post, follow the steps below.
 - Istio new feature releases and project updates
 - Tutorials and demos 
 - Use cases
-- Content that relates vendor or platform about Istio installation and use 
+- Content that relates vendor or platform to Istio installation and use 
 
 #### Unsuitable Content:
 - Content that is disparaging to Istio project, its functionalities or community
