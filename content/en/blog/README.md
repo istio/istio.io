@@ -1,6 +1,6 @@
 # Istio blog
 
-The Istio blog is owned by the [Steering committee](GET LINK) and run by the [Editorial Team](#leadership).
+The Istio blog is owned by the [Steering committee](https://github.com/istio/community/blob/master/STEERING-COMMITTEE.md) and run by the [Editorial Team](#leadership).
 
 This section covers documentation, processes, and roles for the [Istio blog](https://istio.io/latest/blog/2020/).
 
