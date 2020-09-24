@@ -21,340 +21,340 @@
 ####################################################################################################
 
 snip_environment_variables_1() {
-export CTX_FRED=cluster-fred
-export CTX_BARNEY=cluster-barney
+export CTX_CLUSTER1=cluster1
+export CTX_CLUSTER2=cluster2
 }
 
-snip_configure_fred_as_a_primary_1() {
-cat <<EOF > ./fred.yaml
+snip_install_istio_1() {
+cat <<EOF > ./cluster1.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   values:
     global:
-      meshID: BEDROCK
+      meshID: MESH1
       multiCluster:
-        clusterName: FRED
-      network: EAST
+        clusterName: CLUSTER1
+      network: NETWORK1
       meshNetworks:
-        EAST:
+        NETWORK1:
           endpoints:
-          - fromRegistry: FRED
-          - fromRegistry: BARNEY
+          - fromRegistry: CLUSTER1
+          - fromRegistry: CLUSTER2
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-istioctl install --context=${CTX_FRED} -f fred.yaml
+istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
 }
 
-snip_configure_barney_as_a_primary_1() {
-cat <<EOF > ./barney.yaml
+snip_install_istio_2() {
+cat <<EOF > ./cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   values:
     global:
-      meshID: BEDROCK
+      meshID: MESH1
       multiCluster:
-        clusterName: BARNEY
-      network: EAST
+        clusterName: CLUSTER2
+      network: NETWORK1
       meshNetworks:
-        EAST:
+        NETWORK1:
           endpoints:
-          - fromRegistry: BARNEY
-          - fromRegistry: FRED
+          - fromRegistry: CLUSTER2
+          - fromRegistry: CLUSTER1
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-istioctl install --context=${CTX_BARNEY} -f barney.yaml
+istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
 }
 
-snip_enable_endpoint_discovery_1() {
+snip_install_istio_3() {
 istioctl x create-remote-secret \
-    --context=${CTX_FRED} \
-    --name=FRED | \
-    kubectl apply -f - --context=${CTX_BARNEY}
+    --context=${CTX_CLUSTER1} \
+    --name=CLUSTER1 | \
+    kubectl apply -f - --context=${CTX_CLUSTER2}
 }
 
-snip_enable_endpoint_discovery_2() {
+snip_install_istio_4() {
 istioctl x create-remote-secret \
-    --context=${CTX_BARNEY} \
-    --name=BARNEY | \
-    kubectl apply -f - --context=${CTX_FRED}
+    --context=${CTX_CLUSTER2} \
+    --name=CLUSTER2 | \
+    kubectl apply -f - --context=${CTX_CLUSTER1}
 }
 
-snip_configure_fred_as_a_primary_with_services_exposed_1() {
-cat <<EOF > ./fred.yaml
+snip_install_istio_5() {
+cat <<EOF > ./cluster1.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   values:
     global:
-      meshID: BEDROCK
+      meshID: MESH1
       multiCluster:
-        clusterName: FRED
-      network: WEST
+        clusterName: CLUSTER1
+      network: NETWORK1
       meshNetworks:
-        WEST:
+        NETWORK1:
           endpoints:
-          - fromRegistry: FRED
+          - fromRegistry: CLUSTER1
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
-        EAST:
+        NETWORK2:
           endpoints:
-          - fromRegistry: BARNEY
+          - fromRegistry: CLUSTER2
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-istioctl install --context=${CTX_FRED} -f fred.yaml
+istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
 }
 
-snip_configure_fred_as_a_primary_with_services_exposed_2() {
-CLUSTER=FRED NETWORK=WEST \
+snip_install_istio_6() {
+CLUSTER=CLUSTER1 NETWORK=NETWORK1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
-    kubectl apply --context=${CTX_FRED} -f -
+    kubectl apply --context=${CTX_CLUSTER1} -f -
 }
 
-snip_configure_fred_as_a_primary_with_services_exposed_3() {
-kubectl --context=${CTX_FRED} apply -n istio-system -f \
+snip_install_istio_7() {
+kubectl --context=${CTX_CLUSTER1} apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 }
 
-snip_configure_barney_as_a_primary_with_services_exposed_1() {
-cat <<EOF > ./barney.yaml
+snip_install_istio_8() {
+cat <<EOF > ./cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   values:
     global:
-      meshID: BEDROCK
+      meshID: MESH1
       multiCluster:
-        clusterName: BARNEY
-      network: EAST
+        clusterName: CLUSTER2
+      network: NETWORK2
       meshNetworks:
-        WEST:
+        NETWORK1:
           endpoints:
-          - fromRegistry: FRED
+          - fromRegistry: CLUSTER1
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
-        EAST:
+        NETWORK2:
           endpoints:
-          - fromRegistry: BARNEY
+          - fromRegistry: CLUSTER2
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-istioctl install --context=${CTX_BARNEY} -f barney.yaml
+istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
 }
 
-snip_configure_barney_as_a_primary_with_services_exposed_2() {
-CLUSTER=BARNEY NETWORK=EAST \
+snip_install_istio_9() {
+CLUSTER=CLUSTER2 NETWORK=NETWORK2 \
     samples/multicluster/gen-eastwest-gateway.sh | \
-    kubectl apply --context=${CTX_BARNEY} -f -
+    kubectl apply --context=${CTX_CLUSTER2} -f -
 }
 
-snip_configure_barney_as_a_primary_with_services_exposed_3() {
-kubectl --context=${CTX_BARNEY} apply -n istio-system -f \
+snip_install_istio_10() {
+kubectl --context=${CTX_CLUSTER2} apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 }
 
-snip_enable_endpoint_discovery_for_fred_and_barney_1() {
+snip_install_istio_11() {
 istioctl x create-remote-secret \
-  --context=${CTX_FRED} \
-  --name=FRED | \
-  kubectl apply -f - --context=${CTX_BARNEY}
+  --context=${CTX_CLUSTER1} \
+  --name=CLUSTER1 | \
+  kubectl apply -f - --context=${CTX_CLUSTER2}
 }
 
-snip_enable_endpoint_discovery_for_fred_and_barney_2() {
+snip_install_istio_12() {
 istioctl x create-remote-secret \
-  --context=${CTX_BARNEY} \
-  --name=BARNEY | \
-  kubectl apply -f - --context=${CTX_FRED}
+  --context=${CTX_CLUSTER2} \
+  --name=CLUSTER2 | \
+  kubectl apply -f - --context=${CTX_CLUSTER1}
 }
 
-snip_configure_fred_as_a_primary_with_control_plane_exposed_1() {
-cat <<EOF > ./fred.yaml
+snip_install_istio_13() {
+cat <<EOF > ./cluster1.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   values:
     global:
-      meshID: BEDROCK
+      meshID: MESH1
       multiCluster:
-        clusterName: FRED
-      network: EAST
+        clusterName: CLUSTER1
+      network: NETWORK1
       meshNetworks:
         ${NETWORK1}:
           endpoints:
-          - fromRegistry: FRED
-          - fromRegistry: BARNEY
+          - fromRegistry: CLUSTER1
+          - fromRegistry: CLUSTER2
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-istioctl install --context=${CTX_FRED} -f fred.yaml
+istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
 }
 
-snip_configure_fred_as_a_primary_with_control_plane_exposed_2() {
-CLUSTER=FRED NETWORK=WEST \
+snip_install_istio_14() {
+CLUSTER=CLUSTER1 NETWORK=NETWORK1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
-    kubectl apply --context=${CTX_FRED} -f -
+    kubectl apply --context=${CTX_CLUSTER1} -f -
 }
 
-snip_configure_fred_as_a_primary_with_control_plane_exposed_3() {
-kubectl apply --context=${CTX_FRED} -f \
+snip_install_istio_15() {
+kubectl apply --context=${CTX_CLUSTER1} -f \
     samples/multicluster/expose-istiod.yaml
 }
 
-snip_configure_barney_as_a_remote_1() {
+snip_install_istio_16() {
 export DISCOVERY_ADDRESS=$(kubectl \
-    --context=${CTX_FRED} \
+    --context=${CTX_CLUSTER1} \
     -n istio-system get svc istio-eastwestgateway \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 }
 
-snip_configure_barney_as_a_remote_2() {
-cat <<EOF > ./barney.yaml
+snip_install_istio_17() {
+cat <<EOF > ./cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   values:
     global:
-      meshID: BEDROCK
+      meshID: MESH1
       multiCluster:
-        clusterName: BARNEY
-      network: EAST
+        clusterName: CLUSTER2
+      network: NETWORK1
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
-istioctl install --context=${CTX_BARNEY} -f barney.yaml
+istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
 }
 
-snip_enable_endpoint_discovery_for_barney_1() {
+snip_install_istio_18() {
 istioctl x create-remote-secret \
-    --context=${CTX_BARNEY} \
-    --name=BARNEY | \
-    kubectl apply -f - --context=${CTX_FRED}
+    --context=${CTX_CLUSTER2} \
+    --name=CLUSTER2 | \
+    kubectl apply -f - --context=${CTX_CLUSTER1}
 }
 
-snip_configure_fred_as_a_primary_with_control_plane_and_services_exposed_1() {
-cat <<EOF > ./fred.yaml
+snip_install_istio_19() {
+cat <<EOF > ./cluster1.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   values:
     global:
-      meshID: BEDROCK
+      meshID: MESH1
       multiCluster:
-        clusterName: FRED
-      network: WEST
+        clusterName: CLUSTER1
+      network: NETWORK1
       meshNetworks:
-        WEST:
+        NETWORK1:
           endpoints:
-          - fromRegistry: FRED
+          - fromRegistry: CLUSTER1
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
-        EAST:
+        NETWORK2:
           endpoints:
-          - fromRegistry: BARNEY
+          - fromRegistry: CLUSTER2
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-istioctl install --context=${CTX_FRED} -f fred.yaml
+istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
 }
 
-snip_configure_fred_as_a_primary_with_control_plane_and_services_exposed_2() {
-CLUSTER=FRED NETWORK=WEST \
+snip_install_istio_20() {
+CLUSTER=CLUSTER1 NETWORK=NETWORK1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
-    kubectl apply --context=${CTX_FRED} -f -
+    kubectl apply --context=${CTX_CLUSTER1} -f -
 }
 
-snip_configure_fred_as_a_primary_with_control_plane_and_services_exposed_3() {
-kubectl apply --context=${CTX_FRED} -f \
+snip_install_istio_21() {
+kubectl apply --context=${CTX_CLUSTER1} -f \
     samples/multicluster/expose-istiod.yaml
 }
 
-snip_configure_fred_as_a_primary_with_control_plane_and_services_exposed_4() {
-kubectl --context=${CTX_FRED} apply -n istio-system -f \
+snip_install_istio_22() {
+kubectl --context=${CTX_CLUSTER1} apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 }
 
-snip_configure_barney_as_a_remote_with_services_exposed_1() {
+snip_install_istio_23() {
 export DISCOVERY_ADDRESS=$(kubectl \
-    --context=${CTX_FRED} \
+    --context=${CTX_CLUSTER1} \
     -n istio-system get svc istio-eastwestgateway \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 }
 
-snip_configure_barney_as_a_remote_with_services_exposed_2() {
-cat <<EOF > ./barney.yaml
+snip_install_istio_24() {
+cat <<EOF > ./cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   values:
     global:
-      meshID: BEDROCK
+      meshID: MESH1
       multiCluster:
-        clusterName: BARNEY
-      network: EAST
+        clusterName: CLUSTER2
+      network: NETWORK2
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
-istioctl install --context=${CTX_BARNEY} -f - barney.yaml
+istioctl install --context=${CTX_CLUSTER2} -f - cluster2.yaml
 }
 
-snip_configure_barney_as_a_remote_with_services_exposed_3() {
-CLUSTER=BARNEY NETWORK=EAST \
+snip_install_istio_25() {
+CLUSTER=CLUSTER2 NETWORK=NETWORK2 \
     samples/multicluster/gen-eastwest-gateway.sh | \
-    kubectl apply --context=${CTX_BARNEY} -f -
+    kubectl apply --context=${CTX_CLUSTER2} -f -
 }
 
-snip_configure_barney_as_a_remote_with_services_exposed_4() {
-kubectl --context=${CTX_BARNEY} apply -n istio-system -f \
+snip_install_istio_26() {
+kubectl --context=${CTX_CLUSTER2} apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 }
 
-snip_enable_endpoint_discovery_for_barney_on_east_1() {
+snip_install_istio_27() {
 istioctl x create-remote-secret \
-    --context=${CTX_BARNEY} \
-    --name=BARNEY | \
-    kubectl apply -f - --context=${CTX_FRED}
+    --context=${CTX_CLUSTER2} \
+    --name=CLUSTER2 | \
+    kubectl apply -f - --context=${CTX_CLUSTER1}
 }
 
 snip_deploy_the_helloworld_service_1() {
-kubectl create --context=${CTX_FRED} namespace sample
-kubectl create --context=${CTX_BARNEY} namespace sample
+kubectl create --context=${CTX_CLUSTER1} namespace sample
+kubectl create --context=${CTX_CLUSTER2} namespace sample
 }
 
 snip_deploy_the_helloworld_service_2() {
-kubectl label --context=${CTX_FRED} namespace sample \
+kubectl label --context=${CTX_CLUSTER1} namespace sample \
     istio-injection=enabled
-kubectl label --context=${CTX_BARNEY} namespace sample \
+kubectl label --context=${CTX_CLUSTER2} namespace sample \
     istio-injection=enabled
 }
 
 snip_deploy_the_helloworld_service_3() {
-kubectl apply --context=${CTX_FRED} \
+kubectl apply --context=${CTX_CLUSTER1} \
     -f samples/helloworld/helloworld.yaml \
     -l app=helloworld -n sample
-kubectl apply --context=${CTX_BARNEY} \
+kubectl apply --context=${CTX_CLUSTER2} \
     -f samples/helloworld/helloworld.yaml \
     -l app=helloworld -n sample
 }
 
 snip_deploy_helloworld_v1_1() {
-kubectl apply --context=${CTX_FRED} \
+kubectl apply --context=${CTX_CLUSTER1} \
     -f samples/helloworld/helloworld.yaml \
     -l app=helloworld -l version=v1 -n sample
 }
 
 snip_deploy_helloworld_v1_2() {
-kubectl get pod --context=${CTX_FRED} -n sample
+kubectl get pod --context=${CTX_CLUSTER1} -n sample
 }
 
 ! read -r -d '' snip_deploy_helloworld_v1_2_out <<\ENDSNIP
@@ -363,13 +363,13 @@ helloworld-v1-86f77cd7bd-cpxhv  2/2       Running   0          40s
 ENDSNIP
 
 snip_deploy_helloworld_v2_1() {
-kubectl apply --context=${CTX_BARNEY} \
+kubectl apply --context=${CTX_CLUSTER2} \
     -f samples/helloworld/helloworld.yaml \
     -l app=helloworld -l version=v2 -n sample
 }
 
 snip_deploy_helloworld_v2_2() {
-kubectl get pod --context=${CTX_BARNEY} -n sample
+kubectl get pod --context=${CTX_CLUSTER2} -n sample
 }
 
 ! read -r -d '' snip_deploy_helloworld_v2_2_out <<\ENDSNIP
@@ -378,14 +378,14 @@ helloworld-v2-758dd55874-6x4t8  2/2       Running   0          40s
 ENDSNIP
 
 snip_deploy_sleep_1() {
-kubectl apply --context=${CTX_FRED} \
+kubectl apply --context=${CTX_CLUSTER1} \
     -f samples/sleep/sleep.yaml -n sample
-kubectl apply --context=${CTX_BARNEY} \
+kubectl apply --context=${CTX_CLUSTER2} \
     -f samples/sleep/sleep.yaml -n sample
 }
 
 snip_deploy_sleep_2() {
-kubectl get pod --context=${CTX_FRED} -n sample -l app=sleep
+kubectl get pod --context=${CTX_CLUSTER1} -n sample -l app=sleep
 }
 
 ! read -r -d '' snip_deploy_sleep_2_out <<\ENDSNIP
@@ -393,7 +393,7 @@ sleep-754684654f-n6bzf           2/2     Running   0          5s
 ENDSNIP
 
 snip_deploy_sleep_3() {
-kubectl get pod --context=${CTX_BARNEY} -n sample -l app=sleep
+kubectl get pod --context=${CTX_CLUSTER2} -n sample -l app=sleep
 }
 
 ! read -r -d '' snip_deploy_sleep_3_out <<\ENDSNIP
@@ -401,8 +401,8 @@ sleep-754684654f-dzl9j           2/2     Running   0          5s
 ENDSNIP
 
 snip_verifying_crosscluster_traffic_1() {
-kubectl exec --context=${CTX_FRED} -n sample -c sleep \
-    "$(kubectl get pod --context=${CTX_FRED} -n sample -l \
+kubectl exec --context=${CTX_CLUSTER1} -n sample -c sleep \
+    "$(kubectl get pod --context=${CTX_CLUSTER1} -n sample -l \
     app=sleep -o jsonpath='{.items[0].metadata.name}')" \
     -- curl helloworld.sample:5000/hello
 }
@@ -414,8 +414,8 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 ENDSNIP
 
 snip_verifying_crosscluster_traffic_3() {
-kubectl exec --context=${CTX_BARNEY} -n sample -c sleep \
-    "$(kubectl get pod --context=${CTX_BARNEY} -n sample -l \
+kubectl exec --context=${CTX_CLUSTER2} -n sample -c sleep \
+    "$(kubectl get pod --context=${CTX_CLUSTER2} -n sample -l \
     app=sleep -o jsonpath='{.items[0].metadata.name}')" \
     -- curl helloworld.sample:5000/hello
 }
