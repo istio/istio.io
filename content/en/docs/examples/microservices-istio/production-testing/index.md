@@ -17,7 +17,7 @@ Test your microservice, in production!
 1.  Issue an HTTP request from the testing pod to one of your services:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl http://ratings:9080/ratings/7
+    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl http://ratings:9080/ratings/7
     {{< /text >}}
 
 ## Chaos testing
@@ -30,7 +30,7 @@ the pods' status with `kubectl get pods`.
 1.  Terminate the `details` service in one pod.
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pods -l app=details -o jsonpath='{.items[0].metadata.name}') -- pkill ruby
+    $ kubectl exec $(kubectl get pods -l app=details -o jsonpath='{.items[0].metadata.name}') -- pkill ruby
     {{< /text >}}
 
 1.  Check the pods status:
@@ -58,7 +58,7 @@ the pods' status with `kubectl get pods`.
 1.  Terminate the `details` service in all its pods:
 
     {{< text bash >}}
-    $ for pod in $(kubectl get pods -l app=details -o jsonpath='{.items[*].metadata.name}'); do echo terminating $pod; kubectl exec -it $pod -- pkill ruby; done
+    $ for pod in $(kubectl get pods -l app=details -o jsonpath='{.items[*].metadata.name}'); do echo terminating "$pod"; kubectl exec "$pod" -- pkill ruby; done
     {{< /text >}}
 
 1.  Check the webpage of the application:
