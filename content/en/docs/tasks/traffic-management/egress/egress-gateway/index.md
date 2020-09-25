@@ -136,7 +136,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     traffic directed to the egress gateway.
 
     {{< warning >}}
-    When following these steps for additional hosts, do not create these resources again. In stead modify the resources
+    When following these steps for additional hosts, do not create these resources again. Instead modify the resources
     to work with multiple hosts. The `Gateway` resource accepts a list of hosts, or use `'*'` to match all. The `subset`
     in the `DestinationRule` can be reused for additional hosts. Adding an additional `DestinationRule` targetting the
     same Egress Gateway may result in undefined behavior.
@@ -293,7 +293,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 
     {{< warning >}}
     When following these steps for additional hosts, do not create the `Gateway` and `DestinationRule` resources again.
-    In stead modify these two resources to work with multiple hosts. The `Gateway` resource accepts a list of hosts, or
+    Instead modify these two resources to work with multiple hosts. The `Gateway` resource accepts a list of hosts, or
     use `'*'` to match all. The `subset` in the `DestinationRule` can be reused for additional hosts. Adding an additional
     `DestinationRule` targetting the same Egress Gateway may result in undefined behavior.
     {{< /warning >}}
