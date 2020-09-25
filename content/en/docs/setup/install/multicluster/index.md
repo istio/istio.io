@@ -106,7 +106,7 @@ Service workloads communicate directly (pod-to-pod) across cluster boundaries.
     caption="Multiple primary clusters on the same network"
     >}}
 
-- **Configure `CLUSTER1` as a primary**
+<h3>Configure CLUSTER1 as a primary</h3>
 
 Install Istio on `CLUSTER1`:
 
@@ -133,7 +133,7 @@ EOF
 $ istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
 {{< /text >}}
 
-- **Configure `CLUSTER2` as a primary**
+<h3>Configure CLUSTER2 as a primary</h3>
 
 Install Istio on `CLUSTER2`:
 
@@ -160,7 +160,7 @@ EOF
 $ istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
 {{< /text >}}
 
-- **Enable Endpoint Discovery**
+<h3>Enable Endpoint Discovery</h3>
 
 Install a remote secret in `CLUSTER2` that provides access to `CLUSTER1`’s API server.
 
@@ -200,7 +200,7 @@ traffic. The gateway in each cluster must be reachable from the other cluster.
     caption="Multiple primary clusters on separate networks"
     >}}
 
-- **Configure `CLUSTER1` as a primary with services exposed**
+<h3>Configure CLUSTER1 as a primary with services exposed</h3>
 
 Install Istio on `CLUSTER1`:
 
@@ -256,7 +256,7 @@ $ kubectl --context=${CTX_CLUSTER1} apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 {{< /text >}}
 
-- **Configure `CLUSTER2` as a primary with services exposed**
+<h3>Configure CLUSTER2 as a primary with services exposed</h3>
 
 Install Istio on `CLUSTER2`:
 
@@ -302,7 +302,7 @@ $ kubectl --context=${CTX_CLUSTER2} apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 {{< /text >}}
 
-- **Enable Endpoint Discovery for `CLUSTER1` and `CLUSTER2`**
+<h3>Enable Endpoint Discovery for CLUSTER1 and CLUSTER2</h3>
 
 Install a remote secret in `CLUSTER2` that provides access to `CLUSTER1`’s API server.
 
@@ -347,7 +347,7 @@ traffic.
     caption="Primary and remote clusters on the same network"
     >}}
 
-- **Configure `CLUSTER1` as a primary with control plane exposed**
+<h3>Configure CLUSTER1 as a primary with control plane exposed</h3>
 
 Install Istio on `CLUSTER1`:
 
@@ -395,7 +395,7 @@ $ kubectl apply --context=${CTX_CLUSTER1} -f \
     samples/multicluster/expose-istiod.yaml
 {{< /text >}}
 
-- **Configure `CLUSTER2` as a remote**
+<h3>Configure CLUSTER2 as a remote</h3>
 
 Save the address of `CLUSTER1`’s ingress gateway.
 
@@ -424,7 +424,7 @@ EOF
 $ istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
 {{< /text >}}
 
-- **Enable Endpoint Discovery for `CLUSTER2`**
+<h3>Enable Endpoint Discovery for CLUSTER2</h3>
 
 Create a remote secret that will allow the control plane in `CLUSTER1` to access the
 API Server in `CLUSTER2` for endpoints.
@@ -463,7 +463,7 @@ same east-west gateway.
     caption="Primary and remote clusters on separate networks"
     >}}
 
-- **Configure `CLUSTER1` as a primary with control plane and services exposed**
+<h3>Configure CLUSTER1 as a primary with control plane and services exposed</h3>
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster1.yaml
@@ -524,7 +524,7 @@ $ kubectl --context=${CTX_CLUSTER1} apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 {{< /text >}}
 
-- **Configure `CLUSTER2` as a remote with services exposed**
+<h3>Configure CLUSTER2 as a remote with services exposed</h3>
 
 Save the address of `CLUSTER1`’s ingress gateway.
 
@@ -567,7 +567,7 @@ $ kubectl --context=${CTX_CLUSTER2} apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 {{< /text >}}
 
-- **Enable Endpoint Discovery for `CLUSTER2` on `NETWORK2`**
+<h3>Enable Endpoint Discovery for CLUSTER2 on NETWORK2</h3>
 
 Create a remote secret that will allow the control plane in `CLUSTER1` to access the API Server in `CLUSTER2` for endpoints.
 
