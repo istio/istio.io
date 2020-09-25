@@ -974,10 +974,10 @@ istioctl d [flags]
 </tbody>
 </table>
 <h2 id="istioctl-experimental-add-to-mesh">istioctl experimental add-to-mesh</h2>
-<p>&#39;istioctl experimental add-to-mesh&#39; restarts pods with an Istio sidecar or configures meshed pod access to external services.</p>
-<p>Use &#39;add-to-mesh&#39; as an alternate to namespace-wide auto injection for troubleshooting compatibility.</p>
+<p>&#39;istioctl experimental add-to-mesh&#39; restarts pods with an Istio sidecar or configures meshed pod access to external services.
+Use &#39;add-to-mesh&#39; as an alternate to namespace-wide auto injection for troubleshooting compatibility.</p>
 <p>The &#39;remove-from-mesh&#39; command can be used to restart with the sidecar removed.</p>
-<p>THESE COMMANDS ARE UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental add-to-mesh [flags]
 </code></pre>
 <div class="aliases">
@@ -1059,8 +1059,7 @@ to test deployments for compatibility with Istio.  It can be used instead of nam
 <p>If your deployment does not function after using &#39;add-to-mesh&#39; you must re-deploy it and troubleshoot it for Istio compatibility.
 See https://istio.io/v1.8/docs/ops/deployment/requirements/</p>
 <p>See also &#39;istioctl experimental remove-from-mesh deployment&#39; which does the reverse.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental add-to-mesh deployment &lt;deployment&gt; [flags]
 </code></pre>
 <div class="aliases">
@@ -1143,8 +1142,7 @@ istioctl experimental add-to-mesh dep &lt;deployment&gt; [flags]
 a Service without selector for the specified external service in Istio service mesh.
 The typical usage scenario is Mesh Expansion on VMs.</p>
 <p>See also &#39;istioctl experimental remove-from-mesh external-service&#39; which does the reverse.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental add-to-mesh external-service &lt;svcname&gt; &lt;ip&gt; [name1:]port1 [[name2:]port2] ... [flags]
 </code></pre>
 <div class="aliases">
@@ -1232,8 +1230,7 @@ to test deployments for compatibility with Istio.  It can be used instead of nam
 <p>If your service does not function after using &#39;add-to-mesh&#39; you must re-deploy it and troubleshoot it for Istio compatibility.
 See https://istio.io/v1.8/docs/ops/deployment/requirements/</p>
 <p>See also &#39;istioctl experimental remove-from-mesh service&#39; which does the reverse.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental add-to-mesh service &lt;service&gt; [flags]
 </code></pre>
 <div class="aliases">
@@ -1311,7 +1308,8 @@ See https://istio.io/v1.8/docs/ops/deployment/requirements/</p>
   istioctl x add svc ratings-v1
 </code></pre>
 <h2 id="istioctl-experimental-authz">istioctl experimental authz</h2>
-<p>Inspect Istio AuthorizationPolicy</p>
+<p></p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <table class="command-flags">
 <thead>
 <tr>
@@ -1349,8 +1347,6 @@ the Envoy configuration of the pod. The command is especially useful for inspect
 the policy propagation from Istiod to Envoy and the final AuthorizationPolicy list merged 
 from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <p>The command also supports reading from a standalone config dump file with flag -f.</p>
-<p>THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
 <pre class="language-bash"><code>istioctl experimental authz check [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <table class="command-flags">
@@ -1529,6 +1525,11 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <td></td>
 <td>Create a secret with this service account&#39;s credentials.  (default `istio-reader-service-account`)</td>
 </tr>
+<tr>
+<td><code>--type &lt;SecretType&gt;</code></td>
+<td></td>
+<td>Type of the generated secret. supported values = [remote config]  (default `remote`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-create-remote-secret Examples">Examples</h3>
@@ -1585,8 +1586,7 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <h2 id="istioctl-experimental-describe-pod">istioctl experimental describe pod</h2>
 <p>Analyzes pod, its Services, DestinationRules, and VirtualServices and reports
 the configuration objects that affect that pod.</p>
-<p>THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental describe pod &lt;pod&gt; [flags]
 </code></pre>
 <table class="command-flags">
@@ -1631,8 +1631,7 @@ the configuration objects that affect that pod.</p>
 <h2 id="istioctl-experimental-describe-service">istioctl experimental describe service</h2>
 <p>Analyzes service, pods, DestinationRules, and VirtualServices and reports
 the configuration objects that affect that service.</p>
-<p>THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental describe service &lt;svc&gt; [flags]
 </code></pre>
 <div class="aliases">
@@ -2424,7 +2423,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <p>&#39;istioctl experimental remove-from-mesh&#39; restarts pods without an Istio sidecar or removes external service access configuration.
 Use &#39;remove-from-mesh&#39; to quickly test uninjected behavior as part of compatibility troubleshooting.
 The &#39;add-to-mesh&#39; command can be used to add or restore the sidecar.</p>
-<p>THESE COMMANDS ARE UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh [flags]
 </code></pre>
 <div class="aliases">
@@ -2474,8 +2473,7 @@ The &#39;add-to-mesh&#39; command can be used to add or restore the sidecar.</p>
 <h2 id="istioctl-experimental-remove-from-mesh-deployment">istioctl experimental remove-from-mesh deployment</h2>
 <p>&#39;istioctl experimental remove-from-mesh deployment&#39; restarts pods with the Istio sidecar un-injected.
 &#39;remove-from-mesh&#39; is a compatibility troubleshooting tool.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh deployment &lt;deployment&gt; [flags]
 </code></pre>
 <div class="aliases">
@@ -2527,8 +2525,7 @@ istioctl experimental remove-from-mesh dep &lt;deployment&gt; [flags]
 <p>&#39;istioctl experimental remove-from-mesh external-service&#39; removes the ServiceEntry and
 the Kubernetes Service for the specified external service (e.g. services running on a VM) from Istio service mesh.
 The typical usage scenario is Mesh Expansion on VMs.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh external-service &lt;svcname&gt; [flags]
 </code></pre>
 <div class="aliases">
@@ -2578,8 +2575,7 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <h2 id="istioctl-experimental-remove-from-mesh-service">istioctl experimental remove-from-mesh service</h2>
 <p>&#39;istioctl experimental remove-from-mesh service&#39; restarts pods with the Istio sidecar un-injected.
 &#39;remove-from-mesh&#39; is a compatibility troubleshooting tool.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh service &lt;service&gt; [flags]
 </code></pre>
 <div class="aliases">
@@ -4799,6 +4795,7 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <h2 id="istioctl-proxy-config-secret">istioctl proxy-config secret</h2>
 <p>(experimental) Retrieve information about secret configuration for the Envoy instance in the specified pod.</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl proxy-config secret [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <div class="aliases">
@@ -4852,9 +4849,6 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
   # Retrieve full bootstrap without using Kubernetes API
   ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
   istioctl proxy-config secret --file envoy-config.json
-
-  THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-
 </code></pre>
 <h2 id="istioctl-proxy-status">istioctl proxy-status</h2>
 <p>
