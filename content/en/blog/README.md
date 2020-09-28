@@ -59,4 +59,4 @@ Each blog post requires a `lgtm` label from at least one Editorial Lead and one 
 
 ### Timelines
 
-Blog posts can take up to **1 week** to review. If you'd like to request an expedited review, please say so on your message when you ping the editorial team on Slack.
+Blog posts can take up to **1 week** to review. If you'd like to request an expedited review, please say so on your message when you ping the Editorial Team on Slack.
