@@ -13,7 +13,7 @@ This section covers documentation, processes, and roles for the blog.
 
 ## Contact
 
-- Slack: [#toc-steering-questions](https://istio.slack.com/archives/C018VK0T9JTT)
+- Slack: [#toc-steering-questions](https://istio.slack.com/archives/C018VK0T9JT)
 
 ## Submit a Post
 
