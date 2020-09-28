@@ -29,7 +29,7 @@ between the virtual machine and the Kubernetes cluster.
   machine is not required to have access to the cluster IP addresses assigned by
   Kubernetes.
 
-- Installation must be completed using [viritual machine installation](/docs/setup/install/virtual-machine) instructions.
+- Installation must be completed using [virtual machine installation](/docs/setup/install/virtual-machine) instructions.
 
 ## Verify installation
 
