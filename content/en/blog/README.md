@@ -22,7 +22,7 @@ Anyone can write a blog post and submit it for review. Content highlighting comm
 To submit a blog post, follow the steps below.
 
 1. [Sign the Contributor License Agreements](https://github.com/istio/community/blob/master/CONTRIBUTING.md#contributor-license-agreements) if you have not yet done so.
-1. Familiarize yourself with the Markdown format for existing blog posts in the [docs repository](https://github.com/istio/istio.io/tree/master/content/en/blog/2020). 
+1. Familiarize yourself with the Markdown format for existing blog posts in the [docs repository](https://github.com/istio/istio.io/tree/master/content/en/blog). 
 1. Write your blog post in a text editor of your choice.
 1. Choose at least one of the following tags for your blogpost: New releases, Announcements, Trainings, Events, Commercial products
 1. (Optional) If you need help with markdown, check out [StakEdit](https://stackedit.io/app#) or read [GitHub's formatting syntax](https://help.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax) for more information. 
