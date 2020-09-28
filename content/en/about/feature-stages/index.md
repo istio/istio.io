@@ -84,7 +84,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/) | Stable
 | [Attribute Expression Language](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/expression-language/) | Stable
 | Mixer Out-of-Process Adapter Authoring Model | Beta
-| [Multicluster Mesh over VPN](/docs/setup/install/multicluster/) | Alpha
+| [Multicluster Mesh](/docs/setup/install/multicluster/) | Alpha
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/) | Beta
 | Consul Integration | Alpha
 | Basic Configuration Resource Validation | Beta

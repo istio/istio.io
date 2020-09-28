@@ -15,7 +15,7 @@ This blog post explains how we solved these problems using [Admiral](https://git
 
 ## Background
 
-Using Istio, we realized the configuration for multi-cluster was complex and challenging to maintain over time. As a result, we chose the model described in [Multi-Cluster Istio Service Mesh with replicated control planes](/docs/setup/install/multicluster/gateways/#deploy-the-istio-control-plane-in-each-cluster) for scalability and other operational reasons. Following this model, we had to solve these key requirements before widely adopting an Istio service mesh:
+Using Istio, we realized the configuration for multi-cluster was complex and challenging to maintain over time. As a result, we chose the model described in [Multi-Cluster Istio Service Mesh with replicated control planes](https://istio.io/v1.6/docs/setup/install/multicluster/gateways/#deploy-the-istio-control-plane-in-each-cluster) for scalability and other operational reasons. Following this model, we had to solve these key requirements before widely adopting an Istio service mesh:
 
 - Creation of service DNS entries decoupled from the namespace, as described in [Features of multi-mesh deployments](/blog/2019/isolated-clusters/#features-of-multi-mesh-deployments).
 - Service discovery across many clusters.
@@ -164,6 +164,6 @@ spec:
 
 ## Summary
 
-Admiral provides a new Global Traffic Routing and unique service naming functionality to address some challenges posed by the Istio model described in [multi-cluster deployment with replicated control planes](/docs/setup/install/multicluster/gateways/#deploy-the-istio-control-plane-in-each-cluster). It removes the need for manual configuration synchronization between clusters and generates contextual configuration for each cluster. This makes it possible to operate a Service Mesh composed of many Kubernetes clusters.
+Admiral provides a new Global Traffic Routing and unique service naming functionality to address some challenges posed by the Istio model described in [multi-cluster deployment with replicated control planes](https://istio.io/v1.6/docs/setup/install/multicluster/gateways/#deploy-the-istio-control-plane-in-each-cluster). It removes the need for manual configuration synchronization between clusters and generates contextual configuration for each cluster. This makes it possible to operate a Service Mesh composed of many Kubernetes clusters.
 
 We think Istio/Service Mesh community would benefit from this approach, so we [open sourced Admiral](https://github.com/istio-ecosystem/admiral) and would love your feedback and support!
