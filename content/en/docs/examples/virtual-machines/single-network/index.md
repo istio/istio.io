@@ -56,9 +56,9 @@ The IP `34.72.46.113` in this case is the pod IP address of the httpbin endpoint
 
 You can send traffic to `httpbin.default.svc.cluster.local` and get a response from the server. You must configure DNS in `/etc/hosts` to map the `httpbin.default.svc.cluster.local` domain name to an IP, or the IP will not resolve. In this case, the IP should be an IP that is routed over the single network using L3 connectivity. You should use the IP of the service in the Kubernetes cluster.
 
-    {{< text bash >}}
-    $ curl -v httpbin.default.svc.cluster.local:8000/headers
-    {{< /text >}}
+{{< text bash >}}
+$ curl -v httpbin.default.svc.cluster.local:8000/headers
+{{< /text >}}
 
 ### Running services on the virtual machine
 
