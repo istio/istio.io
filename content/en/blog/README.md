@@ -4,7 +4,7 @@ The [Istio blog](https://istio.io/blog) is owned by the [Steering Committee](htt
 
 This section covers documentation, processes, and roles for the blog.
 
-## Leadership 
+## Editorial Team 
 
 - **Editorial Lead:** [steering member company A], [steering member company B]
 - **Technical Editors:** [contributor], [contributor]
