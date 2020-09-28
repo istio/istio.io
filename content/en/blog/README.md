@@ -24,7 +24,7 @@ To submit a blog post, follow the steps below.
 1. [Sign the Contributor License Agreement](https://github.com/istio/community/blob/master/CONTRIBUTING.md#contributor-license-agreements) if you have not yet done so.
 1. Familiarize yourself with the Markdown format for existing blog posts in the [docs repository](https://github.com/istio/istio.io/tree/master/content/en/blog). 
 1. Write your blog post in a text editor of your choice.
-1. Choose at least one of the following tags for your blogpost: New releases, Announcements, Trainings, Events, Commercial products
+1. Choose at least one of the following tags for your post: New Releases, Announcements, Trainings, Events, Commercial Products
 1. (Optional) If you need help with markdown, check out [StakEdit](https://stackedit.io/app#) or read [GitHub's formatting syntax](https://help.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax) for more information. 
 1. Create a new folder in the directory for the corresponding year in the [blog repository](https://github.com/istio/istio.io/tree/master/content/en/blog), and click **Create new file**.
 1. Paste your post into the editor and save it. Name the file in the following way: *folder-for-your-blog/index.md* , but don’t put the date in the file name. The editorial team will work with you on the final file name, and the date on which the post will be published.
