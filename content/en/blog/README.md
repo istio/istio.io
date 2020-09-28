@@ -33,9 +33,9 @@ To submit a blog post, follow the steps below.
 1. Ping editorial team members on Slack [#docs](https://istio.slack.com/archives/C50V5EATT) channel with a link to your recently created PR. 
 
 ### Blog Guidelines
+The Istio blog only publishes original content; we do not re-post content that has been posted elsewhere.
 
 #### Suitable content:
-- **Original content only**
 - Istio new feature releases and project updates
 - Tutorials and demos 
 - Use cases
