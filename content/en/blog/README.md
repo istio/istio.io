@@ -41,11 +41,10 @@ The Istio blog only publishes original content; we do not re-post content that h
 - Use cases
 - Content that relates vendor or platform to Istio installation and use 
 
-#### Unsuitable Content:
-- Content that is disparaging to Istio project, its functionalities or community
-- Content that does not observe our [code of conduct](https://github.com/istio/community/blob/master/CONTRIBUTING.md#code-of-conduct)
-- Blogs that do not address Istio in any way
-- Content that doesn't interact with Istio APIs or interfaces
+#### Unsuitable content:
+- Posts that do not observe our [Code of Conduct](https://github.com/istio/community/blob/master/CONTRIBUTING.md#code-of-conduct)
+- Posts that is disparaging to the Istio project, its functionality or community
+- Posts that does not address Istio in any way, including interacting with Istio APIs or interfaces
 - Blatant vendor pitches
 
 #### Vendor blog posts
