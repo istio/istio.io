@@ -27,7 +27,7 @@ To submit a blog post, follow the steps below.
 1. Choose at least one of the following tags for your blogpost: New releases, Announcements, Trainings, Events, Commercial products
 1. (Optional) If you need help with markdown, check out [StakEdit](https://stackedit.io/app#) or read [GitHub's formatting syntax](https://help.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax) for more information. 
 1. Create a new folder in the directory for the corresponding year in the [blog repository](https://github.com/istio/istio.io/tree/master/content/en/blog), and click **Create new file**.
-1. Paste your content into the editor and save it. Name the file in the following way: *folder-for-your-blog/index.md* , but don’t put the date in the file name. The blog reviewers will work with you on the final file name, and the date on which the blog will be published.
+1. Paste your post into the editor and save it. Name the file in the following way: *folder-for-your-blog/index.md* , but don’t put the date in the file name. The editorial team will work with you on the final file name, and the date on which the post will be published.
 1. When you save the file, GitHub will walk you through the pull request (PR) process.
 1. A reviewer is assigned to all pull requests automatically. The reviewer checks your submission, and works with you on feedback and final details. When the pull request is approved, the blog will be scheduled for publication.
 1. Ping editorial team members on Slack [#docs](https://istio.slack.com/archives/C50V5EATT) channel with a link to your recently created PR. 
