@@ -17,7 +17,7 @@ This section covers documentation, processes, and roles for the blog.
 
 ## Submit a Post
 
-Anyone can write a blog post and submit it for review. Content highlighting commercial products is allowed, provided it calls out how the product integrates with Istio in a clear way. Blog posts highlighting commercial products will be labeled as such on the Istio blog. Please refer to the [blog guidelines](#blog-guidelines) for more guidance.
+Anyone can write a blog post and submit it for review. Content highlighting commercial products is allowed, provided it calls out how the product integrates with Istio in a clear way. Blog posts promoting commercial products will be labeled as such on the Istio blog. Please refer to the [blog guidelines](#blog-guidelines) for more guidance.
 
 To submit a blog post, follow the steps below.
 
