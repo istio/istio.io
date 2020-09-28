@@ -1,6 +1,6 @@
 ---
 title: Example Application using Virtual Machines in a Single Network Mesh
-description: Learn how to add a service running on a virtual machine to your signle-network
+description: Learn how to add a service running on a virtual machine to your single-network
   Istio mesh.
 weight: 20
 keywords:
@@ -35,20 +35,20 @@ between the virtual machine and the Kubernetes cluster.
 
 After installation, the virtual machine can access services running in the Kubernetes cluster or in
 other virtual machines. To verify the virtual machine connectivity, run the following command
-(assuming you have a serivce named `httpbin` on the Kubernetes cluster:
+(assuming you have a service named `httpbin` on the Kubernetes cluster:
 
-    {{< text bash >}}
-    $ curl -v localhost:15000/clusters | grep httpbin
-    {{< /text >}}
+{{< text bash >}}
+$ curl -v localhost:15000/clusters | grep httpbin
+{{< /text >}}
 
 This shows endpoints for `httpbin`:
 
-    {{< text text >}}
-    outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::cx_active::1
-    outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::cx_connect_fail::0
-    outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::cx_total::1
-    outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::rq_active::0
-    {{< /text >}}
+{{< text text >}}
+outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::cx_active::1
+outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::cx_connect_fail::0
+outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::cx_total::1
+outbound|8000||httpbin.default.svc.cluster.local::34.72.46.113:443::rq_active::0
+{{< /text >}}
 
 The IP `34.72.46.113` in this case is the pod IP address of the httpbin endpoint.
 
@@ -68,9 +68,9 @@ You can send traffic to `httpbin.default.svc.cluster.local` and get a response f
     $ python -m SimpleHTTPServer 8080
     {{< /text >}}
 
-    {{< idea >}}
-    Note, you may have to open firewalls to be able to access the 8080 port on your virtual machine
-    {{< /idea >}}
+    {{< warning >}}
+    You may have to open firewalls to be able to access the 8080 port on your virtual machine
+    {{< /warning >}}
 
 1. Add virtual machine services to the mesh
 
