@@ -1,6 +1,6 @@
 ---
 title: "2020 Steering Committee Election Results"
-subtitle: Welcome to our newest Steering Committee members
+subtitle: Welcome to our newest members
 description: Announcing the four newest Istio Steering Committee members.
 publishdate: 2020-09-29
 attribution: "Istio Steering Committee"
