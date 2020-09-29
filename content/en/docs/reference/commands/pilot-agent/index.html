@@ -998,6 +998,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, a gateway workload can only select gateway resources in the same namespace. Gateways with same selectors in different namespaces will not be applicable.</td>
 </tr>
 <tr>
+<td><code>PILOT_SIDECAR_ENABLE_INBOUND_TLS_V2</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will set the TLS version on server side as TLSv1_2 and also enforce strong cipher suites</td>
+</tr>
+<tr>
 <td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
