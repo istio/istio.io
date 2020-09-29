@@ -178,17 +178,17 @@ No
 <td><code>serviceCluster</code></td>
 <td><code>string</code></td>
 <td>
-<p>Service cluster defines the name for the service_cluster that is
+<p>Service cluster defines the name for the <code>service_cluster</code> that is
 shared by all Envoy instances. This setting corresponds to
-<em>&ndash;service-cluster</em> flag in Envoy.  In a typical Envoy deployment, the
-<em>service-cluster</em> flag is used to identify the caller, for
+<code>--service-cluster</code> flag in Envoy.  In a typical Envoy deployment, the
+<code>service-cluster</code> flag is used to identify the caller, for
 source-based routing scenarios.</p>
 
-<p>Since Istio does not assign a local service/service version to each
+<p>Since Istio does not assign a local <code>service/service</code> version to each
 Envoy instance, the name is same for all of them.  However, the
 source/caller&rsquo;s identity (e.g., IP address) is encoded in the
-<em>&ndash;service-node</em> flag when launching Envoy.  When the RDS service
-receives API calls from Envoy, it uses the value of the <em>service-node</em>
+<code>--service-node</code> flag when launching Envoy.  When the RDS service
+receives API calls from Envoy, it uses the value of the <code>service-node</code>
 flag to compute routes that are relative to the service instances
 located at that IP address.</p>
 
@@ -203,7 +203,7 @@ No
 <td>
 <p>The time in seconds that Envoy will drain connections during a hot
 restart. MUST be &gt;=1s (e.g., <em>1s/1m/1h</em>)
-Default drain duration is 45s.</p>
+Default drain duration is <code>45s</code>.</p>
 
 </td>
 <td>
@@ -215,9 +215,9 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>The time in seconds that Envoy will wait before shutting down the
-parent process during a hot restart. MUST be &gt;=1s (e.g., <em>1s/1m/1h</em>).
-MUST BE greater than <em>drain</em>duration_ parameter.
-Default shutdown duration is 60s.</p>
+parent process during a hot restart. MUST be &gt;=1s (e.g., <code>1s/1m/1h</code>).
+MUST BE greater than <code>drain_duration</code> parameter.
+Default shutdown duration is <code>60s</code>.</p>
 
 </td>
 <td>
@@ -240,7 +240,7 @@ No
 <td><code>statsdUdpAddress</code></td>
 <td><code>string</code></td>
 <td>
-<p>IP Address and Port of a statsd UDP listener (e.g. <em>10.75.241.127:9125</em>).</p>
+<p>IP Address and Port of a statsd UDP listener (e.g. <code>10.75.241.127:9125</code>).</p>
 
 </td>
 <td>
@@ -252,7 +252,7 @@ No
 <td><code>int32</code></td>
 <td>
 <p>Port on which Envoy should listen for administrative commands.
-Default port is 15000.</p>
+Default port is <code>15000</code>.</p>
 
 </td>
 <td>
@@ -264,7 +264,7 @@ No
 <td><code><a href="#AuthenticationPolicy">AuthenticationPolicy</a></code></td>
 <td>
 <p>AuthenticationPolicy defines how the proxy is authenticated when it connects to the control plane.
-Default is set to MUTUAL_TLS.</p>
+Default is set to <code>MUTUAL_TLS</code>.</p>
 
 </td>
 <td>
@@ -349,7 +349,7 @@ No
 <td><code>sds</code></td>
 <td><code><a href="#SDS">SDS</a></code></td>
 <td>
-<p>secret discovery service(SDS) configuration to be used by the proxy.</p>
+<p>Secret Discovery Service(SDS) configuration to be used by the proxy.</p>
 
 </td>
 <td>
@@ -361,7 +361,7 @@ No
 <td><code><a href="#RemoteService">RemoteService</a></code></td>
 <td>
 <p>Address of the service to which access logs from Envoys should be
-sent. (e.g. accesslog-service:15000). See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/accesslog/v2/als.proto">Access Log
+sent. (e.g. <code>accesslog-service:15000</code>). See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/accesslog/v2/als.proto">Access Log
 Service</a>
 for details about Envoy&rsquo;s gRPC Access Log Service API.</p>
 
@@ -374,7 +374,7 @@ No
 <td><code>envoyMetricsService</code></td>
 <td><code><a href="#RemoteService">RemoteService</a></code></td>
 <td>
-<p>Address of the Envoy Metrics Service implementation (e.g. metrics-service:15000).
+<p>Address of the Envoy Metrics Service implementation (e.g. <code>metrics-service:15000</code>).
 See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/metrics/v2/metrics_service.proto">Metric Service</a>
 for details about Envoy&rsquo;s Metrics Service API.</p>
 
@@ -388,7 +388,7 @@ No
 <td><code>int32</code></td>
 <td>
 <p>Port on which the agent should listen for administrative commands such as readiness probe.
-Default is set to port 15020.</p>
+Default is set to port <code>15020</code>.</p>
 
 </td>
 <td>
@@ -414,10 +414,10 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>The amount of time allowed for connections to complete on proxy shutdown.
-On receiving SIGTERM or SIGINT, istio-agent tells the active Envoy to start draining,
+On receiving <code>SIGTERM</code> or <code>SIGINT</code>, <code>istio-agent</code> tells the active Envoy to start draining,
 preventing any new connections and allowing existing connections to complete. It then
-sleeps for the termination<em>drain</em>duration and then kills any remaining active Envoy processes.
-If not set, a default of 5s will be applied.</p>
+sleeps for the <code>termination_drain_duration</code> and then kills any remaining active Envoy processes.
+If not set, a default of <code>5s</code> will be applied.</p>
 
 </td>
 <td>
@@ -494,7 +494,7 @@ No
 <td><code>tlsSettings</code></td>
 <td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
-<p>Use the tls_settings to specify the tls mode to use. If the remote service
+<p>Use the <code>tls_settings</code> to specify the tls mode to use. If the remote service
 uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
 mode as <code>ISTIO_MUTUAL</code>.</p>
 
@@ -507,7 +507,7 @@ No
 <td><code>tcpKeepalive</code></td>
 <td><code><a href="/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-TCPSettings-TcpKeepalive">TcpKeepalive</a></code></td>
 <td>
-<p>If set then set SO_KEEPALIVE on the socket to enable TCP Keepalives.</p>
+<p>If set then set <code>SO_KEEPALIVE</code> on the socket to enable TCP Keepalives.</p>
 
 </td>
 <td>
@@ -1813,7 +1813,7 @@ for details.</p>
 <h2 id="ProxyConfig-InboundInterceptionMode">ProxyConfig.InboundInterceptionMode</h2>
 <section>
 <p>The mode used to redirect inbound traffic to Envoy.
-This setting has no effect on outbound traffic: iptables REDIRECT is always used for
+This setting has no effect on outbound traffic: iptables <code>REDIRECT</code> is always used for
 outbound connections.</p>
 
 <table class="enum-values">
@@ -1827,7 +1827,7 @@ outbound connections.</p>
 <tr id="ProxyConfig-InboundInterceptionMode-REDIRECT">
 <td><code>REDIRECT</code></td>
 <td>
-<p>The REDIRECT mode uses iptables REDIRECT to NAT and redirect to Envoy. This mode loses
+<p>The <code>REDIRECT</code> mode uses iptables <code>REDIRECT</code> to <code>NAT</code> and redirect to Envoy. This mode loses
 source IP addresses during redirection.</p>
 
 </td>
@@ -1835,10 +1835,10 @@ source IP addresses during redirection.</p>
 <tr id="ProxyConfig-InboundInterceptionMode-TPROXY">
 <td><code>TPROXY</code></td>
 <td>
-<p>The TPROXY mode uses iptables TPROXY to redirect to Envoy. This mode preserves both the
+<p>The <code>TPROXY</code> mode uses iptables <code>TPROXY</code> to redirect to Envoy. This mode preserves both the
 source and destination IP addresses and ports, so that they can be used for advanced
 filtering and manipulation. This mode also configures the sidecar to run with the
-CAP<em>NET</em>ADMIN capability, which is required to use TPROXY.</p>
+<code>CAP_NET_ADMIN</code> capability, which is required to use <code>TPROXY</code>.</p>
 
 </td>
 </tr>
