@@ -28,7 +28,7 @@ depends on. For example, Envoy, Docker, or Kubernetes.
 When in doubt, please disclose privately. This includes, but is not limited to:
 * Any crash, especially in Envoy
 * Any security policy bypass or weakness
-* Any potentional Denial Of Service (DoS)
+* Any potential Denial of Service (DoS)
 
 ### When not to report a security vulnerability?
 
