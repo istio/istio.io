@@ -22,7 +22,7 @@ set -o pipefail
 # @setup profile=default
 
 # Set retries to a higher value because config update is slow.
-export VERIFY_RETRIES=10
+export VERIFY_RETRIES=15
 
 export CLIENT_IP
 
