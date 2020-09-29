@@ -1,8 +1,8 @@
 ---
 title: Announcing Istio 1.7.3
 linktitle: 1.7.3
-subtitle: Patch Release
-description: Istio 1.7.3 patch release.
+subtitle: Security Release
+description: Istio 1.7.3 security release.
 publishdate: 2020-09-29
 release: 1.7.3
 aliases:
