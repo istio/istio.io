@@ -38,7 +38,7 @@ export ISTIO_SHA
 # If one needs to test before a docker.io build is available (using a public test build),
 # the HUB and TAG can be commented out, and the prior one un-commented
 HUB := docker.io/istio
-TAG ?= 1.6.5
+TAG ?= 1.6.11
 
 ifeq ($(HUB),)
   $(error "HUB cannot be empty")
