@@ -1,8 +1,8 @@
 ---
 title: Announcing Istio 1.6.11
 linktitle: 1.6.11
-subtitle: Patch Release
-description: Istio 1.6.11 patch release.
+subtitle: Security Release
+description: Istio 1.6.11 security release.
 publishdate: 2020-09-29
 release: 1.6.11
 aliases:
