@@ -38,6 +38,12 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 /downloadIstio https://raw.githubusercontent.com/istio/istio/master/release/downloadIstioCandidate.sh
 /downloadIstioctl https://raw.githubusercontent.com/istio/istio/master/release/downloadIstioCtl.sh
 
+# Redirect static folder
+/img/* /latest/img/:splat
+/misc/* /latest/misc/:splat
+/talks/* /latest/talks/:splat
+/favicons/* /latest/favicons/:splat
+
 # navigating to a page without /latest on front, add /latest
 {{ range $p := .Site.Pages }}
 {{ strings.TrimPrefix "/latest" $p.Permalink }} {{ $p.Permalink}}

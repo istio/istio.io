@@ -96,6 +96,8 @@ snip_configure_a_mutual_tls_ingress_gateway_2
 
 # wait for the change to propagate
 _wait_for_istio gateway default mygateway
+#TODO Temoporary: Remove sleep once _wait_for_istio is enabled again
+sleep 1
 
 _verify_failure snip_configure_a_mutual_tls_ingress_gateway_3
 

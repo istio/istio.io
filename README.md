@@ -100,7 +100,7 @@ Run `make prepare-1.7.0`, and that's it. This will grab the latest reference doc
 
 A few days before the patch release, the release managers should notify the Doc WG that the release
 is built and is starting it's long running qualification test. At this time, move the doc automation
-tests to use the new release to verify automated doc testing passes. 
+tests to use the new release to verify automated doc testing passes.
 
 To move to a new release (make sure you are in the patch's release branch):
 
@@ -110,15 +110,15 @@ To move to a new release (make sure you are in the patch's release branch):
 
 Creating a new patch release involves modifying a few files:
 
-1. Edit `data/args.yml` and change the `full_version` field to `"A.X.Y"`.
+1. Edit `data/args.yml` and change the `full_version` field to `"A.X.Y"`. This is only needed for a patch of the `current` release.
 
 1. Complete the release note for the release by editing the markdown file `content/en/news/releases/A.X.x/announcing-A.X.Y/index.md`. This is where you describe the changes in the release. Please look at other existing files for example content and layout.
 
-1. Run `make update_ref_docs` to get the latest reference docs.
+1. Run `make update_ref_docs` to get the latest reference docs. Normally, this is only needed for a patch of the `current` release. If needed in an earlier release, see [Updating an archive](#updating-an-archive).
 
 ### Updating an archive
 
-If the archived version in a newer branch (e.g., `release-1.7:archive/v1.6`) needs to be updated due to changes in the old release branch (`release-1.6` in this case), you can run `make build-old-archive-1.6.0` in the `release-1.7` branch, which will re-archive `release-1.6` and substitute it for the previous archive in the current branch.
+If the archived version in a newer branch (e.g., `release-1.7:archive/v1.6`) needs to be updated due to changes in the old release branch (`release-1.6` in this case), you can run `make build-old-archive-1.6.0` in the `master` branch, which will re-archive `release-1.6` and substitute it for the previous archive in the `master` branch. If this update needs to be reflected in istio.io, the PR may be cherry-picked to the branch for the `current` release.
 
 ## Multi-language support
 
@@ -153,7 +153,7 @@ new content directory. This ensures that the linting rules apply to your new con
 - Edit the file `src/ts/lang.ts` and add your new language. This will add your language to the language toggle button that is
 available on preliminary.istio.io and will make it so your language will be supported in the language selection menu.
 
-- Get an Istio GitHub administrator to create a new maintainer team for your language. For Franch, this would be
+- Get an Istio GitHub administrator to create a new maintainer team for your language. For French, this would be
 `WG - Docs Mintainers/French`.
 
 - Edit the file `CODEOWNERS` and add entries for your language to give the new team you've created ownership over

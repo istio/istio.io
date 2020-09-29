@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 84
+number_of_entries: 86
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -196,7 +196,17 @@ debug and diagnose their Istio mesh.
 </tbody>
 </table>
 <h2 id="istioctl-bug-report">istioctl bug-report</h2>
-<p>This command selectively captures cluster information and logs into an archive to help diagnose problems. It optionally uploads the archive to a GCS bucket.</p>
+<p>bug-report selectively captures cluster information and logs into an archive to help diagnose problems.
+Proxy logs can be filtered using:
+  --include|--exclude ns1,ns2.../dep1,dep2.../pod1,pod2.../cntr1,cntr.../lbl1=val1,lbl2=val2.../ann1=val1,ann2=val2...
+where ns=namespace, dep=deployment, cntr=container, lbl=label, ann=annotation</p>
+<p>The filter spec is interpreted as &#39;must be in (ns1 OR ns2) AND (dep1 OR dep2) AND (cntr1 OR cntr2)...&#39;
+The log will be included only if the container matches at least one include filter and does not match any exclude filters.
+All parts of the filter are optional and can be omitted e.g. ns1//pod1 filters only for namespace ns1 and pod1.
+All names except label and annotation keys support &#39;*&#39; glob matching pattern.</p>
+<p>e.g.
+--include ns1,ns2 (only namespaces ns1 and ns2)
+--include n*//p*/l=v* (pods with name beginning with &#39;p&#39; in namespaces beginning with &#39;n&#39; and having label &#39;l&#39; with value beginning with &#39;v&#39;.)</p>
 <pre class="language-bash"><code>istioctl bug-report [flags]
 </code></pre>
 <table class="command-flags">
@@ -241,22 +251,17 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--exclude &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pods&#39; proxy logs to exclude from the archive, after the include spec is processed. See &#39;help&#39; for examples.  (default `["kube-system,kube-public"]`)</td>
+<td>Spec for which pods&#39; proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-system,kube-public"]`)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to a file containing configuration in YAML format.  (default ``)</td>
+<td>Path to a file containing configuration in YAML format. The file contents are applied over the default values and flag settings, with lists being replaced per JSON merge semantics.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--full-secrets</code></td>
 <td></td>
 <td>If set, secret contents are included in output. </td>
-</tr>
-<tr>
-<td><code>--gcs-url &lt;string&gt;</code></td>
-<td></td>
-<td>URL of the GCS bucket where the archive is uploaded.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--ignore-errs &lt;stringSlice&gt;</code></td>
@@ -266,12 +271,12 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--include &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pods&#39; proxy logs to include in the archive. See &#39;help&#39; for examples.  (default `[]`)</td>
+<td>Spec for which pods&#39; proxy logs to include in the archive. See above for format and examples.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--istio-namespace &lt;string&gt;</code></td>
 <td></td>
-<td>List of comma-separated namespaces where Istio control planes are installed.  (default `istio-system`)</td>
+<td>Namespace where Istio control plane is installed.  (default `istio-system`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -282,11 +287,6 @@ debug and diagnose their Istio mesh.
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--max-size &lt;int32&gt;</code></td>
-<td></td>
-<td>Maximum size of the compressed archive in Mb. Logs are prioritizedaccording to importance heuristics.  (default `500`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -302,11 +302,6 @@ debug and diagnose their Istio mesh.
 <td><code>--timeout &lt;duration&gt;</code></td>
 <td></td>
 <td>Maximum amount of time to spend fetching logs. When timeout is reached only the logs captured so far are saved to the archive.  (default `30m0s`)</td>
-</tr>
-<tr>
-<td><code>--upload</code></td>
-<td></td>
-<td>Upload archive to GCS bucket. If gcs-url is unset, a new bucket is created. </td>
 </tr>
 </tbody>
 </table>
@@ -356,22 +351,17 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--exclude &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pods&#39; proxy logs to exclude from the archive, after the include spec is processed. See &#39;help&#39; for examples.  (default `["kube-system,kube-public"]`)</td>
+<td>Spec for which pods&#39; proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-system,kube-public"]`)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to a file containing configuration in YAML format.  (default ``)</td>
+<td>Path to a file containing configuration in YAML format. The file contents are applied over the default values and flag settings, with lists being replaced per JSON merge semantics.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--full-secrets</code></td>
 <td></td>
 <td>If set, secret contents are included in output. </td>
-</tr>
-<tr>
-<td><code>--gcs-url &lt;string&gt;</code></td>
-<td></td>
-<td>URL of the GCS bucket where the archive is uploaded.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--ignore-errs &lt;stringSlice&gt;</code></td>
@@ -381,12 +371,12 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--include &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pods&#39; proxy logs to include in the archive. See &#39;help&#39; for examples.  (default `[]`)</td>
+<td>Spec for which pods&#39; proxy logs to include in the archive. See above for format and examples.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--istio-namespace &lt;string&gt;</code></td>
 <td></td>
-<td>List of comma-separated namespaces where Istio control planes are installed.  (default `istio-system`)</td>
+<td>Namespace where Istio control plane is installed.  (default `istio-system`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -397,11 +387,6 @@ debug and diagnose their Istio mesh.
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Path to kube config.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--max-size &lt;int32&gt;</code></td>
-<td></td>
-<td>Maximum size of the compressed archive in Mb. Logs are prioritizedaccording to importance heuristics.  (default `500`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -427,11 +412,6 @@ debug and diagnose their Istio mesh.
 <td><code>--timeout &lt;duration&gt;</code></td>
 <td></td>
 <td>Maximum amount of time to spend fetching logs. When timeout is reached only the logs captured so far are saved to the archive.  (default `30m0s`)</td>
-</tr>
-<tr>
-<td><code>--upload</code></td>
-<td></td>
-<td>Upload archive to GCS bucket. If gcs-url is unset, a new bucket is created. </td>
 </tr>
 </tbody>
 </table>
@@ -994,10 +974,10 @@ istioctl d [flags]
 </tbody>
 </table>
 <h2 id="istioctl-experimental-add-to-mesh">istioctl experimental add-to-mesh</h2>
-<p>&#39;istioctl experimental add-to-mesh&#39; restarts pods with an Istio sidecar or configures meshed pod access to external services.</p>
-<p>Use &#39;add-to-mesh&#39; as an alternate to namespace-wide auto injection for troubleshooting compatibility.</p>
+<p>&#39;istioctl experimental add-to-mesh&#39; restarts pods with an Istio sidecar or configures meshed pod access to external services.
+Use &#39;add-to-mesh&#39; as an alternate to namespace-wide auto injection for troubleshooting compatibility.</p>
 <p>The &#39;remove-from-mesh&#39; command can be used to restart with the sidecar removed.</p>
-<p>THESE COMMANDS ARE UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental add-to-mesh [flags]
 </code></pre>
 <div class="aliases">
@@ -1079,8 +1059,7 @@ to test deployments for compatibility with Istio.  It can be used instead of nam
 <p>If your deployment does not function after using &#39;add-to-mesh&#39; you must re-deploy it and troubleshoot it for Istio compatibility.
 See https://istio.io/v1.8/docs/ops/deployment/requirements/</p>
 <p>See also &#39;istioctl experimental remove-from-mesh deployment&#39; which does the reverse.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental add-to-mesh deployment &lt;deployment&gt; [flags]
 </code></pre>
 <div class="aliases">
@@ -1163,8 +1142,7 @@ istioctl experimental add-to-mesh dep &lt;deployment&gt; [flags]
 a Service without selector for the specified external service in Istio service mesh.
 The typical usage scenario is Mesh Expansion on VMs.</p>
 <p>See also &#39;istioctl experimental remove-from-mesh external-service&#39; which does the reverse.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental add-to-mesh external-service &lt;svcname&gt; &lt;ip&gt; [name1:]port1 [[name2:]port2] ... [flags]
 </code></pre>
 <div class="aliases">
@@ -1252,8 +1230,7 @@ to test deployments for compatibility with Istio.  It can be used instead of nam
 <p>If your service does not function after using &#39;add-to-mesh&#39; you must re-deploy it and troubleshoot it for Istio compatibility.
 See https://istio.io/v1.8/docs/ops/deployment/requirements/</p>
 <p>See also &#39;istioctl experimental remove-from-mesh service&#39; which does the reverse.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental add-to-mesh service &lt;service&gt; [flags]
 </code></pre>
 <div class="aliases">
@@ -1331,7 +1308,8 @@ See https://istio.io/v1.8/docs/ops/deployment/requirements/</p>
   istioctl x add svc ratings-v1
 </code></pre>
 <h2 id="istioctl-experimental-authz">istioctl experimental authz</h2>
-<p>Inspect Istio AuthorizationPolicy</p>
+<p></p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <table class="command-flags">
 <thead>
 <tr>
@@ -1369,8 +1347,6 @@ the Envoy configuration of the pod. The command is especially useful for inspect
 the policy propagation from Istiod to Envoy and the final AuthorizationPolicy list merged 
 from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <p>The command also supports reading from a standalone config dump file with flag -f.</p>
-<p>THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
 <pre class="language-bash"><code>istioctl experimental authz check [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <table class="command-flags">
@@ -1549,6 +1525,11 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <td></td>
 <td>Create a secret with this service account&#39;s credentials.  (default `istio-reader-service-account`)</td>
 </tr>
+<tr>
+<td><code>--type &lt;SecretType&gt;</code></td>
+<td></td>
+<td>Type of the generated secret. supported values = [remote config]  (default `remote`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-create-remote-secret Examples">Examples</h3>
@@ -1605,8 +1586,7 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <h2 id="istioctl-experimental-describe-pod">istioctl experimental describe pod</h2>
 <p>Analyzes pod, its Services, DestinationRules, and VirtualServices and reports
 the configuration objects that affect that pod.</p>
-<p>THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental describe pod &lt;pod&gt; [flags]
 </code></pre>
 <table class="command-flags">
@@ -1651,8 +1631,7 @@ the configuration objects that affect that pod.</p>
 <h2 id="istioctl-experimental-describe-service">istioctl experimental describe service</h2>
 <p>Analyzes service, pods, DestinationRules, and VirtualServices and reports
 the configuration objects that affect that service.</p>
-<p>THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental describe service &lt;svc&gt; [flags]
 </code></pre>
 <div class="aliases">
@@ -2444,7 +2423,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <p>&#39;istioctl experimental remove-from-mesh&#39; restarts pods without an Istio sidecar or removes external service access configuration.
 Use &#39;remove-from-mesh&#39; to quickly test uninjected behavior as part of compatibility troubleshooting.
 The &#39;add-to-mesh&#39; command can be used to add or restore the sidecar.</p>
-<p>THESE COMMANDS ARE UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh [flags]
 </code></pre>
 <div class="aliases">
@@ -2494,8 +2473,7 @@ The &#39;add-to-mesh&#39; command can be used to add or restore the sidecar.</p>
 <h2 id="istioctl-experimental-remove-from-mesh-deployment">istioctl experimental remove-from-mesh deployment</h2>
 <p>&#39;istioctl experimental remove-from-mesh deployment&#39; restarts pods with the Istio sidecar un-injected.
 &#39;remove-from-mesh&#39; is a compatibility troubleshooting tool.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh deployment &lt;deployment&gt; [flags]
 </code></pre>
 <div class="aliases">
@@ -2547,8 +2525,7 @@ istioctl experimental remove-from-mesh dep &lt;deployment&gt; [flags]
 <p>&#39;istioctl experimental remove-from-mesh external-service&#39; removes the ServiceEntry and
 the Kubernetes Service for the specified external service (e.g. services running on a VM) from Istio service mesh.
 The typical usage scenario is Mesh Expansion on VMs.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh external-service &lt;svcname&gt; [flags]
 </code></pre>
 <div class="aliases">
@@ -2598,8 +2575,7 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <h2 id="istioctl-experimental-remove-from-mesh-service">istioctl experimental remove-from-mesh service</h2>
 <p>&#39;istioctl experimental remove-from-mesh service&#39; restarts pods with the Istio sidecar un-injected.
 &#39;remove-from-mesh&#39; is a compatibility troubleshooting tool.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh service &lt;service&gt; [flags]
 </code></pre>
 <div class="aliases">
@@ -3403,6 +3379,132 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 
   # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
   istioctl install --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
+
+</code></pre>
+<h2 id="istioctl-istiod-config">istioctl istiod-config</h2>
+<p>A group of commands used to manage istiod configuration</p>
+<pre class="language-bash"><code>istioctl istiod-config [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl idc [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--selector &lt;string&gt;</code></td>
+<td><code>-l</code></td>
+<td>label selector  (default `app=istiod`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-istiod-config Examples">Examples</h3>
+<pre class="language-bash"><code> # Retrieve information about istiod configuration.
+  istioctl istiod-config &lt;log&gt;
+</code></pre>
+<h2 id="istioctl-istiod-config-log">istioctl istiod-config log</h2>
+<p>Retrieve or update logging levels of istiod components.</p>
+<pre class="language-bash"><code>istioctl istiod-config log [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl istiod-config o [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;int&gt;</code></td>
+<td></td>
+<td>ControlZ port  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of output logging level for scopes in format &lt;scope&gt;:&lt;level&gt;[,&lt;scope&gt;:&lt;level&gt;,...]Possible values for &lt;level&gt;: none, error, warn, info, debug  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--reset</code></td>
+<td><code>-r</code></td>
+<td>Reset levels to default value. (info) </td>
+</tr>
+<tr>
+<td><code>--selector &lt;string&gt;</code></td>
+<td><code>-l</code></td>
+<td>label selector  (default `app=istiod`)</td>
+</tr>
+<tr>
+<td><code>--stack-trace-level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of stack trace level  for scopes in format &lt;scope&gt;:&lt;stack-trace-level&gt;[,&lt;scope&gt;:&lt;stack-trace-level&gt;,...] Possible values for &lt;stack-trace-level&gt;: none, error, warn, info, debug  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-istiod-config-log Examples">Examples</h3>
+<pre class="language-bash"><code> # Retrieve information about istiod logging levels.
+  istioctl istiod-config log [&lt;pod-name&gt;]
+
+  # Update levels of the specified loggers.
+  istioctl istiod-config log --level ads:debug,authorization:debug
+
+  # Reset levels of all the loggers to default value (info).
+  istioctl istiod-config log -r
 
 </code></pre>
 <h2 id="istioctl-kube-inject">istioctl kube-inject</h2>
@@ -4819,6 +4921,7 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <h2 id="istioctl-proxy-config-secret">istioctl proxy-config secret</h2>
 <p>(experimental) Retrieve information about secret configuration for the Envoy instance in the specified pod.</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl proxy-config secret [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <div class="aliases">
@@ -4872,9 +4975,6 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
   # Retrieve full bootstrap without using Kubernetes API
   ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
   istioctl proxy-config secret --file envoy-config.json
-
-  THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-
 </code></pre>
 <h2 id="istioctl-proxy-status">istioctl proxy-status</h2>
 <p>
@@ -5312,6 +5412,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If this is set to false, the debug interface will not be ebabled on Http, recommended for production</td>
 </tr>
 <tr>
+<td><code>ENABLE_LEGACY_FSGROUP_INJECTION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
+</tr>
+<tr>
 <td><code>INGRESS_GATEWAY_NAMESPACE</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -5610,6 +5716,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, a gateway workload can only select gateway resources in the same namespace. Gateways with same selectors in different namespaces will not be applicable.</td>
+</tr>
+<tr>
+<td><code>PILOT_SIDECAR_ENABLE_INBOUND_TLS_V2</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will set the TLS version on server side as TLSv1_2 and also enforce strong cipher suites</td>
 </tr>
 <tr>
 <td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>

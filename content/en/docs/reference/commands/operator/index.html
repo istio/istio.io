@@ -165,6 +165,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If this is set to false, the debug interface will not be ebabled on Http, recommended for production</td>
 </tr>
 <tr>
+<td><code>ENABLE_LEGACY_FSGROUP_INJECTION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
+</tr>
+<tr>
 <td><code>INGRESS_GATEWAY_NAMESPACE</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -217,6 +223,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>String</td>
 <td><code>third-party-jwt</code></td>
 <td>The JWT validation policy.</td>
+</tr>
+<tr>
+<td><code>K8S_INGRESS_NS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
 </tr>
 <tr>
 <td><code>PILOT_ALLOW_METADATA_CERTS_DR_MUTUAL_TLS</code></td>
@@ -403,6 +415,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, a gateway workload can only select gateway resources in the same namespace. Gateways with same selectors in different namespaces will not be applicable.</td>
+</tr>
+<tr>
+<td><code>PILOT_SIDECAR_ENABLE_INBOUND_TLS_V2</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will set the TLS version on server side as TLSv1_2 and also enforce strong cipher suites</td>
 </tr>
 <tr>
 <td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
