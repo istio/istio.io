@@ -30,7 +30,7 @@ To submit a blog post, follow the steps below.
 1. Paste your post into the editor and save it. Name the file in the following way: *folder-for-your-blog/index.md* , but don’t put the date in the file name. The editorial team will work with you on the final file name, and the date on which the post will be published.
 1. When you save the file, GitHub will walk you through the pull request (PR) process.
 1. A reviewer is assigned to all pull requests automatically. The reviewer checks your submission, and works with you on feedback and final details. When the pull request is approved, the post will be scheduled for publication.
-1. Ping editorial team members on Slack [#docs](https://istio.slack.com/archives/C50V5EATT) channel with a link to your recently created PR. 
+1. Ping editorial team members on the PR and on Slack [#docs](https://istio.slack.com/archives/C50V5EATT) channel with a link to your recently created PR. 
 
 ### Blog Guidelines
 The Istio blog only publishes original content; we do not re-post content that has been posted elsewhere.
