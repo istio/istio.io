@@ -167,7 +167,7 @@ French translation.
 Once your translation is complete and you're ready to publish it to the world, there are a few other changes you need to make:
 
 - Edit the file `layouts/index.redir`. Search for `translated sites` and add a line for your language. This will cause
-users coming to the site for the first time to be automatically redirectded to the translated content suitable for them.
+users coming to the site for the first time to be automatically redirected to the translated content suitable for them.
 For French, this would be:
 
     ```
@@ -207,9 +207,9 @@ for context.
 
 Many documents on the Istio site demonstrate features using commands that may or may not continue to work as
 Istio evolves from release to release. To ensure the documented instructions stay up to date with as little
-continuous manual testing as possible, we have created a framework to automate the testing of these doucments.
+continuous manual testing as possible, we have created a framework to automate the testing of these documents.
 
-Every page on [istio.io](https://istio.io) that can be tested includes a `PAGE TEST` indiciation under
+Every page on [istio.io](https://istio.io) that can be tested includes a `PAGE TEST` indication under
 the page title. For example:
 
 <img src="page-test.png" alt="PAGE TEST" title="PAGE TEST" />
