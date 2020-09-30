@@ -550,7 +550,7 @@ spec:
       network: NETWORK2
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
-$ istioctl install --context=${CTX_CLUSTER2} -f - cluster2.yaml
+$ istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
 {{< /text >}}
 
 As we did with `CLUSTER1` above, install a gateway in `CLUSTER2` that is dedicated
