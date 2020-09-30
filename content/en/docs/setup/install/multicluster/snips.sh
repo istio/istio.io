@@ -305,7 +305,7 @@ spec:
       network: NETWORK2
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
-istioctl install --context=${CTX_CLUSTER2} -f - cluster2.yaml
+istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
 }
 
 snip_install_istio_25() {
