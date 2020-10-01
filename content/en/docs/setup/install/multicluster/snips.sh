@@ -45,7 +45,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
+istioctl install --context=${CTX_CLUSTER1} --skip-confirmation -f cluster1.yaml
 }
 
 snip_install_istio_2() {
@@ -68,20 +68,20 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
+istioctl install --context=${CTX_CLUSTER2} --skip-confirmation -f cluster2.yaml
 }
 
 snip_install_istio_3() {
 istioctl x create-remote-secret \
     --context=${CTX_CLUSTER1} \
-    --name=CLUSTER1 | \
+    --name=${CLUSTER1} | \
     kubectl apply -f - --context=${CTX_CLUSTER2}
 }
 
 snip_install_istio_4() {
 istioctl x create-remote-secret \
     --context=${CTX_CLUSTER2} \
-    --name=CLUSTER2 | \
+    --name=${CLUSTER2} | \
     kubectl apply -f - --context=${CTX_CLUSTER1}
 }
 
@@ -110,7 +110,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
+istioctl install --context=${CTX_CLUSTER1} --skip-confirmation -f cluster1.yaml
 }
 
 snip_install_istio_6() {
@@ -149,7 +149,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
+istioctl install --context=${CTX_CLUSTER2} --skip-confirmation -f cluster2.yaml
 }
 
 snip_install_istio_9() {
@@ -166,14 +166,14 @@ kubectl --context=${CTX_CLUSTER2} apply -n istio-system -f \
 snip_install_istio_11() {
 istioctl x create-remote-secret \
   --context=${CTX_CLUSTER1} \
-  --name=CLUSTER1 | \
+  --name=${CLUSTER1} | \
   kubectl apply -f - --context=${CTX_CLUSTER2}
 }
 
 snip_install_istio_12() {
 istioctl x create-remote-secret \
   --context=${CTX_CLUSTER2} \
-  --name=CLUSTER2 | \
+  --name=${CLUSTER2} | \
   kubectl apply -f - --context=${CTX_CLUSTER1}
 }
 
@@ -197,7 +197,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
+istioctl install --context=${CTX_CLUSTER1} --skip-confirmation -f cluster1.yaml
 }
 
 snip_install_istio_14() {
@@ -231,13 +231,13 @@ spec:
       network: NETWORK1
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
-istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
+istioctl install --context=${CTX_CLUSTER2} --skip-confirmation -f cluster2.yaml
 }
 
 snip_install_istio_18() {
 istioctl x create-remote-secret \
     --context=${CTX_CLUSTER2} \
-    --name=CLUSTER2 | \
+    --name=${CLUSTER2} | \
     kubectl apply -f - --context=${CTX_CLUSTER1}
 }
 
@@ -266,7 +266,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
+istioctl install --context=${CTX_CLUSTER1} --skip-confirmation -f cluster1.yaml
 }
 
 snip_install_istio_20() {
@@ -305,7 +305,7 @@ spec:
       network: NETWORK2
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
-istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
+istioctl install --context=${CTX_CLUSTER2} --skip-confirmation -f cluster2.yaml
 }
 
 snip_install_istio_25() {
@@ -322,7 +322,7 @@ kubectl --context=${CTX_CLUSTER2} apply -n istio-system -f \
 snip_install_istio_27() {
 istioctl x create-remote-secret \
     --context=${CTX_CLUSTER2} \
-    --name=CLUSTER2 | \
+    --name=${CLUSTER2} | \
     kubectl apply -f - --context=${CTX_CLUSTER1}
 }
 

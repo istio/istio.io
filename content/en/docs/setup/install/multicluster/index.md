@@ -130,7 +130,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-$ istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
+$ istioctl install --context=${CTX_CLUSTER1} --skip-confirmation -f cluster1.yaml
 {{< /text >}}
 
 <h3>Configure CLUSTER2 as a primary</h3>
@@ -157,7 +157,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-$ istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
+$ istioctl install --context=${CTX_CLUSTER2} --skip-confirmation -f cluster2.yaml
 {{< /text >}}
 
 <h3>Enable Endpoint Discovery</h3>
@@ -167,7 +167,7 @@ Install a remote secret in `CLUSTER2` that provides access to `CLUSTER1`’s API
 {{< text bash >}}
 $ istioctl x create-remote-secret \
     --context=${CTX_CLUSTER1} \
-    --name=CLUSTER1 | \
+    --name=${CLUSTER1} | \
     kubectl apply -f - --context=${CTX_CLUSTER2}
 {{< /text >}}
 
@@ -176,7 +176,7 @@ Install a remote secret in `CLUSTER1` that provides access to `CLUSTER2`’s API
 {{< text bash >}}
 $ istioctl x create-remote-secret \
     --context=${CTX_CLUSTER2} \
-    --name=CLUSTER2 | \
+    --name=${CLUSTER2} | \
     kubectl apply -f - --context=${CTX_CLUSTER1}
 {{< /text >}}
 
@@ -229,7 +229,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-$ istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
+$ istioctl install --context=${CTX_CLUSTER1} --skip-confirmation -f cluster1.yaml
 {{< /text >}}
 
 Install a gateway in `CLUSTER1` that is dedicated to
@@ -285,7 +285,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-$ istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
+$ istioctl install --context=${CTX_CLUSTER2} --skip-confirmation -f cluster2.yaml
 {{< /text >}}
 
 As we did with `CLUSTER1` above, install a gateway in `CLUSTER2` that is dedicated
@@ -309,7 +309,7 @@ Install a remote secret in `CLUSTER2` that provides access to `CLUSTER1`’s API
 {{< text bash >}}
 $ istioctl x create-remote-secret \
   --context=${CTX_CLUSTER1} \
-  --name=CLUSTER1 | \
+  --name=${CLUSTER1} | \
   kubectl apply -f - --context=${CTX_CLUSTER2}
 {{< /text >}}
 
@@ -318,7 +318,7 @@ Install a remote secret in `CLUSTER1` that provides access to `CLUSTER2`’s API
 {{< text bash >}}
 $ istioctl x create-remote-secret \
   --context=${CTX_CLUSTER2} \
-  --name=CLUSTER2 | \
+  --name=${CLUSTER2} | \
   kubectl apply -f - --context=${CTX_CLUSTER1}
 {{< /text >}}
 
@@ -371,7 +371,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-$ istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
+$ istioctl install --context=${CTX_CLUSTER1} --skip-confirmation -f cluster1.yaml
 {{< /text >}}
 
 Install a gateway in `CLUSTER1` that is dedicated to
@@ -421,7 +421,7 @@ spec:
       network: NETWORK1
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
-$ istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
+$ istioctl install --context=${CTX_CLUSTER2} --skip-confirmation -f cluster2.yaml
 {{< /text >}}
 
 <h3>Enable Endpoint Discovery for CLUSTER2</h3>
@@ -432,7 +432,7 @@ API Server in `CLUSTER2` for endpoints.
 {{< text bash >}}
 $ istioctl x create-remote-secret \
     --context=${CTX_CLUSTER2} \
-    --name=CLUSTER2 | \
+    --name=${CLUSTER2} | \
     kubectl apply -f - --context=${CTX_CLUSTER1}
 {{< /text >}}
 
@@ -490,7 +490,7 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-$ istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
+$ istioctl install --context=${CTX_CLUSTER1} --skip-confirmation -f cluster1.yaml
 {{< /text >}}
 
 Install a gateway in `CLUSTER1` that is dedicated to east-west traffic. By
@@ -550,7 +550,7 @@ spec:
       network: NETWORK2
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
-$ istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
+$ istioctl install --context=${CTX_CLUSTER2} --skip-confirmation -f cluster2.yaml
 {{< /text >}}
 
 As we did with `CLUSTER1` above, install a gateway in `CLUSTER2` that is dedicated
@@ -574,7 +574,7 @@ Create a remote secret that will allow the control plane in `CLUSTER1` to access
 {{< text bash >}}
 $ istioctl x create-remote-secret \
     --context=${CTX_CLUSTER2} \
-    --name=CLUSTER2 | \
+    --name=${CLUSTER2} | \
     kubectl apply -f - --context=${CTX_CLUSTER1}
 {{< /text >}}
 
