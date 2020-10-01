@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2155
+# shellcheck disable=SC2155,SC2030,SC2031
 
 # Copyright Istio Authors
 #
@@ -14,6 +14,38 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# _set_kube_vars initializes the following variables based on the value of KUBECONFIG:
+#
+# KUBECONFIG_FILES: an array containing the individual files in the order specified.
+# KUBE_CONTEXTS: the names of the kube contexts, in the order of the KUBECONFIG files specified.
+function _set_kube_vars()
+{
+  # Split out the kube config files and then get the first context in
+  # each. We do this because the contexts are stored in a map, which
+  # means that order of the context returned by
+  # `kubectl config get-contexts` is not guaranteed. By pulling out
+  # the context on a per-file basis, we maintain the order of the
+  # files in the KUBECONFIG variable. It should be noted, however,
+  # that this logic assumes one context per file.
+  KUBE_CONTEXTS=()
+  IFS=':' read -r -a KUBECONFIG_FILES <<< "${KUBECONFIG}"
+  for KUBECONFIG_FILE in "${KUBECONFIG_FILES[@]}"; do
+    mapfile -t CTX_FOR_FILE <<< "$(export KUBECONFIG=$KUBECONFIG_FILE; kubectl config get-contexts -o name)"
+    if [[ "${#CTX_FOR_FILE[*]}" != "1" ]]; then
+      echo "${KUBECONFIG_FILE} contains ${#CTX_FOR_FILE[*]} contexts. Expected 1."
+      exit 1
+    fi
+    KUBE_CONTEXTS+=("${CTX_FOR_FILE[0]}")
+  done
+
+  export KUBECONFIG_FILES
+  export KUBE_CONTEXTS
+
+  echo "KUBECONFIG=${KUBECONFIG}"
+  echo "KUBECONFIG_FILES=${KUBECONFIG_FILES[*]}"
+  echo "KUBE_CONTEXTS=${KUBE_CONTEXTS[*]}"
+}
 
 # Set the INGRESS_HOST, INGRESS_PORT, SECURE_INGRESS_PORT, and TCP_INGRESS_PORT environment variables
 _set_ingress_environment_variables() {

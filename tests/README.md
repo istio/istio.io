@@ -285,3 +285,7 @@ You can also find this information by running `make doc.test.help`.
 
 1. Set the HUB and TAG environment variables to use a particular Istio build when running tests.
    If unset, their default values will match those used by the prow tests.
+
+1. For help debugging, you can enable script output to the `stdout` with the command-line flag
+   `--log_output_level=script:debug`. This is useful when you're running in an IDE and don't
+   want to find and tail the test output files.
