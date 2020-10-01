@@ -143,6 +143,8 @@ CIOs
 Circonus
 cli
 CloudWatch
+cluster1
+cluster2
 CNI
 cnn.com
 Cognito
@@ -448,6 +450,8 @@ namespaces
 natively
 Neeraj
 netmask
+network1
+network2
 networking.istio.io
 nginx
 NiFi
