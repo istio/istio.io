@@ -15,6 +15,10 @@ To ease the process of hardening docker images, Istio provides a set of images b
 Follow the [Installation Steps](/docs/setup/install/istioctl/) to setup Istio.
 Add the option `--set tag={{< istio_full_version >}}-distroless` to use the *distroless images*.
 
+{{< text bash >}}
+$ istioctl install --set tag={{< istio_full_version >}}-distroless
+{{< /text >}}
+
 ## Benefits
 
 Non-essential executables and libraries are no longer part of the images when using the distroless variant.
