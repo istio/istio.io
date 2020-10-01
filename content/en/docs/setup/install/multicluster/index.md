@@ -108,7 +108,7 @@ Service workloads communicate directly (pod-to-pod) across cluster boundaries.
 
 <h3>Configure CLUSTER1 as a primary</h3>
 
-Install Istio on `CLUSTER1`:
+Create the Istio configuration for `CLUSTER1`:
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster1.yaml
@@ -130,12 +130,17 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-$ istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
+{{< /text >}}
+
+Apply the configuration to `CLUSTER1`:
+
+{{< text bash >}}
+$ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
 
 <h3>Configure CLUSTER2 as a primary</h3>
 
-Install Istio on `CLUSTER2`:
+Create the Istio configuration for `CLUSTER2`:
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster2.yaml
@@ -157,7 +162,12 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-$ istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
+{{< /text >}}
+
+Apply the configuration to `CLUSTER2`:
+
+{{< text bash >}}
+$ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 {{< /text >}}
 
 <h3>Enable Endpoint Discovery</h3>
@@ -166,18 +176,18 @@ Install a remote secret in `CLUSTER2` that provides access to `CLUSTER1`’s API
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
-    --context=${CTX_CLUSTER1} \
+    --context="${CTX_CLUSTER1}" \
     --name=CLUSTER1 | \
-    kubectl apply -f - --context=${CTX_CLUSTER2}
+    kubectl apply -f - --context="${CTX_CLUSTER2}"
 {{< /text >}}
 
 Install a remote secret in `CLUSTER1` that provides access to `CLUSTER2`’s API server.
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
-    --context=${CTX_CLUSTER2} \
+    --context="${CTX_CLUSTER2}" \
     --name=CLUSTER2 | \
-    kubectl apply -f - --context=${CTX_CLUSTER1}
+    kubectl apply -f - --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
 {{< /tab >}}
@@ -202,7 +212,7 @@ traffic. The gateway in each cluster must be reachable from the other cluster.
 
 <h3>Configure CLUSTER1 as a primary with services exposed</h3>
 
-Install Istio on `CLUSTER1`:
+Create the Istio configuration for `CLUSTER1`:
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster1.yaml
@@ -229,7 +239,12 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-$ istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
+{{< /text >}}
+
+Apply the configuration to `CLUSTER1`:
+
+{{< text bash >}}
+$ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
 
 Install a gateway in `CLUSTER1` that is dedicated to
@@ -242,7 +257,7 @@ available.
 {{< text bash >}}
 $ CLUSTER=CLUSTER1 NETWORK=NETWORK1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
-    kubectl apply --context=${CTX_CLUSTER1} -f -
+    kubectl apply --context="${CTX_CLUSTER1}" -f -
 {{< /text >}}
 
 Since the clusters are on separate networks, we need to expose all services
@@ -252,13 +267,13 @@ with a trusted mTLS certificate and workload ID, just as if they were on the
 same network.
 
 {{< text bash >}}
-$ kubectl --context=${CTX_CLUSTER1} apply -n istio-system -f \
+$ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 {{< /text >}}
 
 <h3>Configure CLUSTER2 as a primary with services exposed</h3>
 
-Install Istio on `CLUSTER2`:
+Create the Istio configuration for `CLUSTER2`:
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster2.yaml
@@ -285,7 +300,12 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-$ istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
+{{< /text >}}
+
+Apply the configuration to `CLUSTER2`:
+
+{{< text bash >}}
+$ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 {{< /text >}}
 
 As we did with `CLUSTER1` above, install a gateway in `CLUSTER2` that is dedicated
@@ -294,11 +314,11 @@ to east-west traffic and expose user services.
 {{< text bash >}}
 $ CLUSTER=CLUSTER2 NETWORK=NETWORK2 \
     samples/multicluster/gen-eastwest-gateway.sh | \
-    kubectl apply --context=${CTX_CLUSTER2} -f -
+    kubectl apply --context="${CTX_CLUSTER2}" -f -
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl --context=${CTX_CLUSTER2} apply -n istio-system -f \
+$ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 {{< /text >}}
 
@@ -308,18 +328,18 @@ Install a remote secret in `CLUSTER2` that provides access to `CLUSTER1`’s API
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
-  --context=${CTX_CLUSTER1} \
+  --context="${CTX_CLUSTER1}" \
   --name=CLUSTER1 | \
-  kubectl apply -f - --context=${CTX_CLUSTER2}
+  kubectl apply -f - --context="${CTX_CLUSTER2}"
 {{< /text >}}
 
 Install a remote secret in `CLUSTER1` that provides access to `CLUSTER2`’s API server.
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
-  --context=${CTX_CLUSTER2} \
+  --context="${CTX_CLUSTER2}" \
   --name=CLUSTER2 | \
-  kubectl apply -f - --context=${CTX_CLUSTER1}
+  kubectl apply -f - --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
 {{< /tab >}}
@@ -349,7 +369,7 @@ traffic.
 
 <h3>Configure CLUSTER1 as a primary with control plane exposed</h3>
 
-Install Istio on `CLUSTER1`:
+Create the Istio configuration for `CLUSTER1`:
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster1.yaml
@@ -363,7 +383,7 @@ spec:
         clusterName: CLUSTER1
       network: NETWORK1
       meshNetworks:
-        ${NETWORK1}:
+        NETWORK1:
           endpoints:
           - fromRegistry: CLUSTER1
           - fromRegistry: CLUSTER2
@@ -371,7 +391,12 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-$ istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
+{{< /text >}}
+
+Apply the configuration to `CLUSTER1`:
+
+{{< text bash >}}
+$ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
 
 Install a gateway in `CLUSTER1` that is dedicated to
@@ -384,14 +409,14 @@ available.
 {{< text bash >}}
 $ CLUSTER=CLUSTER1 NETWORK=NETWORK1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
-    kubectl apply --context=${CTX_CLUSTER1} -f -
+    kubectl apply --context="${CTX_CLUSTER1}" -f -
 {{< /text >}}
 
 Before we can install on `CLUSTER2`, we need to first expose the control plane in
 `CLUSTER1` so that services in `CLUSTER2` will be able to access service discovery:
 
 {{< text bash >}}
-$ kubectl apply --context=${CTX_CLUSTER1} -f \
+$ kubectl apply --context="${CTX_CLUSTER1}" -f \
     samples/multicluster/expose-istiod.yaml
 {{< /text >}}
 
@@ -401,12 +426,12 @@ Save the address of `CLUSTER1`’s ingress gateway.
 
 {{< text bash >}}
 $ export DISCOVERY_ADDRESS=$(kubectl \
-    --context=${CTX_CLUSTER1} \
+    --context="${CTX_CLUSTER1}" \
     -n istio-system get svc istio-eastwestgateway \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 {{< /text >}}
 
-Now install a remote configuration on `CLUSTER2`.
+Now create a remote configuration for `CLUSTER2`.
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster2.yaml
@@ -421,7 +446,12 @@ spec:
       network: NETWORK1
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
-$ istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
+{{< /text >}}
+
+Apply the configuration to `CLUSTER2`:
+
+{{< text bash >}}
+$ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 {{< /text >}}
 
 <h3>Enable Endpoint Discovery for CLUSTER2</h3>
@@ -431,9 +461,9 @@ API Server in `CLUSTER2` for endpoints.
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
-    --context=${CTX_CLUSTER2} \
+    --context="${CTX_CLUSTER2}" \
     --name=CLUSTER2 | \
-    kubectl apply -f - --context=${CTX_CLUSTER1}
+    kubectl apply -f - --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
 {{< /tab >}}
@@ -465,6 +495,8 @@ same east-west gateway.
 
 <h3>Configure CLUSTER1 as a primary with control plane and services exposed</h3>
 
+Create the Istio configuration for `CLUSTER1`:
+
 {{< text bash >}}
 $ cat <<EOF > ./cluster1.yaml
 apiVersion: install.istio.io/v1alpha1
@@ -490,7 +522,12 @@ spec:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
-$ istioctl install --context=${CTX_CLUSTER1} -f cluster1.yaml
+{{< /text >}}
+
+Apply the configuration to `CLUSTER1`:
+
+{{< text bash >}}
+$ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
 
 Install a gateway in `CLUSTER1` that is dedicated to east-west traffic. By
@@ -502,14 +539,14 @@ available.
 {{< text bash >}}
 $ CLUSTER=CLUSTER1 NETWORK=NETWORK1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
-    kubectl apply --context=${CTX_CLUSTER1} -f -
+    kubectl apply --context="${CTX_CLUSTER1}" -f -
 {{< /text >}}
 
 Before we can install on `CLUSTER2`, we need to first expose the control plane in
 `CLUSTER1` so that services in `CLUSTER2` will be able to access service discovery:
 
 {{< text bash >}}
-$ kubectl apply --context=${CTX_CLUSTER1} -f \
+$ kubectl apply --context="${CTX_CLUSTER1}" -f \
     samples/multicluster/expose-istiod.yaml
 {{< /text >}}
 
@@ -520,7 +557,7 @@ services with a trusted mTLS certificate and workload ID, just as if they were
 on the same network.
 
 {{< text bash >}}
-$ kubectl --context=${CTX_CLUSTER1} apply -n istio-system -f \
+$ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 {{< /text >}}
 
@@ -530,12 +567,12 @@ Save the address of `CLUSTER1`’s ingress gateway.
 
 {{< text bash >}}
 $ export DISCOVERY_ADDRESS=$(kubectl \
-    --context=${CTX_CLUSTER1} \
+    --context="${CTX_CLUSTER1}" \
     -n istio-system get svc istio-eastwestgateway \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 {{< /text >}}
 
-Now install a remote configuration on `CLUSTER2`.
+Now create a remote configuration on `CLUSTER2`.
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster2.yaml
@@ -550,7 +587,12 @@ spec:
       network: NETWORK2
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
-$ istioctl install --context=${CTX_CLUSTER2} -f cluster2.yaml
+{{< /text >}}
+
+Apply the configuration to `CLUSTER2`:
+
+{{< text bash >}}
+$ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 {{< /text >}}
 
 As we did with `CLUSTER1` above, install a gateway in `CLUSTER2` that is dedicated
@@ -559,11 +601,11 @@ to east-west traffic and expose user services.
 {{< text bash >}}
 $ CLUSTER=CLUSTER2 NETWORK=NETWORK2 \
     samples/multicluster/gen-eastwest-gateway.sh | \
-    kubectl apply --context=${CTX_CLUSTER2} -f -
+    kubectl apply --context="${CTX_CLUSTER2}" -f -
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl --context=${CTX_CLUSTER2} apply -n istio-system -f \
+$ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 {{< /text >}}
 
@@ -573,9 +615,9 @@ Create a remote secret that will allow the control plane in `CLUSTER1` to access
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
-    --context=${CTX_CLUSTER2} \
+    --context="${CTX_CLUSTER2}" \
     --name=CLUSTER2 | \
-    kubectl apply -f - --context=${CTX_CLUSTER1}
+    kubectl apply -f - --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
 {{< /tab >}}
@@ -604,26 +646,26 @@ each cluster in the mesh.
 To begin, create the `sample` namespace in each cluster:
 
 {{< text bash >}}
-$ kubectl create --context=${CTX_CLUSTER1} namespace sample
-$ kubectl create --context=${CTX_CLUSTER2} namespace sample
+$ kubectl create --context="${CTX_CLUSTER1}" namespace sample
+$ kubectl create --context="${CTX_CLUSTER2}" namespace sample
 {{< /text >}}
 
 Enable automatic sidecar injection for the `sample` namespace:
 
 {{< text bash >}}
-$ kubectl label --context=${CTX_CLUSTER1} namespace sample \
+$ kubectl label --context="${CTX_CLUSTER1}" namespace sample \
     istio-injection=enabled
-$ kubectl label --context=${CTX_CLUSTER2} namespace sample \
+$ kubectl label --context="${CTX_CLUSTER2}" namespace sample \
     istio-injection=enabled
 {{< /text >}}
 
 Create the `HelloWorld` service in both clusters:
 
 {{< text bash >}}
-$ kubectl apply --context=${CTX_CLUSTER1} \
+$ kubectl apply --context="${CTX_CLUSTER1}" \
     -f samples/helloworld/helloworld.yaml \
     -l app=helloworld -n sample
-$ kubectl apply --context=${CTX_CLUSTER2} \
+$ kubectl apply --context="${CTX_CLUSTER2}" \
     -f samples/helloworld/helloworld.yaml \
     -l app=helloworld -n sample
 {{< /text >}}
@@ -633,7 +675,7 @@ $ kubectl apply --context=${CTX_CLUSTER2} \
 Deploy the `helloworld-v1` application to `CLUSTER1`:
 
 {{< text bash >}}
-$ kubectl apply --context=${CTX_CLUSTER1} \
+$ kubectl apply --context="${CTX_CLUSTER1}" \
     -f samples/helloworld/helloworld.yaml \
     -l app=helloworld -l version=v1 -n sample
 {{< /text >}}
@@ -641,7 +683,7 @@ $ kubectl apply --context=${CTX_CLUSTER1} \
 Confirm the `helloworld-v1` pod status:
 
 {{< text bash >}}
-$ kubectl get pod --context=${CTX_CLUSTER1} -n sample
+$ kubectl get pod --context="${CTX_CLUSTER1}" -n sample
 NAME                            READY     STATUS    RESTARTS   AGE
 helloworld-v1-86f77cd7bd-cpxhv  2/2       Running   0          40s
 {{< /text >}}
@@ -653,7 +695,7 @@ Wait until the status of `helloworld-v1` is `Running`.
 Deploy the `helloworld-v2` application to `CLUSTER2`:
 
 {{< text bash >}}
-$ kubectl apply --context=${CTX_CLUSTER2} \
+$ kubectl apply --context="${CTX_CLUSTER2}" \
     -f samples/helloworld/helloworld.yaml \
     -l app=helloworld -l version=v2 -n sample
 {{< /text >}}
@@ -661,7 +703,7 @@ $ kubectl apply --context=${CTX_CLUSTER2} \
 Confirm the status the `helloworld-v2` pod status:
 
 {{< text bash >}}
-$ kubectl get pod --context=${CTX_CLUSTER2} -n sample
+$ kubectl get pod --context="${CTX_CLUSTER2}" -n sample
 NAME                            READY     STATUS    RESTARTS   AGE
 helloworld-v2-758dd55874-6x4t8  2/2       Running   0          40s
 {{< /text >}}
@@ -673,16 +715,16 @@ Wait until the status of `helloworld-v2` is `Running`.
 Deploy the `Sleep` application to both clusters:
 
 {{< text bash >}}
-$ kubectl apply --context=${CTX_CLUSTER1} \
+$ kubectl apply --context="${CTX_CLUSTER1}" \
     -f samples/sleep/sleep.yaml -n sample
-$ kubectl apply --context=${CTX_CLUSTER2} \
+$ kubectl apply --context="${CTX_CLUSTER2}" \
     -f samples/sleep/sleep.yaml -n sample
 {{< /text >}}
 
 Confirm the status `Sleep` pod on `CLUSTER1`:
 
 {{< text bash >}}
-$ kubectl get pod --context=${CTX_CLUSTER1} -n sample -l app=sleep
+$ kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=sleep
 sleep-754684654f-n6bzf           2/2     Running   0          5s
 {{< /text >}}
 
@@ -691,7 +733,7 @@ Wait until the status of the `Sleep` pod is `Running`.
 Confirm the status of the `Sleep` pod on `CLUSTER2`:
 
 {{< text bash >}}
-$ kubectl get pod --context=${CTX_CLUSTER2} -n sample -l app=sleep
+$ kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=sleep
 sleep-754684654f-dzl9j           2/2     Running   0          5s
 {{< /text >}}
 
@@ -707,8 +749,8 @@ clusters in your deployment.
 Send one request from the `Sleep` pod on `CLUSTER1` to the `HelloWorld` service:
 
 {{< text bash >}}
-$ kubectl exec --context=${CTX_CLUSTER1} -n sample -c sleep \
-    "$(kubectl get pod --context=${CTX_CLUSTER1} -n sample -l \
+$ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c sleep \
+    "$(kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l \
     app=sleep -o jsonpath='{.items[0].metadata.name}')" \
     -- curl helloworld.sample:5000/hello
 {{< /text >}}
@@ -725,8 +767,8 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 Now repeat this process from the `Sleep` pod on `CLUSTER2`:
 
 {{< text bash >}}
-$ kubectl exec --context=${CTX_CLUSTER2} -n sample -c sleep \
-    "$(kubectl get pod --context=${CTX_CLUSTER2} -n sample -l \
+$ kubectl exec --context="${CTX_CLUSTER2}" -n sample -c sleep \
+    "$(kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l \
     app=sleep -o jsonpath='{.items[0].metadata.name}')" \
     -- curl helloworld.sample:5000/hello
 {{< /text >}}
