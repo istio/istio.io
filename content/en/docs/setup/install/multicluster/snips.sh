@@ -32,15 +32,15 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER1
-      network: NETWORK1
+        clusterName: cluster1
+      network: network1
       meshNetworks:
-        NETWORK1:
+        network1:
           endpoints:
-          - fromRegistry: CLUSTER1
-          - fromRegistry: CLUSTER2
+          - fromRegistry: cluster1
+          - fromRegistry: cluster2
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
@@ -58,15 +58,15 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER2
-      network: NETWORK1
+        clusterName: cluster2
+      network: network1
       meshNetworks:
-        NETWORK1:
+        network1:
           endpoints:
-          - fromRegistry: CLUSTER2
-          - fromRegistry: CLUSTER1
+          - fromRegistry: cluster2
+          - fromRegistry: cluster1
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
@@ -80,14 +80,14 @@ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 snip_install_istio_5() {
 istioctl x create-remote-secret \
     --context="${CTX_CLUSTER1}" \
-    --name=CLUSTER1 | \
+    --name=cluster1 | \
     kubectl apply -f - --context="${CTX_CLUSTER2}"
 }
 
 snip_install_istio_6() {
 istioctl x create-remote-secret \
     --context="${CTX_CLUSTER2}" \
-    --name=CLUSTER2 | \
+    --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
 }
 
@@ -98,20 +98,20 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER1
-      network: NETWORK1
+        clusterName: cluster1
+      network: network1
       meshNetworks:
-        NETWORK1:
+        network1:
           endpoints:
-          - fromRegistry: CLUSTER1
+          - fromRegistry: cluster1
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
-        NETWORK2:
+        network2:
           endpoints:
-          - fromRegistry: CLUSTER2
+          - fromRegistry: cluster2
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
@@ -123,7 +123,7 @@ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_install_istio_9() {
-CLUSTER=CLUSTER1 NETWORK=NETWORK1 \
+CLUSTER=cluster1 NETWORK=network1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
     kubectl apply --context="${CTX_CLUSTER1}" -f -
 }
@@ -140,20 +140,20 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER2
-      network: NETWORK2
+        clusterName: cluster2
+      network: network2
       meshNetworks:
-        NETWORK1:
+        network1:
           endpoints:
-          - fromRegistry: CLUSTER1
+          - fromRegistry: cluster1
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
-        NETWORK2:
+        network2:
           endpoints:
-          - fromRegistry: CLUSTER2
+          - fromRegistry: cluster2
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
@@ -165,7 +165,7 @@ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
 
 snip_install_istio_13() {
-CLUSTER=CLUSTER2 NETWORK=NETWORK2 \
+CLUSTER=cluster2 NETWORK=network2 \
     samples/multicluster/gen-eastwest-gateway.sh | \
     kubectl apply --context="${CTX_CLUSTER2}" -f -
 }
@@ -178,14 +178,14 @@ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
 snip_install_istio_15() {
 istioctl x create-remote-secret \
   --context="${CTX_CLUSTER1}" \
-  --name=CLUSTER1 | \
+  --name=cluster1 | \
   kubectl apply -f - --context="${CTX_CLUSTER2}"
 }
 
 snip_install_istio_16() {
 istioctl x create-remote-secret \
   --context="${CTX_CLUSTER2}" \
-  --name=CLUSTER2 | \
+  --name=cluster2 | \
   kubectl apply -f - --context="${CTX_CLUSTER1}"
 }
 
@@ -196,15 +196,15 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER1
-      network: NETWORK1
+        clusterName: cluster1
+      network: network1
       meshNetworks:
-        NETWORK1:
+        network1:
           endpoints:
-          - fromRegistry: CLUSTER1
-          - fromRegistry: CLUSTER2
+          - fromRegistry: cluster1
+          - fromRegistry: cluster2
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
@@ -216,7 +216,7 @@ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_install_istio_19() {
-CLUSTER=CLUSTER1 NETWORK=NETWORK1 \
+CLUSTER=cluster1 NETWORK=network1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
     kubectl apply --context="${CTX_CLUSTER1}" -f -
 }
@@ -240,10 +240,10 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER2
-      network: NETWORK1
+        clusterName: cluster2
+      network: network1
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
 }
@@ -255,7 +255,7 @@ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 snip_install_istio_24() {
 istioctl x create-remote-secret \
     --context="${CTX_CLUSTER2}" \
-    --name=CLUSTER2 | \
+    --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
 }
 
@@ -266,20 +266,20 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER1
-      network: NETWORK1
+        clusterName: cluster1
+      network: network1
       meshNetworks:
-        NETWORK1:
+        network1:
           endpoints:
-          - fromRegistry: CLUSTER1
+          - fromRegistry: cluster1
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
-        NETWORK2:
+        network2:
           endpoints:
-          - fromRegistry: CLUSTER2
+          - fromRegistry: cluster2
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
@@ -291,7 +291,7 @@ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_install_istio_27() {
-CLUSTER=CLUSTER1 NETWORK=NETWORK1 \
+CLUSTER=cluster1 NETWORK=network1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
     kubectl apply --context="${CTX_CLUSTER1}" -f -
 }
@@ -320,10 +320,10 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER2
-      network: NETWORK2
+        clusterName: cluster2
+      network: network2
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
 }
@@ -333,7 +333,7 @@ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
 
 snip_install_istio_33() {
-CLUSTER=CLUSTER2 NETWORK=NETWORK2 \
+CLUSTER=cluster2 NETWORK=network2 \
     samples/multicluster/gen-eastwest-gateway.sh | \
     kubectl apply --context="${CTX_CLUSTER2}" -f -
 }
@@ -346,7 +346,7 @@ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
 snip_install_istio_35() {
 istioctl x create-remote-secret \
     --context="${CTX_CLUSTER2}" \
-    --name=CLUSTER2 | \
+    --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
 }
 

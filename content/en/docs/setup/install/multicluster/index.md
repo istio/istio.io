@@ -40,13 +40,13 @@ to enable access to the API Server.
 
 ## Environment Variables
 
-This guide will refer to two clusters named `CLUSTER1` and `CLUSTER2`. The following
+This guide will refer to two clusters named `cluster1` and `cluster2`. The following
 environment variables will be used throughout to simplify the instructions:
 
 Variable | Description
 -------- | -----------
-`CTX_CLUSTER1` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the `CLUSTER1` cluster.
-`CTX_CLUSTER2` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the `CLUSTER2` cluster.
+`CTX_CLUSTER1` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the `cluster1` cluster.
+`CTX_CLUSTER2` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the `cluster2` cluster.
 
 For example:
 
@@ -67,7 +67,7 @@ Istio may change slightly.
 
 This guide will assume that you use a common root to generate intermediate
 certificates for each cluster. Follow the [instructions](/docs/tasks/security/cert-management/plugin-ca-cert/)
-to generate and push a ca certificate secrets to both the `CLUSTER1` and `CLUSTER2`
+to generate and push a ca certificate secrets to both the `cluster1` and `cluster2`
 clusters.
 
 {{< tip >}}
@@ -92,9 +92,9 @@ information.
 
 {{< tab name="Multi-Primary" category-value="multi-primary" >}}
 
-The steps that follow will install the Istio control plane on both `CLUSTER1` and
-`CLUSTER2`, making each a {{< gloss >}}primary cluster{{< /gloss >}}. Both
-clusters reside on the `NETWORK1` network, meaning there is direct
+The steps that follow will install the Istio control plane on both `cluster1` and
+`cluster2`, making each a {{< gloss >}}primary cluster{{< /gloss >}}. Both
+clusters reside on the `network1` network, meaning there is direct
 connectivity between the pods in both clusters.
 
 Each control plane observes the API Servers in both clusters for endpoints.
@@ -106,9 +106,9 @@ Service workloads communicate directly (pod-to-pod) across cluster boundaries.
     caption="Multiple primary clusters on the same network"
     >}}
 
-<h3>Configure CLUSTER1 as a primary</h3>
+<h3>Configure cluster1 as a primary</h3>
 
-Create the Istio configuration for `CLUSTER1`:
+Create the Istio configuration for `cluster1`:
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster1.yaml
@@ -117,30 +117,30 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER1
-      network: NETWORK1
+        clusterName: cluster1
+      network: network1
       meshNetworks:
-        NETWORK1:
+        network1:
           endpoints:
-          - fromRegistry: CLUSTER1
-          - fromRegistry: CLUSTER2
+          - fromRegistry: cluster1
+          - fromRegistry: cluster2
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
 {{< /text >}}
 
-Apply the configuration to `CLUSTER1`:
+Apply the configuration to `cluster1`:
 
 {{< text bash >}}
 $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
 
-<h3>Configure CLUSTER2 as a primary</h3>
+<h3>Configure cluster2 as a primary</h3>
 
-Create the Istio configuration for `CLUSTER2`:
+Create the Istio configuration for `cluster2`:
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster2.yaml
@@ -149,22 +149,22 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER2
-      network: NETWORK1
+        clusterName: cluster2
+      network: network1
       meshNetworks:
-        NETWORK1:
+        network1:
           endpoints:
-          - fromRegistry: CLUSTER2
-          - fromRegistry: CLUSTER1
+          - fromRegistry: cluster2
+          - fromRegistry: cluster1
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
 {{< /text >}}
 
-Apply the configuration to `CLUSTER2`:
+Apply the configuration to `cluster2`:
 
 {{< text bash >}}
 $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
@@ -172,21 +172,21 @@ $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 
 <h3>Enable Endpoint Discovery</h3>
 
-Install a remote secret in `CLUSTER2` that provides access to `CLUSTER1`’s API server.
+Install a remote secret in `cluster2` that provides access to `cluster1`’s API server.
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
     --context="${CTX_CLUSTER1}" \
-    --name=CLUSTER1 | \
+    --name=cluster1 | \
     kubectl apply -f - --context="${CTX_CLUSTER2}"
 {{< /text >}}
 
-Install a remote secret in `CLUSTER1` that provides access to `CLUSTER2`’s API server.
+Install a remote secret in `cluster1` that provides access to `cluster2`’s API server.
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
     --context="${CTX_CLUSTER2}" \
-    --name=CLUSTER2 | \
+    --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
@@ -194,12 +194,12 @@ $ istioctl x create-remote-secret \
 
 {{< tab name="Multi-Primary, Multi-Network" category-value="multi-primary-multi-network" >}}
 
-The following steps will install the Istio control plane on both `CLUSTER1` and
-`CLUSTER2`, making each a {{< gloss >}}primary cluster{{< /gloss >}}. `CLUSTER1` is
-on the `NETWORK1` network, while `CLUSTER2` is on the `NETWORK2` network. This means there
+The following steps will install the Istio control plane on both `cluster1` and
+`cluster2`, making each a {{< gloss >}}primary cluster{{< /gloss >}}. Cluster `cluster1` is
+on the `network1` network, while `cluster2` is on the `network2` network. This means there
 is no direct connectivity between pods across cluster boundaries.
 
-Both `CLUSTER1` and `CLUSTER2` observe the API Servers in each cluster for endpoints.
+Both `cluster1` and `cluster2` observe the API Servers in each cluster for endpoints.
 
 Service workloads across cluster boundaries communicate indirectly, via
 dedicated gateways for [east-west](https://en.wikipedia.org/wiki/East-west_traffic)
@@ -210,9 +210,9 @@ traffic. The gateway in each cluster must be reachable from the other cluster.
     caption="Multiple primary clusters on separate networks"
     >}}
 
-<h3>Configure CLUSTER1 as a primary with services exposed</h3>
+<h3>Configure cluster1 as a primary with services exposed</h3>
 
-Create the Istio configuration for `CLUSTER1`:
+Create the Istio configuration for `cluster1`:
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster1.yaml
@@ -221,33 +221,33 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER1
-      network: NETWORK1
+        clusterName: cluster1
+      network: network1
       meshNetworks:
-        NETWORK1:
+        network1:
           endpoints:
-          - fromRegistry: CLUSTER1
+          - fromRegistry: cluster1
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
-        NETWORK2:
+        network2:
           endpoints:
-          - fromRegistry: CLUSTER2
+          - fromRegistry: cluster2
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
 {{< /text >}}
 
-Apply the configuration to `CLUSTER1`:
+Apply the configuration to `cluster1`:
 
 {{< text bash >}}
 $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
 
-Install a gateway in `CLUSTER1` that is dedicated to
+Install a gateway in `cluster1` that is dedicated to
 [east-west](https://en.wikipedia.org/wiki/East-west_traffic) traffic. By
 default, this gateway will be public on the Internet. Production systems may
 require additional access restrictions (e.g. via firewall rules) to prevent
@@ -255,7 +255,7 @@ external attacks. Check with your cloud vendor to see what options are
 available.
 
 {{< text bash >}}
-$ CLUSTER=CLUSTER1 NETWORK=NETWORK1 \
+$ CLUSTER=cluster1 NETWORK=network1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
     kubectl apply --context="${CTX_CLUSTER1}" -f -
 {{< /text >}}
@@ -271,9 +271,9 @@ $ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 {{< /text >}}
 
-<h3>Configure CLUSTER2 as a primary with services exposed</h3>
+<h3>Configure cluster2 as a primary with services exposed</h3>
 
-Create the Istio configuration for `CLUSTER2`:
+Create the Istio configuration for `cluster2`:
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster2.yaml
@@ -282,37 +282,37 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER2
-      network: NETWORK2
+        clusterName: cluster2
+      network: network2
       meshNetworks:
-        NETWORK1:
+        network1:
           endpoints:
-          - fromRegistry: CLUSTER1
+          - fromRegistry: cluster1
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
-        NETWORK2:
+        network2:
           endpoints:
-          - fromRegistry: CLUSTER2
+          - fromRegistry: cluster2
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
 {{< /text >}}
 
-Apply the configuration to `CLUSTER2`:
+Apply the configuration to `cluster2`:
 
 {{< text bash >}}
 $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 {{< /text >}}
 
-As we did with `CLUSTER1` above, install a gateway in `CLUSTER2` that is dedicated
+As we did with `cluster1` above, install a gateway in `cluster2` that is dedicated
 to east-west traffic and expose user services.
 
 {{< text bash >}}
-$ CLUSTER=CLUSTER2 NETWORK=NETWORK2 \
+$ CLUSTER=cluster2 NETWORK=network2 \
     samples/multicluster/gen-eastwest-gateway.sh | \
     kubectl apply --context="${CTX_CLUSTER2}" -f -
 {{< /text >}}
@@ -322,23 +322,23 @@ $ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 {{< /text >}}
 
-<h3>Enable Endpoint Discovery for CLUSTER1 and CLUSTER2</h3>
+<h3>Enable Endpoint Discovery for cluster1 and cluster2</h3>
 
-Install a remote secret in `CLUSTER2` that provides access to `CLUSTER1`’s API server.
+Install a remote secret in `cluster2` that provides access to `cluster1`’s API server.
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
   --context="${CTX_CLUSTER1}" \
-  --name=CLUSTER1 | \
+  --name=cluster1 | \
   kubectl apply -f - --context="${CTX_CLUSTER2}"
 {{< /text >}}
 
-Install a remote secret in `CLUSTER1` that provides access to `CLUSTER2`’s API server.
+Install a remote secret in `cluster1` that provides access to `cluster2`’s API server.
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
   --context="${CTX_CLUSTER2}" \
-  --name=CLUSTER2 | \
+  --name=cluster2 | \
   kubectl apply -f - --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
@@ -346,19 +346,19 @@ $ istioctl x create-remote-secret \
 
 {{< tab name="Primary-Remote" category-value="primary-remote" >}}
 
-The following steps will install the Istio control plane on `CLUSTER1` (the
-{{< gloss >}}primary cluster{{< /gloss >}}) and configure `CLUSTER2` (the
-{{< gloss >}}remote cluster{{< /gloss >}}) to use the control plane in `CLUSTER1`.
-Both clusters reside on the `NETWORK1` network, meaning there is direct
+The following steps will install the Istio control plane on `cluster1` (the
+{{< gloss >}}primary cluster{{< /gloss >}}) and configure `cluster2` (the
+{{< gloss >}}remote cluster{{< /gloss >}}) to use the control plane in `cluster1`.
+Both clusters reside on the `network1` network, meaning there is direct
 connectivity between the pods in both clusters.
 
-`CLUSTER1` will be configured to observe the API Servers in both clusters for
+Cluster `cluster1` will be configured to observe the API Servers in both clusters for
 endpoints. In this way, the control plane will be able to provide service
 discovery for workloads in both clusters.
 
 Service workloads communicate directly (pod-to-pod) across cluster boundaries.
 
-Services in `CLUSTER2` will reach the control plane in `CLUSTER1` via a
+Services in `cluster2` will reach the control plane in `cluster1` via a
 dedicated gateway for [east-west](https://en.wikipedia.org/wiki/East-west_traffic)
 traffic.
 
@@ -367,9 +367,9 @@ traffic.
     caption="Primary and remote clusters on the same network"
     >}}
 
-<h3>Configure CLUSTER1 as a primary with control plane exposed</h3>
+<h3>Configure cluster1 as a primary with control plane exposed</h3>
 
-Create the Istio configuration for `CLUSTER1`:
+Create the Istio configuration for `cluster1`:
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster1.yaml
@@ -378,28 +378,28 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER1
-      network: NETWORK1
+        clusterName: cluster1
+      network: network1
       meshNetworks:
-        NETWORK1:
+        network1:
           endpoints:
-          - fromRegistry: CLUSTER1
-          - fromRegistry: CLUSTER2
+          - fromRegistry: cluster1
+          - fromRegistry: cluster2
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
 {{< /text >}}
 
-Apply the configuration to `CLUSTER1`:
+Apply the configuration to `cluster1`:
 
 {{< text bash >}}
 $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
 
-Install a gateway in `CLUSTER1` that is dedicated to
+Install a gateway in `cluster1` that is dedicated to
 [east-west](https://en.wikipedia.org/wiki/East-west_traffic) traffic. By
 default, this gateway will be public on the Internet. Production systems may
 require additional access restrictions (e.g. via firewall rules) to prevent
@@ -407,22 +407,22 @@ external attacks. Check with your cloud vendor to see what options are
 available.
 
 {{< text bash >}}
-$ CLUSTER=CLUSTER1 NETWORK=NETWORK1 \
+$ CLUSTER=cluster1 NETWORK=network1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
     kubectl apply --context="${CTX_CLUSTER1}" -f -
 {{< /text >}}
 
-Before we can install on `CLUSTER2`, we need to first expose the control plane in
-`CLUSTER1` so that services in `CLUSTER2` will be able to access service discovery:
+Before we can install on `cluster2`, we need to first expose the control plane in
+`cluster1` so that services in `cluster2` will be able to access service discovery:
 
 {{< text bash >}}
 $ kubectl apply --context="${CTX_CLUSTER1}" -f \
     samples/multicluster/expose-istiod.yaml
 {{< /text >}}
 
-<h3>Configure CLUSTER2 as a remote</h3>
+<h3>Configure cluster2 as a remote</h3>
 
-Save the address of `CLUSTER1`’s ingress gateway.
+Save the address of `cluster1`’s ingress gateway.
 
 {{< text bash >}}
 $ export DISCOVERY_ADDRESS=$(kubectl \
@@ -431,7 +431,7 @@ $ export DISCOVERY_ADDRESS=$(kubectl \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 {{< /text >}}
 
-Now create a remote configuration for `CLUSTER2`.
+Now create a remote configuration for `cluster2`.
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster2.yaml
@@ -440,29 +440,29 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER2
-      network: NETWORK1
+        clusterName: cluster2
+      network: network1
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
 {{< /text >}}
 
-Apply the configuration to `CLUSTER2`:
+Apply the configuration to `cluster2`:
 
 {{< text bash >}}
 $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 {{< /text >}}
 
-<h3>Enable Endpoint Discovery for CLUSTER2</h3>
+<h3>Enable Endpoint Discovery for cluster2</h3>
 
-Create a remote secret that will allow the control plane in `CLUSTER1` to access the
-API Server in `CLUSTER2` for endpoints.
+Create a remote secret that will allow the control plane in `cluster1` to access the
+API Server in `cluster2` for endpoints.
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
     --context="${CTX_CLUSTER2}" \
-    --name=CLUSTER2 | \
+    --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
@@ -470,22 +470,22 @@ $ istioctl x create-remote-secret \
 
 {{< tab name="Primary-Remote, Multi-Network" category-value="primary-remote-multi-network" >}}
 
-The following steps will install the Istio control plane on `CLUSTER1` (the
-{{< gloss >}}primary cluster{{< /gloss >}}) and configure `CLUSTER2` (the
-{{< gloss >}}remote cluster{{< /gloss >}}) to use the control plane in `CLUSTER1`.
-`CLUSTER1` is on the `NETWORK1` network, while `CLUSTER2` is on the `NETWORK2` network.
-This means there is no direct connectivity between pods across cluster
-boundaries.
+The following steps will install the Istio control plane on `cluster1` (the
+{{< gloss >}}primary cluster{{< /gloss >}}) and configure `cluster2` (the
+{{< gloss >}}remote cluster{{< /gloss >}}) to use the control plane in
+`cluster1`. Cluster `cluster1` is on the `network1` network, while `cluster2`
+is on the `network2` network. This means there is no direct connectivity
+between pods across cluster boundaries.
 
-`CLUSTER1` will be configured to observe the API Servers in both clusters for
-endpoints. In this way, the control plane will be able to provide service
-discovery for workloads in both clusters.
+Cluster `cluster1` will be configured to observe the API Servers in both
+clusters for endpoints. In this way, the control plane will be able to
+provide service discovery for workloads in both clusters.
 
 Service workloads across cluster boundaries communicate indirectly, via
 dedicated gateways for [east-west](https://en.wikipedia.org/wiki/East-west_traffic)
 traffic. The gateway in each cluster must be reachable from the other cluster.
 
-Services in `CLUSTER2` will reach the control plane in `CLUSTER1` via the
+Services in `cluster2` will reach the control plane in `cluster1` via the
 same east-west gateway.
 
 {{< image width="75%"
@@ -493,9 +493,9 @@ same east-west gateway.
     caption="Primary and remote clusters on separate networks"
     >}}
 
-<h3>Configure CLUSTER1 as a primary with control plane and services exposed</h3>
+<h3>Configure cluster1 as a primary with control plane and services exposed</h3>
 
-Create the Istio configuration for `CLUSTER1`:
+Create the Istio configuration for `cluster1`:
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster1.yaml
@@ -504,46 +504,46 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER1
-      network: NETWORK1
+        clusterName: cluster1
+      network: network1
       meshNetworks:
-        NETWORK1:
+        network1:
           endpoints:
-          - fromRegistry: CLUSTER1
+          - fromRegistry: cluster1
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
-        NETWORK2:
+        network2:
           endpoints:
-          - fromRegistry: CLUSTER2
+          - fromRegistry: cluster2
           gateways:
           - registryServiceName: istio-eastwestgateway.istio-system.svc.cluster.local
             port: 15443
 EOF
 {{< /text >}}
 
-Apply the configuration to `CLUSTER1`:
+Apply the configuration to `cluster1`:
 
 {{< text bash >}}
 $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
 
-Install a gateway in `CLUSTER1` that is dedicated to east-west traffic. By
+Install a gateway in `cluster1` that is dedicated to east-west traffic. By
 default, this gateway will be public on the Internet. Production systems may
 require additional access restrictions (e.g. via firewall rules) to prevent
 external attacks. Check with your cloud vendor to see what options are
 available.
 
 {{< text bash >}}
-$ CLUSTER=CLUSTER1 NETWORK=NETWORK1 \
+$ CLUSTER=cluster1 NETWORK=network1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
     kubectl apply --context="${CTX_CLUSTER1}" -f -
 {{< /text >}}
 
-Before we can install on `CLUSTER2`, we need to first expose the control plane in
-`CLUSTER1` so that services in `CLUSTER2` will be able to access service discovery:
+Before we can install on `cluster2`, we need to first expose the control plane in
+`cluster1` so that services in `cluster2` will be able to access service discovery:
 
 {{< text bash >}}
 $ kubectl apply --context="${CTX_CLUSTER1}" -f \
@@ -561,9 +561,9 @@ $ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 {{< /text >}}
 
-<h3>Configure CLUSTER2 as a remote with services exposed</h3>
+<h3>Configure cluster2 as a remote with services exposed</h3>
 
-Save the address of `CLUSTER1`’s ingress gateway.
+Save the address of `cluster1`’s ingress gateway.
 
 {{< text bash >}}
 $ export DISCOVERY_ADDRESS=$(kubectl \
@@ -572,7 +572,7 @@ $ export DISCOVERY_ADDRESS=$(kubectl \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 {{< /text >}}
 
-Now create a remote configuration on `CLUSTER2`.
+Now create a remote configuration on `cluster2`.
 
 {{< text bash >}}
 $ cat <<EOF > ./cluster2.yaml
@@ -581,25 +581,25 @@ kind: IstioOperator
 spec:
   values:
     global:
-      meshID: MESH1
+      meshID: mesh1
       multiCluster:
-        clusterName: CLUSTER2
-      network: NETWORK2
+        clusterName: cluster2
+      network: network2
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
 {{< /text >}}
 
-Apply the configuration to `CLUSTER2`:
+Apply the configuration to `cluster2`:
 
 {{< text bash >}}
 $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 {{< /text >}}
 
-As we did with `CLUSTER1` above, install a gateway in `CLUSTER2` that is dedicated
+As we did with `cluster1` above, install a gateway in `cluster2` that is dedicated
 to east-west traffic and expose user services.
 
 {{< text bash >}}
-$ CLUSTER=CLUSTER2 NETWORK=NETWORK2 \
+$ CLUSTER=cluster2 NETWORK=network2 \
     samples/multicluster/gen-eastwest-gateway.sh | \
     kubectl apply --context="${CTX_CLUSTER2}" -f -
 {{< /text >}}
@@ -609,14 +609,15 @@ $ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 {{< /text >}}
 
-<h3>Enable Endpoint Discovery for CLUSTER2 on NETWORK2</h3>
+<h3>Enable Endpoint Discovery for cluster2 on network2</h3>
 
-Create a remote secret that will allow the control plane in `CLUSTER1` to access the API Server in `CLUSTER2` for endpoints.
+Create a remote secret that will allow the control plane in `cluster1` to
+access the API Server in `cluster2` for endpoints.
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
     --context="${CTX_CLUSTER2}" \
-    --name=CLUSTER2 | \
+    --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
@@ -627,7 +628,7 @@ $ istioctl x create-remote-secret \
 ## Verify the Installation
 
 To verify that your Istio installation is working as intended, we will deploy
-the `HelloWorld` application `V1` to `CLUSTER1` and `V2` to `CLUSTER2`. Upon receiving a
+the `HelloWorld` application `V1` to `cluster1` and `V2` to `cluster2`. Upon receiving a
 request, `HelloWorld` will include its version in its response.
 
 We will also deploy the `Sleep` container to both clusters. We will use these
@@ -672,7 +673,7 @@ $ kubectl apply --context="${CTX_CLUSTER2}" \
 
 ### Deploy `HelloWorld` `V1`
 
-Deploy the `helloworld-v1` application to `CLUSTER1`:
+Deploy the `helloworld-v1` application to `cluster1`:
 
 {{< text bash >}}
 $ kubectl apply --context="${CTX_CLUSTER1}" \
@@ -692,7 +693,7 @@ Wait until the status of `helloworld-v1` is `Running`.
 
 ### Deploy `HelloWorld` `V2`
 
-Deploy the `helloworld-v2` application to `CLUSTER2`:
+Deploy the `helloworld-v2` application to `cluster2`:
 
 {{< text bash >}}
 $ kubectl apply --context="${CTX_CLUSTER2}" \
@@ -721,7 +722,7 @@ $ kubectl apply --context="${CTX_CLUSTER2}" \
     -f samples/sleep/sleep.yaml -n sample
 {{< /text >}}
 
-Confirm the status `Sleep` pod on `CLUSTER1`:
+Confirm the status `Sleep` pod on `cluster1`:
 
 {{< text bash >}}
 $ kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=sleep
@@ -730,7 +731,7 @@ sleep-754684654f-n6bzf           2/2     Running   0          5s
 
 Wait until the status of the `Sleep` pod is `Running`.
 
-Confirm the status of the `Sleep` pod on `CLUSTER2`:
+Confirm the status of the `Sleep` pod on `cluster2`:
 
 {{< text bash >}}
 $ kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=sleep
@@ -746,7 +747,7 @@ To verify that cross-cluster load balancing works as expected, call the
 balancing is working properly, call the `HelloWorld` service from all
 clusters in your deployment.
 
-Send one request from the `Sleep` pod on `CLUSTER1` to the `HelloWorld` service:
+Send one request from the `Sleep` pod on `cluster1` to the `HelloWorld` service:
 
 {{< text bash >}}
 $ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c sleep \
@@ -764,7 +765,7 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 ...
 {{< /text >}}
 
-Now repeat this process from the `Sleep` pod on `CLUSTER2`:
+Now repeat this process from the `Sleep` pod on `cluster2`:
 
 {{< text bash >}}
 $ kubectl exec --context="${CTX_CLUSTER2}" -n sample -c sleep \
