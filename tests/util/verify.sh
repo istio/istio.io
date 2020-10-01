@@ -299,14 +299,13 @@ __create_cluster_snapshots() {
     IFS=':' read -r -a KFILES <<< "${KUBECONFIG}"
     for KFILE in "${KFILES[@]}"; do
         # Get the contexts in this KUBECONFIG file as an array.
-        mapfile -t CTXS <<< "$(export KUBECONFIG=${KFILE}; kubectl config get-contexts -o name)"
-        if [[ "${#CTXS[*]}" != "1" ]]; then
-          echo "${KFILE} contains ${#CTXS[*]} contexts. Expected 1."
+        CTX="$(export KUBECONFIG=${KFILE}; kubectl config current-context)"
+        if [[ -z "${CTX}" ]]; then
+          echo "${KFILE} contains no current context."
           exit 1
         fi
 
         # Dump the state of this cluster to a snapshot file.
-        CTX="${CTXS[0]}"
         SNAPSHOT_FILE="__cluster_snapshot_${CTX}.txt"
         echo "Creating snapshot ${SNAPSHOT_FILE}"
         (KUBECONFIG="${KFILE}"; __cluster_state > "${SNAPSHOT_FILE}" 2>&1)
@@ -318,14 +317,13 @@ __cluster_cleanup_check() {
     IFS=':' read -r -a KFILES <<< "${KUBECONFIG}"
     for KFILE in "${KFILES[@]}"; do
         # Get the contexts in this KUBECONFIG file as an array.
-        mapfile -t CTXS <<< "$(export KUBECONFIG=${KFILE}; kubectl config get-contexts -o name)"
-        if [[ "${#CTXS[*]}" != "1" ]]; then
-          echo "${KFILE} contains ${#CTXS[*]} contexts. Expected 1."
+        CTX="$(export KUBECONFIG=${KFILE}; kubectl config current-context)"
+        if [[ -z "${CTX}" ]]; then
+          echo "${KFILE} contains no current context."
           exit 1
         fi
 
         # Read the snapshot file for this cluster.
-        CTX="${CTXS[0]}"
         SNAPSHOT_FILE="__cluster_snapshot_${CTX}.txt"
         echo "Performing cleanup check against snapshot ${SNAPSHOT_FILE}"
         SNAPSHOT=$(<"${SNAPSHOT_FILE}")
