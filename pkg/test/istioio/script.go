@@ -15,7 +15,6 @@
 package istioio
 
 import (
-	"bytes"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -33,6 +32,11 @@ const (
 	testOutputDirEnvVar = "TEST_OUTPUT_DIR"
 	testDebugFile       = "TEST_DEBUG_FILE"
 	kubeConfigEnvVar    = "KUBECONFIG"
+)
+
+var (
+	// Logging scope for the script output.
+	scriptLog = log.RegisterScope("script", "output of test scripts", 0)
 )
 
 var _ Step = Script{}
@@ -73,6 +77,7 @@ func (s Script) run(ctx Context) {
 	}
 
 	// Now run the command...
+	defer scopes.Framework.Infof("Finished running command script %s", input.Name())
 	scopes.Framework.Infof("Running command script %s", input.Name())
 
 	// Copy the command to workDir.
@@ -93,26 +98,22 @@ func (s Script) run(ctx Context) {
 	cmd.Env = s.getEnv(ctx, fileName)
 	cmd.Stdin = strings.NewReader(command)
 
-	// Output will be streamed to logs as well as to the output buffer (to be written to disk)
-	var output bytes.Buffer
-	cmd.Stdout = io.MultiWriter(&LogWriter{}, &output)
-	cmd.Stderr = io.MultiWriter(&LogWriter{}, &output)
-
-	// Run the command and get the output.
-	cmdErr := cmd.Run()
-
-	// Copy the command output from the script to workDir
-	outputFileName := fileName + "_output.txt"
-	if werr := ioutil.WriteFile(filepath.Join(ctx.WorkDir(), outputFileName), bytes.TrimSpace(output.Bytes()), 0644); werr != nil {
-		ctx.Fatalf("failed copying output for command %s: %v", input.Name(), werr)
+	// Output will be streamed to logs as well as to the output file (to be written to disk)
+	outputFileName := filepath.Join(ctx.WorkDir(), fileName+"_output.txt")
+	outputFile, err := os.Create(outputFileName)
+	if err != nil {
+		ctx.Fatalf("failed creating output file for command %s: %v", input.Name(), err)
 	}
+	defer func() { _ = outputFile.Close() }()
+	cmd.Stdout = io.MultiWriter(&LogWriter{}, outputFile)
+	cmd.Stderr = io.MultiWriter(&LogWriter{}, outputFile)
 
-	if cmdErr != nil {
-		ctx.Fatalf("script %s returned an error: %v. Output:\n%s", input.Name(), cmdErr, output.String())
+	// Run the command.
+	if err := cmd.Run(); err != nil {
+		ctx.Fatalf("error running script %s: %v. Check output file for details: %s",
+			input.Name(), err, outputFileName)
 	}
 }
-
-var scriptLog = log.RegisterScope("script", "output of test scripts", 0)
 
 type LogWriter struct{}
 
@@ -143,7 +144,7 @@ func (s Script) getEnv(ctx Context, fileName string) []string {
 	customVars[testDebugFile] = fileName + "_debug.txt"
 
 	if ctx.TestContext.Clusters().IsMulticluster() {
-		customVars[kubeConfigEnvVar] = strings.Join(ctx.KubeEnv().Settings().KubeConfig, ",")
+		customVars[kubeConfigEnvVar] = strings.Join(ctx.KubeEnv().Settings().KubeConfig, ":")
 	} else {
 		customVars[kubeConfigEnvVar] = ctx.KubeEnv().Settings().KubeConfig[0]
 	}

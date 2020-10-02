@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC1090,SC2154,SC2155,SC2034
+# shellcheck disable=SC1090,SC2154,SC2155,SC2031,SC2034
 
 # Copyright Istio Authors
 #
@@ -21,14 +21,16 @@ set -o pipefail
 
 # @setup multicluster
 
+# Initialize KUBECONFIG_FILES
+_set_kube_vars
+
 # TODO: Remove this once we have a real multicluster test
 
 echo "start multicluster test with KUBECONFIG=${KUBECONFIG}"
 echo "DOCTEST_KUBECONFIG=${DOCTEST_KUBECONFIG}"
 echo "DOCTEST_NETWORK_TOPOLOGY=${DOCTEST_NETWORK_TOPOLOGY}"
 
-IFS=',' read -r -a CONFIGS <<< "${KUBECONFIG}"
-for kcfg in "${CONFIGS[@]}"; do
+for kcfg in "${KUBECONFIG_FILES[@]}"; do
   kubectl --kubeconfig="$kcfg" get pods -A
 done
 
