@@ -1,4 +1,0 @@
-# This is an empty yaml file so make lint-yaml passes.
-# lint-yaml removes files with {{ in them using grep -L.
-# If it fails to remove any yaml files, it returns an error.
-{{ }}
