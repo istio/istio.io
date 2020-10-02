@@ -25,7 +25,6 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
-	"testing"
 
 	"istio.io/istio/pkg/test/framework"
 )
@@ -182,44 +181,31 @@ func NeedSetup(config string) bool {
 	return false
 }
 
-// TestDocs traverses through all test cases and runs those that need the
-// setup config specified by the input. The (*testing.T) variable comes
-// from the TestDocs function in each tests/setup/*/doc_test.go
-func TestDocs(t *testing.T, config string) {
-	for idx := range testCases {
-		if testCase := &testCases[idx]; testCase.config == config {
-			runTestCase(testCase, t)
+// NewTestDocsFunc returns a test function that traverses through all test
+// cases and runs those that need the setup config specified by the input.
+func NewTestDocsFunc(config string) func(framework.TestContext) {
+	return func(ctx framework.TestContext) {
+		for idx := range testCases {
+			if testCase := &testCases[idx]; testCase.config == config {
+				path := testCase.path
+				ctx.NewSubTest(path).
+					Run(NewBuilder().
+						Add(Script{
+							Input: Inline{
+								FileName: getDebugFileName(path, "test"),
+								Value:    testCase.testScript,
+							},
+						}).
+						Defer(Script{
+							Input: Inline{
+								FileName: getDebugFileName(path, "cleanup"),
+								Value:    testCase.cleanupScript,
+							},
+						}).
+						Build())
+			}
 		}
 	}
-}
-
-// runTestCase runs a subtest for the given test case. It receives `testCase`,
-// the test case to be run, and a (*testing.T) variable passed down from
-// TestDocs to create subtests
-func runTestCase(testCase *TestCase, t *testing.T) {
-	path := testCase.path
-	// run the scripts using the istio test framework
-	// TODO: impose timeout for each subtest
-	// TODO: run the subtests in parallel to reduce test time
-	t.Run(path, func(t *testing.T) {
-		framework.
-			NewTest(t).
-			Features("documentation").
-			Run(NewBuilder(path).
-				Add(Script{
-					Input: Inline{
-						FileName: getDebugFileName(path, "test"),
-						Value:    testCase.testScript,
-					},
-				}).
-				Defer(Script{
-					Input: Inline{
-						FileName: getDebugFileName(path, "cleanup"),
-						Value:    testCase.cleanupScript,
-					},
-				}).
-				Build())
-	})
 }
 
 // Helper functions

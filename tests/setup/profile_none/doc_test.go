@@ -35,5 +35,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestDocs(t *testing.T) {
-	istioio.TestDocs(t, setupSpec)
+	framework.
+		NewTest(t).
+		Run(istioio.NewTestDocsFunc(setupSpec))
 }

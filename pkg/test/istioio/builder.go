@@ -36,7 +36,7 @@ type Builder struct {
 }
 
 // NewBuilder returns an instance of a document test.
-func NewBuilder(snippetsFileName string) *Builder {
+func NewBuilder() *Builder {
 	return &Builder{}
 }
 
