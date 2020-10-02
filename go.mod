@@ -27,6 +27,6 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 replace github.com/evanphx/json-patch => github.com/evanphx/json-patch v0.0.0-20190815234213-e83c0a1c26c8
 
 require (
-	istio.io/istio v0.0.0-20200929203328-23d758a01659
+	istio.io/istio v0.0.0-20200923202757-05a7bf75cd95
 	istio.io/pkg v0.0.0-20200922180714-670b76a68558
 )
