@@ -265,7 +265,7 @@ __verify_with_retry() {
 # Get the resource state of the cluster. Used by the test framework to compare the
 # cluster state before and after running each test:
 #
-# __cluster_snapshot
+# __cluster_cluster_snapshots
 #
 # ... test commands
 # ... cleanup commands

@@ -21,8 +21,6 @@ set -o pipefail
 
 # @setup multicluster
 
-source "tests/util/helpers.sh"
-
 # Initialize KUBECONFIG_FILES
 _set_kube_vars
 
