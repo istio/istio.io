@@ -60,7 +60,7 @@ To write an `istio.io` test, follow these steps:
    file and then regenerate the snips.
 
 1. Create a test bash script named `test.sh` next to the `snips.sh` you have just generated.
-   
+
    If your document is very large and you want to break it into multiple tests, create multiple scripts with
    the suffix `test.sh` (e.g., `part1_test.sh`, `part2_test.sh`), instead.
 
@@ -275,6 +275,13 @@ You can also find this information by running `make doc.test.help`.
 
 1. The [tests/util/debug.sh](./util/debug.sh) script is automatically included in every `test.sh` script
    to enable bash tracing. The bash tracing output can be found in `out/<test_path>_[test|cleanup]_debug.txt`.
+
+1. When using `kind` clusters, you may notice a `Exiting due to setup failure: failed waiting for istio-eastwestgateway to become ready: timeout while waiting`
+error as the Istio control plane is being started. Adding a config when creating your `kind` cluster should fix the issue:
+
+   ```sh
+   kind create-cluster --name istio-test --config prow/config/trustworthy-jwt.yaml
+   ```
 
 1. When using `kind` clusters on a Mac, an extra env var is needed (ADDITIONAL_CONTAINER_OPTIONS="--network host").
    Use the following command:
