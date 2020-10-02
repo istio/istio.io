@@ -102,7 +102,7 @@ clean:
 # Use docs-lint-yaml as a target around the common-files lint-yaml, but set +o pipefail for that call
 # otherwise it fails.
 docs-lint-yaml:
-	@set +o pipefail; $(MAKE) -f common/Makefile.common.mk lint-yaml; set -o pipefail
+	@set +o pipefail; $(MAKE) -f common/Makefile.common.mk lint-yaml
 
 lint: clean_public build_nominify lint-copyright-banner lint-python docs-lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@scripts/lint_site.sh
