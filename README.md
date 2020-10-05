@@ -20,9 +20,9 @@ see the Istio [contribution guidelines](https://github.com/istio/community/blob/
     - [Publishing content immediately](#publishing-content-immediately)
     - [Creating a major/minor release](#creating-a-majorminor-release)
     - [Creating a patch release](#creating-a-patch-release)
+- [Testing document content](#testing-document-content)
 - [Multi-language support](#multi-language-support)
 - [Regular maintenance](#regular-maintenance)
-- [Testing document content](#testing-document-content)
 
 ## Editing and building
 
@@ -120,6 +120,66 @@ Creating a new patch release involves modifying a few files:
 
 If the archived version in a newer branch (e.g., `release-1.7:archive/v1.6`) needs to be updated due to changes in the old release branch (`release-1.6` in this case), you can run `make build-old-archive-1.6.0` in the `master` branch, which will re-archive `release-1.6` and substitute it for the previous archive in the `master` branch. If this update needs to be reflected in istio.io, the PR may be cherry-picked to the branch for the `current` release.
 
+### Updating the test reference for a given release stream
+
+The release streams starting with `release-1.6` contain tests for the test content. Each release tests against
+a particular istio version/commit. When the release team has a build, `1.x.y`, ready for their long running
+tests, they should come to the docs team to have the testing for that release run start running against the
+build.
+
+There are two types of builds, `public` and `private`. The normal dev and release builds are built from our
+public repos and have images in a publicly accessible repository and are considered `public`. `Private` builds
+are those where we can't reveal much before release. Typically it's an advance notice that a release will
+happen in two weeks for CVEs. Since we can't reveal anything before the actual release, the source and built
+images are in private repos. As the source and images are private, we can't actually move to them until they
+are publicly released, and thus there is no early testing of the release in istio.io. The difference for
+`private` builds is that the images we test against were never created in the `public` gcr.io repository, so
+in that case we use the docker.io images. One may ask why we don't always use the release images from
+docker.io. Since we want to test `public` builds before they are released, the images don't yet exist on
+docker.io.
+
+For public builds:
+1. Get the istio/istio commit that was used for the build from https://gcsweb.istio.io/gcs/istio-release/releases/1.x.y/manifest.yaml file.
+1. In the release branch:  Run `go get istio.io/istio@commit && go mod tidy`.
+
+For private builds (this is done after the build is released):
+1. In the release branch:  Run `go get istio.io/istio@1.x.y && go mod tidy`.
+
+For both builds, we want to verify that the HUB/TAG are correct in the Makefile.core.mk (they change depending on if using the private or public builds). Look for the section similar to:
+```
+# If one needs to test before a docker.io build is available (using a public test build),
+# the export HUB and TAG can be commented out, and the initial HUB un-commented
+HUB ?= gcr.io/istio-testing
+# export HUB ?= docker.io/istio
+# export TAG ?= 1.7.3
+```
+For public builds, the `export HUB/TAG`s would be uncommented and have correct values. For private builds,
+or the `master` branch, the HUB would be uncommented.
+
+Finally, create and submit a PR with the changes and one can see the test results in the PR. Normally,
+the PR won't actually merge until the release is released (sometimes there are multiple builds for a
+release).
+
+## Testing document content
+
+Many documents on the Istio site demonstrate features using commands that may or may not continue to work as
+Istio evolves from release to release. To ensure the documented instructions stay up to date with as little
+continuous manual testing as possible, we have created a framework to automate the testing of these doucments.
+
+Every page on [istio.io](https://istio.io) that can be tested includes a `PAGE TEST` indiciation under
+the page title. For example:
+
+<img src="page-test.png" alt="PAGE TEST" title="PAGE TEST" />
+
+A green checkmark indicates an automated test is available for the page. The page is up to date and working as
+documented.
+
+A grey X, on the other hand, means that there is no automated test available for the page, yet.
+We'd appreciate it if you'd like to help create one! Our goal is to eventually have an automated test in place
+for every testable document published on the Istio site.
+
+See the [tests README](tests/README.md) for more information.
+
 ## Multi-language support
 
 The site is translated into multiple languages. Source of truth is the English content, while other languages are
@@ -167,7 +227,7 @@ French translation.
 Once your translation is complete and you're ready to publish it to the world, there are a few other changes you need to make:
 
 - Edit the file `layouts/index.redir`. Search for `translated sites` and add a line for your language. This will cause
-users coming to the site for the first time to be automatically redirectded to the translated content suitable for them.
+users coming to the site for the first time to be automatically redirected to the translated content suitable for them.
 For French, this would be:
 
     ```
@@ -202,63 +262,3 @@ while section headings should use first letter capitalization only (e.g. "This i
 - Ensure that preformatted text blocks that reference files from the Istio GitHub repos use the @@ syntax
 to produce links to the content. See [here](https://istio.io/about/contribute/creating-and-editing-pages/#links-to-github-files)
 for context.
-
-## Testing document content
-
-Many documents on the Istio site demonstrate features using commands that may or may not continue to work as
-Istio evolves from release to release. To ensure the documented instructions stay up to date with as little
-continuous manual testing as possible, we have created a framework to automate the testing of these doucments.
-
-Every page on [istio.io](https://istio.io) that can be tested includes a `PAGE TEST` indiciation under
-the page title. For example:
-
-<img src="page-test.png" alt="PAGE TEST" title="PAGE TEST" />
-
-A green checkmark indicates an automated test is available for the page. The page is up to date and working as
-documented.
-
-A grey X, on the other hand, means that there is no automated test available for the page, yet.
-We'd appreciate it if you'd like to help create one! Our goal is to eventually have an automated test in place
-for every testable document published on the Istio site.
-
-See the [tests README](tests/README.md) for more information.
-
-### Updating the test reference for a given release stream
-
-The release streams starting with `release-1.6` contain tests for the test content. Each release tests against
-a particular istio version/commit. When the release team has a build, `1.x.y`, ready for their long running
-tests, they should come to the docs team to have the testing for that release run start running against the
-build.
-
-There are two types of builds, `public` and `private`. The normal dev and release builds are built from our
-public repos and have images in a publicly accessible repository and are considered `public`. `Private` builds
-are those where we can't reveal much before release. Typically it's an advance notice that a release will
-happen in two weeks for CVEs. Since we can't reveal anything before the actual release, the source and built
-images are in private repos. As the source and images are private, we can't actually move to them until they
-are publicly released, and thus there is no early testing of the release in istio.io. The difference for
-`private` builds is that the images we test against were never created in the `public` gcr.io repository, so
-in that case we use the docker.io images. One may ask why we don't always use the release images from
-docker.io. Since we want to test `public` builds before they are released, the images don't yet exist on
-docker.io.
-
-For public builds:
-1. Get the istio/istio commit that was used for the build from https://gcsweb.istio.io/gcs/istio-release/releases/1.x.y/manifest.yaml file.
-1. In the release branch:  Run `go get istio.io/istio@commit && go mod tidy`.
-
-For private builds (this is done after the build is released):
-1. In the release branch:  Run `go get istio.io/istio@1.x.y && go mod tidy`.
-
-For both builds, we want to verify that the HUB/TAG are correct in the Makefile.core.mk (they change depending on if using the private or public builds). Look for the section similar to:
-```
-# If one needs to test before a docker.io build is available (using a public test build),
-# the export HUB and TAG can be commented out, and the initial HUB un-commented
-HUB ?= gcr.io/istio-testing
-# export HUB ?= docker.io/istio
-# export TAG ?= 1.7.3
-```
-For public builds, the `export HUB/TAG`s would be uncommented and have correct values. For private builds,
-or the `master` branch, the HUB would be uncommented.
-
-Finally, create and submit a PR with the changes and one can see the test results in the PR. Normally,
-the PR won't actually merge until the release is released (sometimes there are multiple builds for a
-release).
