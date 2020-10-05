@@ -99,18 +99,13 @@ opt:
 clean:
 	@rm -fr resources .htmlproofer tmp generated public out samples install go tests/integration/ manifests
 
-# Use docs-lint-yaml as a target around the common-files lint-yaml, but set +o pipefail for that call
-# otherwise it fails.
-docs-lint-yaml:
-	@set +o pipefail; $(MAKE) -f common/Makefile.common.mk lint-yaml
-
-lint: clean_public build_nominify lint-copyright-banner lint-python docs-lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
+lint: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@scripts/lint_site.sh
 
-lint-en: clean_public build_nominify lint-copyright-banner lint-python docs-lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
+lint-en: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@scripts/lint_site.sh en
 
-lint-fast: clean_public build_nominify lint-copyright-banner lint-python docs-lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
+lint-fast: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
 
 serve: site
