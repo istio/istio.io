@@ -13,35 +13,61 @@ Distributed tracing enables users to track a request through mesh that is distri
 This allows a deeper understanding about request latency, serialization and parallelism via visualization.
 
 Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/v1.12.0/intro/arch_overview/observability/tracing) feature
-to provide tracing integration out of the box. Specifically, Istio provides options to install various tracing backend
-and configure proxies to send trace spans to them automatically.
-See [Zipkin](../zipkin/), [Jaeger](../jaeger/) and [Lightstep](/docs/tasks/observability/distributed-tracing/lightstep/) task docs about how Istio works with those tracing systems.
+to provide tracing integration out of the box. Specifically, Istio provides
+options to install various tracing backend and configure proxies to send trace
+spans to them automatically.
+See
+[Zipkin](../zipkin/), [Jaeger](../jaeger/), [Lightstep](../lightstep/), and
+[OpenCensusAgent](../opencensusagent) task docs about how Istio works with
+those tracing systems.
 
 ## Trace context propagation
 
-Although Istio proxies are able to automatically send spans, they need some hints to tie together the entire trace.
-Applications need to propagate the appropriate HTTP headers so that when the proxies send span information,
-the spans can be correlated correctly into a single trace.
+Although Istio proxies can automatically send spans, they need need extra
+information for those spans to be joined into single trace. Applications must
+propagate this information in HTTP headers so that when proxies spans, the
+trace backend can join them together into a single trace.
 
-To do this, an application needs to collect and propagate the following headers from the incoming request to any outgoing requests:
+To do this, each application must collect headers from each incoming request
+and forward the headers to all outgoing requests triggered by that incoming
+request. The choice of headers to forward depends on the configured trace
+backend. The set of headers to forward are described in each trace
+backend-specific task page. The following is a summary:
 
-* `x-request-id`
+All applications should forward the following header:
+* `x-request-id`: this is an envoy-specific header that is used to consistently
+  sample logs and traces.
+
+For Zipkin, Jaeger, Stackdriver, and OpenCensusAgent the B3 multi-header format
+should be forwarded:
 * `x-b3-traceid`
 * `x-b3-spanid`
 * `x-b3-parentspanid`
 * `x-b3-sampled`
 * `x-b3-flags`
+These are supported by Zipkin, Jaeger, OpenCensus, and many other tools.
+
+For Datadog, the following headers should be forwarded. Forwarding these
+is handled automatically by Datadog client libraries for many languages and
+frameworks.
+* `x-datadog-trace-id`.
+* `x-datadog-parent-id`.
+* `x-datadog-sampling-priority`.
+
+For Lightstep, the OpenTracing span context header should be forwarded:
 * `x-ot-span-context`
 
-Additionally, tracing integrations based on [OpenCensus](https://opencensus.io/) (e.g. Stackdriver) propagate the following headers:
-
-* `x-cloud-trace-context`
-* `traceparent`
-* `grpc-trace-bin`
+For Stackdriver and OpenCensusAgent, you can choose to use any one of the following
+headers instead of the B3 multi-header format.
+* `grpc-trace-bin`: Standard grpc trace header.
+* `traceparent`: W3C Trace Context standard for tracing. Supported by all
+  OpenCensus, OpenTelemetry, and an increasing number of Jaeger client
+  libraries.
+* `x-cloud-trace-context`: used by Google Cloud product APIs.
 
 If you look at the sample Python `productpage` service, for example,
-you see that the application extracts the required headers from an HTTP request
-using [OpenTracing](https://opentracing.io/) libraries:
+you see that the application extracts the required headers for all tracers
+from an HTTP request using [OpenTracing](https://opentracing.io/) libraries:
 
 {{< text python >}}
 def getForwardHeaders(request):
@@ -59,7 +85,7 @@ def getForwardHeaders(request):
 
     # ...
 
-    incoming_headers = ['x-request-id', 'x-datadog-trace-id', 'x-datadog-parent-id', 'x-datadog-sampled']
+    incoming_headers = ['x-request-id', ...]
 
     # ...
 
