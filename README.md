@@ -15,12 +15,12 @@ contribute to any of the Istio components, please
 see the Istio [contribution guidelines](https://github.com/istio/community/blob/master/CONTRIBUTING.md).
 
 - [Editing and building](#editing-and-building)
-- [Testing document content](#testing-document-content)
 - [Versions and releases](#versions-and-releases)
     - [How versioning works](#how-versioning-works)
     - [Publishing content immediately](#publishing-content-immediately)
     - [Creating a major/minor release](#creating-a-majorminor-release)
     - [Creating a patch release](#creating-a-patch-release)
+- [Testing document content](#testing-document-content)
 - [Multi-language support](#multi-language-support)
 - [Regular maintenance](#regular-maintenance)
 
@@ -28,26 +28,6 @@ see the Istio [contribution guidelines](https://github.com/istio/community/blob/
 
 To learn how to edit and build this repo's content, please refer to
 [Creating and Editing Pages](https://preliminary.istio.io/about/contribute/creating-and-editing-pages/).
-
-## Testing document content
-
-Many documents on the Istio site demonstrate features using commands that may or may not continue to work as
-Istio evolves from release to release. To ensure the documented instructions stay up to date with as little
-continuous manual testing as possible, we have created a framework to automate the testing of these doucments.
-
-Every page on [istio.io](https://istio.io) that can be tested includes a `PAGE TEST` indiciation under
-the page title. For example:
-
-<img src="page-test.png" alt="PAGE TEST" title="PAGE TEST" />
-
-A green checkmark indicates an automated test is available for the page. The page is up to date and working as
-documented.
-
-A grey X, on the other hand, means that there is no automated test available for the page, yet.
-We'd appreciate it if you'd like to help create one! Our goal is to eventually have an automated test in place
-for every testable document published on the Istio site.
-
-See the [tests README](tests/README.md) for more information.
 
 ## Versions and releases
 
@@ -179,6 +159,26 @@ or the `master` branch, the HUB would be uncommented.
 Finally, create and submit a PR with the changes and one can see the test results in the PR. Normally,
 the PR won't actually merge until the release is released (sometimes there are multiple builds for a
 release).
+
+## Testing document content
+
+Many documents on the Istio site demonstrate features using commands that may or may not continue to work as
+Istio evolves from release to release. To ensure the documented instructions stay up to date with as little
+continuous manual testing as possible, we have created a framework to automate the testing of these doucments.
+
+Every page on [istio.io](https://istio.io) that can be tested includes a `PAGE TEST` indiciation under
+the page title. For example:
+
+<img src="page-test.png" alt="PAGE TEST" title="PAGE TEST" />
+
+A green checkmark indicates an automated test is available for the page. The page is up to date and working as
+documented.
+
+A grey X, on the other hand, means that there is no automated test available for the page, yet.
+We'd appreciate it if you'd like to help create one! Our goal is to eventually have an automated test in place
+for every testable document published on the Istio site.
+
+See the [tests README](tests/README.md) for more information.
 
 ## Multi-language support
 
