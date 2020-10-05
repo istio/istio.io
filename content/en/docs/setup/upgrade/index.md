@@ -7,6 +7,10 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
+{{< warning >}}
+Upgrading across more than one minor version (e.g., `1.5.x` to `1.7.x`) in one step is not officially tested or recommended.
+{{< /warning >}}
+
 ## Canary upgrades
 
 Upgrading Istio can be done by first running a canary deployment of the new control plane, allowing you

@@ -31,7 +31,7 @@ func TestMain(m *testing.M) {
 	}
 	framework.
 		NewSuite(m).
-		RequireMinClusters(2).
+		RequireMinClusters(3).
 		Run()
 }
 
