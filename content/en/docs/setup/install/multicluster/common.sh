@@ -37,21 +37,21 @@ function set_multi_network_vars
 function delete_namespaces()
 {
   # Run the delete on both clusters concurrently
-  _delete_namespaces_cluster1 &
-  _delete_namespaces_cluster2 &
+  delete_namespaces_cluster1 &
+  delete_namespaces_cluster2 &
   wait
 }
 
 # _delete_namespaces_cluster1 removes the istio-system and sample namespaces on both
 # CLUSTER1.
-function _delete_namespaces_cluster1()
+function delete_namespaces_cluster1()
 {
   kubectl delete ns istio-system sample --context="${CTX_CLUSTER1}" --ignore-not-found
 }
 
 # _delete_namespaces_cluster2 removes the istio-system and sample namespaces on both
 # CLUSTER2.
-function _delete_namespaces_cluster2()
+function delete_namespaces_cluster2()
 {
   kubectl delete ns istio-system sample --context="${CTX_CLUSTER2}" --ignore-not-found
 }
@@ -77,36 +77,14 @@ function verify_load_balancing()
   (KUBECONFIG="${KUBECONFIG_FILES[1]}"; _wait_for_deployment sample helloworld-v2)
   (KUBECONFIG="${KUBECONFIG_FILES[1]}"; _wait_for_deployment sample sleep)
 
-  # Verify that traffic is load balanced from both clusters.
-  _verify_lb_with_load_function snip_verifying_crosscluster_traffic_1
-  _verify_lb_with_load_function snip_verifying_crosscluster_traffic_3
-}
+  local EXPECTED_RESPONSE_FROM_CLUSTER1="Hello version: v1, instance:"
+  local EXPECTED_RESPONSE_FROM_CLUSTER2="Hello version: v2, instance:"
 
-# _verify_lb_with_load_function that traffic for a given function is balanced
-# between the two clusters
-#
-# $1: the function to be called to generate traffic.
-function _verify_lb_with_load_function()
-{
-  local CALL_HELLOWORLD="$1"
-  local PREV_OUTPUT=""
-  local LOAD_BALANCED=""
-  for i in {1..20}; do
-    OUTPUT="$($CALL_HELLOWORLD)"
-    echo "HelloWorld output: $OUTPUT"
+  # Verify we hit both clusters from CLUSTER1
+  _verify_contains snip_verifying_crosscluster_traffic_1 "$EXPECTED_RESPONSE_FROM_CLUSTER1"
+  _verify_contains snip_verifying_crosscluster_traffic_1 "$EXPECTED_RESPONSE_FROM_CLUSTER2"
 
-    if [[ -n "$PREV_OUTPUT" ]] && [[ "$PREV_OUTPUT" != "$OUTPUT" ]]; then
-      LOAD_BALANCED="true"
-      break
-    fi
-    PREV_OUTPUT="$OUTPUT"
-
-    # Wait before trying again
-    sleep 2
-  done
-
-  if [[ -z "$LOAD_BALANCED" ]]; then
-    echo "Traffic was not load balanced between the clusters"
-    exit 1
-  fi
+  # Verify we hit both clusters from CLUSTER2
+  _verify_contains snip_verifying_crosscluster_traffic_3 "$EXPECTED_RESPONSE_FROM_CLUSTER1"
+  _verify_contains snip_verifying_crosscluster_traffic_3 "$EXPECTED_RESPONSE_FROM_CLUSTER2"
 }
