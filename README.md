@@ -222,3 +222,43 @@ We'd appreciate it if you'd like to help create one! Our goal is to eventually h
 for every testable document published on the Istio site.
 
 See the [tests README](tests/README.md) for more information.
+
+### Updating the test reference for a given release stream
+
+The release streams starting with `release-1.6` contain tests for the test content. Each release tests against
+a particular istio version/commit. When the release team has a build, `1.x.y`, ready for their long running
+tests, they should come to the docs team to have the testing for that release run start running against the
+build.
+
+There are two types of builds, `public` and `private`. The normal dev and release builds are built from our
+public repos and have images in a publicly accessible repository and are considered `public`. `Private` builds
+are those where we can't reveal much before release. Typically it's an advance notice that a release will
+happen in two weeks for CVEs. Since we can't reveal anything before the actual release, the source and built
+images are in private repos. As the source and images are private, we can't actually move to them until they
+are publicly released, and thus there is no early testing of the release in istio.io. The difference for
+`private` builds is that the images we test against were never created in the `public` gcr.io repository, so
+in that case we use the docker.io images. One may ask why we don't always use the release images from
+docker.io. Since we want to test `public` builds before they are released, the images don't yet exist on
+docker.io.
+
+For public builds:
+1. Get the istio/istio commit that was used for the build from https://gcsweb.istio.io/gcs/istio-release/releases/1.x.y/manifest.yaml file.
+1. In the release branch:  Run `go get istio.io/istio@commit && go mod tidy`.
+
+For private builds (this is done after the build is released):
+1. In the release branch:  Run `go get istio.io/istio@1.x.y && go mod tidy`.
+
+For both builds, we want to verify that the HUB/TAG are correct in the Makefile.core.mk (they change depending on if using the private or public builds). Look for the section similar to:
+```
+# If one needs to test before a docker.io build is available (using a public test build),
+# the export HUB and TAG can be commented out, and the initial HUB un-commented
+HUB ?= gcr.io/istio-testing
+# export HUB ?= docker.io/istio
+# export TAG ?= 1.7.3
+```
+For public builds, the `export HUB/TAG`s would be uncommented and have correct values. For private builds,
+or the `master` branch, the HUB would be uncommented.
+
+Finally, create and submit a PR with the changes and one can see the test results in the PR. Normally,
+the PR won't actually merge until the release is released (sometimes there are multiple builds for a
+release).
