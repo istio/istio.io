@@ -21,6 +21,8 @@ _set_kube_vars
 # set_single_network_vars initializes all variables for a single network config.
 function set_single_network_vars
 {
+  export KUBECONFIG_CLUSTER1="${KUBECONFIG_FILES[0]}"
+  export KUBECONFIG_CLUSTER2="${KUBECONFIG_FILES[1]}"
   export CTX_CLUSTER1="${KUBE_CONTEXTS[0]}"
   export CTX_CLUSTER2="${KUBE_CONTEXTS[1]}"
 }
@@ -28,15 +30,19 @@ function set_single_network_vars
 # set_multi_network_vars initializes all variables for a multi-network config.
 function set_multi_network_vars
 {
+  export KUBECONFIG_CLUSTER1="${KUBECONFIG_FILES[0]}"
+  export KUBECONFIG_CLUSTER2="${KUBECONFIG_FILES[2]}"
   export CTX_CLUSTER1="${KUBE_CONTEXTS[0]}"
   export CTX_CLUSTER2="${KUBE_CONTEXTS[2]}"
 }
 
-# delete_namespaces removes the istio-system and sample namespaces on both
-# CLUSTER1 and CLUSTER2.
-function delete_namespaces()
+# cleanup removes all resources created by the tests.
+function cleanup()
 {
-  # Run the delete on both clusters concurrently
+  # Remove generated yaml files.
+  rm -f "cluster1.yaml" "cluster2.yaml"
+
+  # Delete the namespaces on both clusters concurrently
   delete_namespaces_cluster1 &
   delete_namespaces_cluster2 &
   wait
@@ -70,12 +76,12 @@ function verify_load_balancing()
   snip_deploy_sleep_3
 
   # Wait for the deployments in CLUSTER1
-  (KUBECONFIG="${KUBECONFIG_FILES[0]}"; _wait_for_deployment sample helloworld-v1)
-  (KUBECONFIG="${KUBECONFIG_FILES[0]}"; _wait_for_deployment sample sleep)
+  (KUBECONFIG="${KUBECONFIG_CLUSTER1}"; _wait_for_deployment sample helloworld-v1)
+  (KUBECONFIG="${KUBECONFIG_CLUSTER1}"; _wait_for_deployment sample sleep)
 
   # Wait for the deployments in CLUSTER2
-  (KUBECONFIG="${KUBECONFIG_FILES[1]}"; _wait_for_deployment sample helloworld-v2)
-  (KUBECONFIG="${KUBECONFIG_FILES[1]}"; _wait_for_deployment sample sleep)
+  (KUBECONFIG="${KUBECONFIG_CLUSTER2}"; _wait_for_deployment sample helloworld-v2)
+  (KUBECONFIG="${KUBECONFIG_CLUSTER2}"; _wait_for_deployment sample sleep)
 
   local EXPECTED_RESPONSE_FROM_CLUSTER1="Hello version: v1, instance:"
   local EXPECTED_RESPONSE_FROM_CLUSTER2="Hello version: v2, instance:"
