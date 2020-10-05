@@ -2,7 +2,7 @@
 title: New Frontiers - Smart DNS Proxying in Istio
 subtitle: Workload Local DNS resolution to simplify VM integration, multicluster, and more
 description: Workload Local DNS resolution to simplify VM integration, multicluster, and more.
-publishdate: 2020-10-06
+publishdate: 2020-11-12
 attribution: "Shriram Rajagopalan (Tetrate.io)"
 keywords: [dns,sidecar,multicluster,vm,external services]
 ---
@@ -50,7 +50,7 @@ cluster's DNS server.
 
 It is technically possible to use `kube-dns` as a name server on the VM if one is
 willing to engage in some convoluted workarounds involving `dnsmasq` and
-external exposure of `kube-dns` using NodePort services, assuming you
+external exposure of `kube-dns` using `NodePort` services, assuming you
 manage to convince your cluster administrator to do so. Even so, you are
 opening the door to a host of [security
 issues](https://blog.aquasec.com/dns-spoofing-kubernetes-clusters). At
@@ -130,16 +130,17 @@ Envoy's DNS proxy. It turned out to be very unreliable, and
 disappointing overall due to the general lack of sophistication in
 c-ares library, the DNS library used by Envoy. Determined to solve the
 problem, we decided to implement the DNS proxy in the Istio sidecar
-agent, written in Go. We built the DNS functionality using Miek
-Gieben's [DNS library](https://github.com/miekg/dns), the same package
-that is being used by scalable DNS implementations such as CoreDNS,
-Consul, Mesos, among others.
+agent, written in Go. We were able to optimize the implementation to
+handle all the scenarios that we wanted to tackle without compromising
+on scale and stability. The Golang DNS packages we use are the same as
+those used by scalable DNS implementations such as CoreDNS, Consul,
+Mesos, among others.
 
 Starting with Istio 1.8, the Istio agent on the sidecar will ship with
 a caching DNS proxy, programmed dynamically by Istiod. Istiod pushes
 the hostname to IP address mappings for all the services that the
 application may access based on the Kubernetes services and Service
-Entries in the cluster. DNS lookups from the application are
+Entries in the cluster. DNS lookup queries from the application are
 transparently intercepted and served by the Istio agent in the pod or
 VM. If the query is for a service within the mesh, _irrespective of
 the cluster that service is in_, the agent responds directly to the
@@ -170,16 +171,16 @@ To understand the impact of this optimization, lets take a simple DNS
 lookup scenario, in a standard Kubernetes cluster without any custom
 DNS setup for pods. When your application starts a DNS lookup for
 `productpage.ns1.svc.cluster.local`, it appends the DNS search
-namespaces in /etc/resolv.conf (e.g., `ns1.svc.cluster.local`) as part
+namespaces in `/etc/resolv.conf` (e.g., `ns1.svc.cluster.local`) as part
 of the DNS query, before querying the host as is. As a result, the
 first DNS query that is actually sent out will look like
 `productpage.ns1.svc.cluster.local.ns1.svc.cluster.local`, which will
 inevitably fail DNS resolution when Istio is not involved. If your
-/etc/resolv.conf has 5 search namespaces, the application will send
+`/etc/resolv.conf` has 5 search namespaces, the application will send
 two DNS queries for each search namespace, one for the IPv4 `A` record
 and another for the IPv6 `AAAA` record, and then a final pair of
 queries with the exact hostname used in code. _Before establishing the
-connection, the application performs 12 DNS lookups for each host!_
+connection, the application performs 12 DNS lookup queries for each host!_
 
 With Istio's implementation of the CoreDNS style auto-path technique,
 the sidecar agent will detect the real hostname being queried within
@@ -195,7 +196,7 @@ to just 2!_
 ### VMs to Kubernetes integration
 
 Since the Istio agent performs local DNS resolution for services
-within the mesh, DNS lookups for Kubernetes services from VMs will now
+within the mesh, DNS lookup queries for Kubernetes services from VMs will now
 succeed without requiring clunky workarounds for exposing `kube-dns`
 outside the cluster. The ability to seamlessly resolve internal
 services in a cluster will now simplify your monolith to microservice
@@ -210,7 +211,7 @@ without VIPs on the same port?
 
 Taking inspiration from Kubernetes, Istio will now automatically
 allocate non-routable VIPs (from the Class E subnet) to such services
-as long as they dont use a wildcard host. The Istio agent on the
+as long as they do not use a wildcard host. The Istio agent on the
 sidecar will use the VIPs as responses to the DNS lookup queries from
 the application. Envoy can now clearly distinguish traffic bound for
 each external TCP service and forward it to the right target. With the
@@ -220,7 +221,7 @@ overall security posture. Istio cannot help much with wildcard
 external services (e.g., `*.us-east1.rds.amazonaws.com`). You will
 have to resort to NONE resolution mode to handle such services.
 
-### Multicluster DNS lookups
+### Multicluster DNS lookup
 
 For the adventurous lot, attempting to weave a multicluster mesh where
 applications directly call internal services of a namespace in a
@@ -241,10 +242,10 @@ The problems caused by lack of control over DNS have often been
 overlooked and ignored in its entirety when it comes to weaving a mesh
 across many clusters, different environments, and integrating external
 services. The introduction of a caching DNS proxy in the Istio sidecar
-agent remediates these issues. Exercising control over the
+agent solves these issues. Exercising control over the
 application’s DNS resolution allows Istio to accurately identify the
 target service for which traffic is bound to, and enhance the overall
-security, routing and telemetry posture in Istio, within and across
+security, routing, and telemetry posture in Istio within and across
 clusters.
 
 Smart DNS proxying is currently enabled in the `preview`
