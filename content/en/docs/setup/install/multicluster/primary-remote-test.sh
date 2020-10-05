@@ -25,13 +25,18 @@ source content/en/docs/setup/install/multicluster/common.sh
 set_single_network_vars
 
 function install_istio_on_cluster1 {
-  snip_install_istio_1
-  echo y | snip_install_istio_2
+  snip_install_istio_17
+  echo y | snip_install_istio_18
+
+  # Expose istiod via east-west gateway.
+  snip_install_istio_19
+  snip_install_istio_20
 }
 
 function install_istio_on_cluster2 {
-  snip_install_istio_3
-  echo y | snip_install_istio_4
+  snip_install_istio_21
+  snip_install_istio_22
+  echo y | snip_install_istio_23
 }
 
 # Install Istio on the 2 clusters. Executing in
@@ -41,8 +46,7 @@ install_istio_on_cluster2 &
 wait
 
 # Configure endpoint discovery.
-snip_install_istio_5
-snip_install_istio_6
+snip_install_istio_24
 
 # Verify that traffic is properly load balanced.
 verify_load_balancing
