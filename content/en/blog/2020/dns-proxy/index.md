@@ -50,7 +50,7 @@ cluster's DNS server.
 
 It is technically possible to use `kube-dns` as a name server on the VM if one is
 willing to engage in some convoluted workarounds involving `dnsmasq` and
-external exposure of `kube-dns` using `NodePort` services, assuming you
+external exposure of `kube-dns` using `NodePort` services: assuming you
 manage to convince your cluster administrator to do so. Even so, you are
 opening the door to a host of [security
 issues](https://blog.aquasec.com/dns-spoofing-kubernetes-clusters). At
