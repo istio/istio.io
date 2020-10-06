@@ -179,7 +179,7 @@ inevitably fail DNS resolution when Istio is not involved. If your
 `/etc/resolv.conf` has 5 search namespaces, the application will send
 two DNS queries for each search namespace, one for the IPv4 `A` record
 and another for the IPv6 `AAAA` record, and then a final pair of
-queries with the exact hostname used in code. _Before establishing the
+queries with the exact hostname used in the code. _Before establishing the
 connection, the application performs 12 DNS lookup queries for each host!_
 
 With Istio's implementation of the CoreDNS style auto-path technique,
