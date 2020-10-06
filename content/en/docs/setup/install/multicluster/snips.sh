@@ -123,8 +123,9 @@ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_install_istio_9() {
-CLUSTER=cluster1 NETWORK=network1 \
+MESH=mesh1 CLUSTER=cluster1 NETWORK=network1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
+    istioctl manifest generate -f - | \
     kubectl apply --context="${CTX_CLUSTER1}" -f -
 }
 
@@ -165,8 +166,9 @@ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
 
 snip_install_istio_13() {
-CLUSTER=cluster2 NETWORK=network2 \
+MESH=mesh1 CLUSTER=cluster2 NETWORK=network2 \
     samples/multicluster/gen-eastwest-gateway.sh | \
+    istioctl manifest generate -f - | \
     kubectl apply --context="${CTX_CLUSTER2}" -f -
 }
 
@@ -216,8 +218,9 @@ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_install_istio_19() {
-CLUSTER=cluster1 NETWORK=network1 \
+MESH=mesh1 CLUSTER=cluster1 NETWORK=network1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
+    istioctl manifest generate -f - | \
     kubectl apply --context="${CTX_CLUSTER1}" -f -
 }
 
@@ -291,8 +294,9 @@ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_install_istio_27() {
-CLUSTER=cluster1 NETWORK=network1 \
+MESH=mesh1 CLUSTER=cluster1 NETWORK=network1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
+    istioctl manifest generate -f - | \
     kubectl apply --context="${CTX_CLUSTER1}" -f -
 }
 
@@ -333,8 +337,9 @@ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
 
 snip_install_istio_33() {
-CLUSTER=cluster2 NETWORK=network2 \
+MESH=mesh1 CLUSTER=cluster2 NETWORK=network2 \
     samples/multicluster/gen-eastwest-gateway.sh | \
+    istioctl manifest generate -f - | \
     kubectl apply --context="${CTX_CLUSTER2}" -f -
 }
 

@@ -255,8 +255,9 @@ external attacks. Check with your cloud vendor to see what options are
 available.
 
 {{< text bash >}}
-$ CLUSTER=cluster1 NETWORK=network1 \
+$ MESH=mesh1 CLUSTER=cluster1 NETWORK=network1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
+    istioctl manifest generate -f - | \
     kubectl apply --context="${CTX_CLUSTER1}" -f -
 {{< /text >}}
 
@@ -312,8 +313,9 @@ As we did with `cluster1` above, install a gateway in `cluster2` that is dedicat
 to east-west traffic and expose user services.
 
 {{< text bash >}}
-$ CLUSTER=cluster2 NETWORK=network2 \
+$ MESH=mesh1 CLUSTER=cluster2 NETWORK=network2 \
     samples/multicluster/gen-eastwest-gateway.sh | \
+    istioctl manifest generate -f - | \
     kubectl apply --context="${CTX_CLUSTER2}" -f -
 {{< /text >}}
 
@@ -407,8 +409,9 @@ external attacks. Check with your cloud vendor to see what options are
 available.
 
 {{< text bash >}}
-$ CLUSTER=cluster1 NETWORK=network1 \
+$ MESH=mesh1 CLUSTER=cluster1 NETWORK=network1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
+    istioctl manifest generate -f - | \
     kubectl apply --context="${CTX_CLUSTER1}" -f -
 {{< /text >}}
 
@@ -537,8 +540,9 @@ external attacks. Check with your cloud vendor to see what options are
 available.
 
 {{< text bash >}}
-$ CLUSTER=cluster1 NETWORK=network1 \
+$ MESH=mesh1 CLUSTER=cluster1 NETWORK=network1 \
     samples/multicluster/gen-eastwest-gateway.sh | \
+    istioctl manifest generate -f - | \
     kubectl apply --context="${CTX_CLUSTER1}" -f -
 {{< /text >}}
 
@@ -599,8 +603,9 @@ As we did with `cluster1` above, install a gateway in `cluster2` that is dedicat
 to east-west traffic and expose user services.
 
 {{< text bash >}}
-$ CLUSTER=cluster2 NETWORK=network2 \
+$ MESH=mesh1 CLUSTER=cluster2 NETWORK=network2 \
     samples/multicluster/gen-eastwest-gateway.sh | \
+    istioctl manifest generate -f - | \
     kubectl apply --context="${CTX_CLUSTER2}" -f -
 {{< /text >}}
 
