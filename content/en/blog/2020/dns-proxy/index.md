@@ -244,7 +244,7 @@ across many clusters, different environments, and integrating external
 services. The introduction of a caching DNS proxy in the Istio sidecar
 agent solves these issues. Exercising control over the
 application’s DNS resolution allows Istio to accurately identify the
-target service for which traffic is bound to, and enhance the overall
+target service to which traffic is bound, and enhance the overall
 security, routing, and telemetry posture in Istio within and across
 clusters.
 
