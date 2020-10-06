@@ -128,7 +128,7 @@ tackle the problem once and for all in a way that is completely
 transparent to you, the end user. Our first attempt involved utilizing
 Envoy's DNS proxy. It turned out to be very unreliable, and
 disappointing overall due to the general lack of sophistication in
-c-ares library, the DNS library used by Envoy. Determined to solve the
+the c-ares DNS library used by Envoy. Determined to solve the
 problem, we decided to implement the DNS proxy in the Istio sidecar
 agent, written in Go. We were able to optimize the implementation to
 handle all the scenarios that we wanted to tackle without compromising
