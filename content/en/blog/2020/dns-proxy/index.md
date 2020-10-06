@@ -14,7 +14,7 @@ it has to first lookup the IP address corresponding to the hostname of
 the service, before initiating a connection to the service. This name
 lookup process is often referred to as **service discovery**. In
 Kubernetes, the cluster DNS server, be it `kube-dns` or CoreDNS,
-resolves the service's hostname to a unique non-routable virtual IP (VIP), 
+resolves the service's hostname to a unique non-routable virtual IP (VIP),
 if it is a service of type `clusterIP`. The `kube-proxy` on each node
 maps this VIP to a set of pods of the service, and forwards the traffic
 to one of them selected at random. When using a service mesh, the
@@ -156,7 +156,7 @@ service using its hostname.
 >}}
 
 As you will see in the following sections, _the DNS proxying feature
-has had an enormous impact across many aspects of Istio._ 
+has had an enormous impact across many aspects of Istio._
 
 ### Reduced load on your DNS servers w/ faster resolution
 
@@ -170,7 +170,8 @@ correctness issues that CoreDNS currently faces.
 
 To understand the impact of this optimization, lets take a simple DNS
 lookup scenario, in a standard Kubernetes cluster without any custom
-DNS setup for pods. When your application starts a DNS lookup for
+DNS setup for pods - i.e. with the default setting of `ndots:5` in `/etc/resolv.conf`.
+When your application starts a DNS lookup for
 `productpage.ns1.svc.cluster.local`, it appends the DNS search
 namespaces in `/etc/resolv.conf` (e.g., `ns1.svc.cluster.local`) as part
 of the DNS query, before querying the host as-is. As a result, the
