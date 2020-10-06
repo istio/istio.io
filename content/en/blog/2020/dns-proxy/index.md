@@ -249,5 +249,5 @@ target service to which traffic is bound, and enhance the overall
 security, routing, and telemetry posture in Istio within and across
 clusters.
 
-Smart DNS proxying is currently enabled in the `preview`
-profile. Please try it out!
+Smart DNS proxying is enabled in the `preview`
+profile in Istio 1.8. Please try it out!
