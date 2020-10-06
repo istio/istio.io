@@ -15,7 +15,7 @@ the service, before initiating a connection to the service. This name
 lookup process is often referred to as **service discovery**. In
 Kubernetes, the cluster DNS server, be it `kube-dns` or CoreDNS,
 resolves the service's hostname to a unique non-routable IP address
-(if its a service of type `clusterIP`). The `kube-proxy` on each node
+(if it is a service of type `clusterIP`). The `kube-proxy` on each node
 maps this IP to a set of pods of the service, and forwards the traffic
 to one of them selected at random. When using a service mesh, the
 sidecar works similarly to the `kube-proxy` as far as traffic forwarding
