@@ -1,6 +1,6 @@
 ---
 title: New Frontiers - Smart DNS Proxying in Istio
-subtitle: Workload Local DNS resolution to simplify VM integration, multicluster, and more
+subtitle: Use workload-local DNS resolution to simplify VM integration, multicluster, and more
 description: Workload Local DNS resolution to simplify VM integration, multicluster, and more.
 publishdate: 2020-11-12
 attribution: "Shriram Rajagopalan (Tetrate.io) on behalf of Istio Networking Team"
