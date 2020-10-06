@@ -18,7 +18,7 @@ resolves the service's hostname to a unique non-routable IP address
 (if its a service of type `clusterIP`). The `kube-proxy` on each node
 maps this IP to a set of pods of the service, and forwards the traffic
 to one of them selected at random. When using a service mesh, the
-sidecar works similar to the `kube-proxy` as far as traffic forwarding
+sidecar works similarly to the `kube-proxy` as far as traffic forwarding
 is concerned.
 
 The following diagram depicts the role of DNS today:
