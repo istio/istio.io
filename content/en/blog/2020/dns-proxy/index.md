@@ -64,7 +64,7 @@ It's not just the VMs in the mesh that suffer from the DNS issue. For
 the sidecar to accurately distinguish traffic between two different
 TCP services that are outside the mesh, the services must be on
 different ports or they need to have a globally unique VIP, much like
-the `cluster IP` assigned to Kubernetes services. But what if there is
+the `clusterIP` assigned to Kubernetes services. But what if there is
 no VIP? Cloud hosted services like hosted databases, typically do not
 have a VIP. Instead, the provider's DNS server returns one of the
 instance IPs that can then be directly accessed by the
