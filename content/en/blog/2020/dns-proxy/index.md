@@ -29,7 +29,7 @@ The following diagram depicts the role of DNS today.
     caption="Role of DNS in Istio, today"
 >}}
 
-## Problems posed by DNS or lack of thereof
+## Problems posed by DNS
 
 While the role of DNS within the service mesh may seem insignificant,
 it has consistently stood in the way of expanding the mesh to VMs and
