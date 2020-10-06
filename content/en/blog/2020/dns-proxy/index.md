@@ -170,7 +170,7 @@ correctness issues that CoreDNS currently faces.
 
 To understand the impact of this optimization, lets take a simple DNS
 lookup scenario, in a standard Kubernetes cluster without any custom
-DNS setup for pods - i.e. with the default setting of `ndots:5` in `/etc/resolv.conf`.
+DNS setup for pods - i.e., with the default setting of `ndots:5` in `/etc/resolv.conf`.
 When your application starts a DNS lookup for
 `productpage.ns1.svc.cluster.local`, it appends the DNS search
 namespaces in `/etc/resolv.conf` (e.g., `ns1.svc.cluster.local`) as part
