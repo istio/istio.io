@@ -21,7 +21,7 @@ to one of them selected at random. When using a service mesh, the
 sidecar works similar to the `kube-proxy` as far as traffic forwarding
 is concerned.
 
-The following diagram depicts the role of DNS today.
+The following diagram depicts the role of DNS today:
 
 {{< image width="75%"
     link="./role-of-dns-today.png"
