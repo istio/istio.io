@@ -38,7 +38,7 @@ enabling seamless multicluster access.
 ### VM access to Kubernetes services
 
 Consider the case of a VM with a sidecar. As shown in the illustration
-below, applications on the VM lookup the IP addresses of services
+below, applications on the VM look up the IP addresses of services
 inside the Kubernetes cluster as they typically have no access to the
 cluster's DNS server.
 
