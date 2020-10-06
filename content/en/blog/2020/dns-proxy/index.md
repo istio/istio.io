@@ -12,7 +12,7 @@ on Kubernetes. When your application code attempts to access another
 service in the Kubernetes cluster or even a service on the internet,
 it has to first lookup the IP address corresponding to the hostname of
 the service, before initiating a connection to the service. This name
-lookup process is often referred to as service discovery. In
+lookup process is often referred to as **service discovery**. In
 Kubernetes, the cluster DNS server, be it `kube-dns` or CoreDNS,
 resolves the service's hostname to a unique non-routable IP address
 (if its a service of type `clusterIP`). The `kube-proxy` on each node
