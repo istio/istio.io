@@ -138,7 +138,7 @@ Mesos, etc. It has been battle tested in production for scale and stability.
 
 Starting with Istio 1.8, the Istio agent on the sidecar will ship with
 a caching DNS proxy, programmed dynamically by Istiod. Istiod pushes
-the hostname to IP address mappings for all the services that the
+the hostname-to-IP-address mappings for all the services that the
 application may access based on the Kubernetes services and service
 entries in the cluster. DNS lookup queries from the application are
 transparently intercepted and served by the Istio agent in the pod or
