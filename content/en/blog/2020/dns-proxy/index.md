@@ -1,5 +1,5 @@
 ---
-title: New Frontiers - Smart DNS Proxying in Istio
+title: Expanding into New Frontiers - Smart DNS Proxying in Istio
 subtitle: Use workload-local DNS resolution to simplify VM integration, multicluster, and more
 description: Workload Local DNS resolution to simplify VM integration, multicluster, and more.
 publishdate: 2020-11-12
@@ -14,9 +14,9 @@ it has to first lookup the IP address corresponding to the hostname of
 the service, before initiating a connection to the service. This name
 lookup process is often referred to as **service discovery**. In
 Kubernetes, the cluster DNS server, be it `kube-dns` or CoreDNS,
-resolves the service's hostname to a unique non-routable IP address
-(if it is a service of type `clusterIP`). The `kube-proxy` on each node
-maps this IP to a set of pods of the service, and forwards the traffic
+resolves the service's hostname to a unique non-routable virtual IP (VIP), 
+if it is a service of type `clusterIP`. The `kube-proxy` on each node
+maps this VIP to a set of pods of the service, and forwards the traffic
 to one of them selected at random. When using a service mesh, the
 sidecar works similarly to the `kube-proxy` as far as traffic forwarding
 is concerned.
@@ -60,7 +60,7 @@ expertise.
 
 ### External TCP services without VIPs
 
-It's not just the VMs in the mesh that suffer from the DNS issue. For
+It is not just the VMs in the mesh that suffer from the DNS issue. For
 the sidecar to accurately distinguish traffic between two different
 TCP services that are outside the mesh, the services must be on
 different ports or they need to have a globally unique VIP, much like
@@ -155,7 +155,8 @@ service using its hostname.
     caption="Smart DNS proxying in Istio sidecar agent"
 >}}
 
-_The impact of this change has been enormous._
+As you will see in the following sections, _the DNS proxying feature
+has had an enormous impact across many aspects of Istio._ 
 
 ### Reduced load on your DNS servers w/ faster resolution
 
