@@ -216,7 +216,7 @@ sidecar will use the VIPs as responses to the DNS lookup queries from
 the application. Envoy can now clearly distinguish traffic bound for
 each external TCP service and forward it to the right target. With the
 introduction of the DNS proxying, you will no longer need to use
-`resolution: NONE` for _non wildcard_ TCP services, improving your
+`resolution: NONE` for non-wildcard TCP services, improving your
 overall security posture. Istio cannot help much with wildcard
 external services (e.g., `*.us-east1.rds.amazonaws.com`). You will
 have to resort to NONE resolution mode to handle such services.
