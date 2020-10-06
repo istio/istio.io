@@ -172,7 +172,7 @@ lookup scenario, in a standard Kubernetes cluster without any custom
 DNS setup for pods. When your application starts a DNS lookup for
 `productpage.ns1.svc.cluster.local`, it appends the DNS search
 namespaces in `/etc/resolv.conf` (e.g., `ns1.svc.cluster.local`) as part
-of the DNS query, before querying the host as is. As a result, the
+of the DNS query, before querying the host as-is. As a result, the
 first DNS query that is actually sent out will look like
 `productpage.ns1.svc.cluster.local.ns1.svc.cluster.local`, which will
 inevitably fail DNS resolution when Istio is not involved. If your
