@@ -143,7 +143,7 @@ application may access based on the Kubernetes services and service
 entries in the cluster. DNS lookup queries from the application are
 transparently intercepted and served by the Istio agent in the pod or
 VM. If the query is for a service within the mesh, _irrespective of
-the cluster that service is in_, the agent responds directly to the
+the cluster that the service is in_, the agent responds directly to the
 application. If not, it forwards the query to the upstream name
 servers defined in `/etc/resolv.conf`. The following diagram depicts
 the interactions that occur when an application tries to access a
