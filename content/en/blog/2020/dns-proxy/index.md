@@ -132,9 +132,9 @@ c-ares library, the DNS library used by Envoy. Determined to solve the
 problem, we decided to implement the DNS proxy in the Istio sidecar
 agent, written in Go. We were able to optimize the implementation to
 handle all the scenarios that we wanted to tackle without compromising
-on scale and stability. The Golang DNS packages we use are the same as
-those used by scalable DNS implementations such as CoreDNS, Consul,
-Mesos, among others.
+on scale and stability. The Go DNS library we use is the same one
+used by scalable DNS implementations such as CoreDNS, Consul,
+Mesos, etc. It has been battle tested in production for scale and stability.
 
 Starting with Istio 1.8, the Istio agent on the sidecar will ship with
 a caching DNS proxy, programmed dynamically by Istiod. Istiod pushes
