@@ -22,13 +22,8 @@ any interception by the Istio proxy but cannot be used in proxy-only components 
 
 Istio can automatically detect HTTP and HTTP/2 traffic. If the protocol cannot automatically be determined, traffic will be treated as plain TCP traffic.
 
-### Server first protocols
-
-Some protocols are "Server First" protocols, which means the server will send the first bytes. In these cases, automatic protocol detection
-will not function correctly, as Istio will determine the protocol based on the initial bytes. If you are using a server first protocol, you should
-follow the [explicit protocol selection instructions](#explicit-protocol-selection) to declare the protocol.
-
-The following protocols are known to be incompatible with automatic protocol selection, and must also be explicitly declared or they will be treated as TCP:
+The following protocols are known to be incompatible with automatic protocol selection, and must be
+[explicitly declared](#explicit-protocol-selection) or they will be treated as TCP:
 
 |Protocol|Port|
 |--------|----|
@@ -36,6 +31,12 @@ The following protocols are known to be incompatible with automatic protocol sel
 | DNS    |53  |
 | MySQL  |3306|
 | MongoDB|27017|
+
+### Server first protocols
+
+Some protocols are "Server First" protocols, which means the server will send the first bytes. In these cases, automatic protocol detection
+will not function correctly, as Istio will determine the protocol based on the initial bytes. If you are using a server first protocol, you should
+follow the explicit protocol selection instructions, below, to declare the protocol.
 
 {{< tip >}}
 Since TLS communication is not server first, any TLS based traffic will support protocol detection, even if it is wrapping a protocol that does not support detection, such as MySQL.
