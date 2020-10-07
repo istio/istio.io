@@ -16,7 +16,7 @@ Istio supports proxying any TCP traffic. This includes HTTP, HTTPS, gRPC, as wel
 In order to provide additional capabilities, such as routing and rich metrics, the protocol must be determined. This can be done automatically or explicitly specified.
 
 Non-TCP based protocols, such as UDP, are not proxied. These protocols will continue to function as normal, without
-any interception by the Istio proxy. They are not supported at gateways.
+any interception by the Istio proxy but cannot be used in proxy-only components such as ingress or egress gateways.
 
 ## Automatic protocol selection
 
