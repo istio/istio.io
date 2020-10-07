@@ -26,9 +26,9 @@ Istio can automatically detect HTTP and HTTP/2 traffic. If the protocol cannot a
 
 Some protocols are "Server First" protocols, which means the server will send the first bytes. In these cases, automatic protocol detection
 will not function correctly, as Istio will determine the protocol based on the initial bytes. If you are using a server first protocol, you should
-explicitly declare the protocol following the instructions below.
+follow the [explicit protocol selection instructions](#explicit-protocol-selection) to declare the protocol.
 
-The following protocols are known to be incompatible with automatic protocol selection, and will be treated as TCP if not explicitly declared:
+The following protocols are known to be incompatible with automatic protocol selection, and must also be explicitly declared or they will be treated as TCP:
 
 |Protocol|Port|
 |--------|----|
@@ -41,7 +41,7 @@ The following protocols are known to be incompatible with automatic protocol sel
 Since TLS communication is not server first, any TLS based traffic will support protocol detection, even if it is wrapping a protocol that does not support detection, such as MySQL.
 {{< /tip >}}
 
-## Manual protocol selection
+## Explicit protocol selection
 
 Protocols can be specified manually in the Service definition.
 
