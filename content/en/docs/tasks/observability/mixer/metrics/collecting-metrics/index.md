@@ -41,8 +41,6 @@ as the example application throughout this task.
         v2:
           enabled: false
     components:
-      citadel:
-        enabled: true
       telemetry:
         enabled: true
     {{< /text >}}
