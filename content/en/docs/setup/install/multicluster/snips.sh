@@ -365,10 +365,10 @@ kubectl label --context="${CTX_CLUSTER2}" namespace sample \
 snip_deploy_the_helloworld_service_3() {
 kubectl apply --context="${CTX_CLUSTER1}" \
     -f samples/helloworld/helloworld.yaml \
-    -l app=helloworld -n sample
+    -l service=helloworld -n sample
 kubectl apply --context="${CTX_CLUSTER2}" \
     -f samples/helloworld/helloworld.yaml \
-    -l app=helloworld -n sample
+    -l service=helloworld -n sample
 }
 
 snip_deploy_helloworld_v1_1() {

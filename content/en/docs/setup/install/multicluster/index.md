@@ -665,10 +665,10 @@ Create the `HelloWorld` service in both clusters:
 {{< text bash >}}
 $ kubectl apply --context="${CTX_CLUSTER1}" \
     -f samples/helloworld/helloworld.yaml \
-    -l app=helloworld -n sample
+    -l service=helloworld -n sample
 $ kubectl apply --context="${CTX_CLUSTER2}" \
     -f samples/helloworld/helloworld.yaml \
-    -l app=helloworld -n sample
+    -l service=helloworld -n sample
 {{< /text >}}
 
 ### Deploy `HelloWorld` `V1`
