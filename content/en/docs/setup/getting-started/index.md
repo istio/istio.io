@@ -45,7 +45,12 @@ Follow these steps to get started with Istio:
     You can pass variables on the command line to download a specific version
     or to override the processor architecture.
     For example, to download Istio 1.6.8 for the x86_64 architecture,
-    run `curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.8 TARGET_ARCH=x86_64 sh -`.
+    run:
+
+    {{< text bash >}}
+    $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.8 TARGET_ARCH=x86_64 sh -
+    {{< /text >}}
+
     {{< /tip >}}
 
 1.  Move to the Istio package directory. For example, if the package is
@@ -140,8 +145,8 @@ Follow these steps to get started with Istio:
     {{< /text >}}
 
     {{< tip >}}
-    Re-run the previous command and wait until all pods report READY 2 / 2 and
-    STATUS Running before you go to the next step. This might take a few minutes
+    Re-run the previous command and wait until all pods report READY `2/2` and
+    STATUS `Running` before you go to the next step. This might take a few minutes
     depending on your platform.
     {{< /tip >}}
 
@@ -332,7 +337,7 @@ by viewing the Bookinfo product page using a browser.
 1.  Run the following command to retrieve the external address of the Bookinfo application.
 
     {{< text bash >}}
-    $ echo http://"$GATEWAY_URL/productpage"
+    $ echo "http://$GATEWAY_URL/productpage"
     {{< /text >}}
 
 1.  Paste the output from the previous command into your web browser and confirm that the Bookinfo product page is displayed.

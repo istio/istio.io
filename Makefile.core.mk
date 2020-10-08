@@ -22,7 +22,8 @@ export GO_TOP
 GO ?= go
 
 GOARCH_LOCAL := $(TARGET_ARCH)
-GOOS_LOCAL := $(TARGET_OS)
+export GOOS_LOCAL := $(TARGET_OS)
+export IN_BUILD_CONTAINER := $(IN_BUILD_CONTAINER)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
 # For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
@@ -33,7 +34,12 @@ export ISTIO_IMAGE_VERSION
 ISTIO_SHA ?= $(shell < ${ISTIOIO_GO}/go.mod grep 'istio.io/istio v' | cut -d'-' -f3)
 export ISTIO_SHA
 
+# If one needs to test before a docker.io build is available (using a public test build),
+# the export HUB and TAG can be commented out, and the initial HUB un-commented
 HUB ?= gcr.io/istio-testing
+# export HUB := docker.io/istio
+# export TAG ?= 1.7.3
+
 ifeq ($(HUB),)
   $(error "HUB cannot be empty")
 endif
@@ -194,9 +200,6 @@ test.kube.postsubmit: test.kube.presubmit
 
 test_status:
 	@scripts/test_status.sh
-
-# make lint-yaml seems to fail with pipefail, so remove now.
-# SHELL = /bin/bash
 
 include common/Makefile.common.mk
 

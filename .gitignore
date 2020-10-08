@@ -24,6 +24,9 @@ samples/**
 tests/integration/**
 manifests/**
 
+# certs for test framework
+tools/certs/**
+
 # contains the built artifacts
 out/**
 

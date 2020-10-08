@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2155
+# shellcheck disable=SC2155,SC2030,SC2031
 
 # Copyright Istio Authors
 #
@@ -14,6 +14,37 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# _set_kube_vars initializes the following variables based on the value of KUBECONFIG:
+#
+# KUBECONFIG_FILES: an array containing the individual files in the order specified.
+# KUBE_CONTEXTS: the names of the kube contexts, in the order of the KUBECONFIG files specified.
+function _set_kube_vars()
+{
+  # Split out the kube config files and then get the current context in
+  # each. We do this because the contexts are stored in a map, which
+  # means that order of the context returned by
+  # `kubectl config get-contexts` is not guaranteed. By pulling out
+  # the context on a per-file basis, we maintain the order of the
+  # files in the KUBECONFIG variable.
+  KUBE_CONTEXTS=()
+  IFS=':' read -r -a KUBECONFIG_FILES <<< "${KUBECONFIG}"
+  for KUBECONFIG_FILE in "${KUBECONFIG_FILES[@]}"; do
+    CTX="$(export KUBECONFIG=$KUBECONFIG_FILE; kubectl config current-context)"
+    if [[ -z "${CTX}" ]]; then
+      echo "${KUBECONFIG_FILE} contains no current context"
+      exit 1
+    fi
+    KUBE_CONTEXTS+=("${CTX}")
+  done
+
+  export KUBECONFIG_FILES
+  export KUBE_CONTEXTS
+
+  echo "KUBECONFIG=${KUBECONFIG}"
+  echo "KUBECONFIG_FILES=${KUBECONFIG_FILES[*]}"
+  echo "KUBE_CONTEXTS=${KUBE_CONTEXTS[*]}"
+}
 
 # Set the INGRESS_HOST, INGRESS_PORT, SECURE_INGRESS_PORT, and TCP_INGRESS_PORT environment variables
 _set_ingress_environment_variables() {
@@ -52,13 +83,17 @@ _wait_for_deployment() {
 # Wait for Istio config to propagate
 # usage: _wait_for_istio <kind> <namespace> <name>
 _wait_for_istio() {
-    local kind="$1"
-    local namespace="$2"
-    local name="$3"
-    if ! istioctl experimental wait --for=distribution --timeout=30s "$kind" "$name.$namespace"; then
-        echo "Failed distribution of $kind $name in namespace $namespace"
-        istioctl ps
-    fi
+# TODO: Put back when istioctl wait is functiuoning correctly
+#    local kind="$1"
+#    local namespace="$2"
+#    local name="$3"
+    local start=$(date +%s)
+#    if ! istioctl experimental wait --for=distribution --timeout=10s "$kind" "$name.$namespace"; then
+#        echo "Failed distribution of $kind $name in namespace $namespace"
+#        istioctl ps
+#        echo "TEST: wait for failed, but continuing."
+#    fi
+    echo "Duration: $(($(date +%s)-start)) seconds"
 }
 
 # Encode the string to a URL

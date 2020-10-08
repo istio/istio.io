@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2030,SC2031
 
 # Copyright Istio Authors
 #
@@ -264,7 +265,7 @@ __verify_with_retry() {
 # Get the resource state of the cluster. Used by the test framework to compare the
 # cluster state before and after running each test:
 #
-# __cluster_snapshot
+# __cluster_cluster_snapshots
 #
 # ... test commands
 # ... cleanup commands
@@ -280,30 +281,59 @@ __cluster_state() {
     # TEMP WORKAROUND, don't check istio-system
     kubectl get ns -o name | sed '/istio-system/d'
     kubectl get all --ignore-not-found -n default
-    kubectl get istiooperators --ignore-not-found -n default 2>&1 | grep -v "error: the server doesn't have a resource type"
-    kubectl get destinationrules --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
-    kubectl get envoyfilters --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
-    kubectl get gateways --ignore-not-found -n default -n istio-system  2>&1| grep -v "error: the server doesn't have a resource type"
-    kubectl get serviceentries --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
-    kubectl get sidecars --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
-    kubectl get virtualservices --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
-    kubectl get workloadentries --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
-    kubectl get authorizationpolicies --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
-    kubectl get peerauthentications --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
-    kubectl get requestauthentications --ignore-not-found -n default -n istio-system 2>&1 | grep -v "error: the server doesn't have a resource type"
+    kubectl get istiooperators --ignore-not-found -n default 2>&1
+    kubectl get destinationrules --ignore-not-found -n default -n istio-system 2>&1
+    kubectl get envoyfilters --ignore-not-found -n default -n istio-system 2>&1
+    kubectl get gateways --ignore-not-found -n default -n istio-system  2>&1
+    kubectl get serviceentries --ignore-not-found -n default -n istio-system 2>&1
+    kubectl get sidecars --ignore-not-found -n default -n istio-system 2>&1
+    kubectl get virtualservices --ignore-not-found -n default -n istio-system 2>&1
+    kubectl get workloadentries --ignore-not-found -n default -n istio-system 2>&1
+    kubectl get authorizationpolicies --ignore-not-found -n default -n istio-system 2>&1
+    kubectl get peerauthentications --ignore-not-found -n default -n istio-system 2>&1
+    kubectl get requestauthentications --ignore-not-found -n default -n istio-system 2>&1
 }
 
-__cluster_snapshot() {
-    __cluster_state > __cluster_snapshot.txt 2>&1
+__create_cluster_snapshots() {
+    # Get the list of KUBECONFIG files as an array.
+    IFS=':' read -r -a KFILES <<< "${KUBECONFIG}"
+    for KFILE in "${KFILES[@]}"; do
+        # Get the contexts in this KUBECONFIG file as an array.
+        CTX="$(export KUBECONFIG=${KFILE}; kubectl config current-context)"
+        if [[ -z "${CTX}" ]]; then
+          echo "${KFILE} contains no current context."
+          exit 1
+        fi
+
+        # Dump the state of this cluster to a snapshot file.
+        SNAPSHOT_FILE="__cluster_snapshot_${CTX}.txt"
+        echo "Creating snapshot ${SNAPSHOT_FILE}"
+        (KUBECONFIG="${KFILE}"; __cluster_state > "${SNAPSHOT_FILE}" 2>&1)
+    done
 }
 
 __cluster_cleanup_check() {
-    # shellcheck disable=SC2034
-    snapshot=$(<__cluster_snapshot.txt)
-    rm __cluster_snapshot.txt
+    # Get the list of KUBECONFIG files as an array.
+    IFS=':' read -r -a KFILES <<< "${KUBECONFIG}"
+    for KFILE in "${KFILES[@]}"; do
+        # Get the contexts in this KUBECONFIG file as an array.
+        CTX="$(export KUBECONFIG=${KFILE}; kubectl config current-context)"
+        if [[ -z "${CTX}" ]]; then
+          echo "${KFILE} contains no current context."
+          exit 1
+        fi
 
-    VERIFY_RETRIES=9
-    _verify_like __cluster_state "$snapshot"
+        # Read the snapshot file for this cluster.
+        SNAPSHOT_FILE="__cluster_snapshot_${CTX}.txt"
+        echo "Performing cleanup check against snapshot ${SNAPSHOT_FILE}"
+        SNAPSHOT=$(<"${SNAPSHOT_FILE}")
+        rm "${SNAPSHOT_FILE}"
+
+        # Verify that we've restored the original cluster state.
+        VERIFY_RETRIES=9
+        (KUBECONFIG="${KFILE}"; _verify_like __cluster_state "${SNAPSHOT}")
+        echo "Finished cleanup check against snapshot ${SNAPSHOT_FILE}"
+    done
 }
 
 

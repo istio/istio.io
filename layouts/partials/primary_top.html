@@ -110,13 +110,13 @@
                                     <span>
                                         {{if and (isset .Params "test") (not ( eq .Params.test "n/a"))}}
                                             {{ if (.Params.test) }}
-                                                <a href="https://github.com/istio/istio.io/tree/master/tests" title='{{ i18n "has_test" }}'>
+                                                <a href="https://github.com/istio/istio.io/tree/master/README.md#testing-document-content" title='{{ i18n "has_test" }}'>
                                                     {{- partial "icon.html" "checkmark" -}}
                                                     <span>&nbsp;</span>
                                                     {{ i18n "tested"}}
                                                 </a>
                                             {{ else }}
-                                                <a href="https://github.com/istio/istio.io/tree/master/tests" title='{{ i18n "needs_test" }}'>
+                                                <a href="https://github.com/istio/istio.io/tree/master/README.md#testing-document-content" title='{{ i18n "needs_test" }}'>
                                                     {{- partial "icon.html" "cancel-grey" -}}
                                                     <span>&nbsp;</span>
                                                     {{ i18n "tested"}}

@@ -31,10 +31,12 @@ func TestMain(m *testing.M) {
 	}
 	framework.
 		NewSuite(m).
-		RequireMinClusters(2).
+		RequireMinClusters(3).
 		Run()
 }
 
 func TestDocs(t *testing.T) {
-	istioio.TestDocs(t, setupSpec)
+	framework.
+		NewTest(t).
+		Run(istioio.NewTestDocsFunc(setupSpec))
 }

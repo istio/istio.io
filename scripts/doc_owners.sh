@@ -26,7 +26,7 @@ owners_listing() {
 
     for wg in $WORKGROUPS; do
         echo ""
-        list=$(find docs -name '*.md' -exec grep -q "^owner: $wg" {} \; -print | sort)
+        list=$(find docs -name '*.md' -exec grep -q "^owner: $wg" {} \; -print | LC_ALL=C sort)
         echo "## $wg: $(wc -l <<<"$list") docs"
         echo ""
         echo "$list"
