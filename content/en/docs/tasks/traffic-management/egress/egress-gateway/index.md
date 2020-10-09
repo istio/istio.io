@@ -135,6 +135,11 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 80, and a destination rule for
     traffic directed to the egress gateway.
 
+    {{< tip >}}
+    To direct multiple hosts through an egress gateway, you can include a list of hosts, or use `*` to match all, in the `Gateway`.
+    The `subset` field in the `DestinationRule` should be reused for the additional hosts.
+    {{< /tip >}}
+
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
@@ -283,6 +288,11 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 
 1.  Create an egress `Gateway` for _edition.cnn.com_, a destination rule and a virtual service
     to direct the traffic through the egress gateway and from the egress gateway to the external service.
+
+    {{< tip >}}
+    To direct multiple hosts through an egress gateway, you can include a list of hosts, or use `*` to match all, in the `Gateway`.
+    The `subset` field in the `DestinationRule` should be reused for the additional hosts.
+    {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
