@@ -335,8 +335,6 @@ The `IstioOperator` API defines components as shown in the table below:
 | ------------|
 `base` |
 `pilot` |
-`telemetry` |
-`policy` |
 `ingressGateways` |
 `egressGateways` |
 `cni` |
