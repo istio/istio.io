@@ -335,12 +335,10 @@ The `IstioOperator` API defines components as shown in the table below:
 | ------------|
 `base` |
 `pilot` |
-`proxy` |
-`telemetry` |
-`policy` |
 `ingressGateways` |
 `egressGateways` |
 `cni` |
+`istiodRemote` |
 
 ### Configure component settings
 
