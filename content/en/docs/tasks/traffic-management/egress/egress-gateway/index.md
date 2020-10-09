@@ -289,12 +289,10 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 1.  Create an egress `Gateway` for _edition.cnn.com_, a destination rule and a virtual service
     to direct the traffic through the egress gateway and from the egress gateway to the external service.
 
-    {{< warning >}}
-    When following these steps for additional hosts, do not create the `Gateway` and `DestinationRule` resources again.
-    Instead modify these two resources to work with multiple hosts. The `Gateway` resource accepts a list of hosts, or
-    use `'*'` to match all. The `subset` in the `DestinationRule` can be reused for additional hosts. Adding an additional
-    `DestinationRule` targetting the same Egress Gateway may result in undefined behavior.
-    {{< /warning >}}
+    {{< tip >}}
+    To direct multiple hosts through an egress gateway, you can include a list of hosts, or use `*` to match all, in the `Gateway`.
+    The `subset` field in the `DestinationRule` should be reused for the additional hosts.
+    {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
