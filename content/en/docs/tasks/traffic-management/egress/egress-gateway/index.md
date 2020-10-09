@@ -135,12 +135,10 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 80, and a destination rule for
     traffic directed to the egress gateway.
 
-    {{< warning >}}
-    When following these steps for additional hosts, do not create these resources again. Instead modify the resources
-    to work with multiple hosts. The `Gateway` resource accepts a list of hosts, or use `'*'` to match all. The `subset`
-    in the `DestinationRule` can be reused for additional hosts. Adding an additional `DestinationRule` targetting the
-    same Egress Gateway may result in undefined behavior.
-    {{< /warning >}}
+    {{< tip >}}
+    To direct multiple hosts through an egress gateway, you can include a list of hosts, or use `*` to match all, in the `Gateway`.
+    The `subset` field in the `DestinationRule` should be reused for the additional hosts.
+    {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
