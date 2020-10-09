@@ -15,9 +15,8 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Added** ability to configure domain suffix for multicluster installation  ([Issue #27300](https://github.com/istio/istio/issues/27300))
+- **Added** ability to configure domain suffix for multicluster installation ([Issue #27300](https://github.com/istio/istio/issues/27300))
 
-- **Added** support for `securityContext` in the Kubernetes settings for the operator API.
-  ([Issue #26275](https://github.com/istio/istio/issues/26275))
+- **Added** support for `securityContext` in the Kubernetes settings for the operator API. ([Issue #26275](https://github.com/istio/istio/issues/26275))
 
 - **Fixed** an issue preventing calls to wildcard (such as `*.example.com`) domains when a port is set in the `Host` header. ([Issue #25350](https://github.com/istio/istio/issues/25350))
