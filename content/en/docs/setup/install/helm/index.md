@@ -41,8 +41,8 @@ follow the instructions below.
     {{< /text >}}
 
 1. Install the Istio base chart which contains cluster level resources like
-   Custom Resource Definitions (CRDs), cluster role and rolebindings and
-   service accounts used by the Istio components:
+   Custom Resource Definitions (CRDs), cluster role and cluster role bindings
+   and service accounts used by the Istio components:
 
     {{< text bash >}}
     $ helm install --namespace istio-system istio-base manifests/charts/base
