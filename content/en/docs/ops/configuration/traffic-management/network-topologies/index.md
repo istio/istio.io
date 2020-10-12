@@ -85,7 +85,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
 
 #### Example using X-Forwarded-For capability with httpbin
 
-1. Specify `numTrustedProxies` as 2 either using `MeshConfig` or an `proxy.istop/io/config` annotation. If you are using `MeshConfig`, run the following command to create a file named `topology.yaml` and apply it to your cluster:
+1. Specify `numTrustedProxies` as 2 either using `MeshConfig` or an `proxy.istio.io/config` annotation. If you are using `MeshConfig`, run the following command to create a file named `topology.yaml` and apply it to your cluster:
 
     {{< text bash >}}
     $ cat <<EOF > topology.yaml
