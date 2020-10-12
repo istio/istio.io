@@ -60,10 +60,10 @@ $ istioctl install --set meshConfig.accessLogFile=/dev/stdout
 {{< /text >}}
 
 {{< tip >}}
-Many of the examples on this page and elsewhere in the documentation are written using --set to modify installation
-parameters, rather than passing a configuration file with -f. This is done to make the examples more compact.
-The two methods are equivalent, but -f is strongly recommended for production. The above command would be written as
-follows using -f:
+Many of the examples on this page and elsewhere in the documentation are written using `--set` to modify installation
+parameters, rather than passing a configuration file with `-f`. This is done to make the examples more compact.
+The two methods are equivalent, but `-f` is strongly recommended for production. The above command would be written as
+follows using `-f`:
 
 {{< text yaml >}}
 # my-config.yaml
