@@ -3,7 +3,9 @@ title: Customizable Install with Helm
 description: Install and configure Istio for in-depth evaluation or production use.
 weight: 27
 keywords: [kubernetes,helm]
+owner: istio/wg-environments-maintainers
 icon: helm
+test: no
 ---
 
 Follow this guide to install and configure an Istio mesh using
