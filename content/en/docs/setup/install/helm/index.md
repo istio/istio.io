@@ -102,9 +102,9 @@ follow the instructions below.
 1. Ensure all Kubernetes pods in `istio-system` namespace are deployed and have a
    `STATUS` of `Running`:
 
-   {{< text bash >}}
-   $ kubectl get pods -n istio-system
-   {{< /text >}}
+    {{< text bash >}}
+    $ kubectl get pods -n istio-system
+    {{< /text >}}
 
 ## Uninstall
 
@@ -113,46 +113,46 @@ installed above.
 
 1. List all the Istio charts installed in `istio-system` namespace:
 
-   {{< text bash >}}
-   $ helm ls --namespace istio-system
-   {{< /text >}}
+    {{< text bash >}}
+    $ helm ls --namespace istio-system
+    {{< /text >}}
 
 1. (Optional) Delete Istio ingress/egress chart:
 
-   {{< text bash >}}
-   $ helm delete --namespace istio-system istio-egress
-   $ helm delete --namespace istio-system istio-ingress
-   {{< /text >}}
+    {{< text bash >}}
+    $ helm delete --namespace istio-system istio-egress
+    $ helm delete --namespace istio-system istio-ingress
+    {{< /text >}}
 
 1. Delete Istio discovery chart:
 
-   {{< text bash >}}
-   $ helm delete --namespace istio-system istiod
-   {{< /text >}}
+    {{< text bash >}}
+    $ helm delete --namespace istio-system istiod
+    {{< /text >}}
 
 1. Delete Istio base chart:
 
-   {{< warning >}}
-   By desgin, deleting a chart via Helm doesn't delete the installed Custom
-   Resource Definitions (CRDs) installed via the chart.
-   {{< /warning >}}
+    {{< warning >}}
+    By desgin, deleting a chart via Helm doesn't delete the installed Custom
+    Resource Definitions (CRDs) installed via the chart.
+    {{< /warning >}}
 
-   {{< text bash >}}
-   $ helm delete --namespace istio-system istio-base
-   {{< /text >}}
+    {{< text bash >}}
+    $ helm delete --namespace istio-system istio-base
+    {{< /text >}}
 
 1. Delete the `istio-system` namespace:
 
-   {{< text bash >}}
-   $ kubectl delete namespace istio-system
-   {{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete namespace istio-system
+    {{< /text >}}
 
 ### Deleting CRDs installed by Istio
 
 Deleting CRDs permanently removes any Istio resources you have created in your
 cluster. To permanently delete Istio CRDs installed in your cluster:
 
-   {{< text bash >}}
-   $ kubectl get crd | grep --color=never 'istio.io' | awk '{print $1}' \
-       | xargs -n1 kubectl delete crd
-   {{< /text >}}
+    {{< text bash >}}
+    $ kubectl get crd | grep --color=never 'istio.io' | awk '{print $1}' \
+        | xargs -n1 kubectl delete crd
+    {{< /text >}}
