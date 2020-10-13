@@ -119,22 +119,23 @@ spec:
     - operation:
         methods: [&quot;GET&quot;]
         paths: [&quot;/user/profile/*&quot;]
-````
+</code></pre>
 
-Authorization Policy scope (target) is determined by &quot;metadata/namespace&quot; and
-an optional &quot;selector&quot;.
+<p>Authorization Policy scope (target) is determined by &ldquo;metadata/namespace&rdquo; and
+an optional &ldquo;selector&rdquo;.</p>
 
-- &quot;metadata/namespace&quot; tells which namespace the policy applies. If set to root
-namespace, the policy applies to all namespaces in a mesh.
-- workload &quot;selector&quot; can be used to further restrict where a policy applies.
+<ul>
+<li>&ldquo;metadata/namespace&rdquo; tells which namespace the policy applies. If set to root
+namespace, the policy applies to all namespaces in a mesh.</li>
+<li>workload &ldquo;selector&rdquo; can be used to further restrict where a policy applies.</li>
+</ul>
 
-For example,
+<p>For example,</p>
 
-The following authorization policy applies to workloads containing label
-&quot;app: httpbin&quot; in namespace bar.
+<p>The following authorization policy applies to workloads containing label
+&ldquo;app: httpbin&rdquo; in namespace bar.</p>
 
-```yaml
-apiVersion: security.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
  name: policy
