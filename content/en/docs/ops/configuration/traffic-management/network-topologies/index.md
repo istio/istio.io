@@ -1,5 +1,5 @@
 ---
-title: Configuring Gateway Network Topology (Development)
+title: Gateway Proxy Network Topology (Development)
 description: How to configure gateway network topology (Development).
 weight: 60
 keywords: [traffic-management,ingress,gateway]
@@ -48,8 +48,8 @@ of your Istio ingress gateway.
 ### Configuring X-Forwarded-For Headers
 
 Applications rely on reverse proxies to forward client attributes in a request, such as `X-Forward-For` header. However, due to the variety of network
-topologies Istio can be deployed in, you must set the `numTrustedProxies` to the number of trusted proxies deployed in front
-of the Istio gateway proxy, so that the client address can be extracted correctly.
+topologies that Istio can be deployed in, you must set the `numTrustedProxies` to the number of trusted proxies deployed in front
+of the Istio gateway proxy, so that the client address can be extracted correctly. This helps the Istio Gateway set the correct value for the `X-Envoy-External-Address` header.
 
 For example, if you have a cloud based Load Balancer and a reverse proxy in front of your Istio gateway, set `numTrustedProxies` to `2`.
 
@@ -77,6 +77,10 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
     EOF
     $ istioctl install -f topology.yaml
     {{< /text >}}
+
+    {{< idea >}}
+    If you previously installed an Istio ingress gateway, restart all ingress gateway pods after step 1.
+    {{</ idea >}}
 
 1. Create an `httpbin` namespace:
 
@@ -168,3 +172,27 @@ where `ENUM_VALUE` can be of the following type.
 
 See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
 for examples of using this capability.
+
+## PROXY Protocol
+
+The [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) allows for exchanging and preservation of client attributes across multiple proxies. Enabling this requires adding [Envoy Proxy Protocol filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol), using an `EnvoyFilter` applied on the gateway workload. For example:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: proxy-protocol
+  namespace: istio-system
+spec:
+  configPatches:
+  - applyTo: LISTENER
+    patch:
+      operation: MERGE
+      value:
+        listener_filters:
+        - name: envoy.listener.proxy_protocol
+        - name: envoy.listener.tls_inspector
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+{{< /text >}}
