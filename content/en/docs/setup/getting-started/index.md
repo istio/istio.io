@@ -422,3 +422,10 @@ If no longer needed, use the following command to remove it:
 {{< text bash >}}
 $ kubectl delete namespace istio-system
 {{< /text >}}
+
+The label to instruct Istio to automatically inject Envoy sidecar proxies is not removed by default.
+If no longer needed, use the following command to remove it:
+
+{{< text bash >}}
+$ kubectl label namespace default istio-injection-
+{{< /text >}}

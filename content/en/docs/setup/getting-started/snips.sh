@@ -241,3 +241,7 @@ istioctl manifest generate --set profile=demo | kubectl delete --ignore-not-foun
 snip_uninstall_2() {
 kubectl delete namespace istio-system
 }
+
+snip_uninstall_3() {
+kubectl label namespace default istio-injection-
+}

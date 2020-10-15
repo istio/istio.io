@@ -59,10 +59,33 @@ Various settings can be configured to modify the installations. For example, to 
 $ istioctl install --set meshConfig.accessLogFile=/dev/stdout
 {{< /text >}}
 
+{{< tip >}}
+Many of the examples on this page and elsewhere in the documentation are written using `--set` to modify installation
+parameters, rather than passing a configuration file with `-f`. This is done to make the examples more compact.
+The two methods are equivalent, but `-f` is strongly recommended for production. The above command would be written as
+follows using `-f`:
+
+{{< text yaml >}}
+# my-config.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    accessLogFile: /dev/stdout
+{{< /text >}}
+
+{{< text bash >}}
+$ istioctl install -f my-config.yaml
+{{< /text >}}
+
+{{< /tip >}}
+
+{{< tip >}}
+The full API is documented in the [`IstioOperator` API reference](/docs/reference/config/istio.operator.v1alpha1/).
 In general, you can use the `--set` flag in `istioctl` as you would with
-Helm. The only difference is you must
-prefix the setting paths with `values.` because this is the path to the Helm pass-through API in the
-[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/).
+Helm, and the Helm `values.yaml` API is currently supported for backwards compatibility. The only difference is you must
+prefix the legacy `values.yaml` paths with `values.` because this is the prefix for the Helm pass-through API.
+{{< /tip >}}
 
 ## Install from external charts
 
@@ -335,12 +358,10 @@ The `IstioOperator` API defines components as shown in the table below:
 | ------------|
 `base` |
 `pilot` |
-`proxy` |
-`telemetry` |
-`policy` |
 `ingressGateways` |
 `egressGateways` |
 `cni` |
+`istiodRemote` |
 
 ### Configure component settings
 
@@ -467,6 +488,7 @@ which allows the following settings to be changed. Use this list to identify the
 1. [Toleration](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
 1. [Strategy](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 1. [Env](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+1. [Pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
 
 All of these Kubernetes settings use the Kubernetes API definitions, so [Kubernetes documentation](https://kubernetes.io/docs/concepts/) can be used for reference.
 

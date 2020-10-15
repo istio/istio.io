@@ -88,7 +88,7 @@ echo '*** istioctl-analyze step 12 ***'
 _verify_contains snip_analyze_suppress0102 "$snip_analyze_suppress0102_out"
 
 echo '*** istioctl-analyze step 13 ***'
-_verify_lines snip_analyze_suppress_frod_0107_baz "- Warn [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection"
+_verify_lines snip_analyze_suppress_frod_0107_baz "- Info [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection."
 
 echo '*** istioctl-analyze step 14 ***'
 kubectl create deployment my-deployment --image=docker.io/kennethreitz/httpbin
