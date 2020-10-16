@@ -49,7 +49,9 @@ of your Istio ingress gateway.
 
 Applications rely on reverse proxies to forward client attributes in a request, such as `X-Forward-For` header. However, due to the variety of network
 topologies that Istio can be deployed in, you must set the `numTrustedProxies` to the number of trusted proxies deployed in front
-of the Istio gateway proxy, so that the client address can be extracted correctly. This helps the Istio Gateway set the correct value for the `X-Envoy-External-Address` header.
+of the Istio gateway proxy, so that the client address can be extracted correctly.
+This controls the value populated by the ingress gateway in the `X-Envoy-External-Address` header
+which can be reliably used by the upstream services to access client's original IP address.
 
 For example, if you have a cloud based Load Balancer and a reverse proxy in front of your Istio gateway, set `numTrustedProxies` to `2`.
 
@@ -175,7 +177,8 @@ for examples of using this capability.
 
 ## PROXY Protocol
 
-The [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) allows for exchanging and preservation of client attributes across multiple proxies. Enabling this requires adding [Envoy Proxy Protocol filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol), using an `EnvoyFilter` applied on the gateway workload. For example:
+The [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) allows for exchanging and preservation of client attributes across multiple proxies without relying on Layer 7 protocols.
+Enabling this requires adding [Envoy Proxy Protocol filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol), using an `EnvoyFilter` applied on the gateway workload. For example:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
