@@ -118,7 +118,7 @@ configuration before deleting Istio in your cluster.
 
 You can follow steps mentioned in the
 [Istioctl uninstall guide](/docs/setup/install/istioctl#uninstall-istio) or
-[Operator uninstall guide](latest/docs/setup/install/operator/#uninstall)
+[Operator uninstall guide](/docs/setup/install/operator/#uninstall)
 depending upon your installation method.
 
 ### In place upgrade
