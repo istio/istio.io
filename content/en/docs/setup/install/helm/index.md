@@ -13,7 +13,7 @@ Follow this guide to install and configure an Istio mesh using
 
 The Helm charts used in this guide are the same underlying charts used when
 installing Istio via [Istioctl](/docs/setup/install/istioctl/) or the
-[IstioOperator API](/docs/setup/install/operator/).
+[Operator](/docs/setup/install/operator/).
 
 ## Prerequisites
 
@@ -73,11 +73,8 @@ follow the instructions below.
    gateway components:
 
     {{< warning >}}
-    Similar to the discovery chart above, the default ingress gateway chart uses
-    third party tokens. If third party tokens are not enabled, you should
-    add the option `--set global.jwtPolicy=first-party-jwt` to the following command.
-    If the `jwtPolicy` is not set correctly, the `istio-ingressgateway` pod will
-    not get deployed due to the missing `istio-token` volume.
+    Ensure that third part tokens are enabled in your cluster or add `--set
+    global.jwtPolicy=first-party-jwt` to the following command.
     {{< /warning >}}
 
     {{< text bash >}}
@@ -88,11 +85,8 @@ follow the instructions below.
    gateway components:
 
     {{< warning >}}
-    Similar to the discovery chart above, the default egress gateway chart uses
-    third party tokens. If third party tokens are not enabled, you should
-    add the option `--set global.jwtPolicy=first-party-jwt` to the following command.
-    If the `jwtPolicy` is not set correctly, the `istio-egressgateway` pod will
-    not get deployed due to the missing `istio-token` volume.
+    Ensure that third part tokens are enabled in your cluster or add `--set
+    global.jwtPolicy=first-party-jwt` to the following command.
     {{< /warning >}}
 
     {{< text bash >}}
@@ -106,6 +100,56 @@ follow the instructions below.
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
+    {{< /text >}}
+
+## Upgrading using Helm
+
+### Migrating from non-Helm installations
+
+If you're migrating from a version of Istio installed using `istioctl` or
+Operator to Helm, you need to delete your current installation and re-install
+Istio using Helm as described above.
+
+{{< warning >}}
+Uninstalling Istio can cause your custom Istio configurations to be lost
+permanently so it is highly recommended to take a backup of your Istio
+configuration before deleting Istio in your cluster.
+{{< /warning >}}
+
+You can follow steps mentioned in the
+[Istioctl uninstall guide](/docs/setup/install/istioctl#uninstall-istio) or
+[Operator uninstall guide](latest/docs/setup/install/operator/#uninstall)
+depending upon your installation method.
+
+### In place upgrade
+
+You can perform an in place upgrade of Istio in your cluster using the Helm
+upgrade workflow.
+
+{{< warning >}}
+This upgrade path is only supported from Istio version 1.8 and above.
+Add your override values file or custom options to the commands below as part of
+upgrading your Istio installation.
+{{< /warning >}}
+
+1. Upgrade the Istio base chart:
+
+    {{< text bash >}}
+    $ helm upgrade --namespace istio-system istio-base manifests/charts/base
+    {{< /text >}}
+
+1. Upgrade the Istio discovery chart:
+
+    {{< text bash >}}
+    $ helm upgrade --namespace istio-system istiod manifests/charts/istio-control/istio-discovery
+    {{< /text >}}
+
+1. (Optional) If you have installed Istio ingress or egress gateway in your
+   cluster, you can upgrade:
+
+    {{< text bash >}}
+    $ helm upgrade --namespace istio-system istio-ingress manifests/charts/gateways/istio-ingress
+    $ helm upgrade --namespace istio-system istio-egress manifests/charts/gateways/istio-egress
     {{< /text >}}
 
 ## Uninstall
