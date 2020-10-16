@@ -29,14 +29,14 @@ installing Istio via [Istioctl](/docs/setup/install/istioctl/) or the
     Use a 3.x version of Helm. Helm 2 is not supported.
     {{< /warning >}}
 
-The commands in this guide use the Helm charts that are included in the Istio release packages.
+The commands in this guide use the Helm charts that are included in the Istio release package.
 
 ## Installation steps
 
-Change directory to the root of the release and then
+Change directory to the root of the release package and then
 follow the instructions below.
 
-1. Create a namespace for the `istio-system` components:
+1. Create a namespace `istio-system` for Istio components:
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
@@ -152,6 +152,34 @@ preserve your custom configuration during Helm upgrades.
     $ helm upgrade --namespace istio-system istio-ingress manifests/charts/gateways/istio-ingress
     $ helm upgrade --namespace istio-system istio-egress manifests/charts/gateways/istio-egress
     {{< /text >}}
+
+### Canary Upgrade
+
+You can install a canary version of Istio control plane to validate that the new
+version is compatible with your existing configuration using the steps below:
+
+1. Install a canary version of the Istio discovery chart by setting the revision
+   value:
+
+    {{< text bash >}}
+    $ helm install --namespace istio-system istiod-canary manifests/charts/istio-control/istio-discovery --set revision=canary
+    {{< /text >}}
+
+1. Verify that you have two versions of `istiod` installed in your cluster:
+
+    {{< text bash >}}
+    $ kubectl get pods -n istio-system -l app=istiod -L istio.io/rev
+      NAME                            READY   STATUS    RESTARTS   AGE   REV
+      istiod-5649c48ddc-dlkh8         1/1     Running   0          71m   default
+      istiod-canary-9cc9fd96f-jpc7n   1/1     Running   0          34m   canary
+    {{< /text >}}
+
+1. Follow the steps [here](/docs/setup/upgrade/#data-plane) to test or migrate
+   existing workloads to use the canary control plane.
+
+1. Once you have verified and migrated your workloads to use the canary control
+   plane, you can uninstall your old control plane following steps
+   [below](/docs/setup/install/helm/#uninstall).
 
 ## Uninstall
 
