@@ -128,8 +128,9 @@ upgrade workflow.
 
 {{< warning >}}
 This upgrade path is only supported from Istio version 1.8 and above.
-Add your override values file or custom options to the commands below as part of
-upgrading your Istio installation.
+
+Add your override values file or custom options to the commands below to
+preserve your custom configuration during Helm upgrades.
 {{< /warning >}}
 
 1. Upgrade the Istio base chart:
@@ -144,8 +145,8 @@ upgrading your Istio installation.
     $ helm upgrade --namespace istio-system istiod manifests/charts/istio-control/istio-discovery
     {{< /text >}}
 
-1. (Optional) If you have installed Istio ingress or egress gateway in your
-   cluster, you can upgrade:
+1. (Optional) Upgrade the Istio ingress or egress gateway charts if installed in
+   your cluster:
 
     {{< text bash >}}
     $ helm upgrade --namespace istio-system istio-ingress manifests/charts/gateways/istio-ingress
