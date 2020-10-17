@@ -178,8 +178,11 @@ version is compatible with your existing configuration using the steps below:
    existing workloads to use the canary control plane.
 
 1. Once you have verified and migrated your workloads to use the canary control
-   plane, you can uninstall your old control plane following steps
-   [below](/docs/setup/install/helm/#uninstall).
+   plane, you can uninstall your old control plane:
+
+    {{< text bash >}}
+    $ helm delete --namespace istio-system istiod
+    {{< /text >}}
 
 ## Uninstall
 
