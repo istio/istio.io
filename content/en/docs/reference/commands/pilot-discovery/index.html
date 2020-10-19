@@ -545,6 +545,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
 </tr>
 <tr>
+<td><code>EXTERNAL_ISTIOD</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, one Istiod will control remote clusters including CA.</td>
+</tr>
+<tr>
 <td><code>INGRESS_GATEWAY_NAMESPACE</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -571,8 +577,8 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr>
 <td><code>ISTIOD_ENABLE_SDS_SERVER</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, Istiod will serve SDS for credentialName secrets (rather than in-proxy). To ensure proper security, PILOT_ENABLE_XDS_IDENTITY_CHECK=true is required as well. This option temporarily only supports gateways running in istio-system namespace.</td>
+<td><code>true</code></td>
+<td>If enabled, Istiod will serve SDS for credentialName secrets (rather than in-proxy). To ensure proper security, PILOT_ENABLE_XDS_IDENTITY_CHECK=true is required as well.</td>
 </tr>
 <tr>
 <td><code>ISTIO_DEFAULT_REQUEST_TIMEOUT</code></td>
@@ -773,6 +779,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, pilot will authorize XDS clients, to ensure they are acting only as namespaces they have permissions for.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENDPOINT_TELEMETRY_LABEL</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, pilot will add telemetry related metadata to Endpoint resource, which will be consumed by telemetry filter.</td>
+</tr>
+<tr>
 <td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -863,6 +875,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If true, Pilot will collect metrics for XDS cache efficiency.</td>
 </tr>
 <tr>
+<td><code>PILOT_XDS_SEND_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>5s</code></td>
+<td>The timeout to send the XDS configuration to proxies. After this timeout is reached, Pilot will discard that push.</td>
+</tr>
+<tr>
 <td><code>POD_NAME</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -921,6 +939,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code></code></td>
 <td>OIDC token issuer. If set, will be used to check the tokens.</td>
+</tr>
+<tr>
+<td><code>USE_REMOTE_CERTS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Whether to try to load CA certs from a remote Kubernetes cluster. Used for external Istiod.</td>
 </tr>
 <tr>
 <td><code>VALIDATION_ENABLED</code></td>
@@ -1028,6 +1052,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>pilot_xds_push_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to push lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_pushes</code></td><td><code>Sum</code></td><td>Pilot build and send errors for lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
+<tr><td><code>pilot_xds_send_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to send generated configuration.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
 <tr><td><code>scrape_failures_total</code></td><td><code>Sum</code></td><td>The total number of failed scrapes.</td></tr>
 <tr><td><code>scrapes_total</code></td><td><code>Sum</code></td><td>The total number of scrapes.</td></tr>
@@ -1035,6 +1060,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of sidecar injection requests.</td></tr>
 <tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped sidecar injection requests.</td></tr>
 <tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful sidecar injection requests.</td></tr>
+<tr><td><code>startup_duration_seconds</code></td><td><code>LastValue</code></td><td>The time from the process starting to being marked ready.</td></tr>
 <tr><td><code>xds_cache_evictions</code></td><td><code>Sum</code></td><td>Total number of xds cache evictions.</td></tr>
 <tr><td><code>xds_cache_reads</code></td><td><code>Sum</code></td><td>Total number of xds cache xdsCacheReads.</td></tr>
 <tr><td><code>xds_cache_size</code></td><td><code>LastValue</code></td><td>Current size of xds cache</td></tr>
