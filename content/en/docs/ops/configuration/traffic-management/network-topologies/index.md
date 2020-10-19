@@ -1,5 +1,5 @@
 ---
-title: Gateway Proxy Network Topology (Development)
+title: Configuring Gateway Network Topology (Development)
 description: How to configure gateway network topology (Development).
 weight: 60
 keywords: [traffic-management,ingress,gateway]
