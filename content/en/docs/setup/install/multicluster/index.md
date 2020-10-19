@@ -20,7 +20,8 @@ This guide covers some of the most common concerns when creating a
   one or two networks
 
 - [Control plane topologies](/docs/ops/deployment/deployment-models#control-plane-models):
-  multi-primary, primary-remote
+  multiple {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}},
+  a primary and {{< gloss >}}remote cluster{{< /gloss >}}
 
 Before you begin, review the [deployment models guide](/docs/ops/deployment/deployment-models)
 which describes the foundational concepts used throughout this guide.
