@@ -306,14 +306,6 @@ remove_toc_prefix: 'pilot-agent '
 <td>DNS domain suffix. If not provided uses ${POD_NAMESPACE}.svc.cluster.local  (default ``)</td>
 </tr>
 <tr>
-<td><code>--id &lt;string&gt;</code></td>
-<td>Proxy unique ID. If not provided uses ${POD_NAME}.${POD_NAMESPACE} from environment variables  (default ``)</td>
-</tr>
-<tr>
-<td><code>--ip &lt;string&gt;</code></td>
-<td>Proxy IP address. If not provided uses ${INSTANCE_IP} environment variable.  (default ``)</td>
-</tr>
-<tr>
 <td><code>--log_as_json</code></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
@@ -368,10 +360,6 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--serviceCluster &lt;string&gt;</code></td>
 <td>Service cluster  (default `istio-proxy`)</td>
-</tr>
-<tr>
-<td><code>--serviceregistry &lt;string&gt;</code></td>
-<td>Select the platform for service registry, options are {Kubernetes, Mock}  (default `Kubernetes`)</td>
 </tr>
 <tr>
 <td><code>--stsPort &lt;int&gt;</code></td>
@@ -632,6 +620,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>The type of the credential fetcher. Currently supported types include GoogleComputeEngine</td>
 </tr>
 <tr>
+<td><code>CREDENTIAL_IDENTITY_PROVIDER</code></td>
+<td>String</td>
+<td><code>GoogleComputeEngine</code></td>
+<td>The identity provider for credential. Currently default supported identity provider is GoogleComputeEngine</td>
+</tr>
+<tr>
 <td><code>ECC_SIGNATURE_ALGORITHM</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -666,6 +660,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code>istio-proxy</code></td>
 <td>Envoy proxy username</td>
+</tr>
+<tr>
+<td><code>EXTERNAL_ISTIOD</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, one Istiod will control remote clusters including CA.</td>
 </tr>
 <tr>
 <td><code>FILE_MOUNTED_CERTS</code></td>
@@ -718,8 +718,8 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr>
 <td><code>ISTIOD_ENABLE_SDS_SERVER</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, Istiod will serve SDS for credentialName secrets (rather than in-proxy). To ensure proper security, PILOT_ENABLE_XDS_IDENTITY_CHECK=true is required as well. This option temporarily only supports gateways running in istio-system namespace.</td>
+<td><code>true</code></td>
+<td>If enabled, Istiod will serve SDS for credentialName secrets (rather than in-proxy). To ensure proper security, PILOT_ENABLE_XDS_IDENTITY_CHECK=true is required as well.</td>
 </tr>
 <tr>
 <td><code>ISTIO_BOOTSTRAP</code></td>
@@ -768,12 +768,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If set to true, enable the capture of outgoing DNS packets on port 53, redirecting to istio-agent on :15053</td>
-</tr>
-<tr>
-<td><code>ISTIO_META_PROXY_XDS_VIA_AGENT</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If set to true, envoy will proxy XDS calls via the agent instead of directly connecting to istiod. This option will be removed once the feature is stabilized.</td>
 </tr>
 <tr>
 <td><code>ISTIO_PROMETHEUS_ANNOTATIONS</code></td>
@@ -962,6 +956,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, pilot will authorize XDS clients, to ensure they are acting only as namespaces they have permissions for.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENDPOINT_TELEMETRY_LABEL</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, pilot will add telemetry related metadata to Endpoint resource, which will be consumed by telemetry filter.</td>
+</tr>
+<tr>
 <td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1052,6 +1052,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If true, Pilot will collect metrics for XDS cache efficiency.</td>
 </tr>
 <tr>
+<td><code>PILOT_XDS_SEND_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>5s</code></td>
+<td>The timeout to send the XDS configuration to proxies. After this timeout is reached, Pilot will discard that push.</td>
+</tr>
+<tr>
 <td><code>PKCS8_KEY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1086,6 +1092,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code></code></td>
 <td>The proxy configuration. This will be set by the injection - gateways will use file mounts.</td>
+</tr>
+<tr>
+<td><code>PROXY_XDS_VIA_AGENT</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If set to true, envoy will proxy XDS calls via the agent instead of directly connecting to istiod. This option will be removed once the feature is stabilized.</td>
 </tr>
 <tr>
 <td><code>REQUIRE_3P_TOKEN</code></td>
@@ -1230,6 +1242,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr><td><code>pilot_xds_push_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to push lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_pushes</code></td><td><code>Sum</code></td><td>Pilot build and send errors for lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
+<tr><td><code>pilot_xds_send_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to send generated configuration.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
 <tr><td><code>scrape_failures_total</code></td><td><code>Sum</code></td><td>The total number of failed scrapes.</td></tr>
 <tr><td><code>scrapes_total</code></td><td><code>Sum</code></td><td>The total number of scrapes.</td></tr>
@@ -1237,6 +1250,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of sidecar injection requests.</td></tr>
 <tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped sidecar injection requests.</td></tr>
 <tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful sidecar injection requests.</td></tr>
+<tr><td><code>startup_duration_seconds</code></td><td><code>LastValue</code></td><td>The time from the process starting to being marked ready.</td></tr>
 <tr><td><code>total_active_connections</code></td><td><code>Sum</code></td><td>The total number of active SDS connections.</td></tr>
 <tr><td><code>total_push_errors</code></td><td><code>Sum</code></td><td>The total number of failed SDS pushes.</td></tr>
 <tr><td><code>total_pushes</code></td><td><code>Sum</code></td><td>The total number of SDS pushes.</td></tr>

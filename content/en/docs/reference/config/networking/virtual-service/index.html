@@ -2259,10 +2259,11 @@ spec:
 <td><code>attempts</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Number of retries for a given request. The interval
-between retries will be determined automatically (25ms+). Actual
-number of retries attempted depends on the request <code>timeout</code> of the
-<a href="/docs/reference/config/networking/virtual-service/#HTTPRoute">HTTP route</a>.</p>
+<p>Number of retries to be allowed for a given request. The interval
+between retries will be determined automatically (25ms+). When request
+<code>timeout</code> of the <a href="/docs/reference/config/networking/virtual-service/#HTTPRoute">HTTP route</a>
+or <code>per_try_timeout</code> is configured, the actual number of retries attempted also depends on
+the specified request <code>timeout</code> and <code>per_try_timeout</code> values.</p>
 
 </td>
 <td>
@@ -2273,7 +2274,10 @@ Yes
 <td><code>perTryTimeout</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>Timeout per retry attempt for a given request. format: 1h/1m/1s/1ms. MUST BE &gt;=1ms.</p>
+<p>Timeout per retry attempt for a given request. format: 1h/1m/1s/1ms. MUST BE &gt;=1ms.
+Default is same value as request
+<code>timeout</code> of the <a href="/docs/reference/config/networking/virtual-service/#HTTPRoute">HTTP route</a>,
+which means no timeout.</p>
 
 </td>
 <td>
