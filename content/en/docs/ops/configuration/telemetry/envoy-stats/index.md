@@ -22,11 +22,11 @@ $ kubectl exec $POD -c istio-proxy -- pilot-agent request GET stats
 {{< /text >}}
 
 Envoy collects various kinds of statistics. The following links are Envoy documents about some stats that it collects:
-* [Upstream connection](https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats)
-* [Listener](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/stats)
-* [HTTP Connection Manager](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats)
-* [TCP proxy](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/tcp_proxy_filter#statistics)
-* [Router](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter.html?highlight=vhost#statistics)
+- [Upstream connection](https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats)
+- [Listener](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/stats)
+- [HTTP Connection Manager](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats)
+- [TCP proxy](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/tcp_proxy_filter#statistics)
+- [Router](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter.html?highlight=vhost#statistics)
 
 By default, Istio configures Envoy to record minimal statistics. The default collection
 keys are:
@@ -35,6 +35,7 @@ keys are:
 - `listener_manager`
 - `server`
 - `cluster.xds-grpc`
+- `wasm`
 
 To see the Envoy settings for statistics data collection use
 [`istioctl proxy-config bootstrap`](/docs/reference/commands/istioctl/#istioctl-proxy-config-bootstrap) and follow the
@@ -44,7 +45,7 @@ the `stats_matcher` JSON element.
 
 {{< tip >}}
 Note Envoy stats name highly depends on how Envoy configuration is composed, and thus could tie to Istio control plane implementation detail. 
-If you are building dashboard or alert based on Envoy stats, before upgrading your Istio, it is highly recommanded to examine the stats in a canary environment.
+If you are building dashboard or alert based on Envoy stats, before upgrading your Istio, it is highly recommended to examine the stats in a canary environment.
 {{< /tip >}}
 
 To configure Istio proxy to record additional statistics, you can add [`ProxyConfig.ProxyStatsMatcher`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyStatsMatcher) to your mesh config. For example, to enable stats for circuit breaker, retry, and upstream connections globally, you can specify stats matcher as follow:
@@ -71,5 +72,5 @@ proxy.istio.io/config: |-
 {{< /text >}}
 
 {{< tip >}}
-Note if you are using `sidecar.istio.io/statsInclusionPrefixes`, `sidecar.istio.io/statsInclusionRegexps`, and `sidecar.istio.io/statsInclusionSuffixes`, please consider switching to ProxyConfig based configuration as it provides global default and uniform way to override at gateway and sidecar proxy.
-{{< /tip >}}s
+Note if you are using `sidecar.istio.io/statsInclusionPrefixes`, `sidecar.istio.io/statsInclusionRegexps`, and `sidecar.istio.io/statsInclusionSuffixes`, please consider switching to `ProxyConfig` based configuration as it provides global default and uniform way to override at gateway and sidecar proxy.
+{{< /tip >}}
