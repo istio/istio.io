@@ -38,6 +38,13 @@ Some protocols are "Server First" protocols, which means the server will send th
 will not function correctly, as Istio will determine the protocol based on the initial bytes. If you are using a server first protocol, you should
 follow the explicit protocol selection instructions, below, to declare the protocol.
 
+Additionally, plaintext requests to servers configured in `mTLS` [`PERMISSIVE` mode](/docs/reference/config/security/peer_authentication/#PeerAuthentication-MutualTLS-Mode) will fail. 
+This can be addressed with any of the following steps:
+
+* Configure `mTLS` mode `STRICT` for the server. This will enforce all traffic is TLS encrypted.
+* Configure `mTLS` mode `DISABLE` for the server. This will disable the TLS sniffing, allowing server first protocols to be used
+* Configure all clients to send `TLS` traffic, generally through a [`DestinationRule](/docs/reference/config/networking/destination-rule/#ClientTLSSettings). 
+
 {{< tip >}}
 Since TLS communication is not server first, any TLS based traffic will support protocol detection, even if it is wrapping a protocol that does not support detection, such as MySQL.
 {{< /tip >}}
