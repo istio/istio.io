@@ -62,7 +62,7 @@ follow the instructions below.
     to the missing `istio-token` volume.
     {{< /warning >}}
 
-1. Install the Istio discovery (istiod) chart which deploys the `istiod` service:
+1. Install the Istio discovery chart which deploys the `istiod` service:
 
     {{< text bash >}}
     $ helm install --namespace istio-system istiod manifests/charts/istio-control/istio-discovery
