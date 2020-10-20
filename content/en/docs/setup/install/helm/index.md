@@ -1,5 +1,6 @@
 ---
-title: Customizable Install with Helm
+title: Install with Helm [Experimental]
+linktitle: Install with Helm
 description: Install and configure Istio for in-depth evaluation or production use.
 weight: 27
 keywords: [kubernetes,helm]
