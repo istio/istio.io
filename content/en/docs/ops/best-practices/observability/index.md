@@ -87,7 +87,7 @@ groups:
 
   - record: "workload:istio_tcp_connections_closed_total"
     expr: |
-      sum without(instance, namespace, pod) (istio_tcp_connections_opened_total)
+      sum without(instance, namespace, pod) (istio_tcp_connections_closed_total)
 
   - record: "workload:istio_tcp_sent_bytes_total_count"
     expr: |
