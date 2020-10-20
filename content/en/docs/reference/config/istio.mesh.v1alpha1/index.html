@@ -464,16 +464,17 @@ inclusion annotations
 <code>sidecar.istio.io/statsInclusionRegexps</code>, and
 <code>sidecar.istio.io/statsInclusionSuffixes</code>). For example, to enable stats
 for circuit breaker, retry, and upstream connections, you can specify stats
-matcher as follow:
-<code>yaml
-proxy_stats_matcher:
-  inclusion_regexps:
+matcher as follow:</p>
+
+<pre><code class="language-yaml">proxyStatsMatcher:
+  inclusionRegexps:
     - .*circuit_breakers.*
-  inclusion_prefixes:
+  inclusionPrefixes:
     - upstream_rq_retry
     - upstream_cx
-</code>yaml
-Note including more Envoy stats might increase number of time series
+</code></pre>
+
+<p>Note including more Envoy stats might increase number of time series
 collected by prometheus significantly. Care needs to be taken on Prometheus
 resource provision and configuration to reduce cardinality.</p>
 
@@ -960,6 +961,20 @@ No
 <p>This flag enables Envoy&rsquo;s gRPC Access Log Service.
 See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/accesslog/v2/als.proto">Access Log Service</a>
 for details about Envoy&rsquo;s gRPC Access Log Service API.
+Default value is <code>false</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-disable_envoy_listener_log">
+<td><code>disableEnvoyListenerLog</code></td>
+<td><code>bool</code></td>
+<td>
+<p>This flag disables Envoy Listener logs.
+See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#envoy-v3-api-field-config-listener-v3-listener-access-log">Listener Access Log</a>
+Istio Enables Envoy&rsquo;s listener access logs on &ldquo;NoRoute&rdquo; response flag.
 Default value is <code>false</code>.</p>
 
 </td>

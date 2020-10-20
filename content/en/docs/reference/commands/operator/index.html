@@ -153,6 +153,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
 </tr>
 <tr>
+<td><code>ENABLE_ADMIN_ENDPOINTS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, dangerous admin endpoins will be exposed on the debug interface. Not recommended for production.</td>
+</tr>
+<tr>
 <td><code>ENABLE_CA_SERVER</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -375,6 +381,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If set to false, virtualService delegate will not be supported.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Enables auto-registering WorkloadEntries based on associated WorkloadGroups upon XDS connection by the workload.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_XDS_CACHE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -469,6 +481,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, Pilot will use EndpointSlices as the source of endpoints for Kubernetes services. By default, this is false, and Endpoints will be used. This requires the Kubernetes EndpointSlice controller to be enabled. Currently this is mutual exclusive - either Endpoints or EndpointSlices will be used</td>
+</tr>
+<tr>
+<td><code>PILOT_WORKLOAD_ENTRY_GRACE_PERIOD</code></td>
+<td>Time Duration</td>
+<td><code>10s</code></td>
+<td>The amount of time an auto-registered workload can remain disconnected from all Pilot instances before the associated WorkloadEntry is cleaned up.</td>
 </tr>
 <tr>
 <td><code>PILOT_XDS_CACHE_SIZE</code></td>
