@@ -23,10 +23,10 @@ installing Istio via [Istioctl](/docs/setup/install/istioctl/) or the
 
 1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
 
-1. [Install a Helm client](https://helm.sh/docs/intro/install/) with a version higher than 3.1.
+1. [Install a Helm client](https://helm.sh/docs/intro/install/) with a version higher than 3.1.1.
 
     {{< warning >}}
-    Use a 3.x version of Helm. Helm 2 is not supported.
+    Helm 2 is not supported for installing Istio.
     {{< /warning >}}
 
 The commands in this guide use the Helm charts that are included in the Istio release package.
@@ -42,28 +42,27 @@ follow the instructions below.
     $ kubectl create namespace istio-system
     {{< /text >}}
 
-1. Install the Istio base chart which contains cluster level resources like
-   Custom Resource Definitions (CRDs), cluster role and cluster role bindings
-   and service accounts used by the Istio components:
+1. Install the Istio base chart which contains cluster-wide resources used by
+   the Istio control plane:
 
     {{< text bash >}}
     $ helm install --namespace istio-system istio-base manifests/charts/base
     {{< /text >}}
 
-1. Install the Istio discovery (istiod) chart which includes the Istio control
-   plane deployment and its associated configuration:
-
     {{< warning >}}
-    The default chart configuration uses the secure third party tokens for Service
-    Account token projections used by Istio proxies to authenticate with the Istio
-    control plane. Before proceeding to install this chart, you should verify
-    if third party tokens are enabled in your cluster by following the steps
+    The default chart configuration uses the secure third party tokens for service
+    account token projections used by Istio proxies to authenticate with the Istio
+    control plane. Before proceeding to install any of the charts below, you should
+    verify if third party tokens are enabled in your cluster by following the steps
     describe [here](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens).
     If third party tokens are not enabled, you should add the option
-    `--set global.jwtPolicy=first-party-jwt` to the following command.
-    If the `jwtPolicy` is not set correctly, the `istiod` pod will not get
-    deployed due to the missing `istio-token` volume.
+    `--set global.jwtPolicy=first-party-jwt` to the Helm install commands.
+    If the `jwtPolicy` is not set correctly, pods associated with `istiod`,
+    gateways or workloads with injected Envoy proxies will not get deployed due
+    to the missing `istio-token` volume.
     {{< /warning >}}
+
+1. Install the Istio discovery (istiod) chart which deploys the `istiod` service:
 
     {{< text bash >}}
     $ helm install --namespace istio-system istiod manifests/charts/istio-control/istio-discovery
@@ -72,22 +71,12 @@ follow the instructions below.
 1. (Optional) Install the Istio ingress gateway chart which contains the ingress
    gateway components:
 
-    {{< warning >}}
-    Ensure that third part tokens are enabled in your cluster or add `--set
-    global.jwtPolicy=first-party-jwt` to the following command.
-    {{< /warning >}}
-
     {{< text bash >}}
     $ helm install --namespace istio-system istio-ingress manifests/charts/gateways/istio-ingress
     {{< /text >}}
 
 1. (Optional) Install the Istio egress gateway chart which contains the egress
    gateway components:
-
-    {{< warning >}}
-    Ensure that third part tokens are enabled in your cluster or add `--set
-    global.jwtPolicy=first-party-jwt` to the following command.
-    {{< /warning >}}
 
     {{< text bash >}}
     $ helm install --namespace istio-system istio-egress manifests/charts/gateways/istio-egress
@@ -103,6 +92,20 @@ follow the instructions below.
     {{< /text >}}
 
 ## Upgrading using Helm
+
+Before upgrading Istio in your cluster, we recommend creating a backup of your
+custom configurations, and restoring it from backup if necessary:
+
+{{< text bash >}}
+$ kubectl get crds | grep 'istio.io' | cut -f1-1 -d "." | \
+    xargs -n1 -I{} sh -c "kubectl get --all-namespaces -o yaml {}; echo ---" > $HOME/ISTIO_RESOURCE_BACKUP.yaml
+{{< /text >}}
+
+You can restore your custom configuration like this:
+
+{{< text bash >}}
+$ kubectl apply -f $HOME/ISTIO_RESOURCE_BACKUP.yaml
+{{< /text >}}
 
 ### Migrating from non-Helm installations
 
@@ -156,7 +159,8 @@ preserve your custom configuration during Helm upgrades.
 ### Canary Upgrade
 
 You can install a canary version of Istio control plane to validate that the new
-version is compatible with your existing configuration using the steps below:
+version is compatible with your existing configuration and data plane using
+the steps below:
 
 1. Install a canary version of the Istio discovery chart by setting the revision
    value:
