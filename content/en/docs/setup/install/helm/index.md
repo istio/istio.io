@@ -9,6 +9,10 @@ icon: helm
 test: no
 ---
 
+{{< warning >}}
+This feature is actively in development and is considered `pre-alpha`.
+{{< /warning >}}
+
 Follow this guide to install and configure an Istio mesh using
 [Helm](https://helm.sh/docs/) for in-depth evaluation or production use.
 
