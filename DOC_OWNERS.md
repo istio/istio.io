@@ -21,7 +21,7 @@ There are 145 owned istio.io docs.
 - [docs/examples/microservices-istio/single/index.md](https://preliminary.istio.io/latest/docs/examples/microservices-istio/single)
 - [docs/reference/glossary/index.md](https://preliminary.istio.io/latest/docs/reference/glossary)
 
-## istio/wg-environments-maintainers: 36 docs
+## istio/wg-environments-maintainers: 37 docs
 
 - [docs/examples/virtual-machines/bookinfo/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/bookinfo)
 - [docs/examples/virtual-machines/multi-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/multi-network)
@@ -41,6 +41,7 @@ There are 145 owned istio.io docs.
 - [docs/setup/additional-setup/config-profiles/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/config-profiles)
 - [docs/setup/additional-setup/sidecar-injection/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/sidecar-injection)
 - [docs/setup/getting-started/index.md](https://preliminary.istio.io/latest/docs/setup/getting-started)
+- [docs/setup/install/helm/index.md](https://preliminary.istio.io/latest/docs/setup/install/helm)
 - [docs/setup/install/istioctl/index.md](https://preliminary.istio.io/latest/docs/setup/install/istioctl)
 - [docs/setup/install/multicluster/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster)
 - [docs/setup/install/operator/index.md](https://preliminary.istio.io/latest/docs/setup/install/operator)

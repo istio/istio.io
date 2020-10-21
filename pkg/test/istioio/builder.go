@@ -25,8 +25,9 @@ import (
 
 // Step builds a step of the test pipeline.
 type Step interface {
+	Name() string
 	// run this step.
-	run(ctx Context)
+	run(ctx framework.TestContext)
 }
 
 // Builder builds a test of a documented workflow from http://istio.io.
@@ -57,10 +58,6 @@ func (b *Builder) Build() func(ctx framework.TestContext) {
 	return func(ctx framework.TestContext) {
 		scopes.Framework.Infof("Executing test %s (%d steps)", ctx.Name(), len(b.steps))
 
-		eCtx := Context{
-			TestContext: ctx,
-		}
-
 		// create a symbolic link to samples/, for easy access
 		samplesSymlink := path.Join(ctx.WorkDir(), "samples")
 		if _, err := os.Stat(samplesSymlink); os.IsNotExist(err) {
@@ -77,12 +74,16 @@ func (b *Builder) Build() func(ctx framework.TestContext) {
 		// Run cleanup functions at the end.
 		defer func() {
 			for _, step := range b.cleanupSteps {
-				step.run(eCtx)
+				ctx.NewSubTest(step.Name()).Run(func(ctx framework.TestContext) {
+					step.run(ctx)
+				})
 			}
 		}()
 
 		for _, step := range b.steps {
-			step.run(eCtx)
+			ctx.NewSubTest(step.Name()).Run(func(ctx framework.TestContext) {
+				step.run(ctx)
+			})
 		}
 	}
 }

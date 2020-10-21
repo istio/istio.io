@@ -26,9 +26,10 @@ Send us a report whenever you:
 depends on. For example, Envoy, Docker, or Kubernetes.
 
 When in doubt, please disclose privately. This includes, but is not limited to:
-* Any crash, especially in Envoy
-* Any security policy (like Authentication or Authorization) bypass or weakness
-* Any potential Denial of Service (DoS)
+
+- Any crash, especially in Envoy
+- Any security policy (like Authentication or Authorization) bypass or weakness
+- Any potential Denial of Service (DoS)
 
 ### When not to report a security vulnerability?
 
