@@ -313,6 +313,8 @@ __create_cluster_snapshots() {
 }
 
 __cluster_cleanup_check() {
+    VERIFY_RETRIES=${VERIFY_RETRIES:-9}
+
     # Get the list of KUBECONFIG files as an array.
     IFS=':' read -r -a KFILES <<< "${KUBECONFIG}"
     for KFILE in "${KFILES[@]}"; do
@@ -330,7 +332,6 @@ __cluster_cleanup_check() {
         rm "${SNAPSHOT_FILE}"
 
         # Verify that we've restored the original cluster state.
-        VERIFY_RETRIES=9
         (KUBECONFIG="${KFILE}"; _verify_like __cluster_state "${SNAPSHOT}")
         echo "Finished cleanup check against snapshot ${SNAPSHOT_FILE}"
     done

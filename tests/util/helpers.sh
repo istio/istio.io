@@ -70,14 +70,48 @@ _set_ingress_environment_variables() {
 #   kubectl wait --for=condition=Ready pod --all --timeout=60s
 
 # Wait for rollout of named deployment
-# usage: _wait_for_deployment <namespace> <deployment name>
+# usage: _wait_for_deployment <namespace> <deployment name> <optional: context>
 _wait_for_deployment() {
     local namespace="$1"
     local name="$2"
-    if ! kubectl -n "$namespace" rollout status deployment "$name" --timeout 5m; then
+    local context="${3:-}"
+    if ! kubectl --context="$context" -n "$namespace" rollout status deployment "$name" --timeout 5m; then
         echo "Failed rollout of deployment $name in namespace $namespace"
         exit 1
     fi
+}
+
+# Wait for the given gateway to be allocated an external IP.
+# usage: _wait_for_gateway_ip <namespace> <service name> <optional: context>
+_wait_for_gateway_ip() {
+    local namespace="$1"
+    local service="$2"
+    local context="${3:-}"
+
+    local max_time=${MAX_SECONDS:-300} # Default to 5 min.
+    local delay=5
+
+    local start_time=$(date +%s)
+    local current_time=$start_time
+    local end_time=$((start_time + max_time))
+
+    while true; do
+        local ip=$(kubectl --context="${context}" get svc "${service}" -n "${namespace}" -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+        # Verify that the IP is set.
+        if [[ -n "${ip}" ]]; then
+            echo "IP Assigned for $service.$namespace: ${ip}"
+            return
+        fi
+
+        current_time=$(date +%s)
+        if (( current_time > end_time )); then
+            echo "Failed waiting for $service.$namespace: ${ip}"
+            exit 1
+        fi
+
+        sleep "${delay}"
+    done
 }
 
 # Wait for Istio config to propagate
