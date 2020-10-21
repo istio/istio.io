@@ -1,7 +1,7 @@
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
-There are 144 owned istio.io docs.
+There are 145 owned istio.io docs.
 
 ## istio/wg-docs-maintainers: 15 docs
 
@@ -60,7 +60,7 @@ There are 144 owned istio.io docs.
 - [docs/setup/platform-setup/openshift/index.md](https://preliminary.istio.io/latest/docs/setup/platform-setup/openshift)
 - [docs/setup/upgrade/index.md](https://preliminary.istio.io/latest/docs/setup/upgrade)
 
-## istio/wg-networking-maintainers: 24 docs
+## istio/wg-networking-maintainers: 25 docs
 
 - [docs/concepts/traffic-management/index.md](https://preliminary.istio.io/latest/docs/concepts/traffic-management)
 - [docs/ops/best-practices/traffic-management/index.md](https://preliminary.istio.io/latest/docs/ops/best-practices/traffic-management)
@@ -68,6 +68,7 @@ There are 144 owned istio.io docs.
 - [docs/ops/configuration/traffic-management/locality-load-balancing/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/traffic-management/locality-load-balancing)
 - [docs/ops/configuration/traffic-management/network-topologies/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/traffic-management/network-topologies)
 - [docs/ops/configuration/traffic-management/protocol-selection/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection)
+- [docs/ops/configuration/traffic-management/tls-configuration/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/traffic-management/tls-configuration)
 - [docs/tasks/traffic-management/circuit-breaking/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/circuit-breaking)
 - [docs/tasks/traffic-management/egress/egress-control/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/egress-control)
 - [docs/tasks/traffic-management/egress/egress-gateway-tls-origination/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway-tls-origination)
