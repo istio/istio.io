@@ -26,50 +26,46 @@ set_multi_network_vars
 
 function install_istio_on_cluster1 {
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
-
-    snip_install_istio_7
-    echo y | snip_install_istio_8
+    snip_configure_cluster1_as_a_primary_1
+    echo y | snip_configure_cluster1_as_a_primary_2
 
     echo "Creating the east-west gateway"
-    snip_install_istio_9
+    snip_install_the_eastwest_gateway_in_cluster1_1
 
     echo "Waiting for the east-west gateway to have an external IP"
     _wait_for_gateway_ip istio-system istio-eastwestgateway "${CTX_CLUSTER1}"
 
+    echo "Exposing istiod via the east-west gateway"
+    snip_expose_the_control_plane_in_cluster1_1
+
     echo "Exposing services via the east-west gateway"
-    snip_install_istio_10
+    snip_expose_services_in_cluster1_1
+}
+
+function enable_api_server_access {
+  snip_enable_api_server_access_to_cluster2_1
 }
 
 function install_istio_on_cluster2 {
-    echo "Installing Istio on Primary cluster: ${CTX_CLUSTER2}"
-
-    snip_install_istio_11
-    echo y | snip_install_istio_12
+    echo "Installing Istio on Remote cluster: ${CTX_CLUSTER2}"
+    snip_configure_cluster2_as_a_remote_1
+    snip_configure_cluster2_as_a_remote_2
+    echo y | snip_configure_cluster2_as_a_remote_3
 
     echo "Creating the east-west gateway"
-    snip_install_istio_13
+    snip_install_the_eastwest_gateway_in_cluster2_1
+
+    echo "Waiting for the east-west gateway to have an external IP"
+    _wait_for_gateway_ip istio-system istio-eastwestgateway "${CTX_CLUSTER2}"
 
     echo "Exposing services via the east-west gateway"
-    snip_install_istio_14
-}
-
-function install_istio {
-  # Install Istio on the 2 clusters. Executing in
-  # parallel to reduce test time.
-  install_istio_on_cluster1 &
-  install_istio_on_cluster2 &
-  wait
-}
-
-function configure_endpoint_discovery {
-  # Configure endpoint discovery.
-  snip_install_istio_15
-  snip_install_istio_16
+    snip_expose_services_in_cluster2_1
 }
 
 time configure_trust
-time install_istio
-time configure_endpoint_discovery
+time install_istio_on_cluster1
+time enable_api_server_access
+time install_istio_on_cluster2
 time verify_load_balancing
 
 # @cleanup

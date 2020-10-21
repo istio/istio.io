@@ -1,7 +1,7 @@
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
-There are 146 owned istio.io docs.
+There are 150 owned istio.io docs.
 
 ## istio/wg-docs-maintainers: 15 docs
 
@@ -21,7 +21,7 @@ There are 146 owned istio.io docs.
 - [docs/examples/microservices-istio/single/index.md](https://preliminary.istio.io/latest/docs/examples/microservices-istio/single)
 - [docs/reference/glossary/index.md](https://preliminary.istio.io/latest/docs/reference/glossary)
 
-## istio/wg-environments-maintainers: 37 docs
+## istio/wg-environments-maintainers: 41 docs
 
 - [docs/examples/virtual-machines/bookinfo/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/bookinfo)
 - [docs/examples/virtual-machines/multi-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/multi-network)
@@ -44,6 +44,10 @@ There are 146 owned istio.io docs.
 - [docs/setup/install/helm/index.md](https://preliminary.istio.io/latest/docs/setup/install/helm)
 - [docs/setup/install/istioctl/index.md](https://preliminary.istio.io/latest/docs/setup/install/istioctl)
 - [docs/setup/install/multicluster/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster)
+- [docs/setup/install/multicluster/multi-primary/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/multi-primary)
+- [docs/setup/install/multicluster/multi-primary_multi-network/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/multi-primary_multi-network)
+- [docs/setup/install/multicluster/primary-remote/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/primary-remote)
+- [docs/setup/install/multicluster/primary-remote_multi-network/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/primary-remote_multi-network)
 - [docs/setup/install/operator/index.md](https://preliminary.istio.io/latest/docs/setup/install/operator)
 - [docs/setup/install/virtual-machine/index.md](https://preliminary.istio.io/latest/docs/setup/install/virtual-machine)
 - [docs/setup/platform-setup/MicroK8s/index.md](https://preliminary.istio.io/latest/docs/setup/platform-setup/MicroK8s)
