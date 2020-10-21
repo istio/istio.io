@@ -83,7 +83,7 @@ Notice that it may take tens of seconds for the authorization policy to be propa
 
 ## Migrate trust domain without trust domain aliases
 
-1. Install Istio with a new trust domain and trust domain aliases.
+1. Install Istio with a new trust domain.
 
     {{< text bash >}}
     $ istioctl install --set profile=demo --set meshConfig.trustDomain=new-td
@@ -129,11 +129,10 @@ Notice that it may take tens of seconds for the authorization policy to be propa
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
-      values:
-        global:
-          trustDomain: new-td
-          trustDomainAliases:
-            - old-td
+      meshConfig:
+        trustDomain: new-td
+        trustDomainAliases:
+          - old-td
     EOF
     $ istioctl install --set profile=demo -f td-installation.yaml -y
     {{< /text >}}
