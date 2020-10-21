@@ -1,7 +1,7 @@
 ---
 title: Understanding TLS Configuration
 linktitle: TLS Configuration
-description: How to ... .
+description: How to configure TLS settings to secure network traffic.
 weight: 30
 keywords: [traffic-management,proxy]
 owner: istio/wg-networking-maintainers
@@ -51,7 +51,7 @@ Sidecar traffic has a variety of associated connections. Let's break them down o
     [`DestinationRule` resource](/docs/reference/config/networking/destination-rule/).
     A mode setting of `DISABLE` will send plaintext, while `SIMPLE`, `MUTUAL`, and `ISTIO_MUTUAL` will originate a TLS connection.
 
-The key take-aways are:
+The key takeaways are:
 
 - `PeerAuthentication` is used to configure what type of mTLS traffic the sidecar will accept.
 - `DestinationRule` is used to configure what type of TLS traffic the sidecar will send.
@@ -60,7 +60,7 @@ The key take-aways are:
 ## Auto mTLS
 
 As described above, a `DestinationRule` controls whether outgoing traffic uses mTLS or not.
-However, configuring this for every workload can be tedious. Typically, you want Istio to alway use mTLS
+However, configuring this for every workload can be tedious. Typically, you want Istio to always use mTLS
 wherever possible, and only send plaintext to workloads that are not part of the mesh (i.e., ones without sidecars).
 
 Istio makes this easy with a feature called "Auto mTLS". Auto mTLS works by doing exactly that. If TLS settings are
@@ -116,7 +116,7 @@ For TLS connections, there are a few more options:
     Otherwise, for a raw TCP connection encapsulated with TLS, the protocol should be set to `TLS`.
 
 1. Is the TLS connection terminated or passed through?
-    For passthrough traffic, we configure the tls mode field to `PASSTHROUGH`:
+    For passthrough traffic, configure the TLS mode field to `PASSTHROUGH`:
 
     {{< text yaml >}}
     apiVersion: networking.istio.io/v1beta1
@@ -134,7 +134,7 @@ For TLS connections, there are a few more options:
     In this mode, Istio will route based on SNI information and forward the connection as-is to the destination.
 
 1. Should mutual TLS be used?
-    Mutual TLS can be configured through the tls mode `MUTUAL`. When this is configured, a client certificate will be
+    Mutual TLS can be configured through the TLS mode `MUTUAL`. When this is configured, a client certificate will be
     requested and verified against the configured `caCertificates` or `credentialName`:
 
     {{< text yaml >}}

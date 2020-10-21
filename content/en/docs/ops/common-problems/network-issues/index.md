@@ -235,7 +235,7 @@ server {
 
 ## TLS configuration mistakes
 
-Many traffic managment problems
+Many traffic management problems
 are caused by incorrect [TLS configuration](/docs/ops/configuration/traffic-management/tls-configuration/).
 The following sections describe some of the most common misconfigurations.
 
@@ -263,7 +263,7 @@ spec:
 Although the above configuration may be correct if you are intentionally sending plaintext on port 443 (e.g., `curl http://httpbin.org:443`),
 generally port 443 is dedicated for HTTPS traffic.
 
-Sending an HTTPS request like `curl https://httpbin.org`, which defaults to port 443, will result in an error something like
+Sending an HTTPS request like `curl https://httpbin.org`, which defaults to port 443, will result in an error like
 `curl: (35) error:1408F10B:SSL routines:ssl3_get_record:wrong version number`.
 The access logs may also show an error like `400 DPE`.
 
@@ -329,7 +329,7 @@ The TLS route rules will have no effect since the TLS is already terminated when
 
 With this misconfiguration, you will end up getting 404 responses because the requests will be
 sent to HTTP routing but there are no HTTP routes configured.
-You can can confirm this using the `istioctl proxy-config routes` command.
+You can confirm this using the `istioctl proxy-config routes` command.
 
 To fix this problem, you should switch the virtual service to specify `http` routing, instead of `tls`:
 
@@ -436,7 +436,7 @@ spec:
 
 With this configuration, the sidecar expects the application to send TLS traffic on port 443
 (e.g., `curl https://httpbin.org`), but it will also perform TLS origination before forwarding requests.
-This will cause the reqeusts to be double encrypted.
+This will cause the requests to be double encrypted.
 
 For example, sending a request like `curl https://httpbin.org` will result in an error:
 `(35) error:1408F10B:SSL routines:ssl3_get_record:wrong version number`.
@@ -453,13 +453,21 @@ spec:
     protocol: HTTP
 {{< /text >}}
 
-Your application will then need to send plaintext requests, like `curl http://httpbin.org:443`.
-Note that the plaintext requests must be sent on port 443 in this case, because TLS origination does not change the port.
+Note that with this configuration your application will need to send plaintext requests to port 433,
+like `curl http://httpbin.org:443`, because TLS origination does not change the port.
+However, starting in Istio 1.8, you can expose HTTP port 80 to the application (e.g., `curl http://httpbin.org`)
+and then redirect requests to `targetPort` 443 for the TLS origination:
 
-Another, and better, way to configure TLS origination is by exposing HTTP port 80 to the application (e.g., `curl http://httpbin.org`)
-and then redirect port 80 to HTTPS port 443 with TLS origination.
-Refer to the [TLS origination task](/docs/tasks/traffic-management/egress/egress-tls-origination/#tls-origination-for-egress-traffic)
-for more details.
+{{< text yaml >}}
+spec:
+  hosts:
+  - httpbin.org
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+    targetPort: 443
+{{< /text >}}
 
 ### 404 errors occur when multiple gateways configured with same TLS certificate
 
