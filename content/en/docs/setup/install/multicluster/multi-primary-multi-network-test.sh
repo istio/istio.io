@@ -25,38 +25,59 @@ source content/en/docs/setup/install/multicluster/common.sh
 set_multi_network_vars
 
 function install_istio_on_cluster1 {
-  snip_install_istio_7
-  echo y | snip_install_istio_8
+    echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
 
-  # Expose services through the east-west gateway.
-  snip_install_istio_9
-  snip_install_istio_10
+    snip_install_istio_7
+    echo y | snip_install_istio_8
+
+    echo "Creating the east-west gateway"
+    snip_install_istio_9
+
+    echo "Waiting for the east-west gateway to have an external IP"
+    _wait_for_gateway_ip istio-system istio-eastwestgateway "${CTX_CLUSTER1}"
+
+    echo "Exposing services via the east-west gateway"
+    snip_install_istio_10
 }
 
 function install_istio_on_cluster2 {
-  snip_install_istio_11
-  echo y | snip_install_istio_12
+    echo "Installing Istio on Primary cluster: ${CTX_CLUSTER2}"
 
-  # Expose services through the east-west gateway.
-  snip_install_istio_13
-  snip_install_istio_14
+    snip_install_istio_11
+    echo y | snip_install_istio_12
+
+    echo "Creating the east-west gateway"
+    snip_install_istio_13
+
+    echo "Exposing services via the east-west gateway"
+    snip_install_istio_14
 }
 
-# Install Istio on the 2 clusters. Executing in
-# parallel to reduce test time.
-install_istio_on_cluster1 &
-install_istio_on_cluster2 &
-wait
+function install_istio {
+  # Install Istio on the 2 clusters. Executing in
+  # parallel to reduce test time.
+  install_istio_on_cluster1 &
+  install_istio_on_cluster2 &
+  wait
+}
 
-# Configure endpoint discovery.
-snip_install_istio_15
-snip_install_istio_16
+function configure_endpoint_discovery {
+  # Configure endpoint discovery.
+  snip_install_istio_15
+  snip_install_istio_16
+}
 
-# Verify that traffic is properly load balanced.
-verify_load_balancing
+time configure_trust
+time install_istio
+time configure_endpoint_discovery
+time verify_load_balancing
 
 # @cleanup
 source content/en/docs/setup/install/multicluster/common.sh
 set +e # ignore cleanup errors
 set_multi_network_vars
-cleanup
+time cleanup
+
+# Everything should be removed once cleanup completes. Use a small
+# number of retries for comparing cluster snapshots before/after the test.
+export VERIFY_RETRIES=1

@@ -25,34 +25,43 @@ source content/en/docs/setup/install/multicluster/common.sh
 set_single_network_vars
 
 function install_istio_on_cluster1 {
-  snip_install_istio_17
-  echo y | snip_install_istio_18
+    echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
+    snip_install_istio_17
+    echo y | snip_install_istio_18
 
-  # Expose istiod via east-west gateway.
-  snip_install_istio_19
-  snip_install_istio_20
+    echo "Creating the east-west gateway"
+    snip_install_istio_19
+
+    echo "Waiting for the east-west gateway to have an external IP"
+    _wait_for_gateway_ip istio-system istio-eastwestgateway "${CTX_CLUSTER1}"
+
+    echo "Exposing istiod via the east-west gateway"
+    snip_install_istio_20
 }
 
 function install_istio_on_cluster2 {
-  snip_install_istio_21
-  snip_install_istio_22
-  echo y | snip_install_istio_23
+    echo "Installing Istio on Remote cluster: ${CTX_CLUSTER2}"
+    snip_install_istio_22
+    snip_install_istio_23
+    echo y | snip_install_istio_24
 }
 
-# Install Istio on the 2 clusters. Executing in
-# parallel to reduce test time.
-install_istio_on_cluster1 &
-install_istio_on_cluster2 &
-wait
+function configure_api_server_access {
+  snip_install_istio_21
+}
 
-# Configure endpoint discovery.
-snip_install_istio_24
-
-# Verify that traffic is properly load balanced.
-verify_load_balancing
+time configure_trust
+time install_istio_on_cluster1
+time configure_api_server_access
+time install_istio_on_cluster2
+time verify_load_balancing
 
 # @cleanup
 source content/en/docs/setup/install/multicluster/common.sh
 set +e # ignore cleanup errors
 set_single_network_vars
-cleanup
+time cleanup
+
+# Everything should be removed once cleanup completes. Use a small
+# number of retries for comparing cluster snapshots before/after the test.
+export VERIFY_RETRIES=1
