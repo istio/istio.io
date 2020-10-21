@@ -328,6 +328,16 @@ traffic.
     caption="Primary and remote clusters on the same network"
     >}}
 
+{{< tip >}}
+Today, the remote profile will install an istiod server in the remote
+cluster which will be used for CA and webhook injection for workloads
+in that cluster. Service discovery, however, will be directed to the
+control plane in the primary cluster.
+
+Future releases will remove the need for having an istiod in the
+remote cluster altogether. Stay tuned!
+{{< /tip >}}
+
 <h3>Configure cluster1 as a primary with control plane exposed</h3>
 
 Create the Istio configuration for `cluster1`:
@@ -414,6 +424,7 @@ $ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  profile: remote
   values:
     global:
       meshID: mesh1
@@ -456,6 +467,16 @@ same east-west gateway.
     link="primary-remote-multi-network.svg"
     caption="Primary and remote clusters on separate networks"
     >}}
+
+{{< tip >}}
+Today, the remote profile will install an istiod server in the remote
+cluster which will be used for CA and webhook injection for workloads
+in that cluster. Service discovery, however, will be directed to the
+control plane in the primary cluster.
+
+Future releases will remove the need for having an istiod in the
+remote cluster altogether. Stay tuned!
+{{< /tip >}}
 
 <h3>Configure cluster1 as a primary with control plane and services exposed</h3>
 
@@ -553,6 +574,7 @@ $ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  profile: remote
   values:
     global:
       meshID: mesh1
