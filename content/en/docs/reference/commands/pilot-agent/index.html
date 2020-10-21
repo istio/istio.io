@@ -566,7 +566,7 @@ remove_toc_prefix: 'pilot-agent '
 </tbody>
 </table>
 <h2 id="envvars">Environment variables</h2>
-These environment variables affect the behavior of the <code>pilot-agent</code> command.
+These environment variables affect the behavior of the <code>pilot-agent</code> command. Please use with caution as these environment variables are experimental and can change anytime.
 <table class="envvars">
 <thead>
 <tr>
@@ -1148,6 +1148,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td></td>
 </tr>
 <tr>
+<td><code>SERVICE_ACCOUNT</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Name of service account</td>
+</tr>
+<tr>
 <td><code>SKIP_PARSE_TOKEN</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1176,12 +1182,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code>istio-ca</code></td>
 <td>A list of comma separated audiences to check in the JWT token before issuing a certificate. The token is accepted if it matches with one of the audiences</td>
-</tr>
-<tr>
-<td><code>TRUST_DOMAIN</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>The trust domain for spiffe certificates</td>
 </tr>
 <tr>
 <td><code>USE_TOKEN_FOR_CSR</code></td>

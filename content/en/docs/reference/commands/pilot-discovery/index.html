@@ -461,7 +461,7 @@ remove_toc_prefix: 'pilot-discovery '
 </tbody>
 </table>
 <h2 id="envvars">Environment variables</h2>
-These environment variables affect the behavior of the <code>pilot-discovery</code> command.
+These environment variables affect the behavior of the <code>pilot-discovery</code> command. Please use with caution as these environment variables are experimental and can change anytime.
 <table class="envvars">
 <thead>
 <tr>
@@ -551,6 +551,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
 </tr>
 <tr>
+<td><code>EXTERNAL_CA</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>External CA Type</td>
+</tr>
+<tr>
 <td><code>EXTERNAL_ISTIOD</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -621,6 +627,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>K8S_SIGNER</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Kubernates CA Signer type. Valid from Kubernates 1.18</td>
 </tr>
 <tr>
 <td><code>KUBERNETES_SERVICE_HOST</code></td>
