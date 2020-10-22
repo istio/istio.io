@@ -88,6 +88,21 @@ Follow these steps to get started with Istio:
     ✔ Installation complete
     {{< /text >}}
 
+    {{< warning >}}
+    If you use OpenShift, the `openshift` profile should be used instead.
+
+    {{< text bash >}}
+    $ istioctl install -f manifests/profiles/openshift.yaml
+    Detected that your cluster does not support third party JWT authentication.
+    Falling back to less secure first party JWT. See https://istio.io/docs/ops/best-practices/security/#configure-third-party-service-account-tokens for details.
+    ✔ Istio core installed
+    ✔ Istiod installed
+    ✔ CNI installed
+    ✔ Ingress gateways installed
+    ✔ Installation complete
+    {{< /text >}}
+    {{< /warning >}}
+
 1.  Add a namespace label to instruct Istio to automatically inject Envoy
     sidecar proxies when you deploy your application later:
 
