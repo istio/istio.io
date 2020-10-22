@@ -77,7 +77,7 @@ You're now ready to install an Istio mesh across multiple clusters. The
 particular steps will depend on your requirements for network and
 control plane topology.
 
-Choose the installation that best fit your needs:
+Choose the installation that best fits your needs:
 
 {{< tip >}}
 For meshes that span more than two clusters, you may need to use more than
