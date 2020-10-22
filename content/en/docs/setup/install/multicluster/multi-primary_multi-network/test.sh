@@ -22,18 +22,38 @@ set -u
 set -o pipefail
 
 source content/en/docs/setup/install/multicluster/common.sh
-set_single_network_vars
+set_multi_network_vars
 
 function install_istio_on_cluster1 {
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
-    snip_install_istio_1
-    echo y | snip_install_istio_2
+
+    snip_configure_cluster1_as_a_primary_1
+    echo y | snip_configure_cluster1_as_a_primary_2
+
+    echo "Creating the east-west gateway"
+    snip_install_the_eastwest_gateway_in_cluster1_1
+
+    echo "Waiting for the east-west gateway to have an external IP"
+    _wait_for_gateway_ip istio-system istio-eastwestgateway "${CTX_CLUSTER1}"
+
+    echo "Exposing services via the east-west gateway"
+    snip_expose_services_in_cluster1_1
 }
 
 function install_istio_on_cluster2 {
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER2}"
-    snip_install_istio_3
-    echo y | snip_install_istio_4
+
+    snip_configure_cluster2_as_a_primary_1
+    echo y | snip_configure_cluster2_as_a_primary_2
+
+    echo "Creating the east-west gateway"
+    snip_install_the_eastwest_gateway_in_cluster2_1
+
+    echo "Waiting for the east-west gateway to have an external IP"
+    _wait_for_gateway_ip istio-system istio-eastwestgateway "${CTX_CLUSTER2}"
+
+    echo "Exposing services via the east-west gateway"
+    snip_expose_services_in_cluster2_1
 }
 
 function install_istio {
@@ -44,21 +64,20 @@ function install_istio {
   wait
 }
 
-function configure_endpoint_discovery {
-  # Configure endpoint discovery.
-  snip_install_istio_5
-  snip_install_istio_6
+function enable_endpoint_discovery {
+  snip_enable_endpoint_discovery_1
+  snip_enable_endpoint_discovery_2
 }
 
 time configure_trust
 time install_istio
-time configure_endpoint_discovery
+time enable_endpoint_discovery
 time verify_load_balancing
 
 # @cleanup
 source content/en/docs/setup/install/multicluster/common.sh
 set +e # ignore cleanup errors
-set_single_network_vars
+set_multi_network_vars
 time cleanup
 
 # Everything should be removed once cleanup completes. Use a small

@@ -26,33 +26,33 @@ set_single_network_vars
 
 function install_istio_on_cluster1 {
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
-    snip_install_istio_17
-    echo y | snip_install_istio_18
+    snip_configure_cluster1_as_a_primary_1
+    echo y | snip_configure_cluster1_as_a_primary_2
 
     echo "Creating the east-west gateway"
-    snip_install_istio_19
+    snip_install_the_eastwest_gateway_in_cluster1_1
 
     echo "Waiting for the east-west gateway to have an external IP"
     _wait_for_gateway_ip istio-system istio-eastwestgateway "${CTX_CLUSTER1}"
 
     echo "Exposing istiod via the east-west gateway"
-    snip_install_istio_20
+    snip_expose_the_control_plane_in_cluster1_1
+}
+
+function enable_api_server_access {
+  snip_enable_api_server_access_to_cluster2_1
 }
 
 function install_istio_on_cluster2 {
     echo "Installing Istio on Remote cluster: ${CTX_CLUSTER2}"
-    snip_install_istio_22
-    snip_install_istio_23
-    echo y | snip_install_istio_24
-}
-
-function configure_api_server_access {
-  snip_install_istio_21
+    snip_configure_cluster2_as_a_remote_1
+    snip_configure_cluster2_as_a_remote_2
+    echo y | snip_configure_cluster2_as_a_remote_3
 }
 
 time configure_trust
 time install_istio_on_cluster1
-time configure_api_server_access
+time enable_api_server_access
 time install_istio_on_cluster2
 time verify_load_balancing
 

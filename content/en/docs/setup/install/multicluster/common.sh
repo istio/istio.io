@@ -18,6 +18,8 @@
 # Initialize KUBECONFIG_FILES and KUBE_CONTEXTS
 _set_kube_vars
 
+source content/en/docs/setup/install/multicluster/verify/snips.sh
+
 # set_single_network_vars initializes all variables for a single network config.
 function set_single_network_vars
 {
