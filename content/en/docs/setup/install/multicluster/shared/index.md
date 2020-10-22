@@ -143,7 +143,7 @@ spec:
       meshNetworks:
         ${MAIN_CLUSTER_NETWORK}:
           endpoints:
-          - fromRegistry:  ${MAIN_CLUSTER_NAME}
+          - fromRegistry: ${MAIN_CLUSTER_NAME}
           gateways:
           - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
             port: 443
@@ -181,7 +181,7 @@ spec:
       meshNetworks:
         ${MAIN_CLUSTER_NETWORK}:
           endpoints:
-          - fromRegistry:  ${MAIN_CLUSTER_NAME}
+          - fromRegistry: ${MAIN_CLUSTER_NAME}
           gateways:
           - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
             port: 443
@@ -196,6 +196,8 @@ spec:
   # Change the Istio service `type=LoadBalancer` and add the cloud provider specific annotations. See
   # https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer for more
   # information. The example below shows the configuration for GCP/GKE.
+  # If the GCP/GKE version is less than 1.16, add `network.gke.io/internal-load-balancer-allow-global-access: "true"` to the `service_annotations`.
+  # See https://stackoverflow.com/questions/59680679/gcp-internal-load-balancer-global-access-beta-annotation-does-not-work?answertab=active#tab-top.
   components:
     pilot:
       k8s:
