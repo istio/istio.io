@@ -143,12 +143,13 @@ accessible to `istioctl` by using this command:
 {{< text bash >}}
 $ istioctl profile list
 Istio configuration profiles:
-    minimal
-    preview
-    remote
     default
     demo
     empty
+    minimal
+    openshift
+    preview
+    remote
 {{< /text >}}
 
 ## Display the configuration of a profile
