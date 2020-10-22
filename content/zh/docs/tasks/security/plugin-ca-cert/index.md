@@ -15,7 +15,7 @@ aliases:
 
 假设我们想让 Istio 的 CA 使用现有的 `ca-cert.pem` 证书和 `ca-key.pem`，其中 `ca-cert.pem` 是由 `root-cert.pem` 根证书签发的，我们也准备使用 `root-cert.pem` 作为 Istio 工作负载的根证书。
 
-下面的例子中，Istio CA 的签署（CA）证书（`root-cert.pem`）不同于根证书（`root-cert.pem`），因此工作负载无法使用根证书进行证书校验。工作负载需要一个 `cert-chain.pem` 文件作为信任链，其中需要包含所有从根证书到工作负载证书之间的中间 CA。在我们的例子中，它包含了 Istio CA 的签署证书，所以 `cert-chain.pem` 和 `ca-cert.pem` 是一致的。注意，如果你的 `ca-cert.pem` 和 `ca-cert.pem` 是一致的，那么 `cert-chain.pem` 就是个空文件了。
+下面的例子中，Istio CA 的签署（CA）证书（`root-cert.pem`）不同于根证书（`root-cert.pem`），因此工作负载无法使用根证书进行证书校验。工作负载需要一个 `cert-chain.pem` 文件作为信任链，其中需要包含所有从根证书到工作负载证书之间的中间 CA。在我们的例子中，它包含了 Istio CA 的签署证书，所以 `cert-chain.pem` 和 `ca-cert.pem` 是一致的。注意，如果你的 `ca-cert.pem` 和 `root-cert.pem` 是一致的，那么 `cert-chain.pem` 就是个空文件了。
 
 这些文件都会在 `samples/certs/` 目录中准备就绪提供使用。
 
