@@ -1,42 +1,26 @@
 ---
-title: Install Multicluster
-description: Install an Istio mesh across multiple Kubernetes clusters.
-weight: 30
+title: Before you begin
+description: Initial steps before installing Istio on multiple clusters.
+weight: 1
 icon: setup
-aliases:
-    - /docs/setup/kubernetes/multicluster-install/
-    - /docs/setup/kubernetes/multicluster/
-    - /docs/setup/kubernetes/install/multicluster/
 keywords: [kubernetes,multicluster]
-simple_list: true
-content_above: true
 test: n/a
 owner: istio/wg-environments-maintainers
 ---
-Follow this guide to install an Istio {{< gloss >}}service mesh{{< /gloss >}}
-that spans multiple {{< gloss "cluster" >}}clusters{{< /gloss >}}.
-
-This guide covers some of the most common concerns when creating a
-{{< gloss >}}multicluster{{< /gloss >}} mesh:
-
-- [Network topologies](/docs/ops/deployment/deployment-models#network-models):
-  one or two networks
-
-- [Control plane topologies](/docs/ops/deployment/deployment-models#control-plane-models):
-  multiple {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}},
-  a primary and {{< gloss >}}remote cluster{{< /gloss >}}
-
-## Before you begin
-
-Before you begin, review the [deployment models guide](/docs/ops/deployment/deployment-models)
+Before you begin a multicluster installation, review the
+[deployment models guide](/docs/ops/deployment/deployment-models)
 which describes the foundational concepts used throughout this guide.
 
 In addition, review the requirements and perform the initial steps below.
 
-### Requirements
+## Requirements
+
+### Cluster
 
 This guide requires that you have two Kubernetes clusters with any of the
 [supported Kubernetes versions](/docs/setup/platform-setup).
+
+### API Server Access
 
 The API Server in each cluster must be accessible to the other clusters in the
 mesh. Many cloud providers make API Servers publicly accessible via network
@@ -46,7 +30,7 @@ have to modify the installation procedure to enable access. For example, the
 the multi-network and primary-remote configurations below could also be used
 to enable access to the API Server.
 
-### Environment Variables
+## Environment Variables
 
 This guide will refer to two clusters named `cluster1` and `cluster2`. The following
 environment variables will be used throughout to simplify the instructions:
@@ -63,7 +47,7 @@ $ export CTX_CLUSTER1=cluster1
 $ export CTX_CLUSTER2=cluster2
 {{< /text >}}
 
-### Configure Trust
+## Configure Trust
 
 A multicluster service mesh deployment requires that you establish trust
 between all clusters in the mesh. Depending on the requirements for your
@@ -87,23 +71,28 @@ CA typically requires reinstalling Istio. The installation instructions
 below may have to be altered based on your choice of CA.
 {{< /tip >}}
 
-## Install Istio
+## Next steps
 
-The steps for installing Istio on multiple clusters depend on your
-requirements for network and control plane topology. Choose the steps
-below that best fit your needs.
+You're now ready to install an Istio mesh across multiple clusters. The
+particular steps will depend on your requirements for network and
+control plane topology.
 
-- [Multi-Primary](/docs/setup/install/multicluster/multi-primary)
-
-- [Multi-Primary on Different Networks](/docs/setup/install/multicluster/multi-primary_multi-network)
-
-- [Primary-Remote](/docs/setup/install/multicluster/primary-remote)
-
-- [Primary-Remote on Different Networks](/docs/setup/install/multicluster/primary-remote_multi-network)
+Choose the installation that best fit your needs:
 
 {{< tip >}}
-Meshes spanning many clusters may employ more than one of these options.
+For meshes that span more than two clusters, you may need to use more than
+one of these options. For example, you may have a primary cluster per region
+(i.e. multi-primary) where each zone has a remote cluster that uses the
+control plane in the regional primary (i.e. primary-remote).
 
 See [deployment models](/docs/ops/deployment/deployment-models) for more
 information.
 {{< /tip >}}
+
+- [Install Multi-Primary](/docs/setup/install/multicluster/multi-primary)
+
+- [Install Primary-Remote](/docs/setup/install/multicluster/primary-remote)
+
+- [Install Multi-Primary on Different Networks](/docs/setup/install/multicluster/multi-primary_multi-network)
+
+- [Install Primary-Remote on Different Networks](/docs/setup/install/multicluster/primary-remote_multi-network)
