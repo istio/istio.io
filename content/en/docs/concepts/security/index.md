@@ -656,6 +656,9 @@ schemas:
    that a field must be present, use the `fieldname: ["*"]`format. This is
    different from leaving a field unspecified, which means match anything,
    including empty.
+- Regex match: `"regex:"` is used as special prefix. Anything after "regex:" is 
+   interpreted as regular expression. For example, `'regex:abc.com\/[0-9]?'`
+   matches `"abc.com/"`, `"abc.com/0"`, etc.
 
 There are a few exceptions. For example, the following fields only support exact
 match:
@@ -665,7 +668,7 @@ match:
 - The `ports` field under the `to` section
 
 The following example policy allows access at paths with the `/test/*` prefix
-or the `*/info` suffix.
+or the `*/info` suffix, or paths that match regex expression `abc.com\/[0-9]?`.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -681,7 +684,7 @@ spec:
   rules:
   - to:
     - operation:
-        paths: ["/test/*", "*/info"]
+        paths: ["/test/*", "*/info", 'regex:abc.com\/[0-9]?']
 {{< /text >}}
 
 #### Exclusion matching
