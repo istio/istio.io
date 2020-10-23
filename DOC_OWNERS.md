@@ -121,7 +121,7 @@ There are 155 owned istio.io docs.
 - [docs/tasks/observability/metrics/tcp-metrics/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/metrics/tcp-metrics)
 - [docs/tasks/observability/metrics/using-istio-dashboard/index.md](https://preliminary.istio.io/latest/docs/tasks/observability/metrics/using-istio-dashboard)
 
-## istio/wg-security-maintainers: 17 docs
+## istio/wg-security-maintainers: 18 docs
 
 - [docs/concepts/security/index.md](https://preliminary.istio.io/latest/docs/concepts/security)
 - [docs/ops/best-practices/security/index.md](https://preliminary.istio.io/latest/docs/ops/best-practices/security)
@@ -137,6 +137,7 @@ There are 155 owned istio.io docs.
 - [docs/tasks/security/authorization/authz-jwt/index.md](https://preliminary.istio.io/latest/docs/tasks/security/authorization/authz-jwt)
 - [docs/tasks/security/authorization/authz-tcp/index.md](https://preliminary.istio.io/latest/docs/tasks/security/authorization/authz-tcp)
 - [docs/tasks/security/authorization/authz-td-migration/index.md](https://preliminary.istio.io/latest/docs/tasks/security/authorization/authz-td-migration)
+- [docs/tasks/security/cert-management/custom-ca-k8s/index.md](https://preliminary.istio.io/latest/docs/tasks/security/cert-management/custom-ca-k8s)
 - [docs/tasks/security/cert-management/dns-cert/index.md](https://preliminary.istio.io/latest/docs/tasks/security/cert-management/dns-cert)
 - [docs/tasks/security/cert-management/plugin-ca-cert/index.md](https://preliminary.istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert)
 - [docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds)
