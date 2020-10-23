@@ -21,12 +21,9 @@
 ####################################################################################################
 
 snip_set_the_default_network_for_cluster1_1() {
-}
-
-! read -r -d '' snip_set_the_default_network_for_cluster1_1_out <<\ENDSNIP
 kubectl --context="${CTX_CLUSTER1}" get namespace istio-system && \
-kubectl --context="${CTX_CLUSTER1}" label namespace istio-system topology.istio.io/network=network1
-ENDSNIP
+  kubectl --context="${CTX_CLUSTER1}" label namespace istio-system topology.istio.io/network=network1
+}
 
 snip_configure_cluster1_as_a_primary_1() {
 cat <<EOF > cluster1.yaml
@@ -64,12 +61,9 @@ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
 }
 
 snip_set_the_default_network_for_cluster2_1() {
-}
-
-! read -r -d '' snip_set_the_default_network_for_cluster2_1_out <<\ENDSNIP
 kubectl --context="${CTX_CLUSTER2}" get namespace istio-system && \
-kubectl --context="${CTX_CLUSTER2}" label namespace istio-system topology.istio.io/network=network2
-ENDSNIP
+  kubectl --context="${CTX_CLUSTER2}" label namespace istio-system topology.istio.io/network=network2
+}
 
 snip_enable_api_server_access_to_cluster2_1() {
 istioctl x create-remote-secret \

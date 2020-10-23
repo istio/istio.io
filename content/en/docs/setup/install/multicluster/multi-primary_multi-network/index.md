@@ -33,8 +33,8 @@ traffic. The gateway in each cluster must be reachable from the other cluster.
 If the istio-system namespace is already created, we need to set the cluster's network there:
 
 {{< text bash >}}
-kubectl --context="${CTX_CLUSTER1}" get namespace istio-system && \
-kubectl --context="${CTX_CLUSTER1}" label namespace istio-system topology.istio.io/network=network1
+$ kubectl --context="${CTX_CLUSTER1}" get namespace istio-system && \
+  kubectl --context="${CTX_CLUSTER1}" label namespace istio-system topology.istio.io/network=network1
 {{< /text >}}
 
 ## Configure `cluster1` as a primary
@@ -95,8 +95,8 @@ $ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
 If the istio-system namespace is already created, we need to set the cluster's network there:
 
 {{< text bash >}}
-kubectl --context="${CTX_CLUSTER2}" get namespace istio-system && \
-kubectl --context="${CTX_CLUSTER2}" label namespace istio-system topology.istio.io/network=network2
+$ kubectl --context="${CTX_CLUSTER2}" get namespace istio-system && \
+  kubectl --context="${CTX_CLUSTER2}" label namespace istio-system topology.istio.io/network=network2
 {{< /text >}}
 
 ## Configure cluster2 as a primary
