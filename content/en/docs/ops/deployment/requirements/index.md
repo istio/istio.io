@@ -76,9 +76,6 @@ The following ports and protocols are used by Istio.
 | 8080 | HTTP | Istiod | Debug interface |
 | 443 | HTTPS | Istiod | Webhooks |
 | 15014 | HTTP | Istiod | Control plane monitoring |
-| 15443 | TLS | Ingress and Egress Gateways | SNI |
-| 9090 | HTTP |  Prometheus | Prometheus |
-| 15004 | HTTP | Istiod | Policy/Telemetry - `mTLS` |
 
 ## Required pod capabilities
 
