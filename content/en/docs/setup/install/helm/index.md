@@ -168,7 +168,7 @@ version is compatible with your existing configuration and data plane using
 the steps below:
 
 {{< warning >}}
-Note that when you install a canary version of `istiod` service, the underlying
+Note that when you install a canary version of the `istiod` service, the underlying
 cluster-wide resources from the base chart resources are shared across your
 primary and canary installations.
 
