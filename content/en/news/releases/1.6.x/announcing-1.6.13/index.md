@@ -13,11 +13,11 @@ This release contains bug fixes to improve robustness. This release note describ
 
 {{< relnote >}}
 
-# Changes
+## Changes
 
-- **Fixed** an issue that Istiod's cacert.pem is under testdata directory
+- **Fixed** an issue where Istiod's `cacert.pem` was under the `testdata` directory
   ([Issue #27574](https://github.com/istio/istio/issues/27574))
 
-- **Fixed** pilot agent app probe connection leak.
+- **Fixed** Pilot agent app probe connection leak.
   ([Issue #27726](https://github.com/istio/istio/issues/27726))
 
