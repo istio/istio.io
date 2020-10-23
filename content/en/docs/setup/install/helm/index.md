@@ -169,7 +169,7 @@ the steps below:
 
 {{< warning >}}
 Note that when you install a canary version of the `istiod` service, the underlying
-cluster-wide resources from the base chart resources are shared across your
+cluster-wide resources from the base chart are shared across your
 primary and canary installations.
 
 Currently, there is no support for canary upgrades for Istio ingress and egress
