@@ -13,7 +13,7 @@ test: yes
 This example does not work in Minikube.
 {{</warning>}}
 
-The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task shows how to configure
+The [Accessing External Services](/docs/tasks/traffic-management/egress/egress-control) task shows how to configure
 Istio to allow access to external HTTP and HTTPS services from applications inside the mesh.
 There, the external services are called directly from the client sidecar.
 This example also shows how to configure Istio to call external services, although this time
