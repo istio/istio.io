@@ -17,7 +17,6 @@ package istioio
 import (
 	"bufio"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -115,7 +114,7 @@ func (s Script) run(ctx framework.TestContext) {
 	if err != nil {
 		ctx.Fatalf("failed creating output file for command %s: %v", s.Name(), err)
 	}
-	writer := bufio.NewWriter(newWriter(outputFile))
+	writer := newWriter(outputFile)
 	defer func() {
 		_ = writer.Flush()
 		_ = outputFile.Close()
@@ -130,22 +129,28 @@ func (s Script) run(ctx framework.TestContext) {
 	}
 }
 
-func newWriter(outputFile *os.File) io.Writer {
-	outputFileWriter := bufio.NewWriter(outputFile)
-	if scriptLog.DebugEnabled() {
-		return io.MultiWriter(&LogWriter{}, outputFileWriter)
+type writer struct {
+	delegate  *bufio.Writer
+	logWrites bool
+}
+
+func (w *writer) Write(p []byte) (n int, err error) {
+	if w.logWrites {
+		scriptLog.Debug(strings.TrimSpace(string(p)))
 	}
-	return outputFileWriter
+	return w.delegate.Write(p)
 }
 
-type LogWriter struct{}
-
-func (l LogWriter) Write(p []byte) (n int, err error) {
-	scriptLog.Debugf("%v", strings.TrimSpace(string(p)))
-	return len(p), nil
+func (w *writer) Flush() error {
+	return w.delegate.Flush()
 }
 
-var _ io.Writer = &LogWriter{}
+func newWriter(outputFile *os.File) *writer {
+	return &writer{
+		delegate:  bufio.NewWriter(outputFile),
+		logWrites: scriptLog.DebugEnabled(),
+	}
+}
 
 func (s Script) getWorkDir(ctx framework.TestContext) string {
 	if s.WorkDir != "" {

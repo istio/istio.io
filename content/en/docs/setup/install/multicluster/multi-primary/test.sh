@@ -61,5 +61,5 @@ set_single_network_vars
 time cleanup
 
 # Everything should be removed once cleanup completes. Use a small
-# number of retries for comparing cluster snapshots before/after the test.
-export VERIFY_RETRIES=1
+# timeout for comparing cluster snapshots before/after the test.
+export VERIFY_TIMEOUT=20

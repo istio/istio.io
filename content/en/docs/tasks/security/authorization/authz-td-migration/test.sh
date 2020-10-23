@@ -21,7 +21,7 @@ set -e
 set -u
 set -o pipefail
 
-#export VERIFY_RETRIES=10
+#export VERIFY_TIMEOUT=300
 
 echo y | snip_before_you_begin_1
 
