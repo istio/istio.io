@@ -167,6 +167,15 @@ You can install a canary version of Istio control plane to validate that the new
 version is compatible with your existing configuration and data plane using
 the steps below:
 
+{{< warning >}}
+Note that when you install a canary version of `istiod` service, the underlying
+cluster-wide resources from the base chart resources are shared across your
+primary and canary installations.
+
+Currently, there is no support for canary upgrades for Istio ingress and egress
+gateways.
+{{< /warning >}}
+
 1. Install a canary version of the Istio discovery chart by setting the revision
    value:
 
