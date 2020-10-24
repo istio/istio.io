@@ -22,6 +22,7 @@ $ kubectl exec $POD -c istio-proxy -- pilot-agent request GET stats
 {{< /text >}}
 
 Envoy collects various kinds of statistics. The following links are Envoy documents about some stats that it collects:
+
 - [Upstream connection](https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats)
 - [Listener](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/stats)
 - [HTTP Connection Manager](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats)
@@ -44,7 +45,7 @@ Envoy only collects statistical data on items matching the `inclusion_list` with
 the `stats_matcher` JSON element.
 
 {{< tip >}}
-Note Envoy stats name highly depends on how Envoy configuration is composed, and thus could tie to Istio control plane implementation detail. 
+Note Envoy stats name highly depends on how Envoy configuration is composed, and thus could tie to Istio control plane implementation detail.
 If you are building dashboard or alert based on Envoy stats, before upgrading your Istio, it is highly recommended to examine the stats in a canary environment.
 {{< /tip >}}
 
