@@ -90,12 +90,12 @@ spec:
     metadata:
       annotations:
         sidecar.istio.io/inject: "true"
-        traffic.sidecar.istio.io/includeInboundPorts: ""        # do not intercept any inbound ports
-        traffic.sidecar.istio.io/includeOutboundIPRanges: ""    # do not intercept any outbound traffic
-        proxy.istio.io/config: |
-          proxyMetadata:                                        # configure an env variable `OUTPUT_CERTS`
-            OUTPUT_CERTS: /etc/istio-output-certs               # to write certificates to the given folder
-        sidecar.istio.io/userVolume: '[{"name": "istio-certs", "emptyDir": {"medium":"Memory"}}]'              # mount the shared volume
+        traffic.sidecar.istio.io/includeInboundPorts: ""   # do not intercept any inbound ports
+        traffic.sidecar.istio.io/includeOutboundIPRanges: ""  # do not intercept any outbound traffic
+        proxy.istio.io/config: |  # configure an env variable `OUTPUT_CERTS` to write certificates to the given folder
+          proxyMetadata:
+            OUTPUT_CERTS: /etc/istio-output-certs
+        sidecar.istio.io/userVolume: '[{"name": "istio-certs", "emptyDir": {"medium":"Memory"}}]'  # mount the shared volume
         sidecar.istio.io/userVolumeMount: '[{"name": "istio-certs", "mountPath": "/etc/istio-output-certs"}]'
 {{< /text >}}
 
@@ -113,7 +113,7 @@ tls_config:
   ca_file: /etc/prom-certs/root-cert.pem
   cert_file: /etc/prom-certs/cert-chain.pem
   key_file: /etc/prom-certs/key.pem
-  insecure_skip_verify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod ceritifcate.
+  insecure_skip_verify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod ceritifcate
 {{< /text >}}
 
 ## Best practices
