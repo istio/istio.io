@@ -1,0 +1,38 @@
+---
+title: Announcing Istio 1.7.4
+linktitle: 1.7.4
+subtitle: Patch Release
+description: Istio 1.7.4 patch release.
+publishdate: 2020-10-27
+release: 1.7.4
+aliases:
+    - /news/announcing-1.7.4
+---
+
+This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.7.3 and Istio 1.7.4
+
+{{< relnote >}}
+
+## Changes
+
+- **Improved** TLS configuration on sidecar server side inbound paths to enforce TLS 2.0 version along with recommended cipher suites. This is disabled by default and can enabled by setting env variable `PILOT_SIDECAR_ENABLE_INBOUND_TLS_V2` to true.
+
+- **Added** ability to configure domain suffix for multicluster installation (Issue #27300)
+
+- **Added** istioctl proxy-status and other commands attempt to contact the control plane using both port-forwarding and exec before giving up, restoring functionality on clusters that do not offer port-forwarding to the control plane. (Issue #27421)
+
+- **Added** support for `securityContext` in the Kubernetes settings for the operator API. (Issue #26275)
+
+- **Fixed** deleting the remote-secret for multicluster installation removes remote endpoints.
+
+- **Fixed** an issue that Istiod’s `cacert.pem` is under `testdata` directory (Issue #27574)
+
+- **Fixed** `PodDisruptionBudget` of `istio-egressgateway` does not match any pods. (Issue #27730)
+
+- **Fixed** an issue preventing calls to wildcard (such as *.example.com) domains when a port is set in the Host header.
+
+- **Fixed** an issue periodically causing a deadlock in Pilot’s `syncz` debug endpoint
+
+- **Fixed** Make istioctl version work on the revision based istiod. (Issue #27756)
+
+- **Removed** deprecated `outboundTrafficPolicy` from global values. (Issue #27494)
