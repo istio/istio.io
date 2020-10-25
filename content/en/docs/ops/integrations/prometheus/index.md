@@ -80,7 +80,41 @@ spec:
 
 The control plane, gateway, and Envoy sidecar metrics will all be scraped over plaintext. However, the application metrics will follow whatever Istio configuration has been configured for the workload. In particular, if [Strict mTLS](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode) is enabled, then Prometheus will need to be configured to scrape using Istio certificates.
 
-When using the bundled Prometheus deployment, this is configured by default. For custom Prometheus deployments, please follow [Provision a certificate and key for an application without sidecars](/blog/2020/proxy-cert/) to provision a certificate for Prometheus, then add the TLS scraping configuration.
+One way to provision Istio certificates at Prometheus is to inject a sidecar, which rotates SDS certificates and outputs it to a shared volume with Prometheus.
+However the sidecar will not intercept request from Prometheus because Istio does not expose direct access to pod IP from a client's sidecar.
+To achieve this, you can add the following annotations to Prometheus deployment, which effectively injects a sidecar but does not set up the `iptables` rules, and writes the certificate to a shared volume:
+
+{{< text yaml >}}
+spec:
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+        traffic.sidecar.istio.io/includeInboundPorts: ""        # do not intercept any inbound ports
+        traffic.sidecar.istio.io/includeOutboundIPRanges: ""    # do not intercept any outbound traffic
+        proxy.istio.io/config: |
+          proxyMetadata:                                        # configure an env variable `OUTPUT_CERTS`
+            OUTPUT_CERTS: /etc/istio-output-certs               # to write certificates to the given folder
+        sidecar.istio.io/userVolume: '[{"name": "istio-certs", "emptyDir": {"medium":"Memory"}}]'              # mount the shared volume
+        sidecar.istio.io/userVolumeMount: '[{"name": "istio-certs", "mountPath": "/etc/istio-output-certs"}]'
+{{< /text >}}
+
+To use the provisioned certificate, mount the shared volume at Prometheus container, and set scraping job TLS context as follow:
+
+{{< text yaml >}}
+volumeMounts:
+- mountPath: /etc/prom-certs/
+  name: istio-certs
+{{< /text >}}
+
+{{< text yaml >}}
+scheme: https
+tls_config:
+  ca_file: /etc/prom-certs/root-cert.pem
+  cert_file: /etc/prom-certs/cert-chain.pem
+  key_file: /etc/prom-certs/key.pem
+  insecure_skip_verify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod ceritifcate.
+{{< /text >}}
 
 ## Best practices
 
