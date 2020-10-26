@@ -23,7 +23,7 @@ set -o pipefail
 
 # @setup profile=none
 
-export VERIFY_RETRIES=10
+export VERIFY_TIMEOUT=300
 
 echo y | snip_before_you_begin_1
 _wait_for_deployment istio-system istiod

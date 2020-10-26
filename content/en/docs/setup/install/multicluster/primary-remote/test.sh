@@ -33,7 +33,8 @@ function install_istio_on_cluster1 {
     snip_install_the_eastwest_gateway_in_cluster1_1
 
     echo "Waiting for the east-west gateway to have an external IP"
-    _wait_for_gateway_ip istio-system istio-eastwestgateway "${CTX_CLUSTER1}"
+    _verify_like snip_install_the_eastwest_gateway_in_cluster1_2 "$snip_install_the_eastwest_gateway_in_cluster1_2_out"
+    snip_install_the_eastwest_gateway_in_cluster1_2
 
     echo "Exposing istiod via the east-west gateway"
     snip_expose_the_control_plane_in_cluster1_1
@@ -63,5 +64,5 @@ set_single_network_vars
 time cleanup
 
 # Everything should be removed once cleanup completes. Use a small
-# number of retries for comparing cluster snapshots before/after the test.
-export VERIFY_RETRIES=1
+# timeout for comparing cluster snapshots before/after the test.
+export VERIFY_TIMEOUT=20

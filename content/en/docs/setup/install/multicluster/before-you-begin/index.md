@@ -27,7 +27,7 @@ mesh. Many cloud providers make API Servers publicly accessible via network
 load balancers (NLB). If the API Server is not directly accessible, you will
 have to modify the installation procedure to enable access. For example, the
 [east-west](https://en.wikipedia.org/wiki/East-west_traffic) gateway used in
-the multi-network and primary-remote configurations below could also be used
+the multi-network and primary-remote configurations could also be used
 to enable access to the API Server.
 
 ## Environment Variables
@@ -79,6 +79,14 @@ control plane topology.
 
 Choose the installation that best fits your needs:
 
+- [Install Multi-Primary](/docs/setup/install/multicluster/multi-primary)
+
+- [Install Primary-Remote](/docs/setup/install/multicluster/primary-remote)
+
+- [Install Multi-Primary on Different Networks](/docs/setup/install/multicluster/multi-primary_multi-network)
+
+- [Install Primary-Remote on Different Networks](/docs/setup/install/multicluster/primary-remote_multi-network)
+
 {{< tip >}}
 For meshes that span more than two clusters, you may need to use more than
 one of these options. For example, you may have a primary cluster per region
@@ -88,11 +96,3 @@ control plane in the regional primary (i.e. primary-remote).
 See [deployment models](/docs/ops/deployment/deployment-models) for more
 information.
 {{< /tip >}}
-
-- [Install Multi-Primary](/docs/setup/install/multicluster/multi-primary)
-
-- [Install Primary-Remote](/docs/setup/install/multicluster/primary-remote)
-
-- [Install Multi-Primary on Different Networks](/docs/setup/install/multicluster/multi-primary_multi-network)
-
-- [Install Primary-Remote on Different Networks](/docs/setup/install/multicluster/primary-remote_multi-network)

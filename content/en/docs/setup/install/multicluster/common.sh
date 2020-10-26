@@ -120,7 +120,7 @@ function verify_load_balancing
   _wait_for_deployment sample sleep "${CTX_CLUSTER2}"
 
   # Verify everything is deployed as expected.
-  VERIFY_RETRIES=0 # Don't retry.
+  VERIFY_TIMEOUT=0 # Don't retry.
   echo "Verifying helloworld v1 deployment"
   _verify_like snip_deploy_helloworld_v1_2 "$snip_deploy_helloworld_v1_2_out"
   echo "Verifying helloworld v2 deployment"
@@ -129,7 +129,7 @@ function verify_load_balancing
   _verify_like snip_deploy_sleep_2 "$snip_deploy_sleep_2_out"
   echo "Verifying sleep deployment in ${CTX_CLUSTER2}"
   _verify_like snip_deploy_sleep_3 "$snip_deploy_sleep_3_out"
-  unset VERIFY_RETRIES # Restore default
+  unset VERIFY_TIMEOUT # Restore default
 
   local EXPECTED_RESPONSE_FROM_CLUSTER1="Hello version: v1, instance:"
   local EXPECTED_RESPONSE_FROM_CLUSTER2="Hello version: v2, instance:"
