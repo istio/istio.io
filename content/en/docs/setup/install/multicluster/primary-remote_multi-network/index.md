@@ -43,6 +43,15 @@ Future releases will remove the need for having an istiod in the
 remote cluster altogether. Stay tuned!
 {{< /tip >}}
 
+## Set the default network for `cluster1`
+
+If the istio-system namespace is already created, we need to set the cluster's network there:
+
+{{< text bash >}}
+$ kubectl --context="${CTX_CLUSTER1}" get namespace istio-system && \
+  kubectl --context="${CTX_CLUSTER1}" label namespace istio-system topology.istio.io/network=network1
+{{< /text >}}
+
 ## Configure `cluster1` as a primary
 
 Create the Istio configuration for `cluster1`:
@@ -111,6 +120,15 @@ on the same network.
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
     @samples/multicluster/expose-services.yaml@
+{{< /text >}}
+
+## Set the default network for `cluster2`
+
+If the istio-system namespace is already created, we need to set the cluster's network there:
+
+{{< text bash >}}
+$ kubectl --context="${CTX_CLUSTER2}" get namespace istio-system && \
+  kubectl --context="${CTX_CLUSTER2}" label namespace istio-system topology.istio.io/network=network2
 {{< /text >}}
 
 ## Enable API Server Access to `cluster2`

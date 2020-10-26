@@ -20,6 +20,11 @@
 #          docs/setup/install/multicluster/primary-remote_multi-network/index.md
 ####################################################################################################
 
+snip_set_the_default_network_for_cluster1_1() {
+kubectl --context="${CTX_CLUSTER1}" get namespace istio-system && \
+  kubectl --context="${CTX_CLUSTER1}" label namespace istio-system topology.istio.io/network=network1
+}
+
 snip_configure_cluster1_as_a_primary_1() {
 cat <<EOF > cluster1.yaml
 apiVersion: install.istio.io/v1alpha1
@@ -62,6 +67,11 @@ kubectl apply --context="${CTX_CLUSTER1}" -f \
 snip_expose_services_in_cluster1_1() {
 kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
+}
+
+snip_set_the_default_network_for_cluster2_1() {
+kubectl --context="${CTX_CLUSTER2}" get namespace istio-system && \
+  kubectl --context="${CTX_CLUSTER2}" label namespace istio-system topology.istio.io/network=network2
 }
 
 snip_enable_api_server_access_to_cluster2_1() {
