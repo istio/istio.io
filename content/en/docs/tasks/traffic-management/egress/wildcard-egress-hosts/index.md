@@ -9,7 +9,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task and
+The [Accessing External Services](/docs/tasks/traffic-management/egress/egress-control) task and
 the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) example
 describe how to configure egress traffic for specific hostnames, like `edition.cnn.com`.
 This example shows how to enable egress traffic for a set of hosts in a common domain, for

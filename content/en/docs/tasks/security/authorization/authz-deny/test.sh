@@ -23,7 +23,7 @@ set -o pipefail
 
 # Set retries to a higher value for some flakiness.
 # TODO: remove this when istioctl wait calls are added
-export VERIFY_RETRIES=10
+export VERIFY_TIMEOUT=300
 
 snip_before_you_begin_1
 

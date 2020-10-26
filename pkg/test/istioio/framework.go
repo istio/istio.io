@@ -20,13 +20,14 @@ package istioio
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 
 	"istio.io/istio/pkg/test/framework"
+	"istio.io/istio/pkg/test/scopes"
 )
 
 // TestCase is a description of a test extracted from a file
@@ -40,7 +41,7 @@ type TestCase struct {
 
 var (
 	testsToRun  = os.Getenv("TEST")
-	runAllTests = (testsToRun == "")
+	runAllTests = testsToRun == ""
 
 	// folder location to be traversed to look for test files
 	defaultPath   = "content/en/docs"
@@ -75,10 +76,16 @@ var (
 
 // init constructs test cases from all specified tests
 func init() {
+	startTime := time.Now()
+	defer func() {
+		scopes.Framework.Infof("Finished initializing test doc(s). Elapsed time: %fs",
+			time.Since(startTime).Seconds())
+	}()
+
 	if runAllTests {
-		log.Println("Starting test doc(s): all docs")
+		scopes.Framework.Infof("Initializing test doc(s): all docs")
 	} else {
-		log.Println("Starting test doc(s):", testsToRun)
+		scopes.Framework.Infof("Initializing test doc(s):", testsToRun)
 	}
 
 	// scan for the test script files
@@ -94,20 +101,20 @@ func init() {
 					if testCase, err := checkFile(path); testCase.valid {
 						testCases = append(testCases, *testCase)
 					} else if err != nil {
-						log.Fatalf("Error occurred while processing %v: %v\n", testCase.path, err)
+						scopes.Framework.Fatalf("Error occurred while processing %v: %v", testCase.path, err)
 					}
 				}
 				return nil
 			},
 		)
 		if err != nil {
-			log.Fatalln("Error occurred while traversing content:", err)
+			scopes.Framework.Fatalf("Error occurred while traversing content:", err)
 		}
 	}
 
 	// in case no matched script files were found
 	if len(testCases) == 0 {
-		log.Printf("Warning: no test scripts are found that match '%v'", testsToRun)
+		scopes.Framework.Infof("Warning: no test scripts are found that match '%v'", testsToRun)
 	}
 }
 
@@ -168,47 +175,52 @@ func checkFile(path string) (*TestCase, error) {
 	return testCase, nil
 }
 
-// NeedSetup checks if any of the test cases require the setup config
-// specified by the input
-func NeedSetup(config string) bool {
-	for idx := range testCases {
-		if testCases[idx].config == config {
-			log.Printf("Setting up istio with %v", config)
-			return true
-		}
-	}
-	log.Printf("No tests need to be run with %v", config)
-	return false
-}
-
 // NewTestDocsFunc returns a test function that traverses through all test
 // cases and runs those that need the setup config specified by the input.
 func NewTestDocsFunc(config string) func(framework.TestContext) {
 	return func(ctx framework.TestContext) {
-		for idx := range testCases {
-			if testCase := &testCases[idx]; testCase.config == config {
-				path := testCase.path
-				ctx.NewSubTest(path).
-					Run(NewBuilder().
-						Add(Script{
-							Input: Inline{
-								FileName: getDebugFileName(path, "test"),
-								Value:    testCase.testScript,
-							},
-						}).
-						Defer(Script{
-							Input: Inline{
-								FileName: getDebugFileName(path, "cleanup"),
-								Value:    testCase.cleanupScript,
-							},
-						}).
-						Build())
-			}
+		testsToRun := testsForConfig(config)
+		if len(testsToRun) == 0 {
+			ctx.Skipf("No tests need to be run with %v", config)
+		}
+
+		scopes.Framework.Infof("Setting up istio with %v", config)
+
+		for _, testCase := range testsToRun {
+			path := testCase.path
+			testScriptName := filepath.Base(path)
+			cleanupScriptName := "cleanup.sh"
+			ctx.NewSubTest(path).
+				Run(NewBuilder().
+					Add(Script{
+						Input: Inline{
+							FileName: testScriptName,
+							Value:    testCase.testScript,
+						},
+					}).
+					Defer(Script{
+						Input: Inline{
+							FileName: cleanupScriptName,
+							Value:    testCase.cleanupScript,
+						},
+					}).
+					Build())
 		}
 	}
 }
 
 // Helper functions
+
+// testsForConfig returns the tests that match the given configuration.
+func testsForConfig(config string) []TestCase {
+	out := make([]TestCase, 0, len(testCases))
+	for _, testCase := range testCases {
+		if testCase.config == config {
+			out = append(out, testCase)
+		}
+	}
+	return out
+}
 
 // split breaks down the test names specified into a slice.
 // It receives a comma-separated string of test names that the user has
@@ -225,13 +237,4 @@ func getHelperScript(testPath string) string {
 	splitPath[len(splitPath)-1] = snipsFileSuffix
 	snipsPath := strings.Join(splitPath, "/")
 	return fmt.Sprintf(helperTemplate, defaultPath, snipsPath)
-}
-
-// getDebugFileName returns the name of the debug file which keeps the bash
-// tracing enabled by util/debug.sh. It receives `testPath`, the path of the
-// test script, and a suffix to tell different output files apart.
-func getDebugFileName(testPath string, debugFileSuffix string) string {
-	fileName := strings.ReplaceAll(testPath, testFileSuffix, debugFileSuffix)
-	fileName = strings.ReplaceAll(fileName, "/", "_")
-	return fileName
 }

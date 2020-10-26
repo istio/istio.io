@@ -20,7 +20,10 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 1.  Follow the [Zipkin installation](/docs/ops/integrations/zipkin/#installation) documentation to deploy Zipkin into your cluster.
 
-1.  When you enable tracing, you can set the sampling rate that Istio uses for tracing. Use the `values.pilot.traceSampling` option during installation to set the sampling rate. The default sampling rate is 1%.
+1.  When you enable tracing, you can set the sampling rate that Istio uses for tracing.
+    Use the `meshConfig.defaultConfig.tracing.sampling` option during installation to
+    [set the sampling rate](/docs/tasks/observability/distributed-tracing/configurability/#customizing-trace-sampling).
+    The default sampling rate is 1%.
 
 1.  Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 

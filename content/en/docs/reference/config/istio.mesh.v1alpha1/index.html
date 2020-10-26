@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 28
+number_of_entries: 29
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -450,6 +450,39 @@ Only one health check method of 3 can be set at a time.</p>
 No
 </td>
 </tr>
+<tr id="ProxyConfig-proxy_stats_matcher">
+<td><code>proxyStatsMatcher</code></td>
+<td><code><a href="#ProxyConfig-ProxyStatsMatcher">ProxyStatsMatcher</a></code></td>
+<td>
+<p>Proxy stats matcher defines configuration for reporting custom Envoy stats.
+To reduce memory and CPU overhead from Envoy stats system, Istio proxies by
+default create and expose only a subset of Envoy stats. This option is to
+control creation of additional Envoy stats with prefix, suffix, and regex
+expressions match on the name of the stats. This replaces the stats
+inclusion annotations
+(<code>sidecar.istio.io/statsInclusionPrefixes</code>,
+<code>sidecar.istio.io/statsInclusionRegexps</code>, and
+<code>sidecar.istio.io/statsInclusionSuffixes</code>). For example, to enable stats
+for circuit breaker, retry, and upstream connections, you can specify stats
+matcher as follow:</p>
+
+<pre><code class="language-yaml">proxyStatsMatcher:
+  inclusionRegexps:
+    - .*circuit_breakers.*
+  inclusionPrefixes:
+    - upstream_rq_retry
+    - upstream_cx
+</code></pre>
+
+<p>Note including more Envoy stats might increase number of time series
+collected by prometheus significantly. Care needs to be taken on Prometheus
+resource provision and configuration to reduce cardinality.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="ProxyConfig-zipkin_address" class="deprecated ">
 <td><code>zipkinAddress</code></td>
 <td><code>string</code></td>
@@ -682,6 +715,57 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="ProxyConfig-ProxyStatsMatcher">ProxyConfig.ProxyStatsMatcher</h2>
+<section>
+<p>Proxy stats name matchers for stats creation. Note this is in addition to
+the minimum Envoy stats that Istio generates by default.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ProxyStatsMatcher-inclusion_prefixes">
+<td><code>inclusionPrefixes</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Proxy stats name prefix matcher for inclusion.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyStatsMatcher-inclusion_suffixes">
+<td><code>inclusionSuffixes</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Proxy stats name suffix matcher for inclusion.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyStatsMatcher-inclusion_regexps">
+<td><code>inclusionRegexps</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Proxy stats name regexps matcher for inclusion.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="MeshConfig">MeshConfig</h2>
 <section>
 <p>MeshConfig defines mesh-wide variables shared by all Envoy instances in the
@@ -877,6 +961,20 @@ No
 <p>This flag enables Envoy&rsquo;s gRPC Access Log Service.
 See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/accesslog/v2/als.proto">Access Log Service</a>
 for details about Envoy&rsquo;s gRPC Access Log Service API.
+Default value is <code>false</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-disable_envoy_listener_log">
+<td><code>disableEnvoyListenerLog</code></td>
+<td><code>bool</code></td>
+<td>
+<p>This flag disables Envoy Listener logs.
+See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#envoy-v3-api-field-config-listener-v3-listener-access-log">Listener Access Log</a>
+Istio Enables Envoy&rsquo;s listener access logs on &ldquo;NoRoute&rdquo; response flag.
 Default value is <code>false</code>.</p>
 
 </td>

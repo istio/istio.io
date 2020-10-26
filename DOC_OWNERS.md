@@ -1,7 +1,7 @@
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
-There are 144 owned istio.io docs.
+There are 152 owned istio.io docs.
 
 ## istio/wg-docs-maintainers: 15 docs
 
@@ -21,7 +21,7 @@ There are 144 owned istio.io docs.
 - [docs/examples/microservices-istio/single/index.md](https://preliminary.istio.io/latest/docs/examples/microservices-istio/single)
 - [docs/reference/glossary/index.md](https://preliminary.istio.io/latest/docs/reference/glossary)
 
-## istio/wg-environments-maintainers: 36 docs
+## istio/wg-environments-maintainers: 43 docs
 
 - [docs/examples/virtual-machines/bookinfo/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/bookinfo)
 - [docs/examples/virtual-machines/multi-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/multi-network)
@@ -41,8 +41,15 @@ There are 144 owned istio.io docs.
 - [docs/setup/additional-setup/config-profiles/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/config-profiles)
 - [docs/setup/additional-setup/sidecar-injection/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/sidecar-injection)
 - [docs/setup/getting-started/index.md](https://preliminary.istio.io/latest/docs/setup/getting-started)
+- [docs/setup/install/helm/index.md](https://preliminary.istio.io/latest/docs/setup/install/helm)
 - [docs/setup/install/istioctl/index.md](https://preliminary.istio.io/latest/docs/setup/install/istioctl)
-- [docs/setup/install/multicluster/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster)
+docs/setup/install/multicluster/_index.md
+- [docs/setup/install/multicluster/before-you-begin/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/before-you-begin)
+- [docs/setup/install/multicluster/multi-primary/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/multi-primary)
+- [docs/setup/install/multicluster/multi-primary_multi-network/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/multi-primary_multi-network)
+- [docs/setup/install/multicluster/primary-remote/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/primary-remote)
+- [docs/setup/install/multicluster/primary-remote_multi-network/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/primary-remote_multi-network)
+- [docs/setup/install/multicluster/verify/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/verify)
 - [docs/setup/install/operator/index.md](https://preliminary.istio.io/latest/docs/setup/install/operator)
 - [docs/setup/install/virtual-machine/index.md](https://preliminary.istio.io/latest/docs/setup/install/virtual-machine)
 - [docs/setup/platform-setup/MicroK8s/index.md](https://preliminary.istio.io/latest/docs/setup/platform-setup/MicroK8s)
@@ -60,7 +67,7 @@ There are 144 owned istio.io docs.
 - [docs/setup/platform-setup/openshift/index.md](https://preliminary.istio.io/latest/docs/setup/platform-setup/openshift)
 - [docs/setup/upgrade/index.md](https://preliminary.istio.io/latest/docs/setup/upgrade)
 
-## istio/wg-networking-maintainers: 24 docs
+## istio/wg-networking-maintainers: 25 docs
 
 - [docs/concepts/traffic-management/index.md](https://preliminary.istio.io/latest/docs/concepts/traffic-management)
 - [docs/ops/best-practices/traffic-management/index.md](https://preliminary.istio.io/latest/docs/ops/best-practices/traffic-management)
@@ -68,6 +75,7 @@ There are 144 owned istio.io docs.
 - [docs/ops/configuration/traffic-management/locality-load-balancing/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/traffic-management/locality-load-balancing)
 - [docs/ops/configuration/traffic-management/network-topologies/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/traffic-management/network-topologies)
 - [docs/ops/configuration/traffic-management/protocol-selection/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection)
+- [docs/ops/configuration/traffic-management/tls-configuration/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/traffic-management/tls-configuration)
 - [docs/tasks/traffic-management/circuit-breaking/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/circuit-breaking)
 - [docs/tasks/traffic-management/egress/egress-control/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/egress-control)
 - [docs/tasks/traffic-management/egress/egress-gateway-tls-origination/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway-tls-origination)
