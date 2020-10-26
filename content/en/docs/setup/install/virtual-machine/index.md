@@ -132,6 +132,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     $ touch "${WORK_DIR}"/sidecar.env
     $ echo "PROV_CERT=/var/run/secrets/istio" >>"${WORK_DIR}"/sidecar.env
     $ echo "OUTPUT_CERTS=/var/run/secrets/istio" >> "${WORK_DIR}"/sidecar.env
+    $ echo "ISTIO_NAMESPACE=${VM_NAMESPACE}" >> "${WORK_DIR}"/sidecar.env
     {{< /text >}}
 
 ## Configure the virtual machine
