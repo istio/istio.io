@@ -1,7 +1,7 @@
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
-There are 152 owned istio.io docs.
+There are 153 owned istio.io docs.
 
 ## istio/wg-docs-maintainers: 15 docs
 
@@ -21,12 +21,13 @@ There are 152 owned istio.io docs.
 - [docs/examples/microservices-istio/single/index.md](https://preliminary.istio.io/latest/docs/examples/microservices-istio/single)
 - [docs/reference/glossary/index.md](https://preliminary.istio.io/latest/docs/reference/glossary)
 
-## istio/wg-environments-maintainers: 43 docs
+## istio/wg-environments-maintainers: 44 docs
 
 - [docs/examples/virtual-machines/bookinfo/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/bookinfo)
 - [docs/examples/virtual-machines/multi-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/multi-network)
 - [docs/examples/virtual-machines/single-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/single-network)
 - [docs/ops/best-practices/deployment/index.md](https://preliminary.istio.io/latest/docs/ops/best-practices/deployment)
+- [docs/ops/configuration/multi-revision/gateways/index.md](https://preliminary.istio.io/latest/docs/ops/configuration/multi-revision/gateways)
 - [docs/ops/deployment/architecture/index.md](https://preliminary.istio.io/latest/docs/ops/deployment/architecture)
 - [docs/ops/deployment/deployment-models/index.md](https://preliminary.istio.io/latest/docs/ops/deployment/deployment-models)
 - [docs/ops/deployment/performance-and-scalability/index.md](https://preliminary.istio.io/latest/docs/ops/deployment/performance-and-scalability)
