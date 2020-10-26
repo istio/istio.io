@@ -82,7 +82,7 @@ to install the Istio 1.8.1 control plane:
     {{< text bash >}}
     $ release-1.8.1/istioctl install -f control-plane.yaml --revision 1-8-1
     {{< /text >}}
-    
+
     (Refer to the canary upgrade docs for more details on steps 2-4.)
 
 1.  Verify that the control plane is functional.
@@ -92,15 +92,15 @@ to install the Istio 1.8.1 control plane:
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system --show-labels
-    
+
     NAME                                    READY   STATUS    RESTARTS   AGE   LABELS
     istio-ingressgateway-65f8bdd46c-d49wf   1/1     Running   0          21m   service.istio.io/canonical-revision=1-8-0 ...
     istiod-1-8-0-67f9b9b56-r22t5            1/1     Running   0          22m   istio.io/rev=1-8-0 ...
     istiod-1-8-1-75dfd7d494-xhmbb           1/1     Running   0          21s   istio.io/rev=1-8-1 ...
     {{< /text >}}
-    
+
     As a last step, upgrade any gateways in the cluster to the new version:
-    
+
     {{< text bash >}}
     $ release-1.8.1/istioctl install -f gateways.yaml --revision 1-8-1
     {{< /text >}}
@@ -191,7 +191,7 @@ to install the Istio 1.8.1 operator:
 install the new control plane and for it to be in a running state.
 
 1.  Refer to the canary upgrade docs for more details on rolling over workloads to the new Istio version:
-    
+
     -  Label workload namespaces with istio.io/rev=1-8-1 and restart the workloads.
     -  Verify that the workloads are injected with the new proxy version and the cluster is functional.
 
