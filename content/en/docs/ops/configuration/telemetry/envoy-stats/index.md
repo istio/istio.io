@@ -21,7 +21,7 @@ To see the statistics for a pod:
 $ kubectl exec $POD -c istio-proxy -- pilot-agent request GET stats
 {{< /text >}}
 
-Envoy collects various kinds of statistics. The following links are Envoy documents about some stats that it collects:
+Envoy generates statistics about its behavior, scoping the statistics by proxy function. Examples include:
 
 - [Upstream connection](https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats)
 - [Listener](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/stats)
