@@ -94,7 +94,7 @@ $ curl -v httpbin.default.svc.cluster.local:8000/headers
     EOF
     {{< /text >}}
 
-    Create a workload with the external IP of the virtual machine. Substitute `VM_IP` with the IP of your virtual machine:
+    Create a WorkloadEntry with the external IP of the virtual machine. Substitute `VM_IP` with the IP of your virtual machine:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl -n <vm-namespace> apply -f -
