@@ -81,8 +81,7 @@ spec:
 The control plane, gateway, and Envoy sidecar metrics will all be scraped over plaintext. However, the application metrics will follow whatever Istio configuration has been configured for the workload. In particular, if [Strict mTLS](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode) is enabled, then Prometheus will need to be configured to scrape using Istio certificates.
 
 One way to provision Istio certificates at Prometheus is to inject a sidecar, which rotates SDS certificates and outputs it to a shared volume with Prometheus.
-However the sidecar will not intercept request from Prometheus because Istio does not expose direct access to pod IP from a client's sidecar.
-To achieve this, you can add the following annotations to Prometheus deployment, which effectively injects a sidecar but does not set up the `iptables` rules, and writes the certificate to a shared volume:
+However, the sidecar should not intercept requests from Prometheus, as Prometheus's model of direct endpoint access is incompatible with Istio's sidecar proxy model. Add the following annotations to Prometheus deployment to inject a sidecar to write the certificate to a shared volume without configuring traffic redirection:
 
 {{< text yaml >}}
 spec:
