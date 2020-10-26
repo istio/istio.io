@@ -14,7 +14,7 @@ This feature is actively in development and is considered `pre-alpha`.
 {{< /warning >}}
 
 Follow this guide to install and configure an Istio mesh using
-[Helm](https://helm.sh/docs/) for in-depth evaluation or production use.
+[Helm](https://helm.sh/docs/) for in-depth evaluation.
 
 The Helm charts used in this guide are the same underlying charts used when
 installing Istio via [Istioctl](/docs/setup/install/istioctl/) or the
