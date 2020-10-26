@@ -1,7 +1,7 @@
 ---
 title: Technical Oversight Committee
 description: Information describing the technical oversight committee within the Istio Community
-weight: 10
+weight: 12
 keywords: [community]
 icon: community
 ---
