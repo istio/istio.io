@@ -57,7 +57,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 1. Expose the control plane using the provided sample configuration.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/istiod-gateway/istiod-gateway.yaml@
+    $ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
     {{< /text >}}
 
 ## Configure the VM namespace
@@ -249,7 +249,7 @@ Then, remove the Istio-sidecar package:
 To uninstall Istio, run the following command:
 
 {{< text bash >}}
-$ kubectl delete -f @samples/istiod-gateway/istiod-gateway.yaml@
+$ kubectl delete -f @samples/multicluster/expose-istiod.yaml@
 $ istioctl manifest generate | kubectl delete -f -
 {{< /text >}}
 
