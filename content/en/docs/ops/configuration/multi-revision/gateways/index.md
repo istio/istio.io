@@ -8,7 +8,8 @@ test: no
 ---
 
 With a single `IstioOperator` CR, any gateways defined in the CR (including the `istio-ingressgateway` installed in the
-default profile) are upgraded in place, even when the canary control plane method is used. This is
+default profile) are upgraded in place, even when the
+[canary control plane method](/docs/setup/upgrade/#canary-upgrades) is used. This is
 undesirable - gateways are a critical component that should be upgraded last, when the new version control and data
 planes are verified to be working.
 The recommended way to upgrade gateways is to define and manage them in a separate `IstioOperator` CR, separate from
@@ -27,43 +28,43 @@ This section covers installation and upgrade of separate control plane and gatew
 
 1.  Ensure that the main `IstioOperator` CR has a name and does not install a gateway:
 
-{{< text yaml >}}
-# filename: control-plane.yaml
-apiVersion: install.istio.io/v1alpha1
-kind: `IstioOperator`
-metadata:
-  name: control-plane # REQUIRED
-spec:
-  profile: default
-  components:
-    ingressGateways:
-      - name: istio-ingressgateway
-        # MUST BE DISABLED
-        enabled: false
-{{< /text >}}
+    {{< text yaml >}}
+    # filename: control-plane.yaml
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    metadata:
+      name: control-plane # REQUIRED
+    spec:
+      profile: default
+      components:
+        ingressGateways:
+          - name: istio-ingressgateway
+            # MUST BE DISABLED
+            enabled: false
+    {{< /text >}}
 
 1.  Create a separate `IstioOperator` CR for the gateway(s), ensuring that it has a name and has the `empty` profile:
 
-{{< text yaml >}}
-# filename: gateways.yaml
-apiVersion: install.istio.io/v1alpha1
-kind: `IstioOperator`
-metadata:
-  name: gateways # REQUIRED
-spec:
-  profile: empty # REQUIRED
-  components:
-    ingressGateways:
-      - name: istio-ingressgateway
-        enabled: true
-{{< /text >}}
+    {{< text yaml >}}
+    # filename: gateways.yaml
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    metadata:
+      name: gateways # REQUIRED
+    spec:
+      profile: empty # REQUIRED
+      components:
+        ingressGateways:
+          - name: istio-ingressgateway
+            enabled: true
+    {{< /text >}}
 
-Installation can be done with the following commands:
+1.  Install the `CR`s:
 
-{{< text bash >}}
-$ istioctl install -f control-plane.yaml --revision 1-8-0
-$ istioctl install -f gateways.yaml --revision 1-8-0
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl install -f control-plane.yaml --revision 1-8-0
+    $ istioctl install -f gateways.yaml --revision 1-8-0
+    {{< /text >}}
 
 Istioctl install and the operator track resource ownership through labels for both the revision and owning CR name.
 Only resources whose name and revision labels match the `IstioOperator` CR passed to `istioctl` install/operator will be
@@ -93,9 +94,9 @@ $ release-1.8.1/istioctl install -f control-plane.yaml --revision 1-8-1
 $ kubectl get pods -n istio-system --show-labels
 
 NAME                                    READY   STATUS    RESTARTS   AGE   LABELS
-istio-ingressgateway-65f8bdd46c-d49wf   1/1     Running   0          21m   app=istio-ingressgateway,chart=gateways,heritage=Tiller,istio=ingressgateway,pod-template-hash=65f8bdd46c,release=istio,service.istio.io/canonical-name=istio-ingressgateway,service.istio.io/canonical-revision=1-8-0
-istiod-1-8-0-67f9b9b56-r22t5            1/1     Running   0          22m   app=istiod,istio.io/rev=1-8-0,istio=istiod,pod-template-hash=67f9b9b56
-istiod-1-8-1-75dfd7d494-xhmbb           1/1     Running   0          21s   app=istiod,istio.io/rev=1-8-1,istio=istiod,pod-template-hash=75dfd7d494
+istio-ingressgateway-65f8bdd46c-d49wf   1/1     Running   0          21m   service.istio.io/canonical-revision=1-8-0 ...
+istiod-1-8-0-67f9b9b56-r22t5            1/1     Running   0          22m   istio.io/rev=1-8-0 ...
+istiod-1-8-1-75dfd7d494-xhmbb           1/1     Running   0          21s   istio.io/rev=1-8-1 ...
 {{< /text >}}
 
 As a last step, upgrade any gateways in the cluster to the new version:
@@ -121,7 +122,7 @@ This section covers installation and upgrade of separate control plane and gatew
 {{< text yaml >}}
 # filename: control-plane-1-8-0.yaml
 apiVersion: install.istio.io/v1alpha1
-kind: `IstioOperator`
+kind: IstioOperator
 metadata:
   name: control-plane-1-8-0 # REQUIRED
 spec:
@@ -139,7 +140,7 @@ spec:
 {{< text yaml >}}
 # filename: gateways.yaml
 apiVersion: install.istio.io/v1alpha1
-kind: `IstioOperator`
+kind: IstioOperator
 metadata:
   name: gateways # REQUIRED
 spec:
