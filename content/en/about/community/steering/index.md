@@ -1,6 +1,6 @@
 ---
 title: Steering Committee
-description: Information describing the Istio steering committee within the Istio Community
+description: Information describing the Istio steering committee.
 weight: 13
 keywords: [community]
 icon: community
