@@ -29,7 +29,7 @@ Envoy generates statistics about its behavior, scoping the statistics by proxy f
 - [TCP proxy](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/tcp_proxy_filter#statistics)
 - [Router](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter.html?highlight=vhost#statistics)
 
-By default, Istio configures Envoy to record minimal statistics. The default collection
+By default, Istio configures Envoy to record a minimal set of statistics to reduce the overall CPU and memory footprint of the installed proxies. The default collection
 keys are:
 
 - `cluster_manager`
