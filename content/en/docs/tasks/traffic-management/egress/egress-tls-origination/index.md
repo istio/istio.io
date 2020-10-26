@@ -200,7 +200,6 @@ topics and articles but does not prevent an attackers from learning that `editio
 
     {{< text bash >}}
     $ kubectl delete serviceentry edition-cnn-com
-    $ kubectl delete virtualservice edition-cnn-com
     $ kubectl delete destinationrule edition-cnn-com
     {{< /text >}}
 

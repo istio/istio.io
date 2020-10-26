@@ -120,7 +120,6 @@ ENDSNIP
 
 snip_cleanup_1() {
 kubectl delete serviceentry edition-cnn-com
-kubectl delete virtualservice edition-cnn-com
 kubectl delete destinationrule edition-cnn-com
 }
 
