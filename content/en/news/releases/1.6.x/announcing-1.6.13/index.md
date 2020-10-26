@@ -3,7 +3,7 @@ title: Announcing Istio 1.6.13
 linktitle: 1.6.13
 subtitle: Patch Release
 description: Istio 1.6.13 patch release.
-publishdate: 2020-10-23
+publishdate: 2020-10-27
 release: 1.6.13
 aliases:
     - /news/announcing-1.6.13
