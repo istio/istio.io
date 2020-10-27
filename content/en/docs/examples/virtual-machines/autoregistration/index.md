@@ -95,13 +95,11 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     EOF
     {{< /text >}}
 
-1. Configure VM with auto-registration details
-
-    The proxy running on the VM needs two pieces of information to find the workload group on connection.
+1. The proxy must provide enough the name and namespace to find the WorkloadGroup on connection. 
     
     While logged on to the Virtual Machine:
     
-    {{< text bash >}} 
+    {{< text bash >}}
     $ sudo echo "ISTIO_NAMESPACE=${VM_NAMESPACE}" >> /var/lib/istio/envoy/sidecar.env
     $ sudo echo "ISTIO_META_AUTO_REGISTER_GROUP=auto-cloud-vm" >> /var/lib/istio/envoy/sidecar.env
     {{< /text >}}
