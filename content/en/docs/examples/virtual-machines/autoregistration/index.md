@@ -76,7 +76,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
 
 1. Create the auto-registration group.
 
-    You can use WorkloadGroup to provide a template for the WorkloadEntries that make up your multiple-VM deployment.
+    WorkloadGroup provides a template to automatically create a WorkloadEntry for each connected VM instance.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl -n "${VM_NAMESPACE}" apply -f -
