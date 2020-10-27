@@ -10,8 +10,8 @@ test: no
 With a single `IstioOperator` CR, any gateways defined in the CR (including the `istio-ingressgateway` installed in the
 default profile) are upgraded in place, even when the
 [canary control plane method](/docs/setup/upgrade/canary) is used.
-This is undesirable because gateways are a critical component affecting applicsation uptime.
-They should be upgraded last, after the new version control and data planes are verified to be working.
+This is undesirable because gateways are a critical component affecting application uptime.
+They should be upgraded last, after the new control and data plane versions are verified to be working.
 
 This guide describes the recommended way to upgrade gateways by defining and managing them in a separate `IstioOperator` CR,
 separate from the one used to install and manage the control plane.
