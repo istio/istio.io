@@ -104,7 +104,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     $ echo ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR > "${WORK_DIR}"/cluster.env
     {{< /text >}}
 
-1. Optionally configure configure a select set of ports for exposure from the
+1. Optionally configure a select set of ports for exposure from the
    virtual machine. If you do not apply this optional step, all outbound traffic
    on all ports is sent to the Kubernetes cluster. You may wish to send some
    traffic on specific ports to other destinations. This example shows enabling
