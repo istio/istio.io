@@ -1,19 +1,20 @@
 ---
-title: Configuring and managing gateways with multiple revisions
-description: Configuring and managing gateways with multiple revisions.
-weight: 25
-keywords: [kubernetes,upgrading]
+title: Managing Gateways with Multiple Revisions
+description: Configuring and upgrading Istio with gateways.
+weight: 30
+keywords: [kubernetes,upgrading,gateway]
 owner: istio/wg-environments-maintainers
 test: no
 ---
 
 With a single `IstioOperator` CR, any gateways defined in the CR (including the `istio-ingressgateway` installed in the
 default profile) are upgraded in place, even when the
-[canary control plane method](/docs/setup/upgrade/#canary-upgrades) is used. This is
-undesirable - gateways are a critical component that should be upgraded last, when the new version control and data
-planes are verified to be working.
-The recommended way to upgrade gateways is to define and manage them in a separate `IstioOperator` CR, separate from
-the one used to install and manage the control plane.
+[canary control plane method](/docs/setup/upgrade/canary) is used.
+This is undesirable because gateways are a critical component. They should be upgraded last,
+after the new version control and data planes are verified to be working.
+
+This guide described the recommended way to upgrade gateways by defining and managing them in a separate `IstioOperator` CR,
+separate from the one used to install and manage the control plane.
 
 {{< warning >}}
 To avoid problems with `.` (dot) not being a valid character in some Kubernetes paths, the revision name should not
@@ -22,7 +23,7 @@ include `.` (dots).
 
 ## Istioctl
 
-This section covers installation and upgrade of separate control plane and gateways, using `istioctl`.
+This section covers installation and upgrade of a separate control plane and gateway using `istioctl`.
 
 ### Installation with `istioctl`
 
@@ -70,7 +71,7 @@ Istioctl install and the operator track resource ownership through labels for bo
 Only resources whose name and revision labels match the `IstioOperator` CR passed to `istioctl` install/operator will be
 affected by any changes to the CR - all other resources in the cluster will be ignored.
 It is important to make sure that each `IstioOperator` installs components that do not overlap with another `IstioOperator`
-CR, otherwise the two CR's will cause controllers or `istioctl` commands to fight.
+CR, otherwise the two CR's will cause controllers or `istioctl` commands to interfere with each other.
 
 ### Upgrade with `istioctl`
 
@@ -86,8 +87,11 @@ to install the Istio 1.8.1 control plane:
     (Refer to the canary upgrade docs for more details on steps 2-4.)
 
 1.  Verify that the control plane is functional.
+
 1.  Label workload namespaces with istio.io/rev=1-8-1 and restart the workloads.
+
 1.  Verify that the workloads are injected with the new proxy version and the cluster is functional.
+
 1.  At this point, the ingress gateway is still 1.8.0. You should see the following pods running:
 
     {{< text bash >}}
@@ -113,7 +117,7 @@ to install the Istio 1.8.1 control plane:
 
 ## Operator
 
-This section covers installation and upgrade of separate control plane and gateways, using the Istio operator.
+This section covers installation and upgrade of a separate control plane and gateway using the Istio operator.
 
 ### Installation with operator
 
