@@ -45,7 +45,7 @@ Envoy only collects statistical data on items matching the `inclusion_list` with
 the `stats_matcher` JSON element.
 
 {{< tip >}}
-Note Envoy stats name highly depends on how Envoy configuration is composed, and thus could tie to Istio control plane implementation detail.
+Note: The names of Envoy statistics can vary based on the composition of Envoy configuration. As a result, the exposed names of statistics for Envoys managed by Istio are subject to the configuration behavior of Istio.
 If you are building dashboard or alert based on Envoy stats, before upgrading your Istio, it is highly recommended to examine the stats in a canary environment.
 {{< /tip >}}
 
