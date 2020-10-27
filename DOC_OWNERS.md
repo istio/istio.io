@@ -23,6 +23,7 @@ There are 154 owned istio.io docs.
 
 ## istio/wg-environments-maintainers: 45 docs
 
+- [docs/examples/virtual-machines/autoregistration/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/autoregistration)
 - [docs/examples/virtual-machines/bookinfo/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/bookinfo)
 - [docs/examples/virtual-machines/multi-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/multi-network)
 - [docs/examples/virtual-machines/single-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/single-network)
