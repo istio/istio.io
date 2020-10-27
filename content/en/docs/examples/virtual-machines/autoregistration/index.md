@@ -103,7 +103,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     $ sudo echo "ISTIO_META_AUTO_REGISTER_GROUP=auto-cloud-vm" >> /var/lib/istio/envoy/sidecar.env
     {{< /text >}}
 
-2. Reconnect with new configuration.
+1. Reconnect with new configuration.
 
     {{< text bash >}}
     $ sudo systemctl restart istio
@@ -157,8 +157,7 @@ the WorkloadGroup and Namespace.
 
 ## Cleanup
 
-At this point, you can remove the virtual machine resources from the Kubernetes cluster in the `<vm-namespace>` namespace. 
+At this point, you can remove the virtual machine resources from the Kubernetes cluster in the `<vm-namespace>` namespace.
 Removing the WorkloadGroup will not delete associated WorkloadEntry resources. Even without deleting the WorkloadGroup,
 simply shutdown the `istio` service on the VM, or tear down the VM entirely. After a short grace period, the WorkloadEntry will be cleaned up
 automatically.
- 
