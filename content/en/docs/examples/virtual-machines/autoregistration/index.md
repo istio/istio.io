@@ -102,14 +102,14 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     While logged on to the Virtual Machine:
     
     {{< text bash >}} 
-    sudo echo "ISTIO_NAMESPACE=${VM_NAMESPACE}" >> /var/lib/istio/envoy/sidecar.env
-    sudo echo "ISTIO_META_AUTO_REGISTER_GROUP=auto-cloud-vm" >> /var/lib/istio/envoy/sidecar.env
+    $ sudo echo "ISTIO_NAMESPACE=${VM_NAMESPACE}" >> /var/lib/istio/envoy/sidecar.env
+    $ sudo echo "ISTIO_META_AUTO_REGISTER_GROUP=auto-cloud-vm" >> /var/lib/istio/envoy/sidecar.env
     {{< /text >}}
     
  2. Reconnect with new configuration.
     
     {{< text bash >}}
-    sudo systemctl restart istio 
+    $ sudo systemctl restart istio 
     {{< /text >}}
     
 ## Verify
@@ -119,7 +119,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     If successful, a new WorkloadEntry should exist in your `${VM_NAMESPACE}`
     
     {{< text bash >}}
-    kubectl -n "${VM_NAMESPACE}" get workloadentry
+    $ kubectl -n "${VM_NAMESPACE}" get workloadentry
     NAME                          AGE   ADDRESS
     auto-cloud-vm-10.128.15.202   11s   10.128.15.202
     {{< /text >}}
