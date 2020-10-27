@@ -111,9 +111,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
 
 ## Verify
 
-1. Ensure a WorkloadEntry was created
-
-    If successful, a new WorkloadEntry should exist in your `${VM_NAMESPACE}`
+1. If successful, a new WorkloadEntry should exist in your `${VM_NAMESPACE}`
 
     {{< text bash >}}
     $ kubectl -n "${VM_NAMESPACE}" get workloadentry
@@ -131,7 +129,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     ...
     {{< /text >}}
 
-1. Send a request from the `sleep` service on the pod to the virtual machine HTTP service:
+1. Send a request from the `sleep` service on the pod to the virtual machine:
 
     {{< text bash >}}
     $ kubectl exec -it sleep-88ddbcfdd-rm42k -c sleep -- curl auto-cloud-vm.${VM_NAMESPACE}.svc.cluster.local:8080
