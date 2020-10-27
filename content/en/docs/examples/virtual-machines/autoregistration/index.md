@@ -15,9 +15,9 @@ test: no
 This feature is experimental in Istio 1.8
 {{< /warning >}}
 
-This example provides instructions to integrate a virtual machine or a bare metal host into a
-single network Istio mesh deployed on Kubernetes _without_ manual WorkloadEntry creation. This approach requires L3 connectivity
-between the virtual machine and the Kubernetes cluster.
+This example provides instructions to integrate a virtual machine, or a bare metal host into a
+single network Istio mesh deployed on Kubernetes without manual WorkloadEntry creation. This approach requires L3 connectivity
+between the virtual machine, and the Kubernetes cluster.
 
 ## Prerequisites
 
@@ -74,9 +74,9 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
 
 ## Configure VM for Auto-Registration
 
-1. Create the auto-registration group. 
+1. Create the auto-registration group.
 
-    You can use WorkloadGroup to provide a template for the WorkloadEntries that make up your multiple-VM deployment. 
+    You can use WorkloadGroup to provide a template for the WorkloadEntries that make up your multiple-VM deployment.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl -n "${VM_NAMESPACE}" apply -f -
@@ -94,7 +94,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     EOF
     {{< /text >}}
 
-1. The proxy must provide enough the name and namespace to find the WorkloadGroup on connection. 
+1. The proxy must provide enough the name and namespace to find the WorkloadGroup on connection.
 
     While logged on to the Virtual Machine:
 
@@ -106,7 +106,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
 2. Reconnect with new configuration.
 
     {{< text bash >}}
-    $ sudo systemctl restart istio 
+    $ sudo systemctl restart istio
     {{< /text >}}
 
 ## Verify
@@ -154,13 +154,13 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
 
 **Congratulations!** You successfully configured a service running in a pod within the cluster to
 send traffic to a service running on a VM outside of the cluster and tested that
-the configuration worked. Adding additional VMs will only require setting up the proxy, including configuring it with 
-the WorkloadGroup and Namespace. 
+the configuration worked. Adding additional VMs will only require setting up the proxy, including configuring it with
+the WorkloadGroup and Namespace.
 
 ## Cleanup
 
 At this point, you can remove the virtual machine resources from the Kubernetes cluster in the `<vm-namespace>` namespace. 
-Removing the WorkloadGroup will not delete associated WorkloadEntry resources. Even without deleting the WorkloadGroup, 
-simply shutdown the `istio` service on the VM, or tear down the VM entirely. After a short grace period, the WorkloadEntry will be cleaned up 
-automatically. 
+Removing the WorkloadGroup will not delete associated WorkloadEntry resources. Even without deleting the WorkloadGroup,
+simply shutdown the `istio` service on the VM, or tear down the VM entirely. After a short grace period, the WorkloadEntry will be cleaned up
+automatically.
  
