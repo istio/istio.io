@@ -51,7 +51,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     {{< warning >}}
     You may have to open firewalls to be able to access the 8080 port on your virtual machine
     {{< /warning >}}
-    
+
 1. Add an associated Service to the mesh
 
     {{< text bash >}}
@@ -72,13 +72,12 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     EOF
     {{< /text >}}
 
-
 ## Configure VM for Auto-Registration
 
 1. Create the auto-registration group. 
-   
+
     You can use WorkloadGroup to provide a template for the WorkloadEntries that make up your multiple-VM deployment. 
-    
+
     {{< text bash >}}
     $ cat <<EOF | kubectl -n "${VM_NAMESPACE}" apply -f -
     apiVersion: networking.istio.io/v1alpha3
@@ -96,32 +95,32 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     {{< /text >}}
 
 1. The proxy must provide enough the name and namespace to find the WorkloadGroup on connection. 
-    
+
     While logged on to the Virtual Machine:
-    
+
     {{< text bash >}}
     $ sudo echo "ISTIO_NAMESPACE=${VM_NAMESPACE}" >> /var/lib/istio/envoy/sidecar.env
     $ sudo echo "ISTIO_META_AUTO_REGISTER_GROUP=auto-cloud-vm" >> /var/lib/istio/envoy/sidecar.env
     {{< /text >}}
-    
- 2. Reconnect with new configuration.
-    
+
+2. Reconnect with new configuration.
+
     {{< text bash >}}
     $ sudo systemctl restart istio 
     {{< /text >}}
-    
+
 ## Verify
 
 1. Ensure a WorkloadEntry was created
 
     If successful, a new WorkloadEntry should exist in your `${VM_NAMESPACE}`
-    
+
     {{< text bash >}}
     $ kubectl -n "${VM_NAMESPACE}" get workloadentry
     NAME                          AGE   ADDRESS
     auto-cloud-vm-10.128.15.202   11s   10.128.15.202
     {{< /text >}}
-    
+
 1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:
 
     {{< text bash >}}
@@ -131,7 +130,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     sleep-88ddbcfdd-rm42k            2/2       Running   0          1s
     ...
     {{< /text >}}
-    
+
 1. Send a request from the `sleep` service on the pod to the virtual machine HTTP service:
 
     {{< text bash >}}
@@ -152,7 +151,6 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     ...
     </body>
     {{< /text >}}
-    
 
 **Congratulations!** You successfully configured a service running in a pod within the cluster to
 send traffic to a service running on a VM outside of the cluster and tested that
