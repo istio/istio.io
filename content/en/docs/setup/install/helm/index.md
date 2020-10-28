@@ -10,7 +10,8 @@ test: no
 ---
 
 {{< warning >}}
-This feature is actively in development and is considered `pre-alpha`.
+This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
+considered `pre-alpha`.
 {{< /warning >}}
 
 Follow this guide to install and configure an Istio mesh using

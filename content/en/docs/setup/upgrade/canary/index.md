@@ -1,28 +1,23 @@
 ---
-title: Upgrade Istio
-description: Upgrade or downgrade Istio.
-weight: 25
-keywords: [kubernetes,upgrading]
+title: Canary Upgrades
+description: Upgrade Istio by first running a canary deployment of a new control plane.
+weight: 10
+keywords: [kubernetes,upgrading,canary]
 owner: istio/wg-environments-maintainers
 test: no
 ---
 
-{{< warning >}}
-Upgrading across more than one minor version (e.g., `1.5.x` to `1.7.x`) in one step is not officially tested or recommended.
-{{< /warning >}}
-
-## Canary upgrades
-
 Upgrading Istio can be done by first running a canary deployment of the new control plane, allowing you
 to monitor the effect of the upgrade with a small percentage of the workloads, before migrating all of the
-traffic to the new version. This is much safer than doing an in place upgrade and is the recommended upgrade method.
+traffic to the new version. This is much safer than doing an
+[in place upgrade](/docs/setup/upgrade/in-place/) and is the recommended upgrade method.
 
 When installing Istio, the `revision` installation setting can be used to deploy multiple independent control planes
 at the same time. A canary version of an upgrade can be started by installing the new Istio version's control plane
 next to the old one, using a different `revision` setting. Each revision is a full Istio control plane implementation
 with its own `Deployment`, `Service`, etc.
 
-### Control plane
+## Control plane
 
 To install a new revision called `canary`, you would set the `revision` field as follows:
 
@@ -61,7 +56,7 @@ istio-sidecar-injector          2020-03-26T07:09:21Z
 istio-sidecar-injector-canary   2020-04-28T19:03:26Z
 {{< /text >}}
 
-### Data plane
+## Data plane
 
 Unlike istiod, Istio gateways do not run revision-specific instances, but are instead in-place upgraded to use the new control plane revision.
 You can verify that the `istio-ingress` gateway is using the `canary` revision by running the following command:
@@ -105,7 +100,7 @@ $ istioctl proxy-config endpoints ${pod_name}.test-ns --cluster xds-grpc -ojson 
 
 The output confirms that the pod is using `istiod-canary` revision of the control plane.
 
-### Uninstall old control plane
+## Uninstall old control plane
 
 After upgrading both the control plane and data plane, you can uninstall the old control plane. For example, the following command uninstalls a control plane of revision `1-6-5`:
 
@@ -129,7 +124,7 @@ istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 
 Note that the above instructions only removed the resources for the specified control plane revision, but not cluster-scoped resources shared with other control planes. To uninstall Istio completely, refer to the [uninstall guide](/docs/setup/install/istioctl/#uninstall-istio).
 
-### Uninstall canary control plane
+## Uninstall canary control plane
 
 If you decide to rollback to the old control plane, instead of completing the canary upgrade,
 you can uninstall the canary revision using `istioctl x uninstall --revision=canary`.
@@ -142,100 +137,3 @@ Make sure to use the `istioctl` version corresponding to the old control plane t
 old gateways and, to avoid downtime, make sure the old gateways are up and running before proceeding
 with the canary uninstall.
 {{< /tip >}}
-
-## In place upgrades
-
-The `istioctl upgrade` command performs an upgrade of Istio. Before performing
-the upgrade, it checks that the Istio installation meets the upgrade eligibility
-criteria. Also, it alerts the user if it detects any changes in the profile
-default values between Istio versions.
-
-The upgrade command can also perform a downgrade of Istio.
-
-See the [`istioctl` upgrade reference](/docs/reference/commands/istioctl/#istioctl-upgrade)
-for all the options provided by the `istioctl upgrade` command.
-
-### Upgrade prerequisites
-
-Ensure you meet these requirements before starting the upgrade process:
-
-* Istio version is 1 minor version less than {{< istio_full_version >}}. For example, 1.6.0 or higher is required before you start the upgrade process to 1.7.0.
-
-* Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
-
-### Upgrade steps
-
-{{< warning >}}
-Traffic disruption may occur during the upgrade process. To minimize the disruption, ensure
-that at least two replicas of each component (except Citadel) are running. Also, ensure that
-[`PodDisruptionBudgets`](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
-are configured with a minimum availability of 1.
-{{< /warning >}}
-
-The commands in this section should be run using the new version of `istioctl` which
-can be found in the `bin/` subdirectory of the downloaded package.
-
-1. [Download the new Istio release](/docs/setup/getting-started/#download)
-   and change directory to the new release directory.
-
-1. Ensure that your Kubernetes configuration points to the cluster to upgrade:
-
-    {{< text bash >}}
-    $ kubectl config view
-    {{< /text >}}
-
-1. Begin the upgrade by running this command:
-
-    {{< text bash >}}
-    $ istioctl upgrade -f `<your-custom-configuration-file>`
-    {{< /text >}}
-
-    {{< warning >}}
-    If you installed Istio using the `-f` flag, for example
-    `istioctl install -f <IstioControlPlane-custom-resource-definition-file>`,
-    then you must provide the same `-f` flag value to the `istioctl upgrade` command.
-    {{< /warning >}}
-
-    `istioctl upgrade` does not support the `--set` flag. Therefore, if you
-    installed Istio using the `--set` command, create a configuration file with
-    the equivalent configuration options and pass it to the `istioctl upgrade`
-    command using the `-f` flag instead.
-
-    If you omit the `-f` flag, Istio upgrades using the default profile.
-
-    After performing several checks, `istioctl` will ask you to confirm whether to proceed.
-
-1. `istioctl` will in-place upgrade the Istio control plane and gateways to the new version and indicate the
-   completion status.
-
-1. After `istioctl` completes the upgrade, you must manually update the Istio data plane
-   by restarting any pods with Istio sidecars:
-
-    {{< text bash >}}
-    $ kubectl rollout restart deployment
-    {{< /text >}}
-
-### Downgrade prerequisites
-
-Ensure you meet these requirements before starting the downgrade process:
-
-* Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
-
-* The Istio version you intend to downgrade to is 1 minor version less than {{< istio_full_version >}}.
-
-* Downgrade must be done using the `istioctl` binary version that
-corresponds to the Istio version that you intend to downgrade to.
-For example, if you are downgrading from Istio 1.7 to 1.6.5, use `istioctl`
-version 1.6.5.
-
-### Steps to downgrade to a lower Istio version
-
-You can use `istioctl upgrade` to downgrade to a lower version of Istio. Please
-notice that you need to use the `istioctl` binary corresponding to the lower
-version (e.g., 1.6.5). The process steps are
-identical to the upgrade process mentioned in the previous section. When completed,
-the process will restore Istio back to the Istio version that was installed before.
-
-`istioctl install` can be used to install an older version of the Istio control plane, but is not recommended
-because it does not perform any checks. For example, default values applied to the cluster for a configuration
-profile may change without warning.

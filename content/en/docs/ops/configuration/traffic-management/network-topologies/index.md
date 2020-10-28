@@ -1,18 +1,18 @@
 ---
-title: Configuring Gateway Network Topology (Development)
-description: How to configure gateway network topology (Development).
+title: Configuring Gateway Network Topology [experimental]
+description: How to configure gateway network topology.
 weight: 60
 keywords: [traffic-management,ingress,gateway]
 owner: istio/wg-networking-maintainers
 test: no
 ---
 
-## Configuring network topologies (Development)
+## Configuring network topologies
 
-{{< idea >}}
+{{< warning >}}
 This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
 considered `pre-alpha`.
-{{</ idea >}}
+{{< /warning >}}
 
 Istio provides the ability to manage settings like [X-Forwarded-For](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for) (XFF)
 and [X-Forwarded-Client-Cert](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
