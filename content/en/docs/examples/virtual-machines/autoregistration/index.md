@@ -68,7 +68,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     spec:
       ports:
       - port: 8080
-        name: http-vm
+        name: http
         targetPort: 8080
       selector:
         app: auto-cloud-vm
@@ -90,8 +90,6 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     spec:
       template:
         serviceAccount: vm-sa
-        ports:
-          http-vm: 8080
         labels:
           app: auto-cloud-vm
     EOF
@@ -161,6 +159,6 @@ the `WorkloadGroup`and Namespace.
 ## Cleanup
 
 At this point, you can remove the virtual machine resources from the Kubernetes cluster in the `<vm-namespace>` namespace.
-Removing the `WorkloadGroup`will not delete associated `WorkloadEntry`resources. Even without deleting the WorkloadGroup,
+Removing the `WorkloadGroup`will not delete associated `WorkloadEntry`resources. Even without deleting the `WorkloadGroup`,
 simply shutdown the `istio` service on the VM, or tear down the VM entirely. After a short grace period, the `WorkloadEntry`will be cleaned up
 automatically.
