@@ -22,7 +22,7 @@ tests, end-to-end tests and tests in a staging environment.
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | sed 's/app: reviews/app: reviews_test/' | kubectl apply -l app=reviews_test,version=v2 -f -
-    deployment "reviews-v2" created
+    deployment.apps/reviews-v2 created
     {{< /text >}}
 
 1.  Access your application to ensure the deployed microservice did not disrupt
@@ -89,7 +89,7 @@ tests, end-to-end tests and tests in a staging environment.
     {{< text bash >}}
     $ kubectl delete deployment reviews-v2
     $ kubectl delete pod -l app=reviews,version=v2
-    deployment "reviews-v2" deleted
+    deployment.apps "reviews-v2" deleted
     pod "reviews-v2-79c8c8c7c5-4p4mn" deleted
     {{< /text >}}
 
@@ -101,7 +101,7 @@ tests, end-to-end tests and tests in a staging environment.
 
     {{< text bash >}}
     $ kubectl apply -l app=reviews,version=v2 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
-    deployment "reviews-v2" created
+    deployment.apps/reviews-v2 created
     {{< /text >}}
 
     Access your application's webpage several times and see that now the black
@@ -112,7 +112,7 @@ tests, end-to-end tests and tests in a staging environment.
 
     {{< text bash >}}
     $ kubectl scale deployment reviews-v2 --replicas=3
-    deployment "reviews-v2" scaled
+    deployment.apps/reviews-v2 scaled
     {{< /text >}}
 
     Now, access your application's webpage several times and see that the black
@@ -122,7 +122,7 @@ tests, end-to-end tests and tests in a staging environment.
 
     {{< text bash >}}
     $ kubectl delete deployment reviews-v1
-    deployment "reviews-v1" deleted
+    deployment.apps "reviews-v1" deleted
     {{< /text >}}
 
     Accessing the web page of the application will return reviews with black
