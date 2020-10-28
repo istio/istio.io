@@ -55,7 +55,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     You may have to open firewalls to be able to access the 8080 port on your virtual machine
     {{< /warning >}}
 
-1. Add an associated Service to the mesh
+1. Add an associated Service to the mesh:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl -n "${VM_NAMESPACE}" apply -f -
