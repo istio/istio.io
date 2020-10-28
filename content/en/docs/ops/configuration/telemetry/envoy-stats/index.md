@@ -46,7 +46,7 @@ the `stats_matcher` JSON element.
 
 {{< tip >}}
 Note: The names of Envoy statistics can vary based on the composition of Envoy configuration. As a result, the exposed names of statistics for Envoys managed by Istio are subject to the configuration behavior of Istio.
-If you build or maintain dashboards or alerts based on Envoy statistics, it is **strongly recommended** to examine the
+If you build or maintain dashboards or alerts based on Envoy statistics, it is **strongly recommended** that you examine the
 statistics in a canary environment **before upgrading Istio**.
 {{< /tip >}}
 
