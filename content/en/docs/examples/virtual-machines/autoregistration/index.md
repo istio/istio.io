@@ -114,7 +114,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
 
 ## Verify
 
-1. If successful, a new WorkloadEntry should exist in your `${VM_NAMESPACE}`
+1. If successful, a new WorkloadEntry should exist in your `${VM_NAMESPACE}`:
 
     {{< text bash >}}
     $ kubectl -n "${VM_NAMESPACE}" get workloadentry
