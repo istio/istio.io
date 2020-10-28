@@ -35,6 +35,6 @@ owners_listing() {
 
 pushd content/en >/dev/null
 
-owners_listing | sed -e 's|^docs/\(.*\)/index.md|- [docs/\1/index.md](https://preliminary.istio.io/latest/docs/\1)|' >../../DOC_OWNERS.md
+owners_listing | sed -e 's|^docs/\(.*\)/\(_\?index\).md|- [docs/\1/\2.md](https://preliminary.istio.io/latest/docs/\1)|' >../../DOC_OWNERS.md
 
 popd >/dev/null
