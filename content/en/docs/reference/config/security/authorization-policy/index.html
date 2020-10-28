@@ -9,7 +9,7 @@ generator: protoc-gen-docs
 schema: istio.security.v1beta1.AuthorizationPolicy
 weight: 20
 aliases: [/docs/reference/config/authorization/authorization-policy]
-number_of_entries: 13
+number_of_entries: 8
 ---
 <p>Istio Authorization Policy enables access control on workloads in the mesh.</p>
 
@@ -172,56 +172,6 @@ spec:
      version: v1
 </code></pre>
 
-<p>The following authorization policy applies to ingress gateway to enable the external authorization for all HTTP and
-TCP requests.</p>
-
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
- name: ext-auth
- namespace: istio-system
-spec:
- selector:
-   matchLabels:
-     app: istio-ingressgateway
- action: EXTERNAL
- external:
-   http:
-     server: &quot;grpc://ext-authz.foo.svc.cluster.local:9000&quot;
-   tcp:
-     server: &quot;grpc://ext-authz.foo.svc.cluster.local:9000&quot;
- rules:
- # Empty rules to always trigger the authorization request.
- - {}
-</code></pre>
-
-<p>The following authorization policy applies to ingress gateway to enable the external authorization for HTTP requests
-if the request path has prefix &ldquo;/data/&rdquo;, and customize the configuration to set the timeout to 2s and also include the
-header with prefix &ldquo;X-foo&rdquo; in the authorization request.</p>
-
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
- name: ext-auth
- namespace: istio-system
-spec:
- selector:
-   matchLabels:
-     app: istio-ingressgateway
- action: EXTERNAL
- external:
-   http:
-     server: &quot;http://ext-authz.foo.svc.cluster.local:8000&quot;
-     timeout: 2s
-     authorizationRequest:
-       allowedHeaders: [&quot;X-foo*&quot;]
- rules:
- # Specify rules to conditionally trigger the authorization request only if the path has prefix &quot;/data/&quot;.
- - to:
-   - operation:
-       paths: [&quot;/data/*&quot;]
-</code></pre>
-
 <h2 id="AuthorizationPolicy">AuthorizationPolicy</h2>
 <section>
 <p>AuthorizationPolicy enables access control on workloads.</p>
@@ -300,56 +250,11 @@ No
 No
 </td>
 </tr>
-<tr id="AuthorizationPolicy-external" class="oneof oneof-start">
-<td><code>external</code></td>
-<td><code><a href="#External">External (oneof)</a></code></td>
+<tr id="AuthorizationPolicy-provider" class="oneof oneof-start">
+<td><code>provider</code></td>
+<td><code><a href="#AuthorizationPolicy-ExtensionProvider">ExtensionProvider (oneof)</a></code></td>
 <td>
-<p>Configures how to talk to the external server. Must be set only with EXTERNAL action.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="External">External</h2>
-<section>
-<p>External supplies detailed configurations of the EXTERNAL action.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="External-http">
-<td><code>http</code></td>
-<td><code><a href="#External-HTTPConfig">HTTPConfig</a></code></td>
-<td>
-<p>If specified, the external authorization will be applied to the HTTP filter chain, otherwise the HTTP filter chain
-will have no external authorization.</p>
-
-<p>At least one of http and tcp must be set.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="External-tcp">
-<td><code>tcp</code></td>
-<td><code><a href="#External-TCPConfig">TCPConfig</a></code></td>
-<td>
-<p>If specified, the external authorization will be applied to the TCP filter chain, otherwise the TCP filter chain
-will have no external authorization.</p>
-
-<p>At least one of http and tcp must be set.</p>
+<p>Specifies detailed configuration of the CUSTOM action. Must be used only with CUSTOM action.</p>
 
 </td>
 <td>
@@ -760,221 +665,6 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="External-HTTPConfig">External.HTTPConfig</h2>
-<section>
-<p>HTTPConfig supplies detail configurations of the HTTP filter chain.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="External-HTTPConfig-server">
-<td><code>server</code></td>
-<td><code>string</code></td>
-<td>
-<p>Supplies the full URL of the external server that implements the Envoy ext_authz filter check request API.
-Istio will figure out the proper endpoint configuration based on the content of the URL:
-- The scheme (&ldquo;http://&rdquo;, &ldquo;https://&rdquo; or &ldquo;grpc://&rdquo;) will decide the protocol (HTTP or gRPC) of the check request;
-- The host will decide the internal cluster name of the target which could be either within or out of the mesh;</p>
-
-<p>Examples:
-- &ldquo;http://ext-authz.foo.svc.cluster.local:8000/&rdquo; for HTTP server on port 8000 in the mesh.
-- &ldquo;https://ext-authz.company.com/&rdquo; for HTTPS server on port 80 out of mesh.
-- &ldquo;grpc://ext-authz.foo.svc.cluster.local:9000&rdquo; for gRPC server on port 9000 in the mesh.
-- &ldquo;http://127.0.0.1:8001/&rdquo; for local HTTP server on port 8001 along with the Envoy sidecar.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="External-HTTPConfig-timeout">
-<td><code>timeout</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
-<td>
-<p>Sets the maximum duration in milliseconds for connection to the external server (default is 200ms).</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="External-HTTPConfig-authorization_request">
-<td><code>authorizationRequest</code></td>
-<td><code><a href="#External-HTTPConfig-AuthorizationRequest">AuthorizationRequest</a></code></td>
-<td>
-<p>Settings used for controlling authorization request metadata.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="External-HTTPConfig-authorization_response">
-<td><code>authorizationResponse</code></td>
-<td><code><a href="#External-HTTPConfig-AuthorizationResponse">AuthorizationResponse</a></code></td>
-<td>
-<p>Settings used for controlling authorization response metadata.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="External-HTTPConfig-include_peer_certificate">
-<td><code>includePeerCertificate</code></td>
-<td><code>bool</code></td>
-<td>
-<p>Specifies if the peer certificate is included in the external authorization request.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="External-TCPConfig">External.TCPConfig</h2>
-<section>
-<p>TCPConfig supplies detail configurations of the TCP filter chain.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="External-TCPConfig-server">
-<td><code>server</code></td>
-<td><code>string</code></td>
-<td>
-<p>Supplies the full URL of the external server that implements the Envoy ext_authz filter authorization request API.
-Only gRPC protocol is supported on TCP filter chain.</p>
-
-<p>Examples:
-- &ldquo;grpc://ext-authz.foo.svc.cluster.local:9000&rdquo; for gRPC server on port 9000 in the mesh.
-- &ldquo;grpc://127.0.0.1:8001&rdquo; for local gRPC server on port 8001 along with the Envoy sidecar.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="External-TCPConfig-timeout">
-<td><code>timeout</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
-<td>
-<p>Sets the maximum duration in milliseconds for connection to the external server (default is 200ms).</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="External-TCPConfig-include_peer_certificate">
-<td><code>includePeerCertificate</code></td>
-<td><code>bool</code></td>
-<td>
-<p>Specifies if the peer certificate is included in the external authorization request.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="External-HTTPConfig-AuthorizationRequest">External.HTTPConfig.AuthorizationRequest</h2>
-<section>
-<p>AuthorizationRequest allows to customize the authorization request.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="External-HTTPConfig-AuthorizationRequest-allowed_headers">
-<td><code>allowedHeaders</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Authorization request will include the client request headers that have a correspondent match.</p>
-
-<p>Note that in addition to the user&rsquo;s supplied matchers:
-1. <em>Host</em>, <em>Method</em>, <em>Path</em> and <em>Content-Length</em> are automatically included to the list.
-2. <em>Content-Length</em> will be set to 0 and the request to the authorization service will not have a message body.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="External-HTTPConfig-AuthorizationResponse">External.HTTPConfig.AuthorizationResponse</h2>
-<section>
-<p>AuthorizationResponse allows to customize the authorization response.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="External-HTTPConfig-AuthorizationResponse-forward_to_upstream">
-<td><code>forwardToUpstream</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>When this is set, authorization response headers that have a correspondent match will be forwarded to the
-original backend (upstream).</p>
-
-<p>Note that coexistent headers will be overridden.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="External-HTTPConfig-AuthorizationResponse-forward_to_downstream">
-<td><code>forwardToDownstream</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>When this is set, authorization response headers that have a correspondent match will be forwarded to the
-original client (downstream).</p>
-
-<p>Note that when this list is <em>not</em> set, all the authorization response headers, except <em>Authority (Host)</em> will be in
-the response to the client. When a header is included in this list, <em>Path</em>, <em>Status</em>, <em>Content-Length</em>, <em>WWWAuthenticate</em>
-and <em>Location</em> are automatically added.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="Rule-From">Rule.From</h2>
 <section>
 <p>From includes a list or sources.</p>
@@ -1061,18 +751,6 @@ No
 <td><code>AUDIT</code></td>
 <td>
 <p>Audit a request if it matches any of the rules.</p>
-
-</td>
-</tr>
-<tr id="AuthorizationPolicy-Action-EXTERNAL">
-<td><code>EXTERNAL</code></td>
-<td>
-<p>External delegates the authorization decision to an external server out of Envoy. An extra authorization request
-will be sent to the external server and the response will decide whether or not the original request should be
-allowed or denied.</p>
-
-<p>The EXTERNAL action is evaluated before the ALLOW and DENY action, implemented by the Envoy ext_authz filter
-and is currently an <strong>experimental feature</strong> in Istio.</p>
 
 </td>
 </tr>
