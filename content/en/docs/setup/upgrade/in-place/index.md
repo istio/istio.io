@@ -80,16 +80,17 @@ can be found in the `bin/` subdirectory of the downloaded package.
 
 ## Downgrade prerequisites
 
-Ensure you meet these requirements before starting the downgrade process:
+Before you begin the downgrade process, check the following prerequisites:
 
 * Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
 
-* The Istio version you intend to downgrade to is 1 minor version less than {{< istio_full_version >}}.
+* The Istio version you intend to downgrade to is no more than one minor version less than the installed Istio version.
+   For example, you can downgrade to no lower than 1.6.0 from Istio 1.7.x.
 
 * Downgrade must be done using the `istioctl` binary version that
-corresponds to the Istio version that you intend to downgrade to.
-For example, if you are downgrading from Istio 1.7 to 1.6.5, use `istioctl`
-version 1.6.5.
+    corresponds to the Istio version that you intend to downgrade to.
+    For example, if you are downgrading from Istio 1.7 to 1.6.5, use `istioctl`
+    version 1.6.5.
 
 ## Steps to downgrade to a lower Istio version
 

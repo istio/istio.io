@@ -1,5 +1,6 @@
 ---
 title: Upgrade Istio
+linktitle: Upgrade
 description: Upgrade, downgrade, and manage Istio accross multiple control plane revisions.
 weight: 25
 test: n/a
