@@ -139,6 +139,16 @@ the example application throughout this task.
             sidecar.istio.io/extraStatTags: destination_port,request_host
     {{< /text >}}
 
+    To enable extra tags mesh wide, you can add `extraStatTags` to your mesh config:
+
+    {{< text yaml >}}
+    meshConfig:
+      defaultConfig:
+        extraStatTags:
+         - destination_port
+         - request_host
+    {{< /text >}}
+
 ## Verify the results
 
 Send traffic to the mesh. For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
