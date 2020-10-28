@@ -22,7 +22,7 @@ In this module you prepare your local computer for the tutorial.
     created yourself in the previous module.
 
     {{< text bash >}}
-    $ export KUBECONFIG=<the file you recieved or created in the previous module>
+    $ export KUBECONFIG=<the file you received or created in the previous module>
     {{< /text >}}
 
 1.  Verify that the configuration took effect by printing the current namespace:
