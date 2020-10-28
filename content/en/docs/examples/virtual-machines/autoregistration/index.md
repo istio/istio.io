@@ -16,7 +16,9 @@ This feature is actively in [development](https://github.com/istio/community/blo
 considered `pre-alpha`.
 {{< /warning >}}
 
-This example provides instructions to integrate a virtual machine, or a bare metal host into a
+Istio 1.8 introduces a new configuration resource, [Workload Group](/docs/reference/config/networking/workload-group/), that can be used to automate
+the creation of [Workload Entries](/docs/reference/config/networking/workload-entry/).
+This example shows how to use a `WorkloadGroup` to integrate a virtual machine, or a bare metal host into a
 single network Istio mesh deployed on Kubernetes without manual WorkloadEntry creation. This approach requires L3 connectivity
 between the virtual machine, and the Kubernetes cluster.
 
