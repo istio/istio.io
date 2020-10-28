@@ -78,5 +78,5 @@ proxy.istio.io/config: |-
 {{< /text >}}
 
 {{< tip >}}
-Note if you are using `sidecar.istio.io/statsInclusionPrefixes`, `sidecar.istio.io/statsInclusionRegexps`, and `sidecar.istio.io/statsInclusionSuffixes`, please consider switching to `ProxyConfig` based configuration as it provides global default and uniform way to override at gateway and sidecar proxy.
+Note: If you are using `sidecar.istio.io/statsInclusionPrefixes`, `sidecar.istio.io/statsInclusionRegexps`, and `sidecar.istio.io/statsInclusionSuffixes`, consider switching to the `ProxyConfig`-based configuration as it provides a global default and a uniform way to override at the gateway and sidecar proxy.
 {{< /tip >}}
