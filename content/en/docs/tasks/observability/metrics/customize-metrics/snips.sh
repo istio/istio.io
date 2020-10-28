@@ -87,6 +87,14 @@ spec:
         sidecar.istio.io/extraStatTags: destination_port,request_host
 ENDSNIP
 
+! read -r -d '' snip_enable_custom_metrics_4 <<\ENDSNIP
+meshConfig:
+  defaultConfig:
+    extraStatTags:
+     - destination_port
+     - request_host
+ENDSNIP
+
 snip_verify_the_results_1() {
 curl "http://$GATEWAY_URL/productpage"
 }
