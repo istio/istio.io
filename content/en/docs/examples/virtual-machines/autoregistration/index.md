@@ -1,5 +1,5 @@
 ---
-title: Automated WorkloadEntry creation with WorkloadGroup
+title: Automated Workload Entry Creation [experimental]
 description: Learn how to use the experimental automated VM registration feature.
   Istio mesh.
 weight: 20
