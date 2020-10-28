@@ -364,108 +364,7 @@ The `IstioOperator` API defines components as shown in the table below:
 `cni` |
 `istiodRemote` |
 
-### Configure component settings
-
-After you identify the name of the component from the previous table, you can use the API to set the values
-using the `--set` flag, or create an overlay file and use the `--filename` flag. The `--set` flag
-works well for customizing a few parameters. Overlay files are designed for more extensive customization, or
-tracking configuration changes.
-
-The simplest customization is to turn a component on or off from the configuration profile default.
-
-To disable the telemetry component in a default configuration profile, use this command:
-
-{{< text bash >}}
-$ istioctl install --set components.telemetry.enabled=false
-{{< /text >}}
-
-Alternatively, you can disable the telemetry component using a configuration overlay file:
-
-1. Create this file with the name `telemetry_off.yaml` and these contents:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  components:
-    telemetry:
-      enabled: false
-{{< /text >}}
-
-1. Use the `telemetry_off.yaml` overlay file with the `istioctl install` command:
-
-{{< text bash >}}
-$ istioctl install -f telemetry_off.yaml
-{{< /text >}}
-
-### Configure gateways
-
-Gateways are a special type of component, since multiple ingress and egress gateways can be defined. In the
-[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/), gateways are defined as a list type.
-The `default` profile installs one ingress gateway, called `istio-ingressgateway`. You can inspect the default values
-for this gateway:
-
-{{< text bash >}}
-$ istioctl profile dump --config-path components.ingressGateways
-$ istioctl profile dump --config-path values.gateways.istio-ingressgateway
-{{< /text >}}
-
-These commands show both the `IstioOperator` and Helm settings for the gateway, which are used together to define the
-generated gateway resources. The built-in gateways can be customized just like any other component.
-
-{{< warning >}}
-From 1.7 onward, the gateway name must always be specified when overlaying. Not specifying any name no longer
-defaults to `istio-ingressgateway` or `istio-egressgateway`.
-{{< /warning >}}
-
-A new user gateway can be created by adding a new list entry:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  components:
-    ingressGateways:
-      - name: istio-ingressgateway
-        enabled: true
-      - namespace: user-ingressgateway-ns
-        name: ilb-gateway
-        enabled: true
-        k8s:
-          resources:
-            requests:
-              cpu: 200m
-          serviceAnnotations:
-            cloud.google.com/load-balancer-type: "internal"
-          service:
-            ports:
-            - port: 8060
-              targetPort: 8060
-              name: tcp-citadel-grpc-tls
-            - port: 5353
-              name: tcp-dns
-{{< /text >}}
-
-Note that Helm values (`spec.values.gateways.istio-ingressgateway/egressgateway`) are shared by all ingress/egress
-gateways. If these must be customized per gateway, it is recommended to use a separate IstioOperator CR to generate
-a manifest for the user gateways, separate from the main Istio installation:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  profile: empty
-  components:
-    ingressGateways:
-      - name: ilb-gateway
-        namespace: user-ingressgateway-ns
-        enabled: true
-        # Copy settings from istio-ingressgateway as needed.
-  values:
-    gateways:
-      istio-ingressgateway:
-        debug: error
-{{< /text >}}
+These components share a common API for setting Kubernetes resources.
 
 ### Customize Kubernetes settings
 
@@ -547,6 +446,75 @@ spec:
 Some parameters will temporarily exist in both the Helm and `IstioOperator` APIs, including Kubernetes resources,
 namespaces and enablement settings. The Istio community recommends using the `IstioOperator` API as it is more
 consistent, is validated, and follows the [community graduation process](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
+
+### Configure gateways
+
+Gateways are a special type of component, since multiple ingress and egress gateways can be defined. In the
+[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/), gateways are defined as a list type.
+The `default` profile installs one ingress gateway, called `istio-ingressgateway`. You can inspect the default values
+for this gateway:
+
+{{< text bash >}}
+$ istioctl profile dump --config-path components.ingressGateways
+$ istioctl profile dump --config-path values.gateways.istio-ingressgateway
+{{< /text >}}
+
+These commands show both the `IstioOperator` and Helm settings for the gateway, which are used together to define the
+generated gateway resources. The built-in gateways can be customized just like any other component.
+
+{{< warning >}}
+From 1.7 onward, the gateway name must always be specified when overlaying. Not specifying any name no longer
+defaults to `istio-ingressgateway` or `istio-egressgateway`.
+{{< /warning >}}
+
+A new user gateway can be created by adding a new list entry:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  components:
+    ingressGateways:
+      - name: istio-ingressgateway
+        enabled: true
+      - namespace: user-ingressgateway-ns
+        name: ilb-gateway
+        enabled: true
+        k8s:
+          resources:
+            requests:
+              cpu: 200m
+          serviceAnnotations:
+            cloud.google.com/load-balancer-type: "internal"
+          service:
+            ports:
+            - port: 8060
+              targetPort: 8060
+              name: tcp-citadel-grpc-tls
+            - port: 5353
+              name: tcp-dns
+{{< /text >}}
+
+Note that Helm values (`spec.values.gateways.istio-ingressgateway/egressgateway`) are shared by all ingress/egress
+gateways. If these must be customized per gateway, it is recommended to use a separate IstioOperator CR to generate
+a manifest for the user gateways, separate from the main Istio installation:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: empty
+  components:
+    ingressGateways:
+      - name: ilb-gateway
+        namespace: user-ingressgateway-ns
+        enabled: true
+        # Copy settings from istio-ingressgateway as needed.
+  values:
+    gateways:
+      istio-ingressgateway:
+        debug: error
+{{< /text >}}
 
 ## Advanced install customization
 
