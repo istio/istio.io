@@ -65,7 +65,7 @@ proxyStatsMatcher:
     - "upstream_cx"
 {{< /text >}}
 
-You can also override the global stats matching configuration at per proxy by using `proxy.istio.io/config` annotation. For example, to configure the same stats generation inclusion as above, you can add the annotation to a gateway proxy or a workload as follow:
+You can also override the global stats matching configuration per proxy by using the `proxy.istio.io/config` annotation. For example, to configure the same stats generation inclusion as above, you can add the annotation to a gateway proxy or a workload as follow:
 
 {{< text yaml >}}
 proxy.istio.io/config: |-
