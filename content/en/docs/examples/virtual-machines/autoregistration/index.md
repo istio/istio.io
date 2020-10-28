@@ -12,7 +12,8 @@ test: no
 ---
 
 {{< warning >}}
-This feature is experimental in Istio 1.8
+This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
+considered `pre-alpha`.
 {{< /warning >}}
 
 This example provides instructions to integrate a virtual machine, or a bare metal host into a
