@@ -79,7 +79,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
 
 1. Create the auto-registration group.
 
-    WorkloadGroup provides a template to automatically create a WorkloadEntry for each connected VM instance.
+    `WorkloadGroup`provides a template to automatically create a `WorkloadEntry`for each connected VM instance.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl -n "${VM_NAMESPACE}" apply -f -
@@ -97,7 +97,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     EOF
     {{< /text >}}
 
-1. The proxy must provide enough the name and namespace to find the WorkloadGroup on connection.
+1. The proxy must provide enough the name and namespace to find the `WorkloadGroup`on connection.
 
     While logged on to the Virtual Machine:
 
@@ -114,7 +114,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
 
 ## Verify
 
-1. If successful, a new WorkloadEntry should exist in your `${VM_NAMESPACE}`:
+1. If successful, a new `WorkloadEntry`should exist in your `${VM_NAMESPACE}`:
 
     {{< text bash >}}
     $ kubectl -n "${VM_NAMESPACE}" get workloadentry
@@ -156,11 +156,11 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
 **Congratulations!** You successfully configured a service running in a pod within the cluster to
 send traffic to a service running on a VM outside of the cluster and tested that
 the configuration worked. Adding additional VMs will only require setting up the proxy, including configuring it with
-the WorkloadGroup and Namespace.
+the `WorkloadGroup`and Namespace.
 
 ## Cleanup
 
 At this point, you can remove the virtual machine resources from the Kubernetes cluster in the `<vm-namespace>` namespace.
-Removing the WorkloadGroup will not delete associated WorkloadEntry resources. Even without deleting the WorkloadGroup,
-simply shutdown the `istio` service on the VM, or tear down the VM entirely. After a short grace period, the WorkloadEntry will be cleaned up
+Removing the `WorkloadGroup`will not delete associated `WorkloadEntry`resources. Even without deleting the WorkloadGroup,
+simply shutdown the `istio` service on the VM, or tear down the VM entirely. After a short grace period, the `WorkloadEntry`will be cleaned up
 automatically.
