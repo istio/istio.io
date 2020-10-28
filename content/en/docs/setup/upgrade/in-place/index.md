@@ -19,9 +19,10 @@ for all the options provided by the `istioctl upgrade` command.
 
 ## Upgrade prerequisites
 
-Ensure you meet these requirements before starting the upgrade process:
+Before you begin the upgrade process, check the following prerequisites:
 
-* Istio version is 1 minor version less than {{< istio_full_version >}}. For example, 1.6.0 or higher is required before you start the upgrade process to 1.7.0.
+* The installed Istio version is no more than one minor version less than the upgrade version.
+   For example, 1.6.0 or higher is required before you start the upgrade process to 1.7.x.
 
 * Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
 
@@ -92,12 +93,10 @@ version 1.6.5.
 
 ## Steps to downgrade to a lower Istio version
 
-You can use `istioctl upgrade` to downgrade to a lower version of Istio. Please
-notice that you need to use the `istioctl` binary corresponding to the lower
-version (e.g., 1.6.5). The process steps are
-identical to the upgrade process mentioned in the previous section. When completed,
-the process will restore Istio back to the Istio version that was installed before.
+You can use `istioctl upgrade` to downgrade to a lower version of Istio. The steps are
+identical to the upgrade process described in the previous section, only using the `istioctl` binary corresponding
+to the lower version (e.g., 1.6.5). When completed, Istio will be restored to the previously installed version.
 
-`istioctl install` can be used to install an older version of the Istio control plane, but is not recommended
+Alternatively, `istioctl install` can be used to install an older version of the Istio control plane, but is not recommended
 because it does not perform any checks. For example, default values applied to the cluster for a configuration
 profile may change without warning.

@@ -1,11 +1,16 @@
 ---
-title: Managing Gateways with Multiple Revisions
+title: Managing Gateways with Multiple Revisions [experimental]
 description: Configuring and upgrading Istio with gateways.
 weight: 30
 keywords: [kubernetes,upgrading,gateway]
 owner: istio/wg-environments-maintainers
 test: no
 ---
+
+{{< warning >}}
+This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
+considered `pre-alpha`.
+{{< /warning >}}
 
 With a single `IstioOperator` CR, any gateways defined in the CR (including the `istio-ingressgateway` installed in the
 default profile) are upgraded in place, even when the
@@ -23,7 +28,7 @@ include `.` (dots).
 
 ## Istioctl
 
-This section covers installation and upgrade of a separate control plane and gateway using `istioctl`.
+This section covers the installation and upgrade of a separate control plane and gateway using `istioctl`.
 
 ### Installation with `istioctl`
 
@@ -117,7 +122,7 @@ to install the Istio 1.8.1 control plane:
 
 ## Operator
 
-This section covers installation and upgrade of a separate control plane and gateway using the Istio operator.
+This section covers the installation and upgrade of a separate control plane and gateway using the Istio operator.
 
 ### Installation with operator
 
