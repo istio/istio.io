@@ -1,6 +1,6 @@
 ---
 title: Configuring Gateway Network Topology [experimental]
-description: How to configure gateway network topology (Development).
+description: How to configure gateway network topology.
 weight: 60
 keywords: [traffic-management,ingress,gateway]
 owner: istio/wg-networking-maintainers
