@@ -373,10 +373,6 @@ remove_toc_prefix: 'pilot-agent '
 <td><code>--tokenManagerPlugin &lt;string&gt;</code></td>
 <td>Token provider specific plugin name.  (default `GoogleTokenExchange`)</td>
 </tr>
-<tr>
-<td><code>--trust-domain &lt;string&gt;</code></td>
-<td>The domain to use for identities  (default ``)</td>
-</tr>
 </tbody>
 </table>
 <h2 id="pilot-agent-request">pilot-agent request</h2>
@@ -1082,12 +1078,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Whether to generate PKCS#8 private keys</td>
 </tr>
 <tr>
-<td><code>PLUGINS</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Token exchange plugins</td>
-</tr>
-<tr>
 <td><code>POD_NAME</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -1154,12 +1144,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Name of service account</td>
 </tr>
 <tr>
-<td><code>SKIP_PARSE_TOKEN</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>Skip Parse token to inspect information like expiration time in proxy. This may be possible for example in vm we don&#39;t use token to rotate cert.</td>
-</tr>
-<tr>
 <td><code>SPIFFE_BUNDLE_ENDPOINTS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -1182,6 +1166,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code>istio-ca</code></td>
 <td>A list of comma separated audiences to check in the JWT token before issuing a certificate. The token is accepted if it matches with one of the audiences</td>
+</tr>
+<tr>
+<td><code>TRUST_DOMAIN</code></td>
+<td>String</td>
+<td><code>cluster.local</code></td>
+<td>The trust domain for spiffe certificates</td>
 </tr>
 <tr>
 <td><code>USE_TOKEN_FOR_CSR</code></td>

@@ -11,761 +11,6 @@ number_of_entries: 29
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
-<h2 id="Tracing">Tracing</h2>
-<section>
-<p>Tracing defines configuration for the tracing performed by Envoy instances.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Tracing-zipkin" class="oneof oneof-start">
-<td><code>zipkin</code></td>
-<td><code><a href="#Tracing-Zipkin">Zipkin (oneof)</a></code></td>
-<td>
-<p>Use a Zipkin tracer.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Tracing-lightstep" class="oneof">
-<td><code>lightstep</code></td>
-<td><code><a href="#Tracing-Lightstep">Lightstep (oneof)</a></code></td>
-<td>
-<p>Use a Lightstep tracer.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Tracing-datadog" class="oneof">
-<td><code>datadog</code></td>
-<td><code><a href="#Tracing-Datadog">Datadog (oneof)</a></code></td>
-<td>
-<p>Use a Datadog tracer.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Tracing-stackdriver" class="oneof">
-<td><code>stackdriver</code></td>
-<td><code><a href="#Tracing-Stackdriver">Stackdriver (oneof)</a></code></td>
-<td>
-<p>Use a Stackdriver tracer.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Tracing-open_census_agent" class="oneof">
-<td><code>openCensusAgent</code></td>
-<td><code><a href="#Tracing-OpenCensusAgent">OpenCensusAgent (oneof)</a></code></td>
-<td>
-<p>Use an OpenCensus tracer exporting to an OpenCensus agent.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Tracing-tls_settings">
-<td><code>tlsSettings</code></td>
-<td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
-<td>
-<p>Use the tls_settings to specify the tls mode to use. If the remote tracing service
-uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
-mode as <code>ISTIO_MUTUAL</code>.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="SDS">SDS</h2>
-<section>
-<p>SDS defines secret discovery service(SDS) configuration to be used by the proxy.
-For workload, its values are set in sidecar injector(passed as arguments to istio-proxy container).
-For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilot/mixer deployment yaml files directly.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="SDS-enabled">
-<td><code>enabled</code></td>
-<td><code>bool</code></td>
-<td>
-<p>True if SDS is enabled.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="SDS-k8s_sa_jwt_path">
-<td><code>k8sSaJwtPath</code></td>
-<td><code>string</code></td>
-<td>
-<p>Path of k8s service account JWT path.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ProxyConfig">ProxyConfig</h2>
-<section>
-<p>ProxyConfig defines variables for individual Envoy instances.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ProxyConfig-config_path">
-<td><code>configPath</code></td>
-<td><code>string</code></td>
-<td>
-<p>Path to the generated configuration file directory.
-Proxy agent generates the actual configuration and stores it in this directory.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-binary_path">
-<td><code>binaryPath</code></td>
-<td><code>string</code></td>
-<td>
-<p>Path to the proxy binary</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-service_cluster">
-<td><code>serviceCluster</code></td>
-<td><code>string</code></td>
-<td>
-<p>Service cluster defines the name for the <code>service_cluster</code> that is
-shared by all Envoy instances. This setting corresponds to
-<code>--service-cluster</code> flag in Envoy.  In a typical Envoy deployment, the
-<code>service-cluster</code> flag is used to identify the caller, for
-source-based routing scenarios.</p>
-
-<p>Since Istio does not assign a local <code>service/service</code> version to each
-Envoy instance, the name is same for all of them.  However, the
-source/caller&rsquo;s identity (e.g., IP address) is encoded in the
-<code>--service-node</code> flag when launching Envoy.  When the RDS service
-receives API calls from Envoy, it uses the value of the <code>service-node</code>
-flag to compute routes that are relative to the service instances
-located at that IP address.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-drain_duration">
-<td><code>drainDuration</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
-<td>
-<p>The time in seconds that Envoy will drain connections during a hot
-restart. MUST be &gt;=1s (e.g., <em>1s/1m/1h</em>)
-Default drain duration is <code>45s</code>.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-parent_shutdown_duration">
-<td><code>parentShutdownDuration</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
-<td>
-<p>The time in seconds that Envoy will wait before shutting down the
-parent process during a hot restart. MUST be &gt;=1s (e.g., <code>1s/1m/1h</code>).
-MUST BE greater than <code>drain_duration</code> parameter.
-Default shutdown duration is <code>60s</code>.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-discovery_address">
-<td><code>discoveryAddress</code></td>
-<td><code>string</code></td>
-<td>
-<p>Address of the discovery service exposing xDS with mTLS connection.
-The inject configuration may override this value.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-statsd_udp_address">
-<td><code>statsdUdpAddress</code></td>
-<td><code>string</code></td>
-<td>
-<p>IP Address and Port of a statsd UDP listener (e.g. <code>10.75.241.127:9125</code>).</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-proxy_admin_port">
-<td><code>proxyAdminPort</code></td>
-<td><code>int32</code></td>
-<td>
-<p>Port on which Envoy should listen for administrative commands.
-Default port is <code>15000</code>.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-control_plane_auth_policy">
-<td><code>controlPlaneAuthPolicy</code></td>
-<td><code><a href="#AuthenticationPolicy">AuthenticationPolicy</a></code></td>
-<td>
-<p>AuthenticationPolicy defines how the proxy is authenticated when it connects to the control plane.
-Default is set to <code>MUTUAL_TLS</code>.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-custom_config_file">
-<td><code>customConfigFile</code></td>
-<td><code>string</code></td>
-<td>
-<p>File path of custom proxy configuration, currently used by proxies
-in front of Mixer and Pilot.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-stat_name_length">
-<td><code>statNameLength</code></td>
-<td><code>int32</code></td>
-<td>
-<p>Maximum length of name field in Envoy&rsquo;s metrics. The length of the name field
-is determined by the length of a name field in a service and the set of labels that
-comprise a particular version of the service. The default value is set to 189 characters.
-Envoy&rsquo;s internal metrics take up 67 characters, for a total of 256 character name per metric.
-Increase the value of this field if you find that the metrics from Envoys are truncated.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-concurrency">
-<td><code>concurrency</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></code></td>
-<td>
-<p>The number of worker threads to run.
-If unset, this will be automatically determined based on CPU requests/limits.
-If set to 0, all cores on the machine will be used.
-Default is 2 worker threads.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-proxy_bootstrap_template_path">
-<td><code>proxyBootstrapTemplatePath</code></td>
-<td><code>string</code></td>
-<td>
-<p>Path to the proxy bootstrap template file</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-interception_mode">
-<td><code>interceptionMode</code></td>
-<td><code><a href="#ProxyConfig-InboundInterceptionMode">InboundInterceptionMode</a></code></td>
-<td>
-<p>The mode used to redirect inbound traffic to Envoy.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-tracing">
-<td><code>tracing</code></td>
-<td><code><a href="#Tracing">Tracing</a></code></td>
-<td>
-<p>Tracing configuration to be used by the proxy.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-sds">
-<td><code>sds</code></td>
-<td><code><a href="#SDS">SDS</a></code></td>
-<td>
-<p>Secret Discovery Service(SDS) configuration to be used by the proxy.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-envoy_access_log_service">
-<td><code>envoyAccessLogService</code></td>
-<td><code><a href="#RemoteService">RemoteService</a></code></td>
-<td>
-<p>Address of the service to which access logs from Envoys should be
-sent. (e.g. <code>accesslog-service:15000</code>). See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/accesslog/v2/als.proto">Access Log
-Service</a>
-for details about Envoy&rsquo;s gRPC Access Log Service API.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-envoy_metrics_service">
-<td><code>envoyMetricsService</code></td>
-<td><code><a href="#RemoteService">RemoteService</a></code></td>
-<td>
-<p>Address of the Envoy Metrics Service implementation (e.g. <code>metrics-service:15000</code>).
-See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/metrics/v2/metrics_service.proto">Metric Service</a>
-for details about Envoy&rsquo;s Metrics Service API.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-status_port">
-<td><code>statusPort</code></td>
-<td><code>int32</code></td>
-<td>
-<p>Port on which the agent should listen for administrative commands such as readiness probe.
-Default is set to port <code>15020</code>.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-extra_stat_tags">
-<td><code>extraStatTags</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>An additional list of tags to extract from the in-proxy Istio telemetry. These extra tags can be
-added by configuring the telemetry extension. Each additional tag needs to be present in this list.
-Extra tags emitted by the telemetry extensions must be listed here so that they can be processed
-and exposed as Prometheus metrics.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-termination_drain_duration">
-<td><code>terminationDrainDuration</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
-<td>
-<p>The amount of time allowed for connections to complete on proxy shutdown.
-On receiving <code>SIGTERM</code> or <code>SIGINT</code>, <code>istio-agent</code> tells the active Envoy to start draining,
-preventing any new connections and allowing existing connections to complete. It then
-sleeps for the <code>termination_drain_duration</code> and then kills any remaining active Envoy processes.
-If not set, a default of <code>5s</code> will be applied.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-mesh_id">
-<td><code>meshId</code></td>
-<td><code>string</code></td>
-<td>
-<p>The unique identifier for the <a href="/docs/reference/glossary/#service-mesh">service mesh</a>
-All control planes running in the same service mesh should specify the same mesh ID.
-Mesh ID is used to label telemetry reports for cases where telemetry from multiple meshes is mixed together.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-readiness_probe">
-<td><code>readinessProbe</code></td>
-<td><code><a href="/docs/reference/config/networking/workload-group/#ReadinessProbe">ReadinessProbe</a></code></td>
-<td>
-<p>VM Health Checking readiness probe. This health check config exactly mirrors the
-kubernetes readiness probe configuration both in schema and logic.
-Only one health check method of 3 can be set at a time.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-proxy_stats_matcher">
-<td><code>proxyStatsMatcher</code></td>
-<td><code><a href="#ProxyConfig-ProxyStatsMatcher">ProxyStatsMatcher</a></code></td>
-<td>
-<p>Proxy stats matcher defines configuration for reporting custom Envoy stats.
-To reduce memory and CPU overhead from Envoy stats system, Istio proxies by
-default create and expose only a subset of Envoy stats. This option is to
-control creation of additional Envoy stats with prefix, suffix, and regex
-expressions match on the name of the stats. This replaces the stats
-inclusion annotations
-(<code>sidecar.istio.io/statsInclusionPrefixes</code>,
-<code>sidecar.istio.io/statsInclusionRegexps</code>, and
-<code>sidecar.istio.io/statsInclusionSuffixes</code>). For example, to enable stats
-for circuit breaker, retry, and upstream connections, you can specify stats
-matcher as follow:</p>
-
-<pre><code class="language-yaml">proxyStatsMatcher:
-  inclusionRegexps:
-    - .*circuit_breakers.*
-  inclusionPrefixes:
-    - upstream_rq_retry
-    - upstream_cx
-</code></pre>
-
-<p>Note including more Envoy stats might increase number of time series
-collected by prometheus significantly. Care needs to be taken on Prometheus
-resource provision and configuration to reduce cardinality.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-zipkin_address" class="deprecated ">
-<td><code>zipkinAddress</code></td>
-<td><code>string</code></td>
-<td>
-<p>Address of the Zipkin service (e.g. <em>zipkin:9411</em>).
-DEPRECATED: Use <a href="#ProxyConfig-tracing">tracing</a> instead.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="RemoteService">RemoteService</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="RemoteService-address">
-<td><code>address</code></td>
-<td><code>string</code></td>
-<td>
-<p>Address of a remove service used for various purposes (access log
-receiver, metrics receiver, etc.). Can be IP address or a fully
-qualified DNS name.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="RemoteService-tls_settings">
-<td><code>tlsSettings</code></td>
-<td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
-<td>
-<p>Use the <code>tls_settings</code> to specify the tls mode to use. If the remote service
-uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
-mode as <code>ISTIO_MUTUAL</code>.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="RemoteService-tcp_keepalive">
-<td><code>tcpKeepalive</code></td>
-<td><code><a href="/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-TCPSettings-TcpKeepalive">TcpKeepalive</a></code></td>
-<td>
-<p>If set then set <code>SO_KEEPALIVE</code> on the socket to enable TCP Keepalives.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="Tracing-Zipkin">Tracing.Zipkin</h2>
-<section>
-<p>Zipkin defines configuration for a Zipkin tracer.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Tracing-Zipkin-address">
-<td><code>address</code></td>
-<td><code>string</code></td>
-<td>
-<p>Address of the Zipkin service (e.g. <em>zipkin:9411</em>).</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="Tracing-Lightstep">Tracing.Lightstep</h2>
-<section>
-<p>Defines configuration for a Lightstep tracer.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Tracing-Lightstep-address">
-<td><code>address</code></td>
-<td><code>string</code></td>
-<td>
-<p>Address of the Lightstep Satellite pool.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Tracing-Lightstep-access_token">
-<td><code>accessToken</code></td>
-<td><code>string</code></td>
-<td>
-<p>The Lightstep access token.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="Tracing-Datadog">Tracing.Datadog</h2>
-<section>
-<p>Datadog defines configuration for a Datadog tracer.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Tracing-Datadog-address">
-<td><code>address</code></td>
-<td><code>string</code></td>
-<td>
-<p>Address of the Datadog Agent.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="Tracing-Stackdriver">Tracing.Stackdriver</h2>
-<section>
-<p>Stackdriver defines configuration for a Stackdriver tracer.
-See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/opencensus.proto">Envoy&rsquo;s OpenCensus trace configuration</a>
-and
-<a href="https://github.com/census-instrumentation/opencensus-proto/blob/master/src/opencensus/proto/trace/v1/trace_config.proto">OpenCensus trace config</a> for details.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
-</section>
-<h2 id="Tracing-OpenCensusAgent">Tracing.OpenCensusAgent</h2>
-<section>
-<p>OpenCensusAgent defines configuration for an OpenCensus tracer writing to
-an OpenCensus agent backend. See
-<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/opencensus.proto">Envoy&rsquo;s OpenCensus trace configuration</a>
-and
-<a href="https://github.com/census-instrumentation/opencensus-proto/blob/master/src/opencensus/proto/trace/v1/trace_config.proto">OpenCensus trace config</a>
-for details.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Tracing-OpenCensusAgent-address">
-<td><code>address</code></td>
-<td><code>string</code></td>
-<td>
-<p>gRPC address for the OpenCensus agent (e.g. dns://authority/host:port or
-unix:path). See <a href="https://github.com/grpc/grpc/blob/master/doc/naming.md">gRPC naming
-docs</a> for
-details.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Tracing-OpenCensusAgent-context">
-<td><code>context</code></td>
-<td><code><a href="#Tracing-OpenCensusAgent-TraceContext">TraceContext[]</a></code></td>
-<td>
-<p>Specifies the set of context propagation headers used for distributed
-tracing. Default is <code>[&quot;W3C_TRACE_CONTEXT&quot;]</code>. If multiple values are specified,
-the proxy will attempt to read each header for each request and will
-write all headers.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ProxyConfig-ProxyStatsMatcher">ProxyConfig.ProxyStatsMatcher</h2>
-<section>
-<p>Proxy stats name matchers for stats creation. Note this is in addition to
-the minimum Envoy stats that Istio generates by default.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ProxyConfig-ProxyStatsMatcher-inclusion_prefixes">
-<td><code>inclusionPrefixes</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Proxy stats name prefix matcher for inclusion.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-ProxyStatsMatcher-inclusion_suffixes">
-<td><code>inclusionSuffixes</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Proxy stats name suffix matcher for inclusion.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-ProxyStatsMatcher-inclusion_regexps">
-<td><code>inclusionRegexps</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Proxy stats name regexps matcher for inclusion.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="MeshConfig">MeshConfig</h2>
 <section>
 <p>MeshConfig defines mesh-wide variables shared by all Envoy instances in the
@@ -1633,6 +878,761 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="Tracing">Tracing</h2>
+<section>
+<p>Tracing defines configuration for the tracing performed by Envoy instances.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Tracing-zipkin" class="oneof oneof-start">
+<td><code>zipkin</code></td>
+<td><code><a href="#Tracing-Zipkin">Zipkin (oneof)</a></code></td>
+<td>
+<p>Use a Zipkin tracer.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Tracing-lightstep" class="oneof">
+<td><code>lightstep</code></td>
+<td><code><a href="#Tracing-Lightstep">Lightstep (oneof)</a></code></td>
+<td>
+<p>Use a Lightstep tracer.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Tracing-datadog" class="oneof">
+<td><code>datadog</code></td>
+<td><code><a href="#Tracing-Datadog">Datadog (oneof)</a></code></td>
+<td>
+<p>Use a Datadog tracer.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Tracing-stackdriver" class="oneof">
+<td><code>stackdriver</code></td>
+<td><code><a href="#Tracing-Stackdriver">Stackdriver (oneof)</a></code></td>
+<td>
+<p>Use a Stackdriver tracer.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Tracing-open_census_agent" class="oneof">
+<td><code>openCensusAgent</code></td>
+<td><code><a href="#Tracing-OpenCensusAgent">OpenCensusAgent (oneof)</a></code></td>
+<td>
+<p>Use an OpenCensus tracer exporting to an OpenCensus agent.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Tracing-tls_settings">
+<td><code>tlsSettings</code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
+<td>
+<p>Use the tls_settings to specify the tls mode to use. If the remote tracing service
+uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
+mode as <code>ISTIO_MUTUAL</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SDS">SDS</h2>
+<section>
+<p>SDS defines secret discovery service(SDS) configuration to be used by the proxy.
+For workload, its values are set in sidecar injector(passed as arguments to istio-proxy container).
+For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilot/mixer deployment yaml files directly.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SDS-enabled">
+<td><code>enabled</code></td>
+<td><code>bool</code></td>
+<td>
+<p>True if SDS is enabled.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SDS-k8s_sa_jwt_path">
+<td><code>k8sSaJwtPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path of k8s service account JWT path.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ProxyConfig">ProxyConfig</h2>
+<section>
+<p>ProxyConfig defines variables for individual Envoy instances.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-config_path">
+<td><code>configPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path to the generated configuration file directory.
+Proxy agent generates the actual configuration and stores it in this directory.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-binary_path">
+<td><code>binaryPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path to the proxy binary</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-service_cluster">
+<td><code>serviceCluster</code></td>
+<td><code>string</code></td>
+<td>
+<p>Service cluster defines the name for the <code>service_cluster</code> that is
+shared by all Envoy instances. This setting corresponds to
+<code>--service-cluster</code> flag in Envoy.  In a typical Envoy deployment, the
+<code>service-cluster</code> flag is used to identify the caller, for
+source-based routing scenarios.</p>
+
+<p>Since Istio does not assign a local <code>service/service</code> version to each
+Envoy instance, the name is same for all of them.  However, the
+source/caller&rsquo;s identity (e.g., IP address) is encoded in the
+<code>--service-node</code> flag when launching Envoy.  When the RDS service
+receives API calls from Envoy, it uses the value of the <code>service-node</code>
+flag to compute routes that are relative to the service instances
+located at that IP address.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-drain_duration">
+<td><code>drainDuration</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>The time in seconds that Envoy will drain connections during a hot
+restart. MUST be &gt;=1s (e.g., <em>1s/1m/1h</em>)
+Default drain duration is <code>45s</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-parent_shutdown_duration">
+<td><code>parentShutdownDuration</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>The time in seconds that Envoy will wait before shutting down the
+parent process during a hot restart. MUST be &gt;=1s (e.g., <code>1s/1m/1h</code>).
+MUST BE greater than <code>drain_duration</code> parameter.
+Default shutdown duration is <code>60s</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-discovery_address">
+<td><code>discoveryAddress</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the discovery service exposing xDS with mTLS connection.
+The inject configuration may override this value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-statsd_udp_address">
+<td><code>statsdUdpAddress</code></td>
+<td><code>string</code></td>
+<td>
+<p>IP Address and Port of a statsd UDP listener (e.g. <code>10.75.241.127:9125</code>).</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-proxy_admin_port">
+<td><code>proxyAdminPort</code></td>
+<td><code>int32</code></td>
+<td>
+<p>Port on which Envoy should listen for administrative commands.
+Default port is <code>15000</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-control_plane_auth_policy">
+<td><code>controlPlaneAuthPolicy</code></td>
+<td><code><a href="#AuthenticationPolicy">AuthenticationPolicy</a></code></td>
+<td>
+<p>AuthenticationPolicy defines how the proxy is authenticated when it connects to the control plane.
+Default is set to <code>MUTUAL_TLS</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-custom_config_file">
+<td><code>customConfigFile</code></td>
+<td><code>string</code></td>
+<td>
+<p>File path of custom proxy configuration, currently used by proxies
+in front of Mixer and Pilot.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-stat_name_length">
+<td><code>statNameLength</code></td>
+<td><code>int32</code></td>
+<td>
+<p>Maximum length of name field in Envoy&rsquo;s metrics. The length of the name field
+is determined by the length of a name field in a service and the set of labels that
+comprise a particular version of the service. The default value is set to 189 characters.
+Envoy&rsquo;s internal metrics take up 67 characters, for a total of 256 character name per metric.
+Increase the value of this field if you find that the metrics from Envoys are truncated.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-concurrency">
+<td><code>concurrency</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></code></td>
+<td>
+<p>The number of worker threads to run.
+If unset, this will be automatically determined based on CPU requests/limits.
+If set to 0, all cores on the machine will be used.
+Default is 2 worker threads.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-proxy_bootstrap_template_path">
+<td><code>proxyBootstrapTemplatePath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path to the proxy bootstrap template file</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-interception_mode">
+<td><code>interceptionMode</code></td>
+<td><code><a href="#ProxyConfig-InboundInterceptionMode">InboundInterceptionMode</a></code></td>
+<td>
+<p>The mode used to redirect inbound traffic to Envoy.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-tracing">
+<td><code>tracing</code></td>
+<td><code><a href="#Tracing">Tracing</a></code></td>
+<td>
+<p>Tracing configuration to be used by the proxy.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-sds">
+<td><code>sds</code></td>
+<td><code><a href="#SDS">SDS</a></code></td>
+<td>
+<p>Secret Discovery Service(SDS) configuration to be used by the proxy.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-envoy_access_log_service">
+<td><code>envoyAccessLogService</code></td>
+<td><code><a href="#RemoteService">RemoteService</a></code></td>
+<td>
+<p>Address of the service to which access logs from Envoys should be
+sent. (e.g. <code>accesslog-service:15000</code>). See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/accesslog/v2/als.proto">Access Log
+Service</a>
+for details about Envoy&rsquo;s gRPC Access Log Service API.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-envoy_metrics_service">
+<td><code>envoyMetricsService</code></td>
+<td><code><a href="#RemoteService">RemoteService</a></code></td>
+<td>
+<p>Address of the Envoy Metrics Service implementation (e.g. <code>metrics-service:15000</code>).
+See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/metrics/v2/metrics_service.proto">Metric Service</a>
+for details about Envoy&rsquo;s Metrics Service API.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-status_port">
+<td><code>statusPort</code></td>
+<td><code>int32</code></td>
+<td>
+<p>Port on which the agent should listen for administrative commands such as readiness probe.
+Default is set to port <code>15020</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-extra_stat_tags">
+<td><code>extraStatTags</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>An additional list of tags to extract from the in-proxy Istio telemetry. These extra tags can be
+added by configuring the telemetry extension. Each additional tag needs to be present in this list.
+Extra tags emitted by the telemetry extensions must be listed here so that they can be processed
+and exposed as Prometheus metrics.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-termination_drain_duration">
+<td><code>terminationDrainDuration</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>The amount of time allowed for connections to complete on proxy shutdown.
+On receiving <code>SIGTERM</code> or <code>SIGINT</code>, <code>istio-agent</code> tells the active Envoy to start draining,
+preventing any new connections and allowing existing connections to complete. It then
+sleeps for the <code>termination_drain_duration</code> and then kills any remaining active Envoy processes.
+If not set, a default of <code>5s</code> will be applied.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-mesh_id">
+<td><code>meshId</code></td>
+<td><code>string</code></td>
+<td>
+<p>The unique identifier for the <a href="/docs/reference/glossary/#service-mesh">service mesh</a>
+All control planes running in the same service mesh should specify the same mesh ID.
+Mesh ID is used to label telemetry reports for cases where telemetry from multiple meshes is mixed together.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-readiness_probe">
+<td><code>readinessProbe</code></td>
+<td><code><a href="/docs/reference/config/networking/workload-group/#ReadinessProbe">ReadinessProbe</a></code></td>
+<td>
+<p>VM Health Checking readiness probe. This health check config exactly mirrors the
+kubernetes readiness probe configuration both in schema and logic.
+Only one health check method of 3 can be set at a time.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-proxy_stats_matcher">
+<td><code>proxyStatsMatcher</code></td>
+<td><code><a href="#ProxyConfig-ProxyStatsMatcher">ProxyStatsMatcher</a></code></td>
+<td>
+<p>Proxy stats matcher defines configuration for reporting custom Envoy stats.
+To reduce memory and CPU overhead from Envoy stats system, Istio proxies by
+default create and expose only a subset of Envoy stats. This option is to
+control creation of additional Envoy stats with prefix, suffix, and regex
+expressions match on the name of the stats. This replaces the stats
+inclusion annotations
+(<code>sidecar.istio.io/statsInclusionPrefixes</code>,
+<code>sidecar.istio.io/statsInclusionRegexps</code>, and
+<code>sidecar.istio.io/statsInclusionSuffixes</code>). For example, to enable stats
+for circuit breaker, retry, and upstream connections, you can specify stats
+matcher as follow:</p>
+
+<pre><code class="language-yaml">proxyStatsMatcher:
+  inclusionRegexps:
+    - .*circuit_breakers.*
+  inclusionPrefixes:
+    - upstream_rq_retry
+    - upstream_cx
+</code></pre>
+
+<p>Note including more Envoy stats might increase number of time series
+collected by prometheus significantly. Care needs to be taken on Prometheus
+resource provision and configuration to reduce cardinality.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-zipkin_address" class="deprecated ">
+<td><code>zipkinAddress</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the Zipkin service (e.g. <em>zipkin:9411</em>).
+DEPRECATED: Use <a href="#ProxyConfig-tracing">tracing</a> instead.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="RemoteService">RemoteService</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="RemoteService-address">
+<td><code>address</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of a remove service used for various purposes (access log
+receiver, metrics receiver, etc.). Can be IP address or a fully
+qualified DNS name.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="RemoteService-tls_settings">
+<td><code>tlsSettings</code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
+<td>
+<p>Use the <code>tls_settings</code> to specify the tls mode to use. If the remote service
+uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
+mode as <code>ISTIO_MUTUAL</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="RemoteService-tcp_keepalive">
+<td><code>tcpKeepalive</code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-TCPSettings-TcpKeepalive">TcpKeepalive</a></code></td>
+<td>
+<p>If set then set <code>SO_KEEPALIVE</code> on the socket to enable TCP Keepalives.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Tracing-Zipkin">Tracing.Zipkin</h2>
+<section>
+<p>Zipkin defines configuration for a Zipkin tracer.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Tracing-Zipkin-address">
+<td><code>address</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the Zipkin service (e.g. <em>zipkin:9411</em>).</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Tracing-Lightstep">Tracing.Lightstep</h2>
+<section>
+<p>Defines configuration for a Lightstep tracer.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Tracing-Lightstep-address">
+<td><code>address</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the Lightstep Satellite pool.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Tracing-Lightstep-access_token">
+<td><code>accessToken</code></td>
+<td><code>string</code></td>
+<td>
+<p>The Lightstep access token.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Tracing-Datadog">Tracing.Datadog</h2>
+<section>
+<p>Datadog defines configuration for a Datadog tracer.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Tracing-Datadog-address">
+<td><code>address</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the Datadog Agent.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Tracing-Stackdriver">Tracing.Stackdriver</h2>
+<section>
+<p>Stackdriver defines configuration for a Stackdriver tracer.
+See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/opencensus.proto">Envoy&rsquo;s OpenCensus trace configuration</a>
+and
+<a href="https://github.com/census-instrumentation/opencensus-proto/blob/master/src/opencensus/proto/trace/v1/trace_config.proto">OpenCensus trace config</a> for details.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</section>
+<h2 id="Tracing-OpenCensusAgent">Tracing.OpenCensusAgent</h2>
+<section>
+<p>OpenCensusAgent defines configuration for an OpenCensus tracer writing to
+an OpenCensus agent backend. See
+<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/opencensus.proto">Envoy&rsquo;s OpenCensus trace configuration</a>
+and
+<a href="https://github.com/census-instrumentation/opencensus-proto/blob/master/src/opencensus/proto/trace/v1/trace_config.proto">OpenCensus trace config</a>
+for details.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Tracing-OpenCensusAgent-address">
+<td><code>address</code></td>
+<td><code>string</code></td>
+<td>
+<p>gRPC address for the OpenCensus agent (e.g. dns://authority/host:port or
+unix:path). See <a href="https://github.com/grpc/grpc/blob/master/doc/naming.md">gRPC naming
+docs</a> for
+details.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Tracing-OpenCensusAgent-context">
+<td><code>context</code></td>
+<td><code><a href="#Tracing-OpenCensusAgent-TraceContext">TraceContext[]</a></code></td>
+<td>
+<p>Specifies the set of context propagation headers used for distributed
+tracing. Default is <code>[&quot;W3C_TRACE_CONTEXT&quot;]</code>. If multiple values are specified,
+the proxy will attempt to read each header for each request and will
+write all headers.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ProxyConfig-ProxyStatsMatcher">ProxyConfig.ProxyStatsMatcher</h2>
+<section>
+<p>Proxy stats name matchers for stats creation. Note this is in addition to
+the minimum Envoy stats that Istio generates by default.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ProxyStatsMatcher-inclusion_prefixes">
+<td><code>inclusionPrefixes</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Proxy stats name prefix matcher for inclusion.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyStatsMatcher-inclusion_suffixes">
+<td><code>inclusionSuffixes</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Proxy stats name suffix matcher for inclusion.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyStatsMatcher-inclusion_regexps">
+<td><code>inclusionRegexps</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Proxy stats name regexps matcher for inclusion.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="Network">Network</h2>
 <section>
 <p>Network provides information about the endpoints in a routable L3
@@ -1858,130 +1858,6 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="Tracing-OpenCensusAgent-TraceContext">Tracing.OpenCensusAgent.TraceContext</h2>
-<section>
-<p>TraceContext selects the context propagation headers used for
-distributed tracing.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Tracing-OpenCensusAgent-TraceContext-W3C_TRACE_CONTEXT">
-<td><code>W3C_TRACE_CONTEXT</code></td>
-<td>
-<p>Use W3C Trace Context propagation using the <code>traceparent</code> HTTP header.
-See the
-<a href="https://www.w3.org/TR/trace-context/">Trace Context documentation</a> for details.</p>
-
-</td>
-</tr>
-<tr id="Tracing-OpenCensusAgent-TraceContext-GRPC_BIN">
-<td><code>GRPC_BIN</code></td>
-<td>
-<p>Use gRPC binary context propagation using the <code>grpc-trace-bin</code> http header.</p>
-
-</td>
-</tr>
-<tr id="Tracing-OpenCensusAgent-TraceContext-CLOUD_TRACE_CONTEXT">
-<td><code>CLOUD_TRACE_CONTEXT</code></td>
-<td>
-<p>Use Cloud Trace context propagation using the
-<code>X-Cloud-Trace-Context</code> http header.</p>
-
-</td>
-</tr>
-<tr id="Tracing-OpenCensusAgent-TraceContext-B3">
-<td><code>B3</code></td>
-<td>
-<p>Use multi-header B3 context propagation using the <code>X-B3-TraceId</code>,
-<code>X-B3-SpanId</code>, and <code>X-B3-Sampled</code> HTTP headers. See
-<a href="https://github.com/openzipkin/b3-propagation">B3 header propagation README</a>
-for details.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ProxyConfig-InboundInterceptionMode">ProxyConfig.InboundInterceptionMode</h2>
-<section>
-<p>The mode used to redirect inbound traffic to Envoy.
-This setting has no effect on outbound traffic: iptables <code>REDIRECT</code> is always used for
-outbound connections.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ProxyConfig-InboundInterceptionMode-REDIRECT">
-<td><code>REDIRECT</code></td>
-<td>
-<p>The <code>REDIRECT</code> mode uses iptables <code>REDIRECT</code> to <code>NAT</code> and redirect to Envoy. This mode loses
-source IP addresses during redirection.</p>
-
-</td>
-</tr>
-<tr id="ProxyConfig-InboundInterceptionMode-TPROXY">
-<td><code>TPROXY</code></td>
-<td>
-<p>The <code>TPROXY</code> mode uses iptables <code>TPROXY</code> to redirect to Envoy. This mode preserves both the
-source and destination IP addresses and ports, so that they can be used for advanced
-filtering and manipulation. This mode also configures the sidecar to run with the
-<code>CAP_NET_ADMIN</code> capability, which is required to use <code>TPROXY</code>.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="AuthenticationPolicy">AuthenticationPolicy</h2>
-<section>
-<p>AuthenticationPolicy defines how the proxy is authenticated when it connects to the control plane.
-It can be set for two different scopes, mesh-wide or set on a per-pod basis using the ProxyConfig annotation.
-Mesh policy cannot be INHERIT.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="AuthenticationPolicy-NONE">
-<td><code>NONE</code></td>
-<td>
-<p>Do not encrypt proxy to control plane traffic.</p>
-
-</td>
-</tr>
-<tr id="AuthenticationPolicy-MUTUAL_TLS">
-<td><code>MUTUAL_TLS</code></td>
-<td>
-<p>Proxy to control plane traffic is wrapped into mutual TLS connections.</p>
-
-</td>
-</tr>
-<tr id="AuthenticationPolicy-INHERIT">
-<td><code>INHERIT</code></td>
-<td>
-<p>Use the policy defined by the parent scope. Should not be used for mesh
-policy.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="MeshConfig-OutboundTrafficPolicy-Mode">MeshConfig.OutboundTrafficPolicy.Mode</h2>
 <section>
 <table class="enum-values">
@@ -2134,6 +2010,130 @@ cloud-provided ingress controller).</p>
 <p>Set to only receive service entries that are generated by the platform.
 These auto generated service entries are combination of services and endpoints
 that are generated by a specific platform e.g. k8</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Tracing-OpenCensusAgent-TraceContext">Tracing.OpenCensusAgent.TraceContext</h2>
+<section>
+<p>TraceContext selects the context propagation headers used for
+distributed tracing.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Tracing-OpenCensusAgent-TraceContext-W3C_TRACE_CONTEXT">
+<td><code>W3C_TRACE_CONTEXT</code></td>
+<td>
+<p>Use W3C Trace Context propagation using the <code>traceparent</code> HTTP header.
+See the
+<a href="https://www.w3.org/TR/trace-context/">Trace Context documentation</a> for details.</p>
+
+</td>
+</tr>
+<tr id="Tracing-OpenCensusAgent-TraceContext-GRPC_BIN">
+<td><code>GRPC_BIN</code></td>
+<td>
+<p>Use gRPC binary context propagation using the <code>grpc-trace-bin</code> http header.</p>
+
+</td>
+</tr>
+<tr id="Tracing-OpenCensusAgent-TraceContext-CLOUD_TRACE_CONTEXT">
+<td><code>CLOUD_TRACE_CONTEXT</code></td>
+<td>
+<p>Use Cloud Trace context propagation using the
+<code>X-Cloud-Trace-Context</code> http header.</p>
+
+</td>
+</tr>
+<tr id="Tracing-OpenCensusAgent-TraceContext-B3">
+<td><code>B3</code></td>
+<td>
+<p>Use multi-header B3 context propagation using the <code>X-B3-TraceId</code>,
+<code>X-B3-SpanId</code>, and <code>X-B3-Sampled</code> HTTP headers. See
+<a href="https://github.com/openzipkin/b3-propagation">B3 header propagation README</a>
+for details.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ProxyConfig-InboundInterceptionMode">ProxyConfig.InboundInterceptionMode</h2>
+<section>
+<p>The mode used to redirect inbound traffic to Envoy.
+This setting has no effect on outbound traffic: iptables <code>REDIRECT</code> is always used for
+outbound connections.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-InboundInterceptionMode-REDIRECT">
+<td><code>REDIRECT</code></td>
+<td>
+<p>The <code>REDIRECT</code> mode uses iptables <code>REDIRECT</code> to <code>NAT</code> and redirect to Envoy. This mode loses
+source IP addresses during redirection.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-InboundInterceptionMode-TPROXY">
+<td><code>TPROXY</code></td>
+<td>
+<p>The <code>TPROXY</code> mode uses iptables <code>TPROXY</code> to redirect to Envoy. This mode preserves both the
+source and destination IP addresses and ports, so that they can be used for advanced
+filtering and manipulation. This mode also configures the sidecar to run with the
+<code>CAP_NET_ADMIN</code> capability, which is required to use <code>TPROXY</code>.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="AuthenticationPolicy">AuthenticationPolicy</h2>
+<section>
+<p>AuthenticationPolicy defines how the proxy is authenticated when it connects to the control plane.
+It can be set for two different scopes, mesh-wide or set on a per-pod basis using the ProxyConfig annotation.
+Mesh policy cannot be INHERIT.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="AuthenticationPolicy-NONE">
+<td><code>NONE</code></td>
+<td>
+<p>Do not encrypt proxy to control plane traffic.</p>
+
+</td>
+</tr>
+<tr id="AuthenticationPolicy-MUTUAL_TLS">
+<td><code>MUTUAL_TLS</code></td>
+<td>
+<p>Proxy to control plane traffic is wrapped into mutual TLS connections.</p>
+
+</td>
+</tr>
+<tr id="AuthenticationPolicy-INHERIT">
+<td><code>INHERIT</code></td>
+<td>
+<p>Use the policy defined by the parent scope. Should not be used for mesh
+policy.</p>
 
 </td>
 </tr>
