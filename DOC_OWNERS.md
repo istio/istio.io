@@ -43,7 +43,7 @@ There are 154 owned istio.io docs.
 - [docs/setup/getting-started/index.md](https://preliminary.istio.io/latest/docs/setup/getting-started)
 - [docs/setup/install/helm/index.md](https://preliminary.istio.io/latest/docs/setup/install/helm)
 - [docs/setup/install/istioctl/index.md](https://preliminary.istio.io/latest/docs/setup/install/istioctl)
-docs/setup/install/multicluster/_index.md
+- [docs/setup/install/multicluster/_index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster)
 - [docs/setup/install/multicluster/before-you-begin/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/before-you-begin)
 - [docs/setup/install/multicluster/multi-primary/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/multi-primary)
 - [docs/setup/install/multicluster/multi-primary_multi-network/index.md](https://preliminary.istio.io/latest/docs/setup/install/multicluster/multi-primary_multi-network)
