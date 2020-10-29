@@ -46,7 +46,7 @@ Once you've done that, you can head straight to our
 
 {{< community_item logo="./group.svg" alt="Working Groups" >}}
 If you'd like to contribute to the Istio project, please read our
-[code of conduct agreement](https://github.com/istio/community/blob/master/CONTRIBUTING.md#code-of-conduct) and
+[code of conduct](https://github.com/istio/community/blob/master/CONTRIBUTING.md#code-of-conduct) and
 [contribution guidelines](https://github.com/istio/community/blob/master/CONTRIBUTING.md), and
 consider participating in our [working groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md).
 {{< /community_item >}}
