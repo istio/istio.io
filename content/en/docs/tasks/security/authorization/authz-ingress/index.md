@@ -63,7 +63,7 @@ Caching and propagation overhead can cause a delay.
 
 * If a packet goes through an external load balancer and/or kube-proxy, then the original source IP address of the client is lost.  There are a few ways to handle this if you need the original client IP for logging or security purposes:
 
-      1. If you are using an HTTP/HTTPS external load balancer, it can put the original client IP address in the X-Forwarded-For header.  Istio can extract the client IP address from this header with some configuration.  See [Configuring Gateway Network Topology](/latest/docs/ops/configuration/traffic-management/network-topologies/). Quick example if using a single load balancer in front of Kubernetes:
+      1. If you are using an HTTP/HTTPS external load balancer, it can put the original client IP address in the X-Forwarded-For header.  Istio can extract the client IP address from this header with some configuration.  See [Configuring Gateway Network Topology](/docs/ops/configuration/traffic-management/network-topologies/). Quick example if using a single load balancer in front of Kubernetes:
 
         {{< text yaml >}}
         apiVersion: install.istio.io/v1alpha1
