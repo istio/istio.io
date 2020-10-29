@@ -2,7 +2,7 @@
 title: Automated Workload Entry Creation [experimental]
 description: Learn how to use the experimental automated VM registration feature.
   Istio mesh.
-weight: 20
+weight: 70
 keywords:
 - kubernetes
 - vms
