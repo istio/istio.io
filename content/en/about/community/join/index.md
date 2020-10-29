@@ -51,7 +51,7 @@ If you'd like to contribute to the Istio project, please read our
 consider participating in our [working groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md).
 {{< /community_item >}}
 
-{{< community_item logo="./group.svg" alt="Governance" >}}
+{{< community_item logo="./governance.svg" alt="Governance" >}}
 If you would like to know more about Istio governance, please learn [how we do things](https://github.com/istio/community/blob/master/README.md)
 as a project, and read in more detail about the [Istio Steering Committee](https://github.com/istio/community/tree/master/steering)
 and the [Istio Technical Oversight Committee](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md).
