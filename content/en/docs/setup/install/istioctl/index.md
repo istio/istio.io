@@ -244,7 +244,7 @@ customized install using these commands:
 
 {{< text bash >}}
 $ istioctl manifest generate > 1.yaml
-$ istioctl manifest generate -f samples/operator/pilot-k8s.yaml > 2.yaml
+$ istioctl manifest generate -f operator/samples/pilot-k8s.yaml > 2.yaml
 $ istioctl manifest diff 1.yaml 2.yaml
 Differences of manifests are:
 
@@ -308,7 +308,7 @@ Alternatively, the `IstioOperator` configuration can be specified in a YAML file
 `istioctl` using the `-f` option:
 
 {{< text bash >}}
-$ istioctl install -f samples/operator/pilot-k8s.yaml
+$ istioctl install -f operator/samples/pilot-k8s.yaml
 {{< /text >}}
 
 {{< tip >}}
@@ -501,7 +501,7 @@ spec:
 Use `istioctl install` to apply the modified settings to the cluster:
 
 {{< text syntax="bash" repo="operator" >}}
-$ istioctl install -f samples/operator/pilot-k8s.yaml
+$ istioctl install -f operator/samples/pilot-k8s.yaml
 {{< /text >}}
 
 ### Customize Istio settings using the Helm API
