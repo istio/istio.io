@@ -52,7 +52,7 @@ consider participating in our [working groups](https://github.com/istio/communit
 {{< /community_item >}}
 
 {{< community_item logo="./group.svg" alt="Governance" >}}
-If you would like to learn more about Istio governance, please learn [how we do things](https://github.com/istio/community/blob/master/README.md)
+If you would like to know more about Istio governance, please learn [how we do things](https://github.com/istio/community/blob/master/README.md)
 as a project, and read in more detail about the [Istio Steering Committee](https://github.com/istio/community/tree/master/steering)
 and the [Istio Technical Oversight Committee](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md).
 {{< /community_item >}}
