@@ -36,7 +36,7 @@ between the virtual machine, and the Kubernetes cluster.
 
 ## Prepare the guide environment
 
-Set the environment variables `VM_NAMESPACE` and `SERVICE_ACCOUNT` (use the same values as during the installation guide):
+Set the environment variables `VM_NAMESPACE` and `SERVICE_ACCOUNT` (use the same values that you used during installation):
 
 {{< text bash >}}
 $ VM_NAMESPACE="<the name of your service namespace>"
