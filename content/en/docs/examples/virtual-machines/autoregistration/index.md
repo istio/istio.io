@@ -95,7 +95,7 @@ $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for y
     EOF
     {{< /text >}}
 
-1. The proxy must provide enough the name and namespace to find the `WorkloadGroup`on connection.
+1. The proxy must be provided with the name and namespace to find the `WorkloadGroup`on connection.
 
     While logged on to the Virtual Machine:
 
