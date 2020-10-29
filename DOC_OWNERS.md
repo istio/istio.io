@@ -1,7 +1,7 @@
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
-There are 155 owned istio.io docs.
+There are 156 owned istio.io docs.
 
 ## istio/wg-docs-maintainers: 15 docs
 
