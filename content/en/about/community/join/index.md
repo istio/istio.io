@@ -53,7 +53,7 @@ consider participating in our [working groups](https://github.com/istio/communit
 
 {{< community_item logo="./group.svg" alt="Governance" >}}
 If you would like to learn more about Istio governance, please learn [how we do things](https://github.com/istio/community/blob/master/README.md)
-as a project, and in more detail learn about the [Istio Steering Committee information](https://github.com/istio/community/tree/master/steering)
+as a project, and read in more detail about the [Istio Steering Committee](https://github.com/istio/community/tree/master/steering)
 and the [Istio Technical Oversight Committee](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md).
 {{< /community_item >}}
 
@@ -61,4 +61,3 @@ and the [Istio Technical Oversight Committee](https://github.com/istio/community
 Our Chinese-language documentation is maintained by the
 [ServiceMesher community](https://www.servicemesher.com), join us and get involved!
 {{< /community_item >}}
-
