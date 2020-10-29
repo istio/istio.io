@@ -157,3 +157,4 @@ Istio uses the following tools for benchmarking
 - [`fortio.org`](https://fortio.org/) - a constant throughput load testing tool.
 - [`blueperf`](https://github.com/blueperf/) - a realistic cloud native application.
 - [`isotope`](https://github.com/istio/tools/tree/{{< source_branch_name >}}/isotope) - a synthetic application with configurable topology.
+- [`meshery`](https://meshery.io) - the cloud native service mesh performance (SMP) and management plane
