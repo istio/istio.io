@@ -59,7 +59,7 @@ Istio may change slightly.
 
 This guide will assume that you use a common root to generate intermediate
 certificates for each cluster. Follow the [instructions](/docs/tasks/security/cert-management/plugin-ca-cert/)
-to generate and push a ca certificate secret to both the `cluster1` and `cluster2`
+to generate and push a CA certificate secret to both the `cluster1` and `cluster2`
 clusters.
 
 {{< tip >}}
