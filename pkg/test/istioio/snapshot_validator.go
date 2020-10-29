@@ -99,7 +99,7 @@ func (s SnapshotValidator) run(ctx framework.TestContext) {
 
 		if actual != expected {
 			// Retriable error.
-			return nil, true, fmt.Errorf("snapshots are different: \n%v", diffText)
+			return nil, false, fmt.Errorf("snapshots are different: \n%v", diffText)
 		}
 		return nil, true, nil
 	}, snapshotRetryTimeout, snapshotRetryDelay); err != nil {
