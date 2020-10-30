@@ -11,14 +11,14 @@ test: no
 
 ## Introduction
 
-The external control plane deployment model enables mesh operators to install and manage mesh control planes on separate external clusters. This deployment model allows a clear separation between mesh operators and mesh admins. Istio mesh operators can now run Istio control planes for mesh admins while mesh admins can still control the configuration of the control plane without worrying about installing or managing the control plane.
+The {{< gloss >}}external control plane{{< /gloss >}} deployment model enables mesh operators to install and manage mesh control planes on separate external clusters. This deployment model allows a clear separation between mesh operators and mesh admins. Istio mesh operators can now run Istio control planes for mesh admins while mesh admins can still control the configuration of the control plane without worrying about installing or managing the control plane.
 
 ## Requirements
 
 ### Cluster
 
 This guide requires that you have two Kubernetes clusters with any of the
-supported Kubernetes versions: {{< supported_kubernetes_versions >}}. First cluster is the external control plane cluster where it has istio default profile installed in the istio-system namespace.   It also has external istiod installed in the external-istiod namespace.  The external istiod is exposed on the ingress gateway from the istio-system namespace.  The second cluster is a remote config cluster.
+supported Kubernetes versions: {{< supported_kubernetes_versions >}}. First cluster is the {{< gloss >}}external control plane{{< /gloss >}} cluster where it has istio default profile installed in the istio-system namespace.   It also has external istiod installed in the external-istiod namespace.  The external istiod is exposed on the ingress gateway from the istio-system namespace.  The second cluster is a {< gloss >}}remote cluster{< /gloss >}} which also provides configuration for the external istiod.
 
 ### API Server Access
 
