@@ -222,3 +222,9 @@ EOF
 ```
 istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CP}"
 ```
+
+###Validate the installation
+
+Check gateway on the remote config cluster is running
+
+Deploy sleep/httpbin on remote config cluster with a namespace has sidecar injector enabled.  Both should reach running in a few seconds.
