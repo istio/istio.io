@@ -46,7 +46,8 @@ _verify_elided snip_test_the_access_log_1 "$snip_test_the_access_log_1_out"
 
 # Check the logs
 _verify_contains snip_test_the_access_log_2 "outbound|8000||httpbin.default.svc.cluster.local"
-_verify_contains snip_test_the_access_log_3 "inbound|8000|http|httpbin.default.svc.cluster.local"
+_verify_contains snip_test_the_access_log_3 "inbound|8000||"
+_verify_contains snip_test_the_access_log_3 ".httpbin.default.svc.cluster.local"
 
 # @cleanup
 set +e # ignore cleanup errors
