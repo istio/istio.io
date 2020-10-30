@@ -1,6 +1,6 @@
 ---
 title: Installing External Istiod 
-description: Install external Istiod and remote config cluster
+description: Install external Istiod and remote config cluster.
 weight: 46
 keywords: [external,istiod,remote,config]
 aliases:
