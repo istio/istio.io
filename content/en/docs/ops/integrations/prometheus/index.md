@@ -82,7 +82,7 @@ The control plane, gateway, and Envoy sidecar metrics will all be scraped over p
 
 One way to provision Istio certificates for Prometheus is by injecting a sidecar which will rotate SDS certificates and output them to a volume that can be shared with Prometheus.
 However, the sidecar should not intercept requests for Prometheus because the Prometheus's model of direct endpoint access is incompatible with Istio's sidecar proxy model.
- 
+
 Add the following annotations to the Prometheus deployment to inject a sidecar that will write a certificate to a shared volume, but without configuring traffic redirection:
 
 {{< text yaml >}}
