@@ -32,6 +32,7 @@ and `SERVICE_ACCOUNT`
     (e.g., `WORK_DIR="${HOME}/vmintegration"`):
 
     {{< text bash >}}
+    $ VM_APP="<the name of the application this VM will run>"
     $ VM_NAME="<the name of your vm instance you created>"
     $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
@@ -44,7 +45,7 @@ and `SERVICE_ACCOUNT`
     $ mkdir -p "${WORK_DIR}"
     {{< /text >}}
 
-## Install the Istio control plane
+## Install the Istio control planef
 
 Install Istio and expose the control plane so that your virtual machine can access it.
 
@@ -58,7 +59,13 @@ Install Istio and expose the control plane so that your virtual machine can acce
     To enable experimental [VM auto-registration](/docs/examples/virtual-machines/autoregistration): `istioctl install --set values.global.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true`.
     {{< /tip >}}
 
-1. Expose the control plane using the provided sample configuration.
+1. Deploy the east-west gateway and expose the control plane using the provided sample configuration.
+       
+    {{< text bash >}}
+    $ SINGLE_CLUSTER=1 \
+        @samples/multicluster/gen-eastwest-gateway.sh@ | \
+        istioctl install -f -
+    {{< /text >}}
 
     {{< text bash >}}
     $ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
@@ -80,63 +87,34 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
 ## Create files to transfer to the virtual machine
 
+1. Create a template `WorkloadGroup` for the VM(s)
+
+    {{< text bash >}}
+    $ istioctl x workload group create --name "${VM_APP}" --namespace "${VM_NAMESPACE}" --labels app="${VM_APP}" --serviceAccount "${SERVICE_ACCOUNT}" > workloadgroup.yaml
+    {{< /text >}}
+
+1. Use the `istioctl x workload entry` command to generate:
+     * `cluster.env`: Contains metadata that identifies what namespace, service account, network CIDR and (optionally) what inbound ports to capture. 
+     * `istio-token`: A Kubernetes token used to get certs from the CA.
+     * `mesh.yaml`: Provides additional istio metadata including, network name, trust domain and other values.
+     * `root-cert.pem`: The root certificate used to authenticate.
+     * `hosts`: An addendum to `/etc/hosts` that the proxy will use to reach istiod for xDS.*
+     
+     {{< idea >}}
+     \*A sophisticated option involves configuring DNS within the virtual
+     machine to reference an external DNS server. This option is beyond
+     the scope of this guide.
+     {{< /idea >}}
+
+    {{< text bash >}}
+    $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}"
+    {{< /text >}}
+
 1. Create a Kubernetes token. This example sets the token expire time to 1 hour:
 
     {{< text bash >}}
     $ tokenexpiretime=3600
     $ echo '{"kind":"TokenRequest","apiVersion":"authentication.k8s.io/v1","spec":{"audiences":["istio-ca"],"expirationSeconds":'$tokenexpiretime'}}' | kubectl create --raw /api/v1/namespaces/$VM_NAMESPACE/serviceaccounts/$SERVICE_ACCOUNT/token -f - | jq -j '.status.token' > "${WORK_DIR}"/istio-token
-    {{< /text >}}
-
-1. Get the root certificate:
-
-    {{< text bash >}}
-    $ kubectl -n "${VM_NAMESPACE}" get configmaps istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > "${WORK_DIR}"/root-cert.pem
-    {{< /text >}}
-
-1. Generate a `cluster.env` configuration file that informs the virtual machine
-   deployment which network CIDR to capture and redirect to the Kubernetes
-   cluster:
-
-    {{< text bash >}}
-    $ ISTIO_SERVICE_CIDR=$(echo '{"apiVersion":"v1","kind":"Service","metadata":{"name":"tst"},"spec":{"clusterIP":"1.1.1.1","ports":[{"port":443}]}}' | kubectl apply -f - 2>&1 | sed 's/.*valid IPs is //')
-    $ touch "${WORK_DIR}"/cluster.env
-    $ echo ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR > "${WORK_DIR}"/cluster.env
-    {{< /text >}}
-
-1. Optionally configure a select set of ports for exposure from the
-   virtual machine. If you do not apply this optional step, all outbound traffic
-   on all ports is sent to the Kubernetes cluster. You may wish to send some
-   traffic on specific ports to other destinations. This example shows enabling
-   ports `3306` and `8080` for capture by Istio virtual machine integration and
-   transmission to Kubernetes. All other ports are sent over the default gateway
-   of the virtual machine.
-
-    {{< text bash >}}
-    $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> "${WORK_DIR}"/cluster.env
-    {{< /text >}}
-
-1. Add an IP address that represents Istiod. Replace `${INGRESS_HOST}` with the
-    ingress gateway service of istiod. Revisit
-    [Determining the ingress host and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) to set the environment variable `${INGRESS_HOST}`.
-
-    {{< text bash >}}
-    $ touch "${WORK_DIR}"/hosts-addendum
-    $ echo "${INGRESS_HOST} istiod.istio-system.svc" > "${WORK_DIR}"/hosts-addendum
-    {{< /text >}}
-
-    {{< idea >}}
-    A sophisticated option involves configuring DNS within the virtual
-    machine to reference an external DNS server. This option is beyond
-    the scope of this guide.
-    {{< /idea >}}
-
-1. Create `sidecar.env` file to import the required environment variables:
-
-    {{< text bash >}}
-    $ touch "${WORK_DIR}"/sidecar.env
-    $ echo "PROV_CERT=/var/run/secrets/istio" >>"${WORK_DIR}"/sidecar.env
-    $ echo "OUTPUT_CERTS=/var/run/secrets/istio" >> "${WORK_DIR}"/sidecar.env
-    $ echo "ISTIO_NAMESPACE=${VM_NAMESPACE}" >> "${WORK_DIR}"/sidecar.env
     {{< /text >}}
 
 ## Configure the virtual machine
@@ -192,13 +170,23 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo cp "${HOME}"/sidecar.env /var/lib/istio/envoy/sidecar.env
     {{< /text >}}
 
+1. Install the [MeshConfig](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) to `/etc/istio/config/mesh`:
+
+    > TODO figure out what the actual path is for this
+
+    {{< text bash >}}
+    $ sudo cp "${HOME}"/mesh.yaml /etc/istio/config/mesh
+    {{< /text >}}
+
 1. Add the istiod host to `/etc/hosts`:
 
     {{< text bash >}}
-    $ sudo sh -c 'cat $(eval echo ~$SUDO_USER)/hosts-addendum >> /etc/hosts'
+    $ sudo sh -c 'cat $(eval echo ~$SUDO_USER)/hosts >> /etc/hosts'
     {{< /text >}}
 
 1. Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy:
+
+    > TODO: chown mesh config yaml
 
     {{< text bash >}}
     $ sudo mkdir -p /etc/istio/proxy
