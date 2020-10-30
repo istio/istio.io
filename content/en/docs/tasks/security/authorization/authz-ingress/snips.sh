@@ -45,9 +45,15 @@ spec:
   meshConfig:
     accessLogEncoding: JSON
     accessLogFile: /dev/stdout
-    defaultConfig:
-      gatewayTopology:
-        numTrustedProxies: 1
+  components:
+    ingressGateways:
+    - enabled: true
+      k8s:
+        hpaSpec:
+          maxReplicas: 10
+          minReplicas: 5
+        serviceAnnotations:
+          service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
 ENDSNIP
 
 ! read -r -d '' snip_source_ip_address_of_the_original_client_2 <<\ENDSNIP
@@ -101,6 +107,22 @@ spec:
       name: istio-ingressgateway
 ENDSNIP
 
+snip_source_ip_address_of_the_original_client_4() {
+kubectl patch svc istio-ingressgateway -n istio-system -p '{"spec":{"externalTrafficPolicy":"Local"}}'
+}
+
+! read -r -d '' snip_source_ip_address_of_the_original_client_5 <<\ENDSNIP
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    accessLogEncoding: JSON
+    accessLogFile: /dev/stdout
+    defaultConfig:
+      gatewayTopology:
+        numTrustedProxies: 1
+ENDSNIP
+
 snip_ipbased_allow_list_and_deny_list_1() {
 kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
@@ -148,18 +170,14 @@ curl "$INGRESS_HOST":"$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 ENDSNIP
 
 snip_ipbased_allow_list_and_deny_list_4() {
-kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done
+CLIENT_IP=$(kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 }
 
 ! read -r -d '' snip_ipbased_allow_list_and_deny_list_4_out <<\ENDSNIP
-2020-10-27T18:06:51.650243Z debug envoy rbac checking request: requestedServerName: , sourceIP: 10.233.33.91:31236, directRemoteIP: 10.233.33.91:31236, remoteIP: 192.168.10.15:0,localAddress: 10.233.22.111:8443, ssl: uriSanPeerCertificate: , dnsSanPeerCertificate: , subjectPeerCertificate: , headers: ':authority', 'httpbin'
+192.168.10.15
 ENDSNIP
 
 snip_ipbased_allow_list_and_deny_list_5() {
-export CLIENT_IP=192.168.10.15
-}
-
-snip_ipbased_allow_list_and_deny_list_6() {
 kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -177,6 +195,14 @@ spec:
         ipBlocks: ["1.2.3.4", "5.6.7.0/24", "$CLIENT_IP"]
 EOF
 }
+
+snip_ipbased_allow_list_and_deny_list_6() {
+CLIENT_IP=$(kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+}
+
+! read -r -d '' snip_ipbased_allow_list_and_deny_list_6_out <<\ENDSNIP
+192.168.10.15
+ENDSNIP
 
 snip_ipbased_allow_list_and_deny_list_7() {
 kubectl apply -f - <<EOF
