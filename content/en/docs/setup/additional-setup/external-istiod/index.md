@@ -253,4 +253,13 @@ $ istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CP}"
 
 1. Confirm gateway on the remote config cluster is running.
 
-1. Deploy sleep/httpbin on remote config cluster with a namespace has sidecar injector enabled.  Both should reach running in a few seconds.
+{{< text bash >}}
+$ kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_USER_CLUSTER}"
+{{< /text >}}
+
+1. Deploy the sleep sample on remote config cluster with a namespace has sidecar injector enabled.  It should reach running in a few seconds.
+
+{{< text bash >}}
+$ kubectl apply -f samples/sleep/sleep.yaml --context="${CTX_USER_CLUSTER}"
+$ kubectl get pod -l app=sleep 
+{{< /text >}}
