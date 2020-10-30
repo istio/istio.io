@@ -1,0 +1,224 @@
+---
+title: Installing External Istiod 
+description: Install external Istiod and remote config cluster
+weight: 46
+keywords: [external,istiod,remote,config]
+aliases:
+    - /docs/setup/kubernetes/additional-setup/external-istiod/
+owner: istio/wg-environments-maintainers
+test: no
+---
+
+## Introduction
+
+The external control plane deployment model enables mesh operators to install and manage mesh control planes on separate external clusters. This deployment model allows a clear separation between mesh operators and mesh admins. Istio mesh operators can now run Istio control planes for mesh admins while mesh admins can still control the configuration of the control plane without worrying about installing or managing the control plane.
+
+## Setup
+
+Explain 2 CTXs
+
+### Setup management cluster
+
+1. Install istio default on management cluster.
+
+cat <<EOF > istiod-management.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+ namespace: istio-system
+spec:
+ components:
+   ingressGateways:
+     - name: istio-ingressgateway
+       enabled: true
+       k8s:
+         service:
+           ports:
+             - port: 15021
+               targetPort: 15021
+               name: status-port           
+             - port: 15012
+               targetPort: 15012
+               name: tls-xds
+             - port: 15017
+               targetPort: 15017
+               name: tls-webhook
+EOF
+```
+```
+istioctl apply -f istiod-management.yaml
+```
+
+```
+Export SSL_SECRET_NAME and Expose external istiod on istio ingress gw.
+
+cat <<EOF > external-istiod-gw.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+ name: istiod-external-gw
+ namespace: istiod-external
+spec:
+ selector:
+   istio: ingressgateway
+ servers:
+   - port:
+       number: 15012
+       protocol: https
+       name: https-XDS
+     tls:
+       mode: SIMPLE
+       credentialName: $SSL_SECRET_NAME
+     hosts:
+     - "$REMOTE_ISTIOD_ADDR"
+   - port:
+       number: 15017
+       protocol: https
+       name: https-WEBHOOK
+     tls:
+       mode: SIMPLE
+       credentialName: $SSL_SECRET_NAME
+     hosts:
+     - "$REMOTE_ISTIOD_ADDR"
+ 
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+   name: istiod-external-vs
+   namespace: istiod-external
+spec:
+   hosts:
+   - $REMOTE_ISTIOD_ADDR
+   gateways:
+   - istiod-external-gw
+   http:
+   - match:
+     - port: 15012
+     route:
+     - destination:
+         host: istiod.istiod-external.svc.cluster.local
+         port:
+           number: 15012
+   - match:
+     - port: 15017
+     route:
+     - destination:
+         host: istiod.istiod-external.svc.cluster.local
+         port:
+           number: 443
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+ name: istiod-external-dr
+ namespace: istiod-external
+spec:
+ host: istiod.istiod-external.svc.cluster.local
+ trafficPolicy:
+   portLevelSettings:
+   - port:
+       number: 15012
+     tls:
+       mode: SIMPLE
+     connectionPool:
+       http:
+         h2UpgradePolicy: UPGRADE
+   - port:
+       number: 443
+     tls:
+       mode: SIMPLE
+       EOF
+```
+
+kubectl apply -f external-istiod-gw.yaml
+
+
+### Setup remote cluster
+1. Configure REMOTE_ISTIOD_ADDR environment variable
+2. Install Istio without Istiod on a remote config cluster in namespace istiod-external.
+
+```
+cat <<EOF > remote-config-cluster.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+ namespace: istiod-external
+spec:
+ meshConfig:
+   rootNamespace: istiod-external
+   defaultConfig:
+     discoveryAddress: $REMOTE_ISTIOD_ADDR:15012
+     proxyMetadata:
+       XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+       CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt    
+ components:
+   pilot:
+     enabled: false
+   istiodRemote:
+     enabled: true
+ 
+ values:
+   global:
+     caAddress: $REMOTE_ISTIOD_ADDR:15012
+     istioNamespace: istiod-external
+ 
+   istiodRemote:
+     injectionURL: https://$REMOTE_ISTIOD_ADDR:15017/inject
+ 
+   base:
+     validationURL: https://REMOTE_ISTIOD_ADDR:15017/validate
+EOF
+```
+
+istioctl apply -f remote-config-cluster.yaml --context="${CTX_CLUSTER}"
+
+
+### Setup external Istiod on management cluster
+
+```
+k create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CP}"
+
+istioctl x create-remote-secret \
+  --context="${CTX_CLUSTER}" \
+  --type=config \
+  --namespace=external-istiod | \
+  kubectl apply -f - --context="${CTX_EXTERNAL_CP}"
+
+```
+
+```
+cat <<EOF > external-istiod.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+ namespace: istiod-external
+spec:
+ meshConfig:
+   defaultConfig:
+     discoveryAddress: $REMOTE_ISTIOD_ADDR:15012
+     rootNamespace: istiod-external
+     proxyMetadata:
+       XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+       CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt 
+ components:
+   base:
+     enabled: false
+   ingressGateways:
+   - name: istio-ingressgateway
+     enabled: false     
+ values:
+   global:
+     caAddress: $REMOTE_ISTIOD_ADDR:15012
+     istioNamespace: istiod-external
+     operatorManageWebhooks: true
+   pilot:
+     env:
+       INJECTION_WEBHOOK_CONFIG_NAME: ""
+       VALIDATION_WEBHOOK_CONFIG_NAME: ""
+EOF
+```
+
+```
+istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CP}"
+```
