@@ -129,10 +129,10 @@ Notice that it may take tens of seconds for the authorization policy to be propa
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
-      values:
-        global:
-          trustDomain: new-td
-          trustDomainAliases:
+      meshConfig:
+        trustDomain: new-td
+        trustDomainAliases:
+          - old-td
             - old-td
     EOF
     $ istioctl install --set profile=demo -f td-installation.yaml -y

@@ -106,10 +106,10 @@ cat <<EOF > ./td-installation.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  values:
-    global:
-      trustDomain: new-td
-      trustDomainAliases:
+  meshConfig:
+    trustDomain: new-td
+    trustDomainAliases:
+      - old-td
         - old-td
 EOF
 istioctl install --set profile=demo -f td-installation.yaml -y
