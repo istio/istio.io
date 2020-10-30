@@ -110,7 +110,6 @@ spec:
     trustDomain: new-td
     trustDomainAliases:
       - old-td
-        - old-td
 EOF
 istioctl install --set profile=demo -f td-installation.yaml -y
 }

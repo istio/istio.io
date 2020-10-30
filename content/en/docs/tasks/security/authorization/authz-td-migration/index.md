@@ -133,7 +133,6 @@ Notice that it may take tens of seconds for the authorization policy to be propa
         trustDomain: new-td
         trustDomainAliases:
           - old-td
-            - old-td
     EOF
     $ istioctl install --set profile=demo -f td-installation.yaml -y
     {{< /text >}}
