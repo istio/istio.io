@@ -15,11 +15,15 @@ The external control plane deployment model enables mesh operators to install an
 
 ## Setup
 
-Explain 2 CTXs
+2 Kubernetes clusters are used for this setup.  First cluster is the management cluster where it has istio default profile installed in the istio-system namespace.   It also has external istiod installed in the external-istiod namespace.  The external istiod is exposed on the ingress gateway from the istio-system namespace.  The second cluster is the remote config cluster.
+
+There are 2 Kubernetes contexts used:
+1. management cluster: CTX_EXTERNAL_CP
+2. remote config cluster: CTX_CLUSTER
 
 ### Setup management cluster
 
-1. Install istio default on management cluster.
+1. Install istio using the default profile management cluster.
 
 cat <<EOF > istiod-management.yaml
 apiVersion: install.istio.io/v1alpha1
