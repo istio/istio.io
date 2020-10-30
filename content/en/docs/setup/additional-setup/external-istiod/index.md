@@ -53,9 +53,10 @@ $ export SSL_SECRET_NAME = myexternal-istiod-secret
 
 ### Setup the external control plane cluster
 
-1. Install istio using the default profile on the external control plane cluster.
+1. Install istio using the default profile on the external control plane cluster in the istio-system namespace.
 
-cat <<EOF > external-cp.yaml
+{{< text bash >}}
+$ cat <<EOF > external-cp.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -78,15 +79,13 @@ spec:
                targetPort: 15017
                name: tls-webhook
 EOF
-```
-```
-istioctl apply -f external-cp.yaml --context="${CTX_EXTERNAL_CP}"
-```
+$ istioctl apply -f external-cp.yaml --context="${CTX_EXTERNAL_CP}"
+{{< /text >}}
 
-```
-Export SSL_SECRET_NAME and Expose external istiod on istio ingress gw.
+1. Expose external istiod on istio ingress gateway installed in the istio-system namespace.
 
-cat <<EOF > external-istiod-gw.yaml
+{{< text bash >}}
+$ cat <<EOF > external-istiod-gw.yaml
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
@@ -114,7 +113,6 @@ spec:
        credentialName: $SSL_SECRET_NAME
      hosts:
      - "$REMOTE_ISTIOD_ADDR"
- 
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -163,17 +161,15 @@ spec:
      tls:
        mode: SIMPLE
        EOF
-```
-
-kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CP}"
-
+$ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CP}"
+{{< /text >}}
 
 ### Setup remote cluster
 1. Configure REMOTE_ISTIOD_ADDR environment variable
 2. Install Istio without Istiod on a remote config cluster in the `external-istiod` namespace.
 
-```
-cat <<EOF > remote-config-cluster.yaml
+{{< text bash >}}
+$ cat <<EOF > remote-config-cluster.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -203,26 +199,25 @@ spec:
    base:
      validationURL: https://REMOTE_ISTIOD_ADDR:15017/validate
 EOF
-```
-
-istioctl apply -f remote-config-cluster.yaml --context="${CTX_USER_CLUSTER}"
-
+$ istioctl apply -f remote-config-cluster.yaml --context="${CTX_USER_CLUSTER}"
+{{< /text >}}
 
 ### Setup external Istiod on management cluster
 
-```
-k create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CP}"
-
-istioctl x create-remote-secret \
+1. Create remote secret to allow external istiod to access the `user_cluster`.
+{{< text bash >}}
+$ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CP}"
+$ istioctl x create-remote-secret \
   --context="${CTX_USER_CLUSTER}" \
   --type=config \
   --namespace=external-istiod | \
   kubectl apply -f - --context="${CTX_EXTERNAL_CP}"
+{{< /text >}}
 
-```
+1. Install external istio in the external-istiod namespace.
 
-```
-cat <<EOF > external-istiod.yaml
+{{< text bash >}}
+$ cat <<EOF > external-istiod.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -251,14 +246,11 @@ spec:
        INJECTION_WEBHOOK_CONFIG_NAME: ""
        VALIDATION_WEBHOOK_CONFIG_NAME: ""
 EOF
-```
-
-```
-istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CP}"
-```
+$ istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CP}"
+{{< /text >}}
 
 ###Validate the installation
 
-Check gateway on the remote config cluster is running
+1. Confirm gateway on the remote config cluster is running.
 
-Deploy sleep/httpbin on remote config cluster with a namespace has sidecar injector enabled.  Both should reach running in a few seconds.
+1. Deploy sleep/httpbin on remote config cluster with a namespace has sidecar injector enabled.  Both should reach running in a few seconds.
