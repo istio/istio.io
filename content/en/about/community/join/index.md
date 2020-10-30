@@ -45,13 +45,19 @@ Once you've done that, you can head straight to our
 {{< /community_item >}}
 
 {{< community_item logo="./group.svg" alt="Working Groups" >}}
-If you'd like to contribute to the Istio project, learn [how we do things](https://github.com/istio/community/blob/master/README.md) and
-consider participating in our
-[working groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md).
+If you'd like to contribute to the Istio project, please read our
+[code of conduct](https://github.com/istio/community/blob/master/CONTRIBUTING.md#code-of-conduct) and
+[contribution guidelines](https://github.com/istio/community/blob/master/CONTRIBUTING.md), and
+consider participating in our [working groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md).
+{{< /community_item >}}
+
+{{< community_item logo="./governance.svg" alt="Governance" >}}
+If you would like to know more about Istio governance, please learn [how we do things](https://github.com/istio/community/blob/master/README.md)
+as a project, and read in more detail about the Istio [Steering Committee](https://github.com/istio/community/tree/master/steering)
+and [Technical Oversight Committee](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md).
 {{< /community_item >}}
 
 {{< community_item logo="./servicemesher.svg" alt="ServiceMesher" >}}
 Our Chinese-language documentation is maintained by the
 [ServiceMesher community](https://www.servicemesher.com), join us and get involved!
 {{< /community_item >}}
-
