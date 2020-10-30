@@ -1,7 +1,6 @@
 ---
-title: Pods and Services
-description: Prepare your Kubernetes pods and services to run in an Istio-enabled
-  cluster.
+title: Application Requirements
+description: Requirements of applications deployed in an Istio-enabled cluster.
 weight: 40
 keywords:
   - kubernetes
@@ -23,8 +22,15 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-To be part of a mesh, Kubernetes pods and services must satisfy the following
-requirements:
+Istio provides a great deal of functionality to applications with little or no impact on the application code itself.
+Many Kubernetes applications can be deployed in an Istio-enabled cluster, without any changes at all.
+However, there are some implications of Istio's sidecar model that may need special consideration when deploying
+an Istio-enabled application.
+This document describes these application considerations and specific requirements of Istio enablement.
+
+## Pod requirements
+
+To be part of a mesh, Kubernetes pods must satisfy the following requirements:
 
 - **Service association**: A pod must belong to at least one Kubernetes
   service even if the pod does NOT expose any port.
@@ -35,19 +41,41 @@ requirements:
 - **Application UIDs**: Ensure your pods do **not** run applications as a user
   with the user ID (UID) value of **1337**.
 
-- **`NET_ADMIN` and `NET_RAW` capabilities**: If your cluster enforces pod security policies,
-  they must allow injected pods to add the `NET_ADMIN` and `NET_RAW` capabilities.
-  If you use the [Istio CNI Plugin](/docs/setup/additional-setup/cni/),
-  this requirement no longer applies. To learn more about the `NET_ADMIN` and `NET_RAW`
-  capabilities, see [Required pod capabilities](#required-pod-capabilities), below.
+- **`NET_ADMIN` and `NET_RAW` capabilities**: If [pod security policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)
+    are [enforced](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies)
+    in your cluster and unless you use the [Istio CNI Plugin](/docs/setup/additional-setup/cni/), your pods must have the
+    `NET_ADMIN` and `NET_RAW` capabilities allowed. The initialization containers of the Envoy
+    proxies require these capabilities.
 
-- **Deployments with app and version labels**: We recommend adding an explicit
-  `app` label and `version` label to deployments. Add the labels  to the
-  deployment specification of pods deployed using the Kubernetes `Deployment`.
-  The `app` and `version` labels add contextual information to the metrics and
-  telemetry Istio collects.
+    To check if the `NET_ADMIN` and `NET_RAW` capabilities are allowed for your pods, you need to check if their
+    [service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
+    can use a pod security policy that allows the `NET_ADMIN` and `NET_RAW` capabilities.
+    If you haven't specified a service account in your pods' deployment, the pods run using
+    the `default` service account in their deployment's namespace.
 
-    - The `app` label: Each deployment specification should have a distinct
+    To list the capabilities for a service account, replace `<your namespace>` and `<your service account>`
+    with your values in the following command:
+
+    {{< text bash >}}
+    $ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:<your namespace>:<your service account>) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
+    {{< /text >}}
+
+    For example, to check for the `default` service account in the `default` namespace, run the following command:
+
+    {{< text bash >}}
+    $ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:default:default) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
+    {{< /text >}}
+
+    If you see `NET_ADMIN` and `NET_RAW` or `*` in the list of capabilities of one of the allowed
+    policies for your service account, your pods have permission to run the Istio init containers.
+    Otherwise, you will need to [provide the permission](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#authorizing-policies).
+
+- **Pods with app and version labels**: We recommend adding an explicit
+  `app` label and `version` label to the specification of the pods deployed using
+  a Kubernetes `Deployment`. The `app` and `version` labels add contextual information
+  to the metrics and telemetry that Istio collects.
+
+    - The `app` label: Each deployment should have a distinct
       `app` label with a meaningful value. The `app` label is used to add
       contextual information in distributed tracing.
 
@@ -60,7 +88,7 @@ requirements:
 
 ## Ports used by Istio
 
-The following ports and protocols are used by Istio.
+Applications should avoid the following ports and protocols, which are used by Istio.
 
 | Port | Protocol | Used by | Description |
 |----|----|----|----|
@@ -76,34 +104,3 @@ The following ports and protocols are used by Istio.
 | 8080 | HTTP | Istiod | Debug interface |
 | 443 | HTTPS | Istiod | Webhooks |
 | 15014 | HTTP | Istiod | Control plane monitoring |
-
-## Required pod capabilities
-
-If [pod security policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)
-are [enforced](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies)
-in your cluster and unless you use the Istio CNI Plugin, your pods must have the
-`NET_ADMIN` and `NET_RAW` capabilities allowed. The initialization containers of the Envoy
-proxies require these capabilities.
-
-To check if the `NET_ADMIN` and `NET_RAW` capabilities are allowed for your pods, you need to check if their
-[service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
-can use a pod security policy that allows the `NET_ADMIN` and `NET_RAW` capabilities.
-If you haven't specified a service account in your pods' deployment, the pods run using
-the `default` service account in their deployment's namespace.
-
-To list the capabilities for a service account, replace `<your namespace>` and `<your service account>`
-with your values in the following command:
-
-{{< text bash >}}
-$ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:<your namespace>:<your service account>) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
-{{< /text >}}
-
-For example, to check for the `default` service account in the `default` namespace, run the following command:
-
-{{< text bash >}}
-$ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:default:default) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
-{{< /text >}}
-
-If you see `NET_ADMIN` and `NET_ADMIN` or `*` in the list of capabilities of one of the allowed
-policies for your service account, your pods have permission to run the Istio init containers.
-Otherwise, you will need to [provide the permission](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#authorizing-policies).
