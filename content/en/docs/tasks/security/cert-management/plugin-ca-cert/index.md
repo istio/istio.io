@@ -67,8 +67,6 @@ security protection. The root private key should be exposed to as few people and
     * `ca-key.pem`: the generated intermediate key
     * `cert-chain.pem`: the generated certificate chain which is used by istiod
     * `root-cert.pem`: the root certificate
-    * `intermediate.conf`: the configuration for `openssl` to generate the intermediate certificate
-    * `cluster-ca.csr`: the generated CSR for the intermediate certificate
 
     {{< tip >}}
     You can replace `cluster1` with a string of your choosing. For example, `make mycluster-certs` will
