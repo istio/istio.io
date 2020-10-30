@@ -98,7 +98,7 @@ spec:
         sidecar.istio.io/userVolumeMount: '[{"name": "istio-certs", "mountPath": "/etc/istio-output-certs"}]'
 {{< /text >}}
 
-To use the provisioned certificate, mount the shared volume at Prometheus container, and set scraping job TLS context as follow:
+To use the provisioned certificate, mount the shared volume for the Prometheus container and set the scraping job TLS context as follow:
 
 {{< text yaml >}}
 volumeMounts:
