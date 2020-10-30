@@ -14,7 +14,8 @@ changes. For more information refer to the [Istio support policy](../release-cad
 | Version         | Currently Supported   | Release Date    | End of Life       | Supported Kubernetes Versions |
 |-----------------|-----------------------|-----------------|-------------------|-------------------------------|
 | master          | No, development only  |                 |                   |                               |
-| 1.7             | Yes                   | August 21, 2020 |                   | 1.15, 1.16, 1.17, 1.18, 1.19  |
+| 1.8             |                       | TBD             |                   | 1.16, 1.17, 1.18, 1.19        |
+| 1.7             | Yes                   | August 21, 2020 |                   | 1.16, 1.17, 1.18              |
 | 1.6             | Yes                   | May 21, 2020    | November 21, 2020 | 1.15, 1.16, 1.17, 1.18        |
 | 1.5 and earlier | No                    |                 |                   |                               |
 
