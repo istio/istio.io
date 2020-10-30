@@ -13,13 +13,39 @@ test: no
 
 The external control plane deployment model enables mesh operators to install and manage mesh control planes on separate external clusters. This deployment model allows a clear separation between mesh operators and mesh admins. Istio mesh operators can now run Istio control planes for mesh admins while mesh admins can still control the configuration of the control plane without worrying about installing or managing the control plane.
 
+## Requirements
+
+### Cluster
+
+This guide requires that you have two Kubernetes clusters with any of the
+supported Kubernetes versions: {{< supported_kubernetes_versions >}}. First cluster is the external control plane cluster where it has istio default profile installed in the istio-system namespace.   It also has external istiod installed in the external-istiod namespace.  The external istiod is exposed on the ingress gateway from the istio-system namespace.  The second cluster is a remote config cluster.
+
+### API Server Access
+
+The API Server in the remote config cluster must be accessible to the external control plane cluster. Many cloud providers make API Servers publicly accessible via network
+load balancers (NLB). If the API Server is not directly accessible, you will
+have to modify the installation procedure to enable access. For example, the
+[east-west](https://en.wikipedia.org/wiki/East-west_traffic) gateway used in
+the multi-network and primary-remote configurations could also be used
+to enable access to the API Server.
+
+## Environment Variables
+
+This guide will refer to two clusters named `external_cp_cluster` and `user_cluster`. The following environment variables will be used throughout to simplify the instructions:
+
+Variable | Description
+-------- | -----------
+`CTX_EXTERNAL_CP` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the external control plane cluster.
+`CTX_USER_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the remote config cluster.
+
+For example:
+
+{{< text bash >}}
+$ export CTX_EXTERNAL_CP=external_cp_cluster
+$ export CTX_USER_CLUSTER=user_cluster
+{{< /text >}}
+
 ## Setup
-
-2 Kubernetes clusters are used for this setup.  First cluster is the management cluster where it has istio default profile installed in the istio-system namespace.   It also has external istiod installed in the external-istiod namespace.  The external istiod is exposed on the ingress gateway from the istio-system namespace.  The second cluster is the remote config cluster.
-
-There are 2 Kubernetes contexts used:
-1. management cluster: CTX_EXTERNAL_CP
-2. remote config cluster: CTX_CLUSTER
 
 ### Setup management cluster
 
@@ -50,7 +76,7 @@ spec:
 EOF
 ```
 ```
-istioctl apply -f istiod-management.yaml
+istioctl apply -f istiod-management.yaml --context="${CTX_EXTERNAL_CP}"
 ```
 
 ```
@@ -135,7 +161,7 @@ spec:
        EOF
 ```
 
-kubectl apply -f external-istiod-gw.yaml
+kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CP}"
 
 
 ### Setup remote cluster
@@ -175,7 +201,7 @@ spec:
 EOF
 ```
 
-istioctl apply -f remote-config-cluster.yaml --context="${CTX_CLUSTER}"
+istioctl apply -f remote-config-cluster.yaml --context="${CTX_USER_CLUSTER}"
 
 
 ### Setup external Istiod on management cluster
@@ -184,7 +210,7 @@ istioctl apply -f remote-config-cluster.yaml --context="${CTX_CLUSTER}"
 k create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CP}"
 
 istioctl x create-remote-secret \
-  --context="${CTX_CLUSTER}" \
+  --context="${CTX_USER_CLUSTER}" \
   --type=config \
   --namespace=external-istiod | \
   kubectl apply -f - --context="${CTX_EXTERNAL_CP}"
