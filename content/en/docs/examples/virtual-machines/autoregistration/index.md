@@ -160,5 +160,5 @@ the `WorkloadGroup` and Namespace.
 
 At this point, you can remove the virtual machine resources from the Kubernetes cluster in the `<vm-namespace>` namespace.
 Removing the `WorkloadGroup` will not delete associated `WorkloadEntry` resources. Even without deleting the `WorkloadGroup`,
-simply shutdown the `istio` service on the VM, or tear down the VM entirely. After a short grace period, the `WorkloadEntry`will be cleaned up
+simply shutdown the `istio` service on the VM, or tear down the VM entirely. After a short grace period, the `WorkloadEntry` will be cleaned up
 automatically.
