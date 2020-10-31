@@ -18,7 +18,7 @@ The {{< gloss >}}external control plane{{< /gloss >}} deployment model enables m
 ### Cluster
 
 This guide requires that you have two Kubernetes clusters with any of the
-supported Kubernetes versions: {{< supported_kubernetes_versions >}}. First cluster is the {{< gloss >}}external control plane{{< /gloss >}} cluster where it has istio default profile installed in the istio-system namespace.   It also has external istiod installed in the external-istiod namespace.  The external istiod is exposed on the ingress gateway from the istio-system namespace.  The second cluster is a {< gloss >}}remote cluster{< /gloss >}} which also provides configuration for the external istiod.
+supported Kubernetes versions: {{< supported_kubernetes_versions >}}. First cluster is the {{< gloss >}}external control plane{{< /gloss >}} cluster where it has Istio default profile installed in the istio-system namespace.   It also has external istiod installed in the external-istiod namespace.  The external istiod is exposed on the ingress gateway from the istio-system namespace.  The second cluster is a {< gloss >}}remote cluster{< /gloss >}} which also provides configuration for the external istiod.
 
 ### API Server Access
 
@@ -53,7 +53,7 @@ $ export SSL_SECRET_NAME = myexternal-istiod-secret
 
 ### Setup the external control plane cluster
 
-1. Install istio using the default profile on the external control plane cluster in the istio-system namespace.
+1. Install Istio using the default profile on the external control plane cluster in the istio-system namespace.
 
 {{< text bash >}}
 $ cat <<EOF > external-cp.yaml
@@ -71,7 +71,7 @@ spec:
            ports:
              - port: 15021
                targetPort: 15021
-               name: status-port           
+               name: status-port
              - port: 15012
                targetPort: 15012
                name: tls-xds
@@ -79,10 +79,13 @@ spec:
                targetPort: 15017
                name: tls-webhook
 EOF
+{{< /text >}}
+
+{{< text bash >}}
 $ istioctl apply -f external-cp.yaml --context="${CTX_EXTERNAL_CP}"
 {{< /text >}}
 
-1. Expose external istiod on istio ingress gateway installed in the istio-system namespace.
+1. Expose external istiod on Istio ingress gateway installed in the istio-system namespace.
 
 {{< text bash >}}
 $ cat <<EOF > external-istiod-gw.yaml
@@ -161,12 +164,15 @@ spec:
      tls:
        mode: SIMPLE
        EOF
+{{< /text >}}
+
+{{< text bash >}}
 $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CP}"
 {{< /text >}}
 
 ### Setup remote cluster
-1. Configure REMOTE_ISTIOD_ADDR environment variable
-2. Install Istio without Istiod on a remote config cluster in the `external-istiod` namespace.
+
+1. Install Istio without Istiod on a remote config cluster in the `external-istiod` namespace.
 
 {{< text bash >}}
 $ cat <<EOF > remote-config-cluster.yaml
@@ -181,30 +187,32 @@ spec:
      discoveryAddress: $REMOTE_ISTIOD_ADDR:15012
      proxyMetadata:
        XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
-       CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt    
+       CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
  components:
    pilot:
      enabled: false
    istiodRemote:
      enabled: true
- 
+
  values:
    global:
      caAddress: $REMOTE_ISTIOD_ADDR:15012
      istioNamespace: external-istiod
- 
    istiodRemote:
      injectionURL: https://$REMOTE_ISTIOD_ADDR:15017/inject
- 
    base:
      validationURL: https://REMOTE_ISTIOD_ADDR:15017/validate
 EOF
+{{< /text >}}
+
+{{< text bash >}}
 $ istioctl apply -f remote-config-cluster.yaml --context="${CTX_USER_CLUSTER}"
 {{< /text >}}
 
-### Setup external Istiod on management cluster
+### Setup external istiod on management cluster
 
 1. Create remote secret to allow external istiod to access the `user_cluster`.
+
 {{< text bash >}}
 $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CP}"
 $ istioctl x create-remote-secret \
@@ -214,7 +222,7 @@ $ istioctl x create-remote-secret \
   kubectl apply -f - --context="${CTX_EXTERNAL_CP}"
 {{< /text >}}
 
-1. Install external istio in the external-istiod namespace.
+1. Install external istiod in the external-istiod namespace.
 
 {{< text bash >}}
 $ cat <<EOF > external-istiod.yaml
@@ -229,13 +237,13 @@ spec:
      rootNamespace: external-istiod
      proxyMetadata:
        XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
-       CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt 
+       CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
  components:
    base:
      enabled: false
    ingressGateways:
    - name: istio-ingressgateway
-     enabled: false     
+     enabled: false
  values:
    global:
      caAddress: $REMOTE_ISTIOD_ADDR:15012
@@ -246,10 +254,13 @@ spec:
        INJECTION_WEBHOOK_CONFIG_NAME: ""
        VALIDATION_WEBHOOK_CONFIG_NAME: ""
 EOF
+{{< /text >}}
+
+{{< text bash >}}
 $ istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CP}"
 {{< /text >}}
 
-###Validate the installation
+### Validate the installation
 
 1. Confirm gateway on the remote config cluster is running.
 
@@ -261,5 +272,5 @@ $ kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CT
 
 {{< text bash >}}
 $ kubectl apply -f samples/sleep/sleep.yaml --context="${CTX_USER_CLUSTER}"
-$ kubectl get pod -l app=sleep 
+$ kubectl get pod -l app=sleep
 {{< /text >}}
