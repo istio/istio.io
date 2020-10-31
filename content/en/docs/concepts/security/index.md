@@ -190,6 +190,15 @@ follows:
 1. After authorization, the server side Envoy forwards the traffic to the
    server service through local TCP connections.
 
+Istio configures TLSv1_2 as the minimum TLS version for both client and server with 
+following cipher suites:
+- CDHE-ECDSA-AES256-GCM-SHA384
+- ECDHE-RSA-AES256-GCM-SHA384
+- ECDHE-ECDSA-AES128-GCM-SHA256
+- ECDHE-RSA-AES128-GCM-SHA256
+- AES256-GCM-SHA384
+- AES128-GCM-SHA256
+
 #### Permissive mode
 
 Istio mutual TLS has a permissive mode, which allows a service to accept both
