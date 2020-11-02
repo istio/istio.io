@@ -62,7 +62,7 @@ requirements:
 
 The following ports and protocols are used by Istio sidecar proxy.
 
-| Port | Protocol | Description | Localhost Only |
+| Port | Protocol | Description | Local host only |
 |----|----|----|----|
 | 15000 | TCP | Envoy admin port (commands/diagnostics) | Yes |
 | 15001 | TCP | Envoy Outbound | No |
@@ -74,10 +74,10 @@ The following ports and protocols are used by Istio sidecar proxy.
 
 The following ports and protocols are used by Istio control plane.
 
-| Port | Protocol | Description | Localhost Only |
-|----|----|----|
+| Port | Protocol | Description | Local host only |
+|----|----|----|----|
 | 15010 | GRPC | XDS and CA services (Plaintext) | No |
-| 15012 | GRPC | XDS and CA services (TLS, recommanded for production usage) | No |
+| 15012 | GRPC | XDS and CA services (TLS, recommended for production usage) | No |
 | 8080 | HTTP | Debug interface (Deprecated) | No |
 | 443 | HTTPS | Webhooks | No |
 | 15014 | HTTP | Control plane monitoring | No |
