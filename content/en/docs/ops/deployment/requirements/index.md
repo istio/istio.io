@@ -88,7 +88,7 @@ To be part of a mesh, Kubernetes pods must satisfy the following requirements:
 
 ## Ports used by Istio
 
-Applications should avoid the following ports and protocols, which are used by Istio.
+The following ports and protocols are used by Istio.
 
 | Port | Protocol | Used by | Description |
 |----|----|----|----|
@@ -104,3 +104,5 @@ Applications should avoid the following ports and protocols, which are used by I
 | 8080 | HTTP | Istiod | Debug interface |
 | 443 | HTTPS | Istiod | Webhooks |
 | 15014 | HTTP | Istiod | Control plane monitoring |
+
+To avoid port conflicts with sidecars, applications should not use any of the ports used by Envoy.
