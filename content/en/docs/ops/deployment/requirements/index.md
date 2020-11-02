@@ -23,7 +23,7 @@ test: no
 ---
 
 Istio provides a great deal of functionality to applications with little or no impact on the application code itself.
-Many Kubernetes applications can be deployed in an Istio-enabled cluster, without any changes at all.
+Many Kubernetes applications can be deployed in an Istio-enabled cluster without any changes at all.
 However, there are some implications of Istio's sidecar model that may need special consideration when deploying
 an Istio-enabled application.
 This document describes these application considerations and specific requirements of Istio enablement.
