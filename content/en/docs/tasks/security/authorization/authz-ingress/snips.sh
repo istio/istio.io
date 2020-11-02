@@ -39,24 +39,6 @@ curl "$INGRESS_HOST":"$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 ENDSNIP
 
 ! read -r -d '' snip_source_ip_address_of_the_original_client_1 <<\ENDSNIP
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    accessLogEncoding: JSON
-    accessLogFile: /dev/stdout
-  components:
-    ingressGateways:
-    - enabled: true
-      k8s:
-        hpaSpec:
-          maxReplicas: 10
-          minReplicas: 5
-        serviceAnnotations:
-          service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-ENDSNIP
-
-! read -r -d '' snip_source_ip_address_of_the_original_client_2 <<\ENDSNIP
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
@@ -75,7 +57,7 @@ spec:
         - name: envoy.listener.proxy_protocol
 ENDSNIP
 
-! read -r -d '' snip_source_ip_address_of_the_original_client_3 <<\ENDSNIP
+! read -r -d '' snip_source_ip_address_of_the_original_client_2 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -107,11 +89,11 @@ spec:
       name: istio-ingressgateway
 ENDSNIP
 
-snip_source_ip_address_of_the_original_client_4() {
+snip_source_ip_address_of_the_original_client_3() {
 kubectl patch svc istio-ingressgateway -n istio-system -p '{"spec":{"externalTrafficPolicy":"Local"}}'
 }
 
-! read -r -d '' snip_source_ip_address_of_the_original_client_5 <<\ENDSNIP
+! read -r -d '' snip_source_ip_address_of_the_original_client_4 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -121,6 +103,24 @@ spec:
     defaultConfig:
       gatewayTopology:
         numTrustedProxies: 1
+ENDSNIP
+
+! read -r -d '' snip_source_ip_address_of_the_original_client_5 <<\ENDSNIP
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    accessLogEncoding: JSON
+    accessLogFile: /dev/stdout
+  components:
+    ingressGateways:
+    - enabled: true
+      k8s:
+        hpaSpec:
+          maxReplicas: 10
+          minReplicas: 5
+        serviceAnnotations:
+          service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
 ENDSNIP
 
 snip_ipbased_allow_list_and_deny_list_1() {

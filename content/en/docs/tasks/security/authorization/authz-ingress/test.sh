@@ -37,7 +37,7 @@ _set_ingress_environment_variables
 
 _verify_same snip_before_you_begin_3 "$snip_before_you_begin_3_out"
 
-snip_source_ip_address_of_the_original_client_4
+snip_source_ip_address_of_the_original_client_3
 
 snip_ipbased_allow_list_and_deny_list_1
 _wait_for_istio authorizationpolicy istio-system ingress-policy

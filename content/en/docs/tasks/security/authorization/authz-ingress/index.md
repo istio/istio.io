@@ -7,12 +7,7 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-This task shows you how to enforce access control on an Istio ingress gateway
-using an authorization policy.
-
-An Istio authorization policy supports IP-based allow lists or deny lists as well as
-the attribute-based allow lists or deny lists previously provided by Mixer policy.
-The Mixer policy is deprecated in *5 and not recommended for production use.
+This task shows you how to enforce IP-based access control on an Istio ingress gateway using an authorization policy.
 
 ## Before you begin
 
@@ -61,37 +56,7 @@ Caching and propagation overhead can cause a delay.
 
 ## Source IP address of the original client
 
-If a packet goes through an external proxy load balancer and/or kube-proxy, then the original source IP address of the client is lost.  Below are some strategies for preserving the original client IP for logging or security purposes.  For reference, here are the types of load balancers created by Istio with a `LoadBalancer` service on popular managed Kubernetes environments:
-
-|Cloud Provider | Load Balancer Name            | Load Balancer Type
-----------------|-------------------------------|-------------------
-|AWS EKS        | Classic Elastic Load Balancer | TCP Proxy
-|GCP GKE        | TCP/UDP Network Load Balancer | Network
-|Azure AKS      | Azure Load Balancer           | Network
-|DO DOKS        | Load Balancer                 | Network
-
-{{< tip >}}
-You can instruct AWS EKS to create a Network Load Balancer when you install Istio by using a `serviceAnnotation` like below:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    accessLogEncoding: JSON
-    accessLogFile: /dev/stdout
-  components:
-    ingressGateways:
-    - enabled: true
-      k8s:
-        hpaSpec:
-          maxReplicas: 10
-          minReplicas: 5
-        serviceAnnotations:
-          service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-{{< /text >}}
-
-{{< /tip >}}
+If a packet goes through an external proxy load balancer and/or kube-proxy, then the original source IP address of the client is lost.  Below are some strategies for preserving the original client IP for logging or security purposes.
 
 {{< tabset category-name="lb" >}}
 
@@ -185,6 +150,38 @@ spec:
 {{< /tab >}}
 
 {{< /tabset >}}
+
+For reference, here are the types of load balancers created by Istio with a `LoadBalancer` service on popular managed Kubernetes environments:
+
+|Cloud Provider | Load Balancer Name            | Load Balancer Type
+----------------|-------------------------------|-------------------
+|AWS EKS        | Classic Elastic Load Balancer | TCP Proxy
+|GCP GKE        | TCP/UDP Network Load Balancer | Network
+|Azure AKS      | Azure Load Balancer           | Network
+|DO DOKS        | Load Balancer                 | Network
+
+{{< tip >}}
+You can instruct AWS EKS to create a Network Load Balancer when you install Istio by using a `serviceAnnotation` like below:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    accessLogEncoding: JSON
+    accessLogFile: /dev/stdout
+  components:
+    ingressGateways:
+    - enabled: true
+      k8s:
+        hpaSpec:
+          maxReplicas: 10
+          minReplicas: 5
+        serviceAnnotations:
+          service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+{{< /text >}}
+
+{{< /tip >}}
 
 ## IP-based allow list and deny list
 
