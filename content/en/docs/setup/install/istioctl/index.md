@@ -364,7 +364,7 @@ The `IstioOperator` API defines components as shown in the table below:
 `cni` |
 `istiodRemote` |
 
-The configurable settings for each of these components are available in the API under `components.<component name>`. 
+The configurable settings for each of these components are available in the API under `components.<component name>`.
 For example, to use the API to change (to false) the `enabled` setting for the `pilot` component, use
 `--set components.pilot.enabled=false` or set it in an `IstioOperator` resource like this:
 
