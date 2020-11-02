@@ -65,8 +65,8 @@ The following ports and protocols are used by Istio sidecar proxy.
 | Port | Protocol | Description | Localhost Only |
 |----|----|----|----|
 | 15000 | TCP | Envoy admin port (commands/diagnostics) | Yes |
-| 15001 | TCP | Envoy Outbound | Yes |
-| 15006 | TCP | Envoy Inbound | Yes |
+| 15001 | TCP | Envoy Outbound | No |
+| 15006 | TCP | Envoy Inbound | No |
 | 15008 | TCP | Envoy Tunnel port (Inbound) | No |
 | 15020 | HTTP | Merged Prometheus telemetry from Istio agent, Envoy, and application | No |
 | 15021 | HTTP | Health checks | No |
