@@ -8,9 +8,9 @@ keywords: [configuration,egress,gateway,external,service]
 target_release: 1.7.0
 ---
 
-At [Deutsche Telekom::PAN-NET](https://pan-net.cloud/aboutus), we have embraced `Istio` as the umbrella to cover our services.
+At [`Deutsche Telekom::PAN-NET`](https://pan-net.cloud/aboutus), we have embraced `Istio` as the umbrella to cover our services.
 
-Unfortunately, there are services which have not been migrated to kubernetes yet or, simply, cannot be. Therefore, those ones have to remain as external services.
+Unfortunately, there are services which have not been migrated to `kubernetes` yet or, simply, cannot be. Therefore, those ones have to remain as external services.
 
 ## Scenario
 
@@ -46,12 +46,12 @@ spec:
 
 As a benefit of decoupling Egress Getaways from IstioOperator manifest, you have enabled the possibility of setting up custom Liveness probes to have both services (gateway and upstream service) aligned.
 
-As well, you can apply the sidecar pattern to inject, for example, OPA into the pod to perform AuthZ with complex rules ([OPA envoy plugin](https://github.com/open-policy-agent/opa-envoy-plugin)).
+As well, you can apply the sidecar pattern to inject, for example, OPA into the pod to perform authorization with complex rules ([OPA envoy plugin](https://github.com/open-policy-agent/opa-envoy-plugin)).
 
 {{< image width="75%" ratio="45.34%"
     link="./on-demand-egress-gateway-authz.svg"
-    alt="AuthZ with OPA and healthcheck to external service"
-    caption="AuthZ with OPA and healthcheck to external"
+    alt="Authorization with OPA and `healthcheck` to external service"
+    caption="Authorization with OPA and `healthcheck` to external"
     >}}
 
 At this point, you might be convinced that this is the right path to go.
@@ -79,10 +79,10 @@ At the end, you will have:
 
 ## Hands on
 
-### Pre-requisites
+### Prerequisites
 
 - Access to [Istio repository](https://github.com/istio/istio)
-- [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) (kubernetes in docker. Perfect for local development)
+- [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) (`kubernetes in docker`. Perfect for local development)
 - [Helm 3](https://helm.sh/docs/intro/install/)
 - [Istioctl](/docs/setup/getting-started/#download)
 
@@ -261,7 +261,7 @@ Remember that we assume *service name = httpbin-egress*):
 $ helm install httpbin-egress -n httpbin <path-to-chart> -f <path-to-values-file>
 {{< /text >}}
 
-Where `<path-to-chart>` is the path where you have copied the helm chart from the repo and `<path-to-values-file>` is the sample values you have downloaded
+Where `<path-to-chart>` is the path where you have copied the helm chart from the repository and `<path-to-values-file>` is the sample values you have downloaded
 
 ### Istio configuration
 
@@ -357,7 +357,7 @@ Where `<my-hostname>` is the hostname to access through the `my-ingressgateway`.
 
 #### Virtual Service
 
-Create a VirtualService for three use cases:
+Create a `VirtualService` for three use cases:
 
 - **Mesh** gateway for service-to-service communications within the mesh
 - **Ingress Gateway** for the communication from outside the mesh
@@ -409,7 +409,7 @@ Where `<my-hostname>` is the hostname to access through the `my-ingressgateway`.
 
 #### Service Entry
 
-Create a ServiceEntry to allow the communication to the external service:
+Create a `ServiceEntry` to allow the communication to the external service:
 
 {{< tip >}}
 Notice that the port is configured for TLS protocol
@@ -434,7 +434,7 @@ spec:
 
 #### Destination Rule
 
-Create a DestinationRule to allow TLS origination for egress traffic as explained in the [documentation](/docs/tasks/traffic-management/egress/egress-tls-origination/#tls-origination-for-egress-traffic)
+Create a `DestinationRule` to allow TLS origination for egress traffic as explained in the [documentation](/docs/tasks/traffic-management/egress/egress-tls-origination/#tls-origination-for-egress-traffic)
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -535,6 +535,6 @@ To finish, just to mention that `Istio`, as a good cloud native technology, does
 
 To discuss more about `Istio` and its possibilities, you can find us in:
 
-- Antonio Berben ([twitter @antonio_berben](https://twitter.com/antonio_berben))
-- Piotr Ciążyński ([LinkedIn](https://www.linkedin.com/in/piotr-ciazynski))
-- Kristián Patlevič ([LinkedIn](https://www.linkedin.com/in/patlevic))
+- `Antonio Berben` ([`twitter @antonio_berben`](https://twitter.com/antonio_berben))
+- `Piotr Ciążyński` ([`LinkedIn`](https://www.linkedin.com/in/piotr-ciazynski))
+- `Kristián Patlevič` ([`LinkedIn`](https://www.linkedin.com/in/patlevic))
