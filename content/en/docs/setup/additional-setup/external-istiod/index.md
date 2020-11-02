@@ -1,18 +1,13 @@
 ---
-title: Installing External Istiod [experimental]
+title: Installing External Istiod
 description: Install external Istiod and remote config cluster.
 weight: 46
 keywords: [external,istiod,remote,config]
 aliases:
     - /docs/setup/kubernetes/additional-setup/external-istiod/
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 ---
-
-{{< warning >}}
-This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
-considered `pre-alpha`.
-{{< /warning >}}
 
 ## Introduction
 
