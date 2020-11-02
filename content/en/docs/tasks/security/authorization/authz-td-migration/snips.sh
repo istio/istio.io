@@ -21,7 +21,7 @@
 ####################################################################################################
 
 snip_before_you_begin_1() {
-istioctl install --set profile=demo --set values.global.trustDomain=old-td
+istioctl install --set profile=demo --set meshConfig.trustDomain=old-td
 }
 
 snip_before_you_begin_2() {
@@ -74,7 +74,7 @@ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items.
 ENDSNIP
 
 snip_migrate_trust_domain_without_trust_domain_aliases_1() {
-istioctl install --set profile=demo --set values.global.trustDomain=new-td
+istioctl install --set profile=demo --set meshConfig.trustDomain=new-td
 }
 
 snip_migrate_trust_domain_without_trust_domain_aliases_2() {
@@ -106,11 +106,10 @@ cat <<EOF > ./td-installation.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  values:
-    global:
-      trustDomain: new-td
-      trustDomainAliases:
-        - old-td
+  meshConfig:
+    trustDomain: new-td
+    trustDomainAliases:
+      - old-td
 EOF
 istioctl install --set profile=demo -f td-installation.yaml -y
 }

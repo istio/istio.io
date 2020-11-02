@@ -18,7 +18,7 @@ In addition, review the requirements and perform the initial steps below.
 ### Cluster
 
 This guide requires that you have two Kubernetes clusters with any of the
-[supported Kubernetes versions](/docs/setup/platform-setup).
+supported Kubernetes versions: {{< supported_kubernetes_versions >}}.
 
 ### API Server Access
 
@@ -59,7 +59,7 @@ Istio may change slightly.
 
 This guide will assume that you use a common root to generate intermediate
 certificates for each cluster. Follow the [instructions](/docs/tasks/security/cert-management/plugin-ca-cert/)
-to generate and push a ca certificate secrets to both the `cluster1` and `cluster2`
+to generate and push a CA certificate secret to both the `cluster1` and `cluster2`
 clusters.
 
 {{< tip >}}

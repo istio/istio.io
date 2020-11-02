@@ -54,6 +54,10 @@ Install Istio and expose the control plane so that your virtual machine can acce
     $ istioctl install
     {{< /text >}}
 
+    {{< tip >}}
+    To enable experimental [VM auto-registration](/docs/examples/virtual-machines/autoregistration): `istioctl install --set values.global.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true`.
+    {{< /tip >}}
+
 1. Expose the control plane using the provided sample configuration.
 
     {{< text bash >}}
@@ -99,7 +103,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     $ echo ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR > "${WORK_DIR}"/cluster.env
     {{< /text >}}
 
-1. Optionally configure configure a select set of ports for exposure from the
+1. Optionally configure a select set of ports for exposure from the
    virtual machine. If you do not apply this optional step, all outbound traffic
    on all ports is sent to the Kubernetes cluster. You may wish to send some
    traffic on specific ports to other destinations. This example shows enabling
@@ -132,6 +136,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     $ touch "${WORK_DIR}"/sidecar.env
     $ echo "PROV_CERT=/var/run/secrets/istio" >>"${WORK_DIR}"/sidecar.env
     $ echo "OUTPUT_CERTS=/var/run/secrets/istio" >> "${WORK_DIR}"/sidecar.env
+    $ echo "ISTIO_NAMESPACE=${VM_NAMESPACE}" >> "${WORK_DIR}"/sidecar.env
     {{< /text >}}
 
 ## Configure the virtual machine
