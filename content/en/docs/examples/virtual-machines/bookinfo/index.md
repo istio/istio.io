@@ -49,9 +49,14 @@ On the VM:
 
 {{< text bash >}}
 $ sudo apt-get update && sudo apt-get install -y mariadb-server
+$ sudo sed -i '/bind-address/c\bind-address  = 0.0.0.0' /etc/mysql/mariadb.conf.d/50-server.cnf
 $ sudo mysql
 # Grant access to root
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;
+# Grant root access to other IPs
+CREATE USER 'root'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
 quit;
 {{< /text >}}
 
