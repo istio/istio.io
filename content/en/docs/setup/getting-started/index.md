@@ -18,7 +18,7 @@ advanced [deployment models](/docs/ops/deployment/deployment-models/), see
 instead.
 
 These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
-compatible version of Kubernetes. You can use any supported platform, for
+compatible version of Kubernetes ({{< supported_kubernetes_versions >}}). You can use any supported platform, for
 example [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or
 others specified by the
 [platform-specific setup instructions](/docs/setup/platform-setup/).

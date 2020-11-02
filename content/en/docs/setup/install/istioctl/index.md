@@ -364,39 +364,102 @@ The `IstioOperator` API defines components as shown in the table below:
 `cni` |
 `istiodRemote` |
 
-### Configure component settings
-
-After you identify the name of the component from the previous table, you can use the API to set the values
-using the `--set` flag, or create an overlay file and use the `--filename` flag. The `--set` flag
-works well for customizing a few parameters. Overlay files are designed for more extensive customization, or
-tracking configuration changes.
-
-The simplest customization is to turn a component on or off from the configuration profile default.
-
-To disable the telemetry component in a default configuration profile, use this command:
-
-{{< text bash >}}
-$ istioctl install --set components.telemetry.enabled=false
-{{< /text >}}
-
-Alternatively, you can disable the telemetry component using a configuration overlay file:
-
-1. Create this file with the name `telemetry_off.yaml` and these contents:
+The configurable settings for each of these components are available in the API under `components.<component name>`.
+For example, to use the API to change (to false) the `enabled` setting for the `pilot` component, use
+`--set components.pilot.enabled=false` or set it in an `IstioOperator` resource like this:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   components:
-    telemetry:
+    pilot:
       enabled: false
 {{< /text >}}
 
-1. Use the `telemetry_off.yaml` overlay file with the `istioctl install` command:
+All of the components also share a common API for changing Kubernetes-specific settings, under
+`components.<component name>.k8s`, as described in the following section.
 
-{{< text bash >}}
-$ istioctl install -f telemetry_off.yaml
+### Customize Kubernetes settings
+
+The `IstioOperator` API allows each component's Kubernetes settings to be customized in a consistent way.
+
+Each component has a [`KubernetesResourceSpec`](/docs/reference/config/istio.operator.v1alpha1/#KubernetesResourcesSpec),
+which allows the following settings to be changed. Use this list to identify the setting to customize:
+
+1. [Resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container)
+1. [Readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
+1. [Replica count](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+1. [`HorizontalPodAutoscaler`](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+1. [`PodDisruptionBudget`](https://kubernetes.io/docs/concepts/workloads/pods/disruptions/#how-disruption-budgets-work)
+1. [Pod annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
+1. [Service annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
+1. [`ImagePullPolicy`](https://kubernetes.io/docs/concepts/containers/images/)
+1. [Priority class name](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass)
+1. [Node selector](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector)
+1. [Affinity and anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
+1. [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
+1. [Toleration](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
+1. [Strategy](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+1. [Env](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+1. [Pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
+
+All of these Kubernetes settings use the Kubernetes API definitions, so [Kubernetes documentation](https://kubernetes.io/docs/concepts/) can be used for reference.
+
+The following example overlay file adjusts the resources and horizontal pod autoscaling
+settings for Pilot:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  components:
+    pilot:
+      k8s:
+        resources:
+          requests:
+            cpu: 1000m # override from default 500m
+            memory: 4096Mi # ... default 2048Mi
+        hpaSpec:
+          maxReplicas: 10 # ... default 5
+          minReplicas: 2  # ... default 1
+        nodeSelector:
+          master: "true"
+        tolerations:
+        - key: dedicated
+          operator: Exists
+          effect: NoSchedule
+        - key: CriticalAddonsOnly
+          operator: Exists
 {{< /text >}}
+
+Use `istioctl install` to apply the modified settings to the cluster:
+
+{{< text syntax="bash" repo="operator" >}}
+$ istioctl install -f samples/operator/pilot-k8s.yaml
+{{< /text >}}
+
+### Customize Istio settings using the Helm API
+
+The `IstioOperator` API includes a pass-through interface to the [Helm API](https://archive.istio.io/v1.4/docs/reference/config/installation-options/)
+using the `values` field.
+
+The following YAML file configures global and Pilot settings through the Helm API:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  values:
+    pilot:
+      traceSampling: 0.1 # override from 1.0
+    global:
+      monitoringPort: 15050
+{{< /text >}}
+
+Some parameters will temporarily exist in both the Helm and `IstioOperator` APIs, including Kubernetes resources,
+namespaces and enablement settings. The Istio community recommends using the `IstioOperator` API as it is more
+consistent, is validated, and follows the [community graduation process](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
 
 ### Configure gateways
 
@@ -466,87 +529,6 @@ spec:
       istio-ingressgateway:
         debug: error
 {{< /text >}}
-
-### Customize Kubernetes settings
-
-The `IstioOperator` API allows each component's Kubernetes settings to be customized in a consistent way.
-
-Each component has a [`KubernetesResourceSpec`](/docs/reference/config/istio.operator.v1alpha1/#KubernetesResourcesSpec),
-which allows the following settings to be changed. Use this list to identify the setting to customize:
-
-1. [Resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container)
-1. [Readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
-1. [Replica count](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
-1. [`HorizontalPodAutoscaler`](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
-1. [`PodDisruptionBudget`](https://kubernetes.io/docs/concepts/workloads/pods/disruptions/#how-disruption-budgets-work)
-1. [Pod annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
-1. [Service annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
-1. [`ImagePullPolicy`](https://kubernetes.io/docs/concepts/containers/images/)
-1. [Priority class name](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass)
-1. [Node selector](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector)
-1. [Affinity and anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
-1. [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
-1. [Toleration](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
-1. [Strategy](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
-1. [Env](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
-1. [Pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
-
-All of these Kubernetes settings use the Kubernetes API definitions, so [Kubernetes documentation](https://kubernetes.io/docs/concepts/) can be used for reference.
-
-The following example overlay file adjusts the resources and horizontal pod autoscaling
-settings for Pilot:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  components:
-    pilot:
-      k8s:
-        resources:
-          requests:
-            cpu: 1000m # override from default 500m
-            memory: 4096Mi # ... default 2048Mi
-        hpaSpec:
-          maxReplicas: 10 # ... default 5
-          minReplicas: 2  # ... default 1
-        nodeSelector:
-          master: "true"
-        tolerations:
-        - key: dedicated
-          operator: Exists
-          effect: NoSchedule
-        - key: CriticalAddonsOnly
-          operator: Exists
-{{< /text >}}
-
-Use `istioctl install` to apply the modified settings to the cluster:
-
-{{< text syntax="bash" repo="operator" >}}
-$ istioctl install -f operator/samples/pilot-k8s.yaml
-{{< /text >}}
-
-### Customize Istio settings using the Helm API
-
-The `IstioOperator` API includes a pass-through interface to the [Helm API](https://archive.istio.io/v1.4/docs/reference/config/installation-options/)
-using the `values` field.
-
-The following YAML file configures global and Pilot settings through the Helm API:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    pilot:
-      traceSampling: 0.1 # override from 1.0
-    global:
-      monitoringPort: 15050
-{{< /text >}}
-
-Some parameters will temporarily exist in both the Helm and `IstioOperator` APIs, including Kubernetes resources,
-namespaces and enablement settings. The Istio community recommends using the `IstioOperator` API as it is more
-consistent, is validated, and follows the [community graduation process](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
 
 ## Advanced install customization
 
