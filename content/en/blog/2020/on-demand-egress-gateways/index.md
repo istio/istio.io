@@ -14,7 +14,7 @@ Unfortunately, there are services which have not been migrated to kubernetes yet
 
 ## Scenario
 
-If you are familiar with Istio, one of the offered ways to connect to external services is through [Egress Gateway](https://istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway/).
+If you are familiar with Istio, one of the offered ways to connect to external services is through [Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/).
 
 However, if you want to satisfy the [Single-responsibility principle](https://en.wikipedia.org/wiki/Single-responsibility_principle), you will need to deploy multiple and individual (1..N) `Egress Gateways` as the picture shows.
 
@@ -54,10 +54,9 @@ As well, you can apply the sidecar pattern to inject, for example, OPA into the 
     caption="AuthZ with OPA and healthcheck to external"
     >}}
 
-At this point, you might be convinced that this is the right path to go. 
+At this point, you might be convinced that this is the right path to go.
 
 Now, the problem is that `Istio` does not offer a `CRD` for `Egress Gateways`. **Pity!**
-
 
 ## Solution
 
@@ -66,9 +65,9 @@ There are several ways to achieve this task:
 - Create a helm chart (simple solution)
 - Create an operator (recommended for a second iteration in the development process)
 
-Although there are multiple ways to develop an operator, at **PAN-NET**, we have created our own one with the [Operator SDK - Ansible type](https://sdk.operatorframework.io/docs/building-operators/). 
+Although there are multiple ways to develop an operator, at **PAN-NET**, we have created our own one with the [Operator SDK - Ansible type](https://sdk.operatorframework.io/docs/building-operators/).
 
-However, you want to start simple. Thus, better you start with the helm chart. In the following section you will  deploy an `Egress Gateway` to connect to an external service: `httpbin` (https://httpbin.org/)
+However, you want to start simple. Thus, better you start with the helm chart. In the following section you will  deploy an `Egress Gateway` to connect to an external service: `httpbin` ([https://httpbin.org/](https://httpbin.org/))
 
 At the end, you will have:
 
@@ -85,8 +84,7 @@ At the end, you will have:
 - Access to [Istio repository](https://github.com/istio/istio)
 - [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) (kubernetes in docker. Perfect for local development)
 - [Helm 3](https://helm.sh/docs/intro/install/)
-- [Istioctl](https://istio.io/latest/docs/setup/getting-started/#download)
-
+- [Istioctl](/docs/setup/getting-started/#download)
 
 #### Kind
 
@@ -210,13 +208,13 @@ The steps for this task assume:
 - The service is installed under the namespace: `httpbin`.
 - The service name is: `http-egress`.
 
-Clone the Istio's repository, go to branch with tag `1.7.0 `
+Clone the Istio's repository, go to branch with tag `1.7.0`
 
 {{< text bash >}}
 $ git checkout tags/1.7.0
 {{< /text >}}
 
-Find the chart under `manifests/charts/gateways/istio-egress`. [Here](https://github.com/istio/istio/tree/1.7.0/manifests/charts/gateways/istio-egress) the one for `istio 1.7.0`.
+Find the chart under `manifests/charts/gateways/istio-egress`. [Here]({{< github_tree >}}/1.7.0/manifests/charts/gateways/istio-egress) the one for `istio 1.7.0`.
 
 Use this values for the chart installation:
 
@@ -231,7 +229,7 @@ gateways:
 global:
   hub: docker.io/istio
   tag: 1.7.0
-  arch: 
+  arch:
     amd64: 2
     ppc64le: 2
     s390x: 2
@@ -253,12 +251,11 @@ Remember that we assume *namespace = httpbin*)
 $ kubectl create ns httpbin
 {{< /text >}}
 
-
 Install the chart in the cluster
 
-{{< tip >}} 
+{{< tip >}}
 Remember that we assume *service name = httpbin-egress*):
-{{< /tip >}} 
+{{< /tip >}}
 
 {{< text bash >}}
 $ helm install httpbin-egress -n httpbin <path-to-chart> -f <path-to-values-file>
@@ -268,12 +265,11 @@ Where `<path-to-chart>` is the path where you have copied the helm chart from th
 
 ### Istio configuration
 
-Now you will set up `Istio` to connect to the external service https://httpbin.org
-
+Now you will set up `Istio` to connect to the external service [https://httpbin.org](https://httpbin.org)
 
 #### Certificate for TLS
 
-How to generate the certificate is explained in the [documentation](https://istio.io/latest/docs/tasks/traffic-management/ingress/secure-ingress/#generate-client-and-server-certificates-and-keys).
+How to generate the certificate is explained in the [documentation](/docs/tasks/traffic-management/ingress/secure-ingress/#generate-client-and-server-certificates-and-keys).
 
 {{< text bash >}}
 $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=<my-hostname>' -keyout example.com.key -out example.com.crt
@@ -282,6 +278,7 @@ $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example 
 {{< text bash >}}
 $ openssl req -out httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout httpbin.example.com.key -subj "/CN=<my-hostname>/O=httpbin organization"
 {{< /text >}}
+
 {{< text bash >}}
 $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin.example.com.csr -out httpbin.example.com.crt
 {{< /text >}}
@@ -437,7 +434,7 @@ spec:
 
 #### Destination Rule
 
-Create a DestinationRule to allow TLS origination for egress traffic as explained in the [documentation](https://istio.io/latest/docs/tasks/traffic-management/egress/egress-tls-origination/#tls-origination-for-egress-traffic)
+Create a DestinationRule to allow TLS origination for egress traffic as explained in the [documentation](/docs/tasks/traffic-management/egress/egress-tls-origination/#tls-origination-for-egress-traffic)
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -458,7 +455,6 @@ spec:
         tls:
           mode: SIMPLE
 {{< /text >}}
-
 
 #### Peer Authentication
 
@@ -495,8 +491,7 @@ $ kubectl -n istio-system port-forward svc/istio-ingressgateway 15443:443
 $ curl -v -HHost:<my-hostname> --resolve "<my-hostname>:15443:127.0.0.1" --cacert example.com.crt "https://<my-hostname>:15443/status/200"
 {{< /text >}}
 
-Where `<my-hostname>` is the hostname to access through the `my-ingressgateway` and `example.com.crt` is the certificate defined for the `ingressgateway` object. This is due to `tls: mode: SIMPLE` which [does not terminate TLS](https://istio.io/latest/docs/tasks/traffic-management/ingress/secure-ingress/)
-
+Where `<my-hostname>` is the hostname to access through the `my-ingressgateway` and `example.com.crt` is the certificate defined for the `ingressgateway` object. This is due to `tls.mode: SIMPLE` which [does not terminate TLS](/docs/tasks/traffic-management/ingress/secure-ingress/)
 
 #### Service-to-service access
 
@@ -507,7 +502,7 @@ $ kubectl label namespace httpbin istio-injection=enabled --overwrite
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl apply -n httpbin -f  https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
+$ kubectl apply -n httpbin -f  {{< github_file >}}/1.7.0/samples/sleep/sleep.yaml
 {{< /text >}}
 
 {{< text bash >}}
@@ -526,7 +521,6 @@ Eat, Sleep, Rave, **REPEAT!**
 
 Now it is time to create a second, third and fourth `Egress Gateway` pointing to another external service.
 
-
 ## Final thoughts
 
 {{< quote >}}
@@ -542,7 +536,5 @@ To finish, just to mention that `Istio`, as a good cloud native technology, does
 To discuss more about `Istio` and its possibilities, you can find us in:
 
 - Antonio Berben ([twitter @antonio_berben](https://twitter.com/antonio_berben))
-- Piotr Ciążyński ([LinkedIn](www.linkedin.com/in/piotr-ciazynski))
-- Kristián Patlevič ([LinkedIn](https://www.linkedin.com/in/patlevic/))
-
-
+- Piotr Ciążyński ([LinkedIn](https://www.linkedin.com/in/piotr-ciazynski))
+- Kristián Patlevič ([LinkedIn](https://www.linkedin.com/in/patlevic))
