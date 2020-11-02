@@ -364,7 +364,21 @@ The `IstioOperator` API defines components as shown in the table below:
 `cni` |
 `istiodRemote` |
 
-These components share a common API for setting Kubernetes resources.
+The configurable settings for each of these components are available in the API under `components.<component name>`. 
+For example, to use the API to change (to false) the `enabled` setting for the `pilot` component, use
+`--set components.pilot.enabled=false` or set it in an `IstioOperator` resource like this:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  components:
+    pilot:
+      enabled: false
+{{< /text >}}
+
+All of the components also share a common API for changing Kubernetes-specific settings, under
+`components.<component name>.k8s`, as described in the following section.
 
 ### Customize Kubernetes settings
 
@@ -422,7 +436,7 @@ spec:
 Use `istioctl install` to apply the modified settings to the cluster:
 
 {{< text syntax="bash" repo="operator" >}}
-$ istioctl install -f operator/samples/pilot-k8s.yaml
+$ istioctl install -f samples/operator/pilot-k8s.yaml
 {{< /text >}}
 
 ### Customize Istio settings using the Helm API
