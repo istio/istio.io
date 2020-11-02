@@ -44,12 +44,12 @@ for your specific needs. The following built-in configuration profiles are curre
 
 The components marked as **X** are installed within each profile:
 
-|     | default | demo | minimal | remote |
-| --- | --- | --- | --- | --- |
-| Core components | | | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` | | X | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | X | X | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istiod` | X | X | X | |
+|     | default | demo | minimal | remote | empty | preview |
+| --- | --- | --- | --- | --- | --- | --- |
+| Core components | | | | | | | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` | | X | | | | | | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | X | X | | | | X |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istiod` | X | X | X | | | X |
 
 To further [customize Istio and install addons](/docs/setup/install/istioctl/#customizing-the-configuration), you can add one or more `--set <key>=<value>` options in the
 `istioctl install` command that you use when installing Istio.
