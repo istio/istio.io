@@ -18,7 +18,7 @@ The {{< gloss >}}external control plane{{< /gloss >}} deployment model enables m
 ### Cluster
 
 This guide requires that you have two Kubernetes clusters with any of the
-supported Kubernetes versions: {{< supported_kubernetes_versions >}}. First cluster is the {{< gloss >}}external control plane{{< /gloss >}} cluster where it has Istio default profile installed in the istio-system namespace.   It also has external istiod installed in the external-istiod namespace.  The external istiod is exposed on the ingress gateway from the istio-system namespace.  The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} which also provides configuration for the external istiod.
+supported Kubernetes versions: {{< supported_kubernetes_versions >}}. First cluster is the {{< gloss >}}external control plane{{< /gloss >}} cluster where it has Istio default profile installed in the <code>istio-system</code> namespace.   It also has external istiod installed in the <code>external-istiod</code> namespace.  The external istiod is exposed on the ingress gateway from the <code>istio-system</code> namespace.  The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} which also provides configuration for the external istiod.
 
 ### API Server Access
 
@@ -81,7 +81,7 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the configuration in `external_cp_cluster` in the <code>istio-system</code> namespace.
+Apply the configuration in `external_cp_cluster` in the <code>istio-system</code> namespace:
 
 {{< text bash >}}
 $ istioctl apply -f external-cp.yaml --context="${CTX_EXTERNAL_CP}"
@@ -209,15 +209,15 @@ spec:
 EOF
 {{< /text >}}
 
-Install the configuration in `user_cluster` in the <code>external-istiod</code> namespace:
+Install the configuration in `user_cluster`:
 
 {{< text bash >}}
 $ istioctl apply -f remote-config-cluster.yaml --context="${CTX_USER_CLUSTER}"
 {{< /text >}}
 
-You may notice the ingress gateway on the cluster is not running yet.  This is normal as the ingress gateway won't reach running until its external Istiod reaches running, which you will install next.
+You may notice the ingress gateway in `user_cluster` is not running yet.  This is normal as the ingress gateway won't reach running until its external Istiod reaches running, which you will install next.
 
-### Setup external istiod on management cluster
+### Setup external istiod in the control plane cluster
 
 Create remote secret to allow external istiod in `external_cp_cluster` to access the `user_cluster`:
 
@@ -230,7 +230,7 @@ $ istioctl x create-remote-secret \
   kubectl apply -f - --context="${CTX_EXTERNAL_CP}"
 {{< /text >}}
 
-Generate the Istio configuration for `external_cp_cluster` and the <code>external-istiod</code> namespace:
+Generate the Istio configuration for the <code>external-istiod</code> namespace in `external_cp_cluster`:
 
 {{< text bash >}}
 $ cat <<EOF > external-istiod.yaml
