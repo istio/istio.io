@@ -1,7 +1,7 @@
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
-There are 154 owned istio.io docs.
+There are 155 owned istio.io docs.
 
 ## istio/wg-docs-maintainers: 15 docs
 
@@ -21,7 +21,7 @@ There are 154 owned istio.io docs.
 - [docs/examples/microservices-istio/single/index.md](https://preliminary.istio.io/latest/docs/examples/microservices-istio/single)
 - [docs/reference/glossary/index.md](https://preliminary.istio.io/latest/docs/reference/glossary)
 
-## istio/wg-environments-maintainers: 45 docs
+## istio/wg-environments-maintainers: 46 docs
 
 - [docs/examples/virtual-machines/bookinfo/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/bookinfo)
 - [docs/examples/virtual-machines/multi-network/index.md](https://preliminary.istio.io/latest/docs/examples/virtual-machines/multi-network)
@@ -39,6 +39,7 @@ There are 154 owned istio.io docs.
 - [docs/ops/integrations/zipkin/index.md](https://preliminary.istio.io/latest/docs/ops/integrations/zipkin)
 - [docs/setup/additional-setup/cni/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/cni)
 - [docs/setup/additional-setup/config-profiles/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/config-profiles)
+- [docs/setup/additional-setup/external-istiod/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/external-istiod)
 - [docs/setup/additional-setup/sidecar-injection/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/sidecar-injection)
 - [docs/setup/getting-started/index.md](https://preliminary.istio.io/latest/docs/setup/getting-started)
 - [docs/setup/install/helm/index.md](https://preliminary.istio.io/latest/docs/setup/install/helm)

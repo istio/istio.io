@@ -18,7 +18,7 @@ The {{< gloss >}}external control plane{{< /gloss >}} deployment model enables m
 ### Cluster
 
 This guide requires that you have two Kubernetes clusters with any of the
-supported Kubernetes versions: {{< supported_kubernetes_versions >}}. First cluster is the {{< gloss >}}external control plane{{< /gloss >}} cluster where it has Istio default profile installed in the istio-system namespace.   It also has external istiod installed in the external-istiod namespace.  The external istiod is exposed on the ingress gateway from the istio-system namespace.  The second cluster is a {< gloss >}}remote cluster{< /gloss >}} which also provides configuration for the external istiod.
+supported Kubernetes versions: {{< supported_kubernetes_versions >}}. First cluster is the {{< gloss >}}external control plane{{< /gloss >}} cluster where it has Istio default profile installed in the istio-system namespace.   It also has external istiod installed in the external-istiod namespace.  The external istiod is exposed on the ingress gateway from the istio-system namespace.  The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} which also provides configuration for the external istiod.
 
 ### API Server Access
 
