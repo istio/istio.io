@@ -27,7 +27,7 @@ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin-gateway.yaml)
 }
 
 snip_before_you_begin_2() {
-kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do istioctl proxy-config log "$pod" -n istio-system --level rbac:debug; done
+kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n istio-system --level rbac:debug; done
 }
 
 snip_before_you_begin_3() {
@@ -170,7 +170,7 @@ curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 ENDSNIP
 
 snip_ipbased_allow_list_and_deny_list_4() {
-CLIENT_IP=$(kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 }
 
 ! read -r -d '' snip_ipbased_allow_list_and_deny_list_4_out <<\ENDSNIP
@@ -197,7 +197,7 @@ EOF
 }
 
 snip_ipbased_allow_list_and_deny_list_6() {
-CLIENT_IP=$(kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 }
 
 ! read -r -d '' snip_ipbased_allow_list_and_deny_list_6_out <<\ENDSNIP
@@ -278,7 +278,7 @@ curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 ENDSNIP
 
 snip_ipbased_allow_list_and_deny_list_12() {
-kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system; done
+kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system; done
 }
 
 snip_clean_up_1() {

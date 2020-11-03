@@ -29,7 +29,7 @@ through the Istio ingress gateway with this command:
 * Turn on RBAC debugging in Envoy for the ingress gateway:
 
     {{< text bash >}}
-    $ kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do istioctl proxy-config log "$pod" -n istio-system --level rbac:debug; done
+    $ kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n istio-system --level rbac:debug; done
     {{< /text >}}
 
 *  Follow the instructions in
@@ -270,7 +270,7 @@ EOF
 Find your original client IP address if you don't know it and assign it to a variable:
 
 {{< text bash >}}
-$ CLIENT_IP=$(kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+$ CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 192.168.10.15
 {{< /text >}}
 
@@ -300,7 +300,7 @@ EOF
 Find your original client IP address if you don't know it and assign it to a variable:
 
 {{< text bash >}}
-$ CLIENT_IP=$(kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+$ CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 192.168.10.15
 {{< /text >}}
 
@@ -403,7 +403,7 @@ different client IP to verify the request is allowed.
 * If you are not getting the responses you expect, view the ingress gateway logs which should show RBAC debugging information:
 
     {{< text bash >}}
-    $ kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system; done
+    $ kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system; done
     {{< /text >}}
 
 ## Clean up
