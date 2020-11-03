@@ -181,7 +181,7 @@ at the target Istio version:
 $ <extracted-dir>/bin/istioctl operator init
 {{< /text >}}
 
-You should see that the `istiod` pod has restarted and its version has changed to the target version:
+You should see that the `istio-operator` pod has restarted and its version has changed to the target version:
 
 {{< text bash >}}
 $ kubectl get pods --namespace istio-operator \
