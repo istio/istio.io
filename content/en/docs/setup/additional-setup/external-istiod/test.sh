@@ -33,6 +33,74 @@ function set_clusters_env_vars
   export CTX_USER_CLUSTER="${KUBE_CONTEXTS[2]}"
 }
 
+function  set_remote_istiod_addr
+{
+  export REMOTE_ISTIOD_ADDR=$(kubectl \
+    --context="${CTX_EXTERNAL_CP}" \
+    -n istio-system get svc istio-ingressgateway \
+    -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+}
+
+snip_setup_the_external_control_plane_cluster_3_modified() {
+cat <<EOF > external-istiod-gw.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+ name: external-istiod-gw
+ namespace: external-istiod
+spec:
+ selector:
+   istio: ingressgateway
+ servers:
+   - port:
+       number: 15012
+       protocol: tls
+       name: tls-XDS
+     tls:
+       mode: PASSTHROUGH
+     hosts:
+     - "*"
+   - port:
+       number: 15017
+       protocol: tls
+       name: tls-WEBHOOK
+     tls:
+       mode: PASSTHROUGH
+     hosts:
+     - "*"
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+   name: external-istiod-vs
+   namespace: external-istiod
+spec:
+   hosts:
+   - "*"
+   gateways:
+   - external-istiod-gw
+   tls:
+   - match:
+     - port: 15012
+       sniHosts:
+       - "*"     
+     route:
+     - destination:
+         host: istiod.external-istiod.svc.cluster.local
+         port:
+           number: 15012
+   - match:
+     - port: 15017
+       sniHosts:
+       - "*"     
+     route:
+     - destination:
+         host: istiod.external-istiod.svc.cluster.local
+         port:
+           number: 443
+EOF
+}
+
 function install_istio_on_external_cp_cluster {
     echo "Installing Istio default profile on External control plane cluster: ${CTX_EXTERNAL_CP}"
 
@@ -43,38 +111,102 @@ function install_istio_on_external_cp_cluster {
     # echo "Waiting for the east-west gateway to have an external IP"
     # _verify_like snip_install_the_eastwest_gateway_in_cluster1_2 "$snip_install_the_eastwest_gateway_in_cluster1_2_out"
 
-    # TODO: change to use passthrough instead due to limitation in test env
     echo "Exposing the to be installed istiod on the ingress gateway"
-    snip_setup_the_external_control_plane_cluster_3
+    snip_setup_the_external_control_plane_cluster_3_modified
     snip_setup_the_external_control_plane_cluster_4
+}
+
+snip_setup_remote_cluster_1_modified() {
+cat <<EOF > remote-config-cluster.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+ namespace: external-istiod
+spec:
+ meshConfig:
+   rootNamespace: external-istiod
+   defaultConfig:
+     discoveryAddress: $REMOTE_ISTIOD_ADDR:15012
+     # proxyMetadata:
+       # XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+       # CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+ components:
+   pilot:
+     enabled: false
+   istiodRemote:
+     enabled: true
+
+ values:
+   global:
+     caAddress: $REMOTE_ISTIOD_ADDR:15012
+     istioNamespace: external-istiod
+   istiodRemote:
+     injectionURL: https://$REMOTE_ISTIOD_ADDR:15017/inject
+   base:
+     validationURL: https://REMOTE_ISTIOD_ADDR:15017/validate
+EOF
 }
 
 function install_istio_lite_on_remote_cluster {
     echo "Installing Istio on remote config cluster: ${CTX_USER_CLUSTER}"
 
-    # TODO need to set remote pilot addr
-    snip_setup_remote_cluster_1
+    snip_setup_remote_cluster_1_modified
     echo y | snip_setup_remote_cluster_2
+}
+
+snip_setup_external_istiod_in_the_control_plane_cluster_2_modified() {
+cat <<EOF > external-istiod.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+ namespace: external-istiod
+spec:
+ meshConfig:
+   defaultConfig:
+     discoveryAddress: $REMOTE_ISTIOD_ADDR:15012
+     rootNamespace: external-istiod
+     # proxyMetadata:
+       # XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+       # CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+ components:
+   base:
+     enabled: false
+   ingressGateways:
+   - name: istio-ingressgateway
+     enabled: false
+ values:
+   global:
+     caAddress: $REMOTE_ISTIOD_ADDR:15012
+     istioNamespace: external-istiod
+     operatorManageWebhooks: true
+   pilot:
+     env:
+       ISTIOD_CUSTOM_HOST: $REMOTE_ISTIOD_ADDR
+EOF
 }
 
 function install_istiod_on_external_cp_cluster {
   echo "Installing external Istiod on external control plane cluster: ${CTX_EXTERNAL_CP}"
 
   snip_setup_external_istiod_in_the_control_plane_cluster_1
-  snip_setup_external_istiod_in_the_control_plane_cluster_2
+  snip_setup_external_istiod_in_the_control_plane_cluster_2_modified
   echo y | snip_setup_the_external_control_plane_cluster_2
   # TODO patch istiod service with custom dns name
 
 }
 
+set_clusters_env_vars
+
 time install_istio_on_external_cp_cluster
+time set_remote_istiod_addr
+
 time install_istio_lite_on_remote_cluster
+
 time install_istiod_on_external_cp_cluster
 
 # @cleanup
-source content/en/docs/setup/install/multicluster/common.sh
 set +e # ignore cleanup errors
-set_multi_network_vars
+
 time cleanup
 
 # Everything should be removed once cleanup completes. Use a small
