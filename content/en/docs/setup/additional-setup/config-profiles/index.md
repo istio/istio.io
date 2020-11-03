@@ -42,6 +42,11 @@ for your specific needs. The following built-in configuration profiles are curre
 1. **preview**: the preview profile contains features that are experimental. This is intended to explore new features
                 coming to Istio. Stability, security, and performance are not guaranteed - use at your own risk.
 
+{{< tip >}}
+Some additional vendor-specific configuration profiles are also available.
+For a complete list, refer to [Vendor Optimized Profiles]({{< github_file >}}/manifests/profiles/PROFILES.md).
+{{< /tip >}}
+
 The components marked as **X** are installed within each profile:
 
 |     | default | demo | minimal | remote | empty | preview |
