@@ -149,8 +149,6 @@ spec:
                 "@type": type.googleapis.com/google.protobuf.StringValue
                 value: |
                 {
-                  "debug": "true",
-                  "stat_prefix": "istio",
                   "metrics": [
                    {
                      "name": "requests_total",
@@ -297,8 +295,6 @@ spec:
                 "@type": type.googleapis.com/google.protobuf.StringValue
                 value: |
                 {
-                  "debug": "true",
-                  "stat_prefix": "istio",
                   "metrics": [
                    {
                      "name": "requests_total",

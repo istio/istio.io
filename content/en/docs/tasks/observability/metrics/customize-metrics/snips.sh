@@ -30,14 +30,10 @@ spec:
         prometheus:
           configOverride:
             inboundSidecar:
-              debug: false
-              stat_prefix: istio
+              disable_host_header_fallback: false
             outboundSidecar:
-              debug: false
-              stat_prefix: istio
+              disable_host_header_fallback: false
             gateway:
-              debug: false
-              stat_prefix: istio
               disable_host_header_fallback: true
 ENDSNIP
 
@@ -51,25 +47,18 @@ spec:
         prometheus:
           configOverride:
             inboundSidecar:
-              debug: false
-              stat_prefix: istio
               metrics:
                 - name: requests_total
                   dimensions:
                     destination_port: string(destination.port)
                     request_host: request.host
             outboundSidecar:
-              debug: false
-              stat_prefix: istio
               metrics:
                 - name: requests_total
                   dimensions:
                     destination_port: string(destination.port)
                     request_host: request.host
             gateway:
-              debug: false
-              stat_prefix: istio
-              disable_host_header_fallback: true
               metrics:
                 - name: requests_total
                   dimensions:
