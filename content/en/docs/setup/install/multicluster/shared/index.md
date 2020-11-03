@@ -170,6 +170,7 @@ cat <<EOF> istio-main-cluster.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  profile: remote
   values:
     global:
       multiCluster:
