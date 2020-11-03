@@ -54,3 +54,8 @@ The components marked as **X** are installed within each profile:
 To further [customize Istio and install addons](/docs/setup/install/istioctl/#customizing-the-configuration), you can add one or more `--set <key>=<value>` options in the
 `istioctl install` command that you use when installing Istio.
 Refer to [integration](/docs/ops/integrations) for more details.
+
+{{< tip >}}
+Some additional vendor-specific configuration profiles are also available.
+For a complete list, refer to [Vendor Optimized Profiles]({{< github_file >}}/manifests/profiles/PROFILES.md).
+{{< /tip >}}
