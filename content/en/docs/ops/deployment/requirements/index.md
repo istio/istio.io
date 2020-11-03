@@ -116,7 +116,7 @@ Both of these features work by inspecting the initial bytes of a connection to d
 
 In order to support these cases, follow the [Explicit protocol selection](/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection) steps to declare the protocol of the application as `TCP`.
 
-The following ports are known to be commonly carry server first protocols, and are automatically assumed to be `TCP`:
+The following ports are known to commonly carry server first protocols, and are automatically assumed to be `TCP`:
 
 |Protocol|Port|
 |--------|----|
@@ -125,10 +125,10 @@ The following ports are known to be commonly carry server first protocols, and a
 | MySQL  |3306|
 | MongoDB|27017|
 
-Additionally, TLS configuration must be configured. Because TLS communication is not server first, TLS encrypted server first traffic will not have issues with protocol detection. There are a few options to get things working
+Because TLS communication is not server first, TLS encrypted server first traffic will work with automatic protocol detection as long as you make sure that all traffic subjected to TLS sniffing is encrypted:
 
 1. Configure `mTLS` mode `STRICT` for the server. This will enforce all traffic is TLS encrypted.
-1. Configure `mTLS` mode `DISABLE` for the server. This will disable the TLS sniffing, allowing server first protocols to be used
+1. Configure `mTLS` mode `DISABLE` for the server. This will disable the TLS sniffing, allowing server first protocols to be used.
 1. Configure all clients to send `TLS` traffic, generally through a [`DestinationRule`](/docs/reference/config/networking/destination-rule/#ClientTLSSettings) or relying on Auto mTLS.
 1. Configure your application to send TLS traffic directly.
 
