@@ -170,7 +170,7 @@ spec:
        number: 443
      tls:
        mode: SIMPLE
-       EOF
+EOF
 {{< /text >}}
 
 Apply the Istio configuration in `external_cp_cluster`:
