@@ -44,7 +44,7 @@ for your specific needs. The following built-in configuration profiles are curre
 
 {{< tip >}}
 Some additional vendor-specific configuration profiles are also available.
-For a complete list, refer to [Vendor Optimized Profiles]({{< github_file >}}/manifests/profiles/PROFILES.md).
+For a complete list, refer to [Vendor Optimized Profiles]({{< github_blob >}}/manifests/profiles/PROFILES.md).
 {{< /tip >}}
 
 The components marked as **X** are installed within each profile:
