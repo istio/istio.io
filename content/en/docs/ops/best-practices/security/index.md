@@ -49,7 +49,7 @@ Because the properties of the first party token are less secure, Istio will defa
 
 If you are using `istioctl` to install, support will be automatically detected. This can be done manually as well, and configured by passing `--set values.global.jwtPolicy=third-party-jwt` or `--set values.global.jwtPolicy=first-party-jwt`.
 
-To determine if your cluster supports third party tokens, look for the `TokenRequest` API:
+To determine if your cluster supports third party tokens, look for the `TokenRequest` API. If this returns no response, then the feature is not supported:
 
     {{< text bash >}}
     $ kubectl get --raw /api/v1 | jq '.resources[] | select(.name | index("serviceaccounts/token"))'
