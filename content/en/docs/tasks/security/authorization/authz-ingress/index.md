@@ -32,10 +32,14 @@ through the Istio ingress gateway with this command:
     $ kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do istioctl proxy-config log "$pod" -n istio-system --level rbac:debug; done
     {{< /text >}}
 
+*  Follow the instructions in
+    [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+    to define the `INGRESS_HOST` and `INGRESS_PORT` environment variables.
+
 * Verify that the `httpbin` workload and ingress gateway are working as expected using this command:
 
     {{< text bash >}}
-    $ curl "$INGRESS_HOST":"$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
+    $ curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -46,13 +50,13 @@ Caching and propagation overhead can cause a delay.
 
 ## Getting traffic into Kubernetes and Istio
 
-* All methods of getting traffic into Kubernetes involve opening a port on all worker nodes.  The main features that accomplish this are the `NodePort` service and the `LoadBalancer` service.  Even the Kubernetes `Ingress` resource must be backed by an Ingress controller that will create either a `NodePort` or a `LoadBalancer` service.
+All methods of getting traffic into Kubernetes involve opening a port on all worker nodes.  The main features that accomplish this are the `NodePort` service and the `LoadBalancer` service.  Even the Kubernetes `Ingress` resource must be backed by an Ingress controller that will create either a `NodePort` or a `LoadBalancer` service.
 
 * A `NodePort` just opens up a port in the range 30000-32767 on each worker node and uses a label selector to identify which Pods to send the traffic to.  You have to manually create some kind of load balancer in front of your worker nodes or use Round-Robin DNS.
 
 * A `LoadBalancer` is just like a `NodePort`, except it also creates an environment specific external load balancer to handle distributing traffic to the worker nodes.  For example, in AWS EKS, the `LoadBalancer` service will create a Classic ELB with your worker nodes as targets. If your Kubernetes environment does not have a `LoadBalancer` implementation, then it will just behave like a `NodePort`.  An Istio ingress gateway creates a `LoadBalancer` service.
 
-* What if the Pod that is handling traffic from the `NodePort` or `LoadBalancer` isn't running on the worker node that received the traffic?  Kubernetes has its own internal proxy called kube-proxy that receives the packets and forwards them to the correct node.
+What if the Pod that is handling traffic from the `NodePort` or `LoadBalancer` isn't running on the worker node that received the traffic?  Kubernetes has its own internal proxy called kube-proxy that receives the packets and forwards them to the correct node.
 
 ## Source IP address of the original client
 
@@ -185,11 +189,13 @@ spec:
 
 ## IP-based allow list and deny list
 
-**`ipBlocks` vs `remoteIpBlocks`:** If you are using the X-Forwarded-For HTTP header or the Proxy Protocol to determine the original client IP address, then you should use `remoteIpBlocks` in your `AuthorizationPolicy`. If you are using `externalTrafficPolicy: Local`, then you should use `ipBlocks` in your `AuthorizationPolicy`.
+**When to use `ipBlocks` vs. `remoteIpBlocks`:** If you are using the X-Forwarded-For HTTP header or the Proxy Protocol to determine the original client IP address, then you should use `remoteIpBlocks` in your `AuthorizationPolicy`. If you are using `externalTrafficPolicy: Local`, then you should use `ipBlocks` in your `AuthorizationPolicy`.
 
-*  Follow the instructions in
-    [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
-    to define the `INGRESS_HOST` and `INGRESS_PORT` environment variables.
+|Load Balancer Type |Source of Client IP   | `ipBlocks` vs. `remoteIpBlocks`
+--------------------|----------------------|---------------------------
+| TCP Proxy         | Proxy Protocol       | `remoteIpBlocks`
+| Network           | packet source address| `ipBlocks`
+| HTTP/HTTPS        | X-Forwarded-For      | `remoteIpBlocks`
 
 * The following command creates the authorization policy, `ingress-policy`, for
 the Istio ingress gateway. The following policy sets the `action` field to `ALLOW` to
@@ -251,7 +257,7 @@ EOF
 * Verify that a request to the ingress gateway is denied:
 
     {{< text bash >}}
-    $ curl "$INGRESS_HOST":"$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
+    $ curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
@@ -326,7 +332,7 @@ EOF
 * Verify that a request to the ingress gateway is allowed:
 
     {{< text bash >}}
-    $ curl "$INGRESS_HOST":"$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
+    $ curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -387,7 +393,7 @@ EOF
 * Verify that a request to the ingress gateway is denied:
 
     {{< text bash >}}
-    $ curl "$INGRESS_HOST":"$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
+    $ curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 

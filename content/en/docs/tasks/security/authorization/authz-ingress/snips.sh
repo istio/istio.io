@@ -31,7 +31,7 @@ kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read 
 }
 
 snip_before_you_begin_3() {
-curl "$INGRESS_HOST":"$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
+curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 }
 
 ! read -r -d '' snip_before_you_begin_3_out <<\ENDSNIP
@@ -162,7 +162,7 @@ EOF
 }
 
 snip_ipbased_allow_list_and_deny_list_3() {
-curl "$INGRESS_HOST":"$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
+curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 }
 
 ! read -r -d '' snip_ipbased_allow_list_and_deny_list_3_out <<\ENDSNIP
@@ -224,7 +224,7 @@ EOF
 }
 
 snip_ipbased_allow_list_and_deny_list_8() {
-curl "$INGRESS_HOST":"$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
+curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 }
 
 ! read -r -d '' snip_ipbased_allow_list_and_deny_list_8_out <<\ENDSNIP
@@ -270,7 +270,7 @@ EOF
 }
 
 snip_ipbased_allow_list_and_deny_list_11() {
-curl "$INGRESS_HOST":"$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
+curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 }
 
 ! read -r -d '' snip_ipbased_allow_list_and_deny_list_11_out <<\ENDSNIP
