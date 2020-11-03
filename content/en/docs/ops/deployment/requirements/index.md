@@ -129,7 +129,7 @@ Because TLS communication is not server first, TLS encrypted server first traffi
 
 1. Configure `mTLS` mode `STRICT` for the server. This will enforce all traffic is TLS encrypted.
 1. Configure `mTLS` mode `DISABLE` for the server. This will disable the TLS sniffing, allowing server first protocols to be used.
-1. Configure all clients to send `TLS` traffic, generally through a [`DestinationRule`](/docs/reference/config/networking/destination-rule/#ClientTLSSettings) or relying on Auto mTLS.
+1. Configure all clients to send `TLS` traffic, generally through a [`DestinationRule`](/docs/reference/config/networking/destination-rule/#ClientTLSSettings) or by relying on auto mTLS.
 1. Configure your application to send TLS traffic directly.
 
 ## Application Bind Address
