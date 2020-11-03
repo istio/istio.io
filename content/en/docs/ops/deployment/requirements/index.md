@@ -60,7 +60,7 @@ requirements:
 
 ## Ports used by Istio
 
-The following ports and protocols are used by Istio sidecar proxy.
+The following ports and protocols are used by the Istio sidecar proxy (Envoy).
 
 | Port | Protocol | Description | Local host only |
 |----|----|----|----|
