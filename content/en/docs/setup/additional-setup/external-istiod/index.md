@@ -20,7 +20,7 @@ The {{< gloss >}}external control plane{{< /gloss >}} deployment model enables m
 
 ## Requirements
 
-### Cluster
+### Clusters
 
 This guide requires that you have two Kubernetes clusters with any of the
 supported Kubernetes versions: {{< supported_kubernetes_versions >}}.
