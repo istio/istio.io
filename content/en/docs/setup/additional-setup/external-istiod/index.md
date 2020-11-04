@@ -224,7 +224,7 @@ Install the configuration in `user_cluster`:
 $ istioctl apply -f remote-config-cluster.yaml --context="${CTX_USER_CLUSTER}"
 {{< /text >}}
 
-You may notice the ingress gateway in `user_cluster` is not running yet.  This is normal as the ingress gateway won't reach running until its external Istiod reaches running, which you will install next.
+You may notice the ingress gateway in `user_cluster` is not running yet. This is expected until the external istiod is running, which you will install next.
 
 ### Setup external istiod in the control plane cluster
 
