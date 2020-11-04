@@ -22,7 +22,7 @@ deploying Istio in another namespace:
 $ oc adm policy add-scc-to-group anyuid system:serviceaccounts:istio-system
 {{< /text >}}
 
-Install Istio using the OpenShift profile: 
+Install Istio using the OpenShift profile:
 
 {{< text bash >}}
 $ istioctl install --set profile=openshift
