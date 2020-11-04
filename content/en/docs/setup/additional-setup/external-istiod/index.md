@@ -96,7 +96,7 @@ Apply the configuration in `external_cp_cluster` in the `istio-system` namespace
 $ istioctl apply -f external-cp.yaml --context="${CTX_EXTERNAL_CP}"
 {{< /text >}}
 
-Expose the **to be installed** external istiod on Istio ingress gateway installed in the <code>istio-system</code> namespace. Create the Istio network configuration:
+Create the Istio network configuration to expose the **yet to be installed** external istiod on the ingress gateway in the `istio-system` namespace. 
 
 {{< text bash >}}
 $ cat <<EOF > external-istiod-gw.yaml
