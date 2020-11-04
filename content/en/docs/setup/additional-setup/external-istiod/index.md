@@ -25,12 +25,12 @@ This guide walks you through the installation of an external control plane. The 
 This guide requires that you have two Kubernetes clusters with any of the
 supported Kubernetes versions: {{< supported_kubernetes_versions >}}.
 
-The first cluster contains the {{< gloss >}}external control plane{{< /gloss >}} installed 
-in the `external-istiod` namespace. This Istio control plane serves as the external control plane for the second cluster.  
-An ingress gateway is installed in the `istio-system` namespace. The ingress gateway provides mesh sidecars access to the 
+The first cluster contains the {{< gloss >}}external control plane{{< /gloss >}} installed
+in the `external-istiod` namespace. This Istio control plane serves as the external control plane for the second cluster.
+An ingress gateway is installed in the `istio-system` namespace. The ingress gateway provides mesh sidecars access to the
 external istiod in the `external-istiod` namespace.
 
-The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} hosting the mesh. Its Kubernetes API server also provides 
+The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} hosting the mesh. Its Kubernetes API server also provides
 the configuration for the control plane (istiod) running in the external cluster.
 
 ### API Server Access
