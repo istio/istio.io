@@ -90,7 +90,7 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the configuration in `external_cp_cluster` in the <code>istio-system</code> namespace:
+Apply the configuration in `external_cp_cluster` in the `istio-system` namespace:
 
 {{< text bash >}}
 $ istioctl apply -f external-cp.yaml --context="${CTX_EXTERNAL_CP}"
