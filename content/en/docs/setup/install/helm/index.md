@@ -121,7 +121,7 @@ current Istio installation, you must not remove the Istio Custom Resource
 Definitions (CRDs) as that can lead to loss of your custom Istio resources.
 
 {{< warning >}}
-It is highly recommended to take a backup of your Istio resourcs using steps
+It is highly recommended to take a backup of your Istio resources using steps
 described above before deleting current Istio installation in your cluster.
 {{< /warning >}}
 
