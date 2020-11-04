@@ -397,6 +397,7 @@ Kubelet
 kubelet
 Kubernetes
 kubernetes.default
+kube-proxy
 KubeSphere
 L3-4
 L4-L6

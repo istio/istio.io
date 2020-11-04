@@ -353,7 +353,9 @@ Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kial
 
     {{< text bash >}}
     $ kubectl apply -f @samples/addons@
-    $ while ! kubectl wait --for=condition=available --timeout=600s deployment/kiali -n istio-system; do sleep 1; done
+    $ kubectl rollout status deployment/kiali -n istio-system
+    Waiting for deployment "kiali" rollout to finish: 0 of 1 updated replicas are available...
+    deployment "kiali" successfully rolled out
     {{< /text >}}
 
     {{< tip >}}

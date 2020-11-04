@@ -230,7 +230,7 @@ installed above.
 1. Delete Istio base chart:
 
     {{< warning >}}
-    By desgin, deleting a chart via Helm doesn't delete the installed Custom
+    By design, deleting a chart via Helm doesn't delete the installed Custom
     Resource Definitions (CRDs) installed via the chart.
     {{< /warning >}}
 
