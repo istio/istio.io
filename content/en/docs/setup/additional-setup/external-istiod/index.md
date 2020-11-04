@@ -44,10 +44,10 @@ This guide will refer to two clusters named `external_cp_cluster` and `user_clus
 
 Variable | Description
 -------- | -----------
-`CTX_EXTERNAL_CP` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the external control plane cluster.
-`CTX_USER_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the remote config cluster.
-`REMOTE_ISTIOD_ADDR` | The external istiod host name for `user_cluster` to access external istiod.
-`SSL_SECRET_NAME` | The secret name used by the `external-istiod-gw` gateway resource on the external control plane cluster.
+`CTX_EXTERNAL_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the external control plane cluster.
+`CTX_REMOTE_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the remote config cluster.
+`EXTERNAL_ISTIOD_ADDR` | The external host name for the `remote_cluster` to access the external istiod.
+`SSL_SECRET_NAME` | The secret name used to access the ingress gateway on the external control plane cluster.
 
 For example:
 
