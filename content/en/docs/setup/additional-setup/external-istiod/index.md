@@ -185,7 +185,7 @@ $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CP}"
 
 ### Setup remote cluster
 
-Generate the Istio configuration for `user_cluster` and the <code>external-istiod</code> namespace:
+Generate the Istio configuration for `user_cluster` and the `external-istiod` namespace:
 
 {{< text bash >}}
 $ cat <<EOF > remote-config-cluster.yaml
