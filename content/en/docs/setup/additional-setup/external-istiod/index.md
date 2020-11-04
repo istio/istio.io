@@ -52,8 +52,8 @@ Variable | Description
 For example:
 
 {{< text bash >}}
-$ export CTX_EXTERNAL_CLUSTER=external_cp_cluster
-$ export CTX_REMOTE_CLUSTER=user_cluster
+$ export CTX_EXTERNAL_CLUSTER=external_cluster
+$ export CTX_REMOTE_CLUSTER=remote_cluster
 $ export REMOTE_ISTIOD_ADDR=myexternal-istiod.cloud.com
 $ export SSL_SECRET_NAME = myexternal-istiod-secret
 {{< /text >}}
@@ -62,7 +62,7 @@ $ export SSL_SECRET_NAME = myexternal-istiod-secret
 
 ### Setup the external control plane cluster
 
-Create the Istio configuration for `external_cp_cluster`, using the default profile with the following ports on the ingress gateway to expose the external istiod:
+Create the Istio configuration for `external_cluster`, using the default profile with the following ports on the ingress gateway to expose the external istiod:
 
 {{< text bash >}}
 $ cat <<EOF > external-cp.yaml
@@ -90,7 +90,7 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the configuration in `external_cp_cluster` in the `istio-system` namespace:
+Apply the configuration in `external_cluster` in the `istio-system` namespace:
 
 {{< text bash >}}
 $ istioctl apply -f external-cp.yaml --context="${CTX_EXTERNAL_CLUSTER}"
@@ -177,7 +177,7 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the Istio configuration in `external_cp_cluster`:
+Apply the Istio configuration in `external_cluster`:
 
 {{< text bash >}}
 $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
@@ -185,7 +185,7 @@ $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 
 ### Setup remote cluster
 
-Generate the Istio configuration for `user_cluster` and the `external-istiod` namespace:
+Generate the Istio configuration for `remote_cluster` and the `external-istiod` namespace:
 
 {{< text bash >}}
 $ cat <<EOF > remote-config-cluster.yaml
@@ -218,17 +218,17 @@ spec:
 EOF
 {{< /text >}}
 
-Install the configuration in `user_cluster`:
+Install the configuration in `remote_cluster`:
 
 {{< text bash >}}
 $ istioctl apply -f remote-config-cluster.yaml --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
-You may notice the ingress gateway in `user_cluster` is not running yet. This is expected until the external istiod is running, which you will install next.
+You may notice the ingress gateway in `remote_cluster` is not running yet. This is expected until the external istiod is running, which you will install next.
 
 ### Setup external istiod in the control plane cluster
 
-Create remote secret to allow external istiod in `external_cp_cluster` to access the `user_cluster`:
+Create remote secret to allow external istiod in `external_cluster` to access the `remote_cluster`:
 
 {{< text bash >}}
 $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
@@ -239,7 +239,7 @@ $ istioctl x create-remote-secret \
   kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
-Generate the Istio configuration for the <code>external-istiod</code> namespace in `external_cp_cluster`:
+Generate the Istio configuration for the <code>external-istiod</code> namespace in `external_cluster`:
 
 {{< text bash >}}
 $ cat <<EOF > external-istiod.yaml
@@ -273,7 +273,7 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the Istio configuration in `external_cp_cluster`:
+Apply the Istio configuration in `external_cluster`:
 
 {{< text bash >}}
 $ istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
@@ -281,13 +281,13 @@ $ istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 
 ### Validate the installation
 
-Confirm the Istio ingress gateway in `user_cluster` is running.
+Confirm the Istio ingress gateway in `remote_cluster` is running.
 
 {{< text bash >}}
 $ kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
-Deploy the sleep sample in `user_cluster` with a namespace has [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) enabled.  The sleep pod should reach running in a few seconds.
+Deploy the sleep sample in `remote_cluster` with a namespace has [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) enabled.  The sleep pod should reach running in a few seconds.
 
 {{< text bash >}}
 $ kubectl apply -f samples/sleep/sleep.yaml --context="${CTX_REMOTE_CLUSTER}"
