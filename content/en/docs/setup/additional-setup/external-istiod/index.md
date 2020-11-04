@@ -32,7 +32,7 @@ The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} hosting the me
 ### API Server Access
 
 The API Server in the remote config cluster must be accessible to the external control plane cluster. Many cloud providers make API Servers publicly accessible via network
-load balancers (NLB). If the API Server is not directly accessible, you will
+load balancers (NLBs). If the API Server is not directly accessible, you will
 have to modify the installation procedure to enable access. For example, the
 [east-west](https://en.wikipedia.org/wiki/East-west_traffic) gateway used in
 the multi-network and primary-remote configurations could also be used
