@@ -118,7 +118,7 @@ If you're migrating from a version of Istio installed using `istioctl` or
 Operator to Helm, you need to delete your current Istio control plane resources
 and and re-install Istio using Helm as described above. When deleting your
 current Istio installation, you must not remove the Istio Custom Resource
-Definitions (CRDs) as that can lead to loss of all your custom Istio resources.
+Definitions (CRDs) as that can lead to loss of your custom Istio resources.
 
 {{< warning >}}
 It is highly recommended to take a backup of your Istio resourcs using steps
