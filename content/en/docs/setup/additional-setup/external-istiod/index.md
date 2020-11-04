@@ -40,7 +40,7 @@ to enable access to the API Server.
 
 ## Environment Variables
 
-This guide will refer to two clusters named `external_cp_cluster` and `user_cluster`. The following environment variables will be used throughout to simplify the instructions:
+This guide will refer to two clusters named `external_cluster` and `remote_cluster`. The following environment variables will be used throughout to simplify the instructions:
 
 Variable | Description
 -------- | -----------
