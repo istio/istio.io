@@ -96,7 +96,7 @@ Apply the configuration in `external_cluster` in the `istio-system` namespace:
 $ istioctl apply -f external-cp.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
-Create the Istio network configuration to expose the **yet to be installed** external istiod on the ingress gateway in the `istio-system` namespace. 
+Create the Istio network configuration to expose the **yet to be installed** external istiod on the ingress gateway in the `istio-system` namespace.
 
 {{< text bash >}}
 $ cat <<EOF > external-istiod-gw.yaml
@@ -239,7 +239,7 @@ $ istioctl x create-remote-secret \
   kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
-Generate the Istio configuration for the <code>external-istiod</code> namespace in `external_cluster`:
+Generate the Istio configuration for the `external-istiod` namespace in `external_cluster`:
 
 {{< text bash >}}
 $ cat <<EOF > external-istiod.yaml
