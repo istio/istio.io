@@ -261,6 +261,7 @@ cat <<EOF> istio-remote0-cluster.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  profile: remote
   values:
     global:
       # The remote cluster's name and network name must match the values specified in the
