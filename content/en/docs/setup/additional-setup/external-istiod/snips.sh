@@ -21,8 +21,8 @@
 ####################################################################################################
 
 snip_environment_variables_1() {
-export CTX_EXTERNAL_CP=external_cp_cluster
-export CTX_USER_CLUSTER=user_cluster
+export CTX_EXTERNAL_CLUSTER=external_cluster
+export CTX_REMOTE_CLUSTER=remote_cluster
 export REMOTE_ISTIOD_ADDR=myexternal-istiod.cloud.com
 export SSL_SECRET_NAME = myexternal-istiod-secret
 }
@@ -54,7 +54,7 @@ EOF
 }
 
 snip_setup_the_external_control_plane_cluster_2() {
-istioctl apply -f external-cp.yaml --context="${CTX_EXTERNAL_CP}"
+istioctl apply -f external-cp.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_setup_the_external_control_plane_cluster_3() {
@@ -133,11 +133,11 @@ spec:
        number: 443
      tls:
        mode: SIMPLE
-       EOF
+EOF
 }
 
 snip_setup_the_external_control_plane_cluster_4() {
-kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CP}"
+kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_setup_remote_cluster_1() {
@@ -172,16 +172,16 @@ EOF
 }
 
 snip_setup_remote_cluster_2() {
-istioctl apply -f remote-config-cluster.yaml --context="${CTX_USER_CLUSTER}"
+istioctl apply -f remote-config-cluster.yaml --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_setup_external_istiod_in_the_control_plane_cluster_1() {
-kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CP}"
+kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 istioctl x create-remote-secret \
-  --context="${CTX_USER_CLUSTER}" \
+  --context="${CTX_REMOTE_CLUSTER}" \
   --type=config \
   --namespace=external-istiod | \
-  kubectl apply -f - --context="${CTX_EXTERNAL_CP}"
+  kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_setup_external_istiod_in_the_control_plane_cluster_2() {
@@ -217,14 +217,22 @@ EOF
 }
 
 snip_setup_external_istiod_in_the_control_plane_cluster_3() {
-istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CP}"
+istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_validate_the_installation_1() {
-kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_USER_CLUSTER}"
+kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_validate_the_installation_2() {
-kubectl apply -f samples/sleep/sleep.yaml --context="${CTX_USER_CLUSTER}"
-kubectl get pod -l app=sleep --context="${CTX_USER_CLUSTER}"
+kubectl apply -f samples/helloworld/helloworld.yaml --context="${CTX_REMOTE_CLUSTER}"
+kubectl get pod -l app=helloworld --context="${CTX_REMOTE_CLUSTER}"
+}
+
+snip_validate_the_installation_3() {
+kubectl apply -f samples/helloworld/helloworld-gateway.yaml --context="${CTX_REMOTE_CLUSTER}"
+}
+
+snip_validate_the_installation_4() {
+curl -s "http://${GATEWAY_URL}/hello" | grep -o "Hello"
 }
