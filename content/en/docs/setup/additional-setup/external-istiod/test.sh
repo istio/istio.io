@@ -27,16 +27,16 @@ _set_kube_vars
 # set_clusters_env_vars initializes all variables.
 function set_clusters_env_vars
 {
-  export KUBECONFIG_EXTERNAL_CP_CLUSTER="${KUBECONFIG_FILES[0]}"
-  export KUBECONFIG_USER_CLUSTER="${KUBECONFIG_FILES[2]}"
-  export CTX_EXTERNAL_CP="${KUBE_CONTEXTS[0]}"
-  export CTX_USER_CLUSTER="${KUBE_CONTEXTS[2]}"
+  export KUBECONFIG_EXTERNAL_CLUSTER="${KUBECONFIG_FILES[0]}"
+  export KUBECONFIG_REMOTE_CLUSTER="${KUBECONFIG_FILES[2]}"
+  export CTX_EXTERNAL_CLUSTER="${KUBE_CONTEXTS[0]}"
+  export CTX_REMOTE_CLUSTER="${KUBE_CONTEXTS[2]}"
 }
 
 function  set_remote_istiod_addr
 {
   export REMOTE_ISTIOD_ADDR=$(kubectl \
-    --context="${CTX_EXTERNAL_CP}" \
+    --context="${CTX_EXTERNAL_CLUSTER}" \
     -n istio-system get svc istio-ingressgateway \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 }
@@ -102,7 +102,7 @@ EOF
 }
 
 function install_istio_on_external_cp_cluster {
-    echo "Installing Istio default profile on External control plane cluster: ${CTX_EXTERNAL_CP}"
+    echo "Installing Istio default profile on External control plane cluster: ${CTX_EXTERNAL_CLUSTER}"
 
     snip_setup_the_external_control_plane_cluster_1
     echo y | snip_setup_the_external_control_plane_cluster_2
@@ -148,7 +148,7 @@ EOF
 }
 
 function install_istio_lite_on_remote_cluster {
-    echo "Installing Istio on remote config cluster: ${CTX_USER_CLUSTER}"
+    echo "Installing Istio on remote config cluster: ${CTX_REMOTE_CLUSTER}"
 
     snip_setup_remote_cluster_1_modified
     echo y | snip_setup_remote_cluster_2
@@ -185,28 +185,51 @@ spec:
 EOF
 }
 
-function install_istiod_on_external_cp_cluster {
-  echo "Installing external Istiod on external control plane cluster: ${CTX_EXTERNAL_CP}"
+function install_external_istiod_on_external_cp_cluster {
+  echo "Installing external Istiod on external control plane cluster: ${CTX_EXTERNAL_CLUSTER}"
 
   snip_setup_external_istiod_in_the_control_plane_cluster_1
   snip_setup_external_istiod_in_the_control_plane_cluster_2_modified
   echo y | snip_setup_the_external_control_plane_cluster_2
-  # TODO patch istiod service with custom dns name
+}
 
+function validate {
+  snip_validate_the_installation_1
+  snip_validate_the_installation_2
+  snip_validate_the_installation_3
+
+  # set GATEWAY_URL
+  export GATEWAY_URL=$(kubectl \
+    --context="${CTX_REMOTE_CLUSTER}" \
+    -n external-istiod get svc istio-ingressgateway \
+    -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  # validate Hello at the response
+  snip_validate_the_installation_4
+}
+
+function cleanup {
+  kubectl delete -f samples/helloworld/helloworld.yaml --context="${CTX_REMOTE_CLUSTER}"
+  kubectl delete -f samples/helloworld/helloworld-gateway.yaml --context="${CTX_REMOTE_CLUSTER}"
+  
+  istioctl manifest generate -f remote-config-cluster.yaml | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f - 
+  istioctl manifest generate -f external-istiod.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f - 
+  istioctl manifest generate -f external-istiod-gw.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f - 
+  istioctl manifest generate -f external-cp.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f - 
 }
 
 set_clusters_env_vars
 
+# install
 time install_istio_on_external_cp_cluster
 time set_remote_istiod_addr
-
 time install_istio_lite_on_remote_cluster
+time install_external_istiod_on_external_cp_cluster
 
-time install_istiod_on_external_cp_cluster
+#validate
+time validate
 
 # @cleanup
 set +e # ignore cleanup errors
-
 time cleanup
 
 # Everything should be removed once cleanup completes. Use a small
