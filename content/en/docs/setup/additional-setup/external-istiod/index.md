@@ -287,11 +287,23 @@ Confirm the Istio ingress gateway in `remote_cluster` is running.
 $ kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
-Deploy the sleep sample in `remote_cluster` with a namespace has [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) enabled.  The sleep pod should reach running in a few seconds.
+Deploy the helloworld sample in `remote_cluster` with a namespace has [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) enabled.  The helloworld pods should reach running in a few seconds with sidecar injected.
 
 {{< text bash >}}
-$ kubectl apply -f samples/sleep/sleep.yaml --context="${CTX_REMOTE_CLUSTER}"
-$ kubectl get pod -l app=sleep --context="${CTX_REMOTE_CLUSTER}"
+$ kubectl apply -f samples/helloworld/helloworld.yaml --context="${CTX_REMOTE_CLUSTER}"
+$ kubectl get pod -l app=helloworld --context="${CTX_REMOTE_CLUSTER}"
+{{< /text >}}
+
+Expose the helloworld application on the gateway:
+
+{{< text bash >}}
+$ kubectl apply -f samples/helloworld/helloworld-gateway.yaml --context="${CTX_REMOTE_CLUSTER}"
+{{< /text >}}
+
+Follow [these instructions](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) to set `GATEWAY_URL`. Confirm you can access the hello application:
+
+{{< text bash >}}
+$ curl -s "http://${GATEWAY_URL}/hello" | grep -o "Hello"
 {{< /text >}}
 
 **Congratulations!** You successfully installed an external Istiod that manages services running in the remote config cluster!
