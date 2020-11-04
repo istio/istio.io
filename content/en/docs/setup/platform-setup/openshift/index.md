@@ -25,7 +25,7 @@ $ oc adm policy add-scc-to-group anyuid system:serviceaccounts:istio-system
 Install Istio using the OpenShift profile: 
 
 {{< text bash >}}
-istioctl install --set profile=openshift -y
+$ istioctl install --set profile=openshift
 {{< /text >}}
 
 After installation is complete, expose an OpenShift route for the ingress gateway.
