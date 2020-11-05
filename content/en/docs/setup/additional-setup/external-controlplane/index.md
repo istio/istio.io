@@ -313,9 +313,9 @@ Confirm the Istio ingress gateway is running on `remote_cluster`.
 $ kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
-Deploy the helloworld sample in `remote_cluster` with a namespace
+Deploy the `helloworld` sample on `remote_cluster` in a namespace with
 has [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) enabled.
-The helloworld pods should reach running in a few seconds with sidecar injected.
+Wait a few seconds for the `helloworld` pods to be running with sidecars injected.
 
 {{< text bash >}}
 $ kubectl apply -f samples/helloworld/helloworld.yaml --context="${CTX_REMOTE_CLUSTER}"
