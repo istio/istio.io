@@ -105,7 +105,7 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the configuration in `external_cluster` in the `istio-system` namespace:
+Apply the configuration in the `istio-system` namespace of `external_cluster`:
 
 {{< text bash >}}
 $ istioctl apply -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
