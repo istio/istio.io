@@ -329,7 +329,7 @@ $ kubectl apply -f samples/helloworld/helloworld-gateway.yaml --context="${CTX_R
 {{< /text >}}
 
 Follow [these instructions](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) to
-set `GATEWAY_URL`. Confirm you can access the hello application:
+set `GATEWAY_URL` and then confirm you can access the `helloworld` application:
 
 {{< text bash >}}
 $ curl -s "http://${GATEWAY_URL}/hello" | grep -o "Hello"
