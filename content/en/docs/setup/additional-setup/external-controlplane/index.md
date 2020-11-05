@@ -262,7 +262,7 @@ $ istioctl x create-remote-secret \
 {{< /text >}}
 
 Generate the Istio configuration for the `external-istiod`
-namespace in `external_cluster`:
+namespace of `external_cluster`:
 
 {{< text bash >}}
 $ cat <<EOF > external-istiod.yaml
