@@ -193,7 +193,7 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the Istio configuration in `external_cluster`:
+Apply the configuration on `external_cluster`:
 
 {{< text bash >}}
 $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
