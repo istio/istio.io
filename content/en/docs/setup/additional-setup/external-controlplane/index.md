@@ -111,8 +111,8 @@ Apply the configuration in the `istio-system` namespace of `external_cluster`:
 $ istioctl apply -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
-Create the Istio network configuration to expose the **yet to be installed** external
-istiod on the ingress gateway in the `istio-system` namespace:
+Create the Istio `Gateway`, `VirtualService`, and `DestinationRule` configuration for the **yet to be installed** external
+control plane:
 
 {{< text bash >}}
 $ cat <<EOF > external-istiod-gw.yaml
