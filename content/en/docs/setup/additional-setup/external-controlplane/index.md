@@ -59,7 +59,7 @@ The following environment variables will be used throughout to simplify the inst
 
 Variable | Description
 -------- | -----------
-`CTX_EXTERNAL_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)used for accessing the external control plane cluster.
+`CTX_EXTERNAL_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the external control plane cluster.
 `CTX_REMOTE_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the remote cluster.
 `EXTERNAL_ISTIOD_ADDR` | The host name for the `remote_cluster` to access the external control plane.
 `SSL_SECRET_NAME` | The secret name used to access the ingress gateway on the external control plane cluster.
