@@ -69,7 +69,7 @@ $ export SSL_SECRET_NAME = myexternal-istiod-secret
 Create the Istio configuration for `external_cluster`, using the default profile with the following ports on the ingress gateway to expose the external istiod:
 
 {{< text bash >}}
-$ cat <<EOF > external-cp.yaml
+$ cat <<EOF > controlplane-gateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -97,7 +97,7 @@ EOF
 Apply the configuration in `external_cluster` in the `istio-system` namespace:
 
 {{< text bash >}}
-$ istioctl apply -f external-cp.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+$ istioctl apply -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
 Create the Istio network configuration to expose the **yet to be installed** external istiod on the ingress gateway in the `istio-system` namespace:
