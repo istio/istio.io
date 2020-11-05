@@ -16,7 +16,13 @@ considered `pre-alpha`.
 
 ## Introduction
 
-This guide walks you through the installation of an external control plane. The {{< gloss >}}external control plane{{< /gloss >}} [deployment model](/docs/ops/deployment/deployment-models/#control-plane-models) enables mesh operators to install and manage mesh control planes on separate external clusters. This deployment model allows a clear separation between mesh operators and mesh admins. Istio mesh operators can run Istio control planes for mesh admins while mesh admins control the configuration of the control plane without worrying about installing or managing it.
+This guide walks you through the installation of an external control plane. The
+{{< gloss >}}external control plane{{< /gloss >}} [deployment model](/docs/ops/deployment/deployment-models/#control-plane-models)
+enables mesh operators to install and manage mesh control planes on separate
+external clusters. This deployment model allows a clear separation between mesh
+operators and mesh admins. Istio mesh operators can run Istio control planes
+for mesh admins while mesh admins control the configuration of the control
+plane without worrying about installing or managing it.
 
 ## Requirements
 
@@ -26,17 +32,20 @@ This guide requires that you have two Kubernetes clusters with any of the
 supported Kubernetes versions: {{< supported_kubernetes_versions >}}.
 
 The first cluster contains the {{< gloss >}}external control plane{{< /gloss >}} installed
-in the `external-istiod` namespace. This Istio control plane serves as the external control plane for the second cluster.
-An ingress gateway is installed in the `istio-system` namespace. The ingress gateway provides mesh sidecars access to the
+in the `external-istiod` namespace. This Istio control plane serves as the external control
+plane for the second cluster. An ingress gateway is installed in the `istio-system`
+namespace. The ingress gateway provides mesh sidecars access to the
 external istiod in the `external-istiod` namespace.
 
-The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} hosting the mesh. Its Kubernetes API server also provides
-the configuration for the control plane (istiod) running in the external cluster.
+The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} hosting the mesh.
+Its Kubernetes API server also provides the configuration for the control plane (istiod)
+running in the external cluster.
 
 ### API Server Access
 
-The API Server in the remote config cluster must be accessible to the external control plane cluster. Many cloud providers make API Servers publicly accessible via network
-load balancers (NLBs). If the API Server is not directly accessible, you will
+The API Server in the remote config cluster must be accessible to the external
+control plane cluster. Many cloud providers make API Servers publicly accessible
+via network load balancers (NLBs). If the API Server is not directly accessible, you will
 have to modify the installation procedure to enable access. For example, the
 [east-west](https://en.wikipedia.org/wiki/East-west_traffic) gateway used in
 the multi-network and primary-remote configurations could also be used
@@ -44,11 +53,12 @@ to enable access to the API Server.
 
 ## Environment Variables
 
-This guide will refer to two clusters named `external_cluster` and `remote_cluster`. The following environment variables will be used throughout to simplify the instructions:
+This guide will refer to two clusters named `external_cluster` and `remote_cluster`.
+The following environment variables will be used throughout to simplify the instructions:
 
 Variable | Description
 -------- | -----------
-`CTX_EXTERNAL_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the external control plane cluster.
+`CTX_EXTERNAL_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)used for accessing the external control plane cluster.
 `CTX_REMOTE_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the remote cluster.
 `EXTERNAL_ISTIOD_ADDR` | The host name for the `remote_cluster` to access the external control plane.
 `SSL_SECRET_NAME` | The secret name used to access the ingress gateway on the external control plane cluster.
@@ -66,7 +76,8 @@ $ export SSL_SECRET_NAME=myexternal-istiod-secret
 
 ### Setup the external control plane cluster
 
-Create the Istio configuration for `external_cluster`, using the default profile with the following ports on the ingress gateway to expose the external istiod:
+Create the Istio configuration for `external_cluster`, using the default profile
+with the following ports on the ingress gateway to expose the external istiod:
 
 {{< text bash >}}
 $ cat <<EOF > controlplane-gateway.yaml
@@ -100,7 +111,8 @@ Apply the configuration in `external_cluster` in the `istio-system` namespace:
 $ istioctl apply -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
-Create the Istio network configuration to expose the **yet to be installed** external istiod on the ingress gateway in the `istio-system` namespace:
+Create the Istio network configuration to expose the **yet to be installed** external
+istiod on the ingress gateway in the `istio-system` namespace:
 
 {{< text bash >}}
 $ cat <<EOF > external-istiod-gw.yaml
@@ -228,11 +240,13 @@ Install the configuration in `remote_cluster`:
 $ istioctl apply -f remote-config-cluster.yaml --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
-You may notice the ingress gateway in `remote_cluster` is not running yet. This is expected until the external istiod is running, which you will install next.
+You may notice the ingress gateway in `remote_cluster` is not running yet.
+This is expected until the external istiod is running, which you will install next.
 
 ### Setup external istiod in the control plane cluster
 
-Create remote secret to allow external istiod in `external_cluster` to access the `remote_cluster`:
+Create remote secret to allow external istiod in `external_cluster` to
+access the `remote_cluster`:
 
 {{< text bash >}}
 $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
@@ -243,7 +257,8 @@ $ istioctl x create-remote-secret \
   kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
-Generate the Istio configuration for the `external-istiod` namespace in `external_cluster`:
+Generate the Istio configuration for the `external-istiod`
+namespace in `external_cluster`:
 
 {{< text bash >}}
 $ cat <<EOF > external-istiod.yaml
@@ -291,7 +306,9 @@ Confirm the Istio ingress gateway in `remote_cluster` is running.
 $ kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
-Deploy the helloworld sample in `remote_cluster` with a namespace has [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) enabled.  The helloworld pods should reach running in a few seconds with sidecar injected.
+Deploy the helloworld sample in `remote_cluster` with a namespace
+has [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) enabled.
+The helloworld pods should reach running in a few seconds with sidecar injected.
 
 {{< text bash >}}
 $ kubectl apply -f samples/helloworld/helloworld.yaml --context="${CTX_REMOTE_CLUSTER}"
@@ -304,10 +321,12 @@ Expose the helloworld application on the gateway:
 $ kubectl apply -f samples/helloworld/helloworld-gateway.yaml --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
-Follow [these instructions](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) to set `GATEWAY_URL`. Confirm you can access the hello application:
+Follow [these instructions](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) to
+set `GATEWAY_URL`. Confirm you can access the hello application:
 
 {{< text bash >}}
 $ curl -s "http://${GATEWAY_URL}/hello" | grep -o "Hello"
 {{< /text >}}
 
-**Congratulations!** You successfully installed an external Istiod that manages services running in the remote config cluster!
+**Congratulations!** You successfully installed an external Istiod that manages
+services running in the remote config cluster!
