@@ -322,7 +322,7 @@ $ kubectl apply -f samples/helloworld/helloworld.yaml --context="${CTX_REMOTE_CL
 $ kubectl get pod -l app=helloworld --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
-Expose the helloworld application on the gateway:
+Expose the `helloworld` application on the ingress gateway:
 
 {{< text bash >}}
 $ kubectl apply -f samples/helloworld/helloworld-gateway.yaml --context="${CTX_REMOTE_CLUSTER}"
