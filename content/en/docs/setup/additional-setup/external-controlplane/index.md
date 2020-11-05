@@ -335,5 +335,5 @@ set `GATEWAY_URL` and then confirm you can access the `helloworld` application:
 $ curl -s "http://${GATEWAY_URL}/hello" | grep -o "Hello"
 {{< /text >}}
 
-**Congratulations!** You successfully installed an external control plane that manages
-services running in the remote cluster!
+**Congratulations!** You successfully installed an external control plane and used it to manage
+services running in a remote cluster!
