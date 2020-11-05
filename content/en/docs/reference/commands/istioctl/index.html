@@ -3281,6 +3281,11 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <td>IP address of the ingress gateway  (default ``)</td>
 </tr>
 <tr>
+<td><code>--ingressService &lt;string&gt;</code></td>
+<td></td>
+<td>Name of the Service to be used as the ingress gateway, in the format &lt;service&gt;.&lt;namespace&gt;. If no namespace is provided, the default istio-system namespace will be used.  (default `istio-eastwestgateway`)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
