@@ -3,8 +3,6 @@ title: Installing External Control Plane [experimental]
 description: Install external control plane and remote cluster.
 weight: 46
 keywords: [external,control,istiod,remote]
-aliases:
-    - /docs/setup/kubernetes/additional-setup/external-controlplane/
 owner: istio/wg-environments-maintainers
 test: no
 ---
@@ -291,7 +289,7 @@ spec:
       operatorManageWebhooks: true
       meshID: mesh1
       multiCluster:
-        clusterName: remote_cluster
+        clusterName: external_cluster
     pilot:
       env:
         INJECTION_WEBHOOK_CONFIG_NAME: ""
