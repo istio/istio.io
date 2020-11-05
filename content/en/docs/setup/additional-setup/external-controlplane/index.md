@@ -247,7 +247,7 @@ $ istioctl apply -f remote-config-cluster.yaml --context="${CTX_REMOTE_CLUSTER}"
 You may notice the ingress gateway in `remote_cluster` is not running yet.
 This is expected until the external control plane is running, which you will install next.
 
-### Setup external control plane in the control plane cluster
+### Set up the control plane in the external cluster
 
 Create remote secret to allow external control plane in `external_cluster` to
 access the `remote_cluster`:
