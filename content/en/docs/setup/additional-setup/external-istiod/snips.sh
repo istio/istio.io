@@ -24,7 +24,7 @@ snip_environment_variables_1() {
 export CTX_EXTERNAL_CLUSTER=external_cluster
 export CTX_REMOTE_CLUSTER=remote_cluster
 export REMOTE_ISTIOD_ADDR=myexternal-istiod.cloud.com
-export SSL_SECRET_NAME = myexternal-istiod-secret
+export SSL_SECRET_NAME=myexternal-istiod-secret
 }
 
 snip_setup_the_external_control_plane_cluster_1() {

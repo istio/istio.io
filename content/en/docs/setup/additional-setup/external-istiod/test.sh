@@ -35,10 +35,11 @@ function set_clusters_env_vars
 
 function  set_remote_istiod_addr
 {
-  export REMOTE_ISTIOD_ADDR=$(kubectl \
+  REMOTE_ADDR=$(kubectl \
     --context="${CTX_EXTERNAL_CLUSTER}" \
     -n istio-system get svc istio-ingressgateway \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  export REMOTE_ISTIOD_ADDR=$REMOTE_ADDR
 }
 
 snip_setup_the_external_control_plane_cluster_3_modified() {
@@ -199,10 +200,11 @@ function validate {
   snip_validate_the_installation_3
 
   # set GATEWAY_URL
-  export GATEWAY_URL=$(kubectl \
+  URL=$(kubectl \
     --context="${CTX_REMOTE_CLUSTER}" \
     -n external-istiod get svc istio-ingressgateway \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  export GATEWAY_URL=$URL
   # validate Hello at the response
   snip_validate_the_installation_4
 }
