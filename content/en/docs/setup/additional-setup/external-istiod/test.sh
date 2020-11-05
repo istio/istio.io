@@ -216,7 +216,7 @@ function cleanup {
   istioctl manifest generate -f remote-config-cluster.yaml | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f - 
   istioctl manifest generate -f external-istiod.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f - 
   istioctl manifest generate -f external-istiod-gw.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f - 
-  istioctl manifest generate -f external-cp.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f - 
+  istioctl manifest generate -f controlplane-gateway.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f - 
 }
 
 set_clusters_env_vars

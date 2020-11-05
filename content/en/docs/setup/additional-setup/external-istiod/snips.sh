@@ -28,7 +28,7 @@ export SSL_SECRET_NAME=myexternal-istiod-secret
 }
 
 snip_setup_the_external_control_plane_cluster_1() {
-cat <<EOF > external-cp.yaml
+cat <<EOF > controlplane-gateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -54,7 +54,7 @@ EOF
 }
 
 snip_setup_the_external_control_plane_cluster_2() {
-istioctl apply -f external-cp.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+istioctl apply -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_setup_the_external_control_plane_cluster_3() {
