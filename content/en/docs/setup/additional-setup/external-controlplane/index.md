@@ -22,6 +22,11 @@ operators and mesh admins. Istio mesh operators can run Istio control planes
 for mesh admins while mesh admins control the configuration of the control
 plane without worrying about installing or managing it.
 
+{{< image width="75%"
+    link="external-controlplane.svg"
+    caption="External control plane cluster and remote cluster"
+    >}}
+
 ## Requirements
 
 ### Clusters
