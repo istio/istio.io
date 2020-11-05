@@ -93,6 +93,10 @@ Install Istio and expose the control plane so that your virtual machine can acce
     $ istioctl x workload group create --name "${VM_APP}" --namespace "${VM_NAMESPACE}" --labels app="${VM_APP}" --serviceAccount "${SERVICE_ACCOUNT}" > workloadgroup.yaml
     {{< /text >}}
 
+    {{< tip >}}
+    To utilize VM auto-registration, apply the WorkloadGroup to the VM namespace: `kubectl --namespace ${VM_NAMESPACE} apply -f worklouadgroup.yaml`
+    {{< /tip >}}
+
 1. Use the `istioctl x workload entry` command to generate:
      * `cluster.env`: Contains metadata that identifies what namespace, service account, network CIDR and (optionally) what inbound ports to capture. 
      * `istio-token`: A Kubernetes token used to get certs from the CA.
@@ -109,13 +113,10 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< text bash >}}
     $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}"
     {{< /text >}}
-
-1. Create a Kubernetes token. This example sets the token expire time to 1 hour:
-
-    {{< text bash >}}
-    $ tokenexpiretime=3600
-    $ echo '{"kind":"TokenRequest","apiVersion":"authentication.k8s.io/v1","spec":{"audiences":["istio-ca"],"expirationSeconds":'$tokenexpiretime'}}' | kubectl create --raw /api/v1/namespaces/$VM_NAMESPACE/serviceaccounts/$SERVICE_ACCOUNT/token -f - | jq -j '.status.token' > "${WORK_DIR}"/istio-token
-    {{< /text >}}
+    
+    {{< tip >}}
+    To utilize VM auto-registration, include the autoregister flag: `istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --autoregister`
+    {{< /tip >}}
 
 ## Configure the virtual machine
 
@@ -172,8 +173,6 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
 1. Install the [MeshConfig](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) to `/etc/istio/config/mesh`:
 
-    > TODO figure out what the actual path is for this
-
     {{< text bash >}}
     $ sudo cp "${HOME}"/mesh.yaml /etc/istio/config/mesh
     {{< /text >}}
@@ -186,11 +185,9 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
 1. Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy:
 
-    > TODO: chown mesh config yaml
-
     {{< text bash >}}
     $ sudo mkdir -p /etc/istio/proxy
-    $ sudo chown -R istio-proxy /var/lib/istio /etc/certs /etc/istio/proxy  /var/run/secrets
+    $ sudo chown -R istio-proxy /var/lib/istio /etc/certs /etc/istio/proxy /etc/istio/config /var/run/secrets
     {{< /text >}}
 
 ## Start Istio within the virtual machine
