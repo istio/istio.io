@@ -269,27 +269,27 @@ metadata:
   namespace: external-istiod
 spec:
   meshConfig:
-  defaultConfig:
-    discoveryAddress: $REMOTE_ISTIOD_ADDR:15012
     rootNamespace: external-istiod
-    proxyMetadata:
-      XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
-      CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+    defaultConfig:
+      discoveryAddress: $REMOTE_ISTIOD_ADDR:15012
+      proxyMetadata:
+        XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+        CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
   components:
-  base:
-    enabled: false
-  ingressGateways:
-  - name: istio-ingressgateway
-    enabled: false
+    base:
+      enabled: false
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: false
   values:
-  global:
-    caAddress: $REMOTE_ISTIOD_ADDR:15012
-    istioNamespace: external-istiod
-    operatorManageWebhooks: true
-  pilot:
-    env:
-      INJECTION_WEBHOOK_CONFIG_NAME: ""
-      VALIDATION_WEBHOOK_CONFIG_NAME: ""
+    global:
+      caAddress: $REMOTE_ISTIOD_ADDR:15012
+      istioNamespace: external-istiod
+      operatorManageWebhooks: true
+    pilot:
+      env:
+        INJECTION_WEBHOOK_CONFIG_NAME: ""
+        VALIDATION_WEBHOOK_CONFIG_NAME: ""
 EOF
 {{< /text >}}
 
