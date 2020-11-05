@@ -34,7 +34,7 @@ plane without worrying about installing or managing it.
 This guide requires that you have two Kubernetes clusters with any of the
 supported Kubernetes versions: {{< supported_kubernetes_versions >}}.
 
-The first cluster contains the {{< gloss >}}external control plane{{< /gloss >}} installed
+The first cluster contains the external control plane installed
 in the `external-istiod` namespace. This Istio control plane serves as the external control
 plane for the second cluster. An ingress gateway is installed in the `istio-system`
 namespace. The ingress gateway provides mesh sidecars access to the
