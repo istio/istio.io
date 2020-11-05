@@ -138,11 +138,10 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo apt -y upgrade
     {{< /text >}}
 
-1. Install the root certificate at `/var/run/secrets/istio`:
+1. Install the root certificate at `/etc/certs`:
 
     {{< text bash >}}
-    $ sudo mkdir -p /var/run/secrets/istio
-    $ sudo cp "${HOME}"/root-cert.pem /var/run/secrets/istio/root-cert.pem
+    $ sudo cp "${HOME}"/root-cert.pem /etc/certs/root-cert.pem
     {{< /text >}}
 
 1. Install the token at `/var/run/secrets/tokens`:
@@ -187,7 +186,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
     {{< text bash >}}
     $ sudo mkdir -p /etc/istio/proxy
-    $ sudo chown -R istio-proxy /var/lib/istio /etc/certs /etc/istio/proxy /etc/istio/config /var/run/secrets
+    $ sudo chown -R istio-proxy /var/lib/istio /etc/certs /etc/istio/proxy /etc/istio/config /var/run/secrets /etc/certs/root-cert.pem
     {{< /text >}}
 
 ## Start Istio within the virtual machine
