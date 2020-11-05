@@ -201,7 +201,7 @@ $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 
 ### Set up the remote (mesh) cluster
 
-Generate the Istio configuration for `remote_cluster` and the `external-istiod` namespace:
+Generate a remote Istio configuration in the `external-istiod` namespace:
 
 {{< text bash >}}
 $ cat <<EOF > remote-config-cluster.yaml
