@@ -1,10 +1,10 @@
 ---
-title: Installing External Istiod [experimental]
-description: Install external Istiod and remote config cluster.
+title: Installing External Control Plane [experimental]
+description: Install external control plane and remote config cluster.
 weight: 46
-keywords: [external,istiod,remote,config]
+keywords: [external,control,istiod,remote,config]
 aliases:
-    - /docs/setup/kubernetes/additional-setup/external-istiod/
+    - /docs/setup/kubernetes/additional-setup/external-controlplane/
 owner: istio/wg-environments-maintainers
 test: no
 ---
