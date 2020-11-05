@@ -84,24 +84,24 @@ $ cat <<EOF > controlplane-gateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
- namespace: istio-system
+  namespace: istio-system
 spec:
- components:
-   ingressGateways:
-     - name: istio-ingressgateway
-       enabled: true
-       k8s:
-         service:
-           ports:
-             - port: 15021
-               targetPort: 15021
-               name: status-port
-             - port: 15012
-               targetPort: 15012
-               name: tls-xds
-             - port: 15017
-               targetPort: 15017
-               name: tls-webhook
+  components:
+    ingressGateways:
+      - name: istio-ingressgateway
+        enabled: true
+        k8s:
+          service:
+            ports:
+              - port: 15021
+                targetPort: 15021
+                name: status-port
+              - port: 15012
+                targetPort: 15012
+                name: tls-xds
+              - port: 15017
+                targetPort: 15017
+                name: tls-webhook
 EOF
 {{< /text >}}
 
@@ -119,30 +119,30 @@ $ cat <<EOF > external-istiod-gw.yaml
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
- name: external-istiod-gw
- namespace: external-istiod
+  name: external-istiod-gw
+  namespace: external-istiod
 spec:
- selector:
-   istio: ingressgateway
- servers:
-   - port:
-       number: 15012
-       protocol: https
-       name: https-XDS
-     tls:
-       mode: SIMPLE
-       credentialName: $SSL_SECRET_NAME
-     hosts:
-     - "$REMOTE_ISTIOD_ADDR"
-   - port:
-       number: 15017
-       protocol: https
-       name: https-WEBHOOK
-     tls:
-       mode: SIMPLE
-       credentialName: $SSL_SECRET_NAME
-     hosts:
-     - "$REMOTE_ISTIOD_ADDR"
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 15012
+        protocol: https
+        name: https-XDS
+      tls:
+        mode: SIMPLE
+        credentialName: $SSL_SECRET_NAME
+      hosts:
+      - "$REMOTE_ISTIOD_ADDR"
+    - port:
+        number: 15017
+        protocol: https
+        name: https-WEBHOOK
+      tls:
+        mode: SIMPLE
+        credentialName: $SSL_SECRET_NAME
+      hosts:
+      - "$REMOTE_ISTIOD_ADDR"
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -150,46 +150,46 @@ metadata:
    name: external-istiod-vs
    namespace: external-istiod
 spec:
-   hosts:
-   - $REMOTE_ISTIOD_ADDR
-   gateways:
-   - external-istiod-gw
-   http:
-   - match:
-     - port: 15012
-     route:
-     - destination:
-         host: istiod.external-istiod.svc.cluster.local
-         port:
-           number: 15012
-   - match:
-     - port: 15017
-     route:
-     - destination:
-         host: istiod.external-istiod.svc.cluster.local
-         port:
-           number: 443
+    hosts:
+    - $REMOTE_ISTIOD_ADDR
+    gateways:
+    - external-istiod-gw
+    http:
+    - match:
+      - port: 15012
+      route:
+      - destination:
+          host: istiod.external-istiod.svc.cluster.local
+          port:
+            number: 15012
+    - match:
+      - port: 15017
+      route:
+      - destination:
+          host: istiod.external-istiod.svc.cluster.local
+          port:
+            number: 443
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
- name: external-istiod-dr
- namespace: external-istiod
+  name: external-istiod-dr
+  namespace: external-istiod
 spec:
- host: istiod.external-istiod.svc.cluster.local
- trafficPolicy:
-   portLevelSettings:
-   - port:
-       number: 15012
-     tls:
-       mode: SIMPLE
-     connectionPool:
-       http:
-         h2UpgradePolicy: UPGRADE
-   - port:
-       number: 443
-     tls:
-       mode: SIMPLE
+  host: istiod.external-istiod.svc.cluster.local
+  trafficPolicy:
+    portLevelSettings:
+    - port:
+        number: 15012
+      tls:
+        mode: SIMPLE
+      connectionPool:
+        http:
+          h2UpgradePolicy: UPGRADE
+    - port:
+        number: 443
+      tls:
+        mode: SIMPLE
 EOF
 {{< /text >}}
 
@@ -210,27 +210,28 @@ kind: IstioOperator
 metadata:
  namespace: external-istiod
 spec:
- meshConfig:
-   rootNamespace: external-istiod
-   defaultConfig:
-     discoveryAddress: $REMOTE_ISTIOD_ADDR:15012
-     proxyMetadata:
-       XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
-       CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
- components:
-   pilot:
-     enabled: false
-   istiodRemote:
-     enabled: true
+  profile: remote
+  meshConfig:
+    rootNamespace: external-istiod
+    defaultConfig:
+      discoveryAddress: $REMOTE_ISTIOD_ADDR:15012
+      proxyMetadata:
+        XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+        CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+  components:
+    pilot:
+      enabled: false
+    istiodRemote:
+      enabled: true
 
- values:
-   global:
-     caAddress: $REMOTE_ISTIOD_ADDR:15012
-     istioNamespace: external-istiod
-   istiodRemote:
-     injectionURL: https://$REMOTE_ISTIOD_ADDR:15017/inject
-   base:
-     validationURL: https://REMOTE_ISTIOD_ADDR:15017/validate
+  values:
+    global:
+      caAddress: $REMOTE_ISTIOD_ADDR:15012
+      istioNamespace: external-istiod
+    istiodRemote:
+      injectionURL: https://$REMOTE_ISTIOD_ADDR:15017/inject
+    base:
+      validationURL: https://REMOTE_ISTIOD_ADDR:15017/validate
 EOF
 {{< /text >}}
 
@@ -265,30 +266,30 @@ $ cat <<EOF > external-istiod.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
- namespace: external-istiod
+  namespace: external-istiod
 spec:
- meshConfig:
-   defaultConfig:
-     discoveryAddress: $REMOTE_ISTIOD_ADDR:15012
-     rootNamespace: external-istiod
-     proxyMetadata:
-       XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
-       CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
- components:
-   base:
-     enabled: false
-   ingressGateways:
-   - name: istio-ingressgateway
-     enabled: false
- values:
-   global:
-     caAddress: $REMOTE_ISTIOD_ADDR:15012
-     istioNamespace: external-istiod
-     operatorManageWebhooks: true
-   pilot:
-     env:
-       INJECTION_WEBHOOK_CONFIG_NAME: ""
-       VALIDATION_WEBHOOK_CONFIG_NAME: ""
+  meshConfig:
+  defaultConfig:
+    discoveryAddress: $REMOTE_ISTIOD_ADDR:15012
+    rootNamespace: external-istiod
+    proxyMetadata:
+      XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+      CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+  components:
+  base:
+    enabled: false
+  ingressGateways:
+  - name: istio-ingressgateway
+    enabled: false
+  values:
+  global:
+    caAddress: $REMOTE_ISTIOD_ADDR:15012
+    istioNamespace: external-istiod
+    operatorManageWebhooks: true
+  pilot:
+    env:
+      INJECTION_WEBHOOK_CONFIG_NAME: ""
+      VALIDATION_WEBHOOK_CONFIG_NAME: ""
 EOF
 {{< /text >}}
 
