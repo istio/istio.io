@@ -307,7 +307,7 @@ $ istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 
 ### Validate the installation
 
-Confirm the Istio ingress gateway in `remote_cluster` is running.
+Confirm the Istio ingress gateway is running on `remote_cluster`.
 
 {{< text bash >}}
 $ kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
