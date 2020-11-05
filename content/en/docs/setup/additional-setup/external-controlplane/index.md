@@ -77,8 +77,7 @@ $ export SSL_SECRET_NAME=myexternal-istiod-secret
 
 ### Setup the external cluster
 
-Create the Istio configuration for `external_cluster`, using the default profile
-with the following ports on the ingress gateway to expose the external control plane:
+Create the configuration for the ingress gateway that exposes the external control plane ports to other clusters:
 
 {{< text bash >}}
 $ cat <<EOF > controlplane-gateway.yaml
@@ -106,14 +105,14 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the configuration in `external_cluster` in the `istio-system` namespace:
+Apply the configuration in the `istio-system` namespace of `external_cluster`:
 
 {{< text bash >}}
 $ istioctl apply -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
-Create the Istio network configuration to expose the **yet to be installed** external
-istiod on the ingress gateway in the `istio-system` namespace:
+Create the Istio `Gateway`, `VirtualService`, and `DestinationRule` configuration for the **yet to be installed** external
+control plane:
 
 {{< text bash >}}
 $ cat <<EOF > external-istiod-gw.yaml
@@ -194,15 +193,15 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the Istio configuration in `external_cluster`:
+Apply the configuration on `external_cluster`:
 
 {{< text bash >}}
 $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
-### Setup remote cluster
+### Set up the remote (mesh) cluster
 
-Generate the Istio configuration for `remote_cluster` and the `external-istiod` namespace:
+Generate a remote Istio configuration in the `external-istiod` namespace:
 
 {{< text bash >}}
 $ cat <<EOF > remote-config-cluster.yaml
@@ -239,7 +238,7 @@ spec:
 EOF
 {{< /text >}}
 
-Install the configuration in `remote_cluster`:
+Install the configuration on `remote_cluster`:
 
 {{< text bash >}}
 $ istioctl apply -f remote-config-cluster.yaml --context="${CTX_REMOTE_CLUSTER}"
@@ -248,9 +247,9 @@ $ istioctl apply -f remote-config-cluster.yaml --context="${CTX_REMOTE_CLUSTER}"
 You may notice the ingress gateway in `remote_cluster` is not running yet.
 This is expected until the external control plane is running, which you will install next.
 
-### Setup external control plane in the control plane cluster
+### Set up the control plane in the external cluster
 
-Create remote secret to allow external control plane in `external_cluster` to
+Create a remote secret to allow the external control plane in `external_cluster` to
 access the `remote_cluster`:
 
 {{< text bash >}}
@@ -263,7 +262,7 @@ $ istioctl x create-remote-secret \
 {{< /text >}}
 
 Generate the Istio configuration for the `external-istiod`
-namespace in `external_cluster`:
+namespace of `external_cluster`:
 
 {{< text bash >}}
 $ cat <<EOF > external-istiod.yaml
@@ -300,7 +299,7 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the Istio configuration in `external_cluster`:
+Apply the Istio configuration on `external_cluster`:
 
 {{< text bash >}}
 $ istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
@@ -308,33 +307,33 @@ $ istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 
 ### Validate the installation
 
-Confirm the Istio ingress gateway in `remote_cluster` is running.
+Confirm the Istio ingress gateway is running on `remote_cluster`.
 
 {{< text bash >}}
 $ kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
-Deploy the helloworld sample in `remote_cluster` with a namespace
+Deploy the `helloworld` sample on `remote_cluster` in a namespace with
 has [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) enabled.
-The helloworld pods should reach running in a few seconds with sidecar injected.
+Wait a few seconds for the `helloworld` pods to be running with sidecars injected.
 
 {{< text bash >}}
 $ kubectl apply -f samples/helloworld/helloworld.yaml --context="${CTX_REMOTE_CLUSTER}"
 $ kubectl get pod -l app=helloworld --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
-Expose the helloworld application on the gateway:
+Expose the `helloworld` application on the ingress gateway:
 
 {{< text bash >}}
 $ kubectl apply -f samples/helloworld/helloworld-gateway.yaml --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
 Follow [these instructions](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) to
-set `GATEWAY_URL`. Confirm you can access the hello application:
+set `GATEWAY_URL` and then confirm you can access the `helloworld` application:
 
 {{< text bash >}}
 $ curl -s "http://${GATEWAY_URL}/hello" | grep -o "Hello"
 {{< /text >}}
 
-**Congratulations!** You successfully installed an external control plane that manages
-services running in the remote cluster!
+**Congratulations!** You successfully installed an external control plane and used it to manage
+services running in a remote cluster!
