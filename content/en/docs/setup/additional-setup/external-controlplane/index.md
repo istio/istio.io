@@ -228,6 +228,10 @@ spec:
     global:
       caAddress: $REMOTE_ISTIOD_ADDR:15012
       istioNamespace: external-istiod
+      meshID: mesh1
+      multiCluster:
+        clusterName: remote_cluster
+      network: network1
     istiodRemote:
       injectionURL: https://$REMOTE_ISTIOD_ADDR:15017/inject
     base:
