@@ -249,7 +249,7 @@ This is expected until the external control plane is running, which you will ins
 
 ### Set up the control plane in the external cluster
 
-Create remote secret to allow external control plane in `external_cluster` to
+Create a remote secret to allow the external control plane in `external_cluster` to
 access the `remote_cluster`:
 
 {{< text bash >}}
