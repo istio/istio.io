@@ -56,7 +56,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< /text >}}
 
     {{< tip >}}
-    To enable experimental [VM auto-registration](/docs/examples/virtual-machines/autoregistration): `istioctl install --set values.global.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true`.
+    To enable experimental VM auto-registration: `istioctl install --set values.global.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true`.
     {{< /tip >}}
 
 1. Deploy the east-west gateway and expose the control plane using the provided sample configuration.
@@ -115,7 +115,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< /text >}}
     
     {{< tip >}}
-    To utilize VM auto-registration, include the autoregister flag: `istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --autoregister`
+    To utilize VM auto-registration, include the auto-register flag: `istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --autoregister`.
     {{< /tip >}}
 
 ## Configure the virtual machine
