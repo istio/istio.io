@@ -88,6 +88,12 @@ Follow these steps to get started with Istio:
     ✔ Installation complete
     {{< /text >}}
 
+    {{< warning >}}
+    If your platform has a custom demonstration profile, e.g., Openshift, use
+    it in the following command, instead of the `demo` profile. Refer to your
+    [platform instructions](/docs/setup/platform-setup/) for details.
+    {{< /warning >}}
+
 1.  Add a namespace label to instruct Istio to automatically inject Envoy
     sidecar proxies when you deploy your application later:
 
