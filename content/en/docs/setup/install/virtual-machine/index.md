@@ -45,7 +45,7 @@ and `SERVICE_ACCOUNT`
     $ mkdir -p "${WORK_DIR}"
     {{< /text >}}
 
-## Install the Istio control planef
+## Install the Istio control plane
 
 Install Istio and expose the control plane so that your virtual machine can access it.
 
@@ -60,11 +60,9 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< /tip >}}
 
 1. Deploy the east-west gateway and expose the control plane using the provided sample configuration.
-       
+
     {{< text bash >}}
-    $ SINGLE_CLUSTER=1 \
-        @samples/multicluster/gen-eastwest-gateway.sh@ | \
-        istioctl install -f -
+    $ @samples/multicluster/gen-eastwest-gateway.sh@ --single-cluster | istioctl install -f -
     {{< /text >}}
 
     {{< text bash >}}
@@ -98,12 +96,12 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< /tip >}}
 
 1. Use the `istioctl x workload entry` command to generate:
-     * `cluster.env`: Contains metadata that identifies what namespace, service account, network CIDR and (optionally) what inbound ports to capture. 
+     * `cluster.env`: Contains metadata that identifies what namespace, service account, network CIDR and (optionally) what inbound ports to capture.
      * `istio-token`: A Kubernetes token used to get certs from the CA.
-     * `mesh.yaml`: Provides additional istio metadata including, network name, trust domain and other values.
+     * `mesh.yaml`: Provides additional Istio metadata including, network name, trust domain and other values.
      * `root-cert.pem`: The root certificate used to authenticate.
      * `hosts`: An addendum to `/etc/hosts` that the proxy will use to reach istiod for xDS.*
-     
+
      {{< idea >}}
      \*A sophisticated option involves configuring DNS within the virtual
      machine to reference an external DNS server. This option is beyond
@@ -113,7 +111,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< text bash >}}
     $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}"
     {{< /text >}}
-    
+j
     {{< tip >}}
     To utilize VM auto-registration, include the auto-register flag: `istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --autoregister`.
     {{< /tip >}}
@@ -170,7 +168,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo cp "${HOME}"/sidecar.env /var/lib/istio/envoy/sidecar.env
     {{< /text >}}
 
-1. Install the [MeshConfig](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) to `/etc/istio/config/mesh`:
+1. Install the [Mesh Config](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) to `/etc/istio/config/mesh`:
 
     {{< text bash >}}
     $ sudo cp "${HOME}"/mesh.yaml /etc/istio/config/mesh
