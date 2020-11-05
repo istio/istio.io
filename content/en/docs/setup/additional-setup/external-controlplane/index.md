@@ -14,8 +14,8 @@ considered `pre-alpha`.
 
 ## Introduction
 
-This guide walks you through the installation of an external control plane. The
-{{< gloss >}}external control plane{{< /gloss >}} [deployment model](/docs/ops/deployment/deployment-models/#control-plane-models)
+This guide walks you through the installation of an {{< gloss >}}external control plane{{< /gloss >}}. The
+external control plane [deployment model](/docs/ops/deployment/deployment-models/#control-plane-models)
 enables mesh operators to install and manage mesh control planes on separate
 external clusters. This deployment model allows a clear separation between mesh
 operators and mesh admins. Istio mesh operators can run Istio control planes
