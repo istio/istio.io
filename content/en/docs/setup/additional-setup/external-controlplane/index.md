@@ -238,7 +238,7 @@ spec:
 EOF
 {{< /text >}}
 
-Install the configuration in `remote_cluster`:
+Install the configuration on `remote_cluster`:
 
 {{< text bash >}}
 $ istioctl apply -f remote-config-cluster.yaml --context="${CTX_REMOTE_CLUSTER}"
