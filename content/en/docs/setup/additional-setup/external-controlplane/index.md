@@ -1,8 +1,8 @@
 ---
 title: Installing External Control Plane [experimental]
-description: Install external control plane and remote config cluster.
+description: Install external control plane and remote cluster.
 weight: 46
-keywords: [external,control,istiod,remote,config]
+keywords: [external,control,istiod,remote]
 aliases:
     - /docs/setup/kubernetes/additional-setup/external-controlplane/
 owner: istio/wg-environments-maintainers
@@ -43,7 +43,7 @@ running in the external cluster.
 
 ### API Server Access
 
-The API Server in the remote config cluster must be accessible to the external
+The API Server in the remote cluster must be accessible to the external
 control plane cluster. Many cloud providers make API Servers publicly accessible
 via network load balancers (NLBs). If the API Server is not directly accessible, you will
 have to modify the installation procedure to enable access. For example, the
@@ -334,4 +334,4 @@ $ curl -s "http://${GATEWAY_URL}/hello" | grep -o "Hello"
 {{< /text >}}
 
 **Congratulations!** You successfully installed an external Istiod that manages
-services running in the remote config cluster!
+services running in the remote cluster!
