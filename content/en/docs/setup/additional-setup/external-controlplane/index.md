@@ -1,5 +1,5 @@
 ---
-title: Installing External Control Plane [experimental]
+title: Install Istio with an External Control Plane [experimental]
 description: Install external control plane and remote cluster.
 weight: 46
 keywords: [external,control,istiod,remote]
