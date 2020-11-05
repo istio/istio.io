@@ -299,7 +299,7 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the Istio configuration in `external_cluster`:
+Apply the Istio configuration on `external_cluster`:
 
 {{< text bash >}}
 $ istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
