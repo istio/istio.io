@@ -11,7 +11,7 @@ test: yes
 
 ## Introduction
 
-The {{< gloss >}}external control plane{{< /gloss >}} [deployment model](/docs/ops/deployment/deployment-models/#control-plane-models) enables mesh operators to install and manage mesh control planes on separate external clusters. This deployment model allows a clear separation between mesh operators and mesh admins. Istio mesh operators can run Istio control planes for mesh admins while mesh admins control the configuration of the control plane without worrying about installing or managing it.
+This guide walks you through the installation of an external control plane. The {{< gloss >}}external control plane{{< /gloss >}} [deployment model](/docs/ops/deployment/deployment-models/#control-plane-models) enables mesh operators to install and manage mesh control planes on separate external clusters. This deployment model allows a clear separation between mesh operators and mesh admins. Istio mesh operators can run Istio control planes for mesh admins while mesh admins control the configuration of the control plane without worrying about installing or managing it.
 
 ## Requirements
 
@@ -20,9 +20,13 @@ The {{< gloss >}}external control plane{{< /gloss >}} [deployment model](/docs/o
 This guide requires that you have two Kubernetes clusters with any of the
 supported Kubernetes versions: {{< supported_kubernetes_versions >}}.
 
-The first cluster is the {{< gloss >}}external control plane{{< /gloss >}} cluster with the Istio `default` profile installed in the `external-istiod` namespace. This istiod serves as the the external control plane for the second cluster.  An ingress gateway is installed in the `istio-system` namespace. The ingress gateway provides mesh sidecars access to the external istiod in the `external-istiod` namespace.
+The first cluster contains the {{< gloss >}}external control plane{{< /gloss >}} installed
+in the `external-istiod` namespace. This Istio control plane serves as the external control plane for the second cluster.
+An ingress gateway is installed in the `istio-system` namespace. The ingress gateway provides mesh sidecars access to the
+external istiod in the `external-istiod` namespace.
 
-The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} hosting the mesh. Its Kubernetes API server also provides the configuration for the control plane (istiod) running in the external cluster.
+The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} hosting the mesh. Its Kubernetes API server also provides
+the configuration for the control plane (istiod) running in the external cluster.
 
 ### API Server Access
 
@@ -40,8 +44,8 @@ This guide will refer to two clusters named `external_cluster` and `remote_clust
 Variable | Description
 -------- | -----------
 `CTX_EXTERNAL_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the external control plane cluster.
-`CTX_REMOTE_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the remote config cluster.
-`EXTERNAL_ISTIOD_ADDR` | The external host name for the `remote_cluster` to access the external istiod.
+`CTX_REMOTE_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the remote cluster.
+`EXTERNAL_ISTIOD_ADDR` | The host name for the `remote_cluster` to access the external control plane.
 `SSL_SECRET_NAME` | The secret name used to access the ingress gateway on the external control plane cluster.
 
 For example:
@@ -60,7 +64,7 @@ $ export SSL_SECRET_NAME=myexternal-istiod-secret
 Create the Istio configuration for `external_cluster`, using the default profile with the following ports on the ingress gateway to expose the external istiod:
 
 {{< text bash >}}
-$ cat <<EOF > external-cp.yaml
+$ cat <<EOF > controlplane-gateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -88,7 +92,7 @@ EOF
 Apply the configuration in `external_cluster` in the `istio-system` namespace:
 
 {{< text bash >}}
-$ istioctl apply -f external-cp.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+$ istioctl apply -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
 Create the Istio network configuration to expose the **yet to be installed** external istiod on the ingress gateway in the `istio-system` namespace:
