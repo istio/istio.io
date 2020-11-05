@@ -33,7 +33,7 @@ The first cluster contains the {{< gloss >}}external control plane{{< /gloss >}}
 in the `external-istiod` namespace. This Istio control plane serves as the external control
 plane for the second cluster. An ingress gateway is installed in the `istio-system`
 namespace. The ingress gateway provides mesh sidecars access to the
-external istiod in the `external-istiod` namespace.
+external control plane in the `external-istiod` namespace.
 
 The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} hosting the mesh.
 Its Kubernetes API server also provides the configuration for the control plane (istiod)
@@ -75,7 +75,7 @@ $ export SSL_SECRET_NAME=myexternal-istiod-secret
 ### Setup the external control plane cluster
 
 Create the Istio configuration for `external_cluster`, using the default profile
-with the following ports on the ingress gateway to expose the external istiod:
+with the following ports on the ingress gateway to expose the external control plane:
 
 {{< text bash >}}
 $ cat <<EOF > controlplane-gateway.yaml
@@ -243,11 +243,11 @@ $ istioctl apply -f remote-config-cluster.yaml --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
 You may notice the ingress gateway in `remote_cluster` is not running yet.
-This is expected until the external istiod is running, which you will install next.
+This is expected until the external control plane is running, which you will install next.
 
-### Setup external istiod in the control plane cluster
+### Setup external control plane in the control plane cluster
 
-Create remote secret to allow external istiod in `external_cluster` to
+Create remote secret to allow external control plane in `external_cluster` to
 access the `remote_cluster`:
 
 {{< text bash >}}
@@ -333,5 +333,5 @@ set `GATEWAY_URL`. Confirm you can access the hello application:
 $ curl -s "http://${GATEWAY_URL}/hello" | grep -o "Hello"
 {{< /text >}}
 
-**Congratulations!** You successfully installed an external Istiod that manages
+**Congratulations!** You successfully installed an external control plane that manages
 services running in the remote cluster!
