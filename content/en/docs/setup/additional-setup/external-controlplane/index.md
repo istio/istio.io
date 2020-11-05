@@ -77,8 +77,7 @@ $ export SSL_SECRET_NAME=myexternal-istiod-secret
 
 ### Setup the external cluster
 
-Create the Istio configuration for `external_cluster`, using the default profile
-with the following ports on the ingress gateway to expose the external control plane:
+Create the configuration for the ingress gateway that exposes the external control plane ports to other clusters:
 
 {{< text bash >}}
 $ cat <<EOF > controlplane-gateway.yaml
