@@ -62,7 +62,7 @@ requirements:
 
 The following ports and protocols are used by the Istio sidecar proxy (Envoy).
 
-| Port | Protocol | Description | Local host only |
+| Port | Protocol | Description | Pod-internal only |
 |----|----|----|----|
 | 15000 | TCP | Envoy admin port (commands/diagnostics) | Yes |
 | 15001 | TCP | Envoy outbound | No |
