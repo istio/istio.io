@@ -305,7 +305,7 @@ Apply the Istio configuration on `external_cluster`:
 $ istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
-### Validate the installation
+## Validate the installation
 
 Confirm the Istio ingress gateway is running on `remote_cluster`.
 
