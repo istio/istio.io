@@ -85,7 +85,6 @@ Below is our list of existing features and their current phases. This informatio
 | Mixer Out-of-Process Adapter Authoring Model | deprecated
 | [Multicluster Mesh](/docs/setup/install/multicluster/) | Beta
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/upgrade/) | Beta
-| Consul Integration | Alpha
 | Basic Configuration Resource Validation | Beta
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | deprecated
 | [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | deprecated
