@@ -68,7 +68,7 @@ $ export REMOTE_ISTIOD_ADDR=myexternal-istiod.cloud.com
 $ export SSL_SECRET_NAME=myexternal-istiod-secret
 {{< /text >}}
 
-## Setup
+## Cluster configuration
 
 ### Set up the external cluster
 
