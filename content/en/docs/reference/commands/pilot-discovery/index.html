@@ -731,6 +731,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_LOOP_BLOCKER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Envoy will be configured to prevent traffic directly the the inbound/outbound ports (15001/15006). This prevents traffic loops. This option will be removed, and considered always enabled, in 1.9.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
