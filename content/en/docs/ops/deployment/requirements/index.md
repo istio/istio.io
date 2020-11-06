@@ -78,7 +78,7 @@ The following ports and protocols are used by the Istio control plane (istiod).
 |----|----|----|----|
 | 15010 | GRPC | XDS and CA services (Plaintext) | No |
 | 15012 | GRPC | XDS and CA services (TLS, recommended for production use) | No |
-| 8080 | HTTP | Debug interface (Deprecated) | No |
+| 8080 | HTTP | Debug interface (deprecated) | No |
 | 443 | HTTPS | Webhooks | No |
 | 15014 | HTTP | Control plane monitoring | No |
 
