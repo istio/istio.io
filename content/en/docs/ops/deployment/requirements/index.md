@@ -72,7 +72,7 @@ The following ports and protocols are used by the Istio sidecar proxy (Envoy).
 | 15021 | HTTP | Health checks | No |
 | 15090 | HTTP | Envoy Prometheus telemetry | No |
 
-The following ports and protocols are used by Istio control plane.
+The following ports and protocols are used by the Istio control plane (istiod).
 
 | Port | Protocol | Description | Local host only |
 |----|----|----|----|
