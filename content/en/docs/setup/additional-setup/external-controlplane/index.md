@@ -291,7 +291,7 @@ spec:
       operatorManageWebhooks: true
       meshID: mesh1
       multiCluster:
-        clusterName: external_cluster
+        clusterName: remote_cluster
     pilot:
       env:
         INJECTION_WEBHOOK_CONFIG_NAME: ""
