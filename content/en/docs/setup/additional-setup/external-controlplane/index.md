@@ -75,7 +75,7 @@ $ export SSL_SECRET_NAME=myexternal-istiod-secret
 
 ## Setup
 
-### Setup the external cluster
+### Set up the external cluster
 
 Create the configuration for the ingress gateway that exposes the external control plane ports to other clusters:
 
