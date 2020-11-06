@@ -399,6 +399,7 @@ Kubernetes
 kubernetes.default
 kube-proxy
 KubeSphere
+kustomize
 L3-4
 L4-L6
 learnings

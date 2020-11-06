@@ -11,10 +11,10 @@ The following lists some of the pros and cons of each of the available methods:
 
     The simplest and most validated installation/management path with high security.
     This is generally considered the recommended method, in most cases.
-    
+
     Pros:
 
-    - Thorough configuration validation and health verification. 
+    - Thorough configuration validation and health verification.
     - Uses `IstioOperator` API which has extensive configuration/customization options.
     - No in-cluster pods needed. Changes are actuated by running the `istioctl` command.
 
@@ -40,18 +40,18 @@ The following lists some of the pros and cons of each of the available methods:
 
 1. [istioctl manifest generate](/docs/setup/install/istioctl/#generate-a-manifest-before-installation)
 
-    Generate the Kubernetes manifest and then appy with `kubectl apply --prune`.
-    This methiod is suitable where strict auditing or control of output manifests is needed.
+    Generate the Kubernetes manifest and then apply with `kubectl apply --prune`.
+    This method is suitable where strict auditing or control of output manifests is needed.
 
     Pros:
-    
+
     - Charts are generated from same `IstioOperator` API as used in `istioctl install` and Operator.
     - Uses `IstioOperator` API which has extensive configuration/customization options.
 
     Cons:
-    
+
     - Some checks performed in `istioctl install` and Operator are not done.
-    - UX less streamlined compared to `istioctl install`. 
+    - UX less streamlined compared to `istioctl install`.
     - Error reporting not as robust as `istioctl install` for apply step.
 
 1. [install using Helm](/docs/setup/install/helm/)
