@@ -48,7 +48,7 @@ replaces the functionality provided by the `istio-init` container.
 
 In most environments, a basic Istio cluster with CNI enabled can be installed using the following command:
 
-{{< text bash >}}
+```bash
 $ cat <<EOF > istio-cni.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -64,7 +64,7 @@ spec:
       logLevel: info
 EOF
 $ istioctl install -f istio-cni.yaml
-{{< /text >}}
+```
 
 ## Advanced Installation
 
@@ -123,7 +123,7 @@ Use the following command to render and apply Istio CNI components and override 
 
 Create a `IstioOperator` CR yaml locally with your override to install `istio`, e.g. `cni.yaml`
 
-{{< text yaml >}}
+```yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -138,11 +138,11 @@ spec:
        - foo_ns
        - bar_ns
       logLevel: info
-{{< /text >}}
+```
 
-{{< text bash >}}
+```bash
 $ istioctl install -f cni.yaml
-{{< /text >}}
+```
 
 ### Hosted Kubernetes settings
 
@@ -164,18 +164,16 @@ The following table shows the required settings for many common Kubernetes envir
 1.  Refer to the procedure to [prepare a GKE cluster for Istio](/docs/setup/platform-setup/gke/) and
     enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) in your cluster.
 
-    {{< warning >}}
-    For existing clusters, this redeploys all nodes.
-    {{< /warning >}}
+    :warning: **For existing clusters, this redeploys all nodes.**
 
 1.  Install Istio CNI via `Istioctl` including the `--set values.cni.cniBinDir=/home/kubernetes/bin` option.
     For example, the following `istioctl manifest` command sets the `values.cni.cniBinDir` value for a GKE cluster:
 
-    {{< text bash >}}
+    ```bash
     $ istioctl install --set values.cni.cniBinDir=/home/kubernetes/bin \
         --set components.cni.enabled=true \
         --set components.cni.namespace=kube-system
-    {{< /text >}}
+    ```
 
 ## Sidecar injection compatibility
 
@@ -190,18 +188,18 @@ The following sidecar injection methods are supported for use with the Istio CNI
 1.  Manual sidecar injection with the `istio-sidecar-injector` configmap
     1.  [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) using the configmap directly:
 
-        {{< text bash >}}
+        ```bash
         $ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConfigMapName istio-sidecar-injector
         $ kubectl apply -f deployment-injected.yaml
-        {{< /text >}}
+        ```
 
     1.  `istioctl kube-inject` using a file created from the configmap:
 
-        {{< text bash >}}
+        ```bash
         $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
         $ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConfigFile inject-config.yaml
         $ kubectl apply -f deployment-injected.yaml
-        {{< /text >}}
+        ```
 
 ## Operational details
 
@@ -273,7 +271,5 @@ When a pod is created or deleted, the container runtime invokes each plugin in t
 CNI plugin only performs actions to setup the application pod's traffic redirection to the injected Istio proxy
 sidecar (using `iptables` in the pod's network namespace).
 
-{{< warning >}}
-The Istio CNI plugin should not interfere with the operations of the base CNI plugin that configures the pod's
-networking setup, although not all CNI plugins have been validated.
-{{< /warning >}}
+:warning: **The Istio CNI plugin should not interfere with the operations of the base CNI plugin that configures the pod's
+networking setup, although not all CNI plugins have been validated.**
