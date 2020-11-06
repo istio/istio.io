@@ -205,7 +205,6 @@ the following cipher suites:
 
 - `AES128-GCM-SHA256`
 
-
 #### Permissive mode
 
 Istio mutual TLS has a permissive mode, which allows a service to accept both
