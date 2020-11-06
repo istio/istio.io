@@ -88,22 +88,27 @@ To be part of a mesh, Kubernetes pods must satisfy the following requirements:
 
 ## Ports used by Istio
 
-The following ports and protocols are used by Istio.
+The following ports and protocols are used by the Istio sidecar proxy (Envoy).
 
-| Port | Protocol | Used by | Description |
+| Port | Protocol | Description | Pod-internal only |
 |----|----|----|----|
-| 15000 | TCP | Envoy | Envoy admin port (commands/diagnostics) |
-| 15001 | TCP | Envoy | Envoy Outbound |
-| 15006 | TCP | Envoy | Envoy Inbound |
-| 15008 | TCP | Envoy | Envoy Tunnel port (Inbound) |
-| 15020 | HTTP | Envoy | Istio agent Prometheus telemetry |
-| 15021 | HTTP | Envoy | Health checks |
-| 15090 | HTTP | Envoy | Envoy Prometheus telemetry |
-| 15010 | GRPC | Istiod | XDS and CA services (plaintext) |
-| 15012 | GRPC | Istiod | XDS and CA services (TLS) |
-| 8080 | HTTP | Istiod | Debug interface |
-| 443 | HTTPS | Istiod | Webhooks |
-| 15014 | HTTP | Istiod | Control plane monitoring |
+| 15000 | TCP | Envoy admin port (commands/diagnostics) | Yes |
+| 15001 | TCP | Envoy outbound | No |
+| 15006 | TCP | Envoy inbound | No |
+| 15008 | TCP | Envoy tunnel port (inbound) | No |
+| 15020 | HTTP | Merged Prometheus telemetry from Istio agent, Envoy, and application | No |
+| 15021 | HTTP | Health checks | No |
+| 15090 | HTTP | Envoy Prometheus telemetry | No |
+
+The following ports and protocols are used by the Istio control plane (istiod).
+
+| Port | Protocol | Description | Local host only |
+|----|----|----|----|
+| 15010 | GRPC | XDS and CA services (Plaintext) | No |
+| 15012 | GRPC | XDS and CA services (TLS, recommended for production use) | No |
+| 8080 | HTTP | Debug interface (deprecated) | No |
+| 443 | HTTPS | Webhooks | No |
+| 15014 | HTTP | Control plane monitoring | No |
 
 To avoid port conflicts with sidecars, applications should not use any of the ports used by Envoy.
 
