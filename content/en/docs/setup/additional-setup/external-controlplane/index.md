@@ -1,16 +1,11 @@
 ---
-title: Install Istio with an External Control Plane [experimental]
+title: Install Istio with an External Control Plane
 description: Install external control plane and remote cluster.
 weight: 80
 keywords: [external,control,istiod,remote]
 owner: istio/wg-environments-maintainers
 test: no
 ---
-
-{{< warning >}}
-This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
-considered `pre-alpha`.
-{{< /warning >}}
 
 ## Introduction
 
