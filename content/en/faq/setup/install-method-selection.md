@@ -60,7 +60,7 @@ The following lists some of the pros and cons of each of the available methods:
 
     Pros:
 
-    - Familiar approach using industry standard charts.
+    - Familiar approach using industry standard templates.
     - Fully declarative and can be safely used in CI pipelines.
 
     Cons:
