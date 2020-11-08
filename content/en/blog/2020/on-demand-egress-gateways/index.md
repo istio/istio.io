@@ -1,7 +1,7 @@
 ---
 title: On Demand Egress Gateways
 subtitle: Deploy Egress Gateways independently in a seamless way
-description: Deploying Egress Gateways independently to fine-grained control of egress communication.
+description: Deploying Egress Gateways independently to have fine-grained control of egress communication.
 publishdate: 2020-11-07
 attribution: Antonio Berben (At Deutsche Telekom - PAN-NET)
 keywords: [configuration,egress,gateway,external,service]
@@ -68,7 +68,7 @@ At **PAN-NET**, we have created our own operator with the [Operator SDK - Ansibl
 However, you want to start simple. Thus, better you start with the `IstioOperator` option.
 
 {{< quote >}}
-Yes! `Istio 1.8.0` introduced the possibility to have fine-grained control over the objects `IstioOperator` deploys. This gives you the chance to patch them as you wish. Exactly what you need to deploy on demand `Egress Gateways` 
+Yes! `Istio 1.8.0` introduced the possibility to have fine-grained control over the objects that `IstioOperator` deploys. This gives you the opportunity to patch them as you wish. Exactly what you need to deploy on demand `Egress Gateways`.
 {{< /quote >}}
 
 
@@ -160,7 +160,7 @@ The steps for this task assume:
 - The service is installed under the namespace: `httpbin`.
 - The service name is: `http-egress`.
 
-As it is mentioned before, `Istio 1.8.0` introduced the possibility to fine-grained the `Istio` resources. Now, you will take advantage of it.
+As it is mentioned before, `Istio 1.8.0` introduced the possibility to fine-grain control the `Istio` resources. Now, you will take advantage of it.
 
 Create a file with following content:
 
@@ -169,7 +169,7 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   profile: empty
-  tag: 1.8.0-alpha.2
+  tag: 1.8.0
   namespace: httpbin
   components:
     egressGateways:
@@ -216,7 +216,7 @@ Remember that we assume *namespace = httpbin*)
 $ kubectl create ns httpbin
 {{< /text >}}
 
-As it is described in the [documentation](/docs/setup/install/istioctl/#customize-kubernetes-settings), you can deployed several `IstioOperator` resources. However, they have to be pre-parsed and then applied to the cluster.
+As it is described in the [documentation](/docs/setup/install/istioctl/#customize-kubernetes-settings), you can deploy several `IstioOperator` resources. However, they have to be pre-parsed and then applied to the cluster.
 
 {{< text bash >}}
 $ istioctl manifest generate -f <path-to-egress-file> | kubectl apply -f -
