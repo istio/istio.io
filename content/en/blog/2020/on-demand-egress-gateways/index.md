@@ -2,10 +2,10 @@
 title: On Demand Egress Gateways
 subtitle: Deploy Egress Gateways independently in a seamless way
 description: Deploying Egress Gateways independently to fine-grained control of egress communication.
-publishdate: 2020-10-28
+publishdate: 2020-11-07
 attribution: Antonio Berben (At Deutsche Telekom - PAN-NET)
 keywords: [configuration,egress,gateway,external,service]
-target_release: 1.7.0
+target_release: 1.8.0
 ---
 
 At [`Deutsche Telekom::PAN-NET`](https://pan-net.cloud/aboutus), we have embraced `Istio` as the umbrella to cover our services.
@@ -44,7 +44,7 @@ spec:
 [...]
 {{< /text >}}
 
-As a benefit of decoupling Egress Getaways from IstioOperator manifest, you have enabled the possibility of setting up custom Liveness probes to have both services (gateway and upstream service) aligned.
+As a benefit of decoupling Egress Getaways from IstioOperator manifest, you have enabled the possibility of setting up **custom readiness probes** to have both services (gateway and upstream service) aligned.
 
 As well, you can apply the sidecar pattern to inject, for example, OPA into the pod to perform authorization with complex rules ([OPA envoy plugin](https://github.com/open-policy-agent/opa-envoy-plugin)).
 
@@ -56,18 +56,23 @@ As well, you can apply the sidecar pattern to inject, for example, OPA into the 
 
 At this point, you might be convinced that this is the right path to go.
 
-Now, the problem is that `Istio` does not offer a `CRD` for `Egress Gateways`. **Pity!**
-
 ## Solution
 
 There are several ways to achieve this task:
 
-- Create a helm chart (simple solution)
+- Create multiple `IstioOperator` (simple solution)
 - Create an operator (recommended for a second iteration in the development process)
 
-Although there are multiple ways to develop an operator, at **PAN-NET**, we have created our own one with the [Operator SDK - Ansible type](https://sdk.operatorframework.io/docs/building-operators/).
+At **PAN-NET**, we have created our own operator with the [Operator SDK - Ansible type](https://sdk.operatorframework.io/docs/building-operators/).
 
-However, you want to start simple. Thus, better you start with the helm chart. In the following section you will  deploy an `Egress Gateway` to connect to an external service: `httpbin` ([https://httpbin.org/](https://httpbin.org/))
+However, you want to start simple. Thus, better you start with the `IstioOperator` option.
+
+{{< quote >}}
+Yes! `Istio 1.8.0` introduced the possibility to have fine-grained control over the objects `IstioOperator` deploys. This gives you the chance to patch them as you wish. Exactly what you need to deploy on demand `Egress Gateways` 
+{{< /quote >}}
+
+
+In the following section you will  deploy an `Egress Gateway` to connect to an external service: `httpbin` ([https://httpbin.org/](https://httpbin.org/))
 
 At the end, you will have:
 
@@ -81,15 +86,13 @@ At the end, you will have:
 
 ### Prerequisites
 
-- Access to [Istio repository](https://github.com/istio/istio)
 - [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) (`kubernetes in docker`. Perfect for local development)
-- [Helm 3](https://helm.sh/docs/intro/install/)
 - [Istioctl](/docs/setup/getting-started/#download)
 
 #### Kind
 
 {{< warning >}}
-If you use `kind`, do not forget to set up `service-account-issuer` and `service-account-signing-key-file` as described below. Otherwise, `Istio` installation will complain.
+If you use `kind`, do not forget to set up `service-account-issuer` and `service-account-signing-key-file` as described below. Otherwise, `Istio` installation might complain.
 {{< /warning >}}
 
 {{< text yaml >}}
@@ -139,107 +142,69 @@ metadata:
   namespace: istio-operator
 spec:
   profile: default
-  tag: 1.7.0
+  tag: 1.8.0
   meshConfig:
     accessLogFile: /dev/stdout
     outboundTrafficPolicy:
       mode: REGISTRY_ONLY
-  addonComponents:
-    istiocoredns:
-      enabled: true
-  components:
-    pilot:
-      k8s:
-        env:
-          - name: PILOT_CERT_PROVIDER
-            value: "kubernetes"
-    ingressGateways:
-    - name: istio-ingressgateway
-      enabled: true
-      k8s:
-        env:
-          - name: ISTIO_META_ROUTER_MODE
-            value: "sni-dnat"
-          - name: PILOT_CERT_PROVIDER
-            value: "kubernetes"
-        service:
-          ports:
-            - port: 80
-              targetPort: 8080
-              name: http2
-              nodePort: 31708
-            - port: 443
-              targetPort: 8443
-              name: https
-              nodePort: 30017
-            - port: 15443
-              targetPort: 15443
-              name: tls
-              nodePort: 32001
-  values:
-    prometheus:
-      enabled: false
-    gateways:
-      istio-ingressgateway:
-        type: LoadBalancer
-    kiali:
-      dashboard:
-        auth:
-          strategy: "anonymous"
-      createDemoSecret: true
-    global:
-      jwtPolicy: first-party-jwt
-      pilotCertProvider: kubernetes
-      controlPlaneSecurityEnabled: true
-      podDNSSearchNamespaces:
-      - global
-      istiod:
-        enableAnalysis: true
 {{< /text >}}
 
 {{< tip >}}
 Notice that `outboundTrafficPolicy.mode: REGISTRY_ONLY` to block all communications which are not specified by a `ServiceEntry` resource.
 {{< /tip >}}
 
-### Deploy an Egress Gateway with helm chart
+### Deploy Egress Gateway
 
 The steps for this task assume:
 
 - The service is installed under the namespace: `httpbin`.
 - The service name is: `http-egress`.
 
-Clone the Istio's repository, go to branch with tag `1.7.0`
+As it is mentioned before, `Istio 1.8.0` introduced the possibility to fine-grained the `Istio` resources. Now, you will take advantage of it.
 
-{{< text bash >}}
-$ git checkout tags/1.7.0
-{{< /text >}}
-
-Find the chart under `manifests/charts/gateways/istio-egress`. [Here]({{< github_tree >}}/1.7.0/manifests/charts/gateways/istio-egress) the one for `istio 1.7.0`.
-
-Use this values for the chart installation:
+Create a file with following content:
 
 {{< text yaml >}}
-gateways:
-  istio-egressgateway:
-    name: httpbin-egress
-    labels:
-      app: istio-egressgateway
-      istio: egressgateway
-      custom-egress: httpbin-egress
-global:
-  hub: docker.io/istio
-  tag: 1.7.0
-  arch:
-    amd64: 2
-    ppc64le: 2
-    s390x: 2
-  defaultResources:
-    requests:
-      cpu: 100m
-  logging:
-    level: "default:info"
-  pilotCertProvider: kubernetes
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: empty
+  tag: 1.8.0-alpha.2
+  namespace: httpbin
+  components:
+    egressGateways:
+    - name: httpbin-egress
+      enabled: true
+      label:
+        app: istio-egressgateway
+        istio: egressgateway
+        custom-egress: httpbin-egress
+      k8s:
+        overlays:
+        - kind: Deployment
+          name: httpbin-egress
+          patches:
+          - path: spec.template.spec.containers[0].readinessProbe
+            value:
+              failureThreshold: 30
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - curl http://localhost:15021/healthz/ready && curl https://httpbin.org/status/200
+              initialDelaySeconds: 1
+              periodSeconds: 2
+              successThreshold: 1
+              timeoutSeconds: 1
+  values:
+    gateways:
+      istio-egressgateway:
+        runAsRoot: true
 {{< /text >}}
+
+{{< tip >}}
+Notice the block under `overlays`. You are patching the default `egressgateway` to deploy only that component with the new `readinessProbe`
+{{< /tip >}}
 
 Create a `namespace` where you will install the `Egress Gateway`
 
@@ -251,17 +216,13 @@ Remember that we assume *namespace = httpbin*)
 $ kubectl create ns httpbin
 {{< /text >}}
 
-Install the chart in the cluster
-
-{{< tip >}}
-Remember that we assume *service name = httpbin-egress*):
-{{< /tip >}}
+As it is described in the [documentation](/docs/setup/install/istioctl/#customize-kubernetes-settings), you can deployed several `IstioOperator` resources. However, they have to be pre-parsed and then applied to the cluster.
 
 {{< text bash >}}
-$ helm install httpbin-egress -n httpbin <path-to-chart> -f <path-to-values-file>
+$ istioctl manifest generate -f <path-to-egress-file> | kubectl apply -f -
 {{< /text >}}
 
-Where `<path-to-chart>` is the path where you have copied the helm chart from the repository and `<path-to-values-file>` is the sample values you have downloaded
+Where `<path-to-egress-file>` is the path where you have saved the new `IstioOperator` CR.
 
 ### Istio configuration
 
@@ -488,7 +449,7 @@ $ kubectl -n istio-system port-forward svc/istio-ingressgateway 15443:443
 {{< /text >}}
 
 {{< text bash >}}
-$ curl -v -HHost:<my-hostname> --resolve "<my-hostname>:15443:127.0.0.1" --cacert example.com.crt "https://<my-hostname>:15443/status/200"
+$ curl -vvv -k -HHost:<my-hostname> --resolve "<my-hostname>:15443:127.0.0.1" --cacert example.com.crt "https://<my-hostname>:15443/status/200"
 {{< /text >}}
 
 Where `<my-hostname>` is the hostname to access through the `my-ingressgateway` and `example.com.crt` is the certificate defined for the `ingressgateway` object. This is due to `tls.mode: SIMPLE` which [does not terminate TLS](/docs/tasks/traffic-management/ingress/secure-ingress/)
@@ -502,7 +463,7 @@ $ kubectl label namespace httpbin istio-injection=enabled --overwrite
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl apply -n httpbin -f  {{< github_file >}}/1.7.0/samples/sleep/sleep.yaml
+$ kubectl apply -n httpbin -f  {{< github_file >}}/1.8.0/samples/sleep/sleep.yaml
 {{< /text >}}
 
 {{< text bash >}}
