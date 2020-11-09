@@ -59,9 +59,9 @@ can be found in the `bin/` subdirectory of the downloaded package.
     then you must provide the same `-f` flag value to the `istioctl upgrade` command.
     {{< /warning >}}
 
-    If you installed Istio using the `--set` command, create a configuration file with
-    the equivalent configuration options and pass it to the `istioctl upgrade`
-    command using the `-f` flag instead.
+    If you installed Istio using `--set` flags, ensure that you pass the same `--set` flags to upgrade,
+    otherwise the customizations done with `--set` will be reverted. For production use, the use of a
+    configuration file instead of `--set` is recommended.
 
     If you omit the `-f` flag, Istio upgrades using the default profile.
 
