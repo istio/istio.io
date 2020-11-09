@@ -14,21 +14,14 @@
 package setupconfig
 
 import (
-	"os"
 	"testing"
 
-	"istio.io/istio.io/pkg/test/istioio"
 	"istio.io/istio/pkg/test/framework"
-)
 
-var (
-	setupSpec = "profile=none"
+	"istio.io/istio.io/pkg/test/istioio"
 )
 
 func TestMain(m *testing.M) {
-	if !istioio.NeedSetup(setupSpec) {
-		os.Exit(0)
-	}
 	framework.NewSuite(m).
 		RequireSingleCluster().
 		Run()
@@ -37,5 +30,5 @@ func TestMain(m *testing.M) {
 func TestDocs(t *testing.T) {
 	framework.
 		NewTest(t).
-		Run(istioio.NewTestDocsFunc(setupSpec))
+		Run(istioio.NewTestDocsFunc("profile=none"))
 }

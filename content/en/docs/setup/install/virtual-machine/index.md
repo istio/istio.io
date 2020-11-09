@@ -54,10 +54,14 @@ Install Istio and expose the control plane so that your virtual machine can acce
     $ istioctl install
     {{< /text >}}
 
+    {{< tip >}}
+    To enable experimental [VM auto-registration](/docs/examples/virtual-machines/autoregistration): `istioctl install --set values.global.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true`.
+    {{< /tip >}}
+
 1. Expose the control plane using the provided sample configuration.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/istiod-gateway/istiod-gateway.yaml@
+    $ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
     {{< /text >}}
 
 ## Configure the VM namespace
@@ -99,7 +103,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     $ echo ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR > "${WORK_DIR}"/cluster.env
     {{< /text >}}
 
-1. Optionally configure configure a select set of ports for exposure from the
+1. Optionally configure a select set of ports for exposure from the
    virtual machine. If you do not apply this optional step, all outbound traffic
    on all ports is sent to the Kubernetes cluster. You may wish to send some
    traffic on specific ports to other destinations. This example shows enabling
@@ -132,6 +136,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     $ touch "${WORK_DIR}"/sidecar.env
     $ echo "PROV_CERT=/var/run/secrets/istio" >>"${WORK_DIR}"/sidecar.env
     $ echo "OUTPUT_CERTS=/var/run/secrets/istio" >> "${WORK_DIR}"/sidecar.env
+    $ echo "ISTIO_NAMESPACE=${VM_NAMESPACE}" >> "${WORK_DIR}"/sidecar.env
     {{< /text >}}
 
 ## Configure the virtual machine
@@ -193,12 +198,6 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo sh -c 'cat $(eval echo ~$SUDO_USER)/hosts-addendum >> /etc/hosts'
     {{< /text >}}
 
-1. Install the root certificate in the directory `/var/run/secrets/istio`
-
-    {{< text bash >}}
-    $ sudo cp "${HOME}"/root-cert.pem /var/run/secrets/istio/root-cert.pem
-    {{< /text >}}
-
 1. Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy:
 
     {{< text bash >}}
@@ -249,7 +248,7 @@ Then, remove the Istio-sidecar package:
 To uninstall Istio, run the following command:
 
 {{< text bash >}}
-$ kubectl delete -f @samples/istiod-gateway/istiod-gateway.yaml@
+$ kubectl delete -f @samples/multicluster/expose-istiod.yaml@
 $ istioctl manifest generate | kubectl delete -f -
 {{< /text >}}
 

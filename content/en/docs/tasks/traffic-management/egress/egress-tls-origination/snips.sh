@@ -49,25 +49,6 @@ spec:
     name: https-port
     protocol: HTTPS
   resolution: DNS
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: edition-cnn-com
-spec:
-  hosts:
-  - edition.cnn.com
-  tls:
-  - match:
-    - port: 443
-      sniHosts:
-      - edition.cnn.com
-    route:
-    - destination:
-        host: edition.cnn.com
-        port:
-          number: 443
-      weight: 100
 EOF
 }
 
@@ -88,21 +69,21 @@ ENDSNIP
 snip_apply_origination() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
+kind: ServiceEntry
 metadata:
   name: edition-cnn-com
 spec:
   hosts:
   - edition.cnn.com
-  http:
-  - match:
-    - port: 80
-    route:
-    - destination:
-        host: edition.cnn.com
-        subset: tls-origination
-        port:
-          number: 443
+  ports:
+  - number: 80
+    name: http-port
+    protocol: HTTP
+    targetPort: 443
+  - number: 443
+    name: https-port
+    protocol: HTTPS
+  resolution: DNS
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -110,16 +91,12 @@ metadata:
   name: edition-cnn-com
 spec:
   host: edition.cnn.com
-  subsets:
-  - name: tls-origination
-    trafficPolicy:
-      loadBalancer:
-        simple: ROUND_ROBIN
-      portLevelSettings:
-      - port:
-          number: 443
-        tls:
-          mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
+  trafficPolicy:
+    portLevelSettings:
+    - port:
+        number: 80
+      tls:
+        mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
 EOF
 }
 
@@ -143,7 +120,6 @@ ENDSNIP
 
 snip_cleanup_1() {
 kubectl delete serviceentry edition-cnn-com
-kubectl delete virtualservice edition-cnn-com
 kubectl delete destinationrule edition-cnn-com
 }
 

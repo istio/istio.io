@@ -9,9 +9,9 @@ aliases:
   - /docs/examples/advanced-gateways/egress-tls-origination/
 ---
 
-The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external, i.e., outside of the
-service mesh, HTTP and HTTPS services can be accessed from applications inside the mesh. As described in that task,
-a [`ServiceEntry`](/docs/reference/config/networking/service-entry/) is used to configure Istio
+The [Accessing External Services](/docs/tasks/traffic-management/egress/egress-control) task demonstrates how external,
+i.e., outside of the service mesh, HTTP and HTTPS services can be accessed from applications inside the mesh. As described
+in that task, a [`ServiceEntry`](/docs/reference/config/networking/service-entry/) is used to configure Istio
 to access external services in a controlled way.
 This example shows how to configure Istio to perform {{< gloss >}}TLS origination{{< /gloss >}}
 for traffic to an external service. Istio will open HTTPS connections to the external service while the original
@@ -57,10 +57,10 @@ is that Istio can produce better telemetry and provide more routing control for 
 ## Configuring access to an external service
 
 First start by configuring access to an external service, `edition.cnn.com`,
-using the same technique shown in the [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task.
+using the same technique shown in the [Accessing External Services](/docs/tasks/traffic-management/egress/egress-control) task.
 This time, however, use a single `ServiceEntry` to enable both HTTP and HTTPS access to the service.
 
-1.  Create a `ServiceEntry` and `VirtualService` to enable access to `edition.cnn.com`:
+1.  Create a `ServiceEntry` to enable access to `edition.cnn.com`:
 
     {{< text syntax=bash snip_id=apply_simple >}}
     $ kubectl apply -f - <<EOF
@@ -79,25 +79,6 @@ This time, however, use a single `ServiceEntry` to enable both HTTP and HTTPS ac
         name: https-port
         protocol: HTTPS
       resolution: DNS
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: edition-cnn-com
-    spec:
-      hosts:
-      - edition.cnn.com
-      tls:
-      - match:
-        - port: 443
-          sniHosts:
-          - edition.cnn.com
-        route:
-        - destination:
-            host: edition.cnn.com
-            port:
-              number: 443
-          weight: 100
     EOF
     {{< /text >}}
 
@@ -133,27 +114,27 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
 
 ## TLS origination for egress traffic
 
-1.  Redefine your `VirtualService` from the previous section to rewrite the HTTP request port
-    and add a `DestinationRule` to perform TLS origination.
+1.  Redefine your `ServiceEntry` from the previous section to redirect HTTP requests to port 443
+    and add a `DestinationRule` to perform TLS origination:
 
     {{< text syntax=bash snip_id=apply_origination >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
+    kind: ServiceEntry
     metadata:
       name: edition-cnn-com
     spec:
       hosts:
       - edition.cnn.com
-      http:
-      - match:
-        - port: 80
-        route:
-        - destination:
-            host: edition.cnn.com
-            subset: tls-origination
-            port:
-              number: 443
+      ports:
+      - number: 80
+        name: http-port
+        protocol: HTTP
+        targetPort: 443
+      - number: 443
+        name: https-port
+        protocol: HTTPS
+      resolution: DNS
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -161,21 +142,17 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
       name: edition-cnn-com
     spec:
       host: edition.cnn.com
-      subsets:
-      - name: tls-origination
-        trafficPolicy:
-          loadBalancer:
-            simple: ROUND_ROBIN
-          portLevelSettings:
-          - port:
-              number: 443
-            tls:
-              mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
+      trafficPolicy:
+        portLevelSettings:
+        - port:
+            number: 80
+          tls:
+            mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
     EOF
     {{< /text >}}
 
-    As you can see, the `VirtualService` redirects HTTP requests on port 80 to port 443 where the corresponding
-    `DestinationRule` then performs the TLS origination.
+    The above `DestinationRule` will perform TLS origination for HTTP requests on port 80 and the `ServiceEntry`
+    will then redirect the requests on port 80 to target port 443.
 
 1. Send an HTTP request to `http://edition.cnn.com/politics`, as in the previous section:
 
@@ -223,7 +200,6 @@ topics and articles but does not prevent an attackers from learning that `editio
 
     {{< text bash >}}
     $ kubectl delete serviceentry edition-cnn-com
-    $ kubectl delete virtualservice edition-cnn-com
     $ kubectl delete destinationrule edition-cnn-com
     {{< /text >}}
 

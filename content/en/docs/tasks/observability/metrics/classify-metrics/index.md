@@ -66,7 +66,7 @@ spec:
     match:
       context: SIDECAR_INBOUND
       proxy:
-        proxyVersion: '1\.6.*'
+        proxyVersion: '1\.8.*'
       listener:
         filterChain:
           filter:
@@ -82,7 +82,9 @@ spec:
           type_url: type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm
           value:
             config:
-              configuration: |
+              configuration:
+                "@type": type.googleapis.com/google.protobuf.StringValue
+                value: |
                 {
                   "attributes": [
                     {
@@ -116,22 +118,22 @@ spec:
     $ kubectl -n istio-system apply -f attribute_gen_service.yaml
     {{< /text >}}
 
-1. Find the `stats-filter-1.6` `EnvoyFilter` resource from the `istio-system`
+1. Find the `stats-filter-1.8` `EnvoyFilter` resource from the `istio-system`
    namespace, using the following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system get envoyfilter | grep ^stats-filter-1.6
-    stats-filter-1.6                    2d
+    $ kubectl -n istio-system get envoyfilter | grep ^stats-filter-1.8
+    stats-filter-1.8                    2d
     {{< /text >}}
 
 1. Create a local file system copy of the `EnvoyFilter` configuration, using the
    following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system get envoyfilter stats-filter-1.6 -o yaml > stats-filter-1.6.yaml
+    $ kubectl -n istio-system get envoyfilter stats-filter-1.8 -o yaml > stats-filter-1.8.yaml
     {{< /text >}}
 
-1. Open `stats-filter-1.6.yaml` with a text editor and locate the
+1. Open `stats-filter-1.8.yaml` with a text editor and locate the
    `name: istio.stats` extension configuration. Update it to map `request_operation`
    dimension in the `requests_total` standard metric to `istio_operationId` attribute.
    The updated configuration file section should look like the following.
@@ -143,10 +145,10 @@ spec:
           type_url: type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm
           value:
             config:
-              configuration: >
+              configuration:
+                "@type": type.googleapis.com/google.protobuf.StringValue
+                value: |
                 {
-                  "debug": "true",
-                  "stat_prefix": "istio",
                   "metrics": [
                    {
                      "name": "requests_total",
@@ -157,10 +159,10 @@ spec:
                 }
     {{< /text >}}
 
-1. Save `stats-filter-1.6.yaml` and then apply the configuration using the following command:
+1. Save `stats-filter-1.8.yaml` and then apply the configuration using the following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system apply -f stats-filter-1.6.yaml
+    $ kubectl -n istio-system apply -f stats-filter-1.8.yaml
     {{< /text >}}
 
 1. Generate metrics by sending traffic to your application.
@@ -194,7 +196,7 @@ spec:
     match:
       context: SIDECAR_INBOUND
       proxy:
-        proxyVersion: '1\.6.*'
+        proxyVersion: '1\.8.*'
       listener:
         filterChain:
           filter:
@@ -210,7 +212,9 @@ spec:
           type_url: type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm
           value:
             config:
-              configuration: >
+              configuration:
+                "@type": type.googleapis.com/google.protobuf.StringValue
+                value: |
                 {
                   "attributes": [
                     {
@@ -260,22 +264,22 @@ spec:
     $ kubectl -n istio-system apply -f attribute_gen_service.yaml
     {{< /text >}}
 
-1. Find the `stats-filter-1.6` `EnvoyFilter` resource from the `istio-system`
+1. Find the `stats-filter-1.8` `EnvoyFilter` resource from the `istio-system`
    namespace, using the following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system get envoyfilter | grep ^stats-filter-1.6
-    stats-filter-1.6                    2d
+    $ kubectl -n istio-system get envoyfilter | grep ^stats-filter-1.8
+    stats-filter-1.8                    2d
     {{< /text >}}
 
 1. Create a local file system copy of the `EnvoyFilter` configuration, using the
    following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system get envoyfilter stats-filter-1.6 -o yaml > stats-filter-1.6.yaml
+    $ kubectl -n istio-system get envoyfilter stats-filter-1.8 -o yaml > stats-filter-1.8.yaml
     {{< /text >}}
 
-1. Open `stats-filter-1.6.yaml` with a text editor and locate the
+1. Open `stats-filter-1.8.yaml` with a text editor and locate the
    `name: istio.stats` extension configuration. Update it to map `response_code`
    dimension in the `requests_total` standard metric to `istio_responseClass` attribute.
    The updated configuration file section should look like the following.
@@ -287,10 +291,10 @@ spec:
           type_url: type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm
           value:
             config:
-              configuration: >
+              configuration:
+                "@type": type.googleapis.com/google.protobuf.StringValue
+                value: |
                 {
-                  "debug": "true",
-                  "stat_prefix": "istio",
                   "metrics": [
                    {
                      "name": "requests_total",
@@ -301,10 +305,10 @@ spec:
                 }
     {{< /text >}}
 
-1. Save `stats-filter-1.6.yaml` and then apply the configuration using the following command:
+1. Save `stats-filter-1.8.yaml` and then apply the configuration using the following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system apply -f stats-filter-1.6.yaml
+    $ kubectl -n istio-system apply -f stats-filter-1.8.yaml
     {{< /text >}}
 
 ## Verify the results

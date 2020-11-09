@@ -57,7 +57,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Client and Server Telemetry Reporting](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/) | Stable
 | [Service Dashboard in Grafana](/docs/tasks/observability/metrics/using-istio-dashboard/) | Stable
 | [Distributed Tracing](/docs/tasks/observability/distributed-tracing/) | Stable
-| [Stackdriver Integration - BETTER LINK NEEDED](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/adapters/) | Stable
+| [Stackdriver Integration](/docs/reference/config/proxy_extensions/stackdriver/) | Stable
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/observability/distributed-tracing/) | Beta
 | [Trace Sampling](/docs/tasks/observability/distributed-tracing/configurability/#trace-sampling) | Beta
 
@@ -83,14 +83,14 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/) | Stable
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/) | Stable
 | [Attribute Expression Language](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/expression-language/) | Stable
-| Mixer Out-of-Process Adapter Authoring Model | Beta
+| Mixer Out-of-Process Adapter Authoring Model | deprecated
 | [Multicluster Mesh](/docs/setup/install/multicluster/) | Alpha
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/) | Beta
 | Consul Integration | Alpha
 | Basic Configuration Resource Validation | Beta
 | Configuration Processing with Galley | Beta
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | deprecated
-| [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Beta
+| [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | deprecated
 | [Istio CNI plugin](/docs/setup/additional-setup/cni/) | Alpha
 | IPv6 support for Kubernetes | Alpha. Dual-stack IPv4 and IPv6 is not supported.
 | [Distroless base images for Istio](/docs/ops/configuration/security/harden-docker-images/) | Alpha

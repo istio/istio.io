@@ -20,6 +20,7 @@ For more information, refer to the [authorization concept page](/docs/concepts/s
 |------|-------------|--------------------|---------|
 | `request.headers` | HTTP request headers. The actual header name is surrounded by brackets | HTTP only | `key: request.headers[User-Agent]`<br/>`values: ["Mozilla/*"]` |
 | `source.ip`  | Source workload instance IP address, supports single IP or CIDR | HTTP and TCP | `key: source.ip`<br/>`values: ["10.1.2.3"]` |
+| `remote.ip`  | Original client IP address as determined by X-Forwarded-For header or Proxy Protocol, supports single IP or CIDR | HTTP and TCP | `key: remote.ip`<br />`values: ["10.1.2.3"]` |
 | `source.namespace`  | Source workload instance namespace, requires mutual TLS enabled | HTTP and TCP | `key: source.namespace`<br/>`values: ["default"]` |
 | `source.principal` | The identity of the source workload, requires mutual TLS enabled | HTTP and TCP | `key: source.principal`<br/>`values: ["cluster.local/ns/default/sa/productpage"]` |
 | `request.auth.principal` | The authenticated principal of the request. | HTTP only | `key: request.auth.principal`<br/>`values: ["accounts.my-svc.com/104958560606"]` |

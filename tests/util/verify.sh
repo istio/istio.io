@@ -108,7 +108,10 @@ __cmp_first_line() {
 #   2. Same number of whitespace-seperated tokens per line
 #   3. Tokens can only differ in the following ways:
 #        - different elapsed time values
-#        - different ip values
+#        - different ip values. Disallows <none> and <pending> by
+#          default. This can be customized by setting the
+#          CMP_MATCH_IP_NONE and CMP_MATCH_IP_PENDING environment
+#          variables, respectively.
 #        - prefix match ending with a dash character
 #        - expected ... is a wildcard token, matches anything
 # Otherwise, returns 1.
@@ -163,8 +166,22 @@ __cmp_like() {
                     continue
                 fi
 
-                if [[ ("$otok" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ || "$otok" == "<none>" || "$otok" == "<pending>") && "$etok" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-                    continue
+                if [[ "$etok" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+                    # We're expecting an IP address...
+                    if [[ "$otok" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+                      # We got an IP address. It's a match.
+                      continue
+                    fi
+
+                    if [[ "$otok" == "<pending>" && "${CMP_MATCH_IP_PENDING:-false}" == "true" ]]; then
+                      # We're configured to allow <pending>. Consider this a match.
+                      continue
+                    fi
+
+                    if [[ "$otok" == "<none>" && "${CMP_MATCH_IP_NONE:-false}" == "true" ]]; then
+                      # We're configured to allow <none>. Consider this a match.
+                      continue
+                    fi
                 fi
 
                 local comm=""
@@ -213,16 +230,23 @@ __cmp_lines() {
 }
 
 # Verify the output of $func is the same as $expected.  If they are not the same,
-# exponentially back off and try again, 7 times (~2m total) by default. The number
-# of retries can be changed by setting the VERIFY_RETRIES environment variable.
+# retry every second, up to 2 minutes by default. The delay between retries as
+# well as the timeout can be configured by setting the VERIFY_DELAY and
+# VERIFY_TIMEOUT environment variables, respectively.
 __verify_with_retry() {
     local cmp_func=$1
     local func=$2
     local expected=$3
     local failonerr=${4:-}
 
-    local max_attempts=${VERIFY_RETRIES:-7}
-    local attempt=1
+    local max_time=${VERIFY_TIMEOUT:-120} # Default to 2 min.
+    local delay=${VERIFY_DELAY:-1} # Default time between retries.
+
+    local start_time
+    start_time=$(date +%s)
+    local end_time
+    end_time=$((start_time + max_time))
+    local current_time=$start_time
 
     # Most tests include "set -e", which causes the script to exit if a
     # statement returns a non-true return value.  In some cases, $func may
@@ -251,14 +275,14 @@ __verify_with_retry() {
             fi
         fi
 
-        if (( attempt >= max_attempts )); then
+        current_time=$(date +%s)
+        if (( current_time > end_time )); then
             # Restore the "errexit" state.
             eval "$errexit_state"
-            __err_exit "$func" "$out" "$expected"
+            __err_exit "$func (timeout after ${max_time}s)" "$out" "$expected"
         fi
 
-        sleep $(( 2 ** attempt ))
-        attempt=$(( attempt + 1 ))
+        sleep "${delay}"
     done
 }
 
@@ -313,6 +337,8 @@ __create_cluster_snapshots() {
 }
 
 __cluster_cleanup_check() {
+    VERIFY_TIMEOUT=${VERIFY_TIMEOUT:-300}
+
     # Get the list of KUBECONFIG files as an array.
     IFS=':' read -r -a KFILES <<< "${KUBECONFIG}"
     for KFILE in "${KFILES[@]}"; do
@@ -330,7 +356,6 @@ __cluster_cleanup_check() {
         rm "${SNAPSHOT_FILE}"
 
         # Verify that we've restored the original cluster state.
-        VERIFY_RETRIES=9
         (KUBECONFIG="${KFILE}"; _verify_like __cluster_state "${SNAPSHOT}")
         echo "Finished cleanup check against snapshot ${SNAPSHOT_FILE}"
     done
@@ -341,8 +366,9 @@ __cluster_cleanup_check() {
 
 
 # Runs $func and compares the output with $expected.  If they are not the same,
-# exponentially back off and try again, 7 times by default. The number of retries
-# can be changed by setting the VERIFY_RETRIES environment variable.
+# wait a second and try again, up to two minutes by default. The retry behavior
+# can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+# variables.
 _verify_same() {
     local func=$1
     local expected=$2
@@ -351,8 +377,9 @@ _verify_same() {
 
 # Runs $func and compares the output with $expected.  If the output does not
 # contain the substring $expected,
-# exponentially back off and try again, 7 times by default. The number of retries
-# can be changed by setting the VERIFY_RETRIES environment variable.
+# wait a second and try again, up to two minutes by default. The retry behavior
+# can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+# variables.
 _verify_contains() {
     local func=$1
     local expected=$2
@@ -361,8 +388,9 @@ _verify_contains() {
 
 # Runs $func and compares the output with $expected.  If the output contains the
 # substring $expected,
-# exponentially back off and try again, 7 times by default. The number of retries
-# can be changed by setting the VERIFY_RETRIES environment variable.
+# wait a second and try again, up to two minutes by default. The retry behavior
+# can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+# variables.
 _verify_not_contains() {
     local func=$1
     local expected=$2
@@ -374,8 +402,9 @@ _verify_not_contains() {
 # Runs $func and compares the output with $expected.  If the output does not
 # contain the lines in $expected where "..." on a line matches one or more lines
 # containing any text,
-# exponentially back off and try again, 7 times by default. The number of retries
-# can be changed by setting the VERIFY_RETRIES environment variable.
+# wait a second and try again, up to two minutes by default. The retry behavior
+# can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+# variables.
 _verify_elided() {
     local func=$1
     local expected=$2
@@ -384,8 +413,9 @@ _verify_elided() {
 
 # Runs $func and compares the output with $expected.  If the first line of
 # output does not match the first line in $expected,
-# exponentially back off and try again, 7 times by default. The number of retries
-# can be changed by setting the VERIFY_RETRIES environment variable.
+# wait a second and try again, up to two minutes by default. The retry behavior
+# can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+# variables.
 _verify_first_line() {
     local func=$1
     local expected=$2
@@ -394,14 +424,18 @@ _verify_first_line() {
 
 # Runs $func and compares the output with $expected.  If the output is not
 # "like" $expected,
-# exponentially back off and try again, 7 times by default. The number of retries
-# can be changed by setting the VERIFY_RETRIES environment variable.
+# wait a second and try again, up to two minutes by default. The retry behavior
+# can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+# variables.
 # Like implies:
 #   1. Same number of lines
 #   2. Same number of whitespace-seperated tokens per line
 #   3. Tokens can only differ in the following ways:
 #        - different elapsed time values
-#        - different ip values
+#        - different ip values. Disallows <none> and <pending> by
+#          default. This can be customized by setting the
+#          CMP_MATCH_IP_NONE and CMP_MATCH_IP_PENDING environment
+#          variables, respectively.
 #        - prefix match ending with a dash character
 #        - expected ... is a wildcard token, matches anything
 _verify_like() {
@@ -412,8 +446,9 @@ _verify_like() {
 
 # Runs $func and compares the output with $expected.  If the output does not
 # "conform to" the specification in $expected,
-# exponentially back off and try again, 7 times by default. The number of retries
-# can be changed by setting the VERIFY_RETRIES environment variable.
+# wait a second and try again, up to two minutes by default. The retry behavior
+# can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+# variables.
 # Conformance implies:
 #   1. For each line in $expected with the prefix "+ " there must be at least one
 #      line in the output containing the following string.

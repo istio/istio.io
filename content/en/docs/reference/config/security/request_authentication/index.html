@@ -113,7 +113,7 @@ spec:
        requestPrincipals: [&quot;*&quot;]
  - to:
    - operation:
-       paths: [&quot;/healthz]
+       paths: [&quot;/healthz&quot;]
 </code></pre>
 
 <table class="message-fields">
@@ -128,7 +128,7 @@ spec:
 <tbody>
 <tr id="RequestAuthentication-selector">
 <td><code>selector</code></td>
-<td><code><a href="/docs/reference/config/networking/sidecar/#WorkloadSelector">WorkloadSelector</a></code></td>
+<td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
 <p>The selector determines the workloads to apply the RequestAuthentication on.
 If not set, the policy will be applied to all workloads in the same namespace as the policy.</p>

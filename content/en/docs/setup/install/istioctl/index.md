@@ -59,10 +59,33 @@ Various settings can be configured to modify the installations. For example, to 
 $ istioctl install --set meshConfig.accessLogFile=/dev/stdout
 {{< /text >}}
 
+{{< tip >}}
+Many of the examples on this page and elsewhere in the documentation are written using `--set` to modify installation
+parameters, rather than passing a configuration file with `-f`. This is done to make the examples more compact.
+The two methods are equivalent, but `-f` is strongly recommended for production. The above command would be written as
+follows using `-f`:
+
+{{< text yaml >}}
+# my-config.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    accessLogFile: /dev/stdout
+{{< /text >}}
+
+{{< text bash >}}
+$ istioctl install -f my-config.yaml
+{{< /text >}}
+
+{{< /tip >}}
+
+{{< tip >}}
+The full API is documented in the [`IstioOperator` API reference](/docs/reference/config/istio.operator.v1alpha1/).
 In general, you can use the `--set` flag in `istioctl` as you would with
-Helm. The only difference is you must
-prefix the setting paths with `values.` because this is the path to the Helm pass-through API in the
-[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/).
+Helm, and the Helm `values.yaml` API is currently supported for backwards compatibility. The only difference is you must
+prefix the legacy `values.yaml` paths with `values.` because this is the prefix for the Helm pass-through API.
+{{< /tip >}}
 
 ## Install from external charts
 
@@ -120,12 +143,13 @@ accessible to `istioctl` by using this command:
 {{< text bash >}}
 $ istioctl profile list
 Istio configuration profiles:
-    minimal
-    preview
-    remote
     default
     demo
     empty
+    minimal
+    openshift
+    preview
+    remote
 {{< /text >}}
 
 ## Display the configuration of a profile
@@ -244,7 +268,7 @@ customized install using these commands:
 
 {{< text bash >}}
 $ istioctl manifest generate > 1.yaml
-$ istioctl manifest generate -f samples/operator/pilot-k8s.yaml > 2.yaml
+$ istioctl manifest generate -f operator/samples/pilot-k8s.yaml > 2.yaml
 $ istioctl manifest diff 1.yaml 2.yaml
 Differences of manifests are:
 
@@ -308,7 +332,7 @@ Alternatively, the `IstioOperator` configuration can be specified in a YAML file
 `istioctl` using the `-f` option:
 
 {{< text bash >}}
-$ istioctl install -f samples/operator/pilot-k8s.yaml
+$ istioctl install -f operator/samples/pilot-k8s.yaml
 {{< /text >}}
 
 {{< tip >}}
@@ -340,108 +364,21 @@ The `IstioOperator` API defines components as shown in the table below:
 `cni` |
 `istiodRemote` |
 
-### Configure component settings
-
-After you identify the name of the component from the previous table, you can use the API to set the values
-using the `--set` flag, or create an overlay file and use the `--filename` flag. The `--set` flag
-works well for customizing a few parameters. Overlay files are designed for more extensive customization, or
-tracking configuration changes.
-
-The simplest customization is to turn a component on or off from the configuration profile default.
-
-To disable the telemetry component in a default configuration profile, use this command:
-
-{{< text bash >}}
-$ istioctl install --set components.telemetry.enabled=false
-{{< /text >}}
-
-Alternatively, you can disable the telemetry component using a configuration overlay file:
-
-1. Create this file with the name `telemetry_off.yaml` and these contents:
+The configurable settings for each of these components are available in the API under `components.<component name>`.
+For example, to use the API to change (to false) the `enabled` setting for the `pilot` component, use
+`--set components.pilot.enabled=false` or set it in an `IstioOperator` resource like this:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   components:
-    telemetry:
+    pilot:
       enabled: false
 {{< /text >}}
 
-1. Use the `telemetry_off.yaml` overlay file with the `istioctl install` command:
-
-{{< text bash >}}
-$ istioctl install -f telemetry_off.yaml
-{{< /text >}}
-
-### Configure gateways
-
-Gateways are a special type of component, since multiple ingress and egress gateways can be defined. In the
-[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/), gateways are defined as a list type.
-The `default` profile installs one ingress gateway, called `istio-ingressgateway`. You can inspect the default values
-for this gateway:
-
-{{< text bash >}}
-$ istioctl profile dump --config-path components.ingressGateways
-$ istioctl profile dump --config-path values.gateways.istio-ingressgateway
-{{< /text >}}
-
-These commands show both the `IstioOperator` and Helm settings for the gateway, which are used together to define the
-generated gateway resources. The built-in gateways can be customized just like any other component.
-
-{{< warning >}}
-From 1.7 onward, the gateway name must always be specified when overlaying. Not specifying any name no longer
-defaults to `istio-ingressgateway` or `istio-egressgateway`.
-{{< /warning >}}
-
-A new user gateway can be created by adding a new list entry:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  components:
-    ingressGateways:
-      - name: istio-ingressgateway
-        enabled: true
-      - namespace: user-ingressgateway-ns
-        name: ilb-gateway
-        enabled: true
-        k8s:
-          resources:
-            requests:
-              cpu: 200m
-          serviceAnnotations:
-            cloud.google.com/load-balancer-type: "internal"
-          service:
-            ports:
-            - port: 8060
-              targetPort: 8060
-              name: tcp-citadel-grpc-tls
-            - port: 5353
-              name: tcp-dns
-{{< /text >}}
-
-Note that Helm values (`spec.values.gateways.istio-ingressgateway/egressgateway`) are shared by all ingress/egress
-gateways. If these must be customized per gateway, it is recommended to use a separate IstioOperator CR to generate
-a manifest for the user gateways, separate from the main Istio installation:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  profile: empty
-  components:
-    ingressGateways:
-      - name: ilb-gateway
-        namespace: user-ingressgateway-ns
-        enabled: true
-        # Copy settings from istio-ingressgateway as needed.
-  values:
-    gateways:
-      istio-ingressgateway:
-        debug: error
-{{< /text >}}
+All of the components also share a common API for changing Kubernetes-specific settings, under
+`components.<component name>.k8s`, as described in the following section.
 
 ### Customize Kubernetes settings
 
@@ -523,6 +460,75 @@ spec:
 Some parameters will temporarily exist in both the Helm and `IstioOperator` APIs, including Kubernetes resources,
 namespaces and enablement settings. The Istio community recommends using the `IstioOperator` API as it is more
 consistent, is validated, and follows the [community graduation process](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
+
+### Configure gateways
+
+Gateways are a special type of component, since multiple ingress and egress gateways can be defined. In the
+[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/), gateways are defined as a list type.
+The `default` profile installs one ingress gateway, called `istio-ingressgateway`. You can inspect the default values
+for this gateway:
+
+{{< text bash >}}
+$ istioctl profile dump --config-path components.ingressGateways
+$ istioctl profile dump --config-path values.gateways.istio-ingressgateway
+{{< /text >}}
+
+These commands show both the `IstioOperator` and Helm settings for the gateway, which are used together to define the
+generated gateway resources. The built-in gateways can be customized just like any other component.
+
+{{< warning >}}
+From 1.7 onward, the gateway name must always be specified when overlaying. Not specifying any name no longer
+defaults to `istio-ingressgateway` or `istio-egressgateway`.
+{{< /warning >}}
+
+A new user gateway can be created by adding a new list entry:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  components:
+    ingressGateways:
+      - name: istio-ingressgateway
+        enabled: true
+      - namespace: user-ingressgateway-ns
+        name: ilb-gateway
+        enabled: true
+        k8s:
+          resources:
+            requests:
+              cpu: 200m
+          serviceAnnotations:
+            cloud.google.com/load-balancer-type: "internal"
+          service:
+            ports:
+            - port: 8060
+              targetPort: 8060
+              name: tcp-citadel-grpc-tls
+            - port: 5353
+              name: tcp-dns
+{{< /text >}}
+
+Note that Helm values (`spec.values.gateways.istio-ingressgateway/egressgateway`) are shared by all ingress/egress
+gateways. If these must be customized per gateway, it is recommended to use a separate IstioOperator CR to generate
+a manifest for the user gateways, separate from the main Istio installation:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: empty
+  components:
+    ingressGateways:
+      - name: ilb-gateway
+        namespace: user-ingressgateway-ns
+        enabled: true
+        # Copy settings from istio-ingressgateway as needed.
+  values:
+    gateways:
+      istio-ingressgateway:
+        debug: error
+{{< /text >}}
 
 ## Advanced install customization
 

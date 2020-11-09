@@ -18,7 +18,7 @@ advanced [deployment models](/docs/ops/deployment/deployment-models/), see
 instead.
 
 These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
-compatible version of Kubernetes. You can use any supported platform, for
+compatible version of Kubernetes ({{< supported_kubernetes_versions >}}). You can use any supported platform, for
 example [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or
 others specified by the
 [platform-specific setup instructions](/docs/setup/platform-setup/).
@@ -87,6 +87,12 @@ Follow these steps to get started with Istio:
     ✔ Ingress gateways installed
     ✔ Installation complete
     {{< /text >}}
+
+    {{< warning >}}
+    If your platform has a custom demonstration profile, e.g., Openshift, use
+    it in the following command, instead of the `demo` profile. Refer to your
+    [platform instructions](/docs/setup/platform-setup/) for details.
+    {{< /warning >}}
 
 1.  Add a namespace label to instruct Istio to automatically inject Envoy
     sidecar proxies when you deploy your application later:
@@ -353,7 +359,9 @@ Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kial
 
     {{< text bash >}}
     $ kubectl apply -f @samples/addons@
-    $ while ! kubectl wait --for=condition=available --timeout=600s deployment/kiali -n istio-system; do sleep 1; done
+    $ kubectl rollout status deployment/kiali -n istio-system
+    Waiting for deployment "kiali" rollout to finish: 0 of 1 updated replicas are available...
+    deployment "kiali" successfully rolled out
     {{< /text >}}
 
     {{< tip >}}

@@ -26,13 +26,17 @@ enable Istio on all the remaining microservices in one step.
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app!=reviews -f -
     $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app=reviews,version=v2 -f -
-    service "details" unchanged
-    deployment "details-v1" configured
-    service "ratings" unchanged
-    deployment "ratings-v1" configured
-    service "productpage" unchanged
-    deployment "productpage-v1" configured
-    deployment "reviews-v2" configured
+    service/details unchanged
+    serviceaccount/bookinfo-details unchanged
+    deployment.apps/details-v1 configured
+    service/ratings unchanged
+    serviceaccount/bookinfo-ratings unchanged
+    deployment.apps/ratings-v1 configured
+    serviceaccount/bookinfo-reviews unchanged
+    service/productpage unchanged
+    serviceaccount/bookinfo-productpage unchanged
+    deployment.apps/productpage-v1 configured
+    deployment.apps/reviews-v2 configured
     {{< /text >}}
 
 1.  Access the application's webpage several times. Note that Istio was added

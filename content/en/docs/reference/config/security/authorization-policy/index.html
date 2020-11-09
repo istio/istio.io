@@ -213,7 +213,7 @@ spec:
 <tbody>
 <tr id="AuthorizationPolicy-selector">
 <td><code>selector</code></td>
-<td><code><a href="/docs/reference/config/networking/sidecar/#WorkloadSelector">WorkloadSelector</a></code></td>
+<td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
 <p>Optional. Workload selector decides where to apply the authorization policy.
 If not set, the authorization policy will be applied to all workloads in the
@@ -244,6 +244,17 @@ No
 <td><code><a href="#AuthorizationPolicy-Action">Action</a></code></td>
 <td>
 <p>Optional. The action to take if the request is matched with the rules.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="AuthorizationPolicy-provider" class="oneof oneof-start">
+<td><code>provider</code></td>
+<td><code><a href="#AuthorizationPolicy-ExtensionProvider">ExtensionProvider (oneof)</a></code></td>
+<td>
+<p>Specifies detailed configuration of the CUSTOM action. Must be used only with CUSTOM action.</p>
 
 </td>
 <td>
@@ -423,6 +434,7 @@ No
 <td><code>string[]</code></td>
 <td>
 <p>Optional. A list of IP blocks, which matches to the &ldquo;source.ip&rdquo; attribute.
+Populated from the source address of the IP packet.
 Single IP (e.g. &ldquo;1.2.3.4&rdquo;) and CIDR (e.g. &ldquo;1.2.3.0/24&rdquo;) are supported.</p>
 
 <p>If not set, any IP is allowed.</p>
@@ -437,6 +449,35 @@ No
 <td><code>string[]</code></td>
 <td>
 <p>Optional. A list of negative match of IP blocks.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Source-remote_ip_blocks">
+<td><code>remoteIpBlocks</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of IP blocks, which matches to the &ldquo;remote.ip&rdquo; attribute.
+Populated from X-Forwarded-For header or proxy protocol.
+To make use of this field, you must configure the numTrustedProxies field of the gatewayTopology under the meshConfig
+when you install Istio or using an annotation on the ingress gateway.  See the documentation here:
+<a href="/docs/ops/configuration/traffic-management/network-topologies/">Configuring Gateway Network Topology</a>.
+Single IP (e.g. &ldquo;1.2.3.4&rdquo;) and CIDR (e.g. &ldquo;1.2.3.0/24&rdquo;) are supported.</p>
+
+<p>If not set, any IP is allowed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Source-not_remote_ip_blocks">
+<td><code>notRemoteIpBlocks</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of negative match of remote IP blocks.</p>
 
 </td>
 <td>

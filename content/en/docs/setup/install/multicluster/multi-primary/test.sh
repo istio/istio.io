@@ -22,41 +22,44 @@ set -u
 set -o pipefail
 
 source content/en/docs/setup/install/multicluster/common.sh
-set_multi_network_vars
+set_single_network_vars
 
 function install_istio_on_cluster1 {
-  snip_install_istio_7
-  echo y | snip_install_istio_8
-
-  # Expose services through the east-west gateway.
-  snip_install_istio_9
-  snip_install_istio_10
+    echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
+    snip_configure_cluster1_as_a_primary_1
+    echo y | snip_configure_cluster1_as_a_primary_2
 }
 
 function install_istio_on_cluster2 {
-  snip_install_istio_11
-  echo y | snip_install_istio_12
-
-  # Expose services through the east-west gateway.
-  snip_install_istio_13
-  snip_install_istio_14
+    echo "Installing Istio on Primary cluster: ${CTX_CLUSTER2}"
+    snip_configure_cluster2_as_a_primary_1
+    echo y | snip_configure_cluster2_as_a_primary_2
 }
 
-# Install Istio on the 2 clusters. Executing in
-# parallel to reduce test time.
-install_istio_on_cluster1 &
-install_istio_on_cluster2 &
-wait
+function install_istio {
+  # Install Istio on the 2 clusters. Executing in
+  # parallel to reduce test time.
+  install_istio_on_cluster1 &
+  install_istio_on_cluster2 &
+  wait
+}
 
-# Configure endpoint discovery.
-snip_install_istio_15
-snip_install_istio_16
+function enable_endpoint_discovery {
+  snip_enable_endpoint_discovery_1
+  snip_enable_endpoint_discovery_2
+}
 
-# Verify that traffic is properly load balanced.
-verify_load_balancing
+time configure_trust
+time install_istio
+time enable_endpoint_discovery
+time verify_load_balancing
 
 # @cleanup
 source content/en/docs/setup/install/multicluster/common.sh
 set +e # ignore cleanup errors
-set_multi_network_vars
-cleanup
+set_single_network_vars
+time cleanup
+
+# Everything should be removed once cleanup completes. Use a small
+# timeout for comparing cluster snapshots before/after the test.
+export VERIFY_TIMEOUT=20

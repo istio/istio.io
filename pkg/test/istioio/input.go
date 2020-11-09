@@ -15,17 +15,11 @@
 package istioio
 
 type Input interface {
-	InputSelector
 	Name() string
 	ReadAll() (string, error)
 }
 
-type InputSelector interface {
-	SelectInput(Context) Input
-}
-
 var _ Input = Inline{}
-var _ InputSelector = Inline{}
 
 type Inline struct {
 	FileName string
@@ -38,9 +32,4 @@ func (t Inline) Name() string {
 
 func (t Inline) ReadAll() (string, error) {
 	return t.Value, nil
-}
-
-func (t Inline) SelectInput(ctx Context) Input {
-	ctx.Helper()
-	return t
 }

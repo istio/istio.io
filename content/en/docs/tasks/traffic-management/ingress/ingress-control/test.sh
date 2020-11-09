@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC1090,SC2154
+# shellcheck disable=SC1090,SC2034,SC2154
 
 # Copyright Istio Authors
 #
@@ -29,7 +29,9 @@ kubectl label namespace default istio-injection=enabled --overwrite
 startup_httpbin_sample
 
 # check for external load balancer
+CMP_MATCH_IP_PENDING=true # TODO(https://github.com/istio/istio.io/issues/8353)
 _verify_like snip_determining_the_ingress_ip_and_ports_1 "$snip_determining_the_ingress_ip_and_ports_1_out"
+unset CMP_MATCH_IP_PENDING
 
 # set INGRESS_HOST, INGRESS_PORT, SECURE_INGRESS_PORT, and TCP_INGRESS_PORT environment variables
 if [[ "$out" != *"<none>"* && "$out" != *"<pending>"* ]]; then

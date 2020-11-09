@@ -73,7 +73,7 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--failure-threshold &lt;Level&gt;</code></td>
 <td></td>
-<td>The severity level of analysis at which to set a non-zero exit code. Valid values: [Info Warning Error]  (default `Warning`)</td>
+<td>The severity level of analysis at which to set a non-zero exit code. Valid values: [Info Warning Error]  (default `Error`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -1501,6 +1501,11 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <td>The name of the kubeconfig context to use  (default ``)</td>
 </tr>
 <tr>
+<td><code>--create-service-account</code></td>
+<td></td>
+<td>If true, the service account needed for creating the remote secret will be created if it doesn&#39;t exist. </td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -1509,6 +1514,14 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.8.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.8.0/istio-1.8.0-linux-amd64.tar.gz).
+  (default ``)</td>
 </tr>
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
@@ -1523,7 +1536,7 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <tr>
 <td><code>--service-account &lt;string&gt;</code></td>
 <td></td>
-<td>Create a secret with this service account&#39;s credentials.  (default `istio-reader-service-account`)</td>
+<td>Create a secret with this service account&#39;s credentials. Use &#34;istio-reader-service-account&#34; as default value if --type is &#34;remote&#34;, use &#34;istiod-service-account&#34; as default value if --type is &#34;config&#34;.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--type &lt;SecretType&gt;</code></td>
@@ -1675,6 +1688,132 @@ the configuration objects that affect that service.</p>
 </table>
 <h3 id="istioctl-experimental-describe-service Examples">Examples</h3>
 <pre class="language-bash"><code>  istioctl experimental describe service productpage
+</code></pre>
+<h2 id="istioctl-experimental-istiod">istioctl experimental istiod</h2>
+<p>A group of commands used to manage istiod configuration</p>
+<pre class="language-bash"><code>istioctl experimental istiod [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--selector &lt;string&gt;</code></td>
+<td><code>-l</code></td>
+<td>label selector  (default `app=istiod`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-istiod Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve information about istiod configuration.
+  istioctl experimental istiod log
+</code></pre>
+<h2 id="istioctl-experimental-istiod-log">istioctl experimental istiod log</h2>
+<p>Retrieve or update logging levels of istiod components.</p>
+<pre class="language-bash"><code>istioctl experimental istiod log [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl experimental istiod l [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;int&gt;</code></td>
+<td></td>
+<td>ControlZ port  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of output logging level for scopes in format &lt;scope&gt;:&lt;level&gt;[,&lt;scope&gt;:&lt;level&gt;,...]Possible values for &lt;level&gt;: none, error, warn, info, debug  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--reset</code></td>
+<td><code>-r</code></td>
+<td>Reset levels to default value. (info) </td>
+</tr>
+<tr>
+<td><code>--selector &lt;string&gt;</code></td>
+<td><code>-l</code></td>
+<td>label selector  (default `app=istiod`)</td>
+</tr>
+<tr>
+<td><code>--stack-trace-level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of stack trace level  for scopes in format &lt;scope&gt;:&lt;stack-trace-level&gt;[,&lt;scope&gt;:&lt;stack-trace-level&gt;,...] Possible values for &lt;stack-trace-level&gt;: none, error, warn, info, debug  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-istiod-log Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve information about istiod logging levels.
+  istioctl experimental istiod log
+
+  # Retrieve information about istiod logging levels on a specific control plane pod.
+  istioctl experimental istiod l istiod-5c868d8bdd-pmvgg
+
+  # Update levels of the specified loggers.
+  istioctl x istiod log --level ads:debug,authorization:debug
+
+  # Reset levels of all the loggers to default value (info).
+  istioctl x istiod log -r
+
 </code></pre>
 <h2 id="istioctl-experimental-kube-uninject">istioctl experimental kube-uninject</h2>
 <p>
@@ -3117,6 +3256,11 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 </thead>
 <tbody>
 <tr>
+<td><code>--autoregister</code></td>
+<td></td>
+<td>Creates a WorkloadEntry upon connection to istiod (if enabled in pilot). </td>
+</tr>
+<tr>
 <td><code>--clusterID &lt;string&gt;</code></td>
 <td></td>
 <td>The ID used to identify the cluster  (default `Kubernetes`)</td>
@@ -3135,6 +3279,11 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <td><code>--ingressIP &lt;string&gt;</code></td>
 <td></td>
 <td>IP address of the ingress gateway  (default ``)</td>
+</tr>
+<tr>
+<td><code>--ingressService &lt;string&gt;</code></td>
+<td></td>
+<td>Name of the Service to be used as the ingress gateway, in the format &lt;service&gt;.&lt;namespace&gt;. If no namespace is provided, the default istio-system namespace will be used.  (default `istio-eastwestgateway`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -3281,7 +3430,7 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 <pre class="language-bash"><code>create --name foo --namespace bar --labels app=foo,bar=baz --ports grpc=3550,http=8080 --annotations annotation=foobar --serviceAccount sa
 </code></pre>
 <h2 id="istioctl-install">istioctl install</h2>
-<p>The install generates an Istio install manifest and applies it to a cluster.</p>
+<p>The install command generates an Istio install manifest and applies it to a cluster.</p>
 <pre class="language-bash"><code>istioctl install [flags]
 </code></pre>
 <table class="command-flags">
@@ -3379,132 +3528,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 
   # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
   istioctl install --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
-
-</code></pre>
-<h2 id="istioctl-istiod-config">istioctl istiod-config</h2>
-<p>A group of commands used to manage istiod configuration</p>
-<pre class="language-bash"><code>istioctl istiod-config [flags]
-</code></pre>
-<div class="aliases">
-<pre class="language-bash"><code>istioctl idc [flags]
-</code></pre></div>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--selector &lt;string&gt;</code></td>
-<td><code>-l</code></td>
-<td>label selector  (default `app=istiod`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-istiod-config Examples">Examples</h3>
-<pre class="language-bash"><code> # Retrieve information about istiod configuration.
-  istioctl istiod-config &lt;log&gt;
-</code></pre>
-<h2 id="istioctl-istiod-config-log">istioctl istiod-config log</h2>
-<p>Retrieve or update logging levels of istiod components.</p>
-<pre class="language-bash"><code>istioctl istiod-config log [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
-</code></pre>
-<div class="aliases">
-<pre class="language-bash"><code>istioctl istiod-config o [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
-</code></pre></div>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--ctrlz_port &lt;int&gt;</code></td>
-<td></td>
-<td>ControlZ port  (default `9876`)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated list of output logging level for scopes in format &lt;scope&gt;:&lt;level&gt;[,&lt;scope&gt;:&lt;level&gt;,...]Possible values for &lt;level&gt;: none, error, warn, info, debug  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--output &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
-</tr>
-<tr>
-<td><code>--reset</code></td>
-<td><code>-r</code></td>
-<td>Reset levels to default value. (info) </td>
-</tr>
-<tr>
-<td><code>--selector &lt;string&gt;</code></td>
-<td><code>-l</code></td>
-<td>label selector  (default `app=istiod`)</td>
-</tr>
-<tr>
-<td><code>--stack-trace-level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated list of stack trace level  for scopes in format &lt;scope&gt;:&lt;stack-trace-level&gt;[,&lt;scope&gt;:&lt;stack-trace-level&gt;,...] Possible values for &lt;stack-trace-level&gt;: none, error, warn, info, debug  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-istiod-config-log Examples">Examples</h3>
-<pre class="language-bash"><code> # Retrieve information about istiod logging levels.
-  istioctl istiod-config log [&lt;pod-name&gt;]
-
-  # Update levels of the specified loggers.
-  istioctl istiod-config log --level ads:debug,authorization:debug
-
-  # Reset levels of all the loggers to default value (info).
-  istioctl istiod-config log -r
 
 </code></pre>
 <h2 id="istioctl-kube-inject">istioctl kube-inject</h2>
@@ -3618,7 +3641,7 @@ kube-inject on deployments to get the most up-to-date changes.
 
 </code></pre>
 <h2 id="istioctl-manifest">istioctl manifest</h2>
-<p>The manifest subcommand generates, applies, diffs or migrates Istio manifests.</p>
+<p>The manifest command generates and diffs Istio manifests.</p>
 <table class="command-flags">
 <thead>
 <tr>
@@ -3827,7 +3850,7 @@ settings (--set meshConfig.enableTracing=true). See documentation for more info:
 
 </code></pre>
 <h2 id="istioctl-manifest-install">istioctl manifest install</h2>
-<p>The install generates an Istio install manifest and applies it to a cluster.</p>
+<p>The install command generates an Istio install manifest and applies it to a cluster.</p>
 <pre class="language-bash"><code>istioctl manifest install [flags]
 </code></pre>
 <table class="command-flags">
@@ -3928,7 +3951,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 
 </code></pre>
 <h2 id="istioctl-operator">istioctl operator</h2>
-<p>The operator subcommand installs, removes and shows the status of the operator controller.</p>
+<p>The operator command installs, dumps, removes and shows the status of the operator controller.</p>
 <table class="command-flags">
 <thead>
 <tr>
@@ -4206,7 +4229,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.8.0/
 </tbody>
 </table>
 <h2 id="istioctl-profile">istioctl profile</h2>
-<p>The profile subcommand lists, dumps or diffs Istio configuration profiles.</p>
+<p>The profile command lists, dumps or diffs Istio configuration profiles.</p>
 <table class="command-flags">
 <thead>
 <tr>
@@ -5376,7 +5399,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.8.0/
 </tbody>
 </table>
 <h2 id="envvars">Environment variables</h2>
-These environment variables affect the behavior of the <code>istioctl</code> command.
+These environment variables affect the behavior of the <code>istioctl</code> command. Please use with caution as these environment variables are experimental and can change anytime.
 <table class="envvars">
 <thead>
 <tr>
@@ -5400,6 +5423,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
 </tr>
 <tr>
+<td><code>ENABLE_ADMIN_ENDPOINTS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, dangerous admin endpoins will be exposed on the debug interface. Not recommended for production.</td>
+</tr>
+<tr>
 <td><code>ENABLE_CA_SERVER</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -5416,6 +5445,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
+</tr>
+<tr>
+<td><code>EXTERNAL_ISTIOD</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, one Istiod will control remote clusters including CA.</td>
 </tr>
 <tr>
 <td><code>INGRESS_GATEWAY_NAMESPACE</code></td>
@@ -5492,8 +5527,8 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr>
 <td><code>ISTIOD_ENABLE_SDS_SERVER</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, Istiod will serve SDS for credentialName secrets (rather than in-proxy). To ensure proper security, PILOT_ENABLE_XDS_IDENTITY_CHECK=true is required as well. This option temporarily only supports gateways running in istio-system namespace.</td>
+<td><code>true</code></td>
+<td>If enabled, Istiod will serve SDS for credentialName secrets (rather than in-proxy). To ensure proper security, PILOT_ENABLE_XDS_IDENTITY_CHECK=true is required as well.</td>
 </tr>
 <tr>
 <td><code>ISTIO_DEFAULT_REQUEST_TIMEOUT</code></td>
@@ -5616,6 +5651,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_LOOP_BLOCKER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Envoy will be configured to prevent traffic directly the the inbound/outbound ports (15001/15006). This prevents traffic loops. This option will be removed, and considered always enabled, in 1.9.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -5670,6 +5711,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If set to false, virtualService delegate will not be supported.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Enables auto-registering WorkloadEntries based on associated WorkloadGroups upon XDS connection by the workload.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_XDS_CACHE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -5680,6 +5727,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, pilot will authorize XDS clients, to ensure they are acting only as namespaces they have permissions for.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENDPOINT_TELEMETRY_LABEL</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, pilot will add telemetry related metadata to Endpoint resource, which will be consumed by telemetry filter.</td>
 </tr>
 <tr>
 <td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
@@ -5760,6 +5813,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, Pilot will use EndpointSlices as the source of endpoints for Kubernetes services. By default, this is false, and Endpoints will be used. This requires the Kubernetes EndpointSlice controller to be enabled. Currently this is mutual exclusive - either Endpoints or EndpointSlices will be used</td>
 </tr>
 <tr>
+<td><code>PILOT_WORKLOAD_ENTRY_GRACE_PERIOD</code></td>
+<td>Time Duration</td>
+<td><code>10s</code></td>
+<td>The amount of time an auto-registered workload can remain disconnected from all Pilot instances before the associated WorkloadEntry is cleaned up.</td>
+</tr>
+<tr>
 <td><code>PILOT_XDS_CACHE_SIZE</code></td>
 <td>Integer</td>
 <td><code>20000</code></td>
@@ -5770,6 +5829,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, Pilot will collect metrics for XDS cache efficiency.</td>
+</tr>
+<tr>
+<td><code>PILOT_XDS_SEND_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>5s</code></td>
+<td>The timeout to send the XDS configuration to proxies. After this timeout is reached, Pilot will discard that push.</td>
 </tr>
 <tr>
 <td><code>POD_NAME</code></td>
@@ -5827,6 +5892,10 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
+<tr><td><code>cache_flush_total</code></td><td><code>Sum</code></td><td>number of times operator cache was flushed</td></tr>
+<tr><td><code>cr_deletion_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR deleted</td></tr>
+<tr><td><code>cr_merge_failure_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR merge failures</td></tr>
+<tr><td><code>cr_validation_error_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR validation failures</td></tr>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
 <tr><td><code>galley_runtime_processor_event_span_duration_milliseconds</code></td><td><code>Distribution</code></td><td>The duration between each incoming event</td></tr>
 <tr><td><code>galley_runtime_processor_events_processed_total</code></td><td><code>Count</code></td><td>The number of events that have been processed</td></tr>
@@ -5847,6 +5916,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>galley_validation_config_load_error</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)load error</td></tr>
 <tr><td><code>galley_validation_config_update_error</code></td><td><code>Count</code></td><td>k8s webhook configuration update error</td></tr>
 <tr><td><code>galley_validation_config_updates</code></td><td><code>Count</code></td><td>k8s webhook configuration updates</td></tr>
+<tr><td><code>get_cr_error_total</code></td><td><code>Sum</code></td><td>Number of times fetching CR from apiserver failed</td></tr>
 <tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
 <tr><td><code>istio_mcp_clients_total</code></td><td><code>LastValue</code></td><td>The number of streams currently connected.</td></tr>
 <tr><td><code>istio_mcp_message_sizes_bytes</code></td><td><code>Distribution</code></td><td>Size of messages received from clients.</td></tr>
@@ -5855,10 +5925,14 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>istio_mcp_request_acks_total</code></td><td><code>Sum</code></td><td>The number of request acks received by the source.</td></tr>
 <tr><td><code>istio_mcp_request_nacks_total</code></td><td><code>Sum</code></td><td>The number of request nacks received by the source.</td></tr>
 <tr><td><code>istio_mcp_send_failures_total</code></td><td><code>Sum</code></td><td>The number of send failures in the source.</td></tr>
+<tr><td><code>legacy_path_translation_total</code></td><td><code>Sum</code></td><td>Number of times a legacy API path is translated</td></tr>
+<tr><td><code>manifest_patch_error_total</code></td><td><code>Sum</code></td><td>Number of times K8S patch overlays failed</td></tr>
+<tr><td><code>manifest_render_error_total</code></td><td><code>Sum</code></td><td>Number of times error occurred during rendering output manifest</td></tr>
 <tr><td><code>num_failed_outgoing_requests</code></td><td><code>Sum</code></td><td>Number of failed outgoing requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>num_outgoing_requests</code></td><td><code>Sum</code></td><td>Number of total outgoing requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>outgoing_latency</code></td><td><code>Sum</code></td><td>The latency of outgoing requests (e.g. to a token exchange server, CA, etc.) in milliseconds.</td></tr>
+<tr><td><code>owned_resource_total</code></td><td><code>LastValue</code></td><td>Number of resources currently owned by the operator</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_http_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard http listeners with current wildcard tcp listener.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_http</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard tcp listeners with current wildcard http listener.</td></tr>
@@ -5893,13 +5967,21 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>pilot_xds_push_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to push lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_pushes</code></td><td><code>Sum</code></td><td>Pilot build and send errors for lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
+<tr><td><code>pilot_xds_send_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to send generated configuration.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
+<tr><td><code>render_manifest_total</code></td><td><code>Sum</code></td><td>Number of component manifests rendered</td></tr>
+<tr><td><code>resource_creation_total</code></td><td><code>Sum</code></td><td>Number of resources created by the operator</td></tr>
+<tr><td><code>resource_deletion_total</code></td><td><code>Sum</code></td><td>Number of resources deleted by the operator</td></tr>
+<tr><td><code>resource_prune_total</code></td><td><code>Sum</code></td><td>Number of resources pruned by the operator</td></tr>
+<tr><td><code>resource_update_total</code></td><td><code>Sum</code></td><td>Number of resources updated by the operator</td></tr>
 <tr><td><code>scrape_failures_total</code></td><td><code>Sum</code></td><td>The total number of failed scrapes.</td></tr>
 <tr><td><code>scrapes_total</code></td><td><code>Sum</code></td><td>The total number of scrapes.</td></tr>
 <tr><td><code>sidecar_injection_failure_total</code></td><td><code>Sum</code></td><td>Total number of failed sidecar injection requests.</td></tr>
 <tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of sidecar injection requests.</td></tr>
 <tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped sidecar injection requests.</td></tr>
 <tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful sidecar injection requests.</td></tr>
+<tr><td><code>startup_duration_seconds</code></td><td><code>LastValue</code></td><td>The time from the process starting to being marked ready.</td></tr>
+<tr><td><code>version</code></td><td><code>LastValue</code></td><td>Version of operator binary</td></tr>
 <tr><td><code>xds_cache_evictions</code></td><td><code>Sum</code></td><td>Total number of xds cache evictions.</td></tr>
 <tr><td><code>xds_cache_reads</code></td><td><code>Sum</code></td><td>Total number of xds cache xdsCacheReads.</td></tr>
 <tr><td><code>xds_cache_size</code></td><td><code>LastValue</code></td><td>Current size of xds cache</td></tr>

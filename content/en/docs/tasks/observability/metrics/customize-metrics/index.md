@@ -61,14 +61,10 @@ the example application throughout this task.
             prometheus:
               configOverride:
                 inboundSidecar:
-                  debug: false
-                  stat_prefix: istio
+                  disable_host_header_fallback: false
                 outboundSidecar:
-                  debug: false
-                  stat_prefix: istio
+                  disable_host_header_fallback: false
                 gateway:
-                  debug: false
-                  stat_prefix: istio
                   disable_host_header_fallback: true
     {{< /text >}}
 
@@ -94,25 +90,18 @@ the example application throughout this task.
             prometheus:
               configOverride:
                 inboundSidecar:
-                  debug: false
-                  stat_prefix: istio
                   metrics:
                     - name: requests_total
                       dimensions:
                         destination_port: string(destination.port)
                         request_host: request.host
                 outboundSidecar:
-                  debug: false
-                  stat_prefix: istio
                   metrics:
                     - name: requests_total
                       dimensions:
                         destination_port: string(destination.port)
                         request_host: request.host
                 gateway:
-                  debug: false
-                  stat_prefix: istio
-                  disable_host_header_fallback: true
                   metrics:
                     - name: requests_total
                       dimensions:
@@ -137,6 +126,16 @@ the example application throughout this task.
         metadata:
           annotations:
             sidecar.istio.io/extraStatTags: destination_port,request_host
+    {{< /text >}}
+
+    To enable extra tags mesh wide, you can add `extraStatTags` to your mesh config:
+
+    {{< text yaml >}}
+    meshConfig:
+      defaultConfig:
+        extraStatTags:
+         - destination_port
+         - request_host
     {{< /text >}}
 
 ## Verify the results

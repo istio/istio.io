@@ -70,11 +70,12 @@ _set_ingress_environment_variables() {
 #   kubectl wait --for=condition=Ready pod --all --timeout=60s
 
 # Wait for rollout of named deployment
-# usage: _wait_for_deployment <namespace> <deployment name>
+# usage: _wait_for_deployment <namespace> <deployment name> <optional: context>
 _wait_for_deployment() {
     local namespace="$1"
     local name="$2"
-    if ! kubectl -n "$namespace" rollout status deployment "$name" --timeout 5m; then
+    local context="${3:-}"
+    if ! kubectl --context="$context" -n "$namespace" rollout status deployment "$name" --timeout 5m; then
         echo "Failed rollout of deployment $name in namespace $namespace"
         exit 1
     fi

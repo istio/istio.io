@@ -94,6 +94,8 @@ the pods' status with `kubectl get pods`.
     restarted once. You may experience the `Error` and the
     `CrashLoopBackOff` statuses until the pods reach `Running` status.
 
+1. Use Ctrl-C in the terminal to stop the infinite loop that is running to simulate traffic.
+
 In both cases, the application did not crash. The crash in the `details`
 microservice did not cause other microservices to fail. This behavior means you
 did not have a **cascading failure** in this situation. Instead, you had
