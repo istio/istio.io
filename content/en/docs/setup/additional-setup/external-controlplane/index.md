@@ -64,7 +64,7 @@ For example:
 {{< text bash >}}
 $ export CTX_EXTERNAL_CLUSTER=external_cluster
 $ export CTX_REMOTE_CLUSTER=remote_cluster
-$ export REMOTE_ISTIOD_ADDR=myexternal-istiod.cloud.com
+$ export EXTERNAL_ISTIOD_ADDR=myexternal-istiod.cloud.com
 $ export SSL_SECRET_NAME=myexternal-istiod-secret
 {{< /text >}}
 
@@ -103,7 +103,7 @@ EOF
 Apply the configuration in the `istio-system` namespace of `external_cluster`:
 
 {{< text bash >}}
-$ istioctl apply -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+$ istioctl install -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
 Create the Istio `Gateway`, `VirtualService`, and `DestinationRule` configuration for the **yet to be installed** external
@@ -128,7 +128,7 @@ spec:
         mode: SIMPLE
         credentialName: $SSL_SECRET_NAME
       hosts:
-      - "$REMOTE_ISTIOD_ADDR"
+      - "$EXTERNAL_ISTIOD_ADDR"
     - port:
         number: 15017
         protocol: https
@@ -137,7 +137,7 @@ spec:
         mode: SIMPLE
         credentialName: $SSL_SECRET_NAME
       hosts:
-      - "$REMOTE_ISTIOD_ADDR"
+      - "$EXTERNAL_ISTIOD_ADDR"
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -146,7 +146,7 @@ metadata:
    namespace: external-istiod
 spec:
     hosts:
-    - $REMOTE_ISTIOD_ADDR
+    - $EXTERNAL_ISTIOD_ADDR
     gateways:
     - external-istiod-gw
     http:
@@ -191,6 +191,7 @@ EOF
 Apply the configuration on `external_cluster`:
 
 {{< text bash >}}
+$ kubectl create namespace external-istiod --context="${CTX_EXTERNAL_CLUSTER}
 $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
@@ -209,7 +210,7 @@ spec:
   meshConfig:
     rootNamespace: external-istiod
     defaultConfig:
-      discoveryAddress: $REMOTE_ISTIOD_ADDR:15012
+      discoveryAddress: $EXTERNAL_ISTIOD_ADDR:15012
       proxyMetadata:
         XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
         CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
@@ -221,22 +222,22 @@ spec:
 
   values:
     global:
-      caAddress: $REMOTE_ISTIOD_ADDR:15012
+      caAddress: $EXTERNAL_ISTIOD_ADDR:15012
       istioNamespace: external-istiod
       meshID: mesh1
       multiCluster:
         clusterName: remote_cluster
     istiodRemote:
-      injectionURL: https://$REMOTE_ISTIOD_ADDR:15017/inject
+      injectionURL: https://$EXTERNAL_ISTIOD_ADDR:15017/inject
     base:
-      validationURL: https://REMOTE_ISTIOD_ADDR:15017/validate
+      validationURL: https://EXTERNAL_ISTIOD_ADDR:15017/validate
 EOF
 {{< /text >}}
 
 Install the configuration on `remote_cluster`:
 
 {{< text bash >}}
-$ istioctl apply -f remote-config-cluster.yaml --context="${CTX_REMOTE_CLUSTER}"
+$ istioctl install -f remote-config-cluster.yaml --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
 You may notice the ingress gateway in `remote_cluster` is not running yet.
@@ -269,7 +270,7 @@ spec:
   meshConfig:
     rootNamespace: external-istiod
     defaultConfig:
-      discoveryAddress: $REMOTE_ISTIOD_ADDR:15012
+      discoveryAddress: $EXTERNAL_ISTIOD_ADDR:15012
       proxyMetadata:
         XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
         CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
@@ -281,7 +282,7 @@ spec:
       enabled: false
   values:
     global:
-      caAddress: $REMOTE_ISTIOD_ADDR:15012
+      caAddress: $EXTERNAL_ISTIOD_ADDR:15012
       istioNamespace: external-istiod
       operatorManageWebhooks: true
       meshID: mesh1
@@ -297,7 +298,7 @@ EOF
 Apply the Istio configuration on `external_cluster`:
 
 {{< text bash >}}
-$ istioctl apply -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+$ istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
 ## Validate the installation
