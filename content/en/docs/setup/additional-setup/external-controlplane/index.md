@@ -191,7 +191,6 @@ EOF
 Apply the configuration on `external_cluster`:
 
 {{< text bash >}}
-$ kubectl create namespace external-istiod --context="${CTX_EXTERNAL_CLUSTER}
 $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
