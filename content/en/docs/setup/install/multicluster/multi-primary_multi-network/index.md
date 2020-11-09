@@ -73,7 +73,7 @@ available.
 {{< text bash >}}
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     --mesh mesh1 --cluster cluster1 --network network1 | \
-    istioctl --context="${CTX_CLUSTER1}" install -f -
+    istioctl --context="${CTX_CLUSTER1}" install -y -f -
 {{< /text >}}
 
 Wait for the east-west gateway to be assigned an external IP address:
@@ -138,7 +138,7 @@ to east-west traffic.
 {{< text bash >}}
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     --mesh mesh1 --cluster cluster2 --network network2 | \
-    istioctl --context="${CTX_CLUSTER2}" install -f -
+    istioctl --context="${CTX_CLUSTER2}" install -y -f -
 {{< /text >}}
 
 Wait for the east-west gateway to be assigned an external IP address:
