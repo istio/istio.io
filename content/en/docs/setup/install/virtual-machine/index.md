@@ -111,7 +111,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< text bash >}}
     $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}"
     {{< /text >}}
-j
+
     {{< tip >}}
     To utilize VM auto-registration, include the auto-register flag: `istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --autoregister`.
     {{< /tip >}}
