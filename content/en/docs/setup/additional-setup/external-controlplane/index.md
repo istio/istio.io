@@ -56,7 +56,7 @@ Variable | Description
 -------- | -----------
 `CTX_EXTERNAL_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the external control plane cluster.
 `CTX_REMOTE_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the remote cluster.
-`EXTERNAL_ISTIOD_ADDR` | The host name for the `remote_cluster` to access the external control plane.
+`EXTERNAL_ISTIOD_ADDR` | The external istiod host name required for the `remote_cluster` to access the external control plane.
 `SSL_SECRET_NAME` | The secret name used to access the ingress gateway on the external control plane cluster.
 
 For example:
@@ -72,7 +72,7 @@ $ export SSL_SECRET_NAME=myexternal-istiod-secret
 
 ### Set up the external cluster
 
-Create the configuration for the ingress gateway that exposes the external control plane ports to other clusters:
+Create the install configuration for the ingress gateway that exposes the external control plane ports to other clusters:
 
 {{< text bash >}}
 $ cat <<EOF > controlplane-gateway.yaml
@@ -100,10 +100,16 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the configuration in the `istio-system` namespace of `external_cluster`:
+Install the configuration to create the ingress gateway in the `istio-system` namespace of `external_cluster`:
 
 {{< text bash >}}
 $ istioctl install -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+{{< /text >}}
+
+Configure your environment to expose the Istio ingress gateway service as a hostname and update the `EXTERNAL_ISTIOD_ADDR` environment variable:
+
+{{<text bash>}}
+$ export EXTERNAL_ISTIOD_ADDR=myexternal-istiod.cloud.com
 {{< /text >}}
 
 Create the Istio `Gateway`, `VirtualService`, and `DestinationRule` configuration for the **yet to be installed** external
@@ -188,15 +194,16 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the configuration on `external_cluster`:
+Create the `external-istiod` namespace and apply the configuration:
 
 {{< text bash >}}
+$ kubectl create namespace external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
 ### Set up the remote (mesh) cluster
 
-Generate a remote Istio configuration in the `external-istiod` namespace:
+Create the remote Istio configuration in the `external-istiod` namespace:
 
 {{< text bash >}}
 $ cat <<EOF > remote-config-cluster.yaml
@@ -233,7 +240,7 @@ spec:
 EOF
 {{< /text >}}
 
-Install the configuration on `remote_cluster`:
+Install the configuration on the remote cluster:
 
 {{< text bash >}}
 $ istioctl install -f remote-config-cluster.yaml --context="${CTX_REMOTE_CLUSTER}"
