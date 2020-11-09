@@ -80,7 +80,7 @@ Follow these steps to get started with Istio:
     profiles for production or performance testing.
 
     {{< warning >}}
-    If your platform has a custom demonstration profile, e.g., Openshift, use
+    If your platform has a vendor-specific configuration profile, e.g., Openshift, use
     it in the following command, instead of the `demo` profile. Refer to your
     [platform instructions](/docs/setup/platform-setup/) for details.
     {{< /warning >}}
