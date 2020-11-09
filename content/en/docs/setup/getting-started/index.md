@@ -79,6 +79,12 @@ Follow these steps to get started with Istio:
     selected to have a good set of defaults for testing, but there are other
     profiles for production or performance testing.
 
+    {{< warning >}}
+    If your platform has a vendor-specific configuration profile, e.g., Openshift, use
+    it in the following command, instead of the `demo` profile. Refer to your
+    [platform instructions](/docs/setup/platform-setup/) for details.
+    {{< /warning >}}
+
     {{< text bash >}}
     $ istioctl install --set profile=demo -y
     ✔ Istio core installed
@@ -87,12 +93,6 @@ Follow these steps to get started with Istio:
     ✔ Ingress gateways installed
     ✔ Installation complete
     {{< /text >}}
-
-    {{< warning >}}
-    If your platform has a custom demonstration profile, e.g., Openshift, use
-    it in the following command, instead of the `demo` profile. Refer to your
-    [platform instructions](/docs/setup/platform-setup/) for details.
-    {{< /warning >}}
 
 1.  Add a namespace label to instruct Istio to automatically inject Envoy
     sidecar proxies when you deploy your application later:
