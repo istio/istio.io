@@ -17,6 +17,11 @@ The upgrade command can also perform a downgrade of Istio.
 See the [`istioctl` upgrade reference](/docs/reference/commands/istioctl/#istioctl-upgrade)
 for all the options provided by the `istioctl upgrade` command.
 
+{{< warning >}}
+`istioctl upgrade` is for in-place upgrade and not compatible with installations done with
+the `--revision` flag. Upgrades of such installations will fail with an error.
+{{< /warning >}}
+
 ## Upgrade prerequisites
 
 Before you begin the upgrade process, check the following prerequisites:
