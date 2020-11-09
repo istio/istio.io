@@ -9,7 +9,7 @@ The following lists some of the pros and cons of each of the available methods:
 
 1. [istioctl install](/docs/setup/install/istioctl/)
 
-    The simplest and most qualified installation/management path with high security.
+    The simplest and most qualified installation and management path with high security.
     This is the community recommended method for most use cases.
 
     Pros:
@@ -37,9 +37,9 @@ The following lists some of the pros and cons of each of the available methods:
 
     Cons:
 
-    - High privilege controller running in the cluster has security risks.
+    - High privilege controller running in the cluster poses security risks.
 
-1. [istioctl manifest generate (alpha)](/docs/setup/install/istioctl/#generate-a-manifest-before-installation)
+1. [istioctl manifest generate](/docs/setup/install/istioctl/#generate-a-manifest-before-installation)
 
     Generate the Kubernetes manifest and then apply with `kubectl apply --prune`.
     This method is suitable where strict auditing or augmentation of output manifests is needed.
@@ -55,14 +55,14 @@ The following lists some of the pros and cons of each of the available methods:
     - UX is less streamlined compared to `istioctl install`.
     - Error reporting is not as robust as `istioctl install` for the apply step.
 
-1. [install using Helm (alpha)](/docs/setup/install/helm/)
+1. [Install using Helm (alpha)](/docs/setup/install/helm/)
 
     Using Helm charts allows easy integration with Helm based workflows and automated resource pruning during upgrades.
 
     Pros:
 
     - Familiar approach using industry standard tooling.
-    - Native release and upgrade management.
+    - Helm native release and upgrade management.
 
     Cons:
 
