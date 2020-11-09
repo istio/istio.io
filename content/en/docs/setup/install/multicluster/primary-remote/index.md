@@ -75,9 +75,10 @@ external attacks. Check with your cloud vendor to see what options are
 available.
 
 {{< text bash >}}
-$ @samples/multicluster/gen-eastwest-gateway.sh@ \
-    --mesh mesh1 --cluster cluster1 --network network1 | \
-    istioctl --context="${CTX_CLUSTER1}" install -y -f -
+$ MESH=mesh1 CLUSTER=cluster1 NETWORK=network1 \
+    @samples/multicluster/gen-eastwest-gateway.sh@ | \
+    istioctl manifest generate -f - | \
+    kubectl apply --context="${CTX_CLUSTER1}" -f -
 {{< /text >}}
 
 Wait for the east-west gateway to be assigned an external IP address:

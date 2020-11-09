@@ -44,9 +44,10 @@ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_install_the_eastwest_gateway_in_cluster1_1() {
-samples/multicluster/gen-eastwest-gateway.sh \
-    --mesh mesh1 --cluster cluster1 --network network1 | \
-    istioctl --context="${CTX_CLUSTER1}" install -y -f -
+MESH=mesh1 CLUSTER=cluster1 NETWORK=network1 \
+    samples/multicluster/gen-eastwest-gateway.sh | \
+    istioctl manifest generate -f - | \
+    kubectl apply --context="${CTX_CLUSTER1}" -f -
 }
 
 snip_install_the_eastwest_gateway_in_cluster1_2() {
@@ -87,9 +88,10 @@ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
 
 snip_install_the_eastwest_gateway_in_cluster2_1() {
-samples/multicluster/gen-eastwest-gateway.sh \
-    --mesh mesh1 --cluster cluster2 --network network2 | \
-    istioctl --context="${CTX_CLUSTER2}" install -y -f -
+MESH=mesh1 CLUSTER=cluster2 NETWORK=network2 \
+    samples/multicluster/gen-eastwest-gateway.sh | \
+    istioctl manifest generate -f - | \
+    kubectl apply --context="${CTX_CLUSTER2}" -f -
 }
 
 snip_install_the_eastwest_gateway_in_cluster2_2() {
