@@ -240,7 +240,7 @@ will likely be the best choice.
 {{< tip >}}
 In order to ensure secure communications in a multi-network scenario, Istio
 only supports cross-network communication to workloads with an Istio proxy.
-This is due to the fact that Istio exposes services at Ingress Gateway with TLS
+This is due to the fact that Istio exposes services at the Ingress Gateway with TLS
 pass-through, which enables mTLS directly to the workload. A workload without
 an Istio proxy, however, will likely not be able to participate in mutual
 authentication with other workloads. For this reason, Istio filters
