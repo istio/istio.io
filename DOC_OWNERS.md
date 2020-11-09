@@ -40,7 +40,7 @@ There are 157 owned istio.io docs.
 - [docs/ops/integrations/zipkin/index.md](https://preliminary.istio.io/latest/docs/ops/integrations/zipkin)
 - [docs/setup/additional-setup/cni/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/cni)
 - [docs/setup/additional-setup/config-profiles/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/config-profiles)
-- [docs/setup/additional-setup/external-istiod/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/external-istiod)
+- [docs/setup/additional-setup/external-controlplane/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/external-controlplane)
 - [docs/setup/additional-setup/sidecar-injection/index.md](https://preliminary.istio.io/latest/docs/setup/additional-setup/sidecar-injection)
 - [docs/setup/getting-started/index.md](https://preliminary.istio.io/latest/docs/setup/getting-started)
 - [docs/setup/install/helm/index.md](https://preliminary.istio.io/latest/docs/setup/install/helm)

@@ -13,9 +13,9 @@ test: yes
 
 This guide lets you quickly evaluate Istio. If you are already familiar with
 Istio or interested in installing other configuration profiles or
-advanced [deployment models](/docs/ops/deployment/deployment-models/), see
-[Customizable Install with `istioctl`](/docs/setup/install/istioctl/)
-instead.
+advanced [deployment models](/docs/ops/deployment/deployment-models/), refer to our
+[which Istio installation method should I use?](/faq/setup/#install-method-selection)
+FAQ page.
 
 These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
 compatible version of Kubernetes ({{< supported_kubernetes_versions >}}). You can use any supported platform, for
@@ -78,6 +78,12 @@ Follow these steps to get started with Istio:
     [configuration profile](/docs/setup/additional-setup/config-profiles/). It's
     selected to have a good set of defaults for testing, but there are other
     profiles for production or performance testing.
+
+    {{< warning >}}
+    If your platform has a vendor-specific configuration profile, e.g., Openshift, use
+    it in the following command, instead of the `demo` profile. Refer to your
+    [platform instructions](/docs/setup/platform-setup/) for details.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ istioctl install --set profile=demo -y

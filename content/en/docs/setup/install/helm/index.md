@@ -1,5 +1,5 @@
 ---
-title: Install with Helm [Experimental]
+title: Install with Helm
 linktitle: Install with Helm
 description: Install and configure Istio for in-depth evaluation.
 weight: 27
@@ -9,17 +9,13 @@ icon: helm
 test: no
 ---
 
-{{< warning >}}
-This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
-considered `pre-alpha`.
-{{< /warning >}}
-
 Follow this guide to install and configure an Istio mesh using
-[Helm](https://helm.sh/docs/) for in-depth evaluation.
-
-The Helm charts used in this guide are the same underlying charts used when
+[Helm](https://helm.sh/docs/) for in-depth evaluation. The Helm charts used
+in this guide are the same underlying charts used when
 installing Istio via [Istioctl](/docs/setup/install/istioctl/) or the
 [Operator](/docs/setup/install/operator/).
+
+This feature is currently considered [alpha](/about/feature-stages/).
 
 ## Prerequisites
 
@@ -116,13 +112,14 @@ $ kubectl apply -f $HOME/ISTIO_RESOURCE_BACKUP.yaml
 ### Migrating from non-Helm installations
 
 If you're migrating from a version of Istio installed using `istioctl` or
-Operator to Helm, you need to delete your current installation and re-install
-Istio using Helm as described above.
+Operator to Helm, you need to delete your current Istio control plane resources
+and and re-install Istio using Helm as described above. When deleting your
+current Istio installation, you must not remove the Istio Custom Resource
+Definitions (CRDs) as that can lead to loss of your custom Istio resources.
 
 {{< warning >}}
-Uninstalling Istio can cause your custom Istio configurations to be lost
-permanently so it is highly recommended to take a backup of your Istio
-configuration before deleting Istio in your cluster.
+It is highly recommended to take a backup of your Istio resources using steps
+described above before deleting current Istio installation in your cluster.
 {{< /warning >}}
 
 You can follow steps mentioned in the
@@ -244,7 +241,7 @@ installed above.
     $ kubectl delete namespace istio-system
     {{< /text >}}
 
-### Deleting CRDs installed by Istio
+### (Optional) Deleting CRDs installed by Istio
 
 Deleting CRDs permanently removes any Istio resources you have created in your
 cluster. To permanently delete Istio CRDs installed in your cluster:
