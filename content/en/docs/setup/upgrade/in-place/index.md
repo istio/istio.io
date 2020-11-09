@@ -18,8 +18,8 @@ See the [`istioctl` upgrade reference](/docs/reference/commands/istioctl/#istioc
 for all the options provided by the `istioctl upgrade` command.
 
 {{< warning >}}
-`istioctl upgrade` is for in-place upgrade and not compatible with `revisions`. If you installed the previous version
-of Istio with the `--revision` flag and try to upgrade the next version with the `istioctl upgrade`, it will fail.
+`istioctl upgrade` is for in-place upgrade and not compatible with installations done with
+the `--revision` flag. Upgrades of such installation will fail with an error.
 {{< /warning >}}
 
 ## Upgrade prerequisites
