@@ -71,7 +71,6 @@ However, you want to start simple. Thus, better you start with the `IstioOperato
 Yes! `Istio 1.8.0` introduced the possibility to have fine-grained control over the objects that `IstioOperator` deploys. This gives you the opportunity to patch them as you wish. Exactly what you need to deploy on demand `Egress Gateways`.
 {{< /quote >}}
 
-
 In the following section you will  deploy an `Egress Gateway` to connect to an external service: `httpbin` ([https://httpbin.org/](https://httpbin.org/))
 
 At the end, you will have:
