@@ -62,7 +62,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 1. Deploy the east-west gateway and expose the control plane using the provided sample configuration.
 
     {{< text bash >}}
-    $ @samples/multicluster/gen-eastwest-gateway.sh@ --single-cluster | istioctl install -f -
+    $ @samples/multicluster/gen-eastwest-gateway.sh@ --single-cluster | istioctl install -y -f -
     {{< /text >}}
 
     {{< text bash >}}
