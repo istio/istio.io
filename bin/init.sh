@@ -51,7 +51,7 @@ git checkout "$ISTIO_SHA"
 ISTIOCTL_ARTIFACT="${ISTIO_OUT}/release/"
 case "$GOOS_LOCAL" in
   linux)
-    ISTIOCTL_ARTIFACT+="istioctl-${GOOS_LOCAL}-${GOARCH_LOCAL}"
+    ISTIOCTL_ARTIFACT+="istioctl-${GOOS_LOCAL}-amd64"
     ;;
   darwin)
     ISTIOCTL_ARTIFACT+="istioctl-osx"

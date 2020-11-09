@@ -75,9 +75,6 @@ metadata:
   name: proxy-protocol
   namespace: istio-system
 spec:
-  workloadSelector:
-    labels:
-      istio: ingressgateway
   configPatches:
   - applyTo: LISTENER
     patch:
@@ -85,6 +82,10 @@ spec:
       value:
         listener_filters:
         - name: envoy.listener.proxy_protocol
+        - name: envoy.listener.tls_inspector
+  workloadSelector:
+    labels:
+      istio: ingressgateway
 {{< /text >}}
 
 Here is a sample of the `IstioOperator` that shows how to configure the Istio ingress gateway on AWS EKS to support the Proxy Protocol:
