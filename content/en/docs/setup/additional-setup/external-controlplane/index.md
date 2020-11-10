@@ -240,10 +240,10 @@ EOF
 Install the configuration on the remote cluster:
 
 {{< text bash >}}
-$ istioctl install -f remote-config-cluster.yaml --context="${CTX_REMOTE_CLUSTER}"
+$ istioctl manifest generate -f remote-config-cluster.yaml  | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
 {{< /text >}}
 
-**NOTE:** You will see errors during the install and the ingress gateway will not start. This is expected until you install the external control plane in the next section.
+**NOTE:** The ingress gateway will not start until you install the external control plane in the next section.
 
 ### Set up the control plane in the external cluster
 
