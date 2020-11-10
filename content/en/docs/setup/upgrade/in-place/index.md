@@ -60,7 +60,7 @@ can be found in the `bin/` subdirectory of the downloaded package.
 
     {{< warning >}}
     If you installed Istio using the `-f` flag, for example
-    `istioctl install -f <IstioControlPlane-custom-resource-definition-file>`,
+    `istioctl install -f <IstioOperator-custom-resource-definition-file>`,
     then you must provide the same `-f` flag value to the `istioctl upgrade` command.
     {{< /warning >}}
 
