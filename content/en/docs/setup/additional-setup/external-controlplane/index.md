@@ -102,7 +102,7 @@ Install the configuration to create the ingress gateway in the `istio-system` na
 $ istioctl install -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
-You may notice the istiod deployment created in the istio-system namespace. This is used only to configure the ingress gateway and is NOT the control plane used by remote clusters. This ingress gateway could, in fact, be configured to host multiple external control control planes, in different namespaces on the cluster, even though in this example you will only deploy a single external istiod in the `external-istiod` namespace.
+You may notice the istiod deployment created in the `istio-system` namespace. This is used only to configure the ingress gateway and is NOT the control plane used by remote clusters. This ingress gateway could, in fact, be configured to host multiple external control control planes, in different namespaces on the cluster, even though in this example you will only deploy a single external istiod in the `external-istiod` namespace.
 
 Configure your environment to expose the Istio ingress gateway service using a public hostname with TLS. Set the `EXTERNAL_ISTIOD_ADDR` environment variable to the hostname and `SSL_SECRET_NAME` environment variable to the secret that holds the TLS certs:
 
