@@ -51,13 +51,30 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
 1. Install Istio.
 
+    {{< tabset category-name="istio-install" >}}
+    
+    {{< tab name="Default" category-value="default-install" >}}
+
     {{< text bash >}}
     $ istioctl install
     {{< /text >}}
 
-    {{< tip >}}
-    To enable experimental VM auto-registration: `istioctl install --set values.global.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true`.
-    {{< /tip >}}
+    {{< /tab >}}
+
+    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg-install" >}}
+
+    {{< warning >}}
+    This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
+    considered `pre-alpha`.
+    {{< /warning >}} 
+
+    {{< text bash >}}
+    $ istioctl install --set values.global.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true
+    {{< /text >}} 
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
 1. Deploy the east-west gateway and expose the control plane using the provided sample configuration.
 
@@ -86,14 +103,39 @@ Install Istio and expose the control plane so that your virtual machine can acce
 ## Create files to transfer to the virtual machine
 
 1. Create a template `WorkloadGroup` for the VM(s)
+    
+    {{< tabset category-name="workloadgroup-create" >}}
 
+    {{< tab name="Default" category-value="default-workloadgroup" >}}
+
+    {{< text bash >}}
+    $ istioctl install
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg-workloadgroup" >}}
+
+    {{< warning >}}
+    This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
+    considered `pre-alpha`.
+    {{< /warning >}} 
+    
+    1. Generate the WorkloadGroup:
+    
     {{< text bash >}}
     $ istioctl x workload group create --name "${VM_APP}" --namespace "${VM_NAMESPACE}" --labels app="${VM_APP}" --serviceAccount "${SERVICE_ACCOUNT}" > workloadgroup.yaml
     {{< /text >}}
+    
+    1. Push the WorkloadGroup to the cluster:
+    
+    {{< text bash >}}
+    $ kubectl --namespace ${VM_NAMESPACE} apply -f workloadgroup.yaml`
+    {{< /text >}}
 
-    {{< tip >}}
-    To utilize VM auto-registration, apply the WorkloadGroup to the VM namespace: `kubectl --namespace ${VM_NAMESPACE} apply -f worklouadgroup.yaml`
-    {{< /tip >}}
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
 1. Use the `istioctl x workload entry` command to generate:
      * `cluster.env`: Contains metadata that identifies what namespace, service account, network CIDR and (optionally) what inbound ports to capture.
@@ -102,19 +144,36 @@ Install Istio and expose the control plane so that your virtual machine can acce
      * `root-cert.pem`: The root certificate used to authenticate.
      * `hosts`: An addendum to `/etc/hosts` that the proxy will use to reach istiod for xDS.*
 
-     {{< idea >}}
-     \*A sophisticated option involves configuring DNS within the virtual
-     machine to reference an external DNS server. This option is beyond
-     the scope of this guide.
-     {{< /idea >}}
-
+    {{< idea >}}
+    \*A sophisticated option involves configuring DNS within the virtual
+    machine to reference an external DNS server. This option is beyond
+    the scope of this guide.
+    {{< /idea >}}
+    
+    {{< tabset category-name="workloadgroup-create" >}}
+    
+    {{< tab name="Default" category-value="default-workloadgroup" >}}
+    
     {{< text bash >}}
     $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}"
     {{< /text >}}
-
-    {{< tip >}}
-    To utilize VM auto-registration, include the auto-register flag: `istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --autoregister`.
-    {{< /tip >}}
+    
+    {{< /tab >}}
+ 
+    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg-workloadgroup" >}}
+ 
+    {{< warning >}}
+    This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
+    considered `pre-alpha`.
+    {{< /warning >}} 
+     
+    {{< text bash >}}
+    $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --autoregister
+    {{< /text >}}
+     
+    {{< /tab >}}
+ 
+    {{< /tabset >}}
 
 ## Configure the virtual machine
 
@@ -123,18 +182,6 @@ Run the following commands on the virtual machine you want to add to the Istio m
 1. Securely transfer the files from `"${WORK_DIR}"`
     to the virtual machine.  How you choose to securely transfer those files should be done with consideration for
     your information security policies. For convenience in this guide, transfer all of the required files to `"${HOME}"` in the virtual machine.
-
-1. Update the cache of package updates for your `deb` packaged distro.
-
-    {{< text bash >}}
-    $ sudo apt -y update
-    {{< /text >}}
-
-1. Upgrade the `deb` packaged distro to ensure all latest security packages are applied.
-
-    {{< text bash >}}
-    $ sudo apt -y upgrade
-    {{< /text >}}
 
 1. Install the root certificate at `/etc/certs`:
 
@@ -216,16 +263,16 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
 Stop Istio on the virtual machine:
 
-    {{< text bash >}}
-    $ sudo systemctl stop istio
-    {{< /text >}}
+{{< text bash >}}
+$ sudo systemctl stop istio
+{{< /text >}}
 
 Then, remove the Istio-sidecar package:
 
-    {{< text bash >}}
-    $ sudo dpkg -r istio-sidecar
-    $ dpkg -s istio-sidecar
-    {{< /text >}}
+{{< text bash >}}
+$ sudo dpkg -r istio-sidecar
+$ dpkg -s istio-sidecar
+{{< /text >}}
 
 To uninstall Istio, run the following command:
 
