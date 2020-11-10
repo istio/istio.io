@@ -21,7 +21,7 @@ istio.io.
 ## Istio CoreDNS Plugin Deprecation
 
 In order to provide DNS resolution for `ServiceEntries`, Istio has provided an optional addon as part of the install to
-deploy the third party [istio coredns plugin](https://github.com/istio-ecosystem/istio-coredns-plugin). In this release,
+deploy the third party [Istio CoreDNS plugin](https://github.com/istio-ecosystem/istio-coredns-plugin). In this release,
 the Istio sidecar can now provide this functionality natively. This can be enabled with the `meshConfig.defaultConfig.proxyMetadata.ISTIO_META_DNS_CAPTURE="true"`.
 
 As a result, the `istio-coredns-plugin` is now deprecated and will be removed in a future release.

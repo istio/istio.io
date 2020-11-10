@@ -34,19 +34,19 @@ to your cluster. If required, it can be disabled by setting the `ISTIOD_ENABLE_S
 environment variable in Istiod.
 
 - **Improved** TLS configuration on sidecar server side inbound paths to enforce `TLSv2` version along with recommended cipher suites.
-             If this is not needed or creates problems with non Envoy clients, it can disabled by setting env variable "PILOT_SIDECAR_ENABLE_INBOUND_TLS_V2" to false.
+             If this is not needed or creates problems with non Envoy clients, it can disabled by setting env variable `PILOT_SIDECAR_ENABLE_INBOUND_TLS_V2` to false.
 
-- **Updated** The `ipBlocks`/`notIpBlocks` fields of an AuthorizationPolicy now strictly refer to the source IP address of the IP packet as it arrives to the sidecar.  Prior to this release, if using the Proxy Protocol, then the `ipBlocks`/`notIpBlocks` would refer to the IP address determined by the Proxy Protocol.  Now the `remoteIpBlocks`/`notRemoteIpBlocks` fields must be used to refer to the client IP address from the Proxy Protocol.
+- **Updated** The `ipBlocks`/`notIpBlocks` fields of an `AuthorizationPolicy` now strictly refer to the source IP address of the IP packet as it arrives at the sidecar.  Prior to this release, if using the Proxy Protocol, then the `ipBlocks`/`notIpBlocks` would refer to the IP address determined by the Proxy Protocol.  Now the `remoteIpBlocks`/`notRemoteIpBlocks` fields must be used to refer to the client IP address from the Proxy Protocol.
  ([reference](/docs/reference/config/security/authorization-policy/))([usage](/docs/ops/configuration/traffic-management/network-topologies/))([usage](/docs/tasks/security/authorization/authz-ingress/)) ([Issue #22341](https://github.com/istio/istio/issues/22341))
 
-- **Added** AuthorizationPolicy now supports nested JWT claims.
+- **Added** `AuthorizationPolicy` now supports nested JWT claims.
   ([Issue #21340](https://github.com/istio/istio/issues/21340))
 
 - **Added** support for client side Envoy secure naming config when trust domain alias is used.
-Fix the multi cluster service discovery client SAN generation: takes all endpoints' service accounts
+Fix the multi-cluster service discovery client SAN generation: takes all endpoints' service accounts
 into account, rather than the first found service registry.
 
-- **Added** Experimental Feature support allowing Istiod to integrate with external certificate authorities using Kubernetes CSR API (>=1.18 only).
+- **Added** Experimental feature support allowing Istiod to integrate with external certificate authorities using Kubernetes CSR API (>=1.18 only).
   ([Issue #27606](https://github.com/istio/istio/issues/27606))
 
 - **Added** Enable user to set the custom VM identity provider for credential authentication
@@ -57,9 +57,9 @@ into account, rather than the first found service registry.
 
 - **Added** support for migration and concurrent use of regular K8S tokens as well as new K8S tokens with audience. This feature is enabled by
 default, can be disabled by `REQUIRE_3P_TOKEN` environment variable in Istiod, which will require new tokens with audience. The
-`TOKEN_AUDIENCE` environment variable allows customizing the checked audience, default remains `istio-ca`.
+`TOKEN_AUDIENCES` environment variable allows customizing the checked audience, default remains `istio-ca`.
 
-- **Added** AuthorizationPolicy now supports a Source of type `remoteIpBlocks`/`notRemoteIpBlocks` that map to a new Condition attribute called `remote.ip` that can also be used in the "when" clause.  If using an http/https load balancer in front of the ingress gateway, the `remote.ip` attribute is set to the original client IP address determined by the X-Forwarded-For http header from the trusted proxy configured through the `numTrustedProxies` field of the `gatewayTopology` under the `meshConfig` when you install Istio or set it via an annotation on the ingress gateway.  See the documentation here: [Configuring Gateway Network Topology](/docs/ops/configuration/traffic-management/network-topologies/). If using a TCP load balancer with the Proxy Protocol in front of the ingress gateway, the `remote.ip` is set to the original client IP address as given by the Proxy Protocol.
+- **Added** `AuthorizationPolicy` now supports a `Source` of type `remoteIpBlocks`/`notRemoteIpBlocks` that map to a new `Condition` attribute called `remote.ip` that can also be used in the "when" clause.  If using an http/https load balancer in front of the ingress gateway, the `remote.ip` attribute is set to the original client IP address determined by the `X-Forwarded-For` http header from the trusted proxy configured through the `numTrustedProxies` field of the `gatewayTopology` under the `meshConfig` when you install Istio or set it via an annotation on the ingress gateway.  See the documentation here: [Configuring Gateway Network Topology](/docs/ops/configuration/traffic-management/network-topologies/). If using a TCP load balancer with the Proxy Protocol in front of the ingress gateway, the `remote.ip` is set to the original client IP address as given by the Proxy Protocol.
  ([reference](/docs/reference/config/security/authorization-policy/))([usage](/docs/ops/configuration/traffic-management/network-topologies/))([usage](/docs/tasks/security/authorization/authz-ingress/)) ([Issue #22341](https://github.com/istio/istio/issues/22341))
 
 - **Added** Trust Domain Validation by default rejecting requests in sidecars if the request is not from same trust domain
@@ -76,13 +76,13 @@ the previous values.
 - **Added** Update Istio Workload and Istio Service dashboards to improve loading time.
   ([Issue #22408](https://github.com/istio/istio/issues/22408))
 
-- **Added** `datasource` parameter to Grafana dashboards 
+- **Added** `datasource` parameter to Grafana dashboards
   ([Issue #22408](https://github.com/istio/istio/issues/22408))
 
 - **Added** Listener Access Logs when `ResponseFlag` from Envoy is set.
   ([Issue #26851](https://github.com/istio/istio/issues/26851))
 
-- **Added** added support for `OpenCensusAgent` formatted trace export with configurable trace context headers.
+- **Added** support for `OpenCensusAgent` formatted trace export with configurable trace context headers.
 
 - **Added** Proxy config to control Envoy native stats generation.
   ([Issue #26546](https://github.com/istio/istio/issues/26546))
@@ -110,12 +110,12 @@ configure cross-network gateways without using [mesh networks](/docs/reference/c
  This option is enabled automatically on Kubernetes 1.19+ and is not supported on older versions.
   ([Issue #26882](https://github.com/istio/istio/issues/26882))
 
-- **Improved** Generated operator manifests for use with `kustomize` are available in the directory `manifests/charts/istio-operator/files/gen-operator.yaml`.
+- **Improved** Generated operator manifests for use with `kustomize` are available in the [manifests]({{</* github_tree */>}}/manifests/charts/istio-operator/files) directory.
   ([Issue #27139](https://github.com/istio/istio/issues/27139))
 
 - **Updated** install script to bypass GitHub API Rate Limiting.
 
-- **Added** port 15012 to the default list of ports for the `istio-ingressgateway` Service.
+- **Added** port `15012` to the default list of ports for the `istio-ingressgateway` Service.
   ([Issue #25933](https://github.com/istio/istio/issues/25933))
 
 - **Added** Istio 1.8 supports Kubernetes versions 1.17 to 1.19.
@@ -127,12 +127,12 @@ configure cross-network gateways without using [mesh networks](/docs/reference/c
 - **Deprecated** installation flags `values.global.meshExpansion.enabled` in favor of user-managed config and `values.gateways.istio-ingressgateway.meshExpansionPorts` in favor of `components.ingressGateways[name=istio-ingressgateway].k8s.service.ports`
   ([Issue #25933](https://github.com/istio/istio/issues/25933))
 
-- **Fixed** allow configure `RENEW_DEADLINE` for Istio operator manager.
+- **Fixed** allow configuring `RENEW_DEADLINE` for Istio operator manager.
   ([Issue #27509](https://github.com/istio/istio/issues/27509))
 
 - **Fixed** an issue preventing `NodePort` services from being used as the `registryServiceName` in `meshNetworks`.
 
-- **Removed** the installation of telemetry addons (Prometheus, Grafana, Zipkin, Jaeger, Kiali) from installation by `istioctl`. See [Reworking our Addon Integrations](/blog/2020/addon-rework/) for more info.
+- **Removed** the installation of telemetry addons (Prometheus, Grafana, Zipkin, Jaeger, Kiali) by `istioctl`. See [Reworking our Addon Integrations](/blog/2020/addon-rework/) for more info.
   ([Issue #23868](https://github.com/istio/istio/issues/23868)),([Issue #23583](https://github.com/istio/istio/issues/23583))
 
 - **Removed** `istio-telemetry` and `istio-policy` from installation by `istioctl`.
@@ -148,18 +148,18 @@ Before, it would return the first line of the resource with the error.
 A new option, `--plaintext`, has been created for testing without tokens.
   ([Issue #24905](https://github.com/istio/istio/issues/24905))
 
-- **Added** istioctl commands may now refer to pods indirectly, for example 'istioctl dashboard envoy deployment/httpbin'
+- **Added** istioctl commands may now refer to pods indirectly, for example `istioctl dashboard envoy deployment/httpbin`
   ([Issue #26080](https://github.com/istio/istio/issues/26080))
 
 - **Added** `io` as short name for Istio Operator resources in addition to `iop`.
   ([Issue #27159](https://github.com/istio/istio/issues/27159))
 
-- **Added** `--type` for `istioctl experimental create-remote-secret` to allow user specify type for the created secret
+- **Added** `--type` for `istioctl experimental create-remote-secret` to allow user specify type for the created secret.
 
 - **Added** an experimental OpenShift Kubernetes platform profile to `istioctl`. To install with the OpenShift profile, use `istioctl install --set profile=openshift`.
  ([OpenShift Platform Setup](/docs/setup/platform-setup/openshift/))([Install OpenShift using `istioctl`](/docs/setup/install/istioctl/#install-a-different-profile))
 
-- **Added** istioctl bug-report generates an archive of Istio and cluster information to assist with debugging.
+- **Added** `istioctl bug-report` generates an archive of Istio and cluster information to assist with debugging.
   ([Issue #26045](https://github.com/istio/istio/issues/26045))
 
 - **Added** New command `istioctl experimental istiod log` to enable managing logging levels
