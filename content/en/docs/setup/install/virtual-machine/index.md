@@ -52,7 +52,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 1. Install Istio.
 
     {{< tabset category-name="istio-install" >}}
-    
+
     {{< tab name="Default" category-value="default-install" >}}
 
     {{< text bash >}}
@@ -66,11 +66,11 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< warning >}}
     This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
     considered `pre-alpha`.
-    {{< /warning >}} 
+    {{< /warning >}}
 
     {{< text bash >}}
     $ istioctl install --set values.global.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true
-    {{< /text >}} 
+    {{< /text >}}
 
     {{< /tab >}}
 
@@ -103,7 +103,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 ## Create files to transfer to the virtual machine
 
 1. Create a template `WorkloadGroup` for the VM(s)
-    
+
     {{< tabset category-name="workloadgroup-create" >}}
 
     {{< tab name="Default" category-value="default-workloadgroup" >}}
@@ -119,16 +119,16 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< warning >}}
     This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
     considered `pre-alpha`.
-    {{< /warning >}} 
-    
+    {{< /warning >}}
+
     1. Generate the `WorkloadGroup`:
-    
+
     {{< text bash >}}
     $ istioctl x workload group create --name "${VM_APP}" --namespace "${VM_NAMESPACE}" --labels app="${VM_APP}" --serviceAccount "${SERVICE_ACCOUNT}" > workloadgroup.yaml
     {{< /text >}}
-    
+
     1. Push the `WorkloadGroup` to the cluster:
-    
+
     {{< text bash >}}
     $ kubectl --namespace ${VM_NAMESPACE} apply -f workloadgroup.yaml`
     {{< /text >}}
@@ -138,41 +138,41 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< /tabset >}}
 
 1. Use the `istioctl x workload entry` command to generate:
-     * `cluster.env`: Contains metadata that identifies what namespace, service account, network CIDR and (optionally) what inbound ports to capture.
-     * `istio-token`: A Kubernetes token used to get certs from the CA.
-     * `mesh.yaml`: Provides additional Istio metadata including, network name, trust domain and other values.
-     * `root-cert.pem`: The root certificate used to authenticate.
-     * `hosts`: An addendum to `/etc/hosts` that the proxy will use to reach istiod for xDS.*
+       * `cluster.env`: Contains metadata that identifies what namespace, service account, network CIDR and (optionally) what inbound ports to capture.
+       * `istio-token`: A Kubernetes token used to get certs from the CA.
+       * `mesh.yaml`: Provides additional Istio metadata including, network name, trust domain and other values.
+       * `root-cert.pem`: The root certificate used to authenticate.
+       * `hosts`: An addendum to `/etc/hosts` that the proxy will use to reach istiod for xDS.*
 
     {{< idea >}}
-    \*A sophisticated option involves configuring DNS within the virtual
+    A sophisticated option involves configuring DNS within the virtual
     machine to reference an external DNS server. This option is beyond
     the scope of this guide.
     {{< /idea >}}
-    
+
     {{< tabset category-name="workloadgroup-create" >}}
-    
+
     {{< tab name="Default" category-value="default-workloadgroup" >}}
-    
+
     {{< text bash >}}
     $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}"
     {{< /text >}}
-    
+
     {{< /tab >}}
- 
+
     {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg-workloadgroup" >}}
- 
+
     {{< warning >}}
     This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
     considered `pre-alpha`.
-    {{< /warning >}} 
-     
+    {{< /warning >}}
+
     {{< text bash >}}
     $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --autoregister
     {{< /text >}}
-     
+
     {{< /tab >}}
- 
+
     {{< /tabset >}}
 
 ## Configure the virtual machine
