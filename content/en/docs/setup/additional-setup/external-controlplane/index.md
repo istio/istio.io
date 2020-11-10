@@ -56,8 +56,8 @@ Variable | Description
 -------- | -----------
 `CTX_EXTERNAL_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the external control plane cluster.
 `CTX_REMOTE_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the remote cluster.
-`EXTERNAL_ISTIOD_ADDR` | The external istiod host name required for the `remote_cluster` to access the external control plane.
-`SSL_SECRET_NAME` | The secret name used to access the ingress gateway on the external control plane cluster.
+`EXTERNAL_ISTIOD_ADDR` | The hostname for the ingress gateway on the external control plane cluster. This is used by the `remote_cluster` to access the external control plane.
+`SSL_SECRET_NAME` | The name of the secret that holds the TLS certs for the ingress gateway on the external control plane cluster.
 
 For example:
 
@@ -236,7 +236,7 @@ spec:
     istiodRemote:
       injectionURL: https://$EXTERNAL_ISTIOD_ADDR:15017/inject
     base:
-      validationURL: https://EXTERNAL_ISTIOD_ADDR:15017/validate
+      validationURL: https://$EXTERNAL_ISTIOD_ADDR:15017/validate
 EOF
 {{< /text >}}
 
