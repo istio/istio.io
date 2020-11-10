@@ -1,5 +1,5 @@
 ---
-title: Install Istio with an External Control Plane
+title: Install External Control Plane Istio
 description: Install an external control plane and remote cluster.
 weight: 80
 keywords: [external,control,istiod,remote]
@@ -13,9 +13,8 @@ This guide walks you through the installation of an {{< gloss >}}external contro
 external control plane [deployment model](/docs/ops/deployment/deployment-models/#control-plane-models)
 enables mesh operators to install and manage mesh control planes on separate
 external clusters. This deployment model allows a clear separation between mesh
-operators and mesh admins. Istio mesh operators can run Istio control planes
-for mesh admins while mesh admins control the configuration of the control
-plane without worrying about installing or managing it.
+operators and mesh admins. The mesh operators can install and manage the Istio control planes
+and the mesh admins control the mesh resources.
 
 {{< image width="75%"
     link="external-controlplane.svg"
@@ -33,23 +32,22 @@ The first cluster contains the external control plane installed
 in the `external-istiod` namespace. An ingress gateway is also installed in the `istio-system`
 namespace to provide mesh sidecars access to the external control plane.
 
-The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} hosting the mesh.
+The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} running the mesh workloads.
 Its Kubernetes API server also provides the configuration for the control plane (istiod)
 running in the external cluster.
 
 ### API Server Access
 
-The API Server in the remote cluster must be accessible to the external
-control plane cluster. Many cloud providers make API Servers publicly accessible
-via network load balancers (NLBs). If the API Server is not directly accessible, you will
+The Kubernetes API server in the remote cluster must be accessible to the external
+control plane cluster. Many cloud providers make API servers publicly accessible
+via network load balancers (NLBs). If the API server is not directly accessible, you will
 have to modify the installation procedure to enable access. For example, the
 [east-west](https://en.wikipedia.org/wiki/East-west_traffic) gateway used in
 the multi-network and primary-remote configurations could also be used
-to enable access to the API Server.
+to enable access to the API server.
 
 ## Environment Variables
 
-This guide will refer to two clusters named `external_cluster` and `remote_cluster`.
 The following environment variables will be used throughout to simplify the instructions:
 
 Variable | Description
@@ -59,20 +57,18 @@ Variable | Description
 `EXTERNAL_ISTIOD_ADDR` | The hostname for the ingress gateway on the external control plane cluster. This is used by the `remote_cluster` to access the external control plane.
 `SSL_SECRET_NAME` | The name of the secret that holds the TLS certs for the ingress gateway on the external control plane cluster.
 
-For example:
+Set the `CTX_EXTERNAL_CLUSTER` and `CTX_REMOTE_CLUSTER` now. You will set the others later.
 
 {{< text bash >}}
 $ export CTX_EXTERNAL_CLUSTER=external_cluster
 $ export CTX_REMOTE_CLUSTER=remote_cluster
-$ export EXTERNAL_ISTIOD_ADDR=myexternal-istiod.cloud.com
-$ export SSL_SECRET_NAME=myexternal-istiod-secret
 {{< /text >}}
 
 ## Cluster configuration
 
 ### Set up the external cluster
 
-Create the install configuration for the ingress gateway that exposes the external control plane ports to other clusters:
+Create the Istio install configuration for the ingress gateway that exposes the external control plane ports to other clusters:
 
 {{< text bash >}}
 $ cat <<EOF > controlplane-gateway.yaml
@@ -106,10 +102,11 @@ Install the configuration to create the ingress gateway in the `istio-system` na
 $ istioctl install -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
-Configure your environment to expose the Istio ingress gateway service as a hostname and update the `EXTERNAL_ISTIOD_ADDR` environment variable:
+Configure your environment to expose the Istio ingress gateway service as a hostname with TLS. Set the `EXTERNAL_ISTIOD_ADDR` environment variable to the hostname and `SSL_SECRET_NAME` environment variable to the secret that holds the TLS certs:
 
 {{<text bash>}}
 $ export EXTERNAL_ISTIOD_ADDR=myexternal-istiod.cloud.com
+$ export SSL_SECRET_NAME=myexternal-istiod-secret
 {{< /text >}}
 
 Create the Istio `Gateway`, `VirtualService`, and `DestinationRule` configuration for the **yet to be installed** external
