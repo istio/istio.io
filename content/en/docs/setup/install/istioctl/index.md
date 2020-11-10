@@ -322,10 +322,10 @@ In addition to installing any of Istio's built-in
 - [The `IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
 
 The configuration parameters in this API can be set individually using `--set` options on the command
-line. For example, to enable the control plane security feature in a default configuration profile, use this command:
+line. For example, to enable debug logging in a default configuration profile, use this command:
 
 {{< text bash >}}
-$ istioctl install --set values.global.controlPlaneSecurityEnabled=true
+$ istioctl install --set values.global.logging.level=debug
 {{< /text >}}
 
 Alternatively, the `IstioOperator` configuration can be specified in a YAML file and passed to
