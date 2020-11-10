@@ -4,8 +4,6 @@ description: Important changes to consider when upgrading to Istio 1.8.
 weight: 20
 ---
 
-# Upgrade Notes
-
 When you upgrade from Istio 1.7.x to Istio 1.8.x, you need to consider the changes on this page.
 These notes detail the changes which purposefully break backwards compatibility with Istio 1.7.x.
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
@@ -22,15 +20,15 @@ istio.io.
 
 ## Istio CoreDNS Plugin Deprecation
 
-In order to provide DNS resolution for ServiceEntries, Istio has provided an optional addon as part of the install to
-deploy the third party [istio-coredns-plugin](https://github.com/istio-ecosystem/istio-coredns-plugin). In this release,
+In order to provide DNS resolution for `ServiceEntries`, Istio has provided an optional addon as part of the install to
+deploy the third party [istio coredns plugin](https://github.com/istio-ecosystem/istio-coredns-plugin). In this release,
 the Istio sidecar can now provide this functionality natively. This can be enabled with the `meshConfig.defaultConfig.proxyMetadata.ISTIO_META_DNS_CAPTURE="true"`.
 
 As a result, the `istio-coredns-plugin` is now deprecated and will be removed in a future release.
 
-## Use the new filter names for EnvoyFilter
+## Use the new filter names for `EnvoyFilter`
 
-If you are using EnvoyFilter API, it is recommended to change to the new filter names: [deprecation notice](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.14.0#deprecated)
+If you are using `EnvoyFilter` API, it is recommended to change to the new filter names: [deprecation notice](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.14.0#deprecated)
 The deprecated filter names will be supported in this release for backward compatibility but will be removed in future releases.
 
 ## Inbound Cluster Name Format
@@ -80,18 +78,18 @@ for misconfigured server first protocols rather than failing fast.
 This timeout has been disabled by default. This has the following impacts:
 
 - Non "server first" protocols will no longer have a risk of telemetry or traffic failures during slow connections
-- Properly configured "server first" protocols will no longer have an extra 5s latency on each connection
+- Properly configured "server first" protocols will no longer have an extra 5 seconds latency on each connection
 - Improperly configured "server first" protocols will experience connection timeouts. Please ensure you follow the steps listed in [Server First Protocols](/docs/ops/configuration/traffic-management/protocol-selection/#server-first-protocols)
   to ensure you do not run into traffic issues.
 
-## Update AuthorizationPolicy resources to use remoteIpBlocks/notRemoteIpBlocks instead of ipBlocks/notIpBlocks if using the Proxy Protocol
+## Update AuthorizationPolicy resources to use `remoteIpBlocks`/`notRemoteIpBlocks` instead of `ipBlocks`/`notIpBlocks` if using the Proxy Protocol
 
-If using the Proxy Protocol on a load balancer in front an ingress gateway in conjunction with ipBlocks/notIpBlocks on an AuthorizationPolicy to perform IP-based access control, then please update the AuthorizationPolicy to use remoteIpBlocks/notRemoteIpBlocks instead after upgrading. The ipBlocks/notIpBlocks fields now strictly refer to the source IP address of the packet that arrives at the sidecar.
+If using the Proxy Protocol on a load balancer in front an ingress gateway in conjunction with `ipBlocks`/`notIpBlocks` on an AuthorizationPolicy to perform IP-based access control, then please update the AuthorizationPolicy to use `remoteIpBlocks`/`notRemoteIpBlocks` instead after upgrading. The `ipBlocks`/`notIpBlocks` fields now strictly refer to the source IP address of the packet that arrives at the sidecar.
 
 ## `AUTO_PASSTHROUGH` Gateway mode
 
 Previously, gateways were configured with multiple Envoy `cluster` configurations for each Service in the cluster, even those
-not referenced by any Gateway or VirtualService. This was added to support the `AUTO_PASSTHROUGH` mode on Gateway, generally used for exposing Services accross networks.
+not referenced by any `Gateway` or `VirtualService`. This was added to support the `AUTO_PASSTHROUGH` mode on Gateway, generally used for exposing Services across networks.
 
 However, this came at an increased CPU and memory cost in the gateway and Istiod. As a result, we have disabled these by default
 on the `istio-ingressgateway` and `istio-egressgateway`.
