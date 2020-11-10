@@ -246,8 +246,7 @@ Install the configuration on the remote cluster:
 $ istioctl install -f remote-config-cluster.yaml --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
-You may notice the ingress gateway in `remote_cluster` is not running yet.
-This is expected until the external control plane is running, which you will install next.
+**NOTE: You will see errors during the install and the ingress gateway will not start. This is expected until you install the external control plane in the next section.
 
 ### Set up the control plane in the external cluster
 
@@ -320,6 +319,7 @@ has [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection
 Wait a few seconds for the `helloworld` pods to be running with sidecars injected.
 
 {{< text bash >}}
+$ kubectl label namespace default istio-injection=enabled --context="${CTX_REMOTE_CLUSTER}"
 $ kubectl apply -f samples/helloworld/helloworld.yaml --context="${CTX_REMOTE_CLUSTER}"
 $ kubectl get pod -l app=helloworld --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
