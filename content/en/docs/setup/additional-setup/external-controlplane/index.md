@@ -14,7 +14,7 @@ external control plane [deployment model](/docs/ops/deployment/deployment-models
 enables mesh operators to install and manage mesh control planes on separate
 external clusters. This deployment model allows a clear separation between mesh
 operators and mesh admins. The mesh operators can install and manage the Istio control planes
-and the mesh admins control the mesh resources.
+while the mesh admins only need to configure the mesh resources.
 
 {{< image width="75%"
     link="external-controlplane.svg"
@@ -103,8 +103,9 @@ $ istioctl install -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTE
 {{< /text >}}
 
 You may notice the istiod deployment created in the istio-system namespace. This is used only to configure the ingress gateway and is NOT the control plane used by remote clusters.
+This ingress gateway could, in fact, be configured to host multiple external control control planes, in different namespaces on the cluster, even though in this example you will only deploy a single external istiod in the `external-istiod` namespace.
 
-Configure your environment to expose the Istio ingress gateway service as a hostname with TLS. Set the `EXTERNAL_ISTIOD_ADDR` environment variable to the hostname and `SSL_SECRET_NAME` environment variable to the secret that holds the TLS certs:
+Configure your environment to expose the Istio ingress gateway service using a public hostname with TLS. Set the `EXTERNAL_ISTIOD_ADDR` environment variable to the hostname and `SSL_SECRET_NAME` environment variable to the secret that holds the TLS certs:
 
 {{< text bash >}}
 $ export EXTERNAL_ISTIOD_ADDR=myexternal-istiod.cloud.com
