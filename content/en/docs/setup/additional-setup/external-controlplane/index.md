@@ -131,7 +131,7 @@ spec:
         mode: SIMPLE
         credentialName: $SSL_SECRET_NAME
       hosts:
-      - "$EXTERNAL_ISTIOD_ADDR"
+      - $EXTERNAL_ISTIOD_ADDR
     - port:
         number: 15017
         protocol: https
@@ -198,9 +198,9 @@ $ kubectl create namespace external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
-### Set up the remote (mesh) cluster
+### Set up the remote cluster
 
-Create the remote Istio configuration in the `external-istiod` namespace:
+Create the remote Istio install configuration:
 
 {{< text bash >}}
 $ cat <<EOF > remote-config-cluster.yaml
@@ -243,12 +243,11 @@ Install the configuration on the remote cluster:
 $ istioctl install -f remote-config-cluster.yaml --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
-**NOTE: You will see errors during the install and the ingress gateway will not start. This is expected until you install the external control plane in the next section.
+**NOTE:** You will see errors during the install and the ingress gateway will not start. This is expected until you install the external control plane in the next section.
 
 ### Set up the control plane in the external cluster
 
-Create a remote secret to allow the external control plane in `external_cluster` to
-access the `remote_cluster`:
+The control plane in the external cluster needs access to the remote cluster to discover services, endpoints, and pod attributes. Create a secret with credentials to access the remote cluster’s `kube-apiserver` and install it in the external cluster.
 
 {{< text bash >}}
 $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
@@ -259,8 +258,7 @@ $ istioctl x create-remote-secret \
   kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
-Generate the Istio configuration for the `external-istiod`
-namespace of `external_cluster`:
+Create the Istio install configuration to create the control plane in the `external-istiod` namespace of the external cluster:
 
 {{< text bash >}}
 $ cat <<EOF > external-istiod.yaml
@@ -297,7 +295,7 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the Istio configuration on `external_cluster`:
+Apply the Istio configuration on the external cluster:
 
 {{< text bash >}}
 $ istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
@@ -305,13 +303,13 @@ $ istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 
 ## Validate the installation
 
-Confirm the Istio ingress gateway is running on `remote_cluster`.
+Confirm that the Istio ingress gateway is now running on the remote cluster.
 
 {{< text bash >}}
 $ kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
-Deploy the `helloworld` sample to the `remote_cluster`. Wait a few seconds for the `helloworld` pods to be running with sidecars injected.
+Deploy the `helloworld` sample to the remote cluster. Wait a few seconds for the `helloworld` pods to be running with sidecars injected.
 
 {{< text bash >}}
 $ kubectl label namespace default istio-injection=enabled --context="${CTX_REMOTE_CLUSTER}"
