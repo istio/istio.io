@@ -16,7 +16,7 @@ weight: 10
 - **Added** `REPLACE` operation for EnvoyFilter. `REPLACE` operation can replace the contents of a named filter with new contents. It is only valid for `HTTP_FILTER` and `NETWORK_FILTER`.
   ([Issue #27425](https://github.com/istio/istio/issues/27425))
 
-- **Added** Istio resource status now includes Observed Generation
+- **Added** Istio resource status now includes observed generation
   ([Issue #24471](https://github.com/istio/istio/issues/24471))
 
 - **Fixed** remove endpoints when the new labels in `WorkloadEntry` do not match the `workloadSelector` in `ServiceEntry`.
