@@ -346,7 +346,7 @@ default           Cert Chain     ACTIVE     true           138092480869518152837
 ROOTCA            CA             ACTIVE     true           288553090258624301170355571152070165215     2030-11-08T16:34:52Z     2020-11-10T16:34:52Z
 {{< /text >}}
 
-By passing the `-o json` flag, we can pass the full certificate content to `openssl` to analyze its contents:
+By passing the `-o json` flag, you can pass the full certificate content to `openssl` to analyze its contents:
 
 {{< text bash >}}
 $ istioctl proxy-config secret sleep-8f795f47d-4s4t7 -o json | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -noout -text
@@ -373,7 +373,7 @@ Certificate:
 ...
 {{< /text >}}
 
-Make sure the displayed certificate contains valid information. In particular, the Subject Alternative Name field should be `URI:spiffe://cluster.local/ns/my-ns/sa/my-sa`.
+Make sure the displayed certificate contains valid information. In particular, the `Subject Alternative Name` field should be `URI:spiffe://cluster.local/ns/my-ns/sa/my-sa`.
 
 ## Mutual TLS errors
 
