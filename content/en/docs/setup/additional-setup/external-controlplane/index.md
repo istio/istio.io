@@ -66,7 +66,7 @@ $ export CTX_REMOTE_CLUSTER=remote_cluster
 
 ## Cluster configuration
 
-### Set up the ingress in the external cluster
+### Set up a gateway in the external cluster
 
 Create the Istio install configuration for the ingress gateway that exposes the external control plane ports to other clusters:
 
