@@ -140,7 +140,7 @@ spec:
         mode: SIMPLE
         credentialName: $SSL_SECRET_NAME
       hosts:
-      - "$EXTERNAL_ISTIOD_ADDR"
+      - $EXTERNAL_ISTIOD_ADDR
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
