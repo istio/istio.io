@@ -121,13 +121,13 @@ Install Istio and expose the control plane so that your virtual machine can acce
     considered `pre-alpha`.
     {{< /warning >}} 
     
-    1. Generate the WorkloadGroup:
+    1. Generate the `WorkloadGroup`:
     
     {{< text bash >}}
     $ istioctl x workload group create --name "${VM_APP}" --namespace "${VM_NAMESPACE}" --labels app="${VM_APP}" --serviceAccount "${SERVICE_ACCOUNT}" > workloadgroup.yaml
     {{< /text >}}
     
-    1. Push the WorkloadGroup to the cluster:
+    1. Push the `WorkloadGroup` to the cluster:
     
     {{< text bash >}}
     $ kubectl --namespace ${VM_NAMESPACE} apply -f workloadgroup.yaml`
