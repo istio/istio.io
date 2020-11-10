@@ -15,7 +15,7 @@ weight: 10
   ([Issue #27425](https://github.com/istio/istio/issues/27425))
 
 - **Added** Istio resource status now includes observed generation
-  ([Issue #24471](https://github.com/istio/istio/issues/24471))
+  ([Issue #28003](https://github.com/istio/istio/issues/28003))
 
 - **Fixed** remove endpoints when the new labels in `WorkloadEntry` do not match the `workloadSelector` in `ServiceEntry`.
   ([Issue #25678](https://github.com/istio/istio/issues/25678))
@@ -110,7 +110,7 @@ configure cross-network gateways without using [mesh networks](/docs/reference/c
  This option is enabled automatically on Kubernetes 1.19+ and is not supported on older versions.
   ([Issue #26882](https://github.com/istio/istio/issues/26882))
 
-- **Improved** Generated operator manifests for use with `kustomize` are available in the [manifests]({{</* github_tree */>}}/manifests/charts/istio-operator/files) directory.
+- **Improved** Generated operator manifests for use with `kustomize` are available in the [manifests]({{< github_tree >}}/manifests/charts/istio-operator/files) directory.
   ([Issue #27139](https://github.com/istio/istio/issues/27139))
 
 - **Updated** install script to bypass GitHub API Rate Limiting.
