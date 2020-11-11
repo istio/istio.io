@@ -146,8 +146,8 @@ each cluster that consumes that service. This ensures that regardless of
 where the request originates, it will pass DNS lookup and be handed to Istio
 for proper routing.
 This can also be achieved with Istio `ServiceEntry`, rather than Kubernetes
-`Service`. However, a `ServiceEntry` does not configure the Kubernetes DNS server
-so in this case DNS will need to be configured either manually or
+`Service`. However, a `ServiceEntry` does not configure the Kubernetes DNS server.
+This means that DNS will need to be configured either manually or
 with automated tooling such as the
 [Istio CoreDNS Plugin](https://github.com/istio-ecosystem/istio-coredns-plugin).
 
