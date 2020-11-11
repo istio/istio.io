@@ -89,6 +89,12 @@ Notice that it may take tens of seconds for the authorization policy to be propa
     $ istioctl install --set profile=demo --set meshConfig.trustDomain=new-td
     {{< /text >}}
 
+1. Redeploy istiod to pick up the trust domain changes.
+
+    {{< text bash >}}
+    $ kubectl rollout restart deployment -n istio-system istiod
+    {{< /text >}}
+
     Istio mesh is now running with a new trust domain, `new-td`.
 
 1. Redeploy the `httpbin` and `sleep` applications to pick up changes from the new Istio control plane.
