@@ -84,6 +84,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/) | Stable
 | Mixer Out-of-Process Adapter Authoring Model | deprecated
 | [Multicluster Mesh](/docs/setup/install/multicluster/) | Beta
+| [External Control Plane](/docs/setup/additional-setup/external-controlplane/) | Alpha
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/upgrade/) | Beta
 | Basic Configuration Resource Validation | Beta
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | deprecated
