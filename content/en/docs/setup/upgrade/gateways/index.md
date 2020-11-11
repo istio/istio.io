@@ -34,12 +34,6 @@ the control plane.
 
 ### Installation with `istioctl`
 
-1. Create a namespace to install Istio into if one doesn't already exist:
-
-    {{< text bash >}}
-    $ kubectl create ns istio-system
-    {{< /text >}}
-
 1.  Ensure that the main `IstioOperator` CR has a name and does not install a gateway:
 
     {{< text yaml >}}
