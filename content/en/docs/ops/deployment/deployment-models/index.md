@@ -129,7 +129,7 @@ In Kubernetes, the DNS server residing within the cluster typically handles
 this DNS lookup, based on the configured `Service` definitions.
 
 Istio uses the virtual IP returned by the DNS lookup to load balance
-accross the list of active endpoints for the requested service, taking into account any
+across the list of active endpoints for the requested service, taking into account any
 Istio configured routing rules.
 Istio uses either Kubernetes `Service`/`Endpoint` or Istio `ServiceEntry` to
 configure its internal mapping of hostname to workload IP addresses.
@@ -274,7 +274,8 @@ Clusters without their own control plane are referred to as
     >}}
 
 To support remote clusters in a multicluster mesh, the control plane in
-a primary cluster must be made accessible to them. For clusters spanning networks,
+a primary cluster must be accessible via a stable IP (e.g., a cluster IP).
+For clusters spanning networks,
 this can be achieved by exposing the control plane through an Istio gateway.
 Cloud vendors may provide options, such as internal load balancers, for
 providing this capability without exposing the control plane on the
@@ -326,11 +327,14 @@ This model affords the following benefits:
   zone, or region without impacting others.
 
 - Controlled rollout: You have more fine-grained control over configuration
-  rollout, for example, to canary configuration changes in a sub-section of the mesh
+  rollout (e.g., one cluster at a time). You can also canary configuration changes in a sub-section of the mesh
   controlled by a given primary cluster.
 
 - Selective service visibility: You can restrict service visibility to part
-  of the mesh, helping to establish service-level isolation.
+  of the mesh, helping to establish service-level isolation. For example, an
+  administrator may choose to deploy the `HelloWorld` service to Cluster A,
+  but not Cluster B. Any attempt to call `HelloWorld` from Cluster B will
+  fail the DNS lookup.
 
 The following list ranks control plane deployment examples by availability:
 
