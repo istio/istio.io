@@ -51,7 +51,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
 1. Install Istio.
 
-    {{< tabset category-name="istio-install" >}}
+    {{< tabset category-name="registration-mode" >}}
 
     {{< tab name="Default" category-value="default" >}}
 
@@ -106,7 +106,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
 1. Create a template `WorkloadGroup` for the VM(s)
 
-    {{< tabset category-name="workloadgroup-create" >}}
+    {{< tabset category-name="registration-mode" >}}
 
     {{< tab name="Default" category-value="default" >}}
 
@@ -152,7 +152,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     the scope of this guide.
     {{< /idea >}}
 
-    {{< tabset category-name="workloadgroup-create" >}}
+    {{< tabset category-name="registration-mode" >}}
 
     {{< tab name="Default" category-value="default" >}}
 
