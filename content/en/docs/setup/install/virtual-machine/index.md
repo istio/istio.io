@@ -53,7 +53,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
     {{< tabset category-name="istio-install" >}}
 
-    {{< tab name="Default" category-value="default-install" >}}
+    {{< tab name="Default" category-value="default" >}}
 
     {{< text bash >}}
     $ istioctl install
@@ -61,7 +61,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
     {{< /tab >}}
 
-    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg-install" >}}
+    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
 
     {{< warning >}}
     This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
@@ -108,15 +108,15 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
     {{< tabset category-name="workloadgroup-create" >}}
 
-    {{< tab name="Default" category-value="default-workloadgroup" >}}
+    {{< tab name="Default" category-value="default" >}}
 
     {{< text bash >}}
-    $ istioctl install
+    $ istioctl x workload group create --name "${VM_APP}" --namespace "${VM_NAMESPACE}" --labels app="${VM_APP}" --serviceAccount "${SERVICE_ACCOUNT}" > workloadgroup.yaml
     {{< /text >}}
 
     {{< /tab >}}
 
-    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg-workloadgroup" >}}
+    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
 
     {{< warning >}}
     This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
@@ -154,7 +154,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
     {{< tabset category-name="workloadgroup-create" >}}
 
-    {{< tab name="Default" category-value="default-workloadgroup" >}}
+    {{< tab name="Default" category-value="default" >}}
 
     {{< text bash >}}
     $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}"
@@ -162,7 +162,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
     {{< /tab >}}
 
-    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg-workloadgroup" >}}
+    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
 
     {{< warning >}}
     This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
