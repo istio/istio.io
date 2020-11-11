@@ -188,6 +188,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
 1. Install the root certificate at `/etc/certs`:
 
     {{< text bash >}}
+    $ sudo mkdir -p /etc/certs
     $ sudo cp "${HOME}"/root-cert.pem /etc/certs/root-cert.pem
     {{< /text >}}
 
@@ -198,12 +199,29 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo cp "${HOME}"/istio-token /var/run/secrets/tokens/istio-token
     {{< /text >}}
 
-1. Install the `deb` package containing the Istio virtual machine integration runtime:
+1. Install the package containing the Istio virtual machine integration runtime:
+
+    {{< tabset category-name="vm-os" >}}
+
+    {{< tab name="Debian" category-value="debian" >}}
 
     {{< text bash >}}
     $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< tab name="CentOS" category-value="centos" >}}
+
+    {{< text bash >}}
+    $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/rpm/istio-sidecar.rpm
+    $ sudo rpm -i istio-sidecar.deb
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
 1. Install `cluster.env` within the directory `/var/lib/istio/envoy/`:
 
