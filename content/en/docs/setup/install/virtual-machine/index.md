@@ -76,11 +76,13 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
     {{< /tabset >}}
 
-1. Deploy the east-west gateway and expose the control plane using the provided sample configuration.
+1. Deploy the east-west gateway:
 
     {{< text bash >}}
     $ @samples/multicluster/gen-eastwest-gateway.sh@ --single-cluster | istioctl install -y -f -
     {{< /text >}}
+
+1. Expose the control plane using the provided sample configuration:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
