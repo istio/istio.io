@@ -21,9 +21,6 @@ and it is using Istio self-signed certificates,
 you need to be mindful about the expiration date of the root certificate.
 The expiration of a root certificate may lead to an unexpected cluster-wide outage.
 
-To evaluate the lifetime remaining for your root certificate, please refer to the first step in the
-[procedure below](#root-transition-procedure).
-
 The following steps show you how to examine the remaining lifetime for your root certificate,
 and how to transition to a new root certificate with a 10 year lifetime.
 
