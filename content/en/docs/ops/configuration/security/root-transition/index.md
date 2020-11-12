@@ -43,9 +43,6 @@ and how to transition to a new root certificate with a 10 year lifetime.
 
 1. Execute a root certificate transition:
 
-    Starting with Istio version 1.5, Envoy can automatically load the new root certificate when it refreshes its
-    certificate.
-
     {{< text bash>}}
     $ ./root-transition.sh root-transition
     Create new ca cert, with trust domain as cluster.local
@@ -53,10 +50,10 @@ and how to transition to a new root certificate with a 10 year lifetime.
     secret "istio-ca-secret" deleted
     Wed Jun  5 19:11:15 PDT 2019 create new ca secret
     secret/istio-ca-secret created
-    pod "istio-citadel-8574b88bcd-j7v2d" deleted
+    pod "istiod-86f88b6f6-d8hjt" deleted
     Wed Jun  5 19:11:18 PDT 2019 restarted Citadel, checking status
-    NAME                             READY     STATUS    RESTARTS   AGE
-    istio-citadel-8574b88bcd-l2g74   1/1       Running   0          3s
+    NAME                                   READY   STATUS    RESTARTS   AGE
+    istiod-5d4798c786-w782z                1/1     Running   0          3s
     New root certificate:
     Certificate:
         Data:
@@ -99,3 +96,5 @@ and how to transition to a new root certificate with a 10 year lifetime.
     Inspect the `valid_from` value of `ca_cert`.
     If it matches the `_Not_ _Before_` value in the new certificate as shown in Step 2,
     your Envoy has loaded the new root certificate.
+    If you see your Envoy is not able to load the new certificate, check the health of Istiod.
+    You may also manually restart the workloads.
