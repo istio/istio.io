@@ -116,7 +116,7 @@ work together with `istiod` to automate key and certificate
 rotation at scale. The following diagram shows the identity
 provisioning flow.
 
-{{< image width="35%"
+{{< image width="40%"
     link="./id-prov.svg"
     caption="Identity Provisioning Workflow"
     >}}
@@ -288,7 +288,7 @@ TLS mode with
 You can find out more about how mutual TLS works in the
 [Mutual TLS authentication section](/docs/concepts/security/#mutual-tls-authentication).
 
-{{< image width="75%"
+{{< image width="50%"
     link="./authn.svg"
     caption="Authentication Architecture"
     >}}
@@ -532,7 +532,7 @@ the request context against the current authorization policies, and returns the
 authorization result, either `ALLOW` or `DENY`. Operators specify Istio
 authorization policies using `.yaml` files.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./authz.svg"
     caption="Authorization Architecture"
     >}}
