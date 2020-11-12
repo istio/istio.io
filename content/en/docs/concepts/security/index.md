@@ -102,9 +102,7 @@ The following list shows examples of service identities that you can use on diff
 platforms:
 
 - Kubernetes: Kubernetes service account
-- GKE/GCE: GCP service account
-- GCP: GCP service account
-- AWS: AWS IAM user/role account
+- GCE: GCP service account
 - On-premises (non-Kubernetes): user account, custom service account,
    service name, Istio service account, or GCP service account. The custom
    service account refers to the existing service account just like the
@@ -118,13 +116,13 @@ work together with `istiod` to automate key and certificate
 rotation at scale. The following diagram shows the identity
 provisioning flow.
 
-{{< image width="75%"
+{{< image width="40%"
     link="./id-prov.svg"
-    caption="Identity Provision"
+    caption="Identity Provisioning Workflow"
     >}}
 
-Istio provisions identities through the
-[secret discovery service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)
+Istio provisions keys and certificates through the
+[Envoy secret discovery service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)
 using the following flow:
 
 1. `istiod` offers a gRPC service to take [certificate signing requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
@@ -290,7 +288,7 @@ TLS mode with
 You can find out more about how mutual TLS works in the
 [Mutual TLS authentication section](/docs/concepts/security/#mutual-tls-authentication).
 
-{{< image width="75%"
+{{< image width="50%"
     link="./authn.svg"
     caption="Authentication Architecture"
     >}}
@@ -534,7 +532,7 @@ the request context against the current authorization policies, and returns the
 authorization result, either `ALLOW` or `DENY`. Operators specify Istio
 authorization policies using `.yaml` files.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./authz.svg"
     caption="Authorization Architecture"
     >}}
