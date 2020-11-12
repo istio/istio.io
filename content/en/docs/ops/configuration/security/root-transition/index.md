@@ -11,12 +11,12 @@ test: n/a
 ---
 
 {{< tip >}}
-You can skip this guide if your cluster started with Istio V1.3 or later versions,
+You can skip this guide if your cluster was started with Istio version 1.3 or later,
 or if you do not use the Istio self-signed certificates.
 {{< /tip >}}
 
-Before Istio V1.3, the Istio self-signed certificates had a 1 year default lifetime.
-If your cluster started with Istio V1.2 or earlier version,
+Before version 1.3, Istio self-signed certificates had a 1 year default lifetime.
+If your cluster started with Istio version 1.2 or earlier,
 and it is using Istio self-signed certificates,
 you need to be mindful about the expiration date of the root certificate.
 The expiration of a root certificate may lead to an unexpected cluster-wide outage.
@@ -24,7 +24,7 @@ The expiration of a root certificate may lead to an unexpected cluster-wide outa
 To evaluate the lifetime remaining for your root certificate, please refer to the first step in the
 [procedure below](#root-transition-procedure).
 
-The steps below show you how to examine the remaining lifetime for your root certificate,
+The following steps show you how to examine the remaining lifetime for your root certificate,
 and how to transition to a new root certificate with a 10 year lifetime.
 
 ## Root transition procedure
@@ -46,7 +46,7 @@ and how to transition to a new root certificate with a 10 year lifetime.
 
 1. Execute a root certificate transition:
 
-    From Istio V1.5, Envoy can automatically load the new root certificate when it refreshes its
+    Starting with Istio version 1.5, Envoy can automatically load the new root certificate when it refreshes its
     certificate.
 
     {{< text bash>}}
@@ -99,7 +99,6 @@ and how to transition to a new root certificate with a 10 year lifetime.
         }
     {{< /text >}}
 
-    Please inspect the `valid_from` value of `ca_cert`.
+    Inspect the `valid_from` value of `ca_cert`.
     If it matches the `_Not_ _Before_` value in the new certificate as shown in Step 2,
     your Envoy has loaded the new root certificate.
-
