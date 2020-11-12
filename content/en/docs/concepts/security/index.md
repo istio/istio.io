@@ -122,7 +122,7 @@ provisioning flow.
     >}}
 
 Istio Envoy provisions keys and certificates through the
-[Enovoy secret discovery service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)
+[Envoy secret discovery service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)
 using the following flow:
 
 1. `istiod` offers a gRPC service to take [certificate signing requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
