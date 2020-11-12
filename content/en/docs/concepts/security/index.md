@@ -121,7 +121,7 @@ provisioning flow.
     caption="Identity Provisioning Workflow"
     >}}
 
-Istio Envoy provisions keys and certificates through the
+Istio provisions keys and certificates through the
 [Envoy secret discovery service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)
 using the following flow:
 
