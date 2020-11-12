@@ -102,9 +102,7 @@ The following list shows examples of service identities that you can use on diff
 platforms:
 
 - Kubernetes: Kubernetes service account
-- GKE/GCE: GCP service account
-- GCP: GCP service account
-- AWS: AWS IAM user/role account
+- GCE: GCP service account
 - On-premises (non-Kubernetes): user account, custom service account,
    service name, Istio service account, or GCP service account. The custom
    service account refers to the existing service account just like the
@@ -118,13 +116,13 @@ work together with `istiod` to automate key and certificate
 rotation at scale. The following diagram shows the identity
 provisioning flow.
 
-{{< image width="75%"
+{{< image width="35%"
     link="./id-prov.svg"
-    caption="Identity Provision"
+    caption="Identity Provisioning Workflow"
     >}}
 
-Istio provisions identities through the
-[secret discovery service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)
+Istio Envoy provisions keys and certificates through the
+[Enovoy secret discovery service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)
 using the following flow:
 
 1. `istiod` offers a gRPC service to take [certificate signing requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
