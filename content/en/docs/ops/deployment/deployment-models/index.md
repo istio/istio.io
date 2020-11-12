@@ -36,9 +36,6 @@ All of these questions, among others, represent independent dimensions of config
 1. single or multiple control plane
 1. single or multiple mesh
 
-All combinations are possible, although some are more common than others and
-some are clearly not very interesting (for example, multiple mesh in a single cluster).
-
 In a production environment involving multiple clusters, you can use a mix
 of deployment models. For example, having more than one control plane is recommended for HA,
 but you could achieve this for a 3 cluster deployment by deploying 2 clusters with
@@ -123,43 +120,44 @@ You can configure inter-cluster communication based on the
 example, if two clusters reside on the same underlying network, you can enable
 cross-cluster communication by simply configuring firewall rules.
 
-### DNS with Multiple Clusters
+### DNS with multiple clusters
 
 When a client application makes a request to some host, it must first perform a
 DNS lookup for the hostname to obtain an IP address before it can proceed with
 the request.
-
 In Kubernetes, the DNS server residing within the cluster typically handles
-this DNS lookup. Kubernetes `Service` configures the DNS server.
+this DNS lookup, based on the configured `Service` definitions.
 
-Istio ignores the IP address returned from the DNS lookup, however. Instead, it
-uses the list of active endpoints for the host and load balances across them.
+Istio uses the virtual IP returned by the DNS lookup to load balance
+across the list of active endpoints for the requested service, taking into account any
+Istio configured routing rules.
 Istio uses either Kubernetes `Service`/`Endpoint` or Istio `ServiceEntry` to
-configure its internal mapping of hostname to IP addresses.
+configure its internal mapping of hostname to workload IP addresses.
 
 This two-tiered naming system becomes more complicated when you have multiple
 clusters. Istio is inherently multicluster-aware, but Kubernetes is not
 (today). Because of this, the client cluster must have a DNS entry for the
 service in order for the DNS lookup to succeed, and a request to be
 successfully sent. This is true even if there are no instances of that
-service's Pods running in the client cluster.
+service's pods running in the client cluster.
 
 To ensure that DNS lookup succeeds, you must deploy a Kubernetes `Service` to
 each cluster that consumes that service. This ensures that regardless of
 where the request originates, it will pass DNS lookup and be handed to Istio
 for proper routing.
-
 This can also be achieved with Istio `ServiceEntry`, rather than Kubernetes
-`Service`. `ServiceEntry` does not configure DNS, however. This means that
-DNS will have to be configured either manually or with automated tooling,
-such as the [Istio CoreDNS Plugin](https://github.com/istio-ecosystem/istio-coredns-plugin).
+`Service`. However, a `ServiceEntry` does not configure the Kubernetes DNS server.
+This means that DNS will need to be configured either manually or
+with automated tooling such as the
+[Istio CoreDNS Plugin](https://github.com/istio-ecosystem/istio-coredns-plugin).
 
 {{< tip >}}
 There are a few efforts in progress that will help simplify the DNS story:
 
-- Istio will soon support DNS interception for all workloads with a sidecar
-  proxy. This will allow Istio to perform DNS lookup on behalf of the
-  application.
+- [DNS sidecar proxy](/blog/2020/dns-proxy/)
+  support is available for preview in Istio 1.8. This provides DNS interception
+  for all workloads with a sidecar, allowing Istio to perform DNS lookup
+  on behalf of the application.
 
 - [Admiral](https://github.com/istio-ecosystem/admiral) is an Istio community
   project that provides a number of multicluster capabilities, including
@@ -172,9 +170,6 @@ There are a few efforts in progress that will help simplify the DNS story:
   Kubernetes. There is also work in progress to build layers of `MCS` support
   into Istio, which would allow Istio to work with any cloud vendor `MCS`
   controller or even act as the `MCS` controller for the entire mesh.
-
-While `Admiral` is available today, the Istio and Kubernetes communities are
-actively building more general solutions into their platforms. Stay tuned!
 {{< /tip >}}
 
 ## Network models
@@ -266,33 +261,10 @@ cluster.
 A cluster like this one, with its own local control plane, is referred to as
 a {{< gloss >}}primary cluster{{< /gloss >}}.
 
-Multicluster deployments can have any number of primary clusters. Each primary
-cluster receives its configuration (i.e. `Service`/`ServiceEntry`,
-`DestinationRule`, etc.) from the Kubernetes API Server residing in the same
-cluster. Each primary cluster, therefore, has an independent source of
-configuration.
-
-This duplication of configuration across primary clusters does require
-additional steps when rolling out changes, however. Large production
-systems may automate this process with tooling, such as CI/CD systems, in
-order to manage configuration rollout.
-
-There may be use cases where having different configurations among primary
-clusters is desirable. For example, this affords the ability to canary
-configuration changes in a sub-section of the mesh controlled by a
-given primary cluster. Alternatively, visibility of a service could be
-restricted to part of the mesh, helping to establish service-level isolation.
-
-A {{< gloss >}}remote cluster{{< /gloss >}} refers to a cluster that contains
-user workloads but no control plane. Remote clusters rely on a control plane
-residing outside of the cluster (e.g. in a primary cluster). In this case, the
-control plane must be made accessible to the remote cluster.
-
-This can be achieved by exposing the control plane through an Istio Gateway.
-Cloud vendors may provide options, such as internal load balancers, for
-providing this sort of capability without exposing the control plane on the
-public internet. Such an option, if it exists and meets your requirements,
-will likely be the best choice.
+Multicluster deployments can also share control plane instances. In this case,
+the control plane instances can reside in one or more primary clusters.
+Clusters without their own control plane are referred to as
+{{< gloss "remote cluster" >}}remote clusters{{< /gloss >}}.
 
 {{< image width="75%"
     link="shared-control.svg"
@@ -300,6 +272,25 @@ will likely be the best choice.
     title="Shared control plane"
     caption="A service mesh with a primary and a remote cluster"
     >}}
+
+To support remote clusters in a multicluster mesh, the control plane in
+a primary cluster must be accessible via a stable IP (e.g., a cluster IP).
+For clusters spanning networks,
+this can be achieved by exposing the control plane through an Istio gateway.
+Cloud vendors may provide options, such as internal load balancers, for
+providing this capability without exposing the control plane on the
+public internet. Such an option, if it exists and meets your requirements,
+will likely be the best choice.
+
+In multicluster deployments with more than one primary cluster, each primary
+cluster receives its configuration (i.e., `Service` and `ServiceEntry`,
+`DestinationRule`, etc.) from the Kubernetes API Server residing in the same
+cluster. Each primary cluster, therefore, has an independent source of
+configuration.
+This duplication of configuration across primary clusters does require
+additional steps when rolling out changes. Large production
+systems may automate this process with tooling, such as CI/CD systems, in
+order to manage configuration rollout.
 
 Instead of running control planes in primary clusters inside the mesh, a
 service mesh composed entirely of remote clusters can be controlled by an
@@ -317,7 +308,7 @@ data plane services that comprise the mesh.
 A cloud vendor's {{< gloss >}}managed control plane{{< /gloss >}} is a
 typical example of an external control plane.
 
-For high availability, you should deploy a control plane across multiple
+For high availability, you should deploy multiple control planes across
 clusters, zones, or regions.
 
 {{< image width="75%"
@@ -330,18 +321,17 @@ clusters, zones, or regions.
 This model affords the following benefits:
 
 - Improved availability: If a control plane becomes unavailable, the scope of
-  the outage is limited to only that control plane.
+  the outage is limited to only workloads in clusters managed by that control plane.
 
 - Configuration isolation: You can make configuration changes in one cluster,
   zone, or region without impacting others.
 
-- Controlled Rollout: You have more fine-grained control over configuration
-  rollout (e.g. one cluster at a time). For large meshes with many clusters,
-  this process can be automated with CI/CD pipelines.
+- Controlled rollout: You have more fine-grained control over configuration
+  rollout (e.g., one cluster at a time). You can also canary configuration changes in a sub-section of the mesh
+  controlled by a given primary cluster.
 
-- Selective Service Visibility: You can choose which `Service`/`ServiceEntry`
-  resources to make visible to each control plane. This can be used to
-  establish service-level isolation between clusters. For example, an
+- Selective service visibility: You can restrict service visibility to part
+  of the mesh, helping to establish service-level isolation. For example, an
   administrator may choose to deploy the `HelloWorld` service to Cluster A,
   but not Cluster B. Any attempt to call `HelloWorld` from Cluster B will
   fail the DNS lookup.
@@ -354,7 +344,7 @@ The following list ranks control plane deployment examples by availability:
 - Multiple clusters per zone
 - Each cluster (**highest availability**)
 
-### Endpoint Discovery with Multiple Control Planes
+### Endpoint discovery with multiple control planes
 
 An Istio control plane manages traffic within the mesh by providing each proxy
 with the list of service endpoints. In order to make this work in a
@@ -365,7 +355,6 @@ To enable endpoint discovery for a cluster, an administrator generates a
 `remote secret` and deploys it to each primary cluster in the mesh. The
 `remote secret` contains credentials, granting access to the API server in the
 cluster.
-
 The control planes will then connect and discover the service endpoints for
 the cluster, enabling cross-cluster load balancing for these services.
 
@@ -416,31 +405,31 @@ message coming from that mesh.
 Within a single Istio mesh, Istio ensures each workload instance has an
 appropriate certificate representing its own identity, and the trust bundle
 necessary to recognize all identities within the mesh and any federated meshes.
-The CA only creates and signs the certificates for those identities. This model
+The CA creates and signs the certificates for those identities. This model
 allows workload instances in the mesh to authenticate each other when
 communicating.
 
 {{< image width="50%"
     link="single-trust.svg"
-    alt="A service mesh with a certificate authority"
+    alt="A service mesh with a common certificate authority"
     title="Trust within a mesh"
-    caption="A service mesh with a certificate authority"
+    caption="A service mesh with a common certificate authority"
     >}}
 
 ### Trust between meshes
 
-If a service in a mesh requires a service in another, you must federate identity
-and trust between the two meshes. To federate identity and trust, you must
-exchange the trust bundles of the meshes. You can exchange the trust bundles
+To enable communication between two meshes with different CAs, you must
+exchange the trust bundles of the meshes. Istio does not provide any tooling
+to exchange trust bundles across meshes. You can exchange the trust bundles
 either manually or automatically using a protocol such as [SPIFFE Trust Domain Federation](https://docs.google.com/document/d/1OC9nI2W04oghhbEDJpKdIUIw-G23YzWeHZxwGLIkB8k/edit).
 Once you import a trust bundle to a mesh, you can configure local policies for
 those identities.
 
 {{< image width="50%"
     link="multi-trust.svg"
-    alt="Multiple service meshes with certificate authorities"
+    alt="Multiple service meshes with different certificate authorities"
     title="Trust between meshes"
-    caption="Multiple service meshes with certificate authorities"
+    caption="Multiple service meshes with different certificate authorities"
     >}}
 
 ## Mesh models
