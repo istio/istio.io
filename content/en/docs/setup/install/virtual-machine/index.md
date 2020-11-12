@@ -27,13 +27,12 @@ This guide is tested and validated but note that VM support is still an alpha fe
 ## Prepare the guide environment
 
 1. Create a virtual machine
-1. Set the environment variables `VM_NAME`, `WORK_DIR` , `VM_NAMESPACE`,
+1. Set the environment variables `VM_APP`, `WORK_DIR` , `VM_NAMESPACE`,
 and `SERVICE_ACCOUNT`
     (e.g., `WORK_DIR="${HOME}/vmintegration"`):
 
     {{< text bash >}}
     $ VM_APP="<the name of the application this VM will run>"
-    $ VM_NAME="<the name of your vm instance you created>"
     $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
