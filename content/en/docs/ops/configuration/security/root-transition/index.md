@@ -71,9 +71,9 @@ and how to transition to a new root certificate with a 10 year lifetime.
 
     Envoy proxies will retrieve the new root certificate when they rotate the workload key and certificates.
     Because the rotation is triggered based on the remaining lifetime of the existing certificate,
-    with the default 24-hour workload certificate lifetime,
+    with the default 24 hour workload certificate lifetime,
     expect the root transition to happen within the next 12 hours
-    (within the 12-hour window, all workloads should rotate their keys and certificates). 
+    (within the 12 hour window, all workloads should rotate their keys and certificates).
     You can verify whether an Envoy has received the new certificates.
     The following command shows an example to check the Envoy’s certificate for a pod.
 
