@@ -56,7 +56,7 @@ Variable | Description
 -------- | -----------
 `CTX_EXTERNAL_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the external control plane cluster.
 `CTX_REMOTE_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the remote cluster.
-`EXTERNAL_ISTIOD_ADDR` | The hostname for the ingress gateway on the external control plane cluster. This is used by the `remote_cluster` to access the external control plane.
+`EXTERNAL_ISTIOD_ADDR` | The hostname for the ingress gateway on the external control plane cluster. This is used by the remote cluster to access the external control plane.
 `SSL_SECRET_NAME` | The name of the secret that holds the TLS certs for the ingress gateway on the external control plane cluster.
 
 Set the `CTX_EXTERNAL_CLUSTER` and `CTX_REMOTE_CLUSTER` now. You will set the others later.
@@ -98,13 +98,13 @@ spec:
 EOF
 {{< /text >}}
 
-Install the configuration to create the ingress gateway in the `istio-system` namespace of `external_cluster`:
+Install the configuration to create the ingress gateway in the `istio-system` namespace of the external cluster:
 
 {{< text bash >}}
 $ istioctl install -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 {{< /text >}}
 
-You may notice the istiod deployment created in the `istio-system` namespace. This is used only to configure the ingress gateway and is NOT the control plane used by remote clusters. This ingress gateway could, in fact, be configured to host multiple external control control planes, in different namespaces on the cluster, even though in this example you will only deploy a single external istiod in the `external-istiod` namespace.
+You may notice the istiod deployment created in the `istio-system` namespace. This is used only to configure the ingress gateway and is NOT the control plane used by remote clusters. This ingress gateway could, in fact, be configured to host multiple external control planes, in different namespaces on the cluster, even though in this example you will only deploy a single external istiod in the `external-istiod` namespace.
 
 Configure your environment to expose the Istio ingress gateway service using a public hostname with TLS. Set the `EXTERNAL_ISTIOD_ADDR` environment variable to the hostname and `SSL_SECRET_NAME` environment variable to the secret that holds the TLS certs:
 
@@ -233,7 +233,7 @@ spec:
       istioNamespace: external-istiod
       meshID: mesh1
       multiCluster:
-        clusterName: remote_cluster
+        clusterName: $CTX_REMOTE_CLUSTER
     istiodRemote:
       injectionURL: https://$EXTERNAL_ISTIOD_ADDR:15017/inject
     base:
@@ -291,7 +291,7 @@ spec:
       operatorManageWebhooks: true
       meshID: mesh1
       multiCluster:
-        clusterName: remote_cluster
+        clusterName: $CTX_REMOTE_CLUSTER
     pilot:
       env:
         INJECTION_WEBHOOK_CONFIG_NAME: ""
