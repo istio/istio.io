@@ -229,12 +229,6 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo cp "${HOME}"/cluster.env /var/lib/istio/envoy/cluster.env
     {{< /text >}}
 
-1. Install `sidecar.env` within the directory `/var/lib/istio/envoy/`:
-
-    {{< text bash >}}
-    $ sudo cp "${HOME}"/sidecar.env /var/lib/istio/envoy/sidecar.env
-    {{< /text >}}
-
 1. Install the [Mesh Config](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) to `/etc/istio/config/mesh`:
 
     {{< text bash >}}
