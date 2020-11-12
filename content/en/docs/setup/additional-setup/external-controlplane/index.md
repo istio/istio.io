@@ -56,14 +56,16 @@ Variable | Description
 -------- | -----------
 `CTX_EXTERNAL_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the external control plane cluster.
 `CTX_REMOTE_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the remote cluster.
+`REMOTE_CLUSTER_NAME` | The name of the remote cluster.
 `EXTERNAL_ISTIOD_ADDR` | The hostname for the ingress gateway on the external control plane cluster. This is used by the remote cluster to access the external control plane.
 `SSL_SECRET_NAME` | The name of the secret that holds the TLS certs for the ingress gateway on the external control plane cluster.
 
-Set the `CTX_EXTERNAL_CLUSTER` and `CTX_REMOTE_CLUSTER` now. You will set the others later.
+Set the `CTX_EXTERNAL_CLUSTER`, `CTX_REMOTE_CLUSTER`, and `REMOTE_CLUSTER_NAME` now. You will set the others later.
 
 {{< text bash >}}
 $ export CTX_EXTERNAL_CLUSTER=external_cluster
 $ export CTX_REMOTE_CLUSTER=remote_cluster
+$ export REMOTE_CLUSTER_NAME=remote_cluster
 {{< /text >}}
 
 ## Cluster configuration
@@ -233,7 +235,7 @@ spec:
       istioNamespace: external-istiod
       meshID: mesh1
       multiCluster:
-        clusterName: $CTX_REMOTE_CLUSTER
+        clusterName: $REMOTE_CLUSTER_NAME
     istiodRemote:
       injectionURL: https://$EXTERNAL_ISTIOD_ADDR:15017/inject
     base:
@@ -291,7 +293,7 @@ spec:
       operatorManageWebhooks: true
       meshID: mesh1
       multiCluster:
-        clusterName: $CTX_REMOTE_CLUSTER
+        clusterName: $REMOTE_CLUSTER_NAME
     pilot:
       env:
         INJECTION_WEBHOOK_CONFIG_NAME: ""
