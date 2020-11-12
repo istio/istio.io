@@ -10,26 +10,22 @@ owner: istio/wg-security-maintainers
 test: n/a
 ---
 
-Istio self-signed certificates have historically had a 1 year default lifetime.
-If you are using Istio self-signed certificates,
+{{< tip >}}
+You can skip this guide if your cluster started with Istio V1.3 or later versions,
+or if you do not use the Istio self-signed certificates.
+{{< /tip >}}
+
+Before Istio V1.3, the Istio self-signed certificates had a 1 year default lifetime.
+If your cluster started with Istio V1.2 or earlier version,
+and it is using Istio self-signed certificates,
 you need to be mindful about the expiration date of the root certificate.
 The expiration of a root certificate may lead to an unexpected cluster-wide outage.
 
 To evaluate the lifetime remaining for your root certificate, please refer to the first step in the
 [procedure below](#root-transition-procedure).
 
-The steps below show you how to transition to a new root certificate.
-After the transition, the new root certificate has a 10 year lifetime.
-From Istio V1.5, Envoy can automatically load the new root certificate when it refreshes its
-certificate.
-
-## Scenarios
-
-If you are not currently using the mutual TLS feature in Istio and will not use it in the future,
-you are not affected and no action is required.
-
-If your cluster started using Istio from V1.3 or later versions,
-you are not affected and no action is required.
+The steps below show you how to examine the remaining lifetime for your root certificate,
+and how to transition to a new root certificate with a 10 year lifetime.
 
 ## Root transition procedure
 
@@ -79,8 +75,11 @@ you are not affected and no action is required.
 
 1. Verify the new workload certificates are loaded by Envoy:
 
-    Envoy in the mesh will retrieve the new root certificate when they rotate the workload key and
-    certificates.
+    Envoy proxies will retrieve the new root certificate when they rotate the workload key and certificates.
+    Because the rotation is triggered based on the remaining lifetime of the existing certificate,
+    with the default 24-hour workload certificate lifetime,
+    expect the root transition to happen within the next 12 hours
+    (within the 12-hour window, all workloads should rotate their keys and certificates). 
     You can verify whether an Envoy has received the new certificates.
     The following command shows an example to check the Envoy’s certificate for a pod.
 
@@ -100,7 +99,7 @@ you are not affected and no action is required.
         }
     {{< /text >}}
 
-    Please inspect the `valid\_from` value of the `ca\_cert`.
-    If it matches the `_Not_ _Before_` value in the new certificate as shown in Step 3,
+    Please inspect the `valid_from` value of `ca_cert`.
+    If it matches the `_Not_ _Before_` value in the new certificate as shown in Step 2,
     your Envoy has loaded the new root certificate.
 
