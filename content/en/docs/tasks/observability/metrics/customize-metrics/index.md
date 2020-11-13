@@ -190,7 +190,7 @@ Peer metadata is available as attributes `upstream_peer` for outbound and `downs
 | `app_containers` | `list<string>` | List of short names for application containers. |
 | `cluster_id` | `string` | Identifier for the cluster to which this workload belongs. |
 
-For example, the following is an expression for the upstream `app` label to be used in a client configuration:
+For example, the following is an expression for the peer `app` label to be used in an outbound configuration:
 
 {{< text plain >}}
 upstream_peer.labels['app'].value
