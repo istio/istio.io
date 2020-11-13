@@ -111,7 +111,7 @@ inside the Istio release package specific to your version.
     {{< /warning >}}
 
 For customizations that are supported via both
-[ProxyConfig](/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) and Helm
+[`ProxyConfig`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) and Helm
 values, it is recommended to use `ProxyConfig` options as it provides schema
 validation over unstructured Helm values.
 
