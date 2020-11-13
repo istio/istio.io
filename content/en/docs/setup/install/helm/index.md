@@ -96,6 +96,25 @@ follow the instructions below.
     $ kubectl get pods -n istio-system
     {{< /text >}}
 
+## Updating your Istio configuration
+
+You can provide override settings specific to any Istio Helm chart used above
+and follow the Helm upgrade workflow to customize your Istio mesh installation.
+The available configurable options can be found by inspecting the top level
+`values.yaml` file associated with the Helm charts located at `manifests/charts`
+inside the Istio release package specific to your version.
+
+{{< warning >}}
+Note that the Istio Helm chart values are under active development and
+considered experimental. Upgrading to newer versions of Istio can involve
+migrating your override values to follow the new API.
+{{< /warning >}}
+
+For customizations that are supported via both
+[`ProxyConfig`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) and Helm
+values, using `ProxyConfig` is recommended because it provides schema
+validation while unstructured Helm values do not.
+
 ## Upgrading using Helm
 
 Before upgrading Istio in your cluster, we recommend creating a backup of your
@@ -130,42 +149,7 @@ You can follow steps mentioned in the
 [Operator uninstall guide](/docs/setup/install/operator/#uninstall)
 depending upon your installation method.
 
-### In place upgrade
-
-You can perform an in place upgrade of Istio in your cluster using the Helm
-upgrade workflow.
-
-{{< warning >}}
-This upgrade path is only supported from Istio version 1.8 and above.
-
-Add your override values file or custom options to the commands below to
-preserve your custom configuration during Helm upgrades.
-{{< /warning >}}
-
-1. Upgrade the Istio base chart:
-
-    {{< text bash >}}
-    $ helm upgrade --namespace istio-system istio-base manifests/charts/base
-    {{< /text >}}
-
-1. Upgrade the Istio discovery chart:
-
-    {{< text bash >}}
-    $ helm upgrade --namespace istio-system istiod manifests/charts/istio-control/istio-discovery \
-        --set global.hub="docker.io/istio" --set global.tag="<version_to_upgrade>"
-    {{< /text >}}
-
-1. (Optional) Upgrade the Istio ingress or egress gateway charts if installed in
-   your cluster:
-
-    {{< text bash >}}
-    $ helm upgrade --namespace istio-system istio-ingress manifests/charts/gateways/istio-ingress \
-        --set global.hub="docker.io/istio" --set "global.tag=<version_to_upgrade>"
-    $ helm upgrade --namespace istio-system istio-egress manifests/charts/gateways/istio-egress \
-        --set global.hub="docker.io/istio" --set "global.tag=<version_to_upgrade>"
-    {{< /text >}}
-
-### Canary Upgrade
+### Canary upgrade (recommended)
 
 You can install a canary version of Istio control plane to validate that the new
 version is compatible with your existing configuration and data plane using
@@ -205,6 +189,41 @@ gateways.
 
     {{< text bash >}}
     $ helm delete --namespace istio-system istiod
+    {{< /text >}}
+
+### In place upgrade
+
+You can perform an in place upgrade of Istio in your cluster using the Helm
+upgrade workflow.
+
+{{< warning >}}
+This upgrade path is only supported from Istio version 1.8 and above.
+
+Add your override values file or custom options to the commands below to
+preserve your custom configuration during Helm upgrades.
+{{< /warning >}}
+
+1. Upgrade the Istio base chart:
+
+    {{< text bash >}}
+    $ helm upgrade --namespace istio-system istio-base manifests/charts/base
+    {{< /text >}}
+
+1. Upgrade the Istio discovery chart:
+
+    {{< text bash >}}
+    $ helm upgrade --namespace istio-system istiod manifests/charts/istio-control/istio-discovery \
+        --set global.hub="docker.io/istio" --set global.tag="<version_to_upgrade>"
+    {{< /text >}}
+
+1. (Optional) Upgrade the Istio ingress or egress gateway charts if installed in
+   your cluster:
+
+    {{< text bash >}}
+    $ helm upgrade --namespace istio-system istio-ingress manifests/charts/gateways/istio-ingress \
+        --set global.hub="docker.io/istio" --set "global.tag=<version_to_upgrade>"
+    $ helm upgrade --namespace istio-system istio-egress manifests/charts/gateways/istio-egress \
+        --set global.hub="docker.io/istio" --set "global.tag=<version_to_upgrade>"
     {{< /text >}}
 
 ## Uninstall
