@@ -476,17 +476,15 @@ To avoid service naming collisions, you can give each mesh a globally unique
 name (FQDN) for each service is distinct.
 
 When federating two meshes that do not share the same
-{{< gloss >}}trust domain{{< /gloss >}}, you must
-{{< gloss "mesh federation">}}federate{{< /gloss >}}
+{{< gloss >}}trust domain{{< /gloss >}}, you must federate
 {{< gloss >}}identity{{< /gloss >}} and **trust bundles** between them. See the
-section on [Multiple Trust Domains](#trust-between-meshes) for an overview.
+section on [Trust between meshes](#trust-between-meshes) for more details.
 
 ## Tenancy models
 
 In Istio, a **tenant** is a group of users that share
-common access and privileges to a set of deployed workloads. Generally, you
-isolate the workload instances from multiple tenants from each other through
-network configuration and policies.
+common access and privileges for a set of deployed workloads.
+Tenants can be used to provide a level of isolation between different teams.
 
 You can configure tenancy models to satisfy the following organizational
 requirements for isolation:
@@ -497,30 +495,22 @@ requirements for isolation:
 - Cost
 - Performance
 
-Istio supports two types of tenancy models:
+Istio supports three types of tenancy models:
 
 - [Namespace tenancy](#namespace-tenancy)
 - [Cluster tenancy](#cluster-tenancy)
+- [Mesh tenancy](#mesh-tenancy)
 
 ### Namespace tenancy
 
-Istio uses [namespaces](https://kubernetes.io/docs/reference/glossary/?fundamental=true#term-namespace)
-as a unit of tenancy within a mesh. Istio also works in environments that don't
-implement namespace tenancy. In environments that do, you can grant a team
-permission to deploy their workloads only to a given namespace or set of
-namespaces. By default, services from multiple tenant namespaces can communicate
-with each other.
+A cluster can be shared across multiple teams, each using a different namespace.
+You can grant a team permission to deploy its workloads only to a given namespace
+or set of namespaces.
 
-{{< image width="50%"
-    link="iso-ns.svg"
-    alt="A service mesh with two isolated namespaces"
-    title="Isolated namespaces"
-    caption="A service mesh with two isolated namespaces"
-    >}}
-
-To improve isolation, you can selectively choose which services to expose to
-other namespaces. You can configure authorization policies for exposed services
-to restrict access to only the appropriate callers.
+By default, services from multiple namespaces can communicate with each other,
+but you can increase isolation by selectively choosing which services to expose to other
+namespaces. You can configure authorization policies for exposed services to restrict
+access to only the appropriate callers.
 
 {{< image width="50%"
     link="exp-ns.svg"
@@ -529,10 +519,11 @@ to restrict access to only the appropriate callers.
     caption="A service mesh with two namespaces and an exposed service"
     >}}
 
+Namespace tenancy can extend beyond a single cluster.
 When using [multiple clusters](#multiple-clusters), the namespaces in each
-cluster sharing the same name are considered the same namespace. For example,
-`Service B` in the `foo` namespace of `cluster-1` and `Service B` in the
-`foo` namespace of `cluster-2` refer to the same service, and Istio merges their
+cluster sharing the same name are considered the same namespace by default.
+For example, `Service B` in the `Team-1` namespace of cluster `West` and `Service B` in the
+`team-1` namespace of cluster `East` refer to the same service, and Istio merges their
 endpoints for service discovery and load balancing.
 
 {{< image width="50%"
@@ -553,11 +544,17 @@ example:
 - Cluster administrator
 - Developer
 
-To use cluster tenancy with Istio, you configure each cluster as an independent
-mesh. Alternatively, you can use Istio to implement a group of clusters as a
-single tenant. Then, each team can own one or more clusters, but you configure
-all their clusters as a single mesh. To connect the meshes of the various teams
-together, you can federate the meshes into a multi-mesh deployment.
+To use cluster tenancy with Istio, you configure each team's cluster with its
+own {{< gloss >}}control plane{{< /gloss >}}, allowing each team to manage its own configuration.
+Alternatively, you can use Istio to implement a group of clusters as a single tenant
+using {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}} or multiple
+synchronized {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}}.
+Refer to [control plane models](#control-plane-models) for details.
+
+### Mesh Tenancy
+
+In a multi-mesh deployment with {{< gloss >}}mesh federation{{< /gloss >}}, each mesh
+can be used as the unit of isolation.
 
 {{< image width="50%"
     link="cluster-iso.svg"
@@ -567,11 +564,11 @@ together, you can federate the meshes into a multi-mesh deployment.
     >}}
 
 Since a different team or organization operates each mesh, service naming
-is rarely distinct. For example, the `mysvc` in the `foo` namespace of
-`cluster-1` and the `mysvc` service in the `foo` namespace of
-`cluster-2` do not refer to the same service. The most common example is the
+is rarely distinct. For example, a `Service C` in the `foo` namespace of
+cluster `Team-1` and the `Service C` service in the `foo` namespace of cluster
+`Team-2` will not refer to the same service. The most common example is the
 scenario in Kubernetes where many teams deploy their workloads to the `default`
 namespace.
 
-When each team has their own mesh, cross-mesh communication follows the
+When each team has its own mesh, cross-mesh communication follows the
 concepts described in the [multiple meshes](#multiple-meshes) model.
