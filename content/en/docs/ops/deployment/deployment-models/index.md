@@ -522,8 +522,8 @@ access to only the appropriate callers.
 Namespace tenancy can extend beyond a single cluster.
 When using [multiple clusters](#multiple-clusters), the namespaces in each
 cluster sharing the same name are considered the same namespace by default.
-For example, `Service B` in the `foo` namespace of `cluster-1` and `Service B` in the
-`foo` namespace of `cluster-2` refer to the same service, and Istio merges their
+For example, `Service B` in the `Team-1` namespace of cluster `West` and `Service B` in the
+`team-1` namespace of cluster `East` refer to the same service, and Istio merges their
 endpoints for service discovery and load balancing.
 
 {{< image width="50%"
@@ -564,9 +564,9 @@ can be used as the unit of isolation.
     >}}
 
 Since a different team or organization operates each mesh, service naming
-is rarely distinct. For example, the `mysvc` in the `foo` namespace of
-`cluster-1` and the `mysvc` service in the `foo` namespace of
-`cluster-2` do not refer to the same service. The most common example is the
+is rarely distinct. For example, a `Service C` in the `foo` namespace of
+cluster `Team-1` and the `Service C` service in the `foo` namespace of cluster
+`Team-2` will not refer to the same service. The most common example is the
 scenario in Kubernetes where many teams deploy their workloads to the `default`
 namespace.
 
