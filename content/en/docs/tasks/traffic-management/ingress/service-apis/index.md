@@ -15,23 +15,23 @@ Both the APIs, as well as Istio's implementation of the APIs, are currently expe
 
 ## Setup
 
-First, install the Service APIs CRDs:
+1. Install the Service APIs CRDs:
 
-{{< text bash >}}
-$ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.1.0-rc2" | kubectl apply -f -
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.1.0-rc2" | kubectl apply -f -
+    {{< /text >}}
 
-Next, install Istio, or reconfigure an existing installation to enable the Service APIs controller:
+1. Install Istio, or reconfigure an existing installation to enable the Service APIs controller:
 
-{{< text bash >}}
-$ istioctl install --set values.pilot.env.PILOT_ENABLED_SERVICE_APIS=true
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl install --set values.pilot.env.PILOT_ENABLED_SERVICE_APIS=true
+    {{< /text >}}
 
-Finally, follow the instructions in the [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) sections of the [Ingress Gateways task](/docs/tasks/traffic-management/ingress/ingress-control/) in order to retrieve the external IP address of your ingress gateway.
+1. Follow the instructions in the [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) sections of the [Ingress Gateways task](/docs/tasks/traffic-management/ingress/ingress-control/) in order to retrieve the external IP address of your ingress gateway.
 
 ## Configuring a Gateway
 
-See the [Service APIs](https://kubernetes-sigs.github.io/service-apis/) documentation for information about all of the APIs included.
+See the [Service APIs](https://kubernetes-sigs.github.io/service-apis/) documentation for information about the APIs.
 
 1. Deploy a test application:
 
@@ -103,7 +103,7 @@ See the [Service APIs](https://kubernetes-sigs.github.io/service-apis/) document
     ...
     {{< /text >}}
 
-    Note that you use the `-H` flag to set the _Host_ HTTP header to
+    Note the use of the `-H` flag to set the _Host_ HTTP header to
     "httpbin.example.com". This is needed because the `HTTPRoute` is configured to handle "httpbin.example.com",
     but in your test environment you have no DNS binding for that host and are simply sending your request to the ingress IP.
 
