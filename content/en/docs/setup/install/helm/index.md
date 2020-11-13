@@ -104,11 +104,11 @@ The available configurable options can be found by inspecting the top level
 `values.yaml` file associated with the Helm charts located at `manifests/charts`
 inside the Istio release package specific to your version.
 
-    {{< warning >}}
-    Note that the Istio Helm chart values are under active development and
-    considered experimental. Upgrading to newer versions of Istio can involve
-    migrating your override values to follow the new API.
-    {{< /warning >}}
+{{< warning >}}
+Note that the Istio Helm chart values are under active development and
+considered experimental. Upgrading to newer versions of Istio can involve
+migrating your override values to follow the new API.
+{{< /warning >}}
 
 For customizations that are supported via both
 [`ProxyConfig`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) and Helm
