@@ -504,7 +504,7 @@ Istio supports three types of tenancy models:
 ### Namespace tenancy
 
 A cluster can be shared across multiple teams, each using a different namespace.
-You can grant a team permission to deploy their workloads only to a given namespace
+You can grant a team permission to deploy its workloads only to a given namespace
 or set of namespaces.
 
 By default, services from multiple namespaces can communicate with each other,
