@@ -112,8 +112,8 @@ migrating your override values to follow the new API.
 
 For customizations that are supported via both
 [`ProxyConfig`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) and Helm
-values, it is recommended to use `ProxyConfig` options as it provides schema
-validation over unstructured Helm values.
+values, using `ProxyConfig` is recommended because it provides schema
+validation while unstructured Helm values do not.
 
 ## Upgrading using Helm
 
