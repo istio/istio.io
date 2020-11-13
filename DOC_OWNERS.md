@@ -1,7 +1,7 @@
 <!-- WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. UPDATE THE OWNER ATTRIBUTE IN THE DOCUMENT FILES, INSTEAD -->
 # Istio.io Document Owners
 
-There are 156 owned istio.io docs.
+There are 158 owned istio.io docs.
 
 ## istio/wg-docs-maintainers: 15 docs
 
@@ -142,7 +142,7 @@ There are 156 owned istio.io docs.
 - [docs/tasks/security/cert-management/plugin-ca-cert/index.md](https://preliminary.istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert)
 - [docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds/index.md](https://preliminary.istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds)
 
-## istio/wg-user-experience-maintainers: 32 docs
+## istio/wg-user-experience-maintainers: 34 docs
 
 - [docs/ops/common-problems/injection/index.md](https://preliminary.istio.io/latest/docs/ops/common-problems/injection)
 - [docs/ops/common-problems/validation/index.md](https://preliminary.istio.io/latest/docs/ops/common-problems/validation)
@@ -171,6 +171,8 @@ There are 156 owned istio.io docs.
 - [docs/reference/config/analysis/ist0111/index.md](https://preliminary.istio.io/latest/docs/reference/config/analysis/ist0111)
 - [docs/reference/config/analysis/ist0112/index.md](https://preliminary.istio.io/latest/docs/reference/config/analysis/ist0112)
 - [docs/reference/config/analysis/ist0113/index.md](https://preliminary.istio.io/latest/docs/reference/config/analysis/ist0113)
+- [docs/reference/config/analysis/ist0116/index.md](https://preliminary.istio.io/latest/docs/reference/config/analysis/ist0116)
+- [docs/reference/config/analysis/ist0117/index.md](https://preliminary.istio.io/latest/docs/reference/config/analysis/ist0117)
 - [docs/reference/config/analysis/ist0118/index.md](https://preliminary.istio.io/latest/docs/reference/config/analysis/ist0118)
 - [docs/reference/config/analysis/ist0119/index.md](https://preliminary.istio.io/latest/docs/reference/config/analysis/ist0119)
 - [docs/reference/config/analysis/message-format/index.md](https://preliminary.istio.io/latest/docs/reference/config/analysis/message-format)
