@@ -43,8 +43,7 @@ environment variable in Istiod.
   ([Issue #21340](https://github.com/istio/istio/issues/21340))
 
 - **Added** support for client side Envoy secure naming config when trust domain alias is used.
-Fix the multi-cluster service discovery client SAN generation: takes all endpoints' service accounts
-into account, rather than the first found service registry.
+This fixes the multi-cluster service discovery client SAN generation to use all endpoints' service accounts rather than the first found service registry.
 
 - **Added** Experimental feature support allowing Istiod to integrate with external certificate authorities using Kubernetes CSR API (>=1.18 only).
   ([Issue #27606](https://github.com/istio/istio/issues/27606))
@@ -73,7 +72,7 @@ to display memory. This metric only counts memory that *cannot be reclaimed* by 
 and therefore more relevant for tracking. It is also consistent with `kubectl top`. The reported values are lower than
 the previous values.
 
-- **Added** Update Istio Workload and Istio Service dashboards to improve loading time.
+- **Updated** the Istio Workload and Istio Service dashboards to improve loading time.
   ([Issue #22408](https://github.com/istio/istio/issues/22408))
 
 - **Added** `datasource` parameter to Grafana dashboards
@@ -90,7 +89,10 @@ the previous values.
 - **Added** Istio Wasm Extension Grafana Dashboard.
   ([Issue #25843](https://github.com/istio/istio/issues/25843))
 
-- **Fixed** client side metric  missing destination workload labels for out-of-mesh destination or request that fails to reach destination.
+- **Added** gRPC streaming message count proxy Prometheus `metrics istio_request_messages_total` and `istio_response_messages_total`
+  ([PR #3048](https://github.com/istio/proxy/pull/3048))
+
+- **Added** support for properly labeling traffic in client metrics for cases when the destination is not reached or is not behind a proxy.
   ([Issue #20538](https://github.com/istio/istio/issues/20538))
 
 - **Fixed** interpretation of `$(HOST_IP)` in Zipkin and Datadog tracer address.
@@ -102,6 +104,8 @@ Mixer-focused CRDs and component and related functionality.
   ([Issue #25333](https://github.com/istio/istio/issues/25333)),([Issue #24300](https://github.com/istio/istio/issues/24300))
 
 ## Installation
+
+- **Added** support for [installing and upgrading Istio](/docs/setup/install/helm/) using [Helm 3](https://helm.sh/docs/)
 
 - **Improved** multi-network configuration so that labeling a service with `topology.istio.io/network=network-name` can
 configure cross-network gateways without using [mesh networks](/docs/reference/config/istio.mesh.v1alpha1/#MeshNetworks).
@@ -118,24 +122,24 @@ configure cross-network gateways without using [mesh networks](/docs/reference/c
 - **Added** port `15012` to the default list of ports for the `istio-ingressgateway` Service.
   ([Issue #25933](https://github.com/istio/istio/issues/25933))
 
-- **Added** Istio 1.8 supports Kubernetes versions 1.17 to 1.19.
+- **Added** support for Kubernetes versions 1.16 to 1.19 to Istio 1.8.
   ([Issue #25793](https://github.com/istio/istio/issues/25793))
 
-- **Added** The network for a Pod can be specified via the label `topology.istio.io/network`. This overrides the setting for the cluster's installation values (`values.globalnetwork`). If the label isn't set, it is injected based on the global value for the cluster.
+- **Added** the ability to specify the network for a Pod using the label `topology.istio.io/network`. This overrides the setting for the cluster's installation values (`values.globalnetwork`). If the label isn't set, it is injected based on the global value for the cluster.
   ([Issue #25500](https://github.com/istio/istio/issues/25500))
 
 - **Deprecated** installation flags `values.global.meshExpansion.enabled` in favor of user-managed config and `values.gateways.istio-ingressgateway.meshExpansionPorts` in favor of `components.ingressGateways[name=istio-ingressgateway].k8s.service.ports`
   ([Issue #25933](https://github.com/istio/istio/issues/25933))
 
-- **Fixed** allow configuring `RENEW_DEADLINE` for Istio operator manager.
+- **Fixed** Istio operator manager to allow configuring `RENEW_DEADLINE`.
   ([Issue #27509](https://github.com/istio/istio/issues/27509))
 
 - **Fixed** an issue preventing `NodePort` services from being used as the `registryServiceName` in `meshNetworks`.
 
-- **Removed** the installation of telemetry addons (Prometheus, Grafana, Zipkin, Jaeger, Kiali) by `istioctl`. See [Reworking our Addon Integrations](/blog/2020/addon-rework/) for more info.
+- **Removed** support for installing third-party telemetry applications with `istioctl`. These applications (Prometheus, Grafana, Zipkin, Jaeger, and Kiali), often referred to as the Istio addons, must now be installed separately. This does not impact Istio's ability to produce telemetry for those use in the addons. See [Reworking our Addon Integrations](/blog/2020/addon-rework/) for more info.
   ([Issue #23868](https://github.com/istio/istio/issues/23868)),([Issue #23583](https://github.com/istio/istio/issues/23583))
 
-- **Removed** `istio-telemetry` and `istio-policy` from installation by `istioctl`.
+- **Removed** `istio-telemetry` and `istio-policy` services and deployments from installation by `istioctl`.
   ([Issue #23868](https://github.com/istio/istio/issues/23868)),([Issue #23583](https://github.com/istio/istio/issues/23583))
 
 ## istioctl
@@ -144,7 +148,7 @@ configure cross-network gateways without using [mesh networks](/docs/reference/c
 Before, it would return the first line of the resource with the error.
   ([Issue #22872](https://github.com/istio/istio/issues/22872))
 
-- **Added** `istioctl experimental version` and `proxy-status` now use token security.
+- **Updated** `istioctl experimental version` and `proxy-status` to use token security.
 A new option, `--plaintext`, has been created for testing without tokens.
   ([Issue #24905](https://github.com/istio/istio/issues/24905))
 
@@ -159,14 +163,14 @@ A new option, `--plaintext`, has been created for testing without tokens.
 - **Added** an experimental OpenShift Kubernetes platform profile to `istioctl`. To install with the OpenShift profile, use `istioctl install --set profile=openshift`.
  ([OpenShift Platform Setup](/docs/setup/platform-setup/openshift/))([Install OpenShift using `istioctl`](/docs/setup/install/istioctl/#install-a-different-profile))
 
-- **Added** `istioctl bug-report` generates an archive of Istio and cluster information to assist with debugging.
+- **Added** `istioctl bug-report` command to generate an archive of Istio and cluster information to assist with debugging.
   ([Issue #26045](https://github.com/istio/istio/issues/26045))
 
-- **Added** New command `istioctl experimental istiod log` to enable managing logging levels
+- **Added** new command `istioctl experimental istiod log` to enable managing logging levels
 of `istiod` components.
   ([Issue #25276](https://github.com/istio/istio/issues/25276)),([Issue #27797](https://github.com/istio/istio/issues/27797))
 
 - **Deprecated** `centralIstiod` flag in favor of `externalIstiod` to better support external control plane model.
   ([Issue #24471](https://github.com/istio/istio/issues/24471))
 
-- **Fixed** Prevent explicitly empty revision flag on install.  ([Issue #26940](https://github.com/istio/istio/issues/26940))
+- **Fixed** an issue which allowed an empty revision flag on install.  ([Issue #26940](https://github.com/istio/istio/issues/26940))

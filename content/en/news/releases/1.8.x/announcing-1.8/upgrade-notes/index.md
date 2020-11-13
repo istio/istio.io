@@ -14,21 +14,19 @@ Changes are only included if the new behavior would be unexpected to a user of I
 If you are using the `istio-policy` or `istio-telemetry` services, or any
 related Mixer configuration, you will not be able to upgrade without taking
 action to either (a) convert your existing configuration and code to the new
-extension model for Istio or (b) using the gRPC shim developed to bridge
-transition to the new model. For more details, please refer the docs on
-istio.io.
+extension model for Istio or (b) use the gRPC shim developed to bridge
+transition to the new model. For more details, please refer the [wiki](https://github.com/istio/istio/wiki/Enabling-Envoy-Authorization-Service-and-gRPC-Access-Log-Service-With-Mixer).
 
 ## Istio CoreDNS Plugin Deprecation
 
-In order to provide DNS resolution for `ServiceEntries`, Istio has provided an optional addon as part of the install to
-deploy the third party [Istio CoreDNS plugin](https://github.com/istio-ecosystem/istio-coredns-plugin). In this release,
-the Istio sidecar can now provide this functionality natively. This can be enabled with the `meshConfig.defaultConfig.proxyMetadata.ISTIO_META_DNS_CAPTURE="true"`.
-
+The Istio sidecar now provides native support for DNS resolution with `ServiceEntries` using
+`meshConfig.defaultConfig.proxyMetadata.ISTIO_META_DNS_CAPTURE="true"`. Previously, this support
+was provided by the third party [Istio CoreDNS plugin](https://github.com/istio-ecosystem/istio-coredns-plugin).
 As a result, the `istio-coredns-plugin` is now deprecated and will be removed in a future release.
 
 ## Use the new filter names for `EnvoyFilter`
 
-If you are using `EnvoyFilter` API, it is recommended to change to the new filter names: [deprecation notice](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.14.0#deprecated)
+If you are using `EnvoyFilter` API, it is recommended to change to the new filter names as described in Envoy's [deprecation notice](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.14.0#deprecated)
 The deprecated filter names will be supported in this release for backward compatibility but will be removed in future releases.
 
 ## Inbound Cluster Name Format
