@@ -190,10 +190,7 @@ Peer metadata is available as attributes `upstream_peer` for outbound and `downs
 | `app_containers` | `list<string>` | List of short names for application containers. |
 | `cluster_id` | `string` | Identifier for the cluster to which this workload belongs. |
 
-For example, the following is an expression for the peer `app` label to be used in an outbound configuration:
-
-{{< text plain >}}
-upstream_peer.labels['app'].value
-{{< /text >}}
+For example, the expression for the peer `app` label to be used in an outbound configuration is
+`upstream_peer.labels['app'].value`.
 
 For more information, see [configuration reference](/docs/reference/config/proxy_extensions/stats/).
