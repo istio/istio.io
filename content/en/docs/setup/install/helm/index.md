@@ -149,7 +149,7 @@ You can follow steps mentioned in the
 [Operator uninstall guide](/docs/setup/install/operator/#uninstall)
 depending upon your installation method.
 
-### (Recommended) Canary Upgrade
+### Canary upgrade (recommended)
 
 You can install a canary version of Istio control plane to validate that the new
 version is compatible with your existing configuration and data plane using
