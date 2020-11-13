@@ -3261,6 +3261,11 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <td>Creates a WorkloadEntry upon connection to istiod (if enabled in pilot). </td>
 </tr>
 <tr>
+<td><code>--capture-dns</code></td>
+<td></td>
+<td>Enables the capture of outgoing DNS packets on port 53, redirecting to istio-agent </td>
+</tr>
+<tr>
 <td><code>--clusterID &lt;string&gt;</code></td>
 <td></td>
 <td>The ID used to identify the cluster  (default `Kubernetes`)</td>
@@ -5737,7 +5742,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr>
 <td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
 <td>Boolean</td>
-<td><code>true</code></td>
+<td><code>false</code></td>
 <td></td>
 </tr>
 <tr>
