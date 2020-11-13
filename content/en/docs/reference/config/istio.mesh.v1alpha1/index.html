@@ -1350,6 +1350,20 @@ resource provision and configuration to reduce cardinality.</p>
 No
 </td>
 </tr>
+<tr id="ProxyConfig-hold_application_until_proxy_starts">
+<td><code>holdApplicationUntilProxyStarts</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+<p>Boolean flag for enabling/disabling the holdApplicationUntilProxyStarts behavior.
+This feature adds hooks to delay application startup until the pod proxy
+is ready to accept traffic, mitigating some startup race conditions.
+Default value is &lsquo;false&rsquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="ProxyConfig-zipkin_address" class="deprecated ">
 <td><code>zipkinAddress</code></td>
 <td><code>string</code></td>
