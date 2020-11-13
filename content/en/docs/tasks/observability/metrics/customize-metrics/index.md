@@ -174,21 +174,26 @@ has(request.host) ? request.host : "unknown"
 
 For more information, see [Common Expression Language](https://opensource.google/projects/cel).
 
-Istio exposes all standard [Envoy attributes](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/rbac_filter#condition).
-Additionally, you can use the following extra attributes.
+Istio exposes all standard [Envoy attributes](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attributes).
+Peer metadata is available as attributes `upstream_peer` for outbound and `downstream_peer` for inbound with the following fields:
 
-|Attribute   | Type  | Value |
+|Field   | Type  | Value |
 |---|---|---|
-| `listener_direction` | int64 | Enumeration value for [listener direction](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/base.proto#envoy-api-enum-core-trafficdirection) |
-| `listener_metadata` | [metadata](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/base.proto#core-metadata) | Per-listener metadata |
-| `route_metadata` | [metadata](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/base.proto#core-metadata) | Per-route metadata |
-| `cluster_metadata` | [metadata](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/base.proto#core-metadata) | Per-cluster metadata |
-| `node` | [node](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/base.proto#core-node) | Node description |
-| `cluster_name` | string | Upstream cluster name |
-| `route_name` | string | Route name |
-| `filter_state` | map[string, bytes] | Per-filter state blob |
-| `plugin_name` | string | Wasm extension name |
-| `plugin_root_id` | string | Wasm root instance ID |
-| `plugin_vm_id` | string | Wasm VM ID |
+| `name` | `string` | Name of the pod. |
+| `namespace` | `string` | Namespace that the pod runs in. |
+| `labels` | `map` | Workload labels. |
+| `owner` | `string` | Workload owner. |
+| `workload_name` | `string` | Workload name. |
+| `platform_metadata` | `map` |  Platform metadata with prefixed keys. |
+| `istio_version` | `string` | Version identifier for the proxy. |
+| `mesh_id` | `string` | Unique identifier for the mesh. |
+| `app_containers` | `list<string>` | List of short names for application containers. |
+| `cluster_id` | `string` | Identifier for the cluster to which this workload belongs. |
+
+For example, the following is an expression for the upstream `app` label to be used in a client configuration:
+
+{{< text plain >}}
+upstream_peer.labels['app'].value
+{{< /text >}}
 
 For more information, see [configuration reference](/docs/reference/config/proxy_extensions/stats/).
