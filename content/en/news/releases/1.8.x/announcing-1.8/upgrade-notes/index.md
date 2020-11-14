@@ -15,7 +15,15 @@ If you are using the `istio-policy` or `istio-telemetry` services, or any
 related Mixer configuration, you will not be able to upgrade without taking
 action to either (a) convert your existing configuration and code to the new
 extension model for Istio or (b) use the gRPC shim developed to bridge
-transition to the new model. For more details, please refer the [wiki](https://github.com/istio/istio/wiki/Enabling-Envoy-Authorization-Service-and-gRPC-Access-Log-Service-With-Mixer).
+transition to the new model. For more details, please refer to the [developer wiki](https://github.com/istio/istio/wiki/Enabling-Envoy-Authorization-Service-and-gRPC-Access-Log-Service-With-Mixer).
+
+## The semantics of revision for gateways in `IstioOperator` has changed from 1.7 to 1.8
+
+In 1.7, `revision` means you are creating a new gateway with a different revision so it would
+not conflict with the default gateway. In 1.8, it means the revision of istiod the gateway
+is configuring with. If you are using revision for gateways in `IstioOperator` in 1.7,
+before moving to 1.8, you must to upgrade it to the revision of the istiod (or delete
+the revision if you don’t use revision). See [Issue #28849](https://github.com/istio/istio/issues/28849).
 
 ## Istio CoreDNS Plugin Deprecation
 

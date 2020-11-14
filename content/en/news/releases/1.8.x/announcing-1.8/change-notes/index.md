@@ -6,6 +6,8 @@ weight: 10
 
 ## Traffic Management
 
+- **Added** DNS capture in istio-agent by default for VMs installed using `istioctl x workload entry configure`.
+
 - **Added** support for injecting `istio-cni` into `k8s.v1.cni.cncf.io/networks` annotation with preexisting value that uses JSON notation.
   ([Issue #25744](https://github.com/istio/istio/issues/25744))
 
@@ -70,7 +72,9 @@ or if it's not in the `TrustDomainAliases` specified in the `MeshConfig`.
 - **Updated** the "Control Plane Dashboard" and the "Performance Dashboard" to use the `container_memory_working_set_bytes` metric
 to display memory. This metric only counts memory that *cannot be reclaimed* by the kernel even under memory pressure,
 and therefore more relevant for tracking. It is also consistent with `kubectl top`. The reported values are lower than
-the previous values.
+the previous values. Known issues:
+    - Memory leak in TCP Wasm extensions affecting TCP telemetry (see [Issue #24720](https://github.com/istio/istio/issues/24720)). The leak occurs when upstream connections are interrupted mid-stream.
+    - Wasm extension configuration updates are disruptive (see [Issue #13690](https://github.com/envoyproxy/envoy/issues/13690)). The configuration is immediately applied for existing requests and connections, and is not reverted if the outer xDS is rejected.
 
 - **Updated** the Istio Workload and Istio Service dashboards to improve loading time.
   ([Issue #22408](https://github.com/istio/istio/issues/22408))
@@ -104,6 +108,11 @@ Mixer-focused CRDs and component and related functionality.
   ([Issue #25333](https://github.com/istio/istio/issues/25333)),([Issue #24300](https://github.com/istio/istio/issues/24300))
 
 ## Installation
+
+- **Promoted** external control plane to alpha.
+  ([Issue #11](https://github.com/istio/enhancements/issues/11))
+
+- **Updated** Kiali addon to version 1.26.
 
 - **Added** support for [installing and upgrading Istio](/docs/setup/install/helm/) using [Helm 3](https://helm.sh/docs/)
 
