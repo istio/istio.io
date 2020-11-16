@@ -160,8 +160,10 @@ There are a few efforts in progress that will help simplify the DNS story:
   on behalf of the application.
 
 - [Admiral](https://github.com/istio-ecosystem/admiral) is an Istio community
-  project that provides a number of multicluster capabilities, including
-  automatic creation of service DNS entries.
+  project that provides a number of multicluster capabilities. If you need to support multi-network
+  topologies, managing this configuration across multiple clusters at scale is challenging.
+  Admiral takes an opinionated view on this configuration and provides automatic provisioning and
+  synchronization across clusters.
 
 - [Kubernetes Multi-Cluster Services](https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api)
   is a Kubernetes Enhancement Proposal (KEP) that defines an API for exporting
