@@ -3,8 +3,13 @@ title: How do I get started using Istio?
 weight: 30
 ---
 
-We recommend starting with the [Guides](/docs/examples/), which walks
-through different core Istio concepts in a tutorial style. The guides show
-case intelligent routing, policy enforcement, security, telemetry, etc.
+We recommend following the instructions on the [getting started page](/docs/setup/getting-started/),
+which installs a demonstration configuration along with Istio's premier sample application,
+[Bookinfo](/docs/examples/bookinfo/).
+You can then use this setup to [walk through various Istio guides](/docs/setup/getting-started/#next-steps)
+that showcase intelligent routing, policy enforcement, security, telemetry, etc., in a tutorial style.
 
-To start using Istio on your existing Kubernetes or Consul deployment, please refer to our [Installation instructions](/docs/setup/).
+To start using Istio with production Kubernetes deployments, please refer to our
+[deployment models](/docs/ops/deployment/deployment-models/) documentation and the
+[which Istio installation method should I use?](/faq/setup/#install-method-selection)
+FAQ page.
