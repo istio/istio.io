@@ -523,7 +523,7 @@ Namespace tenancy can extend beyond a single cluster.
 When using [multiple clusters](#multiple-clusters), the namespaces in each
 cluster sharing the same name are considered the same namespace by default.
 For example, `Service B` in the `Team-1` namespace of cluster `West` and `Service B` in the
-`team-1` namespace of cluster `East` refer to the same service, and Istio merges their
+`Team-1` namespace of cluster `East` refer to the same service, and Istio merges their
 endpoints for service discovery and load balancing.
 
 {{< image width="50%"
