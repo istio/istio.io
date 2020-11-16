@@ -16,7 +16,7 @@ You will receive this message:
 Error [IST0129] (DestinationRule db-tls.default) DestinationRule default/db-tls in namespace default has TLS mode set to SIMPLE but no caCertificates are set to validate server identity for host: mydbserver.prod.svc.cluster.local at port number:443
 {{< /text >}}
 
-when your cluster has following destination rule:
+when your cluster has the following destination rule:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3

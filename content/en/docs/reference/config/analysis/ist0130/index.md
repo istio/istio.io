@@ -16,7 +16,7 @@ You will receive this message:
 Warning [IST0130] (VirtualService sample-foo-cluster01.default) VirtualService rule #1 not used (only the last rule can have no matches).
 {{< /text >}}
 
-when your cluster has following virtual service:
+when your cluster has the following virtual service:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -45,14 +45,15 @@ spec:
 {{< /text >}}
 
 In this example, the virtual service specifies
-both a fault and a mirror.  It is allowed to have both, but the user
-has used two different http route entries (one for each `-`), leading
-to an ambiguity.
+both a fault and a mirror. Having both is allowed, but they must be in
+the same route entry. Here the user
+has used two different http route entries (one for each `-`), the first
+overrides the second.
 
 ## How to resolve
 
 When you have an `http` with no `match`, there can only be one http route.
-In this case, removing the `"-"` before `mirror` indicates there is a single matcheless route that both injects a fault and mirrors, not one route that faults and one that mirrors.
+In this case, removing the `"-"` before `mirror` indicates there is a single matchless route that both injects a fault and mirrors, not one route that faults and one that mirrors.
 
 Be careful with YAML formatting when setting up complex routing.
 

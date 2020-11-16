@@ -15,7 +15,7 @@ You will receive this message:
 Warning [IST0127] (AuthorizationPolicy httpbin-nopods.httpbin) No matching workloads for this resource with the following labels: app=bogus-label,version=v1
 {{< /text >}}
 
-when your cluster has following authorization policy:
+when your cluster has the following authorization policy:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1

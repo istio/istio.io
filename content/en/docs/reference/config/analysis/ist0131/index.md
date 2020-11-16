@@ -15,7 +15,7 @@ You will receive this message:
 Info [IST0131] (VirtualService tls-routing.default) VirtualService rule #1 match #0 is not used (duplicates a match in rule #0).
 {{< /text >}}
 
-when your cluster has following virtual service:
+when your cluster has the following virtual service:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
