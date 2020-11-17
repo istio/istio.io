@@ -127,6 +127,7 @@ configure cross-network gateways without using [mesh networks](/docs/reference/c
   ([Issue #27139](https://github.com/istio/istio/issues/27139))
 
 - **Updated** install script to bypass GitHub API Rate Limiting.
+  ([Pull Request #23469](https://github.com/istio/istio/pull/23469))
 
 - **Added** port `15012` to the default list of ports for the `istio-ingressgateway` Service.
   ([Issue #25933](https://github.com/istio/istio/issues/25933))

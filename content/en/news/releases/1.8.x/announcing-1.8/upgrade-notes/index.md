@@ -116,5 +116,5 @@ ingressGateways:
     k8s:
     env:
         - name: ISTIO_META_ROUTER_MODE
-        value: "sni-dnat"
+          value: "sni-dnat"
 {{< /text >}}
