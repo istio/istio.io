@@ -64,7 +64,7 @@
             {{ if .Site.Data.args.archive }}
                 {{ printf (i18n "footer_archived_on") (dateFormat (i18n "footer_date_format") .Site.Data.args.archive_date) }}
             {{ else }}
-                {{ printf (i18n "footer_last_modified") (.Page.Lastmod.Format (i18n "footer_date_format")) }}
+                {{ printf (i18n "footer_last_modified") (.Lastmod.Format (i18n "footer_date_format")) }}
             {{ end }}
         </p>
     </div>
