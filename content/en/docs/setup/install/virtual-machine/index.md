@@ -271,7 +271,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ 2020-08-21T01:32:20.695478Z info cache GenerateSecret default
     $ 2020-08-21T01:32:20.695595Z info sds resource:default pushed key/cert pair to proxy
     {{< /text >}}
- 
+
 1. Create a Namespace to deploy a Pod-based Service:
 
     {{< text bash >}}
@@ -284,13 +284,13 @@ Run the following commands on the virtual machine you want to add to the Istio m
     {{< text bash >}}
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@
     {{< /text >}}
-    
+
 1. Send requests from your Virtual Machine to the Service:
 
     {{< text bash >}}
     $ curl helloworld.sample.svc:5000/hello
     Hello version: v1, instance: helloworld-v1-578dd69f69-fxwwk
-    {{ /text >}}
+    {{< /text >}}
 
 ## Uninstall
 
@@ -320,6 +320,8 @@ $ sudo rpm -e istio-sidecar
 {{< /text >}}
 
 {{< /tab >}}
+
+{{< /tabset >}}
 
 To uninstall Istio, run the following command:
 
