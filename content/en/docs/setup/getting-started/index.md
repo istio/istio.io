@@ -359,6 +359,18 @@ Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kial
     {{< tip >}}
     If there are errors trying to install the addons, try running the command again. There may
     be some timing issues which will be resolved when the command is run again.
+    
+    If you are using remote yaml
+    {{< text bash >}}
+    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/extras/prometheus-operator.yaml 
+    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/extras/zipkin.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/grafana.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/jaeger.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/kiali.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/prometheus.yaml
+    {{< /text >}}
+
+    check https://github.com/istio/istio/tree/master/samples/addons for more detail
     {{< /tip >}}
 
 1.  Access the Kiali dashboard.
