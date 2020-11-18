@@ -23,13 +23,6 @@ import (
 	"istio.io/istio/pkg/test/scopes"
 )
 
-// Step builds a step of the test pipeline.
-type Step interface {
-	Name() string
-	// run this step.
-	run(ctx framework.TestContext)
-}
-
 // Builder builds a test of a documented workflow from http://istio.io.
 type Builder struct {
 	steps        []Step

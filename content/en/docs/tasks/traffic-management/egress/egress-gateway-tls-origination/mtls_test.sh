@@ -75,6 +75,7 @@ _verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_5 "GET
 
 # @cleanup
 set +e # ignore cleanup errors
+kubectl label namespace default istio-injection- || true
 snip_cleanup_the_mutual_tls_origination_example_1
 snip_cleanup_the_mutual_tls_origination_example_2
 snip_cleanup_the_mutual_tls_origination_example_3
