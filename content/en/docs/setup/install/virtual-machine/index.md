@@ -68,7 +68,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< /warning >}}
 
     {{< text bash >}}
-    $ istioctl install --set values.global.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true
+    $ istioctl install --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true
     {{< /text >}}
 
     {{< /tab >}}
@@ -131,7 +131,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     1. Push the `WorkloadGroup` to the cluster:
 
     {{< text bash >}}
-    $ kubectl --namespace ${VM_NAMESPACE} apply -f workloadgroup.yaml`
+    $ kubectl --namespace ${VM_NAMESPACE} apply -f workloadgroup.yaml
     {{< /text >}}
 
     {{< /tab >}}
@@ -272,6 +272,26 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ 2020-08-21T01:32:20.695595Z info sds resource:default pushed key/cert pair to proxy
     {{< /text >}}
 
+1. Create a Namespace to deploy a Pod-based Service:
+
+    {{< text bash >}}
+    $ kubectl create namespace sample
+    $ kubectl label namespace sample istio-injection=enabled
+    {{< /text >}}
+
+1. Deploy the `HelloWorld` Service:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/helloworld/helloworld.yaml@
+    {{< /text >}}
+
+1. Send requests from your Virtual Machine to the Service:
+
+    {{< text bash >}}
+    $ curl helloworld.sample.svc:5000/hello
+    Hello version: v1, instance: helloworld-v1-578dd69f69-fxwwk
+    {{< /text >}}
+
 ## Uninstall
 
 Stop Istio on the virtual machine:
@@ -282,10 +302,26 @@ $ sudo systemctl stop istio
 
 Then, remove the Istio-sidecar package:
 
+{{< tabset category-name="vm-os" >}}
+
+{{< tab name="Debian" category-value="debian" >}}
+
 {{< text bash >}}
 $ sudo dpkg -r istio-sidecar
 $ dpkg -s istio-sidecar
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="CentOS" category-value="centos" >}}
+
+{{< text bash >}}
+$ sudo rpm -e istio-sidecar
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 To uninstall Istio, run the following command:
 
