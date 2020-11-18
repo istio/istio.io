@@ -58,7 +58,7 @@ This fixes the multi-cluster service discovery client SAN generation to use all 
   ([Pull Request #26185](https://github.com/istio/istio/pull/26185))
 
 - **Added** Experimental feature support allowing Istiod to integrate with external certificate authorities using Kubernetes CSR API (>=1.18 only).
-  ([Issue #27606](https://github.com/istio/istio/issues/27606))([usage](/docs/tasks/security/custom-ca-k8s/))
+  ([Issue #27606](https://github.com/istio/istio/issues/27606))([usage](/docs/tasks/security/cert-management/custom-ca-k8s/))
 
 - **Added** Enable user to set the custom VM identity provider for credential authentication
   ([Issue #27947](https://github.com/istio/istio/issues/27947))
