@@ -145,12 +145,6 @@ Install Istio and expose the control plane so that your virtual machine can acce
        * `root-cert.pem`: The root certificate used to authenticate.
        * `hosts`: An addendum to `/etc/hosts` that the proxy will use to reach istiod for xDS.*
 
-    {{< idea >}}
-    A sophisticated option involves configuring DNS within the virtual
-    machine to reference an external DNS server. This option is beyond
-    the scope of this guide.
-    {{< /idea >}}
-
     {{< tabset category-name="registration-mode" >}}
 
     {{< tab name="Default" category-value="default" >}}
@@ -175,6 +169,20 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< /tab >}}
 
     {{< /tabset >}}
+
+1. (Optional) Enable Capturing DNS
+
+    {{< idea >}}
+    A sophisticated option involves configuring DNS within the virtual
+    machine to reference an external DNS server. This option is beyond
+    the scope of this guide.
+    {{< /idea >}}
+
+    To allow your VM to resolve Kubernetes Services by hostname, you can append a line to the generated `cluster.env`.
+
+    {{< text bash >}}
+    $ echo ISTIO_META_DNS_CAPTURE=true >> cluster.env
+    {{< /text >}}
 
 ## Configure the virtual machine
 
