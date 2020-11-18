@@ -22,7 +22,7 @@ transition to the new model. For more details, please refer to the [developer wi
 In 1.7, `revision` means you are creating a new gateway with a different revision so it would
 not conflict with the default gateway. In 1.8, it means the revision of istiod the gateway
 is configuring with. If you are using revision for gateways in `IstioOperator` in 1.7,
-before moving to 1.8, you must to upgrade it to the revision of the istiod (or delete
+before moving to 1.8, you must upgrade it to the revision of the Istiod (or delete
 the revision if you don’t use revision). See [Issue #28849](https://github.com/istio/istio/issues/28849).
 
 ## Istio CoreDNS Plugin Deprecation
