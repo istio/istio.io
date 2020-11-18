@@ -370,12 +370,12 @@ Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kial
     
     If you are using remote yaml
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/extras/prometheus-operator.yaml 
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/extras/zipkin.yaml
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/grafana.yaml
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/jaeger.yaml
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/kiali.yaml
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/prometheus.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/addons/extras/prometheus-operator.yaml 
+    $ kubectl apply -f {{< github_file >}}/samples/addons/extras/zipkin.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/addons/grafana.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/addons/jaeger.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/addons/kiali.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
     {{< /text >}}
 
     check https://github.com/istio/istio/tree/master/samples/addons for more detail
