@@ -87,10 +87,10 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/upgrade/) | Beta
 | Basic Configuration Resource Validation | Beta
 | [Istio CNI plugin](/docs/setup/additional-setup/cni/) | Alpha
-| IPv6 support for Kubernetes | Alpha. Dual-stack IPv4 and IPv6 is not supported.
-| [Distroless base images for Istio](/docs/ops/configuration/security/harden-docker-images/) | Alpha
+| IPv6 Support for Kubernetes | Alpha. Dual-stack IPv4 and IPv6 is not supported.
+| [Distroless Base Images for Istio](/docs/ops/configuration/security/harden-docker-images/) | Alpha
 | [Virtual Machine Integration](/docs/setup/install/virtual-machine/) | Alpha
-| [Install with Helm](/docs/setup/install/helm/) | Alpha
+| [Helm Based Installation](/docs/setup/install/helm/) | Alpha
 
 {{< idea >}}
 Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!
