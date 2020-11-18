@@ -75,9 +75,8 @@ get_bookinfo_productpage() {
 }
 _verify_contains get_bookinfo_productpage "<title>Simple Bookstore App</title>"
 
-# Install addons
-# TODO Fix this. For now Kiali has a problem being cleaned up: https://github.com/istio/istio/pull/25886
-snip_view_the_dashboard_dashboard_1
+# verify Kiali deployment
+_verify_contains snip_view_the_dashboard_dashboard_1 'deployment "kiali" successfully rolled out'
 
 # Verify Kiala dashboard
 # TODO Verify the browser output

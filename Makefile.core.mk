@@ -80,10 +80,7 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
-doc-owners:
-	@scripts/doc_owners.sh
-
-gen: snips doc-owners tidy-go
+gen: snips tidy-go
 
 gen-check: gen check-clean-repo
 

@@ -11,10 +11,6 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-{{< warning >}}
-OpenShift is incompatible with the Istio `proxy-init` container. Make sure to install Istio using the [CNI](/docs/setup/additional-setup/cni/) plugin.
-{{< /warning >}}
-
 Follow these instructions to prepare an OpenShift cluster for Istio.
 
 By default, OpenShift doesn't allow containers running with user ID 0.
@@ -26,7 +22,11 @@ deploying Istio in another namespace:
 $ oc adm policy add-scc-to-group anyuid system:serviceaccounts:istio-system
 {{< /text >}}
 
-Now you can install Istio using the [CNI](/docs/setup/additional-setup/cni/) instructions.
+Install Istio using the OpenShift profile:
+
+{{< text bash >}}
+$ istioctl install --set profile=openshift
+{{< /text >}}
 
 After installation is complete, expose an OpenShift route for the ingress gateway.
 

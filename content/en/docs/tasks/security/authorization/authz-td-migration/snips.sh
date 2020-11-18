@@ -21,7 +21,7 @@
 ####################################################################################################
 
 snip_before_you_begin_1() {
-istioctl install --set profile=demo --set values.global.trustDomain=old-td
+istioctl install --set profile=demo --set meshConfig.trustDomain=old-td
 }
 
 snip_before_you_begin_2() {
@@ -74,30 +74,34 @@ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items.
 ENDSNIP
 
 snip_migrate_trust_domain_without_trust_domain_aliases_1() {
-istioctl install --set profile=demo --set values.global.trustDomain=new-td
+istioctl install --set profile=demo --set meshConfig.trustDomain=new-td
 }
 
 snip_migrate_trust_domain_without_trust_domain_aliases_2() {
-kubectl delete pod --all
+kubectl rollout restart deployment -n istio-system istiod
 }
 
 snip_migrate_trust_domain_without_trust_domain_aliases_3() {
-kubectl delete pod --all -n sleep-allow
+kubectl delete pod --all
 }
 
 snip_migrate_trust_domain_without_trust_domain_aliases_4() {
+kubectl delete pod --all -n sleep-allow
+}
+
+snip_migrate_trust_domain_without_trust_domain_aliases_5() {
 kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_migrate_trust_domain_without_trust_domain_aliases_4_out <<\ENDSNIP
+! read -r -d '' snip_migrate_trust_domain_without_trust_domain_aliases_5_out <<\ENDSNIP
 403
 ENDSNIP
 
-snip_migrate_trust_domain_without_trust_domain_aliases_5() {
+snip_migrate_trust_domain_without_trust_domain_aliases_6() {
 kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_migrate_trust_domain_without_trust_domain_aliases_5_out <<\ENDSNIP
+! read -r -d '' snip_migrate_trust_domain_without_trust_domain_aliases_6_out <<\ENDSNIP
 403
 ENDSNIP
 
@@ -106,11 +110,10 @@ cat <<EOF > ./td-installation.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  values:
-    global:
-      trustDomain: new-td
-      trustDomainAliases:
-        - old-td
+  meshConfig:
+    trustDomain: new-td
+    trustDomainAliases:
+      - old-td
 EOF
 istioctl install --set profile=demo -f td-installation.yaml -y
 }

@@ -28,7 +28,9 @@ include `.` (dots).
 
 ## Istioctl
 
-This section covers the installation and upgrade of a separate control plane and gateway using `istioctl`.
+This section covers the installation and upgrade of a separate control plane and gateway using `istioctl`. The example
+demonstrates how to upgrade Istio 1.8.0 to 1.8.1 using canary upgrade, with gateways being managed separately from
+the control plane.
 
 ### Installation with `istioctl`
 
@@ -68,8 +70,8 @@ This section covers the installation and upgrade of a separate control plane and
 1.  Install the `CR`s:
 
     {{< text bash >}}
-    $ istioctl install -f control-plane.yaml --revision 1-8-0
-    $ istioctl install -f gateways.yaml --revision 1-8-0
+    $ istio-1.8.0/bin/istioctl install -n istio-system -f control-plane.yaml --revision 1-8-0
+    $ istio-1.8.0/bin/istioctl install -n istio-system -f gateways.yaml --revision 1-8-0
     {{< /text >}}
 
 Istioctl install and the operator track resource ownership through labels for both the revision and owning CR name.
@@ -82,11 +84,10 @@ CR, otherwise the two CR's will cause controllers or `istioctl` commands to inte
 
 Let's assume that the target version is 1.8.1.
 
-1.  Download the Istio 1.8.1 release and use the `istioctl` from that release (here called `release-1.8.1/istioctl`)
-to install the Istio 1.8.1 control plane:
+1.  Download the Istio 1.8.1 release and use the `istioctl` from that release to install the Istio 1.8.1 control plane:
 
     {{< text bash >}}
-    $ release-1.8.1/istioctl install -f control-plane.yaml --revision 1-8-1
+    $ istio-1.8.1/bin/istioctl install -f control-plane.yaml --revision 1-8-1
     {{< /text >}}
 
     (Refer to the canary upgrade docs for more details on steps 2-4.)
@@ -111,18 +112,20 @@ to install the Istio 1.8.1 control plane:
     As a last step, upgrade any gateways in the cluster to the new version:
 
     {{< text bash >}}
-    $ release-1.8.1/istioctl install -f gateways.yaml --revision 1-8-1
+    $ istio-1.8.1/bin/istioctl install -f gateways.yaml --revision 1-8-1
     {{< /text >}}
 
 1.  Delete the 1.8.1 version of the control plane:
 
     {{< text bash >}}
-    $ release-1.8.1/istioctl uninstall --revision 1-8-0
+    $ istio-1.8.1/bin/istioctl uninstall --revision 1-8-0
     {{< /text >}}
 
 ## Operator
 
 This section covers the installation and upgrade of a separate control plane and gateway using the Istio operator.
+The example demonstrates how to upgrade Istio 1.8.0 to 1.8.1 using canary upgrade, with gateways being managed separately
+from the control plane.
 
 ### Installation with operator
 
@@ -171,7 +174,7 @@ This section covers the installation and upgrade of a separate control plane and
 1.  Install the Istio operator into the cluster:
 
     {{< text bash >}}
-    $ istioctl operator init --revision 1-8-0
+    $ istio-1.8.0/bin/istioctl operator init --revision 1-8-0
     {{< /text >}}
 
 Verify that the operator and Istio control plane are installed and running.
@@ -180,11 +183,10 @@ Verify that the operator and Istio control plane are installed and running.
 
 Let's assume that the target version is 1.8.1.
 
-1.  Download the Istio 1.8.1 release and use the `istioctl` from that release (here called `release-1.8.1/istioctl`)
-to install the Istio 1.8.1 operator:
+1.  Download the Istio 1.8.1 release and use the `istioctl` from that release to install the Istio 1.8.1 operator:
 
     {{< text bash >}}
-    $ release-1.8.1/istioctl operator init  --revision 1-8-1
+    $ istio-1.8.1/bin/istioctl operator init  --revision 1-8-1
     {{< /text >}}
 
 1.  Copy the control plane CR from the install step above as `control-plane-1-8-1.yaml`. Change all instances of

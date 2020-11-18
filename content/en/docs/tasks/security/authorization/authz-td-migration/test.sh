@@ -45,15 +45,17 @@ _verify_same snip_before_you_begin_5 "$snip_before_you_begin_5_out"
 
 echo y | snip_migrate_trust_domain_without_trust_domain_aliases_1
 
-_wait_for_deployment istio-system istiod
-
 snip_migrate_trust_domain_without_trust_domain_aliases_2
+
+_wait_for_deployment istio-system istiod
 
 snip_migrate_trust_domain_without_trust_domain_aliases_3
 
-_verify_same snip_migrate_trust_domain_without_trust_domain_aliases_4 "$snip_migrate_trust_domain_without_trust_domain_aliases_4_out"
+snip_migrate_trust_domain_without_trust_domain_aliases_4
 
 _verify_same snip_migrate_trust_domain_without_trust_domain_aliases_5 "$snip_migrate_trust_domain_without_trust_domain_aliases_5_out"
+
+_verify_same snip_migrate_trust_domain_without_trust_domain_aliases_6 "$snip_migrate_trust_domain_without_trust_domain_aliases_6_out"
 
 echo y | snip_migrate_trust_domain_with_trust_domain_aliases_1
 
@@ -61,8 +63,7 @@ _wait_for_deployment istio-system istiod
 
 _verify_same snip_migrate_trust_domain_with_trust_domain_aliases_2 "$snip_migrate_trust_domain_with_trust_domain_aliases_2_out"
 
-#_verify_same snip_migrate_trust_domain_with_trust_domain_aliases_3 "$snip_migrate_trust_domain_with_trust_domain_aliases_3_out"
-# TODO: This trustDomainAliases check fails, even with much longer wait
+_verify_same snip_migrate_trust_domain_with_trust_domain_aliases_3 "$snip_migrate_trust_domain_with_trust_domain_aliases_3_out"
 
 # @cleanup
 

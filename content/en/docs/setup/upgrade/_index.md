@@ -7,5 +7,5 @@ test: n/a
 ---
 
 {{< warning >}}
-Upgrading across more than one minor version (e.g., `1.5.x` to `1.7.x`) in one step is not officially tested or recommended.
+Upgrading across more than one minor version (e.g., `1.6.x` to `1.8.x`) in one step is not officially tested or recommended.
 {{< /warning >}}

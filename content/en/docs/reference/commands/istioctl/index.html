@@ -3256,6 +3256,16 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 </thead>
 <tbody>
 <tr>
+<td><code>--autoregister</code></td>
+<td></td>
+<td>Creates a WorkloadEntry upon connection to istiod (if enabled in pilot). </td>
+</tr>
+<tr>
+<td><code>--capture-dns</code></td>
+<td></td>
+<td>Enables the capture of outgoing DNS packets on port 53, redirecting to istio-agent </td>
+</tr>
+<tr>
 <td><code>--clusterID &lt;string&gt;</code></td>
 <td></td>
 <td>The ID used to identify the cluster  (default `Kubernetes`)</td>
@@ -3274,6 +3284,11 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <td><code>--ingressIP &lt;string&gt;</code></td>
 <td></td>
 <td>IP address of the ingress gateway  (default ``)</td>
+</tr>
+<tr>
+<td><code>--ingressService &lt;string&gt;</code></td>
+<td></td>
+<td>Name of the Service to be used as the ingress gateway, in the format &lt;service&gt;.&lt;namespace&gt;. If no namespace is provided, the default istio-system namespace will be used.  (default `istio-eastwestgateway`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -5639,6 +5654,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_LOOP_BLOCKER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Envoy will be configured to prevent traffic directly the the inbound/outbound ports (15001/15006). This prevents traffic loops. This option will be removed, and considered always enabled, in 1.9.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
