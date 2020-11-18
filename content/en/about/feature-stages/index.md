@@ -82,17 +82,15 @@ Below is our list of existing features and their current phases. This informatio
 | [Standalone Operator](/docs/setup/install/operator/) | Beta
 | [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/) | Stable
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/) | Stable
-| Mixer Out-of-Process Adapter Authoring Model | deprecated
 | [Multicluster Mesh](/docs/setup/install/multicluster/) | Beta
 | [External Control Plane](/docs/setup/additional-setup/external-controlplane/) | Alpha
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/upgrade/) | Beta
 | Basic Configuration Resource Validation | Beta
-| [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | deprecated
-| [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | deprecated
 | [Istio CNI plugin](/docs/setup/additional-setup/cni/) | Alpha
 | IPv6 support for Kubernetes | Alpha. Dual-stack IPv4 and IPv6 is not supported.
 | [Distroless base images for Istio](/docs/ops/configuration/security/harden-docker-images/) | Alpha
 | [Virtual Machine Integration](/docs/setup/install/virtual-machine/) | Alpha
+| [Install with Helm](/docs/setup/install/helm/) | Alpha
 
 {{< idea >}}
 Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!
