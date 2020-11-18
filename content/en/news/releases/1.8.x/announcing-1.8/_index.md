@@ -35,7 +35,7 @@ In this release, we've written a [new installation guide](/docs/setup/install/mu
 
 ## Easier to add VMs to your mesh
 
-After making a number of security improvements to VM mesh endpoints in 1.7, we've focused on usability for 1.8. We simplified the installation process, and you can now use `istioctl` to do it. The new [smart DNS proxying](/blog/2020/dns-proxy/) feature lets you resolve mesh services from your VMs, without having to insecurely point them at your cluster DNS server. It also reduces both cluster DNS traffic, and the number of look-ups needed to resolve a service's IP. [Auto registration](/docs/examples/virtual-machines/autoregistration) allows you to tell the VM agent what kind of workload it has, and automatically have `WorkloadEntry` objects created for it when it joins the mesh.
+After making a number of security improvements to VM mesh endpoints in 1.7, we've focused on usability for 1.8. We simplified the installation process, and you can now use `istioctl` to do it. The new [smart DNS proxying](/blog/2020/dns-proxy/) feature lets you resolve mesh services from your VMs, without having to insecurely point them at your cluster DNS server. It also reduces both cluster DNS traffic, and the number of look-ups needed to resolve a service's IP. [Auto registration](/docs/setup/install/virtual-machine/#install-the-istio-control-plane) allows you to tell the VM agent what kind of workload it has, and automatically have `WorkloadEntry` objects created for it when it joins the mesh.
 
 ## Security and secrets
 
