@@ -178,7 +178,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     the scope of this guide.
     {{< /idea >}}
 
-    To allow your VM to resolve Kubernetes Services by hostname, you can append a line to the generated `cluster.env`.
+    To allow your VM to resolve Kubernetes Services by hostname, add an additional configuration option to the generated `cluster.env`.
 
     {{< text bash >}}
     $ echo ISTIO_META_DNS_CAPTURE=true >> cluster.env
