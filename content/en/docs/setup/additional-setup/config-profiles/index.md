@@ -56,6 +56,5 @@ The components marked as **X** are installed within each profile:
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | X | X | | | | X |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istiod` | X | X | X | | | X |
 
-To further [customize Istio and install addons](/docs/setup/install/istioctl/#customizing-the-configuration), you can add one or more `--set <key>=<value>` options in the
-`istioctl install` command that you use when installing Istio.
-Refer to [integration](/docs/ops/integrations) for more details.
+To further customize Istio, a number of addon components can also be installed.
+Refer to [integrations](/docs/ops/integrations) for more details.
