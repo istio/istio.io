@@ -146,17 +146,6 @@ component.</p>
 No
 </td>
 </tr>
-<tr id="IstioOperatorSpec-addon_components">
-<td><code>addonComponents</code></td>
-<td><code>map&lt;string,&nbsp;<a href="#ExternalComponentSpec">ExternalComponentSpec</a>&gt;</code></td>
-<td>
-<p>Extra addon components which are not explicitly specified above.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="IstioOperatorSpec-values">
 <td><code>values</code></td>
 <td><code><a href="#TypeMapStringInterface">TypeMapStringInterface</a></code></td>
@@ -176,6 +165,19 @@ No
 <td><code><a href="#TypeMapStringInterface">TypeMapStringInterface</a></code></td>
 <td>
 <p>Unvalidated overrides for default <code>values.yaml</code>. Used for custom templates where new parameters are added.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-addon_components" class="deprecated ">
+<td><code>addonComponents</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#ExternalComponentSpec">ExternalComponentSpec</a>&gt;</code></td>
+<td>
+<p>Deprecated.
+Users should manage the installation of addon components on their own.
+Refer to samples/addons for demo installation of addon components.</p>
 
 </td>
 <td>

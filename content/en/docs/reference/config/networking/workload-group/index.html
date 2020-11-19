@@ -149,7 +149,7 @@ No
 <td><code>int32</code></td>
 <td>
 <p>Number of seconds after which the probe times out.
-Defaults to 1 second. Minimum value is 1.</p>
+Defaults to 1 second. Minimum value is 1 second.</p>
 
 </td>
 <td>
@@ -161,7 +161,7 @@ No
 <td><code>int32</code></td>
 <td>
 <p>How often (in seconds) to perform the probe.
-Default to 10 seconds. Minimum value is 1.</p>
+Default to 10 seconds. Minimum value is 1 second.</p>
 
 </td>
 <td>
@@ -173,7 +173,7 @@ No
 <td><code>int32</code></td>
 <td>
 <p>Minimum consecutive successes for the probe to be considered successful after having failed.
-Defaults to 1.</p>
+Defaults to 1 second.</p>
 
 </td>
 <td>
@@ -185,7 +185,7 @@ No
 <td><code>int32</code></td>
 <td>
 <p>Minimum consecutive failures for the probe to be considered failed after having succeeded.
-Defaults to 3.</p>
+Defaults to 3 seconds.</p>
 
 </td>
 <td>
@@ -196,7 +196,7 @@ No
 <td><code>httpGet</code></td>
 <td><code><a href="#HTTPHealthCheckConfig">HTTPHealthCheckConfig (oneof)</a></code></td>
 <td>
-<p>an http get is performed to a given endpoint
+<p><code>httpGet</code> is performed to a given endpoint
 and the status/able to connect determines health.</p>
 
 </td>
@@ -208,7 +208,7 @@ No
 <td><code>tcpSocket</code></td>
 <td><code><a href="#TCPHealthCheckConfig">TCPHealthCheckConfig (oneof)</a></code></td>
 <td>
-<p>health is determined by if the proxy is able to connect.</p>
+<p>Health is determined by if the proxy is able to connect.</p>
 
 </td>
 <td>
@@ -219,7 +219,7 @@ No
 <td><code>exec</code></td>
 <td><code><a href="#ExecHealthCheckConfig">ExecHealthCheckConfig (oneof)</a></code></td>
 <td>
-<p>health is determined by how the command that is executed exited.</p>
+<p>Health is determined by how the command that is executed exited.</p>
 
 </td>
 <td>
@@ -256,7 +256,7 @@ No
 <td><code>port</code></td>
 <td><code>uint32</code></td>
 <td>
-<p>port on which the endpoint lives.</p>
+<p>Port on which the endpoint lives.</p>
 
 </td>
 <td>
@@ -279,7 +279,7 @@ No
 <td><code>scheme</code></td>
 <td><code>string</code></td>
 <td>
-<p>http or https, defaults to http</p>
+<p>HTTP or HTTPS, defaults to HTTP</p>
 
 </td>
 <td>
@@ -290,8 +290,8 @@ No
 <td><code>httpHeaders</code></td>
 <td><code><a href="#HTTPHeader">HTTPHeader[]</a></code></td>
 <td>
-<p>headers the proxy will pass on to make the request.
-allows repeated headers.</p>
+<p>Headers the proxy will pass on to make the request.
+Allows repeated headers.</p>
 
 </td>
 <td>
@@ -354,7 +354,7 @@ No
 <td><code>host</code></td>
 <td><code>string</code></td>
 <td>
-<p>host to connect to, defaults to localhost</p>
+<p>Host to connect to, defaults to localhost</p>
 
 </td>
 <td>
@@ -365,7 +365,7 @@ No
 <td><code>port</code></td>
 <td><code>uint32</code></td>
 <td>
-<p>port of host</p>
+<p>Port of host</p>
 
 </td>
 <td>
@@ -391,7 +391,7 @@ No
 <td><code>command</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>command to run. Exit status of 0 is treated as live/healthy and non-zero is unhealthy.</p>
+<p>Command to run. Exit status of 0 is treated as live/healthy and non-zero is unhealthy.</p>
 
 </td>
 <td>
