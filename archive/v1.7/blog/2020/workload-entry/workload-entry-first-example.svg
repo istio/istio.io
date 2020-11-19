@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 720 540" style="enable-background:new 0 0 720 540;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#D9D9D9;stroke:#000000;stroke-miterlimit:10;}
+	.st1{font-family:'ArialMT';}
+	.st2{font-size:24px;}
+	.st3{fill:#D8D8D8;stroke:#020000;stroke-miterlimit:10;}
+	.st4{fill:none;stroke:#020000;stroke-miterlimit:10;}
+	.st5{fill:#020000;}
+	.st6{fill:#D8D8D8;}
+	.st7{fill:none;stroke:#000000;stroke-miterlimit:10;stroke-dasharray:11.7966,1.9661;}
+	.st8{font-size:18px;}
+	.st9{font-size:14px;}
+</style>
+<path class="st0" d="M159.8,153.6h-127c-6.6,0-12-5.4-12-12V75.2c0-6.6,5.4-12,12-12h127c6.6,0,12,5.4,12,12v66.4
+	C171.8,148.2,166.4,153.6,159.8,153.6z"/>
+<text transform="matrix(1 0 0 1 46.4789 98.179)" class="st1 st2">K8S </text>
+<text transform="matrix(1 0 0 1 46.4789 126.9791)" class="st1 st2">service</text>
+<path class="st3" d="M153.2,402.7H50c-6.6,0-12-5.4-12-12v-49.5c0-6.6,5.4-12,12-12h103.2c6.6,0,12,5.4,12,12v49.5
+	C165.2,397.3,159.8,402.7,153.2,402.7z"/>
+<path class="st3" d="M165,414.9H61.9c-6.6,0-12-5.4-12-12v-49.5c0-6.6,5.4-12,12-12h103.2c6.6,0,12,5.4,12,12v49.5
+	C177,409.5,171.6,414.9,165,414.9z"/>
+<path class="st3" d="M177,424.6H73.8c-6.6,0-12-5.4-12-12v-49.5c0-6.6,5.4-12,12-12H177c6.6,0,12,5.4,12,12v49.5
+	C189,419.2,183.6,424.6,177,424.6z"/>
+<text transform="matrix(1 0 0 1 101.5514 390.8683)" class="st1 st2">Pod</text>
+<path class="st3" d="M565.3,359.6H303.5c-6.6,0-12-5.4-12-12V85.8c0-6.6,5.4-12,12-12h261.8c6.6,0,12,5.4,12,12v261.8
+	C577.3,354.2,571.9,359.6,565.3,359.6z"/>
+<g>
+	<g>
+		<line class="st4" x1="101.4" y1="323.2" x2="96.3" y2="153.6"/>
+		<g>
+			<path class="st5" d="M101.6,329.2c1-2.9,2.7-6.4,4.5-8.7l-4.7,1.9l-4.8-1.6C98.5,322.9,100.4,326.4,101.6,329.2z"/>
+		</g>
+	</g>
+</g>
+<text transform="matrix(1 0 0 1 308.7642 108.4531)" class="st1 st2">Istio Service Entry</text>
+<text transform="matrix(1 0 0 1 308.7642 216.7336)" class="st1 st2">Endpoints:</text>
+<g>
+	<path class="st6" d="M428.9,285.9H320.8c-6.6,0-12-5.4-12-12v-26.2c0-6.6,5.4-12,12-12H429c6.6,0,12,5.4,12,12v26.2
+		C440.9,280.5,435.5,285.9,428.9,285.9z"/>
+	<path class="st7" d="M428.9,285.9H320.8c-6.6,0-12-5.4-12-12v-26.2c0-6.6,5.4-12,12-12H429c6.6,0,12,5.4,12,12v26.2
+		C440.9,280.5,435.5,285.9,428.9,285.9z"/>
+</g>
+<g>
+	<path class="st6" d="M428.9,347.5H320.8c-6.6,0-12-5.4-12-12v-26.2c0-6.6,5.4-12,12-12H429c6.6,0,12,5.4,12,12v26.2
+		C440.9,342.1,435.5,347.5,428.9,347.5z"/>
+	<path class="st7" d="M428.9,347.5H320.8c-6.6,0-12-5.4-12-12v-26.2c0-6.6,5.4-12,12-12H429c6.6,0,12,5.4,12,12v26.2
+		C440.9,342.1,435.5,347.5,428.9,347.5z"/>
+</g>
+<text transform="matrix(1 0 0 1 113.4329 228.0373)" class="st1 st8">selects</text>
+<text transform="matrix(1 0 0 1 20.8083 443.19)" class="st1 st9">A Kubernetes Service and Pods </text>
+<text transform="matrix(1 0 0 1 20.8083 459.9901)" class="st1 st9">two seperate objects with distinct </text>
+<text transform="matrix(1 0 0 1 20.8083 476.7901)" class="st1 st9">lifecycles.</text>
+<text transform="matrix(1 0 0 1 275.0902 384.2793)" class="st1 st9">Before Workload Entry, a single Istio Service Entry </text>
+<text transform="matrix(1 0 0 1 275.0902 401.0793)" class="st1 st9">object combined the lifecycle of both the service and </text>
+<text transform="matrix(1 0 0 1 275.0902 417.8792)" class="st1 st9">the workloads implementing it, without giving a first </text>
+<text transform="matrix(1 0 0 1 275.0902 434.6793)" class="st1 st9">class representation for the workloads themselves.</text>
+<text transform="matrix(1 0 0 1 349.7465 266.9695)" class="st1 st9">VM 1 IP</text>
+<text transform="matrix(1 0 0 1 349.7465 329.2209)" class="st1 st9">VM2 IP</text>
+</svg>
