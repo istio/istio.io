@@ -12,4 +12,4 @@ In addition to the above documentation links, please consider the following reso
 
 - [Frequently Asked Questions](/faq)
 - [Glossary](/docs/reference/glossary)
-- [Documentation Archive](https://archive.istio.io/), which contains snapshots of the documentation for prior releases.
+- [Documentation Archive](https://istio.io/archive/), which contains snapshots of the documentation for prior releases.
