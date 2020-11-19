@@ -122,7 +122,7 @@ Mixer-focused CRDs and component and related functionality.
 
 ## Installation
 
-- **Promoted** external control plane to alpha.
+- **Promoted** [external control plane](/docs/setup/additional-setup/external-controlplane/) to alpha.
   ([Issue #11](https://github.com/istio/enhancements/issues/11))
 
 - **Updated** Kiali addon to version 1.26.
