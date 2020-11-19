@@ -45,7 +45,7 @@ You must alter the VM set up instructions based on the suggestions in this secti
 {{< /warning >}}
 
 1. When we create the `IstioOperator` resource, we need to specify which networks we expect, and how to treat them
-1. When creating the `sidecar.env` we need to specify which network in which the VM belongs
+1. When creating the `cluster.env` we need to specify which network in which the VM belongs
 1. We need to create a `Gateway` resource to allow application traffic from the VM to the workload items running in the mesh
 
 ### Installing the Istio Control Plane
@@ -85,10 +85,10 @@ When following the [Virtual Machine Installation](/docs/setup/install/virtual-ma
 
 ### Specify the network for the VM sidecar
 
-When following the [Virtual Machine Installation](/docs/setup/install/virtual-machine/) setup guide for creating the `sidecar.env` file we need to tweak the installation by adding the following entry:
+When following the [Virtual Machine Installation](/docs/setup/install/virtual-machine/) setup guide for creating the `cluster.env` file we need to tweak the installation by adding the following entry:
 
     {{< text bash >}}
-    $ echo "ISTIO_META_NETWORK=vm-network" >> sidecar.env
+    $ echo "ISTIO_META_NETWORK=vm-network" >> cluster.env
     {{< /text >}}
 
 ### Create Gateway for application traffic
