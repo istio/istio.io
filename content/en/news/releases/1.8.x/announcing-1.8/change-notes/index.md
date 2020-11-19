@@ -4,6 +4,14 @@ description: Istio 1.8 release notes.
 weight: 10
 ---
 
+## Known Issues
+
+- Memory leak in TCP Wasm extensions affecting TCP telemetry (see [Issue #24720](https://github.com/istio/istio/issues/24720)). The leak occurs when upstream connections are interrupted mid-stream.
+
+- Wasm extension configuration updates are disruptive (see [Issue #13690](https://github.com/envoyproxy/envoy/issues/13690)). The configuration is immediately applied for existing requests and connections, and is not reverted if the outer xDS is rejected.
+
+- Race condition with Envoy aggregate cluster when creating an `EnvoyFilter` and `ServiceEntry` for the same service. Istio-injected pods are unable to start up due to `istio-proxy` crashing with a segfault. See [Issue #28620](https://github.com/istio/istio/issues/28620) for more information.
+
 ## Traffic Management
 
 - **Added** DNS capture in istio-agent by default for VMs installed using `istioctl x workload entry configure`.
@@ -83,9 +91,7 @@ or if it's not in the `TrustDomainAliases` specified in the `MeshConfig`.
 - **Updated** the "Control Plane Dashboard" and the "Performance Dashboard" to use the `container_memory_working_set_bytes` metric
 to display memory. This metric only counts memory that *cannot be reclaimed* by the kernel even under memory pressure,
 and therefore more relevant for tracking. It is also consistent with `kubectl top`. The reported values are lower than
-the previous values. Known issues:
-    - Memory leak in TCP Wasm extensions affecting TCP telemetry (see [Issue #24720](https://github.com/istio/istio/issues/24720)). The leak occurs when upstream connections are interrupted mid-stream.
-    - Wasm extension configuration updates are disruptive (see [Issue #13690](https://github.com/envoyproxy/envoy/issues/13690)). The configuration is immediately applied for existing requests and connections, and is not reverted if the outer xDS is rejected.
+the previous values.
 
 - **Updated** the Istio Workload and Istio Service dashboards resulting in faster load time.
   ([Issue #22408](https://github.com/istio/istio/issues/22408))
