@@ -13,7 +13,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 {{< relnote >}}
 
-# Changes
+## Changes
 
 - **Fixed** HPA settings for telemetry is overridden by the inline replicas.
   ([Issue #28916](https://github.com/istio/istio/issues/28916))
