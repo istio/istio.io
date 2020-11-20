@@ -1,21 +1,37 @@
 ---
-title: Multicluster Installation
-description: Configure an Istio mesh spanning multiple Kubernetes clusters.
-weight: 30
+title: Install Multicluster
+description: Install an Istio mesh across multiple Kubernetes clusters.
+weight: 40
+icon: setup
 aliases:
     - /docs/setup/kubernetes/multicluster-install/
     - /docs/setup/kubernetes/multicluster/
     - /docs/setup/kubernetes/install/multicluster/
+    - /docs/setup/install/multicluster/gateways/
+    - /docs/setup/install/multicluster/shared/
 keywords: [kubernetes,multicluster]
+simple_list: true
+content_above: true
 test: n/a
+owner: istio/wg-environments-maintainers
 ---
+Follow this guide to install an Istio {{< gloss >}}service mesh{{< /gloss >}}
+that spans multiple {{< gloss "cluster" >}}clusters{{< /gloss >}}.
+
+This guide covers some of the most common concerns when creating a
+{{< gloss >}}multicluster{{< /gloss >}} mesh:
+
+- [Network topologies](/docs/ops/deployment/deployment-models#network-models):
+  one or two networks
+
+- [Control plane topologies](/docs/ops/deployment/deployment-models#control-plane-models):
+  multiple {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}},
+  a primary and {{< gloss >}}remote cluster{{< /gloss >}}
 
 {{< tip >}}
-Note that these instructions are not mutually exclusive.
-In a large multicluster deployment, composed from more than two clusters,
-a combination of the approaches can be used. For example,
-two clusters might share a control plane while a third has its own.
-{{< /tip >}}
+For meshes that span more than two clusters, you can extend the steps in this
+guide to configure more complex topologies.
 
-Refer to the [multicluster deployment model](/docs/ops/deployment/deployment-models/#multiple-clusters)
-concept documentation for more information.
+See [deployment models](/docs/ops/deployment/deployment-models) for more
+information.
+{{< /tip >}}
