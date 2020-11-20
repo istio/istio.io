@@ -355,7 +355,7 @@ an understanding of the structure of your service mesh, display the topology of 
 
 Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kiali/) dashboard, along with [Prometheus](/docs/ops/integrations/prometheus/), [Grafana](/docs/ops/integrations/grafana), and [Jaeger](/docs/ops/integrations/jaeger/).
 
-1.  Install Kiali and wait for it to be deployed.
+1.  Install [Kiali and the other addons]({{< github_tree >}}/samples/addons) and wait for them to be deployed.
 
     {{< text bash >}}
     $ kubectl apply -f samples/addons
