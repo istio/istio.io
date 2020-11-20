@@ -185,14 +185,14 @@ You should see that the `istio-operator` pod has restarted and its version has c
 
 {{< text bash >}}
 $ kubectl get pods --namespace istio-operator \
-  -o=jsonpath='{range .items[*'{"\n"}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{end}'
+  -o=jsonpath='{range .items[*]}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{"\n"}{end}'
 {{< /text >}}
 
 After a minute or two, the Istio control plane components should also be restarted at the new version:
 
 {{< text bash >}}
 $ kubectl get pods --namespace istio-system \
-  -o=jsonpath='{range .items[*'{"\n"}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{end}'
+  -o=jsonpath='{range .items[*]}{"\n"}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{"\n"}{end}'
 {{< /text >}}
 
 ## Canary Upgrade
