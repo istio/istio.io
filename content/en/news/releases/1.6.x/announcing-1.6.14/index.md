@@ -9,10 +9,6 @@ aliases:
     - /news/announcing-1.6.14
 ---
 
-{{< warning >}}
-This is an automatically generated rough draft of the release notes and has not yet been reviewed.
-{{< /warning >}}
-
 This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.6.13 and Istio 1.6.14
 
 {{< relnote >}}
