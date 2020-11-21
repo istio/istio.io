@@ -90,14 +90,6 @@ This timeout has been disabled by default. This has the following impacts:
 
 ## Update AuthorizationPolicy resources to use `remoteIpBlocks`/`notRemoteIpBlocks` instead of `ipBlocks`/`notIpBlocks` if using the Proxy Protocol
 
-{{< warning >}}
-A critical [bug](https://groups.google.com/g/envoy-security-announce/c/aqtBt5VUor0) has been identified in Envoy that the proxy protocol downstream address is restored incorrectly for non-HTTP connections.
-
-Please DO NOT USE the `remoteIpBlocks` field and `remote_ip` attribute with proxy protocol on non-HTTP connections until a newer version of Istio is released with a proper fix.
-
-Note that Istio doesn't support the proxy protocol and it can be enabled only with the `EnvoyFilter` API and should be used at your own risk.
-{{< /warning >}}
-
 If using the Proxy Protocol on a load balancer in front an ingress gateway in conjunction with `ipBlocks`/`notIpBlocks` on an AuthorizationPolicy to perform IP-based access control, then please update the AuthorizationPolicy to use `remoteIpBlocks`/`notRemoteIpBlocks` instead after upgrading. The `ipBlocks`/`notIpBlocks` fields now strictly refer to the source IP address of the packet that arrives at the sidecar.
 
 ## `AUTO_PASSTHROUGH` Gateway mode
