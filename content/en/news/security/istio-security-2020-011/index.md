@@ -17,7 +17,7 @@ Envoy, and subsequently Istio, is vulnerable to a newly discovered vulnerability
 
 - [Incorrect proxy protocol downstream address for non-HTTP connections](https://groups.google.com/g/envoy-security-announce/c/aqtBt5VUor0):
 Envoy incorrectly restores the proxy protocol downstream address for non-HTTP connections. Instead of restoring the address supplied by the proxy protocol filter,
-Envoy restores the address of the directly connected peer and pass it to subsequent filters. This will affect logging (`%DOWNSTREAM_REMOTE_ADDRESS%`) and
+Envoy restores the address of the directly connected peer and passes it to subsequent filters. This will affect logging (`%DOWNSTREAM_REMOTE_ADDRESS%`) and
 authorization policy (`remoteIpBlocks` and `remote_ip`) for non-HTTP network connections because they will use the incorrect proxy protocol downstream address.
 
 This issue does not affect HTTP connections. The address from `X-Forwarded-For` is also not affected.
