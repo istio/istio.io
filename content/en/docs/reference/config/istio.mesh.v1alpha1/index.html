@@ -13,15 +13,7 @@ number_of_entries: 29
 
 <h2 id="MeshConfig">MeshConfig</h2>
 <section>
-<p>MeshConfig defines mesh-wide variables shared by all Envoy instances in the
-Istio service mesh.</p>
-
-<p>NOTE: This configuration type should be used for the low-level global
-configuration, such as component addresses and port numbers. It should not
-be used for the features of the mesh that can be scoped by service or by
-namespace. Some of the fields in the mesh config are going to be deprecated
-and replaced with several individual configuration types (for example,
-tracing configuration).</p>
+<p>MeshConfig defines mesh-wide settings for the Istio service mesh.</p>
 
 <table class="message-fields">
 <thead>
@@ -231,11 +223,11 @@ No
 <td><code>defaultConfig</code></td>
 <td><code><a href="#ProxyConfig">ProxyConfig</a></code></td>
 <td>
-<p>Default proxy config used by the proxy injection mechanism operating in the mesh
-(e.g. Kubernetes admission controller)
+<p>Default proxy config used by gateway and sidecars.
 In case of Kubernetes, the proxy config is applied once during the injection process,
 and remain constant for the duration of the pod. The rest of the mesh config can be changed
-at runtime and config gets distributed dynamically.</p>
+at runtime and config gets distributed dynamically.
+On Kubernetes, this can be overridden on individual pods with the <code>proxy.istio.io/config</code> annotation.</p>
 
 </td>
 <td>
@@ -1244,6 +1236,18 @@ No
 <p>Address of the Envoy Metrics Service implementation (e.g. <code>metrics-service:15000</code>).
 See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/metrics/v2/metrics_service.proto">Metric Service</a>
 for details about Envoy&rsquo;s Metrics Service API.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-proxy_metadata">
+<td><code>proxyMetadata</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>Additional environment variables for the proxy.
+Names starting with ISTIO<em>META</em> will be included in the generated bootstrap and sent to the XDS server.</p>
 
 </td>
 <td>
