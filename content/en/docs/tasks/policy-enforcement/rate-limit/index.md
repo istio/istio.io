@@ -43,35 +43,35 @@ Ratelimit using Envoy can be achieved using either Global Rate Limiting or Local
 
 Envoy can be used to setup global rate limit for your mesh. More info on it can be found [here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/global_rate_limiting)
 
-1. For Global Rate Limit, you need a global gRPC rate limiting service. You can either use Envoy's [reference implementation](https://github.com/envoyproxy/ratelimit) written in Go which uses a Redis backend or implement a service that implements the Envoy's defined RPC/IDL protocol.
-   In the definition of the service you also define the rate limits and the descriptor on which you want
-   to rate limit on. For example, below is the configmap defining rate limit on PATH header.
-   
-   {{<text bash >}}
-   apiVersion: v1
-   kind: ConfigMap
-   metadata:
-     name: ratelimit-config
-   data:
-     config.yaml: |
-       domain: echo-ratelimit
-       descriptors:
-         - key: PATH
-           value: "/productpage"
-           rate_limit:
-             unit: minute
-             requests_per_unit: 1
-         - key: PATH
-           rate_limit:
-             unit: minute
-             requests_per_unit: 100
-   {{< /text >}}
+1.  For Global Rate Limit, you need a global gRPC rate limiting service. You can either use Envoy's [reference implementation](https://github.com/envoyproxy/ratelimit) written in Go which uses a Redis backend or implement a service that implements the Envoy's defined RPC/IDL protocol.
+    In the definition of the service you also define the rate limits and the descriptor on which you want
+    to rate limit on. For example, below is the configmap defining rate limit on PATH header.
 
-1. Apply EnvoyFilter Patch in Istio that enables global rate limit. The below patch applies rate limiting
-   on any traffic through  Istio Ingressgateway and  matches  it on the  Path header of the request.
+    {{<text yaml >}}
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: ratelimit-config
+    data:
+      config.yaml: |
+        domain: echo-ratelimit
+        descriptors:
+          - key: PATH
+            value: "/productpage"
+            rate_limit:
+              unit: minute
+              requests_per_unit: 1
+          - key: PATH
+            rate_limit:
+              unit: minute
+              requests_per_unit: 100
+    {{< /text >}}
 
-   {{< text bash >}}
-   $ kubectl apply -f - <<EOF
+1.  Apply EnvoyFilter Patch in Istio that enables global rate limit. The below patch applies rate limiting
+    on any traffic through  Istio Ingressgateway and  matches  it on the  Path header of the request.
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:
@@ -147,8 +147,8 @@ Envoy can be used to setup global rate limit for your mesh. More info on it can 
             routeConfiguration:
               vhost:
                 name: "*:80"
-                route:
-                  action: ANY
+                  route:
+                    action: ANY
           patch:
             operation: MERGE
             # Applies the rate limit rules.
@@ -158,11 +158,11 @@ Envoy can be used to setup global rate limit for your mesh. More info on it can 
                   - request_headers:
                       header_name: ":path"
                       descriptor_key: "PATH"
-   EOF
-   {{< /text >}}
+    EOF
+    {{< /text >}}
 
 
-## Local Rate Limit
+### Local Rate Limit
 
 Envoy supports using Local Rate Limit on connection and HTTP level. This helps applying rate limit at the instance level
 itself.
@@ -170,8 +170,8 @@ itself.
 You can enable local rate limit by applying Envoy Filter patch as follows. Following enables 100 requests through an
  istio ingressgateway instance in 60 seconds. 
 
-   {{< text bash >}}
-   $ kubectl apply -f - <<EOF
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:
@@ -215,13 +215,13 @@ You can enable local rate limit by applying Envoy Filter patch as follows. Follo
                       header:
                         key: x-local-rate-limit
                         value: 'true'
-   EOF
-   {{< /text >}}
+    EOF
+    {{< /text >}}
 
 You can also enable local rate limiting for a specific route and it can be achieved as follows:
 
-   {{< text bash >}}
-   $ kubectl apply -f - <<EOF
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:
@@ -252,7 +252,7 @@ You can also enable local rate limiting for a specific route and it can be achie
             routeConfiguration:
               vhost:
                 name: "productpage.default.svc.cluster.local:80"
-                route:
+                 route:
                   action: ANY
           patch:
             operation: MERGE
@@ -282,5 +282,5 @@ You can also enable local rate limiting for a specific route and it can be achie
                         header:
                           key: x-local-rate-limit
                           value: 'true'
-   EOF
-   {{< /text >}}
+    EOF
+    {{< /text >}}
