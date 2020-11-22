@@ -36,8 +36,7 @@ service.
 ## Rate limits
 
 In this task, you configure Istio to rate limit traffic to `productpage` whenever request is routed to a specific path.
-Ratelimit using Envoy can be achieved using either Global Rate Limiting or Local Rate Limiting.
-
+Rate limit using Envoy can be achieved using either Global Rate Limiting or Local Rate Limiting.
 
 ### Global Rate Limit
 
@@ -65,6 +64,7 @@ Envoy can be used to setup global rate limit for your mesh. More info on it can 
             rate_limit:
               unit: minute
               requests_per_unit: 100
+
     {{< /text >}}
 
 1.  Apply EnvoyFilter Patch in Istio that enables global rate limit. The below patch applies rate limiting
@@ -161,14 +161,13 @@ Envoy can be used to setup global rate limit for your mesh. More info on it can 
     EOF
     {{< /text >}}
 
-
 ### Local Rate Limit
 
 Envoy supports using Local Rate Limit on connection and HTTP level. This helps applying rate limit at the instance level
 itself.
 
 You can enable local rate limit by applying Envoy Filter patch as follows. Following enables 100 requests through an
- istio ingressgateway instance in 60 seconds. 
+ istio ingressgateway instance in 60 seconds.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
