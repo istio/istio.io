@@ -69,6 +69,5 @@ _verify_same snip_cleanup_1 "$snip_cleanup_1_out"
 _verify_same snip_cleanup_2 "$snip_cleanup_2_out"
 _verify_same snip_cleanup_3 "$snip_cleanup_3_out"
 
-set +e
 _undeploy_addons kiali prometheus grafana zipkin
 kubectl delete ns istio-system

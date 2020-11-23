@@ -62,7 +62,6 @@ _verify_contains snip_use_a_kubernetes_service_with_endpoints_to_access_an_exter
 _verify_contains snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_7 "Connected to en.wikipedia.org"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_of_kubernetes_externalname_service_1
 snip_cleanup_of_kubernetes_service_with_endpoints_1
 snip_cleanup_1

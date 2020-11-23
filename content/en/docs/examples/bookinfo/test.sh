@@ -65,5 +65,4 @@ _verify_lines snip_apply_default_destination_rules_2 "
 "
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_1

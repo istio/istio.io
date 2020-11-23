@@ -56,7 +56,6 @@ time verify_load_balancing
 
 # @cleanup
 source content/en/docs/setup/install/multicluster/common.sh
-set +e # ignore cleanup errors
 set_single_network_vars
 time cleanup
 

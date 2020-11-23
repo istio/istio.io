@@ -49,6 +49,4 @@ curl -s -H "Foo: bar" -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_
 _verify_contains get_headers '"Foo": "bar"'
 
 # @cleanup
-
-set +e # ignore cleanup errors
 snip_cleanup_1

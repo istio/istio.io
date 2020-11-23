@@ -58,6 +58,5 @@ _verify_same snip_verifying_the_certificates_4 "$snip_verifying_the_certificates
 _verify_same snip_verifying_the_certificates_5 "$snip_verifying_the_certificates_5_out"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_1
 snip_cleanup_2

@@ -68,6 +68,5 @@ _verify_contains snip_mirroring_traffic_to_v2_3 "GET /headers HTTP/1.1"
 _verify_contains snip_mirroring_traffic_to_v2_4 "GET /headers HTTP/1.1"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleaning_up_1
 snip_cleaning_up_2

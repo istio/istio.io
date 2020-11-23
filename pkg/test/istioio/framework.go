@@ -58,6 +58,9 @@ source "tests/util/helpers.sh"
 ### END INJECTED SCRIPT ###
 `
 
+    // command injected at start of cleanup script
+    cleanupScriptPrefix = "-set +e\n" // ignore cleanup errors
+
 	snipsFileSuffix = "snips.sh"
 	testFileSuffix  = "test.sh"
 
@@ -139,7 +142,7 @@ func checkFile(path string) (*TestCase, error) {
 	// copy the files sourced by test to cleanup
 	re := regexp.MustCompile("(?m)^source \".*\\.sh\"$")
 	sources := re.FindAllString(testScript, -1)
-	cleanupScript = strings.Join(sources, "\n") + cleanupScript
+	cleanupScript = strings.Join(sources, "\n") + cleanupScriptPrefix + cleanupScript
 
 	// find setup configuration
 	re = regexp.MustCompile(fmt.Sprintf("(?m)^%v (.*)$", setupSpec))

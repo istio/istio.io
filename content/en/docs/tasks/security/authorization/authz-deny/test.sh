@@ -56,5 +56,4 @@ _verify_same snip_explicitly_deny_a_request_9 "$snip_explicitly_deny_a_request_9
 _verify_same snip_explicitly_deny_a_request_10 "$snip_explicitly_deny_a_request_10_out"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_clean_up_1

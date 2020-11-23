@@ -105,7 +105,6 @@ _wait_for_istio virtualservice default reviews
 _verify_same reviews_v3_traffic_percentage 100
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup
 cleanup_bookinfo_sample
 cleanup_sleep_sample

@@ -74,8 +74,7 @@ _verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_4 "Wel
 _verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_5 "GET / HTTP/1.1"
 
 # @cleanup
-set +e # ignore cleanup errors
-kubectl label namespace default istio-injection- || true
+kubectl label namespace default istio-injection-
 snip_cleanup_the_mutual_tls_origination_example_1
 snip_cleanup_the_mutual_tls_origination_example_2
 snip_cleanup_the_mutual_tls_origination_example_3

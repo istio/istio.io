@@ -50,7 +50,6 @@ _verify_same access_zipkin_with_portforward "200"
 pgrep istioctl | xargs kill
 
 # @cleanup
-set +e
 cleanup_bookinfo_sample
 
 # TODO: Fix issue with using killall. Also why do we need to do this in setup and cleanup?

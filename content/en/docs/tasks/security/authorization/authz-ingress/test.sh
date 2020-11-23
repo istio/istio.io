@@ -84,6 +84,5 @@ _verify_same snip_ipbased_allow_list_and_deny_list_11 "$snip_ipbased_allow_list_
 _verify_contains snip_ipbased_allow_list_and_deny_list_12 "remoteIP"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_clean_up_1
 snip_clean_up_2

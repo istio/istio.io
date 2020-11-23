@@ -74,7 +74,6 @@ _verify_contains get_bookinfo_productpage_jason "glyphicon glyphicon-star"
 _verify_not_contains get_bookinfo_productpage "glyphicon glyphicon-star"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_1
 cleanup_bookinfo_sample
 cleanup_sleep_sample

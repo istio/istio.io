@@ -73,5 +73,4 @@ _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_10 "$snip_a
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_11 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_11_out"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_clean_up_1
