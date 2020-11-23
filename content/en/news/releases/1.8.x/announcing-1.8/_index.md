@@ -27,7 +27,7 @@ To codify all the knowledge on how to deploy and upgrade a mesh into software, w
 
 Given the several methods of installation that Istio now supports, we've added a [which Istio installation method should I use?](/faq/setup/#install-method-selection) FAQ page to help users understand which method may be best suited to their particular use case.
 
-Vendors can now provide [optimized profiles]({{< github_tree >}}/manifests/charts/istio-operator/files/manifests/profiles/PROFILES.md) for installing Istio on their platform. [Installing Istio on OpenShift](/docs/setup/platform-setup/openshift/) is easier as a result!
+Vendors can now provide optimized profiles for installing Istio on their platform. [Installing Istio on OpenShift](/docs/setup/platform-setup/openshift/) is easier as a result!
 
 ## Multi-cluster
 
