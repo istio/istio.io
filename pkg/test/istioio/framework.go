@@ -48,21 +48,15 @@ var (
 	contentFolder = fmt.Sprintf("%v/%v/", os.Getenv("REPO_ROOT"), defaultPath)
 
 	// scripts that are sourced for all tests
-	helperTemplate = `
-		cd ${REPO_ROOT}
-		source "%v/%v" # snips.sh
-		source "tests/util/verify.sh"
-		source "tests/util/debug.sh"
-		source "tests/util/helpers.sh"
-	`
-
-	createClusterSnapshots = `
-		__create_cluster_snapshots
-	`
-
-	clusterCleanupCheck = `
-		__cluster_cleanup_check
-	`
+	scriptPrefixTemplate = `
+### BEGIN INJECTED SCRIPT ###
+cd ${REPO_ROOT}
+source "%v/%v" # snips.sh
+source "tests/util/verify.sh"
+source "tests/util/debug.sh"
+source "tests/util/helpers.sh"
+### END INJECTED SCRIPT ###
+`
 
 	snipsFileSuffix = "snips.sh"
 	testFileSuffix  = "test.sh"
@@ -139,7 +133,6 @@ func checkFile(path string) (*TestCase, error) {
 		)
 		return testCase, err
 	}
-	helperScript := getHelperScript(shortPath)
 	testScript := splitScript[0]
 	cleanupScript := splitScript[1]
 
@@ -162,17 +155,35 @@ func checkFile(path string) (*TestCase, error) {
 	config := setups[0][1]
 
 	// Check for proper test cleanup
-	testScript = createClusterSnapshots + testScript
-	cleanupScript += clusterCleanupCheck
+	scriptPrefix := getTemplateScript(scriptPrefixTemplate, shortPath)
+	testScript = addScriptPrefix(scriptPrefix, testScript)
+	cleanupScript = addScriptPrefix(scriptPrefix, cleanupScript)
 
 	testCase = &TestCase{
 		valid:         true,
 		path:          shortPath,
 		config:        config,
-		testScript:    helperScript + testScript,
-		cleanupScript: helperScript + cleanupScript,
+		testScript:    testScript,
+		cleanupScript: cleanupScript,
 	}
 	return testCase, nil
+}
+
+func addScriptPrefix(prefix, script string) string {
+	out := ""
+	needToAdd := true
+
+	// Add the prefix before the first uncommented line.
+	for _, line := range strings.Split(script, "\n") {
+		if needToAdd && !strings.HasPrefix(line, "#") {
+			out += prefix + "\n"
+			needToAdd = false
+		}
+
+		out += line + "\n"
+	}
+
+	return out
 }
 
 // NewTestDocsFunc returns a test function that traverses through all test
@@ -190,8 +201,21 @@ func NewTestDocsFunc(config string) func(framework.TestContext) {
 			path := testCase.path
 			testScriptName := filepath.Base(path)
 			cleanupScriptName := "cleanup.sh"
+
+			// Create the mesh snapshotters
+			kubeConfig := getKubeConfig(ctx)
+			beforeSnapshotter := &Snapshotter{
+				StepName:   "before snapshot",
+				KubeConfig: kubeConfig,
+			}
+			afterSnapshotter := &Snapshotter{
+				StepName:   "after snapshot",
+				KubeConfig: kubeConfig,
+			}
+
 			ctx.NewSubTest(path).
 				Run(NewBuilder().
+					Add(beforeSnapshotter).
 					Add(Script{
 						Input: Inline{
 							FileName: testScriptName,
@@ -203,6 +227,10 @@ func NewTestDocsFunc(config string) func(framework.TestContext) {
 							FileName: cleanupScriptName,
 							Value:    testCase.cleanupScript,
 						},
+					}).
+					Defer(SnapshotValidator{
+						Before: beforeSnapshotter,
+						After:  afterSnapshotter,
 					}).
 					Build())
 		}
@@ -229,12 +257,12 @@ func split(testsAsString string) []string {
 	return strings.Split(testsAsString, ",")
 }
 
-// getHelperScript returns a helper script that automatically sources the
+// getTemplateScript returns a script that automatically sources the
 // snippets and some test utilities. It receives `testPath`, which is the
 // path of the test script file to be run.
-func getHelperScript(testPath string) string {
+func getTemplateScript(template, testPath string) string {
 	splitPath := strings.Split(testPath, "/")
 	splitPath[len(splitPath)-1] = snipsFileSuffix
 	snipsPath := strings.Join(splitPath, "/")
-	return fmt.Sprintf(helperTemplate, defaultPath, snipsPath)
+	return fmt.Sprintf(template, defaultPath, snipsPath)
 }

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # shellcheck disable=SC2155,SC2030,SC2031
 
 # Copyright Istio Authors

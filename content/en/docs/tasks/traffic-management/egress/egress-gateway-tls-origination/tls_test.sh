@@ -51,5 +51,6 @@ _verify_contains snip_perform_tls_origination_with_an_egress_gateway_6 "GET /pol
 
 # @cleanup
 set +e # ignore cleanup errors
+kubectl label namespace default istio-injection- || true
 snip_cleanup_the_tls_origination_example_1
 snip_cleanup_1

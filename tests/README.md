@@ -184,7 +184,8 @@ expected output. The framework includes the following built-in verify functions:
    Runs `func` and compares the output with `expected`. If they are not the same,
    wait a second and try again, up to two minutes by default. The retry behavior
    can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
-   variables.
+   variables. You can also specify the expected number of consecutive successes
+   by setting the `VERIFY_CONSECUTIVE` environment variable.
 
 1. **`_verify_contains`** `func` `expected`
 
@@ -192,7 +193,8 @@ expected output. The framework includes the following built-in verify functions:
    contain the substring `expected`,
    wait a second and try again, up to two minutes by default. The retry behavior
    can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
-   variables.
+   variables. You can also specify the expected number of consecutive successes
+   by setting the `VERIFY_CONSECUTIVE` environment variable.
 
 1. **`_verify_not_contains`** `func` `expected`
 
@@ -200,7 +202,8 @@ expected output. The framework includes the following built-in verify functions:
    or the output contains the substring `expected`,
    wait a second and try again, up to two minutes by default. The retry behavior
    can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
-   variables.
+   variables. You can also specify the expected number of consecutive successes
+   by setting the `VERIFY_CONSECUTIVE` environment variable.
 
 1. **`_verify_elided`** `func` `expected`
 
@@ -209,7 +212,8 @@ expected output. The framework includes the following built-in verify functions:
    containing any text,
    wait a second and try again, up to two minutes by default. The retry behavior
    can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
-   variables.
+   variables. You can also specify the expected number of consecutive successes
+   by setting the `VERIFY_CONSECUTIVE` environment variable.
 
 1. **`_verify_like`** `func` `expected`
 
@@ -217,7 +221,9 @@ expected output. The framework includes the following built-in verify functions:
    "like" `expected`,
    wait a second and try again, up to two minutes by default. The retry behavior
    can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
-   variables.
+   variables. You can also specify the expected number of consecutive successes
+   by setting the `VERIFY_CONSECUTIVE` environment variable.
+
    Like implies:
 
    - Same number of lines
@@ -241,7 +247,9 @@ expected output. The framework includes the following built-in verify functions:
    "conform to" the specification in `expected`,
    wait a second and try again, up to two minutes by default. The retry behavior
    can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
-   variables.
+   variables. You can also specify the expected number of consecutive successes
+   by setting the `VERIFY_CONSECUTIVE` environment variable.
+
    Conformance implies:
 
    1. For each line in `expected` with the prefix "+ " there must be at least one

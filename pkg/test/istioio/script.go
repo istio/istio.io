@@ -26,7 +26,6 @@ import (
 	"time"
 
 	"istio.io/istio/pkg/test/framework"
-	"istio.io/istio/pkg/test/framework/components/environment/kube"
 	"istio.io/istio/pkg/test/scopes"
 	"istio.io/pkg/log"
 )
@@ -169,14 +168,8 @@ func (s Script) getEnv(ctx framework.TestContext, fileName string) []string {
 		// Set the output dir for the test.
 		testOutputDirEnvVar: ctx.WorkDir(),
 	}
-	customVars[testDebugFile] = fileName + "_debug.txt"
-
-	kubeEnv := ctx.Environment().(*kube.Environment)
-	if ctx.Clusters().IsMulticluster() {
-		customVars[kubeConfigEnvVar] = strings.Join(kubeEnv.Settings().KubeConfig, ":")
-	} else {
-		customVars[kubeConfigEnvVar] = kubeEnv.Settings().KubeConfig[0]
-	}
+	customVars[testDebugFile] = filepath.Join(ctx.WorkDir(), fileName+"_debug.txt")
+	customVars[kubeConfigEnvVar] = getKubeConfig(ctx)
 
 	for k, v := range s.Env {
 		customVars[k] = v

@@ -85,3 +85,4 @@ _verify_contains snip_view_the_dashboard_dashboard_1 'deployment "kiali" success
 set +e # ignore cleanup errors
 cleanup_bookinfo_sample
 snip_uninstall_1
+kubectl delete ns istio-system --ignore-not-found=true
