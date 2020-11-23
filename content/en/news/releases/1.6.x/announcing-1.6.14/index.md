@@ -15,7 +15,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Fixed** HPA settings for telemetry is overridden by the inline replicas.
+- **Fixed** HPA settings for telemetry being overridden by the inline replicas.
   ([Issue #28916](https://github.com/istio/istio/issues/28916))
 - **Fixed** an issue that caused very high memory usage with a large number of `ServiceEntries`.
   ([Issue #25531](https://github.com/istio/istio/issues/25531))
