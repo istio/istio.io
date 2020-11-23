@@ -58,8 +58,8 @@ source "tests/util/helpers.sh"
 ### END INJECTED SCRIPT ###
 `
 
-    // command injected at start of cleanup script
-    cleanupScriptPrefix = "-set +e\n" // ignore cleanup errors
+	// command injected at start of cleanup script
+	cleanupScriptPrefix = "-set +e\n" // ignore cleanup errors
 
 	snipsFileSuffix = "snips.sh"
 	testFileSuffix  = "test.sh"
