@@ -3,7 +3,7 @@ title: Announcing Istio 1.6.14
 linktitle: 1.6.14
 subtitle: Patch Release
 description: Istio 1.6.14 patch release.
-publishdate: 2020-11-20
+publishdate: 2020-11-23
 release: 1.6.14
 aliases:
     - /news/announcing-1.6.14
