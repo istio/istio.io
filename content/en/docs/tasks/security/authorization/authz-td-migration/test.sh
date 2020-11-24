@@ -66,6 +66,4 @@ _verify_same snip_migrate_trust_domain_with_trust_domain_aliases_2 "$snip_migrat
 _verify_same snip_migrate_trust_domain_with_trust_domain_aliases_3 "$snip_migrate_trust_domain_with_trust_domain_aliases_3_out"
 
 # @cleanup
-
-set +e # ignore cleanup errors
 echo y | snip_clean_up_1

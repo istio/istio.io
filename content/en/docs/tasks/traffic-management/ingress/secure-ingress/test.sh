@@ -106,7 +106,6 @@ snip_configure_a_mutual_tls_ingress_gateway_4
 _verify_elided snip_configure_a_mutual_tls_ingress_gateway_5 "$snip_configure_a_mutual_tls_ingress_gateway_5_out"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_1
 snip_cleanup_2
 snip_cleanup_3

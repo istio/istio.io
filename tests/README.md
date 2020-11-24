@@ -298,7 +298,7 @@ You can also find this information by running `make doc.test.help`.
 error as the Istio control plane is being started. Adding a config when creating your `kind` cluster should fix the issue:
 
    ```sh
-   kind create-cluster --name istio-test --config prow/config/trustworthy-jwt.yaml
+   kind create cluster --name istio-test --config prow/config/trustworthy-jwt.yaml
    ```
 
 1. When using `kind` clusters on a Mac, an extra env var is needed (ADDITIONAL_CONTAINER_OPTIONS="--network host").

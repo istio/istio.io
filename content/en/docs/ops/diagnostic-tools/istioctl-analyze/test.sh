@@ -99,7 +99,6 @@ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress-
 snip_annotate_for_deployment_suppression_107
 
 # @cleanup
-set +e # ignore cleanup errors
 kubectl label namespace default istio-injection-
 kubectl delete ns frod
 kubectl delete deployment my-deployment

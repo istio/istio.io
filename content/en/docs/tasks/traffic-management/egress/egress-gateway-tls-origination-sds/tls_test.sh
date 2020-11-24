@@ -65,7 +65,6 @@ _verify_contains snip_configure_simple_tls_origination_for_egress_traffic_5 "Wel
 _verify_contains snip_configure_simple_tls_origination_for_egress_traffic_6 "GET / HTTP/1.1"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_the_tls_origination_example_1
 snip_cleanup_the_tls_origination_example_2
 snip_cleanup_the_tls_origination_example_3

@@ -60,7 +60,6 @@ _verify_lines snip_verify_the_results_2 "
 "
 
 # @cleanup
-set +e # ignore cleanup errors
 cleanup_bookinfo_sample
 
 # Clean up Istio. NOTE: Don't wipe out CRDs as doing

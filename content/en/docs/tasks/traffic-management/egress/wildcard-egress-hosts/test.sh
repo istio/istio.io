@@ -97,7 +97,6 @@ _verify_lines snip_configure_traffic_through_egress_gateway_with_sni_proxy_7 "
 "
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_direct_traffic_to_a_wildcard_host_1
 
 snip_cleanup_wildcard_configuration_for_a_single_hosting_server_1

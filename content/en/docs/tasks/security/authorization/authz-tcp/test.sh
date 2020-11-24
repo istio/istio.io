@@ -67,5 +67,4 @@ _verify_same snip_configure_access_control_for_a_tcp_workload_9 "$snip_configure
 _verify_same snip_configure_access_control_for_a_tcp_workload_10 "$snip_configure_access_control_for_a_tcp_workload_10_out"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_clean_up_1
