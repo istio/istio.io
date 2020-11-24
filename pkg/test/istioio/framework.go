@@ -59,8 +59,9 @@ source "tests/util/helpers.sh"
 `
 
 	// command injected at start of cleanup script
-	cleanupScriptPrefix = "set +e\n" // ignore cleanup errors
-
+	cleanupScriptPrefix = `
+set +e # ignore cleanup errors
+`
 	snipsFileSuffix = "snips.sh"
 	testFileSuffix  = "test.sh"
 
