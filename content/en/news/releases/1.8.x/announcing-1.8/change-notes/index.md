@@ -154,7 +154,7 @@ configure cross-network gateways without using [mesh networks](/docs/reference/c
   ([Issue #25933](https://github.com/istio/istio/issues/25933))
 
 - **Added** support for Kubernetes versions 1.16 to 1.19 to Istio 1.8.
-  ([Pull Request #28814](https://github.com/istio/istio/pull/28814))
+  ([Issue #28814](https://github.com/istio/istio/issues/28814))
 
 - **Added** the ability to specify the network for a Pod using the label `topology.istio.io/network`. This overrides the setting for the cluster's installation values (`values.globalnetwork`). If the label isn't set, it is injected based on the global value for the cluster.
   ([Issue #25500](https://github.com/istio/istio/issues/25500))
