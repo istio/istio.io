@@ -174,3 +174,8 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 
 **Congratulations!** You successfully installed and verified Istio on multiple
 clusters!
+
+## Next Steps
+
+Check out the [locality load balancing tasks](/docs/tasks/traffic-management/locality-load-balancing)
+to learn how to control the traffic across a multicluster mesh.
