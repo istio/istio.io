@@ -177,6 +177,5 @@ clusters!
 
 ## Next Steps
 
-You can now configure
-[locality load balancing](/docs/tasks/traffic-management/locality-load-balancing)
-to control the traffic across your multicluster mesh.
+Check out the [locality load balancing tasks](/docs/tasks/traffic-management/locality-load-balancing) 
+to learn how to control the traffic across a multicluster mesh.
