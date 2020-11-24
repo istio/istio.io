@@ -56,7 +56,7 @@ For users with `values.global.meshExpansion.enabled=true`, perform the following
 1. Apply the code sample for exposing Istiod through ingress.
 
 {{< text bash >}}
-$ kubectl apply -f @samples/istiod-gateway/istiod-gateway.yaml@
+$ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
 {{< /text >}}
 
    This removes `operator.istio.io/managed` labels from the associated Istio networking resources so that the Istio installer won't delete them. After this step, you can modify these resources freely.
