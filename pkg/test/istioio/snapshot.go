@@ -238,15 +238,16 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 			return nil
 		})
 	}
+
+	if err := wg.Wait(); err != nil {
+		return nilVal, err
+	}
+
 	sort.Strings(clusterSN.Namespaces)
 	sort.Slice(clusterSN.NamespaceSnapshots, func(i, j int) bool {
 		return strings.Compare(clusterSN.NamespaceSnapshots[i].Namespace,
 			clusterSN.NamespaceSnapshots[j].Namespace) < 0
 	})
-
-	if err := wg.Wait(); err != nil {
-		return nilVal, err
-	}
 
 	return clusterSN, nil
 }

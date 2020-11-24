@@ -367,7 +367,7 @@ the cluster, enabling cross-cluster load balancing for these services.
 
 By default, Istio will load balance requests evenly between endpoints in
 each cluster. In large systems that span geographic regions, it may be
-desirable to use [locality load balancing](/docs/ops/configuration/traffic-management/locality-load-balancing)
+desirable to use [locality load balancing](/docs/tasks/traffic-management/locality-load-balancing)
 to prefer that traffic stay in the same zone or region.
 
 In some advanced scenarios, load balancing across clusters may not be desired.
