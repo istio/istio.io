@@ -7,7 +7,7 @@ keywords: [locality,load balancing,priority,prioritized,kubernetes,multicluster]
 test: yes
 owner: istio/wg-networking-maintainers
 ---
-Before you begin tasks for locality load balancing, you must first
+Before you begin the locality load balancing tasks, you must first
 [install Istio on multiple clusters](/docs/setup/install/multicluster). The
 clusters must span three regions, containing four availability zones. The
 number of clusters required may vary based on the capabilities offered by

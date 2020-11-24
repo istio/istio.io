@@ -2,7 +2,6 @@
 title: Install Multicluster
 description: Install an Istio mesh across multiple Kubernetes clusters.
 weight: 40
-icon: setup
 aliases:
     - /docs/setup/kubernetes/multicluster-install/
     - /docs/setup/kubernetes/multicluster/

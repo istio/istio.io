@@ -71,8 +71,6 @@ failover_to_region2_zone3
 failover_to_region3_zone4
 
 # @cleanup
-set +e # ignore cleanup errors
-
 source content/en/docs/tasks/traffic-management/locality-load-balancing/common.sh
 
 set_env_vars

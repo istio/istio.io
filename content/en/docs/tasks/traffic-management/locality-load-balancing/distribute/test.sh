@@ -95,8 +95,6 @@ configureDistribution
 verifyDistribution
 
 # @cleanup
-set +e # ignore cleanup errors
-
 source content/en/docs/tasks/traffic-management/locality-load-balancing/common.sh
 
 set_env_vars

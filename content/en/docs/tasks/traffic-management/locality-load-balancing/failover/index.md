@@ -98,8 +98,9 @@ Repeat this several times and verify that the response is always the same.
 
 ## Failover to `region1.zone2`
 
-Next, we trigger a failover to `region1.zone2`. To do this, we drain the
-the Envoy sidecar proxy for `HelloWorld` in `region1.zone1`:
+Next, we trigger a failover to `region1.zone2`. To do this, we
+[drain the Envoy sidecar proxy](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/draining#draining)
+for `HelloWorld` in `region1.zone1`:
 
 {{< text bash >}}
 $ kubectl --context="${CTX_R1_Z1}" exec \
