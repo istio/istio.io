@@ -2,7 +2,6 @@
 title: Locality Load Balancing
 description: This series of tasks demonstrate how to configure locality load balancing in Istio.
 weight: 65
-icon: tasks
 keywords: [locality,load balancing,priority,prioritized,kubernetes,multicluster]
 simple_list: true
 content_above: true
@@ -11,7 +10,7 @@ aliases:
   - /help/ops/locality-load-balancing
   - /help/tasks/traffic-management/locality-load-balancing
   - /docs/ops/traffic-management/locality-load-balancing
-  - /docs/tasks/traffic-management/locality-load-balancing
+  - /docs/ops/configuration/traffic-management/locality-load-balancing
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
