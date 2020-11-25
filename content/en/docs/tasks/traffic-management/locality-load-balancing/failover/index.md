@@ -12,8 +12,8 @@ Follow this guide to configure your mesh for locality failover.
 Before proceeding, be sure to complete the steps under
 [before you begin](/docs/tasks/traffic-management/locality-load-balancing/before-you-begin).
 
-In this task, we will use the `Sleep` pod in `region1.zone1` as the source of
-requests to the `HelloWorld` service. We will then trigger failures that will
+In this task, you will use the `Sleep` pod in `region1.zone1` as the source of
+requests to the `HelloWorld` service. You will then trigger failures that will
 cause failover between localities in the following sequence:
 
 {{< image width="75%"
@@ -28,7 +28,7 @@ traffic originating from the `Sleep` pod (in `region1` `zone1`):
 Priority | Locality | Details
 -------- | -------- | -------
 0 | `region1.zone1` | Region, zone, and sub-zone all match.
-1 | None | Since we're not using sub-zones, there are no matches for a different sub-zone.
+1 | None | Since this task doesn't use sub-zones, there are no matches for a different sub-zone.
 2 | `region1.zone2` | Different zone within the same region.
 3 | `region2.zone3` | No match, however failover is defined for `region1`->`region2`.
 4 | `region3.zone4` | No match and no failover defined for `region1`->`region3`.
@@ -98,7 +98,7 @@ Repeat this several times and verify that the response is always the same.
 
 ## Failover to `region1.zone2`
 
-Next, we trigger a failover to `region1.zone2`. To do this, we
+Next, trigger a failover to `region1.zone2`. To do this, you
 [drain the Envoy sidecar proxy](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/draining#draining)
 for `HelloWorld` in `region1.zone1`:
 
@@ -125,7 +125,7 @@ several more times and verify that the `version` in the response is always
 
 ## Failover to `region2.zone3`
 
-Now trigger a failover to `region2.zone3`. As we did previously, we configure
+Now trigger a failover to `region2.zone3`. As you did previously, configure
 the `HelloWorld` in `region1.zone2` to fail when called:
 
 {{< text bash >}}
@@ -151,7 +151,7 @@ several more times and verify that the `version` in the response is always
 
 ## Failover to `region3.zone4`
 
-Now trigger a failover to `region3.zone4`. As we did previously, we configure
+Now trigger a failover to `region3.zone4`. As you did previously, configure
 the `HelloWorld` in `region2.zone3` to fail when called:
 
 {{< text bash >}}
@@ -176,3 +176,8 @@ several more times and verify that the `version` in the response is always
 `region3.zone4`.
 
 **Congratulations!** You successfully configured locality failover!
+
+## Next steps
+
+[Cleanup](/docs/tasks/traffic-management/locality-load-balancing/cleanup)
+resources and files from this task.
