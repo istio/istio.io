@@ -254,9 +254,13 @@ when it detects incorrect configurations.
 
 ## About the Kiali Developer API
 
+{{< warning >}}
+The Kiali Developer API is not designed or documented for public consumption, but it may be useful to some users.
+Please note the Kiali Developer API can change from version to version - there is no guarantee of backward compatibility.
+{{< /warning >}}
+
 To generate JSON files representing the graphs and other metrics, health, and
-configuration information, you can access the
-[Kiali Developer API](https://www.kiali.io/api).
+configuration information, you can access the Kiali Developer API.
 For example, point your browser to `$KIALI_URL/api/namespaces/graph?namespaces=bookinfo&graphType=app`
 to get the JSON representation of your graph using the `app` graph type.
 
@@ -266,8 +270,6 @@ obtain additional details about your services. For the best experience using
 Kiali, use the metadata labels `app` and `version` on your application
 components. As a template, the Bookinfo sample application follows this
 convention.
-
-Please note the Kiali Developer API can change from version to version with no guarantee of backward compatibility.
 
 ## Additional Features
 
