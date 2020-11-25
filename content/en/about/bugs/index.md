@@ -26,24 +26,20 @@ to learn what to do.
 
 If you're running on Kubernetes, consider including a cluster state
 archive with your bug report.
-For convenience, you can run a dump script to produce an archive containing
+For convenience, you can run a `bug-report` command to produce an archive containing
 all of the relevant state from your Kubernetes cluster:
 
-* Run via `curl`:
-
     {{< text bash >}}
-    $ curl {{< github_file >}}/tools/dump_kubernetes.sh | sh -s -- -z
+    $ istioctl bug-report
     {{< /text >}}
 
-* Run locally, from the release directory's root:
+Then attach the produced `bug-report.tgz` with your reported problem.
 
-    {{< text bash >}}
-    $ @tools/dump_kubernetes.sh@ -z
-    {{< /text >}}
+    {{< warning >}}
+    `istioctl bug-report` command is only available with `istioctl` version `1.8.0` and higher which can be used against an older Istio version installed in your cluster to collect this information.
+    {{< /warning >}}
 
-Then attach the produced `istio-dump.tar.gz` with your reported problem.
-
-If you are unable to use the dump script, please attach your own archive
+If you are unable to use the `bug-report` command, please attach your own archive
 containing:
 
 * Pods, services, deployments, and endpoints across all namespaces:
