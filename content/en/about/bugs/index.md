@@ -26,7 +26,7 @@ to learn what to do.
 
 If you're running on Kubernetes, consider including a cluster state
 archive with your bug report.
-For convenience, you can run a `bug-report` command to produce an archive containing
+For convenience, you can run the `istioctl bug-report` command to produce an archive containing
 all of the relevant state from your Kubernetes cluster:
 
     {{< text bash >}}
@@ -35,9 +35,9 @@ all of the relevant state from your Kubernetes cluster:
 
 Then attach the produced `bug-report.tgz` with your reported problem.
 
-    {{< warning >}}
-    `istioctl bug-report` command is only available with `istioctl` version `1.8.0` and higher which can be used against an older Istio version installed in your cluster to collect this information.
-    {{< /warning >}}
+{{< tip >}}
+The `istioctl bug-report` command is only available with `istioctl` version `1.8.0` and higher but it can be used to also collect the information from an older Istio version installed in your cluster.
+{{< /tip >}}
 
 If you are unable to use the `bug-report` command, please attach your own archive
 containing:
