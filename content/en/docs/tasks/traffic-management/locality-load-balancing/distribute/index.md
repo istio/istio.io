@@ -12,8 +12,8 @@ Follow this guide to configure the distribution of traffic across localities.
 Before proceeding, be sure to complete the steps under
 [before you begin](/docs/tasks/traffic-management/locality-load-balancing/before-you-begin).
 
-In this task, we will use the `Sleep` pod in `region1` `zone1` as the source of
-requests to the `HelloWorld` service. We will configure Istio with the following
+In this task, you will use the `Sleep` pod in `region1` `zone1` as the source of
+requests to the `HelloWorld` service. You will configure Istio with the following
 distribution across localities:
 
 Region | Zone | % of traffic
@@ -76,3 +76,8 @@ for each pod match the expected percentage in the table at the top of
 this guide.
 
 **Congratulations!** You successfully configured locality distribution!
+
+## Next steps
+
+[Cleanup](/docs/tasks/traffic-management/locality-load-balancing/cleanup)
+resources and files from this task.

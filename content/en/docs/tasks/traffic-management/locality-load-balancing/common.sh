@@ -20,6 +20,8 @@ _set_kube_vars
 
 # Include the before you begin tasks.
 source content/en/docs/tasks/traffic-management/locality-load-balancing/before-you-begin/snips.sh
+source content/en/docs/tasks/traffic-management/locality-load-balancing/cleanup/snips.sh
+
 
 set -e
 set -u
@@ -121,15 +123,6 @@ function verify_traffic
 
 function cleanup
 {
-  rm -f sample.yaml helloworld-region*.zone*.yaml
-
-  # Delete the sample namespaces in each cluster
-  echo "Deleting sample namespace in all clusters"
-  for CTX in "$CTX_PRIMARY" "$CTX_R1_Z1" "$CTX_R1_Z2" "$CTX_R2_Z3" "$CTX_R3_Z4"; do
-    kubectl delete ns sample --context="$CTX" --ignore-not-found=true
-  done
-
-  # Everything should be removed once cleanup completes. Use a small
-  # timeout for comparing cluster snapshots before/after the test.
-  export VERIFY_TIMEOUT=20
+  snip_remove_generated_files_1
+  snip_remove_the_sample_namespace_1
 }
