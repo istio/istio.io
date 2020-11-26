@@ -56,7 +56,7 @@ spec:
       protocol: HTTP
 {{< /text >}}
 
-In this example, VirtualService `testing-service` has host `wrong.com` but it is not found in the gateway `testing-gateway`.
+In this example, virtual service `testing-service` has host `wrong.com` which is not included in the gateway `testing-gateway`.
 
 ## How to resolve
 
