@@ -60,4 +60,4 @@ In this example, virtual service `testing-service` has host `wrong.com` which is
 
 ## How to resolve
 
-- Make sure `hosts` in the VirtualService is exist in the Gateway that related to the VirtualService itself.
+Make sure all `hosts` in a virtual service are included in the `hosts` of gateways that are bound to the virtual service.
