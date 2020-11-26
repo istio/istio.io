@@ -316,6 +316,7 @@ HTTP1.1
 HTTP2
 http2
 httpbin
+httpbin.foo.svc.cluster.local
 httpbin.org
 https
 Huawei
