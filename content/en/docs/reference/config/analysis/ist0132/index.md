@@ -15,7 +15,8 @@ You will receive this message:
 Warning [IST0132] (VirtualService testing-service.default testing.yaml:8) one or more host [wrong.com] defined in VirtualService default/testing-service not found in Gateway istio-system/testing-gateway.
 {{< /text >}}
 
-when your cluster has following VirtualService:
+when your cluster has the following virtual service:
+
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
