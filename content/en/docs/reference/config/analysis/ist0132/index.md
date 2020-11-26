@@ -5,7 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-This message occurs when the `host` defined in VirtualService is not found in the Gateway.
+This message occurs when a `host` defined in a virtual service is not found in the corresponding gateway.
 
 ## Example
 
