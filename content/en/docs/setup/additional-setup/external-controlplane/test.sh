@@ -27,9 +27,10 @@ snip_set_up_a_gateway_in_the_external_cluster_4_modified() {
     snip_set_up_a_gateway_in_the_external_cluster_4
 
     # Update config: delete the DestinationRule, don't terminate TLS in the Gateway, and use TLS routing in the VirtualService
-    sed -e '55,$d' \
+    sed -i '' \
+        -e '55,$d' \
         -e 's/mode: SIMPLE/mode: PASSTHROUGH/' -e '/credentialName:/d' \
-        -e 's/http:/tls:' \
+        -e 's/http:/tls:/' \
         external-istiod-gw.yaml
 }
 
@@ -37,14 +38,14 @@ snip_set_up_the_remote_cluster_1_modified() {
     snip_set_up_the_remote_cluster_1
 
     # Update config: delete CA certificates
-    sed -e '/proxyMetadata:/,+2d' remote-config-cluster.yaml
+    sed -i '' -e '/proxyMetadata:/,+2d' remote-config-cluster.yaml
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_2_modified() {
     snip_set_up_the_control_plane_in_the_external_cluster_2
 
     # Update config: delete CA certificates
-    sed -e '/proxyMetadata:/,+2d' external-istiod.txt
+    sed -i '' -e '/proxyMetadata:/,+2d' external-istiod.txt
 }
 
 # Set the CTX_EXTERNAL_CLUSTER, CTX_REMOTE_CLUSTER, and REMOTE_CLUSTER_NAME env variables.
