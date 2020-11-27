@@ -37,7 +37,8 @@ spec:
         host: ratings
 {{< /text >}}
 
-and with this following Gateway:
+and the following Gateway:
+
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
