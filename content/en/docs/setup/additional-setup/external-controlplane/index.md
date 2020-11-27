@@ -4,7 +4,7 @@ description: Install an external control plane and remote cluster.
 weight: 80
 keywords: [external,control,istiod,remote]
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 ---
 
 ## Introduction
