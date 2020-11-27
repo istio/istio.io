@@ -31,7 +31,7 @@ This feature is currently considered [alpha](/about/feature-stages/).
     Helm 2 is not supported for installing Istio.
     {{< /warning >}}
 
-The commands in this guide use the Helm charts that are included in the Istio release package.
+The commands in this guide use the Helm charts that are included in the Istio release package located at `manifests/charts`.
 
 ## Installation steps
 
