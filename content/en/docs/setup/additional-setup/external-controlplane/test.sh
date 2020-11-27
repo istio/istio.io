@@ -28,7 +28,7 @@ snip_set_up_a_gateway_in_the_external_cluster_4_modified() {
 
     # Update config: delete the DestinationRule, don't terminate TLS in the Gateway, and use TLS routing in the VirtualService
     sed -e '55,$d' \
-    -e 's/mode: SIMPLE/mode: PASSTHROUGH/' -e '/credentialName:/d' \
+        -e 's/mode: SIMPLE/mode: PASSTHROUGH/' -e '/credentialName:/d' \
         -e 's/http:/tls:' \
         external-istiod-gw.yaml
 }
@@ -59,6 +59,7 @@ export REMOTE_CLUSTER_NAME="${CTX_REMOTE_CLUSTER}"
 snip_set_up_a_gateway_in_the_external_cluster_1
 echo y | snip_set_up_a_gateway_in_the_external_cluster_2
 
+export SSL_SECRET_NAME="UNUSED"
 export EXTERNAL_ISTIOD_ADDR="\"*\""
 snip_set_up_a_gateway_in_the_external_cluster_4_modified
 snip_set_up_a_gateway_in_the_external_cluster_5
