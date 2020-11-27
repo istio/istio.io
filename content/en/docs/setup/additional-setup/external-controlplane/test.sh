@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# @setup mulicluster
+# @setup multicluster
 
 set -e
 set -u
@@ -24,27 +24,27 @@ set -o pipefail
 # Override some snip functions to configure the istiod gateway using TLS passthrough in the test environemnt.
 
 snip_set_up_a_gateway_in_the_external_cluster_4_modified() {
-	snip_set_up_a_gateway_in_the_external_cluster_4
+    snip_set_up_a_gateway_in_the_external_cluster_4
 
     # Update config: delete the DestinationRule, don't terminate TLS in the Gateway, and use TLS routing in the VirtualService
-	sed -e '55,$d' \
-	    -e 's/mode: SIMPLE/mode: PASSTHROUGH/' -e '/credentialName:/d' \
-	    -e 's/http:/tls:' \
-	    external-istiod-gw.yaml
+    sed -e '55,$d' \
+    -e 's/mode: SIMPLE/mode: PASSTHROUGH/' -e '/credentialName:/d' \
+        -e 's/http:/tls:' \
+        external-istiod-gw.yaml
 }
 
 snip_set_up_the_remote_cluster_1_modified() {
-	snip_set_up_the_remote_cluster_1
+    snip_set_up_the_remote_cluster_1
 
     # Update config: delete CA certificates
-	sed -e '/proxyMetadata:/,+2d' remote-config-cluster.yaml
+    sed -e '/proxyMetadata:/,+2d' remote-config-cluster.yaml
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_2_modified() {
-	snip_set_up_the_control_plane_in_the_external_cluster_2
+    snip_set_up_the_control_plane_in_the_external_cluster_2
 
     # Update config: delete CA certificates
-	sed -e '/proxyMetadata:/,+2d' external-istiod.txt
+    sed -e '/proxyMetadata:/,+2d' external-istiod.txt
 }
 
 # Set the CTX_EXTERNAL_CLUSTER, CTX_REMOTE_CLUSTER, and REMOTE_CLUSTER_NAME env variables.
@@ -85,9 +85,9 @@ snip_validate_the_installation_2
 snip_validate_the_installation_3
 
 export GATEWAY_URL=$(kubectl \
-  --context="${CTX_REMOTE_CLUSTER}" \
-  -n external-istiod get svc istio-ingressgateway \
-  -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    --context="${CTX_REMOTE_CLUSTER}" \
+    -n external-istiod get svc istio-ingressgateway \
+    -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
 _verify_contains snip_validate_the_installation_4 "Hello"
 
