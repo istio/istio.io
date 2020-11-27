@@ -38,24 +38,24 @@ The commands in this guide use the Helm charts that are included in the Istio re
 Change directory to the root of the release package and then
 follow the instructions below.
 
+{{< warning >}}
+The default chart configuration uses the secure third party tokens for the service
+account token projections used by Istio proxies to authenticate with the Istio
+control plane. Before proceeding to install any of the charts below, you should
+verify if third party tokens are enabled in your cluster by following the steps
+describe [here](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens).
+If third party tokens are not enabled, you should add the option
+`--set global.jwtPolicy=first-party-jwt` to the Helm install commands.
+If the `jwtPolicy` is not set correctly, pods associated with `istiod`,
+gateways or workloads with injected Envoy proxies will not get deployed due
+to the missing `istio-token` volume.
+{{< /warning >}}
+
 1. Create a namespace `istio-system` for Istio components:
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
     {{< /text >}}
-
-    {{< warning >}}
-    The default chart configuration uses the secure third party tokens for service
-    account token projections used by Istio proxies to authenticate with the Istio
-    control plane. Before proceeding to install any of the charts below, you should
-    verify if third party tokens are enabled in your cluster by following the steps
-    describe [here](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens).
-    If third party tokens are not enabled, you should add the option
-    `--set global.jwtPolicy=first-party-jwt` to the Helm install commands.
-    If the `jwtPolicy` is not set correctly, pods associated with `istiod`,
-    gateways or workloads with injected Envoy proxies will not get deployed due
-    to the missing `istio-token` volume.
-    {{< /warning >}}
 
 1. Install the Istio base chart which contains cluster-wide resources used by
    the Istio control plane:
