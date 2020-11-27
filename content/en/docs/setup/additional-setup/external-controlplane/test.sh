@@ -27,7 +27,11 @@ snip_set_up_a_gateway_in_the_external_cluster_4_modified() {
     snip_set_up_a_gateway_in_the_external_cluster_4
 
     # Update config: delete the DestinationRule, don't terminate TLS in the Gateway, and use TLS routing in the VirtualService
-    sed -i -e '55,$d' -e 's/mode: SIMPLE/mode: PASSTHROUGH/' -e '/credentialName:/d' -e 's/http:/tls:/' external-istiod-gw.yaml
+    sed -i \
+        -e '55,$d' \
+        -e 's/mode: SIMPLE/mode: PASSTHROUGH/' -e '/credentialName:/d' \
+        -e 's/http:/tls:/' -e "/route:/i\        sniHosts:\n        - ${EXTERNAL_ISTIOD_ADDR}" \
+        external-istiod-gw.yaml
 }
 
 snip_set_up_the_remote_cluster_1_modified() {
