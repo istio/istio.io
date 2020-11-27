@@ -44,13 +44,6 @@ follow the instructions below.
     $ kubectl create namespace istio-system
     {{< /text >}}
 
-1. Install the Istio base chart which contains cluster-wide resources used by
-   the Istio control plane:
-
-    {{< text bash >}}
-    $ helm install --namespace istio-system istio-base manifests/charts/base
-    {{< /text >}}
-
     {{< warning >}}
     The default chart configuration uses the secure third party tokens for service
     account token projections used by Istio proxies to authenticate with the Istio
@@ -63,6 +56,13 @@ follow the instructions below.
     gateways or workloads with injected Envoy proxies will not get deployed due
     to the missing `istio-token` volume.
     {{< /warning >}}
+
+1. Install the Istio base chart which contains cluster-wide resources used by
+   the Istio control plane:
+
+    {{< text bash >}}
+    $ helm install -n istio-system istio-base manifests/charts/base
+    {{< /text >}}
 
 1. Install the Istio discovery chart which deploys the `istiod` service:
 
