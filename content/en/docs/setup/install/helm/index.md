@@ -221,9 +221,9 @@ preserve your custom configuration during Helm upgrades.
 
     {{< text bash >}}
     $ helm upgrade --namespace istio-system istio-ingress manifests/charts/gateways/istio-ingress \
-        --set global.hub="docker.io/istio" --set "global.tag=<version_to_upgrade>"
+        --set global.hub="docker.io/istio" --set global.tag="<version_to_upgrade>"
     $ helm upgrade --namespace istio-system istio-egress manifests/charts/gateways/istio-egress \
-        --set global.hub="docker.io/istio" --set "global.tag=<version_to_upgrade>"
+        --set global.hub="docker.io/istio" --set global.tag="<version_to_upgrade>"
     {{< /text >}}
 
 ## Uninstall
