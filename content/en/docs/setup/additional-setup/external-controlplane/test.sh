@@ -30,7 +30,7 @@ snip_set_up_a_gateway_in_the_external_cluster_4_modified() {
     sed -i \
         -e '55,$d' \
         -e 's/mode: SIMPLE/mode: PASSTHROUGH/' -e '/credentialName:/d' \
-        -e 's/http:/tls:/' -e "/route:/i\        sniHosts:\n        - ${EXTERNAL_ISTIOD_ADDR}" \
+        -e 's/http:/tls:/' -e 's/https/tls/' -e "/route:/i\        sniHosts:\n        - ${EXTERNAL_ISTIOD_ADDR}" \
         external-istiod-gw.yaml
 }
 
@@ -90,7 +90,8 @@ echo y | snip_set_up_the_control_plane_in_the_external_cluster_3
 
 # Validate the installation.
 
-snip_validate_the_installation_1
+_varify_contains snip_validate_the_installation_1 "Running"
+
 snip_validate_the_installation_2
 snip_validate_the_installation_3
 
