@@ -90,7 +90,7 @@ echo y | snip_set_up_the_control_plane_in_the_external_cluster_3
 
 # Validate the installation.
 
-_varify_contains snip_validate_the_installation_1 "Running"
+_verify_contains snip_validate_the_installation_1 "Running"
 
 snip_validate_the_installation_2
 snip_validate_the_installation_3
