@@ -50,7 +50,7 @@ snip_set_up_the_control_plane_in_the_external_cluster_2_modified() {
 
 # Set the CTX_EXTERNAL_CLUSTER, CTX_REMOTE_CLUSTER, and REMOTE_CLUSTER_NAME env variables.
 
-_set_kube_vars # Call helper function to nitialize KUBECONFIG_FILES and KUBE_CONTEXTS
+_set_kube_vars # Call helper function to initialize KUBECONFIG_FILES and KUBE_CONTEXTS
 export CTX_EXTERNAL_CLUSTER="${KUBE_CONTEXTS[0]}"
 export CTX_REMOTE_CLUSTER="${KUBE_CONTEXTS[2]}"
 export REMOTE_CLUSTER_NAME="${CTX_REMOTE_CLUSTER}"

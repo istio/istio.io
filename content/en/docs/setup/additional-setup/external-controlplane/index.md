@@ -246,6 +246,7 @@ EOF
 Install the configuration on the remote cluster:
 
 {{< text bash >}}
+$ kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
 $ istioctl manifest generate -f remote-config-cluster.yaml  | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
 {{< /text >}}
 
