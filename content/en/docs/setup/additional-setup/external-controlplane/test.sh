@@ -45,7 +45,7 @@ snip_set_up_the_control_plane_in_the_external_cluster_2_modified() {
     snip_set_up_the_control_plane_in_the_external_cluster_2
 
     # Update config: delete CA certificates
-    sed -i -e '/proxyMetadata:/,+2d' external-istiod.txt
+    sed -i -e '/proxyMetadata:/,+2d' external-istiod.yaml
 }
 
 # Set the CTX_EXTERNAL_CLUSTER, CTX_REMOTE_CLUSTER, and REMOTE_CLUSTER_NAME env variables.
