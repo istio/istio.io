@@ -26,7 +26,7 @@ set -o pipefail
 snip_set_up_a_gateway_in_the_external_cluster_4_modified() {
     snip_set_up_a_gateway_in_the_external_cluster_4
 
-    # Update config: delete the DestinationRule, don't terminate TLS in the Gateway, and use TLS routing in the VirtualService
+    # Update config file: delete the DestinationRule, don't terminate TLS in the Gateway, and use TLS routing in the VirtualService
     sed -i \
         -e '55,$d' \
         -e 's/mode: SIMPLE/mode: PASSTHROUGH/' -e '/credentialName:/d' \
@@ -37,15 +37,23 @@ snip_set_up_a_gateway_in_the_external_cluster_4_modified() {
 snip_set_up_the_remote_cluster_1_modified() {
     snip_set_up_the_remote_cluster_1
 
-    # Update config: delete CA certificates
-    sed -i -e '/proxyMetadata:/,+2d' remote-config-cluster.yaml
+    # Update config file: delete CA certificates and meshID
+    sed -i \
+        -e '/proxyMetadata:/,+2d' \
+        -e '/meshID: mesh1/,+2d' \
+        remote-config-cluster.yaml
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_2_modified() {
     snip_set_up_the_control_plane_in_the_external_cluster_2
 
-    # Update config: delete CA certificates
-    sed -i -e '/proxyMetadata:/,+2d' external-istiod.yaml
+    # Update config file: delete CA certificates and meshID, and update pilot vars
+    sed -i \
+        -e '/proxyMetadata:/,+2d' \
+        -e '/meshID: mesh1/,+2d' \
+        -e '/INJECTION_WEBHOOK_CONFIG_NAME: ""/d' \
+        -e "s/VALIDATION_WEBHOOK_CONFIG_NAME: \"\"/ISTIOD_CUSTOM_HOST: ${EXTERNAL_ISTIOD_ADDR}/" \
+        external-istiod.yaml
 }
 
 # Set the CTX_EXTERNAL_CLUSTER, CTX_REMOTE_CLUSTER, and REMOTE_CLUSTER_NAME env variables.
