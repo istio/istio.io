@@ -104,6 +104,8 @@ _verify_contains snip_validate_the_installation_4 "Hello"
 
 # @cleanup
 # TODO put cleanup instructions in the doc and then call them.
+export CTX_EXTERNAL_CLUSTER="${KUBE_CONTEXTS[0]}"
+export CTX_REMOTE_CLUSTER="${KUBE_CONTEXTS[2]}"
 kubectl delete -f samples/helloworld/helloworld.yaml --context="${CTX_REMOTE_CLUSTER}"
 kubectl delete -f samples/helloworld/helloworld-gateway.yaml --context="${CTX_REMOTE_CLUSTER}"
 
