@@ -61,30 +61,36 @@ to the missing `istio-token` volume.
    the Istio control plane:
 
     {{< text bash >}}
-    $ helm install -n istio-system istio-base manifests/charts/base
+    $ helm install istio-base manifests/charts/base -n istio-system
     {{< /text >}}
 
 1. Install the Istio discovery chart which deploys the `istiod` service:
 
     {{< text bash >}}
-    $ helm install --namespace istio-system istiod manifests/charts/istio-control/istio-discovery \
-        --set global.hub="docker.io/istio" --set global.tag="{{< istio_full_version >}}"
+    $ helm install istiod manifests/charts/istio-control/istio-discovery \
+        --set global.hub="docker.io/istio" \
+        --set global.tag="{{< istio_full_version >}}" \
+        -n istio-system
     {{< /text >}}
 
 1. (Optional) Install the Istio ingress gateway chart which contains the ingress
    gateway components:
 
     {{< text bash >}}
-    $ helm install --namespace istio-system istio-ingress manifests/charts/gateways/istio-ingress \
-        --set global.hub="docker.io/istio" --set global.tag="{{< istio_full_version >}}"
+    $ helm install istio-ingress manifests/charts/gateways/istio-ingress \
+        --set global.hub="docker.io/istio" \
+        --set global.tag="{{< istio_full_version >}}" \
+        -n istio-system
     {{< /text >}}
 
 1. (Optional) Install the Istio egress gateway chart which contains the egress
    gateway components:
 
     {{< text bash >}}
-    $ helm install --namespace istio-system istio-egress manifests/charts/gateways/istio-egress \
-        --set global.hub="docker.io/istio" --set global.tag="{{< istio_full_version >}}"
+    $ helm install istio-egress manifests/charts/gateways/istio-egress \
+        --set global.hub="docker.io/istio" \
+        --set global.tag="{{< istio_full_version >}}" \
+        -n istio-system
     {{< /text >}}
 
 ## Verifying the installation
@@ -168,14 +174,17 @@ gateways is [actively in development](/docs/setup/upgrade/gateways/) and is cons
    value:
 
     {{< text bash >}}
-    $ helm install --namespace istio-system istiod-canary manifests/charts/istio-control/istio-discovery --set revision=canary \
-        --set global.hub="docker.io/istio" --set global.tag=<version_to_upgrade>
+    $ helm install istiod-canary manifests/charts/istio-control/istio-discovery \
+        --set revision=canary \
+        --set global.hub="docker.io/istio" \
+        --set global.tag=<version_to_upgrade> \
+        -n istio-system
     {{< /text >}}
 
 1. Verify that you have two versions of `istiod` installed in your cluster:
 
     {{< text bash >}}
-    $ kubectl get pods -n istio-system -l app=istiod -L istio.io/rev
+    $ kubectl get pods -l app=istiod -L istio.io/rev -n istio-system
       NAME                            READY   STATUS    RESTARTS   AGE   REV
       istiod-5649c48ddc-dlkh8         1/1     Running   0          71m   default
       istiod-canary-9cc9fd96f-jpc7n   1/1     Running   0          34m   canary
@@ -188,7 +197,7 @@ gateways is [actively in development](/docs/setup/upgrade/gateways/) and is cons
    plane, you can uninstall your old control plane:
 
     {{< text bash >}}
-    $ helm delete --namespace istio-system istiod
+    $ helm delete istiod -n istio-system
     {{< /text >}}
 
 ### In place upgrade
@@ -206,24 +215,30 @@ preserve your custom configuration during Helm upgrades.
 1. Upgrade the Istio base chart:
 
     {{< text bash >}}
-    $ helm upgrade --namespace istio-system istio-base manifests/charts/base
+    $ helm upgrade istio-base manifests/charts/base -n istio-system
     {{< /text >}}
 
 1. Upgrade the Istio discovery chart:
 
     {{< text bash >}}
-    $ helm upgrade --namespace istio-system istiod manifests/charts/istio-control/istio-discovery \
-        --set global.hub="docker.io/istio" --set global.tag=<version_to_upgrade>
+    $ helm upgrade istiod manifests/charts/istio-control/istio-discovery \
+        --set global.hub="docker.io/istio" \
+        --set global.tag=<version_to_upgrade> \
+        -n istio-system
     {{< /text >}}
 
 1. (Optional) Upgrade the Istio ingress or egress gateway charts if installed in
    your cluster:
 
     {{< text bash >}}
-    $ helm upgrade --namespace istio-system istio-ingress manifests/charts/gateways/istio-ingress \
-        --set global.hub="docker.io/istio" --set global.tag=<version_to_upgrade>
-    $ helm upgrade --namespace istio-system istio-egress manifests/charts/gateways/istio-egress \
-        --set global.hub="docker.io/istio" --set global.tag=<version_to_upgrade>
+    $ helm upgrade istio-ingress manifests/charts/gateways/istio-ingress \
+        --set global.hub="docker.io/istio" \
+        --set global.tag=<version_to_upgrade>\
+        -n istio-system
+    $ helm upgrade istio-egress manifests/charts/gateways/istio-egress \
+        --set global.hub="docker.io/istio" \
+        --set global.tag=<version_to_upgrade> \
+        -n istio-system
     {{< /text >}}
 
 ## Uninstall
@@ -234,20 +249,20 @@ installed above.
 1. List all the Istio charts installed in `istio-system` namespace:
 
     {{< text bash >}}
-    $ helm ls --namespace istio-system
+    $ helm ls -n istio-system
     {{< /text >}}
 
 1. (Optional) Delete Istio ingress/egress chart:
 
     {{< text bash >}}
-    $ helm delete --namespace istio-system istio-egress
-    $ helm delete --namespace istio-system istio-ingress
+    $ helm delete istio-egress -n istio-system
+    $ helm delete istio-ingress -n istio-system
     {{< /text >}}
 
 1. Delete Istio discovery chart:
 
     {{< text bash >}}
-    $ helm delete --namespace istio-system istiod
+    $ helm delete istiod -n istio-system
     {{< /text >}}
 
 1. Delete Istio base chart:
@@ -258,7 +273,7 @@ installed above.
     {{< /warning >}}
 
     {{< text bash >}}
-    $ helm delete --namespace istio-system istio-base
+    $ helm delete istio-base -n istio-system
     {{< /text >}}
 
 1. Delete the `istio-system` namespace:
