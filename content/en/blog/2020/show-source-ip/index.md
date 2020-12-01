@@ -9,19 +9,16 @@ keywords: [trafficManagement,protocol extending]
 
 This blog presents my latest experience about how to configure/enable proxy protocol with stack of AWS NLB and Istio Ingress gateway. The [Proxy Protocol](https://www.haproxy.com/blog/haproxy/proxy-protocol/) was designed to chain proxies / reverse-proxies without losing the client information with the benefits from protocol agnostic, no need change infrastructure, no negative impact from `NATing` firewalls and good scalability.  To get client IP easy to read, it is also enabled `X-Forwarded-For` of HTTP header in the deployment. In this blog, traffic management of Istio ingress are shown with httpbin service on 80 and 443 respectively to demonstrate the enabling result. Below comes a part of the protocol describing about the difference of proxy protocol v1 and v2.  In our use case, both v1 and v2 works for the purpose but AWS NLB today only support v2 shown by image below. So, proxy protocol v2 is referred in the rest of this blog by default.
 
-{{< text yaml >}}
+{{< tip >}}
 A receiver may be configured to support both version 1 and version 2 of the
-protocol. Identifying the protocol version is easy :
-    - if the incoming byte count is 16 or above and the first 13 bytes match
-      the protocol signature block followed by the protocol version 2 :
-           \x0D\x0A\x0D\x0A\x00\x0D\x0A\x51\x55\x49\x54\x0A\x02
-    - otherwise, if the incoming byte count is 8 or above, and the 5 first
-      characters match the US-ASCII representation of "PROXY" then the protocol
-      must be parsed as version 1 :
-           \x50\x52\x4F\x58\x59
-    - otherwise the protocol is not covered by this specification and the
-      connection must be dropped.
-{{< /text >}}
+protocol. Identifying the protocol version is easy:
+
+- if the incoming byte count is 16 or more and the first 13 bytes match the protocol signature block `\x0D\x0A\x0D\x0A\x00\x0D\x0A\x51\x55\x49\x54\x0A\x02`, the protocol is version 2.
+
+- otherwise, if the incoming byte count is 8 or more, and the 5 first characters match the `US-ASCII` representation of "PROXY"(`\x50\x52\x4F\x58\x59`), then the protocol must be parsed as version 1.
+
+- otherwise the protocol is not covered by this specification and the connection must be dropped.
+{{< /tip >}}
 
 {{< image width="100%" link="./aws-proxy-protocol.png" caption="AWS NLB portal to enable proxy protocol" >}}
 
@@ -29,7 +26,7 @@ protocol. Identifying the protocol version is easy :
 
 Before going through the following steps, the AWS env is assumed ready with proper VPC, IAM, and Kubernetes setup.
 
-Step 1: Install Istio with AWS NLB.
+### Step 1: Install Istio with AWS NLB
 
 Blog [Configuring Istio Ingress with AWS NLB](../../../blog/2018/aws-nlb/) provides detailed steps to set up AWS IAM roles and enable the usage of AWS NLB by Helm. The users can also use other automation tools e.g. Terraform to achieve the same goal. In this blog, below comes more complete configurations in order to enable proxy protocol and `X-Forwarded-For` at the same time.
 
@@ -48,7 +45,7 @@ metadata:
   name: istio-ingressgateway
 {{< /text >}}
 
-Step 2:  Create proxy-protocol Envoy Filter.
+### Step 2:  Create proxy-protocol Envoy Filter
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -70,7 +67,7 @@ spec:
         - name: envoy.filters.listener.tls_inspector
 {{< /text >}}
 
-Step 3: Enable `X-Forwarded-For` header.
+### Step 3: Enable `X-Forwarded-For` header
 
 This [blog](../../../docs/ops/configuration/traffic-management/network-topologies/) includes several samples of configuring Gateway Network Topology. This blog presents below out tuned configurations to enable `X-Forwarded-For` without any middle proxy.
 
@@ -99,7 +96,7 @@ spec:
           xff_num_trusted_hops: 1
 {{< /text >}}
 
-Step 4:  deploy ingress gateway for httpbin on port 80 and 443 respectively.
+### Step 4:  deploy ingress gateway for httpbin on port 80 and 443
 
 Please pay attention that you will need additional patch on Mac to generate certificates for TLS when following [secure ingress setup](../../../docs/tasks/traffic-management/ingress/secure-ingress/).
 
@@ -178,7 +175,9 @@ spec:
         host: httpbin
 {{< /text  >}}
 
-Step 5: Check header output of httpbin (output on port 443 as example, 80 will be similar) and compare the cases with and without protocol (all address information are faked for protection of real env).
+### Step 5: Check header output of httpbin
+
+Check port 443, for example (80 will be similar), and compare the cases with and without protocol (all address information are faked for protection of real env).
 
 {{< text yaml >}}
 //////with proxy_protocal enabled in the stack
