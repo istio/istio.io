@@ -117,4 +117,7 @@ istioctl manifest generate -f remote-config-cluster.yaml | kubectl delete --cont
 istioctl manifest generate -f external-istiod.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f -
 istioctl manifest generate -f controlplane-gateway.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f -
 
+kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
+kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
+
 rm external-istiod-gw.yaml remote-config-cluster.yaml external-istiod.yaml controlplane-gateway.yaml
