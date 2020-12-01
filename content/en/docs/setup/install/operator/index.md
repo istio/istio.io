@@ -231,7 +231,9 @@ Note that you need to [download the Istio release](/docs/setup/getting-started/#
 to run the above command.
 {{< /tip >}}
 
-Copy the `IstioOperator` CR named `example-istiocontrolplane` from the cluster as `example-istiocontrolplane-1-8-1.yaml`, update the `IstioOperator` CR name to `example-istiocontrolplane-1-8-1` and add `revision: 1-8-1` to `IstioOperator` CR, the updated `IstioOperator` CR should resemble the following snippet:
+Make a copy of the `example-istiocontrolplane` CR and save it in a file named `example-istiocontrolplane-1-8-1.yaml`.
+Change the name to `example-istiocontrolplane-1-8-1` and add `revision: 1-8-1` to the CR.
+Your updated `IstioOperator` CR should look something like this:
 
 {{< text bash >}}
 $ cat example-istiocontrolplane-1-8-1.yaml
@@ -245,7 +247,7 @@ spec:
   profile: default
 {{< /text >}}
 
-Apply the updated `IstioOperator` CR to the cluster, then you will have two control plane deployments and services running side-by-side:
+Apply the updated `IstioOperator` CR to the cluster. After that, you will have two control plane deployments and services running side-by-side:
 
 {{< text bash >}}
 $ kubectl get pod -n istio-system -l app=istiod
@@ -274,25 +276,15 @@ $ kubectl delete istiooperators.install.istio.io -n istio-system example-istioco
 
 Wait until Istio is uninstalled - this may take some time.
 
-Delete the specific revision of Istio operator by running the following command:
+Then you can remove the old of Istio operator with its revision by running the following command:
 
 {{< text bash >}}
 $ istioctl operator remove --revision <revision>
 {{< /text >}}
 
-Delete all revisions of Istio operator by running the following command:
+If you omit the `revision` flag, then all revisions of Istio operator will be removed.
 
-{{< text bash >}}
-$ istioctl operator remove
-{{< /text >}}
-
-Or:
-
-{{< text bash >}}
-$ kubectl delete ns istio-operator --grace-period=0 --force
-{{< /text >}}
-
-Note that deleting the operator before Istio is fully removed may result in leftover Istio resources.
+Note that deleting the operator before Istio or `IstioOperator` CR is fully removed may result in leftover Istio resources.
 To clean up anything not removed by the operator:
 
 {{< text bash >}}
