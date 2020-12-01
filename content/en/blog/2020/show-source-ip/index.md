@@ -31,7 +31,7 @@ Before going through the following steps, the AWS env is assumed ready with prop
 
 Step 1: Install Istio with AWS NLB. 
 
-Blog [Configuring Istio Ingress with AWS NLB](https://istio.io/latest/blog/2018/aws-nlb/) provides detailed steps to set up AWS IAM roles and enable the usage of AWS NLB by Helm. The users can also use other automation tools e.g. terraform to achieve the same goal. In this blog, below comes more compelte configurations in order to enable proxy protocol and `X-Forwarded-For` at the same time. 
+Blog [Configuring Istio Ingress with AWS NLB](https://istio.io/latest/blog/2018/aws-nlb/) provides detailed steps to set up AWS IAM roles and enable the usage of AWS NLB by Helm. The users can also use other automation tools e.g. terraform to achieve the same goal. In this blog, below comes more complete configurations in order to enable proxy protocol and `X-Forwarded-For` at the same time. 
 
 {{< text yaml >}}
 apiVersion: v1
@@ -71,7 +71,7 @@ spec:
 {{< /text >}}
 
 Step 3: Enable `X-Forwarded-For` header.
-This [blog](https://istio.io/latest/docs/ops/configuration/traffic-management/network-topologies/) includes several samples of configuring Gateway Network Topology. In this blog, below comes more tuned configruations to enable `X-Forwarded-For` without any middle proxy. 
+This [blog](https://istio.io/latest/docs/ops/configuration/traffic-management/network-topologies/) includes several samples of configuring Gateway Network Topology. In this blog, below comes more tuned configurations to enable `X-Forwarded-For` without any middle proxy. 
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
