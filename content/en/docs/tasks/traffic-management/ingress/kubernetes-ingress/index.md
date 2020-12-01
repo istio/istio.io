@@ -23,6 +23,28 @@ A [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-ne
 
 Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
 
+1.  Create a `Gateway` to handle requests for port 80
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      namespace: istio-system
+      name: gateway
+    spec:
+      selector:
+        istio: ingressgateway
+      servers:
+      - port:
+          number: 80
+          name: http
+          protocol: HTTP
+        hosts:
+        - httpbin.example.com
+    EOF
+    {{< /text >}}
+
+
 1.  Create an `Ingress` resource:
 
     {{< text bash >}}
