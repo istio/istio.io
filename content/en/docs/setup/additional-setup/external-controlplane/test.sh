@@ -58,14 +58,9 @@ snip_set_up_the_control_plane_in_the_external_cluster_2_modified() {
 
 # Set the CTX_EXTERNAL_CLUSTER, CTX_REMOTE_CLUSTER, and REMOTE_CLUSTER_NAME env variables.
 
-function set_context_vars
-{
-    _set_kube_vars # helper function to initialize KUBECONFIG_FILES and KUBE_CONTEXTS
-    export CTX_EXTERNAL_CLUSTER="${KUBE_CONTEXTS[0]}"
-    export CTX_REMOTE_CLUSTER="${KUBE_CONTEXTS[2]}"
-}
-
-set_context_vars
+_set_kube_vars # helper function to initialize KUBECONFIG_FILES and KUBE_CONTEXTS
+export CTX_EXTERNAL_CLUSTER="${KUBE_CONTEXTS[0]}"
+export CTX_REMOTE_CLUSTER="${KUBE_CONTEXTS[2]}"
 export REMOTE_CLUSTER_NAME="${CTX_REMOTE_CLUSTER}"
 
 # Set up the istiod gateway in the external cluster.
@@ -108,7 +103,9 @@ export GATEWAY_URL=$(kubectl \
 _verify_contains snip_validate_the_installation_4 "Hello"
 
 # @cleanup
-set_context_vars
+_set_kube_vars # helper function to initialize KUBECONFIG_FILES and KUBE_CONTEXTS
+export CTX_EXTERNAL_CLUSTER="${KUBE_CONTEXTS[0]}"
+export CTX_REMOTE_CLUSTER="${KUBE_CONTEXTS[2]}"
 
 # TODO put the cleanup instructions in the doc and then call the snips.
 kubectl delete -f samples/helloworld/helloworld.yaml --context="${CTX_REMOTE_CLUSTER}"
