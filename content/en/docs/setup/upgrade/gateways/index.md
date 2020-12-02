@@ -118,7 +118,7 @@ Let's assume that the target version is 1.8.1.
 1.  Delete the 1.8.1 version of the control plane:
 
     {{< text bash >}}
-    $ istio-1.8.1/bin/istioctl uninstall --revision 1-8-0
+    $ istio-1.8.1/bin/istioctl x uninstall --revision 1-8-0
     {{< /text >}}
 
 ## Operator
