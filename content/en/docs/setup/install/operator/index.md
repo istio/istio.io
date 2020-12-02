@@ -244,7 +244,6 @@ metadata:
   name: example-istiocontrolplane-1-8-1
 spec:
   revision: 1-8-1
-  profile: default
 {{< /text >}}
 
 Apply the updated `IstioOperator` CR to the cluster. After that, you will have two control plane deployments and services running side-by-side:
