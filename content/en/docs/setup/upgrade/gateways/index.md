@@ -43,12 +43,7 @@ the control plane.
     metadata:
       name: control-plane # REQUIRED
     spec:
-      profile: default
-      components:
-        ingressGateways:
-          - name: istio-ingressgateway
-            # MUST BE DISABLED
-            enabled: false
+      profile: minimal
     {{< /text >}}
 
 1.  Create a separate `IstioOperator` CR for the gateway(s), ensuring that it has a name and has the `empty` profile:
