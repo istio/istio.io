@@ -284,7 +284,7 @@ $ istioctl operator remove --revision <revision>
 
 If you omit the `revision` flag, then all revisions of Istio operator will be removed.
 
-Note that deleting the operator before Istio or `IstioOperator` CR is fully removed may result in leftover Istio resources.
+Note that deleting the operator before the `IstioOperator` CR and corresponding Istio revision are fully removed may result in leftover Istio resources.
 To clean up anything not removed by the operator:
 
 {{< text bash >}}
