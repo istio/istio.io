@@ -276,7 +276,7 @@ $ kubectl delete istiooperators.install.istio.io -n istio-system example-istioco
 
 Wait until Istio is uninstalled - this may take some time.
 
-Then you can remove the old of Istio operator with its revision by running the following command:
+Then you can remove the Istio operator for the old revision by running the following command:
 
 {{< text bash >}}
 $ istioctl operator remove --revision <revision>
