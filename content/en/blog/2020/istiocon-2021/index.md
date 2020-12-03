@@ -8,7 +8,10 @@ keywords: [istioCon,Istio,conference]
 
 IstioCon 2021 will be the inaugural conference for Istio, the industry's most popular service mesh. In its inaugural year, IstioCon will be 100% virtual, connecting community members across the globe with Istio's ecosystem. This conference will take place at the end of February. 
 
-![/macruzbar/istio.io/content/en/blog/2020/istioconlogo.jpg]
+{{< image width="75%"
+    link="./istioconlogo.jpg"
+    alt="IstioCon logo"
+    >}}
 
 All the information related to IstioCon will be published on the [conference website](https://events.istio.io/). IstioCon provides an opportunity to showcase the lessons learned from running Istio in production, hands-on experiences from the Istio community, and will feature maintainers from across the Istio ecosystem. At this time, we encourage Istio users, developers, partners, and advocates to [submit a session proposal through the conference's CFP portal](https://sessionize.com/istiocon-2021/). The conference offers a mix of keynotes, technical talks, lightning talks, workshops, and roadmap sessions. Choose from the following formats to submit a session proposal for IstioCon:
 
