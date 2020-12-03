@@ -6,29 +6,28 @@ publishdate: 2020-11-18
 attribution: "Xinhui Li (Salesforce) "
 keywords: [trafficManagement,protocol extending]
 ---
-
-This blog presents my latest experience about how to configure/enable proxy protocol with stack of AWS NLB and Istio Ingress gateway. The [Proxy Protocol](https://www.haproxy.com/blog/haproxy/proxy-protocol/) was designed to chain proxies / reverse-proxies without losing the client information with the benefits from protocol agnostic, no need change infrastructure, no negative impact from `NATing` firewalls and good scalability.  To get client IP easy to read, it is also enabled `X-Forwarded-For` of HTTP header in the deployment. In this blog, traffic management of Istio ingress are shown with httpbin service on 80 and 443 respectively to demonstrate the enabling result. Below comes a part of the protocol describing about the difference of proxy protocol v1 and v2.  In our use case, both v1 and v2 works for the purpose but AWS NLB today only support v2 shown by image below. So, proxy protocol v2 is referred in the rest of this blog by default.
+This blog presents my latest experience about how to configure and enable proxy protocol with stack of AWS NLB and Istio Ingress gateway. The [Proxy Protocol](https://www.haproxy.com/blog/haproxy/proxy-protocol/) was designed to chain proxies and reverse-proxies without losing the client information. The proxy protocol prevents the need for infrastructure changes or `NATing` firewalls, and offers the benefits of being protocol agnostic and providing good scalability. Additionally, we also enable the `X-Forwarded-For` HTTP header in the deployment to make the client IP address easy to read. In this blog, traffic management of Istio ingress is shown with an httpbin service on ports 80 and 443 to demonstrate the use of proxy protocol. Note that both v1 and v2 of the proxy protocol work for the purpose of this example, but because the AWS NLB currently only supports v2, proxy protocol v2 is used in the rest of this blog by default. The following image shows the use of proxy protocol v2 with an AWS NLB.
 
 {{< tip >}}
 A receiver may be configured to support both version 1 and version 2 of the
 protocol. Identifying the protocol version is easy:
 
-- if the incoming byte count is 16 or more and the first 13 bytes match the protocol signature block `\x0D\x0A\x0D\x0A\x00\x0D\x0A\x51\x55\x49\x54\x0A\x02`, the protocol is version 2.
+- If the incoming byte count is 16 or more and the first 13 bytes match the protocol signature block `\x0D\x0A\x0D\x0A\x00\x0D\x0A\x51\x55\x49\x54\x0A\x02`, the protocol is version 2.
 
-- otherwise, if the incoming byte count is 8 or more, and the 5 first characters match the `US-ASCII` representation of "PROXY"(`\x50\x52\x4F\x58\x59`), then the protocol must be parsed as version 1.
+- Otherwise, if the incoming byte count is 8 or more, and the 5 first characters match the `US-ASCII` representation of "PROXY"(`\x50\x52\x4F\x58\x59`), then the protocol must be parsed as version 1.
 
-- otherwise the protocol is not covered by this specification and the connection must be dropped.
+- Otherwise the protocol is not covered by this specification and the connection must be dropped.
 {{< /tip >}}
 
 {{< image width="100%" link="./aws-proxy-protocol.png" caption="AWS NLB portal to enable proxy protocol" >}}
 
-## Two set-ups for 80 and 443 separately
+## Separate setups for 80 and 443
 
-Before going through the following steps, the AWS env is assumed ready with proper VPC, IAM, and Kubernetes setup.
+Before going through the following steps, an AWS environment that is configured with the proper VPC, IAM, and Kubernetes setup is assumed.
 
 ### Step 1: Install Istio with AWS NLB
 
-Blog [Configuring Istio Ingress with AWS NLB](../../../blog/2018/aws-nlb/) provides detailed steps to set up AWS IAM roles and enable the usage of AWS NLB by Helm. The users can also use other automation tools e.g. Terraform to achieve the same goal. In this blog, below comes more complete configurations in order to enable proxy protocol and `X-Forwarded-For` at the same time.
+The blog [Configuring Istio Ingress with AWS NLB](../../../blog/2018/aws-nlb/) provides detailed steps to set up AWS IAM roles and enable the usage of AWS NLB by Helm. You can also use other automation tools, such as Terraform, to achieve the same goal. In the following example, more complete configurations are shown in order to enable proxy protocol and `X-Forwarded-For` at the same time.
 
 {{< text yaml >}}
 apiVersion: v1
@@ -45,7 +44,7 @@ metadata:
   name: istio-ingressgateway
 {{< /text >}}
 
-### Step 2:  Create proxy-protocol Envoy Filter
+### Step 2: Create proxy-protocol Envoy Filter
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -96,9 +95,11 @@ spec:
           xff_num_trusted_hops: 1
 {{< /text >}}
 
-### Step 4:  deploy ingress gateway for httpbin on port 80 and 443
+### Step 4: Deploy ingress gateway for httpbin on port 80 and 443
 
-Please pay attention that you will need additional patch on Mac to generate certificates for TLS when following [secure ingress setup](../../../docs/tasks/traffic-management/ingress/secure-ingress/).
+{{< warning>}}
+When following the [secure ingress setup](../../../docs/tasks/traffic-management/ingress/secure-ingress/), macOS users must add an additional patch to generate certificates for TLS .
+{{< /warning >}}
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -177,7 +178,7 @@ spec:
 
 ### Step 5: Check header output of httpbin
 
-Check port 443, for example (80 will be similar), and compare the cases with and without protocol (all address information are faked for protection of real env).
+Check port 443 (80 will be similar) and compare the cases with and without proxy protocol.
 
 {{< text yaml >}}
 //////with proxy_protocal enabled in the stack
@@ -326,7 +327,7 @@ Check port 443, for example (80 will be similar), and compare the cases with and
 
 ## Conclusion
 
-This blog presents the deployment of stack consisted of AWS NLB and Istio ingress gateway with enabling of proxy-protocol. We hope it is useful to you if you are interested at protocol enabling in an anecdotal, experiential, and more informal way. One thing needs your attention is X-Forwarded-For header used only for convenience of reading in test. Fake of X-Forwarded-For is a problem worthy to solve but not belong to the scope of this blog.
+This blog presents the deployment of a stack that consists of an AWS NLB and Istio ingress gateway that are enabled with proxy-protocol. We hope it is useful to you if you are interested in protocol enabling in an anecdotal, experiential, and more informal way. However, note that the `X-Forwarded-For` header should be used only for the convenience of reading in test, as dealing with fake `X-Forwarded-For` attacks is not within the scope of this blog.
 
 ## References
 
