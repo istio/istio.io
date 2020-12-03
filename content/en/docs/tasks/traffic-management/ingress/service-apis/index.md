@@ -1,16 +1,19 @@
 ---
 title: Kubernetes Service APIs [Experimental]
 description: Describes how to configure the Kubernetes Service APIs with Istio.
-weight: 99
+weight: 50
 keywords: [traffic-management,ingress]
 owner: istio/wg-networking-maintainers
 test: no
 ---
 
-This task describes how to configure Istio to expose a service outside of the service mesh cluster, using the Kubernetes [Service APIs](https://kubernetes-sigs.github.io/service-apis/). These APIs are an actively developed evolution of the `Service` and `Ingress` APIs.
+This task describes how to configure Istio to expose a service outside of the service mesh cluster, using the Kubernetes [Service APIs](https://kubernetes-sigs.github.io/service-apis/).
+These APIs are an actively developed evolution of the Kubernetes [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
+and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) APIs.
 
 {{< warning >}}
-Both the APIs, as well as Istio's implementation of the APIs, are currently experimental and intended only for evaluation. They will undergo significant changes in future versions. For production deployment, we recommend using the [Istio Gateway](/docs/tasks/traffic-management/ingress/ingress-control/).
+Both the APIs, as well as Istio's implementation of the APIs, are currently experimental and intended only for evaluation.
+They will undergo significant changes in future versions. For production deployment, we recommend using the [Istio Gateway](/docs/tasks/traffic-management/ingress/ingress-control/).
 {{< /warning >}}
 
 ## Setup
