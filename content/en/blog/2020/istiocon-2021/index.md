@@ -6,7 +6,7 @@ attribution: "Istio Steering Committee"
 keywords: [istioCon,Istio,conference]
 ---
 
-IstioCon 2021 will be the inaugural conference for Istio, the industry's most popular service mesh. In its inaugural year, IstioCon will be 100% virtual, connecting community members across the globe with Istio's ecosystem. This conference will take place at the end of February. 
+IstioCon 2021 will be the inaugural conference for Istio, the industry's [most popular service mesh](https://www.cncf.io/wp-content/uploads/2020/11/CNCF_Survey_Report_2020.pdf). In its inaugural year, IstioCon will be 100% virtual, connecting community members across the globe with Istio's ecosystem. This conference will take place at the end of February. 
 
 {{< image width="75%"
     link="/istioconlogo.jpg"
