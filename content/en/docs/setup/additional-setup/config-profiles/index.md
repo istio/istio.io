@@ -32,7 +32,8 @@ for your specific needs. The following built-in configuration profiles are curre
     This profile enables high levels of tracing and access logging so it is not suitable for performance tests.
     {{< /warning >}}
 
-1. **minimal**: the minimal set of components necessary to use Istio's [traffic management](/docs/tasks/traffic-management/) features.
+1. **minimal**: same as the default profile, but only the control plane components are installed.
+    This allows you to configure the control plane and data plane components (e.g., gateways) using [separate profiles](/docs/setup/upgrade/gateways/#installation-with-istioctl).
 
 1. **remote**: used for configuring {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}} of a
     [multicluster mesh](/docs/ops/deployment/deployment-models/#multiple-clusters).
