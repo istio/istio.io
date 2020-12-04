@@ -3,7 +3,7 @@ title: "Join us for the first IstioCon in 2021!"
 description: The inaugural conference for Istio will take place at the end of February.
 publishdate: 2020-12-03
 attribution: "Istio Steering Committee"
-keywords: [istioCon,Istio,conference]
+keywords: [IstioCon,Istio,conference]
 ---
 
 IstioCon 2021 will be the inaugural conference for Istio, the industry's [most popular service mesh](https://www.cncf.io/wp-content/uploads/2020/11/CNCF_Survey_Report_2020.pdf). In its inaugural year, IstioCon will be 100% virtual, connecting community members across the globe with Istio's ecosystem. This conference will take place at the end of February. 
