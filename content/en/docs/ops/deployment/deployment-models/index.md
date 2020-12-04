@@ -294,22 +294,6 @@ additional steps when rolling out changes. Large production
 systems may automate this process with tooling, such as CI/CD systems, in
 order to manage configuration rollout.
 
-Instead of running control planes in primary clusters inside the mesh, a
-service mesh composed entirely of remote clusters can be controlled by an
-{{< gloss >}}external control plane{{< /gloss >}}. This provides isolated
-management and complete separation of the control plane deployment from the
-data plane services that comprise the mesh.
-
-{{< image width="100%"
-    link="single-cluster-external-control-plane.svg"
-    alt="A single cluster with an external control plane"
-    title="External control plane"
-    caption="A single cluster with an external control plane"
-    >}}
-
-A cloud vendor's {{< gloss >}}managed control plane{{< /gloss >}} is a
-typical example of an external control plane.
-
 For high availability, you should deploy multiple control planes across
 clusters, zones, or regions.
 
