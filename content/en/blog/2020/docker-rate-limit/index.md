@@ -15,11 +15,11 @@ the Istio sidecar image alongside most pods in the cluster.
 
 # Mitigations
 
-Istio allows using a custom docker registry. This can be configured by passing `--set hub=<some-custom-registry>` at installation time.
+Istio allows providing a custom docker registry which can be used so that the images can be fetched from your private registry. This can be configured by passing `--set hub=<some-custom-registry>` at installation time.
 
 Istio provides official mirrors to [Google Container Registry](`gcr.io/istio-release`). This can be configured with `--set hub=gcr.io/istio-release`. This is available for Istio 1.5+.
 
-Alternatively, you can copy the official Istio images to your own registry. This is especially useful if your cluster runs in an environment with a registry tailored for your environment (for example, on AWS you may want to mirror images to Amazon ECR). This can be done with the following script:
+Alternatively, you can copy the official Istio images to your own registry. This is especially useful if your cluster runs in an environment with a registry tailored for your use case (for example, on AWS you may want to mirror images to Amazon ECR) or you have air-gapped security requirements where access to public registries is restricted. This can be done with the following script:
 
 {{< text bash >}}
 $ SOURCE_HUB=istio
