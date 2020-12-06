@@ -220,7 +220,7 @@ Where `<path-to-egress-file>` is the path where you have saved the new `IstioOpe
 
 ### Istio configuration
 
-Now you will set up `Istio` to connect to the external service [https://httpbin.org](https://httpbin.org)
+Now you will configure Istio to allow connections to the external service at [https://httpbin.org](https://httpbin.org).
 
 #### Certificate for TLS
 
