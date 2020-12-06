@@ -54,7 +54,7 @@ You can also inject OPA as a sidecar into the pod to perform authorization with 
     caption="Authorization with OPA and `healthcheck` to external"
     >}}
 
-At this point, you might be convinced that this is the right path to go.
+Let's look at how you can implement this pattern.
 
 ## Solution
 
