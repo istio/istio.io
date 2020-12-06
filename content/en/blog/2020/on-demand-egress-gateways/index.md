@@ -148,7 +148,7 @@ spec:
 {{< /text >}}
 
 {{< tip >}}
-Notice that `outboundTrafficPolicy.mode: REGISTRY_ONLY` to block all communications which are not specified by a `ServiceEntry` resource.
+`outboundTrafficPolicy.mode: REGISTRY_ONLY` is used to block all external communications which are not specified by a `ServiceEntry` resource.
 {{< /tip >}}
 
 ### Deploy Egress Gateway
