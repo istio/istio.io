@@ -249,7 +249,7 @@ Where `<my-secret-name>` is the name used later for the `Gateway` resource. `<my
 Create a `Gateway` resource to operate ingress gateway to accept requests.
 
 {{< warning >}}
-Make sure that only one `Gateway` spec matches the hostname. `Istio` gets confused when there are multiple Gateway definitions covering the same hostname.
+Make sure that only one Gateway spec matches the hostname. Istio gets confused when there are multiple Gateway definitions covering the same hostname.
 {{< /warning >}}
 
 An example:
