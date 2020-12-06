@@ -24,9 +24,9 @@ However, if you want to satisfy the [single-responsibility principle](https://en
     caption="Overview multiple Egress Gateways"
     >}}
 
-With this model, one `Egress Gateway` is in charge of only one upstream service.
+With this model, one egress gateway is in charge of exactly one upstream service.
 
-Although the `IstioOperator` spec allows you to deploy multiple `Egress Gateways`, the manifest can become unmanageable.
+Although the `IstioOperator` spec allows you to deploy multiple egress gateways, the manifest can become unmanageable:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
