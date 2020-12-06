@@ -14,9 +14,9 @@ Unfortunately, there are services which have not yet been migrated to Kubernetes
 
 ## Scenario
 
-If you are familiar with Istio, one of the offered ways to connect to external services is through [Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/).
+If you are familiar with Istio, one of the methods offered to connect to external services is through an [egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/).
 
-However, if you want to satisfy the [Single-responsibility principle](https://en.wikipedia.org/wiki/Single-responsibility_principle), you will need to deploy multiple and individual (1..N) `Egress Gateways` as the picture shows.
+However, if you want to satisfy the [single-responsibility principle](https://en.wikipedia.org/wiki/Single-responsibility_principle), you will need to deploy multiple and individual (1..N) egress gateways, as this picture shows:
 
 {{< image width="75%" ratio="45.34%"
     link="./on-demand-egress-gateway-overview.svg"
