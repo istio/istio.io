@@ -45,7 +45,8 @@ spec:
 {{< /text >}}
 
 As a benefit of decoupling egress getaways from the `IstioOperator` manifest, you have enabled the possibility of setting up custom readiness probes to have both services (Gateway and upstream Service) aligned.
-As well, you can apply the sidecar pattern to inject, for example, OPA into the pod to perform authorization with complex rules ([OPA envoy plugin](https://github.com/open-policy-agent/opa-envoy-plugin)).
+
+You can also inject OPA as a sidecar into the pod to perform authorization with complex rules ([OPA envoy plugin](https://github.com/open-policy-agent/opa-envoy-plugin)).
 
 {{< image width="75%" ratio="45.34%"
     link="./on-demand-egress-gateway-authz.svg"
