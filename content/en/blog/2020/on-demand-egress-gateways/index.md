@@ -204,11 +204,7 @@ spec:
 Notice the block under `overlays`. You are patching the default `egressgateway` to deploy only that component with the new `readinessProbe`
 {{< /tip >}}
 
-Create a `namespace` where you will install the `Egress Gateway`
-
-{{< tip >}}
-Remember that we assume *namespace = httpbin*)
-{{< /tip >}}
+Create the namespace where you will install the egress gateway:
 
 {{< text bash >}}
 $ kubectl create ns httpbin
