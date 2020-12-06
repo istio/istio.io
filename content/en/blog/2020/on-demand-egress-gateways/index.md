@@ -224,7 +224,7 @@ Now you will set up `Istio` to connect to the external service [https://httpbin.
 
 #### Certificate for TLS
 
-How to generate the certificate is explained in the [documentation](/docs/tasks/traffic-management/ingress/secure-ingress/#generate-client-and-server-certificates-and-keys).
+How to generate a certificate is explained in the [Istio ingress documentation](/docs/tasks/traffic-management/ingress/secure-ingress/#generate-client-and-server-certificates-and-keys).
 
 {{< text bash >}}
 $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=<my-hostname>' -keyout example.com.key -out example.com.crt
