@@ -58,7 +58,7 @@ Let's look at how you can implement this pattern.
 
 ## Solution
 
-There are several ways to achieve this task:
+There are several ways to perform this task:
 
 - Create multiple `IstioOperator` (simple solution)
 - Create an operator (recommended for a second iteration in the development process)
