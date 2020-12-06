@@ -87,6 +87,8 @@ At the end, you will have:
 If you use `kind`, do not forget to set up `service-account-issuer` and `service-account-signing-key-file` as described below. Otherwise, Istio may not install correctly.
 {{< /warning >}}
 
+Save this example of `kind` configuration with name: `config.yaml` to be used when creating the cluster.
+
 {{< text yaml >}}
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
@@ -103,7 +105,7 @@ kubeadmConfigPatches:
 {{< /text >}}
 
 {{< text bash >}}
-$ kind create cluster --name <my-cluster-name> --config <path-to-config-file>
+$ kind create cluster --name <my-cluster-name> --config <path-to-config-file>/config.yaml
 {{< /text >}}
 
 Where `<my-cluster-name>` is the name for the cluster and `<path-to-config-file>` is the config defined in the block above.
