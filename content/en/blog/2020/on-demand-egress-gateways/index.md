@@ -84,8 +84,8 @@ At the end, you will have:
 
 ### Prerequisites
 
-- [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) (`kubernetes in docker`. Perfect for local development)
-- [Istioctl](/docs/setup/getting-started/#download)
+- [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) (Kubernetes-in-Docker - perfect for local development)
+- [istioctl](/docs/setup/getting-started/#download)
 
 #### Kind
 
