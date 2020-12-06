@@ -158,7 +158,7 @@ The steps for this task assume:
 - The service is installed under the namespace: `httpbin`.
 - The service name is: `http-egress`.
 
-As it is mentioned before, `Istio 1.8.0` introduced the possibility to fine-grain control the `Istio` resources. Now, you will take advantage of it.
+Istio 1.8 introduced the possibility to apply overlay configuration, to give fine-grain control over the created resources.
 
 Create a file with following content:
 
