@@ -10,7 +10,7 @@ target_release: 1.8.0
 
 At [Deutsche Telekom Pan-Net](https://pan-net.cloud/aboutus), we have embraced Istio as the umbrella to cover our services.
 
-Unfortunately, there are services which have not been migrated to `kubernetes` yet or, simply, cannot be. Therefore, those ones have to remain as external services.
+Unfortunately, there are services which have not yet been migrated to Kubernetes, or cannot be. 
 
 ## Scenario
 
