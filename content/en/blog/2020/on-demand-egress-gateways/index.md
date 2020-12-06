@@ -201,7 +201,7 @@ spec:
 {{< /text >}}
 
 {{< tip >}}
-Notice the block under `overlays`. You are patching the default `egressgateway` to deploy only that component with the new `readinessProbe`
+Notice the block under `overlays`. You are patching the default `egressgateway` to deploy only that component with the new `readinessProbe`.
 {{< /tip >}}
 
 Create the namespace where you will install the egress gateway:
