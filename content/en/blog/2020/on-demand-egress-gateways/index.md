@@ -87,7 +87,7 @@ At the end, you will have:
 If you use `kind`, do not forget to set up `service-account-issuer` and `service-account-signing-key-file` as described below. Otherwise, Istio may not install correctly.
 {{< /warning >}}
 
-Save this example of `kind` configuration with name: `config.yaml` to be used when creating the cluster.
+Save this as `config.yaml`.
 
 {{< text yaml >}}
 kind: Cluster
