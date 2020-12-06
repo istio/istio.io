@@ -8,7 +8,7 @@ keywords: [configuration,egress,gateway,external,service]
 target_release: 1.8.0
 ---
 
-At [`Deutsche Telekom::PAN-NET`](https://pan-net.cloud/aboutus), we have embraced `Istio` as the umbrella to cover our services.
+At [Deutsche Telekom Pan-Net](https://pan-net.cloud/aboutus), we have embraced Istio as the umbrella to cover our services.
 
 Unfortunately, there are services which have not been migrated to `kubernetes` yet or, simply, cannot be. Therefore, those ones have to remain as external services.
 
