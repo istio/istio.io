@@ -26,7 +26,7 @@ However, if you want to satisfy the [single-responsibility principle](https://en
 
 With this model, one egress gateway is in charge of exactly one upstream service.
 
-Although the `IstioOperator` spec allows you to deploy multiple egress gateways, the manifest can become unmanageable:
+Although the Operator spec allows you to deploy multiple egress gateways, the manifest can become unmanageable:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -44,7 +44,7 @@ spec:
 [...]
 {{< /text >}}
 
-As a benefit of decoupling egress getaways from the `IstioOperator` manifest, you have enabled the possibility of setting up custom readiness probes to have both services (Gateway and upstream Service) aligned.
+As a benefit of decoupling egress getaways from the Operator manifest, you have enabled the possibility of setting up custom readiness probes to have both services (Gateway and upstream Service) aligned.
 
 You can also inject OPA as a sidecar into the pod to perform authorization with complex rules ([OPA envoy plugin](https://github.com/open-policy-agent/opa-envoy-plugin)).
 
@@ -61,10 +61,10 @@ Let's look at how you can implement this pattern.
 There are several ways to perform this task, but here you will find how to define multiple Operators and deploy the generated resources.
 
 {{< quote >}}
-Yes! `Istio 1.8.0` introduced the possibility to have fine-grained control over the objects that `IstioOperator` deploys. This gives you the opportunity to patch them as you wish. Exactly what you need to deploy on demand `Egress Gateways`.
+Yes! `Istio 1.8.0` introduced the possibility to have fine-grained control over the objects that Operator deploys. This gives you the opportunity to patch them as you wish. Exactly what you need to deploy on demand egress gateways.
 {{< /quote >}}
 
-In the following section you will  deploy an `Egress Gateway` to connect to an external service: `httpbin` ([https://httpbin.org/](https://httpbin.org/))
+In the following section you will  deploy an egress gateway to connect to an external service: `httpbin` ([https://httpbin.org/](https://httpbin.org/))
 
 At the end, you will have:
 
@@ -206,13 +206,13 @@ Create the namespace where you will install the egress gateway:
 $ kubectl create ns httpbin
 {{< /text >}}
 
-As it is described in the [documentation](/docs/setup/install/istioctl/#customize-kubernetes-settings), you can deploy several `IstioOperator` resources. However, they have to be pre-parsed and then applied to the cluster.
+As it is described in the [documentation](/docs/setup/install/istioctl/#customize-kubernetes-settings), you can deploy several Operator resources. However, they have to be pre-parsed and then applied to the cluster.
 
 {{< text bash >}}
 $ istioctl manifest generate -f <path-to-egress-file> | kubectl apply -f -
 {{< /text >}}
 
-Where `<path-to-egress-file>` is the path where you have saved the new `IstioOperator` CR.
+Where `<path-to-egress-file>` is the path where you have saved the new Operator CR.
 
 ### Istio configuration
 
@@ -283,7 +283,7 @@ Where `<my-hostname>` is the hostname to access the service through the `my-ingr
 
 #### Egress Gateway
 
-Create another Gateway object, but this time to operate the `Egress Gateway` you have already installed with `helm`:
+Create another Gateway object, but this time to operate the egress gateway you have already installed:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -315,7 +315,7 @@ Create a `VirtualService` for three use cases:
 - **Egress Gateway** for the communication to the external service
 
 {{< tip >}}
-Mesh and Ingress Gateway will share the same specification. It will redirect the traffic to your `Egress Gateway` service.
+Mesh and Ingress Gateway will share the same specification. It will redirect the traffic to your egress gateway service.
 {{< /tip >}}
 
 {{< text yaml >}}
@@ -432,7 +432,7 @@ $ istioctl analyze --all-namespaces
 
 #### External access
 
-Test the `Egress Gateway` from outside the cluster forwarding the `ingressgateway` service's port and calling the service
+Test the egress gateway from outside the cluster forwarding the `ingressgateway` service's port and calling the service
 
 {{< text bash >}}
 $ kubectl -n istio-system port-forward svc/istio-ingressgateway 15443:443
@@ -446,7 +446,7 @@ Where `<my-hostname>` is the hostname to access through the `my-ingressgateway` 
 
 #### Service-to-service access
 
-Test the `Egress Gateway` from inside the cluster deploying the sleep service. This is useful when you design failover.
+Test the egress gateway from inside the cluster deploying the sleep service. This is useful when you design failover.
 
 {{< text bash >}}
 $ kubectl label namespace httpbin istio-injection=enabled --overwrite
@@ -470,7 +470,7 @@ Notice that `http` (and not `https`) is the protocol used for service-to-service
 Eat, Sleep, Rave, **REPEAT!**
 {{< /quote >}}
 
-Now it is time to create a second, third and fourth `Egress Gateway` pointing to another external service.
+Now it is time to create a second, third and fourth egress gateway pointing to another external service.
 
 ## Final thoughts
 
