@@ -3,7 +3,7 @@ title: On Demand Egress Gateways
 subtitle: Deploy Egress Gateways independently in a seamless way
 description: Deploying Egress Gateways independently to have fine-grained control of egress communication.
 publishdate: 2020-11-07
-attribution: Antonio Berben (At Deutsche Telekom - PAN-NET)
+attribution: Antonio Berben (Deutsche Telekom - PAN-NET)
 keywords: [configuration,egress,gateway,external,service]
 target_release: 1.8.0
 ---
