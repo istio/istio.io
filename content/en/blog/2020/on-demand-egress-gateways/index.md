@@ -90,7 +90,7 @@ At the end, you will have:
 #### Kind
 
 {{< warning >}}
-If you use `kind`, do not forget to set up `service-account-issuer` and `service-account-signing-key-file` as described below. Otherwise, `Istio` installation might complain.
+If you use `kind`, do not forget to set up `service-account-issuer` and `service-account-signing-key-file` as described below. Otherwise, Istio may not install correctly.
 {{< /warning >}}
 
 {{< text yaml >}}
