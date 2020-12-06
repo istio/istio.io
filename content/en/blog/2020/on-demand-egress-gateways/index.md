@@ -58,14 +58,7 @@ Let's look at how you can implement this pattern.
 
 ## Solution
 
-There are several ways to perform this task:
-
-- Create multiple `IstioOperator` (simple solution)
-- Create an operator (recommended for a second iteration in the development process)
-
-At **PAN-NET**, we have created our own operator with the [Operator SDK - Ansible type](https://sdk.operatorframework.io/docs/building-operators/).
-
-However, you want to start simple. Thus, better you start with the `IstioOperator` option.
+There are several ways to perform this task, but here you will find how to define multiple Operators and deploy the generated resources.
 
 {{< quote >}}
 Yes! `Istio 1.8.0` introduced the possibility to have fine-grained control over the objects that `IstioOperator` deploys. This gives you the opportunity to patch them as you wish. Exactly what you need to deploy on demand `Egress Gateways`.
