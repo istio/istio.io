@@ -112,7 +112,7 @@ Where `<my-cluster-name>` is the name for the cluster and `<path-to-config-file>
 
 #### Istio Operator with Istioctl
 
-Install the `Istio Operator`
+Install the Operator
 
 {{< text bash >}}
 $ istioctl operator init --watchedNamespaces=istio-operator
