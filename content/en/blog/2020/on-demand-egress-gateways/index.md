@@ -14,7 +14,7 @@ Unfortunately, there are services which have not yet been migrated to Kubernetes
 
 ## Scenario
 
-If you are familiar with Istio, one of the methods offered to connect to external services is through an [egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/).
+If you are familiar with Istio, one of the methods offered to connect to upstream services is through an [egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/).
 
 However, if you want to satisfy the [single-responsibility principle](https://en.wikipedia.org/wiki/Single-responsibility_principle), you will need to deploy multiple and individual (1..N) egress gateways, as this picture shows:
 
@@ -50,7 +50,7 @@ You can also inject OPA as a sidecar into the pod to perform authorization with 
 
 {{< image width="75%" ratio="45.34%"
     link="./on-demand-egress-gateway-authz.svg"
-    alt="Authorization with OPA and `healthcheck` to external service"
+    alt="Authorization with OPA and `healthcheck` to upstream service"
     caption="Authorization with OPA and `healthcheck` to external"
     >}}
 
@@ -64,7 +64,7 @@ There are several ways to perform this task, but here you will find how to defin
 Yes! `Istio 1.8.0` introduced the possibility to have fine-grained control over the objects that Operator deploys. This gives you the opportunity to patch them as you wish. Exactly what you need to deploy on demand egress gateways.
 {{< /quote >}}
 
-In the following section you will  deploy an egress gateway to connect to an external service: `httpbin` ([https://httpbin.org/](https://httpbin.org/))
+In the following section you will  deploy an egress gateway to connect to an upstream service: `httpbin` ([https://httpbin.org/](https://httpbin.org/))
 
 At the end, you will have:
 
@@ -105,10 +105,10 @@ kubeadmConfigPatches:
 {{< /text >}}
 
 {{< text bash >}}
-$ kind create cluster --name <my-cluster-name> --config <path-to-config-file>/config.yaml
+$ kind create cluster --name <my-cluster-name> --config config.yaml
 {{< /text >}}
 
-Where `<my-cluster-name>` is the name for the cluster and `<path-to-config-file>` is the config defined in the block above.
+Where `<my-cluster-name>` is the name for the cluster.
 
 #### Istio Operator with Istioctl
 
@@ -122,11 +122,7 @@ $ istioctl operator init --watchedNamespaces=istio-operator
 $ kubectl create ns istio-system
 {{< /text >}}
 
-{{< text bash >}}
-$ kubectl apply -f <my-istiooperator-manifest>
-{{< /text >}}
-
-Where `<my-istiooperator-manifest>` is the path to the a file with following content:
+Save this as `operator.yaml`:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -147,6 +143,11 @@ spec:
 `outboundTrafficPolicy.mode: REGISTRY_ONLY` is used to block all external communications which are not specified by a `ServiceEntry` resource.
 {{< /tip >}}
 
+{{< text bash >}}
+$ kubectl apply -f operator.yaml
+{{< /text >}}
+
+
 ### Deploy Egress Gateway
 
 The steps for this task assume:
@@ -156,7 +157,7 @@ The steps for this task assume:
 
 Istio 1.8 introduced the possibility to apply overlay configuration, to give fine-grain control over the created resources.
 
-Create a file with following content:
+Save this as `egress.yaml`:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -209,14 +210,12 @@ $ kubectl create ns httpbin
 As it is described in the [documentation](/docs/setup/install/istioctl/#customize-kubernetes-settings), you can deploy several Operator resources. However, they have to be pre-parsed and then applied to the cluster.
 
 {{< text bash >}}
-$ istioctl manifest generate -f <path-to-egress-file> | kubectl apply -f -
+$ istioctl manifest generate -f egress.yaml | kubectl apply -f -
 {{< /text >}}
-
-Where `<path-to-egress-file>` is the path where you have saved the new Operator CR.
 
 ### Istio configuration
 
-Now you will configure Istio to allow connections to the external service at [https://httpbin.org](https://httpbin.org).
+Now you will configure Istio to allow connections to the upstream service at [https://httpbin.org](https://httpbin.org).
 
 #### Certificate for TLS
 
@@ -312,7 +311,7 @@ Create a `VirtualService` for three use cases:
 
 - **Mesh** gateway for service-to-service communications within the mesh
 - **Ingress Gateway** for the communication from outside the mesh
-- **Egress Gateway** for the communication to the external service
+- **Egress Gateway** for the communication to the upstream service
 
 {{< tip >}}
 Mesh and Ingress Gateway will share the same specification. It will redirect the traffic to your egress gateway service.
@@ -360,7 +359,7 @@ Where `<my-hostname>` is the hostname to access through the `my-ingressgateway`.
 
 #### Service Entry
 
-Create a `ServiceEntry` to allow the communication to the external service:
+Create a `ServiceEntry` to allow the communication to the upstream service:
 
 {{< tip >}}
 Notice that the port is configured for TLS protocol
@@ -470,7 +469,7 @@ Notice that `http` (and not `https`) is the protocol used for service-to-service
 Eat, Sleep, Rave, **REPEAT!**
 {{< /quote >}}
 
-Now it is time to create a second, third and fourth egress gateway pointing to another external service.
+Now it is time to create a second, third and fourth egress gateway pointing to other upstream services.
 
 ## Final thoughts
 
