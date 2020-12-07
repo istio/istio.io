@@ -69,7 +69,7 @@ In the following section you will  deploy an egress gateway to connect to an ext
 At the end, you will have:
 
 {{< image width="75%" ratio="45.34%"
-    link="./on-demand-egress-gateway-communicatin.svg"
+    link="./on-demand-egress-gateway-communication.svg"
     alt="Communication"
     caption="Communication"
     >}}
