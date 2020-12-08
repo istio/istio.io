@@ -39,12 +39,14 @@
 22.99
 24.13
 25ms
+2h
 2ms
 2s
 2x
 3.99ms
 3ms
 3s
+40m
 404s
 4Kb
 4ms
@@ -365,6 +367,7 @@ ISTIO-SECURITY-2020-006
 istio-system
 istio.io
 istio.io.
+IstioCon
 istioctl
 istiod
 Istiod
