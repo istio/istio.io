@@ -1,7 +1,7 @@
 ---
 title: "Join us for the first IstioCon in 2021!"
 description: The inaugural conference for Istio will take place at the end of February.
-publishdate: 2020-12-04
+publishdate: 2020-12-08
 attribution: "Istio Steering Committee"
 keywords: [IstioCon,Istio,conference]
 ---
