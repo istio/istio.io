@@ -18,7 +18,7 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** an issue showing unnecessary warnings when downgrading to a lower version of Istio.
   ([Issue #29183](https://github.com/istio/istio/issues/29183))
 
-- **Fixed** delegate `VirtualService` change could not trigger any xDS push.
+- **Fixed** delegate `VirtualService` change would not trigger an xDS push.
   ([Issue #29123](https://github.com/istio/istio/issues/29123))
 
 - **Fixed** a regression in Istio 1.8.0 causing workloads with multiple Services with overlapping ports to send
