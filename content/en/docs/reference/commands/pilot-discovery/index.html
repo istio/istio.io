@@ -1038,6 +1038,8 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>galley_validation_passed</code></td><td><code>Sum</code></td><td>Resource is valid</td></tr>
 <tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
 <tr><td><code>num_failed_outgoing_requests</code></td><td><code>Sum</code></td><td>Number of failed outgoing requests (e.g. to a token exchange server, CA, etc.)</td></tr>
+<tr><td><code>num_file_secret_failures_total</code></td><td><code>Sum</code></td><td>Number of times secret generation failed for files</td></tr>
+<tr><td><code>num_file_watcher_failures_total</code></td><td><code>Sum</code></td><td>Number of times file watcher failed to add watchers</td></tr>
 <tr><td><code>num_outgoing_requests</code></td><td><code>Sum</code></td><td>Number of total outgoing requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>outgoing_latency</code></td><td><code>Sum</code></td><td>The latency of outgoing requests (e.g. to a token exchange server, CA, etc.) in milliseconds.</td></tr>
