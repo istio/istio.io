@@ -28,3 +28,7 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** an issue causing a short spike in errors during in place upgrades from Istio 1.6 to 1.7. Previously, the xDS version would be upgraded automatically from xDS v2 to xDS v3. This caused downtime with upgrades from Istio 1.6 to Istio 1.7. This has been fixed so that these upgrades no longer cause downtime. Note that, as a trade off, upgrading from Istio 1.7.x to Istio 1.7.5 still causes downtime in any existing 1.6 proxies; if you are in this scenario you may set the `PILOT_ENABLE_TLS_XDS_DYNAMIC_TYPES` environment variable to false in Istiod to retain the previous behavior. ([Issue #28120](https://github.com/istio/istio/issues/28120))
 
 - **Fixed** missing listeners on a VM when the VM sidecar is connected to `istiod` but a `WorkloadEntry` is registered later. ([Issue #28743](https://github.com/istio/istio/issues/28743))
+
+### Upgrade Notice
+
+When upgrading your Istio data plane from 1.7.4 to 1.7.5, you may observe connectivity issues between your gateway to your sidecars or among your sidecars with 503 errors in the log. This happens when some of your proxies are on 1.7.4 while some are on 1.7.5, and 1.7.4 proxies could not properly process any 1xx or 204 response code from 1.7.5 proxies. To fix this, upgrade all your proxies(gateways and sidecars) to 1.7.5 as soon as possible. ([Issue 29427](https://github.com/istio/istio/issues/29427)
