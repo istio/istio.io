@@ -15,7 +15,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Fixed** Fixed an issue causing telemetry HPA settings to be overridden by the inline replicas. ([Issue #28916](https://github.com/istio/istio/issues/28916))
+- **Fixed** an issue causing telemetry HPA settings to be overridden by the inline replicas. ([Issue #28916](https://github.com/istio/istio/issues/28916))
 
 - **Fixed** an issue where a delegate `VirtualService` change would not trigger an xDS push. ([Issue #29123](https://github.com/istio/istio/issues/29123))
 
