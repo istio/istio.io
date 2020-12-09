@@ -94,7 +94,7 @@ The controller will detect the `IstioOperator` resource and then install the Ist
 components corresponding to the specified (`demo`) configuration.
 
 {{< warning >}}
-If you have used `--watchedNamespaces` when you initialized the Istio operator, apply the `IstioOperator` resource in one of the watched namespaces, instead of in `istio-system`.
+If you used `--watchedNamespaces` when you initialized the Istio operator, apply the `IstioOperator` resource in one of the watched namespaces, instead of in `istio-system`.
 {{< /warning >}}
 
 The Istio control plane (istiod) will be installed in the `istio-system` namespace by default. To install it in a different location, specify the namespace using the `values.global.istioNamespace` field as follows:
