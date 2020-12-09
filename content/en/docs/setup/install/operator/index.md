@@ -99,20 +99,15 @@ If you have used `--watchedNamespaces` when you initialized the Istio operator, 
 
 The Istio control plane (istiod) will be installed in the `istio-system` namespace by default. To install it in a different location, specify the namespace using the `values.global.istioNamespace` field as follows:
 
-{{< text bash >}}
-$ kubectl create ns istio-namespace1
-$ kubectl apply -f - <<EOF
+{{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
-metadata:
-  namespace: istio-namespace1
-  name: example-istiocontrolplane
+...
 spec:
   profile: demo
   values:
     global:
       istioNamespace: istio-namespace1
-EOF
 {{< /text >}}
 
 {{< tip >}}
