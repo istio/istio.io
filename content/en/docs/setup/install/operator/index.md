@@ -93,7 +93,9 @@ EOF
 The controller will detect the `IstioOperator` resource and then install the Istio
 components corresponding to the specified (`demo`) configuration.
 
-If you have used `--watchedNamespaces` to watch custom namespace, make sure to specify `values.global.istioNamespace` as the following.
+If you have used `--watchedNamespaces` to initialize the Istio operator, make sure the IstioOperator resource is located in the specified namespace list.
+
+When installing Istio in the namespace other than `istio-system`, specify the namespace with `values.global.istioNamespace` as the following.
 
 {{< text bash >}}
 $ kubectl create ns istio-namespace1
