@@ -93,6 +93,23 @@ EOF
 The controller will detect the `IstioOperator` resource and then install the Istio
 components corresponding to the specified (`demo`) configuration.
 
+{{< warning >}}
+If you used `--watchedNamespaces` when you initialized the Istio operator, apply the `IstioOperator` resource in one of the watched namespaces, instead of in `istio-system`.
+{{< /warning >}}
+
+The Istio control plane (istiod) will be installed in the `istio-system` namespace by default. To install it in a different location, specify the namespace using the `values.global.istioNamespace` field as follows:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+...
+spec:
+  profile: demo
+  values:
+    global:
+      istioNamespace: istio-namespace1
+{{< /text >}}
+
 {{< tip >}}
 The Istio operator controller begins the process of installing Istio within 90 seconds of
 the creation of the `IstioOperator` resource. The Istio installation completes within 120
