@@ -93,6 +93,24 @@ EOF
 The controller will detect the `IstioOperator` resource and then install the Istio
 components corresponding to the specified (`demo`) configuration.
 
+If you have used `--watchedNamespaces` to watch custom namespace, make sure to specify `values.global.istioNamespace` as the following.
+
+{{< text bash >}}
+$ kubectl create ns istio-namespace1
+$ kubectl apply -f - <<EOF
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-namespace1
+  name: example-istiocontrolplane
+spec:
+  profile: demo
+  values:
+    global:
+      istioNamespace: istio-namespace1
+EOF
+{{< /text >}}
+
 {{< tip >}}
 The Istio operator controller begins the process of installing Istio within 90 seconds of
 the creation of the `IstioOperator` resource. The Istio installation completes within 120
