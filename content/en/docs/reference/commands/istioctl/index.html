@@ -415,54 +415,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-convert-ingress">istioctl convert-ingress</h2>
-<p>Converts Ingresses into VirtualService configuration on a best effort basis. The output should be considered a starting point for your Istio configuration and probably require some minor modification. Warnings will be generated where configs cannot be converted perfectly. The input must be a Kubernetes Ingress. The conversion of v1alpha1 Istio rules has been removed from istioctl.</p>
-<pre class="language-bash"><code>istioctl convert-ingress [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--filenames &lt;stringSlice&gt;</code></td>
-<td><code>-f</code></td>
-<td>Input filenames  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--output &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Output filename  (default `-`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-convert-ingress Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl convert-ingress -f samples/bookinfo/platform/kube/bookinfo-ingress.yaml
-</code></pre>
+
 <h2 id="istioctl-dashboard">istioctl dashboard</h2>
 <p>Access to Istio web UIs</p>
 <pre class="language-bash"><code>istioctl dashboard [flags]
