@@ -97,7 +97,7 @@ components corresponding to the specified (`demo`) configuration.
 If you have used `--watchedNamespaces` when you initialized the Istio operator, apply the `IstioOperator` resource in one of the watched namespaces, instead of in `istio-system`.
 {{< /warning >}}
 
-When installing Istio in the namespace other than `istio-system`, specify the namespace with `values.global.istioNamespace` as the following.
+The Istio control plane (istiod) will be installed in the `istio-system` namespace by default. To install it in a different location, specify the namespace using the `values.global.istioNamespace` field as follows:
 
 {{< text bash >}}
 $ kubectl create ns istio-namespace1
