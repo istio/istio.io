@@ -67,7 +67,7 @@ spec:
 
 ### Step 3: Enable `X-Forwarded-For` header
 
-This [blog](../../../docs/ops/configuration/traffic-management/network-topologies/) includes several samples of configuring Gateway Network Topology. This blog presents below out tuned configurations to enable `X-Forwarded-For` without any middle proxy.
+This [blog](/docs/ops/configuration/traffic-management/network-topologies/) includes several samples of configuring Gateway Network Topology. In the following example, the configurations are tuned to enable `X-Forwarded-For` without any middle proxy.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -123,9 +123,9 @@ metadata:
 spec:
   hosts:
   - "a25fa0b4835b.elb.us-west-2.amazonaws.com"
-   gateways:
+  gateways:
   - httpbin-gateway
-   http:
+  http:
   - match:
     - uri:
         prefix: /headers
@@ -162,9 +162,9 @@ metadata:
 spec:
   hosts:
   - "a25fa0b4835b.elb.us-west-2.amazonaws.com"
-   gateways:
+  gateways:
   - mygateway2
-   http:
+  http:
   - match:
     - uri:
         prefix: /headers
