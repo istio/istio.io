@@ -1,8 +1,7 @@
 ---
-title: How to enable proxy protocol on AWS NLB and Istio ingress gateway
-subtitle: How to enable proxy protocol on AWS NLB and Istio ingress gateway
+title: Proxy protocol on AWS NLB and Istio ingress gateway
 description: How to enable proxy protocol on AWS NLB and Istio ingress gateway.
-publishdate: 2020-11-18
+publishdate: 2020-12-11
 attribution: "Xinhui Li (Salesforce) "
 keywords: [trafficManagement,protocol extending]
 ---
@@ -27,7 +26,7 @@ Before going through the following steps, an AWS environment that is configured 
 
 ### Step 1: Install Istio with AWS NLB
 
-The blog [Configuring Istio Ingress with AWS NLB](../../../blog/2018/aws-nlb/) provides detailed steps to set up AWS IAM roles and enable the usage of AWS NLB by Helm. You can also use other automation tools, such as Terraform, to achieve the same goal. In the following example, more complete configurations are shown in order to enable proxy protocol and `X-Forwarded-For` at the same time.
+The blog [Configuring Istio Ingress with AWS NLB](/blog/2018/aws-nlb/) provides detailed steps to set up AWS IAM roles and enable the usage of AWS NLB by Helm. You can also use other automation tools, such as Terraform, to achieve the same goal. In the following example, more complete configurations are shown in order to enable proxy protocol and `X-Forwarded-For` at the same time.
 
 {{< text yaml >}}
 apiVersion: v1
@@ -98,7 +97,7 @@ spec:
 ### Step 4: Deploy ingress gateway for httpbin on port 80 and 443
 
 {{< warning>}}
-When following the [secure ingress setup](../../../docs/tasks/traffic-management/ingress/secure-ingress/), macOS users must add an additional patch to generate certificates for TLS .
+When following the [secure ingress setup](/docs/tasks/traffic-management/ingress/secure-ingress/), macOS users must add an additional patch to generate certificates for TLS.
 {{< /warning >}}
 
 {{< text yaml >}}
@@ -251,8 +250,9 @@ Check port 443 (80 will be similar) and compare the cases with and without proxy
 }
 * Connection #0 to host a25fa0b4835b.elb.us-west-2.amazonaws.com left intact
 * Closing connection 0
+{{< /text >}}
 
-
+{{< text yaml >}}
 //////////without proxy_protocal
 *   Trying YY.XXX.141.26...
 * TCP_NODELAY set
