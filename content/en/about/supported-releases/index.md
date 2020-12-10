@@ -23,7 +23,7 @@ changes. For more information refer to the [Istio support policy](../release-cad
 
 | LTS Release                | Patched versions with no known CVEs  |
 |----------------------------|--------------------------------------|
-| 1.8.x                      | 1.8.0                                |
+| 1.8.x                      | 1.8.1                                |
 | 1.7.x                      | 1.7.3, 1.7.4, 1.7.5                  |
 | 1.6.x                      | 1.6.11, 1.6.12, 1.6.13, 1.6.14       |
 | 1.5 and earlier            | None                                 |
