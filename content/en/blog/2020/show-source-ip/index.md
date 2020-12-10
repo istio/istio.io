@@ -123,9 +123,9 @@ metadata:
 spec:
   hosts:
   - "a25fa0b4835b.elb.us-west-2.amazonaws.com"
-    gateways:
+   gateways:
   - httpbin-gateway
-    http:
+   http:
   - match:
     - uri:
         prefix: /headers
@@ -162,9 +162,9 @@ metadata:
 spec:
   hosts:
   - "a25fa0b4835b.elb.us-west-2.amazonaws.com"
-    gateways:
+   gateways:
   - mygateway2
-    http:
+   http:
   - match:
     - uri:
         prefix: /headers
