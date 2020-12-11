@@ -4235,7 +4235,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
-<td>Target control plane revision for the command.  (default ``)</td>
+<td>Target revision for the operator.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--tag &lt;string&gt;</code></td>
@@ -5938,8 +5938,8 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr>
 <td><code>PILOT_TRACE_SAMPLING</code></td>
 <td>Floating-Point</td>
-<td><code>100</code></td>
-<td>Sets the mesh-wide trace sampling percentage. Should be 0.0 - 100.0. Precision to 0.01. Default is 100, not recommended for production use.</td>
+<td><code>1</code></td>
+<td>Sets the mesh-wide trace sampling percentage. Should be 0.0 - 100.0. Precision to 0.01. Default is 1.0.</td>
 </tr>
 <tr>
 <td><code>PILOT_USE_ENDPOINT_SLICE</code></td>
