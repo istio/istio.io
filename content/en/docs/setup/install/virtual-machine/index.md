@@ -176,6 +176,11 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
     {{< /tabset >}}
 
+    {{< warning >}}
+    The above command, for Multi-Cluster meshes requires the flag `--clusterID`
+    to indicate to which cluster the Workload is authenticating to.
+    {{< /warning >}}
+
 ## Configure the virtual machine
 
 Run the following commands on the virtual machine you want to add to the Istio mesh:
