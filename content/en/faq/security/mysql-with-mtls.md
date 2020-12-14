@@ -20,13 +20,16 @@ There have two options to solve the problem.
 
     {{< text syntax="bash" >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "authentication.istio.io/v1alpha1"
-    kind: "Policy"
+    apiVersion: security.istio.io/v1beta1
+    kind: PeerAuthentication
     metadata:
-      name: mysql-nomtls-authn
+      name: mysql-nomtls-peerauthn
     spec:
-      targets:
-      - name: YOUR-MYSQL-SERVICE     # The name of *your* K8s Service
+      selector:
+        matchLabels:
+          app: <YOUR-MYSQL-SERVICE>     # The label of *your* K8s Service
+      mtls:
+        mode: DISABLE
     EOF
     {{< /text >}}
 
@@ -36,16 +39,16 @@ There have two options to solve the problem.
 
     {{< text syntax="bash" >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "authentication.istio.io/v1alpha1"
-    kind: "Policy"
+    apiVersion: security.istio.io/v1beta1
+    kind: PeerAuthentication
     metadata:
-      name: mysql-mtls-authn
+      name: mysql-mtls-peerauthn
     spec:
-      targets:
-      - name: YOUR-MYSQL-SERVICE     # The name of *your* K8s Service
-      peers:
-      - mtls:
-          mode: STRICT
+      selector:
+        matchLabels:
+          app: <YOUR-MYSQL-SERVICE>     # The label of *your* K8s Service
+      mtls:
+        mode: STRICT
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
