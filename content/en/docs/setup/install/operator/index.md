@@ -108,6 +108,8 @@ spec:
   values:
     global:
       istioNamespace: istio-namespace1
+    meshConfig:
+      rootNamespace: istio-namespace1
 {{< /text >}}
 
 {{< tip >}}
