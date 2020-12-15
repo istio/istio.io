@@ -14,7 +14,7 @@ Unfortunately, there are services which have not yet been migrated to Kubernetes
 
 We can set Istio up as a proxy service for these upstream services.
 
-The reason of using Istio is that you can benefit from the service mesh capabilities like Authorization/Authentication, traceability, observability while your services stand as they are.
+The reason for using Istio is that you can benefit from the service mesh capabilities like Authorization/Authentication, traceability, observability while your services stand as they are.
 
 At the end of this article there is a hands-on exercise where you will simulate the scenario. In the exercise, an upstream service hosted at [https://httpbin.org](https://httpbin.org) will be proxied by an Istio egress gateway.
 
