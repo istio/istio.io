@@ -68,6 +68,17 @@ $ export CTX_REMOTE_CLUSTER=remote_cluster
 $ export REMOTE_CLUSTER_NAME=remote_cluster
 {{< /text >}}
 
+{{< warning >}}
+If you are using [kind](docs/setup/platform-setup/kind/) cluster for testing external control plane, make sure to use the following names.
+
+{{< text bash >}}
+$ export CTX_EXTERNAL_CLUSTER=kind-external-cluster
+$ export CTX_REMOTE_CLUSTER=kind-remote-cluster
+$ export REMOTE_CLUSTER_NAME=remote-cluster
+{{< /text >}}
+
+{{< /warning >}}
+
 ## Cluster configuration
 
 ### Set up a gateway in the external cluster
