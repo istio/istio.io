@@ -58,7 +58,7 @@ You can also inject OPA as a sidecar into the pod to perform authorization with 
     caption="Authorization with OPA and `healthcheck` to external"
     >}}
 
-As you can see, your possibilities increases and Istio becomes very extensible.
+As you can see, your possibilities increase and Istio becomes very extensible.
 
 Let's look at how you can implement this pattern.
 
