@@ -176,6 +176,11 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
     {{< /tabset >}}
 
+    {{< warning >}}
+    When connecting a VM to a multicluster Istio mesh, you will need to add the `--clusterID` argument to
+    the above command. Set the value to the name of the cluster corresponding to the `istioctl` context.
+    {{< /warning >}}
+
 ## Configure the virtual machine
 
 Run the following commands on the virtual machine you want to add to the Istio mesh:
