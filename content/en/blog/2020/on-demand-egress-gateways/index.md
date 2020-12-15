@@ -12,11 +12,15 @@ At [Deutsche Telekom Pan-Net](https://pan-net.cloud/aboutus), we have embraced I
 
 Unfortunately, there are services which have not yet been migrated to Kubernetes, or cannot be. 
 
-## Scenario
+We can set Istio up as a proxy service for these upstream services.
+
+The reason of using Istio is that you can benefit from the service mesh capabilities like Authorization/Authentication, traceability, observability while your services stand as they are.
+
+At the end of this article there is a hands-on exercise where you will simulate the scenario. In the exercise, an upstream service hosted at [https://httpbin.org](https://httpbin.org) will be proxied by an Istio egress gateway.
 
 If you are familiar with Istio, one of the methods offered to connect to upstream services is through an [egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/).
 
-However, if you want to satisfy the [single-responsibility principle](https://en.wikipedia.org/wiki/Single-responsibility_principle), you will need to deploy multiple and individual (1..N) egress gateways, as this picture shows:
+You can deploy one to control all the upstream traffic or you can deploy multiple in order to have fine-grained control and satisfy the [single-responsibility principle](https://en.wikipedia.org/wiki/Single-responsibility_principle) as this picture shows:
 
 {{< image width="75%" ratio="45.34%"
     link="./on-demand-egress-gateway-overview.svg"
@@ -53,6 +57,8 @@ You can also inject OPA as a sidecar into the pod to perform authorization with 
     alt="Authorization with OPA and `healthcheck` to upstream service"
     caption="Authorization with OPA and `healthcheck` to external"
     >}}
+
+As you can see, your possibilities increases and Istio becomes very extensible.
 
 Let's look at how you can implement this pattern.
 
@@ -454,7 +460,7 @@ $ kubectl -n httpbin "$(kubectl get pod -n httpbin -l app=sleep -o jsonpath={.it
 Where `<my-hostname>` is the hostname to access through the `my-ingressgateway`.
 
 {{< tip >}}
-Notice that `http` (and not `https`) is the protocol used for service-to-service communication. This is due to `Istio` handling the `TLS` itself. Developers do not care anymore about certificates management. **Fancy!**
+Notice that `http` (and not `https`) is the protocol used for service-to-service communication. This is due to Istio handling the `TLS` itself. Developers do not care anymore about certificates management. **Fancy!**
 {{< /tip >}}
 
 {{< quote >}}
@@ -475,7 +481,7 @@ The way Istio is developed allows us, with minimal effort, to satisfy uncommon r
 
 To finish, I just wanted to point out that Istio, as a good cloud native technology, does not require a large team to maintain. For example, our current team is composed of 3 engineers.
 
-To discuss more about `Istio` and its possibilities, please contact one of us:
+To discuss more about Istio and its possibilities, please contact one of us:
 
 - [Antonio Berben](https://twitter.com/antonio_berben)
 - [Piotr Ciążyński](https://www.linkedin.com/in/piotr-ciazynski)
