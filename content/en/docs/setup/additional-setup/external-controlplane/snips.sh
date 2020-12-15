@@ -26,6 +26,12 @@ export CTX_REMOTE_CLUSTER=remote_cluster
 export REMOTE_CLUSTER_NAME=remote_cluster
 }
 
+snip_environment_variables_2() {
+export CTX_EXTERNAL_CLUSTER=kind-external-cluster
+export CTX_REMOTE_CLUSTER=kind-remote-cluster
+export REMOTE_CLUSTER_NAME=remote-cluster
+}
+
 snip_set_up_a_gateway_in_the_external_cluster_1() {
 cat <<EOF > controlplane-gateway.yaml
 apiVersion: install.istio.io/v1alpha1
