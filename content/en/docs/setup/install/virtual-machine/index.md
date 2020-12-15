@@ -177,8 +177,8 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< /tabset >}}
 
     {{< warning >}}
-    The above command, for Multi-Cluster meshes requires the flag `--clusterID`
-    to indicate to which cluster the Workload is authenticating to.
+    When connecting a VM to a multicluster Istio mesh, you will need to add the `--clusterID` argument to
+    the above command. Set the value to the name of the cluster corresponding to the `istioctl` context.
     {{< /warning >}}
 
 ## Configure the virtual machine
