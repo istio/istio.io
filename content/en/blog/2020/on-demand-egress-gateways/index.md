@@ -219,25 +219,17 @@ Now you will configure Istio to allow connections to the upstream service at [ht
 
 #### Certificate for TLS
 
+You need a certificate to make a secure connection from outside the cluster to your egress service.
+
 How to generate a certificate is explained in the [Istio ingress documentation](/docs/tasks/traffic-management/ingress/secure-ingress/#generate-client-and-server-certificates-and-keys).
 
-{{< text bash >}}
-$ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=<my-hostname>' -keyout example.com.key -out example.com.crt
-{{< /text >}}
+Create one for `istioegress.example.com` and apply it to the cluster:
 
 {{< text bash >}}
-$ openssl req -out httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout httpbin.example.com.key -subj "/CN=<my-hostname>/O=httpbin organization"
+$ kubectl create -n istio-system secret tls <my-secret-name> --key=<key> --cert=<cert>
 {{< /text >}}
 
-{{< text bash >}}
-$ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin.example.com.csr -out httpbin.example.com.crt
-{{< /text >}}
-
-{{< text bash >}}
-$ kubectl create -n istio-system secret tls <my-secret-name> --key=httpbin.example.com.key --cert=httpbin.example.com.crt
-{{< /text >}}
-
-Where `<my-secret-name>` is the name used later for the `Gateway` resource. `<my-hostname>` is the hostname used to access your service.
+Where `<my-secret-name>` is the name used later for the `Gateway` resource. `<key>` and `<cert>` are the files for the certificate.
 
 #### Ingress Gateway
 
@@ -423,7 +415,7 @@ spec:
 
 ### Test
 
-Verify that everything in `Istio` works.
+Verify that your objects were all specified correctly:
 
 {{< text bash >}}
 $ istioctl analyze --all-namespaces
