@@ -469,14 +469,14 @@ Now it is time to create a second, third and fourth egress gateway pointing to o
 Is the juice worth the squeeze?
 {{< /quote >}}
 
-`Istio` might seem complex to configure. But, definitely, it is worthy due to the huge set of benefits it brings to your services (extra **Olé!** for `kiali`).
+Istio might seem complex to configure. But it is definitely worthwhile, due to the huge set of benefits it brings to your services (with an extra **Olé!** for Kiali).
 
-The way `Istio` is developed allows, with a small effort, to satisfy uncommon requirements like the one presented in this article.
+The way Istio is developed allows us, with minimal effort, to satisfy uncommon requirements like the one presented in this article.
 
-To finish, just to mention that `Istio`, as a good cloud native technology, does not require a full set of engineers to be maintained. For example, our current team is composed of 3 engineers.
+To finish, I just wanted to point out that Istio, as a good cloud native technology, does not require a large team to maintain. For example, our current team is composed of 3 engineers.
 
-To discuss more about `Istio` and its possibilities, you can find us in:
+To discuss more about `Istio` and its possibilities, please contact one of us:
 
-- `Antonio Berben` ([`twitter @antonio_berben`](https://twitter.com/antonio_berben))
-- `Piotr Ciążyński` ([`LinkedIn`](https://www.linkedin.com/in/piotr-ciazynski))
-- `Kristián Patlevič` ([`LinkedIn`](https://www.linkedin.com/in/patlevic))
+- [Antonio Berben](https://twitter.com/antonio_berben)
+- [Piotr Ciążyński](https://www.linkedin.com/in/piotr-ciazynski)
+- [Kristián Patlevič](https://www.linkedin.com/in/patlevic)
