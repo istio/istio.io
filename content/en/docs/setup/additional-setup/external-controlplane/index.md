@@ -62,10 +62,10 @@ Variable | Description
 
 Set the `CTX_EXTERNAL_CLUSTER`, `CTX_REMOTE_CLUSTER`, and `REMOTE_CLUSTER_NAME` now. You will set the others later.
 
-{{< text bash >}}
-$ export CTX_EXTERNAL_CLUSTER=external_cluster
-$ export CTX_REMOTE_CLUSTER=remote_cluster
-$ export REMOTE_CLUSTER_NAME=remote_cluster
+{{< text syntax=bash snip_id=none >}}
+$ export CTX_EXTERNAL_CLUSTER=<your external cluster context>
+$ export CTX_REMOTE_CLUSTER=<your remote cluster context>
+$ export REMOTE_CLUSTER_NAME=<your remote cluster name>
 {{< /text >}}
 
 ## Cluster configuration
@@ -110,9 +110,9 @@ You may notice an istiod deployment created in the `istio-system` namespace. Thi
 
 Configure your environment to expose the Istio ingress gateway service using a public hostname with TLS. Set the `EXTERNAL_ISTIOD_ADDR` environment variable to the hostname and `SSL_SECRET_NAME` environment variable to the secret that holds the TLS certs:
 
-{{< text bash >}}
-$ export EXTERNAL_ISTIOD_ADDR=myexternal-istiod.cloud.com
-$ export SSL_SECRET_NAME=myexternal-istiod-secret
+{{< text syntax=bash snip_id=none >}}
+$ export EXTERNAL_ISTIOD_ADDR=<your external istiod host>
+$ export SSL_SECRET_NAME=<your external istiod secret>
 {{< /text >}}
 
 Create the Istio `Gateway`, `VirtualService`, and `DestinationRule` configuration for the **yet to be installed** external

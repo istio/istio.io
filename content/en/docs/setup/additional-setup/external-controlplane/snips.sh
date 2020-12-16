@@ -20,12 +20,6 @@
 #          docs/setup/additional-setup/external-controlplane/index.md
 ####################################################################################################
 
-snip_environment_variables_1() {
-export CTX_EXTERNAL_CLUSTER=external_cluster
-export CTX_REMOTE_CLUSTER=remote_cluster
-export REMOTE_CLUSTER_NAME=remote_cluster
-}
-
 snip_set_up_a_gateway_in_the_external_cluster_1() {
 cat <<EOF > controlplane-gateway.yaml
 apiVersion: install.istio.io/v1alpha1
@@ -54,11 +48,6 @@ EOF
 
 snip_set_up_a_gateway_in_the_external_cluster_2() {
 istioctl install -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
-}
-
-snip_set_up_a_gateway_in_the_external_cluster_3() {
-export EXTERNAL_ISTIOD_ADDR=myexternal-istiod.cloud.com
-export SSL_SECRET_NAME=myexternal-istiod-secret
 }
 
 snip_set_up_a_gateway_in_the_external_cluster_4() {

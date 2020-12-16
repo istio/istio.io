@@ -32,7 +32,7 @@ to enable access to the API Server.
 
 ## Environment Variables
 
-This guide will refer to two clusters named `cluster1` and `cluster2`. The following
+This guide will refer to two clusters: `cluster1` and `cluster2`. The following
 environment variables will be used throughout to simplify the instructions:
 
 Variable | Description
@@ -40,11 +40,11 @@ Variable | Description
 `CTX_CLUSTER1` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the `cluster1` cluster.
 `CTX_CLUSTER2` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the `cluster2` cluster.
 
-For example:
+Set the two variables before proceeding:
 
-{{< text bash >}}
-$ export CTX_CLUSTER1=cluster1
-$ export CTX_CLUSTER2=cluster2
+{{< text syntax=bash snip_id=none >}}
+$ export CTX_CLUSTER1=<your cluster1 context>
+$ export CTX_CLUSTER2=<your cluster2 context>
 {{< /text >}}
 
 ## Configure Trust
