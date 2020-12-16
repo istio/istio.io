@@ -23,9 +23,8 @@ service.
     * Version v2 calls the `ratings` service, and displays each rating as 1 to 5 black stars.
     * Version v3 calls the `ratings` service, and displays each rating as 1 to 5 red stars.
 
-    You need to set a default route to one of the versions. Otherwise, when you send requests to the `reviews` service, Istio routes requests to all available versions randomly, and sometimes the output contains star ratings and sometimes it doesn't.
 
-1. Set the default version for all services to v1.
+1. Set the default version for all services to v1 so that no ratings are returned (no stars are displayed).
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
@@ -181,7 +180,7 @@ Envoy can be used to setup global rate limit for your mesh. More info on it can 
 ### Local Rate Limit
 
 Envoy supports using [Local Rate Limit](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/local_rate_limiting#arch-overview-local-rate-limit) on connection and HTTP level. This helps applying rate limit at the instance level
-itself. In this case of rate limiting, rate limiting happens at the proxy level itself and their is no call to any other
+itself. In this case of rate limiting, rate limiting happens at the proxy level itself and there is no call to any other
 service or proxy.
 
 The following EnvoyFilter enables local rate limiting for any traffic through istio ingressgateway. 
