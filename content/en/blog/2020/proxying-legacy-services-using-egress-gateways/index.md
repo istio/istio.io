@@ -38,7 +38,7 @@ spec:
       enabled: true
     - name: egressgateway-2
       enabled: true
-    [egressgateway-3, egressgateway-4 ,...]
+    [egressgateway-3, egressgateway-4, ...]
     - name: egressgateway-N
       enabled: true
 [...]
