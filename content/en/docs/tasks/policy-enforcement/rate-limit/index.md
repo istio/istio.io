@@ -147,6 +147,7 @@ Envoy can be used to setup global rate limit for your mesh. More info on it can 
     This adds [rate limit actions](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit) for any route from virtual host named "*.80". 
     
     {{< text bash >}}
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:
