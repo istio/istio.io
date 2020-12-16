@@ -35,16 +35,24 @@ service.
 
 ## Rate limits
 
-In this task, you configure Istio to rate limit traffic to `productpage` whenever request is routed to a specific path.
-Rate limit using Envoy can be achieved using either Global Rate Limiting or Local Rate Limiting.
+In this task, you configure Istio to rate limit traffic to a specific path of the `productpage` service.
+Rate limit using Envoy can be achieved using either Global Rate Limiting or Local Rate Limiting. Envoy's Global rate
+ limting integrates directly with a global gRPC rate limiting service to provide rate limiting for the whole mesh.
+ Local Rate Limiting is used to rate limit per instance level. Thus, Local rate limiting can be used in conjunction with
+  global rate limiting to reduce load on the global rate limit service.
 
 ### Global Rate Limit
 
 Envoy can be used to setup global rate limit for your mesh. More info on it can be found [here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/global_rate_limiting)
 
-1.  For Global Rate Limit, you need a global gRPC rate limiting service. You can either use Envoy's [reference implementation](https://github.com/envoyproxy/ratelimit) written in Go which uses a Redis backend or implement a service that implements the Envoy's defined RPC/IDL protocol.
+1.  Global rate limiting in Envoy uses a gRPC API for requesting quota from a rate limiting service. 
+    A [reference implementation](https://github.com/envoyproxy/ratelimit) of that API, written in Go with a Redis 
+    backend, is available. To provide a custom implementation, your service must provide the Envoy API.
+    
     In the definition of the service you also define the rate limits and the descriptor on which you want
-    to rate limit on. For example, below is the configmap defining rate limit on PATH header.
+    to rate limit on. For example, below is the [configmap](https://github.com/envoyproxy/ratelimit#configuration) 
+    defining rate limit on descriptor `PATH header` in the above reference implementation. It rate limits request to path 
+    `/productpage` at 1 req/min and all other at 100 req/min.
 
     {{<text yaml >}}
     apiVersion: v1
@@ -53,7 +61,7 @@ Envoy can be used to setup global rate limit for your mesh. More info on it can 
       name: ratelimit-config
     data:
       config.yaml: |
-        domain: echo-ratelimit
+        domain: productpage-ratelimit
         descriptors:
           - key: PATH
             value: "/productpage"
@@ -67,8 +75,12 @@ Envoy can be used to setup global rate limit for your mesh. More info on it can 
 
     {{< /text >}}
 
-1.  Apply EnvoyFilter Patch in Istio that enables global rate limit. The below patch applies rate limiting
-    on any traffic through  Istio Ingressgateway and  matches  it on the  Path header of the request.
+1.  Apply EnvoyFilter Patch in Istio that enables global rate limit using Envoy's global rate limit filter. The below
+    EnvoyFilter is applied to `ingressgateway`. The first patch is applied to `HTTP_FILTER` wherein it inserts 
+    `envoy.filters.http.ratelimit` [global envoy filter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit).
+    The filter takes in the definition of external rate limit service in `rate_limit_service` field. Thus here,
+    we point it to the `rate_limit_cluster`. In the second patch we define the `rate_limit_cluster`. This add the endpoint
+    location of the external rate limit service.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -97,9 +109,9 @@ Envoy can be used to setup global rate limit for your mesh. More info on it can 
             operation: INSERT_BEFORE
             # Adds the Envoy Rate Limit Filter in HTTP filter chain.
             value:
-              name: envoy.ratelimit
+              name: envoy.filters.http.ratelimit
               typed_config:
-                "@type": type.googleapis.com/envoy.config.filter.http.rate_limit.v2.RateLimit
+                "@type": type.googleapis.com/envoy.config.filter.http.rate_limit.v3.RateLimit
                 # domain can be anything! Match it to the ratelimter service config
                 domain: productpage-ratelimit
                 failure_mode_deny: true
@@ -130,7 +142,13 @@ Envoy can be used to setup global rate limit for your mesh. More info on it can 
                         socket_address:
                           address: ratelimit.default.svc.cluster.local
                           port_value: 8081
-    ---
+    EOF
+    {{< /text >}}
+    
+1.  We apply another EnvoyFilter to `ingressgateway` that defines the route configuration on which to rate limit on.
+    This adds [rate limit actions](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit) for any route from virtual host named "*.80". 
+    
+    {{< text bash >}}
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:
@@ -163,123 +181,154 @@ Envoy can be used to setup global rate limit for your mesh. More info on it can 
 
 ### Local Rate Limit
 
-Envoy supports using Local Rate Limit on connection and HTTP level. This helps applying rate limit at the instance level
-itself.
+Envoy supports using [Local Rate Limit](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/local_rate_limiting#arch-overview-local-rate-limit) on connection and HTTP level. This helps applying rate limit at the instance level
+itself. In this case of rate limiting, rate limiting happens at the proxy level itself and their is no call to any other
+service or proxy.
 
-You can enable local rate limit by applying Envoy Filter patch as follows. Following enables 100 requests through an
- istio ingressgateway instance in 60 seconds.
+The following EnvoyFilter enables local rate limiting for any traffic through istio ingressgateway. 
+The patch is applied to `HTTP_FILTER` wherein it inserts `envoy.filters.http.local_ratelimit` [local envoy filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#config-http-filters-local-rate-limit) 
+to HTTP Connection Manager filter chain. Envoy's local rate limit filter uses [token bucket](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/local_ratelimit/v3/local_rate_limit.proto#envoy-v3-api-field-extensions-filters-http-local-ratelimit-v3-localratelimit-token-bucket) 
+rate limit to decide if a request should be allowed or not. In the following example, token_bucket is configured to rate
+limit 1 requests/min. Also, all the vhosts/routes share the same token bucket. 
+It also adds response header `x-local-rate-limit` if request is rate limited.                                                                                                    
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: EnvoyFilter
-    metadata:
-      name: filter-local-ratelimit-svc
-      namespace: istio-system
-    spec:
-      workloadSelector:
-        labels:
-          istio: ingressgateway
-      configPatches:
-        - applyTo: HTTP_FILTER
-          listener:
-            filterChain:
-              filter:
-                name: "envoy.http_connection_manager"
-          patch:
-            operation: INSERT_BEFORE
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: filter-local-ratelimit-svc
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+  configPatches:
+    - applyTo: HTTP_FILTER
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.http_connection_manager"
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.local_ratelimit
+          typed_config:
+            "@type": type.googleapis.com/udpa.type.v1.TypedStruct
+            type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
             value:
-              name: envoy.filters.http.local_ratelimit
-              typed_config:
-                "@type": type.googleapis.com/udpa.type.v1.TypedStruct
-                type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-                value:
-                  stat_prefix: http_local_rate_limiter
-                  token_bucket:
-                    max_tokens: 100
-                    tokens_per_fill: 100
-                    fill_interval: 60s
-                  filter_enabled:
-                    runtime_key: local_rate_limit_enabled
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  filter_enforced:
-                    runtime_key: local_rate_limit_enforced
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  response_headers_to_add:
-                    - append: false
-                      header:
-                        key: x-local-rate-limit
-                        value: 'true'
-    EOF
-    {{< /text >}}
+              stat_prefix: http_local_rate_limiter
+              token_bucket:
+                max_tokens: 1
+                tokens_per_fill: 1
+                fill_interval: 60s
+              filter_enabled:
+                runtime_key: local_rate_limit_enabled
+                default_value:
+                  numerator: 100
+                  denominator: HUNDRED
+              filter_enforced:
+                runtime_key: local_rate_limit_enforced
+                default_value:
+                  numerator: 100
+                  denominator: HUNDRED
+              response_headers_to_add:
+                - append: false
+                  header:
+                    key: x-local-rate-limit
+                    value: 'true'
+EOF
+{{< /text >}}
 
-You can also enable local rate limiting for a specific route and it can be achieved as follows:
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: EnvoyFilter
-    metadata:
-      name: filter-local-ratelimit-svc
-      namespace: istio-system
-    spec:
-      workloadSelector:
-        labels:
-          istio: ingressgateway
-      configPatches:
-        - applyTo: HTTP_FILTER
-          listener:
-            filterChain:
-              filter:
-                name: "envoy.http_connection_manager"
-          patch:
-            operation: INSERT_BEFORE
+In the above example, local rate limiting was applied for all vhosts/routes. But we can also just restrict it for a
+specific route. The following EnvoyFilter enables local rate limiting for any traffic through istio ingressgateway for
+traffic through virtual host `"productpage.default.svc.cluster.local:80"`. 
+The first patch is applied to `HTTP_FILTER` wherein it inserts `envoy.filters.http.local_ratelimit` [local envoy filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#config-http-filters-local-rate-limit) 
+to HTTP Connection Manager filter chain. There is no `token_bucket` added in the config here as we are going to add it
+later in the second patch to `HTTP_ROUTE`. The second patch adds `typed_per_filter_config` for `envoy.filters.http.local_ratelimit` 
+local envoy filter for route whose virtual host is `"productpage.default.svc.cluster.local:80"`. `token_bucket` is
+configured to rate limit 1 requests/min. It also adds response header `x-local-rate-limit` if request is rate limited.
+
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: filter-local-ratelimit-svc
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+  configPatches:
+    - applyTo: HTTP_FILTER
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.http_connection_manager"
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.local_ratelimit
+          typed_config:
+            "@type": type.googleapis.com/udpa.type.v1.TypedStruct
+            type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
             value:
-              name: envoy.filters.http.local_ratelimit
-              typed_config:
-                "@type": type.googleapis.com/udpa.type.v1.TypedStruct
-                type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-                value:
-                  stat_prefix: http_local_rate_limiter
-        - applyTo: HTTP_ROUTE
-          match:
-            context: SIDECAR_OUTBOUND
-            routeConfiguration:
-              vhost:
-                name: "productpage.default.svc.cluster.local:80"
-                 route:
-                  action: ANY
-          patch:
-            operation: MERGE
-            value:
-              typed_per_filter_config:
-                envoy.filters.http.local_ratelimit:
-                  "@type": type.googleapis.com/udpa.type.v1.TypedStruct
-                  type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-                  value:
-                    stat_prefix: http_local_rate_limiter
-                    token_bucket:
-                      max_tokens: 1
-                      tokens_per_fill: 1
-                      fill_interval: 600s
-                    filter_enabled:
-                      runtime_key: local_rate_limit_enabled
-                      default_value:
-                        numerator: 100
-                        denominator: HUNDRED
-                    filter_enforced:
-                      runtime_key: local_rate_limit_enforced
-                      default_value:
-                        numerator: 100
-                        denominator: HUNDRED
-                    response_headers_to_add:
-                      - append: false
-                        header:
-                          key: x-local-rate-limit
-                          value: 'true'
-    EOF
-    {{< /text >}}
+              stat_prefix: http_local_rate_limiter
+    - applyTo: HTTP_ROUTE
+      match:
+        context: SIDECAR_OUTBOUND
+        routeConfiguration:
+          vhost:
+            name: "productpage.default.svc.cluster.local:80"
+             route:
+              action: ANY
+      patch:
+        operation: MERGE
+        value:
+          typed_per_filter_config:
+            envoy.filters.http.local_ratelimit:
+              "@type": type.googleapis.com/udpa.type.v1.TypedStruct
+              type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
+              value:
+                stat_prefix: http_local_rate_limiter
+                token_bucket:
+                  max_tokens: 1
+                  tokens_per_fill: 1
+                  fill_interval: 60s
+                filter_enabled:
+                  runtime_key: local_rate_limit_enabled
+                  default_value:
+                    numerator: 100
+                    denominator: HUNDRED
+                filter_enforced:
+                  runtime_key: local_rate_limit_enforced
+                  default_value:
+                    numerator: 100
+                    denominator: HUNDRED
+                response_headers_to_add:
+                  - append: false
+                    header:
+                      key: x-local-rate-limit
+                      value: 'true'
+EOF
+{{< /text >}}
+
+
+## Verify the results
+
+Send traffic to the mesh. For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+browser or issue the following command:
+
+{{< text bash >}}
+$ curl "http://$GATEWAY_URL/productpage"
+{{< /text >}}
+
+{{< tip >}}
+`$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
+{{< /tip >}}
+
+You will see the first request go through but after that every other request in a minute gets a 429 response.
