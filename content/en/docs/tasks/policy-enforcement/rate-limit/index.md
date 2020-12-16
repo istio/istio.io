@@ -34,7 +34,7 @@ service.
 ## Rate limits
 
 In this task, you configure Istio to rate limit traffic to a specific path of the `productpage` service.
-Rate limit using Envoy can be achieved using either Global Rate Limiting or Local Rate Limiting. Envoy's Global rate
+Envoy supports both Global Rate Limiting and Local Rate Limiting. Envoy's Global rate
  limting integrates directly with a global gRPC rate limiting service to provide rate limiting for the whole mesh.
  Local Rate Limiting is used to rate limit per instance level. Thus, Local rate limiting can be used in conjunction with
   global rate limiting to reduce load on the global rate limit service.
