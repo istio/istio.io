@@ -229,13 +229,17 @@ You need a certificate to make a secure connection from outside the cluster to y
 
 How to generate a certificate is explained in the [Istio ingress documentation](/docs/tasks/traffic-management/ingress/secure-ingress/#generate-client-and-server-certificates-and-keys).
 
-Create one for `istioegress.example.com` and apply it to the cluster:
+Create and apply one to be used at the end of this article to access the service from outside the cluster (`<my-proxied-service-hostname>`):
 
 {{< text bash >}}
 $ kubectl create -n istio-system secret tls <my-secret-name> --key=<key> --cert=<cert>
 {{< /text >}}
 
-Where `<my-secret-name>` is the name used later for the `Gateway` resource. `<key>` and `<cert>` are the files for the certificate.
+Where `<my-secret-name>` is the name used later for the `Gateway` resource. `<key>` and `<cert>` are the files for the certificate. `<cert>` 
+
+{{< tip >}}
+You need to remember `<my-proxied-service-hostname>`, `<cert>` and `<my-secret-name>` because you will use them later in the article.
+{{< /tip >}}
 
 #### Ingress Gateway
 
@@ -258,7 +262,7 @@ spec:
     istio: ingressgateway
   servers:
   - hosts:
-    - "<my-hostname>"
+    - "<my-proxied-service-hostname>"
     port:
       name: http
       number: 80
@@ -270,13 +274,13 @@ spec:
       name: https
       protocol: https
     hosts:
-    - "<my-hostname>"
+    - "<my-proxied-service-hostname>"
     tls:
       mode: SIMPLE
       credentialName: <my-secret-name>
 {{< /text >}}
 
-Where `<my-hostname>` is the hostname to access the service through the `my-ingressgateway` and `<my-secret-name>` is the secret which contains the certificate.
+Where `<my-proxied-service-hostname>` is the hostname to access the service through the `my-ingressgateway` and `<my-secret-name>` is the secret which contains the certificate.
 
 #### Egress Gateway
 
@@ -294,14 +298,14 @@ spec:
     service.istio.io/canonical-name: "httpbin-egress"
   servers:
   - hosts:
-    - "<my-hostname>"
+    - "<my-proxied-service-hostname>"
     port:
       number: 80
       name: http
       protocol: HTTP
 {{< /text >}}
 
-Where `<my-hostname>` is the hostname to access through the `my-ingressgateway`.
+Where `<my-proxied-service-hostname>` is the hostname to access through the `my-ingressgateway`.
 
 #### Virtual Service
 
@@ -323,7 +327,7 @@ metadata:
   namespace: "httpbin"
 spec:
   hosts:
-  - "<my-hostname>"
+  - "<my-proxied-service-hostname>"
   gateways:
   - mesh
   - "istio-system/my-ingressgateway"
@@ -353,7 +357,7 @@ spec:
           number: 443
 {{< /text >}}
 
-Where `<my-hostname>` is the hostname to access through the `my-ingressgateway`.
+Where `<my-proxied-service-hostname>` is the hostname to access through the `my-ingressgateway`.
 
 #### Service Entry
 
@@ -436,10 +440,10 @@ $ kubectl -n istio-system port-forward svc/istio-ingressgateway 15443:443
 {{< /text >}}
 
 {{< text bash >}}
-$ curl -vvv -k -HHost:<my-hostname> --resolve "<my-hostname>:15443:127.0.0.1" --cacert example.com.crt "https://<my-hostname>:15443/status/200"
+$ curl -vvv -k -HHost:<my-proxied-service-hostname> --resolve "<my-proxied-service-hostname>:15443:127.0.0.1" --cacert <cert> "https://<my-proxied-service-hostname>:15443/status/200"
 {{< /text >}}
 
-Where `<my-hostname>` is the hostname to access through the `my-ingressgateway` and `example.com.crt` is the certificate defined for the `ingressgateway` object. This is due to `tls.mode: SIMPLE` which [does not terminate TLS](/docs/tasks/traffic-management/ingress/secure-ingress/)
+Where `<my-proxied-service-hostname>` is the hostname to access through the `my-ingressgateway` and `<cert>` is the certificate defined for the `ingressgateway` object. This is due to `tls.mode: SIMPLE` which [does not terminate TLS](/docs/tasks/traffic-management/ingress/secure-ingress/)
 
 #### Service-to-service access
 
@@ -454,10 +458,10 @@ $ kubectl apply -n httpbin -f  {{< github_file >}}/1.8.0/samples/sleep/sleep.yam
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl -n httpbin "$(kubectl get pod -n httpbin -l app=sleep -o jsonpath={.items..metadata.name})" -- curl -vvv http://<my-hostname>/status/200
+$ kubectl -n httpbin "$(kubectl get pod -n httpbin -l app=sleep -o jsonpath={.items..metadata.name})" -- curl -vvv http://<my-proxied-service-hostname>/status/200
 {{< /text >}}
 
-Where `<my-hostname>` is the hostname to access through the `my-ingressgateway`.
+Where `<my-proxied-service-hostname>` is the hostname to access through the `my-ingressgateway`.
 
 {{< tip >}}
 Notice that `http` (and not `https`) is the protocol used for service-to-service communication. This is due to Istio handling the `TLS` itself. Developers do not care anymore about certificates management. **Fancy!**
