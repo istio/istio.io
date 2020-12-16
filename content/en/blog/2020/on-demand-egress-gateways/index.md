@@ -1,7 +1,7 @@
 ---
-title: On Demand Egress Gateways
-subtitle: Deploy Egress Gateways independently in a seamless way
-description: Deploying Egress Gateways independently to have fine-grained control of egress communication.
+title: Proxying legacy services using Istio egress gateways 
+subtitle: Deploy mesh egress gateways independently to allow secure connectivity between legacy and internet services.
+description: Deploy multiple Istio egress gateways independently to have fine-grained control of egress communication from the mesh.
 publishdate: 2020-12-14
 attribution: Antonio Berben (Deutsche Telekom - PAN-NET)
 keywords: [configuration,egress,gateway,external,service]
