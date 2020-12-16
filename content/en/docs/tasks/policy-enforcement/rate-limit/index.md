@@ -3,8 +3,6 @@ title: Enabling Rate Limits using Envoy
 description: This task shows you how to use Istio to dynamically limit the traffic to a service.
 weight: 10
 keywords: [policies,quotas]
-aliases:
-    - /docs/tasks/rate-limit.html
 owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
