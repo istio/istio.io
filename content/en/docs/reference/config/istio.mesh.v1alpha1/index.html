@@ -13,15 +13,7 @@ number_of_entries: 29
 
 <h2 id="MeshConfig">MeshConfig</h2>
 <section>
-<p>MeshConfig defines mesh-wide variables shared by all Envoy instances in the
-Istio service mesh.</p>
-
-<p>NOTE: This configuration type should be used for the low-level global
-configuration, such as component addresses and port numbers. It should not
-be used for the features of the mesh that can be scoped by service or by
-namespace. Some of the fields in the mesh config are going to be deprecated
-and replaced with several individual configuration types (for example,
-tracing configuration).</p>
+<p>MeshConfig defines mesh-wide settings for the Istio service mesh.</p>
 
 <table class="message-fields">
 <thead>
@@ -231,11 +223,11 @@ No
 <td><code>defaultConfig</code></td>
 <td><code><a href="#ProxyConfig">ProxyConfig</a></code></td>
 <td>
-<p>Default proxy config used by the proxy injection mechanism operating in the mesh
-(e.g. Kubernetes admission controller)
+<p>Default proxy config used by gateway and sidecars.
 In case of Kubernetes, the proxy config is applied once during the injection process,
 and remain constant for the duration of the pod. The rest of the mesh config can be changed
-at runtime and config gets distributed dynamically.</p>
+at runtime and config gets distributed dynamically.
+On Kubernetes, this can be overridden on individual pods with the <code>proxy.istio.io/config</code> annotation.</p>
 
 </td>
 <td>
@@ -1250,6 +1242,18 @@ for details about Envoy&rsquo;s Metrics Service API.</p>
 No
 </td>
 </tr>
+<tr id="ProxyConfig-proxy_metadata">
+<td><code>proxyMetadata</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>Additional environment variables for the proxy.
+Names starting with ISTIO<em>META</em> will be included in the generated bootstrap and sent to the XDS server.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="ProxyConfig-status_port">
 <td><code>statusPort</code></td>
 <td><code>int32</code></td>
@@ -1344,6 +1348,20 @@ matcher as follow:</p>
 <p>Note including more Envoy stats might increase number of time series
 collected by prometheus significantly. Care needs to be taken on Prometheus
 resource provision and configuration to reduce cardinality.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-hold_application_until_proxy_starts">
+<td><code>holdApplicationUntilProxyStarts</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+<p>Boolean flag for enabling/disabling the holdApplicationUntilProxyStarts behavior.
+This feature adds hooks to delay application startup until the pod proxy
+is ready to accept traffic, mitigating some startup race conditions.
+Default value is &lsquo;false&rsquo;.</p>
 
 </td>
 <td>
@@ -1918,7 +1936,7 @@ there are no services or ServiceEntries for the destination port</p>
 contain any annotation or whose annotations match the value
 specified in the ingress_class parameter described earlier. Use this
 mode if Istio ingress controller will be the default ingress
-controller for the entireKubernetes cluster.</p>
+controller for the entire Kubernetes cluster.</p>
 
 </td>
 </tr>

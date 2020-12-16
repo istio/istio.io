@@ -69,7 +69,6 @@ _verify_contains get_bookinfo_productpage_jason "Ratings service is currently un
 _verify_not_contains get_bookinfo_productpage "Ratings service is currently unavailable"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_1
 cleanup_bookinfo_sample
 cleanup_sleep_sample

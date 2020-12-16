@@ -13,9 +13,9 @@ test: yes
 
 This guide lets you quickly evaluate Istio. If you are already familiar with
 Istio or interested in installing other configuration profiles or
-advanced [deployment models](/docs/ops/deployment/deployment-models/), see
-[Customizable Install with `istioctl`](/docs/setup/install/istioctl/)
-instead.
+advanced [deployment models](/docs/ops/deployment/deployment-models/), refer to our
+[which Istio installation method should I use?](/faq/setup/#install-method-selection)
+FAQ page.
 
 These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
 compatible version of Kubernetes ({{< supported_kubernetes_versions >}}). You can use any supported platform, for
@@ -79,6 +79,12 @@ Follow these steps to get started with Istio:
     selected to have a good set of defaults for testing, but there are other
     profiles for production or performance testing.
 
+    {{< warning >}}
+    If your platform has a vendor-specific configuration profile, e.g., Openshift, use
+    it in the following command, instead of the `demo` profile. Refer to your
+    [platform instructions](/docs/setup/platform-setup/) for details.
+    {{< /warning >}}
+
     {{< text bash >}}
     $ istioctl install --set profile=demo -y
     ✔ Istio core installed
@@ -87,12 +93,6 @@ Follow these steps to get started with Istio:
     ✔ Ingress gateways installed
     ✔ Installation complete
     {{< /text >}}
-
-    {{< warning >}}
-    If your platform has a custom demonstration profile, e.g., Openshift, use
-    it in the following command, instead of the `demo` profile. Refer to your
-    [platform instructions](/docs/setup/platform-setup/) for details.
-    {{< /warning >}}
 
 1.  Add a namespace label to instruct Istio to automatically inject Envoy
     sidecar proxies when you deploy your application later:
@@ -355,10 +355,10 @@ an understanding of the structure of your service mesh, display the topology of 
 
 Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kiali/) dashboard, along with [Prometheus](/docs/ops/integrations/prometheus/), [Grafana](/docs/ops/integrations/grafana), and [Jaeger](/docs/ops/integrations/jaeger/).
 
-1.  Install Kiali and wait for it to be deployed.
+1.  Install [Kiali and the other addons]({{< github_tree >}}/samples/addons) and wait for them to be deployed.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/addons@
+    $ kubectl apply -f samples/addons
     $ kubectl rollout status deployment/kiali -n istio-system
     Waiting for deployment "kiali" rollout to finish: 0 of 1 updated replicas are available...
     deployment "kiali" successfully rolled out

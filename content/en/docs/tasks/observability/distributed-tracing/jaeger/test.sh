@@ -46,8 +46,6 @@ _verify_same access_jaeger_by_port_forward "200"
 pgrep istioctl | xargs kill
 
 # @cleanup
-set +e
-
 # TODO: Fix issue of killing twice (https://github.com/istio/istio.io/issues/8014)
 pgrep istioctl | xargs kill
 cleanup_bookinfo_sample

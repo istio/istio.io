@@ -32,7 +32,8 @@ for your specific needs. The following built-in configuration profiles are curre
     This profile enables high levels of tracing and access logging so it is not suitable for performance tests.
     {{< /warning >}}
 
-1. **minimal**: the minimal set of components necessary to use Istio's [traffic management](/docs/tasks/traffic-management/) features.
+1. **minimal**: same as the default profile, but only the control plane components are installed.
+    This allows you to configure the control plane and data plane components (e.g., gateways) using [separate profiles](/docs/setup/upgrade/gateways/#installation-with-istioctl).
 
 1. **remote**: used for configuring {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}} of a
     [multicluster mesh](/docs/ops/deployment/deployment-models/#multiple-clusters).
@@ -44,7 +45,7 @@ for your specific needs. The following built-in configuration profiles are curre
 
 {{< tip >}}
 Some additional vendor-specific configuration profiles are also available.
-For a complete list, refer to [Vendor Optimized Profiles]({{< github_blob >}}/manifests/profiles/PROFILES.md).
+For more information, refer to the [setup instructions](/docs/setup/platform-setup) for your platform.
 {{< /tip >}}
 
 The components marked as **X** are installed within each profile:
@@ -56,6 +57,5 @@ The components marked as **X** are installed within each profile:
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | X | X | | | | X |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istiod` | X | X | X | | | X |
 
-To further [customize Istio and install addons](/docs/setup/install/istioctl/#customizing-the-configuration), you can add one or more `--set <key>=<value>` options in the
-`istioctl install` command that you use when installing Istio.
-Refer to [integration](/docs/ops/integrations) for more details.
+To further customize Istio, a number of addon components can also be installed.
+Refer to [integrations](/docs/ops/integrations) for more details.

@@ -74,7 +74,6 @@ _verify_contains query_rate_of_requests_to_productpage_5m '"productpage.default.
 pgrep istioctl | xargs kill
 
 # @cleanup
-set +e
 pgrep istioctl | xargs kill
 kubectl delete -f samples/addons/prometheus.yaml -n istio-system
 cleanup_bookinfo_sample

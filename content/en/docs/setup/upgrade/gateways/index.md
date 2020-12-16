@@ -34,12 +34,6 @@ the control plane.
 
 ### Installation with `istioctl`
 
-1. Create a namespace to install Istio into if one doesn't already exist:
-
-    {{< text bash >}}
-    $ kubectl create ns istio-system
-    {{< /text >}}
-
 1.  Ensure that the main `IstioOperator` CR has a name and does not install a gateway:
 
     {{< text yaml >}}
@@ -49,12 +43,7 @@ the control plane.
     metadata:
       name: control-plane # REQUIRED
     spec:
-      profile: default
-      components:
-        ingressGateways:
-          - name: istio-ingressgateway
-            # MUST BE DISABLED
-            enabled: false
+      profile: minimal
     {{< /text >}}
 
 1.  Create a separate `IstioOperator` CR for the gateway(s), ensuring that it has a name and has the `empty` profile:
@@ -124,7 +113,7 @@ Let's assume that the target version is 1.8.1.
 1.  Delete the 1.8.1 version of the control plane:
 
     {{< text bash >}}
-    $ istio-1.8.1/bin/istioctl uninstall --revision 1-8-0
+    $ istio-1.8.1/bin/istioctl x uninstall --revision 1-8-0
     {{< /text >}}
 
 ## Operator

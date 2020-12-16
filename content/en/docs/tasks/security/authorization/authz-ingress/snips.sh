@@ -45,9 +45,6 @@ metadata:
   name: proxy-protocol
   namespace: istio-system
 spec:
-  workloadSelector:
-    labels:
-      istio: ingressgateway
   configPatches:
   - applyTo: LISTENER
     patch:
@@ -55,6 +52,10 @@ spec:
       value:
         listener_filters:
         - name: envoy.listener.proxy_protocol
+        - name: envoy.listener.tls_inspector
+  workloadSelector:
+    labels:
+      istio: ingressgateway
 ENDSNIP
 
 ! read -r -d '' snip_source_ip_address_of_the_original_client_2 <<\ENDSNIP

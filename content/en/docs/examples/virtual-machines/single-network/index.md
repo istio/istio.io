@@ -96,6 +96,10 @@ $ curl -v httpbin.default.svc.cluster.local:8000/headers
 
     Create a `WorkloadEntry` with the external IP of the virtual machine. Substitute `VM_IP` with the IP of your virtual machine:
 
+    {{< tip >}}
+    This step can be skipped if you followed the VM auto-registration steps during install.
+    {{< /tip >}}
+
     {{< text bash >}}
     $ cat <<EOF | kubectl -n <vm-namespace> apply -f -
     apiVersion: networking.istio.io/v1beta1

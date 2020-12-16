@@ -23,6 +23,7 @@
 1.6.x.
 1.7.x
 1.7.x.
+1.8.x
 1.x
 10ms
 10s
@@ -33,17 +34,20 @@
 18x
 1ms
 1qps
+1xx
 2.5s
 20ms
 22.99
 24.13
 25ms
+2h
 2ms
 2s
 2x
 3.99ms
 3ms
 3s
+40m
 404s
 4Kb
 4ms
@@ -111,6 +115,7 @@ backend
 backends
 base64
 Bazel
+Bian
 BigQuery
 bitpipe
 BlackHole
@@ -244,6 +249,7 @@ Drucker
 Duggirala
 e.g.
 eBPF
+ECR
 edition.cnn.com
 Elasticsearch
 embeddable
@@ -278,6 +284,7 @@ FQDNs
 FQDN
 frontend
 frontends
+gapped
 gbd
 GCP
 GCP-IAM
@@ -314,6 +321,7 @@ HTTP1.1
 HTTP2
 http2
 httpbin
+httpbin.foo.svc.cluster.local
 httpbin.org
 https
 Huawei
@@ -361,6 +369,7 @@ ISTIO-SECURITY-2020-006
 istio-system
 istio.io
 istio.io.
+IstioCon
 istioctl
 istiod
 Istiod
@@ -493,6 +502,7 @@ passthrough
 Passthrough
 PassthroughCluster
 peek
+Pengyuan
 pem
 performant
 pipelined

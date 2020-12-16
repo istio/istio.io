@@ -56,7 +56,6 @@ _set_ingress_environment_variables
 _verify_contains snip_configure_an_ingress_gateway_3 "SSL certificate verify ok."
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_1
 snip_cleanup_2
 snip_cleanup_3

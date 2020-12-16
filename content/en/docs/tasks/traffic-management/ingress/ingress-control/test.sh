@@ -73,5 +73,4 @@ curl_httpbin_headers() {
 _verify_contains curl_httpbin_headers "HTTP/1.1 200 OK"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_1

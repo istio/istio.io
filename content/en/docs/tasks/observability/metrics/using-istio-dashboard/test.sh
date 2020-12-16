@@ -94,8 +94,6 @@ _verify_lines query_request_from_productpage_workload "
 pgrep istioctl | xargs kill
 
 # @cleanup
-set +e
-
 # TODO: Fix issue of killing twice (https://github.com/istio/istio.io/issues/8014)
 pgrep istioctl | xargs kill
 cleanup_bookinfo_sample

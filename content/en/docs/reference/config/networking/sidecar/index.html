@@ -536,11 +536,12 @@ No
 <td><code>defaultEndpoint</code></td>
 <td><code>string</code></td>
 <td>
-<p>The loopback IP endpoint or Unix domain socket to which
+<p>The IP endpoint or Unix domain socket to which
 traffic should be forwarded to. This configuration can be used to
 redirect traffic arriving at the bind <code>IP:Port</code> on the sidecar to a <code>localhost:port</code>
 or Unix domain socket where the application workload instance is listening for
-connections. Format should be <code>127.0.0.1:PORT</code> or <code>unix:///path/to/socket</code></p>
+connections. Arbitrary IPs are not supported. Format should be one of <code>127.0.0.1:PORT</code>, <code>0.0.0.0:PORT</code>
+(which will forward to the instance IP), or <code>unix:///path/to/socket</code></p>
 
 </td>
 <td>

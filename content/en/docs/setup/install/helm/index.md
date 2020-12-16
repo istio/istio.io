@@ -31,12 +31,25 @@ This feature is currently considered [alpha](/about/feature-stages/).
     Helm 2 is not supported for installing Istio.
     {{< /warning >}}
 
-The commands in this guide use the Helm charts that are included in the Istio release package.
+The commands in this guide use the Helm charts that are included in the Istio release package located at `manifests/charts`.
 
 ## Installation steps
 
 Change directory to the root of the release package and then
 follow the instructions below.
+
+{{< warning >}}
+The default chart configuration uses the secure third party tokens for the service
+account token projections used by Istio proxies to authenticate with the Istio
+control plane. Before proceeding to install any of the charts below, you should
+verify if third party tokens are enabled in your cluster by following the steps
+describe [here](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens).
+If third party tokens are not enabled, you should add the option
+`--set global.jwtPolicy=first-party-jwt` to the Helm install commands.
+If the `jwtPolicy` is not set correctly, pods associated with `istiod`,
+gateways or workloads with injected Envoy proxies will not get deployed due
+to the missing `istio-token` volume.
+{{< /warning >}}
 
 1. Create a namespace `istio-system` for Istio components:
 
@@ -48,40 +61,36 @@ follow the instructions below.
    the Istio control plane:
 
     {{< text bash >}}
-    $ helm install --namespace istio-system istio-base manifests/charts/base
+    $ helm install istio-base manifests/charts/base -n istio-system
     {{< /text >}}
-
-    {{< warning >}}
-    The default chart configuration uses the secure third party tokens for service
-    account token projections used by Istio proxies to authenticate with the Istio
-    control plane. Before proceeding to install any of the charts below, you should
-    verify if third party tokens are enabled in your cluster by following the steps
-    describe [here](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens).
-    If third party tokens are not enabled, you should add the option
-    `--set global.jwtPolicy=first-party-jwt` to the Helm install commands.
-    If the `jwtPolicy` is not set correctly, pods associated with `istiod`,
-    gateways or workloads with injected Envoy proxies will not get deployed due
-    to the missing `istio-token` volume.
-    {{< /warning >}}
 
 1. Install the Istio discovery chart which deploys the `istiod` service:
 
     {{< text bash >}}
-    $ helm install --namespace istio-system istiod manifests/charts/istio-control/istio-discovery
+    $ helm install istiod manifests/charts/istio-control/istio-discovery \
+        --set global.hub="docker.io/istio" \
+        --set global.tag="{{< istio_full_version >}}" \
+        -n istio-system
     {{< /text >}}
 
 1. (Optional) Install the Istio ingress gateway chart which contains the ingress
    gateway components:
 
     {{< text bash >}}
-    $ helm install --namespace istio-system istio-ingress manifests/charts/gateways/istio-ingress
+    $ helm install istio-ingress manifests/charts/gateways/istio-ingress \
+        --set global.hub="docker.io/istio" \
+        --set global.tag="{{< istio_full_version >}}" \
+        -n istio-system
     {{< /text >}}
 
 1. (Optional) Install the Istio egress gateway chart which contains the egress
    gateway components:
 
     {{< text bash >}}
-    $ helm install --namespace istio-system istio-egress manifests/charts/gateways/istio-egress
+    $ helm install istio-egress manifests/charts/gateways/istio-egress \
+        --set global.hub="docker.io/istio" \
+        --set global.tag="{{< istio_full_version >}}" \
+        -n istio-system
     {{< /text >}}
 
 ## Verifying the installation
@@ -92,6 +101,25 @@ follow the instructions below.
     {{< text bash >}}
     $ kubectl get pods -n istio-system
     {{< /text >}}
+
+## Updating your Istio configuration
+
+You can provide override settings specific to any Istio Helm chart used above
+and follow the Helm upgrade workflow to customize your Istio mesh installation.
+The available configurable options can be found by inspecting the top level
+`values.yaml` file associated with the Helm charts located at `manifests/charts`
+inside the Istio release package specific to your version.
+
+{{< warning >}}
+Note that the Istio Helm chart values are under active development and
+considered experimental. Upgrading to newer versions of Istio can involve
+migrating your override values to follow the new API.
+{{< /warning >}}
+
+For customizations that are supported via both
+[`ProxyConfig`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) and Helm
+values, using `ProxyConfig` is recommended because it provides schema
+validation while unstructured Helm values do not.
 
 ## Upgrading using Helm
 
@@ -127,6 +155,51 @@ You can follow steps mentioned in the
 [Operator uninstall guide](/docs/setup/install/operator/#uninstall)
 depending upon your installation method.
 
+### Canary upgrade (recommended)
+
+You can install a canary version of Istio control plane to validate that the new
+version is compatible with your existing configuration and data plane using
+the steps below:
+
+{{< warning >}}
+Note that when you install a canary version of the `istiod` service, the underlying
+cluster-wide resources from the base chart are shared across your
+primary and canary installations.
+
+Currently, the support for canary upgrades for Istio ingress and egress
+gateways is [actively in development](/docs/setup/upgrade/gateways/) and is considered `experimental`.
+{{< /warning >}}
+
+1. Install a canary version of the Istio discovery chart by setting the revision
+   value:
+
+    {{< text bash >}}
+    $ helm install istiod-canary manifests/charts/istio-control/istio-discovery \
+        --set revision=canary \
+        --set global.hub="docker.io/istio" \
+        --set global.tag=<version_to_upgrade> \
+        -n istio-system
+    {{< /text >}}
+
+1. Verify that you have two versions of `istiod` installed in your cluster:
+
+    {{< text bash >}}
+    $ kubectl get pods -l app=istiod -L istio.io/rev -n istio-system
+      NAME                            READY   STATUS    RESTARTS   AGE   REV
+      istiod-5649c48ddc-dlkh8         1/1     Running   0          71m   default
+      istiod-canary-9cc9fd96f-jpc7n   1/1     Running   0          34m   canary
+    {{< /text >}}
+
+1. Follow the steps [here](/docs/setup/upgrade/#data-plane) to test or migrate
+   existing workloads to use the canary control plane.
+
+1. Once you have verified and migrated your workloads to use the canary control
+   plane, you can uninstall your old control plane:
+
+    {{< text bash >}}
+    $ helm delete istiod -n istio-system
+    {{< /text >}}
+
 ### In place upgrade
 
 You can perform an in place upgrade of Istio in your cluster using the Helm
@@ -142,62 +215,30 @@ preserve your custom configuration during Helm upgrades.
 1. Upgrade the Istio base chart:
 
     {{< text bash >}}
-    $ helm upgrade --namespace istio-system istio-base manifests/charts/base
+    $ helm upgrade istio-base manifests/charts/base -n istio-system
     {{< /text >}}
 
 1. Upgrade the Istio discovery chart:
 
     {{< text bash >}}
-    $ helm upgrade --namespace istio-system istiod manifests/charts/istio-control/istio-discovery
+    $ helm upgrade istiod manifests/charts/istio-control/istio-discovery \
+        --set global.hub="docker.io/istio" \
+        --set global.tag=<version_to_upgrade> \
+        -n istio-system
     {{< /text >}}
 
 1. (Optional) Upgrade the Istio ingress or egress gateway charts if installed in
    your cluster:
 
     {{< text bash >}}
-    $ helm upgrade --namespace istio-system istio-ingress manifests/charts/gateways/istio-ingress
-    $ helm upgrade --namespace istio-system istio-egress manifests/charts/gateways/istio-egress
-    {{< /text >}}
-
-### Canary Upgrade
-
-You can install a canary version of Istio control plane to validate that the new
-version is compatible with your existing configuration and data plane using
-the steps below:
-
-{{< warning >}}
-Note that when you install a canary version of the `istiod` service, the underlying
-cluster-wide resources from the base chart are shared across your
-primary and canary installations.
-
-Currently, there is no support for canary upgrades for Istio ingress and egress
-gateways.
-{{< /warning >}}
-
-1. Install a canary version of the Istio discovery chart by setting the revision
-   value:
-
-    {{< text bash >}}
-    $ helm install --namespace istio-system istiod-canary manifests/charts/istio-control/istio-discovery --set revision=canary
-    {{< /text >}}
-
-1. Verify that you have two versions of `istiod` installed in your cluster:
-
-    {{< text bash >}}
-    $ kubectl get pods -n istio-system -l app=istiod -L istio.io/rev
-      NAME                            READY   STATUS    RESTARTS   AGE   REV
-      istiod-5649c48ddc-dlkh8         1/1     Running   0          71m   default
-      istiod-canary-9cc9fd96f-jpc7n   1/1     Running   0          34m   canary
-    {{< /text >}}
-
-1. Follow the steps [here](/docs/setup/upgrade/#data-plane) to test or migrate
-   existing workloads to use the canary control plane.
-
-1. Once you have verified and migrated your workloads to use the canary control
-   plane, you can uninstall your old control plane:
-
-    {{< text bash >}}
-    $ helm delete --namespace istio-system istiod
+    $ helm upgrade istio-ingress manifests/charts/gateways/istio-ingress \
+        --set global.hub="docker.io/istio" \
+        --set global.tag=<version_to_upgrade>\
+        -n istio-system
+    $ helm upgrade istio-egress manifests/charts/gateways/istio-egress \
+        --set global.hub="docker.io/istio" \
+        --set global.tag=<version_to_upgrade> \
+        -n istio-system
     {{< /text >}}
 
 ## Uninstall
@@ -208,20 +249,20 @@ installed above.
 1. List all the Istio charts installed in `istio-system` namespace:
 
     {{< text bash >}}
-    $ helm ls --namespace istio-system
+    $ helm ls -n istio-system
     {{< /text >}}
 
 1. (Optional) Delete Istio ingress/egress chart:
 
     {{< text bash >}}
-    $ helm delete --namespace istio-system istio-egress
-    $ helm delete --namespace istio-system istio-ingress
+    $ helm delete istio-egress -n istio-system
+    $ helm delete istio-ingress -n istio-system
     {{< /text >}}
 
 1. Delete Istio discovery chart:
 
     {{< text bash >}}
-    $ helm delete --namespace istio-system istiod
+    $ helm delete istiod -n istio-system
     {{< /text >}}
 
 1. Delete Istio base chart:
@@ -232,7 +273,7 @@ installed above.
     {{< /warning >}}
 
     {{< text bash >}}
-    $ helm delete --namespace istio-system istio-base
+    $ helm delete istio-base -n istio-system
     {{< /text >}}
 
 1. Delete the `istio-system` namespace:

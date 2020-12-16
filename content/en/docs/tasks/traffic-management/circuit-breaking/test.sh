@@ -79,6 +79,5 @@ cluster.outbound|8000||httpbin.default.svc.cluster.local.upstream_rq_pending_tot
 _verify_like snip_tripping_the_circuit_breaker_5 "$expected"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleaning_up_1
 snip_cleaning_up_2

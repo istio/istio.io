@@ -116,7 +116,6 @@ _verify_contains snip_apply_kubernetes_network_policies_13 "200"
 _verify_contains snip_apply_kubernetes_network_policies_14 "outbound|443||edition.cnn.com"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_http_gateway_1
 snip_cleanup_https_gateway_1
 snip_cleanup_network_policies_1

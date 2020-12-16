@@ -35,11 +35,3 @@ Additionally, you can use the following commands to know more about the state of
     # List all virtual services
     $ kubectl get virtualservices
     {{< /text >}}
-
-* Mixer access logs: Mixer writes access logs that contain information about requests. You can get them with:
-
-    {{< text plain >}}
-    # Fill <istio namespace> with the namespace of your istio mesh. Ex: istio-system
-    $ TELEMETRY_POD=`kubectl get po -n <istio namespace> | grep istio-telemetry | awk '{print $1;}'`
-    $ kubectl logs $TELEMETRY_POD -c mixer  -n istio-system  | grep accesslog
-    {{< /text >}}

@@ -114,7 +114,6 @@ _verify_same  snip_require_valid_tokens_perpath_2 "$snip_require_valid_tokens_pe
 _verify_same  snip_require_valid_tokens_perpath_3 "$snip_require_valid_tokens_perpath_3_out"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_part_1_1
 snip_cleanup_part_2_1
 snip_cleanup_part_3_1

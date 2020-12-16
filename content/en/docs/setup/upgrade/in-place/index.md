@@ -17,6 +17,11 @@ The upgrade command can also perform a downgrade of Istio.
 See the [`istioctl` upgrade reference](/docs/reference/commands/istioctl/#istioctl-upgrade)
 for all the options provided by the `istioctl upgrade` command.
 
+{{< warning >}}
+`istioctl upgrade` is for in-place upgrade and not compatible with installations done with
+the `--revision` flag. Upgrades of such installations will fail with an error.
+{{< /warning >}}
+
 ## Upgrade prerequisites
 
 Before you begin the upgrade process, check the following prerequisites:
@@ -55,14 +60,13 @@ can be found in the `bin/` subdirectory of the downloaded package.
 
     {{< warning >}}
     If you installed Istio using the `-f` flag, for example
-    `istioctl install -f <IstioControlPlane-custom-resource-definition-file>`,
+    `istioctl install -f <IstioOperator-custom-resource-definition-file>`,
     then you must provide the same `-f` flag value to the `istioctl upgrade` command.
     {{< /warning >}}
 
-    `istioctl upgrade` does not support the `--set` flag. Therefore, if you
-    installed Istio using the `--set` command, create a configuration file with
-    the equivalent configuration options and pass it to the `istioctl upgrade`
-    command using the `-f` flag instead.
+    If you installed Istio using `--set` flags, ensure that you pass the same `--set` flags to upgrade,
+    otherwise the customizations done with `--set` will be reverted. For production use, the use of a
+    configuration file instead of `--set` is recommended.
 
     If you omit the `-f` flag, Istio upgrades using the default profile.
 

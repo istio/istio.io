@@ -78,7 +78,6 @@ kubectl exec "$SOURCE_POD" -c sleep -- curl -v http://httpbin.org/headers
 # TODO This doesn't work, curl returns 502.
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_the_controlled_access_to_external_services_1
 snip_cleanup_1
 kubectl delete ns istio-system
