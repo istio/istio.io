@@ -67,7 +67,7 @@ Let's look at how you can implement this pattern.
 There are several ways to perform this task, but here you will find how to define multiple Operators and deploy the generated resources.
 
 {{< quote >}}
-Yes! `Istio 1.8.0` introduced the possibility to have fine-grained control over the objects that Operator deploys. This gives you the opportunity to patch them as you wish. Exactly what you need to deploy on demand egress gateways.
+Yes! `Istio 1.8.0` introduced the possibility to have fine-grained control over the objects that Operator deploys. This gives you the opportunity to patch them as you wish. Exactly what you need to proxy legacy services using Istio egress gateways.
 {{< /quote >}}
 
 In the following section you will  deploy an egress gateway to connect to an upstream service: `httpbin` ([https://httpbin.org/](https://httpbin.org/))
