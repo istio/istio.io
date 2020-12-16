@@ -12,7 +12,7 @@ test: yes
 
 Because all outbound traffic from an Istio-enabled pod is redirected to its sidecar proxy by default,
 accessibility of URLs outside of the cluster depends on the configuration of the proxy.
-By default, Istio configures the Envoy proxy to passthrough requests for unknown services.
+By default, Istio configures the Envoy proxy to pass through requests for unknown services.
 Although this provides a convenient way to get started with Istio, configuring
 stricter control is usually preferable.
 
@@ -24,7 +24,7 @@ This task shows you how to access external services in three different ways:
 
 ## Before you begin
 
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+*   Set up Istio by following the instructions in the [Installation guide](/docs/setup/).
     Use the `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/) or otherwise
     [enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
 

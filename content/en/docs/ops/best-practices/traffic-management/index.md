@@ -102,7 +102,7 @@ in one namespace and then reuse them in other namespaces, if they are exported
 to those namespaces.
 Istio exports all traffic management resources to all namespaces by default,
 but you can override the visibility with the `exportTo` field.
-For example, only clients in the same namespace can use the following virtual service:
+For example, only requests from workloads in the same namespace can be affected by the following virtual service:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -131,7 +131,7 @@ on the destination rule lookup path:
 
 1. client namespace
 1. service namespace
-1. Istio configuration root (`istio-system` by default)
+1. the configured `meshconfig.rootNamespace` namespace (`istio-system` by default)
 
 For example, consider the following destination rule:
 
@@ -275,19 +275,19 @@ caveats with this feature that must be considered carefully when using it.
    the cross-resource order is UNDEFINED. In other words, there is no guaranteed order of evaluation
    for rules across the fragment configurations, so it will only have predictable behavior if there
    are no conflicting rules or order dependency between rules across fragments.
-1. There should only be one "catch-all" rule (i.e., a rule that matches any request path or header) in the fragments.
+1. There should only be one "catch-all" rule (i.e., a rule without a `match` field) in the fragments.
    All such "catch-all" rules will be moved to the end of the list in the merged configuration, but
    since they catch all requests, whichever is applied first will essentially override and disable any others.
 1. A `VirtualService` can only be fragmented this way if it is bound to a gateway.
    Host merging is not supported in sidecars.
 
-A `DestinationRule` can also be fragmented with similar merge semantic and restrictions.
+A `DestinationRule` can also be fragmented with similar merge semantics and restrictions.
 
 1. There should only be one definition of any given subset across multiple destination rules for the same host.
    If there is more than one with the same name, the first definition is used and any following duplicates are discarded.
    No merging of subset content is supported.
 1. There should only be one top-level `trafficPolicy` for the same host.
-   When top-level traffic policies are defined in multiple destination rules, the first one will be used.
+   When top-level traffic policies are defined in multiple destination rules, the first one processed will be used.
    Any following top-level `trafficPolicy` configuration is discarded.
 1. Unlike virtual service merging, destination rule merging works in both sidecars and gateways.
 
