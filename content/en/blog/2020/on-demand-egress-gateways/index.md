@@ -8,15 +8,11 @@ keywords: [configuration,egress,gateway,external,service]
 target_release: 1.8.0
 ---
 
-At [Deutsche Telekom Pan-Net](https://pan-net.cloud/aboutus), we have embraced Istio as the umbrella to cover our services.
+At [Deutsche Telekom Pan-Net](https://pan-net.cloud/aboutus), we have embraced Istio as the umbrella to cover our services. Unfortunately, there are services which have not yet been migrated to Kubernetes, or cannot be.  
 
-Unfortunately, there are services which have not yet been migrated to Kubernetes, or cannot be. 
+We can set Istio up as a proxy service for these upstream services. This allows us to benefit from capabilities like authorization/authentication, traceability and observability, even while legacy services stand as they are.
 
-We can set Istio up as a proxy service for these upstream services.
-
-The reason for using Istio is that you can benefit from the service mesh capabilities like Authorization/Authentication, traceability, observability while your services stand as they are.
-
-At the end of this article there is a hands-on exercise where you will simulate the scenario. In the exercise, an upstream service hosted at [https://httpbin.org](https://httpbin.org) will be proxied by an Istio egress gateway.
+At the end of this article there is a hands-on exercise where you can simulate the scenario. In the exercise, an upstream service hosted at [https://httpbin.org](https://httpbin.org) will be proxied by an Istio egress gateway.
 
 If you are familiar with Istio, one of the methods offered to connect to upstream services is through an [egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/).
 
