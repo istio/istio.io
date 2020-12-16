@@ -8,7 +8,7 @@ keywords: [configuration,egress,gateway,external,service]
 target_release: 1.8.0
 ---
 
-At [Deutsche Telekom Pan-Net](https://pan-net.cloud/aboutus), we have embraced Istio as the umbrella to cover our services. Unfortunately, there are services which have not yet been migrated to Kubernetes, or cannot be.  
+At [Deutsche Telekom Pan-Net](https://pan-net.cloud/aboutus), we have embraced Istio as the umbrella to cover our services. Unfortunately, there are services which have not yet been migrated to Kubernetes, or cannot be.
 
 We can set Istio up as a proxy service for these upstream services. This allows us to benefit from capabilities like authorization/authentication, traceability and observability, even while legacy services stand as they are.
 
@@ -149,7 +149,6 @@ spec:
 $ kubectl apply -f operator.yaml
 {{< /text >}}
 
-
 ### Deploy Egress Gateway
 
 The steps for this task assume:
@@ -231,7 +230,7 @@ Create and apply one to be used at the end of this article to access the service
 $ kubectl create -n istio-system secret tls <my-secret-name> --key=<key> --cert=<cert>
 {{< /text >}}
 
-Where `<my-secret-name>` is the name used later for the `Gateway` resource. `<key>` and `<cert>` are the files for the certificate. `<cert>` 
+Where `<my-secret-name>` is the name used later for the `Gateway` resource. `<key>` and `<cert>` are the files for the certificate. `<cert>`.
 
 {{< tip >}}
 You need to remember `<my-proxied-service-hostname>`, `<cert>` and `<my-secret-name>` because you will use them later in the article.
