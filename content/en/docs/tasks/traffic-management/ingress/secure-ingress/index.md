@@ -10,7 +10,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress)
+The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress/ingress-control)
 describes how to configure an ingress gateway to expose an HTTP
 service to external traffic. This task shows how to expose a secure HTTPS
 service using either simple or mutual TLS.
