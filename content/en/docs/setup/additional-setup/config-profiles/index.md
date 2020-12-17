@@ -48,14 +48,14 @@ Some additional vendor-specific configuration profiles are also available.
 For more information, refer to the [setup instructions](/docs/setup/platform-setup) for your platform.
 {{< /tip >}}
 
-The components marked as **X** are installed within each profile:
+The components marked as &#x2714; are installed within each profile:
 
 |     | default | demo | minimal | remote | empty | preview |
 | --- | --- | --- | --- | --- | --- | --- |
 | Core components | | | | | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` | | X | | | | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | X | X | | | | X |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istiod` | X | X | X | | | X |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` | | &#x2714; | | | | | | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | &#x2714; | &#x2714; | | | | &#x2714; |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istiod` | &#x2714; | &#x2714; | &#x2714; | | | &#x2714; |
 
 To further customize Istio, a number of addon components can also be installed.
 Refer to [integrations](/docs/ops/integrations) for more details.
