@@ -210,7 +210,7 @@ test: no
 
     {{< text bash >}}
     $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/rpm/istio-sidecar.rpm
-    $ sudo rpm -i istio-sidecar.deb
+    $ sudo rpm -i istio-sidecar.rpm
     {{< /text >}}
 
     {{< /tab >}}
