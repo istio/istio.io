@@ -22,7 +22,7 @@ for your specific needs. The following built-in configuration profiles are curre
     This profile is recommended for production deployments and for
     {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}} in a
     [multicluster mesh](/docs/ops/deployment/deployment-models/#multiple-clusters).
-    You can display the default setting by running the command `istioctl profile dump`.
+    You can display the default settings by running the `istioctl profile dump` command.
 
 1. **demo**: configuration designed to showcase Istio functionality with modest resource requirements.
     It is suitable to run the [Bookinfo](/docs/examples/bookinfo/) application and associated tasks.
