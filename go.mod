@@ -30,8 +30,8 @@ require (
 	github.com/golang/sync v0.0.0-20180314180146-1d60e4601c6f
 	github.com/pmezard/go-difflib v1.0.0
 	golang.org/x/tools v0.0.0-20201017001424-6003fad69a88 // indirect
-	istio.io/istio v0.0.0-20201214071819-410453d1a22a
+	istio.io/istio v0.0.0-20201218172450-5debedd83885
 	istio.io/pkg v0.0.0-20201106170352-6775f12cf100
-	k8s.io/apimachinery v0.19.3
-	k8s.io/client-go v0.19.3
+	k8s.io/apimachinery v0.20.0
+	k8s.io/client-go v0.20.0
 )
