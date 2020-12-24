@@ -17,6 +17,11 @@ This example shows how to configure Istio to perform {{< gloss >}}TLS originatio
 for traffic to an external service. Istio will open HTTPS connections to the external service while the original
 traffic is HTTP.
 
+{{< warning >}}
+This is currently broken for servers that validate ALPN strings.
+See <https://github.com/istio/istio/issues/24619>.
+{{< /warning >}}
+
 ## Use case
 
 Consider a legacy application that performs HTTP calls to external sites. Suppose the organization that operates the
