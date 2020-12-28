@@ -548,7 +548,8 @@ to hold the configuration of the NGINX server:
 
     {{< warning >}}
     The secret name **should not** begin with `istio` or `prometheus`, and
-    the secret **should not** contain a `token` field.
+    the secret **should not** contain a `token` field, and
+    the secret **should not** end with `-cacert`.
     {{< /warning >}}
 
 1.  Create an egress `Gateway` for `my-nginx.mesh-external.svc.cluster.local`, port 443, and destination rules and
