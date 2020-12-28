@@ -215,8 +215,7 @@ to hold the configuration of the NGINX server:
     $ kubectl create secret generic client-credential-cacert --from-file=ca.crt=example.com.crt -n istio-system
     {{< /text >}}
 
-    Note that the secret name for an Istio CA-only certificate must end with `-cacert` and the secret **must** be
-    created in the same namespace as Istio is deployed in, `istio-system` in this case.
+    Note that the secret **must** be created in the same namespace as Istio is deployed in, `istio-system` in this case.
 
     {{< warning >}}
     The secret name **should not** begin with `istio` or `prometheus`, and the secret **should not** contain a `token` field.
@@ -322,7 +321,7 @@ to hold the configuration of the NGINX server:
             number: 443
           tls:
             mode: SIMPLE
-            credentialName: client-credential # this must match the secret created earlier without the "-cacert" suffix
+            credentialName: client-credential # this must match the secret created earlier, if the secret name ends up with "-cacert", "-cacert" suffix can be ignored
             sni: my-nginx.mesh-external.svc.cluster.local
     EOF
     {{< /text >}}
