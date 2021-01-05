@@ -75,6 +75,7 @@ spec:
 status:
   validationMessages:
   - documentation_url: https://istio.io/v1.9/docs/reference/config/analysis/ist0101/?ref=status-controller
+    level: 3
     type:
       code: IST0101
 ENDSNIP
