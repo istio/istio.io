@@ -71,7 +71,7 @@ Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes
 1. 安装 `demo` 配置
 
     {{< text bash >}}
-    $ istioctl manifest apply --set profile=demo
+    $ istioctl install --set profile=demo -y
     {{< /text >}}
 
 1. 为了验证是否安装成功，需要先确保以下 Kubernetes 服务正确部署，然后验证除 `jaeger-agent` 服务外的其他服务，是否均有正确的 `CLUSTER-IP`：
