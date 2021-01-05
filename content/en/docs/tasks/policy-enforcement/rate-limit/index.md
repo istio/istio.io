@@ -37,139 +37,139 @@ using both global and local rate limits.
 Envoy can be used to [set up global rate limits](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/global_rate_limiting) for your mesh.
 
 1. Global rate limiting in Envoy uses a gRPC API for requesting quota from a rate limiting service.
-    A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API, written in Go with a Redis
-    backend, is used below.
+   A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API, written in Go with a Redis
+   backend, is used below.
 
-    The following [configmap](https://github.com/envoyproxy/ratelimit#configuration) configures the
-    reference implementation to rate limit requests to the path `/productpage` at 1 req/min and all other
-    requests at 100 req/min.
+   The following [configmap](https://github.com/envoyproxy/ratelimit#configuration) configures the
+   reference implementation to rate limit requests to the path `/productpage` at 1 req/min and all other
+   requests at 100 req/min.
 
-    {{<text yaml >}}
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-      name: ratelimit-config
-    data:
-      config.yaml: |
-        domain: productpage-ratelimit
-        descriptors:
-          - key: PATH
-            value: "/productpage"
-            rate_limit:
-              unit: minute
-              requests_per_unit: 1
-          - key: PATH
-            rate_limit:
-              unit: minute
-              requests_per_unit: 100
-    {{< /text >}}
+   {{<text yaml >}}
+   apiVersion: v1
+   kind: ConfigMap
+   metadata:
+     name: ratelimit-config
+   data:
+     config.yaml: |
+       domain: productpage-ratelimit
+       descriptors:
+         - key: PATH
+           value: "/productpage"
+           rate_limit:
+             unit: minute
+             requests_per_unit: 1
+         - key: PATH
+           rate_limit:
+             unit: minute
+             requests_per_unit: 100
+   {{< /text >}}
 
 1. Apply an `EnvoyFilter` to the `ingressgateway` to enable global rate limiting using Envoy's global rate limit filter.
 
-    The first patch inserts the
-    `envoy.filters.http.ratelimit` [global envoy filter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit) filter into the `HTTP_FILTER` chain.
-    The `rate_limit_service` field specifies the external rate limit service, `rate_limit_cluster` in this case.
+   The first patch inserts the
+   `envoy.filters.http.ratelimit` [global envoy filter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit) filter into the `HTTP_FILTER` chain.
+   The `rate_limit_service` field specifies the external rate limit service, `rate_limit_cluster` in this case.
 
-    The second patch defines the `rate_limit_cluster`, which provides the endpoint location of the external rate limit service.
+   The second patch defines the `rate_limit_cluster`, which provides the endpoint location of the external rate limit service.
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: EnvoyFilter
-    metadata:
-      name: filter-ratelimit
-      namespace: istio-system
-    spec:
-      workloadSelector:
-        # select by label in the same namespace
-        labels:
-          istio: ingressgateway
-      configPatches:
-        # The Envoy config you want to modify
-        - applyTo: HTTP_FILTER
-          match:
-            context: GATEWAY
-            listener:
-              filterChain:
-                filter:
-                  name: "envoy.http_connection_manager"
-                  subFilter:
-                    name: "envoy.router"
-          patch:
-            operation: INSERT_BEFORE
-            # Adds the Envoy Rate Limit Filter in HTTP filter chain.
-            value:
-              name: envoy.filters.http.ratelimit
-              typed_config:
-                "@type": type.googleapis.com/envoy.config.filter.http.rate_limit.v3.RateLimit
-                # domain can be anything! Match it to the ratelimter service config
-                domain: productpage-ratelimit
-                failure_mode_deny: true
-                rate_limit_service:
-                  grpc_service:
-                    envoy_grpc:
-                      cluster_name: rate_limit_cluster
-                    timeout: 10s
-        - applyTo: CLUSTER
-          match:
-            cluster:
-              service: ratelimit.default.svc.cluster.local
-          patch:
-            operation: ADD
-            # Adds the rate limit service cluster for rate limit service defined in step 1.
-            value:
-              name: rate_limit_cluster
-              type: STRICT_DNS
-              connect_timeout: 10s
-              lb_policy: ROUND_ROBIN
-              http2_protocol_options: {}
-              load_assignment:
-                cluster_name: rate_limit_cluster
-                endpoints:
-                - lb_endpoints:
-                  - endpoint:
-                      address:
+   {{< text bash >}}
+   $ kubectl apply -f - <<EOF
+   apiVersion: networking.istio.io/v1alpha3
+   kind: EnvoyFilter
+   metadata:
+     name: filter-ratelimit
+     namespace: istio-system
+   spec:
+     workloadSelector:
+       # select by label in the same namespace
+       labels:
+         istio: ingressgateway
+     configPatches:
+       # The Envoy config you want to modify
+       - applyTo: HTTP_FILTER
+         match:
+           context: GATEWAY
+           listener:
+             filterChain:
+               filter:
+                 name: "envoy.http_connection_manager"
+                 subFilter:
+                   name: "envoy.router"
+         patch:
+           operation: INSERT_BEFORE
+           # Adds the Envoy Rate Limit Filter in HTTP filter chain.
+           value:
+             name: envoy.filters.http.ratelimit
+             typed_config:
+               "@type": type.googleapis.com/envoy.config.filter.http.rate_limit.v3.RateLimit
+               # domain can be anything! Match it to the ratelimter service config
+               domain: productpage-ratelimit
+               failure_mode_deny: true
+               rate_limit_service:
+                 grpc_service:
+                   envoy_grpc:
+                     cluster_name: rate_limit_cluster
+                   timeout: 10s
+       - applyTo: CLUSTER
+         match:
+           cluster:
+             service: ratelimit.default.svc.cluster.local
+         patch:
+           operation: ADD
+           # Adds the rate limit service cluster for rate limit service defined in step 1.
+           value:
+             name: rate_limit_cluster
+             type: STRICT_DNS
+             connect_timeout: 10s
+             lb_policy: ROUND_ROBIN
+             http2_protocol_options: {}
+             load_assignment:
+               cluster_name: rate_limit_cluster
+               endpoints:
+               - lb_endpoints:
+                 - endpoint:
+                     address:
                         socket_address:
-                          address: ratelimit.default.svc.cluster.local
-                          port_value: 8081
-    EOF
-    {{< /text >}}
+                         address: ratelimit.default.svc.cluster.local
+                         port_value: 8081
+   EOF
+   {{< /text >}}
 
 1. Apply another `EnvoyFilter` to the `ingressgateway` that defines the route configuration on which to rate limit.
    This adds [rate limit actions](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit)
    for any route from a virtual host named `*.80`.
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: EnvoyFilter
-    metadata:
-      name: filter-ratelimit-svc
-      namespace: istio-system
-    spec:
-      workloadSelector:
-        labels:
-          istio: ingressgateway
-      configPatches:
-        - applyTo: VIRTUAL_HOST
-          match:
-            context: GATEWAY
-            routeConfiguration:
-              vhost:
-                name: "*:80"
-                  route:
-                    action: ANY
-          patch:
-            operation: MERGE
-            # Applies the rate limit rules.
-            value:
-              rate_limits:
-                - actions: # any actions in here
-                  - request_headers:
-                      header_name: ":path"
-                      descriptor_key: "PATH"
-    EOF
-    {{< /text >}}
+   {{< text bash >}}
+   $ kubectl apply -f - <<EOF
+   apiVersion: networking.istio.io/v1alpha3
+   kind: EnvoyFilter
+   metadata:
+     name: filter-ratelimit-svc
+     namespace: istio-system
+   spec:
+     workloadSelector:
+       labels:
+         istio: ingressgateway
+     configPatches:
+       - applyTo: VIRTUAL_HOST
+         match:
+           context: GATEWAY
+           routeConfiguration:
+             vhost:
+               name: "*:80"
+                 route:
+                   action: ANY
+         patch:
+           operation: MERGE
+           # Applies the rate limit rules.
+           value:
+             rate_limits:
+               - actions: # any actions in here
+                 - request_headers:
+                     header_name: ":path"
+                     descriptor_key: "PATH"
+   EOF
+   {{< /text >}}
 
 ### Local rate limit
 
@@ -182,53 +182,53 @@ into the HTTP connection manager filter chain. The local rate limit filter's [to
 is configured to allow 10 requests/min. The filter is also configured to add an `x-local-rate-limit`
 response header to requests that are blocked.
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: EnvoyFilter
-    metadata:
-      name: filter-local-ratelimit-svc
-      namespace: istio-system
-    spec:
-      workloadSelector:
-        labels:
-          app: productpage
-      configPatches:
-        - applyTo: HTTP_FILTER
-          listener:
-            filterChain:
-              filter:
-                name: "envoy.http_connection_manager"
-          patch:
-            operation: INSERT_BEFORE
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: filter-local-ratelimit-svc
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      app: productpage
+  configPatches:
+    - applyTo: HTTP_FILTER
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.http_connection_manager"
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.local_ratelimit
+          typed_config:
+            "@type": type.googleapis.com/udpa.type.v1.TypedStruct
+            type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
             value:
-              name: envoy.filters.http.local_ratelimit
-              typed_config:
-                "@type": type.googleapis.com/udpa.type.v1.TypedStruct
-                type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-                value:
-                  stat_prefix: http_local_rate_limiter
-                  token_bucket:
-                    max_tokens: 10
-                    tokens_per_fill: 10
-                    fill_interval: 60s
-                  filter_enabled:
-                    runtime_key: local_rate_limit_enabled
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  filter_enforced:
-                    runtime_key: local_rate_limit_enforced
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  response_headers_to_add:
-                    - append: false
-                      header:
-                        key: x-local-rate-limit
-                        value: 'true'
-    EOF
-    {{< /text >}}
+              stat_prefix: http_local_rate_limiter
+              token_bucket:
+                max_tokens: 10
+                tokens_per_fill: 10
+                fill_interval: 60s
+              filter_enabled:
+                runtime_key: local_rate_limit_enabled
+                default_value:
+                  numerator: 100
+                  denominator: HUNDRED
+              filter_enforced:
+                runtime_key: local_rate_limit_enforced
+                default_value:
+                  numerator: 100
+                  denominator: HUNDRED
+              response_headers_to_add:
+                - append: false
+                  header:
+                    key: x-local-rate-limit
+                    value: 'true'
+EOF
+{{< /text >}}
 
 The above configuration applies local rate limiting to all vhosts/routes. Alternatively, you can restrict it to a specific route.
 
@@ -237,70 +237,70 @@ Unlike the previous configuration, there is no `token_bucket` included in the `H
 The `token_bucket` is instead defined in the second (`HTTP_ROUTE`) patch which includes a `typed_per_filter_config` for the `envoy.filters.http.local_ratelimit`
 local envoy filter, for routes to virtual host `inbound|http|9080`.
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: EnvoyFilter
-    metadata:
-      name: filter-local-ratelimit-svc
-      namespace: istio-system
-    spec:
-      workloadSelector:
-        labels:
-          app: productpage
-      configPatches:
-        - applyTo: HTTP_FILTER
-          listener:
-            filterChain:
-              filter:
-                name: "envoy.http_connection_manager"
-          patch:
-            operation: INSERT_BEFORE
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: filter-local-ratelimit-svc
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      app: productpage
+  configPatches:
+    - applyTo: HTTP_FILTER
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.http_connection_manager"
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.local_ratelimit
+          typed_config:
+            "@type": type.googleapis.com/udpa.type.v1.TypedStruct
+            type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
             value:
-              name: envoy.filters.http.local_ratelimit
-              typed_config:
-                "@type": type.googleapis.com/udpa.type.v1.TypedStruct
-                type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-                value:
-                  stat_prefix: http_local_rate_limiter
-        - applyTo: HTTP_ROUTE
-          match:
-            context: SIDECAR_OUTBOUND
-            routeConfiguration:
-              vhost:
-                name: "inbound|http|9080"
-                 route:
-                  action: ANY
-          patch:
-            operation: MERGE
-            value:
-              typed_per_filter_config:
-                envoy.filters.http.local_ratelimit:
-                  "@type": type.googleapis.com/udpa.type.v1.TypedStruct
-                  type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-                  value:
-                    stat_prefix: http_local_rate_limiter
-                    token_bucket:
-                      max_tokens: 10
-                      tokens_per_fill: 10
-                      fill_interval: 60s
-                    filter_enabled:
-                      runtime_key: local_rate_limit_enabled
-                      default_value:
-                        numerator: 100
-                        denominator: HUNDRED
-                    filter_enforced:
-                      runtime_key: local_rate_limit_enforced
-                      default_value:
-                        numerator: 100
-                        denominator: HUNDRED
-                    response_headers_to_add:
-                      - append: false
-                        header:
-                          key: x-local-rate-limit
-                          value: 'true'
-    EOF
-    {{< /text >}}
+              stat_prefix: http_local_rate_limiter
+    - applyTo: HTTP_ROUTE
+      match:
+        context: SIDECAR_OUTBOUND
+        routeConfiguration:
+          vhost:
+            name: "inbound|http|9080"
+             route:
+              action: ANY
+      patch:
+        operation: MERGE
+        value:
+          typed_per_filter_config:
+            envoy.filters.http.local_ratelimit:
+              "@type": type.googleapis.com/udpa.type.v1.TypedStruct
+              type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
+              value:
+                stat_prefix: http_local_rate_limiter
+                token_bucket:
+                  max_tokens: 10
+                  tokens_per_fill: 10
+                  fill_interval: 60s
+                filter_enabled:
+                  runtime_key: local_rate_limit_enabled
+                  default_value:
+                    numerator: 100
+                    denominator: HUNDRED
+                filter_enforced:
+                  runtime_key: local_rate_limit_enforced
+                  default_value:
+                    numerator: 100
+                    denominator: HUNDRED
+                response_headers_to_add:
+                  - append: false
+                    header:
+                      key: x-local-rate-limit
+                      value: 'true'
+EOF
+{{< /text >}}
 
 ## Verify the results
 
@@ -309,9 +309,9 @@ local envoy filter, for routes to virtual host `inbound|http|9080`.
 Send traffic to the Bookinfo sample. Visit `http://$GATEWAY_URL/productpage` in your web
 browser or issue the following command:
 
-    {{< text bash >}}
-    $ curl "http://$GATEWAY_URL/productpage"
-    {{< /text >}}
+{{< text bash >}}
+$ curl "http://$GATEWAY_URL/productpage"
+{{< /text >}}
 
 {{< tip >}}
 `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
@@ -325,9 +325,9 @@ Although the global rate limit at the ingress gateway limits requests to the `pr
 the local rate limit for `productpage` instances allows 10 req/min.
 To confirm this, send internal `productpage` requests, from the `ratings` pod, using the following `curl` command:
 
-    {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
-    <title>Simple Bookstore App</title>
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+<title>Simple Bookstore App</title>
+{{< /text >}}
 
 You should see no more than 10 req/min go through per `productpage` instance.
