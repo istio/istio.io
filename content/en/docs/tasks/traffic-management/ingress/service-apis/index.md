@@ -21,7 +21,7 @@ They will undergo significant changes in future versions. For production deploym
 1. Install the Service APIs CRDs:
 
     {{< text bash >}}
-    $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.1.0-rc2" | kubectl apply -f -
+    $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.1.0" | kubectl apply -f -
     {{< /text >}}
 
 1. Install Istio, or reconfigure an existing installation to enable the Service APIs controller:
