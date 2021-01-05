@@ -4,7 +4,7 @@ description: This task shows you how to use Istio to dynamically limit the traff
 weight: 10
 keywords: [policies,quotas]
 owner: istio/wg-policies-and-telemetry-maintainers
-test: n/a
+test: no
 ---
 
 This task shows you how to use Envoy's native rate limiting in Istio to dynamically limit the traffic to a
@@ -21,38 +21,28 @@ up to 10 requests per minute allowing for any in-mesh traffic.
 
 1. Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
-    The Bookinfo sample deploys 3 versions of the `reviews` service:
-
-    * Version v1 doesn’t call the `ratings` service.
-    * Version v2 calls the `ratings` service, and displays each rating as 1 to 5 black stars.
-    * Version v3 calls the `ratings` service, and displays each rating as 1 to 5 red stars.
-
-1. Set the default version for all services to v1 so that no ratings are returned (no stars are displayed).
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
-    {{< /text >}}
-
 ## Rate limits
 
-In this task, you configure Istio to rate limit traffic to a specific path of the `productpage` service.
-Envoy supports both Global Rate Limiting and Local Rate Limiting. Envoy's Global rate
-limit integrates directly with a global gRPC rate limiting service to provide rate limiting for the whole mesh.
-Local Rate Limiting is used to rate limit per instance level. Thus, Local rate limiting can be used in conjunction with
-global rate limiting to reduce load on the global rate limit service.
+Envoy supports two kinds of rate limiting: global and local. Global rate
+limiting uses a global gRPC rate limiting service to provide rate limiting for the entire mesh.
+Local rate limiting is used to limit the rate of requests per service instance.
+Local rate limiting can be used in conjunction with global rate limiting to reduce load on
+the global rate limiting service.
 
-### Global Rate Limit
+In this task you will configure Envoy to rate limit traffic to a specific path of a service
+using both global and local rate limits.
 
-Envoy can be used to setup global rate limit for your mesh. More info on it can be found [here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/global_rate_limiting)
+### Global rate limit
+
+Envoy can be used to [set up global rate limits](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/global_rate_limiting) for your mesh.
 
 1. Global rate limiting in Envoy uses a gRPC API for requesting quota from a rate limiting service.
-   A [reference implementation](https://github.com/envoyproxy/ratelimit) of that API, written in Go with a Redis
-   backend, is available. To provide a custom implementation, your service must provide the Envoy API.
+    A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API, written in Go with a Redis
+    backend, is used below.
 
-   In the definition of the service you also define the rate limits and the descriptor on which you want
-   to rate limit on. For example, below is the [configmap](https://github.com/envoyproxy/ratelimit#configuration)
-   defining rate limit on descriptor `PATH header` in the above reference implementation. It rate limits request to path
-   `/productpage` at 1 req/min and all other at 100 req/min.
+    The following [configmap](https://github.com/envoyproxy/ratelimit#configuration) configures the
+    reference implementation to rate limit requests to the path `/productpage` at 1 req/min and all other
+    requests at 100 req/min.
 
     {{<text yaml >}}
     apiVersion: v1
@@ -72,19 +62,15 @@ Envoy can be used to setup global rate limit for your mesh. More info on it can 
             rate_limit:
               unit: minute
               requests_per_unit: 100
-
     {{< /text >}}
 
-1. Apply EnvoyFilter Patch in Istio that enables global rate limit using Envoy's global rate limit filter. The below
-   EnvoyFilter is applied to `ingressgateway`. The first patch is applied to `HTTP_FILTER` wherein it inserts
-   `envoy.filters.http.ratelimit` [global envoy filter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit).
-   The filter takes in the definition of external rate limit service in `rate_limit_service` field. Thus here,
-   we point it to the `rate_limit_cluster`. In the second patch we define the `rate_limit_cluster`. This adds the endpoint
-   location of the external rate limit service.
+1. Apply an `EnvoyFilter` to the `ingressgateway` to enable global rate limiting using Envoy's global rate limit filter.
 
-    {{< tip >}}
-    Make sure the rate limit service endpoint in the patch below matches the endpoint of rate limit service defined above.
-    {{< /tip >}}
+    The first patch inserts the
+    `envoy.filters.http.ratelimit` [global envoy filter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit) filter into the `HTTP_FILTER` chain.
+    The `rate_limit_service` field specifies the external rate limit service, `rate_limit_cluster` in this case.
+
+    The second patch defines the `rate_limit_cluster`, which provides the endpoint location of the external rate limit service.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -147,12 +133,11 @@ Envoy can be used to setup global rate limit for your mesh. More info on it can 
                           address: ratelimit.default.svc.cluster.local
                           port_value: 8081
     EOF
-
     {{< /text >}}
 
-1. We apply another EnvoyFilter to `ingressgateway` that defines the route configuration on which to rate limit on.
+1. Apply another `EnvoyFilter` to the `ingressgateway` that defines the route configuration on which to rate limit.
    This adds [rate limit actions](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit)
-   for any route from virtual host named "*.80".
+   for any route from a virtual host named `*.80`.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -184,21 +169,18 @@ Envoy can be used to setup global rate limit for your mesh. More info on it can 
                       header_name: ":path"
                       descriptor_key: "PATH"
     EOF
-
     {{< /text >}}
 
-### Local Rate Limit
+### Local rate limit
 
-Envoy supports using [Local Rate Limit](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/local_rate_limiting#arch-overview-local-rate-limit) on connection and HTTP level. This helps applying rate limit at the instance level
-itself. In this case of rate limiting, rate limiting happens at the proxy level itself and there is no call to any other
-service or proxy.
+Envoy supports [local rate limiting](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/local_rate_limiting#arch-overview-local-rate-limit) of L4 connections and HTTP requests.
+This allows you to apply rate limits at the instance level, in the proxy itself, without calling any other service.
 
-The following EnvoyFilter enables local rate limiting for any traffic through `productpage`.
-The patch is applied to `HTTP_FILTER` wherein it inserts `envoy.filters.http.local_ratelimit` [local envoy filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#config-http-filters-local-rate-limit)
-to HTTP Connection Manager filter chain. Envoy's local rate limit filter uses [token bucket](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/local_ratelimit/v3/local_rate_limit.proto#envoy-v3-api-field-extensions-filters-http-local-ratelimit-v3-localratelimit-token-bucket)
-rate limit to decide if a request should be allowed or not. In the following example, token_bucket is configured to rate
-limit 10 requests/min. Also, all the vhosts/routes share the same token bucket.
-It also adds response header `x-local-rate-limit` if request is rate limited.
+The following `EnvoyFilter` enables local rate limiting for any traffic through the `productpage` service.
+The `HTTP_FILTER` patch inserts the `envoy.filters.http.local_ratelimit` [local envoy filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#config-http-filters-local-rate-limit)
+into the HTTP connection manager filter chain. The local rate limit filter's [token bucket](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/local_ratelimit/v3/local_rate_limit.proto#envoy-v3-api-field-extensions-filters-http-local-ratelimit-v3-localratelimit-token-bucket)
+is configured to allow 10 requests/min. The filter is also configured to add an `x-local-rate-limit`
+response header to requests that are blocked.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -246,17 +228,14 @@ It also adds response header `x-local-rate-limit` if request is rate limited.
                         key: x-local-rate-limit
                         value: 'true'
     EOF
-
     {{< /text >}}
 
-In the above example, local rate limiting was applied for all vhosts/routes. But we can also just restrict it for a
-specific route. The following EnvoyFilter enables local rate limiting for any traffic through `productpage` for
-traffic through virtual host `"productpage.default.svc.cluster.local:80"`.
-The first patch is applied to `HTTP_FILTER` wherein it inserts `envoy.filters.http.local_ratelimit` [local envoy filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#config-http-filters-local-rate-limit)
-to HTTP Connection Manager filter chain. There is no `token_bucket` added in the config here as we are going to add it
-later in the second patch to `HTTP_ROUTE`. The second patch adds `typed_per_filter_config` for `envoy.filters.http.local_ratelimit`
-local envoy filter for route whose virtual host is `"inbound|http|9080"`. `token_bucket` is
-configured to rate limit 1 requests/min. It also adds response header `x-local-rate-limit` if request is rate limited.
+The above configuration applies local rate limiting to all vhosts/routes. Alternatively, you can restrict it to a specific route.
+
+The following `EnvoyFilter` enables local rate limiting for any traffic to port 80 of the `productpage` service.
+Unlike the previous configuration, there is no `token_bucket` included in the `HTTP_FILTER` patch.
+The `token_bucket` is instead defined in the second (`HTTP_ROUTE`) patch which includes a `typed_per_filter_config` for the `envoy.filters.http.local_ratelimit`
+local envoy filter, for routes to virtual host `inbound|http|9080`.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -321,39 +300,34 @@ configured to rate limit 1 requests/min. It also adds response header `x-local-r
                           key: x-local-rate-limit
                           value: 'true'
     EOF
-
     {{< /text >}}
 
 ## Verify the results
 
-### Verify Global Rate Limit
+### Verify global rate limit
 
-Send traffic to the mesh. For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+Send traffic to the Bookinfo sample. Visit `http://$GATEWAY_URL/productpage` in your web
 browser or issue the following command:
 
     {{< text bash >}}
     $ curl "http://$GATEWAY_URL/productpage"
-
     {{< /text >}}
 
 {{< tip >}}
-
 `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
-
 {{< /tip >}}
 
-You will see the first request go through but after that every other request in a minute gets a 429 response.
+You will see the first request go through but every following request within a minute will get a 429 response.
 
-### Verify Local Rate Limit
+### Verify local rate limit
 
-At ingress gateway we have applied 1 req/min limit to `productpage` but `productpage` instances can handle in mesh traffic of
- 10 req/min based on local rate limiting.
-To confirm that send a request to it by a `curl` command from some pod, for example from `ratings`:
+Although the global rate limit at the ingress gateway limits requests to the `productpage` service at 1 req/min,
+the local rate limit for `productpage` instances allows 10 req/min.
+To confirm this, send internal `productpage` requests, from the `ratings` pod, using the following `curl` command:
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
-
     {{< /text >}}
 
 You should see no more than 10 req/min go through per `productpage` instance.
