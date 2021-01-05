@@ -124,7 +124,13 @@ from the control plane.
 
 ### Installation with operator
 
-1.  Ensure that the main `IstioOperator` CR has a name and revision, and does not install a gateway:
+1. Install the Istio operator with a revision into the cluster:
+
+    {{< text bash >}}
+    $ istio-1.8.0/bin/istioctl operator init --revision 1-8-0
+    {{< /text >}}
+
+1. Ensure that the main `IstioOperator` CR has a name and revision, and does not install a gateway:
 
     {{< text yaml >}}
     # filename: control-plane-1-8-0.yaml
@@ -133,13 +139,8 @@ from the control plane.
     metadata:
       name: control-plane-1-8-0 # REQUIRED
     spec:
-      profile: default
+      profile: minimal
       revision: 1-8-0 # REQUIRED
-      components:
-        ingressGateways:
-          - name: istio-ingressgateway
-            # MUST BE DISABLED
-            enabled: false
     {{< /text >}}
 
 1.  Create a separate `IstioOperator` CR for the gateway(s), ensuring that it has a name and has the `empty` profile:
@@ -166,12 +167,6 @@ from the control plane.
     $ kubectl apply -n istio-system -f gateways.yaml
     {{< /text >}}
 
-1.  Install the Istio operator into the cluster:
-
-    {{< text bash >}}
-    $ istio-1.8.0/bin/istioctl operator init --revision 1-8-0
-    {{< /text >}}
-
 Verify that the operator and Istio control plane are installed and running.
 
 ### Upgrade with operator
@@ -181,7 +176,7 @@ Let's assume that the target version is 1.8.1.
 1.  Download the Istio 1.8.1 release and use the `istioctl` from that release to install the Istio 1.8.1 operator:
 
     {{< text bash >}}
-    $ istio-1.8.1/bin/istioctl operator init  --revision 1-8-1
+    $ istio-1.8.1/bin/istioctl operator init --revision 1-8-1
     {{< /text >}}
 
 1.  Copy the control plane CR from the install step above as `control-plane-1-8-1.yaml`. Change all instances of
@@ -195,6 +190,13 @@ Let's assume that the target version is 1.8.1.
 
 1.  Verify that two versions of `istiod` are running in the cluster. It may take several minutes for the operator to
 install the new control plane and for it to be in a running state.
+
+    {{< text bash >}}
+    $ kubectl -n istio-system get pod -l app=istiod
+    NAME                            READY   STATUS    RESTARTS   AGE
+    istiod-1-8-0-74f95c59c-4p6mc    1/1     Running   0          68m
+    istiod-1-8-1-65b64fc749-5zq8w   1/1     Running   0          13m
+    {{< /text >}}
 
 1.  Refer to the canary upgrade docs for more details on rolling over workloads to the new Istio version:
 
@@ -216,8 +218,22 @@ revision from `1-8-0` to `1-8-1` and re-apply the file:
 
 1.  Verify that the gateway is running at version 1.8.1.
 
+    {{< text bash >}}
+    # kubectl -n istio-system get pod -l app=istio-ingressgateway --show-labels
+    NAME                                    READY   STATUS    RESTARTS   AGE   LABELS
+    istio-ingressgateway-66dc957bd8-r2ptn   1/1     Running   0          14m   app=istio-ingressgateway,service.istio.io/canonical-revision=1-8-1...
+    {{< /text >}}
+
 1.  Uninstall the old control plane:
 
     {{< text bash >}}
     $ kubectl delete istiooperator -n istio-system control-plane-1-8-0
+    {{< /text >}}
+
+1.  Verify that only one version of `istiod` is running in the cluster.
+
+    {{< text bash >}}
+    $ kubectl -n istio-system get pod -l app=istiod
+    NAME                            READY   STATUS    RESTARTS   AGE
+    istiod-1-8-1-65b64fc749-5zq8w   1/1     Running   0          16m
     {{< /text >}}
