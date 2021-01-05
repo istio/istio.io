@@ -219,7 +219,7 @@ revision from `1-8-0` to `1-8-1` and re-apply the file:
 1.  Verify that the gateway is running at version 1.8.1.
 
     {{< text bash >}}
-    # kubectl -n istio-system get pod -l app=istio-ingressgateway --show-labels
+    $ kubectl -n istio-system get pod -l app=istio-ingressgateway --show-labels
     NAME                                    READY   STATUS    RESTARTS   AGE   LABELS
     istio-ingressgateway-66dc957bd8-r2ptn   1/1     Running   0          14m   app=istio-ingressgateway,service.istio.io/canonical-revision=1-8-1...
     {{< /text >}}
