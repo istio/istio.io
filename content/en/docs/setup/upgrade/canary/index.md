@@ -51,9 +51,9 @@ You will also see that there are two sidecar injector configurations including t
 
 {{< text bash >}}
 $ kubectl get mutatingwebhookconfigurations
-NAME                            CREATED AT
-istio-sidecar-injector          2020-03-26T07:09:21Z
-istio-sidecar-injector-canary   2020-04-28T19:03:26Z
+NAME                            WEBHOOKS   AGE
+istio-sidecar-injector          1          7m56s
+istio-sidecar-injector-canary   1          3m18s
 {{< /text >}}
 
 ## Data plane
