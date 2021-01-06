@@ -44,7 +44,7 @@ Envoy can be used to [set up global rate limits](https://www.envoyproxy.io/docs/
    reference implementation to rate limit requests to the path `/productpage` at 1 req/min and all other
    requests at 100 req/min.
 
-    {{<text yaml >}}
+    {{< text yaml >}}
     apiVersion: v1
     kind: ConfigMap
     metadata:
