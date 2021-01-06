@@ -1,18 +1,18 @@
 ---
 title: Enabling Rate Limits using Envoy
-description: This task shows you how to use Istio to dynamically limit the traffic to a service.
+description: This task shows you how to configure Istio to dynamically limit the traffic to a service.
 weight: 10
 keywords: [policies,quotas]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
-This task shows you how to use Envoy's native rate limiting in Istio to dynamically limit the traffic to a
-service. In this task, we will apply a global rate-limit for the `productpage` service through ingress gateway that allows
-1 requests per minute across all instances of the service. Additionally, we will apply a local rate-limit for each
-individual `productpage` instance that will allow 10 requests per minute. In this way, we will ensure that our `productpage`
+This task shows you how to use Envoy's native rate limiting to dynamically limit the traffic to an Istio
+service. In this task, you will apply a global rate-limit for the `productpage` service through ingress gateway that allows
+1 requests per minute across all instances of the service. Additionally, you will apply a local rate-limit for each
+individual `productpage` instance that will allow 10 requests per minute. In this way, you will ensure that the `productpage`
 service handles a maximum of 1 requests per minute through instance gateway, but each `productpage` instance can handle
-up to 10 requests per minute allowing for any in-mesh traffic.
+up to 10 requests per minute, allowing for any in-mesh traffic.
 
 ## Before you begin
 
