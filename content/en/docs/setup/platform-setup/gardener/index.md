@@ -10,6 +10,12 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
+{{< warning >}}
+This page was last updated June 28, 2019. This document has never been
+tested on Istio Community Testing days for an Istio release. It is not known if the documentation provided
+is still relevant. If you find any issues, then  please submit PRs to update this document.
+{{< /warning >}}
+
 ## Bootstrapping Gardener
 
 To set up your own [Gardener](https://gardener.cloud), see the
