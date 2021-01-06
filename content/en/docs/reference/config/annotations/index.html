@@ -86,7 +86,7 @@ Istio supports to control its behavior.
 				
 					<td><code>kubernetes.io/ingress.class</code></td>
 				
-					<td>Alpha</td>
+					<td>Stable</td>
 				
 					<td>[Ingress]</td>
 					<td>Annotation on an Ingress resources denoting the class of controllers responsible for it.</td>
@@ -125,7 +125,7 @@ Istio supports to control its behavior.
 				
 					<td><code>proxy.istio.io/config</code></td>
 				
-					<td>Alpha</td>
+					<td>Beta</td>
 				
 					<td>[Pod]</td>
 					<td>Overrides for the proxy configuration for this specific proxy. Available options can be found at https://istio.io/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig.</td>
@@ -214,11 +214,11 @@ Istio supports to control its behavior.
 		
 			
 				
-					<tr>
+					<tr class="deprecated">
 				
 					<td><code>sidecar.istio.io/controlPlaneAuthPolicy</code></td>
 				
-					<td>Alpha</td>
+					<td>Deprecated</td>
 				
 					<td>[Pod]</td>
 					<td>Specifies the auth policy used by the Istio control plane. If NONE, traffic will not be encrypted. If MUTUAL_TLS, traffic between Envoy sidecar will be wrapped into mutual TLS connections.</td>
@@ -227,11 +227,11 @@ Istio supports to control its behavior.
 		
 			
 				
-					<tr>
+					<tr class="deprecated">
 				
 					<td><code>sidecar.istio.io/discoveryAddress</code></td>
 				
-					<td>Alpha</td>
+					<td>Deprecated</td>
 				
 					<td>[Pod]</td>
 					<td>Specifies the XDS discovery address to be used by the Envoy sidecar.</td>
@@ -257,7 +257,7 @@ Istio supports to control its behavior.
 				
 					<td><code>sidecar.istio.io/inject</code></td>
 				
-					<td>Alpha</td>
+					<td>Beta</td>
 				
 					<td>[Pod]</td>
 					<td>Specifies whether or not an Envoy sidecar should be automatically injected into the workload.</td>
@@ -370,11 +370,11 @@ Istio supports to control its behavior.
 		
 			
 				
-					<tr>
+					<tr class="deprecated">
 				
 					<td><code>sidecar.istio.io/statsInclusionPrefixes</code></td>
 				
-					<td>Alpha</td>
+					<td>Deprecated</td>
 				
 					<td>[Pod]</td>
 					<td>Specifies the comma separated list of prefixes of the stats to be emitted by Envoy.</td>
@@ -383,11 +383,11 @@ Istio supports to control its behavior.
 		
 			
 				
-					<tr>
+					<tr class="deprecated">
 				
 					<td><code>sidecar.istio.io/statsInclusionRegexps</code></td>
 				
-					<td>Alpha</td>
+					<td>Deprecated</td>
 				
 					<td>[Pod]</td>
 					<td>Specifies the comma separated list of regexes the stats should match to be emitted by Envoy.</td>
@@ -396,11 +396,11 @@ Istio supports to control its behavior.
 		
 			
 				
-					<tr>
+					<tr class="deprecated">
 				
 					<td><code>sidecar.istio.io/statsInclusionSuffixes</code></td>
 				
-					<td>Alpha</td>
+					<td>Deprecated</td>
 				
 					<td>[Pod]</td>
 					<td>Specifies the comma separated list of suffixes of the stats to be emitted by Envoy.</td>
