@@ -39,9 +39,8 @@ Global rate limiting in Envoy uses a gRPC API for requesting quota from a rate l
 A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API, written in Go with a Redis
 backend, is used below.
 
-1. Use the following [configmap](https://github.com/envoyproxy/ratelimit#configuration) to configure the
-    reference implementation to rate limit requests to the path `/productpage` at 1 req/min and all other
-    requests at 100 req/min.
+1. Use the following configmap to [configure the reference implementation](https://github.com/envoyproxy/ratelimit#configuration)
+    to rate limit requests to the path `/productpage` at 1 req/min and all other requests at 100 req/min.
 
     {{< text yaml >}}
     apiVersion: v1
