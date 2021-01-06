@@ -37,12 +37,12 @@ using both global and local rate limits.
 Envoy can be used to [set up global rate limits](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/global_rate_limiting) for your mesh.
 
 1. Global rate limiting in Envoy uses a gRPC API for requesting quota from a rate limiting service.
-   A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API, written in Go with a Redis
-   backend, is used below.
+    A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API, written in Go with a Redis
+    backend, is used below.
 
-   The following [configmap](https://github.com/envoyproxy/ratelimit#configuration) configures the
-   reference implementation to rate limit requests to the path `/productpage` at 1 req/min and all other
-   requests at 100 req/min.
+    The following [configmap](https://github.com/envoyproxy/ratelimit#configuration) configures the
+    reference implementation to rate limit requests to the path `/productpage` at 1 req/min and all other
+    requests at 100 req/min.
 
     {{< text yaml >}}
     apiVersion: v1
@@ -66,11 +66,11 @@ Envoy can be used to [set up global rate limits](https://www.envoyproxy.io/docs/
 
 1. Apply an `EnvoyFilter` to the `ingressgateway` to enable global rate limiting using Envoy's global rate limit filter.
 
-   The first patch inserts the
-   `envoy.filters.http.ratelimit` [global envoy filter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit) filter into the `HTTP_FILTER` chain.
-   The `rate_limit_service` field specifies the external rate limit service, `rate_limit_cluster` in this case.
+    The first patch inserts the
+    `envoy.filters.http.ratelimit` [global envoy filter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit) filter into the `HTTP_FILTER` chain.
+    The `rate_limit_service` field specifies the external rate limit service, `rate_limit_cluster` in this case.
 
-   The second patch defines the `rate_limit_cluster`, which provides the endpoint location of the external rate limit service.
+    The second patch defines the `rate_limit_cluster`, which provides the endpoint location of the external rate limit service.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -136,8 +136,8 @@ Envoy can be used to [set up global rate limits](https://www.envoyproxy.io/docs/
     {{< /text >}}
 
 1. Apply another `EnvoyFilter` to the `ingressgateway` that defines the route configuration on which to rate limit.
-   This adds [rate limit actions](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit)
-   for any route from a virtual host named `*.80`.
+    This adds [rate limit actions](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit)
+    for any route from a virtual host named `*.80`.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
