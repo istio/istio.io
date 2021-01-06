@@ -35,12 +35,11 @@ using both global and local rate limits.
 ### Global rate limit
 
 Envoy can be used to [set up global rate limits](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/global_rate_limiting) for your mesh.
+Global rate limiting in Envoy uses a gRPC API for requesting quota from a rate limiting service.
+A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API, written in Go with a Redis
+backend, is used below.
 
-1. Global rate limiting in Envoy uses a gRPC API for requesting quota from a rate limiting service.
-    A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API, written in Go with a Redis
-    backend, is used below.
-
-    The following [configmap](https://github.com/envoyproxy/ratelimit#configuration) configures the
+1. Use the following [configmap](https://github.com/envoyproxy/ratelimit#configuration) to configure the
     reference implementation to rate limit requests to the path `/productpage` at 1 req/min and all other
     requests at 100 req/min.
 
