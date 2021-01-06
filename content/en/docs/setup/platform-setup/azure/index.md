@@ -11,6 +11,12 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
+{{< warning >}}
+This page was last updated September 12, 2019. This document has never been
+tested on Istio Community Testing days for an Istio release. It is not known if the documentation provided
+is still relevant. If you find any issues, then  please submit PRs to update this document.
+{{< /warning >}}
+
 Follow these instructions to prepare an Azure cluster for Istio.
 
 You can deploy a Kubernetes cluster to Azure via [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) or [AKS-Engine](https://github.com/azure/aks-engine) which fully supports Istio.
