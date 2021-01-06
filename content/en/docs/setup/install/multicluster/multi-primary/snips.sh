@@ -29,7 +29,7 @@ spec:
     global:
       meshID: mesh1
       multiCluster:
-        clusterName: cluster1
+        clusterName: $CTX_CLUSTER1
       network: network1
 EOF
 }
@@ -47,7 +47,7 @@ spec:
     global:
       meshID: mesh1
       multiCluster:
-        clusterName: cluster2
+        clusterName: $CTX_CLUSTER2
       network: network1
 EOF
 }
