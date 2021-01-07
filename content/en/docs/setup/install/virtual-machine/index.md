@@ -36,6 +36,7 @@ and `SERVICE_ACCOUNT`
     $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
+    $ NETWORK="<this can be left blank for single-network installations>
     {{< /text >}}
 
 1. Create the working directory:
@@ -118,14 +119,15 @@ If the control-plane was installed with a revision, add the `--revision rev` fla
     apiVersion: networking.istio.io/v1alpha3
     kind: WorkloadGroup
     metadata:
-      name: ${VM_APP}
-      namespace: ${VM_NAMESPACE}
+      name: "${VM_APP}"
+      namespace: "${VM_NAMESPACE}"
     spec:
       metadata:
         labels:
-          app: ${VM_APP}
+          app: "${VM_APP}"
       template:
-        serviceAccount: ${SERVICE_ACCOUNT}
+        serviceAccount: "${SERVICE_ACCOUNT}"
+        network: "${NETWORK}"
     EOF
     {{< /text >}}
 
@@ -145,14 +147,15 @@ If the control-plane was installed with a revision, add the `--revision rev` fla
     apiVersion: networking.istio.io/v1alpha3
     kind: WorkloadGroup
     metadata:
-      name: ${VM_APP}
-      namespace: ${VM_NAMESPACE}
+      name: "${VM_APP}"
+      namespace: "${VM_NAMESPACE}"
     spec:
       metadata:
         labels:
-          app: ${VM_APP}
+          app: "${VM_APP}"
       template:
-        serviceAccount: ${SERVICE_ACCOUNT}
+        serviceAccount: "${SERVICE_ACCOUNT}"
+        network: "${NETWORK}"
     EOF
     {{< /text >}}
 

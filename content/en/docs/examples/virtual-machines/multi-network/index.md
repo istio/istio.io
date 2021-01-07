@@ -44,40 +44,36 @@ Before we get started, you should prepare a VM and connect it to the Istio contr
 You must alter the VM set up instructions based on the suggestions in this section!
 {{< /warning >}}
 
-1. When we create the `IstioOperator` resource, we need to specify which networks we expect, and how to treat them
-1. When creating the `cluster.env` we need to specify which network in which the VM belongs
-1. We need to create a `Gateway` resource to allow application traffic from the VM to the workload items running in the mesh
+1. When we create the `IstioOperator` resource, we need to specify the network for the cluster.
+1. When creating the `WorkloadEntry` template as part of the `WorkloadGroup`, we need to set the `network` field.
+1. We need to specify the `clusterName` and `networkName` when creating the East-West Gateway.
 
 ### Installing the Istio Control Plane
 
-When following the [Virtual Machine Installation](/docs/setup/install/virtual-machine/) setup guide to install the control plane, we will need to tweak the installation as follows:
+When following the [Virtual Machine Installation](/docs/setup/install/virtual-machine/#install-the-istio-control-plane) setup guide to install the control plane, we will need to tweak the installation as follows:
 
-1. Specify the expected networks in the mesh, including the `vm-network`
+1. Specify the cluster's network in the `IstioOperator` spec.
 
     {{< text bash yaml >}}
-    $ cat <<EOF> ./vmintegration.yaml
+    $ cat <<EOF > ./vmintegration.yaml
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
       values:
         global:
-          meshExpansion:
-            enabled: true
           multiCluster:
             clusterName: kube-cluster
           network: main-network
-          meshNetworks:
-            main-network:
-              endpoints:
-              - fromRegistry: kube-cluster
-              gateways:
-              - registryServiceName: istio-ingressgateway.istio-system.svc.cluster.local
-                port: 443
-
     EOF
     {{< /text >}}
 
-1. Install with the virtual-machine features enabled:
+1. Install the control plane with the network configured.
+
+    {{< text bash >}}
+    $ istioctl install -f ./vmintegration.yaml
+    {{< /text >}}
+    
+1. Specify the cluster name and network when installing the East-West gateway.
 
     {{< text bash >}}
     $ istioctl install -f ./vmintegration.yaml
@@ -85,37 +81,23 @@ When following the [Virtual Machine Installation](/docs/setup/install/virtual-ma
 
 ### Specify the network for the VM sidecar
 
-When following the [Virtual Machine Installation](/docs/setup/install/virtual-machine/) setup guide for creating the `cluster.env` file we need to tweak the installation by adding the following entry:
+Specify the network before following the [Virtual Machine Installation](/docs/setup/install/virtual-machine/#create-files-to-transfer-to-the-virtual-machine) setup guide for creating files to transfer to the virtual machine:
 
     {{< text bash >}}
-    $ echo "ISTIO_META_NETWORK=vm-network" >> cluster.env
+    $ NETWORK=vm-network
     {{< /text >}}
 
 ### Create Gateway for application traffic
 
-The last step is to create a `Gateway` resource that allows application traffic from the VMs to route correctly.
+The last step is to create a `Gateway` resource that routes application traffic from the VMs to services running in the cluster.
 
-    {{< text yaml >}}
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: cluster-aware-gateway
-      namespace: istio-system
-    spec:
-      selector:
-        istio: ingressgateway
-      servers:
-      - port:
-          number: 443
-          name: tls
-          protocol: TLS
-        tls:
-          mode: AUTO_PASSTHROUGH
-        hosts:
-        - "*.local"
+    {{< text bash >}}
+    $ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
+        @samples/multicluster/expose-services.yaml@
     {{< /text >}}
 
-Applying this gateway will route any of the traffic from the VM destined for the workloads in the mesh running on `*.local`
+Applying this gateway will route any of the traffic from the VM destined for the workloads in the mesh running on `*.local` via the
+East-West gateway.
 
 At this point, you can continue with the [Setup Virtual Machine documentation](/docs/setup/install/virtual-machine/).
 
@@ -182,6 +164,10 @@ At this point we should be able to send traffic to `httpbin.default.svc.cluster.
     {{< /text >}}
 
     Lastly create a workload with the external IP of the VM (substitute `VM_IP` with the IP of your VM):
+    
+    {{< tip >}}
+    You can skip this step if using Automated WorkloadEntry Creation.
+    {{< /tip >}} 
 
     {{< text bash >}}
     $ cat <<EOF | kubectl -n <vm-namespace> apply -f -
