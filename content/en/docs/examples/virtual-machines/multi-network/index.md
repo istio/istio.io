@@ -76,7 +76,9 @@ When following the [Virtual Machine Installation](/docs/setup/install/virtual-ma
 1. Specify the cluster name and network when installing the East-West gateway.
 
     {{< text bash >}}
-    $ istioctl install -f ./vmintegration.yaml
+    $ @samples/multicluster/gen-eastwest-gateway.sh@ \
+        --mesh mesh1 --cluster kube-cluster --network main-network | \
+        istioctl install -y -f -
     {{< /text >}}
 
 ### Specify the network for the VM sidecar

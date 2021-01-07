@@ -34,7 +34,7 @@ test: no
     $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
-    $ NETWORK="<this can be left blank for single-network installations>
+    $ NETWORK="<this can be left blank for single-network installations>"
     {{< /text >}}
 
 1. 创建工作目录：
