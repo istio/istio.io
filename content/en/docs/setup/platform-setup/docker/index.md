@@ -12,13 +12,6 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-{{< warning >}}
-This page was last updated August 28, 2019. The community has not tested this
-as part of its release testing since prior to 1.2, which  was released December 10, 2019.
-It is not known if the documentation provided is still relevant. If you find any issues, then
-please submit PRs to update this document.
-{{< /warning >}}
-
 1. To run Istio with Docker Desktop, install a version which contains a supported Kubernetes version
     ({{< supported_kubernetes_versions >}}).
 
