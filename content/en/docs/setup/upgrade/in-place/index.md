@@ -55,7 +55,7 @@ can be found in the `bin/` subdirectory of the downloaded package.
 1. Begin the upgrade by running this command:
 
     {{< text bash >}}
-    $ istioctl upgrade -f `<your-custom-configuration-file>`
+    $ istioctl upgrade
     {{< /text >}}
 
     {{< warning >}}
