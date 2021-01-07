@@ -76,9 +76,9 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     istioctl --context="${CTX_CLUSTER1}" install -y -f -
 {{< /text >}}
 
-{{< tip >}}
+{{< warning >}}
 If the control-plane was installed with a revision, add the `--revision rev` flag to the `gen-eastwest-gateway.sh` command.
-{{< /tip >}}
+{{< /warning >}}
 
 Wait for the east-west gateway to be assigned an external IP address:
 
