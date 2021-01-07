@@ -114,7 +114,19 @@ If the control-plane was installed with a revision, add the `--revision rev` fla
     {{< tab name="Default" category-value="default" >}}
 
     {{< text bash >}}
-    $ istioctl x workload group create --name "${VM_APP}" --namespace "${VM_NAMESPACE}" --labels app="${VM_APP}" --serviceAccount "${SERVICE_ACCOUNT}" > workloadgroup.yaml
+    $ cat <<EOF > workloadgroup.yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: WorkloadGroup
+    metadata:
+      name: ${VM_APP}
+      namespace: ${VM_NAMESPACE}
+    spec:
+      metadata:
+        labels:
+          app: ${VM_APP}
+      template:
+        serviceAccount: ${SERVICE_ACCOUNT}
+    EOF
     {{< /text >}}
 
     {{< /tab >}}
@@ -129,7 +141,19 @@ If the control-plane was installed with a revision, add the `--revision rev` fla
     1. Generate the `WorkloadGroup`:
 
     {{< text bash >}}
-    $ istioctl x workload group create --name "${VM_APP}" --namespace "${VM_NAMESPACE}" --labels app="${VM_APP}" --serviceAccount "${SERVICE_ACCOUNT}" > workloadgroup.yaml
+    $ cat <<EOF > workloadgroup.yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: WorkloadGroup
+    metadata:
+      name: ${VM_APP}
+      namespace: ${VM_NAMESPACE}
+    spec:
+      metadata:
+        labels:
+          app: ${VM_APP}
+      template:
+        serviceAccount: ${SERVICE_ACCOUNT}
+    EOF
     {{< /text >}}
 
     1. Push the `WorkloadGroup` to the cluster:

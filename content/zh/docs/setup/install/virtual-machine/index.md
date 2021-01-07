@@ -107,8 +107,20 @@ test: no
 
     {{< tab name="默认" category-value="default" >}}
 
-    {{< text bash >}}
-    $ istioctl x workload group create --name "${VM_APP}" --namespace "${VM_NAMESPACE}" --labels app="${VM_APP}" --serviceAccount "${SERVICE_ACCOUNT}" > workloadgroup.yaml
+    {< text bash >}}
+    $ cat <<EOF > workloadgroup.yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: WorkloadGroup
+    metadata:
+      name: ${VM_APP}
+      namespace: ${VM_NAMESPACE}
+    spec:
+      metadata:
+        labels:
+          app: ${VM_APP}
+      template:
+        serviceAccount: ${SERVICE_ACCOUNT}
+    EOF
     {{< /text >}}
 
     {{< /tab >}}
@@ -122,8 +134,20 @@ test: no
 
     1. 生成 `WorkloadGroup`:
 
-        {{< text bash >}}
-        $ istioctl x workload group create --name "${VM_APP}" --namespace "${VM_NAMESPACE}" --labels app="${VM_APP}" --serviceAccount "${SERVICE_ACCOUNT}" > workloadgroup.yaml
+        {< text bash >}}
+        $ cat <<EOF > workloadgroup.yaml
+        apiVersion: networking.istio.io/v1alpha3
+        kind: WorkloadGroup
+        metadata:
+          name: ${VM_APP}
+          namespace: ${VM_NAMESPACE}
+        spec:
+          metadata:
+            labels:
+              app: ${VM_APP}
+          template:
+            serviceAccount: ${SERVICE_ACCOUNT}
+        EOF
         {{< /text >}}
 
     1. 将 `WorkloadGroup` 应用到集群中：
