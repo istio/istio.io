@@ -163,6 +163,7 @@ from the control plane.
 1.  Apply the files to the cluster with the following commands:
 
     {{< text bash >}}
+    $ kubectl create namespace istio-system
     $ kubectl apply -n istio-system -f control-plane-1-8-0.yaml
     $ kubectl apply -n istio-system -f gateways.yaml
     {{< /text >}}
