@@ -44,16 +44,16 @@ and `SERVICE_ACCOUNT`
     $ CLUSTER="Kubernetes"
     {{< /text >}}
 
-    {{< tab name="Multi-Network" category-value="multiple" >}}
-
     {{< /tab >}}
+
+    {{< tab name="Multi-Network" category-value="multiple" >}}
 
     {{< text bash >}}
     $ VM_APP="<the name of the application this VM will run>"
     $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
-    # Customize values for multi-cluster/multi-network as needed
+    $ # Customize values for multi-cluster/multi-network as needed
     $ NETWORK="kube-network"
     $ CLUSTER="cluster1"
     {{< /text >}}
@@ -143,8 +143,6 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
     {{< /tabset >}}
 
-    {{< /tabset >}}
-
 1. Expose services inside the cluster via the east-west gateway:
 
     {{< tabset category-name="network-mode" >}}
@@ -196,64 +194,64 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
 1. Create a template `WorkloadGroup` for the VM(s)
 
-    {{< tabset category-name="registration-mode" >}}
+{{< tabset category-name="registration-mode" >}}
 
-    {{< tab name="Default" category-value="default" >}}
+{{< tab name="Default" category-value="default" >}}
 
-    {{< text bash >}}
-    $ cat <<EOF > workloadgroup.yaml
-    apiVersion: networking.istio.io/v1alpha3
-    kind: WorkloadGroup
-    metadata:
-      name: "${VM_APP}"
-      namespace: "${VM_NAMESPACE}"
-    spec:
-      metadata:
-        labels:
-          app: "${VM_APP}"
-      template:
-        serviceAccount: "${SERVICE_ACCOUNT}"
-        network: "${NETWORK}"
-    EOF
-    {{< /text >}}
+{{< text bash >}}
+$ cat <<EOF > workloadgroup.yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: WorkloadGroup
+metadata:
+  name: "${VM_APP}"
+  namespace: "${VM_NAMESPACE}"
+spec:
+  metadata:
+    labels:
+      app: "${VM_APP}"
+  template:
+    serviceAccount: "${SERVICE_ACCOUNT}"
+    network: "${NETWORK}"
+EOF
+{{< /text >}}
 
-    {{< /tab >}}
+{{< /tab >}}
 
-    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
+{{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
 
-    {{< warning >}}
-    This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
-    considered `pre-alpha`.
-    {{< /warning >}}
+{{< warning >}}
+This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
+considered `pre-alpha`.
+{{< /warning >}}
 
-    1. Generate the `WorkloadGroup`:
+1. Generate the `WorkloadGroup`:
 
-    {{< text bash >}}
-    $ cat <<EOF > workloadgroup.yaml
-    apiVersion: networking.istio.io/v1alpha3
-    kind: WorkloadGroup
-    metadata:
-      name: "${VM_APP}"
-      namespace: "${VM_NAMESPACE}"
-    spec:
-      metadata:
-        labels:
-          app: "${VM_APP}"
-      template:
-        serviceAccount: "${SERVICE_ACCOUNT}"
-        network: "${NETWORK}"
-    EOF
-    {{< /text >}}
+{{< text bash >}}
+$ cat <<EOF > workloadgroup.yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: WorkloadGroup
+metadata:
+  name: "${VM_APP}"
+  namespace: "${VM_NAMESPACE}"
+spec:
+  metadata:
+    labels:
+      app: "${VM_APP}"
+  template:
+    serviceAccount: "${SERVICE_ACCOUNT}"
+    network: "${NETWORK}"
+EOF
+{{< /text >}}
 
-    1. Push the `WorkloadGroup` to the cluster:
+1. Push the `WorkloadGroup` to the cluster:
 
-    {{< text bash >}}
-    $ kubectl --namespace ${VM_NAMESPACE} apply -f workloadgroup.yaml
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl --namespace ${VM_NAMESPACE} apply -f workloadgroup.yaml
+{{< /text >}}
 
-    {{< /tab >}}
+{{< /tab >}}
 
-    {{< /tabset >}}
+{{< /tabset >}}
 
 1. Use the `istioctl x workload entry` command to generate:
        * `cluster.env`: Contains metadata that identifies what namespace, service account, network CIDR and (optionally) what inbound ports to capture.
