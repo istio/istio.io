@@ -108,7 +108,7 @@ test: no
 
     {{< tab name="默认" category-value="default" >}}
 
-    {< text bash >}}
+    {{< text bash >}}
     $ cat <<EOF > workloadgroup.yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: WorkloadGroup
@@ -136,7 +136,7 @@ test: no
 
     1. 生成 `WorkloadGroup`:
 
-        {< text bash >}}
+        {{< text bash >}}
         $ cat <<EOF > workloadgroup.yaml
         apiVersion: networking.istio.io/v1alpha3
         kind: WorkloadGroup
