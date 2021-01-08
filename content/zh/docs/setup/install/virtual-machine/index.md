@@ -34,7 +34,6 @@ test: no
     $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
-    $ NETWORK="<this can be left blank for single-network installations>"
     {{< /text >}}
 
 1. 创建工作目录：
@@ -109,20 +108,7 @@ test: no
     {{< tab name="默认" category-value="default" >}}
 
     {{< text bash >}}
-    $ cat <<EOF > workloadgroup.yaml
-    apiVersion: networking.istio.io/v1alpha3
-    kind: WorkloadGroup
-    metadata:
-      name: "${VM_APP}"
-      namespace: "${VM_NAMESPACE}"
-    spec:
-      metadata:
-        labels:
-          app: "${VM_APP}"
-      template:
-        serviceAccount: "${SERVICE_ACCOUNT}"
-        network: "${NETWORK}"
-    EOF
+    $ istioctl x workload group create --name "${VM_APP}" --namespace "${VM_NAMESPACE}" --labels app="${VM_APP}" --serviceAccount "${SERVICE_ACCOUNT}" > workloadgroup.yaml
     {{< /text >}}
 
     {{< /tab >}}
@@ -137,20 +123,7 @@ test: no
     1. 生成 `WorkloadGroup`:
 
         {{< text bash >}}
-        $ cat <<EOF > workloadgroup.yaml
-        apiVersion: networking.istio.io/v1alpha3
-        kind: WorkloadGroup
-        metadata:
-          name: "${VM_APP}"
-          namespace: "${VM_NAMESPACE}"
-        spec:
-          metadata:
-            labels:
-              app: "${VM_APP}"
-          template:
-            serviceAccount: "${SERVICE_ACCOUNT}"
-            network: "${NETWORK}"
-        EOF
+        $ istioctl x workload group create --name "${VM_APP}" --namespace "${VM_NAMESPACE}" --labels app="${VM_APP}" --serviceAccount "${SERVICE_ACCOUNT}" > workloadgroup.yaml
         {{< /text >}}
 
     1. 将 `WorkloadGroup` 应用到集群中：
