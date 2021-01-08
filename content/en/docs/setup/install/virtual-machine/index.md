@@ -31,12 +31,36 @@ This guide is tested and validated but note that VM support is still an alpha fe
 and `SERVICE_ACCOUNT`
     (e.g., `WORK_DIR="${HOME}/vmintegration"`):
 
+    {{< tabset category-name="network-mode" >}}
+
+    {{< tab name="Single-Network" category-value="single" >}}
+
     {{< text bash >}}
     $ VM_APP="<the name of the application this VM will run>"
     $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
+    $ NETWORK=""
+    $ CLUSTER="Kubernetes"
     {{< /text >}}
+
+    {{< tab name="Multi-Network" category-value="multiple" >}}
+
+    {{< /tab >}}
+
+    {{< text bash >}}
+    $ VM_APP="<the name of the application this VM will run>"
+    $ VM_NAMESPACE="<the name of your service namespace>"
+    $ WORK_DIR="<a certificate working directory>"
+    $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
+    # Customize values for multi-cluster/multi-network as needed
+    $ NETWORK="kube-network"
+    $ CLUSTER="cluster1"
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
 1. Create the working directory:
 
@@ -48,6 +72,22 @@ and `SERVICE_ACCOUNT`
 
 Install Istio and expose the control plane so that your virtual machine can access it.
 
+1. Create the `IstioOperator` spec for installation.
+
+    {{< text bash yaml >}}
+    $ cat <<EOF > ./vm-cluster.yaml
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      values:
+        global:
+          meshID: mesh1
+          multiCluster:
+            clusterName: "${CLUSTER}}"
+          network: "${NETWORK}"
+    EOF
+    {{< /text >}}
+
 1. Install Istio.
 
     {{< tabset category-name="registration-mode" >}}
@@ -55,7 +95,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< tab name="Default" category-value="default" >}}
 
     {{< text bash >}}
-    $ istioctl install
+    $ istioctl install -f vm-cluster.yaml
     {{< /text >}}
 
     {{< /tab >}}
@@ -68,7 +108,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< /warning >}}
 
     {{< text bash >}}
-    $ istioctl install --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true
+    $ istioctl install -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true
     {{< /text >}}
 
     {{< /tab >}}
@@ -77,19 +117,64 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
 1. Deploy the east-west gateway:
 
+    {{< warning >}}
+    If the control-plane was installed with a revision, add the `--revision rev` flag to the `gen-eastwest-gateway.sh` command.
+    {{< /warning >}}
+
+    {{< tabset category-name="network-mode" >}}
+
+    {{< tab name="Single-Network" category-value="single" >}}
+
     {{< text bash >}}
     $ @samples/multicluster/gen-eastwest-gateway.sh@ --single-cluster | istioctl install -y -f -
     {{< /text >}}
 
-{{< warning >}}
-If the control-plane was installed with a revision, add the `--revision rev` flag to the `gen-eastwest-gateway.sh` command.
-{{< /warning >}}
+    {{< /tab >}}
 
-1. Expose the control plane using the provided sample configuration:
+    {{< tab name="Multi-Network" category-value="multiple" >}}
+
+    {{< text bash >}}
+    $ @samples/multicluster/gen-eastwest-gateway.sh@ \
+        --mesh mesh1 --cluster "${CLUSTER}" --network "${NETWORK}" | \
+        istioctl install -y -f -
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
+1. Expose services inside the cluster via the east-west gateway:
+
+    {{< tabset category-name="network-mode" >}}
+
+    {{< tab name="Single-Network" category-value="single" >}}
+
+    Expose the control plane:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
     {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< tab name="Multi-Network" category-value="multiple" >}}
+
+    Expose the control plane:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
+    {{< /text >}}
+
+    Expose cluster services:
+
+    {{< text bash >}}
+    $ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
+        @samples/multicluster/expose-services.yaml@
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
 ## Configure the VM namespace
 
@@ -114,7 +199,20 @@ If the control-plane was installed with a revision, add the `--revision rev` fla
     {{< tab name="Default" category-value="default" >}}
 
     {{< text bash >}}
-    $ istioctl x workload group create --name "${VM_APP}" --namespace "${VM_NAMESPACE}" --labels app="${VM_APP}" --serviceAccount "${SERVICE_ACCOUNT}" > workloadgroup.yaml
+    $ cat <<EOF > workloadgroup.yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: WorkloadGroup
+    metadata:
+      name: "${VM_APP}"
+      namespace: "${VM_NAMESPACE}"
+    spec:
+      metadata:
+        labels:
+          app: "${VM_APP}"
+      template:
+        serviceAccount: "${SERVICE_ACCOUNT}"
+        network: "${NETWORK}"
+    EOF
     {{< /text >}}
 
     {{< /tab >}}
@@ -129,7 +227,20 @@ If the control-plane was installed with a revision, add the `--revision rev` fla
     1. Generate the `WorkloadGroup`:
 
     {{< text bash >}}
-    $ istioctl x workload group create --name "${VM_APP}" --namespace "${VM_NAMESPACE}" --labels app="${VM_APP}" --serviceAccount "${SERVICE_ACCOUNT}" > workloadgroup.yaml
+    $ cat <<EOF > workloadgroup.yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: WorkloadGroup
+    metadata:
+      name: "${VM_APP}"
+      namespace: "${VM_NAMESPACE}"
+    spec:
+      metadata:
+        labels:
+          app: "${VM_APP}"
+      template:
+        serviceAccount: "${SERVICE_ACCOUNT}"
+        network: "${NETWORK}"
+    EOF
     {{< /text >}}
 
     1. Push the `WorkloadGroup` to the cluster:
@@ -160,7 +271,7 @@ If the control-plane was installed with a revision, add the `--revision rev` fla
     {{< tab name="Default" category-value="default" >}}
 
     {{< text bash >}}
-    $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}"
+    $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}"
     {{< /text >}}
 
     {{< /tab >}}
@@ -173,17 +284,12 @@ If the control-plane was installed with a revision, add the `--revision rev` fla
     {{< /warning >}}
 
     {{< text bash >}}
-    $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --autoregister
+    $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --autoregister
     {{< /text >}}
 
     {{< /tab >}}
 
     {{< /tabset >}}
-
-    {{< warning >}}
-    When connecting a VM to a multicluster Istio mesh, you will need to add the `--clusterID` argument to
-    the above command. Set the value to the name of the cluster corresponding to the `istioctl` context.
-    {{< /warning >}}
 
 ## Configure the virtual machine
 
