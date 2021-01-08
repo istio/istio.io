@@ -140,7 +140,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< /text >}}
 
     {{< /tab >}}
-    
+
     {{< /tabset >}}
 
     {{< /tabset >}}
