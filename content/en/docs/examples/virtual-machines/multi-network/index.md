@@ -24,84 +24,11 @@ bare metal and the clusters.
 
 - One or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
-- Virtual machines (VMs) must have IP connectivity to the Ingress gateways in the mesh.
+- Virtual machines (VMs) must have IP connectivity to the east-west gateways in the mesh.
 
-- Services in the cluster must be accessible through the Ingress gateway.
+- Services in the cluster must be accessible through the east-west gateway.
 
-## Installation steps
-
-Setup consists of preparing the mesh for expansion and installing and configuring each VM.
-
-### Preparing your environment
-
-When expanding Istio's mesh capabilities to VMs across multiple networks (where the VM is in a network where traffic cannot directly route to pods in the Kubernetes cluster, for example), we'll need to take advantage of Istio's split-horizon DNS capabilities.
-
-Before we get started, you should prepare a VM and connect it to the Istio control plane through the Ingress Gateway. These steps are detailed in [Setup: Install: Virtual Machine Installation](/docs/setup/install/virtual-machine/).
-
-**Note** There are a few alterations to that document as follows:
-
-{{< warning >}}
-You must alter the VM set up instructions based on the suggestions in this section!
-{{< /warning >}}
-
-1. When we create the `IstioOperator` resource, we need to specify the network for the cluster.
-1. When creating the `WorkloadEntry` template as part of the `WorkloadGroup`, we need to set the `network` field.
-1. We need to specify the `clusterName` and `networkName` when creating the East-West Gateway.
-
-### Installing the Istio Control Plane
-
-When following the [Virtual Machine Installation](/docs/setup/install/virtual-machine/#install-the-istio-control-plane) setup guide to install the control plane, we will need to tweak the installation as follows:
-
-1. Specify the cluster's network in the `IstioOperator` spec.
-
-    {{< text bash yaml >}}
-    $ cat <<EOF > ./vmintegration.yaml
-    apiVersion: install.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      values:
-        global:
-          multiCluster:
-            clusterName: kube-cluster
-          network: main-network
-    EOF
-    {{< /text >}}
-
-1. Install the control plane with the network configured.
-
-    {{< text bash >}}
-    $ istioctl install -f ./vmintegration.yaml
-    {{< /text >}}
-
-1. Specify the cluster name and network when installing the East-West gateway.
-
-    {{< text bash >}}
-    $ @samples/multicluster/gen-eastwest-gateway.sh@ \
-        --mesh mesh1 --cluster kube-cluster --network main-network | \
-        istioctl install -y -f -
-    {{< /text >}}
-
-### Specify the network for the VM sidecar
-
-Specify the network before following the [Virtual Machine Installation](/docs/setup/install/virtual-machine/#create-files-to-transfer-to-the-virtual-machine) setup guide for creating files to transfer to the virtual machine:
-
-    {{< text bash >}}
-    $ NETWORK=vm-network
-    {{< /text >}}
-
-### Create Gateway for application traffic
-
-The last step is to create a `Gateway` resource that routes application traffic from the VMs to services running in the cluster.
-
-    {{< text bash >}}
-    $ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
-        @samples/multicluster/expose-services.yaml@
-    {{< /text >}}
-
-Applying this gateway will route any of the traffic from the VM destined for the workloads in the mesh running on `*.local` via the
-East-West gateway.
-
-At this point, you can continue with the [Setup Virtual Machine documentation](/docs/setup/install/virtual-machine/).
+- Installation must be completed using [virtual machine installation](/docs/setup/install/virtual-machine) instructions, following steps for Multi-Network.
 
 ## Verify setup
 
