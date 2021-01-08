@@ -433,6 +433,7 @@ Manolache
 Marshalers
 memcached
 memcached-2's
+MetalLB
 Mesos
 mesos-dns
 metadata
