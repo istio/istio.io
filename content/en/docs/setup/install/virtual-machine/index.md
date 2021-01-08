@@ -31,19 +31,36 @@ This guide is tested and validated but note that VM support is still an alpha fe
 and `SERVICE_ACCOUNT`
     (e.g., `WORK_DIR="${HOME}/vmintegration"`):
 
+    {{< tabset category-name="network-mode" >}}
+
+    {{< tab name="Single-Network" category-value="single" >}}
+
     {{< text bash >}}
     $ VM_APP="<the name of the application this VM will run>"
     $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
+    $ NETWORK=""
+    $ CLUSTER="Kubernetes"
     {{< /text >}}
 
-1. For Multi-Network installations, specify `CLUSTER` and `NETWORK`
+    {{< tab name="Multi-Network" category-value="multiple" >}}
+
+    {{< /tab >}}
 
     {{< text bash >}}
-    $ NETWORK=""
-    $ CLUSTER=""
+    $ VM_APP="<the name of the application this VM will run>"
+    $ VM_NAMESPACE="<the name of your service namespace>"
+    $ WORK_DIR="<a certificate working directory>"
+    $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
+    # Customize values for multi-cluster/multi-network as needed
+    $ NETWORK="kube-network"
+    $ CLUSTER="cluster1"
     {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
 1. Create the working directory:
 
@@ -123,6 +140,8 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< /text >}}
 
     {{< /tab >}}
+    
+    {{< /tabset >}}
 
 1. Expose services inside the cluster via the east-west gateway:
 
@@ -154,6 +173,8 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< /text >}}
 
     {{< /tab >}}
+
+    {{< /tabset >}}
 
 ## Configure the VM namespace
 
@@ -250,7 +271,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< tab name="Default" category-value="default" >}}
 
     {{< text bash >}}
-    $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}"
+    $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}"
     {{< /text >}}
 
     {{< /tab >}}
@@ -263,17 +284,12 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< /warning >}}
 
     {{< text bash >}}
-    $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --autoregister
+    $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --autoregister
     {{< /text >}}
 
     {{< /tab >}}
 
     {{< /tabset >}}
-
-    {{< warning >}}
-    When connecting a VM to an Istio control plane with the `clusterName`configured, you will need to add the `--clusterID`
-    argument to the above command. Set the value to the name of the cluster corresponding to the `istioctl` context.
-    {{< /warning >}}
 
 ## Configure the virtual machine
 
