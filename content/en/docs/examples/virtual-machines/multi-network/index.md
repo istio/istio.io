@@ -72,7 +72,7 @@ When following the [Virtual Machine Installation](/docs/setup/install/virtual-ma
     {{< text bash >}}
     $ istioctl install -f ./vmintegration.yaml
     {{< /text >}}
-    
+
 1. Specify the cluster name and network when installing the East-West gateway.
 
     {{< text bash >}}
@@ -166,10 +166,10 @@ At this point we should be able to send traffic to `httpbin.default.svc.cluster.
     {{< /text >}}
 
     Lastly create a workload with the external IP of the VM (substitute `VM_IP` with the IP of your VM):
-    
+
     {{< tip >}}
     You can skip this step if using Automated WorkloadEntry Creation.
-    {{< /tip >}} 
+    {{< /tip >}}
 
     {{< text bash >}}
     $ cat <<EOF | kubectl -n <vm-namespace> apply -f -
