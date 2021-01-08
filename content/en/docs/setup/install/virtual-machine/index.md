@@ -40,7 +40,8 @@ and `SERVICE_ACCOUNT`
     $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
-    $ NETWORK=""
+    $ CLUSTER_NETWORK=""
+    $ VM_NETWORK=""
     $ CLUSTER="Kubernetes"
     {{< /text >}}
 
@@ -54,7 +55,8 @@ and `SERVICE_ACCOUNT`
     $ WORK_DIR="<a certificate working directory>"
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
     $ # Customize values for multi-cluster/multi-network as needed
-    $ NETWORK="kube-network"
+    $ CLUSTER_NETWORK="kube-network"
+    $ VM_NETWORK="vm-network"
     $ CLUSTER="cluster1"
     {{< /text >}}
 
@@ -84,7 +86,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
           meshID: mesh1
           multiCluster:
             clusterName: "${CLUSTER}}"
-          network: "${NETWORK}"
+          network: "${CLUSTER_NETWORK}"
     EOF
     {{< /text >}}
 
@@ -135,7 +137,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
     {{< text bash >}}
     $ @samples/multicluster/gen-eastwest-gateway.sh@ \
-        --mesh mesh1 --cluster "${CLUSTER}" --network "${NETWORK}" | \
+        --mesh mesh1 --cluster "${CLUSTER}" --network "${CLUSTER_NETWORK}" | \
         istioctl install -y -f -
     {{< /text >}}
 
@@ -168,7 +170,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     Expose cluster services:
 
     {{< text bash >}}
-    $ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
+    $ kubectl apply -n istio-system -f \
         @samples/multicluster/expose-services.yaml@
     {{< /text >}}
 
@@ -211,7 +213,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
           app: "${VM_APP}"
       template:
         serviceAccount: "${SERVICE_ACCOUNT}"
-        network: "${NETWORK}"
+        network: "${VM_NETWORK}"
     EOF
     {{< /text >}}
     
@@ -239,7 +241,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
           app: "${VM_APP}"
       template:
         serviceAccount: "${SERVICE_ACCOUNT}"
-        network: "${NETWORK}"
+        network: "${VM_NETWORK}"
     EOF
     {{< /text >}}
 
