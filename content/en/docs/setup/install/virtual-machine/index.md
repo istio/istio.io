@@ -197,9 +197,9 @@ Install Istio and expose the control plane so that your virtual machine can acce
 1. Create a template `WorkloadGroup` for the VM(s)
 
     {{< tabset category-name="registration-mode" >}}
-    
+
     {{< tab name="Default" category-value="default" >}}
-    
+
     {{< text bash >}}
     $ cat <<EOF > workloadgroup.yaml
     apiVersion: networking.istio.io/v1alpha3
@@ -216,11 +216,11 @@ Install Istio and expose the control plane so that your virtual machine can acce
         network: "${VM_NETWORK}"
     EOF
     {{< /text >}}
-    
+
     {{< /tab >}}
-    
+
     {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
-    
+
     {{< warning >}}
     This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
     considered `pre-alpha`.
@@ -250,9 +250,9 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< text bash >}}
     $ kubectl --namespace ${VM_NAMESPACE} apply -f workloadgroup.yaml
     {{< /text >}}
-    
+
     {{< /tab >}}
-    
+
     {{< /tabset >}}
 
 1. Use the `istioctl x workload entry` command to generate:
