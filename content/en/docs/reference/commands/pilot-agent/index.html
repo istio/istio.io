@@ -269,6 +269,11 @@ remove_toc_prefix: 'pilot-agent '
 <td>Specify the UID of the user for which the redirection is not applied. Typically, this is the UID of the proxy container  (default ``)</td>
 </tr>
 <tr>
+<td><code>--redirect-dns</code></td>
+<td></td>
+<td>Enable capture of dns traffic by istio-agent </td>
+</tr>
+<tr>
 <td><code>--restore-format</code></td>
 <td><code>-f</code></td>
 <td>Print iptables rules in iptables-restore interpretable format </td>
@@ -1114,12 +1119,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>The grace period ratio for the cert rotation, by default 0.5.</td>
 </tr>
 <tr>
-<td><code>SECRET_ROTATION_CHECK_INTERVAL</code></td>
-<td>Time Duration</td>
-<td><code>5m0s</code></td>
-<td>The ticker to detect and rotate the certificates, by default 5 minutes</td>
-</tr>
-<tr>
 <td><code>SECRET_TTL</code></td>
 <td>Time Duration</td>
 <td><code>24h0m0s</code></td>
@@ -1138,12 +1137,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>The SPIFFE bundle trust domain to endpoint mappings. Istiod retrieves the root certificate from each SPIFFE bundle endpoint and uses it to verify client certifiates from that trust domain. The endpoint must be compliant to the SPIFFE Bundle Endpoint standard. For details, please refer to https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md . No need to configure this for root certificates issued via Istiod or web-PKI based root certificates. Use || between &lt;trustdomain, endpoint&gt; tuples. Use | as delimiter between trust domain and endpoint in each tuple. For example: foo|https://url/for/foo||bar|https://url/for/bar</td>
 </tr>
 <tr>
-<td><code>STALED_CONNECTION_RECYCLE_RUN_INTERVAL</code></td>
-<td>Time Duration</td>
-<td><code>5m0s</code></td>
-<td>The ticker to detect and close stale connections</td>
-</tr>
-<tr>
 <td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
 <td>Integer</td>
 <td><code>5</code></td>
@@ -1160,12 +1153,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code>cluster.local</code></td>
 <td>The trust domain for spiffe certificates</td>
-</tr>
-<tr>
-<td><code>USE_TOKEN_FOR_CSR</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>CSR requires a token</td>
 </tr>
 <tr>
 <td><code>XDS_AUTH</code></td>
