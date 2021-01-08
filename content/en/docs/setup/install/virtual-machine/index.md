@@ -194,64 +194,64 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
 1. Create a template `WorkloadGroup` for the VM(s)
 
-{{< tabset category-name="registration-mode" >}}
-
-{{< tab name="Default" category-value="default" >}}
-
-{{< text bash >}}
-$ cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1alpha3
-kind: WorkloadGroup
-metadata:
-  name: "${VM_APP}"
-  namespace: "${VM_NAMESPACE}"
-spec:
-  metadata:
-    labels:
-      app: "${VM_APP}"
-  template:
-    serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${NETWORK}"
-EOF
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
-
-{{< warning >}}
-This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
-considered `pre-alpha`.
-{{< /warning >}}
+    {{< tabset category-name="registration-mode" >}}
+    
+    {{< tab name="Default" category-value="default" >}}
+    
+    {{< text bash >}}
+    $ cat <<EOF > workloadgroup.yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: WorkloadGroup
+    metadata:
+      name: "${VM_APP}"
+      namespace: "${VM_NAMESPACE}"
+    spec:
+      metadata:
+        labels:
+          app: "${VM_APP}"
+      template:
+        serviceAccount: "${SERVICE_ACCOUNT}"
+        network: "${NETWORK}"
+    EOF
+    {{< /text >}}
+    
+    {{< /tab >}}
+    
+    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
+    
+    {{< warning >}}
+    This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
+    considered `pre-alpha`.
+    {{< /warning >}}
 
 1. Generate the `WorkloadGroup`:
 
-{{< text bash >}}
-$ cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1alpha3
-kind: WorkloadGroup
-metadata:
-  name: "${VM_APP}"
-  namespace: "${VM_NAMESPACE}"
-spec:
-  metadata:
-    labels:
-      app: "${VM_APP}"
-  template:
-    serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${NETWORK}"
-EOF
-{{< /text >}}
+    {{< text bash >}}
+    $ cat <<EOF > workloadgroup.yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: WorkloadGroup
+    metadata:
+      name: "${VM_APP}"
+      namespace: "${VM_NAMESPACE}"
+    spec:
+      metadata:
+        labels:
+          app: "${VM_APP}"
+      template:
+        serviceAccount: "${SERVICE_ACCOUNT}"
+        network: "${NETWORK}"
+    EOF
+    {{< /text >}}
 
 1. Push the `WorkloadGroup` to the cluster:
 
-{{< text bash >}}
-$ kubectl --namespace ${VM_NAMESPACE} apply -f workloadgroup.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
+    {{< text bash >}}
+    $ kubectl --namespace ${VM_NAMESPACE} apply -f workloadgroup.yaml
+    {{< /text >}}
+    
+    {{< /tab >}}
+    
+    {{< /tabset >}}
 
 1. Use the `istioctl x workload entry` command to generate:
        * `cluster.env`: Contains metadata that identifies what namespace, service account, network CIDR and (optionally) what inbound ports to capture.
