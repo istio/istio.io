@@ -449,7 +449,7 @@ $ kubectl label namespace httpbin istio-injection=enabled --overwrite
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl apply -n httpbin -f  {{< github_file >}}/1.8.0/samples/sleep/sleep.yaml
+$ kubectl apply -n httpbin -f  {{< github_file >}}/samples/sleep/sleep.yaml
 {{< /text >}}
 
 {{< text bash >}}
