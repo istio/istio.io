@@ -209,11 +209,11 @@ Install Istio and expose the control plane so that your virtual machine can acce
       namespace: "${VM_NAMESPACE}"
     spec:
       metadata:
-        labels:
-          app: "${VM_APP}"
-      template:
-        serviceAccount: "${SERVICE_ACCOUNT}"
-        network: "${VM_NETWORK}"
+            labels:
+              app: "${VM_APP}"
+          template:
+            serviceAccount: "${SERVICE_ACCOUNT}"
+            network: "${VM_NETWORK}"
     EOF
     {{< /text >}}
 
@@ -237,11 +237,11 @@ Install Istio and expose the control plane so that your virtual machine can acce
       namespace: "${VM_NAMESPACE}"
     spec:
       metadata:
-        labels:
-          app: "${VM_APP}"
-      template:
-        serviceAccount: "${SERVICE_ACCOUNT}"
-        network: "${VM_NETWORK}"
+            labels:
+              app: "${VM_APP}"
+          template:
+            serviceAccount: "${SERVICE_ACCOUNT}"
+            network: "${VM_NETWORK}"
     EOF
     {{< /text >}}
 
