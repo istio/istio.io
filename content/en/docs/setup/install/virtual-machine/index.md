@@ -208,11 +208,11 @@ metadata:
   namespace: "${VM_NAMESPACE}"
 spec:
   metadata:
-        labels:
-          app: "${VM_APP}"
-      template:
-        serviceAccount: "${SERVICE_ACCOUNT}"
-        network: "${VM_NETWORK}"
+    labels:
+      app: "${VM_APP}"
+  template:
+    serviceAccount: "${SERVICE_ACCOUNT}"
+    network: "${VM_NETWORK}"
 EOF
 {{< /text >}}
 
