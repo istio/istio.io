@@ -397,7 +397,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
 1. Deploy the `HelloWorld` Service:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/helloworld/helloworld.yaml@
+    $ kubectl apply -n sample -f @samples/helloworld/helloworld.yaml@
     {{< /text >}}
 
 1. Send requests from your Virtual Machine to the Service:
