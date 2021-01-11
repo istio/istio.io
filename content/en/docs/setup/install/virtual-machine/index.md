@@ -266,6 +266,24 @@ Install Istio and expose the control plane so that your virtual machine can acce
     the scope of this guide.
     {{< /idea >}}
 
+    {{< tip >}}
+    Make sure your cluster supports third party service account tokens to generate `istio-token`. To determine if your cluster supports third party tokens, look for the `TokenRequest` API. If this returns no response, then the feature is not supported:
+    {{< text bash >}}
+    $ kubectl get --raw /api/v1 | jq '.resources[] | select(.name | index("serviceaccounts/token"))'
+    {
+        "name": "serviceaccounts/token",
+        "singularName": "",
+        "namespaced": true,
+        "group": "authentication.k8s.io",
+        "version": "v1",
+        "kind": "TokenRequest",
+        "verbs": [
+            "create"
+        ]
+    }
+    {{< /text >}}
+    {{< /tip >}}
+
     {{< tabset category-name="registration-mode" >}}
 
     {{< tab name="Default" category-value="default" >}}
