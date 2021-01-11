@@ -2,10 +2,6 @@ module istio.io/istio.io
 
 go 1.15
 
-replace github.com/golang/glog => github.com/istio/glog v0.0.0-20190424172949-d7cfb6fa2ccd
-
-replace k8s.io/klog => github.com/istio/klog v0.0.0-20190424230111-fb7481ea8bcf
-
 replace github.com/spf13/viper => github.com/istio/viper v1.3.3-0.20190515210538-2789fed3109c
 
 // For license
@@ -34,3 +30,6 @@ require (
 	k8s.io/apimachinery v0.20.1
 	k8s.io/client-go v0.20.1
 )
+
+// Pending https://github.com/kubernetes/kube-openapi/pull/220
+replace k8s.io/kube-openapi => github.com/howardjohn/kube-openapi v0.0.0-20210104181841-c0b40d2cb1c8
