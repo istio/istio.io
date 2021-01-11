@@ -129,7 +129,7 @@ $ istioctl x create-remote-secret \
 Save the address of `cluster1`’s east-west gateway.
 
 {{< tip >}}
-If you are testing primary-remote multicluster setup on `Kind` you can use [MetalLB](https://metallb.universe.tf/installation/) to make use of `EXTERNAL-IP` for `LoadBalancer` services.
+If you are testing primary-remote multicluster setup on `kind` you can use [MetalLB](https://metallb.universe.tf/installation/) to make use of `EXTERNAL-IP` for `LoadBalancer` services.
 {{< /tip >}}
 
 {{< text bash >}}
