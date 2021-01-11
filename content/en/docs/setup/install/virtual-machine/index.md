@@ -253,8 +253,8 @@ $ kubectl --namespace ${VM_NAMESPACE} apply -f workloadgroup.yaml
 {{< /tabset >}}
 
 {{< warning >}}
-Before proceeding to generate the `istio-token`, as part of `istioctl x workload entry`, you should verify third party tokens are enabled in your cluster by following the steps describe [here](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens). 
-If third party tokens are not enabled, you should add the option `--set values.global.jwtPolicy=first-party-jwt` to the istio install commands.
+Before proceeding to generate the `istio-token`, as part of `istioctl x workload entry`, you should verify third party tokens are enabled in your cluster by following the steps describe [here](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens).
+If third party tokens are not enabled, you should add the option `--set values.global.jwtPolicy=first-party-jwt` to the Istio install commands.
 {{< /warning >}}
 
 Next, use the `istioctl x workload entry` command to generate:
