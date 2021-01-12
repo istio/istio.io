@@ -39,7 +39,7 @@ You can find high-level releases notes for each LTS release [here](/news).
 Our naming scheme for LTS releases is:
 
 {{< text plain >}}
-<major>.<minor>.<LTS patch level>
+<major>.<minor>.<patch>
 {{< /text >}}
 
 where `<minor>` is increased for every LTS release, and `<LTS patch level>` counts the number of patches for the
