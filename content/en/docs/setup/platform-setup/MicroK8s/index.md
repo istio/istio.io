@@ -11,6 +11,10 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
+This page was last updated August 28, 2019.
+
+{{< boilerplate untested-platform >}}
+
 Follow these instructions to prepare MicroK8s for using Istio.
 
 {{< warning >}}
