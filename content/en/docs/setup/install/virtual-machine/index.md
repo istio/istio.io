@@ -193,11 +193,11 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
 ## Create files to transfer to the virtual machine
 
-First, create a template `WorkloadGroup` for the VM(s):
-
 {{< tabset category-name="registration-mode" >}}
 
 {{< tab name="Default" category-value="default" >}}
+
+First, create a template `WorkloadGroup` for the VM(s):
 
 {{< text bash >}}
 $ cat <<EOF > workloadgroup.yaml
@@ -219,6 +219,8 @@ EOF
 {{< /tab >}}
 
 {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
+
+First, create a template `WorkloadGroup` for the VM(s):
 
 {{< warning >}}
 This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
