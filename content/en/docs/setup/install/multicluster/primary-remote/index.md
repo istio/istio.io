@@ -16,6 +16,10 @@ connectivity between the pods in both clusters.
 Before proceeding, be sure to complete the steps under
 [before you begin](/docs/setup/install/multicluster/before-you-begin).
 
+{{< tip >}}
+If you are testing primary-remote multicluster setup on `kind` you can use [MetalLB](https://metallb.universe.tf/installation/) to make use of `EXTERNAL-IP` for `LoadBalancer` services.
+{{< /tip >}}
+
 In this configuration, cluster `cluster1` will observe the API Servers in
 both clusters for endpoints. In this way, the control plane will be able to
 provide service discovery for workloads in both clusters.
@@ -127,10 +131,6 @@ $ istioctl x create-remote-secret \
 ## Configure `cluster2` as a remote
 
 Save the address of `cluster1`’s east-west gateway.
-
-{{< tip >}}
-If you are testing primary-remote multicluster setup on `kind` you can use [MetalLB](https://metallb.universe.tf/installation/) to make use of `EXTERNAL-IP` for `LoadBalancer` services.
-{{< /tip >}}
 
 {{< text bash >}}
 $ export DISCOVERY_ADDRESS=$(kubectl \
