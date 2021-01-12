@@ -8,7 +8,7 @@ test: no
 ---
 
 {{< warning >}}
-This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is considered `alpha`.
+This feature is currently [experimental](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and considered `alpha`.
 {{< /warning >}}
 
 In addition to capturing application traffic, Istio can also capture DNS requests to improve the performance and usability of your mesh.
