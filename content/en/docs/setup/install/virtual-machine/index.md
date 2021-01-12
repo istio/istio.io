@@ -40,21 +40,23 @@ and `SERVICE_ACCOUNT`
     $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
-    $ NETWORK=""
+    $ CLUSTER_NETWORK=""
+    $ VM_NETWORK=""
     $ CLUSTER="Kubernetes"
     {{< /text >}}
 
-    {{< tab name="Multi-Network" category-value="multiple" >}}
-
     {{< /tab >}}
+
+    {{< tab name="Multi-Network" category-value="multiple" >}}
 
     {{< text bash >}}
     $ VM_APP="<the name of the application this VM will run>"
     $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
-    # Customize values for multi-cluster/multi-network as needed
-    $ NETWORK="kube-network"
+    $ # Customize values for multi-cluster/multi-network as needed
+    $ CLUSTER_NETWORK="kube-network"
+    $ VM_NETWORK="vm-network"
     $ CLUSTER="cluster1"
     {{< /text >}}
 
@@ -83,8 +85,8 @@ Install Istio and expose the control plane so that your virtual machine can acce
         global:
           meshID: mesh1
           multiCluster:
-            clusterName: "${CLUSTER}}"
-          network: "${NETWORK}"
+            clusterName: "${CLUSTER}"
+          network: "${CLUSTER_NETWORK}"
     EOF
     {{< /text >}}
 
@@ -135,7 +137,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
     {{< text bash >}}
     $ @samples/multicluster/gen-eastwest-gateway.sh@ \
-        --mesh mesh1 --cluster "${CLUSTER}" --network "${NETWORK}" | \
+        --mesh mesh1 --cluster "${CLUSTER}" --network "${CLUSTER_NETWORK}" | \
         istioctl install -y -f -
     {{< /text >}}
 
@@ -168,8 +170,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     Expose cluster services:
 
     {{< text bash >}}
-    $ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
-        @samples/multicluster/expose-services.yaml@
+    $ kubectl apply -n istio-system -f @samples/multicluster/expose-services.yaml@
     {{< /text >}}
 
     {{< /tab >}}
@@ -192,108 +193,109 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
 ## Create files to transfer to the virtual machine
 
-1. Create a template `WorkloadGroup` for the VM(s)
+{{< tabset category-name="registration-mode" >}}
 
-    {{< tabset category-name="registration-mode" >}}
+{{< tab name="Default" category-value="default" >}}
 
-    {{< tab name="Default" category-value="default" >}}
+First, create a template `WorkloadGroup` for the VM(s):
 
-    {{< text bash >}}
-    $ cat <<EOF > workloadgroup.yaml
-    apiVersion: networking.istio.io/v1alpha3
-    kind: WorkloadGroup
-    metadata:
-      name: "${VM_APP}"
-      namespace: "${VM_NAMESPACE}"
-    spec:
-      metadata:
-        labels:
-          app: "${VM_APP}"
-      template:
-        serviceAccount: "${SERVICE_ACCOUNT}"
-        network: "${NETWORK}"
-    EOF
-    {{< /text >}}
+{{< text bash >}}
+$ cat <<EOF > workloadgroup.yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: WorkloadGroup
+metadata:
+  name: "${VM_APP}"
+  namespace: "${VM_NAMESPACE}"
+spec:
+  metadata:
+    labels:
+      app: "${VM_APP}"
+  template:
+    serviceAccount: "${SERVICE_ACCOUNT}"
+    network: "${VM_NETWORK}"
+EOF
+{{< /text >}}
 
-    {{< /tab >}}
+{{< /tab >}}
 
-    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
+{{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
 
-    {{< warning >}}
-    This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
-    considered `pre-alpha`.
-    {{< /warning >}}
+First, create a template `WorkloadGroup` for the VM(s):
 
-    1. Generate the `WorkloadGroup`:
+{{< warning >}}
+This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
+considered `pre-alpha`.
+{{< /warning >}}
 
-    {{< text bash >}}
-    $ cat <<EOF > workloadgroup.yaml
-    apiVersion: networking.istio.io/v1alpha3
-    kind: WorkloadGroup
-    metadata:
-      name: "${VM_APP}"
-      namespace: "${VM_NAMESPACE}"
-    spec:
-      metadata:
-        labels:
-          app: "${VM_APP}"
-      template:
-        serviceAccount: "${SERVICE_ACCOUNT}"
-        network: "${NETWORK}"
-    EOF
-    {{< /text >}}
+{{< text bash >}}
+$ cat <<EOF > workloadgroup.yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: WorkloadGroup
+metadata:
+  name: "${VM_APP}"
+  namespace: "${VM_NAMESPACE}"
+spec:
+  metadata:
+    labels:
+      app: "${VM_APP}"
+  template:
+    serviceAccount: "${SERVICE_ACCOUNT}"
+    network: "${VM_NETWORK}"
+EOF
+{{< /text >}}
 
-    1. Push the `WorkloadGroup` to the cluster:
+Then, to allow automated `WorkloadEntry` creation, push the `WorkloadGroup` to the cluster:
 
-    {{< text bash >}}
-    $ kubectl --namespace ${VM_NAMESPACE} apply -f workloadgroup.yaml
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl --namespace ${VM_NAMESPACE} apply -f workloadgroup.yaml
+{{< /text >}}
 
-    {{< /tab >}}
+{{< /tab >}}
 
-    {{< /tabset >}}
+{{< /tabset >}}
 
-1. Use the `istioctl x workload entry` command to generate:
-       * `cluster.env`: Contains metadata that identifies what namespace, service account, network CIDR and (optionally) what inbound ports to capture.
-       * `istio-token`: A Kubernetes token used to get certs from the CA.
-       * `mesh.yaml`: Provides additional Istio metadata including, network name, trust domain and other values.
-       * `root-cert.pem`: The root certificate used to authenticate.
-       * `hosts`: An addendum to `/etc/hosts` that the proxy will use to reach istiod for xDS.*
+{{< warning >}}
+Before proceeding to generate the `istio-token`, as part of `istioctl x workload entry`, you should verify third party tokens are enabled in your cluster by following the steps describe [here](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens).
+If third party tokens are not enabled, you should add the option `--set values.global.jwtPolicy=first-party-jwt` to the Istio install commands.
+{{< /warning >}}
 
-    {{< idea >}}
-    A sophisticated option involves configuring DNS within the virtual
-    machine to reference an external DNS server. This option is beyond
-    the scope of this guide.
-    {{< /idea >}}
+Next, use the `istioctl x workload entry` command to generate:
+* `cluster.env`: Contains metadata that identifies what namespace, service account, network CIDR and (optionally) what inbound ports to capture.
+* `istio-token`: A Kubernetes token used to get certs from the CA.
+* `mesh.yaml`: Provides additional Istio metadata including, network name, trust domain and other values.
+* `root-cert.pem`: The root certificate used to authenticate.
+* `hosts`: An addendum to `/etc/hosts` that the proxy will use to reach istiod for xDS.*
 
-    {{< warning >}}
-    Before proceeding to generate the `istio-token`, you should verify if third party tokens are enabled in your cluster by following the steps describe [here](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens). If third party tokens are not enabled, you should add the option `--set values.global.jwtPolicy=first-party-jwt` to the istio install commands.
-    {{< /warning >}}
+{{< idea >}}
+A sophisticated option involves configuring DNS within the virtual
+machine to reference an external DNS server. This option is beyond
+the scope of this guide.
+{{< /idea >}}
 
-    {{< tabset category-name="registration-mode" >}}
+{{< tabset category-name="registration-mode" >}}
 
-    {{< tab name="Default" category-value="default" >}}
+{{< tab name="Default" category-value="default" >}}
 
-    {{< text bash >}}
-    $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}"
-    {{< /text >}}
+{{< text bash >}}
+$ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}"
+{{< /text >}}
 
-    {{< /tab >}}
+{{< /tab >}}
 
-    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
+{{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
 
-    {{< warning >}}
-    This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
-    considered `pre-alpha`.
-    {{< /warning >}}
+{{< warning >}}
+This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
+considered `pre-alpha`.
+{{< /warning >}}
 
-    {{< text bash >}}
-    $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --autoregister
-    {{< /text >}}
+{{< text bash >}}
+$ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --autoregister
+{{< /text >}}
 
-    {{< /tab >}}
+{{< /tab >}}
 
-    {{< /tabset >}}
+{{< /tabset >}}
 
 ## Configure the virtual machine
 
