@@ -1,6 +1,6 @@
 ---
-title: Configurability (Beta/Development)
-description: How to configure tracing options (beta/development).
+title: Configurability [Beta/Experimental]
+description: How to configure tracing options (beta/experimental).
 weight: 60
 keywords: [telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers

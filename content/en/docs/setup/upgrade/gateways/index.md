@@ -1,16 +1,13 @@
 ---
-title: Managing Gateways with Multiple Revisions [experimental]
-description: Configuring and upgrading Istio with gateways.
+title: Managing Gateways with Multiple Revisions [Experimental]
+description: Configuring and upgrading Istio with gateways (experimental).
 weight: 30
 keywords: [kubernetes,upgrading,gateway]
 owner: istio/wg-environments-maintainers
 test: no
 ---
 
-{{< warning >}}
-This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
-considered `pre-alpha`.
-{{< /warning >}}
+{{< boilerplate experimental >}}
 
 With a single `IstioOperator` CR, any gateways defined in the CR (including the `istio-ingressgateway` installed in the
 default profile) are upgraded in place, even when the
