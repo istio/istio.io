@@ -12,7 +12,7 @@ changes.
 * [Support Policy](#support-policy)
 * [Naming scheme](#naming-scheme)
 * [Support status of Istio releases](#support-status-of-istio-releases)
-* [Releases without known Common Vulnerabilities and Exposures (CVEs)](#releases-without-known-Common-Vulnerabilities-and Exposures) 
+* [Releases without known Common Vulnerabilities and Exposures (CVEs)](#releases-without-known-Common-Vulnerabilities-and Exposures)
 
 ## Support policy
 
