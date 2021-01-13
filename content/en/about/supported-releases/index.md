@@ -6,7 +6,7 @@ icon: cadence
 ---
 
 This page lists the status, timeline and policy for currently supported releases. Supported releases of Istio include releases that are in the active
-maintenance window and are patched for security and bug fixes. Subsequent patch releases on a LTS release do not contain backward incompatible
+maintenance window and are patched for security and bug fixes. Subsequent patch releases on a minor release do not contain backward incompatible
 changes.
 
 * [Support Policy](#support-policy)
@@ -16,19 +16,20 @@ changes.
 
 ## Support policy
 
-We produce new builds of Istio for each commit. Around once a quarter or so, we build a Long Term Support (LTS) release,
-and run through a bunch more tests and release qualification. Finally, if we find something wrong with an
-LTS release, we issue patches.
+We produce new builds of Istio for each commit. Around once a quarter, we build a minor release and
+run through several additional tests as well as release qualification. We issue patch releases for issues found in minor
+releases.
 
-The different types represent different product quality levels and different levels of support
+The different types represent a different product quality level and different level of support
 from the Istio team. In this context, *support* means that we will produce patch releases for critical issues and
 offer technical assistance. Separately, 3rd parties and partners may offer longer-term support solutions.
 
-|Type              | Support Level                                            | Quality and Recommended Use
-|------------------|----------------------------------------------------------|----------------------------
-|Development Build | No support                                               | Dangerous, may not be fully reliable. Useful to experiment with.
-|LTS Release       | Support is provided until 3 months after the next LTS    | Safe to deploy in production. Users are encouraged to upgrade to these releases as soon as possible.
-|Patches           | Same as the corresponding Snapshot/LTS release           | Users are encouraged to adopt patch releases as soon as they are available for a given release.
+|Type              | Support Level                                                                                                         | Quality and Recommended Use
+|------------------|-----------------------------------------------------------------------------------------------------------------------|----------------------------
+|Development Build | No support                                                                                                            | Dangerous, may not be fully reliable. Useful to experiment with.
+|Minor Release     | Support is provided until 3 months after the next minor release                                                       | Safe to deploy in production. Users are encouraged to upgrade to these releases as soon as possible.
+|Patch             | Same as the corresponding Minor release                                                                               | Users are encouraged to adopt patch releases as soon as they are available for a given release.
+|Security Patch    | Same as a Patch, however, it will not contain any additional code other than the security fix from the previous patch | Given the nature of security fixes, users are **strongly** encouraged to adopt security patches after release.
 
 You can find available releases on the [releases page](https://github.com/istio/istio/releases),
 and if you're the adventurous type, you can learn about our development builds on the [development builds wiki](https://github.com/istio/istio/wiki/Dev%20Builds).
@@ -36,35 +37,25 @@ You can find high-level releases notes for each LTS release [here](/news).
 
 ## Naming scheme
 
-Our naming scheme for LTS releases is:
+Our naming scheme is as follows:
 
 {{< text plain >}}
 <major>.<minor>.<patch>
 {{< /text >}}
 
-where `<minor>` is increased for every LTS release, and `<LTS patch level>` counts the number of patches for the
-current LTS release. A patch is usually a small change relative to the LTS.
-
-For snapshot releases, our naming scheme is:
-
-{{< text plain >}}
-<major>.<minor>-alpha.<sha>
-{{< /text >}}
-
-where `<major>.<minor>` represent the next LTS, and
-`<sha>` represents the git commit the release is built from.
-
+where `<minor>` is increased for each release, and `<patch>` counts the number of patches for the
+current `<minor>` release. A patch is usually a small change relative to the `<minor>` release.
 
 ## Support status of Istio releases
 
-| Version         | Currently Supported   | Release Date      | End of Life       | Supported Kubernetes Versions | Untested, but may work on Kubernetes Versions |
-|-----------------|-----------------------|-------------------|-------------------|-------------------------------|-----------------------------------------------|
-| master          | No, development only  |                   |                   |                               |                                               |
-| 1.9             | N/A                   | TBD               |                   | 1.17, 1.18, 1.19, 1.20        | 1.15, 1.16                                    |
-| 1.8             | Yes                   | November 10, 2020 |                   | 1.16, 1.17, 1.18, 1.19        | 1.15                                          |
-| 1.7             | Yes                   | August 21, 2020   |                   | 1.16, 1.17, 1.18              | 1.15                                          |
-| 1.6             | No                    | May 21, 2020      | November 23, 2020 | 1.15, 1.16, 1.17, 1.18        |                                               |
-| 1.5 and earlier | No                    |                   |                   |                               |                                               |
+| Version         | Currently Supported   | Release Date        | End of Life         | Supported Kubernetes Versions | Untested, but may work on Kubernetes Versions |
+|-----------------|-----------------------|---------------------|---------------------|-------------------------------|-----------------------------------------------|
+| master          | No, development only  |                     |                     |                               |                                               |
+| 1.9             | N/A                   | ~Feb 2021(Expected) | ~Aug 2021(Expected) | 1.17, 1.18, 1.19, 1.20        | 1.15, 1.16                                    |
+| 1.8             | Yes                   | November 10, 2020   | ~May 2021(Expected) | 1.16, 1.17, 1.18, 1.19        | 1.15                                          |
+| 1.7             | Yes                   | August 21, 2020     | ~Feb 2021(Expected) | 1.16, 1.17, 1.18              | 1.15                                          |
+| 1.6             | No                    | May 21, 2020        | November 23, 2020   | 1.15, 1.16, 1.17, 1.18        |                                               |
+| 1.5 and earlier | No                    |                     |                     |                               |                                               |
 
 ## Releases without known Common Vulnerabilities and Exposures (CVEs)
 
