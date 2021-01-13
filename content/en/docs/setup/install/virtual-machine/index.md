@@ -14,7 +14,7 @@ test: no
 Follow this guide to deploy Istio and connect a virtual machine to it.
 
 {{< tip >}}
-This guide is tested and validated but note that VM support is still an alpha feature not recommended for production.
+This guide is tested and validated but note that VM support is still an experimental feature not recommended for production.
 {{< /tip >}}
 
 ## Prerequisites
