@@ -7,15 +7,13 @@ owner: istio/wg-security-maintainers
 test: no
 ---
 
-This task shows you how to set up Istio authorization policy with the `CUSTOM` action to delegate the access control to
-an external authorization system. This can be used to integrate with [OPA authorization](https://www.openpolicyagent.org/docs/latest/envoy-authorization/),
+This task shows you how to set up Istio authorization policy with a [`CUSTOM` action](https://github.com/istio/api/blob/328c3a37131887008ddc8ed469f5296e57c27946/security/v1beta1/authorization_policy.proto#L296)
+to delegate the access control to an external authorization system. This can be used to integrate with [OPA authorization](https://www.openpolicyagent.org/docs/latest/envoy-authorization/),
 [oauth2-proxy](https://github.com/oauth2-proxy/oauth2-proxy), your own custom external authorization server and more.
 
 {{< boilerplate experimental-feature-warning >}}
 
 ## Before you begin
-
-Before tackling this task you must perform the following actions:
 
 * Read the [authorization concept](/docs/concepts/security/#authorization).
 
@@ -29,6 +27,7 @@ Before tackling this task you must perform the following actions:
 
     {{< text bash >}}
     $ kubectl create ns foo
+    $ kubectl label ns foo istio-injection=enabled
     $ kubectl apply -f samples/httpbin/httpbin.yaml -n foo
     $ kubectl apply -f samples/sleep/sleep.yaml -n foo
     {{< /text >}}
