@@ -104,6 +104,7 @@ AttributeGen
 Auth0
 AuthenticationPolicy
 AuthorizationPolicy
+authorizer
 AuthPolicy
 autoscaler
 Autoscalers
