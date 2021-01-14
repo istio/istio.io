@@ -77,7 +77,7 @@ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | grep
 ENDSNIP
 
 snip_auto_mutual_tls_1() {
-kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -sS http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
+kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo --curl -sS http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
 }
 
 ! read -r -d '' snip_auto_mutual_tls_1_out <<\ENDSNIP

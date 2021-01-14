@@ -57,7 +57,7 @@ spec:
 ENDSNIP
 
 snip_change_to_the_blockingbydefault_policy_3() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
 }
 
 ! read -r -d '' snip_change_to_the_blockingbydefault_policy_3_out <<\ENDSNIP
