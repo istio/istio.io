@@ -9,7 +9,7 @@ test: no
 
 This task shows you how to set up an Istio authorization policy using a new experimental value for the [action field](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action), `CUSTOM`,
 to delegate the access control to an external authorization system. This can be used to integrate with [OPA authorization](https://www.openpolicyagent.org/docs/latest/envoy-authorization/),
-[oauth2-proxy](https://github.com/oauth2-proxy/oauth2-proxy), your own custom external authorization server and more.
+[`oauth2-proxy`](https://github.com/oauth2-proxy/oauth2-proxy), your own custom external authorization server and more.
 
 {{< boilerplate experimental-feature-warning >}}
 
@@ -50,7 +50,7 @@ In order to use the `CUSTOM` action in the authorization policy, you must first 
 used in the mesh. This is currently defined in the [extension provider](https://github.com/istio/api/blob/a205c627e4b955302bbb77dd837c8548e89e6e64/mesh/v1alpha1/config.proto#L534)
 in the mesh config.
 
-Currently, the only supported extension provider type is the [Envoy ext_authz](https://www.envoyproxy.io/docs/envoy/v1.16.2/intro/arch_overview/security/ext_authz_filter) provider.
+Currently, the only supported extension provider type is the [Envoy `ext_authz`](https://www.envoyproxy.io/docs/envoy/v1.16.2/intro/arch_overview/security/ext_authz_filter) provider.
 The external authorizer must implement the corresponding Envoy `ext_authz` check API.
 
 In this task, you will use a [sample external authorizer]({{< github_tree >}}/samples/extauthz) which
@@ -66,7 +66,7 @@ allows requests with the header `x-ext-authz: allow`.
 
     The following content defines two external providers `sample-ext-authz-grpc` and `sample-ext-authz-http` using the
     same service `ext-authz.foo.svc.cluster.local`. The service implements both the HTTP and gRPC check API as defined by
-    the Envoy ext_authz filter. You will deploy the service in the following step.
+    the Envoy `ext_authz` filter. You will deploy the service in the following step.
 
     {{< text yaml >}}
     data:
@@ -87,7 +87,7 @@ allows requests with the header `x-ext-authz: allow`.
     Alternatively, you can modify the extension provider to control the behavior of the `ext_authz` filter for things like
     what headers to send to the external authorizer, what headers to send to the application backend, the status to return
     on error and more.
-    For example, the following defines an extension provider that can be used with the [oauth2-proxy](https://github.com/oauth2-proxy/oauth2-proxy):
+    For example, the following defines an extension provider that can be used with the [`oauth2-proxy`](https://github.com/oauth2-proxy/oauth2-proxy):
 
     {{< text yaml >}}
     data:
