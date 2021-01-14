@@ -43,6 +43,7 @@ Here are just a few of the organizations we know are using Istio. If you want to
     {{< company_logo link="https://intuit.com" logo="./intuit.svg" alt="Intuit" >}}
     {{< company_logo link="https://juspay.in" logo="./juspay.png" alt="JUSPAY" >}}
     {{< company_logo link="https://li.me" logo="./lime.svg" alt="Lime" >}}
+    {{< company_logo link="https://www.liulishuo.com/" logo="./liulishuo.svg" alt="Liulishuo" >}}
     {{< company_logo link="https://loblawdigital.co" logo="./loblaw-digital.png" alt="Loblaw Digital" >}}
     {{< company_logo link="https://www.lowes.com/" logo="./lowes.svg" alt="Lowe's" >}}
     {{< company_logo link="https://www.masmovil.com/" logo="./masmovil.svg" alt="MASMOVIL Group" >}}
