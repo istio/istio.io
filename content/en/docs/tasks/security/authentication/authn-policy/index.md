@@ -56,7 +56,7 @@ $ kubectl exec "$(kubectl get pod -l app=sleep -n bar -o jsonpath={.items..metad
 This one-liner command conveniently iterates through all reachability combinations:
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl -sS "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl -s "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.foo to httpbin.legacy: 200
@@ -99,14 +99,14 @@ upstream request to the backend. That header's presence is evidence that mutual 
 used. For example:
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo --curl -sS http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
+$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl -s http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
     "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"
 {{< /text >}}
 
 When the server doesn't have sidecar, the `X-Forwarded-Client-Cert` header is not there, which implies requests are in plain text.
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.legacy:8000/headers -sS | grep X-Forwarded-Client-Cert
+$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.legacy:8000/headers -s | grep X-Forwarded-Client-Cert
 
 {{< /text >}}
 
@@ -140,7 +140,7 @@ Since it doesn't specify a value for the `selector` field, the policy applies to
 Run the test command again:
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -sS -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.foo to httpbin.legacy: 200
@@ -186,7 +186,7 @@ EOF
 As this policy is applied on workloads in namespace `foo` only, you should see only request from client-without-sidecar (`sleep.legacy`) to `httpbin.foo` start to fail.
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -sS -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.foo to httpbin.legacy: 200
@@ -240,7 +240,7 @@ EOF
 Again, run the probing command. As expected, request from `sleep.legacy` to `httpbin.bar` starts failing with the same reasons.
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -sS -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.foo to httpbin.legacy: 200
@@ -306,7 +306,7 @@ EOF
 1. You can only use `portLevelMtls` if the port is bound to a service. Istio ignores it otherwise.
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -sS -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.foo to httpbin.legacy: 200
@@ -360,7 +360,7 @@ EOF
 Re-running the request from `sleep.legacy`, you should see a success return code again (200), confirming service-specific policy overrides the namespace-wide policy.
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name})" -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+$ kubectl exec "$(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name})" -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 

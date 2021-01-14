@@ -45,7 +45,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n bar -o jsonpath={.items..metadat
 ENDSNIP
 
 snip_setup_3() {
-for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl -sS "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl -s "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
 ! read -r -d '' snip_setup_3_out <<\ENDSNIP
@@ -77,7 +77,7 @@ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | grep
 ENDSNIP
 
 snip_auto_mutual_tls_1() {
-kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo --curl -sS http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
+kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl -s http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
 }
 
 ! read -r -d '' snip_auto_mutual_tls_1_out <<\ENDSNIP
@@ -85,7 +85,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
 ENDSNIP
 
 snip_auto_mutual_tls_2() {
-kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.legacy:8000/headers -sS | grep X-Forwarded-Client-Cert
+kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.legacy:8000/headers -s | grep X-Forwarded-Client-Cert
 }
 
 ! read -r -d '' snip_auto_mutual_tls_2_out <<\ENDSNIP
@@ -106,7 +106,7 @@ EOF
 }
 
 snip_globally_enabling_istio_mutual_tls_in_strict_mode_2() {
-for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -sS -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
 ! read -r -d '' snip_globally_enabling_istio_mutual_tls_in_strict_mode_2_out <<\ENDSNIP
@@ -141,7 +141,7 @@ EOF
 }
 
 snip_namespacewide_policy_2() {
-for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -sS -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
 ! read -r -d '' snip_namespacewide_policy_2_out <<\ENDSNIP
@@ -188,7 +188,7 @@ EOF
 }
 
 snip_enable_mutual_tls_per_workload_3() {
-for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -sS -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
 ! read -r -d '' snip_enable_mutual_tls_per_workload_3_out <<\ENDSNIP
@@ -250,7 +250,7 @@ EOF
 }
 
 snip_enable_mutual_tls_per_workload_7() {
-for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -sS -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
 ! read -r -d '' snip_enable_mutual_tls_per_workload_7_out <<\ENDSNIP
@@ -297,7 +297,7 @@ EOF
 }
 
 snip_policy_precedence_3() {
-kubectl exec "$(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name})" -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+kubectl exec "$(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name})" -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 }
 
 ! read -r -d '' snip_policy_precedence_3_out <<\ENDSNIP

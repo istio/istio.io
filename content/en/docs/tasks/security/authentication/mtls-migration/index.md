@@ -58,7 +58,7 @@ the policies to enforce STRICT mutual TLS between the workloads.
     All requests should succeed with return code 200.
 
     {{< text bash >}}
-    $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -sS -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+    $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
     sleep.foo to httpbin.foo: 200
     sleep.foo to httpbin.bar: 200
     sleep.bar to httpbin.foo: 200
@@ -103,7 +103,7 @@ EOF
 Now, you should see the request from `sleep.legacy` to `httpbin.foo` failing.
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -sS -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.bar to httpbin.foo: 200
