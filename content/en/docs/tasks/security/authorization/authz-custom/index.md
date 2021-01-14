@@ -7,7 +7,7 @@ owner: istio/wg-security-maintainers
 test: no
 ---
 
-This task shows you how to set up Istio authorization policy with a [`CUSTOM` action](https://github.com/istio/api/blob/328c3a37131887008ddc8ed469f5296e57c27946/security/v1beta1/authorization_policy.proto#L296)
+This task shows you how to set up an Istio authorization policy using a new experimental value for the [action field](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action), `CUSTOM`,
 to delegate the access control to an external authorization system. This can be used to integrate with [OPA authorization](https://www.openpolicyagent.org/docs/latest/envoy-authorization/),
 [oauth2-proxy](https://github.com/oauth2-proxy/oauth2-proxy), your own custom external authorization server and more.
 
@@ -133,7 +133,7 @@ Alternatively, you can also deploy the external authorizer as a separate contain
 that needs the external authorization or even deploy it outside of the mesh. In either case, you will also need to create a
 service entry resource to register the service to the mesh and make sure it is accessible to the proxy.
 
-The following is an example service entry an external authorizer deployed in a separate container in the same pod
+The following is an example service entry for an external authorizer deployed in a separate container in the same pod
 of the application that needs the external authorization.
 
 {{< text yaml >}}
