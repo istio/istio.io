@@ -110,7 +110,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     {{< /warning >}}
 
     {{< text bash >}}
-    $ istioctl install -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true
+    $ istioctl install -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS=true
     {{< /text >}}
 
     {{< /tab >}}
@@ -249,6 +249,35 @@ Then, to allow automated `WorkloadEntry` creation, push the `WorkloadGroup` to t
 {{< text bash >}}
 $ kubectl --namespace ${VM_NAMESPACE} apply -f workloadgroup.yaml
 {{< /text >}}
+
+Using the Automated `WorkloadEntry` Creation feature, application health checks are also available. These share the same API and behavior as [Kubernetes Readiness Probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+
+For example, to configure a probe on the `/ready` endpoint of your application:
+
+{{< text bash >}}
+$ cat <<EOF > workloadgroup.yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: WorkloadGroup
+metadata:
+  name: "${VM_APP}"
+  namespace: "${VM_NAMESPACE}"
+spec:
+  metadata:
+    labels:
+      app: "${VM_APP}"
+  template:
+    serviceAccount: "${SERVICE_ACCOUNT}"
+    network: "${NETWORK}"
+  probe:
+    periodSeconds: 5
+    initialDelaySeconds: 1
+    httpGet:
+      port: 8080
+      path: /ready
+EOF
+{{< /text >}}
+
+With this configuration, the automatically generated `WorkloadEntry` will not be marked "Ready" until the probe succeeds.
 
 {{< /tab >}}
 
