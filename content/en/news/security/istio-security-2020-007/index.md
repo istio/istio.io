@@ -58,7 +58,7 @@ CVE-2020-8663 is addressed in Envoy by adding a configurable limit on [downstrea
 
     {{< text bash >}}
     $ ISTIO_INGRESS_PODNAME=$(kubectl get pods -l app=istio-ingressgateway -n istio-system  -o jsonpath="{.items[0].metadata.name}")
-    $ kubectl --namespace istio-system exec -i -t  ${ISTIO_INGRESS_PODNAME} -c istio-proxy -- curl http://localhost:15000/runtime
+    $ kubectl --namespace istio-system exec -i -t  ${ISTIO_INGRESS_PODNAME} -c istio-proxy -- curl -sS http://localhost:15000/runtime
 
     {
     "entries": {

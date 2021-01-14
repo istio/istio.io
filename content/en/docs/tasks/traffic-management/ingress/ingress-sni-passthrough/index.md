@@ -137,7 +137,7 @@ to hold the configuration of the NGINX server:
     printed correctly, i.e., `common name (CN)` is equal to `nginx.example.com`.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name})" -c istio-proxy -- curl -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
+    $ kubectl exec "$(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name})" -c istio-proxy -- curl -sS -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
     ...
     SSL connection using TLSv1.2 / ECDHE-RSA-AES256-GCM-SHA384
     ALPN, server accepted to use http/1.1

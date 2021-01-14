@@ -54,7 +54,7 @@ EOF
 }
 
 snip_egress_gateway_for_http_traffic_2() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_egress_gateway_for_http_traffic_2_out <<\ENDSNIP
@@ -135,7 +135,7 @@ EOF
 }
 
 snip_egress_gateway_for_http_traffic_5() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_egress_gateway_for_http_traffic_5_out <<\ENDSNIP
@@ -183,7 +183,7 @@ EOF
 }
 
 snip_egress_gateway_for_https_traffic_2() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_egress_gateway_for_https_traffic_2_out <<\ENDSNIP
@@ -260,7 +260,7 @@ EOF
 }
 
 snip_egress_gateway_for_https_traffic_4() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_egress_gateway_for_https_traffic_4_out <<\ENDSNIP
@@ -344,7 +344,7 @@ EOF
 }
 
 snip_apply_kubernetes_network_policies_8() {
-kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -v https://edition.cnn.com/politics
+kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -v -sS https://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_apply_kubernetes_network_policies_8_out <<\ENDSNIP
@@ -392,7 +392,7 @@ EOF
 }
 
 snip_apply_kubernetes_network_policies_13() {
-kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
+kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -sS -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_apply_kubernetes_network_policies_13_out <<\ENDSNIP

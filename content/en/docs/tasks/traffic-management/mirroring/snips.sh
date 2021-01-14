@@ -152,7 +152,7 @@ EOF
 
 snip_creating_a_default_routing_policy_2() {
 export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-kubectl exec "${SLEEP_POD}" -c sleep -- curl -s http://httpbin:8000/headers
+kubectl exec "${SLEEP_POD}" -c sleep -- curl -sS http://httpbin:8000/headers
 }
 
 ! read -r -d '' snip_creating_a_default_routing_policy_2_out <<\ENDSNIP
@@ -213,7 +213,7 @@ EOF
 }
 
 snip_mirroring_traffic_to_v2_2() {
-kubectl exec "${SLEEP_POD}" -c sleep -- curl -s http://httpbin:8000/headers
+kubectl exec "${SLEEP_POD}" -c sleep -- curl -sS http://httpbin:8000/headers
 }
 
 snip_mirroring_traffic_to_v2_3() {

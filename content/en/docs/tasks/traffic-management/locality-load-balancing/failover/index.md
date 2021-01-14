@@ -88,7 +88,7 @@ Call the `HelloWorld` service from the `Sleep` pod:
 $ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
   app=sleep -o jsonpath='{.items[0].metadata.name}')" \
-  -- curl -sL helloworld.sample:5000/hello
+  -- curl -sSL helloworld.sample:5000/hello
 Hello version: region1.zone1, instance: helloworld-region1.zone1-86f77cd7b-cpxhv
 {{< /text >}}
 
@@ -106,7 +106,7 @@ for `HelloWorld` in `region1.zone1`:
 $ kubectl --context="${CTX_R1_Z1}" exec \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l app=helloworld \
   -l version=region1.zone1 -o jsonpath='{.items[0].metadata.name}')" \
-  -n sample -c istio-proxy -- curl -sL -X POST 127.0.0.1:15000/drain_listeners
+  -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
 {{< /text >}}
 
 Call the `HelloWorld` service from the `Sleep` pod:
@@ -115,7 +115,7 @@ Call the `HelloWorld` service from the `Sleep` pod:
 $ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
   app=sleep -o jsonpath='{.items[0].metadata.name}')" \
-  -- curl -sL helloworld.sample:5000/hello
+  -- curl -sSL helloworld.sample:5000/hello
 Hello version: region1.zone2, instance: helloworld-region1.zone2-86f77cd7b-cpxhv
 {{< /text >}}
 
@@ -132,7 +132,7 @@ the `HelloWorld` in `region1.zone2` to fail when called:
 $ kubectl --context="${CTX_R1_Z2}" exec \
   "$(kubectl get pod --context="${CTX_R1_Z2}" -n sample -l app=helloworld \
   -l version=region1.zone2 -o jsonpath='{.items[0].metadata.name}')" \
-  -n sample -c istio-proxy -- curl -sL -X POST 127.0.0.1:15000/drain_listeners
+  -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
 {{< /text >}}
 
 Call the `HelloWorld` service from the `Sleep` pod:
@@ -141,7 +141,7 @@ Call the `HelloWorld` service from the `Sleep` pod:
 $ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
   app=sleep -o jsonpath='{.items[0].metadata.name}')" \
-  -- curl -sL helloworld.sample:5000/hello
+  -- curl -sSL helloworld.sample:5000/hello
 Hello version: region2.zone3, instance: helloworld-region2.zone3-86f77cd7b-cpxhv
 {{< /text >}}
 
@@ -158,7 +158,7 @@ the `HelloWorld` in `region2.zone3` to fail when called:
 $ kubectl --context="${CTX_R2_Z3}" exec \
   "$(kubectl get pod --context="${CTX_R2_Z3}" -n sample -l app=helloworld \
   -l version=region2.zone3 -o jsonpath='{.items[0].metadata.name}')" \
-  -n sample -c istio-proxy -- curl -sL -X POST 127.0.0.1:15000/drain_listeners
+  -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
 {{< /text >}}
 
 Call the `HelloWorld` service from the `Sleep` pod:
@@ -167,7 +167,7 @@ Call the `HelloWorld` service from the `Sleep` pod:
 $ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
   app=sleep -o jsonpath='{.items[0].metadata.name}')" \
-  -- curl -sL helloworld.sample:5000/hello
+  -- curl -sSL helloworld.sample:5000/hello
 Hello version: region3.zone4, instance: helloworld-region3.zone4-86f77cd7b-cpxhv
 {{< /text >}}
 

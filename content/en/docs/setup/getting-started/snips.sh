@@ -101,7 +101,7 @@ reviews-v3-7dbcdcbc56-m8dph       2/2     Running   0          2m41s
 ENDSNIP
 
 snip_deploy_the_sample_application_bookinfo_4() {
-kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -s productpage:9080/productpage | grep -o "<title>.*</title>"
+kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
 }
 
 ! read -r -d '' snip_deploy_the_sample_application_bookinfo_4_out <<\ENDSNIP

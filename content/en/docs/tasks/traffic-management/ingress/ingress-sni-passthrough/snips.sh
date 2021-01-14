@@ -115,7 +115,7 @@ EOF
 }
 
 snip_deploy_an_nginx_server_5() {
-kubectl exec "$(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name})" -c istio-proxy -- curl -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
+kubectl exec "$(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name})" -c istio-proxy -- curl -sS -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
 }
 
 ! read -r -d '' snip_deploy_an_nginx_server_5_out <<\ENDSNIP

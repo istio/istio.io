@@ -53,7 +53,7 @@ EOF
 }
 
 snip_curl_simple() {
-kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_curl_simple_out <<\ENDSNIP
@@ -101,7 +101,7 @@ EOF
 }
 
 snip_curl_origination_http() {
-kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_curl_origination_http_out <<\ENDSNIP
@@ -110,7 +110,7 @@ HTTP/1.1 200 OK
 ENDSNIP
 
 snip_curl_origination_https() {
-kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
+kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_curl_origination_https_out <<\ENDSNIP
