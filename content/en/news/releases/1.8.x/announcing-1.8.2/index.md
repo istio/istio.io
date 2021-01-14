@@ -13,17 +13,17 @@ This release contains bug fixes to improve robustness. This release note describ
 
 {{< relnote >}}
 
-# Changes
+## Changes
 
 - **Improved** `WorkloadEntry` auto-registration stability.
   ([PR #29876](https://github.com/istio/istio/pull/29876))
-  
+
 - **Improved** Multicluster install docs to include current
 best practices, incorporating recent updates to onboarding tooling. In
 particular, the multi-primary configuration (formerly known as
 "replicated control planes") no longer relies on manually configuring the
 `.global` stub domain, preferring instead to use `*.svc.cluster.local` for
-accessing services throughout the mesh.  
+accessing services throughout the mesh.
 
 - **Deprecated** the use of the `.global` stub domain for multi-primary
 (formerly "replicated control planes") multicluster configurations. The new
