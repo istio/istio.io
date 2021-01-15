@@ -10,7 +10,7 @@ test: no
 ---
 
 This task shows you how to configure Istio to collect trace spans and send them to [Lightstep](https://lightstep.com).
-Lightstep lets you analyze 100% of unsampled transaction data from large-scale production software to produce meaningful
+Lightstep lets you analyze 100% of un-sampled transaction data from large-scale production software to produce meaningful
 distributed traces and metrics that help explain performance behaviors and accelerate root cause analysis.
 At the end of this task, Istio sends trace spans from the proxies to a Lightstep Satellite pool making them
 available to the web UI. By default, all HTTP requests are captured (to see end-to-end traces, your code needs to forward OT headers even if it does not join the traces).
@@ -24,16 +24,18 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
 1.  Ensure you have a Lightstep account. [Sign up](https://go.lightstep.com/trial) for a free trial of Lightstep.
 
 1.  If you're using [on-premise Satellites](https://docs.lightstep.com/docs/learn-about-satellites#on-premise-satellites), ensure you have a satellite pool configured with TLS certs and a secure GRPC port exposed. See
-    [Install and Configure Satellites](https://docs.lightstep.com/docs/install-and-configure-satellites) for details about setting up satellites. 
+    [Install and Configure Satellites](https://docs.lightstep.com/docs/install-and-configure-satellites) for details about setting up satellites.
 
     For [Lightstep Public Satellites](https://docs.lightstep.com/docs/learn-about-satellites#public-satellites) or [Developer Satellites](https://docs.lightstep.com/docs/learn-about-satellites#developer-satellites), your satellites are already configured. However you need to download [this certificate](https://docs.lightstep.com/docs/instrument-with-istio-as-your-service-mesh#cacertpem-file) to a local directory.
 
 1.  Ensure sure you have a Lightstep [access token](https://docs.lightstep.com/docs/create-and-manage-access-tokens). Access tokens allow your app to communicate with your Lightstep project.
 
 ## Deploy Istio
-How you deploy Istio depends on which type of Satellite you use. 
+
+How you deploy Istio depends on which type of Satellite you use.
 
 ### Deploy Istio with On-Premise Satellites
+
 These instructions don not assume TLS. If you are using TLS for your Satellite pool, follow the config for the [Public Satellite pool](#deploy-istio-with-public-or-developer-mode-satellites), but
 use your own cert and your own pool's endpoint (`host:port`).
 
@@ -57,6 +59,7 @@ use your own cert and your own pool's endpoint (`host:port`).
     {{< /text >}}
 
 ### Deploy Istio with Public or Developer Mode Satellites
+
 Follow these steps if you're using the Public or Developer Mode Satellites, or if you're using on-premise Satellites with a TLS certificate.
 
 1.  Deploy Istio with the following configuration parameters specified:
@@ -106,6 +109,7 @@ Follow these steps if you're using the Public or Developer Mode Satellites, or i
     {{< /text >}}
 
 ## Install and run the Bookinfo app
+
 1. Follow the [instructions to deploy the Bookinfo sample application](/docs/examples/bookinfo/#deploying-the-application).
 
 1.  Follow the [instructions to create an ingress gateway for the Bookinfo application](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
@@ -119,6 +123,7 @@ Follow these steps if you're using the Public or Developer Mode Satellites, or i
     {{< /text >}}
 
 ## Visualize trace data
+
 1.  Load the Lightstep [web UI](https://app.lightstep.com/). You'll see the three Bookinfo services listed in the Service Directory.
 
     {{< image link="./istio-services.png" caption="Bookfinder services in the Service Directory" >}}
