@@ -10,6 +10,7 @@ The notes also mention changes which preserve backwards compatibility while intr
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.7.x.
 
 ## Multicluster `.global` Stub Domain Deprecation
+
 As part of this release, Istio has switched to a new configuration for
 multi-primary (formerly "replicated control planes"). The new
 configuration is simpler, has fewer limitations, and has been thoroughly
