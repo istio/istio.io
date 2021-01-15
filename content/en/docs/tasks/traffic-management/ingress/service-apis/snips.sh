@@ -86,7 +86,7 @@ EOF
 }
 
 snip_configuring_a_gateway_3() {
-curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/get"
+curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/get"
 }
 
 ! read -r -d '' snip_configuring_a_gateway_3_out <<\ENDSNIP
