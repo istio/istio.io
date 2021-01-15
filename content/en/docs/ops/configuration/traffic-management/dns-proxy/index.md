@@ -1,13 +1,11 @@
 ---
-title: DNS Proxying [Experimental]
-description: How to configure DNS proxying (experimental).
+title: DNS Proxying
+description: How to configure DNS proxying.
 weight: 60
 keywords: [traffic-management,dns,virtual-machine]
 owner: istio/wg-networking-maintainers
 test: no
 ---
-
-{{< boilerplate experimental >}}
 
 In addition to capturing application traffic, Istio can also capture DNS requests to improve the performance and usability of your mesh.
 When proxying DNS, all DNS requests from an application will be redirected to the sidecar, which stores a local mapping of domain names to IP addresses. If the request can be handled by the sidecar, it will directly return a response to the application, avoiding a roundtrip to the upstream DNS server. Otherwise, the request is forwarded upstream following the standard `/etc/resolv.conf` DNS configuration.
