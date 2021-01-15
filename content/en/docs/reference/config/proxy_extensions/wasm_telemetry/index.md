@@ -1,5 +1,5 @@
 ---
-title: Wasm-based Telemetry (Experimental)
+title: Wasm-based Telemetry [Experimental]
 description: How to enable telemetry generation with the Wasm runtime (experimental).
 weight: 60
 owner: istio/wg-policies-and-telemetry-maintainers

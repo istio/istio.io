@@ -104,10 +104,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
     {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
 
-    {{< warning >}}
-    This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
-    considered `pre-alpha`.
-    {{< /warning >}}
+    {{< boilerplate experimental >}}
 
     {{< text bash >}}
     $ istioctl install -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS=true
@@ -222,10 +219,7 @@ EOF
 
 First, create a template `WorkloadGroup` for the VM(s):
 
-{{< warning >}}
-This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
-considered `pre-alpha`.
-{{< /warning >}}
+{{< boilerplate experimental >}}
 
 {{< text bash >}}
 $ cat <<EOF > workloadgroup.yaml
@@ -313,10 +307,7 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
 
 {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
 
-{{< warning >}}
-This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
-considered `pre-alpha`.
-{{< /warning >}}
+{{< boilerplate experimental >}}
 
 {{< text bash >}}
 $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --autoregister
