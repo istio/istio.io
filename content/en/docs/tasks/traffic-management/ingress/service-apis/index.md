@@ -4,7 +4,7 @@ description: Describes how to configure the Kubernetes Service APIs with Istio.
 weight: 50
 keywords: [traffic-management,ingress]
 owner: istio/wg-networking-maintainers
-test: no
+test: yes
 ---
 
 This task describes how to configure Istio to expose a service outside of the service mesh cluster, using the Kubernetes [Service APIs](https://kubernetes-sigs.github.io/service-apis/).
