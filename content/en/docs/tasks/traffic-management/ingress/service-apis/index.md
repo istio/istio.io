@@ -102,7 +102,7 @@ See the [Service APIs](https://kubernetes-sigs.github.io/service-apis/) document
 1.  Access the _httpbin_ service using _curl_:
 
     {{< text bash >}}
-    $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/get"
+    $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/get"
     HTTP/1.1 200 OK
     server: istio-envoy
     ...
