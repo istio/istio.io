@@ -3,7 +3,7 @@ title: Announcing Istio 1.8.2
 linktitle: 1.8.2
 subtitle: Patch Release
 description: Istio 1.8.2 patch release.
-publishdate: 2020-01-14
+publishdate: 2021-01-14
 release: 1.8.2
 aliases:
     - /news/announcing-1.8.2
