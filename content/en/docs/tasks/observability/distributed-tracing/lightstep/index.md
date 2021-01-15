@@ -36,7 +36,7 @@ How you deploy Istio depends on which type of Satellite you use.
 
 ### Deploy Istio with On-Premise Satellites
 
-These instructions don not assume TLS. If you are using TLS for your Satellite pool, follow the config for the [Public Satellite pool](#deploy-istio-with-public-or-developer-mode-satellites), but
+These instructions do not assume TLS. If you are using TLS for your Satellite pool, follow the config for the [Public Satellite pool](#deploy-istio-with-public-or-developer-mode-satellites), but
 use your own cert and your own pool's endpoint (`host:port`).
 
 1.  You need to deploy Istio with your Satellite address at an address in the format `<Host>:<Port>`, for example `lightstep-satellite.lightstep:9292`. You find this in your [configuration](https://docs.lightstep.com/docs/satellite-configuration-parameters#ports) file.
