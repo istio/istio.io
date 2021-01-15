@@ -9,6 +9,14 @@ These notes detail the changes which purposefully break backwards compatibility 
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.7.x.
 
+## Multicluster `.global` Stub Domain Deprecation
+
+As part of this release, Istio has switched to a new configuration for
+multi-primary (formerly "replicated control planes"). The new
+configuration is simpler, has fewer limitations, and has been thoroughly
+tested in a variety of environments. As a result, the `.global` stub
+domain is now deprecated and no longer guaranteed to work going forward.
+
 ## Mixer is no longer supported in Istio
 
 If you are using the `istio-policy` or `istio-telemetry` services, or any

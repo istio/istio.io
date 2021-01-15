@@ -14,6 +14,13 @@ weight: 10
 
 ## Traffic Management
 
+- **Deprecated** the use of the `.global` stub domain for multi-primary
+(formerly "replicated control planes") multicluster configurations. The new
+onboarding flow uses a simpler configuration which allows services across
+the mesh to be accessed via `*.cluster.local`. There were several
+limitations with `.global`, such as poor load balancing when using
+gateways, which are no longer an issue with the new configuration.
+
 - **Added** DNS capture in istio-agent by default for VMs installed using `istioctl x workload entry configure`.
 
 - **Added** `holdApplicationUntilProxyStarts` field to `ProxyConfig`,
@@ -208,3 +215,12 @@ of `istiod` components.
   ([Issue #24471](https://github.com/istio/istio/issues/24471))
 
 - **Fixed** an issue which allowed an empty revision flag on install.  ([Issue #26940](https://github.com/istio/istio/issues/26940))
+
+## Documentation
+
+- **Improved** Multicluster install docs to include current
+best practices, incorporating recent updates to onboarding tooling. In
+particular, the multi-primary configuration (formerly known as
+"replicated control planes") no longer relies on manually configuring the
+`.global` stub domain, preferring instead to use `*.svc.cluster.local` for
+accessing services throughout the mesh.
