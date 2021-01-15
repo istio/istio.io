@@ -18,20 +18,6 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Improved** `WorkloadEntry` auto-registration stability.
   ([PR #29876](https://github.com/istio/istio/pull/29876))
 
-- **Improved** Multicluster install docs to include current
-best practices, incorporating recent updates to onboarding tooling. In
-particular, the multi-primary configuration (formerly known as
-"replicated control planes") no longer relies on manually configuring the
-`.global` stub domain, preferring instead to use `*.svc.cluster.local` for
-accessing services throughout the mesh.
-
-- **Deprecated** the use of the `.global` stub domain for multi-primary
-(formerly "replicated control planes") multicluster configurations. The new
-onboarding flow uses a simpler configuration which allows services across
-the mesh to be accessed via `*.cluster.local`. There were several
-limitations with `.global`, such as poor load balancing when using
-gateways, which are no longer an issue with the new configuration.
-
 - **Fixed** the CA's certificate signature algorithm to be the default algorithm corresponding to the CA's signing key type.
   ([Issue #27238](https://github.com/istio/istio/issues/27238))
 
