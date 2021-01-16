@@ -80,6 +80,8 @@ See the [Service APIs](https://kubernetes-sigs.github.io/service-apis/) document
       labels:
         selected: "yes"
     spec:
+      gateways:
+        allow: All
       hostnames: ["httpbin.example.com"]
       rules:
       - matches:
