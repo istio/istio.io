@@ -13,7 +13,7 @@ test: no
 
 This page was last updated January 4, 2019.
 
-{{< boilerplate untested-platform >}}
+{{< boilerplate untested-document >}}
 
 Follow these instructions to prepare an OKE cluster for Istio.
 

@@ -10,7 +10,7 @@ test: no
 
 This page was last updated February 17, 2018.
 
-{{< boilerplate untested-platform >}}
+{{< boilerplate untested-document >}}
 
 Follow these instructions to prepare the [KubeSphere Container Platform](https://github.com/kubesphere/kubesphere) for Istio. You can download KubeSphere to easily install a Kubernetes cluster on your Linux machines.
 

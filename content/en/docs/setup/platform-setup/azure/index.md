@@ -13,7 +13,7 @@ test: no
 
 This page was last updated September 12, 2019.
 
-{{< boilerplate untested-platform >}}
+{{< boilerplate untested-documentt >}}
 
 Follow these instructions to prepare an Azure cluster for Istio.
 
