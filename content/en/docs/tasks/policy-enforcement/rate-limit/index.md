@@ -155,8 +155,8 @@ backend, is used below.
             routeConfiguration:
               vhost:
                 name: "*:80"
-                  route:
-                    action: ANY
+                route:
+                  action: ANY
           patch:
             operation: MERGE
             # Applies the rate limit rules.
