@@ -1,7 +1,12 @@
 html {
     --backgroundColor: #ffffff;
 
-    --textColor: #535f61;
+    --primaryColor: #293655;            //dark-grey-blue
+    --secondaryColor: #516ba9;          //dull-blue
+    --accentColor: #7dc6f2;             //light-blue
+    --secondaryAccentColor: #3d5080;    //denim
+
+    --textColor: #293655;
     --textCodeColor: #d14;
     --disabledTextColor: #{lighten(#535f61, 50%)};
 
@@ -11,8 +16,8 @@ html {
     --linkActiveColor: #b05464;
 
     --h1Color: #{$near-black};
-    --h2Color: #{$near-black};
-    --h3Color: #{$dark-gray};
+    --h2Color: var(--textColor);
+    --h3Color: var(--textColor);
     --h4Color: #{$dark-gray};
     --h5Color: #{$dark-gray};
     --h6Color: #{$dark-gray};
@@ -60,16 +65,13 @@ html {
     --popoverBackgroundColor: var(--backgroundColor);
     --popoverTextColor: var(--textColor);
 
-    --headerLightShadowColor: rgba(0, 0, 0, .14);
-    --headerDarkShadowColor: rgba(0, 0, 0, .28);
-
     --figureBackgroundColor: var(--backgroundColor);
     --figureCaptionColor: var(--textColor);
 
-    --heroLogoColor: var(--mainBrandColor);
-    --landingPanelBackgroundColor: #{$light-gray};
+    --landingPanelBackgroundColor: var(--secondaryColor);
     --landingPanelBorderColor: #dddddd;
-    --landingPanelTextColor: var(--textColor);
+    --landingPanelTitleColor: #ffffff;
+    --landingPanelTextColor: #ffffff;
     --landingPanelShadowColor: #a7a7a7;
     --landingPanelShadowHoverColor: #a7a7ee;
 
@@ -98,17 +100,20 @@ html {
     --bannerLinkDisabledColor: #444444;
     --bannerLinkActiveColor: #de7d40;
 
+    --mediumWeight: 500;
+    --semiBoldWeight: 600;
+    --boldWeight: 700;
+
     --textWeight: 400;
     --linkWeight: 400;
     --h1Weight: 400;
-    --h2Weight: 400;
-    --h3Weight: 500;
+    --h2Weight: var(--boldWeight);
+    --h3Weight: var(--boldWeight);
     --h4Weight: 500;
     --h5Weight: 500;
     --h6Weight: 500;
     --tableHeaderWeight: 400;
     --boldTextWeight: 600;
-    --heroLeadWeight: 300;
     --blogAttributeWeight: 600;
     --sectionIndexLinkWeight: 400;
     --buttonWeight: 400;

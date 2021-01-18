@@ -2,6 +2,11 @@
     $not-so-dark-gray: lighten($dark-gray, 10%);
     --backgroundColor: #{$not-so-dark-gray};
 
+    --primaryColor: #293655;            //dark-grey-blue
+    --secondaryColor: #516ba9;          //dull-blue
+    --accentColor: #7dc6f2;             //light-blue
+    --secondaryAccentColor: #3d5080;    //denim
+
     --textColor: #dddddd;
     --textCodeColor: #cccccc;
     --disabledTextColor: #{darken(#dddddd, 25%)};
@@ -61,13 +66,9 @@
     --popoverBackgroundColor: var(--backgroundColor);
     --popoverTextColor: var(--textColor);
 
-    --headerLightShadowColor: rgba(0, 0, 0, .14);
-    --headerDarkShadowColor: rgba(0, 0, 0, .28);
-
     --figureBackgroundColor: #a3a3a3;
     --figureCaptionColor: #{$white};
 
-    --heroLogoColor: var(--textColor);
     --landingPanelBackgroundColor: #{$dark-gray};
     --landingPanelBorderColor: #777777;
     --landingPanelTextColor: var(--textColor);
@@ -99,17 +100,20 @@
     --bannerLinkDisabledColor: #444444;
     --bannerLinkActiveColor: #de7d40;
 
+    --mediumWeight: 500;
+    --semiBoldWeight: 600;
+    --boldWeight: 700;
+
     --textWeight: 300;
     --linkWeight: 300;
     --h1Weight: 400;
-    --h2Weight: 400;
-    --h3Weight: 500;
+    --h2Weight: var(--boldWeight);
+    --h3Weight: var(--boldWeight);
     --h4Weight: 500;
     --h5Weight: 500;
     --h6Weight: 500;
     --tableHeaderWeight: 400;
     --boldTextWeight: 600;
-    --heroLeadWeight: 300;
     --blogAttributeWeight: 500;
     --sectionIndexLinkWeight: 400;
     --buttonWeight: 400;

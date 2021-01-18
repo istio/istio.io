@@ -1,6 +1,5 @@
 header {
-    background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
-    box-shadow: 0 0 2px 2px $headerLightShadowColor, 0 2px 4px 2px $headerDarkShadowColor;
+    // background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
     padding-top: .2em;
     padding-bottom: .2em;
     position: fixed;
@@ -52,10 +51,6 @@ header {
             @media (min-width: $bp-md) {
                 width: 3em;
                 height: 3em;
-            }
-
-            &:hover {
-                transform: rotate(360deg);
             }
         }
 
@@ -195,7 +190,6 @@ header {
             border-bottom: solid 3px $textBrandColor;
             border-radius: 2px;
             font-weight: $linkWeight;
-            font-family: "Chivo", sans-serif;
             font-size: 1.1em;
             margin-left: .3rem;
             margin-right: .3rem;
