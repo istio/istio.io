@@ -1,6 +1,11 @@
 
 $backgroundColor: var(--backgroundColor);
 
+$primaryColor: var(--primaryColor);
+$secondaryColor: var(--secondaryColor);
+$accentColor: var(--accentColor);
+$secondaryAccentColor: var(--secondaryAccentColor);
+
 $textColor: var(--textColor);
 $textCodeColor: var(--textCodeColor);
 $disabledTextColor: var(--disabledTextColor);
@@ -60,15 +65,12 @@ $popoverHeaderTextColor: var(--popoverHeaderTextColor);
 $popoverBackgroundColor: var(--popoverBackgroundColor);
 $popoverTextColor: var(--popoverTextColor);
 
-$headerLightShadowColor: var(--headerLightShadowColor);
-$headerDarkShadowColor: var(--heaserDarkShadowColor);
-
 $figureBackgroundColor: var(--figureBackgroundColor);
 $figureCaptionColor: var(--figureCaptionColor);
 
-$heroLogoColor: var(--heroLogoColor);
 $landingPanelBackgroundColor: var(--landingPanelBackgroundColor);
 $landingPanelBorderColor: var(--landingPanelBorderColor);
+$landingPanelTitleColor: var(--landingPanelTitleColor);
 $landingPanelTextColor: var(--landingPanelTextColor);
 $landingPanelShadowColor: var(--landingPanelShadowColor);
 $landingPanelShadowHoverColor: var(--landingPanelShadowHoverColor);
@@ -108,7 +110,6 @@ $h5Weight: var(--h5Weight);
 $h6Weight: var(--h6Weight);
 $tableHeaderWeight: var(--tableHeaderWeight);
 $boldTextWeight: var(--boldTextWeight);
-$heroLeadWeight: var(--heroLeadTextWeight);
 $blogAttributeWeight: var(--blogAttributeWeight);
 $sectionIndexLinkWeight: var(--sextionIndexLinkWeight);
 $buttonWeight: var(--buttonWeight);
@@ -120,3 +121,7 @@ $glossaryWordWeight: var(--glossaryWordWeight);
 $figureCaptionWeight: var(--figureCaptionWeight);
 $textCodeWeight: var(--textCodeWeight);
 $faqQuestionWeight: var(--faqQuestionWeight);
+
+$mediumWeight: var(--mediumWeight);
+$semiBoldWeight: var(--semiBoldWeight);
+$boldWeight: var(--boldWeight);

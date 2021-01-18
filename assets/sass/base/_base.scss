@@ -31,7 +31,7 @@
     body {
         margin-top: $headerHeight;
         margin-bottom: calc(#{$footerHeight} + 3rem);
-        font-family: "Work Sans", sans-serif;
+        font-family: "Barlow", sans-serif;
         color: $textColor;
         background-color: $backgroundColor;
     }
@@ -45,7 +45,7 @@ a {
     color: $linkColor;
     text-decoration: none;
     font-weight: $linkWeight;
-    font-family: "Chivo", sans-serif;
+    font-family: "Barlow", sans-serif;
 }
 
 a:hover, a:focus {
@@ -158,7 +158,7 @@ thead+tbody tr:first-child td:last-child {
 p {
     font-size: $font-size--primary;
     font-weight: $textWeight;
-    margin: .75em 0;
+    margin: 1.25em 0;
 
     @media (min-width: $bp-md) {
         margin: 1.5em 0;
@@ -190,29 +190,27 @@ ol {
 h1, h2, h3, h4, h5, h6 {
     border: 0;
     line-height: 1.2;
+    color: $textColor;
 }
 
 h1 {
-    font-size: $font-size--xxl;
+    font-size: $font-size--xxxl;
     color: $h1Color;
     font-weight: $h1Weight;
     margin-bottom: 0;
 }
 
 h2 {
-    font-size: $font-size--xl;
+    font-size: $font-size--xxl;
     color: $h2Color;
     font-weight: $h2Weight;
-    margin-top: 3rem;
-    margin-bottom: 1.8rem;
+    margin-top: 4rem;
+    margin-bottom: 2.5rem;
 
-    &::before {
-        display: block;
-        content: " ";
-        width: 5rem;
-        border-bottom: 2px solid $mainBrandColor;
-        margin-bottom: 1.1rem;
-        visibility: visible;
+    @media (min-width: $bp-md) {
+        font-size: $font-size--xxxl;
+        margin-top: 5.25rem;
+        margin-bottom: 3.5rem;
     }
 }
 
@@ -220,7 +218,6 @@ h3 {
     font-size: $font-size--l;
     color: $h3Color;
     font-weight: $h3Weight;
-    letter-spacing: 1px;
     margin-bottom: 20px;
     margin-top: 30px;
 }
@@ -390,4 +387,27 @@ sup {
 
 .attribution {
     font-weight: $blogAttributeWeight;
+}
+
+.container {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    max-width: 1150px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+    @media (min-width: $bp-md) {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
+
+.cta-container {
+    text-align: center;
+    margin-top: 2.25rem;
+
+    @media (min-width: $bp-md) {
+        margin-top: 3.125rem;
+    }
 }

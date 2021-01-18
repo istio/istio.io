@@ -4,31 +4,30 @@
     white-space: nowrap;
     vertical-align: middle;
     user-select: none;
-    border: 1px solid transparent;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    border-radius: $border-radius;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    background-color: $secondBrandColor;
-    color: $textBrandColor;
+    border: 2px solid $secondaryColor;
+    padding: .75rem 2rem;
+    font-size: 1.125rem;
+    line-height: 1.2;
+    border-radius: $button-border-radius;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out;
+    background-color: transparent;
+    color: #3d5080;
     font-weight: $buttonWeight;
-    letter-spacing: 1px;
     cursor: pointer;
-    box-shadow: 3px 3px 8px #a7a7a7;
+    min-width: 13.75rem;
 
     &:hover {
-        background-color: $mainBrandColor;
-        color: $textBrandColor;
+        background-color: $secondaryColor;
+        color: #ffffff;
         text-decoration: none;
     }
 
     &:active {
-        background-color: $buttonActiveColor;
-        color: $textBrandColor;
+        background-color: $secondaryColor;
+        color: #ffffff;;
     }
 
     &:focus {
-        color: $textBrandColor;
+        color: #ffffff;
     }
 }
