@@ -108,6 +108,7 @@ backend, is used below.
                     envoy_grpc:
                       cluster_name: rate_limit_cluster
                     timeout: 10s
+                  transport_api_version: V3
         - applyTo: CLUSTER
           match:
             cluster:
