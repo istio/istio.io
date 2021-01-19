@@ -218,7 +218,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
     {{< tab name="CentOS" category-value="centos" >}}
 
-    Note: currently, only CentOS 8 is supported.
+    Note: only CentOS 8 is currently supported.
 
     {{< text bash >}}
     $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/rpm/istio-sidecar.rpm
