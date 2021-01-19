@@ -41,7 +41,7 @@ Refer to the [`api-server` reference docs](https://kubernetes.io/docs/reference/
     `--kubernetes-version` value:
 
     {{< text bash >}}
-    $ minikube start --memory=16384 --cpus=4 --kubernetes-version=v1.18.10
+    $ minikube start --memory=16384 --cpus=4 --kubernetes-version=v1.20.2
     {{< /text >}}
 
     Depending on the hypervisor you use and the platform on which the hypervisor
