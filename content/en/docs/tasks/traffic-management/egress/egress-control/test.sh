@@ -65,6 +65,7 @@ snip_before_you_begin_1
 start=$(date +%s)
 kubectl wait --for=delete "pod/$SOURCE_POD" --timeout=180s
 echo "Wait for termination duration: $(($(date +%s)-start)) seconds"
+_wait_for_deployment default sleep
 
 kubectl get po
 
