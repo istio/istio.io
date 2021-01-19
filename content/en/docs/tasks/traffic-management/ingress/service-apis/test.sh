@@ -27,7 +27,7 @@ source "tests/util/samples.sh"
 snip_setup_1
 
 # install Istio with PILOT_ENABLED_SERVICE_APIS flag enabled
-snip_setup_2
+istioctl install --set values.pilot.env.PILOT_ENABLED_SERVICE_APIS=true -y
 _wait_for_deployment istio-system istiod
 _wait_for_deployment istio-system istio-ingressgateway
 
@@ -40,11 +40,13 @@ snip_configuring_a_gateway_2
 _set_ingress_environment_variables
 
 # send CURL traffic to http://$INGRESS_HOST:$INGRESS_PORT/get (expected 200)
-snip_configuring_a_gateway_3
+_verify_contains snip_configuring_a_gateway_3 "200 OK"
 
 # send CURL traffic to http://$INGRESS_HOST:$INGRESS_PORT/get (expected 404)
-snip_configuring_a_gateway_4
+_verify_contains snip_configuring_a_gateway_4 "404 Not Found"
 
 
 # @cleanup
 cleanup_httpbin_sample
+kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.1.0" | kubectl delete -f -
+kubectl delete ns istio-system

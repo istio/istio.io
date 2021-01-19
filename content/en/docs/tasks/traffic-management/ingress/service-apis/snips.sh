@@ -68,6 +68,8 @@ metadata:
   labels:
     selected: "yes"
 spec:
+  gateways:
+    allow: All
   hostnames: ["httpbin.example.com"]
   rules:
   - matches:
