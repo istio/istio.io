@@ -245,8 +245,8 @@ log entries for `v1` and none for `v2`:
     forget", which means that the responses are discarded.
 
     You can use the `mirrorPercent` field to mirror a fraction of the traffic,
-    instead of mirroring all requests. If this field is absent, for compatibility with
-    older versions, all traffic will be mirrored.
+    instead of mirroring all requests. If this field is absent, all traffic will be mirrored.
+
 1. Send in traffic:
 
     {{< text bash >}}
