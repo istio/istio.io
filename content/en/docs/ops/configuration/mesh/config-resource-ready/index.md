@@ -1,6 +1,6 @@
 ---
 title: Wait on Resource Status for Applied Configuration
-description: Describes how to wait until a resource reaches a given status or readiness.
+description: Describes how to wait until a resource reaches a given status of readiness.
 weight: 15
 owner: istio/wg-user-experience-maintainers
 test: no
