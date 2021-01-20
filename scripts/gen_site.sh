@@ -44,6 +44,10 @@ babel --source-maps --minified --no-comments --presets minify \
   tmp/js/events.js \
   --out-file generated/js/all.min.js
 
+babel --source-maps --minified --no-comments --presets minify \
+  tmp/js/headerAnimation.js \
+  --out-file generated/js/headerAnimation.min.js
+
 babel --source-maps --minified --no-comments \
   tmp/js/themes_init.js \
   --out-file generated/js/themes_init.min.js
