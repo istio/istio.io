@@ -20,9 +20,9 @@ Logging messages output by a component are categorized by *scopes*. A scope repr
 you can control as a whole. Different components have different scopes, depending on the features the component
 provides. All components have the `default` scope, which is used for non-categorized log messages.
 
-As an example, as of this writing, `istioctl` has 25 scopes, representing different functional areas within the command:
+As an example, as of this writing, `istioctl` has 27 scopes, representing different functional areas within the command:
 
-- `ads`, `adsc`, `analysis`, `authn`, `authorization`, `ca`, `cache`, `default`, `klog`, `kube`, `mcp`, `model`, `pkica`, `processing`, `resource`, `rootcertrotator`, `secretfetcher`, `serverca`, `source`, `spiffe`, `status`, `validation`, `validationController`, `validationServer`, `wle`
+- `ads`, `adsc`, `analysis`, `attributes`, `authn`, `authorization`, `ca`, `cache`, `cli`, `default`, `klog`, `kube`, `mcp`, `model`, `pkica`, `processing`, `resource`, `rootcertrotator`, `secretfetcher`, `serverca`, `source`, `spiffe`, `status`, `validation`, `validationController`, `validationServer`, `wle`
 
 Pilot-Agent, Pilot-Discovery, and the Istio Operator have their own scopes which you can discover by looking at their [reference documentation](/docs/reference/commands/).
 
