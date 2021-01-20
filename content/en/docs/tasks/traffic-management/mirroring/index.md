@@ -231,7 +231,7 @@ log entries for `v1` and none for `v2`:
         mirror:
           host: httpbin
           subset: v2
-        mirror_percent: 100
+        mirrorPercent: 100
     EOF
     {{< /text >}}
 
@@ -244,7 +244,7 @@ log entries for `v1` and none for `v2`:
     Also, it is important to note that these requests are mirrored as "fire and
     forget", which means that the responses are discarded.
 
-    You can use the `mirror_percent` field to mirror a fraction of the traffic,
+    You can use the `mirrorPercent` field to mirror a fraction of the traffic,
     instead of mirroring all requests. If this field is absent, for compatibility with
     older versions, all traffic will be mirrored.
 1. Send in traffic:
