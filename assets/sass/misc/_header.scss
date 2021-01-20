@@ -33,24 +33,14 @@ header {
         }
 
         .logo {
-            width: 2em;
-            height: 2em;
-            top: 3px;
-            left: .8em;
-            position: fixed;
             fill: $textBrandColor;
-            transition-duration: .8s;
-            transition-property: transform;
-            transform-origin: 50% 50%;
+            
+            svg {
+                width: 106px;
 
-            circle {
-                fill: $mainBrandColor;
-                stroke: $textBrandColor;
-            }
-
-            @media (min-width: $bp-md) {
-                width: 3em;
-                height: 3em;
+                @media (min-width: $bp-md) {
+                    width: 128px;
+                }
             }
         }
 
@@ -93,7 +83,6 @@ header {
         font-size: 1.1em;
         margin-left: .3rem;
         margin-right: .3rem;
-        stroke: $textBrandColor;
         fill: $textBrandColor;
         padding: 0;
 
@@ -105,7 +94,6 @@ header {
 
         svg.icon {
             fill: $textBrandColor;
-            stroke: $textBrandColor;
         }
 
         &:hover {
@@ -119,7 +107,6 @@ header {
 
             svg.icon {
                 fill: $textBrandHighlightColor;
-                stroke: $textBrandHighlightColor;
             }
         }
     }
