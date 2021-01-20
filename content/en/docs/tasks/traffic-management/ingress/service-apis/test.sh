@@ -40,10 +40,10 @@ snip_configuring_a_gateway_2
 _set_ingress_environment_variables
 
 # send CURL traffic to http://$INGRESS_HOST:$INGRESS_PORT/get (expected 200)
-_verify_contains snip_configuring_a_gateway_3 "200 OK"
+_verify_contains snip_configuring_a_gateway_3 "HTTP/1.1 200 OK"
 
 # send CURL traffic to http://$INGRESS_HOST:$INGRESS_PORT/get (expected 404)
-_verify_contains snip_configuring_a_gateway_4 "404 Not Found"
+_verify_contains snip_configuring_a_gateway_4 "HTTP/1.1 404 Not Found"
 
 
 # @cleanup
