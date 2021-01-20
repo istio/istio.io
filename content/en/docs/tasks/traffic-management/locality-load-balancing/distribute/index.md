@@ -68,7 +68,7 @@ Call the `HelloWorld` service from the `Sleep` pod:
 $ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
   app=sleep -o jsonpath='{.items[0].metadata.name}')" \
-  -- curl -sL helloworld.sample:5000/hello
+  -- curl -sSL helloworld.sample:5000/hello
 {{< /text >}}
 
 Repeat this a number of times and verify that the number of replies
