@@ -45,7 +45,7 @@ $ GRAFANA_CRED="USER:PASSWORD"
 $ # The name of the Prometheus data source to use
 $ GRAFANA_DATASOURCE="Prometheus"
 $ # The version of Istio to deploy
-$ VERSION={{< full_version >}}
+$ VERSION={{< istio_full_version >}}
 $ # Import all Istio dashboards
 $ for DASHBOARD in 7639 11829 7636 7630 7642 7645; do
 $     REVISION="$(curl -s https://grafana.com/api/dashboards/${DASHBOARD}/revisions -s | jq ".items[] | select(.description | contains(\"${VERSION}$\")) | .revision")"
