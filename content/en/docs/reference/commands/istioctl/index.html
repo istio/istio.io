@@ -2567,6 +2567,11 @@ istioctl x version --xds-label istio.io/rev=default
 <td>Wait condition, must be &#39;distribution&#39; or &#39;delete&#39;  (default `distribution`)</td>
 </tr>
 <tr>
+<td><code>--generation &lt;string&gt;</code></td>
+<td></td>
+<td>Wait for a specific generation of config to become current, rather than using whatever is latest in Kubernetes  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -2580,11 +2585,6 @@ istioctl x version --xds-label istio.io/rev=default
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--resource-version &lt;string&gt;</code></td>
-<td></td>
-<td>Wait for a specific version of config to become current, rather than using whatever is latest in kubernetes  (default ``)</td>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
@@ -5237,6 +5237,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Integer</td>
 <td><code>500</code></td>
 <td>If status is enabled, controls the Burst rate with which status will be updated.  See https://godoc.org/k8s.io/client-go/rest#Config Burst</td>
+</tr>
+<tr>
+<td><code>PILOT_STATUS_MAX_WORKERS</code></td>
+<td>Integer</td>
+<td><code>100</code></td>
+<td>The maximum number of workers Pilot will use to keep configuration status up to date.  Smaller numbers will result in higher status latency, but larger numbers may impact CPU in high scale environments.</td>
 </tr>
 <tr>
 <td><code>PILOT_STATUS_QPS</code></td>

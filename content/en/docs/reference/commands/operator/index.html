@@ -458,6 +458,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If status is enabled, controls the Burst rate with which status will be updated.  See https://godoc.org/k8s.io/client-go/rest#Config Burst</td>
 </tr>
 <tr>
+<td><code>PILOT_STATUS_MAX_WORKERS</code></td>
+<td>Integer</td>
+<td><code>100</code></td>
+<td>The maximum number of workers Pilot will use to keep configuration status up to date.  Smaller numbers will result in higher status latency, but larger numbers may impact CPU in high scale environments.</td>
+</tr>
+<tr>
 <td><code>PILOT_STATUS_QPS</code></td>
 <td>Floating-Point</td>
 <td><code>100</code></td>
