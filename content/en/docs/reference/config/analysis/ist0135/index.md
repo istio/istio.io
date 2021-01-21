@@ -2,7 +2,7 @@
 title: DeprecatedAnnotation
 layout: analysis-message
 owner: istio/wg-user-experience-maintainers
-test: no
+test: n/a
 ---
 
 This message occurs when an Istio or Kubernetes resource has an Istio annotation that

@@ -2,13 +2,13 @@
 title: AlphaAnnotation
 layout: analysis-message
 owner: istio/wg-user-experience-maintainers
-test: no
+test: n/a
 ---
 
 This message occurs when an Istio or Kubernetes resource has an Istio annotation that
-has is new, has been incompletely implemented, or lacks performance testing.
+is new, has been incompletely implemented, or lacks performance testing.
 
-Consult Istio's (Feature Status documentation)[/about/feature-stages/] for information
+Consult Istio's [Feature Status documentation](/about/feature-stages/) for information
 on the relative maturity and support level of Istio features.
 
 ## How to resolve
