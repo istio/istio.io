@@ -1,6 +1,6 @@
 ---
-title: Wait for Resource Status to Apply Configuration
-description: Describes how to wait to apply mesh configuration until a resource reaches a given status or readiness.
+title: Wait on Resource Status for Applied Configuration
+description: Describes how to wait until a resource reaches a given status of readiness.
 weight: 15
 owner: istio/wg-user-experience-maintainers
 test: no
@@ -28,8 +28,7 @@ status, which Istio updates as it propagates configuration changes.
 ## Before you begin
 
 This feature is off by default. Enable the `status` field as part of Istio
-installation using the following command. If you enable it after installation,
-you must re-deploy the control plane.
+installation using the following command.
 
 {{< text bash >}}
 $ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
@@ -37,12 +36,14 @@ $ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.
 
 ## Wait for resource readiness
 
-You can apply a change to a virtual service and then wait for completion, using
+You can apply a change and then wait for completion.  For example, to wait for a virtual
+service, use
 the following commands:
 
 {{< text bash >}}
-$ kubectl apply -f virtual_service_name.yaml
-$ kubectl wait --for=condition=Reconciled virtual_service/name
+$ kubectl apply -f @samples/httpbin/httpbin.yaml@
+$ kubectl apply -f @samples/httpbin/httpbin-gateway.yaml@
+$ kubectl wait --for=condition=Reconciled virtualservice/httpbin
 {{< /text >}}
 
 This blocking command does not release until the virtual service has been
