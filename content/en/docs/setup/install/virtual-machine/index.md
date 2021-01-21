@@ -286,7 +286,7 @@ Next, use the `istioctl x workload entry` command to generate:
 
 * `cluster.env`: Contains metadata that identifies what namespace, service account, network CIDR and (optionally) what inbound ports to capture.
 * `istio-token`: A Kubernetes token used to get certs from the CA.
-* `mesh.yaml`: Provides ProxyConfig to configure `discoveryAddress`, health-checking probes, and some authentication options.
+* `mesh.yaml`: Provides `ProxyConfig` to configure `discoveryAddress`, health-checking probes, and some authentication options.
 * `root-cert.pem`: The root certificate used to authenticate.
 * `hosts`: An addendum to `/etc/hosts` that the proxy will use to reach istiod for xDS.*
 
