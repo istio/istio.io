@@ -12,7 +12,7 @@ test: no
 
 This page was last updated June 28, 2019.
 
-{{< boilerplate untested-platform >}}
+{{< boilerplate untested-document >}}
 
 ## Bootstrapping Gardener
 
