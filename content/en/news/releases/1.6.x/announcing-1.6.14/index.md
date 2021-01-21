@@ -19,4 +19,5 @@ This release contains bug fixes to improve robustness. This release note describ
   ([Issue #28916](https://github.com/istio/istio/issues/28916))
 - **Fixed** an issue that caused very high memory usage with a large number of `ServiceEntries`.
   ([Issue #25531](https://github.com/istio/istio/issues/25531))
-
+- **Fixed** an issue that caused the `user agent` header to be missing in the Stackdriver access log.
+  ([PR #3083](https://github.com/istio/proxy/pull/3083))
