@@ -397,9 +397,9 @@ sup {
     margin-left: auto;
     margin-right: auto;
 
-    @media (min-width: $bp-md) {
-        padding-left: 1.25rem;
-        padding-right: 1.25rem;
+    &-l {
+        @extend .container;
+        max-width: 1300px;
     }
 }
 

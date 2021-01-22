@@ -1,8 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="127.995" height="60.004" viewBox="0 0 127.995 60.004">
-    <defs>
-        <style>.a{fill:#fff;}.b{clip-path:url(#a);}</style>
-    </defs>
-
     <g transform="translate(0 0)">
         <g class="b">
             <path class="a" d="M103.649,26.686a2.627,2.627,0,1,0-1.955-.768,2.649,2.649,0,0,0,1.955.768"/>

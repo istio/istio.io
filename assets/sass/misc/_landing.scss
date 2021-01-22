@@ -31,7 +31,6 @@
             position: absolute;
             top: 0;
             bottom: 0;
-            right: -40%;
         }
     }
 
@@ -87,6 +86,7 @@
 
             .panel-btn {
                 margin-top: 1.5rem;
+                align-self: center;
             }
 
             &--dark {
@@ -100,7 +100,7 @@
 
                     &:hover {
                         background-color: #7dc5f2;
-                        color: $landingPanelBackgroundColor;
+                        color: $secondaryAccentColor;
                     }
                 }
             }

@@ -306,3 +306,6 @@ other = "An automated test is available for this page. Click for details."
 
 [needs_test]
 other = "No automated test is available for this page. Click for details or to help create one."
+
+[try_istio]
+other = "Try Istio"
