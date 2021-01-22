@@ -16,9 +16,7 @@ across cluster boundaries.
 Before proceeding, be sure to complete the steps under
 [before you begin](/docs/setup/install/multicluster/before-you-begin).
 
-{{< tip >}}
 {{< boilerplate multi-cluster-with-metallb >}}
-{{< /tip >}}
 
 In this configuration, both `cluster1` and `cluster2` observe the API Servers
 in each cluster for endpoints.
