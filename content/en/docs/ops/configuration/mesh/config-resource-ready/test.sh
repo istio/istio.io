@@ -24,15 +24,15 @@ set -o pipefail
 # @setup profile=none
 
 echo '*** config-resource-ready step 1 ***'
-snip_install_with_enable_status
+echo y | snip_install_with_enable_status
 
 echo '*** istioctl-analyze step 2 ***'
 _verify_contains snip_apply_and_wait_for_httpbin_vs "$snip_apply_and_wait_for_httpbin_vs_out"
 
 
 # @cleanup
-kubectl delete -f samples/httpbin/httpbin.yaml
-kubectl delete -f samples/httpbin/httpbin-gateway.yaml
+kubectl delete -f samples/httpbin/httpbin.yaml || true
+kubectl delete -f samples/httpbin/httpbin-gateway.yaml || true
 # Delete the Istio this test installed
 kubectl delete ValidatingWebhookConfiguration istiod-istio-system
 kubectl get mutatingwebhookconfigurations -o custom-columns=NAME:.metadata.name --no-headers | xargs kubectl delete mutatingwebhookconfigurations
