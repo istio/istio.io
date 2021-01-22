@@ -17,7 +17,7 @@ Before proceeding, be sure to complete the steps under
 [before you begin](/docs/setup/install/multicluster/before-you-begin).
 
 {{< tip >}}
-If you are testing multicluster setup on `kind` you can use [MetalLB](https://metallb.universe.tf/installation/) to make use of `EXTERNAL-IP` for `LoadBalancer` services.
+{{< boilerplate multi-cluster-with-metallb >}}
 {{< /tip >}}
 
 In this configuration, cluster `cluster1` will observe the API Servers in
