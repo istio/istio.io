@@ -1,12 +1,16 @@
-header {
-    // background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
-    padding-top: .2em;
-    padding-bottom: .2em;
+.main-navigation {
+    background-color: #ffffff;
     position: fixed;
     top: 0;
     right: 0;
     left: 0;
     z-index: $header-z;
+    padding: 1.25rem 0;
+
+    @media (min-width: $bp-lg) {
+        height: auto;
+        padding: 1.875rem 0;
+    }
 
     @media print {
         display: none;
@@ -14,9 +18,7 @@ header {
 
     #brand {
         display: inline-block;
-        font-size: 1.25rem;
-        padding-top: .3125rem;
-        padding-bottom: .3125rem;
+        font-size: 1.25rem;     
         margin-right: 1rem;
         line-height: inherit;
         white-space: nowrap;
@@ -26,19 +28,13 @@ header {
             width: unset;
         }
 
-        @media (max-width: $bp-xs-max) {
-            &.open-hamburger {
-                display: none;
-            }
-        }
-
         .logo {
-            fill: $textBrandColor;
+            fill: $secondaryColor;
             
             svg {
                 width: 106px;
 
-                @media (min-width: $bp-md) {
+                @media (min-width: $bp-lg) {
                     width: 128px;
                 }
             }
@@ -63,7 +59,7 @@ header {
                 width: unset;
             }
 
-            @media (min-width: $bp-md) {
+            @media (min-width: $bp-lg) {
                 margin-left: 4.2em;
             }
         }
@@ -78,23 +74,8 @@ header {
     a, button {
         background-color: transparent;
         border: 0;
-        font-weight: 500;
-        color: $textBrandColor;
-        font-size: 1.1em;
-        margin-left: .3rem;
-        margin-right: .3rem;
-        fill: $textBrandColor;
-        padding: 0;
-
-        @media (min-width: $bp-sm) {
-            font-size: .9em;
-            margin-left: .58rem;
-            margin-right: .58rem;
-        }
-
-        svg.icon {
-            fill: $textBrandColor;
-        }
+        color: $primaryColor;
+        font-weight: $mediumWeight;
 
         &:hover {
             cursor: pointer;
@@ -118,6 +99,9 @@ header {
     svg.icon {
         width: 1.1em;
         height: 1.1em;
+        stroke-width: 2px;
+        fill: $primaryColor;
+        stroke: $primaryColor;
     }
 
     svg.magnifier {
@@ -130,67 +114,14 @@ header {
         height: 1.6em;
     }
 
-    #hamburger {
-        display: inline-block;
-        position: absolute;
-        top: .8rem;
-        right: 1.3rem;
-
-        @media (min-width: $bp-sm) {
-            display: none;
-        }
-
-        svg.icon {
-            fill: $textBrandColor;
-            stroke: $textBrandColor;
-        }
+    svg.dropdown-arrow {
+        width: 12px;
+        margin-left: 1rem;
     }
 
-    #header-links {
-        display: none;
-
-        @media (max-width: $bp-xs-max) {
-            &.open-hamburger {
-                display: block;
-                text-align: center;
-                margin-top: 1em;
-                padding-left: 1em;
-                padding-right: 2.5em;
-            }
-        }
-
-        @media (min-width: $bp-sm) {
-            display: inline-block;
-            position: absolute;
-        }
-
-        top: .6rem;
-        right: 1.1rem;
-        transition: right .5s;
-
-        &.show-search {
-            right: -700px;
-            transition: right .5s;
-        }
-
-        .current {
-            border-bottom: solid 3px $textBrandColor;
-            border-radius: 2px;
-            font-weight: $linkWeight;
-            font-size: 1.1em;
-            margin-left: .3rem;
-            margin-right: .3rem;
-
-            @media (min-width: $bp-sm) {
-                font-size: .9em;
-                margin-left: .58rem;
-                margin-right: .58rem;
-            }
-        }
-
-        span.current {
-            cursor: default;
-            color: $textBrandColor;
+    #hamburger {
+        @media (min-width: $bp-lg) {
+            display: none;
         }
     }
 
@@ -271,6 +202,272 @@ header {
 
         &:hover {
             color: $textBrandHighlightColor;
+        }
+    }
+    
+    &-header {
+        @media (max-width: $bp-lg)  {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    &-wrapper {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: auto;
+
+        @media (min-width: $bp-lg) {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            min-height: auto;
+            overflow: unset;
+        }
+    }
+
+    &-links-wrapper {
+        display: none;
+        width: 100%;
+        padding: 0 4.85rem 4.85rem;
+        transition: right .5s;
+
+        @media (min-width: $bp-lg) {
+            display: flex;
+            align-items: center;
+            padding: 0;
+            width: auto;
+        }
+    }
+
+    &-links {
+        &-item {
+            display: block;
+            position: relative;
+            border-bottom: 2px solid $accentColor;
+            margin: 0;
+
+            &:last-child {
+                border-bottom: 0;
+            }
+        }
+
+        &-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0;
+            padding: .875rem 1rem;
+            font-size: 1.125rem;
+            color: #ffffff;
+
+            @media (max-width: $bp-lg) {
+                &.is-open + .main-navigation-links-dropdown {
+                    display: block;
+                }
+            }   
+        }
+
+        &-dropdown {
+            display: none;
+            border-top: 2px solid $accentColor;
+            padding: 1rem 0;
+
+            &.is-visible {
+                display: block;
+            }
+
+            &-item {
+                display: block;
+                margin: 0;
+                border: 0;
+
+                .main-navigation-links-link {
+                    display: block;
+                    font-size: .875rem;
+                    padding: .625rem 1rem;
+
+                    &::before {
+                        content: "";
+                        display: inline-block;
+                        width: 18px;
+                        height: 2px;
+                        background-color: $accentColor;
+                        position: relative;
+                        vertical-align: middle;
+                        margin-right: 1.175rem;
+                    }
+                }
+            }
+        }
+
+        @media (min-width: $bp-lg) {
+            display: inline-block;
+
+            &-item {
+                display: inline-block;
+                border-bottom: 0;
+
+                &:hover .main-navigation-links-dropdown {
+                    display: block;
+                }
+            }
+
+            &-link {
+                padding: .875rem 1.25rem;
+            }
+
+            &-dropdown {
+                position: absolute;
+                top: 100%;
+                left: 1.875rem;
+                min-width: 220px;
+                height: auto;
+                background-color: #ffffff;
+                border: 2px solid $accentColor;
+                padding: .75rem 1.375rem;
+
+                .main-navigation-links-link {
+                    display: block;
+                    padding: 0.6rem 0;
+                }
+            }
+        }
+
+        @media (min-width: $bp-xl) {
+            &-link {
+                padding: .875rem 1.875rem;
+            }
+        }
+    }
+
+    &-links,
+    &-links-dropdown {
+        list-style-type: none;
+        margin: 0;
+    }
+
+    &-footer {
+        margin-top: 1.125rem;
+        text-align: center;
+
+        @media (min-width: $bp-lg) {
+            display: inline-block;
+            margin: 0;
+        }
+    }
+
+    &-toggle {
+        display: flex;
+        align-items: center;
+        align-self: flex-start;
+        margin: 0;
+        padding: 1rem;
+
+        svg.icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        @media (min-width: $bp-lg) {
+            display: none;
+        }
+
+        &#menu-close {
+            margin-left: auto;
+        }
+    }
+
+    &.show-search {
+        right: -700px;
+        transition: right .5s;
+    }
+
+    .current {
+        border-bottom: solid 3px $textBrandColor;
+        border-radius: 2px;
+        font-weight: $linkWeight;
+        font-size: 1.1em;
+        margin-left: .3rem;
+        margin-right: .3rem;
+
+        @media (min-width: $bp-sm) {
+            font-size: .9em;
+            margin-left: .58rem;
+            margin-right: .58rem;
+        }
+    }
+
+    span.current {
+        cursor: default;
+        color: $textBrandColor;
+    }
+
+    .btn {
+        background-color: $accentColor;
+        border-color: $accentColor;
+        color: $primaryColor !important;
+    }
+
+    &-transparent {
+        background-color: transparent;
+
+        .main-navigation-links-dropdown {
+            background-color: $secondaryColor;
+        }
+
+        a {
+            color: $textBrandColor;
+        }
+
+        svg.icon {
+            fill: $textBrandColor;
+            stroke: $textBrandColor;
+        }
+
+        #brand .logo {
+            fill: $textBrandColor;
+        }
+    }
+
+    #menu-close {
+        display: none;
+    }
+
+    @media (max-width: $bp-lg) {
+        &.is-visible {
+            background-color: $secondaryColor;
+            height: 100%;
+            padding: 0;
+
+            .main-navigation { 
+                &-header { padding: 1.25rem; }
+                &-wrapper { padding: 0; }
+                &-links-wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    flex-grow: 1;
+                    justify-content: center;
+                }
+            }
+    
+            a { color: $textBrandColor; }
+
+            #brand,
+            #hamburger {
+                display: none;
+            }
+    
+            #menu-close {
+                display: flex;
+            }
+
+            svg {
+                fill: $textBrandColor;
+                stroke: $textBrandColor;
+            }
         }
     }
 }

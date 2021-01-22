@@ -2,29 +2,25 @@
 {{ $section := .Section }}
 {{ $current := . }}
 
-<header>
-    <nav >
-        <a id="brand" href="{{ $home.Permalink }}">
-            <span class="logo">{{ with resources.Get "inline_images/istio-whitelogo-bluebackground-rounded.svg" }}{{ ( . | minify).Content | safeHTML }}{{ end }}</span>
+<header class="main-navigation {{ if .IsHome }}main-navigation-transparent{{ end}}">
+    <nav class="main-navigation-wrapper container-l">
+        <div class="main-navigation-header">
+            <a id="brand" href="{{ $home.Permalink }}">
+                <span class="logo">{{ with resources.Get "inline_images/istio-logo-with-brand.svg" }}{{ ( . | minify).Content | safeHTML }}{{ end }}</span>
+            </a>
 
-            {{ if .Site.Data.args.archive_landing }}
-                <span class="name">Istioldies</span>
-            {{ else if .Site.Data.args.archive }}
-                <span class="name">Istioldie {{ .Site.Data.args.version }}</span>
-            {{ else if .Site.Data.args.preliminary }}
-                <span class="name">Istio Prelim {{ .Site.Data.args.version }}</span>
-            {{ else }}
-                <span class="name">Istio {{ .Site.Data.args.version }}</span>
-            {{ end }}
-        </a>
+            <button id="hamburger" class="main-navigation-toggle" aria-label="Open navigation">
+                {{ partial "icon.html" "menu-hamburger" }}
+            </button>
 
-        <div id="hamburger">
-            {{ partial "icon.html" "hamburger" }}
+            <button id="menu-close" class="main-navigation-toggle" aria-label="Close navigation">
+                {{ partial "icon.html" "menu-close" }}
+            </button>
         </div>
 
-        <div id="header-links">
+        <div id="header-links" class="main-navigation-links-wrapper">
             {{ if not .Site.Data.args.archive_landing }}
-                {{ with (.Site.GetPage "/docs") }}
+                <!-- {{ with (.Site.GetPage "/docs") }}
                     {{ if eq .Permalink $current.Permalink }}
                         <span {{ if eq $section "docs" }}class="current" {{ end }}title="{{ .Description }}">{{ .LinkTitle }}</span>
                     {{ else }}
@@ -66,10 +62,41 @@
                     {{ else }}
                         <a {{ if eq $section "about" }}class="current" {{ end }}title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
                     {{ end }}
-                {{ end }}
+                {{ end }} -->
+
+
+
+                <ul class="main-navigation-links">
+                    {{ $currentPage := .}}
+                    {{ range .Site.Menus.main }}
+                        {{ if .HasChildren }}
+                            <li class="main-navigation-links-item {{ if $currentPage.HasMenuCurrent "main" . }}active{{ end }}">
+                                <a href="{{ .URL }}" class="main-navigation-links-link has-dropdown">
+                                    <span>{{ .Name }}</span>
+                                    {{ partial "icon.html" "dropdown-arrow" }}
+                                </a>
+
+                                <ul class="main-navigation-links-dropdown">
+                                    {{ range .Children }}
+                                        <li class="main-navigation-links-dropdown-item {{ if $currentPage.IsMenuCurrent "main" . }}active{{ end }}">
+                                            <a href="{{ .URL }}" class="main-navigation-links-link">{{ .Name }}</a>
+                                        </li>
+                                    {{ end }}
+                                </ul>
+                            </li>
+                        {{ else }}
+                            <li class="main-navigation-links-item">
+                                <a href="{{ .URL }}" class="main-navigation-links-link">
+                                    <span>{{ .Name }}</span>
+                                </a>
+                            </li>
+                        {{ end }}
+                    {{ end  }}
+                  
+                </ul>
             {{ end }}
 
-            <div class="menu">
+            <!-- <div class="menu">
                 <button id="gearDropdownButton" class="menu-trigger" title='{{ i18n "options_menu" }}'
                         aria-label="Options and Settings" aria-controls="gearDropdownContent">
                     {{ partial "icon.html" "gear" }}
@@ -130,9 +157,13 @@
                         <a tabindex="-1" role="menuitem" href="https://istio.io/archive">{{ i18n "archived_releases" }}</a>
                     {{ end }}
                 </div>
-            </div>
+            </div> -->
 
-            <button id="search-show" title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</button>
+            <div class="main-navigation-footer">
+                <button id="search-show" title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</button>
+                <a href="#" class="btn" id="try-istio">{{ i18n "try_istio" }}</a>
+            </div>
+            
         </div>
 
         <form id="search-form" name="cse" role="search">

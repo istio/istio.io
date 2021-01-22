@@ -19,6 +19,9 @@ function handleHeader(): void {
     const searchTextbox = "search-textbox";
     const showSearch = "show-search";
     const openHamburger = "open-hamburger";
+    const isVisible = "is-visible";
+    const hasDropdown = "has-dropdown";
+    const isOpen = "is-open";
 
     // Show the header links, hide the search box
     function showNavBarLinks(): void {
@@ -88,6 +91,11 @@ function handleHeader(): void {
     });
 
     listen(getById("hamburger"), click, () => {
+        const h = getByTag("header");
+        if (h) {
+            h.classList.add(isVisible);
+        }
+
         const b = getById("brand");
         if (b) {
             b.classList.toggle(openHamburger);
@@ -102,12 +110,29 @@ function handleHeader(): void {
         if (sf) {
             sf.classList.toggle(openHamburger);
         }
+    });
 
-        const st = getById(searchTextbox);
-        if (st) {
-            st.focus();
+    listen(getById("menu-close"), click, () => {
+        const h = getByTag("header");
+        if(h) {
+            h.classList.remove(isVisible);
         }
     });
+    
+    // Toggle dropdown menu on click in mobile view
+    const dropdownLinks = getByClass("main-navigation-links-link");
+    if(dropdownLinks) {
+        for(let i = 0; i < dropdownLinks.length; i++) {
+            if(dropdownLinks[i].classList.contains(hasDropdown)) {
+                listen(dropdownLinks[i], click, (e) => {
+                    e.preventDefault();
+                    dropdownLinks[i].classList.toggle(isOpen);
+                    return false;
+                });
+            }
+        }
+    }
+    
 }
 
 handleHeader();
