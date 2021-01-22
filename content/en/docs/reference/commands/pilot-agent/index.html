@@ -23,11 +23,11 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -47,7 +47,7 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -81,12 +81,12 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -111,7 +111,7 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -216,12 +216,12 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -246,7 +246,7 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -316,11 +316,11 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -340,7 +340,7 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -398,11 +398,11 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -422,7 +422,7 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -451,12 +451,12 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -481,7 +481,7 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -518,11 +518,11 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -542,7 +542,7 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, mockcred, model, sds, spiffe, stsclient, stsserver, token, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -709,6 +709,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Istiod will serve SDS for credentialName secrets (rather than in-proxy). To ensure proper security, PILOT_ENABLE_XDS_IDENTITY_CHECK=true is required as well.</td>
+</tr>
+<tr>
+<td><code>ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Istio agent will intercept ECDS resource update, downloads Wasm module, and replaces Wasm module remote load with downloaded local module file.</td>
 </tr>
 <tr>
 <td><code>ISTIO_BOOTSTRAP</code></td>
