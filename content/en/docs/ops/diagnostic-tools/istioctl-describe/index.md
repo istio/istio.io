@@ -44,19 +44,18 @@ proxy is not present in a pod or if the proxy has not started. Additionally, the
 if some of the [Istio requirements for pods](/docs/ops/deployment/requirements/)
 are not met.
 
-For example, the following command produces a warning indicating a `kube-scheduler`
+For example, the following command produces a warning indicating a `kube-dns`
 pod is not part of the service mesh because it has no sidecar:
 
 {{< text bash >}}
-$ export KUBE_POD=$(kubectl -n kube-system get pod -l component=kube-scheduler -o jsonpath='{.items[0].metadata.name}')
+$ export KUBE_POD=$(kubectl -n kube-system get pod -l k8s-app=kube-dns -o jsonpath='{.items[0].metadata.name}')
 $ istioctl x describe pod -n kube-system $KUBE_POD
-Pod: kube-scheduler-istio-testing-control-plane
-   Pod does not expose ports
-WARNING: kube-scheduler-istio-testing-control-plane is not part of mesh; no Istio sidecar
-Warning: No Kubernetes Services select pod kube-scheduler-istio-testing-control-plane (see https://istio.io/docs/setup/kubernetes/additional-setup/requirements/ )
+Pod: coredns-f9fd979d6-2zsxk
+   Pod Ports: 53/UDP (coredns), 53 (coredns), 9153 (coredns)
+WARNING: coredns-f9fd979d6-2zsxk is not part of mesh; no Istio sidecar
 --------------------
-2021-01-21T10:09:59.556350Z     error   klog    an error occurred forwarding 41799 -> 15000: error forwarding port 15000 to pod 0e137325f7a7c4da385948a70ae7cca525678ff15d32f16b2a0b6ba510f81ef8, uid : failed to execute portforward in network namespace "host": failed to dial 15000: dial tcp4 127.0.0.1:15000: connect: connection refused
-Error: failed to execute command on sidecar: failure running port forward process: Get "http://localhost:41799/config_dump": EOF
+2021-01-22T16:10:14.080091Z     error   klog    an error occurred forwarding 42785 -> 15000: error forwarding port 15000 to pod 692362a4fe313005439a873a1019a62f52ecd02c3de9a0957cd0af8f947866e5, uid : failed to execute portforward in network namespace "/var/run/netns/cni-3c000d0a-fb1c-d9df-8af8-1403e6803c22": failed to dial 15000: dial tcp4 127.0.0.1:15000: connect: connection refused[]
+Error: failed to execute command on sidecar: failure running port forward process: Get "http://localhost:42785/config_dump": EOF
 {{< /text >}}
 
 The command will not produce such a warning for a pod that is part of the mesh,
