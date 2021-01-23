@@ -55,6 +55,41 @@ always provided in the annotations to ensure that the traces are reported
 correctly for the workload.
 {{< /warning >}}
 
+## Installation
+
+Using these features opens new possibilities for managing traces in your environment.
+
+In this example, we will sample all traces and add a tag named `service.istio.io/canonical-name`
+using the `CANONICAL_SERVICE` environmental variable injected into your pod. Only the
+first 256 characters of the value will be used if its length is higher.
+
+{{< text bash >}}
+$ cat <<EOF > ./tracing.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    defaultConfig:
+      tracing:
+        sampling: 100.0
+        max_path_tag_length: 256
+        custom_tags:
+          service.istio.io/canonical-name:
+          environment:
+            name: CANONICAL_SERVICE
+            defaultValue: latest
+EOF
+$ istioctl install --set values.meshConfig.enableTracing=true -f ./tracing.yaml
+{{< /text >}}
+
+{{< tip >}}
+We also had to make sure to set `meshConfig.enableTracing=true` during installation. This can
+done as a part of `tracing.yaml`.
+{{< /tip >}}
+
+This document will outline how to build and configure your own configuration options and their
+meaning.
+
 ### Using `MeshConfig` for trace settings
 
 All tracing options can be configured globally via `MeshConfig`.
@@ -218,34 +253,3 @@ spec:
       tracing:
         max_path_tag_length: <VALUE>
 {{< /text >}}
-
-## Installation
-
-Using these features opens new possibilities for managing traces in your environment.
-
-In this example, we will sample all traces and add a tag named `service.istio.io/canonical-name`
-using the `CANONICAL_SERVICE` environmental variable injected into your pod.
-
-{{< text bash >}}
-$ cat <<EOF > ./tracing.yaml
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    defaultConfig:
-      tracing:
-        sampling: 100.0
-        max_path_tag_length: 256
-        custom_tags:
-          service.istio.io/canonical-name:
-            environment:
-              name: CANONICAL_SERVICE
-              defaultValue: latest
-EOF
-$ istioctl install --set values.meshConfig.enableTracing=true -f ./tracing.yaml
-{{< /text >}}
-
-{{< tip >}}
-We also had to make sure to set `meshConfig.enableTracing=true` during installation. This can
-done as a part of `tracing.yaml`.
-{{< /tip >}}
