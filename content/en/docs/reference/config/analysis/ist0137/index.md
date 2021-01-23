@@ -41,6 +41,6 @@ In this example, service `nginx-a` and service `nginx-b` selecting the same work
 
 ## How to resolve
 
-This must be fixed one of two ways. Make both services use the same **port**, or make both services use different **targetPorts**.
+This must be fixed one of two ways. Make both services use the same `port`, or make both services use different `targetPorts`.
 
 Selecting the former option will require reconfiguring the clients of one of the services to connect to a different port. Selecting the latter option will require configuring the workload pods of one of the services to listen on the same targetPort as the other service.
