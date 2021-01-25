@@ -9,15 +9,14 @@ By default, Cassandra broadcasts the address it uses for binding
 (accepting connections) to other Cassandra nodes as its address. This
 is usually the pod IP address and works fine without a service
 mesh. However, with a service mesh this configuration does not
-work. Istio and other service meshes require `localhost`
-(`127.0.0.1`) to be the address for binding.
+work. Istio requires (`0.0.0.0`) to be the address for binding.
 
 There are two configuration parameters to pay attention to:
 [`listen_address`](http://cassandra.apache.org/doc/latest/configuration/cassandra_config_file.html?highlight=listen_address#listen-address)
 and
 [`broadcast_address`](http://cassandra.apache.org/doc/latest/configuration/cassandra_config_file.html?highlight=listen_address#broadcast-address). For
 running Cassandra in an Istio mesh,
-the `listen_address` parameter should be set to `127.0.0.1` and the
+the `listen_address` parameter should be set to `0.0.0.0` and the
 `broadcast_address` parameter should be set to the pod IP address.
 
 These configuration parameters are defined in `cassandra.yaml` in the

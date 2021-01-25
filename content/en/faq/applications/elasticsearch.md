@@ -14,7 +14,7 @@ as the publishing address and no further configuration will be
 needed.
 
 If the default configuration does not work, you can set the
-`network.bind_host` to `0.0.0.0` or `localhost` (`127.0.0.1`) and
+`network.bind_host` to `0.0.0.0` and
 `network.publish_host` to the pod IP. For example:
 
 {{< text yaml >}}
