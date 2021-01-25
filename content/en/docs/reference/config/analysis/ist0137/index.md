@@ -37,7 +37,7 @@ spec:
     app: nginx
 {{< /text >}}
 
-In this example, service `nginx-a` and service `nginx-b` selecting the same workload `nginx` with same `targetPort` but different ports.
+In this example, service `nginx-a` and service `nginx-b` select the same workload `nginx` with same targetPort but different ports.
 
 ## How to resolve
 
