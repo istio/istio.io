@@ -423,8 +423,8 @@ You should receive a response listing the "service" and "endpoint" for each serv
 To find out the Envoy version used in deployment, you can `exec` into the container and query the `server_info` endpoint:
 
 {{< text bash >}}
-$ kubectl exec -it prometheus-68b46fc8bb-dc965 -c istio-proxy -n istio-system pilot-agent request GET server_info
+$ kubectl exec -it productpage-v1-6b746f74dc-9stvs -c istio-proxy -n default  pilot-agent request GET server_info | grep "version"
 {
- "version": "f98b7e538920abc408fbc91c22a3b32bc854d9dc/1.15.0/Clean/RELEASE/BoringSSL"
+ "version": "2d4ec97f3ac7b3256d060e1bb8aa6c415f5cef63/1.17.0/Clean/RELEASE/BoringSSL"
 }
 {{< /text >}}
