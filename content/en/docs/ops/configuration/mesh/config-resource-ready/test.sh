@@ -31,9 +31,9 @@ _verify_contains snip_apply_and_wait_for_httpbin_vs "$snip_apply_and_wait_for_ht
 
 
 # @cleanup
-kubectl delete -f samples/httpbin/httpbin.yaml || true
-kubectl delete -f samples/httpbin/httpbin-gateway.yaml || true
+# Note that the framework automatically turns off errexit, thus this works if the test partially fails
+kubectl delete -f samples/httpbin/httpbin.yaml
+kubectl delete -f samples/httpbin/httpbin-gateway.yaml
 # Delete the Istio this test installed
-kubectl delete ValidatingWebhookConfiguration istiod-istio-system
-kubectl get mutatingwebhookconfigurations -o custom-columns=NAME:.metadata.name --no-headers | xargs kubectl delete mutatingwebhookconfigurations
+echo y | istioctl x uninstall --revision "default"
 kubectl delete ns istio-system
