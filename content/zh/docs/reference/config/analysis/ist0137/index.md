@@ -37,7 +37,7 @@ spec:
     app: nginx
 {{< /text >}}
 
-在这个实例中，Service `nginx-a` 和 `nginx-b` 选择了工作负载 `nginx` 的同一个目标端口 `80`，但是它们对应的服务端口（`port`）却不一致。
+在这个示例中，Service `nginx-a` 和 `nginx-b` 选择了工作负载 `nginx` 的同一个目标端口 `80`，但是它们对应的服务端口（`port`）却不一致。
 
 ## 如何修复{#how-to-resolve}
 
