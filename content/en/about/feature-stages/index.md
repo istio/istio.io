@@ -10,11 +10,6 @@ aliases:
 icon: feature-status
 ---
 
-<!--
-Note: this contains feature status from
-https://docs.google.com/spreadsheets/d/1Nbjat-juyQ8AWhkq3njLckmHM8TRL4O-sjm9Bfr9zrU/edit#gid=0
--->
-
 This page lists the relative maturity and support
 level of every Istio feature. Please note that the phases (Alpha, Beta, and Stable) are applied to individual features
 within the project, not to the project as a whole. Here is a high level description of what these labels mean.
@@ -48,6 +43,7 @@ Below is our list of existing features and their current phases. This informatio
 | Enabling custom filters in Envoy | Alpha
 | CNI container interface | Alpha
 | [Sidecar API](/docs/reference/config/networking/sidecar/) | Beta
+| [DNS Proxying](/docs/ops/configuration/traffic-management/dns-proxy/) | Alpha
 
 ### Observability
 

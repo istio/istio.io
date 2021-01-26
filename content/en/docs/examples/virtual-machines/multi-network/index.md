@@ -126,7 +126,7 @@ At this point we should be able to send traffic to `httpbin.default.svc.cluster.
 1. Send a request from the `sleep` service on the pod to the VM's HTTP service:
 
     {{< text bash >}}
-    $ kubectl exec -it sleep-88ddbcfdd-rm42k -c sleep -- curl cloud-vm.${VM_NAMESPACE}.svc.cluster.local:8080
+    $ kubectl exec -it sleep-88ddbcfdd-rm42k -c sleep -- curl -sS cloud-vm.${VM_NAMESPACE}.svc.cluster.local:8080
     {{< /text >}}
 
     You should see something similar to the output below.

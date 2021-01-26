@@ -155,7 +155,7 @@ Use the following command to verify that Istio generates the data for your new
 or modified dimensions:
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')" -c istio-proxy -- curl 'localhost:15000/stats/prometheus' | grep istio_requests_total
+$ kubectl exec "$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')" -c istio-proxy -- curl -sS 'localhost:15000/stats/prometheus' | grep istio_requests_total
 {{< /text >}}
 
 For example, in the output, locate the metric `istio_requests_total` and

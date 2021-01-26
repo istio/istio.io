@@ -464,12 +464,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Expected audience in the tokens. </td>
 </tr>
 <tr>
-<td><code>CENTRAL_ISTIOD</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If this is set to true, one Istiod will control remote clusters including CA.</td>
-</tr>
-<tr>
 <td><code>CITADEL_ENABLE_JITTER_FOR_ROOT_CERT_ROTATOR</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -578,6 +572,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, Istiod will serve SDS for credentialName secrets (rather than in-proxy). To ensure proper security, PILOT_ENABLE_XDS_IDENTITY_CHECK=true is required as well.</td>
 </tr>
 <tr>
+<td><code>ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Istio agent will intercept ECDS resource update, downloads Wasm module, and replaces Wasm module remote load with downloaded local module file.</td>
+</tr>
+<tr>
 <td><code>ISTIO_DEFAULT_REQUEST_TIMEOUT</code></td>
 <td>Time Duration</td>
 <td><code>0s</code></td>
@@ -606,6 +606,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code>third-party-jwt</code></td>
 <td>The JWT validation policy.</td>
+</tr>
+<tr>
+<td><code>JWT_RULE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The JWT rule used by istiod authentication</td>
 </tr>
 <tr>
 <td><code>K8S_INGRESS_NS</code></td>
@@ -684,6 +690,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will validate CRDs while retrieving CRDs from kubernetes cache.Use this flag to enable validation of CRDs in Pilot, especially in deployments that do not have galley installed.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_CROSS_CLUSTER_WORKLOAD_ENTRY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
@@ -870,6 +882,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Integer</td>
 <td><code>500</code></td>
 <td>If status is enabled, controls the Burst rate with which status will be updated.  See https://godoc.org/k8s.io/client-go/rest#Config Burst</td>
+</tr>
+<tr>
+<td><code>PILOT_STATUS_MAX_WORKERS</code></td>
+<td>Integer</td>
+<td><code>100</code></td>
+<td>The maximum number of workers Pilot will use to keep configuration status up to date.  Smaller numbers will result in higher status latency, but larger numbers may impact CPU in high scale environments.</td>
 </tr>
 <tr>
 <td><code>PILOT_STATUS_QPS</code></td>

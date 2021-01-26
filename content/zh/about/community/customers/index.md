@@ -23,6 +23,7 @@ skip_seealso: true
     {{< company_logo link="https://iherb.com" logo="./iherb.svg" alt="iHerb" >}}
     {{< company_logo link="https://cloud.inspur.com/" logo="./inspurcloud.png" alt="Inspur Cloud" >}}
     {{< company_logo link="https://juspay.in" logo="./juspay.png" alt="JUSPAY" >}}
+    {{< company_logo link="https://www.liulishuo.com/" logo="./liulishuo.svg" alt="Liulishuo" >}}
     {{< company_logo link="https://loblawdigital.co" logo="./loblaw-digital.png" alt="Loblaw Digital" >}}
     {{< company_logo link="https://www.namely.com" logo="./namely.svg" alt="Namely" >}}
     {{< company_logo link="https://www.nashtechglobal.com" logo="./nashtech.png" alt="NashTech" >}}

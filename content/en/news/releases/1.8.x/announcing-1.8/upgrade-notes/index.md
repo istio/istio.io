@@ -9,6 +9,14 @@ These notes detail the changes which purposefully break backwards compatibility 
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.7.x.
 
+## Multicluster `.global` Stub Domain Deprecation
+
+As part of this release, Istio has switched to a new configuration for
+multi-primary (formerly "replicated control planes"). The new
+configuration is simpler, has fewer limitations, and has been thoroughly
+tested in a variety of environments. As a result, the `.global` stub
+domain is now deprecated and no longer guaranteed to work going forward.
+
 ## Mixer is no longer supported in Istio
 
 If you are using the `istio-policy` or `istio-telemetry` services, or any
@@ -126,3 +134,7 @@ ingressGateways:
         - name: ISTIO_META_ROUTER_MODE
           value: "sni-dnat"
 {{< /text >}}
+
+## Connectivity issues among your proxies when updating from 1.7.x (where x < 5)
+
+When upgrading your Istio data plane from 1.7.x (where x < 5) to 1.8, you may observe connectivity issues between your gateway and your sidecars or among your sidecars with 503 errors in the log. This happens when 1.7.5+ proxies send HTTP 1xx or 204 response codes with headers that 1.7.x proxies reject. To fix this, upgrade all your proxies (gateways and sidecars) to 1.7.5+ as soon as possible. ([Issue 29427](https://github.com/istio/istio/issues/29427), [More information](https://github.com/istio/istio/pull/28450))

@@ -58,7 +58,7 @@ EOF
 }
 
 snip_before_you_begin_4() {
-kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
 }
 
 ! read -r -d '' snip_before_you_begin_4_out <<\ENDSNIP
@@ -66,7 +66,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}
 ENDSNIP
 
 snip_before_you_begin_5() {
-kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
 }
 
 ! read -r -d '' snip_before_you_begin_5_out <<\ENDSNIP
@@ -90,7 +90,7 @@ kubectl delete pod --all -n sleep-allow
 }
 
 snip_migrate_trust_domain_without_trust_domain_aliases_5() {
-kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
 }
 
 ! read -r -d '' snip_migrate_trust_domain_without_trust_domain_aliases_5_out <<\ENDSNIP
@@ -98,7 +98,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}
 ENDSNIP
 
 snip_migrate_trust_domain_without_trust_domain_aliases_6() {
-kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
 }
 
 ! read -r -d '' snip_migrate_trust_domain_without_trust_domain_aliases_6_out <<\ENDSNIP
@@ -119,7 +119,7 @@ istioctl install --set profile=demo -f td-installation.yaml -y
 }
 
 snip_migrate_trust_domain_with_trust_domain_aliases_2() {
-kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
 }
 
 ! read -r -d '' snip_migrate_trust_domain_with_trust_domain_aliases_2_out <<\ENDSNIP
@@ -127,7 +127,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}
 ENDSNIP
 
 snip_migrate_trust_domain_with_trust_domain_aliases_3() {
-kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
 }
 
 ! read -r -d '' snip_migrate_trust_domain_with_trust_domain_aliases_3_out <<\ENDSNIP

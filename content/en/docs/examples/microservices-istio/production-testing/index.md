@@ -17,7 +17,7 @@ Test your microservice, in production!
 1.  Issue an HTTP request from the testing pod to one of your services:
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl http://ratings:9080/ratings/7
+    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl -sS http://ratings:9080/ratings/7
     {{< /text >}}
 
 ## Chaos testing

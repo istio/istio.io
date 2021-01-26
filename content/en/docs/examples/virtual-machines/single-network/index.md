@@ -128,7 +128,7 @@ $ curl -v httpbin.default.svc.cluster.local:8000/headers
 1. Send a request from the `sleep` service on the pod to the virtual machine HTTP service:
 
     {{< text bash >}}
-    $ kubectl exec -it sleep-88ddbcfdd-rm42k -c sleep -- curl cloud-vm.${VM_NAMESPACE}.svc.cluster.local:8080
+    $ kubectl exec -it sleep-88ddbcfdd-rm42k -c sleep -- curl -sS cloud-vm.${VM_NAMESPACE}.svc.cluster.local:8080
     {{< /text >}}
 
     You will see output similar to this:

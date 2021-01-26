@@ -16,6 +16,8 @@ connectivity between the pods in both clusters.
 Before proceeding, be sure to complete the steps under
 [before you begin](/docs/setup/install/multicluster/before-you-begin).
 
+{{< boilerplate multi-cluster-with-metallb >}}
+
 In this configuration, cluster `cluster1` will observe the API Servers in
 both clusters for endpoints. In this way, the control plane will be able to
 provide service discovery for workloads in both clusters.

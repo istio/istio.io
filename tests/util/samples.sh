@@ -76,10 +76,9 @@ sample_http_request() {
     local args=""
     if [[ -n "$user" ]]; then
         # make request as logged in user
-        kubectl exec "$sleep_pod" -c sleep -n "default" -- curl -c sample.cookies "$ingress_url/login" --data "username=$user&passwd=password"
-        args="-b sample.cookies"
+        kubectl exec "$sleep_pod" -c sleep -n "default" -- curl -c /tmp/sample.cookies "$ingress_url/login" --data "username=$user&passwd=password"
+        args="-b /tmp/sample.cookies"
     fi
-
     # shellcheck disable=SC2086
     response=$(kubectl exec "$sleep_pod" -c sleep -n "default" -- \
         curl "$ingress_url$path" $args -s --retry 3 --retry-connrefused --retry-delay 5)

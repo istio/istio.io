@@ -35,7 +35,7 @@ ENDSNIP
 ENDSNIP
 
 snip_test_the_access_log_1() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -v httpbin:8000/status/418
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
 }
 
 ! read -r -d '' snip_test_the_access_log_1_out <<\ENDSNIP

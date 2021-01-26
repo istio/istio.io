@@ -99,7 +99,7 @@ backend, is used below.
             value:
               name: envoy.filters.http.ratelimit
               typed_config:
-                "@type": type.googleapis.com/envoy.config.filter.http.rate_limit.v3.RateLimit
+                "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimit
                 # domain can be anything! Match it to the ratelimter service config
                 domain: productpage-ratelimit
                 failure_mode_deny: true
@@ -108,6 +108,7 @@ backend, is used below.
                     envoy_grpc:
                       cluster_name: rate_limit_cluster
                     timeout: 10s
+                  transport_api_version: V3
         - applyTo: CLUSTER
           match:
             cluster:
@@ -155,8 +156,8 @@ backend, is used below.
             routeConfiguration:
               vhost:
                 name: "*:80"
-                  route:
-                    action: ANY
+                route:
+                  action: ANY
           patch:
             operation: MERGE
             # Applies the rate limit rules.
@@ -324,7 +325,7 @@ the local rate limit for `productpage` instances allows 10 req/min.
 To confirm this, send internal `productpage` requests, from the `ratings` pod, using the following `curl` command:
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+$ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 

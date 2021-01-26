@@ -89,7 +89,7 @@ curl "http://$GATEWAY_URL/productpage"
 }
 
 snip_verify_the_results_2() {
-kubectl exec "$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')" -c istio-proxy -- curl 'localhost:15000/stats/prometheus' | grep istio_requests_total
+kubectl exec "$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')" -c istio-proxy -- curl -sS 'localhost:15000/stats/prometheus' | grep istio_requests_total
 }
 
 ! read -r -d '' snip_use_expressions_for_values_1 <<\ENDSNIP

@@ -142,7 +142,7 @@ Send one request from the `Sleep` pod on `cluster1` to the `HelloWorld` service:
 $ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c sleep \
     "$(kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l \
     app=sleep -o jsonpath='{.items[0].metadata.name}')" \
-    -- curl helloworld.sample:5000/hello
+    -- curl -sS helloworld.sample:5000/hello
 {{< /text >}}
 
 Repeat this request several times and verify that the `HelloWorld` version
@@ -160,7 +160,7 @@ Now repeat this process from the `Sleep` pod on `cluster2`:
 $ kubectl exec --context="${CTX_CLUSTER2}" -n sample -c sleep \
     "$(kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l \
     app=sleep -o jsonpath='{.items[0].metadata.name}')" \
-    -- curl helloworld.sample:5000/hello
+    -- curl -sS helloworld.sample:5000/hello
 {{< /text >}}
 
 Repeat this request several times and verify that the `HelloWorld` version

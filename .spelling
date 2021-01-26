@@ -104,6 +104,7 @@ AttributeGen
 Auth0
 AuthenticationPolicy
 AuthorizationPolicy
+authorizer
 AuthPolicy
 autoscaler
 Autoscalers
@@ -432,6 +433,7 @@ Manolache
 Marshalers
 memcached
 memcached-2's
+MetalLB
 Mesos
 mesos-dns
 metadata

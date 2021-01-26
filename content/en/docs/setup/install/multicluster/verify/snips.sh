@@ -100,7 +100,7 @@ snip_verifying_crosscluster_traffic_1() {
 kubectl exec --context="${CTX_CLUSTER1}" -n sample -c sleep \
     "$(kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l \
     app=sleep -o jsonpath='{.items[0].metadata.name}')" \
-    -- curl helloworld.sample:5000/hello
+    -- curl -sS helloworld.sample:5000/hello
 }
 
 ! read -r -d '' snip_verifying_crosscluster_traffic_2 <<\ENDSNIP
@@ -113,7 +113,7 @@ snip_verifying_crosscluster_traffic_3() {
 kubectl exec --context="${CTX_CLUSTER2}" -n sample -c sleep \
     "$(kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l \
     app=sleep -o jsonpath='{.items[0].metadata.name}')" \
-    -- curl helloworld.sample:5000/hello
+    -- curl -sS helloworld.sample:5000/hello
 }
 
 ! read -r -d '' snip_verifying_crosscluster_traffic_4 <<\ENDSNIP

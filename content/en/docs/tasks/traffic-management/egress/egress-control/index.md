@@ -93,7 +93,7 @@ You can then decide to [configure access to external services](#controlled-acces
     successful `200` responses:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
     HTTP/2 200
     HTTP/2 200
     {{< /text >}}
@@ -191,7 +191,7 @@ any other unintentional accesses.
 1.  Make a request to the external HTTP service from `SOURCE_POD`:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -240,7 +240,7 @@ any other unintentional accesses.
 1.  Make a request to the external HTTPS service from `SOURCE_POD`:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://www.google.com | grep  "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"
     HTTP/2 200
     {{< /text >}}
 
@@ -264,7 +264,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
     httpbin.org external service:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
     200
     real    0m5.024s
     user    0m0.003s
@@ -296,7 +296,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 1.  Wait a few seconds, then make the _curl_ request again:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
     504
     real    0m3.149s
     user    0m0.004s
@@ -421,7 +421,7 @@ within the cluster. Any external request bypasses the sidecar and goes straight 
 For example:
 
 {{< text bash >}}
-$ kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
+$ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
 {
   "headers": {
     "Accept": "*/*",

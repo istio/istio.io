@@ -65,6 +65,7 @@ snip_before_you_begin_1
 start=$(date +%s)
 kubectl wait --for=delete "pod/$SOURCE_POD" --timeout=180s
 echo "Wait for termination duration: $(($(date +%s)-start)) seconds"
+_wait_for_deployment default sleep
 
 kubectl get po
 
@@ -72,7 +73,7 @@ snip_before_you_begin_3
 
 echo "SOURCE_POD: $SOURCE_POD"
 
-kubectl exec "$SOURCE_POD" -c sleep -- curl -v http://httpbin.org/headers
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v http://httpbin.org/headers
 
 #_verify_elided snip_access_the_external_services_1 "$snip_access_the_external_services_1_out"
 # TODO This doesn't work, curl returns 502.

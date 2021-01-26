@@ -11,6 +11,10 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
+This page was last updated August 8, 2018.
+
+{{< boilerplate untested-document >}}
+
 Follow these instructions to prepare an
 [Alibaba Cloud Kubernetes Container Service](https://www.alibabacloud.com/product/kubernetes)
 cluster for Istio.

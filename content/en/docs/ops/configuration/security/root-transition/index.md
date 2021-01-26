@@ -78,7 +78,7 @@ and how to transition to a new root certificate with a 10 year lifetime.
     The following command shows an example to check the Envoy’s certificate for a pod.
 
     {{< text bash>}}
-    $ kubectl exec [YOUR_POD] -c istio-proxy -n [YOUR_NAMESPACE] -- curl http://localhost:15000/certs | head -c 1000
+    $ kubectl exec [YOUR_POD] -c istio-proxy -n [YOUR_NAMESPACE] -- curl -sS http://localhost:15000/certs | head -c 1000
     {
      "certificates": [
       {

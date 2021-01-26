@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 76
+number_of_entries: 75
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -1487,6 +1487,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--server &lt;string&gt;</code></td>
+<td></td>
+<td>The address and port of the Kubernetes API server.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--service-account &lt;string&gt;</code></td>
 <td></td>
 <td>Create a secret with this service account&#39;s credentials. Use &#34;istio-reader-service-account&#34; as default value if --type is &#34;remote&#34;, use &#34;istiod-service-account&#34; as default value if --type is &#34;config&#34;.  (default ``)</td>
@@ -2334,137 +2339,6 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
   # Restart all ratings-v1 pods without an Istio sidecar
   istioctl x rm svc ratings-v1
 </code></pre>
-<h2 id="istioctl-experimental-sidecar-bootstrap">istioctl experimental sidecar-bootstrap</h2>
-<p>(experimental) Takes in one or more WorkloadEntries generates identities for them, and copies to
-the particular identities to the workloads over SSH. Optionally allowing for saving the certificates locally
-for use in CI like environments, and starting istio-proxy where no special configuration is needed.
-This allows for workloads to participate in the Istio mesh.</p>
-<p>To autenticate to a remote node you can use either SSH Keys, or SSH Passwords. If using passwords you
-must have a TTY for you to be asked your password, we do not accept an argument for it so it
-cannot be left inside your shell history.</p>
-<p>Copying is performed with scp, and as such is required if you&#39;d like to copy a file over.
-If SCP is not at the standard path &#34;/usr/bin/scp&#34;, you should provide it&#39;s location with
-the &#34;--remote-scp-path&#34; option.</p>
-<p>In order to start Istio on the remote node you must have docker installed on the remote node.
-Istio will be started on the host network as a docker container in capture mode.</p>
-<pre class="language-bash"><code>istioctl experimental sidecar-bootstrap &lt;workloadEntry&gt;.&lt;namespace&gt; [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--all</code></td>
-<td><code>-a</code></td>
-<td>Attempt to bootstrap all workload entries </td>
-</tr>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--duration &lt;duration&gt;</code></td>
-<td></td>
-<td>(experimental) Duration the certificates generated are valid for.  (default `8760h0m0s`)</td>
-</tr>
-<tr>
-<td><code>--ignore-host-keys</code></td>
-<td></td>
-<td>(experimental) Ignore host keys on the remote host </td>
-</tr>
-<tr>
-<td><code>--istio-image &lt;string&gt;</code></td>
-<td></td>
-<td>(experimental) The Istio proxy image to start up when starting Istio  (default `istio/proxyv2:latest`)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--local-dir &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Directory to place certs in locally as opposed to copying  (default ``)</td>
-</tr>
-<tr>
-<td><code>--mutual-tls</code></td>
-<td></td>
-<td>(experimental) Enable mutual TLS if starting Istio-Proxy. </td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--organization &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>(experimental) The organization to use on the certificate, defaults to the same as the root cert.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--remote-directory &lt;string&gt;</code></td>
-<td></td>
-<td>(experimental) The directory to create on the remote machine.  (default `/var/run/istio`)</td>
-</tr>
-<tr>
-<td><code>--remote-scp-path &lt;string&gt;</code></td>
-<td></td>
-<td>(experimental) The scp binary location on the target machine if not at /usr/bin/scp  (default `/usr/bin/scp`)</td>
-</tr>
-<tr>
-<td><code>--spiffe-trust-domain &lt;string&gt;</code></td>
-<td></td>
-<td>(experimental) The SPIFFE trust domain for the generated certs  (default ``)</td>
-</tr>
-<tr>
-<td><code>--ssh-key &lt;string&gt;</code></td>
-<td><code>-k</code></td>
-<td>(experimental) The location of the SSH key  (default ``)</td>
-</tr>
-<tr>
-<td><code>--ssh-port &lt;int&gt;</code></td>
-<td></td>
-<td>(experimental) The port to SSH to the machine on  (default `22`)</td>
-</tr>
-<tr>
-<td><code>--ssh-user &lt;string&gt;</code></td>
-<td><code>-u</code></td>
-<td>(experimental) The user to SSH as, defaults to the current user  (default ``)</td>
-</tr>
-<tr>
-<td><code>--start-istio-proxy</code></td>
-<td></td>
-<td>Start Istio proxy on a remote host after copying certs </td>
-</tr>
-<tr>
-<td><code>--timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>(experimental) The timeout for copying certificates  (default `1m0s`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-sidecar-bootstrap Examples">Examples</h3>
-<pre class="language-bash"><code>  # Copy certificates to a WorkloadEntry named &#34;we&#34; in the &#34;ns&#34; namespace:
-  istioctl x sidecar-bootstrap we.ns
-
-  # Copy certificates, and start istio to a WorkloadEntry named &#34;we&#34; in the &#34;ns&#34; namespace:
-  istioctl x sidecar-bootstrap we.ns --start-istio-proxy
-
-  # Generate Certs locally, but do not copy them to a WorkloadEntry named &#34;we&#34; in the &#34;ns&#34; namespace:
-  istioctl x sidecar-bootstrap we.ns --local-dir path/where/i/want/certs/
-</code></pre>
 <h2 id="istioctl-experimental-uninstall">istioctl experimental uninstall</h2>
 <p>The uninstall command uninstalls Istio from a cluster</p>
 <pre class="language-bash"><code>istioctl experimental uninstall [flags]
@@ -2693,6 +2567,11 @@ istioctl x version --xds-label istio.io/rev=default
 <td>Wait condition, must be &#39;distribution&#39; or &#39;delete&#39;  (default `distribution`)</td>
 </tr>
 <tr>
+<td><code>--generation &lt;string&gt;</code></td>
+<td></td>
+<td>Wait for a specific generation of config to become current, rather than using whatever is latest in Kubernetes  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -2706,11 +2585,6 @@ istioctl x version --xds-label istio.io/rev=default
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--resource-version &lt;string&gt;</code></td>
-<td></td>
-<td>Wait for a specific version of config to become current, rather than using whatever is latest in kubernetes  (default ``)</td>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
@@ -4975,12 +4849,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 </thead>
 <tbody>
 <tr>
-<td><code>CENTRAL_ISTIOD</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If this is set to true, one Istiod will control remote clusters including CA.</td>
-</tr>
-<tr>
 <td><code>CLUSTER_ID</code></td>
 <td>String</td>
 <td><code>Kubernetes</code></td>
@@ -5095,6 +4963,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, Istiod will serve SDS for credentialName secrets (rather than in-proxy). To ensure proper security, PILOT_ENABLE_XDS_IDENTITY_CHECK=true is required as well.</td>
 </tr>
 <tr>
+<td><code>ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Istio agent will intercept ECDS resource update, downloads Wasm module, and replaces Wasm module remote load with downloaded local module file.</td>
+</tr>
+<tr>
 <td><code>ISTIO_DEFAULT_REQUEST_TIMEOUT</code></td>
 <td>Time Duration</td>
 <td><code>0s</code></td>
@@ -5183,6 +5057,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will validate CRDs while retrieving CRDs from kubernetes cache.Use this flag to enable validation of CRDs in Pilot, especially in deployments that do not have galley installed.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_CROSS_CLUSTER_WORKLOAD_ENTRY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
@@ -5371,6 +5251,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If status is enabled, controls the Burst rate with which status will be updated.  See https://godoc.org/k8s.io/client-go/rest#Config Burst</td>
 </tr>
 <tr>
+<td><code>PILOT_STATUS_MAX_WORKERS</code></td>
+<td>Integer</td>
+<td><code>100</code></td>
+<td>The maximum number of workers Pilot will use to keep configuration status up to date.  Smaller numbers will result in higher status latency, but larger numbers may impact CPU in high scale environments.</td>
+</tr>
+<tr>
 <td><code>PILOT_STATUS_QPS</code></td>
 <td>Floating-Point</td>
 <td><code>100</code></td>
@@ -5510,14 +5396,17 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>pilot_invalid_out_listeners</code></td><td><code>LastValue</code></td><td>Number of invalid outbound listeners.</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
+<tr><td><code>pilot_k8s_cfg_events</code></td><td><code>Sum</code></td><td>Events from k8s config.</td></tr>
 <tr><td><code>pilot_k8s_endpoints_pending_pod</code></td><td><code>LastValue</code></td><td>Number of endpoints that do not currently have any corresponding pods.</td></tr>
 <tr><td><code>pilot_k8s_endpoints_with_no_pods</code></td><td><code>Sum</code></td><td>Endpoints that does not have any corresponding pods.</td></tr>
+<tr><td><code>pilot_k8s_object_errors</code></td><td><code>LastValue</code></td><td>Errors converting k8s CRDs</td></tr>
 <tr><td><code>pilot_k8s_reg_events</code></td><td><code>Sum</code></td><td>Events from k8s registry.</td></tr>
 <tr><td><code>pilot_no_ip</code></td><td><code>LastValue</code></td><td>Pods not found in the endpoint table, possibly invalid.</td></tr>
 <tr><td><code>pilot_proxy_convergence_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between config change and a proxy receiving all required configuration.</td></tr>
 <tr><td><code>pilot_proxy_queue_time</code></td><td><code>Distribution</code></td><td>Time in seconds, a proxy is in the push queue before being dequeued.</td></tr>
 <tr><td><code>pilot_push_triggers</code></td><td><code>Sum</code></td><td>Total number of times a push was triggered, labeled by reason for the push.</td></tr>
 <tr><td><code>pilot_services</code></td><td><code>LastValue</code></td><td>Total services known to pilot.</td></tr>
+<tr><td><code>pilot_total_k8s_object_errors</code></td><td><code>Sum</code></td><td>Total Errors converting k8s CRDs</td></tr>
 <tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
 <tr><td><code>pilot_total_xds_internal_errors</code></td><td><code>Sum</code></td><td>Total number of internal XDS errors in pilot.</td></tr>
 <tr><td><code>pilot_total_xds_rejects</code></td><td><code>Sum</code></td><td>Total number of XDS responses from pilot rejected by proxy.</td></tr>

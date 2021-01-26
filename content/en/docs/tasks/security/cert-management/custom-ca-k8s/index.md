@@ -1,6 +1,6 @@
 ---
-title: Custom CA Integration using Kubernetes CSR [experimental]
-description: Shows how to use a Custom Certificate Authority (that integrates with the Kubernetes CSR API) to provision Istio workload certificates.
+title: Custom CA Integration using Kubernetes CSR [Experimental]
+description: Shows how to use a Custom Certificate Authority (that integrates with the Kubernetes CSR API) to provision Istio workload certificates (experimental).
 weight: 100
 keywords: [security,certificate]
 aliases:
@@ -9,10 +9,7 @@ owner: istio/wg-security-maintainers
 test: no
 ---
 
-{{< warning >}}
-This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
-considered `pre-alpha`.
-{{< /warning >}}
+{{< boilerplate experimental >}}
 
 This feature requires Kubernetes version >= 1.18.
 

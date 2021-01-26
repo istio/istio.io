@@ -1,6 +1,6 @@
 ---
 title: Classifying Metrics Based on Request or Response (Experimental)
-description: This task shows you how to improve telemetry by grouping requests and responses by their type. 
+description: This task shows you how to improve telemetry by grouping requests and responses by their type.
 weight: 27
 keywords: [telemetry,metrics,classify,request-based,openapispec,swagger]
 owner: istio/wg-policies-and-telemetry-maintainers
@@ -35,7 +35,7 @@ For more information, see the
 
 Istio uses the Envoy proxy to generate metrics and provides its configuration in
 the `EnvoyFilter` at
-[`manifests/charts/istio-control/istio-discovery/templates/telemetryv2_1.6.yaml`]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_1.6.yaml).
+[`manifests/charts/istio-control/istio-discovery/templates/telemetryv2_1.8.yaml`]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_1.8.yaml).
 As a result, writing classification rules involves adding attributes to the
 `EnvoyFilter`.
 
@@ -319,7 +319,7 @@ spec:
    `2xx`. Alternatively, use the following command to verify that Istio generates the data for your new dimension:
 
     {{< text bash >}}
-    $ kubectl exec pod-name -c istio-proxy -- curl 'localhost:15000/stats/prometheus' | grep istio_
+    $ kubectl exec pod-name -c istio-proxy -- curl -sS 'localhost:15000/stats/prometheus' | grep istio_
     {{< /text >}}
 
     In the output, locate the metric (e.g. `istio_requests_total`) and verify the presence of the new or changed dimension.

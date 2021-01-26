@@ -41,7 +41,7 @@ ALLOW_ANY
 ENDSNIP
 
 snip_envoy_passthrough_to_external_services_3() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
 }
 
 ! read -r -d '' snip_envoy_passthrough_to_external_services_3_out <<\ENDSNIP
@@ -84,7 +84,7 @@ EOF
 }
 
 snip_access_an_external_http_service_2() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
 }
 
 ! read -r -d '' snip_access_an_external_http_service_2_out <<\ENDSNIP
@@ -127,7 +127,7 @@ EOF
 }
 
 snip_access_an_external_https_service_2() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://www.google.com | grep  "HTTP/"
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"
 }
 
 ! read -r -d '' snip_access_an_external_https_service_2_out <<\ENDSNIP
@@ -143,7 +143,7 @@ kubectl logs "$SOURCE_POD" -c istio-proxy | tail
 ENDSNIP
 
 snip_manage_traffic_to_external_services_1() {
-kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
 }
 
 ! read -r -d '' snip_manage_traffic_to_external_services_1_out <<\ENDSNIP
@@ -172,7 +172,7 @@ EOF
 }
 
 snip_manage_traffic_to_external_services_3() {
-kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
 }
 
 ! read -r -d '' snip_manage_traffic_to_external_services_3_out <<\ENDSNIP
@@ -213,7 +213,7 @@ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-ra
 ENDSNIP
 
 snip_access_the_external_services_1() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
 }
 
 ! read -r -d '' snip_access_the_external_services_1_out <<\ENDSNIP

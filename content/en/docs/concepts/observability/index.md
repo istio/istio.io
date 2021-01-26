@@ -76,7 +76,7 @@ In addition to the proxy-level metrics, Istio provides a set of service-oriented
 basic service monitoring needs: latency, traffic, errors, and saturation. Istio ships with a default set of
 [dashboards](/docs/tasks/observability/metrics/using-istio-dashboard/) for monitoring service behaviors based on these metrics.
 
-The [standard Istio metrics](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/metrics/) are
+The [standard Istio metrics](/docs/reference/config/metrics/) are
 exported to [Prometheus](/docs/ops/integrations/prometheus/) by default.
 
 Use of the service-level metrics is entirely optional. Operators may choose to turn off generation and collection of these metrics to meet their individual

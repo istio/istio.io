@@ -11,6 +11,10 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
+This page was last updated January 4, 2019.
+
+{{< boilerplate untested-document >}}
+
 Follow these instructions to prepare an OKE cluster for Istio.
 
 1. Create a new OKE cluster within your OCI tenancy. The simplest way to do this is by using the 'Quick Cluster' option within the [web console](https://docs.cloud.oracle.com/iaas/Content/ContEng/Tasks/contengcreatingclusterusingoke.htm). You may also use the [OCI cli](https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/cliinstall.htm) as shown below.
