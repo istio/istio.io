@@ -60,7 +60,7 @@ docker run --rm -it --init -d --network=kind --name vm \
   gcr.io/istio-release/base:1.9-dev.2
 
 POD_CIDR=$(kubectl get node -ojsonpath='{.items[0].spec.podCIDR}')
-DOCKER_IP=$(docker inspect -f "{{ .NetworkSettings.Networks.kind.IPAddress }}" kind-control-plane)
+DOCKER_IP=$(docker inspect -f "{{ .NetworkSettings.Networks.kind.IPAddress }}" istio-testing-control-plane)
 # Here, we run the snippets *inside* the docker VM. This mirrors the docs telling to run the commands
 # on the VM
 docker exec --privileged vm bash -c "
