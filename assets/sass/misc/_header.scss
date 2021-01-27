@@ -6,6 +6,7 @@
     left: 0;
     z-index: $header-z;
     padding: 1.25rem 0;
+    transition: background-color .175s ease-out;
 
     @media (min-width: $bp-lg) {
         height: auto;
@@ -264,10 +265,18 @@
             color: #ffffff;
 
             @media (max-width: $bp-lg) {
-                &.is-open + .main-navigation-links-dropdown {
-                    display: block;
-                }
-            }   
+                &.is-open {
+                    & + .main-navigation-links-dropdown { display: block; }
+                    svg.dropdown-arrow {
+                        transform: rotate(180deg);
+                    }
+                }   
+            }
+            
+            @media (min-width: $bp-lg) {
+                span { border-bottom: 2px solid transparent; }
+                &.active span { border-color: $accentColor; }
+            }
         }
 
         &-dropdown {
@@ -310,8 +319,9 @@
                 display: inline-block;
                 border-bottom: 0;
 
-                &:hover .main-navigation-links-dropdown {
-                    display: block;
+                &:hover {
+                    .main-navigation-links-dropdown { display: block; }
+                    svg.dropdown-arrow { transform: rotate(180deg); }
                 }
             }
 
@@ -322,7 +332,7 @@
             &-dropdown {
                 position: absolute;
                 top: 100%;
-                left: 1.875rem;
+                left: $header-link-spacing-lg;
                 min-width: 220px;
                 height: auto;
                 background-color: #ffffff;
@@ -337,9 +347,8 @@
         }
 
         @media (min-width: $bp-xl) {
-            &-link {
-                padding: .875rem 1.875rem;
-            }
+            &-link { padding: .875rem $header-link-spacing-xl; }
+            &-dropdown { left: $header-link-spacing-xl; }
         }
     }
 
@@ -356,6 +365,12 @@
         @media (min-width: $bp-lg) {
             display: inline-block;
             margin: 0;
+            
+            #try-istio { margin-left: $header-link-spacing-lg; }
+        }
+        
+        @media (min-width: $bp-xl) {
+            #try-istio { margin-left: $header-link-spacing-xl; }
         }
     }
 
@@ -375,34 +390,12 @@
             display: none;
         }
 
-        &#menu-close {
-            margin-left: auto;
-        }
+        &#menu-close { margin-left: auto; }
     }
 
     &.show-search {
         right: -700px;
         transition: right .5s;
-    }
-
-    .current {
-        border-bottom: solid 3px $textBrandColor;
-        border-radius: 2px;
-        font-weight: $linkWeight;
-        font-size: 1.1em;
-        margin-left: .3rem;
-        margin-right: .3rem;
-
-        @media (min-width: $bp-sm) {
-            font-size: .9em;
-            margin-left: .58rem;
-            margin-right: .58rem;
-        }
-    }
-
-    span.current {
-        cursor: default;
-        color: $textBrandColor;
     }
 
     .btn {
@@ -414,22 +407,18 @@
     &-transparent {
         background-color: transparent;
 
-        .main-navigation-links-dropdown {
-            background-color: $secondaryColor;
-        }
+        &.active { background-color: $secondaryColor; }
+        
+        .main-navigation-links-dropdown { background-color: $secondaryColor; }
 
-        a {
-            color: $textBrandColor;
-        }
+        a { color: $textBrandColor; }
 
         svg.icon {
             fill: $textBrandColor;
             stroke: $textBrandColor;
         }
 
-        #brand .logo {
-            fill: $textBrandColor;
-        }
+        #brand .logo { fill: $textBrandColor; }
     }
 
     #menu-close {
@@ -441,6 +430,7 @@
             background-color: $secondaryColor;
             height: 100%;
             padding: 0;
+            transition: none;
 
             .main-navigation { 
                 &-header { padding: 1.25rem; }
@@ -460,9 +450,7 @@
                 display: none;
             }
     
-            #menu-close {
-                display: flex;
-            }
+            #menu-close { display: flex; }
 
             svg {
                 fill: $textBrandColor;
