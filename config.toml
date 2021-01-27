@@ -119,24 +119,24 @@ disableAliases = true
     
     [[menu.main]]
       identifier = "service-mesh"
-      name = "Service Mesh"
-      title = "Service Mesh"
+      name = "Service mesh"
+      title = "Service mesh"
       url = "/about/service-mesh"
       parent = "about"
       weight = 1
 
     [[menu.main]]
       identifier = "use-cases"
-      name = "Use Cases"
-      title = "Use Cases"
+      name = "Use cases"
+      title = "Use cases"
       url = "/about/use-cases"
       parent = "about"
       weight = 2
 
     [[menu.main]]
       identifier = "case-studies"
-      name = "Case Studies"
-      title = "Case Studies"
+      name = "Case studies"
+      title = "Case studies"
       url = "/about/case-studies"
       parent = "about"
       weight = 3
@@ -151,8 +151,8 @@ disableAliases = true
 
     [[menu.main]]
       identifier = "deployment-guides"
-      name = "Deployment Guides"
-      title = "Deployment Guides"
+      name = "Deployment guides"
+      title = "Deployment guides"
       url = "/about/deployment-guides"
       parent = "about"
       weight = 5
@@ -168,7 +168,7 @@ disableAliases = true
   [[menu.main]]
     identifier = "blog"
     name = "Blog"
-    title = "Blog"
+    title = "Istio Blog"
     url = "/blog/"
     weight = 2
 
@@ -180,8 +180,8 @@ disableAliases = true
     weight = 3
 
   [[menu.main]]
-    identifier = "documentation"
+    identifier = "docs"
     name = "Documentation"
     title = "Documentation"
-    url = "/documentation/"
+    url = "/docs/"
     weight = 4

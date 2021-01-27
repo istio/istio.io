@@ -1,11 +1,13 @@
 .landing {
     #banner {
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 10rem 3.375rem 9.125rem;
         background-color: #516baa;
         margin-top: -$headerHeight;
+        overflow: hidden;
 
         @media (min-width: $bp-md) {
             padding: 15.375rem 3.375rem;
@@ -31,6 +33,12 @@
             position: absolute;
             top: 0;
             bottom: 0;
+            right: -15%;
+            width: 100%;
+
+            @media (min-width: $bp-md) {
+                right: -25%;
+            }
         }
     }
 

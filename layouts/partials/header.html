@@ -2,7 +2,7 @@
 {{ $section := .Section }}
 {{ $current := . }}
 
-<header class="main-navigation {{ if .IsHome }}main-navigation-transparent{{ end}}">
+<header class="main-navigation {{ if .IsHome }}main-navigation-transparent{{ end }}">
     <nav class="main-navigation-wrapper container-l">
         <div class="main-navigation-header">
             <a id="brand" href="{{ $home.Permalink }}">
@@ -69,16 +69,17 @@
                 <ul class="main-navigation-links">
                     {{ $currentPage := .}}
                     {{ range .Site.Menus.main }}
+                        {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}
                         {{ if .HasChildren }}
-                            <li class="main-navigation-links-item {{ if $currentPage.HasMenuCurrent "main" . }}active{{ end }}">
-                                <a href="{{ .URL }}" class="main-navigation-links-link has-dropdown">
+                            <li class="main-navigation-links-item">
+                                <a href="{{ .URL }}" class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
                                     <span>{{ .Name }}</span>
                                     {{ partial "icon.html" "dropdown-arrow" }}
                                 </a>
 
                                 <ul class="main-navigation-links-dropdown">
                                     {{ range .Children }}
-                                        <li class="main-navigation-links-dropdown-item {{ if $currentPage.IsMenuCurrent "main" . }}active{{ end }}">
+                                        <li class="main-navigation-links-dropdown-item">
                                             <a href="{{ .URL }}" class="main-navigation-links-link">{{ .Name }}</a>
                                         </li>
                                     {{ end }}
@@ -86,13 +87,12 @@
                             </li>
                         {{ else }}
                             <li class="main-navigation-links-item">
-                                <a href="{{ .URL }}" class="main-navigation-links-link">
+                                <a href="{{ .URL }}" class="main-navigation-links-link {{ if $active }}active{{ end }}">
                                     <span>{{ .Name }}</span>
                                 </a>
                             </li>
                         {{ end }}
-                    {{ end  }}
-                  
+                    {{ end }}
                 </ul>
             {{ end }}
 
