@@ -76,14 +76,14 @@ set +e # ignore cleanup errors
 func init() {
 	startTime := time.Now()
 	defer func() {
-		scopes.Framework.Infof("Finished initializing test doc(s). Elapsed time: %fs",
-			time.Since(startTime).Seconds())
+		scopes.Framework.Infof("Finished initializing test doc(s). Elapsed time: %v",
+			time.Since(startTime))
 	}()
 
 	if runAllTests {
 		scopes.Framework.Infof("Initializing test doc(s): all docs")
 	} else {
-		scopes.Framework.Infof("Initializing test doc(s):", testsToRun)
+		scopes.Framework.Infof("Initializing test doc(s): %v", testsToRun)
 	}
 
 	// scan for the test script files
