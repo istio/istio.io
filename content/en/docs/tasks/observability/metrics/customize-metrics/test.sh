@@ -52,6 +52,8 @@ kubectl get istiooperator installed-state -n istio-system -o yaml
 _wait_for_istio envoyfilter istio-system stats-filter-1.8
 _wait_for_istio envoyfilter istio-system stats-filter-1.9
 
+# TODO: remove this delay once we can reliably detect the stats extension configuration update
+# has been applied.
 sleep 60s
 
 ## Verify if patching works correctly
