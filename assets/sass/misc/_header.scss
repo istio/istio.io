@@ -336,12 +336,14 @@
                 min-width: 220px;
                 height: auto;
                 background-color: #ffffff;
-                border: 2px solid $accentColor;
+                border: 0;
                 padding: .75rem 1.375rem;
+                box-shadow: 0 6px 9px 0 rgba(0, 0, 0, 0.16);
 
                 .main-navigation-links-link {
                     display: block;
                     padding: 0.6rem 0;
+                    color: $secondaryColor;
                 }
             }
         }
@@ -408,8 +410,6 @@
         background-color: transparent;
 
         &.active { background-color: $secondaryColor; }
-        
-        .main-navigation-links-dropdown { background-color: $secondaryColor; }
 
         a { color: $textBrandColor; }
 
