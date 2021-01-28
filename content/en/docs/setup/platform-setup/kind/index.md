@@ -75,7 +75,7 @@ Follow these instructions to setup Dashboard for kind.
 1.  To deploy Dashboard, run the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.1.0/aio/deploy/recommended.yaml
     {{< /text >}}
 
 1.  Verify that Dashboard is deployed and running.
