@@ -27,6 +27,8 @@ set_multi_network_vars
 function install_istio_on_cluster1 {
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
 
+    snip_set_the_default_network_for_cluster1_1
+
     snip_configure_cluster1_as_a_primary_1
     echo y | snip_configure_cluster1_as_a_primary_2
 
@@ -42,6 +44,8 @@ function install_istio_on_cluster1 {
 
 function install_istio_on_cluster2 {
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER2}"
+
+    snip_set_the_default_network_for_cluster2_1
 
     snip_configure_cluster2_as_a_primary_1
     echo y | snip_configure_cluster2_as_a_primary_2
