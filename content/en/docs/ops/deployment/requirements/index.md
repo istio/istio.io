@@ -139,9 +139,8 @@ Because TLS communication is not server first, TLS encrypted server first traffi
 
 ## Application Bind Address
 
-When Istio captures inbound traffic, it will redirect it to the `localhost` address. As a result, applications should bind to either
-`localhost` (`127.0.0.1` for IPv4 or `::1` for IPv6) or wildcard (`0.0.0.0` for IPv4 or `::` for IPv6). Applications listening on their
-pod IP will need to be modified.
+When Istio captures inbound traffic, it will redirect it to the `localhost` address. As a result, applications should bind to
+wildcard (`0.0.0.0` for IPv4 or `::` for IPv6). Applications listening on their pod IP will need to be modified.
 
 ## Outbound traffic
 
