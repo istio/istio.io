@@ -3,7 +3,7 @@ title: Wait on Resource Status for Applied Configuration
 description: Describes how to wait until a resource reaches a given status of readiness.
 weight: 15
 owner: istio/wg-user-experience-maintainers
-test: no
+test: yes
 ---
 
 {{< warning >}}
@@ -30,7 +30,7 @@ status, which Istio updates as it propagates configuration changes.
 This feature is off by default. Enable the `status` field as part of Istio
 installation using the following command.
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=install_with_enable_status >}}
 $ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
@@ -40,10 +40,11 @@ You can apply a change and then wait for completion.  For example, to wait for a
 service, use
 the following commands:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=apply_and_wait_for_httpbin_vs >}}
 $ kubectl apply -f @samples/httpbin/httpbin.yaml@
 $ kubectl apply -f @samples/httpbin/httpbin-gateway.yaml@
 $ kubectl wait --for=condition=Reconciled virtualservice/httpbin
+virtualservice.networking.istio.io/httpbin condition met
 {{< /text >}}
 
 This blocking command does not release until the virtual service has been

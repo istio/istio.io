@@ -8,7 +8,7 @@ keywords:
 - gateways
 - vms
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 ---
 
 Follow this guide to deploy Istio and connect a virtual machine to it.
@@ -66,7 +66,7 @@ and `SERVICE_ACCOUNT`
 
 1. Create the working directory:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=setup_wd >}}
     $ mkdir -p "${WORK_DIR}"
     {{< /text >}}
 
@@ -76,10 +76,12 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
 1. Create the `IstioOperator` spec for installation.
 
-    {{< text bash yaml >}}
+    {{< text syntax="bash yaml" snip_id=setup_iop >}}
     $ cat <<EOF > ./vm-cluster.yaml
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
+    metadata:
+      name: istio
     spec:
       values:
         global:
@@ -106,7 +108,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
     {{< boilerplate experimental >}}
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_istio >}}
     $ istioctl install -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS=true
     {{< /text >}}
 
@@ -124,7 +126,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
     {{< tab name="Single-Network" category-value="single" >}}
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_eastwest >}}
     $ @samples/multicluster/gen-eastwest-gateway.sh@ --single-cluster | istioctl install -y -f -
     {{< /text >}}
 
@@ -150,7 +152,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
     Expose the control plane:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=expose_istio >}}
     $ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
     {{< /text >}}
 
@@ -178,13 +180,13 @@ Install Istio and expose the control plane so that your virtual machine can acce
 
 1. Create the namespace that will host the virtual machine:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_namespace >}}
     $ kubectl create namespace "${VM_NAMESPACE}"
     {{< /text >}}
 
 1. Create a serviceaccount for the virtual machine:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_sa >}}
     $ kubectl create serviceaccount "${SERVICE_ACCOUNT}" -n "${VM_NAMESPACE}"
     {{< /text >}}
 
@@ -221,7 +223,7 @@ First, create a template `WorkloadGroup` for the VM(s):
 
 {{< boilerplate experimental >}}
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=create_wg >}}
 $ cat <<EOF > workloadgroup.yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: WorkloadGroup
@@ -240,8 +242,8 @@ EOF
 
 Then, to allow automated `WorkloadEntry` creation, push the `WorkloadGroup` to the cluster:
 
-{{< text bash >}}
-$ kubectl --namespace ${VM_NAMESPACE} apply -f workloadgroup.yaml
+{{< text syntax=bash snip_id=apply_wg >}}
+$ kubectl --namespace "${VM_NAMESPACE}" apply -f workloadgroup.yaml
 {{< /text >}}
 
 Using the Automated `WorkloadEntry` Creation feature, application health checks are also available. These share the same API and behavior as [Kubernetes Readiness Probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
@@ -310,7 +312,7 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
 
 {{< boilerplate experimental >}}
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=configure_wg >}}
 $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --autoregister
 {{< /text >}}
 
@@ -346,7 +348,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
     {{< tab name="Debian" category-value="debian" >}}
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=none >}}
     $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
@@ -357,7 +359,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
     Note: only CentOS 8 is currently supported.
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=none >}}
     $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/rpm/istio-sidecar.rpm
     $ sudo rpm -i istio-sidecar.rpm
     {{< /text >}}

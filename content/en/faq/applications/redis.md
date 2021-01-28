@@ -6,9 +6,8 @@ keywords: [redis]
 ---
 
 Similar to other services deployed in an Istio service mesh, Redis instances
-need to listen on `localhost` (`127.0.0.1`). However, each Redis slave instance
-should announce an address that can be used by master to reach it, which cannot
-also be `localhost` (`127.0.0.1`).
+need to listen on `0.0.0.0`. However, each Redis slave instance
+should announce an address that can be used by master to reach it, which cannot also be `0.0.0.0`.
 
 Use the Redis configuration parameter `replica-announce-ip` to announce the
 correct address.  For example, set `replica-announce-ip` to the IP address of
