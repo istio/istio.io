@@ -23,5 +23,5 @@ This release contains bug fixes to improve robustness. This release note describ
   ([Issue #29183](https://github.com/istio/istio/issues/29183))
 - **Fixed** an issue causing older control planes relying on the `rbac.istio.io` CRD group to hang on restart due to the fact that newer control plane installations remove those permissions from istiod.
   ([Issue #29364](https://github.com/istio/istio/issues/29364))
-- **Fixed** a memory leak from WASM `NullPlugin` `onNetworkNewConnection`.
+- **Fixed** a memory leak in WASM `NullPlugin` `onNetworkNewConnection`.
   ([Issue #24720](https://github.com/istio/istio/issues/24720))
