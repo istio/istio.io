@@ -10,7 +10,7 @@ test: no
 In addition to capturing application traffic, Istio can also capture DNS requests to improve the performance and usability of your mesh.
 When proxying DNS, all DNS requests from an application will be redirected to the sidecar, which stores a local mapping of domain names to IP addresses. If the request can be handled by the sidecar, it will directly return a response to the application, avoiding a roundtrip to the upstream DNS server. Otherwise, the request is forwarded upstream following the standard `/etc/resolv.conf` DNS configuration.
 
-While Kubernetes provides DNS resolution for Kubernetes `Service`s out of the box, any custom `ServiceEnty`s will not be recognized. With this feature, `ServiceEnty` addresses can be resolved without requiring custom configuration of a DNS server. For Kubernetes `Service`s, the DNS response will be the same, but with reduced load on `kube-dns` and increased performance.
+While Kubernetes provides DNS resolution for Kubernetes `Service`s out of the box, any custom `ServiceEntry`s will not be recognized. With this feature, `ServiceEntry` addresses can be resolved without requiring custom configuration of a DNS server. For Kubernetes `Service`s, the DNS response will be the same, but with reduced load on `kube-dns` and increased performance.
 
 This functionality is also available for services running outside of Kubernetes. This means that all internal services can be resolved without clunky workarounds to expose Kubernetes DNS entries outside of the cluster.
 
@@ -36,7 +36,7 @@ EOF
 This can also be enabled on a per-pod basis with the [`proxy.istio.io/config` annotation](/docs/reference/config/annotations/).
 
 {{< tip >}}
-When deploying a VM using [`istioctl workload entry configure`](/docs/setup/install/virtual-machine/), basic DNS proxying will be enabled by default.
+When deploying to a VM using [`istioctl workload entry configure`](/docs/setup/install/virtual-machine/), basic DNS proxying will be enabled by default.
 {{< /tip >}}
 
 ## DNS capture In action
@@ -74,7 +74,7 @@ This is especially problematic with TCP traffic. Unlike HTTP requests, which are
 
 To work around these issues, the DNS proxy additionally supports automatically allocating addresses for `ServiceEntry`s that do not explicitly define one. This is configured by the `ISTIO_META_DNS_AUTO_ALLOCATE` option.
 
-When this feature is enabled, the DNS response will include a distinct, automatically assigned, address for each `ServiceEntry`. The proxy is then configured to match requests to this IP address, and forward the request to the corresponding `ServiceEntry`.
+When this feature is enabled, the DNS response will include a distinct and automatically assigned address for each `ServiceEntry`. The proxy is then configured to match requests to this IP address, and forward the request to the corresponding `ServiceEntry`.
 
 {{< warning >}}
 Because this feature modifies DNS responses, it may not be compatible with all applications.
