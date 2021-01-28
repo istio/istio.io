@@ -1,4 +1,13 @@
 .landing {
+    section {
+        text-align: center;
+        margin-bottom: $section-margin;
+
+        @media (min-width: $bp-md) {
+            margin-bottom: $section-margin-md;
+        }
+    }
+
     #banner {
         position: relative;
         display: flex;
@@ -6,7 +15,7 @@
         align-items: center;
         padding: 10rem 3.375rem 9.125rem;
         background-color: #516baa;
-        margin-top: -$headerHeight;
+        margin-top: -3.7rem;
         overflow: hidden;
 
         @media (min-width: $bp-md) {
@@ -33,11 +42,11 @@
             position: absolute;
             top: 0;
             bottom: 0;
-            right: -15%;
+            right: -10%;
             width: 100%;
 
             @media (min-width: $bp-md) {
-                right: -25%;
+                right: -20%;
             }
         }
     }
@@ -47,94 +56,104 @@
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
+        margin-top: -2.5rem;
+    }
 
-        &-wrapper {
-            margin-top: -2.5rem;
+    .panel {
+        width: 100%;
+        max-width: 320px;
+        min-height: 320px;
+        color: $landingPanelTextColor;
+        background-color: $secondaryColor;
+        text-align: center;
+        margin: $panel-margin-top 0 0;
+        padding: 2.25rem;
+
+        &:hover {
+            text-decoration: none;
         }
 
-        .panel {
-            width: 100%;
-            max-width: 330px;
+        @media (min-width: $bp-sm) {
+            margin: $panel-margin-top 1.25rem 0;
+        }
+
+        .panel-title {
+            color: $landingPanelTitleColor;
+            font-size: 1.75rem;
+            font-weight: $semiBoldWeight;
+        }
+
+        .panel-text {
             color: $landingPanelTextColor;
-            background-color: $secondaryColor;
+            font-size: 1.125rem;
+            margin: 1.125rem 0 0;
+            flex: 1;
+        }
+
+        .panel-img-top {
             text-align: center;
-            margin: 2.5rem 1.25rem 0;
-            padding: 2.25rem;
+            padding: 0;
+            margin-bottom: 2rem;
 
-            &:hover {
-                text-decoration: none;
+            svg { height: 72px; }
+        }
+
+        .panel-body {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .panel-btn {
+            margin-top: 1.5rem;
+            align-self: center;
+        }
+
+        &--dark {
+            background: $secondaryAccentColor;
+            
+            .panel-title { color: $accentColor; }
+
+            .btn {
+                border-color: #7dc5f2;
+                color: #7dc5f2;
+
+                &:hover {
+                    background-color: #7dc5f2;
+                    color: $secondaryAccentColor;
+                }
             }
+        }
 
-            .panel-title {
-                color: $landingPanelTitleColor;
-                font-size: 1.75rem;
-                font-weight: $semiBoldWeight;
-            }
-
+        &--transparent {
+            background-color: unset;
+            padding: 0;
+            min-height: auto;
+            
+            .panel-title,
             .panel-text {
-                color: $landingPanelTextColor;
-                font-size: 1.125rem;
-                margin: 1.125rem 0 0;
-                flex: 1;
+                color: $primaryColor;
             }
 
-            .panel-img-top {
-                text-align: center;
-                padding: 0;
-                margin-bottom: 2rem;
-
-                svg { height: 72px; }
+            @media (max-width: $bp-sm) {
+                margin-left: 0;
+                margin-right: 0;
             }
+        }
 
-            .panel-body {
-                display: flex;
-                flex-direction: column;
-                height: 100%;
-            }
-
-            .panel-btn {
-                margin-top: 1.5rem;
-                align-self: center;
-            }
-
-            &--dark {
-                background: $secondaryAccentColor;
-                
-                .panel-title { color: $accentColor; }
-
-                .btn {
-                    border-color: #7dc5f2;
-                    color: #7dc5f2;
-
-                    &:hover {
-                        background-color: #7dc5f2;
-                        color: $secondaryAccentColor;
-                    }
-                }
-            }
-
-            &--transparent {
-                background-color: unset;
-                padding: 0;
-                
-                .panel-title,
-                .panel-text {
-                    color: $primaryColor;
-                }
-
-                @media (max-width: $bp-sm) {
-                    margin-left: 0;
-                    margin-right: 0;
-                }
-            }
+        &--carousel {
+            margin: 0 auto;
+            height: 100%;
+            
+            .panel-title { flex-grow: 1; }
         }
     }
 
     #landing-panels {
-        margin-top: -8.5rem;
+        margin-top: calc(-6rem - #{$section-margin} - #{$panel-margin-top});
 
         @media (min-width: $bp-md) {
-            margin-top: -11.25rem;
+            margin-top: calc(-10.25rem - #{$section-margin-md} - #{$panel-margin-top});
         }
     }
 
@@ -142,6 +161,7 @@
         .service-mesh {
             &-graph svg {
                 width: 100%;
+                max-width: 800px;
             }
 
             @media (min-width: $bp-md) {
@@ -203,48 +223,9 @@
                 font-size: .875rem;
             }
         }
-
-        .splide__pagination {
-            position: relative;
-            display: block;
-            text-align: center;
-            width: 100%;
-            margin-top: 1.5rem;
-            bottom: unset;
-
-            &__page {
-                height: 18px;
-                width: 18px;
-                background: #ffffff;
-                border: 2px solid $accentColor;
-                transform: none;
-
-                &.is-active {
-                    background: $accentColor;
-                }
-            }
-        }
     }
 
     .distributors {
-        &-description {
-            text-align: center;
-            margin: 0 auto;
-            max-width: 650px;
-            margin-bottom: 2rem;
-    
-            p {
-                line-height: 1.5;
-                margin: 0;
-            }
-    
-            @media (min-width: $bp-md) {
-                margin-bottom: 3.75rem;
-    
-                p { font-size: $font-size--l; }
-            }
-        }
-
         &-grid {
             display: grid;
             grid-gap: 1.5rem;
@@ -282,6 +263,53 @@
             @media (min-width: $bp-lg) {
                 grid-gap: 2.375rem; 
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    }
+
+    .section-description {
+        text-align: center;
+        margin: 0 auto;
+        max-width: 650px;
+        margin-bottom: 2rem;
+
+        p {
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        @media (min-width: $bp-md) {
+            margin-bottom: 3.75rem;
+
+            p { font-size: $font-size--l; }
+        }
+    }
+
+    .splide {
+        &__track {
+            @media (min-width: 1160px) {
+                max-width: calc((3 * 330px) + (2 * 2.5rem));
+            }
+        }
+
+        &__pagination {
+            position: relative;
+            display: block;
+            text-align: center;
+            width: 100%;
+            margin-top: 1.5rem;
+            bottom: unset;
+    
+            &__page {
+                height: 18px;
+                width: 18px;
+                background: #ffffff;
+                border: 2px solid $accentColor;
+    
+                &.is-active {
+                    background: $accentColor;
+                    transform: none;
+                }
             }
         }
     }
