@@ -30,4 +30,10 @@
     &:focus {
         color: #ffffff;
     }
+
+    &--primary {
+        background-color: $accentColor;
+        border-color: $accentColor;
+        color: $primaryColor;
+    }
 }

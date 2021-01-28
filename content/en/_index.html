@@ -35,9 +35,8 @@ description: A service mesh for observability, security in depth, and management
         </h1>
     </section>
 
-    <section id="landing-panels" class="panels-wrapper container">
-        <div class="panels">
-            <a id="panel1" class="panel panel--dark" href="/docs/concepts/traffic-management/">
+    <section id="landing-panels" class="panels container">
+        <a id="panel1" class="panel panel--dark" href="/docs/concepts/traffic-management/">
             <div class="panel-body">
                 <h5 class="panel-title">Implementing Istio</h5>
                 <p class="panel-text">
@@ -66,76 +65,102 @@ description: A service mesh for observability, security in depth, and management
                 <span class="btn panel-btn">Learn more</span>
             </div>
         </a>
-        </div>
     </section>
 
     <section id="service-mesh" class="container">
         <h2>Service mesh</h2>
-        
-        <div class="service-mesh-wrapper">
-            <div class="service-mesh-graph">
-                {{< inline_image "mesh-graph.svg" >}}
-            </div>
-    
-            <div class="service-mesh-description">
-                <h3>Istio is a leading open source service mesh</h3>
-                <p>
-                    Istio addresses the challenges developers and operators face as monolithic applications transition towards a distributed microservice architecture.
-                </p>
-                <p>
-                    To see how, it helps to take a more detailed look at Istio’s service mesh. The term service mesh is used to describe the network of microservices that make up such applications and the interactions between them.
-                </p>
-                <div class="service-mesh-cta cta-container">
-                    <a class="btn">Learn more</a>
-                </div>
-            </div>
+
+        <div class="section-description">
+            <p>Istio is a service mesh that provides cross-cutting functions that all micro services environments need.</p>
+            <p>You can get Istio from 27 distributors.</p>
+        </div>
+ 
+        <div class="service-mesh-graph">
+            {{< inline_image "mesh-graph.svg" >}}
+        </div>
+
+        <div class="cta-container">
+            <a class="btn">Learn more</a>
         </div>
     </section>
 
     <section id="concepts" class="container">
         <h2>Concepts</h2>
 
-        <div class="panels-wrapper">
-            <div class="panels">
-                <div class="panel panel--transparent">
-                    <div class="panel-img-top">
-                        {{< inline_image "landing/management.svg" >}}
-                    </div>
-                    <div class="panel-body">
-                        <h5 class="panel-title">Management</h5>
-                        <p class="panel-text">
-                            Intelligently control the flow of traffic and API calls between services, etc.
-                        </p>
-                    </div>
+        <div class="panels">
+            <div class="panel panel--transparent">
+                <div class="panel-img-top">
+                    {{< inline_image "landing/management.svg" >}}
                 </div>
-    
-                <div class="panel panel--transparent">
-                    <div class="panel-img-top">
-                        {{< inline_image "landing/observability.svg" >}}
-                    </div>
-                    <div class="panel-body">
-                        <h5 class="panel-title">Observability</h5>
-                        <p class="panel-text">
-                            Intelligently control the flow of traffic and API calls between services, etc.
-                        </p>
-                    </div>
-                </div>
-    
-                <div class="panel panel--transparent">
-                    <div class="panel-img-top">
-                        {{< inline_image "landing/security.svg" >}}
-                    </div>
-                    <div class="panel-body">
-                        <h5 class="panel-title">Security</h5>
-                        <p class="panel-text">
-                            Intelligently control the flow of traffic and API calls between services, etc.
-                        </p>
-                    </div>
+                <div class="panel-body">
+                    <h5 class="panel-title">Management</h5>
+                    <p class="panel-text">
+                        Intelligently control the flow of traffic and API calls between services, etc.
+                    </p>
                 </div>
             </div>
-    
-            <div class="cta-container">
-                <a class="btn" href="">Learn more</a>
+
+            <div class="panel panel--transparent">
+                <div class="panel-img-top">
+                    {{< inline_image "landing/observability.svg" >}}
+                </div>
+                <div class="panel-body">
+                    <h5 class="panel-title">Observability</h5>
+                    <p class="panel-text">
+                        Intelligently control the flow of traffic and API calls between services, etc.
+                    </p>
+                </div>
+            </div>
+
+            <div class="panel panel--transparent">
+                <div class="panel-img-top">
+                    {{< inline_image "landing/security.svg" >}}
+                </div>
+                <div class="panel-body">
+                    <h5 class="panel-title">Security</h5>
+                    <p class="panel-text">
+                        Intelligently control the flow of traffic and API calls between services, etc.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-container">
+            <a class="btn" href="">Learn more</a>
+        </div>
+    </section>
+
+    <section id="use-cases" class="container">
+        <h2>Use cases</h2>
+
+        <div class="use-cases splide">
+            <div class="splide__track">
+                <div class="splide__list">
+                    <div class="splide__slide">
+                        <div class="panel panel--carousel">
+                            <div class="panel-body">
+                                <h5 class="panel-title">Defense in Depth Security for Microservices</h5>
+                                <span class="btn btn--primary panel-btn">Learn more</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="splide__slide">
+                        <div class="panel panel--carousel">
+                            <div class="panel-body">
+                                <h5 class="panel-title">Increasing deployment and management efficiency</h5>
+                                <span class="btn btn--primary panel-btn">Learn more</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="splide__slide">
+                        <div class="panel panel--carousel">
+                            <div class="panel-body">
+                                <h5 class="panel-title">Observability and SRE Best Practices for Microservices</h5>
+                                <span class="btn btn--primary panel-btn">Learn more</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -202,7 +227,7 @@ description: A service mesh for observability, security in depth, and management
     <section id="distributors" class="container">
         <h2>Istio distributors</h2>
 
-        <div class="distributors-description">
+        <div class="section-description">
             <p>Istio is a service mesh that provides cross-cutting functions that all micro services environments need.</p>
             <p>You can get Istio from 27 distributors.</p>
         </div>

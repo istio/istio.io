@@ -6,7 +6,6 @@
     left: 0;
     z-index: $header-z;
     padding: 1.25rem 0;
-    transition: background-color .175s ease-out;
 
     @media (min-width: $bp-lg) {
         height: auto;
@@ -72,7 +71,7 @@
         }
     }
 
-    a, button {
+    .main-navigation-links-link, button {
         background-color: transparent;
         border: 0;
         color: $primaryColor;
@@ -218,6 +217,10 @@
         flex-direction: column;
         height: 100%;
         overflow: auto;
+        
+        @media (max-width: $bp-lg) {
+            padding-right: 1rem;
+        }
 
         @media (min-width: $bp-lg) {
             display: flex;
@@ -326,7 +329,7 @@
             }
 
             &-link {
-                padding: .875rem 1.25rem;
+                padding: .875rem $header-link-spacing-lg;
             }
 
             &-dropdown {
@@ -368,11 +371,11 @@
             display: inline-block;
             margin: 0;
             
-            #try-istio { margin-left: $header-link-spacing-lg; }
+            #try-istio { margin-left: 2.75rem; }
         }
         
         @media (min-width: $bp-xl) {
-            #try-istio { margin-left: $header-link-spacing-xl; }
+            #try-istio { margin-left: 3.75rem; }
         }
     }
 
@@ -400,18 +403,13 @@
         transition: right .5s;
     }
 
-    .btn {
-        background-color: $accentColor;
-        border-color: $accentColor;
-        color: $primaryColor !important;
-    }
-
     &-transparent {
         background-color: transparent;
+        transition: background-color .175s ease-out;
 
         &.active { background-color: $secondaryColor; }
 
-        a { color: $textBrandColor; }
+        .main-navigation-links-link { color: $textBrandColor; }
 
         svg.icon {
             fill: $textBrandColor;
@@ -433,7 +431,7 @@
             transition: none;
 
             .main-navigation { 
-                &-header { padding: 1.25rem; }
+                &-header { padding: 1.25rem 1rem; }
                 &-wrapper { padding: 0; }
                 &-links-wrapper {
                     display: flex;
