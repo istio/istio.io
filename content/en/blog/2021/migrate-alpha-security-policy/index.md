@@ -6,201 +6,177 @@ attribution: Yangmin Zhu (Google)
 keywords: [security,policy,migrate,alpha,beta,deprecate,peer,jwt,authorization]
 ---
 
-Istio beta security policy (`PeerAuthentication`, `RequestAuthentication` and `AuthorizationPolicy`) has been released long
-time ago and the alpha security policy (`MeshPolicy`, `Policy`, `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding`) has been
+Istio beta security policy (`PeerAuthentication`, `RequestAuthentication` and `AuthorizationPolicy`) has been released
+since release 1.5 and the alpha security policy (`MeshPolicy`, `Policy`, `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding`) has been
 deprecated and no longer supported starting 1.6.
 
 It is required to migrate the alpha security policy to the beta version before upgrading to Istio 1.6 and later.
-This blog is a tutorial to help customers who are still using the alpha security policy in old Istio to migrate to beta
-security policy and unblock the upgrade to Istio 1.6 and later.
+This blog is a tutorial to help customers who are still using the alpha security policy in the old version to migrate to
+the beta security policy and unblock the upgrade to Istio 1.6 and later.
 
-## Major changes in `v1beta1` security policy
+## Overview
 
-Please note there are non-backward compatible changes in the `v1beta1` policy. The major changes related to the migration
-are listed below:
+It is highly recommended migrating the security policy with the [canary upgrade](/docs/setup/upgrade/canary/).
+The canary upgrade gives more flexibility to apply the migrated policy incrementally instead of all at once. This reduces the risk
+of the upgrade.
 
-| Feature | `v1alpha1` Policy | `v1beta1` Policy |
+Alternatively, you could first upgrade to Istio 1.5 as a transitive version because it supports both `v1alpha1` and `v1beta1` policy,
+complete the security policy migration and then continue the Istio upgrade. Istio 1.5 is the only version that supports
+both `v1alpha1` and `v1beta1` security policy. For a given workload, the `v1beta1` version will take precedence over the `v1alpha1`
+version.
+
+In either case, it is recommended migrating at the granularity of namespace: for each namespace, find out all
+`v1alpha1` policies that has effect on the workloads in the namespace, and migrate all the `v1alpha1` policies at the same time.
+This allows a safer migration as you can apply the `v1beta1` policies one namespace at a time, make sure everything is working
+as expected and then move forward to the next namespace.
+
+## Major Differences
+
+Before starting the migration, read through the `v1beta1` [authentication](/docs/concepts/security/#authentication)
+and [authorization](/docs/concepts/security/#authorization) documentation to understand the `v1beta1` policy.
+
+You should examine all of your existing `v1alpha1` security policy, find out what fields are used and which policy
+needs migration, compare the findings with the major differences listed below and confirm there are no blocking issues
+(e.g. using some alpha feature that is no longer supported in beta):
+
+| Major Differences | `v1alpha1` | `v1beta1` |
 |---------|------------------------|--------------------------------|
-| API stability | **No** backward compatible | backward compatible **guaranteed** |
-| mTLS related CRDs | `MeshPolicy` and `Policy` | `PeerAuthentication` |
-| JWT related CRDs | `MeshPolicy` and `Policy` | `RequestAuthentication` and `AuthorizationPolicy` |
-| Access Control related CRDs | `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding` | `AuthorizationPolicy` |
-| Policy target | **service** name based | **workload** label based |
-| Port number | **service** ports | **workload** ports |
+| API stability | not backward compatible | backward compatible |
+| mTLS | `MeshPolicy` and `Policy` | `PeerAuthentication` |
+| JWT | `MeshPolicy` and `Policy` | `RequestAuthentication` |
+| Authorization | `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding` | `AuthorizationPolicy` |
+| Policy target | service name based | workload label selector based |
+| Port number | service ports | workload ports |
 
-The alpha JWT policy needs to be converted to both `RequestAuthentication` and `AuthorizationPolicy`. The JWT deny response
-is also changed due to the use of `AuthorizationPolicy`. In alpha policy, the HTTP code 401 will be returned with the
-body `Origin authentication failed`. In beta policy, the HTTP code 403 will be returned with the body `RBAC: access denied`.
+Although `RequestAuthentication` in `v1beta1` security policy is similar to `v1alpha1` JWT policy, there is a notable
+semantics change. The `v1alpha1` JWT policy needs to be migrated to two `v1beta1` resources: `RequestAuthentication` and `AuthorizationPolicy`.
 
-Additionally, the [`triggerRule.regex` field](https://istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/#StringMatch)
-in the alpha JWT policy is not supported by the `AuthorizationPolicy`.
+This will change the JWT deny message due to the use of `AuthorizationPolicy`. In alpha version, the HTTP code 401 is returned
+with the body `Origin authentication failed`. In beta version, the HTTP code 403 is returned with the body `RBAC: access denied`.
 
-## `v1alpha1` authentication policy migration
+The `v1alpha1` JWT policy [`triggerRule` field](https://istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/#Jwt-TriggerRule)
+is replaced by the `AuthorizationPolicy` with the exception that the [`regex` field](https://istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/#StringMatch)
+is no longer supported.
 
-The typical flow of migrating to `v1beta1` policy is to start by checking all the `MeshPolicy` and `Policy` applied in the
-cluster and convert each of them to the corresponding `v1beta1` version.
+## Migration flow
 
-The `MeshPolicy` is mesh-level and there should be only 1 per-cluster, for each `MeshPolicy` and `Policy` applied in the cluster:
+This section describes details of how to migrate the `v1alpha1` security policy workload.
 
-1. If the policy has service target, it is in service level. Find and take a note of the corresponding service definition.
-   You will use the service definition to convert the service target to the corresponding workload selector.
+### Step 1: Find out related policies
 
-1. If the policy has no service target, it is in mesh/namespace level. The corresponding workload selector is just empty.
+For each namespace, find out all `v1alpha1` security policies that has effect on workloads in the namespace. The result
+could include:
 
-1. For each service target and mesh/namespace level policy, create an `PeerAuthentication` if the `peers` was used in
-   the `v1alpha1` policy. Populate the `selector` and `portLevelMtls` if it is a service level policy. Populate the
-   `mtls` mode with either `PERMISSIVE` or `STRICT` depending on the `v1alpha1` policy mode.
+- a single `MeshPolicy` that applies to all services in the mesh;
+- a single namespace level `Policy` that applies to all workloads in the namespace;
+- multiple service level `Policy` that applies to the selected services in the namespace;
+- a single `ClusterRbacConfig` that enables the RBAC on the whole namespace or some services in the namespace;
+- multiple namespace level `ServiceRole` and `ServiceRoleBinding` that applies to all services in the namespace;
+- multiple namespace level `ServiceRole` and `ServiceRoleBinding` that applies to the selected services in the namespace;
 
-1. For each service target and mesh/namespace level policy, create an `RequestAuthentication` and `AuthorizationPolicy`
-   if the `origins` was used in the `v1alpha1` policy. Populate the `selector` if it is a service level policy.
-   Populate the `RequestAuthentication` with the corresponding JWT issuer information and the `AuthorizationPolicy`
-   to require [JWT validation](https://istio.io/v1.6/docs/tasks/security/authentication/authn-policy/#require-a-valid-token)
-   or [path-based JWT validation](https://istio.io/v1.6/docs/tasks/security/authentication/authn-policy/#require-valid-tokens-per-path).
+### Step 2: Convert service name to label selector
 
-1. Repeat the process for the next authentication policy.
+The `v1alpha1` policy selects target using service name, you should refer to the corresponding service definition to decide
+the label selector that should be used in the `v1beta1` policy.
 
-## `v1alpha1` authentication policy example
+A single `v1alpha1` policy may include multiple services, this means it could be migrated to multiple `v1beta1` policies
+because the `v1beta1` policy currently only supports at most one label selector per policy.
 
-Assume you have the following `v1alpha1` policy for the `httpbin` service in the `foo` namespace:
+Also note the `v1alpha1` uses service port but the `v1beta1` uses the workload port, this means the port number might be
+different in the migrated `v1beta1` policy.
+
+### Step 3: Migrate authentication policy
+
+For each `v1alpha1` authentication policy, migrate with the following rules:
+
+1. If the whole namespace is enabled with mTLS or JWT, create the `PeerAuthentication`, `RequestAuthentication` and
+   `AuthorizationPolicy` with an empty label selector for the whole namespace. Fill out the policy based on the
+   semantics of the corresponding `MeshPolicy` or `Policy` for the namespace;
+
+1. If a workload is enabled with mTLS or JWT, create the `PeerAuthentication`, `RequestAuthentication` and
+   `AuthorizationPolicy` with corresponding label selector for the workload. Fill out the policy based on the
+   semantics of the corresponding `MeshPolicy` or `Policy` for the workload;
+
+1. For mTLS related configuration, use `STRICT` mode if the alpha policy is using `STRICT`, use `PERMISSIVE` in all other cases;
+
+1. For JWT related configuration, refer [`End-user authentication` documentation](/docs/tasks/security/authentication/authn-policy/#end-user-authentication)
+   to learn how to migrate to the `RequestAuthentication` and `AuthorizationPolicy`;
+
+### Step 4: Migrate RBAC policy
+
+For each `v1alpha1` RBAC policy, migrate with the following rules:
+
+1. If the whole namespace is enabled with RBAC, create an `AuthorizationPolicy` with empty label selector for the whole
+   namespace. Add an empty rule so that it will deny all requests to the namespace by default;
+
+1. If a workload is enabled with RBAC, create an `AuthorizationPolicy` with corresponding label selector for the workload,
+   Add rules based on the semantic of the corresponding `ServiceRole` and `ServiceRoleBinding` for the workload;
+
+### Step 5: Verify migrated policy
+
+1. Double check the migrated `v1beta1` policy, make sure there are no policies with duplicate name, the namespace
+   is specified correctly and all `v1alpha1` policies for the given namespace are migrated;
+
+1. Dry-run the `v1beta1` policy with the command `kubectl apply --dry-run=server -f beta-policy.yaml` to make sure it
+   is valid;
+
+1. Apply the `v1beta1` policy to the given namespace and closely monitor the effect. Make sure to test both allow and
+   deny scenarios if JWT or authorization are used;
+
+1. Move to migrate the next namespace, only remove the `v1alpha1` policy after completed migration for
+   all namespaces successfully;
+
+## Example
+
+### `v1alpha1` policy
+
+This section gives an full example showing the migration for namespace `foo`. Assume the namespace `foo` has the following
+`v1alpha1` policies that have effect to workloads in it:
 
 {{< text yaml >}}
+# An MeshPolicy that enables mTLS globally, including the whole foo namespace
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "MeshPolicy"
+metadata:
+  name: "default"
+spec:
+  peers:
+  - mtls: {}
+---
+# An Policy that enables mTLS permissive mode and enables JWT for the httpbin service on port 8000
 apiVersion: authentication.istio.io/v1alpha1
 kind: Policy
 metadata:
-  name: example
-  namespace: "foo"
+  name: httpbin
+  namespace: foo
 spec:
   targets:
   - name: httpbin
     ports:
     - number: 8000
   peers:
-  - mtls: {}
+  - mtls:
+      mode: PERMISSIVE
   origins:
   - jwt:
       issuer: testing@example.com
-      jwksUri: "https://www.example.com/jwks.json"
+      jwksUri: https://www.example.com/jwks.json
       triggerRules:
       - includedPaths:
-        - prefix: "/admin/"
+        - prefix: /admin/
         excludedPaths:
-        - exact: "/admin/status"
+        - exact: /admin/status
   principalBinding: USE_ORIGIN
-{{< /text >}}
-
-Migrate the above authentication policy to `v1beta1` in the following ways:
-
-1. Assume the `httpbin` service in the `foo` namespace has the following workload selector:
-
-    {{< text yaml >}}
-    selector:
-      app: httpbin
-    ports:
-    - name: http
-      port: 8000
-      targetPort: 80
-    {{< /text >}}
-
-1. Create the `PeerAuthentication` to migrate the mTLS part:
-
-    {{< text yaml >}}
-    apiVersion: security.istio.io/v1beta1
-    kind: PeerAuthentication
-    metadata:
-      name: httpbin
-      namespace: foo
-    spec:
-      selector:
-        matchLabels:
-          app: httpbin
-    mtls:
-      # Use PERMISSIVE by default for maximum backward compatibility
-      mode: PERMISSIVE
-    portLevelMtls:
-      # This should be the workload port 80, not the service port 8000
-      80:
-        mode: STRICT
-    {{< /text >}}
-
-1. Create the `RequestAuthentication` and `AuthorizationPolicy` to migrate the JWT part:
-
-    {{< text yaml >}}
-    apiVersion: security.istio.io/v1beta1
-    kind: RequestAuthentication
-    metadata:
-      name: example-httpbin
-      namespace: foo
-    spec:
-      selector:
-        matchLabels:
-          app: httpbin
-      jwtRules:
-      - issuer: testing@example.com
-        jwksUri: "https://www.example.com/jwks.json"
-    ---
-    apiVersion: security.istio.io/v1beta1
-    kind: AuthorizationPolicy
-    metadata:
-      name: example-httpbin
-      namespace: foo
-    spec:
-      # Use DENY action to explicitly deny requests without JWT token
-      action: DENY
-      selector:
-        matchLabels:
-          app: httpbin
-      rules:
-      - from:
-        - source:
-            # This makes sure requests without JWT token will be denied
-            notRequestPrincipals: ["*"]
-        to:
-        - operation:
-            # This should be the workload port 80, not the service port 8000
-            ports: ["80"]
-            # The path is converted from the trigger rule
-            notPaths: ["/admin/status"]
-            paths: ["/admin/*"]
-    {{< /text >}}
-
-1. Apply the `PeerAuthentication`, `RequestAuthentication` and `AuthorizationPolicy` and monitor the traffic to make
-   sure it works as expected.
-
-## the `v1alpha1` RBAC policy migration
-
-The typical flow of migrating to `v1beta1` policy is to start by checking the `ClusterRbacConfig` to decide which
-namespace or service is enabled with RBAC.
-
-For each service enabled with RBAC:
-
-1. Get the workload selector from the service definition.
-
-1. Create a `v1beta1` policy with the workload selector.
-
-1. Update the `v1beta1` policy for each `ServiceRole` and `ServiceRoleBinding` applied to the service.
-
-1. Apply the `v1beta1` policy and monitor the traffic to make sure the policy is working as expected.
-
-1. Repeat the process for the next service enabled with RBAC.
-
-For each namespace enabled with RBAC:
-
-1. Apply a `v1beta1` policy that denies all traffic to the given namespace.
-
-## `v1alpha1` RBAC policy example
-
-Assume you have the following `v1alpha1` RBAC policies for the `httpbin` service in the `foo` namespace:
-
-{{< text yaml >}}
+---
+# An CluserRbacConfig that enables RBAC globally, including the foo namespace
 apiVersion: "rbac.istio.io/v1alpha1"
 kind: ClusterRbacConfig
 metadata:
   name: default
 spec:
-  mode: 'ON_WITH_INCLUSION'
-  inclusion:
-    namespaces: ["foo"]
+  mode: 'ON'
 ---
+# An ServiceRole that enables RBAC for the httpbin service
 apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRole
 metadata:
@@ -211,6 +187,7 @@ spec:
   - services: ["httpbin.foo.svc.cluster.local"]
     methods: ["GET"]
 ---
+# An ServiceRoleBinding for the above ServiceRole
 apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRoleBinding
 metadata:
@@ -218,56 +195,137 @@ metadata:
   namespace: foo
 spec:
   subjects:
-  - user: "cluster.local/ns/default/sa/sleep"
+  - user: cluster.local/ns/foo/sa/sleep
     roleRef:
       kind: ServiceRole
-      name: "httpbin"
+      name: httpbin
 {{< /text >}}
 
-Migrate the above RBAC policies to `v1beta1` in the following ways:
+### `httpbin` service
 
-1. Assume the `httpbin` service in the `foo` namespace has the following workload selector:
+The `httpbin` service has the following definition:
 
-    {{< text yaml >}}
-    selector:
+{{< text yaml >}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpbin
+  namespace: foo
+spec:
+  ports:
+  - name: http
+    port: 8000
+    targetPort: 80
+  selector:
+    app: httpbin
+{{< /text >}}
+
+This means the service name `httpbin` should be replaced by the label selector `app: httpbin`, and the service port 8000
+should be replaced by the workload port 80.
+
+### `v1beta1` authentication policy
+
+The migrated `v1beta1` policies for the `v1alpha1` authentication policies in `foo` namespace are listed below:
+
+{{< text yaml >}}
+# An PeerAuthentication that enables mTLS for the foo namespace, migrated from the MeshPolicy
+# Alternatively the MeshPolicy could also be migrated to a PeerAuthentication at mesh level
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: foo
+spec:
+  mtls:
+    mode: STRICT
+---
+# An PeerAuthentication that enables mTLS for the httpbin workload, migrated from the Policy
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: httpbin
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  # port level mtls set for the workload port 80 corresponding to the service port 8000
+  portLevelMtls:
+    80:
+      mode: PERMISSIVE
+--
+# An RequestAuthentication that enables JWT for the httpbin workload, migrated from the Policy
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: httpbin
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  jwtRules:
+  - issuer: testing@example.com
+    jwksUri: https://www.example.com/jwks.json
+---
+# An AuthorizationPolicy that enforces to require JWT validation for the httpbin workload, migrated from the Policy
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: httpbin-jwt
+  namespace: foo
+spec:
+  # Use DENY action to explicitly deny requests without JWT token
+  action: DENY
+  selector:
+    matchLabels:
+      app: httpbin
+  rules:
+  - from:
+    - source:
+        # This makes sure requests without JWT token will be denied
+        notRequestPrincipals: ["*"]
+    to:
+    - operation:
+        # This should be the workload port 80, not the service port 8000
+        ports: ["80"]
+        # The path and notPath is converted from the trigger rule in the Policy
+        paths: ["/admin/*"]
+        notPaths: ["/admin/status"]
+{{< /text >}}
+
+### `v1beta1` authorization policy
+
+The migrated `v1beta1` policies for the `v1alpha1` RBAC policies in `foo` namespace are listed below:
+
+{{< text yaml >}}
+# An AuthorizationPolicy that denies by default, migrated from the ClusterRbacConfig
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: default
+  namespace: foo
+spec:
+  # An empty rule that allows nothing
+  {}
+---
+# An AuthorizationPolicy that enforces to authorization for the httpbin workload, migrated from the ServiceRole and ServiceRoleBinding
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: httpbin
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
       app: httpbin
       version: v1
-    {{< /text >}}
-
-1. Create the `AuthorizationPolicy` with the following content:
-
-    {{< text yaml >}}
-    apiVersion: security.istio.io/v1beta1
-    kind: AuthorizationPolicy
-    metadata:
-      name: httpbin
-      namespace: foo
-    spec:
-      selector:
-        matchLabels:
-          app: httpbin
-          version: v1
-      action: ALLOW
-      rules:
-      - from:
-        - source:
-            principals: ["cluster.local/ns/default/sa/sleep"]
-        to:
-        - operation:
-            methods: ["GET"]
-    {{< /text >}}
-
-1. Create the following `AuthorizationPolicy` that denies all traffic to the `foo` namespace because the `foo` namespace
-   was enabled with RBAC:
-
-    {{< text yaml >}}
-    apiVersion: security.istio.io/v1beta1
-    kind: AuthorizationPolicy
-    metadata:
-      name: allow-nothing
-      namespace: foo
-    spec:
-      {}
-    {{< /text >}}
-
-1. Apply the `AuthorizationPolicy` and monitor the traffic to make sure it works as expected.
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/foo/sa/sleep"]
+    to:
+    - operation:
+        methods: ["GET"]
+{{< /text >}}
