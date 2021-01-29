@@ -2,7 +2,7 @@
 {{ $section := .Section }}
 {{ $current := . }}
 
-<header class="main-navigation {{ if .IsHome }}main-navigation-transparent{{ end }}">
+<header class="main-navigation {{ if .IsHome }}main-navigation--transparent{{ end }}">
     <nav class="main-navigation-wrapper container-l">
         <div class="main-navigation-header">
             <a id="brand" href="{{ $home.Permalink }}">
@@ -124,7 +124,7 @@
                             <a tabindex="-1" role="menuitem" class="disabled" title="{{ $title }}">{{ i18n "edit_on_github" }}</a>
                         {{ else }}
                             {{ if eq $home.Lang "zh" }}
-                                <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/zh/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                                <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/    /{{ .Path }}">{{ i18n "edit_on_github" }}</a>
                             {{ else }}
                                 <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/en/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
                             {{ end }}

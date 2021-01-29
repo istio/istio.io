@@ -88,6 +88,7 @@
             font-size: 1.125rem;
             margin: 1.125rem 0 0;
             flex: 1;
+            font-weight: $mediumWeight;
         }
 
         .panel-img-top {
@@ -276,6 +277,7 @@
         p {
             line-height: 1.5;
             margin: 0;
+            font-weight: $mediumWeight;
         }
 
         @media (min-width: $bp-md) {

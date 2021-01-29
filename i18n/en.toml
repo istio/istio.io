@@ -44,13 +44,13 @@ other = "Dark Theme"
 other = "Other versions of this site"
 
 [current_release]
-other = "Current Release"
+other = "current release"
 
 [next_release]
-other = "Next Release"
+other = "next release"
 
 [archived_releases]
-other = "Older Releases"
+other = "older releases"
 
 [options_menu]
 other = "Options and settings"
@@ -67,11 +67,14 @@ other = "Cancel search"
 [footer_istio]
 other = "Istio"
 
+[footer_version]
+other = "Version"
+
 [footer_istio_preliminary]
-other = "Istio Preliminary"
+other = "Preliminary"
 
 [footer_istio_archive]
-other = "Istio Archive"
+other = "Archive"
 
 [footer_archived_on]
 other = "Archived on %s"
@@ -83,7 +86,10 @@ other = "Page last modified: %s"
 other = "January 2, 2006"
 
 [footer_privacy_policy]
-other = "Privacy Policy"
+other = "Privacy policy"
+
+[footer_terms_and_conditions]
+other = "Terms and conditions"
 
 [page_publish_date_format]
 other = "January 2, 2006"
