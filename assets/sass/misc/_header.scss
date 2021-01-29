@@ -403,13 +403,13 @@
         transition: right .5s;
     }
 
-    &-transparent {
+    &--transparent {
         background-color: transparent;
         transition: background-color .175s ease-out;
 
         &.active { background-color: $secondaryColor; }
 
-        .main-navigation-links-link { color: $textBrandColor; }
+        .main-navigation-links-item > .main-navigation-links-link { color: $textBrandColor; }
 
         svg.icon {
             fill: $textBrandColor;
@@ -433,15 +433,17 @@
             .main-navigation { 
                 &-header { padding: 1.25rem 1rem; }
                 &-wrapper { padding: 0; }
-                &-links-wrapper {
-                    display: flex;
-                    flex-direction: column;
-                    flex-grow: 1;
-                    justify-content: center;
+                &-links {
+                    &-wrapper {
+                        display: flex;
+                        flex-direction: column;
+                        flex-grow: 1;
+                        justify-content: center;
+                    }
+
+                    &-link { color: $textBrandColor; }
                 }
             }
-    
-            a { color: $textBrandColor; }
 
             #brand,
             #hamburger {
