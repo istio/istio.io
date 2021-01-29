@@ -491,12 +491,15 @@ Download the [jwcrypto](https://pypi.org/project/jwcrypto) library,
 if you haven't installed it on your system.
 {{< /tip >}}
 
+The JWT authentication has 60 seconds clock skew, this means the JWT token will become valid 60 seconds earlier than
+its configured `nbf` and remain valid 60 seconds after its configured `exp`.
+
 For example, the command below creates a token that
-expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 5 seconds:
+expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 65 seconds:
 
 {{< text bash >}}
 $ TOKEN=$(python3 ./gen-jwt.py ./key.pem --expire 5)
-$ for i in $(seq 1 10); do curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"; sleep 1; done
+$ for i in $(seq 1 20); do curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"; sleep 5; done
 200
 200
 200
