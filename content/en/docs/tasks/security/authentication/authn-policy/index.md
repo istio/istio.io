@@ -499,14 +499,14 @@ expires in 5 seconds. As you see, Istio authenticates requests using that token 
 
 {{< text bash >}}
 $ TOKEN=$(python3 ./gen-jwt.py ./key.pem --expire 5)
-$ for i in $(seq 1 20); do curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"; sleep 5; done
+$ for i in $(seq 1 10); do curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"; sleep 10; done
 200
 200
 200
 200
 200
-401
-401
+200
+200
 401
 401
 401
