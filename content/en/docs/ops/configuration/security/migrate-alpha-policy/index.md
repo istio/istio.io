@@ -1,14 +1,15 @@
 ---
 title: Migrate the deprecated alpha security policy
 description: A tutorial to help customers to migrate the deprecated alpha security policy to the beta version.
-publishdate: 2021-02-01
-attribution: Yangmin Zhu (Google)
 keywords: [security,policy,migrate,alpha,beta,deprecate,peer,jwt,authorization]
+weight: 20
+owner: istio/wg-security-maintainers
+test: n/a
 ---
 
 Istio beta security policy (`PeerAuthentication`, `RequestAuthentication` and `AuthorizationPolicy`) has been released
-since release 1.5 and the alpha security policy (`MeshPolicy`, `Policy`, `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding`) has been
-deprecated and no longer supported starting 1.6.
+since release 1.5 and the alpha security policy (`MeshPolicy`, `Policy`, `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding`)
+has been deprecated and no longer supported starting 1.6.
 
 It is required to migrate the alpha security policy to the beta version before upgrading to Istio 1.6 and later.
 This blog is a tutorial to help customers who are still using the alpha security policy in the old version to migrate to
@@ -16,17 +17,23 @@ the beta security policy and unblock the upgrade to Istio 1.6 and later.
 
 ## Overview
 
-It is highly recommended migrating the security policy with the [canary upgrade](/docs/setup/upgrade/canary/).
-The canary upgrade gives more flexibility to apply the migrated policy incrementally instead of all at once. This reduces the risk
-of the upgrade.
+The control plane should be upgraded first to bring in the support of `v1beta1` security policy. It is recommended first
+upgrade to Istio 1.5 as a transitive version because it supports both `v1alpha1` and `v1beta1` security policy. You complete
+the security policy migration in Istio 1.5, remove the `v1alpha1` security policy and then continue the upgrade to later Istio versions.
 
-Alternatively, you could first upgrade to Istio 1.5 as a transitive version because it supports both `v1alpha1` and `v1beta1` policy,
-complete the security policy migration and then continue the Istio upgrade. Istio 1.5 is the only version that supports
-both `v1alpha1` and `v1beta1` security policy. For a given workload, the `v1beta1` version will take precedence over the `v1alpha1`
-version.
+Istio 1.5 is the only version that supports both `v1alpha1` and `v1beta1` security policy. For a given workload, the
+`v1beta1` version will take precedence over the `v1alpha1` version.
+
+Alternatively, if you want to do a skip-upgrade directly from Istio 1.4 to Istio 1.6 or later, you should use the
+[canary upgrade](/docs/setup/upgrade/canary/) to install the new Istio version as a separate control plane, gradually
+migrate your workloads to the new control plane and complete the security policy migration at the same time.
+
+Note that skip-upgrade is not supported by Istio and there might be other issues in this process. Istio 1.6 does not support
+the `v1alpha1` security policy, and if you do not migrate them to `v1beta1` version, you are essentially deleting all your
+`v1alpha1` security policy.
 
 In either case, it is recommended migrating at the granularity of namespace: for each namespace, find out all
-`v1alpha1` policies that has effect on the workloads in the namespace, and migrate all the `v1alpha1` policies at the same time.
+`v1alpha1` policies that has effect on the workloads in the namespace and migrate all the `v1alpha1` policies at the same time.
 This allows a safer migration as you can apply the `v1beta1` policies one namespace at a time, make sure everything is working
 as expected and then move forward to the next namespace.
 
@@ -90,7 +97,7 @@ different in the migrated `v1beta1` policy.
 For each `v1alpha1` authentication policy, migrate with the following rules:
 
 1. If the whole namespace is enabled with mTLS or JWT, create the `PeerAuthentication`, `RequestAuthentication` and
-   `AuthorizationPolicy` with an empty label selector for the whole namespace. Fill out the policy based on the
+   `AuthorizationPolicy` without label selector for the whole namespace. Fill out the policy based on the
    semantics of the corresponding `MeshPolicy` or `Policy` for the namespace;
 
 1. If a workload is enabled with mTLS or JWT, create the `PeerAuthentication`, `RequestAuthentication` and
@@ -106,11 +113,11 @@ For each `v1alpha1` authentication policy, migrate with the following rules:
 
 For each `v1alpha1` RBAC policy, migrate with the following rules:
 
-1. If the whole namespace is enabled with RBAC, create an `AuthorizationPolicy` with empty label selector for the whole
+1. If the whole namespace is enabled with RBAC, create an `AuthorizationPolicy` without label selector for the whole
    namespace. Add an empty rule so that it will deny all requests to the namespace by default;
 
 1. If a workload is enabled with RBAC, create an `AuthorizationPolicy` with corresponding label selector for the workload,
-   Add rules based on the semantic of the corresponding `ServiceRole` and `ServiceRoleBinding` for the workload;
+   Add rules based on the semantics of the corresponding `ServiceRole` and `ServiceRoleBinding` for the workload;
 
 ### Step 5: Verify migrated policy
 
@@ -130,11 +137,11 @@ For each `v1alpha1` RBAC policy, migrate with the following rules:
 
 ### `v1alpha1` policy
 
-This section gives an full example showing the migration for namespace `foo`. Assume the namespace `foo` has the following
+This section gives a full example showing the migration for namespace `foo`. Assume the namespace `foo` has the following
 `v1alpha1` policies that have effect to workloads in it:
 
 {{< text yaml >}}
-# An MeshPolicy that enables mTLS globally, including the whole foo namespace
+# A MeshPolicy that enables mTLS globally, including the whole foo namespace
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "MeshPolicy"
 metadata:
@@ -143,7 +150,7 @@ spec:
   peers:
   - mtls: {}
 ---
-# An Policy that enables mTLS permissive mode and enables JWT for the httpbin service on port 8000
+# A Policy that enables mTLS permissive mode and enables JWT for the httpbin service on port 8000
 apiVersion: authentication.istio.io/v1alpha1
 kind: Policy
 metadata:
@@ -168,7 +175,7 @@ spec:
         - exact: /admin/status
   principalBinding: USE_ORIGIN
 ---
-# An CluserRbacConfig that enables RBAC globally, including the foo namespace
+# A CluserRbacConfig that enables RBAC globally, including the foo namespace
 apiVersion: "rbac.istio.io/v1alpha1"
 kind: ClusterRbacConfig
 metadata:
@@ -176,7 +183,7 @@ metadata:
 spec:
   mode: 'ON'
 ---
-# An ServiceRole that enables RBAC for the httpbin service
+# A ServiceRole that enables RBAC for the httpbin service
 apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRole
 metadata:
@@ -187,7 +194,7 @@ spec:
   - services: ["httpbin.foo.svc.cluster.local"]
     methods: ["GET"]
 ---
-# An ServiceRoleBinding for the above ServiceRole
+# A ServiceRoleBinding for the above ServiceRole
 apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRoleBinding
 metadata:
@@ -228,7 +235,7 @@ should be replaced by the workload port 80.
 The migrated `v1beta1` policies for the `v1alpha1` authentication policies in `foo` namespace are listed below:
 
 {{< text yaml >}}
-# An PeerAuthentication that enables mTLS for the foo namespace, migrated from the MeshPolicy
+# A PeerAuthentication that enables mTLS for the foo namespace, migrated from the MeshPolicy
 # Alternatively the MeshPolicy could also be migrated to a PeerAuthentication at mesh level
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
@@ -239,7 +246,7 @@ spec:
   mtls:
     mode: STRICT
 ---
-# An PeerAuthentication that enables mTLS for the httpbin workload, migrated from the Policy
+# A PeerAuthentication that enables mTLS for the httpbin workload, migrated from the Policy
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
@@ -254,7 +261,7 @@ spec:
     80:
       mode: PERMISSIVE
 --
-# An RequestAuthentication that enables JWT for the httpbin workload, migrated from the Policy
+# A RequestAuthentication that enables JWT for the httpbin workload, migrated from the Policy
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
