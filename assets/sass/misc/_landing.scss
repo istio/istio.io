@@ -60,6 +60,7 @@
     }
 
     .panel {
+        display: block;
         width: 100%;
         max-width: 320px;
         min-height: 320px;
@@ -68,10 +69,7 @@
         text-align: center;
         margin: $panel-margin-top 0 0;
         padding: 2.25rem;
-
-        &:hover {
-            text-decoration: none;
-        }
+        text-decoration: none;
 
         @media (min-width: $bp-sm) {
             margin: $panel-margin-top 1.25rem 0;
