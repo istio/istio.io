@@ -11,8 +11,8 @@ owner: istio/wg-environments-maintainers
 Before reading this document, be sure to review [Istio's architecture](/docs/ops/deployment/architecture/) and [deployment models](/docs/ops/deployment/deployment-models/).
 This page builds on these pages to explain how Istio can be extended to support joining virtual machines into the mesh.
 
-Istio's virtual machine support involves connecting workloads outside of a Kubernetes cluster to the mesh.
-This enables legacy applications, or applications not suitable to run inside of Kubernetes, to get all the same benefits Istio provides to applications running inside Istio.
+Istio's virtual machine expansion allows connecting workloads outside of a Kubernetes cluster to the mesh.
+This enables legacy applications, or applications not suitable to run in a containerized environment, to get all the same benefits that Istio provides to applications running inside Kubernetes.
 
 Many of the features the Kubernetes automatically provides applications are supplemented by Istio.
 This includes service discovery, DNS resolution, and health checks.
