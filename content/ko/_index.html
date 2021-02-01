@@ -1,0 +1,86 @@
+---
+title: Istio
+description: 서비스를 연결, 보호, 제어 및 관찰해보세요.
+---
+
+<main class="landing">
+    <div id="banner">
+        {{< inline_image "landing/istio-logo.svg" >}}
+        <div id="hero-text">
+            <h1 id="hero-label">Istio</h1>
+            <h1 id="hero-lead">서비스를 연결, 보호, 제어 및 관찰해보세요.</h1>
+        </div>
+    </div>
+
+    <div id="panels">
+        <div id="panel1" class="panel">
+            <a href="/docs/concepts/traffic-management/">
+                <div class="panel-img-top">
+                    {{< inline_image "landing/routing-and-load-balancing.svg" >}}
+                </div>
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">연결</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
+                        서비스 간 트래픽 및 API 호출 흐름을 지능적으로 제어하고, 다양한 테스트를 수행하며, red/black 배포를 통해 점진적으로 업그레이드합니다.
+                    </p>
+                </div>
+            </a>
+        </div>
+
+        <div id="panel2" class="panel">
+            <a href="/docs/concepts/security/">
+                <div class="panel-img-top">
+                    {{< inline_image "landing/resiliency.svg" >}}
+                </div>
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">보호</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
+                        인증, 인가 및 서비스 간 통신 암호화를 통해 자동으로 여러분의 서비스를 보호합니다.
+                    </p>
+                </div>
+            </a>
+        </div>
+
+        <div id="panel3" class="panel">
+            <a href="/docs/reference/config/">
+                <div class="panel-img-top">
+                    {{< inline_image "landing/policy-enforcement.svg" >}}
+                </div>
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">제어</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
+                        정책을 적용하여, 정책이 잘 시행되고 리소스가 소비자에게 공평하게 분배되는지 확인합니다.
+                    </p>
+                </div>
+            </a>
+        </div>
+
+        <div id="panel4" class="panel">
+            <a href="/docs/concepts/observability/">
+                <div class="panel-img-top">
+                    {{< inline_image "landing/telemetry-and-reporting.svg" >}}
+                </div>
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">관측</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
+                        여러분의 모든 서비스에 풍부하고 자동화된 트레이싱, 모니터링 및 로깅을 더하면 무슨 일이 벌어지는지 알아봅니다.
+                   </p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div id="buttons">
+        <a title="오늘 Kubernetes 에 Istio 설치하기." class="btn" href="/docs/setup/getting-started/">GET STARTED</a>
+        <a title="Istio 가 무엇이며 어떻게 동작하는지 자세히 알아보기." class="btn" href="/docs/concepts/what-is-istio/">LEARN MORE</a>
+        <a title="최신 버전 다운로드." class="btn" href="/docs/setup/getting-started/#download">DOWNLOAD {{< istio_release_name >}}</a>
+    </div>
+</main>

@@ -159,6 +159,9 @@ for lang in $LANGS; do
     elif [[ "$lang" == "pt-br" ]]; then
         # only check English words in Portuguese Brazil docs
         check_content "content/$lang" --en-us
+    elif [[ "$lang" == "ko" ]]; then
+        # only check English words in Portuguese Brazil docs
+        check_content "content/$lang" --en-us
     fi
 done
 
