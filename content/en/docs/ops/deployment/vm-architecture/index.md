@@ -24,10 +24,10 @@ The following diagram shows the architecture of a mesh with virtual machines:
 
 {{< tab name="Single-Network" category-value="single" >}}
 
-In this mesh, there is a single [network](/docs/ops/deployment/deployment-models/#network-models), meaning pods and virtual machines can directly reach each other.
+In this mesh, there is a single [network](/docs/ops/deployment/deployment-models/#network-models), implying that pods and virtual machines can communicate directly with each other.
 
 Control plane traffic, including XDS configuration and certificate signing, are sent through a Gateway in the cluster.
-This ensures that the VMs have a stable address to connect to when they are bootstrapping. All other communication between pods and
+This ensures that the virtual machines have a stable address to connect to when they are bootstrapping. All other communication between pods and
 virtual machines are able to communicate directly.
 
 {{< image width="75%"
@@ -127,4 +127,4 @@ Kubernetes provides DNS resolution in pods for `Service` names  allowing pods to
 For virtual machine expansion, Istio provides similar functionality via [DNS Proxy](/docs/ops/configuration/traffic-management/dns-proxy/).
 This feature redirects all DNS queries from the virtual machine workload to the Istio proxy, which maintains a mapping of hostnames to IP addresses.
 
-As a result, workloads running on virtual machines will be able to call `Service`s just like pods.
+As a result, workloads running on virtual machines can transparently call `Service`s (similar to pods) without requiring any additional configuration.
