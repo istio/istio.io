@@ -180,6 +180,6 @@ by default in this release, but can be tested using `--set values.sidecarInjecto
 
 ## Join the Istio community
 
-Our [Community Meeting](https://github.com/istio/community#community-meeting) happens on the fourth Thursday of the month, at 10 AM Pacific. Due to US Thanksgiving, we've moved this month's meeting forward one week to the 19th of November. If you can't make it, why not join the conversation at [Discuss Istio](https://discuss.istio.io/), or join our [Slack workspace](https://slack.istio.io/)?
+Our [Community Meeting](https://github.com/istio/community#community-meeting) happens on the fourth Thursday of the month, at 10 AM Pacific. If you can't make it, why not join the conversation at [Discuss Istio](https://discuss.istio.io/), or join our [Slack workspace](https://slack.istio.io/)?
 
 Would you like to get involved? Find and join one of our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help make Istio even better.
