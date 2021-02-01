@@ -33,6 +33,10 @@
         font-family: "Barlow", sans-serif;
         color: $textColor;
         background-color: $backgroundColor;
+
+        @media (min-width: $bp-md) {
+            margin-top: $headerHeightLg;
+        }
     }
 }
 

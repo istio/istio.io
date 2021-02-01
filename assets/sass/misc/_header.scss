@@ -1,6 +1,7 @@
 .main-navigation {
-    background-color: #ffffff;
     position: fixed;
+    height: $headerHeight;
+    background-color: #ffffff;
     top: 0;
     right: 0;
     left: 0;
@@ -8,7 +9,7 @@
     padding: 1.25rem 0;
 
     @media (min-width: $bp-lg) {
-        height: auto;
+        height: $headerHeightLg;
         padding: 1.875rem 0;
     }
 
