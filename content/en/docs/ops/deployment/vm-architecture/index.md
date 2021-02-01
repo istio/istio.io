@@ -27,8 +27,7 @@ The following diagram shows the architecture of a mesh with virtual machines:
 In this mesh, there is a single [network](/docs/ops/deployment/deployment-models/#network-models), implying that pods and virtual machines can communicate directly with each other.
 
 Control plane traffic, including XDS configuration and certificate signing, are sent through a Gateway in the cluster.
-This ensures that the virtual machines have a stable address to connect to when they are bootstrapping. All other communication between pods and
-virtual machines are able to communicate directly.
+This ensures that the virtual machines have a stable address to connect to when they are bootstrapping. Pods and virtual machines can communicate directly with each other without requiring any intermediate Gateway.
 
 {{< image width="75%"
     link="single-network.svg"
