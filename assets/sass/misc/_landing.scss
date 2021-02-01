@@ -179,6 +179,15 @@
         }
     }
 
+    #use-cases {
+        .splide__track {
+            @media (min-width: 1160px) {
+                max-width: calc((3 * 330px) + (2 * 2.5rem));
+                margin: 0 auto;
+            }
+        }
+    }
+
     #case-studies {
         .quote-panel {
             margin-left: auto;
@@ -288,12 +297,6 @@
     }
 
     .splide {
-        &__track {
-            @media (min-width: 1160px) {
-                max-width: calc((3 * 330px) + (2 * 2.5rem));
-            }
-        }
-
         &__pagination {
             position: relative;
             display: block;
