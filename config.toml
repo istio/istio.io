@@ -126,10 +126,10 @@ disableAliases = true
       weight = 1
 
     [[menu.main]]
-      identifier = "use-cases"
-      name = "Use cases"
-      title = "Use cases"
-      url = "/about/use-cases"
+      identifier = "solutions"
+      name = "Solutions"
+      title = "Solutions"
+      url = "/about/solutions"
       parent = "about"
       weight = 2
 
@@ -142,10 +142,10 @@ disableAliases = true
       weight = 3
 
     [[menu.main]]
-      identifier = "partners"
-      name = "Partners"
-      title = "Partners"
-      url = "/about/partners"
+      identifier = "ecosystem"
+      name = "Ecosystem"
+      title = "Ecosystem"
+      url = "/about/ecosystem"
       parent = "about"
       weight = 4
 
