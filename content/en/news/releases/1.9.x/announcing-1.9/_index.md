@@ -25,7 +25,7 @@ We are pleased to announce the release of Istio 1.9.
 - **Added** Add pprof endpoint to pilot-agent.
   ([Issue #28040](https://github.com/istio/istio/issues/28040))
 
-- **Added**  `enableIstioConfigCRDs` to `base` to allow user specify whether the istio crds will be installed.  
+- **Added**  `enableIstioConfigCRDs` to `base` to allow user specify whether the istio crds will be installed. ([Pull Request #28346](https://github.com/istio/istio/pull/28346))
 
 - **Added** Allow enabling gRPC logging with --log_output_level for pilot.
   ([Issue #28482](https://github.com/istio/istio/issues/28482))
@@ -83,16 +83,16 @@ automatically verified for correctness.
 - **Added** support of PeerAuthentication per-port-level configuration on pass through filter chains.
   ([Issue #27994](https://github.com/istio/istio/issues/27994))
 
-- **Added** support for applications that bind to their pod IP address, rather than wildcard or localhost address, through the `Sidecar` API.
+- **Added** support for applications that bind to their pod IP address, rather than wildcard or localhost address, through the `Sidecar` API. ([Pull Request #28178](https://github.com/istio/istio/pull/28178))
 
 - **Added** Correctly iptables rules and listener filters setting to support original src ip preserve within a cluster.  ([Issue #23369](https://github.com/istio/istio/issues/23369))
 
-- **Added** flag to enable capture of dns traffic to the istio-iptables script.
+- **Added** flag to enable capture of dns traffic to the istio-iptables script. ([Pull Request #29908](https://github.com/istio/istio/pull/29908))
 
 - **Added** Reliable Wasm module remote load with istio-agent.
   ([Issue #29989](https://github.com/istio/istio/issues/29989))
 
-- **Added** canonical service tags to Envoy-generated trace spans.
+- **Added** canonical service tags to Envoy-generated trace spans. ([Pull Request #28801](https://github.com/istio/istio/pull/28801))
 
 - **Fixed** istiod will no longer generate listeners for privileged gateway ports (<1024) if the gateway Pod does not have sufficient permissions
   ([Issue #27566](https://github.com/istio/istio/issues/27566))
@@ -147,12 +147,12 @@ now cause endpoints to be updated on all proxies.
   ([Issue #29607](https://github.com/istio/istio/issues/29607))
 
 - **Improved** sidecar injection to automatically specify the `kubectl.kubernetes.io/default-logs-container`. This ensures `kubectl logs`
-defaults to reading the application container's logs, rather than requiring explicitly setting the container.
+defaults to reading the application container's logs, rather than requiring explicitly setting the container.  ([Issue #26764](https://github.com/istio/istio/issues/26764))
 
 - **Improved** the sidecar injector to better utilize pod labels to determine if injection is required. This is not enabled
-by default in this release, but can be tested using `--set values.sidecarInjectorWebhook.useLegacySelectors=false`.
+by default in this release, but can be tested using `--set values.sidecarInjectorWebhook.useLegacySelectors=false`. ([Pull Request #30013](https://github.com/istio/istio/pull/30013))
 
-- **Removed** support for reading Istio configuration over the Mesh Configuration Protocol (MCP).
+- **Removed** support for reading Istio configuration over the Mesh Configuration Protocol (MCP). ([Pull Request #28634](https://github.com/istio/istio/pull/28634))
 
 - **Removed** istioctl convert-ingress command
   ([Issue #29153](https://github.com/istio/istio/issues/29153))
@@ -169,11 +169,11 @@ by default in this release, but can be tested using `--set values.sidecarInjecto
 - **Updated** `istioctl proxy-config log` to allow filtering logs based on label.
   ([Issue #27490](https://github.com/istio/istio/issues/27490))
 
-- **Updated** prometheus metrics to include source_cluster and destination_cluster labels by default for all scenarios. Previously, this was only enabled for multi-cluster scenarios.
+- **Updated** prometheus metrics to include `source_cluster` and `destination_cluster` labels by default for all scenarios. Previously, this was only enabled for multi-cluster scenarios. ([Pull Request #30036](https://github.com/istio/istio/pull/30036))
 
-- **Updated** default access log to include `RESPONSE_CODE_DETAILS` and `CONNECTION_TERMINATION_DETAILS` for proxy version >= 1.9.
+- **Updated** default access log to include `RESPONSE_CODE_DETAILS` and `CONNECTION_TERMINATION_DETAILS` for proxy version >= 1.9. ([Pull Request #27903](https://github.com/istio/istio/pull/27903))
 
-- **Updated** Kiali addon to the latest version v1.29.
+- **Updated** Kiali addon to the latest version v1.29. ([Pull Request #30438](https://github.com/istio/istio/pull/30438))
 
 - **Updated** the default installation of gateways to not configure clusters for `AUTO_PASSTHROUGH`, reducing memory costs.
   ([Issue #27749](https://github.com/istio/istio/issues/27749))

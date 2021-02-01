@@ -18,7 +18,7 @@ weight: 10
 - **Fixed** an issue that caused very high memory usage with a large number of `ServiceEntries`.
   ([Issue #25531](https://github.com/istio/istio/issues/25531))
 
-- **Removed** support for reading Istio configuration over the Mesh Configuration Protocol (MCP).
+- **Removed** support for reading Istio configuration over the Mesh Configuration Protocol (MCP). ([Pull Request #28634](https://github.com/istio/istio/pull/28634))
 
 ## Security
 
@@ -35,33 +35,33 @@ weight: 10
 - **Added** Istio Grafana Dashboards Query Reporter Dropdown.
   ([Issue #27595](https://github.com/istio/istio/issues/27595))
 
-- **Added** canonical service tags to Envoy-generated trace spans.
+- **Added** canonical service tags to Envoy-generated trace spans. ([Pull Request #28801](https://github.com/istio/istio/pull/28801))
 
 - **Fixed** an issue to allow nested JSON structure in `meshConfig.accessLogFormat`.
   ([Issue #28597](https://github.com/istio/istio/issues/28597))
 
-- **Updated** prometheus metrics to include source_cluster and destination_cluster labels by default for all scenarios. Previously, this was only enabled for multi-cluster scenarios.
+- **Updated** prometheus metrics to include `source_cluster` and `destination_cluster` labels by default for all scenarios. Previously, this was only enabled for multi-cluster scenarios. ([Pull Request #30036](https://github.com/istio/istio/pull/30036))
 
-- **Updated** default access log to include `RESPONSE_CODE_DETAILS` and `CONNECTION_TERMINATION_DETAILS` for proxy version >= 1.9.
+- **Updated** default access log to include `RESPONSE_CODE_DETAILS` and `CONNECTION_TERMINATION_DETAILS` for proxy version >= 1.9. ([Pull Request #27903](https://github.com/istio/istio/pull/27903))
 
 ## Installation
 
 - **Added** post-install/in-place upgrade verification of control plane health. Use `--verify` flag with `istioctl install` or `istioctl upgrade`. ([Issue #21715](https://github.com/istio/istio/issues/21715))
 
-- **Added**  `enableIstioConfigCRDs` to `base` to allow user specify whether the istio crds will be installed.  
+- **Added**  `enableIstioConfigCRDs` to `base` to allow user specify whether the istio crds will be installed. ([Pull Request #28346](https://github.com/istio/istio/pull/28346))
 
 - **Added** Istio 1.9 supports Kubernetes versions 1.17 to 1.20.
   ([Issue #30176](https://github.com/istio/istio/issues/30176))
 
-- **Added** support for applications that bind to their pod IP address, rather than wildcard or localhost address, through the `Sidecar` API.
+- **Added** support for applications that bind to their pod IP address, rather than wildcard or localhost address, through the `Sidecar` API. ([Pull Request #28178](https://github.com/istio/istio/pull/28178))
 
 - **Fixed** revision is not applied to the scale target reference of `HorizontalPodAutoscaler` when helm values for `hpa` are specified explicitly.
   ([Issue #30203](https://github.com/istio/istio/issues/30203))
 
 - **Improved** the sidecar injector to better utilize pod labels to determine if injection is required. This is not enabled
-by default in this release, but can be tested using `--set values.sidecarInjectorWebhook.useLegacySelectors=false`.
+by default in this release, but can be tested using `--set values.sidecarInjectorWebhook.useLegacySelectors=false`. ([Pull Request #30013](https://github.com/istio/istio/pull/30013))
 
-- **Updated** Kiali addon to the latest version v1.29.
+- **Updated** Kiali addon to the latest version v1.29. ([Pull Request #30438](https://github.com/istio/istio/pull/30438))
 
 ## istioctl
 
