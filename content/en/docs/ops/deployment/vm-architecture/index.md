@@ -41,7 +41,7 @@ virtual machines are able to communicate directly.
 
 {{< tab name="Multi-Network" category-value="multiple" >}}
 
-In this mesh, there is are multiple [networks](/docs/ops/deployment/deployment-models/#network-models), meaning pods and virtual machines are not able to directly reach each other.
+In this mesh, there are multiple [networks](/docs/ops/deployment/deployment-models/#network-models), implying that pods and virtual machines are not able to communicate directly with each other.
 
 Control plane traffic, including XDS configuration and certificate signing, are sent through a Gateway in the cluster.
 Similarly, all communication between pods and virtual machines goes through the gateway, which acts as a bridge between the two networks.
@@ -59,15 +59,15 @@ Similarly, all communication between pods and virtual machines goes through the 
 
 ## Service association
 
-Istio introduces two new types to represent virtual machine workloads:
+Istio provides two mechanisms to represent virtual machine workloads:
 
-* [`WorkloadGroup`](/docs/reference/config/networking/workload-group/) represent a grouping of workloads that share common properties. This is comparable to a `Deployment` in Kubernetes
-* [`WorkloadEntry`](/docs/reference/config/networking/workload-entry/) represent a single instance of a workload. This is comparable to a `Pod` in Kubernetes.
+* [`WorkloadGroup`](/docs/reference/config/networking/workload-group/) represent a logical group of virtual machine workloads that share common properties. This is similar to a `Deployment` in Kubernetes.
+* [`WorkloadEntry`](/docs/reference/config/networking/workload-entry/) represent a single instance of a virtual machine workload. This is similar to a `Pod` in Kubernetes.
 
-Unlike their corresponding Kubernetes resources, creating these resources does not result in provisioning of any resources or running any applications.
+Creating these resources (WorkloadGroup and WorkloadEntry) does not result in provisioning of any resources or running any virtual machine workloads.
 Rather, these resources just reference these workloads and inform Istio how to configure the mesh appropriately.
 
-When adding a virtual machine workload to the mesh, you will need to create a `WorkloadGroup`, that acts as template for each instance:
+When adding a virtual machine workload to the mesh, you will need to create a `WorkloadGroup`, that acts as template for each `WorkloadEntry` instance:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -85,7 +85,7 @@ spec:
       port: 8080
 {{< /text >}}
 
-Once the virtual machine has been [configured and added to the mesh](/docs/setup/install/virtual-machine/#configure-the-virtual-machine), a corresponding `WorkloadEntry` will be automatically created.
+Once the virtual machine has been [configured and added to the mesh](/docs/setup/install/virtual-machine/#configure-the-virtual-machine), a corresponding `WorkloadEntry` will be automatically created by the Istio control plane.
 For example:
 
 {{< text yaml >}}
@@ -104,16 +104,14 @@ spec:
   serviceAccount: default
 {{< /text >}}
 
-These `WorkloadEntry` describe a single instance of a workload, similar to a pod. When the workload is removed from the mesh, the `WorkloadEntry` will
-be automatically removed, and its health status will be automatically updated based on the probe configured in the `WorkloadGroup`, if any.
+This `WorkloadEntry` resource describes a single instance of a workload, similar to a pod in Kubernetes. When the workload is removed from the mesh, the `WorkloadEntry` resource will
+be automatically removed.  Additionally, if any probes are configured in the `WorkloadGroup` resource, the Istio control plane automatically updates the health status of associated `WorkloadEntry` instances. 
 
-In order for consumers to actually call the workload, generally it's desired to join a part of a `Service`. This allows
-clients to reach a stable hostname, like `product.default.svc.cluster.local`, rather than an IP address that may change.
-Additionally, it allows Istio configuration such as `DestinationRule`s and `VirtualService`s to apply.
+In order for consumers to reliably call your workload, it's recommended to declare a `Service` association. This allows clients to reach a stable hostname, like `product.default.svc.cluster.local`, rather than ephemeral IP addresses. This also enables you to use advanced routing capabilities in Istio via `DestinationRule` and `VirtualService` APIs.
 
-Joining a `Service` works the same as with `Pod`s; the `Service`'s selector will match over the `WorkloadEntry` labels.
+Any Kubernetes service can transparently select workloads across pods and virtual machines via the selector fields which are matched with pod and `WorkloadEntry` labels respectively.
 
-For example, if we had a `Service` named `product` that was composed of a `Pod` and a `WorkloadEntry`:
+For example, for a `Service` named `product` that was composed of a `Pod` and a `WorkloadEntry`:
 
 {{< image width="30%"
     link="service-selector.svg"
@@ -124,10 +122,9 @@ With this configuration, requests to `product` would be sent to both the pod and
 
 ## DNS
 
-One Kubernetes, pods will automatically be configured with a DNS resolver that enables `Service` names.
-This enables pods to easily communicate with one another by simple, stable hostnames.
+Kubernetes provides DNS resolution in pods for `Service` names  allowing pods to easily communicate with one another by stable hostnames.
 
-Istio provides similar functionality to virtual machine workloads through its [DNS Proxy](/docs/ops/configuration/traffic-management/dns-proxy/).
-This feature redirects all DNS queries from the workload through the Istio proxy, which maintains a mapping of hostnames to IP addresses.
+For virtual machine expansion, Istio provides similar functionality via [DNS Proxy](/docs/ops/configuration/traffic-management/dns-proxy/).
+This feature redirects all DNS queries from the virtual machine workload to the Istio proxy, which maintains a mapping of hostnames to IP addresses.
 
 As a result, workloads running on virtual machines will be able to call `Service`s just like pods.
