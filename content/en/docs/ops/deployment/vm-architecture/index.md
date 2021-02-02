@@ -63,7 +63,7 @@ Istio provides two mechanisms to represent virtual machine workloads:
 * [`WorkloadGroup`](/docs/reference/config/networking/workload-group/) represent a logical group of virtual machine workloads that share common properties. This is similar to a `Deployment` in Kubernetes.
 * [`WorkloadEntry`](/docs/reference/config/networking/workload-entry/) represent a single instance of a virtual machine workload. This is similar to a `Pod` in Kubernetes.
 
-Creating these resources (WorkloadGroup and WorkloadEntry) does not result in provisioning of any resources or running any virtual machine workloads.
+Creating these resources (`WorkloadGroup` and `WorkloadEntry`) does not result in provisioning of any resources or running any virtual machine workloads.
 Rather, these resources just reference these workloads and inform Istio how to configure the mesh appropriately.
 
 When adding a virtual machine workload to the mesh, you will need to create a `WorkloadGroup`, that acts as template for each `WorkloadEntry` instance:
@@ -104,7 +104,7 @@ spec:
 {{< /text >}}
 
 This `WorkloadEntry` resource describes a single instance of a workload, similar to a pod in Kubernetes. When the workload is removed from the mesh, the `WorkloadEntry` resource will
-be automatically removed.  Additionally, if any probes are configured in the `WorkloadGroup` resource, the Istio control plane automatically updates the health status of associated `WorkloadEntry` instances. 
+be automatically removed.  Additionally, if any probes are configured in the `WorkloadGroup` resource, the Istio control plane automatically updates the health status of associated `WorkloadEntry` instances.
 
 In order for consumers to reliably call your workload, it's recommended to declare a `Service` association. This allows clients to reach a stable hostname, like `product.default.svc.cluster.local`, rather than ephemeral IP addresses. This also enables you to use advanced routing capabilities in Istio via `DestinationRule` and `VirtualService` APIs.
 
