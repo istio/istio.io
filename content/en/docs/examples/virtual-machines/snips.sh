@@ -17,7 +17,7 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          docs/examples/virtual-machines/bookinfo/index.md
+#          docs/examples/virtual-machines/index.md
 ####################################################################################################
 
 snip_running_mysql_on_the_vm_1() {

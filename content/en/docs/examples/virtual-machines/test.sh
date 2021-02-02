@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC2034
+# shellcheck disable=SC2034,SC2155,SC2154
 
 # Copyright Istio Authors
 #
@@ -20,17 +20,17 @@ set -u
 set -o pipefail
 set -x
 
-VM_APP="mysqldb"
-VM_NAMESPACE="vm"
-WORK_DIR="$(mktemp -d)"
-SERVICE_ACCOUNT="default"
-CLUSTER_NETWORK=""
-VM_NETWORK=""
-CLUSTER="Kubernetes"
+export VM_APP="mysqldb"
+export VM_NAMESPACE="vm"
+export WORK_DIR="$(mktemp -d)"
+export SERVICE_ACCOUNT="default"
+export CLUSTER_NETWORK=""
+export VM_NETWORK=""
+export CLUSTER="Kubernetes"
 
 source "tests/util/samples.sh"
-source "public/docs/setup/install/virtual-machine/snips.sh"
-source "public/docs/setup/install/virtual-machine/common.sh"
+source "content/en/docs/setup/install/virtual-machine/snips.sh"
+source "content/en/docs/setup/install/virtual-machine/common.sh"
 
 # @setup profile=none
 
