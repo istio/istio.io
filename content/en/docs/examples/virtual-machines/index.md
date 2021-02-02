@@ -35,7 +35,7 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 - Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
 
 - Create a VM and add it to the `vm` namespace, following the steps in
-  [Configure the virtual machine](/setup/install/virtual-machine/#configure-the-virtual-machine).
+  [Configure the virtual machine](/docs/setup/install/virtual-machine/#configure-the-virtual-machine).
 
 ## Running MySQL on the VM
 
