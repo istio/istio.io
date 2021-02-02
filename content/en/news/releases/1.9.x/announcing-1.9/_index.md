@@ -42,7 +42,7 @@ We are pleased to announce the release of Istio 1.9.
 - **Added** the severity level for each analysis message in the `validationMessages` field within the `status` field.  ([Issue #29445](https://github.com/istio/istio/issues/29445))
 
 - **Added** `WorkloadEntry` resources will be read from all clusters in multi-cluster installations and do not need to be duplicated.
-Makes Virtual Machine auto-registration compatible with multi-primary multi-cluster. This feature is diabled by default and can be
+Makes Virtual Machine auto-registration compatible with multi-primary multi-cluster. This feature is disabled by default and can be
 enaled by setting the `PILOT_ENABLE_CROSS_CLUSTER_WORKLOAD_ENTRY` environment variable in istiod.
   ([Issue #29026](https://github.com/istio/istio/issues/29026))
 
@@ -75,7 +75,7 @@ and, for control plane canaries, show all Istio injectors and the namespaces the
 formal traffic management task. The new docs describe in more detail
 how locality load balancing works as well as how to configure both
 failover and weighted distribution. In addition, the new docs are now
-automatically verified for correctness.
+automatically verified for correctness. ([Pull Request #29651](https://github.com/istio/istio/pull/29651))
 
 - **Added** Istio 1.9 supports Kubernetes versions 1.17 to 1.20.
   ([Issue #30176](https://github.com/istio/istio/issues/30176))
