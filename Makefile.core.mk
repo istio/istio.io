@@ -34,10 +34,10 @@ ISTIO_SHA ?= $(shell < ${ISTIOIO_GO}/go.mod grep 'istio.io/istio v' | cut -d'-' 
 export ISTIO_SHA
 
 # If one needs to test before a docker.io build is available (using a public test build),
- # the HUB and TAG can be commented out, and the prior one un-commented
-# HUB ?= gcr.io/istio-testing
-export HUB := docker.io/istio
-export TAG ?= 1.7.3
+# the HUB and TAG can be commented out, and the prior one un-commented
+HUB ?= gcr.io/istio-testing
+# export HUB := docker.io/istio
+# export TAG ?= 1.7.3
 
 ifeq ($(HUB),)
   $(error "HUB cannot be empty")
