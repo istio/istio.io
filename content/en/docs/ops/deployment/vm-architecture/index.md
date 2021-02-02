@@ -117,7 +117,7 @@ For example, for a `Service` named `product` that was composed of a `Pod` and a 
     title="Service Selection"
     >}}
 
-With this configuration, requests to `product` would be sent to both the pod and virtual machine workload.
+With this configuration, requests to `product` would be load-balanced across both the pod and virtual machine workload instances.
 
 ## DNS
 
