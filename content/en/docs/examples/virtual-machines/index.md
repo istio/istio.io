@@ -9,6 +9,7 @@ keywords:
 aliases:
 - /docs/examples/integrating-vms/
 - /docs/examples/mesh-expansion/bookinfo-expanded
+- /docs/examples/virtual-machines/bookinfo/
 - /docs/examples/vm-bookinfo
 owner: istio/wg-environments-maintainers
 test: yes
