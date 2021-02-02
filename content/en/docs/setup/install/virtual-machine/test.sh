@@ -34,8 +34,8 @@ export CLUSTER="Kubernetes"
 # @setup profile=none
 
 setup_cluster_for_vms
-
 setup_vm
+start_vm
 
 snip_verify_istio_works_successfully_2 || true
 snip_verify_istio_works_successfully_3

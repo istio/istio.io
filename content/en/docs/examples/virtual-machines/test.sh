@@ -32,30 +32,31 @@ source "tests/util/samples.sh"
 source "content/en/docs/setup/install/virtual-machine/snips.sh"
 source "content/en/docs/setup/install/virtual-machine/common.sh"
 
-# @setup profile=none
-
-setup_cluster_for_vms
-EXTRA_VM_ARGS="-v ${PWD}/content/en/docs/examples/virtual-machines/bookinfo:/bookinfo" setup_vm
-
 function run_in_vm() {
   script="${1:?script}"
-  docker exec --privileged vm bash -c "source /bookinfo/snips.sh;
+  docker exec --privileged vm bash -c "set -x; source /examples/snips.sh;
   ${script}
 "
 }
 
 function run_in_vm_interactive() {
   script="${1:?script}"
-  docker exec -t --privileged vm bash -c "source /bookinfo/snips.sh;
+  docker exec -t --privileged vm bash -c "set -x ;source /examples/snips.sh;
   ${script}
 "
 }
 
-# Wait for istio to be ready
+# @setup profile=none
+
+setup_cluster_for_vms
+EXTRA_VM_ARGS="-v ${PWD}/content/en/docs/examples/virtual-machines:/examples" setup_vm
+start_vm
+echo "VM STARTED"
 run_in_vm "while ! curl localhost:15021/healthz/ready -s; do sleep 1; done"
-# Install mysql
-run_in_vm snip_running_mysql_on_the_vm_1
+run_in_vm "while ! curl archive.ubuntu.com -s; do sleep 1; done"
+
 run_in_vm "
+ snip_running_mysql_on_the_vm_1
  mkdir -p /var/lib/mysql /var/run/mysqld
  chown -R mysql:mysql /var/lib/mysql /var/run/mysqld;
  chmod 777 /var/run/mysqld
@@ -64,8 +65,7 @@ run_in_vm "
 # We do not have systemd, need to start mysql manually
 docker exec --privileged -d vm mysqld --skip-grant-tables
 # Wait for mysql to be ready
-run_in_vm "while ! sudo mysql 2> /dev/null; do echo retrying mysql...; sleep 1; done"
-
+run_in_vm "while ! sudo mysql 2> /dev/null; do echo retrying mysql...; sleep 5; done"
 
 run_in_vm snip_running_mysql_on_the_vm_3
 

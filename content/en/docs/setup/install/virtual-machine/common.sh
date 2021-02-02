@@ -45,7 +45,7 @@ function setup_vm() {
   # shellcheck disable=SC2086
   docker run --rm -it --init -d --network=kind --name vm \
     -v "${WORK_DIR}:/root" -v "${PWD}/content/en/docs/setup/install/virtual-machine:/test" \
-    ${EXTRA_VM_ARGS} \
+    ${EXTRA_VM_ARGS:-} \
     -w "/root" \
     gcr.io/istio-release/base:1.9-dev.2
 
@@ -56,17 +56,29 @@ function setup_vm() {
   docker exec --privileged vm bash -c "
     # Setup connectivity
     ip route add ${POD_CIDR} via ${DOCKER_IP}
+    # Docker sets up a bunch of rules for DNS which messes with things. Just remove all of them
+    sudo iptables -P INPUT ACCEPT
+    sudo iptables -P FORWARD ACCEPT
+    sudo iptables -P OUTPUT ACCEPT
+    sudo iptables -t nat -F
+    sudo iptables -t mangle -F
+    sudo iptables -F
+    sudo iptables -X
+    echo nameserver 8.8.8.8 | sudo tee /etc/resolv.conf
     source /test/snips.sh
     snip_configure_the_virtual_machine_1
     snip_configure_the_virtual_machine_2
     # TODO: we should probably have a better way to get the debian package
-    curl -LO https://storage.googleapis.com/istio-build/dev/1.10-alpha.e0558027c9915da4d966bad51a649abfa1bc17b6/deb/istio-sidecar.deb
+    curl -LO https://storage.googleapis.com/istio-build/dev/1.9-alpha.cdae086ca8cae8be174c8feee509841f89792e43/deb/istio-sidecar.deb
     sudo dpkg -i istio-sidecar.deb
     snip_configure_the_virtual_machine_5
     snip_configure_the_virtual_machine_6
     snip_configure_the_virtual_machine_7
     snip_configure_the_virtual_machine_8
   "
+}
+
+function start_vm() {
   # We cannot use systemd inside docker (since its a pain). Just run it directly.
-  docker exec --privileged -w / -d vm /usr/local/bin/istio-start.sh
+  docker exec --privileged -w / -e ISTIO_AGENT_FLAGS="--log_output_level=dns:debug" -d vm /usr/local/bin/istio-start.sh
 }
