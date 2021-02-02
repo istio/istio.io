@@ -92,6 +92,6 @@ check_call() {
 _verify_contains check_call "Hello version:"
 
 # @cleanup
-docker stop vm
-snip_uninstall_4
-kubectl delete namespace istio-system vm-namespace sample
+#docker stop vm
+#snip_uninstall_4
+#kubectl delete namespace istio-system vm-namespace sample

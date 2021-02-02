@@ -37,12 +37,12 @@ startup_sleep_sample() {
     kubectl delete pods -l app=sleep --force
     set -e
 
-    kubectl apply -f samples/sleep/sleep.yaml
+    kubectl apply -f samples/sleep/sleep.yaml -n default
     _wait_for_deployment default sleep
 }
 
 cleanup_sleep_sample() {
-    kubectl delete -f samples/sleep/sleep.yaml || true
+    kubectl delete -f samples/sleep/sleep.yaml -n default || true
 }
 
 startup_httpbin_sample() {
