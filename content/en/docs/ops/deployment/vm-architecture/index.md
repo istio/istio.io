@@ -1,7 +1,7 @@
 ---
 title: Virtual Machine Architecture
 description: Describes Istio's high-level architecture for virtual machines.
-weight: 20
+weight: 25
 keywords:
 - virtual-machine
 test: n/a
@@ -12,7 +12,7 @@ Before reading this document, be sure to review [Istio's architecture](/docs/ops
 This page builds on these pages to explain how Istio can be extended to support joining virtual machines into the mesh.
 
 Istio's virtual machine expansion allows connecting workloads outside of a Kubernetes cluster to the mesh.
-This enables legacy applications, or applications not suitable to run in a containerized environment, to get all the same benefits that Istio provides to applications running inside Kubernetes.
+This enables legacy applications, or applications not suitable to run in a containerized environment, to get all the benefits that Istio provides to applications running inside Kubernetes.
 
 Many of the features the Kubernetes automatically provides applications are supplemented by Istio.
 This includes service discovery, DNS resolution, and health checks.
@@ -60,8 +60,8 @@ Similarly, all communication between pods and virtual machines goes through the 
 
 Istio provides two mechanisms to represent virtual machine workloads:
 
-* [`WorkloadGroup`](/docs/reference/config/networking/workload-group/) represent a logical group of virtual machine workloads that share common properties. This is similar to a `Deployment` in Kubernetes.
-* [`WorkloadEntry`](/docs/reference/config/networking/workload-entry/) represent a single instance of a virtual machine workload. This is similar to a `Pod` in Kubernetes.
+* [`WorkloadGroup`](/docs/reference/config/networking/workload-group/) represents a logical group of virtual machine workloads that share common properties. This is similar to a `Deployment` in Kubernetes.
+* [`WorkloadEntry`](/docs/reference/config/networking/workload-entry/) represents a single instance of a virtual machine workload. This is similar to a `Pod` in Kubernetes.
 
 Creating these resources (`WorkloadGroup` and `WorkloadEntry`) does not result in provisioning of any resources or running any virtual machine workloads.
 Rather, these resources just reference these workloads and inform Istio how to configure the mesh appropriately.
@@ -110,7 +110,7 @@ In order for consumers to reliably call your workload, it's recommended to decla
 
 Any Kubernetes service can transparently select workloads across pods and virtual machines via the selector fields which are matched with pod and `WorkloadEntry` labels respectively.
 
-For example, for a `Service` named `product` that was composed of a `Pod` and a `WorkloadEntry`:
+For example, a `Service` named `product` is composed of a `Pod` and a `WorkloadEntry`:
 
 {{< image width="30%"
     link="service-selector.svg"
@@ -121,7 +121,7 @@ With this configuration, requests to `product` would be load-balanced across bot
 
 ## DNS
 
-Kubernetes provides DNS resolution in pods for `Service` names  allowing pods to easily communicate with one another by stable hostnames.
+Kubernetes provides DNS resolution in pods for `Service` names allowing pods to easily communicate with one another by stable hostnames.
 
 For virtual machine expansion, Istio provides similar functionality via [DNS Proxy](/docs/ops/configuration/traffic-management/dns-proxy/).
 This feature redirects all DNS queries from the virtual machine workload to the Istio proxy, which maintains a mapping of hostnames to IP addresses.
