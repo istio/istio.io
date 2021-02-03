@@ -52,7 +52,7 @@ needs migration, compare the findings with the major differences listed below an
 | mTLS | `MeshPolicy` and `Policy` | `PeerAuthentication` |
 | JWT | `MeshPolicy` and `Policy` | `RequestAuthentication` |
 | Authorization | `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding` | `AuthorizationPolicy` |
-| Policy target | service name based | workload label selector based |
+| Policy target | service name based | workload selector based |
 | Port number | service ports | workload ports |
 
 Although `RequestAuthentication` in `v1beta1` security policy is similar to `v1alpha1` JWT policy, there is a notable
@@ -81,13 +81,13 @@ could include:
 - multiple namespace level `ServiceRole` and `ServiceRoleBinding` that applies to all services in the namespace;
 - multiple namespace level `ServiceRole` and `ServiceRoleBinding` that applies to the selected services in the namespace;
 
-### Step 2: Convert service name to label selector
+### Step 2: Convert service name to workload selector
 
 The `v1alpha1` policy selects target using service name, you should refer to the corresponding service definition to decide
-the label selector that should be used in the `v1beta1` policy.
+the workload selector that should be used in the `v1beta1` policy.
 
 A single `v1alpha1` policy may include multiple services, this means it could be migrated to multiple `v1beta1` policies
-because the `v1beta1` policy currently only supports at most one label selector per policy.
+because the `v1beta1` policy currently only supports at most one workload selector per policy.
 
 Also note the `v1alpha1` uses service port but the `v1beta1` uses the workload port, this means the port number might be
 different in the migrated `v1beta1` policy.
@@ -97,11 +97,11 @@ different in the migrated `v1beta1` policy.
 For each `v1alpha1` authentication policy, migrate with the following rules:
 
 1. If the whole namespace is enabled with mTLS or JWT, create the `PeerAuthentication`, `RequestAuthentication` and
-   `AuthorizationPolicy` without label selector for the whole namespace. Fill out the policy based on the
+   `AuthorizationPolicy` without workload selector for the whole namespace. Fill out the policy based on the
    semantics of the corresponding `MeshPolicy` or `Policy` for the namespace;
 
 1. If a workload is enabled with mTLS or JWT, create the `PeerAuthentication`, `RequestAuthentication` and
-   `AuthorizationPolicy` with corresponding label selector for the workload. Fill out the policy based on the
+   `AuthorizationPolicy` with corresponding workload selector for the workload. Fill out the policy based on the
    semantics of the corresponding `MeshPolicy` or `Policy` for the workload;
 
 1. For mTLS related configuration, use `STRICT` mode if the alpha policy is using `STRICT`, use `PERMISSIVE` in all other cases;
@@ -113,10 +113,10 @@ For each `v1alpha1` authentication policy, migrate with the following rules:
 
 For each `v1alpha1` RBAC policy, migrate with the following rules:
 
-1. If the whole namespace is enabled with RBAC, create an `AuthorizationPolicy` without label selector for the whole
+1. If the whole namespace is enabled with RBAC, create an `AuthorizationPolicy` without workload selector for the whole
    namespace. Add an empty rule so that it will deny all requests to the namespace by default;
 
-1. If a workload is enabled with RBAC, create an `AuthorizationPolicy` with corresponding label selector for the workload,
+1. If a workload is enabled with RBAC, create an `AuthorizationPolicy` with corresponding workload selector for the workload,
    Add rules based on the semantics of the corresponding `ServiceRole` and `ServiceRoleBinding` for the workload;
 
 ### Step 5: Verify migrated policy
@@ -227,7 +227,7 @@ spec:
     app: httpbin
 {{< /text >}}
 
-This means the service name `httpbin` should be replaced by the label selector `app: httpbin`, and the service port 8000
+This means the service name `httpbin` should be replaced by the workload selector `app: httpbin`, and the service port 8000
 should be replaced by the workload port 80.
 
 ### `v1beta1` authentication policy
