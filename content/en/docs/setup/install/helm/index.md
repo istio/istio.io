@@ -17,6 +17,12 @@ installing Istio via [Istioctl](/docs/setup/install/istioctl/) or the
 
 This feature is currently considered [alpha](/about/feature-stages/).
 
+{{< warning >}}
+Prior to Istio 1.9.0 installation using the Helm charts required the arguments
+`--set global.hub="docker.io/istio"` and `--set global.tag="1.9.0"`. As of Istio
+1.9.0 this is no longer required, but is for older version.
+{{< /warning >}}
+
 ## Prerequisites
 
 1. [Download the Istio release](/docs/setup/getting-started/#download).
@@ -68,8 +74,6 @@ to the missing `istio-token` volume.
 
     {{< text bash >}}
     $ helm install istiod manifests/charts/istio-control/istio-discovery \
-        --set global.hub="docker.io/istio" \
-        --set global.tag="{{< istio_full_version >}}" \
         -n istio-system
     {{< /text >}}
 
@@ -78,8 +82,6 @@ to the missing `istio-token` volume.
 
     {{< text bash >}}
     $ helm install istio-ingress manifests/charts/gateways/istio-ingress \
-        --set global.hub="docker.io/istio" \
-        --set global.tag="{{< istio_full_version >}}" \
         -n istio-system
     {{< /text >}}
 
@@ -88,8 +90,6 @@ to the missing `istio-token` volume.
 
     {{< text bash >}}
     $ helm install istio-egress manifests/charts/gateways/istio-egress \
-        --set global.hub="docker.io/istio" \
-        --set global.tag="{{< istio_full_version >}}" \
         -n istio-system
     {{< /text >}}
 
@@ -175,8 +175,6 @@ gateways is [actively in development](/docs/setup/upgrade/gateways/) and is cons
     {{< text bash >}}
     $ helm install istiod-canary manifests/charts/istio-control/istio-discovery \
         --set revision=canary \
-        --set global.hub="docker.io/istio" \
-        --set global.tag=<version_to_upgrade> \
         -n istio-system
     {{< /text >}}
 
@@ -221,8 +219,6 @@ preserve your custom configuration during Helm upgrades.
 
     {{< text bash >}}
     $ helm upgrade istiod manifests/charts/istio-control/istio-discovery \
-        --set global.hub="docker.io/istio" \
-        --set global.tag=<version_to_upgrade> \
         -n istio-system
     {{< /text >}}
 
@@ -231,12 +227,8 @@ preserve your custom configuration during Helm upgrades.
 
     {{< text bash >}}
     $ helm upgrade istio-ingress manifests/charts/gateways/istio-ingress \
-        --set global.hub="docker.io/istio" \
-        --set global.tag=<version_to_upgrade>\
         -n istio-system
     $ helm upgrade istio-egress manifests/charts/gateways/istio-egress \
-        --set global.hub="docker.io/istio" \
-        --set global.tag=<version_to_upgrade> \
         -n istio-system
     {{< /text >}}
 
