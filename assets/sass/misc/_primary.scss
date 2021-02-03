@@ -1,19 +1,17 @@
 .primary {
     display: grid;
     grid-template-columns: [article] 100%;
-    grid-column-gap: 1rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
+    grid-column-gap: 2.5rem;
+
+    @media screen AND (min-width: $bp-md) {
+        &.has-sidebar {
+            grid-template-columns: [sidebar] 30% [article] calc(70% - 2.5rem);
+        }
+    }
 
     @media print {
         padding-left: 0;
         padding-right: 0;
-    }
-
-    @media screen AND (min-width: $bp-md) {
-        grid-template-columns: [sidebar] 20% [article] calc(80% - 1rem);
-        padding-left: 1rem;
-        padding-right: 1rem;
     }
 
     .sidebar-container {
@@ -29,16 +27,20 @@
     }
 
     @media screen AND (min-width: $bp-xl) {
-        grid-template-columns: [sidebar] 16% [article] calc(68% - 2rem) [toc] 16%;
+        &.has-toc {
+            grid-template-columns: [article] calc(80% - 2.5rem) [toc] 20%;
+        }
 
+        &.has-sidebar {
+            grid-template-columns: [sidebar] 20% [article] calc(80% - 2.5rem);
+        }
+
+        &.has-toc.has-sidebar {
+            grid-template-columns: [sidebar] 16% [article] calc(68% - (2 * 2.5rem)) [toc] 16%;
+        }
+        
         .toc-container {
             display: block;
-        }
-    }
-
-    &.notoc {
-        @media screen AND (min-width: $bp-xl) {
-            grid-template-columns: [sidebar] 16% [article] calc(84% - 1rem);
         }
     }
 

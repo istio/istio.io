@@ -15,7 +15,7 @@ html {
     --linkDisabledColor: #cccccc;
     --linkActiveColor: #b05464;
 
-    --h1Color: #{$near-black};
+    --h1Color: var(--textColor);
     --h2Color: var(--textColor);
     --h3Color: var(--textColor);
     --h4Color: #{$dark-gray};
@@ -107,9 +107,9 @@ html {
 
     --textWeight: 400;
     --linkWeight: 400;
-    --h1Weight: 400;
+    --h1Weight: var(--boldWeight);
     --h2Weight: var(--boldWeight);
-    --h3Weight: var(--boldWeight);
+    --h3Weight: var(--mediumWeight);
     --h4Weight: 500;
     --h5Weight: 500;
     --h6Weight: 500;

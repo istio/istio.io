@@ -1,0 +1,29 @@
+{{ $class := .Get "class" }}
+
+<div class="feature-block{{ if $class}} {{$class}}{{end}}">
+    {{ with .Get "image"}}
+        <div class="feature-block-image">
+            {{ partial "inline_image.html" . }}
+        </div>
+    {{ end }}
+
+    <div>
+        {{ with .Get "header"}}
+            <h2 class="feature-block-header">{{.}}</h2>
+        {{ end }}
+
+        <div class="feature-block-text">
+            {{ if in (string .Inner) "\n\n" }}
+                {{ .Inner | markdownify }}
+            {{ else }}
+                <p>{{ .Inner | markdownify }}</p>
+            {{ end }}
+    
+            {{ with .Get "url" }}
+                <div class="feature-block-text-btn">
+                    <a href="{{.}}" class="btn">Learn more</a>
+                </div>
+            {{ end }}
+        </div>
+    </div>
+</div>

@@ -9,7 +9,9 @@
     font-size: 1.125rem;
     line-height: 1.2;
     border-radius: $button-border-radius;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out;
+    transition: color .15s ease-in-out,
+                background-color .15s ease-in-out,
+                border-color .15s ease-in-out;
     background-color: transparent;
     color: #3d5080;
     font-weight: $buttonWeight;
@@ -18,22 +20,26 @@
 
     &:hover {
         background-color: $secondaryColor;
-        color: #ffffff;
-        text-decoration: none;
     }
 
     &:active {
         background-color: $secondaryColor;
-        color: #ffffff;;
     }
 
+    &:hover,
+    &:active,
     &:focus {
         color: #ffffff;
+        text-decoration: none;
     }
 
     &--primary {
         background-color: $accentColor;
         border-color: $accentColor;
         color: $primaryColor;
+
+        &:hover {
+            border-color: $accentColor;
+        }
     }
 }

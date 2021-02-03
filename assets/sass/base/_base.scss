@@ -197,23 +197,29 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-    font-size: $font-size--xxxl;
+    font-size: $font-size--xxl;
     color: $h1Color;
     font-weight: $h1Weight;
-    margin-bottom: 0;
+    margin-bottom: 2.5rem;
+    margin-top: 4rem;
+
+    @media (min-width: $bp-md) {
+        font-size: $font-size--xxxl;
+        margin-bottom: 3.5rem;
+        margin-top: 5.25rem;
+    }
 }
 
 h2 {
-    font-size: $font-size--xxl;
+    font-size: $font-size--l;
     color: $h2Color;
     font-weight: $h2Weight;
     margin-top: 4rem;
     margin-bottom: 2.5rem;
 
     @media (min-width: $bp-md) {
-        font-size: $font-size--xxxl;
-        margin-top: 5.25rem;
-        margin-bottom: 3.5rem;
+        margin-top: 4.375rem;
+        font-size: $font-size--xxl;
     }
 }
 
@@ -354,19 +360,15 @@ sup {
     margin-right: .3em;
 }
 
-.title-icon {
-    margin-right: .3em;
-
-    .icon {
-        width: 2rem;
-        height: 2rem;
-    }
-}
-
 .title-area {
     display: flex;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2.625rem;
+    margin-bottom: 6.25rem;
     align-items: center;
+
+    h1 { margin-top: 1.775rem; }
+
+    .subtitle { margin-bottom: 0; }
 }
 
 .flipped {
@@ -374,10 +376,21 @@ sup {
 }
 
 .subtitle {
-    margin-top: .15rem;
-    margin-bottom: 0;
-    padding: 0;
-    font-size: 125%;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 650px;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+    font-weight: $mediumWeight;
+
+    & + .subtitle { margin-top: -2rem; }
+
+    @media (min-width: $bp-md) {
+        margin-bottom: 3.75rem;
+        font-size: $font-size--l !important;
+
+        & + .subtitle { margin-top: -3.75rem; }
+    }
 }
 
 .byline {
@@ -417,5 +430,28 @@ sup {
 
     @media (min-width: $bp-md) {
         margin-top: 3.125rem;
+    }
+}
+
+.splide.istio-splide {
+    .splide__pagination {
+        position: relative;
+        display: block;
+        text-align: center;
+        width: 100%;
+        margin-top: 1.5rem;
+        bottom: unset;
+
+        &__page {
+            height: 18px;
+            width: 18px;
+            background: #ffffff;
+            border: 2px solid $accentColor;
+
+            &.is-active {
+                background: $accentColor;
+                transform: none;
+            }
+        }
     }
 }
