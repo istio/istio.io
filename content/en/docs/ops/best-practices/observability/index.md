@@ -13,14 +13,10 @@ The recommended approach for production-scale monitoring of Istio meshes with Pr
 is to use [hierarchical federation](https://prometheus.io/docs/prometheus/latest/federation/#hierarchical-federation)
 in combination with a collection of [recording rules](https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/).
 
-In default deployments of Istio, a deployment of [Prometheus](http://prometheus.io) is
-provided for collecting metrics generated for all mesh traffic. This deployment of
-Prometheus is intentionally deployed with a very short retention window (6 hours). The
-default Prometheus deployment is also configured to collect metrics from each Envoy proxy
-running in the mesh, augmenting each metric with a set of labels about their origin (`instance`,
-`pod`, and `namespace`).
+Istio no longer ships with Prometheus in its default profile. To enable Prometheus please see
+the [Prometheus integration](../../ops/integrations/prometheus/) addon documentation.
 
-While the default configuration is well-suited for small clusters and monitoring for short time horizons,
+While the `Quick Start` installation is well-suited for small clusters and monitoring for short time horizons,
 it is not suitable for large-scale meshes or monitoring over a period of days or weeks. In particular,
 the introduced labels can increase metrics cardinality, requiring a large amount of storage. And, when trying
 to identify trends and differences in traffic over time, access to historical data can be paramount.
