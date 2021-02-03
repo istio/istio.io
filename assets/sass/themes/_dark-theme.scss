@@ -107,7 +107,7 @@
 
     --textWeight: 300;
     --linkWeight: 300;
-    --h1Weight: 400;
+    --h1Weight: var(--boldWeight);
     --h2Weight: var(--boldWeight);
     --h3Weight: var(--boldWeight);
     --h4Weight: 500;

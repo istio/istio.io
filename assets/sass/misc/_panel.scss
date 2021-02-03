@@ -1,0 +1,112 @@
+.panels {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: -2.5rem;
+}
+
+.panel {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    min-height: 320px;
+    color: $landingPanelTextColor;
+    background-color: $secondaryColor;
+    text-align: center;
+    margin: $panel-margin-top 0 0;
+    padding: 2.25rem;
+    text-decoration: none !important;
+
+    @media (min-width: $bp-sm) {
+        margin: $panel-margin-top 1.25rem 0;
+    }
+
+    .panel-title {
+        color: $landingPanelTitleColor;
+        font-size: 1.75rem;
+        font-weight: $semiBoldWeight;
+    }
+
+    .panel-text {
+        color: $landingPanelTextColor;
+        font-size: 1.125rem;
+        margin: 1.125rem 0 0;
+        flex: 1;
+        font-weight: $mediumWeight;
+    }
+
+    .panel-img-top {
+        text-align: center;
+        padding: 0;
+        margin-bottom: 2rem;
+
+        svg {
+            height: 72px;
+            fill: $accentColor;
+        }
+    }
+
+    .panel-body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .panel-btn {
+        margin-top: 1.5rem;
+        align-self: center;
+
+        &:hover {
+            border-color: $accentColor;
+        }
+    }
+
+    &--dark {
+        background: $secondaryAccentColor;
+        
+        .panel-title { color: $accentColor; }
+
+        .btn {
+            border-color: #7dc5f2;
+            color: #7dc5f2;
+
+            &:hover {
+                background-color: #7dc5f2;
+                color: $secondaryAccentColor;
+            }
+        }
+    }
+
+    &--transparent {
+        background-color: unset;
+        padding: 0;
+        min-height: auto;
+        
+        .panel-title,
+        .panel-text {
+            color: $primaryColor;
+        }
+
+        @media (max-width: $bp-sm) {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+
+    &--carousel {
+        margin: 0 auto;
+        height: 100%;
+        
+        .panel-title { flex-grow: 1; }
+    }
+}
+
+.solutions {
+    .splide__track {
+        @media (min-width: 1160px) {
+            max-width: calc((3 * 330px) + (2 * 2.5rem));
+            margin: 0 auto;
+        }
+    }
+}

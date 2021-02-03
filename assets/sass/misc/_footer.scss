@@ -10,6 +10,10 @@
     padding-bottom: 2.25rem;
     z-index: $footer-z;
 
+    @media (min-width: $bp-lg) {
+        margin-top: 7rem; 
+    }
+
     &-wrapper {
         display: block;
 
