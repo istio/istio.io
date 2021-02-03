@@ -34,7 +34,7 @@
         color: $textColor;
         background-color: $backgroundColor;
 
-        @media (min-width: $bp-md) {
+        @media (min-width: $bp-lg) {
             margin-top: $headerHeightLg;
         }
     }
@@ -363,8 +363,11 @@ sup {
 .title-area {
     display: flex;
     margin-bottom: 2.625rem;
-    margin-bottom: 6.25rem;
     align-items: center;
+
+    @media (min-width: $bp-lg) {
+        margin-bottom: 6.25rem;
+    }
 
     h1 { margin-top: 1.775rem; }
 

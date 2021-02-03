@@ -42,8 +42,9 @@
             height: 320px;
             width: 100%;
             max-width: 320px;
-            border: 2px dotted $accentColor;
+            border: 4px dotted $accentColor;
             margin: 0 auto 2.5rem;
+            padding: 2.25rem;
 
             @media (min-width: $bp-lg) {
                 margin: 0 2.625rem 0 0;
@@ -51,6 +52,7 @@
 
             svg {
                 height: 110px;
+                fill: $accentColor;
             }
         }
 
@@ -71,7 +73,7 @@
                 border-color: $secondaryColor;
 
                 svg {
-                    height: 50px;
+                    height: 70px;
                     fill: $secondaryColor;
                 }
             }
