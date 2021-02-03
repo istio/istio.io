@@ -14,7 +14,7 @@ is to use [hierarchical federation](https://prometheus.io/docs/prometheus/latest
 in combination with a collection of [recording rules](https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/).
 
 Istio no longer ships with Prometheus in its default profile. To enable Prometheus please see
-the [Prometheus integration](../../ops/integrations/prometheus/) addon documentation.
+the [Prometheus integration](../../../ops/integrations/prometheus/) addon documentation.
 
 While the `Quick Start` installation is well-suited for small clusters and monitoring for short time horizons,
 it is not suitable for large-scale meshes or monitoring over a period of days or weeks. In particular,
