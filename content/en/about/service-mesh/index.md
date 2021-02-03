@@ -28,7 +28,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
 
 {{< feature_block 
         header="Traffic management"
-        image="landing/management.svg">}}
+        image="management.svg">}}
 Istio’s traffic routing rules let you easily control the flow of traffic and API calls between services. Istio simplifies configuration of service-level properties like circuit breakers, timeouts, and retries, and makes it easy to set up important tasks like A/B testing, canary rollouts, and staged rollouts with percentage-based traffic splits. It also provides out-of-box failure recovery features that help make your application more robust against failures of dependent services or the network.
 
 Istio’s traffic management model relies on the Envoy proxies that are deployed along with your services. All traffic that your mesh services send and receive (data plane traffic) is proxied through Envoy, making it easy to direct and control traffic around your mesh without making any changes to your services.
@@ -36,7 +36,7 @@ Istio’s traffic management model relies on the Envoy proxies that are deployed
 
 {{< feature_block
         header="Observability"
-        image="landing/observability.svg">}}
+        image="observability.svg">}}
 Istio generates detailed telemetry for all service communications within a mesh. This telemetry provides observability of service behavior, empowering operators to troubleshoot, maintain, and optimize their applications – without imposing any additional burdens on service developers. Through Istio, operators gain a thorough understanding of how monitored services are interacting, both with other services and with the Istio components themselves.
 
 Istio’s traffic management model relies on the Envoy proxies that are deployed along with your services. All traffic that your mesh services send and receive (data plane traffic) is proxied through Envoy, making it easy to direct and control traffic around your mesh without making any changes to your services.
@@ -44,7 +44,7 @@ Istio’s traffic management model relies on the Envoy proxies that are deployed
 
 {{< feature_block
         header="Security capabilities"
-        image="landing/security.svg">}}
+        image="security.svg">}}
 Breaking down a monolithic application into atomic services offers various benefits, including better agility, better scalability and better ability to reuse services. However, microservices also have particular security needs:
 
 - To defend against man-in-the-middle attacks, they need traffic encryption.
