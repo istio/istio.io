@@ -12,21 +12,21 @@ test: yes
 This task shows how administrators can configure the Istio certificate authority (CA) with a root certificate,
 signing certificate and key.
 
-By default, Istio's CA generates a self-signed root certificate and key, and uses them to sign the workload certificates.
-Istio's CA can also sign workload certificates using an administrator-specified certificate and key, and with an
-administrator-specified root certificate.
+By default, the Istio CA generates a self-signed root certificate and key, and uses them to sign the workload certificates.
+If you want to better protect the root CA key, you should use a root CA which runs on a secure machine offline,
+and use the root CA to issue intermedaite certificates to the Istio CAs that run in each cluster.
+An Istio CA can sign workload certificates using the administrator-specified certificate and key, and distribute an
+administrator-specified root certificate to the workloads as the root of trust.
 
-A root CA is used by all workloads within a mesh as the root of trust. Each Istio CA uses an intermediate CA
-signing key and certificate, signed by the root CA. When multiple Istio CAs exist within a mesh, this establishes a
-hierarchy of trust among the CAs.
+The following graph demonstrates the recommended CA hierarchy in a mesh containing two clusters.
 
 {{< image width="50%"
     link="ca-hierarchy.svg"
     caption="CA Hierarchy"
     >}}
 
-This task demonstrates how to generate and plug in the certificates and key for Istio's CA. These steps can be repeated
-to provision certificates and keys for any number of Istio CAs.
+This task demonstrates how to generate and plug in the certificates and key for the Istio CA. These steps can be repeated
+to provision certificates and keys for Istio CAs running in each cluster.
 
 ## Plug in certificates and key into the cluster
 
@@ -72,7 +72,8 @@ security protection.
     * `root-cert.pem`: the root certificate
 
     {{< tip >}}
-    To configure additional Istio CAs, you can repeat this step with different cluster names.
+    As suggested in the beginning of the task, you should repeat this step for each cluster,
+    with different cluster names.
     You can replace `cluster1` with a string of your choosing. For example, with the argument `cluster2-cacerts`,
     you can create certificates and key in a directory called `cluster2`.
     {{< /tip >}}
@@ -80,7 +81,8 @@ security protection.
     If you are doing this on an offline machine, copy the generated directory to a machine with access to the
     clusters.
 
-1.  Create a secret `cacerts` including all the input files `ca-cert.pem`, `ca-key.pem`, `root-cert.pem` and `cert-chain.pem`:
+1.  In each cluster, create a secret `cacerts` including all the input files `ca-cert.pem`, `ca-key.pem`,
+    `root-cert.pem` and `cert-chain.pem`. For example, for `cluster1`:
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
