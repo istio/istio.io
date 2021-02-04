@@ -12,7 +12,7 @@ since release 1.5 and the alpha security policy (`MeshPolicy`, `Policy`, `Cluste
 has been deprecated and no longer supported starting with release 1.6.
 
 It is required to migrate the alpha security policy to the beta version before upgrading to Istio 1.6 and later.
-This blog is a tutorial to help customers who are still using the alpha security policy in a pre 1.6 version to migrate to
+This tutorial helps customers who are still using the alpha security policy in a `pre-1.6` version to migrate to
 the beta security policy and unblock the upgrade to Istio 1.6 and later.
 
 ## Overview
@@ -43,7 +43,7 @@ Before starting the migration, read through the `v1beta1` [authentication](/docs
 and [authorization](/docs/concepts/security/#authorization) documentation to understand the `v1beta1` policy.
 
 You should examine all of your existing `v1alpha1` security policies, find out what fields are used and which policies
-needs migration, compare the findings with the major differences listed below and confirm there are no blocking issues
+need migration, compare the findings with the major differences listed below and confirm there are no blocking issues
 (e.g. using some alpha feature that is no longer supported in beta):
 
 | Major Differences | `v1alpha1` | `v1beta1` |
@@ -79,14 +79,14 @@ could include:
 - multiple service level `Policy` that applies to the selected services in the namespace;
 - a single `ClusterRbacConfig` that enables the RBAC on the whole namespace or some services in the namespace;
 - multiple namespace level `ServiceRole` and `ServiceRoleBinding` that applies to all services in the namespace;
-- multiple namespace level `ServiceRole` and `ServiceRoleBinding` that applies to the selected services in the namespace;
+- multiple service level `ServiceRole` and `ServiceRoleBinding` that applies to the selected services in the namespace;
 
 ### Step 2: Convert service name to workload selector
 
 The `v1alpha1` policy selects target using service name, you should refer to the corresponding service definition to decide
 the workload selector that should be used in the `v1beta1` policy.
 
-A single `v1alpha1` policy may include multiple services, this means it could be migrated to multiple `v1beta1` policies
+A single `v1alpha1` policy may include multiple services, this means it will be migrated to multiple `v1beta1` policies
 because the `v1beta1` policy currently only supports at most one workload selector per policy.
 
 Also note the `v1alpha1` uses service port but the `v1beta1` uses the workload port, this means the port number might be
