@@ -20,7 +20,7 @@ A root CA is used by all workloads within a mesh as the root of trust. Each Isti
 signing key and certificate, signed by the root CA. When multiple Istio CAs exist within a mesh, this establishes a
 hierarchy of trust among the CAs.
 
-{{< image width="80%"
+{{< image width="50%"
     link="ca-hierarchy.svg"
     caption="CA Hierarchy"
     >}}
@@ -30,12 +30,15 @@ to provision certificates and keys for any number of Istio CAs.
 
 ## Plug in certificates and key into the cluster
 
-{{< tip >}}
-For production cluster setup, it is a good practice to do the following on an offline machine with good
-security protection. The root private key should be exposed to as few people and processes as possible.
-{{< /tip >}}
+{{< warning >}}
+The following instructions are for demo purpose only.
+For production cluster setup, it is highly recommended to use a production-ready CA, such as
+[Hashicorp Vault](https://www.hashicorp.com/products/vault).
+It is a good practice to manage the root CA on an offline machine with good
+security protection.
+{{< /warning >}}
 
-1.  Create a directory for holding certificates and keys:
+1.  On the top-level directory of the Istio installation package, create a directory for holding certificates and keys:
 
     {{< text bash >}}
     $ mkdir -p certs
@@ -69,12 +72,9 @@ security protection. The root private key should be exposed to as few people and
     * `root-cert.pem`: the root certificate
 
     {{< tip >}}
-    You can replace `cluster1` with a string of your choosing. For example, `make mycluster-certs` will
-    result in the creation of a directory called `mycluster`.
-    {{< /tip >}}
-
-    {{< tip >}}
-    To configure additional Istio CAs, you can repeat this step with different cluster/directory names.
+    To configure additional Istio CAs, you can repeat this step with different cluster names.
+    You can replace `cluster1` with a string of your choosing. For example, with the argument `cluster2-cacerts`,
+    you can create certificates and key in a directory called `cluster2`.
     {{< /tip >}}
 
     If you are doing this on an offline machine, copy the generated directory to a machine with access to the
