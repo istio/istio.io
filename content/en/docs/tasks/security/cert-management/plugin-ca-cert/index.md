@@ -31,7 +31,7 @@ to provision certificates and keys for any number of Istio CAs.
 ## Plug in certificates and key into the cluster
 
 {{< warning >}}
-The following instructions are for demo purpose only.
+The following instructions are for demo purposes only.
 For production cluster setup, it is highly recommended to use a production-ready CA, such as
 [Hashicorp Vault](https://www.hashicorp.com/products/vault).
 It is a good practice to manage the root CA on an offline machine with good
