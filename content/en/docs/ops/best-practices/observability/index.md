@@ -20,11 +20,6 @@ This deployment of Prometheus is intentionally configured with a very short rete
 quick-start Prometheus deployment is also configured to collect metrics from each Envoy proxy
 running in the mesh, augmenting each metric with a set of labels about their origin (`instance`,
 `pod`, and `namespace`).
- 
-While the quick-start configuration is well-suited for small clusters and monitoring for short time horizons,
-it is not suitable for large-scale meshes or monitoring over a period of days or weeks. In particular,
-the introduced labels can increase metrics cardinality, requiring a large amount of storage. And, when trying
-to identify trends and differences in traffic over time, access to historical data can be paramount.
 
 {{< image width="80%"
     link="./production-prometheus.svg"
