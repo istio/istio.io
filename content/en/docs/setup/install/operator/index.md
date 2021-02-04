@@ -66,6 +66,8 @@ To avoid a vulnerability, ensure that the operator deployment is sufficiently se
       --set watchedNamespaces="istio-namespace1\,istio-namespace2"
     {{< /text >}}
 
+    {{< boilerplate helm-hub-tag >}}
+   
     Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
     to run the above command.
     {{< /tip >}}
@@ -239,6 +241,8 @@ $ helm install istio-operator manifests/charts/istio-operator \
   --set watchedNamespaces=istio-system \
   --set revision=1-9-0
 {{< /text >}}
+
+{{< boilerplate helm-hub-tag >}}
 
 Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
 to run the above command.

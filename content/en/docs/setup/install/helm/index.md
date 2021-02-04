@@ -17,11 +17,7 @@ installing Istio via [Istioctl](/docs/setup/install/istioctl/) or the
 
 This feature is currently considered [alpha](/about/feature-stages/).
 
-{{< warning >}}
-Prior to Istio 1.9.0 installation using the Helm charts required the arguments
-`--set global.hub="docker.io/istio"` and `--set global.tag="1.9.0"`. As of Istio
-1.9.0 this is no longer required, but is for older version.
-{{< /warning >}}
+{{< boilerplate helm-hub-tag >}}
 
 ## Prerequisites
 
