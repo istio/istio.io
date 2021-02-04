@@ -7,7 +7,7 @@
 }
 
 .panel {
-    display: block;
+    display: inline-block;
     width: 100%;
     max-width: 320px;
     min-height: 320px;
@@ -99,6 +99,12 @@
         height: 100%;
         
         .panel-title { flex-grow: 1; }
+    }
+
+    &--case-study {
+        background: none;
+        color: $secondaryColor;
+        border: 2px solid $secondaryColor;
     }
 }
 

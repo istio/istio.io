@@ -94,19 +94,6 @@
                 max-width: 650px;
             }
 
-            &-text {
-                margin: 0;
-                padding: 0;
-                font-size: $font-size--l;
-                font-weight: $boldWeight;
-                font-style: italic;
-                color: $secondaryColor;
-                background-color: unset;
-
-                &::before { content: '“'; }
-                &::after { content: '”'; }
-            }
-
             &-img {
                 border-radius: 50%;
                 border: 2px solid $accentColor;

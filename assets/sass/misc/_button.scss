@@ -31,6 +31,7 @@
     &:focus {
         color: #ffffff;
         text-decoration: none;
+        font-weight: $buttonWeight;
     }
 
     &--primary {
@@ -40,6 +41,16 @@
 
         &:hover {
             border-color: $accentColor;
+        }
+    }
+
+    &--secondary {
+        background-color: $secondaryColor;
+        color: #ffffff;
+
+        &:hover {
+            background-color: #ffffff;
+            color: $secondaryColor;
         }
     }
 }

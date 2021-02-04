@@ -10,6 +10,10 @@
 
     p { font-size: 1.125rem; }
 
+    .title-area .subtitle {
+        text-align: center;
+    }
+
     .title-area .subtitle,
     .centered-block {
         max-width: 750px;
@@ -17,7 +21,8 @@
 
     .centered-block {
         display: block;
-        margin: 0 auto;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .feature-block {
