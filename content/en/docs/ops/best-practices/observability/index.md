@@ -16,10 +16,11 @@ in combination with a collection of [recording rules](https://prometheus.io/docs
 Istio no longer ships with Prometheus in its default profile. To enable Prometheus please see
 the [Prometheus integration](../../../ops/integrations/prometheus/) addon documentation.
 
-While the `Quick Start` installation is well-suited for small clusters and monitoring for short time horizons,
-it is not suitable for large-scale meshes or monitoring over a period of days or weeks. In particular,
-the introduced labels can increase metrics cardinality, requiring a large amount of storage. And, when trying
-to identify trends and differences in traffic over time, access to historical data can be paramount.
+While the `Option 1: Quick Start` installation mentioned in the [Prometheus integration](../../../ops/integrations/prometheus/)
+guide is well-suited for small clusters and monitoring for short time horizons, it is not suitable for large-scale
+meshes or monitoring over a period of days or weeks. In particular,  the introduced labels can increase metrics
+cardinality, requiring a large amount of storage. And, when trying to identify trends and differences in traffic over
+time, access to historical data can be paramount.
 
 {{< image width="80%"
     link="./production-prometheus.svg"
