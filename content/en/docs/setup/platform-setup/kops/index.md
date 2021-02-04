@@ -24,9 +24,6 @@ If you wish to run Istio [Secret Discovery Service](https://www.envoyproxy.io/do
         - api
         - istio-ca
         serviceAccountIssuer: kubernetes.default.svc
-        serviceAccountKeyFile:
-        - /srv/kubernetes/server.key
-        serviceAccountSigningKeyFile: /srv/kubernetes/server.key
     {{< /text >}}
 
 1. Perform the update:

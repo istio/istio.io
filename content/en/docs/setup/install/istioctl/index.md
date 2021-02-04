@@ -122,8 +122,9 @@ Instead of inspecting the deployments, pods, services and other resources that w
 {{< text bash >}}
 $ kubectl -n istio-system get deploy
 NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
-istio-ingressgateway   1/1     1            1           49m
-istiod                 1/1     1            1           49m
+istio-egressgateway    1/1     1            1           25s
+istio-ingressgateway   1/1     1            1           24s
+istiod                 1/1     1            1           20s
 {{< /text >}}
 
 You can inspect the `installed-state` CR, to see what is installed in the cluster, as well as all custom settings.
@@ -182,21 +183,10 @@ k8s:
   env:
   - name: PILOT_TRACE_SAMPLING
     value: "100"
-  readinessProbe:
-    httpGet:
-      path: /ready
-      port: 8080
-    initialDelaySeconds: 1
-    periodSeconds: 3
-    timeoutSeconds: 5
   resources:
     requests:
       cpu: 10m
       memory: 100Mi
-  strategy:
-    rollingUpdate:
-      maxSurge: 100%
-      maxUnavailable: 25%
 {{< /text >}}
 
 ## Show differences in profiles
@@ -332,7 +322,7 @@ Alternatively, the `IstioOperator` configuration can be specified in a YAML file
 `istioctl` using the `-f` option:
 
 {{< text bash >}}
-$ istioctl install -f operator/samples/pilot-k8s.yaml
+$ istioctl install -f samples/operator/pilot-k8s.yaml
 {{< /text >}}
 
 {{< tip >}}
