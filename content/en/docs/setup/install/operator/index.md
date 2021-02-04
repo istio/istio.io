@@ -67,7 +67,7 @@ To avoid a vulnerability, ensure that the operator deployment is sufficiently se
     {{< /text >}}
 
     {{< boilerplate helm-hub-tag >}}
-   
+
     Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
     to run the above command.
     {{< /tip >}}
