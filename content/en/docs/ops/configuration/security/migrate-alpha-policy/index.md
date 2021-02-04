@@ -1,6 +1,6 @@
 ---
 title: Migrate the deprecated alpha security policy
-description: A tutorial to help customers to migrate the deprecated alpha security policy to the beta version.
+description: A tutorial to help customers migrate the deprecated alpha security policy to the beta version.
 keywords: [security,policy,migrate,alpha,beta,deprecate,peer,jwt,authorization]
 weight: 20
 owner: istio/wg-security-maintainers
@@ -9,15 +9,15 @@ test: n/a
 
 Istio beta security policy (`PeerAuthentication`, `RequestAuthentication` and `AuthorizationPolicy`) has been released
 since release 1.5 and the alpha security policy (`MeshPolicy`, `Policy`, `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding`)
-has been deprecated and no longer supported starting 1.6.
+has been deprecated and no longer supported starting with release 1.6.
 
 It is required to migrate the alpha security policy to the beta version before upgrading to Istio 1.6 and later.
-This blog is a tutorial to help customers who are still using the alpha security policy in the old version to migrate to
+This blog is a tutorial to help customers who are still using the alpha security policy in a pre 1.6 version to migrate to
 the beta security policy and unblock the upgrade to Istio 1.6 and later.
 
 ## Overview
 
-The control plane should be upgraded first to bring in the support of `v1beta1` security policy. It is recommended first
+The control plane should be upgraded first to bring in the support of `v1beta1` security policy. It is recommended to first
 upgrade to Istio 1.5 as a transitive version because it supports both `v1alpha1` and `v1beta1` security policy. You complete
 the security policy migration in Istio 1.5, remove the `v1alpha1` security policy and then continue the upgrade to later Istio versions.
 
@@ -32,8 +32,8 @@ Note that skip-upgrade is not supported by Istio and there might be other issues
 the `v1alpha1` security policy, and if you do not migrate them to `v1beta1` version, you are essentially deleting all your
 `v1alpha1` security policy.
 
-In either case, it is recommended migrating at the granularity of namespace: for each namespace, find out all
-`v1alpha1` policies that has effect on the workloads in the namespace and migrate all the `v1alpha1` policies at the same time.
+In either case, it is recommended migrating using namespace granularity: for each namespace, find all
+`v1alpha1` policies that have an effect on the workloads in the namespace and migrate all the `v1alpha1` policies at the same time.
 This allows a safer migration as you can apply the `v1beta1` policies one namespace at a time, make sure everything is working
 as expected and then move forward to the next namespace.
 
@@ -42,7 +42,7 @@ as expected and then move forward to the next namespace.
 Before starting the migration, read through the `v1beta1` [authentication](/docs/concepts/security/#authentication)
 and [authorization](/docs/concepts/security/#authorization) documentation to understand the `v1beta1` policy.
 
-You should examine all of your existing `v1alpha1` security policy, find out what fields are used and which policy
+You should examine all of your existing `v1alpha1` security policies, find out what fields are used and which policies
 needs migration, compare the findings with the major differences listed below and confirm there are no blocking issues
 (e.g. using some alpha feature that is no longer supported in beta):
 
