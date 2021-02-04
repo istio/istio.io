@@ -14,7 +14,7 @@ signing certificate and key.
 
 By default, the Istio CA generates a self-signed root certificate and key, and uses them to sign the workload certificates.
 If you want to better protect the root CA key, you should use a root CA which runs on a secure machine offline,
-and use the root CA to issue intermedaite certificates to the Istio CAs that run in each cluster.
+and use the root CA to issue intermediate certificates to the Istio CAs that run in each cluster.
 An Istio CA can sign workload certificates using the administrator-specified certificate and key, and distribute an
 administrator-specified root certificate to the workloads as the root of trust.
 
@@ -58,7 +58,8 @@ security protection.
     * `root-ca.conf`: the configuration for `openssl` to generate the root certificate
     * `root-cert.csr`: the generated CSR for the root certificate
 
-1.  Generate an intermediate certificate and key:
+1.  For each cluster, generate an intermediate certificate and key for the Istio CA.
+    The following is an example for `cluster1`:
 
     {{< text bash >}}
     $ make -f ../tools/certs/Makefile.selfsigned.mk cluster1-cacerts
@@ -71,12 +72,8 @@ security protection.
     * `cert-chain.pem`: the generated certificate chain which is used by istiod
     * `root-cert.pem`: the root certificate
 
-    {{< tip >}}
-    As suggested in the beginning of the task, you should repeat this step for each cluster,
-    with different cluster names.
     You can replace `cluster1` with a string of your choosing. For example, with the argument `cluster2-cacerts`,
     you can create certificates and key in a directory called `cluster2`.
-    {{< /tip >}}
 
     If you are doing this on an offline machine, copy the generated directory to a machine with access to the
     clusters.
