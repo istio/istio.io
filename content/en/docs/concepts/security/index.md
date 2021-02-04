@@ -121,19 +121,20 @@ provisioning flow.
     caption="Identity Provisioning Workflow"
     >}}
 
-Istio provisions keys and certificates through the
-[Envoy secret discovery service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)
-using the following flow:
+Istio provisions keys and certificates through the following flow:
 
 1. `istiod` offers a gRPC service to take [certificate signing requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
-1. Envoy sends a certificate and key request via the Envoy SDS API.
-1. Upon receiving the SDS request, the Istio agent creates the private key
-   and CSR before sending the CSR with its credentials to `istiod` for signing.
-1. The CA validates the credentials carried in the CSR and signs the CSR to
-   generate the certificate.
-1. The Istio agent sends the certificate received from `istiod` and the
+1. When started, the Istio agent creates the private key
+   and CSR and sends the CSR with its credentials to `istiod` for signing.
+1. The CA on `istiod` validates the credentials carried in the CSR.
+   Upon successful validation, it signs the CSR to generate the certificate.
+1. Envoy requests the certificate and key from the Istio agent in the same container via the
+   [Envoy secret discovery service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)
+   API.
+1. The Istio agent sends the certificates received from `istiod` and the
    private key to Envoy via the Envoy SDS API.
-1. The above CSR process repeats periodically for certificate and key rotation.
+1. Istio agent monitors the expiration of the workload certificate.
+   The above process repeats periodically for certificate and key rotation.
 
 ## Authentication
 
@@ -185,8 +186,8 @@ follows:
 1. The client side Envoy and the server side Envoy establish a mutual TLS
    connection, and Istio forwards the traffic from the client side Envoy to the
    server side Envoy.
-1. After authorization, the server side Envoy forwards the traffic to the
-   server service through local TCP connections.
+1. The server side envoy authorizes the request. If authorized, it forwards the traffic to the
+   server-side service through local TCP connections.
 
 Istio configures `TLSv1_2` as the minimum TLS version for both client and server with
 the following cipher suites:
@@ -250,12 +251,11 @@ allowed to run `datastore` with the secure naming information. The client
 detects that `test-team` is not allowed to run the `datastore` service and the
 authentication fails.
 
-Secure naming is able to protect against general network hijackings for HTTPS
-traffic. It can also protect TCP traffic from general network hijackings.
-However, secure naming doesn't protect from DNS spoofing because in that case
-attackers hijack the DNS and modify the IP address of the destination. This is
-because TCP traffic does not contain the hostname information and we can only
-rely on the IP address for routing. In fact, this DNS hijack can happen even
+Note that, for non HTTP/HTTPS traffic, secure naming doesn't protect from DNS spoofing,
+in which case the attacher modifies the destination IPs for the service.
+Since TCP traffic does not contain the `Host` information and Envoy can only
+rely on the destination IP for routing, Envoy may route the traffic to the
+services on the hijacked IPs. In fact, this DNS spoofing can happen even
 before the client-side Envoy receives the traffic.
 
 ### Authentication architecture
