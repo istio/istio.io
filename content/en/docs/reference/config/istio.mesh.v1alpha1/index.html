@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 29
+number_of_entries: 32
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -573,6 +573,18 @@ if host is <code>*.x.y.com</code>, client-side proxy will verify the presented s
 No
 </td>
 </tr>
+<tr id="MeshConfig-extension_providers">
+<td><code>extensionProviders</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider">ExtensionProvider[]</a></code></td>
+<td>
+<p>Defines a list of extension providers that extend Istio&rsquo;s functionality. For example, the AuthorizationPolicy
+can be used with an extension provider to delegate the authorization decision to a custom authorization system.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -824,6 +836,54 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="MeshConfig-ExtensionProvider">MeshConfig.ExtensionProvider</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>REQUIRED. A unique name identifying the extension provider.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-envoy_ext_authz_http" class="oneof oneof-start">
+<td><code>envoyExtAuthzHttp</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider">EnvoyExternalAuthorizationHttpProvider (oneof)</a></code></td>
+<td>
+<p>Configures an external authorizer that implements the Envoy ext_authz filter authorization check service using the HTTP API.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-envoy_ext_authz_grpc" class="oneof">
+<td><code>envoyExtAuthzGrpc</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationGrpcProvider">EnvoyExternalAuthorizationGrpcProvider (oneof)</a></code></td>
+<td>
+<p>Configures an external authorizer that implements the Envoy ext_authz filter authorization check service using the gRPC API.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="MeshConfig-ServiceSettings-Settings">MeshConfig.ServiceSettings.Settings</h2>
 <section>
 <p>Settings for the selected services.</p>
@@ -861,6 +921,198 @@ this service-by-service (e.g. mysvc.myns.svc.cluster.local) or as a group
 
 <p>By default, Istio will consider all services in the kube-system namespace to be cluster-local,
 unless explicitly overridden here.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider">MeshConfig.ExtensionProvider.EnvoyExternalAuthorizationHttpProvider</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider-service">
+<td><code>service</code></td>
+<td><code>string</code></td>
+<td>
+<p>REQUIRED. Specifies the service that implements the Envoy ext_authz HTTP authorization service.
+The format is &ldquo;[<Namespace>/]<Hostname>&rdquo;. The specification of <Namespace> is required only when it is insufficient
+to unambiguously resolve a service in the service registry. The <Hostname> is a fully qualified host name of a
+service defined by the Kubernetes service or ServiceEntry.</p>
+
+<p>Example: &ldquo;my-ext-authz.foo.svc.cluster.local&rdquo; or &ldquo;bar/my-ext-authz.example.com&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider-port">
+<td><code>port</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>REQUIRED. Specifies the port of the service.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider-path_prefix">
+<td><code>pathPrefix</code></td>
+<td><code>string</code></td>
+<td>
+<p>Sets a prefix to the value of authorization request header <em>Path</em>.
+For example, setting this to &ldquo;/check&rdquo; for an original user request at path &ldquo;/admin&rdquo; will cause the
+authorization check request to be sent to the authorization service at the path &ldquo;/check/admin&rdquo; instead of &ldquo;/admin&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider-fail_open">
+<td><code>failOpen</code></td>
+<td><code>bool</code></td>
+<td>
+<p>If true, the user request will be allowed even if the communication with the authorization service has failed,
+or if the authorization service has returned a HTTP 5xx error.
+Default is false and the request will be rejected with &ldquo;Forbidden&rdquo; response.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider-status_on_error">
+<td><code>statusOnError</code></td>
+<td><code>string</code></td>
+<td>
+<p>Sets the HTTP status that is returned to the client when there is a network error to the authorization service.
+The default status is &ldquo;403&rdquo; (HTTP Forbidden).</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider-include_headers_in_check">
+<td><code>includeHeadersInCheck</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>List of headers that should be included in the authorization request sent to the authorization service.
+Note that in addition to the headers supplied by users:
+1. <em>Host</em>, <em>Method</em>, <em>Path</em> and <em>Content-Length</em> are automatically sent.
+2. <em>Content-Length</em> will be set to 0 and the request will not have a message body.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider-headers_to_upstream_on_allow">
+<td><code>headersToUpstreamOnAllow</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>List of headers from the authorization service that should be added or overridden in the original request and
+forwarded to the upstream when the authorization check result is allowed (HTTP code 200).
+If not specified, the original request will not be modified and forwarded to backend as-is.
+Note, any existing headers will be overridden.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider-headers_to_downstream_on_deny">
+<td><code>headersToDownstreamOnDeny</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>List of headers from the authorization service that should be forwarded to downstream when the authorization
+check result is not allowed (HTTP code other than 200).
+If not specified, all the authorization response headers, except <em>Authority (Host)</em> will be in the response to
+the downstream.
+When a header is included in this list, <em>Path</em>, <em>Status</em>, <em>Content-Length</em>, <em>WWWAuthenticate</em> and <em>Location</em> are
+automatically added.
+Note, the body from the authorization service is always included in the response to downstream.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationGrpcProvider">MeshConfig.ExtensionProvider.EnvoyExternalAuthorizationGrpcProvider</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationGrpcProvider-service">
+<td><code>service</code></td>
+<td><code>string</code></td>
+<td>
+<p>REQUIRED. Specifies the service that implements the Envoy ext_authz gRPC authorization service.
+The format is &ldquo;[<Namespace>/]<Hostname>&rdquo;. The specification of <Namespace> is required only when it is insufficient
+to unambiguously resolve a service in the service registry. The <Hostname> is a fully qualified host name of a
+service defined by the Kubernetes service or ServiceEntry.</p>
+
+<p>Example: &ldquo;my-ext-authz.foo.svc.cluster.local&rdquo; or &ldquo;bar/my-ext-authz.example.com&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationGrpcProvider-port">
+<td><code>port</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>REQUIRED. Specifies the port of the service.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationGrpcProvider-fail_open">
+<td><code>failOpen</code></td>
+<td><code>bool</code></td>
+<td>
+<p>If true, the user request will be allowed even if the communication with the authorization service has failed,
+or if the authorization service has returned a HTTP 5xx error.
+Default is false and the request will be rejected with &ldquo;Forbidden&rdquo; response.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationGrpcProvider-status_on_error">
+<td><code>statusOnError</code></td>
+<td><code>string</code></td>
+<td>
+<p>Sets the HTTP status that is returned to the client when there is a network error to the authorization service.
+The default status is &ldquo;403&rdquo; (HTTP Forbidden).</p>
 
 </td>
 <td>
