@@ -1,6 +1,5 @@
 figure {
-    margin: 1.5rem auto;
-    padding: .5rem;
+    margin: 2.625rem auto;
     background-color: $figureBackgroundColor;
     border-radius: $border-radius;
 
@@ -20,9 +19,13 @@ figure {
     figcaption {
         text-align: center;
         font-size: $font-size--s;
-        font-style: italic;
         font-weight: $figureCaptionWeight;
         color: $figureCaptionColor;
-        padding-top: .5rem;
+
+        h4 {
+            margin-top: 1rem;
+            font-size: .875rem;
+            color: $figureCaptionColor;
+        }
     }
 }

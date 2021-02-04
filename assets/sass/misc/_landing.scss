@@ -67,6 +67,7 @@
         .service-mesh {
             &-graph svg {
                 width: 100%;
+                height: auto;
                 max-width: 800px;
             }
 
@@ -94,26 +95,18 @@
                 max-width: 650px;
             }
 
-            &-img {
-                border-radius: 50%;
-                border: 2px solid $accentColor;
-                width: 92px;
-                height: 92px;
-                background-color: #e8e8e8;
-                margin: 2.25rem auto 0;
-            }
-
-            &-name {
+            &-author {
                 font-size: 1.125rem;
                 margin-top: 1.125rem;
-                color: $accentColor;
+                color: $primaryColor;
                 font-weight: $boldWeight;
                 line-height: 1.2;
             }
 
-            &-company {
-                margin-top: .25rem;
-                font-size: .875rem;
+            &-logo {
+                @include grayscale-element(100%);
+                margin-top: 2.125rem;
+                width: 310px;
             }
         }
     }
@@ -138,9 +131,8 @@
                 }
 
                 & > img {
+                    @include grayscale-element(100%);
                     max-width: 175px;
-                    -webkit-filter: grayscale(100%);
-                    filter: grayscale(100%);
                 }
 
                 &::before,

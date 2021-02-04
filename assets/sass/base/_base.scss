@@ -475,3 +475,9 @@ sup {
         }
     }
 }
+
+@mixin grayscale-element($value) {
+    -webkit-filter: #{"grayscale(#{$value})"};
+    -moz-filter: #{"grayscale(#{$value})"};
+    filter:#{"grayscale(#{$value})"};
+}
