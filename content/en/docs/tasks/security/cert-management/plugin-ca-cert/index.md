@@ -32,13 +32,13 @@ to provision certificates and keys for Istio CAs running in each cluster.
 
 {{< warning >}}
 The following instructions are for demo purposes only.
-For production cluster setup, it is highly recommended to use a production-ready CA, such as
+For a production cluster setup, it is highly recommended to use a production-ready CA, such as
 [Hashicorp Vault](https://www.hashicorp.com/products/vault).
-It is a good practice to manage the root CA on an offline machine with good
+It is a good practice to manage the root CA on an offline machine with strong
 security protection.
 {{< /warning >}}
 
-1.  On the top-level directory of the Istio installation package, create a directory for holding certificates and keys:
+1.  In the top-level directory of the Istio installation package, create a directory to hold certificates and keys:
 
     {{< text bash >}}
     $ mkdir -p certs
