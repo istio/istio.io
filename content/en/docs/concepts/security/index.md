@@ -126,7 +126,7 @@ Istio provisions keys and certificates through the following flow:
 1. `istiod` offers a gRPC service to take [certificate signing requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
 1. When started, the Istio agent creates the private key
    and CSR and sends the CSR with its credentials to `istiod` for signing.
-1. The CA on `istiod` validates the credentials carried in the CSR.
+1. The CA in `istiod` validates the credentials carried in the CSR.
    Upon successful validation, it signs the CSR to generate the certificate.
 1. Envoy requests the certificate and key from the Istio agent in the same container via the
    [Envoy secret discovery service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)
@@ -252,10 +252,10 @@ detects that `test-team` is not allowed to run the `datastore` service and the
 authentication fails.
 
 Note that, for non HTTP/HTTPS traffic, secure naming doesn't protect from DNS spoofing,
-in which case the attacher modifies the destination IPs for the service.
-Since TCP traffic does not contain the `Host` information and Envoy can only
-rely on the destination IP for routing, Envoy may route the traffic to the
-services on the hijacked IPs. In fact, this DNS spoofing can happen even
+in which case the attacker modifies the destination IPs for the service.
+Since TCP traffic does not contain `Host` information and Envoy can only
+rely on the destination IP for routing, Envoy may route traffic to
+services on the hijacked IPs. This DNS spoofing can happen even
 before the client-side Envoy receives the traffic.
 
 ### Authentication architecture
