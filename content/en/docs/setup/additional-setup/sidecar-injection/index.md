@@ -338,6 +338,7 @@ It's worth noting that annotations in the pods have higher precedence than the l
 
 {{< text bash >}}
 $ kubectl delete mutatingwebhookconfiguration istio-sidecar-injector
+mutatingwebhookconfiguration.admissionregistration.k8s.io "istio-sidecar-injector" deleted
 {{< /text >}}
 
 The above command will not remove the injected sidecars from Pods. A
@@ -348,5 +349,6 @@ Optionally, it may also be desirable to clean-up other resources that
 were modified in this task.
 
 {{< text bash >}}
-$ kubectl label namespace default istio-injection=disabled --overwrite
+$ kubectl label namespace default istio-injection-
+namespace/default labeled
 {{< /text >}}
