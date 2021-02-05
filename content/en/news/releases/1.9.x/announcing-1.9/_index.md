@@ -85,7 +85,7 @@ automatically verified for correctness. ([Pull Request #29651](https://github.co
 
 - **Added** support for applications that bind to their pod IP address, rather than wildcard or localhost address, through the `Sidecar` API. ([Pull Request #28178](https://github.com/istio/istio/pull/28178))
 
-- **Added** Correctly iptables rules and listener filters setting to support original src ip preserve within a cluster.  ([Issue #23369](https://github.com/istio/istio/issues/23369))
+- **Added** Correctly iptables rules and listener filters setting to support original src ip preserve in TPROXY mode within a cluster.  ([Issue #23369](https://github.com/istio/istio/issues/23369))
 
 - **Added** flag to enable capture of dns traffic to the istio-iptables script. ([Pull Request #29908](https://github.com/istio/istio/pull/29908))
 
