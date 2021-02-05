@@ -1,0 +1,9 @@
+---
+title: Extensibility
+description: Helps you manage WebAssembly based extensibility aspects of a running mesh.
+weight: 40
+keywords: [ops,extensibility,WebAssembly,Wasm]
+aliases:
+    - /help/ops/extensibility
+test: n/a
+---
