@@ -104,7 +104,12 @@ spec:
                  }
 {{< /text >}}
 
-Note that Istio agent will only intercept and download remote Wasm modules configured via ECDS resources.
+{{< tip >}}
+Note: The basic auth Wasm module release follows Istio release version. In this example, the module is versioned and tested with Istio 1.9.
+If you want to test with other releases, please find it [here](https://github.com/istio-ecosystem/wasm-extensions/releases).
+{{< /tip >}}
+
+Istio agent will only intercept and download remote Wasm modules configured via ECDS resources.
 To disable ECDS interception and Wasm downloading in Istio agent, you can set the `ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION` environment variable to `false`.
 For example, to set it globally:
 
