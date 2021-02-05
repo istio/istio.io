@@ -3,7 +3,7 @@ title: Better External Authorization
 subtitle: Integrate external authorization system (e.g. OPA, oauth2-proxy, etc.) with Istio using AuthorizationPolicy
 description: AuthorizationPolicy now supports CUSTOM action to delegate the authorization to external system.
 publishdate: 2021-02-09
-attribution: Yangmin Zhu (Google), Craig Box (Google) and Christian Posta (Solo.io)
+attribution: Yangmin Zhu (Google)
 keywords: [authorization,access control,opa,oauth2]
 ---
 
@@ -43,13 +43,13 @@ and running.
 At runtime,
 
 1. A request to the proxy will be paused, and the proxy will send a check request to the external auth service, as
-   configured by the user in the authorization policy
+   configured by the user in the authorization policy.
 
-1. The external auth service will check the request and make the decision whether to allow it or not
+1. The external auth service will check the request and make the decision whether to allow it or not.
 
-  1. If allowed, the request will continue and will be enforced by any local authorization defined by `ALLOW`/`DENY` action
+1. If allowed, the request will continue and will be enforced by any local authorization defined by `ALLOW`/`DENY` action.
 
-  1. If denied, the request will be rejected immediately.
+1. If denied, the request will be rejected immediately.
 
 Let's look at an example authorization policy with the `CUSTOM` action:
 
@@ -543,3 +543,5 @@ authorization system with the following benefits:
 
 We're working to promote this feature to a more stable stage in following versions and welcome your feedback at
 [discuss.istio.io](https://discuss.istio.io/c/security/).
+
+Thanks to `Craig Box`, `Christian Posta` and `Limin Wang` for reviewing drafts of this blog.
