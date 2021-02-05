@@ -6,7 +6,7 @@ attribution: "Pengyuan Bian (Google)"
 keywords: [wasm,extensibility,WebAssembly]
 ---
 
-Back at Istio 1.5 release, Istio introduced [WebAssembly based extensibility](https://istio.io/latest/blog/2020/wasm-announce/) support.
+Back to Istio 1.5 release, Istio introduced [WebAssembly based extensibility](/blog/2020/wasm-announce/) support.
 Over the past year, Istio, Envoy, and Proxy-Wasm communities have continued the effort to make WebAssembly extensibility stable, reliable, and easy to adopt.
 In this blog post, we will walk through the updates in this area at Istio 1.9 release.
 
