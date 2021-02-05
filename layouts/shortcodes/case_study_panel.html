@@ -1,9 +1,11 @@
+{{ $link := .Get "url"}}
+
 <div class="panel panel--case-study">
     <div class="panel-body">
         {{ with .Get "quote"}}
             <blockquote class="quote-text">{{.}}</blockquote>
         {{end}}
 
-        <a href="#" class="btn btn--secondary">Learn more</a>
+        <a href="{{ $link }}" class="btn btn--secondary">Learn more</a>
     </div>
 </div>

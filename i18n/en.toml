@@ -315,3 +315,24 @@ other = "No automated test is available for this page. Click for details or to h
 
 [try_istio]
 other = "Try Istio"
+
+[service_mesh]
+other = "Service mesh"
+
+[solutions]
+other = "Solutions"
+
+[deployment]
+other = "Deployment"
+
+[learn_more]
+other = "Learn more"
+
+[management]
+other = "Management"
+
+[observability]
+other = "Observability"
+
+[security]
+other = "Security"
