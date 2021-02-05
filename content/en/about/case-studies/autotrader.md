@@ -5,6 +5,7 @@ quote:
     text: "Istio Pioneer AutoTrader UK Still Benefiting"
     author: "Nick Chase"
 logo: "adobe-logo.svg"
+skip_feedback: true
 ---
 
 Auto Trader UK began in 1977 as the premier automotive market magazine in the United Kingdom. When it pivoted to an online presence near the end of the 20th century, it grew to become the country’s 16th largest website.

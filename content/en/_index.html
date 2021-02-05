@@ -36,35 +36,9 @@ description: A service mesh for observability, security in depth, and management
     </section>
 
     <section id="landing-panels" class="panels container">
-        <a id="panel1" class="panel panel--dark" href="/about/service-mesh">
-            <div class="panel-body">
-                <h5 class="panel-title">Service mesh</h5>
-                <p class="panel-text">
-                    You can find what you need to make Istio do exactly what you need it to do.
-                </p>
-                <span class="btn panel-btn">Learn more</span>
-            </div>
-        </a>
-
-        <a id="panel2" class="panel panel--dark" href="/about/solutions/">
-            <div class="panel-body">
-                <h5 class="panel-title">Solutions</h5>
-                <p class="panel-text">
-                    You can find what you need to make Istio do exactly what you need it to do.
-                </p>
-                <span class="btn panel-btn">Learn more</span>
-            </div>
-        </a>
-
-        <a id="panel3" class="panel panel--dark" href="/about/deployment-guides/">
-            <div class="panel-body">
-                <h5 class="panel-title">Deployment</h5>
-                <p class="panel-text">
-                    You can find what you need to make Istio do exactly what you need it to do.
-                </p>
-                <span class="btn panel-btn">Learn more</span>
-            </div>
-        </a>
+        {{< content_panel type="dark" title="service_mesh" text="You can find what you need to make Istio do exactly what you need it to do." button="learn_more" url="/about/service-mesh" >}}
+        {{< content_panel type="dark" title="solutions" text="You can find what you need to make Istio do exactly what you need it to do." button="learn_more" url="/about/solutions" >}}
+        {{< content_panel type="dark" title="deployment" text="You can find what you need to make Istio do exactly what you need it to do." button="learn_more" url="/about/deployment-guides" >}}
     </section>
 
     <section id="service-mesh" class="container">
@@ -74,7 +48,7 @@ description: A service mesh for observability, security in depth, and management
         <p class="subtitle">You can get Istio from 27 distributors.</p>
  
         <div class="service-mesh-graph">
-            {{< inline_image "service-mesh.svg" >}}
+            <img src="/img/service-mesh.svg" />
         </div>
 
         <div class="cta-container">
@@ -86,41 +60,9 @@ description: A service mesh for observability, security in depth, and management
         <h1>Concepts</h1>
 
         <div class="panels">
-            <div class="panel panel--transparent">
-                <div class="panel-img-top">
-                    {{< inline_image "management.svg" >}}
-                </div>
-                <div class="panel-body">
-                    <h5 class="panel-title">Management</h5>
-                    <p class="panel-text">
-                        Intelligently control the flow of traffic and API calls between services, etc.
-                    </p>
-                </div>
-            </div>
-
-            <div class="panel panel--transparent">
-                <div class="panel-img-top">
-                    {{< inline_image "observability.svg" >}}
-                </div>
-                <div class="panel-body">
-                    <h5 class="panel-title">Observability</h5>
-                    <p class="panel-text">
-                        Intelligently control the flow of traffic and API calls between services, etc.
-                    </p>
-                </div>
-            </div>
-
-            <div class="panel panel--transparent">
-                <div class="panel-img-top">
-                    {{< inline_image "security.svg" >}}
-                </div>
-                <div class="panel-body">
-                    <h5 class="panel-title">Security</h5>
-                    <p class="panel-text">
-                        Intelligently control the flow of traffic and API calls between services, etc.
-                    </p>
-                </div>
-            </div>
+            {{< content_panel type="transparent" title="management" text="Intelligently control the flow of traffic and API calls between services, etc." image="management.svg" >}}
+            {{< content_panel type="transparent" title="observability" text="Intelligently control the flow of traffic and API calls between services, etc." image="observability.svg" >}}
+            {{< content_panel type="transparent" title="security" text="Intelligently control the flow of traffic and API calls between services, etc." image="security.svg" >}}
         </div>
 
         <div class="cta-container">
@@ -141,39 +83,23 @@ description: A service mesh for observability, security in depth, and management
             <div class="splide__track">
                 <ul class="splide__list">
                     <li class="splide__slide">
-                        <div class="quote-panel">
-                            <blockquote class="quote-text">Istio is a service mesh that provides cross-cutting functions that all micro services environments need</blockquote>
-                            <div class="quote-panel-author">Nick Chase</div>
-                        </div>
+                        {{< quote_carousel_panel quote="Istio is a service mesh that provides cross-cutting functions that all micro services environments need" author="Nick Chase" company="AutoTrader" logo="logos/autotrader.png" >}}
                     </li>
-            
+
                     <li class="splide__slide">
-                        <div class="quote-panel">
-                            <blockquote class="quote-text">Istio is a service mesh that provides cross-cutting functions that all micro services environments need</blockquote>
-                            <div class="quote-panel-author">Nick Chase</div>
-                        </div>
+                        {{< quote_carousel_panel quote="Istio is a service mesh that provides cross-cutting functions that all micro services environments need" author="Nick Chase" company="AutoTrader" logo="logos/autotrader.png" >}}
                     </li>
-            
+
                     <li class="splide__slide">
-                        <div class="quote-panel">
-                            <blockquote class="quote-text">Istio is a service mesh that provides cross-cutting functions that all micro services environments need</blockquote>
-                            <div class="quote-panel-author">Nick Chase</div>
-                            <img src="logos/autotrader.png" alt="AutoTrader logo" class="quote-panel-logo">
-                        </div>
+                        {{< quote_carousel_panel quote="Istio is a service mesh that provides cross-cutting functions that all micro services environments need" author="Nick Chase" company="AutoTrader" logo="logos/autotrader.png" >}}
                     </li>
-            
+
                     <li class="splide__slide">
-                        <div class="quote-panel">
-                            <blockquote class="quote-text">Istio is a service mesh that provides cross-cutting functions that all micro services environments need</blockquote>
-                            <div class="quote-panel-author">Nick Chase</div>
-                        </div>
+                        {{< quote_carousel_panel quote="Istio is a service mesh that provides cross-cutting functions that all micro services environments need" author="Nick Chase" company="AutoTrader" logo="logos/autotrader.png" >}}
                     </li>
-            
+
                     <li class="splide__slide">
-                        <div class="quote-panel">
-                            <blockquote class="quote-text">Istio is a service mesh that provides cross-cutting functions that all micro services environments need</blockquote>
-                            <div class="quote-panel-author">Nick Chase</div>
-                        </div>
+                        {{< quote_carousel_panel quote="Istio is a service mesh that provides cross-cutting functions that all micro services environments need" author="Nick Chase" company="AutoTrader" logo="logos/autotrader.png" >}}
                     </li>
                 </ul>
             </div>
