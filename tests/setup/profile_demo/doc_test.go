@@ -14,34 +14,29 @@
 package setupconfig
 
 import (
-	"os"
 	"testing"
 
-	"istio.io/istio.io/pkg/test/istioio"
 	"istio.io/istio/pkg/test/framework"
 	"istio.io/istio/pkg/test/framework/components/istio"
-)
+	"istio.io/istio/pkg/test/framework/resource"
 
-var (
-	inst      istio.Instance
-	setupSpec = "profile=demo"
+	"istio.io/istio.io/pkg/test/istioio"
 )
 
 func TestMain(m *testing.M) {
-	if !istioio.NeedSetup(setupSpec) {
-		os.Exit(0)
-	}
-
 	framework.
 		NewSuite(m).
-		Setup(istio.Setup(&inst, setupConfig)).
+		Setup(istio.Setup(nil, setupConfig)).
+		RequireSingleCluster().
 		Run()
 }
 
 func TestDocs(t *testing.T) {
-	istioio.TestDocs(t, setupSpec)
+	framework.
+		NewTest(t).
+		Run(istioio.NewTestDocsFunc("profile=demo"))
 }
 
-func setupConfig(cfg *istio.Config) {
+func setupConfig(ctx resource.Context, cfg *istio.Config) {
 	cfg.ControlPlaneValues = "profile: demo"
 }

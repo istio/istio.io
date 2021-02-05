@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.operator.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 56
+number_of_entries: 61
 ---
 <p>Configuration affecting Istio control plane installation version and shape.</p>
 
@@ -17,6 +17,22 @@ number_of_entries: 56
 The spec is a used to define a customization of the default profile values that are supplied with each Istio release.
 Because the spec is a customization API, specifying an empty IstioOperatorSpec results in a default Istio
 component values.</p>
+
+<pre><code class="language-yaml">apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: default
+  hub: gcr.io/istio-testing
+  tag: latest
+  revision: 1-8-0
+  meshConfig:
+    accessLogFile: /dev/stdout
+    enableTracing: true
+  components:
+    egressGateways:
+    - name: istio-egressgateway
+      enabled: true
+</code></pre>
 
 <table class="message-fields">
 <thead>
@@ -32,10 +48,14 @@ component values.</p>
 <td><code>profile</code></td>
 <td><code>string</code></td>
 <td>
-<p>Path or name for the profile e.g.
-    - minimal (looks in profiles dir for a file called minimal.yaml)
-    - /tmp/istio/install/values/custom/custom-install.yaml (local file path)
-default profile is used if this field is unset.</p>
+<p>Path or name for the profile e.g.</p>
+
+<ul>
+<li>minimal (looks in profiles dir for a file called minimal.yaml)</li>
+<li>/tmp/istio/install/values/custom/custom-install.yaml (local file path)</li>
+</ul>
+
+<p>default profile is used if this field is unset.</p>
 
 </td>
 <td>
@@ -46,8 +66,11 @@ No
 <td><code>installPackagePath</code></td>
 <td><code>string</code></td>
 <td>
-<p>Path for the install package. e.g.
-    - /tmp/istio-installer/nightly (local file path)</p>
+<p>Path for the install package. e.g.</p>
+
+<ul>
+<li>/tmp/istio-installer/nightly (local file path)</li>
+</ul>
 
 </td>
 <td>
@@ -58,7 +81,7 @@ No
 <td><code>hub</code></td>
 <td><code>string</code></td>
 <td>
-<p>Root for docker image paths e.g. docker.io/istio</p>
+<p>Root for docker image paths e.g. <code>docker.io/istio</code></p>
 
 </td>
 <td>
@@ -69,7 +92,7 @@ No
 <td><code>tag</code></td>
 <td><code><a href="#TypeInterface">TypeInterface</a></code></td>
 <td>
-<p>Version tag for docker images e.g. 1.0.6</p>
+<p>Version tag for docker images e.g. <code>1.7.2</code></p>
 
 </td>
 <td>
@@ -81,7 +104,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>Namespace to install control plane resources into. If unset, Istio will be installed into the same namespace
-as the IstioOperator CR.</p>
+as the <code>IstioOperator</code> CR.</p>
 
 </td>
 <td>
@@ -123,25 +146,14 @@ component.</p>
 No
 </td>
 </tr>
-<tr id="IstioOperatorSpec-addon_components">
-<td><code>addonComponents</code></td>
-<td><code>map&lt;string,&nbsp;<a href="#ExternalComponentSpec">ExternalComponentSpec</a>&gt;</code></td>
-<td>
-<p>Extra addon components which are not explicitly specified above.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="IstioOperatorSpec-values">
 <td><code>values</code></td>
 <td><code><a href="#TypeMapStringInterface">TypeMapStringInterface</a></code></td>
 <td>
-<p>Overrides for default values.yaml. This is a validated pass-through to Helm templates.
-See the Helm installation options for schema details: https://istio.io/docs/reference/config/installation-options/.
-Anything that is available in IstioOperatorSpec should be set above rather than using the passthrough. This
-includes Kubernetes resource settings for components in KubernetesResourcesSpec.</p>
+<p>Overrides for default <code>values.yaml</code>. This is a validated pass-through to Helm templates.
+See the <a href="https://istio.io/v1.5/docs/reference/config/installation-options/">Helm installation options</a> for schema details.
+Anything that is available in <code>IstioOperatorSpec</code> should be set above rather than using the passthrough. This
+includes Kubernetes resource settings for components in <code>KubernetesResourcesSpec</code>.</p>
 
 </td>
 <td>
@@ -152,7 +164,20 @@ No
 <td><code>unvalidatedValues</code></td>
 <td><code><a href="#TypeMapStringInterface">TypeMapStringInterface</a></code></td>
 <td>
-<p>Unvalidated overrides for default values.yaml. Used for custom templates where new parameters are added.</p>
+<p>Unvalidated overrides for default <code>values.yaml</code>. Used for custom templates where new parameters are added.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-addon_components" class="deprecated ">
+<td><code>addonComponents</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#ExternalComponentSpec">ExternalComponentSpec</a>&gt;</code></td>
+<td>
+<p>Deprecated.
+Users should manage the installation of addon components on their own.
+Refer to samples/addons for demo installation of addon components.</p>
 
 </td>
 <td>
@@ -180,14 +205,17 @@ No
 <td><code>status</code></td>
 <td><code><a href="#InstallStatus-Status">Status</a></code></td>
 <td>
-<p>Overall status of all components controlled by the operator.
-- If all components have status NONE, overall status is NONE.
-- If all components are HEALTHY, overall status is HEALTHY.
-- If one or more components are RECONCILING and others are HEALTHY, overall status is RECONCILING.
-- If one or more components are UPDATING and others are HEALTHY, overall status is UPDATING.
-- If components are a mix of RECONCILING, UPDATING and HEALTHY, overall status is UPDATING.
-- If any component is in ERROR state, overall status is ERROR.
-- If further action is needed for reconciliation to proceed, overall status is ACTION_REQUIRED.</p>
+<p>Overall status of all components controlled by the operator.</p>
+
+<ul>
+<li>If all components have status <code>NONE</code>, overall status is <code>NONE</code>.</li>
+<li>If all components are <code>HEALTHY</code>, overall status is <code>HEALTHY</code>.</li>
+<li>If one or more components are <code>RECONCILING</code> and others are <code>HEALTHY</code>, overall status is <code>RECONCILING</code>.</li>
+<li>If one or more components are <code>UPDATING</code> and others are <code>HEALTHY</code>, overall status is <code>UPDATING</code>.</li>
+<li>If components are a mix of <code>RECONCILING</code>, <code>UPDATING</code> and <code>HEALTHY</code>, overall status is <code>UPDATING</code>.</li>
+<li>If any component is in <code>ERROR</code> state, overall status is <code>ERROR</code>.</li>
+<li>If further action is needed for reconciliation to proceed, overall status is <code>ACTION_REQUIRED</code>.</li>
+</ul>
 
 </td>
 <td>
@@ -244,24 +272,6 @@ No
 </tr>
 <tr id="IstioComponentSetSpec-pilot">
 <td><code>pilot</code></td>
-<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-policy">
-<td><code>policy</code></td>
-<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-telemetry">
-<td><code>telemetry</code></td>
 <td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
 <td>
 </td>
@@ -796,6 +806,18 @@ No
 <td>
 <p>k8s service annotations.
 <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/">https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/</a></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-securityContext">
+<td><code>securityContext</code></td>
+<td><code><a href="#PodSecurityContext">PodSecurityContext</a></code></td>
+<td>
+<p>k8s pod security context
+<a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod">https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod</a></p>
 
 </td>
 <td>
@@ -2639,6 +2661,280 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="PodSecurityContext">PodSecurityContext</h2>
+<section>
+<p>See k8s.io.api.core.v1.PodSecurityContext.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PodSecurityContext-seLinuxOptions">
+<td><code>seLinuxOptions</code></td>
+<td><code><a href="#SELinuxOptions">SELinuxOptions</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-runAsUser">
+<td><code>runAsUser</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-runAsNonRoot">
+<td><code>runAsNonRoot</code></td>
+<td><code>bool</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-supplementalGroups">
+<td><code>supplementalGroups</code></td>
+<td><code>int64[]</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-fsGroup">
+<td><code>fsGroup</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-runAsGroup">
+<td><code>runAsGroup</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-sysctls">
+<td><code>sysctls</code></td>
+<td><code><a href="#Sysctl">Sysctl[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-windowsOptions">
+<td><code>windowsOptions</code></td>
+<td><code><a href="#WindowsSecurityContextOptions">WindowsSecurityContextOptions</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-fsGroupChangePolicy">
+<td><code>fsGroupChangePolicy</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-seccompProfile">
+<td><code>seccompProfile</code></td>
+<td><code><a href="#SeccompProfile">SeccompProfile</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SELinuxOptions">SELinuxOptions</h2>
+<section>
+<p>See k8s.io.api.core.v1.SELinuxOptions.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SELinuxOptions-user">
+<td><code>user</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SELinuxOptions-role">
+<td><code>role</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SELinuxOptions-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SELinuxOptions-level">
+<td><code>level</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Sysctl">Sysctl</h2>
+<section>
+<p>See k8s.io.api.core.v1.Sysctl.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Sysctl-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Sysctl-value">
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="WindowsSecurityContextOptions">WindowsSecurityContextOptions</h2>
+<section>
+<p>See k8s.io.api.core.v1.WindowsSecurityContextOptions.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="WindowsSecurityContextOptions-gmsaCredentialSpecName">
+<td><code>gmsaCredentialSpecName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WindowsSecurityContextOptions-gmsaCredentialSpec">
+<td><code>gmsaCredentialSpec</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WindowsSecurityContextOptions-runAsUserName">
+<td><code>runAsUserName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SeccompProfile">SeccompProfile</h2>
+<section>
+<p>See k8s.io.api.core.v1.SeccompProfile.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SeccompProfile-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SeccompProfile-localhostProfile">
+<td><code>localhostProfile</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="TypeInterface">TypeInterface</h2>
 <section>
 <p>Synthetic type for generating Go structs.
@@ -2848,7 +3144,7 @@ No
 <td>
 <p>Overall status only and would not be set as a component status.
 Action is needed from the user for reconciliation to proceed
-e.g. There are proxies still pointing to the control plane revision when try to remove an IstioOperator CR.</p>
+e.g. There are proxies still pointing to the control plane revision when try to remove an <code>IstioOperator</code> CR.</p>
 
 </td>
 </tr>

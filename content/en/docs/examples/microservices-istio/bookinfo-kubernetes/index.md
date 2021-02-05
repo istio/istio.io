@@ -31,14 +31,18 @@ microservice.
 
     {{< text bash >}}
     $ kubectl apply -l version!=v2,version!=v3 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
-    service "details" created
-    deployment "details-v1" created
-    service "ratings" created
-    deployment "ratings-v1" created
-    service "reviews" created
-    deployment "reviews-v1" created
-    service "productpage" created
-    deployment "productpage-v1" created
+    service/details created
+    serviceaccount/bookinfo-details created
+    deployment.apps/details-v1 created
+    service/ratings created
+    serviceaccount/bookinfo-ratings created
+    deployment.apps/ratings-v1 created
+    service/reviews created
+    serviceaccount/bookinfo-reviews created
+    deployment.apps/reviews-v1 created
+    service/productpage created
+    serviceaccount/bookinfo-productpage created
+    deployment.apps/productpage-v1 created
     {{< /text >}}
 
 1.  Check the status of the pods:
@@ -52,16 +56,14 @@ microservice.
     reviews-v1-77c65dc5c6-kjvxs     1/1     Running   0          9s
     {{< /text >}}
 
-1.  After the four services achieve the `Running` status, you can scale the deployment. To let each version of each microservice run in three pods, execute the following command:
+1.  After the four pods achieve the `Running` status, you can scale the deployment. To let each version of each microservice run in three pods, execute the following command:
 
     {{< text bash >}}
     $ kubectl scale deployments --all --replicas 3
-    deployment "details-v1" scaled
-    deployment "productpage-v1" scaled
-    deployment "ratings-v1" scaled
-    deployment "reviews-v1" scaled
-    deployment "reviews-v2" scaled
-    deployment "reviews-v3" scaled
+    deployment.apps/details-v1 scaled
+    deployment.apps/productpage-v1 scaled
+    deployment.apps/ratings-v1 scaled
+    deployment.apps/reviews-v1 scaled
     {{< /text >}}
 
 1.  Check the pods status. Notice that each microservice has three pods:
@@ -95,7 +97,7 @@ microservice.
     with a curl command from your testing pod:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
@@ -125,6 +127,8 @@ service/productpage patched
     kind: Ingress
     metadata:
       name: bookinfo
+      annotations:
+        kubernetes.io/ingress.class: istio
     spec:
       rules:
       - host: $MYHOST
@@ -142,7 +146,8 @@ service/productpage patched
             backend:
               serviceName: productpage
               servicePort: 9080
-          - path: /static/*
+          - path: /static
+            pathType: Prefix
             backend:
               serviceName: productpage
               servicePort: 9080

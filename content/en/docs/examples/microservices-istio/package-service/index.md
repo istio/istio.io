@@ -28,6 +28,13 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
     into the container's filesystem and then runs the `npm install` command you ran in the previous module.
     The `CMD` command instructs Docker to run the `ratings` service on port `9080`.
 
+1.  Create an environment variable to store your user id which will be used to tag the docker image for `ratings` service.
+    For example, `user`.
+
+    {{< text bash >}}
+    $ export USER=user
+    {{< /text >}}
+
 1.  Build a Docker image from the `Dockerfile`:
 
     {{< text bash >}}
@@ -45,7 +52,7 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
     `ratings` microservice on port `9081`.
 
     {{< text bash >}}
-    $ docker run -d -p 9081:9080 $USER/ratings
+    $ docker run --name my-ratings  --rm -d -p 9081:9080 $USER/ratings
     {{< /text >}}
 
 1.  Access [http://localhost:9081/ratings/7](http://localhost:9081/ratings/7) in your browser or use the following `curl` command:
@@ -68,7 +75,7 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
 1.  Stop the running container:
 
     {{< text bash >}}
-    $ docker stop <the container ID from the output of docker ps>
+    $ docker stop my-ratings
     {{< /text >}}
 
 You have learned how to package a single service into a container. The next step is to learn how to [deploy the whole application to a Kubernetes cluster](/docs/examples/microservices-istio/bookinfo-kubernetes).

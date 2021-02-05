@@ -226,7 +226,7 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
 
 ## 验证 Istio 配置{#validating-Istio-configuration}
 
-Kiali 可以验证您的 Istio 资源，以确保它们遵循正确的约定和语义。根据错误配置的严重程度，在 Istio 资源的配置中检测到的任何问题都可以标记为错误或警告。有关 Kiali 执行的所有验证检查的列表，请参考 [Kiali Validations page](http://kiali.io/documentation/validations/)。
+Kiali 可以验证您的 Istio 资源，以确保它们遵循正确的约定和语义。根据错误配置的严重程度，在 Istio 资源的配置中检测到的任何问题都可以标记为错误或警告。有关 Kiali 执行的所有验证检查的列表，请参考 [Kiali Validations page](https://kiali.io/documentation/latest/validations/)。
 
 {{< idea >}}
 Istio 1.4 引入了 `istioctl analyze`，它使您能够以在 CI 管道中使用的方式执行类似的分析。

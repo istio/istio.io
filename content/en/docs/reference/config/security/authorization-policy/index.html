@@ -9,7 +9,7 @@ generator: protoc-gen-docs
 schema: istio.security.v1beta1.AuthorizationPolicy
 weight: 20
 aliases: [/docs/reference/config/authorization/authorization-policy]
-number_of_entries: 8
+number_of_entries: 9
 ---
 <p>Istio Authorization Policy enables access control on workloads in the mesh.</p>
 
@@ -24,9 +24,19 @@ evaluated first. The evaluation is determined by the following rules:</p>
 <li>Deny the request.</li>
 </ol>
 
-<p>For example, the following authorization policy sets the <code>action</code> to &ldquo;ALLOW&rdquo;
-to create an allow policy. The default action is &ldquo;ALLOW&rdquo; but it is useful
-to be explicit in the policy.</p>
+<p>Istio Authorization Policy also supports the AUDIT action to decide whether to log requests.
+AUDIT policies do not affect whether requests are allowed or denied to the workload.
+Requests will be allowed or denied based solely on ALLOW and DENY policies.</p>
+
+<p>A request will be internally marked that it should be audited if there is an AUDIT policy on the workload that matches the request.
+A separate plugin must be configured and enabled to actually fulfill the audit decision and complete the audit behavior.
+The request will not be audited if there are no such supporting plugins enabled.
+Currently, the only supported plugin is the <a href="/docs/reference/config/proxy_extensions/stackdriver/">Stackdriver</a> plugin.</p>
+
+<p>Here is an example of Istio Authorization Policy:</p>
+
+<p>It sets the <code>action</code> to &ldquo;ALLOW&rdquo; to create an allow policy. The default action is &ldquo;ALLOW&rdquo;
+but it is useful to be explicit in the policy.</p>
 
 <p>It allows requests from:</p>
 
@@ -89,6 +99,26 @@ spec:
    to:
    - operation:
        methods: [&quot;POST&quot;]
+</code></pre>
+
+<p>The following authorization policy sets the <code>action</code> to &ldquo;AUDIT&rdquo;. It will audit any GET requests to the path with the
+prefix &ldquo;/user/profile&rdquo;.</p>
+
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  namespace: ns1
+  name: anyname
+spec:
+  selector:
+    matchLabels:
+      app: myapi
+  action: audit
+  rules:
+  - to:
+    - operation:
+        methods: [&quot;GET&quot;]
+        paths: [&quot;/user/profile/*&quot;]
 </code></pre>
 
 <p>Authorization Policy scope (target) is determined by &ldquo;metadata/namespace&rdquo; and
@@ -183,7 +213,7 @@ spec:
 <tbody>
 <tr id="AuthorizationPolicy-selector">
 <td><code>selector</code></td>
-<td><code><a href="/docs/reference/config/networking/sidecar/#WorkloadSelector">WorkloadSelector</a></code></td>
+<td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
 <p>Optional. Workload selector decides where to apply the authorization policy.
 If not set, the authorization policy will be applied to all workloads in the
@@ -214,6 +244,17 @@ No
 <td><code><a href="#AuthorizationPolicy-Action">Action</a></code></td>
 <td>
 <p>Optional. The action to take if the request is matched with the rules.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="AuthorizationPolicy-provider" class="oneof oneof-start">
+<td><code>provider</code></td>
+<td><code><a href="#AuthorizationPolicy-ExtensionProvider">ExtensionProvider (oneof)</a></code></td>
+<td>
+<p>Specifies detailed configuration of the CUSTOM action. Must be used only with CUSTOM action.</p>
 
 </td>
 <td>
@@ -393,6 +434,7 @@ No
 <td><code>string[]</code></td>
 <td>
 <p>Optional. A list of IP blocks, which matches to the &ldquo;source.ip&rdquo; attribute.
+Populated from the source address of the IP packet.
 Single IP (e.g. &ldquo;1.2.3.4&rdquo;) and CIDR (e.g. &ldquo;1.2.3.0/24&rdquo;) are supported.</p>
 
 <p>If not set, any IP is allowed.</p>
@@ -407,6 +449,35 @@ No
 <td><code>string[]</code></td>
 <td>
 <p>Optional. A list of negative match of IP blocks.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Source-remote_ip_blocks">
+<td><code>remoteIpBlocks</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of IP blocks, which matches to the &ldquo;remote.ip&rdquo; attribute.
+Populated from X-Forwarded-For header or proxy protocol.
+To make use of this field, you must configure the numTrustedProxies field of the gatewayTopology under the meshConfig
+when you install Istio or using an annotation on the ingress gateway.  See the documentation here:
+<a href="/docs/ops/configuration/traffic-management/network-topologies/">Configuring Gateway Network Topology</a>.
+Single IP (e.g. &ldquo;1.2.3.4&rdquo;) and CIDR (e.g. &ldquo;1.2.3.0/24&rdquo;) are supported.</p>
+
+<p>If not set, any IP is allowed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Source-not_remote_ip_blocks">
+<td><code>notRemoteIpBlocks</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of negative match of remote IP blocks.</p>
 
 </td>
 <td>
@@ -594,6 +665,33 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="AuthorizationPolicy-ExtensionProvider">AuthorizationPolicy.ExtensionProvider</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="AuthorizationPolicy-ExtensionProvider-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Specifies the name of the extension provider. The list of available providers is defined in the MeshConfig.
+Note, currently at most 1 extension provider is allowed per workload. Different workloads can use different extension provider.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="Rule-From">Rule.From</h2>
 <section>
 <p>From includes a list or sources.</p>
@@ -673,6 +771,50 @@ No
 <td><code>DENY</code></td>
 <td>
 <p>Deny a request if it matches any of the rules.</p>
+
+</td>
+</tr>
+<tr id="AuthorizationPolicy-Action-AUDIT">
+<td><code>AUDIT</code></td>
+<td>
+<p>Audit a request if it matches any of the rules.</p>
+
+</td>
+</tr>
+<tr id="AuthorizationPolicy-Action-CUSTOM">
+<td><code>CUSTOM</code></td>
+<td>
+<p>The CUSTOM action allows an extension to handle the user request if the matching rules evaluate to true.
+The extension is evaluated independently and before the native ALLOW and DENY actions. When used together, A request
+is allowed if and only if all the actions return allow, in other words, the extension cannot bypass the
+authorization decision made by ALLOW and DENY action.
+Extension behavior is defined by the named providers declared in MeshConfig. The authorization policy refers to
+the extension by specifying the name of the provider.
+One example use case of the extension is to integrate with a custom external authorization system to delegate
+the authorization decision to it.</p>
+
+<p>Note: The CUSTOM action is currently an <strong>experimental feature</strong> and is subject to breaking changes in later versions.</p>
+
+<p>The following authorization policy applies to an ingress gateway and delegates the authorization check to a named extension
+&ldquo;my-custom-authz&rdquo; if the request path has prefix &ldquo;/admin/&rdquo;.</p>
+
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: ext-authz
+ namespace: istio-system
+spec:
+ selector:
+   matchLabels:
+     app: istio-ingressgateway
+ action: CUSTOM
+ provider:
+   name: &quot;my-custom-authz&quot;
+ rules:
+ - to:
+   - operation:
+       paths: [&quot;/admin/*&quot;]
+</code></pre>
 
 </td>
 </tr>

@@ -247,7 +247,7 @@ EOF
 }
 
 snip_configure_simple_tls_origination_for_egress_traffic_5() {
-kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
+kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
 }
 
 ! read -r -d '' snip_configure_simple_tls_origination_for_egress_traffic_5_out <<\ENDSNIP
@@ -500,7 +500,7 @@ EOF
 }
 
 snip_configure_mutual_tls_origination_for_egress_traffic_using_sds_5() {
-kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
+kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
 }
 
 ! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_using_sds_5_out <<\ENDSNIP

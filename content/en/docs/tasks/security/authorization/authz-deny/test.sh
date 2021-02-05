@@ -23,7 +23,7 @@ set -o pipefail
 
 # Set retries to a higher value for some flakiness.
 # TODO: remove this when istioctl wait calls are added
-export VERIFY_RETRIES=10
+export VERIFY_TIMEOUT=300
 
 snip_before_you_begin_1
 
@@ -56,5 +56,4 @@ _verify_same snip_explicitly_deny_a_request_9 "$snip_explicitly_deny_a_request_9
 _verify_same snip_explicitly_deny_a_request_10 "$snip_explicitly_deny_a_request_10_out"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_clean_up_1

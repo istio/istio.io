@@ -21,9 +21,9 @@ set -e
 set -u
 set -o pipefail
 
-#export VERIFY_RETRIES=10
+#export VERIFY_TIMEOUT=300
 
-snip_before_you_begin_1
+echo y | snip_before_you_begin_1
 
 # Remove the injection label to prevent the following command from failing
 kubectl label namespace default istio-injection-
@@ -43,28 +43,27 @@ _verify_same snip_before_you_begin_4 "$snip_before_you_begin_4_out"
 
 _verify_same snip_before_you_begin_5 "$snip_before_you_begin_5_out"
 
-snip_migrate_trust_domain_without_trust_domain_aliases_1
-
-_wait_for_deployment istio-system istiod
+echo y | snip_migrate_trust_domain_without_trust_domain_aliases_1
 
 snip_migrate_trust_domain_without_trust_domain_aliases_2
 
+_wait_for_deployment istio-system istiod
+
 snip_migrate_trust_domain_without_trust_domain_aliases_3
 
-_verify_same snip_migrate_trust_domain_without_trust_domain_aliases_4 "$snip_migrate_trust_domain_without_trust_domain_aliases_4_out"
+snip_migrate_trust_domain_without_trust_domain_aliases_4
 
 _verify_same snip_migrate_trust_domain_without_trust_domain_aliases_5 "$snip_migrate_trust_domain_without_trust_domain_aliases_5_out"
 
-snip_migrate_trust_domain_with_trust_domain_aliases_1
+_verify_same snip_migrate_trust_domain_without_trust_domain_aliases_6 "$snip_migrate_trust_domain_without_trust_domain_aliases_6_out"
+
+echo y | snip_migrate_trust_domain_with_trust_domain_aliases_1
 
 _wait_for_deployment istio-system istiod
 
 _verify_same snip_migrate_trust_domain_with_trust_domain_aliases_2 "$snip_migrate_trust_domain_with_trust_domain_aliases_2_out"
 
-#_verify_same snip_migrate_trust_domain_with_trust_domain_aliases_3 "$snip_migrate_trust_domain_with_trust_domain_aliases_3_out"
-# TODO: This trustDomainAliases check fails, even with much longer wait
+_verify_same snip_migrate_trust_domain_with_trust_domain_aliases_3 "$snip_migrate_trust_domain_with_trust_domain_aliases_3_out"
 
 # @cleanup
-
-set +e # ignore cleanup errors
-snip_clean_up_1
+echo y | snip_clean_up_1

@@ -61,11 +61,11 @@ To avoid a vulnerability, ensure that the operator deployment is sufficiently se
     You can alternatively deploy the operator using Helm:
 
     {{< text bash >}}
-    $ helm template manifests/charts/istio-operator/ \
+    $ helm install istio-operator manifests/charts/istio-operator \
       --set hub=docker.io/istio \
       --set tag={{< istio_full_version >}} \
       --set operatorNamespace=istio-operator \
-      --set watchedNamespaces=istio-system | kubectl apply -f -
+      --set watchedNamespaces=istio-namespace1,istio-namespace2
     {{< /text >}}
 
     Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
@@ -92,6 +92,23 @@ EOF
 
 The controller will detect the `IstioOperator` resource and then install the Istio
 components corresponding to the specified (`demo`) configuration.
+
+{{< warning >}}
+If you used `--watchedNamespaces` when you initialized the Istio operator, apply the `IstioOperator` resource in one of the watched namespaces, instead of in `istio-system`.
+{{< /warning >}}
+
+The Istio control plane (istiod) will be installed in the `istio-system` namespace by default. To install it in a different location, specify the namespace using the `values.global.istioNamespace` field as follows:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+...
+spec:
+  profile: demo
+  values:
+    global:
+      istioNamespace: istio-namespace1
+{{< /text >}}
 
 {{< tip >}}
 The Istio operator controller begins the process of installing Istio within 90 seconds of
@@ -172,9 +189,32 @@ $ kubectl logs -f -n istio-operator $(kubectl get pods -n istio-operator -lname=
 Refer to the [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec)
 for the complete set of configuration settings.
 
+## In-place Upgrade
+
+Download and extract the `istioctl` corresponding to the version of Istio you wish to upgrade to. Reinstall the operator
+at the target Istio version:
+
+{{< text bash >}}
+$ <extracted-dir>/bin/istioctl operator init
+{{< /text >}}
+
+You should see that the `istio-operator` pod has restarted and its version has changed to the target version:
+
+{{< text bash >}}
+$ kubectl get pods --namespace istio-operator \
+  -o=jsonpath='{range .items[*]}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{"\n"}{end}'
+{{< /text >}}
+
+After a minute or two, the Istio control plane components should also be restarted at the new version:
+
+{{< text bash >}}
+$ kubectl get pods --namespace istio-system \
+  -o=jsonpath='{range .items[*]}{"\n"}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{"\n"}{end}'
+{{< /text >}}
+
 ## Canary Upgrade
 
-You can use the operator to do a canary upgrade of an Istio control plane, the process is similar to the [canary upgrade with `istioctl`](/docs/setup/upgrade/#canary-upgrades).
+The process for canary upgrade is similar to the [canary upgrade with `istioctl`](/docs/setup/upgrade/canary/).
 
 For example, to upgrade the revision of Istio installed in the previous section, first verify that the `IstioOperator` CR named `example-istiocontrolplane` exists in your cluster:
 
@@ -184,72 +224,84 @@ NAMESPACE      NAME                        REVISION   STATUS    AGE
 istio-system   example-istiocontrolplane              HEALTHY   11m
 {{< /text >}}
 
-Then run the following command to install the new revision of the Istio control plane based on the in-cluster `IstioOperator` CR:
+Download and extract the `istioctl` corresponding to the version of Istio you wish to upgrade to.
+Then, run the following command to install the new target revision of the Istio control plane based on the in-cluster
+`IstioOperator` CR (here, we assume the target revision is 1.8.1):
 
 {{< text bash >}}
-$ istioctl operator init --revision 1-7-0
+$ istio-1.8.1/bin/istioctl operator init --revision 1-8-1
 {{< /text >}}
 
 {{< tip >}}
 You can alternatively use Helm to deploy another operator with a different revision setting:
 
 {{< text bash >}}
-$ helm template manifests/charts/istio-operator/ \
+$ helm install istio-operator manifests/charts/istio-operator \
   --set hub=docker.io/istio \
   --set tag={{< istio_full_version >}} \
   --set operatorNamespace=istio-operator \
-  --set revision=1-7-0 \
-  --set watchedNamespaces=istio-system | kubectl apply -f -
+  --set watchedNamespaces=istio-system \
+  --set revision=1-8-1
 {{< /text >}}
 
 Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
 to run the above command.
 {{< /tip >}}
 
-After running the command, you will have two control plane deployments and services running side-by-side:
+Make a copy of the `example-istiocontrolplane` CR and save it in a file named `example-istiocontrolplane-1-8-1.yaml`.
+Change the name to `example-istiocontrolplane-1-8-1` and add `revision: 1-8-1` to the CR.
+Your updated `IstioOperator` CR should look something like this:
 
 {{< text bash >}}
-$ kubectl get pods -n istio-system -l app=istiod
-NAME                             READY   STATUS    RESTARTS   AGE
-istiod-5f4f9dd5fc-4xc8p          1/1     Running   0          10m
-istiod-1-7-0-55887f699c-t8bh8    1/1     Running   0          8m13s
+$ cat example-istiocontrolplane-1-8-1.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+  name: example-istiocontrolplane-1-8-1
+spec:
+  revision: 1-8-1
+  profile: demo
+{{< /text >}}
+
+Apply the updated `IstioOperator` CR to the cluster. After that, you will have two control plane deployments and services running side-by-side:
+
+{{< text bash >}}
+$ kubectl get pod -n istio-system -l app=istiod
+NAME                            READY   STATUS    RESTARTS   AGE
+istiod-1-8-1-597475f4f6-bgtcz   1/1     Running   0          64s
+istiod-6ffcc65b96-bxzv5         1/1     Running   0          2m11s
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl -n istio-system get svc -l app=istiod
-NAME            TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                                         AGE
-istiod          ClusterIP   10.87.7.69   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   10m
-istiod-1-7-0    ClusterIP   10.87.4.92   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   7m55s
+$ kubectl get svc -n istio-system -l app=istiod
+NAME           TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                         AGE
+istiod         ClusterIP   10.104.129.150   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   2m35s
+istiod-1-8-1   ClusterIP   10.111.17.49     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP           88s
 {{< /text >}}
+
+To complete the upgrade, label the workload namespaces with `istio.io/rev=1-8-1` and restart the workloads, as
+explained in the [Data plane upgrade](/docs/setup/upgrade/canary/#data-plane) documentation.
 
 ## Uninstall
 
-If you used the operator to perform a canary upgrade of the control plane, you can uninstall the old control plane and keep the new one by running the following command:
-
-{{< text bash >}}
-$ istioctl operator remove --revision <revision>
-{{< /text >}}
-
-Otherwise, delete the in-cluster `IstioOperator` CR, which will uninstall all revisions of Istio that may be running:
+If you used the operator to perform a canary upgrade of the control plane, you can uninstall the old control plane and keep the new one by deleting the old in-cluster `IstioOperator` CR, which will uninstall the old revision of Istio:
 
 {{< text bash >}}
 $ kubectl delete istiooperators.install.istio.io -n istio-system example-istiocontrolplane
 {{< /text >}}
 
 Wait until Istio is uninstalled - this may take some time.
-Delete the Istio operator:
+
+Then you can remove the Istio operator for the old revision by running the following command:
 
 {{< text bash >}}
-$ istioctl operator remove
+$ istioctl operator remove --revision <revision>
 {{< /text >}}
 
-Or:
+If you omit the `revision` flag, then all revisions of Istio operator will be removed.
 
-{{< text bash >}}
-$ kubectl delete ns istio-operator --grace-period=0 --force
-{{< /text >}}
-
-Note that deleting the operator before Istio is fully removed may result in leftover Istio resources.
+Note that deleting the operator before the `IstioOperator` CR and corresponding Istio revision are fully removed may result in leftover Istio resources.
 To clean up anything not removed by the operator:
 
 {{< text bash >}}

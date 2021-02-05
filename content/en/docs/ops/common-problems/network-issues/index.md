@@ -95,7 +95,7 @@ Let's assume you are using an ingress `Gateway` and corresponding `VirtualServic
 For example, your `VirtualService` looks something like this:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: myapp
@@ -118,7 +118,7 @@ spec:
 You also have a `VirtualService` which routes traffic for the helloworld service to a particular subset:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: helloworld
@@ -143,7 +143,7 @@ helloworld `VirtualService` which directs traffic exclusively to subset v1.
 To control the traffic from the gateway, you need to also include the subset rule in the myapp `VirtualService`:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: myapp
@@ -167,7 +167,7 @@ spec:
 Alternatively, you can combine both `VirtualServices` into one unit if possible:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: myapp
@@ -233,7 +233,243 @@ server {
 }
 {{< /text >}}
 
-## 404 errors occur when multiple gateways configured with same TLS certificate
+## TLS configuration mistakes
+
+Many traffic management problems
+are caused by incorrect [TLS configuration](/docs/ops/configuration/traffic-management/tls-configuration/).
+The following sections describe some of the most common misconfigurations.
+
+### Sending HTTPS to an HTTP port
+
+If your application sends an HTTPS request to a service declared to be HTTP,
+the Envoy sidecar will attempt to parse the request as HTTP while forwarding the request,
+which will fail because the HTTP is unexpectedly encrypted.
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: httpbin
+spec:
+  hosts:
+  - httpbin.org
+  ports:
+  - number: 443
+    name: http
+    protocol: HTTP
+  resolution: DNS
+{{< /text >}}
+
+Although the above configuration may be correct if you are intentionally sending plaintext on port 443 (e.g., `curl http://httpbin.org:443`),
+generally port 443 is dedicated for HTTPS traffic.
+
+Sending an HTTPS request like `curl https://httpbin.org`, which defaults to port 443, will result in an error like
+`curl: (35) error:1408F10B:SSL routines:ssl3_get_record:wrong version number`.
+The access logs may also show an error like `400 DPE`.
+
+To fix this, you should change the port protocol to HTTPS:
+
+{{< text yaml >}}
+spec:
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+{{< /text >}}
+
+### Gateway to virtual service TLS mismatch {#gateway-mismatch}
+
+There are two common TLS mismatches that can occur when binding a virtual service to a gateway.
+
+1. The gateway terminates TLS while the virtual service configures TLS routing.
+1. The gateway does TLS passthrough while the virtual service configures HTTP routing.
+
+#### Gateway with TLS termination
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+      - "*"
+    tls:
+      mode: SIMPLE
+      credentialName: sds-credential
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: httpbin
+spec:
+  hosts:
+  - "*.example.com"
+  gateways:
+  - istio-system/gateway
+  tls:
+  - match:
+    - sniHosts:
+      - "*.example.com"
+    route:
+    - destination:
+        host: httpbin.org
+{{< /text >}}
+
+In this example, the gateway is terminating TLS while the virtual service is using TLS based routing.
+The TLS route rules will have no effect since the TLS is already terminated when the route rules are evaluated.
+
+With this misconfiguration, you will end up getting 404 responses because the requests will be
+sent to HTTP routing but there are no HTTP routes configured.
+You can confirm this using the `istioctl proxy-config routes` command.
+
+To fix this problem, you should switch the virtual service to specify `http` routing, instead of `tls`:
+
+{{< text yaml >}}
+spec:
+  ...
+  http:
+  - match: ...
+{{< /text >}}
+
+#### Gateway with TLS passthrough
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - "*"
+    port:
+      name: https
+      number: 443
+      protocol: HTTPS
+    tls:
+      mode: PASSTHROUGH
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: virtual-service
+spec:
+  gateways:
+  - gateway
+  hosts:
+  - httpbin.example.com
+  http:
+  - route:
+    - destination:
+        host: httpbin.org
+{{< /text >}}
+
+In this configuration, the virtual service is attempting to match HTTP traffic against TLS traffic passed through the gateway.
+This will result in the virtual service configuration having no effect. You can observe that the HTTP route is not applied using
+the `istioctl proxy-config listener` and `istioctl proxy-config route` commands.
+
+To fix this, you should switch the virtual service to configure `tls` routing:
+
+{{< text yaml >}}
+spec:
+  tls:
+  - match:
+    - sniHosts: ["httpbin.example.com"]
+    route:
+    - destination:
+        host: httpbin.org
+{{< /text >}}
+
+Alternatively, you could terminate TLS, rather than passing it through, by switching the `tls` configuration in the gateway:
+
+{{< text yaml >}}
+spec:
+  ...
+    tls:
+      credentialName: sds-credential
+      mode: SIMPLE
+{{< /text >}}
+
+### Double TLS (TLS origination for a TLS request) {#double-tls}
+
+When configuring Istio to perform {{< gloss >}}TLS origination{{< /gloss >}}, you need to make sure
+that the application sends plaintext requests to the sidecar, which will then originate the TLS.
+
+The following `DestinationRule` originates TLS for requests to the `httpbin.org` service,
+but the corresponding `ServiceEntry` defines the protocol as HTTPS on port 443.
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: httpbin
+spec:
+  hosts:
+  - httpbin.org
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: originate-tls
+spec:
+  host: httpbin.org
+  trafficPolicy:
+    tls:
+      mode: SIMPLE
+{{< /text >}}
+
+With this configuration, the sidecar expects the application to send TLS traffic on port 443
+(e.g., `curl https://httpbin.org`), but it will also perform TLS origination before forwarding requests.
+This will cause the requests to be double encrypted.
+
+For example, sending a request like `curl https://httpbin.org` will result in an error:
+`(35) error:1408F10B:SSL routines:ssl3_get_record:wrong version number`.
+
+You can fix this example by changing the port protocol in the `ServiceEntry` to HTTP:
+
+{{< text yaml >}}
+spec:
+  hosts:
+  - httpbin.org
+  ports:
+  - number: 443
+    name: http
+    protocol: HTTP
+{{< /text >}}
+
+Note that with this configuration your application will need to send plaintext requests to port 433,
+like `curl http://httpbin.org:443`, because TLS origination does not change the port.
+However, starting in Istio 1.8, you can expose HTTP port 80 to the application (e.g., `curl http://httpbin.org`)
+and then redirect requests to `targetPort` 443 for the TLS origination:
+
+{{< text yaml >}}
+spec:
+  hosts:
+  - httpbin.org
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+    targetPort: 443
+{{< /text >}}
+
+### 404 errors occur when multiple gateways configured with same TLS certificate
 
 Configuring more than one gateway using the same TLS certificate will cause browsers
 that leverage [HTTP/2 connection reuse](https://httpwg.org/specs/rfc7540.html#reuse)
@@ -261,7 +497,7 @@ Then, simply bind both `VirtualServices` to it like this:
 - `VirtualService` configuration `vs1` with host `service1.test.com` and gateway `gw`
 - `VirtualService` configuration `vs2` with host `service2.test.com` and gateway `gw`
 
-## Port conflict when configuring multiple TLS hosts in a gateway
+### Port conflict when configuring multiple TLS hosts in a gateway
 
 If you apply a `Gateway` configuration that has the same `selector` labels as another
 existing `Gateway`, then if they both expose the same HTTPS port you must ensure that they have
@@ -269,7 +505,7 @@ unique port names. Otherwise, the configuration will be applied without an immed
 but it will be ignored in the runtime gateway configuration. For example:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
   name: mygateway
@@ -288,7 +524,7 @@ spec:
     hosts:
     - "myhost.com"
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
   name: mygateway2
@@ -327,7 +563,7 @@ To avoid this problem, ensure that multiple uses of the same `protocol: HTTPS` p
 For example, change the second one to `https2`:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
   name: mygateway2

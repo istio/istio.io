@@ -61,7 +61,7 @@ EOF
 }
 
 snip_perform_tls_origination_with_an_egress_gateway_2() {
-kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_perform_tls_origination_with_an_egress_gateway_2_out <<\ENDSNIP
@@ -163,7 +163,7 @@ EOF
 }
 
 snip_perform_tls_origination_with_an_egress_gateway_5() {
-kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_perform_tls_origination_with_an_egress_gateway_5_out <<\ENDSNIP
@@ -455,7 +455,7 @@ EOF
 }
 
 snip_configure_mutual_tls_origination_for_egress_traffic_4() {
-kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
+kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
 }
 
 ! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_4_out <<\ENDSNIP
@@ -472,7 +472,7 @@ kubectl logs -l istio=egressgateway -n istio-system | grep 'my-nginx.mesh-extern
 
 snip_cleanup_the_mutual_tls_origination_example_1() {
 kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
-kubectl delete secret istio-egressgateway-certs istio-egressgateway-ca-certs -n istio-system
+kubectl delete secret istio-egressgateway-certs istio-egressgateway-ca-certs nginx-client-certs nginx-ca-certs -n istio-system
 kubectl delete configmap nginx-configmap -n mesh-external
 kubectl delete service my-nginx -n mesh-external
 kubectl delete deployment my-nginx -n mesh-external

@@ -62,7 +62,6 @@ _wait_for_istio virtualservice default reviews
 _verify_contains get_productpage "Sorry, product reviews are currently unavailable for this book."
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_1
 cleanup_bookinfo_sample
 cleanup_sleep_sample

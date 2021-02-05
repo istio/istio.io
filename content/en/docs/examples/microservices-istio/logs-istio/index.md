@@ -6,7 +6,7 @@ owner: istio/wg-docs-maintainers
 test: no
 ---
 
-Monitoring is crucial to support transitioning to the microservices architecture style. Other requirements include rapid provisioning and rapid deployment, according to [this article](https://aadrake.com/posts/2017-05-20-enough-with-the-microservices.html).
+Monitoring is crucial to support transitioning to the microservices architecture style.
 
 With Istio, you gain monitoring of the traffic between microservices by default.
 You can use the Istio Dashboard for monitoring your microservices in real time.
@@ -68,7 +68,6 @@ features using this `demo` installation:
 - [Traffic shifting](/docs/tasks/traffic-management/traffic-shifting/)
 - [Querying metrics](/docs/tasks/observability/metrics/querying-metrics/)
 - [Visualizing metrics](/docs/tasks/observability/metrics/using-istio-dashboard/)
-- [Rate limiting](/docs/tasks/policy-enforcement/rate-limiting/)
 - [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
 - [Visualizing your mesh](/docs/tasks/observability/kiali/)
 

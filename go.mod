@@ -1,23 +1,35 @@
 module istio.io/istio.io
 
-go 1.13
-
-replace github.com/golang/glog => github.com/istio/glog v0.0.0-20190424172949-d7cfb6fa2ccd
-
-replace k8s.io/klog => github.com/istio/klog v0.0.0-20190424230111-fb7481ea8bcf
+go 1.15
 
 replace github.com/spf13/viper => github.com/istio/viper v1.3.3-0.20190515210538-2789fed3109c
 
+// For license
 replace github.com/docker/docker => github.com/docker/engine v1.4.2-0.20191011211953-adfac697dc5b
 
+// Old version had no license
+replace github.com/chzyer/logex => github.com/chzyer/logex v1.1.11-0.20170329064859-445be9e134b2
+
+// Avoid pulling in incompatible libraries
+replace github.com/docker/distribution => github.com/docker/distribution v2.7.1+incompatible
+
+// Avoid pulling in kubernetes/kubernetes
+replace github.com/Microsoft/hcsshim => github.com/Microsoft/hcsshim v0.8.8-0.20200421182805-c3e488f0d815
+
+// Client-go does not handle different versions of mergo due to some breaking changes - use the matching version
+replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
+
+// See https://github.com/kubernetes/kubernetes/issues/92867, there is a bug in the library
+replace github.com/evanphx/json-patch => github.com/evanphx/json-patch v0.0.0-20190815234213-e83c0a1c26c8
+
 require (
-	github.com/openshift/api v3.9.1-0.20191008181517-e4fd21196097+incompatible // indirect
-	istio.io/istio v0.0.0-20200810131457-ea5466044eaf
-	istio.io/pkg v0.0.0-20200807181912-d97bc429be20
+	github.com/golang/sync v0.0.0-20180314180146-1d60e4601c6f
+	github.com/pmezard/go-difflib v1.0.0
+	istio.io/istio v0.0.0-20210130163343-4cfabf00a038
+	istio.io/pkg v0.0.0-20201230223204-2d0a1c8bd9e5
+	k8s.io/apimachinery v0.20.1
+	k8s.io/client-go v0.20.1
 )
 
-replace github.com/Azure/go-autorest/autorest => github.com/Azure/go-autorest/autorest v0.9.0
-
-replace github.com/Azure/go-autorest/autorest/adal => github.com/Azure/go-autorest/autorest/adal v0.5.0
-
-replace github.com/Azure/go-autorest => github.com/Azure/go-autorest v13.2.0+incompatible
+// Pending https://github.com/kubernetes/kube-openapi/pull/220
+replace k8s.io/kube-openapi => github.com/howardjohn/kube-openapi v0.0.0-20210104181841-c0b40d2cb1c8

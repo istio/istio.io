@@ -7,7 +7,7 @@ keywords: [nifi]
 
 [Apache NiFi](https://nifi.apache.org) poses some challenges to get it running on Istio. These challenges come from the clustering
 requirements it has. For example, there is a requirement that cluster components must be uniquely addressable using cluster-wide
-host names. This requirement conflicts with Istio's requirement that workloads bind and listen on `localhost` / `127.0.0.1` within
+host names. This requirement conflicts with Istio's requirement that workloads bind and listen on `0.0.0.0` within
 the pod.
 
 There are different ways to work around these issues based on your configuration requirements for your NiFi deployment. NiFi has

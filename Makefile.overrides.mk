@@ -17,3 +17,5 @@ CONTAINER_OPTIONS = -p 1313:1313 ${ADDITIONAL_CONTAINER_OPTIONS}
 
 # this repo is on the container plan by default
 BUILD_WITH_CONTAINER ?= 1
+
+CONDITIONAL_HOST_MOUNTS = --mount type=bind,source=/tmp,destination=/tmp ${}

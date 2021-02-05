@@ -7,7 +7,7 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 
-WebAssembly is a sandboxing technology which can be used to extend the Istio proxy (Envoy).  The Proxy-Wasm sandbox API replaces Mixer as the primary extension mechanism in Istio. Istio 1.6 will provide a uniform configuration API for Proxy-Wasm plugins.
+WebAssembly is a sandboxing technology which can be used to extend the Istio proxy (Envoy).  The Proxy-Wasm sandbox API replaces Mixer as the primary extension mechanism in Istio.
 
 WebAssembly sandbox goals:
 
@@ -35,14 +35,14 @@ Istio extensions (Proxy-Wasm plugins) have several components:
 ## Example
 
 An example C++ Proxy-Wasm plugin for a filter can be found
-[here](https://github.com/envoyproxy/envoy-wasm/tree/19b9fd9a22e27fcadf61a06bf6aac03b735418e6/examples/wasm).
+[here](https://github.com/envoyproxy/envoy/tree/67609bc22f68cd3e05f5c01264a33932377955c7/examples/wasm-cc).
 
 To implement a Proxy-Wasm plugin for a filter:
 
-- Implement a [root context class](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/examples/wasm/envoy_filter_http_wasm_example.cc#L7) which inherits [base root context class](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/api/wasm/cpp/proxy_wasm_impl.h#L288)
-- Implement a [stream context class](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/examples/wasm/envoy_filter_http_wasm_example.cc#L14) which inherits the [base context class](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/api/wasm/cpp/proxy_wasm_impl.h#L314).
-- Override [context API](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/examples/wasm/envoy_filter_http_wasm_example.cc#L14) methods to handle corresponding initialization and stream events from host.
-- [Register](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/examples/wasm/envoy_filter_http_wasm_example.cc#L26) the root context and stream context.
+- Implement a [root context class](https://github.com/envoyproxy/envoy/blob/67609bc22f68cd3e05f5c01264a33932377955c7/examples/wasm-cc/envoy_filter_http_wasm_example.cc#L8) which inherits [base root context class](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/1b5f69ce1535b0c21f88c4af4ebf0ec51d255abe/proxy_wasm_api.h#L310)
+- Implement a [stream context class](https://github.com/envoyproxy/envoy/blob/67609bc22f68cd3e05f5c01264a33932377955c7/examples/wasm-cc/envoy_filter_http_wasm_example.cc#L17) which inherits the [base context class](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/1b5f69ce1535b0c21f88c4af4ebf0ec51d255abe/proxy_wasm_api.h#L439).
+- Override [context API](https://github.com/envoyproxy/envoy/blob/67609bc22f68cd3e05f5c01264a33932377955c7/examples/wasm-cc/envoy_filter_http_wasm_example.cc#L49) methods to handle corresponding initialization and stream events from host.
+- [Register](https://github.com/envoyproxy/envoy/blob/67609bc22f68cd3e05f5c01264a33932377955c7/examples/wasm-cc/envoy_filter_http_wasm_example.cc#L30) the root context and stream context.
 
 ## SDK
 

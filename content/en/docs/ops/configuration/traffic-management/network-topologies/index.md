@@ -1,18 +1,15 @@
 ---
-title: Configuring Gateway Network Topology (Development)
-description: How to configure gateway network topology (Development).
+title: Configuring Gateway Network Topology [Experimental]
+description: How to configure gateway network topology (experimental).
 weight: 60
 keywords: [traffic-management,ingress,gateway]
 owner: istio/wg-networking-maintainers
 test: no
 ---
 
-## Configuring network topologies (Development)
+## Configuring network topologies
 
-{{< idea >}}
-This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
-considered `pre-alpha`.
-{{</ idea >}}
+{{< boilerplate experimental >}}
 
 Istio provides the ability to manage settings like [X-Forwarded-For](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for) (XFF)
 and [X-Forwarded-Client-Cert](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
@@ -24,56 +21,36 @@ You might choose to deploy Istio ingress gateways in various network topologies
 Istio ingress gateway to the Internet). As such, these topologies require different ingress gateway configurations for
 transporting correct client attributes like IP addresses and certificates to the workloads running in the cluster.
 
-Configuration of XFF and XFCC headers is managed via `MeshConfig` during Istio
-installation or by adding a pod annotation. Note that the `Meshconfig` configuration is a global setting for all gateway workloads, while pod annotations override the global setting on a per-workload basis.
+Configuration of XFF and XFCC headers can be set globally for all gateway workloads via `MeshConfig` or per gateway using a pod annotation. For example, to configure globally during install or upgrade when using an `IstioOperator` custom resource:
 
-To simplify configuring network topology during installation, create a single YAML file to pass to `istioctl`:
-
-{{< text bash >}}
-$ cat <<EOF > topology.yaml
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
+{{< text yaml >}}
 spec:
   meshConfig:
     defaultConfig:
       gatewayTopology:
-EOF
+        numTrustedProxies: <VALUE>
+        forwardClientCertDetails: <ENUM_VALUE>
 {{< /text >}}
 
-{{< idea >}}
-If Istio ingress gateway was already running prior to application of the `MeshConfig`, restart any Istio ingress gateway pods.
-{{< /idea >}}
-
-You can configure both of these settings using the `proxy.istio.io/config` annotation to the Pod spec
+You can also configure both of these settings by adding the `proxy.istio.io/config` annotation to the Pod spec
 of your Istio ingress gateway.
 
 {{< text yaml >}}
 ...
   metadata:
     annotations:
-      "proxy.istio.io/config": '{"gatewayTopology" : { "numTrustedProxies": 2 } }'
+      "proxy.istio.io/config": '{"gatewayTopology" : { "numTrustedProxies": <VALUE>, "forwardClientCertDetails": <ENUM_VALUE> } }'
 {{< /text >}}
 
 ### Configuring X-Forwarded-For Headers
 
 Applications rely on reverse proxies to forward client attributes in a request, such as `X-Forward-For` header. However, due to the variety of network
-topologies Istio can be deployed in, you must set the number of trusted proxies deployed in front
+topologies that Istio can be deployed in, you must set the `numTrustedProxies` to the number of trusted proxies deployed in front
 of the Istio gateway proxy, so that the client address can be extracted correctly.
+This controls the value populated by the ingress gateway in the `X-Envoy-External-Address` header
+which can be reliably used by the upstream services to access client's original IP address.
 
-To set the number of trusted proxies, add the following to your `topology.yaml` file.
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    defaultConfig:
-      gatewayTopology:
-        numTrustedProxies: <VALUE>
-{{< /text >}}
-
-For example, if you have a cloud based Load Balancer, a reverse proxy, and an Istio gateway proxy,
-then `<VALUE>` would be 2.
+For example, if you have a cloud based Load Balancer and a reverse proxy in front of your Istio gateway, set `numTrustedProxies` to `2`.
 
 {{< idea >}}
 Note that all proxies in front of the Istio gateway proxy must parse HTTP traffic and append to the `X-Forwarded-For`
@@ -85,7 +62,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
 
 #### Example using X-Forwarded-For capability with httpbin
 
-1. Specify `numTrustedProxies` as 2 either using `MeshConfig` or an `proxy.istop/io/config` annotation. If you are using `MeshConfig`, run the following command to create a file named `topology.yaml` and apply it to your cluster:
+1. Run the following command to create a file named `topology.yaml` with `numTrustedProxies` set to `2` and install Istio:
 
     {{< text bash >}}
     $ cat <<EOF > topology.yaml
@@ -136,7 +113,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
     $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     {{< /text >}}
 
-1. Run the following `curl` command to verify the `X-Envoy-External-Address` and `X-Forwarded-For` are set correctly:
+1. Run the following `curl` command to simulate a request with proxy addresses in the `X-Forwarded-For` header:
 
     {{< text bash >}}
     $ curl -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' $GATEWAY_URL/get?show_env=true
@@ -155,9 +132,8 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
     }
     {{< /text >}}
 
-Note that the `X-Envoy-External-Address` is set to the "second" from last address in the `X-Forwarded-For` header
-as per your `numTrustedProxies` setting. Additionally, the gateway workload appends its IP in the
-`X-Forwarded-For` header before forwarding it to the upstream httpbin workload.
+The above output shows the request headers that the `httpbin` workload received. When the Istio gateway received this request, it set the `X-Envoy-External-Address` header to the second to last (`numTrustedProxies: 2`) address in the `X-Forwarded-For` header from your curl command. Additionally, the gateway appends its own IP to the
+`X-Forwarded-For` header before forwarding it to the httpbin workload.
 
 ### Configuring X-Forwarded-Client-Cert Headers
 
@@ -170,7 +146,7 @@ or proxies that a request has flowed through, on its way from the client to the 
 sanitize/append/forward the XFCC header before proxying the request.
 {{< /quote >}}
 
-To configure how XFCC Headers are handled, add the following to your `topology.yaml` file.
+To configure how XFCC headers are handled, set `forwardClientCertDetails` in your `IstioOperator`
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -195,3 +171,31 @@ where `ENUM_VALUE` can be of the following type.
 
 See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
 for examples of using this capability.
+
+## PROXY Protocol
+
+The [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) allows for exchanging and preservation of client attributes across multiple proxies without relying on Layer 7 protocols.
+
+If your external load balancer is configured to use the PROXY protocol, the Istio gateway must also be configured accept PROXY protocol. Enabling this requires adding [Envoy Proxy Protocol filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol) using an `EnvoyFilter` applied on the gateway workload. For example:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: proxy-protocol
+  namespace: istio-system
+spec:
+  configPatches:
+  - applyTo: LISTENER
+    patch:
+      operation: MERGE
+      value:
+        listener_filters:
+        - name: envoy.listener.proxy_protocol
+        - name: envoy.listener.tls_inspector
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+{{< /text >}}
+
+The client IP is retrieved from the PROXY protocol and set (or appended) in the `X-Forwarded-For` and `X-Envoy-External-Address` header. When PROXY protocol is used in conjunction with the `gatewayTopology` configuration, the `numTrustedProxies` and the received `X-Forwarded-For` header takes precedence in determining the trusted client addresses.

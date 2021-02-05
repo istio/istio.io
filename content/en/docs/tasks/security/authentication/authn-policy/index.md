@@ -56,7 +56,7 @@ $ kubectl exec "$(kubectl get pod -l app=sleep -n bar -o jsonpath={.items..metad
 This one-liner command conveniently iterates through all reachability combinations:
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl -s "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.foo to httpbin.legacy: 200
@@ -99,7 +99,7 @@ upstream request to the backend. That header's presence is evidence that mutual 
 used. For example:
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
+$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl -s http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
     "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"
 {{< /text >}}
 
@@ -491,19 +491,22 @@ Download the [jwcrypto](https://pypi.org/project/jwcrypto) library,
 if you haven't installed it on your system.
 {{< /tip >}}
 
+The JWT authentication has 60 seconds clock skew, this means the JWT token will become valid 60 seconds earlier than
+its configured `nbf` and remain valid 60 seconds after its configured `exp`.
+
 For example, the command below creates a token that
-expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 5 seconds:
+expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 65 seconds:
 
 {{< text bash >}}
 $ TOKEN=$(python3 ./gen-jwt.py ./key.pem --expire 5)
-$ for i in $(seq 1 10); do curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"; sleep 1; done
+$ for i in $(seq 1 10); do curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"; sleep 10; done
 200
 200
 200
 200
 200
-401
-401
+200
+200
 401
 401
 401

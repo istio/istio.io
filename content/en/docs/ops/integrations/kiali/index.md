@@ -24,9 +24,14 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/kiali.yaml
 
 This will deploy Kiali into your cluster. This is intended for demonstration only, and is not tuned for performance or security.
 
+{{< tip >}}
+If there are errors trying to install the addons, try running the command again. There may
+be some timing issues which will be resolved when the command is run again.
+{{< /tip >}}
+
 ### Option 2: Customizable install
 
-The Kiali project offers its own [customizable installation methods](https://kiali.io/documentation/latest/getting-started). We recommend production users follow these instructions to ensure they stay up to date with the latest versions and best practices.
+The Kiali project offers its own [quick start guide](https://kiali.io/documentation/latest/quick-start) and [customizable installation methods](https://kiali.io/documentation/latest/installation-guide). We recommend production users follow those instructions to ensure they stay up to date with the latest versions and best practices.
 
 ## Usage
 

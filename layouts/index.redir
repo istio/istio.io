@@ -35,14 +35,27 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 {{- end }}
 
 # Download scripts
-/downloadIstio https://raw.githubusercontent.com/istio/istio/release-{{ .Site.Data.args.version }}/release/downloadIstioCandidate.sh
-/downloadIstioctl https://raw.githubusercontent.com/istio/istio/release-{{ .Site.Data.args.version }}/release/downloadIstioCtl.sh
+/downloadIstio https://raw.githubusercontent.com/istio/istio/master/release/downloadIstioCandidate.sh
+/downloadIstioctl https://raw.githubusercontent.com/istio/istio/master/release/downloadIstioCtl.sh
 
-#navigating to a page without /latest on front, add /latest
+# Redirect static folder
+/img/* /latest/img/:splat
+/misc/* /latest/misc/:splat
+/talks/* /latest/talks/:splat
+/favicons/* /latest/favicons/:splat
+
+# navigating to a page without /latest on front, add /latest
 {{ range $p := .Site.Pages }}
 {{ strings.TrimPrefix "/latest" $p.Permalink }} {{ $p.Permalink}}
 {{- end }}
 
+# redirect current version to /latest
 /v{{ .Site.Data.args.version }}/* /latest/:splat
-http://archive.istio.io /archive 301!
-http://archive.istio.io/* /:splat 301!
+
+#redirect next version to preliminary
+/v{{ .Site.Data.versions.preliminary }}/* https://preliminary.istio.io/latest/:splat
+
+http://archive.istio.io/ http://istio.io/archive 301!
+http://archive.istio.io/* http://istio.io/:splat 301!
+https://archive.istio.io/ https://istio.io/archive 301!
+https://archive.istio.io/* https://istio.io/:splat 301!

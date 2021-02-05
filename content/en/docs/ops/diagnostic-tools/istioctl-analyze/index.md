@@ -22,10 +22,10 @@ $ istioctl analyze --all-namespaces
 
 And that’s it! It’ll give you any recommendations that apply.
 
-For example, if you forgot to enable Istio injection (a very common issue), you would get the following warning:
+For example, if you forgot to enable Istio injection (a very common issue), you would get the following 'Info' message:
 
 {{< text syntax=plain snip_id=analyze_all_namespace_sample_response >}}
-Warn [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
+Info [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection.
 {{< /text >}}
 
 Fix the issue:
@@ -47,7 +47,9 @@ Analyze the current live cluster, simulating the effect of applying additional y
 
 {{< text syntax=bash snip_id=analyze_sample_destrule >}}
 $ istioctl analyze @samples/bookinfo/networking/bookinfo-gateway.yaml@ @samples/bookinfo/networking/destination-rule-all.yaml@
-Error [IST0101] (VirtualService bookinfo.default samples/bookinfo/networking/bookinfo-gateway.yaml:16) Referenced host not found: "productpage"
+Error [IST0101] (VirtualService bookinfo.default samples/bookinfo/networking/bookinfo-gateway.yaml:39) Referenced host not found: "productpage"
+Error: Analyzers found issues when analyzing namespace: default.
+See https://istio.io/v1.9/docs/reference/config/analysis for more information about causes and resolutions.
 {{< /text >}}
 
 Analyze the entire `networking` folder:
@@ -97,10 +99,10 @@ spec:
 ...
 status:
   validationMessages:
-  - code: IST0101
-    documentation_url: https://istio.io/docs/reference/config/analysis/ist0101/?ref=status-controller
-    level: Error
-    message: 'Referenced gateway not found: "bogus-gateway"'
+  - documentation_url: https://istio.io/v1.9/docs/reference/config/analysis/ist0101/?ref=status-controller
+    level: 3
+    type:
+      code: IST0101
 {{< /text >}}
 
 `enableAnalysis` runs in the background, and will keep the status field of a resource up to date with its current validation status. Note that this isn't a replacement for `istioctl analyze`:
@@ -121,7 +123,7 @@ Sometimes you might find it useful to hide or ignore analyzer messages in certai
 
 {{< text syntax=bash snip_id=analyze_k_frod >}}
 $ istioctl analyze -k --namespace frod
-Warn [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection
+Info [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection.
 {{< /text >}}
 
 Because you don't have permissions to update the namespace, you cannot resolve the message by annotating the namespace. Instead, you can direct `istioctl analyze` to suppress the above message on the resource:
@@ -174,7 +176,7 @@ kind of information you should provide.
 
       Like other `istioctl` tools, we generally recommend using a downloaded version that matches the version deployed in your cluster.
 
-      For the time being, analysis is generally backwards compatible, so that you can, for example, run the 1.4 version of `istioctl analyze` against a cluster running Istio 1.1 and expect to get useful feedback. Analysis rules that are not meaningful with an older Istio release will be skipped.
+      For the time being, analysis is generally backwards compatible, so that you can, for example, run the 1.9 version of `istioctl analyze` against a cluster running Istio 1.6 and expect to get useful feedback. Analysis rules that are not meaningful with an older Istio release will be skipped.
 
       If you decide to use the latest `istioctl` for analysis purposes on a cluster running an older Istio version, we suggest that you keep it in a separate folder from the version of the binary used to manage your deployed Istio release.
 

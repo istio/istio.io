@@ -48,7 +48,7 @@ function verify {
 
   for ((i=1; i<="$REPEAT"; i++)); do
     set +e
-    response=$(kubectl exec "${sleep_pod}" -c sleep -n "default" -- curl "${ingress_url}" -s -w "\n%{http_code}\n")
+    response=$(kubectl exec "${sleep_pod}" -c sleep -n "default" -- curl "${ingress_url}" -sS -w "\n%{http_code}\n")
     set -e
     mapfile -t respArray <<< "$response"
     code=${respArray[-1]}
@@ -120,7 +120,6 @@ _wait_for_istio authorizationpolicy default ratings-viewer
 verify 200 "William Shakespeare" "Book Details" "Book Reviews"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_clean_up_1
 # remaining cleanup (undocumented).
 cleanup_bookinfo_sample

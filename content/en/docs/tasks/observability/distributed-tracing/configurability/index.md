@@ -1,6 +1,6 @@
 ---
-title: Configurability (Beta/Development)
-description: How to configure tracing options (beta/development).
+title: Configurability [Beta/Experimental]
+description: How to configure tracing options (beta/experimental).
 weight: 60
 keywords: [telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers
@@ -45,6 +45,13 @@ There are two ways you can configure tracing options:
 In order for the new tracing configuration to take effect for either of these
 options you need to restart pods injected with Istio proxies.
 {{< /warning >}}
+
+Note that any pod annotations added for tracing configuration overrides global settings.
+In order to preserve any global settings you should copy them from
+global mesh config to pod annotations along with workload specific
+customization. In particular, make sure that the tracing backend address is
+always provided in the annotations to ensure that the traces are reported
+correctly for the workload.
 
 ### Using `MeshConfig` for trace settings
 

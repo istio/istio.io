@@ -3,7 +3,7 @@ title: Istio Standard Metrics
 description: Istio standard metrics exported by Istio telemetry.
 weight: 50
 owner: istio/wg-user-experience-maintainers
-test: no
+test: n/a
 aliases:
     - /docs/reference/config/telemetry/metrics/
 ---
@@ -37,6 +37,10 @@ For TCP traffic, Istio generates the following metrics:
 *   **Tcp Connections Opened** (`istio_tcp_connections_opened_total`): This is a `COUNTER` incremented for every opened connection.
 
 *   **Tcp Connections Closed** (`istio_tcp_connections_closed_total`): This is a `COUNTER` incremented for every closed connection.
+
+*   **gRPC Request Message Count** (`istio_request_messages_total`): This is a `COUNTER` incremented for every gRPC message sent from a client.
+
+*   **gRPC Response Message Count** (`istio_response_messages_total`): This is a `COUNTER` incremented for every gRPC message sent from a server.
 
 ## Labels
 

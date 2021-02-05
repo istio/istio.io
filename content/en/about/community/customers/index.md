@@ -10,11 +10,13 @@ skip_seealso: true
 Here are just a few of the organizations we know are using Istio. If you want to edit this page, [please send a pull request!](https://github.com/istio/istio.io/tree/master/content/en/about/community/customers)
 
 <div class="logo-gallery">
+    {{< company_logo link="https://www.aihuishou.com" logo="./aihuishou.jpeg" alt="Aihuishou" >}}
     {{< company_logo link="https://www.amadeus.com" logo="./amadeus.svg" alt="Amadeus" >}}
-    {{< company_logo link="https://www.anz.com" logo="./anz.svg" alt="ANZ" >}}
     {{< company_logo link="https://www.autodesk.com" logo="./autodesk.png" alt="Autodesk" >}}
     {{< company_logo link="https://www.autotrader.co.uk" logo="./autotrader.uk.svg" alt="AutoTrader UK" >}}
+    {{< company_logo link="https://www.avito.ru" logo="./avito.svg" alt="Avito" >}}
     {{< company_logo link="https://www.bol.com" logo="./bol-com.svg" alt="bol.com" >}}
+    {{< company_logo link="https://cash.app" logo="./cash-app.svg" alt="Cash App" >}}
     {{< company_logo link="https://www.chiper.co" logo="./chiper.svg" alt="Chiper" >}}
     {{< company_logo link="https://www.continental-corporation.com" logo="./continental.svg" alt="Continental" >}}
     {{< company_logo link="https://www.coohom.com" logo="./coohom.svg" alt="COOHOM" >}}
@@ -34,12 +36,14 @@ Here are just a few of the organizations we know are using Istio. If you want to
     {{< company_logo link="https://www.gojek.com/" logo="./gojek.svg" alt="Gojek" >}}
     {{< company_logo link="https://www.gov.uk/" logo="./gov-uk.svg" alt="GOV.UK" >}}
     {{< company_logo link="https://www.hellofresh.com/" logo="./hellofresh.svg" alt="HelloFresh" >}}
+    {{< company_logo link="https://www.hotels.com/" logo="./hotels-com.svg" alt="Hotels.com" >}}
     {{< company_logo link="https://www.hsbc.com/" logo="./hsbc.svg" alt="HSBC" >}}
     {{< company_logo link="https://iherb.com" logo="./iherb.svg" alt="iHerb" >}}
     {{< company_logo link="https://cloud.inspur.com/" logo="./inspurcloud.png" alt="Inspur Cloud" >}}
     {{< company_logo link="https://intuit.com" logo="./intuit.svg" alt="Intuit" >}}
     {{< company_logo link="https://juspay.in" logo="./juspay.png" alt="JUSPAY" >}}
     {{< company_logo link="https://li.me" logo="./lime.svg" alt="Lime" >}}
+    {{< company_logo link="https://www.liulishuo.com/" logo="./liulishuo.svg" alt="Liulishuo" >}}
     {{< company_logo link="https://loblawdigital.co" logo="./loblaw-digital.png" alt="Loblaw Digital" >}}
     {{< company_logo link="https://www.lowes.com/" logo="./lowes.svg" alt="Lowe's" >}}
     {{< company_logo link="https://www.masmovil.com/" logo="./masmovil.svg" alt="MASMOVIL Group" >}}
@@ -47,6 +51,7 @@ Here are just a few of the organizations we know are using Istio. If you want to
     {{< company_logo link="https://www.nandos.com" logo="./nandos.svg" alt="Nando's" >}}
     {{< company_logo link="https://www.namely.com" logo="./namely.svg" alt="Namely" >}}
     {{< company_logo link="https://www.nashtechglobal.com" logo="./nashtech.png" alt="NashTech" >}}
+    {{< company_logo link="https://www.nearpod.com" logo="./nearpod.svg" alt="Nearpod" >}}
     {{< company_logo link="https://www.postman.com" logo="./postman.svg" alt="Postman" >}}
     {{< company_logo link="https://www.plangrid.com" logo="./plangrid.svg" alt="PlanGrid" >}}
     {{< company_logo link="https://www.pubnub.com" logo="./pubnub.svg" alt="PubNub" >}}

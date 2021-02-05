@@ -6,7 +6,7 @@ keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 aliases:
     - /docs/tasks/zipkin-tracing.html
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 After completing this task, you understand how to have your application participate in tracing with [Zipkin](https://zipkin.io/),
@@ -20,7 +20,10 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 1.  Follow the [Zipkin installation](/docs/ops/integrations/zipkin/#installation) documentation to deploy Zipkin into your cluster.
 
-1.  When you enable tracing, you can set the sampling rate that Istio uses for tracing. Use the `values.pilot.traceSampling` option during installation to set the sampling rate. The default sampling rate is 1%.
+1.  When you enable tracing, you can set the sampling rate that Istio uses for tracing.
+    Use the `meshConfig.defaultConfig.tracing.sampling` option during installation to
+    [set the sampling rate](/docs/tasks/observability/distributed-tracing/configurability/#customizing-trace-sampling).
+    The default sampling rate is 1%.
 
 1.  Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
@@ -41,13 +44,12 @@ $ istioctl dashboard zipkin
 
     {{< boilerplate trace-generation >}}
 
-1.  From the top panel, select a service of interest (or 'all') from the **Service Name** drop-down list and click
-    **Find Traces**:
+1.  From the search panel, click on the plus sign. Select `serviceName` from the first drop-down list, `productpage.default` from second drop-down, and then click the search icon:
 
     {{< image link="./istio-tracing-list-zipkin.png" caption="Tracing Dashboard" >}}
 
-1.  Click on the most recent trace at the top to see the details corresponding to the
-    latest request to the `/productpage`:
+1.  Click on the `ISTIO-INGRESSGATEWAY` search result to see the details corresponding to the
+    latest request to `/productpage`:
 
     {{< image link="./istio-tracing-details-zipkin.png" caption="Detailed Trace View" >}}
 

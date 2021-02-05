@@ -119,14 +119,14 @@ This example uses [Squid](http://www.squid-cache.org) but you can use any HTTPS 
 1.  Send a request from the `sleep` pod in the `external` namespace to an external service via the proxy:
 
     {{< text bash >}}
-    $ kubectl exec -it "$(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name})" -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
+    $ kubectl exec "$(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name})" -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
 1.  Check the access log of the proxy for your request:
 
     {{< text bash >}}
-    $ kubectl exec -it "$(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name})" -n external -- tail -f /var/log/squid/access.log
+    $ kubectl exec "$(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name})" -n external -- tail /var/log/squid/access.log
     1544160065.248    228 172.30.109.89 TCP_TUNNEL/200 87633 CONNECT en.wikipedia.org:443 - HIER_DIRECT/91.198.174.192 -
     {{< /text >}}
 
@@ -166,7 +166,7 @@ Next, you must configure the traffic from the Istio-enabled pods to use the HTTP
     Istio controls its traffic.
 
     {{< text bash >}}
-    $ kubectl exec -it "$SOURCE_POD" -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
+    $ kubectl exec "$SOURCE_POD" -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
@@ -180,7 +180,7 @@ Next, you must configure the traffic from the Istio-enabled pods to use the HTTP
 1.  Check the access log of the proxy for your request:
 
     {{< text bash >}}
-    $ kubectl exec -it "$(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name})" -n external -- tail -f /var/log/squid/access.log
+    $ kubectl exec "$(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name})" -n external -- tail /var/log/squid/access.log
     1544160065.248    228 172.30.109.89 TCP_TUNNEL/200 87633 CONNECT en.wikipedia.org:443 - HIER_DIRECT/91.198.174.192 -
     {{< /text >}}
 

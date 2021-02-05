@@ -71,7 +71,6 @@ _verify_contains get_metrics_1 '"istio_tcp_connections_opened_total"'
 pgrep istioctl | xargs kill
 
 # @cleanup
-set +e # ignore cleanup errors
 pgrep istioctl | xargs kill
 kubectl delete -f samples/bookinfo/networking/virtual-service-ratings-db.yaml
 kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml

@@ -34,7 +34,7 @@ so they can start experimenting with the tremendous possibilities this opens up.
 
 The need for extensibility has been a founding tenet of both the Istio and Envoy projects,
 but the two projects took different approaches. Istio project focused on enabling a generic
-out-of-process extension model called [Mixer](/docs/reference/config/policy-and-telemetry/mixer-overview/)
+out-of-process extension model called [Mixer](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/mixer-overview/)
 with a lightweight developer experience, while Envoy focused on in-proxy [extensions](https://www.envoyproxy.io/docs/envoy/latest/extending/extending).
 
 Each approach has its share of pros and cons. The Istio model led to significant resource
@@ -155,7 +155,7 @@ programmatic routing can be performed which are common asks from users. As we mo
 Beta, you will see documentation showing best practices for using Wasm with Istio.
 
 Finally, we are working with the many vendors who have
-written [Mixer adapters](/docs/reference/config/policy-and-telemetry/adapters/),
+written [Mixer adapters](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/adapters/),
 to help them with a migration to Wasm --- if that is the best path forward. Mixer will move to a
 community project in a future release, where it will remain available for legacy use cases.
 

@@ -19,22 +19,23 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/observability/logs/access-log/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/before-you-begin-egress.sh"
+source "content/en/boilerplates/snips/start-httpbin-service.sh"
 
-snip_enable_envoys_access_logging_1() {
-istioctl install --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"
-}
+! read -r -d '' snip_enable_envoys_access_logging_1 <<\ENDSNIP
+spec:
+  meshConfig:
+    accessLogFile: /dev/stdout
+ENDSNIP
 
-! read -r -d '' snip_enable_envoys_access_logging_1_out <<\ENDSNIP
-...
-- Processing resources for Istiod.
-✔ Istiod installed
-...
-- Pruning removed resources
-✔ Installation complete
+! read -r -d '' snip_default_access_log_format_1 <<\ENDSNIP
+[%START_TIME%] \"%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%\" %RESPONSE_CODE% %RESPONSE_FLAGS% %RESPONSE_CODE_DETAILS% %CONNECTION_TERMINATION_DETAILS%
+\"%UPSTREAM_TRANSPORT_FAILURE_REASON%\" %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% \"%REQ(X-FORWARDED-FOR)%\" \"%REQ(USER-AGENT)%\" \"%REQ(X-REQUEST-ID)%\"
+\"%REQ(:AUTHORITY)%\" \"%UPSTREAM_HOST%\" %UPSTREAM_CLUSTER% %UPSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_REMOTE_ADDRESS% %REQUESTED_SERVER_NAME% %ROUTE_NAME%\n
 ENDSNIP
 
 snip_test_the_access_log_1() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -v httpbin:8000/status/418
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
 }
 
 ! read -r -d '' snip_test_the_access_log_1_out <<\ENDSNIP
@@ -58,7 +59,7 @@ kubectl logs -l app=sleep -c istio-proxy
 }
 
 ! read -r -d '' snip_test_the_access_log_2_out <<\ENDSNIP
-[2019-03-06T09:31:27.354Z] "GET /status/418 HTTP/1.1" 418 - "-" 0 135 11 10 "-" "curl/7.60.0" "d209e46f-9ed5-9b61-bbdd-43e22662702a" "httpbin:8000" "172.30.146.73:80" outbound|8000||httpbin.default.svc.cluster.local - 172.21.13.94:8000 172.30.146.82:60290 -
+[2020-11-25T21:26:18.409Z] "GET /status/418 HTTP/1.1" 418 - via_upstream - "-" 0 135 4 4 "-" "curl/7.73.0-DEV" "84961386-6d84-929d-98bd-c5aee93b5c88" "httpbin:8000" "10.44.1.27:80" outbound|8000||httpbin.foo.svc.cluster.local 10.44.1.23:37652 10.0.45.184:8000 10.44.1.23:46520 - default
 ENDSNIP
 
 snip_test_the_access_log_3() {
@@ -66,7 +67,7 @@ kubectl logs -l app=httpbin -c istio-proxy
 }
 
 ! read -r -d '' snip_test_the_access_log_3_out <<\ENDSNIP
-[2019-03-06T09:31:27.360Z] "GET /status/418 HTTP/1.1" 418 - "-" 0 135 5 2 "-" "curl/7.60.0" "d209e46f-9ed5-9b61-bbdd-43e22662702a" "httpbin:8000" "127.0.0.1:80" inbound|8000|http|httpbin.default.svc.cluster.local - 172.30.146.73:80 172.30.146.82:38618 outbound_.8000_._.httpbin.default.svc.cluster.local
+[2020-11-25T21:26:18.409Z] "GET /status/418 HTTP/1.1" 418 - via_upstream - "-" 0 135 3 1 "-" "curl/7.73.0-DEV" "84961386-6d84-929d-98bd-c5aee93b5c88" "httpbin:8000" "127.0.0.1:80" inbound|8000|| 127.0.0.1:41854 10.44.1.27:80 10.44.1.23:37652 outbound_.8000_._.httpbin.foo.svc.cluster.local default
 ENDSNIP
 
 snip_cleanup_1() {
@@ -75,13 +76,12 @@ kubectl delete -f samples/httpbin/httpbin.yaml
 }
 
 snip_disable_envoys_access_logging_1() {
-istioctl install --set profile=demo
+istioctl install --set profile=default
 }
 
 ! read -r -d '' snip_disable_envoys_access_logging_1_out <<\ENDSNIP
 ✔ Istio core installed
 ✔ Istiod installed
-✔ Egress gateways installed
 ✔ Ingress gateways installed
 ✔ Installation complete
 ENDSNIP

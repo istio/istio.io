@@ -483,8 +483,7 @@ spec:
     - ext-host.example.com
     tls:
       mode: SIMPLE
-      serverCertificate: /tmp/tls.crt
-      privateKey: /tmp/tls.key
+      credentialName: ext-host-cert
 {{< /text >}}
 
 This gateway configuration lets HTTPS traffic from `ext-host.example.com` into the mesh on
@@ -525,7 +524,7 @@ traffic for services running outside of the mesh, including the following tasks:
 -   Run a mesh service in a Virtual Machine (VM) by
     [adding VMs to your mesh](/docs/examples/virtual-machines/).
 -   Logically add services from a different cluster to the mesh to configure a
-    [multicluster Istio mesh](/docs/setup/install/multicluster/gateways/#configure-the-example-services)
+    [multicluster Istio mesh](/docs/setup/install/multicluster)
     on Kubernetes.
 
 You don’t need to add a service entry for every external service that you want
@@ -631,8 +630,7 @@ localized failures from cascading to other nodes.
 A timeout is the amount of time that an Envoy proxy should wait for replies from
 a given service, ensuring that services don’t hang around waiting for replies
 indefinitely and that calls succeed or fail within a predictable timeframe. The
-default timeout for HTTP requests is 15 seconds, which means that if the service
-doesn’t respond within 15 seconds, the call fails.
+Envoy timeout for HTTP requests is disabled in Istio by default.
 
 For some applications and services, Istio’s default timeout might not be
 appropriate. For example, a timeout that is too long could result in excessive
@@ -805,4 +803,4 @@ availability of services in the mesh, applications must handle the failure
 or errors and take appropriate fallback actions. For example, when all
 instances in a load balancing pool have failed, Envoy returns an `HTTP 503`
 code. The application must implement any fallback logic needed to handle the
-`HTTP 503` error code..
+`HTTP 503` error code.

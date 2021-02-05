@@ -20,14 +20,14 @@ package istioio
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
-	"testing"
+	"time"
 
 	"istio.io/istio/pkg/test/framework"
+	"istio.io/istio/pkg/test/scopes"
 )
 
 // TestCase is a description of a test extracted from a file
@@ -41,29 +41,27 @@ type TestCase struct {
 
 var (
 	testsToRun  = os.Getenv("TEST")
-	runAllTests = (testsToRun == "")
+	runAllTests = testsToRun == ""
 
 	// folder location to be traversed to look for test files
 	defaultPath   = "content/en/docs"
 	contentFolder = fmt.Sprintf("%v/%v/", os.Getenv("REPO_ROOT"), defaultPath)
 
 	// scripts that are sourced for all tests
-	helperTemplate = `
-		cd ${REPO_ROOT}
-		source "%v/%v" # snips.sh
-		source "tests/util/verify.sh"
-		source "tests/util/debug.sh"
-		source "tests/util/helpers.sh"
-	`
+	scriptPrefixTemplate = `
+### BEGIN INJECTED SCRIPT ###
+cd ${REPO_ROOT}
+source "%v/%v" # snips.sh
+source "tests/util/verify.sh"
+source "tests/util/debug.sh"
+source "tests/util/helpers.sh"
+### END INJECTED SCRIPT ###
+`
 
-	clusterSnapshot = `
-		__cluster_snapshot
-	`
-
-	clusterCleanupCheck = `
-		__cluster_cleanup_check
-	`
-
+	// command injected at start of cleanup script
+	cleanupScriptPrefix = `
+set +e # ignore cleanup errors
+`
 	snipsFileSuffix = "snips.sh"
 	testFileSuffix  = "test.sh"
 
@@ -76,10 +74,16 @@ var (
 
 // init constructs test cases from all specified tests
 func init() {
+	startTime := time.Now()
+	defer func() {
+		scopes.Framework.Infof("Finished initializing test doc(s). Elapsed time: %v",
+			time.Since(startTime))
+	}()
+
 	if runAllTests {
-		log.Println("Starting test doc(s): all docs")
+		scopes.Framework.Infof("Initializing test doc(s): all docs")
 	} else {
-		log.Println("Starting test doc(s):", testsToRun)
+		scopes.Framework.Infof("Initializing test doc(s): %v", testsToRun)
 	}
 
 	// scan for the test script files
@@ -95,20 +99,20 @@ func init() {
 					if testCase, err := checkFile(path); testCase.valid {
 						testCases = append(testCases, *testCase)
 					} else if err != nil {
-						log.Printf("Error occurred while processing %v: %v", testCase.path, err)
+						scopes.Framework.Fatalf("Error occurred while processing %v: %v", testCase.path, err)
 					}
 				}
 				return nil
 			},
 		)
 		if err != nil {
-			log.Fatalln("Error occurred while traversing content:", err)
+			scopes.Framework.Fatalf("Error occurred while traversing content:", err)
 		}
 	}
 
 	// in case no matched script files were found
 	if len(testCases) == 0 {
-		log.Printf("Warning: no test scripts are found that match '%v'", testsToRun)
+		scopes.Framework.Infof("Warning: no test scripts are found that match '%v'", testsToRun)
 	}
 }
 
@@ -133,18 +137,18 @@ func checkFile(path string) (*TestCase, error) {
 		)
 		return testCase, err
 	}
-	helperScript := getHelperScript(shortPath)
 	testScript := splitScript[0]
 	cleanupScript := splitScript[1]
 
 	// copy the files sourced by test to cleanup
 	re := regexp.MustCompile("(?m)^source \".*\\.sh\"$")
 	sources := re.FindAllString(testScript, -1)
-	cleanupScript = strings.Join(sources, "\n") + cleanupScript
+	cleanupScript = strings.Join(sources, "\n") + cleanupScriptPrefix + cleanupScript
 
 	// find setup configuration
 	re = regexp.MustCompile(fmt.Sprintf("(?m)^%v (.*)$", setupSpec))
 	setups := re.FindAllStringSubmatch(testScript, -1)
+
 	if numSetups := len(setups); numSetups != 1 {
 		err := fmt.Errorf(
 			"script error: expected one line that starts with '%v', got %v line(s)",
@@ -155,73 +159,100 @@ func checkFile(path string) (*TestCase, error) {
 	config := setups[0][1]
 
 	// Check for proper test cleanup
-	testScript = clusterSnapshot + testScript
-	cleanupScript += clusterCleanupCheck
+	scriptPrefix := getTemplateScript(scriptPrefixTemplate, shortPath)
+	testScript = addScriptPrefix(scriptPrefix, testScript)
+	cleanupScript = addScriptPrefix(scriptPrefix, cleanupScript)
 
 	testCase = &TestCase{
 		valid:         true,
 		path:          shortPath,
 		config:        config,
-		testScript:    helperScript + testScript,
-		cleanupScript: helperScript + cleanupScript,
+		testScript:    testScript,
+		cleanupScript: cleanupScript,
 	}
 	return testCase, nil
 }
 
-// NeedSetup checks if any of the test cases require the setup config
-// specified by the input
-func NeedSetup(config string) bool {
-	for idx := range testCases {
-		if testCases[idx].config == config {
-			log.Printf("Setting up istio with %v", config)
-			return true
+func addScriptPrefix(prefix, script string) string {
+	out := ""
+	needToAdd := true
+
+	// Add the prefix before the first uncommented line.
+	for _, line := range strings.Split(script, "\n") {
+		if needToAdd && !strings.HasPrefix(line, "#") {
+			out += prefix + "\n"
+			needToAdd = false
 		}
+
+		out += line + "\n"
 	}
-	log.Printf("No tests need to be run with %v", config)
-	return false
+
+	return out
 }
 
-// TestDocs traverses through all test cases and runs those that need the
-// setup config specified by the input. The (*testing.T) variable comes
-// from the TestDocs function in each tests/setup/*/doc_test.go
-func TestDocs(t *testing.T, config string) {
-	for idx := range testCases {
-		if testCase := &testCases[idx]; testCase.config == config {
-			runTestCase(testCase, t)
+// NewTestDocsFunc returns a test function that traverses through all test
+// cases and runs those that need the setup config specified by the input.
+func NewTestDocsFunc(config string) func(framework.TestContext) {
+	return func(ctx framework.TestContext) {
+		testsToRun := testsForConfig(config)
+		if len(testsToRun) == 0 {
+			ctx.Skipf("No tests need to be run with %v", config)
+		}
+
+		scopes.Framework.Infof("Setting up istio with %v", config)
+
+		for _, testCase := range testsToRun {
+			path := testCase.path
+			testScriptName := filepath.Base(path)
+			cleanupScriptName := "cleanup.sh"
+
+			// Create the mesh snapshotters
+			kubeConfig := getKubeConfig(ctx)
+			beforeSnapshotter := &Snapshotter{
+				StepName:   "before snapshot",
+				KubeConfig: kubeConfig,
+			}
+			afterSnapshotter := &Snapshotter{
+				StepName:   "after snapshot",
+				KubeConfig: kubeConfig,
+			}
+
+			ctx.NewSubTest(path).
+				Run(NewBuilder().
+					Add(beforeSnapshotter).
+					Add(Script{
+						Input: Inline{
+							FileName: testScriptName,
+							Value:    testCase.testScript,
+						},
+					}).
+					Defer(Script{
+						Input: Inline{
+							FileName: cleanupScriptName,
+							Value:    testCase.cleanupScript,
+						},
+					}).
+					Defer(SnapshotValidator{
+						Before: beforeSnapshotter,
+						After:  afterSnapshotter,
+					}).
+					Build())
 		}
 	}
-}
-
-// runTestCase runs a subtest for the given test case. It receives `testCase`,
-// the test case to be run, and a (*testing.T) variable passed down from
-// TestDocs to create subtests
-func runTestCase(testCase *TestCase, t *testing.T) {
-	path := testCase.path
-	// run the scripts using the istio test framework
-	// TODO: impose timeout for each subtest
-	// TODO: run the subtests in parallel to reduce test time
-	t.Run(path, func(t *testing.T) {
-		framework.
-			NewTest(t).
-			Features("documentation").
-			Run(NewBuilder(path).
-				Add(Script{
-					Input: Inline{
-						FileName: getDebugFileName(path, "test"),
-						Value:    testCase.testScript,
-					},
-				}).
-				Defer(Script{
-					Input: Inline{
-						FileName: getDebugFileName(path, "cleanup"),
-						Value:    testCase.cleanupScript,
-					},
-				}).
-				Build())
-	})
 }
 
 // Helper functions
+
+// testsForConfig returns the tests that match the given configuration.
+func testsForConfig(config string) []TestCase {
+	out := make([]TestCase, 0, len(testCases))
+	for _, testCase := range testCases {
+		if testCase.config == config {
+			out = append(out, testCase)
+		}
+	}
+	return out
+}
 
 // split breaks down the test names specified into a slice.
 // It receives a comma-separated string of test names that the user has
@@ -230,21 +261,12 @@ func split(testsAsString string) []string {
 	return strings.Split(testsAsString, ",")
 }
 
-// getHelperScript returns a helper script that automatically sources the
+// getTemplateScript returns a script that automatically sources the
 // snippets and some test utilities. It receives `testPath`, which is the
 // path of the test script file to be run.
-func getHelperScript(testPath string) string {
+func getTemplateScript(template, testPath string) string {
 	splitPath := strings.Split(testPath, "/")
 	splitPath[len(splitPath)-1] = snipsFileSuffix
 	snipsPath := strings.Join(splitPath, "/")
-	return fmt.Sprintf(helperTemplate, defaultPath, snipsPath)
-}
-
-// getDebugFileName returns the name of the debug file which keeps the bash
-// tracing enabled by util/debug.sh. It receives `testPath`, the path of the
-// test script, and a suffix to tell different output files apart.
-func getDebugFileName(testPath string, debugFileSuffix string) string {
-	fileName := strings.ReplaceAll(testPath, testFileSuffix, debugFileSuffix)
-	fileName = strings.ReplaceAll(fileName, "/", "_")
-	return fileName
+	return fmt.Sprintf(template, defaultPath, snipsPath)
 }

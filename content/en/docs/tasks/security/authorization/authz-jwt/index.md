@@ -35,7 +35,7 @@ Deploy the example namespace and workloads using these commands:
 * Verify that `sleep` successfully communicates with `httpbin` using this command:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -70,14 +70,14 @@ accepts a JWT issued by `testing@secure.istio.io`:
 1. Verify that a request with an invalid JWT is denied:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -s -o /dev/null -H "Authorization: Bearer invalidToken" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer invalidToken" -w "%{http_code}\n"
     401
     {{< /text >}}
 
 1. Verify that a request without a JWT is allowed because there is no authorization policy:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -117,14 +117,14 @@ This causes Istio to generate the attribute `requestPrincipal` with the value `t
 1. Verify that a request with a valid JWT is allowed:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -s -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
     200
     {{< /text >}}
 
 1. Verify that a request without a JWT is denied:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
@@ -153,6 +153,10 @@ the JWT to have a claim named `groups` containing the value `group1`:
     EOF
     {{< /text >}}
 
+    {{< warning >}}
+    Don't include quotes in the `request.auth.claims` field unless the claim itself has quotes in it.
+    {{< /warning >}}
+
 1. Get the JWT that sets the `groups` claim to a list of strings: `group1` and `group2`:
 
     {{< text syntax="bash" expandlinks="false" >}}
@@ -163,14 +167,14 @@ the JWT to have a claim named `groups` containing the value `group1`:
 1. Verify that a request with the JWT that includes `group1` in the `groups` claim is allowed:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -s -o /dev/null -H "Authorization: Bearer $TOKEN_GROUP" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN_GROUP" -w "%{http_code}\n"
     200
     {{< /text >}}
 
 1. Verify that a request with a JWT, which doesn’t have the `groups` claim is rejected:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -s -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
     403
     {{< /text >}}
 

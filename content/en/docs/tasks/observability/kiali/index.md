@@ -11,10 +11,10 @@ test: no
 
 This task shows you how to visualize different aspects of your Istio mesh.
 
-As part of this task, you install the [Kiali](https://www.kiali.io) add-on
+As part of this task, you install the [Kiali](https://www.kiali.io) addon
 and use the web-based graphical user interface to view service graphs of
 the mesh and your Istio configuration objects. Lastly, you use the Kiali
-Public API to generate graph data in the form of consumable JSON.
+Developer API to generate graph data in the form of consumable JSON.
 
 {{< idea >}}
 This task does not cover all of the features provided by Kiali.
@@ -22,7 +22,8 @@ To learn about the full set of features it supports,
 see the [Kiali website](http://kiali.io/documentation/latest/features/).
 {{< /idea >}}
 
-This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as the example throughout.
+This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as the example throughout. This task
+assumes the Bookinfo application is installed in the `bookinfo` namespace.
 
 ## Before you begin
 
@@ -59,8 +60,6 @@ Follow the [Kiali installation](/docs/ops/integrations/kiali/#installation) docu
     {{< text bash >}}
     $ istioctl dashboard kiali
     {{< /text >}}
-
-1.  To log into the Kiali UI, go to the Kiali login screen and enter the username and passphrase stored in the Kiali secret.
 
 1.  View the overview of your mesh in the **Overview** page that appears immediately after you log in.
     The **Overview** page displays all the namespaces that have services in your mesh.
@@ -164,7 +163,7 @@ request traffic to route to two or more workloads.
 
 ## Validating Istio configuration
 
-Kiali can validate your Istio resources to ensure they follow proper conventions and semantics. Any problems detected in the configuration of your Istio resources can be flagged as errors or warnings depending on the severity of the incorrect configuration. See the [Kiali validations page](http://kiali.io/documentation/validations/) for the list of all validation checks Kiali performs.
+Kiali can validate your Istio resources to ensure they follow proper conventions and semantics. Any problems detected in the configuration of your Istio resources can be flagged as errors or warnings depending on the severity of the incorrect configuration. See the [Kiali validations page](https://kiali.io/documentation/latest/validations/) for the list of all validation checks Kiali performs.
 
 {{< idea >}}
 Istio 1.4 introduces `istioctl analyze` which lets you perform similar analysis in a way that can be used in a CI pipeline.
@@ -237,13 +236,13 @@ when it detects incorrect configurations.
 
 1.  Hover over the yellow icon to view the tool tip message that informs you of the validation check that triggered the warning.
     For more details on the cause of the warning and how to resolve it, look up the validation warning message on the
-    [Kiali Validations page](http://kiali.io/documentation/validations/).
+    [Kiali Validations page](https://kiali.io/documentation/latest/validations/).
 
     {{< image width="80%" link="./kiali-istioconfig3-details-yaml2.png" caption="YAML Editor Showing Warning Tool Tip" >}}
 
 1.  Hover over the red icon to view the tool tip message that informs you of the validation check that triggered the error.
     For more details on the cause of the error and how to resolve it, look up the validation error message on the
-    [Kiali Validations page](http://kiali.io/documentation/validations/).
+    [Kiali Validations page](https://kiali.io/documentation/latest/validations/).
 
     {{< image width="80%" link="./kiali-istioconfig3-details-yaml3.png" caption="YAML Editor Showing Error Tool Tip" >}}
 
@@ -253,20 +252,30 @@ when it detects incorrect configurations.
     $ kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml
     {{< /text >}}
 
-## About the Kiali Public API
+## About the Kiali Developer API
+
+{{< warning >}}
+The Kiali Developer API is not designed or documented for public consumption, but it may be useful to some users.
+Please note the Kiali Developer API can change from version to version - there is no guarantee of backward compatibility.
+{{< /warning >}}
 
 To generate JSON files representing the graphs and other metrics, health, and
-configuration information, you can access the
-[Kiali Public API](https://www.kiali.io/api).
+configuration information, you can access the Kiali Developer API.
 For example, point your browser to `$KIALI_URL/api/namespaces/graph?namespaces=bookinfo&graphType=app`
 to get the JSON representation of your graph using the `app` graph type.
 
-The Kiali Public API is built on top of Prometheus queries and depends on the
+The Kiali Developer API is built on top of Prometheus queries and depends on the
 standard Istio metric configuration.  It also makes Kubernetes API calls to
 obtain additional details about your services. For the best experience using
 Kiali, use the metadata labels `app` and `version` on your application
 components. As a template, the Bookinfo sample application follows this
 convention.
+
+## Additional Features
+
+Kiali has more features than reviewed in this task, such as an [integration with Jaeger tracing](https://kiali.io/documentation/latest/features/#_detail_traces).
+
+For more details on these additional features, see the [Kiali documentation](https://kiali.io/documentation/latest/features/).
 
 ## Cleanup
 
@@ -274,8 +283,8 @@ If you are not planning any follow-up tasks, remove the Bookinfo sample applicat
 
 1. To remove the Bookinfo application, refer to the [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions.
 
-1. To remove Kiali from a Kubernetes environment, remove all components with the `app=kiali` label:
+1. To remove Kiali from a Kubernetes environment:
 
 {{< text bash >}}
-$ kubectl delete all,secrets,sa,configmaps,deployments,ingresses,clusterroles,clusterrolebindings,customresourcedefinitions --selector=app=kiali -n istio-system
+$ kubectl delete -f {{< github_file >}}/samples/addons/kiali.yaml
 {{< /text >}}

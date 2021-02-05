@@ -138,7 +138,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     example from `ratings`:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+    $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
@@ -192,22 +192,14 @@ versions, called *subsets*, in [destination rules](/docs/concepts/traffic-manage
 
 Run the following command to create default destination rules for the Bookinfo services:
 
-* If you did **not** enable mutual TLS, execute this command:
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
+{{< /text >}}
 
-    {{< tip >}}
-    Choose this option if you are new to Istio and are using the `demo`
-    [configuration profile](/docs/setup/additional-setup/config-profiles/).
-    {{< /tip >}}
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
-    {{< /text >}}
-
-* If you **did** enable mutual TLS, execute this command:
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
-    {{< /text >}}
+{{< tip >}}
+The `default` and `demo` [configuration profiles](/docs/setup/additional-setup/config-profiles/) have [auto mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) enabled by default.
+To enforce mutual TLS, use the destination rules in `samples/bookinfo/networking/destination-rule-all-mtls.yaml`.
+{{< /tip >}}
 
 Wait a few seconds for the destination rules to propagate.
 

@@ -339,7 +339,7 @@ bypassing the sidecar proxies.
 ## Relation to virtual machines support
 
 Note that the scenario described in this post is different from the
-[Bookinfo with Virtual Machines](/docs/examples/virtual-machines/bookinfo/) example. In that scenario, a MySQL instance runs on an
+[Bookinfo with Virtual Machines](/docs/examples/virtual-machines/) example. In that scenario, a MySQL instance runs on an
 external
 (outside the cluster) machine (a bare metal or a VM), integrated with the Istio service mesh. The MySQL service becomes
 a first-class citizen of the mesh with all the beneficial features of Istio applicable. Among other things, the service

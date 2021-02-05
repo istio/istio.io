@@ -6,7 +6,7 @@ keywords: [telemetry,tracing,jaeger,span,port-forwarding]
 aliases:
  - /docs/tasks/telemetry/distributed-tracing/jaeger/
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 After completing this task, you understand how to have your application participate in tracing with [Jaeger](https://www.jaegertracing.io/),
@@ -20,7 +20,10 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 1.  Follow the [Jaeger installation](/docs/ops/integrations/jaeger/#installation) documentation to deploy Jaeger into your cluster.
 
-1.  When you enable tracing, you can set the sampling rate that Istio uses for tracing. Use the `values.pilot.traceSampling` option during installation to set the sampling rate. The default sampling rate is 1%.
+1.  When you enable tracing, you can set the sampling rate that Istio uses for tracing.
+    Use the `meshConfig.defaultConfig.tracing.sampling` option during installation to
+    [set the sampling rate](/docs/tasks/observability/distributed-tracing/configurability/#customizing-trace-sampling).
+    The default sampling rate is 1%.
 
 1.  Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 

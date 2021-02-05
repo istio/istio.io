@@ -1,6 +1,6 @@
 ---
-title: Plugging in existing CA Certificates
-description: Shows how system administrators can configure Istio's CA with an existing root certificate, signing certificate and key.
+title: Plug in CA Certificates
+description: Shows how system administrators can configure Istio's CA with a root certificate, signing certificate and key.
 weight: 80
 keywords: [security,certificates]
 aliases:
@@ -9,46 +9,94 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-This task shows how administrators can configure the Istio certificate authority with an existing root certificate, signing certificate and key.
+This task shows how administrators can configure the Istio certificate authority (CA) with a root certificate,
+signing certificate and key.
 
-By default, Istio's CA generates a self-signed root certificate and key, and uses them to sign the workload certificates.
-Istio's CA can also sign workload certificates using an administrator-specified certificate and key, and with an
-administrator-specified root certificate. This task demonstrates how to plug such certificates and key into Istio's CA.
+By default the Istio CA generates a self-signed root certificate and key and uses them to sign the workload certificates.
+To protect the root CA key, you should use a root CA which runs on a secure machine offline,
+and use the root CA to issue intermediate certificates to the Istio CAs that run in each cluster.
+An Istio CA can sign workload certificates using the administrator-specified certificate and key, and distribute an
+administrator-specified root certificate to the workloads as the root of trust.
 
-## Plugging in existing certificates and key
+The following graph demonstrates the recommended CA hierarchy in a mesh containing two clusters.
 
-Suppose we want to have Istio's CA use an existing signing (CA) certificate `ca-cert.pem` and key `ca-key.pem`.
-Furthermore, the certificate `ca-cert.pem` is signed by the root certificate `root-cert.pem`.
-We would like to use `root-cert.pem` as the root certificate for Istio workloads.
+{{< image width="50%"
+    link="ca-hierarchy.svg"
+    caption="CA Hierarchy"
+    >}}
 
-In the following example,
-Istio CA's signing (CA) certificate (`ca-cert.pem`) is different from the root certificate (`root-cert.pem`),
-so the workload cannot validate the workload certificates directly from the root certificate.
-The workload needs a `cert-chain.pem` file to specify the chain of trust,
-which should include the certificates of all the intermediate CAs between the workloads and the root CA.
-In our example, it contains Istio CA's signing certificate, so `cert-chain.pem` is the same as `ca-cert.pem`.
-Note that if your `ca-cert.pem` is the same as `root-cert.pem`, the `cert-chain.pem` file should be empty.
+This task demonstrates how to generate and plug in the certificates and key for the Istio CA. These steps can be repeated
+to provision certificates and keys for Istio CAs running in each cluster.
 
-These files are ready to use in the `samples/certs/` directory.
+## Plug in certificates and key into the cluster
 
-{{< tip >}}
-The default Istio CA installation configures the location of certificates and keys based on the
-predefined secret and file names used in the command below (i.e., secret named `cacerts`, root certificate
-in a file named `root-cert.pem`, Istio CA's key in `ca-key.pem`, etc.).
-You must use these specific secret and file names, or reconfigure Istio's CA when you deploy Istio.
-{{< /tip >}}
+{{< warning >}}
+The following instructions are for demo purposes only.
+For a production cluster setup, it is highly recommended to use a production-ready CA, such as
+[Hashicorp Vault](https://www.hashicorp.com/products/vault).
+It is a good practice to manage the root CA on an offline machine with strong
+security protection.
+{{< /warning >}}
 
-The following steps plug in the certificates and key into a Kubernetes secret,
-which will be read by Istio's CA:
+1.  In the top-level directory of the Istio installation package, create a directory to hold certificates and keys:
 
-1.  Create a secret `cacerts` including all the input files `ca-cert.pem`, `ca-key.pem`, `root-cert.pem` and `cert-chain.pem`:
+    {{< text bash >}}
+    $ mkdir -p certs
+    $ pushd certs
+    {{< /text >}}
+
+1.  Generate the root certificate and key:
+
+    {{< text bash >}}
+    $ make -f ../tools/certs/Makefile.selfsigned.mk root-ca
+    {{< /text >}}
+
+    This will generate the following files:
+
+    * `root-cert.pem`: the generated root certificate
+    * `root-key.pem`: the generated root key
+    * `root-ca.conf`: the configuration for `openssl` to generate the root certificate
+    * `root-cert.csr`: the generated CSR for the root certificate
+
+1.  For each cluster, generate an intermediate certificate and key for the Istio CA.
+    The following is an example for `cluster1`:
+
+    {{< text bash >}}
+    $ make -f ../tools/certs/Makefile.selfsigned.mk cluster1-cacerts
+    {{< /text >}}
+
+    This will generate the following files in a directory named `cluster1`:
+
+    * `ca-cert.pem`: the generated intermediate certificates
+    * `ca-key.pem`: the generated intermediate key
+    * `cert-chain.pem`: the generated certificate chain which is used by istiod
+    * `root-cert.pem`: the root certificate
+
+    You can replace `cluster1` with a string of your choosing. For example, with the argument `cluster2-cacerts`,
+    you can create certificates and key in a directory called `cluster2`.
+
+    If you are doing this on an offline machine, copy the generated directory to a machine with access to the
+    clusters.
+
+1.  In each cluster, create a secret `cacerts` including all the input files `ca-cert.pem`, `ca-key.pem`,
+    `root-cert.pem` and `cert-chain.pem`. For example, for `cluster1`:
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
-    $ kubectl create secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem \
-        --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem \
-        --from-file=samples/certs/cert-chain.pem
+    $ kubectl create secret generic cacerts -n istio-system \
+          --from-file=cluster1/ca-cert.pem \
+          --from-file=cluster1/ca-key.pem \
+          --from-file=cluster1/root-cert.pem \
+          --from-file=cluster1/cert-chain.pem
     {{< /text >}}
+
+1.  Return to the top-level directory of the Istio installation:
+
+    {{< text bash >}}
+    $ popd
+    {{< /text >}}
+
+## Deploy Istio
 
 1.  Deploy Istio using the `demo` profile.
 
@@ -106,7 +154,7 @@ openssl command is expected.
 1.  Verify the root certificate is the same as the one specified by the administrator:
 
     {{< text bash >}}
-    $ openssl x509 -in samples/certs/root-cert.pem -text -noout > /tmp/root-cert.crt.txt
+    $ openssl x509 -in certs/cluster1/root-cert.pem -text -noout > /tmp/root-cert.crt.txt
     $ openssl x509 -in ./proxy-cert-3.pem -text -noout > /tmp/pod-root-cert.crt.txt
     $ diff -s /tmp/root-cert.crt.txt /tmp/pod-root-cert.crt.txt
     Files /tmp/root-cert.crt.txt and /tmp/pod-root-cert.crt.txt are identical
@@ -115,7 +163,7 @@ openssl command is expected.
 1.  Verify the CA certificate is the same as the one specified by the administrator:
 
     {{< text bash >}}
-    $ openssl x509 -in samples/certs/ca-cert.pem -text -noout > /tmp/ca-cert.crt.txt
+    $ openssl x509 -in certs/cluster1/ca-cert.pem -text -noout > /tmp/ca-cert.crt.txt
     $ openssl x509 -in ./proxy-cert-2.pem -text -noout > /tmp/pod-cert-chain-ca.crt.txt
     $ diff -s /tmp/ca-cert.crt.txt /tmp/pod-cert-chain-ca.crt.txt
     Files /tmp/ca-cert.crt.txt and /tmp/pod-cert-chain-ca.crt.txt are identical
@@ -124,13 +172,19 @@ openssl command is expected.
 1.  Verify the certificate chain from the root certificate to the workload certificate:
 
     {{< text bash >}}
-    $ openssl verify -CAfile <(cat samples/certs/ca-cert.pem samples/certs/root-cert.pem) ./proxy-cert-1.pem
+    $ openssl verify -CAfile <(cat certs/cluster1/ca-cert.pem certs/cluster1/root-cert.pem) ./proxy-cert-1.pem
     ./proxy-cert-1.pem: OK
     {{< /text >}}
 
 ## Cleanup
 
-*   To remove the secret `cacerts`, and the `foo` and `istio-system` namespaces:
+*   Remove the certificates, keys, and intermediate files from your local disk:
+
+    {{< text bash >}}
+    $ rm -rf certs
+    {{< /text >}}
+
+*   Remove the secret `cacerts`, and the `foo` and `istio-system` namespaces:
 
     {{< text bash >}}
     $ kubectl delete secret cacerts -n istio-system

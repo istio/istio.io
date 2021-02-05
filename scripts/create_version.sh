@@ -138,6 +138,8 @@ create_branch_for_new_release() {
         s/^doc_branch_name: .*$/doc_branch_name: ${NEW_RELEASE_BRANCH}/;
     " data/args.yml
 
+    UPDATE_BRANCH=${NEW_RELEASE_BRANCH} make update-common
+
     if [[ $(git status --porcelain) ]]; then
         git add -A
         git commit -m "create a new release branch for ${CURR_MINOR}"

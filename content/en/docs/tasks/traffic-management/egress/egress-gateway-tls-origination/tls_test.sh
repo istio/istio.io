@@ -50,6 +50,6 @@ _verify_elided snip_perform_tls_origination_with_an_egress_gateway_5 "$snip_perf
 _verify_contains snip_perform_tls_origination_with_an_egress_gateway_6 "GET /politics HTTP/2"
 
 # @cleanup
-set +e # ignore cleanup errors
+kubectl label namespace default istio-injection-
 snip_cleanup_the_tls_origination_example_1
 snip_cleanup_1

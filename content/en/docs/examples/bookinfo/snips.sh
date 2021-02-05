@@ -60,7 +60,7 @@ reviews-v3-1813607990-8ch52      2/2       Running   0          6m
 ENDSNIP
 
 snip_start_the_application_services_6() {
-kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
 }
 
 ! read -r -d '' snip_start_the_application_services_6_out <<\ENDSNIP
@@ -97,10 +97,6 @@ kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
 }
 
 snip_apply_default_destination_rules_2() {
-kubectl apply -f samples/bookinfo/networking/destination-rule-all-mtls.yaml
-}
-
-snip_apply_default_destination_rules_3() {
 kubectl get destinationrules -o yaml
 }
 

@@ -17,17 +17,9 @@ can enable Istio gradually, microservice by microservice. Istio is enabled
 transparently to the microservices. You do not change the microservices code or
 disrupt your application, it continues to run and serve user requests.
 
-1.  Disable mutual TLS authentication in your namespace, which will be explained later in the tutorial:
+1.  Apply the default destination rules:
 
     {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: "authentication.istio.io/v1alpha1"
-    kind: Policy
-    metadata:
-      name: default
-    spec:
-      peers: []
-    EOF
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all.yaml
     {{< /text >}}
 
@@ -40,7 +32,7 @@ disrupt your application, it continues to run and serve user requests.
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | sed 's/replicas: 1/replicas: 3/g' | kubectl apply -l app=productpage,version=v1 -f -
-    deployment "productpage-v1" configured
+    deployment.apps/productpage-v1 configured
     {{< /text >}}
 
 1.  Access the application's webpage and verify that the application continues

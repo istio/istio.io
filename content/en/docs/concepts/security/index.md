@@ -102,9 +102,7 @@ The following list shows examples of service identities that you can use on diff
 platforms:
 
 - Kubernetes: Kubernetes service account
-- GKE/GCE: GCP service account
-- GCP: GCP service account
-- AWS: AWS IAM user/role account
+- GCE: GCP service account
 - On-premises (non-Kubernetes): user account, custom service account,
    service name, Istio service account, or GCP service account. The custom
    service account refers to the existing service account just like the
@@ -118,24 +116,26 @@ work together with `istiod` to automate key and certificate
 rotation at scale. The following diagram shows the identity
 provisioning flow.
 
-{{< image width="75%"
+{{< image width="40%"
     link="./id-prov.svg"
-    caption="Identity Provision"
+    caption="Identity Provisioning Workflow"
     >}}
 
-Istio provisions identities through the
-[secret discovery service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)
-using the following flow:
+Istio provisions keys and certificates through the following flow:
 
 1. `istiod` offers a gRPC service to take [certificate signing requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
-1. Envoy sends a certificate and key request via the Envoy SDS API.
-1. Upon receiving the SDS request, the Istio agent creates the private key
-   and CSR before sending the CSR with its credentials to `istiod` for signing.
-1. The CA validates the credentials carried in the CSR and signs the CSR to
-   generate the certificate.
-1. The Istio agent sends the certificate received from `istiod` and the
+1. When started, the Istio agent creates the private key
+   and CSR, and then sends the CSR with its credentials to `istiod` for signing.
+1. The CA in `istiod` validates the credentials carried in the CSR.
+   Upon successful validation, it signs the CSR to generate the certificate.
+1. When a workload is started, Envoy requests the certificate and key from the Istio agent in the
+   same container via the
+   [Envoy secret discovery service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)
+   API.
+1. The Istio agent sends the certificates received from `istiod` and the
    private key to Envoy via the Envoy SDS API.
-1. The above CSR process repeats periodically for certificate and key rotation.
+1. Istio agent monitors the expiration of the workload certificate.
+   The above process repeats periodically for certificate and key rotation.
 
 ## Authentication
 
@@ -187,8 +187,23 @@ follows:
 1. The client side Envoy and the server side Envoy establish a mutual TLS
    connection, and Istio forwards the traffic from the client side Envoy to the
    server side Envoy.
-1. After authorization, the server side Envoy forwards the traffic to the
-   server service through local TCP connections.
+1. The server side Envoy authorizes the request. If authorized, it forwards the traffic to the
+   backend service through local TCP connections.
+
+Istio configures `TLSv1_2` as the minimum TLS version for both client and server with
+the following cipher suites:
+
+- `CDHE-ECDSA-AES256-GCM-SHA384`
+
+- `ECDHE-RSA-AES256-GCM-SHA384`
+
+- `ECDHE-ECDSA-AES128-GCM-SHA256`
+
+- `ECDHE-RSA-AES128-GCM-SHA256`
+
+- `AES256-GCM-SHA384`
+
+- `AES128-GCM-SHA256`
 
 #### Permissive mode
 
@@ -237,12 +252,11 @@ allowed to run `datastore` with the secure naming information. The client
 detects that `test-team` is not allowed to run the `datastore` service and the
 authentication fails.
 
-Secure naming is able to protect against general network hijackings for HTTPS
-traffic. It can also protect TCP traffic from general network hijackings.
-However, secure naming doesn't protect from DNS spoofing because in that case
-attackers hijack the DNS and modify the IP address of the destination. This is
-because TCP traffic does not contain the hostname information and we can only
-rely on the IP address for routing. In fact, this DNS hijack can happen even
+Note that, for non HTTP/HTTPS traffic, secure naming doesn't protect from DNS spoofing,
+in which case the attacker modifies the destination IPs for the service.
+Since TCP traffic does not contain `Host` information and Envoy can only
+rely on the destination IP for routing, Envoy may route traffic to
+services on the hijacked IPs. This DNS spoofing can happen even
 before the client-side Envoy receives the traffic.
 
 ### Authentication architecture
@@ -275,7 +289,7 @@ TLS mode with
 You can find out more about how mutual TLS works in the
 [Mutual TLS authentication section](/docs/concepts/security/#mutual-tls-authentication).
 
-{{< image width="75%"
+{{< image width="50%"
     link="./authn.svg"
     caption="Authentication Architecture"
     >}}
@@ -519,7 +533,7 @@ the request context against the current authorization policies, and returns the
 authorization result, either `ALLOW` or `DENY`. Operators specify Istio
 authorization policies using `.yaml` files.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./authz.svg"
     caption="Authorization Architecture"
     >}}

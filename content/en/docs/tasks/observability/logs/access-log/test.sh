@@ -25,9 +25,9 @@ source "tests/util/samples.sh"
 
 # Install Istio with access logging enabled
 
-#_verify_elided snip_enable_envoys_access_logging_1 "$snip_enable_envoys_access_logging_1_out"
+#_verify_elided snip_enable_envoys_access_logging_2 "$snip_enable_envoys_access_logging_2_out"
 # TODO: verify install and wait for output ??? Don't call function multiple times.
-#snip_enable_envoys_access_logging_1
+#snip_enable_envoys_access_logging_2
 #_wait_for_deployment istio-system istiod
 # TODO: above snip does not seem to be needed, access logging is already enabled by default?
 # TODO: also, running the above snip causes failure in following test (egress/egress-gateway-tls-origination/tls_test.sh)
@@ -46,10 +46,9 @@ _verify_elided snip_test_the_access_log_1 "$snip_test_the_access_log_1_out"
 
 # Check the logs
 _verify_contains snip_test_the_access_log_2 "outbound|8000||httpbin.default.svc.cluster.local"
-_verify_contains snip_test_the_access_log_3 "inbound|8000|http|httpbin.default.svc.cluster.local"
+_verify_contains snip_test_the_access_log_3 "outbound_.8000_._.httpbin.default.svc.cluster.local"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_1
 #snip_disable_envoys_access_logging_1
 #_wait_for_deployment istio-system istiod

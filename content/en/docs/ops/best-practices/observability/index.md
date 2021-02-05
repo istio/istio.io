@@ -18,7 +18,7 @@ provided for collecting metrics generated for all mesh traffic. This deployment 
 Prometheus is intentionally deployed with a very short retention window (6 hours). The
 default Prometheus deployment is also configured to collect metrics from each Envoy proxy
 running in the mesh, augmenting each metric with a set of labels about their origin (`instance`,
-`pod_name`, and `namespace`).
+`pod`, and `namespace`).
 
 While the default configuration is well-suited for small clusters and monitoring for short time horizons,
 it is not suitable for large-scale meshes or monitoring over a period of days or weeks. In particular,
@@ -36,6 +36,10 @@ to identify trends and differences in traffic over time, access to historical da
 In order to aggregate metrics across instances and pods, update the default Prometheus configuration with
 the following recording rules:
 
+{{< tabset category-name="workload-metrics-aggregation" >}}
+
+{{< tab name="Plain Prometheus Rules" category-value="prom-rules" >}}
+
 {{< text yaml >}}
 groups:
 - name: "istio.recording-rules"
@@ -43,76 +47,140 @@ groups:
   rules:
   - record: "workload:istio_requests_total"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_requests_total)
+      sum without(instance, namespace, pod) (istio_requests_total)
 
   - record: "workload:istio_request_duration_milliseconds_count"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_request_duration_milliseconds_count)
+      sum without(instance, namespace, pod) (istio_request_duration_milliseconds_count)
 
   - record: "workload:istio_request_duration_milliseconds_sum"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_request_duration_milliseconds_sum)
+      sum without(instance, namespace, pod) (istio_request_duration_milliseconds_sum)
 
   - record: "workload:istio_request_duration_milliseconds_bucket"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_request_duration_milliseconds_bucket)
+      sum without(instance, namespace, pod) (istio_request_duration_milliseconds_bucket)
 
   - record: "workload:istio_request_bytes_count"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_request_bytes_count)
+      sum without(instance, namespace, pod) (istio_request_bytes_count)
 
   - record: "workload:istio_request_bytes_sum"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_request_bytes_sum)
+      sum without(instance, namespace, pod) (istio_request_bytes_sum)
 
   - record: "workload:istio_request_bytes_bucket"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_request_bytes_bucket)
+      sum without(instance, namespace, pod) (istio_request_bytes_bucket)
 
   - record: "workload:istio_response_bytes_count"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_response_bytes_count)
+      sum without(instance, namespace, pod) (istio_response_bytes_count)
 
   - record: "workload:istio_response_bytes_sum"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_response_bytes_sum)
+      sum without(instance, namespace, pod) (istio_response_bytes_sum)
 
   - record: "workload:istio_response_bytes_bucket"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_response_bytes_bucket)
+      sum without(instance, namespace, pod) (istio_response_bytes_bucket)
 
   - record: "workload:istio_tcp_connections_opened_total"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_tcp_connections_opened_total)
+      sum without(instance, namespace, pod) (istio_tcp_connections_opened_total)
 
   - record: "workload:istio_tcp_connections_closed_total"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_tcp_connections_opened_total)
+      sum without(instance, namespace, pod) (istio_tcp_connections_closed_total)
 
   - record: "workload:istio_tcp_sent_bytes_total_count"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_tcp_sent_bytes_total_count)
+      sum without(instance, namespace, pod) (istio_tcp_sent_bytes_total_count)
 
   - record: "workload:istio_tcp_sent_bytes_total_sum"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_tcp_sent_bytes_total_sum)
+      sum without(instance, namespace, pod) (istio_tcp_sent_bytes_total_sum)
 
   - record: "workload:istio_tcp_sent_bytes_total_bucket"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_tcp_sent_bytes_total_bucket)
+      sum without(instance, namespace, pod) (istio_tcp_sent_bytes_total_bucket)
 
   - record: "workload:istio_tcp_received_bytes_total_count"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_tcp_received_bytes_total_count)
+      sum without(instance, namespace, pod) (istio_tcp_received_bytes_total_count)
 
   - record: "workload:istio_tcp_received_bytes_total_sum"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_tcp_received_bytes_total_sum)
+      sum without(instance, namespace, pod) (istio_tcp_received_bytes_total_sum)
 
   - record: "workload:istio_tcp_received_bytes_total_bucket"
     expr: |
-      sum without(instance, namespace, pod_name) (istio_tcp_received_bytes_total_bucket)
+      sum without(instance, namespace, pod) (istio_tcp_received_bytes_total_bucket)
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Prometheus Operator Rules CRD" category-value="prom-operator-rules" >}}
+
+{{< text yaml >}}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: istio-metrics-aggregation
+  labels:
+    app.kubernetes.io/name: istio-prometheus
+spec:
+  groups:
+  - name: "istio.metricsAggregation-rules"
+    interval: 5s
+    rules:
+    - record: "workload:istio_requests_total"
+      expr: "sum without(instance, namespace, pod) (istio_requests_total)"
+
+    - record: "workload:istio_request_duration_milliseconds_count"
+      expr: "sum without(instance, namespace, pod) (istio_request_duration_milliseconds_count)"
+    - record: "workload:istio_request_duration_milliseconds_sum"
+      expr: "sum without(instance, namespace, pod) (istio_request_duration_milliseconds_sum)"
+    - record: "workload:istio_request_duration_milliseconds_bucket"
+      expr: "sum without(instance, namespace, pod) (istio_request_duration_milliseconds_bucket)"
+
+    - record: "workload:istio_request_bytes_count"
+      expr: "sum without(instance, namespace, pod) (istio_request_bytes_count)"
+    - record: "workload:istio_request_bytes_sum"
+      expr: "sum without(instance, namespace, pod) (istio_request_bytes_sum)"
+    - record: "workload:istio_request_bytes_bucket"
+      expr: "sum without(instance, namespace, pod) (istio_request_bytes_bucket)"
+
+    - record: "workload:istio_response_bytes_count"
+      expr: "sum without(instance, namespace, pod) (istio_response_bytes_count)"
+    - record: "workload:istio_response_bytes_sum"
+      expr: "sum without(instance, namespace, pod) (istio_response_bytes_sum)"
+    - record: "workload:istio_response_bytes_bucket"
+      expr: "sum without(instance, namespace, pod) (istio_response_bytes_bucket)"
+
+    - record: "workload:istio_tcp_connections_opened_total"
+      expr: "sum without(instance, namespace, pod) (istio_tcp_connections_opened_total)"
+    - record: "workload:istio_tcp_connections_closed_total"
+      expr: "sum without(instance, namespace, pod) (istio_tcp_connections_closed_total)"
+
+    - record: "workload:istio_tcp_sent_bytes_total_count"
+      expr: "sum without(instance, namespace, pod) (istio_tcp_sent_bytes_total_count)"
+    - record: "workload:istio_tcp_sent_bytes_total_sum"
+      expr: "sum without(instance, namespace, pod) (istio_tcp_sent_bytes_total_sum)"
+    - record: "workload:istio_tcp_sent_bytes_total_bucket"
+      expr: "sum without(instance, namespace, pod) (istio_tcp_sent_bytes_total_bucket)"
+
+    - record: "workload:istio_tcp_received_bytes_total_count"
+      expr: "sum without(instance, namespace, pod) (istio_tcp_received_bytes_total_count)"
+    - record: "workload:istio_tcp_received_bytes_total_sum"
+      expr: "sum without(instance, namespace, pod) (istio_tcp_received_bytes_total_sum)"
+    - record: "workload:istio_tcp_received_bytes_total_bucket"
+      expr: "sum without(instance, namespace, pod) (istio_tcp_received_bytes_total_bucket)"
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 {{< tip >}}
 The recording rules above only aggregate across pods and instances. They still preserve the full set of

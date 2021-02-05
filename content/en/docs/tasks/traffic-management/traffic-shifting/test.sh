@@ -43,7 +43,7 @@ function reviews_v3_traffic_percentage() {
   local v3_count=0
   local v3_search_string="glyphicon glyphicon-star" # search string present in reviews_v3 response html
   for ((i = 1; i <= total_request_count; i++)); do
-    if (kubectl exec "${SLEEP_POD}" -c sleep -n "default" -- curl -s $INGRESS_URL/productpage | grep -q "$v3_search_string"); then
+    if (kubectl exec "${SLEEP_POD}" -c sleep -n "default" -- curl -sS $INGRESS_URL/productpage | grep -q "$v3_search_string"); then
       v3_count=$((v3_count + 1))
     fi
   done
@@ -105,7 +105,6 @@ _wait_for_istio virtualservice default reviews
 _verify_same reviews_v3_traffic_percentage 100
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup
 cleanup_bookinfo_sample
 cleanup_sleep_sample

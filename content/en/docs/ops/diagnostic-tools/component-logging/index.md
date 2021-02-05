@@ -20,11 +20,11 @@ Logging messages output by a component are categorized by *scopes*. A scope repr
 you can control as a whole. Different components have different scopes, depending on the features the component
 provides. All components have the `default` scope, which is used for non-categorized log messages.
 
-As an example, as of this writing, `istioctl` has 24 scopes, representing different functional areas within the command:
+As an example, as of this writing, `istioctl` has 25 scopes, representing different functional areas within the command:
 
-- `ads`, `adsc`, `analysis`, `attributes`, `authn`, `authorization`, `cache`, `cli`, `default`, `grpcAdapter`, `installer`, `mcp`, `model`, `patch`, `processing`, `resource`, `secretfetcher`, `source`, `spiffe`, `tpath`, `translator`, `util`, `validation`, `validationController`
+- `ads`, `adsc`, `all`, `analysis`, `authn`, `authorization`, `ca`, `cache`, `cli`, `default`, `installer`, `klog`, `mcp`, `model`, `patch`, `processing`, `resource`, `source`, `spiffe`, `tpath`, `translator`, `util`, `validation`, `validationController`, `wle`
 
-Pilot-Agent, Pilot-Discovery, Mixer, and the Istio Operator have their own scopes which you can discover by looking at their [reference documentation](/docs/reference/commands/).
+Pilot-Agent, Pilot-Discovery, and the Istio Operator have their own scopes which you can discover by looking at their [reference documentation](/docs/reference/commands/).
 
 Each scope has a unique output level which is one of:
 
@@ -40,7 +40,7 @@ is `info` which is intended to provide the right amount of logging information f
 To control the output level, you use the `--log_output_level` command-line option. For example:
 
 {{< text bash >}}
-$ istioctl analyze --log_output_level attributes:debug,cli:warn
+$ istioctl analyze --log_output_level klog:none,cli:info
 {{< /text >}}
 
 In addition to controlling the output level from the command-line, you can also control the output level of a running component

@@ -31,6 +31,9 @@ To manually inject a deployment, use [`istioctl kube-inject`](/docs/reference/co
 
 {{< text bash >}}
 $ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
+serviceaccount/sleep created
+service/sleep created
+deployment.apps/sleep created
 {{< /text >}}
 
 By default, this will use the in-cluster configuration. Alternatively, injection can be done using local copies of the configuration.
@@ -50,6 +53,9 @@ $ istioctl kube-inject \
     --valuesFile inject-values.yaml \
     --filename @samples/sleep/sleep.yaml@ \
     | kubectl apply -f -
+serviceaccount/sleep created
+service/sleep created
+deployment.apps/sleep created
 {{< /text >}}
 
 Verify that the sidecar has been injected into the sleep pod with `2/2` under the READY column.
@@ -80,26 +86,28 @@ Deploy sleep app. Verify both deployment and pod have a single container.
 {{< text bash >}}
 $ kubectl apply -f @samples/sleep/sleep.yaml@
 $ kubectl get deployment -o wide
-NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS   IMAGES       SELECTOR
-sleep     1         1         1            1           12m       sleep        tutum/curl   app=sleep
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                    SELECTOR
+sleep   1/1     1            1           12s   sleep        curlimages/curl           app=sleep
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get pod
-NAME                     READY     STATUS        RESTARTS   AGE
-sleep-776b7bcdcd-7hpnk   1/1       Running       0          4
+NAME                    READY   STATUS    RESTARTS   AGE
+sleep-8f795f47d-hdcgs   1/1     Running   0          42s
 {{< /text >}}
 
 Label the `default` namespace with `istio-injection=enabled`
 
 {{< text bash >}}
-$ kubectl label namespace default istio-injection=enabled
+$ kubectl label namespace default istio-injection=enabled --overwrite
 $ kubectl get namespace -L istio-injection
-NAME           STATUS    AGE       ISTIO-INJECTION
-default        Active    1h        enabled
-istio-system   Active    1h
-kube-public    Active    1h
-kube-system    Active    1h
+NAME                 STATUS   AGE     ISTIO-INJECTION
+default              Active   5m9s    enabled
+istio-system         Active   4m58s   disabled
+kube-node-lease      Active   5m10s
+kube-public          Active   5m10s
+kube-system          Active   5m10s
+local-path-storage   Active   5m7s
 {{< /text >}}
 
 Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has 1&#47;1 READY containers and the pod with injected sidecar has 2&#47;2 READY containers.
@@ -117,6 +125,19 @@ View detailed state of the injected pod. You should see the injected `istio-prox
 
 {{< text bash >}}
 $ kubectl describe pod -l app=sleep
+...
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  ...
+  Normal  Created    11s   kubelet            Created container istio-init
+  Normal  Started    11s   kubelet            Started container istio-init
+  ...
+  Normal  Created    10s   kubelet            Created container sleep
+  Normal  Started    10s   kubelet            Started container sleep
+  ...
+  Normal  Created    9s    kubelet            Created container istio-proxy
+  Normal  Started    8s    kubelet            Started container istio-proxy
 {{< /text >}}
 
 Disable injection for the `default` namespace and verify new pods are created without the sidecar.
@@ -168,21 +189,38 @@ value `false` to the pod template spec to override the default and disable injec
 
 The following example uses the `sidecar.istio.io/inject` annotation to disable sidecar injection.
 
-{{< text yaml >}}
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ignored
+  labels:
+    app: ignored
 spec:
+  selector:
+    matchLabels:
+      app: ignored
   template:
     metadata:
+      labels:
+        app: ignored
       annotations:
         sidecar.istio.io/inject: "false"
     spec:
       containers:
       - name: ignored
-        image: tutum/curl
+        image: governmentpaas/curl-ssl
         command: ["/bin/sleep","infinity"]
+EOF
+{{< /text >}}
+
+It can then be verified that no sidecar was injected.
+
+{{< text bash >}}
+$ kubectl get pods -l app=ignored
+NAME                      READY   STATUS    RESTARTS   AGE
+ignored-b469d6fcf-8dngz   1/1     Running   0          57s
 {{< /text >}}
 
 ##### _**template**_
@@ -300,11 +338,7 @@ It's worth noting that annotations in the pods have higher precedence than the l
 
 {{< text bash >}}
 $ kubectl delete mutatingwebhookconfiguration istio-sidecar-injector
-$ kubectl -n istio-system delete service istio-sidecar-injector
-$ kubectl -n istio-system delete deployment istio-sidecar-injector
-$ kubectl -n istio-system delete serviceaccount istio-sidecar-injector-service-account
-$ kubectl delete clusterrole istio-sidecar-injector-istio-system
-$ kubectl delete clusterrolebinding istio-sidecar-injector-admin-role-binding-istio-system
+mutatingwebhookconfiguration.admissionregistration.k8s.io "istio-sidecar-injector" deleted
 {{< /text >}}
 
 The above command will not remove the injected sidecars from Pods. A
@@ -316,4 +350,5 @@ were modified in this task.
 
 {{< text bash >}}
 $ kubectl label namespace default istio-injection-
+namespace/default labeled
 {{< /text >}}

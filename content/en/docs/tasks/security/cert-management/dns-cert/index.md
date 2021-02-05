@@ -46,7 +46,7 @@ Istio also manages the lifecycle of the DNS certificates, including their rotati
 
 ## Configure DNS certificates
 
-The `IstioControlPlane` custom resource used to configure Istio in the `istioctl install` command, above,
+The `IstioOperator` custom resource used to configure Istio in the `istioctl install` command, above,
 contains an example DNS certificate configuration. Within, the `dnsNames` field specifies the DNS
 names in a certificate and the `secretName` field specifies the name of the Kubernetes secret used to
 store the certificate and the key.

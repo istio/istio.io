@@ -1,7 +1,7 @@
 ---
 title: Secure Gateways
 description: Expose a service outside of the service mesh over TLS or mTLS.
-weight: 21
+weight: 20
 aliases:
     - /docs/tasks/traffic-management/ingress/secure-ingress-sds/
     - /docs/tasks/traffic-management/ingress/secure-ingress-mount/
@@ -10,7 +10,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress)
+The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress/ingress-control)
 describes how to configure an ingress gateway to expose an HTTP
 service to external traffic. This task shows how to expose a secure HTTPS
 service using either simple or mutual TLS.

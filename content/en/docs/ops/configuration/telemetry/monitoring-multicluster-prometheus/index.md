@@ -73,22 +73,22 @@ like the following (replacing the ingress domain and cluster name):
 
 {{< text yaml >}}
 scrape_configs:
-  - job_name: 'federate-{{CLUSTER_NAME}}'
-    scrape_interval: 15s
+- job_name: 'federate-{{CLUSTER_NAME}}'
+  scrape_interval: 15s
 
-    honor_labels: true
-    metrics_path: '/federate'
+  honor_labels: true
+  metrics_path: '/federate'
 
-    params:
-      'match[]':
-        - '{job="pilot"}'
-        - '{job="envoy-stats"}'
+  params:
+    'match[]':
+      - '{job="pilot"}'
+      - '{job="envoy-stats"}'
 
-    static_configs:
-      - targets:
-        - 'prometheus.{{INGRESS_DOMAIN}}'
-        labels:
-          cluster: '{{CLUSTER_NAME}}'
+  static_configs:
+    - targets:
+      - 'prometheus.{{INGRESS_DOMAIN}}'
+      labels:
+        cluster: '{{CLUSTER_NAME}}'
 {{< /text >}}
 
 Notes:
@@ -128,38 +128,38 @@ add one configuration for the *local* cluster:
 
 {{< text yaml >}}
 scrape_configs:
-  - job_name: 'federate-{{REMOTE_CLUSTER_NAME}}'
-    scrape_interval: 15s
+- job_name: 'federate-{{REMOTE_CLUSTER_NAME}}'
+  scrape_interval: 15s
 
-    honor_labels: true
-    metrics_path: '/federate'
+  honor_labels: true
+  metrics_path: '/federate'
 
-    params:
-      'match[]':
-        - '{job="pilot"}'
-        - '{job="envoy-stats"}'
+  params:
+    'match[]':
+      - '{job="pilot"}'
+      - '{job="envoy-stats"}'
 
-    static_configs:
-      - targets:
-        - 'prometheus.{{REMOTE_INGRESS_DOMAIN}}'
-        labels:
-          cluster: '{{REMOTE_CLUSTER_NAME}}'
+  static_configs:
+    - targets:
+      - 'prometheus.{{REMOTE_INGRESS_DOMAIN}}'
+      labels:
+        cluster: '{{REMOTE_CLUSTER_NAME}}'
 
-  - job_name: 'federate-local'
+- job_name: 'federate-local'
 
-    honor_labels: true
-    metrics_path: '/federate'
+  honor_labels: true
+  metrics_path: '/federate'
 
-    metrics_relabel_configs:
-    - replacement: '{{CLUSTER_NAME}}'
-      targetLabel: cluster
+  metric_relabel_configs:
+  - replacement: '{{CLUSTER_NAME}}'
+    target_label: cluster
 
-    kubernetes_sd_configs:
-    - role: pod
-      namespaces:
-        names: ['istio-system']
-    params:
-      'match[]':
-      - '{__name__=~"istio_(.*)"}'
-      - '{__name__=~"pilot(.*)"}'
+  kubernetes_sd_configs:
+  - role: pod
+    namespaces:
+      names: ['istio-system']
+  params:
+    'match[]':
+    - '{__name__=~"istio_(.*)"}'
+    - '{__name__=~"pilot(.*)"}'
 {{< /text >}}

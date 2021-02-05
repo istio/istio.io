@@ -23,9 +23,9 @@ set -o pipefail
 
 # @setup profile=none
 
-export VERIFY_RETRIES=10
+export VERIFY_TIMEOUT=300
 
-snip_before_you_begin_1
+echo y | snip_before_you_begin_1
 _wait_for_deployment istio-system istiod
 
 # helper functions
@@ -43,5 +43,4 @@ snip_regenerating_a_dns_certificate_1
 _verify_contains regen_dns_certs "$snip_regenerating_a_dns_certificate_3"
 
 # @cleanup
-set +e # ignore cleanup errors
 snip_cleanup_1

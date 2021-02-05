@@ -13,7 +13,7 @@ number_of_entries: 1
 <h2 id="RequestAuthentication">RequestAuthentication</h2>
 <section>
 <p>RequestAuthentication defines what request authentication methods are supported by a workload.
-If will reject a request if the request contains invalid authentication information, based on the
+It will reject a request if the request contains invalid authentication information, based on the
 configured authentication rules. A request that does not contain any authentication credentials
 will be accepted but will not have any authenticated identity. To restrict access to authenticated
 requests only, this should be accompanied by an authorization rule.
@@ -113,7 +113,7 @@ spec:
        requestPrincipals: [&quot;*&quot;]
  - to:
    - operation:
-       paths: [&quot;/healthz]
+       paths: [&quot;/healthz&quot;]
 </code></pre>
 
 <table class="message-fields">
@@ -128,7 +128,7 @@ spec:
 <tbody>
 <tr id="RequestAuthentication-selector">
 <td><code>selector</code></td>
-<td><code><a href="/docs/reference/config/networking/sidecar/#WorkloadSelector">WorkloadSelector</a></code></td>
+<td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
 <p>The selector determines the workloads to apply the RequestAuthentication on.
 If not set, the policy will be applied to all workloads in the same namespace as the policy.</p>

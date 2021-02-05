@@ -19,15 +19,19 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/traffic-management/egress/egress-gateway/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/before-you-begin-egress.sh"
 
 snip_deploy_istio_egress_gateway_1() {
 kubectl get pod -l istio=egressgateway -n istio-system
 }
 
-snip_deploy_istio_egress_gateway_2() {
-istioctl install --set values.global.istioNamespace=istio-system \
-    --set values.gateways.istio-egressgateway.enabled=true
-}
+! read -r -d '' snip_deploy_istio_egress_gateway_2 <<\ENDSNIP
+spec:
+  components:
+    egressGateways:
+    - name: istio-egressgateway
+      enabled: true
+ENDSNIP
 
 snip_egress_gateway_for_http_traffic_1() {
 kubectl apply -f - <<EOF
@@ -50,7 +54,7 @@ EOF
 }
 
 snip_egress_gateway_for_http_traffic_2() {
-kubectl exec -it "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_egress_gateway_for_http_traffic_2_out <<\ENDSNIP
@@ -131,7 +135,7 @@ EOF
 }
 
 snip_egress_gateway_for_http_traffic_5() {
-kubectl exec -it "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_egress_gateway_for_http_traffic_5_out <<\ENDSNIP
@@ -179,7 +183,7 @@ EOF
 }
 
 snip_egress_gateway_for_https_traffic_2() {
-kubectl exec -it "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_egress_gateway_for_https_traffic_2_out <<\ENDSNIP
@@ -256,7 +260,7 @@ EOF
 }
 
 snip_egress_gateway_for_https_traffic_4() {
-kubectl exec -it "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_egress_gateway_for_https_traffic_4_out <<\ENDSNIP
@@ -299,7 +303,7 @@ sleep-776b7bcdcd-z7mc4   1/1       Running   0          18m
 ENDSNIP
 
 snip_apply_kubernetes_network_policies_4() {
-kubectl exec -it "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
+kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_apply_kubernetes_network_policies_4_out <<\ENDSNIP
@@ -340,7 +344,7 @@ EOF
 }
 
 snip_apply_kubernetes_network_policies_8() {
-kubectl exec -it "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -v https://edition.cnn.com/politics
+kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -v -sS https://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_apply_kubernetes_network_policies_8_out <<\ENDSNIP
@@ -388,7 +392,7 @@ EOF
 }
 
 snip_apply_kubernetes_network_policies_13() {
-kubectl exec -it "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
+kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -sS -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
 }
 
 ! read -r -d '' snip_apply_kubernetes_network_policies_13_out <<\ENDSNIP
@@ -422,7 +426,7 @@ kubectl exec -i -n istio-system "$(kubectl get pod -l istio=egressgateway -n ist
 ENDSNIP
 
 snip_troubleshooting_2() {
-kubectl exec -it "$SOURCE_POD" -c sleep -- openssl s_client -connect edition.cnn.com:443 -servername edition.cnn.com
+kubectl exec "$SOURCE_POD" -c sleep -- openssl s_client -connect edition.cnn.com:443 -servername edition.cnn.com
 }
 
 ! read -r -d '' snip_troubleshooting_2_out <<\ENDSNIP
