@@ -125,10 +125,11 @@ Istio provisions keys and certificates through the following flow:
 
 1. `istiod` offers a gRPC service to take [certificate signing requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
 1. When started, the Istio agent creates the private key
-   and CSR and sends the CSR with its credentials to `istiod` for signing.
+   and CSR, and then sends the CSR with its credentials to `istiod` for signing.
 1. The CA in `istiod` validates the credentials carried in the CSR.
    Upon successful validation, it signs the CSR to generate the certificate.
-1. Envoy requests the certificate and key from the Istio agent in the same container via the
+1. When a workload is started, Envoy requests the certificate and key from the Istio agent in the
+   same container via the
    [Envoy secret discovery service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)
    API.
 1. The Istio agent sends the certificates received from `istiod` and the
@@ -186,8 +187,8 @@ follows:
 1. The client side Envoy and the server side Envoy establish a mutual TLS
    connection, and Istio forwards the traffic from the client side Envoy to the
    server side Envoy.
-1. The server side envoy authorizes the request. If authorized, it forwards the traffic to the
-   server-side service through local TCP connections.
+1. The server side Envoy authorizes the request. If authorized, it forwards the traffic to the
+   backend service through local TCP connections.
 
 Istio configures `TLSv1_2` as the minimum TLS version for both client and server with
 the following cipher suites:
