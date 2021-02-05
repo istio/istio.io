@@ -18,17 +18,10 @@
     cursor: pointer;
     min-width: 13.75rem;
 
-    &:hover {
-        background-color: $secondaryColor;
-    }
-
-    &:active {
-        background-color: $secondaryColor;
-    }
-
     &:hover,
     &:active,
     &:focus {
+        background-color: $secondaryColor;
         color: #ffffff;
         text-decoration: none;
         font-weight: $buttonWeight;

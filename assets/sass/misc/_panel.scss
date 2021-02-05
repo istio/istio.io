@@ -4,6 +4,10 @@
     justify-content: center;
     flex-wrap: wrap;
     margin-top: -2.5rem;
+
+    &.case-studies {
+        justify-content: unset;
+    }
 }
 
 .panel {
@@ -62,6 +66,22 @@
         }
     }
 
+    .panel-author {
+        font-size: 1.125rem;
+        margin-top: 2.125rem;
+        color: $primaryColor;
+        font-weight: $boldWeight;
+        line-height: 1.2;
+    }
+
+    .panel-logo {
+        @include grayscale-element(100%);
+        margin-top: 2.125rem;
+        width: 100%;
+
+        img { max-width: 310px; }
+    }
+
     &--dark {
         background: $secondaryAccentColor;
         
@@ -107,6 +127,24 @@
         background: none;
         color: $secondaryColor;
         border: 2px solid $secondaryColor;
+
+        .panel-logo img { max-width: 200px; }
+
+        .panel-btn {
+            margin-top: 2.625rem;
+
+            &:hover { border-color: $secondaryColor; }
+        }
+    }
+
+    &--carousel-quote {
+        background: transparent;
+        margin: 0 auto;
+        text-align: center;
+
+        @media (min-width: $bp-md) {
+            max-width: 650px;
+        }
     }
 }
 
