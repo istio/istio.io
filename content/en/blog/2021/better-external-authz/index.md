@@ -10,21 +10,21 @@ keywords: [authorization,access control,opa,oauth2]
 ## Background
 
 Istio's authorization policy provides access control for services in the mesh. It is fast, powerful and a widely used
-feature. We have made continuous improvements to make it more flexible since its first release in Istio 1.4, including
-the DENY action, exclusion semantics, the X-Forwarded-For header support, nested JWT claim support and more.
+feature. We have made continuous improvements to make policy more flexible since its first release in Istio 1.4, including
+the `DENY` action, exclusion semantics, `X-Forwarded-For` header support, nested JWT claim support and more.
 
 These features improve the flexibility of the authorization policy, but there are still many use cases cannot be supported
 with this model, for example:
 
 - You have your own in-house authorization system that cannot be easily migrated to, or replaced by, the authorization
-  policy;
+  policy
 
 - You want to integrate with a 3rd-party or industry standard solution (e.g. [Open Policy Agent](https://www.openpolicyagent.org/docs/latest/envoy-authorization/)
   or [`oauth2` proxy](https://github.com/oauth2-proxy/oauth2-proxy)) which may require use of the
   [low-level Envoy configuration APIs](/docs/reference/config/networking/envoy-filter/) in Istio, or may not be possible
-  at all;
+  at all
 
-- The authorization policy just lacks some semantics for your use cases;
+- Authorization policy lacks necessary semantics for your use case
 
 ## Solution
 
@@ -36,22 +36,22 @@ authorization logic. The following diagram shows the high level architecture of 
 
 {{< image width="100%" link="./external_authz.svg" caption="External Authorization Architecture" >}}
 
-In configuration time, the user (e.g. mesh admin) configures the authorization policy with `CUSTOM` action to enable the
-external authorization on a proxy (either gateway or sidecar). The user should make sure the external auth service is up
+At configuration time, the mesh admin configures an authorization policy with a `CUSTOM` action to enable the
+external authorization on a proxy (either gateway or sidecar). The admin should make sure the external auth service is up
 and running.
 
-In runtime,
+At runtime,
 
-1. A request to the proxy will be paused, and the proxy will send a check request to the external auth service as
-   configured by the user in the authorization policy;
+1. A request to the proxy will be paused, and the proxy will send a check request to the external auth service, as
+   configured by the user in the authorization policy
 
-1. The external auth service will check the request and make the decision whether to allow it or not;
+1. The external auth service will check the request and make the decision whether to allow it or not
 
-1. If allowed, the request will continue and still be enforced by the local authorization defined by ALLOW/DENY action.
+  1. If allowed, the request will continue and will be enforced by any local authorization defined by `ALLOW`/`DENY` action
 
-1. If denied, the request will be rejected immediately.
+  1. If denied, the request will be rejected immediately.
 
-The following is an example authorization policy with `CUSTOM` action:
+Let's look at an example authorization policy with the `CUSTOM` action:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -80,7 +80,7 @@ spec:
         paths: ["/admin/*"]
 {{< /text >}}
 
-The following is a snippet of the mesh config showing an example of the provider `my-ext-authz-service` definition:
+It refers to a provider called `my-ext-authz-service` which is defined in the mesh config:
 
 {{< text yaml >}}
 extensionProviders:
@@ -107,7 +107,7 @@ The external authorization service is currently defined in the [`meshconfig` API
 and referred to by its name. It could be deployed in the mesh with or without proxy. If with the proxy, you could
 further use `PeerAuthentication` to enable mTLS between the proxy and your external authorization service.
 
-The `CUSTOM` action is currently in the **experimental stage**, the API might change in a non-backward compatible way.
+The `CUSTOM` action is currently in the **experimental stage**; the API might change in a non-backward compatible way based on user feedback.
 The rule currently does not support authentication related fields (e.g. source principal or JWT claim) and only one
 provider is allowed for a given workload, but you can still use different providers on different workloads.
 
@@ -115,7 +115,7 @@ For more information, please see the [Better External Authorization design doc](
 
 ## Example with OPA
 
-In this section, we will demonstrate using the CUSTOM action with the Open Policy Agent as the external authorizer on
+In this section, we will demonstrate using the `CUSTOM` action with the Open Policy Agent as the external authorizer on
 the ingress gateway. We will conditionally enable the external authorization on all paths except `/ip`.
 
 You can also refer to the [external authorization task](/docs/tasks/security/authorization/authz-custom/) for a more
@@ -406,7 +406,7 @@ data:
 
 {{< /tabset >}}
 
-### Create AuthorizationPolicy with CUSTOM action
+### Create an AuthorizationPolicy with a CUSTOM action
 
 Run the following command to create the authorization policy that enables the external authorization on all paths
 except `/ip`:
@@ -465,7 +465,7 @@ EOF
 
 ### Test the OPA policy
 
-1. Create the sleep pod to send the request:
+1. Create a client pod to send the request:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -490,28 +490,28 @@ EOF
 
     The `path` claim has value `L2hlYWRlcnM=` which is the base64 encode of `/headers`.
 
-1. Send request to path `/headers` without token, should be rejected with 403 because there is no JWT token:
+1. Send a request to path `/headers` without a token. This should be rejected with 403 because there is no JWT token:
 
     {{< text bash >}}
     $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin-with-opa:8000/headers -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
-1. Send request to path `/get` with valid token, should be rejected with 403 because the path `/get` is not matched with the token `/headers`:
+1. Send a request to path `/get` with a valid token. This should be rejected with 403 because the path `/get` is not matched with the token `/headers`:
 
     {{< text bash >}}
     $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin-with-opa:8000/get -H "Authorization: Bearer $TOKEN_PATH_HEADERS" -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
-1. Send request to path `/headers` with valid token, should be allowed with 200 because the path is matched with the token:
+1. Send a request to path `/headers` with valid token. This should be allowed with 200 because the path is matched with the token:
 
     {{< text bash >}}
     $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin-with-opa:8000/headers -H "Authorization: Bearer $TOKEN_PATH_HEADERS" -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
-1. Send request to path `/ip` without token, should be allowed with 200 because the path `/ip` is excluded from the
+1. Send request to path `/ip` without token. This should be allowed with 200 because the path `/ip` is excluded from
    authorization:
 
     {{< text bash >}}
@@ -523,23 +523,23 @@ EOF
 
 ## Summary
 
-In Istio 1.9, The CUSTOM action in the authorization policy allows to easily integrate Istio with any external
+In Istio 1.9, the `CUSTOM` action in the authorization policy allows you to easily integrate Istio with any external
 authorization system with the following benefits:
 
-- First-class support in the authorization policy API;
+- First-class support in the authorization policy API
 
-- Ease of usage, define the external authorizer simply with a URL and enable with the authorization policy, no more
-  hassle with the `EnvoyFilter` API;
+- Ease of usage: define the external authorizer simply with a URL and enable with the authorization policy, no more
+  hassle with the `EnvoyFilter` API
 
-- Conditionally triggering allows improved performance;
+- Conditional triggering,  allowing improved performance
 
-- Supports various deployment type of the external authorizer:
+- Support for various deployment type of the external authorizer:
 
-    - A normal service and pod with or without proxy;
+    - A normal service and pod with or without proxy
 
-    - Inside the workload pod as a separate container;
+    - Inside the workload pod as a separate container
 
-    - out of the mesh;
+    - Outside the mesh
 
 We're working to promote this feature to a more stable stage in following versions and welcome your feedback at
 [discuss.istio.io](https://discuss.istio.io/c/security/).
