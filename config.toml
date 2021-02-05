@@ -151,8 +151,8 @@ disableAliases = true
 
     [[menu.main]]
       identifier = "deployment-guides"
-      name = "Deployment guides"
-      title = "Deployment guides"
+      name = "Deployment"
+      title = "Deployment"
       url = "/about/deployment-guides"
       parent = "about"
       weight = 5

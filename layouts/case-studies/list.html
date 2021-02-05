@@ -1,0 +1,20 @@
+{{ define "main" }}
+
+    {{ partial "primary_top.html" . }}
+
+    {{ $pages := .Pages }}
+
+    {{ range $pages }}
+        <div class="panels case-studies">
+            {{ partial "case_study_panel.html" .Params }}
+        </div>
+    {{ end }}
+    <div class="cta-container">
+        <a href="#" class="btn">Share your story</a>
+    </div>
+
+    <h1>Also used by</h1>
+
+    {{ partial "primary_bottom.html" . }}
+
+{{ end }}
