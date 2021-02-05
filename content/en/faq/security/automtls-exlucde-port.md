@@ -1,5 +1,5 @@
 ---
-title: Does Auto mTLS work for port exlusion?
+title: Does Auto mTLS work with "excludeInboundPorts" annotations?
 weight: 80
 ---
 
