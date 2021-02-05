@@ -44,6 +44,7 @@ Below is our list of existing features and their current phases. This informatio
 | CNI container interface | Alpha
 | [Sidecar API](/docs/reference/config/networking/sidecar/) | Beta
 | [DNS Proxying](/docs/ops/configuration/traffic-management/dns-proxy/) | Alpha
+| [Kubernetes service-apis](/docs/tasks/traffic-management/ingress/service-apis/) | Alpha
 
 ### Observability
 
@@ -56,6 +57,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Stackdriver Integration](/docs/reference/config/proxy_extensions/stackdriver/) | Stable
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/observability/distributed-tracing/) | Beta
 | [Trace Sampling](/docs/tasks/observability/distributed-tracing/configurability/#trace-sampling) | Beta
+| [Request Classification](/docs/tasks/observability/metrics/classify-metrics/) | Beta
 
 ### Security and policy enforcement
 
@@ -85,7 +87,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Istio CNI plugin](/docs/setup/additional-setup/cni/) | Alpha
 | IPv6 Support for Kubernetes | Alpha. Dual-stack IPv4 and IPv6 is not supported.
 | [Distroless Base Images for Istio](/docs/ops/configuration/security/harden-docker-images/) | Alpha
-| [Virtual Machine Integration](/docs/setup/install/virtual-machine/) | Alpha
+| [Virtual Machine Integration](/docs/setup/install/virtual-machine/) | Beta
 | [Helm Based Installation](/docs/setup/install/helm/) | Alpha
 
 {{< idea >}}
