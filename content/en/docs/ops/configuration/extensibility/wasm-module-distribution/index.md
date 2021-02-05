@@ -54,8 +54,8 @@ Once this update reaches Istio agent, it will download the Wasm module file and 
 If the download fails, Istio-agent will reject the `Extension Configuration` update and prevent bad Wasm filter configuration from reaching Envoy.
 Most of this `EnvoyFilter` configuration is boilerplate. The important parts are:
 
-* Wasm `vm` configuration which points to a remote Wasm module.
-* Wasm extension configuration, which is a Json string and consumed by the Wasm extension.
+- Wasm `vm` configuration which points to a remote Wasm module.
+- Wasm extension configuration, which is a Json string and consumed by the Wasm extension.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -105,7 +105,7 @@ spec:
 {{< /text >}}
 
 Note that Istio agent will only intercept and download remote Wasm modules configured via ECDS resources.
-To disable ECDS interception and Wasm downloading in Istio agent, you can set the `ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION` environment variable to `false`. 
+To disable ECDS interception and Wasm downloading in Istio agent, you can set the `ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION` environment variable to `false`.
 For example, to set it globally:
 
 {{< text yaml >}}
@@ -117,8 +117,8 @@ meshConfig:
 
 There are several known limitations with this module distribute mechanism, which will be addressed in the following releases:
 
-* Envoy extension configuration discovery service only supports HTTP filter configuration distribution. Networking filter configuration and others will be added in the future releases.
-* Only http/https downloading is supported, OCI pulling and other highly demanded cloud blob services will be added in the future releases.
+- Envoy extension configuration discovery service only supports HTTP filter configuration distribution. Networking filter configuration and others will be added in the future releases.
+- Only http/https downloading is supported, OCI pulling and other highly demanded cloud blob services will be added in the future releases.
 
 ## Monitoring Wasm Module Distribution Failure
 
@@ -126,10 +126,10 @@ There are several stats which track the distribution status of the remote Wasm m
 
 The following stats are collected by Istio agent:
 
-* `istio_agent_wasm_cache_lookup_count`: number of Wasm remote fetch cache lookup.
-* `istio_agent_wasm_cache_entries`: number of Wasm config conversion count and results, including success, no remote load, marshal failure, remote fetch failure, miss remote fetch hint.
-* `istio_agent_wasm_config_conversion_duration_bucket`: Total time in milliseconds istio-agent spends on converting remote load in Wasm config.
-* `istio_agent_wasm_remote_fetch_count`: number of Wasm remote fetches and results, including success, download failure, and checksum mismatch.
+- `istio_agent_wasm_cache_lookup_count`: number of Wasm remote fetch cache lookup.
+- `istio_agent_wasm_cache_entries`: number of Wasm config conversion count and results, including success, no remote load, marshal failure, remote fetch failure, miss remote fetch hint.
+- `istio_agent_wasm_config_conversion_duration_bucket`: Total time in milliseconds istio-agent spends on converting remote load in Wasm config.
+- `istio_agent_wasm_remote_fetch_count`: number of Wasm remote fetches and results, including success, download failure, and checksum mismatch.
 
 If a Wasm filter configuration is rejected, either due to download failure or other reasons, istiod will also emit stats `pilot_total_xds_rejects` with type label `type.googleapis.com/envoy.config.core.v3.TypedExtensionConfig`.
 
@@ -138,6 +138,6 @@ If a Wasm filter configuration is rejected, either due to download failure or ot
 To learn more about Wasm module development, please refer to guides provided by [`istio-ecosystem/wasm-extensions` repository](https://github.com/istio-ecosystem/wasm-extensions),
 which is maintained by Istio community and used to develop Istio first class Telemetry Wasm extension:
 
-* [Write, test, deploy, and maintain a Wasm extension with C++](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md)
-* [Write unit test for Wasm extension](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-cpp-unit-test.md)
-* [Write integration test for Wasm extension](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-integration-test.md)
+- [Write, test, deploy, and maintain a Wasm extension with C++](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md)
+- [Write unit test for Wasm extension](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-cpp-unit-test.md)
+- [Write integration test for Wasm extension](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-integration-test.md)
