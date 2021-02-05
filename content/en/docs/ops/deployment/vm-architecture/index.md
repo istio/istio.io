@@ -14,9 +14,8 @@ This page builds on these pages to explain how Istio can be extended to support 
 Istio's virtual machine expansion allows connecting workloads outside of a Kubernetes cluster to the mesh.
 This enables legacy applications, or applications not suitable to run in a containerized environment, to get all the benefits that Istio provides to applications running inside Kubernetes.
 
-Many of the features the Kubernetes automatically provides applications are supplemented by Istio.
-This includes service discovery, DNS resolution, and health checks.
-Additionally, standard Istio features such as automatic mutual TLS, rich telemetry, and expressive traffic management configuration are enabled.
+For workloads running on Kubernetes, the Kubernetes platform itself provides various functionalities like service discovery, DNS resolution, and health checks which are often missing in virtual machine environments.
+Istio enables these features for workloads running on virtual machines, and in addition allows these workloads to utilize Istio functionalities like mutual TLS (mTLS), rich telemetry, and advanced traffic management capabilities.
 
 The following diagram shows the architecture of a mesh with virtual machines:
 
