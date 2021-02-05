@@ -6,11 +6,15 @@ weight: 10
 
 ## Traffic Management
 
-- **Added** Add pprof endpoint to pilot-agent.
+- **Added** Add [pprof](https://github.com/google/pprof) endpoint to pilot-agent.
   ([Issue #28040](https://github.com/istio/istio/issues/28040))
 
 - **Added** Allow enabling gRPC logging with --log_output_level for pilot.
   ([Issue #28482](https://github.com/istio/istio/issues/28482))
+
+- **Added** a new experimental proxy option [DNS_AUTO_ALLOCATE](docs/ops/configuration/traffic-management/dns-proxy), to control auto allocation of ServiceEntry addresses. Previously,
+this option was tied to `DNS_CAPTURE`. Now, `DNS_CAPTURE` can be enabled without auto allocation. See [Smart DNS Proxying](https://istio.io/latest/blog/2020/dns-proxy/) for more info.
+  ([Issue #29324](https://github.com/istio/istio/issues/29324))
 
 - **Fixed** istiod will no longer generate listeners for privileged gateway ports (<1024) if the gateway Pod does not have sufficient permissions.
   ([Issue #27566](https://github.com/istio/istio/issues/27566))
@@ -22,7 +26,7 @@ weight: 10
 
 ## Security
 
-- **Added** option to enable STS token fetch and exchange for XDS flow.
+- **Added** option to allow users to enable token exchange for their XDS flows, which exchanges a k8s token to a token that can be authenticated at their XDS servers.
   ([Issue #29943](https://github.com/istio/istio/issues/29943))
 
 - **Added** OIDC JWT authenticator that supports both JWKS-URI and OIDC discovery. The OIDC JWT authenticator will be used when configured through the JWT_RULE env variable.  ([Issue #30295](https://github.com/istio/istio/issues/30295))
@@ -44,9 +48,17 @@ weight: 10
 
 - **Updated** default access log to include `RESPONSE_CODE_DETAILS` and `CONNECTION_TERMINATION_DETAILS` for proxy version >= 1.9. ([Pull Request #27903](https://github.com/istio/istio/pull/27903))
 
+## Networking
+
+- **Added** Correctly iptables rules and listener filters setting to support original src ip preserve in TPROXY mode within a cluster.  ([Issue #23369](https://github.com/istio/istio/issues/23369))
+
+- **Fixed** a bug where locality weights are only applied when outlier detection is enabled. ([Issue #28942](https://github.com/istio/istio/issues/28942))
+
 ## Installation
 
 - **Added** post-install/in-place upgrade verification of control plane health. Use `--verify` flag with `istioctl install` or `istioctl upgrade`. ([Issue #21715](https://github.com/istio/istio/issues/21715))
+
+- **Added** Add [pprof](https://github.com/google/pprof) endpoint to pilot-agent. ([Issue #28040](https://github.com/istio/istio/issues/28040))
 
 - **Added**  `enableIstioConfigCRDs` to `base` to allow user specify whether the istio crds will be installed. ([Pull Request #28346](https://github.com/istio/istio/pull/28346))
 
