@@ -434,6 +434,14 @@ Run the following commands on the virtual machine you want to add to the Istio m
     Hello version: v1, instance: helloworld-v1-578dd69f69-fxwwk
     {{< /text >}}
 
+## Next Steps
+
+For more information about virtual machines:
+
+* [Virtual Machine Architecture](/docs/ops/deployment/vm-architecture/) to learn about the high level architecture of Istio's virtual machine integration.
+* [Debugging Virtual Machines](/docs/ops/diagnostic-tools/virtual-machines/) to learn more about troubleshooting issues with virtual machines.
+* [Bookinfo with a Virtual Machine](/docs/examples/virtual-machines/) to learn more about connecting virtual machine workloads to Kubernetes workloads.
+
 ## Uninstall
 
 Stop Istio on the virtual machine:
