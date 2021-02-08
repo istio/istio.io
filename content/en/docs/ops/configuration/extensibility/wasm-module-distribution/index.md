@@ -1,6 +1,6 @@
 ---
 title: Distributing WebAssembly Modules
-description: how to make remote WebAssembly modules avaiable in the mesh for extensibility.
+description: Describes how to make remote WebAssembly modules available in the mesh.
 weight: 10
 aliases:
   - /help/ops/extensibility/distribute-remote-wasm-module
