@@ -62,11 +62,11 @@ To avoid a vulnerability, ensure that the operator deployment is sufficiently se
 
     {{< text bash >}}
     $ helm install istio-operator manifests/charts/istio-operator \
-      --set hub=docker.io/istio \
-      --set tag={{< istio_full_version >}} \
       --set operatorNamespace=istio-operator \
-      --set watchedNamespaces=istio-namespace1,istio-namespace2
+      --set watchedNamespaces="istio-namespace1\,istio-namespace2"
     {{< /text >}}
+
+    {{< boilerplate helm-hub-tag >}}
 
     Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
     to run the above command.
@@ -237,12 +237,12 @@ You can alternatively use Helm to deploy another operator with a different revis
 
 {{< text bash >}}
 $ helm install istio-operator manifests/charts/istio-operator \
-  --set hub=docker.io/istio \
-  --set tag={{< istio_full_version >}} \
   --set operatorNamespace=istio-operator \
   --set watchedNamespaces=istio-system \
-  --set revision=1-8-1
+  --set revision=1-9-0
 {{< /text >}}
+
+{{< boilerplate helm-hub-tag >}}
 
 Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
 to run the above command.
