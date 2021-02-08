@@ -19,7 +19,6 @@ describes several ways to configure liveness and readiness probes including:
 
 1. [Command](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command)
 1. [HTTP request](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-http-request)
-1. [TCP Probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-tcp-liveness-probe)
 
 The command approach works with Istio regardless of whether or not mutual TLS is enabled.
 
@@ -129,40 +128,6 @@ to disable the probe rewrite globally. **Alternatively**, update the configurati
 
 {{< text bash >}}
 $ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
-{{< /text >}}
-
-## Liveness probes using the TCP socket
-
-A third type of liveness probe uses a TCP socket.
-
-{{< text yaml >}}
-kubectl apply -f - <<EOF
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: liveness-tcp
-spec:
-  selector:
-    matchLabels:
-      app: liveness-tcp
-      version: v1
-  template:
-    metadata:
-      labels:
-        app: liveness-tcp
-        version: v1
-    spec:
-      containers:
-      - name: liveness-tcp
-        image: docker.io/istio/health:example
-        ports:
-        - containerPort: 8001
-        livenessProbe:
-          tcpSocket:
-            port: 8001
-          initialDelaySeconds: 5
-          periodSeconds: 5
-EOF
 {{< /text >}}
 
 ## Cleanup

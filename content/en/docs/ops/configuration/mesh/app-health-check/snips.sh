@@ -87,36 +87,6 @@ snip_disable_the_probe_rewrite_globally_1() {
 kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
 }
 
-! read -r -d '' snip_liveness_probes_using_the_tcp_socket_1 <<\ENDSNIP
-kubectl apply -f - <<EOF
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: liveness-tcp
-spec:
-  selector:
-    matchLabels:
-      app: liveness-tcp
-      version: v1
-  template:
-    metadata:
-      labels:
-        app: liveness-tcp
-        version: v1
-    spec:
-      containers:
-      - name: liveness-tcp
-        image: docker.io/istio/health:example
-        ports:
-        - containerPort: 8001
-        livenessProbe:
-          tcpSocket:
-            port: 8001
-          initialDelaySeconds: 5
-          periodSeconds: 5
-EOF
-ENDSNIP
-
 snip_cleanup_1() {
 kubectl delete ns istio-io-health
 }
