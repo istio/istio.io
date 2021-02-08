@@ -9,14 +9,14 @@ aliases:
     - /news/announcing-1.8.3
 ---
 
-This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.8.2 and Istio 1.8.3
+This release contains bug fixes to improve stability. This release note describes what’s different between Istio 1.8.2 and Istio 1.8.3
 
 {{< relnote >}}
 
 ## Security
 
 Istio 1.8.3 will not contain a security fix as previously announced on [discuss.istio.io](https://discuss.istio.io/t/upcoming-istio-1-7-8-and-1-8-3-security-release/9593).
-There is no currently planned date at this time. Be assured that this is a top priority for the Istio Product Security Working Group, but due to the details we cannot release more information at this time. Announcement regarding delay can be found [here](https://discuss.istio.io/t/istio-1-7-8-and-1-8-3-cve-fixes-delayed/9663).
+There is no currently planned date at this time. Be assured that this is a top priority for the Istio Product Security Working Group, but due to the details we cannot release more information at this time. An announcement regarding the delay can be found [here](https://discuss.istio.io/t/istio-1-7-8-and-1-8-3-cve-fixes-delayed/9663).
 
 ## Changes
 
