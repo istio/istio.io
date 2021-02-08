@@ -12,8 +12,8 @@ weight: 10
 - **Added** Allow enabling gRPC logging with --log_output_level for pilot.
   ([Issue #28482](https://github.com/istio/istio/issues/28482))
 
-- **Added** a new experimental proxy option [DNS_AUTO_ALLOCATE](docs/ops/configuration/traffic-management/dns-proxy), to control auto allocation of ServiceEntry addresses. Previously,
-this option was tied to `DNS_CAPTURE`. Now, `DNS_CAPTURE` can be enabled without auto allocation. See [Smart DNS Proxying](https://istio.io/latest/blog/2020/dns-proxy/) for more info.
+- **Added** a new experimental proxy option [DNS_AUTO_ALLOCATE](/docs/ops/configuration/traffic-management/dns-proxy), to control auto allocation of ServiceEntry addresses. Previously,
+this option was tied to `DNS_CAPTURE`. Now, `DNS_CAPTURE` can be enabled without auto allocation. See [Smart DNS Proxying](/blog/2020/dns-proxy/) for more info.
   ([Issue #29324](https://github.com/istio/istio/issues/29324))
 
 - **Fixed** istiod will no longer generate listeners for privileged gateway ports (<1024) if the gateway Pod does not have sufficient permissions.
@@ -44,7 +44,7 @@ this option was tied to `DNS_CAPTURE`. Now, `DNS_CAPTURE` can be enabled without
 - **Fixed** an issue to allow nested JSON structure in `meshConfig.accessLogFormat`.
   ([Issue #28597](https://github.com/istio/istio/issues/28597))
 
-- **Updated** prometheus metrics to include `source_cluster` and `destination_cluster` labels by default for all scenarios. Previously, this was only enabled for multi-cluster scenarios. ([Pull Request #30036](https://github.com/istio/istio/pull/30036))
+- **Updated** Prometheus metrics to include `source_cluster` and `destination_cluster` labels by default for all scenarios. Previously, this was only enabled for multi-cluster scenarios. ([Pull Request #30036](https://github.com/istio/istio/pull/30036))
 
 - **Updated** default access log to include `RESPONSE_CODE_DETAILS` and `CONNECTION_TERMINATION_DETAILS` for proxy version >= 1.9. ([Pull Request #27903](https://github.com/istio/istio/pull/27903))
 
@@ -60,7 +60,7 @@ this option was tied to `DNS_CAPTURE`. Now, `DNS_CAPTURE` can be enabled without
 
 - **Added** Add [pprof](https://github.com/google/pprof) endpoint to pilot-agent. ([Issue #28040](https://github.com/istio/istio/issues/28040))
 
-- **Added**  `enableIstioConfigCRDs` to `base` to allow user specify whether the istio crds will be installed. ([Pull Request #28346](https://github.com/istio/istio/pull/28346))
+- **Added**  `enableIstioConfigCRDs` to `base` to allow user specify whether the Istio CRDs will be installed. ([Pull Request #28346](https://github.com/istio/istio/pull/28346))
 
 - **Added** Istio 1.9 supports Kubernetes versions 1.17 to 1.20.
   ([Issue #30176](https://github.com/istio/istio/issues/30176))
@@ -73,7 +73,7 @@ this option was tied to `DNS_CAPTURE`. Now, `DNS_CAPTURE` can be enabled without
 - **Improved** the sidecar injector to better utilize pod labels to determine if injection is required. This is not enabled
 by default in this release, but can be tested using `--set values.sidecarInjectorWebhook.useLegacySelectors=false`. ([Pull Request #30013](https://github.com/istio/istio/pull/30013))
 
-- **Updated** Kiali addon to the latest version v1.29. ([Pull Request #30438](https://github.com/istio/istio/pull/30438))
+- **Updated** Kiali addon to the latest version v1.29 . ([Pull Request #30438](https://github.com/istio/istio/pull/30438))
 
 ## istioctl
 
@@ -93,7 +93,7 @@ by default in this release, but can be tested using `--set values.sidecarInjecto
 
 - **Added** `WorkloadEntry` resources will be read from all clusters in multi-cluster installations and do not need to be duplicated.
 Makes Virtual Machine auto-registration compatible with multi-primary multi-cluster. This feature is disabled by default and can be
-enaled by setting the `PILOT_ENABLE_CROSS_CLUSTER_WORKLOAD_ENTRY` environment variable in istiod.
+enabled by setting the `PILOT_ENABLE_CROSS_CLUSTER_WORKLOAD_ENTRY` environment variable in istiod.
   ([Issue #29026](https://github.com/istio/istio/issues/29026))
 
 - **Added** `istioctl analyze` now informs if deprecated or alpha-level annotations are present.

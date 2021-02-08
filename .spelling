@@ -245,7 +245,9 @@ distro
 Distroless
 distroless
 Divya
+Dropdown
 DNS
+DNS_AUTO_ALLOCATE
 docker-compose's
 docker.io
 dogfood
@@ -391,6 +393,9 @@ jwcrypto
 JWT
 jwt.io
 JWTs
+JWT_RULE
+JWKS-URI
+k8s
 katacoda
 Keepalived
 key.pem
@@ -424,8 +429,11 @@ LightStep
 Linkerd
 linter
 linters
+list_by_publishdate
 liveness
+localhost
 loopback
+log_output_level
 Lua
 Lyft
 macOS
@@ -512,9 +520,11 @@ Patlevič
 peek
 Pengyuan
 pem
+PeerAuthentication
 performant
 pipelined
 Piotr
+Prometheus
 PKI
 PKIs
 pki
@@ -608,6 +618,7 @@ serverless
 serviceaccount
 ServiceGraph
 servicegraph-example
+ServiceEntry
 ServiceMeshCon
 ServiceMesher
 sha256
@@ -640,6 +651,7 @@ Stoney
 strongSwan
 struct
 Styra
+src
 subdomain
 subdomains
 subnet
@@ -648,6 +660,7 @@ subnetworks
 subresource
 subresources
 substring
+subcommand
 Superfeet
 svc
 svc.com
@@ -710,6 +723,7 @@ v1
 v1.7.4
 v1.7.6_coreos.0
 v1.9
+v1.29
 v1alpha1
 v1alpha3
 v1beta1
