@@ -13,7 +13,7 @@ Istio's authorization policy provides access control for services in the mesh. I
 feature. We have made continuous improvements to make policy more flexible since its first release in Istio 1.4, including
 the `DENY` action, exclusion semantics, `X-Forwarded-For` header support, nested JWT claim support and more.
 
-These features improve the flexibility of the authorization policy, but there are still many use cases cannot be supported
+These features improve the flexibility of the authorization policy, but there are still many use cases that cannot be supported
 with this model, for example:
 
 - You have your own in-house authorization system that cannot be easily migrated to, or replaced by, the authorization
@@ -31,13 +31,13 @@ with this model, for example:
 In Istio 1.9, we have implemented extensibility into authorization policy by introducing a [`CUSTOM` action](https://github.com/istio/api/blob/b24ca4b76fdb51e227baf508c6d884eb8bcb51f5/security/v1beta1/authorization_policy.proto#L296),
 which allows you to delegate the access control decision to an external authorization service.
 
-The `CUSTOM` action allows to integrate Istio with an external authorization system that implements its own custom
+The `CUSTOM` action allows you to integrate Istio with an external authorization system that implements its own custom
 authorization logic. The following diagram shows the high level architecture of this integration:
 
 {{< image width="100%" link="./external_authz.svg" caption="External Authorization Architecture" >}}
 
 At configuration time, the mesh admin configures an authorization policy with a `CUSTOM` action to enable the
-external authorization on a proxy (either gateway or sidecar). The admin should make sure the external auth service is up
+external authorization on a proxy (either gateway or sidecar). The admin should verify the external auth service is up
 and running.
 
 At runtime,
@@ -544,4 +544,4 @@ authorization system with the following benefits:
 We're working to promote this feature to a more stable stage in following versions and welcome your feedback at
 [discuss.istio.io](https://discuss.istio.io/c/security/).
 
-Thanks to `Craig Box`, `Christian Posta` and `Limin Wang` for reviewing drafts of this blog.
+_Thanks to Craig Box, Christian Posta and Limin Wang for reviewing drafts of this blog._
