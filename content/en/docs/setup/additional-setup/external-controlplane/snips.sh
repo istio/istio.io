@@ -204,7 +204,7 @@ spec:
       enabled: false
   values:
     global:
-      caAddress: $EXTERNAL_ISTIOD_ADDR:15012    
+      caAddress: $EXTERNAL_ISTIOD_ADDR:15012
       istioNamespace: external-istiod
       operatorManageWebhooks: true
       meshID: mesh1
