@@ -110,7 +110,7 @@ kube-system          Active   5m10s
 local-path-storage   Active   5m7s
 {{< /text >}}
 
-Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has `2/2 READY` containers, and the pod with injected sidecar has `1/1 READY` containers.
+Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has `1/1 READY` containers, and the pod with injected sidecar has `2/2 READY` containers.
 
 {{< text bash >}}
 $ kubectl delete pod -l app=sleep
@@ -166,13 +166,13 @@ on a per-pod basis, by configuring the `sidecar.istio.io/inject` label on a pod:
 The injector is configured with the following logic:
 
 1. If either label is disabled, the pod is not injected
-1. If either label is enable, the pod is injected
+1. If either label is enabled, the pod is injected
 1. If neither label is set, the pod is injected if `.values.sidecarInjectorWebhook.enableNamespacesByDefault` is enabled. This is not enabled by default, so generally this means the pod is not injected.
 
 ## Customizing injection
 
 Generally, pod are injected based on the sidecar injection template, configured in the `istio-sidecar-injector` configmap.
-Per-pod configuration is available to override these options on individual pods. This is done by adding a `istio-proxy` container
+Per-pod configuration is available to override these options on individual pods. This is done by adding an `istio-proxy` container
 to your pod. The sidecar injection will treat any configuration defined here as an override to the default injection template.
 
 Care should be taken when customizing these settings, as this allows complete customization of the resulting `Pod`, including making changes that cause the sidecar container to not function properly.
@@ -217,7 +217,7 @@ Additionally, certain fields are configurable by [annotations](/docs/reference/c
 ### Custom templates [experimental]
 
 {{< warning >}}
-This feature is experimental and subject to change, or be removed, at any time.
+This feature is experimental and subject to change, or removal, at any time.
 {{< /warning >}}
 
 Completely custom templates can also be defined at installation time.
