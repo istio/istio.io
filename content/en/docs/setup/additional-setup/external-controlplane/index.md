@@ -231,7 +231,6 @@ spec:
 
   values:
     global:
-      caAddress: $EXTERNAL_ISTIOD_ADDR:15012
       istioNamespace: external-istiod
       meshID: mesh1
       multiCluster:
@@ -289,6 +288,7 @@ spec:
       enabled: false
   values:
     global:
+      caAddress: $EXTERNAL_ISTIOD_ADDR:15012
       istioNamespace: external-istiod
       operatorManageWebhooks: true
       meshID: mesh1
