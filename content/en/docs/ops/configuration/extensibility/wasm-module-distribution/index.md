@@ -1,6 +1,6 @@
 ---
-title: Distribute Remote WebAssembly Module
-description: .
+title: Distributing WebAssembly Modules
+description: how to make remote WebAssembly modules avaiable in the mesh for extensibility.
 weight: 10
 aliases:
   - /help/ops/extensibility/distribute-remote-wasm-module
@@ -11,17 +11,17 @@ test: n/a
 ---
 
 Istio provides the ability to [extend proxy functionality using WebAssembly (Wasm)](/blog/2020/wasm-announce/).
-One of the key advantages of proxy Wasm extensibility is that the extension can be loaded dynamically at runtime.
-Before loading, the Wasm extension needs to be distributed to the proxy.
-Istio provides a way to achieve this by downloading the Wasm module at Istio agent.
+One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime.
+But first these extensions must be distributed to the proxy.
+Istio makes this possible by allowing the Istio agent to dynamically download Wasm modules.
 
-## Configure a HTTP Filter with Remote Wasm Module
+## Configure an HTTP Filter with a Remote Wasm Module
 
-Here we will walk through an example of adding a basic auth extension to our mesh. We will configure Istio to pull a [basic auth module](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth) from a remote URI and load it with configuration to protect the `/productpage` URL.
+Here we will walk through an example of adding a basic auth extension to our mesh. We will configure Istio to pull a [basic auth module](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth) from a remote URI and load it with configuration to run the module on calls to the `/productpage` path.
 
-To configure a WebAssembly filter with a remote Wasm module, two `EnvoyFilter` resources will be installed: one injects the HTTP filter, and the other one provides configuration for the filter which uses the remote Wasm module.
+To configure a WebAssembly filter with a remote Wasm module, two `EnvoyFilter` resources will be installed: one injects the HTTP filter, and the other provides configuration for the filter to use the remote Wasm module.
 
-With the first `EnvoyFilter`, an HTTP filter will be injected into gateway proxies. It is configured to request the extension configuration named as `istio.basic_auth` from `ads` (i.e. Aggregated Discovery Service), which is the same configuration source that Istiod uses to provide all other configuration resources. Along with the configuration source, the initial fetch timeout is also set, in order to prevent filters with slow or failed Wasm module remote fetch becomes effective.
+With the first `EnvoyFilter`, an HTTP filter will be injected into gateway proxies. It is configured to request the extension configuration named `istio.basic_auth` from `ads` (i.e. Aggregated Discovery Service), which is the same configuration source that Istiod uses to provide all other configuration resources. Within the configuration source, the initial fetch timeout is set to `0s`, which means that when the Envoy proxy processes a listener update with this filter, it will wait indefinitely for the first extension configuration update before accepting request with this listener.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -49,13 +49,14 @@ spec:
          type_urls: [ "type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm"]
 {{< /text >}}
 
-The second `EnvoyFilter` resource provides configuration for the filter, which is composed as an `EXTENSION_CONFIG` patch and will be distributed to the proxy as an Envoy [`Extension Configuration`](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/extension) (ECDS) resource.
-Once this update reaches Istio agent, it will download the Wasm module file and store it at the local file system.
-If the download fails, Istio-agent will reject the `Extension Configuration` update and prevent bad Wasm filter configuration from reaching Envoy.
-Most of this `EnvoyFilter` configuration is boilerplate. The important parts are:
+The second `EnvoyFilter` provides configuration for the filter, which is an `EXTENSION_CONFIG` patch and will be distributed to the proxy as an Envoy [`Extension Configuration`](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/extension) (ECDS) resource.
+Once this update reaches the Istio agent, the agent will download the Wasm module and store it in the local file system.
+If the download fails, the agent will reject the `Extension Configuration` update to protect invalid Wasm filter configuration from reaching the Envoy proxy.
+Because of this protection, with the initial fetch timeout being set to 0, the listener update will not become effective and invalid Wasm filter will not disturb the traffic.
+The important parts of this configuration are:
 
 - Wasm `vm` configuration which points to a remote Wasm module.
-- Wasm extension configuration, which is a Json string and consumed by the Wasm extension.
+- Wasm extension configuration, which is a JSON string that is consumed by the Wasm extension.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -83,12 +84,11 @@ spec:
                code:
                  remote:
                    http_uri:
-                     uri: https://github.com/istio-ecosystem/wasm-extensions/releases/download/1.9.0/basic-auth.wasm
-                   # Optional: specifying checksum will let istio agent
-                   # verify the checksum of download artifacts. Missing
-                   # checksum will cause the Wasm module to be downloaded
-                   # repeatedly
-                   sha256: 6b0cecad751940eeedd68de5b9bcf940d0aac8bfc5f61c18d71985ee9460ee77
+                     uri: https://github.com/istio-ecosystem/wasm-extensions/releases/download/{{< istio_version >}}.0/basic-auth.wasm
+                   # Optional: specifying sha256 checksum will let istio agent verify the checksum of downloaded artifacts. Missing
+                   # checksum will cause the Wasm module to be downloaded repeatedly.
+                   # To compute the sha256 checksum of a Wasm module, download the module and run `sha256sum` command with it.
+                   # sha256: <WASM-MODULE-SHA>
              # The configuration for the Wasm extension itself
              configuration:
                '@type': type.googleapis.com/google.protobuf.StringValue
@@ -104,13 +104,8 @@ spec:
                  }
 {{< /text >}}
 
-{{< tip >}}
-Note: The basic auth Wasm module release follows Istio release version. In this example, the module is versioned and tested with Istio 1.9.
-If you want to test with other releases, please find it [here](https://github.com/istio-ecosystem/wasm-extensions/releases).
-{{< /tip >}}
-
-Istio agent will only intercept and download remote Wasm modules configured via ECDS resources.
-To disable ECDS interception and Wasm downloading in Istio agent, you can set the `ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION` environment variable to `false`.
+The Istio agent will only intercept and download remote Wasm modules configured via ECDS resources.
+To disable ECDS interception and Wasm downloading in the Istio agent, set the `ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION` environment variable to `false`.
 For example, to set it globally:
 
 {{< text yaml >}}
@@ -120,29 +115,29 @@ meshConfig:
       ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION: "false"
 {{< /text >}}
 
-There are several known limitations with this module distribute mechanism, which will be addressed in the following releases:
+There are several known limitations with this module distribution mechanism, which will be addressed in future releases:
 
-- Envoy extension configuration discovery service only supports HTTP filter configuration distribution. Networking filter configuration and others will be added in the future releases.
-- Only http/https downloading is supported, OCI pulling and other highly demanded cloud blob services will be added in the future releases.
+- Envoy's extension configuration discovery service only supports HTTP filters.
+- Modules can only be downloaded through HTTP/HTTPS.
 
-## Monitoring Wasm Module Distribution Failure
+## Monitoring Wasm Module Distribution
 
-There are several stats which track the distribution status of the remote Wasm module.
+There are several stats which track the distribution status of remote Wasm modules.
 
 The following stats are collected by Istio agent:
 
-- `istio_agent_wasm_cache_lookup_count`: number of Wasm remote fetch cache lookup.
-- `istio_agent_wasm_cache_entries`: number of Wasm config conversion count and results, including success, no remote load, marshal failure, remote fetch failure, miss remote fetch hint.
-- `istio_agent_wasm_config_conversion_duration_bucket`: Total time in milliseconds istio-agent spends on converting remote load in Wasm config.
+- `istio_agent_wasm_cache_lookup_count`: number of Wasm remote fetch cache lookups.
+- `istio_agent_wasm_cache_entries`: number of Wasm config conversions and results, including success, no remote load, marshal failure, remote fetch failure, and miss remote fetch hint.
+- `istio_agent_wasm_config_conversion_duration_bucket`: Total time in milliseconds istio-agent spends on config conversion for Wasm modules.
 - `istio_agent_wasm_remote_fetch_count`: number of Wasm remote fetches and results, including success, download failure, and checksum mismatch.
 
-If a Wasm filter configuration is rejected, either due to download failure or other reasons, istiod will also emit stats `pilot_total_xds_rejects` with type label `type.googleapis.com/envoy.config.core.v3.TypedExtensionConfig`.
+If a Wasm filter configuration is rejected, either due to download failure or other reasons, istiod will also emit `pilot_total_xds_rejects` with the type label `type.googleapis.com/envoy.config.core.v3.TypedExtensionConfig`.
 
 ## Wasm Module Development
 
-To learn more about Wasm module development, please refer to guides provided by [`istio-ecosystem/wasm-extensions` repository](https://github.com/istio-ecosystem/wasm-extensions),
-which is maintained by Istio community and used to develop Istio first class Telemetry Wasm extension:
+To learn more about Wasm module development, please refer to the guides provided in the [`istio-ecosystem/wasm-extensions` repository](https://github.com/istio-ecosystem/wasm-extensions),
+which is maintained by the Istio community and used to develop Istio's Telemetry Wasm extension:
 
 - [Write, test, deploy, and maintain a Wasm extension with C++](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md)
-- [Write unit test for Wasm extension](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-cpp-unit-test.md)
-- [Write integration test for Wasm extension](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-integration-test.md)
+- [Write unit tests for C++ Wasm extensions](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-cpp-unit-test.md)
+- [Write integration tests for Wasm extensions](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-integration-test.md)
