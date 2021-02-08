@@ -52,7 +52,7 @@ spec:
 The second `EnvoyFilter` provides configuration for the filter, which is an `EXTENSION_CONFIG` patch and will be distributed to the proxy as an Envoy [`Extension Configuration`](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/extension) (ECDS) resource.
 Once this update reaches the Istio agent, the agent will download the Wasm module and store it in the local file system.
 If the download fails, the agent will reject the `Extension Configuration` update to prevent invalid Wasm filter configuration from reaching the Envoy proxy.
-Because of this protection, with the initial fetch timeout being set to 0, the listener update will not become effective and invalid Wasm filter will not disturb the traffic.
+Because of this protection, with the initial fetch timeout being set to 0, the listener update will not become effective and an invalid Wasm filter will not disturb traffic.
 The important parts of this configuration are:
 
 - Wasm `vm` configuration which points to a remote Wasm module.
