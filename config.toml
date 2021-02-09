@@ -149,10 +149,10 @@ disableAliases = true
       weight = 4
 
     [[menu.main]]
-      identifier = "deployment-guides"
+      identifier = "deployment"
       name = "Deployment"
       title = "Deployment"
-      url = "/about/deployment-guides"
+      url = "/about/deployment"
       parent = "about"
       weight = 5
 

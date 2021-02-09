@@ -11,6 +11,7 @@ logo: "/logos/autotrader.png"
 skip_feedback: true
 skip_toc: true
 skip_byline: true
+skip_pagenav: true
 layout: case-study
 doc_type: case-study
 sidebar_force: sidebar_case_study
