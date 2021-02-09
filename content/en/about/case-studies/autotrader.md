@@ -1,9 +1,10 @@
 ---
 title: "Istio Pioneer AutoTrader UK Still Benefiting"
 linkTitle: "Istio Pioneer AutoTrader UK Still Benefiting"
-quote:
-    text: "Istio is a service mesh that provides cross-cutting functions that all micro services environments need"
-    author: "Nick Chase"
+quote: "Istio is a service mesh that provides cross-cutting functions that all micro services environments need"
+author:
+    name: "Nick Chase"
+    image: "/img/authors/nick-chase.png"
 companyName: "AutoTrader UK"
 companyURL: "https://autotrader.co.uk/"
 logo: "/logos/autotrader.png"
