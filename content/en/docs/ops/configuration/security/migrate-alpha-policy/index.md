@@ -56,10 +56,10 @@ need migration, compare the findings with the major differences listed below and
 | Port number | service ports | workload ports |
 
 Although `RequestAuthentication` in `v1beta1` security policy is similar to `v1alpha1` JWT policy, there is a notable
-semantics change. The `v1alpha1` JWT policy needs to be migrated to two `v1beta1` resources: `RequestAuthentication` and `AuthorizationPolicy`.
-
-This will change the JWT deny message due to the use of `AuthorizationPolicy`. In the alpha version, the HTTP code 401 is returned
-with the body `Origin authentication failed`. In the beta version, the HTTP code 403 is returned with the body `RBAC: access denied`.
+semantics change. The `v1alpha1` JWT policy needs to be migrated to two `v1beta1` resources: `RequestAuthentication` and
+`AuthorizationPolicy`. This will change the JWT deny message due to the use of `AuthorizationPolicy`. In the alpha version,
+the HTTP code 401 is returned with the body `Origin authentication failed`. In the beta version, the HTTP code 403 is
+returned with the body `RBAC: access denied`.
 
 The `v1alpha1` JWT policy [`triggerRule` field](https://istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/#Jwt-TriggerRule)
 is replaced by the `AuthorizationPolicy` with the exception that the [`regex` field](https://istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/#StringMatch)
