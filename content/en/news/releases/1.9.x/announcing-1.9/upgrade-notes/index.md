@@ -27,3 +27,89 @@ Istio now configures Envoy to include tags identifying the canonical service for
 This will lead to a small increase in storage per span for tracing backends.
 
 To disable these additional tags, modify the 'istiod' deployment to set an environment variable of `PILOT_ENABLE_ISTIO_TAGS=false`.
+
+## `EnvoyFilter` XDS v2 removal
+
+Envoy has removed support for the XDS v2 API. `EnvoyFilter`s depending on these APIs must be updated before upgrading.
+
+For example:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: add-header
+spec:
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_OUTBOUND
+      listener:
+        filterChain:
+          filter:
+            name: envoy.http_connection_manager
+            subFilter:
+              name: envoy.router
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: envoy.lua
+        typed_config:
+          "@type": type.googleapis.com/envoy.config.filter.http.lua.v2.Lua
+          inlineCode: |
+            function envoy_on_request(handle)
+              handle:headers():add("foo", "bar")
+            end
+{{< /text >}}
+
+Should be updated to:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: add-header
+spec:
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_OUTBOUND
+      listener:
+        filterChain:
+          filter:
+            name: envoy.filters.network.http_connection_manager
+            subFilter:
+              name: envoy.filters.http.router
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: envoy.lua
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+          inlineCode: |
+            function envoy_on_request(handle)
+              handle:headers():add("foo", "bar")
+            end
+{{< /text >}}
+
+Both `istioctl analyze` and the validating webhook (run during `kubectl apply`) will warn about deprecated usage:
+
+{{< text bash >}}
+$ kubectl apply -f envoyfilter.yaml
+Warning: using deprecated filter name "envoy.http_connection_manager"; use "envoy.filters.network.http_connection_manager" instead
+Warning: using deprecated filter name "envoy.router"; use "envoy.filters.http.router" instead
+Warning: using deprecated type_url(s); type.googleapis.com/envoy.config.filter.http.lua.v2.Lua
+envoyfilter.networking.istio.io/add-header configured
+{{< /text >}}
+
+If these filters are applied, the Envoy proxy will reject the configuration (`The v2 xDS major version is deprecated and disabled by default.`) and be unable to receive updated configurations.
+
+In general, we recommend that `EnvoyFilter`s are applied to a specific version to ensure Envoy changes do not break them during upgrade. This can be done with a `match` clause:
+
+{{< text yaml >}}
+match:
+  proxy:
+    proxyVersion: ^1\.9.*
+{{< /text >}}
+
+However, since Istio 1.8 supports both v2 and v3 XDS versions, your `EnvoyFilter`s may also be updated before upgrading Istio.
