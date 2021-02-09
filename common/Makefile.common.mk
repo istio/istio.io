@@ -73,9 +73,6 @@ tidy-go:
 
 mod-download-go:
 	@-GOFLAGS="-mod=readonly" go mod download
-# go mod tidy is needed with Golang 1.16+ as go mod download affects go.sum
-# https://github.com/golang/go/issues/43994
-	@go mod tidy
 
 format-go: tidy-go
 	@${FINDFILES} -name '*.go' \( ! \( -name '*.gen.go' -o -name '*.pb.go' \) \) -print0 | ${XARGS} common/scripts/format_go.sh
@@ -97,7 +94,7 @@ mirror-licenses: mod-download-go
 	@license-lint --mirror
 
 TMP := $(shell mktemp -d -u)
-UPDATE_BRANCH ?= "master"
+UPDATE_BRANCH ?= "release-1.9"
 
 update-common:
 	@mkdir -p $(TMP)
