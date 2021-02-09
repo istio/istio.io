@@ -145,6 +145,7 @@ canarying
 CAs
 CDNs
 CentOS
+checksum
 Chrony
 Ciążyński
 CIDRs
@@ -436,6 +437,7 @@ linters
 list_by_publishdate
 liveness
 localhost
+lookups
 loopback
 log_output_level
 Lua
