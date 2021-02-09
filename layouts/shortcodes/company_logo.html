@@ -1,21 +1,13 @@
 {{ $link := .Get "link" }}
 {{ $alt := .Get "alt" }}
 {{ $logo := .Get "logo" }}
-{{ $tagline := .Get "tagline" }}
 
-{{ if ne $tagline "" }}
-    <div class="company-logo with-tag-line">
-{{ else }}
-    <div class="company-logo">
-{{ end }}
-    <a href="{{ $link }}">
-        <div class="outer">
-            <div class="inner">
-                <div class="tagline">
-                    {{ $tagline }}
-                </div>
-            </div>
-        </div>
+{{ if $link }}
+    <a class="company-logo">
         <img src="{{ $logo }}" alt="{{ $alt }}" title="{{ $alt }}"/>
     </a>
-</div>
+{{ else }}
+    <div class="company-logo">
+        <img src="{{ $logo }}" alt="{{ $alt }}" title="{{ $alt }}"/>
+    </div>
+{{ end }}

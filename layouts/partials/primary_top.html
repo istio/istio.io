@@ -1,15 +1,23 @@
 {{ $toc := partial "toc.html" (dict "page" .) }}
 {{ $needTOC := .Scratch.Get "needTOC" }}
 {{ $section := .Site.GetPage "section" .Section }}
-{{ $showSidebar := not $section.Params.sidebar_none }}
+{{ $showSidebar := or (not (and $section.Params.sidebar_none .CurrentSection.Params.sidebar_none)) (.Page.Params.sidebar_force)}}
 {{ $showTOC := and (or $needTOC .Params.force_inline_toc) (ne .Params.skip_toc true) }}
 {{ $docType := .Params.doc_type }}
 
-<main class="primary {{ if $showSidebar }} has-sidebar{{end}}{{ if $showTOC }} has-toc{{end}}{{ if $docType }} {{$docType}}{{end}}">
+<nav aria-label="Breadcrumb" class="container-l">
+    {{- partial "breadcrumbs.html" . -}}
+</nav>
+
+<main class="primary container {{ if $showSidebar }} has-sidebar{{end}}{{ if $showTOC }} has-toc{{end}}{{ if $docType }} {{$docType}}{{end}}">
 
     {{if $showSidebar }}
         <div id="sidebar-container" class="sidebar-container sidebar-offcanvas">
-            {{ if $section.Params.sidebar_multicard }}
+            {{ if .Page.Params.sidebar_force }}
+                {{ if eq .Page.Params.sidebar_force "sidebar_case_study" }}
+                    {{ partial "sidebar_case_study.html" . }}
+                {{ end }}
+            {{ else if $section.Params.sidebar_multicard }}
                 {{ partial "sidebar_multicard.html" . }}
             {{ else }}
                 {{ partial "sidebar_singlecard.html" . }}
@@ -25,11 +33,7 @@
             </button>
         {{ end }}
 
-        <nav aria-label="Breadcrumb" class="container-l">
-            {{- partial "breadcrumbs.html" . -}}
-        </nav>
-
-        <article aria-labelledby="title" class="container">
+        <article aria-labelledby="title">
             <div class="title-area">
                 <div style="width: 100%">
                     {{ if .Params.decoration }}

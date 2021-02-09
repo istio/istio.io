@@ -4,10 +4,15 @@ linkTitle: "Istio Pioneer AutoTrader UK Still Benefiting"
 quote:
     text: "Istio is a service mesh that provides cross-cutting functions that all micro services environments need"
     author: "Nick Chase"
-companyName: "AutoTrader"
+companyName: "AutoTrader UK"
+companyURL: "https://autotrader.co.uk/"
 logo: "/logos/autotrader.png"
 skip_feedback: true
 skip_toc: true
+skip_byline: true
+layout: case-study
+doc_type: case-study
+sidebar_force: sidebar_case_study
 ---
 
 Auto Trader UK began in 1977 as the premier automotive market magazine in the United Kingdom. When it pivoted to an online presence near the end of the 20th century, it grew to become the country’s 16th largest website.

@@ -227,8 +227,8 @@ h3 {
     font-size: $font-size--l;
     color: $h3Color;
     font-weight: $h3Weight;
-    margin-bottom: 20px;
-    margin-top: 30px;
+    margin-bottom: 1.75rem;
+    margin-top: 3rem;
 }
 
 h4 {
@@ -383,7 +383,7 @@ sup {
     }
 
     h1 {
-        margin: 1.775rem 0 0;
+        margin: 0;
 
         & + p {
             margin-top: 2.625rem;

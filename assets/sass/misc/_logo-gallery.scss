@@ -1,25 +1,33 @@
 .logo-gallery {
     margin: 3rem;
+}
 
-    .company-logo {
-        margin: 1rem;
-        padding: 14px;
-        display: inline-block;
-        width: 200px;
-        height: 120px;
-        transition-duration: .8s;
-        transform-origin: 50% 50%;
-        transition-property: none;
-        position: relative;
-        box-shadow: 0 0 50px rgba(0, 0, 0, .1), 0 5px 10px rgba(0, 0, 0, .25);
-        border-radius: 3px;
-        background-color: $companyLogoBackgroundColor;
+.company-logo {
+    display: grid;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    place-items: center;
+    max-width: 320px;
+    width: 100%;
 
-        &:hover {
-            transition-property: transform, opacity, box-shadow;
-            transform: rotate(360deg);
-            box-shadow: 0 0 50px rgba(0, 0, 200, .1), 0 5px 10px rgba(0, 0, 200, .25);
-        }
+    &::before {
+        content: "";
+        padding-bottom: 100%;
+        display: block;
+    }
+
+    & > img {
+        @include grayscale-element(100%);
+        max-width: 175px;
+    }
+
+    &::before,
+    & > img {
+        grid-area: 1 / 1 / 2 / 2;
+    }
+
+    &:hover {
+
     }
 
     .outer {
@@ -30,7 +38,7 @@
         margin: 0;
         padding: 0;
     }
-
+    
     .inner {
         display: table-cell;
         vertical-align: middle;
@@ -39,34 +47,26 @@
         height: 100%;
         margin: 0 auto;
     }
-
+    
     .with-tag-line {
         &:hover {
             &:hover {
                 img {
                     opacity: .15;
                 }
-
+    
                 .tagline {
                     opacity: 1;
                 }
             }
         }
     }
-
-    img {
-        position: absolute;
-        width: 172px;
-        height: 92px;
-        object-fit: contain;
-        transition-duration: .8s;
-        transition-property: opacity;
-    }
-
+    
     .tagline {
         color: $companyLogoTaglineColor;
         opacity: 0;
         transition-duration: .8s;
         transition-property: opacity;
     }
+    
 }

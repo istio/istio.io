@@ -181,3 +181,18 @@
         }
     }
 }
+
+.sidebar--case-study {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    
+    .quote-text {
+        margin: 2.625rem auto 1rem;
+
+        @media (min-width: $bp-md) {
+            max-width: 250px;
+        }
+    }
+}

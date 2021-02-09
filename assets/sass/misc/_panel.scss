@@ -133,7 +133,10 @@
         .panel-btn {
             margin-top: 2.625rem;
 
-            &:hover { border-color: $secondaryColor; }
+            &:hover {
+                border-color: $secondaryColor;
+                color: $secondaryColor;
+            }
         }
     }
 
@@ -141,9 +144,15 @@
         background: transparent;
         margin: 0 auto;
         text-align: center;
+        padding: 0;
+        min-height: auto;
 
         @media (min-width: $bp-md) {
             max-width: 650px;
+            
+            .quote-text {
+                font-size: $font-size--xxl;
+            }
         }
     }
 }

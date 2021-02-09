@@ -5,4 +5,6 @@ aliases:
     - /case-studies
 doc_type: about
 type: case-studies
+layout: case-studies-list
+sidebar_none: true
 ---
