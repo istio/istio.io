@@ -28,7 +28,7 @@ with this model, for example:
 
 ## Solution
 
-In Istio 1.9, we have implemented extensibility into authorization policy by introducing a [`CUSTOM` action](https://github.com/istio/api/blob/b24ca4b76fdb51e227baf508c6d884eb8bcb51f5/security/v1beta1/authorization_policy.proto#L296),
+In Istio 1.9, we have implemented extensibility into authorization policy by introducing a [`CUSTOM` action](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action),
 which allows you to delegate the access control decision to an external authorization service.
 
 The `CUSTOM` action allows you to integrate Istio with an external authorization system that implements its own custom
@@ -99,11 +99,11 @@ extensionProviders:
 
 ## Key Features
 
-The authorization policy of [`CUSTOM` action](https://github.com/istio/api/blob/b24ca4b76fdb51e227baf508c6d884eb8bcb51f5/security/v1beta1/authorization_policy.proto#L296)
+The authorization policy of [`CUSTOM` action](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action)
 enables the external authorization in runtime, it could be configured to trigger the external authorization conditionally
 based on the request using the same rule that you have already been using with other actions.
 
-The external authorization service is currently defined in the [`meshconfig` API](https://github.com/istio/api/blob/b24ca4b76fdb51e227baf508c6d884eb8bcb51f5/mesh/v1alpha1/config.proto#L534)
+The external authorization service is currently defined in the [`meshconfig` API](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider)
 and referred to by its name. It could be deployed in the mesh with or without proxy. If with the proxy, you could
 further use `PeerAuthentication` to enable mTLS between the proxy and your external authorization service.
 
@@ -544,4 +544,6 @@ authorization system with the following benefits:
 We're working to promote this feature to a more stable stage in following versions and welcome your feedback at
 [discuss.istio.io](https://discuss.istio.io/c/security/).
 
-_Thanks to Craig Box, Christian Posta and Limin Wang for reviewing drafts of this blog._
+## Acknowledgements
+
+Thanks to `Craig Box`, `Christian Posta` and `Limin Wang` for reviewing drafts of this blog.
