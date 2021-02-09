@@ -32,8 +32,9 @@
         border-color: $accentColor;
         color: $primaryColor;
 
-        &:hover {
-            border-color: $accentColor;
+        &:hover, &:focus, &:active {
+            background-color: transparent;
+            color: $primaryColor;
         }
     }
 

@@ -114,7 +114,6 @@ disableAliases = true
     identifier = "about"
     name = "About"
     title = "About section"
-    url = "/about/"
     weight = 1
     
     [[menu.main]]
@@ -185,3 +184,6 @@ disableAliases = true
     title = "Documentation"
     url = "/docs/"
     weight = 4
+
+[permalinks]
+  case-studies = "/:slug"

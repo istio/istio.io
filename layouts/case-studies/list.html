@@ -6,7 +6,7 @@
 
     {{ range $pages }}
         <div class="panels case-studies">
-            {{ partial "case_study_panel.html" .Params }}
+            {{ partial "case_study_panel.html" (dict "case_study" .Params "url" .RelPermalink) }}
         </div>
     {{ end }}
     <div class="cta-container">
