@@ -5,7 +5,7 @@ overview: Deploy a new version of a microservice.
 weight: 50
 
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 In this module, you deploy a new version of the `reviews` service, `_v2_`,
@@ -38,20 +38,20 @@ tests, end-to-end tests and tests in a staging environment.
 
         {{< text bash >}}
         $ REVIEWS_V2_POD_IP=$(kubectl get pod -l app=reviews_test,version=v2 -o jsonpath='{.items[0].status.podIP}')
-        $ echo $REVIEWS_V2_POD_IP
+        $ echo "$REVIEWS_V2_POD_IP"
         {{< /text >}}
 
     1.  Send a request to the pod and see that it returns the correct result:
 
         {{< text bash >}}
-        $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl -sS "$REVIEWS_V2_POD_IP:9080/reviews/7"
+        $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- curl -sS "$REVIEWS_V2_POD_IP:9080/reviews/7"
         {"id": "7","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "black"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "black"}}]}
         {{< /text >}}
 
     1.  Perform primitive load testing by sending a request 10 times in a row:
 
         {{< text bash >}}
-        $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- sh -c "for i in 1 2 3 4 5 6 7 8 9 10; do curl -o /dev/null -s -w '%{http_code}\n' $REVIEWS_V2_POD_IP:9080/reviews/7; done"
+        $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "for i in 1 2 3 4 5 6 7 8 9 10; do curl -o /dev/null -s -w '%{http_code}\n' '$REVIEWS_V2_POD_IP':9080/reviews/7; done"
         200
         200
         ...

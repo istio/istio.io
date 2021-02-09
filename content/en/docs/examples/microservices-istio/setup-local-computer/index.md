@@ -3,7 +3,7 @@ title: Setup a Local Computer
 overview: Set up your local computer for the tutorial.
 weight: 3
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 {{< boilerplate work-in-progress >}}
@@ -22,7 +22,7 @@ In this module you prepare your local computer for the tutorial.
     created yourself in the previous module.
 
     {{< text bash >}}
-    $ export KUBECONFIG=<the file you received or created in the previous module>
+    $ export KUBECONFIG="<the file you received or created in the previous module>"
     {{< /text >}}
 
 1.  Verify that the configuration took effect by printing the current namespace:

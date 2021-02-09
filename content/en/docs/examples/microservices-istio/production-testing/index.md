@@ -5,7 +5,7 @@ overview: Testing a new version of a microservice in production.
 weight: 40
 
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 {{< boilerplate work-in-progress >}}
@@ -17,7 +17,7 @@ Test your microservice, in production!
 1.  Issue an HTTP request from the testing pod to one of your services:
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl -sS http://ratings:9080/ratings/7
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- curl -s http://ratings:9080/ratings/7
     {{< /text >}}
 
 ## Chaos testing
@@ -30,7 +30,7 @@ the pods' status with `kubectl get pods`.
 1.  Terminate the `details` service in one pod.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pods -l app=details -o jsonpath='{.items[0].metadata.name}') -- pkill ruby
+    $ kubectl exec "$(kubectl get pods -l app=details -o jsonpath='{.items[0].metadata.name}')" -- pkill ruby
     {{< /text >}}
 
 1.  Check the pods status:

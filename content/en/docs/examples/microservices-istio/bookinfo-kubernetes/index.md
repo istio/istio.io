@@ -4,7 +4,7 @@ overview: Deploy the Bookinfo application that uses the ratings microservice in 
 weight: 30
 
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 {{< boilerplate work-in-progress >}}
@@ -97,7 +97,7 @@ microservice.
     with a curl command from your testing pod:
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -c sleep -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
@@ -168,7 +168,7 @@ service/productpage patched
     use [`sudo`](https://en.wikipedia.org/wiki/Sudo) to edit `/etc/hosts`.
 
     {{< text bash >}}
-    $ echo $(kubectl get ingress istio-system -n istio-system -o jsonpath='{..ip} {..host}') $(kubectl get ingress bookinfo -o jsonpath='{..host}')
+    $ echo "$(kubectl get ingress istio-system -n istio-system -o jsonpath='{..ip} {..host}')" "$(kubectl get ingress bookinfo -o jsonpath='{..host}')"
     {{< /text >}}
 
 ### Access your application
@@ -176,14 +176,14 @@ service/productpage patched
 1.  Access the application's home page from the command line:
 
     {{< text bash >}}
-    $ curl -s $MYHOST/productpage | grep -o "<title>.*</title>"
+    $ curl -s "$MYHOST"/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
 1.  Paste the output of the following command in your browser address bar:
 
     {{< text bash >}}
-    $ echo http://$MYHOST/productpage
+    $ echo http://"$MYHOST"/productpage
     {{< /text >}}
 
     You should see the following webpage:
@@ -205,7 +205,7 @@ service/productpage patched
     constant user traffic in the real world:
 
     {{< text bash >}}
-    $ while :; do curl -s $MYHOST/productpage | grep -o "<title>.*</title>"; sleep 1; done
+    $ while :; do curl -s "$MYHOST"/productpage | grep -o "<title>.*</title>"; sleep 1; done
     <title>Simple Bookstore App</title>
     <title>Simple Bookstore App</title>
     <title>Simple Bookstore App</title>
