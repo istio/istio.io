@@ -3,7 +3,7 @@ title: Monitoring with Istio
 overview: Collecting and querying mesh metrics.
 weight: 72
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 Monitoring is crucial to support transitioning to the microservices architecture style.

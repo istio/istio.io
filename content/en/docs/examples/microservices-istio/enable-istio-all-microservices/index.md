@@ -4,7 +4,7 @@ overview: Enable Istio on your whole application.
 weight: 70
 
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 Previously, you enabled Istio on a single microservice, `productpage`. You can
@@ -16,7 +16,7 @@ enable Istio on all the remaining microservices in one step.
     down to 1:
 
     {{< text bash >}}
-    $ kubectl scale deployments --all --replicas 1
+    $ kubectl scale deployments -n "$NAMESPACE" --all --replicas 1
     {{< /text >}}
 
 1.  Redeploy the Bookinfo application, Istio-enabled. The service `productpage` will not be
@@ -24,8 +24,8 @@ enable Istio on all the remaining microservices in one step.
     changed. This time you will use only a single replica of a microservice.
 
     {{< text bash >}}
-    $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app!=reviews -f -
-    $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app=reviews,version=v2 -f -
+    $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -n "$NAMESPACE" -f - | kubectl apply -n "$NAMESPACE" -l app!=reviews -f -
+    $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -n "$NAMESPACE" -f - | kubectl apply -n "$NAMESPACE" -l app=reviews,version=v2 -f -
     service/details unchanged
     serviceaccount/bookinfo-details unchanged
     deployment.apps/details-v1 configured
@@ -48,7 +48,7 @@ enable Istio on all the remaining microservices in one step.
     attached to it:
 
     {{< text bash >}}
-    $ kubectl get pods
+    $ kubectl get pods -n "$NAMESPACE"
     details-v1-58c68b9ff-kz9lf        2/2       Running   0          2m
     productpage-v1-59b4f9f8d5-d4prx   2/2       Running   0          2m
     ratings-v1-b7b7fbbc9-sggxf        2/2       Running   0          2m

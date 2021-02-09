@@ -5,7 +5,7 @@ overview: Testing a new version of a microservice in production.
 weight: 40
 
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 {{< boilerplate work-in-progress >}}
@@ -17,7 +17,7 @@ Test your microservice, in production!
 1.  Issue an HTTP request from the testing pod to one of your services:
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl -sS http://ratings:9080/ratings/7
+    $ kubectl exec -n "$NAMESPACE" "$(kubectl get pod -n "$NAMESPACE" -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- curl -s http://ratings:9080/ratings/7
     {{< /text >}}
 
 ## Chaos testing
@@ -30,13 +30,13 @@ the pods' status with `kubectl get pods`.
 1.  Terminate the `details` service in one pod.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pods -l app=details -o jsonpath='{.items[0].metadata.name}') -- pkill ruby
+    $ kubectl exec -n "$NAMESPACE" "$(kubectl get pods -n "$NAMESPACE" -l app=details -o jsonpath='{.items[0].metadata.name}')" -- pkill ruby
     {{< /text >}}
 
 1.  Check the pods status:
 
     {{< text bash >}}
-    $ kubectl get pods
+    $ kubectl get pods -n "$NAMESPACE"
     NAME                            READY   STATUS    RESTARTS   AGE
     details-v1-6d86fd9949-fr59p     1/1     Running   1          47m
     details-v1-6d86fd9949-mksv7     1/1     Running   0          47m
@@ -58,7 +58,7 @@ the pods' status with `kubectl get pods`.
 1.  Terminate the `details` service in all its pods:
 
     {{< text bash >}}
-    $ for pod in $(kubectl get pods -l app=details -o jsonpath='{.items[*].metadata.name}'); do echo terminating "$pod"; kubectl exec "$pod" -- pkill ruby; done
+    $ for pod in $(kubectl get pods -n "$NAMESPACE" -l app=details -o jsonpath='{.items[*].metadata.name}'); do echo terminating "$pod"; kubectl exec -n "$NAMESPACE" "$pod" -- pkill ruby; done
     {{< /text >}}
 
 1.  Check the webpage of the application:
@@ -73,7 +73,7 @@ the pods' status with `kubectl get pods`.
 1.  Check the pods status:
 
     {{< text bash >}}
-    $ kubectl get pods
+    $ kubectl get pods -n "$NAMESPACE"
     NAME                            READY   STATUS    RESTARTS   AGE
     details-v1-6d86fd9949-fr59p     1/1     Running   2          48m
     details-v1-6d86fd9949-mksv7     1/1     Running   1          48m
