@@ -104,29 +104,6 @@
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: repeat(2, 1fr);
 
-            &-item {
-                display: grid;
-                background-color: #f8f9fa;
-                padding: 1rem;
-                place-items: center;
-
-                &::before {
-                    content: "";
-                    padding-bottom: 100%;
-                    display: block;
-                }
-
-                & > img {
-                    @include grayscale-element(100%);
-                    max-width: 175px;
-                }
-
-                &::before,
-                & > img {
-                    grid-area: 1 / 1 / 2 / 2;
-                }
-            }
-
             @media (min-width: $bp-sm) {
                 grid-template-columns: repeat(3, 1fr);
             }

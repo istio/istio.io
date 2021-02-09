@@ -1,0 +1,9 @@
+{{ if .link }}
+    <a class="company-logo" href="{{ .link }}">
+        <img src="{{ .logo }}" alt="{{ .alt }}" title="{{ .alt }}"/>
+    </a>
+{{ else }}
+    <div class="company-logo">
+        <img src="{{ .logo }}" alt="{{ .alt }}" title="{{ .alt }}"/>
+    </div>
+{{ end }}
