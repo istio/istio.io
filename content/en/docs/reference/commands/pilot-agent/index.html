@@ -579,16 +579,10 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 </thead>
 <tbody>
 <tr>
-<td><code>CALL_CREDENTIALS</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>Use JWT directly instead of MTLS</td>
-</tr>
-<tr>
 <td><code>CA_ADDR</code></td>
 <td>String</td>
 <td><code></code></td>
-<td>Address of the spiffee certificate provider. Defaults to discoveryAddress</td>
+<td>Address of the spiffe certificate provider. Defaults to discoveryAddress</td>
 </tr>
 <tr>
 <td><code>CA_PROVIDER</code></td>
@@ -783,6 +777,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td></td>
 </tr>
 <tr>
+<td><code>K_REVISION</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>KNative revision, set if running in knative</td>
+</tr>
+<tr>
 <td><code>OUTPUT_CERTS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -821,8 +821,8 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr>
 <td><code>PILOT_ENABLED_SERVICE_APIS</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
-<td>If this is set to true, support for Kubernetes service-apis (github.com/kubernetes-sigs/service-apis) will  be enabled. This feature is currently experimental, and is off by default.</td>
+<td><code>true</code></td>
+<td>If this is set to true, support for Kubernetes service-apis (github.com/kubernetes-sigs/service-apis) will  be enabled. In addition to this being enabled, the service-apis CRDs need to be installed.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_ANALYSIS</code></td>
@@ -847,6 +847,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_DESTINATION_RULE_INHERITANCE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set, workload specific DestinationRules will inherit configurations settings from mesh and namespace level rules</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
@@ -941,13 +947,13 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr>
 <td><code>PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>Enables auto-registering WorkloadEntries based on associated WorkloadGroups upon XDS connection by the workload.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>Enables automatic health checks of WorkloadEntries based on the config provided in the associated WorkloadGroup</td>
 </tr>
 <tr>
@@ -1173,6 +1179,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If true, will authenticate XDS clients.</td>
 </tr>
 <tr>
+<td><code>XDS_AUTH_PLAINTEXT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Authenticate plain text requests - used if Istiod is behind a gateway handling TLS</td>
+</tr>
+<tr>
 <td><code>XDS_AUTH_PROVIDER</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -1192,6 +1204,11 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
+<tr><td><code>auto_registration_deletes_total</code></td><td><code>Sum</code></td><td>Total number of auto registration cleaned up by periodic timer.</td></tr>
+<tr><td><code>auto_registration_errors_total</code></td><td><code>Sum</code></td><td>Total number of auto registration errors.</td></tr>
+<tr><td><code>auto_registration_success_total</code></td><td><code>Sum</code></td><td>Total number of successful auto registrations.</td></tr>
+<tr><td><code>auto_registration_unregister_total</code></td><td><code>Sum</code></td><td>Total number of unregistrations.</td></tr>
+<tr><td><code>auto_registration_updates_total</code></td><td><code>Sum</code></td><td>Total number of auto registration updates.</td></tr>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
 <tr><td><code>envoy_connection_terminations</code></td><td><code>Sum</code></td><td>The total number of connection errors from envoy</td></tr>
 <tr><td><code>galley_validation_config_delete_error</code></td><td><code>Count</code></td><td>k8s webhook configuration delete error</td></tr>
