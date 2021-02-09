@@ -11,20 +11,20 @@ keywords: [authorization,access control,opa,oauth2]
 
 Istio's authorization policy provides access control for services in the mesh. It is fast, powerful and a widely used
 feature. We have made continuous improvements to make policy more flexible since its first release in Istio 1.4, including
-the `DENY` action, exclusion semantics, `X-Forwarded-For` header support, nested JWT claim support and more.
+the [`DENY` action](/docs/tasks/security/authorization/authz-deny/), [exclusion semantics](/docs/tasks/security/authorization/authz-deny/),
+[`X-Forwarded-For` header support](/docs/tasks/security/authorization/authz-ingress/), [nested JWT claim support](/docs/tasks/security/authorization/authz-jwt/)
+and more. These features improve the flexibility of the authorization policy, but there are still many use cases that
+cannot be supported with this model, for example:
 
-These features improve the flexibility of the authorization policy, but there are still many use cases that cannot be supported
-with this model, for example:
+- You have your own in-house authorization system that cannot be easily migrated to, or cannot be easily replaced by, the
+  authorization policy.
 
-- You have your own in-house authorization system that cannot be easily migrated to, or replaced by, the authorization
-  policy
-
-- You want to integrate with a 3rd-party or industry standard solution (e.g. [Open Policy Agent](https://www.openpolicyagent.org/docs/latest/envoy-authorization/)
+- You want to integrate with a 3rd-party solution (e.g. [Open Policy Agent](https://www.openpolicyagent.org/docs/latest/envoy-authorization/)
   or [`oauth2` proxy](https://github.com/oauth2-proxy/oauth2-proxy)) which may require use of the
   [low-level Envoy configuration APIs](/docs/reference/config/networking/envoy-filter/) in Istio, or may not be possible
-  at all
+  at all.
 
-- Authorization policy lacks necessary semantics for your use case
+- Authorization policy lacks necessary semantics for your use case.
 
 ## Solution
 
@@ -42,10 +42,10 @@ and running.
 
 At runtime,
 
-1. A request to the proxy will be paused, and the proxy will send a check request to the external auth service, as
+1. A request is intercepted by the proxy, and the proxy will send check requests to the external auth service, as
    configured by the user in the authorization policy.
 
-1. The external auth service will check the request and make the decision whether to allow it or not.
+1. The external auth service will make the decision whether to allow it or not.
 
 1. If allowed, the request will continue and will be enforced by any local authorization defined by `ALLOW`/`DENY` action.
 
@@ -96,8 +96,6 @@ extensionProviders:
     service: "ext-authz.istio-system.svc.cluster.local"
     port: 9000
 {{< /text >}}
-
-## Key Features
 
 The authorization policy of [`CUSTOM` action](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action)
 enables the external authorization in runtime, it could be configured to trigger the external authorization conditionally
