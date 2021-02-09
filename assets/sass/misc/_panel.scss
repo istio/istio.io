@@ -128,7 +128,17 @@
         color: $secondaryColor;
         border: 2px solid $secondaryColor;
 
-        .panel-logo img { max-width: 200px; }
+        .quote-text { flex-grow: 1; }
+
+        .panel-logo {
+            height: 30px;
+
+            img {
+                max-width: 200px;
+                height: 100%;
+                width: auto;
+            }
+        }
 
         .panel-btn {
             margin-top: 2.625rem;
@@ -149,7 +159,7 @@
 
         @media (min-width: $bp-md) {
             max-width: 650px;
-            
+
             .quote-text {
                 font-size: $font-size--xxl;
             }
