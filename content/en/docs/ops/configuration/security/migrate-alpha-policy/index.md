@@ -17,8 +17,8 @@ the beta security policy and unblock the upgrade to Istio 1.6 and later.
 
 ## Overview
 
-The control plane should be upgraded first to bring in the support of `v1beta1` security policy. It is recommended to first
-upgrade to Istio 1.5 as a transitive version because it supports both `v1alpha1` and `v1beta1` security policy. You complete
+The control plane should be upgraded first to bring in support of the `v1beta1` security policy. It is recommended to first
+upgrade to Istio 1.5 as a transitive version because it supports both `v1alpha1` and `v1beta1` security policies. You complete
 the security policy migration in Istio 1.5, remove the `v1alpha1` security policy and then continue the upgrade to later Istio versions.
 
 Istio 1.5 is the only version that supports both `v1alpha1` and `v1beta1` security policy. For a given workload, the
@@ -26,13 +26,13 @@ Istio 1.5 is the only version that supports both `v1alpha1` and `v1beta1` securi
 
 Alternatively, if you want to do a skip-upgrade directly from Istio 1.4 to Istio 1.6 or later, you should use the
 [canary upgrade](/docs/setup/upgrade/canary/) to install the new Istio version as a separate control plane, gradually
-migrate your workloads to the new control plane and complete the security policy migration at the same time.
+migrate your workloads to the new control plane completing the security policy migration at the same time.
 
 Note that skip-upgrade is not supported by Istio and there might be other issues in this process. Istio 1.6 does not support
 the `v1alpha1` security policy, and if you do not migrate them to `v1beta1` version, you are essentially deleting all your
-`v1alpha1` security policy.
+`v1alpha1` security policies.
 
-In either case, it is recommended migrating using namespace granularity: for each namespace, find all
+In either case, it is recommended to migrate using namespace granularity: for each namespace, find all
 `v1alpha1` policies that have an effect on the workloads in the namespace and migrate all the `v1alpha1` policies at the same time.
 This allows a safer migration as you can apply the `v1beta1` policies one namespace at a time, make sure everything is working
 as expected and then move forward to the next namespace.
@@ -58,8 +58,8 @@ need migration, compare the findings with the major differences listed below and
 Although `RequestAuthentication` in `v1beta1` security policy is similar to `v1alpha1` JWT policy, there is a notable
 semantics change. The `v1alpha1` JWT policy needs to be migrated to two `v1beta1` resources: `RequestAuthentication` and `AuthorizationPolicy`.
 
-This will change the JWT deny message due to the use of `AuthorizationPolicy`. In alpha version, the HTTP code 401 is returned
-with the body `Origin authentication failed`. In beta version, the HTTP code 403 is returned with the body `RBAC: access denied`.
+This will change the JWT deny message due to the use of `AuthorizationPolicy`. In the alpha version, the HTTP code 401 is returned
+with the body `Origin authentication failed`. In the beta version, the HTTP code 403 is returned with the body `RBAC: access denied`.
 
 The `v1alpha1` JWT policy [`triggerRule` field](https://istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/#Jwt-TriggerRule)
 is replaced by the `AuthorizationPolicy` with the exception that the [`regex` field](https://istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/#StringMatch)
@@ -71,7 +71,7 @@ This section describes details of how to migrate the `v1alpha1` security policy 
 
 ### Step 1: Find out related policies
 
-For each namespace, find out all `v1alpha1` security policies that has effect on workloads in the namespace. The result
+For each namespace, find out all `v1alpha1` security policies that have an effect on workloads in the namespace. The result
 could include:
 
 - a single `MeshPolicy` that applies to all services in the mesh;
@@ -83,7 +83,7 @@ could include:
 
 ### Step 2: Convert service name to workload selector
 
-The `v1alpha1` policy selects target using service name, you should refer to the corresponding service definition to decide
+The `v1alpha1` policy selects targets using service name, you should refer to the corresponding service definition to decide
 the workload selector that should be used in the `v1beta1` policy.
 
 A single `v1alpha1` policy may include multiple services, this means it will be migrated to multiple `v1beta1` policies
@@ -116,12 +116,12 @@ For each `v1alpha1` RBAC policy, migrate with the following rules:
 1. If the whole namespace is enabled with RBAC, create an `AuthorizationPolicy` without workload selector for the whole
    namespace. Add an empty rule so that it will deny all requests to the namespace by default;
 
-1. If a workload is enabled with RBAC, create an `AuthorizationPolicy` with corresponding workload selector for the workload,
+1. If a workload is enabled with RBAC, create an `AuthorizationPolicy` with corresponding workload selector for the workload.
    Add rules based on the semantics of the corresponding `ServiceRole` and `ServiceRoleBinding` for the workload;
 
 ### Step 5: Verify migrated policy
 
-1. Double check the migrated `v1beta1` policy, make sure there are no policies with duplicate name, the namespace
+1. Double check the migrated `v1beta1` policies, make sure there are no policies with duplicate name, the namespace
    is specified correctly and all `v1alpha1` policies for the given namespace are migrated;
 
 1. Dry-run the `v1beta1` policy with the command `kubectl apply --dry-run=server -f beta-policy.yaml` to make sure it
