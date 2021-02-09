@@ -26,7 +26,7 @@ this option was tied to `DNS_CAPTURE`. Now, `DNS_CAPTURE` can be enabled without
 
 ## Security
 
-- **Added** option to allow users to enable token exchange for their XDS flows, which exchanges a k8s token to a token that can be authenticated at their XDS servers.
+- **Added** option to allow users to enable token exchange for their XDS flows, which exchanges a k8s token for a token that can be authenticated by their XDS servers.
   ([Issue #29943](https://github.com/istio/istio/issues/29943))
 
 - **Added** OIDC JWT authenticator that supports both JWKS-URI and OIDC discovery. The OIDC JWT authenticator will be used when configured through the JWT_RULE env variable.  ([Issue #30295](https://github.com/istio/istio/issues/30295))
