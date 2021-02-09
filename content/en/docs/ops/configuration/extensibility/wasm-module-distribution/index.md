@@ -121,7 +121,7 @@ There are several known limitations with this module distribution mechanism, whi
 - Envoy's extension configuration discovery service only supports HTTP filters.
 - Modules can only be downloaded through HTTP/HTTPS.
 
-## Monitoring Wasm Module Distribution
+## Monitor Wasm Module Distribution
 
 There are several stats which track the distribution status of remote Wasm modules.
 
@@ -134,7 +134,7 @@ The following stats are collected by Istio agent:
 
 If a Wasm filter configuration is rejected, either due to download failure or other reasons, istiod will also emit `pilot_total_xds_rejects` with the type label `type.googleapis.com/envoy.config.core.v3.TypedExtensionConfig`.
 
-## Wasm Module Development
+## Develop a Wasm Extension
 
 To learn more about Wasm module development, please refer to the guides provided in the [`istio-ecosystem/wasm-extensions` repository](https://github.com/istio-ecosystem/wasm-extensions),
 which is maintained by the Istio community and used to develop Istio's Telemetry Wasm extension:
