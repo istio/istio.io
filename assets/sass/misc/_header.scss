@@ -211,6 +211,14 @@
             font-size: 1.125rem;
             color: #ffffff;
             white-space: nowrap;
+
+            &.is-open {
+                & + .main-navigation-links-dropdown { display: block; }
+                
+                svg.dropdown-arrow {
+                    transform: rotate(180deg);
+                }
+            }
         }
 
         &-dropdown {
@@ -233,11 +241,6 @@
                     padding: .625rem 1rem;
                 }
             }
-        }
-
-        @media (min-width: $bp-xl) {
-            &-link { padding: .875rem $header-link-spacing-xl; }
-            &-dropdown { left: $header-link-spacing-xl; }
         }
     }
 
@@ -372,33 +375,41 @@
             &-item {
                 display: inline-block;
                 border-bottom: 0;
+                margin: .875rem $header-link-spacing-lg;
 
                 &:hover {
                     .main-navigation-links-dropdown { display: block; }
                     svg.dropdown-arrow { transform: rotate(180deg); }
                 }
-            }
 
-            &-link {
-                padding: .875rem $header-link-spacing-lg;
-
-                span { border-bottom: 2px solid transparent; }
-
-                &.active span { border-color: $accentColor; }
-
-                &.is-open {
-                    & + .main-navigation-links-dropdown { display: block; }
-                    
-                    svg.dropdown-arrow {
-                        transform: rotate(180deg);
+                & > .main-navigation-links-link {
+                    &::before, &::after {
+                        content: "";
+                        position: absolute;
+                        top: 100%;
+                        width: 0;
+                        right: 0;
+                        height: 2px;
+                        background-color: $accentColor;
+                        transition: .25s ease-out;
+                    }
+    
+                    &:hover, &.active {
+                        &::before, &::after {
+                          width: 100%;
+                          left: 0;
+                        }
                     }
                 }
             }
 
+            &-link {
+                padding: 0;
+            }
+
             &-dropdown {
                 position: absolute;
-                top: 100%;
-                left: $header-link-spacing-lg;
+                top: calc(100% + 2px);
                 height: auto;
                 background-color: #ffffff;
                 border: 0;
@@ -438,8 +449,7 @@
 @media (min-width: $bp-xl) {
     .main-navigation {
         &-links {
-            &-link { padding: .875rem $header-link-spacing-xl; }
-            &-dropdown { left: $header-link-spacing-xl; }
+            &-item { margin: .875rem $header-link-spacing-xl; }
         }
 
         &-footer {
