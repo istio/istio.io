@@ -166,7 +166,7 @@ advance_master_to_next_release() {
     " data/args.yml
 
     sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= ${MASTER}/" Makefile.core.mk
-    make update_all
+    make update_all gen
 
     if [[ $(git status --porcelain) ]]; then
         git add -A
