@@ -7,10 +7,10 @@
     left: 0;
     z-index: $header-z;
     padding: 1.25rem 0;
+    transition: background-color .2s, box-shadow .2s;
 
-    @media (min-width: $bp-lg) {
-        height: $headerHeightLg;
-        padding: 1.875rem 0;
+    &.active {
+        box-shadow: 0 6px 9px 0 rgba(0, 0, 0, 0.16);
     }
 
     @media print {
@@ -31,14 +31,8 @@
 
         .logo {
             fill: $secondaryColor;
-            
-            svg {
-                width: 106px;
 
-                @media (min-width: $bp-lg) {
-                    width: 128px;
-                }
-            }
+            svg { width: 106px; }
         }
 
         .name {
@@ -59,16 +53,6 @@
                 margin-right: 1rem;
                 width: unset;
             }
-
-            @media (min-width: $bp-lg) {
-                margin-left: 4.2em;
-            }
-        }
-
-        &:hover, &:focus {
-            span {
-                color: $textBrandHighlightColor;
-            }
         }
     }
 
@@ -84,12 +68,7 @@
 
         &:hover, &:focus {
             text-decoration: none;
-            color: $textBrandHighlightColor;
             outline: 0;
-
-            svg.icon {
-                fill: $textBrandHighlightColor;
-            }
         }
     }
 
@@ -120,12 +99,6 @@
         margin-left: 1rem;
     }
 
-    #hamburger {
-        @media (min-width: $bp-lg) {
-            display: none;
-        }
-    }
-
     #search-show {
         display: none;
 
@@ -136,17 +109,7 @@
 
     #search-form {
         display: none;
-
-        @media (max-width: $bp-xs-max) {
-            &.open-hamburger {
-                display: flex;
-            }
-        }
-
-        @media (min-width: $bp-sm) {
-            display: flex;
-            position: absolute;
-        }
+        position: absolute;
 
         top: 0;
         right: -700px;
@@ -200,10 +163,6 @@
         cursor: pointer;
         font-size: inherit;
         line-height: inherit;
-
-        &:hover {
-            color: $textBrandHighlightColor;
-        }
     }
     
     &-header {
@@ -222,15 +181,6 @@
         @media (max-width: $bp-lg) {
             padding-right: 1rem;
         }
-
-        @media (min-width: $bp-lg) {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            min-height: auto;
-            overflow: unset;
-        }
     }
 
     &-links-wrapper {
@@ -238,13 +188,6 @@
         width: 100%;
         padding: 0 4.85rem 4.85rem;
         transition: right .5s;
-
-        @media (min-width: $bp-lg) {
-            display: flex;
-            align-items: center;
-            padding: 0;
-            width: auto;
-        }
     }
 
     &-links {
@@ -268,20 +211,6 @@
             font-size: 1.125rem;
             color: #ffffff;
             white-space: nowrap;
-
-            @media (max-width: $bp-lg) {
-                &.is-open {
-                    & + .main-navigation-links-dropdown { display: block; }
-                    svg.dropdown-arrow {
-                        transform: rotate(180deg);
-                    }
-                }   
-            }
-            
-            @media (min-width: $bp-lg) {
-                span { border-bottom: 2px solid transparent; }
-                &.active span { border-color: $accentColor; }
-            }
         }
 
         &-dropdown {
@@ -306,41 +235,6 @@
             }
         }
 
-        @media (min-width: $bp-lg) {
-            display: inline-block;
-
-            &-item {
-                display: inline-block;
-                border-bottom: 0;
-
-                &:hover {
-                    .main-navigation-links-dropdown { display: block; }
-                    svg.dropdown-arrow { transform: rotate(180deg); }
-                }
-            }
-
-            &-link {
-                padding: .875rem $header-link-spacing-lg;
-            }
-
-            &-dropdown {
-                position: absolute;
-                top: 100%;
-                left: $header-link-spacing-lg;
-                height: auto;
-                background-color: #ffffff;
-                border: 0;
-                padding: .75rem 0;
-                box-shadow: 0 6px 9px 0 rgba(0, 0, 0, 0.16);
-
-                .main-navigation-links-link {
-                    display: block;
-                    padding: 0.5rem 1.4rem;
-                    color: $secondaryColor;
-                }
-            }
-        }
-
         @media (min-width: $bp-xl) {
             &-link { padding: .875rem $header-link-spacing-xl; }
             &-dropdown { left: $header-link-spacing-xl; }
@@ -356,17 +250,6 @@
     &-footer {
         margin-top: 1.125rem;
         text-align: center;
-
-        @media (min-width: $bp-lg) {
-            display: inline-block;
-            margin: 0;
-            
-            #try-istio { margin-left: 2.75rem; }
-        }
-        
-        @media (min-width: $bp-xl) {
-            #try-istio { margin-left: 3.75rem; }
-        }
     }
 
     &-toggle {
@@ -381,10 +264,6 @@
             height: 24px;
         }
 
-        @media (min-width: $bp-lg) {
-            display: none;
-        }
-
         &#menu-close { margin-left: auto; }
     }
 
@@ -397,16 +276,28 @@
         background-color: transparent;
         transition: background-color .175s ease-out;
 
-        &.active { background-color: $secondaryColor; }
-
-        .main-navigation-links-item > .main-navigation-links-link { color: $textBrandColor; }
-
         svg.icon {
             fill: $textBrandColor;
             stroke: $textBrandColor;
         }
 
         #brand .logo { fill: $textBrandColor; }
+
+        .main-navigation-links-item > .main-navigation-links-link { color: $textBrandColor; }
+
+        // Scroll down activator
+        &.active {
+            background-color: #ffffff;
+
+            .main-navigation-links-item > .main-navigation-links-link { color: $primaryColor; }
+
+            svg.icon {
+                fill: $primaryColor;
+                stroke: $primaryColor;
+            }
+            
+            #brand .logo { fill: $secondaryColor; }
+        }
     }
 
     #menu-close {
@@ -435,6 +326,10 @@
                 }
             }
 
+            #search-form.show-search {
+                display: flex;
+            }
+
             #brand,
             #hamburger {
                 display: none;
@@ -446,6 +341,109 @@
                 fill: $textBrandColor;
                 stroke: $textBrandColor;
             }
+        }
+    }
+}
+
+@media (min-width: $bp-lg) {
+    .main-navigation {
+        height: $headerHeightLg;
+        padding: 1.875rem 0;
+
+        &-wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            min-height: auto;
+            overflow: unset;
+        }
+
+        &-links-wrapper {
+            display: flex;
+            align-items: center;
+            padding: 0;
+            width: auto;
+        }
+
+        &-links {
+            display: inline-block;
+
+            &-item {
+                display: inline-block;
+                border-bottom: 0;
+
+                &:hover {
+                    .main-navigation-links-dropdown { display: block; }
+                    svg.dropdown-arrow { transform: rotate(180deg); }
+                }
+            }
+
+            &-link {
+                padding: .875rem $header-link-spacing-lg;
+
+                span { border-bottom: 2px solid transparent; }
+
+                &.active span { border-color: $accentColor; }
+
+                &.is-open {
+                    & + .main-navigation-links-dropdown { display: block; }
+                    
+                    svg.dropdown-arrow {
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+
+            &-dropdown {
+                position: absolute;
+                top: 100%;
+                left: $header-link-spacing-lg;
+                height: auto;
+                background-color: #ffffff;
+                border: 0;
+                padding: .75rem 0;
+                box-shadow: 0 6px 9px 0 rgba(0, 0, 0, 0.16);
+
+                .main-navigation-links-link {
+                    display: block;
+                    padding: 0.5rem 1.4rem;
+                    color: $secondaryColor;
+                }
+            }
+        }
+
+        &-footer {
+            display: inline-block;
+            margin: 0;
+            
+            #try-istio { margin-left: 2.75rem; }
+        }
+
+        &-toggle {
+            display: none;
+        }
+
+        #brand  {
+            .logo svg { width: 128px; }
+            .name { margin-left: 4.2em; }
+        }
+
+        #search-form {
+            display: flex;
+        }
+    }
+}
+
+@media (min-width: $bp-xl) {
+    .main-navigation {
+        &-links {
+            &-link { padding: .875rem $header-link-spacing-xl; }
+            &-dropdown { left: $header-link-spacing-xl; }
+        }
+
+        &-footer {
+            #try-istio { margin-left: 3.75rem; }
         }
     }
 }

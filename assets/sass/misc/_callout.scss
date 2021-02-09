@@ -1,17 +1,10 @@
 .callout {
-    padding: .5em;
+    padding: 1.75em;
     border-radius: $border-radius;
-    border-width: 1px;
-    border-style: solid;
-    display: inline-block;
+    display: block;
     position: relative;
 
     margin: 1em 0 1em 1em;
-    max-width: calc(100% - .5em - .5em - 1em);        // .5em for left and right padding each, 1em for left margin
-    @media (min-width: $bp-md) {
-        margin: 1.25em;
-        max-width: calc(100% - .5em - .5em - 1.25em - 1.25em);  // .5em for left and right padding each, 1.25em for left and right margin each
-    }
 
     .type {
         left: -.75em;
@@ -37,53 +30,28 @@
         }
     }
 
+    figcaption {
+        margin-top: 1rem;
+        text-align: left;
+        font-style: normal;
+        font-weight: $semiBoldWeight;
+        color: $primaryColor;
+    }
+
     &.tip {
         background-color: $tipCalloutBackgroundColor;
-        border-color: $tipCalloutBorderColor;
     }
 
     &.idea {
         background-color: $ideaCalloutBackgroundColor;
-        border-color: $ideaCalloutBorderColor;
     }
 
     &.warning {
         background-color: $warningCalloutBackgroundColor;
-        border-color: $warningCalloutBorderColor;
     }
 
     &.quote {
         background-color: $quoteCalloutBackgroundColor;
-        border-color: $quoteCalloutBorderColor;
         font-style: italic;
-    }
-
-    &:hover {
-        .type {
-            svg {
-                animation: shake 2.82s cubic-bezier(.36, .07, .19, .97) both;
-                transform: translate3d(0, 0, 0);
-                backface-visibility: hidden;
-                perspective: 1000px;
-            }
-        }
-
-        @keyframes shake {
-            10%, 90% {
-                transform: translate3d(-1px, 0, 0);
-            }
-
-            20%, 80% {
-                transform: translate3d(2px, 0, 0);
-            }
-
-            30%, 50%, 70% {
-                transform: translate3d(-4px, 0, 0);
-            }
-
-            40%, 60% {
-                transform: translate3d(4px, 0, 0);
-            }
-        }
     }
 }

@@ -4,6 +4,7 @@ linkTitle: "Istio Pioneer AutoTrader UK Still Benefiting"
 quote:
     text: "Istio is a service mesh that provides cross-cutting functions that all micro services environments need"
     author: "Nick Chase"
+companyName: "AutoTrader"
 logo: "/logos/autotrader.png"
 skip_feedback: true
 skip_toc: true
@@ -23,9 +24,9 @@ The Auto Trader UK IT team already had a strong track record for migrating servi
 
 The experiment was a success. What was taking other teams weeks of effort on their private cloud was accomplished in days on GKE. In addition, the Istio service mesh provided seamless end-to-end mTLS across their entire microservice architecture.
 
-“We decided to just try out Istio to see how it would go, and we ended up delivering in the space of about a week – more than we had done in the last four months trying to roll it ourselves.”
-
-Karl Stoney, Delivery Infrastructure Lead at Auto Trader UK
+{{< quote caption="Karl Stoney, Delivery Infrastructure Lead at Auto Trader UK" >}}
+We decided to just try out Istio to see how it would go, and we ended up delivering in the space of about a week – more than we had done in the last four months trying to roll it ourselves.
+{{< /quote >}}
 
 ## Why Istio?
 While the easy transition to mTLS for all microservices was a strong incentive, Istio also has the backing of many large organizations. Auto Trader UK was already working with Google, so knowing that Google was a strong backer of Istio gave them confidence it would be supported and grow long term.
