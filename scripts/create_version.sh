@@ -139,6 +139,7 @@ create_branch_for_new_release() {
     " data/args.yml
 
     UPDATE_BRANCH=${NEW_RELEASE_BRANCH} make update-common
+    make gen
 
     if [[ $(git status --porcelain) ]]; then
         git add -A
