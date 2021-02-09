@@ -3,8 +3,11 @@
         margin-bottom: 3rem;
 
         h1 {
-            font-size: 3rem;
             margin-top: 0;
+
+            @media (min-width: $bp-md) {
+                font-size: 3rem;
+            }
         }
     }
 
