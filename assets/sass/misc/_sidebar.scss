@@ -189,10 +189,15 @@
     text-align: center;
     
     .quote-text {
-        margin: 2.625rem auto 1rem;
+        margin: 2.625rem auto 2rem;
 
         @media (min-width: $bp-md) {
             max-width: 250px;
         }
+    }
+
+    .quote-author {
+        color: $accentColor;
+        margin-top: 1.5rem;
     }
 }

@@ -72,29 +72,7 @@
     }
 
     #case-studies {
-        .quote-panel {
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
 
-            @media (min-width: $bp-md) {
-                max-width: 650px;
-            }
-
-            &-author {
-                font-size: 1.125rem;
-                margin-top: 1.125rem;
-                color: $primaryColor;
-                font-weight: $boldWeight;
-                line-height: 1.2;
-            }
-
-            &-logo {
-                @include grayscale-element(100%);
-                margin-top: 2.125rem;
-                width: 310px;
-            }
-        }
     }
 
     .distributors {

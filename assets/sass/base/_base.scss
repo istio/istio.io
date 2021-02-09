@@ -322,6 +322,42 @@ blockquote {
     }
 }
 
+.quote-author {
+    font-size: 1.125rem;
+    margin-top: 2.125rem;
+    color: $primaryColor;
+    font-weight: $boldWeight;
+    line-height: 1.2;
+}
+
+.quote-company {
+    font-size: .9rem;
+    font-weight: $mediumWeight;
+    margin-top: 5px;
+}
+
+.quote-author-image {
+    position: relative;
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    border: 2px solid $accentColor;
+    overflow: hidden;
+
+    img {
+        position: absolute;
+        max-height: 100%;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+}
+
 .deprecated {
     background: $deprecatedBackgroundColor;
 }
