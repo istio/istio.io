@@ -13,7 +13,7 @@ doc_type: about
 ---
 
 {{< figure src="/img/service-mesh-before.svg" alt="Before utilizing Istio" title="Before utilizing Istio" >}}
-{{< figure src="/img/service-mesh-after.svg" alt="Before utilizing Istio" title="Before utilizing Istio" >}}
+{{< figure src="/img/service-mesh.svg" alt="After utilizing Istio" title="After utilizing Istio" >}}
 
 {{< centered_block >}}
 ## A leading open source service mesh
