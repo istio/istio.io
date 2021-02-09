@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 32
+number_of_entries: 34
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -321,6 +321,20 @@ or <code>td3/ns/foo/sa/a-service-account</code> will be treated the same in the 
 No
 </td>
 </tr>
+<tr id="MeshConfig-ca_certificates">
+<td><code>caCertificates</code></td>
+<td><code><a href="#MeshConfig-CertificateData">CertificateData[]</a></code></td>
+<td>
+<p>The extra root certificates for workload-to-workload communication.
+The plugin certificates (the &lsquo;cacerts&rsquo; secret) or self-signed certificates (the &lsquo;istio-ca-secret&rsquo; secret)
+are automatically added by Istiod.
+The CA certificate that signs the workload certificates is automatically added by Istio Agent.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="MeshConfig-default_service_export_to">
 <td><code>defaultServiceExportTo</code></td>
 <td><code>string[]</code></td>
@@ -585,6 +599,38 @@ can be used with an extension provider to delegate the authorization decision to
 No
 </td>
 </tr>
+<tr id="MeshConfig-discovery_selectors">
+<td><code>discoverySelectors</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector[]</a></code></td>
+<td>
+<p>A list of Kubernetes selectors that specify the set of namespaces that Istio considers when
+computing configuration updates for sidecars. This can be used to reduce Istio&rsquo;s computational load
+by limiting the number of entities (including services, pods, and endpoints) that are watched and processed.
+If omitted, Istio will use the default behavior of processing all namespaces in the cluster.
+Elements in the list are disjunctive (OR semantics), i.e. a namespace will be included if it matches any selector.
+The following example selects any namespace with either labels <code>env: prod</code> and <code>region: us-east1</code>,
+or with label <code>app</code> equal to <code>cassandra</code> or <code>spark</code>.</p>
+
+<pre><code class="language-yaml">discoverySelectors:
+ - matchLabels:
+     env: prod
+     region: us-east1
+ - matchExpressions:
+   - key: app
+     operator: In
+     values:
+       - cassandra
+       - spark
+</code></pre>
+
+<p>Refer to the <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">kubernetes selector docs</a>
+for additional detail on selector semantics.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -720,6 +766,47 @@ No
 <td><code>mode</code></td>
 <td><code><a href="#MeshConfig-OutboundTrafficPolicy-Mode">Mode</a></code></td>
 <td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-CertificateData">MeshConfig.CertificateData</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-CertificateData-pem" class="oneof oneof-start">
+<td><code>pem</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>The PEM data of the certificate.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-CertificateData-spiffe_bundle_url" class="oneof">
+<td><code>spiffeBundleUrl</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>The SPIFFE bundle endpoint URL that complies to:
+https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE<em>Trust</em>Domain<em>and</em>Bundle.md#the-spiffe-trust-domain-and-bundle
+The endpoint should support authentication based on Web PKI:
+https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE<em>Trust</em>Domain<em>and</em>Bundle.md#521-web-pki
+The certificate is retrieved from the endpoint.</p>
+
 </td>
 <td>
 No
@@ -1113,6 +1200,51 @@ No
 <td>
 <p>Sets the HTTP status that is returned to the client when there is a network error to the authorization service.
 The default status is &ldquo;403&rdquo; (HTTP Forbidden).</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">k8s.io.apimachinery.pkg.apis.meta.v1.LabelSelector</h2>
+<section>
+<p>A label selector is a label query over a set of resources. The result of matchLabels and
+matchExpressions are ANDed. An empty label selector matches all objects. A null
+label selector matches no objects.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector-matchLabels">
+<td><code>matchLabels</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &ldquo;key&rdquo;, the
+operator is &ldquo;In&rdquo;, and the values array contains only &ldquo;value&rdquo;. The requirements are ANDed.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector-matchExpressions">
+<td><code>matchExpressions</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelectorRequirement">LabelSelectorRequirement[]</a></code></td>
+<td>
+<p>matchExpressions is a list of label selector requirements. The requirements are ANDed.
++optional</p>
 
 </td>
 <td>
@@ -1632,6 +1764,20 @@ Default value is &lsquo;false&rsquo;.</p>
 No
 </td>
 </tr>
+<tr id="ProxyConfig-ca_certificates_pem">
+<td><code>caCertificatesPem</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>The PEM data of the extra root certificates for workload-to-workload communication.
+This includes the certificates defined in MeshConfig and any other certificates that Istiod uses as CA.
+The plugin certificates (the &lsquo;cacerts&rsquo; secret), self-signed certificates (the &lsquo;istio-ca-secret&rsquo; secret)
+are added automatically by Istiod.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="ProxyConfig-zipkin_address" class="deprecated ">
 <td><code>zipkinAddress</code></td>
 <td><code>string</code></td>
@@ -1969,7 +2115,7 @@ inside a mesh and how to route to endpoints in each network. For example</p>
 
 <pre><code class="language-yaml">networks:
   network1:
-  - endpoints:
+    endpoints:
     - fromRegistry: registry1 #must match kubeconfig name in Kubernetes secret
     - fromCidr: 192.168.100.0/22 #a VM network for example
     gateways:
