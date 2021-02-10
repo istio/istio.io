@@ -11,11 +11,13 @@
 
 <main class="primary container {{ if $showSidebar }} has-sidebar{{end}}{{ if $showTOC }} has-toc{{end}}{{ if $docType }} {{$docType}}{{end}}">
 
-    {{if $showSidebar }}
+    {{ if $showSidebar }}
         <div id="sidebar-container" class="sidebar-container sidebar-offcanvas">
             {{ if .Page.Params.sidebar_force }}
                 {{ if eq .Page.Params.sidebar_force "sidebar_case_study" }}
                     {{ partial "sidebar_case_study.html" . }}
+                {{ else if eq .Page.Params.sidebar_force "sidebar_solution" }}
+                    {{ partial "sidebar_solution.html" . }}
                 {{ end }}
             {{ else if $section.Params.sidebar_multicard }}
                 {{ partial "sidebar_multicard.html" . }}
@@ -23,7 +25,7 @@
                 {{ partial "sidebar_singlecard.html" . }}
             {{ end }}
         </div>
-    {{end}}
+    {{ end }}
     
 
     <div class="article-container">
