@@ -1,0 +1,36 @@
+{{ $link := .Get "url" }}
+{{ $type := .Get "type" }}
+{{ $button := .Get "button" }}
+{{ $text := .Get "text" }}
+{{ $image := .Get "image" }}
+
+{{ $isLink := false }}
+{{ if ne $button "" }}
+    {{ $isLink = true }}
+{{ end }}
+
+{{ if $isLink}}
+    <a href="{{$link}}" class="panel{{ with .Get "type" }} panel--{{.}}{{ end }}">
+{{ else }}
+    <div class="panel{{ with .Get "type" }} panel--{{.}}{{ end }}">
+{{ end}}
+
+    {{ with $image }}
+        <div class="panel-img-top">
+            {{ partial "inline_image.html" . }}
+        </div>
+    {{ end }}
+
+    <div class="panel-body">
+        <h5 class="panel-title">{{ T (.Get "title") }}</h5>
+
+        {{ with $text }}
+            <p class="panel-text">{{.}}</p>
+        {{ end }}
+
+        {{ with $button }}
+            <span class="btn panel-btn">{{ T $button }}</span>
+        {{ end }}
+    </div>
+
+{{ if $isLink }}</a>{{else}}</div>{{end}}

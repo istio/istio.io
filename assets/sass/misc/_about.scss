@@ -1,0 +1,25 @@
+.about {
+    h1, h3 {
+        text-align: center;
+    }
+
+    p,
+    ul li {
+        font-weight: $mediumWeight;
+    }
+
+    p { font-size: 1.125rem; }
+
+    .title-area .subtitle {
+        text-align: center;
+    }
+
+    .title-area .subtitle,
+    .centered-block {
+        max-width: 750px;
+    }
+
+    figure {
+        max-width: 800px;
+    }
+}

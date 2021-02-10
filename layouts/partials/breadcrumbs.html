@@ -38,7 +38,10 @@
         {{ $url := index ($.Scratch.Get "urls") $i }}
 
         {{ if ne $i 0 }}
-            <li><a href="{{- $url -}}" title="{{- $description -}}">{{- $title -}}</a></li>
+            <li>
+                <a href="{{- $url -}}" title="{{- $description -}}">{{- $title -}}</a>
+                {{ partial "icon.html" "breadcrumb-arrow" }}
+            </li>
         {{ else }}
             <li>{{- $title -}}</li>
         {{ end }}

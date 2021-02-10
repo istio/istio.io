@@ -1,0 +1,93 @@
+.landing {
+    section {
+        text-align: center;
+        margin-bottom: $section-margin;
+
+        @media (min-width: $bp-md) {
+            margin-bottom: $section-margin-md;
+        }
+    }
+
+    #banner {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10rem 3.375rem 9.125rem;
+        background-color: #516baa;
+        margin-top: -$headerHeight;
+        overflow: hidden;
+
+        @media (min-width: $bp-md) {
+            padding: 15.375rem 3.375rem;
+            min-height: 680px;
+        }
+
+        @media (min-width: $bp-lg) {
+            margin-top: -$headerHeightLg;
+        }
+
+        #hero-text {
+            font-size: 1.75rem;
+            line-height: 1.36;
+            color: #ffffff;
+            text-align: center;
+            font-weight: $semiBoldWeight;
+            max-width: 750px;
+            z-index: 1;
+
+            @media (min-width: $bp-md) {
+                font-size: 3rem;
+                line-height: 1.2;
+            }
+        }
+
+        &-animation {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: -10%;
+            width: 100%;
+
+            @media (min-width: $bp-md) {
+                right: -20%;
+            }
+        }
+    }
+
+    #landing-panels {
+        margin-top: calc(-6rem - #{$section-margin} - #{$panel-margin-top});
+
+        @media (min-width: $bp-md) {
+            margin-top: calc(-10.25rem - #{$section-margin-md} - #{$panel-margin-top});
+        }
+    }
+
+    #service-mesh {
+        .service-mesh-graph img {
+            width: 100%;
+            height: auto;
+            max-width: 800px;
+        }
+    }
+
+    .distributors {
+        &-grid {
+            display: grid;
+            grid-gap: 1.5rem;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+
+            @media (min-width: $bp-sm) {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            @media (min-width: $bp-lg) {
+                grid-gap: 2.375rem; 
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    }
+
+    h1 { text-align: center; }
+}

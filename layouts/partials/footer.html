@@ -1,92 +1,123 @@
-<footer>
-    <div class="user-links">
-        {{- $release_url := "" -}}
-        {{- if .Site.Data.args.preliminary }}
-            {{- $release_url = "https://github.com/istio/istio/releases/" -}}
-        {{- else -}}
-            {{- $release_url = printf "https://github.com/istio/istio/releases/tag/%s" .Site.Data.args.full_version -}}
-        {{- end -}}
+{{ $home := .Site.GetPage "home" }}
 
-        {{- if not .Site.Data.args.archive_landing -}}
-            <a class="channel" title='{{ printf (i18n "download_desc") (strings.TrimSuffix ".0" .Site.Data.args.full_version) }}' href="/docs/setup/getting-started/#download" aria-label="Download Istio">
-                <span>download</span>
-                {{ partial "icon.html" "download" }}
+<footer class="footer">
+    <div class="footer-wrapper container-l">
+        <div class="user-links footer-links">
+            <a class="channel" title='{{ i18n "github_desc" }}' href="https://github.com/istio/community" aria-label="GitHub">
+                {{ partial "icon.html" "github" }}
             </a>
-        {{- end -}}
-
-        <a class="channel" title='{{ i18n "discuss_istio_io_desc" }}' href="https://discuss.istio.io" aria-label="Istio discussion board">
-            <span>discuss</span>
-            {{ partial "icon.html" "discourse" }}
-        </a>
-
-        <a class="channel" title='{{ i18n "stackoverflow_desc" }}' href="https://stackoverflow.com/questions/tagged/istio" aria-label="Stack Overflow">
-            <span>stack overflow</span>
-            {{ partial "icon.html" "stackoverflow" }}
-        </a>
-
-        <a class="channel" title='{{ i18n "slack_desc" }}' href="https://slack.istio.io" aria-label="slack">
-            <span>slack</span>
-            {{ partial "icon.html" "slack" }}
-        </a>
-
-        <a class="channel" title='{{ i18n "twitter_desc" }}' href="https://twitter.com/IstioMesh" aria-label="Twitter">
-            <span>twitter</span>
-            {{ partial "icon.html" "twitter" }}
-        </a>
-
-        <div class="tag">
-            {{ i18n "for_everyone" }}
+    
+            <a class="channel" title='{{ i18n "team_drive_desc" }}' href="https://groups.google.com/forum/#!forum/istio-team-drive-access" aria-label="team drive">
+                {{ partial "icon.html" "drive" }}
+            </a>
+    
+            <a class="channel" title='{{ i18n "slack_desc" }}' href="https://slack.istio.io" aria-label="slack">
+                {{ partial "icon.html" "slack" }}
+            </a>
+    
+            <a class="channel" title='{{ i18n "stackoverflow_desc" }}' href="https://stackoverflow.com/questions/tagged/istio" aria-label="Stack Overflow">
+                {{ partial "icon.html" "stackoverflow" }}
+            </a>
+    
+            <a class="channel" title='{{ i18n "twitter_desc" }}' href="https://twitter.com/IstioMesh" aria-label="Twitter">
+                {{ partial "icon.html" "twitter" }}
+            </a>
         </div>
-    </div>
+    
+        <hr class="footer-separator" role="separator"/>
+    
+        <div class="info footer-info">
+            <a class="logo" href="{{ $home.Permalink }}">
+                {{ with resources.Get "inline_images/istio-logo-with-brand.svg" }}{{ ( . | minify).Content | safeHTML }}{{ end }}
+            </a>
+    
+            <div class="footer-languages">
+                {{ $currentLanguage := $home.Lang }}
+                {{ $supportedLanguages := .Site.Data.args.supported_languages }}
 
-    <div class="info">
-        <p class="copyright">
-            {{ $advisory := (i18n "advisory") }}
-            {{ if ne $advisory "-" }}
-                {{ printf "%s" $advisory }}<br>
-            {{ end }}
-
-            {{ if .Site.Data.args.archive_landing }}
-                istio.io Archives
-            {{ else }}
-                {{ if .Site.Data.args.archive }}
-                    {{ i18n "footer_istio_archive" }}
-                {{ else if .Site.Data.args.preliminary }}
-                    {{ i18n "footer_istio_preliminary" }}
-                {{ else }}
-                    {{ i18n "footer_istio" }}
+                {{ range $supportedLanguages}}
+                    {{ $active := eq $currentLanguage .code }}
+                    <a tabindex="-1" role="menuitem" lang="{{.code}}" id="switch-lang-{{.code}}" class="footer-languages-item {{ if $active }}active{{ end }}">
+                        {{ if $active }}{{ partial "icon.html" "tick" }}{{ end }}
+                        {{ .name }}
+                    </a>
                 {{ end }}
-
-                {{ strings.TrimSuffix ".0" .Site.Data.args.full_version }}
-            {{ end -}}
-            <br>&copy; {{ .Site.Data.args.copyright_year }} Istio Authors, <a href="https://policies.google.com/privacy">{{ i18n "footer_privacy_policy" }}</a><br>
-
-            {{ if .Site.Data.args.archive }}
-                {{ printf (i18n "footer_archived_on") (dateFormat (i18n "footer_date_format") .Site.Data.args.archive_date) }}
-            {{ else }}
-                {{ printf (i18n "footer_last_modified") (.Page.Lastmod.Format (i18n "footer_date_format")) }}
-            {{ end }}
-        </p>
-    </div>
-
-    <div class="dev-links">
-        <a class="channel" title='{{ i18n "github_desc" }}' href="https://github.com/istio/community" aria-label="GitHub">
-            <span>github</span>
-            {{ partial "icon.html" "github" }}
-        </a>
-
-        <a class="channel" title='{{ i18n "team_drive_desc" }}' href="https://groups.google.com/forum/#!forum/istio-team-drive-access" aria-label="team drive">
-            <span>drive</span>
-            {{ partial "icon.html" "drive" }}
-        </a>
-
-        <a class="channel" title='{{ i18n "working_group_desc" }}' href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" aria-label="working groups">
-            <span>working groups</span>
-            {{ partial "icon.html" "working-groups" }}
-        </a>
-
-        <div class="tag">
-            {{ i18n "for_developers" }}
+            </div>
         </div>
-    </div>
+    
+        <ul class="footer-policies">
+            <li class="footer-policies-item">
+                <a class="footer-policies-link" href="https://policies.google.com/privacy">
+                    {{ i18n "footer_privacy_policy" }}
+                </a>
+            </li>
+            <li class="footer-policies-item">
+                <a class="footer-policies-link" href="#">
+                    {{ i18n "footer_terms_and_conditions" }}
+                </a>
+            </li>
+        </ul>
+    
+        <div class="footer-base">
+            <span class="footer-base-copyright">&copy; {{ .Site.Data.args.copyright_year }} Istio Authors.</span>
+    
+            <span class="footer-base-version">
+                {{ $advisory := (i18n "advisory") }}
+                {{ if ne $advisory "-" }}
+                    {{ printf "%s" $advisory }}<br>
+                {{ end }}
+    
+                {{ if .Site.Data.args.archive_landing }}
+                    istio.io Archives
+                {{ else }}
+                    {{ i18n "footer_version" }}
+                    {{ if .Site.Data.args.archive }}
+                        {{ i18n "footer_istio_archive" }}
+                    {{ else if .Site.Data.args.preliminary }}
+                        {{ i18n "footer_istio_preliminary" }}
+                    {{ else }}
+                        {{ i18n "footer_istio" }}
+                    {{ end }}
+    
+                    {{ strings.TrimSuffix ".0" .Site.Data.args.full_version }}
+                {{ end -}}
+            </span>
+            
+            <ul class="footer-base-releases">
+                {{ $next := .Site.Data.versions.preliminary }}
+                {{ $current := .Site.Data.versions.main }}
+                
+                {{ $fileDir := "" }}
+                {{ with .File }}
+                    {{ $fileDir = .Dir }}
+                {{ end }}
+    
+                {{ if or .Site.Data.args.archive .Site.Data.args.archive_landing }}
+                    <li class="footer-base-releases-item">
+                        <a tabindex="-1" class="footer-base-releases-link" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{ $fileDir }}');return false;">{{ i18n "current_release" }}</a>
+                    </li>
+                    <li class="footer-base-releases-item">
+                        <a tabindex="-1" class="footer-base-releases-link" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{ $fileDir }}');return false;">{{ i18n "next_release" }}</a>
+                    </li>
+                    <li class="footer-base-releases-item">
+                        <a tabindex="-1" class="footer-base-releases-link" role="menuitem" href="https://istio.io/archive">{{ i18n "archived_releases" }}</a>
+                    </li>
+                {{ else if .Site.Data.args.preliminary }}
+                    <li class="footer-base-releases-item">
+                        <a tabindex="-1" class="footer-base-releases-link" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{ $fileDir }}');return false;">{{ i18n "current_release" }}</a>
+                    </li>
+                    <li class="footer-base-releases-item">
+                        <a tabindex="-1" class="footer-base-releases-link" role="menuitem" href="https://istio.io/archive">{{ i18n "archived_releases" }}</a>
+                    </li>
+                {{ else }}
+                    <li class="footer-base-releases-item">
+                        <a tabindex="-1" class="footer-base-releases-link" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{ $fileDir }}');return false;">{{ i18n "next_release" }}</a>
+                    </li>
+                    <li class="footer-base-releases-item">
+                        <a tabindex="-1" class="footer-base-releases-link" role="menuitem" href="https://istio.io/archive">{{ i18n "archived_releases" }}</a>
+                    </li>
+                {{ end }}
+            </ul>
+        </div>
+    </div> 
 </footer>

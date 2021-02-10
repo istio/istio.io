@@ -1,0 +1,68 @@
+.logo-gallery {
+    margin: 3rem;
+}
+
+.company-logo {
+    display: grid;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    place-items: center;
+    max-width: 320px;
+    width: 100%;
+
+    &::before {
+        content: "";
+        padding-bottom: 100%;
+        display: block;
+    }
+
+    & > img {
+        @include grayscale-element(100%);
+        max-width: 175px;
+    }
+
+    &::before,
+    & > img {
+        grid-area: 1 / 1 / 2 / 2;
+    }
+
+    .outer {
+        display: table;
+        position: absolute;
+        width: 172px;
+        height: 92px;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .inner {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+    }
+    
+    .with-tag-line {
+        &:hover {
+            &:hover {
+                img {
+                    opacity: .15;
+                }
+    
+                .tagline {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+    
+    .tagline {
+        color: $companyLogoTaglineColor;
+        opacity: 0;
+        transition-duration: .8s;
+        transition-property: opacity;
+    }
+    
+}

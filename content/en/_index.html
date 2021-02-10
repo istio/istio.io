@@ -1,6 +1,6 @@
 ---
 title: Istio
-description: Connect, secure, control, and observe services.
+description: A service mesh for observability, security in depth, and management that speeds deployment cycles.
 ---
 <!-- these script blocks are only for the primary English home page -->
 <script type="application/ld+json">
@@ -29,85 +29,106 @@ description: Connect, secure, control, and observe services.
 </script>
 
 <main class="landing">
-    <div id="banner">
-        {{< inline_image "landing/istio-logo.svg" >}}
-        <div id="hero-text">
-            <h1 id="hero-label">Istio</h1>
-            <h1 id="hero-lead">Connect, secure, control, and observe services.</h1>
-        </div>
-    </div>
+    <section id="banner">
+        <h1 id="hero-text">
+            A service mesh for observability, security in depth, and management that speeds deployment cycles
+        </h1>
+    </section>
 
-    <div id="panels">
-        <div id="panel1" class="panel">
-            <a href="/docs/concepts/traffic-management/">
-                <div class="panel-img-top">
-                    {{< inline_image "landing/routing-and-load-balancing.svg" >}}
-                </div>
-                <div class="panel-body">
-                    <hr class="panel-line">
-                    <h5 class="panel-title">Connect</h5>
-                    <hr class="panel-line">
-                    <p class="panel-text">
-                        Intelligently control the flow of traffic and API calls between services, conduct a range of tests, and upgrade gradually with
-                        red/black deployments.
-                    </p>
-                </div>
-            </a>
+    <section id="landing-panels" class="panels container">
+        {{< content_panel type="dark" title="service_mesh" text="You can find what you need to make Istio do exactly what you need it to do." button="learn_more" url="/about/service-mesh" >}}
+        {{< content_panel type="dark" title="solutions" text="You can find what you need to make Istio do exactly what you need it to do." button="learn_more" url="/about/solutions" >}}
+        {{< content_panel type="dark" title="deployment" text="You can find what you need to make Istio do exactly what you need it to do." button="learn_more" url="/about/deployment" >}}
+    </section>
+
+    <section id="service-mesh" class="container">
+        <h1>Service mesh</h1>
+
+        <p class="subtitle">Istio is a service mesh that provides cross-cutting functions that all micro services environments need.</p>
+        <p class="subtitle">You can get Istio from 27 distributors.</p>
+ 
+        <div class="service-mesh-graph">
+            <img src="/img/service-mesh.svg" />
         </div>
 
-        <div id="panel2" class="panel">
-            <a href="/docs/concepts/security/">
-                <div class="panel-img-top">
-                    {{< inline_image "landing/resiliency.svg" >}}
-                </div>
-                <div class="panel-body">
-                    <hr class="panel-line">
-                    <h5 class="panel-title">Secure</h5>
-                    <hr class="panel-line">
-                    <p class="panel-text">
-                        Automatically secure your services through managed authentication, authorization, and encryption of communication between
-                        services.
-                    </p>
-                </div>
-            </a>
+        <div class="cta-container">
+            <a href="/about/service-mesh" class="btn">Learn more</a>
+        </div>
+    </section>
+
+    <section id="concepts" class="container">
+        <h1>Concepts</h1>
+
+        <div class="panels">
+            {{< content_panel type="transparent" title="management" text="Intelligently control the flow of traffic and API calls between services, etc." image="management.svg" >}}
+            {{< content_panel type="transparent" title="observability" text="Intelligently control the flow of traffic and API calls between services, etc." image="observability.svg" >}}
+            {{< content_panel type="transparent" title="security" text="Intelligently control the flow of traffic and API calls between services, etc." image="security.svg" >}}
         </div>
 
-        <div id="panel3" class="panel">
-            <a href="/docs/reference/config/">
-                <div class="panel-img-top">
-                    {{< inline_image "landing/policy-enforcement.svg" >}}
-                </div>
-                <div class="panel-body">
-                    <hr class="panel-line">
-                    <h5 class="panel-title">Control</h5>
-                    <hr class="panel-line">
-                    <p class="panel-text">
-                        Apply policies and ensure that they’re enforced, and that resources are fairly distributed among consumers.
-                    </p>
-                </div>
-            </a>
+        <div class="cta-container">
+            <a href="/about/service-mesh#concepts" class="btn">Learn more</a>
+        </div>
+    </section>
+
+    <section id="solutions" class="container">
+        <h1>Solutions</h1>
+
+        {{< solutions_carousel >}}
+    </section>
+
+    <section id="case-studies" class="container">
+        <h1>Case studies</h1>
+
+        <div class="case-studies splide istio-splide">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <li class="splide__slide">
+                        {{< quote_carousel_panel quote="Istio is a service mesh that provides cross-cutting functions that all micro services environments need" author="Nick Chase" company="AutoTrader" logo="logos/autotrader.svg" >}}
+                    </li>
+
+                    <li class="splide__slide">
+                        {{< quote_carousel_panel quote="Istio is a service mesh that provides cross-cutting functions that all micro services environments need" author="Nick Chase" company="AutoTrader" logo="logos/autotrader.svg" >}}
+                    </li>
+
+                    <li class="splide__slide">
+                        {{< quote_carousel_panel quote="Istio is a service mesh that provides cross-cutting functions that all micro services environments need" author="Nick Chase" company="AutoTrader" logo="logos/autotrader.svg" >}}
+                    </li>
+
+                    <li class="splide__slide">
+                        {{< quote_carousel_panel quote="Istio is a service mesh that provides cross-cutting functions that all micro services environments need" author="Nick Chase" company="AutoTrader" logo="logos/autotrader.svg" >}}
+                    </li>
+
+                    <li class="splide__slide">
+                        {{< quote_carousel_panel quote="Istio is a service mesh that provides cross-cutting functions that all micro services environments need" author="Nick Chase" company="AutoTrader" logo="logos/autotrader.svg" >}}
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <div id="panel4" class="panel">
-            <a href="/docs/concepts/observability/">
-                <div class="panel-img-top">
-                    {{< inline_image "landing/telemetry-and-reporting.svg" >}}
-                </div>
-                <div class="panel-body">
-                    <hr class="panel-line">
-                    <h5 class="panel-title">Observe</h5>
-                    <hr class="panel-line">
-                    <p class="panel-text">
-                        See what's happening with rich automatic tracing, monitoring, and logging of all your services.
-                   </p>
-                </div>
-            </a>
+        <div class="cta-container">
+            <a class="btn" href="/about/case-studies">Go to case studies</a>
         </div>
-    </div>
+    </section>
 
-    <div id="buttons">
-        <a title="Install Istio on Kubernetes today." class="btn" href="/docs/setup/getting-started/">GET STARTED</a>
-        <a title="Dive deeper to understand what Istio is and how it works." class="btn" href="/docs/concepts/what-is-istio/">LEARN MORE</a>
-        <a title="Download the latest release." class="btn" href="/docs/setup/getting-started/#download">DOWNLOAD {{< istio_release_name >}}</a>
-    </div>
+    <section id="distributors" class="container">
+        <h1>Istio distributors</h1>
+
+        <p class="subtitle">Istio is a service mesh that provides cross-cutting functions that all micro services environments need.</p>
+        <p class="subtitle">You can get Istio from 27 distributors.</p>
+
+        <div class="distributors-grid">
+            {{< company_logo logo="https://icons-for-free.com/iconfiles/png/512/google+identity+logo+icon-1320161424486212303.png" >}}
+            {{< company_logo logo="https://icons-for-free.com/iconfiles/png/512/google+identity+logo+icon-1320161424486212303.png" >}}
+            {{< company_logo logo="https://icons-for-free.com/iconfiles/png/512/google+identity+logo+icon-1320161424486212303.png" >}}
+            {{< company_logo logo="https://icons-for-free.com/iconfiles/png/512/google+identity+logo+icon-1320161424486212303.png" >}}
+            {{< company_logo logo="https://icons-for-free.com/iconfiles/png/512/google+identity+logo+icon-1320161424486212303.png" >}}
+            {{< company_logo logo="https://icons-for-free.com/iconfiles/png/512/google+identity+logo+icon-1320161424486212303.png" >}}
+            {{< company_logo logo="https://icons-for-free.com/iconfiles/png/512/google+identity+logo+icon-1320161424486212303.png" >}}
+            {{< company_logo logo="https://icons-for-free.com/iconfiles/png/512/google+identity+logo+icon-1320161424486212303.png" >}}
+        </div>
+
+        <div class="cta-container">
+            <a class="btn" href="/about/ecosystem">See all distributors</a>
+        </div>
+    </section>
 </main>

@@ -1,0 +1,14 @@
+{{ $company := .Get "company" }}
+{{ $logo := .Get "logo" }}
+
+<div class="panel panel--carousel-quote">
+    <blockquote class="quote-text">
+        {{- .Get "quote" -}}
+    </blockquote>
+    <div class="panel-author">
+        {{.Get "author"}}
+    </div>
+    <div class="panel-logo">
+        <img src="{{ $logo }}" alt="{{ $company }} logo" />
+    </div>
+</div>

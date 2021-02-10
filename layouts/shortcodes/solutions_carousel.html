@@ -1,0 +1,59 @@
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        new Splide('.solutions', {
+            type: 'loop',
+            perPage: 3,
+            start: 1,
+            arrows: false,
+            gap: '2.5rem',
+            padding: {
+                left: '1.25rem',
+                right: '1.25rem'
+            },
+            breakpoints: {
+                1160: {
+                    perPage: 1,
+                    fixedWidth: 0,
+                    padding: 0
+                }
+            }
+        }).mount();
+    });
+</script>
+
+<div class="solutions splide istio-splide">
+    <div class="splide__track">
+        <div class="splide__list">
+            <div class="splide__slide">
+                <a class="panel panel--carousel" href="#">
+                    <div class="panel-body">
+                        <h5 class="panel-title">Defense in Depth Security for Microservices</h5>
+                        <span class="btn btn--primary panel-btn">Learn more</span>
+                    </div>
+                </a>
+            </div>
+            <div class="splide__slide">
+                <a class="panel panel--carousel" href="#">
+                    <div class="panel-body">
+                        <h5 class="panel-title">Increasing deployment and management efficiency</h5>
+                        <span class="btn btn--primary panel-btn">Learn more</span>
+                    </div>
+                </a>
+            </div>
+            <div class="splide__slide">
+                <a class="panel panel--carousel" href="#">
+                    <div class="panel-body">
+                        <h5 class="panel-title">Observability and SRE Best Practices for Microservices</h5>
+                        <span class="btn btn--primary panel-btn">Learn more</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cta-container">
+    <a href="/about/solutions" class="btn">Go to solutions</a>
+</div>
