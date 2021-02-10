@@ -5,7 +5,6 @@ author:
     name: ""
     image: ""
 image: "increasing-efficiency.svg"
-skip_feedback: true
 skip_toc: true
 skip_byline: true
 skip_pagenav: true

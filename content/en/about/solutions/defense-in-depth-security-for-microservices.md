@@ -5,11 +5,9 @@ author:
     name: ""
     image: ""
 image: "defense.svg"
-skip_feedback: true
 skip_toc: true
 skip_byline: true
 skip_pagenav: true
-layout: solution
 doc_type: article
 sidebar_force: sidebar_solution
 ---
@@ -41,4 +39,4 @@ If metric cardinality is creating excess data and traffic, implement federated P
 ## Workflow
 Proxy level, service level, and tracing metrics are available in a standardized way. Alerting and paging are actionable and not bogging down forward-looking work by engineers.
 
-{{< inline_image "service-mesh.svg" true >}}
+{{< figure src="/img/service-mesh.svg" alt="Service mesh" >}}

@@ -3,11 +3,11 @@
 {{ $logo := .Get "logo" }}
 
 {{ if $link }}
-    <a class="company-logo">
-        <img src="{{ $logo }}" alt="{{ $alt }}" title="{{ $alt }}"/>
+    <a href="{{ $link }}" class="company-logo" title="{{ $alt }}">
+        <img src="{{ $logo }}" alt="{{ $alt }}" />
     </a>
 {{ else }}
-    <div class="company-logo">
-        <img src="{{ $logo }}" alt="{{ $alt }}" title="{{ $alt }}"/>
+    <div class="company-logo" title="{{ $alt }}">
+        <img src="{{ $logo }}" alt="{{ $alt }}" />
     </div>
 {{ end }}
