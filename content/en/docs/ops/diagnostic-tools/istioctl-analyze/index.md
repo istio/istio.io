@@ -49,7 +49,7 @@ Analyze the current live cluster, simulating the effect of applying additional y
 $ istioctl analyze @samples/bookinfo/networking/bookinfo-gateway.yaml@ @samples/bookinfo/networking/destination-rule-all.yaml@
 Error [IST0101] (VirtualService bookinfo.default samples/bookinfo/networking/bookinfo-gateway.yaml:39) Referenced host not found: "productpage"
 Error: Analyzers found issues when analyzing namespace: default.
-See https://istio.io/v1.9/docs/reference/config/analysis for more information about causes and resolutions.
+See https://istio.io/v1.10/docs/reference/config/analysis for more information about causes and resolutions.
 {{< /text >}}
 
 Analyze the entire `networking` folder:
@@ -99,7 +99,7 @@ spec:
 ...
 status:
   validationMessages:
-  - documentation_url: https://istio.io/v1.9/docs/reference/config/analysis/ist0101/?ref=status-controller
+  - documentation_url: https://istio.io/v1.10/docs/reference/config/analysis/ist0101/?ref=status-controller
     level: 3
     type:
       code: IST0101
@@ -176,7 +176,7 @@ kind of information you should provide.
 
       Like other `istioctl` tools, we generally recommend using a downloaded version that matches the version deployed in your cluster.
 
-      For the time being, analysis is generally backwards compatible, so that you can, for example, run the 1.9 version of `istioctl analyze` against a cluster running Istio 1.6 and expect to get useful feedback. Analysis rules that are not meaningful with an older Istio release will be skipped.
+      For the time being, analysis is generally backwards compatible, so that you can, for example, run the 1.10 version of `istioctl analyze` against a cluster running Istio 1.6 and expect to get useful feedback. Analysis rules that are not meaningful with an older Istio release will be skipped.
 
       If you decide to use the latest `istioctl` for analysis purposes on a cluster running an older Istio version, we suggest that you keep it in a separate folder from the version of the binary used to manage your deployed Istio release.
 
