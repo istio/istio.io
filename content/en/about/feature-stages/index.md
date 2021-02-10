@@ -63,7 +63,7 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase
 |-------------------|-------------------
-| [WebAssembly Extension](/docs/ops/configuration/extensibility/wasm-module-distribution) | Alpha
+| WebAssembly Extension | Alpha
 
 ### Security and policy enforcement
 
