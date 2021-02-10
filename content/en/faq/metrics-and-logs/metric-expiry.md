@@ -15,4 +15,4 @@ There are several ways to reduce the cardinality of Istio metrics:
   [This issue](https://github.com/istio/istio/issues/25963#issuecomment-666037411) has more detail on how to achieve this.
 * Drop unnecessary labels from collection. If the label with high cardinality is not needed, you can drop is from metric collection via [metric customization](/docs/tasks/observability/metrics/customize-metrics/) using `tags_to_remove`.
 * Normalize label values, either through federation or classification.
-  If the information provided by the label is desired, you can use [prometheus federation](/docs/ops/best-practices/observability/#using-prometheus-for-production-scale-monitoring) or [request classification](/docs/tasks/observability/metrics/classify-metrics/) to normalize the label.
+  If the information provided by the label is desired, you can use [Prometheus federation](/docs/ops/best-practices/observability/#using-prometheus-for-production-scale-monitoring) or [request classification](/docs/tasks/observability/metrics/classify-metrics/) to normalize the label.
