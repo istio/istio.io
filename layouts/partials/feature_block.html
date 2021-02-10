@@ -5,15 +5,19 @@
         </div>
     {{ end }}
 
-    <div>
-        <h2 class="feature-block-header">{{.header}}</h2>
+    {{ if or .header .opening_paragraph }}
+        <div>
+            {{ with .header }}
+                <h2 class="feature-block-header">{{- . -}}</h2>
+            {{ end }}
 
-        <div class="feature-block-text">
-            <p>{{- .content.opening_paragraph -}}</p>
-    
-            <div class="feature-block-text-btn">
-                <a href="{{.url}}" class="btn">Learn more</a>
+            <div class="feature-block-text">
+                <p>{{- .opening_paragraph -}}</p>
+        
+                <div class="feature-block-text-btn">
+                    <a href="{{.url}}" class="btn">Learn more</a>
+                </div>
             </div>
         </div>
-    </div>
+    {{ end }}
 </div>

@@ -512,6 +512,12 @@ sup {
     }
 }
 
+.centered-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 @mixin grayscale-element($value) {
     -webkit-filter: #{"grayscale(#{$value})"};
     -moz-filter: #{"grayscale(#{$value})"};
