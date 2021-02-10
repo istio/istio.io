@@ -41,8 +41,9 @@ v2 which are listed below:
 * **No metric expiration for short-lived metrics**
   Mixer-based telemetry supported metric expiration whereby metrics which were
   not generated for a configurable amount of time were de-registered for
-  collection by Prometheus. This is useful in scenarios where short-lived jobs
-  surface telemetry only for a short amount of time, and de-registering
+  collection by Prometheus. This is useful in scenarios where short-lived metrics
+  only surface for a short amount of time, and de-registering
   the metrics prevents reporting of metrics which would no longer change in the
   future, thereby reducing network traffic and storage in Prometheus.
   This expiration mechanism is not available in in-proxy telemetry.
+  The workaround for this can be found [here](/faq/metrics-and-logs/#metric-expiry).
