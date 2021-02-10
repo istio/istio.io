@@ -59,6 +59,12 @@ Below is our list of existing features and their current phases. This informatio
 | [Trace Sampling](/docs/tasks/observability/distributed-tracing/configurability/#trace-sampling) | Beta
 | [Request Classification](/docs/tasks/observability/metrics/classify-metrics/) | Beta
 
+### Extensibility
+
+| Feature           | Phase
+|-------------------|-------------------
+| [WebAssembly Extension](/docs/ops/configuration/extensibility/wasm-module-distribution) | Alpha
+
 ### Security and policy enforcement
 
 | Feature           | Phase

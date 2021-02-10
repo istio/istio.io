@@ -10,6 +10,11 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
+{{< warning >}}
+This feature is in the Alpha stage, see
+[Istio Feature Status](/about/feature-stages/).
+{{< /warning >}}
+
 Istio provides the ability to [extend proxy functionality using WebAssembly (Wasm)](/blog/2020/wasm-announce/).
 One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime.
 But first these extensions must be distributed to the proxy.
