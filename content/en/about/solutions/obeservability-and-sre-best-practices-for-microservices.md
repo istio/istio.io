@@ -5,7 +5,6 @@ author:
     name: ""
     image: ""
 image: "microservice-best-practices.svg"
-skip_feedback: true
 skip_toc: true
 skip_byline: true
 skip_pagenav: true

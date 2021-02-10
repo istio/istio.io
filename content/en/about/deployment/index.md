@@ -6,7 +6,6 @@ weight: 34
 skip_toc: true
 skip_byline: true
 skip_pagenav: true
-skip_feedback: true
 aliases:
     - /deployment.html
 doc_type: about

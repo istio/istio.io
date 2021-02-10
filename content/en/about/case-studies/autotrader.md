@@ -8,11 +8,9 @@ author:
 companyName: "AutoTrader UK"
 companyURL: "https://autotrader.co.uk/"
 logo: "/logos/autotrader.svg"
-skip_feedback: true
 skip_toc: true
 skip_byline: true
 skip_pagenav: true
-layout: case-study
 doc_type: article
 sidebar_force: sidebar_case_study
 ---
