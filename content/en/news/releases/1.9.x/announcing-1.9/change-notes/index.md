@@ -34,6 +34,10 @@ this option was tied to `DNS_CAPTURE`. Now, `DNS_CAPTURE` can be enabled without
 - **Added** support of PeerAuthentication per-port-level configuration on pass through filter chains.
   ([Issue #27994](https://github.com/istio/istio/issues/27994))
 
+- **Added** an experimental [`CUSTOM` action](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action)
+  in AuthorizationPolicy for integration with external authorization systems like OPA, OAuth2 and more. See [the blog on this feature](/blog/2021/better-external-authz/)
+  for more info. ([Issue #27790](https://github.com/istio/istio/issues/27790))
+
 ## Telemetry
 
 - **Added** Istio Grafana Dashboards Query Reporter Dropdown.

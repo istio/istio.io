@@ -72,7 +72,7 @@ Authorization policy now supports an experimental feature of
 [CUSTOM action](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) that allows users to
 integrate with external auth systems (e.g. OPA, OAuth2, etc.) more easily.
 
-We will soon be publishing a blog on this feature, but for now you can look at [our documentation](/docs/tasks/security/authorization/authz-custom)
+We have published a [blog on this feature](/blog/2021/better-external-authz/), and you can look at [our documentation](/docs/tasks/security/authorization/authz-custom)
 to use this functionality. If you are using the [Envoy Filter](/docs/reference/config/networking/envoy-filter/) API today
 to integrate with an external authorization system, we recommend you try this feature out and give us feedback!
 
