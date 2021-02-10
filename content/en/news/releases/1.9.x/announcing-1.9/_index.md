@@ -78,7 +78,7 @@ to integrate with an external authorization system, we recommend you try this fe
 
 ## Remote fetch and load of WebAssembly (Wasm) HTTP filters (Experimental)
 
-While it's not ready for production, it's certainly ready for experimentation.  Now Istio can fetch [WebAssembly HTTP filters](/docs/ops/configuration/extensibility/wasm-module-distribution) from remote repositories and dynamically (re)load them without restarting the proxies in your mesh.  With this you can go inject [custom C++ code](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md) into your mesh to handle uses cases that go well beyond the Istio APIs.
+Now Istio supports an experimental feature to [fetch WebAssembly modules](/docs/ops/configuration/extensibility/wasm-module-distribution) from remote repositories and dynamically (re)load them without restarting the proxies in your mesh.  With this you can inject [custom C++ code](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md) into your mesh to handle uses cases that go well beyond the Istio APIs.
 
 Please try it and tell us how it worked for you.  Also, stay tuned for more blogs, support for more languages, and integration with more repositories.
 
