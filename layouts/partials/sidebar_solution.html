@@ -1,3 +1,7 @@
-<div class="feature-block-image">
-    {{ partial "inline_image.html" .Page.Params.image }}
-</div>
+{{ partial "feature_block.html" (dict "content" .Params "image" .Params.image "class" "feature-block--with-img") }}
+
+{{/*  <div class="feature-block feature-block--with-img">
+    <div class="feature-block-image">
+        {{ partial "inline_image.html" .Page.Params.image }}
+    </div>
+</div>  */}}

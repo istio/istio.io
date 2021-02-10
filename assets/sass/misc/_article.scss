@@ -14,4 +14,12 @@
     h2 {
         margin-top: 3rem;
     }
+
+    .feature-block {
+        margin-top: 0;
+
+        &-image {
+            margin: 0;
+        }
+    }
 }
