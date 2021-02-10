@@ -79,7 +79,13 @@
         margin-top: 2.125rem;
         width: 100%;
 
-        img { max-width: 310px; }
+        img {
+            max-width: 310px;
+
+            @media(min-width: $bp-md) {
+                max-width: 200px;
+            }
+        }
     }
 
     &--dark {
