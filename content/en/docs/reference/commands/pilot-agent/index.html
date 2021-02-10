@@ -118,6 +118,21 @@ remove_toc_prefix: 'pilot-agent '
 <td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
+<tr>
+<td><code>--proxy-gid &lt;string&gt;</code></td>
+<td><code>-g</code></td>
+<td>Specify the GID of the user for which the redirection is not applied. (same default value as -u param)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--proxy-uid &lt;string&gt;</code></td>
+<td><code>-u</code></td>
+<td>Specify the UID of the user for which the redirection is not applied. Typically, this is the UID of the proxy container  (default ``)</td>
+</tr>
+<tr>
+<td><code>--redirect-dns</code></td>
+<td></td>
+<td>Enable capture of dns traffic by istio-agent </td>
+</tr>
 </tbody>
 </table>
 <h2 id="pilot-agent-istio-iptables">pilot-agent istio-iptables</h2>
