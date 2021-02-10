@@ -4,6 +4,10 @@ description: Istio 1.9.0 release notes.
 weight: 10
 ---
 
+## Known Issues
+
+- Wasm extension configuration updates can be disruptive (see [Issue #29843](https://github.com/istio/istio/issues/29843)).
+
 ## Traffic Management
 
 - **Added** Add [pprof](https://github.com/google/pprof) endpoint to pilot-agent.
@@ -47,6 +51,10 @@ this option was tied to `DNS_CAPTURE`. Now, `DNS_CAPTURE` can be enabled without
 - **Updated** Prometheus metrics to include `source_cluster` and `destination_cluster` labels by default for all scenarios. Previously, this was only enabled for multi-cluster scenarios. ([Pull Request #30036](https://github.com/istio/istio/pull/30036))
 
 - **Updated** default access log to include `RESPONSE_CODE_DETAILS` and `CONNECTION_TERMINATION_DETAILS` for proxy version >= 1.9. ([Pull Request #27903](https://github.com/istio/istio/pull/27903))
+
+## Extensibility
+
+- **Added** [Reliable Wasm module remote load](/docs/ops/configuration/extensibility/wasm-module-distribution) with Istio agent. ([Issue #29989](https://github.com/istio/istio/issues/29989))
 
 ## Networking
 
