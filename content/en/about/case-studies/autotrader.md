@@ -13,7 +13,7 @@ skip_toc: true
 skip_byline: true
 skip_pagenav: true
 layout: case-study
-doc_type: case-study
+doc_type: article
 sidebar_force: sidebar_case_study
 ---
 
