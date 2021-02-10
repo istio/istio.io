@@ -14,24 +14,24 @@ doc_type: about
 
 {{< feature_block 
         header="Defense in Depth Security for Microservices"
-        image="management.svg"
+        image="defense.svg"
         url="/about/tbd"
-        class="feature-block--dark left-right">}}
+        class="feature-block--with-img left-right">}}
 Istio’s traffic management model relies on the Envoy proxies that are deployed along with your services. All traffic that your mesh services send and receive (data plane traffic) is proxied through Envoy, making it easy to direct and control traffic around your mesh without making any changes to your services.
 {{< /feature_block>}}
 
 {{< feature_block 
         header="Increasing deployment and management efficiency"
-        image="observability.svg"
+        image="increasing-efficiency.svg"
         url="/about/tbd"
-        class="feature-block--dark left-right">}}
+        class="feature-block--with-img left-right">}}
 Istio’s traffic management model relies on the Envoy proxies that are deployed along with your services. All traffic that your mesh services send and receive (data plane traffic) is proxied through Envoy, making it easy to direct and control traffic around your mesh without making any changes to your services.
 {{< /feature_block>}}
 
 {{< feature_block 
         header="Observability and SRE Best Practices for Microservices"
-        image="security.svg"
+        image="microservice-best-practices.svg"
         url="/about/tbd"
-        class="feature-block--dark left-right">}}
+        class="feature-block--with-img left-right">}}
 Istio’s traffic management model relies on the Envoy proxies that are deployed along with your services. All traffic that your mesh services send and receive (data plane traffic) is proxied through Envoy, making it easy to direct and control traffic around your mesh without making any changes to your services.
 {{< /feature_block>}}

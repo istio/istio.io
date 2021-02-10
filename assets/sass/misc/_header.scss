@@ -292,12 +292,15 @@
         &.active {
             background-color: #ffffff;
 
-            .main-navigation-links-item > .main-navigation-links-link { color: $primaryColor; }
+            &:not(.is-visible) {
+                .main-navigation-links-item > .main-navigation-links-link { color: $primaryColor; }
 
-            svg.icon {
-                fill: $primaryColor;
-                stroke: $primaryColor;
+                svg.icon {
+                    fill: $primaryColor;
+                    stroke: $primaryColor;
+                }
             }
+            
             
             #brand .logo { fill: $secondaryColor; }
         }

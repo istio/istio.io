@@ -2,8 +2,8 @@
 title: "Istio VMware"
 quote: "Istio is a service mesh that provides cross-cutting functions"
 author:
-    name: "Nick Chase"
-    image: "/img/authors/nick-chase.png"
+    name: ""
+    image: ""
 companyName: "VMware"
 companyURL: "https://vmware.com/"
 logo: "/logos/vmware.png"

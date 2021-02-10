@@ -25,17 +25,10 @@
                     {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}
                     {{ if .HasChildren }}
                         <li class="main-navigation-links-item">
-                            {{ if ne .URL "" }}
-                                <a href="{{ .URL }}" class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
-                                    <span>{{ .Name }}</span>
-                                    {{ partial "icon.html" "dropdown-arrow" }}
-                                </a>
-                            {{ else}}
-                                <span class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
-                                    <span>{{ .Name }}</span>
-                                    {{ partial "icon.html" "dropdown-arrow" }}
-                                </span>
-                            {{ end }}
+                            <a {{ if ne .URL "" }}href="{{ .URL }}"{{end}} class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
+                                <span>{{ .Name }}</span>
+                                {{ partial "icon.html" "dropdown-arrow" }}
+                            </a>
 
                             <ul class="main-navigation-links-dropdown">
                                 {{ range .Children }}
@@ -47,15 +40,9 @@
                         </li>
                     {{ else }}
                         <li class="main-navigation-links-item">
-                            {{ if ne .URL "" }}
-                                <a href="{{ .URL }}" class="main-navigation-links-link {{ if $active }}active{{ end }}">
-                                    <span>{{ .Name }}</span>
-                                </a>
-                            {{ else }}
-                                <span class="main-navigation-links-link {{ if $active }}active{{ end }}">
-                                    <span>{{ .Name }}</span>
-                                </span>
-                            {{ end }}
+                            <a {{ if ne .URL "" }}href="{{ .URL }}"{{end}} class="main-navigation-links-link {{ if $active }}active{{ end }}">
+                                <span>{{ .Name }}</span>
+                            </a>
                         </li>
                     {{ end }}
                 {{ end }}

@@ -71,15 +71,13 @@
             }
         }
 
-        &--dark {
+        &--with-img {
             & .feature-block-image {
-                align-items: start;
-                justify-content: start;
-                border-color: $secondaryColor;
+                border: 0;
+                padding: 0;
 
                 svg {
-                    height: 70px;
-                    fill: $secondaryColor;
+                    height: 100%;
                 }
             }
         }
