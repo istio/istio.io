@@ -6,8 +6,6 @@ author:
     image: ""
 image: "microservice-best-practices.svg"
 skip_toc: true
-skip_byline: true
-skip_pagenav: true
 layout: solution
 doc_type: article
 sidebar_force: sidebar_solution
