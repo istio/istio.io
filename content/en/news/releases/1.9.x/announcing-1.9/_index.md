@@ -76,6 +76,12 @@ We will soon be publishing a blog on this feature, but for now you can look at [
 to use this functionality. If you are using the [Envoy Filter](/docs/reference/config/networking/envoy-filter/) API today
 to integrate with an external authorization system, we recommend you try this feature out and give us feedback!
 
+## Remote fetch and load of WebAssembly (Wasm) HTTP filters (Experimental)
+
+Now Istio supports an experimental feature to [fetch WebAssembly modules](/docs/ops/configuration/extensibility/wasm-module-distribution) from remote repositories and dynamically (re)load them without restarting the proxies in your mesh.  With this you can inject [custom C++ code](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md) into your mesh to handle uses cases that go well beyond the Istio APIs.
+
+Please try it and tell us how it worked for you.  Also, stay tuned for more blogs, support for more languages, and integration with more repositories.
+
 ## Mirroring of images on gcr.io
 
 To prevent our users from getting affected by Docker Hub's [rate-limiting policy](/blog/2020/docker-rate-limit/),
