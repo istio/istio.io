@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC1090,SC2154,SC2001
+# shellcheck disable=SC1090,SC2154
 
 # Copyright Istio Authors
 #
