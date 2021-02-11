@@ -1,8 +1,8 @@
 ---
-title: Debugging Virtual Machines
-description: Describes tools and techniques to diagnose issues with Virtual Machines.
+title: Troubleshooting Multi-Cluster
+description: Describes tools and techniques to diagnose issues with multi-cluster and multi-network installations.
 weight: 20
-keywords: [debug,virtual-machines,envoy]
+keywords: [debug,multi-cluster,multi-network,envoy]
 owner: istio/wg-environments-maintainers
 test: n/a
 ---
