@@ -1,6 +1,6 @@
 ---
-title: Distributing WebAssembly Modules
-description: Describes how to make remote WebAssembly modules available in the mesh.
+title: Distributing WebAssembly Modules [Experimental]
+description: Describes how to make remote WebAssembly modules available in the mesh (experimental).
 weight: 10
 aliases:
   - /help/ops/extensibility/distribute-remote-wasm-module
@@ -9,6 +9,8 @@ keywords: [extensibility,Wasm,WebAssembly]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
+
+{{< boilerplate experimental-feature-warning >}}
 
 Istio provides the ability to [extend proxy functionality using WebAssembly (Wasm)](/blog/2020/wasm-announce/).
 One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime.
