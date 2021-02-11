@@ -5,7 +5,7 @@ image: "defense.svg"
 skip_toc: true
 doc_type: article
 sidebar_force: sidebar_solution
-layout: solution
+type: solutions
 ---
 
 Metrics and traceability standardized across services which provide an increase in reliability, not an increase in paging fatigue or heavy loads of unprocessed data.

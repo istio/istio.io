@@ -12,5 +12,5 @@ skip_byline: true
 skip_pagenav: true
 doc_type: article
 sidebar_force: sidebar_case_study
+type: case-studies
 ---
-
