@@ -4,6 +4,7 @@
 {{ $showSidebar := or (not (and $section.Params.sidebar_none .CurrentSection.Params.sidebar_none)) (.Page.Params.sidebar_force)}}
 {{ $showTOC := and (or $needTOC .Params.force_inline_toc) (ne .Params.skip_toc true) }}
 {{ $docType := .Params.doc_type }}
+{{ $skipByLine := .Scratch.Get "skipByLine" }}
 
 <nav aria-label="Breadcrumb" class="container-l">
     {{- partial "breadcrumbs.html" . -}}
@@ -59,7 +60,7 @@
                         {{ end }}
                     {{ end }}
 
-                    {{ if not .Params.skip_byline }}
+                    {{ if not (or .Params.skip_byline $skipByLine) }}
                         {{ if or .Params.attribution (gt .Page.ReadingTime 1) (ne .PublishDate.Year 0001) }}
                             <p class="byline">
                                 {{- $needBar := false -}}

@@ -2,12 +2,12 @@
     .title-area {
         margin-bottom: 3rem;
 
-        h1 {
-            margin-top: 0;
+        h1 { margin-top: 0;}
+    }
 
-            @media (min-width: $bp-md) {
-                font-size: 3rem;
-            }
+    h1 {
+        @media (min-width: $bp-md) {
+            font-size: 3rem;
         }
     }
 
