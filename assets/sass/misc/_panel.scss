@@ -77,13 +77,24 @@
     .panel-logo {
         @include grayscale-element(100%);
         margin-top: 2.125rem;
+        position: relative;
+        height: 60px;
         width: 100%;
 
         img {
-            max-width: 310px;
+            max-height: 100%;
+            max-width: 200px;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
 
             @media(min-width: $bp-md) {
-                max-width: 200px;
+                max-width: 310px;
             }
         }
     }
@@ -136,15 +147,7 @@
 
         .quote-text { flex-grow: 1; }
 
-        .panel-logo {
-            height: 30px;
-
-            img {
-                max-width: 200px;
-                height: 100%;
-                width: auto;
-            }
-        }
+        .panel-logo img { max-width: 200px; }
 
         .panel-btn {
             margin-top: 2.625rem;
