@@ -446,6 +446,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Specifies the initial_fetch_timeout for config. If this time is reached without a response to the config requested by Envoy, the Envoy will move on with the init phase. This prevents envoy from getting stuck waiting on config during startup.</td>
 </tr>
 <tr>
+<td><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, checks to see if the configured JwksUri in RequestAuthentication is a mesh cluster URL and configures Remote Jwks to let Envoy fetch the Jwks instead of Istiod.</td>
+</tr>
+<tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
 <td>Integer</td>
 <td><code>100</code></td>
