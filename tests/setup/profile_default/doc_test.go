@@ -16,10 +16,9 @@ package setupconfig
 import (
 	"testing"
 
+	"istio.io/istio.io/pkg/test/istioio"
 	"istio.io/istio/pkg/test/framework"
 	"istio.io/istio/pkg/test/framework/components/istio"
-
-	"istio.io/istio.io/pkg/test/istioio"
 )
 
 func TestMain(m *testing.M) {

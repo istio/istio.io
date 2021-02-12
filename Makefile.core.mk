@@ -80,7 +80,7 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
-gen: snips tidy-go
+gen: snips tidy-go format-go
 
 gen-check: gen check-clean-repo
 
