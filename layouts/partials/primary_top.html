@@ -13,7 +13,7 @@
 <main class="primary container {{ if $showSidebar }} has-sidebar{{end}}{{ if $showTOC }} has-toc{{end}}{{ if $docType }} {{$docType}}{{end}}">
 
     {{ if $showSidebar }}
-        <div id="sidebar-container" class="sidebar-container sidebar-offcanvas">
+        <div id="sidebar-container" class="sidebar-container">
             {{ if .Page.Params.sidebar_force }}
                 {{ if eq .Page.Params.sidebar_force "sidebar_case_study" }}
                     {{ partial "sidebar_case_study.html" . }}
