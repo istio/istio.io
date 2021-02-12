@@ -1,7 +1,7 @@
 ---
 title: Troubleshooting Multicluster
 description: Describes tools and techniques to diagnose issues with multicluster and multi-network installations.
-weight: 20
+weight: 90
 keywords: [debug,multicluster,multi-network,envoy]
 owner: istio/wg-environments-maintainers
 test: no

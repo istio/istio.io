@@ -1,7 +1,7 @@
 ---
 title: Debugging Virtual Machines
 description: Describes tools and techniques to diagnose issues with Virtual Machines.
-weight: 20
+weight: 80
 keywords: [debug,virtual-machines,envoy]
 owner: istio/wg-environments-maintainers
 test: n/a
