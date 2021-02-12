@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 75
+number_of_entries: 82
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -226,7 +226,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--critical-errs &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>List of comma separated glob patters to match against log error strings. If any pattern matches an error in the log, the logs is given the highest priority for archive inclusion.  (default `[]`)</td>
+<td>List of comma separated glob patterns to match against log error strings. If any pattern matches an error in the log, the logs is given the highest priority for archive inclusion.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--dir &lt;string&gt;</code></td>
@@ -251,7 +251,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--exclude &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pods&#39; proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-system, kube-public, kube-node-lease, local-path-storage"]`)</td>
+<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-system, kube-public, kube-node-lease, local-path-storage"]`)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
@@ -266,12 +266,12 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--ignore-errs &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>List of comma separated glob patters to match against log error strings. Any error matching these patters is ignored when calculating the log importance heuristic.  (default `[]`)</td>
+<td>List of comma separated glob patterns to match against log error strings. Any error matching these patterns is ignored when calculating the log importance heuristic.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--include &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pods&#39; proxy logs to include in the archive. See above for format and examples.  (default `[]`)</td>
+<td>Spec for which pod&#39;s proxy logs to include in the archive. See above for format and examples.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--istio-namespace &lt;string&gt;</code></td>
@@ -326,7 +326,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--critical-errs &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>List of comma separated glob patters to match against log error strings. If any pattern matches an error in the log, the logs is given the highest priority for archive inclusion.  (default `[]`)</td>
+<td>List of comma separated glob patterns to match against log error strings. If any pattern matches an error in the log, the logs is given the highest priority for archive inclusion.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--dir &lt;string&gt;</code></td>
@@ -351,7 +351,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--exclude &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pods&#39; proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-system, kube-public, kube-node-lease, local-path-storage"]`)</td>
+<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-system, kube-public, kube-node-lease, local-path-storage"]`)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
@@ -366,12 +366,12 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--ignore-errs &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>List of comma separated glob patters to match against log error strings. Any error matching these patters is ignored when calculating the log importance heuristic.  (default `[]`)</td>
+<td>List of comma separated glob patterns to match against log error strings. Any error matching these patterns is ignored when calculating the log importance heuristic.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--include &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pods&#39; proxy logs to include in the archive. See above for format and examples.  (default `[]`)</td>
+<td>Spec for which pod&#39;s proxy logs to include in the archive. See above for format and examples.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--istio-namespace &lt;string&gt;</code></td>
@@ -1013,7 +1013,7 @@ Use &#39;add-to-mesh&#39; as an alternate to namespace-wide auto injection for t
 <p>&#39;istioctl experimental add-to-mesh deployment&#39; restarts pods with the Istio sidecar.  Use &#39;add-to-mesh&#39;
 to test deployments for compatibility with Istio.  It can be used instead of namespace-wide auto-injection of sidecars and is especially helpful for compatibility testing.</p>
 <p>If your deployment does not function after using &#39;add-to-mesh&#39; you must re-deploy it and troubleshoot it for Istio compatibility.
-See https://istio.io/v1.9/docs/ops/deployment/requirements/</p>
+See https://istio.io/v1.10/docs/ops/deployment/requirements/</p>
 <p>See also &#39;istioctl experimental remove-from-mesh deployment&#39; which does the reverse.</p>
 <p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental add-to-mesh deployment &lt;deployment&gt; [flags]
@@ -1184,7 +1184,7 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <p>istioctl experimental add-to-mesh service restarts pods with the Istio sidecar.  Use &#39;add-to-mesh&#39;
 to test deployments for compatibility with Istio.  It can be used instead of namespace-wide auto-injection of sidecars and is especially helpful for compatibility testing.</p>
 <p>If your service does not function after using &#39;add-to-mesh&#39; you must re-deploy it and troubleshoot it for Istio compatibility.
-See https://istio.io/v1.9/docs/ops/deployment/requirements/</p>
+See https://istio.io/v1.10/docs/ops/deployment/requirements/</p>
 <p>See also &#39;istioctl experimental remove-from-mesh service&#39; which does the reverse.</p>
 <p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental add-to-mesh service &lt;service&gt; [flags]
@@ -1475,8 +1475,8 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.9.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/istio-1.9.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -1488,6 +1488,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--secret-name &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the specific secret to use from the service-account. Needed when there are multiple secrets in the service account.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--server &lt;string&gt;</code></td>
@@ -2342,6 +2347,396 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
   # Restart all ratings-v1 pods without an Istio sidecar
   istioctl x rm svc ratings-v1
 </code></pre>
+<h2 id="istioctl-experimental-revision">istioctl experimental revision</h2>
+<p>The revision command provides a revision centric view of istio deployments. It provides insight into IstioOperator CRs defining the revision, istiod and gateway pods which are part of deployment of a particular revision.</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Enable verbose output </td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-revision-describe">istioctl experimental revision describe</h2>
+<p>Show information about a revision, including customizations, istiod version and which pods/gateways are using it.</p>
+<pre class="language-bash"><code>istioctl experimental revision describe [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Enable verbose output </td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-revision-describe Examples">Examples</h3>
+<pre class="language-bash"><code>  # View the details of a revision named &#39;canary&#39;    
+  istioctl experimental revision describe canary
+
+  # View the details of a revision named &#39;canary&#39; and also the pods
+  # under that particular revision
+  istioctl experimental revision describe canary -v
+
+  # Get details about a revision in json format (default format is human-friendly table format)
+  istioctl experimental revision describe canary -v -o json 
+
+</code></pre>
+<h2 id="istioctl-experimental-revision-list">istioctl experimental revision list</h2>
+<p>Show list of control plane and gateway revisions that are currently installed in cluster</p>
+<pre class="language-bash"><code>istioctl experimental revision list [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Enable verbose output </td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-revision-list Examples">Examples</h3>
+<pre class="language-bash"><code>  # View summary of revisions installed in the current cluster
+  # which can be overridden with --context parameter. 
+  istioctl experimental revision list
+
+  # View list of revisions including customizations, istiod and gateway pods
+  istioctl experimental revision list -v
+
+</code></pre>
+<h2 id="istioctl-experimental-tag">istioctl experimental tag</h2>
+<p>Command group used to interact with revision tags. Revision tags allow for the creation of mutable aliases
+referring to control plane revisions for sidecar injection.</p>
+<p>With revision tags, rather than relabeling a namespace from &#34;istio.io/rev=revision-a&#34; to &#34;istio.io/rev=revision-b&#34; to
+change which control plane revision handles injection, it&#39;s possible to create a revision tag &#34;prod&#34; and label our 
+namespace &#34;istio.io/rev=prod&#34;. The &#34;prod&#34; revision tag could point to &#34;1-7-6&#34; initially and then be changed to point to &#34;1-8-1&#34;
+at some later point.</p>
+<p>This allows operators to change which Istio control plane revision should handle injection for a namespace or set of namespaces
+without manual relabeling of the &#34;istio.io/rev&#34; tag.
+</p>
+<pre class="language-bash"><code>istioctl experimental tag [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-tag-list">istioctl experimental tag list</h2>
+<p>List existing revision tags</p>
+<pre class="language-bash"><code>istioctl experimental tag list [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl experimental tag show [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-tag-list Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl x tag list
+</code></pre>
+<h2 id="istioctl-experimental-tag-remove">istioctl experimental tag remove</h2>
+<p>Remove Istio control plane revision tag.</p>
+<p>Removing a revision tag should be done with care. Removing a revision tag will disrupt sidecar injection in namespaces
+that reference the tag in an &#34;istio.io/rev&#34; label. Verify that there are no remaining namespaces referencing a
+revision tag before removing using the &#34;istioctl x tag list&#34; command.
+</p>
+<pre class="language-bash"><code>istioctl experimental tag remove &lt;revision-tag&gt; [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl experimental tag delete &lt;revision-tag&gt; [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--skip-confirmation</code></td>
+<td><code>-y</code></td>
+<td>The skipConfirmation determines whether the user is prompted for confirmation.
+If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-tag-remove Examples">Examples</h3>
+<pre class="language-bash"><code> # Remove the revision tag &#34;prod&#34;
+	istioctl x tag remove prod
+
+</code></pre>
+<h2 id="istioctl-experimental-tag-set">istioctl experimental tag set</h2>
+<p>Create or modify revision tags. Tag an Istio control plane revision for use with namespace istio.io/rev
+injection labels.</p>
+<pre class="language-bash"><code>istioctl experimental tag set &lt;revision-tag&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--overwrite</code></td>
+<td></td>
+<td>If true, allow revision tags to be overwritten, otherwise reject revision tag updates that
+overwrite existing revision tags. </td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>Control plane revision to reference from a given revision tag  (default ``)</td>
+</tr>
+<tr>
+<td><code>--skip-confirmation</code></td>
+<td><code>-y</code></td>
+<td>The skipConfirmation determines whether the user is prompted for confirmation.
+If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-tag-set Examples">Examples</h3>
+<pre class="language-bash"><code> # Create a revision tag from the &#34;1-8-0&#34; revision
+	istioctl x tag set prod --revision 1-8-0
+
+	# Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
+	kubectl label ns test-ns istio.io/rev=prod
+
+	# Change the revision tag to reference the &#34;1-8-1&#34; revision
+	istioctl x tag set prod --revision 1-8-1 --overwrite
+
+	# Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-1&#34; revision
+	kubectl rollout restart deployments -n test-ns
+
+</code></pre>
 <h2 id="istioctl-experimental-uninstall">istioctl experimental uninstall</h2>
 <p>The uninstall command uninstalls Istio from a cluster</p>
 <pre class="language-bash"><code>istioctl experimental uninstall [flags]
@@ -2384,8 +2779,8 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.9.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/istio-1.9.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -2407,8 +2802,8 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
-(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.9/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+(--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.10/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -2940,8 +3335,8 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.9.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/istio-1.9.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -2963,8 +3358,8 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
-(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.9/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+(--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.10/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -3270,8 +3665,8 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.9.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/istio-1.9.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3293,8 +3688,8 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
-(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.9/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+(--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.10/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 </tbody>
 </table>
@@ -3368,8 +3763,8 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.9.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/istio-1.9.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3391,8 +3786,8 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
-(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.9/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+(--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.10/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -3507,8 +3902,8 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.9.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/istio-1.9.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3592,8 +3987,8 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.9.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/istio-1.9.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3795,8 +4190,8 @@ istioctl install --set profile=demo  # Use a profile from the list
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.9.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/istio-1.9.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3866,8 +4261,8 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.9.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/istio-1.9.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3924,8 +4319,8 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.9.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/istio-1.9.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -4614,8 +5009,8 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.9.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/istio-1.9.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -4632,8 +5027,8 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
-(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.9/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+(--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.10/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4758,8 +5153,8 @@ istioctl experimental precheck.
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.9.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.9.0/istio-1.9.0-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -5008,6 +5403,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td></td>
 </tr>
 <tr>
+<td><code>K_REVISION</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>KNative revision, set if running in knative</td>
+</tr>
+<tr>
 <td><code>PILOT_ALLOW_METADATA_CERTS_DR_MUTUAL_TLS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -5040,8 +5441,8 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr>
 <td><code>PILOT_ENABLED_SERVICE_APIS</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
-<td>If this is set to true, support for Kubernetes service-apis (github.com/kubernetes-sigs/service-apis) will  be enabled. This feature is currently experimental, and is off by default.</td>
+<td><code>true</code></td>
+<td>If this is set to true, support for Kubernetes service-apis (github.com/kubernetes-sigs/service-apis) will  be enabled. In addition to this being enabled, the service-apis CRDs need to be installed.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_ANALYSIS</code></td>
@@ -5066,6 +5467,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_DESTINATION_RULE_INHERITANCE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set, workload specific DestinationRules will inherit configurations settings from mesh and namespace level rules</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
@@ -5160,13 +5567,13 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr>
 <td><code>PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>Enables auto-registering WorkloadEntries based on associated WorkloadGroups upon XDS connection by the workload.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>Enables automatic health checks of WorkloadEntries based on the config provided in the associated WorkloadGroup</td>
 </tr>
 <tr>
@@ -5216,6 +5623,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Time Duration</td>
 <td><code>0s</code></td>
 <td>Specifies the initial_fetch_timeout for config. If this time is reached without a response to the config requested by Envoy, the Envoy will move on with the init phase. This prevents envoy from getting stuck waiting on config during startup.</td>
+</tr>
+<tr>
+<td><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, checks to see if the configured JwksUri in RequestAuthentication is a mesh cluster URL and configures Remote Jwks to let Envoy fetch the Jwks instead of Istiod.</td>
 </tr>
 <tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
@@ -5343,6 +5756,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>true</code></td>
 <td>If true, will authenticate XDS clients.</td>
 </tr>
+<tr>
+<td><code>XDS_AUTH_PLAINTEXT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Authenticate plain text requests - used if Istiod is behind a gateway handling TLS</td>
+</tr>
 </tbody>
 </table>
 <h2 id="metrics">Exported metrics</h2>
@@ -5351,6 +5770,11 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
+<tr><td><code>auto_registration_deletes_total</code></td><td><code>Sum</code></td><td>Total number of auto registration cleaned up by periodic timer.</td></tr>
+<tr><td><code>auto_registration_errors_total</code></td><td><code>Sum</code></td><td>Total number of auto registration errors.</td></tr>
+<tr><td><code>auto_registration_success_total</code></td><td><code>Sum</code></td><td>Total number of successful auto registrations.</td></tr>
+<tr><td><code>auto_registration_unregister_total</code></td><td><code>Sum</code></td><td>Total number of unregistrations.</td></tr>
+<tr><td><code>auto_registration_updates_total</code></td><td><code>Sum</code></td><td>Total number of auto registration updates.</td></tr>
 <tr><td><code>cache_flush_total</code></td><td><code>Sum</code></td><td>number of times operator cache was flushed</td></tr>
 <tr><td><code>cr_deletion_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR deleted</td></tr>
 <tr><td><code>cr_merge_failure_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR merge failures</td></tr>

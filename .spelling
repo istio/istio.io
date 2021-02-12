@@ -24,6 +24,7 @@
 1.7.x
 1.7.x.
 1.8.x
+1.9.x
 1.x
 10ms
 10s
@@ -88,6 +89,7 @@ alt
 analytics
 Anantheswaran
 ANDed
+Ansari
 Ant
 Ansible
 API
@@ -143,6 +145,7 @@ canarying
 CAs
 CDNs
 CentOS
+checksum
 Chrony
 Ciążyński
 CIDRs
@@ -244,7 +247,9 @@ distro
 Distroless
 distroless
 Divya
+Dropdown
 DNS
+DNS_AUTO_ALLOCATE
 docker-compose's
 docker.io
 dogfood
@@ -293,6 +298,7 @@ gbd
 GCP
 GCP-IAM
 GCP_OPTS
+gcr.io
 gdb
 git
 GitHub
@@ -391,6 +397,9 @@ jwcrypto
 JWT
 jwt.io
 JWTs
+JWT_RULE
+JWKS-URI
+k8s
 katacoda
 Keepalived
 key.pem
@@ -416,6 +425,7 @@ kube-proxy
 KubeSphere
 L3-4
 L4-L6
+Landlow
 learnings
 LibreSSL
 lifecycle
@@ -424,8 +434,12 @@ LightStep
 Linkerd
 linter
 linters
+list_by_publishdate
 liveness
+localhost
+lookups
 loopback
+log_output_level
 Lua
 Lyft
 macOS
@@ -475,6 +489,7 @@ nginx
 NiFi
 NLBs
 Node.js
+non-revisioned
 non-sandboxed
 normalization
 ns
@@ -512,9 +527,11 @@ Patlevič
 peek
 Pengyuan
 pem
+PeerAuthentication
 performant
 pipelined
 Piotr
+Prometheus
 PKI
 PKIs
 pki
@@ -605,12 +622,15 @@ Secura
 security_bulletin
 selinux
 serverless
+service-apis
 serviceaccount
 ServiceGraph
 servicegraph-example
+ServiceEntry
 ServiceMeshCon
 ServiceMesher
 sha256
+Shamsher
 sharded
 Sharding
 sharding
@@ -640,6 +660,7 @@ Stoney
 strongSwan
 struct
 Styra
+src
 subdomain
 subdomains
 subnet
@@ -648,6 +669,7 @@ subnetworks
 subresource
 subresources
 substring
+subcommand
 Superfeet
 svc
 svc.com
@@ -710,6 +732,7 @@ v1
 v1.7.4
 v1.7.6_coreos.0
 v1.9
+v1.29
 v1alpha1
 v1alpha3
 v1beta1
