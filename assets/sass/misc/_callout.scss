@@ -28,12 +28,25 @@
         }
     }
 
+    .quote-text {
+        @media (max-width: $bp-md) {
+            font-size: 1.125rem;
+            line-height: 26px;
+        }
+    }
+
     figcaption {
+        font-size: 1rem;
         margin-top: 1rem;
         text-align: left;
         font-style: normal;
-        font-weight: $semiBoldWeight;
+        font-weight: $regularWeight;
         color: $primaryColor;
+    
+        @media (min-width: $bp-md) {
+            font-size: 1.125rem;
+            font-weight: $boldWeight;
+        }
     }
 
     &.tip {

@@ -1,5 +1,9 @@
 .case-study-suggestions {
+    text-align: left;
+
     h1 {
-        text-align: center;
+        @media (min-width: $bp-md) {
+            text-align: center;
+        }
     }
 }

@@ -190,10 +190,7 @@
     
     .quote-text {
         margin: 2.625rem auto 2rem;
-
-        @media (min-width: $bp-md) {
-            max-width: 250px;
-        }
+        max-width: 90%;
     }
 
     .quote-author {
