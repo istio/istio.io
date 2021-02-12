@@ -16,8 +16,8 @@
     }
 
     .sidebar-container {
-        max-width: 25em;
-
+        margin-bottom: 2.5rem;
+        
         @media print {
             display: none;
         }

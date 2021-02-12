@@ -4,6 +4,7 @@
 {{ $showSidebar := or (not (and $section.Params.sidebar_none .CurrentSection.Params.sidebar_none)) (.Page.Params.sidebar_force)}}
 {{ $showTOC := and (or $needTOC .Params.force_inline_toc) (ne .Params.skip_toc true) }}
 {{ $docType := .Params.doc_type }}
+{{ $skipByLine := .Scratch.Get "skipByLine" }}
 
 <nav aria-label="Breadcrumb" class="container-l">
     {{- partial "breadcrumbs.html" . -}}
@@ -12,7 +13,7 @@
 <main class="primary container {{ if $showSidebar }} has-sidebar{{end}}{{ if $showTOC }} has-toc{{end}}{{ if $docType }} {{$docType}}{{end}}">
 
     {{ if $showSidebar }}
-        <div id="sidebar-container" class="sidebar-container sidebar-offcanvas">
+        <div id="sidebar-container" class="sidebar-container">
             {{ if .Page.Params.sidebar_force }}
                 {{ if eq .Page.Params.sidebar_force "sidebar_case_study" }}
                     {{ partial "sidebar_case_study.html" . }}
@@ -59,7 +60,7 @@
                         {{ end }}
                     {{ end }}
 
-                    {{ if not .Params.skip_byline }}
+                    {{ if not (or .Params.skip_byline $skipByLine) }}
                         {{ if or .Params.attribution (gt .Page.ReadingTime 1) (ne .PublishDate.Year 0001) }}
                             <p class="byline">
                                 {{- $needBar := false -}}

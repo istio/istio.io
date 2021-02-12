@@ -71,23 +71,5 @@
         }
     }
 
-    .distributors {
-        &-grid {
-            display: grid;
-            grid-gap: 1.5rem;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(2, 1fr);
-
-            @media (min-width: $bp-sm) {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            @media (min-width: $bp-lg) {
-                grid-gap: 2.375rem; 
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-        }
-    }
-
     h1 { text-align: center; }
 }

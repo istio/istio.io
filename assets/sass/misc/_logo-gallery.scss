@@ -3,12 +3,15 @@
 }
 
 .company-logo {
+    @include grayscale-element(100%);
+
     display: grid;
     background-color: #f8f9fa;
     padding: 1rem;
     place-items: center;
     max-width: 320px;
     width: 100%;
+    transition: filter .175s ease-in;
 
     &::before {
         content: "";
@@ -17,13 +20,16 @@
     }
 
     & > img {
-        @include grayscale-element(100%);
         max-width: 175px;
     }
 
     &::before,
     & > img {
         grid-area: 1 / 1 / 2 / 2;
+    }
+
+    &:hover {
+        filter: none;    
     }
 
     .outer {
@@ -65,4 +71,22 @@
         transition-property: opacity;
     }
     
+}
+
+.distributors {
+    &-grid {
+        display: grid;
+        grid-gap: 1.5rem;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+
+        @media (min-width: $bp-sm) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media (min-width: $bp-lg) {
+            grid-gap: 2.375rem; 
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+    }
 }

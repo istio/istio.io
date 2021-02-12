@@ -1,15 +1,11 @@
 ---
 title: "Defense in Depth Security for Microservices"
 opening_paragraph: "Istio’s traffic management model relies on the Envoy proxies that are deployed along with your services. All traffic that your mesh services send and receive (data plane traffic) is proxied through Envoy, making it easy to direct and control traffic around your mesh without making any changes to your services."
-author:
-    name: ""
-    image: ""
 image: "defense.svg"
 skip_toc: true
-skip_byline: true
-skip_pagenav: true
 doc_type: article
 sidebar_force: sidebar_solution
+type: solutions
 ---
 
 Metrics and traceability standardized across services which provide an increase in reliability, not an increase in paging fatigue or heavy loads of unprocessed data.
@@ -22,8 +18,24 @@ SRE builds on observability of services. Successful SRE needs winnowed down, cle
 The same golden signals of latency, traffic, errors, and saturation need to be collected and viewed for all services and potentially all pods.
 
 ## Who is involved
+<div class="multi-block-wrapper">
+{{< multi_block header="SRE Team" icon="people" >}}
+Structuring best practices for achieving service level objectives through short term remediation and long-term service improvement.
+{{< /multi_block >}}
+{{< multi_block header="Devops Team" icon="people" >}}
+Developers tasked with the building, deployment, and operation of a subset of the services in the organization.
+{{< /multi_block >}}
+</div>
 
 ## Additional Stakeholders
+<div class="multi-block-wrapper">
+{{< multi_block header="Platform owner" icon="person" >}}
+(if separate from the SRE team)
+{{< /multi_block >}}
+{{< multi_block header="Devops TeBusiness owner" icon="person" >}}
+and related service level agreement
+{{< /multi_block >}}
+</div>
 
 ## Preconditions
 - A microservices architecture, such as a Kubernetes deployment or a VM-based implementation. 

@@ -1,5 +1,6 @@
 {{ $toc := partial "toc.html" (dict "page" .) }}
 {{ $needTOC := .Scratch.Get "needTOC" }}
+{{ $skipPageNav := .Scratch.Get "skipPageNav" }}
 
             {{ if .Scratch.Get "seeAlso" }}
                 {{ $related := .Site.RegularPages.Related . | first 6 }}
@@ -20,7 +21,7 @@
             {{ end }}
         </article>
 
-        {{ if not .Params.skip_pagenav }}
+        {{ if not (or .Params.skip_pagenav $skipPageNav) }}
             {{ if or .NextInSection .PrevInSection }}
                 <nav class="pagenav">
                     <div class="left">
