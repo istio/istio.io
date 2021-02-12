@@ -1,0 +1,19 @@
+.get-involved {
+    margin-top: $section-margin;
+    max-width: 898px;
+
+    // @media (min-width: $bp-lg) {
+    //     display: flex;
+    //     flex-direction: row;
+    //     margin-top: $section-margin-md;
+    // }
+
+    a {
+        color: $accentColor;
+        text-decoration: underline;
+    }
+
+    h1, .subtitle {
+        text-align: center;
+    }
+}

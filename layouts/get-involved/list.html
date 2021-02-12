@@ -1,0 +1,13 @@
+{{ define "main" }}
+
+    {{ partial "primary_top.html" . }}
+
+    {{ $pages := .Pages }}
+
+    <div class="content">
+        {{ .Content }}
+    </div>
+
+    {{ partial "primary_bottom.html" . }}
+
+{{ end }}

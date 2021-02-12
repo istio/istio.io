@@ -1,0 +1,85 @@
+.involve-block {
+    padding: 0 65px 0 95px;
+    background: {
+        image: url('/img/get-involved-wave.svg');
+        repeat: no-repeat;
+        size: contain;
+        position: left;
+    }
+    border-bottom: 4px dotted $accentColor;
+
+    &:first-child {
+        border-top: 4px dotted $accentColor;
+    }          
+    &:first-child &-header {
+        border-left: none;
+    }
+    &:last-child  &-content {
+        border-left: none;
+    }
+
+    &-header {
+        display: flex;
+        padding-top: 33px;
+        border-left: 4px solid $accentColor;
+        h3 {
+            margin: 0;
+        }
+    }
+
+    &-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        background: $accentColor;
+        border-radius: 100%;
+        margin-left: -30px;
+        margin-right: 30px;
+
+        svg {
+            height: 24px;
+            fill: white;
+        }
+    }
+
+    &-content {
+        padding-left: 58px;
+        padding-bottom: 33px;
+        border-left: 4px solid $accentColor;
+
+        ol {
+            margin: 0;
+            padding-left: 38px;
+            list-style-type: none;
+            counter-reset: involved-list-counter;
+        }
+
+        li {
+            position: relative;
+            margin-bottom: 20px;
+            &::before {
+                position: absolute;
+                left: -38px;
+                top: 0px;
+                counter-increment: involved-list-counter;
+                content: counter(involved-list-counter);
+                display: block;
+                float: left;
+                width: 28px;
+                height: 28px;
+                border: 2px solid $accentColor;
+                border-radius: 100%;
+                color: $accentColor;
+                font-size: 14px;
+                line-height: 24px;
+                text-align: center;
+            }
+        }
+    }
+
+    &-subtitle {
+        margin: 0;
+    }
+}
