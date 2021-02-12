@@ -1,13 +1,13 @@
 ---
-title: Troubleshooting Multi-Cluster
-description: Describes tools and techniques to diagnose issues with multi-cluster and multi-network installations.
+title: Troubleshooting Multicluster
+description: Describes tools and techniques to diagnose issues with multicluster and multi-network installations.
 weight: 20
-keywords: [debug,multi-cluster,multi-network,envoy]
+keywords: [debug,multicluster,multi-network,envoy]
 owner: istio/wg-environments-maintainers
-test: n/a
+test: no
 ---
 
-This page describes how to troubleshoot issues with Istio deployed to Virtual Machines.
+This page describes how to troubleshoot issues with Istio deployed to multiple clusters and/or networks.
 Before reading this, you should take the steps in [Multicluster Installation](/docs/setup/install/multicluster/)
 and read the [Deployment Models](/docs/ops/deployment/deployment-models/) guide.
 
@@ -36,9 +36,6 @@ Ensure that locality [load balancing](/docs/tasks/traffic-management/locality-lo
 
 **Plug-in Certs:**
 
-You can follow the [Plugin CA Certs](/docs/tasks/security/cert-management/plugin-ca-cert/) guide, ensuring to run
-the steps for every cluster.
-
 To verify certs are configured correctly, you can compare the root-cert in each cluster:
 
 {{< text bash >}}
@@ -47,6 +44,8 @@ $ diff \
    $(kubectl --context="${CTX_CLUSTER1}" -n istio-system get secret cacerts -ojsonpath='{.data.root-cert\.pem}')
 {{< /text >}}
 
+You can follow the [Plugin CA Certs](/docs/tasks/security/cert-management/plugin-ca-cert/) guide, ensuring to run
+the steps for every cluster.
 
 ### Step-by-step Diagnosis
 
@@ -117,7 +116,7 @@ $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiClu
 The steps for Primary and Remote clusters still apply for multi-network, although multi-network has an additional case:
 
 {{< text bash >}}
-istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.sample | grep helloworld
+$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.sample | grep helloworld
 10.0.5.11:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 10.0.6.13:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
@@ -159,7 +158,8 @@ kubectl get pod $HELLOWORLD_POD_NAME \
 If either of these values aren't set, or have the wrong value, istiod may treat the source and client proxies as being on the same network and send network-local endpoints.
 When these aren't set, check that `values.global.network` was set properly during install, or that the injection webhook is configured correctly.
 
-Istio determines the network of a Pod using the `topology.istio.io/network` label which is set during injection. For non-injected Pods, we rely on the `topology.istio.io/network`
+Istio determines the network of a Pod using the `topology.istio.io/network` label which is set during injection. For
+non-injected Pods, istio relies on the `topology.istio.io/network`
 label set on the system namespace in the cluster. In each cluster, check that the network is set:
 
 {{< text bash >}}
