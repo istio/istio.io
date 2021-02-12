@@ -12,7 +12,7 @@ You can now find the [full schedule of events](https://events.istio.io/istiocon-
 
 
 {{< image width="75%"
-    link="./istioconlogo.jpg"
+    link="./istiocon-program.jpg"
     alt="IstioCon logo"
     >}}
 
