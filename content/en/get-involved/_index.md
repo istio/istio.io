@@ -1,10 +1,7 @@
 ---
 title: Get involved!
 linktitle: Get involved
-subtitle: |
-    Istio is an open source project with an active community that supports its use and on-going development.
-    
-    We’d love for you to join us and get involved!
+subtitle: Istio is an open source project with an active community that supports its use and on-going development. We’d love for you to join us and get involved!
 sidebar_none: true
 weight: 15
 skip_toc: true

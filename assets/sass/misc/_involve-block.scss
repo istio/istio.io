@@ -1,18 +1,23 @@
 .involve-block {
-    padding: 0 65px 0 95px;
-    background: {
-        image: url('/img/get-involved-wave.svg');
-        repeat: no-repeat;
-        size: contain;
-        position: left;
-    }
+    padding-left: 30px;
     border-bottom: 4px dotted $accentColor;
+
+
+    @media (min-width: $bp-sm) {
+        padding: 0 65px 0 95px;
+        background: {
+            image: url('/img/get-involved-wave.svg');
+            repeat: no-repeat;
+            size: contain;
+            position: left;
+        }
+    }
 
     &:first-child {
         border-top: 4px dotted $accentColor;
     }          
     &:first-child &-header {
-        border-left: none;
+        border-left-color: transparent;
     }
     &:last-child  &-content {
         border-left: none;
@@ -35,8 +40,17 @@
         height: 60px;
         background: $accentColor;
         border-radius: 100%;
-        margin-left: -30px;
-        margin-right: 30px;
+        margin-left: -32px;
+        margin-right: 28px;
+
+        @media (min-width: $bp-sm) {
+            background: {
+                image: url('/img/get-involved-wave.svg');
+                repeat: no-repeat;
+                size: contain;
+                position: left;
+            }
+        }
 
         svg {
             height: 24px;
@@ -46,12 +60,16 @@
 
     &-content {
         padding-left: 58px;
-        padding-bottom: 33px;
+        padding-bottom: 25px;
         border-left: 4px solid $accentColor;
+
+        @media (min-width: $bp-sm) {
+            padding-bottom: 10px;
+        }
 
         ol {
             margin: 0;
-            padding-left: 38px;
+            padding-left: 34px;
             list-style-type: none;
             counter-reset: involved-list-counter;
         }
@@ -81,5 +99,6 @@
 
     &-subtitle {
         margin: 0;
+        padding-bottom: 24px;
     }
 }

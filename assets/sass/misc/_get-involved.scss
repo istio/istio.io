@@ -1,12 +1,11 @@
 .get-involved {
     margin-top: $section-margin;
     max-width: 898px;
+    padding: 0 20px;
 
-    // @media (min-width: $bp-lg) {
-    //     display: flex;
-    //     flex-direction: row;
-    //     margin-top: $section-margin-md;
-    // }
+    @media (min-width: $bp-lg) {
+        padding: 0;
+    }
 
     a {
         color: $accentColor;
@@ -15,5 +14,9 @@
 
     h1, .subtitle {
         text-align: center;
+    }
+
+    .title-area {
+        margin-bottom: 2.5rem;
     }
 }
