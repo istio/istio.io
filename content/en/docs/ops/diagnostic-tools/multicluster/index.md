@@ -49,7 +49,7 @@ the steps for every cluster.
 
 ### Step-by-step Diagnosis
 
-The following steps assume you're following the [HelloWorld verification](/docs/setup/install multicluster/verify/).
+The following steps assume you're following the [HelloWorld verification](/docs/setup/install/multicluster/verify/).
 Before continuing, make sure both `helloworld` and `sleep` are deployed in each cluster.
 
 From each cluster, find the endpoints the `sleep` service has for `helloworld`:
