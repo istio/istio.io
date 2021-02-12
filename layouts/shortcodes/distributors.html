@@ -1,16 +1,6 @@
 {{ $firstItems := .Get "first" }}
-{{ $distributors := .Site.Data.distributors }}
+{{ $distributors := .Site.Data.companies.distributors }}
 
 {{ with $distributors }}
-    <div class="distributors-grid">
-        {{ if $firstItems }}
-            {{ range first $firstItems . }}
-                {{ partial "company_logo.html" (dict "logo" .logo "alt" .name "link" .url) }}
-            {{ end }}
-        {{ else }}
-            {{ range . }}
-                {{ partial "company_logo.html" (dict "logo" .logo "alt" .name "link" .url) }}
-            {{ end }}
-        {{ end }}
-    </div>
+    {{ partial "distributors.html" (dict "distributors" . "first_items" $firstItems) }}
 {{ end }}
