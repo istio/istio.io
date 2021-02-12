@@ -13,7 +13,7 @@ You can now find the [full schedule of events](https://events.istio.io/istiocon-
 
 {{< image width="75%"
     link="./istiocon-program.jpg"
-    alt="IstioCon logo"
+    alt="IstioCon program flyer"
     >}}
 
 By attending the conference, you’ll connect with community members from across the globe. Each day you will find keynotes, technical talks, lightning talks, panel discussions, workshops and roadmap sessions led by diverse speakers representing the Istio community. You can also connect with other Istio and Open Source ecosystem community members through social hour events that include activities via Gather.town, a live cartoonist, virtual swag bags, raffles, live music and games.  
