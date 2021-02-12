@@ -11,7 +11,7 @@ This page describes how to troubleshoot issues with Istio deployed to multiple c
 Before reading this, you should take the steps in [Multicluster Installation](/docs/setup/install/multicluster/)
 and read the [Deployment Models](/docs/ops/deployment/deployment-models/) guide.
 
-## Cross-Cluster LoadBalancing
+## Cross-Cluster Load Balancing
 
 The most common, but also broad problem with multi-network installations is that cross-cluster load balancing doesn’t work. Usually this manifests itself as only seeing responses from the cluster-local instance of a Service:
 
@@ -78,9 +78,10 @@ $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiClu
 
 * If the secret is missing, create it.
 * If the secret is present:
-  * Look at the config in the secret. Make sure the cluster name is used as the data key for the remote `kubeconfig`.
-  * If the secret looks correct, check the logs of `istiod` for connectivity or permissions issues reaching the remote Kubernetes
-    API server. Log messages may include `Failed to add remote cluster from secret` along with an error reason.
+   * Look at the config in the secret. Make sure the cluster name is used as the data key for the remote `kubeconfig`.
+   * If the secret looks correct, check the logs of `istiod` for connectivity or permissions issues reaching the
+     remote Kubernetes API server. Log messages may include `Failed to add remote cluster from secret` along with an
+     error reason.
 
 
 {{< /tab >}}
@@ -101,13 +102,15 @@ $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiClu
 
 * If the secret is missing, create it.
 * If the secret is present and the endpoint is a Pod in the **primary** cluster:
-  * Look at the config in the secret. Make sure the cluster name is used as the data key for the remote `kubeconfig`.
-  * If the secret looks correct, check the logs of `istiod` for connectivity or permissions issues reaching the remote Kubernetes
-    API server. Log messages may include `Failed to add remote cluster from secret` along with an error reason.
+   * Look at the config in the secret. Make sure the cluster name is used as the data key for the remote `kubeconfig`.
+   * If the secret looks correct, check the logs of `istiod` for connectivity or permissions issues reaching the
+     remote Kubernetes API server. Log messages may include `Failed to add remote cluster from secret` along with an
+     error reason.
 * If the secret is present and the endpoint is a Pod in the **remote** cluster:
-  * The proxy is reading configuration from an istiod inside the remote cluster. Whena a remote cluster has an in-cluster istiod, 
-    it is only meant for sidecar injection and CA. You can verify this is the problem by looking for a Service named `istiod-remote` 
-    in the `istio-system` namespace. If it's missing, reinstall making sure `values.global.remotePilotAddress` is set.
+   * The proxy is reading configuration from an istiod inside the remote cluster. When a remote cluster has an in
+     -cluster istiod,  it is only meant for sidecar injection and CA. You can verify this is the problem by looking
+     for a Service named `istiod-remote` in the `istio-system` namespace. If it's missing, reinstall making sure
+     `values.global.remotePilotAddress` is set.
 
 {{< /tab >}}
 
@@ -137,9 +140,12 @@ NAME                      TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S) 
 istio-eastwestgateway    LoadBalancer   10.8.17.119   <PENDING>        15021:31781/TCP,15443:30498/TCP,15012:30879/TCP,15017:30336/TCP   76m
 {{< /text >}}
 
-If the `EXTERNAL-IP` is stuck in `<PENDING>`, the environment may not support LoadBalancer services. In this case, it may be necessary to customize the spec.externalIPs section of the Service to manually give the Gateway an IP reachable from outside the cluster.
+If the `EXTERNAL-IP` is stuck in `<PENDING>`, the environment may not support `LoadBalancer` services. In this case, it
+may be necessary to customize the `spec.externalIPs` section of the Service to manually give the Gateway an IP reachable
+from outside the cluster.
 
-If the external IP is present, check that the Service includes a `topology.istio.io/network` label with the correct value. If that is incorrect, reinstall the gateway and make sure to set the --network flag on the generation script.
+If the external IP is present, check that the Service includes a `topology.istio.io/network` label with the correct
+value. If that is incorrect, reinstall the gateway and make sure to set the --network flag on the generation script.
 
 **The network of either the client or server cannot be determined.**
 
@@ -159,8 +165,9 @@ If either of these values aren't set, or have the wrong value, istiod may treat 
 When these aren't set, check that `values.global.network` was set properly during install, or that the injection webhook is configured correctly.
 
 Istio determines the network of a Pod using the `topology.istio.io/network` label which is set during injection. For
-non-injected Pods, istio relies on the `topology.istio.io/network`
-label set on the system namespace in the cluster. In each cluster, check that the network is set:
+non-injected Pods, Istio relies on the `topology.istio.io/network` label set on the system namespace in the cluster.
+
+In each cluster, check the network:
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER1}" get ns istio-system -ojsonpath='{.metadata.labels.topology\.istio\.io/network}'
