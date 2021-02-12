@@ -35,11 +35,7 @@ snip_fix_default_namespace
 _verify_contains snip_try_with_fixed_namespace "$snip_try_with_fixed_namespace_out"
 
 echo '*** istioctl-analyze step 3 ***'
-# Pull the Istio version from the docs configuration file.
-ISTIO_VERSION=$(yq r "${REPO_ROOT}"/data/args.yml 'version')
-# shellcheck disable=SC2001
-verify_string=$(echo "$snip_analyze_sample_destrule_out" | sed "s/{{< istio_version >}}/${ISTIO_VERSION}/")
-_verify_contains snip_analyze_sample_destrule "$verify_string"
+_verify_contains snip_analyze_sample_destrule "$snip_analyze_sample_destrule_out"
 
 # There are multiple DestinationRules, some are valid for the VirtualService, some lack subsets
 echo '*** istioctl-analyze step 4 ***'
@@ -82,10 +78,7 @@ echo '*** istioctl-analyze step 10 ***'
 get_ratings_virtual_service() {
 kubectl get vs ratings -o yaml
 }
-
-# shellcheck disable=SC2001
-verify_string=$(echo "$snip_vs_yaml_with_status" | sed "s/{{< istio_version >}}/${ISTIO_VERSION}/")
-_verify_elided get_ratings_virtual_service "$verify_string"
+_verify_elided get_ratings_virtual_service "$snip_vs_yaml_with_status"
 
 echo '*** istioctl-analyze step 11 ***'
 kubectl create ns frod
