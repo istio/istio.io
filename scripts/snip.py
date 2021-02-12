@@ -174,8 +174,8 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
                         print("    " + msg)
                     if heredoc.search(line):
                         multiline_cmd = True
-                line = line.replace("{{ istio_version }}", istio_version)
-                line = line.replace("{{ istio_full_version }}", istio_full_version)
+                line = line.replace("{{< istio_version >}}", istio_version)
+                line = line.replace("{{< istio_full_version >}}", istio_full_version)
                 current_snip["script"].append(line)
 
 if len(boilerplates) > 0:
