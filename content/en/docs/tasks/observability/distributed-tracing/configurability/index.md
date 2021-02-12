@@ -47,7 +47,7 @@ options you need to restart pods injected with Istio proxies.
 {{< /warning >}}
 
 {{< warning >}}
-Any pod annotations added for tracing configuration overrides global settings.
+Any pod annotations added for tracing configuration override global settings.
 In order to preserve any global settings you should copy them from
 global mesh config to pod annotations along with workload specific
 customization. In particular, make sure that the tracing backend address is
