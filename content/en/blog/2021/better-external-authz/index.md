@@ -71,7 +71,7 @@ spec:
   # talk to the external auth service. We will cover this more later.
   provider:
     name: "my-ext-authz-service"
-  # The rule specifies that the access control is triggered only if the request path has the prefix "/admin".
+  # The rule specifies that the access control is triggered only if the request path has the prefix "/admin/".
   # This allows you to easily enable or disable the external authorization based on the requests, avoiding the external
   # check request if it is not needed.
   rules:
@@ -125,7 +125,7 @@ Run the following command create an OPA policy that allows the request if the pr
 claim "path" (base64 encoded) in the JWT token:
 
 {{< text bash >}}
-$ kubectl create secret generic opa-policy -f - <<EOF
+$ cat > policy.rego <<EOF
 package envoy.authz
 
 import input.attributes.request.http as http_request
@@ -153,6 +153,7 @@ action_allowed {
   startswith(http_request.path, base64url.decode(token.payload.path))
 }
 EOF
+$ kubectl create secret generic opa-policy --from-file policy.rego
 {{< /text >}}
 
 ### Deploy httpbin and OPA
