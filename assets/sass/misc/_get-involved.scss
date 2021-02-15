@@ -21,6 +21,14 @@
         }
     }
 
+    h3 {
+        max-width: 240px;
+
+        @media (min-width: $bp-lg) {
+            max-width: 100%;
+        }
+    }
+
     a {
         color: $accentColor;
         text-decoration: underline;
