@@ -2,7 +2,6 @@
     padding-left: 1.875rem;
     border-bottom: 4px dotted $accentColor;
 
-
     @media (min-width: $bp-sm) {
         padding: 0 4rem 0 6rem;
         background: {
@@ -13,13 +12,13 @@
         }
     }
 
-    &:first-child {
+    &:first-of-type {
         border-top: 4px dotted $accentColor;
     }          
-    &:first-child &-header {
+    &:first-of-type &-header {
         border-left-color: transparent;
     }
-    &:last-child  &-content {
+    &:last-of-type &-content {
         border-left: none;
     }
 
