@@ -23,7 +23,7 @@ Manual injection directly modifies configuration, like deployments, and injects 
 
 When enabled in a pod's namespace, automatic injection injects the proxy configuration at pod creation time using an admission controller.
 
-Injection occurs by applying a template defined in the `istio-sidecar-injector` ConfigMap.
+If you are not sure which one to use, automatic injection is recommended.
 
 ### Manual sidecar injection
 
@@ -110,7 +110,7 @@ kube-system          Active   5m10s
 local-path-storage   Active   5m7s
 {{< /text >}}
 
-Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has 1&#47;1 READY containers and the pod with injected sidecar has 2&#47;2 READY containers.
+Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has `1/1 READY` containers, and the pod with injected sidecar has `2/2 READY` containers.
 
 {{< text bash >}}
 $ kubectl delete pod -l app=sleep
@@ -121,7 +121,7 @@ sleep-776b7bcdcd-7hpnk   1/1       Terminating   0          1m
 sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
 {{< /text >}}
 
-View detailed state of the injected pod. You should see the injected `istio-proxy` container and corresponding volumes. Be sure to substitute the correct name for the `Running` pod below.
+View detailed state of the injected pod. You should see the injected `istio-proxy` container and corresponding volumes.
 
 {{< text bash >}}
 $ kubectl describe pod -l app=sleep
@@ -153,202 +153,94 @@ sleep-776b7bcdcd-bhn9m   2/2       Terminating   0          2m
 sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 {{< /text >}}
 
-#### Understanding what happened
+#### Controlling the injection policy
 
-When Kubernetes invokes the webhook, the [`admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
-configuration is applied. The default configuration injects the sidecar into
-pods in any namespace with the `istio-injection=enabled label`. The
-`istio-sidecar-injector` configuration map specifies the configuration for the
-injected sidecar. To change how namespaces are selected for injection, you can
-edit the `MutatingWebhookConfiguration` with the following command:
+In the above examples, you enabled and disabled injection at the namespace level. Injection can also be controlled
+on a per-pod basis, by configuring the `sidecar.istio.io/inject` label on a pod:
 
-{{< text bash >}}
-$ kubectl edit mutatingwebhookconfiguration istio-sidecar-injector
-{{< /text >}}
+| Resource | Label | Enabled value | Disabled value |
+| -------- | ----- | ------------- | -------------- |
+| Namespace | `istio-injection` | `enabled` | `disabled` |
+| Pod | `sidecar.istio.io/inject` | `"true"` | `"false"` |
 
-{{< warning >}}
-You should restart the sidecar injector pod(s) after modifying
-the `MutatingWebhookConfiguration`.
-{{< /warning >}}
+The injector is configured with the following logic:
 
-For example, you can modify the `MutatingWebhookConfiguration` to always inject
-the sidecar into every namespace, unless a label is set. Editing this
-configuration is an advanced operation. Refer to the Kubernetes documentation
-for the [`MutatingWebhookConfiguration` API](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
-for more information.
+1. If either label is disabled, the pod is not injected
+1. If either label is enabled, the pod is injected
+1. If neither label is set, the pod is injected if `.values.sidecarInjectorWebhook.enableNamespacesByDefault` is enabled. This is not enabled by default, so generally this means the pod is not injected.
 
-##### _**policy**_
+## Customizing injection
 
-`disabled` - The sidecar injector will not inject the sidecar into
-pods by default. Add the `sidecar.istio.io/inject` annotation with
-value `true` to the pod template spec to override the default and enable injection.
+Generally, pod are injected based on the sidecar injection template, configured in the `istio-sidecar-injector` configmap.
+Per-pod configuration is available to override these options on individual pods. This is done by adding an `istio-proxy` container
+to your pod. The sidecar injection will treat any configuration defined here as an override to the default injection template.
 
-`enabled` - The sidecar injector will inject the sidecar into pods by
-default. Add the `sidecar.istio.io/inject` annotation with
-value `false` to the pod template spec to override the default and disable injection.
+Care should be taken when customizing these settings, as this allows complete customization of the resulting `Pod`, including making changes that cause the sidecar container to not function properly.
 
-The following example uses the `sidecar.istio.io/inject` annotation to disable sidecar injection.
-
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: ignored
-  labels:
-    app: ignored
-spec:
-  selector:
-    matchLabels:
-      app: ignored
-  template:
-    metadata:
-      labels:
-        app: ignored
-      annotations:
-        sidecar.istio.io/inject: "false"
-    spec:
-      containers:
-      - name: ignored
-        image: governmentpaas/curl-ssl
-        command: ["/bin/sleep","infinity"]
-EOF
-{{< /text >}}
-
-It can then be verified that no sidecar was injected.
-
-{{< text bash >}}
-$ kubectl get pods -l app=ignored
-NAME                      READY   STATUS    RESTARTS   AGE
-ignored-b469d6fcf-8dngz   1/1     Running   0          57s
-{{< /text >}}
-
-##### _**template**_
-
-The sidecar injection template uses <https://golang.org/pkg/text/template> which,
-when parsed and executed, is decoded to the following
-struct containing the list of containers and volumes to inject into the pod.
-
-{{< text go >}}
-type SidecarInjectionSpec struct {
-      RewriteAppHTTPProbe bool                          `yaml:"rewriteAppHTTPProbe"`
-      InitContainers      []corev1.Container            `yaml:"initContainers"`
-      Containers          []corev1.Container            `yaml:"containers"`
-      Volumes             []corev1.Volume               `yaml:"volumes"`
-      DNSConfig           *corev1.PodDNSConfig          `yaml:"dnsConfig"`
-      ImagePullSecrets    []corev1.LocalObjectReference `yaml:"imagePullSecrets"`
-}
-{{< /text >}}
-
-The template is applied to the following data structure at runtime.
-
-{{< text go >}}
-type SidecarTemplateData struct {
-    DeploymentMeta *metav1.ObjectMeta
-    ObjectMeta     *metav1.ObjectMeta
-    Spec           *corev1.PodSpec
-    ProxyConfig    *meshconfig.ProxyConfig  // Defined by https://istio.io/docs/reference/config/service-mesh.html#proxyconfig
-    MeshConfig     *meshconfig.MeshConfig   // Defined by https://istio.io/docs/reference/config/service-mesh.html#meshconfig
-}
-{{< /text >}}
-
-`ObjectMeta` and `Spec` are from the pod. `ProxyConfig` and `MeshConfig`
-are from the `istio` ConfigMap in the `istio-system` namespace. Templates can conditionally
-define injected containers and volumes with this data.
-
-For example, the following template
-
-{{< text plain >}}
-containers:
-- name: istio-proxy
-  image: istio.io/proxy:0.5.0
-  args:
-  - proxy
-  - sidecar
-  - --configPath
-  - {{ .ProxyConfig.ConfigPath }}
-  - --binaryPath
-  - {{ .ProxyConfig.BinaryPath }}
-  - --serviceCluster
-  {{ if ne "" (index .ObjectMeta.Labels "app") -}}
-  - {{ index .ObjectMeta.Labels "app" }}
-  {{ else -}}
-  - "istio-proxy"
-  {{ end -}}
-{{< /text >}}
-
-expands to
-
-{{< text yaml >}}
-containers:
-- name: istio-proxy
-  image: istio.io/proxy:0.5.0
-  args:
-  - proxy
-  - sidecar
-  - --configPath
-  - /etc/istio/proxy
-  - --binaryPath
-  - /usr/local/bin/envoy
-  - --serviceCluster
-  - sleep
-{{< /text >}}
-
-when applied over a pod defined by the pod template spec in [`samples/sleep/sleep.yaml`]({{< github_tree >}}/samples/sleep/sleep.yaml)
-
-#### More control: adding exceptions
-
-There are cases where users do not have control of the pod creation, for instance, when they are created by someone else. Therefore they are unable to add the annotation `sidecar.istio.io/inject` in the pod, to explicitly instruct Istio whether to install the sidecar or not.
-
-Think of auxiliary pods that might be created as an intermediate step while deploying an application. [OpenShift Source to Image Builds](https://docs.okd.io/latest/builds/understanding-image-builds.html#build-strategy-s2i_understanding-image-builds), for example, creates such pods for building the source code of an application. Once the binary artifact is built, the application pod is ready to run and the auxiliary pods are discarded. Those intermediate pods should not get an Istio sidecar, even if the policy is set to `enabled` and the namespace is properly labeled to get automatic injection.
-
-For such cases you can instruct Istio to **not** inject the sidecar on those pods, based on labels that are present in those pods. You can do this by editing the `istio-sidecar-injector` ConfigMap and adding the entry `neverInjectSelector`. It is an array of Kubernetes label selectors. They are `OR'd`, stopping at the first match. See an example:
+For example, the following configuration customizes a variety of settings, including lowering the CPU requests, adding a volume mount, and adding a `preStop` hook:
 
 {{< text yaml >}}
 apiVersion: v1
-kind: ConfigMap
+kind: Pod
 metadata:
-  name: istio-sidecar-injector
-data:
-  config: |-
-    policy: enabled
-    neverInjectSelector:
-      - matchExpressions:
-        - {key: openshift.io/build.name, operator: Exists}
-      - matchExpressions:
-        - {key: openshift.io/deployer-pod-for.name, operator: Exists}
-    template: |-
-      initContainers:
-...
+  name: example
+spec:
+  containers:
+  - name: hello
+    image: alpine
+  - name: istio-proxy
+    image: auto
+    resources:
+      requests:
+        cpu: "100m"
+    volumeMounts:
+    - mountPath: /etc/certs
+      name: certs
+    lifecycle:
+      preStop:
+        exec:
+          command: ["sleep", "10"]
+  volumes:
+  - name: certs
+    secret:
+      secretName: istio-certs
 {{< /text >}}
 
-The above statement means: Never inject on pods that have the label `openshift.io/build.name` **or** `openshift.io/deployer-pod-for.name` – the values of the labels don't matter, we are just checking if the keys exist. With this rule added, the OpenShift Builds use case illustrated above is covered, meaning auxiliary pods will not have sidecars injected (because source-to-image auxiliary pods **do** contain those labels).
+In general, any field in a pod can be set. However, care must be taken for certain fields:
 
-For completeness, you can also use a field called `alwaysInjectSelector`, with similar syntax, which will always inject the sidecar on pods that match that label selector, regardless of the global policy.
+* Kubernetes requires the `image` field to be set before the injection has run. While you can set a specific image to override the default one,
+  it is recommended to set the `image` to `auto` which will cause the sidecar injector to automatically select the image to use.
+* Some fields in `Pod` are dependent on related settings. For example, CPU request must be less than CPU limit. If both fields are not configured together, the pod may fail to start.
 
-The label selector approach gives a lot of flexibility on how to express those exceptions. Take a look at [these docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements) to see what you can do with them!
+Additionally, certain fields are configurable by [annotations](/docs/reference/config/annotations/) on the pod, although it is recommend to use the above approach to customizing settings.
 
-{{< tip >}}
-It's worth noting that annotations in the pods have higher precedence than the label selectors. If a pod is annotated with `sidecar.istio.io/inject: "true/false"` then it will be honored. So, the order of evaluation is:
+### Custom templates [experimental]
 
-`Pod Annotations → NeverInjectSelector → AlwaysInjectSelector → Default Policy`
-{{< /tip >}}
+{{< warning >}}
+This feature is experimental and subject to change, or removal, at any time.
+{{< /warning >}}
 
-#### Uninstalling the automatic sidecar injector
+Completely custom templates can also be defined at installation time.
+For example, to define a custom template that injects the `GREETING` environment variable into the `istio-proxy` container:
 
-{{< text bash >}}
-$ kubectl delete mutatingwebhookconfiguration istio-sidecar-injector
-mutatingwebhookconfiguration.admissionregistration.k8s.io "istio-sidecar-injector" deleted
+{{< text yaml >}}
+apiVersion: operator.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: istio
+spec:
+  values:
+    sidecarInjectorWebhook:
+      templates:
+        custom: |
+          spec:
+            containers:
+            - name: istio-proxy
+              env:
+              - name: GREETING
+                value: hello-world
 {{< /text >}}
 
-The above command will not remove the injected sidecars from Pods. A
-rolling update or simply deleting the pods and forcing the deployment
-to create them is required.
-
-Optionally, it may also be desirable to clean-up other resources that
-were modified in this task.
-
-{{< text bash >}}
-$ kubectl label namespace default istio-injection-
-namespace/default labeled
-{{< /text >}}
+Pods will, by default, use the `sidecar` injection template, which is automatically created.
+This can be overridden by the `inject.istio.io/templates` annotation.
+For example, to apply the default template and our customization, you can set `inject.istio.io/templates=sidecar,custom`.

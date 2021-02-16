@@ -47,7 +47,7 @@ istioctl analyze samples/bookinfo/networking/bookinfo-gateway.yaml samples/booki
 ! read -r -d '' snip_analyze_sample_destrule_out <<\ENDSNIP
 Error [IST0101] (VirtualService bookinfo.default samples/bookinfo/networking/bookinfo-gateway.yaml:39) Referenced host not found: "productpage"
 Error: Analyzers found issues when analyzing namespace: default.
-See https://istio.io/v1.9/docs/reference/config/analysis for more information about causes and resolutions.
+See https://istio.io/v1.10/docs/reference/config/analysis for more information about causes and resolutions.
 ENDSNIP
 
 snip_analyze_networking_directory() {
@@ -74,7 +74,7 @@ spec:
 ...
 status:
   validationMessages:
-  - documentation_url: https://istio.io/v1.9/docs/reference/config/analysis/ist0101/?ref=status-controller
+  - documentation_url: https://istio.io/v1.10/docs/reference/config/analysis/ist0101/?ref=status-controller
     level: 3
     type:
       code: IST0101

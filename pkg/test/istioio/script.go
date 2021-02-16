@@ -36,10 +36,8 @@ const (
 	kubeConfigEnvVar    = "KUBECONFIG"
 )
 
-var (
-	// Logging scope for the script output.
-	scriptLog = log.RegisterScope("script", "output of test scripts", 0)
-)
+// Logging scope for the script output.
+var scriptLog = log.RegisterScope("script", "output of test scripts", 0)
 
 var _ Step = Script{}
 
@@ -91,7 +89,7 @@ func (s Script) run(ctx framework.TestContext) {
 
 	// Copy the command to workDir.
 	_, fileName := filepath.Split(s.Name())
-	if err := ioutil.WriteFile(path.Join(ctx.WorkDir(), fileName), []byte(command), 0644); err != nil {
+	if err := ioutil.WriteFile(path.Join(ctx.WorkDir(), fileName), []byte(command), 0o644); err != nil {
 		ctx.Fatalf("failed copying command %s to workDir: %v", s.Name(), err)
 	}
 

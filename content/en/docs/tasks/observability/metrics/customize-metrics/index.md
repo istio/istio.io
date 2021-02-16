@@ -161,6 +161,11 @@ $ kubectl exec "$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].met
 For example, in the output, locate the metric `istio_requests_total` and
 verify it contains your new dimension.
 
+{{< tip >}}
+It might take a short period of time for the proxies to start applying the config. If the metric is not received,
+you may retry sending requests after a short wait, and look for the metric again.
+{{< /tip >}}
+
 ## Use expressions for values
 
 The values in the metric configuration are common expressions, which means you

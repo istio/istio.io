@@ -88,7 +88,7 @@ Istio supports to control its behavior.
 				
 					<td><code>topology.istio.io/network</code></td>
 				
-					<td>Alpha</td>
+					<td>Beta</td>
 				
 					<td>[Namespace Pod Service]</td>
 					<td>A label used to identify the network for one or more pods. This is used<br>internally by Istio to group pods resident in the same L3 domain/network.<br>Istio assumes that pods in the same network are directly reachable from<br>one another. When pods are in different networks, an Istio Gateway<br>(e.g. east-west gateway) is typically used to establish connectivity<br>(with AUTO_PASSTHROUGH mode). This label can be applied to the following<br>resources to help automate Istio's multi-network configuration.<br><br>* Istio System Namespace: Applying this label to the system namespace<br>  establishes a default network for pods managed by the control plane.<br>  This is typically configured during control plane installation using an<br>  admin-specified value.<br><br>* Pod: Applying this label to a pod allows overriding the default network<br>  on a per-pod basis. This is typically applied to the pod via webhook<br>  injection, but can also be manually specified on the pod by the service<br>  owner. The Istio installation in each cluster configures webhook injection<br>  using an admin-specified value.<br><br>* Gateway Service: Applying this label to the Service for an Istio Gateway,<br>  indicates that Istio should use this service as the gateway for the<br>  network, when configuring cross-network traffic. Istio will configure<br>  pods residing outside of the network to access the Gateway service<br>  via `spec.externalIPs`, `status.loadBalancer.ingress[].ip`, or in the case<br>  of a NodePort service, the Node's address. The label is configured when<br>  installing the gateway (e.g. east-west gateway) and should match either<br>  the default network for the control plane (as specified by the Istio System<br>  Namespace label) or the network of the targeted pods.</td>
@@ -101,7 +101,7 @@ Istio supports to control its behavior.
 				
 					<td><code>topology.istio.io/subzone</code></td>
 				
-					<td>Alpha</td>
+					<td>Beta</td>
 				
 					<td>[Node]</td>
 					<td>User-provided node label for identifying the locality subzone of a workload. This allows admins to specify a more granular level of locality than what is offered by default with Kubernetes regions and zones.</td>

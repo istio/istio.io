@@ -22,8 +22,6 @@ import (
 	"strings"
 	"sync"
 
-	"istio.io/istio/pkg/test/scopes"
-
 	"github.com/golang/sync/errgroup"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -31,6 +29,7 @@ import (
 	"istio.io/istio/pkg/config/schema/collection"
 	"istio.io/istio/pkg/config/schema/collections"
 	"istio.io/istio/pkg/kube"
+	"istio.io/istio/pkg/test/scopes"
 )
 
 var (

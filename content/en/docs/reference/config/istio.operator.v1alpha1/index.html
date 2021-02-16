@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.operator.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 61
+number_of_entries: 63
 ---
 <p>Configuration affecting Istio control plane installation version and shape.</p>
 
@@ -818,6 +818,31 @@ No
 <td>
 <p>k8s pod security context
 <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod">https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod</a></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-volumes">
+<td><code>volumes</code></td>
+<td><code><a href="#k8s-io-api-core-v1-Volume">Volume[]</a></code></td>
+<td>
+<p>k8s volume
+<a href="https://kubernetes.io/docs/concepts/storage/volumes/">https://kubernetes.io/docs/concepts/storage/volumes/</a>
+Volumes defines the collection of Volume to inject into the pod.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-volumeMounts">
+<td><code>volumeMounts</code></td>
+<td><code><a href="#k8s-io-api-core-v1-VolumeMount">VolumeMount[]</a></code></td>
+<td>
+<p>k8s volumeMounts
+VolumeMounts defines the collection of VolumeMount to inject into containers.</p>
 
 </td>
 <td>
@@ -3038,6 +3063,146 @@ For add, the path should be a new leaf.
 For delete, value should be unset.
 For replace, path should reference an existing node.
 All values are strings but are converted into appropriate type based on schema.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="k8s-io-api-core-v1-Volume">k8s.io.api.core.v1.Volume</h2>
+<section>
+<p>Volume represents a named volume in a pod that may be accessed by any container in the pod.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="k8s-io-api-core-v1-Volume-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Volume&rsquo;s name.
+Must be a DNS_LABEL and unique within the pod.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-Volume-volumeSource">
+<td><code>volumeSource</code></td>
+<td><code><a href="#k8s-io-api-core-v1-VolumeSource">VolumeSource</a></code></td>
+<td>
+<p>VolumeSource represents the location and type of the mounted volume.
+If not specified, the Volume is implied to be an EmptyDir.
+This implied behavior is deprecated and will be removed in a future version.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="k8s-io-api-core-v1-VolumeMount">k8s.io.api.core.v1.VolumeMount</h2>
+<section>
+<p>VolumeMount describes a mounting of a Volume within a container.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="k8s-io-api-core-v1-VolumeMount-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>This must match the Name of a Volume.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-readOnly">
+<td><code>readOnly</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Mounted read-only if true, read-write otherwise (false or unspecified).
+Defaults to false.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-mountPath">
+<td><code>mountPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path within the container at which the volume should be mounted.  Must
+not contain &lsquo;:&rsquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-subPath">
+<td><code>subPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path within the volume from which the container&rsquo;s volume should be mounted.
+Defaults to &ldquo;&rdquo; (volume&rsquo;s root).
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-mountPropagation">
+<td><code>mountPropagation</code></td>
+<td><code>string</code></td>
+<td>
+<p>mountPropagation determines how mounts are propagated from the host
+to container and the other way around.
+When not set, MountPropagationNone is used.
+This field is beta in 1.10.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-subPathExpr">
+<td><code>subPathExpr</code></td>
+<td><code>string</code></td>
+<td>
+<p>Expanded path within the volume from which the container&rsquo;s volume should be mounted.
+Behaves similarly to SubPath but environment variable references $(VAR_NAME) are expanded using the container&rsquo;s environment.
+Defaults to &ldquo;&rdquo; (volume&rsquo;s root).
+SubPathExpr and SubPath are mutually exclusive.
+This field is beta in 1.15.
++optional</p>
 
 </td>
 <td>
