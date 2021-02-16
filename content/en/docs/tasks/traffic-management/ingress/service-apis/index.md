@@ -7,7 +7,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-This task describes how to configure Istio to expose a service outside of the service mesh cluster, using the Kubernetes [Gateway API](https://kubernetes-sigs.github.io/gateway-api/).
+This task describes how to configure Istio to expose a service outside of the service mesh cluster, using the Kubernetes [Service APIs](https://kubernetes-sigs.github.io/gateway-api/).
 These APIs are an actively developed evolution of the Kubernetes [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
 and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) APIs.
 
