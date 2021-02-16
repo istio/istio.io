@@ -46,12 +46,14 @@ In order for the new tracing configuration to take effect for either of these
 options you need to restart pods injected with Istio proxies.
 {{< /warning >}}
 
-Note that any pod annotations added for tracing configuration overrides global settings.
+{{< warning >}}
+Any pod annotations added for tracing configuration override global settings.
 In order to preserve any global settings you should copy them from
 global mesh config to pod annotations along with workload specific
 customization. In particular, make sure that the tracing backend address is
 always provided in the annotations to ensure that the traces are reported
 correctly for the workload.
+{{< /warning >}}
 
 ### Using `MeshConfig` for trace settings
 
