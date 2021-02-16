@@ -23,7 +23,7 @@ Hello version: v1, instance: helloworld-v1-578dd69f69-j69pf
 ...
 {{< /text >}}
 
-When following the guide to [verify multicluster installation](https://istio.io/latest/docs/setup/install/multicluster/verify/)
+When following the guide to [verify multicluster installation](/docs/setup/install/multicluster/verify/)
 we would expect both `v1` and `v2` responses, indicating traffic is going to both clusters.
 
 There are many possible causes to the problem:
