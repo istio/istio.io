@@ -115,7 +115,7 @@ volumes:
     name: istio-certs
 {{< /text >}}
 
-Then add the following annotations to the Prometheus deployment pod template, and deploy it with [sidecar injected](/docs/setup/additional-setup/sidecar-injection/).
+Then add the following annotations to the Prometheus deployment pod template, and deploy it with [sidecar injection](/docs/setup/additional-setup/sidecar-injection/).
 This configures the sidecar to write a certificate to the shared volume, but without configuring traffic redirection:
 
 {{< text yaml >}}
