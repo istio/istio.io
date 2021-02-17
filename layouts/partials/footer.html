@@ -28,7 +28,7 @@
     
         <div class="info footer-info">
             <a class="logo" href="{{ $home.Permalink }}">
-                {{ with resources.Get "inline_images/istio-logo-with-brand.svg" }}{{ ( . | minify).Content | safeHTML }}{{ end }}
+                {{ with resources.Get "inline_images/istio-logo-with-brand.svg" }}{{ .Content | safeHTML }}{{ end }}
             </a>
     
             <div class="footer-languages">

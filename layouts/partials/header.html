@@ -6,7 +6,7 @@
     <nav class="main-navigation-wrapper container-l">
         <div class="main-navigation-header">
             <a id="brand" href="{{ $home.Permalink }}">
-                <span class="logo">{{ with resources.Get "inline_images/istio-logo-with-brand.svg" }}{{ ( . | minify).Content | safeHTML }}{{ end }}</span>
+                <span class="logo">{{ with resources.Get "inline_images/istio-logo-with-brand.svg" }}{{ .Content | safeHTML }}{{ end }}</span>
             </a>
 
             <button id="hamburger" class="main-navigation-toggle" aria-label="Open navigation">
