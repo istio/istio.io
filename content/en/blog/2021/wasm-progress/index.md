@@ -13,7 +13,7 @@ In this blog post, we will walk through the updates in this area at Istio 1.9 re
 ## Proxy-Wasm (WebAssembly) support merged in upstream Envoy
 
 The initial development work of Envoy WebAssembly runtime happened at `envoy-wasm` fork.
-Over time, we collected many great feedback from community early adopters, as well as Istio first class Wasm extensions development, which helped us to continuously improve the runtime.
+Over time, we collected great feedback from community early adopters, as well as Istio first class Wasm extensions development, which helped us to continuously improve the runtime.
 Since Istio 1.8, WebAssembly support was merged into the Envoy main tree. This is a significant milestone for Istio and Envoy Wasm efforts, since it indicates that:
 
 * The runtime is ready for wider adoption.
@@ -47,7 +47,7 @@ To fix this issue, [a fundamental change](https://github.com/envoyproxy/envoy/is
 Istio 1.9 provides a reliable distribution mechanism out of the box by leveraging the XDS proxy inside istio-agent and Envoy [Extension Configuration Discovery Server](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/extension) (ECDS).
 The following diagram shows the flow.
 Istio-agent intercepts the extension config resource update from istiod, reads the remote fetch hint from it, downloads the Wasm module, and rewrites the ECDS configuration with the path of the downloaded Wasm module.
-If download fails, istio-agent will reject the ECDS update and prevent bad configuration reaching Envoy. For more detail, please go through this guide (TODO: Add link here!).
+If download fails, istio-agent will reject the ECDS update and prevent bad configuration reaching Envoy. For more detail, please go through [this guide](/docs/ops/configuration/extensibility/wasm-module-distribution/).
 
 {{< image width="75%"
     link="./architecture-istio-agent-downloading-wasm-module.svg"
