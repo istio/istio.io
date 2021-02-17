@@ -35,7 +35,7 @@ the `v1alpha1` security policy, and if you do not migrate them to `v1beta1` vers
 In either case, it is recommended to migrate using namespace granularity: for each namespace, find all
 `v1alpha1` policies that have an effect on the workloads in the namespace and migrate all the `v1alpha1` policies at the same time.
 This allows a safer migration as you can apply the `v1beta1` policies one namespace at a time, make sure everything is working
-as expected and then move forward to the next namespace.
+as expected, and then move forward to the next namespace.
 
 ## Major Differences
 
@@ -44,7 +44,7 @@ and [authorization](/docs/concepts/security/#authorization) documentation to und
 
 You should examine all of your existing `v1alpha1` security policies, find out what fields are used and which policies
 need migration, compare the findings with the major differences listed below and confirm there are no blocking issues
-(e.g. using some alpha feature that is no longer supported in beta):
+(e.g., using some alpha feature that is no longer supported in beta):
 
 | Major Differences | `v1alpha1` | `v1beta1` |
 |---------|------------------------|--------------------------------|
@@ -69,9 +69,9 @@ is no longer supported.
 
 This section describes details of how to migrate the `v1alpha1` security policy workload.
 
-### Step 1: Find out related policies
+### Step 1: Find related policies
 
-For each namespace, find out all `v1alpha1` security policies that have an effect on workloads in the namespace. The result
+For each namespace, find all `v1alpha1` security policies that have an effect on workloads in the namespace. The result
 could include:
 
 - a single `MeshPolicy` that applies to all services in the mesh;
@@ -83,13 +83,13 @@ could include:
 
 ### Step 2: Convert service name to workload selector
 
-The `v1alpha1` policy selects targets using service name, you should refer to the corresponding service definition to decide
+The `v1alpha1` policy selects targets using service name. You should refer to the corresponding service definition to decide
 the workload selector that should be used in the `v1beta1` policy.
 
-A single `v1alpha1` policy may include multiple services, this means it will be migrated to multiple `v1beta1` policies
+A single `v1alpha1` policy may include multiple services. It will need to be migrated to multiple `v1beta1` policies
 because the `v1beta1` policy currently only supports at most one workload selector per policy.
 
-Also note the `v1alpha1` uses service port but the `v1beta1` uses the workload port, this means the port number might be
+Also note the `v1alpha1` policy uses service port but the `v1beta1` policy uses the workload port, this means the port number might be
 different in the migrated `v1beta1` policy.
 
 ### Step 3: Migrate authentication policy
@@ -121,7 +121,7 @@ For each `v1alpha1` RBAC policy, migrate with the following rules:
 
 ### Step 5: Verify migrated policy
 
-1. Double check the migrated `v1beta1` policies, make sure there are no policies with duplicate name, the namespace
+1. Double check the migrated `v1beta1` policies, make sure there are no policies with duplicate names, the namespace
    is specified correctly and all `v1alpha1` policies for the given namespace are migrated;
 
 1. Dry-run the `v1beta1` policy with the command `kubectl apply --dry-run=server -f beta-policy.yaml` to make sure it
@@ -130,7 +130,7 @@ For each `v1alpha1` RBAC policy, migrate with the following rules:
 1. Apply the `v1beta1` policy to the given namespace and closely monitor the effect. Make sure to test both allow and
    deny scenarios if JWT or authorization are used;
 
-1. Move to migrate the next namespace, only remove the `v1alpha1` policy after completed migration for
+1. Migrate the next namespace, only remove the `v1alpha1` policy after completing migration for
    all namespaces successfully;
 
 ## Example
@@ -138,7 +138,7 @@ For each `v1alpha1` RBAC policy, migrate with the following rules:
 ### `v1alpha1` policy
 
 This section gives a full example showing the migration for namespace `foo`. Assume the namespace `foo` has the following
-`v1alpha1` policies that have effect to workloads in it:
+`v1alpha1` policies that affect the workloads in it:
 
 {{< text yaml >}}
 # A MeshPolicy that enables mTLS globally, including the whole foo namespace
