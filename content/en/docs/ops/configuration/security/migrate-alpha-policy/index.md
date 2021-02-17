@@ -17,20 +17,22 @@ the beta security policy and unblock the upgrade to Istio 1.6 and later.
 
 ## Overview
 
-The control plane should be upgraded first to bring in support of the `v1beta1` security policy. It is recommended to first
-upgrade to Istio 1.5 as a transitive version because it supports both `v1alpha1` and `v1beta1` security policies. You complete
-the security policy migration in Istio 1.5, remove the `v1alpha1` security policy and then continue the upgrade to later Istio versions.
+The control plane should be upgraded first to bring in support of the `v1beta1` security policy.
 
-Istio 1.5 is the only version that supports both `v1alpha1` and `v1beta1` security policy. For a given workload, the
-`v1beta1` version will take precedence over the `v1alpha1` version.
+It is recommended to first upgrade to Istio 1.5 as a transitive version because it supports both `v1alpha1` and `v1beta1`
+security policies. You complete the security policy migration in Istio 1.5, remove the `v1alpha1` security policy and
+then continue the upgrade to later Istio versions. Istio 1.5 is the only version that supports both `v1alpha1` and
+`v1beta1` security policy. For a given workload, the `v1beta1` version will take precedence over the `v1alpha1` version.
 
 Alternatively, if you want to do a skip-upgrade directly from Istio 1.4 to Istio 1.6 or later, you should use the
 [canary upgrade](/docs/setup/upgrade/canary/) to install the new Istio version as a separate control plane, gradually
 migrate your workloads to the new control plane completing the security policy migration at the same time.
 
-Note that skip-upgrade is not supported by Istio and there might be other issues in this process. Istio 1.6 does not support
+{{< warning >}}
+Skip-upgrade is not supported by Istio and there might be other issues in this process. Istio 1.6 does not support
 the `v1alpha1` security policy, and if you do not migrate them to `v1beta1` version, you are essentially deleting all your
 `v1alpha1` security policies.
+{{< /warning >}}
 
 In either case, it is recommended to migrate using namespace granularity: for each namespace, find all
 `v1alpha1` policies that have an effect on the workloads in the namespace and migrate all the `v1alpha1` policies at the same time.
@@ -175,7 +177,7 @@ spec:
         - exact: /admin/status
   principalBinding: USE_ORIGIN
 ---
-# A CluserRbacConfig that enables RBAC globally, including the foo namespace
+# A ClusterRbacConfig that enables RBAC globally, including the foo namespace
 apiVersion: "rbac.istio.io/v1alpha1"
 kind: ClusterRbacConfig
 metadata:
