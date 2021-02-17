@@ -131,7 +131,7 @@ spec:
         sidecar.istio.io/userVolumeMount: '[{"name": "istio-certs", "mountPath": "/etc/istio-output-certs"}]' # mount the shared volume at sidecar proxy
 {{< /text >}}
 
-Finally, set the scraping job TLS context as follow:
+Finally, set the scraping job TLS context as follows:
 
 {{< text yaml >}}
 scheme: https
