@@ -5068,6 +5068,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_DESTINATION_RULE_INHERITANCE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set, workload specific DestinationRules will inherit configurations settings from mesh and namespace level rules</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>

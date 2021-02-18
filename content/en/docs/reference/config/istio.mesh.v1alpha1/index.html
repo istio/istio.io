@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 32
+number_of_entries: 33
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -315,6 +315,20 @@ trustDomainAliases: [&quot;td2&quot;, &quot;td3&quot;]
 
 <p>Any service with the identity <code>td1/ns/foo/sa/a-service-account</code>, <code>td2/ns/foo/sa/a-service-account</code>,
 or <code>td3/ns/foo/sa/a-service-account</code> will be treated the same in the Istio mesh.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ca_certificates">
+<td><code>caCertificates</code></td>
+<td><code><a href="#MeshConfig-CertificateData">CertificateData[]</a></code></td>
+<td>
+<p>The extra root certificates for workload-to-workload communication.
+The plugin certificates (the &lsquo;cacerts&rsquo; secret) or self-signed certificates (the &lsquo;istio-ca-secret&rsquo; secret)
+are automatically added by Istiod.
+The CA certificate that signs the workload certificates is automatically added by Istio Agent.</p>
 
 </td>
 <td>
@@ -720,6 +734,47 @@ No
 <td><code>mode</code></td>
 <td><code><a href="#MeshConfig-OutboundTrafficPolicy-Mode">Mode</a></code></td>
 <td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-CertificateData">MeshConfig.CertificateData</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-CertificateData-pem" class="oneof oneof-start">
+<td><code>pem</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>The PEM data of the certificate.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-CertificateData-spiffe_bundle_url" class="oneof">
+<td><code>spiffeBundleUrl</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>The SPIFFE bundle endpoint URL that complies to:
+https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE<em>Trust</em>Domain<em>and</em>Bundle.md#the-spiffe-trust-domain-and-bundle
+The endpoint should support authentication based on Web PKI:
+https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE<em>Trust</em>Domain<em>and</em>Bundle.md#521-web-pki
+The certificate is retrieved from the endpoint.</p>
+
 </td>
 <td>
 No
@@ -1626,6 +1681,20 @@ No
 This feature adds hooks to delay application startup until the pod proxy
 is ready to accept traffic, mitigating some startup race conditions.
 Default value is &lsquo;false&rsquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-ca_certificates_pem">
+<td><code>caCertificatesPem</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>The PEM data of the extra root certificates for workload-to-workload communication.
+This includes the certificates defined in MeshConfig and any other certificates that Istiod uses as CA.
+The plugin certificates (the &lsquo;cacerts&rsquo; secret), self-signed certificates (the &lsquo;istio-ca-secret&rsquo; secret)
+are added automatically by Istiod.</p>
 
 </td>
 <td>
