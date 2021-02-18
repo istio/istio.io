@@ -59,26 +59,26 @@ but it is useful to be explicit in the policy.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
- name: httpbin
- namespace: foo
+  name: httpbin
+  namespace: foo
 spec:
- action: ALLOW
- rules:
- - from:
-   - source:
-       principals: [&quot;cluster.local/ns/default/sa/sleep&quot;]
-   - source:
-       namespaces: [&quot;test&quot;]
-   to:
-   - operation:
-       methods: [&quot;GET&quot;]
-       paths: [&quot;/info*&quot;]
-   - operation:
-       methods: [&quot;POST&quot;]
-       paths: [&quot;/data&quot;]
-   when:
-   - key: request.auth.claims[iss]
-     values: [&quot;https://accounts.google.com&quot;]
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: [&quot;cluster.local/ns/default/sa/sleep&quot;]
+    - source:
+        namespaces: [&quot;test&quot;]
+    to:
+    - operation:
+        methods: [&quot;GET&quot;]
+        paths: [&quot;/info*&quot;]
+    - operation:
+        methods: [&quot;POST&quot;]
+        paths: [&quot;/data&quot;]
+    when:
+    - key: request.auth.claims[iss]
+      values: [&quot;https://accounts.google.com&quot;]
 </code></pre>
 
 <p>The following is another example that sets <code>action</code> to &ldquo;DENY&rdquo; to create a deny policy.
@@ -88,17 +88,17 @@ in the &ldquo;foo&rdquo; namespace.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
- name: httpbin
- namespace: foo
+  name: httpbin
+  namespace: foo
 spec:
- action: DENY
- rules:
- - from:
-   - source:
-       namespaces: [&quot;dev&quot;]
-   to:
-   - operation:
-       methods: [&quot;POST&quot;]
+  action: DENY
+  rules:
+  - from:
+    - source:
+        namespaces: [&quot;dev&quot;]
+    to:
+    - operation:
+        methods: [&quot;POST&quot;]
 </code></pre>
 
 <p>The following authorization policy sets the <code>action</code> to &ldquo;AUDIT&rdquo;. It will audit any GET requests to the path with the
@@ -113,7 +113,7 @@ spec:
   selector:
     matchLabels:
       app: myapi
-  action: audit
+  action: AUDIT
   rules:
   - to:
     - operation:
@@ -138,12 +138,12 @@ namespace, the policy applies to all namespaces in a mesh.</li>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
- name: policy
- namespace: bar
+  name: policy
+  namespace: bar
 spec:
- selector:
-   matchLabels:
-     app: httpbin
+  selector:
+    matchLabels:
+      app: httpbin
 </code></pre>
 
 <p>The following authorization policy applies to all workloads in namespace foo.</p>
