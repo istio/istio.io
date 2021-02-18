@@ -21,6 +21,13 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
 
 This will deploy Prometheus into your cluster. This is intended for demonstration only, and is not tuned for performance or security.
 
+{{< warning >}}
+While the quick-start configuration is well-suited for small clusters and monitoring for short time horizons,
+it is not suitable for large-scale meshes or monitoring over a period of days or weeks. In particular,
+the introduced labels can increase metrics cardinality, requiring a large amount of storage. And, when trying
+to identify trends and differences in traffic over time, access to historical data can be paramount.
+{{< /warning >}}
+
 ### Option 2: Customizable install
 
 Consult the [Prometheus documentation](https://www.prometheus.io/) to get started deploying Prometheus into your environment. See [Configuration](#Configuration) for more information on configuring Prometheus to scrape Istio deployments.
