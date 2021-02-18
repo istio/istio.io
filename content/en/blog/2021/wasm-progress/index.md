@@ -23,8 +23,8 @@ This is a significant milestone for Istio and Envoy Wasm efforts, since it indic
 
 ## Istio Wasm Extension Ecosystem
 
-As one of the early adopters of Envoy WebAssembly runtime, Istio extensibility working group gained a lot of experience via developing several first class extensions, such as metadata exchange, Prometheus stats, and attribute generation.
-In order to share the learning broadly, a [`wasm-extensions` repository](https://github.com/istio-ecosystem/wasm-extensions) is created under `istio-ecosystem` org. This repository serves two purposes:
+As one of the early adopters of Envoy WebAssembly runtime, Istio extensibility working group gained a lot of experience via developing several first class extensions, such as [metadata exchange](https://istio.io/latest/docs/reference/config/proxy_extensions/metadata_exchange/), [Prometheus stats](https://istio.io/latest/docs/reference/config/proxy_extensions/stats/), and [attribute generation](https://istio.io/latest/docs/reference/config/proxy_extensions/attributegen/).
+In order to share the learning broadly, a [`wasm-extensions` repository](https://github.com/istio-ecosystem/wasm-extensions) was created under `istio-ecosystem` org. This repository serves two purposes:
 
 * Provides canonical example extensions, which also covers several highly demanded features such as [basic authentication](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth).
 * Provides a guide for Wasm extension development, testing, and release. The guide is based on the same build tool chains and test frameworks that are used, maintained and tested by the Istio extensibility team.
