@@ -79,19 +79,19 @@ spec:
   selector:
     matchLabels:
       app: httpbin
- rules:
- - from:
-   - source:
-       requestPrincipals: [&quot;issuer-foo/*&quot;]
-   to:
-   - operation:
-       hosts: [&quot;example.com&quot;]
- - from:
-   - source:
-       requestPrincipals: [&quot;issuer-bar/*&quot;]
-   to:
-   - operation:
-       hosts: [&quot;another-host.com&quot;]
+  rules:
+  - from:
+    - source:
+        requestPrincipals: [&quot;issuer-foo/*&quot;]
+    to:
+    - operation:
+        hosts: [&quot;example.com&quot;]
+  - from:
+    - source:
+        requestPrincipals: [&quot;issuer-bar/*&quot;]
+    to:
+    - operation:
+        hosts: [&quot;another-host.com&quot;]
 </code></pre>
 
 <ul>
@@ -109,13 +109,13 @@ spec:
   selector:
     matchLabels:
       app: httpbin
- rules:
- - from:
-   - source:
-       requestPrincipals: [&quot;*&quot;]
- - to:
-   - operation:
-       paths: [&quot;/healthz&quot;]
+  rules:
+  - from:
+    - source:
+        requestPrincipals: [&quot;*&quot;]
+  - to:
+    - operation:
+        paths: [&quot;/healthz&quot;]
 </code></pre>
 
 <table class="message-fields">

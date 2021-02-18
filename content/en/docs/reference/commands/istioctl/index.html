@@ -2452,7 +2452,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 </tbody>
 </table>
 <h3 id="istioctl-experimental-revision-describe Examples">Examples</h3>
-<pre class="language-bash"><code>  # View the details of a revision named &#39;canary&#39;    
+<pre class="language-bash"><code>  # View the details of a revision named &#39;canary&#39;
   istioctl experimental revision describe canary
 
   # View the details of a revision named &#39;canary&#39; and also the pods
@@ -2460,7 +2460,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
   istioctl experimental revision describe canary -v
 
   # Get details about a revision in json format (default format is human-friendly table format)
-  istioctl experimental revision describe canary -v -o json 
+  istioctl experimental revision describe canary -v -o json
 
 </code></pre>
 <h2 id="istioctl-experimental-revision-list">istioctl experimental revision list</h2>
@@ -2518,7 +2518,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 </table>
 <h3 id="istioctl-experimental-revision-list Examples">Examples</h3>
 <pre class="language-bash"><code>  # View summary of revisions installed in the current cluster
-  # which can be overridden with --context parameter. 
+  # which can be overridden with --context parameter.
   istioctl experimental revision list
 
   # View list of revisions including customizations, istiod and gateway pods
@@ -5629,6 +5629,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, checks to see if the configured JwksUri in RequestAuthentication is a mesh cluster URL and configures Remote Jwks to let Envoy fetch the Jwks instead of Istiod.</td>
+</tr>
+<tr>
+<td><code>PILOT_JWT_PUB_KEY_REFRESH_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>20m0s</code></td>
+<td>The interval for istiod to fetch the jwks_uri for the jwks public key.</td>
 </tr>
 <tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
