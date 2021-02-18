@@ -6,15 +6,16 @@ attribution: "Pengyuan Bian (Google)"
 keywords: [wasm,extensibility,WebAssembly]
 ---
 
-Back to Istio 1.5 release, Istio introduced [WebAssembly based extensibility](/blog/2020/wasm-announce/) support.
+Istio introduced initial [WebAssembly-based extensibility](/blog/2020/wasm-announce/) support in the 1.5 release.
 Over the past year, Istio, Envoy, and Proxy-Wasm communities have continued the effort to make WebAssembly extensibility stable, reliable, and easy to adopt.
-In this blog post, we will walk through the updates in this area at Istio 1.9 release.
+In this blog post, we will walk through the updates to Wasm support in the Istio 1.9 release.
 
 ## Proxy-Wasm (WebAssembly) support merged in upstream Envoy
 
-The initial development work of Envoy WebAssembly runtime happened at `envoy-wasm` fork.
-Over time, we collected great feedback from community early adopters, as well as Istio first class Wasm extensions development, which helped us to continuously improve the runtime.
-Since Istio 1.8, WebAssembly support was merged into the Envoy main tree. This is a significant milestone for Istio and Envoy Wasm efforts, since it indicates that:
+After our initial experimental support was available, we collected great feedback from community early adopters.
+Along with experience gained from development efforts on core Istio Wasm extensions, this feedback helped us mature and stabilize the runtime.
+These improvements unblocked merging Wasm support directly into Envoy, allowing it to become part of all official Envoy releases (as of the Istio 1.8 release).
+This is a significant milestone for Istio and Envoy Wasm efforts, since it indicates that:
 
 * The runtime is ready for wider adoption.
 * The programming ABI/API, extension configuration API, as well as runtime behavior are becoming stable.
@@ -25,8 +26,8 @@ Since Istio 1.8, WebAssembly support was merged into the Envoy main tree. This i
 As one of the early adopters of Envoy WebAssembly runtime, Istio extensibility working group gained a lot of experience via developing several first class extensions, such as metadata exchange, Prometheus stats, and attribute generation.
 In order to share the learning broadly, a [`wasm-extensions` repository](https://github.com/istio-ecosystem/wasm-extensions) is created under `istio-ecosystem` org. This repository serves two purposes:
 
-* Provides canonical example extensions, which also covers several highly demanded features such as basic authentication.
-* Provides guides about Wasm extension development, testing, and release. The guide is based on the same build tool chains and test frameworks that are used, maintained and tested by the Istio extensibility team.
+* Provides canonical example extensions, which also covers several highly demanded features such as [basic authentication](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth).
+* Provides a guide for Wasm extension development, testing, and release. The guide is based on the same build tool chains and test frameworks that are used, maintained and tested by the Istio extensibility team.
 
 Currently the existing guide covers [WebAssembly extension development](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md)
 and [unit testing](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-cpp-unit-test.md) with C++,
@@ -36,12 +37,11 @@ In the future, several more canonical extensions will also be added such as open
 
 ## Wasm Module Distribution via Istio Agent
 
-Prior to Istio 1.9, to distribute remote Wasm modules to the proxy, [Envoy remote data source](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/base.proto#config-core-v3-remotedatasource) needs to be configured.
+Prior to Istio 1.9, [Envoy remote data source](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/base.proto#config-core-v3-remotedatasource) were needed to distribute remote Wasm modules to the proxy.
 An example configuration could be found [here](https://gist.github.com/bianpengyuan/8377898190e8052ffa36e88a16911910),
 where two `EnvoyFilter` resources are defined: one is to add a remote fetch Envoy cluster, and the other one is to inject a Wasm filter into HTTP filter chain.
-However this method has a drawback: when Envoy receives a Wasm extension configuration which has a remote fetch, as long as it passes basic protocol validation, Envoy will send an `ACK` to istiod without waiting for the remote fetch to finish.
-If remote fetch fails either due to bad configuration or transient error, Envoy will be stuck with the bad configuration.
-Furthermore, If the filter is configured as [fail closed](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/wasm/v3/wasm.proto#extensions-wasm-v3-pluginconfig), a bad remote fetch will stop Envoy from serving.
+However this method has a drawback: if remote fetch fails either due to bad configuration or transient error, Envoy will be stuck with the bad configuration.
+If a Wasm extension is configured as [fail closed](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/wasm/v3/wasm.proto#extensions-wasm-v3-pluginconfig), a bad remote fetch will stop Envoy from serving.
 To fix this issue, [a fundamental change](https://github.com/envoyproxy/envoy/issues/9447) is needed to Envoy xDS protocol to make it allow asynchronous xDS response.
 
 Istio 1.9 provides a reliable distribution mechanism out of the box by leveraging the XDS proxy inside istio-agent and Envoy [Extension Configuration Discovery Server](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/extension) (ECDS).
