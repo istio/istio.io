@@ -1,11 +1,17 @@
 ---
 title: Migrate the deprecated alpha security policy
 description: A tutorial to help customers migrate the deprecated alpha security policy to the beta version.
+publishdate: 2021-02-19
+attribution: Yangmin Zhu (Google)
 keywords: [security,policy,migrate,alpha,beta,deprecate,peer,jwt,authorization]
-weight: 20
-owner: istio/wg-security-maintainers
-test: n/a
 ---
+
+{{< tip >}}
+This blog is to help customers who are still using the (deprecated) alpha security policy to migrate to the beta
+security policy and unblock them from upgrading to Istio 1.6 and later versions.
+
+You could skip this blog if you are already not using the alpha security policy anymore.
+{{< /tip >}}
 
 Istio beta security policy (`PeerAuthentication`, `RequestAuthentication` and `AuthorizationPolicy`) has been released
 since release 1.5 and the alpha security policy (`MeshPolicy`, `Policy`, `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding`)
@@ -110,6 +116,10 @@ For each `v1alpha1` authentication policy, migrate with the following rules:
 
 1. For JWT related configuration, refer [`End-user authentication` documentation](/docs/tasks/security/authentication/authn-policy/#end-user-authentication)
    to learn how to migrate to the `RequestAuthentication` and `AuthorizationPolicy`;
+
+Additionally, the [security policy migrate tool](https://github.com/istio-ecosystem/security-policy-migrate) has been
+provided to migrate the authentication policy automatically, which should make the process easier. Please refer to the
+tool page for its usage.
 
 ### Step 4: Migrate RBAC policy
 
