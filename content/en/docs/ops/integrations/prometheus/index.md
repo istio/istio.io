@@ -30,7 +30,7 @@ to identify trends and differences in traffic over time, access to historical da
 
 ### Option 2: Customizable install
 
-Consult the [Prometheus documentation](https://www.prometheus.io/) to get started deploying Prometheus into your environment. See [Configuration](#Configuration) for more information on configuring Prometheus to scrape Istio deployments.
+Consult the [Prometheus documentation](https://www.prometheus.io/) to get started deploying Prometheus into your environment. See [Configuration](#configuration) for more information on configuring Prometheus to scrape Istio deployments.
 
 ## Configuration
 
