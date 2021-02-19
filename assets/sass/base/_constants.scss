@@ -14,6 +14,7 @@ $bp-sm: 576px;
 $bp-md: 768px;
 $bp-lg: 992px;
 $bp-xl: 1200px;
+$bp-xxl: 1300px;
 
 // Embellishments
 $headerHeight: 6.875rem;
@@ -33,8 +34,9 @@ $footer-z: 0;
 // various manifest constants
 $border-radius: 4px;
 $button-border-radius: 28px;
-$header-link-spacing-lg: 1rem;
 $header-link-spacing-xl: 1.875rem;
+$header-link-spacing-lg: .875rem;
+$header-link-spacing-xxl: 1.875rem;
 $section-margin: 3.625rem;
 $section-margin-md: 7rem;
 $panel-margin-top: 2.5rem;

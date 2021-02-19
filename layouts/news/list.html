@@ -1,0 +1,75 @@
+{{ define "main" }}
+<div class="blog-content">
+    <h1>News</h1>
+    <p class="blog-description">Istio addresses the challenges developers and operators face as monolithic applications transition towards a distributed microservice architecture. </p>
+    
+    {{ $.Scratch.Set "categories" (slice ) }}
+    {{ $.Scratch.Set "noCategories" 0 }}
+    {{ $pages := (where .Site.RegularPages "Section" "news").ByPublishDate.Reverse }}
+    {{ $sections := .Sections }}
+    {{ range $sections }}
+        {{ if eq ( printf "%T" .LinkTitle ) "string"  }}
+            {{ if ( not ( in ($.Scratch.Get "categories") .LinkTitle ) ) }}
+                {{ $.Scratch.Add "categories" .LinkTitle }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+    
+    <div class="year-buttons">
+        {{ range $.Scratch.Get "categories" }}
+            <div>
+                <button xx class="year-button" id='category-{{ . | urlize }}' onclick="applyFilter(this)">
+                    {{ . }}
+                </button>
+            </div>
+        {{ end }}
+ 
+    </div>
+    <div class="posts-list">
+        {{ range $item := $pages }}
+            {{ range $a := $sections }}
+                {{ if $a.IsAncestor $item }}
+                    <a class="post-card tf-filter-item" href="{{ $item.RelPermalink }}" data-category='{{ $a.LinkTitle | urlize }}'
+                    >
+                        <div class="post-date">
+                            <p>{{ ($item.Params.publishdate).Format "Jan 2, 2006" }}</p>
+                        </div>
+                        <div>   
+                            <h4 class="post-title">{{ $item.Title }}</h4>
+                            <p class="post-summary">{{ $item.Summary | chomp }}</p>
+                            <p class="post-author">{{ $a.LinkTitle }}</p>
+                        </div>    
+                    </a>
+                {{ end }}
+            {{ end }}
+        {{ end }}
+    </div>
+</div>
+
+<script src='{{ "js/categories-filter.js" | relURL }}'></script>
+<script>
+    var ptfConfig = {
+        filters: [
+            {
+                name: 'categories',
+                prefix: 'category-',
+                buttonClass: 'year-button',
+                allSelector: '#selectAllAuthors',
+                attrName: 'data-category',
+            }
+        ],
+      showItemClass: "show-item",
+      filterItemClass: "tf-filter-item",
+      activeButtonClass: "active",
+      populateCount: true,
+      numberToView:999,
+      setDisabledButtonClass: "disable-button"
+    }
+    var ptf = new CategoriesFilter(ptfConfig);
+    function applyFilter (element) {
+        var category = element.id.split('category-');
+        ptf.checkFilter(category[1],'category-');
+    }
+</script>
+    
+{{ end }}

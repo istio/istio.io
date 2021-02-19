@@ -8,3 +8,154 @@
         margin-right: .5em;
     }
 }
+.blog-content {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 0 1.25em 0 1.25em;
+    h1 {
+        text-align: center;
+    }
+    .blog-description {
+        font-size: $font-size--l;
+        line-height: 1.36;
+        letter-spacing: normal;
+        text-align: center;
+        @media (max-width: $bp-md) {
+            font-size: $font-size--s;
+        }
+    }
+    .year-buttons {
+        display: flex;
+        overflow: auto;
+        white-space: nowrap;
+        @media (min-width: $bp-md) {
+            white-space: normal;
+            overflow: unset;
+            justify-content: center;
+        }
+        .year-button {
+            padding: .5em 3.5em;
+            height: 36px;
+            min-width: 168px;
+            margin: 2.5em .5em 3.75em .5em;
+            border-radius: 28px;
+            border: solid 2px $borderBlue;
+            background-color: #fff;
+            font-weight: $boldTextWeight;
+            line-height: 1.5;
+            letter-spacing: normal;
+            color: $linkActiveColor;
+            @media (min-width: $bp-md) {
+                margin: 2.5em 1.15em 3.75em 0;
+                min-width: 168px;
+            }
+            &:hover{
+                cursor: pointer;
+                background-color: $linkActiveColor;
+                color: #fff;
+            }
+        }
+        .active {
+            background-color: $linkActiveColor;
+            color: #fff;
+        }
+    }
+    .posts-list {
+        border-top: 2px solid $borderBlue;
+        .post-card {
+            display: flex;
+            border-bottom: 2px solid $borderBlue;
+            margin-top: 1.25em;
+            max-width: 100%;
+            padding-bottom: .75em;
+            @media (max-width: $bp-md) {
+                flex-direction: column;
+                padding-left: 2.25em;
+                padding-right: 2.25em;
+                padding-bottom: 1.5em;
+            }
+            &:hover {
+                text-decoration: none;
+            }
+            .post-date {
+                p {
+                    width: 170px;
+                    margin-right: 1.25em;
+                    color: $linkActiveColor;
+                    @media (min-width: $bp-md) {
+                        text-align: center;
+                    }
+                }
+            }
+            .post-title {
+                font-size: $font-size--l;
+                font-weight: $boldTextWeight;
+                line-height: 1.36;
+                letter-spacing: normal;
+                color: $primaryColor;
+                margin-top: .5em;
+            }
+            .post-summary {
+                line-height: 1.44;
+                letter-spacing: normal;
+                color: $primaryColor;
+                height: 205px;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 8;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                @media (min-width: $bp-md) {
+                    -webkit-line-clamp: 3;
+                    height: 79px;
+                    font-size: $font-size--s;
+                }
+            }
+            .post-author {
+                font-weight: $regularWeight;
+                line-height: 1.5;
+                letter-spacing: normal;
+                color: $textGray;
+            }
+        }
+        .tf-filter-item {
+            display: none;
+        }
+        .show-item {
+            display: flex;
+        }
+    }
+}
+.post{
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 1.25em 0 1.25em;
+    @media (min-width: $bp-md) {
+        max-width: 754px;
+        padding: 0;
+    }
+    .post-author {
+        color: $textGray;
+        margin-bottom: 2.15em;
+    }
+    .header-content{
+        background-color: inherit;
+        text-align: center;
+        margin-top: 6.5em;
+        h1{
+            font-size: 2.25em;
+            color: $primaryColor;
+            margin-bottom: 1em;
+            @media (min-width: $bp-md) {
+                font-size: 3em;
+                margin-bottom: 2.5em;
+            }
+        }
+        p{
+            color: $primaryColor;
+            @media (min-width: $bp-md) {
+                font-size: $font-size--l;
+            }
+        }
+    }
+}
