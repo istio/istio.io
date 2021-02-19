@@ -2,7 +2,7 @@
 title: Support for Istio 1.7 has ended
 subtitle: Support Announcement
 description: Istio 1.7 end of life announcement.
-publishdate: 2021-02-19
+publishdate: 2021-02-25
 ---
 
 As [previously announced](/news/support/announcing-1.7-eol/), support for Istio 1.7 has now officially ended.
