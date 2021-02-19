@@ -21,4 +21,10 @@
     figure {
         max-width: 800px;
     }
+
+    .toc-inlined {
+        @media (max-width: $bp-xl) {
+            display: none;
+        }
+    }
 }
