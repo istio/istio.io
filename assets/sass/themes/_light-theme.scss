@@ -7,14 +7,16 @@ html {
     --secondaryAccentColor: #3d5080;    //denim
     --paleGray: #f8f9fa;
 
+    --borderBlue: #566CA5;
     --textColor: #293655;
     --textCodeColor: #d14;
     --disabledTextColor: #{lighten(#535f61, 50%)};
+    --textGray: #8a8a8c;
 
     --linkColor: #306bcc;
     --linkHoverColor: #1d67a0;
     --linkDisabledColor: #cccccc;
-    --linkActiveColor: #b05464;
+    --linkActiveColor: #516BAA;
 
     --h1Color: var(--textColor);
     --h2Color: var(--textColor);
