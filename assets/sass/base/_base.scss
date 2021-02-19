@@ -417,11 +417,7 @@ sup {
     display: flex;
     margin-bottom: 2.625rem;
     align-items: center;
-
-    @media (min-width: $bp-lg) {
-        margin-bottom: 6.25rem;
-    }
-
+    
     h1 {
         margin: 0;
 
@@ -457,8 +453,8 @@ sup {
     margin-top: 1.5rem;
     margin-bottom: 0;
     padding: 0;
-    text-transform: uppercase;
     font-size: 75%;
+    opacity: 60%;
 }
 
 .attribution {
@@ -468,11 +464,11 @@ sup {
 .container {
     padding-left: 1.75rem;
     padding-right: 1.75rem;
-    max-width: 1174px;
+    max-width: 1280px;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-
+    
     @media (min-width: $bp-md) {
         padding-left: 2rem;
         padding-right: 2rem;
@@ -481,6 +477,11 @@ sup {
     &-l {
         @extend .container;
         max-width: 1300px;
+    }
+    &-no-padding {
+        @extend .container;
+        max-width: 1300px;
+        padding-left: 0;
     }
 }
 

@@ -1,20 +1,23 @@
 html {
     --backgroundColor: #ffffff;
 
+    --textCodeColor: #7DC6F2;
     --primaryColor: #293655;            //dark-grey-blue
     --secondaryColor: #516ba9;          //dull-blue
     --accentColor: #7dc6f2;             //light-blue
     --secondaryAccentColor: #3d5080;    //denim
     --paleGray: #f8f9fa;
 
+    --borderBlue: #566CA5;
     --textColor: #293655;
     --textCodeColor: #d14;
     --disabledTextColor: #{lighten(#535f61, 50%)};
 
+    --textGray: #8a8a8c;
     --linkColor: #306bcc;
     --linkHoverColor: #1d67a0;
     --linkDisabledColor: #cccccc;
-    --linkActiveColor: #b05464;
+    --linkActiveColor: #516BAA;
 
     --h1Color: var(--textColor);
     --h2Color: var(--textColor);
@@ -33,15 +36,15 @@ html {
     --quoteCalloutBackgroundColor: #f8f9fa;
     --quoteCalloutBorderColor: #f8f9fa;
     --tipCalloutBackgroundColor: #f2fff2;
-    --tipCalloutBorderColor: #eaf7ea;
+    --tipCalloutBorderColor: #7DC6F2;
     --ideaCalloutBackgroundColor: #ffffe0;
     --ideaCalloutBorderColor: #f7f7d8;
     --warningCalloutBackgroundColor: #fff2f2;
     --warningCalloutBorderColor: #f7eaea;
 
     --preBlockShadowColor: #a7a7a7;
-    --preBlockBorderColor: #f2f2f2;
-    --preBlockBackgroundColor: var(--backgroundColor);
+    --preBlockBorderColor: #7DC6F2;
+    --preBlockBackgroundColor: #F8F9FA;
     --preBlockCommandOutputTextColor: var(--textColor);
     --preBlockCommandOutputBackgroundColor: #{$light-gray};
 
@@ -54,9 +57,9 @@ html {
     --tabsetUnselectedTabBackgroundColor: #f2f2f2;
     --tabsetSelectedTabBackgroundColor: #ffffff;
 
-    --sidebarRightChevron: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 407.436 407.436'%3E%3Cpath fill='black' d='M112.814 0L91.566 21.178l181.946 182.54-181.946 182.54 21.248 21.178 203.055-203.718z'/%3E%3C/svg%3E");
+    --sidebarRightChevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='4' viewBox='0 0 7 4'%3E%3Cdefs%3E%3Cstyle%3E.a%7Bfill:%2351504f;%7D%3C/style%3E%3C/defs%3E%3Cpath class='a' d='M3.5,0,7,4H0Z' transform='translate(7 4) rotate(180)'/%3E%3C/svg%3E");
     --sidebarRightChevronHover: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 407.436 407.436'%3E%3Cpath fill='orange' d='M112.814 0L91.566 21.178l181.946 182.54-181.946 182.54 21.248 21.178 203.055-203.718z'/%3E%3C/svg%3E");
-    --sidebarDownChevron: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 407.437 407.437'%3E%3Cpath fill='black' d='M386.258 91.567l-182.54 181.945L21.179 91.567 0 112.815 203.718 315.87l203.719-203.055z'/%3E%3C/svg%3E");
+    --sidebarDownChevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='4' viewBox='0 0 7 4'%3E%3Cdefs%3E%3Cstyle%3E.a%7Bfill:%2351504f;%7D%3C/style%3E%3C/defs%3E%3Cpath class='a' d='M3.5,0,7,4H0Z' transform='translate(7 4) rotate(180)'/%3E%3C/svg%3E");
     --sidebarDownChevronHover: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 407.437 407.437'%3E%3Cpath fill='orange' d='M386.258 91.567l-182.54 181.945L21.179 91.567 0 112.815 203.718 315.87l203.719-203.055z'/%3E%3C/svg%3E");
 
     --popoverBorderColor: #777777;

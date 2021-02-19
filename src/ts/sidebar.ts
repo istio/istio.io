@@ -154,6 +154,30 @@ function handleSidebar(): void {
             }
         }
     });
+    window.addEventListener('load', () => {
+        var url = window.location.href; 
+        let link = getByClass('main-link');
+        let currents = getByClass('current');
+        if (currents) {
+            [...currents].forEach(element => {
+                element.classList.remove('current');
+            });
+        }
+        if (url.substring(url.length-5,url.length)==='docs/') {
+            if (link)
+                link[0].classList.add('current');
+        }
+        else {
+            if (link)
+                link[0].classList.remove('current');
+            let list = sidebar.getElementsByTagName('a');
+            [...list].forEach(e => {
+                if(e.href === url)
+                    e.classList.add('current');
+            });
+        }
+            
+    });
 
     // toggle sidebar on/off
     listen(getById("sidebar-toggler"), click, e => {

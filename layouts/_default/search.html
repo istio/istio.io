@@ -5,13 +5,17 @@
 <div class="search-results">
     <script>
         (function() {
+            let cx;
             {{ if .Site.Data.args.preliminary }}
-                const cx = '{{ .Site.Data.args.preliminary_search_engine_id }}';
+                cx = '{{ .Site.Data.args.preliminary_search_engine_id }}';
             {{ else if .Site.Data.args.archive }}
-                const cx = '{{ .Site.Data.args.archive_search_engine_id }}';
+                cx = '{{ .Site.Data.args.archive_search_engine_id }}';
             {{ else }}
-                const cx = '{{ .Site.Data.args.main_search_engine_id }}';
+                cx = '{{ .Site.Data.args.main_search_engine_id }}';
             {{ end }}
+            if(window.location.href.includes('&site=')){
+                cx = '{{ .Site.Data.args.docs_search_engine_id }}';
+            }
                 const gcse = document.createElement('script');
                 gcse.type = 'text/javascript';
                 gcse.async = true;

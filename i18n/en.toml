@@ -336,3 +336,6 @@ other = "Observability"
 
 [security]
 other = "Security"
+
+[sidebar-toggle]
+other = "Contents"

@@ -21,6 +21,21 @@
         @media print {
             display: none;
         }
+        @media screen AND (max-width: $bp-xl) {
+            display: none;
+            position: absolute;
+            top: -110px;
+            left: 0;
+            z-index: 101;
+            height: 100%;
+            width: 100%;
+            overflow-y: auto;
+            background: $paleGray;
+            &.visible {
+                display: block;
+                
+            }
+        }
     }
 
     .toc-container {
@@ -37,7 +52,7 @@
         }
 
         &.has-toc.has-sidebar {
-            grid-template-columns: [sidebar] 16% [article] calc(68% - (2 * 3rem)) [toc] 16%;
+            grid-template-columns: [sidebar] 22% [article] calc(62% - (2 * 3rem)) [toc] 16%;
         }
         
         .toc-container {
