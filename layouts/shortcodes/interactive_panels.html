@@ -1,0 +1,10 @@
+{{ $firstItems := .Get "first" }}
+{{ $items := cond (eq (.Get "items") "integrations") .Site.Data.companies.integrations .Site.Data.companies.pro_services }}
+
+{{ with $items }}
+    <div class="panels panels--grid">
+        {{ range $items }}
+            {{ partial "interactive_panel" . }}
+        {{ end }}
+    </div>
+{{ end }}

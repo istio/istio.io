@@ -4,7 +4,9 @@
     {{- if not (.Parent.Scratch.Get "tabs") -}}
         {{- .Parent.Scratch.Set "tabs" slice -}}
     {{- end -}}
-    {{- $.Parent.Scratch.Add "tabs" (dict "name" $name "category_value" $category_value "content" .Inner) -}}
+    
+    {{ $tab_description := .Get "description" }}
+    {{- $.Parent.Scratch.Add "tabs" (dict "name" $name "category_value" $category_value "content" .Inner "description" $tab_description) -}}
 {{- else -}}
     {{- errorf "Missing surrounding tabset for tab (%s)" .Position -}}
 {{- end -}}
