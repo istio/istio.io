@@ -51,7 +51,7 @@ _verify_same snip_ipbased_allow_list_and_deny_list_3 "$snip_ipbased_allow_list_a
 
 _verify_like snip_ipbased_allow_list_and_deny_list_4 "$snip_ipbased_allow_list_and_deny_list_4_out"
 
-CLIENT_IP=$(kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+CLIENT_IP=$(kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 
 snip_ipbased_allow_list_and_deny_list_5
 _wait_for_istio authorizationpolicy istio-system ingress-policy
@@ -60,7 +60,7 @@ _verify_same snip_ipbased_allow_list_and_deny_list_8 "$snip_ipbased_allow_list_a
 
 _verify_like snip_ipbased_allow_list_and_deny_list_6 "$snip_ipbased_allow_list_and_deny_list_6_out"
 
-CLIENT_IP=$(kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+CLIENT_IP=$(kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 
 snip_ipbased_allow_list_and_deny_list_7
 _wait_for_istio authorizationpolicy istio-system ingress-policy
@@ -77,7 +77,7 @@ _verify_same snip_ipbased_allow_list_and_deny_list_11 "$snip_ipbased_allow_list_
 snip_ipbased_allow_list_and_deny_list_10
 _wait_for_istio authorizationpolicy istio-system ingress-policy
 
-CLIENT_IP=$(kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+CLIENT_IP=$(kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 
 _verify_same snip_ipbased_allow_list_and_deny_list_11 "$snip_ipbased_allow_list_and_deny_list_11_out"
 
