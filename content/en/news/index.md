@@ -1,0 +1,3 @@
+To add new blog post, go to appropriete year folder in content/en/blog/ and create new folder with index.md file similar to existing ones in neighbouring folders. New post will be displayed imidietly after.
+
+To add new documentation page, go to content/en/docs select appropriete section or create new one if needed with index.md file, next add new folder with index.md file where content of the page should exist. New page or new section will be displayed imidietly after in sidebar menu in documentation pages.
