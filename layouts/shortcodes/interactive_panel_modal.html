@@ -1,0 +1,69 @@
+<div class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" aria-label="Close modal" onclick="closeModal()">
+                    {{ partial "icon.html" "menu-close" }}
+                </button>
+            </div>
+
+            <div class="modal-body modal-company">
+                {{ partial "company_logo" (dict "link" "#") }}
+
+                <div id="modal-company-details"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const modalBody = document.getElementsByClassName("modal-company")[0];
+    let body = document.body;
+    let companyDetails = document.getElementById("modal-company-details");
+    let companyLogoPanel = modalBody.getElementsByClassName("company-logo")[0];
+
+    function showModal() {
+        body.classList.add("modal-open");
+    }
+
+    function closeModal() {
+        body.classList.remove("modal-open");
+    }
+
+    function insertCompanyModalDetails(company) {
+        clearModal();
+        insertParagraphs(company.details);
+        insertLogo(company);
+    }
+
+    function clearModal() {
+        companyDetails.innerHTML = "";
+        companyLogoPanel.innerHTML = "";
+    }
+
+    function insertParagraphs(paragraphs) {
+        if(paragraphs) {
+            paragraphs.forEach(paragraph => {
+                let para = document.createElement("p");
+                const node = document.createTextNode(paragraph);
+                para.appendChild(node);
+                companyDetails.appendChild(para);
+            });
+        }
+    }
+
+    function insertLogo(company) {
+        let img = document.createElement("img");
+
+        if(company.url) {
+            companyLogoPanel.href = company.url;
+            companyLogoPanel.target = "_blank";
+        }
+
+        if(company.logo && company.name) {
+            img.src = `${location.origin}/latest${company.logo}`;
+            img.alt = `${company.name} logo`;
+            companyLogoPanel.append(img);
+        }
+    }
+</script>

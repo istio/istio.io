@@ -23,16 +23,20 @@
     }
 
     html {
-        overflow-y: scroll;
         position: relative;
         min-height: 100%;
     }
 
     body {
+        overflow-y: scroll;
         margin-top: $headerHeight;
         font-family: "Barlow", sans-serif;
         color: $textColor;
         background-color: $backgroundColor;
+
+        &.modal-open {
+            overflow: hidden;
+        }
 
         @media (min-width: $bp-lg) {
             margin-top: $headerHeightLg;
