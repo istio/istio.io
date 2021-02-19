@@ -53,11 +53,11 @@ remove_toc_prefix: 'operator '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, default, installer, klog, kube, model, patch, spiffe, tpath, translator, util, validation, validationController, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, default, installer, klog, kube, model, patch, spiffe, tpath, translator, util, validation, validationController, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, default, installer, klog, kube, model, patch, spiffe, tpath, translator, util, validation, validationController, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, default, installer, klog, kube, model, patch, spiffe, tpath, translator, util, validation, validationController, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -77,7 +77,7 @@ remove_toc_prefix: 'operator '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, default, installer, klog, kube, model, patch, spiffe, tpath, translator, util, validation, validationController, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, default, installer, klog, kube, model, patch, spiffe, tpath, translator, util, validation, validationController, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -611,12 +611,7 @@ These environment variables affect the behavior of the <code>operator</code> com
 <tr><td><code>legacy_path_translation_total</code></td><td><code>Sum</code></td><td>Number of times a legacy API path is translated</td></tr>
 <tr><td><code>manifest_patch_error_total</code></td><td><code>Sum</code></td><td>Number of times K8S patch overlays failed</td></tr>
 <tr><td><code>manifest_render_error_total</code></td><td><code>Sum</code></td><td>Number of times error occurred during rendering output manifest</td></tr>
-<tr><td><code>num_failed_outgoing_requests</code></td><td><code>Sum</code></td><td>Number of failed outgoing requests (e.g. to a token exchange server, CA, etc.)</td></tr>
-<tr><td><code>num_file_secret_failures_total</code></td><td><code>Sum</code></td><td>Number of times secret generation failed for files</td></tr>
-<tr><td><code>num_file_watcher_failures_total</code></td><td><code>Sum</code></td><td>Number of times file watcher failed to add watchers</td></tr>
-<tr><td><code>num_outgoing_requests</code></td><td><code>Sum</code></td><td>Number of total outgoing requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
-<tr><td><code>outgoing_latency</code></td><td><code>Sum</code></td><td>The latency of outgoing requests (e.g. to a token exchange server, CA, etc.) in milliseconds.</td></tr>
 <tr><td><code>owned_resource_total</code></td><td><code>LastValue</code></td><td>Number of resources currently owned by the operator</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_http_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard http listeners with current wildcard tcp listener.</td></tr>
