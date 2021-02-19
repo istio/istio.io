@@ -1,0 +1,61 @@
+{{ $pages := .pages }}
+{{ $parent := .parent }}
+{{ $current := .current }}
+{{ $collapse := .collapse }}
+{{ $top := .top }}
+{{ $labelledby := .labelledby }}
+
+{{ if $parent.Params.list_by_publishdate }}
+    {{ $pages = sort $pages ".Params.publishdate" "desc" }}
+{{ else }}
+    {{ $pages = sort $pages ".Params.weight" "asc" }}
+{{ end }}
+
+{{ $parentDir := (path.Dir $parent.File.Dir) }}
+
+{{ $leafSection := true }}
+{{ range $pages }}
+    {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
+    {{ if and (eq $parentDir $pageLocation) (not .Params.draft) }}
+        {{ if not .IsPage }}
+            {{ $leafSection = false }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+<ul role="{{ if $top }}tree{{ else }}group{{ end }}" aria-expanded="{{ if $collapse }}false{{ else }}true{{ end }}"{{ if $leafSection }} class="leaf-section"{{ end }} {{ if $labelledby}}aria-labelledby="{{ $labelledby }}"{{ end }}>
+    {{ range $pages }}
+        {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
+        {{ if and (eq $parentDir $pageLocation) (not .Params.draft) }}
+            {{ $desc := .Description }}
+
+            {{- if ne .PublishDate.Year 0001 -}}
+                {{ $desc = printf "%s (%s)" (trim $desc ".") (.PublishDate.Format (i18n "page_publish_date_format")) -}}
+            {{ end }}
+
+            {{ if not .IsPage }}
+                <li role="treeitem" aria-label="{{ .LinkTitle}}">
+                    {{ $collapse := not (.IsAncestor $current) }}
+                    {{ if eq . $current }}
+                        {{ $collapse = true }}
+                    {{ end }}
+                    
+                    {{if lt (len $pageLocation) 6 -}}
+                        <a class='main' title="{{ $desc }}" href="{{ .Permalink }}">{{ .LinkTitle}}</a>
+                        {{ partialCached "navigation_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" false "top" false "labelledby" "" ) .CurrentSection }}
+                    {{ else if (.CurrentSection.IsAncestor $current) }}
+                        <button {{ if not $collapse }} class="show" {{ end }} aria-hidden="true"></button><a title="{{ $desc }}" href="{{ .Permalink }}">{{ .LinkTitle}}</a>
+                        {{ partial "navigation_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "" ) }}
+                    {{- else -}}
+                        <button {{ if not $collapse }} class="show" {{ end }} aria-hidden="true"></button><a title="{{ $desc }}" href="{{ .Permalink }}">{{ .LinkTitle}}</a>
+                        {{ partialCached "navigation_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "" ) .CurrentSection }}
+                    {{- end -}}
+                </li>
+            {{ else }}
+                <li role="none">
+                    <a role="treeitem" title="{{ $desc }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+                </li>
+            {{ end }}
+        {{ end }}
+    {{ end }}
+</ul>

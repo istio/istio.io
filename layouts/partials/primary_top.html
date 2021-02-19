@@ -6,9 +6,7 @@
 {{ $docType := .Params.doc_type }}
 {{ $skipByLine := .Scratch.Get "skipByLine" }}
 
-<nav aria-label="Breadcrumb" class="container-l">
-    {{- partial "breadcrumbs.html" . -}}
-</nav>
+
 
 <main class="primary container {{ if $showSidebar }} has-sidebar{{end}}{{ if $showTOC }} has-toc{{end}}{{ if $docType }} {{$docType}}{{end}}">
 
@@ -23,13 +21,22 @@
             {{ else if $section.Params.sidebar_multicard }}
                 {{ partial "sidebar_multicard.html" . }}
             {{ else }}
-                {{ partial "sidebar_singlecard.html" . }}
+                {{ partial "sidebar_navigation.html" . }}
             {{ end }}
         </div>
     {{ end }}
     
 
     <div class="article-container">
+        {{ if and (not $section.Params.sidebar_multicard) ( in (string $section) "docs" ) }}
+            <button id="sidebar-toggle"  class="main-navigation-toggle" aria-label="Open sidebar">
+                {{ partial "icon.html" "hamburger-sidebar" }}
+                {{ i18n "sidebar-toggle" }}
+            </button>
+        {{ end }}
+        <nav aria-label="Breadcrumb" class="container-no-padding">
+            {{- partial "breadcrumbs.html" . -}}
+        </nav>
         {{ if or $section.Params.sidebar_singlecard $section.Params.sidebar_multicard }}
             <button tabindex="-1" id="sidebar-toggler" title='{{ i18n "button_sidenav" }}'>
                 {{ partial "icon.html" "pull" }}
@@ -46,6 +53,7 @@
                             </h2>
                             <button id="mark-all-read" data-prefix="{{ .RelPermalink }}" onclick="markPagesAsVisited('{{ .RelPermalink }}')">{{ i18n "mark_all_as_read" }}</button>
                         </div>
+                    {{ else if .Params.skipTitle}}
                     {{ else }}
                         <h1 id="title">
                             {{- .Title -}}

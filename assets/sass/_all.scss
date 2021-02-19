@@ -1,9 +1,9 @@
 @import "themes/brand";
 @import "themes/light-theme";
-@import "themes/light-theme-syntax";
 @import "themes/dark-theme";
-@import "themes/dark-theme-syntax";
 @import "themes/vars";
+@import "themes/light-theme-syntax";
+@import "themes/dark-theme-syntax";
 
 @import "base/constants";
 @import "base/reset";
@@ -55,3 +55,4 @@
 @import "misc/stickers";
 @import "misc/tabset";
 @import "misc/toc";
+@import "misc/docs";
