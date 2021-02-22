@@ -37,6 +37,7 @@ Follow these steps to get started with Istio:
     extract the latest release automatically (Linux or macOS):
 
     {{< text bash >}}
+    $ export ISTIO_VERSION=1.9.x
     $ curl -L https://istio.io/downloadIstio | sh -
     {{< /text >}}
 
