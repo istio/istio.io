@@ -32,7 +32,7 @@ There are many possible causes to the problem:
 
 [Locality load balancing](/docs/tasks/traffic-management/locality-load-balancing/failover/#configure
 -locality-failover) can be used to make clients prefer that traffic go to the nearest destination. If the clusters
-are in different localities (region/zone), locality load balancing will prefer the local-cluster ans is working as
+are in different localities (region/zone), locality load balancing will prefer the local-cluster and is working as
 intended. If locality load balancing is disabled, or the clusters are in the same locality, there may be another issue.
 
 ### Trust Configuration
@@ -57,8 +57,7 @@ the steps for every cluster.
 
 ### Step-by-step Diagnosis
 
-If none of the above solved the issue breaking cross-cluster load-balancing, this will require more in-depth
-troubleshooting.
+If you've gone through the sections above and are still having issues, then it's time to dig a little deeper.
 
 The following steps assume you're following the [HelloWorld verification](/docs/setup/install/multicluster/verify/).
 Before continuing, make sure both `helloworld` and `sleep` are deployed in each cluster.
