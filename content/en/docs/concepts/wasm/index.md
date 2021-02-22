@@ -35,21 +35,12 @@ Istio extensions (Proxy-Wasm plugins) have several components:
 ## Example
 
 An example C++ Proxy-Wasm plugin for a filter can be found
-[here](https://github.com/envoyproxy/envoy/tree/67609bc22f68cd3e05f5c01264a33932377955c7/examples/wasm-cc).
-
-To implement a Proxy-Wasm plugin for a filter:
-
-- Implement a [root context class](https://github.com/envoyproxy/envoy/blob/67609bc22f68cd3e05f5c01264a33932377955c7/examples/wasm-cc/envoy_filter_http_wasm_example.cc#L8) which inherits [base root context class](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/1b5f69ce1535b0c21f88c4af4ebf0ec51d255abe/proxy_wasm_api.h#L310)
-- Implement a [stream context class](https://github.com/envoyproxy/envoy/blob/67609bc22f68cd3e05f5c01264a33932377955c7/examples/wasm-cc/envoy_filter_http_wasm_example.cc#L17) which inherits the [base context class](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/1b5f69ce1535b0c21f88c4af4ebf0ec51d255abe/proxy_wasm_api.h#L439).
-- Override [context API](https://github.com/envoyproxy/envoy/blob/67609bc22f68cd3e05f5c01264a33932377955c7/examples/wasm-cc/envoy_filter_http_wasm_example.cc#L49) methods to handle corresponding initialization and stream events from host.
-- [Register](https://github.com/envoyproxy/envoy/blob/67609bc22f68cd3e05f5c01264a33932377955c7/examples/wasm-cc/envoy_filter_http_wasm_example.cc#L30) the root context and stream context.
-
-## SDK
-
-A detailed description of the C++ SDK can be found [here](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/tree/a30aaeedf30cc1545318505574c7fb3bb8d8c243/docs/wasm_filter.md).
+[here](https://github.com/istio-ecosystem/wasm-extensions/tree/master/example).
+You can follow [this guide](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md) to implement a Wasm extension with C++.
 
 ## Ecosystem
 
+- [Istio Ecosystem Wasm Extensions](https://github.com/istio-ecosystem/wasm-extensions)
 - [Proxy-Wasm ABI specification](https://github.com/proxy-wasm/spec)
 - [Proxy-Wasm C++ SDK](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk)
 - [Proxy-Wasm Rust SDK](https://github.com/proxy-wasm/proxy-wasm-rust-sdk)
