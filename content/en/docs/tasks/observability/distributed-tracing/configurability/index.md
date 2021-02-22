@@ -39,7 +39,7 @@ There are two ways you can configure tracing options:
 
 1.  Globally via `MeshConfig` options.
 
-1.  Per pod annotations for workload specific customization.
+1.  Per-pod annotations for workload specific customization.
 
 {{< warning >}}
 In order for the new tracing configuration to take effect for either of these
