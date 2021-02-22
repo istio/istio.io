@@ -34,9 +34,9 @@ Istio automatically generates detailed telemetry for all service communications 
 This telemetry provides observability of service behavior, empowering operators to troubleshoot, maintain, and optimize their applications – without imposing any additional burdens on service developers.
 Through Istio, operators gain a thorough understanding of how monitored services are interacting, both with other services and with the Istio components themselves.
 
-All of this functionality is added by Istio without any configuration. [Integrations](/latest/docs/ops/integrations/) with tools such as Prometheus, Grafana, Jaeger, Zipkin, and Kiali are also available.
+All of this functionality is added by Istio without any configuration. [Integrations](/docs/ops/integrations/) with tools such as Prometheus, Grafana, Jaeger, Zipkin, and Kiali are also available.
 
-For more information about the observability Istio provides, check out the [observability overview](/latest/docs/concepts/observability/).
+For more information about the observability Istio provides, check out the [observability overview](/docs/concepts/observability/).
 
 ## Traffic Management
 
