@@ -52,7 +52,7 @@ addons to require authentication when exposing them externally.
 
 This example uses self-signed certificates, which may not be appropriate for production usages. For these cases, consider using [cert-manager](/docs/ops/integrations/certmanager/) or other tools to provision certificates. You may also visit the [Securing Gateways with HTTPS](/docs/tasks/traffic-management/ingress/secure-ingress/) task for general information on using HTTPS on the gateway.
 
-1. Setup the certificates. This example uses `openssl` to self sign.
+1. Set up the certificates. This example uses `openssl` to self sign.
 
     {{< text bash >}}
     $ CERT_DIR=/tmp/certs
