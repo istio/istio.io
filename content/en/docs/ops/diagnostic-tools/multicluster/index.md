@@ -30,9 +30,17 @@ There are many possible causes to the problem:
 
 ### Locality Load Balancing
 
-Ensure that locality [load balancing](/docs/tasks/traffic-management/locality-load-balancing/failover/#configure-locality-failover) is not configured or the clusters are in the same locality (region/zone). Locality LB always prefers nearby services, so keeping requests in the same-cluster is working as intended in that case.
+[Locality load balancing](/docs/tasks/traffic-management/locality-load-balancing/failover/#configure
+-locality-failover) can be used to make clients prefer that traffic go to the nearest destination. If the clusters
+are in different localities (region/zone), locality load balancing will prefer the local-cluster ans is working as
+intended. If locality load balancing is disabled, or the clusters are in the same locality, there may be another issue.
 
 ### Trust Configuration
+
+Cross-cluster traffic, as with intra-cluster traffic, relies on a common root of trust between the proxies. The default
+Istio installation will use their own individually generated root certificate-authorities. For multi-cluster, we
+must manually configure a shared root of trust. Follow Plug-in Certs below or read [Identity and Trust Models](/docs/ops/deployment/deployment-models/#identity-and-trust-models)
+to learn more.
 
 **Plug-in Certs:**
 
@@ -48,6 +56,9 @@ You can follow the [Plugin CA Certs](/docs/tasks/security/cert-management/plugin
 the steps for every cluster.
 
 ### Step-by-step Diagnosis
+
+If none of the above solved the issue breaking cross-cluster load-balancing, this will require more in-depth
+troubleshooting.
 
 The following steps assume you're following the [HelloWorld verification](/docs/setup/install/multicluster/verify/).
 Before continuing, make sure both `helloworld` and `sleep` are deployed in each cluster.
