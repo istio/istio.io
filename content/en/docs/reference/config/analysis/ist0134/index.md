@@ -58,4 +58,4 @@ spec:
 
 ## How to resolve
 
-Make sure to set `addresses` in your ServiceEntry when `protocol` is not set, or set to TCP, to avoid binding all traffic on the port defined in the ServiceEntry.
+Make sure to set `addresses` in your ServiceEntry when `protocol` is not set, or set to TCP. If `addresses` is not set, all traffic on the port defined in the ServiceEntry is matched, regardless of the host.
