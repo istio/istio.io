@@ -65,7 +65,7 @@ kubectl get peerauthentication --all-namespaces
 }
 
 ! read -r -d '' snip_setup_4_out <<\ENDSNIP
-No resources found.
+No resources found
 ENDSNIP
 
 snip_setup_5() {

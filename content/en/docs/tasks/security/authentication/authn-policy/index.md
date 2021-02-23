@@ -72,7 +72,7 @@ Verify there is no peer authentication policy in the system with the following c
 
 {{< text bash >}}
 $ kubectl get peerauthentication --all-namespaces
-No resources found.
+No resources found
 {{< /text >}}
 
 Last but not least, verify that there are no destination rules that apply on the example services. You can do this by checking the `host:` value of
