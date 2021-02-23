@@ -81,9 +81,9 @@ With Istio, you can enable authentication for end users through [request authent
 
 ## Authorization is too restrictive or permissive
 
-### Make sure there are no typo in the policy YAML file
+### Make sure there are no typos in the policy YAML file
 
-One common mistake is specifying unexpected multiple items in the YAML, take the following policy as an example:
+One common mistake is specifying multiple items unintentionally in the YAML. Take the following policy as an example:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -111,28 +111,32 @@ more permissive.
 In the YAML syntax, the `-` in front of the `from:` means it's a new element in the list. This creates 2 rules in the
 policy instead of 1. In authorization policy, multiple rules have the semantics of `OR`.
 
-To fix the problem, just remove the extra `-` to make the policy have only 1 rule that allows request if the
+To fix the problem, just remove the extra `-` to make the policy have only 1 rule that allows requests if the
 path is `/foo` **and** the source namespace is `foo`, which is more restrictive.
 
 ### Make sure you are NOT using HTTP-only fields on TCP ports
 
 The authorization policy will be more restrictive because HTTP-only fields (e.g. `host`, `path`, `headers`, JWT, etc.)
-will never be matched on raw TCP connections. This could cause unexpected 403 denies.
+do not exist in the raw TCP connections.
+
+In the case of `ALLOW` policy, these fields are never matched. In the case of `DENY` and `CUSTOM` action, these fields
+are considered always matched. The final effect is a more restrictive policy that could cause unexpected denies.
 
 Check the Kubernetes service definition to verify that the port is [named with the correct protocol properly](/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection).
-If you are using HTTP-only fields on the port, make sure it has the `http-` prefix.
+If you are using HTTP-only fields on the port, make sure the port name has the `http-` prefix.
 
 ### Make sure the policy is applied to the correct target
 
-Check the workload selector and namespace to confirm it's applied to the right targets. You can determine the
+Check the workload selector and namespace to confirm it's applied to the correct targets. You can determine the
 authorization policy in effect by running `istioctl x authz check POD-NAME.POD-NAMESPACE`.
 
 ### Pay attention to the action specified in the policy
 
 - If not specified, the policy defaults to use action `ALLOW`.
 
-- When `CUSTOM`, `ALLOW` and/or `DENY` are used together, all of them must be satisfied to allow a request. In other words,
-request could be denied if any of them deny the request.
+- When a workload has multiple actions (`CUSTOM`, `ALLOW` and `DENY`) applied at the same time, all actions must be
+  satisfied to allow a request. In other words, a request is denied if any of the action denies and is allowed only if
+  all actions allow.
 
 - The `AUDIT` action does not enforce access control and will not deny the request at any cases.
 
