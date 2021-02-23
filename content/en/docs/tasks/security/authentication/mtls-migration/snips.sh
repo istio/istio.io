@@ -52,7 +52,7 @@ kubectl get peerauthentication --all-namespaces
 }
 
 ! read -r -d '' snip_set_up_the_cluster_4_out <<\ENDSNIP
-No resources found.
+No resources found
 ENDSNIP
 
 snip_set_up_the_cluster_5() {
@@ -60,7 +60,7 @@ kubectl get destinationrule --all-namespaces
 }
 
 ! read -r -d '' snip_set_up_the_cluster_5_out <<\ENDSNIP
-No resources found.
+No resources found
 ENDSNIP
 
 snip_lock_down_to_mutual_tls_by_namespace_1() {
