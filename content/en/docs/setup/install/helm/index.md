@@ -183,7 +183,7 @@ gateways is [actively in development](/docs/setup/upgrade/gateways/) and is cons
       istiod-canary-9cc9fd96f-jpc7n   1/1     Running   0          34m   canary
     {{< /text >}}
 
-1. Follow the steps [here](/docs/setup/upgrade/#data-plane) to test or migrate
+1. Follow the steps [here](/docs/setup/upgrade/canary/) to test or migrate
    existing workloads to use the canary control plane.
 
 1. Once you have verified and migrated your workloads to use the canary control
