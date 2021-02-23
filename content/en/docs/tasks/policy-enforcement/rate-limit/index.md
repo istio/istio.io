@@ -268,7 +268,7 @@ spec:
         routeConfiguration:
           vhost:
             name: "inbound|http|9080"
-             route:
+            route:
               action: ANY
       patch:
         operation: MERGE
