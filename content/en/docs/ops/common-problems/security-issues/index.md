@@ -79,42 +79,62 @@ With Istio, you can enable authentication for end users through [request authent
     <redacted>
     {{< /text >}}
 
-## Authorization is too restrictive
+## Authorization is too restrictive or permissive
 
-When you first enable authorization for a service, all requests are denied by default. After you add one or more authorization policies, then
-matching requests should flow through. If all requests continue to be denied, you can try the following:
+### Make sure there are no typo in the policy YAML file
 
-1. Make sure there is no typo in your policy YAML file.
+One common mistake is specifying unexpected multiple items in the YAML, take the following policy as an example:
 
-1. Avoid enabling authorization for {{< gloss >}}Istiod{{< /gloss >}}. Istio authorization policy is designed for authorizing access to workloads in Istio Mesh. Enabling it for Istiod may cause unexpected behavior.
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: example
+  namespace: foo
+spec:
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        paths:
+        - /foo
+  - from:
+    - source:
+        namespaces:
+        - foo
+{{< /text >}}
 
-1. Make sure that your authorization policies are in the right namespace (as specified in `metadata/namespace` field).
+You may expect the policy to allow requests if the path is `/foo` **and** the source namespace is `foo`.
+However, the policy actually allows requests if the path is `/foo` **or** the source namespace is `foo`, which is
+more permissive.
 
-1. Make sure that your authorization policies with ALLOW action don't use any HTTP only fields for TCP traffic.
-Otherwise, Istio ignores the ALLOW policies as if they don't exist.
+In the YAML syntax, the `-` in front of the `from:` means it's a new element in the list. This creates 2 rules in the
+policy instead of 1. In authorization policy, multiple rules have the semantics of `OR`.
 
-1. An HTTP response with the value `RBAC: Access Denied` indicates an authorization policy is in effect. You can determine the authorization policy in effect by running `istioctl x authz check POD-NAME.POD-NAMESPACE`.
+To fix the problem, just remove the extra `-` to make the policy have only 1 rule that allows request if the
+path is `/foo` **and** the source namespace is `foo`, which is more restrictive.
 
-1. Make sure that your authorization policies with DENY action don't use any HTTP only fields for TCP traffic.
-Otherwise, Istio ignores the rules with HTTP only fields within the DENY policies as if they don't exist.
+### Make sure you are NOT using HTTP-only fields on TCP ports
 
-1. An HTTP response with the value `upstream connect error or disconnect/reset before headers. reset reason: connection termination` can indicate an authorization policy with HTTP only fields applied to TCP traffic. Read the [port selection documentation](/docs/ops/configuration/traffic-management/protocol-selection/) for how Istio determines whether a service is using the http or tcp protocol.
+The authorization policy will be more restrictive because HTTP-only fields (e.g. `host`, `path`, `headers`, JWT, etc.)
+will never be matched on raw TCP connections. This could cause unexpected 403 denies.
 
-## Authorization is too permissive
+Check the Kubernetes service definition to verify that the port is [named with the correct protocol properly](/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection).
+If you are using HTTP-only fields on the port, make sure it has the `http-` prefix.
 
-If authorization checks are enabled for a service and yet requests to the
-service aren't being blocked, then authorization was likely not enabled
-successfully. To verify, follow these steps:
+### Make sure the policy is applied to the correct target
 
-1. Check the [authorization concept documentation](/docs/concepts/security/#authorization)
-   to correctly apply Istio authorization.
+Check the workload selector and namespace to confirm it's applied to the right targets. You can determine the
+authorization policy in effect by running `istioctl x authz check POD-NAME.POD-NAMESPACE`.
 
-1. Make sure there is no typo in your policy YAML file. Especially check to make sure the authorization policy is applied
-to the right workload and namespace.
+### Pay attention to the action specified in the policy
 
-1. Avoid enabling authorization for Istiod. The Istio authorization features are designed for
-   authorizing access to workloads in an Istio Mesh. Enabling the authorization
-   features for Istiod can cause unexpected behavior.
+- If not specified, the policy defaults to use action `ALLOW`.
+
+- When `CUSTOM`, `ALLOW` and/or `DENY` are used together, all of them must be satisfied to allow a request. In other words,
+request could be denied if any of them deny the request.
+
+- The `AUDIT` action does not enforce access control and will not deny the request at any cases.
 
 ## Ensure Istiod accepts the policies
 
