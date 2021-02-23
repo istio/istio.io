@@ -1,17 +1,17 @@
 ---
-title: "Life Without CRDs"
+title: "Zero Configuration Istio"
 description: Understanding the benefits Istio brings, even when no configuration is used.
 publishdate: 2021-02-25
 attribution: "John Howard (Google)"
 ---
 
 Often times when a new user encounters Istio for the first time, they are overwhelmed by the vast feature
-set exposed by Istio. Unfortunately, this occasionally gives the impression that Istio is needlessly complex,
+set exposed by Istio. Unfortunately, this occasionally gives the impression that Istio is needlessly complex
 and not fit for small teams or clusters.
 
-One great part about Istio, however, is that it aims to bring as much value to users out of the box, without any configuration at all.
+One great part about Istio, however, is that it aims to bring as much value to users out of the box without any configuration at all.
 This enables users to get most of the benefits of Istio with minimal efforts. For some users with simple requirements, custom configurations
-may never be required at all, while others will be able to incrementally add Istio configurations as they need them, such as to add
+may never be required at all. Others will be able to incrementally add Istio configurations once they are more comfortable and as they need them, such as to add
 ingress routing, fine-tune networking settings, or lock down security policies.
 
 ## Getting started
@@ -19,7 +19,7 @@ ingress routing, fine-tune networking settings, or lock down security policies.
 To get started, check out our [getting started](/docs/setup/getting-started/) documentation, where you will learn how to install Istio.
 If you are already familiar, you can simply run `istioctl install`.
 
-Next, we will explore all the benefits Istio provides us, without configuration.
+Next, we will explore all the benefits Istio provides us, without any configuration or changes to application code.
 
 ## Security
 
@@ -40,7 +40,7 @@ For more information about the observability Istio provides, check out the [obse
 
 ## Traffic Management
 
-While Kubernetes provides a lot of networking functionality, such as service discovery and DNS, because this is done at the L4 connection level we lose a lot of potential functionality.
+While Kubernetes provides a lot of networking functionality, such as service discovery and DNS, this is done at the L4 connection level causing a lot of potential functionality to be lost.
 For example, in a simple HTTP application sending traffic to a service with 3 replicas, we can see unbalanced load:
 
 {{< text bash >}}
