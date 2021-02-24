@@ -5,9 +5,9 @@ weight: 35
 icon: cadence
 ---
 
-This page lists the status, timeline and policy for currently supported releases. Supported releases of Istio include releases that are in the active
-maintenance window and are patched for security and bug fixes. Subsequent patch releases on a minor release do not contain backward incompatible
-changes.
+This page lists the status, timeline and policy for currently supported releases. Supported releases of Istio include
+releases that are in the active maintenance window and are patched for security and bug fixes. Subsequent patch releases
+on a minor release do not contain backward incompatible changes.
 
 * [Support Policy](#support-policy)
 * [Naming scheme](#naming-scheme)
@@ -16,13 +16,12 @@ changes.
 
 ## Support policy
 
-We produce new builds of Istio for each commit. Around once a quarter, we build a minor release and
-run through several additional tests as well as release qualification. We issue patch releases for issues found in minor
-releases.
+We produce new builds of Istio for each commit. Around once a quarter, we build a minor release and run through several
+additional tests as well as release qualification. We release patch versions for issues found in minor releases.
 
-The different types represent a different product quality level and different level of support
-from the Istio team. In this context, *support* means that we will produce patch releases for critical issues and
-offer technical assistance. Separately, 3rd parties and partners may offer longer-term support solutions.
+The various types of releases represent a different product quality level and level of assistance from the Istio community.
+In this context, *support* means that the community will produce patch releases for critical issues and offer technical
+assistance. Separately, 3rd parties and partners may offer longer-term support solutions.
 
 |Type              | Support Level                                                                                                         | Quality and Recommended Use
 |------------------|-----------------------------------------------------------------------------------------------------------------------|----------------------------
@@ -33,7 +32,7 @@ offer technical assistance. Separately, 3rd parties and partners may offer longe
 
 You can find available releases on the [releases page](https://github.com/istio/istio/releases),
 and if you're the adventurous type, you can learn about our development builds on the [development builds wiki](https://github.com/istio/istio/wiki/Dev%20Builds).
-You can find high-level releases notes for each LTS release [here](/news).
+You can find high-level releases notes for each minor and patch release [here](/news).
 
 ## Naming scheme
 
@@ -53,16 +52,16 @@ current `<minor>` release. A patch is usually a small change relative to the `<m
 | master          | No, development only  |                     |                     |                               |                                               |
 | 1.9             | N/A                   | ~Feb 2021(Expected) | ~Aug 2021(Expected) | 1.17, 1.18, 1.19, 1.20        | 1.15, 1.16                                    |
 | 1.8             | Yes                   | November 10, 2020   | ~May 2021(Expected) | 1.16, 1.17, 1.18, 1.19        | 1.15                                          |
-| 1.7             | Yes                   | August 21, 2020     | Feb 19, 2021         | 1.16, 1.17, 1.18              | 1.15                                          |
+| 1.7             | Yes                   | August 21, 2020     | Feb 19, 2021        | 1.16, 1.17, 1.18              | 1.15                                          |
 | 1.6             | No                    | May 21, 2020        | November 23, 2020   | 1.15, 1.16, 1.17, 1.18        |                                               |
 | 1.5 and earlier | No                    |                     |                     |                               |                                               |
 
 ## Releases without known Common Vulnerabilities and Exposures (CVEs)
 
-| LTS Release                | Patched versions with no known CVEs  |
+| Minor Releases             | Patched versions with no known CVEs  |
 |----------------------------|--------------------------------------|
 | 1.9.x                      | 1.9.0                                |
-| 1.8.x                      | 1.8.1, 1.8.2                         |
+| 1.8.x                      | 1.8.1, 1.8.2, 1.8.3                  |
 | 1.7.x                      | 1.7.3, 1.7.4, 1.7.5, 1.7.6, 1.7.7    |
 | 1.6.x                      | 1.6.11, 1.6.12, 1.6.13, 1.6.14       |
 | 1.5 and earlier            | None                                 |
