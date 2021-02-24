@@ -19,6 +19,7 @@ Follow this guide to deploy Istio and connect a virtual machine to it.
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/)
 1. Check the requirements [for Pods and Services](/docs/ops/deployment/requirements/)
 1. Virtual machines must have IP connectivity to the ingress gateway in the connecting mesh, and optionally every pod in the mesh via L3 networking if enhanced performance is desired.
+1. Learn about [Virtual Machine Architecture](/docs/ops/deployment/vm-architecture/) to gain an understanding of the high level architecture of Istio's virtual machine integration.
 
 ## Prepare the guide environment
 
@@ -433,6 +434,13 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ curl helloworld.sample.svc:5000/hello
     Hello version: v1, instance: helloworld-v1-578dd69f69-fxwwk
     {{< /text >}}
+
+## Next Steps
+
+For more information about virtual machines:
+
+* [Debugging Virtual Machines](/docs/ops/diagnostic-tools/virtual-machines/) to troubleshoot issues with virtual machines.
+* [Bookinfo with a Virtual Machine](/docs/examples/virtual-machines/) to set up an example deployment of virtual machines.
 
 ## Uninstall
 
