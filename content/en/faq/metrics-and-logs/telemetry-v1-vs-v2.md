@@ -22,9 +22,9 @@ v2 which are listed below:
   missing peer attributes like workload name, namespace and labels.
   However, if both peers have proxies injected all the labels mentioned
   [here](/docs/reference/config/metrics/) are available in the generated metrics.
-Starting with the Istio 1.8 release, a solution was added to distribute server workload metadata
-  to client sidecar, which makes client side metric have server workload metadata labels
-  filled even when the server workload is out of the mesh.
+  When the server workload is out of the mesh, server workload metadata is still
+  distributed to client sidecar, causing client side metrics to have server workload
+  metadata labels filled.
 
 * **TCP metadata exchange requires mTLS**
   TCP metadata exchange relies on the [Istio ALPN protocol](/docs/tasks/observability/metrics/tcp-metrics/#understanding-tcp-telemetry-collection)
