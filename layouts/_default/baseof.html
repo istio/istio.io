@@ -145,7 +145,7 @@
         {{ partial "events.html" (dict "page" . "kind" "banner") }}
 
         {{ block "main" . }}{{ end }}
-        {{ partialCached "footer.html" . }}
+        {{ partial "footer.html" . }}
 
         <!-- libraries we conditionally pull in -->
         {{ if .Scratch.Get "needPopper" }}
