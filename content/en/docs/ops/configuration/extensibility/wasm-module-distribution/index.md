@@ -85,7 +85,7 @@ spec:
                runtime: envoy.wasm.runtime.v8
                code:
                  remote:
-                   http_uri:                   
+                   http_uri:
                      uri: https://github.com/istio-ecosystem/wasm-extensions/releases/download/{{< istio_version >}}.0/basic-auth.wasm
                      # Optional only if you are using ECDS
                      # timeout: 1s
