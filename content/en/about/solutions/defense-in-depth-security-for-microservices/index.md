@@ -1,4 +1,3 @@
-[comment]: <> (TODO: Remove placeholders)
 ---
 title: "Defense in Depth Security for Microservices"
 opening_paragraph: "Istio’s traffic management model relies on the Envoy proxies that are deployed along with your services. All traffic that your mesh services send and receive (data plane traffic) is proxied through Envoy, making it easy to direct and control traffic around your mesh without making any changes to your services."
@@ -9,6 +8,7 @@ sidebar_force: sidebar_solution
 type: solutions
 ---
 
+[comment]: <> (TODO: Replace placeholders)
 Metrics and traceability standardized across services which provide an increase in reliability, not an increase in paging fatigue or heavy loads of unprocessed data.
 
 SRE builds on observability of services. Successful SRE needs winnowed down, clearly actionable data:

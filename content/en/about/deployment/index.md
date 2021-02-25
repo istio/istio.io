@@ -1,4 +1,3 @@
-[comment]: <> (TODO: Remove placeholders)
 ---
 title: Deployment
 description: Deployment.
@@ -11,6 +10,7 @@ aliases:
     - /deployment.html
 doc_type: about
 ---
+[comment]: <> (TODO: Replace placeholders)
 
 {{< centered_block >}}
 ## Step one

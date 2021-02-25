@@ -1,4 +1,3 @@
-[comment]: <> (TODO: Remove placeholders)
 ---
 title: "Istio Red Hat"
 linkTitle: "Istio Pioneer AutoTrader UK Still Benefiting"
@@ -16,3 +15,4 @@ doc_type: article
 sidebar_force: sidebar_case_study
 type: case-studies
 ---
+[comment]: <> (TODO: Replace placeholders)

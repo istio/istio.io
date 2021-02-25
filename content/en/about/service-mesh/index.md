@@ -1,4 +1,3 @@
-[comment]: <> (TODO: Remove placeholders)
 ---
 title: Service mesh
 description: Service mesh.
@@ -11,6 +10,7 @@ aliases:
     - /service-mesh.html
 doc_type: about
 ---
+[comment]: <> (TODO: Replace placeholders)
 
 {{< figure src="/img/service-mesh-before.svg" alt="Before utilizing Istio" title="Before utilizing Istio" >}}
 {{< figure src="/img/service-mesh.svg" alt="After utilizing Istio" title="After utilizing Istio" >}}

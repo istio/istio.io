@@ -1,4 +1,3 @@
-[comment]: <> (TODO: Remove placeholders)
 ---
 title: Solutions
 description: Solutions.
@@ -9,3 +8,4 @@ doc_type: about
 type: solutions
 sidebar_none: true
 ---
+[comment]: <> (TODO: Replace placeholders)

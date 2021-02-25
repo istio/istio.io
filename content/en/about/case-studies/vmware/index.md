@@ -1,4 +1,3 @@
-[comment]: <> (TODO: Remove placeholders)
 ---
 title: "Istio VMware"
 quote: "Istio is a service mesh that provides cross-cutting functions"
@@ -15,3 +14,4 @@ doc_type: article
 sidebar_force: sidebar_case_study
 type: case-studies
 ---
+[comment]: <> (TODO: Replace placeholders)

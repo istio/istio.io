@@ -10,6 +10,7 @@ skip_pagenav: true
 doc_type: get-involved
 
 ---
+[comment]: <> (TODO: Replace placeholders)
 ## There are quite a few ways to get plugged in:
 
 {{% involve_block title="Ask questions" subtitle="If you have questions feel free to reach out to our community!" icon="user" %}}
