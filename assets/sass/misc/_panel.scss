@@ -175,14 +175,3 @@
         }
     }
 }
-
-.solutions {
-    text-align: center;
-    
-    .splide__track {
-        @media (min-width: 1160px) {
-            max-width: calc((3 * 330px) + (2 * 2.5rem));
-            margin: 0 auto;
-        }
-    }
-}
