@@ -47,5 +47,5 @@ archive_analytics_id: "UA-98480406-2"
 supported_languages:
   - name: "English"
     code: "en"
-  # - name: "中文"
-  #   code: "zh"
+  - name: "中文"
+    code: "zh"
