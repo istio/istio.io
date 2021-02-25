@@ -1,3 +1,4 @@
+[comment]: <> (TODO: Remove placeholders)
 ---
 title: "Istio VMware"
 quote: "Istio is a service mesh that provides cross-cutting functions"
