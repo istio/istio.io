@@ -86,7 +86,7 @@ spec:
                code:
                  remote:
                    http_uri:
-                     uri: https://github.com/istio-ecosystem/wasm-extensions/releases/download/{{< istio_version >}}.1/basic-auth.wasm
+                     uri: https://github.com/istio-ecosystem/wasm-extensions/releases/download/{{< istio_version >}}.2/basic-auth.wasm
                    # Optional: specifying sha256 checksum will let istio agent verify the checksum of downloaded artifacts.
                    # It is **highly** recommended to provide the checksum, since missing checksum will cause the Wasm module to be downloaded repeatedly.
                    # To compute the sha256 checksum of a Wasm module, download the module and run `sha256sum` command with it.
