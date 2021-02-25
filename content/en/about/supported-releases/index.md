@@ -52,7 +52,7 @@ current `<minor>` release. A patch is usually a small change relative to the `<m
 | master          | No, development only  |                     |                     |                               |                                               |
 | 1.9             | Yes                   | February 9, 2021    | ~Aug 2021(Expected) | 1.17, 1.18, 1.19, 1.20        | 1.15, 1.16                                    |
 | 1.8             | Yes                   | November 10, 2020   | ~May 2021(Expected) | 1.16, 1.17, 1.18, 1.19        | 1.15                                          |
-| 1.7             | No                    | August 21, 2020     | Feb 19, 2021        | 1.16, 1.17, 1.18              | 1.15                                          |
+| 1.7             | No                    | August 21, 2020     | Feb 25, 2021        | 1.16, 1.17, 1.18              | 1.15                                          |
 | 1.6             | No                    | May 21, 2020        | November 23, 2020   | 1.15, 1.16, 1.17, 1.18        |                                               |
 | 1.5 and earlier | No                    |                     |                     |                               |                                               |
 
@@ -60,8 +60,8 @@ current `<minor>` release. A patch is usually a small change relative to the `<m
 
 | Minor Releases             | Patched versions with no known CVEs  |
 |----------------------------|--------------------------------------|
-| 1.9.x                      | 1.9.0                                |
-| 1.8.x                      | 1.8.1, 1.8.2, 1.8.3                  |
-| 1.7.x                      | 1.7.3, 1.7.4, 1.7.5, 1.7.6, 1.7.7    |
-| 1.6.x                      | 1.6.11, 1.6.12, 1.6.13, 1.6.14       |
+| 1.9.x                      | 1.9.0+                               |
+| 1.8.x                      | 1.8.1+                               |
+| 1.7.x                      | 1.7.3+                               |
+| 1.6.x                      | 1.6.11+                              |
 | 1.5 and earlier            | None                                 |
