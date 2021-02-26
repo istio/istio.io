@@ -1,0 +1,39 @@
+[aria-label=Breadcrumb] {
+    margin: 1.1em auto;
+
+    @media print {
+        display: none;
+    }
+
+    ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    li {
+        display: inline;
+        font-size: .875rem;
+        margin: 0;
+
+        a { color: #81899b; }
+
+        svg.icon {
+            font-size: .6em;
+            stroke-width: 2px;
+            margin: 0 1px;
+        }
+
+        &, & > svg.icon {
+            color: $secondaryColor;
+        }
+
+        &, & > a {
+            font-weight: $mediumWeight;
+        }
+    }
+
+    a:focus {
+        outline: 0;
+    }
+}

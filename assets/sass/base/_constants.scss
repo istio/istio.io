@@ -1,0 +1,40 @@
+// Font sizes
+$font-size--primary: 1rem;
+$font-size--s: 1.15rem;
+$font-size--m: 1.65rem;
+$font-size--l: 1.75rem;
+$font-size--xl: 2rem;
+$font-size--xxl: 2.25rem;
+$font-size--xxxl: 3.75rem;
+
+// Responsive breakpoints, corresponds to the BootStrap V4 ones
+$bp-xs: 0;
+$bp-xs-max: 575px;
+$bp-sm: 576px;
+$bp-md: 768px;
+$bp-lg: 992px;
+$bp-xl: 1200px;
+
+// Embellishments
+$headerHeight: 6.875rem;
+$headerHeightLg: 8.125rem;
+$footerHeight: 7rem;
+
+// Z-index of different layers
+$header-z: 100;
+$overlay-z: 75;
+$sidebar-z: 50;
+$floating-button-z: 15;
+$glossary-letter-z: 10;
+$toolbar-button-z: 1;
+$promotion-z: -1;
+$footer-z: 0;
+
+// various manifest constants
+$border-radius: 4px;
+$button-border-radius: 28px;
+$header-link-spacing-lg: 1rem;
+$header-link-spacing-xl: 1.875rem;
+$section-margin: 3.625rem;
+$section-margin-md: 7rem;
+$panel-margin-top: 2.5rem;

@@ -1,0 +1,5 @@
+{{ $class := .Get 0 }}
+
+<div class="centered-block{{ if $class }} {{$class}}{{end}}">
+    {{- .Inner | markdownify -}}
+</div>

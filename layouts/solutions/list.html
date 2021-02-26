@@ -1,0 +1,12 @@
+{{ define "main" }}
+
+    {{ partial "primary_top.html" . }}
+
+    {{ $pages := .Pages }}
+    {{ range $pages }}
+        {{ partial "feature_block.html" (dict "opening_paragraph" .Params.opening_paragraph "header" .Params.Title "url" .RelPermalink "image" .Params.image "class" "feature-block--with-img left-right") }}
+    {{ end }}
+
+    {{ partial "primary_bottom.html" . }}
+
+{{ end }}

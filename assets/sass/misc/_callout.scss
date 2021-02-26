@@ -1,0 +1,68 @@
+.callout {
+    padding: 1.75em;
+    display: block;
+    position: relative;
+    margin: 1em 0;
+
+    .type {
+        left: -.75em;
+        top: 50%;
+        transform: translateY(-50%);
+        position: absolute;
+
+        svg {
+            fill: $boxBorderColor;
+        }
+    }
+
+    .content {
+        margin-left: 1em;
+        min-height: 100%;
+
+        p:first-of-type {
+            margin-top: 0;
+        }
+
+        p:last-of-type {
+            margin-bottom: 0;
+        }
+    }
+
+    .quote-text {
+        @media (max-width: $bp-md) {
+            font-size: 1.125rem;
+            line-height: 26px;
+        }
+    }
+
+    figcaption {
+        font-size: 1rem;
+        margin-top: 1rem;
+        text-align: left;
+        font-style: normal;
+        font-weight: $regularWeight;
+        color: $primaryColor;
+    
+        @media (min-width: $bp-md) {
+            font-size: 1.125rem;
+            font-weight: $boldWeight;
+        }
+    }
+
+    &.tip {
+        background-color: $tipCalloutBackgroundColor;
+    }
+
+    &.idea {
+        background-color: $ideaCalloutBackgroundColor;
+    }
+
+    &.warning {
+        background-color: $warningCalloutBackgroundColor;
+    }
+
+    &.quote {
+        background-color: $quoteCalloutBackgroundColor;
+        font-style: italic;
+    }
+}

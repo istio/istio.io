@@ -1,0 +1,6 @@
+{{ $firstItems := .Get "first" }}
+{{ $distributors := .Site.Data.companies.distributors }}
+
+{{ with $distributors }}
+    {{ partial "distributors.html" (dict "distributors" . "first_items" $firstItems) }}
+{{ end }}

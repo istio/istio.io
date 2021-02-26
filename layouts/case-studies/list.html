@@ -1,0 +1,25 @@
+{{ define "main" }}
+
+    {{ partial "primary_top.html" . }}
+
+    {{ $pages := .Pages }}
+
+    <div class="panels case-studies">
+        {{ range $pages }}
+            {{ partial "case_study_panel.html" (dict "case_study" .Params "url" .RelPermalink) }}
+        {{ end }}
+    </div>
+
+    <div class="cta-container">
+        <a href="https://github.com/istio/istio.io/issues/new" class="btn">Share your story</a>
+    </div>
+
+    <h1>Also used by</h1>
+    {{ partial "distributors" (dict "distributors" .Site.Data.companies.distributors "first_items" 8) }}
+    <div class="cta-container">
+        <a href="https://github.com/istio/istio.io/blob/master/data/companies.yaml" class="btn">Add your logo</a>
+    </div>
+
+    {{ partial "primary_bottom.html" . }}
+
+{{ end }}

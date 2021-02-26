@@ -111,7 +111,15 @@ function getById(id: string): HTMLElement | null {
     return document.getElementById(id);
 }
 
-function listen(o: HTMLElement | Window | null, e: string, f: EventListenerOrEventListenerObject): void {
+function getByTag(tag: string): Element | null {
+    return document.getElementsByTagName(tag)[0];
+}
+
+function getByClass(className: string): HTMLCollectionOf<Element> | null {
+    return document.getElementsByClassName(className);
+}
+
+function listen(o: HTMLElement | Element | Window | null, e: string, f: EventListenerOrEventListenerObject): void {
     if (o) {
         o.addEventListener(e, f);
     }

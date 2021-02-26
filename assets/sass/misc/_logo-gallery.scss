@@ -1,0 +1,92 @@
+.logo-gallery {
+    margin: 3rem;
+}
+
+.company-logo {
+    @include grayscale-element(100%);
+
+    display: grid;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    place-items: center;
+    max-width: 320px;
+    width: 100%;
+    transition: filter .175s ease-in;
+
+    &::before {
+        content: "";
+        padding-bottom: 100%;
+        display: block;
+    }
+
+    & > img {
+        max-width: 175px;
+    }
+
+    &::before,
+    & > img {
+        grid-area: 1 / 1 / 2 / 2;
+    }
+
+    &:hover {
+        filter: none;    
+    }
+
+    .outer {
+        display: table;
+        position: absolute;
+        width: 172px;
+        height: 92px;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .inner {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+    }
+    
+    .with-tag-line {
+        &:hover {
+            &:hover {
+                img {
+                    opacity: .15;
+                }
+    
+                .tagline {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+    
+    .tagline {
+        color: $companyLogoTaglineColor;
+        opacity: 0;
+        transition-duration: .8s;
+        transition-property: opacity;
+    }
+    
+}
+
+.distributors {
+    &-grid {
+        display: grid;
+        grid-gap: 1.5rem;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+
+        @media (min-width: $bp-sm) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media (min-width: $bp-lg) {
+            grid-gap: 2.375rem; 
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+    }
+}
