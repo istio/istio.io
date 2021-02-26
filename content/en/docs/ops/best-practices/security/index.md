@@ -196,7 +196,7 @@ Istiod exposes a few unauthenticated plaintext ports for convenience by default.
   This can be disabled by set the environment variable `ENABLE_DEBUG_ON_HTTP=false` on Istiod. Warning: many `istioctl` commands
   depend on this interface and will not function if it is disabled.
 * Port `15010` exposes the XDS service over plaintext. This can be disabled by adding the `--grpcAddr=""` flag to the Istiod Deployment.
-  Note: highly sensitive services, included the certificate signing and distribution services, are never enabled over plaintext.
+  Note: highly sensitive services, such as the certificate signing and distribution services, are never served over plaintext.
 
 ### Data Plane
 
