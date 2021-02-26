@@ -17,6 +17,7 @@ Follow these instructions to prepare a kind cluster for Istio installation.
 - Please use the latest Go version.
 - To use kind, you will also need to [install docker](https://docs.docker.com/install/).
 - Install the latest version of [kind](https://kind.sigs.k8s.io/docs/user/quick-start/).
+- Increase Docker's [memory limit](/docs/setup/platform-setup/docker/).
 
 ## Installation steps
 
