@@ -5,8 +5,8 @@ publishdate: 2021-02-25
 attribution: "John Howard (Google)"
 ---
 
-Often times when a new user encounters Istio for the first time, they are overwhelmed by the vast feature
-set exposed by Istio. Unfortunately, this occasionally gives the impression that Istio is needlessly complex
+When a new user encounters Istio for the first time, they are sometimes overwhelmed by the vast feature
+set it exposes. Unfortunately, this can give the impression that Istio is needlessly complex
 and not fit for small teams or clusters.
 
 One great part about Istio, however, is that it aims to bring as much value to users out of the box without any configuration at all.
@@ -40,7 +40,7 @@ For more information about the observability Istio provides, check out the [obse
 
 ## Traffic Management
 
-While Kubernetes provides a lot of networking functionality, such as service discovery and DNS, this is done at the L4 connection level causing a lot of potential functionality to be lost.
+While Kubernetes provides a lot of networking functionality, such as service discovery and DNS, this is done at Layer 4, which can have unintended inefficiencies.
 For example, in a simple HTTP application sending traffic to a service with 3 replicas, we can see unbalanced load:
 
 {{< text bash >}}
@@ -60,11 +60,11 @@ Hostname=echo-cb96f8d94-879sn
 Hostname=echo-cb96f8d94-879sn
 {{< /text >}}
 
-The problem here is Kubernetes will determine the backend to send at connection establishment, then all future requests on the same connection will be sent to the same backend.
+The problem here is Kubernetes will determine the backend to send to when the connection is established, and all future requests on the same connection will be sent to the same backend.
 In our example here, our first 5 requests are all sent to `echo-cb96f8d94-2ssll`, while our next set (using a new connection) are all sent to `echo-cb96f8d94-879sn`.
 Our third instance never receives any requests.
 
-With Istio, HTTP (including HTTP2 and gRPC) traffic is automatically detected, and our services will automatically be load balanced per request, rather than per connection:
+With Istio, HTTP traffic (including HTTP/2 and gRPC) is automatically detected, and our services will automatically be load balanced per _request_, rather than per _connection_:
 
 {{< text bash >}}
 $ curl http://echo/{0..5} -s | grep Hostname
