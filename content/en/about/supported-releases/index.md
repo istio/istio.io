@@ -65,6 +65,6 @@ Please keep up-to-date and use a supported version.
 
 | Minor Releases             | Patched versions with no known CVEs  |
 |----------------------------|--------------------------------------|
-| 1.9.x                      | 1.9.0+                               |
+| 1.9.x                      | 1.9.1+                               |
 | 1.8.x                      | 1.8.1+                               |
 | 1.7 and earlier            | None                                 |
