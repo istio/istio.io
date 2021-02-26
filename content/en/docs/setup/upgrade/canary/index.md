@@ -57,7 +57,7 @@ istio-sidecar-injector-canary   1          3m18s
 {{< /text >}}
 
 {{< warning >}}
-Due to [a bug](https://github.com/istio/istio/issues/28880) in the creation of the `ValidatingWebhookConfiguration` during install, initial installations of Istio __must not__ specify a revision. As a temporary workaround, for Istio resource validation to continue working after removing the non-revisioned Istio installation, the `ValidatingWebhookConfiguration` must be manually pointed to the revision that should handle validation.
+Due to [a bug](https://github.com/istio/istio/issues/28880) in the creation of the `ValidatingWebhookConfiguration` during install, initial installations of Istio __must not__ specify a revision. As a temporary workaround, for Istio resource validation to continue working after removing the non-revisioned Istio installation, the `istiod` service must be manually pointed to the revision that should handle validation.
 
 One way to accomplish this is to manually create a service called `istiod` pointing to the target revision using [this service]({{< github_blob >}}/manifests/charts/istio-control/istio-discovery/templates/service.yaml) as a template. Another option is to run the command below, where `<REVISION>` is the name of the revision that should handle validation. This command creates an `istiod` service pointed to the target revision.
 
