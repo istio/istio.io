@@ -13,6 +13,7 @@ public
 resources
 node_modules
 generated
+package-lock.json
 
 # install generated files
 install/**

@@ -1,0 +1,9 @@
+---
+title: Annotation
+test: n/a
+---
+
+Annotation refers to a
+[Kubernetes annotation](https://kubernetes.io/ko/docs/concepts/overview/working-with-objects/annotations/)
+attached to a resource, for example a pod. For a list of valid Istio-specific annotations, see
+[Resource Annotations](/ko/docs/reference/config/annotations/).

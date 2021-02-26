@@ -1,0 +1,1194 @@
+---
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/istio' REPO
+source_repo: https://github.com/istio/istio
+title: pilot-agent
+description: Istio Pilot agent.
+generator: pkg-collateral-docs
+number_of_entries: 8
+max_toc_level: 2
+remove_toc_prefix: 'pilot-agent '
+---
+<p>Istio Pilot agent runs in the sidecar or gateway container and bootstraps Envoy.</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-agent-istio-clean-iptables">pilot-agent istio-clean-iptables</h2>
+<p>Script responsible for cleaning up iptables rules</p>
+<pre class="language-bash"><code>pilot-agent istio-clean-iptables [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--dry-run</code></td>
+<td><code>-n</code></td>
+<td>Do not call any external dependencies like iptables </td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-agent-istio-iptables">pilot-agent istio-iptables</h2>
+<p>Script responsible for setting up port forwarding for Istio sidecar.</p>
+<pre class="language-bash"><code>pilot-agent istio-iptables [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--dry-run</code></td>
+<td><code>-n</code></td>
+<td>Do not call any external dependencies like iptables </td>
+</tr>
+<tr>
+<td><code>--envoy-port &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Specify the envoy port to which redirect all TCP traffic (default $ENVOY_PORT = 15001)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--inbound-capture-port &lt;string&gt;</code></td>
+<td><code>-z</code></td>
+<td>Port to which all inbound TCP traffic to the pod/VM should be redirected to (default $INBOUND_CAPTURE_PORT = 15006)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--inbound-tunnel-port &lt;string&gt;</code></td>
+<td><code>-e</code></td>
+<td>Specify the istio tunnel port for inbound tcp traffic (default $INBOUND_TUNNEL_PORT = 15008)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--iptables-probe-port &lt;string&gt;</code></td>
+<td></td>
+<td>set listen port for failure detection  (default `15002`)</td>
+</tr>
+<tr>
+<td><code>--istio-inbound-interception-mode &lt;string&gt;</code></td>
+<td><code>-m</code></td>
+<td>The mode used to redirect inbound connections to Envoy, either &#34;REDIRECT&#34; or &#34;TPROXY&#34;  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istio-inbound-ports &lt;string&gt;</code></td>
+<td><code>-b</code></td>
+<td>Comma separated list of inbound ports for which traffic is to be redirected to Envoy (optional). The wildcard character &#34;*&#34; can be used to configure redirection for all ports. An empty list will disable  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istio-inbound-tproxy-mark &lt;string&gt;</code></td>
+<td><code>-t</code></td>
+<td>  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istio-inbound-tproxy-route-table &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istio-local-exclude-ports &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Comma separated list of inbound ports to be excluded from redirection to Envoy (optional). Only applies  when all inbound traffic (i.e. &#34;*&#34;) is being redirected (default to $ISTIO_LOCAL_EXCLUDE_PORTS)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istio-local-outbound-ports-exclude &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Comma separated list of outbound ports to be excluded from redirection to Envoy  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istio-outbound-ports &lt;string&gt;</code></td>
+<td><code>-q</code></td>
+<td>Comma separated list of outbound ports to be explicitly included for redirection to Envoy  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istio-service-cidr &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Comma separated list of IP ranges in CIDR form to redirect to envoy (optional). The wildcard character &#34;*&#34; can be used to redirect all outbound traffic. An empty list will disable all outbound  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istio-service-exclude-cidr &lt;string&gt;</code></td>
+<td><code>-x</code></td>
+<td>Comma separated list of IP ranges in CIDR form to be excluded from redirection. Only applies when all  outbound traffic (i.e. &#34;*&#34;) is being redirected (default to $ISTIO_SERVICE_EXCLUDE_CIDR)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--kube-virt-interfaces &lt;string&gt;</code></td>
+<td><code>-k</code></td>
+<td>Comma separated list of virtual interfaces whose inbound traffic (from VM) will be treated as outbound  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--probe-timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>failure detection timeout  (default `5s`)</td>
+</tr>
+<tr>
+<td><code>--proxy-gid &lt;string&gt;</code></td>
+<td><code>-g</code></td>
+<td>Specify the GID of the user for which the redirection is not applied. (same default value as -u param)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--proxy-uid &lt;string&gt;</code></td>
+<td><code>-u</code></td>
+<td>Specify the UID of the user for which the redirection is not applied. Typically, this is the UID of the proxy container  (default ``)</td>
+</tr>
+<tr>
+<td><code>--restore-format</code></td>
+<td><code>-f</code></td>
+<td>Print iptables rules in iptables-restore interpretable format </td>
+</tr>
+<tr>
+<td><code>--run-validation</code></td>
+<td></td>
+<td>Validate iptables </td>
+</tr>
+<tr>
+<td><code>--skip-rule-apply</code></td>
+<td></td>
+<td>Skip iptables apply </td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-agent-proxy">pilot-agent proxy</h2>
+<p>Envoy proxy agent</p>
+<pre class="language-bash"><code>pilot-agent proxy [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--concurrency &lt;int&gt;</code></td>
+<td>number of worker threads to run  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--disableInternalTelemetry</code></td>
+<td>Disable internal telemetry </td>
+</tr>
+<tr>
+<td><code>--domain &lt;string&gt;</code></td>
+<td>DNS domain suffix. If not provided uses ${POD_NAMESPACE}.svc.cluster.local  (default ``)</td>
+</tr>
+<tr>
+<td><code>--id &lt;string&gt;</code></td>
+<td>Proxy unique ID. If not provided uses ${POD_NAME}.${POD_NAMESPACE} from environment variables  (default ``)</td>
+</tr>
+<tr>
+<td><code>--ip &lt;string&gt;</code></td>
+<td>Proxy IP address. If not provided uses ${INSTANCE_IP} environment variable.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--meshConfig &lt;string&gt;</code></td>
+<td>File name for Istio mesh configuration. If not specified, a default mesh will be used. This may be overridden by PROXY_CONFIG environment variable or proxy.istio.io/config annotation.  (default `./etc/istio/config/mesh`)</td>
+</tr>
+<tr>
+<td><code>--mixerIdentity &lt;string&gt;</code></td>
+<td>The identity used as the suffix for mixer&#39;s spiffe SAN. This would only be used by pilot all other proxy would get this value from pilot  (default ``)</td>
+</tr>
+<tr>
+<td><code>--outlierLogPath &lt;string&gt;</code></td>
+<td>The log path for outlier detection  (default ``)</td>
+</tr>
+<tr>
+<td><code>--proxyComponentLogLevel &lt;string&gt;</code></td>
+<td>The component log level used to start the Envoy proxy  (default `misc:error`)</td>
+</tr>
+<tr>
+<td><code>--proxyLogLevel &lt;string&gt;</code></td>
+<td>The log level used to start the Envoy proxy (choose from {trace, debug, info, warning, error, critical, off})  (default `warning`)</td>
+</tr>
+<tr>
+<td><code>--serviceCluster &lt;string&gt;</code></td>
+<td>Service cluster  (default `istio-proxy`)</td>
+</tr>
+<tr>
+<td><code>--serviceregistry &lt;string&gt;</code></td>
+<td>Select the platform for service registry, options are {Kubernetes, Consul, Mock}  (default `Kubernetes`)</td>
+</tr>
+<tr>
+<td><code>--stsPort &lt;int&gt;</code></td>
+<td>HTTP Port on which to serve Security Token Service (STS). If zero, STS service will not be provided.  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--templateFile &lt;string&gt;</code></td>
+<td>Go template bootstrap config  (default ``)</td>
+</tr>
+<tr>
+<td><code>--tokenManagerPlugin &lt;string&gt;</code></td>
+<td>Token provider specific plugin name.  (default `GoogleTokenExchange`)</td>
+</tr>
+<tr>
+<td><code>--trust-domain &lt;string&gt;</code></td>
+<td>The domain to use for identities  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-agent-request">pilot-agent request</h2>
+<p>Makes an HTTP request to the Envoy admin API</p>
+<pre class="language-bash"><code>pilot-agent request &lt;method&gt; &lt;path&gt; [&lt;body&gt;] [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-agent-version">pilot-agent version</h2>
+<p>Prints out build version information</p>
+<pre class="language-bash"><code>pilot-agent version [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--short</code></td>
+<td><code>-s</code></td>
+<td>Use --short=false to generate full version information </td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-agent-wait">pilot-agent wait</h2>
+<p>Waits until the Envoy proxy is ready</p>
+<pre class="language-bash"><code>pilot-agent wait [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, cache, citadelclient, default, gcecred, googleca, mockcred, model, sds, secretfetcher, spiffe, stsclient, stsserver, token, validation, validationController] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--periodMillis &lt;int&gt;</code></td>
+<td>number of milliseconds to wait between attempts  (default `500`)</td>
+</tr>
+<tr>
+<td><code>--requestTimeoutMillis &lt;int&gt;</code></td>
+<td>number of milliseconds to wait for response  (default `500`)</td>
+</tr>
+<tr>
+<td><code>--timeoutSeconds &lt;int&gt;</code></td>
+<td>maximum number of seconds to wait for Envoy to be ready  (default `60`)</td>
+</tr>
+<tr>
+<td><code>--url &lt;string&gt;</code></td>
+<td>URL to use in requests  (default `http://localhost:15021/healthz/ready`)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="envvars">Environment variables</h2>
+These environment variables affect the behavior of the <code>pilot-agent</code> command.
+<table class="envvars">
+<thead>
+<tr>
+<th>Variable Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_ADDR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Address of the spiffee certificate provider. Defaults to discoveryAddress</td>
+</tr>
+<tr>
+<td><code>CA_PROVIDER</code></td>
+<td>String</td>
+<td><code>Citadel</code></td>
+<td>name of authentication provider</td>
+</tr>
+<tr>
+<td><code>CENTRAL_ISTIOD</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, one Istiod will control remote clusters including CA.</td>
+</tr>
+<tr>
+<td><code>CLUSTER_ID</code></td>
+<td>String</td>
+<td><code>Kubernetes</code></td>
+<td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
+</tr>
+<tr>
+<td><code>CREDENTIAL_FETCHER_TYPE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The type of the credential fetcher. Currently supported types include GoogleComputeEngine</td>
+</tr>
+<tr>
+<td><code>DNS_ADDR</code></td>
+<td>String</td>
+<td><code>:15053</code></td>
+<td>DNS listen address</td>
+</tr>
+<tr>
+<td><code>DNS_AGENT</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, enable the capture of outgoing DNS packets on port 53, redirecting to istio-agent on :15053</td>
+</tr>
+<tr>
+<td><code>DNS_SERVER</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Protocol and DNS server to use. Currently only tcp-tls: is supported.</td>
+</tr>
+<tr>
+<td><code>ECC_SIGNATURE_ALGORITHM</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The type of ECC signature algorithm to use when generating private keys</td>
+</tr>
+<tr>
+<td><code>ENABLE_CA_SERVER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to false, will not create CA server in istiod.</td>
+</tr>
+<tr>
+<td><code>ENABLE_INGRESS_GATEWAY_SDS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Enable provisioning gateway secrets. Requires Secret read permission</td>
+</tr>
+<tr>
+<td><code>ENVOY_READINESS_CHECK_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>5s</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ENVOY_USER</code></td>
+<td>String</td>
+<td><code>istio-proxy</code></td>
+<td>Envoy proxy username</td>
+</tr>
+<tr>
+<td><code>FILE_MOUNTED_CERTS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>GCP_METADATA</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Pipe separted GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
+</tr>
+<tr>
+<td><code>GKE_CLUSTER_URL</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The url of GKE cluster</td>
+</tr>
+<tr>
+<td><code>INGRESS_GATEWAY_NAMESPACE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>INITIAL_BACKOFF_MSEC</code></td>
+<td>Integer</td>
+<td><code>0</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
+<td>String</td>
+<td><code>istio-sidecar-injector</code></td>
+<td>Name of the mutatingwebhookconfiguration to patch, if istioctl is not used.</td>
+</tr>
+<tr>
+<td><code>INSTANCE_IP</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIOD_CUSTOM_HOST</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Custom host name of istiod that istiod signs the server cert.</td>
+</tr>
+<tr>
+<td><code>ISTIO_BOOTSTRAP</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_BOOTSTRAP_OVERRIDE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_DEFAULT_REQUEST_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td>Default Http and gRPC Request timeout</td>
+</tr>
+<tr>
+<td><code>ISTIO_GPRC_MAXRECVMSGSIZE</code></td>
+<td>Integer</td>
+<td><code>4194304</code></td>
+<td>Sets the max receive buffer size of gRPC stream in bytes.</td>
+</tr>
+<tr>
+<td><code>ISTIO_GPRC_MAXSTREAMS</code></td>
+<td>Integer</td>
+<td><code>100000</code></td>
+<td>Sets the maximum number of concurrent grpc streams.</td>
+</tr>
+<tr>
+<td><code>ISTIO_KUBE_APP_PROBERS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_META_CLUSTER_ID</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_META_DNS_CAPTURE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, enable the capture of outgoing DNS packets on port 53, redirecting to envoy on :15013</td>
+</tr>
+<tr>
+<td><code>ISTIO_NAMESPACE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_PROMETHEUS_ANNOTATIONS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>JWT_POLICY</code></td>
+<td>String</td>
+<td><code>third-party-jwt</code></td>
+<td>The JWT validation policy.</td>
+</tr>
+<tr>
+<td><code>OUTPUT_CERTS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The output directory for the key and certificate. If empty, key and certificate will not be saved. Must be set for VMs using provisioning certificates.</td>
+</tr>
+<tr>
+<td><code>PILOT_CERT_PROVIDER</code></td>
+<td>String</td>
+<td><code>istiod</code></td>
+<td>the provider of Pilot DNS certificate.</td>
+</tr>
+<tr>
+<td><code>PILOT_DEBOUNCE_AFTER</code></td>
+<td>Time Duration</td>
+<td><code>100ms</code></td>
+<td>The delay added to config/registry events for debouncing. This will delay the push by at least this internal. If no change is detected within this period, the push will happen,  otherwise we&#39;ll keep delaying until things settle, up to a max of PILOT_DEBOUNCE_MAX.</td>
+</tr>
+<tr>
+<td><code>PILOT_DEBOUNCE_MAX</code></td>
+<td>Time Duration</td>
+<td><code>10s</code></td>
+<td>The maximum amount of time to wait for events while debouncing. If events keep showing up with no breaks for this time, we&#39;ll trigger a push.</td>
+</tr>
+<tr>
+<td><code>PILOT_DEBUG_ADSZ_CONFIG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DISTRIBUTION_HISTORY_RETENTION</code></td>
+<td>Time Duration</td>
+<td><code>1m0s</code></td>
+<td>If enabled, Pilot will keep track of old versions of distributed config for this duration.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLED_SERVICE_APIS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, support for Kubernetes service-apis (github.com/kubernetes-sigs/service-apis) will  be enabled. This feature is currently experimental, and is off by default.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_ANALYSIS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will run istio analyzers and write analysis errors to the Status field of any Istio Resources</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Pilot will assign meaningful nonces to each Envoy configuration message, and allow users to interrogate which envoy has which config from the debug interface.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_CRD_VALIDATION</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will validate CRDs while retrieving CRDs from kubernetes cache.Use this flag to enable validation of CRDs in Pilot, especially in deployments that do not have galley installed.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Pilot will include EDS pushes in the push debouncing, configured by PILOT_DEBOUNCE_AFTER and PILOT_DEBOUNCE_MAX. EDS pushes may be delayed, but there will be fewer pushes. By default this is enabled</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_EDS_FOR_HEADLESS_SERVICES</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, for headless service in Kubernetes, pilot will send endpoints over EDS, allowing the sidecar to load balance among pods in the headless service. This feature should be enabled if applications access all services explicitly via a HTTP proxy port in the sidecar.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_HEADLESS_SERVICE_POD_LISTENERS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, for a headless service/stateful set in Kubernetes, pilot will generate an outbound listener for each pod in a headless service. This feature should be disabled if headless services have a large number of pods.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_INCREMENTAL_MCP</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will set the incremental flag of the options in the mcp controller to true, and then galley may push data incrementally, it depends on whether the resource supports incremental. By default, this is false.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, protocol sniffing will be used for inbound listeners whose port protocol is not specified or unsupported</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_OUTBOUND</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, protocol sniffing will be used for outbound listeners whose port protocol is not specified or unsupported</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableRedisFilter enables injection of `envoy.filters.network.redis_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_SERVICEENTRY_SELECT_PODS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, service entries with selectors will select pods from the cluster. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_STATUS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will update the CRD Status field of all istio resources with reconciliation status.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_TCP_METADATA_EXCHANGE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, metadata exchange will be enabled for TCP using ALPN and Network Metadata Exchange filters in Envoy</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_THRIFT_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableThriftFilter enables injection of `envoy.filters.network.thrift_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_VIRTUAL_SERVICE_DELEGATE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Pilot will merge virtual services with delegates. By default, this is false, and virtualService with delegate will be ignored</td>
+</tr>
+<tr>
+<td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_HTTP10</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Enables the use of HTTP 1.0 in the outbound HTTP listeners, to support legacy applications.</td>
+</tr>
+<tr>
+<td><code>PILOT_INBOUND_PROTOCOL_DETECTION_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>1s</code></td>
+<td>Protocol detection timeout for inbound listener</td>
+</tr>
+<tr>
+<td><code>PILOT_INITIAL_FETCH_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td>Specifies the initial_fetch_timeout for config. If this time is reached without a response to the config requested by Envoy, the Envoy will move on with the init phase. This prevents envoy from getting stuck waiting on config during startup.</td>
+</tr>
+<tr>
+<td><code>PILOT_PUSH_THROTTLE</code></td>
+<td>Integer</td>
+<td><code>100</code></td>
+<td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes</td>
+</tr>
+<tr>
+<td><code>PILOT_SCOPE_GATEWAY_TO_NAMESPACE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, a gateway workload can only select gateway resources in the same namespace. Gateways with same selectors in different namespaces will not be applicable.</td>
+</tr>
+<tr>
+<td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>UseRemoteAddress sets useRemoteAddress to true for side car outbound listeners.</td>
+</tr>
+<tr>
+<td><code>PILOT_SKIP_VALIDATE_TRUST_DOMAIN</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Skip validating the peer is from the same trust domain when mTLS is enabled in authentication policy</td>
+</tr>
+<tr>
+<td><code>PILOT_STATUS_BURST</code></td>
+<td>Integer</td>
+<td><code>500</code></td>
+<td>If status is enabled, controls the Burst rate with which status will be updated.  See https://godoc.org/k8s.io/client-go/rest#Config Burst</td>
+</tr>
+<tr>
+<td><code>PILOT_STATUS_QPS</code></td>
+<td>Floating-Point</td>
+<td><code>100</code></td>
+<td>If status is enabled, controls the QPS with which status will be updated.  See https://godoc.org/k8s.io/client-go/rest#Config QPS</td>
+</tr>
+<tr>
+<td><code>PILOT_TRACE_SAMPLING</code></td>
+<td>Floating-Point</td>
+<td><code>100</code></td>
+<td>Sets the mesh-wide trace sampling percentage. Should be 0.0 - 100.0. Precision to 0.01. Default is 100, not recommended for production use.</td>
+</tr>
+<tr>
+<td><code>PILOT_USE_ENDPOINT_SLICE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Pilot will use EndpointSlices as the source of endpoints for Kubernetes services. By default, this is false, and Endpoints will be used. This requires the Kubernetes EndpointSlice controller to be enabled. Currently this is mutual exclusive - either Endpoints or EndpointSlices will be used</td>
+</tr>
+<tr>
+<td><code>PKCS8_KEY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Whether to generate PKCS#8 private keys</td>
+</tr>
+<tr>
+<td><code>PLUGINS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Token exchange plugins</td>
+</tr>
+<tr>
+<td><code>POD_NAME</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>POD_NAMESPACE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PROV_CERT</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Set to a directory containing provisioned certs, for VMs</td>
+</tr>
+<tr>
+<td><code>PROXY_CONFIG</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The proxy configuration. This will be set by the injection - gateways will use file mounts.</td>
+</tr>
+<tr>
+<td><code>SECRET_GRACE_PERIOD_RATIO</code></td>
+<td>Floating-Point</td>
+<td><code>0.5</code></td>
+<td>The grace period ratio for the cert rotation, by default 0.5.</td>
+</tr>
+<tr>
+<td><code>SECRET_ROTATION_CHECK_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>5m0s</code></td>
+<td>The ticker to detect and rotate the certificates, by default 5 minutes</td>
+</tr>
+<tr>
+<td><code>SECRET_TTL</code></td>
+<td>Time Duration</td>
+<td><code>24h0m0s</code></td>
+<td>The cert lifetime requested by istio agent</td>
+</tr>
+<tr>
+<td><code>SECRET_WATCHER_RESYNC_PERIOD</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SKIP_PARSE_TOKEN</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Skip Parse token to inspect information like expiration time in proxy. This may be possible for example in vm we don&#39;t use token to rotate cert.</td>
+</tr>
+<tr>
+<td><code>SPIFFE_BUNDLE_ENDPOINTS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The SPIFFE bundle trust domain to endpoint mappings. Istiod retrieves the root certificate from each SPIFFE bundle endpoint and uses it to verify client certifiates from that trust domain. The endpoint must be compliant to the SPIFFE Bundle Endpoint standard. For details, please refer to https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md . No need to configure this for root certificates issued via Istiod or web-PKI based root certificates. Use || between &lt;trustdomain, endpoint&gt; tuples. Use | as delimiter between trust domain and endpoint in each tuple. For example: foo|https://url/for/foo||bar|https://url/for/bar</td>
+</tr>
+<tr>
+<td><code>STALED_CONNECTION_RECYCLE_RUN_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>5m0s</code></td>
+<td>The ticker to detect and close stale connections</td>
+</tr>
+<tr>
+<td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
+<td>Integer</td>
+<td><code>5</code></td>
+<td>The amount of time allowed for connections to complete on pilot-agent shutdown. On receiving SIGTERM or SIGINT, pilot-agent tells the active Envoy to start draining, preventing any new connections and allowing existing connections to complete. It then sleeps for the TerminationDrainDuration and then kills any remaining active Envoy processes.</td>
+</tr>
+<tr>
+<td><code>TRUST_DOMAIN</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The trust domain for spiffe certificates</td>
+</tr>
+<tr>
+<td><code>USE_TOKEN_FOR_CSR</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>CSR requires a token</td>
+</tr>
+<tr>
+<td><code>XDS_AUTH</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, will authenticate XDS clients.</td>
+</tr>
+<tr>
+<td><code>XDS_LOCAL</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Address for a local XDS proxy. If empty, the proxy is disabled</td>
+</tr>
+<tr>
+<td><code>XDS_SAVE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, the XDS proxy will save a snapshot of the received config</td>
+</tr>
+<tr>
+<td><code>XDS_UPSTREAM</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Address for upstream XDS server. If not set, discoveryAddress is used</td>
+</tr>
+</tbody>
+</table>
+<h2 id="metrics">Exported metrics</h2>
+<table class="metrics">
+<thead>
+<tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
+<tr><td><code>galley_validation_config_delete_error</code></td><td><code>Count</code></td><td>k8s webhook configuration delete error</td></tr>
+<tr><td><code>galley_validation_config_load</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)loads</td></tr>
+<tr><td><code>galley_validation_config_load_error</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)load error</td></tr>
+<tr><td><code>galley_validation_config_update_error</code></td><td><code>Count</code></td><td>k8s webhook configuration update error</td></tr>
+<tr><td><code>galley_validation_config_updates</code></td><td><code>Count</code></td><td>k8s webhook configuration updates</td></tr>
+<tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
+<tr><td><code>num_failed_outgoing_requests</code></td><td><code>Sum</code></td><td>Number of failed outgoing requests (e.g. to a token exchange server, CA, etc.)</td></tr>
+<tr><td><code>num_outgoing_requests</code></td><td><code>Sum</code></td><td>Number of total outgoing requests (e.g. to a token exchange server, CA, etc.)</td></tr>
+<tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
+<tr><td><code>outgoing_latency</code></td><td><code>Sum</code></td><td>The latency of outgoing requests (e.g. to a token exchange server, CA, etc.) in milliseconds.</td></tr>
+<tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
+<tr><td><code>pilot_conflict_outbound_listener_http_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard http listeners with current wildcard tcp listener.</td></tr>
+<tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_http</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard tcp listeners with current wildcard http listener.</td></tr>
+<tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
+<tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
+<tr><td><code>pilot_duplicate_envoy_clusters</code></td><td><code>LastValue</code></td><td>Duplicate envoy clusters caused by service entries with same hostname</td></tr>
+<tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
+<tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
+<tr><td><code>pilot_inbound_updates</code></td><td><code>Sum</code></td><td>Total number of updates received by pilot.</td></tr>
+<tr><td><code>pilot_invalid_out_listeners</code></td><td><code>LastValue</code></td><td>Number of invalid outbound listeners.</td></tr>
+<tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
+<tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
+<tr><td><code>pilot_k8s_endpoints_pending_pod</code></td><td><code>LastValue</code></td><td>Number of endpoints that do not currently have any corresponding pods.</td></tr>
+<tr><td><code>pilot_k8s_endpoints_with_no_pods</code></td><td><code>Sum</code></td><td>Endpoints that does not have any corresponding pods.</td></tr>
+<tr><td><code>pilot_k8s_reg_events</code></td><td><code>Sum</code></td><td>Events from k8s registry.</td></tr>
+<tr><td><code>pilot_no_ip</code></td><td><code>LastValue</code></td><td>Pods not found in the endpoint table, possibly invalid.</td></tr>
+<tr><td><code>pilot_proxy_convergence_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between config change and a proxy receiving all required configuration.</td></tr>
+<tr><td><code>pilot_proxy_queue_time</code></td><td><code>Distribution</code></td><td>Time in seconds, a proxy is in the push queue before being dequeued.</td></tr>
+<tr><td><code>pilot_push_triggers</code></td><td><code>Sum</code></td><td>Total number of times a push was triggered, labeled by reason for the push.</td></tr>
+<tr><td><code>pilot_services</code></td><td><code>LastValue</code></td><td>Total services known to pilot.</td></tr>
+<tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
+<tr><td><code>pilot_total_xds_internal_errors</code></td><td><code>Sum</code></td><td>Total number of internal XDS errors in pilot.</td></tr>
+<tr><td><code>pilot_total_xds_rejects</code></td><td><code>Sum</code></td><td>Total number of XDS responses from pilot rejected by proxy.</td></tr>
+<tr><td><code>pilot_virt_services</code></td><td><code>LastValue</code></td><td>Total virtual services known to pilot.</td></tr>
+<tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
+<tr><td><code>pilot_xds</code></td><td><code>LastValue</code></td><td>Number of endpoints connected to this pilot using XDS.</td></tr>
+<tr><td><code>pilot_xds_cds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected CDS configs.</td></tr>
+<tr><td><code>pilot_xds_eds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected EDS.</td></tr>
+<tr><td><code>pilot_xds_expired_nonce</code></td><td><code>Sum</code></td><td>Total number of XDS requests with an expired nonce.</td></tr>
+<tr><td><code>pilot_xds_lds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected LDS.</td></tr>
+<tr><td><code>pilot_xds_push_context_errors</code></td><td><code>Sum</code></td><td>Number of errors (timeouts) initiating push context.</td></tr>
+<tr><td><code>pilot_xds_push_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to push lds, rds, cds and eds.</td></tr>
+<tr><td><code>pilot_xds_pushes</code></td><td><code>Sum</code></td><td>Pilot build and send errors for lds, rds, cds and eds.</td></tr>
+<tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
+<tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
+<tr><td><code>scrape_failures_total</code></td><td><code>Sum</code></td><td>The total number of failed scrapes.</td></tr>
+<tr><td><code>scrapes_total</code></td><td><code>Sum</code></td><td>The total number of scrapes.</td></tr>
+<tr><td><code>sidecar_injection_failure_total</code></td><td><code>Sum</code></td><td>Total number of failed sidecar injection requests.</td></tr>
+<tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of sidecar injection requests.</td></tr>
+<tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped sidecar injection requests.</td></tr>
+<tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful sidecar injection requests.</td></tr>
+<tr><td><code>total_active_connections</code></td><td><code>Sum</code></td><td>The total number of active SDS connections.</td></tr>
+<tr><td><code>total_push_errors</code></td><td><code>Sum</code></td><td>The total number of failed SDS pushes.</td></tr>
+<tr><td><code>total_pushes</code></td><td><code>Sum</code></td><td>The total number of SDS pushes.</td></tr>
+<tr><td><code>total_secret_update_failures</code></td><td><code>Sum</code></td><td>The total number of dynamic secret update failures reported by proxy.</td></tr>
+<tr><td><code>total_stale_connections</code></td><td><code>Sum</code></td><td>The total number of stale SDS connections.</td></tr>
+</tbody>
+</table>
