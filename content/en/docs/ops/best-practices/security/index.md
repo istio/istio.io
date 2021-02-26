@@ -130,6 +130,7 @@ servers:
 It may be desired to enforce stricter physical isolation for sensitive services. For example, you may want to run a
 [dedicated gateway instance](/docs/setup/install/istioctl/#configure-gateways) for a sensitive `payments.example.com`, while utilizing a single
 shared gateway instance for less sensitive domains like `blog.example.com` and `store.example.com`.
+This can offer a stronger defense-in-depth and help meet certain regulatory compliance guidelines.
 
 ## Protocol detection
 
@@ -162,15 +163,46 @@ Distroless images are currently an alpha feature.
 
 In order to ensure your cluster has the latest security patches for known vulnerabilities, it is important to stay on the latest patch release of Istio and ensure that you are on a [supported release](/about/supported-releases) that is still receiving security patches.
 
+## Detect invalid configurations
+
+While Istio provides validation of resources when they are created, these checks cannot catch all issues preventing configuration being distributed in the mesh.
+This could result in applying a policy that is unexpectedly ignored, leading to unexpected results.
+
+* Run `istioctl analyze` before or after applying configuration to ensure it is valid.
+* Monitor the control plane for rejected configurations. These are exposed by the `pilot_total_xds_rejects` metric, in addition to logs.
+* Test your configuration to ensure it gives the expected results.
+  For a security policy, it is useful to run positive and negative tests to ensure you do not accidentally restrict too much or too few traffic.
+
 ## Avoid alpha and experimental features
 
 All Istio features and APIs are assigned a [feature status](/about/feature-stages/), defining its stability, deprecation policy, and security policy.
 
 Because alpha and experimental features do not have as strong security guarantees, it is recommended to avoid them whenever possible.
+Security issues found in these features may not be fixed immediately or otherwise not follow our standard [security vulnerability](/about/security-vulnerabilities/) process.
 
 To determine the feature status of features in use in your cluster, consult the [Istio features](/about/feature-stages/#istio-features) list.
 
 <!-- In the future, we should document the `istioctl` command to check this when available. -->
+
+## Lock down ports
+
+Istio configures a [variety of ports](/docs/ops/deployment/requirements/#ports-used-by-istio) that may be locked down to improve security.
+
+### Control Plane
+
+Istiod exposes a few unauthenticated plaintext ports for convenience by default. If desired, these can be closed:
+
+* Port `8080` exposes the debug interface, which offers read access to a variety of details about the clusters state.
+  This can be disabled by set the environment variable `ENABLE_DEBUG_ON_HTTP=false` on Istiod. Warning: many `istioctl` commands
+  depend on this interface and will not function if it is disabled.
+* Port `15010` exposes the XDS service over plaintext. This can be disabled by adding the `--grpcAddr=""` flag to the Istiod Deployment.
+  Note: highly sensitive services, such as the certificate signing and distribution services, are never served over plaintext.
+
+### Data Plane
+
+The proxy exposes a variety of ports. Exposed externally are port `15090` (telemetry) and port `15021` (health check).
+Ports `15020` and `15000` provide debugging endpoints. These are exposed over `localhost` only.
+As a result, the applications running in the same pod as the proxy have access; there is no trust boundary between the sidecar and application.
 
 ## Configure third party service account tokens
 
