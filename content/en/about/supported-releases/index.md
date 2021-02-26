@@ -58,10 +58,13 @@ current `<minor>` release. A patch is usually a small change relative to the `<m
 
 ## Releases without known Common Vulnerabilities and Exposures (CVEs)
 
+{{< warning >}}
+Istio does not guarantee that minor releases that fall outside the support window have all known CVEs patched.
+Please keep up-to-date and use a supported version.
+{{< /warning >}}
+
 | Minor Releases             | Patched versions with no known CVEs  |
 |----------------------------|--------------------------------------|
 | 1.9.x                      | 1.9.0+                               |
 | 1.8.x                      | 1.8.1+                               |
-| 1.7.x                      | 1.7.3+                               |
-| 1.6.x                      | 1.6.11+                              |
-| 1.5 and earlier            | None                                 |
+| 1.7 and earlier            | None                                 |
