@@ -108,3 +108,82 @@ disableAliases = true
         contentDir = "content/en"
     [languages.pt-br]
         contentDir = "content/pt-br"
+
+[menu]
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    title = "About section"
+    weight = 1
+    
+    [[menu.main]]
+      identifier = "service-mesh"
+      name = "Service mesh"
+      title = "Service mesh"
+      url = "/about/service-mesh"
+      parent = "about"
+      weight = 1
+
+    [[menu.main]]
+      identifier = "solutions"
+      name = "Solutions"
+      title = "Solutions"
+      url = "/about/solutions"
+      parent = "about"
+      weight = 2
+
+    [[menu.main]]
+      identifier = "case-studies"
+      name = "Case studies"
+      title = "Case studies"
+      url = "/about/case-studies"
+      parent = "about"
+      weight = 3
+
+    [[menu.main]]
+      identifier = "ecosystem"
+      name = "Ecosystem"
+      title = "Ecosystem"
+      url = "/about/ecosystem"
+      parent = "about"
+      weight = 4
+
+    [[menu.main]]
+      identifier = "deployment"
+      name = "Deployment"
+      title = "Deployment"
+      url = "/about/deployment"
+      parent = "about"
+      weight = 5
+
+    [[menu.main]]
+      identifier = "faq"
+      name = "FAQ"
+      title = "FAQ"
+      url = "/about/faq"
+      parent = "about"
+      weight = 6
+
+  [[menu.main]]
+    identifier = "blog"
+    name = "Blog"
+    title = "Istio Blog"
+    url = "/blog/"
+    weight = 2
+
+  [[menu.main]]
+    identifier = "get-involved"
+    name = "Get involved"
+    title = "Get involved"
+    url = "/get-involved/"
+    weight = 3
+
+  [[menu.main]]
+    identifier = "docs"
+    name = "Documentation"
+    title = "Documentation"
+    url = "/docs/"
+    weight = 4
+
+[permalinks]
+  case-studies = "/:slug"
