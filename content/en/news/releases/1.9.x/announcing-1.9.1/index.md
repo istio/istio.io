@@ -55,7 +55,7 @@ on misconfigured systems.
 - **Added** support for applications that bind to their pod IP address, rather than wildcard or localhost address, through the `Sidecar` API.
   ([Issue #28178](https://github.com/istio/istio/issues/28178))
 
-- **Added** flag to enable capture of dns traffic to the istio-iptables script.
+- **Added** flag to enable capture of DNS traffic to the `istio-iptables` script.
   ([Issue #29908](https://github.com/istio/istio/issues/29908))
 
 - **Added** canonical service tags to Envoy-generated trace spans.
