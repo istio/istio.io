@@ -33,7 +33,7 @@ For Istio, this vulnerability only exists if your service:
 * Accepts JWT tokens (with `RequestAuthentication`)
 * Has some service paths without `AuthorizationPolicy` applied.
 
-If both conditions are met, then an incoming request with a JWT token, and the token issuer is not in
+For the service paths that both conditions are met, an incoming request with a JWT token, and the token issuer is not in
 `RequestAuthentication` will bypass the JWT validation, instead of getting rejected.
 
 ## Mitigation
