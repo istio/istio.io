@@ -19,6 +19,15 @@ Envoy, and subsequently Istio, is vulnerable to a newly discovered vulnerability
 
 - [Envoy JWT filter bypass when using the allow_missing configuration under requires_any](https://groups.google.com/g/envoy-security-announce/c/aqtBt5VUor0).
 
+You are subject to the vulnerability if you are using `RequestAuthentication` alone for JWT validation.
+
+You are not subject to the issue if you use both `RequestAuthentication` and `AuthorizationPolicy` for JWT validation.
+
+{{< warning >}}
+Please note that `RequestAuthentication` is used to define a list of issuers that should be accepted. It does not reject
+a request without JWT token.
+{{< /warning >}}
+
 For Istio, this vulnerability only exists if your service:
 * Accepts JWT tokens (with `RequestAuthentication`)
 * Some service paths don’t have `AuthorizationPolicy` applied.
@@ -28,8 +37,9 @@ If both conditions are met, then an incoming request with a JWT token, and the t
 
 ## Mitigation
 
-Follow the documentation for [specifying a valid token](https://istio.io/latest/docs/tasks/security/authentication/authn-policy/#require-a-valid-token)
-for all JWT tokens specified. To do this you will have to audit all of your `RequestAuthentication` and subsequent
-`AuthorizationPolicy` resources to make sure they align with the documented practice.
+For proper JWT validation, you should always use the `AuthorizationPolicy` as documented on istio.io for
+[specifying a valid token](https://istio.io/latest/docs/tasks/security/authentication/authn-policy/#require-a-valid-token).
+To do this you will have to audit all of your `RequestAuthentication` and subsequent `AuthorizationPolicy` resources to
+make sure they align with the documented practice.
 
 {{< boilerplate "security-vulnerability" >}}
