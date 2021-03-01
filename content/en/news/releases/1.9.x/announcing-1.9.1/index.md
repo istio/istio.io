@@ -26,7 +26,7 @@ seen with this release. If you are not comfortable adopting Istio 1.9.1 before W
 
 ## Security update
 
-A 0 day was fixed in Envoy that affects only Istio 1.9.0 on Friday February 26th, 2021. This 0 day can be exploited only
+A zero-day security vulnerability was fixed in the version of Envoy shipped with Istio 1.9.0.  This vulnerability was fixed on Friday February 26th, 2021. 1.9.0 is the only version of Istio that includes the vulnerable version of Envoy. This vulnerability can only be exploited
 on misconfigured systems.
 
 ## Changes
