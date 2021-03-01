@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2021-001
 subtitle: Security Bulletin
-description: JWT authentication can be bypassed when AuthorizationPolicy is misused
+description: JWT authentication can be bypassed when AuthorizationPolicy is misused.
 cves: [N/A]
 cvss: "N/A"
 vector: ""
