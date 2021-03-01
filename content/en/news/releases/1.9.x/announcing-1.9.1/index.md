@@ -60,7 +60,7 @@ on misconfigured systems.
 - **Added** canonical service tags to Envoy-generated trace spans.
   ([Issue #28801](https://github.com/istio/istio/issues/28801))
 
-- **Fixed** an issue causing the timeout header `x-envoy-upstream-rq-timeout-ms` was not honoured.
+- **Fixed** an issue causing the timeout header `x-envoy-upstream-rq-timeout-ms` to not be honored.
   ([Issue #30885](https://github.com/istio/istio/issues/30885))
 
 - **Fixed** an issue where access log service causes Istio proxy to reject configuration.
