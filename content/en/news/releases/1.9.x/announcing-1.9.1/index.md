@@ -15,7 +15,7 @@ as well as bug fixes to improve robustness.
 This release note describes what’s different between Istio 1.9.0 and Istio 1.9.1.
 
 {{< warning >}}
-Due to the nature of the fixed security issue, at the time of publication qualification tests are still pending. These
+Due to the nature of the fixed security issue, at the time of publication, qualification tests are still pending. These
 tests will be concluded on Wednesday March 3, 2021. At such time we will either remove this warning or post known issues
 seen with this release. If you are not comfortable adopting Istio 1.9.1 before Wednesday, please read through the
 [security bulletin](/news/security/istio-security-2021-001) and follow the steps to mitigate specified in it.
