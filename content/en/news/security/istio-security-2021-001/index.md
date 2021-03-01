@@ -6,7 +6,7 @@ cves: [N/A]
 cvss: "N/A"
 vector: ""
 releases: ["1.9.0"]
-publishdate: 2021-03-1
+publishdate: 2021-03-01
 keywords: [CVE]
 skip_seealso: true
 ---
