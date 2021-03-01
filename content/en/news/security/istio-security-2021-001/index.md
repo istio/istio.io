@@ -3,7 +3,7 @@ title: ISTIO-SECURITY-2021-001
 subtitle: Security Bulletin
 description: JWT authentication can be bypassed when AuthorizationPolicy is misused.
 cves: [N/A]
-cvss: "N/A"
+cvss: "8.2"
 vector: ""
 releases: ["1.9.0"]
 publishdate: 2021-03-01
