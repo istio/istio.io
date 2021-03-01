@@ -48,7 +48,7 @@ on misconfigured systems.
 
 - **Added**  `enableIstioConfigCRDs` to `base` to allow user specify whether the istio crds will be installed.  ([Issue #28346](https://github.com/istio/istio/issues/28346))
 
-- **Added** support for DestinationRule inheritance for mesh/namespace level rules. Enable feature with `PILOT_ENABLE_DESTINATION_RULE_INHERITANCE` environment variable.
+- **Added** support for DestinationRule inheritance for mesh/namespace level rules. Enable feature with the `PILOT_ENABLE_DESTINATION_RULE_INHERITANCE` environment variable.
   ([Issue #29525](https://github.com/istio/istio/issues/29525))
 
 - **Added** support for applications that bind to their pod IP address, rather than wildcard or localhost address, through the `Sidecar` API.
