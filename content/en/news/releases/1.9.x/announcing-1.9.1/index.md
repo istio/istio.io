@@ -38,7 +38,7 @@ on misconfigured systems.
 - **Improved** the sidecar injector to better utilize pod labels to determine if injection is required. This is not enabled
   by default in this release, but can be tested using `--set values.sidecarInjectorWebhook.useLegacySelectors=false`.  ([Issue #30013](https://github.com/istio/istio/issues/30013))
 
-- **Updated** prometheus metrics to include source_cluster and destination_cluster labels by default for all scenarios. Previously, this was only enabled for multi-cluster scenarios.
+- **Updated** Prometheus metrics to include source_cluster and destination_cluster labels by default for all scenarios. Previously, this was only enabled for multi-cluster scenarios.
   ([Issue #30036](https://github.com/istio/istio/issues/30036))
 
 - **Updated** default access log to include `RESPONSE_CODE_DETAILS` and `CONNECTION_TERMINATION_DETAILS` for proxy version >= 1.9.
