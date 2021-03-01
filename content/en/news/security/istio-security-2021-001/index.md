@@ -22,7 +22,7 @@ Envoy, and subsequently Istio, is vulnerable to a newly discovered vulnerability
 
 You are subject to the vulnerability if you are using `RequestAuthentication` alone for JWT validation.
 
-You are not subject to the issue if you use both `RequestAuthentication` and `AuthorizationPolicy` for JWT validation.
+You are **not** subject to the vulnerability if you use **both** `RequestAuthentication` and `AuthorizationPolicy` for JWT validation.
 
 {{< warning >}}
 Please note that `RequestAuthentication` is used to define a list of issuers that should be accepted. It does not reject
