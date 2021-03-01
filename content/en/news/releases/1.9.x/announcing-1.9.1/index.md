@@ -19,7 +19,7 @@ At the time of release publication, we have only completed 18 out of our typical
 0-day nature of the vulnerability and our experience with these stress tests, we believe it's safe to release now. These
 tests will be concluded on Wednesday March 3, 2021. At such time we will either remove this warning or post known issues
 seen with this release. If you are not comfortable adopting Istio 1.9.1 before Wednesday, please read through the
-[security bulletin](/news/security/istio-security-2021-001) and follow the steps to mitigate specified in it.
+[security bulletin](/news/security/istio-security-2021-001) and follow the mitigation steps specified in it.
 {{< /warning >}}
 
 {{< relnote >}}
