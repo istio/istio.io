@@ -13,7 +13,8 @@ skip_seealso: true
 
 {{< security_bulletin >}}
 
-This issue only affects Istio 1.9.0. Previous versions of Istio are not affected. This is rated an 8.2 CVSS CVE by Istio.
+This issue only affects Istio 1.9.0; previous versions of Istio are not affected. This issue has been given a CVSS score
+of 8.2 by the Istio product security working group.
 
 Envoy, and subsequently Istio, is vulnerable to a newly discovered vulnerability:
 
