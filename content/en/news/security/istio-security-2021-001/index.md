@@ -18,7 +18,7 @@ of 8.2 by the Istio product security working group.
 
 Envoy, and subsequently Istio, is vulnerable to a newly discovered vulnerability:
 
-- [Envoy JWT filter bypass when using the allow_missing configuration under requires_any](https://groups.google.com/g/envoy-security-announce/c/aqtBt5VUor0).
+- [Envoy JWT filter bypass when using the allow_missing configuration under requires_any](https://groups.google.com/g/envoy-security-announce/c/Hp16L27L00Q).
 
 You are subject to the vulnerability if you are using `RequestAuthentication` alone for JWT validation.
 
