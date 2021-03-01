@@ -8,6 +8,7 @@ skip_byline: true
 skip_pagenav: true
 doc_type: about
 ---
+[comment]: <> (TODO: Replace placeholders)
 
 {{< tabset category-name="ecosystem-type" class="tabset--ecosystem" >}}
 

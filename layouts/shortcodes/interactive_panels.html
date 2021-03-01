@@ -1,5 +1,5 @@
 {{ $firstItems := .Get "first" }}
-{{ $items := cond (eq (.Get "items") "integrations") .Site.Data.companies.integrations .Site.Data.companies.pro_services }}
+{{ $items := index .Site.Data.companies (.Get "items") }}
 
 {{ with $items }}
     <div class="panels panels--grid">
