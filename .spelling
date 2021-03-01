@@ -274,6 +274,7 @@ ExecAction
 executables
 Exfiltrating
 ExternalName
+ext-authz
 facto
 failover
 failovers
