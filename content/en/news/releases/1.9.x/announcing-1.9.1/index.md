@@ -71,7 +71,7 @@ on misconfigured systems.
 
 - **Fixed** an issue where the TLSv2 version was enforced only on HTTP ports. This option is now applied to all ports.
 
-- **Fixed** an issue where Wasm plugin configuration update will cause request to fail.
+- **Fixed** an issue where Wasm plugin configuration update will cause requests to fail.
   ([Issue #29843](https://github.com/istio/istio/issues/29843))
 
 - **Removed** support for reading Istio configuration over the Mesh Configuration Protocol (MCP).
