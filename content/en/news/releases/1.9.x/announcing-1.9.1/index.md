@@ -38,18 +38,18 @@ on misconfigured systems.
 - **Improved** the sidecar injector to better utilize pod labels to determine if injection is required. This is not enabled
   by default in this release, but can be tested using `--set values.sidecarInjectorWebhook.useLegacySelectors=false`.  ([Issue #30013](https://github.com/istio/istio/issues/30013))
 
-- **Updated** Prometheus metrics to include source_cluster and destination_cluster labels by default for all scenarios. Previously, this was only enabled for multi-cluster scenarios.
+- **Updated** Prometheus metrics to include `source_cluster` and `destination_cluster` labels by default for all scenarios. Previously, this was only enabled for multi-cluster scenarios.
   ([Issue #30036](https://github.com/istio/istio/issues/30036))
 
 - **Updated** default access log to include `RESPONSE_CODE_DETAILS` and `CONNECTION_TERMINATION_DETAILS` for proxy version >= 1.9.
   ([Issue #27903](https://github.com/istio/istio/issues/27903))
 
-- **Updated** Kiali addon to the latest version v1.29.
+- **Updated** Kiali addon to the latest version `v1.29`.
   ([Issue #30438](https://github.com/istio/istio/issues/30438))
 
-- **Added**  `enableIstioConfigCRDs` to `base` to allow users to specify whether the Istio crds will be installed.  ([Issue #28346](https://github.com/istio/istio/issues/28346))
+- **Added**  `enableIstioConfigCRDs` to `base` to allow users to specify whether the Istio CRDs will be installed.  ([Issue #28346](https://github.com/istio/istio/issues/28346))
 
-- **Added** support for DestinationRule inheritance for mesh/namespace level rules. Enable feature with the `PILOT_ENABLE_DESTINATION_RULE_INHERITANCE` environment variable.
+- **Added** support for `DestinationRule` inheritance for mesh/namespace level rules. Enable feature with the `PILOT_ENABLE_DESTINATION_RULE_INHERITANCE` environment variable.
   ([Issue #29525](https://github.com/istio/istio/issues/29525))
 
 - **Added** support for applications that bind to their pod IP address, rather than wildcard or localhost address, through the `Sidecar` API.
@@ -70,7 +70,7 @@ on misconfigured systems.
 - **Fixed** an issue causing an alternative Envoy binary to be included in the Docker image. The binaries are functionally equivalent.
   ([Issue #31038](https://github.com/istio/istio/issues/31038))
 
-- **Fixed** an issue where the TLSv2 version was enforced only on HTTP ports. This option is now applied to all ports.
+- **Fixed** an issue where the TLS v2 version was enforced only on HTTP ports. This option is now applied to all ports.
 
 - **Fixed** an issue where Wasm plugin configuration update will cause requests to fail.
   ([Issue #29843](https://github.com/istio/istio/issues/29843))
