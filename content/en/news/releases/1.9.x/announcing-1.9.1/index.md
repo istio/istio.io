@@ -67,7 +67,7 @@ on misconfigured systems.
 - **Fixed** an issue where access log service causes Istio proxy to reject configuration.
   ([Issue #30939](https://github.com/istio/istio/issues/30939))
 
-- **Fixed** an issue causing an alternative Envoy binary to be included in the docker image. The binaries are functionally equivalent.
+- **Fixed** an issue causing an alternative Envoy binary to be included in the Docker image. The binaries are functionally equivalent.
   ([Issue #31038](https://github.com/istio/istio/issues/31038))
 
 - **Fixed** an issue where the TLSv2 version was enforced only on HTTP ports. This option is now applied to all ports.
