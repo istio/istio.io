@@ -20,22 +20,6 @@
 #          docs/ops/configuration/traffic-management/network-topologies/index.md
 ####################################################################################################
 
-! read -r -d '' snip_configuring_network_topologies_1 <<\ENDSNIP
-spec:
-  meshConfig:
-    defaultConfig:
-      gatewayTopology:
-        numTrustedProxies: <VALUE>
-        forwardClientCertDetails: <ENUM_VALUE>
-ENDSNIP
-
-! read -r -d '' snip_configuring_network_topologies_2 <<\ENDSNIP
-...
-  metadata:
-    annotations:
-      "proxy.istio.io/config": '{"gatewayTopology" : { "numTrustedProxies": <VALUE>, "forwardClientCertDetails": <ENUM_VALUE> } }'
-ENDSNIP
-
 snip_install_num_trusted_proxies_two() {
 cat <<EOF > topology.yaml
 apiVersion: install.istio.io/v1alpha1
@@ -95,34 +79,4 @@ curl -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL"/get?show_
   },
   ...
 }
-ENDSNIP
-
-! read -r -d '' snip_configuring_xforwardedclientcert_headers_1 <<\ENDSNIP
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    defaultConfig:
-      gatewayTopology:
-        forwardClientCertDetails: <ENUM_VALUE>
-ENDSNIP
-
-! read -r -d '' snip_proxy_protocol_1 <<\ENDSNIP
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
-metadata:
-  name: proxy-protocol
-  namespace: istio-system
-spec:
-  configPatches:
-  - applyTo: LISTENER
-    patch:
-      operation: MERGE
-      value:
-        listener_filters:
-        - name: envoy.listener.proxy_protocol
-        - name: envoy.listener.tls_inspector
-  workloadSelector:
-    labels:
-      istio: ingressgateway
 ENDSNIP
