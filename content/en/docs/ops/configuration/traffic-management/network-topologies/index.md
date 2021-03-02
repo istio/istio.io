@@ -4,7 +4,7 @@ description: How to configure gateway network topology (experimental).
 weight: 60
 keywords: [traffic-management,ingress,gateway]
 owner: istio/wg-networking-maintainers
-test: no
+test: yes
 ---
 
 ## Forwarding external client attributes (IP address, certificate info) to destination workloads
@@ -128,7 +128,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
 1. Run the following `curl` command to simulate a request with proxy addresses in the `X-Forwarded-For` header:
 
     {{< text bash >}}
-    $ curl -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' $GATEWAY_URL/get?show_env=true
+    $ curl -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL"/get?show_env=true
     {
       "args": {
         "show_env": "true"
