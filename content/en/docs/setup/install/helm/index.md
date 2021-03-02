@@ -123,13 +123,13 @@ Before upgrading Istio in your cluster, we recommend creating a backup of your
 custom configurations, and restoring it from backup if necessary:
 
 {{< text syntax=bash snip_id=create_backup >}}
-$ kubectl get istio-io --all-namespaces -oyaml > $HOME/istio_resource_backup.yaml
+$ kubectl get istio-io --all-namespaces -oyaml > "$HOME"/istio_resource_backup.yaml
 {{< /text >}}
 
 You can restore your custom configuration like this:
 
 {{< text syntax=bash snip_id=restore_backup >}}
-$ kubectl apply -f $HOME/istio_resource_backup.yaml
+$ kubectl apply -f "$HOME"/istio_resource_backup.yaml
 {{< /text >}}
 
 ### Migrating from non-Helm installations
