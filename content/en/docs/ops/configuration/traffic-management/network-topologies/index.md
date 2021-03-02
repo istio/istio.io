@@ -76,7 +76,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
 
 1. Run the following command to create a file named `topology.yaml` with `numTrustedProxies` set to `2` and install Istio:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_num_trusted_proxies_two >}}
     $ cat <<EOF > topology.yaml
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
@@ -95,39 +95,39 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
 
 1. Create an `httpbin` namespace:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=create_httpbin_namespace >}}
     $ kubectl create namespace httpbin
     namespace/httpbin created
     {{< /text >}}
 
 1. Set the `istio-injection` label to `enabled` for sidecar injection:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=label_httpbin_namespace >}}
     $ kubectl label --overwrite namespace httpbin istio-injection=enabled
     namespace/httpbin labeled
     {{< /text >}}
 
 1. Deploy `httpbin` in the `httpbin` namespace:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=apply_httpbin >}}
     $ kubectl apply -n httpbin -f samples/httpbin/httpbin.yaml
     {{< /text >}}
 
 1. Deploy a gateway associated with `httpbin`:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=deploy_httpbin_gateway >}}
     $ kubectl apply -n httpbin -f samples/httpbin/httpbin-gateway.yaml
     {{< /text >}}
 
 1. Set a local `GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=export_gateway_url >}}
     $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     {{< /text >}}
 
 1. Run the following `curl` command to simulate a request with proxy addresses in the `X-Forwarded-For` header:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=curl_xff_headers >}}
     $ curl -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL"/get?show_env=true
     {
       "args": {
@@ -137,7 +137,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
         ...
         "X-Envoy-External-Address": "72.9.5.6",
         ...
-        "X-Forwarded-For": "56.5.6.7, 72.9.5.6, 98.1.2.3, <YOUR GATEWAY IP>",
+        "X-Forwarded-For": "56.5.6.7, 72.9.5.6, 98.1.2.3,$GATEWAY_URL",
         ...
       },
       ...
