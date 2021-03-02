@@ -35,7 +35,7 @@ For more information on `X-Forwarded-For`, see the IETF's [RFC](https://tools.ie
 Configuration of XFF and XFCC headers can be set globally for all gateway workloads via `MeshConfig` or per gateway using
 a pod annotation. For example, to configure globally during install or upgrade when using an `IstioOperator` custom resource:
 
-{{< text yaml >}}
+{{< text syntax=yaml snip_id=none >}}
 spec:
   meshConfig:
     defaultConfig:
@@ -47,7 +47,7 @@ spec:
 You can also configure both of these settings by adding the `proxy.istio.io/config` annotation to the Pod spec
 of your Istio ingress gateway.
 
-{{< text yaml >}}
+{{< text syntax=yaml snip_id=none >}}
 ...
   metadata:
     annotations:
@@ -160,7 +160,7 @@ sanitize/append/forward the XFCC header before proxying the request.
 
 To configure how XFCC headers are handled, set `forwardClientCertDetails` in your `IstioOperator`
 
-{{< text yaml >}}
+{{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -190,7 +190,7 @@ The [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt
 
 If your external load balancer is configured to use the PROXY protocol, the Istio gateway must also be configured to accept the PROXY protocol. Enabling this requires adding the [Envoy Proxy Protocol filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol) using an `EnvoyFilter` applied on the gateway workload. For example:
 
-{{< text yaml >}}
+{{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
