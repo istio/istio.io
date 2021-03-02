@@ -7,7 +7,7 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-## Forwarding external client attributes (IP address, certification info) to workloads
+## Forwarding external client attributes (IP address, certificate info) to workloads
 
 {{< boilerplate experimental >}}
 
