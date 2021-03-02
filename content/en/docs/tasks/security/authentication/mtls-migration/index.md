@@ -73,12 +73,12 @@ the policies to enforce STRICT mutual TLS between the workloads.
 
     {{< text bash >}}
     $ kubectl get peerauthentication --all-namespaces
-    No resources found.
+    No resources found
     {{< /text >}}
 
     {{< text bash >}}
     $ kubectl get destinationrule --all-namespaces
-    No resources found.
+    No resources found
     {{< /text >}}
 
     {{< /tip >}}

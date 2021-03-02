@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 82
+number_of_entries: 83
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -1073,7 +1073,7 @@ istioctl experimental add-to-mesh dep &lt;deployment&gt; [flags]
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
-<td></td>
+<td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
@@ -1243,7 +1243,7 @@ See https://istio.io/v1.10/docs/ops/deployment/requirements/</p>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
-<td></td>
+<td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
@@ -2018,7 +2018,7 @@ calculated over a time interval of 1 minute.
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
-<td></td>
+<td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
 </tr>
 </tbody>
@@ -2093,7 +2093,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
-<td></td>
+<td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
@@ -2452,7 +2452,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 </tbody>
 </table>
 <h3 id="istioctl-experimental-revision-describe Examples">Examples</h3>
-<pre class="language-bash"><code>  # View the details of a revision named &#39;canary&#39;    
+<pre class="language-bash"><code>  # View the details of a revision named &#39;canary&#39;
   istioctl experimental revision describe canary
 
   # View the details of a revision named &#39;canary&#39; and also the pods
@@ -2460,7 +2460,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
   istioctl experimental revision describe canary -v
 
   # Get details about a revision in json format (default format is human-friendly table format)
-  istioctl experimental revision describe canary -v -o json 
+  istioctl experimental revision describe canary -v -o json
 
 </code></pre>
 <h2 id="istioctl-experimental-revision-list">istioctl experimental revision list</h2>
@@ -2518,7 +2518,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 </table>
 <h3 id="istioctl-experimental-revision-list Examples">Examples</h3>
 <pre class="language-bash"><code>  # View summary of revisions installed in the current cluster
-  # which can be overridden with --context parameter. 
+  # which can be overridden with --context parameter.
   istioctl experimental revision list
 
   # View list of revisions including customizations, istiod and gateway pods
@@ -2893,7 +2893,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
-<td></td>
+<td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
@@ -2986,7 +2986,7 @@ istioctl x version --xds-label istio.io/rev=default
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
-<td></td>
+<td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
@@ -3162,7 +3162,7 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
-<td></td>
+<td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
@@ -3466,7 +3466,7 @@ kube-inject on deployments to get the most up-to-date changes.
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
-<td></td>
+<td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
@@ -4372,6 +4372,107 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 <pre class="language-bash"><code>  # Retrieve information about proxy configuration from an Envoy instance.
   istioctl proxy-config &lt;clusters|listeners|routes|endpoints|bootstrap|log|secret&gt; &lt;pod-name[.namespace]&gt;
 </code></pre>
+<h2 id="istioctl-proxy-config-all">istioctl proxy-config all</h2>
+<p>Retrieve information about all configuration for the Envoy instance in the specified pod.</p>
+<pre class="language-bash"><code>istioctl proxy-config all [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl proxy-config all [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+istioctl proxy-config a [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Filter listeners by address field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--direction &lt;string&gt;</code></td>
+<td></td>
+<td>Filter clusters by Direction field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Envoy config dump JSON file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--fqdn &lt;string&gt;</code></td>
+<td></td>
+<td>Filter clusters by substring of Service FQDN field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--name &lt;string&gt;</code></td>
+<td></td>
+<td>Filter listeners by route name field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td></td>
+<td>Filter clusters and listeners by Port field  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--subset &lt;string&gt;</code></td>
+<td></td>
+<td>Filter clusters by substring of Subset field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--type &lt;string&gt;</code></td>
+<td></td>
+<td>Filter listeners by type field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Output more information </td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-proxy-config-all Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve summary about all configuration for a given pod from Envoy.
+  istioctl proxy-config all &lt;pod-name[.namespace]&gt;
+
+  # Retrieve full cluster dump as JSON
+  istioctl proxy-config all &lt;pod-name[.namespace]&gt; -o json
+
+  # Retrieve cluster summary without using Kubernetes API
+  ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
+  istioctl proxy-config all --file envoy-config.json
+
+</code></pre>
 <h2 id="istioctl-proxy-config-bootstrap">istioctl proxy-config bootstrap</h2>
 <p>Retrieve information about bootstrap configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config bootstrap [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
@@ -4935,7 +5036,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
-<td></td>
+<td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
 </tr>
 </tbody>
@@ -5164,7 +5265,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
-<td></td>
+<td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
 </tr>
 </tbody>
@@ -5178,6 +5279,9 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 
   # Verify the deployment matches the Istio Operator deployment definition
   istioctl verify-install --revision &lt;canary&gt;
+
+  # Verify the installation of specific revision
+  istioctl verify-install -r 1-9-0
 </code></pre>
 <h2 id="istioctl-version">istioctl version</h2>
 <p>Prints out build version information</p>
@@ -5224,7 +5328,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
-<td></td>
+<td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
@@ -5442,7 +5546,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>PILOT_ENABLED_SERVICE_APIS</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
-<td>If this is set to true, support for Kubernetes service-apis (github.com/kubernetes-sigs/service-apis) will  be enabled. In addition to this being enabled, the service-apis CRDs need to be installed.</td>
+<td>If this is set to true, support for Kubernetes gateway-api (github.com/kubernetes-sigs/gateway-api) will  be enabled. In addition to this being enabled, the gateway-api CRDs need to be installed.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_ANALYSIS</code></td>
@@ -5497,6 +5601,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, for a headless service/stateful set in Kubernetes, pilot will generate an outbound listener for each pod in a headless service. This feature should be disabled if headless services have a large number of pods.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_INBOUND_PASSTHROUGH</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, inbound clusters will be configured as ORIGINAL_DST clusters. When disabled, requests are always sent to localhost. The primary implication of this is that when enabled, binding to POD_IP will work while localhost will not; when disable, bind to POD_IP will not work, while localhost will. The enabled behavior matches the behavior without Istio enabled at all; this flag exists only for backwards compatibility. Regardless of this setting, the configuration can be overridden with the Sidecar.Ingress.DefaultEndpoint configuration.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_ISTIO_TAGS</code></td>
@@ -5619,16 +5729,16 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Protocol detection timeout for inbound listener</td>
 </tr>
 <tr>
-<td><code>PILOT_INITIAL_FETCH_TIMEOUT</code></td>
-<td>Time Duration</td>
-<td><code>0s</code></td>
-<td>Specifies the initial_fetch_timeout for config. If this time is reached without a response to the config requested by Envoy, the Envoy will move on with the init phase. This prevents envoy from getting stuck waiting on config during startup.</td>
-</tr>
-<tr>
 <td><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, checks to see if the configured JwksUri in RequestAuthentication is a mesh cluster URL and configures Remote Jwks to let Envoy fetch the Jwks instead of Istiod.</td>
+</tr>
+<tr>
+<td><code>PILOT_JWT_PUB_KEY_REFRESH_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>20m0s</code></td>
+<td>The interval for istiod to fetch the jwks_uri for the jwks public key.</td>
 </tr>
 <tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
@@ -5700,7 +5810,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>PILOT_XDS_CACHE_SIZE</code></td>
 <td>Integer</td>
 <td><code>20000</code></td>
-<td>The maximum number of cache entries for the XDS cache. If the size is &lt;= 0, the cache will have no upper bound.</td>
+<td>The maximum number of cache entries for the XDS cache.</td>
 </tr>
 <tr>
 <td><code>PILOT_XDS_CACHE_STATS</code></td>
@@ -5804,12 +5914,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>legacy_path_translation_total</code></td><td><code>Sum</code></td><td>Number of times a legacy API path is translated</td></tr>
 <tr><td><code>manifest_patch_error_total</code></td><td><code>Sum</code></td><td>Number of times K8S patch overlays failed</td></tr>
 <tr><td><code>manifest_render_error_total</code></td><td><code>Sum</code></td><td>Number of times error occurred during rendering output manifest</td></tr>
-<tr><td><code>num_failed_outgoing_requests</code></td><td><code>Sum</code></td><td>Number of failed outgoing requests (e.g. to a token exchange server, CA, etc.)</td></tr>
-<tr><td><code>num_file_secret_failures_total</code></td><td><code>Sum</code></td><td>Number of times secret generation failed for files</td></tr>
-<tr><td><code>num_file_watcher_failures_total</code></td><td><code>Sum</code></td><td>Number of times file watcher failed to add watchers</td></tr>
-<tr><td><code>num_outgoing_requests</code></td><td><code>Sum</code></td><td>Number of total outgoing requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
-<tr><td><code>outgoing_latency</code></td><td><code>Sum</code></td><td>The latency of outgoing requests (e.g. to a token exchange server, CA, etc.) in milliseconds.</td></tr>
 <tr><td><code>owned_resource_total</code></td><td><code>LastValue</code></td><td>Number of resources currently owned by the operator</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_http_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard http listeners with current wildcard tcp listener.</td></tr>

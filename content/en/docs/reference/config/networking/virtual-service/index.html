@@ -512,7 +512,7 @@ spec:
     name: example-http
     protocol: HTTP
   resolution: DNS
-
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -544,7 +544,7 @@ spec:
     name: example-http
     protocol: HTTP
   resolution: DNS
-
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -950,7 +950,7 @@ spec:
   - headers:
       request:
         set:
-          test: true
+          test: &quot;true&quot;
     route:
     - destination:
         host: reviews.prod.svc.cluster.local
@@ -981,7 +981,7 @@ spec:
   - headers:
       request:
         set:
-          test: true
+          test: &quot;true&quot;
     route:
     - destination:
         host: reviews.prod.svc.cluster.local
@@ -2274,7 +2274,7 @@ Yes
 <td><code>perTryTimeout</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>Timeout per retry attempt for a given request. format: 1h/1m/1s/1ms. MUST BE &gt;=1ms.
+<p>Timeout per attempt for a given request, including the initial call and any retries. Format: 1h/1m/1s/1ms. MUST BE &gt;=1ms.
 Default is same value as request
 <code>timeout</code> of the <a href="/docs/reference/config/networking/virtual-service/#HTTPRoute">HTTP route</a>,
 which means no timeout.</p>

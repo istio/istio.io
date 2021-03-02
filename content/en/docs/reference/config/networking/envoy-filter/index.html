@@ -67,9 +67,9 @@ spec:
     patch:
       operation: INSERT_BEFORE
       value:
-        # This is the full filter config including the name and config or typed_config section.
+        # This is the full filter config including the name and typed_config section.
         name: &quot;envoy.config.filter.network.custom_protocol&quot;
-        config:
+        typed_config:
          ...
   - applyTo: NETWORK_FILTER # http connection manager is a filter in Envoy
     match:
@@ -111,26 +111,30 @@ spec:
       context: SIDECAR_INBOUND
       listener:
         portNumber: 8080
+        filterChain:
+          filter:
+            name: &quot;envoy.filters.network.http_connection_manager&quot;
+            subFilter:
+              name: &quot;envoy.filters.http.router&quot;
     patch:
-      operation: ADD
-      filterClass: AUTHZ # This filter will run *after* the Istio authz filter.
+      operation: INSERT_BEFORE
       value: # lua filter specification
-        name: envoy.filters.http.lua
-        typed_config:
+       name: envoy.lua
+       typed_config:
           &quot;@type&quot;: &quot;type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua&quot;
           inlineCode: |
-           function envoy_on_request(request_handle)
-             -- Make an HTTP call to an upstream host with the following headers, body, and timeout.
-             local headers, body = request_handle:httpCall(
-              &quot;lua_cluster&quot;,
-              {
-               [&quot;:method&quot;] = &quot;POST&quot;,
-               [&quot;:path&quot;] = &quot;/acl&quot;,
-               [&quot;:authority&quot;] = &quot;internal.org.net&quot;
-              },
-             &quot;authorize call&quot;,
-             5000)
-           end
+            function envoy_on_request(request_handle)
+              -- Make an HTTP call to an upstream host with the following headers, body, and timeout.
+              local headers, body = request_handle:httpCall(
+               &quot;lua_cluster&quot;,
+               {
+                [&quot;:method&quot;] = &quot;POST&quot;,
+                [&quot;:path&quot;] = &quot;/acl&quot;,
+                [&quot;:authority&quot;] = &quot;internal.org.net&quot;
+               },
+              &quot;authorize call&quot;,
+              5000)
+            end
   # The second patch adds the cluster that is referenced by the lua code
   # cds match is omitted as a new cluster is being added
   - applyTo: CLUSTER
@@ -143,12 +147,16 @@ spec:
         type: STRICT_DNS
         connect_timeout: 0.5s
         lb_policy: ROUND_ROBIN
-        hosts:
-        - socket_address:
-            protocol: TCP
-            address: &quot;internal.org.net&quot;
-            port_value: 8888
-
+        load_assignment:
+          cluster_name: lua_cluster
+          endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    protocol: TCP
+                    address: &quot;internal.org.net&quot;
+                    port_value: 8888
 </code></pre>
 
 <p>The following example overwrites certain fields (HTTP idle timeout
@@ -177,9 +185,11 @@ spec:
     patch:
       operation: MERGE
       value:
-        common_http_protocol_options:
-          idle_timeout: 30s
-        xff_num_trusted_hops: 5
+        typed_config:
+          &quot;@type&quot;: &quot;type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager&quot;
+          xff_num_trusted_hops: 5
+          common_http_protocol_options:
+            idle_timeout: 30s
 </code></pre>
 
 <p>The following example inserts an attributegen filter
@@ -249,9 +259,9 @@ spec:
           grpc_service:
             envoy_grpc:
               cluster_name: acme-ext-authz
-              initial_metadata:
-              - key: foo
-                value: myauth.acme # required by local ext auth server.
+            initial_metadata:
+            - key: foo
+              value: myauth.acme # required by local ext auth server.
 </code></pre>
 
 <p>A workload in the <code>myns</code> namespace needs to access a different ext_auth server
@@ -315,8 +325,10 @@ spec:
                 remote:
                   http_uri:
                     uri: http://my-wasm-binary-uri
-            configuration: |
-              {}
+            configuration:
+              &quot;@type&quot;: &quot;type.googleapis.com/google.protobuf.StringValue&quot;
+              value: |
+                {}
   # The second patch instructs to apply the above Wasm filter to the listener/http connection manager.
   - applyTo: HTTP_FILTER
     match:

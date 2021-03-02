@@ -85,27 +85,27 @@ spec:
               configuration:
                 "@type": type.googleapis.com/google.protobuf.StringValue
                 value: |
-                {
-                  "attributes": [
-                    {
-                      "output_attribute": "istio_operationId",
-                      "match": [
-                        {
-                          "value": "ListReviews",
-                          "condition": "request.url_path == '/reviews' && request.method == 'GET'"
-                        },
-                        {
-                          "value": "GetReview",
-                          "condition": "request.url_path.matches('^/reviews/[[:alnum:]]*$') && request.method == 'GET'"
-                        },
-                        {
-                          "value": "CreateReview",
-                          "condition": "request.url_path == '/reviews/' && request.method == 'POST'"
-                        }
-                      ]
-                    }
-                  ]
-                }
+                  {
+                    "attributes": [
+                      {
+                        "output_attribute": "istio_operationId",
+                        "match": [
+                          {
+                            "value": "ListReviews",
+                            "condition": "request.url_path == '/reviews' && request.method == 'GET'"
+                          },
+                          {
+                            "value": "GetReview",
+                            "condition": "request.url_path.matches('^/reviews/[[:alnum:]]*$') && request.method == 'GET'"
+                          },
+                          {
+                            "value": "CreateReview",
+                            "condition": "request.url_path == '/reviews/' && request.method == 'POST'"
+                          }
+                        ]
+                      }
+                    ]
+                  }
               vm_config:
                 runtime: envoy.wasm.runtime.null
                 code:

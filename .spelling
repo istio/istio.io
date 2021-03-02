@@ -86,6 +86,7 @@ Airbnb
 AKS
 AKS-Engine
 Alibaba
+allow_missing
 alt
 analytics
 Anantheswaran
@@ -274,6 +275,7 @@ ExecAction
 executables
 Exfiltrating
 ExternalName
+ext-authz
 facto
 failover
 failovers
@@ -560,6 +562,7 @@ prepending
 prepends
 prober
 programmatically
+PromQL
 proto
 protobuf
 protoc
@@ -599,10 +602,12 @@ reimplement
 reimplemented
 reinject
 repurposed
+requires_any
 rethink
 reusability
 Reviewer1
 Reviewer2
+revisioned
 roadmap
 roadmaps
 RocketChat

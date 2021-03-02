@@ -21,9 +21,16 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
 
 This will deploy Prometheus into your cluster. This is intended for demonstration only, and is not tuned for performance or security.
 
+{{< warning >}}
+While the quick-start configuration is well-suited for small clusters and monitoring for short time horizons,
+it is not suitable for large-scale meshes or monitoring over a period of days or weeks. In particular,
+the introduced labels can increase metrics cardinality, requiring a large amount of storage. And, when trying
+to identify trends and differences in traffic over time, access to historical data can be paramount.
+{{< /warning >}}
+
 ### Option 2: Customizable install
 
-Consult the [Prometheus documentation](https://www.prometheus.io/) to get started deploying Prometheus into your environment. See [Configuration](#Configuration) for more information on configuring Prometheus to scrape Istio deployments.
+Consult the [Prometheus documentation](https://www.prometheus.io/) to get started deploying Prometheus into your environment. See [Configuration](#configuration) for more information on configuring Prometheus to scrape Istio deployments.
 
 ## Configuration
 
@@ -100,30 +107,38 @@ The control plane, gateway, and Envoy sidecar metrics will all be scraped over p
 One way to provision Istio certificates for Prometheus is by injecting a sidecar which will rotate SDS certificates and output them to a volume that can be shared with Prometheus.
 However, the sidecar should not intercept requests for Prometheus because the Prometheus's model of direct endpoint access is incompatible with Istio's sidecar proxy model.
 
-Add the following annotations to the Prometheus deployment to inject a sidecar that will write a certificate to a shared volume, but without configuring traffic redirection:
+To achieve this, configure a cert volume mount on the Prometheus server container:
+
+{{< text yaml >}}
+containers:
+  - name: prometheus-server
+    ...
+    volumeMounts:
+      mountPath: /etc/prom-certs/
+      name: istio-certs
+volumes:
+  - emptyDir:
+      medium: Memory
+    name: istio-certs
+{{< /text >}}
+
+Then add the following annotations to the Prometheus deployment pod template, and deploy it with [sidecar injection](/docs/setup/additional-setup/sidecar-injection/).
+This configures the sidecar to write a certificate to the shared volume, but without configuring traffic redirection:
 
 {{< text yaml >}}
 spec:
   template:
     metadata:
       annotations:
-        sidecar.istio.io/inject: "true"
         traffic.sidecar.istio.io/includeInboundPorts: ""   # do not intercept any inbound ports
         traffic.sidecar.istio.io/includeOutboundIPRanges: ""  # do not intercept any outbound traffic
         proxy.istio.io/config: |  # configure an env variable `OUTPUT_CERTS` to write certificates to the given folder
           proxyMetadata:
             OUTPUT_CERTS: /etc/istio-output-certs
-        sidecar.istio.io/userVolume: '[{"name": "istio-certs", "emptyDir": {"medium":"Memory"}}]'  # mount the shared volume
-        sidecar.istio.io/userVolumeMount: '[{"name": "istio-certs", "mountPath": "/etc/istio-output-certs"}]'
+        sidecar.istio.io/userVolumeMount: '[{"name": "istio-certs", "mountPath": "/etc/istio-output-certs"}]' # mount the shared volume at sidecar proxy
 {{< /text >}}
 
-To use the provisioned certificate, mount the shared volume for the Prometheus container and set the scraping job TLS context as follow:
-
-{{< text yaml >}}
-volumeMounts:
-- mountPath: /etc/prom-certs/
-  name: istio-certs
-{{< /text >}}
+Finally, set the scraping job TLS context as follows:
 
 {{< text yaml >}}
 scheme: https

@@ -69,3 +69,13 @@ Follow these instructions to prepare a GKE cluster for Istio.
         --zone $ZONE \
         --project $PROJECT_ID
     {{< /text >}}
+
+1. Grant cluster administrator (admin) permissions to the current user. To
+   create the necessary RBAC rules for Istio, the current user requires admin
+   permissions.
+
+    {{< text bash >}}
+    $ kubectl create clusterrolebinding cluster-admin-binding \
+        --clusterrole=cluster-admin \
+        --user=$(gcloud config get-value core/account)
+    {{< /text >}}

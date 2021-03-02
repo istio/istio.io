@@ -22,6 +22,9 @@ v2 which are listed below:
   missing peer attributes like workload name, namespace and labels.
   However, if both peers have proxies injected all the labels mentioned
   [here](/docs/reference/config/metrics/) are available in the generated metrics.
+  When the server workload is out of the mesh, server workload metadata is still
+  distributed to client sidecar, causing client side metrics to have server workload
+  metadata labels filled.
 
 * **TCP metadata exchange requires mTLS**
   TCP metadata exchange relies on the [Istio ALPN protocol](/docs/tasks/observability/metrics/tcp-metrics/#understanding-tcp-telemetry-collection)
@@ -41,8 +44,8 @@ v2 which are listed below:
 * **No metric expiration for short-lived metrics**
   Mixer-based telemetry supported metric expiration whereby metrics which were
   not generated for a configurable amount of time were de-registered for
-  collection by Prometheus. This is useful in scenarios where short-lived jobs
-  surface telemetry only for a short amount of time, and de-registering
+  collection by Prometheus. This is useful in scenarios, such as one-off jobs, that generate short-lived metrics. De-registering
   the metrics prevents reporting of metrics which would no longer change in the
   future, thereby reducing network traffic and storage in Prometheus.
   This expiration mechanism is not available in in-proxy telemetry.
+  The workaround for this can be found [here](/faq/metrics-and-logs/#metric-expiry).
