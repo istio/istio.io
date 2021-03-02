@@ -21,7 +21,7 @@ attributes, such as client certificate information, should be preserved and forw
 multicluster deployment models become more common this becomes ever more vital.
 
 To forward these client attributes the proxies use the `X-Forwarded-For` (XFF) and `X-Forwarded-Client-Cert` (XFCC) headers.
-However, to make sure the proper information makes it to the workload, the user must configure Istio with
+To make sure the proper information makes it to the workload, however, the user must configure Istio with
 information about the network topology. For more information on `X-Forwarded-For`, see the IETF's
 [RFC](https://tools.ietf.org/html/rfc7239).
 
