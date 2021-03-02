@@ -1,4 +1,3 @@
-{{ $firstItems := .Get "first" }}
 {{ $items := index .Site.Data.companies (.Get "items") }}
 
 {{ with $items }}

@@ -22,6 +22,7 @@
     width: 100%;
     max-width: 320px;
     min-height: 320px;
+    font-family: inherit;
     color: $landingPanelTextColor;
     background-color: $secondaryColor;
     text-align: center;
@@ -31,6 +32,10 @@
 
     @media (min-width: $bp-sm) {
         margin: $panel-margin-top 1.25rem 0;
+    }
+
+    &:hover .panel-logo {
+        @include grayscale-element(0%);
     }
 
     .panel-title {
@@ -87,6 +92,7 @@
         position: relative;
         height: 60px;
         width: 100%;
+        transition: filter .175s ease-in;
 
         img {
             max-height: 100%;
