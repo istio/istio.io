@@ -7,21 +7,28 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-## Configuring network topologies
+## Forwarding external client attributes (IP address, certification info) to workloads
 
 {{< boilerplate experimental >}}
 
-Istio provides the ability to manage settings like [X-Forwarded-For](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for) (XFF)
-and [X-Forwarded-Client-Cert](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
-(XFCC), which are dependent on how the gateway workloads are deployed. This is currently an in-development feature. For more
-information on `X-Forwarded-For`, see the IETF's [RFC](https://tools.ietf.org/html/rfc7239).
+Many applications require knowing the client IP address (e.g for security such as WAF, auditing, observability with
+tracing and logging, caching) from an originating request to behave properly. While Istio provides an
+[ingress gateway](/docs/tasks/traffic-management/ingress/ingress-control/), given the varieties of architectures (e.g.
+ingress gateway behind a Cloud Load Balancer, many intermediate proxies between a gateway and Istio or direct gateway
+exposure to the internet) reasonable defaults are not able to be shipped that support the proper forwarding of a client
+attributes, such as the client IP address, to the appropriate workloads. Similar to a client IP address, other client
+attributes, such as client certificate information, should be preserved and forwared to the appropriate workloads. As
+multicluster becomes more common place this important becomes ever more vital
 
-You might choose to deploy Istio ingress gateways in various network topologies
-(e.g. behind Cloud Load Balancers, a self-managed Load Balancer or directly expose the
-Istio ingress gateway to the Internet). As such, these topologies require different ingress gateway configurations for
-transporting correct client attributes like IP addresses and certificates to the workloads running in the cluster.
+To do this, all proxies forward each request using `X-Forwarded-For` (XFF) and `X-Forwarded-Client-Cert` (XFCC).
+However, to make sure the proper information makes it to the workload, the user must set configure Istio with
+information about the network topology. For more information on `X-Forwarded-For`, see the IETF's
+[RFC](https://tools.ietf.org/html/rfc7239).
 
-Configuration of XFF and XFCC headers can be set globally for all gateway workloads via `MeshConfig` or per gateway using a pod annotation. For example, to configure globally during install or upgrade when using an `IstioOperator` custom resource:
+## Configuring network topologies
+
+Configuration of XFF and XFCC headers can be set globally for all gateway workloads via `MeshConfig` or per gateway using
+a pod annotation. For example, to configure globally during install or upgrade when using an `IstioOperator` custom resource:
 
 {{< text yaml >}}
 spec:
