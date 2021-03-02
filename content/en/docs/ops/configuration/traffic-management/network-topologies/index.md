@@ -15,7 +15,7 @@ Many applications require knowing the client IP address (e.g for security such a
 tracing and logging, caching) of the originating request to behave properly. While Istio provides an
 [ingress gateway](/docs/tasks/traffic-management/ingress/ingress-control/), given the varieties of architectures (e.g.
 ingress gateway behind a Cloud Load Balancer, many intermediate proxies between a gateway and Istio or direct gateway
-exposure to the internet) reasonable defaults are not able to be shipped that support the proper forwarding of a client
+exposure to the internet) reasonable defaults are not able to be shipped that support the proper forwarding of client
 attributes, such as the client IP address, to the destination workloads. Similar to the client IP address, other client
 attributes, such as client certificate information, should be preserved and forwarded to the destination workloads. As
 multicluster deployment models become more common this becomes ever more vital.
