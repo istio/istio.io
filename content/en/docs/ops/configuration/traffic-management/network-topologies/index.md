@@ -17,7 +17,7 @@ tracing and logging, caching) of the originating request to behave properly. Whi
 ingress gateway behind a Cloud Load Balancer, many intermediate proxies between a gateway and Istio or direct gateway
 exposure to the internet) reasonable defaults are not able to be shipped that support the proper forwarding of a client
 attributes, such as the client IP address, to the destination workloads. Similar to the client IP address, other client
-attributes, such as client certificate information, should be preserved and forwarded to the appropriate workloads. As
+attributes, such as client certificate information, should be preserved and forwarded to the destination workloads. As
 multicluster deployment models become more common, this becomes ever more vital.
 
 To do this, all proxies forward this information using `X-Forwarded-For` (XFF) and `X-Forwarded-Client-Cert` (XFCC) headers.
