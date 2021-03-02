@@ -11,10 +11,12 @@ test: no
 
 {{< boilerplate experimental >}}
 
-Many applications require knowing the client IP address of the originating request to behave properly. Notable cases
-include logging, tracing audit tools that require the client IP be populated; security tools such as Web
-Application Firewalls (WAF) may need this information to apply rulesets properly. The functionality of providing
-client attributes has long been a staple of proxies to services behind them.
+Many applications require knowing the client IP address and certificate information of the originating request to behave
+properly. Notable cases include logging, tracing audit tools that require the client IP be populated; security tools
+such as Web Application Firewalls (WAF) may need this information to apply rulesets properly. The functionality of
+providing client attributes has long been a staple of proxies to services behind them. To forward these client
+attributes, proxies have long used the `X-Forwarded-For` (XFF) and `X-Forwarded-Client-Cert` (XFCC) headers to pass
+this information to destination workloads.
 
 Today's networks vary widely in nature, but support for these attributes is still a requirement. Istio must support
 these different types of networks, irrespective of the deployed network topology. This information should be preserved
@@ -28,10 +30,7 @@ client attributes, such as the client IP address, to the destination workloads. 
 client attributes, such as client certificate information, should be preserved and forwarded to the destination
 workloads. This becomes ever more vital as Istio multicluster deployment models become more common.
 
-To forward these client attributes the proxies use the `X-Forwarded-For` (XFF) and `X-Forwarded-Client-Cert` (XFCC) headers.
-To make sure the proper information makes it to the workload, however, the user must configure Istio with
-information about the network topology. For more information on `X-Forwarded-For`, see the IETF's
-[RFC](https://tools.ietf.org/html/rfc7239).
+For more information on `X-Forwarded-For`, see the IETF's [RFC](https://tools.ietf.org/html/rfc7239).
 
 ## Configuring network topologies
 
