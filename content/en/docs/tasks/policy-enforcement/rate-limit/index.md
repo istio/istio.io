@@ -269,7 +269,7 @@ spec:
           vhost:
             name: "inbound|http|9080"
              route:
-              action: ANY
+               action: ANY
       patch:
         operation: MERGE
         value:
