@@ -36,7 +36,7 @@ ENDSNIP
       "proxy.istio.io/config": '{"gatewayTopology" : { "numTrustedProxies": <VALUE>, "forwardClientCertDetails": <ENUM_VALUE> } }'
 ENDSNIP
 
-snip_example_using_xforwardedfor_capability_with_httpbin_1() {
+snip_install_num_trusted_proxies_two() {
 cat <<EOF > topology.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -49,39 +49,39 @@ EOF
 istioctl install -f topology.yaml
 }
 
-snip_example_using_xforwardedfor_capability_with_httpbin_2() {
+snip_create_httpbin_namespace() {
 kubectl create namespace httpbin
 }
 
-! read -r -d '' snip_example_using_xforwardedfor_capability_with_httpbin_2_out <<\ENDSNIP
+! read -r -d '' snip_create_httpbin_namespace_out <<\ENDSNIP
 namespace/httpbin created
 ENDSNIP
 
-snip_example_using_xforwardedfor_capability_with_httpbin_3() {
+snip_label_httpbin_namespace() {
 kubectl label --overwrite namespace httpbin istio-injection=enabled
 }
 
-! read -r -d '' snip_example_using_xforwardedfor_capability_with_httpbin_3_out <<\ENDSNIP
+! read -r -d '' snip_label_httpbin_namespace_out <<\ENDSNIP
 namespace/httpbin labeled
 ENDSNIP
 
-snip_example_using_xforwardedfor_capability_with_httpbin_4() {
+snip_apply_httpbin() {
 kubectl apply -n httpbin -f samples/httpbin/httpbin.yaml
 }
 
-snip_example_using_xforwardedfor_capability_with_httpbin_5() {
+snip_deploy_httpbin_gateway() {
 kubectl apply -n httpbin -f samples/httpbin/httpbin-gateway.yaml
 }
 
-snip_example_using_xforwardedfor_capability_with_httpbin_6() {
+snip_export_gateway_url() {
 export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 }
 
-snip_example_using_xforwardedfor_capability_with_httpbin_7() {
+snip_curl_xff_headers() {
 curl -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL"/get?show_env=true
 }
 
-! read -r -d '' snip_example_using_xforwardedfor_capability_with_httpbin_7_out <<\ENDSNIP
+! read -r -d '' snip_curl_xff_headers_out <<\ENDSNIP
 {
   "args": {
     "show_env": "true"
@@ -90,7 +90,7 @@ curl -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL"/get?show_
     ...
     "X-Envoy-External-Address": "72.9.5.6",
     ...
-    "X-Forwarded-For": "56.5.6.7, 72.9.5.6, 98.1.2.3, <YOUR GATEWAY IP>",
+    "X-Forwarded-For": "56.5.6.7, 72.9.5.6, 98.1.2.3,$GATEWAY_URL",
     ...
   },
   ...
