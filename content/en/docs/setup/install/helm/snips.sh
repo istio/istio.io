@@ -44,11 +44,11 @@ helm install istio-egress manifests/charts/gateways/istio-egress \
 }
 
 snip_create_backup() {
-kubectl get istio-io --all-namespaces -oyaml > $HOME/istio_resource_backup.yaml
+kubectl get istio-io --all-namespaces -oyaml > "$HOME"/istio_resource_backup.yaml
 }
 
 snip_restore_backup() {
-kubectl apply -f $HOME/istio_resource_backup.yaml
+kubectl apply -f "$HOME"/istio_resource_backup.yaml
 }
 
 snip_canary_install_discovery() {
