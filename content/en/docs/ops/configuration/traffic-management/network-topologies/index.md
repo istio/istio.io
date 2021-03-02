@@ -12,7 +12,7 @@ test: no
 {{< boilerplate experimental >}}
 
 Many applications require knowing the client IP address (e.g for security such as WAF, auditing, observability with
-tracing and logging, caching) from an originating request to behave properly. While Istio provides an
+tracing and logging, caching) of the originating request to behave properly. While Istio provides an
 [ingress gateway](/docs/tasks/traffic-management/ingress/ingress-control/), given the varieties of architectures (e.g.
 ingress gateway behind a Cloud Load Balancer, many intermediate proxies between a gateway and Istio or direct gateway
 exposure to the internet) reasonable defaults are not able to be shipped that support the proper forwarding of a client
