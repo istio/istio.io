@@ -4377,8 +4377,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 <pre class="language-bash"><code>istioctl proxy-config all [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl proxy-config all [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
-istioctl proxy-config a [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-config a [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -4467,6 +4466,9 @@ istioctl proxy-config a [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 
   # Retrieve full cluster dump as JSON
   istioctl proxy-config all &lt;pod-name[.namespace]&gt; -o json
+
+  # Retrieve full cluster dump with short syntax
+  istioctl pc a &lt;pod-name[.namespace]&gt;
 
   # Retrieve cluster summary without using Kubernetes API
   ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
@@ -5477,6 +5479,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Default Http and gRPC Request timeout</td>
 </tr>
 <tr>
+<td><code>ISTIO_GATEWAY_STRIP_HOST_PORT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Gateway will remove any port from host/authority header before any processing of request by HTTP filters or routing.</td>
+</tr>
+<tr>
 <td><code>ISTIO_GPRC_MAXRECVMSGSIZE</code></td>
 <td>Integer</td>
 <td><code>4194304</code></td>
@@ -5753,12 +5761,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, a gateway workload can only select gateway resources in the same namespace. Gateways with same selectors in different namespaces will not be applicable.</td>
 </tr>
 <tr>
-<td><code>PILOT_SIDECAR_ENABLE_INBOUND_TLS_V2</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If true, Pilot will set the TLS version on server side as TLSv1_2 and also enforce strong cipher suites</td>
-</tr>
-<tr>
 <td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -5835,6 +5837,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Reject k8s default tokens, without audience. If false, default K8S token will be accepted</td>
+</tr>
+<tr>
+<td><code>REWRITE_PROBE_LEGACY_LOCALHOST_DESTINATION</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, readiness probes will be sent to &#39;localhost&#39;. Otherwise, they will be sent to the Pod&#39;s IP, matching Kubernetes&#39; behavior.</td>
 </tr>
 <tr>
 <td><code>SPIFFE_BUNDLE_ENDPOINTS</code></td>
