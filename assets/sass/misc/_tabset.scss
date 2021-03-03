@@ -55,4 +55,92 @@
             margin-bottom: 0;
         }
     }
+
+    &.tabset--ecosystem {
+        margin: 0;
+        text-align: center;
+
+        .tab-strip {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+
+            button {
+                position: relative;
+                font-size: 1.125rem;
+                font-weight: $boldWeight;
+                background: none;
+                border: 0;
+                padding: 0;
+                margin: 0 .75rem 1rem;
+                padding-bottom: 5px;
+
+                span {
+                    font-size: inherit;
+                }
+
+                &:hover, &:focus {
+                    span {
+                        color: $primaryColor;
+                    }
+                }
+
+                &[aria-selected=true] {
+                    font-weight: $boldWeight;
+                    border-top: none;
+                }
+
+                &::before, &::after {
+                    content: "";
+                    position: absolute;
+                    top: 100%;
+                    width: 0;
+                    right: 0;
+                    height: 4px;
+                    background-color: $accentColor;
+                    transition: .25s ease-out;
+                }
+
+                &:hover,
+                &[aria-selected=true] {
+                    &::before, &::after {
+                      width: 100%;
+                      left: 0;
+                    }
+                }
+
+                @media (min-width: $bp-md) {
+                    font-size: $font-size--l;
+                    margin: 0 2.5rem 1rem;
+
+                    &::before, &::after {
+                        height: 5px;
+                    }
+                }
+            }
+        }
+
+        .tab-content {
+            margin-top: 2.5rem;
+            padding: 0;
+            box-shadow: none;
+            border-radius: 0;
+
+            .tab-description {
+                font-size: $font-size--primary;
+                font-weight: $regularWeight;
+                margin: 0 auto 5rem;
+                max-width: 750px;
+                color: #838b9d;
+
+                @media (min-width: $bp-md) {
+                    font-size: 1.125rem;
+                }
+            }
+
+            div[role=tabpanel] {
+                outline: none;
+            }
+        }
+    }
 }
