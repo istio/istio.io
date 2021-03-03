@@ -1,0 +1,16 @@
+{{ $question := .Get "question" }}
+{{ $answer := .Inner | markdownify }}
+
+<div class="faq-block faq-block--collapsed">
+    <div class="faq-block-question">
+        <span class="faq-block-question__text">
+            {{ $question }}
+        </span>
+        <div class="faq-block-question__icon">
+            {{ partial "icon.html" "dropdown-arrow" }}
+        </div>
+    </div>
+    <div class="faq-block-answer">
+        <p>{{ $answer }}</p>
+    </div>
+</div>
