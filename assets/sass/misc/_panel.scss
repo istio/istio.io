@@ -5,8 +5,15 @@
     flex-wrap: wrap;
     margin-top: -2.5rem;
 
-    &.case-studies {
-        justify-content: unset;
+    &--grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 320px);
+        grid-gap: 2.5rem;
+        margin-top: 0;
+
+        .panel {
+            margin: 0;
+        }
     }
 }
 
@@ -15,6 +22,7 @@
     width: 100%;
     max-width: 320px;
     min-height: 320px;
+    font-family: inherit;
     color: $landingPanelTextColor;
     background-color: $secondaryColor;
     text-align: center;
@@ -24,6 +32,10 @@
 
     @media (min-width: $bp-sm) {
         margin: $panel-margin-top 1.25rem 0;
+    }
+
+    &:hover .panel-logo {
+        @include grayscale-element(0%);
     }
 
     .panel-title {
@@ -80,6 +92,7 @@
         position: relative;
         height: 60px;
         width: 100%;
+        transition: filter .175s ease-in;
 
         img {
             max-height: 100%;
@@ -97,6 +110,12 @@
                 max-width: 310px;
             }
         }
+    }
+
+    .panel-description {
+        font-size: 1.125rem;
+        font-weight: $mediumWeight;
+        line-height: 1.5;
     }
 
     &--dark {
@@ -140,7 +159,7 @@
         .panel-title { flex-grow: 1; }
     }
 
-    &--case-study {
+    &--bordered {
         background: none;
         color: $secondaryColor;
         border: 2px solid $secondaryColor;
@@ -173,5 +192,17 @@
                 font-size: $font-size--xxl;
             }
         }
+    }
+}
+
+button.panel,
+a.panel {
+    cursor: pointer;
+}
+
+.tabset--ecosystem {
+    .panel-logo {
+        margin-top: 0;
+        margin-bottom: 2.125rem;
     }
 }

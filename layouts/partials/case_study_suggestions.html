@@ -4,7 +4,7 @@
     <div class="case-study-suggestions">
         <h1>Read case studies of companies that benefited from implementing Istio</h1>
 
-        <div class="panels case-studies">
+        <div class="panels panels--grid">
             {{ range first 3 $caseStudyPages }}
                 {{ partial "case_study_panel.html" (dict "case_study" .Params "url" .RelPermalink) }}
             {{ end }}

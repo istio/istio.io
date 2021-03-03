@@ -1,0 +1,9 @@
+{{ $items := index .Site.Data.companies (.Get "items") }}
+
+{{ with $items }}
+    <div class="panels panels--grid">
+        {{ range $items }}
+            {{ partial "interactive_panel" . }}
+        {{ end }}
+    </div>
+{{ end }}

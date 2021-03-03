@@ -2,12 +2,4 @@
 {{ $alt := .Get "alt" }}
 {{ $logo := .Get "logo" }}
 
-{{ if $link }}
-    <a href="{{ $link }}" class="company-logo" title="{{ $alt }}">
-        <img src="{{ $logo }}" alt="{{ $alt }}" />
-    </a>
-{{ else }}
-    <div class="company-logo" title="{{ $alt }}">
-        <img src="{{ $logo }}" alt="{{ $alt }}" />
-    </div>
-{{ end }}
+{{ partial "company_logo" (dict "link" $link "alt" $alt "logo" $logo) }}

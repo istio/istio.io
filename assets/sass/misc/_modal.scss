@@ -1,0 +1,110 @@
+.modal {
+    position: fixed;
+    display: none;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: $modalBackgroundColor;
+    z-index: $modal-z;
+    overflow: hidden;
+
+    &-open & {
+        display: block;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    &-dialog {
+        display: flex;
+        align-items: center;
+        max-width: 800px;
+        margin: 1.75rem;
+        min-height: calc(100% - (1.75rem * 2));
+    }
+
+    &-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        background: #ffffff;
+        box-shadow: 0px 6px 9px #00000029;
+    }
+
+    &-header {
+        display: flex;
+        margin-left: auto;
+        margin: 0.625rem;
+    }
+
+    &-body {
+        padding: 0.625rem 2.25rem 2.25rem;
+    }
+
+    &-close {
+        display: block;
+        border: 0;
+        padding: 1rem;
+        margin-left: auto;
+        background: none;
+        cursor: pointer;
+
+        svg.icon {
+            width: 20px;
+            height: 20px;
+            stroke-width: 2px;
+            fill: $primaryColor;
+            stroke: $primaryColor;
+        }
+    }
+
+    p {
+        font-size: $font-size--primary;
+        font-weight: $regularWeight;
+    }
+
+    &-company {
+        display: flex;
+        flex-direction: column;
+
+        .company-logo {
+            flex-shrink: 0;
+        }
+
+        p:first-child {
+            margin-top: 2.5rem;
+        }
+    }
+}
+
+@media (min-width: $bp-md) {
+    .modal {
+        &-dialog {
+            margin: 1.75rem auto;
+        }
+
+        &-body {
+            padding: 2.25rem 5rem 2.25rem 2.25rem;
+        }
+
+        &-header {
+            position: absolute;
+            right: 0;
+        }
+
+        &-company {
+            flex-direction: row;
+
+            .company-logo {
+                width: 230px;
+                height: 230px;
+                margin-right: 2.375rem;
+            }
+
+            p:first-child {
+                margin-top: 0;
+            }
+        }
+    }
+}
