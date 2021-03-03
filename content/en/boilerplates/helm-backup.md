@@ -1,7 +1,5 @@
 ---
 ---
-### Create a backup
-
 Before upgrading Istio in your cluster, we recommend creating a backup of your
 custom configurations, and restoring it from backup if necessary:
 

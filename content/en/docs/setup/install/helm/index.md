@@ -100,7 +100,11 @@ For customizations that are supported via both
 values, using `ProxyConfig` is recommended because it provides schema
 validation while unstructured Helm values do not.
 
+### Create a backup
+
 {{< boilerplate helm-backup >}}
+
+### Migrating from non-Helm installations
 
 {{< boilerplate helm-migration-nonhelm >}}
 

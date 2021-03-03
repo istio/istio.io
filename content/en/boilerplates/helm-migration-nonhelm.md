@@ -1,7 +1,5 @@
 ---
 ---
-### Migrating from non-Helm installations
-
 If you're migrating from a version of Istio installed using `istioctl` or
 Operator to Helm, you need to delete your current Istio control plane resources
 and and re-install Istio using Helm as described above. When deleting your
