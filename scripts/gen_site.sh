@@ -42,6 +42,7 @@ babel --source-maps --minified --no-comments --presets minify \
   tmp/js/lang.js \
   tmp/js/callToAction.js \
   tmp/js/events.js \
+   tmp/js/faq.js \
   --out-file generated/js/all.min.js
 
 babel --source-maps --minified --no-comments --presets minify \
