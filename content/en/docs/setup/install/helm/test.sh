@@ -33,7 +33,9 @@ _wait_for_deployment istio-system istio-egressgateway
 _verify_like snip_helm_ls snip_helm_ls_out
 
 # @cleanup
+snip_delete_crds
 helm delete -n istio-system istio-egressgateway
 helm delete -n istio-system istio-ingressgateway
 helm delete -n istio-system istiod
 helm delete -n istio-system istio-base
+kubectl delete ns istio-system
