@@ -57,12 +57,12 @@ If the download fails, istio-agent will reject the ECDS update and prevent a bad
 
 ## Istio Wasm SIG and Future Work
 
-Although we have made a lot of progress on Wasm extensibility, there are still many aspects of the project that remain to be completed. In order to consolidate the efforts from various parties and better tackle the challenges ahead, we have formed an [Istio WebAssembly SIG](https://tinyurl.com/istio-wasm-sig), with aim of providing a standard and reliable way for Istio to consume Wasm extensions. Here are some of the things we are working on:
+Although we have made a lot of progress on Wasm extensibility, there are still many aspects of the project that remain to be completed. In order to consolidate the efforts from various parties and better tackle the challenges ahead, we have formed an [Istio WebAssembly SIG](https://discuss.istio.io/t/introducing-wasm-sig/9930), with aim of providing a standard and reliable way for Istio to consume Wasm extensions. Here are some of the things we are working on:
 
 * **A first-class extension API**: Currently Wasm extensions needs to be injected via Istio's `EnvoyFilter` API. A first-class extension API will make using Wasm with Istio easier, and we expect this to be introduced in Istio 1.10.
 * **Distribution artifacts interoperability**: Built on top of Solo.io’s [WebAssembly OCI image spec effort](https://www.solo.io/blog/announcing-the-webassembly-wasm-oci-image-spec/), a standard Wasm artifacts format will make it easy to build, pull, publish, and execute.
 * **Container Storage Interface (CSI) based artifacts distribution**: Using istio-agent to distribute modules is easy for adoption, but may not be efficient as each proxy will keep a copy of the Wasm module. As a more efficient solution, with [Ephemeral CSI](https://kubernetes-csi.github.io/docs/ephemeral-local-volumes.html), a DaemonSet will be provided which could configure storage for pods. Working similarly to a CNI plugin, a CSI driver would fetch the Wasm module out-of-band from the xDS flow and mount it inside the `rootfs` when the pod starts up.
 
-If you would like to join us, we meet every other week Tuesdays at 2PM Pacific Time. (5PM ET, 11PM CET)
+If you would like to join us, the group will meet every other week Tuesdays at 2PM PT. You can find the meeting invitation at [Istio working group calendar](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings).
 
 We look forward to seeing how you will use Wasm to extend Istio!
