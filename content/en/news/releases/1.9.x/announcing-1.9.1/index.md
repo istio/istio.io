@@ -14,19 +14,11 @@ as well as bug fixes to improve robustness.
 
 This release note describes what’s different between Istio 1.9.0 and Istio 1.9.1.
 
-{{< warning >}}
-At the time of release publication, we have only completed 18 out of our typical 48 hours of stress testing. Given the
-zero-day nature of the vulnerability and our experience with these stress tests, we believe it's safe to release now. These
-tests will be concluded on Wednesday March 3, 2021. At such time we will either remove this warning or post known issues
-seen with this release. If you are not comfortable adopting Istio 1.9.1 before Wednesday, please read through the
-[security bulletin](/news/security/istio-security-2021-001) and follow the mitigation steps specified in it.
-{{< /warning >}}
-
 {{< relnote >}}
 
 ## Security update
 
-A zero-day security vulnerability was fixed in the version of Envoy shipped with Istio 1.9.0.  This vulnerability was fixed on Friday February 26th, 2021. 1.9.0 is the only version of Istio that includes the vulnerable version of Envoy. This vulnerability can only be exploited
+A [zero-day security vulnerability](https://groups.google.com/g/envoy-security-announce/c/Hp16L27L00Q) was fixed in the version of Envoy shipped with Istio 1.9.0.  This vulnerability was fixed on Friday February 26th, 2021. 1.9.0 is the only version of Istio that includes the vulnerable version of Envoy. This vulnerability can only be exploited
 on misconfigured systems.
 
 ## Changes
