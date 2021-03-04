@@ -61,7 +61,7 @@ icon: bugs
     $ kubectl logs -n istio-system -l app=istiod
     {{< /text >}}
 
-* All Istio 配置:
+* 所有 Istio 配置:
 
     {{< text bash >}}
     $ kubectl get $(kubectl get crd  --no-headers | awk '{printf "%s,",$1}END{printf "attributemanifests.config.istio.io\n"}') --all-namespaces
