@@ -19,61 +19,49 @@ icon: bugs
 
 ### Kubernetes 集群状态档案{#Kubernetes-cluster-state-archives}
 
-如果您正在运行 Kubernetes，请考虑使用错误报告将集群状态存档。为了方便起见，您可以运行转储脚本生成一个档案，该档案包含 Kubernetes 集群中所有相关的状态：
+如果您正在运行 Kubernetes，请考虑使用错误报告将集群状态存档。为了方便起见，您可以运行 istioctl bug-report 命令生成一个档案，该档案包含 Kubernetes 集群中所有相关的状态：
 
-* 运行 `curl`：
-
-    {{< text bash >}}
-    $ curl {{< github_file >}}/tools/dump_kubernetes.sh | sh -s -- -z
-    {{< /text >}}
-
-* 在发布版本目录的根目录本地运行：
+* 运行：
 
     {{< text bash >}}
-    $ @tools/dump_kubernetes.sh@ -z
+    $ istioctl bug-report
     {{< /text >}}
 
-然后，将产生的 `istio-dump.tar.gz` 与您的报告问题连接。
+然后将得到的 `bug-report.tgz` 文件一起报告。
 
-如果您无法使用转储脚本，请附加自己的存档
-包含：
+{{< tip >}}
+`istioctl bug-report` 仅在 istioctl 1.8.0 及以上的版本存在，这个命令依然可以对已经安装的较低版本 Istio 生效。
+{{< /tip >}}
 
-* 在所有命名空间中的 pods、services、deployments 和 endpoints：
+如果你如法使用 bug-report 命令，可以使用以下方案搜集信息：
+
+* 所有 pods, services, deployments, endpoints 资源:
 
     {{< text bash >}}
     $ kubectl get pods,services,deployments,endpoints --all-namespaces -o yaml > k8s_resources.yaml
     {{< /text >}}
 
-* 在 `istio-system` 中的密名：
+* `istio-system` 下的 Secret:
 
     {{< text bash >}}
     $ kubectl --namespace istio-system get secrets
     {{< /text >}}
 
-* 在 `istio-system` 命名空间的 configmap：
+* `istio-system` 下的 ConfigMap:
 
     {{< text bash >}}
     $ kubectl --namespace istio-system get cm -o yaml
     {{< /text >}}
 
-* 所有 Istio 组件和 sidecar 的当前和以前的日志
+* Istio 组件日志和 Sidecar 的日志
 
-* Mixer logs:
-
-    {{< text bash >}}
-    $ kubectl logs -n istio-system -l istio=mixer -c mixer
-    $ kubectl logs -n istio-system -l istio=policy -c mixer
-    $ kubectl logs -n istio-system -l istio=telemetry -c mixer
-    {{< /text >}}
-
-* Pilot logs:
+* Istiod 日志:
 
     {{< text bash >}}
-    $ kubectl logs -n istio-system -l istio=pilot -c discovery
-    $ kubectl logs -n istio-system -l istio=pilot -c istio-proxy
+    $ kubectl logs -n istio-system -l app=istiod
     {{< /text >}}
 
-* 所有 Istio 配置工件：
+* 所有 Istio 配置:
 
     {{< text bash >}}
     $ kubectl get $(kubectl get crd  --no-headers | awk '{printf "%s,",$1}END{printf "attributemanifests.config.istio.io\n"}') --all-namespaces
