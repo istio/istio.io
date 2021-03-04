@@ -48,10 +48,16 @@
             @media (min-width: $bp-md) {
                 margin: 2.5em 1.15em 3.75em 0;
             }
-            &:hover{
+            &:hover {
                 cursor: pointer;
                 background-color: $linkActiveColor;
                 color: #fff;
+            }
+            &:focus {
+                outline: 0;
+                -webkit-box-shadow: 2px 2px 15px 0px rgba(101,126,186,1);
+                -moz-box-shadow: 2px 2px 15px 0px rgba(101,126,186,1);
+                box-shadow: 2px 2px 15px 0px rgba(101,126,186,1);
             }
         }
         .active {
@@ -136,6 +142,10 @@
     .post-author {
         color: $textGray;
         margin-bottom: 2.15em;
+        span {
+            margin-left: .3em;
+            margin-right: .3em;
+        }
     }
     .header-content{
         background-color: inherit;
@@ -147,11 +157,16 @@
             margin-bottom: 2.5em;
             @media (min-width: $bp-md) {
                 font-size: 3em;
+                margin-bottom: 1em;
+                padding-top: 1.5em;
             }
         }
         p{
             color: $primaryColor;
             font-size: $font-size--l;
         }
+    }
+    .next-link {
+        font-weight: $boldTextWeight;
     }
 }
