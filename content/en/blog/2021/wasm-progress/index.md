@@ -21,17 +21,17 @@ This was a significant milestone, since it indicates that:
 * The programming ABI/API, extension configuration API, and runtime behavior, are becoming stable.
 * You can expect a larger community of adoption and support moving forward.
 
-## wasm-extension Ecosystem Repository
+## `wasm-extensions` Ecosystem Repository
 
 As an early adopter of the Envoy Wasm runtime, the Istio Extensions and Telemetry working group gained a lot of experience in developing extensions. We built several first-class extensions, including [metadata exchange](/docs/reference/config/proxy_extensions/metadata_exchange/), [Prometheus stats](/docs/reference/config/proxy_extensions/stats/), and [attribute generation](/docs/reference/config/proxy_extensions/attributegen/).
-In order to share our learning more broadly, we created a [`wasm-extensions` repository](https://github.com/istio-ecosystem/wasm-extensions) in the `istio-ecosystem` organisation. This repository serves two purposes:
+In order to share our learning more broadly, we created a [`wasm-extensions` repository](https://github.com/istio-ecosystem/wasm-extensions) in the `istio-ecosystem` organization. This repository serves two purposes:
 
 * It provides canonical example extensions, covering several highly demanded features (such as [basic authentication](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth)).
-* It provides a guide for Wasm extension development, testing, and release. The guide is based on the same build toolchains and test frameworks that are used, maintained and tested by the Istio extensibility team.
+* It provides a guide for Wasm extension development, testing, and release. The guide is based on the same build tool chains and test frameworks that are used, maintained and tested by the Istio extensibility team.
 
 The guide currently covers [WebAssembly extension development](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md)
 and [unit testing](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-cpp-unit-test.md) with C++,
-as well as [integration testing](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-integration-test.md) with a Golang test framework,
+as well as [integration testing](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-integration-test.md) with a Go test framework,
 which simulates a real runtime by running a Wasm module with the Istio proxy binary.
 In the future, we will also add several more canonical extensions, such as an integration with Open Policy Agent, and header manipulation based on JWT tokens.
 
@@ -44,7 +44,7 @@ This method has a drawback: if remote fetch fails, either due to bad configurati
 If a Wasm extension is configured as [fail closed](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/wasm/v3/wasm.proto#extensions-wasm-v3-pluginconfig), a bad remote fetch will stop Envoy from serving.
 To fix this issue, [a fundamental change](https://github.com/envoyproxy/envoy/issues/9447) is needed to the Envoy xDS protocol to make it allow asynchronous xDS responses.
 
-Istio 1.9 provides a reliable distribution mechanism out of the box by leveraging the xDS proxy inside istio-agent and Envoy's [Extension Configuration Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/extension) (ECDS). 
+Istio 1.9 provides a reliable distribution mechanism out of the box by leveraging the xDS proxy inside istio-agent and Envoy's [Extension Configuration Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/extension) (ECDS).
 
 istio-agent intercepts the extension config resource update from istiod, reads the remote fetch hint from it, downloads the Wasm module, and rewrites the ECDS configuration with the path of the downloaded Wasm module.
 If the download fails, istio-agent will reject the ECDS update and prevent a bad configuration reaching Envoy. For more detail, please see [our docs on Wasm module distribution](/docs/ops/configuration/extensibility/wasm-module-distribution/).
