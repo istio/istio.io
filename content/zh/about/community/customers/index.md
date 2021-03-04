@@ -1,6 +1,6 @@
 ---
 title: 谁正在使用 Istio
-description: 使用 Istio 的公司。
+description: 使用 Istio 的用户。
 weight: 30
 icon: customers
 keywords: [community]
