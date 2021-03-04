@@ -56,6 +56,17 @@ istio-sidecar-injector          2020-03-26T07:09:21Z
 istio-sidecar-injector-canary   2020-04-28T19:03:26Z
 {{< /text >}}
 
+{{< warning >}}
+Due to [a bug](https://github.com/istio/istio/issues/28880) in the creation of the `ValidatingWebhookConfiguration` during install, initial installations of Istio __must not__ specify a revision. As a temporary workaround, for Istio resource validation to continue working after removing the non-revisioned Istio installation, the `istiod` service must be manually pointed to the revision that should handle validation.
+
+One way to accomplish this is to manually create a service called `istiod` pointing to the target revision using [this service]({{< github_blob >}}/manifests/charts/istio-control/istio-discovery/templates/service.yaml) as a template. Another option is to run the command below, where `<REVISION>` is the name of the revision that should handle validation. This command creates an `istiod` service pointed to the target revision.
+
+{{< text bash >}}
+$ kubectl get service -n istio-system -o json istiod-<REVISION> | jq '.metadata.name = "istiod" | del(.spec.clusterIP) | del(.spec.clusterIPs)' | kubectl apply -f -
+{{< /text >}}
+
+{{</ warning >}}
+
 ## Data plane
 
 Unlike istiod, Istio gateways do not run revision-specific instances, but are instead in-place upgraded to use the new control plane revision.
