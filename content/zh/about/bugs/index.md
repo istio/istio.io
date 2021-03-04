@@ -27,14 +27,13 @@ icon: bugs
     $ istioctl bug-report
     {{< /text >}}
 
-然后将得到的 bug-report.tgz 文件一起报告。
+然后将得到的 `bug-report.tgz` 文件一起报告。
 
 {{< tip >}}
-`istioctl bug-report` 仅在 istioctl 1.8.0 及以上的版本存在，这个命令依然可以对已经安装的较低版本 istio 生效。
+`istioctl bug-report` 仅在 istioctl 1.8.0 及以上的版本存在，这个命令依然可以对已经安装的较低版本 Istio 生效。
 {{< /tip >}}
 
 如果你如法使用 bug-report 命令，可以使用以下方案搜集信息：
-
 
 * 所有 pods, services, deployments, endpoints 资源:
 
@@ -67,7 +66,6 @@ icon: bugs
     {{< text bash >}}
     $ kubectl get $(kubectl get crd  --no-headers | awk '{printf "%s,",$1}END{printf "attributemanifests.config.istio.io\n"}') --all-namespaces
     {{< /text >}}
-
 
 ## 文档错误{#documentation-bugs}
 
