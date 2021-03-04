@@ -1,12 +1,12 @@
 ---
-title: 谁正在使用Istio
-description: 一些使用Istio的公司。
+title: 谁正在使用 Istio
+description: 使用 Istio 的公司。
 weight: 30
 icon: customers
 keywords: [community]
 skip_seealso: true
 ---
-以下列出我们知道的正在使用Istio的组织，如果你想编辑这个页面, [请提交一个PR!](https://github.com/istio/istio.io/tree/master/content/en/about/community/customers)
+以下向您展示正在使用 Istio 的组织，如果您想编辑这个页面, [请提交PR!](https://github.com/istio/istio.io/tree/master/content/en/about/community/customers)
 
 <div class="logo-gallery">
     {{< company_logo link="https://www.aihuishou.com" logo="./aihuishou.jpeg" alt="Aihuishou" >}}
@@ -21,6 +21,7 @@ skip_seealso: true
     {{< company_logo link="https://www.coohom.com" logo="./coohom.svg" alt="COOHOM" >}}
     {{< company_logo link="https://www.mycoyote.ca/projet_en.php" logo="./coyote.png" alt="COYOTE Lab" >}}
     {{< company_logo link="https://curve.com" logo="./curve.svg" alt="Curve" >}}
+    {{< company_logo link="https://www.daocloud.io" logo="./daocloud.svg" alt="DaoCloud" >}}
     {{< company_logo link="https://deepdesk.com/" logo="./deepdesk.png" alt="Deepdesk" >}}
     {{< company_logo link="https://www.delphi-tech.com/" logo="./delphi-tech.png" alt="Delphi Technology" >}}
     {{< company_logo link="https://www.descarteslabs.com" logo="./descarteslabs.png" alt="Descartes Labs" >}}
@@ -30,7 +31,7 @@ skip_seealso: true
     {{< company_logo link="https://www.flexe.com/" logo="./flexe.svg" alt="FLEXE" >}}
     {{< company_logo link="http://www.freddiemac.com/" logo="./freddie-mac.svg" alt="Freddie Mac" >}}
     {{< company_logo link="https://www.getyourguide.com/" logo="./getyourguide.svg" alt="GetYourGuide" >}}
-    {{< company_logo link="https://www.giffgaff.com/" logo="./giffgaff.svg" alt="Giffgaff" >}}
+    {{< company_logo link="ttps://www.giffgaff.com/" logo="./giffgaff.svg" alt="Giffgaff" >}}
     {{< company_logo link="https://www.giphy.com/" logo="./giphy.svg" alt="GIPHY" >}}
     {{< company_logo link="https://www.gojek.com/" logo="./gojek.svg" alt="Gojek" >}}
     {{< company_logo link="https://www.gov.uk/" logo="./gov-uk.svg" alt="GOV.UK" >}}
