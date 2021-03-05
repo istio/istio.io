@@ -17,7 +17,7 @@ such as Web Application Firewalls (WAF) that need this information to apply rule
 provide client attributes to services has long been a staple of reverse proxies. To forward these client
 attributes to destination workloads, proxies use the `X-Forwarded-For` (XFF) and `X-Forwarded-Client-Cert` (XFCC) headers.
 
-Today's networks vary widely in nature, but support for these attributes is still a requirement. Istio must support
+Today's networks vary widely in nature, but support for these attributes is a requirement no matter what the network topology is.
 these different types of networks, irrespective of the deployed network topology. This information should be preserved
 and forwarded whether the network uses cloud-based Load Balancers, on-premise Load Balancers, gateways that are
 exposed directly to the internet, gateways that serve many intermediate proxies, and other deployment topologies not
