@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 83
+number_of_entries: 84
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -2568,6 +2568,86 @@ without manual relabeling of the &#34;istio.io/rev&#34; tag.
 </tr>
 </tbody>
 </table>
+<h2 id="istioctl-experimental-tag-generate">istioctl experimental tag generate</h2>
+<p>Create a revision tag and output to the command&#39;s stdout. Tag an Istio control plane revision for use with namespace istio.io/rev
+injection labels.</p>
+<pre class="language-bash"><code>istioctl experimental tag generate &lt;revision-tag&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--overwrite</code></td>
+<td></td>
+<td>If true, allow revision tags to be overwritten, otherwise reject revision tag updates that
+overwrite existing revision tags. </td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>Control plane revision to reference from a given revision tag  (default ``)</td>
+</tr>
+<tr>
+<td><code>--skip-confirmation</code></td>
+<td><code>-y</code></td>
+<td>The skipConfirmation determines whether the user is prompted for confirmation.
+If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
+</tr>
+<tr>
+<td><code>--webhook-name &lt;string&gt;</code></td>
+<td></td>
+<td>Name to use for a revision tag&#39;s mutating webhook configuration.  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-tag-generate Examples">Examples</h3>
+<pre class="language-bash"><code> # Create a revision tag from the &#34;1-8-0&#34; revision
+ istioctl x tag generate prod --revision 1-8-0 &gt; tag.yaml
+
+ # Apply the tag to cluster
+ kubectl apply -f tag.yaml
+
+ # Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
+ kubectl label ns test-ns istio.io/rev=prod
+
+ # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-0&#34; revision
+ kubectl rollout restart deployments -n test-ns
+
+</code></pre>
 <h2 id="istioctl-experimental-tag-list">istioctl experimental tag list</h2>
 <p>List existing revision tags</p>
 <pre class="language-bash"><code>istioctl experimental tag list [flags]
@@ -2721,20 +2801,25 @@ overwrite existing revision tags. </td>
 <td>The skipConfirmation determines whether the user is prompted for confirmation.
 If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
 </tr>
+<tr>
+<td><code>--webhook-name &lt;string&gt;</code></td>
+<td></td>
+<td>Name to use for a revision tag&#39;s mutating webhook configuration.  (default ``)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-tag-set Examples">Examples</h3>
 <pre class="language-bash"><code> # Create a revision tag from the &#34;1-8-0&#34; revision
-	istioctl x tag set prod --revision 1-8-0
+ istioctl x tag set prod --revision 1-8-0
 
-	# Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
-	kubectl label ns test-ns istio.io/rev=prod
+ # Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
+ kubectl label ns test-ns istio.io/rev=prod
 
-	# Change the revision tag to reference the &#34;1-8-1&#34; revision
-	istioctl x tag set prod --revision 1-8-1 --overwrite
+ # Change the revision tag to reference the &#34;1-8-1&#34; revision
+ istioctl x tag set prod --revision 1-8-1 --overwrite
 
-	# Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-1&#34; revision
-	kubectl rollout restart deployments -n test-ns
+ # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-1&#34; revision
+ kubectl rollout restart deployments -n test-ns
 
 </code></pre>
 <h2 id="istioctl-experimental-uninstall">istioctl experimental uninstall</h2>
@@ -5569,12 +5654,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, Pilot will assign meaningful nonces to each Envoy configuration message, and allow users to interrogate which envoy has which config from the debug interface.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_CRD_VALIDATION</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, pilot will validate CRDs while retrieving CRDs from kubernetes cache.Use this flag to enable validation of CRDs in Pilot, especially in deployments that do not have galley installed.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_CROSS_CLUSTER_WORKLOAD_ENTRY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -5675,6 +5754,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>EnableThriftFilter enables injection of `envoy.filters.network.thrift_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_UNSAFE_RUNTIME_ASSERTIONS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, addition runtime asserts will be performed. These checks are both expensive and panic on failure. As a result, this should be used only for testing.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_VIRTUAL_SERVICE_DELEGATE</code></td>
@@ -5939,14 +6024,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>pilot_k8s_cfg_events</code></td><td><code>Sum</code></td><td>Events from k8s config.</td></tr>
 <tr><td><code>pilot_k8s_endpoints_pending_pod</code></td><td><code>LastValue</code></td><td>Number of endpoints that do not currently have any corresponding pods.</td></tr>
 <tr><td><code>pilot_k8s_endpoints_with_no_pods</code></td><td><code>Sum</code></td><td>Endpoints that does not have any corresponding pods.</td></tr>
-<tr><td><code>pilot_k8s_object_errors</code></td><td><code>LastValue</code></td><td>Errors converting k8s CRDs</td></tr>
 <tr><td><code>pilot_k8s_reg_events</code></td><td><code>Sum</code></td><td>Events from k8s registry.</td></tr>
 <tr><td><code>pilot_no_ip</code></td><td><code>LastValue</code></td><td>Pods not found in the endpoint table, possibly invalid.</td></tr>
 <tr><td><code>pilot_proxy_convergence_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between config change and a proxy receiving all required configuration.</td></tr>
 <tr><td><code>pilot_proxy_queue_time</code></td><td><code>Distribution</code></td><td>Time in seconds, a proxy is in the push queue before being dequeued.</td></tr>
 <tr><td><code>pilot_push_triggers</code></td><td><code>Sum</code></td><td>Total number of times a push was triggered, labeled by reason for the push.</td></tr>
 <tr><td><code>pilot_services</code></td><td><code>LastValue</code></td><td>Total services known to pilot.</td></tr>
-<tr><td><code>pilot_total_k8s_object_errors</code></td><td><code>Sum</code></td><td>Total Errors converting k8s CRDs</td></tr>
 <tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
 <tr><td><code>pilot_total_xds_internal_errors</code></td><td><code>Sum</code></td><td>Total number of internal XDS errors in pilot.</td></tr>
 <tr><td><code>pilot_total_xds_rejects</code></td><td><code>Sum</code></td><td>Total number of XDS responses from pilot rejected by proxy.</td></tr>
