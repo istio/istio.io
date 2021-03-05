@@ -9,7 +9,7 @@ icon: cadence
 
 * [支持策略](#support-policy)
 * [命名方案](#naming-scheme)
-* [Istio 版本的支持状态](#support-status-of-istio-releases)
+* [Istio 版本的支持状态](#support-status-of-Istio-releases)
 * [没有通用漏洞披露（CVEs）的版本](#releases-without-known-Common-Vulnerabilities-and-Exposures)
 
 ## 支持策略{#support-policy}
@@ -37,7 +37,7 @@ icon: cadence
 
 其中 `<minor>` 在每个版本中递增，`<patch>` 代表了当前 `<minor>` 版本的补丁数。对于 `<minor>` 版本来说一个补丁通常是一个很小的变更。
 
-## Istio 版本的支持状态{#support-status-of-istio-releases}
+## Istio 版本的支持状态{#support-status-of-Istio-releases}
 
 | 版本         | 目前支持   | 发行日期        | 停止维护         | 支持的 Kubernetes 版本 | 未测试，可能支持的 Kubernetes 版本 |
 |-----------------|-----------------------|---------------------|---------------------|-------------------------------|-----------------------------------------------|
