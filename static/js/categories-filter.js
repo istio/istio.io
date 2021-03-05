@@ -194,8 +194,9 @@ class CategoriesFilter {
             (this.FILTERS[i]['selected'].length === this.FILTERS[i]['buttonTotal']) )
         {
           var iBtns = document.getElementsByClassName(this.FILTERS[i]['buttonClass']);
+          this.FILTERS[i]['selected'] = [];
           for ( var j = 0; j < iBtns.length; j++ ) {
-            this.delClassIfPresent(iBtns[j], this.activeButtonClass)
+            this.delClassIfPresent(iBtns[j], this.activeButtonClass);
           }
           //this.addClassIfMissing(document.querySelector(this.FILTERS[i]['allSelector']), this.activeButtonClass)
         }

@@ -47,12 +47,13 @@
             color: $linkActiveColor;
             @media (min-width: $bp-md) {
                 margin: 2.5em 1.15em 3.75em 0;
+                &:hover {
+                    cursor: pointer;
+                    background-color: $linkActiveColor;
+                    color: #fff;
+                }
             }
-            &:hover {
-                cursor: pointer;
-                background-color: $linkActiveColor;
-                color: #fff;
-            }
+            
             &:focus {
                 outline: 0;
                 -webkit-box-shadow: 2px 2px 15px 0px rgba(101,126,186,1);
