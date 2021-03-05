@@ -12,8 +12,8 @@ test: no
 {{< boilerplate experimental >}}
 
 Many applications require knowing the client IP address and certificate information of the originating request to behave
-properly. Notable cases include logging and audit tools that require the client IP be populated and security tools
-such as Web Application Firewalls (WAF) that need this information to apply rule sets properly. The ability to
+properly. Notable cases include logging and audit tools that require the client IP be populated and security tools,
+such as Web Application Firewalls (WAF), that need this information to apply rule sets properly. The ability to
 provide client attributes to services has long been a staple of reverse proxies. To forward these client
 attributes to destination workloads, proxies use the `X-Forwarded-For` (XFF) and `X-Forwarded-Client-Cert` (XFCC) headers.
 
