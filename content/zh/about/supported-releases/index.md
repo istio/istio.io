@@ -25,7 +25,7 @@ icon: cadence
 |补丁             | 与相应的 Minor 版本相同                                                                               | 建议用户在补丁可用时尽快采用。
 |安全补丁    | 与补丁相同，但是除了上一个补丁程序的安全修复之外，它将不包含任何其他代码 | 因为安全修复的重要性，**强烈** 建议用户采用发行版本后的安全补丁。
 
-您可以在[发布页面](https://github.com/istio/istio/releases)上找到可用的版本，如果您是冒险类型，您可以在[每日构建 wiki](https://github.com/istio/istio/wiki/Daily-builds)上了解我们的每日构建。您可以在[此处](/zh/news)找到每个 Minor 版本和补丁版本的高级发行说明。
+您可以在[发布页面](https://github.com/istio/istio/releases)上找到可用的版本，如果您是愿意冒险，可以在[每日构建 wiki](https://github.com/istio/istio/wiki/Daily-builds)上了解我们的每日构建，也可以在[此处](/zh/news)找到每个 Minor 版本和补丁版本的高级发行说明。
 
 ## 命名方案{#naming-scheme}
 
