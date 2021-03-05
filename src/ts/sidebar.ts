@@ -175,9 +175,19 @@ function handleSidebar(): void {
                 if(e.href === url)
                     e.classList.add('current');
             });
-        }
-            
+        }   
     });
+
+    window.addEventListener('click', function(event) {
+        if(event.target){
+            const target = event.target as HTMLTextAreaElement;
+            if (target.matches('a[href^="#"]')) {
+                setTimeout(function() {
+                    window.scrollTo(window.scrollX, window.scrollY - 60);
+                }, 10);
+            }
+        }
+      });
 
     // toggle sidebar on/off
     listen(getById("sidebar-toggler"), click, e => {
