@@ -188,7 +188,7 @@ for examples of using this capability.
 
 The [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) allows for exchanging and preservation of client attributes across multiple proxies without relying on Layer 7 protocols.
 
-If your external load balancer is configured to use the PROXY protocol, the Istio gateway must also be configured accept PROXY protocol. Enabling this requires adding [Envoy Proxy Protocol filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol) using an `EnvoyFilter` applied on the gateway workload. For example:
+If your external load balancer is configured to use the PROXY protocol, the Istio gateway must also be configured to accept PROXY protocol.. Enabling this requires adding [Envoy Proxy Protocol filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol) using an `EnvoyFilter` applied on the gateway workload. For example:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
