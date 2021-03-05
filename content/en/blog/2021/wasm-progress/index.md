@@ -63,6 +63,6 @@ Although we have made a lot of progress on Wasm extensibility, there are still m
 * **Distribution artifacts interoperability**: Built on top of Solo.io’s [WebAssembly OCI image spec effort](https://www.solo.io/blog/announcing-the-webassembly-wasm-oci-image-spec/), a standard Wasm artifacts format will make it easy to build, pull, publish, and execute.
 * **Container Storage Interface (CSI) based artifacts distribution**: Using istio-agent to distribute modules is easy for adoption, but may not be efficient as each proxy will keep a copy of the Wasm module. As a more efficient solution, with [Ephemeral CSI](https://kubernetes-csi.github.io/docs/ephemeral-local-volumes.html), a DaemonSet will be provided which could configure storage for pods. Working similarly to a CNI plugin, a CSI driver would fetch the Wasm module out-of-band from the xDS flow and mount it inside the `rootfs` when the pod starts up.
 
-If you would like to join us, the group will meet every other week Tuesdays at 2PM PT. You can find the meeting invitation at [Istio working group calendar](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings).
+If you would like to join us, the group will meet every other week Tuesdays at 2PM PT. You can find the meeting on the [Istio working group calendar](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings).
 
 We look forward to seeing how you will use Wasm to extend Istio!
