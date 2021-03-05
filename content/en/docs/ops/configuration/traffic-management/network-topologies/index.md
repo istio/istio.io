@@ -25,7 +25,7 @@ specified.
 
 While Istio provides an [ingress gateway](/docs/tasks/traffic-management/ingress/ingress-control/), given the varieties
 of architectures mentioned above, reasonable defaults are not able to be shipped that support the proper forwarding of
-client attributes, such as the client IP address, to the destination workloads. Similar to the client IP address, other
+client attributes to the destination workloads.
 client attributes, such as client certificate information, should be preserved and forwarded to the destination
 workloads. This becomes ever more vital as Istio multicluster deployment models become more common.
 
