@@ -6,7 +6,7 @@ icon: customers
 keywords: [community]
 skip_seealso: true
 ---
-以下向您展示正在使用 Istio 的组织，如果您想编辑这个页面, [请提交PR!](https://github.com/istio/istio.io/tree/master/content/en/about/community/customers)
+以下向您展示正在使用 Istio 的用户，如果您想编辑这个页面, [请提交 PR！](https://github.com/istio/istio.io/tree/master/content/en/about/community/customers)
 
 <div class="logo-gallery">
     {{< company_logo link="https://www.aihuishou.com" logo="./aihuishou.jpeg" alt="Aihuishou" >}}
