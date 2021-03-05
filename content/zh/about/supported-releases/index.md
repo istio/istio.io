@@ -1,5 +1,5 @@
 ---
-title: 支持的版本
+title: 版本支持
 description: 当前支持的 Istio 版本。
 weight: 35
 icon: cadence
