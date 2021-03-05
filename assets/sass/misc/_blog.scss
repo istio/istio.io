@@ -140,6 +140,10 @@
         max-width: 754px;
         padding: 0;
     }
+    // TODO : consider changing font size back to 1rem
+    p {
+        font-size: $font-size--s;
+    }
     .post-author {
         color: $textGray;
         margin-bottom: 2.15em;
