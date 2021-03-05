@@ -20,7 +20,7 @@ attributes to destination workloads, proxies use the `X-Forwarded-For` (XFF) and
 Today's networks vary widely in nature, but support for these attributes is still a requirement. Istio must support
 these different types of networks, irrespective of the deployed network topology. This information should be preserved
 and forwarded whether the network uses cloud-based Load Balancers, on-premise Load Balancers, gateways that are
-exposed directly to the internet, gateways that serve to many intermediate proxies, and many other deployments not
+exposed directly to the internet, gateways that serve many intermediate proxies, and other deployment topologies not
 specified.
 
 While Istio provides an [ingress gateway](/docs/tasks/traffic-management/ingress/ingress-control/), given the varieties
