@@ -27,7 +27,7 @@ While Istio provides an [ingress gateway](/docs/tasks/traffic-management/ingress
 of architectures mentioned above, reasonable defaults are not able to be shipped that support the proper forwarding of
 client attributes to the destination workloads.
 client attributes, such as client certificate information, should be preserved and forwarded to the destination
-workloads. This becomes ever more vital as Istio multicluster deployment models become more common.
+This becomes ever more vital as Istio multicluster deployment models become more common.
 
 For more information on `X-Forwarded-For`, see the IETF's [RFC](https://tools.ietf.org/html/rfc7239).
 
