@@ -21,9 +21,9 @@
 ####################################################################################################
 
 bpsnip_helm_backup__1() {
-kubectl get istio-io --all-namespaces -oyaml > $HOME/istio_resource_backup.yaml
+kubectl get istio-io --all-namespaces -oyaml > "$HOME"/istio_resource_backup.yaml
 }
 
 bpsnip_helm_backup__2() {
-kubectl apply -f $HOME/istio_resource_backup.yaml
+kubectl apply -f "$HOME"/istio_resource_backup.yaml
 }
