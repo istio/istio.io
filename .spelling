@@ -441,10 +441,7 @@ linters
 list_by_publishdate
 liveness
 localhost
-<<<<<<< HEAD
 lookups
-=======
->>>>>>> fcfc1f89f (Release notes for 1.9 (#8884))
 loopback
 log_output_level
 Lua
@@ -727,6 +724,7 @@ Unmarshaling
 unnormalized
 unsampled
 untrusted
+upgradeability
 Upgradeability
 upstreamed
 upstreaming
