@@ -26,38 +26,38 @@ test: no
 1. 创建虚拟机
 1. 设置环境变量 `VM_APP`、`WORK_DIR`、`VM_NAMESPACE`、和 `SERVICE_ACCOUNT`（例如： `WORK_DIR="${HOME}/vmintegration"`）:
 
-{{< tabset category-name="network-mode" >}}
-
-{{< tab name="单一网络" category-value="single" >}}
-
-{{< text bash >}}
-$ VM_APP="<将在这台虚机上运行的应用名>"
-$ VM_NAMESPACE="<您的服务所在的命名空间>"
-$ WORK_DIR="<证书工作目录>"
-$ SERVICE_ACCOUNT="<为这台虚机提供的 Kubernetes 的服务账号名称>"
-$ CLUSTER_NETWORK=""
-$ VM_NETWORK=""
-$ CLUSTER="Kubernetes"
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="聚合网络" category-value="multiple" >}}
-
-{{< text bash >}}
-$ VM_APP="<将在这台虚机上运行的应用名>"
-$ VM_NAMESPACE="<您的服务所在的命名空间>"
-$ WORK_DIR="<证书工作目录>"
-$ SERVICE_ACCOUNT="<为这台虚机提供的 Kubernetes 的服务账号名称>"
-$ # 根据您的需要自定义多集群/多网络的参数
-$ CLUSTER_NETWORK="kube-network"
-$ VM_NETWORK="vm-network"
-$ CLUSTER="cluster1"
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
+    {{< tabset category-name="network-mode" >}}
+    
+    {{< tab name="单一网络" category-value="single" >}}
+    
+    {{< text bash >}}
+    $ VM_APP="<将在这台虚机上运行的应用名>"
+    $ VM_NAMESPACE="<您的服务所在的命名空间>"
+    $ WORK_DIR="<证书工作目录>"
+    $ SERVICE_ACCOUNT="<为这台虚机提供的 Kubernetes 的服务账号名称>"
+    $ CLUSTER_NETWORK=""
+    $ VM_NETWORK=""
+    $ CLUSTER="Kubernetes"
+    {{< /text >}}
+    
+    {{< /tab >}}
+    
+    {{< tab name="聚合网络" category-value="multiple" >}}
+    
+    {{< text bash >}}
+    $ VM_APP="<将在这台虚机上运行的应用名>"
+    $ VM_NAMESPACE="<您的服务所在的命名空间>"
+    $ WORK_DIR="<证书工作目录>"
+    $ SERVICE_ACCOUNT="<为这台虚机提供的 Kubernetes 的服务账号名称>"
+    $ # 根据您的需要自定义多集群/多网络的参数
+    $ CLUSTER_NETWORK="kube-network"
+    $ VM_NETWORK="vm-network"
+    $ CLUSTER="cluster1"
+    {{< /text >}}
+    
+    {{< /tab >}}
+    
+    {{< /tabset >}}
 
 1. 创建工作目录：
 
