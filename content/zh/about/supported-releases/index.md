@@ -51,7 +51,7 @@ icon: cadence
 ## 没有通用漏洞披露（CVEs）的版本{#releases-without-known-Common-Vulnerabilities-and-Exposures}
 
 {{< warning >}}
-Istio 不保证超出支持窗口期的 Minor 版本都有已知的 CVEs 补丁。请保持最新并使用受支持的版本。
+Istio 不保证超出支持窗口期的 Minor 版本都有已知的 CVEs 补丁。请使用最新和受支持的版本。
 {{< /warning >}}
 
 | Minor 版本             | 没有已知 CVEs 的补丁版本  |
