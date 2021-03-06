@@ -27,9 +27,9 @@ test: no
 1. 设置环境变量 `VM_APP`、`WORK_DIR`、`VM_NAMESPACE`、和 `SERVICE_ACCOUNT`（例如： `WORK_DIR="${HOME}/vmintegration"`）:
 
     {{< tabset category-name="network-mode" >}}
-    
+
     {{< tab name="单一网络" category-value="single" >}}
-    
+
     {{< text bash >}}
     $ VM_APP="<将在这台虚机上运行的应用名>"
     $ VM_NAMESPACE="<您的服务所在的命名空间>"
@@ -39,11 +39,11 @@ test: no
     $ VM_NETWORK=""
     $ CLUSTER="Kubernetes"
     {{< /text >}}
-    
+
     {{< /tab >}}
-    
+
     {{< tab name="聚合网络" category-value="multiple" >}}
-    
+
     {{< text bash >}}
     $ VM_APP="<将在这台虚机上运行的应用名>"
     $ VM_NAMESPACE="<您的服务所在的命名空间>"
@@ -54,9 +54,9 @@ test: no
     $ VM_NETWORK="vm-network"
     $ CLUSTER="cluster1"
     {{< /text >}}
-    
+
     {{< /tab >}}
-    
+
     {{< /tabset >}}
 
 1. 创建工作目录：
@@ -70,7 +70,7 @@ test: no
 安装 Istio，打开控制平面的对外访问，以便您的虚拟机可以访问它。
 
 1. 为安装创建 `IstioOperator` 空间
-   
+
     {{< text syntax="bash yaml" snip_id=setup_iop >}}
     $ cat <<EOF > ./vm-cluster.yaml
     apiVersion: install.istio.io/v1alpha1
@@ -90,7 +90,7 @@ test: no
 1. 安装 Istio。
 
     {{< tabset category-name="registration-mode" >}}
-   
+
     {{< tab name="默认" category-value="default" >}}
 
     {{< text bash >}}
@@ -140,7 +140,7 @@ test: no
     {{< /tabset >}}
 
 1. 使用东西向网关暴露集群内部服务：
-   
+
     {{< tabset category-name="network-mode" >}}
 
     {{< tab name="单一网络" category-value="single" >}}
@@ -429,8 +429,9 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
     $ curl helloworld.sample.svc:5000/hello
     Hello version: v1, instance: helloworld-v1-578dd69f69-fxwwk
     {{< /text >}}
-   
+
 ## 下一步 {#next-step}
+
 更多关于虚拟机的信息：
 * [Debugging Virtual Machines](/zh/docs/ops/diagnostic-tools/virtual-machines/) to troubleshoot issues with virtual machines.
 * [Bookinfo with a Virtual Machine](/zh/docs/examples/virtual-machines/) to set up an example deployment of virtual machines.
