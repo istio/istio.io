@@ -108,7 +108,7 @@ spec:
           servicePort: 8000
 {{< /text >}}
 
-## Cleanup
+## 清除
 
 删除 `Ingress` 配置，然后关闭 [httpbin]({{< github_tree >}}/samples/httpbin)服务：
 
