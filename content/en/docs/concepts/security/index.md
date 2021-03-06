@@ -527,6 +527,9 @@ the following benefits:
 
 ### Authorization architecture
 
+The authorization policy enforces access control to the inbound traffic in the
+service side Envoy proxy.
+
 Each Envoy proxy runs an authorization engine that authorizes requests at
 runtime. When a request comes to the proxy, the authorization engine evaluates
 the request context against the current authorization policies, and returns the
@@ -545,11 +548,12 @@ an authorization policy to the workloads to enforce access control.
 For workloads without authorization policies applied, Istio doesn't enforce
 access control allowing all requests.
 
-Authorization policies support both `ALLOW` and `DENY` actions. The deny
-policies take precedence over allow policies. If any allow policies are applied
-to a workload, access to that workload is denied by default, unless explicitly
-allowed by the rule in the policy. When you apply multiple authorization
-policies to the same workload, Istio applies them additively.
+Authorization policies support `ALLOW`, `DENY` and `CUSTOM` actions and the evaluation order is `CUSTOM`, `DENY` and
+then `ALLOW`, the following graph shows the evaluation order of these actions:
+
+{{< image width="50%" link="./authz-eval.png" caption="Authorization Evaluation Order">}}
+
+When you apply multiple authorization policies to the same workload, Istio applies them additively.
 
 ### Authorization policies
 
@@ -750,34 +754,54 @@ spec:
         notRequestPrincipals: ["*"]
 {{< /text >}}
 
-#### Allow-all and default deny-all authorization policies
+#### Default allow and deny policy
 
-The following example shows a simple `allow-all` authorization policy that
-allows full access to all workloads in the `default` namespace.
+The following shows an `ALLOW` (the default action is `ALLOW` if not specified) policy that matches nothing.
+If there are no other `ALLOW` policies applied, all requests will be denied due to the deny by default behavior.
+
+This is useful if you want to start with a minimal `allow-nothing` policy and then incrementally add more `ALLOW` policies
+to open more access to the workload.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: allow-all
-  namespace: default
+  name: allow-nothing
 spec:
-  action: ALLOW
-  rules:
-  - {}
+  # This matches nothing.
+  {}
 {{< /text >}}
 
-The following example shows a policy that doesn't allow any access to all
-workloads in the `admin` namespace.
+The following shows a `DENY` policy that explicitly denies all access. This will always deny the request even if there
+is an `ALLOW` policy that would match with the request because the `DENY` policy takes precedence over `ALLOW` policy.
+This is useful if you want to temporarily disable any access to the workload.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: deny-all
-  namespace: admin
 spec:
-  {}
+  action: DENY
+  # This matches everything.
+  rules:
+  - {}
+{{< /text >}}
+
+The following shows a `ALLOW` policy that allows full access. This means all other `ALLOW` policy
+will be bypassed, it is useful if you want to temporarily expose full access to the workload. Note the request could
+still be denied due to `CUSTOM` and `DENY` policy.
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-all
+spec:
+  action: ALLOW
+  # This matches everything.
+  rules:
+  - {}
 {{< /text >}}
 
 #### Custom conditions
@@ -870,10 +894,8 @@ MongoDB. In this case, you configure the authorization policy in the same way
 you did for the HTTP workloads. The difference is that certain fields and
 conditions are only applicable to HTTP workloads. These fields include:
 
-- The `request_principals` field in the source section of the authorization
-   policy object
-- The `hosts`, `methods` and `paths` fields in the operation section of the
-   authorization policy object
+- The `request_principals` field in the source section of the authorization policy object
+- The `hosts`, `methods` and `paths` fields in the operation section of the authorization policy object
 
 The supported conditions are listed in the
 [conditions page](/docs/reference/config/security/conditions/).
@@ -918,3 +940,16 @@ the authorization policy:
 
 Mutual TLS is not required if you don't use any of the above fields in the
 authorization policy.
+
+## Learn more
+
+After learning  the basic concepts, there are more resources to follow:
+
+- Try out the security policy by following the [authentication tasks](/docs/tasks/security/authentication/authn-policy)
+  and [authorization tasks](/docs/tasks/security/authorization).
+
+- Learn some security policy [common patterns](/docs/ops/configuration/security/security-policy-patterns) that could be
+  used to improve security in your mesh.
+
+- Read the [common problems](/docs/ops/common-problems/security-issues/) to better troubleshoot security policy issues
+  when something goes wrong.
