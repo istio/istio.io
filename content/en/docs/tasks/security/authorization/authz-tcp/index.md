@@ -1,6 +1,6 @@
 ---
-title: Authorization for TCP traffic
-description: How to set up access control for TCP traffic.
+title: TCP Traffic
+description: Shows how to set up access control for TCP traffic.
 weight: 20
 keywords: [security,access-control,rbac,tcp,authorization]
 aliases:
@@ -9,7 +9,7 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-This task shows you how to set up Istio authorization for TCP traffic in an Istio mesh.
+This task shows you how to set up Istio authorization policy for TCP traffic in an Istio mesh.
 
 ## Before you begin
 

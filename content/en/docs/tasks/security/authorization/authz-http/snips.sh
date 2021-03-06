@@ -25,7 +25,7 @@ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: deny-all
+  name: allow-nothing
   namespace: default
 spec:
   {}
@@ -43,6 +43,7 @@ spec:
   selector:
     matchLabels:
       app: productpage
+  action: ALLOW
   rules:
   - to:
     - operation:
@@ -61,6 +62,7 @@ spec:
   selector:
     matchLabels:
       app: details
+  action: ALLOW
   rules:
   - from:
     - source:
@@ -82,6 +84,7 @@ spec:
   selector:
     matchLabels:
       app: reviews
+  action: ALLOW
   rules:
   - from:
     - source:
@@ -103,6 +106,7 @@ spec:
   selector:
     matchLabels:
       app: ratings
+  action: ALLOW
   rules:
   - from:
     - source:
@@ -114,7 +118,7 @@ EOF
 }
 
 snip_clean_up_1() {
-kubectl delete authorizationpolicy.security.istio.io/deny-all
+kubectl delete authorizationpolicy.security.istio.io/allow-nothing
 kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
 kubectl delete authorizationpolicy.security.istio.io/details-viewer
 kubectl delete authorizationpolicy.security.istio.io/reviews-viewer

@@ -1,5 +1,5 @@
 ---
-title: Authorization Policy Trust Domain Migration
+title: Trust Domain Migration
 description: Shows how to migrate from one trust domain to another without changing authorization policy.
 weight: 60
 keywords: [security,access-control,rbac,authorization,trust domain, migration]
@@ -10,14 +10,16 @@ test: yes
 This task shows you how to migrate from one trust domain to another without changing authorization policy.
 
 In Istio 1.4, we introduce an alpha feature to support {{< gloss >}}trust domain migration{{</ gloss >}} for authorization policy. This means if an
- Istio mesh needs to change its {{< gloss >}}trust domain{{</ gloss >}}, the authorization policy doesn't need to be changed manually.
- In Istio, if a {{< gloss >}}workload{{</ gloss >}} is running in namespace `foo` with the service account `bar`, and the trust domain of the system is `my-td`,
- the identity of said workload is `spiffe://my-td/ns/foo/sa/bar`. By default, the Istio mesh trust domain is `cluster.local`,
- unless you specify it during the installation.
+Istio mesh needs to change its {{< gloss >}}trust domain{{</ gloss >}}, the authorization policy doesn't need to be changed manually.
+In Istio, if a {{< gloss >}}workload{{</ gloss >}} is running in namespace `foo` with the service account `bar`, and the trust domain of the system is `my-td`,
+the identity of said workload is `spiffe://my-td/ns/foo/sa/bar`. By default, the Istio mesh trust domain is `cluster.local`,
+unless you specify it during the installation.
 
 ## Before you begin
 
-1. Read the [authorization concept guide](/docs/concepts/security/#authorization).
+Before you begin this task, do the following:
+
+1. Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
 
 1. Install Istio with a custom trust domain and mutual TLS enabled.
 
