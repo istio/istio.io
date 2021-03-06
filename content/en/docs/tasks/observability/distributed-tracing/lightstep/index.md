@@ -65,7 +65,7 @@ Follow these steps if you're using the Public or Developer Mode Satellites, or i
 1.  Store your satellite pool's certificate authority certificate as a secret in the default and `istio-system` namespace.
     Download and use [this certificate](https://docs.lightstep.com/docs/instrument-with-istio-as-your-service-mesh#cacertpem-file).
     If you deploy the Bookinfo application in a different namespace, create the secret in that namespace instead.
-    The secret also needs to be created at `istio-system`, which will be used by istio gateways.
+    The secret also needs to be created at `istio-system`, which will be used by Istio gateways.
 
     {{< text bash >}}
     $ CACERT=$(cat Cert_Auth.crt | base64) # Cert_Auth.crt contains the necessary CACert
@@ -103,9 +103,12 @@ Follow these steps if you're using the Public or Developer Mode Satellites, or i
           sampling: 100
           tlsSettings
             mode: "SIMPLE"
+            # Specifying ca certificate here will moute `lightstep.cacert` secret volume
+            # at all sidecars by default.
             caCertificates="/etc/lightstep/cacert.pem"
     components:
       ingressGateways:
+      # `lightstep.cacert` secret volume needs to be mount at gateways via k8s overlay.
       - name: istio-ingressgateway
         enabled: true
         k8s:
