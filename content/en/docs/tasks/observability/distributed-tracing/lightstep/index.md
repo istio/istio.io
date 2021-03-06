@@ -62,31 +62,10 @@ use your own cert and your own pool's endpoint (`host:port`).
 
 Follow these steps if you're using the Public or Developer Mode Satellites, or if you're using on-premise Satellites with a TLS certificate.
 
-1.  Deploy Istio with the following configuration parameters specified:
-    - `pilot.traceSampling=100`
-    - `global.proxy.tracer="lightstep"`
-    - `meshConfig.defaultConfig.tracing.tlsSettings.mode="SIMPLE"`
-    - `meshConfig.defaultConfig.tracing.tlsSettings.caCertificates="/etc/lightstep/cacert.pem"`
-    - `global.tracer.lightstep.address="ingest.lightstep.com:443"`
-    - `global.tracer.lightstep.accessToken="<access-token>"`
-
-    You can set these parameters using the `--set key=value` syntax
-    when you run the install command. For example:
-
-    {{< text bash >}}
-    $ istioctl install \
-        --set values.pilot.traceSampling=100 \
-        --set values.global.proxy.tracer="lightstep" \
-        --set meshConfig.defaultConfig.tracing.tlsSettings.mode="SIMPLE" \
-        --set meshConfig.defaultConfig.tracing.tlsSettings.caCertificates="/etc/lightstep/cacert.pem" \
-        --set values.global.tracer.lightstep.
-        address="ingest.lightstep.com:443" \
-        --set values.global.tracer.lightstep.accessToken="<access-token>" \
-    {{< /text >}}
-
-1.  Store your satellite pool's certificate authority certificate as a secret in the default namespace.
+1.  Store your satellite pool's certificate authority certificate as a secret in the default and `istio-system` namespace.
     Download and use [this certificate](https://docs.lightstep.com/docs/instrument-with-istio-as-your-service-mesh#cacertpem-file).
     If you deploy the Bookinfo application in a different namespace, create the secret in that namespace instead.
+    The secret also needs to be created at `istio-system`, which will be used by istio gateways.
 
     {{< text bash >}}
     $ CACERT=$(cat Cert_Auth.crt | base64) # Cert_Auth.crt contains the necessary CACert
@@ -106,6 +85,45 @@ Follow these steps if you're using the Public or Developer Mode Satellites, or i
       data:
         cacert.pem: $CACERT
     EOF
+    {{< /text >}}
+
+1.  Deploy Istio with the following configuration parameters specified:
+
+    {{< text yaml >}}
+    global:
+      proxy:
+        tracer: "lightstep"
+      tracer:
+        lightstep:
+          address: "ingest.lightstep.com:443"
+          accessToken: "<access-token>"
+    meshConfig:
+      defaultConfig:
+        tracing:
+          sampling: 100
+          tlsSettings
+            mode: "SIMPLE"
+            caCertificates="/etc/lightstep/cacert.pem"
+    components:
+      ingressGateways:
+      - name: istio-ingressgateway
+        enabled: true
+        k8s:
+          overlays:
+          - kind: Deployment
+            name: istio-ingressgateway
+            patches:
+            - path: spec.template.spec.containers[0].volumeMounts[-1]
+              value: |
+                name: lightstep-certs
+                mountPath: /etc/lightstep
+                readOnly: true
+            - path: spec.template.spec.volumes[-1]
+              value: |
+                name: lightstep-certs
+                secret:
+                  secretName: lightstep.cacert
+                  optional: true
     {{< /text >}}
 
 ## Install and run the Bookinfo app
