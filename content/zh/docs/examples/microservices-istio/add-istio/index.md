@@ -20,7 +20,7 @@ test: no
 2.  重新部署 `productpage` 微服务，启用 Istio：
 
     {{< tip >}}
-    本教程为了教学目的将会逐步演示手动注入边车去启用 Istio，但是 [自动注入边车](/docs/ops/configuration/mesh/injection-concepts/) 更加方便.
+    本教程为了教学目的将会逐步演示手动注入边车去启用 Istio，但是 [自动注入边车](/zh/docs/ops/configuration/mesh/injection-concepts/) 更加方便.
     {{< /tip >}}
 
     {{< text bash >}}
@@ -30,7 +30,7 @@ test: no
 
 3.  进入应用的网页去验证应用是否在工作。Istio 是在没有改变原应用代码的情况下添加的。
 
-4.  检查 `productpage` 的 Pods 并且查看每个副本的两个容器。第一个容器是微服务本身的，第二个是连接到它的边车代理：
+4.  检查 `productpage` 的 Pod 并且查看每个副本的两个容器。第一个容器是微服务本身的，第二个是连接到它的边车代理：
 
     {{< text bash >}}
     $ kubectl get pods
@@ -49,7 +49,7 @@ test: no
     sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
     {{< /text >}}
 
-5.  Kubernetes 采取无侵入的和逐步的[滚动更新](https://kubernetes.io/docs/tutorials/kubernetes-basics/update-intro/)方式用启用 Istio 的 Pods 替换了原有的 Pods。Kubernetes 只有在新的 Pod 开始运行的时候才会终止老的 Pod，它透明地将流量一个一个地切换到新的 Pod 上。也就是说，它不会在声明一个新的 Pod 之前结束一个或者以上的 Pod。这些操作都是为了防止破坏你的应用，因此在注入 Istio 的过程中应用能够持续工作。
+5.  Kubernetes 采取无侵入的和逐步的[滚动更新](https://kubernetes.io/docs/tutorials/kubernetes-basics/update-intro/)方式用启用 Istio 的 Pod 替换了原有的 Pod。Kubernetes 只有在新的 Pod 开始运行的时候才会终止老的 Pod，它透明地将流量一个一个地切换到新的 Pod 上。也就是说，它不会在声明一个新的 Pod 之前结束一个或者以上的 Pod。这些操作都是为了防止破坏你的应用，因此在注入 Istio 的过程中应用能够持续工作。
 
 6.  检查 `productpage` Istio 边车的日志：
 
@@ -68,7 +68,7 @@ test: no
     tutorial
     {{< /text >}}
 
-8.  检查 Istio 仪表盘，通过自定义的 URL， 它配置在[你之前配置](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)的 `/etc/hosts` 文件中：
+8.  检查 Istio 仪表盘，通过自定义的 URL， 它配置在[你之前配置](/zh/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)的 `/etc/hosts` 文件中：
 
     {{< text plain >}}
     http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard
@@ -107,4 +107,4 @@ test: no
 在下一个模块，您将会学习到关于 Istio 可以为你的应用提供的功能。当 Istio 的功能对微服务是有益的时候，您将学习如何在整个应用程序上使用 Istio 来实现其全部潜力。
 
 您已经准备好
-[所有微服务上启用 Istio](/docs/examples/microservices-istio/enable-istio-all-microservices).
+[所有微服务上启用 Istio](/zh/docs/examples/microservices-istio/enable-istio-all-microservices).
