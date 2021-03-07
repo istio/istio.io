@@ -7,21 +7,15 @@ owner: istio/wg-docs-maintainers
 test: no
 ---
 
-Previously, you enabled Istio on a single microservice, `productpage`. You can
-proceed to enable Istio on the microservices incrementally to get the Istio
-functionality for more microservices. For the purpose of this tutorial, you will
-enable Istio on all the remaining microservices in one step.
+之前，你在 `productpage` 微服务中启用了 Istio。为了在微服务中获取更多的 Istio 功能，你可以逐步的在微服务中启用 Istio。本教程的教学目的是让您能够在其余所有微服务上一步到位的启用 Istio。
 
-1.  For the purpose of this tutorial, scale the deployments of the microservices
-    down to 1:
+1.  为了教学目的，将微服务的部署规模缩小为1：
 
     {{< text bash >}}
     $ kubectl scale deployments --all --replicas 1
     {{< /text >}}
 
-2.  Redeploy the Bookinfo application, Istio-enabled. The service `productpage` will not be
-    redeployed since it already has Istio injected, and its pods will not be
-    changed. This time you will use only a single replica of a microservice.
+2.  重新部署启用 Istio 的 Bookinfo 应用。`productpage` 服务不会被重新部署，因为它已经被注入 Istio，并且它的 Pods 将不会发生变化。这次你将使用只启用单个副本的微服务。
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app!=reviews -f -
@@ -39,13 +33,9 @@ enable Istio on all the remaining microservices in one step.
     deployment.apps/reviews-v2 configured
     {{< /text >}}
 
-3.  Access the application's webpage several times. Note that Istio was added
-    **transparently**, the original application did not change. It was added on
-    the fly, without the need to undeploy and redeploy the whole application.
+3.  多次访问应用的网页。需要注意的是 Istio 的添加是无侵入的，原有的应用不会发生变化。它是在运行过程中添加的，不需要撤销和重新部署整个应用程序。
 
-4.  Check the application pods and verify that now each pod has two containers.
-    One container is the microservice itself, the other is the sidecar proxy
-    attached to it:
+4.  检查应用程序 Pods，并验证现在每个 Pod 的两个容器。 一个容器是微服务本身，另一个是连接到它的边车代理。
 
     {{< text bash >}}
     $ kubectl get pods
@@ -56,50 +46,42 @@ enable Istio on all the remaining microservices in one step.
     sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
     {{< /text >}}
 
-5.  Access the Istio dashboard using the custom URL you set in your `/etc/hosts` file
-    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file):
+5.  通过自定义的 URL 检查 Istio 仪表盘，它配置在你[之前配置](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)的 `/etc/hosts` 文件中：
 
     {{< text plain >}}
     http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard
     {{< /text >}}
 
-6.  In the top left drop-down menu, select _Istio Mesh Dashboard_. Note that now all the services from your namespace
-    appear in the list of services.
+6.  在左上角的下拉菜单中，选择 _Istio Mesh Dashboard_。注意现在你的命名空间的所有服务都会出现在服务列表中。
 
     {{< image width="80%"
         link="dashboard-mesh-all.png"
         caption="Istio Mesh Dashboard"
         >}}
 
-7.  Check some other microservice in _Istio Service Dashboard_, e.g. `ratings` :
+7.  在 _Istio Service Dashboard_ 仪表盘中检查其他微服务，如 `ratings` 等：
 
     {{< image width="80%"
         link="dashboard-ratings.png"
         caption="Istio Service Dashboard"
         >}}
 
-8.  Visualize your application's topology by using the
-    [Kiali](https://www.kiali.io) console, which is not a part of Istio, but is
-    installed as part of the `demo` configuration.
-    Access the dashboard using the custom URL you set in your `/etc/hosts` file
-    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file):
+8.  通过 [Kiali](https://www.kiali.io) 控住台的可视化界面来查看你的应用程序的拓扑结构，它不是 Istio 的一部分，而是作为 `demo` 配置安装的一部分。通过自定义的 URL 进入仪表盘，它配置在你[之前配置](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file) 的 `/etc/hosts` 文件中：
 
     {{< text plain >}}
     http://my-kiali.io/kiali/console
     {{< /text >}}
 
-    If you installed Kiali as part of the [getting started](/docs/setup/getting-started/) instructions, your Kiali console user name is `admin` and the password is `admin`.
+    如果你的 Kiali 是通过 [入门指南](/docs/setup/getting-started/) 安装的，你的 Kiali 控制台用户名是 `admin`，密码是 `admin`。
 
-9.  Click on the Graph tab and select your namespace in the _Namespace_ drop-down menu in the top level corner.
-    In the _Display_ drop-down menu mark the _Traffic Animation_ check box to see some cool traffic animation.
+9.  点击 `Graph` 按钮，并且在顶部角落的 _Namespace_ 下拉菜单中选择你的命名空间。然后在 _Display_ 下拉菜单中选中 _Traffic Animation_ 复选框，就可以看到一些很酷的流量动画。
 
     {{< image width="80%"
         link="kiali-display-menu.png"
         caption="Kiali Graph Tab, display drop-down menu"
         >}}
 
-10. Try different options in the _Edge Labels_ drop-down menu. Hover with the mouse over the nodes and edges of the
-    graph. Notice the traffic metrics on the right.
+10. 尝试在 _Edge Labels_ 下拉菜单中选择不同的选项。将鼠标悬停在图的节点和边上。注意右边的流量指标。
 
     {{< image width="80%"
         link="kiali-edge-labels-menu.png"
@@ -111,5 +93,5 @@ enable Istio on all the remaining microservices in one step.
         caption="Kiali Graph Tab"
         >}}
 
-You are ready to
-[configure the Istio Ingress Gateway](/docs/examples/microservices-istio/istio-ingress-gateway).
+您已经准备好
+[配置 Istio Ingress 网关](/docs/examples/microservices-istio/istio-ingress-gateway)。
