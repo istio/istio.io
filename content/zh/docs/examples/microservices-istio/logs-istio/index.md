@@ -7,79 +7,67 @@ owner: istio/wg-docs-maintainers
 test: no
 ---
 
-Monitoring is crucial to support transitioning to the microservices architecture style.
+监控是支持向微服务架构过渡的关键。
 
-With Istio, you gain monitoring of the traffic between microservices by default.
-You can use the Istio Dashboard for monitoring your microservices in real time.
+在 Istio 中，它默认就提供监控微服务之间的流量的功能。你可以使用 Istio Dashboard 来实时监控你的微服务。
 
-Istio is integrated out-of-the-box with
-[Prometheus time series database and monitoring system](https://prometheus.io). Prometheus collects various
-traffic-related metrics and provides
-[a rich query language](https://prometheus.io/docs/prometheus/latest/querying/basics/) for them.
+Istio 集成了开箱即用的 [Prometheus 的时序数据库和监控系统](https://prometheus.io)。Prometheus 收集了各种流量相关的指标，并为其提供[丰富的查询语言](https://prometheus.io/docs/prometheus/latest/querying/basics/)。
 
-See below several examples of Prometheus Istio-related queries.
+请看下面几个 Prometheus 查询 Istio-related 的例子。
 
-1.  Access the Prometheus UI at [http://my-istio-logs-database.io](http://my-istio-logs-database.io).
-(The `my-istio-logs-database.io` URL should be in your /etc/hosts file, you set it
-[previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)).
+1.  通过 [http://my-istio-logs-database.io](http://my-istio-logs-database.io) 访问 Prometheus UI 界面。（这  `my-istio-logs-database.io` URL 在你[之前配置](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)的 `/etc/hosts` 文件中）。
 
     {{< image width="80%" link="prometheus.png" caption="Prometheus Query UI" >}}
 
-1.  Run the following example queries in the _Expression_ input box. Push the _Execute_ button to see query results in
-the _Console_ tab. The queries use `tutorial` as the name of the application's namespace, substitute it with the name of
-your namespace. For best results, run the real-time traffic simulator described in the previous steps when querying data.
+2.  在 _Expression_ 输入框中运行以下示例查询。按下 _Execute_ 按钮，在 _Console_ 中查看查询结果。这个查询使用 `tutorial` 作为应用的命名空间，你可以替换成你的命名空间。在查询数据时，为了能够得到更棒的效果，请运行前面步骤中描述的实时流量模拟器。
 
-    1. Get all the requests in your namespace:
+    1. 查询你命名空间的所有请求：
 
         {{< text plain >}}
         istio_requests_total{destination_service_namespace="tutorial", reporter="destination"}
         {{< /text >}}
 
-    1.  Get the sum of all the requests in your namespace:
+    2.  查询你的命名空间请求的总和：
 
         {{< text plain >}}
         sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination"})
         {{< /text >}}
 
-    1.  Get the requests to `reviews` microservice:
+    3.  查询 `reviews` 微服务的请求：
 
         {{< text plain >}}
         istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews"}
         {{< /text >}}
 
-    1.  [Rate](https://prometheus.io/docs/prometheus/latest/querying/functions/#rate) of requests over the past 5 minutes to all instances of the `reviews` microservice:
+    4.  在过去5分钟内， `reviews` 微服务实例中的所有请求的[请求率](https://prometheus.io/docs/prometheus/latest/querying/functions/#rate)：
 
         {{< text plain >}}
         rate(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews"}[5m])
         {{< /text >}}
 
-The queries above use the `istio_requests_total` metric, which is a standard Istio metric. You can observe
-other metrics, in particular, the ones of Envoy ([Envoy](https://www.envoyproxy.io) is the sidecar proxy of Istio). You
-can see the collected metrics in the _insert metric at cursor_ drop-down menu.
+上面使用的请求采用 `istio_requests_total` 指标，这是一个标准的 Istio 指标。你可以观察其他指标，特别是 Envoy （[Envoy](https://www.envoyproxy.io) 是 Istio 的边车代理）。你可以在 _insert metric at cursor_ 下拉菜单的看到收集的数据记录。
 
-## Next steps
+## 下一步{#next-steps}
 
-Congratulations on completing the tutorial!
+祝贺完成本教程！
 
-These tasks are a great place for beginners to further evaluate Istio's
-features using this `demo` installation:
+通过这些 `demo` 安装任务是初学者进一步了解 Istio 的方式：
 
-- [Request routing](/docs/tasks/traffic-management/request-routing/)
-- [Fault injection](/docs/tasks/traffic-management/fault-injection/)
-- [Traffic shifting](/docs/tasks/traffic-management/traffic-shifting/)
-- [Querying metrics](/docs/tasks/observability/metrics/querying-metrics/)
-- [Visualizing metrics](/docs/tasks/observability/metrics/using-istio-dashboard/)
-- [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
-- [Visualizing your mesh](/docs/tasks/observability/kiali/)
+- [请求路由](/docs/tasks/traffic-management/request-routing/)
+- [失败注入](/docs/tasks/traffic-management/fault-injection/)
+- [流量转移](/docs/tasks/traffic-management/traffic-shifting/)
+- [查询指标](/docs/tasks/observability/metrics/querying-metrics/)
+- [可视化指标](/docs/tasks/observability/metrics/using-istio-dashboard/)
+- [访问外部服务](/docs/tasks/traffic-management/egress/egress-control/)
+- [可视化您的网格](/docs/tasks/observability/kiali/)
 
-Before you customize Istio for production use, see these resources:
+在您自定义 Istio 产品之前，可以先了解这些资源：
 
-- [Deployment models](/docs/ops/deployment/deployment-models/)
-- [Deployment best practices](/docs/ops/best-practices/deployment/)
-- [Pod requirements](/docs/ops/deployment/requirements/)
-- [General installation instructions](/docs/setup/)
+- [部署模式](/docs/ops/deployment/deployment-models/)
+- [部署最佳实践](/docs/ops/best-practices/deployment/)
+- [Pod 需求](/docs/ops/deployment/requirements/)
+- [安装说明](/docs/setup/)
 
-## Join the Istio community
+## 加入 Istio 社区{#join-the-Istio-community}
 
-We welcome you to ask questions and give us feedback by joining the
-[Istio community](/about/community/join/).
+我们欢迎您通过加入 [Istio 社区](/about/community/join/) 提出并反馈问题。
