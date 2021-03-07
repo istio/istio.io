@@ -275,8 +275,8 @@ EOF
 {{< /tabset >}}
 
 {{< warning >}}
-在开始生成 `istio-token` 之前，作为 `istioctl x workload entry` 的一部分，您应该按照[文档](/zh/docs/ops/best-practices/security/#configure-third-party-service-account-tokens)来验证集群中是否开启了第三方 `token` 。
-如果没有开启第三方 token，您应该为 Istio 安装指令添加参数 `--set values.global.jwtPolicy=first-party-jwt` 。
+在开始生成 `istio-token` 之前，作为 `istioctl x workload entry` 的一部分，您应该按照[文档](/zh/docs/ops/best-practices/security/#configure-third-party-service-account-tokens)来验证集群中是否使用了第三方服务账号令牌。
+如果没有使用第三方服务账户令牌，您应该为 Istio 安装指令添加参数 `--set values.global.jwtPolicy=first-party-jwt` 。
 {{< /warning >}}
 
 接下来，使用 `istioctl x workload entry` 命令来生成:
