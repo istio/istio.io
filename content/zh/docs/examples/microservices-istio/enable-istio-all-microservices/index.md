@@ -1,5 +1,5 @@
 ---
-title: 在所以微服务中启用 Istio
+title: 在所有微服务中启用 Istio
 overview: 在你的整个应用中启用 Istio
 weight: 70
 
