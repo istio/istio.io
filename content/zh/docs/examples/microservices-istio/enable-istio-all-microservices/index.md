@@ -15,7 +15,7 @@ test: no
     $ kubectl scale deployments --all --replicas 1
     {{< /text >}}
 
-2.  重新部署启用 Istio 的 Bookinfo 应用。`productpage` 服务不会被重新部署，因为它已经被注入 Istio，并且它的 Pods 将不会发生变化。这次你将使用只启用单个副本的微服务。
+2.  重新部署启用 Istio 的 Bookinfo 应用。`productpage` 服务不会被重新部署，因为它已经被注入 Istio，并且它的 Pod 将不会发生变化。这次你将使用只启用单个副本的微服务。
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app!=reviews -f -
@@ -35,7 +35,7 @@ test: no
 
 3.  多次访问应用的网页。需要注意的是 Istio 的添加是无侵入的，原有的应用不会发生变化。它是在运行过程中添加的，不需要撤销和重新部署整个应用程序。
 
-4.  检查应用程序 Pods，并验证现在每个 Pod 的两个容器。 一个容器是微服务本身，另一个是连接到它的边车代理。
+4.  检查应用程序 Pod，并验证现在每个 Pod 的两个容器。 一个容器是微服务本身，另一个是连接到它的边车代理。
 
     {{< text bash >}}
     $ kubectl get pods
@@ -46,7 +46,7 @@ test: no
     sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
     {{< /text >}}
 
-5.  通过自定义的 URL 检查 Istio 仪表盘，它配置在你[之前配置](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)的 `/etc/hosts` 文件中：
+5.  通过自定义的 URL 检查 Istio 仪表盘，它配置在你[之前配置](/zh/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)的 `/etc/hosts` 文件中：
 
     {{< text plain >}}
     http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard
@@ -66,13 +66,13 @@ test: no
         caption="Istio Service Dashboard"
         >}}
 
-8.  通过 [Kiali](https://www.kiali.io) 控住台的可视化界面来查看你的应用程序的拓扑结构，它不是 Istio 的一部分，而是作为 `demo` 配置安装的一部分。通过自定义的 URL 进入仪表盘，它配置在你[之前配置](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file) 的 `/etc/hosts` 文件中：
+8.  通过 [Kiali](https://www.kiali.io) 控住台的可视化界面来查看你的应用程序的拓扑结构，它不是 Istio 的一部分，而是作为 `demo` 配置安装的一部分。通过自定义的 URL 进入仪表盘，它配置在你[之前配置](/zh/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file) 的 `/etc/hosts` 文件中：
 
     {{< text plain >}}
     http://my-kiali.io/kiali/console
     {{< /text >}}
 
-    如果你的 Kiali 是通过 [入门指南](/docs/setup/getting-started/) 安装的，你的 Kiali 控制台用户名是 `admin`，密码是 `admin`。
+    如果你的 Kiali 是通过 [入门指南](/zh/docs/setup/getting-started/) 安装的，你的 Kiali 控制台用户名是 `admin`，密码是 `admin`。
 
 9.  点击 `Graph` 按钮，并且在顶部角落的 _Namespace_ 下拉菜单中选择你的命名空间。然后在 _Display_ 下拉菜单中选中 _Traffic Animation_ 复选框，就可以看到一些很酷的流量动画。
 
@@ -94,4 +94,4 @@ test: no
         >}}
 
 您已经准备好
-[配置 Istio Ingress 网关](/docs/examples/microservices-istio/istio-ingress-gateway)。
+[配置 Istio Ingress Gateway](/zh/docs/examples/microservices-istio/istio-ingress-gateway)。
