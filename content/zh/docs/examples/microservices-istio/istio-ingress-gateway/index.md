@@ -7,7 +7,7 @@ owner: istio/wg-docs-maintainers
 test: no
 ---
 
-到目前为止，在外部你通过 Kubernetes Ingress 去访问你的应用。在本模块，你可以通过 Istio
+到目前为止，你可以通过 Kubernetes Ingress 在外部去访问你的应用。在本模块，你可以通过 Istio
 Ingress Gateway 配置流量，以便在微服务中通过使用 Istio 控制流量。
 
 1.  在环境变量中存储你的命名空间 `NAMESPACE`。你需要通过它在日志中辨别你的微服务。
@@ -18,7 +18,7 @@ Ingress Gateway 配置流量，以便在微服务中通过使用 Istio 控制流
     tutorial
     {{< /text >}}
 
-2.  为 Istio ingress gateway 的主机名创建一个环境变量。
+2.  为 Istio Ingress Gateway 的主机名创建一个环境变量。
 
     {{< text bash >}}
     $ export MY_INGRESS_GATEWAY_HOST=istio.$NAMESPACE.bookinfo.com
@@ -26,7 +26,7 @@ Ingress Gateway 配置流量，以便在微服务中通过使用 Istio 控制流
     istio.tutorial.bookinfo.com
     {{< /text >}}
 
-3.  配置 Istio ingress gateway:
+3.  配置 Istio Ingress Gateway：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -72,7 +72,7 @@ Ingress Gateway 配置流量，以便在微服务中通过使用 Istio 控制流
     EOF
     {{< /text >}}
 
-4.  在 [确定 Ingress IP 和端口](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) 部分使用指令设置 `INGRESS_HOST` 和 `INGRESS_PORT`。 
+4.  在 [确定 Ingress IP 和 Port](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) 部分可以使用指令设置 `INGRESS_HOST` 和 `INGRESS_PORT`。 
 
 5.  将该命令的输出添加到你的 `/etc/hosts` 文件中。
 
@@ -104,7 +104,7 @@ Ingress Gateway 配置流量，以便在微服务中通过使用 Istio 控制流
     ...
     {{< /text >}}
 
-9.  在 Kiali 控制台 `my-kiali.io/kiali/console` 通过 Graph 检查你的命名空间。（这个 `my-kiali.io` URL 设置在你[之前配置](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file) 的 `/etc/hosts` 文件中）。
+9.  在 Kiali 控制台 `my-kiali.io/kiali/console` 通过 Graph 检查你的命名空间。（这个 `my-kiali.io` URL 设置在你[之前配置](/zh/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file) 的 `/etc/hosts` 文件中）。
 
     在这，你可以看到有两个来源的流量，一个是 `unknown`（Kubernetes Ingress），一个是`istio-ingressgateway istio-system`（Istio Ingress Gateway）。
 
@@ -131,4 +131,4 @@ Ingress Gateway 配置流量，以便在微服务中通过使用 Istio 控制流
         caption="Kiali Graph Tab with Istio Ingress Gateway as a single source of traffic"
         >}}
 
-您已经准备好去配置 [Istio 日志](/docs/examples/microservices-istio/logs-istio).
+您已经准备好去配置 [Istio 日志](/zh/docs/examples/microservices-istio/logs-istio).
