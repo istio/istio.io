@@ -9,7 +9,7 @@ test: no
 
 正如你在上一个模块所见，Istio 通过增强 Kubernetes 功能，让你能更高效的操作微服务。
 
-在这个模块中，你可以在一个微服务中，`productpage`, 启用Istio。这个应用的其他部分会继续照原样运行。注意你可以一个微服务一个微服务的逐步启用 Istio。启用 Istio 在微服务中是无侵入的，你可以不用修改微服务代码或者破坏你的应用， 它也能够持续运行并且为用户请求服务。
+在这个模块中，你可以在 `productpage` 微服务中，启用Istio。这个应用的其他部分会继续照原样运行。注意你可以一个微服务一个微服务的逐步启用 Istio。启用 Istio 在微服务中是无侵入的，你可以不用修改微服务代码或者破坏你的应用， 它也能够持续运行并且为用户请求服务。
 
 1.  应用默认目标规则：
 
@@ -61,14 +61,14 @@ test: no
     [2019-02-15T09:06:04.053Z] "GET /productpage HTTP/1.1" 200 - 0 5723 90 83 "10.127.220.66" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15" "18710783-58a1-9e5f-992c-9ceff05b74c5" "tutorial.bookinfo.com" "127.0.0.1:9080" inbound|9080|http|productpage.tutorial.svc.cluster.local - 172.30.146.104:9080 10.127.220.66:0 -
     {{< /text >}}
 
-7.  输出你的命名空间，你将会在 Istio 面板中通过它来识别你的微服务：
+7.  输出你的命名空间，你将会在 Istio 仪表盘中通过它来识别你的微服务：
 
     {{< text bash >}}
     $ echo $(kubectl config view -o jsonpath="{.contexts[?(@.name == \"$(kubectl config current-context)\")].context.namespace}")
     tutorial
     {{< /text >}}
 
-8.  检查 Istio 面板，通过自定义的 URL， 它配置在[你之前配置](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)的 `/etc/hosts` 文件中：
+8.  检查 Istio 仪表盘，通过自定义的 URL， 它配置在[你之前配置](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)的 `/etc/hosts` 文件中：
 
     {{< text plain >}}
     http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard
@@ -88,28 +88,23 @@ test: no
         caption="Istio Mesh Dashboard"
         >}}
 
-9.  在 Istio Mesh 面板中，在 `Service` 列下，单击 `productpage` 服务。
+9.  在 Istio Mesh 仪表盘中，在 `Service` 列下，单击 `productpage` 服务。
 
     {{< image width="80%"
         link="dashboard-service-select-productpage.png"
         caption="Istio Service Dashboard, `productpage` selected"
         >}}
 
-    向下滚动到 _Service Workloads_ 部分。观察到面板图表已经更新。
+    向下滚动到 _Service Workloads_ 部分。观察到仪表盘图表已经更新。
 
     {{< image width="80%"
         link="dashboard-service.png"
         caption="Istio Service Dashboard"
         >}}
 
-这是在一个微服务中应用 Istio 的直接优点，你可以收到进出微服务的流量日志，包括时间、HTTP方法、路径和响应代码。你可以用 Istio 面板监控你的微服务。
+这是在一个微服务中应用 Istio 的直接优点，你可以收到进出微服务的流量日志，包括时间、HTTP方法、路径和响应代码。你可以用 Istio 仪表盘监控你的微服务。
 
-In the next modules, you will learn about the functionality Istio can provide to
-your applications. While some Istio functionality is beneficial when applied to
-a single microservice, you will learn how to apply Istio on the whole
-application to realize its full potential.
-
-在下一个模块，你将会学习到关于 Istio 可以为你的应用提供的功能。当 Istio 的功能应用于一个微服务时是有益的时候，您将学习如何在整个应用程序上使用 Istio 来实现其全部潜力。
+在下一个模块，您将会学习到关于 Istio 可以为你的应用提供的功能。当 Istio 的功能对微服务是有益的时候，您将学习如何在整个应用程序上使用 Istio 来实现其全部潜力。
 
 您已经准备好
 [所有微服务上启用 Istio](/docs/examples/microservices-istio/enable-istio-all-microservices).
