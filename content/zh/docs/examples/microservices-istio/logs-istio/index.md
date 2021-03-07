@@ -15,7 +15,7 @@ Istio 集成了开箱即用的 [Prometheus 的时序数据库和监控系统](ht
 
 请看下面几个 Prometheus 查询 Istio-related 的例子。
 
-1.  通过 [http://my-istio-logs-database.io](http://my-istio-logs-database.io) 访问 Prometheus UI 界面。（这  `my-istio-logs-database.io` URL 在你[之前配置](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)的 `/etc/hosts` 文件中）。
+1.  通过 [http://my-istio-logs-database.io](http://my-istio-logs-database.io) 访问 Prometheus UI 界面。（这  `my-istio-logs-database.io` URL 在你[之前配置](/zh/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)的 `/etc/hosts` 文件中）。
 
     {{< image width="80%" link="prometheus.png" caption="Prometheus Query UI" >}}
 
@@ -53,21 +53,21 @@ Istio 集成了开箱即用的 [Prometheus 的时序数据库和监控系统](ht
 
 通过这些 `demo` 安装任务是初学者进一步了解 Istio 的方式：
 
-- [请求路由](/docs/tasks/traffic-management/request-routing/)
-- [失败注入](/docs/tasks/traffic-management/fault-injection/)
-- [流量转移](/docs/tasks/traffic-management/traffic-shifting/)
-- [查询指标](/docs/tasks/observability/metrics/querying-metrics/)
-- [可视化指标](/docs/tasks/observability/metrics/using-istio-dashboard/)
-- [访问外部服务](/docs/tasks/traffic-management/egress/egress-control/)
-- [可视化您的网格](/docs/tasks/observability/kiali/)
+- [请求路由](/zh/docs/tasks/traffic-management/request-routing/)
+- [失败注入](/zh/docs/tasks/traffic-management/fault-injection/)
+- [流量转移](/zh/docs/tasks/traffic-management/traffic-shifting/)
+- [查询指标](/zh/docs/tasks/observability/metrics/querying-metrics/)
+- [可视化指标](/zh/docs/tasks/observability/metrics/using-istio-dashboard/)
+- [访问外部服务](/zh/docs/tasks/traffic-management/egress/egress-control/)
+- [可视化您的网格](/zh/docs/tasks/observability/kiali/)
 
 在您自定义 Istio 产品之前，可以先了解这些资源：
 
-- [部署模式](/docs/ops/deployment/deployment-models/)
-- [部署最佳实践](/docs/ops/best-practices/deployment/)
-- [Pod 需求](/docs/ops/deployment/requirements/)
-- [安装说明](/docs/setup/)
+- [部署模式](/zh/docs/ops/deployment/deployment-models/)
+- [部署最佳实践](/zh/docs/ops/best-practices/deployment/)
+- [Pod 需求](/zh/docs/ops/deployment/requirements/)
+- [安装说明](/zh/docs/setup/)
 
 ## 加入 Istio 社区{#join-the-Istio-community}
 
-我们欢迎您通过加入 [Istio 社区](/about/community/join/) 提出并反馈问题。
+我们欢迎您通过加入 [Istio 社区](/zh/about/community/join/) 提出并反馈问题。
