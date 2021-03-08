@@ -3,16 +3,15 @@ title: SchemaValidationError
 layout: analysis-message
 ---
 
-This message occurs when your Istio configuration does not successfully pass
-schema validation.
+当您的 Istio 配置没有成功通过架构验证时，会出现此消息。
 
-For example, you receive this error:
+例如，您将会看到以下错误：
 
 {{< text plain >}}
 Error [IST0106] (VirtualService ratings-bogus-weight-default.default) Schema validation error: percentage 888 is not in range 0..100
 {{< /text >}}
 
-and your Istio configuration contains these values:
+并且您的 Istio 中包含以下配置
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -35,13 +34,8 @@ spec:
       weight: 888
 {{< /text >}}
 
-In this example, the error message indicates that the `weight` element has an
-invalid value when checked against the schema.
+在这个示例中，错误信息是指 `weight` 属性被检查出值错误或无效。
 
-To resolve this problem, refer to the
-[message details](/zh/docs/reference/config/analysis/message-format/) field to determine
-which element or value does not adhere to the schema, correct the error and try
-again.
+要解决此问题, 参考[消息详情](/zh/docs/reference/config/analysis/message-format/)字段来了解哪些属性无效或错误，更正所有错误后，重新尝试。
 
-For details about the expected schema for Istio resources, see the
-[configuration reference](/zh/docs/reference/config/).
+有关 Istio 资源架构设计的更详细信息，请看[配置参考](/zh/docs/reference/config/).
