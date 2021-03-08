@@ -2,11 +2,14 @@
     display: none;
 
     @media screen AND (min-width: $bp-md) {
-        display: block;
+        display: flex;
         position: fixed;
         top: 8.125rem;
+        align-items: center;
         z-index: $banner-z;
+        height: 60px;
         width: 100%;
+        padding: 0.5rem;
         text-align: center;
         color: $bannerTextColor;
         background-color: $bannerBackgroundColor;
