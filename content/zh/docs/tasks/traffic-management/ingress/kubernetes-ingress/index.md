@@ -6,20 +6,20 @@ keywords: [traffic-management,ingress]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-此任务描述如何使用[Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)入口资源将Istio配置为在服务网格集群之外公开服务。
+此任务描述如何使用[Ingress Resource](https://kubernetes.io/zh/docs/concepts/services-networking/ingress/)入口资源将Istio配置为在服务网格集群之外公开服务。
 
 {{< tip >}}
-建议使用[Istio Gateway](/docs/tasks/traffic-management/ingress/ingress-control/)而不是Ingress来利用Istio提供的完整功能集，例如丰富的流量管理和安全功能。
+建议使用[Istio Gateway](/zh/docs/tasks/traffic-management/ingress/ingress-control/)而不是Ingress来利用Istio提供的完整功能集，例如丰富的流量管理和安全功能。
 {{< /tip >}}
 
-## 准备工作
+## 准备工作{#Before-you-begin}
 
-请按照[Ingress网关任务](/docs/tasks/traffic-management/ingress/ingress-control/)中的[准备工作](/docs/tasks/traffic-management/ingress/ingress-control/#before-you-begin)、[确定ingress IP和ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)的说明进行操作。
+请按照[Ingress网关任务](/zh/docs/tasks/traffic-management/ingress/ingress-control/)中的[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control/#before-you-begin)、[确定ingress IP和ports](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)的说明进行操作。
 
 
-## 使用Ingress resource配置ingress
+## 使用Ingress resource配置ingress{#Configuring-ingress-using-an-Ingress-resource}
 
-[Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/)公开了从集群外到集群内服务的HTTP和HTTPS路由。
+[Kubernetes Ingress 资源](https://kubernetes.io/zh/docs/concepts/services-networking/ingress/)公开了从集群外到集群内服务的HTTP和HTTPS路由。
 
 让我们看看如何在端口80上配置`Ingress`以实现HTTP流量。
 
@@ -66,20 +66,20 @@ test: yes
     ...
     {{< /text >}}
 
-## 下一步
+## 下一步{#Next-Steps}
 
-### TLS
+### TLS{#TLS}
 
-`Ingress` 支持[TLS settings](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls)设置。 Istio支持此功能，但是引用的 `Secret` 必须存在于`istio-ingressgateway` 部署的名称空间（通常是 `istio-system` ）中。 [cert-manager](/docs/ops/integrations/certmanager/)可用于生成这些证书。
+`Ingress` 支持[TLS](https://kubernetes.io/zh/docs/concepts/services-networking/ingress/#tls)设置。 Istio支持此功能，但是引用的 `Secret` 必须存在于`istio-ingressgateway` 部署的名称空间（通常是 `istio-system` ）中。 [cert-manager](/zh/docs/ops/integrations/certmanager/)可用于生成这些证书。
 
 
-### 指定路径类型
+### 指定路径类型{#Specifying-path-type}
 
 Istio默认路径类型为精确匹配，除非路径以 `/*` 或 `.*` 结尾，在这种情况下，路径类型为前缀匹配。不支持其他正则表达式。
 
 在Kubernetes 1.18中，添加了一个新字段 `pathType` 。这允许将路径明确声明为`Exact` 或 `Prefix`。
 
-### 指定 `IngressClass`
+### 指定 `IngressClass`{#Specifying-IngressClass}
 
 在Kubernetes 1.18中，添加了新资源 `IngressClass` ，以替换Ingress资源上的`kubernetes.io/ingress.class`注解。如果使用此资源，则需要将 `controller` 字段设置为 `istio.io/ingress-controller`。例如：
 
@@ -108,7 +108,7 @@ spec:
           servicePort: 8000
 {{< /text >}}
 
-## 清除
+## 清除{#Cleanup}
 
 删除 `Ingress` 配置，然后关闭 [httpbin]({{< github_tree >}}/samples/httpbin)服务：
 
