@@ -1,5 +1,5 @@
 ---
-title: 废弃功能
+title: Deprecated
 layout: analysis-message
 ---
 
