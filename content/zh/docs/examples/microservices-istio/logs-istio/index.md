@@ -15,11 +15,11 @@ Istio 集成了开箱即用的 [Prometheus 的时序数据库和监控系统](ht
 
 请看下面几个 Prometheus 查询 Istio-related 的例子。
 
-1.  通过 [http://my-istio-logs-database.io](http://my-istio-logs-database.io) 访问 Prometheus UI 界面。（这  `my-istio-logs-database.io` URL 在您[之前配置](/zh/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)的 `/etc/hosts` 文件中）。
+1. 通过 [http://my-istio-logs-database.io](http://my-istio-logs-database.io) 访问 Prometheus UI 界面。（这  `my-istio-logs-database.io` URL 在您[之前配置](/zh/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)的 `/etc/hosts` 文件中）。
 
     {{< image width="80%" link="prometheus.png" caption="Prometheus Query UI" >}}
 
-2.  在 _Expression_ 输入框中运行以下示例查询。按下 _Execute_ 按钮，在 _Console_ 中查看查询结果。这个查询使用 `tutorial` 作为应用的命名空间，您可以替换成您自己的命名空间。在查询数据时，为了能够得到更棒的效果，请运行前面步骤中描述的实时流量模拟器。
+2. 在 _Expression_ 输入框中运行以下示例查询。按下 _Execute_ 按钮，在 _Console_ 中查看查询结果。这个查询使用 `tutorial` 作为应用的命名空间，您可以替换成您自己的命名空间。在查询数据时，为了能够得到更棒的效果，请运行前面步骤中描述的实时流量模拟器。
 
     1. 查询命名空间的所有请求：
 
@@ -27,20 +27,20 @@ Istio 集成了开箱即用的 [Prometheus 的时序数据库和监控系统](ht
         istio_requests_total{destination_service_namespace="tutorial", reporter="destination"}
         {{< /text >}}
 
-    2.  查询命名空间请求的总和：
-        
+    2. 查询命名空间请求的总和：
+
         {{< text plain >}}
         sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination"})
         {{< /text >}}
 
-    3.  查询 `reviews` 微服务的请求：
+    3. 查询 `reviews` 微服务的请求：
 
         {{< text plain >}}
         istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews"}
         {{< /text >}}
 
-    4.  在过去5分钟内， `reviews` 微服务实例中的所有请求的[请求速率](https://prometheus.io/docs/prometheus/latest/querying/functions/#rate)：
-        
+    3. 在过去5分钟内， `reviews` 微服务实例中的所有请求的[请求速率](https://prometheus.io/docs/prometheus/latest/querying/functions/#rate)：
+
         {{< text plain >}}
         rate(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews"}[5m])
         {{< /text >}}
