@@ -1,6 +1,5 @@
 ---
 title: Quick start
-skipTitle: true
 linktitle: Documentation
 description: Learn how to deploy, use, and operate Istio.
 weight: 1
@@ -9,8 +8,6 @@ sidebar_multicard: false
 test: n/a
 ---
 [comment]: <> (TODO: Replace placeholders)
-
-# Quick start
 
 This guide lets you quickly evaluate Istio. If you are already familiar with
 Istio or interested in installing other configuration profiles or

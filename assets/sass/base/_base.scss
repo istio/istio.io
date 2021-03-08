@@ -415,18 +415,21 @@ sup {
 
 .title-area {
     display: flex;
-    margin-bottom: 2.625rem;
     align-items: center;
     
     h1 {
         margin: 0;
-
+        margin-top: 1.5rem;
         & + p {
             margin-top: 2.625rem;
         }
     }
 
     .subtitle { margin-bottom: 0; }
+    .reading-time {
+        opacity: 60%;
+        color: #293655;
+    }
 }
 
 .flipped {

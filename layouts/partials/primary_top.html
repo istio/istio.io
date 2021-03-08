@@ -46,6 +46,17 @@
         <article aria-labelledby="title">
             <div class="title-area">
                 <div style="width: 100%">
+                    {{ if not (or .Params.skip_byline $skipByLine) }}
+                        {{ if or .Params.attribution (gt .Page.ReadingTime 1) (ne .PublishDate.Year 0001) }}
+                            {{- if gt .Page.ReadingTime 1 -}}
+                                <span class="reading-time" title="{{ printf (i18n "page_word_count") .Page.WordCount }}">
+                                    {{- partial "icon.html" "clock" -}}
+                                    <span>&nbsp;</span>
+                                    {{- printf (i18n "page_reading_time") .Page.ReadingTime -}}
+                                </span>
+                            {{- end -}}
+                        {{ end }}
+                    {{ end }}
                     {{ if .Params.decoration }}
                         <div class="mark-all-read-container">
                             <h2 id="title">
@@ -104,37 +115,7 @@
                                     {{- $needBar = true }}
                                 {{- end -}}
 
-                                {{- if gt .Page.ReadingTime 1 -}}
-                                    {{- if $needBar -}}
-                                        <span> | </span>
-                                    {{- end -}}
-
-                                    <span title="{{ printf (i18n "page_word_count") .Page.WordCount }}">
-                                        {{- partial "icon.html" "clock" -}}
-                                        <span>&nbsp;</span>
-                                        {{- printf (i18n "page_reading_time") .Page.ReadingTime -}}
-                                    </span>
-
-                                    <span>&nbsp;</span>
-
-                                    <span>
-                                        {{if and (isset .Params "test") (not ( eq .Params.test "n/a"))}}
-                                            {{ if (.Params.test) }}
-                                                <a href="https://github.com/istio/istio.io/tree/master/README.md#testing-document-content" title='{{ i18n "has_test" }}'>
-                                                    {{- partial "icon.html" "checkmark" -}}
-                                                    <span>&nbsp;</span>
-                                                    {{ i18n "tested"}}
-                                                </a>
-                                            {{ else }}
-                                                <a href="https://github.com/istio/istio.io/tree/master/README.md#testing-document-content" title='{{ i18n "needs_test" }}'>
-                                                    {{- partial "icon.html" "cancel-grey" -}}
-                                                    <span>&nbsp;</span>
-                                                    {{ i18n "tested"}}
-                                                </a>
-                                            {{end}}
-                                        {{end}}
-                                    </span>
-                                {{- end -}}
+                                
                             </p>
                         {{ end }}
                     {{ end }}
