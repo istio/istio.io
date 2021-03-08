@@ -63,6 +63,7 @@ backend, is used below.
     {{< /text >}}
     
     Note that you need also prepare ratelimit service/deploy and redis service/deploy, as below:
+    
     {{< text yaml >}}
     apiVersion: v1
     kind: Service
@@ -100,7 +101,6 @@ backend, is used below.
               containerPort: 6379
           restartPolicy: Always
           serviceAccountName: ""
-    
     ---
     apiVersion: v1
     kind: Service
