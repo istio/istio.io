@@ -20,7 +20,7 @@ test: no
 1.  重新部署 `productpage` 微服务，启用 Istio：
 
     {{< tip >}}
-    本教程为了教学目的将会逐步演示手动注入边车去启用 Istio，但是 [自动注入边车](/zh/docs/ops/configuration/mesh/injection-concepts/) 更加方便.
+    本教程为了教学目的将会逐步演示手动注入 Sidecar 去启用 Istio，但是 [自动注入 Sidecar ](/zh/docs/ops/configuration/mesh/injection-concepts/) 更加方便.
     {{< /tip >}}
 
     {{< text bash >}}
@@ -30,7 +30,7 @@ test: no
 
 1.  进入应用的网页去验证应用是否在工作。Istio 是在没有改变原应用代码的情况下添加的。
 
-1.  检查 `productpage` 的 Pod 并且查看每个副本的两个容器。第一个容器是微服务本身的，第二个是连接到它的边车代理：
+1.  检查 `productpage` 的 Pod 并且查看每个副本的两个容器。第一个容器是微服务本身的，第二个是连接到它的 Sidecar 代理：
 
     {{< text bash >}}
     $ kubectl get pods
@@ -51,7 +51,7 @@ test: no
 
 1.  Kubernetes 采取无侵入的和逐步的[滚动更新](https://kubernetes.io/docs/tutorials/kubernetes-basics/update-intro/)方式用启用 Istio 的 Pod 替换了原有的 Pod。Kubernetes 只有在新的 Pod 开始运行的时候才会终止老的 Pod，它透明地将流量一个一个地切换到新的 Pod 上。也就是说，它不会在声明一个新的 Pod 之前结束一个或者以上的 Pod。这些操作都是为了防止破坏您的应用，因此在注入 Istio 的过程中应用能够持续工作。
 
-1.  检查 `productpage` Istio 边车的日志：
+1.  检查 `productpage` Istio Sidecar 的日志：
 
     {{< text bash >}}
     $ kubectl logs -l app=productpage -c istio-proxy | grep GET
