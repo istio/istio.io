@@ -97,7 +97,6 @@ $ mysql -u root -ppassword test -e  "update ratings set rating=1 where reviewid=
 
 当虚机启动时，将会自动被注册到网格中。然而，就像我们创建一个 Pod 一样，在更加便捷的访问之前需要创建一个 Service 。
 
-
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f - -n vm
 apiVersion: v1
