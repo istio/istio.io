@@ -77,7 +77,7 @@ Istio默认路径类型为精确匹配，除非路径以 `/*` 或 `.*` 结尾，
 
 在Kubernetes 1.18中，添加了一个新字段 `pathType` 。这允许将路径明确声明为`Exact` 或 `Prefix`。
 
-### 指定 IngressClass {#specifying-ingress-class}
+### 指定 `IngressClass` {#specifying-ingress-class}
 
 在Kubernetes 1.18中，添加了新资源 `IngressClass` ，以替换Ingress资源上的`kubernetes.io/ingress.class`注解。如果使用此资源，则需要将 `controller` 字段设置为 `istio.io/ingress-controller`。例如：
 
