@@ -6,10 +6,10 @@ keywords:
 - virtual-machine
 - vms
 aliases:
-- /docs/examples/integrating-vms/
-- /docs/examples/mesh-expansion/bookinfo-expanded
-- /docs/examples/virtual-machines/bookinfo/
-- /docs/examples/vm-bookinfo
+- /zh/docs/examples/integrating-vms/
+- /zh/docs/examples/mesh-expansion/bookinfo-expanded
+- /zh/docs/examples/virtual-machines/bookinfo/
+- /zh/docs/examples/vm-bookinfo
 owner: istio/wg-environments-maintainers
 test: yes
 ---
@@ -142,4 +142,4 @@ $ curl productpage.bookinfo:9080
 ...
 {{< /text >}}
 
-Istio 的 [DNS 代理](/docs/ops/configuration/traffic-management/dns-proxy/)自动为您的虚机配置 DNS , 允许我们调用 Kubernetes 的主机名。
+Istio 的 [DNS 代理](/zh/docs/ops/configuration/traffic-management/dns-proxy/)自动为您的虚机配置 DNS , 允许我们调用 Kubernetes 的主机名。
