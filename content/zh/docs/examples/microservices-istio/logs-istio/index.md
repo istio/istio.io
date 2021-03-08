@@ -45,7 +45,7 @@ Istio 集成了开箱即用的 [Prometheus 的时序数据库和监控系统](ht
         rate(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews"}[5m])
         {{< /text >}}
 
-上面使用的请求采用 `istio_requests_total` 指标，这是一个标准的 Istio 指标。您可以观察其他指标，特别是 Envoy （[Envoy](https://www.envoyproxy.io) 是 Istio 的边车代理）。您可以在 _insert metric at cursor_ 下拉菜单的看到收集的数据记录。
+上面使用的请求采用 `istio_requests_total` 指标，这是一个标准的 Istio 指标。您可以观察其他指标，特别是 Envoy （[Envoy](https://www.envoyproxy.io) 是 Istio 的 Sidecar 代理）。您可以在 _insert metric at cursor_ 下拉菜单的看到收集的数据记录。
 
 ## 下一步{#next-steps}
 
