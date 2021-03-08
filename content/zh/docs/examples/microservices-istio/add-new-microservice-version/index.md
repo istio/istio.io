@@ -47,7 +47,7 @@ test: no
         ...
         {{< /text >}}
 
-1.  前面的步骤确保您新版本的 `reviews` 可以正常工作，并且能够对其进行部署。 
+1.  前面的步骤确保您新版本的 `reviews` 可以正常工作，并且能够对其进行部署。
     您将一个单副本的服务部署到生产中，因此实际生产流量将开始到达您的新服务。 在当前的设置下，
     75% 的流量将到达旧版本（三个旧版本的pod），而 25% 的流量将到达新版本（单个pod）。
 
@@ -112,8 +112,8 @@ test: no
 这要求能够使用请求参数（例如使用存储在 cookie 中的用户名）将流量驱动到新版本。
 此外，对新版本的生产流量进行屏蔽，并检查新版本是否提供了错误的结果或者产生了错误。
 最后，获得对部署的更详细的控制。例如，你可以部署 1%，然后每小时增加 1%，只要服务没有被降级。
-Istio 直接帮助你执行这些任务来增强 Kubernetes 的价值。有关部署的更多详细信息和最佳实践，请参阅 
-[Deployment models](/docs/ops/deployment/deployment-models/)。
+Istio 直接帮助你执行这些任务来增强 Kubernetes 的价值。有关部署的更多详细信息和最佳实践，请参阅
+[部署模型](/zh/docs/ops/deployment/deployment-models/)。
 
 在这里，你有两个选择：
 
@@ -124,8 +124,8 @@ Istio 直接帮助你执行这些任务来增强 Kubernetes 的价值。有关�
    但是，您现在必须修改您的代码才能使用这些库。您的业务代码将膨胀，业务逻辑将与报告、路由、策略、网络逻辑混合在一起。
    由于您的微服务使用不同的编程语言，因此您必须学习、使用和更新多个库。
 
-参阅 [Istio service mesh](/docs/concepts/what-is-istio/#what-is-a-service-mesh)
+参阅 [Istio 服务网格](/zh/docs/concepts/what-is-istio/#what-is-a-service-mesh)
 以了解 Istio 如何执行此处以及更多内容中提到的任务。接下来的模块中，您将探索 Istio 的各种功能。
 
 您已经准备好
-[在`productpage`中启用istio](/docs/examples/microservices-istio/add-istio/)。
+[在 `productpage` 中启用 Istio](/zh/docs/examples/microservices-istio/add-istio/)。
