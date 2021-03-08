@@ -7,8 +7,7 @@ owner: istio/wg-docs-maintainers
 test: no
 ---
 
-到目前为止，您可以通过 Kubernetes Ingress 在外部去访问您的应用。在本模块，您可以通过 Istio
-Ingress Gateway 配置流量，以便在微服务中通过使用 Istio 控制流量。
+到目前为止，您可以通过 Kubernetes Ingress 在外部去访问您的应用。在本模块，您可以通过 Istio Ingress Gateway 配置流量，以便在微服务中通过使用 Istio 控制流量。
 
 1.  在环境变量中存储命名空间 `NAMESPACE`。您需要通过它在日志中辨别您的微服务。
 
@@ -93,7 +92,7 @@ Ingress Gateway 配置流量，以便在微服务中通过使用 Istio 控制流
     $ echo http://$MY_INGRESS_GATEWAY_HOST:$INGRESS_PORT/productpage
     {{< /text >}}
 
-1.  在一个新的终端窗口设置一个无限循环来模拟现实世界的用户流量去访问您的应用。
+1.  在一个新的终端窗口设置一个无限循环来模拟现实世界的用户流量去访问应用。
 
     {{< text bash >}}
     $ while :; do curl -s <output of the previous command> | grep -o "<title>.*</title>"; sleep 1; done
