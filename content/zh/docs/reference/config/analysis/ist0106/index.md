@@ -36,6 +36,6 @@ spec:
 
 在这个示例中，错误信息是指 `weight` 属性被检查出值错误或无效。
 
-要解决此问题, 参考[消息详情](/zh/docs/reference/config/analysis/message-format/)字段来了解哪些属性无效或错误，更正所有错误后，重新尝试。
+要解决此问题, 参考[消息详情](/zh/docs/reference/config/analysis/message-format/)的字段来了解哪些属性无效或错误，更正所有错误后，重新尝试。
 
 有关 Istio 资源架构设计的更详细信息，请看[配置参考](/zh/docs/reference/config/).
