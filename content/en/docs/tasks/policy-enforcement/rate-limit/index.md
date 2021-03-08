@@ -61,6 +61,119 @@ backend, is used below.
               unit: minute
               requests_per_unit: 100
     {{< /text >}}
+    
+    You also need apply ratelimit service/deployment and redis service/deployment:
+    	
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: redis
+      labels:
+        app: redis
+    spec:
+      ports:
+      - name: redis
+        port: 6379
+      selector:
+        app: redis
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: redis
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: redis
+      template:
+        metadata:
+          labels:
+            app: redis
+        spec:
+          containers:
+          - image: redis:alpine
+            imagePullPolicy: Always
+            name: redis
+            ports:
+            - name: redis
+              containerPort: 6379
+          restartPolicy: Always
+          serviceAccountName: ""
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: ratelimit
+      labels:
+        app: ratelimit
+    spec:
+      ports:
+      - name: "8080"
+        port: 8080
+        targetPort: 8080
+        protocol: TCP
+      - name: "8081"
+        port: 8081
+        targetPort: 8081
+        protocol: TCP
+      - name: "6070"
+        port: 6070
+        targetPort: 6070
+        protocol: TCP
+      selector:
+        app: ratelimit
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: ratelimit
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: ratelimit
+      strategy:
+        type: Recreate
+      template:
+        metadata:
+          labels:
+            app: ratelimit
+        spec:
+          containers:
+          - image: envoyproxy/ratelimit:6f5de117 # 2021/01/08
+            imagePullPolicy: Always
+            name: ratelimit
+            command: ["/bin/ratelimit"]
+            env:
+            - name: LOG_LEVEL
+              value: debug
+            - name: REDIS_SOCKET_TYPE
+              value: tcp
+            - name: REDIS_URL
+              value: redis:6379
+            - name: USE_STATSD
+              value: "false"
+            - name: RUNTIME_ROOT
+              value: /data
+            - name: RUNTIME_SUBDIRECTORY
+              value: ratelimit
+            ports:
+            - containerPort: 8080
+            - containerPort: 8081
+            - containerPort: 6070
+            volumeMounts:
+            - name: config-volume
+              mountPath: /data/ratelimit/config/config.yaml
+              subPath: config.yaml
+          volumes:
+          - name: config-volume
+            configMap:
+              name: ratelimit-config
+    EOF
+    {{< /text >}}
 
 1. Apply an `EnvoyFilter` to the `ingressgateway` to enable global rate limiting using Envoy's global rate limit filter.
 
