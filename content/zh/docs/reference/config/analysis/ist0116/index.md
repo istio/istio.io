@@ -9,7 +9,7 @@ test: no
 
 ## 示例 {#An example}
 
-例如具有以下 Services 的Istio网格：
+例如包含以下 Service：
 
 {{< text yaml >}}
 apiVersion: v1
