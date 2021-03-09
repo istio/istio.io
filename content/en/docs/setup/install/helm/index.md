@@ -237,11 +237,11 @@ installed above.
 
     {{< text syntax=bash snip_id=helm_ls >}}
     $ helm ls -n istio-system
-    NAME            NAMESPACE       REVISION    UPDATED                                	STATUS      CHART                    APP VERSION
-    istio-base      istio-system    1           ...                           ...   ...	deployed    base-1.9.0
-    istio-egress    istio-system    1           ...                           ...   ...	deployed    istio-egress-1.9.0
-    istio-ingress   istio-system    1           ...                           ...   ...	deployed    istio-ingress-1.9.0
-    istiod          istio-system    1           ...                           ...   ...	deployed    istio-discovery-1.9.0
+    NAME            NAMESPACE       REVISION    UPDATED                                 STATUS      CHART                    APP VERSION
+    istio-base      istio-system    1           ...                           ...   ... deployed    base-1.9.0
+    istio-egress    istio-system    1           ...                           ...   ... deployed    istio-egress-1.9.0
+    istio-ingress   istio-system    1           ...                           ...   ... deployed    istio-ingress-1.9.0
+    istiod          istio-system    1           ...                           ...   ... deployed    istio-discovery-1.9.0
     {{< /text >}}
 
 1. (Optional) Delete Istio ingress/egress chart:
