@@ -44,8 +44,7 @@ _wait_for_istio virtualservice default httpbin
 snip_export_gateway_url
 echo "*** GATEWAY_URL = $GATEWAY_URL ***"
 
-_verify_contains snip_curl_xff_headers 'X-Envoy-External-Address": "72.9.5.6",'
-_verify_contains snip_curl_xff_headers '"X-Forwarded-For": "56.5.6.7, 72.9.5.6, 98.1.2.3,'
+_verify_like snip_curl_xff_headers "$snip_curl_xff_headers_out"
 
 # @cleanup
 kubectl delete -f samples/httpbin/httpbin-gateway.yaml

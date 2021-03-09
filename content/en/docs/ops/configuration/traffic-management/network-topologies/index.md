@@ -128,7 +128,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
 1. Run the following `curl` command to simulate a request with proxy addresses in the `X-Forwarded-For` header:
 
     {{< text syntax=bash snip_id=curl_xff_headers >}}
-    $ curl -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL"/get?show_env=true
+    $ curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL"/get?show_env=true
     {
       "args": {
         "show_env": "true"
