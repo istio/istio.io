@@ -2,7 +2,7 @@
 title: ISTIO-SECURITY-2021-001
 subtitle: Security Bulletin
 description: JWT authentication can be bypassed when AuthorizationPolicy is misused.
-cves: [N/A]
+cves: [CVE-2021-21378]
 cvss: "8.2"
 vector: ""
 releases: ["1.9.0"]
@@ -13,12 +13,13 @@ skip_seealso: true
 
 {{< security_bulletin >}}
 
-This issue only affects Istio 1.9.0; previous versions of Istio are not affected. This issue has been given a CVSS score
-of 8.2 by the Istio product security working group.
+This issue only affects Istio 1.9.0; previous versions of Istio are not affected.
 
 Envoy, and subsequently Istio, is vulnerable to a newly discovered vulnerability:
 
-- [Envoy JWT filter bypass when using the allow_missing configuration under requires_any](https://groups.google.com/g/envoy-security-announce/c/Hp16L27L00Q).
+* __[CVE-2021-21378](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-21378)__:
+  JWT authentication bypass with unknown issuer token
+    * CVSS Score: 8.2 [AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N)
 
 You are subject to the vulnerability if you are using `RequestAuthentication` alone for JWT validation.
 
