@@ -130,7 +130,7 @@ $ kubectl apply -n bookinfo -f @samples/bookinfo/networking/virtual-service-rati
 
 您可以验证 Bookinfo 应用程序的输出显示的是 Reviewer1 的 1 个星，还是 Reviewer2 的 4 个星，或者更改虚拟机的 ratings 服务并查看结果。
 
-## Reaching Kubernetes services from the virtual machine
+## 从虚机访问 Kubernetes 服务{#reaching-Kubernetes-services-from-the-virtual-machine}
 
 在上面的示例中，我们将虚拟机视为一个服务。 您还可以在您的虚拟机中无缝调用 Kubernetes 的服务：
 
