@@ -36,7 +36,7 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 
 您将在虚拟机上安装 MySQL，并将其配置为 ratings 服务的后端。
 
-下列的所有命令都会在虚机上执行。
+下列的所有命令都在虚机上执行。
 
 安装 `mariadb`：
 
