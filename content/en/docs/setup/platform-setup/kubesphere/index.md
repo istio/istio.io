@@ -73,4 +73,4 @@ Ensure your firewall meets the [port requirements](https://kubesphere.io/docs/in
 
 ## Enable installing Istio on Kubernetes
 
-KubeSphere will install Istio within Kubernetes. Now reference [Enable Service Mesh](https://kubesphere.io/docs/installation/install-servicemesh/) to enable Istio.
+KubeSphere will install Istio within Kubernetes. Now reference [Enable Service Mesh](https://kubesphere.com.cn/en/docs/pluggable-components/service-mesh/) to enable Istio.
