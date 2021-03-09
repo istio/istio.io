@@ -7,21 +7,33 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-## Configuring network topologies
+## Forwarding external client attributes (IP address, certificate info) to destination workloads
 
 {{< boilerplate experimental >}}
 
-Istio provides the ability to manage settings like [X-Forwarded-For](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for) (XFF)
-and [X-Forwarded-Client-Cert](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
-(XFCC), which are dependent on how the gateway workloads are deployed. This is currently an in-development feature. For more
-information on `X-Forwarded-For`, see the IETF's [RFC](https://tools.ietf.org/html/rfc7239).
+Many applications require knowing the client IP address and certificate information of the originating request to behave
+properly. Notable cases include logging and audit tools that require the client IP be populated and security tools,
+such as Web Application Firewalls (WAF), that need this information to apply rule sets properly. The ability to
+provide client attributes to services has long been a staple of reverse proxies. To forward these client
+attributes to destination workloads, proxies use the `X-Forwarded-For` (XFF) and `X-Forwarded-Client-Cert` (XFCC) headers.
 
-You might choose to deploy Istio ingress gateways in various network topologies
-(e.g. behind Cloud Load Balancers, a self-managed Load Balancer or directly expose the
-Istio ingress gateway to the Internet). As such, these topologies require different ingress gateway configurations for
-transporting correct client attributes like IP addresses and certificates to the workloads running in the cluster.
+Today's networks vary widely in nature, but support for these attributes is a requirement no matter what the network topology is.
+This information should be preserved
+and forwarded whether the network uses cloud-based Load Balancers, on-premise Load Balancers, gateways that are
+exposed directly to the internet, gateways that serve many intermediate proxies, and other deployment topologies not
+specified.
 
-Configuration of XFF and XFCC headers can be set globally for all gateway workloads via `MeshConfig` or per gateway using a pod annotation. For example, to configure globally during install or upgrade when using an `IstioOperator` custom resource:
+While Istio provides an [ingress gateway](/docs/tasks/traffic-management/ingress/ingress-control/), given the varieties
+of architectures mentioned above, reasonable defaults are not able to be shipped that support the proper forwarding of
+client attributes to the destination workloads.
+This becomes ever more vital as Istio multicluster deployment models become more common.
+
+For more information on `X-Forwarded-For`, see the IETF's [RFC](https://tools.ietf.org/html/rfc7239).
+
+## Configuring network topologies
+
+Configuration of XFF and XFCC headers can be set globally for all gateway workloads via `MeshConfig` or per gateway using
+a pod annotation. For example, to configure globally during install or upgrade when using an `IstioOperator` custom resource:
 
 {{< text yaml >}}
 spec:
@@ -176,7 +188,7 @@ for examples of using this capability.
 
 The [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) allows for exchanging and preservation of client attributes across multiple proxies without relying on Layer 7 protocols.
 
-If your external load balancer is configured to use the PROXY protocol, the Istio gateway must also be configured accept PROXY protocol. Enabling this requires adding [Envoy Proxy Protocol filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol) using an `EnvoyFilter` applied on the gateway workload. For example:
+If your external load balancer is configured to use the PROXY protocol, the Istio gateway must also be configured to accept the PROXY protocol. Enabling this requires adding the [Envoy Proxy Protocol filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol) using an `EnvoyFilter` applied on the gateway workload. For example:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
