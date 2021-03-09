@@ -33,7 +33,7 @@ snip_install_egressgateway
 _wait_for_deployment istio-system istio-egressgateway
 
 # shellcheck disable=SC2154
-_verify_elided snip_helm_ls "$snip_helm_ls_out"
+_verify_like snip_helm_ls "$snip_helm_ls_out"
 
 # @cleanup
 snip_delete_crds
