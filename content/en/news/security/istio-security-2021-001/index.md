@@ -4,7 +4,7 @@ subtitle: Security Bulletin
 description: JWT authentication can be bypassed when AuthorizationPolicy is misused.
 cves: [CVE-2021-21378]
 cvss: "8.2"
-vector: ""
+vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
 releases: ["1.9.0"]
 publishdate: 2021-03-01
 keywords: [CVE]
@@ -12,8 +12,6 @@ skip_seealso: true
 ---
 
 {{< security_bulletin >}}
-
-This issue only affects Istio 1.9.0; previous versions of Istio are not affected.
 
 Envoy, and subsequently Istio, is vulnerable to a newly discovered vulnerability:
 
