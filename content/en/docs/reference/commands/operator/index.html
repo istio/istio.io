@@ -285,6 +285,18 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If enabled, pilot will set the incremental flag of the options in the mcp controller to true, and then galley may push data incrementally, it depends on whether the resource supports incremental. By default, this is false.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_LEGACY_INBOUND_LISTENERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Enable legacy inbound listeners. When enabled, inbound redirection to port 15001 will be supported. If disabled, inbound requests must be directed to port 15006 and will be routed by a single listener. This is intended for migration purposes only.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_LOOP_BLOCKER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Envoy will be configured to prevent traffic directly to the inbound/outbound ports (15001/15006). This prevents traffic loops. This option will be removed, and considered always enabled, in 1.9.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
