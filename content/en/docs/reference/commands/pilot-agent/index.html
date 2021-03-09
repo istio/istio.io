@@ -912,12 +912,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_LOOP_BLOCKER</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, Envoy will be configured to prevent traffic directly the the inbound/outbound ports (15001/15006). This prevents traffic loops. This option will be removed, and considered always enabled, in 1.9.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1186,12 +1180,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code></code></td>
 <td>The SPIFFE bundle trust domain to endpoint mappings. Istiod retrieves the root certificate from each SPIFFE bundle endpoint and uses it to verify client certifiates from that trust domain. The endpoint must be compliant to the SPIFFE Bundle Endpoint standard. For details, please refer to https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md . No need to configure this for root certificates issued via Istiod or web-PKI based root certificates. Use || between &lt;trustdomain, endpoint&gt; tuples. Use | as delimiter between trust domain and endpoint in each tuple. For example: foo|https://url/for/foo||bar|https://url/for/bar</td>
-</tr>
-<tr>
-<td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
-<td>Integer</td>
-<td><code>5</code></td>
-<td>The amount of time allowed for connections to complete on pilot-agent shutdown. On receiving SIGTERM or SIGINT, pilot-agent tells the active Envoy to start draining, preventing any new connections and allowing existing connections to complete. It then sleeps for the TerminationDrainDuration and then kills any remaining active Envoy processes.</td>
 </tr>
 <tr>
 <td><code>TOKEN_AUDIENCES</code></td>
