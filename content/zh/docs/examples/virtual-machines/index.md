@@ -36,7 +36,7 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 
 您将在虚拟机上安装 MySQL，并将其配置为 ratings 服务的后端。
 
-下列的所有命令都会在虚机上执行。
+下列的所有命令都在虚机上执行。
 
 安装 `mariadb`：
 
@@ -141,4 +141,4 @@ $ curl productpage.bookinfo:9080
 ...
 {{< /text >}}
 
-Istio 的 [DNS 代理](/zh/docs/ops/configuration/traffic-management/dns-proxy/)自动为您的虚机配置 DNS , 允许我们调用 Kubernetes 的主机名。
+Istio 的 [DNS 代理](/zh/docs/ops/configuration/traffic-management/dns-proxy/)自动为您的虚机配置 DNS , 允许我们 Kubernetes 的主机名进行访问。
