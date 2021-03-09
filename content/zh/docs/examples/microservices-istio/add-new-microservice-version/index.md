@@ -21,10 +21,10 @@ test: no
 
 1.  访问你的应用程序以确保已部署的微服务不会破坏它。
 
-1.  从集群内部使用您之前部署的测试容器测试新版本的微服务。请注意您的新版本在测试期间访问微服务 ratings 的生产 pods。
-    还需要注意，您必须使用 pod IP 访问新版本的微服务，因为它还没有被 `reviews` 服务选中。
+1.  从集群内部使用您之前部署的测试容器测试新版本的微服务。请注意您的新版本在测试期间访问微服务 ratings 的生产 Pods。
+    还需要注意，您必须使用 Pod IP 访问新版本的微服务，因为它还没有被 `reviews` 服务选中。
 
-    1.  获取pod IP：
+    1.  获取Pod IP：
 
         {{< text bash >}}
         $ REVIEWS_V2_POD_IP=$(kubectl get pod -l app=reviews_test,version=v2 -o jsonpath='{.items[0].status.podIP}')
@@ -49,7 +49,7 @@ test: no
 
 1.  前面的步骤确保您新版本的 `reviews` 可以正常工作，并且能够对其进行部署。
     您将一个单副本的服务部署到生产中，因此实际生产流量将开始到达您的新服务。 在当前的设置下，
-    75% 的流量将到达旧版本（三个旧版本的pod），而 25% 的流量将到达新版本（单个pod）。
+    75% 的流量将到达旧版本（三个旧版本的Pod），而 25% 的流量将到达新版本（单个Pod）。
 
     要部署 _reviews v2_，请重新部署带有 `app=reviews` 标签的新版本，以便它能被 `reviews` 服务寻址。
 
@@ -124,8 +124,6 @@ Istio 直接帮助你执行这些任务来增强 Kubernetes 的价值。有关�
    但是，您现在必须修改您的代码才能使用这些库。您的业务代码将膨胀，业务逻辑将与报告、路由、策略、网络逻辑混合在一起。
    由于您的微服务使用不同的编程语言，因此您必须学习、使用和更新多个库。
 
-参阅 [Istio 服务网格](/zh/docs/concepts/what-is-istio/#what-is-a-service-mesh)
-以了解 Istio 如何执行此处以及更多内容中提到的任务。接下来的模块中，您将探索 Istio 的各种功能。
+参阅 [Istio 服务网格](/zh/docs/concepts/what-is-istio/#what-is-a-service-mesh) 以了解 Istio 如何执行此处以及更多内容中提到的任务。接下来的模块中，您将探索 Istio 的各种功能。
 
-您已经准备好
-[在 `productpage` 中启用 Istio](/zh/docs/examples/microservices-istio/add-istio/)。
+您已经准备好 [在 `productpage` 中启用 Istio](/zh/docs/examples/microservices-istio/add-istio/)。
