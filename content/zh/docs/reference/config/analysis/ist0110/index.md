@@ -1,8 +1,10 @@
 ---
 title: ConflictingSidecarWorkloadSelectors
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: n/a
 ---
 
-This message occurs when more than one Sidecar resource in a namespace selects the same workload instance. This can lead to undefined behavior. See the reference for the [Sidecar](/zh/docs/reference/config/networking/sidecar/) resource for more information.
+当一个命名空间中，多个 Sidecar 资源选择相同的工作负载实例时会出现此问题。这可能导致位置问题。查看 [Sidecar](/zh/docs/reference/config/networking/sidecar/) 参考来了解更多信息。
 
-To fix, ensure that the set of workload instances (e.g. pods) selected by each Sidecar workload selector in a namespace do not overlap.
+要解决此问题，请确保同一个命名空间中的 Sidecar 的负载选择器选择的工作负载实例（例如： Pods）不会重复。
