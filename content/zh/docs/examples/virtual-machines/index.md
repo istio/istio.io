@@ -141,4 +141,4 @@ $ curl productpage.bookinfo:9080
 ...
 {{< /text >}}
 
-Istio 的 [DNS 代理](/zh/docs/ops/configuration/traffic-management/dns-proxy/)自动为您的虚机配置 DNS , 允许我们调用 Kubernetes 的主机名。
+Istio 的 [DNS 代理](/zh/docs/ops/configuration/traffic-management/dns-proxy/)自动为您的虚机配置 DNS , 允许我们 Kubernetes 的主机名进行访问。
