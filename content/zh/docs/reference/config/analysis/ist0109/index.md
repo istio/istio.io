@@ -1,10 +1,19 @@
+<!--
+ * @Author: gezuxia
+ * @Descripttion: 
+ * @Date: 2021-03-09 21:34:18
+ * @LastEditors: gezuxia
+ * @LastEditTime: 2021-03-09 21:37:51
+-->
 ---
 title: ConflictingMeshGatewayVirtualServiceHosts
 layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: no
 ---
+
 当 Istio 检测到因[虚拟服务](/zh/docs/reference/config/networking/virtual-service)资源重复而导致冲突时，会出现该信息。比如，多个虚拟服务使用相同的主机名且连接网格网关，会出现错误信息。需要注意的是，Istio 支持虚拟服务合并来连接入口网关。
+
 ## 解决方案{#resolution}
 
 解决该问题，有如下几个方法：
@@ -49,7 +58,7 @@ spec:
 ---
 {{< /text >}}
 
-你可以通过设置 `exportTo` 字段为 `.` 来解决该问题，让每个虚拟服务都只限定在自己的命名空间：
+您可以通过设置 `exportTo` 字段为 `.` 来解决该问题，让每个虚拟服务都只限定在自己的命名空间：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
