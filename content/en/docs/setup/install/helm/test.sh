@@ -18,6 +18,8 @@ set -u
 
 set -o pipefail
 
+# @setup profile=none
+
 snip_create_istio_system_namespace
 snip_install_base
 
