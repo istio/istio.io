@@ -8,7 +8,7 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-This page was last updated February 17, 2018.
+This page was last updated March 9, 2021.
 
 {{< boilerplate untested-document >}}
 
@@ -73,4 +73,4 @@ Ensure your firewall meets the [port requirements](https://kubesphere.io/docs/in
 
 ## Enable installing Istio on Kubernetes
 
-KubeSphere will install Istio within Kubernetes. Now reference [Enable Service Mesh](https://kubesphere.com.cn/en/docs/pluggable-components/service-mesh/) to enable Istio.
+KubeSphere will install Istio within Kubernetes. Now reference [Enable Service Mesh](https://kubesphere.io/docs/pluggable-components/service-mesh/) to enable Istio.
