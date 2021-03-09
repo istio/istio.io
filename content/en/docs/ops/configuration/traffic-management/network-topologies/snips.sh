@@ -62,7 +62,7 @@ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o
 }
 
 snip_curl_xff_headers() {
-curl -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL"/get?show_env=true
+curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL"/get?show_env=true
 }
 
 ! read -r -d '' snip_curl_xff_headers_out <<\ENDSNIP
