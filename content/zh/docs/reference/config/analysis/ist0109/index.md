@@ -11,7 +11,7 @@ test: no
 
 解决该问题，有如下几个方法：
 
-* 将冲突的虚拟服务合并为一个资源
+* 将冲突的 Virtual Service 合并为一个
 * 连接 Gateway 的 Virtual Service 使用唯一的主机名
 * 通过设置 `exportTo` 字段，将资源范围限定到指定的命名空间。
 
