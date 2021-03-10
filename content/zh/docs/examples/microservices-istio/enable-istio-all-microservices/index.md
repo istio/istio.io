@@ -93,5 +93,4 @@ test: no
         caption="Kiali Graph Tab"
         >}}
 
-您已经准备好
-[配置 Istio Ingress Gateway](/zh/docs/examples/microservices-istio/istio-ingress-gateway)。
+您已经准备好[配置 Istio Ingress Gateway](/zh/docs/examples/microservices-istio/istio-ingress-gateway)。
