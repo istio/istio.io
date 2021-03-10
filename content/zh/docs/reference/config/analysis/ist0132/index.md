@@ -9,7 +9,7 @@ test: no
 
 ## 示例{#example}
 
-您将会收到一下信息：
+您将会收到以下信息：
 
 {{< text plain >}}
 Warning [IST0132] (VirtualService testing-service.default testing.yaml:8) one or more host [wrong.com] defined in VirtualService default/testing-service not found in Gateway istio-system/testing-gateway.
@@ -59,6 +59,6 @@ spec:
       
 在这个示例中，虚拟服务 `testing-service` 拥有域名 `wrong.com` ，但是该域名没有声明在网关 `testing-gateway` 中。
 
-## 解决方案{#How to resolve}
+## 解决方案{#how-to-resolve}
 
 确保虚拟服务中所有 `hosts` 都已绑定到了相应的网关 `hosts` 中。
