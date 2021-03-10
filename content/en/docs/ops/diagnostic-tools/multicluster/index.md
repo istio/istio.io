@@ -48,8 +48,8 @@ To verify certs are configured correctly, you can compare the root-cert in each 
 
 {{< text bash >}}
 $ diff \
-   $(kubectl --context="${CTX_CLUSTER1}" -n istio-system get secret cacerts -ojsonpath='{.data.root-cert\.pem}') \
-   $(kubectl --context="${CTX_CLUSTER1}" -n istio-system get secret cacerts -ojsonpath='{.data.root-cert\.pem}')
+   <(kubectl --context="${CTX_CLUSTER1}" -n istio-system get secret cacerts -ojsonpath='{.data.root-cert\.pem}') \
+   <(kubectl --context="${CTX_CLUSTER2}" -n istio-system get secret cacerts -ojsonpath='{.data.root-cert\.pem}')
 {{< /text >}}
 
 You can follow the [Plugin CA Certs](/docs/tasks/security/cert-management/plugin-ca-cert/) guide, ensuring to run
