@@ -121,7 +121,16 @@ function handleScroll(): void {
             }
         }
     }
-
+    window.addEventListener('click', function(event) {
+        if(event.target){
+            const target = event.target as HTMLTextAreaElement;
+            if (target.matches('a[href^="#"]')) {
+                setTimeout(function() {
+                    window.scrollTo(window.scrollX, window.scrollY - 90);
+                }, 10);
+            }
+        }
+    });
     pageHeader = document.getElementsByTagName("header")[0];
 
     // make sure things look right if we load a page to a specific anchor position

@@ -10,6 +10,12 @@
 
     p { font-size: 1.125rem; }
 
+    .title-area {
+        margin-bottom: 2.625rem;
+        @media (min-width: $bp-lg) {
+            margin-bottom: 6.25rem;
+        }
+    }
     .title-area .subtitle {
         text-align: center;
     }

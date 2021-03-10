@@ -27,11 +27,6 @@
         font-size: 100%;
     }
 
-    @supports (position: sticky) {
-        position: sticky;
-        top: $headerHeight;
-    }
-
     padding-top: .1rem;
 
     @media (min-width: $bp-md) {
@@ -228,19 +223,17 @@
     .body {
         flex: 1 1 auto;
         overflow: hidden;
-        padding: 0 1em;
         max-height: 0;
         transform: scaleY(0) scaleX(0);
         transition: max-height .6s ease-out, padding, transform .6s;
         .main-link {
-            margin-left: 1.5em;
+            margin-left: .6em;
             margin-bottom: 1em;
             font-size: $font-size--s;
             font-weight: $boldTextWeight;
             color: $primaryColor;
         }
         &.show {
-            padding: .5em 1em;
             transform: scaleY(1) scaleX(1);
         }
 
@@ -273,6 +266,9 @@
             margin-bottom: 1em;
             &[aria-expanded=true] {
                 display: block;
+            }
+            &:first-of-type {
+                margin-left: .4em;
             }
             li {
                 position: relative;

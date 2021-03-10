@@ -39,5 +39,9 @@
         width: 100%;
         max-width: 754px;
         margin: 0 auto;
+        margin-bottom: 2.625rem;
+        @media (min-width: $bp-lg) {
+            margin-bottom: 6.25rem;
+        }
     }
 }

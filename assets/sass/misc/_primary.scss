@@ -4,7 +4,7 @@
     grid-column-gap: 3rem;
     margin-top: 3.75rem;
 
-    @media screen AND (min-width: $bp-md) {
+    @media screen AND (min-width: $bp-xl) {
         &.has-sidebar {
             grid-template-columns: [sidebar] 30% [article] calc(70% - 3rem);
         }
