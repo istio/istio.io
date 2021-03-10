@@ -5,7 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-当 Istio 检测到因[虚拟服务](/zh/docs/reference/config/networking/virtual-service)资源重复而导致冲突时，会出现该信息。比如，多个虚拟服务使用相同的主机名且连接网格网关，会出现错误信息。需要注意的是，Istio 支持虚拟服务合并来连接入口网关。
+当 Istio 检测到因[Virtual Service](/zh/docs/reference/config/networking/virtual-service)资源重复而导致冲突时，会出现该信息。比如，多个 Virtual Service 使用相同的主机名且连接 Gateway，会出现错误信息。需要注意的是，Istio 支持 Virtual Service 合并来连接入口网关。
 
 ## 解决方案{#resolution}
 
