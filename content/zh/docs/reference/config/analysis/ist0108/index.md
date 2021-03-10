@@ -3,8 +3,8 @@ title: UnknownAnnotation
 layout: analysis-message
 ---
 
-This message occurs when you attach an unrecognized annotation in the format `*.istio.io` to a namespace.
+当您为某个命名空间使用了格式为 `*.istio.io` 的注解时会出现该错误信息。
 
-Istio only recognizes certain [annotation names](/zh/docs/reference/config/annotations/).
+Istio 仅能识别一些[注解名称](/zh/docs/reference/config/annotations/)。
 
-To resolve this problem, check the name of your annotation and try again.
+要解决这个问题，检查您的注解名称后重新尝试。
