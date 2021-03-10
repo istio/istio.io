@@ -78,23 +78,19 @@ Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
-    NAME                     TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                                                                                                                      AGE
-    grafana                  ClusterIP      172.21.211.123   <none>          3000/TCP                                                                                                                                     2m
-    istio-citadel            ClusterIP      172.21.177.222   <none>          8060/TCP,15014/TCP                                                                                                                           2m
-    istio-egressgateway      ClusterIP      172.21.113.24    <none>          80/TCP,443/TCP,15443/TCP                                                                                                                     2m
-    istio-galley             ClusterIP      172.21.132.247   <none>          443/TCP,15014/TCP,9901/TCP                                                                                                                   2m
-    istio-ingressgateway     LoadBalancer   172.21.144.254   52.116.22.242   15020:31831/TCP,80:31380/TCP,443:31390/TCP,31400:31400/TCP,15029:30318/TCP,15030:32645/TCP,15031:31933/TCP,15032:31188/TCP,15443:30838/TCP   2m
-    istio-pilot              ClusterIP      172.21.105.205   <none>          15010/TCP,15011/TCP,8080/TCP,15014/TCP                                                                                                       2m
-    istio-policy             ClusterIP      172.21.14.236    <none>          9091/TCP,15004/TCP,15014/TCP                                                                                                                 2m
-    istio-sidecar-injector   ClusterIP      172.21.155.47    <none>          443/TCP,15014/TCP                                                                                                                            2m
-    istio-telemetry          ClusterIP      172.21.196.79    <none>          9091/TCP,15004/TCP,15014/TCP,42422/TCP                                                                                                       2m
-    jaeger-agent             ClusterIP      None             <none>          5775/UDP,6831/UDP,6832/UDP                                                                                                                   2m
-    jaeger-collector         ClusterIP      172.21.135.51    <none>          14267/TCP,14268/TCP                                                                                                                          2m
-    jaeger-query             ClusterIP      172.21.26.187    <none>          16686/TCP                                                                                                                                    2m
-    kiali                    ClusterIP      172.21.155.201   <none>          20001/TCP                                                                                                                                    2m
-    prometheus               ClusterIP      172.21.63.159    <none>          9090/TCP                                                                                                                                     2m
-    tracing                  ClusterIP      172.21.2.245     <none>          80/TCP                                                                                                                                       2m
-    zipkin                   ClusterIP      172.21.182.245   <none>          9411/TCP                                                                                                                                     2m
+    NAME                        TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                                                      AGE
+    grafana                     ClusterIP      10.102.167.7     <none>        3000/TCP                                                                     8m15s
+    istio-egressgateway         ClusterIP      10.103.40.168    <none>        80/TCP,443/TCP,15443/TCP                                                     8m15s
+    istio-ingressgateway        LoadBalancer   10.111.49.221    localhost     15020:31337/TCP,80:32704/TCP,443:31142/TCP,31400:30232/TCP,15443:31741/TCP   8m15s
+    istiod                      ClusterIP      10.104.153.142   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,53/UDP,853/TCP                         9m17s
+    jaeger-agent                ClusterIP      None             <none>        5775/UDP,6831/UDP,6832/UDP                                                   8m15s
+    jaeger-collector            ClusterIP      10.100.114.66    <none>        14267/TCP,14268/TCP,14250/TCP                                                8m15s
+    jaeger-collector-headless   ClusterIP      None             <none>        14250/TCP                                                                    8m15s
+    jaeger-query                ClusterIP      10.110.173.239   <none>        16686/TCP                                                                    8m15s
+    kiali                       ClusterIP      10.97.132.83     <none>        20001/TCP                                                                    8m14s
+    prometheus                  ClusterIP      10.105.239.219   <none>        9090/TCP                                                                     8m14s
+    tracing                     ClusterIP      10.109.110.209   <none>        80/TCP                                                                       8m14s
+    zipkin                      ClusterIP      10.101.136.155   <none>        9411/TCP
     {{< /text >}}
 
     {{< tip >}}
@@ -105,19 +101,14 @@ Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
-    NAME                                                           READY   STATUS      RESTARTS   AGE
-    grafana-f8467cc6-rbjlg                                         1/1     Running     0          1m
-    istio-citadel-78df5b548f-g5cpw                                 1/1     Running     0          1m
-    istio-egressgateway-78569df5c4-zwtb5                           1/1     Running     0          1m
-    istio-galley-74d5f764fc-q7nrk                                  1/1     Running     0          1m
-    istio-ingressgateway-7ddcfd665c-dmtqz                          1/1     Running     0          1m
-    istio-pilot-f479bbf5c-qwr28                                    1/1     Running     0          1m
-    istio-policy-6fccc5c868-xhblv                                  1/1     Running     2          1m
-    istio-sidecar-injector-78499d85b8-x44m6                        1/1     Running     0          1m
-    istio-telemetry-78b96c6cb6-ldm9q                               1/1     Running     2          1m
-    istio-tracing-69b5f778b7-s2zvw                                 1/1     Running     0          1m
-    kiali-99f7467dc-6rvwp                                          1/1     Running     0          1m
-    prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
+    NAME                                   READY   STATUS    RESTARTS   AGE
+    grafana-74dc798895-64c8z               1/1     Running   0          9m3s
+    istio-egressgateway-667578dd9b-zjrwm   1/1     Running   0          9m3s
+    istio-ingressgateway-9f8fb4696-7j8qx   1/1     Running   0          9m3s
+    istio-tracing-8584b4d7f9-k26zk         1/1     Running   0          9m3s
+    istiod-d9875bd5d-g5mrc                 1/1     Running   0          10m
+    kiali-6f457f5964-2p99j                 1/1     Running   0          9m3s
+    prometheus-7c9ddc484d-9gf8v            2/2     Running   0          9m3s
     {{< /text >}}
 
 ## 后续步骤 {#next-steps}
