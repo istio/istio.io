@@ -1,50 +1,47 @@
 .banner-container {
     display: none;
-
+    top: $headerHeight;
     @media screen AND (min-width: $bp-md) {
-        display: flex;
+        display: block;
         position: fixed;
-        top: 8.125rem;
-        align-items: center;
+        top: $headerHeightLg;
         z-index: $banner-z;
-        height: 60px;
         width: 100%;
-        padding: 0.5rem;
         text-align: center;
         color: $bannerTextColor;
         background-color: $bannerBackgroundColor;
         font-size: 1.25rem;
-
         .banner {
             display: none;
             position: relative;
             width: 100%;
         }
-
         .content {
             top: 0;
-
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60px;
             p {
                 margin: 0;
             }
         }
-
         a {
             color: $bannerLinkColor;
         }
-
         a:hover, a:focus {
             color: $bannerLinkHoverColor;
             text-decoration: none;
         }
-
         a.disabled {
             color: $bannerLinkDisabledColor;
         }
-
         a.active {
             color: $bannerLinkActiveColor;
             text-decoration: none;
         }
     }
+}
+.banner-container ~ .primary{
+    padding-top: 4rem;
 }
