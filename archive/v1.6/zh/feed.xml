@@ -9494,7 +9494,7 @@ command: [&amp;#34;/bin/sleep&amp;#34;,&amp;#34;infinity&amp;#34;]
 &lt;h3 id="case-1-bypassing-the-sidecar">案例 1：绕过 Sidecar&lt;/h3>
 &lt;p>在这个案例中，Sidecar 对应用和外部数据库之间的通信不做拦截。这一配置是通过初始化容器中的 &lt;code>-x&lt;/code> 参数来完成的，将其内容设置为 MongoDB 的 CIDR 即可。这种做法导致 Sidecar 忽略流入/流出指定 IP 地址的流量。举例来说：&lt;/p>
 &lt;pre>&lt;code> - -x
-- "169.47.232.211/32"&lt;/code>&lt;/pre>
+- &amp;#34;169.47.232.211/32&amp;#34;&lt;/code>&lt;/pre>
 &lt;figure style="width:70%">
 &lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom:76.45536869340232%">
 &lt;a data-skipendnotes="true" href="/v1.6/zh/blog/2019/egress-performance/case1_sidecar_bypass3.png" title="绕过 Sidecar 和外部 MongoDB 进行通信">
@@ -10456,13 +10456,13 @@ EOF
 &lt;li>&lt;p>为您的 MongoDB service 创建一个 egress &lt;code>Gateway&lt;/code>、一个 destination rules 和 virtual services，以将流量定向到 egress gateway，并从 egress gateway 发送到外部服务。&lt;/p>&lt;/li>
 &lt;/ol>
 &lt;p>如果您希望启用 sidecar 代理和应用程序 pod 以及 egress gateway 之间的&lt;a href="/v1.6/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS">双向 TLS 认证&lt;/a>，可以使用下面的命令。（您可能希望启用双向 TLS 以使 egress gateway 监控来源 pod 的身份并基于该 identity 启用 Mixer 策略。）&lt;/p>
-&lt;pre>&lt;code>&lt;div id="tabset-zh-blog-2018-egress-mongo-2" role="tablist" class="tabset">
+&lt;pre>&lt;code>&lt;div id="tabset-zh-blog-2018-egress-mongo-1" role="tablist" class="tabset">
 &lt;div class="tab-strip" data-category-name="mtls">&lt;button aria-selected="true" data-category-value="enabled"
-aria-controls="tabset-zh-blog-2018-egress-mongo-2-0-panel" id="tabset-zh-blog-2018-egress-mongo-2-0-tab" role="tab">&lt;span>mutual TLS enabled&lt;/span>
+aria-controls="tabset-zh-blog-2018-egress-mongo-1-0-panel" id="tabset-zh-blog-2018-egress-mongo-1-0-tab" role="tab">&lt;span>mutual TLS enabled&lt;/span>
 &lt;/button>&lt;button tabindex="-1" data-category-value="disabled"
-aria-controls="tabset-zh-blog-2018-egress-mongo-2-1-panel" id="tabset-zh-blog-2018-egress-mongo-2-1-tab" role="tab">&lt;span>mutual TLS disabled&lt;/span>
+aria-controls="tabset-zh-blog-2018-egress-mongo-1-1-panel" id="tabset-zh-blog-2018-egress-mongo-1-1-tab" role="tab">&lt;span>mutual TLS disabled&lt;/span>
 &lt;/button>&lt;/div>
-&lt;div class="tab-content">&lt;div id="tabset-zh-blog-2018-egress-mongo-2-0-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-zh-blog-2018-egress-mongo-2-0-tab">&lt;pre>&lt;code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl apply -f - &amp;lt;&amp;lt;EOF
+&lt;div class="tab-content">&lt;div id="tabset-zh-blog-2018-egress-mongo-1-0-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-zh-blog-2018-egress-mongo-1-0-tab">&lt;pre>&lt;code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl apply -f - &amp;lt;&amp;lt;EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -10536,7 +10536,8 @@ port:
 number: $MONGODB_PORT
 weight: 100
 EOF
-&lt;/code>&lt;/pre>&lt;/div>&lt;div hidden id="tabset-zh-blog-2018-egress-mongo-2-1-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-zh-blog-2018-egress-mongo-2-1-tab">&lt;pre>&lt;code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl apply -f - &amp;lt;&amp;lt;EOF
+&lt;/code>&lt;/pre>
+&lt;/div>&lt;div hidden id="tabset-zh-blog-2018-egress-mongo-1-1-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-zh-blog-2018-egress-mongo-1-1-tab">&lt;pre>&lt;code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl apply -f - &amp;lt;&amp;lt;EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -10599,7 +10600,8 @@ port:
 number: $MONGODB_PORT
 weight: 100
 EOF
-&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/code>&lt;/pre>
+&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/code>&lt;/pre>
 &lt;ol>

@@ -4007,7 +4007,7 @@ and, if you wish, you can &lt;a href="/v1.6/about/contribute/review">request a r
 &lt;h3 id="case-1-bypassing-the-sidecar">Case 1: Bypassing the sidecar&lt;/h3>
 &lt;p>In this case, the sidecar does not intercept the communication between the application and the external DB. This is accomplished by setting the init container argument -x with the CIDR of the MongoDB, which makes the sidecar ignore messages to/from this IP address. For example:&lt;/p>
 &lt;pre>&lt;code> - -x
-- "169.47.232.211/32"&lt;/code>&lt;/pre>
+- &amp;#34;169.47.232.211/32&amp;#34;&lt;/code>&lt;/pre>
 &lt;figure style="width:70%">
 &lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom:76.45536869340232%">
 &lt;a data-skipendnotes="true" href="/v1.6/blog/2019/egress-performance/case1_sidecar_bypass3.png" title="Traffic to external MongoDB by-passing the sidecar">
@@ -5318,13 +5318,13 @@ to direct the traffic through the egress gateway and from the egress gateway to 
 your application pods and the egress gateway, use the following command. (You may want to enable mutual TLS to let
 the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that
 identity.)&lt;/p>
-&lt;div id="tabset-blog-2018-egress-mongo-2" role="tablist" class="tabset">
+&lt;div id="tabset-blog-2018-egress-mongo-1" role="tablist" class="tabset">
 &lt;div class="tab-strip" data-category-name="mtls">&lt;button aria-selected="true" data-category-value="enabled"
-aria-controls="tabset-blog-2018-egress-mongo-2-0-panel" id="tabset-blog-2018-egress-mongo-2-0-tab" role="tab">&lt;span>mutual TLS enabled&lt;/span>
+aria-controls="tabset-blog-2018-egress-mongo-1-0-panel" id="tabset-blog-2018-egress-mongo-1-0-tab" role="tab">&lt;span>mutual TLS enabled&lt;/span>
 &lt;/button>&lt;button tabindex="-1" data-category-value="disabled"
-aria-controls="tabset-blog-2018-egress-mongo-2-1-panel" id="tabset-blog-2018-egress-mongo-2-1-tab" role="tab">&lt;span>mutual TLS disabled&lt;/span>
+aria-controls="tabset-blog-2018-egress-mongo-1-1-panel" id="tabset-blog-2018-egress-mongo-1-1-tab" role="tab">&lt;span>mutual TLS disabled&lt;/span>
 &lt;/button>&lt;/div>
-&lt;div class="tab-content">&lt;div id="tabset-blog-2018-egress-mongo-2-0-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2018-egress-mongo-2-0-tab">&lt;pre>&lt;code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl apply -f - &amp;lt;&amp;lt;EOF
+&lt;div class="tab-content">&lt;div id="tabset-blog-2018-egress-mongo-1-0-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2018-egress-mongo-1-0-tab">&lt;pre>&lt;code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl apply -f - &amp;lt;&amp;lt;EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -5398,7 +5398,8 @@ port:
 number: $MONGODB_PORT
 weight: 100
 EOF
-&lt;/code>&lt;/pre>&lt;/div>&lt;div hidden id="tabset-blog-2018-egress-mongo-2-1-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2018-egress-mongo-2-1-tab">&lt;pre>&lt;code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl apply -f - &amp;lt;&amp;lt;EOF
+&lt;/code>&lt;/pre>
+&lt;/div>&lt;div hidden id="tabset-blog-2018-egress-mongo-1-1-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2018-egress-mongo-1-1-tab">&lt;pre>&lt;code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl apply -f - &amp;lt;&amp;lt;EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -5461,7 +5462,8 @@ port:
 number: $MONGODB_PORT
 weight: 100
 EOF
-&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/code>&lt;/pre>
+&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/li>
 &lt;li>&lt;p>&lt;a href="#verify-that-egress-traffic-is-directed-through-the-egress-gateway">Verify that the traffic is directed though the egress gateway&lt;/a>&lt;/p>&lt;/li>
