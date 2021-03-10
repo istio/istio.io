@@ -17,7 +17,7 @@ test: no
 
 ## 示例{#examples}
 
-命名空间 `team1` 的虚拟服务 `productpage` 与命名空间 `team2` 的虚拟服务 `custom` 存在冲突的原因如下：
+命名空间 `team1` 的虚拟服务 `productpage` 与命名空间 `team2` 的 Virtual Service `custom` 存在冲突的原因如下：
 
 * 因为没有指定自定义网关，它们被连接默认的“网格”网关。
 * 它们都定义了相同的主机 `productpage.default.svc.cluster.local`
