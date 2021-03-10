@@ -51,7 +51,7 @@ spec:
 ---
 {{< /text >}}
 
-您可以通过设置 `exportTo` 字段为 `.` 来解决该问题，让每个虚拟服务都只限定在自己的命名空间：
+您可以通过设置 `exportTo` 字段为 `.` 来解决该问题，让每个 Virtual Service 都只限定在自己的命名空间：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
