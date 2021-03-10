@@ -62,10 +62,9 @@ use your own cert and your own pool's endpoint (`host:port`).
 
 Follow these steps if you're using the Public or Developer Mode Satellites, or if you're using on-premise Satellites with a TLS certificate.
 
-1.  Store your satellite pool's certificate authority certificate as a secret in the default and `istio-system` namespace.
+1.  Store your satellite pool's certificate authority certificate as a secret in the default and `istio-system` namespace, the latter for use by the Istio gateways.
     Download and use [this certificate](https://docs.lightstep.com/docs/instrument-with-istio-as-your-service-mesh#cacertpem-file).
     If you deploy the Bookinfo application in a different namespace, create the secret in that namespace instead.
-    The secret also needs to be created at `istio-system`, which will be used by Istio gateways.
 
     {{< text bash >}}
     $ CACERT=$(cat Cert_Auth.crt | base64) # Cert_Auth.crt contains the necessary CACert
