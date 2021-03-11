@@ -1,7 +1,7 @@
 ---
 title: 术语标准
 description: 解释 Istio 文档中使用的术语标准。
-weight: 11
+weight: 12
 aliases:
     - /zh/docs/welcome/contribute/style-guide.html
     - /zh/docs/reference/contribute/style-guide.html
