@@ -86,7 +86,7 @@
 
         @media (min-width: $bp-lg) {
             grid-gap: 2.375rem; 
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
         }
     }
 }
