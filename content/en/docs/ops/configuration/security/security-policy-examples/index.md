@@ -1,6 +1,6 @@
 ---
-title: Security Policy Patterns
-description: Shows common patterns of using Istio security policy.
+title: Security policy examples
+description: Shows common examples of using Istio security policy.
 weight: 60
 owner: istio/wg-security-maintainers
 test: n/a
@@ -46,8 +46,36 @@ EOF
 
 ### Require different JWT issuer per host
 
-JWT validation is commonly used on the ingress gateway and you may want to enforce different JWT issuers on different
-hosts, use the following extra policy in addition to the request authentication policy:
+JWT validation is common on the ingress gateway and you may want to require different JWT issuers for different
+hosts, you can use the authorization policy for finer grained JWT validation in addition to the request authentication.
+
+Use the following policy if you want to allow requests only to the listed hosts and reject requests to any other hosts:
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: jwt-per-host
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        hosts: ["example.com", "*.example.com"]
+        # the JWT token must have issuer with suffix "@example.com"
+        requestPrincipals: ["*@example.com"]
+    - source:
+        hosts: [".another.org", "*.another.org"]
+        # the JWT token must have issuer with suffix "@another.org"
+        requestPrincipals: ["*@another.org"]
+{{< /text >}}
+
+Alternatively, use the following policy if you want to require JWT validation only to the listed hosts but not for any
+other hosts:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -64,11 +92,11 @@ spec:
   - from:
     - source:
         hosts: ["example.com", "*.example.com"]
-        # assuming the JWT token issued for example.com has the issuer example.com
+        # the JWT token must have issuer with suffix "@example.com"
         notRequestPrincipals: ["*@example.com"]
     - source:
         hosts: [".another.org", "*.another.org"]
-        # assuming the JWT token issued for another.org has the issuer another.org
+        # the JWT token must have issuer with suffix "@another.org"
         notRequestPrincipals: ["*@another.org"]
 {{< /text >}}
 
