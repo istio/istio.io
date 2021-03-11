@@ -195,7 +195,6 @@ any other unintentional accesses.
     {
       "headers": {
         "Accept": "*/*",
-        "Content-Length": "0",
         "Host": "httpbin.org",
         ...
         "X-Envoy-Decorator-Operation": "httpbin.org:80/*",
