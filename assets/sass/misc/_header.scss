@@ -111,7 +111,7 @@
         display: none;
         position: absolute;
 
-        right: -700px;
+        right: -150%;
         transition: right .5s;
 
         &.show-search {
@@ -270,7 +270,7 @@
     }
 
     &.show-search {
-        right: -700px;
+        right: -150%;
         transition: right .5s;
     }
 
@@ -373,7 +373,7 @@
             width: auto;
 
             &.show-search {
-                right: -100%;
+                right: -150%;
                 transition: right .5s;
             }
         }
