@@ -5,7 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-当 Istio 或 Kubernetes 资源使用了将会被移除的 Istio 注解时，会出现该消息。
+在 Istio 或 Kubernetes 资源中使用已弃用的 Istio 注解时，会出现该消息。
 
 ## 解决方案{#how-to-resolve}
 
