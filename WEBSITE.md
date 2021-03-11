@@ -20,7 +20,7 @@ Homepage landing panels are created using the ```{{< content_panel >}}``` shortc
 Concept blocks reuse the ```{{< content_panel >}}``` shortcode with a small `type="transparent"` parameter difference.
 
 ### Solutions
-Solutions is a dynamic carousel of the Solution pages listed in `content/en/solutions/` rendered using the ```{{< solutions_carousel >}}``` shortcode.
+Solutions is a dynamic carousel of the Solution pages listed in `content/en/solutions` rendered using the ```{{< solutions_carousel >}}``` shortcode.
 
 ### Case studies
 Case studies is a dynamic carousel of the Case study pages listed in `content/en/case-studies` rendered using the ```{{< case_studies_carousel >}}``` shortcode.
@@ -107,8 +107,8 @@ To create an event for an info banner, go to `content/en/events/banners` and cre
 ### Shortcodes
 - `{{< content_panel >}}` for displaying triple panels at the top of the homepage and Concepts section of the homepage
 - `{{< centered_block >}}` for wrapping components in a centered component with a specific width
-- `{{% /faq_block %}}` for creating FAQ block (answer and question)
-- `{{% involve_block %}}` for creating sections in “Get Involved” page
+- `{{< faq_block >}}` for creating FAQ block (answer and question)
+- `{{< involve_block >}}` for creating sections in “Get Involved” page
 - `{{< multi_block >}}` for creating a component with a title, icon and description useful for describing groups of people. Used on a single Solution page but may be integrated into any markdown
 - `{{< solutions_carousel >}}` for displaying the Solutions carousel
 
@@ -132,10 +132,10 @@ To create an event for an info banner, go to `content/en/events/banners` and cre
 - `solutions/single.html` for displaying single solution
 
 ### Functions in .ts directory
-`handleFaqBlocks()`: for expanding and collapsing FAQ blocks dynamically
-`getByTag()`: returns an element whose tagname matches the specified string
-`getByClass()`: returns an element whose class name matches the specified string
-`toggleActiveHeader()`: for adding a shadow to the header once user scrolls past a specific point on the page
+- `handleFaqBlocks()` for expanding and collapsing FAQ blocks dynamically
+- `getByTag()` returns an element whose tagname matches the specified string
+- `getByClass()` returns an element whose class name matches the specified string
+- `toggleActiveHeader()` for adding a shadow to the header once user scrolls past a specific point on the page
 
 ### Functions in static directory
-`categories-filter` - window class with methods which enable filtering lists of objects
+- `categories-filter` window class with methods which enable filtering lists of objects
