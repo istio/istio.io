@@ -327,7 +327,7 @@
     @media screen AND (max-width: $bp-lg) {
         margin-top: 1.4rem;
     }
-    @media screen AND (min-width: $bp-xl) {
+    @media screen AND (min-width: $bp-xl +1) {
         display: none;
     }
 }
