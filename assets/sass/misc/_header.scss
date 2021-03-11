@@ -111,7 +111,6 @@
         display: none;
         position: absolute;
 
-        top: 0;
         right: -700px;
         transition: right .5s;
 
@@ -127,13 +126,11 @@
 
     #search-textbox {
         display: block;
-        height: calc(2.25rem + 2px);
-        padding: .375rem .75rem;
+        height: 46px !important;
+        padding: 0 1.875rem;
         font-size: 1rem;
         line-height: 1.5;
-        border: 1px solid #ced4da;
-        border-radius: .25rem;
-        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        border: 2px solid $inputBorderColor;
         outline-offset: -2px;
         margin: 12px 1rem 5px;
         width: 100%;
@@ -163,6 +160,7 @@
         cursor: pointer;
         font-size: inherit;
         line-height: inherit;
+        margin-left: .5rem;
     }
     
     &-header {
@@ -174,6 +172,7 @@
 
     &-wrapper {
         display: flex;
+        position: relative;
         flex-direction: column;
         height: 100%;
         overflow: auto;
@@ -367,9 +366,16 @@
 
         &-links-wrapper {
             display: flex;
+            position: relative;
+            right: 0;
             align-items: center;
             padding: 0;
             width: auto;
+
+            &.show-search {
+                right: -100%;
+                transition: right .5s;
+            }
         }
 
         &-links {
