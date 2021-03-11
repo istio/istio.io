@@ -1,7 +1,7 @@
 ---
 title: 使用 Shortcode 
 description: 介绍可用的 shortcode 及其用法。
-weight: 8
+weight: 9
 aliases:
     - /zh/docs/welcome/contribute/writing-a-new-topic.html
     - /zh/docs/reference/contribute/writing-a-new-topic.html
@@ -116,22 +116,22 @@ Hugo 的 shortcode 是具有特定语法的特殊占位符，您可以将其添�
 当您在页面中介绍一个 Istio 术语时，贡献补充条款要求您将该术语包含在 `glossary` 中，并使用 shortcode `{{</* gloss */>}}` 标记它的第一个实例。shortcode 会对其进行特殊渲染，读者点击该术语，可以在弹出的窗口中获取该术语的定义。例如：
 
 {{< text markdown >}}
-Mixer 使用 {{</*gloss*/>}}adapters{{</*/gloss*/>}} 与后端进行交互。
+Istio 里的组件可以控制 {{</*gloss*/>}}Envoy{{</*/gloss*/>}} 代理，负责服务发现、负载均衡和路由分发。
 {{< /text >}}
 
 渲染结果如下：
 
-Mixer 使用 {{< gloss >}}adapters{{< /gloss >}} 与后端进行交互。
+Istio 里的组件可以控制 {{< gloss >}}Envoy{{< /gloss >}} 代理，负责服务发现、负载均衡和路由分发。
 
 如果你想在您的文本中使用该术语的其它形式，您依然可以使用该 shortcode 。要修改显示文本，只需在 shortcode 中包含对应的术语条目即可。例如：
 
 {{< text markdown >}}
-Mixer 使用 {{</*gloss adapters*/>}}适配器{{</*/gloss*/>}} 与后端进行交互。
+Istio 里的组件可以控制 {{</*gloss envoy*/>}}Envoy{{</*/gloss*/>}} 代理，负责服务发现、负载均衡和路由分发。
 {{< /text >}}
 
-术语 `适配器` 定义的渲染结果如下：
+术语 `envoy` 定义的渲染结果如下：
 
-Mixer 使用 {{< gloss adapters >}}适配器{{</ gloss >}} 与后端进行交互。
+Istio 里的组件可以控制 {{< gloss envoy >}}Envoy{{</ gloss >}} 代理，负责服务发现、负载均衡和路由分发。
 
 ## 标注{#callouts}
 
