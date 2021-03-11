@@ -1,7 +1,7 @@
 ---
 title: 添加代码块
 description: 介绍如何在您的文档中添加代码。
-weight: 7
+weight: 8
 keywords: [contribute, documentation, guide, code-block]
 ---
 
@@ -19,7 +19,6 @@ $ echo "Hello"
 {{</* /text */>}}
 {{< /text >}}
 
-The shortcode requires you to start each CLI command with a `$` and it renders the content as follows:
 短代码要求您的每个 CLI 命令都以 `$` 开头，其渲染结果如下所示：
 
 {{< text bash >}}
@@ -191,7 +190,6 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 
 {{< text_import file="test/snippet_example.txt" syntax="plain" >}}
 
-The file has three separate snippets: `SNIP1`, `SNIP2`, and `SNIP3`. The convention is name snippets using all caps. To reference a specific snippet in your document, set the value of the `snippet` attribute in the shortcode to the name of the snippet, for example:
 该文件具有三个单独的代码段：`SNIP1`、`SNIP2` 和 `SNIP3`。约定是使用全大写字母的名称。要引用文档中的特定代码段，请将短代码中 snippet 属性的值设置为代码段的名称，例如：
 
 {{< text markdown >}}
@@ -265,15 +263,13 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 |`url`         | 在代码块中显示的文档的 URL。
 |`syntax`      | 代码块的语法。
 |`outputis`    | 当语法为 bash 时，该属性指定命令输出结果的语法。
-|`downloadas`  | 当用户[下载该代码块时](#download-name)默认的文件名。
+|`downloadas`  | 当用户 [下载该代码块时](#download-name)默认的文件名。
 |`expandlinks` | 是否在代码块中为 [GitHub 文件引用](#link-2-files)开启链接扩展。
 |`snippet`     | 要从代码块中提取的内容的 [snippet](#snippets) 名称。
-|`repo`        | The repository to use for [GitHub links](#link-2-files) embedded in preformatted blocks.
 |`repo`        | 嵌入代码块中的仓库的 [GitHub 链接](#link-2-files)。
 
 ### 下载名{#download-name}
 
-You can define the name used when someone chooses to download the code block with the `downloadas` attribute, for example:
 您可以使用 `downloadas` 属性定义当某人下载代码块时默认的文件名，例如：
 
 {{< text markdown >}}
