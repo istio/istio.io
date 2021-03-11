@@ -7,23 +7,29 @@ owner: istio/wg-environments-maintainers
 test: yes
 ---
 
-## Introduction
-
-This guide walks you through the installation of an {{< gloss >}}external control plane{{< /gloss >}}. The
-external control plane [deployment model](/docs/ops/deployment/deployment-models/#control-plane-models)
-enables mesh operators to install and manage mesh control planes on separate
-external clusters. This deployment model allows a clear separation between mesh
-operators and mesh admins. The mesh operators can install and manage the Istio control planes
-while the mesh admins only need to configure the mesh resources.
-
-This feature is currently considered [alpha](/about/feature-stages/).
+This guide walks you through the process of installing an {{< gloss >}}external control plane{{< /gloss >}}
+and then connecting one or more {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}} to it.
+The external control plane [deployment model](/docs/ops/deployment/deployment-models/#control-plane-models)
+allows a mesh operator  to install and manage a control plane on an external cluster, separate from the data
+plane cluster (or multiple clusters) comprising the mesh. This deployment model allows a clear separation
+between mesh operators and mesh administrators. Mesh operators install and manage Istio control planes while mesh
+admins only need to configure the mesh.
 
 {{< image width="75%"
     link="external-controlplane.svg"
     caption="External control plane cluster and remote cluster"
     >}}
 
-## Requirements
+Envoy proxies (sidecars and gateway) running in the remote cluster access the external istiod via an ingress gateway
+which exposes the endpoints needed for discovery, CA, injection, and validation.
+
+While configuration and management of the external control plane is done by the mesh operator in the external cluster,
+the first remote cluster connected to an external control plane serves as the config cluster for the mesh itself.
+The mesh administrator will use the config cluster to configure the mesh resources (gateways, virtual services, etc.)
+in addition to the mesh services themselves. The external control plane will remotely access this configuration from
+the Kubernetes API server, as shown in the above diagram.
+
+## Before you begin
 
 ### Clusters
 
@@ -48,7 +54,7 @@ have to modify the installation procedure to enable access. For example, the
 the multi-network and primary-remote configurations could also be used
 to enable access to the API server.
 
-## Environment Variables
+### Environment Variables
 
 The following environment variables will be used throughout to simplify the instructions:
 
@@ -70,272 +76,443 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
 
 ## Cluster configuration
 
-### Set up a gateway in the external cluster
+### Mesh operator steps
 
-Create the Istio install configuration for the ingress gateway that exposes the external control plane ports to other clusters:
+A mesh operator is responsible for installing and managing the external Istio control plane on the external cluster.
+This includes configuring an ingress gateway on the external cluster, which allows the remote cluster to access the control plane,
+and installing needed webhooks, configmaps, and secrets on the remote cluster to configure it to use the external control plane.
 
-{{< text bash >}}
-$ cat <<EOF > controlplane-gateway.yaml
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-metadata:
-  namespace: istio-system
-spec:
-  components:
-    ingressGateways:
-      - name: istio-ingressgateway
-        enabled: true
-        k8s:
-          service:
-            ports:
-              - port: 15021
-                targetPort: 15021
-                name: status-port
-              - port: 15012
-                targetPort: 15012
-                name: tls-xds
-              - port: 15017
-                targetPort: 15017
-                name: tls-webhook
-EOF
-{{< /text >}}
+#### Set up a gateway in the external cluster
 
-Install the configuration to create the ingress gateway in the `istio-system` namespace of the external cluster:
+1. Create the Istio install configuration for the ingress gateway that will expose the external control plane ports to other clusters:
 
-{{< text bash >}}
-$ istioctl install -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
-{{< /text >}}
+    {{< text bash >}}
+    $ cat <<EOF > controlplane-gateway.yaml
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    metadata:
+      namespace: istio-system
+    spec:
+      components:
+        ingressGateways:
+          - name: istio-ingressgateway
+            enabled: true
+            k8s:
+              service:
+                ports:
+                  - port: 15021
+                    targetPort: 15021
+                    name: status-port
+                  - port: 15012
+                    targetPort: 15012
+                    name: tls-xds
+                  - port: 15017
+                    targetPort: 15017
+                    name: tls-webhook
+    EOF
+    {{< /text >}}
 
-You may notice an istiod deployment created in the `istio-system` namespace. This is used only to configure the ingress gateway and is NOT the control plane used by remote clusters. This ingress gateway could, in fact, be configured to host multiple external control planes, in different namespaces on the cluster, even though in this example you will only deploy a single external istiod in the `external-istiod` namespace.
+    Then, install the gateway in the `istio-system` namespace of the external cluster:
 
-Configure your environment to expose the Istio ingress gateway service using a public hostname with TLS. Set the `EXTERNAL_ISTIOD_ADDR` environment variable to the hostname and `SSL_SECRET_NAME` environment variable to the secret that holds the TLS certs:
+    {{< text bash >}}
+    $ istioctl install -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+    {{< /text >}}
+    
+1. Run the following command to confirm that the ingress gateway is up and running:
+    
+    {{< text bash >}}
+    $ kubectl get po -n istio-system --context="${CTX_EXTERNAL_CLUSTER}"
+    NAME                                   READY   STATUS    RESTARTS   AGE
+    istio-ingressgateway-9d4c7f5c7-7qpzz   1/1     Running   0          29s
+    istiod-68488cd797-mq8dn                1/1     Running   0          38s
+    {{< /text >}}
 
-{{< text syntax=bash snip_id=none >}}
-$ export EXTERNAL_ISTIOD_ADDR=<your external istiod host>
-$ export SSL_SECRET_NAME=<your external istiod secret>
-{{< /text >}}
+    You will notice an istiod deployment is also created in the `istio-system` namespace. This is used to configure the ingress gateway
+    and is NOT the control plane used by remote clusters.
 
-Create the Istio `Gateway`, `VirtualService`, and `DestinationRule` configuration for the **yet to be installed** external
-control plane:
+    {{< tip >}}
+    This ingress gateway could be configured to host multiple external control planes, in different namespaces on the external cluster,
+    although in this example you will only deploy a single external istiod in the `external-istiod` namespace.
+    {{< /tip >}}
 
-{{< text bash >}}
-$ cat <<EOF > external-istiod-gw.yaml
-apiVersion: networking.istio.io/v1beta1
-kind: Gateway
-metadata:
-  name: external-istiod-gw
-  namespace: external-istiod
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-    - port:
-        number: 15012
-        protocol: https
-        name: https-XDS
-      tls:
-        mode: SIMPLE
-        credentialName: $SSL_SECRET_NAME
-      hosts:
-      - $EXTERNAL_ISTIOD_ADDR
-    - port:
-        number: 15017
-        protocol: https
-        name: https-WEBHOOK
-      tls:
-        mode: SIMPLE
-        credentialName: $SSL_SECRET_NAME
-      hosts:
-      - $EXTERNAL_ISTIOD_ADDR
----
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-   name: external-istiod-vs
-   namespace: external-istiod
-spec:
-    hosts:
-    - $EXTERNAL_ISTIOD_ADDR
-    gateways:
-    - external-istiod-gw
-    http:
-    - match:
-      - port: 15012
-      route:
-      - destination:
-          host: istiod.external-istiod.svc.cluster.local
-          port:
+1. Configure your environment to expose the Istio ingress gateway service using a public hostname with TLS. Set the `EXTERNAL_ISTIOD_ADDR` environment variable to the hostname and `SSL_SECRET_NAME` environment variable to the secret that holds the TLS certs:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ export EXTERNAL_ISTIOD_ADDR=<your external istiod host>
+    $ export SSL_SECRET_NAME=<your external istiod secret>
+    {{< /text >}}
+
+#### Set up the control plane in the external cluster
+
+1. Create the `external-istiod` namespace, which will be used to host the external control plane:
+
+    {{< text bash >}}
+    $ kubectl create namespace external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
+    {{< /text >}}
+
+1. The control plane in the external cluster needs access to the remote cluster to discover services, endpoints,
+    and pod attributes. Create a secret with credentials to access the remote cluster’s `kube-apiserver` and install
+    it in the external cluster:
+
+    {{< text bash >}}
+    $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
+    $ istioctl x create-remote-secret \
+      --context="${CTX_REMOTE_CLUSTER}" \
+      --type=config \
+      --namespace=external-istiod | \
+      kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
+    {{< /text >}}
+
+1. Before you deploy the external istiod, you need to create the root namespace on the config (remote) cluster.
+    The root namespace for control plane configuration resources on the remote cluster must be the same
+    namespace as the control plane on the external cluster, `external-istiod` in this case:
+    
+    {{< text bash >}}
+    $ kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
+    {{< /text >}}
+
+1. Create the Istio configuration to install the control plane in the `external-istiod` namespace of the external cluster:
+
+    {{< text bash >}}
+    $ cat <<EOF > external-istiod.yaml
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    metadata:
+      namespace: external-istiod
+    spec:
+      meshConfig:
+        rootNamespace: external-istiod
+        defaultConfig:
+          discoveryAddress: $EXTERNAL_ISTIOD_ADDR:15012
+          proxyMetadata:
+            XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+            CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+      components:
+        base:
+          enabled: false
+        ingressGateways:
+        - name: istio-ingressgateway
+          enabled: false
+      values:
+        global:
+          caAddress: $EXTERNAL_ISTIOD_ADDR:15012
+          istioNamespace: external-istiod
+          operatorManageWebhooks: true
+          meshID: mesh1
+          multiCluster:
+            clusterName: $REMOTE_CLUSTER_NAME
+        pilot:
+          env:
+            INJECTION_WEBHOOK_CONFIG_NAME: ""
+            VALIDATION_WEBHOOK_CONFIG_NAME: ""
+    EOF
+    {{< /text >}}
+
+    Then, apply the Istio configuration on the external cluster:
+
+    {{< text bash >}}
+    $ istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+    {{< /text >}}
+
+1. Confirm that the external istiod has been successfully deployed:
+
+    {{< text bash >}}
+    $ kubectl get po -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
+    NAME                      READY   STATUS    RESTARTS   AGE
+    istiod-779bd6fdcf-bd6rg   1/1     Running   0          70s
+    {{< /text >}}
+
+1. Create the Istio `Gateway`, `VirtualService`, and `DestinationRule` configuration to route traffic from the ingress
+    gateway to the external control plane:
+    
+    {{< text bash >}}
+    $ kubectl apply  --context="${CTX_EXTERNAL_CLUSTER}" -f - <<EOF
+    apiVersion: networking.istio.io/v1beta1
+    kind: Gateway
+    metadata:
+      name: external-istiod-gw
+      namespace: external-istiod
+    spec:
+      selector:
+        istio: ingressgateway
+      servers:
+        - port:
             number: 15012
-    - match:
-      - port: 15017
-      route:
-      - destination:
-          host: istiod.external-istiod.svc.cluster.local
-          port:
-            number: 443
----
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: external-istiod-dr
-  namespace: external-istiod
-spec:
-  host: istiod.external-istiod.svc.cluster.local
-  trafficPolicy:
-    portLevelSettings:
-    - port:
-        number: 15012
-      tls:
-        mode: SIMPLE
-      connectionPool:
+            protocol: https
+            name: https-XDS
+          tls:
+            mode: SIMPLE
+            credentialName: $SSL_SECRET_NAME
+          hosts:
+          - $EXTERNAL_ISTIOD_ADDR
+        - port:
+            number: 15017
+            protocol: https
+            name: https-WEBHOOK
+          tls:
+            mode: SIMPLE
+            credentialName: $SSL_SECRET_NAME
+          hosts:
+          - $EXTERNAL_ISTIOD_ADDR
+    ---
+    apiVersion: networking.istio.io/v1beta1
+    kind: VirtualService
+    metadata:
+       name: external-istiod-vs
+       namespace: external-istiod
+    spec:
+        hosts:
+        - $EXTERNAL_ISTIOD_ADDR
+        gateways:
+        - external-istiod-gw
         http:
-          h2UpgradePolicy: UPGRADE
-    - port:
-        number: 443
-      tls:
-        mode: SIMPLE
-EOF
-{{< /text >}}
+        - match:
+          - port: 15012
+          route:
+          - destination:
+              host: istiod.external-istiod.svc.cluster.local
+              port:
+                number: 15012
+        - match:
+          - port: 15017
+          route:
+          - destination:
+              host: istiod.external-istiod.svc.cluster.local
+              port:
+                number: 443
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: external-istiod-dr
+      namespace: external-istiod
+    spec:
+      host: istiod.external-istiod.svc.cluster.local
+      trafficPolicy:
+        portLevelSettings:
+        - port:
+            number: 15012
+          tls:
+            mode: SIMPLE
+          connectionPool:
+            http:
+              h2UpgradePolicy: UPGRADE
+        - port:
+            number: 443
+          tls:
+            mode: SIMPLE
+    EOF
+    {{< /text >}}
 
-Create the `external-istiod` namespace and apply the configuration:
+#### Set up the remote cluster
 
-{{< text bash >}}
-$ kubectl create namespace external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
-$ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
-{{< /text >}}
+1. Create the remote Istio install configuration, which installs webhooks, configmaps, and secrets,
+    that use the external control plane, instead of deploying a control plane locally:
 
-### Set up the remote cluster
+    {{< text bash >}}
+    $ cat <<EOF > remote-config-cluster.yaml
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    metadata:
+     namespace: external-istiod
+    spec:
+      profile: remote
+      meshConfig:
+        rootNamespace: external-istiod
+        defaultConfig:
+          discoveryAddress: $EXTERNAL_ISTIOD_ADDR:15012
+          proxyMetadata:
+            XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+            CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+      components:
+        pilot:
+          enabled: false
+        ingressGateways:
+        - name: istio-ingressgateway
+          enabled: false
+        istiodRemote:
+          enabled: true
+      values:
+        global:
+          caAddress: $EXTERNAL_ISTIOD_ADDR:15012
+          istioNamespace: external-istiod
+          meshID: mesh1
+          multiCluster:
+            clusterName: $REMOTE_CLUSTER_NAME
+        istiodRemote:
+          injectionURL: https://$EXTERNAL_ISTIOD_ADDR:15017/inject
+        base:
+          validationURL: https://$EXTERNAL_ISTIOD_ADDR:15017/validate
+    EOF
+    {{< /text >}}
 
-Create the remote Istio install configuration:
+    Then, install the configuration on the remote cluster:
 
-{{< text bash >}}
-$ cat <<EOF > remote-config-cluster.yaml
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-metadata:
- namespace: external-istiod
-spec:
-  profile: remote
-  meshConfig:
-    rootNamespace: external-istiod
-    defaultConfig:
-      discoveryAddress: $EXTERNAL_ISTIOD_ADDR:15012
-      proxyMetadata:
-        XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
-        CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
-  components:
-    pilot:
-      enabled: false
-    istiodRemote:
-      enabled: true
+    {{< text bash >}}
+    $ istioctl manifest generate -f remote-config-cluster.yaml | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+    {{< /text >}}
 
-  values:
-    global:
-      caAddress: $EXTERNAL_ISTIOD_ADDR:15012
-      istioNamespace: external-istiod
-      meshID: mesh1
-      multiCluster:
-        clusterName: $REMOTE_CLUSTER_NAME
-    istiodRemote:
-      injectionURL: https://$EXTERNAL_ISTIOD_ADDR:15017/inject
-    base:
-      validationURL: https://$EXTERNAL_ISTIOD_ADDR:15017/validate
-EOF
-{{< /text >}}
+1. Confirm that the remote cluster's webhooks, secrets, and configmaps have been installed:
 
-Install the configuration on the remote cluster:
+    {{< text bash >}}
+    $ kubectl get mutatingwebhookconfiguration -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
+    NAME                                     WEBHOOKS   AGE
+    istio-sidecar-injector-external-istiod   2          6m24s
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
-$ istioctl manifest generate -f remote-config-cluster.yaml  | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get validatingwebhookconfiguration -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
+    NAME                     WEBHOOKS   AGE
+    istiod-external-istiod   1          6m32s
+    {{< /text >}}
 
-**NOTE:** An ingress gateway, for accessing services in the remote cluster mesh, is included in the above installation. However it will not start working until you install the external control plane in the next section.
+    {{< text bash >}}
+    $ kubectl get configmaps -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
+    NAME                                  DATA   AGE
+    istio                                 2      5m19s
+    istio-ca-root-cert                    1      3m6s
+    istio-leader                          0      3m6s
+    istio-namespace-controller-election   0      3m6s
+    istio-sidecar-injector                2      5m19s
+    {{< /text >}}
 
-### Set up the control plane in the external cluster
+    {{< text bash >}}
+    $ kubectl get secrets -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
+    NAME                                               TYPE                                  DATA   AGE
+    default-token-m9nnj                                kubernetes.io/service-account-token   3      2m37s
+    istio-ca-secret                                    istio.io/ca-root                      5      18s
+    istio-reader-service-account-token-prnvv           kubernetes.io/service-account-token   3      2m31s
+    istiod-service-account-token-z2cvz                 kubernetes.io/service-account-token   3      2m30s
+    {{< /text >}}
 
-The control plane in the external cluster needs access to the remote cluster to discover services, endpoints, and pod attributes. Create a secret with credentials to access the remote cluster’s `kube-apiserver` and install it in the external cluster.
+### Mesh admin steps
 
-{{< text bash >}}
-$ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
-$ istioctl x create-remote-secret \
-  --context="${CTX_REMOTE_CLUSTER}" \
-  --type=config \
-  --namespace=external-istiod | \
-  kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
-{{< /text >}}
+Now that Istio is up and running, a mesh administrator only needs to deploy and configure services in the mesh,
+including gateways, if needed.
 
-Create the Istio install configuration to create the control plane in the `external-istiod` namespace of the external cluster:
+#### Deploy a sample application
 
-{{< text bash >}}
-$ cat <<EOF > external-istiod.yaml
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-metadata:
-  namespace: external-istiod
-spec:
-  meshConfig:
-    rootNamespace: external-istiod
-    defaultConfig:
-      discoveryAddress: $EXTERNAL_ISTIOD_ADDR:15012
-      proxyMetadata:
-        XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
-        CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
-  components:
-    base:
-      enabled: false
-    ingressGateways:
-    - name: istio-ingressgateway
-      enabled: false
-  values:
-    global:
-      caAddress: $EXTERNAL_ISTIOD_ADDR:15012
-      istioNamespace: external-istiod
-      operatorManageWebhooks: true
-      meshID: mesh1
-      multiCluster:
-        clusterName: $REMOTE_CLUSTER_NAME
-    pilot:
-      env:
-        INJECTION_WEBHOOK_CONFIG_NAME: ""
-        VALIDATION_WEBHOOK_CONFIG_NAME: ""
-EOF
-{{< /text >}}
+1. Create, and label for injection, the `sample` namespace on the remote cluster:
 
-Apply the Istio configuration on the external cluster:
+    {{< text bash >}}
+    $ kubectl create --context="${CTX_REMOTE_CLUSTER}" namespace sample
+    $ kubectl label --context="${CTX_REMOTE_CLUSTER}" namespace sample istio-injection=enabled
+    {{< /text >}}
 
-{{< text bash >}}
-$ istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
-{{< /text >}}
+1. Deploy the `helloworld` (`v1`) and `sleep` samples:
 
-## Validate the installation
+    {{< text bash >}}
+    $ kubectl apply -f samples/helloworld/helloworld.yaml -l service=helloworld -n sample --context="${CTX_REMOTE_CLUSTER}"
+    $ kubectl apply -f samples/helloworld/helloworld.yaml -l version=v1 -n sample --context="${CTX_REMOTE_CLUSTER}"
+    $ kubectl apply -f samples/sleep/sleep.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
+    {{< /text >}}
 
-Confirm that the Istio ingress gateway is now running on the remote cluster.
+1. Wait a few seconds for the `helloworld` and `sleep` pods to be running with sidecars injected:
 
-{{< text bash >}}
-$ kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
+    NAME                             READY   STATUS    RESTARTS   AGE
+    helloworld-v1-5b75657f75-ncpc5   2/2     Running   0          10s
+    sleep-64d7d56698-wqjnm           2/2     Running   0          9s
+    {{< /text >}}
 
-Deploy the `helloworld` sample to the remote cluster. Wait a few seconds for the `helloworld` pods to be running with sidecars injected.
+1. Send a request from the `sleep` pod to the `helloworld` service:
 
-{{< text bash >}}
-$ kubectl label namespace default istio-injection=enabled --context="${CTX_REMOTE_CLUSTER}"
-$ kubectl apply -f samples/helloworld/helloworld.yaml --context="${CTX_REMOTE_CLUSTER}"
-$ kubectl get pod -l app=helloworld --context="${CTX_REMOTE_CLUSTER}"
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c sleep \
+        "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+        -- curl -sS helloworld.sample:5000/hello
+    Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
+    {{< /text >}}
 
-Expose the `helloworld` application on the ingress gateway:
+#### Enable gateways
 
-{{< text bash >}}
-$ kubectl apply -f samples/helloworld/helloworld-gateway.yaml --context="${CTX_REMOTE_CLUSTER}"
-{{< /text >}}
+1. Enable an ingress gateway on the remote cluster:
 
-Follow [these instructions](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) to
-set `GATEWAY_URL` and then confirm you can access the `helloworld` application:
+    {{< text bash >}}
+    $ cat <<EOF > istio-ingressgateway.yaml
+    apiVersion: operator.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      profile: empty
+      components:
+        ingressGateways:
+        - namespace: external-istiod
+          name: istio-ingressgateway
+          enabled: true
+      values:
+        gateways:
+          istio-ingressgateway:
+            injectionTemplate: gateway
+    EOF
+    $ istioctl install -f istio-ingressgateway.yaml --context="${CTX_REMOTE_CLUSTER}"
+    {{< /text >}}
 
-{{< text bash >}}
-$ curl -s "http://${GATEWAY_URL}/hello" | grep -o "Hello"
-{{< /text >}}
+1. Enable an egress gateway, or other gateways, on the remote cluster (optional):
 
-**Congratulations!** You successfully installed an external control plane and used it to manage
-services running in a remote cluster!
+    {{< text bash >}}
+    $ cat <<EOF > istio-egressgateway.yaml
+    apiVersion: operator.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      profile: empty
+      components:
+        egressGateways:
+        - namespace: external-istiod
+          name: istio-egressgateway
+          enabled: true
+      values:
+        gateways:
+          istio-egressgateway:
+            injectionTemplate: gateway
+    EOF
+    $ istioctl install -f istio-egressgateway.yaml --context="${CTX_REMOTE_CLUSTER}"
+    {{< /text >}}
+
+1. Confirm that the Istio ingress gateway is running:
+
+    {{< text bash >}}
+    $ kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
+    NAME                                    READY   STATUS    RESTARTS   AGE
+    istio-ingressgateway-7bcd5c6bbd-kmtl4   1/1     Running   0          8m4s
+    {{< /text >}}
+
+1. Expose the `helloworld` application on the ingress gateway:
+
+    {{< text bash >}}
+    $ kubectl apply -f samples/helloworld/helloworld-gateway.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
+    {{< /text >}}
+
+1. Set the `GATEWAY_URL` environment variable
+    (see [determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-  and-ports) for details):
+
+    {{< text bash >}}
+    $ export INGRESS_HOST=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ export INGRESS_PORT=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+    $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+    {{< /text >}}
+
+1. Confirm you can access the `helloworld` application through the ingress gateway:
+
+    {{< text bash >}}
+    $ curl -s "http://${GATEWAY_URL}/hello"
+    Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
+    {{< /text >}}
+
+## Adding clusters to the mesh (optional)
+
+This section shows you how to expand an existing external control plane mesh to multicluster by adding another remote cluster.
+This allows you to easily distribute services and use [Location-aware routing and fail over](/docs/tasks/traffic-management/locality-load-balancing/) to support high availability of your application.
+
+{{< image width="75%"
+    link="external-multicluster.svg"
+    caption="External control plane with multiple remote clusters"
+    >}}
+
+Unlike the first remote cluster, the second and susequent clusters added to the same external control plane do not
+provide mesh config, but instead are only sources of endpoint configuration, just like remote clusters in a
+[primary-remote](/docs/setup/install/multicluster/primary-remote_multi-network/) Istio multicluster configuration.
+
+### Mesh admin steps
+
+TBD
