@@ -5,11 +5,11 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-当流量策略需要 `caCertificates` 时，但目标规则（destination rule）中没有设置相关信息时会出现该错误。
+当流量策略需要 `caCertificates` 时，但目标规则（Destination Rule）中没有设置相关信息时会出现该错误。
 
 ## 示例{#example}
 
-当您的集群中具有以下目标规则（destination rule）时：
+当您的集群中具有以下目标规则（Destination Rule）时：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
