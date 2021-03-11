@@ -91,6 +91,9 @@ function handleEvents(): void {
 
                 listen(el, click, () => {
                     el.style.display = "none";
+                    const main = document.querySelector<HTMLElement>('main.primary')
+                    if(main)
+                        main.style.paddingTop = '0';
                     remainingEventImpressions[title].impressions = 0;
                     saveRemainingEventImpressions();
                 });

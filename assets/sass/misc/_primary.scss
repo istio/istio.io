@@ -11,18 +11,18 @@
 
     .sidebar-container {
         margin-bottom: 2.5rem;
-        
         @media print {
             display: none;
         }
-        @media screen AND (max-width: $bp-xl) {
+        
+        @media screen AND (max-width: $bp-xl ) {
             display: none;
-            position: absolute;
-            top: -110px;
+            position: fixed;
+            top: 0;
             left: 0;
             z-index: 101;
             height: 100%;
-            width: 100%;
+            width: 270px;
             overflow-y: auto;
             background: $paleGray;
             &.visible {
@@ -30,13 +30,16 @@
                 
             }
         }
+        @media screen AND (max-width: $bp-md){
+            width: 100%;
+        }
     }
 
     .toc-container {
         display: none;
     }
 
-    @media screen AND (min-width: $bp-xl+1) {
+    @media screen AND (min-width: $bp-xl +1) {
         &.has-toc {
             grid-template-columns: [article] calc(80% - 3rem) [toc] 20%;
         }

@@ -1,6 +1,6 @@
 @media screen {
     .sidebar-offcanvas {
-        @media (max-width: $bp-md - 1) {
+        @media (max-width: $bp-md) {
             position: absolute;
             width: 80%;
             transition: all .4s ease;
@@ -28,10 +28,6 @@
     }
 
     padding-top: .1rem;
-
-    @media (min-width: $bp-md) {
-        padding-top: 1rem;
-    }
 
     .directory {
         @supports (position: sticky) {
@@ -189,7 +185,7 @@
         width: 230px;
         height: 46px;
         display: flex;
-        border: 2px solid $borderBlue;
+        border: 2px solid $inputBorderColor;
         padding: 0 19px 0 19px;
         margin-bottom: 1.75em;
 
@@ -310,6 +306,9 @@
     border: 0;
     float: right;
     @media screen AND (min-width: $bp-md) {
+        display: block;
+    }
+    @media screen AND (min-width: $bp-xl) {
         display: none;
     }
 }
@@ -321,5 +320,14 @@
     padding: 0;
     svg{
        margin-right: .75em; 
+    }
+    @media screen AND (min-width: $bp-md) {
+        display: block;
+    }
+    @media screen AND (max-width: $bp-lg) {
+        margin-top: 1.4rem;
+    }
+    @media screen AND (min-width: $bp-xl) {
+        display: none;
     }
 }

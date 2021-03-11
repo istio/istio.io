@@ -90,15 +90,15 @@
 }
 
 .toc-inlined {
-    display: block;
+    display: none;
     margin-bottom: 2rem;
 
     @media print {
         display: none;
     }
 
-    @media (min-width: $bp-xl+1) {
-        display: none;
+    @media (max-width: $bp-xl) {
+        display: block;
     }
 
     div {

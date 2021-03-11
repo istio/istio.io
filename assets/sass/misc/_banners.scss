@@ -4,7 +4,6 @@
     @media screen AND (min-width: $bp-md) {
         display: block;
         position: fixed;
-        top: $headerHeightLg;
         z-index: $banner-z;
         width: 100%;
         text-align: center;
@@ -41,7 +40,12 @@
             text-decoration: none;
         }
     }
+    @media screen AND (min-width: $bp-lg) {
+        top: $headerHeightLg;
+    }
 }
-.banner-container ~ .primary{
-    padding-top: 4rem;
+@media screen AND (min-width: $bp-md) {
+    .banner-container + .primary{
+        padding-top: 5rem;
+    }
 }
