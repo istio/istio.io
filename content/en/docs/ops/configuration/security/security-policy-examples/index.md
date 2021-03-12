@@ -18,38 +18,13 @@ Also read the [authentication tasks](/docs/tasks/security/authentication/authn-p
 [authorization tasks](/docs/tasks/security/authorization) for hands-on tutorial of using the security policy with much
 more details.
 
-### Require mandatory JWT validation
-
-The `RequestAuthentication` policy defines a list of JWT issuers that are allowed, by default it also allows
-requests without JWT token.
-
-After defining the `RequestAuthentication` policy, use the following extra policy to enforce mandatory JWT validation
-that rejects the request if it has no JWT token:
-
-{{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: require-jwt
-  namespace: istio-system
-spec:
-  selector:
-    matchLabels:
-      istio: ingressgateway
-  action: DENY
-  rules:
-  - from:
-    - source:
-        notRequestPrincipals: ["*"]
-EOF
-{{< /text >}}
-
 ### Require different JWT issuer per host
 
 JWT validation is common on the ingress gateway and you may want to require different JWT issuers for different
 hosts, you can use the authorization policy for finer grained JWT validation in addition to the request authentication.
 
-Use the following policy if you want to allow requests only to the listed hosts and reject requests to any other hosts:
+Use the following policy if you want to allow access to the given hosts if JWT principal matches. Access to other hosts
+will always be denied.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -74,36 +49,10 @@ spec:
         requestPrincipals: ["*@another.org"]
 {{< /text >}}
 
-Alternatively, use the following policy if you want to require JWT validation only to the listed hosts but not for any
-other hosts:
-
-{{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: jwt-per-host
-  namespace: istio-system
-spec:
-  selector:
-    matchLabels:
-      istio: ingressgateway
-  action: DENY
-  rules:
-  - from:
-    - source:
-        hosts: ["example.com", "*.example.com"]
-        # the JWT token must have issuer with suffix "@example.com"
-        notRequestPrincipals: ["*@example.com"]
-    - source:
-        hosts: [".another.org", "*.another.org"]
-        # the JWT token must have issuer with suffix "@another.org"
-        notRequestPrincipals: ["*@another.org"]
-{{< /text >}}
-
 ### Namespace isolation
 
 You want to block all traffic from outside the namespace `foo`, in other words, isolate the namespace `foo` from other
-namespaces. This requires to enable mTLS first.
+namespaces. This requires you have already enabled mTLS.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -119,27 +68,10 @@ spec:
         namespaces: ["foo"]
 {{< /text >}}
 
-If you want to make sure the policy can not be bypassed by other `ALLOW` policies, you can use the `DENY` policy to
-achieve the result:
-
-{{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: ns-isolation
-  namespace: foo
-spec:
-  action: DENY
-  rules:
-  - from:
-    - source:
-        notNamespaces: ["foo"]
-{{< /text >}}
-
 ### Namespace isolation with ingress exception
 
 You want to block all traffic from outside the namespace `foo` except the traffic from the ingress gateway.
-This requires to enable mTLS first.
+This requires you have already enabled mTLS.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -155,24 +87,6 @@ spec:
         namespaces: ["foo"]
     - source:
         principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
-{{< /text >}}
-
-If you want to make sure the policy can not be bypassed by another `ALLOW` policy, you can use the `DENY` policy to
-achieve the result:
-
-{{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: ns-isolation-except-ingress
-  namespace: foo
-spec:
-  action: DENY
-  rules:
-  - from:
-    - source:
-        notNamespaces: ["foo"]
-        notPrincipals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
 {{< /text >}}
 
 ### Require mTLS in authorization layer (defense in depth)
@@ -194,4 +108,48 @@ spec:
   - from:
     - source:
         notPrincipals: ["*"]
+{{< /text >}}
+
+### Require mandatory authorization check with `DENY` policy
+
+You can use the `DENY` policy If you want to require mandatory authorization check that must be satisfied and cannot be
+bypassed by another more permissive policy, you can use the `DENY` policy. This is different from `ALLOW` policy because
+a more permissive `ALLOW` policy will allow more requests and bypass the more restrictive `ALLOW` policy.
+
+Use the following policy to enforce mandatory JWT validation that rejects the request if it has no JWT token. The policy
+uses `DENY` action which means it cannot be bypassed by another `ALLOW` policy.
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: require-jwt
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+{{< /text >}}
+
+Similarly, Use the following policy to enforce namespace isolation except ingress gateway. The policy uses `DENY` action
+which means it cannot be bypassed by another `ALLOW` policy.
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: ns-isolation-except-ingress
+  namespace: foo
+spec:
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notNamespaces: ["foo"]
+        notPrincipals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
 {{< /text >}}
