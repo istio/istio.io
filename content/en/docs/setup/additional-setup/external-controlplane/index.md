@@ -20,7 +20,7 @@ admins only need to configure the mesh.
     caption="External control plane cluster and remote cluster"
     >}}
 
-Envoy proxies (sidecars and gateway) running in the remote cluster access the external istiod via an ingress gateway
+Envoy proxies (sidecars and gateways) running in the remote cluster access the external istiod via an ingress gateway
 which exposes the endpoints needed for discovery, CA, injection, and validation.
 
 While configuration and management of the external control plane is done by the mesh operator in the external cluster,
@@ -36,23 +36,23 @@ the Kubernetes API server, as shown in the above diagram.
 This guide requires that you have two Kubernetes clusters with any of the
 supported Kubernetes versions: {{< supported_kubernetes_versions >}}.
 
-The first cluster contains the external control plane installed
-in the `external-istiod` namespace. An ingress gateway is also installed in the `istio-system`
-namespace to provide mesh sidecars access to the external control plane.
+The first cluster will host the {{< gloss >}}external control plane{{< /gloss >}} installed in the
+`external-istiod` namespace. An ingress gateway is also installed in the `istio-system` namespace to provide
+cross-cluster access to the external control plane.
 
-The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} running the mesh workloads.
-Its Kubernetes API server also provides the configuration for the control plane (istiod)
-running in the external cluster.
+The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} that will run the mesh application workloads.
+Its Kubernetes API server also provides the mesh configuration used by the external control plane (istiod)
+to configure the workload proxies.
 
 ### API Server Access
 
 The Kubernetes API server in the remote cluster must be accessible to the external
 control plane cluster. Many cloud providers make API servers publicly accessible
 via network load balancers (NLBs). If the API server is not directly accessible, you will
-have to modify the installation procedure to enable access. For example, the
-[east-west](https://en.wikipedia.org/wiki/East-west_traffic) gateway used in
-the multi-network and primary-remote configurations could also be used
-to enable access to the API server.
+need to modify the installation procedure to enable access. For example, the
+[east-west](https://en.wikipedia.org/wiki/East-west_traffic) gateway used in a
+[multicluster configuration](#adding-clusters) could also be used to enable access
+to the API server.
 
 ### Environment Variables
 
@@ -80,7 +80,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
 
 A mesh operator is responsible for installing and managing the external Istio control plane on the external cluster.
 This includes configuring an ingress gateway on the external cluster, which allows the remote cluster to access the control plane,
-and installing needed webhooks, configmaps, and secrets on the remote cluster to configure it to use the external control plane.
+and installing needed webhooks, configmaps, and secrets on the remote cluster so that it will use the external control plane.
 
 #### Set up a gateway in the external cluster
 
@@ -117,9 +117,9 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster to
     {{< text bash >}}
     $ istioctl install -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
-    
+
 1. Run the following command to confirm that the ingress gateway is up and running:
-    
+
     {{< text bash >}}
     $ kubectl get po -n istio-system --context="${CTX_EXTERNAL_CLUSTER}"
     NAME                                   READY   STATUS    RESTARTS   AGE
@@ -166,14 +166,14 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster to
 1. Before you deploy the external istiod, you need to create the root namespace on the config (remote) cluster.
     The root namespace for control plane configuration resources on the remote cluster must be the same
     namespace as the control plane on the external cluster, `external-istiod` in this case:
-    
+
     {{< text bash >}}
     $ kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
 1. Create the Istio configuration to install the control plane in the `external-istiod` namespace of the external cluster:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=get_external_istiod_iop >}}
     $ cat <<EOF > external-istiod.yaml
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
@@ -224,9 +224,9 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster to
 
 1. Create the Istio `Gateway`, `VirtualService`, and `DestinationRule` configuration to route traffic from the ingress
     gateway to the external control plane:
-    
-    {{< text bash >}}
-    $ kubectl apply  --context="${CTX_EXTERNAL_CLUSTER}" -f - <<EOF
+
+    {{< text syntax=bash snip_id=get_external_istiod_gateway_config >}}
+    $ cat <<EOF > external-istiod-gw.yaml
     apiVersion: networking.istio.io/v1beta1
     kind: Gateway
     metadata:
@@ -304,12 +304,18 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster to
     EOF
     {{< /text >}}
 
+    Then, apply the configuration on the external cluster:
+
+    {{< text bash >}}
+    $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+    {{< /text >}}
+
 #### Set up the remote cluster
 
 1. Create the remote Istio install configuration, which installs webhooks, configmaps, and secrets,
     that use the external control plane, instead of deploying a control plane locally:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=get_remote_config_cluster_iop >}}
     $ cat <<EOF > remote-config-cluster.yaml
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
@@ -499,7 +505,7 @@ including gateways, if needed.
     Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
     {{< /text >}}
 
-## Adding clusters to the mesh (optional)
+## Adding clusters to the mesh (optional) {#adding-clusters}
 
 This section shows you how to expand an existing external control plane mesh to multicluster by adding another remote cluster.
 This allows you to easily distribute services and use [Location-aware routing and fail over](/docs/tasks/traffic-management/locality-load-balancing/) to support high availability of your application.
@@ -509,10 +515,10 @@ This allows you to easily distribute services and use [Location-aware routing an
     caption="External control plane with multiple remote clusters"
     >}}
 
-Unlike the first remote cluster, the second and susequent clusters added to the same external control plane do not
+Unlike the first remote cluster, the second and subsequent clusters added to the same external control plane do not
 provide mesh config, but instead are only sources of endpoint configuration, just like remote clusters in a
 [primary-remote](/docs/setup/install/multicluster/primary-remote_multi-network/) Istio multicluster configuration.
 
-### Mesh admin steps
+### Mesh operator instructions
 
 TBD
