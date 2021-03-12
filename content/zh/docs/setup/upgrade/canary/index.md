@@ -1,16 +1,14 @@
 ---
 title: 金丝雀升级
-description: 通过先运行一个金丝雀部署的新控制平面来完成 Istio 的升级。
+description: 通过先运行一个金丝雀部署的新控制平面升级 Istio。
 weight: 10
 keywords: [kubernetes,upgrading,canary]
 owner: istio/wg-environments-maintainers
 test: no
 ---
 
-Upgrading Istio can be done by first running a canary deployment of the new control plane, allowing you
-to monitor the effect of the upgrade with a small percentage of the workloads, before migrating all of the
-traffic to the new version. This is much safer than doing an
-[in place upgrade](/docs/setup/upgrade/in-place/) and is the recommended upgrade method.
+通过先运行一个金丝雀部署的新控制面来完成 Istio 的升级， 从而允许您在将所有流量迁移到新版本之前以一小部分工作负载监视升级的效果， 这比
+[就地升级](/docs/setup/upgrade/in-place/) 要安全的多，这也是推荐的升级方法。
 
 When installing Istio, the `revision` installation setting can be used to deploy multiple independent control planes
 at the same time. A canary version of an upgrade can be started by installing the new Istio version's control plane
