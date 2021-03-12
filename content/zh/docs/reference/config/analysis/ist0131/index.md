@@ -9,12 +9,6 @@ test: no
 
 ## 示例{#example}
 
-您将会收到以下信息：
-
-{{< text plain >}}
-Info [IST0131] (VirtualService tls-routing.default) VirtualService rule #1 match #0 is not used (duplicates a match in rule #0).
-{{< /text >}}
-
 当您的集群中包含下列 Virtual Service 时：
 
 {{< text yaml >}}
@@ -41,6 +35,12 @@ spec:
     route:
     - destination:
         host: api1.facebook.com
+{{< /text >}}
+
+您将会收到以下信息：
+
+{{< text plain >}}
+Info [IST0131] (VirtualService tls-routing.default) VirtualService rule #1 match #0 is not used (duplicates a match in rule #0).
 {{< /text >}}
 
 在这个示例中，Virtual Service 对两个不同的目的地指定了相同的匹配规则。Istio 会使用第一个匹配规则，并且不会转发任何流量到第二个目的地。
