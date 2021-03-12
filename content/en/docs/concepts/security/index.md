@@ -755,9 +755,9 @@ spec:
 #### `allow-nothing`, `deny-all` and `allow-all` policy
 
 The following example shows an `ALLOW` policy that matches nothing. If there are no other `ALLOW` policies, requests
-will always be denied due because of the "deny by default" behavior.
+will always be denied because of the "deny by default" behavior.
 
-It is often useful to start with the `allow-nothing` policy and incrementally add more `ALLOW` policies to open more
+It is a good security practice to start with the `allow-nothing` policy and incrementally add more `ALLOW` policies to open more
 access to the workload.
 
 {{< text yaml >}}
@@ -771,7 +771,7 @@ spec:
 {{< /text >}}
 
 The following example shows a `DENY` policy that explicitly denies all access. It will always deny the request even if
-there is an another `ALLOW` policy allowing the request because the `DENY` policy takes precedence over `ALLOW` policy.
+there is another `ALLOW` policy allowing the request because the `DENY` policy takes precedence over `ALLOW` policy.
 This is useful if you want to temporarily disable all access to the workload.
 
 {{< text yaml >}}
@@ -945,7 +945,7 @@ After learning  the basic concepts, there are more resources to follow:
 - Try out the security policy by following the [authentication tasks](/docs/tasks/security/authentication/authn-policy)
   and [authorization tasks](/docs/tasks/security/authorization).
 
-- Learn some security policy [common examples](/docs/ops/configuration/security/security-policy-examples) that could be
+- Learn some security policies [common examples](/docs/ops/configuration/security/security-policy-examples) that could be
   used to improve security in your mesh.
 
 - Read the [common problems](/docs/ops/common-problems/security-issues/) to better troubleshoot security policy issues
