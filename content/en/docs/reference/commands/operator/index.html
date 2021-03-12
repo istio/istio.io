@@ -134,12 +134,6 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
 </tr>
 <tr>
-<td><code>ENABLE_ADMIN_ENDPOINTS</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If this is set to true, dangerous admin endpoins will be exposed on the debug interface. Not recommended for production.</td>
-</tr>
-<tr>
 <td><code>ENABLE_CA_SERVER</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -380,12 +374,6 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>EnableThriftFilter enables injection of `envoy.filters.network.thrift_proxy` in the filter chain.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_UNSAFE_RUNTIME_ASSERTIONS</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, addition runtime asserts will be performed. These checks are both expensive and panic on failure. As a result, this should be used only for testing.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_VIRTUAL_SERVICE_DELEGATE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -558,6 +546,18 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>String</td>
 <td><code>istio-ca</code></td>
 <td>A list of comma separated audiences to check in the JWT token before issuing a certificate. The token is accepted if it matches with one of the audiences</td>
+</tr>
+<tr>
+<td><code>UNSAFE_ENABLE_ADMIN_ENDPOINTS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, dangerous admin endpoins will be exposed on the debug interface. Not recommended for production.</td>
+</tr>
+<tr>
+<td><code>UNSAFE_PILOT_ENABLE_RUNTIME_ASSERTIONS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, addition runtime asserts will be performed. These checks are both expensive and panic on failure. As a result, this should be used only for testing.</td>
 </tr>
 <tr>
 <td><code>XDS_AUTH</code></td>
