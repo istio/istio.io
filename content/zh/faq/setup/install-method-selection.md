@@ -24,7 +24,7 @@ weight: 10
 
 1. [使用 Istio Operator 安装](/zh/docs/setup/install/operator/)
 
-    没有 `istioctl` 二进制文件的简单安装放方式。这是推荐的方法。用于建华升级工作，无需考虑运行集群内的高权限 Controller。
+    没有 `istioctl` 二进制文件的简单安安装方式。这是推荐的方法。用于简单升级工作，无需考虑运行集群内的高权限 Controller。
 
     优点:
 
