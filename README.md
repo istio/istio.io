@@ -23,6 +23,7 @@ see the Istio [contribution guidelines](https://github.com/istio/community/blob/
 - [Testing document content](#testing-document-content)
 - [Multi-language support](#multi-language-support)
 - [Regular maintenance](#regular-maintenance)
+- [Website documentation](./WEBSITE.md)
 
 ## Editing and building
 
