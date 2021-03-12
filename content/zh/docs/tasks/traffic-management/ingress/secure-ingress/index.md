@@ -3,18 +3,18 @@ title: Secure Gateways
 description: 通过TLS或mTLS将服务公开到服务网格之外。
 weight: 20
 aliases:
-    - /docs/tasks/traffic-management/ingress/secure-ingress-sds/
-    - /docs/tasks/traffic-management/ingress/secure-ingress-mount/
+    - /zh/docs/tasks/traffic-management/ingress/secure-ingress-sds/
+    - /zh/docs/tasks/traffic-management/ingress/secure-ingress-mount/
 keywords: [traffic-management,ingress,sds-credentials]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-[ingress流量控制任务](/docs/tasks/traffic-management/ingress/ingress-control)描述了如何配置入口网关以向外部公开HTTP服务。此任务描述如何使用TLS或双向TLS公开安全的HTTPS服务。
+[ingress流量控制任务](/zh/docs/tasks/traffic-management/ingress/ingress-control)描述了如何配置入口网关以向外部公开HTTP服务。此任务描述如何使用TLS或双向TLS公开安全的HTTPS服务。
 
 ## 准备工作{#before-you-begin}
 
-1. 执行[准备工作](/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)中的步骤。完成[Ingress流量控制](/docs/tasks/traffic-management/ingress/ingress-control)中[确定ingress的IP和Port](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)部分任务。执行完这些步骤后，您应该已部署Istio和 [httpbin]({{< github_tree >}}/samples/httpbin)服务，并设置了环境变量 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 。
+1. 执行[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)中的步骤。完成[Ingress流量控制](/zh/docs/tasks/traffic-management/ingress/ingress-control)中[确定ingress的IP和Port](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)部分任务。执行完这些步骤后，您应该已部署Istio和 [httpbin]({{< github_tree >}}/samples/httpbin)服务，并设置了环境变量 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 。
 
 1.  对于macOS用户，请验证您是否使用通过LibreSSL库编译的curl：
 
@@ -44,7 +44,7 @@ test: yes
 
 ### 配置单机TLS入口网关
 
-1.  确定已在[准备工作](/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)环节完成[httpbin]({{< github_tree >}}/samples/httpbin)服务的部署。
+1.  确定已在[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)环节完成[httpbin]({{< github_tree >}}/samples/httpbin)服务的部署。
 
 1.  为ingress网关创建secret:
 
