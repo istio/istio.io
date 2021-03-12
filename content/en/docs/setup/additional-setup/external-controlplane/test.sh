@@ -67,7 +67,7 @@ export REMOTE_CLUSTER_NAME="${CTX_REMOTE_CLUSTER}"
 snip_set_up_a_gateway_in_the_external_cluster_1
 echo y | snip_set_up_a_gateway_in_the_external_cluster_2
 
-verify_like snip_set_up_a_gateway_in_the_external_cluster_3 "$snip_set_up_a_gateway_in_the_external_cluster_3_out"
+_verify_like snip_set_up_a_gateway_in_the_external_cluster_3 "$snip_set_up_a_gateway_in_the_external_cluster_3_out"
 
 export SSL_SECRET_NAME="UNUSED"
 export EXTERNAL_ISTIOD_ADDR=$(kubectl \
@@ -84,7 +84,7 @@ snip_set_up_the_control_plane_in_the_external_cluster_3
 snip_get_external_istiod_iop_modified
 echo y | snip_set_up_the_control_plane_in_the_external_cluster_5
 
-verify_like snip_set_up_the_control_plane_in_the_external_cluster_6 "$snip_set_up_the_control_plane_in_the_external_cluster_6_out"
+_verify_like snip_set_up_the_control_plane_in_the_external_cluster_6 "$snip_set_up_the_control_plane_in_the_external_cluster_6_out"
 
 snip_get_external_istiod_gateway_config_modified
 snip_set_up_the_control_plane_in_the_external_cluster_8
@@ -97,23 +97,23 @@ set +e #ignore failures here
 echo y | snip_set_up_the_remote_cluster_2
 set -e
 
-verify_like snip_set_up_the_remote_cluster_3 "$snip_set_up_the_remote_cluster_3_out"
-verify_like snip_set_up_the_remote_cluster_4 "$snip_set_up_the_remote_cluster_4_out"
-verify_like snip_set_up_the_remote_cluster_5 "$snip_set_up_the_remote_cluster_5_out"
-verify_like snip_set_up_the_remote_cluster_6 "$snip_set_up_the_remote_cluster_6_out"
+_verify_like snip_set_up_the_remote_cluster_3 "$snip_set_up_the_remote_cluster_3_out"
+_verify_like snip_set_up_the_remote_cluster_4 "$snip_set_up_the_remote_cluster_4_out"
+_verify_like snip_set_up_the_remote_cluster_5 "$snip_set_up_the_remote_cluster_5_out"
+_verify_like snip_set_up_the_remote_cluster_6 "$snip_set_up_the_remote_cluster_6_out"
 
 # Validate the installation.
 
 snip_deploy_a_sample_application_1
 snip_deploy_a_sample_application_2
 
-verify_like snip_deploy_a_sample_application_3 "$snip_deploy_a_sample_application_3_out"
+_verify_like snip_deploy_a_sample_application_3 "$snip_deploy_a_sample_application_3_out"
 
-verify_contains snip_deploy_a_sample_application_4 "Hello version: v1"
+_verify_contains snip_deploy_a_sample_application_4 "Hello version: v1"
 
 snip_enable_gateways_1
 
-verify_like snip_enable_gateways_3 "$snip_enable_gateways_3_out"
+_verify_like snip_enable_gateways_3 "$snip_enable_gateways_3_out"
 
 snip_enable_gateways_4
 
