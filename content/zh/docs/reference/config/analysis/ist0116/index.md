@@ -7,7 +7,7 @@ test: no
 
 当一个 Deployment 的 Pod 对应的多个 Service 在相同端口上定义了不同的协议会出现此消息。
 
-## 示例 {#An example}
+## 示例 {#example}
 
 例如包含以下 Service：
 
