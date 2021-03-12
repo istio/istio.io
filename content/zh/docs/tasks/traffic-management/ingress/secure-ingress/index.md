@@ -166,7 +166,7 @@ test: yes
     * curl: (35) error:04FFF06A:rsa routines:CRYPTO_internal:block type is not 01
     {{< /text >}}
 
-### 为多个主机配置TLS入口网关 {#configure-a-tls-ingress-gateway-for-multiple-hosts}
+### 为多个主机配置TLS入口网关 {#configure-a-TLS-ingress-gateway-for-multiple-hosts}
 
 您可以为多个主机（例如 `httpbin.example.com` 和 `helloworld-v1.example.com` ）配置入口网关。入口网关检索与特定凭据名称相对应的唯一凭据。
 
@@ -303,7 +303,7 @@ test: yes
     HTTP/2 200
     {{< /text >}}
 
-1. 发送一个 HTTPS 请求到 `httpbin.example.com` ，仍然返回一个tepot：
+1. 发送一个 HTTPS 请求到 `httpbin.example.com`，仍然返回一个茶壶:
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
@@ -320,9 +320,9 @@ test: yes
             `"""`
     {{< /text >}}
 
-### 配置双向TLS入口网关 {#configure-a-mutual-tls-ingress-gateway}
+### 配置双向TLS入口网关 {#configure-a-mutual-TLS-ingress-gateway}
 
-您可以扩展网关的定义以支持[双向TLS](https://en.wikipedia.org/wiki/Mutual_authentication)。删除入口网关的secret并创建一个新的，以更改入口网关的凭据。服务器使用CA证书来验证其客户端，并且我们必须使用名称cacert来持有CA证书。
+您可以扩展网关的定义以支持[双向TLS](https://en.wikipedia.org/wiki/Mutual_authentication)。删除入口网关的secret并创建一个新的，以更改入口网关的凭据。服务器使用CA证书来验证其客户端，并且必须使用名称 `cacert` 来持有CA证书。
 
 {{< text bash >}}
 $ kubectl -n istio-system delete secret httpbin-credential
