@@ -15,7 +15,7 @@ test: no
     $ kubectl scale deployments --all --replicas 1
     {{< /text >}}
 
-1.  重新部署启用 Istio 的 Bookinfo 应用。`productpage` 服务不会被重新部署，因为它已经被注入 Istio，并且它的 Pod 将不会发生变化。这次您将使用只启用单个副本的微服务。
+1.  重新部署启用 Istio 的 Bookinfo 应用。`productpage` 服务不会被重新部署，因为它被 Istio 注入，并且它的 Pod 不会发生改变。在这您可以在单个副本的微服务集群中启用 Istio 。
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app!=reviews -f -
