@@ -5,7 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-当一个 Deployment 的 Pod 资源的多个服务使用了相同端口但使用了不同的协议会出现该问题。
+当一个 Deployment 的 Pod 对应的多个 Service 在相同端口上定义了不同的协议会出现此消息。
 
 ## 示例 {#An example}
 
