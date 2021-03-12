@@ -9,12 +9,6 @@ test: no
 
 ## 示例{#example}
 
-您将会收到以下信息：
-
-{{< text plain >}}
-Warning [IST0132] (VirtualService testing-service.default testing.yaml:8) one or more host [wrong.com] defined in VirtualService default/testing-service not found in Gateway istio-system/testing-gateway.
-{{< /text >}}
-
 当您的集群中包含以下虚拟服务时：
 
 {{< text yaml >}}
@@ -56,7 +50,13 @@ spec:
       number: 80
       protocol: HTTP
 {{< /text >}}
-      
+
+您将会收到以下信息：
+
+{{< text plain >}}
+Warning [IST0132] (VirtualService testing-service.default testing.yaml:8) one or more host [wrong.com] defined in VirtualService default/testing-service not found in Gateway istio-system/testing-gateway.
+{{< /text >}}
+
 在这个示例中，虚拟服务 `testing-service` 拥有域名 `wrong.com` ，但是该域名没有声明在网关 `testing-gateway` 中。
 
 ## 解决方案{#how-to-resolve}
