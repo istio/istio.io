@@ -6,9 +6,16 @@ aliases:
     - /zh/docs/samples/bookinfo.html
     - /zh/docs/guides/bookinfo/index.html
     - /zh/docs/guides/bookinfo.html
+owner: istio/wg-docs-maintainers
+test: yes
 ---
 
 这个示例部署了一个用于演示多种 Istio 特性的应用，该应用由四个单独的微服务构成。
+
+{{< tip >}}
+如果您使用[入门](/docs/setup/getting-started/)安装了 Istio，说明您已经安装了 Bookinfo，您可以跳过这些步骤。
+{{< /tip >}}
+
 这个应用模仿在线书店的一个分类，显示一本书的信息。
 页面上会显示一本书的描述，书籍的细节（ISBN、页数等），以及关于这本书的一些评论。
 
@@ -61,6 +68,10 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
     $ kubectl label namespace default istio-injection=enabled
     {{< /text >}}
 
+    {{< warning >}}
+    如果您使用 OpenShift，请确保按照[OpenShift设置页面](/docs/setup/platform-setup/openshift/#privileged-security-context-constraints-for-application-sidecars)中所述为名称空间上的服务帐户授予适当的权限
+    {{< /warning >}}
+
 1. 使用 `kubectl` 部署应用：
 
     {{< text bash >}}
@@ -86,12 +97,12 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
 
     {{< text bash >}}
     $ kubectl get services
-    NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
-    details                    10.0.0.31    <none>        9080/TCP             6m
-    kubernetes                 10.0.0.1     <none>        443/TCP              7d
-    productpage                10.0.0.120   <none>        9080/TCP             6m
-    ratings                    10.0.0.15    <none>        9080/TCP             6m
-    reviews                    10.0.0.170   <none>        9080/TCP             6m
+    NAME            TYPE           CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
+    details        ClusterIP       10.0.0.31    <none>        9080/TCP             6m
+    kubernetes     ClusterIP       10.0.0.1     <none>        443/TCP              7d
+    productpage    ClusterIP       10.0.0.120   <none>        9080/TCP             6m
+    ratings        ClusterIP       10.0.0.15    <none>        9080/TCP             6m
+    reviews        ClusterIP       10.0.0.170   <none>        9080/TCP             6m
     {{< /text >}}
 
     还有：
@@ -157,21 +168,13 @@ $ curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
 
 运行以下命令为 Bookinfo 服务创建的默认的目标规则：
 
-* 如果**没有**启用双向 TLS，请执行以下命令：
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
+{{< /text >}}
 
-    {{< tip >}}
-    如果您是 Istio 的新手，并且使用了 `demo` [配置文件](/zh/docs/setup/additional-setup/config-profiles/)，请选择此步。
-    {{< /tip >}}
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
-    {{< /text >}}
-
-* 如果**启用了**双向 TLS，请执行以下命令：
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
-    {{< /text >}}
+{{< tip >}}
+`默认` 和 `示例` 的[配置文件](/docs/setup/additional-setup/config-profiles/)默认情况下启用了[自动双向TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls)。要执行双向 TLS，请使用 `samples/bookinfo/networking/destination-rule-all-mtls.yaml` 中的目标规则。
+{{< /tip >}}
 
 等待几秒钟，以使目标规则生效。
 
