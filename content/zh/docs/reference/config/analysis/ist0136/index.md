@@ -5,7 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-当 Istio 或 Kubernetes 资源含有一个实现不完全或者缺少性能测试的新注解时，会出现此消息。
+当 Istio 或 Kubernetes 资源含有一个实验版本或者缺少性能测试的新注解时，会出现此消息。
 
 有关 Istio 功能的相对成熟度以及支持等级请查阅 Istio 的[功能状态文档](/zh/about/feature-stages/)。
 
