@@ -21,7 +21,8 @@ more details.
 ### Require different JWT issuer per host
 
 JWT validation is common on the ingress gateway and you may want to require different JWT issuers for different
-hosts, you can use the authorization policy for finer grained JWT validation in addition to the request authentication.
+hosts, you can use the authorization policy for fine grained JWT validation in addition to the
+[request authentication](/docs/tasks/security/authentication/authn-policy/#end-user-authentication) policy.
 
 Use the following policy if you want to allow access to the given hosts if JWT principal matches. Access to other hosts
 will always be denied.
@@ -116,7 +117,8 @@ You can use the `DENY` policy If you want to require mandatory authorization che
 bypassed by another more permissive policy, you can use the `DENY` policy. This is different from `ALLOW` policy because
 a more permissive `ALLOW` policy will allow more requests and bypass the more restrictive `ALLOW` policy.
 
-Use the following policy to enforce mandatory JWT validation that rejects the request if it has no JWT token. The policy
+Use the following policy to enforce mandatory JWT validation that rejects the request if it has no JWT token in addition
+to the [request authentication](/docs/tasks/security/authentication/authn-policy/#end-user-authentication) policy. The policy
 uses `DENY` action which means it cannot be bypassed by another `ALLOW` policy.
 
 {{< text yaml >}}
