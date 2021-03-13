@@ -71,7 +71,7 @@ spec:
 
 ### Namespace isolation with ingress exception
 
-You want to block all traffic from outside the namespace `foo` except the traffic from the ingress gateway.
+You want to block all traffic from outside the namespace `foo` but allow access from ingress gateway.
 This requires you have already enabled mTLS.
 
 {{< text yaml >}}
@@ -95,7 +95,9 @@ spec:
 You have configured `PeerAuthentication` to `STRICT` but want to make sure the traffic is indeed protected by mTLS with
 extra check in the authorization layer, i.e., defense in depth.
 
-The following policy enforces mTLS for workloads in the `foo` namespace:
+The following policy denies the request if the principal is empty. The principal will be empty if plain text is used.
+In other words, the policy allows request if the principal is non-empty.
+"*" means non-empty match and using with `notPrincipals` means matching on empty principal.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -117,9 +119,10 @@ You can use the `DENY` policy If you want to require mandatory authorization che
 bypassed by another more permissive policy, you can use the `DENY` policy. This is different from `ALLOW` policy because
 a more permissive `ALLOW` policy will allow more requests and bypass the more restrictive `ALLOW` policy.
 
-Use the following policy to enforce mandatory JWT validation that rejects the request if it has no JWT token in addition
-to the [request authentication](/docs/tasks/security/authentication/authn-policy/#end-user-authentication) policy. The policy
-uses `DENY` action which means it cannot be bypassed by another `ALLOW` policy.
+Use the following policy to enforce mandatory JWT validation in addition to the [request authentication](/docs/tasks/security/authentication/authn-policy/#end-user-authentication) policy.
+The policy denies the request if the request principal is empty. The request principal will be empty if JWT validation failed.
+In other words, the policy allows request if the request principal is non-empty.
+"*" means non-empty match and using with `notRequestPrincipals` means matching on empty request principal.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -138,8 +141,9 @@ spec:
         notRequestPrincipals: ["*"]
 {{< /text >}}
 
-Similarly, Use the following policy to enforce namespace isolation except ingress gateway. The policy uses `DENY` action
-which means it cannot be bypassed by another `ALLOW` policy.
+Similarly, Use the following policy to enforce namespace isolation but allow request from ingress gateway. The policy
+denies the request if the namespace is not `foo` and the principal is not `cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account`.
+In other words, the policy allows request if the namespace is `foo` or the principal is `cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account`.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
