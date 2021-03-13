@@ -42,7 +42,7 @@ weight: 10
 
     优点:
 
-    - Chart 是由与 `istioctl install` 和 Operator 里使用的相同的 `IstioOperator` API 生成的。 
+    - Chart 是由与 `istioctl install` 和 Operator 里使用的相同的 `IstioOperator` API 生成的。
     - 使用提供了扩展的配置、自定义选项的 `IstioOperator` API。
 
     缺点:
