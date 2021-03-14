@@ -1,7 +1,7 @@
 ---
 title: 文档审阅流程
 description: 向您展示如何审阅和批准对 Istio 文档和网站的更改。
-weight: 6
+weight: 7
 keywords: [contribute,community,github,pr,documentation,review, approval]
 ---
 

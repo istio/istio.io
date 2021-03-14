@@ -25,10 +25,10 @@ replace github.com/evanphx/json-patch => github.com/evanphx/json-patch v0.0.0-20
 require (
 	github.com/golang/sync v0.0.0-20180314180146-1d60e4601c6f
 	github.com/pmezard/go-difflib v1.0.0
-	istio.io/istio v0.0.0-20210227104110-e231734ef4ce
-	istio.io/pkg v0.0.0-20210219215147-6639dbf1271c
-	k8s.io/apimachinery v0.20.2
-	k8s.io/client-go v0.20.2
+	istio.io/istio v0.0.0-20210306101922-ba8228cc703f
+	istio.io/pkg v0.0.0-20210226185257-1f58c1049e9f
+	k8s.io/apimachinery v0.20.4
+	k8s.io/client-go v0.20.4
 )
 
 // Pending https://github.com/kubernetes/kube-openapi/pull/220
