@@ -67,7 +67,7 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
     {{< /text >}}
 
     {{< warning >}}
-    如果您使用 OpenShift，请确保按照[OpenShift设置页面](/zh/docs/setup/platform-setup/openshift/#privileged-security-context-constraints-for-application-sidecars)中所述为名称空间上的服务帐户授予适当的权限
+    如果您使用 OpenShift，请确保按照[OpenShift设置页面](/zh/docs/setup/platform-setup/openshift/#privileged-security-context-constraints-for-application-sidecars)中所述为命名空间上的服务帐户授予适当的权限
     {{< /warning >}}
 
 1. 使用 `kubectl` 部署应用：
@@ -169,7 +169,7 @@ $ curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
 * 如果**没有**启用双向 TLS，请执行以下命令：
 
 {{< tip >}}
-`默认` 和 `示例` 的[配置文件](/zh/docs/setup/additional-setup/config-profiles/)默认情况下启用了[自动双向TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls)。要执行双向 TLS，请使用 `samples/bookinfo/networking/destination-rule-all-mtls.yaml` 中的目标规则。
+`default` 和 `demo` 的[配置文件](/zh/docs/setup/additional-setup/config-profiles/)默认情况下启用了[自动双向TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls)。要执行双向 TLS，请使用 `samples/bookinfo/networking/destination-rule-all-mtls.yaml` 中的目标规则。
 {{< /tip >}}
 
 等待几秒钟，以使目标规则生效。
