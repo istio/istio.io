@@ -10,11 +10,11 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-[ingress流量控制任务](/zh/docs/tasks/traffic-management/ingress/ingress-control)描述了如何配置入口网关以向外部公开HTTP服务。此任务描述如何使用TLS或双向TLS公开安全的HTTPS服务。
+[Ingress流量控制任务](/zh/docs/tasks/traffic-management/ingress/ingress-control)描述了如何配置入口网关以向外部公开HTTP服务。此任务描述如何使用TLS或双向TLS公开安全的HTTPS服务。
 
 ## 准备工作{#before-you-begin}
 
-1. 执行[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)中的步骤。完成[Ingress流量控制](/zh/docs/tasks/traffic-management/ingress/ingress-control)中[确定ingress的IP和Port](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)部分任务。执行完这些步骤后，您应该已部署Istio和 [httpbin]({{< github_tree >}}/samples/httpbin)服务，并设置了环境变量 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 。
+1. 执行[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)中的步骤。完成[Ingress流量控制](/zh/docs/tasks/traffic-management/ingress/ingress-control)中[确定Ingress的IP和Port](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)部分任务。执行完这些步骤后，您应该已部署Istio和 [httpbin]({{< github_tree >}}/samples/httpbin)服务，并设置了环境变量 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 。
 
 1.  对于macOS用户，请验证您是否使用通过LibreSSL库编译的curl：
 
@@ -46,15 +46,14 @@ test: yes
 
 1.  确定已在[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)环节完成[httpbin]({{< github_tree >}}/samples/httpbin)服务的部署。
 
-1.  为ingress网关创建secret:
+1.  为Ingress网关创建Secret:
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret tls httpbin-credential --key=httpbin.example.com.key --cert=httpbin.example.com.crt
     {{< /text >}}
 
     {{< warning >}}
-    The secret name **should not** begin with `istio` or `prometheus`, and
-    the secret **should not** contain a `token` field.
+    Secret 名字 **不能** 以 `istio` 或 `prometheus` 开头, 且不能包含 `token` 字段。
     {{< /warning >}}
 
 1.  为端口443定义一个带有 `servers:` 部分的网关，并将 `credentialName` 的值指定为 `httpbin-credential`。这些值与secret名称相同。 TLS模式的值应为 `SIMPLE`。
@@ -380,7 +379,7 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=t
     $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
     {{< /text >}}
 
-1. 重新发送带客户端证书和私钥的 `curl` 请求。使用--cert标志传递客户的证书，使用--key标志传递私钥。
+1. 重新发送带客户端证书和私钥的 `curl` 请求。使用--cert标志传递客户端证书，使用--key标志传递私钥。
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
@@ -398,11 +397,11 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=t
             `"""`
     {{< /text >}}
 
-Istio支持读取不同的Secret格式，以支持与各种工具（例如[cert-manager](/zh/docs/ops/integrations/certmanager/)的集成：
+Istio支持读取不同的Secret格式，以支持与各种工具（例如[cert-manager](/zh/docs/ops/integrations/certmanager/))的集成：
 
-* A TLS Secret with keys `tls.key` and `tls.crt`, as described above. For mutual TLS, a `ca.crt` key can be used.
-* A generic Secret with keys `key` and `cert`. For mutual TLS, a `cacert` key can be used.
-* A generic Secret with keys `key` and `cert`. For mutual TLS, a separate generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
+* 如上所述，包含 `tls.key` 和 `tls.crt` 的TLS secret。对于双向TLS，可以使用 `ca.crt` 密钥。
+* 包含 `key` 和 `cert` 的通用Secret。对于双向TLS，可以使用 `cacert` 密钥。
+* 包含 `key` 和 `cert` 的通用Secret。对于双向TLS，还可以单独设置名为 `<secret>-cacert` 的通用secret，该secret含 `cacert` 密钥。例如，`httpbin-credential` 包含 `key` 和 `cert`，而 `httpbin-credential-cacert` 包含 `cacert`。
 
 ## Troubleshooting {#troubleshooting}
 
