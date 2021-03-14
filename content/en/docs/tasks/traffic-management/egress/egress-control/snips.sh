@@ -91,7 +91,6 @@ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
 {
   "headers": {
     "Accept": "*/*",
-    "Content-Length": "0",
     "Host": "httpbin.org",
     ...
     "X-Envoy-Decorator-Operation": "httpbin.org:80/*",
