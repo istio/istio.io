@@ -31,7 +31,7 @@ spec:
         host: ratings
 {{< /text >}}
 
-同时还包含如下网关:
+同时还包含如下 Gateway:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
