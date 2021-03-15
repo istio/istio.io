@@ -131,6 +131,16 @@
             display: flex;
         }
     }
+    .news-list {
+        .post-card {
+            .post-summary {
+                height: 135px;
+                @media (min-width: $bp-md) {
+                    height: 124px;
+                }
+            }
+        }
+    }
 }
 .post{
     max-width: 100%;

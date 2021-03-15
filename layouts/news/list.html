@@ -25,7 +25,7 @@
         {{ end }}
  
     </div>
-    <div class="posts-list">
+    <div class="posts-list news-list">
         {{ range $item := $pages }}
             {{ range $a := $sections }}
                 {{ if $a.IsAncestor $item }}
@@ -36,7 +36,18 @@
                         </div>
                         <div>   
                             <h4 class="post-title">{{ $item.Title }}</h4>
-                            <p class="post-summary">{{ $item.Params.description }}</p>
+                            <div class="post-summary">
+                                {{ $item.Params.description }} </br>
+                                {{ if $item.Params.cves }}
+                                    CVE(s): {{ $item.Params.cves }} </br>
+                                {{ end }}
+                                {{ if $item.Params.cvss }}
+                                    CVSS: {{ $item.Params.cvss }} </br>
+                                {{ end }}
+                                {{ if  $item.Params.releases }}
+                                    Affected versions: {{ $item.Params.releases }}
+                                {{ end }}
+                            </div>
                             <p class="post-author">{{ $a.LinkTitle }}</p>
                         </div>    
                     </a>
