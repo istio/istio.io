@@ -116,7 +116,9 @@ _verify_like snip_deploy_a_sample_application_3 "$snip_deploy_a_sample_applicati
 
 _verify_contains snip_deploy_a_sample_application_4 "Hello version: v1"
 
-snip_enable_gateways_1
+echo y | snip_enable_gateways_1
+cat istio-ingressgateway.yaml # TEMP debug
+#echo y | snip_enable_gateways_2
 
 _verify_like snip_enable_gateways_3 "$snip_enable_gateways_3_out"
 
