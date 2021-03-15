@@ -134,7 +134,7 @@ test: yes
 
 ### TCP 属性{#tcp-attributes}
 
-几个特定于 TCP 的属性可在 Istio 中启用 TCP 策略和控制。这些属性由 Envoy 代理生成，并使用 Envoy 的 Node Metadata 从 Istio 获得。Envoy 使用基于 ALPN 的隧道和基于前缀的协议将节点元数据转发给对等 Envoy。我们定义了一个新的协议 `istio-peer-exchange`，该协议定义了网格中的客户端和 sidecar 服务器的通告和优先级。对于启用了 Istio 之间的连接，ALPN 协商将协议解析为 `istio-peer-exchange` 代理，不再启用 Istio 的代理和任何其他代理。该协议扩展了 TCP，如下所示：
+几个特定于 TCP 的属性可在 Istio 中启用 TCP 策略和控制。这些属性由 Envoy 代理生成，并使用 Envoy 的 Node Metadata 从 Istio 获得。Envoy 使用基于 ALPN 的隧道和基于前缀的协议将节点元数据转发给对等 Envoy。我们定义了一个新的协议 `istio-peer-exchange`，该协议定义了网格中的客户端和 Sidecar 服务器的通告和优先级。对于启用了 Istio 之间的连接，ALPN 协商将协议解析为 `istio-peer-exchange` 代理，不再启用 Istio 的代理和任何其他代理。该协议扩展了 TCP，如下所示：
 
 1. TCP 客户端，作为第一个字节序列，发送一个魔术字节串和一个长度带前缀的有效载荷。
 1. TCP 服务端，作为第一个字节序列，发送一个魔术字节串和一个长度带前缀的有效载荷，这些有效载荷是 protobuf 编码的序列化元数据。
