@@ -46,7 +46,6 @@ snip_get_external_istiod_gateway_config_modified() {
         -e 's/http:/tls:/' -e 's/https/tls/' -e "/route:/i\        sniHosts:\n        - ${EXTERNAL_ISTIOD_ADDR}" \
         external-istiod-gw.yaml
     EXTERNAL_ISTIOD_ADDR="$TMP"
-    cat external-istiod-gw.yaml # TEMP debug
 }
 
 snip_get_remote_config_cluster_iop_modified() {
@@ -56,7 +55,6 @@ snip_get_remote_config_cluster_iop_modified() {
     sed -i \
         -e '/proxyMetadata:/,+2d' \
         remote-config-cluster.yaml
-    cat remote-config-cluster.yaml # TEMP debug
 }
 
 # Set the CTX_EXTERNAL_CLUSTER, CTX_REMOTE_CLUSTER, and REMOTE_CLUSTER_NAME env variables.
@@ -83,8 +81,8 @@ export EXTERNAL_ISTIOD_ADDR=$(kubectl \
 
 snip_set_up_the_control_plane_in_the_external_cluster_1
 snip_set_up_the_control_plane_in_the_external_cluster_2
-echo ">>> created remote secret" # TEMP debug
-snip_set_up_the_control_plane_in_the_external_cluster_3
+#echo ">>> created remote secret" # TEMP debug
+#snip_set_up_the_control_plane_in_the_external_cluster_3
 
 snip_get_external_istiod_iop_modified
 echo y | snip_set_up_the_control_plane_in_the_external_cluster_5
@@ -117,7 +115,6 @@ _verify_like snip_deploy_a_sample_application_3 "$snip_deploy_a_sample_applicati
 _verify_contains snip_deploy_a_sample_application_4 "Hello version: v1"
 
 echo y | snip_enable_gateways_1
-cat istio-ingressgateway.yaml # TEMP debug
 #echo y | snip_enable_gateways_2
 
 _verify_like snip_enable_gateways_3 "$snip_enable_gateways_3_out"
@@ -147,5 +144,6 @@ istioctl manifest generate -f controlplane-gateway.yaml | kubectl delete --conte
 
 kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
+kubectl delete ns istio-system --context="${CTX_REMOTE_CLUSTER}" # TODO: what is creating this ns?
 
 rm external-istiod-gw.yaml remote-config-cluster.yaml external-istiod.yaml controlplane-gateway.yaml
