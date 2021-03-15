@@ -37,7 +37,7 @@ keywords: [contribute]
 |点击 **Fork**。    | 点击 "Fork"。
 |选择 **Other**。   | 选择 'Other'。
 
-## 使用 _斜体_ 强调新术语{#use-italics-to-emphasize-new-terms}
+## 使用斜体强调新术语{#use-italics-to-emphasize-new-terms}
 
 |正确做法                  | 错误做法
 |-------------------------|---
