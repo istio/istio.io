@@ -56,7 +56,7 @@ snip_get_remote_config_cluster_iop_modified() {
     sed -i \
         -e '/proxyMetadata:/,+2d' \
         remote-config-cluster.yaml
-    cat remote-clinfig-cluster.yaml # TEMP debug
+    cat remote-config-cluster.yaml # TEMP debug
 }
 
 # Set the CTX_EXTERNAL_CLUSTER, CTX_REMOTE_CLUSTER, and REMOTE_CLUSTER_NAME env variables.
