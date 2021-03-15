@@ -80,7 +80,7 @@ test: no
     reviews-v1-77c65dc5c6-r55tl     1/1     Running   0          49s
     {{< /text >}}
 
-1. 在服务达到 `Running` 状态后，部署测试 pod，[sleep]({{< github_tree >}}/samples/sleep)，用来向您的微服务发送请求：
+1. 在服务达到 `Running` 状态后，部署测试 Pod，[sleep]({{< github_tree >}}/samples/sleep)，用来向您的微服务发送请求：
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
@@ -144,7 +144,7 @@ service/productpage patched
 
 ### 更新 `/etc/hosts` 配置文件{#update-your-etc-hosts-configuration-file}
 
-1.  获取名为 `bookinfo` 的 Kubernetes ingress 的 IP 地址:
+1.  获取名为 `bookinfo` 的 Kubernetes Ingress 的 IP 地址:
 
     {{< text bash >}}
     $ kubectl get ingress bookinfo
