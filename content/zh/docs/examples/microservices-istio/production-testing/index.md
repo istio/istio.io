@@ -1,9 +1,7 @@
 ---
 title: 生产测试
 overview: 在生产环境中测试微服务的新版本。
-
 weight: 40
-
 owner: istio/wg-docs-maintainers
 test: no
 ---
@@ -92,8 +90,7 @@ test: no
     第一个 pod 重启了两次，其它两个 `details` pods 重启了一次。
     您可能会看到 `Error` 和 `CrashLoopBackOff` 状态，直到 pods 变为 `Running` 状态。
 
-1. 在终端中使用 Ctrl-C 停止正在运行的无限循环，以模拟流量。 
-
+1. 在终端中使用 Ctrl-C 停止正在运行的无限循环，以模拟流量。
 
 在这两种情况下，应用程序都没有崩溃。
 `details` 微服务中的崩溃并未导致其他微服务失败。
