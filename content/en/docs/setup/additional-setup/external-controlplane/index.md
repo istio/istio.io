@@ -374,12 +374,13 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
 
     {{< text bash >}}
     $ kubectl get configmaps -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
-    NAME                                  DATA   AGE
-    istio                                 2      5m19s
-    istio-ca-root-cert                    1      3m6s
-    istio-leader                          0      3m6s
-    istio-namespace-controller-election   0      3m6s
-    istio-sidecar-injector                2      5m19s
+    NAME                                   DATA   AGE
+    istio                                  2      2m1s
+    istio-ca-root-cert                     1      2m9s
+    istio-leader                           0      2m9s
+    istio-namespace-controller-election    0      2m11s
+    istio-sidecar-injector                 2      2m1s
+    istio-validation-controller-election   0      2m9s"
     {{< /text >}}
 
     {{< text bash >}}

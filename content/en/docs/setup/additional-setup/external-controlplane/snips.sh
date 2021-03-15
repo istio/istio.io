@@ -272,12 +272,13 @@ kubectl get configmaps -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
 ! read -r -d '' snip_set_up_the_remote_cluster_5_out <<\ENDSNIP
-NAME                                  DATA   AGE
-istio                                 2      5m19s
-istio-ca-root-cert                    1      3m6s
-istio-leader                          0      3m6s
-istio-namespace-controller-election   0      3m6s
-istio-sidecar-injector                2      5m19s
+NAME                                   DATA   AGE
+istio                                  2      2m1s
+istio-ca-root-cert                     1      2m9s
+istio-leader                           0      2m9s
+istio-namespace-controller-election    0      2m11s
+istio-sidecar-injector                 2      2m1s
+istio-validation-controller-election   0      2m9s"
 ENDSNIP
 
 snip_set_up_the_remote_cluster_6() {
