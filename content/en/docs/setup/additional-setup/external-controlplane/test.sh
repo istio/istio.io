@@ -35,7 +35,8 @@ snip_get_external_istiod_iop_modified() {
 }
 
 snip_get_external_istiod_gateway_config_modified() {
-    EXTERNAL_ISTIOD_ADDR="\"*\""
+    TMP="$EXTERNAL_ISTIOD_ADDR"
+    EXTERNAL_ISTIOD_ADDR='"*"'
     snip_get_external_istiod_gateway_config
 
     # Update config file: delete the DestinationRule, don't terminate TLS in the Gateway, and use TLS routing in the VirtualService
@@ -44,6 +45,8 @@ snip_get_external_istiod_gateway_config_modified() {
         -e 's/mode: SIMPLE/mode: PASSTHROUGH/' -e '/credentialName:/d' \
         -e 's/http:/tls:/' -e 's/https/tls/' -e "/route:/i\        sniHosts:\n        - ${EXTERNAL_ISTIOD_ADDR}" \
         external-istiod-gw.yaml
+    EXTERNAL_ISTIOD_ADDR="$TMP"
+    cat external-istiod-gw.yaml # TEMP debug
 }
 
 snip_get_remote_config_cluster_iop_modified() {
@@ -53,6 +56,7 @@ snip_get_remote_config_cluster_iop_modified() {
     sed -i \
         -e '/proxyMetadata:/,+2d' \
         remote-config-cluster.yaml
+    cat remote-clinfig-cluster.yaml # TEMP debug
 }
 
 # Set the CTX_EXTERNAL_CLUSTER, CTX_REMOTE_CLUSTER, and REMOTE_CLUSTER_NAME env variables.
@@ -79,6 +83,7 @@ export EXTERNAL_ISTIOD_ADDR=$(kubectl \
 
 snip_set_up_the_control_plane_in_the_external_cluster_1
 snip_set_up_the_control_plane_in_the_external_cluster_2
+echo ">>> created remote secret" # TEMP debug
 snip_set_up_the_control_plane_in_the_external_cluster_3
 
 snip_get_external_istiod_iop_modified
@@ -93,9 +98,9 @@ snip_set_up_the_control_plane_in_the_external_cluster_8
 
 snip_get_remote_config_cluster_iop_modified
 
-set +e #ignore failures here
+#set +e #ignore failures here
 echo y | snip_set_up_the_remote_cluster_2
-set -e
+#set -e
 
 _verify_like snip_set_up_the_remote_cluster_3 "$snip_set_up_the_remote_cluster_3_out"
 _verify_like snip_set_up_the_remote_cluster_4 "$snip_set_up_the_remote_cluster_4_out"
