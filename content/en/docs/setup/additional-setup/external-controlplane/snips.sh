@@ -73,10 +73,6 @@ istioctl x create-remote-secret \
   kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
-snip_set_up_the_control_plane_in_the_external_cluster_3() {
-kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
-}
-
 snip_get_external_istiod_iop() {
 cat <<EOF > external-istiod.yaml
 apiVersion: install.istio.io/v1alpha1
@@ -112,15 +108,15 @@ spec:
 EOF
 }
 
-snip_set_up_the_control_plane_in_the_external_cluster_5() {
+snip_set_up_the_control_plane_in_the_external_cluster_4() {
 istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
-snip_set_up_the_control_plane_in_the_external_cluster_6() {
+snip_set_up_the_control_plane_in_the_external_cluster_5() {
 kubectl get po -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
-! read -r -d '' snip_set_up_the_control_plane_in_the_external_cluster_6_out <<\ENDSNIP
+! read -r -d '' snip_set_up_the_control_plane_in_the_external_cluster_5_out <<\ENDSNIP
 NAME                      READY   STATUS    RESTARTS   AGE
 istiod-779bd6fdcf-bd6rg   1/1     Running   0          70s
 ENDSNIP
@@ -204,7 +200,7 @@ spec:
 EOF
 }
 
-snip_set_up_the_control_plane_in_the_external_cluster_8() {
+snip_set_up_the_control_plane_in_the_external_cluster_7() {
 kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
 

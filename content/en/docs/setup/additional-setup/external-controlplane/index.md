@@ -163,14 +163,6 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
       kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
-1. Before you deploy the external istiod, you need to create the root namespace on the config (remote) cluster.
-    The root namespace for control plane configuration resources on the remote cluster must be the same
-    namespace as the control plane on the external cluster, `external-istiod` in this case:
-
-    {{< text bash >}}
-    $ kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
-    {{< /text >}}
-
 1. Create the Istio configuration to install the control plane in the `external-istiod` namespace of the external cluster:
 
     {{< text syntax=bash snip_id=get_external_istiod_iop >}}

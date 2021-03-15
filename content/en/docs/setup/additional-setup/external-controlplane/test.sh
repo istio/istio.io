@@ -81,16 +81,14 @@ export EXTERNAL_ISTIOD_ADDR=$(kubectl \
 
 snip_set_up_the_control_plane_in_the_external_cluster_1
 snip_set_up_the_control_plane_in_the_external_cluster_2
-#echo ">>> created remote secret" # TEMP debug
-#snip_set_up_the_control_plane_in_the_external_cluster_3
 
 snip_get_external_istiod_iop_modified
-echo y | snip_set_up_the_control_plane_in_the_external_cluster_5
+echo y | snip_set_up_the_control_plane_in_the_external_cluster_4
 
-_verify_like snip_set_up_the_control_plane_in_the_external_cluster_6 "$snip_set_up_the_control_plane_in_the_external_cluster_6_out"
+_verify_like snip_set_up_the_control_plane_in_the_external_cluster_5 "$snip_set_up_the_control_plane_in_the_external_cluster_5_out"
 
 snip_get_external_istiod_gateway_config_modified
-snip_set_up_the_control_plane_in_the_external_cluster_8
+snip_set_up_the_control_plane_in_the_external_cluster_7
 
 # Set up the remote cluster.
 
