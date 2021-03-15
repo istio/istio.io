@@ -204,3 +204,7 @@ Kubernetes 与此有关的一个 [issue](https://github.com/kubernetes/kubeadm/i
 `tcpdump` 在 sidecar 中不能工作 - 因为该容器不以 root 身份运行。但是由于同一 pod 内容器的网络命名空间是共享的，因此 pod 中的其他容器也能看到所有数据包。`iptables` 也能查看到 pod 级别的相关配置。
 
 Envoy 和应用程序之间的通信是通过 127.0.0.1 进行的，这个通讯过程未加密。
+
+## 群集不会自动缩小{#cluster-is-not-scaled-down-automatically}
+
+由于 Sidecar 容器安装了本地存储卷，因此节点自动缩放器无法使用注入的 Pod 驱逐节点。这是一个[已知的问题](https://github.com/istio/istio/issues/19395)。解决方法是向 Pod 添加注释 `“cluster-autoscaler.kubernetes.io/safe-to-evict”：“true”`。
