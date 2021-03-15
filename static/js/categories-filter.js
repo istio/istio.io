@@ -151,7 +151,6 @@ class CategoriesFilter {
       if ( this.FILTERS[i]['prefix'] === tagType ) {
         if ( this.FILTERS[i]['selected'].indexOf(tag) >= 0 || selectedBtn.classList.contains(this.activeButtonClass)) {
           /* already selected, deselect tag */
-          this.FILTERS[i]['selected'].splice(tag,1);
           this.FILTERS[i]['selected'] = this.FILTERS[i]['selected'].filter(e => e !== tag );
           this.delClassIfPresent(selectedBtn, this.activeButtonClass);
         } else {
