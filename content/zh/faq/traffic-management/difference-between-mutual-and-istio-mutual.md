@@ -1,5 +1,5 @@
 ---
-title: What is the difference between MUTUAL and ISTIO_MUTUAL TLS modes?
+title: MUTUAL and ISTIO_MUTUAL TLS 模式有什么区别?
 weight: 30
 ---
 
