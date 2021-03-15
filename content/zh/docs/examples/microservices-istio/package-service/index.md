@@ -76,4 +76,4 @@ test: no
     $ docker stop my-ratings
     {{< /text >}}
 
-现在，你已经了解了如何将单个服务打包到容器中。接下来去学习[在 Kubernetes 集群上部署应用程序](/zh/docs/examples/microservices-istio/bookinfo-kubernetes)。
+现在，您已经了解了如何将单个服务打包到容器中。接下来去学习[在 Kubernetes 集群上部署应用程序](/zh/docs/examples/microservices-istio/bookinfo-kubernetes)。
