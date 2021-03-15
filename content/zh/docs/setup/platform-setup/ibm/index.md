@@ -27,7 +27,7 @@ IBM 为 IBM Cloud Kubernetes Service 提供了 {{< gloss >}}managed control plan
 1. [安装 IBM Cloud CLI，IBM Cloud Kubernetes Service 插件和 Kubernetes CLI](https://cloud.ibm.com/docs/containers?topic=containers-cs_cli_install)。
 
 1. 使用以下命令创建标准的 Kubernetes 集群。
-    将 `<cluster-name>` 替换为您为集群使用的名称，将 `<zone-name>` 替换为可用区。
+    将 `<cluster-name>` 替换为您的集群使用的名称，将 `<zone-name>` 替换为可用区。
 
     {{< tip >}}
     您可以通过运行 `ibmcloud ks zones` 来显示可用区。
