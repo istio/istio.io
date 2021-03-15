@@ -7,7 +7,7 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-通过先运行一个金丝雀部署的新控制面来完成 Istio 的升级，从而允许您在将所有流量迁移到新版本之前以一小部分工作负载监视升级的效果，这比 [就地升级](/docs/setup/upgrade/in-place/) 要安全的多，这也是推荐的升级方法。
+通过先运行一个金丝雀部署的新控制面来完成 Istio 的升级，从而允许您在将所有流量迁移到新版本之前以一小部分工作负载监视升级的效果，这比 [就地升级](/zh/docs/setup/upgrade/in-place/) 要安全的多，这也是推荐的升级方法。
 
 安装 Istio 时，`revision` 安装设置可用于同时部署多个独立的控制平面。升级的金丝雀版本可以通过使用不同的 `revision` 设置，在旧版本的旁边安装启动新版本的 Istio 控制平面。每个修订都是一个完整的 Istio 控制平面实现，具有自己的 `Deployment`、`Service` 等。
 
@@ -122,7 +122,7 @@ NAME                             READY   STATUS    RESTARTS   AGE
 istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 {{< /text >}}
 
-请注意，以上说明仅删除了用于指定控制平面修订版的资源，而未删除与其他控制平面共享的群集作用域资源。要完全卸载 Istio，请参阅 [卸载指南](/docs/setup/install/istioctl/#uninstall-istio)。
+请注意，以上说明仅删除了用于指定控制平面修订版的资源，而未删除与其他控制平面共享的群集作用域资源。要完全卸载 Istio，请参阅 [卸载指南](/zh/docs/setup/install/istioctl/#uninstall-istio)。
 
 ## 卸载金丝雀控制平面
 
