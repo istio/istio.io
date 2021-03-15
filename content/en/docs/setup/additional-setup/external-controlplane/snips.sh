@@ -255,7 +255,7 @@ kubectl get mutatingwebhookconfiguration -n external-istiod --context="${CTX_REM
 
 ! read -r -d '' snip_set_up_the_remote_cluster_3_out <<\ENDSNIP
 NAME                                     WEBHOOKS   AGE
-istio-sidecar-injector-external-istiod   2          6m24s
+istio-sidecar-injector-external-istiod   4          6m24s
 ENDSNIP
 
 snip_set_up_the_remote_cluster_4() {

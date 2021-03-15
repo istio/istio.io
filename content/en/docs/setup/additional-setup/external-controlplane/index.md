@@ -363,7 +363,7 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
     {{< text bash >}}
     $ kubectl get mutatingwebhookconfiguration -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
     NAME                                     WEBHOOKS   AGE
-    istio-sidecar-injector-external-istiod   2          6m24s
+    istio-sidecar-injector-external-istiod   4          6m24s
     {{< /text >}}
 
     {{< text bash >}}
