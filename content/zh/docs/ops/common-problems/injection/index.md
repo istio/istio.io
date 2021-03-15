@@ -207,4 +207,4 @@ Envoy 和应用程序之间的通信是通过 127.0.0.1 进行的，这个通讯
 
 ## 群集不会自动缩小{#cluster-is-not-scaled-down-automatically}
 
-由于 sidecar 容器安装了本地存储卷，因此节点自动缩放器无法使用注入的 Pod 驱逐节点。这是一个[已知的问题](https://github.com/istio/istio/issues/19395)。解决方法是向 pods 添加注释 `“cluster-autoscaler.kubernetes.io/safe-to-evict”：“true”`。
+由于 Sidecar 容器安装了本地存储卷，因此节点自动缩放器无法使用注入的 Pod 驱逐节点。这是一个[已知的问题](https://github.com/istio/istio/issues/19395)。解决方法是向 Pod 添加注释 `“cluster-autoscaler.kubernetes.io/safe-to-evict”：“true”`。
