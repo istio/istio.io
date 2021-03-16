@@ -115,7 +115,7 @@ spec:
 ### Require mandatory authorization check with `DENY` policy
 
 You can use the `DENY` policy if you want to require mandatory authorization check that must be satisfied and cannot be
-bypassed by another more permissive `ALLOW` policy. This works because the `DENY` policy takes precedenve over the
+bypassed by another more permissive `ALLOW` policy. This works because the `DENY` policy takes precedence over the
 `ALLOW` policy and could deny a request early before `ALLOW` policies.
 
 Use the following policy to enforce mandatory JWT validation in addition to the [request authentication](/docs/tasks/security/authentication/authn-policy/#end-user-authentication) policy.
