@@ -234,6 +234,7 @@ spec:
       meshID: mesh1
       multiCluster:
         clusterName: $REMOTE_CLUSTER_NAME
+      network: network1
     istiodRemote:
       injectionURL: https://$EXTERNAL_ISTIOD_ADDR:15017/inject
     base:
@@ -383,4 +384,183 @@ curl -s "http://${GATEWAY_URL}/hello"
 
 ! read -r -d '' snip_enable_gateways_6_out <<\ENDSNIP
 Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
+ENDSNIP
+
+snip_mesh_operator_steps_mcoperatorsteps_1() {
+kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
+istioctl x create-remote-secret \
+  --context="${CTX_SECOND_CLUSTER}" \
+  --type=remote \
+  --namespace=external-istiod | \
+  kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
+}
+
+snip_get_second_config_cluster_iop() {
+cat <<EOF > second-config-cluster.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+ namespace: external-istiod
+spec:
+  profile: remote
+  meshConfig:
+    rootNamespace: external-istiod
+    defaultConfig:
+      discoveryAddress: $EXTERNAL_ISTIOD_ADDR:15012
+      proxyMetadata:
+        XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+        CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+  components:
+    pilot:
+      enabled: false
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: false
+    istiodRemote:
+      enabled: true
+  values:
+    global:
+      caAddress: $EXTERNAL_ISTIOD_ADDR:15012
+      istioNamespace: external-istiod
+      meshID: mesh1
+      multiCluster:
+        clusterName: $SECOND_CLUSTER_NAME
+      network: network2
+    istiodRemote:
+      injectionURL: https://$EXTERNAL_ISTIOD_ADDR:15017/inject
+    base:
+      validationURL: https://$EXTERNAL_ISTIOD_ADDR:15017/validate
+EOF
+}
+
+snip_mesh_operator_steps_mcoperatorsteps_3() {
+istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
+}
+
+snip_mesh_operator_steps_mcoperatorsteps_4() {
+kubectl get mutatingwebhookconfiguration -n external-istiod --context="${CTX_SECOND_CLUSTER}"
+}
+
+! read -r -d '' snip_mesh_operator_steps_mcoperatorsteps_4_out <<\ENDSNIP
+NAME                                     WEBHOOKS   AGE
+istio-sidecar-injector-external-istiod   4          4m13s
+ENDSNIP
+
+snip_mesh_operator_steps_mcoperatorsteps_5() {
+kubectl get validatingwebhookconfiguration -n external-istiod --context="${CTX_SECOND_CLUSTER}"
+}
+
+! read -r -d '' snip_mesh_operator_steps_mcoperatorsteps_5_out <<\ENDSNIP
+NAME                     WEBHOOKS   AGE
+istiod-external-istiod   1          4m25s
+ENDSNIP
+
+snip_mesh_operator_steps_mcoperatorsteps_6() {
+kubectl get configmaps -n external-istiod --context="${CTX_SECOND_CLUSTER}"
+}
+
+! read -r -d '' snip_mesh_operator_steps_mcoperatorsteps_6_out <<\ENDSNIP
+NAME                     DATA   AGE
+istio                    2      4m30s
+istio-sidecar-injector   2      4m30s
+ENDSNIP
+
+snip_mesh_operator_steps_mcoperatorsteps_7() {
+kubectl get secrets -n external-istiod --context="${CTX_SECOND_CLUSTER}"
+}
+
+! read -r -d '' snip_mesh_operator_steps_mcoperatorsteps_7_out <<\ENDSNIP
+NAME                                       TYPE                                  DATA   AGE
+default-token-6pmf7                        kubernetes.io/service-account-token   3      15m
+istio-reader-service-account-token-lkmwj   kubernetes.io/service-account-token   3      15m
+istiod-service-account-token-6x7p9         kubernetes.io/service-account-token   3      15m
+ENDSNIP
+
+snip_setup_easywest_gateways_1() {
+samples/multicluster/gen-eastwest-gateway.sh \
+    --mesh mesh1 --cluster "${REMOTE_CLUSTER_NAME}" --network network1 > eastwest-gateway-1.yaml
+istioctl manifest generate -f eastwest-gateway-1.yaml \
+    --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
+    --set values.global.istioNamespace=external-istiod | \
+    kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+}
+
+snip_setup_easywest_gateways_2() {
+samples/multicluster/gen-eastwest-gateway.sh \
+    --mesh mesh1 --cluster "${SECOND_CLUSTER_NAME}" --network network2 > eastwest-gateway-2.yaml
+istioctl manifest generate -f eastwest-gateway-2.yaml \
+    --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
+    --set values.global.istioNamespace=external-istiod | \
+    kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
+}
+
+snip_setup_easywest_gateways_3() {
+kubectl --context="${REMOTE_CLUSTER_NAME}" get svc istio-eastwestgateway -n istio-system
+}
+
+! read -r -d '' snip_setup_easywest_gateways_3_out <<\ENDSNIP
+NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
+istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
+ENDSNIP
+
+snip_setup_easywest_gateways_4() {
+kubectl --context="${CTX_SECOND_CLUSTER}" get svc istio-eastwestgateway -n istio-system
+}
+
+! read -r -d '' snip_setup_easywest_gateways_4_out <<\ENDSNIP
+NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
+istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.99   ...       51s
+ENDSNIP
+
+snip_setup_easywest_gateways_5() {
+kubectl --context="${REMOTE_CLUSTER_NAME}" apply -n istio-system -f \
+    samples/multicluster/expose-services.yaml
+}
+
+snip_setup_easywest_gateways_6() {
+kubectl --context="${CTX_SECOND_CLUSTER}" apply -n istio-system -f \
+    samples/multicluster/expose-services.yaml
+}
+
+snip_validate_the_installation_1() {
+kubectl create --context="${CTX_SECOND_CLUSTER}" namespace sample
+kubectl label --context="${CTX_SECOND_CLUSTER}" namespace sample istio-injection=enabled
+}
+
+snip_validate_the_installation_2() {
+kubectl apply -f samples/helloworld/helloworld.yaml -l service=helloworld -n sample --context="${CTX_REMOTE_CLUSTER}"
+kubectl apply -f samples/helloworld/helloworld.yaml -l version=v2 -n sample --context="${CTX_REMOTE_CLUSTER}"
+kubectl apply -f samples/sleep/sleep.yaml -n sample --context="${CTX_SECOND_CLUSTER}"
+}
+
+snip_validate_the_installation_3() {
+kubectl get pod -n sample --context="${CTX_SECOND_CLUSTER}"
+}
+
+! read -r -d '' snip_validate_the_installation_3_out <<\ENDSNIP
+NAME                             READY   STATUS    RESTARTS   AGE
+helloworld-v2-5b75657f75-2dpzp   2/2     Running   0          10s
+sleep-64d7d56698-clhxb           2/2     Running   0          9s
+ENDSNIP
+
+snip_validate_the_installation_4() {
+kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c sleep \
+    "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    -- curl -sS helloworld.sample:5000/hello
+}
+
+! read -r -d '' snip_validate_the_installation_4_out <<\ENDSNIP
+Hello version: v2, instance: helloworld-v2-5b75657f75-2dpzp
+ENDSNIP
+
+snip_validate_the_installation_5() {
+for i in {1..10}; do curl -s "http://${GATEWAY_URL}/hello"; done
+}
+
+! read -r -d '' snip_validate_the_installation_5_out <<\ENDSNIP
+Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
+Hello version: v2, instance: helloworld-v2-5b75657f75-2dpzp
+Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
+Hello version: v2, instance: helloworld-v2-5b75657f75-2dpzp
+...
 ENDSNIP

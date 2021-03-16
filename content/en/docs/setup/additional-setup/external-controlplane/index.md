@@ -337,6 +337,7 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
           meshID: mesh1
           multiCluster:
             clusterName: $REMOTE_CLUSTER_NAME
+          network: network1
         istiodRemote:
           injectionURL: https://$EXTERNAL_ISTIOD_ADDR:15017/inject
         base:
@@ -512,6 +513,200 @@ Unlike the first remote cluster, the second and subsequent clusters added to the
 provide mesh config, but instead are only sources of endpoint configuration, just like remote clusters in a
 [primary-remote](/docs/setup/install/multicluster/primary-remote_multi-network/) Istio multicluster configuration.
 
-### Mesh operator instructions
+To proceed, you'll need another Kubernetes cluster for the second remote cluster of the mesh. Set the following
+environment variables to the context name and cluster name of the cluster:
 
-TBD
+{{< text syntax=bash snip_id=none >}}
+$ export CTX_SECOND_CLUSTER=<your second remote cluster context>
+$ export SECOND_CLUSTER_NAME=<your second remote cluster name>
+{{< /text >}}
+
+### Mesh operator steps {#multicluster-operator-steps}
+
+1. Create a secret with credentials to allow the control plane to access the endpoints on the second remote cluster and
+    install it in the external cluster:
+
+    {{< text bash >}}
+    $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
+    $ istioctl x create-remote-secret \
+      --context="${CTX_SECOND_CLUSTER}" \
+      --type=remote \
+      --namespace=external-istiod | \
+      kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
+    {{< /text >}}
+
+    Note that unlike the first remote cluster of the mesh, which also serves as the config cluster, the `--type` argument
+    is set to `remote` this time, instead of `config`.
+
+1. Create the remote Istio install configuration, which installs webhooks, configmaps, and secrets,
+    that use the external control plane, instead of deploying a control plane locally:
+
+    {{< text syntax=bash snip_id=get_second_config_cluster_iop >}}
+    $ cat <<EOF > second-config-cluster.yaml
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    metadata:
+     namespace: external-istiod
+    spec:
+      profile: remote
+      meshConfig:
+        rootNamespace: external-istiod
+        defaultConfig:
+          discoveryAddress: $EXTERNAL_ISTIOD_ADDR:15012
+          proxyMetadata:
+            XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+            CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+      components:
+        pilot:
+          enabled: false
+        ingressGateways:
+        - name: istio-ingressgateway
+          enabled: false
+        istiodRemote:
+          enabled: true
+      values:
+        global:
+          caAddress: $EXTERNAL_ISTIOD_ADDR:15012
+          istioNamespace: external-istiod
+          meshID: mesh1
+          multiCluster:
+            clusterName: $SECOND_CLUSTER_NAME
+          network: network2
+        istiodRemote:
+          injectionURL: https://$EXTERNAL_ISTIOD_ADDR:15017/inject
+        base:
+          validationURL: https://$EXTERNAL_ISTIOD_ADDR:15017/validate
+    EOF
+    {{< /text >}}
+
+    Then, install the configuration on the remote cluster:
+
+    {{< text bash >}}
+    $ istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
+    {{< /text >}}
+
+1. Confirm that the remote cluster's webhooks, secrets, and configmaps have been installed:
+
+    {{< text bash >}}
+    $ kubectl get mutatingwebhookconfiguration -n external-istiod --context="${CTX_SECOND_CLUSTER}"
+    NAME                                     WEBHOOKS   AGE
+    istio-sidecar-injector-external-istiod   4          4m13s
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl get validatingwebhookconfiguration -n external-istiod --context="${CTX_SECOND_CLUSTER}"
+    NAME                     WEBHOOKS   AGE
+    istiod-external-istiod   1          4m25s
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl get configmaps -n external-istiod --context="${CTX_SECOND_CLUSTER}"
+    NAME                     DATA   AGE
+    istio                    2      4m30s
+    istio-sidecar-injector   2      4m30s
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl get secrets -n external-istiod --context="${CTX_SECOND_CLUSTER}"
+    NAME                                       TYPE                                  DATA   AGE
+    default-token-6pmf7                        kubernetes.io/service-account-token   3      15m
+    istio-reader-service-account-token-lkmwj   kubernetes.io/service-account-token   3      15m
+    istiod-service-account-token-6x7p9         kubernetes.io/service-account-token   3      15m
+    {{< /text >}}
+
+### Mesh admin steps {#multicluster-admin-steps}
+
+#### Setup easy-west gateways
+
+1. Deploy east-west gateways on both remote clusters:
+
+    {{< text bash >}}
+    $ samples/multicluster/gen-eastwest-gateway.sh \
+        --mesh mesh1 --cluster "${REMOTE_CLUSTER_NAME}" --network network1 > eastwest-gateway-1.yaml
+    $ istioctl manifest generate -f eastwest-gateway-1.yaml \
+        --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
+        --set values.global.istioNamespace=external-istiod | \
+        kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ samples/multicluster/gen-eastwest-gateway.sh \
+        --mesh mesh1 --cluster "${SECOND_CLUSTER_NAME}" --network network2 > eastwest-gateway-2.yaml
+    $ istioctl manifest generate -f eastwest-gateway-2.yaml \
+        --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
+        --set values.global.istioNamespace=external-istiod | \
+        kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
+    {{< /text >}}
+
+1. Wait for the east-west gateways to be assigned external IP addresses:
+
+    {{< text bash >}}
+    $ kubectl --context="${REMOTE_CLUSTER_NAME}" get svc istio-eastwestgateway -n istio-system
+    NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
+    istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl --context="${CTX_SECOND_CLUSTER}" get svc istio-eastwestgateway -n istio-system
+    NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
+    istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.99   ...       51s
+    {{< /text >}}
+
+1. Expose services via the east-west gateways:
+
+    {{< text bash >}}
+    $ kubectl --context="${REMOTE_CLUSTER_NAME}" apply -n istio-system -f \
+        @samples/multicluster/expose-services.yaml@
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl --context="${CTX_SECOND_CLUSTER}" apply -n istio-system -f \
+        @samples/multicluster/expose-services.yaml@
+    {{< /text >}}
+
+#### Validate the installation
+
+1. Create, and label for injection, the `sample` namespace on the remote cluster:
+
+    {{< text bash >}}
+    $ kubectl create --context="${CTX_SECOND_CLUSTER}" namespace sample
+    $ kubectl label --context="${CTX_SECOND_CLUSTER}" namespace sample istio-injection=enabled
+    {{< /text >}}
+
+1. Deploy the `helloworld` (`v2`) and `sleep` samples:
+
+    {{< text bash >}}
+    $ kubectl apply -f samples/helloworld/helloworld.yaml -l service=helloworld -n sample --context="${CTX_REMOTE_CLUSTER}"
+    $ kubectl apply -f samples/helloworld/helloworld.yaml -l version=v2 -n sample --context="${CTX_REMOTE_CLUSTER}"
+    $ kubectl apply -f samples/sleep/sleep.yaml -n sample --context="${CTX_SECOND_CLUSTER}"
+    {{< /text >}}
+
+1. Wait a few seconds for the `helloworld` and `sleep` pods to be running with sidecars injected:
+
+    {{< text bash >}}
+    $ kubectl get pod -n sample --context="${CTX_SECOND_CLUSTER}"
+    NAME                             READY   STATUS    RESTARTS   AGE
+    helloworld-v2-5b75657f75-2dpzp   2/2     Running   0          10s
+    sleep-64d7d56698-clhxb           2/2     Running   0          9s
+    {{< /text >}}
+
+1. Send a request from the `sleep` pod to the `helloworld` service:
+
+    {{< text bash >}}
+    $ kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c sleep \
+        "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+        -- curl -sS helloworld.sample:5000/hello
+    Hello version: v2, instance: helloworld-v2-5b75657f75-2dpzp
+    {{< /text >}}
+
+1. Confirm that when accessing the `helloworld` application several times through the ingress gateway, both version `v1`
+   and `v2` are now being called:
+
+    {{< text bash >}}
+    $ for i in {1..10}; do curl -s "http://${GATEWAY_URL}/hello"; done
+    Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
+    Hello version: v2, instance: helloworld-v2-5b75657f75-2dpzp
+    Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
+    Hello version: v2, instance: helloworld-v2-5b75657f75-2dpzp
+    ...
+    {{< /text >}}
