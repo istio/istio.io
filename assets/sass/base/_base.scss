@@ -467,7 +467,7 @@ sup {
 .container {
     padding-left: 1.75rem;
     padding-right: 1.75rem;
-    max-width: 1280px;
+    max-width: 1440px;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -479,7 +479,7 @@ sup {
 
     &-l {
         @extend .container;
-        max-width: 1300px;
+        max-width: 1470px;
     }
     &-no-padding {
         @extend .container;
