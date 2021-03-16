@@ -15,7 +15,7 @@ owner: istio/wg-environments-maintainers
 
 {{< boilerplate multi-cluster-with-metallb >}}
 
-在此配置中，集群 `cluster1` 将监测两个集群 API 服务器的服务端点。
+在此配置中，集群 `cluster1` 将监测两个集群 API Server 的服务端点。
 以这种方式，控制平面就能为两个集群中的工作负载提供服务发现。
 
 服务的工作负载（pod 到 pod）可跨集群边界直接通讯。
@@ -92,16 +92,16 @@ $ kubectl apply --context="${CTX_CLUSTER1}" -f \
     @samples/multicluster/expose-istiod.yaml@
 {{< /text >}}
 
-## 启用 API 服务访问 `cluster2` 配置 {#enable-access-to-cluster2}
+## 启用 API Server 访问 `cluster2` 配置 {#enable-access-to-cluster2}
 
-在配置从集群之前，我们必须先授予 `cluster1` 控制平面到 `cluster2` API 服务的访问权限。
+在配置从集群之前，我们必须先授予 `cluster1` 控制平面到 `cluster2` API Server 的访问权限。
 这将执行以下操作：
 
-- 开启控制平面的身份认证功能，以验证 `cluster2` 中工作负载的连接请求。如果没有 API 服务器的访问权限，控制平面将会拒绝该请求。
+- 开启控制平面的身份认证功能，以验证 `cluster2` 中工作负载的连接请求。如果没有 API Server 的访问权限，控制平面将会拒绝该请求。
 
 - 在 `cluster2` 的服务端点开启服务发现。
 
-为了能够访问 `cluster2` API 服务，我们要生成一个从集群的 secret，并把它应用到 `cluster1`。
+为了能够访问 `cluster2` API Server，我们要生成一个从集群的 Secret，并把它应用到 `cluster1`。
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
