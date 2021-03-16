@@ -134,9 +134,10 @@
     .news-list {
         .post-card {
             .post-summary {
-                height: 135px;
+                height: 152px;
                 @media (min-width: $bp-md) {
-                    height: 124px;
+                    height: 164px;
+                    -webkit-line-clamp: 6;
                 }
             }
         }

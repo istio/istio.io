@@ -37,15 +37,15 @@
                         <div>   
                             <h4 class="post-title">{{ $item.Title }}</h4>
                             <div class="post-summary">
-                                {{ $item.Params.description }} </br>
+                                <p>{{ $item.Params.description }}</p>
                                 {{ if $item.Params.cves }}
-                                    CVE(s): {{ $item.Params.cves }} </br>
+                                    <strong>CVE(s)</strong>: {{ range $i, $cve := $item.Params.cves }} {{ . }} {{ if ne $i (sub (len $item.Params.cves ) 1) }} , {{ end }} {{ end }}</br>
                                 {{ end }}
                                 {{ if $item.Params.cvss }}
-                                    CVSS: {{ $item.Params.cvss }} </br>
+                                    <strong>CVSS</strong>: {{ with $item.Params.cvss }} {{ . }} {{ end }}</br>
                                 {{ end }}
                                 {{ if  $item.Params.releases }}
-                                    Affected versions: {{ $item.Params.releases }}
+                                    <strong>Affected versions</strong> : {{ range $i, $cve := $item.Params.releases }} {{ . }} {{ if ne $i (sub (len $item.Params.releases ) 1) }} , {{ end }} {{ end }}
                                 {{ end }}
                             </div>
                             <p class="post-author">{{ $a.LinkTitle }}</p>
