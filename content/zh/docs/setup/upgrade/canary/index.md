@@ -7,9 +7,9 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-通过先运行一个金丝雀部署的新控制面来完成 Istio 的升级，从而允许您在将所有流量迁移到新版本之前以一小部分工作负载监视升级的效果，这比 [就地升级](/zh/docs/setup/upgrade/in-place/) 要安全的多，这也是推荐的升级方法。
+通过先运行一个金丝雀部署的新控制平面来完成 Istio 的升级，从而允许您在将所有流量迁移到新版本之前以一小部分工作负载监视升级的效果，这比 [就地升级](/zh/docs/setup/upgrade/in-place/) 要安全的多，这也是推荐的升级方法。
 
-安装 Istio 时，`revision` 安装设置可用于同时部署多个独立的控制平面。升级的金丝雀版本可以通过使用不同的 `revision` 设置，在旧版本的旁边安装启动新版本的 Istio 控制平面。每个修订都是一个完整的 Istio 控制平面实现，具有自己的 `Deployment`、`Service` 等。
+安装 Istio 时，`revision` 安装设置可用于同时部署多个独立的控制平面。升级的金丝雀版本可以通过使用不同的 `revision`，在旧版本的旁边安装启动新版本的 Istio 控制平面。每个修订都是一个完整的 Istio 控制平面实现，具有自己的 `Deployment`、`Service` 等。
 
 ## 控制平面
 
@@ -61,8 +61,8 @@ $ kubectl get service -n istio-system -o json istiod-<REVISION> | jq '.metadata.
 
 ## 数据平面
 
-与 Istiod 不同，Istio 网关不运行特定修订版本的实例，而是就地升级以使用新的控制平面修订版本。
-您可以通过运行以下命令来验证 `istio-ingress` 网关是否正在使用 `canary` 修订版本：
+与 Istiod 不同，Istio Gateway 不运行特定修订版本的实例，而是就地升级以使用新的控制平面修订版本。
+您可以通过运行以下命令来验证 `istio-ingress` Gateway 是否正在使用 `canary` 修订版本：
 
 {{< text bash >}}
 $ istioctl proxy-status | grep $(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}') | awk '{print $8}'
