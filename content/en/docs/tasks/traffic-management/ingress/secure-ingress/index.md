@@ -423,11 +423,36 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=t
             `"""`
     {{< /text >}}
 
+## More info
+
+### Key formats
+
 Istio supports reading a few different Secret formats, to support integration with various tools such as [cert-manager](/docs/ops/integrations/certmanager/):
 
 * A TLS Secret with keys `tls.key` and `tls.crt`, as described above. For mutual TLS, a `ca.crt` key can be used.
 * A generic Secret with keys `key` and `cert`. For mutual TLS, a `cacert` key can be used.
 * A generic Secret with keys `key` and `cert`. For mutual TLS, a separate generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
+
+## SNI Routing
+
+A HTTPS `Gateway` configuring the `hosts` field will perform an [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) match on incoming requests.
+For example, the following configuration would only allow requests that match `*.example.com` in the SNI:
+
+{{< text yaml >}}
+servers:
+- port:
+    number: 443
+    name: https
+    protocol: HTTPS
+  hosts:
+  - "*.example.com"
+{{< /text >}}
+
+This may cause certain requests to fail.
+
+For example, if you do not have DNS set up an are instead directly setting the host header, such as `curl 1.2.3.4 -H "Host: app.example.com"`, no SNI will be set, causing the request to fail. Instead, you can set up DNS or use the `--resolve` flag of `curl`.
+
+Another common issue is load balancers in front of Istio. Most cloud load balancers will not forward the SNI, so if you are terminating TLS in your cloud load balancer you may need to either configure it to instead passthrough the TLS connection, or changes `hosts` to match `*`, which will disable the SNI matching.
 
 ## Troubleshooting
 
