@@ -27,7 +27,6 @@ function applyStyleSheet(theme: string | null): void {
         theme = lightTheme;
     }
     theme = lightTheme;
-    console.log(theme);
     if (theme === darkTheme) {
         document.documentElement.classList.add(darkThemeClass);
     } else {
