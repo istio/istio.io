@@ -12,7 +12,7 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-Istio 默认支持代理所有 TCP 流量。包括 HTTP、HTTPS、gRPC 以及原始 TCP 协议。但为了提供额外的能力，比如路由和丰富的指标，必须确定协议。协议可以被自动检测或者明确的声明确定。
+Istio 默认支持代理所有 TCP 流量。包括 HTTP、HTTPS、gRPC 以及原始 TCP 协议。但为了提供额外的能力，比如路由和丰富的指标，必须确定协议。协议可以被自动检测或者手动声明。
 
 使用非基于 TCP 的协议时，如 UDP，不会被 Istio 代理拦截，可以继续正常工作。但是不能在仅代理的组件中使用，如 Ingress 或 Egress Gateway。
 
