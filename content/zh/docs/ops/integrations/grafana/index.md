@@ -11,7 +11,7 @@ test: no
 
 ## 配置
 
-尽管可以构建自己的仪表板，但 Istio 同时也提供了一组预先配置的仪表板用来监视网格和控制平面的所有最重要的指标。  
+尽管可以构建自己的仪表板，但 Istio 同时也提供了一组预先配置的仪表板用来监视网格和控制平面的所有最重要的指标。
 
 * [Mesh Dashboard](https://grafana.com/grafana/dashboards/7639) 为运行在网格中的所有服务提供概览视图。
 * [Service Dashboard](https://grafana.com/grafana/dashboards/7636) 为服务提供详细的分类指标。
@@ -33,7 +33,7 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/grafana.yaml
 
 ### 选项2：从 `grafana.com` 导入已经部署的 Deployment
 
-如果想要快速地将Istio仪表板导入到现有的Grafana实例中，您可以使用 [Grafana UI 中的 **Import** 按钮](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard) 来添加上面的仪表板链接。当导入仪表板时，请注意必须选择一个 Prometheus 数据源。  
+如果想要快速地将Istio仪表板导入到现有的Grafana实例中，您可以使用 [Grafana UI 中的 **Import** 按钮](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard) 来添加上面的仪表板链接。当导入仪表板时，请注意必须选择一个 Prometheus 数据源。
 
 也可以使用脚本一次导入所有仪表板。例如:
 
