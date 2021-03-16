@@ -32,7 +32,7 @@ html {
     --dividerBarColor: rgba(0, 0, 0, .1);
     --glossaryHeaderColor: #{$medium-gray};
     --deprecatedBackgroundColor: silver;
-    --boxBorderColor: var(--secondBrandColor);
+    --boxBorderColor: var(--tipCalloutBorderColor);
     --inputBorderColor: #566CA5;
 
     --quoteCalloutBackgroundColor: #f8f9fa;
