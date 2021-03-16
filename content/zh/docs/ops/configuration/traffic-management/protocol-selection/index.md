@@ -49,7 +49,7 @@ Server First 协议，如 MySQL，不兼容自动协议选择。
 - `UDP` (UDP 不会被代理，但可以将端口指定为 UDP)
 
 \* 在默认情况下，这些协议是禁用的，目的是避免无意启用 Experimental Feature。
-如需启用它们，需配置相应的 Pilot [environment variables](/zh/docs/reference/commands/pilot-discovery/#envvars)。
+如需启用它们，需配置相应的 Pilot [环境变量](/zh/docs/reference/commands/pilot-discovery/#envvars)。
 
 例如，Service 通过 `appProtocol` 、名称分别定义一个 `mysql` 端口和一个 `http` 端口：
 
