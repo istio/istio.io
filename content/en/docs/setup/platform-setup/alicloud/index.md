@@ -20,10 +20,10 @@ You can deploy a Kubernetes cluster to Alibaba Cloud quickly and easily in the
 `Container Service console`, which fully supports Istio.
 
 {{< tip >}}
-Alibaba Cloud offers a fully managed service mesh platform named Alibaba Cloud Service Mesh (ASM), 
-which is fully compatible with Istio. Refer to 
-[Alibaba Cloud Service Mesh](https://www.alibabacloud.com/help/doc-detail/147513.htm) for 
-details and instructions.
+Alibaba Cloud offers a fully managed service mesh platform named Alibaba Cloud Service Mesh (ASM),
+ which is fully compatible with Istio. Refer to
+ [Alibaba Cloud Service Mesh](https://www.alibabacloud.com/help/doc-detail/147513.htm) for
+ details and instructions.
 {{< /tip >}}
 
 ## Prerequisites
