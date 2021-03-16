@@ -5,7 +5,7 @@
 *   按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
 
     {{< tip >}}
-    如果您安装`demo`的[安装配置](/zh/docs/setup/additional-setup/config-profiles/)，则将启用出口网关和访问日志。
+    如果您安装`demo`的[安装配置](/zh/docs/setup/additional-setup/config-profiles/)，则将启用 Egress Gateway和访问日志。
     {{< /tip >}}
 
 *   将 [sleep]({{< github_tree >}}/samples/sleep) 示例应用程序部署为发送请求的测试源。
