@@ -7,9 +7,9 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-[Grafana](https://grafana.com/) 是一个开源的监控解决方案，可以用来为 Istio 配置仪表板。你可以使用 Grafana 来监控 Istio 及部署在服务网格内的应用程序。
+[Grafana](https://grafana.com/) 是一个开源的监控解决方案，可以用来为 Istio 配置仪表板。您可以使用 Grafana 来监控 Istio 及部署在服务网格内的应用程序。
 
-## 配置
+## 配置 {#config}
 
 尽管可以构建自己的仪表板，但 Istio 同时也提供了一组预先配置的仪表板用来监视网格和控制平面的所有最重要的指标。
 
