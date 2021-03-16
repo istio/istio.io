@@ -21,7 +21,7 @@ test: no
 
 本节介绍了使用 `istioctl` 单独安装和升级控制平面和网关。该示例演示了如何使用 Canary 将 Istio 1.8.0 升级到 1.8.1，并将控制平面的网关和其他网关分开管理。
 
-### 使用 `istioctl` 安装{#nstallation-with-istioctl}
+### 使用 `istioctl` 安装{#installation-with-istioctl}
 
 1.  确保主 `IstioOperator` CR 具有名字并且没有安装网关：
 
