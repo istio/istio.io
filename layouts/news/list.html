@@ -45,7 +45,7 @@
                                     <strong>CVSS</strong>: {{ with $item.Params.cvss }} {{ . }} {{ end }}</br>
                                 {{ end }}
                                 {{ if  $item.Params.releases }}
-                                    <strong>Affected versions</strong> : {{ range $i, $cve := $item.Params.releases }} {{ . }} {{ if ne $i (sub (len $item.Params.releases ) 1) }} , {{ end }} {{ end }}
+                                    <strong>Affected versions</strong>: {{ range $i, $cve := $item.Params.releases }} {{ . }} {{ if ne $i (sub (len $item.Params.releases ) 1) }}, {{ end }} {{ end }}
                                 {{ end }}
                             </div>
                             <p class="post-author">{{ $a.LinkTitle }}</p>
