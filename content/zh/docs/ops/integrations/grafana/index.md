@@ -1,39 +1,39 @@
 ---
 title: Grafana
-description: Information on how to integrate with Grafana to set up Istio dashboards.
+description: 关于如何与 Grafana 集成构建 Istio 仪表盘的相关文档。
 weight: 27
 keywords: [integration,grafana]
 owner: istio/wg-environments-maintainers
 test: no
 ---
 
-[Grafana](https://grafana.com/) 是一个开源的监控解决方案，可以用来为Istio配置仪表板。你可以使用Grafana来监控Istio及部署在服务网格内的应用程序。
+[Grafana](https://grafana.com/) 是一个开源的监控解决方案，可以用来为 Istio 配置仪表板。你可以使用 Grafana 来监控 Istio 及部署在服务网格内的应用程序。
 
 ## 配置
 
-尽管您可以构建自己的仪表板，但Istio同时也提供了一组预先配置的仪表板用来监视网格和控制平面的所有最重要的指标。  
+尽管可以构建自己的仪表板，但 Istio 同时也提供了一组预先配置的仪表板用来监视网格和控制平面的所有最重要的指标。  
 
-* [Mesh Dashboard](https://grafana.com/grafana/dashboards/7639) provides an overview of all services in the mesh.
-* [Service Dashboard](https://grafana.com/grafana/dashboards/7636) provides a detailed breakdown of metrics for a service.
-* [Workload Dashboard](https://grafana.com/grafana/dashboards/7630) provides a detailed breakdown of metrics for a workload.
-* [Performance Dashboard](https://grafana.com/grafana/dashboards/11829) monitors the resource usage of the mesh.
-* [Control Plane Dashboard](https://grafana.com/grafana/dashboards/7645) monitors the health and performance of the control plane.
+* [Mesh Dashboard](https://grafana.com/grafana/dashboards/7639) 为运行在网格中的所有服务提供概览视图。
+* [Service Dashboard](https://grafana.com/grafana/dashboards/7636) 为服务提供详细的分类指标。
+* [Workload Dashboard](https://grafana.com/grafana/dashboards/7630) 为负载提供详细的分类指标。
+* [Performance Dashboard](https://grafana.com/grafana/dashboards/11829) 监控网格资源使用情况。
+* [Control Plane Dashboard](https://grafana.com/grafana/dashboards/7645) 监控控制面的健康状况及性能指标.
 
-可以通过多种方法来配置Grafana来使用这些仪表板:
+可以通过多种方法来配置 Grafana 来使用这些仪表板:
 
 ### 选项1：快速开始
 
-Istio提供了一个基本的安装示例，以快速让Grafana启动和运行，与所有已经安装的Istio仪表板捆绑在一起:
+Istio 提供了一个基本的安装示例，以快速让 Grafana 启动和运行，与所有已经安装的 Istio 仪表板捆绑在一起:
 
 {{< text bash >}}
 $ kubectl apply -f {{< github_file >}}/samples/addons/grafana.yaml
 {{< /text >}}
 
-通过kubectl apply方式将Grafana部署到集群中。该策略仅用于演示，并没有针对性能或安全性进行调优。
+通过 kubectl apply 方式将 Grafana 部署到集群中。该策略仅用于演示，并没有针对性能或安全性进行调优。
 
-### 选项2：从`grafana.com`导入已经部署的deployment
+### 选项2：从 `grafana.com` 导入已经部署的 Deployment
 
-如果想要快速地将Istio仪表板导入到现有的Grafana实例中，您可以使用[Grafana UI中的**import**按钮](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard)来添加上面的仪表板链接。当导入仪表板时，请注意必须选择一个Prometheus数据源。  
+如果想要快速地将Istio仪表板导入到现有的Grafana实例中，您可以使用 [Grafana UI 中的 **Import** 按钮](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard) 来添加上面的仪表板链接。当导入仪表板时，请注意必须选择一个 Prometheus 数据源。  
 
 也可以使用脚本一次导入所有仪表板。例如:
 
@@ -63,7 +63,8 @@ $ done
 {{< /text >}}
 
 ### 选项3： 特定的实现方法
-Grafana可以通过其他方法进行安装和配置。要导入Istio仪表板，请参考文档中的安装方法。例如:
 
-* [Grafana provisioning](https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards) official documentation.
-* [Importing dashboards](https://github.com/helm/charts/tree/master/stable/grafana#import-dashboards) for the `stable/grafana` Helm chart.
+Grafana 可以通过其他方法进行安装和配置。要导入 Istio 仪表板，请参考文档中的安装方法。例如:
+
+* [Grafana provisioning](https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards) 官方文档.
+* [Importing dashboards](https://github.com/helm/charts/tree/master/stable/grafana#import-dashboards) `stable/grafana` Helm chart 文档.
