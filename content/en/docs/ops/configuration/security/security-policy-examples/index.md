@@ -52,7 +52,7 @@ spec:
 
 ### Namespace isolation
 
-You want to block all traffic from outside the namespace `foo`, in other words, isolate the namespace `foo` from other
+The following policy allows traffic only from the namespace `foo`. In other words, it isolates the namespace `foo` from other
 namespaces. This requires you have already enabled mTLS.
 
 {{< text yaml >}}
@@ -71,8 +71,7 @@ spec:
 
 ### Namespace isolation with ingress exception
 
-You want to block all traffic from outside the namespace `foo` but allow access from ingress gateway.
-This requires you have already enabled mTLS.
+The following policy allows traffic only from the namespace `foo` and also from the ingress gateway. This requires you have already enabled mTLS.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -115,9 +114,9 @@ spec:
 
 ### Require mandatory authorization check with `DENY` policy
 
-You can use the `DENY` policy If you want to require mandatory authorization check that must be satisfied and cannot be
-bypassed by another more permissive policy, you can use the `DENY` policy. This is different from `ALLOW` policy because
-a more permissive `ALLOW` policy will allow more requests and bypass the more restrictive `ALLOW` policy.
+You can use the `DENY` policy if you want to require mandatory authorization check that must be satisfied and cannot be
+bypassed by another more permissive `ALLOW` policy. This works because the `DENY` policy takes precedenve over the
+`ALLOW` policy and could deny a request early before `ALLOW` policies.
 
 Use the following policy to enforce mandatory JWT validation in addition to the [request authentication](/docs/tasks/security/authentication/authn-policy/#end-user-authentication) policy.
 The policy denies the request if the request principal is empty. The request principal will be empty if JWT validation failed.
@@ -141,9 +140,9 @@ spec:
         notRequestPrincipals: ["*"]
 {{< /text >}}
 
-Similarly, Use the following policy to enforce namespace isolation but allow request from ingress gateway. The policy
-denies the request if the namespace is not `foo` and the principal is not `cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account`.
-In other words, the policy allows request if the namespace is `foo` or the principal is `cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account`.
+Similarly, Use the following policy to require mandatory namespace isolation and also allow requests from ingress gateway.
+The policy denies the request if the namespace is not `foo` and the principal is not `cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account`.
+In other words, the policy allows the request only if the namespace is `foo` or the principal is `cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account`.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
