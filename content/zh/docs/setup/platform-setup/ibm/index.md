@@ -42,7 +42,7 @@ IBM 为 IBM Cloud Kubernetes Service 提供了 {{< gloss >}}managed control plan
 
     {{< tip >}}
     如果已经有专用和公用 VLAN，您可以在上面的命令中指定使用 `--private-vlan` 和 `--public-vlan` 选项。
-    否则， 将自动为您创建。您可以通过运行 `ibmcloud ks vlans --zone <zone-name>` 来查看可用的 VLAN。
+    否则，将自动为您创建。您可以通过运行 `ibmcloud ks vlans --zone <zone-name>` 来查看可用的 VLAN。
     {{< /tip >}}
 
 1. 运行以下命令下载您的 `kubectl` 集群配置，然后按照命令输出的说明来设置 `KUBECONFIG` 环境变量。
