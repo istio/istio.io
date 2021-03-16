@@ -1,6 +1,6 @@
 ---
 title: 协议选择
-description: 关于怎么声明协议的信息。
+description: 关于如何声明协议。
 weight: 10
 keywords: [protocol,protocol sniffing,protocol selection,protocol detection]
 aliases:
@@ -8,9 +8,13 @@ aliases:
   - /zh/help/ops/protocol-selection
   - /zh/help/tasks/traffic-management/protocol-selection
   - /zh/docs/ops/traffic-management/protocol-selection
+owner: istio/wg-networking-maintainers
+test: no
 ---
 
-Istio 默认支持代理所有 TCP 流量，但为了提供附加的能力，比如路由和丰富的指标，使用什么协议必须被确定。协议可以被自动检测或者明确的声明确定。
+Istio 默认支持代理所有 TCP 流量。包括 HTTP、HTTPS、gRPC 以及原始 TCP 协议。但为了提供额外的能力，比如路由和丰富的指标，必须确定协议。协议可以被自动检测或者明确的声明确定。
+
+使用非基于 TCP 的协议时，如 UDP，不会被代理。这些协议可以继续正常工作，且不会被 Istio 代理拦截，但是不能用于仅代理的组件，如入口或出口网关。
 
 ## 手动协议选择{#manual-protocol-selection}
 
