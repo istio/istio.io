@@ -386,7 +386,7 @@ curl -s "http://${GATEWAY_URL}/hello"
 Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
 ENDSNIP
 
-snip_mesh_operator_steps_mcoperatorsteps_1() {
+snip_mesh_operator_steps_multiclusteroperatorsteps_1() {
 kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 istioctl x create-remote-secret \
   --context="${CTX_SECOND_CLUSTER}" \
@@ -433,43 +433,43 @@ spec:
 EOF
 }
 
-snip_mesh_operator_steps_mcoperatorsteps_3() {
+snip_mesh_operator_steps_multiclusteroperatorsteps_3() {
 istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
 }
 
-snip_mesh_operator_steps_mcoperatorsteps_4() {
+snip_mesh_operator_steps_multiclusteroperatorsteps_4() {
 kubectl get mutatingwebhookconfiguration -n external-istiod --context="${CTX_SECOND_CLUSTER}"
 }
 
-! read -r -d '' snip_mesh_operator_steps_mcoperatorsteps_4_out <<\ENDSNIP
+! read -r -d '' snip_mesh_operator_steps_multiclusteroperatorsteps_4_out <<\ENDSNIP
 NAME                                     WEBHOOKS   AGE
 istio-sidecar-injector-external-istiod   4          4m13s
 ENDSNIP
 
-snip_mesh_operator_steps_mcoperatorsteps_5() {
+snip_mesh_operator_steps_multiclusteroperatorsteps_5() {
 kubectl get validatingwebhookconfiguration -n external-istiod --context="${CTX_SECOND_CLUSTER}"
 }
 
-! read -r -d '' snip_mesh_operator_steps_mcoperatorsteps_5_out <<\ENDSNIP
+! read -r -d '' snip_mesh_operator_steps_multiclusteroperatorsteps_5_out <<\ENDSNIP
 NAME                     WEBHOOKS   AGE
 istiod-external-istiod   1          4m25s
 ENDSNIP
 
-snip_mesh_operator_steps_mcoperatorsteps_6() {
+snip_mesh_operator_steps_multiclusteroperatorsteps_6() {
 kubectl get configmaps -n external-istiod --context="${CTX_SECOND_CLUSTER}"
 }
 
-! read -r -d '' snip_mesh_operator_steps_mcoperatorsteps_6_out <<\ENDSNIP
+! read -r -d '' snip_mesh_operator_steps_multiclusteroperatorsteps_6_out <<\ENDSNIP
 NAME                     DATA   AGE
 istio                    2      4m30s
 istio-sidecar-injector   2      4m30s
 ENDSNIP
 
-snip_mesh_operator_steps_mcoperatorsteps_7() {
+snip_mesh_operator_steps_multiclusteroperatorsteps_7() {
 kubectl get secrets -n external-istiod --context="${CTX_SECOND_CLUSTER}"
 }
 
-! read -r -d '' snip_mesh_operator_steps_mcoperatorsteps_7_out <<\ENDSNIP
+! read -r -d '' snip_mesh_operator_steps_multiclusteroperatorsteps_7_out <<\ENDSNIP
 NAME                                       TYPE                                  DATA   AGE
 default-token-6pmf7                        kubernetes.io/service-account-token   3      15m
 istio-reader-service-account-token-lkmwj   kubernetes.io/service-account-token   3      15m
