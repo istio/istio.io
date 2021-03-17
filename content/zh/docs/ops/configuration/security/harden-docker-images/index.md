@@ -5,7 +5,7 @@ weight: 80
 aliases:
   - /zh/help/ops/security/harden-docker-images
   - /zh/docs/ops/security/harden-docker-images
-  owner: istio/wg-security-maintainers
+owner: istio/wg-security-maintainers
 test: n/a
 ---
 
