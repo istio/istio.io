@@ -11,7 +11,7 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-本页面最新更新时间为 
+本页面最新更新时间为 2019年8月28日。
 
 {{< boilerplate untested-document >}}
 
