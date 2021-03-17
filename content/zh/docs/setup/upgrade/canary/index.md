@@ -11,7 +11,7 @@ test: no
 
 安装 Istio 时，`revision` 安装设置可用于同时部署多个独立的控制平面。升级的金丝雀版本可以通过使用不同的 `revision`，在旧版本的旁边安装启动新版本的 Istio 控制平面。每个修订都是一个完整的 Istio 控制平面实现，具有自己的 `Deployment`、`Service` 等。
 
-## 控制平面
+## 控制平面 {#control-plane}
 
 要安装名为 `canary` 的新修订版本，您可以按照如下所示设置 `revision` 字段：
 
@@ -59,7 +59,7 @@ $ kubectl get service -n istio-system -o json istiod-<REVISION> | jq '.metadata.
 
 {{</ warning >}}
 
-## 数据平面
+## 数据平面 {#data-plane}
 
 与 Istiod 不同，Istio Gateway 不运行特定修订版本的实例，而是就地升级以使用新的控制平面修订版本。
 您可以通过运行以下命令来验证 `istio-ingress` Gateway 是否正在使用 `canary` 修订版本：
@@ -100,7 +100,7 @@ istiod-canary-6956db645c-vwhsk
 
 输出确认 Pod 正在使用 `istiod-canary` 控制平面的修订版本。
 
-## 卸载旧的控制平面
+## 卸载旧的控制平面 {#uninstall-old-control-plane}
 
 升级控制平面和数据平面之后，您可以卸载旧的控制平面。例如，以下命令卸载修订版本的控制平面 `1-6-5`：
 
@@ -124,7 +124,7 @@ istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 
 请注意，以上说明仅删除了用于指定控制平面修订版的资源，而未删除与其他控制平面共享的群集作用域资源。要完全卸载 Istio，请参阅 [卸载指南](/zh/docs/setup/install/istioctl/#uninstall-istio)。
 
-## 卸载金丝雀控制平面
+## 卸载金丝雀控制平面 {#uninstall-canary-control-plane}
 
 如果您决定回滚到旧的控制平面，而不是完成 Canary 升级，则可以使用 `istioctl x uninstall --revision=canary` 卸载 Canary 修订版。
 
