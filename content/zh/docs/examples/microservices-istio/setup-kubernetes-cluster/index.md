@@ -2,6 +2,8 @@
 title: 设置 Kubernetes 集群
 overview: 为教程准备 Kubernetes 集群。
 weight: 2
+owner: istio/wg-docs-maintainers
+test: no
 ---
 
 {{< boilerplate work-in-progress >}}
@@ -33,9 +35,18 @@ weight: 2
     如果您是一位讲师，可以为每个参与者分配独立的命名空间。本教程支持多个参与者在不同的命名空间下同时运行。
     {{< /tip >}}
 
-1. [安装 Istio](/zh/docs/setup/)。
+1. 使用 `demo` 配置文件[安装 Istio](/zh/docs/setup/)。
 
-1. [启用 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)。
+1. 本示例中使用了 [Kiali](/zh/docs/ops/integrations/kiali/) 和 [Prometheus](/zh/docs/ops/integrations/prometheus/)附加组件，需要安装它们。使用以下命令安装所有插件：
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/addons@
+    {{< /text >}}
+
+    {{< tip >}}
+    If there are errors trying to install the addons, try running the command again. There may
+    be some timing issues which will be resolved when the command is run again.
+    {{< /tip >}}
 
 1. 使用 `kubectl` 命令为这些通用 Istio 服务创建一个 Kubernetes Ingress 资源。在教程目前这个阶段要熟悉这些服务并不是必须的。
 
@@ -53,12 +64,15 @@ weight: 2
     metadata:
       name: istio-system
       namespace: istio-system
+      annotations:
+        kubernetes.io/ingress.class: istio
     spec:
       rules:
       - host: my-istio-dashboard.io
         http:
           paths:
           - path: /
+            pathType: Prefix
             backend:
               serviceName: grafana
               servicePort: 3000
@@ -66,6 +80,7 @@ weight: 2
         http:
           paths:
           - path: /
+            pathType: Prefix
             backend:
               serviceName: tracing
               servicePort: 9411
@@ -73,6 +88,7 @@ weight: 2
         http:
           paths:
           - path: /
+            pathType: Prefix
             backend:
               serviceName: prometheus
               servicePort: 9090
@@ -80,6 +96,7 @@ weight: 2
         http:
           paths:
           - path: /
+            pathType: Prefix
             backend:
               serviceName: kiali
               servicePort: 20001
@@ -166,6 +183,10 @@ weight: 2
     `kubectl` 命令使用这个配置文件在集群上操作。
 
     为每个参与者创建 Kubernetes 配置文件：
+
+    {{< tip >}}
+    该命令假定您的集群名为 `tutorial-cluster`。如果群集的名称不同，则将所有引用替换为群集的名称。
+    {{</ tip >}}
 
     {{< text bash >}}
     $ cat <<EOF > ./${NAMESPACE}-user-config.yaml

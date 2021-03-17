@@ -1006,8 +1006,8 @@ this service-by-service (e.g. mysvc.myns.svc.cluster.local) or as a group
 (e.g. *.myns.svc.cluster.local).</li>
 </ul>
 
-<p>By default, Istio will consider all services in the kube-system namespace to be cluster-local,
-unless explicitly overridden here.</p>
+<p>By default Istio will consider kubernetes.default.svc (i.e. the API Server) as well as all
+services in the kube-system namespace to be cluster-local, unless explicitly overridden here.</p>
 
 </td>
 <td>

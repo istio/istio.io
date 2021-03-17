@@ -772,7 +772,7 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 /v1.6/docs/ops/configuration/traffic-management/locality-load-balancing/ /v1.6/docs/ops/configuration/traffic-management/locality-load-balancing/
 /v1.6/docs/tasks/observability/logs/ /v1.6/docs/tasks/observability/logs/
 /v1.6/docs/tasks/observability/mixer/logs/ /v1.6/docs/tasks/observability/mixer/logs/
-/v1.6/docs/reference/config/proxy_extensions/metadata_exchange.html./ /v1.6/docs/reference/config/proxy_extensions/metadata_exchange.html./
+/v1.6/docs/reference/config/proxy_extensions/metadata_exchange/ /v1.6/docs/reference/config/proxy_extensions/metadata_exchange/
 /v1.6/about/community/partners/ /v1.6/about/community/partners/
 /v1.6/docs/tasks/policy-enforcement/ /v1.6/docs/tasks/policy-enforcement/
 /v1.6/docs/ops/integrations/prometheus/ /v1.6/docs/ops/integrations/prometheus/

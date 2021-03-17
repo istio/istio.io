@@ -1,19 +1,13 @@
 ---
-title: How to configure the lifetime for Istio certificates?
+title: 如何配置 Istio 证书的生命期？
 weight: 70
 ---
 
-For the workloads running in Kubernetes, the lifetime of their Istio certificates is controlled by the
-`workload-cert-ttl` flag on Citadel. The default value is 90 days. This value should be no greater than
-`max-workload-cert-ttl` of Citadel.
+对于在 Kubernetes 中运行的工作负载，其 Istio 证书的生命期由在Citadel中的 `workload-cert-ttl` 规定。
 
-Citadel uses a flag `max-workload-cert-ttl` to control the maximum lifetime for Istio certificates issued to
-workloads. The default value is 90 days. If `workload-cert-ttl` on Citadel or node agent is greater than
-`max-workload-cert-ttl`, Citadel will fail issuing the certificate.
+Citadel 使用 `max-workload-cert-ttl` 来控制颁发给工作负载的 Istio 证书的最长生命期。其默认值为 90 天。如果 Citadel 或 Istio 代理中的 `workload-cert-ttl` 大于 `max-workload-cert-ttl`，则 Citadel 将无法颁发证书。
 
-Modify the `istio-demo.yaml` file to customize the Citadel configuration.
-The following modification specifies that the Istio certificates for workloads running in Kubernetes
-has 1 hours lifetime. Besides that, the maximum allowed Istio certificate lifetime is 48 hours.
+你可以修改[生成清单](/zh/docs/setup/install/istioctl/#generate-a-manifest-before-installation)文件来自定义 Citadel 配置。以下的修改指定了在 Kubernetes 中运行的工作负载的 Istio 证书，其生命期为 1 小时。除此以外，允许 Istio 证书的最大生命期为 48 小时。
 
 {{< text plain >}}
 ...
@@ -36,25 +30,4 @@ spec:
           - --max-workload-cert-ttl=48h # Maximum lifetime of certificates issued to workloads by Citadel.
 {{< /text >}}
 
-For the workloads running on VMs and bare metal hosts, the lifetime of their Istio certificates is specified by the
-`workload-cert-ttl` flag on each node agent. The default value is also 90 days. This value should be no greater than
-`max-workload-cert-ttl` of Citadel.
-
-To customize this configuration, the argument for the node agent service should be modified.
-After [setting up the machines](/zh/docs/examples/virtual-machines/single-network/#setting-up-the-VM) for Istio
-mesh expansion, modify the file `/lib/systemd/system/istio-auth-node-agent.service` on the VMs or bare metal hosts:
-
-{{< text plain >}}
-...
-[Service]
-ExecStart=/usr/local/bin/node_agent --workload-cert-ttl=24h # Specify certificate lifetime for workloads on this machine.
-Restart=always
-StartLimitInterval=0
-RestartSec=10
-...
-{{< /text >}}
-
-The above configuration specifies that the Istio certificates for workloads running on this VM or bare metal host
-will have 24 hours lifetime.
-
-After configuring the service, restart the node agent by running `systemctl daemon-reload`.
+对于在 VM 和裸机上运行的工作负载，其 Istio 证书的生命期由每个 Istio 代理中的 `workload-cert-ttl` 指定。其默认值也是 90 天。该值不应该大于 Citadel 中的 `max-workload-cert-ttl`。
