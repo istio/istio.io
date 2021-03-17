@@ -29,6 +29,6 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/kiali.yaml
 
 Kiali 项目提供了自己的[快速入门指南](https://kiali.io/documentation/latest/quick-start)和[自定义安装方法](https://kiali.io/documentation/latest/installation-guide)。我们建议生产用户遵循这些说明，确保了解最新版本和最佳方式。
 
-## 使用
+## 使用{#usage}
 
 更多关于 Kiali 的使用信息，请查看[可视化您的网格](/docs/tasks/observability/kiali/)任务.
