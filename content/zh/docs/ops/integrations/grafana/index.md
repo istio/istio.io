@@ -21,7 +21,7 @@ test: no
 
 可以通过多种方法来配置 Grafana 来使用这些仪表板:
 
-### 选项1：快速开始
+### 方法1：快速开始
 
 Istio 提供了一个基本的安装示例，以快速让 Grafana 启动和运行，与所有已经安装的 Istio 仪表板捆绑在一起:
 
@@ -31,7 +31,7 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/grafana.yaml
 
 通过 kubectl apply 方式将 Grafana 部署到集群中。该策略仅用于演示，并没有针对性能或安全性进行调优。
 
-### 选项2：从 `grafana.com` 导入已经部署的 Deployment
+### 方法2：从 `grafana.com` 导入已经部署的 Deployment
 
 如果想要快速地将Istio仪表板导入到现有的Grafana实例中，您可以使用 [Grafana UI 中的 **Import** 按钮](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard) 来添加上面的仪表板链接。当导入仪表板时，请注意必须选择一个 Prometheus 数据源。
 
@@ -62,7 +62,7 @@ $     echo -e "\nDone\n"
 $ done
 {{< /text >}}
 
-### 选项3： 特定的实现方法
+### 方法3：特定的实现方法
 
 Grafana 可以通过其他方法进行安装和配置。要导入 Istio 仪表板，请参考文档中的安装方法。例如:
 
