@@ -65,31 +65,32 @@ echo "WORK_DIR =" "${WORK_DIR}"
 locate_file() {
     FILENAME=$1
 
-    LOCATION=$(grep '^location: https://istio.io/docs' "${FILENAME}")
+    LOCATION=$(grep -E '^location: https://istio.io(\/latest\/|\/)docs' "${FILENAME}")
     LEN=${#LOCATION}
     if [[ ${LEN} -eq 0 ]]; then
         echo "    No 'location:' tag in $FILENAME, skipping"
         return
     fi
 
-    FNP=${LOCATION:31}
-    FN=$(echo "${FNP}" | rev | cut -d'/' -f1 | rev)
-    FN=${FN%.html}
-    PP=$(echo "${FNP}" | rev | cut -d'/' -f2- | rev)
-    mkdir -p "${ROOTDIR}/content/en/docs${PP}/${FN}"
-    sed -E -e 's/(href="https:\/\/istio.io.*)\.html/\1\//' -e 's/href="https:\/\/istio.io(\/[^vV])/href="\1/g' -e 's/href="\/latest\//href="\//g' "${FILENAME}" >"${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
+    # Remove latest if it exists before docs, and then the first 31 characters (found via length of grep string w/o latest).
+    # Finally remove the .html if it exists from the end of the string.
+    ISTIO_LOCATION=${LOCATION//\/latest\/docs\//\/docs\/}
+    ISTIO_LOCATION=${ISTIO_LOCATION:31}
+    ISTIO_LOCATION=${ISTIO_LOCATION%.html}
+    mkdir -p "${ROOTDIR}/content/en/docs${ISTIO_LOCATION}"
+    sed -E -e 's/(href="https:\/\/istio.io.*)\.html/\1\//' -e 's/href="https:\/\/istio.io(\/[^vV])/href="\1/g' -e 's/href="\/latest\//href="\//g' "${FILENAME}" >"${ROOTDIR}/content/en/docs${ISTIO_LOCATION}/index.html"
 
     LEN=${#WORK_DIR}
 
     if [[ "${REPO_URL}" != "https://github.com/istio/istio.git" && "${REPO_URL}" != "https://github.com/istio/api.git" && "${REPO_URL}" != "https://github.com/istio/proxy.git" ]]; then
-        sed -i -e 's/layout: protoc-gen-docs/layout: partner-component/g' "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
+        sed -i -e 's/layout: protoc-gen-docs/layout: partner-component/g' "${ROOTDIR}/content/en/docs${ISTIO_LOCATION}/index.html"
     fi
 
     REPOX=${REPO_URL/.git/}
     REPOX=${REPOX//\//\\\/}
 
-    sed -i -e "s/title: /WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE '${REPOX}' REPO\ntitle: /g" "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
-    sed -i -e "s/title: /source_repo: ${REPOX}\ntitle: /g" "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
+    sed -i -e "s/title: /WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE '${REPOX}' REPO\ntitle: /g" "${ROOTDIR}/content/en/docs${ISTIO_LOCATION}/index.html"
+    sed -i -e "s/title: /source_repo: ${REPOX}\ntitle: /g" "${ROOTDIR}/content/en/docs${ISTIO_LOCATION}/index.html"
 }
 
 handle_doc_scraping() {
