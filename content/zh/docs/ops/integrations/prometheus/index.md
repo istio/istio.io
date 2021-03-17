@@ -133,7 +133,7 @@ spec:
         proxy.istio.io/config: |  # 配置一个环境变量 `OUTPUT_CERTS` 来讲证书写入指定文件夹内
           proxyMetadata:
             OUTPUT_CERTS: /etc/istio-output-certs
-        sidecar.istio.io/userVolumeMount: '[{"name": "istio-certs", "mountPath": "/etc/istio-output-certs"}]' # 在 Sidecar 代理商挂载共享 volume
+        sidecar.istio.io/userVolumeMount: '[{"name": "istio-certs", "mountPath": "/etc/istio-output-certs"}]' # 在 Sidecar 挂载共享 volume
 {{< /text >}}
 
 最后，按如下所示的设置收集 TLS 指标：
