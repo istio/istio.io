@@ -10,7 +10,7 @@ test: no
 
 ## 安装{#installation}
 
-### 选项1：快速开始{#option-1-quick-start}
+### 方法1：快速开始{#option-1-quick-start}
 
 Istio 提供了一个基础的安装示例用于快速使用和运行 Kiali ：
 
