@@ -16,7 +16,7 @@ owner: istio/wg-environments-maintainers
 
 {{< boilerplate multi-cluster-with-metallb >}}
 
-在此配置中，`cluster1` 和 `cluster2` 均监测两个集群 API 服务器的服务端点。
+在此配置中，`cluster1` 和 `cluster2` 均监测两个集群 API Server 的服务端点。
 
 跨集群边界的服务负载，通过专用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)网关，以间接的方式通讯。每个集群中的网关在其他集群必须可以访问。
 
@@ -156,7 +156,7 @@ $ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
 
 ## 启用端点发现 {#enable-endpoint-discovery}
 
-在 `cluster2` 中安装一个提供 `cluster1` API Server 访问权限的远程 secret。
+在 `cluster2` 中安装一个提供 `cluster1` API Server 访问权限的远程 Secret。
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
@@ -165,7 +165,7 @@ $ istioctl x create-remote-secret \
   kubectl apply -f - --context="${CTX_CLUSTER2}"
 {{< /text >}}
 
-在 `cluster1` 中安装一个提供 `cluster2` API Server 访问权限的远程 secret。
+在 `cluster1` 中安装一个提供 `cluster2` API Server 访问权限的远程 Secret。
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
