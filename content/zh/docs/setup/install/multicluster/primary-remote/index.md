@@ -18,7 +18,7 @@ owner: istio/wg-environments-maintainers
 在此配置中，集群 `cluster1` 将监测两个集群 API Server 的服务端点。
 以这种方式，控制平面就能为两个集群中的工作负载提供服务发现。
 
-服务的工作负载（pod 到 pod）可跨集群边界直接通讯。
+服务的工作负载（ Pod 到 Pod ）可跨集群边界直接通讯。
 
 `cluster2` 中的服务将通过专用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)网关流量访问 `cluster1` 的控制平面。
 
@@ -28,7 +28,7 @@ owner: istio/wg-environments-maintainers
     >}}
 
 {{< tip >}}
-目前，从集群配置档在从集群安装 Istio 服务器，该服务器用来为集群中的工作负载注入 CA 和 webhook。
+目前，从集群配置档在从集群安装 Istio 服务器，该服务器用来为集群中的工作负载注入 CA 和 Webhook。
 但是，服务发现会被指向主集群的控制平面。
 
 后续版本将完全消除在从集群中安装 Istiod 的需求。请保持关注！
@@ -149,4 +149,4 @@ $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 
 ## 后续步骤 {#next-steps}
 
-现在，你可以[验证此次安装](/zh/docs/setup/install/multicluster/verify).
+现在，你可以[验证此次安装](/zh/docs/setup/install/multicluster/verify)。
