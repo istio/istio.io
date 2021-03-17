@@ -13,7 +13,7 @@ test: n/a
 
 ### 方式一：快速开始
 
-Istio 提供一个就基础的示例安装，可快速启动和运行 Jaeger：
+Istio 提供一个基础的示例安装，可快速启动和运行 Jaeger：
 
 {{< text bash >}}
 $ kubectl apply -f {{< github_file >}}/samples/addons/jaeger.yaml
@@ -25,7 +25,7 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/jaeger.yaml
 
 参考 [Jaeger 文档](https://www.jaegertracing.io/) 开始使用。Jaeger 与 Istio 一起使用时无需特殊的配置。
  
-安装 Jaeger 完毕后，需要指定 Istio 代理向 Deployment 发送流量。可以在安装时，可以使用 `--set values.global.tracer.zipkin.address=<jaeger-collector-address>:9411` 进行配置。参考更多 [`ProxyConfig.Tracing`](/zh/docs/reference/config/istio.mesh.v1alpha1/#Tracing) 高级配置，如 TLS 设置。
+安装 Jaeger 完毕后，需要指定 Istio 代理向 Deployment 发送流量。在安装时，可以使用 `--set values.global.tracer.zipkin.address=<jaeger-collector-address>:9411` 进行配置。参考更多 [`ProxyConfig.Tracing`](/zh/docs/reference/config/istio.mesh.v1alpha1/#Tracing) 高级配置，如 TLS 设置。
 
 ## 使用{#usage}
 
