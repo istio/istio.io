@@ -159,8 +159,11 @@ function handleSidebar(): void {
         let link = getByClass('main-link');
         let currents = getByClass('current');
         if (currents) {
-            [...currents].forEach(element => {
-                element.classList.remove('current');
+            [...currents].forEach(e => {
+                e.classList.remove('current');
+                e.parentElement?.parentElement?.setAttribute("aria-expanded", 'false');
+                    e.parentElement?.parentElement?.parentElement?.parentElement?.setAttribute("aria-expanded", 'false');
+
             });
         }
         if (url.substring(url.length-5,url.length)==='docs/') {
@@ -172,8 +175,12 @@ function handleSidebar(): void {
                 link[0].classList.remove('current');
             let list = sidebar.getElementsByTagName('a');
             [...list].forEach(e => {
-                if(e.href === url)
+                if(e.href === url) {
                     e.classList.add('current');
+                    e.parentElement?.parentElement?.setAttribute("aria-expanded", 'true');
+                    e.parentElement?.parentElement?.parentElement?.parentElement?.setAttribute("aria-expanded", 'true');
+
+                }
             });
         }   
     });

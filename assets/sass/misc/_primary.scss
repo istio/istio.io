@@ -1,7 +1,7 @@
 .primary {
     display: grid;
     grid-template-columns: [article] 100%;
-    grid-column-gap: 3rem;
+    grid-column-gap: 1.5rem;
     margin-top: 3.75rem;
 
     @media print {
@@ -41,15 +41,15 @@
 
     @media screen AND (min-width: $bp-xl +1) {
         &.has-toc {
-            grid-template-columns: [article] calc(80% - 3rem) [toc] 20%;
+            grid-template-columns: [article] calc(80% - 1.5rem) [toc] 20%;
         }
 
         &.has-sidebar {
-            grid-template-columns: [sidebar] 30% [article] calc(70% - 3rem);
+            grid-template-columns: [sidebar] 22% [article] calc(78% - 1.5rem);
         }
 
         &.has-toc.has-sidebar {
-            grid-template-columns: [sidebar] 22% [article] calc(62% - (2 * 3rem)) [toc] 16%;
+            grid-template-columns: [sidebar] 22% [article] calc(62% - (2 * 1.5rem)) [toc] 16%;
         }
         
         .toc-container {
