@@ -1,5 +1,5 @@
 ---
-title: Feature Status
+title: 功能状态
 description: List of features and their release stages.
 weight: 10
 aliases:
@@ -10,99 +10,92 @@ aliases:
 icon: feature-status
 ---
 
-<!--
-Note: this contains feature status from
-https://docs.google.com/spreadsheets/d/1Nbjat-juyQ8AWhkq3njLckmHM8TRL4O-sjm9Bfr9zrU/edit#gid=0
--->
+此页面列出了每个功能的相对成熟度和支持等级。请注意，状态（Alpha，Beta 和 Stable）描述的是项目中的各个功能，而不是项目本身。这是这些标签的详细描述。
 
-This page lists the relative maturity and support
-level of every Istio feature. Please note that the phases (Alpha, Beta, and Stable) are applied to individual features
-within the project, not to the project as a whole. Here is a high level description of what these labels mean.
-
-## Feature phase definitions
+## 功能状态定义{#feature-phase-definitions}
 
 |            | Alpha      | Beta         | Stable
 |-------------------|-------------------|-------------------|-------------------
-|   **Purpose**         | Demo-able, works end-to-end but has limitations.  If you use it in production and encounter a serious issue we may not be able to fix it for you, so be sure that you can continue to function if you have to disable it | Usable in production, not a toy anymore | Dependable, production hardened
-|   **API**         | No guarantees on backward compatibility    | APIs are versioned         | Dependable, production-worthy. APIs are versioned, with automated version conversion for backward compatibility
-|  **Performance**         | Not quantified or guaranteed     | Not quantified or guaranteed         | Performance (latency/scale) is quantified, documented, with guarantees against regression
-|   **Deprecation Policy**        | None     | Weak - 3 months         | Dependable,  Firm. 1 year notice will be provided before changes
-| **Security** | Security vulnerabilities will be handled publicly as simple bug fixes | Security vulnerabilities will be handled according to our [security vulnerability policy](/zh/about/security-vulnerabilities/) | Security vulnerabilities will be handled according to our [security vulnerability policy](/zh/about/security-vulnerabilities/)
+|   **目的**         | 可演示，端到端工作，但是有局限性。如果您在生产环境中遇到了严重的问题，我们可能无法为您修复，如果需要继续使用，请禁用。 | 生产环境可用。 | 可靠，生产环境可用。
+|   **API**         | 不保证向后兼容   | API 已版本化       | 可靠，生产环境可用。 API 已版本化， 具有自动版本转换来实现向后兼容。
+|  **行为**         | 没有量化或不保证     | 未量化或不保证       | 能力（latency/scale）已经量化、文档输出并保证不会出现降级情况。
+|   **弃用策略**        | 无     | 弱 - 3个月         | 可信，稳定。 变更时，提前一年通知
 
-## Istio features
+| **安全性** | 安全漏洞将按照简单地错误修复程序公开处理 | 安全漏洞将根据我们的[安全漏洞处理规范](/zh/about/security-vulnerabilities/)进行处理 | 安全漏洞将根据我们的[安全漏洞处理规范](/zh/about/security-vulnerabilities/)进行处理
+## Istio 功能{#istio-feature}
 
-Below is our list of existing features and their current phases. This information will be updated after every monthly release.
+以下是我们现有的功能及其当前状态的列表。该信息将在每个月发行一次之后更新。
 
-### Traffic management
+### 流量管理{#traffic-management}
 
-| Feature           | Phase
+| 功能           | 状态
 |-------------------|-------------------
-| Protocols: HTTP1.1 / HTTP2 / gRPC / TCP | Stable
-| Protocols: Websockets / MongoDB  | Stable
-| Traffic Control: label/content based routing, traffic shifting | Stable
-| Resilience features: timeouts, retries, connection pools, outlier detection | Stable
-| Gateway: Ingress, Egress for all protocols | Stable
-| TLS termination and SNI Support in Gateways | Stable
-| SNI (multiple certs) at ingress | Stable
-| [Locality load balancing](/zh/docs/ops/configuration/traffic-management/locality-load-balancing/) | Beta
-| Enabling custom filters in Envoy | Alpha
-| CNI container interface | Alpha
+| 协议: HTTP1.1 / HTTP2 / gRPC / TCP | Stable
+| 协议: Websockets / MongoDB  | Stable
+| 流量控制: 基于标签/内容的路由, 流量切换 | Stable
+| 谈性功能: 超时， 重试， 连接池，异常检测 | Stable
+| 网关: 所有协议的出口入口 | Stable
+| 网关的 TLS 终止和 SNI 支持 | Stable
+| Ingress 的 SNI（多证书） | Stable
+| [局部负载均衡](/zh/docs/ops/configuration/traffic-management/locality-load-balancing/) | Beta
+| 在 Envoy 中启用自定义过滤器 | Alpha
+| CNI 容器接口 | Alpha
 | [Sidecar API](/zh/docs/reference/config/networking/sidecar/) | Beta
 
-### Observability
+### 可观察性{#observability}
 
-| Feature           | Phase
+| 功能           | 状态
 |-------------------|-------------------
-| [Prometheus Integration](/zh/docs/tasks/observability/metrics/querying-metrics/) | Stable
-| [Local Logging (STDIO)](/zh/docs/tasks/observability/logs/collecting-logs/) | Stable
-| [Statsd Integration](/zh/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
-| [Client and Server Telemetry Reporting](/zh/docs/reference/config/policy-and-telemetry/) | Stable
-| [Service Dashboard in Grafana](/zh/docs/tasks/observability/metrics/using-istio-dashboard/) | Stable
-| [Istio Component Dashboard in Grafana](/zh/docs/tasks/observability/metrics/using-istio-dashboard/) | Stable
-| [Distributed Tracing](/zh/docs/tasks/observability/distributed-tracing/) | Stable
-| [Stackdriver Integration](/zh/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Beta
-| [Distributed Tracing to Zipkin / Jaeger](/zh/docs/tasks/observability/distributed-tracing/) | Beta
-| [Logging with Fluentd](/zh/docs/tasks/observability/logs/fluentd/) | Beta
-| [Trace Sampling](/zh/docs/tasks/observability/distributed-tracing/overview/#trace-sampling) | Beta
+| [Prometheus 集成](/zh/docs/tasks/observability/metrics/querying-metrics/) | Stable
+| [本地日志 （STDIO）](/zh/docs/tasks/observability/logs/collecting-logs/) | Stable
+| [Statsd 集成](/zh/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
+| [客户端与服务端的遥测报告](/zh/docs/reference/config/policy-and-telemetry/) | Stable
+| [Grafana 的服务仪表盘](/zh/docs/tasks/observability/metrics/using-istio-dashboard/) | Stable
+| [Grafana 中的 Istio 组件仪表盘](/zh/docs/tasks/observability/metrics/using-istio-dashboard/) | Stable
+| [分布式链路追踪](/zh/docs/tasks/observability/distributed-tracing/) | Stable
+| [Stackdriver 集成](/zh/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Beta
+| [分布式链路追踪：Zipkin / Jaeger](/zh/docs/tasks/observability/distributed-tracing/) | Beta
+| [使用 Fluentd 记录](/zh/docs/tasks/observability/logs/fluentd/) | Beta
+| [跟踪采样](/zh/docs/tasks/observability/distributed-tracing/overview/#trace-sampling) | Beta
 
-### Security and policy enforcement
+### 安全和策略执行{#security-and-policy-enforcement}
 
-| Feature           | Phase
+| 功能           | 状态
 |-------------------|-------------------
-| [Deny Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Stable
-| [List Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
-| [Pluggable Key/Cert Support for Istio CA](/zh/docs/tasks/security/plugin-ca-cert/)        | Stable
-| [Service-to-service mutual TLS](/zh/docs/concepts/security/#mutual-TLS-authentication)         | Stable
-| [Kubernetes: Service Credential Distribution](/zh/docs/concepts/security/#PKI)   | Stable
-| [VM: Service Credential Distribution](/zh/docs/concepts/security/#PKI)         | Beta
-| [Mutual TLS Migration](/zh/docs/tasks/security/authentication/mtls-migration)    | Beta
-| [Cert management on Ingress Gateway](/zh/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Beta
-| [Authorization](/zh/docs/concepts/security/#authorization)   | Beta
-| [End User (JWT) Authentication](/zh/docs/concepts/security/#authentication)  | Alpha
-| [OPA Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
+| [拒绝检查器](/zh/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Stable
+| [列表检查器](/zh/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
+| [Istio CA 的可插拔秘钥、证书支持](/zh/docs/tasks/security/plugin-ca-cert/)        | Stable
+| [双向 TLS](/zh/docs/concepts/security/#mutual-TLS-authentication)         | Stable
+| [Kubernetes: 服务凭证分发](/zh/docs/concepts/security/#PKI)   | Stable
+| [VM: 服务凭证分发](/zh/docs/concepts/security/#PKI)         | Beta
+| [双向 TLS 迁移](/zh/docs/tasks/security/authentication/mtls-migration)    | Beta
+| [Ingress Gateway 的证书管理](/zh/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Beta
+| [授权](/zh/docs/concepts/security/#authorization)   | Beta
+| [最终用户（JWT）身份验证](/zh/docs/concepts/security/#authentication)  | Alpha
+| [OPA 检查器](/zh/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
 
-### Core
+### 核心{#core}
 
-| Feature           | Phase
+| 功能           | 状态
 |-------------------|-------------------
-| [Standalone Operator](/zh/docs/setup/install/standalone-operator/) | Beta
-| [Kubernetes: Envoy Installation and Traffic Interception](/zh/docs/setup/) | Stable
-| [Kubernetes: Istio Control Plane Installation](/zh/docs/setup/) | Stable
-| [Attribute Expression Language](/zh/docs/reference/config/policy-and-telemetry/expression-language/) | Stable
-| Mixer Out-of-Process Adapter Authoring Model | Beta
+| [标准操作器](/zh/docs/setup/install/standalone-operator/) | Beta
+| [Kubernetes: Envoy 安装和流量拦截](/zh/docs/setup/) | Stable
+| [Kubernetes: Istio 控制平面安装](/zh/docs/setup/) | Stable
+| [属性表达式](/zh/docs/reference/config/policy-and-telemetry/expression-language/) | Stable
+| 混合 Out-of-Process Adapter Authoring 模型 | Beta
 | [Helm](/zh/docs/setup/install/helm/) | Beta
-| [Multicluster Mesh over VPN](/zh/docs/setup/install/multicluster/) | Alpha
-| [Kubernetes: Istio Control Plane Upgrade](/zh/docs/setup/) | Beta
-| Consul Integration | Alpha
-| Basic Configuration Resource Validation | Beta
-| Configuration Processing with Galley | Beta
-| [Mixer Self Monitoring](/zh/faq/mixer/#mixer-self-monitoring) | Beta
-| [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | deprecated
-| [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Beta
-| [Istio CNI plugin](/zh/docs/setup/additional-setup/cni/) | Alpha
-| IPv6 support for Kubernetes | Alpha
-| [Distroless base images for Istio](/zh/docs/ops/configuration/security/harden-docker-images/) | Alpha
+| [通过 VPN 使用多集群网格](/zh/docs/setup/install/multicluster/) | Alpha
+| [Kubernetes: Istio 控制平面升级](/zh/docs/setup/) | Beta
+| Consul 集成 | Alpha
+| 基础配置资源验证 | Beta
+| 使用 Galley 进行配置 | Beta
+| [Mixer 自我监控](/zh/faq/mixer/#mixer-self-monitoring) | Beta
+| [定制 Mixer 构建模型](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | deprecated
+| [进程外 Mixer 适配器 (gRPC 适配器)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Beta
+| [Istio CNI 插件](/zh/docs/setup/additional-setup/cni/) | Alpha
+| Kubernetes 支持 IPV6  | Alpha
+| [Istio 的 Distroless 基础镜像](/zh/docs/ops/configuration/security/harden-docker-images/) | Alpha
 
 {{< idea >}}
-Please get in touch by joining our [community](/zh/about/community/) if there are features you'd like to see in our future releases!
+如果您希望在将来的版本中看到某些功能，请加入我们的[社区](/zh/about/community/)并联系我们。
 {{< /idea >}}
