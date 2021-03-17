@@ -5,9 +5,11 @@ weight: 20
 aliases:
   - /zh/help/ops/setup/injection
   - /zh/docs/ops/setup/injection-concepts
+owner: istio/wg-user-experience-maintainers
+test: n/a
 ---
 
-Sidecar 自动注入机制将 sidecar 代理添加到用户创建的 pod。
+Sidecar 自动注入机制是将 sidecar 代理自动添加到用户创建的 pod。
 
 它使用 `MutatingWebhook` 机制在 pod 创建的时候将 sidecar 的容器和卷添加到每个 pod 的模版里。
 
@@ -18,7 +20,7 @@ Sidecar 是否会被自动注入取决于下面 3 条配置和 2 条安全规则
 配置：
 
 - webhooks `namespaceSelector`
-- 默认策略
+- 默认策略 `policy`
 - pod 级别的覆盖注解
 
 安全规则:
