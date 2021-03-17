@@ -7,7 +7,7 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-[Prometheus](https://prometheus.io/) 是一个开源的监控系统、时间序列数据库。您可以利用 Prometheus 与 Istio 集成来收集指标，通过这些指标判断 Istio 和网格内的应用的运行状况。您可以使用[kiali](/zh/docs/tasks/observability/kiali/)和[Grafana](/zh/docs/ops/integrations/grafana/)来可视化这些指标。
+[Prometheus](https://prometheus.io/) 是一个开源的监控系统、时间序列数据库。您可以利用 Prometheus 与 Istio 集成来收集指标，通过这些指标判断 Istio 和网格内的应用的运行状况。您可以使用 [Grafana](/zh/docs/ops/integrations/grafana/) 和 [Kiali](/zh/docs/tasks/observability/kiali/) 来可视化这些指标。
 
 ## 安装{#installation}
 
