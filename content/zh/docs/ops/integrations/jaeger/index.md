@@ -11,7 +11,7 @@ test: n/a
 
 ## 安装{#installation}
 
-### 方式 1: 快速开始
+### 方式一: 快速开始
 
 Istio 提供一个就基础的示例安装，可快速启动和运行 Jaeger：
 
@@ -21,7 +21,7 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/jaeger.yaml
 
 以上命令会把 Jaeger 部署到您的 Cluster 中。这个只是例子，并不针对性能和安全性的配置。
 
-### 方式 2: 手动安装
+### 方式二: 手动安装
 
 参考 [Jaeger 文档](https://www.jaegertracing.io/) 开始使用。Jaeger 与 Istio 一起使用时无需特殊的配置。
  
