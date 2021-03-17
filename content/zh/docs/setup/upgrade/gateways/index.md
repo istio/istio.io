@@ -185,7 +185,7 @@ Istioctl 的安装和操作动作通过 revision 和拥有者的 CR 名称进行
     -  使用 istio.io/rev=1-8-1 标记工作负载的命名空间，并且重启相应的工作负载。
     -  验证工作负载是否已经注入新的代理版本，并且集群已经正常运行。
 
-1.  将 Gateway  升级到新版本。在安装步骤中，编辑 `Gateway .yaml` 文件，将所有的 `1-8-0` 替换为 `1-8-1` 的版本，并重新部署该文件：
+1.  将 Gateway  升级到新版本。在安装步骤中，编辑 `Gateway.yaml` 文件，将所有的 `1-8-0` 替换为 `1-8-1` 的版本，并重新部署该文件：
 
     {{< text bash >}}
     $ kubectl apply -n istio-system -f Gateway .yaml
