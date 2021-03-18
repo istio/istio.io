@@ -14,7 +14,7 @@ test: yes
 
 ## 准备工作{#before-you-begin}
 
-请按照[Ingress网关任务](/zh/docs/tasks/traffic-management/ingress/ingress-control/)中的[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control/#before-you-begin)、[确定ingress IP和ports](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)的说明进行操作。
+请按照[Ingress网关任务](/zh/docs/tasks/traffic-management/ingress/ingress-control/)中的[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control/#before-you-begin)、[确定Ingress IP和Ports](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)的说明进行操作。
 
 ## 使用Ingress resource配置ingress{#configuring-ingress-using-an-ingress-resource}
 
