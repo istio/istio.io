@@ -8,20 +8,20 @@ test: n/a
 
 ## Background
 
-This page shows common patterns of using Istio security policy. You may find them useful in your deployment or use this
+This page shows common patterns of using Istio security policies. You may find them useful in your deployment or use this
 as a quick reference to example policies.
 
-The policy demonstrated here are just examples and please make necessary changes to adapt to your actual environment
+The policies demonstrated here are just examples and and require changes to adapt to your actual environment
 before applying.
 
-Also read the [authentication tasks](/docs/tasks/security/authentication/authn-policy) and the
-[authorization tasks](/docs/tasks/security/authorization) for hands-on tutorial of using the security policy with much
-more details.
+Also read the [authentication](/docs/tasks/security/authentication/authn-policy) and
+[authorization](/docs/tasks/security/authorization) tasks for a hands-on tutorial of using the security policy in
+more detail.
 
 ### Require different JWT issuer per host
 
 JWT validation is common on the ingress gateway and you may want to require different JWT issuers for different
-hosts, you can use the authorization policy for fine grained JWT validation in addition to the
+hosts. You can use the authorization policy for fine grained JWT validation in addition to the
 [request authentication](/docs/tasks/security/authentication/authn-policy/#end-user-authentication) policy.
 
 Use the following policy if you want to allow access to the given hosts if JWT principal matches. Access to other hosts
@@ -92,10 +92,10 @@ spec:
 ### Require mTLS in authorization layer (defense in depth)
 
 You have configured `PeerAuthentication` to `STRICT` but want to make sure the traffic is indeed protected by mTLS with
-extra check in the authorization layer, i.e., defense in depth.
+an extra check in the authorization layer, i.e., defense in depth.
 
 The following policy denies the request if the principal is empty. The principal will be empty if plain text is used.
-In other words, the policy allows request if the principal is non-empty.
+In other words, the policy allows requests if the principal is non-empty.
 "*" means non-empty match and using with `notPrincipals` means matching on empty principal.
 
 {{< text yaml >}}
@@ -120,7 +120,7 @@ bypassed by another more permissive `ALLOW` policy. This works because the `DENY
 
 Use the following policy to enforce mandatory JWT validation in addition to the [request authentication](/docs/tasks/security/authentication/authn-policy/#end-user-authentication) policy.
 The policy denies the request if the request principal is empty. The request principal will be empty if JWT validation failed.
-In other words, the policy allows request if the request principal is non-empty.
+In other words, the policy allows requests if the request principal is non-empty.
 "*" means non-empty match and using with `notRequestPrincipals` means matching on empty request principal.
 
 {{< text yaml >}}
