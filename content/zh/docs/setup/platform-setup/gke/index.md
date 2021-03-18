@@ -48,7 +48,7 @@ test: no
     $ gcloud compute firewall-rules list --filter="name~gke-${CLUSTER_NAME}-[0-9a-z]*-master"
     {{< /text >}}
 
-    替换当前的防火墙规则进行 Master 访问：
+    替换当前的防火墙规则以允许 Master 访问：
 
     {{< text bash >}}
     $ gcloud compute firewall-rules update <firewall-rule-name> --allow tcp:10250,tcp:443,tcp:15017
