@@ -520,7 +520,7 @@ Instead, you can set up DNS or use the `--resolve` flag of `curl`. See the [Secu
 Another common issue is load balancers in front of Istio.
 Most cloud load balancers will not forward the SNI, so if you are terminating TLS in your cloud load balancer you may need to do one of the following:
 
-* Configure the cloud load balancer to instead passthrough the TLS connection
-* Disable SNI matching in the `Gateway` by setting the hosts field to `*`
+- Configure the cloud load balancer to instead passthrough the TLS connection
+- Disable SNI matching in the `Gateway` by setting the hosts field to `*`
 
 A common symptom of this is for the load balancer health checks to succeed while real traffic fails.
