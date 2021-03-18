@@ -3,7 +3,7 @@ title: Security policy examples
 description: Shows common examples of using Istio security policy.
 weight: 60
 owner: istio/wg-security-maintainers
-test: n/a
+test: no
 ---
 
 ## Background
