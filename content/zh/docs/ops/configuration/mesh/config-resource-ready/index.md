@@ -1,6 +1,6 @@
 ---
 title: 等待应用的配置资源状态生效
-description: 如何等待资源达到给定的就绪状态
+description: 如何等待资源达到给定的就绪状态。
 weight: 15
 owner: istio/wg-user-experience-maintainers
 test: yes
