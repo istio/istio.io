@@ -1,6 +1,6 @@
 ---
 title: 使用 Google Kubernetes Engine 快速开始
-description: 为Istio 搭建 Google Kubernetes Engine 集群的说明。
+description: 在 Google Kubernetes Engine (GKE) 上快速搭建 Istio 服务。
 weight: 20
 skip_seealso: true
 aliases:
