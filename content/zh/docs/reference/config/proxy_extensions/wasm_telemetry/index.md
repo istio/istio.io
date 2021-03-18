@@ -1,6 +1,6 @@
 ---
-title: Wasm-based Telemetry [Experimental]
-description: 如何在 Wasm 运行时环境下启用遥测生成(实验性质)。
+title: 基于 Wasm 的遥测[实验特性]
+description: 如何使用 Wasm 进行遥测。
 weight: 60
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
@@ -8,13 +8,13 @@ aliases:
     - /zh/docs/reference/config/telemetry/telemetry_v2_with_wasm/
 ---
 
-默认情况下，遥测生成特性作为 Istio 代理过滤器启用。同样的过滤器也被编译成 WebAssembly (Wasm) 模块，并随 Istio 代理一起发布。
+默认情况下，遥测生成特性作为 Istio 代理启用。同时也被编译成 WebAssembly (Wasm) 模块，并随 Istio 代理一起发布。
 
 {{< text bash >}}
 $ istioctl install --set profile=preview
 {{< /text >}}
 
-或者，设置以下两个值，使用 `default` 配置文件启用基于 Wasm 的遥测技术:
+或者，设置以下两个参数，使用 `default` 配置文件启用基于 Wasm 的遥测技术:
 
 {{< text bash >}}
 $ istioctl install --set values.telemetry.v2.metadataExchange.wasmEnabled=true --set values.telemetry.v2.prometheus.wasmEnabled=true
