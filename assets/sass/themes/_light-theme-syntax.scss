@@ -44,7 +44,7 @@
 .token.url,
 .language-css .token.string,
 .style .token.string {
-    color: #9a6e3a;
+    color: $textCodeColor;
 }
 
 .token.atrule,
@@ -55,13 +55,13 @@
 
 .token.function,
 .token.class-name {
-    color: #dd4a68;
+    color: $textCodeColor;
 }
 
 .token.regex,
 .token.important,
 .token.variable {
-    color: #e90;
+    color: #516BAA;
 }
 
 .token.important,
