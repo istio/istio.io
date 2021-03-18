@@ -546,8 +546,8 @@ an authorization policy to the workloads to enforce access control.
 For workloads without authorization policies applied, Istio doesn't enforce
 access control allowing all requests.
 
-Authorization policies support `ALLOW`, `DENY` and `CUSTOM` action. The policy precedence is
-`CUSTOM`, `DENY` and `ALLOW`. The following graph shows the policy precedence in details:
+Authorization policies support `ALLOW`, `DENY` and `CUSTOM` actions. The policy precedence is
+`CUSTOM`, `DENY` and `ALLOW`. The following graph shows the policy precedence in detail:
 
 {{< image width="50%" link="./authz-eval.png" caption="Authorization Policy Precedence">}}
 
@@ -771,7 +771,7 @@ spec:
 {{< /text >}}
 
 The following example shows a `DENY` policy that explicitly denies all access. It will always deny the request even if
-there is another `ALLOW` policy allowing the request because the `DENY` policy takes precedence over `ALLOW` policy.
+there is another `ALLOW` policy allowing the request because the `DENY` policy takes precedence over the `ALLOW` policy.
 This is useful if you want to temporarily disable all access to the workload.
 
 {{< text yaml >}}
@@ -788,7 +788,7 @@ spec:
 
 The following example shows an `ALLOW` policy that allows full access to the workload. It will make other `ALLOW` policies
 useless as it will always allow the request. It might be useful if you want to temporarily expose full access to the
-workload. Note the request could still be denied due to `CUSTOM` and `DENY` policy.
+workload. Note the request could still be denied due to `CUSTOM` and `DENY` policies.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -834,7 +834,7 @@ spec:
      values: ["v1", "v2"]
 {{< /text >}}
 
-The supported `key` values of a condition are listed in the [conditions page](/docs/reference/config/security/conditions/).
+The supported `key` values of a condition are listed on the [conditions page](/docs/reference/config/security/conditions/).
 
 #### Authenticated and unauthenticated identity
 
@@ -940,13 +940,13 @@ authorization policy.
 
 ## Learn more
 
-After learning  the basic concepts, there are more resources to follow:
+After learning the basic concepts, there are more resources to review:
 
-- Try out the security policy by following the [authentication tasks](/docs/tasks/security/authentication/authn-policy)
-  and [authorization tasks](/docs/tasks/security/authorization).
+- Try out the security policy by following the [authentication](/docs/tasks/security/authentication/authn-policy)
+  and [authorization](/docs/tasks/security/authorization) tasks.
 
-- Learn some security policies [common examples](/docs/ops/configuration/security/security-policy-examples) that could be
+- Learn some security [policy examples](/docs/ops/configuration/security/security-policy-examples) that could be
   used to improve security in your mesh.
 
-- Read the [common problems](/docs/ops/common-problems/security-issues/) to better troubleshoot security policy issues
+- Read [common problems](/docs/ops/common-problems/security-issues/) to better troubleshoot security policy issues
   when something goes wrong.

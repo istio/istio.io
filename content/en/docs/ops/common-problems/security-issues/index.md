@@ -140,7 +140,7 @@ authorization policy in effect by running `istioctl x authz check POD-NAME.POD-N
 
 - The `AUDIT` action does not enforce access control and will not deny the request at any cases.
 
-Read the [authorization implicit enablement](/docs/concepts/security/#implicit-enablement) for more details of the evaluation order.
+Read [authorization implicit enablement](/docs/concepts/security/#implicit-enablement) for more details of the evaluation order.
 
 ## Ensure Istiod accepts the policies
 
