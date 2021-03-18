@@ -83,7 +83,9 @@ function handleEvents(): void {
 
                 if (display) {
                     el.style.display = "block";
-
+                    const main = document.querySelector<HTMLElement>('main.primary')
+                    if(main)
+                        main.style.paddingTop = '5rem';
                     if (timeout > 0) {
                         window.setTimeout(() => el.style.display = "none", timeout * 1000);
                     }

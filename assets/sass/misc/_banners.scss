@@ -44,8 +44,3 @@
         top: $headerHeightLg;
     }
 }
-@media screen AND (min-width: $bp-md) {
-    .banner-container + .primary{
-        padding-top: 5rem;
-    }
-}
