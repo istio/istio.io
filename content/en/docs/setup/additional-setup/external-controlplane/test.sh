@@ -78,7 +78,10 @@ export EXTERNAL_ISTIOD_ADDR=$(kubectl \
     -n istio-system get svc istio-ingressgateway \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 snip_set_up_the_remote_cluster_1_modified
+
+set +e #ignore failures here
 echo y | snip_set_up_the_remote_cluster_2
+set -e
 
 # Install istiod on the external cluster.
 
