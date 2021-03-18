@@ -9,12 +9,12 @@ owner: istio/wg-environments-maintainers
 ---
 按照本指南，在 `cluster1` 主集群（{{< gloss >}}primary cluster{{< /gloss >}}） 安装 Istio 控制平面，
 并配置 `cluster2` 从集群（{{< gloss >}}remote cluster{{< /gloss >}}）指向 `cluster1` 的控制平面。
-集群 `cluster1` 在  `network1` 网络上，而集群 `cluster22` 在  `network2` 网络上。
+集群 `cluster1` 在  `network1` 网络上，而集群 `cluster2` 在  `network2` 网络上。
 所以跨集群边界的 Pod 之间，网络不能直接连通。
 
 继续安装之前，请确保完成了[准备工作](/zh/docs/setup/install/multicluster/before-you-begin)中的步骤。
 
-在此配置中，集群 `cluster1` 将监测两个集群 API 服务器的服务端点。
+在此配置中，集群 `cluster1` 将监测两个集群 API Server 的服务端点。
 以这种方式，控制平面就能为两个集群中的工作负载提供服务发现。
 
 跨集群边界的服务负载，通过专用的东西向流量网关，以间接的方式通讯。
@@ -28,8 +28,8 @@ owner: istio/wg-environments-maintainers
     >}}
 
 {{< tip >}}
-目前，从集群配置档在从集群中安装 Istio 服务器，该服务器用来为集群中的工作负载注入 CA 和 webhook。
-但是，服务发现会访问主集群的控制平面。
+目前，从集群配置文档在从集群中安装 Istio 服务器，该服务器用来为集群中的工作负载注入 CA 和 webhook。
+但是，服务发现会被指向主集群的控制平面。
 
 后续版本将完全消除在从集群中安装 Istiod 的需求。请保持关注！
 {{< /tip >}}
@@ -80,6 +80,10 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     istioctl --context="${CTX_CLUSTER1}" install -y -f -
 {{< /text >}}
 
+{{< warning >}}
+如果随着版本修正已经安装控制面板，在 `gen-eastwest-gateway.sh` 命令中添加 `--revision rev` 标志。
+{{< /warning >}}
+
 等待东西向网关获取外部 IP 地址
 
 {{< text bash >}}
@@ -117,16 +121,16 @@ $ kubectl --context="${CTX_CLUSTER2}" get namespace istio-system && \
   kubectl --context="${CTX_CLUSTER2}" label namespace istio-system topology.istio.io/network=network2
 {{< /text >}}
 
-## 配置 API 服务器到 `cluster2` 的访问 {#enable-access-to-cluster2}
+## 启用 API Server 访问 `cluster2` 配置 {#enable-access-to-cluster2}
 
-在配置从集群之前，我们必须先把 `cluster2` API 服务器的访问权限赋予 `cluster1` 控制平面。
+在配置从集群之前，我们必须先把 `cluster2` API Server 的访问权限赋予 `cluster1` 控制平面。
 这将执行以下操作：
 
-- 开启控制平面的身份认证功能，以验证 `cluster2` 中工作负载的连接请求。如果没有 API 服务器的访问权限，控制平面将会拒绝该请求。
+- 开启控制平面的身份认证功能，以验证 `cluster2` 中工作负载的连接请求。如果没有 API Server 的访问权限，控制平面将会拒绝该请求。
 
-- 在 `cluster2` 中开启服务发现的服务端点。
+- 在 `cluster2` 的服务端点开启服务发现。
 
-要提供到 `cluster2` API 服务器的访问，我们要生成一个远程 secret，并把它应用到 `cluster1`。
+为了能够访问 `cluster2` API Server，我们要生成一个远程 Secret，并把它应用到 `cluster1`。
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \

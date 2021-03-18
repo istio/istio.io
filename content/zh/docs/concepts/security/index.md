@@ -18,7 +18,7 @@ aliases:
 - 为了提供灵活的服务访问控制，需要双向 TLS 和细粒度的访问策略。
 - 要确定谁在什么时候做了什么，需要审计工具。
 
-Istio Security 尝试提供全面的安全解决方案来解决所有这些问题。本页概述了如何使用 Istio 的安全功能来保护您的服务，无论您在何处运行它们。特别是 Istio 安全性可以缓解针对您的数据、端点、通信和平台的内部和外部威胁。
+Istio Security 尝试提供全面的安全解决方案来解决所有这些问题。本页概述了如何使用 Istio 的安全功能来保护您的服务，无论您在何处运行它们。特别是 Istio 安全性可以减轻针对您的数据、端点、通信和平台的内部和外部威胁。
 
 {{< image width="75%"
     link="./overview.svg"
@@ -34,7 +34,7 @@ Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密
 请访问我们的[双向 TLS 迁移](/zh/docs/tasks/security/authentication/mtls-migration/)相关文章，开始在已部署的服务中使用 Istio 安全功能。
 请访问我们的[安全任务](/zh/docs/tasks/security/)，以获取有关使用安全功能的详细说明。
 
-## 高级架构{#high-level-architecture}
+## 高层架构{#high-level-architecture}
 
 Istio 中的安全性涉及多个组件：
 
@@ -67,13 +67,11 @@ Istio 身份模型使用 `service identity` （服务身份）来确定一个请
 
 - Kubernetes: Kubernetes service account
 - GKE/GCE: GCP service account
-- GCP: GCP service account
-- AWS: AWS IAM user/role account
 - 本地（非 Kubernetes）：用户帐户、自定义服务帐户、服务名称、Istio 服务帐户或 GCP 服务帐户。自定义服务帐户引用现有服务帐户，就像客户的身份目录管理的身份一样。
 
 ## 公钥基础设施 (PKI) {#PKI}
 
-Istio PKI 使用 X.509 证书为每个工作负载都提供强大的身份标识。可以大规模进行自动化密钥和证书轮换，伴随每个 Envoy 代理都运行着一个 `istio-agent` 负责证书和密钥的供应。下图显示了这个机制的运行流程。
+Istio PKI 使用 X.509 证书为每个工作负载都提供强大的身份标识。伴随着每个 Envoy 代理的 `istio-agent` 和 `istiod` 一起协作来大规模进行自动化密钥和证书轮换。下图显示了这个机制的运行流程。
 
 {{< tip >}}
 译者注：这里用 `istio-agent` 来表述，是因为下图及对图的相关解读中反复用到了 “Istio agent” 这个术语，这样的描述更容易理解。
@@ -87,12 +85,12 @@ Istio PKI 使用 X.509 证书为每个工作负载都提供强大的身份标识
 
 Istio 供应身份是通过 secret discovery service（SDS）来实现的，具体流程如下：
 
-1. CA 提供 gRPC 服务以接受[证书签名请求](https://en.wikipedia.org/wiki/Certificate_signing_request)（CSRs）。
-1. Envoy 通过 Envoy 秘密发现服务（SDS）API 发送证书和密钥请求。
-1. 在收到 SDS 请求后，`istio-agent` 创建私钥和 CSR，然后将 CSR 及其凭据发送到 Istio CA 进行签名。
-1. CA 验证 CSR 中携带的凭据并签署 CSR 以生成证书。
+1. `istiod` 提供 gRPC 服务以接受[证书签名请求](https://en.wikipedia.org/wiki/Certificate_signing_request)（CSRs）。
+1. 当工作负载启动时，Envoy 通过[秘密发现服务（SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)API 向同容器内的 `istio-agent` 发送证书和密钥请求。
+1. 在收到 SDS 请求后，`istio-agent` 创建私钥和 CSR，然后将 CSR 及其凭据发送到  `istiod` CA 进行签名。
+1. `istiod` CA 验证 CSR 中携带的凭据，成功验证后签署 CSR 以生成证书。
 1. `Istio-agent` 通过 Envoy SDS API 将私钥和从 Istio CA 收到的证书发送给 Envoy。
-1. 上述 CSR 过程会周期性地重复，以处理证书和密钥轮换。
+1. `Istio-agent` 会监工作负载证书的有效期。上述 CSR 过程会周期性地重复，以处理证书和密钥轮换。
 
 ## 认证{#authentication}
 
@@ -110,7 +108,7 @@ Istio 提供两种类型的认证：
     - [Firebase Auth](https://firebase.google.com/docs/auth/)
     - [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect)
 
-在所有情况下，Istio 都通过自定义 Kubernetes API 将认证策略存储在 `Istio config store`。{{< gloss >}}Istiod{{< /gloss >}} 使每个代理保持最新状态，并在适当时提供密钥。此外，Istio 的认证机制支持宽容模式（permissive mode），以帮助您了解策略更改在实施之前如何影响您的安全状况。
+在所有情况下，Istio 都通过自定义 Kubernetes API 将认证策略存储在 `Istio config store`。{{< gloss >}}Istiod{{< /gloss >}} 使每个代理保持最新状态，并在适当时提供密钥。此外，Istio 的认证机制支持宽容模式（permissive mode），以帮助您在强制实施前了解策略更改将如何影响您的安全状况。
 
 ### 双向 TLS 认证{#mutual-TLS-authentication}
 
@@ -120,6 +118,20 @@ Istio 通过客户端和服务器端 PEPs 建立服务到服务的通信通道�
 1. 客户端 Envoy 与服务器端 Envoy 开始双向 TLS 握手。在握手期间，客户端 Envoy 还做了[安全命名](/zh/docs/concepts/security/#secure-naming)检查，以验证服务器证书中显示的服务帐户是否被授权运行目标服务。
 1. 客户端 Envoy 和服务器端 Envoy 建立了一个双向的 TLS 连接，Istio 将流量从客户端 Envoy 转发到服务器端 Envoy。
 1. 授权后，服务器端 Envoy 通过本地 TCP 连接将流量转发到服务器服务。
+
+Istio 将 `TLSv1_2` 作为最低 TLS 版本为客户端和服务器配置了如下的加密套件:
+
+- `CDHE-ECDSA-AES256-GCM-SHA384`
+
+- `ECDHE-RSA-AES256-GCM-SHA384`
+
+- `ECDHE-ECDSA-AES128-GCM-SHA256`
+
+- `ECDHE-RSA-AES128-GCM-SHA256`
+
+- `AES256-GCM-SHA384`
+
+- `AES128-GCM-SHA256`
 
 #### 宽容模式{#permissive-mode}
 
@@ -137,7 +149,7 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许服务同
 
 当客户端调用 `datastore` 服务时，它从服务器的证书中提取 `test-team` 身份，并用安全命名信息检查 `test-team` 是否被允许运行 `datastore`。客户端检测到 `test-team` 不允许运行 `datastore` 服务，认证失败。
 
-安全命名能够防止 HTTPS 流量受到一般性网络劫持，除了 DNS 欺骗外，它还可以保护 TCP 流量免受一般网络劫持。如果攻击者劫持了 DNS 并修改了目的地的 IP 地址，它将无法用于 TCP 通信。这是因为 TCP 流量不包含主机名信息，我们只能依靠 IP 地址进行路由，而且甚至在客户端 Envoy 收到流量之前，也可能发生 DNS 劫持。
+对于非 HTTP/HTTPS 流量，安全命名不能保护其免于 DNS 欺骗，如攻击者劫持了 DNS 并修改了目的地的 IP 地址。这是因为 TCP 流量不包含主机名信息，Envoy 只能依靠目的地 IP 地址进行路由， 因此 Envoy 有可能将流量路由到劫持 IP 地址所在的服务上。而且甚至在客户端 Envoy 收到流量之前，也可能发生 DNS 劫持。
 
 ### 认证架构{#authentication-architecture}
 
@@ -234,7 +246,7 @@ spec:
     mode: STRICT
 {{< /text >}}
 
-对于特定于工作负载的 peer 认证策略，可以为不同的端口指定不同的双向 TLS 模式。您只能将工作负载声明过的端口用于端口范围的双向 TLS 配置。以下示例为 `app:example-app` 工作负载禁用了端口80上的双向TLS，并对所有其他端口使用名称空间范围的 peer 认证策略的双向 TLS 设置：
+对于特定于工作负载的 peer 认证策略，可以为不同的端口指定不同的双向 TLS 模式。您只能将端口范围的双向 TLS 配置在工作负载声明过的端口上。以下示例为 `app:example-app` 工作负载禁用了端口80上的双向TLS，并对所有其他端口使用名称空间范围的 peer 认证策略的双向 TLS 设置：
 
 {{< text yaml >}}
 apiVersion: "security.istio.io/v1beta1"
@@ -412,7 +424,7 @@ spec:
 - 完全匹配：即完整的字符串匹配。
 - 前缀匹配：`"*"` 结尾的字符串。例如，`"test.abc.*"` 匹配 `"test.abc.com"`、`"test.abc.com.cn"`、`"test.abc.org"` 等等。
 - 后缀匹配：`"*"` 开头的字符串。例如，`"*.abc.com"` 匹配 `"eng.abc.com"`、`"test.eng.abc.com"` 等等。
-- 存在匹配：`*` 用于指定非空的任意内容。您可以使用格式 `fieldname: ["*"]` 指定必须存在的字段。这意味着该字段可以匹配任意内容，但是不能为空。请注意这与不指定字段不同，后者意味着包括空的任意内容。
+- 存在匹配：`*` 用于指定非空的任意内容。您可以使用格式 `fieldname: ["*"]` 指定必须存在的字段。这意味着该字段可以匹配任意内容，但是不能为空。请注意这与不指定字段不同，后者意味着匹配包括空的任意内容。
 
 有一些例外。 例如，以下字段仅支持完全匹配：
 
