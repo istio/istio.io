@@ -62,7 +62,7 @@ backend, is used below.
               requests_per_unit: 100
     {{< /text >}}
 
-1. Create a global rate limit service which implements Envoy's [rate limit service protocol](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/ratelimit/v3/rls.proto). As a reference, a demo configuration can be found [here](https://github.com/istio/istio/blob/master/samples/ratelimit/rate-limit-service.yaml), which is based on a [reference implementation](https://github.com/envoyproxy/ratelimit) provided by Envoy.
+1. Create a global rate limit service which implements Envoy's [rate limit service protocol](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/ratelimit/v3/rls.proto). As a reference, a demo configuration can be found [here]({{< github_blob >}}/samples/ratelimit/rate-limit-service.yaml), which is based on a [reference implementation](https://github.com/envoyproxy/ratelimit) provided by Envoy.
 
 1. Apply an `EnvoyFilter` to the `ingressgateway` to enable global rate limiting using Envoy's global rate limit filter.
 
