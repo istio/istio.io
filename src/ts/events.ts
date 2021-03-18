@@ -84,10 +84,14 @@ function handleEvents(): void {
                 if (display) {
                     el.style.display = "block";
                     const main = document.querySelector<HTMLElement>('main.primary')
-                    if(main)
-                        main.style.paddingTop = '5rem';
-                    if (timeout > 0) {
-                        window.setTimeout(() => el.style.display = "none", timeout * 1000);
+                    if(main){
+                        main.classList.add('banner-padding');
+                        if (timeout > 0) {
+                            window.setTimeout(() => {
+                                el.style.display = "none";
+                                main.classList.remove('banner-padding');
+                            }, timeout * 1000);
+                        }
                     }
                 }
 
@@ -95,7 +99,7 @@ function handleEvents(): void {
                     el.style.display = "none";
                     const main = document.querySelector<HTMLElement>('main.primary')
                     if(main)
-                        main.style.paddingTop = '0';
+                        main.classList.remove('banner-padding');
                     remainingEventImpressions[title].impressions = 0;
                     saveRemainingEventImpressions();
                 });
