@@ -433,26 +433,11 @@ Istio supports reading a few different Secret formats, to support integration wi
 * A generic Secret with keys `key` and `cert`. For mutual TLS, a `cacert` key can be used.
 * A generic Secret with keys `key` and `cert`. For mutual TLS, a separate generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
 
-## SNI Routing
+### SNI Routing
 
-An HTTPS `Gateway` configuring the `hosts` field will perform an [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) match on incoming requests.
-For example, the following configuration would only allow requests that match `*.example.com` in the SNI:
-
-{{< text yaml >}}
-servers:
-- port:
-    number: 443
-    name: https
-    protocol: HTTPS
-  hosts:
-  - "*.example.com"
-{{< /text >}}
-
-This may cause certain requests to fail.
-
-For example, if you do not have DNS set up and are instead directly setting the host header, such as `curl 1.2.3.4 -H "Host: app.example.com"`, no SNI will be set, causing the request to fail. Instead, you can set up DNS or use the `--resolve` flag of `curl`.
-
-Another common issue is load balancers in front of Istio. Most cloud load balancers will not forward the SNI, so if you are terminating TLS in your cloud load balancer you may need to either configure it to instead passthrough the TLS connection, or changes `hosts` to match `*`, which will disable the SNI matching.
+An HTTPS `Gateway` with a `hosts` field value other than `*` will perform
+[SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) matching before forwarding a request,
+which may cause some requests to fail. See [configuring SNI routing](/docs/ops/common-problems/network-issues/#configuring-sni-routing-when-not-sending-sni) for details.
 
 ## Troubleshooting
 

@@ -353,16 +353,6 @@ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRES
         `"""`
 ENDSNIP
 
-! read -r -d '' snip_sni_routing_1 <<\ENDSNIP
-servers:
-- port:
-    number: 443
-    name: https
-    protocol: HTTPS
-  hosts:
-  - "*.example.com"
-ENDSNIP
-
 snip_troubleshooting_1() {
 kubectl get svc -n istio-system
 echo "INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT"
