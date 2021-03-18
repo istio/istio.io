@@ -30,4 +30,4 @@ Kiali 项目提供了自己的[快速入门指南](https://kiali.io/documentatio
 
 ## 使用{#usage}
 
-更多关于 Kiali 的使用信息，请查看[可视化您的网格](/docs/tasks/observability/kiali/)任务.
+更多关于 Kiali 的使用信息，请查看[可视化网格](/zh/docs/tasks/observability/kiali/)任务.
