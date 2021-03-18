@@ -1,5 +1,5 @@
-# Contributing to the Istio website
-Here are some instructions how you can contribute to the [Istio website](https://www.istio.io).
+# Custom Pages
+Here are some instructions how you can customize pages of the [Istio website](https://www.istio.io).
 
 ## Pages
 1. [Homepage](##homepage)
