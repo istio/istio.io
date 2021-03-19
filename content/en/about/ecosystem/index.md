@@ -13,7 +13,7 @@ doc_type: about
 {{< tabset category-name="ecosystem-type" class="tabset--ecosystem" >}}
 
     {{< tab
-        name="distributors"
+        name="providers"
         category-value="default"
         description="Locality-weighted load balancing allows administrators to control the distribution of traffic to endpoints based on the localities of where the traffic originates and where it will terminate."
     >}}

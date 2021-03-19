@@ -1,7 +1,7 @@
 ---
 title: Get involved!
 linktitle: Get involved
-subtitle: Istio is an open source project with an active community that supports its use and on-going development. We’d love for you to join us and get involved!
+subtitle: Ask questions, engage in conversations, or contribute to Istio’s growth. Istio is an open source project that is driven by the participation of users and contributors. Join in!
 sidebar_none: true
 weight: 15
 skip_toc: true
@@ -10,36 +10,34 @@ skip_pagenav: true
 doc_type: get-involved
 
 ---
-[comment]: <> (TODO: Replace placeholders)
-## There are quite a few ways to get plugged in:
+## How do you want to get involved?
 
-{{% involve_block title="Ask questions" subtitle="If you have questions feel free to reach out to our community!" icon="user" %}}
-1. [**Stack Overflow**](https://stackoverflow.com/questions/tagged/istio) is for practical questions and curated answers on deploying, configuring, and using Istio.
-2. If you’d like to have live interactions with members of our community, you can join us on Istio's [**Slack**](https://istio.slack.com/).
-3. Head for the [**Istio dicussion board**](https://discuss.istio.io/latest) to ask questions, participate in discussions, and get help troubleshooting problems. You can use your GitHub ID (or Google, Twitter or Yahoo) to log in!
+{{% involve_block title="Ask questions" subtitle="There are a variety of ways to reach out to the community for input." icon="user" %}}
+1. **The** [**Istio discussion board**](https://discuss.istio.io/) always hosts lively participation from Istio users ready to engage. Join in to ask questions and discuss Istio.
+2. **Join our** [**Slack**](https://slack.istio.io/) and interact live with other members of the Istio community.
+3. Bring your particular Istio questions to the **gamified wizards of** [**Stack Overflow**](https://stackoverflow.com/questions/tagged/istio).
 {{% /involve_block %}}
 
 
-{{% involve_block title="Attend Events" subtitle="We organize meetups and conferences regularly!" icon="events" %}}
-1. [**Stack Overflow**](https://stackoverflow.com/questions/tagged/istio) is for practical questions and curated answers on deploying, configuring, and using Istio.
-2. If you’d like to have live interactions with members of our community, you can join us on Istio's [**Slack**](https://istio.slack.com/).
-3. Head for the [**Istio dicussion board**](https://discuss.istio.io/latest) to ask questions, participate in discussions, and get help troubleshooting problems. You can use your GitHub ID (or Google, Twitter or Yahoo) to log in!
+{{% involve_block title="Join the conversation" subtitle="There is so much to talk about around Istio. We welcome your voice!" icon="events" %}}
+1. **Attend an event!** [Follow our calendar](https://calendar.google.com/calendar/embed?src=i10ogf58krfbrsjai5qi16g4do@group.calendar.google.com) to see what is coming up!
+2. Follow us on [**Twitter - @IstioMesh**](https://twitter.com/IstioMesh)
 {{% /involve_block %}}
 
-{{% involve_block title="Report bugs" subtitle="Oh no! You found a bug? We’d love to hear about it." icon="magnifier" %}}
-1. [**Stack Overflow**](https://stackoverflow.com/questions/tagged/istio) is for practical questions and curated answers on deploying, configuring, and using Istio.
-2. If you’d like to have live interactions with members of our community, you can join us on Istio's [**Slack**](https://istio.slack.com/).
-3. Head for the [**Istio dicussion board**](https://discuss.istio.io/latest) to ask questions, participate in discussions, and get help troubleshooting problems. You can use your GitHub ID (or Google, Twitter or Yahoo) to log in!
+{{% involve_block title="Bugs & Security" subtitle="Thank you for helping to improve Istio with bug reports and security vulnerabilities." icon="security" %}}
+1. Read this [**quick explanation on how to report bugs**](https://istio.io/latest/about/bugs/), both in code and in documentation.
+2. The Istio security team responds rapidly to **vulnerability reports**. Read [how to submit an issue](https://istio.io/latest/about/security-vulnerabilities/).
 {{% /involve_block %}}
 
-{{% involve_block title="Report Security Vulnerabilities" subtitle="We are very grateful to users that report back Istio security vulnerabilities." icon="security" %}}
-1. [**Stack Overflow**](https://stackoverflow.com/questions/tagged/istio) is for practical questions and curated answers on deploying, configuring, and using Istio.
-2. If you’d like to have live interactions with members of our community, you can join us on Istio's [**Slack**](https://istio.slack.com/).
-3. Head for the [**Istio dicussion board**](https://discuss.istio.io/latest) to ask questions, participate in discussions, and get help troubleshooting problems. You can use your GitHub ID (or Google, Twitter or Yahoo) to log in!
+{{% involve_block title="Be a contributor" subtitle="Code, documentation, community: Istio welcomes your contribution! Use these links as your entry point." icon="contribution" %}}
+1. Familiarize yourself with the Istio [code of conduct](https://github.com/istio/community/blob/master/CONTRIBUTING.md#code-of-conduct) and [contribution guidelines](https://github.com/istio/community/blob/master/CONTRIBUTING.md).
+2. The [Istio Community README](https://github.com/istio/community/blob/master/README.md) is the **starting point for contributors** who want to work on code, docs or other parts of Istio.
+3. You can access our [**trove of technical content and working documents**](https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA) joining the [istio-team-drive-access@ Google Group](https://groups.google.com/forum/#!forum/istio-team-drive-access).
+4. You can participate in the [**working groups**](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) which focus on particular areas of interest, such as docs, security, and networking.
+5. Interested in helping with **Chinese language documentation**? Join the [ServiceMesher community](https://www.servicemesher.com/).
 {{% /involve_block %}}
 
-{{% involve_block title="Contribute" subtitle="Want to join us?" icon="contribution" %}}
-1. [**Stack Overflow**](https://stackoverflow.com/questions/tagged/istio) is for practical questions and curated answers on deploying, configuring, and using Istio.
-2. If you’d like to have live interactions with members of our community, you can join us on Istio's [**Slack**](https://istio.slack.com/).
-3. Head for the [**Istio dicussion board**](https://discuss.istio.io/latest) to ask questions, participate in discussions, and get help troubleshooting problems. You can use your GitHub ID (or Google, Twitter or Yahoo) to log in!
+{{% involve_block title="Understand oversight and planning" subtitle="Istio has two key committees that oversee the project: Steering and Technical Oversight." icon="magnifier" %}}
+1. Governance and advocacy for the project are managed by the [**Istio Steering Committee**](https://github.com/istio/community/tree/master/steering).
+2. Technical direction and project planning is the role of the [**Istio Technical Oversight Committee**](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md).
 {{% /involve_block %}}

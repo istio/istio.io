@@ -32,21 +32,22 @@ description: A service mesh for observability, security in depth, and management
 <main class="landing">
     <section id="banner">
         <h1 id="hero-text">
-            A service mesh for observability, security in depth, and management that speeds deployment cycles
+            Simplify observability, traffic management, security, and policy with the leading service mesh.
         </h1>
     </section>
 
     <section id="landing-panels" class="panels container">
-        {{< content_panel type="dark" title="service_mesh" text="You can find what you need to make Istio do exactly what you need it to do." button="learn_more" url="/about/service-mesh" >}}
-        {{< content_panel type="dark" title="solutions" text="You can find what you need to make Istio do exactly what you need it to do." button="learn_more" url="/about/solutions" >}}
-        {{< content_panel type="dark" title="deployment" text="You can find what you need to make Istio do exactly what you need it to do." button="learn_more" url="/about/deployment" >}}
+        {{< content_panel type="dark" title="what_is_istio" text="Discover how a service mesh helps with many common challenges of a distributed architecture." button="learn_more" url="/about/service-mesh" >}}
+        {{< content_panel type="dark" title="solutions" text="Learn how to build secure, reliable and scalable applications with Istio." button="learn_more" url="/about/solutions" >}}
+        {{< content_panel type="dark" title="deployment" text="Get what you need to deploy and utilize Istio for your unique needs." button="learn_more" url="/about/deployment" >}}
     </section>
 
     <section id="service-mesh" class="container">
-        <h1>Service mesh</h1>
+        <h1>The Istio service mesh</h1>
 
-        <p class="subtitle">Istio is a service mesh that provides cross-cutting functions that all micro services environments need.</p>
-        <p class="subtitle">You can get Istio from 27 distributors.</p>
+        <p class="subtitle">
+            Istio extends Kubernetes to establish a programmable, application-aware network, using the powerful Envoy service proxy. Working with both Kubernetes and traditional workloads, Istio brings standard, universal traffic management, telemetry, and security to complex deployments.
+        </p>
  
         <div class="service-mesh-graph">
             <img src="/img/service-mesh.svg" />
@@ -61,9 +62,9 @@ description: A service mesh for observability, security in depth, and management
         <h1>Concepts</h1>
 
         <div class="panels">
-            {{< content_panel type="transparent" title="management" text="Intelligently control the flow of traffic and API calls between services, etc." image="management.svg" >}}
-            {{< content_panel type="transparent" title="observability" text="Intelligently control the flow of traffic and API calls between services, etc." image="observability.svg" >}}
-            {{< content_panel type="transparent" title="security" text="Intelligently control the flow of traffic and API calls between services, etc." image="security.svg" >}}
+            {{< content_panel type="transparent" title="traffic_management" text="Deploy capabilities like inter-service routing, failure recovery and load balancing." image="management.svg" >}}
+            {{< content_panel type="transparent" title="observability" text="Provide an end-to-end view of traffic flow and service performance." image="observability.svg" >}}
+            {{< content_panel type="transparent" title="security" text="Engage encryption, role-based access, and authentication across services." image="security.svg" >}}
         </div>
 
         <div class="cta-container">
@@ -73,6 +74,10 @@ description: A service mesh for observability, security in depth, and management
 
     <section id="solutions" class="container">
         <h1>Solutions</h1>
+
+        <p class="subtitle">
+            From start-up to enterprise, cloud native to on-premises, organizations of all shapes, sizes, and missions deploy Istio to solve immediate problems. With Istio in place, they can build out additional capabilities on their service mesh. From compliance to reliability, Istio has the answer. Learn about some of Istio’s key use cases.
+        </p>
 
         {{< solutions_carousel >}}
     </section>
@@ -88,15 +93,25 @@ description: A service mesh for observability, security in depth, and management
     </section>
 
     <section id="distributors" class="container">
-        <h1>Istio distributors</h1>
+        <h1>Istio Providers</h1>
 
-        <p class="subtitle">Istio is a service mesh that provides cross-cutting functions that all micro services environments need.</p>
-        <p class="subtitle">You can get Istio from 27 distributors.</p>
+        <p class="subtitle">
+            Whether you get Istio with your managed Kubernetes service, you adopt a product powered by Istio, or you install it yourself, Istio has a strong ecosystem that allows you to deploy and utilize Istio capabilities the way that works for you.
+        </p>
 
-        {{< distributors first=8 >}}
+        <div class="distributors-grid">
+            {{< company_logo link="https://cloud.google.com/" logo="./logos/google-cloud.png" alt="Google Cloud" >}}
+            {{< company_logo link="https://www.ibm.com/cloud" logo="./logos/ibm-cloud.png" alt="IBM Cloud" >}}
+            {{< company_logo link="https://www.redhat.com/" logo="./logos/redhat.png" alt="Red Hat" >}}
+            {{< company_logo link="https://www.vmware.com/" logo="./logos/vmware.png" alt="VMware" >}}
+            {{< company_logo link="https://www.huawei.com/" logo="./logos/huawei.png" alt="Huawei" >}}
+            {{< company_logo link="https://www.tetrate.io/" logo="./logos/tetrate.png" alt="Tetrate" >}}
+            {{< company_logo link="https://www.solo.io/" logo="./logos/solo.png" alt="Solo" >}}
+            {{< company_logo link="https://aspenmesh.io/" logo="./logos/aspen-mesh.png" alt="Aspen Mesh" >}}
+        </div>
 
         <div class="cta-container">
-            <a class="btn" href="/about/ecosystem">See all distributors</a>
+            <a class="btn" href="/about/ecosystem">See all providers</a>
         </div>
     </section>
 </main>
