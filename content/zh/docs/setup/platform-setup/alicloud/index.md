@@ -44,7 +44,7 @@ test: n/a
 
 1. 配置工作节点。选择是否创建工作节点或添加现有 ECS 实例作为工作节点。
 
-1. 配置登录模式，配置 POD 网络 CIDR 和 Service CIDR。
+1. 配置登录模式，配置 Pod 的网络 CIDR 和 Service CIDR。
 
 下图显示了完成前面所有步骤的界面：
 
