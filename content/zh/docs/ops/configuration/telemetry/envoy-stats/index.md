@@ -74,5 +74,5 @@ proxy.istio.io/config: |-
 {{< /text >}}
 
 {{< tip >}}
-注意：如果您使用 `sidecar.istio.io/statsInclusionPrefixes`， `sidecar.istio.io/statsInclusionRegexps`，和 `sidecar.istio.io/statsInclusionSuffixes`，考虑需要切换到基于 `ProxyConfig` 配置，因此它提供了一个全局默认并且统一的方法去重载网关和 Sidecar 代理。
+注意：如果您使用 `sidecar.istio.io/statsInclusionPrefixes`，`sidecar.istio.io/statsInclusionRegexps` 和 `sidecar.istio.io/statsInclusionSuffixes`，考虑需要切换到基于 `ProxyConfig` 配置，因此它提供了一个全局默认并且统一的方法去重载网关和 Sidecar 代理。
 {{< /tip >}}
