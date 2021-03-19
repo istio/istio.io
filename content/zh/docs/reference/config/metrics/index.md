@@ -83,7 +83,7 @@ aliases:
     destination_canonical_revision
     {{< /text >}}
 
-### 多集群标签
+### 多集群标签{#multiple-cluster-label}
 
 在多群集环境中使用Istio时，默认情况下会配置以下其他标签：
 
