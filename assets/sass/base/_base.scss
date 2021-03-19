@@ -85,6 +85,8 @@ table, th, td, tr {
 table {
     border-collapse: separate;
     border-spacing: 0;
+    table-layout: fixed;
+    width: 100%;
 }
 
 table p:first-of-type {
