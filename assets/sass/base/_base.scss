@@ -116,6 +116,7 @@ tr.oneof>td {
 th, td {
     border-left: 1px solid $boxBorderColor;
     border-top: 1px solid $boxBorderColor;
+    word-break: break-word;
 }
 
 tr:first-child th:first-child {
