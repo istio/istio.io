@@ -469,7 +469,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
     {{< /text >}}
 
-## 将集群添加到网格（可选）{#adding-clusters} 
+## 将集群添加到网格（可选）{#adding-clusters}
 
 本节介绍如何通过添加另一个远程集群将现有的外部控制平面网格扩展到多集群。 这使您可以轻松分发服务并使用 [位置感知路由和故障转移](/zh/docs/tasks/traffic-management/locality-load-balancing/)，以支持应用程序的高可用性。
 
