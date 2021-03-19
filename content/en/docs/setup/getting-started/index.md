@@ -348,30 +348,6 @@ by viewing the Bookinfo product page using a browser.
 
 1.  Paste the output from the previous command into your web browser and confirm that the Bookinfo product page is displayed.
 
-### Apply default destination rules
-
-Before you can use Istio to control the Bookinfo version routing, you need to define the available
-versions, called *subsets*, in [destination rules](/docs/concepts/traffic-management/#destination-rules).
-
-Run the following command to create default destination rules for the Bookinfo services:
-
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
-{{< /text >}}
-
-{{< tip >}}
-The `default` and `demo` [configuration profiles](/docs/setup/additional-setup/config-profiles/) have [auto mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) enabled by default.
-To enforce mutual TLS, use the destination rules in `samples/bookinfo/networking/destination-rule-all-mtls.yaml`.
-{{< /tip >}}
-
-Wait a few seconds for the destination rules to propagate.
-
-You can display the destination rules with the following command:
-
-{{< text bash >}}
-$ kubectl get destinationrules -o yaml
-{{< /text >}}
-
 ## View the dashboard {#dashboard}
 
 Istio integrates with [several](/docs/ops/integrations) different telemetry applications. These can help you gain
