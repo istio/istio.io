@@ -35,7 +35,7 @@ For more information, see the
 
 Istio uses the Envoy proxy to generate metrics and provides its configuration in
 the `EnvoyFilter` at
-[`manifests/charts/istio-control/istio-discovery/templates/telemetryv2_1.9.yaml`]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_1.9.yaml).
+[`manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml`]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml).
 As a result, writing classification rules involves adding attributes to the
 `EnvoyFilter`.
 
@@ -118,22 +118,22 @@ spec:
     $ kubectl -n istio-system apply -f attribute_gen_service.yaml
     {{< /text >}}
 
-1. Find the `stats-filter-1.9` `EnvoyFilter` resource from the `istio-system`
+1. Find the `stats-filter-{{< istio_version >}}` `EnvoyFilter` resource from the `istio-system`
    namespace, using the following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system get envoyfilter | grep ^stats-filter-1.9
-    stats-filter-1.9                    2d
+    $ kubectl -n istio-system get envoyfilter | grep ^stats-filter-{{< istio_version >}}
+    stats-filter-{{< istio_version >}}                    2d
     {{< /text >}}
 
 1. Create a local file system copy of the `EnvoyFilter` configuration, using the
    following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system get envoyfilter stats-filter-1.9 -o yaml > stats-filter-1.9.yaml
+    $ kubectl -n istio-system get envoyfilter stats-filter-{{< istio_version >}} -o yaml > stats-filter-{{< istio_version >}}.yaml
     {{< /text >}}
 
-1. Open `stats-filter-1.9.yaml` with a text editor and locate the
+1. Open `stats-filter-{{< istio_version >}}.yaml` with a text editor and locate the
    `name: istio.stats` extension configuration. Update it to map `request_operation`
    dimension in the `requests_total` standard metric to `istio_operationId` attribute.
    The updated configuration file section should look like the following.
@@ -159,11 +159,22 @@ spec:
                   }
     {{< /text >}}
 
-1. Save `stats-filter-1.9.yaml` and then apply the configuration using the following command:
+1. Save `stats-filter-{{< istio_version >}}.yaml` and then apply the configuration using the following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system apply -f stats-filter-1.9.yaml
+    $ kubectl -n istio-system apply -f stats-filter-{{< istio_version >}}.yaml
     {{< /text >}}
+
+1. Add the following configuration to the mesh config. This results in the addition of the `request_operation` as a
+   new dimenstion to the `istio_requests_total` metric. Without it, a new metric with the name `envoy_request_operation___somevalue___istio_requests_total`
+   is created.
+
+   {{<text yaml>}}
+   meshConfig:
+     defaultConfig:
+       extraStatTags:
+       - request_operation
+   {{< /text >}}
 
 1. Generate metrics by sending traffic to your application.
 
@@ -172,7 +183,8 @@ spec:
 
 ## Classify metrics by response
 
-You can classify responses using a similar process as requests.
+You can classify responses using a similar process as requests. Do note that the `response_code` dimension already exists by default.
+The example below will change how it is populated.
 
 1. Create a file, for example `attribute_gen_service.yaml`, and save it with the
    following contents. This adds the `istio.attributegen` plugin to the
@@ -264,22 +276,22 @@ spec:
     $ kubectl -n istio-system apply -f attribute_gen_service.yaml
     {{< /text >}}
 
-1. Find the `stats-filter-1.9` `EnvoyFilter` resource from the `istio-system`
+1. Find the `stats-filter-{{< istio_version >}}` `EnvoyFilter` resource from the `istio-system`
    namespace, using the following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system get envoyfilter | grep ^stats-filter-1.9
-    stats-filter-1.9                    2d
+    $ kubectl -n istio-system get envoyfilter | grep ^stats-filter-{{< istio_version >}}
+    stats-filter-{{< istio_version >}}                    2d
     {{< /text >}}
 
 1. Create a local file system copy of the `EnvoyFilter` configuration, using the
    following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system get envoyfilter stats-filter-1.9 -o yaml > stats-filter-1.9.yaml
+    $ kubectl -n istio-system get envoyfilter stats-filter-{{< istio_version >}} -o yaml > stats-filter-{{< istio_version >}}.yaml
     {{< /text >}}
 
-1. Open `stats-filter-1.9.yaml` with a text editor and locate the
+1. Open `stats-filter-{{< istio_version >}}.yaml` with a text editor and locate the
    `name: istio.stats` extension configuration. Update it to map `response_code`
    dimension in the `requests_total` standard metric to `istio_responseClass` attribute.
    The updated configuration file section should look like the following.
@@ -305,10 +317,10 @@ spec:
                   }
     {{< /text >}}
 
-1. Save `stats-filter-1.9.yaml` and then apply the configuration using the following command:
+1. Save `stats-filter-{{< istio_version >}}.yaml` and then apply the configuration using the following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system apply -f stats-filter-1.9.yaml
+    $ kubectl -n istio-system apply -f stats-filter-{{< istio_version >}}.yaml
     {{< /text >}}
 
 ## Verify the results
