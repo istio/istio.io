@@ -16,7 +16,7 @@ test: no
 
 ## 开始{#getting-started}
 
-此功能默认情况下未启用。要启用该功能，请在安装 Istio 时使用以下设置:
+此功能默认情况下未启用。要启用该功能，请在安装 Istio 时使用以下设置：
 
 {{< text bash >}}
 $ cat <<EOF | istioctl install -y -f -
