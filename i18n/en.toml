@@ -319,6 +319,9 @@ other = "Try Istio"
 [service_mesh]
 other = "Service mesh"
 
+[what_is_istio]
+other = "What is Istio?"
+
 [solutions]
 other = "Solutions"
 
@@ -328,8 +331,8 @@ other = "Deployment"
 [learn_more]
 other = "Learn more"
 
-[management]
-other = "Management"
+[traffic_management]
+other = "Traffic Management"
 
 [observability]
 other = "Observability"
