@@ -6,7 +6,7 @@ weight: 21
 
 {{< warning >}}
 此功能处于Alpha阶段，请参见
-[Istio功能状态](/about/feature-stages/)。欢迎您的反馈意见
+[Istio功能状态](/zh/about/feature-stages/)。欢迎您的反馈意见
 [Istio用户体验讨论](https://discuss.istio.io/c/UX/23)。当前，此功能仅针对具有单个控制平面版本的单个低容量群集进行了测试。
 
 {{< /warning >}}
@@ -25,7 +25,7 @@ $ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.
 * 有多少个数据平面实例与之关联。
 * 工具输出信息，例如 `istioctl analyze`。
 
-例如，`kubectl wait`命令监视`status`字段以确定是否取消阻止配置并继续。有关更多信息，请参见[等待资源状态以应用配置](/docs/ops/configuration/mesh/config-resource-ready/).
+例如，`kubectl wait`命令监视`status`字段以确定是否取消阻止配置并继续。有关更多信息，请参见[等待资源状态以应用配置](/zh/docs/ops/configuration/mesh/config-resource-ready/).
 
 ## 查看`status`字段
 
@@ -84,4 +84,4 @@ conditions字段代表资源的可能状态。 一个condition的`type`字段可
 
 如果类型为`PassedValidation`的条件的状态为`False`，则会有`validationMessages`字段来解释该问题。 当`PassedValidation`状态为`True`时，可能会出现消息，因为这些消息是信息性消息。
 
-有关验证消息的示例，请参见[配置分析消息](/docs/reference/config/analysis/).
+有关验证消息的示例，请参见[配置分析消息](/zh/docs/reference/config/analysis/).
