@@ -29,11 +29,11 @@ test: n/a
 1. **minimal**：与默认配置文件相同，但只安装了控制平面组件。
     它允许您使用 [Separate Profile](/zh/docs/setup/upgrade/gateways/#installation-with-istioctl) 配置控制平面和数据平面组件(例如 Gateway)。
 
-1. **remote**: 配置 [Multicluster Mesh](/zh/docs/ops/deployment/deployment-models/#multiple-clusters) 的 {{< gloss "remote cluster" >}}Remote Cluster{{< /gloss >}}。
+1. **remote**：配置 [Multicluster Mesh](/zh/docs/ops/deployment/deployment-models/#multiple-clusters) 的 {{< gloss "remote cluster" >}}Remote Cluster{{< /gloss >}}。
 
-1. **empty**: 不部署任何东西。可以作为自定义配置的基本配置文件。 
+1. **empty**：不部署任何东西。可以作为自定义配置的基本配置文件。
 
-1. **preview**: 预览文件包含的功能都是实验性。这是为了探索 Istio 的新功能。不确保稳定性、安全性和性能（使用风险需自负）。
+1. **preview**：预览文件包含的功能都是实验性。这是为了探索 Istio 的新功能。不确保稳定性、安全性和性能（使用风险需自负）。
 
 {{< tip >}}
 此外，还提供了一些其他特定的配置文件。更多相关信息，请参阅平台的 [Setup Instruction](/zh/docs/setup/platform-setup)。
