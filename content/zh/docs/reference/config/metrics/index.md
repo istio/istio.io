@@ -10,7 +10,7 @@ aliases:
 
 在先前的Istio版本中，Mixer生成了这些指标。
 
-## 指标
+## 指标{#metrics}
 
 对于HTTP，HTTP/2和GRPC通信，Istio生成以下指标：
 
