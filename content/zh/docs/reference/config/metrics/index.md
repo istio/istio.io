@@ -36,7 +36,7 @@ aliases:
 
 *   **TCP 已关闭连接数** (`istio_tcp_connections_closed_total`)：对于每个关闭的连接，此`计数器`递增。
 
-## 标签{#lable}
+## 标签{#label}
 
 *   **报告者**: 这标识了请求的报告者。 如果报告来自服务器 Istio 代理，则设置为`目标`，如果报告来自客户端 Istio 代理或网关，则设置为`源`。
 
