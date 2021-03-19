@@ -28,13 +28,13 @@ aliases:
 
 对于TCP流量，Istio生成以下指标：
 
-*   **Tcp发送字节大小** (`istio_tcp_sent_bytes_total`): 这是一个`计数器`，用于测量在TCP连接情况下响应期间发送的总字节数。
+*   **TCP 发送字节大小** (`istio_tcp_sent_bytes_total`)：这是一个`计数器`，用于测量在 TCP 连接情况下响应期间发送的总字节数。
 
-*   **Tcp接收字节大小** (`istio_tcp_received_bytes_total`): 这是一个`计数器`，用于测量在TCP连接情况下请求期间接收到的总字节数。
+*   **TCP 接收字节大小** (`istio_tcp_received_bytes_total`)：这是一个`计数器`，用于测量在 TCP 连接情况下请求期间接收到的总字节数。
 
-*   **Tcp已打开连接数** (`istio_tcp_connections_opened_total`): 每个打开的连接都会增加一个`计数器`。
+*   **TCP 已打开连接数** (`istio_tcp_connections_opened_total`)：每个打开的连接都会增加一个`计数器`。
 
-*   **Tcp已关闭连接数** (`istio_tcp_connections_closed_total`): 对于每个关闭的连接，此`计数器`递增。
+*   **TCP 已关闭连接数** (`istio_tcp_connections_closed_total`)：对于每个关闭的连接，此`计数器`递增。
 
 ## 标签
 
