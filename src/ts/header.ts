@@ -67,7 +67,7 @@ function handleHeader(): void {
     function toggleActiveHeader():void {
         const top = window.scrollY;
 
-        if(top >= 100) {
+        if(top >= 10) {
             header?.classList.add("active");
         } else {
             header?.classList.remove("active");
