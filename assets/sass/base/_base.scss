@@ -83,8 +83,6 @@ table, th, td, tr {
 }
 
 table {
-    margin-left: .5em;
-    margin-right: .5em;
     border-collapse: separate;
     border-spacing: 0;
 }
@@ -99,7 +97,7 @@ table p:last-of-type {
 
 th {
     color: $textBrandColor;
-    background-color: $mainBrandColor;
+    background-color: $secondBrandColor;
     font-weight: $tableHeaderWeight;
     vertical-align: middle;
 
@@ -415,22 +413,21 @@ sup {
 
 .title-area {
     display: flex;
-    margin-bottom: 2.625rem;
     align-items: center;
-
-    @media (min-width: $bp-lg) {
-        margin-bottom: 6.25rem;
-    }
-
+    
     h1 {
         margin: 0;
-
+        margin-top: 1.5rem;
         & + p {
             margin-top: 2.625rem;
         }
     }
 
     .subtitle { margin-bottom: 0; }
+    .reading-time {
+        opacity: 60%;
+        color: #293655;
+    }
 }
 
 .flipped {
@@ -457,8 +454,8 @@ sup {
     margin-top: 1.5rem;
     margin-bottom: 0;
     padding: 0;
-    text-transform: uppercase;
     font-size: 75%;
+    opacity: 60%;
 }
 
 .attribution {
@@ -468,11 +465,11 @@ sup {
 .container {
     padding-left: 1.75rem;
     padding-right: 1.75rem;
-    max-width: 1174px;
+    max-width: 1440px;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-
+    
     @media (min-width: $bp-md) {
         padding-left: 2rem;
         padding-right: 2rem;
@@ -480,7 +477,12 @@ sup {
 
     &-l {
         @extend .container;
+        max-width: 1470px;
+    }
+    &-no-padding {
+        @extend .container;
         max-width: 1300px;
+        padding-left: 0;
     }
 }
 

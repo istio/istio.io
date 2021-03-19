@@ -36,14 +36,15 @@
         {{ $title := index ($.Scratch.Get "titles") $i }}
         {{ $description := index ($.Scratch.Get "descriptions") $i }}
         {{ $url := index ($.Scratch.Get "urls") $i }}
-
-        {{ if ne $i 0 }}
-            <li>
-                <a href="{{- $url -}}" title="{{- $description -}}">{{- $title -}}</a>
-                {{ partial "icon.html" "breadcrumb-arrow" }}
-            </li>
-        {{ else }}
-            <li>{{- $title -}}</li>
+        {{ if ne $index 0 }}
+            {{ if ne $i 0 }}
+                <li>
+                    <a href="{{- $url -}}" title="{{- $description -}}">{{- $title -}}</a>
+                    {{ partial "icon.html" "breadcrumb-arrow" }}
+                </li>
+            {{ else }}
+                <li>{{- $title -}}</li>
+            {{ end }}
         {{ end }}
     {{ end }}
 </ol>

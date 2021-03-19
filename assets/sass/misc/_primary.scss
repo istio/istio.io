@@ -1,14 +1,8 @@
 .primary {
     display: grid;
     grid-template-columns: [article] 100%;
-    grid-column-gap: 3rem;
+    grid-column-gap: 1.5rem;
     margin-top: 3.75rem;
-
-    @media screen AND (min-width: $bp-md) {
-        &.has-sidebar {
-            grid-template-columns: [sidebar] 30% [article] calc(70% - 3rem);
-        }
-    }
 
     @media print {
         padding-left: 0;
@@ -17,9 +11,27 @@
 
     .sidebar-container {
         margin-bottom: 2.5rem;
-        
         @media print {
             display: none;
+        }
+        
+        @media screen AND (max-width: $bp-xl ) {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 101;
+            height: 100%;
+            width: 270px;
+            overflow-y: auto;
+            background: $paleGray;
+            &.visible {
+                display: block;
+                
+            }
+        }
+        @media screen AND (max-width: $bp-md){
+            width: 100%;
         }
     }
 
@@ -27,17 +39,17 @@
         display: none;
     }
 
-    @media screen AND (min-width: $bp-xl) {
+    @media screen AND (min-width: $bp-xl +1) {
         &.has-toc {
-            grid-template-columns: [article] calc(80% - 3rem) [toc] 20%;
+            grid-template-columns: [article] calc(80% - 1.5rem) [toc] 20%;
         }
 
         &.has-sidebar {
-            grid-template-columns: [sidebar] 30% [article] calc(70% - 3rem);
+            grid-template-columns: [sidebar] 22% [article] calc(78% - 1.5rem);
         }
 
         &.has-toc.has-sidebar {
-            grid-template-columns: [sidebar] 16% [article] calc(68% - (2 * 3rem)) [toc] 16%;
+            grid-template-columns: [sidebar] 22% [article] calc(62% - (2 * 1.5rem)) [toc] 16%;
         }
         
         .toc-container {

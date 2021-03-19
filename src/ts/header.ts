@@ -17,8 +17,12 @@ function handleHeader(): void {
     const searchForm = "search-form";
     const headerLinks = "header-links";
     const searchTextbox = "search-textbox";
+    const searchDocsTextbox = "search-docs-textbox";
     const showSearch = "show-search";
+    const searchDocsForm = "search-docs-form";
     const isVisible = "is-visible";
+    const sidebarVisible = "visible";
+    const sidebarId = 'sidebar-container';
     const hasDropdown = "has-dropdown";
     const isOpen = "is-open";
     const screenSizeLg = 992;
@@ -100,16 +104,32 @@ function handleHeader(): void {
         showNavBarLinks();
         window.location.assign(url);
     });
-
+    listen(getById(searchDocsForm), "submit", e => {
+        e.preventDefault();
+        const textbox = getById(searchDocsTextbox) as HTMLInputElement;
+        const searchPageUrl = getById("search-docs-url") as HTMLInputElement;
+        const url = searchPageUrl.value+ "?q=" + textbox.value + "&site=docs";
+        window.location.assign(url);
+    });
     listen(getById("hamburger"), click, () => {
         if (header) {
             header.classList.add(isVisible);
         }
     });
-
     listen(getById("menu-close"), click, () => {
         if(header) {
             header.classList.remove(isVisible);
+        }
+    });
+    const sidebar = getById(sidebarId);
+    listen(getById("sidebar-toggle"), click, () => {
+        if (sidebar) {
+            sidebar.classList.add(sidebarVisible);
+        }
+    });
+    listen(getById("sidebar-close"), click, () => {
+        if(sidebar) {
+            sidebar.classList.remove(sidebarVisible);
         }
     });
     

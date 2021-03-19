@@ -14,6 +14,7 @@
     padding: 0 1.25em 0 1.25em;
     h1 {
         text-align: center;
+        margin-top: 15rem;
     }
     .blog-description {
         font-size: $font-size--l;
@@ -39,7 +40,7 @@
             height: 36px;
             margin: 2.5em .5em 3.75em .5em;
             border-radius: 28px;
-            border: solid 2px $borderBlue;
+            border: solid 2px $inputBorderColor;
             background-color: #fff;
             font-weight: $boldTextWeight;
             line-height: 1.5;
@@ -67,10 +68,10 @@
         }
     }
     .posts-list {
-        border-top: 2px solid $borderBlue;
+        border-top: 2px solid $inputBorderColor;
         .post-card {
             display: flex;
-            border-bottom: 2px solid $borderBlue;
+            border-bottom: 2px solid $inputBorderColor;
             margin-top: 1.25em;
             max-width: 100%;
             padding-bottom: .75em;
