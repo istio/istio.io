@@ -1,5 +1,7 @@
 ---
 title: Analyzer Message Format
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 `istioctl analyze` 命令规定以下格式：
