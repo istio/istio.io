@@ -3,7 +3,7 @@ title: Istio 标准指标
 description: 通过 Istio 遥测导出的 Istio 标准指标。
 weight: 50
 aliases:
-    - /docs/reference/config/telemetry/metrics/
+    - /zh/docs/reference/config/telemetry/metrics/
 ---
 
 以下是 Istio 导出的标准服务级别指标。从 Istio 1.5开始，Istio 标准指标由 Envoy 代理直接导出。遥测组件被[实现](https://github.com/istio/proxy/tree/master/extensions/stats)为[Proxy-wasm](https://github.com/proxy-wasm/spec)插件。
