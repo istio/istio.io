@@ -169,12 +169,12 @@ spec:
    new dimenstion to the `istio_requests_total` metric. Without it, a new metric with the name `envoy_request_operation___somevalue___istio_requests_total`
    is created.
 
-   {{<text yaml>}}
-   meshConfig:
-     defaultConfig:
-       extraStatTags:
-       - request_operation
-   {{< /text >}}
+    {{<text yaml>}}
+    meshConfig:
+      defaultConfig:
+        extraStatTags:
+        - request_operation
+    {{< /text >}}
 
 1. Generate metrics by sending traffic to your application.
 
