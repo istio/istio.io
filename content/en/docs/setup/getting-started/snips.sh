@@ -224,14 +224,6 @@ snip_verify_external_access_confirm_1() {
 echo "http://$GATEWAY_URL/productpage"
 }
 
-snip_apply_default_destination_rules_1() {
-kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
-}
-
-snip_apply_default_destination_rules_2() {
-kubectl get destinationrules -o yaml
-}
-
 snip_view_the_dashboard_dashboard_1() {
 kubectl apply -f samples/addons
 kubectl rollout status deployment/kiali -n istio-system
