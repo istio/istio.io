@@ -3,7 +3,7 @@ code {
     font-size: 80%;
     font-weight: $textCodeWeight;
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    word-break: normal;
+    word-break: break-word;
 }
 
 pre {

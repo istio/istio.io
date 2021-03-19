@@ -85,6 +85,8 @@ table, th, td, tr {
 table {
     border-collapse: separate;
     border-spacing: 0;
+    table-layout: fixed;
+    width: 100%;
 }
 
 table p:first-of-type {
@@ -114,6 +116,7 @@ tr.oneof>td {
 th, td {
     border-left: 1px solid $boxBorderColor;
     border-top: 1px solid $boxBorderColor;
+    word-break: break-word;
 }
 
 tr:first-child th:first-child {
