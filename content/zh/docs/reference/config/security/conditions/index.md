@@ -4,6 +4,8 @@ description: 授权策略中支持的条件。
 weight: 30
 aliases:
     - /zh/docs/reference/config/security/conditions/
+owner: istio/wg-security-maintainers
+test: n/a
 ---
 
 此页面描述了可以用作[授权策略规则](/zh/docs/reference/config/security/authorization-policy/#Rule) `when` 字段中所支持的键和值的格式。

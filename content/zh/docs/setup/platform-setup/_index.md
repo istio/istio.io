@@ -5,6 +5,7 @@ weight: 10
 aliases:
     - /zh/docs/setup/kubernetes/platform-setup/
 keywords: [platform-setup]
+test: n/a
 ---
 
 {{< tip >}}

@@ -1,6 +1,8 @@
 ---
 title: Deprecated
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: n/a
 ---
 
 当您使用了计划在将来的版本中删除的功能时，会出现此消息。

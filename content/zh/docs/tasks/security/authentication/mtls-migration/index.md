@@ -5,6 +5,8 @@ weight: 40
 keywords: [security,authentication,migration]
 aliases:
     - /zh/docs/tasks/security/mtls-migration/
+owner: istio/wg-security-maintainers
+test: yes
 ---
 
 本任务阐述如何将 Istio 服务的请求从明文模式平滑过渡至双向 TLS 模式，并确保在整个迁移过程中不干扰在线流量的正常通信。

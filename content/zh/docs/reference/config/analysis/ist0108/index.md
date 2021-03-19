@@ -1,6 +1,8 @@
 ---
 title: UnknownAnnotation
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: n/a
 ---
 
 当您为某个命名空间使用了格式为 `*.istio.io` 的注解时会出现该错误信息。

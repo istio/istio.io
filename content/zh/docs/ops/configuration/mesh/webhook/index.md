@@ -5,6 +5,8 @@ weight: 10
 aliases:
   - /zh/help/ops/setup/webhook
   - /zh/docs/ops/setup/webhook
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 来自 [Kubernetes 准入控制机制](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/)：

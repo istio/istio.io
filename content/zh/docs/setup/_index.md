@@ -10,4 +10,5 @@ aliases:
     - /zh/docs/setup/kubernetes/download-release/
     - /zh/docs/setup/kubernetes/download/
 keywords: [kubernetes,install,quick-start,setup,installation]
+test: n/a
 ---

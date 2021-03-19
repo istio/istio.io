@@ -5,6 +5,8 @@ weight: 10
 keywords: [telemetry,tracing,jaeger,span,port-forwarding]
 aliases:
  - /zh/docs/tasks/telemetry/distributed-tracing/jaeger/
+owner: istio/wg-policies-and-telemetry-maintainers
+test: yes
 ---
 
 完成此任务后，您将了解如何让您的应用程序参与 [Jaeger](https://www.jaegertracing.io/) 的追踪，

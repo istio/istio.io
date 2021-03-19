@@ -5,6 +5,8 @@ weight: 1
 keywords: [telemetry,tracing]
 aliases:
  - /zh/docs/tasks/telemetry/distributed-tracing/overview/
+owner: istio/wg-policies-and-telemetry-maintainers
+test: no
 ---
 
 分布式追踪可以让用户对跨多个分布式服务网格的 1 个请求进行追踪分析。这样进而可以通过可视化的方式更加深入地了解请求的延迟，序列化和并行度。

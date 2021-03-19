@@ -5,6 +5,8 @@ weight: 10
 aliases:
   - /zh/help/ops/telemetry/envoy-stats
   - /zh/docs/ops/telemetry/envoy-stats
+owner: istio/wg-policies-and-telemetry-maintainers
+test: no
 ---
 
 Envoy 代理收集保留了关于网络流量的详细统计信息。

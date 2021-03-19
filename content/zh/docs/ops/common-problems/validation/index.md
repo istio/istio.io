@@ -7,6 +7,8 @@ aliases:
     - /zh/help/ops/setup/validation
     - /zh/help/ops/troubleshooting/validation
     - /zh/docs/ops/troubleshooting/validation
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 ## 看似有效的配置不生效 {#valid-configuration-is-rejected}
