@@ -5,6 +5,8 @@ weight: 30
 keywords: [traffic-management,ingress,https]
 aliases:
   - /zh/docs/examples/advanced-gateways/ingress-sni-passthrough/
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 [安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount/)说明了如何为 HTTP 服务配置 HTTPS 访问入口。

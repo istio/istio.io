@@ -5,4 +5,5 @@ weight: 20
 keywords: [ops,setup]
 aliases:
     - /zh/help/ops/setup
+test: n/a
 ---

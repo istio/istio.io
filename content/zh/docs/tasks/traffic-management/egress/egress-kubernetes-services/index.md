@@ -3,6 +3,8 @@ title: Kubernetes Egress 流量服务
 description: 展示如何配置 Istio Kubernetes 外部服务。
 keywords: [traffic-management,egress]
 weight: 60
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname) 服务和带 [Endpoints](https://kubernetes.io/docs/concepts/services-networking/service/#services-without-selectors) 的 Kubernetes 服务使你可以创建一个外部服务的本地 DNS 别名。这个 DNS 别名与本地服务的 DNS 条目具有相同的形式，即 `<service name>.<namespace name>.svc.cluster.local`。DNS 别名为您的工作负载提供“位置透明性”：工作负载可以以相同的方式调用本地和外部服务。如果您决定在某个时间在集群内部部署外部服务，您只需更新其 Kubernetes 服务以引用本地版本即可。工作负载将继续运行，而不会有任何变化。

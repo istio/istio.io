@@ -1,6 +1,8 @@
 ---
 title: SchemaValidationError
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 当您的 Istio 配置没有成功通过架构验证时，会出现此消息。

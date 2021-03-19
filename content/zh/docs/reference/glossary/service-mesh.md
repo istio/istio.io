@@ -1,5 +1,6 @@
 ---
 title: Service Mesh
+test: n/a
 ---
 *服务网格* （简称 *网格* ）是一个可管理、可观测以及支持[工作负载实例](/zh/docs/reference/glossary/#workload-instance)之间进行安全通信的基础设施层。
 

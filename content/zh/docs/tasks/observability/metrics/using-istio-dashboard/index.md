@@ -6,6 +6,8 @@ keywords: [telemetry,visualization]
 aliases:
     - /zh/docs/tasks/telemetry/using-istio-dashboard/
     - /zh/docs/tasks/telemetry/metrics/using-istio-dashboard/
+owner: istio/wg-policies-and-telemetry-maintainers
+test: yes
 ---
 
 此任务展示了如何设置和使用 Istio Dashboard 监控网格流量。作为此任务的一部分，您将使用 Grafana 的 Istio 附加组件和基于 Web 的界面来查看服务网格流量数据。

@@ -3,6 +3,8 @@ title: 镜像
 description: 此任务演示了 Istio 的流量镜像/影子功能。
 weight: 60
 keywords: [traffic-management,mirroring]
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 此任务演示了 Istio 的流量镜像功能。

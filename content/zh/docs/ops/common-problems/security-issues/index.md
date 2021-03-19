@@ -8,6 +8,8 @@ aliases:
     - /zh/help/ops/security/repairing-citadel
     - /zh/help/ops/troubleshooting/repairing-citadel
     - /zh/docs/ops/troubleshooting/repairing-citadel
+owner: istio/wg-security-maintainers
+test: no
 ---
 
 ## 终端用户认证失败{#end-user-authentication-fails}
