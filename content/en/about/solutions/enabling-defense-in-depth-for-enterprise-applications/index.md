@@ -1,5 +1,5 @@
 ---
-title: "Defense in Depth Security for Microservices"
+title: "Enabling Defense-in-Depth for Enterprise Applications"
 opening_paragraph: "Istio’s traffic management model relies on the Envoy proxies that are deployed along with your services. All traffic that your mesh services send and receive (data plane traffic) is proxied through Envoy, making it easy to direct and control traffic around your mesh without making any changes to your services."
 image: "defense.svg"
 skip_toc: true
