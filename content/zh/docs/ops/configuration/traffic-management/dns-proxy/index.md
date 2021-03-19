@@ -39,7 +39,7 @@ EOF
 当时使用 [`istioctl 工作负载配置`](/zh/docs/setup/install/virtual-machine/) 部署虚拟机时，默认启用基础 DNS 代理。
 {{< /tip >}}
 
-## DNS 捕获{#dns-capture-in-action}
+## DNS 捕获{#DNS-capture-in-action}
 
 为了尝试 DNS 捕获，首先在外部服务启动一个 `ServiceEntry`：
 
