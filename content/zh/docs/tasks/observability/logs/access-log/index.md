@@ -6,6 +6,8 @@ keywords: [telemetry]
 aliases:
     - /zh/docs/tasks/telemetry/access-log
     - /zh/docs/tasks/telemetry/logs/access-log/
+owner: istio/wg-policies-and-telemetry-maintainers
+test: yes
 ---
 
 Istio 最简单的日志类型是 [Envoy 的访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage)。Envoy 代理打印访问信息到标准输出。Envoy 容器的标准输出能够通过 `kubectl logs` 命令打印出来。

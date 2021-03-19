@@ -1,5 +1,6 @@
 ---
 title: Workload Instance Principal
+test: n/a
 ---
 工作负载实例主体是[工作负载实例](/zh/docs/reference/glossary/#workload-instance)的可验证权限。Istio 的服务到服务身份验证用于生成工作负载实例主体。默认情况下，工作负载实例主体与 SPIFFE ID 格式兼容。
 

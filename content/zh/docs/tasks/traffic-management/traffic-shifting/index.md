@@ -5,6 +5,8 @@ weight: 30
 keywords: [traffic-management,traffic-shifting]
 aliases:
     - /zh/docs/tasks/traffic-management/version-migration.html
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 本任务将向您展示如何逐步将流量从一个版本的微服务迁移到另一个版本。例如，您可以将流量从旧版本迁移到新版本。

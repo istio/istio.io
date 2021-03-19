@@ -5,6 +5,8 @@ weight: 20
 keywords: [traffic-management,fault-injection]
 aliases:
     - /zh/docs/tasks/fault-injection.html
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 此任务说明如何注入故障并测试应用程序的弹性。

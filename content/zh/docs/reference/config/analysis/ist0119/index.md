@@ -1,6 +1,8 @@
 ---
 title: JwtFailureDueToInvalidServicePortPrefix
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 当认证策略指定使用 JWT 认证但目标 [Kubernetes 服务](https://kubernetes.io/docs/concepts/services-networking/service/)配置不正确时，会出现此消息。

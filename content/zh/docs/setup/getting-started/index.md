@@ -8,6 +8,7 @@ aliases:
     - /zh/docs/setup/kubernetes/install/kubernetes/
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 test: yes
+owner: istio/wg-environments-maintainers
 ---
 
 本指南帮你快速评估 Istio。

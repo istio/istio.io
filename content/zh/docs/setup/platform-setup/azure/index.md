@@ -7,6 +7,8 @@ aliases:
     - /zh/docs/setup/kubernetes/prepare/platform-setup/azure/
     - /zh/docs/setup/kubernetes/platform-setup/azure/
 keywords: [platform-setup,azure]
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 跟随这些指令来为 Istio 准备一个 Azure 集群。

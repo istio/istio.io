@@ -9,4 +9,5 @@ keywords:
 - requirements
 - installation
 - configuration
+test: n/a
 ---

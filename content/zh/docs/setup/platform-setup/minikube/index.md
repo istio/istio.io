@@ -7,6 +7,8 @@ aliases:
     - /zh/docs/setup/kubernetes/prepare/platform-setup/minikube/
     - /zh/docs/setup/kubernetes/platform-setup/minikube/
 keywords: [platform-setup,kubernetes,minikube]
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 按照文档安装 minikube，为 Istio 与一些基础应用准备足够的系统资源。
