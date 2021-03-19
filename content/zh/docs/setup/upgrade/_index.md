@@ -1,6 +1,11 @@
 ---
-title: 升级
-description: 选择与您先前用于安装 Istio 的方法相对应的升级指南。
+title: 升级 Istio
+linktitle: Upgrade
+description: 跨多个 Control Plane 升级、降级和管理 Istio。
 weight: 25
-keywords: [kubernetes,upgrading]
+test: n/a
 ---
+
+{{< warning >}}
+尚未正式测试和推行一步升级多个版本（如1.6.x 到 1.8.x）。
+{{< /warning >}}
