@@ -1,6 +1,8 @@
 ---
 title: VirtualServiceUnreachableRule
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 当 Virtual Service 包含一个永远不会使用的匹配规则时，会出现此消息，因为之前的规则中指定了相同的匹配规则。

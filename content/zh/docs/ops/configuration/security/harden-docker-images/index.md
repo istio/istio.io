@@ -5,6 +5,8 @@ weight: 80
 aliases:
   - /zh/help/ops/security/harden-docker-images
   - /zh/docs/ops/security/harden-docker-images
+owner: istio/wg-security-maintainers
+test: n/a
 ---
 为了简化加固 docker 镜像的过程，Istio 提供了一系列基于[非发行版镜像](https://github.com/GoogleContainerTools/distroless)的镜像
 

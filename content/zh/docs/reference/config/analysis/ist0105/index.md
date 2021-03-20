@@ -1,6 +1,8 @@
 ---
 title: IstioProxyImageMismatch
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: n/a
 ---
 
 在以下情况，会触发有关 pod 的这条信息：

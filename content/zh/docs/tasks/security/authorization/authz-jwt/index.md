@@ -6,6 +6,8 @@ keywords: [security,authorization,jwt,claim]
 aliases:
     - /zh/docs/tasks/security/rbac-groups/
     - /zh/docs/tasks/security/authorization/rbac-groups/
+owner: istio/wg-security-maintainers
+test: yes
 ---
 
 本教程向您展示如何通过设置 Istio 授权策略来实现基于 JSON Web Token（JWT）的强制访问控制。

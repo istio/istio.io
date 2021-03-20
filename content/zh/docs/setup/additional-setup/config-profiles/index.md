@@ -5,6 +5,8 @@ weight: 35
 aliases:
     - /zh/docs/setup/kubernetes/additional-setup/config-profiles/
 keywords: [profiles,install,helm]
+owner: istio/wg-environments-maintainers
+test: n/a
 ---
 
 本页面描述了在[安装 Istio](/zh/docs/setup/install/istioctl/) 时所能够使用的内置配置文件。这些配置文件提供了对 Istio 控制平面和 Istio 数据平面 sidecar 的定制内容。

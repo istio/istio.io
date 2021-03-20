@@ -3,6 +3,8 @@ title: 授权策略信任域迁移
 description: 阐述如何在不更改授权策略的前提下从一个信任域迁移到另一个。
 weight: 40
 keywords: [security,access-control,rbac,authorization,trust domain, migration]
+owner: istio/wg-security-maintainers
+test: yes
 ---
 
 该任务阐述了如何在不更改授权策略的前提下从一个信任域迁移到另一个。

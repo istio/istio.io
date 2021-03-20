@@ -5,6 +5,7 @@ description: 选择最适合你需求和平台的安装指南。
 weight: 20
 aliases:
     - /zh/docs/setup/kubernetes/install/
+test: n/a
 ---
 
 If you need help choosing, refer to our

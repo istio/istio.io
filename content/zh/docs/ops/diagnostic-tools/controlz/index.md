@@ -6,6 +6,8 @@ keywords: [ops]
 aliases:
   - /zh/help/ops/controlz
   - /zh/docs/ops/troubleshooting/controlz
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 Istio 组件使用灵活的自检框架（Introspection）构建，该框架使查看和调整正在运行组件的内部状态变得容易。

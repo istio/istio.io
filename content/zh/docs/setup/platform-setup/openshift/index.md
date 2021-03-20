@@ -7,6 +7,8 @@ aliases:
     - /zh/docs/setup/kubernetes/prepare/platform-setup/openshift/
     - /zh/docs/setup/kubernetes/platform-setup/openshift/
 keywords: [platform-setup,openshift]
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 {{< warning >}}

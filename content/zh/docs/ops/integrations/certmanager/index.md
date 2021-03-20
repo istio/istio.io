@@ -6,6 +6,8 @@ keywords: [integration,cert-manager]
 aliases:
   - /zh/docs/tasks/traffic-management/ingress/ingress-certmgr/
   - /zh/docs/examples/advanced-gateways/ingress-certmgr/
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 [cert-manager](https://cert-manager.io/) 是一种自动执行证书管理的工具，它可以与 Istio Gateway 集成以管理 TLS 证书。

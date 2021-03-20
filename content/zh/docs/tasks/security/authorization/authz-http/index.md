@@ -6,6 +6,8 @@ keywords: [security,access-control,rbac,authorization]
 aliases:
     - /zh/docs/tasks/security/role-based-access-control.html
     - /zh/docs/tasks/security/authz-http/
+owner: istio/wg-security-maintainers
+test: yes
 ---
 
 该任务向您展示了如何在 Istio 网格中为 HTTP 流量设置授权。可在[授权概念页面](/zh/docs/concepts/security/#authorization)了解更多内容。

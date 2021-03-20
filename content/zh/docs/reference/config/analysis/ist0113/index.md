@@ -1,6 +1,8 @@
 ---
 title: MTLSPolicyConflict
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 当目标规则和策略资源与双向 TLS 发生冲突时，会出现此消息。

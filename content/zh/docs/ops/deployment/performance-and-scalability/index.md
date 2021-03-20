@@ -17,6 +17,8 @@ aliases:
   - /zh/docs/performance-and-scalability/synthetic-benchmarks
   - /zh/docs/concepts/performance-and-scalability
   - /zh/docs/ops/performance-and-scalability
+owner: istio/wg-environments-maintainers
+test: n/a
 ---
 
 Istio 以十分便捷且对应用程序透明的方式，为已部署的服务创建网络，提供完善的网络功能，包括：路由规则、负载均衡、服务到服务的验证以及监控等。Istio 致力于用最小的资源开销实现最大的便易性，旨在支持高请求密度的大规模网格，同时让延迟最小化。

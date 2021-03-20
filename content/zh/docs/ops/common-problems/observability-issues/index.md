@@ -6,6 +6,8 @@ weight: 30
 aliases:
     - /zh/docs/ops/troubleshooting/grafana
     - /zh/docs/ops/troubleshooting/missing-traces
+owner: istio/wg-policies-and-telemetry-maintainers
+test: no
 ---
 
 ## 期望的指标没有被收集{#expected-metrics-are-not-being-collected}
