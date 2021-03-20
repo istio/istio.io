@@ -87,7 +87,7 @@ owner: istio/wg-environments-maintainers
     ✔ Installation complete
     {{< /text >}}
 
-1.  给命名空间添加标签，指示 Istio 在部署应用的时候，自动的注入 Envoy 边车代理：
+1.  给命名空间添加标签，指示 Istio 在部署应用的时候，自动注入 Envoy 边车代理：
 
     {{< text bash >}}
     $ kubectl label namespace default istio-injection=enabled
@@ -116,7 +116,7 @@ owner: istio/wg-environments-maintainers
     deployment.apps/productpage-v1 created
     {{< /text >}}
 
-1.  应用很快会启动起来。当一个个的 Pod 准备就绪，ISTIO 边车代理将伴随他们一起部署。
+1.  应用很快会启动起来。当每个 Pod 准备就绪时，Istio 边车代理将伴随它们一起部署。
 
     {{< text bash >}}
     $ kubectl get services
@@ -216,7 +216,7 @@ $ echo "$INGRESS_HOST"
 192.168.4.102
 {{< /text >}}
 
-在一个新的终端窗口中执行此命令，启动一个 Minikube tunnel，它将把流量发送到你 Istio 入站网关：
+在一个新的终端窗口中执行此命令，启动一个 Minikube 隧道，它将把流量发送到你的 Istio 入站网关：
 
 {{< text bash >}}
 $ minikube tunnel
@@ -226,7 +226,7 @@ $ minikube tunnel
 
 {{< tab name="其他平台" category-value="node-port" >}}
 
-执行下面命令进行判断：你的 Kubernetes 集群环境是否支持外部负载均衡：
+执行下面命令以判断你的 Kubernetes 集群环境是否支持外部负载均衡：
 
 {{< text bash >}}
 $ kubectl get svc istio-ingressgateway -n istio-system
@@ -238,7 +238,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 你的环境就有了一个外部的负载均衡，可以用它做入站网关。
 但如果 `EXTERNAL-IP` 的值为 `<none>` (或者一直是 `<pending>` 状态)，
 则你的环境则没有提供可作为入站流量网关的外部负载均衡。
-这个情况，你还可以用服务（Service）的
+在这个情况下，你还可以用服务（Service）的
 [节点端口](https://kubernetes.io/zh/docs/concepts/services-networking/service/#nodeport)
 访问网关。
 
@@ -255,7 +255,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 {{< /text >}}
 
 {{< warning >}}
-在某些环境中，负载均衡除了 IP 地址，还可以用主机名访问。
+在某些环境中，负载均衡可能使用主机名访问，而不是 IP 地址。
 在这种情况下，入站流量网关的`EXTERNAL-IP` 值不是 IP 地址，而是一个主机名，
 那上面设置 `INGRESS_HOST`  环境变量的操作会失败。
 使用下面命令纠正  `INGRESS_HOST` 的值。
@@ -266,7 +266,7 @@ $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway
 
 {{< /warning >}}
 
-**按照下面说明：如果你的环境中没有负载均衡，那就选择一个节点端口来代替.**
+**按照下面说明：如果你的环境中没有外部负载均衡，那就选择一个节点端口来代替.**
 
 设置入站的端口：
 
@@ -282,7 +282,7 @@ $ export INGRESS_HOST=workerNodeAddress
 {{< /text >}}
 
 你需要创建一个防火墙规则，放行发往 `ingressgateway` 的 TCP 流量。
-再运行下面的命令，单独放行发往 HTTP 端口或 HTTPS 端口的流量，或者都放行。
+运行下面的命令，单独放行发往 HTTP 端口或 HTTPS 端口的流量，或者都放行。
 
 {{< text bash >}}
 $ gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_PORT"
