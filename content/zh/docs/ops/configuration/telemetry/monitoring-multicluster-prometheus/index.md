@@ -84,7 +84,7 @@ scrape_configs:
 
 * `CLUSTER_NAME` 应该与创建集群时的值保持一致（通过 `values.global.multiCluster.clusterName` 设置）。
 
-* 没有开启 Promethus 端点验证。这意味着任何人都可以查询您的主集群的 Prometheus 实例，这是不可取的。
+* 没有开启 Prometheus 端点验证。这意味着任何人都可以查询您的主集群的 Prometheus 实例，这是不可取的。
 
 * 如果 Gateway 没有正确的 HTTPS 配置，所有的通讯都是通过明文传输的，这是不可取的。
 
