@@ -1,6 +1,6 @@
 ---
-title: DNS Proxying
-description: How to configure DNS proxying.
+title: DNS 代理
+description: 如何配置 DNS 代理。
 weight: 60
 keywords: [traffic-management,dns,virtual-machine]
 owner: istio/wg-networking-maintainers
@@ -68,7 +68,7 @@ $ curl -v address.internal
 
 ## 自动分配地址{#address-auto-allocation}
 
-在上面的示例中，对于发送请求的服务，您有一个预定义的IP地址。但是没有一个稳定的地址去访问外部服务是很正常的，因此需要 DNS。在这种情况下，DNS 代理没有足够的信息去返回一个响应，这将需要向上游转发 DNS 请求。
+在上面的示例中，对于发送请求的服务，您有一个预定义的IP地址。但是常规情况下，服务访问外部服务时一般没有一个相对固定的地址，因此需要通过 DNS 代理去访问外部服务。如果 DNS 代理没有足够的信息去返回一个响应的情况下，将需要向上游转发 DNS 请求。
 
 这在 TCP 通讯中是一个很严重的问题。它不像 HTTP 请求，基于 `Host` 头部去路由。TCP 携带的信息更少，只能在目标 IP 和端口号上路由。由于后端没有稳定的 IP，所以也不能基于其他信息进行路由，只剩下端口号，但是这会导致多个 `ServiceEntry` 使用 TCP 服务会共享同一端口而产生冲突。
 
