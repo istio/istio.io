@@ -61,7 +61,7 @@ proxyStatsMatcher:
     - "upstream_cx"
 {{< /text >}}
 
-你也可以通过使用 `proxy.istio.io/config` 注解覆盖全局的数据统计匹配配置。例如，为了配置生成与上面相同的统计数据，你可以在一个网关代理或者一个工作负载上添加下面的注解：
+你也可以通过使用 `proxy.istio.io/config` 注解覆盖全局的数据统计匹配配置。例如，为了配置生成与上面相同的统计数据，你可以在一个 Gateway 代理或者一个工作负载上添加下面的注解：
 
 {{< text yaml >}}
 proxy.istio.io/config: |-
@@ -74,5 +74,5 @@ proxy.istio.io/config: |-
 {{< /text >}}
 
 {{< tip >}}
-注意：如果您使用 `sidecar.istio.io/statsInclusionPrefixes`，`sidecar.istio.io/statsInclusionRegexps` 和 `sidecar.istio.io/statsInclusionSuffixes`，考虑需要切换到基于 `ProxyConfig` 配置，因此它提供了一个全局默认并且统一的方法去重载网关和 Sidecar 代理。
+注意：如果您使用 `sidecar.istio.io/statsInclusionPrefixes`，`sidecar.istio.io/statsInclusionRegexps` 和 `sidecar.istio.io/statsInclusionSuffixes`，考虑需要切换到基于 `ProxyConfig` 配置，因此它提供了一个全局默认并且统一的方法去重载 Gateway 和 Sidecar 代理。
 {{< /tip >}}
