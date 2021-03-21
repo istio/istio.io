@@ -59,7 +59,7 @@ spec:
     protocol: HTTP
 {{< /text >}}
 
-除了 DNS 捕获，去 `address.internal` 的请求可能解析失败。一旦启用，您将收到一个基于 `address` 配置的响应：
+如果不开启 DNS 代理功能，请求 `address.internal` 时可能解析失败。一旦启用，您将收到一个基于 `address` 配置的响应：
 
 {{< text bash >}}
 $ curl -v address.internal
