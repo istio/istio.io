@@ -117,7 +117,7 @@ spec:
 
 对于 `ALLOW` 类的策略来说，这些字段不会被匹配。但对于 `DENY` 以及 `CUSTOM` 类策略来说，这类字段会被认为是始终匹配的。最终结果会是一个更加严格的策略从而可能导致意外的连接拒绝。
 
-检查 Kubernetes 服务定义来确定端口是 [包含正确的协议名称来命名] (/zh/docs/ops/configuration/traffic-management/protocol-selection/#manual-protocol-selection)。如果您在端口上使用了仅适用于 HTTP 的字段，要确保端口名有 `http-` 前缀。
+检查 Kubernetes 服务定义来确定端口是 [命名中包含正确的协议名称](/zh/docs/ops/configuration/traffic-management/protocol-selection/#manual-protocol-selection)。如果您在端口上使用了仅适用于 HTTP 的字段，要确保端口名有 `http-` 前缀。
 
 ### 确保策略配置在正确的目标上{#make-sure-the-policy-is-applied-to-the-correct-target}
 
