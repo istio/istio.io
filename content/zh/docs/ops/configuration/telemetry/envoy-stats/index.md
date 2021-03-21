@@ -43,7 +43,7 @@ Envoy 只收集在 `stats_matcher` JSON 字段中能匹配上 `inclusion_list` �
 
 {{< tip >}}
 注意：Envoy 统计数据的名称由组成 Envoy 的不同配置而导致其拥有不同的名称。因此，由 Istio 管理的 Envoy 的统计数据暴露的名称会受到 Istio 配置行为的影响。
-如果您基于 Envoy 建立或者维护仪表盘或者警报，**强烈建议**您在**升级 Istio 之前**先在金丝雀环境检测统计数据。
+如果您基于 Envoy 建立或者维护仪表盘或者告警，**强烈建议**您在**升级 Istio 之前**先在[金丝雀环境](/zh/docs/setup/upgrade/canary/index.md)检查统计信息。
 {{< /tip >}}
 
 想让 Istio 代理能够记录更多的统计信息，您可以在您的网格配置中添加 [`ProxyConfig.ProxyStatsMatcher`](/zh/docs/reference/config/istio.mesh.v1alpha1/#ProxyStatsMatcher)。例如，为了启用断路器、重试、全局上游连接的统计数据，你可以指定如下的数据统计的匹配配置：
