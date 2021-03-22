@@ -90,6 +90,23 @@ spec:
   components:
     base:
       enabled: false
+    pilot:
+      enabled: true
+      k8s:
+        volumes:
+        - name: config-volume
+          volumeSource:
+            configMap:
+              localObjectReference:
+                name: istio
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/istio/config
+        env:
+        - name: INJECTION_WEBHOOK_CONFIG_NAME
+          value: ""
+        - name: VALIDATION_WEBHOOK_CONFIG_NAME
+          value: ""
     ingressGateways:
     - name: istio-ingressgateway
       enabled: false
@@ -101,10 +118,6 @@ spec:
       meshID: mesh1
       multiCluster:
         clusterName: $REMOTE_CLUSTER_NAME
-    pilot:
-      env:
-        INJECTION_WEBHOOK_CONFIG_NAME: ""
-        VALIDATION_WEBHOOK_CONFIG_NAME: ""
 EOF
 }
 
