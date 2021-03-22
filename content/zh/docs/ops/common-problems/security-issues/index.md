@@ -32,7 +32,7 @@ test: no
         jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
     {{< /text >}}
 
-1. 如果 JWT token 放在 http 请求头 Authorization 字段值中，需要确认 JWT token 的有效性（未过期等）。JWT 令牌中的字段可以使用在线 JWT 解析工具进行解码，例如：[jwt.io](https://jwt.io/)。
+1. 如果 JWT Token 放在 HTTP 请求头 Authorization 字段值中，需要确认 JWT Token 的有效性（未过期等）。JWT 令牌中的字段可以使用在线 JWT 解析工具进行解码，例如：[jwt.io](https://jwt.io/)。
 
 1. 通过 `istioctl proxy-config` 命令来验证目标负载的 Envoy 代理配置是否正确。
 
