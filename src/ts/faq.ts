@@ -16,10 +16,10 @@ function handleFaqBlocks(): void {
     document.querySelectorAll(".faq-block").forEach(faqBlock => {
         const question = faqBlock.querySelector(".faq-block-question");
 
-        question?.addEventListener('click', () => {
-            faqBlock.classList.toggle('faq-block--collapsed');
+        question?.addEventListener("click", () => {
+            faqBlock.classList.toggle("faq-block--collapsed");
         });
-    })
+    });
 }
 
 handleFaqBlocks();

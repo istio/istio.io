@@ -34,7 +34,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             column-gap: 3rem;
-            row-gap: 2.5rem;
+            row-gap: 2.5rem;// sass-lint:disable-line no-misspelled-properties
         }
     }
 }

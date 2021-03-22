@@ -87,7 +87,7 @@
 
                 &[aria-selected=true] {
                     font-weight: $boldWeight;
-                    border-top: none;
+                    border-top: 0;
                 }
 
                 &::before, &::after {
@@ -104,8 +104,8 @@
                 &:hover,
                 &[aria-selected=true] {
                     &::before, &::after {
-                      width: 100%;
-                      left: 0;
+                        width: 100%;
+                        left: 0;
                     }
                 }
 

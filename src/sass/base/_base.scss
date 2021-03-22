@@ -321,9 +321,14 @@ blockquote {
         font-style: italic;
         color: $secondaryColor;
         background-color: unset;
-    
-        &::before { content: '“'; }
-        &::after { content: '”'; }
+
+        &::before {
+            content: "”";
+            }
+
+        &::after {
+            content: "”";
+        }
     }
 }
 
@@ -417,16 +422,20 @@ sup {
 .title-area {
     display: flex;
     align-items: center;
-    
+
     h1 {
         margin: 0;
         margin-top: 1.5rem;
+
         & + p {
             margin-top: 2.625rem;
         }
     }
 
-    .subtitle { margin-bottom: 0; }
+    .subtitle {
+        margin-bottom: 0;
+    }
+
     .reading-time {
         opacity: 60%;
         color: #293655;
@@ -472,18 +481,26 @@ sup {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    
+
     @media (min-width: $bp-md) {
         padding-left: 2rem;
         padding-right: 2rem;
     }
 
     &-l {
-        @extend .container;
+        padding-left: 1.75rem;
+        padding-right: 1.75rem;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
         max-width: 1470px;
     }
+
     &-no-padding {
-        @extend .container;
+        padding-right: 1.75rem;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
         max-width: 1300px;
         padding-left: 0;
     }
@@ -499,7 +516,7 @@ sup {
 }
 
 .splide.istio-splide {
-    .splide__pagination {
+    .splide__pagination {// sass-lint:disable-line class-name-format
         position: relative;
         display: block;
         text-align: center;
@@ -507,7 +524,7 @@ sup {
         margin-top: 2.25rem;
         bottom: unset;
 
-        &__page {
+        &__page {// sass-lint:disable-line bem-depth class-name-format
             height: 18px;
             width: 18px;
             background: #ffffff;
@@ -530,6 +547,6 @@ sup {
 
 @mixin grayscale-element($value) {
     -webkit-filter: #{"grayscale(#{$value})"};
-    -moz-filter: #{"grayscale(#{$value})"};
-    filter:#{"grayscale(#{$value})"};
+    -moz-filter: #{"grayscale(#{$value})"};// sass-lint:disable-line no-misspelled-properties
+    filter: #{"grayscale(#{$value})"};
 }

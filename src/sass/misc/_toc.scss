@@ -24,13 +24,13 @@
 
             display: block !important;
         }
-       
+
         ol {
             list-style-type: none !important;
             padding-left: 0;
             padding-bottom: 0;
             margin: 0;
- 
+
             li {
                 font-size: .9rem;
                 padding: .25em .25em .25em .5em;
@@ -38,47 +38,54 @@
                 position: relative;
                 margin-bottom: 0;
                 margin-top: 0;
+
                 a {
                     font-weight: $tocLinkWeight;
                 }
-    
+
                 a.current {
                     color: $linkActiveColor;
                     font-weight: bold;
+
                     &::before {
-                        content: '';
+                        content: "";
                         position: absolute;
                         top: 0;
-                        left: -3px; 
+                        left: -3px;
                         height: 100%;
                         min-height: 16px;
-                        border-left: 4px solid #566CA5;
+                        border-left: 4px solid #566ca5;
                     }
                 }
             }
+
             ol {
                 padding-left: 1em;
-                li{
-                    border-left: none;
+
+                li {
+                    border-left: 0;
+
                     a.current {
                         &::before {
-                            left: -29px; 
+                            left: -29px;
                         }
                     }
                 }
+
                 ol {
-                    li{
+                    li {
                         a.current {
                             &::before {
-                                left: -56px; 
+                                left: -56px;
                             }
                         }
                     }
+
                     ol {
-                        li{
+                        li {
                             a.current {
                                 &::before {
-                                    left: -83px; 
+                                    left: -83px;
                                 }
                             }
                         }
