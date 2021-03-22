@@ -5,7 +5,7 @@ weight: 21
 ---
 
 {{< warning >}}
-此功能处于 Alpha 阶段，请参见[ Istio 功能状态](/zh/about/feature-stages/)。欢迎您的反馈意见[ Istio 用户体验讨论](https://discuss.istio.io/c/UX/23)。当前，此功能仅针对具有单个控制平面版本的单个小规模集群进行了测试。
+此功能处于 Alpha 阶段，请参见[Istio功能状态](/zh/about/feature-stages/)。欢迎您的反馈意见[Istio用户体验讨论](https://discuss.istio.io/c/UX/23)。当前，此功能仅针对具有单个控制平面版本的单个小规模集群进行了测试。
 
 {{< /warning >}}
 
