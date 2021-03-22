@@ -6,6 +6,7 @@ aliases:
     - /docs/welcome/contribute/style-guide.html
     - /docs/reference/contribute/style-guide.html
     - /about/contribute/terminology
+    - /latest/about/contribute/terminology
 keywords: [contribute, documentation, guide, code-block]
 ---
 

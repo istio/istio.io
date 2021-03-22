@@ -10,6 +10,7 @@ aliases:
     - /about/contribute/editing
     - /about/contribute/staging-your-changes
     - /about/contribute/github
+    - /latest/about/contribute/github
 keywords: [contribute,community,github,pr]
 ---
 

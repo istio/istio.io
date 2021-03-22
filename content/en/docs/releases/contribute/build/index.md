@@ -4,6 +4,7 @@ description: Explains how to locally build, test, serve, and preview the website
 weight: 5
 aliases:
   - /about/contribute/build
+  - /latest/about/contribute/build
 keywords: [contribute, serve, Docker, Hugo, build]
 ---
 

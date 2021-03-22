@@ -4,6 +4,7 @@ description: Explains the front matter used in our documentation and the fields 
 weight: 6
 aliases:
     - /about/contribute/front-matter
+    - /latest/about/contribute/front-matter
 keywords: [metadata,navigation,table-of-contents]
 ---
 

@@ -7,6 +7,7 @@ aliases:
     - /bugs/index.html
     - /help/bugs/
     - /about/bugs
+    - /latest/about/bugs
 icon: bugs
 ---
 

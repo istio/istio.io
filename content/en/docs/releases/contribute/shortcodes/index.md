@@ -8,6 +8,7 @@ aliases:
     - /about/contribute/writing-a-new-topic.html
     - /create
     - /about/contribute/shortcodes
+    - /latest/about/contribute/shortcodes
 keywords: [contribute]
 ---
 

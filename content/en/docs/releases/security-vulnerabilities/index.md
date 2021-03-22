@@ -4,6 +4,7 @@ description: How we handle security vulnerabilities.
 weight: 35
 aliases:
     - /about/security-vulnerabilities
+    - /latest/about/security-vulnerabilities
 icon: vulnerabilities
 ---
 

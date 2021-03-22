@@ -4,6 +4,7 @@ description: Explains the standard markup used to format Istio documentation.
 weight: 10
 aliases:
     - /about/contribute/formatting
+    - /latest/about/contribute/formatting
 keywords: [contribute]
 ---
 

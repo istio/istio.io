@@ -4,6 +4,7 @@ description: Shows you how changes to the Istio documentation and website are re
 weight: 7
 aliases:
   - /about/contribute/review
+  - /latest/about/contribute/review
 keywords: [contribute,community,github,pr,documentation,review, approval]
 ---
 

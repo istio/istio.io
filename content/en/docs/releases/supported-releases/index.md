@@ -4,6 +4,7 @@ description: The currently supported Istio releases.
 weight: 35
 aliases:
     - /about/supported-releases
+    - /latest/about/supported-releases
 icon: cadence
 ---
 

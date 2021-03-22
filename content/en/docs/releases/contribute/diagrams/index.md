@@ -4,6 +4,7 @@ description: Provides assets and instructions to create diagrams for the Istio d
 weight: 13
 aliases:
    - /about/contribute/diagrams
+   - /latest/about/contribute/diagrams
 keywords: [contribute,diagram,documentation,guide]
 ---
 

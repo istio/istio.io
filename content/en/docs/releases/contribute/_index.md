@@ -10,6 +10,7 @@ aliases:
     - /about/contribute/creating-and-editing-pages
     - /create
     - /about/contribute
+    - /latest/about/contribute
 keywords: [contribute, github, docs, shortcodes, code-blocks, website]
 list_below: true
 icon: contribute

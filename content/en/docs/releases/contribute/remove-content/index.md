@@ -4,6 +4,7 @@ description: Details how to contribute retired documentation to Istio.
 weight: 4
 aliases:
     - /about/contribute/remove-content
+    - /latest/about/contribute/remove-content
 keywords: [contribute]
 ---
 
