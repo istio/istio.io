@@ -7,7 +7,7 @@ author:
     image: ""
 companyName: "Red Hat"
 companyURL: "https://www.redhat.com/"
-logo: "/logos/redhat.png"
+logo: "/logos/redhat.svg"
 skip_toc: true
 skip_byline: true
 skip_pagenav: true
