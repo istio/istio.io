@@ -16,7 +16,7 @@ and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) 
 1. Install the Service APIs CRDs:
 
     {{< text bash >}}
-    $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.1.0" | kubectl apply -f -
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.2.0" | kubectl apply -f -
     {{< /text >}}
 
 1. Install Istio, or reconfigure an existing installation to enable the Service APIs controller:

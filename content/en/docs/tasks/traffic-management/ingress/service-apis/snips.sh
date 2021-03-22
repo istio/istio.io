@@ -21,7 +21,7 @@
 ####################################################################################################
 
 snip_setup_1() {
-kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.1.0" | kubectl apply -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.2.0" | kubectl apply -f -
 }
 
 snip_setup_2() {
