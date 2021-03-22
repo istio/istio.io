@@ -14,7 +14,7 @@ test: no
 
 ## 终端用户认证失败{#end-user-authentication-fails}
 
-使用 Istio，可以通过 [请求认证策略](/zh/docs/tasks/security/authentication/authn-policy/#end-user-authentication) 启用终端用户认证。目前，Istio 认证策略提供的终端用户凭证是 JWT。以下是排查终端用户 JWT 身份认证问题的指南。
+使用 Istio，可以通过[请求认证策略](/zh/docs/tasks/security/authentication/authn-policy/#end-user-authentication) 启用终端用户认证。目前，Istio 认证策略提供的终端用户凭证是 JWT。以下是排查终端用户 JWT 身份认证问题的指南。
 
 1. 如果 `jwksUri` 未设置，确保 JWT 发行者是 url 格式并且 `url + /.well-known/openid-configuration` 可以在浏览器中打开；例如，如果 JWT 发行者是 `https://accounts.google.com`，确保 `https://accounts.google.com/.well-known/openid-configuration` 是有效的 url，并且可以在浏览器中打开。
 
@@ -104,8 +104,7 @@ spec:
         - foo
 {{< /text >}}
 
-您期望的策略所允许的请求是符合路径为 `/foo` **and** 源命名空间为 `foo`。
-但是，策略实际上允许的请求是符合路径为 `/foo` **or** 源命名空间为 `foo`,这显然会更加宽松。
+您期望的策略所允许的请求是符合路径为 `/foo` **and** 源命名空间为 `foo`。但是，策略实际上允许的请求是符合路径为 `/foo` **or** 源命名空间为 `foo`,这显然会更加宽松。
 
 在 YAML 的语义中，`from:` 前面的 `-` 意味着这是列表中的一个新元素。这会在策略中创建两条规则，而不是所希望的一条。在认证策略中，多条规则之间是 `OR` 的关系。
 
@@ -113,11 +112,11 @@ spec:
 
 ### 确保您没有在 TCP 端口上使用仅适用于 HTTP 的字段{#make-sure-you-are-not-using-http-only-fields-on-tcp-ports}
 
-授权策略会变得更加严格因为定义了仅适用于 HTTP 的字段 (比如 `host`, `path`, `headers`, JWT， 等等) 在纯 TCP 连接上使不存在的。
+授权策略会变得更加严格因为定义了仅适用于 HTTP 的字段 (比如 `host`，`path`，`headers`，JWT， 等等) 在纯 TCP 连接上是不存在的。
 
 对于 `ALLOW` 类的策略来说，这些字段不会被匹配。但对于 `DENY` 以及 `CUSTOM` 类策略来说，这类字段会被认为是始终匹配的。最终结果会是一个更加严格的策略从而可能导致意外的连接拒绝。
 
-检查 Kubernetes 服务定义来确定端口是 [命名中包含正确的协议名称](/zh/docs/ops/configuration/traffic-management/protocol-selection/#manual-protocol-selection)。如果您在端口上使用了仅适用于 HTTP 的字段，要确保端口名有 `http-` 前缀。
+检查 Kubernetes 服务定义来确定端口是[命名中包含正确的协议名称](/zh/docs/ops/configuration/traffic-management/protocol-selection/#manual-protocol-selection)。如果您在端口上使用了仅适用于 HTTP 的字段，要确保端口名有 `http-` 前缀。
 
 ### 确保策略配置在正确的目标上{#make-sure-the-policy-is-applied-to-the-correct-target}
 
@@ -131,7 +130,7 @@ spec:
 
 - 在任何情况下，`AUDIT` 动作不会实施控制访问权并且不会拒绝请求。
 
-## 确保 Istiod 接受策略{#ensure-pilot-accepts-the-policies}
+## 确保 Istiod 接受策略{#ensure-istiod-accepts-the-policies}
 
 Istiod 负责对授权策略进行转换，并将其分发给 Sidecar。下面的的步骤可以用于确认 Istiod 是否按预期在工作：
 
@@ -187,7 +186,7 @@ Istiod 负责对授权策略进行转换，并将其分发给 Sidecar。下面�
 
     - 对于带 `app=ext-authz-server,...` 标签的负载生成了带有 `ns[foo]-policy[ext-authz-server]-rule[0]` 策略的 TCP 过滤器配置。
 
-## 确认 Istiod 正确的将策略分发给了代理服务器{#ensure-pilot-distributes-policies-to-proxies-correctly}
+## 确认 Istiod 正确的将策略分发给了代理服务器{#ensure-istiod-distributes-policies-to-proxies-correctly}
 
 Pilot 负责向代理服务器分发授权策略。下面的步骤用来确认 Pilot 按照预期工作：
 
@@ -341,7 +340,7 @@ Pilot 负责向代理服务器分发授权策略。下面的步骤用来确认 P
 
 ## 密钥和证书错误{#keys-and-certificates-errors}
 
-如果您怀疑 Istio 使用的某些密钥或证书不正确，您可以检查任何 pod 的内容信息。
+如果您怀疑 Istio 使用的某些密钥或证书不正确，您可以检查任何 Pod 的内容信息。
 
 {{< text bash >}}
 $ istioctl proxy-config secret sleep-8f795f47d-4s4t7
