@@ -23,7 +23,7 @@ icon: feature-status
 
 | **安全性** | 安全漏洞将按照简单地错误修复程序公开处理 | 安全漏洞将根据我们的[安全漏洞处理规范](/zh/about/security-vulnerabilities/)进行处理 | 安全漏洞将根据我们的[安全漏洞处理规范](/zh/about/security-vulnerabilities/)进行处理
 
-## Istio 功能{#istio-feature}
+## Istio 功能{#Istio-feature}
 
 以下是我们现有的功能及其当前状态的列表。该信息将在每个月发行一次之后更新。
 
