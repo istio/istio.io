@@ -1,25 +1,27 @@
 ---
-title: Kubernetes Service APIs
-description: Describes how to configure the Kubernetes Service APIs with Istio.
+title: Kubernetes Gateway API
+description: Describes how to configure the Kubernetes Gateway API with Istio.
 weight: 50
+aliases:
+    - /docs/tasks/traffic-management/ingress/service-apis/
 keywords: [traffic-management,ingress]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-This task describes how to configure Istio to expose a service outside of the service mesh cluster, using the Kubernetes [Service APIs](https://kubernetes-sigs.github.io/gateway-api/).
+This task describes how to configure Istio to expose a service outside of the service mesh cluster, using the Kubernetes [Gateway API](https://gateway-api.sigs.k8s.io/).
 These APIs are an actively developed evolution of the Kubernetes [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
 and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) APIs.
 
 ## Setup
 
-1. Install the Service APIs CRDs:
+1. Install the Gateway API CRDs:
 
     {{< text bash >}}
-    $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.1.0" | kubectl apply -f -
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.2.0" | kubectl apply -f -
     {{< /text >}}
 
-1. Install Istio, or reconfigure an existing installation to enable the Service APIs controller:
+1. Install Istio, or reconfigure an existing installation to enable the Gateway API controller:
 
     {{< text bash >}}
     $ istioctl install --set values.pilot.env.PILOT_ENABLED_SERVICE_APIS=true
@@ -29,7 +31,7 @@ and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) 
 
 ## Configuring a Gateway
 
-See the [Service APIs](https://kubernetes-sigs.github.io/gateway-api/) documentation for information about the APIs.
+See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for information about the APIs.
 
 1. Deploy a test application:
 
@@ -37,7 +39,7 @@ See the [Service APIs](https://kubernetes-sigs.github.io/gateway-api/) documenta
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
 
-1. Deploy the Service APIs configuration:
+1. Deploy the Gateway API configuration:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
