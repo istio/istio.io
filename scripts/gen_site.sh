@@ -18,7 +18,7 @@ set -e
 
 mkdir -p generated/css generated/js generated/img tmp/js
 
-sass assets/sass/_all.scss all.css -s compressed --no-source-map
+sass src/sass/_all.scss all.css -s compressed --no-source-map
 mv all.css* generated/css
 tsc
 
@@ -42,7 +42,7 @@ babel --source-maps --minified --no-comments --presets minify \
   tmp/js/lang.js \
   tmp/js/callToAction.js \
   tmp/js/events.js \
-   tmp/js/faq.js \
+  tmp/js/faq.js \
   --out-file generated/js/all.min.js
 
 babel --source-maps --minified --no-comments --presets minify \
