@@ -96,7 +96,7 @@ an extra check in the authorization layer, i.e., defense in depth.
 
 The following policy denies the request if the principal is empty. The principal will be empty if plain text is used.
 In other words, the policy allows requests if the principal is non-empty.
-"*" means non-empty match and using with `notPrincipals` means matching on empty principal.
+`"*"` means non-empty match and using with `notPrincipals` means matching on empty principal.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
