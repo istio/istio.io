@@ -5,7 +5,7 @@ weight: 21
 ---
 
 {{< warning >}}
-此功能处于 Alpha 阶段，请参见[Istio功能状态](/zh/about/feature-stages/)。欢迎您的反馈意见[Istio用户体验讨论](https://discuss.istio.io/c/UX/23)。当前，此功能仅针对具有单个控制平面版本的单个小规模集群进行了测试。
+此功能处于 Alpha 阶段，请参见 [Istio功能状态](/zh/about/feature-stages/)。欢迎您的反馈意见 [Istio用户体验讨论](https://discuss.istio.io/c/UX/23)。当前，此功能仅针对具有单个控制平面版本的单个小规模集群进行了测试。
 
 {{< /warning >}}
 
@@ -24,7 +24,7 @@ $ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.
 
 例如，`kubectl wait` 命令监视 `status` 字段以确定是否取消阻止配置并继续。有关更多信息，请参见[等待资源状态以应用配置](/zh/docs/ops/configuration/mesh/config-resource-ready/).
 
-## 查看 `status` 字段{#View the `status` field}
+## 查看 `status` 字段{#view-the-status-field}
 
 您可以使用 `kubectl get` 查看资源中 `status` 字段的内容。 例如，要查看虚拟服务的状态，请使用以下命令:
 
@@ -58,7 +58,7 @@ status:
     message: 'mTLS not enabled for virtual service'
 {{< /text >}}
 
-## `conditions` 字段{#The `conditions` field}
+## `conditions` 字段{#the-conditions-field}
 
 conditions 字段代表资源的可能状态。 一个 condition 的 `type` 字段可以具有以下值：
 
@@ -75,7 +75,7 @@ conditions 字段代表资源的可能状态。 一个 condition 的 `type` 字�
 
 `PassedAnalysis` 类型条件仅是一个信息字段。 它不会阻止应用无效的配置。 该状态可能表示验证失败，但是应用配置成功。 这意味着 Istio 能够设置新配置，但是该配置无效，可能是由于语法错误或类似问题。
 
-## `validationMessages` 字段{#The `validationMessages` field}
+## `validationMessages` 字段{#the-validationMessages-field}
 
 如果验证失败，请检查 `validationMessages` 字段以了解更多信息。`validationMessages` 字段包含有关验证过程的详细信息，例如指示 Istio 无法应用配置的错误消息，以及未导致错误的警告或参考消息。
 
