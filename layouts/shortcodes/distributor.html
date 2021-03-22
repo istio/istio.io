@@ -1,0 +1,12 @@
+{{ $link := .Get "link" }}
+{{ $alt := .Get "alt" }}
+{{ $logo := .Get "logo" }}
+
+{{ $logoPath := "" }}
+{{ if in (print .Page.Permalink) "latest"}}
+    {{ $logoPath = "./logos/" }}
+{{ else }}
+    {{ $logoPath = "latest/logos/" }}
+{{ end }}
+
+{{ partial "distributor" (dict "link" $link "alt" $alt "logo" (path.Join $logoPath $logo)) }}
