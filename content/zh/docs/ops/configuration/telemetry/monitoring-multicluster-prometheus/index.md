@@ -20,7 +20,7 @@ test: no
 
 按照[多集群安装](/zh/docs/setup/install/multicluster/)部分，在[多集群部署模型](/zh/docs/ops/deployment/deployment-models/#multiple-clusters)中选择可行的模型配置 Istio 多集群。为了能够实现本教程的目的，让示例都能够运行，并提出以下警告：
 
-**确保每个集群都安装了 Istio Prometheus 集群实例。**
+**确保每个集群都安装了 Istio Prometheus 集群实例!**
 
 在每个集群中使用 Istio 独立部署的 Prometheus 是跨集群监控的基础，通过联合（Federation）的方式将Prometheus 的生产就绪实例在网格外部或在其中一个集群中运行。
 
