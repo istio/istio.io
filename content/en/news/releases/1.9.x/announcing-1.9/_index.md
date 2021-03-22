@@ -58,9 +58,9 @@ Istio continues to make mesh telemetry collection more configurable. In this rel
 [Request Classification](/docs/tasks/observability/metrics/classify-metrics/) has been promoted to Beta. This feature
 enables users to more precisely understand and monitor the traffic in their service mesh.
 
-## Kubernetes Service API support (Alpha)
+## Kubernetes Gateway API support (Alpha)
 
-Configuring Istio to expose a service using [Kubernetes Service APIs](https://kubernetes-sigs.github.io/service-apis/) has been an active area of development since Istio 1.6, and we are pleased to announce support for them as Alpha in 1.9. Using these APIs benefits users who move between other service meshes that support these APIs. To try them out, check out the [Service API's getting started documentation](/docs/tasks/traffic-management/ingress/service-apis/).
+Configuring Istio to expose a service using [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) has been an active area of development since Istio 1.6, and we are pleased to announce support for them as Alpha in 1.9. Using these APIs benefits users who move between other service meshes that support these APIs. To try them out, check out the [Gateway API getting started documentation](/docs/tasks/traffic-management/ingress/gateway-api/).
 
 We are eager to evolve these CRDs in partnership with the Kubernetes community, notably the
 [Kubernetes SIG-NETWORK group](https://github.com/kubernetes/community/tree/master/sig-network), in upcoming releases to

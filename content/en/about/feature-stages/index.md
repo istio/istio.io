@@ -44,7 +44,7 @@ Below is our list of existing features and their current phases. This informatio
 | CNI container interface | Alpha
 | [Sidecar API](/docs/reference/config/networking/sidecar/) | Beta
 | [DNS Proxying](/docs/ops/configuration/traffic-management/dns-proxy/) | Alpha
-| [Kubernetes service-apis](/docs/tasks/traffic-management/ingress/service-apis/) | Alpha
+| [Kubernetes service-apis](/docs/tasks/traffic-management/ingress/gateway-api/) | Alpha
 
 ### Observability
 
