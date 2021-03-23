@@ -1,23 +1,23 @@
 html {
     --backgroundColor: #ffffff;
 
-    --textCodeColor: #7DC6F2;
+    --textCodeColor: #7dc6f2;
     --primaryColor: #293655;            //dark-grey-blue
     --secondaryColor: #516ba9;          //dull-blue
     --accentColor: #7dc6f2;             //light-blue
     --secondaryAccentColor: #3d5080;    //denim
     --paleGray: #f8f9fa;
 
-    --inputBorderColor: #566CA5;
+    --inputBorderColor: #566ca5;
     --textColor: #293655;
     --textCodeColor: #d14;
     --disabledTextColor: #{lighten(#535f61, 50%)};
     --textGray: #8a8a8c;
-  
+
     --linkColor: #306bcc;
     --linkHoverColor: #1d67a0;
     --linkDisabledColor: #cccccc;
-    --linkActiveColor: #516BAA;
+    --linkActiveColor: #516baa;
 
     --h1Color: var(--textColor);
     --h2Color: var(--textColor);
@@ -32,20 +32,20 @@ html {
     --glossaryHeaderColor: #{$medium-gray};
     --deprecatedBackgroundColor: silver;
     --boxBorderColor: var(--tipCalloutBorderColor);
-    --inputBorderColor: #566CA5;
+    --inputBorderColor: #566ca5;
 
     --quoteCalloutBackgroundColor: #f8f9fa;
     --quoteCalloutBorderColor: #f8f9fa;
     --tipCalloutBackgroundColor: #f2fff2;
-    --tipCalloutBorderColor: #7DC6F2;
+    --tipCalloutBorderColor: #7dc6f2;
     --ideaCalloutBackgroundColor: #ffffe0;
     --ideaCalloutBorderColor: #f7f7d8;
     --warningCalloutBackgroundColor: #fff2f2;
     --warningCalloutBorderColor: #f7eaea;
 
     --preBlockShadowColor: #a7a7a7;
-    --preBlockBorderColor: #7DC6F2;
-    --preBlockBackgroundColor: #F8F9FA;
+    --preBlockBorderColor: #7dc6f2;
+    --preBlockBackgroundColor: #f8f9fa;
     --preBlockCommandOutputTextColor: var(--textColor);
     --preBlockCommandOutputBackgroundColor: #{$light-gray};
 
@@ -104,7 +104,7 @@ html {
     --bannerLinkDisabledColor: #444444;
     --bannerLinkActiveColor: #7dc6f2;
 
-    --modalBackgroundColor: fade-out(var(--paleGray), 0.3);
+    --modalBackgroundColor: fade-out(var(--paleGray), .3);
 
     --regularWeight: 400;
     --mediumWeight: 500;

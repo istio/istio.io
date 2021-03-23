@@ -15,13 +15,11 @@
         @media (min-width: $bp-lg) {
             margin-bottom: 6.25rem;
         }
-    }
-    .title-area .subtitle {
-        text-align: center;
-    }
 
-    .title-area .subtitle {
-        max-width: 750px;
+        &.subtitle {
+            text-align: center;
+            max-width: 750px;
+        }
     }
 
     figure {

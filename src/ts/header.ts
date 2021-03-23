@@ -22,7 +22,7 @@ function handleHeader(): void {
     const searchDocsForm = "search-docs-form";
     const isVisible = "is-visible";
     const sidebarVisible = "visible";
-    const sidebarId = 'sidebar-container';
+    const sidebarId = "sidebar-container";
     const hasDropdown = "has-dropdown";
     const isOpen = "is-open";
     const screenSizeLg = 992;
@@ -64,10 +64,10 @@ function handleHeader(): void {
     }
 
     const header = getByTag("header");
-    function toggleActiveHeader():void {
+    function toggleActiveHeader(): void {
         const top = window.scrollY;
 
-        if(top >= 10) {
+        if (top >= 10) {
             header?.classList.add("active");
         } else {
             header?.classList.remove("active");
@@ -108,7 +108,7 @@ function handleHeader(): void {
         e.preventDefault();
         const textbox = getById(searchDocsTextbox) as HTMLInputElement;
         const searchPageUrl = getById("search-docs-url") as HTMLInputElement;
-        const url = searchPageUrl.value+ "?q=" + textbox.value + "&site=docs";
+        const url = searchPageUrl.value + "?q=" + textbox.value + "&site=docs";
         window.location.assign(url);
     });
     listen(getById("hamburger"), click, () => {
@@ -117,7 +117,7 @@ function handleHeader(): void {
         }
     });
     listen(getById("menu-close"), click, () => {
-        if(header) {
+        if (header) {
             header.classList.remove(isVisible);
         }
     });
@@ -128,29 +128,29 @@ function handleHeader(): void {
         }
     });
     listen(getById("sidebar-close"), click, () => {
-        if(sidebar) {
+        if (sidebar) {
             sidebar.classList.remove(sidebarVisible);
         }
     });
-    
+
     // Toggle dropdown menu on click in mobile view
     const dropdownLinks = getByClass("main-navigation-links-link");
-    if(dropdownLinks) {
-        for(let i = 0; i < dropdownLinks.length; i++) {
-            if(dropdownLinks[i].classList.contains(hasDropdown)) {
-                listen(dropdownLinks[i], click, (e) => {
-                    if(window.innerWidth < screenSizeLg) {
+    if (dropdownLinks) {
+        for (const i of dropdownLinks) {
+            if (i.classList.contains(hasDropdown)) {
+                listen(i, click, (e) => {
+                    if (window.innerWidth < screenSizeLg) {
                         e.preventDefault();
-                        dropdownLinks[i].classList.toggle(isOpen);
+                        i.classList.toggle(isOpen);
                         return false;
                     }
                     return true;
-                }); 
+                });
             }
         }
     }
 
-    if(document.readyState !== "loading") {
+    if (document.readyState !== "loading") {
         toggleActiveHeader();
     }
 
