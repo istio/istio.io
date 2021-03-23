@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 84
+number_of_entries: 85
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -42,6 +42,135 @@ debug and diagnose their Istio mesh.
 </tr>
 </tbody>
 </table>
+<h2 id="istioctl-admin">istioctl admin</h2>
+<p>A group of commands used to manage istiod configuration</p>
+<pre class="language-bash"><code>istioctl admin [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl istiod [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--selector &lt;string&gt;</code></td>
+<td><code>-l</code></td>
+<td>label selector  (default `app=istiod`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-admin Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve information about istiod configuration.
+  istioctl admin log
+</code></pre>
+<h2 id="istioctl-admin-log">istioctl admin log</h2>
+<p>Retrieve or update logging levels of istiod components.</p>
+<pre class="language-bash"><code>istioctl admin log [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl admin l [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;int&gt;</code></td>
+<td></td>
+<td>ControlZ port  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of output logging level for scopes in format &lt;scope&gt;:&lt;level&gt;[,&lt;scope&gt;:&lt;level&gt;,...]Possible values for &lt;level&gt;: none, error, warn, info, debug  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--reset</code></td>
+<td><code>-r</code></td>
+<td>Reset levels to default value. (info) </td>
+</tr>
+<tr>
+<td><code>--selector &lt;string&gt;</code></td>
+<td><code>-l</code></td>
+<td>label selector  (default `app=istiod`)</td>
+</tr>
+<tr>
+<td><code>--stack-trace-level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of stack trace level  for scopes in format &lt;scope&gt;:&lt;stack-trace-level&gt;[,&lt;scope&gt;:&lt;stack-trace-level&gt;,...] Possible values for &lt;stack-trace-level&gt;: none, error, warn, info, debug  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-admin-log Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve information about istiod logging levels.
+  istioctl admin log
+
+  # Retrieve information about istiod logging levels on a specific control plane pod.
+  istioctl admin l istiod-5c868d8bdd-pmvgg
+
+  # Update levels of the specified loggers.
+  istioctl admin log --level ads:debug,authorization:debug
+
+  # Reset levels of all the loggers to default value (info).
+  istioctl admin log -r
+
+</code></pre>
 <h2 id="istioctl-analyze">istioctl analyze</h2>
 <p>Analyze Istio configuration and print validation messages</p>
 <pre class="language-bash"><code>istioctl analyze &lt;file&gt;... [flags]
@@ -1524,6 +1653,116 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
   istioctl --kubeconfig=c0.yaml x create-remote-secret --name c0 --auth-type=plugin --auth-plugin-name=gcp \
     | kubectl --kubeconfig=c1.yaml apply -f -
 </code></pre>
+<h2 id="istioctl-experimental-debug">istioctl experimental debug</h2>
+<p>
+Retrieves the debug information from Istiod or Pods in the mesh using the service account from the pod if --cert-dir is empty.
+By default it will use the default serviceAccount from (istio-system) namespace if the pod is not specified.</p>
+<p>
+THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
+<pre class="language-bash"><code>istioctl experimental debug [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--authority &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Subject Alternative Name (for example istiod.istio-system.svc)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--cert-dir &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Endpoint certificate directory  (default ``)</td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--insecure</code></td>
+<td></td>
+<td>Skip server certificate and domain verification. (NOT SECURE!) </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--plaintext</code></td>
+<td></td>
+<td>Use plain-text HTTP/2 when connecting to server (no TLS). </td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>Control plane revision  (default ``)</td>
+</tr>
+<tr>
+<td><code>--timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>The duration to wait before failing  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--xds-address &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Endpoint  (default ``)</td>
+</tr>
+<tr>
+<td><code>--xds-label &lt;string&gt;</code></td>
+<td></td>
+<td>Istiod pod label selector  (default ``)</td>
+</tr>
+<tr>
+<td><code>--xds-port &lt;int&gt;</code></td>
+<td></td>
+<td>Istiod pod port  (default `15012`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-debug Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve sync status for all Envoys in a mesh
+  istioctl x debug syncz 
+
+  # Retrieve sync diff for a single Envoy and Istiod
+  istioctl x debug syncz istio-egressgateway-59585c5b9c-ndc59.istio-system
+
+  # SECURITY OPTIONS
+
+  # Retrieve syncz debug information directly from the control plane, using token security
+  # (This is the usual way to get the debug information with an out-of-cluster control plane.)
+  istioctl x debug syncz --xds-address istio.cloudprovider.example.com:15012
+
+  # Retrieve syncz debug information via Kubernetes config, using token security
+  # (This is the usual way to get the debug information with an in-cluster control plane.)
+  istioctl x debug syncz
+
+  # Retrieve syncz debug information directly from the control plane, using RSA certificate security
+  # (Certificates must be obtained before this step.  The --cert-dir flag lets istioctl bypass the Kubernetes API server.)
+  istioctl x debug syncz --xds-address istio.example.com:15012 --cert-dir ~/.istio-certs
+
+  # Retrieve syncz information via XDS from specific control plane in multi-control plane in-cluster configuration
+  # (Select a specific control plane in an in-cluster canary Istio configuration.)
+  istioctl x debug syncz --xds-label istio.io/rev=default
+
+</code></pre>
 <h2 id="istioctl-experimental-describe">istioctl experimental describe</h2>
 <p>Describe resource and related Istio configuration</p>
 <pre class="language-bash"><code>istioctl experimental describe [flags]
@@ -1730,132 +1969,6 @@ the configuration objects that affect that service.</p>
 </table>
 <h3 id="istioctl-experimental-injector-list Examples">Examples</h3>
 <pre class="language-bash"><code>  istioctl experimental injector list
-</code></pre>
-<h2 id="istioctl-experimental-istiod">istioctl experimental istiod</h2>
-<p>A group of commands used to manage istiod configuration</p>
-<pre class="language-bash"><code>istioctl experimental istiod [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--selector &lt;string&gt;</code></td>
-<td><code>-l</code></td>
-<td>label selector  (default `app=istiod`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-istiod Examples">Examples</h3>
-<pre class="language-bash"><code>  # Retrieve information about istiod configuration.
-  istioctl experimental istiod log
-</code></pre>
-<h2 id="istioctl-experimental-istiod-log">istioctl experimental istiod log</h2>
-<p>Retrieve or update logging levels of istiod components.</p>
-<pre class="language-bash"><code>istioctl experimental istiod log [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
-</code></pre>
-<div class="aliases">
-<pre class="language-bash"><code>istioctl experimental istiod l [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
-</code></pre></div>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--ctrlz_port &lt;int&gt;</code></td>
-<td></td>
-<td>ControlZ port  (default `9876`)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated list of output logging level for scopes in format &lt;scope&gt;:&lt;level&gt;[,&lt;scope&gt;:&lt;level&gt;,...]Possible values for &lt;level&gt;: none, error, warn, info, debug  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--output &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
-</tr>
-<tr>
-<td><code>--reset</code></td>
-<td><code>-r</code></td>
-<td>Reset levels to default value. (info) </td>
-</tr>
-<tr>
-<td><code>--selector &lt;string&gt;</code></td>
-<td><code>-l</code></td>
-<td>label selector  (default `app=istiod`)</td>
-</tr>
-<tr>
-<td><code>--stack-trace-level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated list of stack trace level  for scopes in format &lt;scope&gt;:&lt;stack-trace-level&gt;[,&lt;scope&gt;:&lt;stack-trace-level&gt;,...] Possible values for &lt;stack-trace-level&gt;: none, error, warn, info, debug  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-istiod-log Examples">Examples</h3>
-<pre class="language-bash"><code>  # Retrieve information about istiod logging levels.
-  istioctl experimental istiod log
-
-  # Retrieve information about istiod logging levels on a specific control plane pod.
-  istioctl experimental istiod l istiod-5c868d8bdd-pmvgg
-
-  # Update levels of the specified loggers.
-  istioctl x istiod log --level ads:debug,authorization:debug
-
-  # Reset levels of all the loggers to default value (info).
-  istioctl x istiod log -r
-
 </code></pre>
 <h2 id="istioctl-experimental-kube-uninject">istioctl experimental kube-uninject</h2>
 <p>
@@ -5700,6 +5813,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_MCS_SERVICEEXPORT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Pilot will generate MCS ServiceExport objects for every non cluster-local service in the cluster</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>

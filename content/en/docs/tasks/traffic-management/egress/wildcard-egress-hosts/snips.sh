@@ -175,7 +175,8 @@ kubectl delete destinationrule egressgateway-for-wikipedia
 
 snip_setup_egress_gateway_with_sni_proxy_1() {
 cat <<EOF > ./sni-proxy.conf
-user www-data;
+# setup custom path that do not require root access
+pid /tmp/nginx.pid;
 
 events {
 }
@@ -190,7 +191,7 @@ stream {
   # tcp forward proxy by SNI
   server {
     resolver 8.8.8.8 ipv6=off;
-    listen       127.0.0.1:8443;
+    listen       127.0.0.1:18443;
     proxy_pass   \$ssl_preread_server_name:443;
     ssl_preread  on;
   }
@@ -222,6 +223,7 @@ spec:
         service:
           ports:
           - port: 443
+            targetPort: 8443
             name: https
         overlays:
         - kind: Deployment
@@ -236,18 +238,14 @@ spec:
                 mountPath: /etc/nginx
                 readOnly: true
               securityContext:
-                runAsNonRoot: false
-                runAsUser: 0
+                runAsNonRoot: true
+                runAsUser: 101
           - path: spec.template.spec.volumes[-1]
             value: |
               name: sni-proxy-config
               configMap:
                 name: egress-sni-proxy-configmap
                 defaultMode: 292 # 0444
-  values:
-    gateways:
-      istio-egressgateway:
-        runAsRoot: true
 EOF
 }
 
@@ -275,7 +273,7 @@ spec:
   - sni-proxy.local
   location: MESH_EXTERNAL
   ports:
-  - number: 8443
+  - number: 18443
     name: tcp
     protocol: TCP
   resolution: STATIC
@@ -379,7 +377,7 @@ spec:
     - destination:
         host: sni-proxy.local
         port:
-          number: 8443
+          number: 18443
       weight: 100
 ---
 # The following filter is used to forward the original SNI (sent by the application) as the SNI of the
@@ -453,8 +451,8 @@ kubectl logs -l istio=egressgateway-with-sni-proxy -c istio-proxy -n istio-syste
 }
 
 ! read -r -d '' snip_configure_traffic_through_egress_gateway_with_sni_proxy_6 <<\ENDSNIP
-[2019-01-02T16:34:23.312Z] "- - -" 0 - 578 79141 624 - "-" "-" "-" "-" "127.0.0.1:8443" outbound|8443||sni-proxy.local 127.0.0.1:55018 172.30.109.84:443 172.30.109.112:45346 en.wikipedia.org
-[2019-01-02T16:34:24.079Z] "- - -" 0 - 586 65770 638 - "-" "-" "-" "-" "127.0.0.1:8443" outbound|8443||sni-proxy.local 127.0.0.1:55034 172.30.109.84:443 172.30.109.112:45362 de.wikipedia.org
+[2019-01-02T16:34:23.312Z] "- - -" 0 - 578 79141 624 - "-" "-" "-" "-" "127.0.0.1:18443" outbound|18443||sni-proxy.local 127.0.0.1:55018 172.30.109.84:443 172.30.109.112:45346 en.wikipedia.org
+[2019-01-02T16:34:24.079Z] "- - -" 0 - 586 65770 638 - "-" "-" "-" "-" "127.0.0.1:18443" outbound|18443||sni-proxy.local 127.0.0.1:55034 172.30.109.84:443 172.30.109.112:45362 de.wikipedia.org
 ENDSNIP
 
 snip_configure_traffic_through_egress_gateway_with_sni_proxy_7() {
