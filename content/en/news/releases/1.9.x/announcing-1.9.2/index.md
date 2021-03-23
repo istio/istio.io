@@ -25,7 +25,7 @@ This release note describes what’s different between Istio 1.9.1 and Istio 1.9
 pod attempting to reach `kubernetes.default.svc` will always be directed to the in-cluster server.
   ([Issue #31340](https://github.com/istio/istio/issues/31340))
 
-- **Fixed** issue with metadata handling for Azure platform. Support added for
+- **Fixed** an issue with metadata handling for the Azure platform, allowing
 `tagsList` serialization of tags on instance metadata.
   ([Issue #31176](https://github.com/istio/istio/issues/31176))
 
