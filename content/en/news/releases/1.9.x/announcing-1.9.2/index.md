@@ -15,7 +15,7 @@ This release note describes what’s different between Istio 1.9.1 and Istio 1.9
 
 ## Changes
 
-- **Fixed** transport socket parameters are now taken into account when configured in `EnvoyFilter`
+- **Fixed** an issue so transport socket parameters are now taken into account when configured in `EnvoyFilter`
   ([Issue #28996](https://github.com/istio/istio/issues/28996))
 
 - **Fixed** a bug causing runaway logs in `istiod` after disabling the default ingress controller.
