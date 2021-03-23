@@ -6,6 +6,7 @@ aliases:
   - /about/contribute/build
   - /latest/about/contribute/build
 keywords: [contribute, serve, Docker, Hugo, build]
+owner: istio/wg-docs-maintainers
 test: n/a
 ---
 

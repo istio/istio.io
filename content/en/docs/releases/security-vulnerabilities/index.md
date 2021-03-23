@@ -6,6 +6,7 @@ aliases:
     - /about/security-vulnerabilities
     - /latest/about/security-vulnerabilities
 icon: vulnerabilities
+owner: istio/wg-docs-maintainers
 test: n/a
 ---
 

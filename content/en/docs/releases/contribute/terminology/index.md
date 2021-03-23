@@ -8,6 +8,7 @@ aliases:
     - /about/contribute/terminology
     - /latest/about/contribute/terminology
 keywords: [contribute, documentation, guide, code-block]
+owner: istio/wg-docs-maintainers
 test: n/a
 ---
 

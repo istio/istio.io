@@ -6,6 +6,7 @@ aliases:
     - /about/contribute/remove-content
     - /latest/about/contribute/remove-content
 keywords: [contribute]
+owner: istio/wg-docs-maintainers
 test: n/a
 ---
 

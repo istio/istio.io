@@ -10,6 +10,7 @@ aliases:
     - /about/contribute/add-content
     - /latest/about/contribute/add-content
 keywords: [contribute]
+owner: istio/wg-docs-maintainers
 test: n/a
 ---
 

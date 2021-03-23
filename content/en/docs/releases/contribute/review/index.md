@@ -6,6 +6,7 @@ aliases:
   - /about/contribute/review
   - /latest/about/contribute/review
 keywords: [contribute,community,github,pr,documentation,review, approval]
+owner: istio/wg-docs-maintainers
 test: n/a
 ---
 

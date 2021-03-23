@@ -8,6 +8,7 @@ aliases:
     - /about/contribute/style-guide
     - /latest/about/contribute/style-guide
 keywords: [contribute]
+owner: istio/wg-docs-maintainers
 test: n/a
 ---
 

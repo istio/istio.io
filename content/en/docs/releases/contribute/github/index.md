@@ -12,6 +12,7 @@ aliases:
     - /about/contribute/github
     - /latest/about/contribute/github
 keywords: [contribute,community,github,pr]
+owner: istio/wg-docs-maintainers
 test: n/a
 ---
 

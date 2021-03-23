@@ -8,6 +8,7 @@ aliases:
 icon: log
 skip_seealso: true
 skip_byline: true
+owner: istio/wg-docs-maintainers
 test: n/a
 ---
 
