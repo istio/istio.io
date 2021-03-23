@@ -21,7 +21,7 @@ This release note describes what’s different between Istio 1.9.1 and Istio 1.9
 - **Fixed** a bug causing runaway logs in `istiod` after disabling the default ingress controller.
   ([Issue #31336](https://github.com/istio/istio/issues/31336))
 
-- **Fixed** the Kubernetes API server is now considered to be cluster-local by default. This means that any
+- **Fixed** an issue so the Kubernetes API server is now considered to be cluster-local by default. This means that any
 pod attempting to reach `kubernetes.default.svc` will always be directed to the in-cluster server.
   ([Issue #31340](https://github.com/istio/istio/issues/31340))
 
