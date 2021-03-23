@@ -36,7 +36,8 @@ Below is our list of existing features and their current phases. This informatio
 | Protocols: Websockets / MongoDB  | Stable
 | Traffic Control: label/content based routing, traffic shifting | Stable
 | Resilience features: timeouts, retries, connection pools, outlier detection | Stable
-| Gateway: Ingress, Egress for all protocols | Stable
+| Gateway Functionality (Ingress, Egress for all protocols) | Stable
+| Gateway APIs (Ingress, Egress for all protocols) | Stable
 | TLS termination and SNI Support in Gateways | Stable
 | SNI (multiple certs) at ingress | Stable
 | [Locality load balancing](/docs/tasks/traffic-management/locality-load-balancing/) | Beta
