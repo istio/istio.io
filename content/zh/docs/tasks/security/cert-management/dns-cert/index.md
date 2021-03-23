@@ -34,15 +34,15 @@ EOF
 $ istioctl install -f ./istio.yaml
 {{< /text >}}
 
-## DNS 证书的提供和管理{#dns-certificate-provisioning-and-management}
+## DNS 证书的提供和管理{#DNS-certificate-provisioning-and-management}
 
 Istio 根据用户的配置，为 DNS 证书提供 DNS 名称和 Secret 名称。DNS 证书 通过 Kubernetes CA 签发，并根据配置保存到 Secret 中。Istio 也管理 DNS 证书的生命周期，包括证书的滚动和重新生成。
 
-## 配置 DNS 证书{#configure-dns-certificates}
+## 配置 DNS 证书{#configure-DNS-certificates}
 
 在 `istioctl install`命令中使用 `IstioOperator` 自定义资源用于配置Istio。`IstioOperator` 自定义资源包括 DNS 证书配置的例子。其中，`dnsNames` 字段定义证书中 DNS 名称，`secretName` 字段定义用于存储证书和私钥的 Kubernetes Secret 名称。
 
-## 检查 DNS 证书的提供{#check-the-provisioning-of-dns-certificates}
+## 检查 DNS 证书的提供{#check-the-provisioning-of-DNS-certificates}
 
 在配置 Istio 生成 DNS 证书和保存证书到 Secret 后，您可以校验证书是够已经生成并正常运行。
 
@@ -59,7 +59,7 @@ $ kubectl get secret dns.example1-service-account -n istio-system -o jsonpath="{
                 DNS:example1.istio-system.svc, DNS:example1.istio-system
 {{< /text >}}
 
-## 重新生成 DNS 证书{#regenerating-a-dns-certificate}
+## 重新生成 DNS 证书{#regenerating-a-DNS-certificate}
 
 Istio 还可以在重新生成被误删的 DNS 证书。接下来，将会演示如何删除最近配置的证书，并校验 Istio 自动重新生成证书。
 
