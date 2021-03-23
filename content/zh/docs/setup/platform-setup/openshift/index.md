@@ -49,7 +49,7 @@ $ oc adm policy remove-scc-from-group anyuid system:serviceaccounts:<target-name
 
 ## 应用 Namespace 的其他要求{#additional-requirements-for-the-application-namespace}
 
-OpenShift 上的 CNI 由 `Multus` 管理，要调用 `istio-cni` 插件，需要应用 Namespace 中配置 `NetworkAttachmentDefinition`。执行以下命令，将 `<target-namespace>` 替换为相应的 Namespace：
+OpenShift 上的 CNI 由 `Multus` 管理，如要使用 `istio-cni`，需要应用 Namespace 中配置 `NetworkAttachmentDefinition`。执行以下命令，将 `<target-namespace>` 替换为相应的 Namespace：
 
 {{< text bash >}}
 $ cat <<EOF | oc -n <target-namespace> create -f -
