@@ -120,7 +120,7 @@
 
     &--dark {
         background: $secondaryAccentColor;
-        
+
         .panel-title { color: $accentColor; }
 
         .btn {
@@ -138,7 +138,7 @@
         background-color: unset;
         padding: 0;
         min-height: auto;
-        
+
         .panel-title,
         .panel-text {
             color: $primaryColor;
@@ -155,7 +155,7 @@
     &--carousel {
         margin: 0 auto;
         height: 100%;
-        
+
         .panel-title { flex-grow: 1; }
     }
 
