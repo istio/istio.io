@@ -31,7 +31,7 @@ test: yes
 
 第二个集群是将运行网格应用程序工作负载的 {{< gloss "remote cluster">}}远程集群{{< /gloss >}}。 它的 Kubernetes API 服务器还提供了外部控制平面（istiod）用来配置工作负载代理的网状配置。
 
-### API 服务器访问{#api-server-access}
+### API Server 访问{#API-server-access}
 
 外部控制平面集群必须可以访问远程集群中的 Kubernetes API 服务器。 许多云提供商通过网络负载平衡器（NLB）公开访问 API 服务器。 如果无法直接访问 API 服务器，则需要修改安装过程以启用访问权限。 例如，在[多集群配置](#adding-clusters) 中使用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic) 网关也可以用于启用对 API 服务器的访问。
 
