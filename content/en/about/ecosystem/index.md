@@ -23,21 +23,21 @@ doc_type: about
     {{< /tab >}}
 
     {{< tab
-        name="pro services" 
+        name="pro services"
         category-value="pro_services"
         description="Locality-weighted load balancing allows administrators to control the distribution of traffic to endpoints based on the localities of where the traffic originates and where it will terminate."
     >}}
-    
+
     {{< interactive_panels items="pro_services" >}}
 
     {{< /tab >}}
 
-    {{< tab 
+    {{< tab
         name="integrations"
         category-value="integrations"
         description="Locality-weighted load balancing allows administrators to control the distribution of traffic to endpoints based on the localities of where the traffic originates and where it will terminate."
     >}}
-    
+
     {{< interactive_panels items="integrations" >}}
 
     {{< /tab >}}

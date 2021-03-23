@@ -40,10 +40,10 @@
                             <div class="post-summary">
                                 <p>{{ $item.Params.description }}</p>
                                 {{ if $item.Params.cves }}
-                                    <strong>CVE(s)</strong>: {{ range $i, $cve := $item.Params.cves }} {{ . }} {{ if ne $i (sub (len $item.Params.cves ) 1) }} , {{ end }} {{ end }}</br>
+                                    <div><strong>CVE(s)</strong>: {{ range $i, $cve := $item.Params.cves }} {{ . }} {{ if ne $i (sub (len $item.Params.cves ) 1) }} , {{ end }} {{ end }}</div>
                                 {{ end }}
                                 {{ if $item.Params.cvss }}
-                                    <strong>CVSS</strong>: {{ with $item.Params.cvss }} {{ . }} {{ end }}</br>
+                                    <div><strong>CVSS</strong>: {{ with $item.Params.cvss }} {{ . }} {{ end }}</div>
                                 {{ end }}
                                 {{ if  $item.Params.releases }}
                                     <strong>Affected versions</strong>: {{ range $i, $cve := $item.Params.releases }} {{ . }} {{ if ne $i (sub (len $item.Params.releases ) 1) }}, {{ end }} {{ end }}
@@ -54,7 +54,10 @@
                     </a>
                 {{ end }}
             {{ end }}
-        {{ end }}
+        {{ end }}listen(getById("search-show"), click, e => {
+        e.preventDefault();
+        showSearchBox();
+    });
     </div>
 </main>
 
