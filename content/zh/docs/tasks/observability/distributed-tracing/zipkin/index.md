@@ -17,7 +17,7 @@ test: yes
 
 ## 开始之前{#before-you-begin}
 
-1. 参考[Zipkin 安装](/zh/docs/setup/install/istioctl)文档将 Zipkin 安装到您的集群中。
+1. 参考 [Zipkin 安装](/zh/docs/setup/install/istioctl)文档将 Zipkin 安装到您的集群中。
 
 1. 启用追踪时，您可以设置 Istio 用于追踪的 Sampling Rate。
    安装时使用 `meshConfig.defaultConfig.tracing.sampling` [设置 Sampling Rate](/zh/docs/tasks/observability/distributed-tracing/configurability/#customizing-trace-sampling)。
