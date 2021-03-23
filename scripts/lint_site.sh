@@ -63,7 +63,7 @@ check_content() {
     pushd "${TMP}" >/dev/null
 
     if ! find . -type f -name '*.md' -print0 | xargs -0 -r mdspell "${LANG}" --ignore-acronyms --ignore-numbers --no-suggestions --report; then
-        echo "To learn how to address spelling errors, please see https://istio.io/about/contribute/creating-and-editing-pages/#linting"
+        echo "To learn how to address spelling errors, please see https://istio.io/latest/about/contribute/build/#test-your-changes"
         FAILED=1
     fi
 
