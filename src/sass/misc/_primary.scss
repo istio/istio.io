@@ -14,7 +14,7 @@
         @media print {
             display: none;
         }
-        
+
         @media screen AND (max-width: $bp-xl ) {
             display: none;
             position: fixed;
@@ -25,12 +25,12 @@
             width: 270px;
             overflow-y: auto;
             background: $paleGray;
+
             &.visible {
                 display: block;
-                
             }
         }
-        @media screen AND (max-width: $bp-md){
+        @media screen AND (max-width: $bp-md) {
             width: 100%;
         }
     }
@@ -39,7 +39,7 @@
         display: none;
     }
 
-    @media screen AND (min-width: $bp-xl +1) {
+    @media screen AND (min-width: $bp-xl + 1) {
         &.has-toc {
             grid-template-columns: [article] calc(80% - 1.5rem) [toc] 20%;
         }
@@ -51,7 +51,7 @@
         &.has-toc.has-sidebar {
             grid-template-columns: [sidebar] 22% [article] calc(62% - (2 * 1.5rem)) [toc] 16%;
         }
-        
+
         .toc-container {
             display: block;
         }

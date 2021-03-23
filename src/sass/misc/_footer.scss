@@ -11,7 +11,7 @@
     z-index: $footer-z;
 
     @media (min-width: $bp-lg) {
-        margin-top: 7rem; 
+        margin-top: 7rem;
     }
 
     &-wrapper {
@@ -21,8 +21,8 @@
             display: grid;
             grid-template-columns: 1fr auto;
             grid-template-areas:
-                "footer-info footer-links"
-                "footer-base footer-policies";
+            "footer-info footer-links"
+            "footer-base footer-policies";
             grid-gap: 1.25rem;
         }
     }
@@ -93,7 +93,7 @@
             fill: $accentColor;
             stroke: $accentColor;
             stroke-width: 3px;
-            margin-right: .5rem
+            margin-right: .5rem;
         }
     }
 
@@ -177,8 +177,6 @@
             height: 42px;
             fill: $textBrandColor;
             stroke: none;
-
-            
         }
 
         @media (min-width: $bp-lg) {

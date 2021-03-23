@@ -1,21 +1,21 @@
 .faq-block {
-    padding: 0 0.25rem 1rem;
+    padding: 0 .25rem 1rem;
     margin-top: 1rem;
     border-bottom: 2px solid $accentColor;
-    
+
     &-question {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        padding: 0.25rem;
+        padding: .25rem;
         cursor: pointer;
-        
-        &__text {
+
+        &__text {// sass-lint:disable-line bem-depth class-name-format
             font-size: $font-size--s;
             font-weight: $boldWeight;
         }
-        
-        &__icon {
+
+        &__icon {// sass-lint:disable-line bem-depth class-name-format
             svg {
                 transform: rotate(180deg);
                 width: 12px;
@@ -23,20 +23,20 @@
             }
         }
     }
-    
-    &--collapsed &-question__icon {
+
+    &--collapsed &-question__icon {// sass-lint:disable-line bem-depth class-name-format
         svg {
             transform: none;
         }
     }
-    
+
     &--collapsed &-answer {
         display: none;
     }
-    
+
     &-answer {
         p {
-            padding-left: 0.25rem;
+            padding-left: .25rem;
             font-size: $font-size--primary;
         }
     }

@@ -29,7 +29,7 @@
     }
 
     &:hover {
-        filter: none;    
+        filter: none;
     }
 
     .outer {
@@ -40,7 +40,7 @@
         margin: 0;
         padding: 0;
     }
-    
+
     .inner {
         display: table-cell;
         vertical-align: middle;
@@ -49,28 +49,28 @@
         height: 100%;
         margin: 0 auto;
     }
-    
+
     .with-tag-line {
         &:hover {
             &:hover {
                 img {
                     opacity: .15;
                 }
-    
+
                 .tagline {
                     opacity: 1;
                 }
             }
         }
     }
-    
+
     .tagline {
         color: $companyLogoTaglineColor;
         opacity: 0;
         transition-duration: .8s;
         transition-property: opacity;
     }
-    
+
 }
 
 .distributors {
@@ -85,7 +85,7 @@
         }
 
         @media (min-width: $bp-lg) {
-            grid-gap: 2.375rem; 
+            grid-gap: 2.375rem;
             grid-template-columns: repeat(4, 1fr);
         }
     }

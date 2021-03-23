@@ -8,13 +8,16 @@
         margin-right: .5em;
     }
 }
+
 .blog-content {
     max-width: 940px;
     margin: 0 auto;
-    padding: 0 1.25em 0 1.25em;
+    padding: 0 1.25em;
+
     h1 {
         text-align: center;
     }
+
     .blog-description {
         font-size: $font-size--l;
         line-height: 1.36;
@@ -24,6 +27,7 @@
             font-size: $font-size--s;
         }
     }
+
     .year-buttons {
         display: flex;
         overflow: auto;
@@ -33,11 +37,12 @@
             overflow: unset;
             justify-content: center;
         }
+
         .year-button {
-            padding: .5em 3.5em .5em 3.5em;
+            padding: .5em 3.5em;
             min-width: 168px;
             height: 36px;
-            margin: 2.5em .5em 3.75em .5em;
+            margin: 2.5em .5em 3.75em;
             border-radius: 28px;
             border: solid 2px $inputBorderColor;
             background-color: #fff;
@@ -47,27 +52,31 @@
             color: $linkActiveColor;
             @media (min-width: $bp-md) {
                 margin: 2.5em 1.15em 3.75em 0;
+
                 &:hover {
                     cursor: pointer;
                     background-color: $linkActiveColor;
                     color: #fff;
                 }
             }
-            
+
             &:focus {
                 outline: 0;
-                -webkit-box-shadow: 2px 2px 15px 0px rgba(101,126,186,1);
-                -moz-box-shadow: 2px 2px 15px 0px rgba(101,126,186,1);
-                box-shadow: 2px 2px 15px 0px rgba(101,126,186,1);
+                -webkit-box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
+                -moz-box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
+                box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
             }
         }
+
         .active {
             background-color: $linkActiveColor;
             color: #fff;
         }
     }
+
     .posts-list {
         border-top: 2px solid $inputBorderColor;
+
         .post-card {
             display: flex;
             border-bottom: 2px solid $inputBorderColor;
@@ -80,9 +89,11 @@
                 padding-right: 2.25em;
                 padding-bottom: 1.5em;
             }
+
             &:hover {
                 text-decoration: none;
             }
+
             .post-date {
                 p {
                     width: 170px;
@@ -93,6 +104,7 @@
                     }
                 }
             }
+
             .post-title {
                 font-size: $font-size--l;
                 font-weight: $boldTextWeight;
@@ -101,6 +113,7 @@
                 color: $primaryColor;
                 margin-top: .5em;
             }
+
             .post-summary {
                 line-height: 1.44;
                 letter-spacing: normal;
@@ -117,6 +130,7 @@
                     font-size: $font-size--s;
                 }
             }
+
             .post-author {
                 font-weight: $regularWeight;
                 line-height: 1.5;
@@ -124,13 +138,16 @@
                 color: $textGray;
             }
         }
+
         .tf-filter-item {
             display: none;
         }
+
         .show-item {
             display: flex;
         }
     }
+
     .news-list {
         .post-card {
             .post-summary {
@@ -143,31 +160,37 @@
         }
     }
 }
-.post{
+
+.post {
     max-width: 100%;
     margin: 0 auto;
-    padding: 0 1.25em 0 1.25em;
+    padding: 0 1.25em;
     @media (min-width: $bp-md) {
         max-width: 754px;
         padding: 0;
     }
     // TODO : consider changing font size back to 1rem
+
     p {
         font-size: $font-size--s;
     }
+
     .post-author {
         color: $textGray;
         margin-bottom: 2.15em;
+
         span {
             margin-left: .3em;
             margin-right: .3em;
         }
     }
-    .header-content{
+
+    .header-content {
         background-color: inherit;
         text-align: center;
         margin-top: 6.5em;
-        h1{
+
+        h1 {
             font-size: 2.25em;
             color: $primaryColor;
             margin-bottom: 2.5em;
@@ -177,11 +200,13 @@
                 padding-top: 1.5em;
             }
         }
-        p{
+
+        p {
             color: $primaryColor;
             font-size: $font-size--l;
         }
     }
+
     .next-link {
         font-weight: $boldTextWeight;
     }

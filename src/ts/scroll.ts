@@ -121,11 +121,11 @@ function handleScroll(): void {
             }
         }
     }
-    window.addEventListener('click', function(event) {
-        if(event.target){
+    window.addEventListener("click", (event) => {
+        if (event.target) {
             const target = event.target as HTMLTextAreaElement;
             if (target.matches('a[href^="#"]')) {
-                setTimeout(function() {
+                setTimeout(() => {
                     window.scrollTo(window.scrollX, window.scrollY - 90);
                 }, 10);
             }
