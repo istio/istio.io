@@ -160,15 +160,15 @@ Distroless images are currently an alpha feature.
 
 ## Release and security policy
 
-In order to ensure your cluster has the latest security patches for known vulnerabilities, it is important to stay on the latest patch release of Istio and ensure that you are on a [supported release](/about/supported-releases) that is still receiving security patches.
+In order to ensure your cluster has the latest security patches for known vulnerabilities, it is important to stay on the latest patch release of Istio and ensure that you are on a [supported release](/docs/releases/supported-releases) that is still receiving security patches.
 
 ## Avoid alpha and experimental features
 
-All Istio features and APIs are assigned a [feature status](/about/feature-stages/), defining its stability, deprecation policy, and security policy.
+All Istio features and APIs are assigned a [feature status](/docs/releases/feature-stages/), defining its stability, deprecation policy, and security policy.
 
 Because alpha and experimental features do not have as strong security guarantees, it is recommended to avoid them whenever possible.
 
-To determine the feature status of features in use in your cluster, consult the [Istio features](/about/feature-stages/#istio-features) list.
+To determine the feature status of features in use in your cluster, consult the [Istio features](/docs/releases/feature-stages/#istio-features) list.
 
 <!-- In the future, we should document the `istioctl` command to check this when available. -->
 

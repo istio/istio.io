@@ -16,7 +16,7 @@ We are pleased to announce the release of Istio 1.9!
 Our core focus for the 1.9 release was to improve the [Day 2 operations](https://dzone.com/articles/defining-day-2-operations)
 for users running Istio in production. Building upon the feedback collected by the User Experience Working Group, we
 wanted to improve the stability and overall upgrade experience for our users. A key aspect of stability is publishing
-accurate [feature status](/about/feature-stages/) for Istio core APIs and features, and progressing their stability to
+accurate [feature status](/docs/releases/feature-stages/) for Istio core APIs and features, and progressing their stability to
 enable our users to utilize Istio's capabilities with confidence, which was another focus for the 1.9 release.
 
 Keep an eye on our blog for our 2021 roadmap, where we will demonstrate our focus on continued improvement in the Day 2

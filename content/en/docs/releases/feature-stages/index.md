@@ -10,6 +10,7 @@ aliases:
     - /about/feature-stages
     - /latest/about/feature-stages
 icon: feature-status
+test: n/a
 ---
 
 This page lists the relative maturity and support
@@ -24,7 +25,7 @@ within the project, not to the project as a whole. Here is a high level descript
 |   **API**         | No guarantees on backward compatibility    | APIs are versioned         | Dependable, production-worthy. APIs are versioned, with automated version conversion for backward compatibility
 |  **Performance**         | Not quantified or guaranteed     | Not quantified or guaranteed         | Performance (latency/scale) is quantified, documented, with guarantees against regression
 |   **Deprecation Policy**        | None     | Weak - 3 months         | Dependable,  Firm. 1 year notice will be provided before changes
-| **Security** | Security vulnerabilities will be handled publicly as simple bug fixes | Security vulnerabilities will be handled according to our [security vulnerability policy](/about/security-vulnerabilities/) | Security vulnerabilities will be handled according to our [security vulnerability policy](/about/security-vulnerabilities/)
+| **Security** | Security vulnerabilities will be handled publicly as simple bug fixes | Security vulnerabilities will be handled according to our [security vulnerability policy](/docs/releases/security-vulnerabilities/) | Security vulnerabilities will be handled according to our [security vulnerability policy](/docs/releases/security-vulnerabilities/)
 
 ## Istio features
 

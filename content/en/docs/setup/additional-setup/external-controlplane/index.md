@@ -16,7 +16,7 @@ external clusters. This deployment model allows a clear separation between mesh
 operators and mesh admins. The mesh operators can install and manage the Istio control planes
 while the mesh admins only need to configure the mesh resources.
 
-This feature is currently considered [alpha](/about/feature-stages/).
+This feature is currently considered [alpha](/docs/releases/feature-stages/).
 
 {{< image width="75%"
     link="external-controlplane.svg"

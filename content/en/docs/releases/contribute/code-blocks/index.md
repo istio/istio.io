@@ -6,6 +6,7 @@ aliases:
   - /about/contribute/code-blocks
   - /latest/about/contribute/code-blocks
 keywords: [contribute, documentation, guide, code-block]
+test: n/a
 ---
 
 Code blocks in the Istio documentation are embedded preformatted block of

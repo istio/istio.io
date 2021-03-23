@@ -8,6 +8,7 @@ aliases:
     - /about/contribute/terminology
     - /latest/about/contribute/terminology
 keywords: [contribute, documentation, guide, code-block]
+test: n/a
 ---
 
 To provide clarity to our users, use the standard terms in this section

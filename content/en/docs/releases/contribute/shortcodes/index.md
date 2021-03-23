@@ -10,6 +10,7 @@ aliases:
     - /about/contribute/shortcodes
     - /latest/about/contribute/shortcodes
 keywords: [contribute]
+test: n/a
 ---
 
 Hugo shortcodes are special placeholders with a certain syntax that you can add

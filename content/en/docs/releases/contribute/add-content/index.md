@@ -10,6 +10,7 @@ aliases:
     - /about/contribute/add-content
     - /latest/about/contribute/add-content
 keywords: [contribute]
+test: n/a
 ---
 
 To contribute new documentation to Istio, just follow these steps:
@@ -17,9 +18,9 @@ To contribute new documentation to Istio, just follow these steps:
 1. Identify the audience and intended use for the information.
 1. Choose the [type of content](#content-types) you wish to contribute.
 1. [Choose a title](#choosing-a-title).
-1. Write your contribution following our [documentation contribution guides](/about/contribute).
+1. Write your contribution following our [documentation contribution guides](/docs/releases/contribute).
 1. Submit your contribution to our [GitHub repository](https://github.com/istio/istio.io).
-1. Follow our [review process](/about/contribute/review) until your contribution
+1. Follow our [review process](/docs/releases/contribute/review) until your contribution
    is merged.
 
 ## Identify the audience and intended use
@@ -173,9 +174,9 @@ to make cross-references easier to create and maintain.
 
 ## Submit your contribution to GitHub
 
-If you are not familiar with GitHub, see our [working with GitHub guide](/about/contribute/github)
+If you are not familiar with GitHub, see our [working with GitHub guide](/docs/releases/contribute/github)
 to learn how to submit documentation changes.
 
 If you want to learn more about how and when your contributions are published,
-see the [section on branching](/about/contribute/github#branching-strategy) to understand
+see the [section on branching](/docs/releases/contribute/github#branching-strategy) to understand
 how we use branches and cherry picking to publish our content.
