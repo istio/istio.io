@@ -4,7 +4,7 @@ description: 如何在 Istiod 中配置和管理 DNS 证书。
 weight: 90
 keywords: [security,certificate]
 aliases:
-    - /docs/tasks/security/dns-cert/
+    - /zh/docs/tasks/security/dns-cert/
 owner: istio/wg-security-maintainers
 test: yes
 ---
