@@ -35,7 +35,7 @@ check_content() {
 
     # check for use of ```
     if grep -nr -e "\`\`\`" --include "*.md" "${DIR}"; then
-        echo "Ensure markdown content uses {{< text >}} for code blocks rather than \`\`\`. Please see https://istio.io/about/contribute/creating-and-editing-pages/#embedding-preformatted-blocks"
+        echo "Ensure markdown content uses {{< text >}} for code blocks rather than \`\`\`. Please see https://istio.io/latest/about/contribute/code-blocks/"
         FAILED=1
     fi
 
