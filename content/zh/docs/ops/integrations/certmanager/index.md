@@ -66,7 +66,7 @@ cert-manager 通过[在 Ingress 对象上配置注解](https://cert-manager.io/d
 
 {{< text yaml >}}
 apiVersion: networking.k8s.io/v1beta1
-Kind: Ingress
+kind: Ingress
 metadata:
   name: ingress
   annotations:
