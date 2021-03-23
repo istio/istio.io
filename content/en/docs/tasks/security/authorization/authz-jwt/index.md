@@ -52,8 +52,8 @@ accepts a JWT issued by `testing@secure.istio.io`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "RequestAuthentication"
+    apiVersion: security.istio.io/v1beta1
+    kind: RequestAuthentication
     metadata:
       name: "jwt-example"
       namespace: foo
