@@ -99,11 +99,11 @@
         margin-left: 1rem;
     }
 
-    .search-show {
+    #search-show {
         display: none;
     }
 
-    .search-form {
+    #search-form {
         display: none;
         position: absolute;
 
@@ -455,7 +455,7 @@
 
 @media (min-width: $bp-xl) {
     .main-navigation-footer {
-        .search-show { display: inline-block; }
+        #search-show { display: inline-block; }
 
         #try-istio { margin-left: 2.75rem; }
     }
