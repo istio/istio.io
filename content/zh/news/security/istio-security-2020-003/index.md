@@ -32,7 +32,7 @@ Envoy 和 Istio 容易受到四个新发现的漏洞攻击：
 
     **检测**
 
-    要确定系统中是否启用了SDS，请运行：
+    要确定系统中是否启用了 SDS，请运行：
 
     {{< text bash >}}
     $ kubectl get pod -l app=pilot -o yaml | grep SDS_ENABLED -A 1
@@ -45,9 +45,9 @@ Envoy 和 Istio 容易受到四个新发现的漏洞攻击：
     value: "true"
     {{< /text >}}
 
-    您的系统已启用SDS。
+    您的系统已启用 SDS。
 
-    要确定系统中是否启用了双向TLS，请运行：
+    要确定系统中是否启用了双向 TLS，请运行：
 
     {{< text bash >}}
     $ kubectl get destinationrule --all-namespaces -o yaml | grep trafficPolicy -A 2
@@ -62,11 +62,11 @@ Envoy 和 Istio 容易受到四个新发现的漏洞攻击：
     mode: ISTIO_MUTUAL
     {{< /text >}}
 
-    您的系统启用了双向TLS。
+    您的系统启用了双向 TLS。
 
 ## 防范{#mitigation}
 
-* 对于Istio 1.4.x部署：请升级至 [Istio 1.4.6](/news/releases/1.4.x/announcing-1.4.6) 或更高的版本。
-* 对于Istio 1.5.x部署：Istio 1.5.0 将包含等效的安全修复程序。
+* 对于 Istio 1.4.x 部署：请升级至 [Istio 1.4.6](/news/releases/1.4.x/announcing-1.4.6) 或更高的版本。
+* 对于 Istio 1.5.x 部署：Istio 1.5.0 将包含等效的安全修复程序。
 
 {{< boilerplate "security-vulnerability" >}}
