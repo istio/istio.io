@@ -7,9 +7,15 @@ aliases:
     - /zh/help/ops/setup/validation
     - /zh/help/ops/troubleshooting/validation
     - /zh/docs/ops/troubleshooting/validation
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 ## 看似有效的配置不生效 {#valid-configuration-is-rejected}
+
+使用 [istioctl validate -f](/zh/docs/reference/commands/istioctl/#istioctl-validate) 以及 [istioctl analyze](/zh/docs/reference/commands/istioctl/#istioctl-analyze) 来获取更多为什么配置不生效的信息。使用和控制面版本相似的 _istioctl_ CLI 。
+
+最常见的配置问题是关于 YAML 文件空格缩进以及数组符号 (`-`) 的错误。
 
 手动验证您的配置是否正确，当有必要的时候请参照 [Istio API 文档](/zh/docs/reference/config) 。
 
@@ -160,7 +166,7 @@ webhooks:
       - '*'
     {{< /text >}}
 
-    Istio 需要 `validatingwebhookconfigurations` 的写权限来创建和更新 `istio-galley validatingwebhookconfiguration` 配置项。
+    Istio 需要 `validatingwebhookconfigurations` 的写权限来创建和更新 `validatingwebhookconfiguration` 配置项。
 
 ## 创建配置报错：`no such hosts` 、`no endpoints available` {#creating-configuration-fail}
 

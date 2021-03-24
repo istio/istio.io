@@ -5,6 +5,8 @@ weight: 10
 keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 aliases:
     - /zh/docs/tasks/zipkin-tracing.html
+owner: istio/wg-policies-and-telemetry-maintainers
+test: yes
 ---
 
 通过本任务，您将了解如何使应用程序可被 [Zipkin](https://zipkin.io/) 追踪，

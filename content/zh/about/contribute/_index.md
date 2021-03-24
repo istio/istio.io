@@ -1,7 +1,7 @@
 ---
-title: 向 Istio 贡献文档
-description: 详细介绍了如何创建和维护文档。
-weight: 1
+title: 贡献文档
+description: 详细介绍了如何创建和维护 Istio 文档。
+weight: 100
 aliases:
     - /zh/docs/welcome/contribute/writing-a-new-topic.html
     - /zh/docs/welcome/contribute/index.html

@@ -91,7 +91,6 @@ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
 {
   "headers": {
     "Accept": "*/*",
-    "Content-Length": "0",
     "Host": "httpbin.org",
     ...
     "X-Envoy-Decorator-Operation": "httpbin.org:80/*",
@@ -176,7 +175,7 @@ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_cod
 }
 
 ! read -r -d '' snip_manage_traffic_to_external_services_3_out <<\ENDSNIP
-504
+408
 real    0m3.149s
 user    0m0.004s
 sys     0m0.004s

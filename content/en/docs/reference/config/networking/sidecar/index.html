@@ -647,15 +647,6 @@ Private configurations (e.g., <code>exportTo</code> set to <code>.</code>) will
 not be available. Refer to the <code>exportTo</code> setting in <code>VirtualService</code>,
 <code>DestinationRule</code>, and <code>ServiceEntry</code> configurations for details.</p>
 
-<p><strong>WARNING:</strong> The list of egress hosts in a <code>Sidecar</code> must also include
-the Mixer control plane services if they are enabled. Envoy will not
-be able to reach them otherwise. For example, add host
-<code>istio-system/istio-telemetry.istio-system.svc.cluster.local</code> if telemetry
-is enabled, <code>istio-system/istio-policy.istio-system.svc.cluster.local</code> if
-policy is enabled, or add <code>istio-system/*</code> to allow all services in the
-<code>istio-system</code> namespace. This requirement is temporary and will be removed
-in a future Istio release.</p>
-
 </td>
 <td>
 Yes

@@ -2,6 +2,8 @@
 title: 本地运行微服务
 overview: 学习如何在本地机器上进行单一服务的工作。
 weight: 10
+owner: istio/wg-docs-maintainers
+test: no
 ---
 
 {{< boilerplate work-in-progress >}}

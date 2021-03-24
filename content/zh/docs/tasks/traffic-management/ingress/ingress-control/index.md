@@ -6,6 +6,8 @@ keywords: [traffic-management,ingress]
 aliases:
     - /zh/docs/tasks/ingress.html
     - /zh/docs/tasks/ingress
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 在 Kubernetes 环境中，使用 [Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/)来指定需要暴露到集群外的服务。

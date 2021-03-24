@@ -5,6 +5,8 @@ weight: 40
 keywords: [traffic-management,egress]
 aliases:
   - /zh/docs/examples/advanced-gateways/egress-gateway-tls-origination/
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 [为 Egress 流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)

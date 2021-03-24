@@ -4,6 +4,8 @@ description: 为 Istio 设置 kind 的说明。
 weight: 17
 skip_seealso: true
 keywords: [platform-setup,kubernetes,kind]
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 [kind](https://kind.sigs.k8s.io/) 是一种使用 Docker 容器 `nodes` 运行本地 Kubernetes 集群的工具。

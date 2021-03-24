@@ -7,6 +7,8 @@ aliases:
   - /zh/help/ops/traffic-management/deploy-guidelines
   - /zh/help/ops/deploy-guidelines
   - /zh/docs/ops/traffic-management/deploy-guidelines
+owner: istio/wg-networking-maintainers
+test: no
 ---
 
 本节提供特定的部署或配置准则，以避免网络或流量管理问题。

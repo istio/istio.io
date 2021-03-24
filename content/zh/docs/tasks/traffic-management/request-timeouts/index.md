@@ -5,6 +5,8 @@ weight: 40
 aliases:
     - /zh/docs/tasks/request-timeouts.html
 keywords: [traffic-management,timeouts]
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 本任务用于示范如何使用 Istio 在 Envoy 中设置请求超时。

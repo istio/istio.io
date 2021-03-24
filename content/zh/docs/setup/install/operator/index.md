@@ -4,6 +4,7 @@ description: 使用 Istio operator 在 Kubernetes 集群中安装 Istio 的说�
 weight: 25
 keywords: [kubernetes, operator]
 test: no
+owner: istio/wg-environments-maintainers
 ---
 
 除了手动在生产环境中安装、升级、和卸载 Istio，你还可以用
