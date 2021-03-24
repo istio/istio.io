@@ -1,6 +1,6 @@
 ---
-title: Authorization with JWT
-description: How to set up access control with JWT in Istio.
+title: JWT Token
+description: Shows how to set up access control for JWT token.
 weight: 30
 keywords: [security,authorization,jwt,claim]
 aliases:
@@ -16,9 +16,11 @@ and list-of-string typed JWT claims.
 
 ## Before you begin
 
-Before you begin this task, perform the following actions:
+Before you begin this task, do the following:
 
-* Read [Authorization](/docs/concepts/security/#authorization) and [Authentication](/docs/concepts/security/#authentication).
+* Complete the [Istio end user authentication task](/docs/tasks/security/authentication/authn-policy/#end-user-authentication).
+
+* Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
 
 * Install Istio using [Istio installation guide](/docs/setup/install/istioctl/).
 

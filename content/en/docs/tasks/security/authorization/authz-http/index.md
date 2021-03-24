@@ -1,5 +1,5 @@
 ---
-title: Authorization for HTTP traffic
+title: HTTP Traffic
 description: Shows how to set up access control for HTTP traffic.
 weight: 10
 keywords: [security,access-control,rbac,authorization]
@@ -10,14 +10,13 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-This task shows you how to set up Istio authorization for HTTP traffic in an Istio mesh.
-Learn more in our [authorization concept page](/docs/concepts/security/#authorization).
+This task shows you how to set up Istio authorization policy of `ALLOW` action for HTTP traffic in an Istio mesh.
 
 ## Before you begin
 
-The activities in this task assume that you:
+Before you begin this task, do the following:
 
-* Read the [authorization concept](/docs/concepts/security/#authorization).
+* Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
 
 * Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
 
@@ -47,10 +46,10 @@ and namespace in the policies.
 
 Using Istio, you can easily setup access control for {{< gloss "workload" >}}workloads{{< /gloss >}}
 in your mesh. This task shows you how to set up access control using Istio authorization.
-First, you configure a simple `deny-all` policy that rejects all requests to the workload,
+First, you configure a simple `allow-nothing` policy that rejects all requests to the workload,
 and then grant more access to the workload gradually and incrementally.
 
-1. Run the following command to create a `deny-all` policy in the `default` namespace.
+1. Run the following command to create a `allow-nothing` policy in the `default` namespace.
    The policy doesn't have a `selector` field, which applies the policy to every workload in the
    `default` namespace. The `spec:` field of the policy has the empty value `{}`.
    That value means that no traffic is permitted, effectively denying all requests.
@@ -60,7 +59,7 @@ and then grant more access to the workload gradually and incrementally.
     apiVersion: security.istio.io/v1beta1
     kind: AuthorizationPolicy
     metadata:
-      name: deny-all
+      name: allow-nothing
       namespace: default
     spec:
       {}
@@ -88,6 +87,7 @@ and then grant more access to the workload gradually and incrementally.
       selector:
         matchLabels:
           app: productpage
+      action: ALLOW
       rules:
       - to:
         - operation:
@@ -121,6 +121,7 @@ and then grant more access to the workload gradually and incrementally.
       selector:
         matchLabels:
           app: details
+      action: ALLOW
       rules:
       - from:
         - source:
@@ -146,6 +147,7 @@ and then grant more access to the workload gradually and incrementally.
       selector:
         matchLabels:
           app: reviews
+      action: ALLOW
       rules:
       - from:
         - source:
@@ -179,6 +181,7 @@ and then grant more access to the workload gradually and incrementally.
       selector:
         matchLabels:
           app: ratings
+      action: ALLOW
       rules:
       - from:
         - source:
@@ -200,7 +203,7 @@ and then grant more access to the workload gradually and incrementally.
 1. Remove all authorization policies from your configuration:
 
     {{< text bash >}}
-    $ kubectl delete authorizationpolicy.security.istio.io/deny-all
+    $ kubectl delete authorizationpolicy.security.istio.io/allow-nothing
     $ kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
     $ kubectl delete authorizationpolicy.security.istio.io/details-viewer
     $ kubectl delete authorizationpolicy.security.istio.io/reviews-viewer

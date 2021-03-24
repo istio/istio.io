@@ -1,5 +1,5 @@
 ---
-title: External authorization with custom action
+title: External Authorization
 description: Shows how to integrate and delegate access control to an external authorization system.
 weight: 35
 keywords: [security,access-control,rbac,authorization,custom, opa, oauth, oauth2-proxy]
@@ -15,7 +15,9 @@ to delegate the access control to an external authorization system. This can be 
 
 ## Before you begin
 
-* Read the [authorization concept](/docs/concepts/security/#authorization).
+Before you begin this task, do the following:
+
+* Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
 
 * Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio.
 
@@ -28,8 +30,8 @@ to delegate the access control to an external authorization system. This can be 
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl label ns foo istio-injection=enabled
-    $ kubectl apply -f samples/httpbin/httpbin.yaml -n foo
-    $ kubectl apply -f samples/sleep/sleep.yaml -n foo
+    $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n foo
+    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n foo
     {{< /text >}}
 
 * Verify that `sleep` can access `httpbin` with the following command:
