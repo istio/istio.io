@@ -18,15 +18,14 @@ doc_type: get-involved
 3. Bring your particular Istio questions to the **gamified wizards of** [**Stack Overflow**](https://stackoverflow.com/questions/tagged/istio).
 {{% /involve_block %}}
 
-
 {{% involve_block title="Join the conversation" subtitle="There is so much to talk about around Istio. We welcome your voice!" icon="events" %}}
 1. **Attend an event!** [Follow our calendar](https://calendar.google.com/calendar/embed?src=i10ogf58krfbrsjai5qi16g4do@group.calendar.google.com) to see what is coming up!
 2. Follow us on [**Twitter - @IstioMesh**](https://twitter.com/IstioMesh)
 {{% /involve_block %}}
 
 {{% involve_block title="Bugs & Security" subtitle="Thank you for helping to improve Istio with bug reports and security vulnerabilities." icon="security" %}}
-1. Read this [**quick explanation on how to report bugs**](https://istio.io/latest/about/bugs/), both in code and in documentation.
-2. The Istio security team responds rapidly to **vulnerability reports**. Read [how to submit an issue](https://istio.io/latest/about/security-vulnerabilities/).
+1. Read this [**quick explanation on how to report bugs**](/about/bugs/), both in code and in documentation.
+2. The Istio security team responds rapidly to **vulnerability reports**. Read [how to submit an issue](/about/security-vulnerabilities/).
 {{% /involve_block %}}
 
 {{% involve_block title="Be a contributor" subtitle="Code, documentation, community: Istio welcomes your contribution! Use these links as your entry point." icon="contribution" %}}
