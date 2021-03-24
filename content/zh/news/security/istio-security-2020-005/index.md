@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2020-005
 subtitle: 安全公告
-description: 拒绝影响 telemetry v2 的服务。
+description: 影响 telemetry v2 的拒绝服务漏洞。
 cves: [CVE-2020-10739]
 cvss: "7.5"
 vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
