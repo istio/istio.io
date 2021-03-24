@@ -185,15 +185,28 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
         pilot:
           enabled: true
           k8s:
-            volumes:
-            - name: config-volume
-              volumeSource:
-                configMap:
-                  localObjectReference:
+            overlays:
+            - kind: Deployment
+              name: istiod
+              patches:
+              - path: spec.template.spec.volumes[100]
+                value: |-
+                  name: config-volume
+                  configMap:
                     name: istio
-            volumeMounts:
-            - name: config-volume
-              mountPath: /etc/istio/config
+              - path: spec.template.spec.volumes[100]
+                value: |-
+                  name: inject-volume
+                  configMap:
+                    name: istio-sidecar-injector
+              - path: spec.template.spec.containers[0].volumeMounts[100]
+                value: |-
+                  name: config-volume
+                  mountPath: /etc/istio/config
+              - path: spec.template.spec.containers[0].volumeMounts[100]
+                value: |-
+                  name: inject-volume
+                  mountPath: /var/lib/istio/inject
             env:
             - name: INJECTION_WEBHOOK_CONFIG_NAME
               value: ""
