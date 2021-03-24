@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2020-003
 subtitle: 安全公告
-description: Envoy中有两个不受控制的资源消耗和两个不正确的访问控制漏洞。
+description: Envoy 中有两个不受控制的资源消耗和两个不正确的访问控制漏洞。
 cves: [CVE-2020-8659, CVE-2020-8660, CVE-2020-8661, CVE-2020-8664]
 cvss: "7.5"
 releases: ["1.4 to 1.4.5"]
