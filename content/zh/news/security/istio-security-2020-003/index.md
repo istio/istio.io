@@ -22,7 +22,7 @@ Envoy 和 Istio 容易受到四个新发现的漏洞攻击：
 * __[CVE-2020-8660](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8660)__: Envoy 代理包含一个 TLS 检查器，客户端仅使用 TLS 1.3 可以绕过该检查器（不将其识别为 TLS 客户端）。由于未检查 TLS 扩展（SNI，ALPN），因此这些连接可能与错误的过滤器链匹配，从而可能绕过某些安全限制。
     * CVSS Score: 5.3 [AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N)
 
-* __[CVE-2020-8661](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8661)__: 响应管道的 HTTP / 1.1 请求时，Envoy 代理可能会消耗过多的内存。对于非法形成的请求，Envoy 发送内部产生的 400 错误，并将其发送到 Network::Connection 缓冲区。如果客户端读取这些响应的速度很慢，则可能会建立大量的响应，并消耗功能上不受限制的内存。这绕过 Envoy 的过载管理器，当 Envoy 接近配置的内存阈值时，该管理器本身将发送内部生成的响应，从而加剧了问题。
+* __[CVE-2020-8661](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8661)__: 响应管道的 HTTP / 1.1 请求时，Envoy 代理可能会消耗过多的内存。对于非法形成的请求，Envoy 发送内部产生的 400 错误，并将其发送到 `Network::Connection` 缓冲区。如果客户端读取这些响应的速度很慢，则可能会建立大量的响应，并消耗功能上不受限制的内存。这绕过 Envoy 的过载管理器，当 Envoy 接近配置的内存阈值时，该管理器本身将发送内部生成的响应，从而加剧了问题。
     * CVSS Score: 7.5 [AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:X/RC:X)
 
 * __[CVE-2020-8664](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8664)__: 对于 Envoy 代理中的 SDS TLS 验证上下文，仅在首次接收到密钥或密钥值更改时才调用更新回调。这将导致一个竞争条件，引用同一密钥的其他资源（例如，受信任的 CA）将保持未配置状态，直到密钥的值发生更改，从而创建一个可能相当大的窗口，在该窗口中可能发生绕过静态（“默认”）部分的安全检查。
