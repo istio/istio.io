@@ -271,7 +271,7 @@ is running on `cluster1` and we have not yet configured access to `cluster2`.
 
 ## Create a service entry and destination rule on `cluster1` for the remote reviews service
 
-As described in the [setup instructions](https://istio.io/v1.6/docs/docs/setup/install/multicluster/gateways/#setup-dns),
+As described in the [setup instructions](/v1.6/docs/docs/setup/install/multicluster/gateways/#setup-dns),
 remote services are accessed with a `.global` DNS name. In our case, it's `reviews.default.global`,
 so we need to create a service entry and destination rule for that host.
 The service entry will use the `cluster2` gateway as the endpoint address to access the service.

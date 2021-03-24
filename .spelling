@@ -254,6 +254,7 @@ Divya
 Dropdown
 DNS
 DNS_AUTO_ALLOCATE
+doc_type
 docker-compose's
 docker.io
 dogfood
@@ -285,6 +286,7 @@ faq.md
 Fawad
 fcm.googleapis.com
 FDs
+feature_block
 FedRAMP
 filename
 filenames
@@ -298,6 +300,7 @@ FQDNs
 FQDN
 frontend
 frontends
+gamified
 gapped
 Gather.town
 gbd
@@ -438,6 +441,7 @@ lifecycle
 Lightstep
 LightStep
 Linkerd
+linktitle
 linter
 linters
 list_by_publishdate
@@ -646,6 +650,8 @@ sharding
 shortcode
 shortcodes
 Shriram
+sidebar_multicard
+sidebar_none
 sidecar
 sidecar.env
 SignalFX
