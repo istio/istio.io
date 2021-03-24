@@ -66,7 +66,7 @@ Envoy 和 Istio 容易受到四个新发现的漏洞攻击：
 
 ## 防范{#mitigation}
 
-* 对于 Istio 1.4.x 部署：请升级至 [Istio 1.4.6](/news/releases/1.4.x/announcing-1.4.6) 或更高的版本。
+* 对于 Istio 1.4.x 部署：请升级至 [Istio 1.4.6](/zh/news/releases/1.4.x/announcing-1.4.6) 或更高的版本。
 * 对于 Istio 1.5.x 部署：Istio 1.5.0 将包含等效的安全修复程序。
 
 {{< boilerplate "security-vulnerability" >}}
