@@ -44,7 +44,7 @@ The second cluster is a {{< gloss >}}remote cluster{{< /gloss >}} that will run 
 Its Kubernetes API server also provides the mesh configuration used by the external control plane (istiod)
 to configure the workload proxies.
 
-### API Server Access
+### API server access
 
 The Kubernetes API server in the remote cluster must be accessible to the external
 control plane cluster. Many cloud providers make API servers publicly accessible
@@ -521,22 +521,22 @@ $ export CTX_SECOND_CLUSTER=<your second remote cluster context>
 $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 {{< /text >}}
 
-### Mesh operator steps {#multicluster-operator-steps}
+### Register the new cluster
 
-1. Create a secret with credentials to allow the control plane to access the endpoints on the second remote cluster and
-    install it in the external cluster:
+1. Create a secret with credentials to allow the control plane to access the endpoints on the second remote cluster
+    and install it:
 
     {{< text bash >}}
-    $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
     $ istioctl x create-remote-secret \
       --context="${CTX_SECOND_CLUSTER}" \
       --type=remote \
       --namespace=external-istiod | \
-      kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
+      kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
     Note that unlike the first remote cluster of the mesh, which also serves as the config cluster, the `--type` argument
-    is set to `remote` this time, instead of `config`.
+    is set to `remote` this time, instead of `config`. Also note that the secret is applied in the remote (config)
+    cluster, instead of the external cluster, because that is where the external istiod is watching for additions.
 
 1. Create the remote Istio install configuration, which installs webhooks, configmaps, and secrets,
     that use the external control plane, instead of deploying a control plane locally:
@@ -614,9 +614,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     istiod-service-account-token-6x7p9         kubernetes.io/service-account-token   3      15m
     {{< /text >}}
 
-### Mesh admin steps {#multicluster-admin-steps}
-
-#### Setup easy-west gateways
+### Setup easy-west gateways
 
 1. Deploy east-west gateways on both remote clusters:
 
@@ -641,13 +639,13 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 1. Wait for the east-west gateways to be assigned external IP addresses:
 
     {{< text bash >}}
-    $ kubectl --context="${REMOTE_CLUSTER_NAME}" get svc istio-eastwestgateway -n istio-system
+    $ kubectl --context="${REMOTE_CLUSTER_NAME}" get svc istio-eastwestgateway -n external-istiod
     NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
     istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl --context="${CTX_SECOND_CLUSTER}" get svc istio-eastwestgateway -n istio-system
+    $ kubectl --context="${CTX_SECOND_CLUSTER}" get svc istio-eastwestgateway -n external-istiod
     NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
     istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.99   ...       51s
     {{< /text >}}
@@ -655,16 +653,16 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 1. Expose services via the east-west gateways:
 
     {{< text bash >}}
-    $ kubectl --context="${REMOTE_CLUSTER_NAME}" apply -n istio-system -f \
+    $ kubectl --context="${REMOTE_CLUSTER_NAME}" apply -n external-istiod -f \
         @samples/multicluster/expose-services.yaml@
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl --context="${CTX_SECOND_CLUSTER}" apply -n istio-system -f \
+    $ kubectl --context="${CTX_SECOND_CLUSTER}" apply -n external-istiod -f \
         @samples/multicluster/expose-services.yaml@
     {{< /text >}}
 
-#### Validate the installation
+### Validate the installation
 
 1. Create, and label for injection, the `sample` namespace on the remote cluster:
 
