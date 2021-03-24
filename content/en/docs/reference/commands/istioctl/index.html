@@ -5671,6 +5671,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Default Http and gRPC Request timeout</td>
 </tr>
 <tr>
+<td><code>ISTIO_DELTA_XDS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will only send the delta configs as opposed to the state of the world on a Resource Request</td>
+</tr>
+<tr>
 <td><code>ISTIO_GATEWAY_STRIP_HOST_PORT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
