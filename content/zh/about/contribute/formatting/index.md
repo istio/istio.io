@@ -1,7 +1,7 @@
 ---
 title: 格式标准
 description: 介绍 Istio 文档的格式标准。
-weight: 9
+weight: 10
 aliases:
 keywords: [contribute]
 ---
@@ -12,7 +12,7 @@ keywords: [contribute]
 
 直接引用代码或配置文件中的值时，使用原始大小写字母，并使用反引号 \`\` 包裹该值。例如，应使用 `IstioRoleBinding`，而不是 `Istio Role Binding` 或 `istio role binding`。
 
-如果您不是直接引用值或代码，请使用普通的写法，例如，"The Istio role binding configuration takes place in a YAML file."
+如果您不是直接引用值或代码，请使用普通的写法，例如："The Istio role binding configuration takes place in a YAML file."
 
 ## 使用尖括号作占位符{#use-angle-brackets-for-placeholders}
 
@@ -41,7 +41,7 @@ keywords: [contribute]
 
 |正确做法                  | 错误做法
 |-------------------------|---
-|_cluster_ 指的是节点的集合……   | _cluster_指的是节点的集合……
+|_cluster_ 指的是节点的集合……   | "cluster" 指的是节点的集合……
 |这些组件构成了 _控制平面_。  | 这些组件构成了 **控制平面**。
 
 将新术语添加至术语表，并使用 `gloss` 短代码。
@@ -67,5 +67,5 @@ keywords: [contribute]
 
 |正确做法                                 | 错误做法
 |---------------------------------------|------
-|设置配置文件中 `ports` 字段的值。          | 设置配置文件中“ports”字段的值。
-|`rule` 字段的值是一个 `Rule` 类型的对象。  | “rule”字段的值是一个“Rule”类型的对象。
+|设置配置文件中 `ports` 字段的值。          | 设置配置文件中 "ports" 字段的值。
+|`rule` 字段的值是一个 `Rule` 类型的对象。  | "rule" 字段的值是一个 `Rule` 类型的对象。

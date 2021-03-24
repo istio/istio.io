@@ -78,7 +78,6 @@ To install the Istio `demo` [configuration profile](/docs/setup/additional-setup
 using the operator, run the following command:
 
 {{< text bash >}}
-$ kubectl create ns istio-system
 $ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator

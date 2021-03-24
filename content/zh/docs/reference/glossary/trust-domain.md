@@ -1,5 +1,6 @@
 ---
 title: Trust Domain
+test: n/a
 ---
 
 [信任域](https://spiffe.io/spiffe/concepts/#trust-domain)对应于系统的信任根，并且是工作负载标识的一部分。

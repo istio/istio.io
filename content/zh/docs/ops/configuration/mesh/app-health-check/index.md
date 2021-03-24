@@ -10,6 +10,8 @@ aliases:
   - /zh/docs/ops/app-health-check
   - /zh/docs/ops/setup/app-health-check
 keywords: [security,health-check]
+owner: istio/wg-user-experience-maintainers
+test: yes
 ---
 
 众所周知，Kubernetes 有两种健康检查机制：[Liveness 和 Readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，并且有三种方式供选择：

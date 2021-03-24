@@ -7,6 +7,8 @@ aliases:
     - /zh/help/ops/traffic-management/proxy-cmd
     - /zh/help/ops/misc
     - /zh/help/ops/troubleshooting/proxy-cmd
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 Istio 提供了两个非常有价值的命令来帮助诊断流量管理配置相关的问题，[`proxy-status`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-status) 和 [`proxy-config`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config) 命令。`proxy-status` 命令容许您获取网格的概况，并识别出导致问题的代理。`proxy-config` 可以被用于检查 Envoy 配置和诊断问题。

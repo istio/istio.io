@@ -1,5 +1,6 @@
 ---
 title: Service Registry
+test: n/a
 ---
 
 Istio 维护了一个内部服务注册表 (service registry)，它包含在服务网格中运行的一组[服务](/zh/docs/reference/glossary/#service)及其相应的[服务 endpoints](/zh/docs/reference/glossary/#service-endpoint)。Istio 使用服务注册表生成 [Envoy](/zh/docs/reference/glossary/#envoy) 配置。

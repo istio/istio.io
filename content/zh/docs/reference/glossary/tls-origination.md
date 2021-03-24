@@ -1,5 +1,6 @@
 ---
 title: TLS Origination
+test: n/a
 ---
 
 TLS 源（TLS Origination）发生于一个被配置为接收内部未加密 HTTP 连接的 Istio 代理（sidecar 或 egress gateway）加密请求并使用简单或双向 TLS 将其转发至安全的 HTTPS 服务器时。

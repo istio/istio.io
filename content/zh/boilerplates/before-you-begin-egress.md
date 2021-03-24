@@ -4,7 +4,11 @@
 
 *   按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
 
-*   启动 [sleep]({{< github_tree >}}/samples/sleep) 示例，以获取发送请求的测试源。
+    {{< tip >}}
+    如果您安装`demo`的[安装配置](/zh/docs/setup/additional-setup/config-profiles/)，则将启用 Egress Gateway和访问日志。
+    {{< /tip >}}
+
+*   将 [sleep]({{< github_tree >}}/samples/sleep) 示例应用程序部署为发送请求的测试源。
     如果您启用了[自动 sidecar 注入](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，运行以下命令部署示例应用程序：
 
     {{< text bash >}}

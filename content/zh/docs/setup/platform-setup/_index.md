@@ -5,8 +5,9 @@ weight: 10
 aliases:
     - /zh/docs/setup/kubernetes/platform-setup/
 keywords: [platform-setup]
+test: n/a
 ---
 
 {{< tip >}}
-Istio {{< istio_version >}} 已在以下 Kubernetes 发现版下测试：{{< supported_kubernetes_versions >}}。
+Istio {{< istio_version >}} 已在以下 Kubernetes 发行版下测试：{{< supported_kubernetes_versions >}}。
 {{< /tip >}}

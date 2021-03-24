@@ -86,6 +86,7 @@ Airbnb
 AKS
 AKS-Engine
 Alibaba
+allow_missing
 alt
 analytics
 Anantheswaran
@@ -220,6 +221,7 @@ CVE-2020-13379
 CVE-2020-15104
 CVE-2020-16844
 CVE-2020-25017
+CVE-2021-21378
 CVEs
 cves
 cvss
@@ -252,6 +254,7 @@ Divya
 Dropdown
 DNS
 DNS_AUTO_ALLOCATE
+doc_type
 docker-compose's
 docker.io
 dogfood
@@ -274,6 +277,7 @@ ExecAction
 executables
 Exfiltrating
 ExternalName
+ext-authz
 facto
 failover
 failovers
@@ -282,6 +286,7 @@ faq.md
 Fawad
 fcm.googleapis.com
 FDs
+feature_block
 FedRAMP
 filename
 filenames
@@ -295,6 +300,7 @@ FQDNs
 FQDN
 frontend
 frontends
+gamified
 gapped
 Gather.town
 gbd
@@ -435,6 +441,7 @@ lifecycle
 Lightstep
 LightStep
 Linkerd
+linktitle
 linter
 linters
 list_by_publishdate
@@ -600,10 +607,12 @@ reimplement
 reimplemented
 reinject
 repurposed
+requires_any
 rethink
 reusability
 Reviewer1
 Reviewer2
+revisioned
 roadmap
 roadmaps
 RocketChat
@@ -641,6 +650,8 @@ sharding
 shortcode
 shortcodes
 Shriram
+sidebar_multicard
+sidebar_none
 sidecar
 sidecar.env
 SignalFX

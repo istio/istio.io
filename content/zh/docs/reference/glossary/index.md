@@ -8,4 +8,6 @@ aliases:
   - /zh/docs/welcome/glossary.html
   - /zh/help/glossary
 icon: glossary
+owner: istio/wg-docs-maintainers
+test: n/a
 ---

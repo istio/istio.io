@@ -20,6 +20,12 @@ icon: vulnerabilities
 - 不确定漏洞是否或如何影响 Istio。
 - 认为 Istio 依赖的另一个项目中存在漏洞。例如：Envoy，Docker 或 Kubernetes。
 
+当不确定的时候，请向我们私下披露。这包括但不限于：
+
+- 任何的崩溃，特别是在 Envoy 中
+- 任何的安全策略（比如认证或授权）的绕过或者脆弱性
+- 任何潜在的拒绝服务（DoS）
+
 ### 什么时候不报告安全漏洞？{#when-not-to-report-a-security-vulnerability}
 
 在以下情况下，请勿发送漏洞报告：
