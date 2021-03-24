@@ -10,7 +10,7 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
-## 在 Mac 上运行 Istio 时，Zipkin 不生效{#no-traces-appearing-in-zipkin-when-running-istio-locally-on-mac}
+## 在 Mac 上运行 Istio 时，Zipkin 不生效{#no-traces-appearing-in-Zipkin-when-running-Istio-locally-on-mac}
 
 Istio 已经完成安装并且都在正常工作，但是 Zipkin 没有任何信息，但是应该有一些信息。
 
@@ -30,13 +30,13 @@ Thu Jun 15 02:25:42 UTC 2017
 
 要解决此问题，您首先要重启 Docker 然后重新安装 Istio。
 
-## 缺少 Grafana 输出{#missing-grafana-output}
+## 缺少 Grafana 输出{#missing-Grafana-output}
 
 如果从本地 Web 客户端连接到 Istio 端时，无法获取 Grafana 的数据，则应该验证客户端和服务器的日期和时间是否匹配。
 
 Web 客户端（例如：Chrome）的时间会影响 Grafana 的输出。此问题的简单解决方案是验证 Kubernetes 集群内的时间同步服务是否正确运行，以及 Web 客户端计算机是否也与目标服务器的时间相同。一些常见的时间同步系统有 NTP 和 Chrony。在有防火墙的实验室中问题比较严重。这种情况可能是 NTP 没有正确配置，指向基于实验室的 NTP 服务。
 
-## 验证 Istio CNI Pod 正在运行（如果使用）{#verify-istio-cni-pods-are-running-if-used}
+## 验证 Istio CNI Pod 正在运行（如果使用）{#verify-Istio-cni-pods-are-running-if-used}
 
 Istio CNI 插件在 Kubernetes Pod 生命周期中的网络配置阶段执行 Istio 网格 pod 流量重定向，从而消除了用户将 Pod 部署到 Istio 网格中的 [`NET_ADMIN` 和 `NET_RAW` 的需求](/zh/docs/ops/deployment/requirements/)。Istio CNI 插件取代了 `Istio -init`容器提供的功能。
 
