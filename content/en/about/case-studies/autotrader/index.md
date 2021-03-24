@@ -19,7 +19,7 @@ type: case-studies
 
 Auto Trader UK began in 1977 as the premier automotive market magazine in the United Kingdom. When it pivoted to an online presence near the end of the 20th century, it grew to become the country’s 16th largest website.
 
-The IT estate that supports Autotrader UK is vast. Today, Auto Trader UK manages 40 to 50 customer-facing applications backed by about 400 microservices that process over 30,000 requests per second. Their public-facing infrastructure runs on Google Kubernetes Engine (GKE) and utilizes the Istio service mesh. As a major Istio success story, Auto Trader UK has received plenty of attention for its migration to public cloud services in 2018. It is worth understanding the decisions behind their migration and the ongoing benefits.
+The IT estate that supports AutoTrader UK is vast. Today, Auto Trader UK manages 40 to 50 customer-facing applications backed by about 400 microservices that process over 30,000 requests per second. Their public-facing infrastructure runs on Google Kubernetes Engine (GKE) and utilizes the Istio service mesh. As a major Istio success story, Auto Trader UK has received plenty of attention for its migration to public cloud services in 2018. It is worth understanding the decisions behind their migration and the ongoing benefits.
 
 ## Challenge
 

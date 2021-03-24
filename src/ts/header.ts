@@ -88,7 +88,7 @@ function handleHeader(): void {
         e.preventDefault();
         showSearchBox();
     });
-    
+
     // Hide the search box
     listen(getById("search-close"), click, e => {
         e.preventDefault();
