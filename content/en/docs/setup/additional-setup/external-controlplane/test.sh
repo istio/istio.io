@@ -27,10 +27,12 @@ snip_get_external_istiod_iop_modified() {
     snip_get_external_istiod_iop
 
     # Update config file: delete CA certificates and meshID, and update pilot vars
+    # TODO(https://github.com/istio/istio/issues/31690) remove 'env' replace
     sed -i \
         -e '/proxyMetadata:/,+2d' \
         -e '/INJECTION_WEBHOOK_CONFIG_NAME/,+1d' \
         -e "/VALIDATION_WEBHOOK_CONFIG_NAME/,+1d" \
+        -e "s/env:/env: []/g" \
         external-istiod.yaml
 }
 
