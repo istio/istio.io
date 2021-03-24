@@ -6,6 +6,8 @@ aliases:
     - /about/contribute/formatting
     - /latest/about/contribute/formatting
 keywords: [contribute]
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 This page shows the formatting standards for the Istio documentation. Istio uses

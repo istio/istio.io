@@ -6,6 +6,8 @@ aliases:
     - /about/contribute/front-matter
     - /latest/about/contribute/front-matter
 keywords: [metadata,navigation,table-of-contents]
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 The front matter is YAML code in between triple-dashed lines at the top of each
