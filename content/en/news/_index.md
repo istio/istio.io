@@ -7,5 +7,5 @@ icon: bullhorn
 decoration: pill
 outputs:
     - html
-    - rss    
+    - rss
 ---

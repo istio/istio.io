@@ -4,9 +4,9 @@
     {{ partial "company_logo.html" (dict "logo" $pageParams.logo "alt" $pageParams.companyName "link" $pageParams.companyURL)}}
 
     {{ if $pageParams.quote }}
-        <blockquote class="quote-text">
+        <div class="quote-text">
             {{- $pageParams.quote -}}
-        </blockquote>
+        </div>
     {{ end }}
 
     {{ if $pageParams.author.image }}

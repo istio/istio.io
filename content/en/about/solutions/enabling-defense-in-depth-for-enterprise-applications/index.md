@@ -13,12 +13,13 @@ Metrics and traceability standardized across services which provide an increase 
 
 SRE builds on observability of services. Successful SRE needs winnowed down, clearly actionable data:
 
-- Key signals as alerts for short term availability 
+- Key signals as alerts for short term availability
 - Historical analysis to design for long term availability
 
 The same golden signals of latency, traffic, errors, and saturation need to be collected and viewed for all services and potentially all pods.
 
 ## Who is involved
+
 <div class="multi-block-wrapper">
 {{< multi_block header="SRE Team" icon="people" >}}
 Structuring best practices for achieving service level objectives through short term remediation and long-term service improvement.
@@ -29,6 +30,7 @@ Developers tasked with the building, deployment, and operation of a subset of th
 </div>
 
 ## Additional Stakeholders
+
 <div class="multi-block-wrapper">
 {{< multi_block header="Platform owner" icon="person" >}}
 (if separate from the SRE team)
@@ -39,17 +41,20 @@ and related service level agreement
 </div>
 
 ## Preconditions
-- A microservices architecture, such as a Kubernetes deployment or a VM-based implementation. 
+
+- A microservices architecture, such as a Kubernetes deployment or a VM-based implementation.
 - DevOps practices in place.
 
 ## Workflow
+
 Istio proxy and service level metrics instituted, collecting Envoy statistics and passing to Prometheus. Grafana standardized dashboards are made available to teams. Distributed tracing is also implemented.
 
 Consider implementing Kiali
 
 If metric cardinality is creating excess data and traffic, implement federated Prometheus servers to roll-up rules.
 
-## Workflow
+## Proxy Level
+
 Proxy level, service level, and tracing metrics are available in a standardized way. Alerting and paging are actionable and not bogging down forward-looking work by engineers.
 
 {{< figure src="/img/service-mesh.svg" alt="Service mesh" >}}

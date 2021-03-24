@@ -65,7 +65,7 @@ Experimental features are purposefully not listed on this page.
 | Feature           | Phase
 |-------------------|-------------------
 | [Prometheus Integration](/docs/tasks/observability/metrics/querying-metrics/) | Stable
-| [Client and Server Telemetry Reporting](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/) | Stable
+| [Client and Server Telemetry Reporting](/v1.6/docs/reference/config/policy-and-telemetry/) | Stable
 | [Service Dashboard in Grafana](/docs/tasks/observability/metrics/using-istio-dashboard/) | Stable
 | [Distributed Tracing](/docs/tasks/observability/distributed-tracing/) | Stable
 | [Stackdriver Integration](/docs/reference/config/proxy_extensions/stackdriver/) | Stable
