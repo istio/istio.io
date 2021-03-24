@@ -1,6 +1,8 @@
 ---
 title: PortNameIsNotUnderNamingConvention
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 当端口不遵循 [Istio 服务端口命名约定](/zh/docs/ops/deployment/requirements/)或端口未命名时，会出现此消息。

@@ -13,13 +13,14 @@ owner: istio/wg-environments-maintainers
 
 继续安装之前，请先确认完成了[准备工作](/zh/docs/setup/install/multicluster/before-you-begin)中的步骤。
 
-在此配置中，集群 `cluster1` 将监测两个集群 API 服务器的服务端点。
+{{< boilerplate multi-cluster-with-metallb >}}
+
+在此配置中，集群 `cluster1` 将监测两个集群 API Server 的服务端点。
 以这种方式，控制平面就能为两个集群中的工作负载提供服务发现。
 
-服务的工作负载（pod 到 pod）可跨集群边界直接通讯。
+服务的工作负载（ Pod 到 Pod ）可跨集群边界直接通讯。
 
-`cluster2` 中的服务将通过专用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)网关
-访问 `cluster1` 的控制平面。
+`cluster2` 中的服务将通过专用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)网关流量访问 `cluster1` 的控制平面。
 
 {{< image width="75%"
     link="arch.svg"
@@ -27,8 +28,8 @@ owner: istio/wg-environments-maintainers
     >}}
 
 {{< tip >}}
-目前，从集群配置档在从集群安装 Istio 服务器，该服务器用来为集群中的工作负载注入 CA 和 webhook。
-但是，服务发现会访问主集群的控制平面。
+目前，从集群配置档在从集群安装 Istio 服务器，该服务器用来为集群中的工作负载注入 CA 和 Webhook。
+但是，服务发现会被指向主集群的控制平面。
 
 后续版本将完全消除在从集群中安装 Istiod 的需求。请保持关注！
 {{< /tip >}}
@@ -60,7 +61,7 @@ $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 ## 在 `cluster1` 安装东西向网关 {#install-the-east-west-gateway-in-cluster1}
 
 在 `cluster1` 中安装东西向流量专用网关，默认情况下，此网关将被公开到互联网上。
-生产系统可能需要增加额外的准入限制（即：通过防火墙规则）来防止外部攻击。
+生产环境可能需要增加额外的准入限制（即：通过防火墙规则）来防止外部攻击。
 咨询你的云供应商，了解可用的选项。
 
 {{< text bash >}}
@@ -68,6 +69,10 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     --mesh mesh1 --cluster cluster1 --network network1 | \
     istioctl --context="${CTX_CLUSTER1}" install -y -f -
 {{< /text >}}
+
+{{< warning >}}
+如果随着版本修正已经安装控制面板，在 `gen-eastwest-gateway.sh` 命令中添加 `--revision rev` 标志。
+{{< /warning >}}
 
 等待东西向网关获取外部 IP 地址：
 
@@ -87,16 +92,16 @@ $ kubectl apply --context="${CTX_CLUSTER1}" -f \
     @samples/multicluster/expose-istiod.yaml@
 {{< /text >}}
 
-## 配置 API 服务器到 `cluster2` 的访问 {#enable-access-to-cluster2}
+## 启用 API Server 访问 `cluster2` 配置 {#enable-access-to-cluster2}
 
-在配置从集群之前，我们必须先授予 `cluster1` 控制平面到 `cluster2` API 服务器的访问权限。
+在配置从集群之前，我们必须先授予 `cluster1` 控制平面到 `cluster2` API Server 的访问权限。
 这将执行以下操作：
 
-- 开启控制平面的身份认证功能，以验证 `cluster2` 中工作负载的连接请求。如果没有 API 服务器的访问权限，控制平面将会拒绝该请求。
+- 开启控制平面的身份认证功能，以验证 `cluster2` 中工作负载的连接请求。如果没有 API Server 的访问权限，控制平面将会拒绝该请求。
 
-- 在 `cluster2` 中启用服务发现的服务端点。
+- 在 `cluster2` 的服务端点开启服务发现。
 
-要提供到 `cluster2` API 服务器的访问，我们要生成一个从集群的 secret，并把它应用到 `cluster1`。
+为了能够访问 `cluster2` API Server，我们要生成一个从集群的 Secret，并把它应用到 `cluster1`。
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
@@ -144,4 +149,4 @@ $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 
 ## 后续步骤 {#next-steps}
 
-现在，你可以[验证此次安装](/zh/docs/setup/install/multicluster/verify).
+现在，你可以[验证此次安装](/zh/docs/setup/install/multicluster/verify)。

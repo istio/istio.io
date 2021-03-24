@@ -3,6 +3,8 @@ title: 使用 Kubernetes 运行 Bookinfo
 overview: 在 Kubernetes 中部署使用 ratings 微服务的 Bookinfo 应用。
 weight: 30
 
+owner: istio/wg-docs-maintainers
+test: no
 ---
 
 {{< boilerplate work-in-progress >}}
@@ -78,7 +80,7 @@ weight: 30
     reviews-v1-77c65dc5c6-r55tl     1/1     Running   0          49s
     {{< /text >}}
 
-1. 部署测试 pod，[sleep]({{< github_tree >}}/samples/sleep)，用来向您的微服务发送请求：
+1. 在服务达到 `Running` 状态后，部署测试 Pod，[sleep]({{< github_tree >}}/samples/sleep)，用来向您的微服务发送请求：
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
@@ -141,6 +143,12 @@ service/productpage patched
     {{< /text >}}
 
 ### 更新 `/etc/hosts` 配置文件{#update-your-etc-hosts-configuration-file}
+
+1.  获取名为 `bookinfo` 的 Kubernetes Ingress 的 IP 地址:
+
+    {{< text bash >}}
+    $ kubectl get ingress bookinfo
+    {{< /text >}}
 
 1. 将以下命令的输出内容追加到 `/etc/hosts` 文件。您应当具有[超级用户](https://en.wikipedia.org/wiki/Superuser)权限，并且可能需要使用 [`sudo`](https://en.wikipedia.org/wiki/Sudo) 来编辑 `/etc/hosts`。
 

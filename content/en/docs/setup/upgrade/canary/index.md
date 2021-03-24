@@ -57,11 +57,14 @@ istio-sidecar-injector-canary   1          3m18s
 {{< /text >}}
 
 {{< warning >}}
-Due to [a bug](https://github.com/istio/istio/issues/28880) in the creation of the `ValidatingWebhookConfiguration` during install, initial installations of Istio __must not__ specify a revision. As a temporary workaround, for Istio resource validation to continue working after removing the non-revisioned Istio installation, the `ValidatingWebhookConfiguration` must be manually pointed to the revision that should handle validation.
+Due to [a bug](https://github.com/istio/istio/issues/28880) in the creation of the `ValidatingWebhookConfiguration` during install, initial installations of Istio __must not__ specify a revision. As a temporary workaround, for Istio resource validation to continue working after removing the non-revisioned Istio installation, the `istiod` service must be manually pointed to the revision that should handle validation.
 
-One way to accomplish this is to edit the webhook in-place by running `kubectl edit validatingwebhookconfiguration istiod-istio-system` and changing the `service` name from `istiod` to `istiod-<REVISION>` where `<REVISION>` is the revision that should handle validation. Alternatively, a `ValidatingWebhookConfiguration` can be created from [this template]({{< github_blob >}}/manifests/charts/base/templates/validatingwebhookconfiguration.yaml) and applied after removing the old validating webhook.
+One way to accomplish this is to manually create a service called `istiod` pointing to the target revision using [this service]({{< github_blob >}}/manifests/charts/istio-control/istio-discovery/templates/service.yaml) as a template. Another option is to run the command below, where `<REVISION>` is the name of the revision that should handle validation. This command creates an `istiod` service pointed to the target revision.
 
-An alternative to changing where the `ValidatingWebhookConfiguration` points is to manually create a service called `istiod` pointing to the target revision using [this service]({{< github_blob >}}/manifests/charts/istio-control/istio-discovery/templates/service.yaml) as a template.
+{{< text bash >}}
+$ kubectl get service -n istio-system -o json istiod-<REVISION> | jq '.metadata.name = "istiod" | del(.spec.clusterIP) | del(.spec.clusterIPs)' | kubectl apply -f -
+{{< /text >}}
+
 {{</ warning >}}
 
 ## Data plane

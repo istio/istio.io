@@ -5,6 +5,8 @@ weight: 31
 keywords: [traffic-management,tcp-traffic-shifting]
 aliases:
     - /zh/docs/tasks/traffic-management/tcp-version-migration.html
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 本任务展示了如何逐步将 TCP 流量从微服务的一个版本迁移到另一个版本。例如，将 TCP 流量从旧版本迁移到新版本。

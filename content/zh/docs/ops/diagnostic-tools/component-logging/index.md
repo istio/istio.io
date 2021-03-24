@@ -6,6 +6,8 @@ keywords: [ops]
 aliases:
   - /zh/help/ops/component-logging
   - /zh/docs/ops/troubleshooting/component-logging
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 Istio 组件使用一个灵活的日志框架来构建，该框架提供了许多功能和控件去帮助操作这些组件并促进诊断，在启动组件的时候，可以通过在命令行传递参数来控制这些日志记录功能。

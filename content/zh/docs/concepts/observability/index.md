@@ -10,6 +10,8 @@ aliases:
     - /zh/docs/concepts/policies-and-telemetry/overview/
     - /zh/docs/concepts/policies-and-telemetry/config/
     - /zh/docs/concepts/policies-and-telemetry/
+owner: istio/wg-policies-and-telemetry-maintainers
+test: no
 ---
 
 Istio 为网格内所有的服务通信生成详细的遥测数据。这种遥测技术提供了服务行为的**可观察性**，使运维人员能够排查故障、维护和优化应用程序，而不会给服务的开发人员带来任何额外的负担。通过 Istio，运维人员可以全面了解到受监控的服务如何与其他服务以及 Istio 组件进行交互。
@@ -24,11 +26,9 @@ Istio 生成以下类型的遥测数据，以提供对整个服务网格的可�
 
 指标（Metric）提供了一种以聚合的方式监控和理解行为的方法。
 
-为了监控服务行为，Istio 为服务网格中所有出入的服务流量都生成了指标。这些指标提供了关于行为的信息，例如总流量数、错误率和请求响应时间。
+为了监控服务行为，Istio 为服务网格中所有出入网格，以及网格内部的服务流量都生成了指标。这些指标提供了关于行为的信息，例如总流量数、错误率和请求响应时间。
 
 除了监控网格中服务的行为外，监控网格本身的行为也很重要。Istio 组件可以导出自身内部行为的指标，以提供对网格控制平面的功能和健康情况的洞察能力。
-
-Istio 指标收集由运维人员配置来驱动。运维人员决定如何以及何时收集指标，以及指标本身的详细程度。这使得它能够灵活地调整指标收集来满足个性化需求。
 
 ### 代理级别指标 {#proxy-level-metrics}
 
@@ -70,6 +70,8 @@ envoy_cluster_internal_upstream_rq{response_code="503",cluster_name="xds-grpc"} 
 istio_requests_total{
   connection_security_policy="mutual_tls",
   destination_app="details",
+  destination_canonical_service="details",
+  destination_canonical_revision="v1",
   destination_principal="cluster.local/ns/default/sa/default",
   destination_service="details.default.svc.cluster.local",
   destination_service_name="details",
@@ -82,6 +84,8 @@ istio_requests_total{
   response_code="200",
   response_flags="-",
   source_app="productpage",
+  source_canonical_service="productpage",
+  source_canonical_revision="v1",
   source_principal="cluster.local/ns/default/sa/default",
   source_version="v1",
   source_workload="productpage-v1",

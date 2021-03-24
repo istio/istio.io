@@ -32,10 +32,10 @@ For HTTP, HTTP/2, and GRPC traffic, Istio generates the following metrics:
 
 For TCP traffic, Istio generates the following metrics:
 
-*   **Tcp Byte Sent** (`istio_tcp_sent_bytes_total`): This is a `COUNTER` which measures the size of total bytes sent during response in case of a TCP
+*   **Tcp Bytes Sent** (`istio_tcp_sent_bytes_total`): This is a `COUNTER` which measures the size of total bytes sent during response in case of a TCP
     connection.
 
-*   **Tcp Byte Received** (`istio_tcp_received_bytes_total`): This is a `COUNTER` which measures the size of total
+*   **Tcp Bytes Received** (`istio_tcp_received_bytes_total`): This is a `COUNTER` which measures the size of total
     bytes received during request in case of a TCP connection.
 
 *   **Tcp Connections Opened** (`istio_tcp_connections_opened_total`): This is a `COUNTER` incremented for every opened connection.
@@ -113,13 +113,3 @@ For TCP traffic, Istio generates the following metrics:
     destination_canonical_service
     destination_canonical_revision
     {{< /text >}}
-
-### Multicluster labels
-
-When Istio is used in multi-cluster environments, the following additional labels are configured by default:
-
-*   **Destination Cluster**: Name of the cluster for the destination workload.
-    This is set by: `global.multiCluster.clusterName` at cluster install time.
-
-*   **Source Cluster**: Name of the cluster for the source workload.
-    This is set by: `global.multiCluster.clusterName` at cluster install time.

@@ -7,8 +7,8 @@ For Envoy-based tracing integrations, Envoy (the sidecar proxy) sends tracing in
 
 Envoy:
 
-- generates request IDs and trace headers (i.e. `X-B3-TraceId`) for requests as they flow through the proxy
-- generates trace spans for each request based on request and response metadata (i.e. response time)
+- generates request IDs and trace headers (i.e., `X-B3-TraceId`) for requests as they flow through the proxy
+- generates trace spans for each request based on request and response metadata (i.e., response time)
 - sends the generated trace spans to the tracing backends
 - forwards the trace headers to the proxied application
 

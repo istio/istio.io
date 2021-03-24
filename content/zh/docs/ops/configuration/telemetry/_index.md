@@ -5,4 +5,5 @@ weight: 40
 keywords: [ops,telemetry]
 aliases:
     - /zh/help/ops/telemetry
+test: n/a
 ---
