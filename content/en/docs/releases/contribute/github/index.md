@@ -12,15 +12,17 @@ aliases:
     - /about/contribute/github
     - /latest/about/contribute/github
 keywords: [contribute,community,github,pr]
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 The Istio documentation follows the standard [GitHub collaboration flow](https://guides.github.com/introduction/flow/)
 for Pull Requests (PRs). This well-established collaboration model helps open
 source projects manage the following types of contributions:
 
-- [Add](/about/contribute/add-content) new files to the repository.
+- [Add](/docs/releases/contribute/add-content) new files to the repository.
 - [Edit](#quick-edit) existing files.
-- [Review](/about/contribute/review) the added or modified files.
+- [Review](/docs/releases/contribute/review) the added or modified files.
 - Manage multiple release or development [branches](#branching-strategy).
 
 The contribution guides assume you can complete the following tasks:
@@ -57,8 +59,8 @@ edit to any page on the Istio website. The process is very simple:
 1. Perform your edits on the GitHub UI.
 1. Submit a Pull Request with your changes.
 
-Please see our guides on how to [contribute new content](/about/contribute/add-content)
-or [review content](/about/contribute/review) to learn more about submitting more
+Please see our guides on how to [contribute new content](/docs/releases/contribute/add-content)
+or [review content](/docs/releases/contribute/review) to learn more about submitting more
 substantial changes.
 
 ## Branching strategy {#branching-strategy}

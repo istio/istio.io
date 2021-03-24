@@ -6,6 +6,8 @@ aliases:
   - /about/contribute/review
   - /latest/about/contribute/review
 keywords: [contribute,community,github,pr,documentation,review, approval]
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 The maintainers and working group leads of the Istio Docs Working Group (WG) approve
@@ -98,9 +100,9 @@ Criteria has two tiers: required and supplemental.
 
 - Content structure: Information structure enhances the readers' experience.
 - Consistency: Content adheres to all recommendations in the
-  [Istio contribution guides](/about/contribute/)
+  [Istio contribution guides](/docs/releases/contribute/)
 - Style: Content adheres to the [Google developer style guide](https://developers.google.com/style).
-- Graphic assets: Diagrams follow the Istio [diagram creation guide](/about/contribute/diagrams/).\
+- Graphic assets: Diagrams follow the Istio [diagram creation guide](/docs/releases/contribute/diagrams/).\
 - Code samples: Content provides relevant, testable, and working code samples.
 - Content reuse: Any repeatable content follows a reusability strategy using
   boilerplate text.

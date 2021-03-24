@@ -10,6 +10,8 @@ aliases:
     - /about/feature-stages
     - /latest/about/feature-stages
 icon: feature-status
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 This page lists the relative maturity and support level of every Istio feature. Please note that the phases are applied to

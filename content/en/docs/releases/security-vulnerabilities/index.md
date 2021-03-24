@@ -6,6 +6,8 @@ aliases:
     - /about/security-vulnerabilities
     - /latest/about/security-vulnerabilities
 icon: vulnerabilities
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 We are very grateful to the security researchers and users that report
@@ -17,7 +19,7 @@ To make a report, send an email to the private
 [istio-security-vulnerability-reports@googlegroups.com](mailto:istio-security-vulnerability-reports@googlegroups.com)
 mailing list with the vulnerability details. For normal product bugs
 unrelated to latent security vulnerabilities, please head to
-our [Reporting Bugs](/about/bugs/) page to learn what to do.
+our [Reporting Bugs](/docs/releases/bugs/) page to learn what to do.
 
 ### When to report a security vulnerability?
 

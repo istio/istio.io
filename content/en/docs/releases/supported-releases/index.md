@@ -6,6 +6,8 @@ aliases:
     - /about/supported-releases
     - /latest/about/supported-releases
 icon: cadence
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 This page lists the status, timeline and policy for currently supported releases. Supported releases of Istio include

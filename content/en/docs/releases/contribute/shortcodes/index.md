@@ -10,6 +10,8 @@ aliases:
     - /about/contribute/shortcodes
     - /latest/about/contribute/shortcodes
 keywords: [contribute]
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 Hugo shortcodes are special placeholders with a certain syntax that you can add
