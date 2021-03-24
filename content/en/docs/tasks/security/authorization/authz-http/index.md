@@ -79,8 +79,8 @@ and then grant more access to the workload gradually and incrementally.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "AuthorizationPolicy"
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
     metadata:
       name: "productpage-viewer"
       namespace: default
@@ -112,8 +112,8 @@ and then grant more access to the workload gradually and incrementally.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "AuthorizationPolicy"
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
     metadata:
       name: "details-viewer"
       namespace: default
@@ -137,8 +137,8 @@ and then grant more access to the workload gradually and incrementally.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "AuthorizationPolicy"
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
     metadata:
       name: "reviews-viewer"
       namespace: default
@@ -170,8 +170,8 @@ and then grant more access to the workload gradually and incrementally.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "AuthorizationPolicy"
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
     metadata:
       name: "ratings-viewer"
       namespace: default

@@ -120,8 +120,8 @@ security protection.
 
     {{< text bash >}}
     $ kubectl apply -n foo -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "PeerAuthentication"
+    apiVersion: security.istio.io/v1beta1
+    kind: PeerAuthentication
     metadata:
       name: "default"
     spec:

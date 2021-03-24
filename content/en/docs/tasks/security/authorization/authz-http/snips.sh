@@ -34,8 +34,8 @@ EOF
 
 snip_configure_access_control_for_workloads_using_http_traffic_2() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "AuthorizationPolicy"
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: "productpage-viewer"
   namespace: default
@@ -52,8 +52,8 @@ EOF
 
 snip_configure_access_control_for_workloads_using_http_traffic_3() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "AuthorizationPolicy"
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: "details-viewer"
   namespace: default
@@ -73,8 +73,8 @@ EOF
 
 snip_configure_access_control_for_workloads_using_http_traffic_4() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "AuthorizationPolicy"
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: "reviews-viewer"
   namespace: default
@@ -94,8 +94,8 @@ EOF
 
 snip_configure_access_control_for_workloads_using_http_traffic_5() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "AuthorizationPolicy"
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: "ratings-viewer"
   namespace: default
