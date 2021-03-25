@@ -173,16 +173,6 @@ This could result in applying a policy that is unexpectedly ignored, leading to 
 * Test your configuration to ensure it gives the expected results.
   For a security policy, it is useful to run positive and negative tests to ensure you do not accidentally restrict too much or too few traffic.
 
-## Detect invalid configurations
-
-While Istio provides validation of resources when they are created, these checks cannot catch all issues preventing configuration being distributed in the mesh.
-This could result in applying a policy that is unexpectedly ignored, leading to unexpected results.
-
-* Run `istioctl analyze` before or after applying configuration to ensure it is valid.
-* Monitor the control plane for rejected configurations. These are exposed by the `pilot_total_xds_rejects` metric, in addition to logs.
-* Test your configuration to ensure it gives the expected results.
-  For a security policy, it is useful to run positive and negative tests to ensure you do not accidentally restrict too much or too few traffic.
-
 ## Avoid alpha and experimental features
 
 All Istio features and APIs are assigned a [feature status](/docs/releases/feature-stages/), defining its stability, deprecation policy, and security policy.
