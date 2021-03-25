@@ -111,6 +111,37 @@ istiod-canary-6956db645c-vwhsk
 
 The output confirms that the pod is using `istiod-canary` revision of the control plane.
 
+## Stable revision labels (experimental)
+
+Manually relabeling namespaces when moving them to a new revision can be tedious and error-prone. [Revision tags](/docs/reference/commands/istioctl/#istioctl-experimental-tag) are a solution to this. [Revision tags](/docs/reference/commands/istioctl/#istioctl-experimental-tag) are stable identifiers that point to revisions and can be used to avoid relabeling namespaces. Rather than relabeling the namespace, a mesh operator can simply change the tag to point to a new revision. All namespaces with that tag will be updated at the same time.
+
+Consider a cluster with two revisions installed, `1-7-6` and `1-8-0`. The cluster operator creates a revision tag `prod`, pointed at the older, stable `1-7-6` version, and a revision tag `canary` pointed at the newer `1-8-0` revision. That state could be reached via these commands:
+
+{{< text bash >}}
+$ istioctl x tag set canary --revision 1-7-6
+$ istioctl x tag set prod --revision 1-8-0
+{{< /text >}}
+
+{{< image width="40%"
+    link="/docs/setup/upgrade/canary/revision-tag-1.png"
+    caption="Namespaces A and B pointed to 1-7-6, namespace C pointed to 1-8-0"
+    >}}
+
+After the operator is satisfied with the stability of the `canary` tagged control planes, namespaces labeled `istio.io/rev=prod` can be updated with one action by modifying the `prod` revision tag to point to the newer `1-8-0` revision.
+
+{{< text bash >}}
+$ istioctl x tag set prod --revision 1-8-0
+{{< /text >}}
+
+Now, the situation is as shown in the diagram below:
+
+{{< image width="40%"
+    link="/docs/setup/upgrade/canary/revision-tag-2.png"
+    caption="Namespaces A, B, and C pointed to 1-8-0"
+    >}}
+
+Restarting the injected workloads in namespaces `A` and `B` will result in those workloads using the `1.8.0` control plane.
+
 ## Uninstall old control plane
 
 After upgrading both the control plane and data plane, you can uninstall the old control plane. For example, the following command uninstalls a control plane of revision `1-6-5`:
