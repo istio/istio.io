@@ -122,4 +122,3 @@ EOF
 {{< /text >}}
 
 Start playing with Istio by trying out the various [tasks](/docs/tasks).
-
