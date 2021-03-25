@@ -1223,7 +1223,7 @@ istioctl experimental add-to-mesh dep &lt;deployment&gt; [flags]
   istioctl x add dep ratings-v1
 </code></pre>
 <h2 id="istioctl-experimental-add-to-mesh-external-service">istioctl experimental add-to-mesh external-service</h2>
-<p>istioctl experimental add-to-mesh external-service create a ServiceEntry and 
+<p>istioctl experimental add-to-mesh external-service create a ServiceEntry and
 a Service without selector for the specified external service in Istio service mesh.
 The typical usage scenario is Mesh Expansion on VMs.</p>
 <p>See also &#39;istioctl experimental remove-from-mesh external-service&#39; which does the reverse.</p>
@@ -1428,8 +1428,8 @@ See https://istio.io/v1.10/docs/ops/deployment/requirements/</p>
 </table>
 <h2 id="istioctl-experimental-authz-check">istioctl experimental authz check</h2>
 <p>Check prints the AuthorizationPolicy applied to a pod by directly checking
-the Envoy configuration of the pod. The command is especially useful for inspecting 
-the policy propagation from Istiod to Envoy and the final AuthorizationPolicy list merged 
+the Envoy configuration of the pod. The command is especially useful for inspecting
+the policy propagation from Istiod to Envoy and the final AuthorizationPolicy list merged
 from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <p>The command also supports reading from a standalone config dump file with flag -f.</p>
 <pre class="language-bash"><code>istioctl experimental authz check [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
@@ -1739,7 +1739,7 @@ THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 </table>
 <h3 id="istioctl-experimental-debug Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve sync status for all Envoys in a mesh
-  istioctl x debug syncz 
+  istioctl x debug syncz
 
   # Retrieve sync diff for a single Envoy and Istiod
   istioctl x debug syncz istio-egressgateway-59585c5b9c-ndc59.istio-system
@@ -2031,10 +2031,10 @@ also provides the inverse of &#34;istioctl kube-inject -f&#34;.
 <h2 id="istioctl-experimental-metrics">istioctl experimental metrics</h2>
 <p>
 Prints the metrics for the specified service(s) when running in Kubernetes.</p>
-<p>This command finds a Prometheus pod running in the specified istio system 
+<p>This command finds a Prometheus pod running in the specified istio system
 namespace. It then executes a series of queries per requested workload to
 find the following top-level workload metrics: total requests per second,
-error rate, and request latency at p50, p90, and p99 percentiles. The 
+error rate, and request latency at p50, p90, and p99 percentiles. The
 query results are printed to the console, organized by workload name.</p>
 <p>All metrics returned are from server-side reports. This means that latencies
 and error rates are from the perspective of the service itself and not of an
@@ -2642,7 +2642,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 <p>Command group used to interact with revision tags. Revision tags allow for the creation of mutable aliases
 referring to control plane revisions for sidecar injection.</p>
 <p>With revision tags, rather than relabeling a namespace from &#34;istio.io/rev=revision-a&#34; to &#34;istio.io/rev=revision-b&#34; to
-change which control plane revision handles injection, it&#39;s possible to create a revision tag &#34;prod&#34; and label our 
+change which control plane revision handles injection, it&#39;s possible to create a revision tag &#34;prod&#34; and label our
 namespace &#34;istio.io/rev=prod&#34;. The &#34;prod&#34; revision tag could point to &#34;1-7-6&#34; initially and then be changed to point to &#34;1-8-1&#34;
 at some later point.</p>
 <p>This allows operators to change which Istio control plane revision should handle injection for a namespace or set of namespaces
@@ -5861,12 +5861,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will update the CRD Status field of all istio resources with reconciliation status.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_THRIFT_FILTER</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>EnableThriftFilter enables injection of `envoy.filters.network.thrift_proxy` in the filter chain.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_VIRTUAL_SERVICE_DELEGATE</code></td>

@@ -14,9 +14,9 @@ owner: istio/wg-docs-maintainers
 test: n/a
 ---
 
-This page lists the relative maturity and support
-level of every Istio feature. Please note that the phases (Alpha, Beta, and Stable) are applied to individual features
-within the project, not to the project as a whole. Here is a high level description of what these labels mean.
+This page lists the relative maturity and support level of every Istio feature. Please note that the phases are applied to
+individual features within the project, not to the project as a whole. Here is a high level description of what these
+labels mean.
 
 ## Feature phase definitions
 
@@ -30,7 +30,8 @@ within the project, not to the project as a whole. Here is a high level descript
 
 ## Istio features
 
-Below is our list of existing features and their current phases. This information will be updated after every monthly release.
+Below is our list of existing features and their current phases. This information will be updated after every release.
+Experimental features are purposefully not listed on this page.
 
 ### Traffic management
 
