@@ -77,7 +77,7 @@ while (( "$#" )); do
       echo "Error: unsupported flag: $1" >&2
       exit 1
       ;;
-    
+
     *)
       PARAMS+=("$1")
       shift
@@ -86,13 +86,13 @@ while (( "$#" )); do
 done
 
 export IP_FAMILY="${IP_FAMILY:-ipv4}"
-export NODE_IMAGE="kindest/node:v1.18.2"
+export NODE_IMAGE="gcr.io/istio-testing/kind-node:v1.20.5"
 
 if [[ -z "${SKIP_SETUP:-}" ]]; then
   export ARTIFACTS="${ARTIFACTS:-$(mktemp -d)}"
   export DEFAULT_CLUSTER_YAML="./prow/config/trustworthy-jwt.yaml"
   export METRICS_SERVER_CONFIG_DIR=''
-  
+
   if [[ "${TOPOLOGY}" == "SINGLE_CLUSTER" ]]; then
     time setup_kind_cluster
   else
