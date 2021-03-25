@@ -398,7 +398,8 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
     istio-leader                           0      2m9s
     istio-namespace-controller-election    0      2m11s
     istio-sidecar-injector                 2      2m1s
-    istio-validation-controller-election   0      2m6s
+    istio-validation-controller-election   0      2m9s
+    kube-root-ca.crt                       1      2m8s
     {{< /text >}}
 
     {{< text bash >}}
