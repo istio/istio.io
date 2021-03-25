@@ -6,7 +6,7 @@ description: Istio 1.4.6 补丁发布。
 publishdate: 2020-03-03
 release: 1.4.6
 aliases:
-    - /news/announcing-1.4.6
+    - /zh/news/announcing-1.4.6
 ---
 
 此版本包含修复针对 [2020 年 3 月 3 日新闻](/zh/news/security/istio-security-2020-003)中所述的安全漏洞。此发行说明描述了 Istio 1.4.5 和 Istio 1.4.6 之间的区别。
