@@ -16,8 +16,7 @@ to demonstrate various Istio features.
 {{< tip >}}
 If you installed Istio using the [Getting Started](/docs/setup/getting-started/)
 instructions, you already have Bookinfo installed and you can skip most of these steps
-and go direct to [Apply Default Destination Rules](/docs/examples/bookinfo/#apply-default-destination-rules)
-part.
+and go directly to [Apply Default Destination Rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 {{< /tip >}}
 
 The application displays information about a
