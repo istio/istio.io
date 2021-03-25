@@ -161,7 +161,17 @@ Distroless images are currently an alpha feature.
 
 ## Release and security policy
 
-In order to ensure your cluster has the latest security patches for known vulnerabilities, it is important to stay on the latest patch release of Istio and ensure that you are on a [supported release](/about/supported-releases) that is still receiving security patches.
+In order to ensure your cluster has the latest security patches for known vulnerabilities, it is important to stay on the latest patch release of Istio and ensure that you are on a [supported release](/docs/releases/supported-releases) that is still receiving security patches.
+
+## Detect invalid configurations
+
+While Istio provides validation of resources when they are created, these checks cannot catch all issues preventing configuration being distributed in the mesh.
+This could result in applying a policy that is unexpectedly ignored, leading to unexpected results.
+
+* Run `istioctl analyze` before or after applying configuration to ensure it is valid.
+* Monitor the control plane for rejected configurations. These are exposed by the `pilot_total_xds_rejects` metric, in addition to logs.
+* Test your configuration to ensure it gives the expected results.
+  For a security policy, it is useful to run positive and negative tests to ensure you do not accidentally restrict too much or too few traffic.
 
 ## Detect invalid configurations
 
@@ -175,12 +185,12 @@ This could result in applying a policy that is unexpectedly ignored, leading to 
 
 ## Avoid alpha and experimental features
 
-All Istio features and APIs are assigned a [feature status](/about/feature-stages/), defining its stability, deprecation policy, and security policy.
+All Istio features and APIs are assigned a [feature status](/docs/releases/feature-stages/), defining its stability, deprecation policy, and security policy.
 
 Because alpha and experimental features do not have as strong security guarantees, it is recommended to avoid them whenever possible.
 Security issues found in these features may not be fixed immediately or otherwise not follow our standard [security vulnerability](/about/security-vulnerabilities/) process.
 
-To determine the feature status of features in use in your cluster, consult the [Istio features](/about/feature-stages/#istio-features) list.
+To determine the feature status of features in use in your cluster, consult the [Istio features](/docs/releases/feature-stages/#istio-features) list.
 
 <!-- In the future, we should document the `istioctl` command to check this when available. -->
 

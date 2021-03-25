@@ -58,4 +58,4 @@ weight: 10
 
 ## Documentation changes
 
-- ***Added*** new and improved Istio documentation. For more information, see [Website content changes](/about/log/).
+- ***Added*** new and improved Istio documentation. For more information, see [Website content changes](/docs/releases/log/).

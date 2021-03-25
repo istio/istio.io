@@ -1,21 +1,5 @@
 {{ $link := .Get "link" }}
 {{ $alt := .Get "alt" }}
 {{ $logo := .Get "logo" }}
-{{ $tagline := .Get "tagline" }}
 
-{{ if ne $tagline "" }}
-    <div class="company-logo with-tag-line">
-{{ else }}
-    <div class="company-logo">
-{{ end }}
-    <a href="{{ $link }}">
-        <div class="outer">
-            <div class="inner">
-                <div class="tagline">
-                    {{ $tagline }}
-                </div>
-            </div>
-        </div>
-        <img src="{{ $logo }}" alt="{{ $alt }}" title="{{ $alt }}"/>
-    </a>
-</div>
+{{ partial "company_logo" (dict "link" $link "alt" $alt "logo" $logo) }}

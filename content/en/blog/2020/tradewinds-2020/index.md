@@ -38,7 +38,7 @@ More details on our major efforts in 2020 below.
 
 Istio provided for extensibility from day one, implemented by a component called
 Mixer. Mixer is a platform that allows custom
-[adapters](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/mixer-overview/#adapters)
+[adapters](/v1.6/docs/reference/config/policy-and-telemetry/mixer-overview/#adapters)
 to act as an intermediary between the data plane and the backends you use for
 policy or telemetry. Mixer necessarily added overhead to requests because it
 required extensions to be out-of-process. So, we're moving to a model that
@@ -149,7 +149,7 @@ workload identity, robust access policies and comprehensive audit logging. We’
 stabilizing APIs for these features; many Alpha APIs are moving to Beta in 1.5,
 and we expect them to all be v1 by the end of 2020. To learn more about the
 status of our APIs, see our
-[features page](/about/feature-stages/#istio-features).
+[features page](/docs/releases/feature-stages/#istio-features).
 
 Network traffic is also becoming more secure by default. After many users
 enabled it in preview,

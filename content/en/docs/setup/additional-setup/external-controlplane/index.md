@@ -182,36 +182,6 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
       components:
         base:
           enabled: false
-        pilot:
-          enabled: true
-          k8s:
-            overlays:
-            - kind: Deployment
-              name: istiod
-              patches:
-              - path: spec.template.spec.volumes[100]
-                value: |-
-                  name: config-volume
-                  configMap:
-                    name: istio
-              - path: spec.template.spec.volumes[100]
-                value: |-
-                  name: inject-volume
-                  configMap:
-                    name: istio-sidecar-injector
-              - path: spec.template.spec.containers[0].volumeMounts[100]
-                value: |-
-                  name: config-volume
-                  mountPath: /etc/istio/config
-              - path: spec.template.spec.containers[0].volumeMounts[100]
-                value: |-
-                  name: inject-volume
-                  mountPath: /var/lib/istio/inject
-            env:
-            - name: INJECTION_WEBHOOK_CONFIG_NAME
-              value: ""
-            - name: VALIDATION_WEBHOOK_CONFIG_NAME
-              value: ""
         ingressGateways:
         - name: istio-ingressgateway
           enabled: false
@@ -223,6 +193,10 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
           meshID: mesh1
           multiCluster:
             clusterName: $REMOTE_CLUSTER_NAME
+        pilot:
+          env:
+            INJECTION_WEBHOOK_CONFIG_NAME: ""
+            VALIDATION_WEBHOOK_CONFIG_NAME: ""
     EOF
     {{< /text >}}
 
@@ -398,7 +372,7 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
     istio-leader                           0      2m9s
     istio-namespace-controller-election    0      2m11s
     istio-sidecar-injector                 2      2m1s
-    istio-validation-controller-election   0      2m6s
+    istio-validation-controller-election   0      2m9s
     {{< /text >}}
 
     {{< text bash >}}
