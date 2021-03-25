@@ -35,7 +35,7 @@ check_content() {
 
     # check for use of ```
     if grep -nr -e "\`\`\`" --include "*.md" "${DIR}"; then
-        echo "Ensure markdown content uses {{< text >}} for code blocks rather than \`\`\`. Please see https://istio.io/about/contribute/creating-and-editing-pages/#embedding-preformatted-blocks"
+        echo "Ensure markdown content uses {{< text >}} for code blocks rather than \`\`\`. Please see https://istio.io/about/contribute/code-blocks/"
         FAILED=1
     fi
 
@@ -63,7 +63,7 @@ check_content() {
     pushd "${TMP}" >/dev/null
 
     if ! find . -type f -name '*.md' -print0 | xargs -0 -r mdspell "${LANG}" --ignore-acronyms --ignore-numbers --no-suggestions --report; then
-        echo "To learn how to address spelling errors, please see https://istio.io/about/contribute/creating-and-editing-pages/#linting"
+        echo "To learn how to address spelling errors, please see https://istio.io/about/contribute/build/#test-your-changes"
         FAILED=1
     fi
 

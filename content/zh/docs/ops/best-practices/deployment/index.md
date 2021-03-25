@@ -5,6 +5,8 @@ force_inline_toc: true
 weight: 10
 aliases:
   - /zh/docs/ops/prep/deployment
+owner: istio/wg-environments-maintainers
+test: n/a
 ---
 
 我们确定了以下大体原则，以帮助您充分利用 Istio deployment。这些最佳实践旨在限制不良配置带来的影响，并使 deployment 管理变得更加轻松。

@@ -5,6 +5,8 @@ keywords: [traffic-management,egress]
 weight: 20
 aliases:
   - /zh/docs/examples/advanced-gateways/egress-tls-origination/
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 [控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)的任务向我们展示了位于服务网格内部的应用应如何访问外部（即服务网格之外）的 HTTP 和 HTTPS 服务。

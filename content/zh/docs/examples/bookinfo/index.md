@@ -6,6 +6,8 @@ aliases:
     - /zh/docs/samples/bookinfo.html
     - /zh/docs/guides/bookinfo/index.html
     - /zh/docs/guides/bookinfo.html
+owner: istio/wg-docs-maintainers
+test: yes
 ---
 
 这个示例部署了一个用于演示多种 Istio 特性的应用，该应用由四个单独的微服务构成。

@@ -5,6 +5,8 @@ weight: 10
 aliases:
     - /zh/docs/tasks/request-routing.html
 keywords: [traffic-management,routing]
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 此任务将展示如何将请求动态路由到微服务的多个版本。

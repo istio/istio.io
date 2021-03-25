@@ -1,15 +1,21 @@
 ---
 title: MicroK8s
 description: 配置 MicroK8s 以便使用 Istio。
-weight: 20
+weight: 45
 skip_seealso: true
 aliases:
     - /zh/docs/setup/kubernetes/prepare/platform-setup/MicroK8s/
     - /zh/docs/setup/kubernetes/platform-setup/MicroK8s/
 keywords: [platform-setup,kubernetes,MicroK8s]
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
-请按照如下说明准备 MicroK8s 以便使用 Istio。
+本页面最新更新时间为 2019年8月28日。
+
+{{< boilerplate untested-document >}}
+
+请按照如下说明配置 MicroK8s 以便使用 Istio。
 
 {{< warning >}}
 运行 MicroK8s 需要管理员权限。
@@ -27,7 +33,7 @@ keywords: [platform-setup,kubernetes,MicroK8s]
     $ microk8s.enable istio
     {{< /text >}}
 
-1. 当提示出现时，您需要选择是否在 sidecars 之间强制进行双向 TLS 认证。
+1. 当出现提示时，您需要选择是否在 sidecars 之间强制进行双向 TLS 认证。
     如果您有不支持 Istio 和支持 Istio 服务的混合部署，或者您不确定，请选择 No。
 
 请运行以下命令来检查部署进度：

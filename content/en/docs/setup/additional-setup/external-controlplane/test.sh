@@ -27,10 +27,12 @@ snip_get_external_istiod_iop_modified() {
     snip_get_external_istiod_iop
 
     # Update config file: delete CA certificates and meshID, and update pilot vars
+    # TODO(https://github.com/istio/istio/issues/31690) remove 'env' replace
     sed -i \
         -e '/proxyMetadata:/,+2d' \
-        -e '/INJECTION_WEBHOOK_CONFIG_NAME: ""/d' \
-        -e "s/VALIDATION_WEBHOOK_CONFIG_NAME: \"\"/ISTIOD_CUSTOM_HOST: ${EXTERNAL_ISTIOD_ADDR}/" \
+        -e '/INJECTION_WEBHOOK_CONFIG_NAME/,+1d' \
+        -e "/VALIDATION_WEBHOOK_CONFIG_NAME/,+1d" \
+        -e "s/env:/env: []/g" \
         external-istiod.yaml
 }
 
@@ -83,7 +85,7 @@ snip_set_up_the_control_plane_in_the_external_cluster_1
 snip_set_up_the_control_plane_in_the_external_cluster_2
 
 snip_get_external_istiod_iop_modified
-echo y | snip_set_up_the_control_plane_in_the_external_cluster_4
+echo y | istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}" --set values.pilot.env.ISTIOD_CUSTOM_HOST="${EXTERNAL_ISTIOD_ADDR}"
 
 _verify_like snip_set_up_the_control_plane_in_the_external_cluster_5 "$snip_set_up_the_control_plane_in_the_external_cluster_5_out"
 

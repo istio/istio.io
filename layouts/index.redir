@@ -47,6 +47,7 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 # navigating to a page without /latest on front, add /latest
 {{ range $p := .Site.Pages }}
 {{ strings.TrimPrefix "/latest" $p.Permalink }} {{ $p.Permalink}}
+{{ strings.TrimPrefix "/latest" (printf "%s.html" (substr $p.Permalink 0 -1)) }} {{ $p.Permalink}}
 {{- end }}
 
 # redirect current version to /latest
