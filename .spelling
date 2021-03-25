@@ -261,6 +261,7 @@ double-tls
 Drucker
 Duggirala
 e.g.
+e2e
 eBPF
 ECR
 edition.cnn.com
@@ -680,6 +681,7 @@ subresources
 substring
 subcommand
 Superfeet
+Superset
 svc
 svc.com
 svg
@@ -727,6 +729,8 @@ Unmarshaling
 unnormalized
 unsampled
 untrusted
+upgradeability
+Upgradeability
 upstreamed
 upstreaming
 upstreams
@@ -746,6 +750,7 @@ v1alpha1
 v1alpha3
 v1beta1
 v1beta1#MutatingWebhookConfiguration
+v1dev1
 v2
 V2
 v2-mysql
