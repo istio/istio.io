@@ -338,7 +338,7 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     metadata:
-     namespace: external-istiod
+      namespace: external-istiod
     spec:
       profile: remote
       meshConfig:
@@ -572,36 +572,22 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     metadata:
-     namespace: external-istiod
+      namespace: external-istiod
     spec:
-      profile: remote
-      meshConfig:
-        rootNamespace: external-istiod
-        defaultConfig:
-          discoveryAddress: $EXTERNAL_ISTIOD_ADDR:15012
-          proxyMetadata:
-            XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
-            CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+      profile: empty
       components:
-        pilot:
-          enabled: false
-        ingressGateways:
-        - name: istio-ingressgateway
-          enabled: false
         istiodRemote:
           enabled: true
       values:
+        pilot:
+          configMap: false
+        telemetry:
+          enabled: false
         global:
-          caAddress: $EXTERNAL_ISTIOD_ADDR:15012
+          omitSidecarInjectorConfigMap: true
           istioNamespace: external-istiod
-          meshID: mesh1
-          multiCluster:
-            clusterName: $SECOND_CLUSTER_NAME
-          network: network2
         istiodRemote:
-          injectionURL: https://$EXTERNAL_ISTIOD_ADDR:15017/inject
-        base:
-          validationURL: https://$EXTERNAL_ISTIOD_ADDR:15017/validate
+          injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/cluster/${SECOND_CLUSTER_NAME}/net/network2
     EOF
     {{< /text >}}
 
@@ -611,7 +597,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     $ istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
     {{< /text >}}
 
-1. Confirm that the remote cluster's webhooks, secrets, and configmaps have been installed:
+1. Confirm that the remote cluster's webhook configuration has been installed:
 
     {{< text bash >}}
     $ kubectl get mutatingwebhookconfiguration -n external-istiod --context="${CTX_SECOND_CLUSTER}"
@@ -619,28 +605,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     istio-sidecar-injector-external-istiod   4          4m13s
     {{< /text >}}
 
-    {{< text bash >}}
-    $ kubectl get validatingwebhookconfiguration -n external-istiod --context="${CTX_SECOND_CLUSTER}"
-    NAME                     WEBHOOKS   AGE
-    istiod-external-istiod   1          4m25s
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl get configmaps -n external-istiod --context="${CTX_SECOND_CLUSTER}"
-    NAME                     DATA   AGE
-    istio                    2      4m30s
-    istio-sidecar-injector   2      4m30s
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl get secrets -n external-istiod --context="${CTX_SECOND_CLUSTER}"
-    NAME                                       TYPE                                  DATA   AGE
-    default-token-6pmf7                        kubernetes.io/service-account-token   3      15m
-    istio-reader-service-account-token-lkmwj   kubernetes.io/service-account-token   3      15m
-    istiod-service-account-token-6x7p9         kubernetes.io/service-account-token   3      15m
-    {{< /text >}}
-
-### Setup easy-west gateways
+### Setup east-west gateways
 
 1. Deploy east-west gateways on both remote clusters:
 
