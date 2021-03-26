@@ -564,8 +564,8 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     is set to `remote` this time, instead of `config`. Also note that the secret is applied in the remote (config)
     cluster, instead of the external cluster, because that is where the external istiod is watching for additions.
 
-1. Create the remote Istio install configuration, which installs webhooks, configmaps, and secrets,
-    that use the external control plane, instead of deploying a control plane locally:
+1. Create the remote Istio install configuration, which installs the injection webhook that uses the
+    external control plane's injector, instead of a locally deployed one:
 
     {{< text syntax=bash snip_id=get_second_config_cluster_iop >}}
     $ cat <<EOF > second-config-cluster.yaml
