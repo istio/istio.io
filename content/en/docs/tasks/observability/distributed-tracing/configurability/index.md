@@ -59,8 +59,8 @@ correctly for the workload.
 
 Using these features opens new possibilities for managing traces in your environment.
 
-In this example, we will sample all traces and add a tag named `service.istio.io/canonical-name`
-using the `CANONICAL_SERVICE` environmental variable injected into your pod. Only the
+In this example, we will sample all traces and add a tag named `clusterID`
+using the `ISTIO_META_CLUSTER_ID` environmental variable injected into your pod. Only the
 first 256 characters of the value will be used if its length is higher.
 
 {{< text bash >}}
@@ -74,10 +74,9 @@ spec:
         sampling: 100.0
         max_path_tag_length: 256
         custom_tags:
-          service.istio.io/canonical-name:
+          clusterID:
           environment:
-            name: CANONICAL_SERVICE
-            defaultValue: latest
+            name: ISTIO_META_CLUSTER_ID
 EOF
 $ istioctl install --set values.meshConfig.enableTracing=true -f ./tracing.yaml
 {{< /text >}}
