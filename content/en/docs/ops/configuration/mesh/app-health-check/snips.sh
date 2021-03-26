@@ -26,8 +26,8 @@ kubectl create ns istio-io-health
 
 snip_liveness_and_readiness_probes_using_the_command_approach_2() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "default"
   namespace: "istio-io-health"

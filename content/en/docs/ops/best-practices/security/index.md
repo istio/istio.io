@@ -63,7 +63,7 @@ This ensures that even if a client accidentally or maliciously bypasses their si
 
 ## Configure TLS verification in Destination Rule when using TLS origination
 
-Istio offers the ability to [originate TLS](/docs/tasks/traffic-management/egress/egress-tls-origination/) from the sidecar proxy.
+Istio offers the ability to [originate TLS](/docs/tasks/traffic-management/egress/egress-tls-origination/) from a sidecar proxy or gateway.
 This enables applications that send plaintext HTTP traffic to be transparently "upgraded" to HTTPS.
 
 Care must be taken when configuring the `DestinationRule`'s `tls` setting to specify the `caCertificates` field.

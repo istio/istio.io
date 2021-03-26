@@ -1,6 +1,6 @@
 ---
 title: HTTP 流量授权
-description: 展示如何设置基于角色的 HTTP 流量访问控制。
+description: 展示如何设置 HTTP 流量访问控制。
 weight: 10
 keywords: [security,access-control,rbac,authorization]
 aliases:
@@ -14,7 +14,7 @@ test: yes
 
 ## 开始之前 {#before-you-begin}
 
-本任务假设你已经：
+本任务假设您已经：
 
 * 阅读了[授权概念](/zh/docs/concepts/security/#authorization)。
 
@@ -55,7 +55,7 @@ test: yes
     EOF
     {{< /text >}}
 
-    打开浏览器访问 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`) 页面。你将会看到 `"RBAC: access denied"`。该错误表明配置的 `deny-all` 策略按期望生效了，并且 Istio 没有任何规则允许对网格中的工作负载进行任何访问。
+    打开浏览器访问 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`) 页面。您将会看到 `"RBAC: access denied"`。该错误表明配置的 `deny-all` 策略按期望生效了，并且 Istio 没有任何规则允许对网格中的工作负载进行任何访问。
 
 1. 运行下面的命令创建一个 `productpage-viewer` 策略以容许通过 `GET` 方法访问 `productpage` 工作负载。该策略没有在 `rules` 中设置 `from` 字段，这意味着所有的请求源都被容许访问，包括所有的用户和工作负载：
 
@@ -77,12 +77,12 @@ test: yes
     EOF
     {{< /text >}}
 
-    在浏览器里访问 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`)。你将看到 “Bookinfo Sample” 页面，但会发现页面中有如下的错误：
+    在浏览器里访问 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`)。您将看到 “Bookinfo Sample” 页面，但会发现页面中有如下的错误：
 
     * `Error fetching product details`
     * `Error fetching product reviews`
 
-    这些错误是预期的，因为我们没有授权 `productpage` 工作负载去访问 `details` 和 `reviews` 工作负载。接下来，你需要配置一个策略来容许访问其他工作负载。
+    这些错误是预期的，因为我们没有授权 `productpage` 工作负载去访问 `details` 和 `reviews` 工作负载。接下来，您需要配置一个策略来容许访问其他工作负载。
 
 1. 运行下面的命令创建一个 `details-viewer` 策略以容许 `productpage` 工作负载以 `GET` 方式，通过使用 `cluster.local/ns/default/sa/bookinfo-productpage` ServiceAccount 去访问 `details` 工作负载：
 
@@ -130,9 +130,9 @@ test: yes
     EOF
     {{< /text >}}
 
-    在浏览器访问 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`)。现在你将看到 “Bookinfo Sample” 页面，“Book Details” 在左下方，“Book Reviews” 在右下方。但是在 “Book Reviews” 部分有 `Ratings service currently unavailable` 的错误。
+    在浏览器访问 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`)。现在您将看到 “Bookinfo Sample” 页面，“Book Details” 在左下方，“Book Reviews” 在右下方。但是在 “Book Reviews” 部分有 `Ratings service currently unavailable` 的错误。
 
-    这是因为 `reviews` 工作负载没有权限访问 `ratings` 工作负载。为修复这个问题，你需要授权 `reviews` 工作负载可以访问 `ratings` 工作负载。下一步我们配置一个策略来容许 `reviews` 工作负载访问。
+    这是因为 `reviews` 工作负载没有权限访问 `ratings` 工作负载。为修复这个问题，您需要授权 `reviews` 工作负载可以访问 `ratings` 工作负载。下一步我们配置一个策略来容许 `reviews` 工作负载访问。
 
 1. 运行下面的命令创建一个 `ratings-viewer` 策略以容许 `reviews` 工作负载以 `GET` 方式，通过使用 `cluster.local/ns/default/sa/bookinfo-reviews` ServiceAccount 去访问 `ratings` 工作负载：
 
@@ -157,13 +157,13 @@ test: yes
     EOF
     {{< /text >}}
 
-    在浏览器访问 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`)。你会在 “Book Reviews” 部分看到“黑色”和“红色”评分。
+    在浏览器访问 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`)。您会在 “Book Reviews” 部分看到“黑色”和“红色”评分。
 
     **恭喜！** 您成功地应用了授权策略为使用 HTTP 流量的工作负载进行了访问控制。
 
 ## 清除 {#clean-up}
 
-1. 从你的配置中删除所有的授权策略：
+1. 从您的配置中删除所有的授权策略：
 
     {{< text bash >}}
     $ kubectl delete authorizationpolicy.security.istio.io/deny-all

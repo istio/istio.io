@@ -36,7 +36,7 @@ Refer to the [`api-server` reference docs](https://kubernetes.io/docs/reference/
     $ minikube config set driver kvm2
     {{< /text >}}
 
-1.  Start minikube with 16384 `MB` of memory and 4 `CPUs`. This example uses Kubernetes version **1.18.10**.
+1.  Start minikube with 16384 `MB` of memory and 4 `CPUs`. This example uses Kubernetes version **1.20.2**.
     You can change the version to any Kubernetes version supported by Istio by altering the
     `--kubernetes-version` value:
 

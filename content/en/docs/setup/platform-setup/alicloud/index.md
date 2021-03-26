@@ -11,8 +11,6 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-This page was last updated August 8, 2018.
-
 {{< boilerplate untested-document >}}
 
 Follow these instructions to prepare an
@@ -22,15 +20,15 @@ You can deploy a Kubernetes cluster to Alibaba Cloud quickly and easily in the
 `Container Service console`, which fully supports Istio.
 
 {{< tip >}}
-To install and configure an Istio mesh in the Alibaba Cloud Kubernetes Container Service
-using the `Application Catalog` module, follow the
-[Alibaba Application Catalog instructions](https://archive.istio.io/v1.1/docs/setup/kubernetes/install/platform/alicloud/)
-instead.
+Alibaba Cloud offers a fully managed service mesh platform named Alibaba Cloud Service Mesh (ASM),
+ which is fully compatible with Istio. Refer to
+ [Alibaba Cloud Service Mesh](https://www.alibabacloud.com/help/doc-detail/147513.htm) for
+ details and instructions.
 {{< /tip >}}
 
 ## Prerequisites
 
-1. [Follow the Alibaba Cloud instructions](https://www.alibabacloud.com/help/doc-detail/53752.htm)
+1. [Follow the Alibaba Cloud instructions](https://www.alibabacloud.com/help/doc-detail/95108.htm)
 to activate the following services: Container Service, Resource Orchestration
  Service (ROS), and RAM.
 
@@ -59,7 +57,3 @@ master nodes.
 
 1. Configure the logon mode, and configure the Pod Network CIDR and Service
 CIDR.
-
-The image below shows the GUI where you complete all the previous steps:
-
-{{< image link="./csconsole.png" caption="Console" >}}

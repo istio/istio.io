@@ -58,8 +58,8 @@ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
 
 snip_deploying_example_services_2() {
 kubectl apply -n foo -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "default"
 spec:
