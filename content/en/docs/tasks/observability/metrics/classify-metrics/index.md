@@ -166,10 +166,10 @@ spec:
     {{< /text >}}
 
 1. Add the following configuration to the mesh config. This results in the addition of the `request_operation` as a
-   new dimenstion to the `istio_requests_total` metric. Without it, a new metric with the name `envoy_request_operation___somevalue___istio_requests_total`
+   new dimension to the `istio_requests_total` metric. Without it, a new metric with the name `envoy_request_operation___somevalue___istio_requests_total`
    is created.
 
-    {{<text yaml>}}
+    {{< text yaml >}}
     meshConfig:
       defaultConfig:
         extraStatTags:
