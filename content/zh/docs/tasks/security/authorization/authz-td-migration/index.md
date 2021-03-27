@@ -89,7 +89,7 @@ test: yes
     $ istioctl install --set profile=demo --set meshConfig.trustDomain=new-td
     {{< /text >}}
 
-1. 重新部署istiod以使信任域更改。
+1. 重新部署 istiod 以使信任域更改。
 
     {{< text bash >}}
     $ kubectl rollout restart deployment -n istio-system istiod
