@@ -13,7 +13,7 @@ skip_seealso: true
 
 {{< security_bulletin >}}
 
-Envoy 和 Istio 1.8.0 版本均容易受到新发现隐患的攻击：
+Envoy 和 Istio 容易受到新发现漏洞的攻击：
 
 - [非 HTTP 连接的代理协议下游地址不正确](https://groups.google.com/g/envoy-security-announce/c/aqtBt5VUor0): Envoy 错误地为非 HTTP 连接恢复代理协议下游地址。Envoy恢复直连对等体的地址，并将其传递给后续的过滤器，而不是恢复代理协议筛选器提供的地址。这将影响非 HTTP 网络连接的日志记录(`%DOWNSTREAM_REMOTE_ADDRESS%`)和授权策略(`remoteIpBlocks`和`remote_ip`)，因为它们将使用不正确的代理协议下游地址。
 
