@@ -1,6 +1,6 @@
 ---
 title: 配置 Gateway 网络拓扑 [实验]
-description: 如何配置 Gateway 网络拓扑 (实验).
+description: 如何配置 Gateway 网络拓扑 [实验特性]。
 weight: 60
 keywords: [traffic-management,ingress,gateway]
 owner: istio/wg-networking-maintainers
