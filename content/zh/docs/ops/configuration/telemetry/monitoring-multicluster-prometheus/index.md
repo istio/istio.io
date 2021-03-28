@@ -13,18 +13,19 @@ test: no
 
 本教程的目的是为如何配置两个或者多个 Kubernetes 集群组成的 Istio 网格提供操作引导。这不是唯一的操作方式，而是演示一个使用 Prometheus 遥测多集群的可行方案。
 
-我们建议使用 Prometheus 监控 Istio 多集群是建立在 Prometheus [分层联合（Hierarchical Federation）](https://prometheus.io/docs/prometheus/latest/federation/#hierarchical-federation) 的基础上。
+我们推荐 Istio 多集群监控使用 Prometheus，其主要原因是基于 Prometheus 的[分层联邦](https://prometheus.io/docs/prometheus/latest/federation/#hierarchical-federation)（Hierarchical Federation）。
+
 通过 Istio 部署到每个集群中的 Prometheus 实例作为初始收集器，然后将数据聚合到网格层次的 Prometheus 实例上。网格层次的 Prometheus 既可以部署在网格之外（外部），也可以部署在网格内的集群中。
 
 ## 安装 Istio 多集群{#multicluster-Istio-setup}
 
 按照[多集群安装](/zh/docs/setup/install/multicluster/)部分，在[多集群部署模型](/zh/docs/ops/deployment/deployment-models/#multiple-clusters)中选择可行的模型配置 Istio 多集群。为了能够实现本教程的目的，让示例都能够运行，并提出以下警告：
 
-**确保每个集群都安装了 Istio Prometheus 集群实例!**
+**确保在多集群中安装了一个 Istio Prometheus 集群实例!**
 
-在每个集群中使用 Istio 独立部署的 Prometheus 是跨集群监控的基础，通过联合（Federation）的方式将Prometheus 的生产就绪实例在网格外部或在其中一个集群中运行。
+在每个集群中使用 Istio 独立部署的 Prometheus 是跨集群监控的基础，通过联邦（Federation）的方式将 Prometheus 的生产就绪实例运行在网格外部或其中任意一个集群中。
 
-验证在每个集群中都运行一个 Prometheus 实例：
+验证在多集群中运行的 Prometheus 实例：
 
 {{< text bash >}}
 $ kubectl -n istio-system get services prometheus
