@@ -22,7 +22,7 @@ test: yes
 1. 启用追踪时，您可以设置 Istio 用于追踪的 Sampling Rate。
    安装时使用 `meshConfig.defaultConfig.tracing.sampling` [设置 Sampling Rate](/zh/docs/tasks/observability/distributed-tracing/configurability/#customizing-trace-sampling)。
    默认的 Sampling Rate 为 1%。
-    
+
 1. 部署 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 示例应用程序。
 
 ## 访问仪表盘{#accessing-the-dashboard}
