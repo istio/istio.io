@@ -151,6 +151,7 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 {{< /text >}}
 
 #### 控制注入政策{#controlling-the-injection-policy}
+
 在上面例子中，您在命名空间层级启用和禁用了注入。注入也可以通过配置 Pod 上的 `sidecar.istio.io/inject` 标签，在每个 Pod 的基础上进行控制。
 
 | Resource | Label | Enabled value | Disabled value |
