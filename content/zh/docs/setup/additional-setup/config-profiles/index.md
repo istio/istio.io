@@ -36,7 +36,7 @@ test: n/a
 1. **preview**：预览文件包含的功能都是实验性。这是为了探索 Istio 的新功能。不确保稳定性、安全性和性能（使用风险需自负）。
 
 {{< tip >}}
-此外，还提供了一些其他特定的配置文件。更多相关信息，请参阅平台的 [Setup Instruction](/zh/docs/setup/platform-setup)。
+此外，还提供了一些其他特定的配置文件。更多相关信息，请参阅平台的 [平台安装](/zh/docs/setup/platform-setup)。
 {{< /tip >}}
 
 标注 &#x2714; 的组件安装在每个配置文件中：
