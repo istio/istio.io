@@ -15,7 +15,7 @@ in this guide are the same underlying charts used when
 installing Istio via [Istioctl](/docs/setup/install/istioctl/) or the
 [Operator](/docs/setup/install/operator/).
 
-This feature is currently considered [alpha](/about/feature-stages/).
+This feature is currently considered [alpha](/docs/releases/feature-stages/).
 
 {{< boilerplate helm-hub-tag >}}
 
