@@ -1,0 +1,308 @@
+[download_desc]
+other = "지금 Istio %s 다운로드"
+
+[discuss_istio_io_desc]
+other = "Istio 토론 게시판에 가입하여 토론에 참여하고 문제 해결에 도움을 받아보세요"
+
+[twitter_desc]
+other = "Twitter 에서 팔로우하고 최신 소식을 받아보세요"
+
+[stackoverflow_desc]
+other = "Stack Overflow 에서 Istio 를 어떻게 배포, 설정 및 사용하는지에 대한 질문을 하고 정확한 답변을 찾을 수 있습니다."
+
+[for_everyone]
+other = "사용자용"
+
+[for_developers]
+other = "개발자용"
+
+[github_desc]
+other = "GitHub 에서 Istio 의 코드가 개발됩니다"
+
+[team_drive_desc]
+other = "Istio 의 기술 설계 문서를 보려면 팀 드라이브에 액세스하세요"
+
+[working_group_desc]
+other = "Istio 프로젝트에 기여하고 싶다면, 우리의 작업 그룹에 참여해 보세요"
+
+[slack_desc]
+other = "Slack 에서 Istio 커뮤니티와 상호작용하며 개발 문제를 논의합니다"
+
+[report_site_bugs]
+other = "사이트 오류 제보"
+
+[edit_on_github]
+other = "GitHub 에서 이 페이지 편집"
+
+[light_theme]
+other = "밝은 테마"
+
+[dark_theme]
+other = "어두운 테마"
+
+[other_versions_of_site]
+other = "이 사이트의 다른 버전"
+
+[current_release]
+other = "현재 버전"
+
+[next_release]
+other = "다음 버전"
+
+[archived_releases]
+other = "이전 버전"
+
+[options_menu]
+other = "옵션 및 설정"
+
+[search]
+other = "이 사이트 검색"
+
+[search_label]
+other = "검색"
+
+[search_cancel]
+other = "검색 취소"
+
+[footer_istio]
+other = "Istio"
+
+[footer_istio_preliminary]
+other = "Istio 미리보기"
+
+[footer_istio_archive]
+other = "Istio 아카이브"
+
+[footer_archived_on]
+other = "%s 에 아카이브"
+
+[footer_last_modified]
+other = "마지막 업데이트: %s"
+
+[footer_date_format]
+other = "2006년 1월 2일"
+
+[footer_privacy_policy]
+other = "개인 정보 정책"
+
+[page_publish_date_format]
+other = "2006년 1월 2일"
+
+[page_last_update_format]
+other = "(%s 에 마지막으로 수정됨)"
+
+[page_word_count]
+other = "%d 단어"
+
+[page_reading_time]
+other = "읽는데 %v 분 소요"
+
+[relnote_update_advice]
+other = "%s 를 다운로드하기 전에, 최신 버그 수정 및 성능 향상 기능이 포함된 최신 패치 릴리스가 있다는 사실을 알아야 합니다."
+
+[relnote_update_button]
+other = "Istio 에 대해 알아보기 %s"
+
+[relnote_update_notice]
+other = "업데이트 공지"
+
+[relnote_change_notes_title]
+other = "변경 내역"
+
+[relnote_change_notes_detail]
+other = "자세한 변경 사항 보기."
+
+[relnote_before_you_upgrade_title]
+other = "업그레이드 전"
+
+[relnote_before_you_upgrade_detail]
+other = "업그레이드하기 전에 알아야 할 사항 및 준비 사항."
+
+[relnote_download_title]
+other = "다운로드"
+
+[relnote_download_detail]
+other = "버전 다운로드 및 설치."
+
+[relnote_docs_title]
+other = "문서"
+
+[relnote_docs_detail]
+other = "이 릴리스에 대한 문서 보기."
+
+[relnote_helm_changes_title]
+other = "Helm 변경"
+
+[relnote_helm_changes_detail]
+other = "Helm 설치 옵션의 변경 사항에 대해 알아 봅니다."
+
+[relnote_source_changes_title]
+other = "코드 변경"
+
+[relnote_source_changes_detail]
+other = "전체 소스 코드 변경 사항을 검사합니다."
+
+[page_attribution]
+other = "By "
+
+[button_copy]
+other = "클립보드에 복사"
+
+[button_print]
+other = "인쇄"
+
+[button_download]
+other = "다운로드"
+
+[button_top]
+other = "맨 위로"
+
+[button_sidenav]
+other = "내비게이션 바 전환"
+
+[partner_component_notice]
+other = "이 구성 요소는 Istio 파트너가 만들고 유지 관리합니다. 질문이있는 경우 파트너에게 직접 문의하세요."
+
+[partner_component_partner]
+other = "파트너"
+
+[partner_component_contact]
+other = "연락처"
+
+[partner_component_support_site]
+other = "지원 사이트"
+
+[partner_component_source_code]
+other = "소스 코드"
+
+[partner_component_latest_release]
+other = "최신 릴리스"
+
+[partner_component_helm_chart]
+other = "Helm Chart"
+
+[partner_component_istio_versions]
+other = "이 Istio 버전이 %s 에 의해 테스트 됨"
+
+[partner_component_supported_templates]
+other = "지원되는 템플릿"
+
+[adapter]
+other = "어댑터"
+
+[supported_templates]
+other = "지원되는 템플릿"
+
+[adapters]
+other = "어댑터"
+
+[template]
+other = "템플릿"
+
+[subscribe]
+other = "구독"
+
+[see_also]
+other = "더보기"
+
+[links]
+other = "링크"
+
+[generated_file]
+other = "이것은 자동 생성 된 파일입니다. %s 저장소에서 소스를 편집하세요."
+
+[switch_lang]
+other = "언어 변경"
+
+[advisory]
+other = "-"
+
+[syntax_coloring]
+other = "코드 하이라이트"
+
+[analysis_name]
+other = "메시지 이름"
+
+[analysis_code]
+other = "메시지 코드"
+
+[analysis_description]
+other = "설명"
+
+[analysis_level]
+other = "등급"
+
+[target_release]
+other = "이 블로그 포스트는 Istio %v 를 기준으로 작성되었으므로 컨텐츠 중 일부가 오래된 것일 수 있습니다."
+
+[security_disclosure]
+other = "보안 위반"
+
+[security_related]
+other = "관련"
+
+[security_date]
+other = "날짜"
+
+[security_affected_releases]
+other = "영향을 받는 릴리스"
+
+[security_impact_score]
+other = "영향 점수"
+
+[mark_all_as_read]
+other = "모두 읽음 표시"
+
+[security_bulletin_title]
+other = "보안 취약성 세부 정보"
+
+[security_bulletin_cves]
+other = "CVE(s)"
+
+[security_bulletin_cvss]
+other = "CVSS 영향 점수"
+
+[security_bulletin_affected_releases]
+other = "영향을 받는 버전"
+
+[feedback_title]
+other = "이 정보가 유용합니까?"
+
+[feedback_yes]
+other = "네"
+
+[feedback_no]
+other = "아니오"
+
+[feedback_ask_for_comment]
+other = "개선을 위한 제안이 있습니까?"
+
+[feedback_thankyou]
+other = "의견을 보내 주셔서 감사합니다!"
+
+[feedback_comment_placeholder]
+other = "개선을 도와주세요..."
+
+[log_month_format]
+other = "2006년 1월"
+
+[log_change_format]
+other = "2006/01/02"
+
+[log_when]
+other = "날짜"
+
+[log_doc]
+other = "문서"
+
+[log_change]
+other = "변경사항"
+
+[tested]
+other = "페이지 테스트"
+
+[has_test]
+other = "이 페이지에 대해 자동화 된 테스트를 사용할 수 있습니다. 자세한 내용을 보려면 클릭하십시오."
+
+[needs_test]
+other = "이 페이지에는 자동화 된 테스트가 없습니다. 자세한 내용을 보거나 만들려면 클릭하십시오."
