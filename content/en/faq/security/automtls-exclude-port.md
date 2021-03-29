@@ -1,5 +1,5 @@
 ---
-title: Does Auto mTLS work with the "excludeInboundPorts" annotations?
+title: Does Auto mutual TLS exclude ports set using "excludeInboundPorts" annotation?
 weight: 80
 ---
 
