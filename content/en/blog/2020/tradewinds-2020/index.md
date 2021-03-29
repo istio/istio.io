@@ -149,7 +149,7 @@ workload identity, robust access policies and comprehensive audit logging. We’
 stabilizing APIs for these features; many Alpha APIs are moving to Beta in 1.5,
 and we expect them to all be v1 by the end of 2020. To learn more about the
 status of our APIs, see our
-[features page](/about/feature-stages/#istio-features).
+[features page](/docs/releases/feature-stages/#istio-features).
 
 Network traffic is also becoming more secure by default. After many users
 enabled it in preview,
