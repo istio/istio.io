@@ -1,7 +1,7 @@
 ---
 title: 升级 Istio
 linktitle: Upgrade
-description: 跨多个 Control Plane 升级、降级和管理 Istio。
+description: 跨多个控制平面升级、降级和管理 Istio。
 weight: 25
 test: n/a
 ---
