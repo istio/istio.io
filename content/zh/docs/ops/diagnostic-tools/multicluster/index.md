@@ -8,7 +8,7 @@ test: no
 ---
 
 本页介绍如何将 Istio 部署到多个群集和/或多个网络的问题。
-开始之前，请确保您已经按照[多集群安装](/zh/docs/setup/install/multicluster/)完成了安装并且已经阅读了[部署模型](/zh/docs/ops/deployment/deployment-models/)指南。
+开始之前，请确保您已经完成了[多集群安装](/zh/docs/setup/install/multicluster/)的要求并且已经阅读了[部署模型](/zh/docs/ops/deployment/deployment-models/)指南。
 
 ## 跨集群负载均衡{#cross-cluster-load-balancing}
 
@@ -29,7 +29,7 @@ Hello version: v1, instance: helloworld-v1-578dd69f69-j69pf
 ### 本地负载均衡{#locality-load-balancing}
 
 [本地负载均衡](/zh/docs/tasks/traffic-management/locality-load-balancing/failover/#configure
--locality-failover) 总是引导客户端访问最近的服务。如果集群分布于不同地理位置(地区/区域)，本地负载均衡将优先选用本地实例提供服务，这与预期相符。而如果禁用了本地负载均衡或者是集群处于同一地理位置，那就可能是其他的问题了。
+-locality-failover) 总是引导客户端访问最近的服务。如果集群分布于不同地理位置(地区/区域)，本地负载均衡将优先选用本地实例提供服务，这与预期相符。而如果禁用了本地负载均衡或者是集群处于同一地理位置，那就可能还存在其他问题。
 
 ### 受信配置{#trust-configuration}
 
@@ -49,10 +49,9 @@ $ diff \
 
 ### 逐步分析{#step-by-step-diagnosis}
 
-如果您已经阅读了上面的章节，但问题仍没有解决，那么可能需要进行更深入的探讨了。
+如果您已经阅读了上面的章节，但问题仍没有解决，那么可能需要进行更深入的探讨。
 
-下面这些步骤假定您已经完成了[HelloWorld 认证](/zh/docs/setup/install/multicluster/verify/)指南。
-继续后续步骤之前, 请确保`helloworld` 和 `sleep` 服务已经在每个集群中被正确的部署。
+下面这些步骤假定您已经完成了[HelloWorld 认证](/zh/docs/setup/install/multicluster/verify/)指南，并且确保 `helloworld` 和 `sleep` 服务已经在每个集群中被正确的部署。
 
 针对每个集群，找到 `sleep` 服务对应的 `helloworld` 的 `endpoints`：
 
@@ -162,7 +161,7 @@ Istio 通过 Pod 注入的 `topology.istio.io/network` 标签来确定网络。�
 $ kubectl --context="${CTX_CLUSTER1}" get ns istio-system -ojsonpath='{.metadata.labels.topology\.istio\.io/network}'
 {{< /text >}}
 
-如果上面的命令没有输出预期的网络名称，请设置标签：
+如果上面的命令没有输出预期的网络名称，设置标签：
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER1}" label namespace istio-system topology.istio.io/network=network1
