@@ -45,12 +45,21 @@ _wait_for_deployment istio-system istiod
 snip_deploy_the_external_authorizer_1
 _wait_for_deployment foo ext-authz
 
+_verify_lines snip_deploy_the_external_authorizer_2 "
++ Starting HTTP server at
++ Starting gRPC server at
+"
+
 # create the authorization policy and verify the ext-authz response.
 snip_enable_with_external_authorization_1
 
 _verify_same snip_enable_with_external_authorization_2 "$snip_enable_with_external_authorization_2_out"
 _verify_same snip_enable_with_external_authorization_3 "$snip_enable_with_external_authorization_3_out"
 _verify_same snip_enable_with_external_authorization_4 "$snip_enable_with_external_authorization_4_out"
+_verify_lines snip_enable_with_external_authorization_5 "
++ [gRPCv3][allowed]
++ [gRPCv3][denied]
+"
 
 # @cleanup
 snip_clean_up_1
