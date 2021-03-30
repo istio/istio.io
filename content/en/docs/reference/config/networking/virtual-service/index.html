@@ -701,13 +701,19 @@ No
 <td><code><a href="#Delegate">Delegate</a></code></td>
 <td>
 <p>Delegate is used to specify the particular VirtualService which
-can be used to define delegate HTTPRoute.
-It can be set only when <code>Route</code> and <code>Redirect</code> are empty, and the route rules of the
-delegate VirtualService will be merged with that in the current one.
-<strong>NOTE</strong>:
-   1. Only one level delegation is supported.
-   2. The delegate&rsquo;s HTTPMatchRequest must be a strict subset of the root&rsquo;s,
-      otherwise there is a conflict and the HTTPRoute will not take effect.</p>
+can be used to define delegate HTTPRoute.</p>
+
+<p>It can be set only when <code>Route</code> and <code>Redirect</code> are empty, and the route
+rules of the delegate VirtualService will be merged with that in the
+current one.</p>
+
+<p><strong>NOTE</strong>:</p>
+
+<ol>
+<li>Only one level delegation is supported.</li>
+<li>The delegate&rsquo;s HTTPMatchRequest must be a strict subset of the root&rsquo;s,
+otherwise there is a conflict and the HTTPRoute will not take effect.</li>
+</ol>
 
 </td>
 <td>
@@ -1470,14 +1476,19 @@ No
 <td>
 <p>Query parameters for matching.</p>
 
-<p>Ex:
-- For a query parameter like &ldquo;?key=true&rdquo;, the map key would be &ldquo;key&rdquo; and
-  the string match could be defined as <code>exact: &quot;true&quot;</code>.
-- For a query parameter like &ldquo;?key&rdquo;, the map key would be &ldquo;key&rdquo; and the
-  string match could be defined as <code>exact: &quot;&quot;</code>.
-- For a query parameter like &ldquo;?key=123&rdquo;, the map key would be &ldquo;key&rdquo; and the
-  string match could be defined as <code>regex: &quot;\d+$&quot;</code>. Note that this
-  configuration will only match values like &ldquo;123&rdquo; but not &ldquo;a123&rdquo; or &ldquo;123a&rdquo;.</p>
+<p>Ex:</p>
+
+<ul>
+<li><p>For a query parameter like &ldquo;?key=true&rdquo;, the map key would be &ldquo;key&rdquo; and
+the string match could be defined as <code>exact: &quot;true&quot;</code>.</p></li>
+
+<li><p>For a query parameter like &ldquo;?key&rdquo;, the map key would be &ldquo;key&rdquo; and the
+string match could be defined as <code>exact: &quot;&quot;</code>.</p></li>
+
+<li><p>For a query parameter like &ldquo;?key=123&rdquo;, the map key would be &ldquo;key&rdquo; and the
+string match could be defined as <code>regex: &quot;\d+$&quot;</code>. Note that this
+configuration will only match values like &ldquo;123&rdquo; but not &ldquo;a123&rdquo; or &ldquo;123a&rdquo;.</p></li>
+</ul>
 
 <p><strong>Note:</strong> <code>prefix</code> matching is currently not supported.</p>
 
