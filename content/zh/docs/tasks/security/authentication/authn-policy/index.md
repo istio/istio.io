@@ -559,24 +559,24 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/ip" -s -o /dev/null -w "%{http_code}\n"
 
 1. 删除认证策略：
 
-   {{< text bash >}}
-   $ kubectl -n istio-system delete requestauthentication jwt-example
-   {{< /text >}}
+{{< text bash >}}
+$ kubectl -n istio-system delete requestauthentication jwt-example
+{{< /text >}}
 
 2. 删除授权策略：
    
-   {{< text bash >}}
-   $ kubectl -n istio-system delete authorizationpolicy frontend-ingress
-   {{< /text >}}
+{{< text bash >}}
+$ kubectl -n istio-system delete authorizationpolicy frontend-ingress
+{{< /text >}}
 
 3. 删除生成令牌的脚本和密钥文件：
 
-   {{< text bash >}}
-   $ rm -f ./gen-jwt.py ./key.pem
-   {{< /text >}}
+{{< text bash >}}
+$ rm -f ./gen-jwt.py ./key.pem
+{{< /text >}}
 
 4. 如果您不不打算继续后续章节的任务，您可以通过删除命名空间的方式清除所有资源：
 
-   {{< text bash >}}
-   $ kubectl delete ns foo bar legacy
-   {{< /text >}}
+{{< text bash >}}
+$ kubectl delete ns foo bar legacy
+{{< /text >}}
