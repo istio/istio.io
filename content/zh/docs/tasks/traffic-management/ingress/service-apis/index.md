@@ -23,7 +23,7 @@ test: yes
     $ istioctl install --set values.pilot.env.PILOT_ENABLED_SERVICE_APIS=true
     {{< /text >}}
 
-1. 请按照 [确定入口网关 IP 和端口] (/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)中的说明进行操作，取得入口网关的外部IP地址。
+1. 请按照 [确定入口网关 IP 和端口] (/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)中的说明进行操作，取得入口网关的外部 IP 地址。
 
 ## 配置网关 {#configuring-a-gateway}
 
