@@ -303,7 +303,7 @@ EOF
 {{< /text >}}
 
 1. The port value in the peer authentication policy is the container's port. The value the destination rule is the service's port.
-2. You can only use `portLevelMtls` if the port is bound to a service. Istio ignores it otherwise.
+1. You can only use `portLevelMtls` if the port is bound to a service. Istio ignores it otherwise.
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -585,24 +585,24 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/ip" -s -o /dev/null -w "%{http_code}\n"
 
 1. Remove authentication policy:
 
-    {{< text bash >}}
-    $ kubectl -n istio-system delete requestauthentication jwt-example
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl -n istio-system delete requestauthentication jwt-example
+{{< /text >}}
 
-2. Remove authorization policy:
+1. Remove authorization policy:
 
-    {{< text bash >}}
-    $ kubectl -n istio-system delete authorizationpolicy frontend-ingress
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl -n istio-system delete authorizationpolicy frontend-ingress
+{{< /text >}}
 
-3. Remove the token generator script and key file:
+1. Remove the token generator script and key file:
 
-    {{< text bash >}}
-    $ rm -f ./gen-jwt.py ./key.pem
-    {{< /text >}}
+{{< text bash >}}
+$ rm -f ./gen-jwt.py ./key.pem
+{{< /text >}}
 
-4. If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.
+1. If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.
 
-    {{< text bash >}}
-    $ kubectl delete ns foo bar legacy
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete ns foo bar legacy
+{{< /text >}}

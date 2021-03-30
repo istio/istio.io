@@ -286,7 +286,7 @@ EOF
 {{< /text >}}
 
 1. 对等身份验证策略中的端口值为容器的端口。destination rule 的值是服务的端口。
-2. 如果端口绑定到服务则只能使用 `portLevelMtls` 配置，其他配置将被 Istio 忽略。
+1. 如果端口绑定到服务则只能使用 `portLevelMtls` 配置，其他配置将被 Istio 忽略。
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -563,19 +563,19 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/ip" -s -o /dev/null -w "%{http_code}\n"
 $ kubectl -n istio-system delete requestauthentication jwt-example
 {{< /text >}}
 
-2. 删除授权策略：
+1. 删除授权策略：
    
 {{< text bash >}}
 $ kubectl -n istio-system delete authorizationpolicy frontend-ingress
 {{< /text >}}
 
-3. 删除生成令牌的脚本和密钥文件：
+1. 删除生成令牌的脚本和密钥文件：
 
 {{< text bash >}}
 $ rm -f ./gen-jwt.py ./key.pem
 {{< /text >}}
 
-4. 如果您不不打算继续后续章节的任务，您可以通过删除命名空间的方式清除所有资源：
+1. 如果您不不打算继续后续章节的任务，您可以通过删除命名空间的方式清除所有资源：
 
 {{< text bash >}}
 $ kubectl delete ns foo bar legacy
