@@ -32,7 +32,7 @@
         <meta property="og:type" content="website">
         <meta property="og:description" content="{{ template "description" . }}">
         {{ if .Permalink }}
-            <meta property="og:url" content="{{ .Permalink }}">
+            <meta property="og:url" content="{{ .Permalink | absURL }}">
         {{ end }}
         <meta property="og:image" content="{{ .Site.BaseURL | absURL }}/img/istio-whitelogo-bluebackground-framed.svg">
         <meta property="og:image:alt" content="Istio Logo">
