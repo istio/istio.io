@@ -1,0 +1,19 @@
+{{ $title := .Get "title" }}
+{{ $subtitle := .Get "subtitle" }}
+{{ $icon := .Get "icon" }}
+{{ $content := .Inner | markdownify }}
+
+<div class="involve-block">
+    <div class="involve-block-header">
+        <div class="involve-block-icon">
+            {{ partial "icon.html" $icon }}
+        </div>
+        <h3>
+            {{ $title }}
+        </h3>
+    </div>
+    <div class="involve-block-content">
+        <p class="involve-block-subtitle">{{ $subtitle }}</p>
+        {{ $content }}
+    </div>
+</div>

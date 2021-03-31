@@ -2,6 +2,11 @@
     $not-so-dark-gray: lighten($dark-gray, 10%);
     --backgroundColor: #{$not-so-dark-gray};
 
+    --primaryColor: #293655;            //dark-grey-blue
+    --secondaryColor: #516ba9;          //dull-blue
+    --accentColor: #7dc6f2;             //light-blue
+    --secondaryAccentColor: #3d5080;    //denim
+
     --textColor: #dddddd;
     --textCodeColor: #cccccc;
     --disabledTextColor: #{darken(#dddddd, 25%)};
@@ -10,6 +15,7 @@
     --linkHoverColor: #de7d40;
     --linkDisabledColor: #444444;
     --linkActiveColor: #de7d40;
+    --paleGray: #f8f9fa;
 
     --h1Color: #{$white};
     --h2Color: #{$white};
@@ -24,6 +30,7 @@
     --glossaryHeaderColor: #{$medium-gray};
     --deprecatedBackgroundColor: silver;
     --boxBorderColor: var(--textColor);
+    --inputBorderColor: #566ca5;
 
     --quoteCalloutBackgroundColor: #{$dark-gray};
     --quoteCalloutBorderColor: #{$dark-gray};
@@ -61,13 +68,9 @@
     --popoverBackgroundColor: var(--backgroundColor);
     --popoverTextColor: var(--textColor);
 
-    --headerLightShadowColor: rgba(0, 0, 0, .14);
-    --headerDarkShadowColor: rgba(0, 0, 0, .28);
-
     --figureBackgroundColor: #a3a3a3;
     --figureCaptionColor: #{$white};
 
-    --heroLogoColor: var(--textColor);
     --landingPanelBackgroundColor: #{$dark-gray};
     --landingPanelBorderColor: #777777;
     --landingPanelTextColor: var(--textColor);
@@ -99,20 +102,26 @@
     --bannerLinkDisabledColor: #444444;
     --bannerLinkActiveColor: #de7d40;
 
-    --textWeight: 300;
+    --modalBackgroundColor: fade-out(var(--paleGray), .3);
+
+    --regularWeight: 400;
+    --mediumWeight: 500;
+    --semiBoldWeight: 600;
+    --boldWeight: 700;
+
+    --textWeight: 500;
     --linkWeight: 300;
-    --h1Weight: 400;
-    --h2Weight: 400;
-    --h3Weight: 500;
+    --h1Weight: var(--boldWeight);
+    --h2Weight: var(--boldWeight);
+    --h3Weight: var(--boldWeight);
     --h4Weight: 500;
     --h5Weight: 500;
     --h6Weight: 500;
     --tableHeaderWeight: 400;
     --boldTextWeight: 600;
-    --heroLeadWeight: 300;
     --blogAttributeWeight: 500;
     --sectionIndexLinkWeight: 400;
-    --buttonWeight: 400;
+    --buttonWeight: 500;
     --tocLinkWeight: 300;
     --sidebarLinkWeight: 300;
     --sidebarCurrentPageWeight: 500;

@@ -6,6 +6,8 @@ keywords: [security,authentication]
 aliases:
     - /zh/docs/tasks/security/istio-auth.html
     - /zh/docs/tasks/security/authn-policy/
+owner: istio/wg-security-maintainers
+test: yes
 ---
 
 本任务涵盖了您在启用、配置和使用 Istio 认证策略时可能需要做的主要工作。更多基本概念介绍请查看[认证总览](/zh/docs/concepts/security/#authentication)。

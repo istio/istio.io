@@ -1,6 +1,8 @@
 ---
 title: InternalError
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: n/a
 ---
 
 这个错误很可能是由 Istio 的内部问题引起的，而不是用户错误。

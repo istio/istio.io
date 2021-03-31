@@ -1,0 +1,15 @@
+{{ $caseStudyPages := where .Site.RegularPages "Type" "case-studies" }}
+
+{{ with $caseStudyPages }}
+    <div class="case-studies splide istio-splide">
+        <div class="splide__track">
+            <ul class="splide__list">
+                {{ range first 5 . }}
+                    <li class="splide__slide">
+                        {{ partial "case_studies_carousel_panel" (dict "quote" .Params.quote "author" .Params.author.name "company" .Params.companyName "logo" .Params.logo)}}
+                    </li>
+                {{ end }}
+            </ul>
+        </div>
+    </div>
+{{ end }}

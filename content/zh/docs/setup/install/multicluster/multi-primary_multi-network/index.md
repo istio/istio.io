@@ -9,15 +9,16 @@ owner: istio/wg-environments-maintainers
 ---
 按照本指南，在 `cluster1` 和 `cluster2` 两个集群上，安装 Istio 控制平面，
 且将两者均设置为主集群（{{< gloss >}}primary cluster{{< /gloss >}}）。
-集群 `cluster1` 在  `network1` 网络上，而集群 `cluster22` 在  `network2` 网络上。
-所以跨集群边界的 Pod 之间，网络不能直接连通。
+集群 `cluster1` 在  `network1` 网络上，而集群 `cluster2` 在  `network2` 网络上。
+这意味着这些跨集群边界的 Pod 之间，网络不能直接连通。
 
 继续安装之前，请确保完成了[准备工作](/zh/docs/setup/install/multicluster/before-you-begin)中的步骤。
 
-在此配置中，`cluster1` 和 `cluster2` 均监测两个集群 API 服务器的服务端点。
+{{< boilerplate multi-cluster-with-metallb >}}
 
-跨集群边界的服务负载，通过专用的东西向网关，以间接的方式通讯。
-每个集群中的网关必须可以从其他集群访问。
+在此配置中，`cluster1` 和 `cluster2` 均监测两个集群 API Server 的服务端点。
+
+跨集群边界的服务负载，通过专用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)网关，以间接的方式通讯。每个集群中的网关在其他集群必须可以访问。
 
 {{< image width="75%"
     link="arch.svg"
@@ -71,7 +72,11 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     istioctl --context="${CTX_CLUSTER1}" install -y -f -
 {{< /text >}}
 
-等待东西向网关获取外部 IP 地址:
+{{< warning >}}
+如果随着版本修正已经安装控制面板，在 `gen-eastwest-gateway.sh` 命令中添加 `--revision rev` 标志。
+{{< /warning >}}
+
+等待东西向网关被分配外部 IP 地址:
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-system
@@ -82,8 +87,7 @@ istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51
 ## 开放 `cluster1` 中的服务 {#expose-services-in-cluster1}
 
 因为集群位于不同的网络中，所以我们需要在两个集群东西向网关上开放所有服务（*.local）。
-虽然此网关在互联网上是公开的，但它背后的服务只能被拥有可信 mTLS 证书、工作负载 ID 的服务访问，
-就像它们处于同一网络一样。
+虽然此网关在互联网上是公开的，但它背后的服务只能被拥有可信 mTLS 证书、工作负载 ID 的服务访问，就像它们处于同一网络一样。
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
@@ -133,7 +137,7 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     istioctl --context="${CTX_CLUSTER2}" install -y -f -
 {{< /text >}}
 
-等待东西向网关获取外部 IP 地址：
+等待东西向网关被分配外部 IP 地址：
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER2}" get svc istio-eastwestgateway -n istio-system
@@ -152,7 +156,7 @@ $ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
 
 ## 启用端点发现 {#enable-endpoint-discovery}
 
-在 `cluster2` 中安装一个提供 `cluster1` 访问权限的远程 secret。
+在 `cluster2` 中安装一个提供 `cluster1` API Server 访问权限的远程 Secret。
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
@@ -161,7 +165,7 @@ $ istioctl x create-remote-secret \
   kubectl apply -f - --context="${CTX_CLUSTER2}"
 {{< /text >}}
 
-在 `cluster1` 中安装一个提供 `cluster2` 访问权限的远程 secret。
+在 `cluster1` 中安装一个提供 `cluster2` API Server 访问权限的远程 Secret。
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \

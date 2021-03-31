@@ -1,5 +1,6 @@
 ---
 title: Attribute
+test: no
 ---
 
 属性控制着网格中服务运行时的行为，是一堆有名字的、有类型的元数据，它们描述了 ingress 和 egress 流量，以及这些流量所在的环境。

@@ -738,6 +738,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Default Http and gRPC Request timeout</td>
 </tr>
 <tr>
+<td><code>ISTIO_DELTA_XDS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will only send the delta configs as opposed to the state of the world on a Resource Request</td>
+</tr>
+<tr>
 <td><code>ISTIO_GATEWAY_STRIP_HOST_PORT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -790,6 +796,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>KUBERNETES_SERVICE_HOST</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Kuberenetes service host, set automatically when running in-cluster</td>
 </tr>
 <tr>
 <td><code>K_REVISION</code></td>
@@ -906,6 +918,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_MCS_SERVICEEXPORT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Pilot will generate MCS ServiceExport objects for every non cluster-local service in the cluster</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -940,12 +958,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will update the CRD Status field of all istio resources with reconciliation status.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_THRIFT_FILTER</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>EnableThriftFilter enables injection of `envoy.filters.network.thrift_proxy` in the filter chain.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_VIRTUAL_SERVICE_DELEGATE</code></td>

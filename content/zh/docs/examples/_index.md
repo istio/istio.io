@@ -6,4 +6,5 @@ icon: examples
 aliases:
     - /zh/docs/samples/index.html
     - /zh/docs/guides/index.html
+test: n/a
 ---
