@@ -342,7 +342,7 @@ EOF
 重新执行来自 `sleep.legacy` 的请求，您应该又会看到请求成功返回 200 代码，证明了特定服务策略覆盖了命名空间范围的策略。
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items.metadata.name})" -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+$ kubectl exec "$(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name})" -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
@@ -433,7 +433,7 @@ EOF
 
 策略生效的命名空间是 `istio-system`，生效的工作负载由 `selector` 字段决定，上面的配置值是带有 `app: ingressgateway` 标签的工作负载。
 
-如果您在授权标头（默认位置）中提供了令牌，则 Istio 将使用 [public key set]({{<github_file>}}/security/tools/jwt/samples/jwks.json）验证令牌，`bearer` 令牌无效会被拒绝，然而没有 `bearer` 令牌的请求会被接收。因此要观察此行为，请在没有令牌，令牌错误和有效令牌的情况下重试请求：
+如果您在授权标头（默认位置）中提供了令牌，则 Istio 将使用 [public key set]({{<github_file>}}/security/tools/jwt/samples/jwks.json) 验证令牌，`bearer` 令牌无效会被拒绝，然而没有 `bearer` 令牌的请求会被接收。因此要观察此行为，请在没有令牌，令牌错误和有效令牌的情况下重试请求：
 
 {{< text bash >}}
 $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
@@ -559,24 +559,24 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/ip" -s -o /dev/null -w "%{http_code}\n"
 
 1. 删除认证策略：
 
-{{< text bash >}}
-$ kubectl -n istio-system delete requestauthentication jwt-example
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl -n istio-system delete requestauthentication jwt-example
+    {{< /text >}}
 
 1. 删除授权策略：
-   
-{{< text bash >}}
-$ kubectl -n istio-system delete authorizationpolicy frontend-ingress
-{{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl -n istio-system delete authorizationpolicy frontend-ingress
+    {{< /text >}}
 
 1. 删除生成令牌的脚本和密钥文件：
 
-{{< text bash >}}
-$ rm -f ./gen-jwt.py ./key.pem
-{{< /text >}}
+    {{< text bash >}}
+    $ rm -f ./gen-jwt.py ./key.pem
+    {{< /text >}}
 
 1. 如果您不不打算继续后续章节的任务，您可以通过删除命名空间的方式清除所有资源：
 
-{{< text bash >}}
-$ kubectl delete ns foo bar legacy
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete ns foo bar legacy
+    {{< /text >}}
