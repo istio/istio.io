@@ -69,7 +69,7 @@ and `SERVICE_ACCOUNT` on your machine that you're using to setup the cluster.
 
 ## Install the Istio control plane
 
-If your cluster already installed the Istio control plane, you can skip installation steps, but still need to expose the control plane.
+If your cluster already has an Istio control plane, you can skip the installation steps, but will still need to expose the control plane for virtual machine access.
 
 Install Istio and expose the control plane on cluster so that your virtual machine can access it.
 
