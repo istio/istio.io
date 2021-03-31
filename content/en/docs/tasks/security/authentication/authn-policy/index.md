@@ -360,7 +360,7 @@ EOF
 Re-running the request from `sleep.legacy`, you should see a success return code again (200), confirming service-specific policy overrides the namespace-wide policy.
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items.metadata.name})" -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+$ kubectl exec "$(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name})" -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
@@ -585,24 +585,24 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/ip" -s -o /dev/null -w "%{http_code}\n"
 
 1. Remove authentication policy:
 
-{{< text bash >}}
-$ kubectl -n istio-system delete requestauthentication jwt-example
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl -n istio-system delete requestauthentication jwt-example
+    {{< /text >}}
 
 1. Remove authorization policy:
 
-{{< text bash >}}
-$ kubectl -n istio-system delete authorizationpolicy frontend-ingress
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl -n istio-system delete authorizationpolicy frontend-ingress
+    {{< /text >}}
 
 1. Remove the token generator script and key file:
 
-{{< text bash >}}
-$ rm -f ./gen-jwt.py ./key.pem
-{{< /text >}}
+    {{< text bash >}}
+    $ rm -f ./gen-jwt.py ./key.pem
+    {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.
 
-{{< text bash >}}
-$ kubectl delete ns foo bar legacy
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete ns foo bar legacy
+    {{< /text >}}
