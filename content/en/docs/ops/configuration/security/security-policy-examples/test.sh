@@ -31,10 +31,5 @@ echo "$snip_require_mandatory_authorization_check_with_deny_policy_1" | kubectl 
 echo "$snip_require_mandatory_authorization_check_with_deny_policy_2" | kubectl apply -f -
 
 # @cleanup
-echo "$snip_require_different_jwt_issuer_per_host_1" | kubectl delete -f -
-echo "$snip_namespace_isolation_1" | kubectl delete -f -
-echo "$snip_namespace_isolation_with_ingress_exception_1" | kubectl delete -f -
-echo "$snip_require_mtls_in_authorization_layer_defense_in_depth_1" | kubectl delete -f -
-echo "$snip_require_mandatory_authorization_check_with_deny_policy_1" | kubectl delete -f -
-echo "$snip_require_mandatory_authorization_check_with_deny_policy_2" | kubectl delete -f -
-kubectl create namespace foo
+kubectl delete authorizationpolicies.security.istio.io --all --all-namespaces
+kubectl delete namespace foo
