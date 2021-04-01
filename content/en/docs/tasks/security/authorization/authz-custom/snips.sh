@@ -35,6 +35,41 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
 200
 ENDSNIP
 
+snip_deploy_the_external_authorizer_1() {
+kubectl apply -n foo -f https://raw.githubusercontent.com/istio/istio/master/samples/extauthz/ext-authz.yaml
+}
+
+! read -r -d '' snip_deploy_the_external_authorizer_1_out <<\ENDSNIP
+service/ext-authz created
+deployment.apps/ext-authz created
+ENDSNIP
+
+snip_deploy_the_external_authorizer_2() {
+kubectl logs "$(kubectl get pod -l app=ext-authz -n foo -o jsonpath={.items..metadata.name})" -n foo -c ext-authz
+}
+
+! read -r -d '' snip_deploy_the_external_authorizer_2_out <<\ENDSNIP
+2021/01/07 22:55:47 Starting HTTP server at [::]:8000
+2021/01/07 22:55:47 Starting gRPC server at [::]:9000
+ENDSNIP
+
+! read -r -d '' snip_deploy_the_external_authorizer_3 <<\ENDSNIP
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+name: external-authz-grpc-local
+spec:
+  hosts:
+  - "external-authz-grpc.local" # The service name to be used in the extension provider in the mesh config.
+  endpoints:
+  - address: "127.0.0.1"
+  ports:
+  - name: grpc
+    number: 9191 # The port number to be used in the extension provider in the mesh config.
+    protocol: GRPC
+  resolution: STATIC
+ENDSNIP
+
 snip_define_the_external_authorizer_1() {
 kubectl edit configmap istio -n istio-system
 }
@@ -74,41 +109,6 @@ kubectl rollout restart deployment/istiod -n istio-system
 
 ! read -r -d '' snip_define_the_external_authorizer_4_out <<\ENDSNIP
 deployment.apps/istiod restarted
-ENDSNIP
-
-snip_deploy_the_external_authorizer_1() {
-kubectl apply -n foo -f https://raw.githubusercontent.com/istio/istio/master/samples/extauthz/ext-authz.yaml
-}
-
-! read -r -d '' snip_deploy_the_external_authorizer_1_out <<\ENDSNIP
-service/ext-authz created
-deployment.apps/ext-authz created
-ENDSNIP
-
-snip_deploy_the_external_authorizer_2() {
-kubectl logs "$(kubectl get pod -l app=ext-authz -n foo -o jsonpath={.items..metadata.name})" -n foo -c ext-authz
-}
-
-! read -r -d '' snip_deploy_the_external_authorizer_2_out <<\ENDSNIP
-2021/01/07 22:55:47 Starting HTTP server at [::]:8000
-2021/01/07 22:55:47 Starting gRPC server at [::]:9000
-ENDSNIP
-
-! read -r -d '' snip_deploy_the_external_authorizer_3 <<\ENDSNIP
-apiVersion: networking.istio.io/v1alpha3
-kind: ServiceEntry
-metadata:
-name: external-authz-grpc-local
-spec:
-  hosts:
-  - "external-authz-grpc.local" # The service name to be used in the extension provider in the mesh config.
-  endpoints:
-  - address: "127.0.0.1"
-  ports:
-  - name: grpc
-    number: 9191 # The port number to be used in the extension provider in the mesh config.
-    protocol: GRPC
-  resolution: STATIC
 ENDSNIP
 
 snip_enable_with_external_authorization_1() {
