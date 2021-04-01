@@ -1,5 +1,5 @@
 ---
-title: TCP 流量的授权
+title: TCP 流量
 description: 展示如何设置 TCP 流量的访问控制。
 weight: 20
 keywords: [security,access-control,rbac,tcp,authorization]
@@ -9,175 +9,184 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-该任务向您展示了在 Istio 网格中如何为 TCP 流量设置 Istio 授权。
-您可以在[授权概念页面](/zh/docs/concepts/security/#authorization)中了解到关于 Istio 授权的更多信息。
+该任务向您展示了在 Istio 网格中如何为 TCP 流量设置 Istio 授权策略。
 
 ## 开始之前{#before-you-begin}
 
-本文任务假定您已经：
+在您开始之前，请先完成以下内容：
 
-* 阅读了[授权概念](/zh/docs/concepts/security/#authorization)。
+* 阅读[Istio 授权概念](/zh/docs/concepts/security/#authorization)。
 
-* 按照 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装了 Istio 并启用了双向 TLS。
+* 按照 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio。
 
-* 部署了 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 示例应用。
+* 在命名空间例如 `foo` 中部署两个工作负载，`sleep` 和 `tcp-echo`。
+这两个工作负载每个前面都会运行一个 Envoy 代理。
+`tcp-echo` 工作负载会监听端口 9000、9001 和 9002，并以前缀 `hello` 输出它收到的所有流量。
+例如，如果你发送 "world" 给 `tcp-echo`，那么它将会回复 `hello world`。
+`tcp-echo` 的 Kubernetes 服务对象只声明了端口 9000 和 9001，而省略了端口 9002。直通过滤器链将处理端口 9002 的流量。
+使用以下命令部署示例命名空间和工作负载：
 
-部署完 Bookinfo 应用后，打开 `http://$GATEWAY_URL/productpage` 地址进入到 Bookinfo 图书页面。在该页面中，您可以看到如下模块：
+    {{< text bash >}}
+    $ kubectl create ns foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo.yaml@) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
+    {{< /text >}}
 
-* 在页面的左下方是图书详情 (**Book Detail**) 模块，内容包括：图书类型、页数、出版社等信息。
-* 在页面的右下方是图书评价（**Book Reviews**) 模块。
+* 使用以下命令确认 `sleep` 可以成功与 `tcp-echo` 的端口 9000 和 9001 交互：
 
-每次刷新页面后，图书页面的书评模块会有不同的版本样式，在三种版本（红色星级、黑色星级、没有星级）之间轮换。
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    hello port 9000
+    connection succeeded
+    {{< /text >}}
 
-{{< tip >}}
-如果您在按照说明操作时未在浏览器中看到预期的输出，请在几秒钟后重试，因为缓存和其他传播开销可能会导致有些延迟。
-{{< /tip >}}
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    hello port 9001
+    connection succeeded
+    {{< /text >}}
+
+* 确认 `sleep` 可以成功与 `tcp-echo` 的端口 9002 交互。
+您需要将流量直接发送到 `tcp-echo` 的 pod IP，因为在 `tcp-echo` 的 Kubernetes 服务对象中未定义端口 9002。
+使用以下命令获取 pod IP 地址并发送请求：
+
+    {{< text bash >}}
+    $ TCP_ECHO_IP=$(kubectl get pod "$(kubectl get pod -l app=tcp-echo -n foo -o jsonpath={.items..metadata.name})" -n foo -o jsonpath="{.status.podIP}")
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    hello port 9002
+    connection succeeded
+    {{< /text >}}
 
 {{< warning >}}
-此任务需要启用双向 TLS，因为以下示例使用策略中的主体和命名空间。
+如果看不到预期的输出，请在几秒钟后重试，因为缓存和其他传播开销可能会导致有些延迟。
 {{< /warning >}}
 
 ## 配置 TCP 工作负载的访问控制{#configure-access-control-for-a-TCP-workload}
 
-默认情况下，[Bookinfo](/zh/docs/examples/bookinfo/) 示例应用只使用 HTTP 协议。
-为了演示 TCP 流量的授权，您需要将应用更新到使用 TCP 的版本。
-按照下面的步骤，部署 Bookinfo 应用示例，并且将 `ratings` 服务升级到 `v2` 版本，在该版本中会使用 TCP 调用后端 MongoDB 服务，然后将授权策略应用到 MongoDB 工作负载上。
-
-1. 使用 `bookinfo-ratings-v2` 服务账户安装 `ratings` 工作负载的 `v2` 版本：
-
-    {{< tabset category-name="sidecar" >}}
-
-    {{< tab name="With automatic sidecar injection" category-value="auto" >}}
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< tab name="With manual sidecar injection" category-value="manual" >}}
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@)
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
-
-1. 创建适当的 destination rules：
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
-    {{< /text >}}
-
-    因为 virtual service 规则中引用的 subset 项依赖 destination rules，所以在添加 virtual service 规则之前先等待几秒钟以让 destination rules 传播生效。
-
-1. 在 destination rules 传播生效后，更新 `reviews` 工作负载以只使用 `v2` 版本的 `ratings` 工作负载：
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
-    {{< /text >}}
-
-1. 浏览 Bookinfo 的产品页面（`http://$GATEWAY_URL/productpage`）。
-
-    在这一页面中，您会在 **Book Reviews** 模块中看到一条错误信息：**"Ratings service is currently unavailable."**。
-    这是因为我们现在用的是 `v2` 版本的 `ratings` 工作负载，但是我们还没有部署 MongoDB。
-
-1. 部署 MongoDB 工作负载：
-
-    {{< tabset category-name="sidecar" >}}
-
-    {{< tab name="With automatic sidecar injection" category-value="auto" >}}
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< tab name="With manual sidecar injection" category-value="manual" >}}
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@)
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
-
-1. 浏览 Bookinfo 的产品页面（`http://$GATEWAY_URL/productpage`）。
-
-1. 确认 **Book Reviews** 模块显示了书评。
-
-    部署了 MongoDB 工作负载之后，在将授权配置为仅允许授权请求之前，我们需要为工作负载应用默认的 `deny-all` 策略，以确保默认情况下拒绝对 MongoDB 工作负载的所有请求。
-
-1. 对 MongoDB 工作负载应用默认的 `deny-all` 策略：
+1. 在 `foo` 命名空间中为 `tcp-echo` 工作负载创建 `tcp-policy` 授权策略。
+运行以下命令来应用策略以允许请求到端口 9000 和 9001：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: security.istio.io/v1beta1
     kind: AuthorizationPolicy
     metadata:
-      name: deny-all
+      name: tcp-policy
+      namespace: foo
     spec:
       selector:
         matchLabels:
-          app: mongodb
-    EOF
-    {{< /text >}}
-
-    打开 Bookinfo 的 `productpage` 页面（`http://$GATEWAY_URL/productpage`）。您会看到：
-
-    * 页面左下角的 **Book Details** 中包含了书籍类型、页数以及出版商等信息。
-    * 页面右下角的 **Book Reviews** 显示了错误信息：**"Ratings service is currently unavailable"**。
-
-    在配置了默认拒绝所有请求之后，我们需要创建一个 `bookinfo-ratings-v2` 策略以允许来自 `cluster.local/ns/default/sa/bookinfo-ratings-v2` 服务账户在 `27017` 端口上对 MongoDB 工作负载的请求。
-    我们授权给这个服务账户，是因为来自 `ratings-v2` 工作负载的请求都用的是 `cluster.local/ns/default/sa/bookinfo-ratings-v2` 服务账户发出的。
-
-1. 为来自 `cluster.local/ns/default/sa/bookinfo-ratings-v2` 服务账户的 TCP 流量增强工作负载级别的访问控制：
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
-    kind: AuthorizationPolicy
-    metadata:
-      name: bookinfo-ratings-v2
-    spec:
-      selector:
-        matchLabels:
-          app: mongodb
+          app: tcp-echo
+      action: ALLOW
       rules:
-      - from:
-        - source:
-            principals: ["cluster.local/ns/default/sa/bookinfo-ratings-v2"]
-        to:
+      - to:
         - operation:
-            ports: ["27017"]
+           ports: ["9000", "9001"]
     EOF
     {{< /text >}}
 
-    打开 Bookinfo 的 `productpage` 页面（`http://$GATEWAY_URL/productpage`），您现在应该看到以下各节按预期工作：
+1. 使用以下命令验证是否允许请求端口 9000：
 
-    * 页面左下角的 **Book Details** 中包含了书籍类型、页数以及出版商等信息。
-    * 页面右下角的 **Book Reviews** 显示了红色星级的书评。
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    hello port 9000
+    connection succeeded
+    {{< /text >}}
 
-    **恭喜！** 您已经成功部署了通过 TCP 流量进行通信的工作负载，并应用了网格级别和工作负载级别的授权策略来对请求实施访问控制。
+1. 使用以下命令验证是否允许请求端口 9001：
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    hello port 9001
+    connection succeeded
+    {{< /text >}}
+
+1. 验证对端口 9002 的请求是否被拒绝。即使未在 `tcp-echo` Kubernetes 服务对象中显式声明的端口，授权策略也将其应用于直通过滤器链。 运行以下命令并验证输出：
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    connection rejected
+    {{< /text >}}
+
+1. 使用以下命令为端口 9000 添加一个名为 `methods` 的 HTTP-only 字段来更新策略：
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: tcp-policy
+      namespace: foo
+    spec:
+      selector:
+        matchLabels:
+          app: tcp-echo
+      action: ALLOW
+      rules:
+      - to:
+        - operation:
+            methods: ["GET"]
+            ports: ["9000"]
+    EOF
+    {{< /text >}}
+
+1. 验证对端口 9000 的请求是否被拒绝。发生这种情况是因为该规则在对 TCP 流量使用了 HTTP-only 字段（`methods`），这会导致规则无效。Istio 会忽略无效的 ALLOW 规则。
+最终结果是该请求被拒绝，因为它与任何 ALLOW 规则都不匹配。
+运行以下命令并验证输出：
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    connection rejected
+    {{< /text >}}
+
+1. 验证对端口 9001 的请求是否被拒绝。 发生这种情况是因为请求与任何 ALLOW 规则都不匹配。 运行以下命令并验证输出：
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    connection rejected
+    {{< /text >}}
+
+1. 使用以下命令将策略更新为 DENY 策略：
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: tcp-policy
+      namespace: foo
+    spec:
+      selector:
+        matchLabels:
+          app: tcp-echo
+      action: DENY
+      rules:
+      - to:
+        - operation:
+            methods: ["GET"]
+            ports: ["9000"]
+    EOF
+    {{< /text >}}
+
+1. 验证对端口 9000 的请求是否被拒绝。发生这种情况是因为 Istio 忽略了无效的 DENY 规则中的 HTTP-only 字段。这与无效的 ALLOW 规则不同，ALLOW 规则会导致 Istio 忽略整个规则。这里最终的结果是 Istio 仅使用 `ports` 字段来判断，请求会被拒绝正是因为它们与 `ports` 匹配：
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    connection rejected
+    {{< /text >}}
+
+1. 验证是否允许对端口 9001 的请求。发生这种情况是因为请求与 DENY 策略中的 `ports` 不匹配：
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    hello port 9001
+    connection succeeded
+    {{< /text >}}
 
 ## 清理{#cleanup}
 
-1. 删除 Istio 授权策略配置：
+1. 删除命名空间 foo：
 
     {{< text bash >}}
-    $ kubectl delete authorizationpolicy.security.istio.io/deny-all
-    $ kubectl delete authorizationpolicy.security.istio.io/bookinfo-ratings-v2
-    {{< /text >}}
-
-1. 删除 `v2` 版本的 ratings 工作负载和 MongoDB 的 deployment：
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
-    $ kubectl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
-    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
-    $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@
+    $ kubectl delete namespace foo
     {{< /text >}}
