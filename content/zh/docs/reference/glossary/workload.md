@@ -2,6 +2,7 @@
 title: Workload
 test: n/a
 ---
+
 [operators](/zh/docs/reference/glossary/#operator) 部署的二进制文件，用于提供服务网格应用的一些功能。
 工作负载有自己的名称，命名空间，和唯一的 id。
 这些属性可以通过下面的[属性](/zh/docs/reference/glossary/#attribute)被策略配置和遥测配置使用：
