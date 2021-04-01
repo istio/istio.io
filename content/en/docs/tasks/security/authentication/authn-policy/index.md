@@ -28,7 +28,7 @@ $ istioctl install --set profile=default
 ### Setup
 
 Our examples use two namespaces `foo` and `bar`, with two services, `httpbin` and `sleep`, both running with an Envoy proxy. We also use second
-instances of `httpbin` and `sleep` running without the sidecar  in the `legacy` namespace. If you’d like to use the same examples when trying the tasks,
+instances of `httpbin` and `sleep` running without the sidecar in the `legacy` namespace. If you’d like to use the same examples when trying the tasks,
 run the following:
 
 {{< text bash >}}
@@ -84,7 +84,7 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
 {{< /text >}}
 
 {{< tip >}}
-Depending on the version of Istio, you may see destination rules for hosts other then those shown. However, there should be none with hosts in the `foo`,
+Depending on the version of Istio, you may see destination rules for hosts other than those shown. However, there should be none with hosts in the `foo`,
 `bar` and `legacy` namespace, nor is the match-all wildcard `*`
 {{< /tip >}}
 
@@ -168,7 +168,7 @@ $ kubectl delete peerauthentication -n istio-system default
 
 ### Namespace-wide policy
 
-To change mutual TLS for all workloads within a particular namespace, use a namespace-wide policy. The specification of the policy is the same as for a mesh-wide policy, but you specify the namespace it applies to under `metadata`. For example, the following peer authentication policy enables strict mutual TLS  for the `foo` namespace:
+To change mutual TLS for all workloads within a particular namespace, use a namespace-wide policy. The specification of the policy is the same as for a mesh-wide policy, but you specify the namespace it applies to under `metadata`. For example, the following peer authentication policy enables strict mutual TLS for the `foo` namespace:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
