@@ -179,7 +179,7 @@ Ingress gateway 允许您定义网格所有入站流量的入口。Egress gatewa
     ...
     {{< /text >}}
 
-    The output should be the same as in the step 2.
+    输出应该与第二步相同。
 
 1. 检查 `istio-egressgateway` pod 的日志，并查看与我们的请求对应的行。如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
 
