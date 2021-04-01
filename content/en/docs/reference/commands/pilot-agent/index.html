@@ -780,6 +780,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If set to true, enable the capture of outgoing DNS packets on port 53, redirecting to istio-agent on :15053</td>
 </tr>
 <tr>
+<td><code>ISTIO_MULTIROOT_MESH</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, mesh will support certificates signed by more than one trustAnchor for ISTIO_MUTUAL mTLS</td>
+</tr>
+<tr>
 <td><code>ISTIO_PROMETHEUS_ANNOTATIONS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -1140,6 +1146,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>The proxy configuration. This will be set by the injection - gateways will use file mounts.</td>
 </tr>
 <tr>
+<td><code>PROXY_CONFIG_XDS_AGENT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set to true, agent retrieves dynamic proxy-config updates via xds channel</td>
+</tr>
+<tr>
 <td><code>PROXY_XDS_VIA_AGENT</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1174,6 +1186,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code></code></td>
 <td>Name of service account</td>
+</tr>
+<tr>
+<td><code>SHARED_MESH_CONFIG</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
 </tr>
 <tr>
 <td><code>SPIFFE_BUNDLE_ENDPOINTS</code></td>
