@@ -104,7 +104,7 @@ Experimental features are purposefully not listed on this page.
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/) | Stable
 | [Multicluster Mesh](/docs/setup/install/multicluster/) | Beta
 | [External Control Plane](/docs/setup/additional-setup/external-controlplane/) | Alpha
-| [Kubernetes: Istio Control Plane Upgrade](/docs/setup/upgrade/) | Beta
+| [Kubernetes: Istio Control Plane In-Place Upgrade](/docs/setup/upgrade/in-place) | Beta
 | Basic Configuration Resource Validation | Beta
 | [Istio CNI plugin](/docs/setup/additional-setup/cni/) | Alpha
 | IPv6 Support for Kubernetes | Alpha. Dual-stack IPv4 and IPv6 is not supported.
