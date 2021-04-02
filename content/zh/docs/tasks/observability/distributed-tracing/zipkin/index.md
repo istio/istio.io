@@ -53,11 +53,10 @@ $ istioctl dashboard zipkin
 
 ## 清理{#cleanup}
 
-1. 使用 Control C 或删除任何可能仍在运行的 `istioctl` 进程：
+1. 使用 Control-C 或删除任何可能仍在运行的 `istioctl` 进程：
 
     {{< text bash >}}
     $ killall istioctl
     {{< /text >}}
 
 1. 如果您不打算继续深入探索任何后续任务，请参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)说明，关闭应用程序。
-
