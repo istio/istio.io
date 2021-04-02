@@ -64,7 +64,6 @@ _verify_lines snip_enable_with_external_authorization_5 "
 "
 
 # @cleanup
-echo "test done"
 snip_clean_up_1
 
 # delete the extension provider from the mesh config.
