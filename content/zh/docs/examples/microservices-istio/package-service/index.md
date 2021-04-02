@@ -4,6 +4,8 @@ overview: 在一个 Docker 容器里运行一个微服务。
 
 weight: 20
 
+owner: istio/wg-docs-maintainers
+test: no
 ---
 
 {{< boilerplate work-in-progress >}}
@@ -25,6 +27,13 @@ weight: 20
     请注意，它将文件复制到容器的文件系统中，然后执行你在上一个模块中执行过的 `npm install` 命令。
     `CMD` 命令指示 Docker 在 `9080` 端口上运行 `ratings` 服务。
 
+1. 创建一个环境变量来存储您的用户 ID，该用户 ID 将用于标记 docker 镜像以进行 `ratings` 服务。
+    例如, `user`。
+
+    {{< text bash >}}
+    $ export USER=user
+    {{< /text >}}
+
 1. 根据 `Dockerfile` 构建出一个镜像：
 
     {{< text bash >}}
@@ -41,7 +50,7 @@ weight: 20
     指示 Docker 将容器的 `9080` 端口暴露到计算机的 `9081` 端口，从而允许你访问 `9081` 端口上的 `ratings` 微服务。
 
     {{< text bash >}}
-    $ docker run -d -p 9081:9080 $USER/ratings
+    $ docker run --name my-ratings  --rm -d -p 9081:9080 $USER/rating
     {{< /text >}}
 
 1. 在浏览器访问 [http://localhost:9081/ratings/7](http://localhost:9081/ratings/7)，或使用以下的 `curl` 命令：
@@ -64,7 +73,7 @@ weight: 20
 1. 停止运行中的容器：
 
     {{< text bash >}}
-    $ docker stop <the container ID from the output of docker ps>
+    $ docker stop my-ratings
     {{< /text >}}
 
-现在，你已经准备好[部署应用程序](/zh/docs/examples/microservices-istio/bookinfo-kubernetes)。
+现在，您已经了解了如何将单个服务打包到容器中。接下来去学习[在 Kubernetes 集群上部署应用程序](/zh/docs/examples/microservices-istio/bookinfo-kubernetes)。

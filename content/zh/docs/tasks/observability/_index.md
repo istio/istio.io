@@ -5,4 +5,5 @@ weight: 30
 aliases:
  - /zh/docs/examples/telemetry/
  - /zh/docs/tasks/telemetry/
+test: n/a
 ---

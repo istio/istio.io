@@ -6,6 +6,8 @@ aliases:
     - /zh/docs/tasks/egress.html
     - /zh/docs/tasks/egress
 keywords: [traffic-management,egress]
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 由于默认情况下，来自 Istio-enable Pod 的所有出站流量都会重定向到其 Sidecar 代理，群集外部 URL 的可访问性取决于代理的配置。默认情况下，Istio 将 Envoy 代理配置为允许传递未知服务的请求。尽管这为入门 Istio 带来了方便，但是，通常情况下，配置更严格的控制是更可取的。

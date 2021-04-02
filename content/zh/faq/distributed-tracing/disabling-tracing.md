@@ -10,8 +10,6 @@ weight: 50
 TRACING_POD=`kubectl get po -n <istio namespace> | grep istio-tracing | awk '{print $1}'`
 $ kubectl delete pod $TRACING_POD -n <istio namespace>
 $ kubectl delete services tracing zipkin   -n <istio namespace>
-# 从 Mixer Deployment 中移除对 zipkin url 的引用
-$ kubectl -n istio-system edit deployment istio-telemetry
 # 现在，手动从文件中移除 trace_zipkin_url 的实例，保存文件
 {{< /text >}}
 

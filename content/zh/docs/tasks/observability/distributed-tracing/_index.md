@@ -5,4 +5,5 @@ weight: 30
 keywords: [telemetry,tracing]
 aliases:
  - /zh/docs/tasks/telemetry/distributed-tracing/
+test: n/a
 ---

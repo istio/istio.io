@@ -1,0 +1,17 @@
+{{ $header := .Get "header" }}
+
+<div class="multi-block">
+    {{ with .Get "icon" }}
+        {{ partial "icon.html" . }}
+    {{ end }}
+
+    <div class="multi-block-text">
+        <h3 class="multi-block-header">{{- $header -}}</h3>
+        
+        {{ if in (string .Inner) "\n\n" }}
+            {{ .Inner | markdownify }}
+        {{ else }}
+            <p>{{ .Inner | markdownify }}</p>
+        {{ end }}
+    </div>
+</div>

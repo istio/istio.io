@@ -7,4 +7,5 @@ aliases:
     - /zh/docs/setup/install-kubernetes.html
     - /zh/docs/setup/kubernetes/additional-setup/
 keywords: [sidecar-injection, mesh-expansion, pod-requirements, piecemeal-install]
+test: n/a
 ---

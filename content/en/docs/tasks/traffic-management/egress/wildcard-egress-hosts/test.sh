@@ -31,7 +31,7 @@ _wait_for_deployment default sleep
 snip_before_you_begin_4
 
 confirm_blocking() {
-kubectl exec "$SOURCE_POD" -c sleep -sS -I https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -I https://edition.cnn.com | grep "HTTP/"
+kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -I https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -I https://edition.cnn.com | grep "HTTP/"
 }
 _verify_contains confirm_blocking "command terminated with exit code 35"
 
@@ -86,7 +86,7 @@ _wait_for_istio envoyfilter istio-system egress-gateway-sni-verifier
 _verify_same snip_configure_traffic_through_egress_gateway_with_sni_proxy_4 "$snip_configure_traffic_through_egress_gateway_with_sni_proxy_4_out"
 
 _verify_lines snip_configure_traffic_through_egress_gateway_with_sni_proxy_5 "
-+ outbound|8443||sni-proxy.local
++ outbound|18443||sni-proxy.local
 + en.wikipedia.org
 + de.wikipedia.org
 "
