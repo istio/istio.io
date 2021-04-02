@@ -3,7 +3,7 @@ title: Security policy examples
 description: Shows common examples of using Istio security policy.
 weight: 60
 owner: istio/wg-security-maintainers
-test: no
+test: yes
 ---
 
 ## Background
@@ -41,13 +41,18 @@ spec:
   rules:
   - from:
     - source:
-        hosts: ["example.com", "*.example.com"]
         # the JWT token must have issuer with suffix "@example.com"
         requestPrincipals: ["*@example.com"]
+    to:
+    - operation:
+        hosts: ["example.com", "*.example.com"]
+  - from:
     - source:
-        hosts: [".another.org", "*.another.org"]
         # the JWT token must have issuer with suffix "@another.org"
         requestPrincipals: ["*@another.org"]
+    to:
+    - operation:
+        hosts: [".another.org", "*.another.org"]
 {{< /text >}}
 
 ### Namespace isolation
