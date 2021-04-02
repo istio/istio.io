@@ -84,12 +84,14 @@ spec:
    - source:
        requestPrincipals: [&quot;issuer-foo/*&quot;]
    to:
-     hosts: [&quot;example.com&quot;]
+   - operation:
+       hosts: [&quot;example.com&quot;]
  - from:
    - source:
        requestPrincipals: [&quot;issuer-bar/*&quot;]
    to:
-     hosts: [&quot;another-host.com&quot;]
+   - operation:
+       hosts: [&quot;another-host.com&quot;]
 </code></pre>
 
 <ul>
