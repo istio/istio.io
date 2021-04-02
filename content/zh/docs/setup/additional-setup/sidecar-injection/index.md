@@ -13,7 +13,7 @@ test: no
 
 ## 注入{#injection}
 
-为了充分利用 Istio 的所有特性，网格中的 pod 必须运行一个 Istio Sidecar 代理。
+为了充分利用 Istio 的所有特性，网格中的 Pod 必须运行一个 Istio Sidecar 代理。
 
 下面的章节描述了向 pod 中注入 Istio Sidecar 的两种方法：使用 [`istioctl`](/zh/docs/reference/commands/istioctl) 手动注入或启用 Pod 所属命名空间的 Istio sidecar 注入器自动注入。
 
