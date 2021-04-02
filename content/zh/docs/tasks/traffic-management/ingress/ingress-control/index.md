@@ -34,7 +34,7 @@ NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S) 
 istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121   ...       17h
 {{< /text >}}
 
-如果 `EXTERNAL-IP` 值已设置，说明环境正在使用外部负载均衡，可以用其为 Ingress Gateway 提供服务。如果 `EXTERNAL-IP` 值为 `<none>` （或持续显示 `<pending>`），说明环境没有为 Ingress Gateway 提供外部负载均衡，无法使用 ingress gateway。在这种情况下，您可以使用服务的 [Node Port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) 访问网关。
+如果 `EXTERNAL-IP` 值已设置，说明环境正在使用外部负载均衡，可以用其为 Ingress Gateway 提供服务。如果 `EXTERNAL-IP` 值为 `<none>` （或持续显示 `<pending>`），说明环境没有为 Ingress Gateway 提供外部负载均衡，无法使用 Ingress Gateway。在这种情况下，您可以使用服务的 [Node Port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) 访问网关。
 
 选择符合自身环境的指令执行：
 
