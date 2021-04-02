@@ -18,7 +18,7 @@ test: yes
 
 在您开始任务之前，请完成以下内容：
 
-1. 阅读[Istio 授权概念指南](/zh/docs/concepts/security/#authorization)。
+1. 阅读 [授权](/zh/docs/concepts/security/#authorization) 指南。
 
 1. 安装 Istio，自定义信任域，并启用双向 TLS。
 
