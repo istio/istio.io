@@ -46,9 +46,53 @@ If you don’t see the expected output as you follow the task, retry after a few
 Caching and propagation overhead can cause some delay.
 {{< /warning >}}
 
+## Deploy the external authorizer
+
+First, you need to deploy the external authorizer. For this, you will simply deploy the sample external authorizer in a standalone pod in the mesh.
+
+1. Run the following command to deploy the sample external authorizer:
+
+    {{< text bash >}}
+    $ kubectl apply -n foo -f {{< github_file >}}/samples/extauthz/ext-authz.yaml
+    service/ext-authz created
+    deployment.apps/ext-authz created
+    {{< /text >}}
+
+1. Verify the sample external authorizer is up and running:
+
+    {{< text bash >}}
+    $ kubectl logs "$(kubectl get pod -l app=ext-authz -n foo -o jsonpath={.items..metadata.name})" -n foo -c ext-authz
+    2021/01/07 22:55:47 Starting HTTP server at [::]:8000
+    2021/01/07 22:55:47 Starting gRPC server at [::]:9000
+    {{< /text >}}
+
+Alternatively, you can also deploy the external authorizer as a separate container in the same pod of the application
+that needs the external authorization or even deploy it outside of the mesh. In either case, you will also need to create a
+service entry resource to register the service to the mesh and make sure it is accessible to the proxy.
+
+The following is an example service entry for an external authorizer deployed in a separate container in the same pod
+of the application that needs the external authorization.
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+name: external-authz-grpc-local
+spec:
+  hosts:
+  - "external-authz-grpc.local" # The service name to be used in the extension provider in the mesh config.
+  endpoints:
+  - address: "127.0.0.1"
+  ports:
+  - name: grpc
+    number: 9191 # The port number to be used in the extension provider in the mesh config.
+    protocol: GRPC
+  resolution: STATIC
+{{< /text >}}
+
 ## Define the external authorizer
 
-In order to use the `CUSTOM` action in the authorization policy, you must first define the external authorizer that is allowed to be
+In order to use the `CUSTOM` action in the authorization policy, you must then define the external authorizer that is allowed to be
 used in the mesh. This is currently defined in the [extension provider](https://github.com/istio/api/blob/a205c627e4b955302bbb77dd837c8548e89e6e64/mesh/v1alpha1/config.proto#L534)
 in the mesh config.
 
@@ -111,50 +155,6 @@ allows requests with the header `x-ext-authz: allow`.
     deployment.apps/istiod restarted
     {{< /text >}}
 
-## Deploy the external authorizer
-
-Next, you need to deploy the external authorizer. For this, you will simply deploy the sample external authorizer in a standalone pod in the mesh.
-
-1. Run the following command to deploy the sample external authorizer:
-
-    {{< text bash >}}
-    $ kubectl apply -n foo -f {{< github_file >}}/samples/extauthz/ext-authz.yaml
-    service/ext-authz created
-    deployment.apps/ext-authz created
-    {{< /text >}}
-
-1. Verify the sample external authorizer is up and running:
-
-    {{< text bash >}}
-    $ kubectl logs "$(kubectl get pod -l app=ext-authz -n foo -o jsonpath={.items..metadata.name})" -n foo -c ext-authz
-    2021/01/07 22:55:47 Starting HTTP server at [::]:8000
-    2021/01/07 22:55:47 Starting gRPC server at [::]:9000
-    {{< /text >}}
-
-Alternatively, you can also deploy the external authorizer as a separate container in the same pod of the application
-that needs the external authorization or even deploy it outside of the mesh. In either case, you will also need to create a
-service entry resource to register the service to the mesh and make sure it is accessible to the proxy.
-
-The following is an example service entry for an external authorizer deployed in a separate container in the same pod
-of the application that needs the external authorization.
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: ServiceEntry
-metadata:
-name: external-authz-grpc-local
-spec:
-  hosts:
-  - "external-authz-grpc.local" # The service name to be used in the extension provider in the mesh config.
-  endpoints:
-  - address: "127.0.0.1"
-  ports:
-  - name: grpc
-    number: 9191 # The port number to be used in the extension provider in the mesh config.
-    protocol: GRPC
-  resolution: STATIC
-{{< /text >}}
-
 ## Enable with external authorization
 
 The external authorizer is now ready to be used by the authorization policy.
@@ -190,18 +190,32 @@ The external authorizer is now ready to be used by the authorization policy.
     At runtime, requests to path `/headers` of the `httpbin` workload will be paused by the `ext_authz` filter, and a
     check request will be sent to the external authorizer to decide whether the request should be allowed or denied.
 
-1. Verify a request to path `/headers` with header `x-ext-authz: allow` is allowed by the sample `ext_authz` server:
-
-    {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -H "x-ext-authz: allow" -s -o /dev/null -w "%{http_code}\n"
-    200
-    {{< /text >}}
-
 1. Verify a request to path `/headers` with header `x-ext-authz: deny` is denied by the sample `ext_authz` server:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -H "x-ext-authz: deny" -s -o /dev/null -w "%{http_code}\n"
-    403
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -H "x-ext-authz: deny" -s
+    denied by ext_authz for not found header `x-ext-authz: allow` in the request
+    {{< /text >}}
+
+1. Verify a request to path `/headers` with header `x-ext-authz: allow` is allowed by the sample `ext_authz` server:
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -H "x-ext-authz: allow" -s
+    {
+      "headers": {
+        "Accept": "*/*",
+        "Host": "httpbin:8000",
+        "User-Agent": "curl/7.76.0-DEV",
+        "X-B3-Parentspanid": "430f770aeb7ef215",
+        "X-B3-Sampled": "0",
+        "X-B3-Spanid": "60ff95c5acdf5288",
+        "X-B3-Traceid": "fba72bb5765daf5a430f770aeb7ef215",
+        "X-Envoy-Attempt-Count": "1",
+        "X-Ext-Authz": "allow",
+        "X-Ext-Authz-Check-Result": "allowed",
+        "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=e5178ee79066bfbafb1d98044fcd0cf80db76be8714c7a4b630c7922df520bf2;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"
+      }
+    }
     {{< /text >}}
 
 1. Verify a request to path `/ip` is allowed and does not trigger the external authorization:
@@ -217,8 +231,8 @@ The external authorizer is now ready to be used by the authorization policy.
     $ kubectl logs "$(kubectl get pod -l app=ext-authz -n foo -o jsonpath={.items..metadata.name})" -n foo -c ext-authz
     2021/01/07 22:55:47 Starting HTTP server at [::]:8000
     2021/01/07 22:55:47 Starting gRPC server at [::]:9000
-    2021/01/08 03:25:00 [gRPCv3][allowed]: httpbin.foo:8000/headers, attributes: source:{address:{socket_address:{address:"10.44.0.22"  port_value:52184}}  principal:"spiffe://cluster.local/ns/foo/sa/sleep"}  destination:{address:{socket_address:{address:"10.44.3.30"  port_value:80}}  principal:"spiffe://cluster.local/ns/foo/sa/httpbin"}  request:{time:{seconds:1610076300  nanos:925912000}  http:{id:"17995949296433813435"  method:"GET"  headers:{key:":authority"  value:"httpbin.foo:8000"}  headers:{key:":method"  value:"GET"}  headers:{key:":path"  value:"/headers"}  headers:{key:"accept"  value:"*/*"}  headers:{key:"content-length"  value:"0"}  headers:{key:"user-agent"  value:"curl/7.74.0-DEV"}  headers:{key:"x-b3-sampled"  value:"1"}  headers:{key:"x-b3-spanid"  value:"a66b5470e922fa80"}  headers:{key:"x-b3-traceid"  value:"300c2f2b90a618c8a66b5470e922fa80"}  headers:{key:"x-envoy-attempt-count"  value:"1"}  headers:{key:"x-ext-authz"  value:"allow"}  headers:{key:"x-forwarded-client-cert"  value:"By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=dd14782fa2f439724d271dbed846ef843ff40d3932b615da650d028db655fc8d;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"}  headers:{key:"x-forwarded-proto"  value:"http"}  headers:{key:"x-request-id"  value:"2b62daf1-00b9-97d9-91b8-ba6194ef58a4"}  path:"/headers"  host:"httpbin.foo:8000"  protocol:"HTTP/1.1"}}  metadata_context:{}
-    2021/01/08 03:25:06 [gRPCv3][denied]: httpbin.foo:8000/headers, attributes: source:{address:{socket_address:{address:"10.44.0.22"  port_value:52088}}  principal:"spiffe://cluster.local/ns/foo/sa/sleep"}  destination:{address:{socket_address:{address:"10.44.3.30"  port_value:80}}  principal:"spiffe://cluster.local/ns/foo/sa/httpbin"}  request:{time:{seconds:1610076306  nanos:473835000}  http:{id:"13869142855783664817"  method:"GET"  headers:{key:":authority"  value:"httpbin.foo:8000"}  headers:{key:":method"  value:"GET"}  headers:{key:":path"  value:"/headers"}  headers:{key:"accept"  value:"*/*"}  headers:{key:"content-length"  value:"0"}  headers:{key:"user-agent"  value:"curl/7.74.0-DEV"}  headers:{key:"x-b3-sampled"  value:"1"}  headers:{key:"x-b3-spanid"  value:"377ba0cdc2334270"}  headers:{key:"x-b3-traceid"  value:"635187cb20d92f62377ba0cdc2334270"}  headers:{key:"x-envoy-attempt-count"  value:"1"}  headers:{key:"x-ext-authz"  value:"deny"}  headers:{key:"x-forwarded-client-cert"  value:"By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=dd14782fa2f439724d271dbed846ef843ff40d3932b615da650d028db655fc8d;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"}  headers:{key:"x-forwarded-proto"  value:"http"}  headers:{key:"x-request-id"  value:"9609691a-4e9b-9545-ac71-3889bc2dffb0"}  path:"/headers"  host:"httpbin.foo:8000"  protocol:"HTTP/1.1"}}  metadata_context:{}
+    2021/01/08 03:25:00 [gRPCv3][denied]: httpbin.foo:8000/headers, attributes: source:{address:{socket_address:{address:"10.44.0.22"  port_value:52088}}  principal:"spiffe://cluster.local/ns/foo/sa/sleep"}  destination:{address:{socket_address:{address:"10.44.3.30"  port_value:80}}  principal:"spiffe://cluster.local/ns/foo/sa/httpbin"}  request:{time:{seconds:1610076306  nanos:473835000}  http:{id:"13869142855783664817"  method:"GET"  headers:{key:":authority"  value:"httpbin.foo:8000"}  headers:{key:":method"  value:"GET"}  headers:{key:":path"  value:"/headers"}  headers:{key:"accept"  value:"*/*"}  headers:{key:"content-length"  value:"0"}  headers:{key:"user-agent"  value:"curl/7.74.0-DEV"}  headers:{key:"x-b3-sampled"  value:"1"}  headers:{key:"x-b3-spanid"  value:"377ba0cdc2334270"}  headers:{key:"x-b3-traceid"  value:"635187cb20d92f62377ba0cdc2334270"}  headers:{key:"x-envoy-attempt-count"  value:"1"}  headers:{key:"x-ext-authz"  value:"deny"}  headers:{key:"x-forwarded-client-cert"  value:"By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=dd14782fa2f439724d271dbed846ef843ff40d3932b615da650d028db655fc8d;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"}  headers:{key:"x-forwarded-proto"  value:"http"}  headers:{key:"x-request-id"  value:"9609691a-4e9b-9545-ac71-3889bc2dffb0"}  path:"/headers"  host:"httpbin.foo:8000"  protocol:"HTTP/1.1"}}  metadata_context:{}
+    2021/01/08 03:25:06 [gRPCv3][allowed]: httpbin.foo:8000/headers, attributes: source:{address:{socket_address:{address:"10.44.0.22"  port_value:52184}}  principal:"spiffe://cluster.local/ns/foo/sa/sleep"}  destination:{address:{socket_address:{address:"10.44.3.30"  port_value:80}}  principal:"spiffe://cluster.local/ns/foo/sa/httpbin"}  request:{time:{seconds:1610076300  nanos:925912000}  http:{id:"17995949296433813435"  method:"GET"  headers:{key:":authority"  value:"httpbin.foo:8000"}  headers:{key:":method"  value:"GET"}  headers:{key:":path"  value:"/headers"}  headers:{key:"accept"  value:"*/*"}  headers:{key:"content-length"  value:"0"}  headers:{key:"user-agent"  value:"curl/7.74.0-DEV"}  headers:{key:"x-b3-sampled"  value:"1"}  headers:{key:"x-b3-spanid"  value:"a66b5470e922fa80"}  headers:{key:"x-b3-traceid"  value:"300c2f2b90a618c8a66b5470e922fa80"}  headers:{key:"x-envoy-attempt-count"  value:"1"}  headers:{key:"x-ext-authz"  value:"allow"}  headers:{key:"x-forwarded-client-cert"  value:"By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=dd14782fa2f439724d271dbed846ef843ff40d3932b615da650d028db655fc8d;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"}  headers:{key:"x-forwarded-proto"  value:"http"}  headers:{key:"x-request-id"  value:"2b62daf1-00b9-97d9-91b8-ba6194ef58a4"}  path:"/headers"  host:"httpbin.foo:8000"  protocol:"HTTP/1.1"}}  metadata_context:{}
     {{< /text >}}
 
     You can also tell from the log that mTLS is enabled for the connection between the `ext-authz` filter and the
