@@ -16,7 +16,7 @@ test: yes
 
 ## 开始之前{#before-you-begin}
 
-在您开始任务之前，请完成以下内容。
+在您开始任务之前，请完成以下内容：
 
 1. 阅读[Istio 授权概念指南](/zh/docs/concepts/security/#authorization)。
 
