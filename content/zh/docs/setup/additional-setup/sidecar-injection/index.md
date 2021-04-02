@@ -15,7 +15,7 @@ test: no
 
 为了充分利用 Istio 的所有特性，网格中的 Pod 必须运行一个 Istio Sidecar 代理。
 
-下面的章节描述了向 pod 中注入 Istio Sidecar 的两种方法：使用 [`istioctl`](/zh/docs/reference/commands/istioctl) 手动注入或启用 Pod 所属命名空间的 Istio sidecar 注入器自动注入。
+下面的章节描述了向 Pod 中注入 Istio Sidecar 的两种方法：使用 [`istioctl`](/zh/docs/reference/commands/istioctl) 手动注入或启用 Pod 所属命名空间的 Istio sidecar 注入器自动注入。
 
 手动注入直接修改配置，如 Deployment，并将代理配置注入其中。
 
@@ -78,7 +78,7 @@ sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
 
 #### 部署应用{#deploying-an-app}
 
-部署 Sleep 应用。验证 Deployment 和 Pod 只有一个容器。
+部署 sleep 应用。验证 Deployment 和 Pod 只有一个容器。
 
 {{< text bash >}}
 $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -167,9 +167,9 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 ## 自定义注入{#customizing-injection}
 
-通常，Pod 的注入是基于 Sidecar 注入模板，在 `istio-sidecar-injector` Configmap 中配置。每个 Pod 的配置可用于覆盖各个 Pod 上的选项。可通过在 Pod 中添加一个 `istio-proxy` Container来完成。Sidecar 注入将会把自定义的任何配置视为默认注入模板的覆盖。
+通常，Pod 的注入是基于 Sidecar 注入模板，在 `istio-sidecar-injector` Configmap 中配置。每个 Pod 的配置可用于覆盖各个 Pod 上的选项。可通过在 Pod 中添加一个 `istio-proxy` 容器来完成。Sidecar 注入将会把自定义的任何配置视为默认注入模板的覆盖。
 
-自定义这些设置时，需格外小心，因为允许完全自定义生成的 Pod，包括进行一些更改而导致 Sidecar Container 无法正常运行。
+自定义这些设置时，需格外小心，因为允许完全自定义生成的 Pod，包括进行一些更改而导致 Sidecar 容器无法正常运行。
 
 例如，以下配置可自定义各种设置，包括降低 CPU 请求，添加 Volume 挂载，和添加 `preStop` Hook：
 
@@ -207,13 +207,13 @@ spec:
 
 另外，某些字段可通过在 Pod 上的 [Annotations](/zh/docs/reference/config/annotations/) 配置，但是不建议使用上述方法进行自定义设置。
 
-### 自定义模板[试行]{custom-templates-[experimental]}
+### 自定义模板[试验特性]{custom-templates-[experimental]}
 
 {{< warning >}}
-此功能为试行功能，可随时更改或删除。
+此功能为试验特性功能，可随时更改或删除。
 {{< /warning >}}
 
-可以在安装时定义一个自定义模板，例如，将 `GREETING` 环境变量注入到 `istio-proxy` Container 中：
+可以在安装时定义一个自定义模板，例如，将 `GREETING` 环境变量注入到 `istio-proxy` 容器中：
 
 {{< text yaml >}}
 apiVersion: operator.istio.io/v1alpha1
