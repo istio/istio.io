@@ -60,8 +60,8 @@ correctly for the workload.
 Using these features opens new possibilities for managing traces in your environment.
 
 In this example, we will sample all traces and add a tag named `clusterID`
-using the `ISTIO_META_CLUSTER_ID` environmental variable injected into your pod. Only the
-first 256 characters of the value will be used if its length is higher.
+using the `ISTIO_META_CLUSTER_ID` environment variable injected into your pod. Only the
+first 256 characters of the value will be used.
 
 {{< text bash >}}
 $ cat <<EOF > ./tracing.yaml
@@ -69,6 +69,7 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   meshConfig:
+    enableTracing: true
     defaultConfig:
       tracing:
         sampling: 100.0
@@ -78,16 +79,8 @@ spec:
           environment:
             name: ISTIO_META_CLUSTER_ID
 EOF
-$ istioctl install --set values.meshConfig.enableTracing=true -f ./tracing.yaml
+$ istioctl install -f ./tracing.yaml
 {{< /text >}}
-
-{{< tip >}}
-We also had to make sure to set `meshConfig.enableTracing=true` during installation. This can
-done as a part of `tracing.yaml`.
-{{< /tip >}}
-
-This document will outline how to build and configure your own configuration options and their
-meaning.
 
 ### Using `MeshConfig` for trace settings
 
@@ -101,6 +94,7 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   meshConfig:
+    enableTracing: true
     defaultConfig:
       tracing:
         sampling: 10
@@ -164,6 +158,7 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   meshConfig:
+    enableTracing: true
     defaultConfig:
       tracing:
         sampling: 50
@@ -191,6 +186,7 @@ You can customize the tags using any of the three supported options below.
     kind: IstioOperator
     spec:
       meshConfig:
+        enableTracing: true
         defaultConfig:
           tracing:
             custom_tags:
@@ -207,6 +203,7 @@ You can customize the tags using any of the three supported options below.
     kind: IstioOperator
     spec:
       meshConfig:
+        enableTracing: true
         defaultConfig:
           tracing:
             custom_tags:
@@ -229,6 +226,7 @@ You can customize the tags using any of the three supported options below.
     kind: IstioOperator
     spec:
       meshConfig:
+        enableTracing: true
         defaultConfig:
           tracing:
             custom_tags:
@@ -248,6 +246,7 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   meshConfig:
+    enableTracing: true
     defaultConfig:
       tracing:
         max_path_tag_length: <VALUE>
