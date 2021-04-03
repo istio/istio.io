@@ -53,11 +53,11 @@ remove_toc_prefix: 'operator '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, default, installer, klog, kube, model, patch, spiffe, tpath, translator, trustBundle, util, validation, validationController, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, default, installer, klog, kube, model, patch, spiffe, telemetry, tpath, translator, trustBundle, util, validation, validationController, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, default, installer, klog, kube, model, patch, spiffe, tpath, translator, trustBundle, util, validation, validationController, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, default, installer, klog, kube, model, patch, spiffe, telemetry, tpath, translator, trustBundle, util, validation, validationController, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -77,7 +77,7 @@ remove_toc_prefix: 'operator '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, default, installer, klog, kube, model, patch, spiffe, tpath, translator, trustBundle, util, validation, validationController, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, default, installer, klog, kube, model, patch, spiffe, telemetry, tpath, translator, trustBundle, util, validation, validationController, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -162,6 +162,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If this is set to true, one Istiod will control remote clusters including CA.</td>
+</tr>
+<tr>
+<td><code>GCP_METADATA</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Pipe separted GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
 </tr>
 <tr>
 <td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
