@@ -24,7 +24,7 @@ test: yes
 
 *   根据下文描述，确定 Ingress IP 和端口。
 
-### 确定 ingress IP 和端口{#determining-the-ingress-ip-and-ports}
+### 确定 Ingress IP 和端口{#determining-the-ingress-ip-and-ports}
 
 执行如下指令，确定您的 Kubernetes 集群是否运行在支持外部负载均衡的环境中：
 
