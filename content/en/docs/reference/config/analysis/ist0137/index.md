@@ -5,7 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-This message occurs when two services selecting the same workload with same `targetPort` but different `port`s.
+This message occurs when two services select the same workload with the same `targetPort` but different `port`s.
 
 ## An example
 
