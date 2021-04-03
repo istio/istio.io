@@ -107,8 +107,7 @@ HTTP 请求的超时可以用[路由规则](/zh/docs/reference/config/networking
 
 可以观察到，Bookinfo 的页面（调用 `reviews` 服务来生成页面）没显示评论，而是显示了消息：**Sorry, product reviews are currently unavailable for this book.** 这就是它收到了来自 `reviews` 服务的超时错误信息。
 
-如果看过[故障注入任务](/zh/docs/tasks/traffic-management/fault-injection/)，就会发现 `productpage` 微服务在调用 `reviews` 微服务时，还有它自己的应用级的超时（3 秒）设置。注意在本任务中使用 Istio 路由规则设置了半秒的超时。如果将超时设置为大于 3 秒（比如 4 秒），则超时将不会有任何影响，因为这两个超时的限制性更强。
-更多细节可以参考[这里](/zh/docs/concepts/traffic-management/#network-resilience-and-testing)。
+如果看过[故障注入任务](/zh/docs/tasks/traffic-management/fault-injection/)，就会发现 `productpage` 微服务在调用 `reviews` 微服务时，还有它自己的应用级的超时（3 秒）设置。注意在本任务中使用 Istio 路由规则设置了半秒的超时。如果将超时设置为大于 3 秒（比如 4 秒），则超时将不会有任何影响，因为这两个超时的限制性更强。更多细节可以参考[这里](/zh/docs/concepts/traffic-management/#network-resilience-and-testing)。
 
 还有一点关于 Istio 中超时控制方面的补充说明，除了像本文一样在路由规则中进行超时设置之外，还可以进行请求一级的设置，只需在应用的对外请求中加入 `x-envoy-upstream-rq-timeout-ms` 请求头即可。在这个请求头中的超时设置单位是毫秒而不是秒。
 
