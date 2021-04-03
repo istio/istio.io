@@ -1,6 +1,6 @@
 ---
-title: 设置 Sidecar
-description: 在应用程序 Pod 中使用 sidecar injector webhook 自动安装或使用 istioctl CLI 手动安装 Istio sidecar。
+title: 安装 Sidecar
+description: 在应用程序 Pod 中使用 Sidecar Injector Webhook 自动安装或使用 Istioctl CLI 手动安装 Istio Sidecar。
 weight: 45
 keywords: [kubernetes,sidecar,sidecar-injection]
 aliases:
@@ -13,22 +13,25 @@ test: no
 
 ## 注入{#injection}
 
-为了充分利用 Istio 的所有特性，网格中的 pod 必须运行一个 Istio sidecar 代理。
+为了充分利用 Istio 的所有特性，网格中的 Pod 必须运行一个 Istio Sidecar 代理。
 
-下面的章节描述了向 pod 中注入 Istio sidecar 的两种方法：使用 [`istioctl`](/zh/docs/reference/commands/istioctl) 手动注入或启用 pod 所属命名空间的 Istio sidecar 注入器自动注入。
+下面的章节描述了向 Pod 中注入 Istio Sidecar 的两种方法：使用 [`istioctl`](/zh/docs/reference/commands/istioctl) 手动注入或启用 Pod 所属命名空间的 Istio sidecar 注入器自动注入。
 
-手动注入直接修改配置，如 deployment，并将代理配置注入其中。
+手动注入直接修改配置，如 Deployment，并将代理配置注入其中。
 
-当 pod 所属命名空间启用自动注入后，自动注入器会使用准入控制器在创建 Pod 时自动注入代理配置。
+当 Pod 所属命名空间启用自动注入后，自动注入器会使用准入控制器在创建 Pod 时自动注入代理配置。
 
-通过应用 `istio-sidecar-injector` ConfigMap 中定义的模版进行注入。
+如果您不确定使用哪一种方法，建议使用自动注入。
 
-### 手动注入 sidecar{#manual-sidecar-injection}
+### 手动注入 Sidecar{#manual-sidecar-injection}
 
-要手动注入 deployment，请使用 [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject)：
+要手动注入 Deployment，请使用 [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject)：
 
 {{< text bash >}}
 $ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
+serviceaccount/sleep created
+service/sleep created
+deployment.apps/sleep created
 {{< /text >}}
 
 默认情况下将使用集群内的配置，或者使用该配置的本地副本来完成注入。
@@ -48,9 +51,12 @@ $ istioctl kube-inject \
     --valuesFile inject-values.yaml \
     --filename @samples/sleep/sleep.yaml@ \
     | kubectl apply -f -
+serviceaccount/sleep created
+service/sleep created
+deployment.apps/sleep created
 {{< /text >}}
 
-验证 sidecar 已经被注入到 READY 列下 `2/2` 的 sleep pod 中。
+验证 Sidecar 是否已经被注入到 READY 列下 `2/2` 的 Sleep Pod 中。
 
 {{< text bash >}}
 $ kubectl get pod  -l app=sleep
@@ -58,239 +64,173 @@ NAME                     READY   STATUS    RESTARTS   AGE
 sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
 {{< /text >}}
 
-### 自动注入 sidecar{#automatic-sidecar-injection}
+### 自动注入 Sidecar{#automatic-sidecar-injection}
 
-使用 Istio 提供的[准入控制器变更 webhook](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/)，可以将 sidecar 自动添加到可用的 Kubernetes pod 中。
+使用 Istio 提供的[准入控制器变更 Webhook](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/)，可以将 Sidecar 自动添加到可用的 Kubernetes Pod 中。
 
 {{< tip >}}
 虽然准入控制器默认情况下是启动的，但一些 Kubernetes 发行版会禁用他们。如果出现这种情况，根据说明来[启用准入控制器](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#how-do-i-turn-on-an-admission-controller)。
 {{< /tip >}}
 
-当你在一个命名空间中设置了 `istio-injection=enabled` 标签，且 injection webhook 被启用后，任何新的 pod 都有将在创建时自动添加 sidecar。
+当你在一个命名空间中设置了 `istio-injection=enabled` 标签，且 Injection webhook 被启用后，任何新的 Pod 都有将在创建时自动添加 Sidecar。
 
-请注意，区别于手动注入，自动注入发生在 pod 层面。你将看不到 deployment 本身有任何更改。取而代之，需要检查单独的 pod（使用 `kubectl describe`）来查询被注入的代理。
-
-#### 禁用或更新注入 webhook{#disabling-or-updating-the-webhook}
-
-Sidecar 注入 webhook 是默认启用的。如果你希望禁用 webhook，可以使用 [Helm](/zh/docs/setup/install/helm/) 将 `sidecarInjectorWebhook.enabled` 设置为 `false`。
-
-还有很多[其他选项](/zh/docs/reference/config/installation-options/#sidecar-injector-webhook-options)可以配置。
+请注意，区别于手动注入，自动注入发生在 Pod 层面。你将看不到 Deployment 本身有任何更改。取而代之，需要检查单独的 Pod（使用 `kubectl describe`）来查询被注入的代理。
 
 #### 部署应用{#deploying-an-app}
 
-部署 sleep 应用。验证 deployment 和 pod 只有一个容器。
+部署 sleep 应用。验证 Deployment 和 Pod 只有一个容器。
 
 {{< text bash >}}
 $ kubectl apply -f @samples/sleep/sleep.yaml@
 $ kubectl get deployment -o wide
-NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS   IMAGES       SELECTOR
-sleep     1         1         1            1           12m       sleep        tutum/curl   app=sleep
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                    SELECTOR
+sleep   1/1     1            1           12s   sleep        curlimages/curl           app=sleep
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get pod
-NAME                     READY     STATUS        RESTARTS   AGE
-sleep-776b7bcdcd-7hpnk   1/1       Running       0          4
+NAME                    READY   STATUS    RESTARTS   AGE
+sleep-8f795f47d-hdcgs   1/1     Running   0          42s
 {{< /text >}}
 
-将 `default` namespace 标记为 `istio-injection=enabled`。
+将 `default` Namespace 标记为 `istio-injection=enabled`。
 
 {{< text bash >}}
-$ kubectl label namespace default istio-injection=enabled
+$ kubectl label namespace default istio-injection=enabled --overwrite
 $ kubectl get namespace -L istio-injection
-NAME           STATUS    AGE       ISTIO-INJECTION
-default        Active    1h        enabled
-istio-system   Active    1h
-kube-public    Active    1h
-kube-system    Active    1h
+NAME                 STATUS   AGE     ISTIO-INJECTION
+default              Active   5m9s    enabled
+istio-system         Active   4m58s   disabled
+kube-node-lease      Active   5m10s
+kube-public          Active   5m10s
+kube-system          Active   5m10s
+local-path-storage   Active   5m7s
 {{< /text >}}
 
-注入发生在 pod 创建时。杀死正在运行的 pod 并验证新创建的 pod 是否注入 sidecar。原来的 pod 具有 READY 为 1&#47;1 的容器，注入 sidecar 后的 pod 则具有 READY 为 2&#47;2 的容器。
+注入发生在 Pod 创建时。杀死正在运行的 Pod 并验证新创建的 Pod 是否注入 Sidecar。原来的 Pod 具有 READY 为 1&#47;1 的容器，注入 Sidecar 后的 Pod 则具有 READY 为 2&#47;2 的容器。
 
 {{< text bash >}}
 $ kubectl delete pod -l app=sleep
 $ kubectl get pod -l app=sleep
+pod "sleep-776b7bcdcd-7hpnk" deleted
 NAME                     READY     STATUS        RESTARTS   AGE
 sleep-776b7bcdcd-7hpnk   1/1       Terminating   0          1m
 sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
 {{< /text >}}
 
-查看已注入 pod 的详细状态。你应该看到被注入的 `istio-proxy` 容器和对应的卷。请确保使用状态为 `Running` pod 的名称替换以下命令。
+查看已注入 Pod 的详细状态。你应该看到被注入的 `istio-proxy` 容器和对应的卷。
 
 {{< text bash >}}
 $ kubectl describe pod -l app=sleep
+...
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  ...
+  Normal  Created    11s   kubelet            Created container istio-init
+  Normal  Started    11s   kubelet            Started container istio-init
+  ...
+  Normal  Created    10s   kubelet            Created container sleep
+  Normal  Started    10s   kubelet            Started container sleep
+  ...
+  Normal  Created    9s    kubelet            Created container istio-proxy
+  Normal  Started    8s    kubelet            Started container istio-proxy
 {{< /text >}}
 
-禁用 `default` namespace 注入，并确认新的 pod 在创建时没有 sidecar。
+禁用 `default` Namespace 注入，并确认新的 Pod 在创建时没有 Sidecar。
 
 {{< text bash >}}
 $ kubectl label namespace default istio-injection-
 $ kubectl delete pod -l app=sleep
 $ kubectl get pod
+namespace/default labeled
+pod "sleep-776b7bcdcd-bhn9m" deleted
 NAME                     READY     STATUS        RESTARTS   AGE
 sleep-776b7bcdcd-bhn9m   2/2       Terminating   0          2m
 sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 {{< /text >}}
 
-#### 理解原理{#understanding-what-happened}
+#### 控制注入政策{#controlling-the-injection-policy}
 
-当 Kubernetes 调用 webhook 时，[`admissionregistration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io) 配置被应用。默认配置将 sidecar 注入到所有拥有 `istio-injection=enabled` 标签的 namespace 下的 pod 中。`istio-sidecar-injector` 配置字典指定了注入 sidecar 的配置。如需更改指定哪些 namespace 被注入，你可以使用以下命令编辑 `MutatingWebhookConfiguration`：
+在上面例子中，您在命名空间层级启用和禁用了注入。注入也可以通过配置 Pod 上的 `sidecar.istio.io/inject` 标签，在每个 Pod 的基础上进行控制。
 
-{{< text bash >}}
-$ kubectl edit mutatingwebhookconfiguration istio-sidecar-injector
-{{< /text >}}
+| Resource | Label | Enabled value | Disabled value |
+| -------- | ----- | ------------- | -------------- |
+| Namespace | `istio-injection` | `enabled` | `disabled` |
+| Pod | `sidecar.istio.io/inject` | `"true"` | `"false"` |
 
-{{< warning >}}
-修改 `MutatingWebhookConfiguration` 之后，您应该重启 sidecar 注入器的 pod。
-{{< /warning >}}
+注入的配置如下：
 
-例如，你可以修改 `MutatingWebhookConfiguration` 使 sidecar 注入到所有不具有某个标签的 namespace 中。编辑这项配置是更高阶的操作。更多有关信息，请参考 Kubernetes 的 [`MutatingWebhookConfiguration` API](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io) 文档。
+1. 如果禁用其中一个标签，则不注入 Pod
+1. 如果启用其中一个标签，则注入 Pod
+1. 如果两个标签都没有设置，如果启用 `.values.sidecarInjectorWebhook.enableNamespacesByDefault`， 则会注入 Pod。在默认情况下是不启用的，所以 Pod 通常不会被注入。
 
-##### _**策略**_{#policy}
+## 自定义注入{#customizing-injection}
 
-`disabled` - 默认情况下不会将 sidecar 注入到 pod 中。在 pod 模板规范中添加 `sidecar.istio.io/inject` 的值为 true 来覆盖默认值并启用注入。
+通常，Pod 的注入是基于 Sidecar 注入模板，在 `istio-sidecar-injector` Configmap 中配置。每个 Pod 的配置可用于覆盖各个 Pod 上的选项。可通过在 Pod 中添加一个 `istio-proxy` 容器来完成。Sidecar 注入将会把自定义的任何配置视为默认注入模板的覆盖。
 
-`enabled` - Sidecar 将默认注入到 pod 中。在 pod 模板规范中添加 `sidecar.istio.io/inject` 的值为 false 来覆盖默认值并禁用注入。
+自定义这些设置时，需格外小心，因为允许完全自定义生成的 Pod，包括进行一些更改而导致 Sidecar 容器无法正常运行。
 
-下面的示例使用 `sidecar.istio.io/inject` 注解来禁用 sidecar 注入。
-
-{{< text yaml >}}
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: ignored
-spec:
-  template:
-    metadata:
-      annotations:
-        sidecar.istio.io/inject: "false"
-    spec:
-      containers:
-      - name: ignored
-        image: tutum/curl
-        command: ["/bin/sleep","infinity"]
-{{< /text >}}
-
-##### _**模版**_{#template}
-
-Sidecar 注入模板使用 [https://golang.org/pkg/text/template](https://golang.org/pkg/text/template)，当解析和执行时，将解码成下面的结构体，包含需要注入到 pod 中的容器和卷。
-
-{{< text go >}}
-type SidecarInjectionSpec struct {
-      RewriteAppHTTPProbe bool                          `yaml:"rewriteAppHTTPProbe"`
-      InitContainers      []corev1.Container            `yaml:"initContainers"`
-      Containers          []corev1.Container            `yaml:"containers"`
-      Volumes             []corev1.Volume               `yaml:"volumes"`
-      DNSConfig           *corev1.PodDNSConfig          `yaml:"dnsConfig"`
-      ImagePullSecrets    []corev1.LocalObjectReference `yaml:"imagePullSecrets"`
-}
-{{< /text >}}
-
-该模板在运行时应用于以下数据结构。
-
-{{< text go >}}
-type SidecarTemplateData struct {
-    DeploymentMeta *metav1.ObjectMeta
-    ObjectMeta     *metav1.ObjectMeta
-    Spec           *corev1.PodSpec
-    ProxyConfig    *meshconfig.ProxyConfig  // Defined by https://istio.io/docs/reference/config/service-mesh.html#proxyconfig
-    MeshConfig     *meshconfig.MeshConfig   // Defined by https://istio.io/docs/reference/config/service-mesh.html#meshconfig
-}
-{{< /text >}}
-
-`ObjectMeta` 和 `Spec` 来源于 pod。`ProxyConfig` 和 `MeshConfig` 来源于 `istio-system` namespace 下 `istio` 的 ConfigMap。模版可以使用这些数据有条件地定义被注入的卷和容器。
-
-例如下面的模版。
-
-{{< text plain >}}
-containers:
-- name: istio-proxy
-  image: istio.io/proxy:0.5.0
-  args:
-  - proxy
-  - sidecar
-  - --configPath
-  - {{ .ProxyConfig.ConfigPath }}
-  - --binaryPath
-  - {{ .ProxyConfig.BinaryPath }}
-  - --serviceCluster
-  {{ if ne "" (index .ObjectMeta.Labels "app") -}}
-  - {{ index .ObjectMeta.Labels "app" }}
-  {{ else -}}
-  - "istio-proxy"
-  {{ end -}}
-{{< /text >}}
-
-将在使用模版 [`samples/sleep/sleep.yaml`]({{< github_tree >}}/samples/sleep/sleep.yaml) 定义的 pod 被应用时变为
-
-{{< text yaml >}}
-containers:
-- name: istio-proxy
-  image: istio.io/proxy:0.5.0
-  args:
-  - proxy
-  - sidecar
-  - --configPath
-  - /etc/istio/proxy
-  - --binaryPath
-  - /usr/local/bin/envoy
-  - --serviceCluster
-  - sleep
-{{< /text >}}
-
-#### 更多控制：添加例外{#more-control-adding-exceptions}
-
-有些情况下用户无法控制 pod 的创建，例如，这些用户是被其他人创建的。因此他们无法在 pod 中添加 `sidecar.istio.io/inject` 注解，来明确是否安装 sidecar。
-
-考虑在部署应用程序时创建辅助 pod 作为中间步骤。例如 [OpenShift Source to Image Builds](https://docs.okd.io/latest/builds/understanding-image-builds.html#build-strategy-s2i_understanding-image-builds)，创建这样的 pod 用于构建应用程序的源代码。构建二进制工件后，应用程序 pod 就可以运行了，而用于辅助的 pod 则被丢弃。这些中间 pod 不应该有 Istio sidecar，即使策略被设置为 `enabled`，并且名称空间被正确标记为自动注入。
-
-对于这种情况，你可以根据 pod 上的标签，指示 Istio **不要**在那些 pod 中注入 sidecar。可以通过编辑 `istio-sidecar-injector` 的 ConfigMap 并添加 `neverInjectSelector` 条目来实现。它是一个 Kubernetes 标签选择器数组，使用 `OR'd`，在第一次匹配成功后则停止。看一个例子：
+例如，以下配置可自定义各种设置，包括降低 CPU 请求，添加 Volume 挂载，和添加 `preStop` Hook：
 
 {{< text yaml >}}
 apiVersion: v1
-kind: ConfigMap
+kind: Pod
 metadata:
-  name: istio-sidecar-injector
-data:
-  config: |-
-    policy: enabled
-    neverInjectSelector:
-      - matchExpressions:
-        - {key: openshift.io/build.name, operator: Exists}
-      - matchExpressions:
-        - {key: openshift.io/deployer-pod-for.name, operator: Exists}
-    template: |-
-      initContainers:
-...
+  name: example
+spec:
+  containers:
+  - name: hello
+    image: alpine
+  - name: istio-proxy
+    image: auto
+    resources:
+      requests:
+        cpu: "100m"
+    volumeMounts:
+    - mountPath: /etc/certs
+      name: certs
+    lifecycle:
+      preStop:
+        exec:
+          command: ["sleep", "10"]
+  volumes:
+  - name: certs
+    secret:
+      secretName: istio-certs
 {{< /text >}}
 
-上面声明的意思是：永远不要注入带有 `openshift.io/build.name` **或者** `openshift.io/deployer-pod-for.name` 标签的 pod —— 标签的值无关紧要，我们只检查键是否存在。添加了这个规则之后，就涵盖了上面所说的 OpenShift 的构建用例，也就是说辅助 pod 不会被注入 sidecar（因为 source-to-image 工具产生的辅助 pod **明确**包含这些标签）。
+通常，可以设置 Pod 中的任何字段。但是必须注意某些字段：
 
-完整起见，您还可以使用一个名为 `alwaysInjectSelector` 的字段，它具有类似的语法，总是将 sidecar 注入匹配标签选择器的 pod 中，而忽略全局策略。
+* Kubernetes 要求在注入运行之前配置 `image`。虽然可以您可以设置一个指定的 Image 来覆盖默认的 `image` 配置，但建议将 `image` 设置为 `auto`，可使 Sidecar 注入自动选择要使用的 Image。
+* `Pod` 中一些字段取决于相关设置。例如，CPU 请求必须小于 CPU 限制。如果两个字段没有一起配置， Pod 可能会无法启动。
 
-使用标签选择器的方法在表达这些例外时提供了很大的灵活性。查看[这些文档](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements)看看可以用它们来做什么！
+另外，某些字段可通过在 Pod 上的 [Annotations](/zh/docs/reference/config/annotations/) 配置，但是不建议使用上述方法进行自定义设置。
 
-{{< tip >}}
-值得注意的是，pod 中的注解具有比标签选择器更高的优先级。如果一个 pod 有 `sidecar.istio.io/inject: "true/false"` 的标记那么它将先被履行。因此，优先级的顺序为:
+### 自定义模板[试验特性]{custom-templates-[experimental]}
 
-`Pod Annotations → NeverInjectSelector → AlwaysInjectSelector → Default Policy`
-{{< /tip >}}
+{{< warning >}}
+此功能为试验特性功能，可随时更改或删除。
+{{< /warning >}}
 
-#### 卸载 sidecar 自动注入器{#uninstalling-the-automatic-sidecar-injector}
+可以在安装时定义一个自定义模板，例如，将 `GREETING` 环境变量注入到 `istio-proxy` 容器中：
 
-{{< text bash >}}
-$ kubectl delete mutatingwebhookconfiguration istio-sidecar-injector
-$ kubectl -n istio-system delete service istio-sidecar-injector
-$ kubectl -n istio-system delete deployment istio-sidecar-injector
-$ kubectl -n istio-system delete serviceaccount istio-sidecar-injector-service-account
-$ kubectl delete clusterrole istio-sidecar-injector-istio-system
-$ kubectl delete clusterrolebinding istio-sidecar-injector-admin-role-binding-istio-system
+{{< text yaml >}}
+apiVersion: operator.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: istio
+spec:
+  values:
+    sidecarInjectorWebhook:
+      templates:
+        custom: |
+          spec:
+            containers:
+            - name: istio-proxy
+              env:
+              - name: GREETING
+                value: hello-world
 {{< /text >}}
 
-上面的命令不会从 pod 中移除注入的 sidecar。需要进行滚动更新或者直接删除 pod，并强制 deployment 创建它们。
-
-此外，还可以清理在此任务中修改过的其他资源。
-
-{{< text bash >}}
-$ kubectl label namespace default istio-injection-
-{{< /text >}}
+默认情况下，Pod 会使用 `sidecar` 注入模板，自动创建模板。这可通过 `inject.istio.io/templates` 注释来替换。例如要应用默认模板和自定义模板，您可以设置 `inject.istio.io/templates=sidecar,custom`。
