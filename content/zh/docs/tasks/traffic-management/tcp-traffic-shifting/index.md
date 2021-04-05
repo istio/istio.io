@@ -21,14 +21,14 @@ test: yes
 
 ## 设置测试环境{#set-up-the-test-environment}
 
-1.  首先，创建一个 Namespace 用于测试 TCP 流量迁移，并将其标记为使用自动注入 Sidecar 方式。
+1.  首先，创建一个容器空间用于测试 TCP 流量迁移，并将其标记为使用自动注入 Sidecar 方式。
 
     {{< text bash >}}
     $ kubectl create namespace istio-io-tcp-traffic-shifting
     $ kubectl label namespace istio-io-tcp-traffic-shifting istio-injection=enabled
     {{< /text >}}
 
-1. 部署 [Sleep]({{< github_tree >}}/samples/sleep) 应用程序，作为发送请求的测试源。
+1. 部署 [sleep]({{< github_tree >}}/samples/sleep) 应用程序，作为发送请求的测试源。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n istio-io-tcp-traffic-shifting
@@ -40,9 +40,9 @@ test: yes
     $ kubectl apply -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
     {{< /text >}}
 
-1. 根据[确定 Ingress IP 和 端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) 中的说明，定义 `TCP_INGRESS_PORT` and `INGRESS_HOST` 环境变量.
+1. 根据[确定 Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) 中的说明，定义 `TCP_INGRESS_PORT` and `INGRESS_HOST` 环境变量.
 
-## 应用基于权重的 TCP 路由{#apply-weight-based-tcp-routing}
+## 应用基于权重的 TCP 路由{#apply-weight-based-TCP-routing}
 
 1. 将所有 TCP 流量路由到微服务 `tcp-echo` 的 `v1` 版本。
 
