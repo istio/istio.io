@@ -1,0 +1,14 @@
+{{ define "main" }}
+    {{ .Scratch.Set "skipPageNav" true }}
+    {{ .Scratch.Set "skipByLine" true }}
+
+    {{ partial "primary_top.html" . }}
+
+    {{ .Content }}
+
+    {{ partial "primary_bottom.html" . }}
+
+    <div class="container article">
+        {{ partial "case_study_suggestions.html" . }}
+    </div>
+{{ end }}

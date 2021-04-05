@@ -2,6 +2,7 @@
 title: Service
 test: n/a
 ---
+
 A delineated group of related behaviors within a [service mesh](/docs/reference/glossary/#service-mesh). Services are identified using a
 [service name](/docs/reference/glossary/#service-name),
 and Istio policies such as load balancing and routing are applied using these names.

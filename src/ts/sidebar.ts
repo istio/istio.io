@@ -154,6 +154,35 @@ function handleSidebar(): void {
             }
         }
     });
+    window.addEventListener("load", () => {
+        const url = window.location.href;
+        const link = getByClass("main-link");
+        const currents = getByClass("current");
+        if (currents) {
+            [...currents].forEach(e => {
+                e.classList.remove("current");
+                e.parentElement?.parentElement?.setAttribute("aria-expanded", "false");
+                e.parentElement?.parentElement?.parentElement?.parentElement?.setAttribute("aria-expanded", "false");
+            });
+        }
+        if (url.substring(url.length - 5, url.length) === "docs/") {
+            if (link) {
+                link[0].classList.add("current");
+            }
+        } else {
+            if (link) {
+                link[0].classList.remove("current");
+            }
+            const list = sidebar.getElementsByTagName("a");
+            [...list].forEach(e => {
+                if (e.href === url) {
+                    e.classList.add("current");
+                    e.parentElement?.parentElement?.setAttribute("aria-expanded", "true");
+                    e.parentElement?.parentElement?.parentElement?.parentElement?.setAttribute("aria-expanded", "true");
+                }
+            });
+        }
+    });
 
     // toggle sidebar on/off
     listen(getById("sidebar-toggler"), click, e => {
