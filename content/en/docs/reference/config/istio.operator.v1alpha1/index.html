@@ -104,7 +104,9 @@ No
 <td><code>string</code></td>
 <td>
 <p>Namespace to install control plane resources into. If unset, Istio will be installed into the same namespace
-as the <code>IstioOperator</code> CR.</p>
+as the <code>IstioOperator</code> CR. You must also set <code>values.global.istioNamespace</code> if you wish to install Istio in
+a custom namespace.
+If you have enabled CNI, you must  exclude this namespace by adding it to the list <code>values.cni.excludeNamespaces</code>.</p>
 
 </td>
 <td>
