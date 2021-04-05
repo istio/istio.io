@@ -1,6 +1,6 @@
 ---
 title: 无 TLS 终止的 Ingress Gateway
-description: 如何为一个 ingress gateway 配置 SNI 透传。
+description: 如何为一个 Ingress Gateway 配置 SNI 透传。
 weight: 30
 keywords: [traffic-management,ingress,https]
 aliases:
