@@ -2638,7 +2638,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
   istioctl experimental revision list -v
 
 </code></pre>
-<h2 id="istioctl-experimental-tag">istioctl experimental tag</h2>
+<h2 id="istioctl-experimental-revision-tag">istioctl experimental revision tag</h2>
 <p>Command group used to interact with revision tags. Revision tags allow for the creation of mutable aliases
 referring to control plane revisions for sidecar injection.</p>
 <p>With revision tags, rather than relabeling a namespace from &#34;istio.io/rev=revision-a&#34; to &#34;istio.io/rev=revision-b&#34; to
@@ -2648,43 +2648,7 @@ at some later point.</p>
 <p>This allows operators to change which Istio control plane revision should handle injection for a namespace or set of namespaces
 without manual relabeling of the &#34;istio.io/rev&#34; tag.
 </p>
-<pre class="language-bash"><code>istioctl experimental tag [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="istioctl-experimental-tag-generate">istioctl experimental tag generate</h2>
-<p>Create a revision tag and output to the command&#39;s stdout. Tag an Istio control plane revision for use with namespace istio.io/rev
-injection labels.</p>
-<pre class="language-bash"><code>istioctl experimental tag generate &lt;revision-tag&gt; [flags]
+<pre class="language-bash"><code>istioctl experimental revision tag [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -2724,6 +2688,65 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Enable verbose output </td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-revision-tag-generate">istioctl experimental revision tag generate</h2>
+<p>Create a revision tag and output to the command&#39;s stdout. Tag an Istio control plane revision for use with namespace istio.io/rev
+injection labels.</p>
+<pre class="language-bash"><code>istioctl experimental revision tag generate &lt;revision-tag&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
+</tr>
+<tr>
 <td><code>--overwrite</code></td>
 <td></td>
 <td>If true, allow revision tags to be overwritten, otherwise reject revision tag updates that
@@ -2741,15 +2764,20 @@ overwrite existing revision tags. </td>
 If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
 </tr>
 <tr>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Enable verbose output </td>
+</tr>
+<tr>
 <td><code>--webhook-name &lt;string&gt;</code></td>
 <td></td>
 <td>Name to use for a revision tag&#39;s mutating webhook configuration.  (default ``)</td>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-tag-generate Examples">Examples</h3>
+<h3 id="istioctl-experimental-revision-tag-generate Examples">Examples</h3>
 <pre class="language-bash"><code> # Create a revision tag from the &#34;1-8-0&#34; revision
- istioctl x tag generate prod --revision 1-8-0 &gt; tag.yaml
+ istioctl x revision tag generate prod --revision 1-8-0 &gt; tag.yaml
 
  # Apply the tag to cluster
  kubectl apply -f tag.yaml
@@ -2761,12 +2789,12 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
  kubectl rollout restart deployments -n test-ns
 
 </code></pre>
-<h2 id="istioctl-experimental-tag-list">istioctl experimental tag list</h2>
+<h2 id="istioctl-experimental-revision-tag-list">istioctl experimental revision tag list</h2>
 <p>List existing revision tags</p>
-<pre class="language-bash"><code>istioctl experimental tag list [flags]
+<pre class="language-bash"><code>istioctl experimental revision tag list [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl experimental tag show [flags]
+<pre class="language-bash"><code>istioctl experimental revision tag show [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -2793,25 +2821,43 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Enable verbose output </td>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-tag-list Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl x tag list
+<h3 id="istioctl-experimental-revision-tag-list Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl x revision tag list
 </code></pre>
-<h2 id="istioctl-experimental-tag-remove">istioctl experimental tag remove</h2>
+<h2 id="istioctl-experimental-revision-tag-remove">istioctl experimental revision tag remove</h2>
 <p>Remove Istio control plane revision tag.</p>
 <p>Removing a revision tag should be done with care. Removing a revision tag will disrupt sidecar injection in namespaces
 that reference the tag in an &#34;istio.io/rev&#34; label. Verify that there are no remaining namespaces referencing a
-revision tag before removing using the &#34;istioctl x tag list&#34; command.
+revision tag before removing using the &#34;istioctl x revision tag list&#34; command.
 </p>
-<pre class="language-bash"><code>istioctl experimental tag remove &lt;revision-tag&gt; [flags]
+<pre class="language-bash"><code>istioctl experimental revision tag remove &lt;revision-tag&gt; [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl experimental tag delete &lt;revision-tag&gt; [flags]
+<pre class="language-bash"><code>istioctl experimental revision tag delete &lt;revision-tag&gt; [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -2838,9 +2884,22 @@ revision tag before removing using the &#34;istioctl x tag list&#34; command.
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -2848,17 +2907,22 @@ revision tag before removing using the &#34;istioctl x tag list&#34; command.
 <td>The skipConfirmation determines whether the user is prompted for confirmation.
 If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
 </tr>
+<tr>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Enable verbose output </td>
+</tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-tag-remove Examples">Examples</h3>
+<h3 id="istioctl-experimental-revision-tag-remove Examples">Examples</h3>
 <pre class="language-bash"><code> # Remove the revision tag &#34;prod&#34;
-	istioctl x tag remove prod
+	istioctl x revision tag remove prod
 
 </code></pre>
-<h2 id="istioctl-experimental-tag-set">istioctl experimental tag set</h2>
+<h2 id="istioctl-experimental-revision-tag-set">istioctl experimental revision tag set</h2>
 <p>Create or modify revision tags. Tag an Istio control plane revision for use with namespace istio.io/rev
 injection labels.</p>
-<pre class="language-bash"><code>istioctl experimental tag set &lt;revision-tag&gt; [flags]
+<pre class="language-bash"><code>istioctl experimental revision tag set &lt;revision-tag&gt; [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -2898,6 +2962,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
+</tr>
+<tr>
 <td><code>--overwrite</code></td>
 <td></td>
 <td>If true, allow revision tags to be overwritten, otherwise reject revision tag updates that
@@ -2915,21 +2984,27 @@ overwrite existing revision tags. </td>
 If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
 </tr>
 <tr>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Enable verbose output </td>
+</tr>
+<tr>
 <td><code>--webhook-name &lt;string&gt;</code></td>
 <td></td>
 <td>Name to use for a revision tag&#39;s mutating webhook configuration.  (default ``)</td>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-tag-set Examples">Examples</h3>
+<h3 id="istioctl-experimental-revision-tag-set Examples">Examples</h3>
 <pre class="language-bash"><code> # Create a revision tag from the &#34;1-8-0&#34; revision
- istioctl x tag set prod --revision 1-8-0
+ istioctl x revision tag set prod --revision 1-8-0
 
  # Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
  kubectl label ns test-ns istio.io/rev=prod
 
  # Change the revision tag to reference the &#34;1-8-1&#34; revision
- istioctl x tag set prod --revision 1-8-1 --overwrite
+ istioctl x revision tag prod --revision 1-8-1 --overwrite
+
 
  # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-1&#34; revision
  kubectl rollout restart deployments -n test-ns
@@ -4562,7 +4637,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 </tbody>
 </table>
@@ -4604,7 +4679,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 <tr>
 <td><code>--file &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Envoy config dump JSON file  (default ``)</td>
+<td>Envoy config dump file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--fqdn &lt;string&gt;</code></td>
@@ -4634,7 +4709,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
@@ -4717,7 +4792,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 </tbody>
 </table>
@@ -4785,7 +4860,7 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
@@ -4869,7 +4944,7 @@ istioctl proxy-config ep [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
@@ -4953,7 +5028,7 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
@@ -5031,7 +5106,7 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
 <td><code>--reset</code></td>
@@ -5109,7 +5184,7 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -5179,7 +5254,7 @@ istioctl proxy-config s [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 </tbody>
 </table>
