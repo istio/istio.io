@@ -37,7 +37,7 @@ fi
 echo "Inspecting Istio ingress gateway pod \"${ingress_pod}\" in \"${INGRESS_NAMESPACE}\" namespace"
 
 ingress_ports=$(istioctl proxy-config listeners \
-  $ingress_pod.$INGRESS_NAMESPACE \
+  "${ingress_pod}.${INGRESS_NAMESPACE}" \
   | awk 'NR > 1 {print $2}')
 
 function check_port {
@@ -61,18 +61,18 @@ authz_policies=$(kubectl -n $INGRESS_NAMESPACE get authorizationpolicies | awk '
 echo -e "Checking Authorization Policies attached to \"$ingress_pod\"\n"
 
 for p in $authz_policies; do
-  policy=$(kubectl -n $INGRESS_NAMESPACE get authorizationpolicy $p -o json)
+  policy=$(kubectl -n "${INGRESS_NAMESPACE}" get authorizationpolicy "${p}" -o json)
   label_selector=$(echo "${policy}" |\
     jq -r --arg KEY "$INGRESS_LABEL_KEY" '.spec.selector.matchLabels[$KEY]')
-  if [ $label_selector != $INGRESS_LABEL_VAL ]; then
+  if [ "${label_selector}" != "${INGRESS_LABEL_VAL}" ]; then
     continue
   fi
   policy_ports=$(echo "${policy}" | jq -r '.spec.rules[]|select(.to)|.to[]|.operation|select(.ports)|.ports[]')
   policy_notports=$(echo "${policy}" | jq -r '.spec.rules[]|select(.to)|.to[]|.operation|select(.notPorts)|.notPorts[]')
   for pp in $policy_ports; do
-    check_port $p $pp
+    check_port "${p}" "${pp}"
   done
   for pp in $policy_notports; do
-    check_port $p $pp
+    check_port "${p}" "${pp}"
   done
 done
