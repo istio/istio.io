@@ -9,7 +9,7 @@ test: n/a
 
 本页介绍如何对 Istio 部署至虚拟机时出现的问题进行诊断和排除。
 在此之前，请确保您已经按照[虚拟机安装](/zh/docs/setup/install/virtual-machine/)指南完成了相应操作。
-此外阅读[虚拟机体系架构](/docs/ops/deployment/vm-architecture/)可以帮助您更好的了解组件间是如何交互的。
+此外阅读[虚拟机体系架构](/zh/docs/ops/deployment/vm-architecture/)可以帮助您更好的了解组件间是如何交互的。
 
 对 Istio 部署至虚拟机进行故障排除跟对 Kubernetes 内运行的代理问题进行故障排除是类似的，但还是有一些关键点需要注意。
 
