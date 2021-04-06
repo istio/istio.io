@@ -13,8 +13,8 @@ skip_seealso: true
 
 {{< security_bulletin >}}
 
-Upgrading to Istio version 1.6 and higher is vulnerable to the following
-misconfiguration related vulnerability:
+Upgrading to Istio version 1.6 and higher may result in misconfigured
+Authorization Policies:
 
 - **Incorrect gateway ports on Authorization Policies on upgrades**: In Istio
 versions 1.6 and later, the default container ports for Istio ingress
@@ -98,6 +98,6 @@ failures or rollbacks.
 ## Credit
 
 We'd like to thank [Neeraj Poddar](https://twitter.com/nrjpoddar)
-for reporting this vulnerability.
+for reporting this issue.
 
 {{< boilerplate "security-vulnerability" >}}
