@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 41
+number_of_entries: 42
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -1114,6 +1114,64 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationRequestBody">MeshConfig.ExtensionProvider.EnvoyExternalAuthorizationRequestBody</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationRequestBody-max_request_bytes">
+<td><code>maxRequestBytes</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>Sets the maximum size of a message body that the ext-authz filter will hold in memory.
+If max<em>request</em>bytes is reached, and allow<em>partial</em>message is false, Envoy will return a 413 (Payload Too Large).
+Otherwise the request will be sent to the provider with a partial message.
+Note that this setting will have precedence over the fail<em>open field, the 413 will be returned even when the
+fail</em>open is set to true.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationRequestBody-allow_partial_message">
+<td><code>allowPartialMessage</code></td>
+<td><code>bool</code></td>
+<td>
+<p>When this field is true, ext-authz filter will buffer the message until max<em>request</em>bytes is reached.
+The authorization request will be dispatched and no 413 HTTP error will be returned by the filter.
+A &ldquo;x-envoy-auth-partial-body: false|true&rdquo; metadata header will be added to the authorization request message
+indicating if the body data is partial.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationRequestBody-pack_as_bytes">
+<td><code>packAsBytes</code></td>
+<td><code>bool</code></td>
+<td>
+<p>If true, the body sent to the external authorization service in the gRPC authorization request is set with raw bytes
+in the raw<em>body field (https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute</em>context.proto#L153).
+Otherwise, it will be filled with UTF-8 string in the body field (https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute<em>context.proto#L147).
+This field only works with the envoy</em>ext<em>authz</em>grpc provider and has no effect for the envoy<em>ext</em>authz_http provider.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider">MeshConfig.ExtensionProvider.EnvoyExternalAuthorizationHttpProvider</h2>
 <section>
 <table class="message-fields">
@@ -1147,6 +1205,19 @@ No
 <td><code>uint32</code></td>
 <td>
 <p>REQUIRED. Specifies the port of the service.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider-timeout">
+<td><code>timeout</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>The maximum duration that the proxy will wait for a response from the provider (default timeout: 600s).
+When this timeout condition is met, the proxy marks the communication to the authorization service as failure.
+In this situation, the response sent back to the client will depend on the configured <code>fail_open</code> field.</p>
 
 </td>
 <td>
@@ -1195,10 +1266,53 @@ No
 <td><code>includeHeadersInCheck</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>List of headers that should be included in the authorization request sent to the authorization service.
-Note that in addition to the headers supplied by users:
+<p>DEPRECATED. Use include<em>request</em>headers<em>in</em>check instead.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider-include_request_headers_in_check">
+<td><code>includeRequestHeadersInCheck</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>List of client request headers that should be included in the authorization request sent to the authorization service.
+Note that in addition to the headers specified here following headers are included by default:
 1. <em>Host</em>, <em>Method</em>, <em>Path</em> and <em>Content-Length</em> are automatically sent.
-2. <em>Content-Length</em> will be set to 0 and the request will not have a message body.</p>
+2. <em>Content-Length</em> will be set to 0 and the request will not have a message body. However, the authorization
+request can include the buffered client request body (controlled by include<em>request</em>body<em>in</em>check setting),
+consequently the value of Content-Length of the authorization request reflects the size of its payload size.</p>
+
+<p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
+https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
+- Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
+- Prefix match: &ldquo;abc<em>&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
+- Suffix match: &ldquo;</em>abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider-include_additional_headers_in_check">
+<td><code>includeAdditionalHeadersInCheck</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>Set of additional fixed headers that should be included in the authorization request sent to the authorization service.
+Key is the header name and value is the header value.
+Note that client request of the same key or headers specified in include<em>request</em>headers<em>in</em>check will be overridden.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider-include_request_body_in_check">
+<td><code>includeRequestBodyInCheck</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationRequestBody">EnvoyExternalAuthorizationRequestBody</a></code></td>
+<td>
+<p>If set, the client request body will be included in the authorization request sent to the authorization service.</p>
 
 </td>
 <td>
@@ -1213,6 +1327,12 @@ No
 forwarded to the upstream when the authorization check result is allowed (HTTP code 200).
 If not specified, the original request will not be modified and forwarded to backend as-is.
 Note, any existing headers will be overridden.</p>
+
+<p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
+https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
+- Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
+- Prefix match: &ldquo;abc<em>&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
+- Suffix match: &ldquo;</em>abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
 
 </td>
 <td>
@@ -1230,6 +1350,12 @@ the downstream.
 When a header is included in this list, <em>Path</em>, <em>Status</em>, <em>Content-Length</em>, <em>WWWAuthenticate</em> and <em>Location</em> are
 automatically added.
 Note, the body from the authorization service is always included in the response to downstream.</p>
+
+<p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
+https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
+- Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
+- Prefix match: &ldquo;abc<em>&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
+- Suffix match: &ldquo;</em>abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
 
 </td>
 <td>
@@ -1278,13 +1404,26 @@ No
 No
 </td>
 </tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationGrpcProvider-timeout">
+<td><code>timeout</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>The maximum duration that the proxy will wait for a response from the provider, this is the timeout for a specific request (default timeout: 600s).
+When this timeout condition is met, the proxy marks the communication to the authorization service as failure.
+In this situation, the response sent back to the client will depend on the configured <code>fail_open</code> field.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationGrpcProvider-fail_open">
 <td><code>failOpen</code></td>
 <td><code>bool</code></td>
 <td>
-<p>If true, the user request will be allowed even if the communication with the authorization service has failed,
+<p>If true, the HTTP request or TCP connection will be allowed even if the communication with the authorization service has failed,
 or if the authorization service has returned a HTTP 5xx error.
-Default is false and the request will be rejected with &ldquo;Forbidden&rdquo; response.</p>
+Default is false. For HTTP request, it will be rejected with 403 (HTTP Forbidden). For TCP connection, it will be closed immediately.</p>
 
 </td>
 <td>
@@ -1297,6 +1436,17 @@ No
 <td>
 <p>Sets the HTTP status that is returned to the client when there is a network error to the authorization service.
 The default status is &ldquo;403&rdquo; (HTTP Forbidden).</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationGrpcProvider-include_request_body_in_check">
+<td><code>includeRequestBodyInCheck</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationRequestBody">EnvoyExternalAuthorizationRequestBody</a></code></td>
+<td>
+<p>If set, the client request body will be included in the authorization request sent to the authorization service.</p>
 
 </td>
 <td>

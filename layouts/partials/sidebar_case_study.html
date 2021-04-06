@@ -1,0 +1,27 @@
+{{ $pageParams := .Page.Params }}
+
+<div class="sidebar--case-study">
+    {{ partial "company_logo.html" (dict "logo" $pageParams.logo "alt" $pageParams.companyName "link" $pageParams.companyURL)}}
+
+    {{ if $pageParams.quote }}
+        <div class="quote-text">
+            {{- $pageParams.quote -}}
+        </div>
+    {{ end }}
+
+    {{ if $pageParams.author.image }}
+        <div class="quote-author-image">
+            <img src="{{ $pageParams.author.image }}" alt="{{ $pageParams.author }} image" />
+        </div>
+    {{ end }}
+
+    {{ if $pageParams.author.name }}
+        <div class="quote-author">
+            {{- $pageParams.author.name -}}
+        </div>
+    {{ end }}
+
+    <div class="quote-company">
+        {{ $pageParams.companyName }}
+    </div>
+</div>

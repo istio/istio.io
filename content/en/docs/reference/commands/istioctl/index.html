@@ -1223,7 +1223,7 @@ istioctl experimental add-to-mesh dep &lt;deployment&gt; [flags]
   istioctl x add dep ratings-v1
 </code></pre>
 <h2 id="istioctl-experimental-add-to-mesh-external-service">istioctl experimental add-to-mesh external-service</h2>
-<p>istioctl experimental add-to-mesh external-service create a ServiceEntry and
+<p>istioctl experimental add-to-mesh external-service create a ServiceEntry and 
 a Service without selector for the specified external service in Istio service mesh.
 The typical usage scenario is Mesh Expansion on VMs.</p>
 <p>See also &#39;istioctl experimental remove-from-mesh external-service&#39; which does the reverse.</p>
@@ -1653,116 +1653,6 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
   istioctl --kubeconfig=c0.yaml x create-remote-secret --name c0 --auth-type=plugin --auth-plugin-name=gcp \
     | kubectl --kubeconfig=c1.yaml apply -f -
 </code></pre>
-<h2 id="istioctl-experimental-debug">istioctl experimental debug</h2>
-<p>
-Retrieves the debug information from Istiod or Pods in the mesh using the service account from the pod if --cert-dir is empty.
-By default it will use the default serviceAccount from (istio-system) namespace if the pod is not specified.</p>
-<p>
-THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
-<pre class="language-bash"><code>istioctl experimental debug [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--authority &lt;string&gt;</code></td>
-<td></td>
-<td>XDS Subject Alternative Name (for example istiod.istio-system.svc)  (default ``)</td>
-</tr>
-<tr>
-<td><code>--cert-dir &lt;string&gt;</code></td>
-<td></td>
-<td>XDS Endpoint certificate directory  (default ``)</td>
-</tr>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--insecure</code></td>
-<td></td>
-<td>Skip server certificate and domain verification. (NOT SECURE!) </td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--plaintext</code></td>
-<td></td>
-<td>Use plain-text HTTP/2 when connecting to server (no TLS). </td>
-</tr>
-<tr>
-<td><code>--revision &lt;string&gt;</code></td>
-<td><code>-r</code></td>
-<td>Control plane revision  (default ``)</td>
-</tr>
-<tr>
-<td><code>--timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>The duration to wait before failing  (default `30s`)</td>
-</tr>
-<tr>
-<td><code>--xds-address &lt;string&gt;</code></td>
-<td></td>
-<td>XDS Endpoint  (default ``)</td>
-</tr>
-<tr>
-<td><code>--xds-label &lt;string&gt;</code></td>
-<td></td>
-<td>Istiod pod label selector  (default ``)</td>
-</tr>
-<tr>
-<td><code>--xds-port &lt;int&gt;</code></td>
-<td></td>
-<td>Istiod pod port  (default `15012`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-debug Examples">Examples</h3>
-<pre class="language-bash"><code>  # Retrieve sync status for all Envoys in a mesh
-  istioctl x debug syncz
-
-  # Retrieve sync diff for a single Envoy and Istiod
-  istioctl x debug syncz istio-egressgateway-59585c5b9c-ndc59.istio-system
-
-  # SECURITY OPTIONS
-
-  # Retrieve syncz debug information directly from the control plane, using token security
-  # (This is the usual way to get the debug information with an out-of-cluster control plane.)
-  istioctl x debug syncz --xds-address istio.cloudprovider.example.com:15012
-
-  # Retrieve syncz debug information via Kubernetes config, using token security
-  # (This is the usual way to get the debug information with an in-cluster control plane.)
-  istioctl x debug syncz
-
-  # Retrieve syncz debug information directly from the control plane, using RSA certificate security
-  # (Certificates must be obtained before this step.  The --cert-dir flag lets istioctl bypass the Kubernetes API server.)
-  istioctl x debug syncz --xds-address istio.example.com:15012 --cert-dir ~/.istio-certs
-
-  # Retrieve syncz information via XDS from specific control plane in multi-control plane in-cluster configuration
-  # (Select a specific control plane in an in-cluster canary Istio configuration.)
-  istioctl x debug syncz --xds-label istio.io/rev=default
-
-</code></pre>
 <h2 id="istioctl-experimental-describe">istioctl experimental describe</h2>
 <p>Describe resource and related Istio configuration</p>
 <pre class="language-bash"><code>istioctl experimental describe [flags]
@@ -1969,6 +1859,116 @@ the configuration objects that affect that service.</p>
 </table>
 <h3 id="istioctl-experimental-injector-list Examples">Examples</h3>
 <pre class="language-bash"><code>  istioctl experimental injector list
+</code></pre>
+<h2 id="istioctl-experimental-internal-debug">istioctl experimental internal-debug</h2>
+<p>
+Retrieves the debug information from Istiod or Pods in the mesh using the service account from the pod if --cert-dir is empty.
+By default it will use the default serviceAccount from (istio-system) namespace if the pod is not specified.</p>
+<p>
+THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
+<pre class="language-bash"><code>istioctl experimental internal-debug [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--authority &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Subject Alternative Name (for example istiod.istio-system.svc)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--cert-dir &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Endpoint certificate directory  (default ``)</td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--insecure</code></td>
+<td></td>
+<td>Skip server certificate and domain verification. (NOT SECURE!) </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--plaintext</code></td>
+<td></td>
+<td>Use plain-text HTTP/2 when connecting to server (no TLS). </td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>Control plane revision  (default ``)</td>
+</tr>
+<tr>
+<td><code>--timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>The duration to wait before failing  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--xds-address &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Endpoint  (default ``)</td>
+</tr>
+<tr>
+<td><code>--xds-label &lt;string&gt;</code></td>
+<td></td>
+<td>Istiod pod label selector  (default ``)</td>
+</tr>
+<tr>
+<td><code>--xds-port &lt;int&gt;</code></td>
+<td></td>
+<td>Istiod pod port  (default `15012`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-internal-debug Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve sync status for all Envoys in a mesh
+  istioctl x internal-debug syncz
+
+  # Retrieve sync diff for a single Envoy and Istiod
+  istioctl x internal-debug syncz istio-egressgateway-59585c5b9c-ndc59.istio-system
+
+  # SECURITY OPTIONS
+
+  # Retrieve syncz debug information directly from the control plane, using token security
+  # (This is the usual way to get the debug information with an out-of-cluster control plane.)
+  istioctl x internal-debug syncz --xds-address istio.cloudprovider.example.com:15012
+
+  # Retrieve syncz debug information via Kubernetes config, using token security
+  # (This is the usual way to get the debug information with an in-cluster control plane.)
+  istioctl x internal-debug syncz
+
+  # Retrieve syncz debug information directly from the control plane, using RSA certificate security
+  # (Certificates must be obtained before this step.  The --cert-dir flag lets istioctl bypass the Kubernetes API server.)
+  istioctl x internal-debug syncz --xds-address istio.example.com:15012 --cert-dir ~/.istio-certs
+
+  # Retrieve syncz information via XDS from specific control plane in multi-control plane in-cluster configuration
+  # (Select a specific control plane in an in-cluster canary Istio configuration.)
+  istioctl x internal-debug syncz --xds-label istio.io/rev=default
+
 </code></pre>
 <h2 id="istioctl-experimental-kube-uninject">istioctl experimental kube-uninject</h2>
 <p>
@@ -3628,11 +3628,6 @@ kube-inject on deployments to get the most up-to-date changes.
 <td>Injection configuration filename. Cannot be used with --injectConfigMapName  (default ``)</td>
 </tr>
 <tr>
-<td><code>--injectConfigMapName &lt;string&gt;</code></td>
-<td></td>
-<td>ConfigMap name for Istio sidecar injection, key should be &#34;config&#34;.  (default `istio-sidecar-injector`)</td>
-</tr>
-<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -3671,6 +3666,11 @@ kube-inject on deployments to get the most up-to-date changes.
 <td><code>--valuesFile &lt;string&gt;</code></td>
 <td></td>
 <td>injection values configuration filename.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--webhookConfig &lt;string&gt;</code></td>
+<td></td>
+<td>MutatingWebhookConfiguration name for Istio  (default `istio-sidecar-injector`)</td>
 </tr>
 </tbody>
 </table>
@@ -5587,6 +5587,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If this is set to true, one Istiod will control remote clusters including CA.</td>
 </tr>
 <tr>
+<td><code>GCP_METADATA</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Pipe separted GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
+</tr>
+<tr>
 <td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
 <td>String</td>
 <td><code>istio-sidecar-injector</code></td>
@@ -5693,6 +5699,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Integer</td>
 <td><code>100000</code></td>
 <td>Sets the maximum number of concurrent grpc streams.</td>
+</tr>
+<tr>
+<td><code>ISTIO_MULTIROOT_MESH</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, mesh will support certificates signed by more than one trustAnchor for ISTIO_MUTUAL mTLS</td>
 </tr>
 <tr>
 <td><code>ISTIO_PROMETHEUS_ANNOTATIONS</code></td>
@@ -6031,6 +6043,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, readiness probes will be sent to &#39;localhost&#39;. Otherwise, they will be sent to the Pod&#39;s IP, matching Kubernetes&#39; behavior.</td>
 </tr>
 <tr>
+<td><code>SHARED_MESH_CONFIG</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
+</tr>
+<tr>
 <td><code>SPIFFE_BUNDLE_ENDPOINTS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -6136,6 +6154,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>pilot_proxy_convergence_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between config change and a proxy receiving all required configuration.</td></tr>
 <tr><td><code>pilot_proxy_queue_time</code></td><td><code>Distribution</code></td><td>Time in seconds, a proxy is in the push queue before being dequeued.</td></tr>
 <tr><td><code>pilot_push_triggers</code></td><td><code>Sum</code></td><td>Total number of times a push was triggered, labeled by reason for the push.</td></tr>
+<tr><td><code>pilot_sds_certificate_errors_total</code></td><td><code>Sum</code></td><td>Total number of failures to fetch SDS key and certificate.</td></tr>
 <tr><td><code>pilot_services</code></td><td><code>LastValue</code></td><td>Total services known to pilot.</td></tr>
 <tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
 <tr><td><code>pilot_total_xds_internal_errors</code></td><td><code>Sum</code></td><td>Total number of internal XDS errors in pilot.</td></tr>

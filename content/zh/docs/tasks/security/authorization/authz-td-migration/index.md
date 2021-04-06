@@ -1,7 +1,7 @@
 ---
-title: 授权策略信任域迁移
+title: 信任域迁移
 description: 阐述如何在不更改授权策略的前提下从一个信任域迁移到另一个。
-weight: 40
+weight: 60
 keywords: [security,access-control,rbac,authorization,trust domain, migration]
 owner: istio/wg-security-maintainers
 test: yes
@@ -16,23 +16,14 @@ test: yes
 
 ## 开始之前{#before-you-begin}
 
-1. 阅读[授权概念指南](/zh/docs/concepts/security/#authorization)。
+在您开始任务之前，请完成以下内容：
+
+1. 阅读 [授权](/zh/docs/concepts/security/#authorization) 指南。
 
 1. 安装 Istio，自定义信任域，并启用双向 TLS。
 
     {{< text bash >}}
-    $ cat <<EOF > ./td-installation.yaml
-    apiVersion: install.istio.io/v1alpha2
-    kind: IstioControlPlane
-    spec:
-      values:
-        global:
-          controlPlaneSecurityEnabled: false
-          mtls:
-            enabled: true
-          trustDomain: old-td
-    EOF
-    $ istioctl manifest apply --set profile=demo -f td-installation.yaml
+    $ istioctl install --set profile=demo --set meshConfig.trustDomain=old-td
     {{< /text >}}
 
 1. 将 [httpbin]({{< github_tree >}}/samples/httpbin) 示例部署于 `default` 命名空间中，将 [sleep]({{< github_tree >}}/samples/sleep) 示例部署于 `default` 和 `sleep-allow` 命名空间中：
@@ -79,14 +70,14 @@ test: yes
     * 来自 `default` 命名空间的 `sleep` 服务的请求被拒绝。
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
     * 来自 `sleep-allow` 命名空间的 `sleep` 服务的请求通过了。
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -95,31 +86,16 @@ test: yes
 1. 使用一个新的信任域安装 Istio。
 
     {{< text bash >}}
-    $ cat <<EOF > ./td-installation.yaml
-    apiVersion: install.istio.io/v1alpha2
-    kind: IstioControlPlane
-    spec:
-      values:
-        global:
-          controlPlaneSecurityEnabled: false
-          mtls:
-            enabled: true
-          trustDomain: new-td
-    EOF
-    $ istioctl manifest apply --set profile=demo -f td-installation.yaml
+    $ istioctl install --set profile=demo --set meshConfig.trustDomain=new-td
+    {{< /text >}}
+
+1. 重新部署 istiod 以使信任域更改。
+
+    {{< text bash >}}
+    $ kubectl rollout restart deployment -n istio-system istiod
     {{< /text >}}
 
     Istio 网格现在运行于一个新的信任域 `new-td` 了。
-
-1. 删除 `default` 和 `sleep-allow` 命名空间中的 `sleep` 和 `httpbin` 的 secrets。请注意如果您安装 Istio 时启用了 SDS，您可以跳过这一步。
-
-    {{< text bash >}}
-    $ kubectl delete secrets istio.sleep; kubectl delete secrets istio.httpbin;
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl delete secrets istio.sleep -n sleep-allow
-    {{< /text >}}
 
 1. 重新部署 `httpbin` 和 `sleep` 应用以从新的 Istio 控制平面获取更新。
 
@@ -134,12 +110,12 @@ test: yes
 1. 验证来自 `default` 和 `sleep-allow` 命名空间的 `sleep` 到 `httpbin` 的访问都被拒绝。
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
@@ -158,16 +134,12 @@ test: yes
     apiVersion: install.istio.io/v1alpha2
     kind: IstioControlPlane
     spec:
-      values:
-        global:
-          controlPlaneSecurityEnabled: false
-          mtls:
-            enabled: true
-          trustDomain: new-td
-          trustDomainAliases:
-            - old-td
+      meshConfig:
+        trustDomain: new-td
+        trustDomainAliases:
+          - old-td
     EOF
-    $ istioctl manifest apply --set profile=demo -f td-installation.yaml
+    $ istioctl install --set profile=demo -f td-installation.yaml -y
     {{< /text >}}
 
 1. 不调整授权策略，验证到 `httpbin` 的请求：
@@ -175,14 +147,14 @@ test: yes
     * 来自 `default` 命名空间的 `sleep` 的请求被拒绝。
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
     * 来自 `sleep-allow` 命名空间的 `sleep` 通过了。
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -198,8 +170,9 @@ test: yes
 
 {{< text bash >}}
 $ kubectl delete authorizationpolicy service-httpbin.default.svc.cluster.local
-$ kubectl delete deploy httpbin; k delete service httpbin; k delete serviceaccount httpbin
-$ kubectl delete deploy sleep; k delete service sleep; k delete serviceaccount sleep
-$ kubectl delete namespace sleep-allow
-$ istioctl manifest generate --set profile=demo -f td-installation.yaml | kubectl delete -f -
+$ kubectl delete deploy httpbin; kubectl delete service httpbin; kubectl delete serviceaccount httpbin
+$ kubectl delete deploy sleep; kubectl delete service sleep; kubectl delete serviceaccount sleep
+$ istioctl x uninstall --purge
+$ kubectl delete namespace sleep-allow istio-system
+$ rm ./td-installation.yaml
 {{< /text >}}

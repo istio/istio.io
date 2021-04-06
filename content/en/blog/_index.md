@@ -9,5 +9,5 @@ aliases:
     - /blog/posts/index.html
 outputs:
     - html
-    - rss    
+    - rss
 ---

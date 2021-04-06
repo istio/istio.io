@@ -2,12 +2,13 @@
 {{- $tab_set_id := default (printf "tabset-%s-%d" (.Page.RelPermalink) (.Page.Scratch.Get "tabset-counter") ) | anchorize -}}
 {{- $tabs := .Scratch.Get "tabs" -}}
 {{- $category_name := trim (.Get "category-name") " " -}}
+{{ $tab_set_class := .Get "class" }}
 
 {{- if .Inner -}}
     {{- /* We don't use the inner content, but Hugo needs this reference as a trigger to indicate this shortcode has a content area. */ -}}
 {{- end -}}
 
-<div id="{{ $tab_set_id }}" role="tablist" class="tabset">
+<div id="{{ $tab_set_id }}" role="tablist" class="tabset {{ if $tab_set_class }}{{ $tab_set_class }}{{ end }}">
     <div class="tab-strip" data-category-name="{{ $category_name }}">
         {{- range $i, $e := $tabs -}}
             {{- $id := printf "%s-%d" $tab_set_id $i -}}
@@ -20,6 +21,9 @@
         {{- range $i, $e := $tabs -}}
             {{- $id := printf "%s-%d" $tab_set_id $i -}}
             <div{{ if ne $i 0 }} hidden{{ end }} id="{{ $id }}-panel" role="tabpanel" tabindex="0" aria-labelledby="{{ $id }}-tab">
+                {{ with .description }}
+                    <p class="tab-description">{{- . -}}</p>
+                {{ end }}
                 {{- $text := partial "strip_indent.html" (dict "content" .content "pos" .Position) -}}
                 {{- $text | markdownify -}}
             </div>

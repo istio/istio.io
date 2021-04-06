@@ -13,11 +13,12 @@ number_of_entries: 9
 ---
 <p>Istio Authorization Policy enables access control on workloads in the mesh.</p>
 
-<p>Authorization policy supports both allow and deny policies. When allow and
-deny policies are used for a workload at the same time, the deny policies are
-evaluated first. The evaluation is determined by the following rules:</p>
+<p>Authorization policy supports CUSTOM, DENY and ALLOW actions for access control. When CUSTOM, DENY and ALLOW actions
+are used for a workload at the same time, the CUSTOM action is evaluated first, then the DENY action, and finally the ALLOW action.
+The evaluation is determined by the following rules:</p>
 
 <ol>
+<li>If there are any CUSTOM policies that match the request, evaluate and deny the request if the evaluation result is deny.</li>
 <li>If there are any DENY policies that match the request, deny the request.</li>
 <li>If there are no ALLOW policies for the workload, allow the request.</li>
 <li>If any of the ALLOW policies match the request, allow the request.</li>
@@ -26,7 +27,7 @@ evaluated first. The evaluation is determined by the following rules:</p>
 
 <p>Istio Authorization Policy also supports the AUDIT action to decide whether to log requests.
 AUDIT policies do not affect whether requests are allowed or denied to the workload.
-Requests will be allowed or denied based solely on ALLOW and DENY policies.</p>
+Requests will be allowed or denied based solely on CUSTOM, DENY and ALLOW actions.</p>
 
 <p>A request will be internally marked that it should be audited if there is an AUDIT policy on the workload that matches the request.
 A separate plugin must be configured and enabled to actually fulfill the audit decision and complete the audit behavior.
@@ -176,20 +177,19 @@ spec:
 <section>
 <p>AuthorizationPolicy enables access control on workloads.</p>
 
-<p>For example, the following authorization policy denies all requests to workloads
+<p>For example, the following authorization policy allows nothing and effectively denies all requests to workloads
 in namespace foo.</p>
 
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
- name: deny-all
+ name: allow-nothing
  namespace: foo
 spec:
   {}
 </code></pre>
 
-<p>The following authorization policy allows all requests to workloads in namespace
-foo.</p>
+<p>The following authorization policy allows all requests to workloads in namespace foo.</p>
 
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -267,7 +267,7 @@ No
 <h2 id="Rule">Rule</h2>
 <section>
 <p>Rule matches requests from a list of sources that perform a list of operations subject to a
-list of conditions. A match occurs when at least one source, operation and condition
+list of conditions. A match occurs when at least one source, one operation and all conditions
 matches the request. An empty rule is always matched.</p>
 
 <p>Any string field in the rule supports Exact, Prefix, Suffix and Presence match:</p>
@@ -793,7 +793,7 @@ the extension by specifying the name of the provider.
 One example use case of the extension is to integrate with a custom external authorization system to delegate
 the authorization decision to it.</p>
 
-<p>Note: The CUSTOM action is currently an <strong>experimental feature</strong> and is subject to breaking changes in later versions.</p>
+<p>Note: The CUSTOM action is currently an <strong>alpha feature</strong> and is subject to breaking changes in later versions.</p>
 
 <p>The following authorization policy applies to an ingress gateway and delegates the authorization check to a named extension
 &ldquo;my-custom-authz&rdquo; if the request path has prefix &ldquo;/admin/&rdquo;.</p>
