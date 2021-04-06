@@ -53,7 +53,7 @@ function check_port {
     fi
   done
   if ! $found; then
-    echo -e "${RED} Authorization Policy \"$policy_name\" has port \"$port\" that needs to be migrated. ${NC}"
+    echo -e "${RED} Authorization Policy \"${policy_name}\" has port \"${port}\" that needs to be migrated. ${NC}"
   fi
 }
 
