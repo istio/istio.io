@@ -571,6 +571,9 @@ istioctl d [flags]
 <pre class="language-bash"><code>  # Open ControlZ web UI for the istiod-123-456.istio-system pod
   istioctl dashboard controlz istiod-123-456.istio-system
 
+  # Open ControlZ web UI for the istiod-56dd66799-jfdvs pod in a custom namespace
+  istioctl dashboard controlz istiod-123-456 -n custom-ns
+
   # Open ControlZ web UI for any Istiod pod
   istioctl dashboard controlz deployment/istiod.istio-system
 
@@ -4022,6 +4025,12 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>The hub for the operator controller image.  (default `unknown`)</td>
 </tr>
 <tr>
+<td><code>--imagePullSecrets &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>The imagePullSecrets are used to pull the operator image from the private registry,
+could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSecret1,imagePullSecret2&#39;  (default `[]`)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -4099,6 +4108,12 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--hub &lt;string&gt;</code></td>
 <td></td>
 <td>The hub for the operator controller image.  (default `unknown`)</td>
+</tr>
+<tr>
+<td><code>--imagePullSecrets &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>The imagePullSecrets are used to pull the operator image from the private registry,
+could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSecret1,imagePullSecret2&#39;  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -5656,6 +5671,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_LEGACY_INBOUND_CLUSTER_NAME</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Enable the legacy inbound cluster format (inbound|port|port-name|hostname). This option will be removed soon.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_LOOP_BLOCKER</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -5710,6 +5731,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>EnableThriftFilter enables injection of `envoy.filters.network.thrift_proxy` in the filter chain.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_UNSAFE_RUNTIME_ASSERTIONS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, addition runtime asserts will be performed. These checks are both expensive and panic on failure. As a result, this should be used only for testing.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_VIRTUAL_SERVICE_DELEGATE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -5742,7 +5769,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr>
 <td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
 <td>Boolean</td>
-<td><code>true</code></td>
+<td><code>false</code></td>
 <td></td>
 </tr>
 <tr>
@@ -5827,7 +5854,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>PILOT_XDS_CACHE_SIZE</code></td>
 <td>Integer</td>
 <td><code>20000</code></td>
-<td>The maximum number of cache entries for the XDS cache. If the size is &lt;= 0, the cache will have no upper bound.</td>
+<td>The maximum number of cache entries for the XDS cache.</td>
 </tr>
 <tr>
 <td><code>PILOT_XDS_CACHE_STATS</code></td>
