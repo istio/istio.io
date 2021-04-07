@@ -20,7 +20,7 @@ owner: istio/wg-networking-maintainers
 `region2` | `zone3` | 0
 `region3` | `zone4` | 10
 
-## 配置权重分布 #{configure-weighted-distribution}
+## 配置权重分布 {#configure-weighted-distribution}
 
 应用 `DestinationRule` 配置如下：
 
@@ -54,7 +54,7 @@ spec:
 EOF
 {{< /text >}}
 
-## 验证分布 #{verify-the-distribution}
+## 验证分布 {#verify-the-distribution}
 
 从 `Sleep` Pod 调用  `HelloWorld` 服务：
 
@@ -69,6 +69,6 @@ $ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
 
 **恭喜！** 你成功配置了地域权重分布！
 
-## 下一步
+## 下一步 {#next-steps}
 
 [清理](/zh/docs/tasks/traffic-management/locality-load-balancing/cleanup) 任务中的文件与资源。

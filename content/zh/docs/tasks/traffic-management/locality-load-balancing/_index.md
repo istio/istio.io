@@ -9,8 +9,8 @@ aliases:
   - /help/ops/traffic-management/locality-load-balancing
   - /help/ops/locality-load-balancing
   - /help/tasks/traffic-management/locality-load-balancing
-  - /docs/ops/traffic-management/locality-load-balancing
-  - /docs/ops/configuration/traffic-management/locality-load-balancing
+  - /zh/docs/ops/traffic-management/locality-load-balancing
+  - /zh/docs/ops/configuration/traffic-management/locality-load-balancing
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
@@ -30,9 +30,9 @@ test: n/a
 
 1. 地区
 
-2. 区域
+1. 区域
 
-3. 分区
+1. 分区
 
 这意味着，在 `foo` 地区的 `bar` 区域中运行 Pod 是 **不** 被认为是在 `baz` 地区的 `bar` 区域中运行的 Pod。
 

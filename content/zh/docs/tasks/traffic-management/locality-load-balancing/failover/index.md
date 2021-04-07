@@ -9,7 +9,7 @@ owner: istio/wg-networking-maintainers
 ---
 请按照本指南为您的网格配置地域故障转移。
 
-在开始之前，一定要完成的步骤 [开始之前](/docs/tasks/traffic-management/locality-load-balancing/before-you-begin)。
+在开始之前，一定要完成的步骤 [开始之前](/zh/docs/tasks/traffic-management/locality-load-balancing/before-you-begin)。
 
 在此任务中，您将使用 `Sleep` pod 在 `region1.zone1` 作为请求源发送到 `HelloWorld` 服务。然后，您将触发故障，这些故障将按照以下顺序导致不同地域之间的故障转移：
 
@@ -28,7 +28,7 @@ owner: istio/wg-networking-maintainers
 3 | `region2.zone3` | 没有匹配项，但是为 `region1`->`region2` 定义了故障转移。
 4 | `region3.zone4` | 没有匹配项并且没有为 `region1`->`region3` 定义故障转移。
 
-## 配置地域故障转移 #{configure-locality-failover}
+## 配置地域故障转移 {#configure-locality-failover}
 
 应用一个 `DestinationRule` 配置如下：
 
@@ -63,7 +63,7 @@ spec:
 EOF
 {{< /text >}}
 
-## 验证流量保持在 `region1.zone1` #{verify-traffic-stays-in-region1.zone1}
+## 验证流量保持在 `region1.zone1` {#verify-traffic-stays-in-region1.zone1}
 
 从 `Sleep` Pod 调用  `HelloWorld` 服务：
 
@@ -79,7 +79,7 @@ Hello version: region1.zone1, instance: helloworld-region1.zone1-86f77cd7b-cpxhv
 
 重复几次，验证响应总是相同的。
 
-## 故障转移到 `region1.zone2` #{failover-to-region1.zone2}
+## 故障转移到 `region1.zone2` {#failover-to-region1.zone2}
 
 接下来， 触发故障转移到 `region1.zone2`。为此，您在 `region1.zone1` 中 `HelloWorld` [逐出 Envoy Sidecar 代理](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/draining#draining) ：
 
@@ -102,7 +102,7 @@ Hello version: region1.zone2, instance: helloworld-region1.zone2-86f77cd7b-cpxhv
 
 第一个调用将失败，这将触发故障转移。多次重复该命令，并验证响应中的 `version` 始终为 `region1.zone2`。
 
-## 故障转移到 `region2.zone3` #{failover-to-region2.zone3}
+## 故障转移到 `region2.zone3` {#failover-to-region2.zone3}
 
 现在触发故障转移到 `region2.zone3`。正如您之前所做的，配置 `HelloWorld` 在 `region1.zone2` 中调用失败。
 
@@ -125,7 +125,7 @@ Hello version: region2.zone3, instance: helloworld-region2.zone3-86f77cd7b-cpxhv
 
 第一个调用将失败，这将触发故障转移。多次重复该命令，并验证响应中的 `version` 始终为 `region2.zone3`。
 
-## 故障转移到 `region3.zone4` #{failover-to-region3.zone4}
+## 故障转移到 `region3.zone4` {#failover-to-region3.zone4}
 
 现在触发故障转移到 `region3.zone4`。正如您之前所做的， 配置 `HelloWorld` 在 `region2.zone3` 中调用失败。
 
@@ -150,6 +150,6 @@ Hello version: region3.zone4, instance: helloworld-region3.zone4-86f77cd7b-cpxhv
 
 **恭喜！** 您成功配置了地域故障转移！
 
-## 下一步
+## 下一步 {#next-steps}
 
-[清除](/docs/tasks/traffic-management/locality-load-balancing/cleanup) 此任务中的资源和文件。
+[清除](/zh/docs/tasks/traffic-management/locality-load-balancing/cleanup) 此任务中的资源和文件。
