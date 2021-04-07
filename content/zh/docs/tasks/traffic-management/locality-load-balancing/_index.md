@@ -14,7 +14,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
-一个 *地域* 定义了 {{< gloss >}工作实例{{</ gloss >}} 在你的网格中的地理位置。这三个元素定义了一个地域：
+一个 *地域* 定义了 {{< gloss >}}工作实例{{</ gloss >}} 在你的网格中的地理位置。这三个元素定义了一个地域：
 
 - **地区**：代表较大的地理区域， 例如 *us-east*. 一个地区通常包含许多可用 *zones*。在 Kubernetes 中，标签 [`topology.kubernetes.io/region`](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#topologykubernetesioregion) 确定节点的区域。
 
