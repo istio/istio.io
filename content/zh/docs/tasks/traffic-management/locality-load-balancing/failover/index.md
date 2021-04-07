@@ -18,7 +18,7 @@ owner: istio/wg-networking-maintainers
     caption="地域故障转移顺序"
     >}}
 
-在内部，[Envoy 优先级](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority.html)用于控制故障转移。 这些优先级将按照以下方式分配来自 `Sleep` Pod (在 `region1` `zone1`) 的流量:
+在内部，[Envoy 优先级](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority.html)用于控制故障转移。 这些优先级将按照以下方式分配来自 `Sleep` Pod (在 `region1` `zone1`) 的流量：
 
 优先级 | 地域 | 细节
 -------- | -------- | -------
@@ -63,7 +63,7 @@ spec:
 EOF
 {{< /text >}}
 
-## 验证流量保持在`region1.zone1` {#verify-traffic-stays-in-region1-zone1}
+## 验证流量保持在 region1.zone1 {#verify-traffic-stays-in-region1-zone1}
 
 从 `Sleep` Pod 调用  `HelloWorld` 服务：
 
@@ -79,7 +79,7 @@ Hello version: region1.zone1, instance: helloworld-region1.zone1-86f77cd7b-cpxhv
 
 重复几次，验证响应总是相同的。
 
-## 故障转移到`region1.zone2` {#failover-to-region1-zone2}
+## 故障转移到 region1.zone2 {#failover-to-region1-zone2}
 
 接下来， 触发故障转移到 `region1.zone2`。为此，您在 `region1.zone1` 中 `HelloWorld` [逐出 Envoy Sidecar 代理](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/draining#draining) ：
 
@@ -102,7 +102,7 @@ Hello version: region1.zone2, instance: helloworld-region1.zone2-86f77cd7b-cpxhv
 
 第一个调用将失败，这将触发故障转移。多次重复该命令，并验证响应中的 `version` 始终为 `region1.zone2`。
 
-## 故障转移到`region2.zone3` {#failover-to-region2-zone3}
+## 故障转移到 region2.zone3 {#failover-to-region2-zone3}
 
 现在触发故障转移到 `region2.zone3`。正如您之前所做的，配置 `HelloWorld` 在 `region1.zone2` 中调用失败。
 
@@ -125,7 +125,7 @@ Hello version: region2.zone3, instance: helloworld-region2.zone3-86f77cd7b-cpxhv
 
 第一个调用将失败，这将触发故障转移。多次重复该命令，并验证响应中的 `version` 始终为 `region2.zone3`。
 
-## 故障转移到`region3.zone4` {#failover-to-region3-zone4}
+## 故障转移到 region3.zone4 {#failover-to-region3-zone4}
 
 现在触发故障转移到 `region3.zone4`。正如您之前所做的， 配置 `HelloWorld` 在 `region2.zone3` 中调用失败。
 
