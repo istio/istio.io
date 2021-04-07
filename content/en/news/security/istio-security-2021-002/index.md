@@ -81,18 +81,18 @@ be updated to the following to have the same effect.
 
 ## Mitigation
 
-- Update your misconfigured Authorization policies before upgrading to the
-listed Istio versions. You can use this [script](./check.sh)
+- Update your authorization policies before upgrading to the
+affected Istio versions. You can use this [script](./check.sh)
 to check if any of the existing authorization policies
-attached to the default Istio ingress gateway in istio-system namespace needs
-to be updated. If you’re using a custom gateway installation you can customize
+attached to the default Istio ingress gateway in the `istio-system` namespace need
+to be updated. If you’re using a custom gateway installation, you can customize
 the script to run with parameters applicable to your environment.
 
-It is recommended to create a copy of your existing misconfigured Authorization
-policies, update the copied version to use new gateway workload ports and
-apply both existing and updated policies in your cluster before initiating
+It is recommended to create a copy of your existing authorization
+policies, update the copied version to use new gateway workload ports, and
+apply both existing and updated policies in your cluster, before initiating
 the upgrade process. You should only delete the old policies after a
-successful upgrade to ensure no policy violations occur on upgrade
+successful upgrade, to ensure no policy violations occur on upgrade
 failures or rollbacks.
 
 ## Credit
