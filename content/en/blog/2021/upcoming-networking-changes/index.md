@@ -7,7 +7,7 @@ attribution: "John Howard (Google)"
 
 ## Background
 
-While Kubernetes networking is complex and customizable, it is very common for a pod's network to look like this:
+While Kubernetes networking is customizable, a typical pod's network will look like this:
 
 {{< image width="50%" link="./pod.svg" caption="A pod's network" >}}
 
@@ -52,7 +52,13 @@ To help detect these situations, we have added a check to find pods that will be
 You can run the `istioctl precheck` command to get a report of any pods binding to `lo` on a port exposed in a `Service`.
 Without action, these ports will no longer be accessible upon upgrade.
 
-<!-- TODO show example output -->
+{{< text bash >}}
+$ istioctl experimental precheck
+Warning [IST0143] (Pod echo-local-849647c5bd-g9wxf.default) Port 443 is exposed in a Service but listens on localhost. It will not be exposed to other pods.
+Warning [IST0143] (Pod echo-local-849647c5bd-g9wxf.default) Port 7070 is exposed in a Service but listens on localhost. It will not be exposed to other pods.
+Error: Issues found when checking the cluster. Istio may not be safe to install or upgrade.
+See https://istio.io/latest/docs/reference/config/analysis for more information about causes and resolutions.
+{{< /text >}}
 
 ### Migration
 
