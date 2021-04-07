@@ -52,9 +52,9 @@ Example of an authorization policy resource that needs to be updated:
     {{< /text >}}
 
 The above policy in Istio versions 1.5 and prior will block all access to path
-"/admin" for traffic reaching Istio ingress gateway on container ports "80"
-and "443". On upgrading to Istio version 1.6 and later, this policy should
-be updated to the following to have the same effect.
+`/admin` for traffic reaching an Istio ingress gateway on container ports `80`
+and `443`. On upgrading to Istio version 1.6 and later, this policy should
+be updated to the following to have the same effect:
 
     {{< text yaml >}}
     apiVersion: "security.istio.io/v1beta1"
