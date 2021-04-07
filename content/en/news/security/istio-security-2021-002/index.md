@@ -13,8 +13,7 @@ skip_seealso: true
 
 {{< security_bulletin >}}
 
-Upgrading to Istio version 1.6 and higher may result in misconfigured
-Authorization Policies:
+Upgrading from Istio versions 1.5 and prior, to 1.6 and later, may result in misconfigured access control:
 
 - **Incorrect gateway ports on authorization policies on upgrades**: In Istio
 versions 1.6 and later, the default container ports for Istio ingress
