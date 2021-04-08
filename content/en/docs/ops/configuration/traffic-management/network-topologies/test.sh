@@ -46,7 +46,7 @@ echo "*** GATEWAY_URL = $GATEWAY_URL ***"
 
 _verify_contains snip_curl_xff_headers '"X-Envoy-External-Address": "72.9.5.6"'
 xff_header_populated=$(printf '"X-Forwarded-For": "56.5.6.7, 72.9.5.6, 98.1.2.3,%s"' "$GATEWAY_URL")
-_verify_contains snip_curl_xff_headers "$xff_header_populated"
+_verify_like snip_curl_xff_headers "$xff_header_populated"
 
 
 # @cleanup
