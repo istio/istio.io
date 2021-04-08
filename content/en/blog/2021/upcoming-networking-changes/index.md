@@ -1,7 +1,7 @@
 ---
 title: "Upcoming changes to Istio networking"
 description: Understanding the upcoming changes to Istio networking, how they may impact your cluster, and what action to take.
-publishdate: 2021-03-25
+publishdate: 2021-04-08
 attribution: "John Howard (Google)"
 ---
 
@@ -22,25 +22,26 @@ Additionally, some applications, typically stateful applications, choose to bind
 
 ## Current behavior
 
-In Istio today, the Envoy proxy will bind to the `eth0` interface. However, it will always forward traffic to the `lo` interface.
+In Istio prior to release 1.10, the Envoy proxy, running in the same pod as the application, binds to the `eth0` interface and redirects all inbound traffic to the `lo` interface.
 
 {{< image width="50%" link="./current.svg" caption="A pod's network with Istio today" >}}
 
 This has two important side effects that cause the behavior to differ from standard Kubernetes:
 
-* Applications binding only to `lo` will now receive traffic from other pods, when previously this was not allowed.
+* Applications binding only to `lo` will receive traffic from other pods, when otherwise this is not allowed.
 * Applications binding only to `eth0` will not receive traffic.
 
 Applications that bind to both interfaces (which is typical) will not be impacted.
 
 ## Future behavior
 
-In Istio 1.10, a change was introduced to the networking behavior to align with the standard behavior present in Kubernetes.
+Starting with Istio 1.10, the networking behavior is changed to align with the standard behavior present in Kubernetes.
 
 {{< image width="50%" link="./planned.svg" caption="A pod's network with Istio in the future" >}}
 
-Here we can see the standard behavior of Kubernetes is retained, but we [automatically](/blog/2021/zero-config-istio/) get all the benefits of Istio.
-This change allows Istio to get closer to its goal of being a drop-in transparent proxy that works with existing workloads with zero configuration.
+Here we can see that the proxy no longer redirects the traffic to the `lo` interface, but instead forwards it to the application on `eth0`.
+As a result, the standard behavior of Kubernetes is retained, but we still get all the benefits of Istio.
+This change allows Istio to get closer to its goal of being a drop-in transparent proxy that works with existing workloads with [zero configuration](/blog/2021/zero-config-istio/).
 Additionally, it avoids unintended exposure of applications binding only to `lo`.
 
 ## Am I impacted?
