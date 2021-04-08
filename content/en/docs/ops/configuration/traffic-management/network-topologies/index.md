@@ -133,28 +133,28 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
     "args": {
       "show_env": "true"
     },
-    "headers": {
-      "Accept": ...,
-      "Host": ...,
-      "User-Agent": ...,
-      "X-B3-Parentspanid": ...,
-      "X-B3-Sampled": ...,
-      "X-B3-Spanid": ...,
-      "X-B3-Traceid": ...,
-      "X-Envoy-Attempt-Count": ...,
+      "headers": {
+      "Accept": "*/*",
+      "Host": ...
+      "User-Agent": ...
+      "X-B3-Parentspanid": ...
+      "X-B3-Sampled": ...
+      "X-B3-Spanid": ...
+      "X-B3-Traceid": ...
+      "X-Envoy-Attempt-Count": ...
       "X-Envoy-External-Address": "72.9.5.6",
-      "X-Forwarded-Client-Cert": ...,
+      "X-Forwarded-Client-Cert": ...
       "X-Forwarded-For": "56.5.6.7, 72.9.5.6, 98.1.2.3,10.244.0.1",
-      "X-Forwarded-Proto": ...,
-      "X-Request-Id":...
+      "X-Forwarded-Proto": ...
+      "X-Request-Id": ...
     },
-    "origin": "56.5.6.7, 72.9.5.6, 98.1.2.3,10.244.0.1",
-    "url": ...
-    }'
+      "origin": "56.5.6.7, 72.9.5.6, 98.1.2.3,10.244.0.1",
+      "url": ...
+    }
     {{< /text >}}
 
 {{< tip >}}
-In the above example $GATEWAY_URL resolved to 10.244.0.1. This will not be the case in your environment.
+In the above example `$GATEWAY_URL` resolved to 10.244.0.1. This will not be the case in your environment.
 {{< /tip >}}
 
 The above output shows the request headers that the `httpbin` workload received. When the Istio gateway received this
