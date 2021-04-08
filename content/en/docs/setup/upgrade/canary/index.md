@@ -179,3 +179,7 @@ Make sure to use the `istioctl` version corresponding to the old control plane t
 old gateways and, to avoid downtime, make sure the old gateways are up and running before proceeding
 with the canary uninstall.
 {{< /tip >}}
+
+## Istio 1.9 Upgrade Survey
+
+If you have completed your upgrade to Istio 1.9, we would like to hear from you!  Please take a few minutes to respond to our brief [survey](https://forms.gle/JSPcDkF7NzkXsYRS8) to tell us our we're doing!
