@@ -1,5 +1,5 @@
-{{ $question := .Get "question" }}
-{{ $answer := .Inner | markdownify }}
+{{ $question := .question }}
+{{ $answer := .answer | markdownify }}
 
 <div class="faq-block faq-block--collapsed">
     <div class="faq-block-question">
