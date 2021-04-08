@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/setup/install/helm/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/helm-backup.sh"
 
 snip_create_istio_system_namespace() {
 kubectl create namespace istio-system
@@ -40,36 +41,6 @@ helm install istio-ingress manifests/charts/gateways/istio-ingress \
 
 snip_install_egressgateway() {
 helm install istio-egress manifests/charts/gateways/istio-egress \
-    -n istio-system
-}
-
-snip_create_backup() {
-kubectl get istio-io --all-namespaces -oyaml > "$HOME"/istio_resource_backup.yaml
-}
-
-snip_restore_backup() {
-kubectl apply -f "$HOME"/istio_resource_backup.yaml
-}
-
-snip_canary_install_discovery() {
-helm install istiod-canary manifests/charts/istio-control/istio-discovery \
-    --set revision=canary \
-    -n istio-system
-}
-
-snip_canary_upgrade_base() {
-helm upgrade istio-base manifests/charts/base -n istio-system
-}
-
-snip_canary_upgrade_discovery() {
-helm upgrade istiod manifests/charts/istio-control/istio-discovery \
-    -n istio-system
-}
-
-snip_canary_upgrade_gateways() {
-helm upgrade istio-ingress manifests/charts/gateways/istio-ingress \
-    -n istio-system
-helm upgrade istio-egress manifests/charts/gateways/istio-egress \
     -n istio-system
 }
 
