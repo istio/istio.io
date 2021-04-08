@@ -130,22 +130,37 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
     {{< text syntax=bash snip_id=curl_xff_headers >}}
     $ curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL"/get?show_env=true
     {
-      "args": {
-        "show_env": "true"
-      },
-      "headers": {
-        ...
-        "X-Envoy-External-Address": "72.9.5.6",
-        ...
-        "X-Forwarded-For": "56.5.6.7, 72.9.5.6, 98.1.2.3,$GATEWAY_URL",
-        ...
-      },
-      ...
-    }
+    "args": {
+      "show_env": "true"
+    },
+    "headers": {
+      "Accept": ...,
+      "Host": ...,
+      "User-Agent": ...,
+      "X-B3-Parentspanid": ...,
+      "X-B3-Sampled": ...,
+      "X-B3-Spanid": ...,
+      "X-B3-Traceid": ...,
+      "X-Envoy-Attempt-Count": ...,
+      "X-Envoy-External-Address": "72.9.5.6",
+      "X-Forwarded-Client-Cert": ...,
+      "X-Forwarded-For": "56.5.6.7, 72.9.5.6, 98.1.2.3,10.244.0.1",
+      "X-Forwarded-Proto": ...,
+      "X-Request-Id":...
+    },
+    "origin": "56.5.6.7, 72.9.5.6, 98.1.2.3,10.244.0.1",
+    "url": ...
+    }'
     {{< /text >}}
 
-The above output shows the request headers that the `httpbin` workload received. When the Istio gateway received this request, it set the `X-Envoy-External-Address` header to the second to last (`numTrustedProxies: 2`) address in the `X-Forwarded-For` header from your curl command. Additionally, the gateway appends its own IP to the
-`X-Forwarded-For` header before forwarding it to the httpbin workload.
+{{< tip >}}
+In the above example $GATEWAY_URL resolved to 10.244.0.1. This will not be the case in your environment.
+{{< /tip >}}
+
+The above output shows the request headers that the `httpbin` workload received. When the Istio gateway received this
+request, it set the `X-Envoy-External-Address` header to the second to last (`numTrustedProxies: 2`) address in the
+`X-Forwarded-For` header from your curl command. Additionally, the gateway appends its own IP to the `X-Forwarded-For`
+header before forwarding it to the httpbin workload.
 
 ### Configuring X-Forwarded-Client-Cert Headers
 
