@@ -1018,23 +1018,23 @@ profile in Istio 1.8. Please try it out!&lt;/p></description><pubDate>Thu, 12 No
 &lt;/ol>
 &lt;h2 id="data">Data&lt;/h2>
 &lt;p>The y-axis of each test is the latency in milliseconds, and the x-axis is the number of concurrent connections. The x-axis of each graph consists of 3 data points that represent a small load (qps=100, conn=8), medium load (qps=500, conn=32), and large load (qps=1000, conn=64).&lt;/p>
-&lt;div id="tabset-blog-2020-large-scale-security-policy-performance-tests-2" role="tablist" class="tabset">
+&lt;div id="tabset-blog-2020-large-scale-security-policy-performance-tests-1" role="tablist" class="tabset">
 &lt;div class="tab-strip" data-category-name="platform">&lt;button aria-selected="true" data-category-value="one"
-aria-controls="tabset-blog-2020-large-scale-security-policy-performance-tests-2-0-panel" id="tabset-blog-2020-large-scale-security-policy-performance-tests-2-0-tab" role="tab">&lt;span>MTLS vs plainText&lt;/span>
+aria-controls="tabset-blog-2020-large-scale-security-policy-performance-tests-1-0-panel" id="tabset-blog-2020-large-scale-security-policy-performance-tests-1-0-tab" role="tab">&lt;span>MTLS vs plainText&lt;/span>
 &lt;/button>&lt;button tabindex="-1" data-category-value="two"
-aria-controls="tabset-blog-2020-large-scale-security-policy-performance-tests-2-1-panel" id="tabset-blog-2020-large-scale-security-policy-performance-tests-2-1-tab" role="tab">&lt;span>AuthZ mTLS SourcePrincipals&lt;/span>
+aria-controls="tabset-blog-2020-large-scale-security-policy-performance-tests-1-1-panel" id="tabset-blog-2020-large-scale-security-policy-performance-tests-1-1-tab" role="tab">&lt;span>AuthZ mTLS SourcePrincipals&lt;/span>
 &lt;/button>&lt;button tabindex="-1" data-category-value="three"
-aria-controls="tabset-blog-2020-large-scale-security-policy-performance-tests-2-2-panel" id="tabset-blog-2020-large-scale-security-policy-performance-tests-2-2-tab" role="tab">&lt;span>AuthZ JWT RequestPrincipal&lt;/span>
+aria-controls="tabset-blog-2020-large-scale-security-policy-performance-tests-1-2-panel" id="tabset-blog-2020-large-scale-security-policy-performance-tests-1-2-tab" role="tab">&lt;span>AuthZ JWT RequestPrincipal&lt;/span>
 &lt;/button>&lt;button tabindex="-1" data-category-value="four"
-aria-controls="tabset-blog-2020-large-scale-security-policy-performance-tests-2-3-panel" id="tabset-blog-2020-large-scale-security-policy-performance-tests-2-3-tab" role="tab">&lt;span>AuthZ sourceIP&lt;/span>
+aria-controls="tabset-blog-2020-large-scale-security-policy-performance-tests-1-3-panel" id="tabset-blog-2020-large-scale-security-policy-performance-tests-1-3-tab" role="tab">&lt;span>AuthZ sourceIP&lt;/span>
 &lt;/button>&lt;button tabindex="-1" data-category-value="five"
-aria-controls="tabset-blog-2020-large-scale-security-policy-performance-tests-2-4-panel" id="tabset-blog-2020-large-scale-security-policy-performance-tests-2-4-tab" role="tab">&lt;span>AuthZ paths&lt;/span>
+aria-controls="tabset-blog-2020-large-scale-security-policy-performance-tests-1-4-panel" id="tabset-blog-2020-large-scale-security-policy-performance-tests-1-4-tab" role="tab">&lt;span>AuthZ paths&lt;/span>
 &lt;/button>&lt;button tabindex="-1" data-category-value="six"
-aria-controls="tabset-blog-2020-large-scale-security-policy-performance-tests-2-5-panel" id="tabset-blog-2020-large-scale-security-policy-performance-tests-2-5-tab" role="tab">&lt;span>RequestAuthN JWT Issuer&lt;/span>
+aria-controls="tabset-blog-2020-large-scale-security-policy-performance-tests-1-5-panel" id="tabset-blog-2020-large-scale-security-policy-performance-tests-1-5-tab" role="tab">&lt;span>RequestAuthN JWT Issuer&lt;/span>
 &lt;/button>&lt;button tabindex="-1" data-category-value="seven"
-aria-controls="tabset-blog-2020-large-scale-security-policy-performance-tests-2-6-panel" id="tabset-blog-2020-large-scale-security-policy-performance-tests-2-6-tab" role="tab">&lt;span>Variable AuthZ&lt;/span>
+aria-controls="tabset-blog-2020-large-scale-security-policy-performance-tests-1-6-panel" id="tabset-blog-2020-large-scale-security-policy-performance-tests-1-6-tab" role="tab">&lt;span>Variable AuthZ&lt;/span>
 &lt;/button>&lt;/div>
-&lt;div class="tab-content">&lt;div id="tabset-blog-2020-large-scale-security-policy-performance-tests-2-0-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2020-large-scale-security-policy-performance-tests-2-0-tab">&lt;figure style="width:90%">
+&lt;div class="tab-content">&lt;div id="tabset-blog-2020-large-scale-security-policy-performance-tests-1-0-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2020-large-scale-security-policy-performance-tests-1-0-tab">&lt;figure style="width:90%">
 &lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom:45.34%">
 &lt;a data-skipendnotes="true" href="/v1.8/blog/2020/large-scale-security-policy-performance-tests/mtls_plaintext.svg" title="">
 &lt;img class="element-to-stretch" src="/v1.8/blog/2020/large-scale-security-policy-performance-tests/mtls_plaintext.svg" alt="MTLS vs plaintext" />
@@ -1042,7 +1042,7 @@ aria-controls="tabset-blog-2020-large-scale-security-policy-performance-tests-2-
 &lt;/div>
 &lt;figcaption>&lt;/figcaption>
 &lt;/figure>
-The difference of latency between MTLS mode STRICT and plaintext is very small in lower loads. As the &lt;code>qps&lt;/code> and &lt;code>conn&lt;/code> increase, the latency of requests with MTLS STRICT increases. The additional latency increased in larger loads is minimal compared to that of the increase from having no sidecars to having sidecars in the plaintext.&lt;/div>&lt;div hidden id="tabset-blog-2020-large-scale-security-policy-performance-tests-2-1-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2020-large-scale-security-policy-performance-tests-2-1-tab">&lt;figure style="width:90%">
+The difference of latency between MTLS mode STRICT and plaintext is very small in lower loads. As the &lt;code>qps&lt;/code> and &lt;code>conn&lt;/code> increase, the latency of requests with MTLS STRICT increases. The additional latency increased in larger loads is minimal compared to that of the increase from having no sidecars to having sidecars in the plaintext.&lt;/div>&lt;div hidden id="tabset-blog-2020-large-scale-security-policy-performance-tests-1-1-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2020-large-scale-security-policy-performance-tests-1-1-tab">&lt;figure style="width:90%">
 &lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom:45.34%">
 &lt;a data-skipendnotes="true" href="/v1.8/blog/2020/large-scale-security-policy-performance-tests/AuthZ_var_principals.svg" title="">
 &lt;img class="element-to-stretch" src="/v1.8/blog/2020/large-scale-security-policy-performance-tests/AuthZ_var_principals.svg" alt="Authorization policy variable number of principals" />
@@ -1050,7 +1050,7 @@ The difference of latency between MTLS mode STRICT and plaintext is very small i
 &lt;/div>
 &lt;figcaption>&lt;/figcaption>
 &lt;/figure>
-&lt;p>For Authorization policies with 10 vs 1000 principal rules, the latency increase of 10 principal rules compared to no policies is greater than the latency increase of 1000 principals compared to 10 principals.&lt;/div>&lt;div hidden id="tabset-blog-2020-large-scale-security-policy-performance-tests-2-2-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2020-large-scale-security-policy-performance-tests-2-2-tab">&lt;figure style="width:90%">
+&lt;p>For Authorization policies with 10 vs 1000 principal rules, the latency increase of 10 principal rules compared to no policies is greater than the latency increase of 1000 principals compared to 10 principals.&lt;/div>&lt;div hidden id="tabset-blog-2020-large-scale-security-policy-performance-tests-1-2-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2020-large-scale-security-policy-performance-tests-1-2-tab">&lt;figure style="width:90%">
 &lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom:45.34%">
 &lt;a data-skipendnotes="true" href="/v1.8/blog/2020/large-scale-security-policy-performance-tests/AuthZ_var_requestPrincipals.svg" title="">
 &lt;img class="element-to-stretch" src="/v1.8/blog/2020/large-scale-security-policy-performance-tests/AuthZ_var_requestPrincipals.svg" alt="Authorization policy with variable principals" />
@@ -1058,7 +1058,7 @@ The difference of latency between MTLS mode STRICT and plaintext is very small i
 &lt;/div>
 &lt;figcaption>&lt;/figcaption>
 &lt;/figure>
-For Authorization policies with a variable number of &lt;code>requestPrincipal&lt;/code> rules, the latency increase of 10 &lt;code>requestPrincipal&lt;/code> rules compared to no policies is nearly the same as the latency increase of 1000 &lt;code>requestPrincipal&lt;/code> rules compared to 10 &lt;code>requestPrincipal&lt;/code> rules.&lt;/div>&lt;div hidden id="tabset-blog-2020-large-scale-security-policy-performance-tests-2-3-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2020-large-scale-security-policy-performance-tests-2-3-tab">&lt;p>&lt;figure style="width:90%">
+For Authorization policies with a variable number of &lt;code>requestPrincipal&lt;/code> rules, the latency increase of 10 &lt;code>requestPrincipal&lt;/code> rules compared to no policies is nearly the same as the latency increase of 1000 &lt;code>requestPrincipal&lt;/code> rules compared to 10 &lt;code>requestPrincipal&lt;/code> rules.&lt;/div>&lt;div hidden id="tabset-blog-2020-large-scale-security-policy-performance-tests-1-3-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2020-large-scale-security-policy-performance-tests-1-3-tab">&lt;p>&lt;figure style="width:90%">
 &lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom:45.34%">
 &lt;a data-skipendnotes="true" href="/v1.8/blog/2020/large-scale-security-policy-performance-tests/AuthZ_var_sourceIP.svg" title="">
 &lt;img class="element-to-stretch" src="/v1.8/blog/2020/large-scale-security-policy-performance-tests/AuthZ_var_sourceIP.svg" alt="Authorization policy with variable `sourceIP` rules" />
@@ -1076,7 +1076,7 @@ The latency increase of a single &lt;code>AuthZ&lt;/code> policy with 10 &lt;cod
 &lt;figcaption>&lt;/figcaption>
 &lt;/figure>
 The latency increase of a variable number of &lt;code>sourceIP&lt;/code> rules is marginally greater than that of path rules.&lt;/p>
-&lt;/div>&lt;div hidden id="tabset-blog-2020-large-scale-security-policy-performance-tests-2-4-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2020-large-scale-security-policy-performance-tests-2-4-tab">&lt;figure style="width:90%">
+&lt;/div>&lt;div hidden id="tabset-blog-2020-large-scale-security-policy-performance-tests-1-4-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2020-large-scale-security-policy-performance-tests-1-4-tab">&lt;figure style="width:90%">
 &lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom:45.34%">
 &lt;a data-skipendnotes="true" href="/v1.8/blog/2020/large-scale-security-policy-performance-tests/AuthZ_var_paths.svg" title="">
 &lt;img class="element-to-stretch" src="/v1.8/blog/2020/large-scale-security-policy-performance-tests/AuthZ_var_paths.svg" alt="Authorization policy with variable number of paths" />
@@ -1093,7 +1093,7 @@ The latency increase of a single &lt;code>AuthZ&lt;/code> policy with 10 path ru
 &lt;/div>
 &lt;figcaption>&lt;/figcaption>
 &lt;/figure>
-The latency of a variable number of paths rules is marginally lesser than that of &lt;code>sourceIP&lt;/code> rules.&lt;/div>&lt;div hidden id="tabset-blog-2020-large-scale-security-policy-performance-tests-2-5-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2020-large-scale-security-policy-performance-tests-2-5-tab">&lt;figure style="width:90%">
+The latency of a variable number of paths rules is marginally lesser than that of &lt;code>sourceIP&lt;/code> rules.&lt;/div>&lt;div hidden id="tabset-blog-2020-large-scale-security-policy-performance-tests-1-5-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2020-large-scale-security-policy-performance-tests-1-5-tab">&lt;figure style="width:90%">
 &lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom:45.34%">
 &lt;a data-skipendnotes="true" href="/v1.8/blog/2020/large-scale-security-policy-performance-tests/RequestAuthN_jwks.svg" title="">
 &lt;img class="element-to-stretch" src="/v1.8/blog/2020/large-scale-security-policy-performance-tests/RequestAuthN_jwks.svg" alt="Request Authentication with variable number of JWT issuers" />
@@ -1101,7 +1101,7 @@ The latency of a variable number of paths rules is marginally lesser than that o
 &lt;/div>
 &lt;figcaption>&lt;/figcaption>
 &lt;/figure>
-The latency of a single JWT issuer is comparable to that of no policies, but as the number of JWT issuers increase, the latency increases disproportionately.&lt;/div>&lt;div hidden id="tabset-blog-2020-large-scale-security-policy-performance-tests-2-6-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2020-large-scale-security-policy-performance-tests-2-6-tab">&lt;p>To test how the number of Authorization policies affect runtime, the tests can be broken into two cases:&lt;/p>
+The latency of a single JWT issuer is comparable to that of no policies, but as the number of JWT issuers increase, the latency increases disproportionately.&lt;/div>&lt;div hidden id="tabset-blog-2020-large-scale-security-policy-performance-tests-1-6-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2020-large-scale-security-policy-performance-tests-1-6-tab">&lt;p>To test how the number of Authorization policies affect runtime, the tests can be broken into two cases:&lt;/p>
 &lt;ol>
 &lt;li>&lt;p>Every Authorization policy has a single &lt;code>sourceIP&lt;/code> rule.&lt;/p>&lt;/li>
 &lt;li>&lt;p>Every Authorization policy has a single path rule.&lt;/p>&lt;/li>
@@ -5231,7 +5231,7 @@ and, if you wish, you can &lt;a href="/v1.8/about/contribute/review">request a r
 &lt;h3 id="case-1-bypassing-the-sidecar">Case 1: Bypassing the sidecar&lt;/h3>
 &lt;p>In this case, the sidecar does not intercept the communication between the application and the external DB. This is accomplished by setting the init container argument -x with the CIDR of the MongoDB, which makes the sidecar ignore messages to/from this IP address. For example:&lt;/p>
 &lt;pre>&lt;code> - -x
-- "169.47.232.211/32"&lt;/code>&lt;/pre>
+- &amp;#34;169.47.232.211/32&amp;#34;&lt;/code>&lt;/pre>
 &lt;figure style="width:70%">
 &lt;div class="wrapper-with-intrinsic-ratio" style="padding-bottom:76.45536869340232%">
 &lt;a data-skipendnotes="true" href="/v1.8/blog/2019/egress-performance/case1_sidecar_bypass3.png" title="Traffic to external MongoDB by-passing the sidecar">
@@ -6542,13 +6542,13 @@ to direct the traffic through the egress gateway and from the egress gateway to 
 your application pods and the egress gateway, use the following command. (You may want to enable mutual TLS to let
 the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that
 identity.)&lt;/p>
-&lt;div id="tabset-blog-2018-egress-mongo-2" role="tablist" class="tabset">
+&lt;div id="tabset-blog-2018-egress-mongo-1" role="tablist" class="tabset">
 &lt;div class="tab-strip" data-category-name="mtls">&lt;button aria-selected="true" data-category-value="enabled"
-aria-controls="tabset-blog-2018-egress-mongo-2-0-panel" id="tabset-blog-2018-egress-mongo-2-0-tab" role="tab">&lt;span>mutual TLS enabled&lt;/span>
+aria-controls="tabset-blog-2018-egress-mongo-1-0-panel" id="tabset-blog-2018-egress-mongo-1-0-tab" role="tab">&lt;span>mutual TLS enabled&lt;/span>
 &lt;/button>&lt;button tabindex="-1" data-category-value="disabled"
-aria-controls="tabset-blog-2018-egress-mongo-2-1-panel" id="tabset-blog-2018-egress-mongo-2-1-tab" role="tab">&lt;span>mutual TLS disabled&lt;/span>
+aria-controls="tabset-blog-2018-egress-mongo-1-1-panel" id="tabset-blog-2018-egress-mongo-1-1-tab" role="tab">&lt;span>mutual TLS disabled&lt;/span>
 &lt;/button>&lt;/div>
-&lt;div class="tab-content">&lt;div id="tabset-blog-2018-egress-mongo-2-0-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2018-egress-mongo-2-0-tab">&lt;pre>&lt;code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl apply -f - &amp;lt;&amp;lt;EOF
+&lt;div class="tab-content">&lt;div id="tabset-blog-2018-egress-mongo-1-0-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2018-egress-mongo-1-0-tab">&lt;pre>&lt;code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl apply -f - &amp;lt;&amp;lt;EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -6622,7 +6622,8 @@ port:
 number: $MONGODB_PORT
 weight: 100
 EOF
-&lt;/code>&lt;/pre>&lt;/div>&lt;div hidden id="tabset-blog-2018-egress-mongo-2-1-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2018-egress-mongo-2-1-tab">&lt;pre>&lt;code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl apply -f - &amp;lt;&amp;lt;EOF
+&lt;/code>&lt;/pre>
+&lt;/div>&lt;div hidden id="tabset-blog-2018-egress-mongo-1-1-panel" role="tabpanel" tabindex="0" aria-labelledby="tabset-blog-2018-egress-mongo-1-1-tab">&lt;pre>&lt;code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl apply -f - &amp;lt;&amp;lt;EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -6685,7 +6686,8 @@ port:
 number: $MONGODB_PORT
 weight: 100
 EOF
-&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/code>&lt;/pre>
+&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/li>
 &lt;li>&lt;p>&lt;a href="#verify-that-egress-traffic-is-directed-through-the-egress-gateway">Verify that the traffic is directed though the egress gateway&lt;/a>&lt;/p>&lt;/li>
