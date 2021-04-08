@@ -109,3 +109,7 @@ You can also join the conversation at [Discuss Istio](https://discuss.istio.io/)
 
 Would you like to get involved? Find and join one of our
 [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help improve Istio.
+
+## Istio 1.9 Upgrade Survey
+
+If you have completed your upgrade to Istio 1.9, we would like to hear from you!  Please take a few minutes to respond to our brief [survey](https://forms.gle/JSPcDkF7NzkXsYRS8) to tell us our we're doing!
