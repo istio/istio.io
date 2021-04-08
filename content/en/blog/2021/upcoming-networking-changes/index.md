@@ -50,7 +50,8 @@ For new users, this change should only be an improvement.
 However, if you are an existing user, you may have come to depend on the old behavior, intentionally or accidentally.
 
 To help detect these situations, we have added a check to find pods that will be impacted.
-You can run the `istioctl precheck` command to get a report of any pods binding to `lo` on a port exposed in a `Service`.
+You can run the `istioctl experimental precheck` command to get a report of any pods binding to `lo` on a port exposed in a `Service`.
+This command is available in Istio 1.10+.
 Without action, these ports will no longer be accessible upon upgrade.
 
 {{< text bash >}}
