@@ -6,7 +6,7 @@ weight: 27
 keywords: [kubernetes,helm]
 owner: istio/wg-environments-maintainers
 icon: helm
-test: no
+test: yes
 ---
 
 Follow this guide to install and configure an Istio mesh using
@@ -55,20 +55,20 @@ to the missing `istio-token` volume.
 
 1. Create a namespace `istio-system` for Istio components:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=create_istio_system_namespace >}}
     $ kubectl create namespace istio-system
     {{< /text >}}
 
 1. Install the Istio base chart which contains cluster-wide resources used by
    the Istio control plane:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_base >}}
     $ helm install istio-base manifests/charts/base -n istio-system
     {{< /text >}}
 
 1. Install the Istio discovery chart which deploys the `istiod` service:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_discovery >}}
     $ helm install istiod manifests/charts/istio-control/istio-discovery \
         -n istio-system
     {{< /text >}}
@@ -76,7 +76,7 @@ to the missing `istio-token` volume.
 1. (Optional) Install the Istio ingress gateway chart which contains the ingress
    gateway components:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_ingressgateway >}}
     $ helm install istio-ingress manifests/charts/gateways/istio-ingress \
         -n istio-system
     {{< /text >}}
@@ -84,7 +84,7 @@ to the missing `istio-token` volume.
 1. (Optional) Install the Istio egress gateway chart which contains the egress
    gateway components:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_egressgateway >}}
     $ helm install istio-egress manifests/charts/gateways/istio-egress \
         -n istio-system
     {{< /text >}}
@@ -94,7 +94,7 @@ to the missing `istio-token` volume.
 1. Ensure all Kubernetes pods in `istio-system` namespace are deployed and have a
    `STATUS` of `Running`:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=none >}}
     $ kubectl get pods -n istio-system
     {{< /text >}}
 
@@ -122,14 +122,14 @@ validation while unstructured Helm values do not.
 Before upgrading Istio in your cluster, we recommend creating a backup of your
 custom configurations, and restoring it from backup if necessary:
 
-{{< text bash >}}
-$ kubectl get istio-io --all-namespaces -oyaml > $HOME/istio_resource_backup.yaml
+{{< text syntax=bash snip_id=create_backup >}}
+$ kubectl get istio-io --all-namespaces -oyaml > "$HOME"/istio_resource_backup.yaml
 {{< /text >}}
 
 You can restore your custom configuration like this:
 
-{{< text bash >}}
-$ kubectl apply -f $HOME/istio_resource_backup.yaml
+{{< text syntax=bash snip_id=restore_backup >}}
+$ kubectl apply -f "$HOME"/istio_resource_backup.yaml
 {{< /text >}}
 
 ### Migrating from non-Helm installations
@@ -168,7 +168,7 @@ gateways is [actively in development](/docs/setup/upgrade/gateways/) and is cons
 1. Install a canary version of the Istio discovery chart by setting the revision
    value:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=canary_install_discovery >}}
     $ helm install istiod-canary manifests/charts/istio-control/istio-discovery \
         --set revision=canary \
         -n istio-system
@@ -176,7 +176,7 @@ gateways is [actively in development](/docs/setup/upgrade/gateways/) and is cons
 
 1. Verify that you have two versions of `istiod` installed in your cluster:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=none >}}
     $ kubectl get pods -l app=istiod -L istio.io/rev -n istio-system
       NAME                            READY   STATUS    RESTARTS   AGE   REV
       istiod-5649c48ddc-dlkh8         1/1     Running   0          71m   default
@@ -189,7 +189,7 @@ gateways is [actively in development](/docs/setup/upgrade/gateways/) and is cons
 1. Once you have verified and migrated your workloads to use the canary control
    plane, you can uninstall your old control plane:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=none >}}
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
@@ -207,13 +207,13 @@ preserve your custom configuration during Helm upgrades.
 
 1. Upgrade the Istio base chart:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=canary_upgrade_base >}}
     $ helm upgrade istio-base manifests/charts/base -n istio-system
     {{< /text >}}
 
 1. Upgrade the Istio discovery chart:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=canary_upgrade_discovery >}}
     $ helm upgrade istiod manifests/charts/istio-control/istio-discovery \
         -n istio-system
     {{< /text >}}
@@ -221,7 +221,7 @@ preserve your custom configuration during Helm upgrades.
 1. (Optional) Upgrade the Istio ingress or egress gateway charts if installed in
    your cluster:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=canary_upgrade_gateways >}}
     $ helm upgrade istio-ingress manifests/charts/gateways/istio-ingress \
         -n istio-system
     $ helm upgrade istio-egress manifests/charts/gateways/istio-egress \
@@ -235,20 +235,25 @@ installed above.
 
 1. List all the Istio charts installed in `istio-system` namespace:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=helm_ls >}}
     $ helm ls -n istio-system
+    NAME            NAMESPACE       REVISION    UPDATED                                 STATUS      CHART                    APP VERSION
+    istio-base      istio-system    1           ... ... ... ...                         deployed    base-1.9.0
+    istio-egress    istio-system    1           ... ... ... ...                         deployed    istio-egress-1.9.0
+    istio-ingress   istio-system    1           ... ... ... ...                         deployed    istio-ingress-1.9.0
+    istiod          istio-system    1           ... ... ... ...                         deployed    istio-discovery-1.9.0
     {{< /text >}}
 
 1. (Optional) Delete Istio ingress/egress chart:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=delete_delete_gateway_charts >}}
     $ helm delete istio-egress -n istio-system
     $ helm delete istio-ingress -n istio-system
     {{< /text >}}
 
 1. Delete Istio discovery chart:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=helm_delete_discovery_chart >}}
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
@@ -259,13 +264,13 @@ installed above.
     Resource Definitions (CRDs) installed via the chart.
     {{< /warning >}}
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=helm_delete_base_chart >}}
     $ helm delete istio-base -n istio-system
     {{< /text >}}
 
 1. Delete the `istio-system` namespace:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=delete_istio_system_namespace >}}
     $ kubectl delete namespace istio-system
     {{< /text >}}
 
@@ -274,7 +279,7 @@ installed above.
 Deleting CRDs permanently removes any Istio resources you have created in your
 cluster. To permanently delete Istio CRDs installed in your cluster:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=delete_crds >}}
     $ kubectl get crd | grep --color=never 'istio.io' | awk '{print $1}' \
         | xargs -n1 kubectl delete crd
     {{< /text >}}
