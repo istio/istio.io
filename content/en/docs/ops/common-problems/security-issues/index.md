@@ -478,3 +478,84 @@ second ensure that [keys and certificates are being delivered](#keys-and-certifi
 
 If everything appears to be working so far, the next step is to verify that the right [authentication policy](/docs/tasks/security/authentication/authn-policy/)
 is applied and the right destination rules are in place.
+
+### Auto mTLS
+
+If you suspect [auto mTLS](/docs/reference/glossary#auto-mtls) is not working
+as expected, please first read the
+[documentation](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls)
+and understand that [workload level](/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-workload) 
+peer authentication policies require corresponding destination rule configuration.
+
+If you still think there's an issue, follow the instructions below for
+investigation.
+
+1. Get the client envoy cluster configuration to ensure auto mTLS is configured.
+You should see `transportSocketMatches` configured for the given Envoy cluster.
+
+    {{< text bash >}}
+    $ POD=$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})
+    $ istioctl proxy-config clusters ${POD}.foo -ojson
+    "transportSocketMatches": [
+            {
+                "name": "tlsMode-istio",
+                "match": {
+                    "tlsMode": "istio"
+                },
+                "transportSocket": {
+                    "name": "envoy.transport_sockets.tls",
+                    "typedConfig": {
+                        "@type": "type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext",
+                        "commonTlsContext": ...
+            }
+            {
+                "name": "tlsMode-disabled",
+                "match": {},
+                "transportSocket": {
+                    "name": "envoy.transport_sockets.raw_buffer"
+                }
+            }
+    {{< /text >}}
+
+1. Check the destination pod to see if the destination endpoint has the label
+`tlsMode` equals to `istio`.
+
+    {{< text bash >}}
+    $ POD=$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})
+    $ ISTIOD=$(kubectl get pod -l app=istiod -o jsonpath={.items..metadata.name}))
+    $ kubectl exec -it ${ISTIOD} -nistio-system -- curl "localhost:8080/debug/edsz?proxyID=${POD}"
+    {                               
+        "endpoint": {           
+        "address": {                       
+            "socketAddress": {                    
+            "address": "10.244.0.8",
+            "portValue": 80                
+            }                                                                                         
+        }                       
+        },                           
+        "metadata": {                                                                                  
+        "filterMetadata": {                     
+            "envoy.transport_socket_match": {                                                          
+                "tlsMode": "istio"   
+            },                
+            "istio": {                       
+                "workload": "httpbin;default;"                                               
+            }               
+        }                                                                      
+    }
+    {{< /text >}}
+
+
+1. Check Envoy upstream debug log to confirm what transport socket configuration is being
+used. This requires to change Envoy upstream log to debug level.
+
+    {{< text bash >}}
+    $ POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ ic pc log sleep-8f795f47d-rfhdt --level debug
+    2021-04-08T22:35:22.650478Z     debug   envoy upstream  transport socket match, socket tlsMode-istio selected for host with address 10.32.28.136:80
+    {{< /text >}}
+
+    The log line above indicates that mTLS socket is selected for the connection to the
+    corresponding host. Please note that the connection creation might be done in advance
+    of the actual request, if you don't see such log line, try to recreate destination side
+    endpoint.
