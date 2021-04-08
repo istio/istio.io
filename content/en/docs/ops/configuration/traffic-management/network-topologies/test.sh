@@ -38,13 +38,13 @@ echo '*** apply httpbin gateway ***'
 snip_deploy_httpbin_gateway
 
 # wait for for the rules to propagate
-_wait_for_istio gateway default httpbin-gateway
-_wait_for_istio virtualservice default httpbin
+_wait_for_istio gateway httpbin httpbin-gateway
+_wait_for_istio virtualservice httpbin httpbin
 
 snip_export_gateway_url
 echo "*** GATEWAY_URL = $GATEWAY_URL ***"
 
-_verify_contains snip_curl_xff_headers "X-Envoy-External-Address": "72.9.5.6"
+_verify_contains snip_curl_xff_headers '"X-Envoy-External-Address": "72.9.5.6"'
 xff_header_populated=$(printf '"X-Forwarded-For": "56.5.6.7, 72.9.5.6, 98.1.2.3,%s"' "$GATEWAY_URL")
 _verify_contains snip_curl_xff_headers "$xff_header_populated"
 
