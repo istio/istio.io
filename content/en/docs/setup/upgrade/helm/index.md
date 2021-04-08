@@ -10,7 +10,7 @@ test: no
 ---
 
 Follow this guide to upgrade and configure an Istio mesh using
-[Helm](https://helm.sh/docs/) for in-depth evaluation.  This guy assumes you have already performed an
+[Helm](https://helm.sh/docs/) for in-depth evaluation.  This guide assumes you have already performed an
 [installation with Helm](../../install/helm) for a previous minor or patch version of Istio.
 
 {{< boilerplate helm-preamble >}}
@@ -29,10 +29,6 @@ follow the instructions below.
 ### Create a backup
 
 {{< boilerplate helm-backup >}}
-
-### Migrating from non-Helm installations
-
-{{< boilerplate helm-migration-nonhelm >}}
 
 ### Canary upgrade (recommended)
 
@@ -114,51 +110,5 @@ preserve your custom configuration during Helm upgrades.
 
 ## Uninstall
 
-You can uninstall Istio and its components by uninstalling the charts
-installed above.
+Please refer to the uninstall section in our [Helm install guide](/docs/setup/install/helm/#uninstall).
 
-1. List all the Istio charts installed in `istio-system` namespace:
-
-    {{< text bash >}}
-    $ helm ls -n istio-system
-    {{< /text >}}
-
-1. (Optional) Delete Istio ingress/egress chart:
-
-    {{< text bash >}}
-    $ helm delete istio-egress -n istio-system
-    $ helm delete istio-ingress -n istio-system
-    {{< /text >}}
-
-1. Delete Istio discovery chart:
-
-    {{< text bash >}}
-    $ helm delete istiod -n istio-system
-    {{< /text >}}
-
-1. Delete Istio base chart:
-
-    {{< warning >}}
-    By design, deleting a chart via Helm doesn't delete the installed Custom
-    Resource Definitions (CRDs) installed via the chart.
-    {{< /warning >}}
-
-    {{< text bash >}}
-    $ helm delete istio-base -n istio-system
-    {{< /text >}}
-
-1. Delete the `istio-system` namespace:
-
-    {{< text bash >}}
-    $ kubectl delete namespace istio-system
-    {{< /text >}}
-
-### (Optional) Deleting CRDs installed by Istio
-
-Deleting CRDs permanently removes any Istio resources you have created in your
-cluster. To permanently delete Istio CRDs installed in your cluster:
-
-    {{< text bash >}}
-    $ kubectl get crd | grep --color=never 'istio.io' | awk '{print $1}' \
-        | xargs -n1 kubectl delete crd
-    {{< /text >}}

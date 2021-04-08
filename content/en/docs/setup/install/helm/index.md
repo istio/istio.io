@@ -74,12 +74,11 @@ to the missing `istio-token` volume.
 
 ## Verifying the installation
 
-1. Ensure all Kubernetes pods in `istio-system` namespace are deployed and have a
-   `STATUS` of `Running`:
+Ensure all Kubernetes pods in `istio-system` namespace are deployed and have a `STATUS` of `Running`:
 
-    {{< text syntax=bash snip_id=none >}}
-    $ kubectl get pods -n istio-system
-    {{< /text >}}
+{{< text syntax=bash snip_id=none >}}
+$ kubectl get pods -n istio-system
+{{< /text >}}
 
 ## Updating your Istio configuration
 
@@ -106,7 +105,21 @@ validation while unstructured Helm values do not.
 
 ### Migrating from non-Helm installations
 
-{{< boilerplate helm-migration-nonhelm >}}
+If you're migrating from a version of Istio installed using `istioctl` or
+Operator to Helm (Istio 1.5 or earlier), you need to delete your current Istio
+control plane resources and re-install Istio using Helm as described above. When
+deleting your current Istio installation, you must not remove the Istio Custom Resource
+Definitions (CRDs) as that can lead to loss of your custom Istio resources.
+
+{{< warning >}}
+It is highly recommended to take a backup of your Istio resources using steps
+described above before deleting current Istio installation in your cluster.
+{{< /warning >}}
+
+You can follow steps mentioned in the
+[Istioctl uninstall guide](/docs/setup/install/istioctl#uninstall-istio) or
+[Operator uninstall guide](/docs/setup/install/operator/#uninstall)
+depending upon your installation method.
 
 ## Uninstall
 
@@ -159,7 +172,7 @@ installed above.
 Deleting CRDs permanently removes any Istio resources you have created in your
 cluster. To permanently delete Istio CRDs installed in your cluster:
 
-    {{< text syntax=bash snip_id=delete_crds >}}
-    $ kubectl get crd | grep --color=never 'istio.io' | awk '{print $1}' \
-        | xargs -n1 kubectl delete crd
-    {{< /text >}}
+{{< text syntax=bash snip_id=delete_crds >}}
+$ kubectl get crd | grep --color=never 'istio.io' | awk '{print $1}' \
+    | xargs -n1 kubectl delete crd
+{{< /text >}}
