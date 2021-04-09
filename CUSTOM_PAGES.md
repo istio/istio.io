@@ -77,12 +77,7 @@ Works in the same fashion as Pro services but is displayed using the ```{{< inte
 To amend the deployment process page, change the contents of the `content/en/deployment/index.md` file.
 
 ## FAQ
-To add new content to FAQ, go to `content/en/about/faq/index.md` file. To add new category, add '##' before the name of the category. To add a new question, use ```{{% faq_block %}}``` component. For question, use parameter `question` and for answer, use inner content (example below).
-```
-{{% faq_block question="This is question" %}}
-This is answer
-{{% /faq_block %}}
-```
+To add new content to FAQ, create a new markdown file in `content/en/about/faq/` in one of the existing categories. To add new category, create a new directory with an `index.md` markdown file with a category name as the `linktitle` attribute. ```faq_block``` partial uses the `question` and `answer` parameters. `title` attribute of individual markdown files is used as a question and the content is used as an answer.
 
 ## Blog
 To add a new blog post, go to the appropriate year folder in `content/en/blog` and create a new folder with `index.md` file similar to the existing ones in neighbouring folders (it should have publish date and title). New post will be displayed immediately after.
@@ -107,7 +102,6 @@ To create an event for an info banner, go to `content/en/events/banners` and cre
 ### Shortcodes
 - `{{< content_panel >}}` for displaying triple panels at the top of the homepage and Concepts section of the homepage
 - `{{< centered_block >}}` for wrapping components in a centered component with a specific width
-- `{{< faq_block >}}` for creating FAQ block (answer and question)
 - `{{< involve_block >}}` for creating sections in “Get Involved” page
 - `{{< multi_block >}}` for creating a component with a title, icon and description useful for describing groups of people. Used on a single Solution page but may be integrated into any markdown
 - `{{< solutions_carousel >}}` for displaying the Solutions carousel
@@ -116,6 +110,7 @@ To create an event for an info banner, go to `content/en/events/banners` and cre
 - `{{ case_studies_carousel }}` for displaying the Case studies carousel
 - `{{ case_studies_carousel_panel }}` for displaying a Case studies carousel panel
 - `{{ distributors }}` for displaying a grid of Distributors
+- `{{ faq_block }}` for creating FAQ block (answer and question)
 - `{{ feature_block }}` for creating feature components on Service mesh and Solutions
 - `{{ sidebar_case_study }}` for displaying a Case study sidebar
 - `{{ sidebar_solutions }}` for displaying a Solution sidebar

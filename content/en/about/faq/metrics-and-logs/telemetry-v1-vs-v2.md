@@ -48,4 +48,4 @@ v2 which are listed below:
   the metrics prevents reporting of metrics which would no longer change in the
   future, thereby reducing network traffic and storage in Prometheus.
   This expiration mechanism is not available in in-proxy telemetry.
-  The workaround for this can be found [here](/faq/metrics-and-logs/#metric-expiry).
+  The workaround for this can be found [here](/about/faq/#metric-expiry).

@@ -11,5 +11,5 @@ that showcase intelligent routing, policy enforcement, security, telemetry, etc.
 
 To start using Istio with production Kubernetes deployments, please refer to our
 [deployment models](/docs/ops/deployment/deployment-models/) documentation and the
-[which Istio installation method should I use?](/faq/setup/#install-method-selection)
+[which Istio installation method should I use?](/about/faq/#install-method-selection)
 FAQ page.

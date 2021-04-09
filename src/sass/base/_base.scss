@@ -10,6 +10,11 @@
         display: block;
         height: $headerHeight;
         margin-top: -$headerHeight;
+
+        @media (min-width: $bp-lg) {
+            height: $headerHeightLg;
+            margin-top: -$headerHeightLg;
+        }
     }
 
     // This is here to undo the effect of the above for table rows. Otherwise,

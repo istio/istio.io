@@ -1,7 +1,7 @@
-{{ $question := .Get "question" }}
-{{ $answer := .Inner | markdownify }}
+{{ $question := .question }}
+{{ $answer := .answer }}
 
-<div class="faq-block faq-block--collapsed">
+<div class="faq-block faq-block--collapsed" id="{{.id}}">
     <div class="faq-block-question">
         <span class="faq-block-question__text">
             {{ $question }}
@@ -11,6 +11,10 @@
         </div>
     </div>
     <div class="faq-block-answer">
-        <p>{{ $answer }}</p>
+        {{ if in (string $answer) "\n\n" }}
+            {{ $answer | markdownify }}
+        {{ else }}
+            <p>{{ $answer | markdownify }}</p>
+        {{ end }}
     </div>
 </div>
