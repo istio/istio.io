@@ -112,4 +112,4 @@ Would you like to get involved? Find and join one of our
 
 ## Istio 1.9 Upgrade Survey
 
-If you have completed your upgrade to Istio 1.9, we would like to hear from you!  Please take a few minutes to respond to our brief [survey](https://forms.gle/JSPcDkF7NzkXsYRS8) to tell us our we're doing!
+If you have completed your upgrade to Istio 1.9, we would like to hear from you!  Please take a few minutes to respond to our brief [survey](https://forms.gle/JSPcDkF7NzkXsYRS8) to tell us how we're doing.
