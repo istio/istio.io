@@ -425,7 +425,9 @@ You should see `transportSocketMatches` configured for the given Envoy cluster.
 
     {{< text bash >}}
     $ POD=$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})
-    $ istioctl proxy-config clusters ${POD}.foo -ojson
+    $ istioctl proxy-config clusters ${POD}.foo -ojson | grep 'name.*outbound.*httpbin' -A130
+    "name": "outbound|8000||httpbin.default.svc.cluster.local",
+    ...
     "transportSocketMatches": [
             {
                 "name": "tlsMode-istio",
@@ -452,27 +454,21 @@ You should see `transportSocketMatches` configured for the given Envoy cluster.
 
     {{< text bash >}}
     $ POD=$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})
-    $ ISTIOD=$(kubectl get pod -l app=istiod -o jsonpath={.items..metadata.name}))
-    $ kubectl exec -it ${ISTIOD} -nistio-system -- curl "localhost:8080/debug/edsz?proxyID=${POD}"
-    {                               
-        "endpoint": {           
-        "address": {                       
-            "socketAddress": {                    
-            "address": "10.244.0.8",
-            "portValue": 80                
-            }                                                                                         
-        }                       
-        },                           
-        "metadata": {                                                                                  
-        "filterMetadata": {                     
-            "envoy.transport_socket_match": {                                                          
-                "tlsMode": "istio"   
-            },                
-            "istio": {                       
-                "workload": "httpbin;default;"                                               
-            }               
-        }                                                                      
-    }
+    $ IP=$(kubectl get pod -lapp=sleep -o jsonpath="{.items[*].status.podIP}")
+    $ kubectl exec -it ${POD} -c istio-proxy -- curl 'localhost:15000/config_dump?include_eds=true' | grep ${IP} -A15 -B5
+      "endpoint": {
+        "address": {
+        "socket_address": {
+            "address": "10.32.28.136",
+            "port_value": 80
+        }
+        ...
+        "metadata": {
+          "filter_metadata": {
+            "envoy.transport_socket_match": {
+              "tlsMode": "istio"
+            }
+        },
     {{< /text >}}
 
 
@@ -481,7 +477,7 @@ used. This requires to change Envoy upstream log to debug level.
 
     {{< text bash >}}
     $ POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    $ ic pc log sleep-8f795f47d-rfhdt --level debug
+    $ istioctl pc log sleep-8f795f47d-rfhdt --level debug
     2021-04-08T22:35:22.650478Z     debug   envoy upstream  transport socket match, socket tlsMode-istio selected for host with address 10.32.28.136:80
     {{< /text >}}
 
