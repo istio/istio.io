@@ -105,3 +105,7 @@ to the lower version (e.g., 1.6.5). When completed, Istio will be restored to th
 Alternatively, `istioctl install` can be used to install an older version of the Istio control plane, but is not recommended
 because it does not perform any checks. For example, default values applied to the cluster for a configuration
 profile may change without warning.
+
+## Istio 1.9 Upgrade Survey
+
+If you have completed your upgrade to Istio 1.9, we would like to hear from you!  Please take a few minutes to respond to our brief [survey](https://forms.gle/JSPcDkF7NzkXsYRS8) to tell us how we're doing.
