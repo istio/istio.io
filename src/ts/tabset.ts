@@ -91,10 +91,10 @@ function handleTabs(): void {
 
         if (categoryName) {
             let categoryValue;
-            const hashTab = location.hash.replace('#', '');
+            const hashTab = location.hash.replace("#", "");
 
             if (hashTab) {
-                if(categoryValues.indexOf(hashTab) > -1) {
+                if (categoryValues.indexOf(hashTab) > -1) {
                     categoryValue = hashTab;
                 }
             } else if (!forgetTab) {
