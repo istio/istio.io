@@ -544,7 +544,6 @@ You should see `transportSocketMatches` configured for the given Envoy cluster.
         },
     {{< /text >}}
 
-
 1. Check Envoy upstream debug log to confirm what transport socket configuration is being
 used. This requires to change Envoy upstream log to debug level.
 
