@@ -1,7 +1,7 @@
 ---
 title: External Certificates using cert-manager
 description: Shows how to use a Custom Certificate Authority via cert-manager to provision Istio workload certificates.
-weight: 80
+weight: 110
 keywords: [security,certificates]
 aliases:
     - /docs/tasks/security/istio-csr/
