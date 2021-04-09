@@ -12,14 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+const faqBlockCollapsed = "faq-block--collapsed";
+
 function handleFaqBlocks(): void {
+    const faqBlocks: Element[] = [];
+
     document.querySelectorAll(".faq-block").forEach(faqBlock => {
         const question = faqBlock.querySelector(".faq-block-question");
+        faqBlocks.push(faqBlock);
 
         question?.addEventListener("click", () => {
-            faqBlock.classList.toggle("faq-block--collapsed");
+            faqBlock.classList.toggle(faqBlockCollapsed);
         });
     });
+
+    function dealWithHash(): void {
+        const urlHash = location.hash.replace("#", "");
+        const hashFaqBlock = faqBlocks.find(faqBlock => urlHash === faqBlock.id);
+
+        if (hashFaqBlock) {
+            hashFaqBlock.classList.remove(faqBlockCollapsed);
+        }
+    }
+
+    // Deal with hash on the initial page load
+    dealWithHash();
+
+    // Listen to hash change to navigate to another FAQ if necessary
+    listen(window, "hashchange", dealWithHash);
 }
 
 handleFaqBlocks();

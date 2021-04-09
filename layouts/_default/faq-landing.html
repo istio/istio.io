@@ -11,7 +11,8 @@
         {{ $questions := .Resources.ByType "page" }}
         {{ $sorted_questions := sort $questions ".Params.weight" }}
         {{ range $q := $sorted_questions }}
-            {{ partial "faq_block" (dict "question" $q.Title "answer" .Content) }}
+            {{ $id := $q.File.BaseFileName | urlize }}
+            {{ partial "faq_block" (dict "question" $q.Title "answer" .Content "id" $id) }}
         {{ end }}
     {{ end }}
 </div>
