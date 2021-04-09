@@ -2085,10 +2085,8 @@ calculated over a time interval of 1 minute.
   istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 </code></pre>
 <h2 id="istioctl-experimental-precheck">istioctl experimental precheck</h2>
-<p>
-  precheck inspects a Kubernetes cluster for Istio install requirements.
-</p>
-<pre class="language-bash"><code>istioctl experimental precheck [-f &lt;deployment or istio operator file&gt;] [flags]
+<p>precheck inspects a Kubernetes cluster for Istio install and upgrade requirements.</p>
+<pre class="language-bash"><code>istioctl experimental precheck [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -2103,11 +2101,6 @@ calculated over a time interval of 1 minute.
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--filename &lt;stringSlice&gt;</code></td>
-<td><code>-f</code></td>
-<td>Istio YAML installation file.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -2125,26 +2118,23 @@ calculated over a time interval of 1 minute.
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--recursive</code></td>
-<td><code>-R</code></td>
-<td>Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory. </td>
-</tr>
-<tr>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
 </tr>
+<tr>
+<td><code>--skip-controlplane</code></td>
+<td></td>
+<td>skip checking the control plane </td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-precheck Examples">Examples</h3>
-<pre class="language-bash"><code>  # Verify that Istio can be installed
-  istioctl experimental precheck
+<pre class="language-bash"><code>  # Verify that Istio can be installed or upgraded
+  istioctl x precheck
 
-  # Verify the deployment matches a custom Istio deployment configuration
-  istioctl x precheck --set profile=demo
-
-  # Verify the deployment matches the Istio Operator deployment definition
-  istioctl x precheck -f iop.yaml
+  # Check only a single namespace
+  istioctl x precheck --namespace default
 </code></pre>
 <h2 id="istioctl-experimental-proxy-status">istioctl experimental proxy-status</h2>
 <p>
