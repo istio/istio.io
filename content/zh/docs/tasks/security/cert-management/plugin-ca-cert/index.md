@@ -83,7 +83,7 @@ test: yes
     $ popd
     {{< /text >}}
 
-## 部署 Istio{#deploy-istio}
+## 部署 Istio{#deploy-Istio}
 
 1.  使用 `demo` 配置文件部署 Istio。
 
