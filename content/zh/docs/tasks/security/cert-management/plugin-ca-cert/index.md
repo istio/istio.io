@@ -28,14 +28,14 @@ test: yes
 以下内容仅用于演示。对于生产型集群的设置，强烈建议使用生产型 CA，如 [Hashicorp Vault](https://www.hashicorp.com/products/vault)。在具有强大安全保护功能的离线机器上管理根 CA 是一个很好的做法。
 {{< /warning >}}
 
-1.  在 Istio 安装包的顶层目录下，创建一个目录来存放证书和密钥：
+1. 在 Istio 安装包的顶层目录下，创建一个目录来存放证书和密钥：
 
     {{< text bash >}}
     $ mkdir -p certs
     $ pushd certs
     {{< /text >}}
 
-1.  生成根证书和密钥：
+1. 生成根证书和密钥：
 
     {{< text bash >}}
     $ make -f ../tools/certs/Makefile.selfsigned.mk root-ca
@@ -48,7 +48,7 @@ test: yes
     * `root-ca.conf`：生成根证书的 `openssl` 配置
     * `root-cert.csr`：为根证书生成的 CSR
 
-1.  对于每个集群，为 Istio CA 生成一个中间证书和密钥。
+1. 对于每个集群，为 Istio CA 生成一个中间证书和密钥。
     以下是集群 `cluster1` 的例子：
 
     {{< text bash >}}
@@ -66,7 +66,7 @@ test: yes
 
     如果您正在离线机器上进行此操作，请将生成的目录复制到可以访问集群的机器上。
 
-1.  在每个集群中，创建一个私密 `cacerts`，包括所有输入文件 `ca-cert.pem`，`ca-key.pem`，`root-cert.pem` 和 `cert-chain.pem`。例如，在 `cluster1` 集群上：
+1. 在每个集群中，创建一个私密 `cacerts`，包括所有输入文件 `ca-cert.pem`，`ca-key.pem`，`root-cert.pem` 和 `cert-chain.pem`。例如，在 `cluster1` 集群上：
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
@@ -77,7 +77,7 @@ test: yes
           --from-file=cluster1/cert-chain.pem
     {{< /text >}}
 
-1.  返回 Istio 安装的顶层目录：
+1. 返回 Istio 安装的顶层目录：
 
     {{< text bash >}}
     $ popd
@@ -85,7 +85,7 @@ test: yes
 
 ## 部署 Istio{#deploy-Istio}
 
-1.  使用 `demo` 配置文件部署 Istio。
+1. 使用 `demo` 配置文件部署 Istio。
 
     Istio 的 CA 将会从私密安装文件中读取证书和密钥。
 
@@ -121,20 +121,21 @@ test: yes
 
 本节中，验证工作负载证书是否已通过插入到 CA 中的证书签署。验证的前提要求机器上安装有 `openssl`。
 
-1.  在检索 `httpbin` 的证书链之前，请等待 20 秒使mTLS策略生效。由于本例中使用的 CA 证书是自签的，所以可以预料 openssl 命令返回 `verify error:num=19:self signed certificate in certificate chain`。
+1. 在检索 `httpbin` 的证书链之前，请等待 20 秒使mTLS策略生效。由于本例中使用的 CA 证书是自签的，所以可以预料 openssl 命令返回 `verify error:num=19:self signed certificate in certificate chain`。
 
     {{< text bash >}}
     $ sleep 20; kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
     {{< /text >}}
 
-1.  解析证书链上的证书。
+1. 解析证书链上的证书。
 
     {{< text bash >}}
     $ sed -n '/-----BEGIN CERTIFICATE-----/{:start /-----END CERTIFICATE-----/!{N;b start};/.*/p}' httpbin-proxy-cert.txt > certs.pem
     $ awk 'BEGIN {counter=0;} /BEGIN CERT/{counter++} { print > "proxy-cert-" counter ".pem"}' < certs.pem
     {{< /text >}}
 
-1.  确认根证书与管理员指定的证书是否相同：
+1. 确认根证书与管理员指定的证书是否相同：
+
     {{< text bash >}}
     $ openssl x509 -in certs/cluster1/root-cert.pem -text -noout > /tmp/root-cert.crt.txt
     $ openssl x509 -in ./proxy-cert-3.pem -text -noout > /tmp/pod-root-cert.crt.txt
@@ -142,7 +143,7 @@ test: yes
     Files /tmp/root-cert.crt.txt and /tmp/pod-root-cert.crt.txt are identical
     {{< /text >}}
 
-1.  验证 CA 证书与管理员指定的证书是否相同：
+1. 验证 CA 证书与管理员指定的证书是否相同：
 
     {{< text bash >}}
     $ openssl x509 -in certs/cluster1/ca-cert.pem -text -noout > /tmp/ca-cert.crt.txt
@@ -151,7 +152,7 @@ test: yes
     Files /tmp/ca-cert.crt.txt and /tmp/pod-cert-chain-ca.crt.txt are identical
     {{< /text >}}
 
-1.  验证从根证书到工作负载证书的证书链：
+1. 验证从根证书到工作负载证书的证书链：
 
     {{< text bash >}}
     $ openssl verify -CAfile <(cat certs/cluster1/ca-cert.pem certs/cluster1/root-cert.pem) ./proxy-cert-1.pem
@@ -160,17 +161,17 @@ test: yes
 
 ## 清理{#cleanup}
 
-*   从本地磁盘中删除证书、密钥和中间文件：
+*  从本地磁盘中删除证书、密钥和中间文件：
 
     {{< text bash >}}
     $ rm -rf certs
     {{< /text >}}
 
-*   删除私密 `cacerts`、`foo` 和 `istio-system` 命名空间：
+*  删除私密 `cacerts`、`foo` 和 `istio-system` 命名空间：
 
     {{< text bash >}}
     $ kubectl delete secret cacerts -n istio-system
     $ kubectl delete ns foo istio-system
     {{< /text >}}
 
-*   移除 Istio 组件：按照[卸载说明](/zh/docs/setup/getting-started/#uninstall)进行移除。
+*  移除 Istio 组件：按照[卸载说明](/zh/docs/setup/getting-started/#uninstall)进行移除。
