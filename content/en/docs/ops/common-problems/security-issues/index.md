@@ -413,9 +413,12 @@ is applied and the right destination rules are in place.
 
 If you suspect [auto mTLS](/docs/reference/glossary#auto-mtls) is not working
 as expected, please first read the
-[documentation](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls)
-and understand that [workload level](/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-workload) 
-peer authentication policies require corresponding destination rule configuration.
+[documentation](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls).
+
+Auto mTLS has a known limitation with [workload level](/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-workload) peer authentication.
+When workload level peer authentication is used, you need to configure a corresponding
+destination rule configuration to let client sidecar send mTLS or plaintext
+traffic correctly.
 
 If you still think there's an issue, follow the instructions below for
 investigation.
