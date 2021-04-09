@@ -10,11 +10,11 @@ doc_type: about
 ---
 [comment]: <> (TODO: Replace placeholders)
 
-{{< tabset category-name="ecosystem-type" class="tabset--ecosystem" >}}
+{{< tabset category-name="ecosystem-type" class="tabset--ecosystem" forget-tab=true >}}
 
     {{< tab
         name="providers"
-        category-value="default"
+        category-value="providers"
         description="Locality-weighted load balancing allows administrators to control the distribution of traffic to endpoints based on the localities of where the traffic originates and where it will terminate."
     >}}
 
@@ -24,7 +24,7 @@ doc_type: about
 
     {{< tab
         name="pro services"
-        category-value="pro_services"
+        category-value="services"
         description="Locality-weighted load balancing allows administrators to control the distribution of traffic to endpoints based on the localities of where the traffic originates and where it will terminate."
     >}}
 
