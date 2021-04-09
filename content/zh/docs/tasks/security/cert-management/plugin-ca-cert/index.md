@@ -1,6 +1,6 @@
 ---
 title: 插入 CA 证书
-description: 系统管理员如何通过根证书、签名证书和密钥来配置 Istio 的 CA
+description: 系统管理员如何通过根证书、签名证书和密钥来配置 Istio 的 CA。
 weight: 80
 keywords: [security,certificates]
 aliases:
