@@ -70,6 +70,5 @@ KubeSphere 提供了[All-in-One](https://kubesphere.io/docs/installation/all-in-
 
     ![KubeSphere Console](images/kubesphere-console.png)
 
-## 在 Kubernetes 中启用 Istio 安装 {#enable-installing-istio-on-kubernetes}
-
+## 在 Kubernetes 中启用 Istio 安装
 KubeSphere 会在 Kubernetes 环境中安装 Istio。现在可以参考[Enable Service Mesh](https://kubesphere.io/docs/pluggable-components/service-mesh/)来启用 Istio。
