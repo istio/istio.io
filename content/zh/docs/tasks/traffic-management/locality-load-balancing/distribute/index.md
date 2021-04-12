@@ -11,7 +11,7 @@ owner: istio/wg-networking-maintainers
 
 在继续之前，请确保完成以下步骤 [开始之前](/zh/docs/tasks/traffic-management/locality-load-balancing/before-you-begin)。
 
-在这个任务中，您将使用 `region1` `zone1` 中的 `Sleep` Pod 作为 `HelloWorld` 服务的请求源。您将使用以下分布在不同的地域配置Istio：
+在这个任务中，您将使用 `region1` `zone1` 中的 `sleep` Pod 作为 `helloWorld` 服务的请求源。您将使用以下分布在不同的地域配置Istio：
 
 地区 | 区域 | 流量(%)
 ------ | ---- | ------------
@@ -25,9 +25,9 @@ owner: istio/wg-networking-maintainers
 应用 `DestinationRule` 配置如下：
 
 - [故障检测](/zh/docs/reference/config/networking/destination-rule/#OutlierDetection)
-  用于 `HelloWorld` 服务。这是 Distribution 正常运行所必需的。特别是，它配置 Sidecar 代理以知道服务的 Endpoint 何时不健康。
+  用于 `helloWorld` 服务。这是 Distribution 正常运行所必需的。特别是，它配置 Sidecar 代理以知道服务的 Endpoint 何时不健康。
 
-- [权重分布](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/locality_weight.html?highlight=weight) 如上表中所述的 `HelloWorld` 服务。
+- [权重分布](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/locality_weight.html?highlight=weight) 如上表中所述的 `helloWorld` 服务。
 
 {{< text bash >}}
 $ kubectl --context="${CTX_PRIMARY}" apply -n sample -f - <<EOF
@@ -56,7 +56,7 @@ EOF
 
 ## 验证分布 {#verify-the-distribution}
 
-从 `Sleep` Pod 调用  `HelloWorld` 服务：
+从 `sleep` Pod 调用  `helloWorld` 服务：
 
 {{< text bash >}}
 $ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \

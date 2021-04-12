@@ -14,7 +14,7 @@ owner: istio/wg-networking-maintainers
 为简单起见，我们假设只有一个 {{< gloss >}}primary cluster{{< /gloss >}} 在网格中。由于更改仅需要应用于一个集群，因此这简化了配置控制平面的过程。
 {{< /tip >}}
 
-我们将部署 `HelloWorld` 应用程序的多个实例，如下所示：
+我们将部署 `helloWorld` 应用程序的多个实例，如下所示：
 
 {{< image width="75%"
     link="setup.svg"
@@ -23,11 +23,11 @@ owner: istio/wg-networking-maintainers
 
 ## 环境变量 {#environment-variables}
 
-本指南假定将通过默认 [Kubernetes 配置文件](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) 中的上下文访问所有集群。以下环境变量将用于各种上下文：
+本指南假定将通过 [Kubernetes 配置文件](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) 中的上下文切换访问集群。以下环境变量将用于各种上下文：
 
 变量 | 描述
 -------- | -----------
-`CTX_PRIMARY` | 用于将配置应用于主群集的上下文。
+`CTX_PRIMARY` | 用于主群集的上下文。
 `CTX_R1_Z1` | 用于与 `region1.zone1` 中的 Pod 交互的上下文。
 `CTX_R1_Z2` | 用于与 `region1.zone2` 中的 Pod 交互的上下文。
 `CTX_R2_Z3` | 用于与 `region2.zone3` 中的 Pod 交互的上下文。
@@ -48,7 +48,7 @@ metadata:
 EOF
 {{< /text >}}
 
-添加 `sample` 命名空间到每个集群：
+为每个集群添加 `sample` 命名空间：
 
 {{< text bash >}}
 $ for CTX in "$CTX_PRIMARY" "$CTX_R1_Z1" "$CTX_R1_Z2" "$CTX_R2_Z3" "$CTX_R3_Z4"; \
@@ -57,9 +57,9 @@ $ for CTX in "$CTX_PRIMARY" "$CTX_R1_Z1" "$CTX_R1_Z2" "$CTX_R2_Z3" "$CTX_R3_Z4";
   done
 {{< /text >}}
 
-## 部署 `HelloWorld` {#deploy-helloWorld}
+## 部署 `helloWorld` {#deploy-helloWorld}
 
-使用地域作为版本字符串，为每个地域生成 `HelloWorld` 的 yaml：
+使用地域作为版本号，为每个地域生成 `helloWorld` 的 yaml：
 
 {{< text bash >}}
 $ for LOC in "region1.zone1" "region1.zone2" "region2.zone3" "region3.zone4"; \
@@ -91,7 +91,7 @@ $ kubectl apply --context="${CTX_R3_Z4}" -n sample \
   -f helloworld-region3.zone4.yaml
 {{< /text >}}
 
-## 部署 `Sleep` {#deploy-sleep}
+## 部署 `sleep` {#deploy-sleep}
 
 部署 `Sleep` 应用到 `region1` `zone1`：
 
@@ -100,7 +100,7 @@ $ kubectl apply --context="${CTX_R1_Z1}" \
   -f @samples/sleep/sleep.yaml@ -n sample
 {{< /text >}}
 
-## 等待 `HelloWorld` Pods {#wait-for-helloworld-pods}
+## 等待 `helloWorld` Pods {#wait-for-helloworld-pods}
 
 等到 `HelloWorld` 在每个区域的 Pod 都为 `Running`：
 
@@ -132,7 +132,7 @@ NAME                                       READY   STATUS    RESTARTS   AGE
 helloworld-region3.zone4-86f77cd7b-cpxhv   2/2     Running   0          30s
 {{< /text >}}
 
-**恭喜您！** 您已成功配置系统，现在可以开始进行本地负载平衡任务了！
+**恭喜您！** 您已成功完成系统配置，现在可以开始进行地域负载均衡任务了
 
 ## 下一步 {#next-steps}
 
