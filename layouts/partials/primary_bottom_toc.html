@@ -1,0 +1,14 @@
+{{ $toc := .toc }}
+        </article>
+    </div>
+
+    {{ with $toc }}
+        <div class="toc-container">
+            <nav class="toc" aria-label="Table of Contents">
+                <div id="toc">
+                    {{ $toc | safeHTML }}
+                </div>
+            </nav>
+        </div>
+    {{ end }}
+</main>

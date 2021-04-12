@@ -3,13 +3,14 @@
 {{- $tabs := .Scratch.Get "tabs" -}}
 {{- $category_name := trim (.Get "category-name") " " -}}
 {{ $tab_set_class := .Get "class" }}
+{{ $forget_tab := .Get "forget-tab" }}
 
 {{- if .Inner -}}
     {{- /* We don't use the inner content, but Hugo needs this reference as a trigger to indicate this shortcode has a content area. */ -}}
 {{- end -}}
 
 <div id="{{ $tab_set_id }}" role="tablist" class="tabset {{ if $tab_set_class }}{{ $tab_set_class }}{{ end }}">
-    <div class="tab-strip" data-category-name="{{ $category_name }}">
+    <div class="tab-strip" data-category-name="{{ $category_name }}" {{ if $forget_tab }}data-forget-tab{{ end }}>
         {{- range $i, $e := $tabs -}}
             {{- $id := printf "%s-%d" $tab_set_id $i -}}
             <button {{ if eq $i 0 }}aria-selected="true"{{ else }}tabindex="-1"{{ end }} data-category-value="{{ .category_value }}"
