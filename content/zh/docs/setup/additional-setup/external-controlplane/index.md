@@ -9,31 +9,30 @@ test: yes
 
 本指南将引导您完成安装 {{< gloss "external control plane">}}外部控制平面{{< /gloss >}}，然后将一个或多个 {{< gloss "remote cluster" >}}远程集群{{< /gloss >}} 连接到该平面的过程。
 
-外部控制平面[部署模型](/zh/docs/ops/deployment/deployment-models/#control-plane-models)
-允许网格操作员在与组成网格的数据平面群集（或多个群集）分开的外部群集上安装和管理控制平面。 这种部署模型可以将网状网络运营商和网状网络管理员明确区分。 网格操作员可以安装和管理 Istio 控制平面，而网格管理员只需配置网格即可。
+外部控制平面[部署模型](/zh/docs/ops/deployment/deployment-models/#control-plane-models)允许网格操作员在与组成网格的数据平面集群（或多个集群）分开的外部集群上安装和管理控制平面。 这种部署模型可以将网状网络运营商和网状网络管理员明确区分。 网格操作员可以安装和管理 Istio 控制平面，而网格管理员只需配置网格即可。
 
 {{< image width="75%"
     link="external-controlplane.svg"
     caption="外部控制平面集群和远程集群"
     >}}
 
-在远程集群中运行的 Envoy 代理（边车和网关）通过 ingress 网关访问外部 istiod，向外暴露了需要被发现，CA，注入和验证的端点。
+在远程集群中运行的 Envoy 代理（边车和网关）通过 Ingress 网关访问外部 Istiod，向外暴露了需要被发现，CA，注入和验证的端点。
 
-虽然外部控制平面的配置和管理是由外部集群中的网格操作员完成的，但连接到外部控制平面的第一个远程集群充当了网格本身的配置集群。 除了网状服务本身之外，网状网管理员还将使用配置集群来配置网状资源（网关，虚拟服务等）。 外部控制平面将从 Kubernetes API 服务器远程访问此配置，如上图所示。
+虽然外部控制平面的配置和管理是由外部集群中的网格操作员完成的，但连接到外部控制平面的第一个远程集群充当了网格本身的配置集群。除了网状服务本身之外，网格管理员还将使用配置集群来配置网状资源（网关，虚拟服务等）。外部控制平面将从 Kubernetes API Server 远程访问此配置，如上图所示。
 
 ## 准备开始{#before-you-begin}
 
 ### 集群{#clusters}
 
-本指南要求您有任意两个受支持版本的 Kubernetes 集群： {{< supported_kubernetes_versions >}}。
+本指南要求您有任意两个受支持版本的 Kubernetes 集群：{{< supported_kubernetes_versions >}}。
 
 第一个集群将托管安装在 `external-istiod` 名称空间中的 {{< gloss "external control plane">}}外部控制平面{{< /gloss >}}。 Ingress 网关也安装在 `istio-system` 名称空间中，以提供对外部控制平面的跨集群访问。
 
-第二个集群是将运行网格应用程序工作负载的 {{< gloss "remote cluster">}}远程集群{{< /gloss >}}。 它的 Kubernetes API 服务器还提供了外部控制平面（istiod）用来配置工作负载代理的网状配置。
+第二个集群是将运行网格应用程序工作负载的 {{< gloss "remote cluster">}}远程集群{{< /gloss >}}。 它的 Kubernetes API Server 还提供了外部控制平面（Istiod）用来配置工作负载代理的网状配置。
 
 ### API Server 访问{#API-server-access}
 
-外部控制平面集群必须可以访问远程集群中的 Kubernetes API 服务器。 许多云提供商通过网络负载平衡器（NLB）公开访问 API 服务器。 如果无法直接访问 API 服务器，则需要修改安装过程以启用访问权限。 例如，在[多集群配置](#adding-clusters) 中使用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic) 网关也可以用于启用对 API 服务器的访问。
+外部控制平面集群必须可以访问远程集群中的 Kubernetes API Server。 许多云提供商通过网络负载平衡器（NLB）公开访问 API Server。 如果无法直接访问 API Server，则需要修改安装过程以启用访问权限。 例如，在[多集群配置](#adding-clusters)中使用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)网关也可以用于启用对 API Server 的访问。
 
 ### 环境变量{#environment-variables}
 
@@ -41,11 +40,11 @@ test: yes
 
 变量名称 | 描述
 -------- | -----------
-`CTX_EXTERNAL_CLUSTER` | 默认 [Kubernetes配置文件](https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) 中的上下文名称，用于访问外部控制平面集群。
-`CTX_REMOTE_CLUSTER` | 默认 [Kubernetes配置文件](https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) 中的上下文名称，用于访问远程集群。
+`CTX_EXTERNAL_CLUSTER` | 默认 [Kubernetes配置文件](https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的上下文名称，用于访问外部控制平面集群。
+`CTX_REMOTE_CLUSTER` | 默认 [Kubernetes配置文件](https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的上下文名称，用于访问远程集群。
 `REMOTE_CLUSTER_NAME` | 远程集群的名称。
-`EXTERNAL_ISTIOD_ADDR` | 外部控制平面集群上的 ingress 网关的主机名。 远程集群使用它来访问外部控制平面。
-`SSL_SECRET_NAME` | 拥有外部控制平面集群上 ingress 网关的 TLS 证书的密钥名称。
+`EXTERNAL_ISTIOD_ADDR` | 外部控制平面集群上的 Ingress 网关的主机名。 远程集群使用它来访问外部控制平面。
+`SSL_SECRET_NAME` | 拥有外部控制平面集群上 Ingress 网关的 TLS 证书的密钥名称。
 
 立即设置 `CTX_EXTERNAL_CLUSTER`，`CTX_REMOTE_CLUSTER` 和 `REMOTE_CLUSTER_NAME`。 稍后将设置其他变量。
 
@@ -59,11 +58,11 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
 
 ### 网格操作步骤{#mesh-operator-steps}
 
-网格操作员负责在外部群集上安装和管理外部 Istio 控制平面。 这包括在外部群集上配置 ingress 网关，允许远程群集访问控制平面，并在远程群集上安装所需的 webhooks，configmaps 和 secrets，以便使用外部控制平面。
+网格操作员负责在外部集群上安装和管理外部 Istio 控制平面。 这包括在外部集群上配置 Ingress 网关，允许远程集群访问控制平面，并在远程集群上安装所需的 Webhook，Configmap 和 Secret，以便使用外部控制平面。
 
 #### 在外部集群中搭建网关{#set-up-a-gateway-in-the-external-cluster}
 
-1. 为 ingress 网关创建 Istio 安装配置，该配置会将外部控制平面端口暴露给其他集群：
+1. 为 Ingress 网关创建 Istio 安装配置，该配置会将外部控制平面端口暴露给其他集群：
 
     {{< text bash >}}
     $ cat <<EOF > controlplane-gateway.yaml
@@ -97,7 +96,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     $ istioctl install -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
-1. 运行以下命令来确认 ingress 网关已启动并正在运行：
+1. 运行以下命令来确认 Ingress 网关已启动并正在运行：
 
     {{< text bash >}}
     $ kubectl get po -n istio-system --context="${CTX_EXTERNAL_CLUSTER}"
@@ -106,13 +105,13 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     istiod-68488cd797-mq8dn                1/1     Running   0          38s
     {{< /text >}}
 
-    您会注意到在 `istio-system` 名称空间中也创建了一个 istiod 部署。 这用于配置 ingress 网关，而不是远程集群使用的控制平面。
+    您会注意到在 `istio-system` 名称空间中也创建了一个 Istiod 部署。 这用于配置 Ingress 网关，而不是远程集群使用的控制平面。
 
     {{< tip >}}
-    可以将 ingress 网关配置为在外部集群上的不同名称空间中承载多个外部控制平面，尽管在本示例中，您将仅在 `external-istiod` 名称空间中部署一个外部 istiod。
+    可以将 Ingress 网关配置为在外部集群上的不同名称空间中承载多个外部控制平面，尽管在本示例中，您将仅在 `external-istiod` 名称空间中部署一个外部 Istiod。
     {{< /tip >}}
 
-1. 使用带有 TLS 的公共主机名配置您的环境来暴露 Istio ingress 网关服务。 将 `EXTERNAL_ISTIOD_ADDR` 环境变量设置为主机名，将 `SSL_SECRET_NAME` 环境变量设置为包含TLS证书的密钥：
+1. 使用带有 TLS 的公共主机名配置您的环境来暴露 Istio Ingress 网关服务。 将 `EXTERNAL_ISTIOD_ADDR` 环境变量设置为主机名，将 `SSL_SECRET_NAME` 环境变量设置为包含 TLS 证书的密钥：
 
     {{< text syntax=bash snip_id=none >}}
     $ export EXTERNAL_ISTIOD_ADDR=<your external istiod host>
@@ -127,7 +126,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     $ kubectl create namespace external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
-1. 外部集群中的控制平面需要访问远程集群以发现服务，端点和 Pod 属性。 创建具有凭据的机密，以访问远程集群的 `kube-apiserver` 并将其安装在外部集群中：
+1. 外部集群中的控制平面需要访问远程集群以发现服务，端点和 Pod 属性。 创建具有凭据的 Secret，以访问远程集群的 `kube-apiserver` 并将其安装在外部集群中：
 
     {{< text bash >}}
     $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
@@ -175,13 +174,13 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     EOF
     {{< /text >}}
 
-    然后，在外部群集上应用 Istio 配置：
+    然后，在外部集群上应用 Istio 配置：
 
     {{< text bash >}}
     $ istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
-1. 确认外部 istiod 已成功部署：
+1. 确认外部 Istiod 已成功部署：
 
     {{< text bash >}}
     $ kubectl get po -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
@@ -189,7 +188,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     istiod-779bd6fdcf-bd6rg   1/1     Running   0          70s
     {{< /text >}}
 
-1. 创建 Istio `Gateway`，`VirtualService` 和 `DestinationRule` 配置，将流量从 ingress 网关路由到外部控制平面：
+1. 创建 Istio `Gateway`，`VirtualService` 和 `DestinationRule` 配置，将流量从 Ingress 网关路由到外部控制平面：
 
     {{< text syntax=bash snip_id=get_external_istiod_gateway_config >}}
     $ cat <<EOF > external-istiod-gw.yaml
@@ -270,7 +269,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     EOF
     {{< /text >}}
 
-    然后，在外部群集上应用配置：
+    然后，在外部集群上应用配置：
 
     {{< text bash >}}
     $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
@@ -278,7 +277,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
 
 #### 设置远程集群{#set-up-the-remote-cluster}
 
-1. 创建远程 Istio 安装配置，使用外部控制平面而不是在本地部署控制平面来安装 webhooks，configmaps 和 secrets：
+1. 创建远程 Istio 安装配置，使用外部控制平面而不是在本地部署控制平面来安装 Webhook，Configmap 和 Secret：
 
     {{< text syntax=bash snip_id=get_remote_config_cluster_iop >}}
     $ cat <<EOF > remote-config-cluster.yaml
@@ -317,13 +316,13 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     EOF
     {{< /text >}}
 
-    然后，在远程群集上安装配置：
+    然后，在远程集群上安装配置：
 
     {{< text bash >}}
     $ istioctl manifest generate -f remote-config-cluster.yaml | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
     {{< /text >}}
 
-1. 确认已安装远程集群的 webhooks，secrets 和 configmaps：
+1. 确认远程集群已安装 Webhook，Secret 和 Configmap：
 
     {{< text bash >}}
     $ kubectl get mutatingwebhookconfiguration -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
@@ -378,7 +377,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     $ kubectl apply -f samples/sleep/sleep.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
-1. 等几秒钟，`helloworld` 和 `sleep` pod 将以 sidecar 注入的方式运行：
+1. 等几秒钟，`helloworld` 和 `sleep` Pod 将以 Sidecar 注入的方式运行：
 
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
@@ -387,7 +386,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     sleep-64d7d56698-wqjnm           2/2     Running   0          9s
     {{< /text >}}
 
-1. `sleep` pod 向 `helloworld` pod 服务发送请求：
+1. `sleep` Pod 向 `helloworld` Pod 服务发送请求：
 
     {{< text bash >}}
     $ kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c sleep \
@@ -398,7 +397,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
 
 #### 启用网关{#enable-gateways}
 
-1. 在远程集群上启用 ingress 网关：
+1. 在远程集群上启用 Ingress 网关：
 
     {{< text bash >}}
     $ cat <<EOF > istio-ingressgateway.yaml
@@ -419,7 +418,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     $ istioctl install -f istio-ingressgateway.yaml --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
-1. 在远程集群上启用 egress 网关或者其他网关（可选）：
+1. 在远程集群上启用 Egress 网关或者其他网关（可选）：
 
     {{< text bash >}}
     $ cat <<EOF > istio-egressgateway.yaml
@@ -440,7 +439,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     $ istioctl install -f istio-egressgateway.yaml --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
-1. 确认 Istio ingress 网关正在运行：
+1. 确认 Istio Ingress 网关正在运行：
 
     {{< text bash >}}
     $ kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
@@ -448,7 +447,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     istio-ingressgateway-7bcd5c6bbd-kmtl4   1/1     Running   0          8m4s
     {{< /text >}}
 
-1. 在 ingress 网关上暴露 `helloworld` 应用：
+1. 在 Ingress 网关上暴露 `helloworld` 应用：
 
     {{< text bash >}}
     $ kubectl apply -f samples/helloworld/helloworld-gateway.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
@@ -462,7 +461,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
     {{< /text >}}
 
-1. 确认您可以通过 ingress 网关访问 `helloworld` 应用：
+1. 确认您可以通过 Ingress 网关访问 `helloworld` 应用：
 
     {{< text bash >}}
     $ curl -s "http://${GATEWAY_URL}/hello"
@@ -478,7 +477,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     caption="多远程集群的外部控制平面"
     >}}
 
-与第一个远程群集不同，添加到同一外部控制平面的第二个以及后续群集不提供网格配置，而仅提供端点配置的来源，就像[主远程](/zh/docs/setup/install/multicluster/primary-remote_multi-network/) Istio 多群集配置中的远程集群一样。
+与第一个远程集群不同，添加到同一外部控制平面的第二个以及后续集群不提供网格配置，而仅提供端点配置的来源，就像[主远程](/zh/docs/setup/install/multicluster/primary-remote_multi-network/) Istio 多集群配置中的远程集群一样。
 
 ### 网格操作员说明{#mesh-operator-instructions}
 
