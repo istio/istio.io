@@ -7,6 +7,7 @@ skip_toc: true
 skip_sidebar: true
 icon: docs
 test: n/a
+doc_type: docs
 ---
 
 In addition to the above documentation links, please consider the following resources:

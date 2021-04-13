@@ -3,10 +3,12 @@
 {{ $section := .Site.GetPage "section" .Section }}
 {{ $showSidebar := or (not (and $section.Params.sidebar_none .CurrentSection.Params.sidebar_none)) (.Page.Params.sidebar_force)}}
 {{ $showTOC := and (or $needTOC .Params.force_inline_toc) (ne .Params.skip_toc true) }}
-{{ $docType := .Params.doc_type }}
+{{ $docType := or .Params.doc_type $section.Params.doc_type }}
 {{ $skipByLine := .Scratch.Get "skipByLine" }}
 
-
+<nav aria-label="Breadcrumb" class="container-l">
+    {{- partial "breadcrumbs.html" . -}}
+</nav>
 
 <main class="primary container {{ if $showSidebar }} has-sidebar{{end}}{{ if $showTOC }} has-toc{{end}}{{ if $docType }} {{$docType}}{{end}}">
 
@@ -34,9 +36,7 @@
                 {{ i18n "sidebar-toggle" }}
             </button>
         {{ end }}
-        <nav aria-label="Breadcrumb" class="container-no-padding">
-            {{- partial "breadcrumbs.html" . -}}
-        </nav>
+
         {{ if or $section.Params.sidebar_singlecard $section.Params.sidebar_multicard }}
             <button tabindex="-1" id="sidebar-toggler" title='{{ i18n "button_sidenav" }}'>
                 {{ partial "icon.html" "pull" }}
