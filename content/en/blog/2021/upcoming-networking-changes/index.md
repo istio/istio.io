@@ -9,7 +9,7 @@ attribution: "John Howard (Google)"
 
 While Kubernetes networking is customizable, a typical pod's network will look like this:
 
-{{< image width="50%" link="./pod.svg" caption="A pod's network" >}}
+{{< image width="75%" link="./pod.svg" caption="A pod's network" >}}
 
 An application may choose to bind to either the loopback interface `lo` (typically binding to `127.0.0.1`), or the pods network interface `eth0` (typically to the pod's IP), or both (typically binding to `0.0.0.0`).
 
@@ -24,7 +24,7 @@ Additionally, some applications, typically stateful applications, choose to bind
 
 In Istio prior to release 1.10, the Envoy proxy, running in the same pod as the application, binds to the `eth0` interface and redirects all inbound traffic to the `lo` interface.
 
-{{< image width="50%" link="./current.svg" caption="A pod's network with Istio today" >}}
+{{< image width="75%" link="./current.svg" caption="A pod's network with Istio today" >}}
 
 This has two important side effects that cause the behavior to differ from standard Kubernetes:
 
@@ -37,7 +37,7 @@ Applications that bind to both interfaces (which is typical) will not be impacte
 
 Starting with Istio 1.10, the networking behavior is changed to align with the standard behavior present in Kubernetes.
 
-{{< image width="50%" link="./planned.svg" caption="A pod's network with Istio in the future" >}}
+{{< image width="75%" link="./planned.svg" caption="A pod's network with Istio in the future" >}}
 
 Here we can see that the proxy no longer redirects the traffic to the `lo` interface, but instead forwards it to the application on `eth0`.
 As a result, the standard behavior of Kubernetes is retained, but we still get all the benefits of Istio.
