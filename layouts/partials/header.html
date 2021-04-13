@@ -40,15 +40,9 @@
                         </li>
                     {{ else }}
                         <li class="main-navigation-links-item">
-                          {{ if eq .Name "Get involved" }}
-                            <a {{ if ne .URL "" }}href="{{ .URL }}"{{end}} class="main-navigation-links-link {{ if $active }}active{{ end }}">
-                                <span>{{ .Name }}</span>
-                            </a>
-                          {{ else }}
                             <a {{ if ne .URL "" }}href="{{ .URL | relLangURL }}"{{end}} class="main-navigation-links-link {{ if $active }}active{{ end }}">
                                 <span>{{ .Name }}</span>
                             </a>
-                          {{ end }}
                         </li>
                     {{ end }}
                 {{ end }}
