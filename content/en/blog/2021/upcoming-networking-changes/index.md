@@ -52,12 +52,12 @@ However, if you are an existing user, you may have come to depend on the old beh
 To help detect these situations, we have added a check to find pods that will be impacted.
 You can run the `istioctl experimental precheck` command to get a report of any pods binding to `lo` on a port exposed in a `Service`.
 This command is available in Istio 1.10+.
-Without action, these ports will no longer be accessible upon upgrade.
+**Without action, these ports will no longer be accessible upon upgrade.**
 
 {{< text bash >}}
 $ istioctl experimental precheck
-Warning [IST0143] (Pod echo-local-849647c5bd-g9wxf.default) Port 443 is exposed in a Service but listens on localhost. It will not be exposed to other pods.
-Warning [IST0143] (Pod echo-local-849647c5bd-g9wxf.default) Port 7070 is exposed in a Service but listens on localhost. It will not be exposed to other pods.
+Error [IST0143] (Pod echo-local-849647c5bd-g9wxf.default) Port 443 is exposed in a Service but listens on localhost. It will not be exposed to other pods.
+Error [IST0143] (Pod echo-local-849647c5bd-g9wxf.default) Port 7070 is exposed in a Service but listens on localhost. It will not be exposed to other pods.
 Error: Issues found when checking the cluster. Istio may not be safe to install or upgrade.
 See https://istio.io/latest/docs/reference/config/analysis for more information about causes and resolutions.
 {{< /text >}}
