@@ -1,7 +1,7 @@
 ---
-title: "Upcoming changes to Istio networking"
+title: "Upcoming changes to Istio networking In Istio 1.10"
 description: Understanding the upcoming changes to Istio networking, how they may impact your cluster, and what action to take.
-publishdate: 2021-04-08
+publishdate: 2021-04-15
 attribution: "John Howard (Google)"
 ---
 
@@ -68,4 +68,24 @@ If you are currently binding to `lo`, you have a few options:
 
 * Switch your application to bind to all interfaces (`0.0.0.0` or `::`).
 * Explicitly configure the port using the [`Sidecar` ingress configuration](/docs/reference/config/networking/sidecar/#IstioIngressListener) to send to `lo`, preserving the old behavior.
+
+For example, to configure request to be sent to `localhost` for the `ratings` application:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1beta1
+kind: Sidecar
+metadata:
+  name: ratings
+spec:
+  workloadSelector:
+    labels:
+      app: ratings
+  ingress:
+  - port:
+      number: 8080
+      protocol: HTTP
+      name: http
+    defaultEndpoint: 127.0.0.1:8080
+{{< /text >}}
+
 * Disable the change entirely with the `PILOT_ENABLE_INBOUND_PASSTHROUGH=false` environment variable in Istiod. This option will be removed in the future.
