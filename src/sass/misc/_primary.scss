@@ -45,11 +45,11 @@
         }
 
         &.has-sidebar {
-            grid-template-columns: [sidebar] 22% [article] calc(78% - 1.5rem);
+            grid-template-columns: [sidebar] 20% [article] calc(80% - 1.5rem);
         }
 
         &.has-toc.has-sidebar {
-            grid-template-columns: [sidebar] 22% [article] calc(62% - (2 * 1.5rem)) [toc] 16%;
+            grid-template-columns: [sidebar] 20% [article] calc(66% - (2 * 1.5rem)) [toc] 14%;
         }
 
         .toc-container {

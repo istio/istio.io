@@ -180,22 +180,26 @@
     background-color: $paleGray;
     padding: 1.25em;
     padding-top: 3.75em;
-    @media screen AND (min-width: $bp-md) {
-        width: 275px;
-    }
 
     .search {
-        width: 230px;
+        width: 100%;
         height: 46px;
         display: flex;
         border: 2px solid $inputBorderColor;
         padding: 0 19px;
         margin-bottom: 1.75em;
 
+        #search-docs-form {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
         #search-docs-textbox {
             height: 42px;
             border: 0;
             background-color: $paleGray;
+            min-width: 0;
 
             &:focus {
                 outline: none;
