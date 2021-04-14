@@ -293,13 +293,13 @@ other = "更改"
 other = "页面测试"
 
 [has_test]
-other = "这个页面的自动化测试是可用的。点击详情。"
+other = "这个页面的自动化测试是可用的，点击详情。"
 
 [needs_test]
-other = "这个页面没有自动测试可用。点击详情或帮助创建一个。"
+other = "这个页面没有自动测试可用，点击详情或帮助创建一个。"
 
 [try_istio]
-other = "尝试 Istio"
+other = "试用 Istio"
 
 [service_mesh]
 other = "服务网格"
