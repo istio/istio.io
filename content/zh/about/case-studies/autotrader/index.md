@@ -27,7 +27,7 @@ type: case-studies
 
 由于合作伙伴和供应商的要求，部署 mTLS 并不仅仅是必需的。Auto Trader 计划将其大部分基础架构移至公有云。强大的端到端 mTLS 对于保护他们的整个微服务生态系统至关重要。
 
-## 解决方案：Istio 和 Google Kubernetes Engine {#solution-Istio-and-google-kubernetes-engine}
+## 解决方案：Istio 和 Google Kubernetes Engine {#solution-Istio-and-Google-Kubernetes-Engine}
 
 Auto Trader IT 团队在将服务迁移到公有云方面已经拥有良好的记录。显然，这是越来越多的基础设施的最终目的地。面对实施 mTLS 的问题，IT 团队的一部分尝试使用 Istio 作为服务网格对现有应用程序进行容器化并将其部署在 GKE 上。
 
