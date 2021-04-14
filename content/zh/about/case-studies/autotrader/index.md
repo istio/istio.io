@@ -27,7 +27,7 @@ type: case-studies
 
 由于合作伙伴和供应商的要求，部署 mTLS 并不仅仅是必需的。Auto Trader 计划将其大部分基础架构移至公有云。强大的端到端 mTLS 对于保护他们的整个微服务生态系统至关重要。
 
-## 解决方案：Istio 和 Google Kubernetes Engine {#solution-istio-and-google-kubernetes-engine}
+## 解决方案：Istio 和 Google Kubernetes Engine {#solution-Istio-and-google-kubernetes-engine}
 
 Auto Trader IT 团队在将服务迁移到公有云方面已经拥有良好的记录。显然，这是越来越多的基础设施的最终目的地。面对实施 mTLS 的问题，IT 团队的一部分尝试使用 Istio 作为服务网格对现有应用程序进行容器化并将其部署在 GKE 上。
 
@@ -37,7 +37,7 @@ Auto Trader IT 团队在将服务迁移到公有云方面已经拥有良好的�
 我们决定只试用 Istio 看看它会如何发展，最终我们交付了大约一周的时间–比过去四个月自己尝试将其交付的结果还要多。
 {{< /quote >}}
 
-## 为什么选择Istio？{#why-istio}
+## 为什么选择 Istio？{#why-Istio}
 
 尽管所有微服务都易于向 mTLS 过渡非常有力，但 Istio 也得到了许多大型组织的支持。Auto Trader 已与 Google 合作，因此知道 Google 是 Istio 的强大支持者就使他们充满信心，它将得到支持并长期发展。
 
@@ -55,7 +55,7 @@ Istio 使 Auto Trader 有信心将所有应用程序部署到公有云。随着�
 
 虽然这不是完全透明的迁移，但是 Istio 和 Kubernetes 的好处鼓励了所有产品团队进行迁移。由于 Istio 无需管理的依赖项就更少，并且可以自动提供许多功能，因此项目团队几乎可以毫不费力地满足跨功能需求。团队能够在几分钟内在全球范围内部署 Web 应用程序，而新的基础架构则可以轻松地每天处理约 200 至 250 项部署。
 
-### 激活 CI/CD {#enabling-ci-cd}
+### 激活 CI/CD {#enabling-CI-CD}
 
 甚至一个全新的应用程序也可以在五分钟内完成部署。现有应用程序的快速部署已经改变了 Auto Trader 的发布方法。他们不再使用发布周期，而是使用 CI/CD 快速部署新更改。使用 Istio 进行的微调监控使部署团队可以快速而准确地查明新部署中的问题。各个团队可以查看自己的绩效仪表板。如果他们看到新的错误，可以通过 CI/CD 仪表板立即回滚更改。Istio 的恢复时间仅为数分钟。
 
