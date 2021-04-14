@@ -465,26 +465,30 @@ sup {
     font-weight: $blogAttributeWeight;
 }
 
-.container {
+@mixin container($value) {
+    box-sizing: content-box;
     padding-left: 1.75rem;
     padding-right: 1.75rem;
-    max-width: 1440px;
-    width: 100%;
+    max-width: $value;
     margin-left: auto;
     margin-right: auto;
+}
+
+
+.container {
+    @include container($container);
 
     @media (min-width: $bp-md) {
         padding-left: 2rem;
         padding-right: 2rem;
     }
 
+    &-s {
+        @include container($container-s);
+    }
+
     &-l {
-        padding-left: 1.75rem;
-        padding-right: 1.75rem;
-        width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 1470px;
+        @include container($container-l);
     }
 
     &-no-padding {
