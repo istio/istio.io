@@ -1,7 +1,7 @@
 <!-- TODO: Replace placeholders -->
 ---
 title: Istio
-description: 服务网格用于可观测性、深度安全性和加速部署周期的管理。
+description: 一个用于可观测性、深度安全性和加速管理部署周期的服务网格。
 ---
 <!-- these script blocks are only for the primary English home page -->
 <script type="application/ld+json">
@@ -37,20 +37,21 @@ description: 服务网格用于可观测性、深度安全性和加速部署周�
     </section>
 
     <section id="landing-panels" class="panels container">
-        {{< content_panel type="dark" title="什么是 Istio?" text="了解服务网格如何帮助解决分布式架构中的许多常见挑战。" button="learn_more" url="/about/service-mesh" >}}
-        {{< content_panel type="dark" title="解决方案" text="学习如何使用 Istio 构建安全、可靠和可扩展的应用程序。" button="learn_more" url="/about/solutions" >}}
-        {{< content_panel type="dark" title="部署方式" text="您需要部署和利用 Istio 以满足您的独特需求。" button="learn_more" url="/about/deployment" >}}
+        {{< content_panel type="dark" title="what_is_istio" text="了解服务网格如何帮助解决分布式架构中的许多常见挑战。" button="learn_more" url="/about/service-mesh" >}}
+        {{< content_panel type="dark" title="solutions" text="学习如何使用 Istio 构建安全、可靠和可扩展的应用程序。" button="learn_more" url="/about/solutions" >}}
+        {{< content_panel type="dark" title="deployment" text="您需要部署和利用 Istio 以满足您的独特需求。" button="learn_more" url="/about/deployment" >}}
     </section>
 
     <section id="service-mesh" class="container">
         <h1>Istio 服务网格</h1>
 
         <p class="subtitle">
-            Istio 使用功能强大的 Envoy 服务代理扩展了 Kubernetes，以建立一个可编程的、可感知应用程序的网络。Istio 与 Kubernetes 和传统工作负载一起使用，为复杂的部署带来了标准的通用流量管理、遥测和安全性。
+            Istio 使用功能强大的 Envoy 服务代理扩展了 Kubernetes，以建立一个可编程的、可感知应用程序的网络。Istio 与 Kubernetes
+            和传统工作负载一起使用，为复杂的部署带来了标准的通用流量管理、遥测和安全性。
         </p>
- 
+
         <div class="service-mesh-graph">
-            <img src="/img/service-mesh.svg" alt="service-mesh"/>
+            <img src="/img/service-mesh.svg" alt="service-mesh" />
         </div>
 
         <div class="cta-container">
@@ -62,9 +63,9 @@ description: 服务网格用于可观测性、深度安全性和加速部署周�
         <h1>概念</h1>
 
         <div class="panels">
-            {{< content_panel type="transparent" title="流量管理" text="部署服务间路由，故障恢复和负载平衡等功能。" image="management.svg" >}}
-            {{< content_panel type="transparent" title="可观测性" text="提供流量和服务性能的端到端视图。" image="observability.svg" >}}
-            {{< content_panel type="transparent" title="安全" text="跨服务进行加密，基于角色的访问和身份验证。" image="security.svg" >}}
+            {{< content_panel type="transparent" title="traffic_management" text="部署服务间路由，故障恢复和负载平衡等功能。" image="management.svg" >}}
+            {{< content_panel type="transparent" title="observability" text="提供流量和服务性能的端到端视图。" image="observability.svg" >}}
+            {{< content_panel type="transparent" title="security" text="跨服务进行加密，基于角色的访问和身份验证。" image="security.svg" >}}
         </div>
 
         <div class="cta-container">
@@ -76,7 +77,8 @@ description: 服务网格用于可观测性、深度安全性和加速部署周�
         <h1>解决方案</h1>
 
         <p class="subtitle">
-            从初创企业，云原生到本地，各种规模的组织和任务都部署Istio来解决眼前的问题。有了 Istio，他们可以在他们的服务网络上建立额外的功能。从可塑性到可靠性，Istio 都给出了答案。了解一些 Istio 的关键用例。
+            从初创企业，云原生到本地，各种规模的组织和任务都部署Istio来解决眼前的问题。有了 Istio，他们可以在他们的服务网络上建立额外的功能。从可塑性到可靠性，Istio 都给出了答案。了解一些 Istio
+            的关键用例。
         </p>
 
         {{< solutions_carousel >}}
@@ -100,14 +102,14 @@ description: 服务网格用于可观测性、深度安全性和加速部署周�
         </p>
 
         <div class="distributors-grid">
-            {{< company_logo link="https://cloud.google.com/" logo="./logos/google-cloud.png" alt="Google Cloud" >}}
-            {{< company_logo link="https://www.ibm.com/cloud" logo="./logos/ibm-cloud.png" alt="IBM Cloud" >}}
-            {{< company_logo link="https://www.redhat.com/" logo="./logos/redhat.svg" alt="Red Hat" >}}
-            {{< company_logo link="https://www.vmware.com/" logo="./logos/vmware.png" alt="VMware" >}}
-            {{< company_logo link="https://www.huawei.com/" logo="./logos/huawei.png" alt="Huawei" >}}
-            {{< company_logo link="https://www.tetrate.io/" logo="./logos/tetrate.png" alt="Tetrate" >}}
-            {{< company_logo link="https://www.solo.io/" logo="./logos/solo.png" alt="Solo" >}}
-            {{< company_logo link="https://aspenmesh.io/" logo="./logos/aspen-mesh.png" alt="Aspen Mesh" >}}
+            {{< company_logo link="https://cloud.google.com/" logo="/logos/google-cloud.png" alt="Google Cloud" >}}
+            {{< company_logo link="https://www.ibm.com/cloud" logo="/logos/ibm-cloud.png" alt="IBM Cloud" >}}
+            {{< company_logo link="https://www.redhat.com/" logo="/logos/redhat.svg" alt="Red Hat" >}}
+            {{< company_logo link="https://www.vmware.com/" logo="/logos/vmware.png" alt="VMware" >}}
+            {{< company_logo link="https://www.huawei.com/" logo="/logos/huawei.png" alt="Huawei" >}}
+            {{< company_logo link="https://www.tetrate.io/" logo="/logos/tetrate.png" alt="Tetrate" >}}
+            {{< company_logo link="https://www.solo.io/" logo="/logos/solo.png" alt="Solo" >}}
+            {{< company_logo link="https://aspenmesh.io/" logo="/logos/aspen-mesh.png" alt="Aspen Mesh" >}}
         </div>
 
         <div class="cta-container">
