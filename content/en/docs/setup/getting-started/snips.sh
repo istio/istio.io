@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/setup/getting-started/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/trace-generation.sh"
 
 snip_download_istio_download_1() {
 curl -L https://istio.io/downloadIstio | sh -
