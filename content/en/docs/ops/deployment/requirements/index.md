@@ -39,7 +39,7 @@ To be part of a mesh, Kubernetes pods must satisfy the following requirements:
   instance HTTP and TCP.
 
 - **Application UIDs**: Ensure your pods do **not** run applications as a user
-  with the user ID (UID) value of **1337**. The `istio-proxy` container runs as UID **1337**. Running your application containers using the same UID would result in conflicts with its iptables configuration.
+  with the user ID (UID) value of **1337**. The `istio-proxy` container runs as UID **1337**. Running your application containers using the same UID would result in conflicts with its configuration.
 
 - **`NET_ADMIN` and `NET_RAW` capabilities**: If [pod security policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)
     are [enforced](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies)
