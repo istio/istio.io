@@ -377,6 +377,10 @@ Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kial
 
 1.  In the left navigation menu, select _Graph_ and in the _Namespace_ drop down, select _default_.
 
+    {{< tip >}}
+    {{< boilerplate trace-generation >}}
+    {{< /tip >}}
+
     The Kiali dashboard shows an overview of your mesh with the relationships
     between the services in the `Bookinfo` sample application. It also provides
     filters to visualize the traffic flow.
