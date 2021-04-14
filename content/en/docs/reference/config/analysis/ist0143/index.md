@@ -9,7 +9,7 @@ This message occurs when a workload is listening on a `localhost` network interf
 When this occurs, the port will not be accessible to other pods.
 
 This check is primarily added to detect workloads on older Istio versions that may break when upgrading to Istio 1.10 or later.
-This behavior matches what would occur in a standard Kubernetes cluster without Istio, but older versions of Istio exposed these ports
+This behavior matches what would occur in a standard Kubernetes cluster without Istio, but older versions of Istio exposed these ports.
 
 {{< warning >}}
 Because this check relies on privileged runtime checks, it is not included in the standard `istioctl analyze`.
@@ -18,7 +18,7 @@ Instead, it is included during installation and upgrade checks from `istioctl ex
 
 ## An example
 
-Consider a `Service` like below:
+Consider a `Service`, selecting a `Pod` running the command `nc localhost 8080 -l`:
 
 {{< text yaml >}}
 apiVersion: v1
@@ -33,9 +33,7 @@ spec:
     app: netcat
 {{< /text >}}
 
-Selecting a `Pod` running the command `nc localhost 8080`.
-
-Because the application is serving traffic on `localhost`, it is not accessible from other pods. 
+Because the application is serving traffic on `localhost`, it is not accessible from other pods.
 
 The above example shows using the simple `nc` tool. Some equivalent examples in other languages:
 
@@ -49,7 +47,7 @@ If you did not intend to expose the application to other pods, you can remove th
 
 if you do want to expose the application to other pods, there are two options
 
-- Modify the application to bind to a network interface exposed to other pods. Typically, this means binding to `0.0.0.0` or `::`.
+- Modify the application to bind to a network interface exposed to other pods. Typically, this means binding to `0.0.0.0` or `::`, such as `nc 0.0.0.0 8080 -l`.
 - Create a [`Sidecar` configuration](/docs/reference/config/networking/sidecar/#IstioIngressListener) to customize the inbound networking configuration for the pod.
   For example, with the above application:
 
