@@ -222,6 +222,9 @@ CVE-2020-15104
 CVE-2020-16844
 CVE-2020-25017
 CVE-2021-21378
+CVE-2021-28682
+CVE-2021-28683
+CVE-2021-29258
 CVEs
 cves
 cvss
@@ -238,6 +241,7 @@ declaratively
 Delayering
 Demailly
 deployment
+dereference
 dereferenced
 deserialize
 deserializing
