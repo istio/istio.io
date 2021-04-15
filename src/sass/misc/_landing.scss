@@ -72,4 +72,10 @@
     }
 
     h1 { text-align: center; }
+
+    h1, .subtitle {
+        max-width: $container-s;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }

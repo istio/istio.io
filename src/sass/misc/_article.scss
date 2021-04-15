@@ -1,4 +1,10 @@
 .article {
+    @media (min-width: $bp-xl) {
+        &.primary.has-sidebar {
+            grid-template-columns: [sidebar] 320px [article] auto;
+        }
+    }
+
     .title-area {
         margin-bottom: 3rem;
 

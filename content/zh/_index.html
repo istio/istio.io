@@ -1,85 +1,117 @@
+<!-- TODO: Replace placeholders -->
 ---
 title: Istio
-description: 用于连接、保护、控制和观测服务。
+description: 用于可观测性、深度安全性和加速管理部署周期的服务网格。
 ---
+<!-- these script blocks are only for the primary English home page -->
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "url": "https://istio.io",
+        "logo": "https://istio.io/img/logo.png",
+        "sameAs": [
+            "https://twitter.com/IstioMesh",
+            "https://discuss.istio.io/"
+        ]
+    }
+</script>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "url": "https://istio.io/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://istio.io/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+</script>
+
 <main class="landing">
-    <div id="banner">
-        {{< inline_image "landing/istio-logo.svg" >}}
-        <div id="hero-text">
-            <h1 id="hero-label">Istio</h1>
-            <h1 id="hero-lead">连接、保护、控制和观测服务。</h1>
-        </div>
-    </div>
+    <section id="banner">
+        <h1 id="hero-text">
+            通过领先的服务网格简化可观测性，流量管理，安全及策略。
+        </h1>
+    </section>
 
-    <div id="panels">
-        <div id="panel1" class="panel">
-            <a href="/zh/docs/concepts/traffic-management/">
-                <div class="panel-img-top">
-                    {{< inline_image "landing/routing-and-load-balancing.svg" >}}
-                </div>
-                <div class="panel-body">
-                    <hr class="panel-line">
-                    <h5 class="panel-title">连接</h5>
-                    <hr class="panel-line">
-                    <p class="panel-text">
-                        智能控制服务之间的流量和 API 调用，进行一系列测试，并通过红/黑部署逐步升级。
-                    </p>
-                </div>
-            </a>
+    <section id="landing-panels" class="panels container">
+        {{< content_panel type="dark" title="what_is_istio" text="了解服务网格如何帮助解决分布式架构中的许多常见挑战。" button="learn_more" url="/zh/about/service-mesh" >}}
+        {{< content_panel type="dark" title="solutions" text="学习如何使用 Istio 构建安全、可靠和可扩展的应用程序。" button="learn_more" url="/zh/about/solutions" >}}
+        {{< content_panel type="dark" title="deployment" text="您需要部署和利用 Istio 以满足您的独特需求。" button="learn_more" url="/zh/about/deployment" >}}
+    </section>
+
+    <section id="service-mesh" class="container">
+        <h1>Istio 服务网格</h1>
+
+        <p class="subtitle">
+            Istio 使用功能强大的 Envoy 服务代理扩展了 Kubernetes，以建立一个可编程的、可感知的应用程序网络。Istio 与 Kubernetes 和传统工作负载一起使用，为复杂的部署带来了标准的通用流量管理、遥测和安全性。
+        </p>
+
+        <div class="service-mesh-graph">
+            <img src="/img/service-mesh.svg" alt="service-mesh" />
         </div>
 
-        <div id="panel2" class="panel">
-            <a href="/zh/docs/concepts/security/">
-                <div class="panel-img-top">
-                    {{< inline_image "landing/resiliency.svg" >}}
-                </div>
-                <div class="panel-body">
-                    <hr class="panel-line">
-                    <h5 class="panel-title">保护</h5>
-                    <hr class="panel-line">
-                    <p class="panel-text">
-                        通过托管身份验证、授权和服务之间通信加密自动保护您的服务。
-                    </p>
-                </div>
-            </a>
+        <div class="cta-container">
+            <a href="/zh/about/service-mesh" class="btn">学习更多</a>
+        </div>
+    </section>
+
+    <section id="concepts" class="container">
+        <h1>概念</h1>
+
+        <div class="panels">
+            {{< content_panel type="transparent" title="traffic_management" text="部署服务间路由，故障恢复和负载平衡等功能。" image="management.svg" >}}
+            {{< content_panel type="transparent" title="observability" text="提供流量和服务性能的端到端视图。" image="observability.svg" >}}
+            {{< content_panel type="transparent" title="security" text="跨服务进行加密，基于角色的访问和身份验证。" image="security.svg" >}}
         </div>
 
-        <div id="panel3" class="panel">
-            <a href="/zh/docs/reference/config/policy-and-telemetry/">
-                <div class="panel-img-top">
-                    {{< inline_image "landing/policy-enforcement.svg" >}}
-                </div>
-                <div class="panel-body">
-                    <hr class="panel-line">
-                    <h5 class="panel-title">控制</h5>
-                    <hr class="panel-line">
-                    <p class="panel-text">
-                        应用策略并确保其执行，使得资源在消费者之间公平分配。
-                    </p>
-                </div>
-            </a>
+        <div class="cta-container">
+            <a href="/zh/about/service-mesh#concepts" class="btn">学习更多</a>
+        </div>
+    </section>
+
+    <section id="solutions" class="container">
+        <h1>解决方案</h1>
+
+        <p class="subtitle">
+            从初创公司到企业，云原生到私有云，各种规模的组织和任务都部署 Istio 来解决眼前的问题。有了 Istio，他们可以在他们的服务网络上建立额外的功能。从可塑性到可靠性，Istio 都给出了答案。了解一些 Istio 的关键用例。
+        </p>
+
+        {{< solutions_carousel >}}
+    </section>
+
+    <section id="case-studies" class="container">
+        <h1>案例探究</h1>
+
+        {{< case_studies_carousel >}}
+
+        <div class="cta-container">
+            <a class="btn" href="/zh/about/case-studies">前往案例探究</a>
+        </div>
+    </section>
+
+    <section id="distributors" class="container">
+        <h1>Istio 供应商</h1>
+
+        <p class="subtitle">
+            无论您是通过托管的 Kubernetes 服务获得 Istio，还是采用由 Istio 提供支持的产品，还是自行安装产品，Istio 都具有强大的生态系统，可让您以适合自己的方式部署和利用 Istio 功能。
+        </p>
+
+        <div class="distributors-grid">
+            {{< company_logo link="https://cloud.google.com/" logo="/logos/google-cloud.png" alt="Google Cloud" >}}
+            {{< company_logo link="https://www.ibm.com/cloud" logo="/logos/ibm-cloud.png" alt="IBM Cloud" >}}
+            {{< company_logo link="https://www.redhat.com/" logo="/logos/redhat.svg" alt="Red Hat" >}}
+            {{< company_logo link="https://www.vmware.com/" logo="/logos/vmware.png" alt="VMware" >}}
+            {{< company_logo link="https://www.huawei.com/" logo="/logos/huawei.png" alt="Huawei" >}}
+            {{< company_logo link="https://www.tetrate.io/" logo="/logos/tetrate.png" alt="Tetrate" >}}
+            {{< company_logo link="https://www.solo.io/" logo="/logos/solo.png" alt="Solo" >}}
+            {{< company_logo link="https://aspenmesh.io/" logo="/logos/aspen-mesh.png" alt="Aspen Mesh" >}}
         </div>
 
-        <div id="panel4" class="panel">
-            <a href="/zh/docs/reference/config/policy-and-telemetry/">
-                <div class="panel-img-top">
-                    {{< inline_image "landing/telemetry-and-reporting.svg" >}}
-                </div>
-                <div class="panel-body">
-                    <hr class="panel-line">
-                    <h5 class="panel-title">观测</h5>
-                    <hr class="panel-line">
-                    <p class="panel-text">
-                        对您的一切服务进行多样化、自动化的追踪、监控以及记录日志，以便实时了解正在发生的事情。
-                   </p>
-                </div>
-            </a>
+        <div class="cta-container">
+            <a class="btn" href="/zh/about/ecosystem#providers">查看所有供应商</a>
         </div>
-    </div>
-
-    <div id="buttons">
-        <a title="在 Kubernetes 上安装 Istio。" class="btn" href="/zh/docs/setup/getting-started/">开始吧</a>
-        <a title="深入了解 Istio 是什么以及它是如何工作的。" class="btn" href="/zh/docs/concepts/what-is-istio/">了解更多</a>
-        <a title="下载最新版本。" class="btn" href="/zh/docs/setup/getting-started/#download">下载 {{< istio_release_name >}}</a>
-    </div>
+    </section>
 </main>

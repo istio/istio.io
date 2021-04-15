@@ -288,3 +288,42 @@ other = "文档"
 
 [log_change]
 other = "更改"
+
+[tested]
+other = "页面测试"
+
+[has_test]
+other = "这个页面的自动化测试是可用的，点击详情。"
+
+[needs_test]
+other = "这个页面没有自动测试可用，点击详情或帮助创建一个。"
+
+[try_istio]
+other = "试用 Istio"
+
+[service_mesh]
+other = "服务网格"
+
+[what_is_istio]
+other = "什么是 Istio?"
+
+[solutions]
+other = "解决方案"
+
+[deployment]
+other = "部署"
+
+[learn_more]
+other = "学习更多"
+
+[traffic_management]
+other = "流量管理"
+
+[observability]
+other = "可观测性"
+
+[security]
+other = "安全"
+
+[sidebar-toggle]
+other = "目录"
