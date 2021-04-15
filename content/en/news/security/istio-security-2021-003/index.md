@@ -5,7 +5,7 @@ description:
 cves: [CVE-2021-28683, CVE-2021-28682, CVE-2021-29258]
 cvss: "7.5"
 vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-releases: ["1.8.5", "1.9.3"]
+releases: ["All releases prior to 1.8.5", "1.9.0 to 1.9.2"]
 publishdate: 2021-04-15
 keywords: [CVE]
 skip_seealso: true
