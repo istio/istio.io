@@ -1,0 +1,7 @@
+{{ $firstItems := .Get "first" }}
+{{ $items := .Get "items" }}
+{{ $companies := index .Site.Data.companies (printf "%s" $items) }}
+
+{{ with $companies }}
+    {{ partial "companies.html" (dict "items" . "first_items" $firstItems) }}
+{{ end }}

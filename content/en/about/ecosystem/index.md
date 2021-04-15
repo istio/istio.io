@@ -18,7 +18,7 @@ doc_type: about
         description="Locality-weighted load balancing allows administrators to control the distribution of traffic to endpoints based on the localities of where the traffic originates and where it will terminate."
     >}}
 
-    {{< distributors >}}
+    {{< companies items="providers">}}
 
     {{< /tab >}}
 

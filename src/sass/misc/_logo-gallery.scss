@@ -20,7 +20,7 @@
     }
 
     & > img {
-        max-width: 175px;
+        max-width: 70%;
     }
 
     &::before,
@@ -73,7 +73,7 @@
 
 }
 
-.distributors {
+.companies {
     &-grid {
         display: grid;
         grid-gap: 1.5rem;
