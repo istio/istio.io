@@ -34,7 +34,7 @@ providers:
 
 integrations:
   - name: "AutoTrader"
-    logo: "/logos/autotrader.uk.svg"
+    logo: "/logos/autotrader.svg"
     url: "https://autotrader.co.uk/"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dolor sed ultricies egestas nulla mauris at id."
     details:
@@ -49,13 +49,13 @@ integrations:
     url: "https://vmware.com/"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dolor sed ultricies egestas nulla mauris at id."
   - name: "AutoTrader"
-    logo: "/logos/autotrader.uk.svg"
+    logo: "/logos/autotrader.svg"
     url: "https://autotrader.co.uk/"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dolor sed ultricies egestas nulla mauris at id."
 
 pro_services:
   - name: "AutoTrader"
-    logo: "/logos/autotrader.uk.svg"
+    logo: "/logos/autotrader.svg"
     url: "https://autotrader.co.uk/"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dolor sed ultricies egestas nulla mauris at id."
   - name: "Red Hat"
@@ -78,7 +78,7 @@ users:
     logo: "/logos/autodesk.png"
     url: "https://www.autodesk.com"
   - name: "AutoTrader UK"
-    logo: "/logos/autotrader.uk.svg"
+    logo: "/logos/autotrader.svg"
     url: "https://www.autotrader.co.uk"
   - name: "Avito"
     logo: "/logos/avito.svg"

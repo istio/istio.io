@@ -7,7 +7,7 @@ author:
     image: "/img/authors/nick-chase.png"
 companyName: "AutoTrader UK"
 companyURL: "https://autotrader.co.uk/"
-logo: "/logos/autotrader.uk.svg"
+logo: "/logos/autotrader.svg"
 skip_toc: true
 skip_byline: true
 skip_pagenav: true
