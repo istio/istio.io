@@ -36,17 +36,20 @@ description: 用于可观测性、深度安全性和加速管理部署周期的�
         </h1>
     </section>
 
-    <section id="landing-panels" class="panels container">
-        {{< content_panel type="dark" title="what_is_istio" text="了解服务网格如何帮助解决分布式架构中的许多常见挑战。" button="learn_more" url="/zh/about/service-mesh" >}}
-        {{< content_panel type="dark" title="solutions" text="学习如何使用 Istio 构建安全、可靠和可扩展的应用程序。" button="learn_more" url="/zh/about/solutions" >}}
-        {{< content_panel type="dark" title="deployment" text="您需要部署和利用 Istio 以满足您的独特需求。" button="learn_more" url="/zh/about/deployment" >}}
+    <section id="landing-panels" class="container">
+        <div class="panels">
+            {{< content_panel type="dark" title="what_is_istio" text="了解服务网格如何帮助解决分布式架构中的许多常见挑战。" button="learn_more" url="/zh/about/service-mesh" >}}
+            {{< content_panel type="dark" title="solutions" text="学习如何使用 Istio 构建安全、可靠和可扩展的应用程序。" button="learn_more" url="/zh/about/solutions" >}}
+            {{< content_panel type="dark" title="deployment" text="您需要部署和利用 Istio 以满足您的独特需求。" button="learn_more" url="/zh/about/deployment" >}}
+        </div>
     </section>
 
     <section id="service-mesh" class="container">
         <h1>Istio 服务网格</h1>
 
         <p class="subtitle">
-            Istio 使用功能强大的 Envoy 服务代理扩展了 Kubernetes，以建立一个可编程的、可感知的应用程序网络。Istio 与 Kubernetes 和传统工作负载一起使用，为复杂的部署带来了标准的通用流量管理、遥测和安全性。
+            Istio 使用功能强大的 Envoy 服务代理扩展了 Kubernetes，以建立一个可编程的、可感知的应用程序网络。Istio 与 Kubernetes
+            和传统工作负载一起使用，为复杂的部署带来了标准的通用流量管理、遥测和安全性。
         </p>
 
         <div class="service-mesh-graph">
@@ -76,7 +79,8 @@ description: 用于可观测性、深度安全性和加速管理部署周期的�
         <h1>解决方案</h1>
 
         <p class="subtitle">
-            从初创公司到企业，云原生到私有云，各种规模的组织和任务都部署 Istio 来解决眼前的问题。有了 Istio，他们可以在他们的服务网络上建立额外的功能。从可塑性到可靠性，Istio 都给出了答案。了解一些 Istio 的关键用例。
+            从初创公司到企业，云原生到私有云，各种规模的组织和任务都部署 Istio 来解决眼前的问题。有了 Istio，他们可以在他们的服务网络上建立额外的功能。从可塑性到可靠性，Istio 都给出了答案。了解一些 Istio
+            的关键用例。
         </p>
 
         {{< solutions_carousel >}}
@@ -92,14 +96,14 @@ description: 用于可观测性、深度安全性和加速管理部署周期的�
         </div>
     </section>
 
-    <section id="distributors" class="container">
+    <section id="providers" class="container">
         <h1>Istio 供应商</h1>
 
         <p class="subtitle">
             无论您是通过托管的 Kubernetes 服务获得 Istio，还是采用由 Istio 提供支持的产品，还是自行安装产品，Istio 都具有强大的生态系统，可让您以适合自己的方式部署和利用 Istio 功能。
         </p>
 
-        <div class="distributors-grid">
+        <div class="companies-grid">
             {{< company_logo link="https://cloud.google.com/" logo="/logos/google-cloud.png" alt="Google Cloud" >}}
             {{< company_logo link="https://www.ibm.com/cloud" logo="/logos/ibm-cloud.png" alt="IBM Cloud" >}}
             {{< company_logo link="https://www.redhat.com/" logo="/logos/redhat.svg" alt="Red Hat" >}}
