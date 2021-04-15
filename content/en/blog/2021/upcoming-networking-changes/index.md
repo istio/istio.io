@@ -1,5 +1,5 @@
 ---
-title: "Upcoming networking changes In Istio 1.10"
+title: "Upcoming networking changes in Istio 1.10"
 description: Understanding the upcoming changes to Istio networking, how they may impact your cluster, and what action to take.
 publishdate: 2021-04-15
 attribution: "John Howard (Google)"
