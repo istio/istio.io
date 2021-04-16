@@ -29,7 +29,7 @@ For more information, refer to the [authorization concept page](/docs/concepts/s
 | `request.auth.claims` | Raw claims of the authenticated JWT token. The claim name is surrounded by `[]` without any quotes, nested claim can also be used, requires request authentication policy applied. Note only support claim of type string or list of string | HTTP only | `key: request.auth.claims[iss]`<br/>`values: ["*@foo.com"]`<br/>---<br/>`key: request.auth.claims[nested1][nested2]`<br/>`values: ["some-value"]` |
 | `destination.ip` | Destination workload instance IP address, supports single IP or CIDR | HTTP and TCP | `key: destination.ip`<br/>`values: ["10.1.2.3", "10.2.0.0/16"]` |
 | `destination.port` | Destination workload instance port, must be in the range [0, 65535]. Note this is not the service port | HTTP and TCP | `key: destination.port`<br/>`values: ["80", "443"]` |
-| `connection.sni` | The server name indication, requires mutual TLS enabled | HTTP and TCP | `key: connection.sni`<br/>`values: ["www.example.com"]` |
+| `connection.sni` | The server name indication, requires TLS enabled | HTTP and TCP | `key: connection.sni`<br/>`values: ["www.example.com"]` |
 | `experimental.envoy.filters.*` | Experimental metadata matching for filters, values wrapped in `[]` are matched as a list | HTTP and TCP | `key: experimental.envoy.filters.network.mysql_proxy[db.table]`<br/>`values: ["[update]"]` |
 
 {{< warning >}}
