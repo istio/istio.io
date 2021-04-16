@@ -3,7 +3,7 @@ title: Announcing Istio 1.9.3
 linktitle: 1.9.3
 subtitle: Patch Release
 description: Istio 1.9.3 patch release.
-publishdate: 2021-03-01
+publishdate: 2021-04-15
 release: 1.9.3
 aliases:
     - /news/announcing-1.9.3
