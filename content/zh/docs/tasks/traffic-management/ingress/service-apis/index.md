@@ -1,33 +1,33 @@
 ---
 title: Kubernetes Service APIs
-description: 描述如何使用Istio来配置Kubernetes API服务。
+description: 描述如何使用 Istio 来配置 Kubernetes API 服务。
 weight: 50
 keywords: [traffic-management,ingress]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-此任务描述如何使用Kubernetes[Service API](https://kubernetes-sigs.github.io/gateway-api/)配置Istio，将服务暴露到service mesh集群外。这些API是Kubernetes [Service](https://kubernetes.io/docs/concepts/services-networking/service/)和[Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) API的发展演进。
+此任务描述如何使用 Kubernetes[Service API](https://kubernetes-sigs.github.io/gateway-api/)配置 Istio，将服务暴露到 service mesh 集群外。这些 API 是 Kubernetes[Service](https://kubernetes.io/docs/concepts/services-networking/service/)和[Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)API 的发展演进。
 
 ## 设置 {#setup}
 
-1. 调用Service APIs 创建CRDs:
+1. 调用 Service APIs 创建 CRDs:
 
     {{< text bash >}}
     $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.1.0" | kubectl apply -f -
     {{< /text >}}
 
-1. 安装Istio或重新配置Istio，启动Service APIs控制器:
+1. 安装 Istio 或重新配置 Istio，启动 Service APIs 控制器:
 
     {{< text bash >}}
     $ istioctl install --set values.pilot.env.PILOT_ENABLED_SERVICE_APIS=true
     {{< /text >}}
 
-1. 请按照 [确定Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)中的说明进行操作，取得入口网关的外部IP地址。
+1. 请按照 [确定 Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)中的说明进行操作，取得入口网关的外部 IP 地址。
 
 ## 配置网关 {#configuring-a-gateway}
 
-参见 [Service APIs](https://kubernetes-sigs.github.io/gateway-api/) 文档中的APIs信息.
+参见 [Service APIs](https://kubernetes-sigs.github.io/gateway-api/) 文档中的 APIs 信息.
 
 1. 部署一个测试应用:
 
@@ -101,9 +101,9 @@ test: yes
     ...
     {{< /text >}}
 
-    请注意，使用 `-H` 标志可以将 _Host_ HTTP标头设置为"httpbin.example.com"。这一步是必需的，因为 `HTTPRoute` 已配置为处理"httpbin.example.com"的请求，但是在测试环境中，该主机没有DNS绑定，只是将请求发送到入口IP。
+    请注意，使用 `-H` 标志可以将 _Host_ HTTP 标头设置为"httpbin.example.com"。这一步是必需的，因为 `HTTPRoute` 已配置为处理"httpbin.example.com"的请求，但是在测试环境中，该主机没有 DNS 绑定，只是将请求发送到入口 IP。
 
-1.  访问尚未显式公开的任何其他URL，将会收到HTTP 404错误：
+1.  访问尚未显式公开的任何其他 URL，将会收到 HTTP 404 错误：
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
