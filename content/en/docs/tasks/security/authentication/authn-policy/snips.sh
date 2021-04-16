@@ -94,8 +94,8 @@ ENDSNIP
 
 snip_globally_enabling_istio_mutual_tls_in_strict_mode_1() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "default"
   namespace: "istio-system"
@@ -129,8 +129,8 @@ kubectl delete peerauthentication -n istio-system default
 
 snip_namespacewide_policy_1() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "default"
   namespace: "foo"
@@ -159,8 +159,8 @@ ENDSNIP
 
 snip_enable_mutual_tls_per_workload_1() {
 cat <<EOF | kubectl apply -n bar -f -
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "httpbin"
   namespace: "bar"
@@ -175,8 +175,8 @@ EOF
 
 snip_enable_mutual_tls_per_workload_2() {
 cat <<EOF | kubectl apply -n bar -f -
-apiVersion: "networking.istio.io/v1alpha3"
-kind: "DestinationRule"
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
 metadata:
   name: "httpbin"
 spec:
@@ -213,8 +213,8 @@ ENDSNIP
 
 snip_enable_mutual_tls_per_workload_5() {
 cat <<EOF | kubectl apply -n bar -f -
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "httpbin"
   namespace: "bar"
@@ -232,8 +232,8 @@ EOF
 
 snip_enable_mutual_tls_per_workload_6() {
 cat <<EOF | kubectl apply -n bar -f -
-apiVersion: "networking.istio.io/v1alpha3"
-kind: "DestinationRule"
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
 metadata:
   name: "httpbin"
 spec:
@@ -268,8 +268,8 @@ ENDSNIP
 
 snip_policy_precedence_1() {
 cat <<EOF | kubectl apply -n foo -f -
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "overwrite-example"
   namespace: "foo"
@@ -284,8 +284,8 @@ EOF
 
 snip_policy_precedence_2() {
 cat <<EOF | kubectl apply -n foo -f -
-apiVersion: "networking.istio.io/v1alpha3"
-kind: "DestinationRule"
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
 metadata:
   name: "overwrite-example"
 spec:
@@ -362,8 +362,8 @@ ENDSNIP
 
 snip_enduser_authentication_4() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "RequestAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
 metadata:
   name: "jwt-example"
   namespace: istio-system
@@ -373,7 +373,7 @@ spec:
       istio: ingressgateway
   jwtRules:
   - issuer: "testing@secure.istio.io"
-    jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
+    jwksUri: "https://raw.githubusercontent.com/istio/istio/release-1.10/security/tools/jwt/samples/jwks.json"
 EOF
 }
 
@@ -394,7 +394,7 @@ curl --header "Authorization: Bearer deadbeef" "$INGRESS_HOST:$INGRESS_PORT/head
 ENDSNIP
 
 snip_enduser_authentication_7() {
-TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/demo.jwt -s)
+TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/release-1.10/security/tools/jwt/samples/demo.jwt -s)
 curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
@@ -403,11 +403,11 @@ curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/header
 ENDSNIP
 
 snip_enduser_authentication_8() {
-wget --no-verbose https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/gen-jwt.py
+wget --no-verbose https://raw.githubusercontent.com/istio/istio/release-1.10/security/tools/jwt/samples/gen-jwt.py
 }
 
 snip_enduser_authentication_9() {
-wget --no-verbose https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/key.pem
+wget --no-verbose https://raw.githubusercontent.com/istio/istio/release-1.10/security/tools/jwt/samples/key.pem
 }
 
 snip_enduser_authentication_10() {
@@ -430,8 +430,8 @@ ENDSNIP
 
 snip_require_a_valid_token_1() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "AuthorizationPolicy"
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: "frontend-ingress"
   namespace: istio-system
@@ -457,8 +457,8 @@ ENDSNIP
 
 snip_require_valid_tokens_perpath_1() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "AuthorizationPolicy"
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: "frontend-ingress"
   namespace: istio-system

@@ -1,6 +1,8 @@
 ---
 title: GatewayPortNotOnWorkload
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 当 Gateway（通常为 `istio-ingressgateway`）提供了一个端口，而该端口并非 Kubernetes service 工作负载选择的端口时，将触发此消息。

@@ -1,6 +1,8 @@
 ---
 title: PodMissingProxy
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 当 sidecar 不存在或不能正常工作时，将触发此消息。

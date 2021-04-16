@@ -5,6 +5,8 @@ weight: 10
 aliases:
   - /zh/docs/concepts/architecture
   - /zh/docs/ops/architecture
+owner: istio/wg-environments-maintainers
+test: n/a
 ---
 
 Istio 服务网格从逻辑上分为数据平面和控制平面。

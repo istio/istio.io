@@ -36,8 +36,8 @@ ENDSNIP
 
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_1() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "RequestAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
 metadata:
   name: "jwt-example"
   namespace: foo
@@ -47,7 +47,7 @@ spec:
       app: httpbin
   jwtRules:
   - issuer: "testing@secure.istio.io"
-    jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
+    jwksUri: "https://raw.githubusercontent.com/istio/istio/release-1.10/security/tools/jwt/samples/jwks.json"
 EOF
 }
 
@@ -87,7 +87,7 @@ EOF
 }
 
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_5() {
-TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN" | cut -d '.' -f2 - | base64 --decode -
+TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/release-1.10/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN" | cut -d '.' -f2 - | base64 --decode -
 }
 
 ! read -r -d '' snip_allow_requests_with_valid_jwt_and_listtyped_claims_5_out <<\ENDSNIP
@@ -133,7 +133,7 @@ EOF
 }
 
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_9() {
-TOKEN_GROUP=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/groups-scope.jwt -s) && echo "$TOKEN_GROUP" | cut -d '.' -f2 - | base64 --decode -
+TOKEN_GROUP=$(curl https://raw.githubusercontent.com/istio/istio/release-1.10/security/tools/jwt/samples/groups-scope.jwt -s) && echo "$TOKEN_GROUP" | cut -d '.' -f2 - | base64 --decode -
 }
 
 ! read -r -d '' snip_allow_requests_with_valid_jwt_and_listtyped_claims_9_out <<\ENDSNIP

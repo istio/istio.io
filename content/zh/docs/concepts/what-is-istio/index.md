@@ -6,6 +6,8 @@ aliases:
     - /zh/docs/concepts/what-is-istio/overview
     - /zh/docs/concepts/what-is-istio/goals
     - /zh/about/intro
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 云平台令使用它们的公司受益匪浅。但不可否认的是，上云会给 DevOps 团队带来压力。为了可移植性，开发人员必须使用微服务来构建应用，同时运维人员也正在管理着极端庞大的混合云和多云的部署环境。

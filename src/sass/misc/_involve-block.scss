@@ -1,0 +1,109 @@
+.involve-block {
+    padding-left: 1.875rem;
+    border-bottom: 4px dotted $accentColor;
+
+    @media (min-width: $bp-sm) {
+        padding: 0 4rem 0 6rem;
+        background: {
+            image: url("/img/get-involved-wave.svg");
+            repeat: no-repeat;
+            size: contain;
+            position: left;
+        }
+    }
+
+    &:first-of-type {
+        border-top: 4px dotted $accentColor;
+    }
+
+    &:first-of-type &-header {
+        border-left-color: transparent;
+    }
+
+    &:last-of-type &-content {
+        border-left: 0;
+    }
+
+    &-header {
+        display: flex;
+        padding-top: 2rem;
+        border-left: 4px solid $accentColor;
+
+        h3 {
+            margin: 0;
+        }
+
+    }
+
+    &-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        background: $accentColor;
+        border-radius: 100%;
+        margin-left: -2rem;
+        margin-right: 1.75rem;
+
+        @media (min-width: $bp-sm) {
+            background: {
+                image: url("/img/get-involved-wave.svg");
+                repeat: no-repeat;
+                size: contain;
+                position: left;
+            }
+        }
+
+        svg {
+            height: 24px;
+            fill: white;
+            stroke: none;
+        }
+    }
+
+    &-content {
+        padding-left: 3.5rem;
+        padding-bottom: 1.5rem;
+        border-left: 4px solid $accentColor;
+
+        @media (min-width: $bp-sm) {
+            padding-bottom: .625rem;
+        }
+
+        ol {
+            margin: 0;
+            padding-left: 2rem;
+            list-style-type: none;
+            counter-reset: involved-list-counter;
+        }
+
+        li {
+            position: relative;
+            margin-bottom: 1.25rem;
+
+            &::before {
+                position: absolute;
+                left: -38px;
+                top: 0;
+                counter-increment: involved-list-counter;
+                content: counter(involved-list-counter);
+                display: block;
+                float: left;
+                width: 28px;
+                height: 28px;
+                border: 2px solid $accentColor;
+                border-radius: 100%;
+                color: $accentColor;
+                font-size: $font-size--primary;
+                line-height: 1.5rem;
+                text-align: center;
+            }
+        }
+    }
+
+    &-subtitle {
+        margin: 0;
+        padding-bottom: 1.5rem;
+    }
+}

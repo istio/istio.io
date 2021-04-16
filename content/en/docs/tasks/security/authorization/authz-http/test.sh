@@ -94,7 +94,7 @@ kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
 _wait_for_istio virtualservice default reviews
 
 snip_configure_access_control_for_workloads_using_http_traffic_1
-_wait_for_istio authorizationpolicy default deny-all
+_wait_for_istio authorizationpolicy default allow-nothing
 
 # Verify we don't have access.
 verify 403 "RBAC: access denied"

@@ -10,6 +10,8 @@ aliases:
     - /zh/docs/concepts/policies-and-telemetry/overview/
     - /zh/docs/concepts/policies-and-telemetry/config/
     - /zh/docs/concepts/policies-and-telemetry/
+owner: istio/wg-policies-and-telemetry-maintainers
+test: no
 ---
 
 Istio 为网格内所有的服务通信生成详细的遥测数据。这种遥测技术提供了服务行为的**可观察性**，使运维人员能够排查故障、维护和优化应用程序，而不会给服务的开发人员带来任何额外的负担。通过 Istio，运维人员可以全面了解到受监控的服务如何与其他服务以及 Istio 组件进行交互。

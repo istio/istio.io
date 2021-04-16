@@ -5,4 +5,5 @@ weight: 30
 aliases:
     - /zh/docs/reference/config/istio.routing.v1alpha1/
     - /zh/docs/reference/config/networking/
+test: n/a
 ---

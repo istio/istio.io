@@ -6,6 +6,8 @@ aliases:
     - /zh/docs/setup/kubernetes/install/cni
     - /zh/docs/setup/kubernetes/additional-setup/cni
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 按照此流程利用 Istio 容器网络接口（[CNI](https://github.com/containernetworking/cni#cni---the-container-network-interface)）来安装、配置和使用 Istio 网格。

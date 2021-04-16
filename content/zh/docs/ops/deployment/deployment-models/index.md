@@ -16,6 +16,8 @@ aliases:
   - /zh/docs/concepts/multicluster-deployments
   - /zh/docs/concepts/deployment-models
   - /zh/docs/ops/prep/deployment-models
+owner: istio/wg-environments-maintainers
+test: n/a
 ---
 
 当您将 Istio 用于生产环境部署时，需要回答一系列的问题。

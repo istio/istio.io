@@ -559,6 +559,24 @@ connections.</p>
 Yes
 </td>
 </tr>
+<tr id="Server-bind">
+<td><code>bind</code></td>
+<td><code>string</code></td>
+<td>
+<p>The ip or the Unix domain socket to which the listener should be bound
+to. Format: <code>x.x.x.x</code> or <code>unix:///path/to/uds</code> or <code>unix://@foobar</code>
+(Linux abstract namespace). When using Unix domain sockets, the port
+number should be 0.
+This can be used to restrict the reachability of this server to be gateway internal only.
+This is typically used when a gateway needs to communicate to another mesh service
+e.g. publishing metrics. In such case, the server created with the
+specified bind will not be available to external gateway clients.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="Server-hosts">
 <td><code>hosts</code></td>
 <td><code>string[]</code></td>

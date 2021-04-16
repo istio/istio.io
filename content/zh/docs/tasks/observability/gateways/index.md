@@ -5,6 +5,8 @@ weight: 99
 keywords: [telemetry,gateway,jaeger,zipkin,tracing,kiali,prometheus,addons]
 aliases:
  - /zh/docs/tasks/telemetry/gateways/
+owner: istio/wg-policies-and-telemetry-maintainers
+test: yes
 ---
 
 此任务说明如何配置 Istio 以显示和访问集群外部的遥测插件。

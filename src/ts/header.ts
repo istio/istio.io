@@ -17,8 +17,15 @@ function handleHeader(): void {
     const searchForm = "search-form";
     const headerLinks = "header-links";
     const searchTextbox = "search-textbox";
+    const searchDocsTextbox = "search-docs-textbox";
     const showSearch = "show-search";
-    const openHamburger = "open-hamburger";
+    const searchDocsForm = "search-docs-form";
+    const isVisible = "is-visible";
+    const sidebarVisible = "visible";
+    const sidebarId = "sidebar-container";
+    const hasDropdown = "has-dropdown";
+    const isOpen = "is-open";
+    const screenSizeLg = 992;
 
     // Show the header links, hide the search box
     function showNavBarLinks(): void {
@@ -56,6 +63,17 @@ function handleHeader(): void {
         }
     }
 
+    const header = getByTag("header");
+    function toggleActiveHeader(): void {
+        const top = window.scrollY;
+
+        if (top >= 10) {
+            header?.classList.add("active");
+        } else {
+            header?.classList.remove("active");
+        }
+    }
+
     // Hide the search box when the user hits the ESC key
     listen(document.body, keyup, o => {
         const e = o as KeyboardEvent;
@@ -86,27 +104,58 @@ function handleHeader(): void {
         showNavBarLinks();
         window.location.assign(url);
     });
-
+    listen(getById(searchDocsForm), "submit", e => {
+        e.preventDefault();
+        const textbox = getById(searchDocsTextbox) as HTMLInputElement;
+        const searchPageUrl = getById("search-docs-url") as HTMLInputElement;
+        const url = searchPageUrl.value + "?q=" + textbox.value + "&site=docs";
+        window.location.assign(url);
+    });
     listen(getById("hamburger"), click, () => {
-        const b = getById("brand");
-        if (b) {
-            b.classList.toggle(openHamburger);
+        if (header) {
+            header.classList.add(isVisible);
         }
+    });
+    listen(getById("menu-close"), click, () => {
+        if (header) {
+            header.classList.remove(isVisible);
+        }
+    });
+    const sidebar = getById(sidebarId);
+    listen(getById("sidebar-toggle"), click, () => {
+        if (sidebar) {
+            sidebar.classList.add(sidebarVisible);
+        }
+    });
+    listen(getById("sidebar-close"), click, () => {
+        if (sidebar) {
+            sidebar.classList.remove(sidebarVisible);
+        }
+    });
 
-        const hl = getById(headerLinks);
-        if (hl) {
-            hl.classList.toggle(openHamburger);
+    // Toggle dropdown menu on click in mobile view
+    const dropdownLinks = getByClass("main-navigation-links-link");
+    if (dropdownLinks) {
+        for (const i of dropdownLinks) {
+            if (i.classList.contains(hasDropdown)) {
+                listen(i, click, (e) => {
+                    if (window.innerWidth < screenSizeLg) {
+                        e.preventDefault();
+                        i.classList.toggle(isOpen);
+                        return false;
+                    }
+                    return true;
+                });
+            }
         }
+    }
 
-        const sf = getById(searchForm);
-        if (sf) {
-            sf.classList.toggle(openHamburger);
-        }
+    if (document.readyState !== "loading") {
+        toggleActiveHeader();
+    }
 
-        const st = getById(searchTextbox);
-        if (st) {
-            st.focus();
-        }
+    listen(window, "scroll", () => {
+        toggleActiveHeader();
     });
 }
 

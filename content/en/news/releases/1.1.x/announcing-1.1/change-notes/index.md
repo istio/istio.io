@@ -94,7 +94,7 @@ concise list of things you should know before upgrading your deployment to Istio
 ### Security
 
 - **Readiness and Liveness Probes**. Added support for Kubernetes' HTTP
-  [readiness and liveness probes](/faq/security/#k8s-health-checks) when
+  [readiness and liveness probes](/about/faq/#k8s-health-checks) when
   mutual TLS is enabled.
 
 - **Cluster RBAC Configuration**. Replaced the `RbacConfig` resource with the
