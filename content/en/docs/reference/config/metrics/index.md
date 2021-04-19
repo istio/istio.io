@@ -113,7 +113,7 @@ For TCP traffic, Istio generates the following metrics:
     {{< /text >}}
 
 *   **Destination Cluster**: Name of the cluster for the destination workload.
-    This is set by: global.multiCluster.clusterName at cluster install time.
+    This is set by: `global.multiCluster.clusterName` at cluster install time.
 
 *   **Source Cluster**: Name of the cluster for the source workload.
-    This is set by: global.multiCluster.clusterName at cluster install time.
+    This is set by: `global.multiCluster.clusterName` at cluster install time.
