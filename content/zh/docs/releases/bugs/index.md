@@ -6,7 +6,11 @@ aliases:
     - /zh/bugs.html
     - /zh/bugs/index.html
     - /zh/help/bugs/
+    - /zh/about/bugs
+    - /zh/latest/about/bugs
 icon: bugs
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 不好！您发现了一个错误？我们希望知道这一点。
