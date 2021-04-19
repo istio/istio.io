@@ -23,7 +23,7 @@ Istio 用户通过以下方式暴露此漏洞:
 
 * 通过 [Envoy 筛选器](/zh/docs/reference/config/networking/envoy-filter/)直接使用 Envoy 的`verify_subject_alt_name`和`match_subject_alt_names`配置。
 
-* 使用Istio 的[ `subjectAltNames` 字段在目标规则与客户端 TLS 设置](/docs/reference/config/networking/destination-rule/#ClientTLSSettings).  具有包含 `nested.subdomain.example.com` 的 `subjectAltNames` 字段的目标规则错误地接受来自主机名称（SAN）为 `* .example.com` 的上游层证书。 相反，应该存在一个 `*.subdomain.example.com` 或 `nested.subdomain.example.com` 的 SAN。
+* 使用Istio 的[ `subjectAltNames` 字段在目标规则与客户端 TLS 设置](/zh/docs/reference/config/networking/destination-rule/#ClientTLSSettings).  具有包含 `nested.subdomain.example.com` 的 `subjectAltNames` 字段的目标规则错误地接受来自主机名称（SAN）为 `* .example.com` 的上游层证书。 相反，应该存在一个 `*.subdomain.example.com` 或 `nested.subdomain.example.com` 的 SAN。
 
 * 使用 Istio 的 [服务条目中的 `subjectAltNames`](/zh/docs/reference/config/networking/service-entry/)。 带有 ` subjectAltNames` 字段的值类似于 `nested.subdomain.example.com` 的服务条目错误地接受来自 SAN 为 `*.example.com` 的上游层证书。
 
