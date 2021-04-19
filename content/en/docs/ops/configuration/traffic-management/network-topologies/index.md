@@ -1,6 +1,6 @@
 ---
-title: Configuring Gateway Network Topology [Experimental]
-description: How to configure gateway network topology (experimental).
+title: Configuring Gateway Network Topology [Alpha]
+description: How to configure gateway network topology (alpha).
 weight: 60
 keywords: [traffic-management,ingress,gateway]
 owner: istio/wg-networking-maintainers
@@ -8,8 +8,6 @@ test: yes
 ---
 
 ## Forwarding external client attributes (IP address, certificate info) to destination workloads
-
-{{< boilerplate experimental >}}
 
 Many applications require knowing the client IP address and certificate information of the originating request to behave
 properly. Notable cases include logging and audit tools that require the client IP be populated and security tools,
@@ -200,6 +198,8 @@ See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/config
 for examples of using this capability.
 
 ## PROXY Protocol
+
+{{< boilerplate experimental >}}
 
 The [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) allows for exchanging and preservation of client attributes across multiple proxies without relying on Layer 7 protocols.
 
