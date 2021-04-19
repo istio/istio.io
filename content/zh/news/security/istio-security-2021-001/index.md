@@ -24,7 +24,7 @@ Envoy 和 Istio 容易受到新发现漏洞的攻击：
 如果您同时使用 `RequestAuthentication` 和 `AuthorizationPolicy` 进行 JWT 验证，则您不受此漏洞的影响。
 
 {{< warning >}}
-请注意，`RequestAuthentication` 用于定义应接受的发行者列表。 它不会拒绝没有 JWT 令牌请求。 
+请注意，`RequestAuthentication` 用于定义应接受的发行者列表。 它不会拒绝没有 JWT 令牌请求。
 {{< /warning >}}
 
 对于Istio，此漏洞仅在您的服务:
@@ -36,7 +36,7 @@ Envoy 和 Istio 容易受到新发现漏洞的攻击：
 
 ## 防范{#mitigation}
 
-为了进行正确的 JWT 验证，您应该始终使用 istio.io 文档上记录的 `AuthorizationPolicy` 来[指定有效令牌](/docs/tasks/security/authentication/authn-policy/#require-a-valid-token).
+为了进行正确的 JWT 验证，您应该始终使用 istio.io 文档上记录的 `AuthorizationPolicy` 来[指定有效令牌](/zh/docs/tasks/security/authentication/authn-policy/#require-a-valid-token).
 为此，您将必须审核所有 `RequestAuthentication` 和后续的 `AuthorizationPolicy` 资源，以确保它们与记录的实践保持一致。
 
 {{< boilerplate "security-vulnerability" >}}

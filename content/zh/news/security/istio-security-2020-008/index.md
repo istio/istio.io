@@ -21,17 +21,17 @@ Istio 容易受到新发现漏洞的攻击:
 
 Istio 用户通过以下方式暴露此漏洞:
 
-* 通过 [Envoy 筛选器](/docs/reference/config/networking/envoy-filter/)直接使用 Envoy 的`verify_subject_alt_name`和`match_subject_alt_names`配置。
+* 通过 [Envoy 筛选器](/zh/docs/reference/config/networking/envoy-filter/)直接使用 Envoy 的`verify_subject_alt_name`和`match_subject_alt_names`配置。
 
 * 使用Istio 的[ `subjectAltNames` 字段在目标规则与客户端 TLS 设置](/docs/reference/config/networking/destination-rule/#ClientTLSSettings).  具有包含 `nested.subdomain.example.com` 的 `subjectAltNames` 字段的目标规则错误地接受来自主机名称（SAN）为 `* .example.com` 的上游层证书。 相反，应该存在一个 `*.subdomain.example.com` 或 `nested.subdomain.example.com` 的 SAN。
 
-* 使用 Istio 的 [服务条目中的 `subjectAltNames`](/docs/reference/config/networking/service-entry/)。 带有 ` subjectAltNames` 字段的值类似于 `nested.subdomain.example.com` 的服务条目错误地接受来自 SAN 为 `*.example.com` 的上游层证书。
+* 使用 Istio 的 [服务条目中的 `subjectAltNames`](/zh/docs/reference/config/networking/service-entry/)。 带有 ` subjectAltNames` 字段的值类似于 `nested.subdomain.example.com` 的服务条目错误地接受来自 SAN 为 `*.example.com` 的上游层证书。
 
-Istio CA（以前称为 Citadel）不使用 DNS 通配符 SAN 颁发证书。 该漏洞仅影响验证外部颁发证书的配置。 
+Istio CA（以前称为 Citadel）不使用 DNS 通配符 SAN 颁发证书。 该漏洞仅影响验证外部颁发证书的配置。
 
 ## 防范{#mitigation}
 
-* 对于 1.5.x deployments: 部署： 请升级至 [Istio 1.5.8](/news/releases/1.5.x/announcing-1.5.8) 或更高的版本。
-* 对于 1.6.x deployments: 部署： 请升级至 [Istio 1.6.5](/news/releases/1.6.x/announcing-1.6.5) 或更高的版本。
+* 对于 1.5.x deployments: 部署： 请升级至 [Istio 1.5.8](/zh/news/releases/1.5.x/announcing-1.5.8) 或更高的版本。
+* 对于 1.6.x deployments: 部署： 请升级至 [Istio 1.6.5](/zh/news/releases/1.6.x/announcing-1.6.5) 或更高的版本。
 
 {{< boilerplate "security-vulnerability" >}}
