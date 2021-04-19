@@ -2,7 +2,7 @@
 title: Getting Envoy's Access Logs
 description: This task shows you how to configure Envoy proxies to print access logs to their standard output.
 weight: 10
-keywords: [telemetry]
+keywords: [telemetry,logs]
 aliases:
     - /docs/tasks/telemetry/access-log
     - /docs/tasks/telemetry/logs/access-log/
