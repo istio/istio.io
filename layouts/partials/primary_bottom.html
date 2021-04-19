@@ -3,8 +3,11 @@
 {{ $skipPageNav := .Scratch.Get "skipPageNav" }}
 
             {{ if .Scratch.Get "seeAlso" }}
-                {{ $related := .Site.RegularPages.Related . | first 6 }}
-                {{ with $related }}
+                {{ $related := .Site.RegularPages.Related . | first 8 }}
+                {{ $mixerSPOF := where $related "RelPermalink" "/blog/2017/mixer-spof-myth/"}}
+                {{ $mixerAdapter := where $related "RelPermalink" "/blog/2017/adapter-model/"}}
+                {{ $seeAlso := $related | complement $mixerSPOF $mixerAdapter | first 6}}
+                {{ with $seeAlso }}
                     <nav id="see-also">
                         <h2>{{ i18n "see_also" }}</h2>
 
