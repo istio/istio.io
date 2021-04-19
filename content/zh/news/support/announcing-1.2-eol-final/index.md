@@ -1,7 +1,7 @@
 ---
 title: 对 Istio 1.2 的支持已终止
-subtitle: 版本维护公告
-description: Istio 1.2 生命周期终止公告。
+subtitle: 支持公告
+description: Istio 1.2 支持终止公告。
 publishdate: 2019 年 12 月 13 日
 aliases:
     - /zh/news/2019/announcing-1.2-eol-final
