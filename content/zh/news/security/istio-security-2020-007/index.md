@@ -40,7 +40,7 @@ Envoy 和 Istio 容易受到4个新发现漏洞的攻击：
 您必须采取以下附加步骤来防范 CVE-2020-8663。
 {{< /warning >}}
 
-通过添加[下游连接](https://www.envoyproxy.io/docs/envoy/v1.14.3/configuration/operations/overload_manager/overload_manager#limiting-active-connections)的配置限制，在 Envoy 解决 CVE-2020-8663。 必须配置此限制以防范此漏洞。 在 Ingress 网关上执行如下步骤来配置限制。 
+通过添加[下游连接](https://www.envoyproxy.io/docs/envoy/v1.14.3/configuration/operations/overload_manager/overload_manager#limiting-active-connections)的配置限制，在 Envoy 解决 CVE-2020-8663。 必须配置此限制以防范此漏洞。 在 Ingress 网关上执行如下步骤来配置限制。
 
 1. 通过下载 [custom-bootstrap-runtime.yaml](/zh/news/security/istio-security-2020-007/custom-bootstrap-runtime.yaml)创建配置映射。 根据部署中各个网关实例所需的并发连接数，在配置映射中更新 `global_downstream_max_connections` 。 一旦达到限制，Envoy 将开始拒绝 TCP 连接。
 
