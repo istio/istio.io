@@ -1,0 +1,42 @@
+{{$section := (.Get "section") }}
+
+<table>
+    <tr>
+        <th>Feature</th>
+        <th>Phase</th>
+    </tr>
+    {{ $features := .Site.Data.features.features }}
+    {{ range $feature := $features }}
+    {{ $featureLevel := $feature.level }}
+    {{ $featureDeprecation := $feature.deprecation }}
+
+    {{ if eq $feature.area $section }}
+
+    <tr>
+        {{ if $feature.link }}
+        <td><a href={{ $feature.link }}>{{ $feature.name }}</a></td>
+        {{ else }}
+        <td>{{ $feature.name }}</td>
+        {{end}}
+        <td>
+            {{if and ($featureDeprecation) (eq $featureDeprecation.state "deprecated") }}
+                Deprecated
+                {{ if $featureDeprecation.details }}
+                    {{ if $featureDeprecation.details.next }}
+                        with removal planned for {{ $featureDeprecation.details.next }}.
+                    {{ else }}
+                        .
+                    {{ end }}
+                    {{ if $featureDeprecation.details.replacement }}
+                        Replaced by {{ $featureDeprecation.details.replacement }}.
+                    {{ end }}
+                Was {{ trim $featureLevel.maturity "\"" }}.
+                {{ end }}
+            {{ else }}
+                {{ trim $featureLevel.maturity "\"" }}
+            {{ end }}
+        </td>
+    </tr>
+    {{ end }}
+    {{ end }}
+</table>
