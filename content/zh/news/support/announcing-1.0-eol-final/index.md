@@ -1,7 +1,7 @@
 ---
 title: 对 Istio 1.0 的支持已结束
 subtitle: 支持公告
-description: Istio 1.0 生命周期终止公告。
+description: Istio 1.0 支持终止公告。
 publishdate: 2019-06-19
 aliases:
     - /zh/blog/2019/announcing-1.0-eol-final
