@@ -25,4 +25,9 @@ Envoy contains a remotely exploitable integer overflow in which a very large grp
 Envoy contains a remotely exploitable vulnerability where an HTTP2 request with an empty metadata map can cause Envoy to crash.
     - __CVSS Score__: 7.5 [AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&version=3.1)
 
+
+{{< tip >}}
+CVE-2021-28683 does not affect Istio releases prior to Istio 1.8 as that functionality was not present until Envoy v1.16.
+{{< /tip >}}
+
 {{< boilerplate "security-vulnerability" >}}
