@@ -60,4 +60,13 @@
             <ol id="endnotes"></ol>
         </div>
     </div>
+    {{ if and $needTOC (not .Params.force_inline_toc) }}
+        <div class="toc-container">
+            <nav class="toc" aria-label="Table of Contents">
+                <div id="toc">
+                    {{ $toc | safeHTML }}
+                </div>
+            </nav>
+        </div>
+    {{ end }}
 </main>
