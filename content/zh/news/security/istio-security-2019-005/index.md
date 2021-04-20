@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2019-005
 subtitle: 安全公告
-description: 由于客户端请求中存在大量 HTTP header 而导致的拒绝服务。
+description: 由于客户端请求中存在大量 HTTP（请求）头 而导致的拒绝服务。
 cves: [CVE-2019-15226]
 cvss: "7.5"
 vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
@@ -15,9 +15,7 @@ aliases:
 
 {{< security_bulletin >}}
 
-## 内容{#context}
-
-Envoy 和 Istio 容易受到以下 DoS 攻击。收到每个传入的请求后,Envoy 将遍历请求标头，以保证请求头的总大小保持在最大限制以下。远程攻击者可能会制作一个请求，该请求的 header 的大小不会超过最大限制，但包含成千上万个小的 header，来消耗 CPU 并导致拒绝服务攻击。
+Envoy 和 Istio 容易受到以下 DoS 攻击。收到每个传入的请求后,Envoy 将遍历请求标头，以保证请求头的总大小保持在最大限制以下。远程攻击者可能会制作一个请求，该请求头的大小不会超过最大限制，但包含成千上万个小的（请求）头，来消耗 CPU 并导致拒绝服务攻击。
 
 ## 影响范围{#impact-and-detection}
 

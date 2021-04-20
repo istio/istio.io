@@ -118,8 +118,8 @@ Manually relabeling namespaces when moving them to a new revision can be tedious
 Consider a cluster with two revisions installed, `1-7-6` and `1-8-0`. The cluster operator creates a revision tag `prod`, pointed at the older, stable `1-7-6` version, and a revision tag `canary` pointed at the newer `1-8-0` revision. That state could be reached via these commands:
 
 {{< text bash >}}
-$ istioctl x tag set canary --revision 1-7-6
-$ istioctl x tag set prod --revision 1-8-0
+$ istioctl x revision tag set canary --revision 1-7-6
+$ istioctl x revision tag set prod --revision 1-8-0
 {{< /text >}}
 
 {{< image width="40%"
@@ -130,7 +130,7 @@ $ istioctl x tag set prod --revision 1-8-0
 After the operator is satisfied with the stability of the `canary` tagged control planes, namespaces labeled `istio.io/rev=prod` can be updated with one action by modifying the `prod` revision tag to point to the newer `1-8-0` revision.
 
 {{< text bash >}}
-$ istioctl x tag set prod --revision 1-8-0
+$ istioctl x revision tag set prod --revision 1-8-0
 {{< /text >}}
 
 Now, the situation is as shown in the diagram below:

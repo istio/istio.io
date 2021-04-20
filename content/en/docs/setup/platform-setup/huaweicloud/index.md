@@ -32,7 +32,7 @@ Following the [Huawei Cloud Instructions](https://support.huaweicloud.com/en-us/
 
     {{< tip >}}
     Istio release has some requirements for the Kubernetes version,
-    select the version according to Istio's [support policy](/about/supported-releases#supported-releases/).
+    select the version according to Istio's [support policy](/docs/releases/supported-releases#support-status-of-istio-releases).
     {{< /tip >}}
 
     The image below shows the GUI where you create and configure the cluster:
@@ -122,4 +122,3 @@ EOF
 {{< /text >}}
 
 Start playing with Istio by trying out the various [tasks](/docs/tasks).
-

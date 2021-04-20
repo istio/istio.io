@@ -52,12 +52,15 @@ function handleTabs(): void {
         }
 
         const categoryName = strip.dataset.categoryName;
+        const forgetTab = strip.dataset.forgetTab !== undefined;
         const panels = tabset.querySelectorAll<HTMLElement>("[role=tabpanel]");
 
         const tabs: HTMLElement[] = [];
         strip.querySelectorAll<HTMLElement>("[role=tab]").forEach(tab => {
             tabs.push(tab);
         });
+
+        const categoryValues = tabs.map(tab => tab.dataset.categoryValue);
 
         const kbdnav = new KbdNav(tabs);
 
@@ -87,7 +90,20 @@ function handleTabs(): void {
         }
 
         if (categoryName) {
-            const categoryValue = readLocalStorage(categoryName);
+            let categoryValue;
+            const hashTab = location.hash.replace("#", "");
+
+            if (hashTab) {
+                if (categoryValues.indexOf(hashTab) > -1) {
+                    categoryValue = hashTab;
+                }
+            } else if (!forgetTab) {
+                categoryValue = readLocalStorage(categoryName);
+                if (categoryValue) {
+                    selectTabsets(categoryName, categoryValue);
+                }
+            }
+
             if (categoryValue) {
                 selectTabsets(categoryName, categoryValue);
             }
@@ -102,7 +118,9 @@ function handleTabs(): void {
                 if (categoryName) {
                     const categoryValue = tab.dataset.categoryValue;
                     if (categoryValue) {
-                        localStorage.setItem(categoryName, categoryValue);
+                        if (!forgetTab) {
+                            localStorage.setItem(categoryName, categoryValue);
+                        }
                         selectTabsets(categoryName, categoryValue);
                     }
                 }
@@ -114,7 +132,9 @@ function handleTabs(): void {
                 if (categoryName) {
                     const categoryValue = tab.dataset.categoryValue;
                     if (categoryValue) {
-                        localStorage.setItem(categoryName, categoryValue);
+                        if (!forgetTab) {
+                            localStorage.setItem(categoryName, categoryValue);
+                        }
                         selectTabsets(categoryName, categoryValue);
                     }
                 }

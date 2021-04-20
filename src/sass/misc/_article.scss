@@ -1,0 +1,31 @@
+.article {
+    @media (min-width: $bp-xl) {
+        &.primary.has-sidebar {
+            grid-template-columns: [sidebar] 320px [article] auto;
+        }
+    }
+
+    .title-area {
+        margin-bottom: 3rem;
+
+        h1 { margin-top: 0;}
+    }
+
+    h1 {
+        @media (min-width: $bp-md) {
+            font-size: 3rem;
+        }
+    }
+
+    h2 {
+        margin-top: 3rem;
+    }
+
+    .feature-block {
+        margin-top: 0;
+
+        &-image {
+            margin: 0;
+        }
+    }
+}

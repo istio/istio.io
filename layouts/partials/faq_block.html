@@ -1,0 +1,20 @@
+{{ $question := .question }}
+{{ $answer := .answer }}
+
+<div class="faq-block faq-block--collapsed" id="{{.id}}">
+    <div class="faq-block-question">
+        <span class="faq-block-question__text">
+            {{ $question }}
+        </span>
+        <div class="faq-block-question__icon">
+            {{ partial "icon.html" "dropdown-arrow" }}
+        </div>
+    </div>
+    <div class="faq-block-answer">
+        {{ if in (string $answer) "\n\n" }}
+            {{ $answer | markdownify }}
+        {{ else }}
+            <p>{{ $answer | markdownify }}</p>
+        {{ end }}
+    </div>
+</div>

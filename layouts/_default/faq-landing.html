@@ -4,29 +4,25 @@
 
 {{ .Content }}
 
-<div class="faq-landing">
+<div>
     {{ range .Data.Pages.ByWeight }}
-        <div>
-            <div class="panel">
-                <div class="header">
-                    {{ .LinkTitle }}
-                </div>
+        <h2 id="{{.LinkTitle | urlize }}">{{ .LinkTitle }}</h2>
 
-                <nav class="body">
-                    <ul aria-label="{{ .LinkTitle }}">
-                        {{ $questions := .Resources.ByType "page" }}
-                        {{ $sorted_questions := sort $questions ".Params.weight" }}
-                        {{ $url := .Permalink }}
-                        {{ range $q := $sorted_questions }}
-                            <li role="none"><a href="{{ $url }}#{{ $q.File.BaseFileName | urlize }}">{{ $q.Title }}</a></li>
-                        {{ end }}
-                    </ul>
-                </nav>
-            </div>
-        </div>
+        {{ $questions := .Resources.ByType "page" }}
+        {{ $sorted_questions := sort $questions ".Params.weight" }}
+        {{ range $q := $sorted_questions }}
+            {{ $id := $q.File.BaseFileName | urlize }}
+            {{ partial "faq_block" (dict "question" $q.Title "answer" .Content "id" $id) }}
+        {{ end }}
     {{ end }}
 </div>
 
-{{ partial "primary_bottom.html" . }}
+{{ $headers := slice }}
+{{ range .Data.Pages.ByWeight }}
+    {{ $headers = $headers | append (print "<h2 id=\"" (.LinkTitle | urlize ) "\">" .LinkTitle "</h2>") }}
+{{ end }}
+
+{{ $toc := partial "toc.html" (dict "page" . "headers" $headers) | safeHTML }}
+{{ partial "primary_bottom_toc.html" (dict "toc" $toc) }}
 
 {{ end }}
