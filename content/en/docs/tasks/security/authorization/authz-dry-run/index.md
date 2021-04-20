@@ -11,8 +11,7 @@ This task shows you how to set up an Istio authorization policy using a new [exp
 to dry-run the policy without actually enforcing it.
 
 The dry-run annotation allows you to better understand the effect of an authorization policy before applying it to
-the production traffic. This helps to reduce the risk of breaking the production traffic caused by incorrect or wrong
-authorization policy.
+the production traffic. This helps to reduce the risk of breaking the production traffic caused by incorrect authorization policy.
 
 {{< boilerplate experimental-feature-warning >}}
 
@@ -147,12 +146,13 @@ Caching and propagation overhead can cause some delay.
 
 ## Summary
 
-The Proxy debug log, Prometheus metric and Zipkin trace result indicates that the dry-run policy will reject the request.
+The Proxy debug log, Prometheus metric and Zipkin trace result indicate that the dry-run policy will reject the request.
 You can further change the policy if the dry-run result is not expected.
 
 It's recommended to keep the dry-run policy for some more time to so that it can be tested with more production traffic.
-You can do either of the above to change the dry-policy to enforce mode that will actually reject the request when you
-are confident about the dry-run result:
+
+When you are confident about the dry-run result, you can change the policy from dry-run to enforce mode. This can be
+achieved by either of the following approaches:
 
 * Remove the dry-run annotation completely; or
 
@@ -164,7 +164,7 @@ The dry-run annotation is currently in experimental stage and has the following 
 
 * The dry-run annotation currently only supports ALLOW and DENY policies;
 
-* There will be two separate dry-run result (i.e. log, metric and tracing tag) for ALLOW and DENY policies due to the fact
+* There will be two separate dry-run results (i.e. log, metric and tracing tag) for ALLOW and DENY policies due to the fact
   that the ALLOW and DENY policies are enforced separately in the proxy. You should take all the two dry-run results into
   consideration because a request could be allowed by an ALLOW policy but still rejected by another DENY policy;
 
