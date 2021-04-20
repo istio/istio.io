@@ -42,6 +42,7 @@
         {{ end }}
     </div>
     {{ partial "subscribe_button.html" (dict "section" "blog") }}
+    {{ partial "primary_bottom.html" . }}
 </main>
 
 <script src='{{ "js/categories-filter.js" | relURL }}'></script>
