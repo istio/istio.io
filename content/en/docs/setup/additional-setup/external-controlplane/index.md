@@ -65,14 +65,16 @@ Variable | Description
 -------- | -----------
 `CTX_EXTERNAL_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the external control plane cluster.
 `CTX_REMOTE_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the remote cluster.
+`REMOTE_CLUSTER_NAME` | The name of the remote cluster.
 `EXTERNAL_ISTIOD_ADDR` | The hostname for the ingress gateway on the external control plane cluster. This is used by the remote cluster to access the external control plane.
 `SSL_SECRET_NAME` | The name of the secret that holds the TLS certs for the ingress gateway on the external control plane cluster.
 
-Set the `CTX_EXTERNAL_CLUSTER` and `CTX_REMOTE_CLUSTER` now. You will set the others later.
+Set the `CTX_EXTERNAL_CLUSTER`, `CTX_REMOTE_CLUSTER`, and `REMOTE_CLUSTER_NAME` now. You will set the others later.
 
 {{< text syntax=bash snip_id=none >}}
 $ export CTX_EXTERNAL_CLUSTER=<your external cluster context>
 $ export CTX_REMOTE_CLUSTER=<your remote cluster context>
+$ export REMOTE_CLUSTER_NAME=<your remote cluster name>
 {{< /text >}}
 
 ## Cluster configuration
@@ -159,7 +161,6 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
     $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
     $ istioctl x create-remote-secret \
       --context="${CTX_REMOTE_CLUSTER}" \
-      --name=cluster1 \
       --type=config \
       --namespace=external-istiod | \
       kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
@@ -214,7 +215,7 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
             - name: VALIDATION_WEBHOOK_CONFIG_NAME
               value: ""
             - name: CLUSTER_ID
-              value: cluster1
+              value: ${REMOTE_CLUSTER_NAME}
       values:
         global:
           caAddress: $EXTERNAL_ISTIOD_ADDR:15012
@@ -328,8 +329,10 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
 
 #### Set up the remote cluster
 
-1. Create the remote Istio install configuration, which installs webhooks, configmaps, and secrets,
-    that use the external control plane, instead of deploying a control plane locally:
+1. Create the remote Istio install configuration, which installs the injection webhook that uses the
+    external control plane's injector, instead of a locally deployed one. Because this cluster
+    also serves as the config cluster, the Istio CRDs are also installed by setting `base.enabled`
+    to `true`:
 
     {{< text syntax=bash snip_id=get_remote_config_cluster_iop >}}
     $ cat <<EOF > remote-config-cluster.yaml
@@ -353,7 +356,7 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
           omitSidecarInjectorConfigMap: true
           istioNamespace: external-istiod
         istiodRemote:
-          injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/:ENV:cluster=cluster1:ENV:net=network1
+          injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/:ENV:cluster=${REMOTE_CLUSTER_NAME}:ENV:net=network1
     EOF
     {{< /text >}}
 
@@ -363,38 +366,12 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
     $ istioctl manifest generate -f remote-config-cluster.yaml | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
     {{< /text >}}
 
-1. Confirm that the remote cluster's webhooks, secrets, and configmaps have been installed:
+1. Confirm that the remote cluster's webhook configuration has been installed:
 
     {{< text bash >}}
     $ kubectl get mutatingwebhookconfiguration -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
     NAME                                     WEBHOOKS   AGE
     istio-sidecar-injector-external-istiod   4          6m24s
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl get validatingwebhookconfiguration -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
-    NAME                     WEBHOOKS   AGE
-    istiod-external-istiod   1          6m32s
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl get configmaps -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
-    NAME                                   DATA   AGE
-    istio                                  2      2m1s
-    istio-ca-root-cert                     1      2m9s
-    istio-leader                           0      2m9s
-    istio-namespace-controller-election    0      2m11s
-    istio-sidecar-injector                 2      2m1s
-    istio-validation-controller-election   0      2m6s
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl get secrets -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
-    NAME                                               TYPE                                  DATA   AGE
-    default-token-m9nnj                                kubernetes.io/service-account-token   3      2m37s
-    istio-ca-secret                                    istio.io/ca-root                      5      18s
-    istio-reader-service-account-token-prnvv           kubernetes.io/service-account-token   3      2m31s
-    istiod-service-account-token-z2cvz                 kubernetes.io/service-account-token   3      2m30s
     {{< /text >}}
 
 ### Mesh admin steps
@@ -526,10 +503,11 @@ provide mesh config, but instead are only sources of endpoint configuration, jus
 [primary-remote](/docs/setup/install/multicluster/primary-remote_multi-network/) Istio multicluster configuration.
 
 To proceed, you'll need another Kubernetes cluster for the second remote cluster of the mesh. Set the following
-environment variable to the context name of the cluster:
+environment variables to the context name and cluster name of the cluster:
 
 {{< text syntax=bash snip_id=none >}}
 $ export CTX_SECOND_CLUSTER=<your second remote cluster context>
+$ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 {{< /text >}}
 
 ### Register the new cluster
@@ -540,7 +518,7 @@ $ export CTX_SECOND_CLUSTER=<your second remote cluster context>
     {{< text bash >}}
     $ istioctl x create-remote-secret \
       --context="${CTX_SECOND_CLUSTER}" \
-      --name=cluster2 \
+      --name="${SECOND_CLUSTER_NAME}" \
       --type=remote \
       --namespace=external-istiod | \
       kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}" #TODO use --context="{CTX_EXTERNAL_CLUSTER}" when #31946 is fixed.
@@ -579,7 +557,7 @@ $ export CTX_SECOND_CLUSTER=<your second remote cluster context>
           omitSidecarInjectorConfigMap: true
           istioNamespace: external-istiod
         istiodRemote:
-          injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/:ENV:cluster=cluster2:ENV:net=network2
+          injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/:ENV:cluster=${SECOND_CLUSTER_NAME}:ENV:net=network2
     EOF
     {{< /text >}}
 
@@ -603,23 +581,18 @@ $ export CTX_SECOND_CLUSTER=<your second remote cluster context>
 
     {{< text bash >}}
     $ samples/multicluster/gen-eastwest-gateway.sh \
-        --mesh mesh1 --cluster cluster1 --network network1 > eastwest-gateway-1.yaml
+        --mesh mesh1 --cluster "${REMOTE_CLUSTER_NAME}" --network network1 > eastwest-gateway-1.yaml
     $ istioctl manifest generate -f eastwest-gateway-1.yaml \
         --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
         --set values.global.istioNamespace=external-istiod | \
         kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
-    {{< /text >}}
-
-    TODO: remove following command after #32244 is fixed.
-
-    {{< text bash >}}
     $ kubectl get configmap istio-ca-root-cert -n external-istiod --context="${CTX_REMOTE_CLUSTER}" -o json | \
-        kubectl apply -n external-istiod --context="${CTX_SECOND_CLUSTER}" -f -
+        kubectl apply -n external-istiod --context="${CTX_SECOND_CLUSTER}" -f - #TODO: remove this command after #32244 is fixed.
     {{< /text >}}
 
     {{< text bash >}}
     $ samples/multicluster/gen-eastwest-gateway.sh \
-        --mesh mesh1 --cluster cluster2 --network network2 > eastwest-gateway-2.yaml
+        --mesh mesh1 --cluster "${SECOND_CLUSTER_NAME}" --network network2 > eastwest-gateway-2.yaml
     $ istioctl manifest generate -f eastwest-gateway-2.yaml \
         --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
         --set values.global.istioNamespace=external-istiod | \
@@ -661,11 +634,7 @@ $ export CTX_SECOND_CLUSTER=<your second remote cluster context>
           hosts:
             - "*.local"
     EOF
-    {{< /text >}}
-
-    TODO use the following command, instead of above, after #32147 is fixed.
-
-    {{< text plain >}}
+    #TODO use the following command, instead of above, after #32147 is fixed.
     #$ kubectl --context="${CTX_REMOTE_CLUSTER}" apply -n external-istiod -f \
     #    @samples/multicluster/expose-services.yaml@
     {{< /text >}}
@@ -689,11 +658,7 @@ $ export CTX_SECOND_CLUSTER=<your second remote cluster context>
           hosts:
             - "*.local"
     EOF
-    {{< /text >}}
-
-    TODO use the following command, instead of above, after #32147 is fixed.
-
-    {{< text plain >}}
+    #TODO use the following command, instead of above, after #32147 is fixed.
     #$ kubectl --context="${CTX_SECOND_CLUSTER}" apply -n external-istiod -f \
     #    @samples/multicluster/expose-services.yaml@
     {{< /text >}}
@@ -705,13 +670,8 @@ $ export CTX_SECOND_CLUSTER=<your second remote cluster context>
     {{< text bash >}}
     $ kubectl create --context="${CTX_SECOND_CLUSTER}" namespace sample
     $ kubectl label --context="${CTX_SECOND_CLUSTER}" namespace sample istio-injection=enabled
-    {{< /text >}}
-
-    TODO: remove following command after #32244 is fixed.
-
-    {{< text bash >}}
     $ kubectl get configmap istio-ca-root-cert -n sample --context="${CTX_REMOTE_CLUSTER}" -o json | \
-        kubectl apply -n sample --context="${CTX_SECOND_CLUSTER}" -f -
+        kubectl apply -n sample --context="${CTX_SECOND_CLUSTER}" -f - #TODO: remove this command after #32244 is fixed.
     {{< /text >}}
 
 1. Deploy the `helloworld` (`v2`) and `sleep` samples:
