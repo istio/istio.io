@@ -453,7 +453,8 @@ You should see `transportSocketMatches` configured for the given Envoy cluster.
     {{< /text >}}
 
 1. Check the destination pod to see if the destination endpoint has the label
-`tlsMode` equals to `istio`.
+`tlsMode` equals to `istio`. For example, in the EDS response received by sleep
+pod, we see `httpbin` pod endpoint has the `tlsMode` label.
 
     {{< text bash >}}
     $ POD=$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})
@@ -479,7 +480,8 @@ used. This requires to change Envoy upstream log to debug level.
 
     {{< text bash >}}
     $ POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    $ istioctl pc log sleep-8f795f47d-rfhdt --level debug
+    $ istioctl pc log ${POD} --level debug
+    $ kubectl logs -f ${POD} -c istio-proxy
     2021-04-08T22:35:22.650478Z     debug   envoy upstream  transport socket match, socket tlsMode-istio selected for host with address 10.32.28.136:80
     {{< /text >}}
 
