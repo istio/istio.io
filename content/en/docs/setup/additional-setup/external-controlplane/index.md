@@ -215,7 +215,6 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
               value: ""
             - name: CLUSTER_ID
               value: cluster1
-
       values:
         global:
           caAddress: $EXTERNAL_ISTIOD_ADDR:15012
