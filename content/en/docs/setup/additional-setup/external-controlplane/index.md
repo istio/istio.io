@@ -401,7 +401,7 @@ including gateways, if needed.
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
     NAME                             READY   STATUS    RESTARTS   AGE
-    helloworld-v1-5b75657f75-ncpc5   2/2     Running   0          10s
+    helloworld-v1-776f57d5f6-s7zfc   2/2     Running   0          10s
     sleep-64d7d56698-wqjnm           2/2     Running   0          9s
     {{< /text >}}
 
@@ -411,7 +411,7 @@ including gateways, if needed.
     $ kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c sleep \
         "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
         -- curl -sS helloworld.sample:5000/hello
-    Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
+    Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
     {{< /text >}}
 
 #### Enable gateways
@@ -485,7 +485,7 @@ including gateways, if needed.
 
     {{< text bash >}}
     $ curl -s "http://${GATEWAY_URL}/hello"
-    Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
+    Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
     {{< /text >}}
 
 ## Adding clusters to the mesh (optional) {#adding-clusters}
@@ -531,7 +531,6 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     Note that the secret can alternatively be applied in the remote (config) cluster, instead of the external cluster,
     because the external istiod is watching for additions in both clusters.
     {{< /tip >}}
-
 
 1. Create the remote Istio install configuration, which installs the injection webhook that uses the
     external control plane's injector, instead of a locally deployed one:
@@ -586,11 +585,11 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
         --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
         --set values.global.istioNamespace=external-istiod | \
         kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
-    $ kubectl get configmap istio-ca-root-cert -n external-istiod --context="${CTX_REMOTE_CLUSTER}" -o json | \
-        kubectl apply -n external-istiod --context="${CTX_SECOND_CLUSTER}" -f - #TODO: remove this command after #32244 is fixed.
     {{< /text >}}
 
     {{< text bash >}}
+    $ kubectl get configmap istio-ca-root-cert -n external-istiod --context="${CTX_REMOTE_CLUSTER}" -o json | \
+        kubectl apply -n external-istiod --context="${CTX_SECOND_CLUSTER}" -f - #TODO: remove this command after #32244 is fixed.
     $ samples/multicluster/gen-eastwest-gateway.sh \
         --mesh mesh1 --cluster "${SECOND_CLUSTER_NAME}" --network network2 > eastwest-gateway-2.yaml
     $ istioctl manifest generate -f eastwest-gateway-2.yaml \
@@ -686,9 +685,9 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_SECOND_CLUSTER}"
-    NAME                             READY   STATUS    RESTARTS   AGE
-    helloworld-v2-5b75657f75-2dpzp   2/2     Running   0          10s
-    sleep-64d7d56698-clhxb           2/2     Running   0          9s
+    NAME                            READY   STATUS    RESTARTS   AGE
+    helloworld-v2-54df5f84b-9hxgw   2/2     Running   0          10s
+    sleep-557747455f-wtdbr          2/2     Running   0          9s
     {{< /text >}}
 
 1. Send a request from the `sleep` pod to the `helloworld` service:
@@ -697,7 +696,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     $ kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c sleep \
         "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
         -- curl -sS helloworld.sample:5000/hello
-    Hello version: v2, instance: helloworld-v2-5b75657f75-2dpzp
+    Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
     {{< /text >}}
 
 1. Confirm that when accessing the `helloworld` application several times through the ingress gateway, both version `v1`
@@ -705,9 +704,9 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 
     {{< text bash >}}
     $ for i in {1..10}; do curl -s "http://${GATEWAY_URL}/hello"; done
-    Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
-    Hello version: v2, instance: helloworld-v2-5b75657f75-2dpzp
-    Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
-    Hello version: v2, instance: helloworld-v2-5b75657f75-2dpzp
+    Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
+    Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
+    Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
+    Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
     ...
     {{< /text >}}

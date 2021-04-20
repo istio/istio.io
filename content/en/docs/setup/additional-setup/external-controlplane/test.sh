@@ -32,7 +32,6 @@ snip_get_external_istiod_iop_modified() {
         -e '/proxyMetadata:/,+2d' \
         -e '/INJECTION_WEBHOOK_CONFIG_NAME/,+1d' \
         -e "/VALIDATION_WEBHOOK_CONFIG_NAME/,+1d" \
-        -e "s/env:/env: []/g" \
         external-istiod.yaml
 }
 
@@ -48,15 +47,6 @@ snip_get_external_istiod_gateway_config_modified() {
         -e 's/http:/tls:/' -e 's/https/tls/' -e "/route:/i\        sniHosts:\n        - ${EXTERNAL_ISTIOD_ADDR}" \
         external-istiod-gw.yaml
     EXTERNAL_ISTIOD_ADDR="$TMP"
-}
-
-snip_get_remote_config_cluster_iop_modified() {
-    snip_get_remote_config_cluster_iop
-
-    # Update config file: delete CA certificates and meshID
-    sed -i \
-        -e '/proxyMetadata:/,+2d' \
-        remote-config-cluster.yaml
 }
 
 # Set the CTX_EXTERNAL_CLUSTER, CTX_REMOTE_CLUSTER, and REMOTE_CLUSTER_NAME env variables.
@@ -94,7 +84,7 @@ snip_set_up_the_control_plane_in_the_external_cluster_7
 
 # Set up the remote cluster.
 
-snip_get_remote_config_cluster_iop_modified
+snip_get_remote_config_cluster_iop
 
 #set +e #ignore failures here
 echo y | snip_set_up_the_remote_cluster_2
