@@ -174,6 +174,7 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
     metadata:
       namespace: external-istiod
     spec:
+      profile: empty
       meshConfig:
         rootNamespace: external-istiod
         defaultConfig:
@@ -182,8 +183,6 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
             XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
             CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
       components:
-        base:
-          enabled: false
         pilot:
           enabled: true
           k8s:
@@ -214,17 +213,15 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
               value: ""
             - name: VALIDATION_WEBHOOK_CONFIG_NAME
               value: ""
-        ingressGateways:
-        - name: istio-ingressgateway
-          enabled: false
+            - name: CLUSTER_ID
+              value: cluster1
+
       values:
         global:
           caAddress: $EXTERNAL_ISTIOD_ADDR:15012
           istioNamespace: external-istiod
           operatorManageWebhooks: true
           meshID: mesh1
-          multiCluster:
-            clusterName: cluster1
     EOF
     {{< /text >}}
 
@@ -342,34 +339,22 @@ and installing needed webhooks, configmaps, and secrets on the remote cluster so
     metadata:
       namespace: external-istiod
     spec:
-      profile: remote
-      meshConfig:
-        rootNamespace: external-istiod
-        defaultConfig:
-          discoveryAddress: $EXTERNAL_ISTIOD_ADDR:15012
-          proxyMetadata:
-            XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
-            CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+      profile: empty
       components:
-        pilot:
-          enabled: false
-        ingressGateways:
-        - name: istio-ingressgateway
-          enabled: false
         istiodRemote:
           enabled: true
-      values:
-        global:
-          caAddress: $EXTERNAL_ISTIOD_ADDR:15012
-          istioNamespace: external-istiod
-          meshID: mesh1
-          multiCluster:
-            clusterName: cluster1
-          network: network1
-        istiodRemote:
-          injectionURL: https://$EXTERNAL_ISTIOD_ADDR:15017/inject
         base:
-          validationURL: https://$EXTERNAL_ISTIOD_ADDR:15017/validate
+          enabled: true
+      values:
+        pilot:
+          configMap: false
+        telemetry:
+          enabled: false
+        global:
+          omitSidecarInjectorConfigMap: true
+          istioNamespace: external-istiod
+        istiodRemote:
+          injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/:ENV:cluster=cluster1:ENV:net=network1
     EOF
     {{< /text >}}
 
