@@ -45,7 +45,7 @@ Before you begin this task, do the following:
 * Enable proxy debug level log for checking dry-run logging results:
 
     {{< text bash >}}
-    $ istioctl pc log deploy/httpbin.foo --level "rbac:debug" | grep rbac
+    $ istioctl proxy-config log deploy/httpbin.foo --level "rbac:debug" | grep rbac
     rbac: debug
     {{< /text >}}
 
