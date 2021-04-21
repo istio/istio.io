@@ -23,6 +23,7 @@ set -o pipefail
 # This script expects Prometheus
 # @setup profile=demo
 
+_set_ingress_environment_variables
 export GATEWAY_URL="$INGRESS_HOST:$INGRESS_PORT"
 echo "Using GATEWAY_URL $GATEWAY_URL"
 
@@ -41,11 +42,56 @@ echo '*** observability-kiali step 1 ***'
 snip_generating_a_service_graph_1
 
 echo '*** observability-kiali step 2 ***'
-snip_generating_a_service_graph_2
+for _ in {1..50}; do
+    snip_generating_a_service_graph_2 > /dev/null
+done
 
-echo @@@ TODO REST OF TEST
+# We don't test snip_generating_a_service_graph_3 which is a `watch`
+
+# The "istioctl dashboard kiali" blocks, so start it in another process
+snip_generating_a_service_graph_4 &
+
+# The script can verify there is a UI, but can't really compare it
+curl http://localhost:20001/kiali --fail
+
+# The script can look at the API output
+# See https://github.com/kiali/kiali/blob/master/swagger.json
+# for the API
+# @@@ TODO The output of these should be checked
+curl -v http://localhost:20001/api/
+curl -v http://localhost:20001/api/namespaces/graph
+
+snip_validating_istio_configuration_1
+
+for _ in {1..50}; do
+    snip_generating_a_service_graph_2 > /dev/null
+done
+
+snip_validating_istio_configuration_2
+
+for _ in {1..50}; do
+    snip_generating_a_service_graph_2 > /dev/null
+done
+
+snip_viewing_and_editing_istio_configuration_yaml_1
+
+for _ in {1..50}; do
+    snip_generating_a_service_graph_2 > /dev/null
+done
+
+snip_viewing_and_editing_istio_configuration_yaml_2
+
+for _ in {1..50}; do
+    snip_generating_a_service_graph_2 > /dev/null
+done
+
+echo @@@ TODO curl http://localhost:20001/api/ ... and verify that Kiali did detect the changes we made.
+
 
 # @cleanup
 set +e
 cleanup_bookinfo_sample
 kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-1.10/samples/addons/kiali.yaml
+
+# This stops the "istioctl dashboard kiali" we forked earlier
+pgrep istioctl | xargs kill
