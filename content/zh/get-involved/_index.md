@@ -10,7 +10,7 @@ skip_pagenav: true
 doc_type: get-involved
 
 ---
-## 你想如何加入我们?
+## 如何参与进来？{#how-do-you-want-to-get-involved}
 
 {{% involve_block title="提出问题" subtitle="融入 Istio 社区进行沟通交流有很多种方式。" icon="user" %}}
 1. 在 [Istio 讨论板](https://discuss.istio.io)上不断有 Istio 用户积极踊跃地参与进来。来加入进来提问和讨论 Istio 吧。
