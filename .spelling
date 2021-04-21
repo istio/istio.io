@@ -107,6 +107,7 @@ API
 api-server
 Apigee
 APIs
+apiVersion
 Aporeto
 AppOptics
 appswitch
@@ -207,6 +208,7 @@ CSRs
 Ctrl
 Customizable
 customizable
+customTags
 CVE
 CVE-2019-12243
 CVE-2019-12995
@@ -733,6 +735,7 @@ Shi
 shortcode
 shortcodes
 Shriram
+SkyWalking
 sidebar_multicard
 sidebar_none
 sidecar
@@ -788,6 +791,7 @@ team2
 team2-ns
 Telekom
 telemetryv2_
+telemetry.istio.io
 templated
 Tencent
 test-api
