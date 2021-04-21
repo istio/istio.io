@@ -15,7 +15,7 @@ doc_type: get-involved
 {{% involve_block title="提出问题" subtitle="融入 Istio 社区进行沟通交流有很多种方式。" icon="user" %}}
 1. 在 [Istio 讨论板](https://discuss.istio.io)上不断有 Istio 用户积极踊跃地参与进来。来加入进来提问和讨论 Istio 吧。
 2. **加入我们** [**Slack**](https://slack.istio.io/) 与其他 Istio 社区成员进行实时交流。
-3. 将你遇到的具体问题提给 [**Stack Overflow**](https://stackoverflow.com/questions/tagged/istio)上的 **大神们** 。
+3. 将您遇到的具体问题提给 [**Stack Overflow**](https://stackoverflow.com/questions/tagged/istio)上的 **大神们** 。
 {{% /involve_block %}}
 
 {{% involve_block title="加入讨论" subtitle="围绕着 Istio 我们有太多可说的了，我们欢迎你的声音！" icon="events" %}}
