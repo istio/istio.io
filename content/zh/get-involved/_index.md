@@ -1,5 +1,5 @@
 ---
-title: 加入我们!
+title: 加入我们！
 linktitle: 加入我们
 subtitle: 提出问题，参与讨论，或为 Istio 的成长做出贡献。Istio 是一个由用户和贡献者参与推动的开源项目。快加入进来吧！
 sidebar_none: true
