@@ -1,7 +1,7 @@
 ---
 title: 生态系统
 description: 生态系统。
-subtitle: "Istio是一个服务网格，提供所有微服务环境所需要的横切功能。你可以从27个经销商那里得到发行"
+subtitle: "Istio 是一个服务网格，提供所有微服务环境所需要的横切功能。你可以从 27 个经销商那里得到发行"
 weight: 34
 skip_toc: true
 skip_byline: true
