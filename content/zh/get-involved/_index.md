@@ -36,7 +36,7 @@ doc_type: get-involved
 5. 对帮助 **中文文档** 感兴趣么? [参与进来](https://i.cloudnative.to/istio/event/istio-doc-translation)。
 {{% /involve_block %}}
 
-{{% involve_block title="了解监督和规划" subtitle="Istio有两个关键委员会负责监督项目。指导委员会和技术监督委员会。" icon="magnifier" %}}
+{{% involve_block title="了解监督和规划" subtitle="Istio 有两个关键委员会负责监督项目。指导委员会和技术监督委员会。" icon="magnifier" %}}
 1. 项目的治理和宣传由 [**Istio 指导委员会**](https://github.com/istio/community/tree/master/steering) 管理。
 2. 技术指导和项目规划由 [**Istio 技术监督委员会**](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md) 负责。
 {{% /involve_block %}}
