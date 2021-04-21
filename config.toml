@@ -241,8 +241,8 @@ disableAliases = true
 
     [[languages.zh.menu.main]]
       identifier = "faq"
-      name = "常见问题"
-      title = "常见问题"
+      name = "FAQ"
+      title = "FAQ"
       url = "/zh/about/faq"
       parent = "about"
       weight = 6
