@@ -25,7 +25,7 @@
                     {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}
                     {{ if .HasChildren }}
                         <li class="main-navigation-links-item">
-                            <a {{ if ne .URL "" }}href="{{ .URL }}"{{end}} class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
+                            <a {{ if ne .URL "" }}href="{{ .URL | relLangURL  }}"{{end}} class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
                                 <span>{{ .Name }}</span>
                                 {{ partial "icon.html" "dropdown-arrow" }}
                             </a>
@@ -33,14 +33,14 @@
                             <ul class="main-navigation-links-dropdown">
                                 {{ range .Children }}
                                     <li class="main-navigation-links-dropdown-item">
-                                        <a href="{{ .URL }}" class="main-navigation-links-link">{{ .Name }}</a>
+                                        <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link">{{ .Name }}</a>
                                     </li>
                                 {{ end }}
                             </ul>
                         </li>
                     {{ else }}
                         <li class="main-navigation-links-item">
-                            <a {{ if ne .URL "" }}href="{{ .URL }}"{{end}} class="main-navigation-links-link {{ if $active }}active{{ end }}">
+                            <a {{ if ne .URL "" }}href="{{ .URL | relLangURL }}"{{end}} class="main-navigation-links-link {{ if $active }}active{{ end }}">
                                 <span>{{ .Name }}</span>
                             </a>
                         </li>
