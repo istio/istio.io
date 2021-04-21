@@ -91,9 +91,6 @@ echo y | snip_set_up_the_remote_cluster_2
 #set -e
 
 _verify_like snip_set_up_the_remote_cluster_3 "$snip_set_up_the_remote_cluster_3_out"
-_verify_like snip_set_up_the_remote_cluster_4 "$snip_set_up_the_remote_cluster_4_out"
-_verify_like snip_set_up_the_remote_cluster_5 "$snip_set_up_the_remote_cluster_5_out"
-_verify_like snip_set_up_the_remote_cluster_6 "$snip_set_up_the_remote_cluster_6_out"
 
 # Validate the installation.
 

@@ -490,6 +490,10 @@ including gateways, if needed.
 
 ## Adding clusters to the mesh (optional) {#adding-clusters}
 
+{{< warning >}}
+This feature is still in development and is considered experimental.
+{{< /warning >}}
+
 This section shows you how to expand an existing external control plane mesh to multicluster by adding another remote cluster.
 This allows you to easily distribute services and use [Location-aware routing and fail over](/docs/tasks/traffic-management/locality-load-balancing/) to support high availability of your application.
 

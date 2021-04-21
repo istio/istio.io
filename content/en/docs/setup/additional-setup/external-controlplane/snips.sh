@@ -282,7 +282,7 @@ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
 
 ! read -r -d '' snip_deploy_a_sample_application_3_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
-helloworld-v1-5b75657f75-ncpc5   2/2     Running   0          10s
+helloworld-v1-776f57d5f6-s7zfc   2/2     Running   0          10s
 sleep-64d7d56698-wqjnm           2/2     Running   0          9s
 ENDSNIP
 
@@ -293,7 +293,7 @@ kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c sleep \
 }
 
 ! read -r -d '' snip_deploy_a_sample_application_4_out <<\ENDSNIP
-Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
+Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
 ENDSNIP
 
 snip_enable_gateways_1() {
@@ -358,7 +358,7 @@ curl -s "http://${GATEWAY_URL}/hello"
 }
 
 ! read -r -d '' snip_enable_gateways_6_out <<\ENDSNIP
-Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
+Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
 ENDSNIP
 
 snip_register_the_new_cluster_1() {
@@ -415,11 +415,11 @@ istioctl manifest generate -f eastwest-gateway-1.yaml \
     --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
     --set values.global.istioNamespace=external-istiod | \
     kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
-kubectl get configmap istio-ca-root-cert -n external-istiod --context="${CTX_REMOTE_CLUSTER}" -o json | \
-    kubectl apply -n external-istiod --context="${CTX_SECOND_CLUSTER}" -f - #TODO: remove this command after #32244 is fixed.
 }
 
 snip_setup_eastwest_gateways_2() {
+kubectl get configmap istio-ca-root-cert -n external-istiod --context="${CTX_REMOTE_CLUSTER}" -o json | \
+    kubectl apply -n external-istiod --context="${CTX_SECOND_CLUSTER}" -f - #TODO: remove this command after #32244 is fixed.
 samples/multicluster/gen-eastwest-gateway.sh \
     --mesh mesh1 --cluster "${SECOND_CLUSTER_NAME}" --network network2 > eastwest-gateway-2.yaml
 istioctl manifest generate -f eastwest-gateway-2.yaml \
@@ -518,9 +518,9 @@ kubectl get pod -n sample --context="${CTX_SECOND_CLUSTER}"
 }
 
 ! read -r -d '' snip_validate_the_installation_3_out <<\ENDSNIP
-NAME                             READY   STATUS    RESTARTS   AGE
-helloworld-v2-5b75657f75-2dpzp   2/2     Running   0          10s
-sleep-64d7d56698-clhxb           2/2     Running   0          9s
+NAME                            READY   STATUS    RESTARTS   AGE
+helloworld-v2-54df5f84b-9hxgw   2/2     Running   0          10s
+sleep-557747455f-wtdbr          2/2     Running   0          9s
 ENDSNIP
 
 snip_validate_the_installation_4() {
@@ -530,7 +530,7 @@ kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c sleep \
 }
 
 ! read -r -d '' snip_validate_the_installation_4_out <<\ENDSNIP
-Hello version: v2, instance: helloworld-v2-5b75657f75-2dpzp
+Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
 ENDSNIP
 
 snip_validate_the_installation_5() {
@@ -538,9 +538,9 @@ for i in {1..10}; do curl -s "http://${GATEWAY_URL}/hello"; done
 }
 
 ! read -r -d '' snip_validate_the_installation_5_out <<\ENDSNIP
-Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
-Hello version: v2, instance: helloworld-v2-5b75657f75-2dpzp
-Hello version: v1, instance: helloworld-v1-5b75657f75-ncpc5
-Hello version: v2, instance: helloworld-v2-5b75657f75-2dpzp
+Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
+Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
+Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
+Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
 ...
 ENDSNIP
