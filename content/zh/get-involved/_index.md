@@ -32,7 +32,7 @@ doc_type: get-involved
 1. 熟悉 Istio 的 [代码规范](https://github.com/istio/community/blob/master/CONTRIBUTING.md#code-of-conduct) 与 [贡献指南](https://github.com/istio/community/blob/master/CONTRIBUTING.md).
 2. 无论谁想要通过代码，文档还是其他部分进行贡献 [Istio 社区 README](https://github.com/istio/community/blob/master/README.md) 都是 **贡献者的起点** 。
 3. 您可以加入 [istio-team-drive-access@ Google Group](https://groups.google.com/forum/#!forum/istio-team-drive-access) 来 [**访问我们的技术内容和工作文档**](https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA)。
-4. 你可以加入 [**工作组**](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) 这些工作组专注于你感兴趣的特定领域，如文档，安全和网络。
+4. 您可以加入 [**工作组**](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) 这些工作组专注于你感兴趣的特定领域，如文档，安全和网络。
 5. 对帮助 **中文文档** 感兴趣么? [参与进来](https://i.cloudnative.to/istio/event/istio-doc-translation)。
 {{% /involve_block %}}
 
