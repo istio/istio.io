@@ -16,7 +16,7 @@ doc_type: about
 
 {{< centered_block >}}
 
-## 什么是服务网格？
+## 什么是服务网格？{#what-is-a-service-mesh}
 
 现代应用程序通常被设计成微服务的分布式集合，每个服务执行一些离散的业务功能。服务网格是专门的基础设施层，包含了组成这类体系结构的微服务网络。 服务网格不仅描述了这个网络，而且还描述了分布式应用程序组件之间的交互。所有在服务之间传递的数据都由服务网格控制和路由。
 
@@ -27,7 +27,7 @@ doc_type: about
 
 {{< centered_block >}}
 
-## 什么是 Istio？
+## 什么是 Istio？{#what-is-istio}
 
 Istio 是一个开源服务网格，它透明地分层到现有的分布式应用程序上。 Istio 强大的特性提供了一种统一和更有效的方式来保护、连接和监视服务。  Istio 是实现负载平衡、服务到服务身份验证和监视的路径——只需要很少或不需要更改服务代码。它强大的控制平面带来了重要的特点，包括：
 
@@ -46,7 +46,7 @@ Istio 是为可扩展性而设计的，可以处理不同范围的部署需求�
 
 {{< centered_block >}}
 
-## 它是如何工作的
+## 工作说明{#how-it-works}
 
 Istio 由两个部分组成：控制平面和数据平面。
 
@@ -62,10 +62,10 @@ Istio 由两个部分组成：控制平面和数据平面。
 {{< figure src="/img/service-mesh-before.svg" alt="使用 Istio 前" title="使用 Istio 前" >}}
 {{< figure src="/img/service-mesh.svg" alt="使用 Istio 后" title="使用 Istio 后" >}}
 
-# 概念
+# 概念{#concepts}
 
 {{< feature_block header="流量管理" image="management.svg" >}}
-Istio 的流量路由规则可以让你轻松地控制服务之间的流量和 API 调用。 Istio 简化了服务级别属性(如断路器、超时和重试)的配置，并使设置重要任务(如 A/B 测试、canary 部署和基于百分比的流量分割的分阶段部署)变得容易。 它还提供了开箱即用的故障恢复特性，帮助您的应用程序更健壮地应对依赖服务或网络的故障。
+Istio 的流量路由规则可以让您轻松地控制服务之间的流量和 API 调用。 Istio 简化了服务级别属性(如断路器、超时和重试)的配置，并使设置重要任务(如 A/B 测试、canary 部署和基于百分比的流量分割的分阶段部署)变得容易。 它还提供了开箱即用的故障恢复特性，帮助您的应用程序更健壮地应对依赖服务或网络的故障。
 {{< /feature_block>}}
 
 {{< feature_block header="可观测性" image="observability.svg" >}}
@@ -81,6 +81,6 @@ Istio 的遥测技术包括详细的指标、分布式跟踪和完整的访问�
 Istio 的安全模型是基于默认安全的，旨在提供深度防御，允许您部署安全的应用程序，甚至跨不可信的网络。
 {{< /feature_block>}}
 
-# 解决方案
+# 解决方案{#solutions}
 
 {{< solutions_carousel >}}
