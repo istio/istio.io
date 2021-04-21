@@ -1,6 +1,6 @@
 ---
-title: With the Telemetry API [Experimental]
-description: How to configure tracing options with the Telemetry API (experimental).
+title: Using the Telemetry API [Experimental]
+description: How to configure tracing options using the Telemetry API (experimental).
 weight: 10
 keywords: [telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers
@@ -10,7 +10,7 @@ test: no
 Istio provides a Telemetry API that enables flexible configuration of tracing behavior. The experimental
 Telemetry API offers controls over tracing options such as sampling rates and custom tags for individual
 spans, as well as backend provider selection. The options are configurable down to the the individual
-workload level.
+workload level and provide override behavior.
 
 ## Before you begin
 
@@ -29,6 +29,13 @@ The Telemetry API offers tracing behavior configuration control over the followi
 - **custom tags** - allows control over any custom tags to add to each generated tracing span.
 
 - **tracing participation** - allows opting services out of reporting spans to the selected tracing providers.
+
+### Workload Selection
+
+Individual workloads within a namespace are selected via a `selector` which allows selection of workloads based on labels.
+
+It is not valid to have two different `Telemetry` resources select the same workload using `selector`. Likewise, it is not valid to have two
+distinct `Telemetry` resources in a namespace with no `selector` specified.
 
 ### Inheritance and Overrides
 
@@ -144,7 +151,8 @@ spec:
 When deployed with into a mesh with the prior mesh-wide example configuration, this will result in
 tracing behavior in the `myapp` namespace that sends trace spans to the `zippy-kin` provider and
 randomly selects requests for tracing at a `100%` rate, but that sets custom tags for each span with
-a name of `userId` and a value taken from the `userId` request header. The custom tags behavior completely
+a name of `userId` and a value taken from the `userId` request header. Importantly, the `foo: bar` tag
+from the parent configuration will not be used in the `myapp` namespace. The custom tags behavior completely
 overrides the behavior configured in the `mesh-default.istio-system` resource.
 
 {{< tip >}}
