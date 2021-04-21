@@ -64,7 +64,7 @@ providers to use in tracing, edit the `MeshConfig` for your mesh via:
 $ kubectl -n istio-system edit configmap istio
 {{</ text >}}
 
-The full set of configuration options is described in the [reference docs for MeshConfig](/docs/reference/config/istio.mesh.v1alpha1.html).
+The full set of configuration options is described in the [reference docs for MeshConfig](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
 Typical configuration includes service address and port for the provider, as well as establishing
 a limit on max tag length supported by the provider.
 
