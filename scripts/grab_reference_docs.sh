@@ -92,6 +92,10 @@ locate_file() {
     sed -i -e "s/title: /source_repo: ${REPOX}\ntitle: /g" "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
 }
 
+handle_feature_status_scraping() {
+    curl "https://raw.githubusercontent.com/istio/enhancements/${SOURCE_BRANCH_NAME}/features.yaml" -o "${ROOTDIR}/data/features.yaml"
+}
+
 handle_doc_scraping() {
     for repo in "${REPOS[@]}"; do
         REPO_URL=$(echo "$repo" | cut -d @ -f 1)
@@ -174,3 +178,6 @@ handle_components
 
 echo "Fetching config analysis data"
 handle_config_analysis_messages
+
+echo "Handling feature status"
+handle_feature_status_scraping

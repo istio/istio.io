@@ -1,7 +1,7 @@
 ---
 title: 加入我们！
 linktitle: 加入我们
-subtitle: 提出问题，参与对话，或为 Istio 的成长做出贡献。 Istio 是一个开源项目，由用户和贡献者的参与驱动。欢迎加入!
+subtitle: 提出问题，参与讨论，或为 Istio 的成长做出贡献。Istio 是一个由用户和贡献者参与推动的开源项目。快加入进来吧！
 sidebar_none: true
 weight: 15
 skip_toc: true
@@ -10,33 +10,33 @@ skip_pagenav: true
 doc_type: get-involved
 
 ---
-## 你想怎样参与进来？
+## 如何参与进来？{#how-do-you-want-to-get-involved}
 
-{{% involve_block title="提出问题" subtitle="有各种各样的方式去接触社区以获取意见。" icon="user" %}}
-1. **这是** [**Istio 讨论板**](https://discuss.istio.io/) 总是邀请 Istio 用户积极参与。参与 Istio 提问和讨论问题。
-2. **加入我们** [**Slack**](https://slack.istio.io/) 与Istio社区的其他成员一起互动。
-3. 将您的特定 Istio 问题带到 [**Stack Overflow**](https://stackoverflow.com/questions/tagged/istio) **作为向导**。
+{{% involve_block title="提出问题" subtitle="融入 Istio 社区进行沟通交流有很多种方式。" icon="user" %}}
+1. 在 [Istio 讨论板](https://discuss.istio.io)上不断有 Istio 用户积极踊跃地参与进来。来加入进来提问和讨论 Istio 吧。
+2. **加入我们** [**Slack**](https://slack.istio.io/) 与其他 Istio 社区成员进行实时交流。
+3. 将您遇到的具体问题提给 [**Stack Overflow**](https://stackoverflow.com/questions/tagged/istio)上的 **大神们** 。
 {{% /involve_block %}}
 
-{{% involve_block title="加入对话" subtitle="关于这个问题有很多可谈的。我们欢迎您的声音!" icon="events" %}}
-1. **参加一个活动！** [关注我们的日历](https://calendar.google.com/calendar/embed?src=i10ogf58krfbrsjai5qi16g4do@group.calendar.google.com) 看看接下来会发生什么！
-2. 关注我们的[**Twitter - @IstioMesh**](https://twitter.com/IstioMesh)
+{{% involve_block title="加入讨论" subtitle="围绕着 Istio 我们有太多可说的了，我们欢迎你的声音！" icon="events" %}}
+1. **参加活动!** [请关注我们的日程表](https://calendar.google.com/calendar/embed?src=i10ogf58krfbrsjai5qi16g4do@group.calendar.google.com) 了解即将到来的活动!
+2. 在 [**Twitter - @IstioMesh**](https://twitter.com/IstioMesh) 上关注我们
 {{% /involve_block %}}
 
-{{% involve_block title="安全和漏洞追踪" subtitle="感谢您在 Bug 报告和安全漏洞方面提供的帮助。" icon="security" %}}
-1. 请阅读这篇文章[**关于如何报告 Bug 的快速解释**](/zh/docs/releases/bugs/)，在代码和文档中都有。
-2. Istio 安全团队对**漏洞报告做出快速反应**。 请阅读[如何提交问题](/zh/docs/releases/security-vulnerabilities/)。
+{{% involve_block title="错误与安全" subtitle="感谢您通过提交错误报告与安全漏洞来帮助我们改进 Istio。" icon="security" %}}
+1. 请阅读[**如何快速的报告错误**](/zh/docs/releases/bugs/),无论是代码还是文档它都适应。
+2. Istio会快速响应 **漏洞报告** , 请阅读 [如何提交一个 issue](/zh/docs/releases/security-vulnerabilities/)。
 {{% /involve_block %}}
 
-{{% involve_block title="成为贡献者" subtitle="代码、文档、社区：Istio 欢迎您的贡献！使用这些链接作为入口点。" icon="contribution" %}}
-1. 熟悉 Istio [行为准则](https://github.com/istio/community/blob/master/CONTRIBUTING.md#code-of-conduct) 和 [关于贡献的用户指南](https://github.com/istio/community/blob/master/CONTRIBUTING.md)。
-2. [Istio社区自述](https://github.com/istio/community/blob/master/README.md) 是那些想要从事代码、文档或 Istio 其他部分工作的**贡献者的起点**。
-3. 您可以访问我们的[**技术内容和工作文档**](https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA) 加入 [istio-team-drive-access@ 谷歌群组](https://groups.google.com/forum/#!forum/istio-team-drive-access)。
-4. 你可以参加[**工作小组**](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) 它关注的是人们感兴趣的特定领域，比如文档、安全和网络。
-5. 有兴趣帮忙翻译**中文文档**吗？欢迎加入 [ServiceMesher 社区](https://www.servicemesher.com/)。
+{{% involve_block title="成为贡献者" subtitle="代码、文档、社区: Istio 欢迎您的贡献! 请点击这些链接开始吧." icon="contribution" %}}
+1. 熟悉 Istio 的 [代码规范](https://github.com/istio/community/blob/master/CONTRIBUTING.md#code-of-conduct) 与 [贡献指南](https://github.com/istio/community/blob/master/CONTRIBUTING.md).
+2. 无论谁想要通过代码，文档还是其他部分进行贡献 [Istio 社区 README](https://github.com/istio/community/blob/master/README.md) 都是 **贡献者的起点** 。
+3. 您可以加入 [istio-team-drive-access@ Google Group](https://groups.google.com/forum/#!forum/istio-team-drive-access) 来 [**访问我们的技术内容和工作文档**](https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA)。
+4. 您可以加入 [**工作组**](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) 这些工作组专注于你感兴趣的特定领域，如文档，安全和网络。
+5. 对帮助 **中文文档** 感兴趣么? [参与进来](https://i.cloudnative.to/istio/event/istio-doc-translation)。
 {{% /involve_block %}}
 
-{{% involve_block title="理解监督和计划" subtitle="Istio有两个关键的委员会来监督项目：指导和技术监督。" icon="magnifier" %}}
-1. 项目的治理和宣传由 [**Istio 指导委员会**](https://github.com/istio/community/tree/master/steering)管理。
-2. 技术指导和项目计划是 [**Istio 技术监督委员会**](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md)的职责。
+{{% involve_block title="了解监督和规划" subtitle="Istio 有两个关键委员会负责监督项目。指导委员会和技术监督委员会。" icon="magnifier" %}}
+1. 项目的治理和宣传由 [**Istio 指导委员会**](https://github.com/istio/community/tree/master/steering) 管理。
+2. 技术指导和项目规划由 [**Istio 技术监督委员会**](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md) 负责。
 {{% /involve_block %}}
