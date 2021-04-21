@@ -1,13 +1,7 @@
 ---
-<<<<<<< HEAD:content/en/docs/tasks/observability/distributed-tracing/configurability/index.md
-title: Configurability
-description: How to configure tracing options.
-weight: 60
-=======
-title: With MeshConfig and Pod annotations
+title: Using MeshConfig and Pod annotations
 description: How to configure tracing options with the MeshConfig and pod annotations.
 weight: 11
->>>>>>> 1391c35b0 (Add doc on Telemetry API Tracing configuration):content/en/docs/tasks/observability/distributed-tracing/configurability/mesh-and-proxy-config/index.md
 keywords: [telemetry,tracing]
 aliases:
  - /docs/tasks/observability/distributed-tracing/configurability/
@@ -16,10 +10,10 @@ test: no
 status: Beta/Experimental
 ---
 
-{{< warning >}}
+{{< tip >}}
 A new Telemetry API for configuring Istio's Tracing behavior has recently been introduced.
 Users are encouraged to transition to the new [Telemetry API for tracing configuration](/docs/tasks/observability/distributed-tracing/configurability/telemetry-api/).
-{{</ warning >}}
+{{</ tip >}}
 
 Istio provides the ability to configure advanced tracing options,
 such as sampling rate and adding custom tags to reported spans.
