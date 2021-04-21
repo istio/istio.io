@@ -41,7 +41,7 @@
 
     @media screen AND (min-width: $bp-xl + 1) {
         &.has-toc {
-            grid-template-columns: [article] calc(80% - 1.5rem) [toc] 20%;
+            grid-template-columns: [article] calc(86% - 1.5rem) [toc] 14%;
         }
 
         &.has-sidebar {
