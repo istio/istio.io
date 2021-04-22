@@ -342,3 +342,15 @@ other = "Security"
 
 [sidebar-toggle]
 other = "Contents"
+
+[blog-title]
+other = "Blog"
+
+[blog-description]
+other = "Istio addresses the challenges developers and operators face as monolithic applications transition towards a distributed microservice architecture."
+
+[news-title]
+other = "News"
+
+[news-description]
+other = "Istio addresses the challenges developers and operators face as monolithic applications transition towards a distributed microservice architecture."

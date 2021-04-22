@@ -1,9 +1,9 @@
 {{ define "main" }}
 <main class="primary blog-content">
     <!-- TODO: Replace placeholders -->
-    <h1>Blog</h1>
-    <p class="blog-description">Istio addresses the challenges developers and operators face as monolithic applications transition towards a distributed microservice architecture. </p>
-    
+    <h1>{{ i18n "blog-title" }}</h1>
+    <p class="blog-description">{{ i18n "blog-description" }}</p>
+
     {{ $.Scratch.Set "years" (slice ) }}
     {{ $.Scratch.Set "noYears" 0 }}
     {{ $pages := (where .Site.RegularPages "Section" "blog").ByPublishDate.Reverse }}

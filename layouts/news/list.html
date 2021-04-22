@@ -1,8 +1,8 @@
 {{ define "main" }}
 <main class="primary blog-content">
-    <h1>News</h1>
+    <h1>{{ i18n "news-title" }}</h1>
     <!-- TODO: Replace placeholders -->
-    <p class="blog-description">Istio addresses the challenges developers and operators face as monolithic applications transition towards a distributed microservice architecture. </p>
+    <p class="blog-description">{{ i18n "news-description" }}</p>
     
     {{ $.Scratch.Set "categories" (slice ) }}
     {{ $.Scratch.Set "noCategories" 0 }}
