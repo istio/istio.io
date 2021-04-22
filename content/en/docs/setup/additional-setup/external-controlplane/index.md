@@ -29,9 +29,6 @@ The mesh administrator will use the config cluster to configure the mesh resourc
 in addition to the mesh services themselves. The external control plane will remotely access this configuration from
 the Kubernetes API server, as shown in the above diagram.
 
-TODO: Change the instructions to use namespace `istio-system` for the system namespace on remote clusters,
-instead of `external-istiod`, when #32147 is fixed.
-
 ## Before you begin
 
 ### Clusters
@@ -491,7 +488,7 @@ including gateways, if needed.
 ## Adding clusters to the mesh (optional) {#adding-clusters}
 
 {{< warning >}}
-This feature is still in development and is considered experimental.
+This feature is still in development and is considered [experimental](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md).
 {{< /warning >}}
 
 This section shows you how to expand an existing external control plane mesh to multicluster by adding another remote cluster.
@@ -620,50 +617,14 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -n external-istiod -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: cross-network-gateway
-    spec:
-      selector:
-        istio: eastwestgateway
-      servers:
-        - port:
-            number: 15443
-            name: tls
-            protocol: TLS
-          tls:
-            mode: AUTO_PASSTHROUGH
-          hosts:
-            - "*.local"
-    EOF
-    #TODO use the following command, instead of above, after #32147 is fixed.
-    #$ kubectl --context="${CTX_REMOTE_CLUSTER}" apply -n external-istiod -f \
-    #    @samples/multicluster/expose-services.yaml@
+    $ kubectl --context="${CTX_REMOTE_CLUSTER}" apply -n external-istiod -f \
+        @samples/multicluster/expose-services.yaml@
     {{< /text >}}
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply --context="${CTX_SECOND_CLUSTER}" -n external-istiod -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: cross-network-gateway
-    spec:
-      selector:
-        istio: eastwestgateway
-      servers:
-        - port:
-            number: 15443
-            name: tls
-            protocol: TLS
-          tls:
-            mode: AUTO_PASSTHROUGH
-          hosts:
-            - "*.local"
-    EOF
-    #TODO use the following command, instead of above, after #32147 is fixed.
-    #$ kubectl --context="${CTX_SECOND_CLUSTER}" apply -n external-istiod -f \
-    #    @samples/multicluster/expose-services.yaml@
+    $ kubectl --context="${CTX_SECOND_CLUSTER}" apply -n external-istiod -f \
+        @samples/multicluster/expose-services.yaml@
     {{< /text >}}
 
 ### Validate the installation

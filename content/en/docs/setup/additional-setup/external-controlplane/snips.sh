@@ -448,57 +448,15 @@ ENDSNIP
 
 snip_setup_eastwest_gateways_5() {
 cat <<EOF | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -n external-istiod -f -
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: cross-network-gateway
-spec:
-  selector:
-    istio: eastwestgateway
-  servers:
-    - port:
-        number: 15443
-        name: tls
-        protocol: TLS
-      tls:
-        mode: AUTO_PASSTHROUGH
-      hosts:
-        - "*.local"
-EOF
+kubectl --context="${CTX_REMOTE_CLUSTER}" apply -n external-istiod -f \
+    samples/multicluster/expose-services.yaml
 }
-
-! read -r -d '' snip_setup_eastwest_gateways_5_out <<\ENDSNIP
-#TODO use the following command, instead of above, after #32147 is fixed.
-#$ kubectl --context="${CTX_REMOTE_CLUSTER}" apply -n external-istiod -f \
-#    samples/multicluster/expose-services.yaml
-ENDSNIP
 
 snip_setup_eastwest_gateways_6() {
 cat <<EOF | kubectl apply --context="${CTX_SECOND_CLUSTER}" -n external-istiod -f -
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: cross-network-gateway
-spec:
-  selector:
-    istio: eastwestgateway
-  servers:
-    - port:
-        number: 15443
-        name: tls
-        protocol: TLS
-      tls:
-        mode: AUTO_PASSTHROUGH
-      hosts:
-        - "*.local"
-EOF
+kubectl --context="${CTX_SECOND_CLUSTER}" apply -n external-istiod -f \
+    samples/multicluster/expose-services.yaml
 }
-
-! read -r -d '' snip_setup_eastwest_gateways_6_out <<\ENDSNIP
-#TODO use the following command, instead of above, after #32147 is fixed.
-#$ kubectl --context="${CTX_SECOND_CLUSTER}" apply -n external-istiod -f \
-#    samples/multicluster/expose-services.yaml
-ENDSNIP
 
 snip_validate_the_installation_1() {
 kubectl create --context="${CTX_SECOND_CLUSTER}" namespace sample
