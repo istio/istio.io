@@ -152,7 +152,7 @@ Install Istio and expose the control plane on cluster so that your virtual machi
     Expose the control plane:
 
     {{< text syntax=bash snip_id=expose_istio >}}
-    $ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
+    $ kubectl apply -n istio-system -f @samples/multicluster/expose-istiod.yaml@
     {{< /text >}}
 
     {{< /tab >}}
@@ -162,7 +162,7 @@ Install Istio and expose the control plane on cluster so that your virtual machi
     Expose the control plane:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
+    $ kubectl apply -n istio-system -f @samples/multicluster/expose-istiod.yaml@
     {{< /text >}}
 
     Expose cluster services:
@@ -478,7 +478,7 @@ $ sudo rpm -e istio-sidecar
 To uninstall Istio, run the following command:
 
 {{< text bash >}}
-$ kubectl delete -f @samples/multicluster/expose-istiod.yaml@
+$ kubectl delete -n istio-system -f @samples/multicluster/expose-istiod.yaml@
 $ istioctl manifest generate | kubectl delete -f -
 {{< /text >}}
 
