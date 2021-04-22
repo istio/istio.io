@@ -9,14 +9,14 @@
     </div>
 
     <div class="cta-container">
-        <a href="https://github.com/istio/istio.io/issues/new" class="btn">Share your story</a>
+        <a href="https://github.com/istio/istio.io/issues/new" class="btn">{{ i18n "share_your_story" }}</a>
     </div>
 
     {{ with .Site.Data.companies.users }}
         <h1>Also used by</h1>
         {{ partial "companies" (dict "items" .) }}
         <div class="cta-container">
-            <a href="https://github.com/istio/istio.io/blob/master/data/companies.yml" class="btn">Add your logo</a>
+            <a href="https://github.com/istio/istio.io/blob/master/data/companies.yml" class="btn">{{ i18n "add_your_logo" }}</a>
         </div>
     {{ end }}
 

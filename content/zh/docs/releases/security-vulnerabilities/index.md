@@ -2,7 +2,12 @@
 title: 安全漏洞
 description: 我们如何处理安全漏洞。
 weight: 35
+aliases:
+    - /zh/about/security-vulnerabilities
+    - /zh/latest/about/security-vulnerabilities
 icon: vulnerabilities
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 我们非常感谢那些报告 Istio 安全漏洞的安全研究人员和用户。我们会彻底分析和评估每份报告。
