@@ -80,7 +80,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
 
 A mesh operator is responsible for installing and managing the external Istio control plane on the external cluster.
 This includes configuring an ingress gateway on the external cluster, which allows the remote cluster to access the control plane,
-and installing needed webhooks, configmaps, and secrets on the remote cluster so that it will use the external control plane.
+and installing the sidecar injector webhook configuration on the remote cluster so that it will use the external control plane.
 
 #### Set up a gateway in the external cluster
 
