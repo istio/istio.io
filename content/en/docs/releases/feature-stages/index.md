@@ -46,71 +46,23 @@ Experimental features are purposefully not listed on this page.
 
 ### Traffic management
 
-| Feature           | Phase
-|-------------------|-------------------
-| Protocols: HTTP1.1 / HTTP2 / gRPC / TCP | Stable
-| Protocols: Websockets / MongoDB  | Stable
-| Traffic Control: label/content based routing, traffic shifting | Stable
-| Resilience features: timeouts, retries, connection pools, outlier detection | Stable
-| Gateway: Ingress, Egress for all protocols | Stable
-| TLS termination and SNI Support in Gateways | Stable
-| SNI (multiple certs) at ingress | Stable
-| [Locality load balancing](/docs/tasks/traffic-management/locality-load-balancing/) | Beta
-| Enabling custom filters in Envoy | Alpha
-| CNI container interface | Alpha
-| [Sidecar API](/docs/reference/config/networking/sidecar/) | Beta
-| [DNS Proxying](/docs/ops/configuration/traffic-management/dns-proxy/) | Alpha
-| [Kubernetes service-apis](/docs/tasks/traffic-management/ingress/gateway-api/) | Alpha
+{{< features section="Traffic Management" >}}
 
 ### Observability
 
-| Feature           | Phase
-|-------------------|-------------------
-| [Prometheus Integration](/docs/tasks/observability/metrics/querying-metrics/) | Stable
-| [Client and Server Telemetry Reporting](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/) | Stable
-| [Service Dashboard in Grafana](/docs/tasks/observability/metrics/using-istio-dashboard/) | Stable
-| [Distributed Tracing](/docs/tasks/observability/distributed-tracing/) | Stable
-| [Stackdriver Integration](/docs/reference/config/proxy_extensions/stackdriver/) | Stable
-| [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/observability/distributed-tracing/) | Beta
-| [Trace Sampling](/docs/tasks/observability/distributed-tracing/configurability/#trace-sampling) | Beta
-| [Request Classification](/docs/tasks/observability/metrics/classify-metrics/) | Beta
+{{< features section="Observability" >}}
 
 ### Extensibility
 
-| Feature           | Phase
-|-------------------|-------------------
-| WebAssembly Extension | Alpha
+{{< features section="Extensibility" >}}
 
 ### Security and policy enforcement
 
-| Feature           | Phase
-|-------------------|-------------------
-| [Service-to-service mutual TLS](/docs/concepts/security/#mutual-tls-authentication)         | Stable
-| [Kubernetes: Service Credential Distribution](/docs/concepts/security/#pki)   | Stable
-| [Certificate management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress) | Stable
-| [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/cert-management/plugin-ca-cert/)        | Stable
-| [Authorization](/docs/concepts/security/#authorization)   | Beta
-| [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Beta
-| [Automatic mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) | Beta
-| [VM: Service Credential Distribution](/docs/concepts/security/#pki)         | Beta
-| [Mutual TLS Migration](/docs/tasks/security/authentication/mtls-migration)    | Beta
+{{< features section="Security and policy enforcement" >}}
 
 ### Core
 
-| Feature           | Phase
-|-------------------|-------------------
-| [Standalone Operator](/docs/setup/install/operator/) | Beta
-| [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/) | Stable
-| [Kubernetes: Istio Control Plane Installation](/docs/setup/) | Stable
-| [Multicluster Mesh](/docs/setup/install/multicluster/) | Beta
-| [External Control Plane](/docs/setup/additional-setup/external-controlplane/) | Alpha
-| [Kubernetes: Istio Control Plane In-Place Upgrade](/docs/setup/upgrade/in-place) | Beta
-| Basic Configuration Resource Validation | Beta
-| [Istio CNI plugin](/docs/setup/additional-setup/cni/) | Alpha
-| IPv6 Support for Kubernetes | Alpha. Dual-stack IPv4 and IPv6 is not supported.
-| [Distroless Base Images for Istio](/docs/ops/configuration/security/harden-docker-images/) | Alpha
-| [Virtual Machine Integration](/docs/setup/install/virtual-machine/) | Beta
-| [Helm Based Installation](/docs/setup/install/helm/) | Alpha
+{{< features section="Core" >}}
 
 {{< idea >}}
 Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!

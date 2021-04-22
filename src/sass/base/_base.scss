@@ -418,6 +418,10 @@ sup {
         margin: 0;
 
         & + p {
+            margin-top: 2.625rem;
+        }
+
+        & + .byline {
             margin-top: .75rem;
         }
     }
