@@ -38,7 +38,7 @@ function handleScroll(): void {
                 let closestHeadingBelowTopPos = 1000000;
                 let closestHeadingAboveTop = -1;
                 let closestHeadingAboveTopPos = -1000000;
-                const listOfCurrents = document.querySelectorAll('.active');
+                const listOfCurrents = document.querySelectorAll(".active");
                 for (let i = 0; i < tocLinks.length; i++) {
                     const heading = tocHeadings[i];
                     if (!heading) {
@@ -78,7 +78,7 @@ function handleScroll(): void {
                 } else if (closestHeadingAboveTop >= 0) {
                     tocLinks[closestHeadingAboveTop].classList.add("active");
                 }
-                if(listOfCurrents.length === 0) {
+                if (listOfCurrents.length === 0) {
                     tocLinks[0].classList.add("active");
                 }
             }
