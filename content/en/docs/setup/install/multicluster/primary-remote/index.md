@@ -100,7 +100,7 @@ Before we can install on `cluster2`, we need to first expose the control plane i
 `cluster1` so that services in `cluster2` will be able to access service discovery:
 
 {{< text bash >}}
-$ kubectl apply --context="${CTX_CLUSTER1}" -f \
+$ kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
     @samples/multicluster/expose-istiod.yaml@
 {{< /text >}}
 
