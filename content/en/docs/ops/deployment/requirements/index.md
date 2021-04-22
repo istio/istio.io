@@ -39,7 +39,7 @@ To be part of a mesh, Kubernetes pods must satisfy the following requirements:
   instance HTTP and TCP.
 
 - **Application UIDs**: Ensure your pods do **not** run applications as a user
-  with the user ID (UID) value of **1337**.
+  with the user ID (UID) value of `1337` because `1337` is reserved for the sidecar proxy.
 
 - **`NET_ADMIN` and `NET_RAW` capabilities**: If [pod security policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)
     are [enforced](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies)
