@@ -354,3 +354,6 @@ other = "News"
 
 [news-description]
 other = "Istio addresses the challenges developers and operators face as monolithic applications transition towards a distributed microservice architecture."
+
+[edit-link]
+other = "Edit this page"
