@@ -388,9 +388,9 @@ including gateways, if needed.
 1. Deploy the `helloworld` (`v1`) and `sleep` samples:
 
     {{< text bash >}}
-    $ kubectl apply -f samples/helloworld/helloworld.yaml -l service=helloworld -n sample --context="${CTX_REMOTE_CLUSTER}"
-    $ kubectl apply -f samples/helloworld/helloworld.yaml -l version=v1 -n sample --context="${CTX_REMOTE_CLUSTER}"
-    $ kubectl apply -f samples/sleep/sleep.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
+    $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l service=helloworld -n sample --context="${CTX_REMOTE_CLUSTER}"
+    $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l version=v1 -n sample --context="${CTX_REMOTE_CLUSTER}"
+    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
 1. Wait a few seconds for the `helloworld` and `sleep` pods to be running with sidecars injected:
@@ -466,7 +466,7 @@ including gateways, if needed.
 1. Expose the `helloworld` application on the ingress gateway:
 
     {{< text bash >}}
-    $ kubectl apply -f samples/helloworld/helloworld-gateway.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
+    $ kubectl apply -f @samples/helloworld/helloworld-gateway.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
 1. Set the `GATEWAY_URL` environment variable
@@ -580,7 +580,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 1. Deploy east-west gateways on both remote clusters:
 
     {{< text bash >}}
-    $ samples/multicluster/gen-eastwest-gateway.sh \
+    $ @samples/multicluster/gen-eastwest-gateway.sh@ \
         --mesh mesh1 --cluster "${REMOTE_CLUSTER_NAME}" --network network1 > eastwest-gateway-1.yaml
     $ istioctl manifest generate -f eastwest-gateway-1.yaml \
         --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
@@ -591,7 +591,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     {{< text bash >}}
     $ kubectl get configmap istio-ca-root-cert -n external-istiod --context="${CTX_REMOTE_CLUSTER}" -o json | \
         kubectl apply -n external-istiod --context="${CTX_SECOND_CLUSTER}" -f - #TODO: remove this command after #32244 is fixed.
-    $ samples/multicluster/gen-eastwest-gateway.sh \
+    $ @samples/multicluster/gen-eastwest-gateway.sh@ \
         --mesh mesh1 --cluster "${SECOND_CLUSTER_NAME}" --network network2 > eastwest-gateway-2.yaml
     $ istioctl manifest generate -f eastwest-gateway-2.yaml \
         --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
@@ -639,9 +639,9 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 1. Deploy the `helloworld` (`v2`) and `sleep` samples:
 
     {{< text bash >}}
-    $ kubectl apply -f samples/helloworld/helloworld.yaml -l service=helloworld -n sample --context="${CTX_SECOND_CLUSTER}"
-    $ kubectl apply -f samples/helloworld/helloworld.yaml -l version=v2 -n sample --context="${CTX_SECOND_CLUSTER}"
-    $ kubectl apply -f samples/sleep/sleep.yaml -n sample --context="${CTX_SECOND_CLUSTER}"
+    $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l service=helloworld -n sample --context="${CTX_SECOND_CLUSTER}"
+    $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l version=v2 -n sample --context="${CTX_SECOND_CLUSTER}"
+    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sample --context="${CTX_SECOND_CLUSTER}"
     {{< /text >}}
 
 1. Wait a few seconds for the `helloworld` and `sleep` pods to be running with sidecars injected:
