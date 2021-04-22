@@ -447,13 +447,11 @@ istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.99   ...       51
 ENDSNIP
 
 snip_setup_eastwest_gateways_5() {
-cat <<EOF | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -n external-istiod -f -
 kubectl --context="${CTX_REMOTE_CLUSTER}" apply -n external-istiod -f \
     samples/multicluster/expose-services.yaml
 }
 
 snip_setup_eastwest_gateways_6() {
-cat <<EOF | kubectl apply --context="${CTX_SECOND_CLUSTER}" -n external-istiod -f -
 kubectl --context="${CTX_SECOND_CLUSTER}" apply -n external-istiod -f \
     samples/multicluster/expose-services.yaml
 }

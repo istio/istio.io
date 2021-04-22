@@ -616,13 +616,11 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 1. Expose services via the east-west gateways:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -n external-istiod -f -
     $ kubectl --context="${CTX_REMOTE_CLUSTER}" apply -n external-istiod -f \
         @samples/multicluster/expose-services.yaml@
     {{< /text >}}
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply --context="${CTX_SECOND_CLUSTER}" -n external-istiod -f -
     $ kubectl --context="${CTX_SECOND_CLUSTER}" apply -n external-istiod -f \
         @samples/multicluster/expose-services.yaml@
     {{< /text >}}
