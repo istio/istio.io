@@ -11,7 +11,7 @@ This task shows you how to set up an Istio authorization policy using a new [exp
 to dry-run the policy without actually enforcing it.
 
 The dry-run annotation allows you to better understand the effect of an authorization policy before applying it to
-the production traffic. This helps to reduce the risk of breaking the production traffic caused by incorrect authorization policy.
+the production traffic. This helps to reduce the risk of breaking the production traffic caused by an incorrect authorization policy.
 
 {{< boilerplate experimental-feature-warning >}}
 
@@ -26,13 +26,13 @@ Before you begin this task, do the following:
 * Deploy Zipkin for checking dry-run tracing results. Follow the [Zipkin task](/docs/tasks/observability/distributed-tracing/zipkin/)
   to install Zipkin in the cluster. Make sure the sampling rate is set to 100 that allows you to quickly reproduce the trace span in the task.
 
-* Deploy Prometheus for checking dry-run metric results. Follow [Prometheus task](/docs/tasks/observability/metrics/querying-metrics/)
+* Deploy Prometheus for checking dry-run metric results. Follow the [Prometheus task](/docs/tasks/observability/metrics/querying-metrics/)
   to install the Prometheus in the cluster.
 
 * Deploy test workloads:
 
     This task uses two workloads, `httpbin` and `sleep`, both deployed in namespace `foo`.
-    Both workloads run with an Envoy proxy sidecar. Deploy the `foo` namespace and workloads with the following command:
+    Both workloads run with an Envoy proxy sidecar. Create the `foo` namespace and deploy the workloads with the following command:
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -62,7 +62,7 @@ Caching and propagation overhead can cause some delay.
 
 ## Create dry-run policy
 
-1. Create the authorization policy with dry-run annotation `"istio.io/dry-run": "true"` with the following command:
+1. Create an authorization policy with dry-run annotation `"istio.io/dry-run": "true"` with the following command:
 
     {{< text bash >}}
     $ kubectl apply -n foo -f - <<EOF
@@ -92,16 +92,8 @@ Caching and propagation overhead can cause some delay.
 
 ## Check dry-run result in proxy log
 
-1. Run the following command to check the dry-run results in the proxy log. Note this requires you have enabled the
-   debug logging in the proxy. Try to send some more requests if you do not see the expected log.
-
-    {{< text bash >}}
-    $ kubectl logs "$(kubectl get pod -l app=httpbin -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo  | grep shadow
-    2021-04-20T02:33:16.294417Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
-    {{< /text >}}
-
-1. The log `shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]` means the request is rejected
-   by the dry-run policy `deny-path-headers` in the namespace `foo`.
+1. The dry-run results could be found in the proxy debug log, it will be something like `shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]`.
+   See the [troubleshooting guide](/docs/ops/common-problems/security-issues/#ensure-proxies-enforce-policies-correctly) for more details.
 
 ## Check dry-run result in metric using Prometheus
 
@@ -112,7 +104,7 @@ Caching and propagation overhead can cause some delay.
     {{< /text >}}
 
 1. In the Prometheus dashboard, search for the metric `envoy_http_inbound_0_0_0_0_80_rbac{authz_dry_run_result!=""}`. The
-   following is an example metric output (you might find different values of these metrics):
+   following is an example metric output:
 
     {{< text plain >}}
     envoy_http_inbound_0_0_0_0_80_rbac{app="httpbin",authz_dry_run_action="deny",authz_dry_run_result="allowed",instance="10.44.1.11:15020",istio_io_rev="default",job="kubernetes-pods",kubernetes_namespace="foo",kubernetes_pod_name="httpbin-74fb669cc6-95qm8",pod_template_hash="74fb669cc6",security_istio_io_tlsMode="istio",service_istio_io_canonical_name="httpbin",service_istio_io_canonical_revision="v1",version="v1"} 0
@@ -132,9 +124,8 @@ Caching and propagation overhead can cause some delay.
     $ istioctl dashboard zipkin
     {{< /text >}}
 
-1. Find the trace result for the request from `sleep` to `httpbin`. Make sure you have set the sampling rate to 100 so
-   that you can quickly reproduce the trace result in this task. Try to send some more requests if you do see the trace
-   result.
+1. Find the trace result for the request from `sleep` to `httpbin`. Try to send some more requests if you do see the trace
+   result due to the delay in the Zipkin.
 
 1. In the trace result, you should find the following custom tags indicating the request is rejected by the dry-run policy
    `deny-path-headers` in the namespace `foo`:
@@ -146,17 +137,17 @@ Caching and propagation overhead can cause some delay.
 
 ## Summary
 
-The Proxy debug log, Prometheus metric and Zipkin trace result indicate that the dry-run policy will reject the request.
+The Proxy debug log, Prometheus metric and Zipkin trace results indicate that the dry-run policy will reject the request.
 You can further change the policy if the dry-run result is not expected.
 
-It's recommended to keep the dry-run policy for some more time to so that it can be tested with more production traffic.
+It's recommended to keep the dry-run policy for some additional time so that it can be tested with more production traffic.
 
-When you are confident about the dry-run result, you can change the policy from dry-run to enforce mode. This can be
-achieved by either of the following approaches:
+When you are confident about the dry-run result, you can disable the dry-run mode so that the policy will start to actually
+reject requests. This can be achieved by either of the following approaches:
 
 * Remove the dry-run annotation completely; or
 
-* Change the value of the dry-run annotation to `false`;
+* Change the value of the dry-run annotation to `false`.
 
 ## Limitations
 
@@ -168,8 +159,8 @@ The dry-run annotation is currently in experimental stage and has the following 
   that the ALLOW and DENY policies are enforced separately in the proxy. You should take all the two dry-run results into
   consideration because a request could be allowed by an ALLOW policy but still rejected by another DENY policy;
 
-* The dry-run results in the proxy log, metric and tracing are for manual troubleshooting purpose and should not be used
-  as an API because it may change anytime without prior notice;
+* The dry-run results in the proxy log, metric and tracing are for manual troubleshooting purposes and should not be used
+  as an API because it may change anytime without prior notice.
 
 ## Clean up
 
@@ -179,4 +170,4 @@ The dry-run annotation is currently in experimental stage and has the following 
     $ kubectl delete namespace foo
     {{< /text >}}
 
-1. Remove the Prometheus and Zipkin if not needed.
+1. Remove Prometheus and Zipkin if not needed.
