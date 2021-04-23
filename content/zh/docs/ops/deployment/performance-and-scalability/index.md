@@ -116,6 +116,6 @@ Istiod 根据用户编写的配置文件和系统当前状态来配置 Sidecar �
 
 Istio 使用下面的工具进行基准测试：
 
-- [`fortio.org`](https://fortio.org/)：一个恒定的吞吐量负载测试工具。
-- [`blueperf`](https://github.com/blueperf/)：一个仿真云原生应用。
-- [`isotope`](https://github.com/istio/tools/tree/{{< source_branch_name >}}/isotope)：一个具有可配置拓扑结构的综合应用程序。
+- [`fortio.org`](https://fortio.org/) - 一个恒定的吞吐量负载测试工具。
+- [`blueperf`](https://github.com/blueperf/) - 一个仿真云原生应用。
+- [`isotope`](https://github.com/istio/tools/tree/{{< source_branch_name >}}/isotope) - 一个具有可配置拓扑结构的综合应用程序。
