@@ -1,7 +1,6 @@
 {{ define "main" }}
 <main class="primary blog-content">
     <h1>{{ .Params.title }}</h1>
-    <!-- TODO: Replace placeholders -->
     <p class="blog-description">{{ .Params.description }}</p>
     
     {{ $.Scratch.Set "categories" (slice ) }}
