@@ -1947,24 +1947,18 @@ THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <h3 id="istioctl-experimental-internal-debug Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve sync status for all Envoys in a mesh
   istioctl x internal-debug syncz
-
   # Retrieve sync diff for a single Envoy and Istiod
   istioctl x internal-debug syncz istio-egressgateway-59585c5b9c-ndc59.istio-system
-
   # SECURITY OPTIONS
-
   # Retrieve syncz debug information directly from the control plane, using token security
   # (This is the usual way to get the debug information with an out-of-cluster control plane.)
   istioctl x internal-debug syncz --xds-address istio.cloudprovider.example.com:15012
-
   # Retrieve syncz debug information via Kubernetes config, using token security
   # (This is the usual way to get the debug information with an in-cluster control plane.)
   istioctl x internal-debug syncz
-
   # Retrieve syncz debug information directly from the control plane, using RSA certificate security
   # (Certificates must be obtained before this step.  The --cert-dir flag lets istioctl bypass the Kubernetes API server.)
   istioctl x internal-debug syncz --xds-address istio.example.com:15012 --cert-dir ~/.istio-certs
-
   # Retrieve syncz information via XDS from specific control plane in multi-control plane in-cluster configuration
   # (Select a specific control plane in an in-cluster canary Istio configuration.)
   istioctl x internal-debug syncz --xds-label istio.io/rev=default
