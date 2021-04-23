@@ -20,6 +20,8 @@ set -u  # Unset is an error
 # There is no need to echo, output appears in TestDocs/tasks/observability/kiali/test.sh/test.sh/_test_context/test.sh_debug.txt
 set -o pipefail
 
+source "tests/util/samples.sh"
+
 # This script expects Prometheus
 # @setup profile=demo
 
@@ -35,8 +37,8 @@ kubectl -n istio-system get pods
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.10/samples/addons/kiali.yaml
 kubectl -n istio-system wait --for=condition=available --timeout=600s deployment/kiali
 
-# Install Bookinfo application
-startup_bookinfo_sample
+# Install Bookinfo sample
+startup_bookinfo_sample  # from tests/util/samples.sh
 
 echo '*** observability-kiali step 1 ***'
 snip_generating_a_service_graph_1
