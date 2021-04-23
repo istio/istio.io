@@ -18,7 +18,7 @@ aliases:
 - **优化** `WorkloadEntry` 自动注册的稳定性。
   ([PR #29876](https://github.com/istio/istio/pull/29876))
 
-- **修复** CA的证书签名算法为默认算法，与CA的签名密钥类型相对应。
+- **修复** CA 的证书签名算法为默认算法，与 CA 的签名密钥类型相对应。
   ([Issue #27238](https://github.com/istio/istio/issues/27238))
 
 - **修复** 新安装的控制机从 `istiod` 中删除了 `rbac.istio.io` 的权限，导致依赖该CRD组的旧控制机在重新启动时挂起。
