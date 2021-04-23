@@ -11,7 +11,7 @@ target_release: 1.8
 
 因为 Istio 使用 [Docker Hub](https://hub.docker.com/u/istio) 作为默认镜像仓库，所以在大型集群上使用可能会由于超出速率限制导致 Pod 无法启动。这对 Istio 来说有很大问题，因为通常 Istio 的 sidecar 镜像与集群中的大多数 Pod 是一起启动的。
 
-## 防范{#mitigations}
+## 防范{#mitigation}
 
 Istio 允许您指定一个自定义 docker 镜像仓库，可用于从您的私有仓库中获取容器镜像。在安装时通过 `--set hub=<some-custom-registry>` 来配置。
 
