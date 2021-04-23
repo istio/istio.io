@@ -1,14 +1,14 @@
 {{ if not .Site.Data.args.archive }}
-    {{ if in .section "blog" }}
-        <div id="subscribe" >
+    {{ if eq .section "blog" }}
+        <div id="subscribe">
             <a href="/blog/feed.xml" target="_blank">
                 {{ partial "large_icon.html" "rss" }}{{ i18n "subscribe" }}
             </a>
         </div>
     {{ end }}
 
-    {{ if in .section "news" }}
-        <div id="subscribe" >
+    {{ if eq .section "news" }}
+        <div id="subscribe">
             <a href="/news/feed.xml" target="_blank">
                 {{ partial "large_icon.html" "rss" }}{{ i18n "subscribe" }}
             </a>
