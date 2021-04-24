@@ -8,13 +8,10 @@
 
     @supports (position: sticky) {
         position: sticky;
-        top: $headerHeight;
+        top: 11.5rem;
     }
 
     div {
-        padding-left: .5em;
-        border-left: 1px solid $dividerBarColor;
-
         @supports (position: sticky) {
             max-height: calc(100vh - 9rem);
         }
@@ -28,42 +25,87 @@
             display: block !important;
         }
 
-        li {
-            font-size: .9rem;
-
-            a {
-                font-weight: $tocLinkWeight;
-            }
-
-            a.current {
-                color: $linkActiveColor;
-                font-weight: bold;
-            }
-        }
-
         ol {
             list-style-type: none !important;
             padding-left: 0;
             padding-bottom: 0;
             margin: 0;
 
+            li {
+                font-size: .9rem;
+                padding: .25em .25em .25em .5em;
+                border-left: 1px solid $dividerBarColor;
+                position: relative;
+                margin-bottom: 0;
+                margin-top: 0;
+
+                a {
+                    font-weight: $tocLinkWeight;
+                }
+
+                a.current {
+                    color: $linkActiveColor;
+                    font-weight: bold;
+
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        left: -3px;
+                        height: 100%;
+                        min-height: 16px;
+                        border-left: 4px solid #566ca5;
+                    }
+                }
+            }
+
             ol {
                 padding-left: 1em;
+
+                li {
+                    border-left: 0;
+
+                    a.current {
+                        &::before {
+                            left: -29px;
+                        }
+                    }
+                }
+
+                ol {
+                    li {
+                        a.current {
+                            &::before {
+                                left: -56px;
+                            }
+                        }
+                    }
+
+                    ol {
+                        li {
+                            a.current {
+                                &::before {
+                                    left: -83px;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 }
 
 .toc-inlined {
-    display: block;
+    display: none;
     margin-bottom: 2rem;
 
     @media print {
         display: none;
     }
 
-    @media (min-width: $bp-xl) {
-        display: none;
+    @media (max-width: $bp-xl) {
+        display: block;
     }
 
     div {

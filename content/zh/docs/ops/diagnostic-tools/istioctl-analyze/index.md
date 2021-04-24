@@ -3,6 +3,8 @@ title: 使用 Istioctl Analyze 诊断配置
 description: 演示如何使用 istioctl analyze 来识别配置中的潜在问题。
 weight: 40
 keywords: [istioctl, debugging, kubernetes]
+owner: istio/wg-user-experience-maintainers
+test: yes
 ---
 
 `istioctl analyze` 是一个诊断工具，可以检测 Istio 配置的潜在问题。它可以针对运行的群集或一组本地配置文件运行。它还可以将两者结合起来使用，从而允许您在将更改应用于集群之前发现问题。

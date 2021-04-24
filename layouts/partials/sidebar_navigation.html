@@ -1,0 +1,25 @@
+<nav id="sidebar" aria-label="Section Navigation">
+    <button id="sidebar-close" class="main-navigation-toggle sidebar-close" aria-label="Close sidebar">
+        {{ partial "icon.html" "menu-close" }}
+    </button>
+    <div class="sidebar-nav">
+        {{ $section := .Site.GetPage "section" .Section }}
+        <div class="search">
+           
+            <form id="search-docs-form" name="cse" role="search">
+                <input type="hidden" name="ie" value="utf-8" />
+                <input type="hidden" name="hl" value="en" />
+                <input type="hidden" id="search-docs-url" value="{{ .Site.BaseURL }}/search" />
+                <input id="search-docs-textbox" class="form-control" name="docs-search" type="search" aria-label='{{ i18n "search" }}' placeholder='{{ i18n "search_label" }}'/>
+                <button id="search-show2" class="search-show" title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</button>
+            </form>
+        </div>
+        
+        <div class="card">
+            <div class="body default" aria-labelledby="header0">
+                {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
+                {{ partial "navigation_level.html" (dict "pages" $pages "parent" $section "current" . "collapse" false "top" true "labelledby" "header0" ) }}
+            </div>
+        </div>
+    </div>
+</nav>

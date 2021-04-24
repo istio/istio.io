@@ -1,0 +1,40 @@
+.multi-block {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2.5rem;
+
+    .icon {
+        height: 2em;
+        min-width: 4em;
+        margin-right: 1.4rem;
+        stroke: $secondaryColor;
+        stroke-width: 2px;
+    }
+
+    &-header {
+        color: $secondaryColor;
+        margin-top: 0;
+        margin-bottom: .75rem;
+    }
+
+    &-text {
+        flex-grow: 1;
+
+        p {
+            &:first-of-type { margin-top: .75rem; }
+            &:last-child { margin-bottom: 0; }
+        }
+    }
+
+    @media (min-width: $bp-md) {
+        margin-bottom: 0;
+
+        &-wrapper {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            column-gap: 3rem;
+            row-gap: 2.5rem;// sass-lint:disable-line no-misspelled-properties
+        }
+    }
+}

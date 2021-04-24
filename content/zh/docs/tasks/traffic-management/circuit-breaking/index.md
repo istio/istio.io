@@ -3,6 +3,8 @@ title: 熔断
 description: 本任务展示如何为连接、请求以及异常检测配置熔断。
 weight: 50
 keywords: [traffic-management,circuit-breaking]
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 本任务展示如何为连接、请求以及异常检测配置熔断。

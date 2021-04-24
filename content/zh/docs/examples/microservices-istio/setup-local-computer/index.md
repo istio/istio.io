@@ -2,6 +2,8 @@
 title: 设置本地计算机
 overview: 为该教程设置本地计算机。
 weight: 3
+owner: istio/wg-docs-maintainers
+test: no
 ---
 
 {{< boilerplate work-in-progress >}}
@@ -35,7 +37,9 @@ weight: 3
 
     {{< text bash >}}
     $ istioctl version
-    version.BuildInfo{Version:"release-1.1-20190214-09-16", GitRevision:"6113e155ac85e2485e30dfea2b80fd97afd3130a", User:"root", Host:"4496ae63-3039-11e9-86e9-0a580a2c0304", GolangVersion:"go1.10.4", DockerHub:"gcr.io/istio-release", BuildStatus:"Clean", GitTag:"1.1.0-snapshot.6-6-g6113e15"}
+    client version: 1.7.0
+    control plane version: 1.7.0
+    data plane version: 1.7.0 (4 proxies)
     {{< /text >}}
 
 恭喜，您已配置完毕本地计算机！

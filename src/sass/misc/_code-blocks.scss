@@ -3,24 +3,17 @@ code {
     font-size: 80%;
     font-weight: $textCodeWeight;
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    word-break: normal;
+    word-break: break-word;
 }
 
 pre {
-    margin: 1em 0 1em 1em;
-    @media (min-width: $bp-md) {
-        margin: 1em;
-    }
-
+    margin: 1em 0;
     @media print {
         page-break-inside: avoid;
     }
-
     min-width: 12em;
     max-height: 31em;
-    border: 1px solid $preBlockBorderColor;
-    border-radius: $border-radius;
-    box-shadow: 3px 3px 8px $preBlockShadowColor;
+    border-left: 4px solid $preBlockBorderColor;
     font-size: 87.5%;
     text-align: left;
     white-space: pre;
@@ -99,7 +92,8 @@ div.toolbar {
         }
 
         &.copy {
-            right: 2.2rem;
+            right: 0;
+            top: 0;
             width: 3rem;
         }
 

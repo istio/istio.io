@@ -2,6 +2,8 @@
 title: 前提条件
 overview: 检查本教程的前提条件。
 weight: 1
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 {{< boilerplate work-in-progress >}}
@@ -15,7 +17,7 @@ weight: 1
 
 确保满足以下条件：
 
-- 你拥有 Kubernetes 集群的管理员权限。
+- 你拥有名为 `tutorial-cluster` 的 Kubernetes 集群管理员权限和集群上运行的虚拟机的管理员权限。
 - 你可以在集群中为每个参与者创建名称空间。
 
 ## 本地计算机{#local-computer}

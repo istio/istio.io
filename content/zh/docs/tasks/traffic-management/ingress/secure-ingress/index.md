@@ -18,12 +18,14 @@ test: yes
 
 1.  对于 macOS 用户，请验证您是否使用通过 LibreSSL 库编译的 curl：
 
+
     {{< text bash >}}
     $ curl --version | grep LibreSSL
     curl 7.54.0 (x86_64-apple-darwin17.0) libcurl/7.54.0 LibreSSL/2.0.20 zlib/1.2.11 nghttp2/1.24.0
     {{< /text >}}
 
     如果上述命令输出的是如图所示的 LibreSSL 版本，则 curl 命令应按照此任务中的说明正确运行。否则，请尝试使用 curl 的其他实现，例如在 Linux 机器上。
+
 
 ## 生成客户端和服务器证书和密钥{#generate-client-and-server-certificates-and-keys}
 
@@ -236,7 +238,7 @@ test: yes
     $ kubectl create -n istio-system secret tls helloworld-credential --key=helloworld-v1.example.com.key --cert=helloworld-v1.example.com.crt
     {{< /text >}}
 
-1.  为端口443定义一个包含两个 server 的网关。将每个端口上的 `credentialName` 的值分别设置为 `httpbin-credential` 和 `helloworld-credential` 。将 TLS 模式设置为 `SIMPLE`。
+1.  为端口 443 定义一个包含两个 server 的网关。将每个端口上的 `credentialName` 的值分别设置为 `httpbin-credential` 和 `helloworld-credential` 。将 TLS 模式设置为 `SIMPLE`。
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -

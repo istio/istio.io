@@ -222,6 +222,9 @@ CVE-2020-15104
 CVE-2020-16844
 CVE-2020-25017
 CVE-2021-21378
+CVE-2021-28682
+CVE-2021-28683
+CVE-2021-29258
 CVEs
 cves
 cvss
@@ -238,6 +241,7 @@ declaratively
 Delayering
 Demailly
 deployment
+dereference
 dereferenced
 deserialize
 deserializing
@@ -254,6 +258,7 @@ Divya
 Dropdown
 DNS
 DNS_AUTO_ALLOCATE
+doc_type
 docker-compose's
 docker.io
 dogfood
@@ -261,6 +266,7 @@ double-tls
 Drucker
 Duggirala
 e.g.
+e2e
 eBPF
 ECR
 edition.cnn.com
@@ -285,6 +291,7 @@ faq.md
 Fawad
 fcm.googleapis.com
 FDs
+feature_block
 FedRAMP
 filename
 filenames
@@ -298,6 +305,7 @@ FQDNs
 FQDN
 frontend
 frontends
+gamified
 gapped
 Gather.town
 gbd
@@ -438,6 +446,7 @@ lifecycle
 Lightstep
 LightStep
 Linkerd
+linktitle
 linter
 linters
 list_by_publishdate
@@ -646,6 +655,8 @@ sharding
 shortcode
 shortcodes
 Shriram
+sidebar_multicard
+sidebar_none
 sidecar
 sidecar.env
 SignalFX
@@ -680,6 +691,7 @@ subresources
 substring
 subcommand
 Superfeet
+Superset
 svc
 svc.com
 svg
@@ -727,6 +739,8 @@ Unmarshaling
 unnormalized
 unsampled
 untrusted
+upgradeability
+Upgradeability
 upstreamed
 upstreaming
 upstreams
@@ -746,6 +760,7 @@ v1alpha1
 v1alpha3
 v1beta1
 v1beta1#MutatingWebhookConfiguration
+v1dev1
 v2
 V2
 v2-mysql

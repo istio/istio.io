@@ -443,7 +443,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-This 50/50 rule isn't a particularly realistic example. It's just a convenient way to demonstrate
+This 50/50 rule isn't a particularly realistic example. It's just a convenient way to demonstrate
 accessing multiple subsets of a remote service.
 {{< /tip >}}
 

@@ -16,10 +16,10 @@ aliases:
 - **Added** a mode to the Gateway API for mutual TLS operation.
 - **Fixed** issues present when a service communicates over the network first in permissive mutual TLS mode for protocols like MySQL and MongoDB.
 - **Improved** Envoy proxy readiness checks. They now check Envoy's readiness status.
-- **Improved** container ports are no longer required in the pod spec. All ports are [captured by default](/faq/traffic-management/#controlling-inbound-ports).
+- **Improved** container ports are no longer required in the pod spec. All ports are [captured by default](/about/faq/#controlling-inbound-ports).
 - **Improved** the `EnvoyFilter` API. You can now add or update all configurations.
 - **Improved** the Redis load balancer to now default to [`MAGLEV`](https://www.envoyproxy.io/docs/envoy/v1.6.0/intro/arch_overview/load_balancing#maglev) when using the Redis proxy.
-- **Improved** load balancing to direct traffic to the [same region and zone](/faq/traffic-management/#controlling-inbound-ports) by default.
+- **Improved** load balancing to direct traffic to the [same region and zone](/about/faq/#controlling-inbound-ports) by default.
 - **Improved** Pilot by reducing CPU utilization. The reduction approaches 90% depending on the specific deployment.
 - **Improved** the `ServiceEntry` API to allow for the same hostname in different namespaces.
 - **Improved** the [Sidecar API](/docs/reference/config/networking/sidecar/#OutboundTrafficPolicy) to customize the `OutboundTrafficPolicy` policy.

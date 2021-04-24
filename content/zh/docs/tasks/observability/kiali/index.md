@@ -5,6 +5,8 @@ weight: 49
 keywords: [telemetry,visualization]
 aliases:
  - /zh/docs/tasks/telemetry/kiali/
+owner: istio/wg-policies-and-telemetry-maintainers
+test: no
 ---
 
 此任务向您展示如何可视化 Istio 网格的不同方面。

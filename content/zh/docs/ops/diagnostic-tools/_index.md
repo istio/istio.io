@@ -5,4 +5,5 @@ weight: 50
 keywords: [ops]
 aliases:
   - /zh/docs/ops/troubleshooting/proxy-cmd
+test: n/a
 ---

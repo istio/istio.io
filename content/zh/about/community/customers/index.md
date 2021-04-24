@@ -60,8 +60,10 @@ skip_seealso: true
     {{< company_logo link="https://www.shop-apotheke.com" logo="./shop-apotheke.svg" alt="Shop Apotheke Europe" >}}
     {{< company_logo link="https://www.skyscanner.com" logo="./skyscanner.svg" alt="Skyscanner" >}}
     {{< company_logo link="https://www.softonic.com" logo="./softonic.png" alt="Softonic S.L." >}}
+    {{< company_logo link="https://www.splunk.com" logo="./splunk.png" alt="Splunk" >}}
     {{< company_logo link="https://www.spotify.com" logo="./spotify.svg" alt="Spotify" >}}
     {{< company_logo link="http://www.theweathercompany.com" logo="./theweatherco.jpg" alt="The Weather Company" >}}
+    {{< company_logo link="https://www.thoughtmachine.net" logo="./thought-machine.svg" alt="Thought Machine" >}}
     {{< company_logo link="https://www.tokopedia.com" logo="./tokopedia.svg" alt="Tokopedia" >}}
     {{< company_logo link="https://toss.im/en" logo="./toss.svg" alt="Toss" >}}
     {{< company_logo link="https://www.trivago.com" logo="./trivago.svg" alt="Trivago" >}}

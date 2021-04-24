@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 84
+number_of_entries: 85
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -42,6 +42,135 @@ debug and diagnose their Istio mesh.
 </tr>
 </tbody>
 </table>
+<h2 id="istioctl-admin">istioctl admin</h2>
+<p>A group of commands used to manage istiod configuration</p>
+<pre class="language-bash"><code>istioctl admin [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl istiod [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--selector &lt;string&gt;</code></td>
+<td><code>-l</code></td>
+<td>label selector  (default `app=istiod`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-admin Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve information about istiod configuration.
+  istioctl admin log
+</code></pre>
+<h2 id="istioctl-admin-log">istioctl admin log</h2>
+<p>Retrieve or update logging levels of istiod components.</p>
+<pre class="language-bash"><code>istioctl admin log [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl admin l [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;int&gt;</code></td>
+<td></td>
+<td>ControlZ port  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of output logging level for scopes in format &lt;scope&gt;:&lt;level&gt;[,&lt;scope&gt;:&lt;level&gt;,...]Possible values for &lt;level&gt;: none, error, warn, info, debug  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--reset</code></td>
+<td><code>-r</code></td>
+<td>Reset levels to default value. (info) </td>
+</tr>
+<tr>
+<td><code>--selector &lt;string&gt;</code></td>
+<td><code>-l</code></td>
+<td>label selector  (default `app=istiod`)</td>
+</tr>
+<tr>
+<td><code>--stack-trace-level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of stack trace level  for scopes in format &lt;scope&gt;:&lt;stack-trace-level&gt;[,&lt;scope&gt;:&lt;stack-trace-level&gt;,...] Possible values for &lt;stack-trace-level&gt;: none, error, warn, info, debug  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-admin-log Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve information about istiod logging levels.
+  istioctl admin log
+
+  # Retrieve information about istiod logging levels on a specific control plane pod.
+  istioctl admin l istiod-5c868d8bdd-pmvgg
+
+  # Update levels of the specified loggers.
+  istioctl admin log --level ads:debug,authorization:debug
+
+  # Reset levels of all the loggers to default value (info).
+  istioctl admin log -r
+
+</code></pre>
 <h2 id="istioctl-analyze">istioctl analyze</h2>
 <p>Analyze Istio configuration and print validation messages</p>
 <pre class="language-bash"><code>istioctl analyze &lt;file&gt;... [flags]
@@ -1299,8 +1428,8 @@ See https://istio.io/v1.10/docs/ops/deployment/requirements/</p>
 </table>
 <h2 id="istioctl-experimental-authz-check">istioctl experimental authz check</h2>
 <p>Check prints the AuthorizationPolicy applied to a pod by directly checking
-the Envoy configuration of the pod. The command is especially useful for inspecting 
-the policy propagation from Istiod to Envoy and the final AuthorizationPolicy list merged 
+the Envoy configuration of the pod. The command is especially useful for inspecting
+the policy propagation from Istiod to Envoy and the final AuthorizationPolicy list merged
 from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <p>The command also supports reading from a standalone config dump file with flag -f.</p>
 <pre class="language-bash"><code>istioctl experimental authz check [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
@@ -1731,9 +1860,13 @@ the configuration objects that affect that service.</p>
 <h3 id="istioctl-experimental-injector-list Examples">Examples</h3>
 <pre class="language-bash"><code>  istioctl experimental injector list
 </code></pre>
-<h2 id="istioctl-experimental-istiod">istioctl experimental istiod</h2>
-<p>A group of commands used to manage istiod configuration</p>
-<pre class="language-bash"><code>istioctl experimental istiod [flags]
+<h2 id="istioctl-experimental-internal-debug">istioctl experimental internal-debug</h2>
+<p>
+Retrieves the debug information from Istiod or Pods in the mesh using the service account from the pod if --cert-dir is empty.
+By default it will use the default serviceAccount from (istio-system) namespace if the pod is not specified.</p>
+<p>
+THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
+<pre class="language-bash"><code>istioctl experimental internal-debug [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1745,9 +1878,24 @@ the configuration objects that affect that service.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--authority &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Subject Alternative Name (for example istiod.istio-system.svc)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--cert-dir &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Endpoint certificate directory  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--insecure</code></td>
+<td></td>
+<td>Skip server certificate and domain verification. (NOT SECURE!) </td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -1765,96 +1913,61 @@ the configuration objects that affect that service.</p>
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--selector &lt;string&gt;</code></td>
-<td><code>-l</code></td>
-<td>label selector  (default `app=istiod`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-istiod Examples">Examples</h3>
-<pre class="language-bash"><code>  # Retrieve information about istiod configuration.
-  istioctl experimental istiod log
-</code></pre>
-<h2 id="istioctl-experimental-istiod-log">istioctl experimental istiod log</h2>
-<p>Retrieve or update logging levels of istiod components.</p>
-<pre class="language-bash"><code>istioctl experimental istiod log [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
-</code></pre>
-<div class="aliases">
-<pre class="language-bash"><code>istioctl experimental istiod l [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
-</code></pre></div>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
+<td><code>--plaintext</code></td>
 <td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
+<td>Use plain-text HTTP/2 when connecting to server (no TLS). </td>
 </tr>
 <tr>
-<td><code>--ctrlz_port &lt;int&gt;</code></td>
-<td></td>
-<td>ControlZ port  (default `9876`)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated list of output logging level for scopes in format &lt;scope&gt;:&lt;level&gt;[,&lt;scope&gt;:&lt;level&gt;,...]Possible values for &lt;level&gt;: none, error, warn, info, debug  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--output &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
-</tr>
-<tr>
-<td><code>--reset</code></td>
+<td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
-<td>Reset levels to default value. (info) </td>
+<td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
-<td><code>--selector &lt;string&gt;</code></td>
-<td><code>-l</code></td>
-<td>label selector  (default `app=istiod`)</td>
-</tr>
-<tr>
-<td><code>--stack-trace-level &lt;string&gt;</code></td>
+<td><code>--timeout &lt;duration&gt;</code></td>
 <td></td>
-<td>Comma-separated list of stack trace level  for scopes in format &lt;scope&gt;:&lt;stack-trace-level&gt;[,&lt;scope&gt;:&lt;stack-trace-level&gt;,...] Possible values for &lt;stack-trace-level&gt;: none, error, warn, info, debug  (default ``)</td>
+<td>The duration to wait before failing  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--xds-address &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Endpoint  (default ``)</td>
+</tr>
+<tr>
+<td><code>--xds-label &lt;string&gt;</code></td>
+<td></td>
+<td>Istiod pod label selector  (default ``)</td>
+</tr>
+<tr>
+<td><code>--xds-port &lt;int&gt;</code></td>
+<td></td>
+<td>Istiod pod port  (default `15012`)</td>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-istiod-log Examples">Examples</h3>
-<pre class="language-bash"><code>  # Retrieve information about istiod logging levels.
-  istioctl experimental istiod log
+<h3 id="istioctl-experimental-internal-debug Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve sync status for all Envoys in a mesh
+  istioctl x internal-debug syncz
 
-  # Retrieve information about istiod logging levels on a specific control plane pod.
-  istioctl experimental istiod l istiod-5c868d8bdd-pmvgg
+  # Retrieve sync diff for a single Envoy and Istiod
+  istioctl x internal-debug syncz istio-egressgateway-59585c5b9c-ndc59.istio-system
 
-  # Update levels of the specified loggers.
-  istioctl x istiod log --level ads:debug,authorization:debug
+  # SECURITY OPTIONS
 
-  # Reset levels of all the loggers to default value (info).
-  istioctl x istiod log -r
+  # Retrieve syncz debug information directly from the control plane, using token security
+  # (This is the usual way to get the debug information with an out-of-cluster control plane.)
+  istioctl x internal-debug syncz --xds-address istio.cloudprovider.example.com:15012
+
+  # Retrieve syncz debug information via Kubernetes config, using token security
+  # (This is the usual way to get the debug information with an in-cluster control plane.)
+  istioctl x internal-debug syncz
+
+  # Retrieve syncz debug information directly from the control plane, using RSA certificate security
+  # (Certificates must be obtained before this step.  The --cert-dir flag lets istioctl bypass the Kubernetes API server.)
+  istioctl x internal-debug syncz --xds-address istio.example.com:15012 --cert-dir ~/.istio-certs
+
+  # Retrieve syncz information via XDS from specific control plane in multi-control plane in-cluster configuration
+  # (Select a specific control plane in an in-cluster canary Istio configuration.)
+  istioctl x internal-debug syncz --xds-label istio.io/rev=default
 
 </code></pre>
 <h2 id="istioctl-experimental-kube-uninject">istioctl experimental kube-uninject</h2>
@@ -1918,10 +2031,10 @@ also provides the inverse of &#34;istioctl kube-inject -f&#34;.
 <h2 id="istioctl-experimental-metrics">istioctl experimental metrics</h2>
 <p>
 Prints the metrics for the specified service(s) when running in Kubernetes.</p>
-<p>This command finds a Prometheus pod running in the specified istio system 
+<p>This command finds a Prometheus pod running in the specified istio system
 namespace. It then executes a series of queries per requested workload to
 find the following top-level workload metrics: total requests per second,
-error rate, and request latency at p50, p90, and p99 percentiles. The 
+error rate, and request latency at p50, p90, and p99 percentiles. The
 query results are printed to the console, organized by workload name.</p>
 <p>All metrics returned are from server-side reports. This means that latencies
 and error rates are from the perspective of the service itself and not of an
@@ -1972,10 +2085,8 @@ calculated over a time interval of 1 minute.
   istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 </code></pre>
 <h2 id="istioctl-experimental-precheck">istioctl experimental precheck</h2>
-<p>
-  precheck inspects a Kubernetes cluster for Istio install requirements.
-</p>
-<pre class="language-bash"><code>istioctl experimental precheck [-f &lt;deployment or istio operator file&gt;] [flags]
+<p>precheck inspects a Kubernetes cluster for Istio install and upgrade requirements.</p>
+<pre class="language-bash"><code>istioctl experimental precheck [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1990,11 +2101,6 @@ calculated over a time interval of 1 minute.
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--filename &lt;stringSlice&gt;</code></td>
-<td><code>-f</code></td>
-<td>Istio YAML installation file.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -2012,26 +2118,23 @@ calculated over a time interval of 1 minute.
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--recursive</code></td>
-<td><code>-R</code></td>
-<td>Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory. </td>
-</tr>
-<tr>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
 </tr>
+<tr>
+<td><code>--skip-controlplane</code></td>
+<td></td>
+<td>skip checking the control plane </td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-precheck Examples">Examples</h3>
-<pre class="language-bash"><code>  # Verify that Istio can be installed
-  istioctl experimental precheck
+<pre class="language-bash"><code>  # Verify that Istio can be installed or upgraded
+  istioctl x precheck
 
-  # Verify the deployment matches a custom Istio deployment configuration
-  istioctl x precheck --set profile=demo
-
-  # Verify the deployment matches the Istio Operator deployment definition
-  istioctl x precheck -f iop.yaml
+  # Check only a single namespace
+  istioctl x precheck --namespace default
 </code></pre>
 <h2 id="istioctl-experimental-proxy-status">istioctl experimental proxy-status</h2>
 <p>
@@ -2525,53 +2628,17 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
   istioctl experimental revision list -v
 
 </code></pre>
-<h2 id="istioctl-experimental-tag">istioctl experimental tag</h2>
+<h2 id="istioctl-experimental-revision-tag">istioctl experimental revision tag</h2>
 <p>Command group used to interact with revision tags. Revision tags allow for the creation of mutable aliases
 referring to control plane revisions for sidecar injection.</p>
 <p>With revision tags, rather than relabeling a namespace from &#34;istio.io/rev=revision-a&#34; to &#34;istio.io/rev=revision-b&#34; to
-change which control plane revision handles injection, it&#39;s possible to create a revision tag &#34;prod&#34; and label our 
+change which control plane revision handles injection, it&#39;s possible to create a revision tag &#34;prod&#34; and label our
 namespace &#34;istio.io/rev=prod&#34;. The &#34;prod&#34; revision tag could point to &#34;1-7-6&#34; initially and then be changed to point to &#34;1-8-1&#34;
 at some later point.</p>
 <p>This allows operators to change which Istio control plane revision should handle injection for a namespace or set of namespaces
 without manual relabeling of the &#34;istio.io/rev&#34; tag.
 </p>
-<pre class="language-bash"><code>istioctl experimental tag [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="istioctl-experimental-tag-generate">istioctl experimental tag generate</h2>
-<p>Create a revision tag and output to the command&#39;s stdout. Tag an Istio control plane revision for use with namespace istio.io/rev
-injection labels.</p>
-<pre class="language-bash"><code>istioctl experimental tag generate &lt;revision-tag&gt; [flags]
+<pre class="language-bash"><code>istioctl experimental revision tag [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -2611,6 +2678,65 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Enable verbose output </td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-revision-tag-generate">istioctl experimental revision tag generate</h2>
+<p>Create a revision tag and output to the command&#39;s stdout. Tag an Istio control plane revision for use with namespace istio.io/rev
+injection labels.</p>
+<pre class="language-bash"><code>istioctl experimental revision tag generate &lt;revision-tag&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
+</tr>
+<tr>
 <td><code>--overwrite</code></td>
 <td></td>
 <td>If true, allow revision tags to be overwritten, otherwise reject revision tag updates that
@@ -2628,15 +2754,20 @@ overwrite existing revision tags. </td>
 If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
 </tr>
 <tr>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Enable verbose output </td>
+</tr>
+<tr>
 <td><code>--webhook-name &lt;string&gt;</code></td>
 <td></td>
 <td>Name to use for a revision tag&#39;s mutating webhook configuration.  (default ``)</td>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-tag-generate Examples">Examples</h3>
+<h3 id="istioctl-experimental-revision-tag-generate Examples">Examples</h3>
 <pre class="language-bash"><code> # Create a revision tag from the &#34;1-8-0&#34; revision
- istioctl x tag generate prod --revision 1-8-0 &gt; tag.yaml
+ istioctl x revision tag generate prod --revision 1-8-0 &gt; tag.yaml
 
  # Apply the tag to cluster
  kubectl apply -f tag.yaml
@@ -2648,12 +2779,12 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
  kubectl rollout restart deployments -n test-ns
 
 </code></pre>
-<h2 id="istioctl-experimental-tag-list">istioctl experimental tag list</h2>
+<h2 id="istioctl-experimental-revision-tag-list">istioctl experimental revision tag list</h2>
 <p>List existing revision tags</p>
-<pre class="language-bash"><code>istioctl experimental tag list [flags]
+<pre class="language-bash"><code>istioctl experimental revision tag list [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl experimental tag show [flags]
+<pre class="language-bash"><code>istioctl experimental revision tag show [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -2680,25 +2811,43 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Enable verbose output </td>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-tag-list Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl x tag list
+<h3 id="istioctl-experimental-revision-tag-list Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl x revision tag list
 </code></pre>
-<h2 id="istioctl-experimental-tag-remove">istioctl experimental tag remove</h2>
+<h2 id="istioctl-experimental-revision-tag-remove">istioctl experimental revision tag remove</h2>
 <p>Remove Istio control plane revision tag.</p>
 <p>Removing a revision tag should be done with care. Removing a revision tag will disrupt sidecar injection in namespaces
 that reference the tag in an &#34;istio.io/rev&#34; label. Verify that there are no remaining namespaces referencing a
-revision tag before removing using the &#34;istioctl x tag list&#34; command.
+revision tag before removing using the &#34;istioctl x revision tag list&#34; command.
 </p>
-<pre class="language-bash"><code>istioctl experimental tag remove &lt;revision-tag&gt; [flags]
+<pre class="language-bash"><code>istioctl experimental revision tag remove &lt;revision-tag&gt; [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl experimental tag delete &lt;revision-tag&gt; [flags]
+<pre class="language-bash"><code>istioctl experimental revision tag delete &lt;revision-tag&gt; [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -2725,9 +2874,22 @@ revision tag before removing using the &#34;istioctl x tag list&#34; command.
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.10.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/istio-1.10-linux-amd64.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -2735,17 +2897,22 @@ revision tag before removing using the &#34;istioctl x tag list&#34; command.
 <td>The skipConfirmation determines whether the user is prompted for confirmation.
 If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
 </tr>
+<tr>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Enable verbose output </td>
+</tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-tag-remove Examples">Examples</h3>
+<h3 id="istioctl-experimental-revision-tag-remove Examples">Examples</h3>
 <pre class="language-bash"><code> # Remove the revision tag &#34;prod&#34;
-	istioctl x tag remove prod
+	istioctl x revision tag remove prod
 
 </code></pre>
-<h2 id="istioctl-experimental-tag-set">istioctl experimental tag set</h2>
+<h2 id="istioctl-experimental-revision-tag-set">istioctl experimental revision tag set</h2>
 <p>Create or modify revision tags. Tag an Istio control plane revision for use with namespace istio.io/rev
 injection labels.</p>
-<pre class="language-bash"><code>istioctl experimental tag set &lt;revision-tag&gt; [flags]
+<pre class="language-bash"><code>istioctl experimental revision tag set &lt;revision-tag&gt; [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -2785,6 +2952,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
+</tr>
+<tr>
 <td><code>--overwrite</code></td>
 <td></td>
 <td>If true, allow revision tags to be overwritten, otherwise reject revision tag updates that
@@ -2802,21 +2974,27 @@ overwrite existing revision tags. </td>
 If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
 </tr>
 <tr>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Enable verbose output </td>
+</tr>
+<tr>
 <td><code>--webhook-name &lt;string&gt;</code></td>
 <td></td>
 <td>Name to use for a revision tag&#39;s mutating webhook configuration.  (default ``)</td>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-tag-set Examples">Examples</h3>
+<h3 id="istioctl-experimental-revision-tag-set Examples">Examples</h3>
 <pre class="language-bash"><code> # Create a revision tag from the &#34;1-8-0&#34; revision
- istioctl x tag set prod --revision 1-8-0
+ istioctl x revision tag set prod --revision 1-8-0
 
  # Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
  kubectl label ns test-ns istio.io/rev=prod
 
  # Change the revision tag to reference the &#34;1-8-1&#34; revision
- istioctl x tag set prod --revision 1-8-1 --overwrite
+ istioctl x revision tag prod --revision 1-8-1 --overwrite
+
 
  # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-1&#34; revision
  kubectl rollout restart deployments -n test-ns
@@ -3515,11 +3693,6 @@ kube-inject on deployments to get the most up-to-date changes.
 <td>Injection configuration filename. Cannot be used with --injectConfigMapName  (default ``)</td>
 </tr>
 <tr>
-<td><code>--injectConfigMapName &lt;string&gt;</code></td>
-<td></td>
-<td>ConfigMap name for Istio sidecar injection, key should be &#34;config&#34;.  (default `istio-sidecar-injector`)</td>
-</tr>
-<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -3558,6 +3731,11 @@ kube-inject on deployments to get the most up-to-date changes.
 <td><code>--valuesFile &lt;string&gt;</code></td>
 <td></td>
 <td>injection values configuration filename.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--webhookConfig &lt;string&gt;</code></td>
+<td></td>
+<td>MutatingWebhookConfiguration name for Istio  (default `istio-sidecar-injector`)</td>
 </tr>
 </tbody>
 </table>
@@ -4449,7 +4627,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 </tbody>
 </table>
@@ -4491,7 +4669,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 <tr>
 <td><code>--file &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Envoy config dump JSON file  (default ``)</td>
+<td>Envoy config dump file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--fqdn &lt;string&gt;</code></td>
@@ -4521,7 +4699,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
@@ -4604,7 +4782,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.10/i
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 </tbody>
 </table>
@@ -4672,7 +4850,7 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
@@ -4756,7 +4934,7 @@ istioctl proxy-config ep [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
@@ -4840,7 +5018,7 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
@@ -4918,7 +5096,7 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
 <td><code>--reset</code></td>
@@ -4996,7 +5174,7 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -5066,7 +5244,7 @@ istioctl proxy-config s [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 </tbody>
 </table>
@@ -5474,6 +5652,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If this is set to true, one Istiod will control remote clusters including CA.</td>
 </tr>
 <tr>
+<td><code>GCP_METADATA</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Pipe separted GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
+</tr>
+<tr>
 <td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
 <td>String</td>
 <td><code>istio-sidecar-injector</code></td>
@@ -5558,6 +5742,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Default Http and gRPC Request timeout</td>
 </tr>
 <tr>
+<td><code>ISTIO_DELTA_XDS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will only send the delta configs as opposed to the state of the world on a Resource Request</td>
+</tr>
+<tr>
 <td><code>ISTIO_GATEWAY_STRIP_HOST_PORT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -5574,6 +5764,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Integer</td>
 <td><code>100000</code></td>
 <td>Sets the maximum number of concurrent grpc streams.</td>
+</tr>
+<tr>
+<td><code>ISTIO_MULTIROOT_MESH</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, mesh will support certificates signed by more than one trustAnchor for ISTIO_MUTUAL mTLS</td>
 </tr>
 <tr>
 <td><code>ISTIO_PROMETHEUS_ANNOTATIONS</code></td>
@@ -5702,6 +5898,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_MCS_SERVICEEXPORT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Pilot will generate MCS ServiceExport objects for every non cluster-local service in the cluster</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -5736,12 +5938,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will update the CRD Status field of all istio resources with reconciliation status.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_THRIFT_FILTER</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>EnableThriftFilter enables injection of `envoy.filters.network.thrift_proxy` in the filter chain.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_VIRTUAL_SERVICE_DELEGATE</code></td>
@@ -5912,6 +6108,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, readiness probes will be sent to &#39;localhost&#39;. Otherwise, they will be sent to the Pod&#39;s IP, matching Kubernetes&#39; behavior.</td>
 </tr>
 <tr>
+<td><code>SHARED_MESH_CONFIG</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
+</tr>
+<tr>
 <td><code>SPIFFE_BUNDLE_ENDPOINTS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -6017,6 +6219,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>pilot_proxy_convergence_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between config change and a proxy receiving all required configuration.</td></tr>
 <tr><td><code>pilot_proxy_queue_time</code></td><td><code>Distribution</code></td><td>Time in seconds, a proxy is in the push queue before being dequeued.</td></tr>
 <tr><td><code>pilot_push_triggers</code></td><td><code>Sum</code></td><td>Total number of times a push was triggered, labeled by reason for the push.</td></tr>
+<tr><td><code>pilot_sds_certificate_errors_total</code></td><td><code>Sum</code></td><td>Total number of failures to fetch SDS key and certificate.</td></tr>
 <tr><td><code>pilot_services</code></td><td><code>LastValue</code></td><td>Total services known to pilot.</td></tr>
 <tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
 <tr><td><code>pilot_total_xds_internal_errors</code></td><td><code>Sum</code></td><td>Total number of internal XDS errors in pilot.</td></tr>

@@ -6,6 +6,8 @@ keywords: [telemetry,metrics,tcp]
 aliases:
     - /zh/docs/tasks/telemetry/tcp-metrics
     - /zh/docs/tasks/telemetry/metrics/tcp-metrics/
+owner: istio/wg-policies-and-telemetry-maintainers
+test: yes
 ---
 
 本文任务展示了如何对 Istio 进行配置，从而自动收集网格中 TCP 服务的遥测数据。在任务最后，会为网格中的一个 TCP 服务启用一个新的指标。
@@ -14,26 +16,11 @@ aliases:
 
 ## 开始之前{#before-you-begin}
 
-* 在集群中[安装 Istio](/zh/docs/setup/) 并部署一个应用。
+* 在集群中[安装 Istio](/zh/docs/setup/) 并部署一个应用。你必须安装[Prometheus](/zh/docs/ops/integrations/prometheus/)。
 
 * 任务中假设 Bookinfo 应用部署在 `default` 命名空间中。如果使用不同的命名空间，需要更新例子中的相关配置和命令。
 
 ## 收集新的遥测数据{#collecting-new-telemetry-data}
-
-1. 创建一个新的 YAML 文件用于配置新的指标，Istio 会据此文件生成并自动收集新建指标。
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/telemetry/tcp-metrics.yaml@
-    {{< /text >}}
-
-    {{< warning >}}
-    如果您使用的是 Istio 1.1.2 或更低版本，请改用以下配置：
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/telemetry/tcp-metrics-crd.yaml@
-    {{< /text >}}
-
-    {{< /warning >}}
 
 1. 设置 Bookinfo 使用 Mongodb。
 
@@ -58,6 +45,8 @@ aliases:
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@
+        service/mongodb created
+        deployment.apps/mongodb-v1 created
         {{< /text >}}
 
         如果使用手工的 Sidecar 注入方式，就需要使用下面的命令：
@@ -93,8 +82,8 @@ aliases:
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
-        Created config virtual-service/default/reviews at revision 3003
-        Created config virtual-service/default/ratings at revision 3004
+        virtualservice.networking.istio.io/reviews created
+        virtualservice.networking.istio.io/ratings created
         {{< /text >}}
 
 1. 向应用发送流量。
@@ -102,15 +91,19 @@ aliases:
     对于 Bookinfo 应用来说，在浏览器中浏览 `http://$GATEWAY_URL/productpage`，或者使用下面的命令：
 
     {{< text bash >}}
-    $ curl http://$GATEWAY_URL/productpage
+    $ curl http://"$GATEWAY_URL/productpage"
     {{< /text >}}
+
+    {{< tip >}}
+    `$GATEWAY_URL` 是在[Bookinfo](/zh/docs/examples/bookinfo/)示例中设置的值.
+    {{< /tip >}}
 
 1. 检查是否已经生成并收集了新的指标。
 
     在 Kubernetes 环境中，使用下面的命令为 Prometheus 设置端口转发：
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+    $ istioctl dashboard prometheus
     {{< /text >}}
 
     在 Prometheus 浏览器窗口查看新指标的值。选择 **Graph**。
@@ -118,20 +111,34 @@ aliases:
     在 **Console** 标签页中显示的表格包含了类似如下的内容：
 
     {{< text plain >}}
-    istio_mongo_received_bytes{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings-v2",source_version="v2"}
+    istio_tcp_connections_opened_total{
+    destination_version="v1",
+    instance="172.17.0.18:42422",
+    job="istio-mesh",
+    canonical_service_name="ratings-v2",
+    canonical_service_revision="v2"}
+    {{< /text >}}
+
+    {{< text plain >}}
+    istio_tcp_connections_closed_total{
+    destination_version="v1",
+    instance="172.17.0.18:42422",
+    job="istio-mesh",
+    canonical_service_name="ratings-v2",
+    canonical_service_revision="v2"}
     {{< /text >}}
 
 ## 理解 TCP 遥测数据的收集过程{#understanding-tcp-telemetry-collection}
 
-这一任务中，我们加入了一段 Istio 配置，对于所有目标为网格内 TCP 服务的流量，Mixer 自动为其生成并报告新的指标。
-
-类似[收集指标和日志任务](/zh/docs/tasks/observability/metrics/collecting-metrics/)中的情况，新的配置由 _instance_、一个 _handler_ 以及一个 _rule_ 构成。请参看该任务来获取关于指标收集的组件的完整信息。
-
-_instances_ 中属性集的可选范围不同，是 TCP 服务的指标收集过程的唯一差异。
+这一任务中，我们加入了一段 Istio 配置，对于所有目标为网格内 TCP 服务的流量，Mixer 自动为其生成并报告新的指标。默认情况下，每`15秒`记录一次所有活动连接的 TCP 指标，并且该计时器是可配置的通过[`tcpReportingDuration`](/zh/docs/reference/config/proxy_extensions/stats/#PluginConfig)。连接的指标也记录在连接的末尾。
 
 ### TCP 属性{#tcp-attributes}
 
-TCP 相关的属性是 Istio 中 TCP 策略和控制的基础。这些属性是由服务端的 Envoy 代理生成的。它们在连接建立时发给 Mixer，在连接的存活期间周期性的进行发送（周期性报告），最后在连接关闭时再次发送（最终报告）。周期性报告的缺省间隔时间为 10 秒钟，最小取值为 1 秒。另外上下文属性让策略有了区分 `http` 和 `tcp` 协议的能力。
+几个特定于 TCP 的属性可在 Istio 中启用 TCP 策略和控制。这些属性由 Envoy 代理生成，并使用 Envoy 的 Node Metadata 从 Istio 获得。Envoy 使用基于 ALPN 的隧道和基于前缀的协议将节点元数据转发给对等 Envoy。我们定义了一个新的协议 `istio-peer-exchange`，该协议定义了网格中的客户端和 Sidecar 服务器的通告和优先级。对于启用了 Istio 之间的连接，ALPN 协商将协议解析为 `istio-peer-exchange` 代理，不再启用 Istio 的代理和任何其他代理。该协议扩展了 TCP，如下所示：
+
+1. TCP 客户端，作为第一个字节序列，发送一个魔术字节串和一个长度带前缀的有效载荷。
+1. TCP 服务端，作为第一个字节序列，发送一个魔术字节串和一个长度带前缀的有效载荷，这些有效载荷是 protobuf 编码的序列化元数据。
+1. 客户端和服务器可以同时写入并且顺序混乱。Envoy 中的扩展筛选器会在下游和上游进行处理，直到魔术字节序列不匹配或读取了整个有效负载。
 
 {{< image link="./istio-tcp-attribute-flow.svg"
     alt="Istio 服务网格中的 TCP 服务属性生成流程"
@@ -140,22 +147,10 @@ TCP 相关的属性是 Istio 中 TCP 策略和控制的基础。这些属性是�
 
 ## 清除{#cleanup}
 
-*   删除新的遥测配置：
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/telemetry/tcp-metrics.yaml@
-    {{< /text >}}
-
-    如果您使用的是 Istio 1.1.2 或更低版本：
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/telemetry/tcp-metrics-crd.yaml@
-    {{< /text >}}
-
 *   删除 `port-forward` 进程：
 
     {{< text bash >}}
-    $ killall kubectl
+    $ killall istioctl
     {{< /text >}}
 
 * 如果不准备进一步探索其他任务，请参照 [Bookinfo 清除](/zh/docs/examples/bookinfo/#cleanup)，关闭示例应用。
