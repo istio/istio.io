@@ -14,7 +14,7 @@ test: yes
 
 ## 准备工作{#before-you-begin}
 
-1. 执行[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)中的步骤。完成[Ingress 流量控制](/zh/docs/tasks/traffic-management/ingress/ingress-control)中[确定 Ingress 的 IP 和 Port](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)部分任务。执行完这些步骤后，您应该已部署 Istio 和 [httpbin]({{< github_tree >}}/samples/httpbin)服务，并设置了环境变量 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 。
+1. 执行[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)中的步骤。完成[Ingress 流量控制](/zh/docs/tasks/traffic-management/ingress/ingress-control)中[确定 Ingress 的 IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)部分任务。执行完这些步骤后，您应该已部署 Istio 和 [httpbin]({{< github_tree >}}/samples/httpbin)服务，并设置了环境变量 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 。
 
 1.  对于 macOS 用户，请验证您是否使用通过 LibreSSL 库编译的 curl：
 
@@ -46,7 +46,7 @@ test: yes
 
 1.  确定已在[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)环节完成[httpbin]({{< github_tree >}}/samples/httpbin)服务的部署。
 
-1.  为 Ingress 网关创建 Secret:
+1.  为 Ingress Gateway 创建 Secret:
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret tls httpbin-credential --key=httpbin.example.com.key --cert=httpbin.example.com.crt
@@ -56,7 +56,7 @@ test: yes
     Secret 名字 **不能** 以 `istio` 或 `prometheus` 开头, 且不能包含 `token` 字段。
     {{< /warning >}}
 
-1.  为端口443定义一个带有 `servers:` 部分的网关，并将 `credentialName` 的值指定为 `httpbin-credential`。这些值与 secret 名称相同。 TLS 模式的值应为 `SIMPLE`。
+1.  为端口443定义一个带有 `servers:` 部分的网关，并将 `credentialName` 的值指定为 `httpbin-credential`。这些值与 Secret 名称相同。 TLS 模式的值应为 `SIMPLE`。
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -

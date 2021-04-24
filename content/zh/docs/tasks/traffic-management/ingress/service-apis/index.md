@@ -1,13 +1,13 @@
 ---
 title: Kubernetes Service APIs
-description: 描述如何使用 Istio 来配置 Kubernetes API 服务。
+description: 描述如何使用 Kubernetes Service APIs 配置 Istio 服务。
 weight: 50
 keywords: [traffic-management,ingress]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-此任务描述如何使用 Kubernetes[Service API](https://kubernetes-sigs.github.io/gateway-api/)配置 Istio，将服务暴露到 service mesh 集群外。这些 API 是 Kubernetes[Service](https://kubernetes.io/docs/concepts/services-networking/service/)和[Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)API 的发展演进。
+此任务描述如何使用 Kubernetes[Service APIs](https://kubernetes-sigs.github.io/gateway-api/)配置 Istio，将服务暴露到 service mesh 集群外。这些 API 是 Kubernetes[Service](https://kubernetes.io/docs/concepts/services-networking/service/)和[Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)API 的发展演进。
 
 ## 设置 {#setup}
 
@@ -27,7 +27,7 @@ test: yes
 
 ## 配置网关 {#configuring-a-gateway}
 
-参见 [Service APIs](https://kubernetes-sigs.github.io/gateway-api/) 文档中的 APIs 信息.
+参见 [Service APIs](https://kubernetes-sigs.github.io/gateway-api/)文档中的 APIs 信息.
 
 1. 部署一个测试应用:
 
