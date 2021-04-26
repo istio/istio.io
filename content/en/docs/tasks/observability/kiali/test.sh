@@ -51,9 +51,13 @@ done
 # We don't test snip_generating_a_service_graph_3 which is a `watch`
 
 # The "istioctl dashboard kiali" blocks, so start it in another process
-snip_generating_a_service_graph_4 &
+echo '*** observability-kiali step 3 ***'
+# (@@@ ecs TODO Why doesn't forking work with bash functions?)
+# snip_generating_a_service_graph_4 &
+istioctl dashboard kiali &
 
 # The script can verify there is a UI, but can't really compare it
+echo '*** observability-kiali step 4 ***'
 curl http://localhost:20001/kiali --fail
 
 # The script can look at the API output
