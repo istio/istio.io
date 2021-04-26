@@ -1,6 +1,6 @@
 ---
-title: Istio News
-description: Timely news about the Istio project.
+title: News
+description: Istio addresses the challenges developers and operators face as monolithic applications transition towards a distributed microservice architecture.
 linktitle: News
 sidebar_multicard: true
 icon: bullhorn

@@ -2,9 +2,9 @@
 <main class="primary blog-content">
     <div>
         <article>
-            <h1>{{ i18n "news-title" }}</h1>
+            <h1>{{ .Params.title }}</h1>
+            <p class="blog-description">{{ .Params.description }}</p>
             <!-- TODO: Replace placeholders -->
-            <p class="blog-description">{{ i18n "news-description" }}</p>
             
             {{ $.Scratch.Set "categories" (slice ) }}
             {{ $.Scratch.Set "noCategories" 0 }}

@@ -3,8 +3,8 @@
     <!-- TODO: Replace placeholders -->
     <div>
         <article>
-            <h1>{{ i18n "blog-title" }}</h1>
-            <p class="blog-description">{{ i18n "blog-description" }}</p>
+            <h1>{{ .Params.title }}</h1>
+            <p class="blog-description">{{ .Params.description }}</p>
 
             {{ $.Scratch.Set "years" (slice ) }}
             {{ $.Scratch.Set "noYears" 0 }}
