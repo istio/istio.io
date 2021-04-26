@@ -24,5 +24,9 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** an issue that creates an IOP under `istio-system` when installing Istio in another namespace. ([Issue #31517](https://github.com/istio/istio/issues/31517))
 
 - **Fixed** an issue when using `PeerAuthentication` to turn off mTLS while using multi-network. Now non-mTLS endpoints will be removed from cross-network load-balancing endpoints to prevent 500 errors. ([Issue #28798](https://github.com/istio/istio/issues/28798))
+- **Fixed** istiod never becoming ready when it fails to read resources from clusters configured via remote secrets.
+After a timeout configured by `PILOT_REMOTE_CLUSTER_TIMEOUT` (default 30s), istiod will become ready without
+syncing remote clusters. The stat `remote_cluster_sync_timeouts` will be incremented when this occurs.
+  ([Issue #30838](https://github.com/istio/istio/issues/30838))
 
 - **Improved** the `istioctl x workload` command to configure VMs to disable inbound `iptables` capture for admin ports, matching the behavior of Kubernetes Pods. ([Issue #29412](https://github.com/istio/istio/issues/29412))
