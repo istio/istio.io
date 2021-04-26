@@ -35,6 +35,7 @@
         color: $textBrandColor;
         text-decoration: none;
         cursor: pointer;
+        padding: .5rem;
     }
 
     .footer-separator {
@@ -116,7 +117,6 @@
 
         &-link {
             font-size: 1.125rem;
-            padding-left: 1rem;
         }
     }
 
