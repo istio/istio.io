@@ -58,7 +58,10 @@ istioctl dashboard kiali &
 
 # The script can verify there is a UI, but can't really compare it
 echo '*** observability-kiali step 4 ***'
-curl http://localhost:20001/kiali --fail
+sleep 10 # wait for the 'istioctl dashboard' to complete
+netstat -tulpn || true # @@@ TODO remove
+curl -v http://localhost:20001/kiali --fail || true
+# curl http://localhost:20001/kiali --fail
 
 # The script can look at the API output
 # See https://github.com/kiali/kiali/blob/master/swagger.json
