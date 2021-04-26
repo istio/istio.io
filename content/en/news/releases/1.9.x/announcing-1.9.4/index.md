@@ -15,7 +15,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Fixed** an issue where the Istio operator prunes all resources created by the operator, including itself. Now the operator will only remove resources belonging to the custom resource.
+- **Fixed** an issue where the Istio operator prunes all resources created by the operator, including itself. Now the operator will only remove resources belonging to the custom resource. ([Issue #30833](https://github.com/istio/istio/issues/30833))
 
 - **Fixed** an issue ensuring lease duration is always greater than the user configured `RENEW_DEADLINE` for Istio operator manager. ([Issue #27509](https://github.com/istio/istio/issues/27509))
 
