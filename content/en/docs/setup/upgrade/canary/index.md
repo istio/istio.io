@@ -17,6 +17,16 @@ at the same time. A canary version of an upgrade can be started by installing th
 next to the old one, using a different `revision` setting. Each revision is a full Istio control plane implementation
 with its own `Deployment`, `Service`, etc.
 
+## Before you upgrade
+
+Before upgrading Istio, it is recommended to run the `istioctl x precheck` command to make sure the upgrade is compatible with your environment.
+
+{{< text bash >}}
+$ istioctl x precheck
+✔ No issues found when checking the cluster. Istio is safe to install or upgrade!
+  To get started, check out https://istio.io/latest/docs/setup/getting-started/
+{{< /text >}}
+
 ## Control plane
 
 To install a new revision called `canary`, you would set the `revision` field as follows:
