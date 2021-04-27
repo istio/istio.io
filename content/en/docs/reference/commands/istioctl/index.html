@@ -3794,7 +3794,10 @@ kube-inject on deployments to get the most up-to-date changes.
 </tbody>
 </table>
 <h2 id="istioctl-manifest-diff">istioctl manifest diff</h2>
-<p>The diff subcommand compares manifests from two files or directories.</p>
+<p>The diff subcommand compares manifests from two files or directories. The output is a list of
+changed paths with the value changes shown as OLD-VALUE -&gt; NEW-VALUE.
+List order changes are shown as [OLD-INDEX-&gt;NEW-INDEX], with ? used where a list item is added or
+removed.</p>
 <pre class="language-bash"><code>istioctl manifest diff &lt;file|dir&gt; &lt;file|dir&gt; [flags]
 </code></pre>
 <table class="command-flags">
