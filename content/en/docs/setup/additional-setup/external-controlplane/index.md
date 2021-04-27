@@ -338,7 +338,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     metadata:
       namespace: external-istiod
     spec:
-      profile: remote
+      profile: external
       components:
         base:
           enabled: true
@@ -535,7 +535,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     metadata:
       namespace: external-istiod
     spec:
-      profile: remote
+      profile: external
       values:
         global:
           istioNamespace: external-istiod
