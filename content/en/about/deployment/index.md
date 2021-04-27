@@ -28,7 +28,7 @@ $ istioctl install
 
 As new versions are released, you can test them and gradually roll them out across your clusters.
 
-Many managed Kubernetes service providers have an option to automatically install and manage Istio for you. Check out our [distributors page](../about/ecosystem/) to see if your vendor supports Istio.
+Many managed Kubernetes service providers have an option to automatically install and manage Istio for you. Check out our [distributors page](/about/ecosystem/) to see if your vendor supports Istio.
 
 Istio is also the engine powering many commercial service management products, with teams of experts ready to help you get on board.
 
