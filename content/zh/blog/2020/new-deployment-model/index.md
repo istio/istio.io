@@ -9,7 +9,7 @@ keywords: [istiod,deployment model,install,deploy,'1.7']
 
 ## 概览{#overview}
 
-根据与不同的服务网格用户和供应商合作的经验，我们认为典型的服务网格有3个关键角色:
+根据与不同的服务网格用户和供应商合作的经验，我们认为典型的服务网格有 3 个关键角色：
 
 * 网格操作员，管理服务网格控制平面的安装和升级。
 
@@ -17,7 +17,7 @@ keywords: [istiod,deployment model,install,deploy,'1.7']
 
 * 网格用户，通常称为服务所有者，在网格中拥有一个或多个服务。
 
-在1.7版本之前，Istio 要求控制平面在网格的一个{{< gloss "primary cluster" >}}主要集群{{< /gloss >}}中运行，导致网格操作员和网格管理员之间没有分离。 Istio 1.7引入了一个新的{{< gloss "external control plane" >}}外部控制平面{{< /gloss >}}部署模型，该模型允许网格操作人员在单独的外部集群上安装和管理网格控制平面。这种部署模型允许网格操作员和网格管理员之间的明确分离。 Istio 网格操作员现在可以为网格管理员运行 Istio 控制平面，而网格管理员仍然可以控制控制平面的配置，而不必担心安装或管理控制平面。这个模型对网格用户是透明的。
+在 1.7 版本之前，Istio 要求控制平面在网格的一个{{< gloss "primary cluster" >}}主要集群{{< /gloss >}}中运行，导致网格操作员和网格管理员之间没有分离。 Istio 1.7 引入了一个新的{{< gloss "external control plane" >}}外部控制平面{{< /gloss >}}部署模型，该模型允许网格操作人员在单独的外部集群上安装和管理网格控制平面。这种部署模型允许网格操作员和网格管理员之间的明确分离。Istio 网格操作员现在可以为网格管理员运行 Istio 控制平面，而网格管理员仍然可以控制控制平面的配置，而不必担心安装或管理控制平面。这个模型对网格用户是透明的。
 
 ## 外部控制平面部署模型{#external-control-plane-deployment-model}
 
@@ -30,7 +30,7 @@ keywords: [istiod,deployment model,install,deploy,'1.7']
     caption="单集群中的 Istio 网格"
     >}}
 
-使用 Istio 1.7中的新部署模型，可以在外部集群上运行 Istiod，与网格服务分离，如下图所示。外部控制平面集群由网格操作员拥有，而网格管理员拥有运行部署在网格中的服务的集群。网格管理员无法访问外部控制平面集群。网格操作人员可以遵循[外部 istiod 单集群逐步指南](https://github.com/istio/istio/wiki/External-Istiod-single-cluster-steps)来进一步探索这方面的内容。(注意:在 Istio 维护者之间的一些内部讨论中，这个模型以前被称为“中心 istiod”。)
+使用 Istio 1.7 中的新部署模型，可以在外部集群上运行 Istiod，与网格服务分离，如下图所示。外部控制平面集群由网格操作员拥有，而网格管理员拥有运行部署在网格中的服务的集群。网格管理员无法访问外部控制平面集群。网格操作人员可以遵循[外部 istiod 单集群逐步指南](https://github.com/istio/istio/wiki/External-Istiod-single-cluster-steps)来进一步探索这方面的内容。(注意：在 Istio 维护者之间的一些内部讨论中，这个模型以前被称为“中心 istiod”。)
 
 {{< image width="100%"
     link="single-cluster-external-Istiod.svg"
@@ -47,7 +47,7 @@ keywords: [istiod,deployment model,install,deploy,'1.7']
     caption="外部控制平面集群中具有 Istiod 的多集群 Istio 网格"
     >}}
 
-网格操作员可以进一步扩展这种部署模型，从运行多个 Istio 控制平面的外部集群管理多个 Istio 控制平面:
+网格操作员可以进一步扩展这种部署模型，从运行多个 Istio 控制平面的外部集群管理多个 Istio 控制平面：
 
 {{< image width="100%"
     link="multiple-external-Istiods.svg"
