@@ -35,7 +35,7 @@ For more information, see the
 
 Istio uses the Envoy proxy to generate metrics and provides its configuration in
 the `EnvoyFilter` at
-[`manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml`]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml).
+[manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml).
 As a result, writing classification rules involves adding attributes to the
 `EnvoyFilter`.
 
