@@ -59,37 +59,45 @@ istioctl dashboard kiali &
 # The script can verify there is a UI, but can't really compare it
 echo '*** observability-kiali step 4 ***'
 sleep 10 # wait for the 'istioctl dashboard' to complete
-netstat -tulpn || true # @@@ TODO remove
-curl -v http://localhost:20001/kiali --fail || true
-# curl http://localhost:20001/kiali --fail
+
+KIALI_LOC=http://localhost:20001/kiali
+curl -v ${KIALI_LOC} --fail
 
 # The script can look at the API output
 # See https://github.com/kiali/kiali/blob/master/swagger.json
 # for the API
 # @@@ TODO The output of these should be checked
-curl -v http://localhost:20001/api/
-curl -v http://localhost:20001/api/namespaces/graph
+curl -v ${KIALI_LOC}/api/
+curl -v ${KIALI_LOC}/api/namespaces/graph
 
+# Rename port to invalid value
 snip_validating_istio_configuration_1
 
+# Send traffic to Bookinfo
 for _ in {1..50}; do
     snip_generating_a_service_graph_2 > /dev/null
 done
 
+# Rename port back to valid value
 snip_validating_istio_configuration_2
 
+# Send traffic to Bookinfo
 for _ in {1..50}; do
     snip_generating_a_service_graph_2 > /dev/null
 done
 
+# Apply Bookinfo destination rules
 snip_viewing_and_editing_istio_configuration_yaml_1
 
+# Send traffic to Bookinfo
 for _ in {1..50}; do
     snip_generating_a_service_graph_2 > /dev/null
 done
 
+# Delete destination rules
 snip_viewing_and_editing_istio_configuration_yaml_2
 
+# Send traffic to Bookinfo
 for _ in {1..50}; do
     snip_generating_a_service_graph_2 > /dev/null
 done
