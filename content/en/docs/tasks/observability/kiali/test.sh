@@ -66,14 +66,16 @@ curl -v ${KIALI_LOC} --fail
 # The script can look at the API output
 # See https://github.com/kiali/kiali/blob/master/swagger.json
 # for the API
-# @@@ TODO The output of these should be checked
-curl -v ${KIALI_LOC}/api/
+# @@@ TODO The output of this should be checked
 curl -v ${KIALI_LOC}/api/namespaces/graph
 
 # Rename port to invalid value
-snip_validating_istio_configuration_1
+echo '*** observability-kiali step where we rename port ***'
+# snip_validating_istio_configuration_1
+snip_validating_istio_configuration_1 || true
 
 # Send traffic to Bookinfo
+echo '*** observability-kiali step where we send traffic again ***'
 for _ in {1..50}; do
     snip_generating_a_service_graph_2 > /dev/null
 done
@@ -82,22 +84,27 @@ done
 snip_validating_istio_configuration_2
 
 # Send traffic to Bookinfo
+echo '*** observability-kiali step where we send more traffic ***'
 for _ in {1..50}; do
     snip_generating_a_service_graph_2 > /dev/null
 done
 
 # Apply Bookinfo destination rules
+echo '*** observability-kiali step where we apply destination rules ***'
 snip_viewing_and_editing_istio_configuration_yaml_1
 
 # Send traffic to Bookinfo
+echo '*** observability-kiali step where we send traffic after setting dest rules ***'
 for _ in {1..50}; do
     snip_generating_a_service_graph_2 > /dev/null
 done
 
 # Delete destination rules
+echo '*** observability-kiali step where we delete dest rules ***'
 snip_viewing_and_editing_istio_configuration_yaml_2
 
 # Send traffic to Bookinfo
+echo '*** observability-kiali step where we send traffic after deleting dest rules ***'
 for _ in {1..50}; do
     snip_generating_a_service_graph_2 > /dev/null
 done
