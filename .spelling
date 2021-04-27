@@ -377,6 +377,8 @@ IPv4
 IPv6
 Istio
 istio-agent
+istio-control
+istio-discovery
 istio-ecosystem
 istio-identity
 istio-mixer
@@ -706,6 +708,7 @@ team1-ns
 team2
 team2-ns
 Telekom
+telemetryv2_
 templated
 test-api
 Tetrate
