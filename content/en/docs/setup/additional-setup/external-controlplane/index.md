@@ -483,7 +483,7 @@ including gateways, if needed.
 {{< boilerplate experimental >}}
 
 This section shows you how to expand an existing external control plane mesh to multicluster by adding another remote cluster.
-This allows you to easily distribute services and use [Location-aware routing and fail over](/docs/tasks/traffic-management/locality-load-balancing/) to support high availability of your application.
+This allows you to easily distribute services and use [location-aware routing and fail over](/docs/tasks/traffic-management/locality-load-balancing/) to support high availability of your application.
 
 {{< image width="75%"
     link="external-multicluster.svg"
