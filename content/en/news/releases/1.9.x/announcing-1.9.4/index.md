@@ -3,7 +3,7 @@ title: Announcing Istio 1.9.4
 linktitle: 1.9.4
 subtitle: Patch Release
 description: Istio 1.9.4 patch release.
-publishdate: 2020-04-27
+publishdate: 2021-04-27
 release: 1.9.4
 aliases:
     - /news/announcing-1.9.4
