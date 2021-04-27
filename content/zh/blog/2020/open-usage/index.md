@@ -28,4 +28,4 @@ Open Usage Commons 专注于项目商标；它不涉及开放项目的其他方�
 
 我们的社区目前正在讨论如何管理监督市场和社区活动的指导委员会，来反映不断扩大的社区和生态系统。如果你对这种新的治理方式有想法，请访问正在进行积极讨论的 [GitHub 上的 pull request](https://github.com/istio/community/pull/361)。
 
-在过去的 12 个月里，Istio 已经有了来自[100 多个组织](https://istio.teststats.cncf.io/d/5/companies-table?var-period_name=Last%20year&var-metric=commits)的提交，目前有[来自 14 个不同公司的 70 名维护者](http://eng.istio.io/maintainers)。这种趋势正是项目创始人所希望的贡献者多样性，培养这种多样性仍然是首要任务。谷歌对 Istio 的未来感到兴奋，并希望您能成为其中的一员。
+在过去的 12 个月里，Istio 已经有了来自 [100 多个组织](https://istio.teststats.cncf.io/d/5/companies-table?var-period_name=Last%20year&var-metric=commits)的提交，目前有[来自 14 个不同公司的 70 名维护者](http://eng.istio.io/maintainers)。这种趋势正是项目创始人所希望的贡献者多样性，培养这种多样性仍然是首要任务。谷歌对 Istio 的未来感到兴奋，并希望您能成为其中的一员。
