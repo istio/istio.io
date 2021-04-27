@@ -1,5 +1,5 @@
 ---
-title: Dry Run
+title: Dry Run [Experimental]
 description: Shows how to dry-run an authorization policy without enforcing it.
 weight: 65
 keywords: [security,access-control,rbac,authorization,dry-run]
@@ -24,7 +24,7 @@ Before you begin this task, do the following:
 * Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio.
 
 * Deploy Zipkin for checking dry-run tracing results. Follow the [Zipkin task](/docs/tasks/observability/distributed-tracing/zipkin/)
-  to install Zipkin in the cluster. Make sure the sampling rate is set to 100 that allows you to quickly reproduce the trace span in the task.
+  to install Zipkin in the cluster. Make sure the sampling rate is set to 100 which allows you to quickly reproduce the trace span in the task.
 
 * Deploy Prometheus for checking dry-run metric results. Follow the [Prometheus task](/docs/tasks/observability/metrics/querying-metrics/)
   to install the Prometheus in the cluster.
@@ -92,7 +92,7 @@ Caching and propagation overhead can cause some delay.
 
 ## Check dry-run result in proxy log
 
-1. The dry-run results could be found in the proxy debug log, it will be something like `shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]`.
+1. The dry-run results can be found in the proxy debug log, similar to `shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]`.
    See the [troubleshooting guide](/docs/ops/common-problems/security-issues/#ensure-proxies-enforce-policies-correctly) for more details.
 
 ## Check dry-run result in metric using Prometheus
@@ -170,4 +170,4 @@ The dry-run annotation is currently in experimental stage and has the following 
     $ kubectl delete namespace foo
     {{< /text >}}
 
-1. Remove Prometheus and Zipkin if not needed.
+1. Remove Prometheus and Zipkin if no longer needed.
