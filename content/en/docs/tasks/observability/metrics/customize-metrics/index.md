@@ -23,7 +23,7 @@ By default, Istio defines and generates a set of standard metrics (e.g.
 
 Istio uses the Envoy proxy to generate metrics and provides its configuration in
 the `EnvoyFilter` at
-[`manifests/charts/istio-control/istio-discovery/templates`]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml).
+[manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml).
 
 Configuring custom statistics involves two sections of the
 `EnvoyFilter`: `definitions` and `metrics`. The `definitions` section
