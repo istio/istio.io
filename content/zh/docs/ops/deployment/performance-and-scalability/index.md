@@ -78,7 +78,7 @@ Istiod 根据用户编写的配置文件和系统当前状态来配置 Sidecar �
 
 ### Istio {{< istio_release_name >}} 的延迟 {#latency-for-Istio}
 
-在网格内部，一个请求会先遍历客户端代理，然后遍历服务端代理。Istio {{< istio_release_name >}} 的默认配置(即带有遥测功能的 Istio v2)，在 90% 的情况下，这两个代理在基线数据面延迟的基础上，分别增加了 2.65 毫秒和 2.91 毫秒的延迟。启用 `jitter` 后，这些数字分别减少 1.7 ms 和 2.69 ms。我们通过 `http/1.1` 协议的 [`Istio 基准测试`](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)获得了结果，测试标准是每秒 1000 请求，负载为 1KB，使用了 16 个客户端连接和 2 个代理，双向 TLS 打开状态。
+在网格内部，一个请求会先遍历客户端代理，然后遍历服务端代理。Istio {{< istio_release_name >}} 的默认配置(即带有遥测功能的 Istio v2)，在 90% 的情况下，这两个代理在基线数据面延迟的基础上，分别增加了 2.65 毫秒和 2.91 毫秒的延迟。启用 `jitter` 后，这些数字分别减少 1.7 ms 和 2.69 ms。我们通过 `http/1.1` 协议的 [Istio 基准测试](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)获得了结果，测试标准是每秒 1000 请求，负载为 1KB，使用了 16 个客户端连接和 2 个代理，双向 TLS 打开状态。
 
 {{< image width="90%"
     link="latency_p90_fortio_without_jitter.svg"
