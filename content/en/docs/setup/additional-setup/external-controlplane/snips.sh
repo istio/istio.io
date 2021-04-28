@@ -233,19 +233,12 @@ kind: IstioOperator
 metadata:
   namespace: external-istiod
 spec:
-  profile: empty
+  profile: external
   components:
-    istiodRemote:
-      enabled: true
     base:
       enabled: true
   values:
-    pilot:
-      configMap: false
-    telemetry:
-      enabled: false
     global:
-      omitSidecarInjectorConfigMap: true
       istioNamespace: external-istiod
     istiodRemote:
       injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/:ENV:cluster=${REMOTE_CLUSTER_NAME}:ENV:net=network1
@@ -378,17 +371,9 @@ kind: IstioOperator
 metadata:
   namespace: external-istiod
 spec:
-  profile: empty
-  components:
-    istiodRemote:
-      enabled: true
+  profile: external
   values:
-    pilot:
-      configMap: false
-    telemetry:
-      enabled: false
     global:
-      omitSidecarInjectorConfigMap: true
       istioNamespace: external-istiod
     istiodRemote:
       injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/:ENV:cluster=${SECOND_CLUSTER_NAME}:ENV:net=network2

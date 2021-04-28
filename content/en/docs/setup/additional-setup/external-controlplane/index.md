@@ -338,19 +338,12 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     metadata:
       namespace: external-istiod
     spec:
-      profile: empty
+      profile: external
       components:
-        istiodRemote:
-          enabled: true
         base:
           enabled: true
       values:
-        pilot:
-          configMap: false
-        telemetry:
-          enabled: false
         global:
-          omitSidecarInjectorConfigMap: true
           istioNamespace: external-istiod
         istiodRemote:
           injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/:ENV:cluster=${REMOTE_CLUSTER_NAME}:ENV:net=network1
@@ -490,7 +483,7 @@ including gateways, if needed.
 {{< boilerplate experimental >}}
 
 This section shows you how to expand an existing external control plane mesh to multicluster by adding another remote cluster.
-This allows you to easily distribute services and use [Location-aware routing and fail over](/docs/tasks/traffic-management/locality-load-balancing/) to support high availability of your application.
+This allows you to easily distribute services and use [location-aware routing and fail over](/docs/tasks/traffic-management/locality-load-balancing/) to support high availability of your application.
 
 {{< image width="75%"
     link="external-multicluster.svg"
@@ -542,17 +535,9 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     metadata:
       namespace: external-istiod
     spec:
-      profile: empty
-      components:
-        istiodRemote:
-          enabled: true
+      profile: external
       values:
-        pilot:
-          configMap: false
-        telemetry:
-          enabled: false
         global:
-          omitSidecarInjectorConfigMap: true
           istioNamespace: external-istiod
         istiodRemote:
           injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/:ENV:cluster=${SECOND_CLUSTER_NAME}:ENV:net=network2
