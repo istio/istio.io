@@ -24,7 +24,7 @@
     min-height: 320px;
     font-family: inherit;
     color: $landingPanelTextColor;
-    background-color: $secondaryColor;
+    background: url("/img/panel-background.svg");
     text-align: center;
     margin: $panel-margin-top 0 0;
     padding: 2.25rem;
@@ -135,7 +135,7 @@
     }
 
     &--transparent {
-        background-color: unset;
+        background: unset;
         padding: 0;
         min-height: auto;
 

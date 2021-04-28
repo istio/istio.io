@@ -2,7 +2,7 @@
     padding: 1em;
     font-size: 1.2em;
     background-color: $backgroundColor;
-    text-align: center;
+    //text-align: center;
 
     svg {
         margin-right: .5em;
@@ -171,7 +171,7 @@
     }
     // TODO : consider changing font size back to 1rem
 
-    p {
+    p, li {
         font-size: $font-size--s;
     }
 

@@ -6,8 +6,8 @@
 {{ $docType := or .Params.doc_type $section.Params.doc_type }}
 {{ $isDocs := eq $docType "docs" }}
 {{ $skipByLine := .Scratch.Get "skipByLine" }}
-
-{{ if not $isDocs }}
+{{ $skipBreadcrumb := or .Params.skip_breadcrumb $section.Params.skip_breadcrumb}}
+{{ if and (not $isDocs) (not $skipBreadcrumb) }}
     <nav aria-label="Breadcrumb" class="container-l">
         {{- partial "breadcrumbs.html" . -}}
     </nav>
