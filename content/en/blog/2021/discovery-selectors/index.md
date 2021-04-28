@@ -24,7 +24,7 @@ Note that the httpbin service endpoint in the ns-x namespace is in the list of d
 
 In Istio 1.10, we introduced the new “discoverySelectors” option to [MeshConfig](https://preliminary.istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), which is an array of k8s selectors (the exact type will be `[]LabelSelector`, as defined here, allowing both simple selectors and set-based selectors). These selectors apply to labels on namespaces.
 
-You can configure each label selector for expressing a variety of use cases, including but not limited to: 
+You can configure each label selector for expressing a variety of use cases, including but not limited to:
 
 * Arbitrary label names/values, for example, all namespaces with label `istio-discovery=enabled`
 * A list of namespace labels using set-based selectors which carries OR semantics, for example, all namespaces with label `istio-discovery=enabled` OR `region=us-east1`
@@ -42,7 +42,7 @@ Assuming you know which namespaces to include as part of the service mesh, as a 
 kubectl label namespace default istio-discovery=enabled
 ```
 
-2. Use istioctl to apply the yaml with discoverySelectors to update your Istio installation. Note, to avoid any impact to your stable environment, we recommend you to use a different revision for your Istio installation:
+1. Use istioctl to apply the yaml with discoverySelectors to update your Istio installation. Note, to avoid any impact to your stable environment, we recommend you to use a different revision for your Istio installation:
 
 ```bash
 istioctl install --skip-confirmation -f - <<EOF
@@ -59,7 +59,7 @@ spec:
 EOF
 ```
 
-3. Display endpoint configuration from sleep pod:
+1. Display endpoint configuration from sleep pod:
 
     {{< image link="./endpoints-with-discovery-selectors.png" caption="Endpoints for Sleep Deployment With DiscoverySelectors" >}}
 
@@ -71,7 +71,7 @@ You can use matchLabels to configure multiple labels with AND semantics or use m
 
 ## DiscoverySelectors vs Sidecar Resource
 
-The DiscoverySelectors configuration enables users to dynamically restrict the set of namespaces that are part of the mesh. A [Sidecar](https://istio.io/latest/docs/reference/config/networking/sidecar/) resource also controls the visibility of sidecar configurations and what gets pushed to the sidecar proxy. What are the differences between them?  
+The DiscoverySelectors configuration enables users to dynamically restrict the set of namespaces that are part of the mesh. A [Sidecar](https://istio.io/latest/docs/reference/config/networking/sidecar/) resource also controls the visibility of sidecar configurations and what gets pushed to the sidecar proxy. What are the differences between them?
 
 * The DiscoverySelectors configuration declares what Istio control plane watches and processes. Without DiscoverySelectors configuration, the Istio control plane watches and processes all namespaces/services/endpoints/pods in the cluster regardless of the sidecar resources you have.
 * DiscoverySelectors are configured globally for the mesh by the mesh administrators. While sidecar resources can also be configured for the mesh globally by the mesh administrators in the MeshConfig root namespace,  they are commonly configured by service owners for their namespaces.
