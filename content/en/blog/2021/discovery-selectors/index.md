@@ -22,7 +22,7 @@ Note that the httpbin service endpoint in the ns-x namespace is in the list of d
 
 ## Introduce DiscoverySelectors
 
-In Istio 1.10, we introduced the new “discoverySelectors” option to [MeshConfig](https://preliminary.istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), which is an array of k8s selectors (the exact type will be `[]LabelSelector`, as defined here, allowing both simple selectors and set-based selectors). These selectors apply to labels on namespaces.
+In Istio 1.10, we introduced the new *DiscoverySelectors* option to [MeshConfig](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), which is an array of k8s selectors (the exact type will be `[]LabelSelector`, as defined here, allowing both simple selectors and set-based selectors). These selectors apply to labels on namespaces.
 
 You can configure each label selector for expressing a variety of use cases, including but not limited to:
 
@@ -71,7 +71,7 @@ You can use matchLabels to configure multiple labels with AND semantics or use m
 
 ## DiscoverySelectors vs Sidecar Resource
 
-The DiscoverySelectors configuration enables users to dynamically restrict the set of namespaces that are part of the mesh. A [Sidecar](https://istio.io/latest/docs/reference/config/networking/sidecar/) resource also controls the visibility of sidecar configurations and what gets pushed to the sidecar proxy. What are the differences between them?
+The DiscoverySelectors configuration enables users to dynamically restrict the set of namespaces that are part of the mesh. A [Sidecar](/docs/reference/config/networking/sidecar/) resource also controls the visibility of sidecar configurations and what gets pushed to the sidecar proxy. What are the differences between them?
 
 * The DiscoverySelectors configuration declares what Istio control plane watches and processes. Without DiscoverySelectors configuration, the Istio control plane watches and processes all namespaces/services/endpoints/pods in the cluster regardless of the sidecar resources you have.
 * DiscoverySelectors are configured globally for the mesh by the mesh administrators. While sidecar resources can also be configured for the mesh globally by the mesh administrators in the MeshConfig root namespace,  they are commonly configured by service owners for their namespaces.
