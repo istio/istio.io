@@ -21,15 +21,12 @@ agent that is responsible for verifying incoming certificate signing requests
 from Istio mesh workloads, and signs them through cert-manager via a configured
 Issuer.
 
-
 {{< warning >}}
 It is currently only recommended to use istio-csr for newly created Istio
 clusters, until Certificate Authority rotation is supported.
 {{< /warning >}}
 
-
 ## Installing cert-manager and istio-csr
-
 
 {{< tip >}}
 In this example we will install and use a self signed Certificate Authority
@@ -69,12 +66,10 @@ Issuer](https://cert-manager.io/docs/configuration/external/).
     [Certificate Authority Issuer](https://cert-manager.io/docs/configuration/)
     type.
 
-
     {{< warning >}}
     Publicly trusted certificates are discouraged being used. The ACME
     Issuer type is not supported for signing Istio certificates.
     {{< /warning >}}
-
 
     {{< text bash >}}
     $ kubectl create ns istio-system
@@ -147,7 +142,6 @@ Issuer](https://cert-manager.io/docs/configuration/external/).
     istiod                  True    istiod-tls              68s
     {{< /text >}}
 
-
 ## Deploy Istio
 
 1.  Deploy Istio on the cluster using `istioctl` with the following
@@ -212,7 +206,6 @@ Issuer](https://cert-manager.io/docs/configuration/external/).
     EOF
     $ istioctl install --set profile=demo -f ./istio.yaml
     {{< /text >}}
-
 
 1. Deploy the `bookinfo` sample application in the bookinfo namespace.
 
