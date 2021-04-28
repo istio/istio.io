@@ -413,14 +413,6 @@ spec:
         hpaSpec:
           maxReplicas: 10 # ... default 5
           minReplicas: 2  # ... default 1
-        nodeSelector:
-          master: "true"
-        tolerations:
-        - key: dedicated
-          operator: Exists
-          effect: NoSchedule
-        - key: CriticalAddonsOnly
-          operator: Exists
 {{< /text >}}
 
 Use `istioctl install` to apply the modified settings to the cluster:
