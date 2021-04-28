@@ -52,6 +52,14 @@ can be found in the `bin/` subdirectory of the downloaded package.
     $ kubectl config view
     {{< /text >}}
 
+1. Ensure that the upgrade is compatible with your environment.
+
+    {{< text bash >}}
+    $ istioctl x precheck
+    ✔ No issues found when checking the cluster. Istio is safe to install or upgrade!
+    To get started, check out https://istio.io/latest/docs/setup/getting-started/
+    {{< /text >}}
+
 1. Begin the upgrade by running this command:
 
     {{< text bash >}}
