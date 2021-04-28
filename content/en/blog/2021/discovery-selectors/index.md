@@ -16,7 +16,7 @@ By default, Istio watches all namespaces/services/endpoints/pods information in 
 
 Use `istioctl pc endpoint` command to display all the endpoints for the sleep deployment:
 
-{{< image width="75%" link="./endpoints-default.png" caption="Endpoints for Sleep Deployment" >}}
+{{< image link="./endpoints-default.png" caption="Endpoints for Sleep Deployment" >}}
 
 Note that the httpbin service endpoint in the ns-x namespace is in the list of discovered endpoints. This may not be an issue when you only have a few services. However, when you have hundreds of services that don't interact with any of the services running in the Istio service mesh, you probably don't want your Istio control plane to watch these services and send their information to the sidecars of your services in the mesh.
 
@@ -60,11 +60,11 @@ EOF
 
 3. Display endpoint configuration from sleep pod:
 
-{{< image width="75%" link="./endpoints-with-discovery-selectors.png" caption="Endpoints for Sleep Deployment With DiscoverySelectors" >}}
+{{< image link="./endpoints-with-discovery-selectors.png" caption="Endpoints for Sleep Deployment With DiscoverySelectors" >}}
 
 Note this time the httpbin service in the ns-x namespace is NOT in the list of discovered endpoints, along with many other services that are not in the default namespace. If you display routes (or cluster or listeners) information for the sleep deployment, you will also notice a much reduced configuration are returned:
 
-{{< image width="75%" link="./routes-with-discovery-selectors.png" caption="Routes for Sleep Deployment With DiscoverySelectors" >}}
+{{< image link="./routes-with-discovery-selectors.png" caption="Routes for Sleep Deployment With DiscoverySelectors" >}}
 
 You can use matchLabels to configure multiple labels with AND semantics or use matchLabels sets to configure OR semantics among multiple labels. Whether you deploy services or pods to namespaces with different sets of labels or multiple application teams in your organization use different labeling conventions, discoverySelectors provides the flexibility you need. Furthermore, you could use matchLabels and matchExpressions together per our [documentation](https://github.com/istio/api/blob/master/mesh/v1alpha1/config.proto#L792). Refer to the Kubernetes [selector docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors) for additional detail on selector semantics.
 
@@ -78,7 +78,7 @@ DiscoverySelectors are configured globally for the mesh by the mesh administrato
 
 You can use DiscoverySelectors with Sidecar resources. You can use DiscoverySelectors to configure at the mesh-wide level what namespaces the Istio control plane should watch and process. For these namespaces in the Istio service mesh, you can create Sidecar resources globally or per namespace to further control what gets pushed to the sidecar proxies.  Let us add bookinfo services to the ns-y namespace in the mesh as shown below in the diagram. DiscoverySelectors enables us to define the default and ns-y namespaces are part of the mesh. How can we configure sleep service not to see anything other than the default namespace? Adding a sidecar resource for the default namespace, we can effectively configure the sleep sidecar to only have visibility to the clusters/routes/listeners/endpoints associated with its current namespace plus any other required namespaces.
 
-{{< image width="75%" link="./discovery-selectors-vs-sidecar.png" caption="DiscoverySelectors vs Sidecar Resource" >}}
+{{< image link="./discovery-selectors-vs-sidecar.png" caption="DiscoverySelectors vs Sidecar Resource" >}}
 
 ## Let Us Wrap Up
 
