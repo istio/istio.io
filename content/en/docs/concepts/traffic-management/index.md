@@ -313,7 +313,7 @@ value, a prefix, or a regex.
 You can add multiple match conditions to the same `match` block to AND your
 conditions, or add multiple match blocks to the same rule to OR your conditions.
 You can also have multiple routing rules for any given virtual service. This
-lets you make your routing conditions as complex or simple as you like within a
+lets you make your routing conditions be as complex or simple as you like within a
 single virtual service. A full list of match condition fields and their possible
 values can be found in the
 [`HTTPMatchRequest` reference](/docs/reference/config/networking/virtual-service/#HTTPMatchRequest).
@@ -352,7 +352,7 @@ To learn more about the actions available, see the
 Along with [virtual services](#virtual-services),
 [destination rules](/docs/reference/config/networking/destination-rule/#DestinationRule)
 are a key part of Istio’s traffic routing functionality. You can think of
-virtual services as how you route your traffic **to** a given destination, and
+virtual services as to how you can route your traffic **to** a given destination, and
 then you use destination rules to configure what happens to traffic **for** that
 destination. Destination rules are applied after virtual service routing rules
 are evaluated, so they apply to the traffic’s "real" destination.
