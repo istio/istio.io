@@ -147,19 +147,13 @@ Read [authorization implicit enablement](/docs/concepts/security/#implicit-enabl
 Istiod converts and distributes your authorization policies to the proxies. The following steps help
 you ensure Istiod is working as expected:
 
-1. Run the following command to open the Istiod `ControlZ` UI Page:
+1. Run the following command to enable the debug logging in istiod:
 
     {{< text bash >}}
-    $ istioctl dashboard controlz $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}').istio-system
+    $ istioctl admin log --level authorization:debug
     {{< /text >}}
 
-1. After your browser opens, click `Logging Scopes` in the left menu.
-
-1. Change the `authorization` Output Level to `debug`.
-
-1. Use `Ctrl+C` in the terminal you started in step 1 to stop the port-forward command.
-
-1. Print the log of Istiod and search for `authorization` with the following command:
+1. Get the Istiod log with the following command:
 
     {{< tip >}}
     You probably need to first delete and then re-apply your authorization policies so that
@@ -167,72 +161,85 @@ you ensure Istiod is working as expected:
     {{< /tip >}}
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system | grep authorization
+    $ kubectl logs $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system
     {{< /text >}}
 
-1. Check the output and verify:
-
-    - There are no errors.
-    - There is a `building v1beta1 policy` message which indicates the filter was generated
-      for the target workload.
-
-1. For example, you might see something similar to the following:
+1. Check the output and verify there are no errors. For example, you might see something similar to the following:
 
     {{< text plain >}}
-    2020-03-05T23:43:21.621339Z   debug   authorization   found authorization allow policies for workload [app=ext-authz-server,pod-template-hash=5fd587cc9d,security.istio.io/tlsMode=istio,service.istio.io/canonical-name=ext-authz-server,service.istio.io/canonical-revision=latest] in foo
-    2020-03-05T23:43:21.621348Z   debug   authorization   building filter for HTTP listener protocol
-    2020-03-05T23:43:21.621351Z   debug   authorization   building v1beta1 policy
-    2020-03-05T23:43:21.621399Z   debug   authorization   constructed internal model: &{Permissions:[{Services:[] Hosts:[] NotHosts:[] Paths:[] NotPaths:[] Methods:[] NotMethods:[] Ports:[] NotPorts:[] Constraints:[] AllowAll:true v1beta1:true}] Principals:[{Users:[] Names:[cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account] NotNames:[] Group: Groups:[] NotGroups:[] Namespaces:[] NotNamespaces:[] IPs:[] NotIPs:[] RequestPrincipals:[] NotRequestPrincipals:[] Properties:[] AllowAll:false v1beta1:true}]}
-    2020-03-05T23:43:21.621528Z   info    ads    LDS: PUSH for node:sleep-6bdb595bcb-vmchz.foo listeners:38
-    2020-03-05T23:43:21.621997Z   debug   authorization   generated policy ns[foo]-policy[ext-authz-server]-rule[0]: permissions:<and_rules:<rules:<any:true > > > principals:<and_ids:<ids:<or_ids:<ids:<metadata:<filter:"istio_authn" path:<key:"source.principal" > value:<string_match:<exact:"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account" > > > > > > > >
-    2020-03-05T23:43:21.622052Z   debug   authorization   added HTTP filter to filter chain 0
-    2020-03-05T23:43:21.623532Z   debug   authorization   found authorization allow policies for workload [app=ext-authz-server,pod-template-hash=5fd587cc9d,security.istio.io/tlsMode=istio,service.istio.io/canonical-name=ext-authz-server,service.istio.io/canonical-revision=latest] in foo
-    2020-03-05T23:43:21.623543Z   debug   authorization   building filter for TCP listener protocol
-    2020-03-05T23:43:21.623546Z   debug   authorization   building v1beta1 policy
-    2020-03-05T23:43:21.623572Z   debug   authorization   constructed internal model: &{Permissions:[{Services:[] Hosts:[] NotHosts:[] Paths:[] NotPaths:[] Methods:[] NotMethods:[] Ports:[] NotPorts:[] Constraints:[] AllowAll:true v1beta1:true}] Principals:[{Users:[] Names:[cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account] NotNames:[] Group: Groups:[] NotGroups:[] Namespaces:[] NotNamespaces:[] IPs:[] NotIPs:[] RequestPrincipals:[] NotRequestPrincipals:[] Properties:[] AllowAll:false v1beta1:true}]}
-    2020-03-05T23:43:21.623625Z   debug   authorization   generated policy ns[foo]-policy[ext-authz-server]-rule[0]: permissions:<and_rules:<rules:<any:true > > > principals:<and_ids:<ids:<or_ids:<ids:<authenticated:<principal_name:<exact:"spiffe://cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account" > > > > > > >
-    2020-03-05T23:43:21.623645Z   debug   authorization   added TCP filter to filter chain 0
-    2020-03-05T23:43:21.623648Z   debug   authorization   added TCP filter to filter chain 1
+    2021-04-23T20:53:29.507314Z info ads Push debounce stable[31] 1: 100.981865ms since last change, 100.981653ms since last push, full=true
+    2021-04-23T20:53:29.507641Z info ads XDS: Pushing:2021-04-23T20:53:29Z/23 Services:15 ConnectedEndpoints:2  Version:2021-04-23T20:53:29Z/23
+    2021-04-23T20:53:29.507911Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
+        * found 0 CUSTOM actions
+    2021-04-23T20:53:29.508077Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+        * found 0 CUSTOM actions
+    2021-04-23T20:53:29.508128Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
+        * found 1 DENY actions, 0 ALLOW actions, 0 AUDIT actions
+        * generated config from rule ns[foo]-policy[deny-path-headers]-rule[0] on HTTP filter chain successfully
+        * built 1 HTTP filters for DENY action
+        * added 1 HTTP filters to filter chain 0
+        * added 1 HTTP filters to filter chain 1
+    2021-04-23T20:53:29.508158Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+        * found 0 DENY actions, 0 ALLOW actions, 0 AUDIT actions
+    2021-04-23T20:53:29.509097Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+        * found 0 CUSTOM actions
+    2021-04-23T20:53:29.509167Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+        * found 0 DENY actions, 0 ALLOW actions, 0 AUDIT actions
+    2021-04-23T20:53:29.509501Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
+        * found 0 CUSTOM actions
+    2021-04-23T20:53:29.509652Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
+        * found 1 DENY actions, 0 ALLOW actions, 0 AUDIT actions
+        * generated config from rule ns[foo]-policy[deny-path-headers]-rule[0] on HTTP filter chain successfully
+        * built 1 HTTP filters for DENY action
+        * added 1 HTTP filters to filter chain 0
+        * added 1 HTTP filters to filter chain 1
+        * generated config from rule ns[foo]-policy[deny-path-headers]-rule[0] on TCP filter chain successfully
+        * built 1 TCP filters for DENY action
+        * added 1 TCP filters to filter chain 2
+        * added 1 TCP filters to filter chain 3
+        * added 1 TCP filters to filter chain 4
+    2021-04-23T20:53:29.510903Z info ads LDS: PUSH for node:sleep-557747455f-6dxbl.foo resources:18 size:85.0kB
+    2021-04-23T20:53:29.511487Z info ads LDS: PUSH for node:httpbin-74fb669cc6-lpscm.foo resources:18 size:86.4kB
     {{< /text >}}
 
     This shows that Istiod generated:
 
-    - An HTTP filter config with policy `ns[foo]-policy[ext-authz-server]-rule[0]` for workload with labels `app=ext-authz-server,...`.
+    - An HTTP filter config with policy `ns[foo]-policy[deny-path-headers]-rule[0]` for workload `httpbin-74fb669cc6-lpscm.foo`.
 
-    - A TCP filter config with policy `ns[foo]-policy[ext-authz-server]-rule[0]` for workload with labels `app=ext-authz-server,...`.
+    - A TCP filter config with policy `ns[foo]-policy[deny-path-headers]-rule[0]` for workload `httpbin-74fb669cc6-lpscm.foo`.
 
 ## Ensure Istiod distributes policies to proxies correctly
 
-Pilot distributes the authorization policies to proxies. The following steps help you ensure Pilot
-is working as expected:
+Istiod distributes the authorization policies to proxies. The following steps help you ensure istiod is working as expected:
 
 {{< tip >}}
-The command used in this section assumes you have deployed [Bookinfo application](/docs/examples/bookinfo/),
-otherwise you should replace `"-l app=productpage"` with your actual pod.
+The command below assumes you have deployed `httpbin`, you should replace `"-l app=httpbin"` with your actual pod if
+you are not using `httpbin`.
 {{< /tip >}}
 
-1. Run the following command to get the proxy configuration dump for the `productpage` service:
+1. Run the following command to get the proxy configuration dump for the `httpbin` workload:
 
     {{< text bash >}}
-    $ kubectl exec  $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- pilot-agent request GET config_dump
+    $ kubectl exec  $(kubectl get pods -l app=httpbin -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- pilot-agent request GET config_dump
     {{< /text >}}
 
 1. Check the log and verify:
 
-    - The log includes an `envoy.filters.http.rbac` filter to enforce the authorization policy
-      on each incoming request.
+    - The log includes an `envoy.filters.http.rbac` filter to enforce the authorization policy on each incoming request.
     - Istio updates the filter accordingly after you update your authorization policy.
 
-1. The following output means the proxy of `productpage` has enabled the `envoy.filters.http.rbac` filter
-with rules that allows anyone to access it via `GET` method. The `shadow_rules` are not used and you can ignored them safely.
+1. The following output means the proxy of `httpbin` has enabled the `envoy.filters.http.rbac` filter with rules that rejects
+   anyone to access path `/headers`.
 
     {{< text plain >}}
     {
      "name": "envoy.filters.http.rbac",
-     "config": {
+     "typed_config": {
+      "@type": "type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBAC",
       "rules": {
+       "action": "DENY",
        "policies": {
-        "productpage-viewer": {
+        "ns[foo]-policy[deny-path-headers]-rule[0]": {
          "permissions": [
           {
            "and_rules": {
@@ -241,9 +248,10 @@ with rules that allows anyone to access it via `GET` method. The `shadow_rules` 
               "or_rules": {
                "rules": [
                 {
-                 "header": {
-                  "exact_match": "GET",
-                  "name": ":method"
+                 "url_path": {
+                  "path": {
+                   "exact": "/headers"
+                  }
                  }
                 }
                ]
@@ -267,27 +275,24 @@ with rules that allows anyone to access it via `GET` method. The `shadow_rules` 
         }
        }
       },
-      "shadow_rules": {
-       "policies": {}
-      }
+      "shadow_rules_stat_prefix": "istio_dry_run_allow_"
      }
     },
     {{< /text >}}
 
 ## Ensure proxies enforce policies correctly
 
-Proxies eventually enforce the authorization policies. The following steps help you ensure the proxy
-is working as expected:
+Proxies eventually enforce the authorization policies. The following steps help you ensure the proxy is working as expected:
 
 {{< tip >}}
-The command used in this section assumes you have deployed [Bookinfo application](/docs/examples/bookinfo/).
-otherwise you should replace `"-l app=productpage"` with your actual pod.
+The command below assumes you have deployed `httpbin`, you should replace `"-l app=httpbin"` with your actual pod if you
+are not using `httpbin`.
 {{< /tip >}}
 
 1. Turn on the authorization debug logging in proxy with the following command:
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- pilot-agent request POST 'logging?rbac=debug'
+    $ istioctl proxy-config log deploy/httpbin --level "rbac:debug"
     {{< /text >}}
 
 1. Verify you see the following output:
@@ -299,12 +304,12 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
       ... ...
     {{< /text >}}
 
-1. Visit the `productpage` in your browser to generate some logs.
+1. Send some requests to the `httpbin` workload to generate some logs.
 
 1. Print the proxy logs with the following command:
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy
+    $ kubectl logs $(kubectl get pods -l app=httpbin -o jsonpath='{.items[0].metadata.name}') -c istio-proxy
     {{< /text >}}
 
 1. Check the output and verify:
@@ -314,52 +319,117 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
 
     - Your authorization policy expects the data extracted from the request.
 
-1. The following output means there is a `GET` request at path `/productpage` and the policy allows the request.
-The `shadow denied` has no effect and you can ignore it safely.
+1. The following is an example output for a request at path `/httpbin`:
 
     {{< text plain >}}
     ...
-    [2018-07-26 20:39:18.060][152][debug][rbac] external/envoy/source/extensions/filters/http/rbac/rbac_filter.cc:79] checking request: remoteAddress: 10.60.0.139:51158, localAddress: 10.60.0.93:9080, ssl: uriSanPeerCertificate: spiffe://cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account, subjectPeerCertificate: O=, headers: ':authority', '35.238.0.62'
-    ':path', '/productpage'
+    2021-04-23T20:43:18.552857Z debug envoy rbac checking request: requestedServerName: outbound_.8000_._.httpbin.foo.svc.cluster.local, sourceIP: 10.44.3.13:46180, directRemoteIP: 10.44.3.13:46180, remoteIP: 10.44.3.13:46180,localAddress: 10.44.1.18:80, ssl: uriSanPeerCertificate: spiffe://cluster.local/ns/foo/sa/sleep, dnsSanPeerCertificate: , subjectPeerCertificate: , headers: ':authority', 'httpbin:8000'
+    ':path', '/headers'
     ':method', 'GET'
-    'upgrade-insecure-requests', '1'
-    'user-agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'
-    'dnt', '1'
-    'accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
-    'accept-encoding', 'gzip, deflate'
-    'accept-language', 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7'
-    'x-forwarded-for', '10.60.0.1'
+    ':scheme', 'http'
+    'user-agent', 'curl/7.76.1-DEV'
+    'accept', '*/*'
     'x-forwarded-proto', 'http'
-    'x-request-id', 'e23ea62d-b25d-91be-857c-80a058d746d4'
-    'x-b3-traceid', '5983108bf6d05603'
-    'x-b3-spanid', '5983108bf6d05603'
-    'x-b3-sampled', '1'
-    'x-istio-attributes', 'CikKGGRlc3RpbmF0aW9uLnNlcnZpY2UubmFtZRINEgtwcm9kdWN0cGFnZQoqCh1kZXN0aW5hdGlvbi5zZXJ2aWNlLm5hbWVzcGFjZRIJEgdkZWZhdWx0Ck8KCnNvdXJjZS51aWQSQRI/a3ViZXJuZXRlczovL2lzdGlvLWluZ3Jlc3NnYXRld2F5LTc2NjY0Y2NmY2Ytd3hjcjQuaXN0aW8tc3lzdGVtCj4KE2Rlc3RpbmF0aW9uLnNlcnZpY2USJxIlcHJvZHVjdHBhZ2UuZGVmYXVsdC5zdmMuY2x1c3Rlci5sb2NhbApDChhkZXN0aW5hdGlvbi5zZXJ2aWNlLmhvc3QSJxIlcHJvZHVjdHBhZ2UuZGVmYXVsdC5zdmMuY2x1c3Rlci5sb2NhbApBChdkZXN0aW5hdGlvbi5zZXJ2aWNlLnVpZBImEiRpc3RpbzovL2RlZmF1bHQvc2VydmljZXMvcHJvZHVjdHBhZ2U='
-    'content-length', '0'
-    'x-envoy-internal', 'true'
-    'sec-istio-authn-payload', 'CkVjbHVzdGVyLmxvY2FsL25zL2lzdGlvLXN5c3RlbS9zYS9pc3Rpby1pbmdyZXNzZ2F0ZXdheS1zZXJ2aWNlLWFjY291bnQSRWNsdXN0ZXIubG9jYWwvbnMvaXN0aW8tc3lzdGVtL3NhL2lzdGlvLWluZ3Jlc3NnYXRld2F5LXNlcnZpY2UtYWNjb3VudA=='
+    'x-request-id', '672c9166-738c-4865-b541-128259cc65e5'
+    'x-envoy-attempt-count', '1'
+    'x-b3-traceid', '8a124905edf4291a21df326729b264e9'
+    'x-b3-spanid', '21df326729b264e9'
+    'x-b3-sampled', '0'
+    'x-forwarded-client-cert', 'By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=d64cd6750a3af8685defbbe4dd8c467ebe80f6be4bfe9ca718e81cd94129fc1d;Subject="";URI=spiffe://cluster.local/ns/foo/sa/sleep'
     , dynamicMetadata: filter_metadata {
       key: "istio_authn"
       value {
         fields {
           key: "request.auth.principal"
           value {
-            string_value: "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"
+            string_value: "cluster.local/ns/foo/sa/sleep"
+          }
+        }
+        fields {
+          key: "source.namespace"
+          value {
+            string_value: "foo"
           }
         }
         fields {
           key: "source.principal"
           value {
-            string_value: "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"
+            string_value: "cluster.local/ns/foo/sa/sleep"
+          }
+        }
+        fields {
+          key: "source.user"
+          value {
+            string_value: "cluster.local/ns/foo/sa/sleep"
           }
         }
       }
     }
 
-    [2018-07-26 20:39:18.060][152][debug][rbac] external/envoy/source/extensions/filters/http/rbac/rbac_filter.cc:88] shadow denied
-    [2018-07-26 20:39:18.060][152][debug][rbac] external/envoy/source/extensions/filters/http/rbac/rbac_filter.cc:98] enforced allowed
+    2021-04-23T20:43:18.552910Z debug envoy rbac enforced denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
     ...
     {{< /text >}}
+
+    The log `enforced denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]` means the request is rejected by
+    the policy `ns[foo]-policy[deny-path-headers]-rule[0]`.
+
+1. The following is an example output for authorization policy in the [dry-run mode](/docs/tasks/security/authorization/authz-dry-run):
+
+    {{< text plain >}}
+    ...
+    2021-04-23T20:59:11.838468Z debug envoy rbac checking request: requestedServerName: outbound_.8000_._.httpbin.foo.svc.cluster.local, sourceIP: 10.44.3.13:49826, directRemoteIP: 10.44.3.13:49826, remoteIP: 10.44.3.13:49826,localAddress: 10.44.1.18:80, ssl: uriSanPeerCertificate: spiffe://cluster.local/ns/foo/sa/sleep, dnsSanPeerCertificate: , subjectPeerCertificate: , headers: ':authority', 'httpbin:8000'
+    ':path', '/headers'
+    ':method', 'GET'
+    ':scheme', 'http'
+    'user-agent', 'curl/7.76.1-DEV'
+    'accept', '*/*'
+    'x-forwarded-proto', 'http'
+    'x-request-id', 'e7b2fdb0-d2ea-4782-987c-7845939e6313'
+    'x-envoy-attempt-count', '1'
+    'x-b3-traceid', '696607fc4382b50017c1f7017054c751'
+    'x-b3-spanid', '17c1f7017054c751'
+    'x-b3-sampled', '0'
+    'x-forwarded-client-cert', 'By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=d64cd6750a3af8685defbbe4dd8c467ebe80f6be4bfe9ca718e81cd94129fc1d;Subject="";URI=spiffe://cluster.local/ns/foo/sa/sleep'
+    , dynamicMetadata: filter_metadata {
+      key: "istio_authn"
+      value {
+        fields {
+          key: "request.auth.principal"
+          value {
+            string_value: "cluster.local/ns/foo/sa/sleep"
+          }
+        }
+        fields {
+          key: "source.namespace"
+          value {
+            string_value: "foo"
+          }
+        }
+        fields {
+          key: "source.principal"
+          value {
+            string_value: "cluster.local/ns/foo/sa/sleep"
+          }
+        }
+        fields {
+          key: "source.user"
+          value {
+            string_value: "cluster.local/ns/foo/sa/sleep"
+          }
+        }
+      }
+    }
+
+    2021-04-23T20:59:11.838529Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
+    2021-04-23T20:59:11.838538Z debug envoy rbac no engine, allowed by default
+    ...
+    {{< /text >}}
+
+    The log `shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]` means the request would be rejected
+    by the **dry-run** policy `ns[foo]-policy[deny-path-headers]-rule[0]`.
+
+    The log `no engine, allowed by default` means the request is actually allowed because the dry-run policy is the
+    only policy on the workload.
 
 ## Keys and certificates errors
 
