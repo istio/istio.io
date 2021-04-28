@@ -61,11 +61,11 @@ EOF
 
 3. Display endpoint configuration from sleep pod:
 
-{{< image link="./endpoints-with-discovery-selectors.png" caption="Endpoints for Sleep Deployment With DiscoverySelectors" >}}
+    {{< image link="./endpoints-with-discovery-selectors.png" caption="Endpoints for Sleep Deployment With DiscoverySelectors" >}}
 
-Note this time the httpbin service in the ns-x namespace is NOT in the list of discovered endpoints, along with many other services that are not in the default namespace. If you display routes (or cluster or listeners) information for the sleep deployment, you will also notice a much reduced configuration are returned:
+    Note this time the httpbin service in the ns-x namespace is NOT in the list of discovered endpoints, along with many other services that are not in the default namespace. If you display routes (or cluster or listeners) information for the sleep deployment, you will also notice a much reduced configuration are returned:
 
-{{< image link="./routes-with-discovery-selectors.png" caption="Routes for Sleep Deployment With DiscoverySelectors" >}}
+    {{< image link="./routes-with-discovery-selectors.png" caption="Routes for Sleep Deployment With DiscoverySelectors" >}}
 
 You can use matchLabels to configure multiple labels with AND semantics or use matchLabels sets to configure OR semantics among multiple labels. Whether you deploy services or pods to namespaces with different sets of labels or multiple application teams in your organization use different labeling conventions, discoverySelectors provides the flexibility you need. Furthermore, you could use matchLabels and matchExpressions together per our [documentation](https://github.com/istio/api/blob/master/mesh/v1alpha1/config.proto#L792). Refer to the Kubernetes [selector docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors) for additional detail on selector semantics.
 
@@ -73,9 +73,8 @@ You can use matchLabels to configure multiple labels with AND semantics or use m
 
 The DiscoverySelectors configuration enables users to dynamically restrict the set of namespaces that are part of the mesh. A [Sidecar](https://istio.io/latest/docs/reference/config/networking/sidecar/) resource also controls the visibility of sidecar configurations and what gets pushed to the sidecar proxy. What are the differences between them?  
 
-The DiscoverySelectors configuration declares what Istio control plane watches and processes. Without DiscoverySelectors configuration, the Istio control plane watches and processes all namespaces/services/endpoints/pods in the cluster regardless of the sidecar resources you have.
-
-DiscoverySelectors are configured globally for the mesh by the mesh administrators. While sidecar resources can also be configured for the mesh globally by the mesh administrators in the MeshConfig root namespace,  they are commonly configured by service owners for their namespaces.
+* The DiscoverySelectors configuration declares what Istio control plane watches and processes. Without DiscoverySelectors configuration, the Istio control plane watches and processes all namespaces/services/endpoints/pods in the cluster regardless of the sidecar resources you have.
+* DiscoverySelectors are configured globally for the mesh by the mesh administrators. While sidecar resources can also be configured for the mesh globally by the mesh administrators in the MeshConfig root namespace,  they are commonly configured by service owners for their namespaces.
 
 You can use DiscoverySelectors with Sidecar resources. You can use DiscoverySelectors to configure at the mesh-wide level what namespaces the Istio control plane should watch and process. For these namespaces in the Istio service mesh, you can create Sidecar resources globally or per namespace to further control what gets pushed to the sidecar proxies.  Let us add bookinfo services to the ns-y namespace in the mesh as shown below in the diagram. DiscoverySelectors enables us to define the default and ns-y namespaces are part of the mesh. How can we configure sleep service not to see anything other than the default namespace? Adding a sidecar resource for the default namespace, we can effectively configure the sleep sidecar to only have visibility to the clusters/routes/listeners/endpoints associated with its current namespace plus any other required namespaces.
 
