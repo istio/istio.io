@@ -25,6 +25,7 @@ Note that the httpbin service endpoint in the ns-x namespace is in the list of d
 In Istio 1.10, we introduced the new “discoverySelectors” option to [MeshConfig](https://preliminary.istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), which is an array of k8s selectors (the exact type will be `[]LabelSelector`, as defined here, allowing both simple selectors and set-based selectors). These selectors apply to labels on namespaces.
 
 You can configure each label selector for expressing a variety of use cases, including but not limited to: 
+
 * Arbitrary label names/values, for example, all namespaces with label `istio-discovery=enabled`
 * A list of namespace labels using set-based selectors which carries OR semantics, for example, all namespaces with label `istio-discovery=enabled` OR `region=us-east1`
 * Inclusion and/or exclusion of namespaces, for example, all namespaces with label istio-discovery=enabled AND label key `app` equal to `helloworld`
