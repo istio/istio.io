@@ -1,5 +1,5 @@
 ---
-title: IOP
+title: Istio Resource
 test: n/a
 ---
 
