@@ -61,7 +61,7 @@ weight: 10
 ## istioctl{#istioctl}
 
 - **新增** 允许 [`proxy-status <pod>` 命令]](/zh/docs/reference/commands/istioctl/#istioctl-proxy-status)用于非 Kubernetes 工作负载，其代理配置由 `--file` 参数传入。
-- **新增** 用于保存 Istioctl 默认标志的配置文件。它的默认位置 （`$HOME/.istioctl/config.yaml`），可以通过环境变量 `ISTIOCONFIG ` 更改。新的命令 `istioctl experimental config list` 显示了默认标志。
+- **新增** 用于保存 Istioctl 默认标志的配置文件。它的默认位置（`$HOME/.istioctl/config.yaml`），可以通过环境变量 `ISTIOCONFIG` 更改。新的命令 `istioctl experimental config list` 显示了默认标志。
  ([Issue #23868](https://github.com/istio/istio/issues/23868))
 - **新增** 在 `istioctl operator init` 和 `istioctl operator remove` 命令中加入 `--revision` 标志，可支持多个控制平面的升级。
  ([Issue #23479](https://github.com/istio/istio/issues/23479))
