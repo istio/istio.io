@@ -59,7 +59,7 @@ spec:
 EOF
 {{< /text >}}
 
-1. Display endpoint configuration from sleep pod:
+1. Display the endpoint configuration for sleep pod:
 
     {{< image link="./endpoints-with-discovery-selectors.png" caption="Endpoints for Sleep Deployment With DiscoverySelectors" >}}
 
