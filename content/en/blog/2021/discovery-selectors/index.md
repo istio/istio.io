@@ -22,7 +22,7 @@ Note that the httpbin service endpoint in the ns-x namespace is in the list of d
 
 ## Introduce DiscoverySelectors
 
-In Istio 1.10, we introduced the new `DiscoverySelectors` option to [MeshConfig](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), which is an array of Kubernetes [selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements). The exact type will be `[]LabelSelector`, as defined [here](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements), allowing both simple selectors and set-based selectors. These selectors apply to labels on namespaces.
+In Istio 1.10, we introduced the new `DiscoverySelectors` option to [MeshConfig](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), which is an array of Kubernetes [selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements). The exact type is `[]LabelSelector`, as defined [here](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements), allowing both simple selectors and set-based selectors. These selectors apply to labels on namespaces.
 
 You can configure each label selector for expressing a variety of use cases, including but not limited to:
 
@@ -34,9 +34,9 @@ Note: `DiscoverySelectors` is not a security boundary. Istiod will continue to h
 
 ## DiscoverySelectors in Action
 
-Assuming you know which namespaces to include as part of the service mesh, as a mesh administrator, you can configure `DiscoverySelectors` at installation time or post-installation by adding your desired discovery selectors to Istio’s MeshConfig resource. For example, you can configure Istio to discover only the namespace that has the label `istio-discovery=enabled`.
+Assuming you know which namespaces to include as part of the service mesh, as a mesh administrator, you can configure `DiscoverySelectors` at installation time or post-installation by adding your desired discovery selectors to Istio’s MeshConfig resource. For example, you can configure Istio to discover only the namespaces that have the label `istio-discovery=enabled`.
 
-1. Enable all namespaces with this label. Using our examples earlier, let’s enable namespace default with label `istio-discovery=enabled`.
+1. Using our examples earlier, let’s label the default namespace with label `istio-discovery=enabled`.
 
     {{< text bash >}}
     $ kubectl label namespace default istio-discovery=enabled
@@ -59,7 +59,7 @@ Assuming you know which namespaces to include as part of the service mesh, as a 
     EOF
     {{< /text >}}
 
-1. Display the endpoint configuration for sleep pod:
+1. Display the endpoint configuration for the sleep pod:
 
     {{< image link="./endpoints-with-discovery-selectors.png" caption="Endpoints for Sleep Deployment With DiscoverySelectors" >}}
 
