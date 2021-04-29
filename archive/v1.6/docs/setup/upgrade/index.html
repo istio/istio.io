@@ -18,7 +18,7 @@ traffic to the new version. This is much safer than doing an in place upgrade an
 at the same time. A canary version of an upgrade can be started by installing the new Istio version&rsquo;s control plane
 next to the old one, using a different <code>revision</code> setting. Each revision is a full Istio control plane implementation
 with its own <code>Deployment</code>, <code>Service</code>, etc.</p><p>See additional notes for <a href=#upgrading-from-helm-installations>upgrading from Helm installations</a>
-and <a href=#upgrading-from-1.4>upgrading from 1.4.x</a>.</p><h3 id=control-plane>Control plane</h3><p>To install a new revision called <code>canary</code>, you would set the <code>revision</code> field as follows:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl install --set revision=canary
+and <a href=#upgrading-from-1-4>upgrading from 1.4.x</a>.</p><h3 id=control-plane>Control plane</h3><p>To install a new revision called <code>canary</code>, you would set the <code>revision</code> field as follows:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl install --set revision=canary
 </code></pre><p>After running the command, you will have two control plane deployments and services running side-by-side:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl get pods -n istio-system
 NAME                                    READY   STATUS    RESTARTS   AGE
 istiod-786779888b-p9s5n                 1/1     Running   0          114m
