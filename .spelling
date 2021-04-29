@@ -463,6 +463,7 @@ Marshalers
 memcached
 memcached-2's
 MetalLB
+MeshConfig
 Mesos
 mesos-dns
 metadata
