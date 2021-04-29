@@ -38,26 +38,26 @@ Assuming you know which namespaces to include as part of the service mesh, as a 
 
 1. Enable all namespaces with this label. Using our examples earlier, let’s enable namespace default with label `istio-discovery=enabled`.
 
-  {{< text bash >}}
-  $ kubectl label namespace default istio-discovery=enabled
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl label namespace default istio-discovery=enabled
+    {{< /text >}}
 
 1. Use istioctl to apply the yaml with `DiscoverySelectors` to update your Istio installation. Note, to avoid any impact to your stable environment, we recommend that you use a different revision for your Istio installation:
 
-  {{< text bash >}}
-  $ istioctl install --skip-confirmation -f - <<EOF
-  apiVersion: install.istio.io/v1alpha1
-  kind: IstioOperator
-  metadata:
-  namespace: istio-system
-  spec:
-  # You may override parts of meshconfig by uncommenting the following lines.
-  meshConfig:
-    discoverySelectors:
-      - matchLabels:
-          istio-discovery: enabled
-  EOF
-  {{< /text >}}
+    {{< text bash >}}
+    $ istioctl install --skip-confirmation -f - <<EOF
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    metadata:
+    namespace: istio-system
+    spec:
+    # You may override parts of meshconfig by uncommenting the following lines.
+    meshConfig:
+      discoverySelectors:
+        - matchLabels:
+            istio-discovery: enabled
+    EOF
+    {{< /text >}}
 
 1. Display the endpoint configuration for sleep pod:
 
