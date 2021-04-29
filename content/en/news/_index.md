@@ -5,9 +5,7 @@ weight: 5
 linktitle: News
 sidebar_multicard: false
 icon: bullhorn
-aliases: 
-    - /news
-    - /latest/news
+doc_type: docs
 # decoration: pill
 outputs:
     - html
