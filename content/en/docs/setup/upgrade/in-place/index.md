@@ -13,7 +13,7 @@ criteria. Also, it alerts the user if it detects any changes in the profile
 default values between Istio versions.
 
 {{< tip >}}
-[Canary Upgrade](/docs/setup/upgrade/canary/) is much safer than doing an in-place upgrade and is the highly recommended upgrade method.
+[Canary Upgrade](/docs/setup/upgrade/canary/) is safer than doing an in-place upgrade and is the recommended upgrade method.
 {{< /tip >}}
 
 The upgrade command can also perform a downgrade of Istio.
