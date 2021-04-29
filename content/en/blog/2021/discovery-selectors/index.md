@@ -22,7 +22,7 @@ Note that the httpbin service endpoint in the ns-x namespace is in the list of d
 
 ## Introduce DiscoverySelectors
 
-In Istio 1.10, we introduced the new `DiscoverySelectors` option to [MeshConfig](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), which is an array of Kubernetes [selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements). Tthe exact type will be `[]LabelSelector`, as defined [here](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements), allowing both simple selectors and set-based selectors. These selectors apply to labels on namespaces.
+In Istio 1.10, we introduced the new `DiscoverySelectors` option to [MeshConfig](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), which is an array of Kubernetes [selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements). The exact type will be `[]LabelSelector`, as defined [here](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements), allowing both simple selectors and set-based selectors. These selectors apply to labels on namespaces.
 
 You can configure each label selector for expressing a variety of use cases, including but not limited to:
 
@@ -30,7 +30,7 @@ You can configure each label selector for expressing a variety of use cases, inc
 * A list of namespace labels using set-based selectors which carries OR semantics, for example, all namespaces with label `istio-discovery=enabled` OR `region=us-east1`
 * Inclusion and/or exclusion of namespaces, for example, all namespaces with label istio-discovery=enabled AND label key `app` equal to `helloworld`
 
-Note: `DiscoverySelectors` is not a security boundary. Istiod will continue to have access to all namespaces even when you have configured your DiscoverySelectors.
+Note: `DiscoverySelectors` is not a security boundary. Istiod will continue to have access to all namespaces even when you have configured your `DiscoverySelectors`.
 
 ## DiscoverySelectors in Action
 
@@ -67,7 +67,7 @@ EOF
 
     {{< image link="./routes-with-discovery-selectors.png" caption="Routes for Sleep Deployment With DiscoverySelectors" >}}
 
-You can use matchLabels to configure multiple labels with AND semantics or use matchLabels sets to configure OR semantics among multiple labels. Whether you deploy services or pods to namespaces with different sets of labels or multiple application teams in your organization use different labeling conventions, `DiscoverySelectors` provides the flexibility you need. Furthermore, you could use matchLabels and matchExpressions together per our [documentation](https://github.com/istio/api/blob/master/mesh/v1alpha1/config.proto#L792). Refer to the Kubernetes [selector docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors) for additional detail on selector semantics.
+You can use `matchLabels` to configure multiple labels with AND semantics or use `matchLabels` sets to configure OR semantics among multiple labels. Whether you deploy services or pods to namespaces with different sets of labels or multiple application teams in your organization use different labeling conventions, `DiscoverySelectors` provides the flexibility you need. Furthermore, you could use `matchLabels` and `matchExpressions` together per our [documentation](https://github.com/istio/api/blob/master/mesh/v1alpha1/config.proto#L792). Refer to the Kubernetes [selector docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors) for additional detail on selector semantics.
 
 ## DiscoverySelectors vs Sidecar Resource
 
