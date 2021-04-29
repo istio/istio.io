@@ -6,13 +6,13 @@ attribution: "Lin Sun (Solo.io), Christian Posta (Solo.io), Harvey Xia (Solo.io)
 keywords: [discoveryselectors,Istio,namespaces,sidecar]
 ---
 
-As users move their services to run in the mesh, they are often surprised that the Istio control plane watches and processes all of the Istio and Kubernetes resources from all namespaces in the cluster by default. This can be an issue for very large clusters with lots of namespaces and deployments or even for a moderately sized cluster with rapidly churning resources (for example, Spark jobs).
+As users move their services to run in a service mesh, they are often surprised that the Istio control plane watches and processes all of the Istio and Kubernetes resources from all namespaces in the cluster by default. This can be an issue for very large clusters with lots of namespaces and deployments or even for a moderately sized cluster with rapidly churning resources (for example, Spark jobs).
 
 Both [in the community](https://github.com/istio/istio/issues/26679) as well as for our large-scale customers at [Solo.io](https://solo.io), we need a way to dynamically restrict the set of namespaces that are part of the mesh so that the Istio control plane only processes Istio and Kubernetes resources in those namespaces. The ability to restrict the namespaces enables Istiod to watch and push fewer resources and associated changes to the sidecars, thus improving the overall performance on the control plane and data plane.
 
 ## Background
 
-By default, Istio watches all namespaces/services/endpoints/pods information in a cluster. For example, in my Kubernetes cluster, I deployed the sleep service in the default namespace, and the httpbin service in the ns-x namespace. I’ve added sleep services to the mesh and I have no plan to add the httpbin service in the ns-x namespace to the mesh or have any service in the mesh interact with the httpbin service in the ns-x namespace.
+By default, Istio watches all namespaces/services/endpoints/pods in a cluster. For example, in my Kubernetes cluster, I deployed the sleep service in the default namespace, and the httpbin service in the ns-x namespace. I’ve added the sleep service to the mesh, and I have no plan to add the httpbin service in the ns-x namespace to the mesh or have any service in the mesh interact with the httpbin service in the ns-x namespace.
 
 Use `istioctl pc endpoint` command to display all the endpoints for the sleep deployment:
 
@@ -63,7 +63,7 @@ EOF
 
     {{< image link="./endpoints-with-discovery-selectors.png" caption="Endpoints for Sleep Deployment With DiscoverySelectors" >}}
 
-    Note this time the httpbin service in the ns-x namespace is NOT in the list of discovered endpoints, along with many other services that are not in the default namespace. If you display routes (or cluster or listeners) information for the sleep deployment, you will also notice much reduced configuration are returned:
+    Note this time the httpbin service in the ns-x namespace is NOT in the list of discovered endpoints, along with many other services that are not in the default namespace. If you display routes (or cluster or listeners) information for the sleep deployment, you will also notice much less configuration is returned:
 
     {{< image link="./routes-with-discovery-selectors.png" caption="Routes for Sleep Deployment With DiscoverySelectors" >}}
 
@@ -76,10 +76,10 @@ The `DiscoverySelectors` configuration enables users to dynamically restrict the
 * The `DiscoverySelectors` configuration declares what Istio control plane watches and processes. Without DiscoverySelectors configuration, the Istio control plane watches and processes all namespaces/services/endpoints/pods in the cluster regardless of the sidecar resources you have.
 * `DiscoverySelectors` is configured globally for the mesh by the mesh administrators. While sidecar resources can also be configured for the mesh globally by the mesh administrators in the MeshConfig root namespace,  they are commonly configured by service owners for their namespaces.
 
-You can use `DiscoverySelectors` with Sidecar resources. You can use `DiscoverySelectors` to configure at the mesh-wide level what namespaces the Istio control plane should watch and process. For these namespaces in the Istio service mesh, you can create Sidecar resources globally or per namespace to further control what gets pushed to the sidecar proxies.  Let us add bookinfo services to the ns-y namespace in the mesh as shown below in the diagram. `DiscoverySelectors` enables us to define the default and ns-y namespaces are part of the mesh. How can we configure the sleep service not to see anything other than the default namespace? Adding a sidecar resource for the default namespace, we can effectively configure the sleep sidecar to only have visibility to the clusters/routes/listeners/endpoints associated with its current namespace plus any other required namespaces.
+You can use `DiscoverySelectors` with Sidecar resources. You can use `DiscoverySelectors` to configure at the mesh-wide level what namespaces the Istio control plane should watch and process. For these namespaces in the Istio service mesh, you can create Sidecar resources globally or per namespace to further control what gets pushed to the sidecar proxies.  Let us add Bookinfo services to the ns-y namespace in the mesh as shown in the diagram below. `DiscoverySelectors` enables us to define the default and ns-y namespaces are part of the mesh. How can we configure the sleep service not to see anything other than the default namespace? Adding a sidecar resource for the default namespace, we can effectively configure the sleep sidecar to only have visibility to the clusters/routes/listeners/endpoints associated with its current namespace plus any other required namespaces.
 
 {{< image link="./discovery-selectors-vs-sidecar.png" caption="DiscoverySelectors vs Sidecar Resource" >}}
 
 ## Let Us Wrap Up
 
-`DiscoverySelectors` is a powerful configuration to tune the Istio control plane only to watch and process specific namespaces. If you don't want all namespaces in your Kubernetes cluster to be part of the service mesh or you have multiple Istio service meshes within your Kubernetes cluster, we highly recommend you to explore this configuration and reach out to us for feedback on our Istio [slack](https://istio.slack.com) or GitHub.
+`DiscoverySelectors` is a powerful configuration to tune the Istio control plane to only watch and process specific namespaces. If you don't want all namespaces in your Kubernetes cluster to be part of the service mesh or you have multiple Istio service meshes within your Kubernetes cluster, we highly recommend you to explore this configuration and reach out to us for feedback on our [Istio slack](https://istio.slack.com) or GitHub.
