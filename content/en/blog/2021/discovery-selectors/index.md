@@ -42,7 +42,7 @@ Assuming you know which namespaces to include as part of the service mesh, as a 
 $ kubectl label namespace default istio-discovery=enabled
 {{< /text >}}
 
-1. Use istioctl to apply the yaml with `DiscoverySelectors` to update your Istio installation. Note, to avoid any impact to your stable environment, we recommend you to use a different revision for your Istio installation:
+1. Use istioctl to apply the yaml with `DiscoverySelectors` to update your Istio installation. Note, to avoid any impact to your stable environment, we recommend that you use a different revision for your Istio installation:
 
 {{< text bash >}}
 $ istioctl install --skip-confirmation -f - <<EOF
@@ -82,4 +82,4 @@ You can use `DiscoverySelectors` with Sidecar resources. You can use `DiscoveryS
 
 ## Let Us Wrap Up
 
-`DiscoverySelectors` is a powerful configuration to tune the Istio control plane to only watch and process specific namespaces. If you don't want all namespaces in your Kubernetes cluster to be part of the service mesh or you have multiple Istio service meshes within your Kubernetes cluster, we highly recommend you to explore this configuration and reach out to us for feedback on our [Istio slack](https://istio.slack.com) or GitHub.
+`DiscoverySelectors` is a powerful configuration to tune the Istio control plane to only watch and process specific namespaces. If you don't want all namespaces in your Kubernetes cluster to be part of the service mesh or you have multiple Istio service meshes within your Kubernetes cluster, we highly recommend that you explore this configuration and reach out to us for feedback on our [Istio slack](https://istio.slack.com) or GitHub.
