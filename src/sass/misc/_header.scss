@@ -9,13 +9,13 @@
     z-index: $header-z;
     padding: 1.25rem 0;
     transition: background-color .2s, box-shadow .2s,
-                max-height .2s, 
-                padding-top .2s, padding-bottom .2s;
+    max-height .2s,
+    padding-top .2s, padding-bottom .2s;
 
     &.active {
         box-shadow: 0 6px 9px 0 rgba(0, 0, 0, .16);
         max-height: 3.4375rem;
-        padding: 0.6125rem 0;
+        padding: .6125rem 0;
 
         .logo svg {
             height: 2.125rem;
@@ -46,8 +46,8 @@
         .logo {
             fill: $secondaryColor;
 
-            svg { 
-                width: 106px; 
+            svg {
+                width: 106px;
                 transition: height .2s;
             }
         }
