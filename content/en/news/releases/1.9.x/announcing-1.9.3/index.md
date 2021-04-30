@@ -5,6 +5,7 @@ subtitle: Patch Release
 description: Istio 1.9.3 patch release.
 publishdate: 2021-04-15
 release: 1.9.3
+security: true
 aliases:
     - /news/announcing-1.9.3
 ---

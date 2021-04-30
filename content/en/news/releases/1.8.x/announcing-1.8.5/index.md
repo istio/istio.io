@@ -5,6 +5,7 @@ subtitle: Patch Release
 description: Istio 1.8.5 patch release.
 publishdate: 2021-04-15
 release: 1.8.5
+security: true
 aliases:
     - /news/announcing-1.8.5
 ---

@@ -39,7 +39,7 @@
                                         <p>{{ ($item.Params.publishdate).Format "Jan 2, 2006" }}</p>
                                     </div>
                                     <div>
-                                        <h4 class="post-title">{{ $item.Title }}</h4>
+                                        <h4 class="post-title">{{if eq ($item.Param "security") true}}🔒{{end}} {{ $item.Title }}</h4>
                                         <div class="post-summary">
                                             <p>{{ $item.Params.description }}</p>
                                             {{ if $item.Params.cves }}
