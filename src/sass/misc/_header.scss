@@ -1,16 +1,30 @@
 .main-navigation {
     position: fixed;
     height: $headerHeight;
+    max-height: $headerHeight;
     background-color: #ffffff;
     top: 0;
     right: 0;
     left: 0;
     z-index: $header-z;
     padding: 1.25rem 0;
-    transition: background-color .2s, box-shadow .2s;
+    transition: background-color .2s, box-shadow .2s,
+                max-height .2s, 
+                padding-top .2s, padding-bottom .2s;
 
     &.active {
         box-shadow: 0 6px 9px 0 rgba(0, 0, 0, .16);
+        max-height: 3.4375rem;
+        padding: 0.6125rem 0;
+
+        .logo svg {
+            height: 2.125rem;
+        }
+
+        .main-navigation-toggle {
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
     }
 
     @media print {
@@ -32,7 +46,10 @@
         .logo {
             fill: $secondaryColor;
 
-            svg { width: 106px; }
+            svg { 
+                width: 106px; 
+                transition: height .2s;
+            }
         }
 
         .name {
@@ -310,6 +327,7 @@
         &.is-visible {
             background-color: $secondaryColor;
             height: 100%;
+            max-height: 100%;
             padding: 0;
             transition: none;
 
@@ -351,6 +369,7 @@
 @media (min-width: $bp-lg) {
     .main-navigation {
         height: $headerHeightLg;
+        max-height: $headerHeightLg;
         padding: 1.875rem 0;
 
         &-wrapper {
