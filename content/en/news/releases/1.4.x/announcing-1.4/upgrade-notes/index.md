@@ -1,7 +1,10 @@
 ---
-title: Upgrade Notes
+title: Istio 1.4 Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.4.
 weight: 20
+release: 1.4
+subtitle: Minor Release
+linktitle: 1.4
 publishdate: 2019-11-14
 ---
 
