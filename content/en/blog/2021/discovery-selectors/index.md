@@ -67,7 +67,7 @@ Assuming you know which namespaces to include as part of the service mesh, as a 
 
     {{< image link="./routes-with-discovery-selectors.png" caption="Routes for Sleep Deployment With DiscoverySelectors" >}}
 
-You can use `matchLabels` to configure multiple labels with AND semantics or use `matchLabels` sets to configure OR semantics among multiple labels. Whether you deploy services or pods to namespaces with different sets of labels or multiple application teams in your organization use different labeling conventions, `DiscoverySelectors` provides the flexibility you need. Furthermore, you could use `matchLabels` and `matchExpressions` together per our [documentation](https://github.com/istio/api/blob/master/mesh/v1alpha1/config.proto#L792). Refer to the Kubernetes [selector docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors) for additional detail on selector semantics.
+You can use `matchLabels` to configure multiple labels with AND semantics or use `matchLabels` sets to configure OR semantics among multiple labels. Whether you deploy services or pods to namespaces with different sets of labels or multiple application teams in your organization use different labeling conventions, `DiscoverySelectors` provides the flexibility you need. Furthermore, you could use `matchLabels` and `matchExpressions` together per our [documentation](https://github.com/istio/api/blob/master/mesh/v1alpha1/config.proto#L792). Refer to the [Kubernetes selector docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors) for additional detail on selector semantics.
 
 ## DiscoverySelectors vs Sidecar Resource
 
