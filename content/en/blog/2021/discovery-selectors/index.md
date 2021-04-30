@@ -12,7 +12,7 @@ Both [in the community](https://github.com/istio/istio/issues/26679) as well as 
 
 ## Background
 
-By default, Istio watches all namespaces/services/endpoints/pods in a cluster. For example, in my Kubernetes cluster, I deployed the sleep service in the default namespace, and the httpbin service in the ns-x namespace. I’ve added the sleep service to the mesh, and I have no plan to add the httpbin service in the ns-x namespace to the mesh or have any service in the mesh interact with the httpbin service in the ns-x namespace.
+By default, Istio watches all Namespaces, Services, Endpoints and Pods in a cluster. For example, in my Kubernetes cluster, I deployed the `sleep` service in the default namespace, and the `httpbin` service in the `ns-x` namespace. I’ve added the `sleep` service to the mesh, but I have no plan to add the `httpbin` service to the mesh, or have any service in the mesh interact with the `httpbin` service.
 
 Use `istioctl pc endpoint` command to display all the endpoints for the sleep deployment:
 
