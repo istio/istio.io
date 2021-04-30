@@ -82,40 +82,30 @@ target_release: 1.0
 
 1. 点击审核策略，填写所有字段，接着点击创建策略：
 
-    {{< image width="80%" link="./create_policy.png" caption="验证策略" >}}
+    {{< image width="80%" link="./create_policy.png" caption="Validate policy" >}}
 
 1. 点击角色，选择您的主角色节点，然后点击附加策略：
 
-    {{< image link="./roles_summary.png" caption="附加策略" >}}
+    {{< image link="./roles_summary.png" caption="Attach policy" >}}
 
 1. 现在，您的策略就已经附加到了主节点。
 
 ## 重写 Istio Ingress 服务{#generate-the-Istio-manifest}
 
+要使用 AWS `nlb` 负载平衡器，必须在 Istio 安装中添加一个 AWS 特定的注释。 这些说明解释了如何添加注释。
+
+将其保存为文件 `override.yaml`：
 您需要使用以下内容来重写 `istio-ingress` 服务：
 
 {{< text yaml >}}
-apiVersion: v1
-kind: Service
-metadata:
-  name: istio-ingress
-  namespace: istio-system
-  labels:
-    istio: ingress
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-spec:
-  externalTrafficPolicy: Local
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
-    name: http
-  - port: 443
-    protocol: TCP
-    targetPort: 443
-    name: https
-    selector:
-    istio: ingress
-    type: LoadBalancer
+gateways:
+  istio-ingressgateway:
+    serviceAnnotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+{{< /text >}}
+
+使用 Helm 生成清单：
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --namespace istio -f override.yaml > $HOME/istio.yaml
 {{< /text >}}
