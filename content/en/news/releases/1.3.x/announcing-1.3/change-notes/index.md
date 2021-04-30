@@ -1,6 +1,7 @@
 ---
 title: Change Notes
 description: Istio 1.3 release notes.
+publishdate: 2019-09-12
 weight: 10
 aliases:
     - /about/notes/1.3

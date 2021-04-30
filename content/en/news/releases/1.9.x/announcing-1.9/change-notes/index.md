@@ -2,6 +2,7 @@
 title: Change Notes
 description: Istio 1.9.0 release notes.
 weight: 10
+publishdate: 2021-02-09
 ---
 
 ## Known Issues
