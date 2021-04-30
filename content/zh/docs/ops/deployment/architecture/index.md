@@ -58,7 +58,7 @@ Sidecar 代理模型还允许您向现有的部署添加 Istio 功能，而不�
 
 Istiod 提供服务发现、配置和证书管理。
 
-Istiod 将控制流量行为的高级路由规则转换为 Envoy 特定的配置，并在运行时将其传播给 Sidecars。Pilot 提取了特定平台的服务发现机制，并将其综合为一种标准格式，任何符合 [Envoy API](https://www.envoyproxy.io/docs/envoy/latest/api/api) 的 Sidecar 都可以使用。
+Istiod 将控制流量行为的高级路由规则转换为 Envoy 特定的配置，并在运行时将其传播给 Sidecar。Pilot 提取了特定平台的服务发现机制，并将其综合为一种标准格式，任何符合 [Envoy API](https://www.envoyproxy.io/docs/envoy/latest/api/api) 的 Sidecar 都可以使用。
 
 Istio 可以支持发现多种环境，如 Kubernetes 或 VM。
 
