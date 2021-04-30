@@ -8,7 +8,7 @@ keywords: [discoveryselectors,Istio,namespaces,sidecar]
 
 As users move their services to run in the Istio service mesh, they are often surprised that the control plane watches and processes all of the Istio and Kubernetes resources, from all namespaces in the cluster, by default. This can be an issue for very large clusters with lots of namespaces and deployments, or even for a moderately sized cluster with rapidly churning resources (for example, Spark jobs).
 
-Both [in the community](https://github.com/istio/istio/issues/26679) as well as for our large-scale customers at [Solo.io](https://solo.io), we need a way to dynamically restrict the set of namespaces that are part of the mesh so that the Istio control plane only processes Istio and Kubernetes resources in those namespaces. The ability to restrict the namespaces enables Istiod to watch and push fewer resources and associated changes to the sidecars, thus improving the overall performance on the control plane and data plane.
+Both [in the community](https://github.com/istio/istio/issues/26679) as well as for our large-scale customers at [Solo.io](https://solo.io), we need a way to dynamically restrict the set of namespaces that are part of the mesh so that the Istio control plane only processes resources in those namespaces. The ability to restrict the namespaces enables Istiod to watch and push fewer resources and associated changes to the sidecars, thus improving the overall performance on the control plane and data plane.
 
 ## Background
 
