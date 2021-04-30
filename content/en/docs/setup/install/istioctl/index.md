@@ -413,14 +413,6 @@ spec:
         hpaSpec:
           maxReplicas: 10 # ... default 5
           minReplicas: 2  # ... default 1
-        nodeSelector:
-          master: "true"
-        tolerations:
-        - key: dedicated
-          operator: Exists
-          effect: NoSchedule
-        - key: CriticalAddonsOnly
-          operator: Exists
 {{< /text >}}
 
 Use `istioctl install` to apply the modified settings to the cluster:
@@ -444,7 +436,7 @@ spec:
     pilot:
       traceSampling: 0.1 # override from 1.0
     global:
-      monitoringPort: 15050
+      monitoringPort: 15014
 {{< /text >}}
 
 Some parameters will temporarily exist in both the Helm and `IstioOperator` APIs, including Kubernetes resources,
