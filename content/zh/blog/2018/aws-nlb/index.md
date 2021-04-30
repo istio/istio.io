@@ -21,7 +21,11 @@ target_release: 1.0
 
 以下说明需要 Kubernetes **1.9.0 或更高版本** 的集群。
 
-{{< warning_icon >}} AWS `nlb` 在 Kubernetes 上的使用是一项 Alpha 功能 ，不建议用于生产环境的集群。
+{{< warning >}}
+在 Kubernetes上 使用 AWS `nlb` 是一个 Alpha 功能，不建议用于生产环境的集群。
+
+由于 [Kubernetes Bug #6926](https://github.com/kubernetes/kubernetes/issues/69264)中的问题，AWS `nlb` 的使用不支持在同一区域创建两个或多个运行 Istio 的 Kubernetes 集群。
+{{< /warning >}}
 
 ## IAM Policy
 
@@ -29,11 +33,11 @@ target_release: 1.0
 
 1. 在 AWS `iam` 控制台中，点击策略并单击“创建新策略”：
 
-    {{< image width="80%" link="./createpolicystart.png" caption="创建一个新的策略" >}}
+    {< image width="80%" link="./createpolicystart.png" caption="Create a new policy" >}}
 
 1. 选择 `json`：
 
-    {{< image width="80%" link="./createpolicyjson.png" caption="选择 json" >}}
+    {{{< image width="80%" link="./createpolicyjson.png" caption="Select json" >}}
 
 1. 拷贝以下内容：
 
