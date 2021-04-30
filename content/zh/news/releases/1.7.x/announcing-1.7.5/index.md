@@ -17,7 +17,7 @@ aliases:
 
 - **修复** 试验代理应用程序探针连接泄漏的问题。([Issue #27726](https://github.com/istio/istio/issues/27726))
 
-- **修复** `install-cni` 如何应用 `istio-cni` 插件配置。以前，新的配置会被添加到列表中。在插入新的插件之前，进行了更改，从 CNI 配置中删除将现有的 `istio-cni` 插件。([Issue #27771](https://github.com/istio/istio/issues/27771))
+- **修复** `install-cni` 如何应用 `istio-cni` 插件配置。以前，新的配置会被添加到列表中。在插入新的插件之前，进行了更改，从 CNI 配置中删除现有的 `istio-cni` 插件。([Issue #27771](https://github.com/istio/istio/issues/27771))
 
 - **修复** 当一个节点有多个 IP 地址（例如，网格扩展方案中的虚拟机）的问题。Istio Proxy 现在会将入站监听器绑定到列表中第一个适用的地址，而不是最后一个。([Issue #28269](https://github.com/istio/istio/issues/28269))
 
