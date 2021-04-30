@@ -1,6 +1,6 @@
 ---
-title: Boilerplates and Lists
-description: Composing boilerplates and lists.
+title: 模板和列表
+description: 编写模板和列表。
 skip_sitemap: true
 ---
 
