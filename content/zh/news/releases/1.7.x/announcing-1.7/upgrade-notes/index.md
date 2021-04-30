@@ -4,21 +4,20 @@ description: 升级到 Istio 1.7 时需要考虑的重要变化。
 weight: 20
 ---
 
-当你从 Istio 1.6.x 升级到 Istio 1.7.x 时，你需要考虑当前文档的变化说明。这些说明详细介绍了有意破坏与 Istio 1.6.x 的向后兼容性的更改。说明中还提到了在引入新行为的同时保留向后兼容性的变化。只有当新的行为对 Istio 1.6.x 的用户来说是意外的时候，才会包括更改。
+当您从 Istio 1.6.x 升级到 Istio 1.7.x 时，您需要考虑当前文档的变化说明。这些说明详细介绍了有意破坏与 Istio 1.6.x 的向后兼容性的更改。说明中还提到了在引入新行为的同时保留向后兼容性的变化。只有当新的行为对 Istio 1.6.x 的用户来说是意外的时候，才会包括更改。
 
-## Require Kubernetes 1.16+
+## 要求 Kubernetes 1.16+ 版本{#require-Kubernetes-1.16+}
 
-Kubernetes 1.16+ is now required for installation.
+现在需要安装 Kubernetes 1.16+ 版本。
 
-## Installation
+## 安装{#installation}
 
-- `istioctl manifest apply` is removed, please use `istioctl install` instead.
-- Installation of telemetry addons by istioctl is deprecated, please use these [addons integration instructions](/docs/ops/integrations/).
+- `istioctl manifest apply` 已被删除，请使用 `istioctl install` 代替。
+- 通过 Istioctl 安装遥测插件已被弃用，请使用[插件集成说明](/zh/docs/ops/integrations/)中的插件。
 
-## Gateways run as non-root
+## 以非 Root 身份运行的网关{#gateways-run-as-non-root}
 
-Gateways will now run without root permissions by default. As a result, they will no longer be able to bind to ports below 1024.
-By default, we will bind to valid ports. However, if you are explicitly declaring ports on the gateway, you may need to modify your installation. For example, if you previously had the following configuration:
+现在，网关默认情况下是在没有 Root 权限下的情况下运行。因此，它们将不再能够绑定到 1024 以下的端口。默认情况下，我们将绑定到有效的端口。然而，如果您在网关上明确声明端口，您可能需要修改您的安装。例如，如果您以前有以下配置：
 
 {{< text yaml >}}
     ingressGateways:
@@ -36,7 +35,7 @@ By default, we will bind to valid ports. However, if you are explicitly declarin
               name: https
 {{< /text >}}
 
-It should be changed to specify a valid `targetPort` that can be bound to:
+应该修改为指定的有效的 `targetPort`，可以被绑定到。
 
 {{< text yaml >}}
     ingressGateways:
@@ -56,17 +55,17 @@ It should be changed to specify a valid `targetPort` that can be bound to:
               targetPort: 8443
 {{< /text >}}
 
-Note: the `targetPort` only modifies which port the gateway binds to. Clients will still connect to the port defined by `port` (generally 80 and 443), so this change should be transparent.
+注意：`targetPort` 只修改了网关绑定的端口。客户端仍然会连接到由 `port` 定义的端口（一般是 80 和 443），所以这个变化应该是透明的。
 
-If you need to run as root, this option can be enabled with `--set values.gateways.istio-ingressgateway.runAsRoot=true`.
+如果您需要以 Root 身份运行，则可以使用 `--set values.gateways.istio-ingressgateway.runAsRoot=true` 启用此选项。
 
-## `EnvoyFilter` syntax change
+## `EnvoyFilter` 语法更改{#`EnvoyFilter`-syntax-change}
 
-`EnvoyFilter`s using the legacy `config` syntax will need to be migrated to the new `typed_config`. This is due to [underlying changes](https://github.com/istio/istio/issues/19885) in Envoy's API.
+使用传统的 `config` 语法的 `EnvoyFilter` 将需要迁移到新的 `typed_config`。这是由于 Envoy 的 API 中的[基本变化](https://github.com/istio/istio/issues/19885)。
 
-As `EnvoyFilter` is a [break glass API](/docs/reference/config/networking/envoy-filter/) without backwards compatibility guarantees, we recommend users explicitly bind `EnvoyFilter`s to specific versions and appropriately test them prior to upgrading.
+由于 `EnvoyFilter` 是一个没有向后兼容性保证的 [Break Glass API](/zh/docs/reference/config/networking/envoy-filter/)，我们建议用户明确地将 `EnvoyFilter` 绑定到特定的版本，并在升级前对其进行适当测试。
 
-For example, a configuration for Istio 1.6, using the legacy `config` syntax:
+例如，Istio 1.6 的配置，使用传统的 `config` 语法：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -95,7 +94,7 @@ spec:
               end
 {{< /text >}}
 
-When upgrading to Istio 1.7, a new filter should be added:
+当升级到 Istio 1.7 时，应该添加一个新的过滤器：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
