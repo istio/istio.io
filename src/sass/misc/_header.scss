@@ -25,6 +25,11 @@
             padding-top: 8px;
             padding-bottom: 8px;
         }
+
+        #try-istio {
+            max-height: 36px;
+            padding: .5rem 2rem;
+        }
     }
 
     @media print {
@@ -291,7 +296,9 @@
 
     &--transparent {
         background-color: transparent;
-        transition: background-color .175s ease-out;
+        transition: background-color .2s, box-shadow .2s,
+        max-height .2s,
+        padding-top .2s, padding-bottom .2s;
 
         svg.icon {
             fill: $textBrandColor;
@@ -454,7 +461,11 @@
             display: inline-block;
             margin: 0;
 
-            #try-istio { margin-left: 1rem; }
+            #try-istio {
+                margin-left: 1rem;
+                transition: max-height .2s,
+                padding-top .2s, padding-bottom .2s;
+            }
         }
 
         &-toggle {
@@ -476,7 +487,11 @@
     .main-navigation-footer {
         #search-show { display: inline-block; }
 
-        #try-istio { margin-left: 2.75rem; }
+        #try-istio {
+            margin-left: 2.75rem;
+            transition: max-height .2s,
+            padding-top .2s, padding-bottom .2s;
+        }
     }
 }
 
@@ -488,7 +503,11 @@
             }
 
             &-footer {
-                #try-istio { margin-left: 3.75rem; }
+                #try-istio {
+                    margin-left: 3.75rem;
+                    transition: max-height .2s,
+                    padding-top .2s, padding-bottom .2s;
+                }
             }
         }
     }
