@@ -51,7 +51,7 @@ For more information, refer to the [setup instructions](/docs/setup/platform-set
 
 The components marked as &#x2714; are installed within each profile:
 
-|     | default | demo | minimal | remote | empty | preview |
+|     | default | demo | minimal | external | empty | preview |
 | --- | --- | --- | --- | --- | --- | --- |
 | Core components | | | | | | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` | | &#x2714; | | | | | | |
