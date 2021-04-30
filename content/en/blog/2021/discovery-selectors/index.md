@@ -80,6 +80,6 @@ You can use `DiscoverySelectors` with Sidecar resources. You can use `DiscoveryS
 
 {{< image link="./discovery-selectors-vs-sidecar.png" caption="DiscoverySelectors vs Sidecar Resource" >}}
 
-## Let Us Wrap Up
+## Wrapping up
 
 `DiscoverySelectors` is a powerful configuration to tune the Istio control plane to only watch and process specific namespaces. If you don't want all namespaces in your Kubernetes cluster to be part of the service mesh or you have multiple Istio service meshes within your Kubernetes cluster, we highly recommend that you explore this configuration and reach out to us for feedback on our [Istio slack](https://istio.slack.com) or GitHub.
