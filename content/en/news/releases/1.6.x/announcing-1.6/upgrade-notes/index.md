@@ -2,6 +2,7 @@
 title: Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.6.
 weight: 20
+publishdate: 2020-05-21
 ---
 
 When you upgrade from Istio 1.5.x to Istio 1.6.x, you need to consider the changes on this page.

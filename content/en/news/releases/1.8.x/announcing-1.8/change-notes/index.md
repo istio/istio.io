@@ -2,6 +2,7 @@
 title: Change Notes
 description: Istio 1.8 release notes.
 weight: 10
+publishdate: 2020-11-19
 ---
 
 ## Known Issues
