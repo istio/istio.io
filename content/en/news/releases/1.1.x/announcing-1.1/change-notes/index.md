@@ -1,5 +1,5 @@
 ---
-title: Istio 1.1 Change Notes
+title: Change Notes
 release: 1.1
 subtitle: Minor Release
 linktitle: 1.1

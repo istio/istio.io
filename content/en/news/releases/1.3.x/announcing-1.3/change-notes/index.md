@@ -1,5 +1,5 @@
 ---
-title: Istio 1.3 Change Notes
+title: Change Notes
 description: Istio 1.3 release notes.
 publishdate: 2019-09-12
 release: 1.3

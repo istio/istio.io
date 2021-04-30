@@ -1,5 +1,5 @@
 ---
-title: Istio 1.9 Upgrade Notes
+title: Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.9.0.
 weight: 20
 release: 1.9

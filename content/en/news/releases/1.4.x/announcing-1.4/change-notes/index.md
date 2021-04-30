@@ -1,5 +1,5 @@
 ---
-title: Istio 1.4 Change Notes
+title: Change Notes
 description: Istio 1.4 release notes.
 release: 1.4
 subtitle: Minor Release

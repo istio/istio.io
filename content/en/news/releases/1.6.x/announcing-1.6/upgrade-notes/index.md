@@ -1,5 +1,5 @@
 ---
-title: Istio 1.6 Upgrade Notes
+title: Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.6.
 weight: 20
 release: 1.6
