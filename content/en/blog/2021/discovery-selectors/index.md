@@ -20,7 +20,7 @@ Use `istioctl pc endpoint` command to display all the endpoints for the sleep de
 
 Note that the httpbin service endpoint in the ns-x namespace is in the list of discovered endpoints. This may not be an issue when you only have a few services. However, when you have hundreds of services that don't interact with any of the services running in the Istio service mesh, you probably don't want your Istio control plane to watch these services and send their information to the sidecars of your services in the mesh.
 
-## Introduce DiscoverySelectors
+## Introducing DiscoverySelectors
 
 In Istio 1.10, we introduced the new `DiscoverySelectors` option to [MeshConfig](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), which is an array of Kubernetes [selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements). The exact type is `[]LabelSelector`, as defined [here](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements), allowing both simple selectors and set-based selectors. These selectors apply to labels on namespaces.
 
