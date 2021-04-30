@@ -63,7 +63,7 @@ Assuming you know which namespaces to include as part of the service mesh, as a 
 
     {{< image link="./endpoints-with-discovery-selectors.png" caption="Endpoints for Sleep Deployment With DiscoverySelectors" >}}
 
-    Note this time the httpbin service in the ns-x namespace is NOT in the list of discovered endpoints, along with many other services that are not in the default namespace. If you display routes (or cluster or listeners) information for the sleep deployment, you will also notice much less configuration is returned:
+    Note this time the `httpbin` service in the `ns-x` namespace is NOT in the list of discovered endpoints, along with many other services that are not in the default namespace. If you display routes (or cluster or listeners) information for the `sleep` deployment, you will also notice much less configuration is returned:
 
     {{< image link="./routes-with-discovery-selectors.png" caption="Routes for Sleep Deployment With DiscoverySelectors" >}}
 
