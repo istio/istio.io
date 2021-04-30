@@ -62,7 +62,7 @@ Istiod 将控制流量行为的高级路由规则转换为 Envoy 特定的配置
 
 Istio 可以支持发现多种环境，如 Kubernetes 或 VM。
 
-您可以使用 Istio [流量管理 API](/zh/docs/concepts/traffic-management/#introducing-istio-traffic-management) 来指示 Istiod 优化 Envoy 的配置，以便对服务网格中的流量进行更精细的控制。
+您可以使用 Istio [流量管理 API](/zh/docs/concepts/traffic-management/#introducing-istio-traffic-management) 让 Istiod 重新构造 Envoy 的配置，以便对服务网格中的流量进行更精细的控制。
 
 Istiod [安全](/zh/docs/concepts/security/)通过内置的身份和凭证管理，实现了强大的服务对服务和终端用户认证。您可以使用 Istio 来升级服务网格中未加密的流量。使用 Istio，运营商可以基于服务身份而不是相对不稳定的第 3 层或第 4 层网络标识符来执行策略。此外，您可以使用 [Istio 的授权功能](/zh/docs/concepts/security/#authorization)控制谁可以访问您的服务。
 
