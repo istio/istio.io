@@ -6,4 +6,11 @@ sidebar_none: true
 weight: 15
 doc_type: about
 go_root_breadcrumb: true
+cascade:
+  _build:
+    render: always
+    list: always
+_build:
+  render: never
+  list: never
 ---
