@@ -83,7 +83,7 @@ Unlike istiod, Istio gateways do not run revision-specific instances, but are in
 You can verify that the `istio-ingress` gateway is using the `canary` revision by running the following command:
 
 {{< text bash >}}
-$ istioctl proxy-status | grep $(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}') | awk '{print $8}'
+$ istioctl proxy-status | grep $(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}') | awk '{print $7}'
 istiod-canary-6956db645c-vwhsk
 {{< /text >}}
 
@@ -115,7 +115,7 @@ $ kubectl get pods -n test-ns -l istio.io/rev=canary
 To verify that the new pods in the `test-ns` namespace are using the `istiod-canary` service corresponding to the `canary` revision, select one newly created pod and use the `pod_name` in the following command:
 
 {{< text bash >}}
-$ istioctl proxy-status | grep ${pod_name} | awk '{print $8}'
+$ istioctl proxy-status | grep ${pod_name} | awk '{print $7}'
 istiod-canary-6956db645c-vwhsk
 {{< /text >}}
 
