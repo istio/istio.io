@@ -1,5 +1,5 @@
 ---
-title: "Upcoming in Istio 1.10 - use discovery selectors to configure namespaces for your Istio service mesh"
+title: "Use discovery selectors to configure namespaces for your Istio service mesh"
 description: Learn how to use discovery selectors and how they intersect with Sidecar resources.
 publishdate: 2021-04-30
 attribution: "Lin Sun (Solo.io), Christian Posta (Solo.io), Harvey Xia (Solo.io)"
