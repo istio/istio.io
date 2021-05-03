@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2154
 
 # Copyright Istio Authors
 #
@@ -36,7 +37,7 @@ _verify_contains snip_get_stats "cluster.xds-grpc"
 _verify_contains snip_get_stats "wasm"
 
 kubectl delete pods --all
-echo "${snip_proxyStatsMatcher}" | istioctl install --set profile=default -y -f -
+echo "$snip_proxyStatsMatcher" | istioctl install --set profile=default -y -f -
 _verify_contains snip_get_stats "circuit_breakers"
 _verify_contains snip_get_stats "upstream_rq_retry"
 
@@ -46,7 +47,7 @@ kubectl delete pods --all
 _verify_not_contains snip_get_stats "circuit_breakers"
 _verify_not_contains snip_get_stats "upstream_rq_retry"
 
-yq w -d2 sleep2.yaml 'metadata.annotations[+]' "${snip_proxyIstioConfig}" > sleep_istioconfig.yaml
+yq w -d2 sleep2.yaml 'metadata.annotations[+]' "$snip_proxyIstioConfig" > sleep_istioconfig.yaml
 kubectl apply -f sleep_istioconfig.yaml
 POD="$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')"
 export POD
