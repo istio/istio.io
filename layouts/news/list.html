@@ -11,9 +11,9 @@
             {{ $pages := (where .Site.RegularPages "Section" "news").ByPublishDate.Reverse }}
             {{ $sections := .Sections }}
             {{ range $sections }}
-                {{ if eq ( printf "%T" .LinkTitle ) "string"  }}
-                    {{ if ( not ( in ($.Scratch.Get "categories") .LinkTitle ) ) }}
-                        {{ $.Scratch.Add "categories" .LinkTitle }}
+                {{ if and ( eq ( printf "%T" .Params.data_category ) "string" ) ( eq ( printf "%T" .LinkTitle ) "string" ) }}
+                    {{ if ( not ( in ($.Scratch.Get "categories") (delimit (slice .Params.data_category .LinkTitle ) "," ))) }}
+                        {{ $.Scratch.Add "categories" (delimit (slice .Params.data_category .LinkTitle ) ",") }}
                     {{ end }}
                 {{ end }}
             {{ end }}
@@ -21,8 +21,8 @@
             <div class="year-buttons">
                 {{ range $.Scratch.Get "categories" }}
                     <div>
-                        <button xx class="year-button" id='category-{{ . | urlize }}' onclick="applyFilter(this)">
-                            {{ . }}
+                        <button class="year-button" id='category-{{ index (split . ",") 0 | urlize }}' onclick="applyFilter(this)">
+                            {{ index (split . ",") 1 }}
                         </button>
                     </div>
                 {{ end }}
@@ -32,7 +32,7 @@
                 {{ range $item := $pages }}
                     {{ range $a := $sections }}
                         {{ if $a.IsAncestor $item }}
-                            <a class="post-card tf-filter-item" href="{{ $item.RelPermalink }}" data-category='{{ $a.LinkTitle | urlize }}'
+                            <a class="post-card tf-filter-item" href="{{ $item.RelPermalink }}" data-category='{{ $a.Params.data_category | urlize }}'
                             >
                                 <div class="post-date">
                                     <p>{{ ($item.Params.publishdate).Format "Jan 2, 2006" }}</p>
@@ -57,11 +57,10 @@
                         {{ end }}
                     {{ end }}
                 {{ end }}
-
-
             </div>
-            {{ partial "subscribe_button.html" (dict "section" "news") }}
-            {{ partial "primary_bottom.html" . }}
+        </article>
+    </div>
+</main>
 
 <script src='{{ "js/categories-filter.js" | relURL }}'></script>
 <script>
