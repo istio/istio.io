@@ -5,6 +5,7 @@ subtitle: Security Release
 description: Istio 1.6.11 security release.
 publishdate: 2020-09-29
 release: 1.6.11
+security: true
 aliases:
     - /news/announcing-1.6.11
 ---

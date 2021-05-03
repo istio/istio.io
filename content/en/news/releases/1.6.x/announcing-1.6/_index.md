@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.6
-linktitle: 1.6
+title: Announcing Istio 1.6.0
+linktitle: 1.6.0
 subtitle: Major Update
-description: Istio 1.6 release announcement.
+description: Istio 1.6.0 release announcement.
 publishdate: 2020-05-21
 release: 1.6.0
 skip_list: true

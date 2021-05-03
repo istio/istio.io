@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.3
-linktitle: 1.3
+title: Announcing Istio 1.3.0
+linktitle: 1.3.0
 subtitle: Major Update
-description: Istio 1.3 release announcement.
+description: Istio 1.3.0 release announcement.
 publishdate: 2019-09-12
 release: 1.3.0
 skip_list: true

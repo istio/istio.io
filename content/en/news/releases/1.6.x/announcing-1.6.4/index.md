@@ -5,6 +5,7 @@ subtitle: Patch Release
 description: Istio 1.6.4 security release.
 publishdate: 2020-06-30
 release: 1.6.4
+security: true
 aliases:
     - /news/announcing-1.6.4
 ---
