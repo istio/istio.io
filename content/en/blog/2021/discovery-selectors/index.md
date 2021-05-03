@@ -22,7 +22,7 @@ Note that the `httpbin` service endpoint in the `ns-x` namespace is in the list 
 
 ## Introducing Discovery Selectors
 
-In Istio 1.10, we introduced the new `discoverySelectors` option to [MeshConfig](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), which is an array of Kubernetes [selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements). The exact type is `[]LabelSelector`, as defined [here](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements), allowing both simple selectors and set-based selectors. These selectors apply to labels on namespaces.
+Starting with Istio 1.10, we are introducing the new `discoverySelectors` option to [MeshConfig](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), which is an array of Kubernetes [selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements). The exact type is `[]LabelSelector`, as defined [here](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements), allowing both simple selectors and set-based selectors. These selectors apply to labels on namespaces.
 
 You can configure each label selector for expressing a variety of use cases, including but not limited to:
 
