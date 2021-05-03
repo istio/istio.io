@@ -28,12 +28,14 @@ kubectl exec "$POD" -c istio-proxy -- pilot-agent request GET stats
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  proxyStatsMatcher:
-    inclusionRegexps:
-      - ".*circuit_breakers.*"
-    inclusionPrefixes:
-      - "upstream_rq_retry"
-      - "upstream_cx"
+  meshConfig:
+    defaultConfig:
+      proxyStatsMatcher:
+        inclusionRegexps:
+          - ".*circuit_breakers.*"
+        inclusionPrefixes:
+          - "upstream_rq_retry"
+          - "upstream_cx"
 ENDSNIP
 
 ! read -r -d '' snip_proxyIstioConfig <<\ENDSNIP
