@@ -107,7 +107,7 @@ Let's assume that the target version is 1.8.1.
     $ istio-1.8.1/bin/istioctl install -f gateways.yaml --revision 1-8-1
     {{< /text >}}
 
-1.  Delete the 1.8.1 version of the control plane:
+1.  Delete the 1.8.0 version of the control plane:
 
     {{< text bash >}}
     $ istio-1.8.1/bin/istioctl x uninstall --revision 1-8-0
