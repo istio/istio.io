@@ -25,7 +25,7 @@ This will deploy Zipkin into your cluster. This is intended for demonstration on
 
 Consult the [Zipkin documentation](https://zipkin.io/) to get started. No special changes are needed for Zipkin to work with Istio.
 
-Once Zipkin is installed, you will need to point Istio proxies to send traces to the deployment. This can be configured with `--set values.global.tracer.zipkin.address=<zipkin-collector-address>:9411` at installation time. See the [`ProxyConfig.Tracing`](/docs/reference/config/istio.mesh.v1alpha1/#Tracing) for advanced configuration such as TLS settings.
+Once Zipkin is installed, you will need to point Istio proxies to send traces to the deployment. This can be configured with `--set values.global.tracer.zipkin.address=<zipkin-collector-address>` at installation time. See the [`ProxyConfig.Tracing`](/docs/reference/config/istio.mesh.v1alpha1/#Tracing) for advanced configuration such as TLS settings.
 
 ## Usage
 
