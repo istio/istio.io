@@ -21,7 +21,7 @@
             <div class="year-buttons">
                 {{ range $.Scratch.Get "categories" }}
                     <div>
-                        <button xx class="year-button" id='category-{{ . | urlize }}' onclick="applyFilter(this)">
+                        <button class="year-button" id='category-{{ . | urlize }}' onclick="applyFilter(this)">
                             {{ . }}
                         </button>
                     </div>
@@ -57,8 +57,8 @@
                         {{ end }}
                     {{ end }}
                 {{ end }}
-            {{ end }}
-        {{ end }}
+            </div>
+        </article>
     </div>
 </main>
 
