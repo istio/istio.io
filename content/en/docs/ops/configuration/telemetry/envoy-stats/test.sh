@@ -43,7 +43,11 @@ _verify_contains snip_get_stats "upstream_rq_retry"
 
 #reset and verify that they no longer apply
 istioctl install -y --set profile=default
-kubectl delete pods --all
+kubectl label namespace default istio-injection=enabled --overwrite
+cleanup_httpbin_sample
+startup_httpbin_sample
+POD="$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')"
+export POD
 _verify_not_contains snip_get_stats "circuit_breakers"
 _verify_not_contains snip_get_stats "upstream_rq_retry"
 
