@@ -1,6 +1,6 @@
 ---
 title: News
-description: Istio addresses the challenges developers and operators face as monolithic applications transition towards a distributed microservice architecture.
+description: Select security bulletins, release announcements, or support announcements to stay up to date.
 linktitle: News
 sidebar_multicard: true
 icon: bullhorn

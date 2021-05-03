@@ -16,7 +16,3 @@ skip_pagenav: true
 sidebar_none: true
 doc_type: about has-toc
 ---
-
-{{< centered_block >}}
-If you don’t find what you need, you can [interact with the community](../../get-involved) to go deeper.
-{{< /centered_block >}}
