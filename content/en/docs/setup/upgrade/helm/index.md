@@ -26,6 +26,14 @@ follow the instructions below.
 
 {{< boilerplate helm-jwt-warning >}}
 
+Before upgrading Istio, it is recommended to run the `istioctl x precheck` command to make sure the upgrade is compatible with your environment.
+
+{{< text bash >}}
+$ istioctl x precheck
+✔ No issues found when checking the cluster. Istio is safe to install or upgrade!
+To get started, check out https://istio.io/latest/docs/setup/getting-started/
+{{< /text >}}
+
 ### Create a backup
 
 {{< boilerplate helm-backup >}}

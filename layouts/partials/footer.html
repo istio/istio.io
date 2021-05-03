@@ -49,7 +49,18 @@
             <li class="footer-policies-item">
                 <a class="footer-policies-link" href="https://policies.google.com/privacy">
                     {{ i18n "footer_privacy_policy" }}
-                </a>
+                </a> |
+                {{ if .Params.source_repo }}
+                    {{ $msg := i18n "generated_file" }}
+                    {{ $title := printf $msg .Page.Params.source_repo }}
+                    <a class="disabled" title="{{ $title }}">{{ i18n "edit_on_github" }}</a>
+                {{ else }}
+                    {{ if eq $home.Lang "zh" }}
+                        <a class="footer-policies-link" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/zh/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                    {{ else }}
+                        <a class="footer-policies-link" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/en/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                    {{ end }}
+                {{ end }}
             </li>
         </ul>
     

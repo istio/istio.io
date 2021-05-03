@@ -43,7 +43,7 @@
                     font-weight: $tocLinkWeight;
                 }
 
-                a.current {
+                a.active {
                     color: $linkActiveColor;
                     font-weight: bold;
 
@@ -65,7 +65,7 @@
                 li {
                     border-left: 0;
 
-                    a.current {
+                    a.active {
                         &::before {
                             left: -29px;
                         }
@@ -74,7 +74,7 @@
 
                 ol {
                     li {
-                        a.current {
+                        a.active {
                             &::before {
                                 left: -56px;
                             }
@@ -83,7 +83,7 @@
 
                     ol {
                         li {
-                            a.current {
+                            a.active {
                                 &::before {
                                     left: -83px;
                                 }

@@ -144,7 +144,6 @@ $ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  profile: remote
   values:
     global:
       meshID: mesh1
