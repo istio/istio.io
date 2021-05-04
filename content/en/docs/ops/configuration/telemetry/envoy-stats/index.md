@@ -72,13 +72,15 @@ spec:
 You can also override the global stats matching configuration per proxy by using the `proxy.istio.io/config` annotation. For example, to configure the same stats generation inclusion as above, you can add the annotation to a gateway proxy or a workload as follows:
 
 {{< text syntax=yaml snip_id=proxyIstioConfig >}}
-proxy.istio.io/config: |-
-  proxyStatsMatcher:
-    inclusionRegexps:
-    - ".*circuit_breakers.*"
-    inclusionPrefixes:
-    - "upstream_rq_retry"
-    - "upstream_cx"
+metadata:
+  annotations:
+    proxy.istio.io/config: |-
+      proxyStatsMatcher:
+        inclusionRegexps:
+        - ".*circuit_breakers.*"
+        inclusionPrefixes:
+        - "upstream_rq_retry"
+        - "upstream_cx"
 {{< /text >}}
 
 {{< tip >}}
