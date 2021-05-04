@@ -17,7 +17,7 @@ sidebar_force: sidebar_case_study
 type: case-studies
 ---
 
-In a [presentation at IstioCon 2021](https://events.istio.io/istiocon-2021/sessions/airbnb-on-istio/), Airbnb's Stephen Chan and Weibo He walked through Airbnb’s Istio journey - why they needed a modern service mesh, how they vetted Istio as the solution, where they are today, the lessons they learnt along the way, and their future plans.
+In a [presentation at IstioCon 2021](https://events.istio.io/istiocon-2021/sessions/airbnb-on-istio/), Airbnb's Stephen Chan and Weibo He walked through Airbnb’s Istio journey - why they needed a modern service mesh, how they vetted Istio as the solution, where they are today, the lessons they learned along the way, and their future plans.
 
 <iframe width="696" height="392" src="https://www.youtube-nocookie.com/embed/6kDiDQW5YXQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
