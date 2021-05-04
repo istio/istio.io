@@ -1,7 +1,12 @@
 ---
 title: Change Notes
+linktitle: 1.10
 description: Istio 1.10.0 release notes.
+publishdate: 2021-05-18
+release: 1.10
 weight: 10
+aliases:
+    - /news/announcing-1.10
 ---
 
 ## Deprecation Notices
@@ -13,8 +18,8 @@ These notices describe functionality that will be removed in a future release ac
 
 ## Traffic Management
 
-- **Added** the `ISTIO_GATEWAY_STRIP_HOST_PORT` environment variable to control whether gateways strip host port before any processing of request by HTTP filters or routing.
-  ([Issue #25350](https://github.com/istio/istio/issues/25350))
+- **Added** the `ISTIO_GATEWAY_STRIP_HOST_PORT` environment variable to control whether gateways strip host port before any processing of request by HTTP filters or routing. This option is disabled by default.
+  ([Blog](/blog/2021/discovery-selectors/), [Issue #25350](https://github.com/istio/istio/issues/25350))
 
 - **Added** `meshConfig.discoverySelectors` to dynamically restrict the set of namespaces for `Services`, `Pods`, and `Endpoints` that istiod processes when pushing xDS updates to improve performance on the data plane.
   ([Issue #26679](https://github.com/istio/istio/issues/26679))

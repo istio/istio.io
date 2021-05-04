@@ -1,6 +1,7 @@
 ---
 title: Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.10.0.
+publishdate: 2021-05-18
 weight: 20
 ---
 
@@ -11,8 +12,8 @@ Changes are only included if the new behavior would be unexpected to a user of I
 
 ## Inbound Forwarding Configuration
 
-The behavior of inbound forwarding will be modified in the near future. While this change is not enabled
-by default in Istio 1.10, it can be enabled today by configuring the `PILOT_ENABLE_INBOUND_PASSTHROUGH=true` environment
+The behavior of inbound forwarding has been modified for Istio 1.10. This change is enabled
+by default in Istio 1.10 and it can be disabled by configuring the `PILOT_ENABLE_INBOUND_PASSTHROUGH=false` environment
 variable in Istiod.
 
 Previously, requests would be forwarded to `localhost`. This leads to two important differences compared to running applications
@@ -26,8 +27,8 @@ The latter is a common source of friction when adopting Istio, in particular wit
 The new behavior instead forwards the request as is. This matches the behavior a user would see without Istio installed.
 However, as a result, applications that have come to rely on `localhost` being exposed externally by Istio may stop working.
 
-To help detect these situations, we have added a check to find pods that will be impacted. You can run the istioctl
-experimental precheck command to get a report of any pods binding to lo on a port exposed in a Service. This command is
+To help detect these situations, we have added a check to find pods that will be impacted. You can run the `istioctl
+experimental precheck` command to get a report of any pods binding to `localhost` on a port exposed in a Service. This command is
 available in Istio 1.10+. Without action, these ports will no longer be accessible upon upgrade.
 
 {{< text bash >}}
@@ -66,7 +67,7 @@ pods in a namespace with a matching `istio-injection=enabled` label.
 
 This has two limitations:
 
-* Opting out individual pods with the `sidecar.istio.io/inject` label would still trigger the webhook,
+* Opting out individual pods with the `sidecar.istio.io/inject` annotation would still trigger the webhook,
   only to be filtered out by Istio. This can have the unexpected impact of adding a dependency on Istio
   when one is not expected.
 
@@ -74,7 +75,7 @@ This has two limitations:
   for the entire namespace.
 
 These limitations have both been resolved. As a result, additional pods may be injected that were not in previous versions,
-if they exist in a namespace without an `istio-injection` label set but have the `sidecar.istio.io/inject` label set on the pod.
+if they exist in a namespace without an `istio-injection` label set but have the `sidecar.istio.io/inject` annotation set to `true` on the pod.
 This is expected to be an uncommon case, so for most users there will be no behavioral changes to existing pods.
 
 If this behavior is not desired, it can be temporarily disabled with `--set values.sidecarInjectorWebhook.useLegacySelectors=true`.
