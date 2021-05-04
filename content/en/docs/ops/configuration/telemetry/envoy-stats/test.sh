@@ -21,6 +21,7 @@ export IFS=
 
 source "tests/util/samples.sh"
 
+# @setup profile=default
 kubectl label namespace default istio-injection=enabled --overwrite
 
 # start the httpbin sample
@@ -29,34 +30,38 @@ startup_httpbin_sample
 POD="$(kubectl get pod -l app=httpbin -o jsonpath='{.items[0].metadata.name}')"
 export POD
 
-# @setup profile=default
+#check default stats
 _verify_contains snip_get_stats "cluster_manager"
 _verify_contains snip_get_stats "listener_manager"
 _verify_contains snip_get_stats "server"
 _verify_contains snip_get_stats "cluster.xds-grpc"
 _verify_contains snip_get_stats "wasm"
 
-kubectl delete pods --all
+#configure via meshconfig and confirm new stats were added
 echo "$snip_proxyStatsMatcher" | istioctl install --set profile=default -y -f -
+kubectl label namespace default istio-injection=enabled --overwrite
+
+kubectl delete pod -l app=httpbin
+_wait_for_deployment default httpbin
+
+POD="$(kubectl get pod -l app=httpbin -o jsonpath='{.items[0].metadata.name}')"
+export POD
+
 _verify_contains snip_get_stats "circuit_breakers"
 _verify_contains snip_get_stats "upstream_rq_retry"
 
-#reset and verify that they no longer apply
+#reset
 istioctl install -y --set profile=default
 kubectl label namespace default istio-injection=enabled --overwrite
-cleanup_httpbin_sample
-startup_httpbin_sample
-POD="$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')"
-export POD
-_verify_not_contains snip_get_stats "circuit_breakers"
-_verify_not_contains snip_get_stats "upstream_rq_retry"
 
-yq w -d2 sleep2.yaml 'metadata.annotations[+]' "$snip_proxyIstioConfig" > sleep_istioconfig.yaml
+
+#configure via annotation and confirm new stats were added
+echo "${snip_proxyIstioConfig}" > proxyConfig.yaml
+yq m -d2 samples/sleep/sleep.yaml proxyConfig.yaml > sleep_istioconfig.yaml
 kubectl apply -f sleep_istioconfig.yaml
 POD="$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')"
 export POD
 _verify_contains snip_get_stats "circuit_breakers"
-_verify_contains snip_get_stats "upstream_rq_retry"
 
 # @cleanup
 

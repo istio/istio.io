@@ -39,11 +39,13 @@ spec:
 ENDSNIP
 
 ! read -r -d '' snip_proxyIstioConfig <<\ENDSNIP
-proxy.istio.io/config: |-
-  proxyStatsMatcher:
-    inclusionRegexps:
-    - ".*circuit_breakers.*"
-    inclusionPrefixes:
-    - "upstream_rq_retry"
-    - "upstream_cx"
+metadata:
+  annotations:
+    proxy.istio.io/config: |-
+      proxyStatsMatcher:
+        inclusionRegexps:
+        - ".*circuit_breakers.*"
+        inclusionPrefixes:
+        - "upstream_rq_retry"
+        - "upstream_cx"
 ENDSNIP
