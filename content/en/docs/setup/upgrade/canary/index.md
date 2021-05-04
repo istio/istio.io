@@ -62,7 +62,7 @@ Due to [a bug](https://github.com/istio/istio/issues/28880) in the creation of t
 One way to accomplish this is to manually create a service called `istiod` pointing to the target revision using [this service]({{< github_blob >}}/manifests/charts/istio-control/istio-discovery/templates/service.yaml) as a template. Another option is to run the command below, where `<REVISION>` is the name of the revision that should handle validation. This command creates an `istiod` service pointed to the target revision.
 
 {{< text bash >}}
-$ kubectl get service -n istio-system -o json istiod-<REVISION> | jq '.metadata.name = "istiod" | del(.spec.clusterIP) | del(.spec.clusterIPs)' | kubectl apply -f -
+$ kubectl get service -n istio-system -o json istiod-<REVISION> | jq '.metadata.name = "istiod" | del(.spec.clusterIP) | del(.spec.clusterIPs) | del (.metadata.labels."istio.io/rev")' | kubectl apply -f -
 {{< /text >}}
 
 {{</ warning >}}
