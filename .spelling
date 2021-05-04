@@ -102,6 +102,7 @@ Aporeto
 AppOptics
 appswitch
 AppSwitch
+architected
 args.yaml
 AssemblyScript
 Atlassian
@@ -183,7 +184,9 @@ ControlZ
 CoreDNS
 coreos
 Costin
+CR
 CRD
+CRs
 CRDs
 CSRs
 Ctrl
@@ -519,6 +522,8 @@ oc
 OCI-compliant
 ok
 Okta
+onboard
+Onboard
 onboarding
 Onboarding
 onwards
