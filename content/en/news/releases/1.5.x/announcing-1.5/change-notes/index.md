@@ -2,6 +2,10 @@
 title: Change Notes
 description: Istio 1.5 release notes.
 weight: 10
+release: 1.5
+subtitle: Minor Release
+linktitle: 1.5
+publishdate: 2020-03-05
 ---
 
 ## Traffic management

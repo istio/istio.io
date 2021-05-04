@@ -2,6 +2,10 @@
 title: Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.8.
 weight: 20
+release: 1.8
+subtitle: Minor Release
+linktitle: 1.8
+publishdate: 2020-11-19
 ---
 
 When you upgrade from Istio 1.7.x to Istio 1.8.x, you need to consider the changes on this page.
