@@ -436,7 +436,7 @@ spec:
     pilot:
       traceSampling: 0.1 # override from 1.0
     global:
-      monitoringPort: 15050
+      monitoringPort: 15014
 {{< /text >}}
 
 Some parameters will temporarily exist in both the Helm and `IstioOperator` APIs, including Kubernetes resources,
