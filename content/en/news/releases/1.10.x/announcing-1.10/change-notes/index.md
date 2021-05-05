@@ -13,6 +13,10 @@ aliases:
 
 These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definitions). Please consider upgrading your environment to remove the deprecated functionality.
 
+- **Deprecated** the values.global.jwtPolicy=first-party-jwt option. This option is less secure and intended for backwards compatibility
+with older Kubernetes clusters without support for more secure token authentication, but is now enabled by default in new Kubernetes versions.
+The option will be removed in future releases. See [this documentation](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) for more information.
+
 - **Deprecated** installation flags `values.global.arch` in favor of the affinity Kubernetes settings.
   ([Issue #30027](https://github.com/istio/istio/issues/30027))
 
