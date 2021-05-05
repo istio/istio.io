@@ -22,11 +22,11 @@ The option will be removed in future releases. See [this documentation](/docs/op
 
 ## Traffic Management
 
-- **Added** the `ISTIO_GATEWAY_STRIP_HOST_PORT` environment variable to control whether gateways strip host port before any processing of request by HTTP filters or routing. This option is disabled by default.
-  ([Blog](/blog/2021/discovery-selectors/), [Issue #25350](https://github.com/istio/istio/issues/25350))
-
 - **Added** `meshConfig.discoverySelectors` to dynamically restrict the set of namespaces for `Services`, `Pods`, and `Endpoints` that istiod processes when pushing xDS updates to improve performance on the data plane.
-  ([Issue #26679](https://github.com/istio/istio/issues/26679))
+  ([Blog](/blog/2021/discovery-selectors/), [Issue #26679](https://github.com/istio/istio/issues/26679))
+
+- **Added** the `ISTIO_GATEWAY_STRIP_HOST_PORT` environment variable to control whether gateways strip host port before any processing of request by HTTP filters or routing. This option is disabled by default.
+  ([Issue #25350](https://github.com/istio/istio/issues/25350))
 
 - **Fixed** configuration of TLS parameters (TLS version, TLS cipher suites, curves, etc.) with `EnvoyFilter`.
   ([Issue #28996](https://github.com/istio/istio/issues/28996))
@@ -122,6 +122,12 @@ The default interval is `20m`. Valid time units are "ns", "us", "ms", "s", "m", 
 
 ## Installation
 
+- **Added** `istioctl experimental revision tag` command group. Revision tags act as aliases for
+control plane revisions. Users can label their namespaces with a revision tag rather than pointing them
+directly at a revision and selectively decide the granularity of their namespace labels. This makes it possible
+to perform upgrades with the ease of in-place upgrades while having the safety revision-based upgrades
+under the hood. Read more about using revision tags [here](/docs/setup/upgrade/canary/#stable-revision-labels-experimental).
+
 - **Improved** `ConfigMaps` to be read directly rather than from volume mounts. This improves the speed
 of updates and ensures that for external istiod installations that the configmaps are read from the config cluster.
   ([Issue #31410](https://github.com/istio/istio/issues/31410))
@@ -137,12 +143,6 @@ existing default injection labels (`istio-injection=enabled` and `sidecar.istio.
 
 - **Added** an `external` profile for installing Istio with an external control plane and deprecated the `remote` profile.
   ([Issue #32370](https://github.com/istio/istio/issues/32370))
-
-- **Added** `istioctl experimental revision tag` command group. Revision tags act as aliases for
-control plane revisions. Users can label their namespaces with a revision tag rather than pointing them
-directly at a revision and selectively decide the granularity of their namespace labels. This makes it possible
-to perform upgrades with the ease of in-place upgrades while having the safety revision-based upgrades
-under the hood.
 
 - **Fixed** a bug preventing `istioctl kube-inject` from working with revisions.
   ([Issue #30991](https://github.com/istio/istio/issues/30991))
