@@ -54,7 +54,7 @@ istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51
 ENDSNIP
 
 snip_expose_the_control_plane_in_cluster1_1() {
-kubectl apply --context="${CTX_CLUSTER1}" -f \
+kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
     samples/multicluster/expose-istiod.yaml
 }
 
@@ -77,7 +77,6 @@ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  profile: remote
   values:
     global:
       meshID: mesh1

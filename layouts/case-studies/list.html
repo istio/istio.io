@@ -2,23 +2,23 @@
 
     {{ partial "primary_top.html" . }}
 
-    {{ $pages := .Pages }}
-
     <div class="panels panels--grid">
-        {{ range $pages }}
+        {{ range .Pages }}
             {{ partial "case_study_panel.html" (dict "case_study" .Params "url" .RelPermalink) }}
         {{ end }}
     </div>
 
     <div class="cta-container">
-        <a href="https://github.com/istio/istio.io/issues/new" class="btn">Share your story</a>
+        <a href="https://github.com/istio/istio.io/issues/new" class="btn">{{ i18n "share_your_story" }}</a>
     </div>
 
-    <h1>Also used by</h1>
-    {{ partial "distributors" (dict "distributors" .Site.Data.companies.distributors "first_items" 8) }}
-    <div class="cta-container">
-        <a href="https://github.com/istio/istio.io/blob/master/data/companies.yaml" class="btn">Add your logo</a>
-    </div>
+    {{ with .Site.Data.companies.users }}
+        <h1>{{ i18n "more_case_studies" }}</h1>
+        {{ partial "companies" (dict "items" .) }}
+        <div class="cta-container">
+            <a href="https://github.com/istio/istio.io/blob/master/data/companies.yml" class="btn">{{ i18n "add_your_logo" }}</a>
+        </div>
+    {{ end }}
 
     {{ partial "primary_bottom.html" . }}
 

@@ -36,17 +36,19 @@ description: A service mesh for observability, security in depth, and management
         </h1>
     </section>
 
-    <section id="landing-panels" class="panels container">
-        {{< content_panel type="dark" title="what_is_istio" text="Discover how a service mesh helps with many common challenges of a distributed architecture." button="learn_more" url="/about/service-mesh" >}}
-        {{< content_panel type="dark" title="solutions" text="Learn how to build secure, reliable and scalable applications with Istio." button="learn_more" url="/about/solutions" >}}
-        {{< content_panel type="dark" title="deployment" text="Get what you need to deploy and utilize Istio for your unique needs." button="learn_more" url="/about/deployment" >}}
+    <section id="landing-panels" class="container">
+        <div class="panels">
+            {{< content_panel type="dark" title="what_is_istio" text="Discover how a service mesh helps with many common challenges of a distributed architecture." button="learn_more" url="/about/service-mesh" >}}
+            {{< content_panel type="dark" title="solutions" text="Learn how to build secure, reliable and scalable applications with Istio." button="learn_more" url="/about/solutions" >}}
+            {{< content_panel type="dark" title="deployment" text="Get what you need to deploy and utilize Istio for your unique needs." button="learn_more" url="/about/deployment" >}}
+        </div>
     </section>
 
     <section id="service-mesh" class="container">
         <h1>The Istio service mesh</h1>
 
         <p class="subtitle">
-            Istio extends Kubernetes to establish a programmable, application-aware network, using the powerful Envoy service proxy. Working with both Kubernetes and traditional workloads, Istio brings standard, universal traffic management, telemetry, and security to complex deployments.
+            Istio extends Kubernetes to establish a programmable, application-aware network using the powerful Envoy service proxy. Working with both Kubernetes and traditional workloads, Istio brings standard, universal traffic management, telemetry, and security to complex deployments.
         </p>
  
         <div class="service-mesh-graph">
@@ -92,14 +94,14 @@ description: A service mesh for observability, security in depth, and management
         </div>
     </section>
 
-    <section id="distributors" class="container">
+    <section id="providers" class="container">
         <h1>Istio Providers</h1>
 
         <p class="subtitle">
-            Whether you get Istio with your managed Kubernetes service, you adopt a product powered by Istio, or you install it yourself, Istio has a strong ecosystem that allows you to deploy and utilize Istio capabilities the way that works for you.
+            Istio is supported and implemented by an ecosystem of leading providers and consultants. You can install and manage Istio yourself or use a one-click install feature of your Kubernetes or cloud provider. Another option is to turn to a provider for a fully managed service mesh based on Istio. Choose the way that works for you.
         </p>
 
-        <div class="distributors-grid">
+        <div class="companies-grid">
             {{< company_logo link="https://cloud.google.com/" logo="./logos/google-cloud.png" alt="Google Cloud" >}}
             {{< company_logo link="https://www.ibm.com/cloud" logo="./logos/ibm-cloud.png" alt="IBM Cloud" >}}
             {{< company_logo link="https://www.redhat.com/" logo="./logos/redhat.svg" alt="Red Hat" >}}

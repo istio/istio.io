@@ -17,6 +17,16 @@ at the same time. A canary version of an upgrade can be started by installing th
 next to the old one, using a different `revision` setting. Each revision is a full Istio control plane implementation
 with its own `Deployment`, `Service`, etc.
 
+## Before you upgrade
+
+Before upgrading Istio, it is recommended to run the `istioctl x precheck` command to make sure the upgrade is compatible with your environment.
+
+{{< text bash >}}
+$ istioctl x precheck
+✔ No issues found when checking the cluster. Istio is safe to install or upgrade!
+  To get started, check out https://istio.io/latest/docs/setup/getting-started/
+{{< /text >}}
+
 ## Control plane
 
 To install a new revision called `canary`, you would set the `revision` field as follows:
@@ -73,7 +83,7 @@ Unlike istiod, Istio gateways do not run revision-specific instances, but are in
 You can verify that the `istio-ingress` gateway is using the `canary` revision by running the following command:
 
 {{< text bash >}}
-$ istioctl proxy-status | grep $(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}') | awk '{print $8}'
+$ istioctl proxy-status | grep $(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}') | awk '{print $7}'
 istiod-canary-6956db645c-vwhsk
 {{< /text >}}
 
@@ -105,7 +115,7 @@ $ kubectl get pods -n test-ns -l istio.io/rev=canary
 To verify that the new pods in the `test-ns` namespace are using the `istiod-canary` service corresponding to the `canary` revision, select one newly created pod and use the `pod_name` in the following command:
 
 {{< text bash >}}
-$ istioctl proxy-status | grep ${pod_name} | awk '{print $8}'
+$ istioctl proxy-status | grep ${pod_name} | awk '{print $7}'
 istiod-canary-6956db645c-vwhsk
 {{< /text >}}
 
@@ -118,8 +128,8 @@ Manually relabeling namespaces when moving them to a new revision can be tedious
 Consider a cluster with two revisions installed, `1-7-6` and `1-8-0`. The cluster operator creates a revision tag `prod`, pointed at the older, stable `1-7-6` version, and a revision tag `canary` pointed at the newer `1-8-0` revision. That state could be reached via these commands:
 
 {{< text bash >}}
-$ istioctl x revision tag set canary --revision 1-7-6
-$ istioctl x revision tag set prod --revision 1-8-0
+$ istioctl x revision tag set prod --revision 1-7-6
+$ istioctl x revision tag set canary --revision 1-8-0
 {{< /text >}}
 
 {{< image width="40%"

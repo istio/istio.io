@@ -1,7 +1,7 @@
 ---
 title: Solutions
 description: Solutions.
-subtitle: Istio addresses the challenges developers and operators face as monolithic applications transition towards a distributed microservice architecture
+subtitle: Learn how to succeed at security, observability, and traffic management initiatives using Istio.
 aliases:
     - /solutions
 doc_type: about

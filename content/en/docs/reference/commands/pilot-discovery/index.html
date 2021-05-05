@@ -886,6 +886,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes</td>
 </tr>
 <tr>
+<td><code>PILOT_REMOTE_CLUSTER_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>30s</code></td>
+<td>After this timeout expires, pilot can become ready without syncing data from clusters added via remote-secrets. Setting the timeout to 0 disables this behavior.</td>
+</tr>
+<tr>
 <td><code>PILOT_SCOPE_GATEWAY_TO_NAMESPACE</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1074,6 +1080,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>citadel_server_id_extraction_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when extracting the ID from CSR.</td></tr>
 <tr><td><code>citadel_server_root_cert_expiry_timestamp</code></td><td><code>LastValue</code></td><td>The unix timestamp, in seconds, when Citadel root cert will expire. A negative time indicates the cert is expired.</td></tr>
 <tr><td><code>citadel_server_success_cert_issuance_count</code></td><td><code>Sum</code></td><td>The number of certificates issuances that have succeeded.</td></tr>
+<tr><td><code>controller_sync_errors_total</code></td><td><code>Sum</code></td><td>Total number of errorMetric syncing controllers.</td></tr>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
 <tr><td><code>galley_runtime_processor_event_span_duration_milliseconds</code></td><td><code>Distribution</code></td><td>The duration between each incoming event</td></tr>
 <tr><td><code>galley_runtime_processor_events_processed_total</code></td><td><code>Count</code></td><td>The number of events that have been processed</td></tr>
@@ -1139,6 +1146,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
 <tr><td><code>pilot_xds_send_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to send generated configuration.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
+<tr><td><code>remote_cluster_sync_timeouts_total</code></td><td><code>Sum</code></td><td>Number of times remote clusters took too long to sync, causing slow startup that excludes remote clusters.</td></tr>
 <tr><td><code>scrape_failures_total</code></td><td><code>Sum</code></td><td>The total number of failed scrapes.</td></tr>
 <tr><td><code>scrapes_total</code></td><td><code>Sum</code></td><td>The total number of scrapes.</td></tr>
 <tr><td><code>sidecar_injection_failure_total</code></td><td><code>Sum</code></td><td>Total number of failed sidecar injection requests.</td></tr>

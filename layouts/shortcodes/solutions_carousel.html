@@ -8,12 +8,9 @@
             start: 1,
             arrows: false,
             gap: '2.5rem',
-            padding: {
-                left: '1.25rem',
-                right: '1.25rem'
-            },
+            fixedWidth: '320px',
             breakpoints: {
-                1160: {
+                1120: {
                     perPage: 1,
                     fixedWidth: 0,
                     padding: 0
@@ -40,5 +37,5 @@
 {{ end }}
 
 <div class="cta-container">
-    <a href="/about/solutions" class="btn">Go to solutions</a>
+    <a href="{{"/about/solutions" | relLangURL }}" class="btn"> {{ i18n "go_to_solutions" }}</a>
 </div>

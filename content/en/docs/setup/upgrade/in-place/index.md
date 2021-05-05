@@ -12,6 +12,10 @@ the upgrade, it checks that the Istio installation meets the upgrade eligibility
 criteria. Also, it alerts the user if it detects any changes in the profile
 default values between Istio versions.
 
+{{< tip >}}
+[Canary Upgrade](/docs/setup/upgrade/canary/) is safer than doing an in-place upgrade and is the recommended upgrade method.
+{{< /tip >}}
+
 The upgrade command can also perform a downgrade of Istio.
 
 See the [`istioctl` upgrade reference](/docs/reference/commands/istioctl/#istioctl-upgrade)
@@ -50,6 +54,14 @@ can be found in the `bin/` subdirectory of the downloaded package.
 
     {{< text bash >}}
     $ kubectl config view
+    {{< /text >}}
+
+1. Ensure that the upgrade is compatible with your environment.
+
+    {{< text bash >}}
+    $ istioctl x precheck
+    ✔ No issues found when checking the cluster. Istio is safe to install or upgrade!
+    To get started, check out https://istio.io/latest/docs/setup/getting-started/
     {{< /text >}}
 
 1. Begin the upgrade by running this command:

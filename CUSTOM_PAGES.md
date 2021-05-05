@@ -25,9 +25,6 @@ Solutions is a dynamic carousel of the Solution pages listed in `content/en/solu
 ### Case studies
 Case studies is a dynamic carousel of the Case study pages listed in `content/en/case-studies` rendered using the ```{{< case_studies_carousel >}}``` shortcode.
 
-### Distributors
-Distributors is a dynamic grid of distributors provided by `data/companies.yml` `distributors` list, rendered using the ```{{< distributors >}}``` shortcode.
-
 ## About
 
 ### Service mesh
@@ -55,13 +52,13 @@ Make sure the markdown file contains a `title`, `quote`, `author` object (with `
 
 Case studies are generated using a range of ```case_study_panel``` partials inside the `layouts/case-studies/list.html` directory. Case studies lists all the individual Case study pages.
 
-Case studies contain the "Also used by" section rendered using the ```{{< distributors >}}``` shortcode.
+Case studies contain the "Also used by" section rendered using the ```{{< companies >}}``` partial.
 
 ### Ecosystem
-#### Distributors
-Distributors uses the ```{{< distributors >}}``` shortcode with ability to limit the number of visible items using `first` parameter e.g. ```{{< distributors first=8 >}}``` will show the first 8 distributors.
+#### Providers
+Providers uses the ```{{< companies >}}``` shortcode with ability to limit the number of visible items using `first` parameter e.g. ```{{< companies first=8 >}}``` will show the first 8 providers.
 
-To create a new distributor, amend the `data/companies.yml` and add a new entry in the `distributors` list providing a `name` of the distributor, `url` to their site and `logo` path to an image which needs to be pasted into the `static/logos` directory.
+To create a new provider, amend the `data/companies.yml` and add a new entry in the `providers` list providing a `name` of the provider, `url` to their site and `logo` path to an image which needs to be pasted into the `static/logos` directory.
 
 #### Pro services
 To create a new Pro service, amend the `data/companies.yml` and add a new entry in the `pro_services` list providing a `name` of the pro service, `url`, `logo` path to an image which are also pulled from the `static/logos` directory, `description` to be displayed on the ```{{< interactive_panel >}}``` and `details` which is a list of paragraphs to be displayed in the modal window.
@@ -109,7 +106,7 @@ To create an event for an info banner, go to `content/en/events/banners` and cre
 ### Partials
 - `{{ case_studies_carousel }}` for displaying the Case studies carousel
 - `{{ case_studies_carousel_panel }}` for displaying a Case studies carousel panel
-- `{{ distributors }}` for displaying a grid of Distributors
+- `{{ companies }}` for displaying a grid of companies from `data/companies.yml` file
 - `{{ faq_block }}` for creating FAQ block (answer and question)
 - `{{ feature_block }}` for creating feature components on Service mesh and Solutions
 - `{{ sidebar_case_study }}` for displaying a Case study sidebar

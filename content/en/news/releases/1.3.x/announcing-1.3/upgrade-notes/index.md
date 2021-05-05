@@ -2,6 +2,10 @@
 title: Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.3.
 weight: 20
+publishdate: 2019-09-12
+release: 1.3
+subtitle: Minor Release
+linktitle: 1.3
 aliases:
     - /docs/setup/kubernetes/upgrade/notice/
     - /docs/setup/upgrade/notice

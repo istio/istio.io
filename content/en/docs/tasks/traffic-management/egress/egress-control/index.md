@@ -296,13 +296,13 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
     {{< text bash >}}
     $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
-    408
+    504
     real    0m3.149s
     user    0m0.004s
     sys     0m0.004s
     {{< /text >}}
 
-    This time a 408 (Request Timeout) appears after 3 seconds.
+    This time a 504 (Gateway Timeout) appears after 3 seconds.
     Although httpbin.org was waiting 5 seconds, Istio cut off the request at 3 seconds.
 
 ### Cleanup the controlled access to external services
