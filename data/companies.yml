@@ -1,9 +1,9 @@
 # TODO: Replace placeholders
 
 providers:
-  - name: "Istio"
-    logo: "/logos/istio.svg"
-    url: "https://istio.io/"
+  - name: "SAP Business Technology Platform, Kyma Runtime"
+    logo: "/logos/sap.svg"
+    url: "https://discovery-center.cloud.sap/serviceCatalog/kyma-runtime"
   - name: "Istio"
     logo: "/logos/istio.svg"
     url: "https://istio.io/"
@@ -52,6 +52,13 @@ integrations:
     logo: "/logos/autotrader.svg"
     url: "https://autotrader.co.uk/"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dolor sed ultricies egestas nulla mauris at id."
+  - name: "Kyma"
+    logo: "/logos/kyma.svg"
+    url: "https://kyma-project.io/"
+    description: "Kyma /kee-ma/ is a open source platform for extending applications with serverless functions and microservices."
+    details:
+      - "Kyma /kee-ma/ is a open source platform for extending applications with serverless functions and microservices. It provides a selection of cloud-native projects glued together to simplify the creation and management of extensions."
+      - "You can also expose the application's API or events securely thanks to the built-in Application Connector. You can then implement the business logic you require by creating microservices or serverless Functions. Trigger them to react to particular events or calls to your application's API."
 
 pro_services:
   - name: "AutoTrader"
