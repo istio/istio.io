@@ -34,10 +34,6 @@
         margin: $panel-margin-top 1.25rem 0;
     }
 
-    &:hover .panel-logo {
-        @include grayscale-element(0%);
-    }
-
     .panel-title {
         color: $landingPanelTitleColor;
         font-size: 1.75rem;
@@ -87,7 +83,6 @@
     }
 
     .panel-logo {
-        @include grayscale-element(100%);
         margin-top: 2.125rem;
         position: relative;
         height: 60px;

@@ -3,7 +3,6 @@
 }
 
 .company-logo {
-    @include grayscale-element(100%);
 
     display: grid;
     background-color: #f8f9fa;
