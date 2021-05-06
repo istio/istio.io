@@ -211,6 +211,8 @@ and installing the sidecar injector webhook configuration on the remote cluster 
               value: ""
             - name: VALIDATION_WEBHOOK_CONFIG_NAME
               value: ""
+            - name: EXTERNAL_ISTIOD
+              value: "true"
             - name: CLUSTER_ID
               value: ${REMOTE_CLUSTER_NAME}
       values:
@@ -528,7 +530,6 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     external control plane's injector, instead of a locally deployed one:
 
     {{< text syntax=bash snip_id=get_second_config_cluster_iop >}}
-    $ export SECOND_CLUSTER_ID="b1ebe963-a91c-46e1-a7c7-c9089a0799f5"
     $ cat <<EOF > second-config-cluster.yaml
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
@@ -572,8 +573,6 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl get configmap istio-ca-root-cert -n external-istiod --context="${CTX_REMOTE_CLUSTER}" -o json | \
-        kubectl apply -n external-istiod --context="${CTX_SECOND_CLUSTER}" -f - #TODO: remove this command after #32244 is fixed.
     $ @samples/multicluster/gen-eastwest-gateway.sh@ \
         --mesh mesh1 --cluster "${SECOND_CLUSTER_NAME}" --network network2 > eastwest-gateway-2.yaml
     $ istioctl manifest generate -f eastwest-gateway-2.yaml \
@@ -615,8 +614,6 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     {{< text bash >}}
     $ kubectl create --context="${CTX_SECOND_CLUSTER}" namespace sample
     $ kubectl label --context="${CTX_SECOND_CLUSTER}" namespace sample istio-injection=enabled
-    $ kubectl get configmap istio-ca-root-cert -n sample --context="${CTX_REMOTE_CLUSTER}" -o json | \
-        kubectl apply -n sample --context="${CTX_SECOND_CLUSTER}" -f - #TODO: remove this command after #32244 is fixed.
     {{< /text >}}
 
 1. Deploy the `helloworld` (`v2`) and `sleep` samples:
