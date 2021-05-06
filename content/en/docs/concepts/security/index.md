@@ -516,11 +516,11 @@ access control for your workloads in the mesh. This level of control provides
 the following benefits:
 
 - Workload-to-workload and end-user-to-workload authorization.
-- A Simple API: it includes a single [`AuthorizationPolicy` CRD](/docs/reference/config/security/authorization-policy/),
+- A simple API: it includes a single [`AuthorizationPolicy` CRD](/docs/reference/config/security/authorization-policy/),
   which is easy to use and maintain.
 - Flexible semantics: operators can define custom conditions on Istio attributes, and use CUSTOM, DENY and ALLOW actions.
 - High performance: Istio authorization of DENY and ALLOW action is enforced natively on Envoy.
-- High compatibility: supports gRPC, HTTP, HTTPS and HTTP2 natively, as well as any plain TCP protocols.
+- High compatibility: supports gRPC, HTTP, HTTPS and HTTP/2 natively, as well as any plain TCP protocols.
 
 ### Authorization architecture
 
@@ -760,7 +760,7 @@ spec:
 The following example shows an `ALLOW` policy that matches nothing. If there are no other `ALLOW` policies, requests
 will always be denied because of the "deny by default" behavior.
 
-Note the "deny by default" behavior applies only if the workload has at least one authorization policy with 'ALLOW' action.
+Note the "deny by default" behavior applies only if the workload has at least one authorization policy with the `ALLOW` action.
 
 {{< tip >}}
 It is a good security practice to start with the `allow-nothing` policy and incrementally add more `ALLOW` policies to open more
