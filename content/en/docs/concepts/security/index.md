@@ -758,7 +758,7 @@ spec:
 #### `allow-nothing`, `deny-all` and `allow-all` policy
 
 The following example shows an `ALLOW` policy that matches nothing. If there are no other `ALLOW` policies, requests
-will always be denied because of the "deny by default" behavior when there are `ALLOW` policies applied but none matched.
+will always be denied because of the "deny by default" behavior.
 
 Note the "deny by default" behavior applies only if the workload has at least one authorization policy with 'ALLOW' action.
 
