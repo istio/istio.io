@@ -17,7 +17,6 @@
 
 set -e  # Exit on failure
 set -u  # Unset is an error
-export IFS=
 
 source "tests/util/samples.sh"
 
@@ -40,7 +39,9 @@ _verify_contains snip_get_stats "wasm"
 
 #configure via meshconfig and confirm new stats were added
 echo "Verify stats with mesh config"
+export IFS=
 echo "$snip_proxyStatsMatcher" | istioctl install --set profile=default -y -f -
+unset IFS
 kubectl label namespace default istio-injection=enabled --overwrite
 
 kubectl delete pod -l app=httpbin
@@ -59,7 +60,9 @@ kubectl label namespace default istio-injection=enabled --overwrite
 
 
 #configure via annotation and confirm new stats were added
+export IFS=
 echo "${snip_proxyIstioConfig}" > proxyConfig.yaml
+unset IFS
 yq m -d2 samples/sleep/sleep.yaml proxyConfig.yaml > sleep_istioconfig.yaml
 kubectl apply -f sleep_istioconfig.yaml
 POD="$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')"
