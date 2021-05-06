@@ -20,13 +20,22 @@ set -o pipefail
 
 # @setup profile=none
 
+echo "Creating operator..."
 snip_create_istio_operator
+
+echo "Waiting for operator..."
+_wait_for_deployment istio-operator istio-operator
+
+echo "Creating demo profile..."
 snip_create_demo_profile
 
+echo "Waiting for dep..."
 _wait_for_deployment istio-system istiod
 
+echo "Verifying services..."
 # shellcheck disable=SC2154
 _verify_like snip_kubectl_get_svc "$snip_kubectl_get_svc_out"
+echo "Verifying services..."
 # shellcheck disable=SC2154
 _verify_like snip_kubectl_get_pods "$snip_kubectl_get_pods_out"
 
