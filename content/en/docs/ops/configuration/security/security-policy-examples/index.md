@@ -57,7 +57,7 @@ spec:
 
 ### Namespace isolation
 
-The following two policies enable strict mTLS on namespace 'foo', and allow traffic from the same namespace.
+The following two policies enable strict mTLS on namespace `foo`, and allow traffic from the same namespace.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -84,7 +84,7 @@ spec:
 
 ### Namespace isolation with ingress exception
 
-The following two policies enable strict mTLS on namespace 'foo', and allow traffic from the same namespace and also
+The following two policies enable strict mTLS on namespace `foo`, and allow traffic from the same namespace and also
 from the ingress gateway.
 
 {{< text yaml >}}
