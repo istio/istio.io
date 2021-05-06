@@ -5,7 +5,6 @@ description: Get a bit more in-depth info about the Istio project.
 sidebar_none: true
 weight: 15
 doc_type: about
-go_root_breadcrumb: true
 cascade:
   _build:
     render: always
