@@ -6,7 +6,6 @@ sidebar_none: true
 weight: 15
 icon: about
 doc_type: about
-go_root_breadcrumb: true
 cascade:
   _build:
     render: always
