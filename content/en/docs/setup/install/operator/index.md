@@ -6,7 +6,7 @@ keywords: [kubernetes, operator]
 aliases:
     - /docs/setup/install/standalone-operator
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 ---
 
 Instead of manually installing, upgrading, and uninstalling Istio in a production environment,
@@ -23,7 +23,7 @@ checks are performed.
 
 {{< warning >}}
 Using an operator does have a security implication.
-With the `istioctl install` command, the operation will run in the admin user’s security context,
+With the `istioctl install` command, the operation will run in the admin user’s security context,
 whereas with an operator, an in-cluster pod will run the operation in its security context.
 To avoid a vulnerability, ensure that the operator deployment is sufficiently secured.
 {{< /warning >}}
@@ -38,7 +38,7 @@ To avoid a vulnerability, ensure that the operator deployment is sufficiently se
 
 1. Deploy the Istio operator:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=create_istio_operator >}}
     $ istioctl operator init
     {{< /text >}}
 
@@ -77,7 +77,7 @@ To avoid a vulnerability, ensure that the operator deployment is sufficiently se
 To install the Istio `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/)
 using the operator, run the following command:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=create_demo_profile >}}
 $ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -117,7 +117,7 @@ seconds.
 
 You can confirm the Istio control plane services have been deployed with the following commands:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=kubectl_get_svc >}}
 $ kubectl get svc -n istio-system
 NAME                        TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                                                      AGE
 istio-egressgateway         ClusterIP      10.103.243.113   <none>        80/TCP,443/TCP,15443/TCP                                                     17s
@@ -125,7 +125,7 @@ istio-ingressgateway        LoadBalancer   10.101.204.227   <pending>     15020:
 istiod                      ClusterIP      10.96.237.249    <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,53/UDP,853/TCP                         30s                                                              13s
 {{< /text >}}
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=kubectl_get_pods >}}
 $ kubectl get pods -n istio-system
 NAME                                   READY   STATUS    RESTARTS   AGE
 istio-egressgateway-5444c68db8-9h6dz   1/1     Running   0          87s
@@ -142,7 +142,7 @@ the Istio installation correspondingly.
 For example, you can switch the installation to the `default`
 profile with the following command:
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -182,7 +182,7 @@ You can observe the changes that the controller makes in the cluster in response
 checking the operator controller logs:
 
 {{< text bash >}}
-$ kubectl logs -f -n istio-operator $(kubectl get pods -n istio-operator -lname=istio-operator -o jsonpath='{.items[0].metadata.name}')
+$ kubectl logs -f -n istio-operator "$(kubectl get pods -n istio-operator -lname=istio-operator -o jsonpath='{.items[0].metadata.name}')"
 {{< /text >}}
 
 Refer to the [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec)
@@ -286,7 +286,7 @@ explained in the [Data plane upgrade](/docs/setup/upgrade/canary/#data-plane) do
 
 If you used the operator to perform a canary upgrade of the control plane, you can uninstall the old control plane and keep the new one by deleting the old in-cluster `IstioOperator` CR, which will uninstall the old revision of Istio:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ kubectl delete istiooperators.install.istio.io -n istio-system example-istiocontrolplane
 {{< /text >}}
 
@@ -294,7 +294,7 @@ Wait until Istio is uninstalled - this may take some time.
 
 Then you can remove the Istio operator for the old revision by running the following command:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ istioctl operator remove --revision <revision>
 {{< /text >}}
 
@@ -303,7 +303,7 @@ If you omit the `revision` flag, then all revisions of Istio operator will be re
 Note that deleting the operator before the `IstioOperator` CR and corresponding Istio revision are fully removed may result in leftover Istio resources.
 To clean up anything not removed by the operator:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ istioctl manifest generate | kubectl delete -f -
 $ kubectl delete ns istio-system --grace-period=0 --force
  {{< /text >}}
