@@ -22,6 +22,7 @@ export IFS=
 source "tests/util/samples.sh"
 
 # @setup profile=default
+echo "Verify default stats"
 kubectl label namespace default istio-injection=enabled --overwrite
 
 # start the httpbin sample
@@ -38,6 +39,7 @@ _verify_contains snip_get_stats "cluster.xds-grpc"
 _verify_contains snip_get_stats "wasm"
 
 #configure via meshconfig and confirm new stats were added
+echo "Verify stats with mesh config"
 echo "$snip_proxyStatsMatcher" | istioctl install --set profile=default -y -f -
 kubectl label namespace default istio-injection=enabled --overwrite
 
@@ -51,6 +53,7 @@ _verify_contains snip_get_stats "circuit_breakers"
 _verify_contains snip_get_stats "upstream_rq_retry"
 
 #reset
+echo "Verify stats with annotation"
 istioctl install -y --set profile=default
 kubectl label namespace default istio-injection=enabled --overwrite
 
