@@ -62,10 +62,10 @@ kubectl get svc -n istio-system
 }
 
 ! read -r -d '' snip_kubectl_get_svc_out <<\ENDSNIP
-NAME                        TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                                                      AGE
-istio-egressgateway         ClusterIP      10.103.243.113   <none>        80/TCP,443/TCP,15443/TCP                                                     17s
-istio-ingressgateway        LoadBalancer   10.101.204.227   <pending>     15020:31077/TCP,80:30689/TCP,443:32419/TCP,31400:31411/TCP,15443:30176/TCP   17s
-istiod                      ClusterIP      10.96.237.249    <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,53/UDP,853/TCP                         30s                                                              13s
+NAME                        TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                                                                      AGE
+istio-egressgateway         ClusterIP      10.103.243.113   <none>           80/TCP,443/TCP,15443/TCP                                                     17s
+istio-ingressgateway        LoadBalancer   10.101.204.227   192.168.11.166   15020:31077/TCP,80:30689/TCP,443:32419/TCP,31400:31411/TCP,15443:30176/TCP   17s
+istiod                      ClusterIP      10.96.237.249    <none>           15010/TCP,15012/TCP,443/TCP,15014/TCP,53/UDP,853/TCP                         30s                                                              13s
 ENDSNIP
 
 snip_kubectl_get_pods() {
