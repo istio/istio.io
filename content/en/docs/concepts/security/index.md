@@ -538,13 +538,17 @@ authorization policies using `.yaml` files.
 
 ### Implicit enablement
 
-You don't need to explicitly enable Istio's authorization features. It's ready for use out-of-box and you just need to
-apply an authorization policy to the workloads to enforce access control.
+You don't need to explicitly enable Istio's authorization features; they are available after installation.
+To enforce access control to your workloads, you apply an authorization policy.
 
-For workloads without authorization policies applied, Istio doesn't enforce access control allowing all requests.
+For workloads without authorization policies applied, Istio allows all requests.
 
-Authorization policies support `CUSTOM`, `DENY` and `ALLOW` actions and there are 3 layers of checks: `CUSTOM`, `DENY` and `ALLOW`.
-Each can be applied independently. If none of the layer rejects, the request passes through.
+Authorization policies support `CUSTOM`, `DENY` and `ALLOW` actions. You can apply multiple policies, each with a
+different action, as needed to secure access to your workloads.
+
+Istio checks for matching policies in layers, in this order: `CUSTOM`, `DENY`, and then `ALLOW`. For each type of action,
+Istio first checks if there is a policy with the action applied, and then checks if the request matches the policy's
+specification. If a request doesn't match a policy in one of the layers, the check continues to the next layer.
 
 The following graph shows the policy precedence in detail:
 
@@ -756,10 +760,12 @@ spec:
 The following example shows an `ALLOW` policy that matches nothing. If there are no other `ALLOW` policies, requests
 will always be denied because of the "deny by default" behavior when there are `ALLOW` policies applied but none matched.
 
-Note the "deny by default" behavior applies only to the `ALLOW` policy and not other policies.
+Note the "deny by default" behavior applies only if the workload has at least one authorization policy with 'ALLOW' action.
 
+{{< tip >}}
 It is a good security practice to start with the `allow-nothing` policy and incrementally add more `ALLOW` policies to open more
 access to the workload.
+{{< /tip >}}
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -767,8 +773,8 @@ kind: AuthorizationPolicy
 metadata:
   name: allow-nothing
 spec:
-  # This matches nothing, the action defaults to ALLOW if not specified.
-  {}
+  action: ALLOW
+  # the rules field is not specified, and the policy will never match.
 {{< /text >}}
 
 The following example shows a `DENY` policy that explicitly denies all access. It will always deny the request even if
@@ -782,7 +788,7 @@ metadata:
   name: deny-all
 spec:
   action: DENY
-  # This matches everything.
+  # the rules field has an empty rule, and the policy will always match.
   rules:
   - {}
 {{< /text >}}
