@@ -519,7 +519,7 @@ the following benefits:
 - A simple API: it includes a single [`AuthorizationPolicy` CRD](/docs/reference/config/security/authorization-policy/),
   which is easy to use and maintain.
 - Flexible semantics: operators can define custom conditions on Istio attributes, and use CUSTOM, DENY and ALLOW actions.
-- High performance: Istio authorization of DENY and ALLOW action is enforced natively on Envoy.
+- High performance: Istio authorization (`ALLOW` and `DENY`) is enforced natively on Envoy.
 - High compatibility: supports gRPC, HTTP, HTTPS and HTTP/2 natively, as well as any plain TCP protocols.
 
 ### Authorization architecture
@@ -543,7 +543,7 @@ To enforce access control to your workloads, you apply an authorization policy.
 
 For workloads without authorization policies applied, Istio allows all requests.
 
-Authorization policies support `CUSTOM`, `DENY` and `ALLOW` actions. You can apply multiple policies, each with a
+Authorization policies support `ALLOW`, `DENY` and `CUSTOM` actions. You can apply multiple policies, each with a
 different action, as needed to secure access to your workloads.
 
 Istio checks for matching policies in layers, in this order: `CUSTOM`, `DENY`, and then `ALLOW`. For each type of action,
@@ -940,13 +940,11 @@ using any of the following fields in the authorization policy:
 - the `source.principal` custom condition
 - the `source.namespace` custom condition
 
-Note it is strongly recommended to always use these fields with strict mutual TLS mode in the `PeerAuthentication` to avoid
+Note it is strongly recommended to always use these fields with **strict** mutual TLS mode in the `PeerAuthentication` to avoid
 potential unexpected requests rejection or policy bypass when plain text traffic is used with the permissive mutual TLS mode.
 
 Check the [security advisory](/news/security/istio-security-2021-004) for more details and alternatives if you cannot enable
 strict mutual TLS mode.
-
-Mutual TLS is not required if you don't use any of the above fields in the authorization policy.
 
 ## Learn more
 
