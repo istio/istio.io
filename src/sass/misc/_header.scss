@@ -8,11 +8,11 @@
     left: 0;
     z-index: $header-z;
     padding: 1.25rem 0;
-    transition: background-color .2s, box-shadow .2s, max-height .2s, padding .2s;
+    transition: background-color .2s, box-shadow .2s, max-height .2s;
 
     &.active {
         box-shadow: 0 6px 9px 0 rgba(0, 0, 0, .16);
-        padding: 0;
+        padding: .5rem 0;
         max-height: $activeHeaderHeight;
 
         @media(min-width: $bp-lg) {
@@ -181,7 +181,6 @@
 
     &-wrapper {
         display: flex;
-        justify-content: center;
         position: relative;
         flex-direction: column;
         height: 100%;
@@ -328,7 +327,11 @@
 
             .main-navigation {
                 &-header { padding: 1.25rem 1rem; }
-                &-wrapper { padding: 0; }
+
+                &-wrapper {
+                    padding: 0;
+                    overflow-y: auto;
+                }
 
                 &-links {
                     &-wrapper {
