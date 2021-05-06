@@ -6,7 +6,7 @@ keywords: [security,certificate]
 aliases:
     - /docs/tasks/security/custom-ca-k8s/
 owner: istio/wg-security-maintainers
-test: no
+test: yes
 ---
 
 {{< boilerplate experimental >}}
@@ -45,16 +45,8 @@ Note that this example should only be used for basic evaluation. The use of the 
             # Tells Istiod to use the Kubernetes legacy CA Signer
             - name: K8S_SIGNER
               value: kubernetes.io/legacy-unknown
-      EOF
+    EOF
     $ istioctl install --set profile=demo -f ./istio.yaml
-    {{< /text >}}
-
-1. Deploy the `bookinfo` sample application in the bookinfo namespace.
-    Ensure that the following commands are executed in the Istio root directory.
-
-    {{< text bash >}}
-    $ kubectl create ns bookinfo
-    $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml) -n bookinfo
     {{< /text >}}
 
 ### Verify that the certificates installed are correct
@@ -63,39 +55,26 @@ When the workloads are deployed, above, they send CSR Requests to Istiod which f
 If all goes well, the signed certificates are sent back to the workloads where they are then installed.
 To verify that they have been signed by the Kubernetes CA, you need to first extract the signed certificates.
 
-1. Dump all pods running in the namespace.
-
-    {{< text bash >}}
-    $ kubectl get pods -n bookinfo
-    {{< /text >}}
-
-    Pick any one of the running pods for the next step.
-
 1. Get the certificate chain and CA root certificate used by the Istio proxies for mTLS.
 
     {{< text bash >}}
-    $ istioctl pc secret <pod-name> -o json > proxy_secret
+    $ ingress_pod="$(kubectl get pod -l app=istio-ingressgateway -n istio-system -o jsonpath="{.items[0].metadata.name}")"
+    $ istioctl pc secret "$ingress_pod" -o json | jq .dynamicActiveSecrets[1].secret.validationContext.trustedCa.inlineBytes | sed 's/\"//g' | base64 -d
     {{< /text >}}
 
     The proxy_secret json file contains the CA root certificate for mTLS in the `trustedCA` field. Note that this certificate is base64 encoded.
 
-1. The certificate used by the Kubernetes CA (specifically the `kubernetes.io/legacy-unknown` signer) is loaded onto the secret associated with every service account in the bookinfo namespace.
+2. The certificate used by the Kubernetes CA (specifically the `kubernetes.io/legacy-unknown` signer) is loaded onto the secret associated with every service account in the bookinfo namespace. k get secret/$secret -n istio-system -o json | jq '.data."ca.crt"' | sed 's/\"//g' | base64 -d
 
     {{< text bash >}}
-    $ kubectl get secrets -n bookinfo
+    $ secret="$(kubectl get secrets -n istio-system -o json | jq '.items[].metadata.name' | grep "account-token" | head -1 | sed 's/\"//g')"
+    $ kubectl get secret/"$secret" -n istio-system -o json | jq '.data."ca.crt"' | sed 's/\"//g' | base64 -d
     {{< /text >}}
 
-    Pick a secret-name that is associated with any of the service-accounts. These have a "token" in their name.
+    
+3. Compare the certs obtained from step 1 and step 2. These two should be the same.
 
-    {{< text bash >}}
-    $ kubectl get secrets -n bookinfo <secret-name> -o json
-    {{< /text >}}
-
-    The `ca.crt` field in the output contains the base64 encoded Kubernetes CA certificate.
-
-1. Compare the `ca.cert` obtained in the previous step with the contents of the `TrustedCA` field in the step before. These two should be the same.
-
-1. (Optional) Follow the rest of the steps in the [bookinfo example](/docs/examples/bookinfo/) to ensure that communication between services is working as expected.
+4. (Optional) Follow the rest of the steps in the [bookinfo example](/docs/examples/bookinfo/) to ensure that communication between services is working as expected.
 
 ### Cleanup Part 1
 
@@ -154,7 +133,7 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
         namespace: istio-system
       data:
       root-cert.pem: <tls.cert from the step above>
-      EOF
+    EOF
     $ kubectl apply -f external-ca-secret.yaml
     {{< /text >}}
 
