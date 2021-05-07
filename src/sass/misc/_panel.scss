@@ -24,7 +24,7 @@
     min-height: 320px;
     font-family: inherit;
     color: $landingPanelTextColor;
-    background-color: $secondaryColor;
+    background: url("/img/panel-background.svg");
     text-align: center;
     margin: $panel-margin-top 0 0;
     padding: 2.25rem;
@@ -32,10 +32,6 @@
 
     @media (min-width: $bp-sm) {
         margin: $panel-margin-top 1.25rem 0;
-    }
-
-    &:hover .panel-logo {
-        @include grayscale-element(0%);
     }
 
     .panel-title {
@@ -87,7 +83,6 @@
     }
 
     .panel-logo {
-        @include grayscale-element(100%);
         margin-top: 2.125rem;
         position: relative;
         height: 60px;
@@ -135,7 +130,7 @@
     }
 
     &--transparent {
-        background-color: unset;
+        background: unset;
         padding: 0;
         min-height: auto;
 

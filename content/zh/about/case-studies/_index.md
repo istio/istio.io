@@ -1,7 +1,7 @@
 ---
-title: 案例探究
+title: 案例学习
 aliases:
-    - /case-studies
+    - /zh/case-studies
 doc_type: about
 type: case-studies
 sidebar_none: true

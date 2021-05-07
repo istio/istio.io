@@ -6,8 +6,8 @@
 {{ $docType := or .Params.doc_type $section.Params.doc_type }}
 {{ $isDocs := eq $docType "docs" }}
 {{ $skipByLine := .Scratch.Get "skipByLine" }}
-
-{{ if not $isDocs }}
+{{ $skipBreadcrumb := or .Params.skip_breadcrumb $section.Params.skip_breadcrumb}}
+{{ if and (not $isDocs) (not $skipBreadcrumb) }}
     <nav aria-label="Breadcrumb" class="container-l">
         {{- partial "breadcrumbs.html" . -}}
     </nav>
@@ -70,11 +70,7 @@
                     {{ end }}
 
                     {{ if .Params.subtitle }}
-                        {{ if (strings.HasSuffix .Params.subtitle ".") }}
-                            {{ errorf "Subtitles should not end in a period: '%s" .Params.subtitle }}
-                        {{ else }}
-                            <p class="subtitle">{{ .Params.subtitle }}</p>
-                        {{ end }}
+                        <p class="subtitle">{{ .Params.subtitle }}</p>
                     {{ end }}
 
                     {{ if not (or .Params.skip_byline $skipByLine) }}

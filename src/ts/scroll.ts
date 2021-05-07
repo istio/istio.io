@@ -38,7 +38,6 @@ function handleScroll(): void {
                 let closestHeadingBelowTopPos = 1000000;
                 let closestHeadingAboveTop = -1;
                 let closestHeadingAboveTopPos = -1000000;
-
                 for (let i = 0; i < tocLinks.length; i++) {
                     const heading = tocHeadings[i];
                     if (!heading) {
@@ -70,13 +69,16 @@ function handleScroll(): void {
                         }
                     }
 
-                    tocLinks[i].classList.remove("current");
+                    tocLinks[i].classList.remove("active");
                 }
-
                 if (closestHeadingBelowTop >= 0) {
-                    tocLinks[closestHeadingBelowTop].classList.add("current");
+                    tocLinks[closestHeadingBelowTop].classList.add("active");
                 } else if (closestHeadingAboveTop >= 0) {
-                    tocLinks[closestHeadingAboveTop].classList.add("current");
+                    tocLinks[closestHeadingAboveTop].classList.add("active");
+                }
+                const listOfCurrents = document.querySelectorAll(".active");
+                if (listOfCurrents.length === 1) {
+                    tocLinks[0].classList.add("active");
                 }
             }
         }

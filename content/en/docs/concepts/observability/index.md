@@ -2,7 +2,7 @@
 title: Observability
 description: Describes the telemetry and monitoring features provided by Istio.
 weight: 40
-keywords: [policies,telemetry,control,config]
+keywords: [telemetry,metrics,logs,tracing]
 aliases:
     - /docs/concepts/policy-and-control/mixer.html
     - /docs/concepts/policy-and-control/mixer-config.html

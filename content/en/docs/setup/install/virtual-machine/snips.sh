@@ -80,11 +80,11 @@ samples/multicluster/gen-eastwest-gateway.sh \
 }
 
 snip_expose_istio() {
-kubectl apply -f samples/multicluster/expose-istiod.yaml
+kubectl apply -n istio-system -f samples/multicluster/expose-istiod.yaml
 }
 
 snip_install_the_istio_control_plane_7() {
-kubectl apply -f samples/multicluster/expose-istiod.yaml
+kubectl apply -n istio-system -f samples/multicluster/expose-istiod.yaml
 }
 
 snip_install_the_istio_control_plane_8() {
@@ -243,7 +243,7 @@ sudo rpm -e istio-sidecar
 }
 
 snip_uninstall_4() {
-kubectl delete -f samples/multicluster/expose-istiod.yaml
+kubectl delete -n istio-system -f samples/multicluster/expose-istiod.yaml
 istioctl manifest generate | kubectl delete -f -
 }
 

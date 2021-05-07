@@ -314,7 +314,7 @@ other = "解决方案"
 other = "部署"
 
 [learn_more]
-other = "学习更多"
+other = "了解详情"
 
 [traffic_management]
 other = "流量管理"
@@ -327,3 +327,12 @@ other = "安全"
 
 [sidebar-toggle]
 other = "目录"
+
+[add_your_logo]
+other = "添加您的 Logo"
+
+[share_your_story]
+other = "分享您的故事"
+
+[go_to_solutions]
+other = "转到解决方案"

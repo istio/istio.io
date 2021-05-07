@@ -2,7 +2,10 @@
 title: ISTIO-SECURITY-2019-006
 subtitle: 安全公告
 description: 拒绝服务。
-cve: [CVE-2019-18817]
+cves: [CVE-2019-18817]
+cvss: "7.5"
+vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:H/RL:O/RC:C"
+releases: ["1.3 to 1.3.4"]
 publishdate: 2019-11-07
 keywords: [CVE]
 skip_seealso: true
@@ -10,13 +13,7 @@ aliases:
     - /zh/news/2019/istio-security-2019-006
 ---
 
-{{< security_bulletin
-        cves="CVE-2019-18817"
-        cvss="7.5"
-        vector="CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:H/RL:O/RC:C"
-        releases="1.3 to 1.3.4" >}}
-
-## 内容{#context}
+{{< security_bulletin >}}
 
 Envoy 以及随后的 Istio 容易受到以下 DoS 攻击。
 如果选项 `continue_on_listener_filters_timeout` 设置为 `True`，则可以在 Envoy 中触发无限循环。自从 Istio 1.3 中引入协议检测功能以来，Istio 就是这种情况。

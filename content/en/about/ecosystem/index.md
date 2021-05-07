@@ -1,7 +1,7 @@
 ---
 title: Ecosystem
 description: Ecosystem.
-subtitle: "Istio is a service mesh that provides cross-cutting functions that all micro services environments need. You can get Istio from 27 distributors"
+subtitle: The array of providers who install and manage Istio, professional services, and integrations can help you get the most out of your service mesh.
 weight: 34
 skip_toc: true
 skip_byline: true
@@ -15,7 +15,7 @@ doc_type: about
     {{< tab
         name="providers"
         category-value="providers"
-        description="Locality-weighted load balancing allows administrators to control the distribution of traffic to endpoints based on the localities of where the traffic originates and where it will terminate."
+        description="Many companies build platforms and services that install, manage, and implement Istio for you. In fact, Istio implementations are built in to many providers’ Kubernetes services."
     >}}
 
     {{< companies items="providers">}}
@@ -25,7 +25,7 @@ doc_type: about
     {{< tab
         name="pro services"
         category-value="services"
-        description="Locality-weighted load balancing allows administrators to control the distribution of traffic to endpoints based on the localities of where the traffic originates and where it will terminate."
+        description="There are many people who can help you set up your Istio configuration. Here are some experts who can implement Istio for you, matching its capabilities to your requirements."
     >}}
 
     {{< interactive_panels items="pro_services" >}}
@@ -35,7 +35,7 @@ doc_type: about
     {{< tab
         name="integrations"
         category-value="integrations"
-        description="Locality-weighted load balancing allows administrators to control the distribution of traffic to endpoints based on the localities of where the traffic originates and where it will terminate."
+        description="Istio is a vibrant part of the cloud native stack. These are some of the projects and software that integrate with Istio to enable added functionality."
     >}}
 
     {{< interactive_panels items="integrations" >}}
