@@ -11,7 +11,7 @@ keywords: [wasm,extensibility,alpha,performance,operator]
 
 随着组织采用诸如 Istio 之类的基于 Envoy 的基础架构来帮助解决微服务通信方面的挑战，他们不可避免地发现自己需要自定义基础架构的一些部分来匹配它们组织的约束。[WebAssembly（Wasm）](https://webassembly.org/)已经成为一种安全，安全且动态的平台扩展环境。
 
-在最近的 [Istio 1.5 公告](/zh/blog/2020/wasm-announce/)中，Istio 项目为将 WebAssembly 带入流行的 Envoy 代理奠定了基础。[Solo.io]（https://solo.io）与谷歌和 Istio 社区合作来简化对 Envoy 和 Istio 创建，共享和部署 WebAssembly 扩展的整体体验。不久之前，谷歌和其他公司为容器奠定了基础，而 Docker 建立了良好的用户体验使其具有可消费性。同样，通过在 Istio 上为 WebAssembly 构建最佳用户体验，这一努力使 Wasm 可消费。
+在最近的 [Istio 1.5 公告](/zh/blog/2020/wasm-announce/)中，Istio 项目为将 WebAssembly 带入流行的 Envoy 代理奠定了基础。[Solo.io](https://solo.io) 与谷歌和 Istio 社区合作来简化对 Envoy 和 Istio 创建，共享和部署 WebAssembly 扩展的整体体验。不久之前，谷歌和其他公司为容器奠定了基础，而 Docker 建立了良好的用户体验使其具有可消费性。同样，通过在 Istio 上为 WebAssembly 构建最佳用户体验，这一努力使 Wasm 可消费。
 
 早在 2019 年 12 月，随着 WebAssembly Hub 的发布，Solo.io 开始努力为 WebAssembly 提供良好的开发人员体验。WebAssembly Hub 允许开发人员非常快速地启动 C++ 中的新 WebAssembly 项目（我们正在扩展此语言选择，请参见下文），在 Docker 中使用 Bazel 进行构建，并将其推送到 OCI 兼容仓库中。从那里，operators 必须拉出模块，然后自己配置 Envoy 代理才能从磁盘加载它。[基于 Envoy 构建的 API 网关 Gloo](https://docs.solo.io/gloo/latest/) 中的 Beta 支持让您可以声明式地动态地加载模块，Solo.io 团队希望为您带来同样的轻松体验以及其他基于 Envoy 的框架（例如 Istio）的安全体验。
 
