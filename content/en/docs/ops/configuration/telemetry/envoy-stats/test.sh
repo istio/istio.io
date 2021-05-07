@@ -70,7 +70,7 @@ export POD
 _verify_contains snip_get_stats "circuit_breakers"
 
 # @cleanup
-
 set +e
+istioctl manifest generate --set profile=default | kubectl delete --ignore-not-found=true -f -
 cleanup_httpbin_sample
 cleanup_sleep_sample
