@@ -119,18 +119,20 @@ You can confirm the Istio control plane services have been deployed with the fol
 
 {{< text syntax=bash snip_id=kubectl_get_svc >}}
 $ kubectl get svc -n istio-system
-NAME                        TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                                                                      AGE
-istio-egressgateway         ClusterIP      10.103.243.113   <none>           80/TCP,443/TCP,15443/TCP                                                     17s
-istio-ingressgateway        LoadBalancer   10.101.204.227   192.168.11.166   15020:31077/TCP,80:30689/TCP,443:32419/TCP,31400:31411/TCP,15443:30176/TCP   17s
-istiod                      ClusterIP      10.96.237.249    <none>           15010/TCP,15012/TCP,443/TCP,15014/TCP,53/UDP,853/TCP                         30s                                                              13s
+NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                      AGE
+istio-egressgateway    ClusterIP      10.96.65.145    <none>           80/TCP,443/TCP                                                               30s
+istio-ingressgateway   LoadBalancer   10.96.189.244   192.168.11.156   15021:32187/TCP,80:32320/TCP,443:32244/TCP,31400:31458/TCP,15443:31196/TCP   30s
+istiod                 ClusterIP      10.96.189.20    <none>           15010/TCP,15012/TCP,443/TCP,15014/TCP                                        37s
+
 {{< /text >}}
 
 {{< text syntax=bash snip_id=kubectl_get_pods >}}
 $ kubectl get pods -n istio-system
-NAME                                   READY   STATUS    RESTARTS   AGE
-istio-egressgateway-5444c68db8-9h6dz   1/1     Running   0          87s
-istio-ingressgateway-5c68cb968-x7qv9   1/1     Running   0          87s
-istiod-598984548d-wjq9j                1/1     Running   0          99s
+NAME                                    READY   STATUS    RESTARTS   AGE
+istio-egressgateway-696cccb5-m8ndk      1/1     Running   0          68s
+istio-ingressgateway-86cb4b6795-9jlrk   1/1     Running   0          68s
+istiod-b47586647-sf6sw                  1/1     Running   0          74s
+
 {{< /text >}}
 
 ## Update
