@@ -6,7 +6,7 @@ author:
     image: ""
 companyName: "VMware"
 companyURL: "https://vmware.com/"
-logo: "/logos/vmware.png"
+logo: "/logos/vmware.svg"
 skip_toc: true
 skip_byline: true
 skip_pagenav: true
