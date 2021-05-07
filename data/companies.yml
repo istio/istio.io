@@ -223,6 +223,14 @@ pro_services:
     logo: "/logos/istio.svg"
     url: "https://istio.io/"
     description: "Submit a PR to add your company here!"
+  - name: "Your Name Here"
+    logo: "/logos/istio.svg"
+    url: "https://istio.io/"
+    description: "Submit a PR to add your company here!"
+  - name: "Your Name Here"
+    logo: "/logos/istio.svg"
+    url: "https://istio.io/"
+    description: "Submit a PR to add your company here!"
 
 users:
   - name: "Aihuishou"
