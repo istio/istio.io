@@ -20,7 +20,9 @@ set -u  # Unset is an error
 
 source "tests/util/samples.sh"
 
-# @setup profile=default
+# @setup profile=none
+istioctl install --set profile=default -y
+
 echo "Verify default stats"
 kubectl label namespace default istio-injection=enabled --overwrite
 
@@ -71,6 +73,7 @@ _verify_contains snip_get_stats "circuit_breakers"
 
 # @cleanup
 set +e
-istioctl manifest generate --set profile=default | kubectl delete --ignore-not-found=true -f -
 cleanup_httpbin_sample
 cleanup_sleep_sample
+istioctl manifest generate --set profile=default | kubectl delete --ignore-not-found=true -f -
+kubectl delete ns istio-system
