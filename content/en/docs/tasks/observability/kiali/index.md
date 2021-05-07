@@ -6,7 +6,7 @@ keywords: [telemetry,visualization]
 aliases:
  - /docs/tasks/telemetry/kiali/
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 This task shows you how to visualize different aspects of your Istio mesh.
@@ -45,13 +45,13 @@ Follow the [Kiali installation](/docs/ops/integrations/kiali/#installation) docu
     *   Use the following command multiple times:
 
         {{< text bash >}}
-        $ curl http://$GATEWAY_URL/productpage
+        $ curl "http://$GATEWAY_URL/productpage"
         {{< /text >}}
 
     *   If you installed the `watch` command in your system, send requests continually with:
 
         {{< text bash >}}
-        $ watch -n 1 curl -o /dev/null -s -w %{http_code} $GATEWAY_URL/productpage
+        $ watch -n 1 curl -o /dev/null -s -w "%{http_code}" "$GATEWAY_URL/productpage"
         {{< /text >}}
 
 1.  To open the Kiali UI, execute the following command in your Kubernetes environment:
@@ -155,7 +155,7 @@ request traffic to route to two or more workloads.
     you can execute this command if you have `watch` installed on your system:
 
     {{< text bash >}}
-    $ watch -n 1 curl -o /dev/null -s -w %{http_code} $GATEWAY_URL/productpage
+    $ watch -n 1 curl -o /dev/null -s -w "%{http_code}" "$GATEWAY_URL/productpage"
     {{< /text >}}
 
 1.  After a few minutes you will notice that the traffic percentage will reflect the new traffic route,
