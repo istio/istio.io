@@ -103,8 +103,10 @@ table p:last-of-type {
 }
 
 td {
-    word-break: break-word;
     white-space: pre-wrap;
+    code {
+        word-break: normal;
+    }
 }
 
 th {
