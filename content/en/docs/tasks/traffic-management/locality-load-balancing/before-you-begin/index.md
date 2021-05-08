@@ -36,10 +36,12 @@ The following environment variables will be used for the various contexts:
 Variable | Description
 -------- | -----------
 `CTX_PRIMARY` | The context used for applying configuration to the primary cluster.
-`CTX_R1_Z1` | The context used to interact with pods in `region1.zone1`.
-`CTX_R1_Z2` | The context used to interact with pods in `region1.zone2`.
-`CTX_R2_Z3` | The context used to interact with pods in `region2.zone3`.
-`CTX_R3_Z4` | The context used to interact with pods in `region3.zone4`.
+`CTX_WORKERS` | The contexts used to interact with pods in the worker clusters.
+
+## Set the worker clusters
+
+{{< text bash >}}
+$ export CTX_WORKERS=('cluster1' 'cluster2'); // adjust to your contexts!
 
 ## Create the `sample` namespace
 
@@ -57,49 +59,23 @@ metadata:
 EOF
 {{< /text >}}
 
-Add the `sample` namespace to each cluster:
+Next, add the `sample` namespace to each cluster, generate and deploy 
+the `HelloWorld` YAML for each locality, using the locality or localities 
+found in each cluster as the version string:
 
 {{< text bash >}}
-$ for CTX in "$CTX_PRIMARY" "$CTX_R1_Z1" "$CTX_R1_Z2" "$CTX_R2_Z3" "$CTX_R3_Z4"; \
+$ for CTX in ${CTX_PRIMARY} ${CTX_WORKERS[@]}; \
   do \
     kubectl --context="$CTX" apply -f sample.yaml; \
+    for LOC in $(kubectl --context="$CTX" get nodes -o \
+      custom-columns=REGION:'{.metadata.labels.topology\.kubernetes\.io/region}',ZONE:'{.metadata.labels.topology\.kubernetes\.io/zone}' --no-headers  \
+      | uniq | sed -E 's/<none>/default/g' | sed -E 's/[ \t]+/\./g')
+    do \
+      ./@samples/helloworld/gen-helloworld.sh \
+        --version "$LOC" > "helloworld-${LOC}.yaml"; \
+        kubectl --context="$CTX" apply -f "helloworld-${LOC}.yaml"; \
+    done
   done
-{{< /text >}}
-
-## Deploy `HelloWorld`
-
-Generate the `HelloWorld` YAML for each locality, using the
-locality as the version string:
-
-{{< text bash >}}
-$ for LOC in "region1.zone1" "region1.zone2" "region2.zone3" "region3.zone4"; \
-  do \
-    ./@samples/helloworld/gen-helloworld.sh@ \
-      --version "$LOC" > "helloworld-${LOC}.yaml"; \
-  done
-{{< /text >}}
-
-Apply the `HelloWorld` YAML to the appropriate cluster for each locality:
-
-{{< text bash >}}
-$ kubectl apply --context="${CTX_R1_Z1}" -n sample \
-  -f helloworld-region1.zone1.yaml
-{{< /text >}}
-
-{{< text bash >}}
-$ kubectl apply --context="${CTX_R1_Z2}" -n sample \
-  -f helloworld-region1.zone2.yaml
-{{< /text >}}
-
-{{< text bash >}}
-$ kubectl apply --context="${CTX_R2_Z3}" -n sample \
-  -f helloworld-region2.zone3.yaml
-{{< /text >}}
-
-{{< text bash >}}
-$ kubectl apply --context="${CTX_R3_Z4}" -n sample \
-  -f helloworld-region3.zone4.yaml
-{{< /text >}}
 
 ## Deploy `Sleep`
 
@@ -112,35 +88,7 @@ $ kubectl apply --context="${CTX_R1_Z1}" \
 
 ## Wait for `HelloWorld` pods
 
-Wait until the `HelloWorld` pods in each zone are `Running`:
-
-{{< text bash >}}
-$ kubectl get pod --context="${CTX_R1_Z1}" -n sample -l app="helloworld" \
-  -l version="region1.zone1"
-NAME                                       READY   STATUS    RESTARTS   AGE
-helloworld-region1.zone1-86f77cd7b-cpxhv   2/2     Running   0          30s
-{{< /text >}}
-
-{{< text bash >}}
-$ kubectl get pod --context="${CTX_R1_Z2}" -n sample -l app="helloworld" \
-  -l version="region1.zone2"
-NAME                                       READY   STATUS    RESTARTS   AGE
-helloworld-region1.zone2-86f77cd7b-cpxhv   2/2     Running   0          30s
-{{< /text >}}
-
-{{< text bash >}}
-$ kubectl get pod --context="${CTX_R2_Z3}" -n sample -l app="helloworld" \
-  -l version="region2.zone3"
-NAME                                       READY   STATUS    RESTARTS   AGE
-helloworld-region2.zone3-86f77cd7b-cpxhv   2/2     Running   0          30s
-{{< /text >}}
-
-{{< text bash >}}
-$ kubectl get pod --context="${CTX_R3_Z4}" -n sample -l app="helloworld" \
-  -l version="region3.zone4"
-NAME                                       READY   STATUS    RESTARTS   AGE
-helloworld-region3.zone4-86f77cd7b-cpxhv   2/2     Running   0          30s
-{{< /text >}}
+Wait until the `HelloWorld` pods in each zone are `Running`.
 
 **Congratulations!** You successfully configured the system and are now ready
 to begin the locality load balancing tasks!
