@@ -31,7 +31,10 @@ snip_create_demo_profile
 
 echo "Waiting for dep..."
 sleep 20s
-kubectl logs -n istio-operator istio-operator
+echo "Operator logs"
+kubectl logs -n istio-operator -l name=istio-operator
+echo "Pod dump"
+kubectl get pods --all-namespaces
 _wait_for_deployment istio-system istiod
 
 echo "Verifying services..."
