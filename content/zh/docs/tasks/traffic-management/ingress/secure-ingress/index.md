@@ -1,6 +1,6 @@
 ---
 title: Secure Gateways
-description: 通过TLS或mTLS将服务公开到服务网格之外。
+description: 通过 TLS 或 mTLS 将服务公开到服务网格之外。
 weight: 20
 aliases:
     - /zh/docs/tasks/traffic-management/ingress/secure-ingress-sds/
@@ -10,20 +10,20 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-[Ingress流量控制任务](/zh/docs/tasks/traffic-management/ingress/ingress-control)描述了如何配置入口网关以向外部公开HTTP服务。此任务描述如何使用TLS或双向TLS公开安全的HTTPS服务。
+[Ingress 流量控制任务](/zh/docs/tasks/traffic-management/ingress/ingress-control)描述了如何配置入口网关以向外部公开 HTTP 服务。此任务描述如何使用 TLS 或 mTLS 公开安全的 HTTPS 服务。
 
 ## 准备工作{#before-you-begin}
 
-1. 执行[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)中的步骤。完成[Ingress流量控制](/zh/docs/tasks/traffic-management/ingress/ingress-control)中[确定Ingress的IP和Port](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)部分任务。执行完这些步骤后，您应该已部署Istio和 [httpbin]({{< github_tree >}}/samples/httpbin)服务，并设置了环境变量 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 。
+1. 执行[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)中的步骤。完成[Ingress 流量控制](/zh/docs/tasks/traffic-management/ingress/ingress-control)中[确定 Ingress 的 IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)部分任务。执行完这些步骤后，您应该已部署 Istio 和 [httpbin]({{< github_tree >}}/samples/httpbin)服务，并设置了环境变量 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 。
 
-1.  对于macOS用户，请验证您是否使用通过LibreSSL库编译的curl：
+1.  对于 macOS 用户，请验证您是否使用通过 LibreSSL 库编译的 curl：
 
     {{< text bash >}}
     $ curl --version | grep LibreSSL
     curl 7.54.0 (x86_64-apple-darwin17.0) libcurl/7.54.0 LibreSSL/2.0.20 zlib/1.2.11 nghttp2/1.24.0
     {{< /text >}}
 
-    如果上述命令输出的是如图所示的LibreSSL版本，则curl命令应按照此任务中的说明正确运行。否则，请尝试使用curl的其他实现，例如在Linux机器上。
+    如果上述命令输出的是如图所示的 LibreSSL 版本，则 curl 命令应按照此任务中的说明正确运行。否则，请尝试使用 curl 的其他实现，例如在 Linux 机器上。
 
 ## 生成客户端和服务器证书和密钥{#generate-client-and-server-certificates-and-keys}
 
@@ -46,7 +46,7 @@ test: yes
 
 1.  确定已在[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)环节完成[httpbin]({{< github_tree >}}/samples/httpbin)服务的部署。
 
-1.  为Ingress网关创建Secret:
+1.  为 Ingress Gateway 创建 Secret:
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret tls httpbin-credential --key=httpbin.example.com.key --cert=httpbin.example.com.crt
@@ -56,7 +56,7 @@ test: yes
     Secret 名字 **不能** 以 `istio` 或 `prometheus` 开头, 且不能包含 `token` 字段。
     {{< /warning >}}
 
-1.  为端口443定义一个带有 `servers:` 部分的网关，并将 `credentialName` 的值指定为 `httpbin-credential`。这些值与secret名称相同。 TLS模式的值应为 `SIMPLE`。
+1.  为端口443定义一个带有 `servers:` 部分的网关，并将 `credentialName` 的值指定为 `httpbin-credential`。这些值与 Secret 名称相同。 TLS 模式的值应为 `SIMPLE`。
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -107,7 +107,7 @@ test: yes
     EOF
     {{< /text >}}
 
-1.  发送HTTPS请求访问 `httpbin` 服务：
+1.  发送 HTTPS 请求访问 `httpbin` 服务：
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
@@ -117,7 +117,7 @@ test: yes
     The `httpbin` service will return the
     [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
 
-1.  删除网关的secret，并创建一个新的secret来修改入口网关的凭据。
+1.  删除网关的 secret，并创建一个新的 secret 来修改入口网关的凭据。
 
     {{< text bash >}}
     $ kubectl -n istio-system delete secret httpbin-credential
@@ -165,11 +165,11 @@ test: yes
     * curl: (35) error:04FFF06A:rsa routines:CRYPTO_internal:block type is not 01
     {{< /text >}}
 
-### 为多个主机配置TLS入口网关 {#configure-a-TLS-ingress-gateway-for-multiple-hosts}
+### 为多个主机配置 TLS 入口网关 {#configure-a-TLS-ingress-gateway-for-multiple-hosts}
 
 您可以为多个主机（例如 `httpbin.example.com` 和 `helloworld-v1.example.com` ）配置入口网关。入口网关检索与特定凭据名称相对应的唯一凭据。
 
-1.  要恢复httpbin的凭据，请删除secret并重新创建。
+1.  要恢复 httpbin 的凭据，请删除 secret 并重新创建。
 
     {{< text bash >}}
     $ kubectl -n istio-system delete secret httpbin-credential
@@ -236,7 +236,7 @@ test: yes
     $ kubectl create -n istio-system secret tls helloworld-credential --key=helloworld-v1.example.com.key --cert=helloworld-v1.example.com.crt
     {{< /text >}}
 
-1.  为端口443定义一个包含两个server定义的网关。将每个端口上的 `credentialName` 的值分别设置为 `httpbin-credential` 和 `helloworld-credential` 。将TLS模式设置为 `SIMPLE`。
+1.  为端口 443 定义一个包含两个 server 的网关。将每个端口上的 `credentialName` 的值分别设置为 `httpbin-credential` 和 `helloworld-credential` 。将 TLS 模式设置为 `SIMPLE`。
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -319,9 +319,9 @@ test: yes
             `"""`
     {{< /text >}}
 
-### 配置双向TLS入口网关 {#configure-a-mutual-TLS-ingress-gateway}
+### 配置双向 TLS 入口网关 {#configure-a-mutual-TLS-ingress-gateway}
 
-您可以扩展网关的定义以支持[双向TLS](https://en.wikipedia.org/wiki/Mutual_authentication)。删除入口网关的secret并创建一个新的，以更改入口网关的凭据。服务器使用CA证书来验证其客户端，并且必须使用名称 `cacert` 来持有CA证书。
+您可以扩展网关的定义以支持[双向TLS](https://en.wikipedia.org/wiki/Mutual_authentication)。删除入口网关的 secret 并创建一个新的，以更改入口网关的凭据。服务器使用 CA 证书来验证其客户端，并且必须使用名称 `cacert` 来持有 CA 证书。
 
 {{< text bash >}}
 $ kubectl -n istio-system delete secret httpbin-credential
@@ -329,7 +329,7 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=t
 --from-file=tls.crt=httpbin.example.com.crt --from-file=ca.crt=example.com.crt
 {{< /text >}}
 
-1. 更改网关的定义, 将TLS模式设置为 `MUTUAL` 。
+1. 更改网关的定义, 将 TLS 模式设置为 `MUTUAL` 。
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -353,7 +353,7 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=t
     EOF
     {{< /text >}}
 
-1. 尝试使用先前的方法发送HTTPS请求，并查看失败的详情：
+1. 尝试使用先前的方法发送 HTTPS 请求，并查看失败的详情：
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
@@ -379,7 +379,7 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=t
     $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
     {{< /text >}}
 
-1. 重新发送带客户端证书和私钥的 `curl` 请求。使用--cert标志传递客户端证书，使用--key标志传递私钥。
+1. 重新发送带客户端证书和私钥的 `curl` 请求。使用 --cert 标志传递客户端证书，使用 --key 标志传递私钥。
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
@@ -397,11 +397,11 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=t
             `"""`
     {{< /text >}}
 
-Istio支持读取不同的Secret格式，以支持与各种工具（例如[cert-manager](/zh/docs/ops/integrations/certmanager/))的集成：
+Istio 支持读取不同的 Secret 格式，以支持与各种工具（例如[cert-manager](/zh/docs/ops/integrations/certmanager/))的集成：
 
-* 如上所述，包含 `tls.key` 和 `tls.crt` 的TLS secret。对于双向TLS，可以使用 `ca.crt` 密钥。
-* 包含 `key` 和 `cert` 的通用Secret。对于双向TLS，可以使用 `cacert` 密钥。
-* 包含 `key` 和 `cert` 的通用Secret。对于双向TLS，还可以单独设置名为 `<secret>-cacert` 的通用secret，该secret含 `cacert` 密钥。例如，`httpbin-credential` 包含 `key` 和 `cert`，而 `httpbin-credential-cacert` 包含 `cacert`。
+* 如上所述，包含 `tls.key` 和 `tls.crt` 的 TLS secret。对于双向 TLS，可以使用 `ca.crt` 密钥。
+* 包含 `key` 和 `cert` 的通用 Secret。对于双向 TLS，可以使用 `cacert` 密钥。
+* 包含 `key` 和 `cert` 的通用 Secret。对于双向 TLS，还可以单独设置名为 `<secret>-cacert` 的通用 secret，该 secret 含 `cacert` 密钥。例如，`httpbin-credential` 包含 `key` 和 `cert`，而 `httpbin-credential-cacert` 包含 `cacert`。
 
 ## Troubleshooting {#troubleshooting}
 
@@ -419,15 +419,15 @@ Istio支持读取不同的Secret格式，以支持与各种工具（例如[cert-
     -n istio-system -o jsonpath='{.items[0].metadata.name}')"
     {{< /text >}}
 
-*   如果使用macOS，请按照[准备工作](#before-you-begin)部分中的说明，验证您正在使用通过[LibreSSL](http://www.libressl.org)库编译的curl。
+*   如果使用 macOS，请按照[准备工作](#before-you-begin)部分中的说明，验证您正在使用通过[LibreSSL](http://www.libressl.org)库编译的 curl。
 
-*   验证secret是否已在 `istio-system` 命名空间中成功创建:
+*   验证 secret 是否已在 `istio-system` 命名空间中成功创建:
 
     {{< text bash >}}
     $ kubectl -n istio-system get secrets
     {{< /text >}}
 
-    `httpbin-credential` 和 `helloworld-credential` 应该显示在secret列表中。
+    `httpbin-credential` 和 `helloworld-credential` 应该显示在 secret 列表中。
 
 *   检查日志以确认入口网关代理已将密钥/证书对推送到入口网关。
 
@@ -436,11 +436,11 @@ Istio支持读取不同的Secret格式，以支持与各种工具（例如[cert-
     -n istio-system -o jsonpath='{.items[0].metadata.name}')"
     {{< /text >}}
 
-    日志应显示已添加`httpbin-credential` secret。如果使用双向TLS，则还应显示 `httpbin-credential-cacert` secret。验证日志是否显示网关代理接收到来自入口网关的SDS请求（资源名称为 `httpbin-credential`），且入口网关已获得密钥/证书对。如果使用双向TLS，则日志应显示密钥/证书已发送到入口网关，网关代理已收到带有 `httpbin-credential-cacert`资源名称的SDS请求，并且入口网关已获得根证书。
+    日志应显示已添加`httpbin-credential` secret。如果使用双向 TLS，则还应显示 `httpbin-credential-cacert` secret。验证日志是否显示网关代理接收到来自入口网关的 SDS 请求（资源名称为 `httpbin-credential`），且入口网关已获得密钥/证书对。如果使用双向 TLS，则日志应显示密钥/证书已发送到入口网关，网关代理已收到带有 `httpbin-credential-cacert`资源名称的 SDS 请求，并且入口网关已获得根证书。
 
 ## 清除 {#cleanup}
 
-1.  删除网关配置，虚拟服务定义和secret：
+1.  删除网关配置，虚拟服务定义和 secret：
 
     {{< text bash >}}
     $ kubectl delete gateway mygateway
