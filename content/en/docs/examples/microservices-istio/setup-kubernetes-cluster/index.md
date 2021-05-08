@@ -3,7 +3,7 @@ title: Setup a Kubernetes Cluster
 overview: Set up your Kubernetes cluster for the tutorial.
 weight: 2
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 {{< boilerplate work-in-progress >}}
@@ -34,7 +34,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
 1.  Create the namespace:
 
     {{< text bash >}}
-    $ kubectl create namespace $NAMESPACE
+    $ kubectl create namespace "$NAMESPACE"
     {{< /text >}}
 
     {{< tip >}}
@@ -128,7 +128,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     rules:
     - apiGroups: ["", "extensions", "apps"]
       resources: ["*"]
-      verbs: ["get", "list"]
+      verbs: ["get", "list", "delete"]
     EOF
     {{< /text >}}
 
@@ -171,11 +171,11 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     apiVersion: rbac.authorization.k8s.io/v1beta1
     metadata:
       name: ${NAMESPACE}-access
-      namespace: $NAMESPACE
+      namespace: ${NAMESPACE}
     subjects:
     - kind: ServiceAccount
       name: ${NAMESPACE}-user
-      namespace: $NAMESPACE
+      namespace: ${NAMESPACE}
     roleRef:
       apiGroup: rbac.authorization.k8s.io
       kind: Role
@@ -189,7 +189,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     subjects:
     - kind: ServiceAccount
       name: ${NAMESPACE}-user
-      namespace: $NAMESPACE
+      namespace: ${NAMESPACE}
     roleRef:
       apiGroup: rbac.authorization.k8s.io
       kind: Role
@@ -204,7 +204,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     Generate a Kubernetes configuration file for each participant:
 
     {{< tip >}}
-    This command assumes your cluster is named `tutorial-cluster`. If your cluster is named differently, replace all references with the name of your cluster.
+    This command assumes your cluster is named `tutorial-cluster`. If your cluster is named differently, replace all references CLUSTERNAME with the name of your cluster.
     {{</ tip >}}
 
     {{< text bash >}}
@@ -215,20 +215,20 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
 
     clusters:
     - cluster:
-        certificate-authority-data: $(kubectl get secret $(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name}) -n $NAMESPACE -o jsonpath='{.data.ca\.crt}')
+        certificate-authority-data: $(kubectl get secret "$(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name})" -n $NAMESPACE -o jsonpath='{.data.ca\.crt}')
         server: $(kubectl config view -o jsonpath="{.clusters[?(.name==\"$(kubectl config view -o jsonpath="{.contexts[?(.name==\"$(kubectl config current-context)\")].context.cluster}")\")].cluster.server}")
-      name: ${NAMESPACE}-cluster
+      name: ${CLUSTERNAME}
 
     users:
     - name: ${NAMESPACE}-user
       user:
         as-user-extra: {}
-        client-key-data: $(kubectl get secret $(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name}) -n $NAMESPACE -o jsonpath='{.data.ca\.crt}')
-        token: $(kubectl get secret $(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name}) -n $NAMESPACE -o jsonpath={.data.token} | base64 --decode)
+        client-key-data: $(kubectl get secret "$(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name})" -n ${NAMESPACE} -o jsonpath='{.data.ca\.crt}')
+        token: $(kubectl get secret "$(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name})" -n ${NAMESPACE} -o jsonpath='{.data.token}' | base64 --decode)
 
     contexts:
     - context:
-        cluster: ${NAMESPACE}-cluster
+        cluster: ${CLUSTERNAME}
         namespace: ${NAMESPACE}
         user: ${NAMESPACE}-user
       name: ${NAMESPACE}

@@ -26,7 +26,9 @@ import (
 // Builder builds a test of a documented workflow from http://istio.io.
 type Builder struct {
 	steps        []Step
+	childSteps   []Step
 	cleanupSteps []Step
+	childCleanupSteps []Step
 }
 
 // NewBuilder returns an instance of a document test.
@@ -40,9 +42,20 @@ func (b *Builder) Add(steps ...Step) *Builder {
 	return b
 }
 
+// Add a child step to be run.
+func (b *Builder) AddChild(steps ...Step) *Builder {
+	b.childSteps = append(b.childSteps, steps...)
+	return b
+}
+
 // Defer registers a function to be executed when the test completes.
 func (b *Builder) Defer(steps ...Step) *Builder {
 	b.cleanupSteps = append(b.cleanupSteps, steps...)
+	return b
+}
+
+func (b *Builder) DeferChild(steps ...Step) *Builder {
+	b.childCleanupSteps = append(b.childCleanupSteps, steps...)
 	return b
 }
 
@@ -67,16 +80,40 @@ func (b *Builder) Build() func(ctx framework.TestContext) {
 		// Run cleanup functions at the end.
 		defer func() {
 			for _, step := range b.cleanupSteps {
-				ctx.NewSubTest(step.Name()).Run(func(ctx framework.TestContext) {
-					step.run(ctx)
-				})
+				if (step.Name() == "after snapshot") {
+					ctx.NewSubTest(step.Name()).Run(func(ctx framework.TestContext) {
+						step.run(ctx)
+					})
+				} else {
+					ctx.NewSubTest(step.Name()).Run(func(ctx framework.TestContext) {
+						for _, childStep := range b.childCleanupSteps {
+							ctx.NewSubTest(childStep.Name()).Run(func(ctx framework.TestContext) {
+								childStep.run(ctx)
+							})
+						}
+						step.run(ctx)
+					})
+				}
 			}
 		}()
 
 		for _, step := range b.steps {
-			ctx.NewSubTest(step.Name()).Run(func(ctx framework.TestContext) {
-				step.run(ctx)
-			})
+			
+			if (step.Name() == "before snapshot" ) {
+				ctx.NewSubTest(step.Name()).Run(func(ctx framework.TestContext) {
+					step.run(ctx)
+				})
+			} else {
+				ctx.NewSubTest(step.Name()).Run(func(ctx framework.TestContext) {
+				//run child steps
+			    	for _, childStep := range b.childSteps {
+				    	ctx.NewSubTest(childStep.Name()).Run(func(ctx framework.TestContext) {
+					    	childStep.run(ctx)
+				    	})
+					}
+					step.run(ctx)
+				})
+			}
 		}
 	}
 }

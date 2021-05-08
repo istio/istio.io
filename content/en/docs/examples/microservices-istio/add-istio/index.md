@@ -5,7 +5,7 @@ overview: Deploy the Istio control plane and enable Istio on a single microservi
 weight: 60
 
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 As you saw in the previous module, Istio enhances Kubernetes by giving you the
@@ -82,7 +82,7 @@ disrupt your application, it continues to run and serve user requests.
     microservices in the Istio dashboard:
 
     {{< text bash >}}
-    $ echo $(kubectl config view -o jsonpath="{.contexts[?(@.name == \"$(kubectl config current-context)\")].context.namespace}")
+    $ echo "$(kubectl config view -o jsonpath="{.contexts[?(@.name == \"$(kubectl config current-context)\")].context.namespace}")"
     tutorial
     {{< /text >}}
 

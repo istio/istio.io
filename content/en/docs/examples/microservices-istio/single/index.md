@@ -3,7 +3,7 @@ title: Run a Microservice Locally
 overview: Learn how to work on a single service on your local machine.
 weight: 10
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 {{< boilerplate work-in-progress >}}
@@ -105,7 +105,7 @@ Since you run the `ratings` service locally, you can also access it via the
     your browser or access `ratings` using the `curl` command from a different terminal window:
 
     {{< text bash >}}
-    $ curl localhost:9080/ratings/7
+    $ curl -s localhost:9080/ratings/7
     {"id":7,"ratings":{"Reviewer1":5,"Reviewer2":4}}
     {{< /text >}}
 
@@ -113,14 +113,14 @@ Since you run the `ratings` service locally, you can also access it via the
     product to `1`:
 
     {{< text bash >}}
-    $ curl -X POST localhost:9080/ratings/7 -d '{"Reviewer1":1,"Reviewer2":1}'
+    $ curl -s -X POST localhost:9080/ratings/7 -d '{"Reviewer1":1,"Reviewer2":1}'
     {"id":7,"ratings":{"Reviewer1":1,"Reviewer2":1}}
     {{< /text >}}
 
 1. Check the updated ratings:
 
     {{< text bash >}}
-    $ curl localhost:9080/ratings/7
+    $ curl -s localhost:9080/ratings/7
     {"id":7,"ratings":{"Reviewer1":1,"Reviewer2":1}}
     {{< /text >}}
 
