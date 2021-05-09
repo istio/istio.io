@@ -233,6 +233,9 @@ pro_services:
     description: "Submit a PR to add your company here!"
 
 users:
+  - name: "1-800-Flowers.com"
+    logo: "/logos/1-800-flowers.svg"
+    url: "https://www.1800flowersinc.com/"
   - name: "Aihuishou"
     logo: "/logos/aihuishou.jpeg"
     url: "https://www.aihuishou.com"
