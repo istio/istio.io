@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2020-009
-subtitle: Security Bulletin
 description: Incorrect Envoy configuration for wildcard suffixes used for Principals/Namespaces in Authorization Policies for TCP Services.
 cves: [CVE-2020-16844]
 cvss: "6.8"

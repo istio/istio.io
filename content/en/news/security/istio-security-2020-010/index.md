@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2020-010
-subtitle: Security Bulletin
 description:
 cves: [CVE-2020-25017]
 cvss: "8.3"

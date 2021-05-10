@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2021-003
-subtitle: Security Bulletin
 description:
 cves: [CVE-2021-28683, CVE-2021-28682, CVE-2021-29258]
 cvss: "7.5"

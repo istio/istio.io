@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2019-007
-subtitle: Security Bulletin
 description: Heap overflow and improper input validation in Envoy.
 cves: [CVE-2019-18801,CVE-2019-18802]
 cvss: "9.0"

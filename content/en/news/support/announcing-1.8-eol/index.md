@@ -1,6 +1,6 @@
 ---
 title: Support for Istio 1.8 ends on May 12th, 2021
-subtitle: Support Announcement
+
 description: Upcoming Istio 1.8 end of life announcement.
 publishdate: 2021-04-12
 aliases:

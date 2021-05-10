@@ -1,6 +1,6 @@
 ---
 title: Support for Istio 1.4 ends on June 5th, 2020
-subtitle: Support Announcement
+
 description: Upcoming Istio 1.4 end of life announcement.
 publishdate: 2020-05-05
 aliases:

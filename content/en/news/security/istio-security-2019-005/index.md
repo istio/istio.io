@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2019-005
-subtitle: Security Bulletin
 description: Denial of service caused by the presence of numerous HTTP headers in client requests.
 cves: [CVE-2019-15226]
 cvss: "7.5"

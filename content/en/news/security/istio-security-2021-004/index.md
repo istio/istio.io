@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2021-004
-subtitle: Security Bulletin
 description: Potential misuse of mTLS-only fields in AuthorizationPolicy with plain text traffic. 
 cves: [N/A]
 cvss: "N/A"

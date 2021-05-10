@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2021-002
-subtitle: Security Bulletin
 description: Upgrades from older Istio versions can affect access control to an ingress gateway due to a change of container ports.
 cves: [N/A]
 cvss: "N/A"

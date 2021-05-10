@@ -1,6 +1,6 @@
 ---
 title: Support for Istio 1.2 ends on December 13th, 2019
-subtitle: Support Announcement
+
 description: Upcoming Istio 1.2 end of life announcement.
 publishdate: 2019-11-11
 aliases:

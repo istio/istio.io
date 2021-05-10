@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2020-001
-subtitle: Security Bulletin
 description: Authentication Policy bypass.
 cves: [CVE-2020-8595]
 cvss: "9.0"

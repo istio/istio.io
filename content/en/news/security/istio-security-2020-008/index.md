@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2020-008
-subtitle: Security Bulletin
 description: Incorrect validation of wildcard DNS Subject Alternative Names.
 cves: [CVE-2020-15104]
 cvss: "6.6"

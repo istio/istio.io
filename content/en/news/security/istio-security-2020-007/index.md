@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2020-007
-subtitle: Security Bulletin
 description: Multiple denial of service vulnerabilities in Envoy.
 cves: [CVE-2020-12603, CVE-2020-12605, CVE-2020-8663, CVE-2020-12604]
 cvss: "7.5"

@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2020-002
-subtitle: Security Bulletin
 description: Mixer policy check bypass caused by improperly accepting certain request headers.
 cves: [CVE-2020-8843]
 cvss: "7.4"

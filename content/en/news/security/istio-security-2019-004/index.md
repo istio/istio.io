@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2019-004
-subtitle: Security Bulletin
 description: Multiple denial of service vulnerabilities related to HTTP2 support in Envoy.
 cves: [CVE-2019-9512, CVE-2019-9513, CVE-2019-9514, CVE-2019-9515, CVE-2019-9518]
 cvss: "7.5"

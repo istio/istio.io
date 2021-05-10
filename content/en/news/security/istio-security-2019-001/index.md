@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2019-001
-subtitle: Security Bulletin
 description: Incorrect access control.
 cves: [CVE-2019-12243]
 cvss: "8.9"

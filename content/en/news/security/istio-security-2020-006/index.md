@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2020-006
-subtitle: Security Bulletin
 description: Denial of service in the HTTP2 library used by Envoy.
 cves: [CVE-2020-11080]
 cvss: "7.5"

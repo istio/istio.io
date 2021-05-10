@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2019-003
-subtitle: Security Bulletin
 description: Denial of service in regular expression parsing.
 cves: [CVE-2019-14993]
 cvss: "7.5"

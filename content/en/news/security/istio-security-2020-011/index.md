@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2020-011
-subtitle: Security Bulletin
 description: Envoy incorrectly restores the proxy protocol downstream address for non-HTTP connections.
 cves: [N/A]
 cvss: "N/A"

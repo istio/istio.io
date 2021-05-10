@@ -1,6 +1,6 @@
 ---
 title: Support for Istio 1.6 ends on November 21st, 2020
-subtitle: Support Announcement
+
 description: Upcoming Istio 1.6 end of life announcement.
 publishdate: 2020-10-20
 aliases:

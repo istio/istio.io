@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2021-001
-subtitle: Security Bulletin
 description: JWT authentication can be bypassed when AuthorizationPolicy is misused.
 cves: [CVE-2021-21378]
 cvss: "8.2"

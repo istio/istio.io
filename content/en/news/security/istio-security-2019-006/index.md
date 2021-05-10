@@ -1,6 +1,5 @@
 ---
 title: ISTIO-SECURITY-2019-006
-subtitle: Security Bulletin
 description: Denial of service.
 cves: [CVE-2019-18817]
 cvss: "7.5"
