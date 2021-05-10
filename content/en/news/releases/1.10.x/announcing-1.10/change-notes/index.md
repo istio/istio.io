@@ -14,7 +14,7 @@ aliases:
 These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definitions). Please consider upgrading your environment to remove the deprecated functionality.
 
 - **Deprecated** the `values.global.jwtPolicy=first-party-jwt` option. This option is less secure and intended for backwards compatibility
-with older Kubernetes clusters without support for more secure token authentication, but is now enabled by default in new Kubernetes versions.
+with older Kubernetes clusters without support for more secure token authentication but is now enabled by default in new Kubernetes versions.
 The option will be removed in future releases. See [this documentation](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) for more information.
 
 - **Deprecated** the `values.global.arch` option in favor of the affinity Kubernetes settings.
@@ -39,7 +39,7 @@ The option will be removed in future releases. See [this documentation](/docs/op
 - **Improved** virtual machine integration to clean up `iptables` rules when the service is stopped.
   ([Issue #29556](https://github.com/istio/istio/issues/29556))
 
-- **Updated** istio-proxy drain notification strategy to immediate from gradual.
+- **Updated** istio-proxy drain notification strategy from gradual to immediate.
   ([Issue #31403](https://github.com/istio/istio/issues/31403))
 
 - **Added** CNI metrics counting repair operations.
@@ -56,7 +56,7 @@ The option will be removed in future releases. See [this documentation](/docs/op
 - **Fixed** a bug where `ISTIO_META_IDLE_TIMEOUT` is not reflected when set to `0s`.
   ([Issue #30067](https://github.com/istio/istio/issues/30067))
 
-- **Fixed** avoid unnecessary full push in service entry store.
+- **Fixed** a bug causing unnecessary full push in service entry store.
   ([Issue #30683](https://github.com/istio/istio/issues/30683))
 
 - **Fixed** a bug where the EnvoyFilter `HTTP_FILTER` didn't support `INSERT_FIRST`.
@@ -69,9 +69,20 @@ The option will be removed in future releases. See [this documentation](/docs/op
 
 ## Security
 
+- **Added** an experimental feature to allow dry-run of an `AuthorizationPolicy` without actually enforcing the policy.
+ ([Usage](/docs/tasks/security/authorization/authz-dry-run/), [Design](https://docs.google.com/document/d/1xQdZsEgJ3Ld2qebfT3EJkg2COTtCR1TqBVojmnvI78g), [PR](https://github.com/istio/api/pull/1933))
+
 - **Updated** configuration to sign istiod certificates using Kubernetes CA (`PILOT_CERT_PROVIDER=kubernetes`) will not be honored in
 clusters with version 1.22 and greater.
   ([Issue #22161](https://github.com/istio/istio/issues/22161))
+
+- Improved the experimental [External Authorization](/docs/tasks/security/authorization/authz-custom/) feature with new capabilities:
+  - **Added** the `timeout` field to configure the timeout (default is `10m`) between the `ext_authz` filter and the external service.
+  - **Added** the `include_additional_headers_in_check` field to send additional headers to the external service.
+  - **Added** the `include_request_body_in_check` field to send the body to the external service.
+  - **Supported** prefix and suffix match in the `include_request_headers_in_check`, `headers_to_upstream_on_allow` and `headers_to_downstream_on_deny` field.
+  - **Deprecated** the `include_headers_in_check` field with the new `include_request_headers_in_check` field for better naming.
+   ([Reference](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider), [PR](https://github.com/istio/api/pull/1926))
 
 - **Added** experimental option to configure Envoy to fetch the JWKS by itself. This should be enabled if the `jwks_uri` is a mesh cluster URL for mTLS and has other benefits like retries, JWKS caching etc.
 This is disabled by default and can be enabled by setting `PILOT_JWT_ENABLE_REMOTE_JWKS` to true.
@@ -84,17 +95,6 @@ The default interval is `20m`. Valid time units are "ns", "us", "ms", "s", "m", 
 
 - **Added**  istiod JWT public key refresh job will now retry the failed fetch of the `jwks_uri` with exponential backoff.
   ([Issue #30261](https://github.com/istio/istio/issues/30261))
-
-- **Added** an experimental feature to allow dry-run of an `AuthorizationPolicy` without actually enforcing the policy.
- ([Usage](/docs/tasks/security/authorization/authz-dry-run/), [Design](https://docs.google.com/document/d/1xQdZsEgJ3Ld2qebfT3EJkg2COTtCR1TqBVojmnvI78g), [PR](https://github.com/istio/api/pull/1933))
-
-- Improved the experimental [External Authorization](/docs/tasks/security/authorization/authz-custom/) feature with new capabilities:
-- **Added** the `timeout` field to configure the timeout (default is `10m`) between the `ext_authz` filter and the external service.
-- **Added** the `include_additional_headers_in_check` field to send additional headers to the external service.
-- **Added** the `include_request_body_in_check` field to send the body to the external service.
-- **Supported** prefix and suffix match in the `include_request_headers_in_check`, `headers_to_upstream_on_allow` and `headers_to_downstream_on_deny` field.
-- **Deprecated** the `include_headers_in_check` field with the new `include_request_headers_in_check` field for better naming.
- ([Reference](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider), [PR](https://github.com/istio/api/pull/1926))
 
 - **Fixed** removed ability to configure `trustDomain` from Helm `global.values`. Now it is configured through `meshConfig.trustDomain` ([Issue #27734](https://github.com/istio/istio/issues/27734))
 
@@ -153,7 +153,7 @@ recommended to follow the new [multicluster installation guide](/docs/setup/inst
 
 ## istioctl
 
-- **Updated** the experimental `precheck` command to identify potential upgrade issues prior to actually running an upgrade.
+- **Updated** the `istioctl experimental precheck` command to identify potential upgrade issues prior to actually running an upgrade.
 
 - **Updated** `istioctl kube-inject` to call webhook server to get the injection template by default.
   ([Issue #29270](https://github.com/istio/istio/issues/29270))
@@ -161,7 +161,7 @@ recommended to follow the new [multicluster installation guide](/docs/setup/inst
 - **Added** `istioctl experimental internal-debug` to retrieve istiod debug information via a secured debug interface.
   ([Issue #31338](https://github.com/istio/istio/issues/31338))
 
-- **Added** 'istioctl validate' and the validating webhook now report duplicate or unreachable virtual service matches.
+- **Added** `istioctl validate` and the validating webhook now report duplicate or unreachable virtual service matches.
   ([Issue #31525](https://github.com/istio/istio/issues/31525))
 
 - **Added** `istioctl proxy-config -o yaml` to display in YAML along with the current JSON and short format.
