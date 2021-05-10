@@ -2,6 +2,15 @@
     max-width: $container-l;
 }
 
+.docs.container p.subtitle {
+    margin-top: 0.15rem;
+}
+
 #quick-start {
     margin-top: 0;
+}
+
+.docs span.bar {
+    margin-left: .4em;
+    margin-right: .4em;
 }

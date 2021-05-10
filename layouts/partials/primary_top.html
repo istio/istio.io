@@ -90,7 +90,7 @@
 
                                 {{- if ne .PublishDate.Year 0001 -}}
                                     {{- if $needBar -}}
-                                        <span> | </span>
+                                        <span class="bar">|</span>
                                     {{- end -}}
 
                                     <span>
@@ -110,6 +110,10 @@
                                 {{- end -}}
 
                                 {{- if gt .Page.ReadingTime 1 -}}
+                                    {{- if $needBar -}}
+                                        <span class="bar">|</span>
+                                    {{- end -}}                                
+
                                     <span class="reading-time" title="{{ printf (i18n "page_word_count") .Page.WordCount }}">
                                         {{- partial "icon.html" "clock" -}}
                                         <span>&nbsp;</span>
