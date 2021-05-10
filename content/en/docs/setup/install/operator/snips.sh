@@ -58,15 +58,14 @@ spec:
 ENDSNIP
 
 snip_kubectl_get_svc() {
-kubectl get svc -n istio-system
+kubectl get services -n istio-system
 }
 
 ! read -r -d '' snip_kubectl_get_svc_out <<\ENDSNIP
-NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                      AGE
-istio-egressgateway    ClusterIP      10.96.65.145    <none>           80/TCP,443/TCP                                                               30s
-istio-ingressgateway   LoadBalancer   10.96.189.244   192.168.11.156   15021:32187/TCP,80:32320/TCP,443:32244/TCP,31400:31458/TCP,15443:31196/TCP   30s
-istiod                 ClusterIP      10.96.189.20    <none>           15010/TCP,15012/TCP,443/TCP,15014/TCP                                        37s
-
+NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)   AGE
+istio-egressgateway    ClusterIP      10.96.65.145    <none>           ...       30s
+istio-ingressgateway   LoadBalancer   10.96.189.244   <none>           ...       30s
+istiod                 ClusterIP      10.96.189.20    <none>           ...       37s
 ENDSNIP
 
 snip_kubectl_get_pods() {
@@ -78,7 +77,6 @@ NAME                                    READY   STATUS    RESTARTS   AGE
 istio-egressgateway-696cccb5-m8ndk      1/1     Running   0          68s
 istio-ingressgateway-86cb4b6795-9jlrk   1/1     Running   0          68s
 istiod-b47586647-sf6sw                  1/1     Running   0          74s
-
 ENDSNIP
 
 snip_update_1() {
@@ -178,7 +176,7 @@ istiod-6ffcc65b96-bxzv5         1/1     Running   0          2m11s
 ENDSNIP
 
 snip_canary_upgrade_6() {
-kubectl get svc -n istio-system -l app=istiod
+kubectl get services -n istio-system -l app=istiod
 }
 
 ! read -r -d '' snip_canary_upgrade_6_out <<\ENDSNIP

@@ -118,12 +118,11 @@ seconds.
 You can confirm the Istio control plane services have been deployed with the following commands:
 
 {{< text syntax=bash snip_id=kubectl_get_svc >}}
-$ kubectl get svc -n istio-system
-NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                      AGE
-istio-egressgateway    ClusterIP      10.96.65.145    <none>           80/TCP,443/TCP                                                               30s
-istio-ingressgateway   LoadBalancer   10.96.189.244   192.168.11.156   15021:32187/TCP,80:32320/TCP,443:32244/TCP,31400:31458/TCP,15443:31196/TCP   30s
-istiod                 ClusterIP      10.96.189.20    <none>           15010/TCP,15012/TCP,443/TCP,15014/TCP                                        37s
-
+$ kubectl get services -n istio-system
+NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)   AGE
+istio-egressgateway    ClusterIP      10.96.65.145    <none>           ...       30s
+istio-ingressgateway   LoadBalancer   10.96.189.244   <none>           ...       30s
+istiod                 ClusterIP      10.96.189.20    <none>           ...       37s
 {{< /text >}}
 
 {{< text syntax=bash snip_id=kubectl_get_pods >}}
@@ -132,7 +131,6 @@ NAME                                    READY   STATUS    RESTARTS   AGE
 istio-egressgateway-696cccb5-m8ndk      1/1     Running   0          68s
 istio-ingressgateway-86cb4b6795-9jlrk   1/1     Running   0          68s
 istiod-b47586647-sf6sw                  1/1     Running   0          74s
-
 {{< /text >}}
 
 ## Update
@@ -275,7 +273,7 @@ istiod-6ffcc65b96-bxzv5         1/1     Running   0          2m11s
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl get svc -n istio-system -l app=istiod
+$ kubectl get services -n istio-system -l app=istiod
 NAME           TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                         AGE
 istiod         ClusterIP   10.104.129.150   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   2m35s
 istiod-1-8-1   ClusterIP   10.111.17.49     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP           88s
