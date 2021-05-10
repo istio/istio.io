@@ -4,7 +4,6 @@ description: Istio 1.8 release notes.
 weight: 10
 release: 1.8
 subtitle: Minor Release
-linktitle: 1.8
 publishdate: 2020-11-19
 ---
 

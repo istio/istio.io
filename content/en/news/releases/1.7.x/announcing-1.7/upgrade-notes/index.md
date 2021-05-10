@@ -4,7 +4,6 @@ description: Important changes to consider when upgrading to Istio 1.7.
 publishdate: 2020-08-21
 release: 1.7
 subtitle: Minor Release
-linktitle: 1.7
 weight: 20
 ---
 

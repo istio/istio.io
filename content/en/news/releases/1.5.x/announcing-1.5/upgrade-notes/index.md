@@ -4,7 +4,6 @@ description: Important changes to consider when upgrading to Istio 1.5.
 weight: 20
 release: 1.5
 subtitle: Minor Release
-linktitle: 1.5
 publishdate: 2020-03-05
 ---
 

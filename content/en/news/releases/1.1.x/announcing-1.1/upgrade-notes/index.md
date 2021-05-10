@@ -4,7 +4,6 @@ description: Important changes operators must understand before upgrading to Ist
 publishdate: 2019-03-19
 release: 1.1
 subtitle: Minor Release
-linktitle: 1.1
 weight: 20
 ---
 
