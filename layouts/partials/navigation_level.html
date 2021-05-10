@@ -39,6 +39,7 @@
                     {{ if eq . $current }}
                         {{ $collapse = true }}
                     {{ end }}
+                    {{ .CurrentSection }}
                     {{ if and (lt (len $pageLocation) 6) (in .CurrentSection "news") }}
                         <button {{ if not $collapse }} class="show" {{ end }} aria-hidden="true"></button><a class="main" title="{{ $desc }}" href="{{ .Permalink }}">{{ .LinkTitle}}</a>
                         {{ partial "navigation_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "" ) }}
