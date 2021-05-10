@@ -64,7 +64,7 @@ kubectl get services -n istio-system
 ! read -r -d '' snip_kubectl_get_svc_out <<\ENDSNIP
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)   AGE
 istio-egressgateway    ClusterIP      10.96.65.145    <none>           ...       30s
-istio-ingressgateway   LoadBalancer   10.96.189.244   <none>           ...       30s
+istio-ingressgateway   LoadBalancer   10.96.189.244   192.168.11.156   ...       30s
 istiod                 ClusterIP      10.96.189.20    <none>           ...       37s
 ENDSNIP
 
