@@ -184,3 +184,8 @@ NAME           TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)               
 istiod         ClusterIP   10.104.129.150   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   2m35s
 istiod-1-8-1   ClusterIP   10.111.17.49     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP           88s
 ENDSNIP
+
+snip_cleanup() {
+istioctl manifest generate | kubectl delete -f -
+kubectl delete ns istio-system --grace-period=0 --force
+}

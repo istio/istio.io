@@ -303,7 +303,7 @@ If you omit the `revision` flag, then all revisions of Istio operator will be re
 Note that deleting the operator before the `IstioOperator` CR and corresponding Istio revision are fully removed may result in leftover Istio resources.
 To clean up anything not removed by the operator:
 
-{{< text syntax=bash snip_id=none >}}
+{{< text syntax=bash snip_id=cleanup >}}
 $ istioctl manifest generate | kubectl delete -f -
 $ kubectl delete ns istio-system --grace-period=0 --force
  {{< /text >}}

@@ -50,5 +50,5 @@ _verify_like snip_kubectl_get_pods "$snip_kubectl_get_pods_out"
 
 # @cleanup
 istioctl operator remove
-kubectl delete ns istio-operator
+snip_cleanup
 istiotl x uninstall --purge -y
