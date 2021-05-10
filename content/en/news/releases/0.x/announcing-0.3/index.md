@@ -1,7 +1,6 @@
 ---
 title: Announcing Istio 0.3
 linktitle: 0.3
-subtitle: Major Update
 description: Istio 0.3 announcement.
 publishdate: 2017-11-29
 release: 0.3.0

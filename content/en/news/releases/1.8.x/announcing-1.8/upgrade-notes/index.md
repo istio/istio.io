@@ -3,7 +3,6 @@ title: Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.8.
 weight: 20
 release: 1.8
-subtitle: Minor Release
 publishdate: 2020-11-19
 ---
 

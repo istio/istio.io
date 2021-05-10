@@ -4,6 +4,8 @@ description: Select security bulletins, release announcements, or support announ
 linktitle: News
 icon: bullhorn
 skip_toc: true
+cascade:
+    skip_toc: true
 doc_type: docs
 outputs:
     - html

@@ -3,7 +3,6 @@ title: Upgrade Notes
 description: Important changes operators must understand before upgrading to Istio 1.1.
 publishdate: 2019-03-19
 release: 1.1
-subtitle: Minor Release
 weight: 20
 ---
 

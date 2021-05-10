@@ -3,7 +3,6 @@ title: Change Notes
 description: Istio 1.6 release notes.
 weight: 10
 release: 1.6
-subtitle: Minor Release
 publishdate: 2020-05-21
 ---
 

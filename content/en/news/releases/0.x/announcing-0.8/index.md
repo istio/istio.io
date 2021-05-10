@@ -1,7 +1,6 @@
 ---
 title: Announcing Istio 0.8
 linktitle: 0.8
-subtitle: Major Update
 description: Istio 0.8 announcement.
 publishdate: 2018-06-01
 release: 0.8.0

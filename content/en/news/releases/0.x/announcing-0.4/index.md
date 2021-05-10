@@ -1,7 +1,6 @@
 ---
 title: Announcing Istio 0.4
 linktitle: 0.4
-subtitle: Major Update
 description: Istio 0.4 announcement.
 publishdate: 2017-12-18
 release: 0.4.0

@@ -1,11 +1,11 @@
 ---
 title: Announcing Istio 1.3
 linktitle: 1.3
-subtitle: Major Update
 description: Istio 1.3 release announcement.
 publishdate: 2019-09-12
 release: 1.3.0
 skip_list: true
+skip_toc: false
 aliases:
     - /blog/2019/announcing-1.3
     - /news/2019/announcing-1.3

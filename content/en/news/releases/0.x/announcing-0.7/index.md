@@ -1,7 +1,6 @@
 ---
 title: Announcing Istio 0.7
 linktitle: 0.7
-subtitle: Major Update
 description: Istio 0.7 announcement.
 publishdate: 2018-03-28
 release: 0.7.0

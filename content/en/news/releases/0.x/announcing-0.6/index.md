@@ -1,7 +1,6 @@
 ---
 title: Announcing Istio 0.6
 linktitle: 0.6
-subtitle: Major Update
 description: Istio 0.6 announcement.
 publishdate: 2018-03-08
 release: 0.6.0

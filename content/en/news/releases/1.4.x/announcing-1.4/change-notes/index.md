@@ -2,7 +2,6 @@
 title: Change Notes
 description: Istio 1.4 release notes.
 release: 1.4
-subtitle: Minor Release
 weight: 10
 publishdate: 2019-11-14
 ---

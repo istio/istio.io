@@ -1,11 +1,11 @@
 ---
 title: Announcing Istio 1.8
 linktitle: 1.8
-subtitle: Major Update
 description: Istio 1.8 release announcement.
 publishdate: 2020-11-19
 release: 1.8.0
 skip_list: true
+skip_toc: false
 aliases:
     - /news/announcing-1.8
     - /news/announcing-1.8.0
