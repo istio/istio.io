@@ -53,9 +53,6 @@ The option will be removed in future releases. See [this documentation](/docs/op
 
 - **Added** metrics for istiod informer errors.
 
-- **Added** 'istioctl validate' and the validating webhook now report duplicate or unreachable virtual service matches.
-  ([Issue #31525](https://github.com/istio/istio/issues/31525))
-
 - **Fixed** a bug where `ISTIO_META_IDLE_TIMEOUT` is not reflected when set to `0s`.
   ([Issue #30067](https://github.com/istio/istio/issues/30067))
 
@@ -163,6 +160,9 @@ recommended to follow the new [multicluster installation guide](/docs/setup/inst
 
 - **Added** `istioctl experimental internal-debug` to retrieve istiod debug information via a secured debug interface.
   ([Issue #31338](https://github.com/istio/istio/issues/31338))
+
+- **Added** 'istioctl validate' and the validating webhook now report duplicate or unreachable virtual service matches.
+  ([Issue #31525](https://github.com/istio/istio/issues/31525))
 
 - **Added** `istioctl proxy-config -o yaml` to display in YAML along with the current JSON and short format.
  ([Usage](/docs/reference/commands/istioctl/#istioctl-proxy-config), [Issue #31695](https://github.com/istio/istio/issues/31695))
