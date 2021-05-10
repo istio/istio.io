@@ -150,6 +150,8 @@ existing default injection labels (`istio-injection=enabled` and `sidecar.istio.
 [added](/docs/setup/install/istioctl/#configure-gateways) if desired, although it is
 recommended to follow the new [multicluster installation guide](/docs/setup/install/multicluster/) instead.
 
+- **Updated** Kiali addon to the latest version `v1.34`.
+
 ## istioctl
 
 - **Updated** the `istioctl experimental precheck` command to identify potential upgrade issues prior to actually running an upgrade.
