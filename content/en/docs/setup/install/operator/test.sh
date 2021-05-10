@@ -42,7 +42,7 @@ _wait_for_deployment istio-system istiod
 
 echo "Verifying services..."
 # shellcheck disable=SC2154
-_verify_contains snip_kubectl_get_svc "$snip_kubectl_get_svc_out"
+_verify_like snip_kubectl_get_svc "$snip_kubectl_get_svc_out"
 
 echo "Verifying pods..."
 # shellcheck disable=SC2154
@@ -50,5 +50,4 @@ _verify_like snip_kubectl_get_pods "$snip_kubectl_get_pods_out"
 
 # @cleanup
 istioctl operator remove
-snip_cleanup
 istiotl x uninstall --purge -y
