@@ -7,7 +7,7 @@ aliases:
     - /docs/setup/kubernetes/additional-setup/cni
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 owner: istio/wg-environments-maintainers
-test: no
+test: n/a
 ---
 
 Follow this guide to install, configure, and use an Istio mesh using the Istio Container Network Interface
