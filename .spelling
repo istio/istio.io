@@ -301,6 +301,7 @@ example.com
 ExecAction
 executables
 Exfiltrating
+extensionProviders
 ExternalName
 ext-authz
 facto
@@ -803,6 +804,7 @@ uptime
 URIs
 url
 user
+userId
 user1
 UTF-8
 v0.14.0
@@ -858,6 +860,7 @@ wildcard
 wildcarded
 wildcards
 workgroup
+workload
 www.google.com
 x-envoy-upstream-rq-timeout-ms
 X.509

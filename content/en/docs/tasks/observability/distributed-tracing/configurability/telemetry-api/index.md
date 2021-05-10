@@ -32,18 +32,18 @@ The Telemetry API offers tracing behavior configuration control over the followi
 
 ### Workload Selection
 
-Individual workloads within a namespace are selected via a `selector` which allows selection of workloads based on labels.
+Individual workloads within a namespace are selected via a [`selector`](/docs/reference/config/type/workload-selector/#WorkloadSelector) which allows selection of workloads based on labels.
 
 It is not valid to have two different `Telemetry` resources select the same workload using `selector`. Likewise, it is not valid to have two
 distinct `Telemetry` resources in a namespace with no `selector` specified.
 
-### Inheritance and Overrides
+### Scope, Inheritance, and Overrides
 
 Telemetry API resources inherit configuration from parent resources in the Istio configuration hierarchy:
 
-1.  root configuration namespace
-1.  local namespace
-1.  workload
+1.  root configuration namespace (example: `istio-system`)
+1.  local namespace (namespace-scoped resource with **no** workload `selector`)
+1.  workload (namespace-scoped resource with a workload `selector`)
 
 A Telemetry API resource in the root configuration namespace, typically `istio-system`, provides mesh-wide defaults for behavior.
 Do not to specify any workload-specific selector in the root configuration namespace (it will be ignored).
@@ -82,20 +82,18 @@ An example set of provider configuration in `MeshConfig` is:
 
 {{< text yaml >}}
 data:
-    mesh: |-
-       # The following content defines two example tracing providers.
-        extensionProviders:
-        - name: "zippy-kin"
-          zipkin:
-            service: "zipkin.istio-system.svc.cluster.local"
-            port: 9411
-            maxTagLength: 56
-        - name: "stacky-driver"
-          stackdriver:
-            maxTagLength: 256
-        # A mesh default for provider can be specified to simplify Telemetry resources
-        defaultProviders:
-            tracing: "stacky-driver"
+  mesh: |-
+      extensionProviders: # The following content defines two example tracing providers.
+      - name: "zippy-kin"
+        zipkin:
+          service: "zipkin.istio-system.svc.cluster.local"
+          port: 9411
+          maxTagLength: 56
+      - name: "stacky-driver"
+        stackdriver:
+          maxTagLength: 256
+      defaultProviders: # If a default provider is not specified, Telemetry resources must fully-specify a provider
+          tracing: "stacky-driver"
 {{</ text >}}
 
 ### Configuring mesh-wide tracing behavior
@@ -129,9 +127,7 @@ spans with a name of `foo` and a value of `bar`.
 ### Configuring namespace-scoped tracing behavior
 
 To tailor the tracing behavior for individual namespaces, add a `Telemetry` resource to the desired namespace. Any tracing
-fields specified in the namespace resource will completely override the inherited field configuration from the configuration hierarchy.
-
-For example:
+fields specified in the namespace resource will completely override the inherited field configuration from the configuration hierarchy. For example:
 
 {{< text yaml >}}
 apiVersion: telemetry.istio.io/v1alpha1
@@ -182,7 +178,7 @@ spec:
   - disableSpanReporting: true
 {{</ text >}}
 
-In this case, tracing will be disabled for the `frontend.myapp` workload. Istio will still forward the tracing headers,
+In this case, tracing will be disabled for the `frontend` workload in the `myapp` namespace. Istio will still forward the tracing headers,
 but no spans will be reported to the configured tracing provider.
 
 {{< tip >}}
