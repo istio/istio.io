@@ -37,6 +37,7 @@
 1qps
 1xx
 2.5s
+2010s
 20ms
 22.99
 24.13
@@ -109,12 +110,13 @@ AssemblyScript
 Atlassian
 AttributeGen
 Auth0
+AuthPolicy
 AuthenticationPolicy
 AuthorizationPolicy
-authorizer
-AuthPolicy
-autoscaler
 Autoscalers
+authorizer
+authz
+autoscaler
 autoscalers
 autoscaling
 AutoTrader
@@ -131,6 +133,7 @@ BlackHole
 BlackHoleCluster
 BluePerf
 boilerplates
+bol.com
 Bookinfo
 bookinfo
 boolean
@@ -430,6 +433,7 @@ Khaliq
 Kiali
 Kibana
 Knative
+Kool
 Kops
 Krishnan
 Kristián
@@ -514,6 +518,7 @@ nginx
 NiFi
 NLBs
 Node.js
+no-brainer
 non-revisioned
 non-sandboxed
 non-mTLS
