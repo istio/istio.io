@@ -1,16 +1,10 @@
 ---
-<<<<<<< HEAD
 title: "Istio Pioneer AutoTrader UK Still Benefiting"
 linkTitle: "Istio Pioneer AutoTrader UK Still Benefiting"
-quote: "Istio is a service mesh that provides cross-cutting functions that all micro services environments need."
-=======
-title: "Istio Pioneer Auto Trader UK Still Benefiting"
-linkTitle: "Istio Pioneer Auto Trader UK Still Benefiting"
-quote: "Istio is a service mesh that provides cross-cutting functions that all micro services environments need"
->>>>>>> Updated copy for Auto Trader UK case study
+quote: "We decided to just try out Istio to see how it would go, and we ended up delivering in the space of about a week – more than we had done in the last four months trying to roll it ourselves."
 author:
-    name: "Nick Chase"
-    image: "/img/authors/nick-chase.png"
+    name: "Karl Stoney"
+    image: "/img/authors/karl-stoney.png"
 companyName: "Auto Trader UK"
 companyURL: "https://autotrader.co.uk/"
 logo: "/logos/autotrader.svg"
@@ -21,7 +15,6 @@ doc_type: article
 sidebar_force: sidebar_case_study
 type: case-studies
 ---
-[comment]: <> (TODO: Replace placeholders)
 
 Auto Trader UK began in 1977 as the premier automotive market magazine in the United Kingdom. When it pivoted to an online presence near the end of the 20th century, it grew to become the UK’s largest digital automotive marketplace.
 
@@ -31,7 +24,7 @@ The IT estate that supports Auto Trader UK is vast. Today, they manage around 50
 
 Changing requirements precipitated Auto Trader UK's migration to containerized applications using Istio as a service mesh. One of the most pressing reasons was the recent focus on GDPR. AutoTrader wasn’t satisfied with just typical perimeter security. It aspired to also encrypt all traffic between microservices, even those in the same local network, using mutual-TLS. The effort felt significant for a primarily custom-built on-premises private cloud infrastructure operating at Auto Trader’s large scale.
 
-There was another motivation for enabling mTLS for all traffic; Auto Trader UK was planning to move the bulk of their infrastructure to the public cloud. [Strong end-to-end mTLS](/latest/docs/tasks/security/authentication/mtls-migration/) would be important to protect their entire microservice ecosystem.
+There was another motivation for enabling mTLS for all traffic; Auto Trader UK was planning to move the bulk of their infrastructure to the public cloud. [Strong end-to-end mTLS](/docs/tasks/security/authentication/mtls-migration/) would be important to protect their entire microservice ecosystem.
 
 ## Solution: Istio and Google Kubernetes Engine (GKE)
 
