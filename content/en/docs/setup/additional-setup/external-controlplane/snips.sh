@@ -60,6 +60,41 @@ istio-ingressgateway-9d4c7f5c7-7qpzz   1/1     Running   0          29s
 istiod-68488cd797-mq8dn                1/1     Running   0          38s
 ENDSNIP
 
+snip_get_remote_config_cluster_iop() {
+cat <<EOF > remote-config-cluster.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: external-istiod
+spec:
+  profile: external
+  components:
+    base:
+      enabled: true
+  values:
+    global:
+      istioNamespace: external-istiod
+    pilot:
+      configMap: true
+    istiodRemote:
+      injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/:ENV:cluster=${REMOTE_CLUSTER_NAME}:ENV:net=network1
+EOF
+}
+
+snip_set_up_the_remote_config_cluster_2() {
+kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
+istioctl manifest generate -f remote-config-cluster.yaml | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+}
+
+snip_set_up_the_remote_config_cluster_3() {
+kubectl get mutatingwebhookconfiguration -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
+}
+
+! read -r -d '' snip_set_up_the_remote_config_cluster_3_out <<\ENDSNIP
+NAME                                     WEBHOOKS   AGE
+istio-sidecar-injector-external-istiod   4          6m24s
+ENDSNIP
+
 snip_set_up_the_control_plane_in_the_external_cluster_1() {
 kubectl create namespace external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 }
@@ -123,6 +158,8 @@ spec:
           value: "true"
         - name: CLUSTER_ID
           value: ${REMOTE_CLUSTER_NAME}
+        - name: SHARED_MESH_CONFIG
+          value: istio
   values:
     global:
       caAddress: $EXTERNAL_ISTIOD_ADDR:15012
@@ -227,38 +264,6 @@ EOF
 snip_set_up_the_control_plane_in_the_external_cluster_7() {
 kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
-
-snip_get_remote_config_cluster_iop() {
-cat <<EOF > remote-config-cluster.yaml
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-metadata:
-  namespace: external-istiod
-spec:
-  profile: external
-  components:
-    base:
-      enabled: true
-  values:
-    global:
-      istioNamespace: external-istiod
-    istiodRemote:
-      injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/:ENV:cluster=${REMOTE_CLUSTER_NAME}:ENV:net=network1
-EOF
-}
-
-snip_set_up_the_remote_cluster_2() {
-istioctl manifest generate -f remote-config-cluster.yaml | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
-}
-
-snip_set_up_the_remote_cluster_3() {
-kubectl get mutatingwebhookconfiguration -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
-}
-
-! read -r -d '' snip_set_up_the_remote_cluster_3_out <<\ENDSNIP
-NAME                                     WEBHOOKS   AGE
-istio-sidecar-injector-external-istiod   4          6m24s
-ENDSNIP
 
 snip_deploy_a_sample_application_1() {
 kubectl create --context="${CTX_REMOTE_CLUSTER}" namespace sample
