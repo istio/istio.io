@@ -32,7 +32,7 @@ in the backend; this would represent a security incident.
 
 Your cluster is **impacted** by this vulnerability if you have authorization policies using `ALLOW action + notPaths field`
 or `DENY action + paths field` patterns.
-These patterns are vulnerable to unexpected policy bypasses and you should upgrade to fix the security issue ASAP.
+These patterns are vulnerable to unexpected policy bypasses and you should upgrade to fix the security issue as soon as possible.
 
 The following is an example of vulnerable policy that uses `DENY action + paths field` pattern:
 
