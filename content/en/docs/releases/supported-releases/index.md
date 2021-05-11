@@ -62,7 +62,7 @@ current `<minor>` release. A patch is usually a small change relative to the `<m
 | 1.6             | No                    | May 21, 2020        | November 23, 2020   | 1.15, 1.16, 1.17, 1.18        |                                               |
 | 1.5 and earlier | No                    |                     |                     |                               |                                               |
 
-## Releases without known Common Vulnerabilities and Exposures (CVEs)
+## Supported releases without known Common Vulnerabilities and Exposures (CVEs)
 
 {{< warning >}}
 Istio does not guarantee that minor releases that fall outside the support window have all known CVEs patched.
@@ -71,6 +71,5 @@ Please keep up-to-date and use a supported version.
 
 | Minor Releases             | Patched versions with no known CVEs  |
 |----------------------------|--------------------------------------|
-| 1.9.x                      | 1.9.3+                               |
-| 1.8.x                      | 1.8.5+                               |
-| 1.7 and earlier            | None                                 |
+| 1.9.x                      | 1.9.5+                               |
+| 1.8 and earlier            | None                                 |
