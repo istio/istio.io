@@ -90,8 +90,8 @@ table, th, td, tr {
 table {
     border-collapse: separate;
     border-spacing: 0;
-    table-layout: fixed;
     width: 100%;
+    display: table;
 }
 
 table p:first-of-type {
@@ -102,11 +102,19 @@ table p:last-of-type {
     margin-bottom: 0;
 }
 
+td {
+
+    code {
+        word-break: normal;
+    }
+}
+
 th {
     color: $textBrandColor;
     background-color: $secondBrandColor;
     font-weight: $tableHeaderWeight;
     vertical-align: middle;
+    white-space: pre;
 
     code {
         color: $textBrandColor;
@@ -121,7 +129,6 @@ tr.oneof>td {
 th, td {
     border-left: 1px solid $boxBorderColor;
     border-top: 1px solid $boxBorderColor;
-    word-break: break-word;
 }
 
 tr:first-child th:first-child {
