@@ -66,7 +66,7 @@ prior to Istio's Patch Tuesday.
 There will be times when an upcoming Istio security release will also need patches from Envoy. We cannot redistribute
 Envoy patches due to their embargo. Please refer to Envoy to join their early disclosure list.
 
-## Feedback
+## Security Feedback
 
 The Product Security Working Group holds bi-weekly meetings on Tuesdays from 9:00-9:30 Pacific. For more information see
 the [Istio Working Group Calendar](https://calendar.google.com/calendar/embed?src=4uhe8fi8sf1e3tvmvh6vrq2dog%40group.calendar.google.com&ctz=America%2FLos_Angeles).
