@@ -33,7 +33,7 @@ Changing requirements precipitated Auto Trader UK's migration to containerized a
 
 There was another motivation for enabling mTLS for all traffic; Auto Trader UK was planning to move the bulk of their infrastructure to the public cloud. [Strong end-to-end mTLS](/latest/docs/tasks/security/authentication/mtls-migration/) would be important to protect their entire microservice ecosystem.
 
-## Solution: Istio and Google Kubernetes Engine
+## Solution: Istio and Google Kubernetes Engine (GKE)
 
 The Auto Trader UK Platform team worked on a proof of concept implementation of mTLS for the on-premises private cloud. As expected, implementation was a laborious task. They decided to experiment with a container-based solution that could leverage a service mesh like Istio to manage mTLS for a key end-to-end slice of their microservice architecture. AutoTrader didn’t have ambition to build and manage Kubernetes themselves, so they decided to run their experiment on GKE.
 
