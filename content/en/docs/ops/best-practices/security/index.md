@@ -256,6 +256,73 @@ It may be desired to enforce stricter physical isolation for sensitive services.
 [dedicated gateway instance](/docs/setup/install/istioctl/#configure-gateways) for a sensitive `payments.example.com`, while utilizing a single
 shared gateway instance for less sensitive domains like `blog.example.com` and `store.example.com`.
 
+### Explicitly disable all the sensitive http host under relaxed SNI host matching
+
+It is reasonable to use multiple `Gateway`s to define mutual TLS and simple TLS on different hosts.
+For example, use mutual TLS for SNI host `admin.example.com` and simple TLS for SNI host `*.example.com`.
+
+{{< text yaml >}}
+kind: Gateway
+metadata:
+  name: guestgateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - "*.example.com"
+    tls:
+      mode: SIMPLE
+---
+kind: Gateway
+metadata:
+  name: admingateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - admin.example.com
+    tls:
+      mode: MUTUAL
+{{< /text >}}
+
+If the above is necessary, it's highly recommended to explicitly disable the http host `admin.example.com` in the `VirtualService` that attaches to `*.example.com`. The reason is that currently the underlying [envoy proxy does not require](https://github.com/envoyproxy/envoy/issues/6767) the http 1 header `Host` or the http 2 pseudo header `:authority` following the SNI constraints, an attacker can reuse the guest-SNI TLS connection to access admin `VirtualService`. The http response code 421 is designed for this `Host` SNI mismatch and can be used to fulfill the disable.
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: disable-sensitive
+spec:
+  hosts:
+  - "admin.example.com"
+  gateways:
+  - guestgateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    fault:
+      abort:
+        percentage:
+          value: 100
+        httpStatus: 421
+    route:
+    - destination:
+        port:
+          number: 8000
+        host: dest.default.cluster.local
+{{< /text >}}
+
 ## Protocol detection
 
 Istio will [automatically determine the protocol](/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection) of traffic it sees.
