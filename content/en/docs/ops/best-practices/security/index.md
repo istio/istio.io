@@ -119,7 +119,7 @@ For example, treating `https://myurl/get` and `https://myurl/GeT` as equivalent.
 In those cases, the `EnvoyFilter` shown below can be used.
 This filter will change both the path used for comparison and the path presented to the application.
 
-    {{< text yaml >}}
+    {{< text syntax=yaml snip_id=ingress_case_insensitive_envoy_filter >}}
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:
@@ -139,14 +139,14 @@ This filter will change both the path used for comparison and the path presented
         patch:
           operation: INSERT_BEFORE
           value:
-          name: envoy.lua
-          typed_config:
-              "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
-              inlineCode: |
-                function envoy_on_request(request_handle)
-                  local path = request_handle:headers():get(":path")
-                  request_handle:headers():replace(":path", string.lower(path))
-                end
+            name: envoy.lua
+            typed_config:
+                "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
+                inlineCode: |
+                  function envoy_on_request(request_handle)
+                    local path = request_handle:headers():get(":path")
+                    request_handle:headers():replace(":path", string.lower(path))
+                  end
     {{< /text >}}
 
 ## Understand traffic capture limitations
