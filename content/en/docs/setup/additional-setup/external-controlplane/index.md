@@ -210,7 +210,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
    Notice that istiod is configured to use the locally mounted `istio` configmap and the `SHARED_MESH_CONFIG` environment
    variable is set to `istio`. This instructs istiod to merge the values set by the mesh admin in the config cluster's
    configmap with the values in the local configmap set by the mesh operator, here, which will take precedence
-   if there are any conflics:
+   if there are any conflicts:
 
     {{< text syntax=bash snip_id=get_external_istiod_iop >}}
     $ cat <<EOF > external-istiod.yaml
