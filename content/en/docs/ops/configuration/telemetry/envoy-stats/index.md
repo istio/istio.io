@@ -6,7 +6,7 @@ aliases:
   - /help/ops/telemetry/envoy-stats
   - /docs/ops/telemetry/envoy-stats
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 The Envoy proxy keeps detailed statistics about network traffic.
@@ -17,8 +17,8 @@ statistics the Envoy proxies record can provide more information about specific 
 
 To see the statistics for a pod:
 
-{{< text bash >}}
-$ kubectl exec $POD -c istio-proxy -- pilot-agent request GET stats
+{{< text syntax=bash snip_id=get_stats >}}
+$ kubectl exec "$POD" -c istio-proxy -- pilot-agent request GET stats
 {{< /text >}}
 
 Envoy generates statistics about its behavior, scoping the statistics by proxy function. Examples include:
@@ -36,7 +36,6 @@ keys are:
 - `listener_manager`
 - `server`
 - `cluster.xds-grpc`
-- `wasm`
 
 To see the Envoy settings for statistics data collection use
 [`istioctl proxy-config bootstrap`](/docs/reference/commands/istioctl/#istioctl-proxy-config-bootstrap) and follow the
@@ -50,31 +49,38 @@ If you build or maintain dashboards or alerts based on Envoy statistics, it is *
 statistics in a canary environment **before upgrading Istio**.
 {{< /tip >}}
 
-To configure Istio proxy to record additional statistics, you can add [`ProxyConfig.ProxyStatsMatcher`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyStatsMatcher) to your mesh config. For example, to enable stats for circuit breaker, retry, and upstream connections globally, you can specify stats matcher as follow:
+To configure Istio proxy to record additional statistics, you can add [`ProxyConfig.ProxyStatsMatcher`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyStatsMatcher) to your mesh config. For example, to enable stats for circuit breaker, retry, and upstream connections globally, you can specify stats matcher as follows:
 
 {{< tip >}}
 Proxy needs to restart to pick up the stats matcher configuration.
 {{< /tip >}}
 
-{{< text yaml >}}
-proxyStatsMatcher:
-  inclusionRegexps:
-    - ".*circuit_breakers.*"
-  inclusionPrefixes:
-    - "upstream_rq_retry"
-    - "upstream_cx"
+{{< text syntax=yaml snip_id=proxyStatsMatcher >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    defaultConfig:
+      proxyStatsMatcher:
+        inclusionRegexps:
+          - ".*circuit_breakers.*"
+        inclusionPrefixes:
+          - "upstream_rq_retry"
+          - "upstream_cx"
 {{< /text >}}
 
-You can also override the global stats matching configuration per proxy by using the `proxy.istio.io/config` annotation. For example, to configure the same stats generation inclusion as above, you can add the annotation to a gateway proxy or a workload as follow:
+You can also override the global stats matching configuration per proxy by using the `proxy.istio.io/config` annotation. For example, to configure the same stats generation inclusion as above, you can add the annotation to a gateway proxy or a workload as follows:
 
-{{< text yaml >}}
-proxy.istio.io/config: |-
-  proxyStatsMatcher:
-    inclusionRegexps:
-    - ".*circuit_breakers.*"
-    inclusionPrefixes:
-    - "upstream_rq_retry"
-    - "upstream_cx"
+{{< text syntax=yaml snip_id=proxyIstioConfig >}}
+metadata:
+  annotations:
+    proxy.istio.io/config: |-
+      proxyStatsMatcher:
+        inclusionRegexps:
+        - ".*circuit_breakers.*"
+        inclusionPrefixes:
+        - "upstream_rq_retry"
+        - "upstream_cx"
 {{< /text >}}
 
 {{< tip >}}

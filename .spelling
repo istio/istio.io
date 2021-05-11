@@ -67,6 +67,7 @@
 8ms
 8x
 9ms
+_build
 _CA_
 _data
 _V2_
@@ -102,6 +103,7 @@ Aporeto
 AppOptics
 appswitch
 AppSwitch
+architected
 args.yaml
 AssemblyScript
 Atlassian
@@ -183,7 +185,9 @@ ControlZ
 CoreDNS
 coreos
 Costin
+CR
 CRD
+CRs
 CRDs
 CSRs
 Ctrl
@@ -466,6 +470,7 @@ Marshalers
 memcached
 memcached-2's
 MetalLB
+MeshConfig
 Mesos
 mesos-dns
 metadata
@@ -518,6 +523,8 @@ oc
 OCI-compliant
 ok
 Okta
+onboard
+Onboard
 onboarding
 Onboarding
 onwards

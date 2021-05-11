@@ -1,6 +1,6 @@
 ---
 title: Blog
-description: Istio addresses the challenges developers and operators face as monolithic applications transition towards a distributed microservice architecture.
+description: Read articles from contributors and users on all things Istio.
 linktitle: Blog
 sidebar_multicard: true
 icon: blog

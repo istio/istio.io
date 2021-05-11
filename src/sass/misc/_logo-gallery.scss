@@ -3,7 +3,6 @@
 }
 
 .company-logo {
-    @include grayscale-element(100%);
 
     display: grid;
     background-color: #f8f9fa;
@@ -11,7 +10,6 @@
     place-items: center;
     max-width: 320px;
     width: 100%;
-    transition: filter .175s ease-in;
 
     &::before {
         content: "";
@@ -26,10 +24,6 @@
     &::before,
     & > img {
         grid-area: 1 / 1 / 2 / 2;
-    }
-
-    &:hover {
-        filter: none;
     }
 
     .outer {
