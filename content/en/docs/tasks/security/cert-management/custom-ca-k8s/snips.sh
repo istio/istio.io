@@ -25,22 +25,23 @@ cat <<EOF > ./istio.yaml
   apiVersion: install.istio.io/v1alpha1
   kind: IstioOperator
   spec:
-    pilot:
-      k8s:
-        env:
-        # Indicate to Istiod that we use an Custom Certificate Authority
-        - name: EXTERNAL_CA
-          value: ISTIOD_RA_KUBERNETES_API
-        # Tells Istiod to use the Kubernetes legacy CA Signer
-        - name: K8S_SIGNER
-          value: kubernetes.io/legacy-unknown
+    components:
+      pilot:
+        k8s:
+          env:
+          # Indicate to Istiod that we use an Custom Certificate Authority
+          - name: EXTERNAL_CA
+            value: ISTIOD_RA_KUBERNETES_API
+          # Tells Istiod to use the Kubernetes legacy CA Signer
+          - name: K8S_SIGNER
+            value: kubernetes.io/legacy-unknown
 EOF
 istioctl install --set profile=demo -f ./istio.yaml
 }
 
 snip_verify_that_the_certificates_installed_are_correct_1() {
 ingress_pod="$(kubectl get pod -l app=istio-ingressgateway -n istio-system -o jsonpath="{.items[0].metadata.name}")"
-istioctl pc secret "$ingress_pod" -o json | jq .dynamicActiveSecrets[1].secret.validationContext.trustedCa.inlineBytes | sed 's/\"//g' | base64 -d
+istioctl pc secret "$ingress_pod".istio-system -o json | jq .dynamicActiveSecrets[1].secret.validationContext.trustedCa.inlineBytes | sed 's/\"//g' | base64 -d
 }
 
 snip_verify_that_the_certificates_installed_are_correct_2() {

@@ -36,15 +36,16 @@ Note that this example should only be used for basic evaluation. The use of the 
       apiVersion: install.istio.io/v1alpha1
       kind: IstioOperator
       spec:
-        pilot:
-          k8s:
-            env:
-            # Indicate to Istiod that we use an Custom Certificate Authority
-            - name: EXTERNAL_CA
-              value: ISTIOD_RA_KUBERNETES_API
-            # Tells Istiod to use the Kubernetes legacy CA Signer
-            - name: K8S_SIGNER
-              value: kubernetes.io/legacy-unknown
+        components:
+          pilot:
+            k8s:
+              env:
+              # Indicate to Istiod that we use an Custom Certificate Authority
+              - name: EXTERNAL_CA
+                value: ISTIOD_RA_KUBERNETES_API
+              # Tells Istiod to use the Kubernetes legacy CA Signer
+              - name: K8S_SIGNER
+                value: kubernetes.io/legacy-unknown
     EOF
     $ istioctl install --set profile=demo -f ./istio.yaml
     {{< /text >}}
@@ -59,12 +60,12 @@ To verify that they have been signed by the Kubernetes CA, you need to first ext
 
     {{< text bash >}}
     $ ingress_pod="$(kubectl get pod -l app=istio-ingressgateway -n istio-system -o jsonpath="{.items[0].metadata.name}")"
-    $ istioctl pc secret "$ingress_pod" -o json | jq .dynamicActiveSecrets[1].secret.validationContext.trustedCa.inlineBytes | sed 's/\"//g' | base64 -d
+    $ istioctl pc secret "$ingress_pod".istio-system -o json | jq .dynamicActiveSecrets[1].secret.validationContext.trustedCa.inlineBytes | sed 's/\"//g' | base64 -d
     {{< /text >}}
 
     The proxy_secret json file contains the CA root certificate for mTLS in the `trustedCA` field. Note that this certificate is base64 encoded.
 
-2. The certificate used by the Kubernetes CA (specifically the `kubernetes.io/legacy-unknown` signer) is loaded onto the secret associated with every service account in the bookinfo namespace. k get secret/$secret -n istio-system -o json | jq '.data."ca.crt"' | sed 's/\"//g' | base64 -d
+1. The certificate used by the Kubernetes CA (specifically the `kubernetes.io/legacy-unknown` signer) is loaded onto the secret associated with every service account in the bookinfo namespace.
 
     {{< text bash >}}
     $ secret="$(kubectl get secrets -n istio-system -o json | jq '.items[].metadata.name' | grep "account-token" | head -1 | sed 's/\"//g')"
@@ -72,9 +73,9 @@ To verify that they have been signed by the Kubernetes CA, you need to first ext
     {{< /text >}}
 
     
-3. Compare the certs obtained from step 1 and step 2. These two should be the same.
+1. Compare the certs obtained from step 1 and step 2. These two should be the same.
 
-4. (Optional) Follow the rest of the steps in the [bookinfo example](/docs/examples/bookinfo/) to ensure that communication between services is working as expected.
+1. (Optional) Follow the rest of the steps in the [bookinfo example](/docs/examples/bookinfo/) to ensure that communication between services is working as expected.
 
 ### Cleanup Part 1
 
