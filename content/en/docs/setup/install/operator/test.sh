@@ -50,4 +50,5 @@ _verify_like snip_kubectl_get_pods "$snip_kubectl_get_pods_out"
 
 # @cleanup
 istioctl operator remove
-istiotl x uninstall --purge -y
+istioctl x uninstall --purge -y
+kubectl delete ns istio-system --grace-period=0 --force
