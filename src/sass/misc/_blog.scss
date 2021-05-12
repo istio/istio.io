@@ -146,11 +146,8 @@
     .news-list {
         .post-card {
             .post-summary {
-                height: 152px;
-                @media (min-width: $bp-md) {
-                    height: 168px;
-                    -webkit-line-clamp: 6;
-                }
+                height: auto;
+                -webkit-line-clamp: unset;
             }
         }
     }

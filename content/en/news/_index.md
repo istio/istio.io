@@ -5,7 +5,7 @@ linktitle: News
 sidebar_multicard: true
 icon: bullhorn
 decoration: pill
-type: newsfeed
+layout: news-feed
 outputs:
     - html
     - rss

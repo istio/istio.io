@@ -1,10 +1,10 @@
 ---
-title: Change Notes
+title: Istio 1.3 Change Notes
 description: Istio 1.3 release notes.
 publishdate: 2019-09-12
 release: 1.3
 subtitle: Minor Release
-linktitle: 1.3
+linktitle: 1.3 Change Notes
 weight: 10
 aliases:
     - /about/notes/1.3
