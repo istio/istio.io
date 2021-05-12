@@ -15,6 +15,7 @@ skip_feedback: true
 doc_type: article
 sidebar_force: sidebar_case_study
 type: case-studies
+weight: 90
 ---
 
 Atlassian has been deploying Envoy to the compute nodes of its internal PaaS over the past 2 years to simplify service-to-service communication for internal developers. As of [their presentation at IstioCon 2021](https://events.istio.io/istiocon-2021/sessions/going-dynamic-with-envoy-at-atlassian/), they deploy Envoy with static configuration and they want to take advantage of dynamic features like client-side routing, direct communication, and fault injection. Atlassian decided Istio was the best choice to deliver this over the next year. Nicolas talk through Atlassian’s journey with service-to-service communication, Envoy and the evolution of their home-grown control planes, then walks through the analysis that led to Istio being the best decision for Atlassian’s business moving forward.

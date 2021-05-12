@@ -15,6 +15,7 @@ skip_feedback: true
 doc_type: article
 sidebar_force: sidebar_case_study
 type: case-studies
+weight: 80
 ---
 
 Managing a service mesh that spans hundreds of thousands of containers across the globe is no easy feat. At high scale, achieving fast configuration convergence time to thousands of proxies, while limiting the CPU & memory utilization of control-plane & proxies is a challenging problem. [This talk from IstioCon 2021](https://events.istio.io/istiocon-2021/sessions/istio-at-scale-ebay/) describes eBay’s initial journey into building a scalable service mesh that provides the traffic management, load-balancing, security and observability features at scale leveraging Istio.

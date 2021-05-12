@@ -15,6 +15,7 @@ skip_feedback: true
 doc_type: article
 sidebar_force: sidebar_case_study
 type: case-studies
+weight: 40
 ---
 
 Istio and Envoy are foundational building blocks of the Salesforce Service Mesh. In [a presentation at IstioCon 2021](https://events.istio.io/istiocon-2021/sessions/salesforce-service-mesh--our-istio-journey/), Pratima Nambiar walks through Salesforce's service mesh journey. She briefly talks about why they chose the service mesh design pattern, how they initially built it using Envoy and an in-house control plane, and their subsequent pivot to Istio. She discusses how they are currently leveraging Istio and their plan to increase adoption of Istio to further enhance their Service Mesh platform.

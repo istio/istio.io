@@ -15,6 +15,7 @@ skip_feedback: true
 doc_type: article
 sidebar_force: sidebar_case_study
 type: case-studies
+weight: 50
 ---
 
 As service mesh gains wider adoption, more and more companies are looking to bring Istio to their organization. Istio will impact many teams, from operations to developers, and it’s important that they are well equipped. In [this talk from IstioCon 2021](https://events.istio.io/istiocon-2021/sessions/istio-adoption:-planning-for-success-problem-solving/), you’ll hear a success story from the Square Cash team, who decided to move to Istio from Square’s homegrown Envoy service mesh. They discuss why it was the right move for them, how they executed the move, and what they would do differently if they were to do it a second time. Then, they generalize their learnings by exploring patterns they saw firsthand for successfully bringing Istio into organizations.

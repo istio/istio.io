@@ -15,6 +15,7 @@ skip_feedback: true
 doc_type: article
 sidebar_force: sidebar_case_study
 type: case-studies
+weight: 60
 ---
 
 This is a story of struggle, tradeoffs, and triumphs. Istio, as you may know, is a mission-critical piece of software for securing and connecting microservices across platforms. However, it can be daunting to introduce, operationalize, or adopt it successfully.
