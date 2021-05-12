@@ -13,6 +13,7 @@ skip_pagenav: true
 doc_type: article
 sidebar_force: sidebar_case_study
 type: case-studies
+weight: 30
 ---
 
 Bol.com is the largest online retailer in the Netherlands, selling everything from books to electronics to gardening equipment. Originally founded in 1999, they have grown to serve more than 11 million customers across the Netherlands and Belgium. Understandably, their technology stack and IT infrastructure have grown and developed substantially over the years.
