@@ -20,7 +20,7 @@ We currently disclose vulnerabilities and security releases via numerous channel
 
 When operating any software, it is preferable to plan for possible downtime when upgrading. Given the work that the Istio
 community is doing around Day 2 operations in 2021, the Environments working group has done a good job to streamline many
-pgrade issues users have seen. The Product Security Working Group intends to help Day 2 operations by having routine 
+upgrade issues users have seen. The Product Security Working Group intends to help Day 2 operations by having routine 
 security release days so that upgrade operations can be planned in advance for our users.
 
 ## Patch Tuesdays
