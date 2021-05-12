@@ -2,7 +2,7 @@
 title: Install with Helm
 linktitle: Install with Helm
 description: Install and configure Istio for in-depth evaluation.
-weight: 27
+weight: 30
 keywords: [kubernetes,helm]
 owner: istio/wg-environments-maintainers
 icon: helm
