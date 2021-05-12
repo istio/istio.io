@@ -13,7 +13,9 @@
     </div>
 
     {{ with .Site.Data.companies.users }}
-        <h1>{{ i18n "more_case_studies" }}</h1>
+        <div class="logo-wall-heading">
+            <h1>{{ i18n "more_case_studies" }}</h1>
+        </div>
         {{ partial "companies" (dict "items" .) }}
         <div class="cta-container">
             <a href="https://github.com/istio/istio.io/blob/master/data/companies.yml" class="btn">{{ i18n "add_your_logo" }}</a>
