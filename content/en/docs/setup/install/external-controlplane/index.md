@@ -2,6 +2,8 @@
 title: Install Istio with an External Control Plane
 description: Install an external control plane and remote cluster.
 weight: 50
+aliases:
+    - /docs/setup/additional-setup/external-controlplane/
 keywords: [external,control,istiod,remote]
 owner: istio/wg-environments-maintainers
 test: yes
