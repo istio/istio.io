@@ -1,6 +1,6 @@
 ---
-title: How security releases (patch tuesday, embargoes, 0-days) are handled by the Product Security working group
-description: Announcing patch Tuesdays, how 0-days and embargoes are handled, updates to the security best practices page and the notification of the early disclosure list.
+title: How security releases (patch Tuesdays, embargoes, 0-days) are handled by the Product Security working group
+description: Announcing patch Tuesdays, how 0-days and embargoes are handled, updates to the security best practices page and the membership to the early disclosure list.
 publishdate: 2021-05-11
 attribution: "Jacob Delgado (Aspen Mesh)"
 keywords: [cve,product security]
@@ -25,9 +25,13 @@ by having routine security release days so that upgrade operations can be planne
 
 ## Patch Tuesdays
 
-The Product Security working group is intending to ship a security release the 2nd Tuesday of each month. These security
-releases may contain fixes for multiple CVEs. It is the intent of the Product Security working group to have these
-security releases do not contain any other fixes, although that may not always be possible.
+The Product Security working group is intending to ship a security release the 2nd Tuesday of each month when security
+issues have been identified and are being worked on. For such an event, the Product Security Working Group will announce on
+[Discuss](https://discuss.istio.io/c/announcements/5) 2 weeks prior to the 2nd Tuesday of the pending security release.
+If no such announcement is made there will not be a security release for that month, barring some exceptions (see below).
+
+These security releases may contain fixes for multiple CVEs. It is the intent of the Product Security working group to
+have these security releases do not contain any other fixes, although that may not always be possible.
 
 ### First Patch Tuesday
 
