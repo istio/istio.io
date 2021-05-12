@@ -234,7 +234,7 @@ features:
       nextExpectedPromotion: ""
     area: Core
   - name: "External Control Plane"
-    link: "/docs/setup/additional-setup/external-controlplane/"
+    link: "/docs/setup/install/external-controlplane/"
     level:
       checklist: features/external_istiod.md
       maturity: Alpha
