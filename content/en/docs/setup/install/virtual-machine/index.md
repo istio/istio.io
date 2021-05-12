@@ -1,7 +1,7 @@
 ---
 title: Virtual Machine Installation
 description: Deploy Istio and connect a workload running within a virtual machine to it.
-weight: 40
+weight: 60
 keywords:
 - kubernetes
 - virtual-machine

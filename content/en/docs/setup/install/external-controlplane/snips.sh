@@ -17,7 +17,7 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          docs/setup/additional-setup/external-controlplane/index.md
+#          docs/setup/install/external-controlplane/index.md
 ####################################################################################################
 
 snip_set_up_a_gateway_in_the_external_cluster_1() {

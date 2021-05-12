@@ -1,7 +1,9 @@
 ---
 title: Install Istio with an External Control Plane
 description: Install an external control plane and remote cluster.
-weight: 80
+weight: 50
+aliases:
+    - /docs/setup/additional-setup/external-controlplane/
 keywords: [external,control,istiod,remote]
 owner: istio/wg-environments-maintainers
 test: yes
@@ -144,7 +146,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 
 #### Set up the remote config cluster
 
-1. Create the remote Istio install configuration, which installs the injection webhook that uses the
+1. Create the remote cluster's Istio install configuration, which installs the injection webhook that uses the
     external control plane's injector, instead of a locally deployed one. Because this cluster
     also serves as the config cluster, the Istio CRDs and `istio` configmap (i.e., global mesh config)
     are also installed by setting `base.enabled` and `pilot.configMap` to `true`:
