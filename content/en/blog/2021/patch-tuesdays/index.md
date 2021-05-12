@@ -1,5 +1,5 @@
 ---
-title: Updates to how Istio security releases are handled: Patch Tuesday, embargoes, and 0-days
+title: "Updates to how Istio security releases are handled: Patch Tuesday, embargoes, and 0-days"
 description: The Product Security working group announces Patch Tuesdays, how 0-days and embargoes are handled, updates to the security best practices page and the notification of the early disclosure list.
 publishdate: 2021-05-11
 attribution: "Jacob Delgado (Aspen Mesh)"
