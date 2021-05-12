@@ -14,6 +14,7 @@ skip_pagenav: true
 doc_type: article
 sidebar_force: sidebar_case_study
 type: case-studies
+weight: 10
 ---
 
 Auto Trader UK began in 1977 as the premier automotive market magazine in the United Kingdom. When it pivoted to an online presence near the end of the 20th century, it grew to become the UK’s largest digital automotive marketplace.
