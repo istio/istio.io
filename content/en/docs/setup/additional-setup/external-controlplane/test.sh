@@ -69,6 +69,16 @@ export EXTERNAL_ISTIOD_ADDR=$(kubectl \
     -n istio-system get svc istio-ingressgateway \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
+# Set up the remote cluster.
+
+snip_get_remote_config_cluster_iop
+
+#set +e #ignore failures here
+echo y | snip_set_up_the_remote_config_cluster_2
+#set -e
+
+_verify_like snip_set_up_the_remote_config_cluster_3 "$snip_set_up_the_remote_config_cluster_3_out"
+
 # Install istiod on the external cluster.
 
 snip_set_up_the_control_plane_in_the_external_cluster_1
@@ -81,16 +91,6 @@ _verify_like snip_set_up_the_control_plane_in_the_external_cluster_5 "$snip_set_
 
 snip_get_external_istiod_gateway_config_modified
 snip_set_up_the_control_plane_in_the_external_cluster_7
-
-# Set up the remote cluster.
-
-snip_get_remote_config_cluster_iop
-
-#set +e #ignore failures here
-echo y | snip_set_up_the_remote_cluster_2
-#set -e
-
-_verify_like snip_set_up_the_remote_cluster_3 "$snip_set_up_the_remote_cluster_3_out"
 
 # Validate the installation.
 
