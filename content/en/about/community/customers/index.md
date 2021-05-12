@@ -62,6 +62,7 @@ Here are just a few of the organizations we know are using Istio. If you want to
     {{< company_logo link="https://www.softonic.com" logo="./softonic.png" alt="Softonic S.L." >}}
     {{< company_logo link="https://www.splunk.com" logo="./splunk.png" alt="Splunk" >}}
     {{< company_logo link="https://www.spotify.com" logo="./spotify.svg" alt="Spotify" >}}
+    {{< company_logo link="https://www.swoopfunding.com" logo="./swoopfunding.svg" alt="Swoop Funding" >}}
     {{< company_logo link="http://www.theweathercompany.com" logo="./theweatherco.jpg" alt="The Weather Company" >}}
     {{< company_logo link="https://www.thoughtmachine.net" logo="./thought-machine.svg" alt="Thought Machine" >}}
     {{< company_logo link="https://www.tokopedia.com" logo="./tokopedia.svg" alt="Tokopedia" >}}
