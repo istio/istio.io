@@ -208,12 +208,6 @@ revision from `1-8-0` to `1-8-1` and re-apply the file:
     $ kubectl apply -n istio-system -f gateways.yaml
     {{< /text >}}
 
-1.  Perform a rolling restart of the gateway deployment:
-
-    {{< text bash >}}
-    $ kubectl rollout restart deployment -n istio-system istio-ingressgateway
-    {{< /text >}}
-
 1.  Verify that the gateway is running at version 1.8.1.
 
     {{< text bash >}}
