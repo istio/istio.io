@@ -110,13 +110,13 @@ AssemblyScript
 Atlassian
 AttributeGen
 Auth0
-AuthPolicy
 AuthenticationPolicy
 AuthorizationPolicy
-Autoscalers
 authorizer
+AuthPolicy
 authz
 autoscaler
+Autoscalers
 autoscalers
 autoscaling
 AutoTrader
