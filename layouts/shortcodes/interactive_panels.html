@@ -2,7 +2,7 @@
 
 {{ with $items }}
     <div class="panels panels--grid">
-        {{ range $items }}
+        {{ range sort $items "name" }}
             {{ partial "interactive_panel" . }}
         {{ end }}
     </div>
