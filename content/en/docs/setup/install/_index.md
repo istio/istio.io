@@ -12,7 +12,7 @@ test: n/a
 If you need help choosing, refer to our
 [which Istio installation method should I use?](/about/faq/#install-method-selection) FAQ page.
 
-To install gateways in a mesh, refer to [Installing Gateways](/docs/setup/addition-setup/gateways) for details
+To install gateways in a mesh, refer to [Installing Gateways](/docs/setup/addition-setup/gateway) for details
 
 {{< tip >}}
 Istio {{< istio_version >}} has been tested with these Kubernetes releases:
