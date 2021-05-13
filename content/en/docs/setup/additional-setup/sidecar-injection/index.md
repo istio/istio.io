@@ -21,7 +21,7 @@ or by manually using the [`istioctl`](/docs/reference/commands/istioctl) command
 
 When enabled in a pod's namespace, automatic injection injects the proxy configuration at pod creation time using an admission controller.
 
-Manual injection directly modifies configuration, like deployments, and injects the proxy configuration into it.
+Manual injection directly modifies configuration, like deployments, by adding the proxy configuration into it.
 
 If you are not sure which one to use, automatic injection is recommended.
 
@@ -252,4 +252,4 @@ Pods will, by default, use the `sidecar` injection template, which is automatica
 This can be overridden by the `inject.istio.io/templates` annotation.
 For example, to apply the default template and our customization, you can set `inject.istio.io/templates=sidecar,custom`.
 
-In addition to the `sidecar`, a `gateway` template is provided by default to allow injection of Gateway deployments.
+In addition to the `sidecar`, a `gateway` template is provided by default to support proxy injection into Gateway deployments.
