@@ -50,6 +50,15 @@ ENDSNIP
 
 ! read -r -d '' snip_namespace_isolation_1 <<\ENDSNIP
 apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: foo
+spec:
+  mtls:
+    mode: STRICT
+---
+apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: foo-isolation
@@ -63,6 +72,15 @@ spec:
 ENDSNIP
 
 ! read -r -d '' snip_namespace_isolation_with_ingress_exception_1 <<\ENDSNIP
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: foo
+spec:
+  mtls:
+    mode: STRICT
+---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
