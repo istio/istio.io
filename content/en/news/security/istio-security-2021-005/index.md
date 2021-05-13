@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2021-005
 subtitle: Security Bulletin
-description:
+description: HTTP request paths with multiple slashes or escaped slash characters may bypass path based authorization rules.
 cves: [CVE-2021-31920]
 cvss: "8.1"
 vector: "AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"

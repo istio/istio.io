@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2021-006
 subtitle: Security Bulletin
-description:
+description: An external client can access unexpected services in the cluster, bypassing authorization checks, when a gateway is configured with `AUTO_PASSTHROUGH` routing configuration.
 cves: [CVE-2021-31921]
 cvss: "10"
 vector: "AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"

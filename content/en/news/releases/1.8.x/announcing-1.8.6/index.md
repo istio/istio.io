@@ -19,7 +19,9 @@ This is the final release of 1.8. Please upgrade your Istio installation to a su
 
 ## Security update
 
-The following 2 CVEs are highly related.
+{{< tip >}}
+The first 2 CVEs are highly related.
+{{< /tip >}}
 
 - __[CVE-2021-31920](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-31920)__:
 Istio contains a remotely exploitable vulnerability where an HTTP request path with multiple slashes or escaped slash characters (`%2F` or `%5C`) could potentially bypass an Istio authorization policy when path based authorization rules are used. See the [ISTIO-SECURITY-2021-005 bulletin](/news/security/istio-security-2021-005) for more details.

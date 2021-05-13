@@ -15,7 +15,9 @@ This release fixes the security vulnerabilities described in our May 11th posts,
 
 ## Security update
 
-The following 2 CVEs are highly related.
+{{< tip >}}
+The first 2 CVEs are highly related.
+{{< /tip >}}
 
 - __[CVE-2021-31920](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-31920)__:
 Istio contains a remotely exploitable vulnerability where an HTTP request path with multiple slashes or escaped slash characters (`%2F` or `%5C`) could potentially bypass an Istio authorization policy when path based authorization rules are used. See the [ISTIO-SECURITY-2021-005 bulletin](/news/security/istio-security-2021-005) for more details.
