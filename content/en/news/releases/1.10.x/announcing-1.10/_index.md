@@ -11,7 +11,7 @@ aliases:
     - /news/announcing-1.10.0
 ---
 
-We’re excited to announce the release of Istio 1.10! We’d like to give a special thanks to our release managers Sam Naser and Zhihan Zhang in addition to the entire Test and Release Working Group for their work on 1.10.
+We’re excited to announce the release of Istio 1.10! We’d like to give a special thanks to our release managers [Sam Naser](https://github.com/Monkeyanator) and [Zhihan Zhang](https://github.com/ZhiHanZ) in addition to the entire Test and Release Working Group for their work on 1.10.
 
 This is our second release of 2021 and like our last few releases we’ve continued to improve Day 2 operations for Istio users.
 
@@ -29,7 +29,7 @@ You can think of them as a bit like Istio’s Sidecar API resources but for Isti
 
 Istio added support for deploying multiple control planes safely with revisions [all the way back in 1.6](/blog/2020/multiple-control-planes/) and we’ve been steadily improving support since. One of the major usability complaints about revisions has been that a lot of namespace relabeling was required to change revisions, because a label mapped directly to a specific Istio control plane deployment.
 
-With revision tags, there’s now a layer of indirection: you can create tags like `canary` and `prod`, label namespaces using those tags as revisions (i.e. `istio.io/rev=prod`), and associate a specific Istiod revision with that tag. 
+With revision tags, there’s now a layer of indirection: you can create tags like `canary` and `prod`, label namespaces using those tags as revisions (i.e. `istio.io/rev=prod`), and associate a specific Istiod revision with that tag.
 
 For example, imagine you have two revisions, `1-7-6` and `1-8-0`. You create a revision tag `prod` pointed to revision `1-7-6` and create a revision tag `canary` pointed to the newer `1-8-0` revision.
 
@@ -59,7 +59,7 @@ See [the write-up](/blog/2021/upcoming-networking-changes/) by John Howard for a
 
 We’ve revamped Istio.io with a totally new look! This is the first major change to Istio’s site since the project launched nearly four years ago (we’ll celebrate that anniversary on May 24th!). We hope these changes help make the site more user-friendly, easier to navigate, and more readable overall.
 
-This effort was sponsored by Google Cloud and we want to send a special thanks to Craig Box, Aizhamal Nurmamat kyzy and Srinath Padmanabhan for driving this effort, and to all the folks that helped review and provide feedback to early revisions.
+This effort was sponsored by Google Cloud and we want to send a special thanks to [Craig Box](https://twitter.com/craigbox), [Aizhamal Nurmamat Kyzy](https://twitter.com/iamaijamal) and [Srinath Padmanabhan](https://twitter.com/srithreepo) for driving this effort, and to all the folks that helped review and provide feedback to early revisions.
 
 Please give us any feedback you have by filing an issue on the [istio.io repo](https://github.com/istio/istio.io).
 

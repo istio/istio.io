@@ -84,6 +84,7 @@ addon
 addons
 AES-NI
 Airbnb
+Aizhamal
 AKS
 AKS-Engine
 Alibaba
@@ -284,7 +285,6 @@ emojis
 enablement
 endUser-to-Service
 env
-EnvoyFilter
 etcd
 example.com
 ExecAction
@@ -453,6 +453,7 @@ Kubernetes
 kubernetes.default
 kube-proxy
 KubeSphere
+Kyzy
 L3-4
 L4-L6
 Landlow
@@ -512,6 +513,7 @@ mysqldb
 Nambiar
 namespace
 namespaces
+Naser
 natively
 Neeraj
 netmask
@@ -529,6 +531,7 @@ normalization
 ns
 NUL
 NULs
+Nurmamat
 OAuth2
 oc
 OCI-compliant
@@ -555,6 +558,7 @@ outsized
 p50
 p99
 PaaS
+Padmanabhan
 Papertrail
 parenthesization
 passthrough
@@ -706,6 +710,7 @@ strongSwan
 struct
 Styra
 src
+Srinath
 subdomain
 subdomains
 subnet
@@ -845,6 +850,7 @@ yournamespace
 Youtube
 Zack
 Zhang
+Zhihan
 Zhonghu
 Zipkin
 
