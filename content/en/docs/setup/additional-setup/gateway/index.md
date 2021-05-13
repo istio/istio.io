@@ -7,8 +7,8 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-Along with creating a service mesh, Istio allows managing [gateways](/docs/concepts/traffic-management/#gateways),
-which run at the edge of the mesh and allow fine-grained control over traffic entering and leaving the mesh.
+Along with creating a service mesh, Istio allows you to manage [gateways](/docs/concepts/traffic-management/#gateways),
+which run at the edge of the mesh, providing fine-grained control over traffic entering and leaving the mesh.
 
 Follow this guide to deploy one or more gateways.
 
