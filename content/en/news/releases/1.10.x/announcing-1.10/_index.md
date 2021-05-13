@@ -23,7 +23,7 @@ In previous Istio versions, Istio’s control plane has watched and processed up
 
 You can think of them as a bit like Istio’s Sidecar API resources but for Istiod itself: a `Sidecar` resource limits the set of configuration that Istiod will send to Envoy. Discovery Selectors limit the set of configurations that Istio will receive and process from Kubernetes.
 
-[Check out the great write-up](/blog/2021/discovery-selectors/) by Lin, Christian, and Harvey for an in-depth walkthrough of this new feature!
+[Check out the great write-up](/blog/2021/discovery-selectors/) by Lin, Christian, and Harvey for an in-depth walk-through of this new feature!
 
 ## Stable Revision Labels
 
@@ -45,7 +45,7 @@ Now, when you’re ready to promote the `1-8-0` revision from `canary` to `prod`
     caption="Namespaces A, B, and C pointed to 1-8-0"
     >}}
 
-Check out the [updated Canary Upgrade guide](/docs/setup/upgrade/canary/#stable-revision-labels-experimental) for a walkthrough you can follow along with!
+Check out the [updated Canary Upgrade guide](/docs/setup/upgrade/canary/#stable-revision-labels-experimental) for a walk-through you can follow along with!
 
 ## Sidecar Networking Changes
 
@@ -61,7 +61,7 @@ We’ve revamped Istio.io with a totally new look! This is the first major chang
 
 This effort was sponsored by Google Cloud and we want to send a special thanks to [Craig Box](https://twitter.com/craigbox), [Aizhamal Nurmamat Kyzy](https://twitter.com/iamaijamal) and [Srinath Padmanabhan](https://twitter.com/srithreepo) for driving this effort, and to all the folks that helped review and provide feedback to early revisions.
 
-Please give us any feedback you have by filing an issue on the [istio.io repo](https://github.com/istio/istio.io).
+Please give us any feedback you have by filing an issue on the [istio.io repository](https://github.com/istio/istio.io).
 
 ## Deprecations
 
