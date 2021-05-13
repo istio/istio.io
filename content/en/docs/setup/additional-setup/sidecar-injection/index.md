@@ -16,14 +16,27 @@ test: no
 In order to take advantage of all of Istio's features, pods in the mesh must be running an Istio sidecar proxy.
 
 The following sections describe two
-ways of injecting the Istio sidecar into a pod: manually using the [`istioctl`](/docs/reference/commands/istioctl)
-command or by enabling automatic Istio sidecar injection in the pod's namespace.
-
-Manual injection directly modifies configuration, like deployments, and injects the proxy configuration into it.
+ways of injecting the Istio sidecar into a pod: enabling automatic Istio sidecar injection in the pod's namespace,
+or by manually using the [`istioctl`](/docs/reference/commands/istioctl) command.
 
 When enabled in a pod's namespace, automatic injection injects the proxy configuration at pod creation time using an admission controller.
 
+Manual injection directly modifies configuration, like deployments, by adding the proxy configuration into it.
+
 If you are not sure which one to use, automatic injection is recommended.
+
+### Automatic sidecar injection
+
+Sidecars can be automatically added to applicable Kubernetes pods using a
+[mutating webhook admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) provided by Istio.
+
+{{< tip >}}
+While admission controllers are enabled by default, some Kubernetes distributions may disable them. If this is the case, follow the instructions to [turn on admission controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#how-do-i-turn-on-an-admission-controller).
+{{< /tip >}}
+
+When you set the `istio-injection=enabled` label on a namespace and the injection webhook is enabled, any new pods that are created in that namespace will automatically have a sidecar added to them.
+
+Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead, you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
 ### Manual sidecar injection
 
@@ -66,19 +79,6 @@ NAME                     READY   STATUS    RESTARTS   AGE
 sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
 {{< /text >}}
 
-### Automatic sidecar injection
-
-Sidecars can be automatically added to applicable Kubernetes pods using a
-[mutating webhook admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) provided by Istio.
-
-{{< tip >}}
-While admission controllers are enabled by default, some Kubernetes distributions may disable them. If this is the case, follow the instructions to [turn on admission controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#how-do-i-turn-on-an-admission-controller).
-{{< /tip >}}
-
-When you set the `istio-injection=enabled` label on a namespace and the injection webhook is enabled, any new pods that are created in that namespace will automatically have a sidecar added to them.
-
-Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
-
 #### Deploying an app
 
 Deploy sleep app. Verify both deployment and pod have a single container.
@@ -103,11 +103,7 @@ $ kubectl label namespace default istio-injection=enabled --overwrite
 $ kubectl get namespace -L istio-injection
 NAME                 STATUS   AGE     ISTIO-INJECTION
 default              Active   5m9s    enabled
-istio-system         Active   4m58s   disabled
-kube-node-lease      Active   5m10s
-kube-public          Active   5m10s
-kube-system          Active   5m10s
-local-path-storage   Active   5m7s
+...
 {{< /text >}}
 
 Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has `1/1 READY` containers, and the pod with injected sidecar has `2/2 READY` containers.
@@ -163,6 +159,17 @@ on a per-pod basis, by configuring the `sidecar.istio.io/inject` label on a pod:
 | Namespace | `istio-injection` | `enabled` | `disabled` |
 | Pod | `sidecar.istio.io/inject` | `"true"` | `"false"` |
 
+If you are using [control plane revisions](/docs/setup/upgrade/canary/), revision specific labels are instead used by a matching `istio.io/rev` label.
+For example, for a revision named `canary`:
+
+| Resource |Enabled label | Disabled label |
+| -------- | ----- | ------------- | -------------- |
+| Namespace | `istio.io/rev=canary` | `istio-injection=disabled` |
+| Pod | `istio.io/rev=canary` | `sidecar.istio.io/inject="false"` |
+
+If the `istio-injection` label and the `istio.io/rev` label are both present on the same namespace,
+the `istio-injection` label will take precedence.
+
 The injector is configured with the following logic:
 
 1. If either label is disabled, the pod is not injected
@@ -212,7 +219,7 @@ In general, any field in a pod can be set. However, care must be taken for certa
   it is recommended to set the `image` to `auto` which will cause the sidecar injector to automatically select the image to use.
 * Some fields in `Pod` are dependent on related settings. For example, CPU request must be less than CPU limit. If both fields are not configured together, the pod may fail to start.
 
-Additionally, certain fields are configurable by [annotations](/docs/reference/config/annotations/) on the pod, although it is recommend to use the above approach to customizing settings.
+Additionally, certain fields are configurable by [annotations](/docs/reference/config/annotations/) on the pod, although it is recommended to use the above approach to customizing settings.
 
 ### Custom templates [experimental]
 
@@ -244,3 +251,5 @@ spec:
 Pods will, by default, use the `sidecar` injection template, which is automatically created.
 This can be overridden by the `inject.istio.io/templates` annotation.
 For example, to apply the default template and our customization, you can set `inject.istio.io/templates=sidecar,custom`.
+
+In addition to the `sidecar`, a `gateway` template is provided by default to support proxy injection into Gateway deployments.
