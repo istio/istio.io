@@ -59,7 +59,7 @@ See [the write-up](/blog/2021/upcoming-networking-changes/) by John Howard for a
 
 We’ve revamped Istio.io with a totally new look! This is the first major change to Istio’s site since the project launched nearly four years ago (we’ll celebrate that anniversary on May 24th!). We hope these changes help make the site more user-friendly, easier to navigate, and more readable overall.
 
-This effort was sponsored by Google Cloud and we want to send a special thanks to [Craig Box](https://twitter.com/craigbox), [Aizhamal Nurmamat Kyzy](https://twitter.com/iamaijamal) and [Srinath Padmanabhan](https://twitter.com/srithreepo) for driving this effort, and to all the folks that helped review and provide feedback to early revisions.
+This effort was sponsored by Google Cloud and we want to send a special thanks to [Craig Box](https://twitter.com/craigbox), [Aizhamal Nurmamat kyzy](https://twitter.com/iamaijamal) and [Srinath Padmanabhan](https://twitter.com/srithreepo) for driving this effort, and to all the folks that helped review and provide feedback to early revisions.
 
 Please give us any feedback you have by filing an issue on the [istio.io repository](https://github.com/istio/istio.io).
 

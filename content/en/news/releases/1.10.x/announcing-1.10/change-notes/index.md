@@ -1,12 +1,10 @@
 ---
 title: Change Notes
-linktitle: 1.10
+linktitle: 1.10 Change Notes
 description: Istio 1.10.0 release notes.
 publishdate: 2021-05-18
 release: 1.10
 weight: 10
-aliases:
-    - /news/announcing-1.10
 ---
 
 ## Deprecation Notices
@@ -18,7 +16,7 @@ with older Kubernetes clusters without support for more secure token authenticat
 
 - **Deprecated** the `values.global.arch` option in favor of the affinity Kubernetes settings.
   ([Issue #30027](https://github.com/istio/istio/issues/30027))
-  
+
 - **Deprecated** the `remote` installation profile and added the `external` profile for installing Istio with an external control plane.
   ([Issue #32370](https://github.com/istio/istio/issues/32370))
 
