@@ -516,14 +516,11 @@ access control for your workloads in the mesh. This level of control provides
 the following benefits:
 
 - Workload-to-workload and end-user-to-workload authorization.
-- A Simple API: it includes a single
-  [`AuthorizationPolicy` CRD](/docs/reference/config/security/authorization-policy/),
+- A simple API: it includes a single [`AuthorizationPolicy` CRD](/docs/reference/config/security/authorization-policy/),
   which is easy to use and maintain.
-- Flexible semantics: operators can define custom conditions on Istio
-  attributes, and use DENY and ALLOW actions.
-- High performance: Istio authorization is enforced natively on Envoy.
-- High compatibility: supports gRPC, HTTP, HTTPS and HTTP2 natively, as well
-  as any plain TCP protocols.
+- Flexible semantics: operators can define custom conditions on Istio attributes, and use CUSTOM, DENY and ALLOW actions.
+- High performance: Istio authorization (`ALLOW` and `DENY`) is enforced natively on Envoy.
+- High compatibility: supports gRPC, HTTP, HTTPS and HTTP/2 natively, as well as any plain TCP protocols.
 
 ### Authorization architecture
 
@@ -541,13 +538,19 @@ authorization policies using `.yaml` files.
 
 ### Implicit enablement
 
-You don't need to explicitly enable Istio's authorization features. Just apply
-an authorization policy to the workloads to enforce access control.
-For workloads without authorization policies applied, Istio doesn't enforce
-access control allowing all requests.
+You don't need to explicitly enable Istio's authorization features; they are available after installation.
+To enforce access control to your workloads, you apply an authorization policy.
 
-Authorization policies support `ALLOW`, `DENY` and `CUSTOM` actions. The policy precedence is
-`CUSTOM`, `DENY` and `ALLOW`. The following graph shows the policy precedence in detail:
+For workloads without authorization policies applied, Istio allows all requests.
+
+Authorization policies support `ALLOW`, `DENY` and `CUSTOM` actions. You can apply multiple policies, each with a
+different action, as needed to secure access to your workloads.
+
+Istio checks for matching policies in layers, in this order: `CUSTOM`, `DENY`, and then `ALLOW`. For each type of action,
+Istio first checks if there is a policy with the action applied, and then checks if the request matches the policy's
+specification. If a request doesn't match a policy in one of the layers, the check continues to the next layer.
+
+The following graph shows the policy precedence in detail:
 
 {{< image width="50%" link="./authz-eval.png" caption="Authorization Policy Precedence">}}
 
@@ -757,8 +760,12 @@ spec:
 The following example shows an `ALLOW` policy that matches nothing. If there are no other `ALLOW` policies, requests
 will always be denied because of the "deny by default" behavior.
 
+Note the "deny by default" behavior applies only if the workload has at least one authorization policy with the `ALLOW` action.
+
+{{< tip >}}
 It is a good security practice to start with the `allow-nothing` policy and incrementally add more `ALLOW` policies to open more
 access to the workload.
+{{< /tip >}}
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -766,8 +773,8 @@ kind: AuthorizationPolicy
 metadata:
   name: allow-nothing
 spec:
-  # This matches nothing, the action defaults to ALLOW if not specified.
-  {}
+  action: ALLOW
+  # the rules field is not specified, and the policy will never match.
 {{< /text >}}
 
 The following example shows a `DENY` policy that explicitly denies all access. It will always deny the request even if
@@ -781,7 +788,7 @@ metadata:
   name: deny-all
 spec:
   action: DENY
-  # This matches everything.
+  # the rules field has an empty rule, and the policy will always match.
   rules:
   - {}
 {{< /text >}}
@@ -925,17 +932,19 @@ spec:
 
 ### Dependency on mutual TLS
 
-Istio uses mutual TLS to securely pass some information from the client to the
-server. Mutual TLS must be enabled before using any of the following fields in
-the authorization policy:
+Istio uses mutual TLS to securely pass some information from the client to the server. Mutual TLS must be enabled before
+using any of the following fields in the authorization policy:
 
 - the `principals` and `notPrincipals` field under the `source` section
 - the `namespaces` and `notNamespaces` field under the `source` section
 - the `source.principal` custom condition
 - the `source.namespace` custom condition
 
-Mutual TLS is not required if you don't use any of the above fields in the
-authorization policy.
+Note it is strongly recommended to always use these fields with **strict** mutual TLS mode in the `PeerAuthentication` to avoid
+potential unexpected requests rejection or policy bypass when plain text traffic is used with the permissive mutual TLS mode.
+
+Check the [security advisory](/news/security/istio-security-2021-004) for more details and alternatives if you cannot enable
+strict mutual TLS mode.
 
 ## Learn more
 
