@@ -59,6 +59,11 @@ before evaluating against the authorization policies and routing the requests:
 | `MERGE_SLASHES` | Slashes are merged after the _BASE_ normalization. | `/a//b` is normalized to `/a/b`. |
 | `DECODE_AND_MERGE_SLASHES` | The most strict setting when you allow all traffic by default. This setting is recommended, with the caveat that you will need to thoroughly test your authorization policies routes. [Percent-encoded](https://tools.ietf.org/html/rfc3986#section-2.1) slash and backslash characters (`%2F`, `%2f`, `%5C` and `%5c`) are decoded to `/` or `\`, before the `MERGE_SLASHES` normalization. | `/a%2fb` is normalized to `/a/b`. |
 
+{{< tip >}}
+The configuration is specified via the [`pathNormalization`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ProxyPathNormalization)
+field in the the [mesh config](/docs/reference/config/istio.mesh.v1alpha1/).
+{{< /tip >}}
+
 To emphasize, the normalization algorithms are conducted in the following order:
 
 1. Percent-decode `%2F`, `%2f`, `%5C` and `%5c`.
@@ -87,10 +92,9 @@ The normalized URL paths, or the original URL paths if _NONE_ is selected, will 
 | Normalizes request paths based on [RFC 3986](https://tools.ietf.org/html/rfc3986), decodes [percent-encoded](https://tools.ietf.org/html/rfc3986#section-2.1) slashes and merges slashes | `DECODE_AND_MERGE_SLASHES` |
 | Processes request paths in a way that is incompatible with [RFC 3986](https://tools.ietf.org/html/rfc3986) | `NONE` |
 
-#### How to configure
+### How to configure
 
-You specify the normalization by directly editing the [mesh config](/docs/reference/config/istio.mesh.v1alpha1/).
-You need to manually edit the mesh config to specify this option:
+You can use `istioctl` to update the [mesh config](/docs/reference/config/istio.mesh.v1alpha1/):
 
     {{< text bash >}}
     $ istioctl upgrade --set meshConfig.pathNormalization.normalization=DECODE_AND_MERGE_SLASHES
@@ -108,6 +112,21 @@ or by altering your operator overrides file
           normalization: DECODE_AND_MERGE_SLASHES
     EOF
     $ istioctl install -f iop.yaml
+    {{< /text >}}
+
+Alternatively, if you want to directly edit the mesh config,
+you can add the [`pathNormalization`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ProxyPathNormalization)
+to the [mesh config](/docs/reference/config/istio.mesh.v1alpha1/), which is the `istio-<REVISION_ID>` configmap in the `istio-system` namespace.
+For example, if you choose the `DECODE_AND_MERGE_SLASHES` option, you modify the mesh config as the following:
+
+    {{< text yaml >}}
+    apiVersion: v1
+      data:
+        mesh: |-
+          ...
+          pathNormalization:
+            normalization: DECODE_AND_MERGE_SLASHES
+          ...
     {{< /text >}}
 
 ### Less common normalization configurations
