@@ -17,7 +17,6 @@ package istioio
 import (
 	"bufio"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -117,8 +116,8 @@ func (s Script) run(ctx framework.TestContext) {
 		_ = writer.Flush()
 		_ = outputFile.Close()
 	}()
-	cmd.Stdout = io.MultiWriter(writer, os.Stdout)
-	cmd.Stderr = io.MultiWriter(writer, os.Stderr)
+	cmd.Stdout = writer
+	cmd.Stderr = writer
 
 	// Run the command.
 	if err := cmd.Run(); err != nil {
