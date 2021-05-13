@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 42
+number_of_entries: 44
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -619,23 +619,41 @@ computing configuration updates for sidecars. This can be used to reduce Istio&r
 by limiting the number of entities (including services, pods, and endpoints) that are watched and processed.
 If omitted, Istio will use the default behavior of processing all namespaces in the cluster.
 Elements in the list are disjunctive (OR semantics), i.e. a namespace will be included if it matches any selector.
-The following example selects any namespace with either labels <code>env: prod</code> and <code>region: us-east1</code>,
-or with label <code>app</code> equal to <code>cassandra</code> or <code>spark</code>.</p>
+The following example selects any namespace that matches either below:
+1. The namespace has both of these labels: <code>env: prod</code> and <code>region: us-east1</code>
+2. The namespace has label <code>app</code> equal to <code>cassandra</code> or <code>spark</code>.</p>
 
 <pre><code class="language-yaml">discoverySelectors:
- - matchLabels:
-     env: prod
-     region: us-east1
- - matchExpressions:
-   - key: app
-     operator: In
-     values:
-       - cassandra
-       - spark
+  - matchLabels:
+      env: prod
+      region: us-east1
+  - matchExpressions:
+    - key: app
+      operator: In
+      values:
+        - cassandra
+        - spark
 </code></pre>
 
 <p>Refer to the <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">kubernetes selector docs</a>
 for additional detail on selector semantics.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-path_normalization">
+<td><code>pathNormalization</code></td>
+<td><code><a href="#MeshConfig-ProxyPathNormalization">ProxyPathNormalization</a></code></td>
+<td>
+<p>ProxyPathNormalization configures how URL paths in incoming and outgoing HTTP requests are
+normalized by the sidecars and gateways.
+The normalized paths will be used in all aspects through the requests&rsquo; lifetime on the
+sidecars and gateways, which includes routing decisions in outbound direction (client proxy),
+authorization policy match and enforcement in inbound direction (server proxy), and the URL
+path proxied to the upstream service.
+If not set, the NormalizationType.DEFAULT configuration will be used.</p>
 
 </td>
 <td>
@@ -1060,6 +1078,30 @@ in other Istio configuration resources if the provider is not specified.</p>
 defined in <code>extension_providers</code> that is one of the support tracing
 providers.</p>
 
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ProxyPathNormalization">MeshConfig.ProxyPathNormalization</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ProxyPathNormalization-normalization">
+<td><code>normalization</code></td>
+<td><code><a href="#MeshConfig-ProxyPathNormalization-NormalizationType">NormalizationType</a></code></td>
+<td>
 </td>
 <td>
 No
@@ -2884,6 +2926,59 @@ See the
 <code>X-B3-SpanId</code>, and <code>X-B3-Sampled</code> HTTP headers. See
 <a href="https://github.com/openzipkin/b3-propagation">B3 header propagation README</a>
 for details.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ProxyPathNormalization-NormalizationType">MeshConfig.ProxyPathNormalization.NormalizationType</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ProxyPathNormalization-NormalizationType-DEFAULT">
+<td><code>DEFAULT</code></td>
+<td>
+<p>Apply default normalizations. Currently, this is BASE.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ProxyPathNormalization-NormalizationType-NONE">
+<td><code>NONE</code></td>
+<td>
+<p>No normalization, paths are used as is.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ProxyPathNormalization-NormalizationType-BASE">
+<td><code>BASE</code></td>
+<td>
+<p>Normalize according to <a href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>.
+For Envoy proxies, this is the <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html"><code>normalize_path</code></a> option.
+For example, <code>/a/../b</code> normalizes to <code>/b</code>.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ProxyPathNormalization-NormalizationType-MERGE_SLASHES">
+<td><code>MERGE_SLASHES</code></td>
+<td>
+<p>In addition to the <code>BASE</code> normalization, consecutive slashes are also merged.
+For example, <code>/a//b</code> normalizes to <code>a/b</code>.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ProxyPathNormalization-NormalizationType-DECODE_AND_MERGE_SLASHES">
+<td><code>DECODE_AND_MERGE_SLASHES</code></td>
+<td>
+<p>In addition to normalization in <code>MERGE_SLASHES</code>, slash characters are UTF-8 decoded (case insensitive) prior to merging.
+This means <code>%2F</code>, <code>%2f</code>, <code>%5C</code>, and <code>%5c</code> sequences in the request path will be rewritten to <code>/</code> or <code>\</code>.
+For example, <code>/a%2f/b</code> normalizes to <code>a/b</code>.</p>
 
 </td>
 </tr>

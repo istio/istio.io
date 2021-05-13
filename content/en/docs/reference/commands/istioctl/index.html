@@ -5895,6 +5895,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_LEGACY_AUTO_PASSTHROUGH</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will allow any upstream cluster to be used with AUTO_PASSTHROUGH. This option is intended for backwards compatibility only and is not secure with untrusted downstreams; it will be removed in the future.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_MCS_SERVICEEXPORT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
