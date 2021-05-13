@@ -91,7 +91,7 @@ spec:
 EOF
 }
 
-snip_update_2() {
+snip_update_operator() {
 kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator

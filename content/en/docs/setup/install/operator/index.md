@@ -157,7 +157,7 @@ EOF
 You can also enable or disable components and modify resource settings.
 For example, to enable the `istio-egressgateway` component and increase pilot memory requests:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=update_operator >}}
 $ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator

@@ -20,33 +20,22 @@ set -o pipefail
 
 # @setup profile=none
 
-echo "Creating operator..."
 snip_create_istio_operator
-
-echo "Waiting for operator..."
 _wait_for_deployment istio-operator istio-operator
 
-echo "Creating demo profile..."
 snip_create_demo_profile
-
-echo "Waiting for dep..."
 sleep 30s
-
-echo "Operator logs"
-kubectl logs -n istio-operator -l name=istio-operator
-
-echo "Pod dump"
-kubectl get pods --all-namespaces
-
 _wait_for_deployment istio-system istiod
 
-echo "Verifying services..."
 # shellcheck disable=SC2154
 _verify_like snip_kubectl_get_svc "$snip_kubectl_get_svc_out"
 
-echo "Verifying pods..."
 # shellcheck disable=SC2154
 _verify_like snip_kubectl_get_pods "$snip_kubectl_get_pods_out"
+
+snip_update_operator
+sleep 30s
+_verify_contains snip_kubectl_get_svc "egressgateway"
 
 # @cleanup
 istioctl operator remove
