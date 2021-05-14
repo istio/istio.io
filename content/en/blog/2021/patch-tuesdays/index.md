@@ -29,6 +29,11 @@ The Product Security working group is intending to ship a security release the 2
 releases may contain fixes for multiple CVEs. It is the intent of the Product Security working group to have these
 security releases not contain any other fixes, although that may not always be possible.
 
+When the Product Security working group intends to ship an upcoming security patch an announcment will be
+made [Discuss](https://discuss.istio.io/c/announcements/5) 2 weeks prior to release. We ask that you
+please watch the announcements category to be notified of such a release. If no such announcement
+is made there will not be a security release for that month, barring some exceptions (see below).
+
 ### First Patch Tuesday
 
 We are pleased to announce that [Istio 1.9.5](/news/releases/1.9.x/announcing-1.9.5/), and the final release of Istio 1.8,
