@@ -28,7 +28,7 @@ test: yes
 
 *   启动 [sleep]({{< github_tree >}}/samples/sleep) 示例，该示例将用作外部调用的测试源。
 
-    如果启用了 [Sidecar 的自动注入功能](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，运行：
+    如果启用了 [Sidecar 的自动注入功能](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，运行以下命令部署 `sleep` 应用：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -54,9 +54,9 @@ test: yes
 首先，使用与 [Egress 流量控制](/zh/docs/tasks/traffic-management/egress/)任务中的相同的技术，配置对外部服务 `edition.cnn.com` 的访问。
 但这一次我们将使用单个 `ServiceEntry` 来启用对服务的 HTTP 和 HTTPS 访问。
 
-1. 创建一个 `ServiceEntry` 和 `VirtualService` 以启用对 `edition.cnn.com` 的访问：
+1. 创建一个 `ServiceEntry` 启用对 `edition.cnn.com` 的访问：
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=apply_simple >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
@@ -73,41 +73,19 @@ test: yes
         name: https-port
         protocol: HTTPS
       resolution: DNS
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: edition-cnn-com
-    spec:
-      hosts:
-      - edition.cnn.com
-      tls:
-      - match:
-        - port: 443
-          sni_hosts:
-          - edition.cnn.com
-        route:
-        - destination:
-            host: edition.cnn.com
-            port:
-              number: 443
-          weight: 100
     EOF
     {{< /text >}}
 
 1. 向外部的 HTTP 服务发送请求：
 
-    {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    {{< text syntax=bash snip_id=curl_simple >}}
+    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
     location: https://edition.cnn.com/politics
     ...
 
-    HTTP/1.1 200 OK
-    Content-Type: text/html; charset=utf-8
-    ...
-    Content-Length: 151654
+    HTTP/2 200
     ...
     {{< /text >}}
 
@@ -130,7 +108,7 @@ test: yes
 
 1. 重新定义上一节的 `ServiceEntry` 和 `VirtualService` 以重写 HTTP 请求端口，并添加一个 `DestinationRule` 以执行 TLS 发起。
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=apply_origination >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
@@ -143,27 +121,11 @@ test: yes
       - number: 80
         name: http-port
         protocol: HTTP
+        targetPort: 443
       - number: 443
-        name: https-port-for-tls-origination
+        name: https-port
         protocol: HTTPS
       resolution: DNS
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: edition-cnn-com
-    spec:
-      hosts:
-      - edition.cnn.com
-      http:
-      - match:
-        - port: 80
-        route:
-        - destination:
-            host: edition.cnn.com
-            subset: tls-origination
-            port:
-              number: 443
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -171,31 +133,22 @@ test: yes
       name: edition-cnn-com
     spec:
       host: edition.cnn.com
-      subsets:
-      - name: tls-origination
-        trafficPolicy:
-          loadBalancer:
-            simple: ROUND_ROBIN
-          portLevelSettings:
-          - port:
-              number: 443
-            tls:
-              mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
+      trafficPolicy:
+        portLevelSettings:
+        - port:
+            number: 80
+          tls:
+            mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
     EOF
     {{< /text >}}
 
-    如您所见 `VirtualService` 将 80 端口的请求重定向到 443 端口，并在相应的 `DestinationRule` 执行 TSL 发起。
-    请注意，与上一节中的 `ServiceEntry` 不同，这次 443 端口上的协议是 HTTP，而不是 HTTPS。
-    这是因为客户端仅发送 HTTP 请求，而 Istio 会将连接升级到 HTTPS。
+    上面的 `DestinationRule` 将对端口80和 `ServiceEntry` 上的HTTP请求执行TLS发起。然后将端口 80 上的请求重定向到目标端口 443。
 
 1. 如上一节一样，向 `http://edition.cnn.com/politics` 发送 HTTP 请求：
 
-    {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    {{< text syntax=bash snip_id=curl_origination_http >}}
+    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 200 OK
-    Content-Type: text/html; charset=utf-8
-    ...
-    Content-Length: 151654
     ...
     {{< /text >}}
 
@@ -209,12 +162,9 @@ test: yes
 
 1. 请注意，使用 HTTPS 访问外部服务的应用程序将继续像以前一样工作：
 
-    {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
-    HTTP/1.1 200 OK
-    Content-Type: text/html; charset=utf-8
-    ...
-    Content-Length: 151654
+    {{< text syntax=bash snip_id=curl_origination_https >}}
+    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
+    HTTP/2 200
     ...
     {{< /text >}}
 
