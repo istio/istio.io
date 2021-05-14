@@ -40,7 +40,7 @@ These changes gave bol.com the ability to scale by adding new Kubernetes cluster
 
 ## Why Istio?
 
-When bol.com initially began migrating to Kubernetes, Istio was just in version 0.2. It did not seem to be ready for production, so they went forward without Istio. They first started to look seriously at Istio around version 1.0, but they ran into too many issues with deployment and implementation. Without an urgent use case, they tabled the idea.
+When bol.com initially began migrating to Kubernetes, Istio was only at version 0.2. It did not seem to be ready for production, so they went forward without Istio. They first started to look seriously at Istio around version 1.0, but they ran into too many issues with deployment and implementation. Without an urgent use case, they tabled the idea.
 
 Eventually, however, it wasn't just the scaling issues that brought bol.com back to an Istio solution. In addition to needing Kubernetes clusters to securely communicate with each other, they also were facing new regulatory requirements that would necessitate secure communications with various third party services and APIs. These controls could not be based on firewall rules and IP ranges, which are subject to constant change – they needed to be based on the identity of the application.
 
