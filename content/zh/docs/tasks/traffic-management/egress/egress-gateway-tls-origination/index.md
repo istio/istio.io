@@ -98,44 +98,44 @@ test: yes
 
 1. 为 _edition.cnn.com_ 创建一个 egress `Gateway`，端口 443，以及一个 sidecar 请求的目标规则，sidecar 请求被直接导向 egress 网关。
 
-  {{< text bash >}}
-  $ kubectl apply -f - <<EOF
-  apiVersion: networking.istio.io/v1alpha3
-  kind: Gateway
-  metadata:
-    name: istio-egressgateway
-  spec:
-    selector:
-      istio: egressgateway
-    servers:
-    - port:
-        number: 80
-        name: https-port-for-tls-origination
-        protocol: HTTPS
-      hosts:
-      - edition.cnn.com
-      tls:
-        mode: ISTIO_MUTUAL
-  ---
-  apiVersion: networking.istio.io/v1alpha3
-  kind: DestinationRule
-  metadata:
-    name: egressgateway-for-cnn
-  spec:
-    host: istio-egressgateway.istio-system.svc.cluster.local
-    subsets:
-    - name: cnn
-      trafficPolicy:
-        loadBalancer:
-          simple: ROUND_ROBIN
-        portLevelSettings:
-        - port:
-            number: 80
-          tls:
-            mode: ISTIO_MUTUAL
-            sni: edition.cnn.com
-  EOF
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 80
+          name: https-port-for-tls-origination
+          protocol: HTTPS
+        hosts:
+        - edition.cnn.com
+        tls:
+          mode: ISTIO_MUTUAL
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-cnn
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: cnn
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 80
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: edition.cnn.com
+    EOF
+    {{< /text >}}
 
 1. 定义一个 `VirtualService` 来引导流量流经 egress 网关，以及一个 `DestinationRule` 为访问 `edition.cnn.com` 的请求发起 TLS 连接：
 
@@ -240,27 +240,27 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 ### 生成客户端和服务器的证书与密钥{#generate-client-and-server-certificates-and-keys}
 
-对于此任务，您可以使用自己喜欢的工具来生成证书和密钥。以下命令使用[openssl]（https://man.openbsd.org/openssl.1）
+对于此任务，您可以使用自己喜欢的工具来生成证书和密钥。以下命令使用[openssl](https://man.openbsd.org/openssl.1)
 
 1. 为您的服务签名证书创建根证书和私钥：
 
-  {{< text bash >}}
-  $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
-  {{< /text >}}
+    {{< text bash >}}
+    $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
+    {{< /text >}}
 
 1. 为 `my-nginx.mesh-external.svc.cluster.local` 创建证书和私钥：
 
-  {{< text bash >}}
-  $ openssl req -out my-nginx.mesh-external.svc.cluster.local.csr -newkey rsa:2048 -nodes -keyout my-nginx.mesh-external.svc.cluster.local.key -subj "/CN=my-nginx.mesh-external.svc.cluster.local/O=some organization"
-  $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt
-  {{< /text >}}
+    {{< text bash >}}
+    $ openssl req -out my-nginx.mesh-external.svc.cluster.local.csr -newkey rsa:2048 -nodes -keyout my-nginx.mesh-external.svc.cluster.local.key -subj "/CN=my-nginx.mesh-external.svc.cluster.local/O=some organization"
+    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt
+    {{< /text >}}
 
 1. 生成客户端证书和私钥：
 
-  {{< text bash >}}
-  $ openssl req -out client.example.com.csr -newkey rsa:2048 -nodes -keyout client.example.com.key -subj "/CN=client.example.com/O=client organization"
-  $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
-  {{< /text >}}
+    {{< text bash >}}
+    $ openssl req -out client.example.com.csr -newkey rsa:2048 -nodes -keyout client.example.com.key -subj "/CN=client.example.com/O=client organization"
+    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
+    {{< /text >}}
 
 ### 部署一个双向 TLS 服务器{#deploy-a-mutual-TLS-server}
 
@@ -433,7 +433,6 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 1. 部署 `istio-egressgateway` 挂载新生成的 secrets 的 volume。使用的参数选项与生成 `istio.yaml` 中的一致，创建下面的 `gateway-patch.json` 文件：
 
-
     {{< text bash >}}
     $ cat > gateway-patch.json <<EOF
     [{
@@ -497,34 +496,94 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 1. 为 `my-nginx.mesh-external.svc.cluster.local` 创建一个 egress `Gateway` 端口为 443，以及目标规则和虚拟服务来引导流量流经 egress 网关并从 egress 网关流向外部服务。
 
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        hosts:
+        - my-nginx.mesh-external.svc.cluster.local
+        tls:
+          mode: ISTIO_MUTUAL
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-nginx
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: nginx
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: my-nginx.mesh-external.svc.cluster.local
+    EOF
+    {{< /text >}}
 
-  {{< text bash >}}
-  $ kubectl apply -f - <<EOF
-  apiVersion: networking.istio.io/v1alpha3
-  kind: Gateway
-  metadata:
-    name: istio-egressgateway
-  spec:
-    selector:
-      istio: egressgateway
-    servers:
-    - port:
-        number: 443
-        name: https
-        protocol: HTTPS
+1. 定义一个 `VirtualService` 引导流量流经 egress 网关：
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-nginx-through-egress-gateway
+    spec:
       hosts:
       - my-nginx.mesh-external.svc.cluster.local
-      tls:
-        mode: ISTIO_MUTUAL
-  ---
-  apiVersion: networking.istio.io/v1alpha3
-  kind: DestinationRule
-  metadata:
-    name: egressgateway-for-nginx
-  spec:
-    host: istio-egressgateway.istio-system.svc.cluster.local
-    subsets:
-    - name: nginx
+      gateways:
+      - istio-egressgateway
+      - mesh
+      http:
+      - match:
+        - gateways:
+          - mesh
+          port: 80
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: nginx
+            port:
+              number: 443
+          weight: 100
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: 443
+        route:
+        - destination:
+            host: my-nginx.mesh-external.svc.cluster.local
+            port:
+              number: 443
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1.  添加 `DestinationRule` 执行双向 TLS
+
+    {{< text bash >}}
+    $ kubectl apply -n istio-system -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: originate-mtls-for-nginx
+    spec:
+      host: my-nginx.mesh-external.svc.cluster.local
       trafficPolicy:
         loadBalancer:
           simple: ROUND_ROBIN
@@ -532,74 +591,13 @@ $ kubectl delete destinationrule egressgateway-for-cnn
         - port:
             number: 443
           tls:
-            mode: ISTIO_MUTUAL
+            mode: MUTUAL
+            clientCertificate: /etc/istio/nginx-client-certs/tls.crt
+            privateKey: /etc/istio/nginx-client-certs/tls.key
+            caCertificates: /etc/istio/nginx-ca-certs/example.com.crt
             sni: my-nginx.mesh-external.svc.cluster.local
-  EOF
-  {{< /text >}}
-
-1. 定义一个 `VirtualService` 引导流量流经 egress 网关：
-
-  {{< text bash >}}
-  $ kubectl apply -f - <<EOF
-  apiVersion: networking.istio.io/v1alpha3
-  kind: VirtualService
-  metadata:
-    name: direct-nginx-through-egress-gateway
-  spec:
-    hosts:
-    - my-nginx.mesh-external.svc.cluster.local
-    gateways:
-    - istio-egressgateway
-    - mesh
-    http:
-    - match:
-      - gateways:
-        - mesh
-        port: 80
-      route:
-      - destination:
-          host: istio-egressgateway.istio-system.svc.cluster.local
-          subset: nginx
-          port:
-            number: 443
-        weight: 100
-    - match:
-      - gateways:
-        - istio-egressgateway
-        port: 443
-      route:
-      - destination:
-          host: my-nginx.mesh-external.svc.cluster.local
-          port:
-            number: 443
-        weight: 100
-  EOF
-  {{< /text >}}
-
-1.  添加 `DestinationRule` 执行双向 TLS
-
-  {{< text bash >}}
-  $ kubectl apply -n istio-system -f - <<EOF
-  apiVersion: networking.istio.io/v1alpha3
-  kind: DestinationRule
-  metadata:
-    name: originate-mtls-for-nginx
-  spec:
-    host: my-nginx.mesh-external.svc.cluster.local
-    trafficPolicy:
-      loadBalancer:
-        simple: ROUND_ROBIN
-      portLevelSettings:
-      - port:
-          number: 443
-        tls:
-          mode: MUTUAL
-          clientCertificate: /etc/istio/nginx-client-certs/tls.crt
-          privateKey: /etc/istio/nginx-client-certs/tls.key
-          caCertificates: /etc/istio/nginx-ca-certs/example.com.crt
-          sni: my-nginx.mesh-external.svc.cluster.local
-  EOF
-  {{< /text >}}
+    EOF
+    {{< /text >}}
 
 1. 发送一个 HTTP 请求至 `http://my-nginx.mesh-external.svc.cluster.local`：
 
@@ -629,31 +627,31 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 1. 删除创建的 Kubernetes 资源：
 
-  {{< text bash >}}
-  $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
-  $ kubectl delete secret istio-egressgateway-certs istio-egressgateway-ca-certs nginx-client-certs nginx-ca-certs -n istio-system
-  $ kubectl delete configmap nginx-configmap -n mesh-external
-  $ kubectl delete service my-nginx -n mesh-external
-  $ kubectl delete deployment my-nginx -n mesh-external
-  $ kubectl delete namespace mesh-external
-  $ kubectl delete gateway istio-egressgateway
-  $ kubectl delete virtualservice direct-nginx-through-egress-gateway
-  $ kubectl delete destinationrule -n istio-system originate-mtls-for-nginx
-  $ kubectl delete destinationrule egressgateway-for-nginx
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
+    $ kubectl delete secret istio-egressgateway-certs istio-egressgateway-ca-certs nginx-client-certs nginx-ca-certs -n istio-system
+    $ kubectl delete configmap nginx-configmap -n mesh-external
+    $ kubectl delete service my-nginx -n mesh-external
+    $ kubectl delete deployment my-nginx -n mesh-external
+    $ kubectl delete namespace mesh-external
+    $ kubectl delete gateway istio-egressgateway
+    $ kubectl delete virtualservice direct-nginx-through-egress-gateway
+    $ kubectl delete destinationrule -n istio-system originate-mtls-for-nginx
+    $ kubectl delete destinationrule egressgateway-for-nginx
+    {{< /text >}}
 
 1. 删除证书和私钥：
 
-  {{< text bash >}}
-  $ rm example.com.crt example.com.key my-nginx.mesh-external.svc.cluster.local.crt my-nginx.mesh-external.svc.cluster.local.key my-nginx.mesh-external.svc.cluster.local.csr client.example.com.crt client.example.com.csr client.example.com.key
-  {{< /text >}}
+    {{< text bash >}}
+    $ rm example.com.crt example.com.key my-nginx.mesh-external.svc.cluster.local.crt my-nginx.mesh-external.svc.cluster.local.key my-nginx.mesh-external.svc.cluster.local.csr client.example.com.crt client.example.com.csr client.example.com.key
+    {{< /text >}}
 
 1. 删除生成并应用于示例中的配置文件
 
-  {{< text bash >}}
-  $ rm ./nginx.conf
-  $ rm ./gateway-patch.json
-  {{< /text >}}
+    {{< text bash >}}
+    $ rm ./nginx.conf
+    $ rm ./gateway-patch.json
+    {{< /text >}}
 
 ## 清除{#cleanup}
 
