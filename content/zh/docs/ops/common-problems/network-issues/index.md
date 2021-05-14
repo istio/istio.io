@@ -69,7 +69,7 @@ trafficPolicy:
 
 ## 路由规则没有对 ingress gateway 请求生效{#route-rules-have-no-effect-on-ingress-gateway-requests}
 
-假设您正在使用一个 ingress `Gateway` 和相应的 `VirtualService` 来访问一个内部的服务。举个例子，您的 `VirtualService` 配置可能和如下配置类似：
+假设您正在使用一个 Ingress `Gateway` 和相应的 `VirtualService` 来访问一个内部的服务。举个例子，您的 `VirtualService` 配置可能和如下配置类似：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1beta1
@@ -246,12 +246,12 @@ spec:
     protocol: HTTPS
 {{< /text >}}
 
-### 网关到虚拟服务的 TLS 不匹配{#gateway-mismatch}
+### 网关到 `VirtualService` 的 TLS 不匹配{#gateway-mismatch}
 
-将虚拟服务绑定到网关时，可能会发生两种常见的 TLS 不匹配。
+将 `VirtualService` 绑定到网关时，可能会发生两种常见的 TLS 不匹配。
 
-1. 网关终止了 TLS，而虚拟服务配置 TLS 路由。
-2. 网关启用 TLS 透传，而虚拟服务配置了 HTTP 路由。
+1. 网关终止了 TLS，而 `VirtualService` 配置 TLS 路由。
+1. 网关启用 TLS 透传，而 `VirtualService` 配置了 HTTP 路由。
 
 #### 网关和 TLS termination{#gateway-with-TLS-termination}
 
@@ -293,13 +293,13 @@ spec:
         host: httpbin.org
 {{< /text >}}
 
-在此示例中，当虚拟服务使用基于 TLS 的路由时，网关将终止TLS。
+在此示例中，当 `VirtualService` 使用基于 TLS 的路由时，网关将终止TLS。
 因为在计算路由规则时 TLS 已经终止，所以 TLS 路由规则将无效。
 
 使用这种错误配置，您将最终获得404响应，因为请求将发送到 HTTP 路由，但未配置 HTTP 路由。
 您可以使用 `istioctl proxy-config routes` 命令确认这一点。
 
-要解决这个问题，您应该切换虚拟服务来指定 `http` 路由，而不是 `tls`:
+要解决这个问题，您应该切换 `VirtualService` 来指定 `http` 路由，而不是 `tls`:
 
 {{< text yaml >}}
 spec:
@@ -343,10 +343,10 @@ spec:
         host: httpbin.org
 {{< /text >}}
 
-在此配置中，虚拟服务试图将 HTTP 流量与通过网关的 TLS 流量进行匹配。
-这将导致虚拟服务配置无效。您可以使用 `istioctl proxy-config listener` 和 `istioctl proxy-config route` 命令观察到未应用 HTTP 路由。
+在此配置中，`VirtualService` 试图将 HTTP 流量与通过网关的 TLS 流量进行匹配。
+这将导致 `VirtualService` 配置无效。您可以使用 `istioctl proxy-config listener` 和 `istioctl proxy-config route` 命令观察到未应用 HTTP 路由。
 
-要解决这个问题，您应该切换虚拟服务以配置 tls 路由。
+要解决这个问题，您应该切换 `VirtualService` 以配置 TLS 路由。
 
 {{< text yaml >}}
 spec:
