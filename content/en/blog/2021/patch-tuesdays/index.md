@@ -30,7 +30,7 @@ releases may contain fixes for multiple CVEs. It is the intent of the Product Se
 security releases not contain any other fixes, although that may not always be possible.
 
 When the Product Security working group intends to ship an upcoming security patch an announcment will be
-made [Discuss](https://discuss.istio.io/c/announcements/5) 2 weeks prior to release. We ask that you
+made on [Discuss](https://discuss.istio.io/c/announcements/5) 2 weeks prior to release. We ask that you
 please watch the announcements category to be notified of such a release. If no such announcement
 is made there will not be a security release for that month, barring some exceptions (see below).
 
