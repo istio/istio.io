@@ -33,7 +33,14 @@ echo @@@ TODO REMOVE
 echo When test starts, pods are
 kubectl -n istio-system get pods
 
+echo Using Kiali from '"' "$KIALI_MANIFEST_URL" '"'
+
 # Demo no longer installs Kiali.
+# @@@ TODO Use $KIALI_MANIFEST_URL
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.10/samples/addons/kiali.yaml
+# Wait for CRD and run the install again.
+# See https://github.com/istio/istio/issues/27417#issuecomment-729153529 for rationale.
+kubectl -n istio-system wait --for=condition=established --timeout=60s crd/monitoringdashboards.monitoring.kiali.io
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.10/samples/addons/kiali.yaml
 kubectl -n istio-system wait --for=condition=available --timeout=600s deployment/kiali
 
@@ -65,13 +72,12 @@ curl -v ${KIALI_LOC} --fail
 
 # The script can look at the API output
 # See https://github.com/kiali/kiali/blob/master/swagger.json
-# for the API
-# @@@ TODO The output of this should be checked
-curl -v ${KIALI_LOC}/api/namespaces/graph
+# for the API.  In this case, we want JSON with a "nodes" key
+curl -v "${KIALI_LOC}/api/namespaces/graph?namespaces=default" --fail \
+   | tee /dev/tty | jq ".elements" | grep '"nodes"'
 
 # Rename port to invalid value
 echo '*** observability-kiali step where we rename port ***'
-# snip_validating_istio_configuration_1
 snip_validating_istio_configuration_1 || true
 
 # Send traffic to Bookinfo
@@ -109,13 +115,13 @@ for _ in {1..50}; do
     snip_generating_a_service_graph_2 > /dev/null
 done
 
-echo @@@ TODO curl http://localhost:20001/api/ ... and verify that Kiali did detect the changes we made.
-
+# @@@ TODO Verify that Kiali did detect the changes we made.
+curl -v "${KIALI_LOC}/api/namespaces/graph?namespaces=default" --fail
 
 # @cleanup
 set +e
 cleanup_bookinfo_sample
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-1.10/samples/addons/kiali.yaml
+kubectl delete -f "$KIALI_MANIFEST_URL"
 
 # This stops the "istioctl dashboard kiali" we forked earlier
 pgrep istioctl | xargs kill
