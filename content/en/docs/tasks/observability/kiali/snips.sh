@@ -20,23 +20,23 @@
 #          docs/tasks/observability/kiali/index.md
 ####################################################################################################
 
-snip_generating_a_service_graph_1() {
+snip_generating_a_graph_1() {
 kubectl -n istio-system get svc kiali
 }
 
-snip_generating_a_service_graph_2() {
+snip_generating_a_graph_2() {
 curl "http://$GATEWAY_URL/productpage"
 }
 
-snip_generating_a_service_graph_3() {
+snip_generating_a_graph_3() {
 watch -n 1 curl -o /dev/null -s -w "%{http_code}" "$GATEWAY_URL/productpage"
 }
 
-snip_generating_a_service_graph_4() {
+snip_generating_a_graph_4() {
 istioctl dashboard kiali
 }
 
-snip_creating_weighted_routes_1() {
+snip_traffic_shifting_1() {
 watch -n 1 curl -o /dev/null -s -w "%{http_code}" "$GATEWAY_URL/productpage"
 }
 
@@ -49,11 +49,11 @@ kubectl patch service details -n bookinfo --type json -p '[{"op":"replace","path
 }
 
 snip_viewing_and_editing_istio_configuration_yaml_1() {
-kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
+kubectl -n bookinfo apply -f samples/bookinfo/networking/destination-rule-all.yaml
 }
 
 snip_viewing_and_editing_istio_configuration_yaml_2() {
-kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml
+kubectl -n bookinfo delete -f samples/bookinfo/networking/destination-rule-all.yaml
 }
 
 snip_cleanup_1() {
