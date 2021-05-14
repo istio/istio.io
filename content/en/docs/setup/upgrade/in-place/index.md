@@ -39,7 +39,7 @@ Before you begin the upgrade process, check the following prerequisites:
 
 {{< warning >}}
 Traffic disruption may occur during the upgrade process. To minimize the disruption, ensure
-that at least two replicas of each component (except Citadel) are running. Also, ensure that
+that at least two replicas of `istiod` are running. Also, ensure that
 [`PodDisruptionBudgets`](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
 are configured with a minimum availability of 1.
 {{< /warning >}}
