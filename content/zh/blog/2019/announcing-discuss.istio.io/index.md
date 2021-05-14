@@ -15,4 +15,4 @@ aliases:
 
 如果您喜欢使用电子邮件，那么您可以将其配置为用电子邮件去发送，就像 Google Groups 一样。
 
-我们会将 Google Groups 标记为“只读”，以便保留其原始内容，但是请您将其它问题发送到 [discuss.stio.io](https://discuss.istio.io)。如果在您的小组中有任何未解决的问题或讨论，请结束讨论。
+我们会将 Google Groups 标记为“只读”，以便保留其原始内容，但是请您将其它问题发送到 [discuss.istio.io](https://discuss.istio.io)。如果在您的小组中有任何未解决的问题或讨论，请结束讨论。
