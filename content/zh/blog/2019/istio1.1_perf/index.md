@@ -2,7 +2,7 @@
 title: 为性能而设计的 Istio 1.1
 description: Istio 1.1 性能概览。
 publishdate: 2019-03-19
-subtitle: An overview of Istio 1.1 performance improvements
+subtitle: Istio 1.1 性能优化概览
 attribution: Surya V Duggirala (IBM), Mandar Jog (Google), Jose Nativio (IBM)
 keywords: [performance,scalability,scale,benchmarks]
 target_release: 1.1
@@ -12,12 +12,12 @@ target_release: 1.1
 
 现在，Istio 1.1 新的增强功能带来了改进的应用性能和服务管理效率，以便扩大规模。相比于 Istio 1.0，使用我们的示例商业航班预订程序的模拟显示出了如下改进。
 
-我们看到大量的应用程序性能提升:
+我们看到大量的应用程序性能提升：
 
 - 应用程序平均延迟降低 30％
-- 在大型网格中服务启动时间快 40％
+- 在大型网格中服务启动时间提高 40％
 
-同样还有服务管理效率的显著提升:
+同样还有服务管理效率的显著提升：
 
 - 在大型网格中，Pilot 的 CPU 使用率降低了 90％
 - 在大型网格中，Pilot 的内存使用率降低了 50％
@@ -28,7 +28,7 @@ target_release: 1.1
 
 ## Istio 1.1 性能增强{Istio-1-1-performance-enhancements}
 
-作为 Istio Performance and Scalability （性能和可伸缩）工作组的成员，我们进行了广泛的性能评估。我们与其他 Istio 贡献者合作，为 Istio 1.1 引入了许多旨在提高性能的新特性。1.1 中一些显著的性能增强包括:
+作为 Istio Performance and Scalability （性能和可伸缩）工作组的成员，我们进行了广泛的性能评估。我们与其他 Istio 贡献者合作，为 Istio 1.1 引入了许多旨在提高性能的新特性。1.1 中一些显著的性能增强包括：
 
 - Envoy 生成统计数据的默认集合显著减少
 - 为 Mixer 工作负载添加了减载特性
@@ -46,12 +46,11 @@ target_release: 1.1
 
 ## 概要{summary}
 
-Istio 1.1 旨在提高性能和可扩展性。Istio Performance and Scalability （性能和可扩展性）工作组实现了自 1.0 以来显著的性能改进。
-Istio 1.1 提供的新特性和功能优化，提高了服务网格对企业工作负载的支撑能力。Istio 1.1 性能和调优指南记录了性能模拟，提供了调整和容量规划指导，并包含了调优客户用例的最佳实践。
+Istio 1.1 旨在提高性能和可扩展性。Istio Performance and Scalability （性能和可扩展性）工作组实现了自 1.0 以来显著的性能改进。Istio 1.1 提供的新特性和功能优化，提高了服务网格对企业工作负载的支撑能力。Istio 1.1 性能和调优指南记录了性能模拟，提供了调整和容量规划指导，并包含了调优客户用例的最佳实践。
 
 ## 有用的链接{useful-links}
 
-- [Istio 服务网格性能 (34:30)](https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU), 作者：Surya Duggirala, Laurent Demailly 和 Fawad Khaliq 于 KubeCon Europe 2018
+- [Istio 服务网格性能 (34:30)](https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU)，作者：Surya Duggirala，Laurent Demailly 和 Fawad Khaliq 于 KubeCon Europe 2018
 - [Istio 性能和可扩展性讨论专题](https://discuss.istio.io/c/performance-and-scalability)
 
 ## 免责声明{disclaimer}
