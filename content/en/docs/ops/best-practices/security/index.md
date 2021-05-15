@@ -444,3 +444,9 @@ To determine if your cluster supports third party tokens, look for the `TokenReq
     {{< /text >}}
 
 While most cloud providers support this feature now, many local development tools and custom installations may not prior to Kubernetes 1.20. To enable this feature, please refer to the [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection).
+
+## Configure a limit on downstream connections
+
+By default, Istio (and Envoy) have no limit on the number of downstream connections. This can be exploited by a malicious actor (see [security bulletin 2020-007](/news/security/istio-security-2020-007/)). To work around you this, you must configure an appropriate connection limit for your environment.
+
+{{< boilerplate cve-2020-007-configmap >}}
