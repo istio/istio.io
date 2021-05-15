@@ -15,16 +15,55 @@ test: yes
 
 假定您想要为 Istio 中所有语种的 `wikipedia.org` 站点开启 egress 流量。每个语种的 `wikipedia.org` 站点均有自己的主机名，譬如：英语和德语对应的主机分别为 `en.wikipedia.org` 和 `de.rikipedia.org`。您希望通过通用配置项开启所有 Wikipedia 站点的 egress 流量，无需单独配置每个语种的站点。
 
-{{< boilerplate before-you-begin-egress >}}
+## 开始之前(before-you-begin)
 
-*   [部署 Istio egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway)。
+*  使用 `demo` [配置文件](/zh/docs/setup/additional-setup/config-profiles/)安装 Istio 以及默认阻止出站流量策略：
 
-*   [开启 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+    {{< text bash >}}
+    $ istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
+    {{< /text >}}
+
+    {{< tip >}}
+    您可以在 `demo` 配置文件以外的 Istio 配置上运行此任务，只要您确保 [部署 Istio egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway)。
+    [开启 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)和
+    [应用默认阻止出站流量策略](/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)
+    在您的安装步骤中。您还需要使用自己的 `IstioOperator` CR 代替[使用SNI代理设置出口网关](#setup-egress-gateway-with-sni-proxy)中显示。
+    {{< /tip >}}
+
+*   部署[sleep]({{< github_tree >}}/samples/sleep)示例应用程序，以用作发送请求的测试源。如果您开启了 [自动 sidecar 注入](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，运行以下命令以部署示例应用程序：
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    {{< /text >}}
+
+    否则，在使用以下命令部署 `sleep` 应用程序之前，手动注入 sidecar：
+
+    {{< text bash >}}
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    {{< /text >}}
+
+    {{< tip >}}
+    您可以在任意 pod 上使用 `curl` 作为测试源。
+    {{< /tip >}}
+
+*   将 `SOURCE_POD` 环境变量设置为您的源 Pod 的名称：
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    {{< /text >}}
 
 ## 引导流量流向 Wildcard 主机{#configure-direct-traffic-to-a-wildcard-host}
 
 访问通用域中一组主机的第一个也是最简单的方法，是使用一个 wildcard 主机配置一个简单的 `ServiceEntry`，直接从 sidecar 调用服务。
 当直接调用服务时（譬如：不是通过一个 egress 网关），一个 wildcard 主机的配置与任何其他主机（如：全域名主机）没有什么不同，只是当通用域中有许多台主机时，这样比较方便。
+
+{{< warning >}}
+请注意，恶意应用程序很容易绕过以下配置。为了实现安全的出口流量控制，可以通过出口网关引导流量。
+{{< /warning >}}
+
+{{< warning >}}
+请注意，`DNS` 解析不能用于通配符主机。这就是为什么`NONE`分辨率（因为它是默认）用于以下服务条目。
+{{< /warning >}}
 
 1. 为 `*.wikipedia.org` 定义一个 `ServiceEntry` 以及相应的 `VirtualSevice`：
 
@@ -39,26 +78,8 @@ test: yes
       - "*.wikipedia.org"
       ports:
       - number: 443
-        name: tls
-        protocol: TLS
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: wikipedia
-    spec:
-      hosts:
-      - "*.wikipedia.org"
-      tls:
-      - match:
-        - port: 443
-          sni_hosts:
-          - "*.wikipedia.org"
-        route:
-        - destination:
-            host: "*.wikipedia.org"
-            port:
-              number: 443
+        name: https
+        protocol: HTTPS
     EOF
     {{< /text >}}
 
@@ -75,7 +96,6 @@ test: yes
 
 {{< text bash >}}
 $ kubectl delete serviceentry wikipedia
-$ kubectl delete virtualservice wikipedia
 {{< /text >}}
 
 ## 配置访问 wildcard 主机的 egress 网关{#configure-egress-gateway-traffic-to-a-wildcard-host}
@@ -103,8 +123,8 @@ $ kubectl delete virtualservice wikipedia
       servers:
       - port:
           number: 443
-          name: tls
-          protocol: TLS
+          name: https
+          protocol: HTTPS
         hosts:
         - "*.wikipedia.org"
         tls:
@@ -134,7 +154,7 @@ $ kubectl delete virtualservice wikipedia
         - gateways:
           - mesh
           port: 443
-          sni_hosts:
+          sniHosts:
           - "*.wikipedia.org"
         route:
         - destination:
@@ -147,7 +167,7 @@ $ kubectl delete virtualservice wikipedia
         - gateways:
           - istio-egressgateway
           port: 443
-          sni_hosts:
+          sniHosts:
           - "*.wikipedia.org"
         route:
         - destination:
@@ -229,7 +249,8 @@ SNI 代理将监听在端口 `8443` 上，您可以绑定任意其它端口，eg
 
     {{< text bash >}}
     $ cat <<EOF > ./sni-proxy.conf
-    user www-data;
+    # 设置不需要根访问权限的自定义路径
+    pid /tmp/nginx.pid;
 
     events {
     }
@@ -241,7 +262,7 @@ SNI 代理将监听在端口 `8443` 上，您可以绑定任意其它端口，eg
       access_log /var/log/nginx/access.log log_stream;
       error_log  /var/log/nginx/error.log;
 
-      # tcp forward proxy by SNI
+      # SNI 的 TCP 转发代理
       server {
         resolver 8.8.8.8 ipv6=off;
         listen       127.0.0.1:8443;
@@ -259,61 +280,58 @@ SNI 代理将监听在端口 `8443` 上，您可以绑定任意其它端口，eg
     $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=./sni-proxy.conf
     {{< /text >}}
 
-1. 下面的命令将生成 `istio-egressgateway-with-sni-proxy.yaml`，您可以选择性编辑该配置文件然后部署。
+1.  创建一个 `IstioOperator` CR，以使用SNI代理添加新的出口网关：
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl manifest generate --set values.global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
-    gateways:
-      enabled: true
-      istio-ingressgateway:
-        enabled: false
-      istio-egressgateway:
-        enabled: false
-      istio-egressgateway-with-sni-proxy:
-        enabled: true
-        labels:
-          app: istio-egressgateway-with-sni-proxy
-          istio: egressgateway-with-sni-proxy
-        replicaCount: 1
-        autoscaleMin: 1
-        autoscaleMax: 5
-        cpu:
-          targetAverageUtilization: 80
-        serviceAnnotations: {}
-        type: ClusterIP
-        ports:
-          - port: 443
-            name: https
-        secretVolumes:
-          - name: egressgateway-certs
-            secretName: istio-egressgateway-certs
-            mountPath: /etc/istio/egressgateway-certs
-          - name: egressgateway-ca-certs
-            secretName: istio-egressgateway-ca-certs
-            mountPath: /etc/istio/egressgateway-ca-certs
-        configVolumes:
-          - name: sni-proxy-config
-            configMapName: egress-sni-proxy-configmap
-        additionalContainers:
-        - name: sni-proxy
-          image: nginx
-          volumeMounts:
-          - name: sni-proxy-config
-            mountPath: /etc/nginx
-            readOnly: true
+    $ istioctl manifest generate -f - <<EOF > ./egressgateway-with-sni-proxy.yaml
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      # Only generate a gateway component defined below.
+      # Using this with "istioctl install" will reconcile and remove existing control-plane components.
+      # Instead use "istioctl manifest generate" or "kubectl create" if using the istio operator.
+      profile: empty
+      components:
+        egressGateways:
+        - name: istio-egressgateway-with-sni-proxy
+          enabled: true
+          label:
+            app: istio-egressgateway-with-sni-proxy
+            istio: egressgateway-with-sni-proxy
+          k8s:
+            service:
+              ports:
+              - port: 443
+                targetPort: 8443
+                name: https
+            overlays:
+            - kind: Deployment
+              name: istio-egressgateway-with-sni-proxy
+              patches:
+              - path: spec.template.spec.containers[-1]
+                value: |
+                  name: sni-proxy
+                  image: nginx
+                  volumeMounts:
+                  - name: sni-proxy-config
+                    mountPath: /etc/nginx
+                    readOnly: true
+                  securityContext:
+                    runAsNonRoot: true
+                    runAsUser: 101
+              - path: spec.template.spec.volumes[-1]
+                value: |
+                  name: sni-proxy-config
+                  configMap:
+                    name: egress-sni-proxy-configmap
+                    defaultMode: 292 # 0444
     EOF
     {{< /text >}}
 
 1. 部署新的 egress 网关：
 
     {{< text bash >}}
-    $ kubectl apply -f ./istio-egressgateway-with-sni-proxy.yaml
-    serviceaccount "istio-egressgateway-with-sni-proxy-service-account" created
-    role "istio-egressgateway-with-sni-proxy-istio-system" created
-    rolebinding "istio-egressgateway-with-sni-proxy-istio-system" created
-    service "istio-egressgateway-with-sni-proxy" created
-    deployment "istio-egressgateway-with-sni-proxy" created
-    horizontalpodautoscaler "istio-egressgateway-with-sni-proxy" created
+    $ kubectl apply -f ./egressgateway-with-sni-proxy.yaml
     {{< /text >}}
 
 1. 验证新的 egress 网关正在运行。注意 pod 有两个容器（一个是 Envoy 代理，另一个是 SNI 代理）。
@@ -378,17 +396,6 @@ SNI 代理将监听在端口 `8443` 上，您可以绑定任意其它端口，eg
 
 1. 为 _*.wikipedia.org_ 创建一个 egress `Gateway`，端口 443，协议 TLS，以及一个虚拟服务负责引导目标为 _*.wikipedia.org_ 的流量流经网关。
 
-    根据您是否希望在源 pod 与 egress 网关之间开启
-    [双向 TLS 认证](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS)，选择指令。
-
-    {{< idea >}}
-    您可能希望开启双向 TLS 以使得 egress 网关得以监控源 pods 的身份标识并基于身份标识信息启用 Mixer 的强制策略。
-    {{< /idea >}}
-
-    {{< tabset category-name="mtls" >}}
-
-    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
-
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
@@ -406,10 +413,7 @@ SNI 代理将监听在端口 `8443` 上，您可以绑定任意其它端口，eg
         hosts:
         - "*.wikipedia.org"
         tls:
-          mode: MUTUAL
-          serverCertificate: /etc/certs/cert-chain.pem
-          privateKey: /etc/certs/key.pem
-          caCertificates: /etc/certs/root-cert.pem
+          mode: ISTIO_MUTUAL
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -443,7 +447,7 @@ SNI 代理将监听在端口 `8443` 上，您可以绑定任意其它端口，eg
         - gateways:
           - mesh
           port: 443
-          sni_hosts:
+          sniHosts:
           - "*.wikipedia.org"
         route:
         - destination:
@@ -461,117 +465,67 @@ SNI 代理将监听在端口 `8443` 上，您可以绑定任意其它端口，eg
         - destination:
             host: sni-proxy.local
             port:
-              number: 8443
+              number: 18443
           weight: 100
     ---
     # 下面的 filter 用于将最初的 SNI （应用发送的）转换为双向 TLS 连接的 SNI。
+    # 双向 TLS 连接。
     # 转换后的 SNI 将被报告给 Mixer，以基于初始 SNI 的值强制实施策略。
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:
       name: forward-downstream-sni
     spec:
-      filters:
-      - listenerMatch:
-          portNumber: 443
-          listenerType: SIDECAR_OUTBOUND
-        filterName: forward_downstream_sni
-        filterType: NETWORK
-        filterConfig: {}
-    ---
-    # 下面的 filter 验证双向 TLS 连接的 SNI （报告至 Mixer 的 SNI）与应用发起的初始 SNI（SNI 代理进实施路由的 SNI）相同。
-    # Filter 阻止 Mixer 被恶意应用欺骗：路由至一个 SNI，而报告其他的 SNI 值。如果初始 SNI 与双向 TLS 连接的 SNI 不匹配，filter 将截断发往外部服务的连接。
+      configPatches:
+      - applyTo: NETWORK_FILTER
+        match:
+          context: SIDECAR_OUTBOUND
+          listener:
+            portNumber: 443
+            filterChain:
+              filter:
+                name: istio.stats
+        patch:
+          operation: INSERT_BEFORE
+          value:
+             name: forward_downstream_sni
+             config: {}
+    EOF
+    {{< /text >}}
+
+1.  Add an `EnvoyFilter` to the gateway, to prevent it from being deceived.
+
+    {{< text bash >}}
+    $ kubectl apply -n istio-system -f - <<EOF
+    # The following filter verifies that the SNI of the mutual TLS connection is
+    # identical to the original SNI issued by the client (the SNI used for routing by the SNI proxy).
+    # The filter prevents the gateway from being deceived by a malicious client: routing to one SNI while
+    # reporting some other value of SNI. If the original SNI does not match the SNI of the mutual TLS connection,
+    # the filter will block the connection to the external service.
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:
       name: egress-gateway-sni-verifier
     spec:
-      workloadLabels:
-        app: istio-egressgateway-with-sni-proxy
-      filters:
-      - listenerMatch:
-          portNumber: 443
-          listenerType: GATEWAY
-        filterName: sni_verifier
-        filterType: NETWORK
-        filterConfig: {}
+      workloadSelector:
+        labels:
+          app: istio-egressgateway-with-sni-proxy
+      configPatches:
+      - applyTo: NETWORK_FILTER
+        match:
+          context: GATEWAY
+          listener:
+            portNumber: 443
+            filterChain:
+              filter:
+                name: istio.stats
+        patch:
+          operation: INSERT_BEFORE
+          value:
+             name: sni_verifier
+             config: {}
     EOF
     {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-     name: istio-egressgateway-with-sni-proxy
-    spec:
-     selector:
-       istio: egressgateway-with-sni-proxy
-     servers:
-     - port:
-         number: 443
-         name: tls
-         protocol: TLS
-       hosts:
-       - "*.wikipedia.org"
-       tls:
-         mode: PASSTHROUGH
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-     name: egressgateway-for-wikipedia
-    spec:
-     host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
-     subsets:
-       - name: wikipedia
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-     name: direct-wikipedia-through-egress-gateway
-    spec:
-     hosts:
-     - "*.wikipedia.org"
-     gateways:
-     - mesh
-     - istio-egressgateway-with-sni-proxy
-     tls:
-     - match:
-       - gateways:
-         - mesh
-         port: 443
-         sni_hosts:
-         - "*.wikipedia.org"
-       route:
-       - destination:
-           host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
-           subset: wikipedia
-           port:
-             number: 443
-         weight: 100
-     - match:
-       - gateways:
-         - istio-egressgateway-with-sni-proxy
-         port: 443
-         sni_hosts:
-         - "*.wikipedia.org"
-       route:
-       - destination:
-           host: sni-proxy.local
-           port:
-             number: 8443
-         weight: 100
-    EOF
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
 
 1. 发送 HTTPS 请求至
     [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
@@ -603,15 +557,6 @@ SNI 代理将监听在端口 `8443` 上，您可以绑定任意其它端口，eg
     127.0.0.1 [01/Aug/2018:15:32:03 +0000] TCP [de.wikipedia.org]200 67745 291 0.659
     {{< /text >}}
 
-1. 检查 mixer 日志。如果 Istio 部署在 `istio-system` 命名空间中，打印日志的命令为：
-
-    {{< text bash >}}
-    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep '"connectionEvent":"open"' | grep '"sourceName":"istio-egressgateway' | grep 'wikipedia.org'
-    {"level":"info","time":"2018-08-26T16:16:34.784571Z","instance":"tcpaccesslog.logentry.istio-system","connectionDuration":"0s","connectionEvent":"open","connection_security_policy":"unknown","destinationApp":"","destinationIp":"127.0.0.1","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"cluster.local/ns/istio-system/sa/istio-egressgateway-with-sni-proxy-service-account","destinationServiceHost":"","destinationWorkload":"unknown","protocol":"tcp","receivedBytes":298,"reporter":"source","requestedServerName":"en.wikipedia.org","sentBytes":0,"sourceApp":"istio-egressgateway-with-sni-proxy","sourceIp":"172.30.146.88","sourceName":"istio-egressgateway-with-sni-proxy-7c4f7868fb-rc8pr","sourceNamespace":"istio-system","sourceOwner":"kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-egressgateway-with-sni-proxy","sourcePrincipal":"cluster.local/ns/sleep/sa/default","sourceWorkload":"istio-egressgateway-with-sni-proxy","totalReceivedBytes":298,"totalSentBytes":0}
-    {{< /text >}}
-
-    注意属性 `requestedServerName`。
-
 #### 清除任意域的 wildcard 配置{#cleanup-wildcard-configuration-for-arbitrary-domains}
 
 1. 删除 _*.wikipedia.org_ 的配置项：
@@ -621,7 +566,8 @@ SNI 代理将监听在端口 `8443` 上，您可以绑定任意其它端口，eg
     $ kubectl delete gateway istio-egressgateway-with-sni-proxy
     $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
     $ kubectl delete destinationrule egressgateway-for-wikipedia
-    $ kubectl delete --ignore-not-found=true envoyfilter forward-downstream-sni egress-gateway-sni-verifier
+    $ kubectl delete --ignore-not-found=true envoyfilter forward-downstream-sni
+    $ kubectl delete --ignore-not-found=true envoyfilter -n istio-system egress-gateway-sni-verifier
     {{< /text >}}
 
 1. 删除部署 `egressgateway-with-sni-proxy` 的配置项：
@@ -629,21 +575,27 @@ SNI 代理将监听在端口 `8443` 上，您可以绑定任意其它端口，eg
     {{< text bash >}}
     $ kubectl delete serviceentry sni-proxy
     $ kubectl delete destinationrule disable-mtls-for-sni-proxy
-    $ kubectl delete -f ./istio-egressgateway-with-sni-proxy.yaml
     $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
+    $ kubectl delete -f ./egressgateway-with-sni-proxy.yaml
     {{< /text >}}
 
 1. 删除您创建的配置文件：
 
     {{< text bash >}}
-    $ rm ./istio-egressgateway-with-sni-proxy.yaml
-    $ rm ./sni-proxy.conf
+    $ rm ./sni-proxy.conf ./egressgateway-with-sni-proxy.yaml
     {{< /text >}}
 
 ## 清除{#cleanup}
 
-关闭服务 [sleep]({{< github_tree >}}/samples/sleep)：
+* 关闭服务 [sleep]({{< github_tree >}}/samples/sleep)：
 
 {{< text bash >}}
 $ kubectl delete -f @samples/sleep/sleep.yaml@
 {{< /text >}}
+
+* 从您的集群中卸载 Istio:
+
+    {{< text bash >}}
+    $ istioctl x uninstall --purge
+    {{< /text >}}
+
