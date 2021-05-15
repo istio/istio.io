@@ -1,17 +1,10 @@
-<!--
- * @Author: gezuxia
- * @Descripttion: 
- * @Date: 2021-05-15 19:56:46
- * @LastEditors: gezuxia
- * @LastEditTime: 2021-05-15 20:31:33
--->
 ---
 title: 介绍工作负载条目
 subtitle: 桥接 Kubernetes 和 VM
 description: 描述了工作负载条目的新功能。
 publishdate: 2020-05-21
-attribution: "Cynthia Coan (Tetrate), Shriram Rajagopalan (Tetrate), Tia Louden (Tetrate), John Howard (Google), Sven Mawson (Google)"
-keywords: [vm,workloadentry,migration,'1.6',baremetal,serviceentry,discovery]
+attribution: Cynthia Coan (Tetrate), Shriram Rajagopalan (Tetrate), Tia Louden (Tetrate), John Howard (Google), Sven Mawson (Google)
+keywords: [vm, workloadentry, migration, '1.6', baremetal, serviceentry, discovery]
 ---
 
 ## 工作负载条目简介：桥接 Kubernetes 和 VM{#introducing-workload-entries-bridging-Kubernetes-and-VMs}
