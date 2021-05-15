@@ -1,16 +1,16 @@
 ---
-title: Egress gateway 性能测试
-description: 评估加入 Egress gateway 对性能造成的影响。
+title: Egress 网关性能测试
+description: 评估添加 Egress 网关对性能造成的影响。
 publishdate: 2019-01-31
-subtitle: Istio Egress gateway 性能评估
+subtitle: Istio Egress 网关性能评估
 attribution: Jose Nativio, IBM
 keywords: [performance,traffic-management,egress,mongo]
 target_release: 1.0
 ---
 
-为了从网格中访问外部服务（本例中使用的是 MongoDB），需要加入 Egress gateway，本次测试的主要目的就是调查这一行为对性能和资源使用造成的影响。在博客[使用外部 MongoDB 服务](/zh/blog/2018/egress-mongo/)中介绍了为外部 MongoDB 配置 Egress gateway 的具体步骤。
+为了从网格中访问外部服务（本例中使用的是 MongoDB），需要加入 Egress 网关，本次测试的主要目的就是调查这一行为对性能和资源使用造成的影响。在博客[使用外部 MongoDB 服务](/zh/blog/2018/egress-mongo/)中介绍了为外部 MongoDB 配置 Egress 网关的具体步骤。
 
-本次测试中使用的应用是 Acmeair 的 Java 版，这个应用会模拟一个航空订票系统。在 Istio 的每日构建中会使用该应用来进行性能的回归测试，但是在回归测试过程中，这些应用会使用自己的 Sidecar 来访问外部的 MongoDB，而不是 Egress gateway。
+本次测试中使用的应用是 Acmeair 的 Java 版，这个应用会模拟一个航空订票系统。在 Istio 的每日构建中会使用该应用来进行性能的回归测试，但是在回归测试过程中，这些应用会使用自己的 Sidecar 来访问外部的 MongoDB，而不是 Egress 网关。
 
 下图描述了目前的 Istio 回归测试过程中，Acmeair 应用的运行方式：
 
@@ -46,31 +46,31 @@ target_release: 1.0
     caption="Sidecar 拦截对外部 MongoDB 的流量"
     >}}
 
-### 案例 3: Egress gateway{#case-3-egress-gateway}
+### 案例 3: Egress 网关{#case-3-egress-gateway}
 
-配置 Egress gateway 以及配套的 Destination rule 和 Virtual service，用于访问 MongoDB。所有进出外部数据库的流量都从 Egress gateway（Envoy）通过。
+配置 Egress 网关以及配套的 Destination Rule 和 Virtual Service，用于访问 MongoDB。所有进出外部数据库的流量都从 Egress 网关（Envoy）通过。
 
 {{< image width="70%"
     link="./case3_egressgw3.png"
-    caption="使用 Egress gateway 访问 MongoDB"
+    caption="使用 Egress 网关访问 MongoDB"
     >}}
 
-### 案例 4：在 Sidecar 和 Egress gateway 之间的双向 TLS{#case-4-mutual-TLS-between-sidecars-and-the-egress-gateway}
+### 案例 4：在 Sidecar 和 Egress 网关之间的双向 TLS{#case-4-mutual-TLS-between-sidecars-and-the-egress-gateway}
 
-这种方式中，在 Sidecar 和 Gateway 之中多出了一个安全层，所以会影响性能。
+这种方式中，在 Sidecar 和 网关之中多出了一个安全层，所以会影响性能。
 
 {{< image width="70%"
     link="./case4_egressgw_mtls3.png"
-    caption="在 Sidecar 和 Egress gateway 之间启用双向 TLS"
+    caption="在 Sidecar 和 Egress 网关之间启用双向 TLS"
     >}}
 
-### 案例 5：带有 SNI proxy 的 Egress gateway{#case-5-egress-gateway-with-SNI-proxy}
+### 案例 5：带有 SNI Proxy 的 Egress 网关{#case-5-egress-gateway-with-SNI-proxy}
 
-这个场景中，因为 Envoy 目前存在的一些限制，需要另一个代理来访问通配符域名。这里创建了一个 Nginx 代理，在 Egress gateway Pod 中作为 Sidecar 来使用。
+这个场景中，因为 Envoy 目前存在的一些限制，需要另一个代理来访问通配符域名。这里创建了一个 Nginx 代理，在 Egress 网关 Pod 中作为 Sidecar 来使用。
 
 {{< image width="70%"
     link="./case5_egressgw_sni_proxy3.png"
-    caption="带有 SNI proxy 的 Egress gateway"
+    caption="带有 SNI Proxy 的 Egress 网关"
     >}}
 
 ## 环境{#environment}
@@ -92,7 +92,7 @@ target_release: 1.0
     caption="不同案例中的吞吐量"
     >}}
 
-如图可见，在应用和外部数据库中加入 Sidecar 和 Egress gateway 并没有对性能产生太大影响；但是启用双向 TLS、又加入 SNI 代理之后，吞吐量分别下降了 10% 和 24%。
+如图可见，在应用和外部数据库中加入 Sidecar 和 Egress 网关并没有对性能产生太大影响；但是启用双向 TLS、又加入 SNI 代理之后，吞吐量分别下降了 10% 和 24%。
 
 ### 响应时间{#response-time}
 
@@ -114,8 +114,8 @@ target_release: 1.0
     caption="使用 TPS 进行归一化的 CPU 用量"
     >}}
 
-经过归一化处理之后的 CPU 用量数据表明，Istio 在使用 Egress gateway + SNI 代理的情况下，消耗了更多的 CPU。
+经过归一化处理之后的 CPU 用量数据表明，Istio 在使用 Egress 网关 + SNI 代理的情况下，消耗了更多的 CPU。
 
 ## 结论{#conclusion}
 
-在这一系列的测试之中，我们用不同的方式来访问一个启用了 TLS 的 MongoDB 来进行性能对比。Egress gateway 的引用没有对性能和 CPU 消耗的显著影响。但是启用了 Sidecar 和 Egress gateway 之间的双向 TLS 或者为通配符域名使用了额外的 SNI 代理之后，会看到性能降级的现象。
+在这一系列的测试之中，我们用不同的方式来访问一个启用了 TLS 的 MongoDB 来进行性能对比。Egress 网关的引用没有对性能和 CPU 消耗的显著影响。但是启用了 Sidecar 和 Egress 网关之间的双向 TLS 或者为通配符域名使用了额外的 SNI 代理之后，会看到性能降级的现象。
