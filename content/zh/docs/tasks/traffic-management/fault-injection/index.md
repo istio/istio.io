@@ -49,11 +49,8 @@ test: yes
 
     {{< text bash yaml >}}
     $ kubectl get virtualservice ratings -o yaml
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1beta1
     kind: VirtualService
-    metadata:
-      name: ratings
-      ...
     spec:
       hosts:
       - ratings
@@ -89,7 +86,6 @@ test: yes
     但是，出现了一个问题：Reviews 部分显示了错误消息：
 
     {{< text plain >}}
-    Error fetching product reviews!
     Sorry, product reviews are currently unavailable for this book.
     {{< /text >}}
 
@@ -145,11 +141,8 @@ Istio 的故障注入规则可以帮助您识别此类异常，而不会影响�
 
     {{< text bash yaml >}}
     $ kubectl get virtualservice ratings -o yaml
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1beta1
     kind: VirtualService
-    metadata:
-      name: ratings
-      ...
     spec:
       hosts:
       - ratings
