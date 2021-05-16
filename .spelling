@@ -37,6 +37,7 @@
 1qps
 1xx
 2.5s
+2010s
 20ms
 22.99
 24.13
@@ -113,6 +114,7 @@ AuthenticationPolicy
 AuthorizationPolicy
 authorizer
 AuthPolicy
+authz
 autoscaler
 Autoscalers
 autoscalers
@@ -131,6 +133,7 @@ BlackHole
 BlackHoleCluster
 BluePerf
 boilerplates
+bol.com
 Bookinfo
 bookinfo
 boolean
@@ -435,6 +438,7 @@ Khaliq
 Kiali
 Kibana
 Knative
+Kool
 Kops
 Krishnan
 Kristián
@@ -519,6 +523,7 @@ nginx
 NiFi
 NLBs
 Node.js
+no-brainer
 non-revisioned
 non-sandboxed
 non-mTLS
