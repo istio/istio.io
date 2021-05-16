@@ -208,7 +208,8 @@ spec:
     mirror:
       host: httpbin
       subset: v2
-    mirrorPercent: 100
+    mirrorPercentage:
+      value: 100.0
 EOF
 }
 
