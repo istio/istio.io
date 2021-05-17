@@ -69,7 +69,7 @@ Istio's working groups keep their design documents and planning artifacts in a c
 
 On the 20th of May we will change the Drive so that the files are accessible to everyone on the Internet, without having to log in, or join the group. This change will make sharing Istio technical documentation easier. and is another way we're ensuring Istio is a fully open project.
 
-Files will remain at the same URLs as before, but the Drive and its subfolders will change URLs. If you are a regular user of the Community Drive, please be aware of this change.  All contributors and Drive members will be contacted this week with the new details.
+Files will remain at the same URLs as before, but the Drive and its sub-folders will change URLs. If you are a regular user of the Community Drive, please be aware of this change.  All contributors and Drive members will be contacted this week with the new details.
 
 ## Deprecations
 
