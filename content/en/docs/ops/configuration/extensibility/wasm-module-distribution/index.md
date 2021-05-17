@@ -1,6 +1,6 @@
 ---
-title: Distributing WebAssembly Modules [Experimental]
-description: Describes how to make remote WebAssembly modules available in the mesh (experimental).
+title: Distributing WebAssembly Modules (Experimental)
+description: Describes how to make remote WebAssembly modules available in the mesh.
 weight: 10
 aliases:
   - /help/ops/extensibility/distribute-remote-wasm-module

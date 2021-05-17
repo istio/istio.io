@@ -221,7 +221,7 @@ In general, any field in a pod can be set. However, care must be taken for certa
 
 Additionally, certain fields are configurable by [annotations](/docs/reference/config/annotations/) on the pod, although it is recommended to use the above approach to customizing settings.
 
-### Custom templates [experimental]
+### Custom templates (experimental)
 
 {{< warning >}}
 This feature is experimental and subject to change, or removal, at any time.
