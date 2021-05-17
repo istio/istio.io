@@ -164,8 +164,8 @@ From here, you have two choices:
    Since your microservices use different programming languages, you have to
    learn, use, update multiple libraries.
 
-See [Istio service mesh](/docs/concepts/what-is-istio/#what-is-a-service-mesh)
-to learn how Istio can perform the tasks mentioned here and more. In the
+See [The Istio service mesh](/about/service-mesh/) to learn how Istio can per
+can perform the tasks mentioned here and more. In the
 next modules, you explore various Istio features.
 
 You are ready to

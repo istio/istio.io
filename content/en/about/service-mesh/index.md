@@ -8,6 +8,11 @@ skip_byline: true
 skip_pagenav: true
 aliases:
     - /service-mesh.html
+    - /docs/concepts/what-is-istio/overview
+    - /docs/concepts/what-is-istio/goals
+    - /about/intro
+    - /docs/concepts/what-is-istio/
+    - /latest/docs/concepts/what-is-istio/    
 doc_type: about
 ---
 [comment]: <> (TODO: Replace Service mesh graphic placeholder)

@@ -1,6 +1,7 @@
 ---
 title: Get involved!
 linktitle: Get involved
+description: Information on the various ways to participate and interact with the Istio community.
 subtitle: Ask questions, be a part of the conversation, or contribute to Istio’s growth. Istio is an open source project that is driven by the participation of users and contributors. Join in!
 sidebar_none: true
 weight: 15
@@ -8,6 +9,12 @@ skip_toc: true
 skip_byline: true
 skip_pagenav: true
 skip_breadcrumb: true
+aliases:
+    - /community
+    - /about/community
+    - /latest/about/community
+    - /about/community/join
+    - /latest/about/community/join
 doc_type: get-involved
 
 ---

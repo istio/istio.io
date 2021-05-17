@@ -64,5 +64,5 @@ Experimental features are purposefully not listed on this page.
 {{< features section="Core" >}}
 
 {{< idea >}}
-Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!
+Please get in touch by [joining our community](/get-involved/) if there are features you'd like to see in our future releases!
 {{< /idea >}}
