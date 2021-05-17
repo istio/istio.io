@@ -2,8 +2,6 @@
 title: Customizing the installation configuration
 description: Describes how to customize installation configuration options.
 weight: 55
-aliases:
-    - /docs/setup/install/istioctl/
 keywords: [profiles,install,helm]
 owner: istio/wg-environments-maintainers
 test: n/a
