@@ -49,19 +49,19 @@ kubectl -n istio-system wait --for=condition=available --timeout=600s deployment
 startup_bookinfo_sample  # from tests/util/samples.sh
 
 echo '*** observability-kiali step 1 ***'
-snip_generating_a_service_graph_1
+snip_generating_a_graph_1
 
 echo '*** observability-kiali step 2 ***'
 for _ in {1..50}; do
-    snip_generating_a_service_graph_2 > /dev/null
+    snip_generating_a_graph_2 > /dev/null
 done
 
-# We don't test snip_generating_a_service_graph_3 which is a `watch`
+# We don't test snip_generating_a_graph_3 which is a `watch`
 
 # The "istioctl dashboard kiali" blocks, so start it in another process
 echo '*** observability-kiali step 3 ***'
 # (@@@ ecs TODO Why doesn't forking work with bash functions?)
-# snip_generating_a_service_graph_4 &
+# snip_generating_a_graph_4 &
 istioctl dashboard kiali &
 
 # The script can verify there is a UI, but can't really compare it
@@ -84,16 +84,16 @@ snip_validating_istio_configuration_1 || true
 # Send traffic to Bookinfo
 echo '*** observability-kiali step where we send traffic again ***'
 for _ in {1..50}; do
-    snip_generating_a_service_graph_2 > /dev/null
+    snip_generating_a_graph_2 > /dev/null
 done
 
 # Rename port back to valid value
-snip_validating_istio_configuration_2
+snip_generating_a_graph_2
 
 # Send traffic to Bookinfo
 echo '*** observability-kiali step where we send more traffic ***'
 for _ in {1..50}; do
-    snip_generating_a_service_graph_2 > /dev/null
+    snip_generating_a_graph_2 > /dev/null
 done
 
 # Apply Bookinfo destination rules
@@ -103,7 +103,7 @@ snip_viewing_and_editing_istio_configuration_yaml_1
 # Send traffic to Bookinfo
 echo '*** observability-kiali step where we send traffic after setting dest rules ***'
 for _ in {1..50}; do
-    snip_generating_a_service_graph_2 > /dev/null
+    snip_generating_a_graph_2 > /dev/null
 done
 
 # Delete destination rules
@@ -113,7 +113,7 @@ snip_viewing_and_editing_istio_configuration_yaml_2
 # Send traffic to Bookinfo
 echo '*** observability-kiali step where we send traffic after deleting dest rules ***'
 for _ in {1..50}; do
-    snip_generating_a_service_graph_2 > /dev/null
+    snip_generating_a_graph_2 > /dev/null
 done
 
 # @@@ TODO Verify that Kiali did detect the changes we made.
