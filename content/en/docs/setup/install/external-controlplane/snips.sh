@@ -78,6 +78,8 @@ spec:
       configMap: true
     istiodRemote:
       injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/:ENV:cluster=${REMOTE_CLUSTER_NAME}:ENV:net=network1
+    base:
+      validationURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/validate
 EOF
 }
 
