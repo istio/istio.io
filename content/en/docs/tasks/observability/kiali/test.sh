@@ -34,15 +34,15 @@ echo @@@ TODO REMOVE
 echo When test starts, pods are
 kubectl -n istio-system get pods
 
-echo Using Kiali from '"' "$KIALI_MANIFEST_URL" '"'
+echo Using Kiali from "$KIALI_MANIFEST_URL"
 
 # Demo no longer installs Kiali.
 # @@@ TODO Use $KIALI_MANIFEST_URL
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.10/samples/addons/kiali.yaml
+kubectl apply -f "$KIALI_MANIFEST_URL"
 # Wait for CRD and run the install again.
 # See https://github.com/istio/istio/issues/27417#issuecomment-729153529 for rationale.
 kubectl -n istio-system wait --for=condition=established --timeout=60s crd/monitoringdashboards.monitoring.kiali.io
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.10/samples/addons/kiali.yaml
+kubectl apply -f "$KIALI_MANIFEST_URL"
 kubectl -n istio-system wait --for=condition=available --timeout=600s deployment/kiali
 
 # Install Bookinfo sample
@@ -60,9 +60,9 @@ done
 
 # The "istioctl dashboard kiali" blocks, so start it in another process
 echo '*** observability-kiali step 3 ***'
-# (@@@ ecs TODO Why doesn't forking work with bash functions?)
+# Forking doesn't work with bash functions, so we do it explicitly here
 # snip_generating_a_graph_4 &
-istioctl dashboard kiali &
+istioctl dashboard kiali > /dev/null &
 
 # The script can verify there is a UI, but can't really compare it
 echo '*** observability-kiali step 4 ***'
@@ -71,11 +71,15 @@ sleep 10 # wait for the 'istioctl dashboard' to complete
 KIALI_LOC=http://localhost:20001/kiali
 curl -v ${KIALI_LOC} --fail
 
+# TODO remove in favor of the below
+curl -v "${KIALI_LOC}/api/namespaces/graph?namespaces=default"
+
 # The script can look at the API output
 # See https://github.com/kiali/kiali/blob/master/swagger.json
 # for the API.  In this case, we want JSON with a "nodes" key
+# (It would be nice to 'tee' this to the console, but I am not sure how...)
 curl -v "${KIALI_LOC}/api/namespaces/graph?namespaces=default" --fail \
-   | tee /dev/tty | jq ".elements" | grep '"nodes"'
+   | jq ".elements" | grep '"nodes"'
 
 # Rename port to invalid value
 echo '*** observability-kiali step where we rename port ***'
