@@ -171,7 +171,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
         istiodRemote:
           injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/:ENV:cluster=${REMOTE_CLUSTER_NAME}:ENV:net=network1
         base:
-          validationURL: https://$EXTERNAL_ISTIOD_ADDR:15017/validate
+          validationURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/validate
     EOF
     {{< /text >}}
 
