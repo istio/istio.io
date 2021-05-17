@@ -9,7 +9,6 @@ aliases:
     - /docs/home/roadmap.html
     - /about/feature-stages
     - /latest/about/feature-stages
-icon: feature-status
 owner: istio/wg-docs-maintainers
 test: n/a
 ---

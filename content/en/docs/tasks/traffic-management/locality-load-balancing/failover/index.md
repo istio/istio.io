@@ -2,7 +2,6 @@
 title: Locality failover
 description: This task demonstrates how to configure your mesh for locality failover.
 weight: 10
-icon: tasks
 keywords: [locality,load balancing,priority,prioritized,kubernetes,multicluster]
 test: yes
 owner: istio/wg-networking-maintainers

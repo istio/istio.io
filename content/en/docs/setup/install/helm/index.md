@@ -5,7 +5,6 @@ description: Install and configure Istio for in-depth evaluation.
 weight: 30
 keywords: [kubernetes,helm]
 owner: istio/wg-environments-maintainers
-icon: helm
 test: yes
 ---
 

@@ -13,7 +13,6 @@ aliases:
     - /latest/about/contribute
 keywords: [contribute, github, docs, shortcodes, code-blocks, website]
 list_below: true
-icon: contribute
 owner: istio/wg-docs-maintainers
 test: n/a
 ---

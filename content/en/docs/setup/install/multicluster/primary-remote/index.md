@@ -2,7 +2,6 @@
 title: Install Primary-Remote
 description: Install an Istio mesh across primary and remote clusters.
 weight: 20
-icon: setup
 keywords: [kubernetes,multicluster]
 test: yes
 owner: istio/wg-environments-maintainers
