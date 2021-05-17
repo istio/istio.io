@@ -7,7 +7,6 @@ aliases:
   - /glossary
   - /docs/welcome/glossary.html
   - /help/glossary
-icon: glossary
 owner: istio/wg-docs-maintainers
 test: n/a
 ---

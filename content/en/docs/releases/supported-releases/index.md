@@ -5,7 +5,6 @@ weight: 35
 aliases:
     - /about/supported-releases
     - /latest/about/supported-releases
-icon: cadence
 owner: istio/wg-docs-maintainers
 test: n/a
 ---

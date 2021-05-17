@@ -9,7 +9,6 @@ aliases:
   - /docs/reference/faq.html
   - /help/faq/
   - /faq.html
-icon: faq
 skip_toc: false
 skip_byline: true
 skip_pagenav: true

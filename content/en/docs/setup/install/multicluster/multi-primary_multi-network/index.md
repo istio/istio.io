@@ -2,7 +2,6 @@
 title: Install Multi-Primary on different networks
 description: Install an Istio mesh across multiple primary clusters on different networks.
 weight: 30
-icon: setup
 keywords: [kubernetes,multicluster]
 test: yes
 owner: istio/wg-environments-maintainers
