@@ -51,7 +51,7 @@ Check out the [updated Canary Upgrade guide](/docs/setup/upgrade/canary/#stable-
 
 In previous Istio releases, Istio has rewritten pod networking to trap traffic from `eth0` and send it to applications on `lo`. Most applications bind to both interfaces and don’t notice any difference; however some applications are specifically written to only expect specific traffic on either interface (e.g. it’s common to expose admin endpoints only on `lo` and never over `eth0`, or for stateful applications to bind only to `eth0`). These applications’ behavior can be impacted by how Istio directs traffic into the pod.
 
-In 1.10, Istio is updating Envoy to send traffic to the application on `eth0` rather than `lo` by default. For new users, this should only be an improvement. For existing users, `istioctl experimental precheck` will identify pods that listen on localhost and may be impacted as IST0143.
+In 1.10, Istio is updating Envoy to send traffic to the application on `eth0` rather than `lo` by default. For new users, this should only be an improvement. For existing users, `istioctl experimental precheck` will identify pods that listen on localhost, and may be impacted, as [IST0143](/docs/reference/config/analysis/ist0143/).
 
 See [the write-up](/blog/2021/upcoming-networking-changes/) by John Howard for a more in depth overview of the change, how and why it might impact you, and how to preserve today’s behavior to enable a seamless migration.
 
@@ -63,7 +63,7 @@ This effort was sponsored by Google Cloud and we want to send a special thanks t
 
 Please give us any feedback you have by filing an issue on the [istio.io repository](https://github.com/istio/istio.io).
 
-## Opening up our design docs
+## Opening Up Our Design Docs
 
 Istio's working groups keep their design documents and planning artifacts in a community Google Drive. Anyone is welcome to view these documents, but due to Istio's heritage inside Google, you first had to [join a public group](https://groups.google.com/g/istio-team-drive-access) to get access to the drive and the files within.
 
