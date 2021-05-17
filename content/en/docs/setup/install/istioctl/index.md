@@ -303,6 +303,8 @@ Then run the following `verify-install` command to see if the installation was s
 $ istioctl verify-install -f $HOME/generated-manifest.yaml
 {{< /text >}}
 
+For advance customization of installation configuration please refer [more guides](/docs/setup/additional-setup/customize-installation/) section.
+
 ## Uninstall Istio
 
 To completely uninstall Istio from a cluster, run the following command:
