@@ -21,6 +21,7 @@ set -u  # Unset is an error
 set -o pipefail
 
 source "tests/util/samples.sh"
+source "tests/util/addons.sh"
 
 # This script expects Prometheus
 # @setup profile=demo
