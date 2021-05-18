@@ -46,7 +46,8 @@ my-release-zookeeper-headless   ClusterIP   None           <none>        2181/TC
 service/sleep                   ClusterIP   10.100.9.26    <none>        80/TCP                             3h
 {{< /text >}}
 
-Are our ZooKeeper services working and the `Running` status correct? Let’s find out! ZooKeeper listens on 3 ports:
+Are our ZooKeeper services working and is the status `Running`? Let’s find out! ZooKeeper listens on 3 ports:
+
 * Port 2181 is the TCP port for clients to connect to the ZooKeeper service
 * Port 2888 is the TCP port  for peers to connect to other peers
 * Port 3888 is the dedicated TCP port for leader election
