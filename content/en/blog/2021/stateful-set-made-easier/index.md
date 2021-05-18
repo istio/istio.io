@@ -12,7 +12,9 @@ The Istio community has been making gradual progress towards zero-configuration 
 
 ## Challenges With StatefulSet
 
-Many [issues](https://github.com/istio/istio/issues/10659) have been reported from the Istio community around StatefulSets. What is unique about StatefulSet and service mesh? The StatefulSet pods are created from the same spec, but are not interchangeable: each has a persistent identifier that it maintains across any rescheduling. Pods within a StatefulSet listen on the pod IP only instead of `0.0.0.0` for communication within the StatefulSet pods.
+What is unique about using a StatefulSet with a service mesh? The StatefulSet pods are created from the same spec, but are not interchangeable: each has a persistent identifier that it maintains across any rescheduling. Pods within a StatefulSet only listen on the pod IP, instead of `0.0.0.0`, for communication within the pods in the set.
+
+Many [issues](https://github.com/istio/istio/issues/10659) have been reported from the Istio community around StatefulSets. 
 
 Using ZooKeeper as an example, from the `zoo.cfg` file in my ZooKeeper pod, it is configured not to listen on all IPs for quorum communication within the StatefulSet pods.
 
