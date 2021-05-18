@@ -51,7 +51,7 @@ default:
 shell:
 	@$(RUN) /bin/bash
 
-.PHONY: default shell
+.PHONY: default
 
 else
 
