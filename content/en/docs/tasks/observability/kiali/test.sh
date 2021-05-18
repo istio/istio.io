@@ -31,19 +31,29 @@ export GATEWAY_URL="$INGRESS_HOST:$INGRESS_PORT"
 echo "Using GATEWAY_URL $GATEWAY_URL"
 
 echo @@@ TODO REMOVE
+echo When test starts, namespaces are
+kubectl get namespaces
 echo When test starts, pods are
 kubectl -n istio-system get pods
 
-echo Using Kiali from "$KIALI_MANIFEST_URL"
+# TODO Check if this works ... I am nervous we may need to install kiali twice...
+# Without Prometheus, Kiali will not work.
+_deploy_and_wait_for_addons kiali prometheus
 
-# Demo no longer installs Kiali.
-# @@@ TODO Use $KIALI_MANIFEST_URL
-kubectl apply -f "$KIALI_MANIFEST_URL"
-# Wait for CRD and run the install again.
-# See https://github.com/istio/istio/issues/27417#issuecomment-729153529 for rationale.
-kubectl -n istio-system wait --for=condition=established --timeout=60s crd/monitoringdashboards.monitoring.kiali.io
-kubectl apply -f "$KIALI_MANIFEST_URL"
-kubectl -n istio-system wait --for=condition=available --timeout=600s deployment/kiali
+# echo Using Kiali from "$KIALI_MANIFEST_URL"
+# 
+# # Demo no longer installs Kiali.
+# # @@@ TODO Use $KIALI_MANIFEST_URL
+# kubectl apply -f "$KIALI_MANIFEST_URL"
+# # Wait for CRD and run the install again.
+# # See https://github.com/istio/istio/issues/27417#issuecomment-729153529 for rationale.
+# kubectl -n istio-system wait --for=condition=established --timeout=60s crd/monitoringdashboards.monitoring.kiali.io
+# kubectl apply -f "$KIALI_MANIFEST_URL"
+# kubectl -n istio-system wait --for=condition=available --timeout=600s deployment/kiali
+
+echo @@@ TODO REMOVE
+echo After addons installed, pods are
+kubectl -n istio-system get pods
 
 # Install Bookinfo sample
 startup_bookinfo_sample  # from tests/util/samples.sh
