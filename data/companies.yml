@@ -434,3 +434,6 @@ users:
   - name: "Zendesk"
     logo: "/logos/zendesk.svg"
     url: "https://www.zendesk.com/"
+  - name: "Trendyol"
+    logo: "/logos/trendyol.png"
+    url: "https://www.trendyol.com/"
