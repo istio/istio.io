@@ -10,8 +10,6 @@ Kubernetes [StatefulSets](https://kubernetes.io/docs/concepts/workloads/controll
 
 The Istio community has been making gradual progress towards zero-configuration support for StatefulSets; from automatic mTLS, to eliminating the need to create DestinationRule or ServiceEntry resources, to the most recent [pod networking changes in Istio 1.10](/blog/2021/upcoming-networking-changes/).
 
-## Challenges With StatefulSet
-
 Many [issues](https://github.com/istio/istio/issues/10659) have been reported from the Istio community around StatefulSets. What is unique about StatefulSet and service mesh? The StatefulSet pods are created from the same spec, but are not interchangeable: each has a persistent identifier that it maintains across any rescheduling. Pods within a StatefulSet listen on the pod IP only instead of `0.0.0.0` for communication within the StatefulSet pods.
 
 Using ZooKeeper as an example, from the `zoo.cfg` file in my ZooKeeper pod, it is configured not to listen on all IPs for quorum communication within the StatefulSet pods.
