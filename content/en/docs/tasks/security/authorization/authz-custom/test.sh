@@ -59,10 +59,10 @@ snip_enable_with_external_authorization_1
 #+ \"X-Ext-Authz-Check-Result\": \"allowed\",
 #"
 _verify_same snip_enable_with_external_authorization_4 "$snip_enable_with_external_authorization_4_out"
-_verify_lines snip_enable_with_external_authorization_5 "
-+ [gRPCv3][allowed]
-+ [gRPCv3][denied]
-"
+#_verify_lines snip_enable_with_external_authorization_5 "
+#+ [gRPCv3][allowed]
+#+ [gRPCv3][denied]
+#"
 
 # @cleanup
 snip_clean_up_1
