@@ -52,7 +52,7 @@ Are our ZooKeeper services working and is the status `Running`? Let’s find out
 * Port 2888 is the TCP port  for peers to connect to other peers
 * Port 3888 is the dedicated TCP port for leader election
 
-By default, ZooKeeper installation configures port 2181 to listen on `0.0.0.0` but port 2888 and 3888 only listen on its pod IP. Let’s check out the network status on each of these ports from one of the ZooKeeper pods:
+By default, the ZooKeeper installation configures port 2181 to listen on `0.0.0.0` but ports 2888 and 3888 only listen on the pod IP. Let’s check out the network status on each of these ports from one of the ZooKeeper pods:
 
 {{< text bash yaml >}}
 $ kubectl exec my-release-zookeeper-1 -c istio-proxy -- netstat -na | grep -E '(2181|2888|3888)'
