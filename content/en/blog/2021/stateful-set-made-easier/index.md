@@ -20,9 +20,9 @@ Using ZooKeeper as an example, from the `zoo.cfg` file in our ZooKeeper pod, it 
 quorumListenOnAllIPs=false
 {{< /text >}}
 
-## `StatefulSets` in Action prior to Istio 1.10
+## `StatefulSets` in action, prior to Istio 1.10
 
-In our GKE 1.19 cluster, we have Istio 1.9.5 installed. We enabled automatic sidecar injection in the `default` namespace, then we installed ZooKeeper using the [helm charts](https://artifacthub.io/packages/helm/bitnami/zookeeper) provided by Bitnami along with our `sleep` application:
+In a GKE cluster running Kubernetes 1.19, we have Istio 1.9.5 installed. We enabled automatic sidecar injection in the `default` namespace, then we installed ZooKeeper using the [Helm charts provided by Bitnami](https://artifacthub.io/packages/helm/bitnami/zookeeper), along with our `sleep` sample application:
 
 {{< text bash >}}
 $ helm repo add bitnami https://charts.bitnami.com/bitnami
