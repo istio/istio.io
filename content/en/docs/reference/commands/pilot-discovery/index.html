@@ -89,11 +89,6 @@ remove_toc_prefix: 'pilot-discovery '
 </thead>
 <tbody>
 <tr>
-<td><code>--appNamespace &lt;string&gt;</code></td>
-<td><code>-a</code></td>
-<td>Specify the applications namespace list the controller manages, separated by comma; if not set, controller watches all namespaces  (default ``)</td>
-</tr>
-<tr>
 <td><code>--caCertFile &lt;string&gt;</code></td>
 <td></td>
 <td>File containing the x509 Server CA Certificate  (default ``)</td>
@@ -262,6 +257,11 @@ remove_toc_prefix: 'pilot-discovery '
 <td><code>--secureGRPCAddr &lt;string&gt;</code></td>
 <td></td>
 <td>Discovery service secured gRPC address  (default `:15012`)</td>
+</tr>
+<tr>
+<td><code>--shutdownDuration &lt;duration&gt;</code></td>
+<td></td>
+<td>Duration the discovery server needs to terminate gracefully  (default `10s`)</td>
 </tr>
 <tr>
 <td><code>--tls-cipher-suites &lt;stringSlice&gt;</code></td>
@@ -526,6 +526,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
 </tr>
 <tr>
+<td><code>ENABLE_MULTICLUSTER_HEADLESS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, the DNS name table for a headless service will resolve to same-network endpoints in any cluster.</td>
+</tr>
+<tr>
 <td><code>ENABLE_WASM_TELEMETRY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -568,16 +574,16 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Custom host name of istiod that istiod signs the server cert.</td>
 </tr>
 <tr>
-<td><code>ISTIOD_ENABLE_SDS_SERVER</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, Istiod will serve SDS for credentialName secrets (rather than in-proxy). To ensure proper security, PILOT_ENABLE_XDS_IDENTITY_CHECK=true is required as well.</td>
-</tr>
-<tr>
 <td><code>ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Istio agent will intercept ECDS resource update, downloads Wasm module, and replaces Wasm module remote load with downloaded local module file.</td>
+</tr>
+<tr>
+<td><code>ISTIO_BOOTSTRAP</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
 </tr>
 <tr>
 <td><code>ISTIO_DEFAULT_REQUEST_TIMEOUT</code></td>
@@ -662,12 +668,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Time Duration</td>
 <td><code>2160h0m0s</code></td>
 <td>The max TTL of issued workload certificates.</td>
-</tr>
-<tr>
-<td><code>PILOT_ALLOW_METADATA_CERTS_DR_MUTUAL_TLS</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If true, Pilot will allow certs specified in Metadata to override DR certs in MUTUAL TLS mode. This is only enabled for migration and will be removed soon.</td>
 </tr>
 <tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
@@ -850,6 +850,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If true, pilot will add telemetry related metadata to Endpoint resource, which will be consumed by telemetry filter.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENVOY_FILTER_STATS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, Pilot will collect metrics for envoy filter operations.</td>
+</tr>
+<tr>
 <td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -866,6 +872,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Enables the use of HTTP 1.0 in the outbound HTTP listeners, to support legacy applications.</td>
+</tr>
+<tr>
+<td><code>PILOT_HTTP_DELAYED_CLOSE_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>1s</code></td>
+<td>The delayed close timeout is for downstream HTTP connections. This should be set to a high value or disable it when peer is reading large chunk of data and to give an opportunity to initiate the close sequence properly. A value of 0s disables this</td>
 </tr>
 <tr>
 <td><code>PILOT_INBOUND_PROTOCOL_DETECTION_TIMEOUT</code></td>
@@ -966,7 +978,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr>
 <td><code>PILOT_XDS_SEND_TIMEOUT</code></td>
 <td>Time Duration</td>
-<td><code>5s</code></td>
+<td><code>0s</code></td>
 <td>The timeout to send the XDS configuration to proxies. After this timeout is reached, Pilot will discard that push.</td>
 </tr>
 <tr>
@@ -1121,7 +1133,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
 <tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
 <tr><td><code>pilot_inbound_updates</code></td><td><code>Sum</code></td><td>Total number of updates received by pilot.</td></tr>
-<tr><td><code>pilot_invalid_out_listeners</code></td><td><code>LastValue</code></td><td>Number of invalid outbound listeners.</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_k8s_cfg_events</code></td><td><code>Sum</code></td><td>Events from k8s config.</td></tr>
@@ -1141,6 +1152,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
 <tr><td><code>pilot_xds</code></td><td><code>LastValue</code></td><td>Number of endpoints connected to this pilot using XDS.</td></tr>
 <tr><td><code>pilot_xds_cds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected CDS configs.</td></tr>
+<tr><td><code>pilot_xds_config_size_bytes</code></td><td><code>Distribution</code></td><td>Distribution of configuration sizes pushed to clients</td></tr>
 <tr><td><code>pilot_xds_delayed_push_timeouts_total</code></td><td><code>Sum</code></td><td>Total number of XDS pushes that are delayed and timed out</td></tr>
 <tr><td><code>pilot_xds_delayed_pushes_total</code></td><td><code>Sum</code></td><td>Total number of XDS pushes that are delayed.</td></tr>
 <tr><td><code>pilot_xds_eds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected EDS.</td></tr>

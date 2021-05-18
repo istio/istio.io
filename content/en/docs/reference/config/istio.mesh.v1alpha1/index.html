@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 44
+number_of_entries: 45
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -1052,6 +1052,17 @@ No
 No
 </td>
 </tr>
+<tr id="MeshConfig-ExtensionProvider-skywalking" class="oneof">
+<td><code>skywalking</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-SkyWalkingTracingProvider">SkyWalkingTracingProvider (oneof)</a></code></td>
+<td>
+<p>Configures a Apache SkyWalking provider.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -1668,6 +1679,61 @@ No
 <td>
 <p>Optional. Controls the overall path length allowed in a reported span.
 NOTE: currently only controls max length of the path tag.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-SkyWalkingTracingProvider">MeshConfig.ExtensionProvider.SkyWalkingTracingProvider</h2>
+<section>
+<p>Defines configuration for a SkyWalking tracer.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-SkyWalkingTracingProvider-service">
+<td><code>service</code></td>
+<td><code>string</code></td>
+<td>
+<p>REQUIRED. Specifies the service for the SkyWalking receiver.
+The format is &ldquo;[<Namespace>/]<Hostname>&rdquo;. The specification of <Namespace> is required only when it is insufficient
+to unambiguously resolve a service in the service registry. The <Hostname> is a fully qualified host name of a
+service defined by the Kubernetes service or ServiceEntry.</p>
+
+<p>Example: &ldquo;skywalking.default.svc.cluster.local&rdquo; or &ldquo;bar/skywalking.example.com&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-SkyWalkingTracingProvider-port">
+<td><code>port</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>REQUIRED. Specifies the port of the service.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-SkyWalkingTracingProvider-access_token">
+<td><code>accessToken</code></td>
+<td><code>string</code></td>
+<td>
+<p>Optional. The SkyWalking OAP access token.</p>
 
 </td>
 <td>
