@@ -4,7 +4,7 @@
     transition: top .2s;
 
     &.active {
-      top: $activeHeaderHeight;
+        top: $activeHeaderHeight;
     }
 
     @media screen AND (min-width: $bp-md) {
