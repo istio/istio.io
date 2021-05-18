@@ -14,7 +14,7 @@ What is unique about using a `StatefulSet` with a service mesh? The `StatefulSet
 
 Many [issues](https://github.com/istio/istio/issues/10659) have been reported from the Istio community around `StatefulSets`.
 
-Using ZooKeeper as an example, from the `zoo.cfg` file in our ZooKeeper pod, it is configured not to listen on all IPs for quorum communication within the `StatefulSet` pods.
+Using ZooKeeper as an example, from the `zoo.cfg` file in our ZooKeeper pod, it is configured to not listen on all IPs for quorum communication within the `StatefulSet` pods.
 
 {{< text plain >}}
 quorumListenOnAllIPs=false
@@ -222,6 +222,8 @@ EOF
 Continue sending some traffic from the `sleep` pod and bring up the Kiali dashboard to visualize the services in the `default` namespace:
 
 {{< image link="./view-zookeeper-from-kiali.png" caption="Visualize the ZooKeeper Services in Kiali" >}}
+
+The padlock icons on the traffic flows indicate that the connections are secure.
 
 ## Wrapping up
 
