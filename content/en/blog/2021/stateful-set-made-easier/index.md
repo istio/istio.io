@@ -6,7 +6,9 @@ attribution: "Lin Sun (Solo.io), Christian Posta (Solo.io), John Howard (Google)
 keywords: [statefulset,Istio,networking,localhost,loopback,eth0]
 ---
 
-Kubernetes [StatefulSets](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) are commonly used to manage stateful applications. In addition to managing the deployment and scaling of a set of Pods, StatefulSets provide guarantees about the ordering and uniqueness of these Pods. Common StatefulSets used with Istio are ZooKeeper, Cassandra, Elasticsearch, Redis, Apache NiFi, and more. The Istio community has been making gradual progress towards supporting zero-configuration for StatefulSets, from automatic mTLS to eliminating any ServiceEntry or Istio resources, to the most recent [pod networking change in Istio 1.10](/blog/2021/upcoming-networking-changes/).
+Kubernetes [StatefulSets](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) are commonly used to manage stateful applications. In addition to managing the deployment and scaling of a set of Pods, StatefulSets provide guarantees about the ordering and uniqueness of those Pods. Common applications used with StatefulSets include ZooKeeper, Cassandra, Elasticsearch, Redis and NiFi. 
+
+The Istio community has been making gradual progress towards zero-configuration support for StatefulSets; from automatic mTLS, to eliminating the need to create DestinationRule or ServiceEntry resources, to the most recent [pod networking changes in Istio 1.10](/blog/2021/upcoming-networking-changes/).
 
 ## Challenges With StatefulSet
 
