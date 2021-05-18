@@ -165,31 +165,31 @@ disableAliases = true
       weight = 6
 
   [[menu.main]]
+    identifier = "docs"
+    name = "Documentation"
+    title = "Documentation"
+    url = "/docs/"
+    weight = 2
+
+  [[menu.main]]
     identifier = "blog"
     name = "Blog"
     title = "Istio Blog"
     url = "/blog/"
-    weight = 2
+    weight = 3
 
   [[menu.main]]
     identifier = "news"
     name = "News"
     title = "News"
     url = "/news/"
-    weight = 3
+    weight = 4
 
   [[menu.main]]
     identifier = "get-involved"
     name = "Get involved"
     title = "Get involved"
     url = "/get-involved/"
-    weight = 4
-
-  [[menu.main]]
-    identifier = "docs"
-    name = "Documentation"
-    title = "Documentation"
-    url = "/docs/"
     weight = 5
 
   # i18n for Chinese
