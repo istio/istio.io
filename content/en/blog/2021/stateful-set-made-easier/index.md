@@ -6,13 +6,13 @@ attribution: "Lin Sun (Solo.io), Christian Posta (Solo.io), John Howard (Google)
 keywords: [statefulset,Istio,networking,localhost,loopback,eth0]
 ---
 
-Kubernetes [StatefulSets](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) are commonly used to manage stateful applications. In addition to managing the deployment and scaling of a set of Pods, StatefulSets provide guarantees about the ordering and uniqueness of those Pods. Common applications used with StatefulSets include ZooKeeper, Cassandra, Elasticsearch, Redis and NiFi. 
+Kubernetes [StatefulSets](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) are commonly used to manage stateful applications. In addition to managing the deployment and scaling of a set of Pods, StatefulSets provide guarantees about the ordering and uniqueness of those Pods. Common applications used with StatefulSets include ZooKeeper, Cassandra, Elasticsearch, Redis and NiFi.
 
 The Istio community has been making gradual progress towards zero-configuration support for StatefulSets; from automatic mTLS, to eliminating the need to create DestinationRule or ServiceEntry resources, to the most recent [pod networking changes in Istio 1.10](/blog/2021/upcoming-networking-changes/).
 
 What is unique about using a StatefulSet with a service mesh? The StatefulSet pods are created from the same spec, but are not interchangeable: each has a persistent identifier that it maintains across any rescheduling. Pods within a StatefulSet only listen on the pod IP, instead of `0.0.0.0`, for communication within the pods in the set.
 
-Many [issues](https://github.com/istio/istio/issues/10659) have been reported from the Istio community around StatefulSets. 
+Many [issues](https://github.com/istio/istio/issues/10659) have been reported from the Istio community around StatefulSets.
 
 Using ZooKeeper as an example, from the `zoo.cfg` file in our ZooKeeper pod, it is configured not to listen on all IPs for quorum communication within the StatefulSet pods.
 
