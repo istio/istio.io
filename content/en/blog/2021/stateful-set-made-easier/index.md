@@ -114,7 +114,7 @@ $ istioctl proxy-config cluster my-release-zookeeper-1 --port 3888 --direction i
 ...
 {{< /text >}}
 
-What is interesting here is that the inbound on port 3888 has `127.0.0.1` as its endpoint. This means that Envoy proxy before Istio 1.10 redirects the inbound traffic to the `loopback` interface, as described in the [upcoming networking change in 1.10 blog](/blog/2021/upcoming-networking-changes/).
+What is interesting here is that the inbound on port 3888 has `127.0.0.1` as its endpoint. This is because the Envoy proxy, in versions of Istio prior to 1.10, redirects the inbound traffic to the `loopback` interface, as described in [our blog post about the change](/blog/2021/upcoming-networking-changes/).
 
 ## `StatefulSets` in Action with Istio 1.10
 
