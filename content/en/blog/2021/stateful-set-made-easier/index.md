@@ -225,4 +225,4 @@ Continue sending some traffic from the `sleep` pod and bring up the Kiali dashbo
 
 ## Wrapping up
 
-With the new networking changes in Istio 1.10, a pod with a sidecar has consistent pod networking behavior as a pod without a sidecar in Kubernetes. This change enables Kubernetes `StatefulSets` or other types of applications to function properly in Istio as this blog has demonstrated. We believe this is a huge step towards Istio’s goal of providing transparent service mesh and zero-configuration Istio.
+With the new networking changes in Istio 1.10, a Kubernetes pod with a sidecar has the same networking behavior as a pod without a sidecar. This change enables stateful applications to function properly in Istio as we have shown you in this post. We believe this is a huge step towards Istio’s goal of providing transparent service mesh and zero-configuration Istio.
