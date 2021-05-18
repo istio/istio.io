@@ -128,6 +128,7 @@ Bazel
 Berben
 Bian
 BigQuery
+Bitnami
 bitpipe
 BlackHole
 BlackHoleCluster
@@ -699,6 +700,7 @@ SPIFFE-compliant
 SREs
 Stackdriver
 stateful
+StatefulSet
 Statsd
 stdout
 Steitz

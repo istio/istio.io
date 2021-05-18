@@ -14,24 +14,24 @@ Many [issues](https://github.com/istio/istio/issues/10659) have been reported fr
 
 Using ZooKeeper as an example, from the `zoo.cfg` file in my ZooKeeper pod, it is configured not to listen on all IPs for quorum communication within the StatefulSet pods.
 
-```
+{{< text plain >}}
 quorumListenOnAllIPs=false
-```
+{{< /text >}}
 
 ## StatefulSets in Action prior to Istio 1.10
 
 In my GKE 1.19 cluster, I have Istio 1.9.5 installed. I enabled automatic sidecar injection in my default namespace, then I installed ZooKeeper using the [helm charts](https://artifacthub.io/packages/helm/bitnami/zookeeper) provided by Bitnami along with our `sleep` application:
 
-```
+{{< text bash >}}
 $ helm repo add bitnami https://charts.bitnami.com/bitnami
 $ helm install my-release bitnami/zookeeper --set replicaCount=3
 $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
-```
+{{< /text >}}
 
 After a few minutes, all pods come up nicely with sidecar proxies:
 
-```
-$ kubectl get pods,svc                                                                           
+{{< text plain >}}
+$ kubectl get pods,svc
 NAME                             READY   STATUS    RESTARTS   AGE
 my-release-zookeeper-0           2/2     Running   0          3h4m
 my-release-zookeeper-1           2/2     Running   0          3h4m
@@ -42,7 +42,7 @@ NAME                            TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)
 my-release-zookeeper            ClusterIP   10.100.1.113   <none>        2181/TCP,2888/TCP,3888/TCP         3h
 my-release-zookeeper-headless   ClusterIP   None           <none>        2181/TCP,2888/TCP,3888/TCP         3h
 service/sleep                           ClusterIP   10.100.9.26    <none>        80/TCP                             3h
-```
+{{< /text >}}
 
 Are my ZooKeeper services working and the `READY` status correct? Let’s find out! ZooKeeper listens on 3 ports:
 *   port 2181 is the TCP port for clients to connect to the ZooKeeper service
@@ -51,7 +51,7 @@ Are my ZooKeeper services working and the `READY` status correct? Let’s find o
 
 By default, ZooKeeper installation configures port 2181 to listen on `0.0.0.0` but port 2888 and 3888 only listen on its pod IP. Let’s check out the network status on each of these ports from one of the ZooKeeper pods:
 
-```
+{{< text plain >}}
 $ kubectl exec my-release-zookeeper-1 -c istio-proxy -- netstat -na | grep -E '(2181|2888|3888)'
 tcp        0      0 0.0.0.0:2181            0.0.0.0:*               LISTEN
 tcp        0      0 10.96.7.7:3888          0.0.0.0:*               LISTEN
@@ -67,22 +67,22 @@ tcp        0      0 127.0.0.1:2181          127.0.0.1:37526         TIME_WAIT
 tcp        0      0 127.0.0.1:2181          127.0.0.1:37374         TIME_WAIT
 tcp        0      0 127.0.0.1:2181          127.0.0.1:37442         TIME_WAIT
 tcp        0      0 127.0.0.1:2181          127.0.0.1:37464         TIME_WAIT
-```
+{{< /text >}}
 
 There is nothing `ESTABLISHED` on port 2888 or 3888.  Next, let us get the ZooKeeper server status:
 
-```
+{{< text plain >}}
 $ kubectl exec my-release-zookeeper-1 -c zookeeper -- /opt/bitnami/zookeeper/bin/zkServer.sh status
 /opt/bitnami/java/bin/java
 ZooKeeper JMX enabled by default
 Using config: /opt/bitnami/zookeeper/bin/../conf/zoo.cfg
 Client port found: 2181. Client address: localhost. Client SSL: false.
 Error contacting service. It is probably not running.
-```
+{{< /text >}}
 
 From the above output, you can see the ZooKeeper service is not functioning properly. Let us check the cluster configuration for one of the ZooKeeper pods:
 
-```
+{{< text plain >}}
 $ istioctl proxy-config cluster my-release-zookeeper-1 --port 3888 --direction inbound -o json
 [
     {
@@ -109,21 +109,21 @@ $ istioctl proxy-config cluster my-release-zookeeper-1 --port 3888 --direction i
             ]
         },
 ...
-```
+{{< /text >}}
 
-What is interesting here is that the inbound on port 3888 has 127.0.0.1 as its endpoint. This means that Envoy proxy before Istio v1.10 redirects the inbound traffic to the `loopback` interface, as described in the [upcoming networking change in 1.10 blog](/blog/2021/upcoming-networking-changes/).
+What is interesting here is that the inbound on port 3888 has 127.0.0.1 as its endpoint. This means that Envoy proxy before Istio 1.10 redirects the inbound traffic to the `loopback` interface, as described in the [upcoming networking change in 1.10 blog](/blog/2021/upcoming-networking-changes/).
 
 ## StatefulSets in Action with Istio 1.10
 
 Install Istio 1.10 and configure the `default` namespace to enable Istio 1.10’s sidecar injection. Let’s rolling restart the ZooKeeper StatefulSet to update the pods to use Istio 1.10’s sidecar proxy:
 
-```
+{{< text bash >}}
 $ kubectl rollout restart statefulset my-release-zookeeper
-```
+{{< /text >}}
 
 Once the ZooKeeper pods reach the running status, let’s check out the network connections for these 3 ports from any of the ZooKeeper pods:
 
-```
+{{< text plain >}}
 $ kubectl exec my-release-zookeeper-1 -c istio-proxy -- netstat -na | grep -E '(2181|2888|3888)'
 tcp        0      0 0.0.0.0:2181            0.0.0.0:*               LISTEN
 tcp        0      0 10.96.8.10:2888         0.0.0.0:*               LISTEN
@@ -148,22 +148,22 @@ tcp        0      0 127.0.0.1:2181          127.0.0.1:54610         TIME_WAIT
 tcp        0      0 127.0.0.1:2181          127.0.0.1:54550         TIME_WAIT
 tcp        0      0 127.0.0.1:2181          127.0.0.1:54560         TIME_WAIT
 tcp        0      0 127.0.0.1:2181          127.0.0.1:54644         TIME_WAIT
-```
+{{< /text >}}
 
 There are a few `ESTABLISHED` connections on both the 2888 and 3888 ports!  Next, let us check out the ZooKeeper server status.
 
-```
+{{< text plain >}}
 $ kubectl exec my-release-zookeeper-1 -c zookeeper -- /opt/bitnami/zookeeper/bin/zkServer.sh status
 /opt/bitnami/java/bin/java
 ZooKeeper JMX enabled by default
 Using config: /opt/bitnami/zookeeper/bin/../conf/zoo.cfg
 Client port found: 2181. Client address: localhost. Client SSL: false.
 Mode: follower
-```
+{{< /text >}}
 
 It is exciting that the ZooKeeper service appears to be running this time! Let’s connect to each of the ZooKeeper pods from the sleep pod and run the command below to discover the server status of each pod within the ZooKeeper StatefulSet. Note, there is no need to deploy ServiceEntry resources for any of the ZooKeeper pods and we can call these pods directly using their DNS names (e.g. `my-release-zookeeper-0.my-release-zookeeper-headless`) from the `sleep` pod.
 
-```
+{{< text plain >}}
 $ kubectl exec -it deploy/sleep -c sleep -- sh  -c 'for x in my-release-zookeeper-0.my-release-zookeeper-headless my-release-zookeeper-1.my-release-zookeeper-headless my-release-zookeeper-2.my-release-zookeeper-headless; do echo $x; echo srvr|nc $x 2181; echo; done'                                                                    
 my-release-zookeeper-0.my-release-zookeeper-headless
 Zookeeper version: 3.7.0-e3704b390a6697bfdf4b0bef79e3da7a4f6bac4b, built on 2021-03-17 09:46 UTC
@@ -198,12 +198,12 @@ Zxid: 0x200000002
 Mode: leader
 Node count: 6
 Proposal sizes last/min/max: 48/48/48
-```
+{{< /text >}}
 
 Now our ZooKeeper service is running, let’s use Istio to secure all communication to our ZooKeeper and ZooKeeper headless services. Apply mutual TLS to the default namespace:
 
-```
-kubectl apply -n default -f - <<EOF
+{{< text bash >}}
+$ kubectl apply -n default -f - <<EOF
 apiVersion: "security.istio.io/v1beta1"
 kind: "PeerAuthentication"
 metadata:
@@ -212,7 +212,7 @@ spec:
   mtls:
     mode: STRICT
 EOF
-```
+{{< /text >}}
 
 Continue sending some traffic from the `sleep` pod and bring up the Kiali dashboard to visualize the services in the default namespace:
 
