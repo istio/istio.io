@@ -6,21 +6,21 @@ attribution: "Lin Sun (Solo.io), Christian Posta (Solo.io), John Howard (Google)
 keywords: [statefulset,Istio,networking,localhost,loopback,eth0]
 ---
 
-Kubernetes [StatefulSets](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) are commonly used to manage stateful applications. In addition to managing the deployment and scaling of a set of Pods, StatefulSets provide guarantees about the ordering and uniqueness of those Pods. Common applications used with StatefulSets include ZooKeeper, Cassandra, Elasticsearch, Redis and NiFi.
+Kubernetes [`StatefulSets`](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) are commonly used to manage stateful applications. In addition to managing the deployment and scaling of a set of `Pods`, `StatefulSets` provide guarantees about the ordering and uniqueness of those `Pods`. Common applications used with StatefulSets include ZooKeeper, Cassandra, Elasticsearch, Redis and NiFi.
 
-The Istio community has been making gradual progress towards zero-configuration support for StatefulSets; from automatic mTLS, to eliminating the need to create DestinationRule or ServiceEntry resources, to the most recent [pod networking changes in Istio 1.10](/blog/2021/upcoming-networking-changes/).
+The Istio community has been making gradual progress towards zero-configuration support for `StatefulSets`; from automatic mTLS, to eliminating the need to create `DestinationRule` or `ServiceEntry` resources, to the most recent [pod networking changes in Istio 1.10](/blog/2021/upcoming-networking-changes/).
 
-What is unique about using a StatefulSet with a service mesh? The StatefulSet pods are created from the same spec, but are not interchangeable: each has a persistent identifier that it maintains across any rescheduling. It is common for pods within a StatefulSet listen on the pod IP only, instead of `0.0.0.0`, for communication within the StatefulSet pods.
+What is unique about using a `StatefulSet` with a service mesh? The `StatefulSet` pods are created from the same spec, but are not interchangeable: each has a persistent identifier that it maintains across any rescheduling. It is common for pods within a `StatefulSet` to listen on the pod IP only, instead of `0.0.0.0`, for communication within the `StatefulSet` pods.
 
-Many [issues](https://github.com/istio/istio/issues/10659) have been reported from the Istio community around StatefulSets.
+Many [issues](https://github.com/istio/istio/issues/10659) have been reported from the Istio community around `StatefulSets`.
 
-Using ZooKeeper as an example, from the `zoo.cfg` file in our ZooKeeper pod, it is configured not to listen on all IPs for quorum communication within the StatefulSet pods.
+Using ZooKeeper as an example, from the `zoo.cfg` file in our ZooKeeper pod, it is configured not to listen on all IPs for quorum communication within the `StatefulSet` pods.
 
 {{< text plain >}}
 quorumListenOnAllIPs=false
 {{< /text >}}
 
-## StatefulSets in Action prior to Istio 1.10
+## `StatefulSets` in Action prior to Istio 1.10
 
 In our GKE 1.19 cluster, we have Istio 1.9.5 installed. We enabled automatic sidecar injection in the `default` namespace, then we installed ZooKeeper using the [helm charts](https://artifacthub.io/packages/helm/bitnami/zookeeper) provided by Bitnami along with our `sleep` application:
 
@@ -118,7 +118,7 @@ What is interesting here is that the inbound on port 3888 has `127.0.0.1` as its
 
 ## StatefulSets in Action with Istio 1.10
 
-Install Istio 1.10 and configure the `default` namespace to enable Istio 1.10’s sidecar injection. Let’s rolling restart the ZooKeeper StatefulSet to update the pods to use Istio 1.10’s sidecar proxy:
+Install Istio 1.10 and configure the `default` namespace to enable Istio 1.10’s sidecar injection. Let’s rolling restart the ZooKeeper `StatefulSet` to update the pods to use Istio 1.10’s sidecar proxy:
 
 {{< text bash >}}
 $ kubectl rollout restart statefulset my-release-zookeeper
@@ -164,7 +164,7 @@ Client port found: 2181. Client address: localhost. Client SSL: false.
 Mode: follower
 {{< /text >}}
 
-It is exciting that the ZooKeeper service appears to be running this time! Let’s connect to each of the ZooKeeper pods from the `sleep` pod and run the command below to discover the server status of each pod within the ZooKeeper StatefulSet. Note, there is no need to deploy ServiceEntry resources for any of the ZooKeeper pods and we can call these pods directly using their DNS names (e.g. `my-release-zookeeper-0.my-release-zookeeper-headless`) from the `sleep` pod.
+It is exciting that the ZooKeeper service appears to be running this time! Let’s connect to each of the ZooKeeper pods from the `sleep` pod and run the command below to discover the server status of each pod within the ZooKeeper `StatefulSet`. Note, there is no need to deploy ServiceEntry resources for any of the ZooKeeper pods and we can call these pods directly using their DNS names (e.g. `my-release-zookeeper-0.my-release-zookeeper-headless`) from the `sleep` pod.
 
 {{< text bash yaml >}}
 $ kubectl exec -it deploy/sleep -c sleep -- sh  -c 'for x in my-release-zookeeper-0.my-release-zookeeper-headless my-release-zookeeper-1.my-release-zookeeper-headless my-release-zookeeper-2.my-release-zookeeper-headless; do echo $x; echo srvr|nc $x 2181; echo; done'
@@ -223,4 +223,4 @@ Continue sending some traffic from the `sleep` pod and bring up the Kiali dashbo
 
 ## Wrapping up
 
-With the new networking changes in Istio 1.10, a pod with a sidecar has consistent pod networking behavior as a pod without a sidecar in Kubernetes. This change enables Kubernetes StatefulSets or other types of applications to function properly in Istio as this blog has demonstrated. We believe this is a huge step towards Istio’s goal of providing transparent service mesh and zero-configuration Istio.
+With the new networking changes in Istio 1.10, a pod with a sidecar has consistent pod networking behavior as a pod without a sidecar in Kubernetes. This change enables Kubernetes `StatefulSets` or other types of applications to function properly in Istio as this blog has demonstrated. We believe this is a huge step towards Istio’s goal of providing transparent service mesh and zero-configuration Istio.
