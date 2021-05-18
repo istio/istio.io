@@ -10,15 +10,15 @@ Kubernetes [`StatefulSets`](https://kubernetes.io/docs/concepts/workloads/contro
 
 The Istio community has been making gradual progress towards zero-configuration support for `StatefulSets`; from automatic mTLS, to eliminating the need to create `DestinationRule` or `ServiceEntry` resources, to the most recent [pod networking changes in Istio 1.10](/blog/2021/upcoming-networking-changes/).
 
-What is unique about using a `StatefulSet` with a service mesh? The `StatefulSet` pods are created from the same spec, but are not interchangeable: each has a persistent identifier that it maintains across any rescheduling. It is common for pods within a `StatefulSet` to listen on the pod IP only, instead of `0.0.0.0`, for communication within the `StatefulSet` pods.
+What is unique about using a `StatefulSet` with a service mesh? The `StatefulSet` pods are created from the same spec, but are not interchangeable: each has a persistent identifier that it maintains across any rescheduling. The kind of apps that run in a `StatefulSet` are often those that need to communicate amongst their pods, and, as they come from a world of hard-coded IP addresses, may listen on the pod IP only, instead of `0.0.0.0`.
 
-Many [issues](https://github.com/istio/istio/issues/10659) have been reported from the Istio community around `StatefulSets`.
-
-Using ZooKeeper as an example, from the `zoo.cfg` file in our ZooKeeper pod, it is configured not to listen on all IPs for quorum communication within the `StatefulSet` pods.
+ZooKeeper, for example, is configured by default not to listen on all IPs for quorum communication:
 
 {{< text plain >}}
 quorumListenOnAllIPs=false
 {{< /text >}}
+
+Over the last few releases, the Istio community has [reported many issues](https://github.com/istio/istio/issues/10659) around support for applications running in `StatefulSets`.
 
 ## `StatefulSets` in action, prior to Istio 1.10
 
