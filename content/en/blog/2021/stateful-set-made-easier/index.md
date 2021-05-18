@@ -1,6 +1,6 @@
 ---
 title: "StatefulSets Made Easier With Istio 1.10"
-description: Learn how to easily deploy stateful sets with Istio 1.10.
+description: Learn how to easily deploy StatefulSets with Istio 1.10.
 publishdate: 2021-05-18
 attribution: "Lin Sun (Solo.io), Christian Posta (Solo.io), John Howard (Google), Zhonghu Xu (Huawei)"
 keywords: [statefulset,Istio,networking,localhost,loopback,eth0]
