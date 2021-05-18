@@ -131,7 +131,9 @@ function handleEvents(): void {
     function toggleActiveHeader(): void {
         const top = window.scrollY;
 
-        if (!banner) return
+        if (!banner) {
+            return;
+        }
 
         if (top >= 10) {
             banner[0].classList.add("active");
