@@ -164,7 +164,9 @@ Client port found: 2181. Client address: localhost. Client SSL: false.
 Mode: follower
 {{< /text >}}
 
-It is exciting that the ZooKeeper service appears to be running this time! Let’s connect to each of the ZooKeeper pods from the `sleep` pod and run the command below to discover the server status of each pod within the ZooKeeper `StatefulSet`. Note, there is no need to deploy ServiceEntry resources for any of the ZooKeeper pods and we can call these pods directly using their DNS names (e.g. `my-release-zookeeper-0.my-release-zookeeper-headless`) from the `sleep` pod.
+The ZooKeeper service is now running!
+
+We can connect to each of the ZooKeeper pods from the `sleep` pod and run the below command to discover the server status of each pod within the `StatefulSet`. Note that there is no need to create ServiceEntry resources for any of the ZooKeeper pods and we can call these pods directly using their DNS names (e.g. `my-release-zookeeper-0.my-release-zookeeper-headless`) from the `sleep` pod.
 
 {{< text bash yaml >}}
 $ kubectl exec -it deploy/sleep -c sleep -- sh  -c 'for x in my-release-zookeeper-0.my-release-zookeeper-headless my-release-zookeeper-1.my-release-zookeeper-headless my-release-zookeeper-2.my-release-zookeeper-headless; do echo $x; echo srvr|nc $x 2181; echo; done'
