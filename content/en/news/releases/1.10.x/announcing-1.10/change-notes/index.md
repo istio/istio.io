@@ -1,5 +1,5 @@
 ---
-title: Change Notes
+title: Istio 1.10 Change Notes
 linktitle: 1.10 Change Notes
 description: Istio 1.10.0 release notes.
 publishdate: 2021-05-18

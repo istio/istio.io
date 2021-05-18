@@ -65,11 +65,7 @@ Please give us any feedback you have by filing an issue on the [istio.io reposit
 
 ## Opening Up Our Design Docs
 
-Istio's working groups keep their design documents and planning artifacts in a community Google Drive. Anyone is welcome to view these documents, but due to Istio's heritage inside Google, you first had to [join a public group](https://groups.google.com/g/istio-team-drive-access) to get access to the drive and the files within.
-
-On the 20th of May we will change the Drive so that the files are accessible to everyone on the Internet, without having to log in, or join the group. This change will make sharing Istio technical documentation easier. and is another way we're ensuring Istio is a fully open project.
-
-Files will remain at the same URLs as before, but the Drive and its sub-folders will change URLs. If you are a regular user of the Community Drive, please be aware of this change.  All contributors and Drive members will be contacted this week with the new details.
+Beginning on May 20, 2021, Istio design and planning documents will be available without login to everyone on the internet. Previously, viewing them required a Google login and group membership. This change will make sharing technical documentation easier and more open. Files will remain at the same URLs as before, but the Community Drive and its folders will change location. All contributors and Drive members will be contacted this week with the new details.
 
 ## Deprecations
 
