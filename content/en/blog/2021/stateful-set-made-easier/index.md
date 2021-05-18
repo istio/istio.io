@@ -30,7 +30,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/
 
 After a few minutes, all pods come up nicely with sidecar proxies:
 
-{{< text plain >}}
+{{< text bash plain >}}
 $ kubectl get pods,svc
 NAME                             READY   STATUS    RESTARTS   AGE
 my-release-zookeeper-0           2/2     Running   0          3h4m
@@ -51,7 +51,7 @@ Are my ZooKeeper services working and the `READY` status correct? Let’s find o
 
 By default, ZooKeeper installation configures port 2181 to listen on `0.0.0.0` but port 2888 and 3888 only listen on its pod IP. Let’s check out the network status on each of these ports from one of the ZooKeeper pods:
 
-{{< text plain >}}
+{{< text bash plain >}}
 $ kubectl exec my-release-zookeeper-1 -c istio-proxy -- netstat -na | grep -E '(2181|2888|3888)'
 tcp        0      0 0.0.0.0:2181            0.0.0.0:*               LISTEN
 tcp        0      0 10.96.7.7:3888          0.0.0.0:*               LISTEN
@@ -71,7 +71,7 @@ tcp        0      0 127.0.0.1:2181          127.0.0.1:37464         TIME_WAIT
 
 There is nothing `ESTABLISHED` on port 2888 or 3888.  Next, let us get the ZooKeeper server status:
 
-{{< text plain >}}
+{{< text bash plain >}}
 $ kubectl exec my-release-zookeeper-1 -c zookeeper -- /opt/bitnami/zookeeper/bin/zkServer.sh status
 /opt/bitnami/java/bin/java
 ZooKeeper JMX enabled by default
@@ -82,7 +82,7 @@ Error contacting service. It is probably not running.
 
 From the above output, you can see the ZooKeeper service is not functioning properly. Let us check the cluster configuration for one of the ZooKeeper pods:
 
-{{< text plain >}}
+{{< text bash plain >}}
 $ istioctl proxy-config cluster my-release-zookeeper-1 --port 3888 --direction inbound -o json
 [
     {
@@ -123,7 +123,7 @@ $ kubectl rollout restart statefulset my-release-zookeeper
 
 Once the ZooKeeper pods reach the running status, let’s check out the network connections for these 3 ports from any of the ZooKeeper pods:
 
-{{< text plain >}}
+{{< text bash plain >}}
 $ kubectl exec my-release-zookeeper-1 -c istio-proxy -- netstat -na | grep -E '(2181|2888|3888)'
 tcp        0      0 0.0.0.0:2181            0.0.0.0:*               LISTEN
 tcp        0      0 10.96.8.10:2888         0.0.0.0:*               LISTEN
@@ -152,7 +152,7 @@ tcp        0      0 127.0.0.1:2181          127.0.0.1:54644         TIME_WAIT
 
 There are a few `ESTABLISHED` connections on both the 2888 and 3888 ports!  Next, let us check out the ZooKeeper server status.
 
-{{< text plain >}}
+{{< text bash plain >}}
 $ kubectl exec my-release-zookeeper-1 -c zookeeper -- /opt/bitnami/zookeeper/bin/zkServer.sh status
 /opt/bitnami/java/bin/java
 ZooKeeper JMX enabled by default
@@ -163,7 +163,7 @@ Mode: follower
 
 It is exciting that the ZooKeeper service appears to be running this time! Let’s connect to each of the ZooKeeper pods from the sleep pod and run the command below to discover the server status of each pod within the ZooKeeper StatefulSet. Note, there is no need to deploy ServiceEntry resources for any of the ZooKeeper pods and we can call these pods directly using their DNS names (e.g. `my-release-zookeeper-0.my-release-zookeeper-headless`) from the `sleep` pod.
 
-{{< text plain >}}
+{{< text bash plain >}}
 $ kubectl exec -it deploy/sleep -c sleep -- sh  -c 'for x in my-release-zookeeper-0.my-release-zookeeper-headless my-release-zookeeper-1.my-release-zookeeper-headless my-release-zookeeper-2.my-release-zookeeper-headless; do echo $x; echo srvr|nc $x 2181; echo; done'                                                                    
 my-release-zookeeper-0.my-release-zookeeper-headless
 Zookeeper version: 3.7.0-e3704b390a6697bfdf4b0bef79e3da7a4f6bac4b, built on 2021-03-17 09:46 UTC
@@ -202,7 +202,7 @@ Proposal sizes last/min/max: 48/48/48
 
 Now our ZooKeeper service is running, let’s use Istio to secure all communication to our ZooKeeper and ZooKeeper headless services. Apply mutual TLS to the default namespace:
 
-{{< text bash >}}
+{{< text bash plain >}}
 $ kubectl apply -n default -f - <<EOF
 apiVersion: "security.istio.io/v1beta1"
 kind: "PeerAuthentication"
