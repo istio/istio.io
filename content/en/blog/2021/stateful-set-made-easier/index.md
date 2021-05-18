@@ -153,7 +153,7 @@ tcp        0      0 127.0.0.1:2181          127.0.0.1:54560         TIME_WAIT
 tcp        0      0 127.0.0.1:2181          127.0.0.1:54644         TIME_WAIT
 {{< /text >}}
 
-There are a few `ESTABLISHED` connections on both the 2888 and 3888 ports!  Next, let us check out the ZooKeeper server status.
+There are `ESTABLISHED` connections on both port 2888 and 3888!  Next, let us check out the ZooKeeper server status:
 
 {{< text bash yaml >}}
 $ kubectl exec my-release-zookeeper-1 -c zookeeper -- /opt/bitnami/zookeeper/bin/zkServer.sh status
