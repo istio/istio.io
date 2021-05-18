@@ -205,7 +205,7 @@ Node count: 6
 Proposal sizes last/min/max: 48/48/48
 {{< /text >}}
 
-Now our ZooKeeper service is running, let’s use Istio to secure all communication to our ZooKeeper and ZooKeeper headless services. Apply mutual TLS to the `default` namespace:
+Now our ZooKeeper service is running, let’s use Istio to secure all communication to our regular and headless services. Apply mutual TLS to the `default` namespace:
 
 {{< text bash >}}
 $ kubectl apply -n default -f - <<EOF
