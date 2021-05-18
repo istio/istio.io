@@ -25,7 +25,7 @@ In my GKE 1.19 cluster, I have Istio 1.9.5 installed. I enabled automatic sideca
 {{< text bash >}}
 $ helm repo add bitnami https://charts.bitnami.com/bitnami
 $ helm install my-release bitnami/zookeeper --set replicaCount=3
-$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
+$ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
 {{< /text >}}
 
 After a few minutes, all pods come up nicely with sidecar proxies:
@@ -164,7 +164,7 @@ Mode: follower
 It is exciting that the ZooKeeper service appears to be running this time! Let’s connect to each of the ZooKeeper pods from the sleep pod and run the command below to discover the server status of each pod within the ZooKeeper StatefulSet. Note, there is no need to deploy ServiceEntry resources for any of the ZooKeeper pods and we can call these pods directly using their DNS names (e.g. `my-release-zookeeper-0.my-release-zookeeper-headless`) from the `sleep` pod.
 
 {{< text bash plain >}}
-$ kubectl exec -it deploy/sleep -c sleep -- sh  -c 'for x in my-release-zookeeper-0.my-release-zookeeper-headless my-release-zookeeper-1.my-release-zookeeper-headless my-release-zookeeper-2.my-release-zookeeper-headless; do echo $x; echo srvr|nc $x 2181; echo; done'                                                                    
+$ kubectl exec -it deploy/sleep -c sleep -- sh  -c 'for x in my-release-zookeeper-0.my-release-zookeeper-headless my-release-zookeeper-1.my-release-zookeeper-headless my-release-zookeeper-2.my-release-zookeeper-headless; do echo $x; echo srvr|nc $x 2181; echo; done'
 my-release-zookeeper-0.my-release-zookeeper-headless
 Zookeeper version: 3.7.0-e3704b390a6697bfdf4b0bef79e3da7a4f6bac4b, built on 2021-03-17 09:46 UTC
 Latency min/avg/max: 1/7.5/20

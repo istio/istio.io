@@ -701,6 +701,7 @@ SREs
 Stackdriver
 stateful
 StatefulSet
+StatefulSets
 Statsd
 stdout
 Steitz
