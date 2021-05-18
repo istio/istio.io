@@ -1,5 +1,5 @@
 ---
-title: Dry Run [Experimental]
+title: Dry Run (Experimental)
 description: Shows how to dry-run an authorization policy without enforcing it.
 weight: 65
 keywords: [security,access-control,rbac,authorization,dry-run]
