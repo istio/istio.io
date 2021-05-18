@@ -14,7 +14,7 @@ What is unique about using a StatefulSet with a service mesh? The StatefulSet po
 
 Many [issues](https://github.com/istio/istio/issues/10659) have been reported from the Istio community around StatefulSets. 
 
-Using ZooKeeper as an example, from the `zoo.cfg` file in my ZooKeeper pod, it is configured not to listen on all IPs for quorum communication within the StatefulSet pods.
+Using ZooKeeper as an example, from the `zoo.cfg` file in our ZooKeeper pod, it is configured not to listen on all IPs for quorum communication within the StatefulSet pods.
 
 {{< text plain >}}
 quorumListenOnAllIPs=false
@@ -22,7 +22,7 @@ quorumListenOnAllIPs=false
 
 ## StatefulSets in Action prior to Istio 1.10
 
-In my GKE 1.19 cluster, I have Istio 1.9.5 installed. I enabled automatic sidecar injection in my `default` namespace, then I installed ZooKeeper using the [helm charts](https://artifacthub.io/packages/helm/bitnami/zookeeper) provided by Bitnami along with our `sleep` application:
+In our GKE 1.19 cluster, we have Istio 1.9.5 installed. We enabled automatic sidecar injection in the `default` namespace, then we installed ZooKeeper using the [helm charts](https://artifacthub.io/packages/helm/bitnami/zookeeper) provided by Bitnami along with our `sleep` application:
 
 {{< text bash >}}
 $ helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -46,7 +46,7 @@ my-release-zookeeper-headless   ClusterIP   None           <none>        2181/TC
 service/sleep                   ClusterIP   10.100.9.26    <none>        80/TCP                             3h
 {{< /text >}}
 
-Are my ZooKeeper services working and the `Running` status correct? Let’s find out! ZooKeeper listens on 3 ports:
+Are our ZooKeeper services working and the `Running` status correct? Let’s find out! ZooKeeper listens on 3 ports:
 * Port 2181 is the TCP port for clients to connect to the ZooKeeper service
 * Port 2888 is the TCP port  for peers to connect to other peers
 * Port 3888 is the dedicated TCP port for leader election
