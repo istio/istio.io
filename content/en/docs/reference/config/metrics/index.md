@@ -2,6 +2,7 @@
 title: Istio Standard Metrics
 description: Istio standard metrics exported by Istio telemetry.
 weight: 50
+keywords: [telemetry,metrics]
 owner: istio/wg-user-experience-maintainers
 test: n/a
 aliases:
@@ -9,10 +10,8 @@ aliases:
 ---
 
 The following are the standard service level metrics exported by Istio.
-Istio standard metrics are directly exported by the Envoy proxy since Istio 1.5.
-The telemetry component is [implemented](https://github.com/istio/proxy/tree/master/extensions/stats) as a [Proxy-wasm](https://github.com/proxy-wasm/spec) plugin.
 
-In prior Istio releases Mixer produced these metrics.
+The telemetry component is [implemented](https://github.com/istio/proxy/tree/master/extensions/stats) as a [Proxy-wasm](https://github.com/proxy-wasm/spec) plugin.
 
 ## Metrics
 
@@ -114,12 +113,8 @@ For TCP traffic, Istio generates the following metrics:
     destination_canonical_revision
     {{< /text >}}
 
-### Multicluster labels
-
-When Istio is used in multi-cluster environments, the following additional labels are configured by default:
-
-*   **Destination Cluster**: Name of the cluster for the destination workload.
+*   **Destination Cluster**: This identifies the cluster of the destination workload.
     This is set by: `global.multiCluster.clusterName` at cluster install time.
 
-*   **Source Cluster**: Name of the cluster for the source workload.
+*   **Source Cluster**: This identifies the cluster of the source workload.
     This is set by: `global.multiCluster.clusterName` at cluster install time.

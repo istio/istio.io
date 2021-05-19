@@ -2,7 +2,6 @@
 title: Before you begin
 description: Initial steps before installing Istio on multiple clusters.
 weight: 1
-icon: setup
 keywords: [kubernetes,multicluster]
 test: n/a
 owner: istio/wg-environments-maintainers

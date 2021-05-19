@@ -9,6 +9,7 @@ aliases:
     - /blog/posts/2017/mixer-spof-myth.html
     - /blog/mixer-spof-myth.html
 target_release: 0.3
+exclude_from_see_also: true
 ---
 
 As [Mixer](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/) is in the request path, it is natural to question how it impacts
@@ -123,4 +124,3 @@ that Mixer imparts in the synchronous precondition check case.
 
 We hope this post makes you appreciate the inherent benefits that Mixer brings to Istio.
 Don’t hesitate to post comments or questions to [istio-policies-and-telemetry@](https://groups.google.com/forum/#!forum/istio-policies-and-telemetry).
-

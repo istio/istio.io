@@ -16,7 +16,7 @@ With the [App Identity and Access Adapter](https://github.com/ibm-cloud-security
 
 ## Understanding Istio and the adapter
 
-[Istio](/docs/concepts/what-is-istio/) is an open source service mesh that
+[Istio](/about/service-mesh/) is an open source service mesh that
 transparently layers onto distributed applications and seamlessly integrates
 with Kubernetes. To reduce the complexity of deployments Istio provides
 behavioral insights and operational control over the service mesh as a whole.

@@ -1,8 +1,12 @@
 ---
-title: Helm Changes
+title: Istio 1.3 Helm Changes
 description: Details the Helm chart installation options differences between Istio 1.2 and Istio 1.3.
 weight: 30
+release: 1.3
+subtitle: Minor Release
+linktitle: 1.3 Helm Changes
 keywords: []
+publishdate: 2019-09-12
 aliases:
     - /docs/reference/config/installation-options-changes
 ---

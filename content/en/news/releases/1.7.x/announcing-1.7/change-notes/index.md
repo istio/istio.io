@@ -1,7 +1,11 @@
 ---
-title: Change Notes
+title: Istio 1.7 Change Notes
 description: Istio 1.7 release notes.
 weight: 10
+release: 1.7
+subtitle: Minor Release
+linktitle: 1.7 Change Notes
+publishdate: 2020-08-21
 ---
 
 ## Traffic Management

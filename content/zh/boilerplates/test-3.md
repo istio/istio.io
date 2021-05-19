@@ -1,10 +1,10 @@
 ---
 ---
 {{< warning >}}
-A warning from a boilerplate
+模板警告
 
 {{< text plain >}}
-A text block inside a warning
+警告中的内容块
 {{< /text >}}
 
 {{< /warning >}}

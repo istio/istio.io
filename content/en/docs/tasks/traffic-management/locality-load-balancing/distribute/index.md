@@ -2,7 +2,6 @@
 title: Locality weighted distribution
 description: This guide demonstrates how to configure locality distribution.
 weight: 20
-icon: tasks
 keywords: [locality,load balancing,kubernetes,multicluster]
 test: yes
 owner: istio/wg-networking-maintainers

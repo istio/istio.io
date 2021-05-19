@@ -1,7 +1,11 @@
 ---
-title: Upgrade Notes
+title: Istio 1.9 Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.9.0.
 weight: 20
+release: 1.9
+subtitle: Minor Release
+linktitle: 1.9 Upgrade Notes
+publishdate: 2021-02-09
 ---
 
 When you upgrade from Istio 1.8 to Istio 1.9.x, you need to consider the changes on this page.

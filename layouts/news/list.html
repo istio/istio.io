@@ -1,0 +1,36 @@
+{{ define "main" }}
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+      <div class="header-content">
+        <h1>{{ .Params.title }}</h1>
+        <p>{{ .Params.description }}</p>
+      </div>
+      <p class="post-author">{{ (.Params.publishdate).Format "Jan 2, 2006" }}</p>
+      {{ .Content }}
+      {{ with .Content }}
+      <h2>See also</h2>
+      {{ end }}
+      <div class="posts-list news-list">
+
+        {{ $pages := (where .Site.Pages "Section" .Section) }}
+
+        {{ if .Params.list_by_publishdate }}
+            {{ $pages = sort $pages ".Params.publishdate" "desc" }}
+        {{ end }}
+
+        {{ $parent := .Page }}
+        {{ $parentDir := (path.Dir .Page.File.Dir) }}
+
+        <ul>
+            {{ range $pages }}
+                {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
+                {{ if and (eq $parentDir $pageLocation) (not .Params.draft) }}
+                    {{- $info := "" -}}
+
+                    <li><a title="{{ $info }}" href="{{ .Permalink }}">{{- .Title -}}</a></li>
+                {{ end }}
+            {{ end }}
+        </ul>
+      </div>
+      {{ partial "posts_navigation.html" . }}
+    </article>
+{{ end }}

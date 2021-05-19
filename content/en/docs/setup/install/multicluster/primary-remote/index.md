@@ -2,7 +2,6 @@
 title: Install Primary-Remote
 description: Install an Istio mesh across primary and remote clusters.
 weight: 20
-icon: setup
 keywords: [kubernetes,multicluster]
 test: yes
 owner: istio/wg-environments-maintainers
@@ -100,7 +99,7 @@ Before we can install on `cluster2`, we need to first expose the control plane i
 `cluster1` so that services in `cluster2` will be able to access service discovery:
 
 {{< text bash >}}
-$ kubectl apply --context="${CTX_CLUSTER1}" -f \
+$ kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
     @samples/multicluster/expose-istiod.yaml@
 {{< /text >}}
 
@@ -144,7 +143,6 @@ $ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  profile: remote
   values:
     global:
       meshID: mesh1

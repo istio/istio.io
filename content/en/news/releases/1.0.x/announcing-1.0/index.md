@@ -54,7 +54,7 @@ While this is a significant milestone for the project there’s lots more to do.
 
 If you’re new to Istio and looking to use it for your deployment we’d love to hear from you. Take a look at [our docs](/docs/) or stop by our
 [chat forum](https://discuss.istio.io). If you’d like
-to go deeper and [contribute to the project](/about/community) come to one of our community meetings and say hello.
+to go deeper and [contribute to the project](/get-involved) come to one of our community meetings and say hello.
 
 ## Thanks
 

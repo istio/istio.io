@@ -1,7 +1,11 @@
 ---
-title: Change Notes
+title: Istio 1.8 Change Notes
 description: Istio 1.8 release notes.
 weight: 10
+release: 1.8
+subtitle: Minor Release
+linktitle: 1.8 Change Notes
+publishdate: 2020-11-19
 ---
 
 ## Known Issues
@@ -137,7 +141,7 @@ Mixer-focused CRDs and component and related functionality.
 
 ## Installation
 
-- **Promoted** [external control plane](/docs/setup/additional-setup/external-controlplane/) to alpha.
+- **Promoted** [external control plane](/docs/setup/install/external-controlplane/) to alpha.
   ([Issue #11](https://github.com/istio/enhancements/issues/11))
 
 - **Updated** Kiali addon to version 1.26.

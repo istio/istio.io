@@ -37,6 +37,7 @@
 1qps
 1xx
 2.5s
+2010s
 20ms
 22.99
 24.13
@@ -67,6 +68,7 @@
 8ms
 8x
 9ms
+_build
 _CA_
 _data
 _V2_
@@ -83,6 +85,7 @@ addon
 addons
 AES-NI
 Airbnb
+Aizhamal
 AKS
 AKS-Engine
 Alibaba
@@ -102,6 +105,7 @@ Aporeto
 AppOptics
 appswitch
 AppSwitch
+architected
 args.yaml
 AssemblyScript
 Atlassian
@@ -111,6 +115,7 @@ AuthenticationPolicy
 AuthorizationPolicy
 authorizer
 AuthPolicy
+authz
 autoscaler
 Autoscalers
 autoscalers
@@ -119,6 +124,7 @@ AutoTrader
 az
 backend
 backends
+backoff
 base64
 Bazel
 Berben
@@ -129,6 +135,7 @@ BlackHole
 BlackHoleCluster
 BluePerf
 boilerplates
+bol.com
 Bookinfo
 bookinfo
 boolean
@@ -183,7 +190,9 @@ ControlZ
 CoreDNS
 coreos
 Costin
+CR
 CRD
+CRs
 CRDs
 CSRs
 Ctrl
@@ -222,6 +231,12 @@ CVE-2020-15104
 CVE-2020-16844
 CVE-2020-25017
 CVE-2021-21378
+CVE-2021-28682
+CVE-2021-28683
+CVE-2021-29258
+CVE-2021-31920
+CVE-2021-29492
+CVE-2021-31921
 CVEs
 cves
 cvss
@@ -238,6 +253,7 @@ declaratively
 Delayering
 Demailly
 deployment
+dereference
 dereferenced
 deserialize
 deserializing
@@ -254,6 +270,7 @@ Divya
 Dropdown
 DNS
 DNS_AUTO_ALLOCATE
+doc_type
 docker-compose's
 docker.io
 dogfood
@@ -261,6 +278,7 @@ double-tls
 Drucker
 Duggirala
 e.g.
+e2e
 eBPF
 ECR
 edition.cnn.com
@@ -285,6 +303,7 @@ faq.md
 Fawad
 fcm.googleapis.com
 FDs
+feature_block
 FedRAMP
 filename
 filenames
@@ -298,6 +317,7 @@ FQDNs
 FQDN
 frontend
 frontends
+gamified
 gapped
 Gather.town
 gbd
@@ -323,6 +343,7 @@ grafana-istio-dashboard
 Graphviz
 gRPC
 grpc
+Harvey
 helloworld
 Hashicorp
 Herness
@@ -369,9 +390,12 @@ IPv4
 IPv6
 Istio
 istio-agent
+istio-control
+istio-discovery
 istio-ecosystem
 istio-identity
 istio-mixer
+istio-proxy
 ISTIO-SECURITY-2019-003
 ISTIO-SECURITY-2019-004
 ISTIO-SECURITY-2019-005
@@ -383,6 +407,8 @@ ISTIO-SECURITY-2020-003
 ISTIO-SECURITY-2020-004
 ISTIO-SECURITY-2020-005
 ISTIO-SECURITY-2020-006
+ISTIO-SECURITY-2021-005
+ISTIO-SECURITY-2021-006
 istio-system
 istio.io
 istio.io.
@@ -395,6 +421,7 @@ IstioMesh
 IstioOperator
 iter8
 jason
+Jeet
 Jog
 jQuery
 json
@@ -407,6 +434,7 @@ JWT_RULE
 JWKS-URI
 k8s
 katacoda
+Kaul
 Keepalived
 key.pem
 Keycloak
@@ -414,6 +442,7 @@ Khaliq
 Kiali
 Kibana
 Knative
+Kool
 Kops
 Krishnan
 Kristián
@@ -429,6 +458,7 @@ Kubernetes
 kubernetes.default
 kube-proxy
 KubeSphere
+kyzy
 L3-4
 L4-L6
 Landlow
@@ -438,6 +468,7 @@ lifecycle
 Lightstep
 LightStep
 Linkerd
+linktitle
 linter
 linters
 list_by_publishdate
@@ -455,6 +486,7 @@ Marshalers
 memcached
 memcached-2's
 MetalLB
+MeshConfig
 Mesos
 mesos-dns
 metadata
@@ -483,8 +515,10 @@ myapp
 MySQL
 mysql
 mysqldb
+Nambiar
 namespace
 namespaces
+Naser
 natively
 Neeraj
 netmask
@@ -495,17 +529,22 @@ nginx
 NiFi
 NLBs
 Node.js
+no-brainer
 non-revisioned
 non-sandboxed
+non-mTLS
 normalization
 ns
 NUL
 NULs
+Nurmamat
 OAuth2
 oc
 OCI-compliant
 ok
 Okta
+onboard
+Onboard
 onboarding
 Onboarding
 onwards
@@ -518,12 +557,14 @@ openusage.org
 OpenSSL
 openssl
 OpenTracing
+operationalize
 OS-level
 Ostrowski
 outsized
 p50
 p99
 PaaS
+Padmanabhan
 Papertrail
 parenthesization
 passthrough
@@ -537,6 +578,7 @@ PeerAuthentication
 performant
 pipelined
 Piotr
+Pratima
 Prometheus
 PKI
 PKIs
@@ -554,6 +596,7 @@ pre-connected
 pre-parsed
 pre-release
 pre-specified
+precheck
 preconfigured
 prefetching
 preformatted
@@ -627,6 +670,7 @@ sayin
 schemas
 SDKs
 sds
+Searcy
 Secura
 security_bulletin
 selinux
@@ -646,6 +690,8 @@ sharding
 shortcode
 shortcodes
 Shriram
+sidebar_multicard
+sidebar_none
 sidecar
 sidecar.env
 SignalFX
@@ -670,6 +716,7 @@ strongSwan
 struct
 Styra
 src
+Srinath
 subdomain
 subdomains
 subnet
@@ -680,6 +727,7 @@ subresources
 substring
 subcommand
 Superfeet
+Superset
 svc
 svc.com
 svg
@@ -694,6 +742,7 @@ team1-ns
 team2
 team2-ns
 Telekom
+telemetryv2_
 templated
 test-api
 Tetrate
@@ -727,6 +776,8 @@ Unmarshaling
 unnormalized
 unsampled
 untrusted
+upgradeability
+Upgradeability
 upstreamed
 upstreaming
 upstreams
@@ -746,6 +797,7 @@ v1alpha1
 v1alpha3
 v1beta1
 v1beta1#MutatingWebhookConfiguration
+v1dev1
 v2
 V2
 v2-mysql
@@ -778,6 +830,7 @@ webhooks
 WebSocket
 Websockets
 WebSphere
+Weibo
 whitelist
 whitelists
 whitespace
@@ -803,6 +856,7 @@ yournamespace
 Youtube
 Zack
 Zhang
+Zhihan
 Zhonghu
 Zipkin
 

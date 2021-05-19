@@ -36,8 +36,8 @@ ENDSNIP
 
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_1() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "RequestAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
 metadata:
   name: "jwt-example"
   namespace: foo

@@ -10,7 +10,7 @@ test: n/a
 ---
 
 If you need help choosing, refer to our
-[which Istio installation method should I use?](/faq/setup/#install-method-selection) FAQ page.
+[which Istio installation method should I use?](/about/faq/#install-method-selection) FAQ page.
 
 {{< tip >}}
 Istio {{< istio_version >}} has been tested with these Kubernetes releases:

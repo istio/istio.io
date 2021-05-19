@@ -53,11 +53,11 @@ remove_toc_prefix: 'operator '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, default, installer, klog, kube, model, patch, spiffe, tpath, translator, trustBundle, util, validation, validationController, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, default, installer, klog, kube, model, patch, spiffe, telemetry, tpath, translator, trustBundle, util, validation, validationController, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, default, installer, klog, kube, model, patch, spiffe, tpath, translator, trustBundle, util, validation, validationController, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, default, installer, klog, kube, model, patch, spiffe, telemetry, tpath, translator, trustBundle, util, validation, validationController, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -77,7 +77,7 @@ remove_toc_prefix: 'operator '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, default, installer, klog, kube, model, patch, spiffe, tpath, translator, trustBundle, util, validation, validationController, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, default, installer, klog, kube, model, patch, spiffe, telemetry, tpath, translator, trustBundle, util, validation, validationController, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -152,6 +152,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
 </tr>
 <tr>
+<td><code>ENABLE_MULTICLUSTER_HEADLESS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, the DNS name table for a headless service will resolve to same-network endpoints in any cluster.</td>
+</tr>
+<tr>
 <td><code>ENABLE_WASM_TELEMETRY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -162,6 +168,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If this is set to true, one Istiod will control remote clusters including CA.</td>
+</tr>
+<tr>
+<td><code>GCP_METADATA</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Pipe separted GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
 </tr>
 <tr>
 <td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
@@ -176,22 +188,28 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Custom host name of istiod that istiod signs the server cert.</td>
 </tr>
 <tr>
-<td><code>ISTIOD_ENABLE_SDS_SERVER</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, Istiod will serve SDS for credentialName secrets (rather than in-proxy). To ensure proper security, PILOT_ENABLE_XDS_IDENTITY_CHECK=true is required as well.</td>
-</tr>
-<tr>
 <td><code>ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Istio agent will intercept ECDS resource update, downloads Wasm module, and replaces Wasm module remote load with downloaded local module file.</td>
 </tr>
 <tr>
+<td><code>ISTIO_BOOTSTRAP</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>ISTIO_DEFAULT_REQUEST_TIMEOUT</code></td>
 <td>Time Duration</td>
 <td><code>0s</code></td>
 <td>Default Http and gRPC Request timeout</td>
+</tr>
+<tr>
+<td><code>ISTIO_DELTA_XDS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will only send the delta configs as opposed to the state of the world on a Resource Request</td>
 </tr>
 <tr>
 <td><code>ISTIO_GATEWAY_STRIP_HOST_PORT</code></td>
@@ -212,6 +230,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Sets the maximum number of concurrent grpc streams.</td>
 </tr>
 <tr>
+<td><code>ISTIO_MULTIROOT_MESH</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, mesh will support certificates signed by more than one trustAnchor for ISTIO_MUTUAL mTLS</td>
+</tr>
+<tr>
 <td><code>JWT_POLICY</code></td>
 <td>String</td>
 <td><code>third-party-jwt</code></td>
@@ -228,12 +252,6 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>String</td>
 <td><code></code></td>
 <td>KNative revision, set if running in knative</td>
-</tr>
-<tr>
-<td><code>PILOT_ALLOW_METADATA_CERTS_DR_MUTUAL_TLS</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If true, Pilot will allow certs specified in Metadata to override DR certs in MUTUAL TLS mode. This is only enabled for migration and will be removed soon.</td>
 </tr>
 <tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
@@ -332,6 +350,18 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_LEGACY_AUTO_PASSTHROUGH</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will allow any upstream cluster to be used with AUTO_PASSTHROUGH. This option is intended for backwards compatibility only and is not secure with untrusted downstreams; it will be removed in the future.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_MCS_SERVICEEXPORT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Pilot will generate MCS ServiceExport objects for every non cluster-local service in the cluster</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -366,12 +396,6 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will update the CRD Status field of all istio resources with reconciliation status.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_THRIFT_FILTER</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>EnableThriftFilter enables injection of `envoy.filters.network.thrift_proxy` in the filter chain.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_VIRTUAL_SERVICE_DELEGATE</code></td>
@@ -410,6 +434,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If true, pilot will add telemetry related metadata to Endpoint resource, which will be consumed by telemetry filter.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENVOY_FILTER_STATS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, Pilot will collect metrics for envoy filter operations.</td>
+</tr>
+<tr>
 <td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -426,6 +456,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Enables the use of HTTP 1.0 in the outbound HTTP listeners, to support legacy applications.</td>
+</tr>
+<tr>
+<td><code>PILOT_HTTP_DELAYED_CLOSE_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>1s</code></td>
+<td>The delayed close timeout is for downstream HTTP connections. This should be set to a high value or disable it when peer is reading large chunk of data and to give an opportunity to initiate the close sequence properly. A value of 0s disables this</td>
 </tr>
 <tr>
 <td><code>PILOT_INBOUND_PROTOCOL_DETECTION_TIMEOUT</code></td>
@@ -450,6 +486,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Integer</td>
 <td><code>100</code></td>
 <td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes</td>
+</tr>
+<tr>
+<td><code>PILOT_REMOTE_CLUSTER_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>30s</code></td>
+<td>After this timeout expires, pilot can become ready without syncing data from clusters added via remote-secrets. Setting the timeout to 0 disables this behavior.</td>
 </tr>
 <tr>
 <td><code>PILOT_SCOPE_GATEWAY_TO_NAMESPACE</code></td>
@@ -520,7 +562,7 @@ These environment variables affect the behavior of the <code>operator</code> com
 <tr>
 <td><code>PILOT_XDS_SEND_TIMEOUT</code></td>
 <td>Time Duration</td>
-<td><code>5s</code></td>
+<td><code>0s</code></td>
 <td>The timeout to send the XDS configuration to proxies. After this timeout is reached, Pilot will discard that push.</td>
 </tr>
 <tr>
@@ -534,6 +576,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Reject k8s default tokens, without audience. If false, default K8S token will be accepted</td>
+</tr>
+<tr>
+<td><code>SHARED_MESH_CONFIG</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
 </tr>
 <tr>
 <td><code>SPIFFE_BUNDLE_ENDPOINTS</code></td>
@@ -585,6 +633,7 @@ These environment variables affect the behavior of the <code>operator</code> com
 <tr><td><code>auto_registration_unregister_total</code></td><td><code>Sum</code></td><td>Total number of unregistrations.</td></tr>
 <tr><td><code>auto_registration_updates_total</code></td><td><code>Sum</code></td><td>Total number of auto registration updates.</td></tr>
 <tr><td><code>cache_flush_total</code></td><td><code>Sum</code></td><td>number of times operator cache was flushed</td></tr>
+<tr><td><code>controller_sync_errors_total</code></td><td><code>Sum</code></td><td>Total number of errorMetric syncing controllers.</td></tr>
 <tr><td><code>cr_deletion_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR deleted</td></tr>
 <tr><td><code>cr_merge_failure_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR merge failures</td></tr>
 <tr><td><code>cr_validation_error_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR validation failures</td></tr>
@@ -610,7 +659,6 @@ These environment variables affect the behavior of the <code>operator</code> com
 <tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
 <tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
 <tr><td><code>pilot_inbound_updates</code></td><td><code>Sum</code></td><td>Total number of updates received by pilot.</td></tr>
-<tr><td><code>pilot_invalid_out_listeners</code></td><td><code>LastValue</code></td><td>Number of invalid outbound listeners.</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_k8s_cfg_events</code></td><td><code>Sum</code></td><td>Events from k8s config.</td></tr>
@@ -621,6 +669,7 @@ These environment variables affect the behavior of the <code>operator</code> com
 <tr><td><code>pilot_proxy_convergence_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between config change and a proxy receiving all required configuration.</td></tr>
 <tr><td><code>pilot_proxy_queue_time</code></td><td><code>Distribution</code></td><td>Time in seconds, a proxy is in the push queue before being dequeued.</td></tr>
 <tr><td><code>pilot_push_triggers</code></td><td><code>Sum</code></td><td>Total number of times a push was triggered, labeled by reason for the push.</td></tr>
+<tr><td><code>pilot_sds_certificate_errors_total</code></td><td><code>Sum</code></td><td>Total number of failures to fetch SDS key and certificate.</td></tr>
 <tr><td><code>pilot_services</code></td><td><code>LastValue</code></td><td>Total services known to pilot.</td></tr>
 <tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
 <tr><td><code>pilot_total_xds_internal_errors</code></td><td><code>Sum</code></td><td>Total number of internal XDS errors in pilot.</td></tr>
@@ -629,6 +678,7 @@ These environment variables affect the behavior of the <code>operator</code> com
 <tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
 <tr><td><code>pilot_xds</code></td><td><code>LastValue</code></td><td>Number of endpoints connected to this pilot using XDS.</td></tr>
 <tr><td><code>pilot_xds_cds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected CDS configs.</td></tr>
+<tr><td><code>pilot_xds_config_size_bytes</code></td><td><code>Distribution</code></td><td>Distribution of configuration sizes pushed to clients</td></tr>
 <tr><td><code>pilot_xds_delayed_push_timeouts_total</code></td><td><code>Sum</code></td><td>Total number of XDS pushes that are delayed and timed out</td></tr>
 <tr><td><code>pilot_xds_delayed_pushes_total</code></td><td><code>Sum</code></td><td>Total number of XDS pushes that are delayed.</td></tr>
 <tr><td><code>pilot_xds_eds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected EDS.</td></tr>
@@ -640,6 +690,7 @@ These environment variables affect the behavior of the <code>operator</code> com
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
 <tr><td><code>pilot_xds_send_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to send generated configuration.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
+<tr><td><code>remote_cluster_sync_timeouts_total</code></td><td><code>Sum</code></td><td>Number of times remote clusters took too long to sync, causing slow startup that excludes remote clusters.</td></tr>
 <tr><td><code>render_manifest_total</code></td><td><code>Sum</code></td><td>Number of component manifests rendered</td></tr>
 <tr><td><code>resource_creation_total</code></td><td><code>Sum</code></td><td>Number of resources created by the operator</td></tr>
 <tr><td><code>resource_deletion_total</code></td><td><code>Sum</code></td><td>Number of resources deleted by the operator</td></tr>

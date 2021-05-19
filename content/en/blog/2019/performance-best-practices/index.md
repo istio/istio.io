@@ -8,7 +8,7 @@ attribution: Megan O'Keefe (Google), John Howard (Google), Mandar Jog (Google)
 keywords: [performance,scalability,scale,benchmarks]
 ---
 
-Service meshes add a lot of functionality to application deployments, including [traffic policies](/docs/concepts/what-is-istio/#traffic-management), [observability](/docs/concepts/what-is-istio/#observability), and [secure communication](/docs/concepts/what-is-istio/#security). But adding a service mesh to your environment comes at a cost, whether that's time (added latency) or resources (CPU cycles). To make an informed decision on whether a service mesh is right for your use case, it's important to evaluate how your application performs when deployed with a service mesh.
+Service meshes add a lot of functionality to application deployments, including [traffic policies](/docs/concepts/traffic-management), [observability](/docs/concepts/observability), and [secure communication](/docs/concepts/security). But adding a service mesh to your environment comes at a cost, whether that's time (added latency) or resources (CPU cycles). To make an informed decision on whether a service mesh is right for your use case, it's important to evaluate how your application performs when deployed with a service mesh.
 
 Earlier this year, we published a [blog post](/blog/2019/istio1.1_perf/) on Istio's performance improvements in version 1.1. Following the release of [Istio 1.2](/news/releases/1.2.x/announcing-1.2/), we want to provide guidance and tools to help you benchmark Istio's data plane performance in a production-ready Kubernetes environment.
 

@@ -11,6 +11,8 @@ aliases:
     - /zh/docs/concepts/traffic-management/load-balancing
     - /zh/docs/concepts/traffic-management/request-routing
     - /zh/docs/concepts/traffic-management/pilot.html
+owner: istio/wg-networking-maintainers
+test: no
 ---
 
 Istio 的流量路由规则可以让您很容易的控制服务之间的流量和 API 调用。Istio 简化了服务级别属性的配置，比如熔断器、超时和重试，并且能轻松的设置重要的任务，如 A/B 测试、金丝雀发布、基于流量百分比切分的概率发布等。它还提供了开箱即用的故障恢复特性，有助于增强应用的健壮性，从而更好地应对被依赖的服务或网络发生故障的情况。

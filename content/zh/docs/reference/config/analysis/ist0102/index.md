@@ -1,6 +1,8 @@
 ---
 title: NamespaceNotInjected
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 当命名空间缺少[注解](/zh/docs/reference/config/annotations/)来标记命名空间是否自动注入时会出现此错误，例如 `sidecar.istio.io/inject` 。

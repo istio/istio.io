@@ -1,7 +1,7 @@
 ---
 title: Virtual Machine Installation
 description: Deploy Istio and connect a workload running within a virtual machine to it.
-weight: 40
+weight: 60
 keywords:
 - kubernetes
 - virtual-machine
@@ -25,7 +25,7 @@ Follow this guide to deploy Istio and connect a virtual machine to it.
 
 1. Create a virtual machine
 1. Set the environment variables `VM_APP`, `WORK_DIR` , `VM_NAMESPACE`,
-and `SERVICE_ACCOUNT`
+and `SERVICE_ACCOUNT` on your machine that you're using to setup the cluster.
     (e.g., `WORK_DIR="${HOME}/vmintegration"`):
 
     {{< tabset category-name="network-mode" >}}
@@ -61,7 +61,7 @@ and `SERVICE_ACCOUNT`
 
     {{< /tabset >}}
 
-1. Create the working directory:
+1. Create the working directory on your machine that you're using to setup the cluster:
 
     {{< text syntax=bash snip_id=setup_wd >}}
     $ mkdir -p "${WORK_DIR}"
@@ -69,7 +69,9 @@ and `SERVICE_ACCOUNT`
 
 ## Install the Istio control plane
 
-Install Istio and expose the control plane so that your virtual machine can access it.
+If your cluster already has an Istio control plane, you can skip the installation steps, but will still need to expose the control plane for virtual machine access.
+
+Install Istio and expose the control plane on cluster so that your virtual machine can access it.
 
 1. Create the `IstioOperator` spec for installation.
 
@@ -150,7 +152,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     Expose the control plane:
 
     {{< text syntax=bash snip_id=expose_istio >}}
-    $ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
+    $ kubectl apply -n istio-system -f @samples/multicluster/expose-istiod.yaml@
     {{< /text >}}
 
     {{< /tab >}}
@@ -160,7 +162,7 @@ Install Istio and expose the control plane so that your virtual machine can acce
     Expose the control plane:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
+    $ kubectl apply -n istio-system -f @samples/multicluster/expose-istiod.yaml@
     {{< /text >}}
 
     Expose cluster services:
@@ -476,7 +478,7 @@ $ sudo rpm -e istio-sidecar
 To uninstall Istio, run the following command:
 
 {{< text bash >}}
-$ kubectl delete -f @samples/multicluster/expose-istiod.yaml@
+$ kubectl delete -n istio-system -f @samples/multicluster/expose-istiod.yaml@
 $ istioctl manifest generate | kubectl delete -f -
 {{< /text >}}
 

@@ -1,0 +1,51 @@
+.get-involved {
+    margin-top: $section-margin;
+    max-width: 898px;
+    padding: 0 1.25rem;
+
+    @media (min-width: $bp-lg) {
+        padding: 0;
+    }
+
+    h1, h2, .subtitle {
+        text-align: center;
+    }
+
+    h1 {
+        margin-top: 1.5rem;
+    }
+
+    h2 {
+        font-size: $font-size--primary;
+        font-weight: $textWeight;
+        margin: 2.5rem 0 2.75rem;
+
+        @media (min-width: $bp-lg) {
+            font-size: $font-size--l;
+        }
+    }
+
+    h3 {
+        max-width: 240px;
+
+        @media (min-width: $bp-lg) {
+            max-width: 100%;
+        }
+    }
+
+    a {
+        color: $accentColor;
+        text-decoration: underline;
+    }
+
+    .title-area {
+        text-align: center;
+        width: 100%;
+        max-width: 754px;
+        margin: 0 auto;
+        margin-bottom: 2.625rem;
+        @media (min-width: $bp-lg) {
+            margin-bottom: 6.25rem;
+        }
+    }
+}

@@ -315,8 +315,8 @@ authentication for the workloads with the `app:reviews` label must use mutual
 TLS:
 
 {{< text yaml >}}
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "example-peer-policy"
   namespace: "foo"
@@ -409,8 +409,8 @@ The following peer authentication policy requires all workloads in namespace
 `foo` to use mutual TLS:
 
 {{< text yaml >}}
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "example-policy"
   namespace: "foo"
@@ -426,8 +426,8 @@ mutual TLS on port `80` for the `app:example-app` workload, and uses the mutual 
 settings of the namespace-wide peer authentication policy for all other ports:
 
 {{< text yaml >}}
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "example-workload-policy"
   namespace: "foo"
@@ -516,18 +516,16 @@ access control for your workloads in the mesh. This level of control provides
 the following benefits:
 
 - Workload-to-workload and end-user-to-workload authorization.
-- A Simple API: it includes a single
-  [`AuthorizationPolicy` CRD](/docs/reference/config/security/authorization-policy/),
+- A simple API: it includes a single [`AuthorizationPolicy` CRD](/docs/reference/config/security/authorization-policy/),
   which is easy to use and maintain.
-- Flexible semantics: operators can define custom conditions on Istio
-  attributes, and use DENY and ALLOW actions.
-- High performance: Istio authorization is enforced natively on Envoy.
-- High compatibility: supports gRPC, HTTP, HTTPS and HTTP2 natively, as well
-  as any plain TCP protocols.
+- Flexible semantics: operators can define custom conditions on Istio attributes, and use CUSTOM, DENY and ALLOW actions.
+- High performance: Istio authorization (`ALLOW` and `DENY`) is enforced natively on Envoy.
+- High compatibility: supports gRPC, HTTP, HTTPS and HTTP/2 natively, as well as any plain TCP protocols.
 
 ### Authorization architecture
 
-Each Envoy proxy runs an authorization engine that authorizes requests at
+The authorization policy enforces access control to the inbound traffic in the
+server side Envoy proxy. Each Envoy proxy runs an authorization engine that authorizes requests at
 runtime. When a request comes to the proxy, the authorization engine evaluates
 the request context against the current authorization policies, and returns the
 authorization result, either `ALLOW` or `DENY`. Operators specify Istio
@@ -540,16 +538,23 @@ authorization policies using `.yaml` files.
 
 ### Implicit enablement
 
-You don't need to explicitly enable Istio's authorization features. Just apply
-an authorization policy to the workloads to enforce access control.
-For workloads without authorization policies applied, Istio doesn't enforce
-access control allowing all requests.
+You don't need to explicitly enable Istio's authorization features; they are available after installation.
+To enforce access control to your workloads, you apply an authorization policy.
 
-Authorization policies support both `ALLOW` and `DENY` actions. The deny
-policies take precedence over allow policies. If any allow policies are applied
-to a workload, access to that workload is denied by default, unless explicitly
-allowed by the rule in the policy. When you apply multiple authorization
-policies to the same workload, Istio applies them additively.
+For workloads without authorization policies applied, Istio allows all requests.
+
+Authorization policies support `ALLOW`, `DENY` and `CUSTOM` actions. You can apply multiple policies, each with a
+different action, as needed to secure access to your workloads.
+
+Istio checks for matching policies in layers, in this order: `CUSTOM`, `DENY`, and then `ALLOW`. For each type of action,
+Istio first checks if there is a policy with the action applied, and then checks if the request matches the policy's
+specification. If a request doesn't match a policy in one of the layers, the check continues to the next layer.
+
+The following graph shows the policy precedence in detail:
+
+{{< image width="50%" link="./authz-eval.png" caption="Authorization Policy Precedence">}}
+
+When you apply multiple authorization policies to the same workload, Istio applies them additively.
 
 ### Authorization policies
 
@@ -750,34 +755,58 @@ spec:
         notRequestPrincipals: ["*"]
 {{< /text >}}
 
-#### Allow-all and default deny-all authorization policies
+#### `allow-nothing`, `deny-all` and `allow-all` policy
 
-The following example shows a simple `allow-all` authorization policy that
-allows full access to all workloads in the `default` namespace.
+The following example shows an `ALLOW` policy that matches nothing. If there are no other `ALLOW` policies, requests
+will always be denied because of the "deny by default" behavior.
+
+Note the "deny by default" behavior applies only if the workload has at least one authorization policy with the `ALLOW` action.
+
+{{< tip >}}
+It is a good security practice to start with the `allow-nothing` policy and incrementally add more `ALLOW` policies to open more
+access to the workload.
+{{< /tip >}}
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: allow-all
-  namespace: default
+  name: allow-nothing
 spec:
   action: ALLOW
-  rules:
-  - {}
+  # the rules field is not specified, and the policy will never match.
 {{< /text >}}
 
-The following example shows a policy that doesn't allow any access to all
-workloads in the `admin` namespace.
+The following example shows a `DENY` policy that explicitly denies all access. It will always deny the request even if
+there is another `ALLOW` policy allowing the request because the `DENY` policy takes precedence over the `ALLOW` policy.
+This is useful if you want to temporarily disable all access to the workload.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: deny-all
-  namespace: admin
 spec:
-  {}
+  action: DENY
+  # the rules field has an empty rule, and the policy will always match.
+  rules:
+  - {}
+{{< /text >}}
+
+The following example shows an `ALLOW` policy that allows full access to the workload. It will make other `ALLOW` policies
+useless as it will always allow the request. It might be useful if you want to temporarily expose full access to the
+workload. Note the request could still be denied due to `CUSTOM` and `DENY` policies.
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-all
+spec:
+  action: ALLOW
+  # This matches everything.
+  rules:
+  - {}
 {{< /text >}}
 
 #### Custom conditions
@@ -812,8 +841,7 @@ spec:
      values: ["v1", "v2"]
 {{< /text >}}
 
-The supported `key` values of a condition are listed in the
-[conditions page](/docs/reference/config/security/conditions/).
+The supported `key` values of a condition are listed on the [conditions page](/docs/reference/config/security/conditions/).
 
 #### Authenticated and unauthenticated identity
 
@@ -870,10 +898,8 @@ MongoDB. In this case, you configure the authorization policy in the same way
 you did for the HTTP workloads. The difference is that certain fields and
 conditions are only applicable to HTTP workloads. These fields include:
 
-- The `request_principals` field in the source section of the authorization
-   policy object
-- The `hosts`, `methods` and `paths` fields in the operation section of the
-   authorization policy object
+- The `request_principals` field in the source section of the authorization policy object
+- The `hosts`, `methods` and `paths` fields in the operation section of the authorization policy object
 
 The supported conditions are listed in the
 [conditions page](/docs/reference/config/security/conditions/).
@@ -885,7 +911,7 @@ configures an authorization policy to only allows the `bookinfo-ratings-v2`
 service in the Istio mesh to access the MongoDB workload.
 
 {{< text yaml >}}
-apiVersion: "security.istio.io/v1beta1"
+apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: mongodb-policy
@@ -906,15 +932,29 @@ spec:
 
 ### Dependency on mutual TLS
 
-Istio uses mutual TLS to securely pass some information from the client to the
-server. Mutual TLS must be enabled before using any of the following fields in
-the authorization policy:
+Istio uses mutual TLS to securely pass some information from the client to the server. Mutual TLS must be enabled before
+using any of the following fields in the authorization policy:
 
-- the `principals` field under the `source` section
-- the `namespaces` field under the `source` section
+- the `principals` and `notPrincipals` field under the `source` section
+- the `namespaces` and `notNamespaces` field under the `source` section
 - the `source.principal` custom condition
 - the `source.namespace` custom condition
-- the `connection.sni` custom condition
 
-Mutual TLS is not required if you don't use any of the above fields in the
-authorization policy.
+Note it is strongly recommended to always use these fields with **strict** mutual TLS mode in the `PeerAuthentication` to avoid
+potential unexpected requests rejection or policy bypass when plain text traffic is used with the permissive mutual TLS mode.
+
+Check the [security advisory](/news/security/istio-security-2021-004) for more details and alternatives if you cannot enable
+strict mutual TLS mode.
+
+## Learn more
+
+After learning the basic concepts, there are more resources to review:
+
+- Try out the security policy by following the [authentication](/docs/tasks/security/authentication/authn-policy)
+  and [authorization](/docs/tasks/security/authorization) tasks.
+
+- Learn some security [policy examples](/docs/ops/configuration/security/security-policy-examples) that could be
+  used to improve security in your mesh.
+
+- Read [common problems](/docs/ops/common-problems/security-issues/) to better troubleshoot security policy issues
+  when something goes wrong.
