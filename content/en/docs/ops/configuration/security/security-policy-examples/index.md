@@ -3,7 +3,7 @@ title: Security policy examples
 description: Shows common examples of using Istio security policy.
 weight: 60
 owner: istio/wg-security-maintainers
-test: no
+test: yes
 ---
 
 ## Background
@@ -41,21 +41,34 @@ spec:
   rules:
   - from:
     - source:
-        hosts: ["example.com", "*.example.com"]
         # the JWT token must have issuer with suffix "@example.com"
         requestPrincipals: ["*@example.com"]
+    to:
+    - operation:
+        hosts: ["example.com", "*.example.com"]
+  - from:
     - source:
-        hosts: [".another.org", "*.another.org"]
         # the JWT token must have issuer with suffix "@another.org"
         requestPrincipals: ["*@another.org"]
+    to:
+    - operation:
+        hosts: [".another.org", "*.another.org"]
 {{< /text >}}
 
 ### Namespace isolation
 
-The following policy allows traffic only from the namespace `foo`. In other words, it isolates the namespace `foo` from other
-namespaces. This requires you have already enabled mTLS.
+The following two policies enable strict mTLS on namespace `foo`, and allow traffic from the same namespace.
 
 {{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: foo
+spec:
+  mtls:
+    mode: STRICT
+---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -71,9 +84,19 @@ spec:
 
 ### Namespace isolation with ingress exception
 
-The following policy allows traffic only from the namespace `foo` and also from the ingress gateway. This requires you have already enabled mTLS.
+The following two policies enable strict mTLS on namespace `foo`, and allow traffic from the same namespace and also
+from the ingress gateway.
 
 {{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: foo
+spec:
+  mtls:
+    mode: STRICT
+---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:

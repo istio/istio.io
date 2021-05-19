@@ -1,6 +1,6 @@
 ---
-title: Managing Gateways with Multiple Revisions [Experimental]
-description: Configuring and upgrading Istio with gateways (experimental).
+title: Managing Gateways with Multiple Revisions (Experimental)
+description: Configuring and upgrading Istio with gateways.
 weight: 30
 keywords: [kubernetes,upgrading,gateway]
 owner: istio/wg-environments-maintainers
@@ -107,7 +107,7 @@ Let's assume that the target version is 1.8.1.
     $ istio-1.8.1/bin/istioctl install -f gateways.yaml --revision 1-8-1
     {{< /text >}}
 
-1.  Delete the 1.8.1 version of the control plane:
+1.  Delete the 1.8.0 version of the control plane:
 
     {{< text bash >}}
     $ istio-1.8.1/bin/istioctl x uninstall --revision 1-8-0
@@ -206,12 +206,6 @@ revision from `1-8-0` to `1-8-1` and re-apply the file:
 
     {{< text bash >}}
     $ kubectl apply -n istio-system -f gateways.yaml
-    {{< /text >}}
-
-1.  Perform a rolling restart of the gateway deployment:
-
-    {{< text bash >}}
-    $ kubectl rollout restart deployment -n istio-system istio-ingressgateway
     {{< /text >}}
 
 1.  Verify that the gateway is running at version 1.8.1.

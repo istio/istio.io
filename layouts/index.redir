@@ -61,3 +61,13 @@ http://archive.istio.io/ http://istio.io/archive 301!
 http://archive.istio.io/* http://istio.io/:splat 301!
 https://archive.istio.io/ https://istio.io/archive 301!
 https://archive.istio.io/* https://istio.io/:splat 301!
+
+# migration from old design to new
+/about / 301!
+/latest/about /latest 301!
+# /faq/ /about/faq
+/faq/* /about/faq/
+# /latest/faq/ /about/faq
+/latest/faq/* /about/faq/
+/about/faq/* /about/faq/
+/latest/about/faq/* /about/faq/

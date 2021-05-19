@@ -215,7 +215,7 @@ other = "这是一个自动生成的文件，要修改其中的内容，请修�
 other = "切换到英文版"
 
 [advisory]
-other = "中文内容由 ServiceMesher 社区维护，部分文档可能稍微滞后于英文版本，同步工作持续进行中"
+other = "部分内容可能滞后于英文版本，同步工作正在进行中"
 
 [syntax_coloring]
 other = "代码高亮"
@@ -288,3 +288,51 @@ other = "文档"
 
 [log_change]
 other = "更改"
+
+[tested]
+other = "页面测试"
+
+[has_test]
+other = "这个页面的自动化测试是可用的，点击详情。"
+
+[needs_test]
+other = "这个页面没有自动测试可用，点击详情或帮助创建一个。"
+
+[try_istio]
+other = "试用 Istio"
+
+[service_mesh]
+other = "服务网格"
+
+[what_is_istio]
+other = "什么是 Istio?"
+
+[solutions]
+other = "解决方案"
+
+[deployment]
+other = "部署"
+
+[learn_more]
+other = "了解详情"
+
+[traffic_management]
+other = "流量管理"
+
+[observability]
+other = "可观测性"
+
+[security]
+other = "安全"
+
+[sidebar-toggle]
+other = "目录"
+
+[add_your_logo]
+other = "添加您的 Logo"
+
+[share_your_story]
+other = "分享您的故事"
+
+[go_to_solutions]
+other = "转到解决方案"

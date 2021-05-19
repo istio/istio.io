@@ -1,87 +1,36 @@
 {{ define "main" }}
-<main class="primary blog-content">
-    <h1>News</h1>
-    <!-- TODO: Replace placeholders -->
-    <p class="blog-description">Istio addresses the challenges developers and operators face as monolithic applications transition towards a distributed microservice architecture. </p>
-    
-    {{ $.Scratch.Set "categories" (slice ) }}
-    {{ $.Scratch.Set "noCategories" 0 }}
-    {{ $pages := (where .Site.RegularPages "Section" "news").ByPublishDate.Reverse }}
-    {{ $sections := .Sections }}
-    {{ range $sections }}
-        {{ if eq ( printf "%T" .LinkTitle ) "string"  }}
-            {{ if ( not ( in ($.Scratch.Get "categories") .LinkTitle ) ) }}
-                {{ $.Scratch.Add "categories" .LinkTitle }}
-            {{ end }}
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+      <div class="header-content">
+        <h1>{{ .Params.title }}</h1>
+        <p>{{ .Params.description }}</p>
+      </div>
+      <p class="post-author">{{ (.Params.publishdate).Format "Jan 2, 2006" }}</p>
+      {{ .Content }}
+      {{ with .Content }}
+      <h2>See also</h2>
+      {{ end }}
+      <div class="posts-list news-list">
+
+        {{ $pages := (where .Site.Pages "Section" .Section) }}
+
+        {{ if .Params.list_by_publishdate }}
+            {{ $pages = sort $pages ".Params.publishdate" "desc" }}
         {{ end }}
-    {{ end }}
-    
-    <div class="year-buttons">
-        {{ range $.Scratch.Get "categories" }}
-            <div>
-                <button xx class="year-button" id='category-{{ . | urlize }}' onclick="applyFilter(this)">
-                    {{ . }}
-                </button>
-            </div>
-        {{ end }}
- 
-    </div>
-    <div class="posts-list news-list">
-        {{ range $item := $pages }}
-            {{ range $a := $sections }}
-                {{ if $a.IsAncestor $item }}
-                    <a class="post-card tf-filter-item" href="{{ $item.RelPermalink }}" data-category='{{ $a.LinkTitle | urlize }}'
-                    >
-                        <div class="post-date">
-                            <p>{{ ($item.Params.publishdate).Format "Jan 2, 2006" }}</p>
-                        </div>
-                        <div>   
-                            <h4 class="post-title">{{ $item.Title }}</h4>
-                            <div class="post-summary">
-                                <p>{{ $item.Params.description }}</p>
-                                {{ if $item.Params.cves }}
-                                    <div><strong>CVE(s)</strong>: {{ range $i, $cve := $item.Params.cves }} {{ . }} {{ if ne $i (sub (len $item.Params.cves ) 1) }} , {{ end }} {{ end }}</div>
-                                {{ end }}
-                                {{ if $item.Params.cvss }}
-                                    <div><strong>CVSS</strong>: {{ with $item.Params.cvss }} {{ . }} {{ end }}</div>
-                                {{ end }}
-                                {{ if  $item.Params.releases }}
-                                    <strong>Affected versions</strong>: {{ range $i, $cve := $item.Params.releases }} {{ . }} {{ if ne $i (sub (len $item.Params.releases ) 1) }}, {{ end }} {{ end }}
-                                {{ end }}
-                            </div>
-                            <p class="post-author">{{ $a.LinkTitle }}</p>
-                        </div>    
-                    </a>
+
+        {{ $parent := .Page }}
+        {{ $parentDir := (path.Dir .Page.File.Dir) }}
+
+        <ul>
+            {{ range $pages }}
+                {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
+                {{ if and (eq $parentDir $pageLocation) (not .Params.draft) }}
+                    {{- $info := "" -}}
+
+                    <li><a title="{{ $info }}" href="{{ .Permalink }}">{{- .Title -}}</a></li>
                 {{ end }}
             {{ end }}
-        {{ end }}
-    </div>
-</main>
-
-<script src='{{ "js/categories-filter.js" | relURL }}'></script>
-<script>
-    var ptfConfig = {
-        filters: [
-            {
-                name: 'categories',
-                prefix: 'category-',
-                buttonClass: 'year-button',
-                allSelector: '#selectAllAuthors',
-                attrName: 'data-category',
-            }
-        ],
-      showItemClass: "show-item",
-      filterItemClass: "tf-filter-item",
-      activeButtonClass: "active",
-      populateCount: true,
-      numberToView:999,
-      setDisabledButtonClass: "disable-button"
-    }
-    var ptf = new CategoriesFilter(ptfConfig);
-    function applyFilter (element) {
-        var category = element.id.split('category-');
-        ptf.checkFilter(category[1],'category-');
-    }
-</script>
-    
+        </ul>
+      </div>
+      {{ partial "posts_navigation.html" . }}
+    </article>
 {{ end }}

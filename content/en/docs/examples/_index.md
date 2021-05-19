@@ -5,6 +5,5 @@ weight: 30
 aliases:
     - /docs/samples/index.html
     - /docs/guides/index.html
-icon: examples
 test: n/a
 ---

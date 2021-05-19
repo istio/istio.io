@@ -1,7 +1,7 @@
 ---
 title: Istio 在 Twitch 上全天直播
 subtitle:
-description: Istio 在 Twitch 举办了为期一天的直播庆祝 1.0 的发布。
+description: Istio 为庆祝 1.0 的发布，在 Twitch 举办了为期一天的直播。
 publishdate: 2018-08-03
 attribution: Spencer Krum, IBM
 target_release: 1.0
@@ -11,7 +11,7 @@ target_release: 1.0
 
 ## Twitch 是什么？{#what-is-twitch}
 
-[Twitch](https://twitch.tv/) 是一个流行的视频游戏直播流媒体平台，最近也看到了大量的编码内容出现。IBM 的倡导者一直在那里进行实况编码和演示，这是很有趣的事情。虽然大多数都是和游戏有关的内容，但是在网站上与编程相关的分享和观看的[社区](https://www.twitch.tv/communities/programming)在持续增长中。
+[Twitch](https://twitch.tv/) 是一个流行的视频游戏直播流媒体平台，最近也看到了大量的编码内容出现。IBM 的倡导者一直在那里进行现场编码和演示，这是很有趣的事情。虽然大多数都是和游戏有关的内容，但是也有[不断发展的社区](https://www.twitch.tv/communities/programming)在该网站上分享和观看编程内容。
 
 ## 它用 Istio 做了什么？{#what-does-this-have-to-do-with-Istio}
 
@@ -19,13 +19,13 @@ Istio 在平台上发布的全天的内容，希望可以给观众讲解如何�
 
 ## 如何观看{#recordings}
 
-很简单！只要在 8 月 17 日上午 10 点导航到[这里](https://twitch.tv/ibmcode)。
+可点击[这里](https://www.youtube.com/playlist?list=PLzpeuWUENMK0V3dwpx5gPJun-SLG0USqU)进行观看。
 
 ## 安排{#schedule}
 
-任何时候都是 `PDT`.
+任何时候都是 `PDT`。
 
-| 时间 | 演讲者 | 从属关系 |
+| 时间 | 演讲者 | 所属单位 |
 | --- | --- | --- |
 | 10:00 - 10:30 | `Spencer Krum + Lisa-Marie Namphy` | `IBM / Portworx` |
 | 10:30 - 11:00 | `Lin Sun / Spencer Krum / Sven Mawson` | `IBM / Google` |

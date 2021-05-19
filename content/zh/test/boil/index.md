@@ -1,21 +1,21 @@
 ---
-title: Boilerplates
-description: Basic boilerplates.
+title: 模板
+description: 基础模板。
 skip_sitemap: true
 ---
 
-Plain boilerplate:
+普通模板：
 
 {{< boilerplate "test-0" >}}
 
-Boilerplate with some markdown and a short code
+带有一些标记和简短代码的模板：
 
 {{< boilerplate "test-1" >}}
 
-Boilerplate with only a `shortcode`:
+只有一个 `shortcode` 的模板：
 
 {{< boilerplate "test-2" >}}
 
-Boilerplate with only a `shortcode` with a nested text block:
+只有一个 `shortcode` 的模板，有一个嵌套的文本块：
 
 {{< boilerplate "test-3" >}}

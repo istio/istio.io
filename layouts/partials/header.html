@@ -25,7 +25,7 @@
                     {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}
                     {{ if .HasChildren }}
                         <li class="main-navigation-links-item">
-                            <a {{ if ne .URL "" }}href="{{ .URL }}"{{end}} class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
+                            <a {{ if ne .URL "" }}href="{{ .URL | relLangURL  }}"{{end}} class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
                                 <span>{{ .Name }}</span>
                                 {{ partial "icon.html" "dropdown-arrow" }}
                             </a>
@@ -33,14 +33,14 @@
                             <ul class="main-navigation-links-dropdown">
                                 {{ range .Children }}
                                     <li class="main-navigation-links-dropdown-item">
-                                        <a href="{{ .URL }}" class="main-navigation-links-link">{{ .Name }}</a>
+                                        <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link">{{ .Name }}</a>
                                     </li>
                                 {{ end }}
                             </ul>
                         </li>
                     {{ else }}
                         <li class="main-navigation-links-item">
-                            <a {{ if ne .URL "" }}href="{{ .URL }}"{{end}} class="main-navigation-links-link {{ if $active }}active{{ end }}">
+                            <a {{ if ne .URL "" }}href="{{ .URL | relLangURL }}"{{end}} class="main-navigation-links-link {{ if $active }}active{{ end }}">
                                 <span>{{ .Name }}</span>
                             </a>
                         </li>
@@ -50,7 +50,7 @@
 
             <div class="main-navigation-footer">
                 <button id="search-show" class="search-show" title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</button>
-                <a href="/docs/setup/getting-started" class="btn btn--primary" id="try-istio">{{ i18n "try_istio" }}</a>
+                <a href='{{ "/docs/setup/getting-started" | relLangURL }}' class="btn btn--primary" id="try-istio">{{ i18n "try_istio" }}</a>
             </div>
             
         </div>
@@ -64,8 +64,8 @@
                 <input type="hidden" name="cx" value="{{ .Site.Data.args.main_search_engine_id }}" />
             {{ end }}
             <input type="hidden" name="ie" value="utf-8" />
-            <input type="hidden" name="hl" value="en" />
-            <input type="hidden" id="search-page-url" value="{{ .Site.BaseURL }}/search" />
+            <input type="hidden" name="hl" value="{{ .Page.Lang }}" />
+            <input type="hidden" id="search-page-url" value="{{ "/search" | relLangURL }}" />
             <input id="search-textbox" class="search-textbox form-control" name="q" type="search" aria-label='{{ i18n "search" }}' placeholder='{{ i18n "search_label" }}' />
             <button id="search-close" title='{{ i18n "search_cancel" }}' type="reset" aria-label='{{ i18n "search_cancel" }}'>{{ partial "icon.html" "menu-close" }}</button>
         </form>

@@ -14,7 +14,7 @@ test: yes
 This guide lets you quickly evaluate Istio. If you are already familiar with
 Istio or interested in installing other configuration profiles or
 advanced [deployment models](/docs/ops/deployment/deployment-models/), refer to our
-[which Istio installation method should I use?](/faq/setup/#install-method-selection)
+[which Istio installation method should I use?](/about/faq/#install-method-selection)
 FAQ page.
 
 These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
@@ -377,6 +377,10 @@ Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kial
 
 1.  In the left navigation menu, select _Graph_ and in the _Namespace_ drop down, select _default_.
 
+    {{< tip >}}
+    {{< boilerplate trace-generation >}}
+    {{< /tip >}}
+
     The Kiali dashboard shows an overview of your mesh with the relationships
     between the services in the `Bookinfo` sample application. It also provides
     filters to visualize the traffic flow.
@@ -408,7 +412,7 @@ Before you customize Istio for production use, see these resources:
 ## Join the Istio community
 
 We welcome you to ask questions and give us feedback by joining the
-[Istio community](/about/community/join/).
+[Istio community](/get-involved//).
 
 ## Uninstall
 

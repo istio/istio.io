@@ -1,8 +1,8 @@
 .relnote-actions {
     display: flex;
     flex-flow: row wrap;
-    margin-left: 3rem;
-    margin-right: 3rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
     justify-content: center;
 
     a {
@@ -25,7 +25,7 @@
     }
 
     .entry {
-        flex-basis: 400px;
+        flex-basis: 300px;
         padding: 1rem;
         border: $tabsetBorderColor 1px dashed;
         display: block;
@@ -33,7 +33,7 @@
         text-decoration: none;
 
         @media (min-width: $bp-md) {
-            padding: 1rem 4rem;
+            padding: 1rem 2rem;
         }
 
         &:hover {

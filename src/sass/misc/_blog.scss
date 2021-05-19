@@ -2,7 +2,7 @@
     padding: 1em;
     font-size: 1.2em;
     background-color: $backgroundColor;
-    text-align: center;
+    //text-align: center;
 
     svg {
         margin-right: .5em;
@@ -54,18 +54,13 @@
                 margin: 2.5em 1.15em 3.75em 0;
 
                 &:hover {
-                    cursor: pointer;
-                    background-color: $linkActiveColor;
-                    color: #fff;
+                    outline: 0;
+                    -webkit-box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
+                    -moz-box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
+                    box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
                 }
             }
 
-            &:focus {
-                outline: 0;
-                -webkit-box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
-                -moz-box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
-                box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
-            }
         }
 
         .active {
@@ -151,11 +146,8 @@
     .news-list {
         .post-card {
             .post-summary {
-                height: 152px;
-                @media (min-width: $bp-md) {
-                    height: 168px;
-                    -webkit-line-clamp: 6;
-                }
+                height: auto;
+                -webkit-line-clamp: unset;
             }
         }
     }
@@ -171,7 +163,7 @@
     }
     // TODO : consider changing font size back to 1rem
 
-    p {
+    p, li {
         font-size: $font-size--s;
     }
 

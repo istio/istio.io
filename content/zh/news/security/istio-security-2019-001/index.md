@@ -2,7 +2,10 @@
 title: ISTIO-SECURITY-2019-001
 subtitle: 安全公告
 description: 错误的权限控制。
-cve: [CVE-2019-12243]
+cves: [CVE-2019-12243]
+cvss: "8.9"
+vector: "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N/E:H/RL:O/RC:C"
+releases: ["1.1 to 1.1.6"]
 publishdate: 2019-05-28
 keywords: [CVE]
 skip_seealso: true
@@ -11,13 +14,7 @@ aliases:
     - /zh/news/2019/cve-2019-12243
 ---
 
-{{< security_bulletin
-        cves="CVE-2019-12243"
-        cvss="8.9"
-        vector="CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N/E:H/RL:O/RC:C"
-        releases="1.1 to 1.1.6" >}}
-
-## 内容{#context}
+{{< security_bulletin >}}
 
 在检视 [Istio 1.1.7](/zh/news/releases/1.1.x/announcing-1.1.7) 发布公告时我们发现已修复的缺陷 [issue 13868](https://github.com/istio/istio/issues/13868) 隐含一个安全漏洞。
 

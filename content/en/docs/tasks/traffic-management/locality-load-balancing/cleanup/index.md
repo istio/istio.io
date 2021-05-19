@@ -2,7 +2,6 @@
 title: Cleanup
 description: Cleanup steps for locality load balancing.
 weight: 30
-icon: tasks
 keywords: [locality,load balancing]
 test: yes
 owner: istio/wg-networking-maintainers

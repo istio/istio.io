@@ -1,0 +1,115 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="安全常见问题"><meta name=description content="安全常见问题。"><meta name=keywords content="microservices,services,mesh"><meta property="og:title" content="安全常见问题"><meta property="og:type" content="website"><meta property="og:description" content="安全常见问题。"><meta property="og:url" content="/v1.9/zh/faq/security/"><meta property="og:image" content="/v1.9/img/istio-whitelogo-bluebackground-framed.svg"><meta property="og:image:alt" content="Istio Logo"><meta property="og:image:width" content="112"><meta property="og:image:height" content="150"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary"><meta name=twitter:site content="@IstioMesh"><title>Istioldie 1.9 / 安全常见问题</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-98480406-2');</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.9/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.9/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.9/feed.xml><link rel="shortcut icon" href=/v1.9/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.9/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.9/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.9/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.9/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.9/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.9/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.9/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.9/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.9/favicons/android-192x192.png sizes=192x192><link rel=manifest href=/v1.9/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Work+Sans:400|Chivo:400|Work+Sans:500,300,600,300italic,400italic,500italic,600italic|Chivo:500,300,600,300italic,400italic,500italic,600italic"><link rel=stylesheet href=/v1.9/css/all.css><script src=/v1.9/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.9";const docTitle="安全常见问题";const iconFile="\/v1.9/img/icons.svg";const buttonCopy='复制到剪切板';const buttonPrint='打印';const buttonDownload='下载';</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script><script src=/v1.9/js/all.min.js data-manual defer></script><header><nav><a id=brand href=/v1.9/zh/><span class=logo><svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="146" stroke-width="2"/><polygon points="65 240 225 240 125 270"/><polygon points="65 230 125 220 125 110"/><polygon points="135 220 225 230 135 30"/></svg></span><span class=name>Istioldie 1.9</span></a><div id=hamburger><svg class="icon hamburger"><use xlink:href="/v1.9/img/icons.svg#hamburger"/></svg></div><div id=header-links><a title="了解如何部署、使用和运维 Istio。" href=/v1.9/zh/docs/>文档</a>
+<a title="关于使用 Istio 的博客文章。" href=/v1.9/zh/blog/2020/>博客<i class=dot data-prefix=/blog></i></a>
+<a title="关于 Istio 项目的最新报道。" href=/v1.9/zh/news/>新闻<i class=dot data-prefix=/news></i></a>
+<a class=current title="关于 Istio 的常见问题。" href=/v1.9/zh/faq/>FAQ</a>
+<a title="关于 Istio 项目的说明。" href=/v1.9/zh/about/>关于</a><div class=menu><button id=gearDropdownButton class=menu-trigger title=选项和设置 aria-label="Options and Settings" aria-controls=gearDropdownContent><svg class="icon gear"><use xlink:href="/v1.9/img/icons.svg#gear"/></svg></button><div id=gearDropdownContent class=menu-content aria-labelledby=gearDropdownButton role=menu><a tabindex=-1 role=menuitem lang=en id=switch-lang-en>English</a>
+<a tabindex=-1 role=menuitem lang=zh id=switch-lang-zh class=active>中文</a><div role=separator></div><a tabindex=-1 role=menuitem class=active id=light-theme-item>亮主题</a>
+<a tabindex=-1 role=menuitem id=dark-theme-item>暗主题</a><div role=separator></div><a tabindex=-1 role=menuitem id=syntax-coloring-item>代码高亮</a><div role=separator></div><h6>本站的其它版本</h6><a tabindex=-1 role=menuitem onclick="navigateToUrlOrRoot('https://istio.io/faq\/security\/');return false;">当前版本</a>
+<a tabindex=-1 role=menuitem onclick="navigateToUrlOrRoot('https://preliminary.istio.io/faq\/security\/');return false;">下个版本</a>
+<a tabindex=-1 role=menuitem href=https://istio.io/archive>旧版本</a></div></div><button id=search-show title="搜索 istio.io" aria-label=搜索><svg class="icon magnifier"><use xlink:href="/v1.9/img/icons.svg#magnifier"/></svg></button></div><form id=search-form name=cse role=search><input type=hidden name=cx value=002184991200833970123:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=en>
+<input type=hidden id=search-page-url value=/v1.9/search>
+<input id=search-textbox class=form-control name=q type=search aria-label="搜索 istio.io">
+<button id=search-close title=取消搜索 type=reset aria-label=取消搜索><svg class="icon cancel-x"><use xlink:href="/v1.9/img/icons.svg#cancel-x"/></svg></button></form></nav></header><div class=banner-container></div><main class="primary notoc"><div id=sidebar-container class="sidebar-container sidebar-offcanvas"><nav id=sidebar aria-label="Section Navigation"><div class=directory><div class=card><div id=header0 class=header title="关于 Istio 的常见问题。"><svg class="icon faq"><use xlink:href="/v1.9/img/icons.svg#faq"/></svg>FAQ</div><div class="body default" aria-labelledby=header0><ul role=tree aria-expanded=true class=leaf-section aria-labelledby=header0><li role=none><a role=treeitem title=常见问题。 href=/v1.9/zh/faq/general/>常见问题</a></li><li role=none><a role=treeitem title=安装相关问答。 href=/v1.9/zh/faq/setup/>安装</a></li><li role=none><span role=treeitem class=current title=安全常见问题。>安全</span></li><li role=none><a role=treeitem title=特定应用问答。 href=/v1.9/zh/faq/applications/>应用</a></li><li role=none><a role=treeitem title="Mixer Q & A." href=/v1.9/zh/faq/mixer/>Mixer</a></li><li role=none><a role=treeitem title=度量和日志的常见问题。 href=/v1.9/zh/faq/metrics-and-logs/>度量和日志</a></li><li role=none><a role=treeitem title=分布式追踪问答。 href=/v1.9/zh/faq/distributed-tracing/>分布式追踪</a></li><li role=none><a role=treeitem title=流量管理的常见问题。 href=/v1.9/zh/faq/traffic-management/>流量管理</a></li></ul></div></div></div></nav></div><div class=article-container><nav aria-label=Breadcrumb><ol><li><a href=/v1.9/zh/ title=用于连接、保护、控制和观测服务。>Istio</a></li><li><a href=/v1.9/zh/faq/ title="关于 Istio 的常见问题。">FAQ</a></li><li>安全</li></ol></nav><article aria-labelledby=title><div class=title-area><i class=title-icon><svg class="icon faq"><use xlink:href="/v1.9/img/icons.svg#faq"/></svg></i><div style=width:100%><h1 id=title>安全常见问题</h1></div></div><nav class="toc-inlined toc-forced"><hr><div class=directory role=directory><nav id=InlineTableOfContents><ol><li role=none aria-label="在 Istio 安装完成之后，我应该如何开启/关闭双向 TLS？"><a href=#enabling-disabling-mtls>在 Istio 安装完成之后，我应该如何开启/关闭双向 TLS？</a></li><li role=none aria-label="在同一集群中，我可以为部分服务开启 TLS 双向认证，并为其它服务关闭 TLS 双向认证吗？"><a href=#auth-mix-and-match>在同一集群中，我可以为部分服务开启 TLS 双向认证，并为其它服务关闭 TLS 双向认证吗？</a></li><li role=none aria-label="如何验证流量是否使用双向 TLS 加密？"><a href=#verify-mtls-encryption>如何验证流量是否使用双向 TLS 加密？</a></li><li role=none aria-label="如果启用了全局 TLS 双向认证，那么非 Istio 服务还可以访问 Istio 服务吗？"><a href=#non-istio-to-istio>如果启用了全局 TLS 双向认证，那么非 Istio 服务还可以访问 Istio 服务吗？</a></li><li role=none aria-label="如何让 Istio 服务访问非 Istio 服务？"><a href=#accessing-non-istio-services>如何让 Istio 服务访问非 Istio 服务？</a></li><li role=none aria-label="当启用双向 TLS 认证时应该如何使用 Kubernetes liveness 和 readiness 对服务进行健康检查？"><a href=#k8s-health-checks>当启用双向 TLS 认证时应该如何使用 Kubernetes liveness 和 readiness 对服务进行健康检查？</a></li><li role=none aria-label="How to configure the lifetime for Istio certificates?"><a href=#cert-lifetime-config>How to configure the lifetime for Istio certificates?</a></li><li role=none aria-label="MySQL 连接故障排除"><a href=#mysql-with-mtls>MySQL 连接故障排除</a></li><li role=none aria-label="Istio 是否支持授权？"><a href=#does-istio-support-authorization>Istio 是否支持授权？</a></li><li role=none aria-label="Istio 认证是使用的 Kubernetes secret 吗？"><a href=#use-k8s-secrets>Istio 认证是使用的 Kubernetes secret 吗？</a></li><li role=none aria-label=是否为工作负载中的密钥和证书进行了加密？><a href=#secret-encryption>是否为工作负载中的密钥和证书进行了加密？</a></li><li role=none aria-label="Istio 中如何配置 Ingress 使其仅处理 TLS 连接？"><a href=#secure-ingress>Istio 中如何配置 Ingress 使其仅处理 TLS 连接？</a></li><li role=none aria-label="我可以为 HTTPS 服务安装 Istio sidecar 吗？"><a href=#https-overlay>我可以为 HTTPS 服务安装 Istio sidecar 吗？</a></li></ol></nav></div><hr></nav><div class=faq><h5 id=enabling-disabling-mtls class=question>在 Istio 安装完成之后，我应该如何开启/关闭双向 TLS？</h5><div class=answer><p>您可以随时使用<a href=/v1.9/zh/docs/concepts/security/#authentication-policies>认证策略</a>和<a href=/v1.9/zh/docs/concepts/traffic-management/#destination-rules>目标规则</a>来为您的服务设置双向 TLS 认证。请参阅<a href=/v1.9/zh/docs/tasks/security/authentication/authn-policy>任务</a>以获取更多细节。</p></div><h5 id=auth-mix-and-match class=question>在同一集群中，我可以为部分服务开启 TLS 双向认证，并为其它服务关闭 TLS 双向认证吗？</h5><div class=answer><p><a href=/v1.9/zh/docs/concepts/security/#authentication-policies>认证策略</a>可以配置为 mesh-wide（影响网络中的所有服务）、namespace-wide（namespace 中的所有服务）或某个特定服务。
+您可以根据需要对集群中的服务配置一种或多种 TLS 双向认证策略。</p></div><h5 id=verify-mtls-encryption class=question>如何验证流量是否使用双向 TLS 加密？</h5><div class=answer><p>如果您使用 <code>values.global.proxy.privileged=true</code> 安装 Istio，您可以使用 <code>tcpdump</code> 来确定加密状态。有关说明，请参见 <a href=/v1.9/zh/docs/tasks/security/authentication/mtls-migration>Istio 双向 TLS 迁移</a>。</p></div><h5 id=non-istio-to-istio class=question>如果启用了全局 TLS 双向认证，那么非 Istio 服务还可以访问 Istio 服务吗？</h5><div class=answer><p>非 Istio 服务无法与 Istio 服务通信。除非它能出示有效证书，但这基本不可能。
+这是 <em>双向 TLS 认证</em> 的预期表现。
+但是，您可以为特定的 namespace 或服务重写全局标志。详见：<a href=/v1.9/zh/docs/tasks/security/authentication/authn-policy>任务</a></p></div><h5 id=accessing-non-istio-services class=question>如何让 Istio 服务访问非 Istio 服务？</h5><div class=answer><p>当启用了全局双向 TLS，<em>全局</em> 目标规则会匹配集群中的所有服务，无论这些服务是否具有 Istio sidecar。
+包括 Kubernetes API 服务器，以及群集中所有的非 Istio 服务。
+想要通过具有 Istio sidecar 的服务访问这些非 Istio 服务，你需要设置目标规则，以豁免该服务。例如：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+ name: &#34;api-server&#34;
+spec:
+ host: &#34;kubernetes.default.svc.cluster.local&#34;
+ trafficPolicy:
+   tls:
+     mode: DISABLE
+EOF
+</code></pre><div><aside class="callout tip"><div class=type><svg class="large-icon"><use xlink:href="/v1.9/img/icons.svg#callout-tip"/></svg></div><div class=content>如果安装 Istio 时就启用了双向 TLS，那这个目标规则已经添加到 system 了。</div></aside></div><p>类似的，你也可以为其它非 Istio 服务添加目标规则。了解更多实例，参见<a href=/v1.9/zh/docs/tasks/security/authentication/authn-policy/#request-from-Istio-services-to-non-Istio-services>任务</a>。</p></div><h5 id=k8s-health-checks class=question>当启用双向 TLS 认证时应该如何使用 Kubernetes liveness 和 readiness 对服务进行健康检查？</h5><div class=answer><p>如果启用了双向 TLS 认证，则来自 kubelet 的 HTTP 和 TCP 健康检查将不能正常工作，因为 kubelet 没有 Istio 颁发的证书。</p><p>从 Istio 1.1 开始，我们提供了多种解决方案。</p><ol><li><p>使用 probe rewrite 将 liveness 和 readiness 的请求直接重定向到工作负载。有关更多信息，请参阅 <a href=/v1.9/zh/docs/ops/configuration/mesh/app-health-check/#probe-rewrite>Probe Rewrite</a>。</p></li><li><p>使用单独的端口进行健康检查，并且仅在常规服务端口上启用双向 TLS。有关更多信息，请参阅 <a href=/v1.9/zh/docs/ops/configuration/mesh/app-health-check/#separate-port>Istio 服务的运行状况检查</a>。</p></li><li><p>如果对 Istio 服务使用 <a href=/v1.9/zh/docs/tasks/security/authentication/mtls-migration><code>PERMISSIVE</code> 模式</a>，那么他们可以接受 HTTP 和双向 TLS 流量。请记住，由于其他人可以通过 HTTP 流量与该服务进行通信，因此不强制执行双向 TLS。</p></li><li><p>健康检查使用 <a href=https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-command>liveness 命令</a>，例如，可以在服务 Pod 中安装 <code>curl</code> 并在 Pod 内对自身执行 <code>curl</code> 操作。</p></li></ol><p>一个 readiness 探针的例子：</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>livenessProbe:
+exec:
+  command:
+  - curl
+  - -f
+  - http://localhost:8080/healthz # Replace port and URI by your actual health check
+initialDelaySeconds: 10
+periodSeconds: 5
+</code></pre></div><h5 id=cert-lifetime-config class=question>How to configure the lifetime for Istio certificates?</h5><div class=answer><p>For the workloads running in Kubernetes, the lifetime of their Istio certificates is controlled by the
+<code>workload-cert-ttl</code> flag on Citadel. The default value is 90 days. This value should be no greater than
+<code>max-workload-cert-ttl</code> of Citadel.</p><p>Citadel uses a flag <code>max-workload-cert-ttl</code> to control the maximum lifetime for Istio certificates issued to
+workloads. The default value is 90 days. If <code>workload-cert-ttl</code> on Citadel or node agent is greater than
+<code>max-workload-cert-ttl</code>, Citadel will fail issuing the certificate.</p><p>Modify the <code>istio-demo.yaml</code> file to customize the Citadel configuration.
+The following modification specifies that the Istio certificates for workloads running in Kubernetes
+has 1 hours lifetime. Besides that, the maximum allowed Istio certificate lifetime is 48 hours.</p><pre><code class=language-plain data-expandlinks=true data-repo=istio>...
+kind: Deployment
+...
+metadata:
+  name: istio-citadel
+  namespace: istio-system
+spec:
+  ...
+  template:
+    ...
+    spec:
+      ...
+      containers:
+      - name: citadel
+        ...
+        args:
+          - --workload-cert-ttl=1h # Lifetime of certificates issued to workloads in Kubernetes.
+          - --max-workload-cert-ttl=48h # Maximum lifetime of certificates issued to workloads by Citadel.
+</code></pre><p>For the workloads running on VMs and bare metal hosts, the lifetime of their Istio certificates is specified by the
+<code>workload-cert-ttl</code> flag on each node agent. The default value is also 90 days. This value should be no greater than
+<code>max-workload-cert-ttl</code> of Citadel.</p><p>To customize this configuration, the argument for the node agent service should be modified.
+After <a href=/v1.9/zh/docs/examples/virtual-machines/single-network/#setting-up-the-VM>setting up the machines</a> for Istio
+mesh expansion, modify the file <code>/lib/systemd/system/istio-auth-node-agent.service</code> on the VMs or bare metal hosts:</p><pre><code class=language-plain data-expandlinks=true data-repo=istio>...
+[Service]
+ExecStart=/usr/local/bin/node_agent --workload-cert-ttl=24h # Specify certificate lifetime for workloads on this machine.
+Restart=always
+StartLimitInterval=0
+RestartSec=10
+...
+</code></pre><p>The above configuration specifies that the Istio certificates for workloads running on this VM or bare metal host
+will have 24 hours lifetime.</p><p>After configuring the service, restart the node agent by running <code>systemctl daemon-reload</code>.</p></div><h5 id=mysql-with-mtls class=question>MySQL 连接故障排除</h5><div class=answer><p>安装 Istio 后您可能会发现 MySQL 无法连接。这是因为 <code>istio-demo.yaml</code> 中默认使用的 <code>PERMISSIVE</code> 模式不适用于 MySQL。您可能会看到类似于 &ldquo;ERROR 2013 (HY000) : Lost connection to MySQL server at &lsquo;reading initial communication packet&rsquo;, system error: 0&rdquo; 的错误。</p><p>有两种方法可以解决此问题。</p><ol><li><p>禁用双向 TLS。</p><p>如果不需要 Istio 双向 TLS，您可以选择这种方法。您可以通过显式的禁用 MySQL 上的双向 TLS 来实现。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: &#34;authentication.istio.io/v1alpha1&#34;
+kind: &#34;Policy&#34;
+metadata:
+  name: mysql-nomtls-authn
+spec:
+  targets:
+  - name: YOUR-MYSQL-SERVICE     # The name of *your* K8s Service
+EOF
+</code></pre></li><li><p>在 STRICT 模式下启用双向 TLS。</p><p>如果您需要为 MySQL 提供双向 TLS 保护，请使用目标规则和认证策略来启用双向 TLS。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: &#34;authentication.istio.io/v1alpha1&#34;
+kind: &#34;Policy&#34;
+metadata:
+  name: mysql-mtls-authn
+spec:
+  targets:
+  - name: YOUR-MYSQL-SERVICE     # The name of *your* K8s Service
+  peers:
+  - mtls:
+      mode: STRICT
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: mysql-mtls-dr
+spec:
+  host: YOUR-MYSQL-SERVICE     # The name of *your* K8s Service
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+EOF
+</code></pre></li></ol></div><h5 id=does-istio-support-authorization class=question>Istio 是否支持授权？</h5><div class=answer><p>支持。Istio 对网格中的 HTTP 服务和普通 TCP 服务提供授权特性支持<a href=/v1.9/zh/docs/concepts/security/#authorization>了解更多</a>。</p></div><h5 id=use-k8s-secrets class=question>Istio 认证是使用的 Kubernetes secret 吗？</h5><div class=answer><p>是的，Istio 认证的密钥和证书分发基于 <a href=https://kubernetes.io/docs/concepts/configuration/secret/>Kubernetes secret</a> 实现。</p><p>Secret <a href=https://kubernetes.io/docs/concepts/configuration/secret/#risks>安全风险</a>需知。
+Kubernetes 团队正在研究<a href=https://docs.google.com/document/d/1T2y-9geg9EfHHtCDYTXptCa-F4kQ0RyiH-c_M1SyD0s>多种特性</a>，以从 secret 加密到节点级访问控制，全面增强 Kubernetes secret 的安全性。
+从 1.6 版本开始，Kubernetes 引入了 <a href=https://kubernetes.io/docs/reference/access-authn-authz/rbac/>RBAC 认证</a>，可以提供细粒度的 secret 管理。</p></div><h5 id=secret-encryption class=question>是否为工作负载中的密钥和证书进行了加密？</h5><div class=answer><p>默认情况下，它们是 base64 编码的，但未加密。但是，您可以按照 Kubernetes 中支持的<a href=https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/>加密特性</a>来进行操作。</p><p>请注意，在 Google Container Engine (GKE) 中尚未启用此功能。尽管可能不会在主节点上运行的 etcd 内部对数据进行加密，但主节点本身的内容将被加密，更多相关信息，请参照<a href=https://cloud.google.com/security/encryption-at-rest/default-encryption/#encryption_of_data_at_rest>此处</a> 。</p></div><h5 id=secure-ingress class=question>Istio 中如何配置 Ingress 使其仅处理 TLS 连接？</h5><div class=answer><p>依照<a href=/v1.9/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount>安全的网关（基于文件挂载的方式）</a> 任务中的描述进行配置，能够让 Istio Ingress 只处理 TLS 连接。</p></div><h5 id=https-overlay class=question>我可以为 HTTPS 服务安装 Istio sidecar 吗？</h5><div class=answer><p>可以，并且启用或禁用双向 TLS 都可以。</p></div></div></article><nav class=pagenav><div class=left><a title=安装相关问答。 href=/v1.9/zh/faq/setup/><svg class="icon left-arrow"><use xlink:href="/v1.9/img/icons.svg#left-arrow"/></svg>安装</a></div><div class=right><a title=特定应用问答。 href=/v1.9/zh/faq/applications/>应用<svg class="icon right-arrow"><use xlink:href="/v1.9/img/icons.svg#right-arrow"/></svg></a></div></nav><div id=endnotes-container aria-hidden=true><h2>链接</h2><ol id=endnotes></ol></div></div></main><footer><div class=user-links><a class=channel title="立刻下载 Istio 1.9.5" href=/v1.9/docs/setup/getting-started/#download aria-label="Download Istio"><span>download</span><svg class="icon download"><use xlink:href="/v1.9/img/icons.svg#download"/></svg>
+</a><a class=channel title="加入 Istio discussion board 参与讨论获取帮助" href=https://discuss.istio.io aria-label="Istio discussion board"><span>discuss</span><svg class="icon discourse"><use xlink:href="/v1.9/img/icons.svg#discourse"/></svg></a>
+<a class=channel title="Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答" href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><span>stack overflow</span><svg class="icon stackoverflow"><use xlink:href="/v1.9/img/icons.svg#stackoverflow"/></svg></a>
+<a class=channel title="在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）" href=https://slack.istio.io aria-label=slack><span>slack</span><svg class="icon slack"><use xlink:href="/v1.9/img/icons.svg#slack"/></svg></a>
+<a class=channel title="关注我们的 Twitter 来获取最新信息" href=https://twitter.com/IstioMesh aria-label=Twitter><span>twitter</span><svg class="icon twitter"><use xlink:href="/v1.9/img/icons.svg#twitter"/></svg></a><div class=tag>对于用户</div></div><div class=info><p class=copyright>中文内容由 ServiceMesher 社区维护，部分文档可能稍微滞后于英文版本，同步工作持续进行中<br>Istio 归档
+1.9.5<br>&copy; 2020 Istio Authors, <a href=https://policies.google.com/privacy>隐私政策</a><br>归档于 2021年5月18日</p></div><div class=dev-links><a class=channel title="Istio 的代码在 GitHub 上开发" href=https://github.com/istio/community aria-label=GitHub><span>github</span><svg class="icon github"><use xlink:href="/v1.9/img/icons.svg#github"/></svg></a>
+<a class=channel title="如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档" href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><span>drive</span><svg class="icon drive"><use xlink:href="/v1.9/img/icons.svg#drive"/></svg></a>
+<a class=channel title="如果您想为 Istio 项目做出贡献，请考虑加入我们的工作组" href=https://github.com/istio/community/blob/master/WORKING-GROUPS.md aria-label="working groups"><span>working groups</span><svg class="icon working-groups"><use xlink:href="/v1.9/img/icons.svg#working-groups"/></svg></a><div class=tag>对于开发者</div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title=回到顶部><svg class="icon top"><use xlink:href="/v1.9/img/icons.svg#top"/></svg></button></div></body></html>

@@ -19,6 +19,7 @@ $bp-xxl: 1300px;
 // Embellishments
 $headerHeight: 6.875rem;
 $headerHeightLg: 8.125rem;
+$activeHeaderHeight: 5rem;
 $footerHeight: 7rem;
 
 // Z-index of different layers
@@ -42,3 +43,8 @@ $header-link-spacing-xxl: 1.875rem;
 $section-margin: 3.625rem;
 $section-margin-md: 7rem;
 $panel-margin-top: 2.5rem;
+
+// Container widths
+$container-s: 750px;
+$container: 1040px;
+$container-l: 1440px;

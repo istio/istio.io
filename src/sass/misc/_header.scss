@@ -1,16 +1,25 @@
 .main-navigation {
     position: fixed;
     height: $headerHeight;
+    max-height: $headerHeight;
     background-color: #ffffff;
     top: 0;
     right: 0;
     left: 0;
     z-index: $header-z;
     padding: 1.25rem 0;
-    transition: background-color .2s, box-shadow .2s;
+    transition: background-color .2s, box-shadow .2s, max-height .2s;
 
     &.active {
         box-shadow: 0 6px 9px 0 rgba(0, 0, 0, .16);
+        padding: .5rem 0;
+        max-height: $activeHeaderHeight;
+
+        @media(min-width: $bp-lg) {
+            #brand .logo svg {
+                transform: scale(.8);
+            }
+        }
     }
 
     @media print {
@@ -32,7 +41,11 @@
         .logo {
             fill: $secondaryColor;
 
-            svg { width: 106px; }
+            svg {
+                width: 106px;
+                transition: transform .2s;
+                transform-origin: left center;
+            }
         }
 
         .name {
@@ -171,7 +184,6 @@
         position: relative;
         flex-direction: column;
         height: 100%;
-        overflow: auto;
 
         @media (max-width: $bp-lg) {
             padding-right: 1rem;
@@ -274,7 +286,6 @@
 
     &--transparent {
         background-color: transparent;
-        transition: background-color .175s ease-out;
 
         svg.icon {
             fill: $textBrandColor;
@@ -312,10 +323,15 @@
             height: 100%;
             padding: 0;
             transition: none;
+            max-height: unset;
 
             .main-navigation {
                 &-header { padding: 1.25rem 1rem; }
-                &-wrapper { padding: 0; }
+
+                &-wrapper {
+                    padding: 0;
+                    overflow-y: auto;
+                }
 
                 &-links {
                     &-wrapper {
@@ -351,6 +367,7 @@
 @media (min-width: $bp-lg) {
     .main-navigation {
         height: $headerHeightLg;
+        max-height: $headerHeightLg;
         padding: 1.875rem 0;
 
         &-wrapper {

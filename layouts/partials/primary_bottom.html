@@ -3,8 +3,10 @@
 {{ $skipPageNav := .Scratch.Get "skipPageNav" }}
 
             {{ if .Scratch.Get "seeAlso" }}
-                {{ $related := .Site.RegularPages.Related . | first 6 }}
-                {{ with $related }}
+                {{ $related := .Site.RegularPages.Related . }}
+                {{ $excludes := where $related "Params.exclude_from_see_also" true }}
+                {{ $seeAlso := $related | complement $excludes | first 6 }}
+                {{ with $seeAlso }}
                     <nav id="see-also">
                         <h2>{{ i18n "see_also" }}</h2>
 
@@ -47,7 +49,6 @@
             <ol id="endnotes"></ol>
         </div>
     </div>
-
     {{ if and $needTOC (not .Params.force_inline_toc) }}
         <div class="toc-container">
             <nav class="toc" aria-label="Table of Contents">

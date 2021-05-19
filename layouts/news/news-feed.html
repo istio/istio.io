@@ -1,0 +1,92 @@
+{{ define "main" }}
+<main class="primary blog-content">
+    <div>
+        <article>
+            <h1>{{ .Params.title }}</h1>
+            <p class="blog-description">{{ .Params.description }}</p>
+
+            {{ $.Scratch.Set "categories" (slice ) }}
+            {{ $.Scratch.Set "noCategories" 0 }}
+            {{ $pages := (where .Site.Pages "Section" "news").ByPublishDate.Reverse }}
+            {{ $sections := .Sections }}
+            {{ range $sections }}
+                {{ if and ( eq ( printf "%T" .Params.data_category ) "string" ) ( eq ( printf "%T" .LinkTitle ) "string" ) }}
+                    {{ if ( not ( in ($.Scratch.Get "categories") (delimit (slice .Params.data_category .LinkTitle ) "," ))) }}
+                        {{ $.Scratch.Add "categories" (delimit (slice .Params.data_category .LinkTitle ) ",") }}
+                    {{ end }}
+                {{ end }}
+            {{ end }}
+
+            <div class="year-buttons">
+                {{ range $.Scratch.Get "categories" }}
+                    <div>
+                        <button class="year-button" id='category-{{ index (split . ",") 0 | urlize }}' onclick="applyFilter(this)">
+                            {{ index (split . ",") 1 }}
+                        </button>
+                    </div>
+                {{ end }}
+
+            </div>
+            <div class="posts-list news-list">
+                {{ range $item := $pages }}
+                      {{with $item.PublishDate}}
+                        {{ range $a := $sections }}
+                            {{ if $a.IsAncestor $item }}
+                            <a class="post-card tf-filter-item" href="{{ $item.RelPermalink }}" data-category='{{ $a.Params.data_category | urlize }}'
+                                >
+                                    <div class="post-date">
+                                        <p>{{ ($item.Params.publishdate).Format "Jan 2, 2006" }}</p>
+                                    </div>
+                                    <div>
+                                        <h4 class="post-title">{{ $item.Title }}</h4>
+                                        <div class="post-summary">
+                                            <p>{{ $item.Params.description }}</p>
+                                            {{ if $item.Params.cves }}
+                                                <div><strong>CVE(s)</strong>: {{ range $i, $cve := $item.Params.cves }} {{ . }} {{ if ne $i (sub (len $item.Params.cves ) 1) }} , {{ end }} {{ end }}</div>
+                                            {{ end }}
+                                            {{ if $item.Params.cvss }}
+                                                <div><strong>CVSS</strong>: {{ with $item.Params.cvss }} {{ . }} {{ end }}</div>
+                                            {{ end }}
+                                            {{ if  $item.Params.releases }}
+                                                <strong>Affected versions</strong>: {{ range $i, $cve := $item.Params.releases }} {{ . }} {{ if ne $i (sub (len $item.Params.releases ) 1) }}, {{ end }} {{ end }}
+                                            {{ end }}
+                                        </div>
+                                        <p class="post-author">{{ $a.LinkTitle }}</p>
+                                    </div>
+                                </a>
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
+                {{ end }}
+            </div>
+        </article>
+    </div>
+</main>
+
+<script src='{{ "js/categories-filter.js" | relURL }}'></script>
+<script>
+    var ptfConfig = {
+        filters: [
+            {
+                name: 'categories',
+                prefix: 'category-',
+                buttonClass: 'year-button',
+                allSelector: '#selectAllAuthors',
+                attrName: 'data-category',
+            }
+        ],
+      showItemClass: "show-item",
+      filterItemClass: "tf-filter-item",
+      activeButtonClass: "active",
+      populateCount: true,
+      numberToView:999,
+      setDisabledButtonClass: "disable-button"
+    }
+    var ptf = new CategoriesFilter(ptfConfig);
+    function applyFilter (element) {
+        var category = element.id.split('category-');
+        ptf.checkFilter(category[1],'category-');
+    }
+</script>
+
+{{ end }}

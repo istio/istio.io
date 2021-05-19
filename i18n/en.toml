@@ -342,3 +342,15 @@ other = "Security"
 
 [sidebar-toggle]
 other = "Contents"
+
+[add_your_logo]
+other = "Add your logo"
+
+[share_your_story]
+other = "Share your story"
+
+[more_case_studies]
+other = "Also used by"
+
+[go_to_solutions]
+other = "Go to solutions"

@@ -1,7 +1,11 @@
 ---
-title: Change Notes
+title: Istio 1.4 Change Notes
 description: Istio 1.4 release notes.
+release: 1.4
+subtitle: Minor Release
+linktitle: 1.4 Change Notes
 weight: 10
+publishdate: 2019-11-14
 ---
 
 ## Traffic management

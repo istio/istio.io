@@ -24,6 +24,150 @@ This means that anyone with a valid certificate can still access a service.
 To fully lock down traffic, it is recommended to configure [authorization policies](/docs/tasks/security/authorization/).
 These allow creating fine-grained policies to allow or deny traffic. For example, you can allow only requests from the `app` namespace to access the `hello-world` service.
 
+## Authorization policies
+
+Istio [authorization](/docs/concepts/security/#authorization) plays a critical part in Istio security.
+It takes effort to configure the correct authorization policies to best protect your clusters.
+It is important to understand the implications of these configurations as Istio cannot determine the proper authorization for all users.
+Please follow this section in its entirety.
+
+### Apply default-deny authorization policies
+
+We recommend you define your Istio authorization policies following the default-deny pattern to enhance your cluster's security posture.
+The default-deny authorization pattern means your system denies all requests by default, and you define the conditions in which the requests are allowed.
+In case you miss some conditions, traffic will be unexpectedly denied, instead of traffic being unexpectedly allowed.
+The latter typically being a security incident while the former may result in a poor user experience, a service outage or will not match your SLO/SLA.
+
+For example, in the [authorization for HTTP traffic task](/docs/tasks/security/authorization/authz-http/),
+the authorization policy named `allow-nothing` makes sure all traffic is denied by default.
+From there, other authorization policies allow traffic based on specific conditions.
+
+### Customize your system on path normalization
+
+Istio authorization policies can be based on the URL paths in the HTTP request.
+[Path normalization (a.k.a., URI normalization)](https://en.wikipedia.org/wiki/URI_normalization) modifies and standardizes the incoming requests' paths,
+so that the normalized paths can be processed in a standard way.
+Syntactically different paths may be equivalent after path normalization.
+
+Istio supports the following normalization schemes on the request paths,
+before evaluating against the authorization policies and routing the requests:
+
+| Option | Description | Example |
+| --- | --- | --- |
+| `NONE` | No normalization is done. Anything received by Envoy will be forwarded exactly as-is to any backend service. | `../%2Fa../b` is evaluated by the authorization policies and sent to your service. |
+| `BASE` | This is currently the option used in the *default* installation of Istio. This applies the [`normalize_path`](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto#envoy-v3-api-field-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-normalize-path) option on Envoy proxies, which follows [RFC 3986](https://tools.ietf.org/html/rfc3986) with extra normalization to convert backslashes to forward slashes. | `/a/../b` is normalized to `/b`. `\da` is normalized to `/da`. |
+| `MERGE_SLASHES` | Slashes are merged after the _BASE_ normalization. | `/a//b` is normalized to `/a/b`. |
+| `DECODE_AND_MERGE_SLASHES` | The most strict setting when you allow all traffic by default. This setting is recommended, with the caveat that you will need to thoroughly test your authorization policies routes. [Percent-encoded](https://tools.ietf.org/html/rfc3986#section-2.1) slash and backslash characters (`%2F`, `%2f`, `%5C` and `%5c`) are decoded to `/` or `\`, before the `MERGE_SLASHES` normalization. | `/a%2fb` is normalized to `/a/b`. |
+
+{{< tip >}}
+The configuration is specified via the [`pathNormalization`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ProxyPathNormalization)
+field in the the [mesh config](/docs/reference/config/istio.mesh.v1alpha1/).
+{{< /tip >}}
+
+To emphasize, the normalization algorithms are conducted in the following order:
+
+1. Percent-decode `%2F`, `%2f`, `%5C` and `%5c`.
+1. The [RFC 3986](https://tools.ietf.org/html/rfc3986) and other normalization implemented by the [`normalize_path`](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto#envoy-v3-api-field-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-normalize-path) option in Envoy.
+1. Merge slashes
+
+{{< warning >}}
+While these normalization options represent recommendations from HTTP standards and common industry practices,
+applications may interpret a URL in any way it chooses to. When using denial policies, ensure that you understand how your application behaves.
+{{< /warning >}}
+
+### Examples of configuration
+
+Ensuring Envoy normalizes request paths to match your backend services' expectation is critical to the security of your system.
+The following examples can be used as reference for you to configure your system.
+The normalized URL paths, or the original URL paths if _NONE_ is selected, will be:
+
+1. Used to check against the authorization policies
+1. Forwarded to the backend application
+
+| Your application... | Choose... |
+| --- | --- |
+| Relies on the proxy to do normalization | `BASE`, `MERGE_SLASHES` or `DECODE_AND_MERGE_SLASHES` |
+| Normalizes request paths based on [RFC 3986](https://tools.ietf.org/html/rfc3986) and does not merge slashes | `BASE` |
+| Normalizes request paths based on [RFC 3986](https://tools.ietf.org/html/rfc3986), merges slashes but does not decode [percent-encoded](https://tools.ietf.org/html/rfc3986#section-2.1) slashes | `MERGE_SLASHES` |
+| Normalizes request paths based on [RFC 3986](https://tools.ietf.org/html/rfc3986), decodes [percent-encoded](https://tools.ietf.org/html/rfc3986#section-2.1) slashes and merges slashes | `DECODE_AND_MERGE_SLASHES` |
+| Processes request paths in a way that is incompatible with [RFC 3986](https://tools.ietf.org/html/rfc3986) | `NONE` |
+
+### How to configure
+
+You can use `istioctl` to update the [mesh config](/docs/reference/config/istio.mesh.v1alpha1/):
+
+    {{< text bash >}}
+    $ istioctl upgrade --set meshConfig.pathNormalization.normalization=DECODE_AND_MERGE_SLASHES
+    {{< /text >}}
+
+or by altering your operator overrides file
+
+    {{< text bash >}}
+    $ cat <<EOF > iop.yaml
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      meshConfig:
+        pathNormalization:
+          normalization: DECODE_AND_MERGE_SLASHES
+    EOF
+    $ istioctl install -f iop.yaml
+    {{< /text >}}
+
+Alternatively, if you want to directly edit the mesh config,
+you can add the [`pathNormalization`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ProxyPathNormalization)
+to the [mesh config](/docs/reference/config/istio.mesh.v1alpha1/), which is the `istio-<REVISION_ID>` configmap in the `istio-system` namespace.
+For example, if you choose the `DECODE_AND_MERGE_SLASHES` option, you modify the mesh config as the following:
+
+    {{< text yaml >}}
+    apiVersion: v1
+      data:
+        mesh: |-
+          ...
+          pathNormalization:
+            normalization: DECODE_AND_MERGE_SLASHES
+          ...
+    {{< /text >}}
+
+### Less common normalization configurations
+
+#### Case Normalization
+
+In some environments, it may be useful to have paths in authorization policies compared in a case insensitive manner.
+For example, treating `https://myurl/get` and `https://myurl/GeT` as equivalent.
+In those cases, the `EnvoyFilter` shown below can be used.
+This filter will change both the path used for comparison and the path presented to the application.
+
+    {{< text syntax=yaml snip_id=ingress_case_insensitive_envoy_filter >}}
+    apiVersion: networking.istio.io/v1alpha3
+    kind: EnvoyFilter
+    metadata:
+      name: ingress-case-insensitive
+      namespace: istio-system
+    spec:
+      configPatches:
+      - applyTo: HTTP_FILTER
+        match:
+          context: GATEWAY
+          listener:
+            filterChain:
+              filter:
+                name: "envoy.filters.network.http_connection_manager"
+                subFilter:
+                  name: "envoy.filters.http.router"
+        patch:
+          operation: INSERT_BEFORE
+          value:
+            name: envoy.lua
+            typed_config:
+                "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
+                inlineCode: |
+                  function envoy_on_request(request_handle)
+                    local path = request_handle:headers():get(":path")
+                    request_handle:headers():replace(":path", string.lower(path))
+                  end
+    {{< /text >}}
+
 ## Understand traffic capture limitations
 
 The Istio sidecar works by capturing both inbound traffic and outbound traffic and directing them through the sidecar proxy.
@@ -132,6 +276,73 @@ It may be desired to enforce stricter physical isolation for sensitive services.
 shared gateway instance for less sensitive domains like `blog.example.com` and `store.example.com`.
 This can offer a stronger defense-in-depth and help meet certain regulatory compliance guidelines.
 
+### Explicitly disable all the sensitive http host under relaxed SNI host matching
+
+It is reasonable to use multiple `Gateway`s to define mutual TLS and simple TLS on different hosts.
+For example, use mutual TLS for SNI host `admin.example.com` and simple TLS for SNI host `*.example.com`.
+
+{{< text yaml >}}
+kind: Gateway
+metadata:
+  name: guestgateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - "*.example.com"
+    tls:
+      mode: SIMPLE
+---
+kind: Gateway
+metadata:
+  name: admingateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - admin.example.com
+    tls:
+      mode: MUTUAL
+{{< /text >}}
+
+If the above is necessary, it's highly recommended to explicitly disable the http host `admin.example.com` in the `VirtualService` that attaches to `*.example.com`. The reason is that currently the underlying [envoy proxy does not require](https://github.com/envoyproxy/envoy/issues/6767) the http 1 header `Host` or the http 2 pseudo header `:authority` following the SNI constraints, an attacker can reuse the guest-SNI TLS connection to access admin `VirtualService`. The http response code 421 is designed for this `Host` SNI mismatch and can be used to fulfill the disable.
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: disable-sensitive
+spec:
+  hosts:
+  - "admin.example.com"
+  gateways:
+  - guestgateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    fault:
+      abort:
+        percentage:
+          value: 100
+        httpStatus: 421
+    route:
+    - destination:
+        port:
+          number: 8000
+        host: dest.default.cluster.local
+{{< /text >}}
+
 ## Protocol detection
 
 Istio will [automatically determine the protocol](/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection) of traffic it sees.
@@ -233,3 +444,9 @@ To determine if your cluster supports third party tokens, look for the `TokenReq
     {{< /text >}}
 
 While most cloud providers support this feature now, many local development tools and custom installations may not prior to Kubernetes 1.20. To enable this feature, please refer to the [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection).
+
+## Configure a limit on downstream connections
+
+By default, Istio (and Envoy) have no limit on the number of downstream connections. This can be exploited by a malicious actor (see [security bulletin 2020-007](/news/security/istio-security-2020-007/)). To work around you this, you must configure an appropriate connection limit for your environment.
+
+{{< boilerplate cve-2020-007-configmap >}}

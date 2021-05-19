@@ -192,5 +192,88 @@ disableAliases = true
     url = "/docs/"
     weight = 5
 
+  # i18n for Chinese
+  [[languages.zh.menu.main]]
+    identifier = "about"
+    name = "关于"
+    title = "关于部分"
+    weight = 1
+    
+    [[languages.zh.menu.main]]
+      identifier = "service-mesh"
+      name = "服务网格"
+      title = "服务网格"
+      url = "/zh/about/service-mesh"
+      parent = "about"
+      weight = 1
+
+    [[languages.zh.menu.main]]
+      identifier = "solutions"
+      name = "解决方案"
+      title = "解决方案"
+      url = "/zh/about/solutions"
+      parent = "about"
+      weight = 2
+
+    [[languages.zh.menu.main]]
+      identifier = "case-studies"
+      name = "案例学习"
+      title = "案例学习"
+      url = "/zh/about/case-studies"
+      parent = "about"
+      weight = 3
+
+    [[languages.zh.menu.main]]
+      identifier = "ecosystem"
+      name = "生态系统"
+      title = "生态系统"
+      url = "/zh/about/ecosystem"
+      parent = "about"
+      weight = 4
+
+    [[languages.zh.menu.main]]
+      identifier = "deployment"
+      name = "部署"
+      title = "部署"
+      url = "/zh/about/deployment"
+      parent = "about"
+      weight = 5
+
+    [[languages.zh.menu.main]]
+      identifier = "faq"
+      name = "FAQ"
+      title = "FAQ"
+      url = "/zh/about/faq"
+      parent = "about"
+      weight = 6
+
+  [[languages.zh.menu.main]]
+    identifier = "blog"
+    name = "博客"
+    title = "Istio 博客"
+    url = "/zh/blog/"
+    weight = 2
+
+  [[languages.zh.menu.main]]
+    identifier = "news"
+    name = "新闻"
+    title = "新闻"
+    url = "/zh/news/"
+    weight = 3
+
+  [[languages.zh.menu.main]]
+    identifier = "get-involved"
+    name = "加入我们"
+    title = "加入我们"
+    url = "/zh/get-involved/"
+    weight = 4
+
+  [[languages.zh.menu.main]]
+    identifier = "docs"
+    name = "文档"
+    title = "文档"
+    url = "/zh/docs/"
+    weight = 5
+
 [permalinks]
   case-studies = "/:slug"
