@@ -116,9 +116,9 @@ $ istioctl proxy-config cluster my-release-zookeeper-1 --port 3888 --direction i
 
 What is interesting here is that the inbound on port 3888 has `127.0.0.1` as its endpoint. This is because the Envoy proxy, in versions of Istio prior to 1.10, redirects the inbound traffic to the `loopback` interface, as described in [our blog post about the change](/blog/2021/upcoming-networking-changes/).
 
-## `StatefulSets` in Action with Istio 1.10
+## `StatefulSets` in action with Istio 1.10
 
-Install Istio 1.10 and configure the `default` namespace to enable Istio 1.10’s sidecar injection. Let’s rolling restart the ZooKeeper `StatefulSet` to update the pods to use Istio 1.10’s sidecar proxy:
+Now, we have upgraded our cluster to Istio 1.10 and configured the `default` namespace to enable 1.10 sidecar injection. Let’s rolling restart the ZooKeeper `StatefulSet` to update the pods to use the new version of the sidecar proxy:
 
 {{< text bash >}}
 $ kubectl rollout restart statefulset my-release-zookeeper
