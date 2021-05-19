@@ -12,7 +12,7 @@ The Istio community has been making gradual progress towards zero-configuration 
 
 What is unique about using a `StatefulSet` with a service mesh? The `StatefulSet` pods are created from the same spec, but are not interchangeable: each has a persistent identifier that it maintains across any rescheduling. The kind of apps that run in a `StatefulSet` are often those that need to communicate among their pods, and, as they come from a world of hard-coded IP addresses, may listen on the pod IP only, instead of `0.0.0.0`.
 
-ZooKeeper, for example, is configured by default not to listen on all IPs for quorum communication:
+ZooKeeper, for example, is configured by default to not listen on all IPs for quorum communication:
 
 {{< text plain >}}
 quorumListenOnAllIPs=false
