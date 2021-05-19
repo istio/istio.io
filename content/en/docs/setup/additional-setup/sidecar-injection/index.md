@@ -162,8 +162,8 @@ on a per-pod basis, by configuring the `sidecar.istio.io/inject` label on a pod:
 If you are using [control plane revisions](/docs/setup/upgrade/canary/), revision specific labels are instead used by a matching `istio.io/rev` label.
 For example, for a revision named `canary`:
 
-| Resource |Enabled label | Disabled label |
-| -------- | ----- | ------------- | -------------- |
+| Resource | Enabled label | Disabled label |
+| -------- | ------------- | -------------- |
 | Namespace | `istio.io/rev=canary` | `istio-injection=disabled` |
 | Pod | `istio.io/rev=canary` | `sidecar.istio.io/inject="false"` |
 
