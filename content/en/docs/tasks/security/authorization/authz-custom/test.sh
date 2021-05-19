@@ -51,9 +51,7 @@ snip_define_the_external_authorizer_4
 _wait_for_deployment istio-system istiod
 
 # create the authorization policy and verify the ext-authz response.
-echo "Before enable"
 snip_enable_with_external_authorization_1
-echo "After enable"
 
 _verify_same snip_enable_with_external_authorization_2 "$snip_enable_with_external_authorization_2_out"
 _verify_lines snip_enable_with_external_authorization_3 "
