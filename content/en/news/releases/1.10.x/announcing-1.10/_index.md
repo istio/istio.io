@@ -55,6 +55,8 @@ In 1.10, Istio is updating Envoy to send traffic to the application on `eth0` ra
 
 See [the write-up](/blog/2021/upcoming-networking-changes/) by John Howard for a more in depth overview of the change, how and why it might impact you, and how to preserve today’s behavior to enable a seamless migration.
 
+The changes in networking behavior solve a number of problems when using Istio with Kubernetes `StatefulSets`. [Lin, Christian, John and Zhonghu discuss this in a blog post](/blog/2021/statefulsets-made-easier/).
+
 ## A Fresh Look for Istio.io
 
 We’ve revamped Istio.io with a totally new look! This is the first major change to Istio’s site since the project launched nearly four years ago (we’ll celebrate that anniversary on May 24th!). We hope these changes help make the site more user-friendly, easier to navigate, and more readable overall.
