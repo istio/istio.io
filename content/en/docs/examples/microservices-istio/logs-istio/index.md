@@ -81,4 +81,4 @@ Before you customize Istio for production use, see these resources:
 ## Join the Istio community
 
 We welcome you to ask questions and give us feedback by joining the
-[Istio community](/get-involved//).
+[Istio community](/get-involved/).
