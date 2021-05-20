@@ -431,7 +431,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     $ kubectl create -n istio-system secret generic nginx-ca-certs --from-file=example.com.crt
     {{< /text >}}
 
-1. 部署 `istio-egressgateway` 挂载新生成的 secrets 的 volume。使用的参数选项与生成 `istio.yaml` 中的一致，创建下面的 `gateway-patch.json` 文件：
+1. 部署 `istio-egressgateway` 挂载新生成的 Secrets 的 Volume。使用的参数选项与生成 `istio.yaml` 中的一致，创建下面的 `gateway-patch.json` 文件：
 
     {{< text bash >}}
     $ cat > gateway-patch.json <<EOF
