@@ -53,7 +53,7 @@ In previous Istio releases, Istio has rewritten pod networking to trap traffic f
 
 In 1.10, Istio is updating Envoy to send traffic to the application on `eth0` rather than `lo` by default. For new users, this should only be an improvement. For existing users, `istioctl experimental precheck` will identify pods that listen on localhost, and may be impacted, as [IST0143](/docs/reference/config/analysis/ist0143/).
 
-See [the write-up](/blog/2021/upcoming-networking-changes/) by John Howard for a more in depth overview of the change, how and why it might impact you, and how to preserve today’s behavior to enable a seamless migration. 
+See [the write-up](/blog/2021/upcoming-networking-changes/) by John Howard for a more in depth overview of the change, how and why it might impact you, and how to preserve today’s behavior to enable a seamless migration.
 
 The changes in networking behavior solve a number of problems when using Istio with Kubernetes `StatefulSets`. [Lin, Christian, John and Zhonghu discuss this in a blog post](/blog/2021/statefulsets-made-easier/).
 
