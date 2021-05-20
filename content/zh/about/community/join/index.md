@@ -37,7 +37,7 @@ Istio 是一个开源项目，拥有一个活跃的社区支持它的使用和�
 如果您想深入了解 Istio 的具体细节，请查看我们不断丰富的设计文档集。如需要访问这些文档，只需加入
 [istio-team-drive-access@](https://groups.google.com/forum/#!forum/istio-team-drive-access) 讨论组。
 加入之后，您就可以直接前往
-[文件夹（这里有很多技术文档）](https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA) 查看。
+[文件夹（这里有很多技术文档）](https://drive.google.com/corp/drive/folders/0ADmbrU7ueGOUUk9PVA) 查看。
 {{< /community_item >}}
 
 {{< community_item logo="./group.svg" alt="Working Groups" >}}
