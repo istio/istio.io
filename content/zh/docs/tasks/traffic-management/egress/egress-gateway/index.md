@@ -145,7 +145,7 @@ Ingress gateway 允许您定义网格所有入站流量的入口。Egress gatewa
     EOF
     {{< /text >}}
 
-1. 定义一个 `VirtualService`，将流量从 sidecar 引导至 egress gateway，再从 egress gateway 引导至外部服务：
+1. 定义一个 `VirtualService`，将流量从 sidecar 引导至 Egress Gateway，再从 Egress Gateway 引导至外部服务：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -260,10 +260,10 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     ...
     {{< /text >}}
 
-1. 为 `edition.cnn.com` 创建一个 egress `Gateway`。除此之外还需要创建一个 destination rule 和一个 virtual service，用来引导流量通过 egress gateway，并通过 egress gateway 与外部服务通信。
+1. 为 `edition.cnn.com` 创建一个 egress `Gateway`。除此之外还需要创建一个 destination rule 和一个 virtual service，用来引导流量通过 Egress Gateway，并通过 Egress Gateway 与外部服务通信。
 
     {{< tip >}}
-    要通过 egress gateway 引导多个主机，您可以在 `Gateway` 中包含主机列表，或使用 `*` 匹配所有主机。 应该将 `DestinationRule` 中的`subset` 字段用于其他主机。
+    要通过 Egress Gateway 引导多个主机，您可以在 `Gateway` 中包含主机列表，或使用 `*` 匹配所有主机。 应该将 `DestinationRule` 中的`subset` 字段用于其他主机。
     {{< /tip >}}
 
     {{< text bash >}}
@@ -342,7 +342,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     ...
     {{< /text >}}
 
-1. 检查 egress gateway 代理的日志。如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
+1. 检查 Egress Gateway 代理的日志。如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
 
     {{< text bash >}}
     $ kubectl logs -l istio=egressgateway -n istio-system
