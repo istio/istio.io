@@ -35,8 +35,7 @@ Hello version: v1, instance: helloworld-v1-578dd69f69-j69pf
 
 与集群内通信一样，跨集群通信依赖于代理之间公共的且可信任的根证书颁发机构(root)。默认情况下 Istio 使用自身单独生成的根证书颁发机构。对于多集群的情况，我们必须手动配置公共的且可信任的根证书颁发机构。阅读下面的 **Plug-in Certs** 章节或者参考[身份和信任模型](/zh/docs/ops/deployment/deployment-models/#identity-and-trust-models)了解更多细节。
 
-**证书插件：**
-
+*证书插件：*
 您可以通过比较每个群集中的根证书的方式来确认受信配置是否正确：
 
 {{< text bash >}}
@@ -122,7 +121,7 @@ $ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.s
 * 无法确定远程网络的网关地址。
 * 无法确定客户端 Pod 或服务器 Pod 的网络。
 
-**无法确定远程网络的网关地址：**
+*无法确定远程网络的网关地址：*
 
 在无法访问的远程群集中，检查服务是否有外部IP：
 
@@ -136,7 +135,7 @@ istio-eastwestgateway    LoadBalancer   10.8.17.119   <PENDING>        15021:317
 
 如果外部 IP 存在，请检查 `topology.istio.io/network` 标签的值是否正确。如果不正确，请重新安装网关，并确保在生成脚本上设置 --network 标志。
 
-**无法确定客户端 Pod 或服务器 Pod 的网络.**
+*无法确定客户端 Pod 或服务器 Pod 的网络.*
 
 在源 Pod 上查看代理元数据。
 
