@@ -1,6 +1,6 @@
 ---
-title: "Happy Birthday Istio!"
-description: "Celebrating Istio’s 4th birthday!"
+title: "Happy Birthday, Istio!"
+description: "Celebrating Istio’s 4th birthday."
 publishdate: 2021-05-24
 attribution: "Maria Cruz (Google), Aizhamal Nurmamat kyzy (Google)"
 keywords: [community,birthday,celebration]
