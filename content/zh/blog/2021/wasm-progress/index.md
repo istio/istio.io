@@ -1,12 +1,12 @@
 ---
-title: 一年之后 Istio 和 Envoy 的 WebAssembly 的可扩展性
+title: Istio 和 Envoy WebAssembly 的可扩展性一周年总结
 description: 最新Envoy 和 Istio 上基于 WebAssembly 可扩展性工作。
 publishdate: 2021-03-05
 attribution: "Pengyuan Bian (Google)"
 keywords: [wasm,extensibility,WebAssembly]
 ---
 
-一年以前的今天，1.5 发布了，我们在 Istio 中引入了 [基于WebAssembly的可扩展性](/blog/2020/wasm-announce/)。
+一年以前的今天，1.5 发布了，我们在 Istio 中引入了 [基于WebAssembly的可扩展性](/zh/blog/2020/wasm-announce/)。
 在过去的这一年中，Istio，Envoy 和 Proxy-Wasm 社区共同努力让 WebAssembly (Wasm)的可扩展性逐步稳定、可靠和易于使用。
 我们可以通过 Istio 1.9 版本来了解对 Wasm 支持的更新，还有我们未来的计划。
 
