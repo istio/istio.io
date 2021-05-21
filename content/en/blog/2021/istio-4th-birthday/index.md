@@ -5,8 +5,7 @@ publishdate: 2021-05-24
 attribution: "Maria Cruz (Google), Aizhamal Nurmamat kyzy (Google)"
 keywords: [community,birthday,celebration]
 ---
-
-# Celebrating Istio’s 4th birthday! 
+# Celebrating Istio’s 4th birthday
 
 Four years ago today, the Istio project was born to the open source world. To celebrate this anniversary,
 we are hosting a week-long birthday celebration  that focuses on contributions to the Istio project that
@@ -15,18 +14,17 @@ chance to win some Istio swag.
 
 {{< image link="./1.png" caption="Istio's 4th Birthday!" >}}
 
-
 ## A year of important developments for Istio
 
-Over the last 12 months, the Istio project has been very focused on the [day-0 
+Over the last 12 months, the Istio project has been very focused on the [day-0
 & day-1](https://dzone.com/articles/defining-day-2-operations) experience for
-users by actively listening to our users through UX surveys and GitHub issues.  
+users by actively listening to our users through UX surveys and GitHub issues.
 
 - We [simplified the control plane architecture](https://istio.io/latest/blog/2020/istiod/) and
    made Istio easier to install, configure and upgrade.
 - We provided clarity and process to our feature status and promotion of features and APIs.
 - We simplified debugging experience with various istioctl commands.
-- We expanded the mesh to services running in [VMs](https://istio.io/latest/news/releases/1.9.x/announcing-1.9/#virtual-machine-integration-beta) 
+- We expanded the mesh to services running in [VMs](https://istio.io/latest/news/releases/1.9.x/announcing-1.9/#virtual-machine-integration-beta)
     and [multiclusters](https://istio.io/latest/docs/setup/install/multicluster/).
 - We made [statefulset easier](https://istio.io/latest/blog/2021/statefulsets-made-easier/) to use in Istio 1.10 with zero-configuration.
 - We made various performance improvements to Istio control plane and data plane via [discovery selectors](https://istio.io/latest/blog/2021/discovery-selectors/),
@@ -35,7 +33,7 @@ users by actively listening to our users through UX surveys and GitHub issues.
 - We beefed up our CVE management and release processes to meet enterprise needs.
 
 [Read more](https://istio.io/latest/blog/2020/tradewinds-2020/) about improvements to
-Istio in 2020 that made this technology easier to use. 
+Istio in 2020 that made this technology easier to use.
 
 In February 2021, we celebrated the first IstioCon! This community-led event was an opportunity
 for users and developers to share [many examples](https://www.youtube.com/playlist?list=PL7wB27eZmdffS-g_xh7X-b0echc_XZMKV)
@@ -57,7 +55,7 @@ Contributions are key to the long life of an open source project. This is why, o
 we want to hear about your contributions to the Istio project. To participate in this campaign,
 share on Twitter a contribution you made to the project and why it matters, using the hashtag
 #IstioTurns4 and #IstioBirthday. You can submit posts from Monday, May 24th at 9 am PT, until
-Friday, May 28th, at 12pm PT, to enter a chance to win some Istio swag. 
+Friday, May 28th, at 12pm PT, to enter a chance to win some Istio swag.
 
 The other way of participating in this campaign is by joining the Isito community meetup, which
 will take place on Thursday, May 27th at 10 am PT. At this event, we will have Pratima Nambiar
