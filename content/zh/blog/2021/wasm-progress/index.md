@@ -27,44 +27,40 @@ keywords: [wasm,extensibility,WebAssembly]
 作为 Envoy Wasm 运行时的早期采集者，Istio 扩展和遥测工作组在开发扩展方面获得了很多经验。我们构建了几个一流的扩展，包括 [原数据交换](/docs/reference/config/proxy_extensions/metadata_exchange/)，[Prometheus 统计](/docs/reference/config/proxy_extensions/stats/)和 [属性生成器](/docs/reference/config/proxy_extensions/attributegen/)。
 为了更广泛地分享我们的知识，我们在 `istio-ecosystem` git 组织下面创建了一个 [`wasm-extensions` 仓库](https://github.com/istio-ecosystem/wasm-extensions)。这个仓库有 2 个目的：
 
-* It provides canonical example extensions, covering several highly demanded features (such as [basic authentication](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth)).
-* It provides a guide for Wasm extension development, testing, and release. The guide is based on the same build tool chains and test frameworks that are used, maintained and tested by the Istio extensibility team.
+* 它提供了典型的扩展示例，包括几个高要求的功能（比如 [基本身份验证](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth)）。
+* 它提供了一个 Wasm 扩展开发，测试和发布的指南。这个指南使用的工具链和测试框架是由 Istio 可扩展性团队使用并且维护的。
 
-The guide currently covers [WebAssembly extension development](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md)
-and [unit testing](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-cpp-unit-test.md) with C++,
-as well as [integration testing](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-integration-test.md) with a Go test framework,
-which simulates a real runtime by running a Wasm module with the Istio proxy binary.
-In the future, we will also add several more canonical extensions, such as an integration with Open Policy Agent, and header manipulation based on JWT tokens.
+该指南目前包含了 [WebAssembly 扩展开发](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md)和 C++ [单元测试](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-cpp-unit-test.md) ，还有一个 Go 测试框架的[集成测试](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-integration-test.md)，这个测试框架通过运行带有 Wasm 模块的 Istio 代理二进制程序来模拟一个真实的运行时。
+未来，我们将会添加几个典型的扩展，例如与 Open Policy Agent 的集成，以及基于 JWT 令牌的头控制。
 
-## Wasm module distribution via the Istio Agent
+## 通过 Istio 代理分发 Wasm 模块
 
-Prior to Istio 1.9, [Envoy remote data sources](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/base.proto#config-core-v3-remotedatasource) were needed to distribute remote Wasm modules to the proxy.
+在 Istio 1.9 之前，[Envoy 远程数据源](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/base.proto#config-core-v3-remotedatasource) 需要将远程 Wasm 模块分发到代理。
+[在这个示例中](https://gist.github.com/bianpengyuan/8377898190e8052ffa36e88a16911910)，可以看到定义了 2 个 `EnvoyFilter` 资源：一个是添加远程获取的 Envoy 集群，另外一个把一个 Wasm 过滤器注入到 HTTP 过滤器链中。
 [In this example](https://gist.github.com/bianpengyuan/8377898190e8052ffa36e88a16911910),
-you can see two `EnvoyFilter` resources are defined: one to add a remote fetch Envoy cluster, and the other one to inject a Wasm filter into the HTTP filter chain.
-This method has a drawback: if remote fetch fails, either due to bad configuration or transient error, Envoy will be stuck with the bad configuration.
-If a Wasm extension is configured as [fail closed](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/wasm/v3/wasm.proto#extensions-wasm-v3-pluginconfig), a bad remote fetch will stop Envoy from serving.
-To fix this issue, [a fundamental change](https://github.com/envoyproxy/envoy/issues/9447) is needed to the Envoy xDS protocol to make it allow asynchronous xDS responses.
+这种方法有一个缺陷：如果远程获取失败了，不论是因为错的配置或者传输错误，Envoy 将会被这个错的配置卡住。
+如果 Wasm 扩展被配置成了[失败关闭](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/wasm/v3/wasm.proto#extensions-wasm-v3-pluginconfig)，一个错的远程获取将会让 Envoy 停止服务。
+为处理这种问题，Envoy xDS 协议需要[一个根本上的解决方案](https://github.com/envoyproxy/envoy/issues/9447) 来解决异步的 xDS 响应。
 
-Istio 1.9 provides a reliable distribution mechanism out of the box by leveraging the xDS proxy inside istio-agent and Envoy's [Extension Configuration Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/extension) (ECDS).
+Istio 1.9 通过 istio-agent 内部的 xDS 代理和 Envoy 的[扩展配置发现服务](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/extension) (ECDS)提供了一个可靠的开箱即用的分发机制，
 
-istio-agent intercepts the extension config resource update from istiod, reads the remote fetch hint from it, downloads the Wasm module, and rewrites the ECDS configuration with the path of the downloaded Wasm module.
-If the download fails, istio-agent will reject the ECDS update and prevent a bad configuration reaching Envoy. For more detail, please see [our docs on Wasm module distribution](/docs/ops/configuration/extensibility/wasm-module-distribution/).
+istio-agent 会拦截从 istiod 来的扩展配置资源更新请求，从中解析出远程获取信息，下载 Wasm 模块，使用下载的 Wasm 模块的路径来重新 ECDS 配置。
+如果下载失败，istio-agent 会拒绝 ECDS 更新，并且会阻止让错的配置下发到 Envoy。更多详情，请参阅[我们的 Wasm 模块分发文档](/docs/ops/configuration/extensibility/wasm-module-distribution/)。
 
 {{< image width="75%"
     link="./architecture-istio-agent-downloading-wasm-module.svg"
-    alt="Remote Wasm module fetch flow"
-    caption="Remote Wasm module fetch flow"
+    alt="远程 Wasm 模块获取流程"
+    caption="远程 Wasm 模块获取流程"
     >}}
 
-## Istio Wasm SIG and Future Work
+## Istio Wasm SIG 和未来的工作
 
-Although we have made a lot of progress on Wasm extensibility, there are still many aspects of the project that remain to be completed. In order to consolidate the efforts from various parties and better tackle the challenges ahead, we have formed an [Istio WebAssembly SIG](https://discuss.istio.io/t/introducing-wasm-sig/9930), with aim of providing a standard and reliable way for Istio to consume Wasm extensions. Here are some of the things we are working on:
+虽然我们在 Wasm 可扩展性上取得了很多进展，但是这个工程中仍然有许多的工作要去做。为了联合各方的努力，更好地应对未来的挑战，我们组建了 [Istio WebAssembly SIG](https://discuss.istio.io/t/introducing-wasm-sig/9930)，目的是为 Istio 使用 Wasm 扩展提供一个标准可靠的方式。下面是我们正在做的一些事情：
 
-* **A first-class extension API**: Currently Wasm extensions needs to be injected via Istio's `EnvoyFilter` API. A first-class extension API will make using Wasm with Istio easier, and we expect this to be introduced in Istio 1.10.
-* **Distribution artifacts interoperability**: Built on top of Solo.io’s [WebAssembly OCI image spec effort](https://www.solo.io/blog/announcing-the-webassembly-wasm-oci-image-spec/), a standard Wasm artifacts format will make it easy to build, pull, publish, and execute.
-* **Container Storage Interface (CSI) based artifacts distribution**: Using istio-agent to distribute modules is easy for adoption, but may not be efficient as each proxy will keep a copy of the Wasm module. As a more efficient solution, with [Ephemeral CSI](https://kubernetes-csi.github.io/docs/ephemeral-local-volumes.html), a DaemonSet will be provided which could configure storage for pods. Working similarly to a CNI plugin, a CSI driver would fetch the Wasm module out-of-band from the xDS flow and mount it inside the `rootfs` when the pod starts up.
+* **优秀的扩展 API**：当前 Wasm 扩展需要通过 Istio 的 `EnvoyFilter` API 注入。优秀的扩展 API 将会让 Istio 使用 Wasm 更容易，并且我们希望这些 API 可以引入到 Istio 1.10 中。
+* **分布构件的互操作性**：Solo.io 的 [WebAssembly OCI 镜像规范工作](https://www.solo.io/blog/announcing-the-webassembly-wasm-oci-image-spec/)定义了一个标准的 Wasm 构件格式，在它之上构建，拉去，发布和执行 Wasm 将会更容易。
+* **基于容器存储接口（CSI）的构件分发**：使用 istio-agent 来分发 Wasm 模块更容易接受，但可能不是很高效，因为每个代理会保存一个 Wasm 模块副本。可以使用 [Ephemeral CSI](https://kubernetes-csi.github.io/docs/ephemeral-local-volumes.html) 作为一个更高效的解决方案，以 DaemonSet 的方式为 pod 提供配置存储。和 CNI 插件的工作方式类似，CSI 驱动器会从 xDS 流获取外带的 Wasm 模块，并且在 pod 启动的时候把它们挂在到 `rootfs`。
 
-If you would like to join us, the group will meet every other week Tuesdays at 2PM PT. You can find the meeting on the [Istio working group calendar](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings).
+如果你想加入我们，我们这个小组在每周二下午 2 点开会讨论。可以在 [Istio 工作组日历](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings)上查看会议信息。
 
-We look forward to seeing how you will use Wasm to extend Istio!
-我们很期待看到您如何用 Wasm 来扩展 Istio!
+我们很期待看到你如何用 Wasm 来扩展 Istio!
