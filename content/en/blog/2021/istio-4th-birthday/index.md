@@ -5,16 +5,17 @@ publishdate: 2021-05-24
 attribution: "Maria Cruz (Google), Aizhamal Nurmamat kyzy (Google)"
 keywords: [community,birthday,celebration]
 ---
-# Celebrating Istio’s 4th birthday
+
+## Celebrating Istio’s 4th birthday
 
 Four years ago today, the Istio project was born to the open source world. To celebrate this anniversary,
 we are hosting a week-long birthday celebration  that focuses on contributions to the Istio project that
-stem from using Istio in production. Read on to learn how to participate in this celebration  and enter a
+stem from using Istio in production. Read on to learn how to participate in this celebration and enter a
 chance to win some Istio swag.
 
 {{< image link="./1.png" caption="Istio's 4th Birthday!" >}}
 
-## A year of important developments for Istio
+### A year of important developments for Istio
 
 Over the last 12 months, the Istio project has been very focused on the [day-0
 & day-1](https://dzone.com/articles/defining-day-2-operations) experience for
@@ -23,13 +24,12 @@ users by actively listening to our users through UX surveys and GitHub issues.
 - We [simplified the control plane architecture](https://istio.io/latest/blog/2020/istiod/) and
    made Istio easier to install, configure and upgrade.
 - We provided clarity and process to our feature status and promotion of features and APIs.
-- We simplified debugging experience with various istioctl commands.
+- We simplified the debugging experience with various istioctl commands.
 - We expanded the mesh to services running in [VMs](https://istio.io/latest/news/releases/1.9.x/announcing-1.9/#virtual-machine-integration-beta)
     and [multiclusters](https://istio.io/latest/docs/setup/install/multicluster/).
-- We made [statefulset easier](https://istio.io/latest/blog/2021/statefulsets-made-easier/) to use in Istio 1.10 with zero-configuration.
-- We made various performance improvements to Istio control plane and data plane via [discovery selectors](https://istio.io/latest/blog/2021/discovery-selectors/),
-    sidecar resources etc.
-- We [introduced WebAssembly](https://istio.io/latest/blog/2021/wasm-progress/) as our extensibility platform which has helped users tailor Istio to their needs
+- We made [`StatefulSet` easier](https://istio.io/latest/blog/2021/statefulsets-made-easier/) to use in Istio 1.10 with zero-configuration.
+- We made various performance improvements to the Istio control plane and data plane via [discovery selectors](https://istio.io/latest/blog/2021/discovery-selectors/), sidecar resources etc.
+- We [introduced WebAssembly](https://istio.io/latest/blog/2021/wasm-progress/) as our extensibility platform which has helped users tailor Istio to their needs.
 - We beefed up our CVE management and release processes to meet enterprise needs.
 
 [Read more](https://istio.io/latest/blog/2020/tradewinds-2020/) about improvements to
@@ -43,23 +43,23 @@ like Salesforce, T-Mobile, and Airbnb, among others, to feature maintainers from
 ecosystem, and to share the [Istio project roadmap](https://www.youtube.com/watch?v=WmjTeN-jtdY).
 
 This inaugural community conference was a major success, with more than 4,000 registrants from 80
-countries that participated in this conference. The program was conducted on US and Asia time zones,
-and on English and Chinese languages to accommodate big user communities in various continents.
+countries participating. The program was conducted during US and Asia time zones,
+and in English and Chinese languages to accommodate big user communities in various continents.
 Learn more about the [impact](https://events.istio.io/istiocon-2021/slides/IstioCon2021-Report.pdf)
 of IstioCon and find the [presentations](https://events.istio.io/istiocon-2021/sessions/) on
 the conference website.
 
-## How to participate in Istio’s 4th Birthday celebration
+### How to participate in Istio’s 4th Birthday celebration
 
 Contributions are key to the long life of an open source project. This is why, on its 4th birthday,
 we want to hear about your contributions to the Istio project. To participate in this campaign,
-share on Twitter a contribution you made to the project and why it matters, using the hashtag
-#IstioTurns4 and #IstioBirthday. You can submit posts from Monday, May 24th at 9 am PT, until
+share on Twitter a contribution you made to the project and why it matters, using the hashtag #IstioTurns4
+and #IstioBirthday. You can submit posts from Monday, May 24th at 9 am PT, until
 Friday, May 28th, at 12pm PT, to enter a chance to win some Istio swag.
 
 The other way of participating in this campaign is by joining the Isito community meetup, which
 will take place on Thursday, May 27th at 10 am PT. At this event, we will have Pratima Nambiar
-present about contributions that stem from using Isito in production at Salesforce. Join the event,
+discuss contributions that have stemmed from using Isito in production at Salesforce. Join the event,
 and ask a question or make a comment on the demo, and enter a chance to win some Istio swag.
 
 {{< image link="./2.png" caption="Istio Community Meetup!" >}}
