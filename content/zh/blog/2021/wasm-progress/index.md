@@ -24,7 +24,7 @@ keywords: [wasm,extensibility,WebAssembly]
 
 ## `wasm-extensions` 的生态系统库
 
-作为 Envoy Wasm 运行时的早期采集者，Istio 扩展和遥测工作组在开发扩展方面获得了很多经验。我们构建了几个一流的扩展，包括 [原数据交换](/docs/reference/config/proxy_extensions/metadata_exchange/)，[Prometheus 统计](/docs/reference/config/proxy_extensions/stats/)和 [属性生成器](/docs/reference/config/proxy_extensions/attributegen/)。
+作为 Envoy Wasm 运行时的早期采用者，Istio 扩展和遥测工作组在开发扩展方面获得了很多经验。我们构建了几个一流的扩展，包括 [原数据交换](/docs/reference/config/proxy_extensions/metadata_exchange/)，[Prometheus 统计](/docs/reference/config/proxy_extensions/stats/)和 [属性生成器](/docs/reference/config/proxy_extensions/attributegen/)。
 为了更广泛地分享我们的知识，我们在 `istio-ecosystem` git 组织下面创建了一个 [`wasm-extensions` 仓库](https://github.com/istio-ecosystem/wasm-extensions)。这个仓库有 2 个目的：
 
 * 它提供了典型的扩展示例，包括几个高要求的功能（比如 [基本身份验证](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth)）。
