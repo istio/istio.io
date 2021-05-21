@@ -126,8 +126,8 @@ you will apply a rule to mirror a portion of traffic to `v2`.
         spec:
           containers:
           - name: sleep
-            image: tutum/curl
-            command: ["/bin/sleep","infinity"]
+            image: curlimages/curl
+            command: ["/bin/sleep","3650d"]
             imagePullPolicy: IfNotPresent
     EOF
     {{< /text >}}
