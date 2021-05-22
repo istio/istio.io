@@ -48,3 +48,11 @@ Istio contains a remotely exploitable vulnerability where an HTTP request path w
 - **Fixed** the Kubernetes API server so it is now considered to be cluster-local by default . This means that any pod attempting to reach `kubernetes.default.svc` will always be directed to the in-cluster server. [Issue 31340](https://github.com/istio/istio/issues/31340)
 
 - **Fixed** Istio operator to prune resources that do not belong to the specific Istio operator CR. [Issue 30833](https://github.com/istio/istio/issues/30833)
+
+## Breaking Changes
+
+As part of the fixes for [ISTIO-SECURITY-2021-006](/news/security/istio-security-2021-006/), the [previously deprecated](/news/releases/1.8.x/announcing-1.8/upgrade-notes/#multicluster-global-stub-domain-deprecation) `.global` stub domain for multicluster will no longer work.
+
+This change can be temporarily disabled if desired by setting the environment variable `PILOT_ENABLE_LEGACY_AUTO_PASSTHROUGH=true` in Istiod. However, this is strongly discouraged, as it negates the fix to [ISTIO-SECURITY-2021-006](/news/security/istio-security-2021-006/).
+
+Please follow the [Multicluster Installation documentation](/docs/setup/install/multicluster/) for more information.
