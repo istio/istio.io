@@ -5,59 +5,10 @@ weight: 95
 keywords: [mysql,mtls]
 ---
 
-You may find MySQL can't connect after installing Istio. This is because of `PERMISSIVE` mode,
-which is enabled in the `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/),
-does not work with MySQL.
+You may find MySQL can't connect after installing Istio. This is because MySQL is a [server first](/docs/ops/deployment/requirements/#server-first-protocols) protocol,
+which can interfere with Istio's protocol detection. In particular, using `PERMISSIVE` mTLS mode, may cause issues.
 You may see error messages such as `ERROR 2013 (HY000): Lost connection to MySQL server at
 'reading initial communication packet', system error: 0`.
 
-There have two options to solve the problem.
-
-1. Disable Mutual TLS.
-
-    Choose this option if you don't want Istio mutual TLS. You achieve this by disabling mutual TLS on the MySQL
-    service explicitly.
-
-    {{< text syntax="bash" >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
-    kind: PeerAuthentication
-    metadata:
-      name: mysql-nomtls-peerauthn
-    spec:
-      selector:
-        matchLabels:
-          app: <YOUR-MYSQL-SERVICE>     # The label of *your* K8s Service
-      mtls:
-        mode: DISABLE
-    EOF
-    {{< /text >}}
-
-1. Enable mutual TLS in STRICT mode.
-
-    If you want mutual TLS protection for MySQL, enable mutual TLS using a destination rule and an authentication policy.
-
-    {{< text syntax="bash" >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
-    kind: PeerAuthentication
-    metadata:
-      name: mysql-mtls-peerauthn
-    spec:
-      selector:
-        matchLabels:
-          app: <YOUR-MYSQL-SERVICE>     # The label of *your* K8s Service
-      mtls:
-        mode: STRICT
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: mysql-mtls-dr
-    spec:
-      host: YOUR-MYSQL-SERVICE     # The name of *your* K8s Service
-      trafficPolicy:
-        tls:
-          mode: ISTIO_MUTUAL
-    EOF
-    {{< /text >}}
+This can be fixed by ensuring `STRICT` or `DISABLE` mode is used, or that all clients are configured
+to send mTLS. See [server first protocols](/docs/ops/deployment/requirements/#server-first-protocols) for more information.

@@ -23,7 +23,7 @@ test: no
 cert-manager 可用于向 Kubernetes 写入 Secret 秘钥，Gateway 可以引用该秘钥。首先，请按照 [cert-manager 文档](https://cert-manager.io/docs/usage/certificate/)中的说明配置 `Certificate` 资源。`Certificate` 应该创建在与 `istio-ingressgateway` Deployment 相同的命名空间。例如， 一个 `Certificate` 可能看起来像下边这样：
 
 {{< text yaml >}}
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: ingress-cert

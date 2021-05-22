@@ -4,9 +4,10 @@ linkTitle: "Bol.com Scales Up Ecommerce with Istio"
 quote: "Istio deployment is a no-brainer. You install it and it runs."
 author:
     name: "Roland Kool"
+    image: "/img/authors/roland-kool.png"
 companyName: "bol.com"
 companyURL: "https://bol.com/"
-logo: "/logos/bol-com.svg"
+logo: "/logos/bol-com.png"
 skip_toc: true
 skip_byline: true
 skip_pagenav: true
