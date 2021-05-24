@@ -20,7 +20,7 @@ If you wanted to upgrade the data-plane proxies for a particular namespace, you 
 
 [In Istio 1.10](/news/releases/1.10.x/announcing-1.10/), we've improved revision-based upgrades with a new feature called _[revision tags](/docs/setup/upgrade/canary/#stable-revision-labels-experimental)_. A revision tag reduces the number of changes an operator has to make to use revisions, and safely upgrade an Istio control plane. You use the tag as the label for your namespaces, and assign a revision to that tag. This means you don't have to change the labels on a namespace while upgrading, and minimizes the number of manual steps and configuration changes.
 
-For example, you can define a tag named `prod-stable` and point it to the `1-9-5` revision of a control plane. You can also define another tag named `prod-canary` which points to the `1-10-0` revision. You may have a lot of important namespaces in your cluster, and you can label those namespaces with `istio.io/rev=prod-stable`. In other namespaces you may be willing to test the new version of Istio, and you can label that namespace `istio.io/rev=prod-canary`. The tag will indirectly associate those namespaces with the `1-9-5` revision for `prod-stable` and `1-10-0` for `prod-canary` respectively. 
+For example, you can define a tag named `prod-stable` and point it to the `1-9-5` revision of a control plane. You can also define another tag named `prod-canary` which points to the `1-10-0` revision. You may have a lot of important namespaces in your cluster, and you can label those namespaces with `istio.io/rev=prod-stable`. In other namespaces you may be willing to test the new version of Istio, and you can label that namespace `istio.io/rev=prod-canary`. The tag will indirectly associate those namespaces with the `1-9-5` revision for `prod-stable` and `1-10-0` for `prod-canary` respectively.
 
 {{< image link="./tags.png" caption="Stable revision tags" >}}
 
@@ -88,8 +88,8 @@ If you list out the tags in your mesh, you will see two stable tags pointing to 
 $ istioctl x revision tag list
 
 TAG         REVISION NAMESPACES
-prod-stable 1-9-5
-prod-canary 1-10-0
+prod-stable 1-9-5    istioinaction
+prod-canary 1-10-0   istioinaction-canary
 {{< /text >}}
 
 Any of the namespaces that you have labeled with `istio.io/rev=prod-canary` will be injected by the control plane that corresponds to the `prod-canary` stable tag name (which in this example points to the `1-10-0` revision). When you're ready, you can switch the `prod-stable` tag to the new control plane with:
@@ -98,7 +98,7 @@ Any of the namespaces that you have labeled with `istio.io/rev=prod-canary` will
 $ istioctl x revision tag set prod-stable --revision 1-10-0 --overwrite
 {{< /text >}}
 
-Any time you switch a tag to point to a new revision, you should restart the workloads in any respective namespace to pick up the new revision's proxy. 
+Any time you switch a tag to point to a new revision, you should restart the workloads in any respective namespace to pick up the new revision's proxy.
 
 When both the `prod-stable` and `prod-canary` tags both point to the same new revision, it may be safe to remove the old revision like the following:
 
