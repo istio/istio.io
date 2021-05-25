@@ -20,7 +20,6 @@ This guide requires the Istio control plane [to be installed](/docs/setup/instal
 
 To support users that already utilize existing deployment tools, we provide a few different ways to deploy a gateway.
 Each method will result in the same outcome; we recommend choosing the method you are most familiar with.
-If you are not sure which to choose, we suggest the [Simple YAML](/docs/setup/additional-setup/gateway/#tabset-docs-setup-additional-setup-gateway-1-0-tab) method.
 
 As a security best practice, it is recommended to deploy the gateway in a different namespace from the control plane.
 
@@ -31,90 +30,6 @@ This makes the experience of operating a gateway deployment the same as operatin
 
 {{< tabset category-name="gateway-install-type" >}}
 
-{{< tab name="Simple YAML" category-value="yaml" >}}
-
-First, setup the Kubernetes configuration, called `ingress.yaml` here:
-
-{{< text yaml >}}
-apiVersion: v1
-kind: Service
-metadata:
-  name: istio-ingressgateway
-  namespace: istio-ingress
-spec:
-  type: LoadBalancer
-  selector:
-    istio: ingressgateway
-  ports:
-  - port: 80
-    name: http
-  - port: 443
-    name: https
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: istio-ingressgateway
-  namespace: istio-ingress
-spec:
-  selector:
-    matchLabels:
-      istio: ingressgateway
-  template:
-    metadata:
-      annotations:
-        # Enable gateway injection
-        inject.istio.io/templates: gateway
-      labels:
-        # Set a unique label for the gateway. This is required to ensure Gateways
-        # can select this workload
-        istio: ingressgateway
-        # Enable gateway injection. If connecting to a revisioned control plane, replace with
-        # istio.io/rev: revision-name
-        sidecar.istio.io/inject: "true"
-    spec:
-      containers:
-      - name: istio-proxy
-        image: auto # The image will automatically update each time the pod starts.
----
-# Set up roles to allow reading credentials for TLS
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: istio-ingressgateway-sds
-  namespace: istio-ingress
-rules:
-- apiGroups: [""]
-  resources: ["secrets"]
-  verbs: ["get", "watch", "list"]
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: istio-ingressgateway-sds
-  namespace: istio-ingress
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: istio-ingressgateway-sds
-subjects:
-- kind: ServiceAccount
-  name: default
-{{< /text >}}
-
-Next, apply it to the cluster:
-
-{{< text bash >}}
-$ kubectl create namespace istio-ingress
-$ kubectl apply -f ingress.yaml
-{{< /text >}}
-
-{{< tip >}}
-The example above enables injection on the pod. This can also be controlled at the namespace level.
-See [Controlling the injection policy](/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) for more information.
-{{< /tip >}}
-
-{{< /tab >}}
 {{< tab name="IstioOperator" category-value="iop" >}}
 
 A call to `istioctl install` with [default settings](/docs/setup/install/istioctl/#install-istio-using-the-default-profile) will deploy a gateway by default.
@@ -178,6 +93,94 @@ Then install using standard `helm` commands:
 $ kubectl create namespace istio-ingress
 $ helm install istio-ingress manifests/charts/gateways/istio-ingress -n istio-ingress -f values.yaml
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Kubernetes YAML" category-value="yaml" >}}
+
+First, setup the Kubernetes configuration, called `ingress.yaml` here:
+
+{{< text yaml >}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: istio-ingressgateway
+  namespace: istio-ingress
+spec:
+  type: LoadBalancer
+  selector:
+    istio: ingressgateway
+  ports:
+  - port: 80
+    name: http
+  - port: 443
+    name: https
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: istio-ingressgateway
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  template:
+    metadata:
+      annotations:
+        # Select the gateway injection template (rather than the default sidecar template)
+        inject.istio.io/templates: gateway
+      labels:
+        # Set a unique label for the gateway. This is required to ensure Gateways can select this workload
+        istio: ingressgateway
+        # Enable gateway injection. If connecting to a revisioned control plane, replace with "istio.io/rev: revision-name"
+        sidecar.istio.io/inject: "true"
+    spec:
+      containers:
+      - name: istio-proxy
+        image: auto # The image will automatically update each time the pod starts.
+---
+# Set up roles to allow reading credentials for TLS
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: istio-ingressgateway-sds
+  namespace: istio-ingress
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: istio-ingressgateway-sds
+  namespace: istio-ingress
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: istio-ingressgateway-sds
+subjects:
+- kind: ServiceAccount
+  name: default
+{{< /text >}}
+
+{{< tip >}}
+This example shows a bare minimum example to get a gateway running. For production usage, additional
+configuration such as Horizontal Pod Autoscaler, Pod Disruption Budget, and resource requests/limits are recommended.
+{{< /tip >}}
+
+Next, apply it to the cluster:
+
+{{< text bash >}}
+$ kubectl create namespace istio-ingress
+$ kubectl apply -f ingress.yaml
+{{< /text >}}
+
+{{< tip >}}
+The example above enables injection on the pod. This can also be controlled at the namespace level.
+See [Controlling the injection policy](/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) for more information.
+{{< /tip >}}
 
 {{< /tab >}}
 
@@ -246,7 +249,7 @@ If you would like to change the [control plane revision](/docs/setup/upgrade/can
 
 {{< image width="50%" link="inplace-upgrade.svg" caption="In place upgrade in progress" >}}
 
-### Canary upgrade
+### Canary upgrade (advanced)
 
 This upgrade method depends on using [control plane revisions](/docs/setup/upgrade/canary/).
 
@@ -292,5 +295,13 @@ If you use another load balancer in front of Istio, you may also use that to con
 
 {{< warning >}}
 Because other installation methods bundle the gateway Service, which controls its external IP address, with the gateway Deployment,
-only the [Simple YAML](/docs/setup/additional-setup/gateway/#tabset-docs-setup-additional-setup-gateway-1-0-tab) method is supported for this upgrade method.
+only the [Kubernetes YAML](/docs/setup/additional-setup/gateway/#tabset-docs-setup-additional-setup-gateway-1-2-tab) method is supported for this upgrade method.
 {{< /warning >}}
+
+### Canary upgrade with external traffic shifting (advanced)
+
+A variant of this the [Canary upgrade](#canary-upgrade) approach is to shift the traffic between the versions using a high level construct outside Istio, such as an external load balancer or DNS.
+
+{{< image width="50%" link="high-level-canary.svg" caption="Canary upgrade in progress with external traffic shifting" >}}
+
+This offers fine-grained control, but may be unsuitable or complicated to setup in some environments.
