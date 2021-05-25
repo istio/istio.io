@@ -140,7 +140,10 @@ netlify: netlify_install
 update_ref_docs:
 	@scripts/grab_reference_docs.sh $(SOURCE_BRANCH_NAME)
 
-update_all: update_ref_docs update_examples
+update_test_reference:
+	@go get istio.io/istio@$(SOURCE_BRANCH_NAME) && go mod tidy
+
+update_all: update_ref_docs update_test_reference
 
 foo2:
 	hugo version
@@ -200,4 +203,4 @@ test_status:
 
 include common/Makefile.common.mk
 
-.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_examples update_all
+.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_all
