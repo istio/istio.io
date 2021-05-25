@@ -1,6 +1,6 @@
 ---
-title: "Istio control plane canary with revisions and tags"
-description: Learn how to take more control over your Istio control-plane upgrades.
+title: "Safely upgrade the Istio control plane with revisions and tags"
+description: Learn how to perform canary upgrades of your mesh control plane.
 publishdate: 2021-05-26
 attribution: "Christian Posta (Solo.io), Lin Sun (Solo.io), Sam Naser (Google)"
 keywords: [upgrades,revisions,operations,canary]
