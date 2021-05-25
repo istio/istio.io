@@ -437,3 +437,6 @@ users:
   - name: "Zendesk"
     logo: "/logos/zendesk.svg"
     url: "https://www.zendesk.com/"
+  - name: "Jetstack"
+    logo: "/logos/jetstack-logo.png"
+    url: "https://jetstack.io/"
