@@ -51,7 +51,7 @@ You can list the tags in your mesh with the following:
 $ istioctl x revision tag list
 
 TAG         REVISION NAMESPACES
-prod-stable 1-9-5
+prod-stable 1-9-5    istioinaction
 {{< /text >}}
 
 A tag is implemented with a `MutatingWebhookConfiguration`. You can verify a corresponding `MutatingWebhookConfiguration` has been created:
@@ -100,7 +100,7 @@ $ istioctl x revision tag set prod-stable --revision 1-10-0 --overwrite
 
 Any time you switch a tag to point to a new revision, you will need to restart the workloads in any respective namespace to pick up the new revision's proxy.
 
-When both the `prod-stable` and `prod-canary` no longer point to the old revision, it may be safe to remove the old revision like the following:
+When both the `prod-stable` and `prod-canary` no longer point to the old revision, it may be safe to remove the old revision as follows:
 
 {{< text bash >}}
 $ istioctl x uninstall --revision 1-9-5
