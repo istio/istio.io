@@ -1,5 +1,5 @@
 ---
-title: 移除跨 pod Unix Domain Socket
+title: 移除跨 Pod Unix Domain Socket
 description: 一种更安全的秘密管理方式。
 publishdate: 2020-02-20
 attribution: Lei Tang (Google)
