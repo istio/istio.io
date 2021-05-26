@@ -60,4 +60,4 @@ $ istioctl x revision tag set prod --revision 1-8-5
 
 Then after triggering another rollout your workloads will be back on the old version.
 
-We look forward to hearing about your experience with Direct Upgrades, and look forward to improving and expanding this functionality in the future.
+We look forward to hearing about your experience with direct upgrades, and look forward to improving and expanding this functionality in the future.
