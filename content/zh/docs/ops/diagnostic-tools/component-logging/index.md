@@ -16,7 +16,7 @@ Istio 组件使用一个灵活的日志框架来构建，该框架提供了许�
 
 组件输出的日志信息按 `作用域` 分类，一个作用域代表可以被控制的相关日志信息的整体。根据组件提供的功能，不同的组件具有不同的作用域。所有组件都有 `default` 作用域，该作用域用于未分类的日志信息。
 
-例如，截至目前，`istioctl'有 25 个作用域，代表命令中的不同功能区域：
+例如，截至目前，`istioctl` 有 25 个作用域，代表命令中的不同功能区域：
 
 - `ads`，`adsc`，`all`，`analysis`，`authn`，`authorization`，`ca`，`cache`，`cli`，`default`，`installer`，`klog`，`mcp`，`model`，`patch`，`processing`，`resource`，`source`，`spiffe`，`tpath`，`translator`，`util`，`validation`，`validationController`，`wle`
 
