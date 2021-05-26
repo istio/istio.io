@@ -1,6 +1,6 @@
 ---
-title: 使用 Cert-Manager 部署一个自定义 Ingress 网关
-description: 如何使用 Cert-Manager 手工部署一个自定义 Ingress 网关。
+title: 使用 cert-manager 部署一个自定义 Ingress 网关
+description: 如何使用 cert-manager 手工部署一个自定义 Ingress 网关。
 subtitle: 自定义 Ingress 网关
 publishdate: 2019-01-10
 keywords: [ingress,traffic-management]
@@ -8,7 +8,7 @@ attribution: Julien Senon
 target_release: 1.0
 ---
 
-本文介绍了手工创建自定义 Ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 的过程，其中使用 Cert-Manager 完成了证书的自动管理。
+本文介绍了手工创建自定义 Ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 的过程，其中使用 cert-manager 完成了证书的自动管理。
 
 自定义 Ingress 网关在使用不同负载均衡器来隔离通信的情况下很有帮助。
 
@@ -20,7 +20,7 @@ target_release: 1.0
 
 ## 配置自定义 Ingress 网关{#configuring-the-custom-ingress-gateway}
 
-1. 用下面的 `helm` 命令检查 [Cert-Manager](https://github.com/helm/charts/tree/master/stable/cert-manager) 是否已经完成部署：
+1. 用下面的 `helm` 命令检查 [cert-manager](https://github.com/helm/charts/tree/master/stable/cert-manager) 是否已经完成部署：
 
     {{< text bash >}}
     $ helm ls
