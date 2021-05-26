@@ -137,11 +137,6 @@ Because TLS communication is not server first, TLS encrypted server first traffi
 1. Configure all clients to send `TLS` traffic, generally through a [`DestinationRule`](/docs/reference/config/networking/destination-rule/#ClientTLSSettings) or by relying on auto mTLS.
 1. Configure your application to send TLS traffic directly.
 
-## Application Bind Address
-
-When Istio captures inbound traffic, it will redirect it to the `localhost` address. As a result, applications should bind to
-wildcard (`0.0.0.0` for IPv4 or `::` for IPv6). Applications listening on their pod IP will need to be modified.
-
 ## Outbound traffic
 
 In order to support Istio's traffic routing capabilities, traffic leaving a pod may be routed differently than
