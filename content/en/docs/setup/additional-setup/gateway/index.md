@@ -300,8 +300,8 @@ only the [Kubernetes YAML](/docs/setup/additional-setup/gateway/#tabset-docs-set
 
 ### Canary upgrade with external traffic shifting (advanced)
 
-A variant of this the [Canary upgrade](#canary-upgrade) approach is to shift the traffic between the versions using a high level construct outside Istio, such as an external load balancer or DNS.
+A variant of the [Canary upgrade](#canary-upgrade) approach is to shift the traffic between the versions using a high level construct outside Istio, such as an external load balancer or DNS.
 
 {{< image width="50%" link="high-level-canary.svg" caption="Canary upgrade in progress with external traffic shifting" >}}
 
-This offers fine-grained control, but may be unsuitable or complicated to setup in some environments.
+This offers fine-grained control, but may be unsuitable or complicated to set up in some environments.
