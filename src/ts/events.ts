@@ -127,10 +127,33 @@ function handleEvents(): void {
         }
     }
 
+    const banner = getByClass("banner-container");
+    function toggleActiveHeader(): void {
+        const top = window.scrollY;
+
+        if (!banner) {
+            return;
+        }
+
+        if (top >= 10) {
+            banner[0].classList.add("active");
+        } else {
+            banner[0].classList.remove("active");
+        }
+    }
+
     loadRemainingEventImpressions();
     displayEvents("banner");
     displayEvents("sticker");
     saveRemainingEventImpressions();
+
+    if (document.readyState !== "loading") {
+        toggleActiveHeader();
+    }
+
+    listen(window, "scroll", () => {
+        toggleActiveHeader();
+    });
 }
 
 handleEvents();

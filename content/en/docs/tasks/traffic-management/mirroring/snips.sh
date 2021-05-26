@@ -112,8 +112,8 @@ spec:
     spec:
       containers:
       - name: sleep
-        image: tutum/curl
-        command: ["/bin/sleep","infinity"]
+        image: curlimages/curl
+        command: ["/bin/sleep","3650d"]
         imagePullPolicy: IfNotPresent
 EOF
 }
@@ -208,7 +208,8 @@ spec:
     mirror:
       host: httpbin
       subset: v2
-    mirrorPercent: 100
+    mirrorPercentage:
+      value: 100.0
 EOF
 }
 

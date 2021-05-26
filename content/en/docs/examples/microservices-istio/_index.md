@@ -2,7 +2,6 @@
 title: Learn Microservices using Kubernetes and Istio
 description: This modular tutorial provides new users with hands-on experience using Istio for common microservices scenarios, one step at a time.   
 weight: 100
-icon: classroom
 simple_list: true
 content_above: true
 test: n/a

@@ -87,6 +87,12 @@ features:
        maturity: Alpha
        nextExpectedPromotion: ""
     area: Traffic Management
+  - name: "Kubernetes Multi-Cluster Service (MCS) Discovery"
+    level:
+      checklist: features/kubernetes_mcs.md
+      maturity: Experimental
+      nextExpectedPromotion: "1.11"
+    area: Traffic Management
   - name: "Prometheus Integration"
     link: "/docs/tasks/observability/metrics/querying-metrics/"
     level:
@@ -263,7 +269,8 @@ features:
   - name: "IPv6 Support for Kubernetes"
     level:
       checklist: ""
-      maturity: Alpha. Dual-stack IPv4 and IPv6 is not supported.
+      maturity: Alpha
+      maturityNotes: Dual-stack IPv4 and IPv6 is not supported.
       nextExpectedPromotion: ""
     area: Core
   - name: "Distroless Base Images for Istio"

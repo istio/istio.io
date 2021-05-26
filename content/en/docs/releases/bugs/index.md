@@ -8,7 +8,6 @@ aliases:
     - /help/bugs/
     - /about/bugs
     - /latest/about/bugs
-icon: bugs
 owner: istio/wg-docs-maintainers
 test: n/a
 ---

@@ -162,8 +162,8 @@ on a per-pod basis, by configuring the `sidecar.istio.io/inject` label on a pod:
 If you are using [control plane revisions](/docs/setup/upgrade/canary/), revision specific labels are instead used by a matching `istio.io/rev` label.
 For example, for a revision named `canary`:
 
-| Resource |Enabled label | Disabled label |
-| -------- | ----- | ------------- | -------------- |
+| Resource | Enabled label | Disabled label |
+| -------- | ------------- | -------------- |
 | Namespace | `istio.io/rev=canary` | `istio-injection=disabled` |
 | Pod | `istio.io/rev=canary` | `sidecar.istio.io/inject="false"` |
 
@@ -221,7 +221,7 @@ In general, any field in a pod can be set. However, care must be taken for certa
 
 Additionally, certain fields are configurable by [annotations](/docs/reference/config/annotations/) on the pod, although it is recommended to use the above approach to customizing settings.
 
-### Custom templates [experimental]
+### Custom templates (experimental)
 
 {{< warning >}}
 This feature is experimental and subject to change, or removal, at any time.

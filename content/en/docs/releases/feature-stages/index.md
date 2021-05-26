@@ -9,7 +9,6 @@ aliases:
     - /docs/home/roadmap.html
     - /about/feature-stages
     - /latest/about/feature-stages
-icon: feature-status
 owner: istio/wg-docs-maintainers
 test: n/a
 ---
@@ -65,5 +64,5 @@ Experimental features are purposefully not listed on this page.
 {{< features section="Core" >}}
 
 {{< idea >}}
-Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!
+Please get in touch by [joining our community](/get-involved/) if there are features you'd like to see in our future releases!
 {{< /idea >}}

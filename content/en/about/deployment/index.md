@@ -10,7 +10,6 @@ aliases:
     - /deployment.html
 doc_type: about
 ---
-[comment]: <> (TODO: Replace placeholders)
 
 {{< centered_block >}}
 

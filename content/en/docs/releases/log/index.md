@@ -5,7 +5,6 @@ weight: 110
 aliases:
     - /about/log
     - /latest/about/log
-icon: log
 skip_seealso: true
 skip_byline: true
 owner: istio/wg-docs-maintainers

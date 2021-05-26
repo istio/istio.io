@@ -73,7 +73,6 @@ export ISTIO_VERSION=${TAG}
 echo "TAG=${TAG}"
 echo "VERSION=${VERSION}"
 echo "ISTIO_VERSION=${ISTIO_VERSION}"
-make gen-charts
 if [ -z "$IN_BUILD_CONTAINER" ]
 then
   make "$ISTIOCTL_ARTIFACT"

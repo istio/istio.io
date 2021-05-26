@@ -126,8 +126,8 @@ you will apply a rule to mirror a portion of traffic to `v2`.
         spec:
           containers:
           - name: sleep
-            image: tutum/curl
-            command: ["/bin/sleep","infinity"]
+            image: curlimages/curl
+            command: ["/bin/sleep","3650d"]
             imagePullPolicy: IfNotPresent
     EOF
     {{< /text >}}
@@ -231,7 +231,8 @@ log entries for `v1` and none for `v2`:
         mirror:
           host: httpbin
           subset: v2
-        mirrorPercent: 100
+        mirrorPercentage:
+          value: 100.0
     EOF
     {{< /text >}}
 
@@ -244,7 +245,7 @@ log entries for `v1` and none for `v2`:
     Also, it is important to note that these requests are mirrored as "fire and
     forget", which means that the responses are discarded.
 
-    You can use the `mirrorPercent` field to mirror a fraction of the traffic,
+    You can use the `value` field under the `mirrorPercentage` field to mirror a fraction of the traffic,
     instead of mirroring all requests. If this field is absent, all traffic will be mirrored.
 
 1. Send in traffic:

@@ -2,7 +2,6 @@
 title: Before you begin
 description: Initial steps before configuring locality load balancing.
 weight: 1
-icon: tasks
 keywords: [locality,load balancing,priority,prioritized,kubernetes,multicluster]
 test: yes
 owner: istio/wg-networking-maintainers

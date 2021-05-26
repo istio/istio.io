@@ -2,7 +2,6 @@
 title: Setup
 description: Instructions for installing the Istio control plane on Kubernetes.
 weight: 15
-icon: setup
 aliases:
     - /docs/tasks/installing-istio.html
     - /docs/setup/install-kubernetes.html

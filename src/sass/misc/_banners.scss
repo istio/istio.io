@@ -1,6 +1,12 @@
 .banner-container {
     display: none;
     top: $headerHeight;
+    transition: top .2s;
+
+    &.active {
+        top: $activeHeaderHeight;
+    }
+
     @media screen AND (min-width: $bp-md) {
         display: block;
         position: fixed;

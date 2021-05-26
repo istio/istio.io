@@ -1,14 +1,16 @@
 ---
 title: Ecosystem
-description: Ecosystem.
+description: A list of Istio providers, professional services companies and integrations.
 subtitle: The array of providers who install and manage Istio, professional services, and integrations can help you get the most out of your service mesh.
 weight: 34
 skip_toc: true
 skip_byline: true
 skip_pagenav: true
+aliases:
+    - /about/community/partners/
+    - /latest/about/community/partners/
 doc_type: about
 ---
-[comment]: <> (TODO: Replace placeholders)
 
 {{< tabset category-name="ecosystem-type" class="tabset--ecosystem" forget-tab=true >}}
 
