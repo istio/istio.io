@@ -6,18 +6,18 @@ attribution: "Mitch Connors (Google), Sam Naser (Google)"
 keywords: [upgrade,Istio,revision]
 ---
 
-As Service Mesh technology moves from cutting edge to stable infrastructure many users have expressed an interest in upgrading their service mesh less frequently, as qualifying a new minor release can take a lot of time.  This can be especially difficult for users who don’t keep up with new releases, as Istio has not supported upgrades across multiple minor versions.  To upgrade from `1.6.x` to `1.8.x`, users first had to upgrade to `1.7.x`.
+As Service Mesh technology moves from cutting edge to stable infrastructure, many users have expressed an interest in upgrading their service mesh less frequently, as qualifying a new minor release can take a lot of time. Upgrading can be especially difficult for users who don’t keep up with new releases, as Istio has not supported upgrades across multiple minor versions.  To upgrade from `1.6.x` to `1.8.x`, users first had to upgrade to `1.7.x` and then to `1.8.x`.
 
-With the release of Istio 1.10, we are announcing (Alpha|Experimental) level support for upgrading directly from Istio `1.8.x` to `1.10.x`, without upgrading to `1.9.x`.  We hope this will reduce the operational burden of running Istio, in keeping with our 2021 theme of improving Day 2 User Experience.
+With the release of Istio 1.10, we are announcing Alpha level support for upgrading directly from Istio `1.8.x` to `1.10.x`, without upgrading to `1.9.x`.  We hope this will reduce the operational burden of running Istio, in keeping with our 2021 theme of improving Day 2 Operations.
 
 ## Upgrade From 1.8 to 1.10
 
 For direct upgrades we recommend using the canary upgrade method so that control plane functionality can be verified before cutting workloads over to the new version. We’ll also be using revision tags in this guide, an improvement to canary upgrades that was introduced in 1.10 to allow users to label their namespaces once with stable identifiers.
 
-First, create a revision tag stable pointed to the 1.8 revision (from here on out let’s assume this revision is called `1-8-5`). To do this, run:
+First, using a version `1.10` or newer `istioctl`, create a revision tag `stable` pointed to your existing `1.8` revision. From now on let’s assume this revision is called `1-8-5`:
 
 {{< text bash >}}
-$ istioctl110 x revision tag set stable --revision 1-8-5
+$ istioctl x revision tag set stable --revision 1-8-5
 {{< /text >}}
 
 If your 1.8 installation did not have an associated revision, we can create this revision tag with:
@@ -29,35 +29,35 @@ $ istioctl x revision tag set stable --revision default
 Now, relabel your namespaces that were previously labeled with `istio-injection=enabled` or `istio.io/rev=<REVISION>` with `istio.io/rev=stable`. Download the Istio 1.10.0 release and install the new control plane with a revision:
 
 {{< text bash >}}
-$ istioctl110 install --revision 1-10-0 -y
+$ istioctl install --revision 1-10-0 -y
 {{< /text >}}
 
 Now evaluate that the `1.10` revision has come up correctly and is healthy. Once satisfied with the stability of new revision you can move the revision tag to point to the new revision:
 
 {{< text bash >}}
-$ istioctl110 x revision tag set stable --revision 1-10-0 --overwrite
+$ istioctl x revision tag set stable --revision 1-10-0 --overwrite
 {{< /text >}}
 
-Verify that the revision tag stable is pointing to the new revision:
+Verify that the revision tag `stable` is pointing to the new revision:
 
 {{< text bash >}}
-$ istioctl110 x revision tag list
+$ istioctl x revision tag list
 TAG    REVISION NAMESPACES
 stable 1-10-0        ...
 {{< /text >}}
 
-Once prepared to move existing workloads over to the new 1.10 revision the sidecar proxies use the new control plane version the workloads must be restarted. We can go through namespaces one by one and roll the workloads over to the new version:
+Once prepared to move existing workloads over to the new 1.10 revision the workloads must be restarted so that the sidecar proxies will use the new control plane. We can go through namespaces one by one and roll the workloads over to the new version:
 
 {{< text bash >}}
 $ kubectl rollout restart deployments -n …
 {{< /text >}}
 
-Notice an issue after rolling over to the new Istio version? No problem! Since you’re using canary upgrades the old control plane is still hanging around and we can just switch back over.
+Notice an issue after rolling out workloads to the new Istio version? No problem! Since you’re using canary upgrades the old control plane is still running and we can just switch back over.
 
 {{< text bash >}}
-$ istioctl110 x revision tag set prod --revision 1-8-5
+$ istioctl x revision tag set prod --revision 1-8-5
 {{< /text >}}
 
-And then trigger a rollout to get your workloads back on the old version.
+Then after triggering another rollout your workloads will be back on the old version.
 
 We look forward to hearing about your experience with Direct Upgrades, and look forward to improving and expanding this functionality in the future.
