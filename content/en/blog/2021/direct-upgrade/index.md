@@ -32,7 +32,7 @@ Now, relabel your namespaces that were previously labeled with `istio-injection=
 $ istioctl install --revision 1-10-0 -y
 {{< /text >}}
 
-Now evaluate that the `1.10` revision has come up correctly and is healthy. Once satisfied with the stability of new revision you can move the revision tag to point to the new revision:
+Now evaluate that the `1.10` revision has come up correctly and is healthy. Once satisfied with the stability of new revision you can set the revision tag to the new revision:
 
 {{< text bash >}}
 $ istioctl x revision tag set stable --revision 1-10-0 --overwrite
@@ -46,18 +46,18 @@ TAG    REVISION NAMESPACES
 stable 1-10-0        ...
 {{< /text >}}
 
-Once prepared to move existing workloads over to the new 1.10 revision the workloads must be restarted so that the sidecar proxies will use the new control plane. We can go through namespaces one by one and roll the workloads over to the new version:
+Once prepared to move existing workloads over to the new 1.10 revision, the workloads must be restarted so that the sidecar proxies will use the new control plane. We can go through namespaces one by one and roll the workloads over to the new version:
 
 {{< text bash >}}
 $ kubectl rollout restart deployments -n …
 {{< /text >}}
 
-Notice an issue after rolling out workloads to the new Istio version? No problem! Since you’re using canary upgrades the old control plane is still running and we can just switch back over.
+Notice an issue after rolling out workloads to the new Istio version? No problem! Since you’re using canary upgrades, the old control plane is still running and we can just switch back over.
 
 {{< text bash >}}
 $ istioctl x revision tag set prod --revision 1-8-5
 {{< /text >}}
 
-Then after triggering another rollout your workloads will be back on the old version.
+Then after triggering another rollout, your workloads will be back on the old version.
 
 We look forward to hearing about your experience with direct upgrades, and look forward to improving and expanding this functionality in the future.
