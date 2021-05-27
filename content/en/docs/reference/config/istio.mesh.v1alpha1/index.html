@@ -2048,6 +2048,8 @@ This is different than a deep merge provided by protobuf.
 For example, <code>&quot;tracing&quot;: { &quot;sampling&quot;: 5 }</code> would completely override a setting configuring a tracing provider
 such as <code>&quot;tracing&quot;: { &quot;zipkin&quot;: { &quot;address&quot;: &quot;...&quot; } }</code>.</p>
 
+<p>Note: fields in ProxyConfig are not dynamically configured; changes will require restart of workloads to take effect.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
