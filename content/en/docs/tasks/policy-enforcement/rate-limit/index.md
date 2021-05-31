@@ -92,9 +92,9 @@ backend, is used below.
             listener:
               filterChain:
                 filter:
-                  name: "envoy.http_connection_manager"
+                  name: "envoy.filters.network.http_connection_manager"
                   subFilter:
-                    name: "envoy.router"
+                    name: "envoy.filters.http.router"
           patch:
             operation: INSERT_BEFORE
             # Adds the Envoy Rate Limit Filter in HTTP filter chain.
@@ -199,7 +199,7 @@ spec:
       listener:
         filterChain:
           filter:
-            name: "envoy.http_connection_manager"
+            name: "envoy.filters.network.http_connection_manager"
       patch:
         operation: INSERT_BEFORE
         value:
@@ -254,7 +254,7 @@ spec:
       listener:
         filterChain:
           filter:
-            name: "envoy.http_connection_manager"
+            name: "envoy.filters.network.http_connection_manager"
       patch:
         operation: INSERT_BEFORE
         value:
