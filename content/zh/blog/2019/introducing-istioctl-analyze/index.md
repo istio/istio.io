@@ -1,5 +1,5 @@
 ---
-title: Istioctl Analyze 介绍
+title: istioctl analyze 介绍
 description: 通过分析 Istio 配置来发现潜在问题和一般问题。
 publishdate: 2019-11-14
 subtitle:
