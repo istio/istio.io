@@ -88,7 +88,7 @@ Istio PKI 使用 X.509 证书为每个工作负载都提供强大的身份标识
 Istio 供应身份是通过 secret discovery service（SDS）来实现的，具体流程如下：
 
 1. `istiod` 提供 gRPC 服务以接受[证书签名请求](https://en.wikipedia.org/wiki/Certificate_signing_request)（CSRs）。
-1. 当工作负载启动时，Envoy 通过[秘密发现服务（SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)API 向同容器内的 `istio-agent` 发送证书和密钥请求。
+1. 当工作负载启动时，Envoy 通过[秘密发现服务（SDS）](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)API 向同容器内的 `istio-agent` 发送证书和密钥请求。
 1. 在收到 SDS 请求后，`istio-agent` 创建私钥和 CSR，然后将 CSR 及其凭据发送到  `istiod` CA 进行签名。
 1. `istiod` CA 验证 CSR 中携带的凭据，成功验证后签署 CSR 以生成证书。
 1. `Istio-agent` 通过 Envoy SDS API 将私钥和从 Istio CA 收到的证书发送给 Envoy。
