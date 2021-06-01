@@ -67,6 +67,7 @@ echo "${snip_proxyIstioConfig}" > proxyConfig.yaml
 unset IFS
 yq m -d2 samples/sleep/sleep.yaml proxyConfig.yaml > sleep_istioconfig.yaml
 kubectl apply -f sleep_istioconfig.yaml
+_wait_for_deployment default sleep
 POD="$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')"
 export POD
 _verify_contains snip_get_stats "circuit_breakers"
