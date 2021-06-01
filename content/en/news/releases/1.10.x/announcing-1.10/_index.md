@@ -1,6 +1,6 @@
 ---
 title: Announcing Istio 1.10
-linktitle: 1.10
+linktitle: "1.10"
 subtitle: Major Update
 description: Istio 1.10 release announcement.
 publishdate: 2021-05-18
