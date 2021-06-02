@@ -411,4 +411,4 @@ is applied and the right destination rules are in place.
 
 If you suspect the client side sidecar may send mutual TLS or plaintext traffic incorrectly, check the
 [Grafana Workload dashboard](/docs/ops/integrations/grafana/). The outbound requests are annotated whether mTLS
- is used or not. After checking this if you believe the client sidecars are mis-behaved, report an issue on Github.
+ is used or not. After checking this if you believe the client sidecars are misbehaved, report an issue on GitHub.
