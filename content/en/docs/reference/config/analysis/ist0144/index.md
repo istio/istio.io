@@ -52,7 +52,7 @@ spec:
 
 ## How to resolve
 
-Because the User ID (UID) `1337` is reserved for the sidecar proxy, you can use a different User ID (UID) eg: `1338` for your workload.
+Because the User ID (UID) `1337` is reserved for the sidecar proxy, you can use a different User ID (UID) such as `1338` for your workload.
 
 {{< text yaml >}}
 apiVersion: apps/v1
