@@ -18,15 +18,19 @@ This guide requires the Istio control plane [to be installed](/docs/setup/instal
 
 ## Installing the gateway with injection
 
-To support users that already utilize existing deployment tools, we provide a few different ways to deploy a gateway.
-Each method will result in the same outcome; we recommend choosing the method you are most familiar with.
+Using the same mechanisms as [Istio sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), the Envoy proxy configuration for gateways can similarly be auto-injected.
 
-As a security best practice, it is recommended to deploy the gateway in a different namespace from the control plane.
-
-Using the same mechanisms as [Istio sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), Istio allows the required
-options for gateways to run to be automatically injected.
-This enables developers to have full control over the gateway deployment, while simplifying operations - when a new upgrade is available, or a configuration has changed, gateway pods can simply be restarted to be updated.
+This gives developers full control over the gateway deployment, while also simplifying operations.
+When a new upgrade is available, or a configuration has changed, gateway pods can be updated by simply restarting them.
 This makes the experience of operating a gateway deployment the same as operating sidecars.
+
+To support users with existing deployment tools, Istio provides a few different ways to deploy a gateway.
+Each method will produce the same result.
+Choose the method you are most familiar with:
+
+{{< tip >}}
+As a security best practice, it is recommended to deploy the gateway in a different namespace from the control plane.
+{{< /tip >}}
 
 {{< tabset category-name="gateway-install-type" >}}
 
@@ -165,9 +169,12 @@ subjects:
   name: default
 {{< /text >}}
 
-{{< tip >}}
-This example shows a bare minimum example to get a gateway running. For production usage, additional
+This example shows the bare minimum needed to get a gateway running. For production usage, additional
 configuration such as Horizontal Pod Autoscaler, Pod Disruption Budget, and resource requests/limits are recommended.
+
+{{< tip >}}
+The `sidecar.istio.io/inject` label on the pod is used in this example to enable injection. Just like application sidecar injection, this can instead be controlled at the namespace level.
+See [Controlling the injection policy](/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) for more information.
 {{< /tip >}}
 
 Next, apply it to the cluster:
@@ -176,11 +183,6 @@ Next, apply it to the cluster:
 $ kubectl create namespace istio-ingress
 $ kubectl apply -f ingress.yaml
 {{< /text >}}
-
-{{< tip >}}
-The example above enables injection on the pod. This can also be controlled at the namespace level.
-See [Controlling the injection policy](/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) for more information.
-{{< /tip >}}
 
 {{< /tab >}}
 
@@ -193,11 +195,11 @@ the [Ingress](/docs/tasks/traffic-management/ingress/) and [Egress](/docs/tasks/
 
 ### Gateway selectors
 
-The labels chosen on the gateway pods are used by Gateway selectors, so it is important that your
-Gateway objects are configured to match these labels.
+The labels on a gateway deployment's pods are used by `Gateway` configuration resources, so it's important that
+your `Gateway` selector matches these labels.
 
-For example, in the deployments above we set the `istio=ingressgateway` label on the pods.
-To apply a Gateway to these deployments, we would select the same label:
+For example, in the above deployments, the `istio=ingressgateway` label is set on the gateway pods.
+To apply a `Gateway` to these deployments, you need to select the same label:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1beta1
@@ -213,8 +215,8 @@ spec:
 ### Gateway deployment topologies
 
 Depending on your mesh configuration and use cases, you may wish to deploy gateways in different ways.
-Below shows a few different patterns for gateway deployments.
-Note that multiple options can be utilized within the same cluster.
+A few different gateway deployment patterns are shown below.
+Note that more than one of these patterns can be used within the same cluster.
 
 #### Shared gateway
 
@@ -224,7 +226,7 @@ Gateway(s) in the `ingress` namespace delegate ownership of routes to applicatio
 {{< image width="50%" link="shared-gateway.svg" caption="Shared gateway" >}}
 
 This model works well when you have many applications you want to expose externally, as they are able to use shared infrastructure.
-It also works well in models that have the same domain or TLS certificates shared by many applications.
+It also works well in use cases that have the same domain or TLS certificates shared by many applications.
 
 #### Dedicated application gateway
 
@@ -251,10 +253,13 @@ If you would like to change the [control plane revision](/docs/setup/upgrade/can
 
 ### Canary upgrade (advanced)
 
-This upgrade method depends on using [control plane revisions](/docs/setup/upgrade/canary/).
+{{< warning >}}
+This upgrade method depends on control plane revisions, and therefore can only be used in conjunction with
+[control plane canary upgrade](/docs/setup/upgrade/canary/).
+{{< /warning >}}
 
-If you would like to more slowly control a rollout of a new revision, we can run multiple versions of the gateway deployment.
-For example, if I want to do a controlled rollout of the `canary` revision, create a copy of your current deployment with the `istio.io/rev=canary` label set:
+If you would like to more slowly control the rollout of a new control plane revision, you can run multiple versions of a gateway deployment.
+For example, if you want to roll out a new revision, `canary`, create a copy of your gateway deployment with the `istio.io/rev=canary` label set:
 
 {{< text yaml >}}
 apiVersion: apps/v1
@@ -279,7 +284,7 @@ spec:
         image: auto
 {{< /text >}}
 
-When this is created, we will now have two versions of the gateway, both selected by the same Service:
+When this deployment is created, you will then have two versions of the gateway, both selected by the same Service:
 
 {{< text bash >}}
 $ kubectl get endpoints -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name"
@@ -289,19 +294,19 @@ istio-ingressgateway   istio-ingressgateway-788854c955-8gv96,istio-ingressgatewa
 
 {{< image width="50%" link="canary-upgrade.svg" caption="Canary upgrade in progress" >}}
 
-Unlike when deploying your own applications, you cannot utilize [Istio traffic shifting](/docs/tasks/traffic-management/traffic-shifting/) to control, as the traffic to the gateway is coming from external clients that we do not control.
+Unlike application services deployed inside the mesh, you cannot use [Istio traffic shifting](/docs/tasks/traffic-management/traffic-shifting/) to distribute the traffic between the gateway versions because their traffic is coming directly from external clients that Istio does not control.
 Instead, you can control the distribution of traffic by the number of replicas of each deployment.
 If you use another load balancer in front of Istio, you may also use that to control the traffic distribution.
 
 {{< warning >}}
-Because other installation methods bundle the gateway Service, which controls its external IP address, with the gateway Deployment,
+Because other installation methods bundle the gateway `Service`, which controls its external IP address, with the gateway `Deployment`,
 only the [Kubernetes YAML](/docs/setup/additional-setup/gateway/#tabset-docs-setup-additional-setup-gateway-1-2-tab) method is supported for this upgrade method.
 {{< /warning >}}
 
 ### Canary upgrade with external traffic shifting (advanced)
 
-A variant of the [Canary upgrade](#canary-upgrade) approach is to shift the traffic between the versions using a high level construct outside Istio, such as an external load balancer or DNS.
+A variant of the [canary upgrade](#canary-upgrade) approach is to shift the traffic between the versions using a high level construct outside Istio, such as an external load balancer or DNS.
 
 {{< image width="50%" link="high-level-canary.svg" caption="Canary upgrade in progress with external traffic shifting" >}}
 
-This offers fine-grained control, but may be unsuitable or complicated to set up in some environments.
+This offers fine-grained control, but may be unsuitable or overly complicated to set up in some environments.
