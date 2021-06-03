@@ -6,9 +6,9 @@ attribution: "Ram Vennam (Solo.io)"
 keywords: [locality,region,failover,Istio,outlier,external]
 ---
 
-Istio’s powerful APIs can be used to solve a variety of use cases. Many users know about it’s strong ingress and east-west capabilities but it also offers many features for egress (outgoing) traffic. This is especially useful when your application needs to talk to an external service - such as a database endpoint that is provided by a cloud provider. Often, there are [multiple endpoints](https://docs.aws.amazon.com/general/latest/gr/ddb.html) for you to choose from depending on where your workload is running. You want to choose the endpoint that is closest to your workload for latency reasons, but you need to configure automatic failover to another endpoint when things are not working as expected.
+Istio’s powerful APIs can be used to solve a variety of service mesh use cases. Many users know about it’s strong ingress and east-west capabilities but it also offers many features for egress (outgoing) traffic. This is especially useful when your application needs to talk to an external service - such as a database endpoint provided by a cloud provider. There are often choices of [multiple endpoints](https://docs.aws.amazon.com/general/latest/gr/ddb.html) depending on where your workload is running. You typically want to choose the endpoint closest to your workload for latency reasons, but you may need to configure automatic failover to another endpoint in case things are not working as expected.
 
-Similar to services running inside the mesh, you can use Istio to configure outlier detection and failover to a healthy endpoint while being completely transparent to your application. In this example, we’ll use Amazon’s DynamoDB endpoints to pick a primary region that is the same or close to where your workload is running. We’ll also configure a failover region.
+Similar to services running inside the service mesh, you can configure Istio to detect outliers and failover to a healthy endpoint, while still being completely transparent to your application. In this example, we’ll use Amazon DynamoDB endpoints and pick a primary region that is the same or close to workloads running in a Google Kubernetes Engine (GKE) cluster. We’ll also configure a failover region.
 
 |Routing|Endpoint|
 |--- |--- |
@@ -79,7 +79,7 @@ For that, we need to configure a `DestinationRule`.
 
 ## Set failover conditions using a `DestinationRule`
 
-Istio’s `DestinationRule` lets you configure load balancing, connection pool, and outlier detection settings. We can use it to specify the conditions to use to mark an endpoint as unhealthy and remove it from the load balancing pool.
+Istio’s `DestinationRule` lets you configure load balancing, connection pool, and outlier detection settings. We can specify the conditions used to identify an endpoint as unhealthy and remove it from the load balancing pool.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -95,7 +95,7 @@ spec:
      baseEjectionTime: 1m
 {{< /text >}}
 
-The above `DestinationRule` configures the endpoints to be scanned every 15 seconds, and if any endpoint fails with a 5xx error code even once, it will be marked unhealthy for 1 minute. If this circuit breaker is not triggered, the traffic will route to the same region as the pod.
+The above `DestinationRule` configures the endpoints to be scanned every 15 seconds, and if any endpoint fails with a 5xx error code even once, it will be marked unhealthy for one minute. If this circuit breaker is not triggered, the traffic will route to the same region as the pod.
 
 If we run our curl again, we should see that traffic is always going to the `us-east1` endpoint.
 
@@ -160,7 +160,7 @@ ENDPOINT                         STATUS      OUTLIER CHECK     CLUSTER
 
 ## Failover for HTTPS
 
-Configuring failover for external HTTPS services is just as easy. Your application can still continue to use plain HTTP and let the Istio proxy perform the TLS origination to the HTTPS endpoint.
+Configuring failover for external HTTPS services is just as easy. Your application can still continue to use plain HTTP, and you can let the Istio proxy perform the TLS origination to the HTTPS endpoint.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -183,7 +183,7 @@ spec:
    locality: us-west
 {{< /text >}}
 
-The above ServiceEntry defines the `mydb.com` service on port 80 and redirects it to the real DynamoDB endpoints on port 443.
+The above ServiceEntry defines the `mydb.com` service on port 80 and redirects traffic to the real DynamoDB endpoints on port 443.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -208,8 +208,10 @@ spec:
      baseEjectionTime: 1m
 {{< /text >}}
 
- The `DestinationRule` performs TLS origination and configures the outlier detection. It also has a [failover](/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting) field configured where you can specify exactly what region to failover to. This is useful when you have several regions defined.
+ The `DestinationRule` now performs TLS origination and configures the outlier detection. The rule also has a [failover](/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting) field configured where you can specify exactly what regions are failover targets. This is useful when you have several regions defined.
 
 ## **Wrapping Up**
 
-Istio’s `VirtualService` and `DestinationRule` API’s provide traffic routing, failure recovery and fault injection features so that you can create resilient applications. The ServiceEntry API extends many of these features to external services that are not part of your mesh. As a Field Engineer at [Solo.io](https://www.solo.io/), I help users solve interesting problems such as these using Istio. If you have any questions, feel free to reach out to me on our [Slack](https://slack.solo.io/).
+Istio’s `VirtualService` and `DestinationRule` API’s provide traffic routing, failure recovery and fault injection features so that you can create resilient applications. The ServiceEntry API extends many of these features to external services that are not part of your service mesh.
+
+As a Field Engineer at [Solo.io](https://www.solo.io/), I help users solve interesting problems such as these using Istio. If you have any questions, feel free to reach out to me on our [Slack](https://slack.solo.io/).
