@@ -59,7 +59,7 @@ spec:
 Let’s deploy a sleep container to runs some tests:
 
 {{< text bash >}}
-$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.10/samples/sleep/sleep.yaml
+$ kubectl apply -f @samples/sleep/sleep.yaml@
 {{< /text >}}
 
 From the sleep container try going to `http://mydb.com` 5 times:
