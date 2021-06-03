@@ -20,6 +20,7 @@ Similar to services running inside the mesh, you can use Istio to configure outl
 ## Define external endpoints using a ServiceEntry
 
 First, determine the location of your workloads.
+
 {{< text bash >}}
 $ kubectl describe node | grep failure-domain.beta.kubernetes.io/region
                     failure-domain.beta.kubernetes.io/region=us-east1
