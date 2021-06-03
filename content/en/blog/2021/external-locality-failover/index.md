@@ -3,7 +3,7 @@ title: "Configuring failover for external services"
 description: Learn how to configure locality load balancing and failover for endpoints that are outside of your mesh.
 publishdate: 2021-06-04
 attribution: "Ram Vennam (Solo.io)"
-keywords: [locality, failover,Istio,namespaces,sidecar]
+keywords: [locality,region,failover,Istio,outlier,external]
 ---
 
 Istio’s powerful APIs can be used to solve a variety of use cases. Many users know about it’s strong ingress and east-west capabilities but it also offers many features for egress (outgoing) traffic. This is especially useful when your application needs to talk to an external service - such as a database endpoint that is provided by a cloud provider. Often, there are [multiple endpoints](https://docs.aws.amazon.com/general/latest/gr/ddb.html) for you to choose from depending on where your workload is running. You want to choose the endpoint that is closest to your workload for latency reasons, but you need to configure automatic failover to another endpoint when things are not working as expected.
