@@ -1,7 +1,11 @@
 ---
-title: Change Notes
+title: Istio 1.1 Change Notes
+release: 1.1
+subtitle: Minor Release
+linktitle: 1.1 Change Notes
 description: Istio 1.1 release notes.
 weight: 10
+publishdate: 2019-03-19
 aliases:
     - /about/notes/1.1
 ---
@@ -94,7 +98,7 @@ concise list of things you should know before upgrading your deployment to Istio
 ### Security
 
 - **Readiness and Liveness Probes**. Added support for Kubernetes' HTTP
-  [readiness and liveness probes](/faq/security/#k8s-health-checks) when
+  [readiness and liveness probes](/about/faq/#k8s-health-checks) when
   mutual TLS is enabled.
 
 - **Cluster RBAC Configuration**. Replaced the `RbacConfig` resource with the

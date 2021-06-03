@@ -87,8 +87,10 @@ with open("data/args.yml", 'r') as stream:
 
 try:
     source_branch_name = docs_config['source_branch_name']
+    istio_version = docs_config['version']
+    istio_full_version = docs_config['full_version']
 except:
-    sys.stderr.write('"source_branch_name" not defined in "data/args.yml"\n')
+    sys.stderr.write('failed to retrieve data from "data/args.yml"\n')
     sys.exit(1)
 
 with open(markdown, 'rt', encoding='utf-8') as mdfile:
@@ -172,6 +174,8 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
                         print("    " + msg)
                     if heredoc.search(line):
                         multiline_cmd = True
+                line = line.replace("{{< istio_version >}}", istio_version)
+                line = line.replace("{{< istio_full_version >}}", istio_full_version)
                 current_snip["script"].append(line)
 
 if len(boilerplates) > 0:

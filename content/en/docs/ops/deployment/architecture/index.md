@@ -85,8 +85,7 @@ Pilot abstracts platform-specific service discovery mechanisms and synthesizes
 them into a standard format that any sidecar conforming with the
 [Envoy API](https://www.envoyproxy.io/docs/envoy/latest/api/api) can consume.
 
-Istio can support discovery for multiple environments such as Kubernetes,
-Consul, or VMs.
+Istio can support discovery for multiple environments such as Kubernetes or VMs.
 
 You can use Istio's
 [Traffic Management API](/docs/concepts/traffic-management/#introducing-istio-traffic-management)

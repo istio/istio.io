@@ -83,14 +83,24 @@ function handleEvents(): void {
 
                 if (display) {
                     el.style.display = "block";
-
-                    if (timeout > 0) {
-                        window.setTimeout(() => el.style.display = "none", timeout * 1000);
+                    const main = document.querySelector<HTMLElement>("main.primary");
+                    if (main) {
+                        main.classList.add("banner-padding");
+                        if (timeout > 0) {
+                            window.setTimeout(() => {
+                                el.style.display = "none";
+                                main.classList.remove("banner-padding");
+                            }, timeout * 1000);
+                        }
                     }
                 }
 
                 listen(el, click, () => {
                     el.style.display = "none";
+                    const main = document.querySelector<HTMLElement>("main.primary");
+                    if (main) {
+                        main.classList.remove("banner-padding");
+                    }
                     remainingEventImpressions[title].impressions = 0;
                     saveRemainingEventImpressions();
                 });
@@ -117,10 +127,33 @@ function handleEvents(): void {
         }
     }
 
+    const banner = getByClass("banner-container");
+    function toggleActiveHeader(): void {
+        const top = window.scrollY;
+
+        if (!banner) {
+            return;
+        }
+
+        if (top >= 10) {
+            banner[0].classList.add("active");
+        } else {
+            banner[0].classList.remove("active");
+        }
+    }
+
     loadRemainingEventImpressions();
     displayEvents("banner");
     displayEvents("sticker");
     saveRemainingEventImpressions();
+
+    if (document.readyState !== "loading") {
+        toggleActiveHeader();
+    }
+
+    listen(window, "scroll", () => {
+        toggleActiveHeader();
+    });
 }
 
 handleEvents();

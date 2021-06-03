@@ -1,11 +1,13 @@
 ---
 title: cert-manager
 description: 关于如何与 cert-manager 集成的相关说明。
-weight: 20
+weight: 26
 keywords: [integration,cert-manager]
 aliases:
   - /zh/docs/tasks/traffic-management/ingress/ingress-certmgr/
   - /zh/docs/examples/advanced-gateways/ingress-certmgr/
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
 [cert-manager](https://cert-manager.io/) 是一种自动执行证书管理的工具，它可以与 Istio Gateway 集成以管理 TLS 证书。
@@ -21,7 +23,7 @@ aliases:
 cert-manager 可用于向 Kubernetes 写入 Secret 秘钥，Gateway 可以引用该秘钥。首先，请按照 [cert-manager 文档](https://cert-manager.io/docs/usage/certificate/)中的说明配置 `Certificate` 资源。`Certificate` 应该创建在与 `istio-ingressgateway` Deployment 相同的命名空间。例如， 一个 `Certificate` 可能看起来像下边这样：
 
 {{< text yaml >}}
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: ingress-cert
@@ -51,7 +53,7 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: ingress-cert # This should match the Certifcate secretName
+      credentialName: ingress-cert # This should match the Certificate secretName
     hosts:
     - my.example.com # This should match a DNS name in the Certificate
 {{< /text >}}
@@ -63,7 +65,7 @@ cert-manager 通过[在 Ingress 对象上配置注解](https://cert-manager.io/d
 或者，也可以按照 [Istio Gateway](#istio-gateway) 部分的描述创建 `Certificate`，然后在 `Ingress` 对象中引用它：
 
 {{< text yaml >}}
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: ingress
@@ -76,5 +78,5 @@ spec:
   tls:
   - hosts:
     - my.example.com # This should match a DNS name in the Certificate
-    secretName: ingress-cert # This should match the Certifcate secretName
+    secretName: ingress-cert # This should match the Certificate secretName
 {{< /text >}}

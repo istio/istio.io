@@ -32,9 +32,9 @@ messages:
 
   - name: "NamespaceNotInjected"
     code: IST0102
-    level: Warning
+    level: Info
     description: "A namespace is not enabled for Istio injection."
-    template: "The namespace is not enabled for Istio injection. Run 'kubectl label namespace %s istio-injection=enabled' to enable it, or 'kubectl label namespace %s istio-injection=disabled' to explicitly mark it as not needing injection"
+    template: "The namespace is not enabled for Istio injection. Run 'kubectl label namespace %s istio-injection=enabled' to enable it, or 'kubectl label namespace %s istio-injection=disabled' to explicitly mark it as not needing injection."
     args:
       - name: namespace
         type: string
@@ -162,27 +162,8 @@ messages:
       - name: policyMTLSMode
         type: string
 
-  - name: "PolicySpecifiesPortNameThatDoesntExist"
-    code: IST0114
-    level: Warning
-    description: "A Policy targets a port name that cannot be found."
-    template: "Port name %s could not be found for host %s, which means the Policy won't be enforced."
-    args:
-      - name: portName
-        type: string
-      - name: host
-        type: string
-
-  - name: "DestinationRuleUsesMTLSForWorkloadWithoutSidecar"
-    code: IST0115
-    level: Error
-    description: "A DestinationRule uses mTLS for a workload that has no sidecar."
-    template: "DestinationRule %s uses mTLS for workload %s that has no sidecar. Traffic from workloads with sidecars will fail."
-    args:
-      - name: destinationRuleName
-        type: string
-      - name: host
-        type: string
+  # IST0114 RETIRED
+  # IST0115 RETIRED
 
   - name: "DeploymentAssociatedToMultipleServices"
     code: IST0116
@@ -231,17 +212,8 @@ messages:
       - name: targetPort
         type: string
 
-  - name: "PolicyResourceIsDeprecated"
-    code: IST0120
-    level: Info
-    description: "The Policy resource is deprecated and will be removed in a future Istio release. Migrate to the PeerAuthentication resource."
-    template: "The Policy resource is deprecated and will be removed in a future Istio release. Migrate to the PeerAuthentication resource."
-
-  - name: "MeshPolicyResourceIsDeprecated"
-    code: IST0121
-    level: Info
-    description: "The MeshPolicy resource is deprecated and will be removed in a future Istio release. Migrate to the PeerAuthentication resource."
-    template: "The MeshPolicy resource is deprecated and will be removed in a future Istio release. Migrate to the PeerAuthentication resource."
+  # IST0120 RETIRED
+  # IST0121 RETIRED
 
   - name: "InvalidRegexp"
     code: IST0122
@@ -315,7 +287,7 @@ messages:
 
   - name: "NoServerCertificateVerificationPortLevel"
     code: IST0129
-    level: Error
+    level: Warning
     description: "No caCertificates are set in DestinationRule, this results in no verification of presented server certificate for traffic to a given port."
     template: "DestinationRule %s in namespace %s has TLS mode set to %s but no caCertificates are set to validate server identity for host: %s at port %s"
     args:
@@ -352,4 +324,149 @@ messages:
       - name: matchno
         type: string
       - name: dupno
+        type: string
+
+  - name: "VirtualServiceHostNotFoundInGateway"
+    code: IST0132
+    level: Warning
+    description: "Host defined in VirtualService not found in Gateway."
+    template: "one or more host %v defined in VirtualService %s not found in Gateway %s."
+    args:
+      - name: host
+        type: "[]string"
+      - name: virtualservice
+        type: string
+      - name: gateway
+        type: string
+
+  - name: "SchemaWarning"
+    code: IST0133
+    level: Warning
+    description: "The resource has a schema validation warning."
+    template: "Schema validation warning: %v"
+    args:
+      - name: err
+        type: error
+
+  - name: "ServiceEntryAddressesRequired"
+    code: IST0134
+    level: Warning
+    description: "Virtual IP addresses are required for ports serving TCP (or unset) protocol"
+    template: "ServiceEntry addresses are required for this protocol."
+
+  - name: "DeprecatedAnnotation"
+    code: IST0135
+    level: Info
+    description: "A resource is using a deprecated Istio annotation."
+    template: "Annotation %q has been deprecated%s and may not work in future Istio versions."
+    args:
+      - name: annotation
+        type: string
+      - name: extra
+        type: string
+
+  - name: "AlphaAnnotation"
+    code: IST0136
+    level: Info
+    description: "An Istio annotation may not be suitable for production."
+    template: "Annotation %q is part of an alpha-phase feature and may be incompletely supported."
+    args:
+      - name: annotation
+        type: string
+
+  - name: "DeploymentConflictingPorts"
+    code: IST0137
+    level: Warning
+    description: "Two services selecting the same workload with the same targetPort MUST refer to the same port."
+    template: "This deployment %s is associated with multiple services %v using targetPort %q but different ports: %v."
+    args:
+      - name: deployment
+        type: string
+      - name: services
+        type: "[]string"
+      - name: targetPort
+        type: string
+      - name: ports
+        type: "[]int32"
+
+# https://github.com/envoyproxy/envoy/issues/6767
+  - name: "GatewayDuplicateCertificate"
+    code: IST0138
+    level: Warning
+    description: "Duplicate certificate in multiple gateways may cause 404s if clients re-use HTTP2 connections."
+    template: "Duplicate certificate in multiple gateways %v may cause 404s if clients re-use HTTP2 connections."
+    args:
+      - name: gateways
+        type: "[]string"
+
+  - name: "InvalidWebhook"
+    code: IST0139
+    level: Error
+    description: "Webhook is invalid or references a control plane service that does not exist."
+    template: "%v"
+    args:
+      - name: error
+        type: string
+
+  - name: "IngressRouteRulesNotAffected"
+    code: IST0140
+    level: Warning
+    description: "Route rules have no effect on ingress gateway requests"
+    template: "Subset in virtual service %s has no effect on ingress gateway %s requests"
+    args:
+      - name: virtualservicesubset
+        type: string
+      - name: virtualservice
+        type: string
+
+  - name: "InsufficientPermissions"
+    code: IST0141
+    level: Error
+    description: "Required permissions to install Istio are missing."
+    template: "Missing required permission to create resource %v (%v)"
+    args:
+      - name: resource
+        type: string
+      - name: error
+        type: string
+
+  - name: "UnsupportedKubernetesVersion"
+    code: IST0142
+    level: Error
+    description: "The Kubernetes version is not supported"
+    template: "The Kubernetes Version %q is lower than the minimum version: %v"
+    args:
+      - name: version
+        type: string
+      - name: minimumVersion
+        type: string
+
+  - name: "LocalhostListener"
+    code: IST0143
+    level: Error
+    description: "A port exposed in a Service is bound to a localhost address"
+    template: "Port %v is exposed in a Service but listens on localhost. It will not be exposed to other pods."
+    args:
+      - name: port
+        type: string
+
+  - name: "InvalidApplicationUID"
+    code: IST0144
+    level: Warning
+    description: "Application pods should not run as user ID (UID) 1337"
+    template: "User ID (UID) 1337 is reserved for the sidecar proxy."
+
+  - name: "ConflictingGateways"
+    code: IST0145
+    level: Error
+    description: "Gateway should not have the same selector, port and matched hosts of server"
+    template: "Conflict with gateways %s (workload selector %s, port %s, hosts %v)."
+    args:
+      - name: gateway
+        type: string
+      - name: selector
+        type: string
+      - name: portnumber
+        type: string
+      - name: hosts
         type: string

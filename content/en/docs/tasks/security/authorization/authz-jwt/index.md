@@ -1,6 +1,6 @@
 ---
-title: Authorization with JWT
-description: How to set up access control with JWT in Istio.
+title: JWT Token
+description: Shows how to set up access control for JWT token.
 weight: 30
 keywords: [security,authorization,jwt,claim]
 aliases:
@@ -16,9 +16,11 @@ and list-of-string typed JWT claims.
 
 ## Before you begin
 
-Before you begin this task, perform the following actions:
+Before you begin this task, do the following:
 
-* Read [Authorization](/docs/concepts/security/#authorization) and [Authentication](/docs/concepts/security/#authentication).
+* Complete the [Istio end user authentication task](/docs/tasks/security/authentication/authn-policy/#end-user-authentication).
+
+* Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
 
 * Install Istio using [Istio installation guide](/docs/setup/install/istioctl/).
 
@@ -35,7 +37,7 @@ Deploy the example namespace and workloads using these commands:
 * Verify that `sleep` successfully communicates with `httpbin` using this command:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -52,8 +54,8 @@ accepts a JWT issued by `testing@secure.istio.io`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "RequestAuthentication"
+    apiVersion: security.istio.io/v1beta1
+    kind: RequestAuthentication
     metadata:
       name: "jwt-example"
       namespace: foo
@@ -70,14 +72,14 @@ accepts a JWT issued by `testing@secure.istio.io`:
 1. Verify that a request with an invalid JWT is denied:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -s -o /dev/null -H "Authorization: Bearer invalidToken" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer invalidToken" -w "%{http_code}\n"
     401
     {{< /text >}}
 
 1. Verify that a request without a JWT is allowed because there is no authorization policy:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -117,14 +119,14 @@ This causes Istio to generate the attribute `requestPrincipal` with the value `t
 1. Verify that a request with a valid JWT is allowed:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -s -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
     200
     {{< /text >}}
 
 1. Verify that a request without a JWT is denied:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
@@ -167,14 +169,14 @@ the JWT to have a claim named `groups` containing the value `group1`:
 1. Verify that a request with the JWT that includes `group1` in the `groups` claim is allowed:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -s -o /dev/null -H "Authorization: Bearer $TOKEN_GROUP" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN_GROUP" -w "%{http_code}\n"
     200
     {{< /text >}}
 
 1. Verify that a request with a JWT, which doesn’t have the `groups` claim is rejected:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -s -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
     403
     {{< /text >}}
 

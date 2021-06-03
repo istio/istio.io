@@ -15,15 +15,17 @@
 package istioio
 
 import (
+	"bufio"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path"
 	"path/filepath"
 	"strings"
+	"time"
 
+	"istio.io/istio/pkg/test/framework"
 	"istio.io/istio/pkg/test/scopes"
 	"istio.io/pkg/log"
 )
@@ -34,10 +36,8 @@ const (
 	kubeConfigEnvVar    = "KUBECONFIG"
 )
 
-var (
-	// Logging scope for the script output.
-	scriptLog = log.RegisterScope("script", "output of test scripts", 0)
-)
+// Logging scope for the script output.
+var scriptLog = log.RegisterScope("script", "output of test scripts", 0)
 
 var _ Step = Script{}
 
@@ -57,33 +57,40 @@ var _ Step = Script{}
 //
 type Script struct {
 	// Input for the parser.
-	Input InputSelector
+	Input Input
 
 	// Shell to use when running the command. By default "bash" will be used.
 	Shell string
 
 	// WorkDir specifies the working directory when executing the script.
+	// By default, the test workdir will be used.
 	WorkDir string
 
 	// Env user-provided environment variables for the generated Command.
 	Env map[string]string
 }
 
-func (s Script) run(ctx Context) {
-	input := s.Input.SelectInput(ctx)
-	command, err := input.ReadAll()
+func (s Script) Name() string {
+	return s.Input.Name()
+}
+
+func (s Script) run(ctx framework.TestContext) {
+	startTime := time.Now()
+	command, err := s.Input.ReadAll()
 	if err != nil {
-		ctx.Fatalf("failed reading command input %s: %v", input.Name(), err)
+		ctx.Fatalf("failed reading command input %s: %v", s.Name(), err)
 	}
 
-	// Now run the command...
-	defer scopes.Framework.Infof("Finished running command script %s", input.Name())
-	scopes.Framework.Infof("Running command script %s", input.Name())
+	defer func() {
+		scopes.Framework.Infof("Finished running command script %s. Elapsed time: %fs",
+			s.Name(), time.Since(startTime).Seconds())
+	}()
+	scopes.Framework.Infof("Running command script %s", s.Name())
 
 	// Copy the command to workDir.
-	_, fileName := filepath.Split(input.Name())
-	if err := ioutil.WriteFile(path.Join(ctx.WorkDir(), fileName), []byte(command), 0644); err != nil {
-		ctx.Fatalf("failed copying command %s to workDir: %v", input.Name(), err)
+	_, fileName := filepath.Split(s.Name())
+	if err := ioutil.WriteFile(path.Join(ctx.WorkDir(), fileName), []byte(command), 0o644); err != nil {
+		ctx.Fatalf("failed copying command %s to workDir: %v", s.Name(), err)
 	}
 
 	// Get the shell.
@@ -102,29 +109,47 @@ func (s Script) run(ctx Context) {
 	outputFileName := filepath.Join(ctx.WorkDir(), fileName+"_output.txt")
 	outputFile, err := os.Create(outputFileName)
 	if err != nil {
-		ctx.Fatalf("failed creating output file for command %s: %v", input.Name(), err)
+		ctx.Fatalf("failed creating output file for command %s: %v", s.Name(), err)
 	}
-	defer func() { _ = outputFile.Close() }()
-	cmd.Stdout = io.MultiWriter(&LogWriter{}, outputFile)
-	cmd.Stderr = io.MultiWriter(&LogWriter{}, outputFile)
+	writer := newWriter(outputFile)
+	defer func() {
+		_ = writer.Flush()
+		_ = outputFile.Close()
+	}()
+	cmd.Stdout = writer
+	cmd.Stderr = writer
 
 	// Run the command.
 	if err := cmd.Run(); err != nil {
 		ctx.Fatalf("error running script %s: %v. Check output file for details: %s",
-			input.Name(), err, outputFileName)
+			s.Name(), err, outputFileName)
 	}
 }
 
-type LogWriter struct{}
-
-func (l LogWriter) Write(p []byte) (n int, err error) {
-	scriptLog.Debugf("%v", strings.TrimSpace(string(p)))
-	return len(p), nil
+type writer struct {
+	delegate  *bufio.Writer
+	logWrites bool
 }
 
-var _ io.Writer = &LogWriter{}
+func (w *writer) Write(p []byte) (n int, err error) {
+	if w.logWrites {
+		scriptLog.Debug(strings.TrimSpace(string(p)))
+	}
+	return w.delegate.Write(p)
+}
 
-func (s Script) getWorkDir(ctx Context) string {
+func (w *writer) Flush() error {
+	return w.delegate.Flush()
+}
+
+func newWriter(outputFile *os.File) *writer {
+	return &writer{
+		delegate:  bufio.NewWriter(outputFile),
+		logWrites: scriptLog.DebugEnabled(),
+	}
+}
+
+func (s Script) getWorkDir(ctx framework.TestContext) string {
 	if s.WorkDir != "" {
 		// User-specified work dir for the script.
 		return s.WorkDir
@@ -132,7 +157,7 @@ func (s Script) getWorkDir(ctx Context) string {
 	return ctx.WorkDir()
 }
 
-func (s Script) getEnv(ctx Context, fileName string) []string {
+func (s Script) getEnv(ctx framework.TestContext, fileName string) []string {
 	// Start with the environment for the current process.
 	e := os.Environ()
 
@@ -141,13 +166,8 @@ func (s Script) getEnv(ctx Context, fileName string) []string {
 		// Set the output dir for the test.
 		testOutputDirEnvVar: ctx.WorkDir(),
 	}
-	customVars[testDebugFile] = fileName + "_debug.txt"
-
-	if ctx.TestContext.Clusters().IsMulticluster() {
-		customVars[kubeConfigEnvVar] = strings.Join(ctx.KubeEnv().Settings().KubeConfig, ":")
-	} else {
-		customVars[kubeConfigEnvVar] = ctx.KubeEnv().Settings().KubeConfig[0]
-	}
+	customVars[testDebugFile] = filepath.Join(ctx.WorkDir(), fileName+"_debug.txt")
+	customVars[kubeConfigEnvVar] = getKubeConfig(ctx)
 
 	for k, v := range s.Env {
 		customVars[k] = v

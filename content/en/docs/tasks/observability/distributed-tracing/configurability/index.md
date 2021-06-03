@@ -1,6 +1,6 @@
 ---
-title: Configurability (Beta/Development)
-description: How to configure tracing options (beta/development).
+title: Configurability [Beta/Experimental]
+description: How to configure tracing options (beta/experimental).
 weight: 60
 keywords: [telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers
@@ -39,19 +39,48 @@ There are two ways you can configure tracing options:
 
 1.  Globally via `MeshConfig` options.
 
-1.  Per pod annotations for workload specific customization.
+1.  Per-pod annotations for workload specific customization.
 
 {{< warning >}}
 In order for the new tracing configuration to take effect for either of these
 options you need to restart pods injected with Istio proxies.
 {{< /warning >}}
 
-Note that any pod annotations added for tracing configuration overrides global settings.
+{{< warning >}}
+Any pod annotations added for tracing configuration override global settings.
 In order to preserve any global settings you should copy them from
 global mesh config to pod annotations along with workload specific
 customization. In particular, make sure that the tracing backend address is
 always provided in the annotations to ensure that the traces are reported
 correctly for the workload.
+{{< /warning >}}
+
+## Installation
+
+Using these features opens new possibilities for managing traces in your environment.
+
+In this example, we will sample all traces and add a tag named `clusterID`
+using the `ISTIO_META_CLUSTER_ID` environment variable injected into your pod. Only the
+first 256 characters of the value will be used.
+
+{{< text bash >}}
+$ cat <<EOF > ./tracing.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    enableTracing: true
+    defaultConfig:
+      tracing:
+        sampling: 100.0
+        max_path_tag_length: 256
+        custom_tags:
+          clusterID:
+          environment:
+            name: ISTIO_META_CLUSTER_ID
+EOF
+$ istioctl install -f ./tracing.yaml
+{{< /text >}}
 
 ### Using `MeshConfig` for trace settings
 
@@ -65,6 +94,7 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   meshConfig:
+    enableTracing: true
     defaultConfig:
       tracing:
         sampling: 10
@@ -128,6 +158,7 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   meshConfig:
+    enableTracing: true
     defaultConfig:
       tracing:
         sampling: 50
@@ -155,6 +186,7 @@ You can customize the tags using any of the three supported options below.
     kind: IstioOperator
     spec:
       meshConfig:
+        enableTracing: true
         defaultConfig:
           tracing:
             custom_tags:
@@ -171,6 +203,7 @@ You can customize the tags using any of the three supported options below.
     kind: IstioOperator
     spec:
       meshConfig:
+        enableTracing: true
         defaultConfig:
           tracing:
             custom_tags:
@@ -193,6 +226,7 @@ You can customize the tags using any of the three supported options below.
     kind: IstioOperator
     spec:
       meshConfig:
+        enableTracing: true
         defaultConfig:
           tracing:
             custom_tags:
@@ -212,6 +246,7 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   meshConfig:
+    enableTracing: true
     defaultConfig:
       tracing:
         max_path_tag_length: <VALUE>

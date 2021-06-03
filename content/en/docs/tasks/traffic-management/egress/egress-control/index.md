@@ -12,7 +12,7 @@ test: yes
 
 Because all outbound traffic from an Istio-enabled pod is redirected to its sidecar proxy by default,
 accessibility of URLs outside of the cluster depends on the configuration of the proxy.
-By default, Istio configures the Envoy proxy to passthrough requests for unknown services.
+By default, Istio configures the Envoy proxy to pass through requests for unknown services.
 Although this provides a convenient way to get started with Istio, configuring
 stricter control is usually preferable.
 
@@ -24,7 +24,7 @@ This task shows you how to access external services in three different ways:
 
 ## Before you begin
 
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+*   Set up Istio by following the instructions in the [Installation guide](/docs/setup/).
     Use the `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/) or otherwise
     [enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
 
@@ -93,7 +93,7 @@ You can then decide to [configure access to external services](#controlled-acces
     successful `200` responses:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
     HTTP/2 200
     HTTP/2 200
     {{< /text >}}
@@ -191,11 +191,10 @@ any other unintentional accesses.
 1.  Make a request to the external HTTP service from `SOURCE_POD`:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
     {
       "headers": {
         "Accept": "*/*",
-        "Content-Length": "0",
         "Host": "httpbin.org",
         ...
         "X-Envoy-Decorator-Operation": "httpbin.org:80/*",
@@ -240,7 +239,7 @@ any other unintentional accesses.
 1.  Make a request to the external HTTPS service from `SOURCE_POD`:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://www.google.com | grep  "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"
     HTTP/2 200
     {{< /text >}}
 
@@ -264,7 +263,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
     httpbin.org external service:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
     200
     real    0m5.024s
     user    0m0.003s
@@ -296,7 +295,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 1.  Wait a few seconds, then make the _curl_ request again:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
     504
     real    0m3.149s
     user    0m0.004s
@@ -421,7 +420,7 @@ within the cluster. Any external request bypasses the sidecar and goes straight 
 For example:
 
 {{< text bash >}}
-$ kubectl exec "$SOURCE_POD" -c sleep -- curl -s http://httpbin.org/headers
+$ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
 {
   "headers": {
     "Accept": "*/*",

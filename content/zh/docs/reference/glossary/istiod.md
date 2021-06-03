@@ -1,7 +1,9 @@
 ---
 title: Istiod
+test: n/a
 ---
 
-The Istiod component is the consolidated monolithic control plane binary that encapsulates the functions of Pilot, Citadel, Mixer, and Galley.
+Istiod 组件是单体 Control Plane 二进制的组合体，封装了Pilot, Citadel, Mixer, 和 Galley 的功能。
 
-[Learn more about Istiod](/zh/blog/2020/tradewinds-2020/#fewer-moving-parts).
+[更多关于 Istiod](/zh/blog/2020/istiod/)。
+

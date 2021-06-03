@@ -2,6 +2,17 @@ DEFAULT_TIMEOUT=60m
 export TIMEOUT ?= ${DEFAULT_TIMEOUT}
 
 _DOCTEST_FLAGS ?= ${DOCTEST_FLAGS}
+
+# $(CI) specifies that the test is running in a CI system. This enables CI specific logging.
+ifneq ($(CI),)
+	_DOCTEST_FLAGS += --istio.test.ci
+	_DOCTEST_FLAGS += --istio.test.pullpolicy=IfNotPresent
+endif
+
+ifneq ($(ARTIFACTS),)
+    _DOCTEST_FLAGS += --istio.test.work_dir=$(ARTIFACTS)
+endif
+
 _DOCTEST_KUBECONFIG ?= $(DOCTEST_KUBECONFIG)
 ifneq ($(_DOCTEST_KUBECONFIG),)
 	_DOCTEST_FLAGS += --istio.test.kube.config=$(_DOCTEST_KUBECONFIG)

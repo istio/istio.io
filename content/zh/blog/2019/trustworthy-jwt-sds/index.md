@@ -14,12 +14,12 @@ target_release: 1.2
 在 Kubernetes 1.12 之前，Kubernetes API 服务器的 JWT 存在以下问题：
 
 1. 令牌没有重要字段来限制其使用范围，例如 `aud` 或 `exp`。有关更多信息，请参见[绑定服务令牌](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/auth/bound-service-account-tokens.md)。
-1. 令牌安装在所有 pod 上，无法退出。请参见[服务帐户令牌数量](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/svcacct-token-volume-source.md)了解其机制。
+1. 令牌安装在所有 Pod 上，无法退出。请参见[服务帐户令牌数量](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/svcacct-token-volume-source.md)了解其机制。
 
 Kubernetes 1.12 引入了 `可信任` JWT 来解决这些问题。但是，直到 [Kubernetes 1.13](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.13.md) 才支持 `aud` 字段与 API 服务器受众具有不同的值。为了更好地保护网格，Istio 1.3 仅支持 `可信任` JWT，并且在启用 SDS 时要求 `aud` 字段的值为 `istio-ca`。在启用 SDS 的情况下将 Istio 部署升级到 1.3 之前，请验证您是否使用了 Kubernetes 1.13 或更高版本。
 
 根据您选择的平台进行以下考虑：
 
 - **GKE：** 至少将群集版本升级到 1.13。
-- **本地 Kubernetes** 和 **私有 GKE：** 将[额外配置](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection)添加到您的 Kubernetes。您也可以参考 [api-server 页面](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/)以获取最新的标志名称。
+- **本地 Kubernetes** 和 **私有 GKE：** 将[额外配置](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection)添加到您的 Kubernetes。您也可以参考 [API 服务页面](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/)以获取最新的标志名称。
 - 对于其他平台，请与您的提供商联系。如果您的提供商不支持可信任 JWT，则您将需要使用文件挂载的方式来传播 Istio 1.3 中的工作负载密钥和证书。

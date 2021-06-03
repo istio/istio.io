@@ -2,7 +2,14 @@
 title: About Istio
 linktitle: About
 description: Get a bit more in-depth info about the Istio project.
-sidebar_singlecard: true
+sidebar_none: true
 weight: 15
-icon: about
+doc_type: about
+cascade:
+  _build:
+    render: always
+    list: always
+_build:
+  render: never
+  list: never
 ---

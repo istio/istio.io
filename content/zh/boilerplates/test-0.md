@@ -1,3 +1,3 @@
 ---
 ---
-This is some boilerplate text.
+这是模板文本。

@@ -1,7 +1,7 @@
 ---
 title: Secure Gateways
 description: Expose a service outside of the service mesh over TLS or mTLS.
-weight: 21
+weight: 20
 aliases:
     - /docs/tasks/traffic-management/ingress/secure-ingress-sds/
     - /docs/tasks/traffic-management/ingress/secure-ingress-mount/
@@ -10,7 +10,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress)
+The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress/ingress-control)
 describes how to configure an ingress gateway to expose an HTTP
 service to external traffic. This task shows how to expose a secure HTTPS
 service using either simple or mutual TLS.
@@ -423,11 +423,21 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=t
             `"""`
     {{< /text >}}
 
+## More info
+
+### Key formats
+
 Istio supports reading a few different Secret formats, to support integration with various tools such as [cert-manager](/docs/ops/integrations/certmanager/):
 
 * A TLS Secret with keys `tls.key` and `tls.crt`, as described above. For mutual TLS, a `ca.crt` key can be used.
 * A generic Secret with keys `key` and `cert`. For mutual TLS, a `cacert` key can be used.
 * A generic Secret with keys `key` and `cert`. For mutual TLS, a separate generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
+
+### SNI Routing
+
+An HTTPS `Gateway` with a `hosts` field value other than `*` will perform
+[SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) matching before forwarding a request,
+which may cause some requests to fail. See [configuring SNI routing](/docs/ops/common-problems/network-issues/#configuring-sni-routing-when-not-sending-sni) for details.
 
 ## Troubleshooting
 

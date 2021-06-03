@@ -1,5 +1,5 @@
 ---
 ---
 {{< warning >}}
-A warning from a boilerplate
+模板警告
 {{< /warning >}}

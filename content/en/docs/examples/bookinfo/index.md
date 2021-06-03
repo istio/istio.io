@@ -15,7 +15,8 @@ to demonstrate various Istio features.
 
 {{< tip >}}
 If you installed Istio using the [Getting Started](/docs/setup/getting-started/)
-instructions, you already have Bookinfo installed and you can skip these steps.
+instructions, you already have Bookinfo installed and you can skip most of these steps
+and go directly to [Apply Default Destination Rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 {{< /tip >}}
 
 The application displays information about a
@@ -138,7 +139,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     example from `ratings`:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+    $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 

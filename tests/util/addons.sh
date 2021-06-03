@@ -37,7 +37,8 @@ function _deploy_and_wait_for_addons() {
     jaeger)     kubectl apply -f "$JAEGER_MANIFEST_URL"
                  _wait_for_deployment istio-system jaeger
                  ;;
-    kiali)      kubectl apply -f "$KIALI_MANIFEST_URL"
+    kiali)      kubectl apply -f "$KIALI_MANIFEST_URL" || true # ignore first errors
+                 kubectl apply -f "$KIALI_MANIFEST_URL" # Need to apply twice due to a reace condition
                  _wait_for_deployment istio-system kiali
                  ;;
     prometheus) kubectl apply -f "$PROMETHEUS_MANIFEST_URL"

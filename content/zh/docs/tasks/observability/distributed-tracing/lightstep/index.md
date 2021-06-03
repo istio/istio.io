@@ -5,6 +5,8 @@ weight: 11
 keywords: [telemetry,tracing,lightstep]
 aliases:
  - /zh/docs/tasks/telemetry/distributed-tracing/lightstep/
+owner: istio/wg-policies-and-telemetry-maintainers
+test: no
 ---
 
 此任务介绍如何配置 Istio 才能收集追踪 span ，并且把收集到的 span 发送到 [LightStep Tracing](https://lightstep.com/products/) 或 [LightStep [𝑥]PM](https://lightstep.com/products/)。

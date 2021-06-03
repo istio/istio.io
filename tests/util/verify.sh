@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # shellcheck disable=SC2030,SC2031
 
 # Copyright Istio Authors
@@ -19,7 +19,7 @@ __err_exit() {
     local msg=$1
     local out=$2
     local expected=$3
-    printf "VERIFY FAILED %s: received: \"%s\", expected: \"%s\"\n" "$msg" "$out" "$expected"
+    printf "VERIFY FAILED %s:\nreceived:\n\"%s\"\nexpected:\n\"%s\"\n" "$msg" "$out" "$expected"
     exit 1
 }
 
@@ -107,14 +107,19 @@ __cmp_first_line() {
 #   1. Same number of lines
 #   2. Same number of whitespace-seperated tokens per line
 #   3. Tokens can only differ in the following ways:
-#        - different elapsed time values
-#        - different ip values
+#        - different elapsed time values (e.g. 25s, 2m30s).
+#        - different ip values. Disallows <none> and <pending> by
+#          default. This can be customized by setting the
+#          CMP_MATCH_IP_NONE and CMP_MATCH_IP_PENDING environment
+#          variables, respectively.
 #        - prefix match ending with a dash character
 #        - expected ... is a wildcard token, matches anything
 # Otherwise, returns 1.
 __cmp_like() {
     local out="${1//$'\r'}"
     local expected=$2
+    local ipregex="^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$"
+    local timeregex="^([0-9]+[smhd])+$"
 
     if [[ "$out" != "$expected" ]]; then
         local olines=()
@@ -132,45 +137,68 @@ __cmp_like() {
         fi
 
         for i in "${!olines[@]}"; do
+            # Get the next line from expected and output.
             local oline=${olines[i]}
             local eline=${elines[i]}
 
+            # Optimization: if the lines match exactly, it's a match.
             if [[ "$oline" == "$eline" ]]; then
                 continue
             fi
 
+            # Split the expected and output lines into tokens.
             read -r -a otokens <<< "$oline"
             read -r -a etokens <<< "$eline"
 
+            # Make sure the number of tokens match.
             if [[ ${#otokens[@]} -ne ${#etokens[@]} ]]; then
                 return 1
             fi
 
+            # Iterate and compare tokens.
             for j in "${!otokens[@]}"; do
                 local etok=${etokens[j]}
 
+                # If using wildcard, skip the match for this token.
                 if [[ "$etok" == "..." ]]; then
                     continue
                 fi
 
+                # Get the token from the actual output.
                 local otok=${otokens[j]}
 
+                # Check for an exact token match.
                 if [[ "$otok" == "$etok" ]]; then
                     continue
                 fi
 
-                if [[ "$otok" =~ ^([0-9]+[smhd])+$ && "$etok" =~ ^([0-9]+[smhd])+$ ]]; then
+                # Check for elapsed time tokens.
+                if [[ "$otok" =~ $timeregex && "$etok" =~ $timeregex ]]; then
                     continue
                 fi
 
-                if [[ ("$otok" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ || "$otok" == "<none>" || "$otok" == "<pending>") && "$etok" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-                    continue
+                # Check for IP addresses.
+                if [[ "$etok" =~ $ipregex ]]; then
+                    if [[ "$otok" =~ $ipregex ]]; then
+                      # We got an IP address. It's a match.
+                      continue
+                    fi
+
+                    if [[ "$otok" == "<pending>" && "${CMP_MATCH_IP_PENDING:-false}" == "true" ]]; then
+                      # We're configured to allow <pending>. Consider this a match.
+                      continue
+                    fi
+
+                    if [[ "$otok" == "<none>" && "${CMP_MATCH_IP_NONE:-false}" == "true" ]]; then
+                      # We're configured to allow <none>. Consider this a match.
+                      continue
+                    fi
                 fi
 
                 local comm=""
                 for ((k=0; k < ${#otok}; k++)) do
                     if [ "${otok:$k:1}" = "${etok:$k:1}" ]; then
-                        comm=${comm}${otok:$k:1}
+                        comm="${comm}${otok:$k:1}"
                     else
                         if [[ "$comm" =~ ^([a-zA-Z0-9_]+-)+ ]]; then
                             break
@@ -213,16 +241,32 @@ __cmp_lines() {
 }
 
 # Verify the output of $func is the same as $expected.  If they are not the same,
-# exponentially back off and try again, 7 times (~2m total) by default. The number
-# of retries can be changed by setting the VERIFY_RETRIES environment variable.
+# retry every second, up to 2 minutes by default. The delay between retries as
+# well as the timeout can be configured by setting the VERIFY_DELAY and
+# VERIFY_TIMEOUT environment variables, respectively. You can also specify
+# the expected number of consecutive successes by setting the VERIFY_CONSECUTIVE
+# environment variable.
+#
+# Arguments:
+# $1: output comparison function (required).
+# $2: function to be executed periodically (required).
+# $3: expected output (required).
+# $5: fail on error. If a non-empty string, will restore the failure status upon error.
 __verify_with_retry() {
     local cmp_func=$1
     local func=$2
     local expected=$3
     local failonerr=${4:-}
 
-    local max_attempts=${VERIFY_RETRIES:-7}
-    local attempt=1
+    local max_time=${VERIFY_TIMEOUT:-120} # Default=2m
+    local delay=${VERIFY_DELAY:-1} # Default=1s
+    local expected_consecutive=${VERIFY_CONSECUTIVE:-1} # Default=1 success
+
+    local start_time
+    start_time=$(date +%s)
+    local end_time
+    end_time=$((start_time + max_time))
+    local current_time=$start_time
 
     # Most tests include "set -e", which causes the script to exit if a
     # statement returns a non-true return value.  In some cases, $func may
@@ -232,6 +276,7 @@ __verify_with_retry() {
     errexit_state="$(shopt -po errexit || true)"
     set +e
 
+    local consecutive=0
     while true; do
         # Run the command.
         out=$($func 2>&1)
@@ -244,105 +289,39 @@ __verify_with_retry() {
         local cmpret="$?"
 
         if [[ "$cmpret" -eq 0 ]]; then
-            if [[ -z "$failonerr" || "$funcret" -eq 0 ]]; then
-                # Restore the "errexit" state.
-                eval "$errexit_state"
-                return
+            # Comparison succeeded.
+            consecutive=$(( consecutive + 1 ))
+            if (( consecutive >= expected_consecutive )); then
+              if [[ -z "$failonerr" || "$funcret" -eq 0 ]]; then
+                  # Restore the "errexit" state.
+                  eval "$errexit_state"
+                  return
+              fi
             fi
+        else
+            # The comparison failed.
+            consecutive=0
         fi
 
-        if (( attempt >= max_attempts )); then
+        current_time=$(date +%s)
+        if (( current_time > end_time )); then
             # Restore the "errexit" state.
             eval "$errexit_state"
-            __err_exit "$func" "$out" "$expected"
+            __err_exit "$func (timeout after ${max_time}s)" "$out" "$expected"
         fi
 
-        sleep $(( 2 ** attempt ))
-        attempt=$(( attempt + 1 ))
+        sleep "${delay}"
     done
 }
-
-# Get the resource state of the cluster. Used by the test framework to compare the
-# cluster state before and after running each test:
-#
-# __cluster_cluster_snapshots
-#
-# ... test commands
-# ... cleanup commands
-#
-# __cluster_cleanup_check
-#
-__cluster_state() {
-    # kubectl get ns -o name
-    # kubectl get all --ignore-not-found -n default -n istio-system
-    # kubectl get istiooperators --ignore-not-found -n default -n istio-system
-    # TODO: ^^^ fails because istio-system ns is sometimes incorrectly in snapshot, still cleaning up from previous test.
-
-    # TEMP WORKAROUND, don't check istio-system
-    kubectl get ns -o name | sed '/istio-system/d'
-    kubectl get all --ignore-not-found -n default
-    kubectl get istiooperators --ignore-not-found -n default 2>&1
-    kubectl get destinationrules --ignore-not-found -n default -n istio-system 2>&1
-    kubectl get envoyfilters --ignore-not-found -n default -n istio-system 2>&1
-    kubectl get gateways --ignore-not-found -n default -n istio-system  2>&1
-    kubectl get serviceentries --ignore-not-found -n default -n istio-system 2>&1
-    kubectl get sidecars --ignore-not-found -n default -n istio-system 2>&1
-    kubectl get virtualservices --ignore-not-found -n default -n istio-system 2>&1
-    kubectl get workloadentries --ignore-not-found -n default -n istio-system 2>&1
-    kubectl get authorizationpolicies --ignore-not-found -n default -n istio-system 2>&1
-    kubectl get peerauthentications --ignore-not-found -n default -n istio-system 2>&1
-    kubectl get requestauthentications --ignore-not-found -n default -n istio-system 2>&1
-}
-
-__create_cluster_snapshots() {
-    # Get the list of KUBECONFIG files as an array.
-    IFS=':' read -r -a KFILES <<< "${KUBECONFIG}"
-    for KFILE in "${KFILES[@]}"; do
-        # Get the contexts in this KUBECONFIG file as an array.
-        CTX="$(export KUBECONFIG=${KFILE}; kubectl config current-context)"
-        if [[ -z "${CTX}" ]]; then
-          echo "${KFILE} contains no current context."
-          exit 1
-        fi
-
-        # Dump the state of this cluster to a snapshot file.
-        SNAPSHOT_FILE="__cluster_snapshot_${CTX}.txt"
-        echo "Creating snapshot ${SNAPSHOT_FILE}"
-        (KUBECONFIG="${KFILE}"; __cluster_state > "${SNAPSHOT_FILE}" 2>&1)
-    done
-}
-
-__cluster_cleanup_check() {
-    # Get the list of KUBECONFIG files as an array.
-    IFS=':' read -r -a KFILES <<< "${KUBECONFIG}"
-    for KFILE in "${KFILES[@]}"; do
-        # Get the contexts in this KUBECONFIG file as an array.
-        CTX="$(export KUBECONFIG=${KFILE}; kubectl config current-context)"
-        if [[ -z "${CTX}" ]]; then
-          echo "${KFILE} contains no current context."
-          exit 1
-        fi
-
-        # Read the snapshot file for this cluster.
-        SNAPSHOT_FILE="__cluster_snapshot_${CTX}.txt"
-        echo "Performing cleanup check against snapshot ${SNAPSHOT_FILE}"
-        SNAPSHOT=$(<"${SNAPSHOT_FILE}")
-        rm "${SNAPSHOT_FILE}"
-
-        # Verify that we've restored the original cluster state.
-        VERIFY_RETRIES=9
-        (KUBECONFIG="${KFILE}"; _verify_like __cluster_state "${SNAPSHOT}")
-        echo "Finished cleanup check against snapshot ${SNAPSHOT_FILE}"
-    done
-}
-
 
 # Public Functions
 
 
 # Runs $func and compares the output with $expected.  If they are not the same,
-# exponentially back off and try again, 7 times by default. The number of retries
-# can be changed by setting the VERIFY_RETRIES environment variable.
+# wait a second and try again, up to two minutes by default. The retry behavior
+# can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+# variables. You can also specify the expected number of consecutive successes
+# by setting the VERIFY_CONSECUTIVE environment variable.
 _verify_same() {
     local func=$1
     local expected=$2
@@ -351,8 +330,10 @@ _verify_same() {
 
 # Runs $func and compares the output with $expected.  If the output does not
 # contain the substring $expected,
-# exponentially back off and try again, 7 times by default. The number of retries
-# can be changed by setting the VERIFY_RETRIES environment variable.
+# wait a second and try again, up to two minutes by default. The retry behavior
+# can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+# variables. You can also specify the expected number of consecutive successes
+# by setting the VERIFY_CONSECUTIVE environment variable.
 _verify_contains() {
     local func=$1
     local expected=$2
@@ -361,21 +342,25 @@ _verify_contains() {
 
 # Runs $func and compares the output with $expected.  If the output contains the
 # substring $expected,
-# exponentially back off and try again, 7 times by default. The number of retries
-# can be changed by setting the VERIFY_RETRIES environment variable.
+# wait a second and try again, up to two minutes by default. The retry behavior
+# can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+# variables. You can also specify the expected number of consecutive successes
+# by setting the VERIFY_CONSECUTIVE environment variable.
 _verify_not_contains() {
     local func=$1
     local expected=$2
     # __cmp_not_contains will return true even if func fails. Pass failonerr arg
     # to tell __verify_with_retry to fail in this case instead.
-    __verify_with_retry __cmp_not_contains "$func" "$expected" "true"
+    __verify_with_retry __cmp_not_contains "$func" "$expected" 1 "true"
 }
 
 # Runs $func and compares the output with $expected.  If the output does not
 # contain the lines in $expected where "..." on a line matches one or more lines
 # containing any text,
-# exponentially back off and try again, 7 times by default. The number of retries
-# can be changed by setting the VERIFY_RETRIES environment variable.
+# wait a second and try again, up to two minutes by default. The retry behavior
+# can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+# variables. You can also specify the expected number of consecutive successes
+# by setting the VERIFY_CONSECUTIVE environment variable.
 _verify_elided() {
     local func=$1
     local expected=$2
@@ -384,8 +369,10 @@ _verify_elided() {
 
 # Runs $func and compares the output with $expected.  If the first line of
 # output does not match the first line in $expected,
-# exponentially back off and try again, 7 times by default. The number of retries
-# can be changed by setting the VERIFY_RETRIES environment variable.
+# wait a second and try again, up to two minutes by default. The retry behavior
+# can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+# variables. You can also specify the expected number of consecutive successes
+# by setting the VERIFY_CONSECUTIVE environment variable.
 _verify_first_line() {
     local func=$1
     local expected=$2
@@ -394,14 +381,20 @@ _verify_first_line() {
 
 # Runs $func and compares the output with $expected.  If the output is not
 # "like" $expected,
-# exponentially back off and try again, 7 times by default. The number of retries
-# can be changed by setting the VERIFY_RETRIES environment variable.
+# wait a second and try again, up to two minutes by default. The retry behavior
+# can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+# variables. You can also specify the expected number of consecutive successes
+# by setting the VERIFY_CONSECUTIVE environment variable.
+#
 # Like implies:
 #   1. Same number of lines
 #   2. Same number of whitespace-seperated tokens per line
 #   3. Tokens can only differ in the following ways:
 #        - different elapsed time values
-#        - different ip values
+#        - different ip values. Disallows <none> and <pending> by
+#          default. This can be customized by setting the
+#          CMP_MATCH_IP_NONE and CMP_MATCH_IP_PENDING environment
+#          variables, respectively.
 #        - prefix match ending with a dash character
 #        - expected ... is a wildcard token, matches anything
 _verify_like() {
@@ -412,8 +405,11 @@ _verify_like() {
 
 # Runs $func and compares the output with $expected.  If the output does not
 # "conform to" the specification in $expected,
-# exponentially back off and try again, 7 times by default. The number of retries
-# can be changed by setting the VERIFY_RETRIES environment variable.
+# wait a second and try again, up to two minutes by default. The retry behavior
+# can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+# variables. You can also specify the expected number of consecutive successes
+# by setting the VERIFY_CONSECUTIVE environment variable.
+#
 # Conformance implies:
 #   1. For each line in $expected with the prefix "+ " there must be at least one
 #      line in the output containing the following string.

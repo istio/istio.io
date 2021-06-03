@@ -13,7 +13,7 @@ test: yes
 This example does not work in Minikube.
 {{</warning>}}
 
-The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task shows how to configure
+The [Accessing External Services](/docs/tasks/traffic-management/egress/egress-control) task shows how to configure
 Istio to allow access to external HTTP and HTTPS services from applications inside the mesh.
 There, the external services are called directly from the client sidecar.
 This example also shows how to configure Istio to call external services, although this time
@@ -73,8 +73,8 @@ and the client requests will fail.
 
     {{< text syntax=bash snip_id=none >}}
     $ istioctl install <flags-you-used-to-install-Istio> \
-                       --set components.egressGateways.name=istio-egressgateway \
-                       --set components.egressGateways.enabled=true
+                       --set components.egressGateways[0].name=istio-egressgateway \
+                       --set components.egressGateways[0].enabled=true
     {{< /text >}}
 
 ## Egress gateway for HTTP traffic
@@ -116,7 +116,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 1.  Verify that your `ServiceEntry` was applied correctly by sending an HTTP request to [http://edition.cnn.com/politics](http://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     ...
     HTTP/1.1 301 Moved Permanently
     ...
@@ -134,6 +134,11 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 80, and a destination rule for
     traffic directed to the egress gateway.
+
+    {{< tip >}}
+    To direct multiple hosts through an egress gateway, you can include a list of hosts, or use `*` to match all, in the `Gateway`.
+    The `subset` field in the `DestinationRule` should be reused for the additional hosts.
+    {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -206,7 +211,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 1.  Resend the HTTP request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     ...
     HTTP/1.1 301 Moved Permanently
     ...
@@ -274,7 +279,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 1.  Verify that your `ServiceEntry` was applied correctly by sending an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
     ...
     HTTP/2 200
     Content-Type: text/html; charset=utf-8
@@ -283,6 +288,11 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 
 1.  Create an egress `Gateway` for _edition.cnn.com_, a destination rule and a virtual service
     to direct the traffic through the egress gateway and from the egress gateway to the external service.
+
+    {{< tip >}}
+    To direct multiple hosts through an egress gateway, you can include a list of hosts, or use `*` to match all, in the `Gateway`.
+    The `subset` field in the `DestinationRule` should be reused for the additional hosts.
+    {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -354,7 +364,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     The output should be the same as before.
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
     ...
     HTTP/2 200
     Content-Type: text/html; charset=utf-8
@@ -498,7 +508,7 @@ external service.
     bypass its sidecar proxy, it will not be able to access external sites and will be blocked by the network policy.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -v https://edition.cnn.com/politics
+    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -v -sS https://edition.cnn.com/politics
     Hostname was NOT found in DNS cache
       Trying 151.101.65.67...
       Trying 2a04:4e42:200::323...
@@ -553,7 +563,7 @@ external service.
     Network Policy you defined. `istio-egressgateway` forwards the traffic to `edition.cnn.com`.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
+    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -sS -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
     200
     {{< /text >}}
 

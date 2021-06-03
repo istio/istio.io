@@ -182,36 +182,48 @@ expected output. The framework includes the following built-in verify functions:
 1. **`_verify_same`** `func` `expected`
 
    Runs `func` and compares the output with `expected`. If they are not the same,
-   exponentially back off and try again, 7 times by default. The number of retries
-   can be changed by setting the `VERIFY_RETRIES` environment variable.
+   wait a second and try again, up to two minutes by default. The retry behavior
+   can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+   variables. You can also specify the expected number of consecutive successes
+   by setting the `VERIFY_CONSECUTIVE` environment variable.
 
 1. **`_verify_contains`** `func` `expected`
 
    Runs `func` and compares the output with `expected`. If the output does not
-   contain the substring `expected`, exponentially back off and try again, 7 times
-   by default. The number of retries can be changed by setting the `VERIFY_RETRIES`
-   environment variable.
+   contain the substring `expected`,
+   wait a second and try again, up to two minutes by default. The retry behavior
+   can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+   variables. You can also specify the expected number of consecutive successes
+   by setting the `VERIFY_CONSECUTIVE` environment variable.
 
 1. **`_verify_not_contains`** `func` `expected`
 
    Runs `func` and compares the output with `expected`. If the command execution fails
    or the output contains the substring `expected`,
-   exponentially back off and try again, 7 times by default. The number of retries
-   can be changed by setting the `VERIFY_RETRIES` environment variable.
+   wait a second and try again, up to two minutes by default. The retry behavior
+   can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+   variables. You can also specify the expected number of consecutive successes
+   by setting the `VERIFY_CONSECUTIVE` environment variable.
 
 1. **`_verify_elided`** `func` `expected`
 
    Runs `func` and compares the output with `expected`. If the output does not
    contain the lines in `expected` where "..." on a line matches one or more lines
-   containing any text, exponentially back off and try again, 7 times by default.
-   The number of retries can be changed by setting the `VERIFY_RETRIES` environment
-   variable.
+   containing any text,
+   wait a second and try again, up to two minutes by default. The retry behavior
+   can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+   variables. You can also specify the expected number of consecutive successes
+   by setting the `VERIFY_CONSECUTIVE` environment variable.
 
 1. **`_verify_like`** `func` `expected`
 
    Runs `func` and compares the output with `expected`. If the output is not
-   "like" `expected`, exponentially back off and try again, 7 times by default. The number
-   of retries can be changed by setting the `VERIFY_RETRIES` environment variable.
+   "like" `expected`,
+   wait a second and try again, up to two minutes by default. The retry behavior
+   can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+   variables. You can also specify the expected number of consecutive successes
+   by setting the `VERIFY_CONSECUTIVE` environment variable.
+
    Like implies:
 
    - Same number of lines
@@ -219,7 +231,10 @@ expected output. The framework includes the following built-in verify functions:
    - Tokens can only differ in the following ways:
 
      1. different elapsed time values (e.g., `30s` is like `5m`)
-     1. different ip values (e.g., `172.21.0.1` is like `10.0.0.31`)
+     1. different ip values (e.g., `172.21.0.1` is like `10.0.0.31`). Disallows
+         `<none>` and `<pending>` by default. This can be customized by setting
+         the `ALLOW_NONE_IP` and `ALLOW_PENDING_IP` environment variables,
+         respectively.
      1. prefix match ending with a dash character (e.g., `reviews-v1-12345...` is like `reviews-v1-67890...`)
      1. expected `...` is a wildcard token, matches anything
 
@@ -230,8 +245,11 @@ expected output. The framework includes the following built-in verify functions:
 
    Runs `func` and compares the output with `expected`. If the output does not
    "conform to" the specification in `expected`,
-   exponentially back off and try again, 7 times by default. The number of retries
-   can be changed by setting the `VERIFY_RETRIES` environment variable.
+   wait a second and try again, up to two minutes by default. The retry behavior
+   can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+   variables. You can also specify the expected number of consecutive successes
+   by setting the `VERIFY_CONSECUTIVE` environment variable.
+
    Conformance implies:
 
    1. For each line in `expected` with the prefix "+ " there must be at least one
@@ -280,7 +298,7 @@ You can also find this information by running `make doc.test.help`.
 error as the Istio control plane is being started. Adding a config when creating your `kind` cluster should fix the issue:
 
    ```sh
-   kind create-cluster --name istio-test --config prow/config/trustworthy-jwt.yaml
+   kind create cluster --name istio-test --config prow/config/trustworthy-jwt.yaml
    ```
 
 1. When using `kind` clusters on a Mac, an extra env var is needed (ADDITIONAL_CONTAINER_OPTIONS="--network host").

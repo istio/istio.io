@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.operator.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 61
+number_of_entries: 63
 ---
 <p>Configuration affecting Istio control plane installation version and shape.</p>
 
@@ -17,6 +17,22 @@ number_of_entries: 61
 The spec is a used to define a customization of the default profile values that are supplied with each Istio release.
 Because the spec is a customization API, specifying an empty IstioOperatorSpec results in a default Istio
 component values.</p>
+
+<pre><code class="language-yaml">apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: default
+  hub: gcr.io/istio-testing
+  tag: latest
+  revision: 1-8-0
+  meshConfig:
+    accessLogFile: /dev/stdout
+    enableTracing: true
+  components:
+    egressGateways:
+    - name: istio-egressgateway
+      enabled: true
+</code></pre>
 
 <table class="message-fields">
 <thead>
@@ -32,10 +48,14 @@ component values.</p>
 <td><code>profile</code></td>
 <td><code>string</code></td>
 <td>
-<p>Path or name for the profile e.g.
-    - minimal (looks in profiles dir for a file called minimal.yaml)
-    - /tmp/istio/install/values/custom/custom-install.yaml (local file path)
-default profile is used if this field is unset.</p>
+<p>Path or name for the profile e.g.</p>
+
+<ul>
+<li>minimal (looks in profiles dir for a file called minimal.yaml)</li>
+<li>/tmp/istio/install/values/custom/custom-install.yaml (local file path)</li>
+</ul>
+
+<p>default profile is used if this field is unset.</p>
 
 </td>
 <td>
@@ -46,8 +66,11 @@ No
 <td><code>installPackagePath</code></td>
 <td><code>string</code></td>
 <td>
-<p>Path for the install package. e.g.
-    - /tmp/istio-installer/nightly (local file path)</p>
+<p>Path for the install package. e.g.</p>
+
+<ul>
+<li>/tmp/istio-installer/nightly (local file path)</li>
+</ul>
 
 </td>
 <td>
@@ -58,7 +81,7 @@ No
 <td><code>hub</code></td>
 <td><code>string</code></td>
 <td>
-<p>Root for docker image paths e.g. docker.io/istio</p>
+<p>Root for docker image paths e.g. <code>docker.io/istio</code></p>
 
 </td>
 <td>
@@ -69,7 +92,7 @@ No
 <td><code>tag</code></td>
 <td><code><a href="#TypeInterface">TypeInterface</a></code></td>
 <td>
-<p>Version tag for docker images e.g. 1.0.6</p>
+<p>Version tag for docker images e.g. <code>1.7.2</code></p>
 
 </td>
 <td>
@@ -81,7 +104,9 @@ No
 <td><code>string</code></td>
 <td>
 <p>Namespace to install control plane resources into. If unset, Istio will be installed into the same namespace
-as the IstioOperator CR.</p>
+as the <code>IstioOperator</code> CR. You must also set <code>values.global.istioNamespace</code> if you wish to install Istio in
+a custom namespace.
+If you have enabled CNI, you must  exclude this namespace by adding it to the list <code>values.cni.excludeNamespaces</code>.</p>
 
 </td>
 <td>
@@ -93,6 +118,18 @@ No
 <td><code>string</code></td>
 <td>
 <p>Identify the revision this installation is associated with.
+This option is currently experimental.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-default_revision">
+<td><code>defaultRevision</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Identify whether this revision is the default revision for the cluster
 This option is currently experimental.</p>
 
 </td>
@@ -123,25 +160,14 @@ component.</p>
 No
 </td>
 </tr>
-<tr id="IstioOperatorSpec-addon_components">
-<td><code>addonComponents</code></td>
-<td><code>map&lt;string,&nbsp;<a href="#ExternalComponentSpec">ExternalComponentSpec</a>&gt;</code></td>
-<td>
-<p>Extra addon components which are not explicitly specified above.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="IstioOperatorSpec-values">
 <td><code>values</code></td>
 <td><code><a href="#TypeMapStringInterface">TypeMapStringInterface</a></code></td>
 <td>
-<p>Overrides for default values.yaml. This is a validated pass-through to Helm templates.
-See the Helm installation options for schema details: https://istio.io/v1.5/docs/reference/config/installation-options/.
-Anything that is available in IstioOperatorSpec should be set above rather than using the passthrough. This
-includes Kubernetes resource settings for components in KubernetesResourcesSpec.</p>
+<p>Overrides for default <code>values.yaml</code>. This is a validated pass-through to Helm templates.
+See the <a href="https://istio.io/v1.5/docs/reference/config/installation-options/">Helm installation options</a> for schema details.
+Anything that is available in <code>IstioOperatorSpec</code> should be set above rather than using the passthrough. This
+includes Kubernetes resource settings for components in <code>KubernetesResourcesSpec</code>.</p>
 
 </td>
 <td>
@@ -152,7 +178,20 @@ No
 <td><code>unvalidatedValues</code></td>
 <td><code><a href="#TypeMapStringInterface">TypeMapStringInterface</a></code></td>
 <td>
-<p>Unvalidated overrides for default values.yaml. Used for custom templates where new parameters are added.</p>
+<p>Unvalidated overrides for default <code>values.yaml</code>. Used for custom templates where new parameters are added.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-addon_components" class="deprecated ">
+<td><code>addonComponents</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#ExternalComponentSpec">ExternalComponentSpec</a>&gt;</code></td>
+<td>
+<p>Deprecated.
+Users should manage the installation of addon components on their own.
+Refer to samples/addons for demo installation of addon components.</p>
 
 </td>
 <td>
@@ -180,14 +219,17 @@ No
 <td><code>status</code></td>
 <td><code><a href="#InstallStatus-Status">Status</a></code></td>
 <td>
-<p>Overall status of all components controlled by the operator.
-- If all components have status NONE, overall status is NONE.
-- If all components are HEALTHY, overall status is HEALTHY.
-- If one or more components are RECONCILING and others are HEALTHY, overall status is RECONCILING.
-- If one or more components are UPDATING and others are HEALTHY, overall status is UPDATING.
-- If components are a mix of RECONCILING, UPDATING and HEALTHY, overall status is UPDATING.
-- If any component is in ERROR state, overall status is ERROR.
-- If further action is needed for reconciliation to proceed, overall status is ACTION_REQUIRED.</p>
+<p>Overall status of all components controlled by the operator.</p>
+
+<ul>
+<li>If all components have status <code>NONE</code>, overall status is <code>NONE</code>.</li>
+<li>If all components are <code>HEALTHY</code>, overall status is <code>HEALTHY</code>.</li>
+<li>If one or more components are <code>RECONCILING</code> and others are <code>HEALTHY</code>, overall status is <code>RECONCILING</code>.</li>
+<li>If one or more components are <code>UPDATING</code> and others are <code>HEALTHY</code>, overall status is <code>UPDATING</code>.</li>
+<li>If components are a mix of <code>RECONCILING</code>, <code>UPDATING</code> and <code>HEALTHY</code>, overall status is <code>UPDATING</code>.</li>
+<li>If any component is in <code>ERROR</code> state, overall status is <code>ERROR</code>.</li>
+<li>If further action is needed for reconciliation to proceed, overall status is <code>ACTION_REQUIRED</code>.</li>
+</ul>
 
 </td>
 <td>
@@ -790,6 +832,31 @@ No
 <td>
 <p>k8s pod security context
 <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod">https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod</a></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-volumes">
+<td><code>volumes</code></td>
+<td><code><a href="#k8s-io-api-core-v1-Volume">Volume[]</a></code></td>
+<td>
+<p>k8s volume
+<a href="https://kubernetes.io/docs/concepts/storage/volumes/">https://kubernetes.io/docs/concepts/storage/volumes/</a>
+Volumes defines the collection of Volume to inject into the pod.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-volumeMounts">
+<td><code>volumeMounts</code></td>
+<td><code><a href="#k8s-io-api-core-v1-VolumeMount">VolumeMount[]</a></code></td>
+<td>
+<p>k8s volumeMounts
+VolumeMounts defines the collection of VolumeMount to inject into containers.</p>
 
 </td>
 <td>
@@ -1881,7 +1948,7 @@ No
 <tbody>
 <tr id="PodDisruptionBudgetSpec-minAvailable">
 <td><code>minAvailable</code></td>
-<td><code>uint32</code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1899,7 +1966,7 @@ No
 </tr>
 <tr id="PodDisruptionBudgetSpec-maxUnavailable">
 <td><code>maxUnavailable</code></td>
-<td><code>uint32</code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -3019,6 +3086,146 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="k8s-io-api-core-v1-Volume">k8s.io.api.core.v1.Volume</h2>
+<section>
+<p>Volume represents a named volume in a pod that may be accessed by any container in the pod.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="k8s-io-api-core-v1-Volume-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Volume&rsquo;s name.
+Must be a DNS_LABEL and unique within the pod.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-Volume-volumeSource">
+<td><code>volumeSource</code></td>
+<td><code><a href="#k8s-io-api-core-v1-VolumeSource">VolumeSource</a></code></td>
+<td>
+<p>VolumeSource represents the location and type of the mounted volume.
+If not specified, the Volume is implied to be an EmptyDir.
+This implied behavior is deprecated and will be removed in a future version.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="k8s-io-api-core-v1-VolumeMount">k8s.io.api.core.v1.VolumeMount</h2>
+<section>
+<p>VolumeMount describes a mounting of a Volume within a container.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="k8s-io-api-core-v1-VolumeMount-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>This must match the Name of a Volume.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-readOnly">
+<td><code>readOnly</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Mounted read-only if true, read-write otherwise (false or unspecified).
+Defaults to false.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-mountPath">
+<td><code>mountPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path within the container at which the volume should be mounted.  Must
+not contain &lsquo;:&rsquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-subPath">
+<td><code>subPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path within the volume from which the container&rsquo;s volume should be mounted.
+Defaults to &ldquo;&rdquo; (volume&rsquo;s root).
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-mountPropagation">
+<td><code>mountPropagation</code></td>
+<td><code>string</code></td>
+<td>
+<p>mountPropagation determines how mounts are propagated from the host
+to container and the other way around.
+When not set, MountPropagationNone is used.
+This field is beta in 1.10.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-subPathExpr">
+<td><code>subPathExpr</code></td>
+<td><code>string</code></td>
+<td>
+<p>Expanded path within the volume from which the container&rsquo;s volume should be mounted.
+Behaves similarly to SubPath but environment variable references $(VAR_NAME) are expanded using the container&rsquo;s environment.
+Defaults to &ldquo;&rdquo; (volume&rsquo;s root).
+SubPathExpr and SubPath are mutually exclusive.
+This field is beta in 1.15.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">k8s.io.apimachinery.pkg.apis.meta.v1.LabelSelector</h2>
 <section>
 <p>A label selector is a label query over a set of resources. The result of matchLabels and
@@ -3116,7 +3323,7 @@ No
 <td>
 <p>Overall status only and would not be set as a component status.
 Action is needed from the user for reconciliation to proceed
-e.g. There are proxies still pointing to the control plane revision when try to remove an IstioOperator CR.</p>
+e.g. There are proxies still pointing to the control plane revision when try to remove an <code>IstioOperator</code> CR.</p>
 
 </td>
 </tr>

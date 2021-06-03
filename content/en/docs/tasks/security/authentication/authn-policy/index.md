@@ -28,7 +28,7 @@ $ istioctl install --set profile=default
 ### Setup
 
 Our examples use two namespaces `foo` and `bar`, with two services, `httpbin` and `sleep`, both running with an Envoy proxy. We also use second
-instances of `httpbin` and `sleep` running without the sidecar  in the `legacy` namespace. If you’d like to use the same examples when trying the tasks,
+instances of `httpbin` and `sleep` running without the sidecar in the `legacy` namespace. If you’d like to use the same examples when trying the tasks,
 run the following:
 
 {{< text bash >}}
@@ -56,7 +56,7 @@ $ kubectl exec "$(kubectl get pod -l app=sleep -n bar -o jsonpath={.items..metad
 This one-liner command conveniently iterates through all reachability combinations:
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl -s "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.foo to httpbin.legacy: 200
@@ -72,7 +72,7 @@ Verify there is no peer authentication policy in the system with the following c
 
 {{< text bash >}}
 $ kubectl get peerauthentication --all-namespaces
-No resources found.
+No resources found
 {{< /text >}}
 
 Last but not least, verify that there are no destination rules that apply on the example services. You can do this by checking the `host:` value of
@@ -84,7 +84,7 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
 {{< /text >}}
 
 {{< tip >}}
-Depending on the version of Istio, you may see destination rules for hosts other then those shown. However, there should be none with hosts in the `foo`,
+Depending on the version of Istio, you may see destination rules for hosts other than those shown. However, there should be none with hosts in the `foo`,
 `bar` and `legacy` namespace, nor is the match-all wildcard `*`
 {{< /tip >}}
 
@@ -99,7 +99,7 @@ upstream request to the backend. That header's presence is evidence that mutual 
 used. For example:
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
+$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl -s http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
     "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"
 {{< /text >}}
 
@@ -119,8 +119,8 @@ The mesh-wide peer authentication policy should not have a `selector` and must b
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "default"
   namespace: "istio-system"
@@ -168,12 +168,12 @@ $ kubectl delete peerauthentication -n istio-system default
 
 ### Namespace-wide policy
 
-To change mutual TLS for all workloads within a particular namespace, use a namespace-wide policy. The specification of the policy is the same as for a mesh-wide policy, but you specify the namespace it applies to under `metadata`. For example, the following peer authentication policy enables strict mutual TLS  for the `foo` namespace:
+To change mutual TLS for all workloads within a particular namespace, use a namespace-wide policy. The specification of the policy is the same as for a mesh-wide policy, but you specify the namespace it applies to under `metadata`. For example, the following peer authentication policy enables strict mutual TLS for the `foo` namespace:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "default"
   namespace: "foo"
@@ -207,8 +207,8 @@ For example, the following peer authentication policy and destination rule enabl
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "httpbin"
   namespace: "bar"
@@ -225,8 +225,8 @@ And a destination rule:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
-apiVersion: "networking.istio.io/v1alpha3"
-kind: "DestinationRule"
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
 metadata:
   name: "httpbin"
 spec:
@@ -264,8 +264,8 @@ To refine the mutual TLS settings per port, you must configure the `portLevelMtl
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "httpbin"
   namespace: "bar"
@@ -285,8 +285,8 @@ As before, you also need a destination rule:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
-apiVersion: "networking.istio.io/v1alpha3"
-kind: "DestinationRule"
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
 metadata:
   name: "httpbin"
 spec:
@@ -327,8 +327,8 @@ Note that you've already created a namespace-wide policy that enables mutual TLS
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "overwrite-example"
   namespace: "foo"
@@ -345,8 +345,8 @@ and destination rule:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
-apiVersion: "networking.istio.io/v1alpha3"
-kind: "DestinationRule"
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
 metadata:
   name: "overwrite-example"
 spec:
@@ -438,8 +438,8 @@ Now, add a request authentication policy that requires end-user JWT for the ingr
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "RequestAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
 metadata:
   name: "jwt-example"
   namespace: istio-system
@@ -491,19 +491,22 @@ Download the [jwcrypto](https://pypi.org/project/jwcrypto) library,
 if you haven't installed it on your system.
 {{< /tip >}}
 
+The JWT authentication has 60 seconds clock skew, this means the JWT token will become valid 60 seconds earlier than
+its configured `nbf` and remain valid 60 seconds after its configured `exp`.
+
 For example, the command below creates a token that
-expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 5 seconds:
+expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 65 seconds:
 
 {{< text bash >}}
 $ TOKEN=$(python3 ./gen-jwt.py ./key.pem --expire 5)
-$ for i in $(seq 1 10); do curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"; sleep 1; done
+$ for i in $(seq 1 10); do curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"; sleep 10; done
 200
 200
 200
 200
 200
-401
-401
+200
+200
 401
 401
 401
@@ -518,8 +521,8 @@ To reject requests without valid tokens, add an authorization policy with a rule
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "AuthorizationPolicy"
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: "frontend-ingress"
   namespace: istio-system
@@ -548,8 +551,8 @@ To refine authorization with a token requirement per host, path, or method, chan
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "AuthorizationPolicy"
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: "frontend-ingress"
   namespace: istio-system

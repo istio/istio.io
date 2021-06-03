@@ -56,11 +56,6 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     be some timing issues which will be resolved when the command is run again.
     {{< /tip >}}
 
-1.  Next, enable Envoy's access logging as described in
-    [Enable Envoy's access logging](/docs/tasks/observability/logs/access-log/#before-you-begin).
-    Skip the clean up and delete steps, because you need the sleep
-    application for later tutorial modules.
-
 1.  Create a Kubernetes Ingress resource for these common Istio services using
     the `kubectl` command shown. It is not necessary to be familiar with each of
     these services at this point in the tutorial.
@@ -80,6 +75,8 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     metadata:
       name: istio-system
       namespace: istio-system
+      annotations:
+        kubernetes.io/ingress.class: istio
     spec:
       rules:
       - host: my-istio-dashboard.io

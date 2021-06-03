@@ -1,5 +1,5 @@
 ---
-title: 使用 Cert-Manager 部署一个自定义 Ingress 网关
+title: 使用 cert-manager 部署一个自定义 Ingress 网关
 description: 如何使用 cert-manager 手工部署一个自定义 Ingress 网关。
 subtitle: 自定义 Ingress 网关
 publishdate: 2019-01-10
@@ -16,7 +16,7 @@ target_release: 1.0
 
 * 根据[安装指南](/zh/docs/setup/)完成 Istio 的部署。
 * 用 Helm [Chart](https://github.com/helm/charts/tree/master/stable/cert-manager#installing-the-chart) 部署 `cert-manager`。
-* 我们会使用 `demo.mydemo.com` 进行演示，因此你的 DNS 解析要能够解析这个域名。
+* 我们会使用 `demo.mydemo.com` 进行演示，因此您的 DNS 解析要能够解析这个域名。
 
 ## 配置自定义 Ingress 网关{#configuring-the-custom-ingress-gateway}
 
@@ -67,7 +67,7 @@ target_release: 1.0
                 key: secret-access-key
     {{< /text >}}
 
-1. 如果使用的是 `route53` [provider](https://cert-manager.readthedocs.io/en/latest/tasks/acme/configuring-dns01/route53.html)，必须提供一个 Secret 来进行 DNS 的 ACME 验证。可以使用下面的配置来创建需要的 Secret：
+1. 如果使用的是 `route53` [Provider](https://cert-manager.readthedocs.io/en/latest/tasks/acme/configuring-dns01/route53.html)，必须提供一个 Secret 来进行 DNS 的 ACME 验证。可以使用下面的配置来创建需要的 Secret：
 
     {{< text yaml >}}
     apiVersion: v1
@@ -133,7 +133,7 @@ target_release: 1.0
     其中类似 `aws-load-balancer-type` 这样的注解，只对 AWS 生效。
     {{< /tip >}}
 
-1. 创建你的服务：
+1. 创建您的服务：
 
     {{< warning >}}
     `NodePort` 需要是一个可用端口。
@@ -170,7 +170,7 @@ target_release: 1.0
           port: 31400
     {{< /text >}}
 
-1. 创建你的自定义 Ingress 网关配置对象：
+1. 创建您的自定义 Ingress 网关配置对象：
 
     {{< text yaml >}}
     apiVersion: networking.istio.io/v1alpha3
@@ -229,4 +229,4 @@ target_release: 1.0
       SSL certificate verify ok.
     {{< /text >}}
 
-**恭喜你！** 现在你可以使用自定义的 `istio-custom-gateway` [网关](/zh/docs/reference/config/networking/gateway/)对象了。
+**恭喜您！** 现在您可以使用自定义的 `istio-custom-gateway` [网关](/zh/docs/reference/config/networking/gateway/)对象了。

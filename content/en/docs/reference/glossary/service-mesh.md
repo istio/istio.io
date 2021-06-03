@@ -2,6 +2,7 @@
 title: Service Mesh
 test: n/a
 ---
+
 A *service mesh* or simply *mesh* is an infrastructure layer that enables
 managed, observable and secure communication between
 [workload instances](/docs/reference/glossary/#workload-instance).

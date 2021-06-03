@@ -7,7 +7,7 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 
-WebAssembly is a sandboxing technology which can be used to extend the Istio proxy (Envoy).  The Proxy-Wasm sandbox API replaces Mixer as the primary extension mechanism in Istio. Istio 1.6 will provide a uniform configuration API for Proxy-Wasm plugins.
+WebAssembly is a sandboxing technology which can be used to extend the Istio proxy (Envoy).  The Proxy-Wasm sandbox API replaces Mixer as the primary extension mechanism in Istio.
 
 WebAssembly sandbox goals:
 
@@ -35,21 +35,12 @@ Istio extensions (Proxy-Wasm plugins) have several components:
 ## Example
 
 An example C++ Proxy-Wasm plugin for a filter can be found
-[here](https://github.com/envoyproxy/envoy-wasm/tree/19b9fd9a22e27fcadf61a06bf6aac03b735418e6/examples/wasm).
-
-To implement a Proxy-Wasm plugin for a filter:
-
-- Implement a [root context class](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/examples/wasm/envoy_filter_http_wasm_example.cc#L7) which inherits [base root context class](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/api/wasm/cpp/proxy_wasm_impl.h#L288)
-- Implement a [stream context class](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/examples/wasm/envoy_filter_http_wasm_example.cc#L14) which inherits the [base context class](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/api/wasm/cpp/proxy_wasm_impl.h#L314).
-- Override [context API](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/examples/wasm/envoy_filter_http_wasm_example.cc#L14) methods to handle corresponding initialization and stream events from host.
-- [Register](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/examples/wasm/envoy_filter_http_wasm_example.cc#L26) the root context and stream context.
-
-## SDK
-
-A detailed description of the C++ SDK can be found [here](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/tree/a30aaeedf30cc1545318505574c7fb3bb8d8c243/docs/wasm_filter.md).
+[here](https://github.com/istio-ecosystem/wasm-extensions/tree/master/example).
+You can follow [this guide](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md) to implement a Wasm extension with C++.
 
 ## Ecosystem
 
+- [Istio Ecosystem Wasm Extensions](https://github.com/istio-ecosystem/wasm-extensions)
 - [Proxy-Wasm ABI specification](https://github.com/proxy-wasm/spec)
 - [Proxy-Wasm C++ SDK](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk)
 - [Proxy-Wasm Rust SDK](https://github.com/proxy-wasm/proxy-wasm-rust-sdk)

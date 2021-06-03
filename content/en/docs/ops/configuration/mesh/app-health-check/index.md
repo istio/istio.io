@@ -17,8 +17,8 @@ test: yes
 [Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
 describes several ways to configure liveness and readiness probes including:
 
-1. Command
-1. HTTP request
+1. [Command](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command)
+1. [HTTP request](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-http-request)
 
 The command approach works with Istio regardless of whether or not mutual TLS is enabled.
 
@@ -48,8 +48,8 @@ To configure strict mutual TLS, run:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "default"
   namespace: "istio-io-health"
@@ -86,6 +86,7 @@ to disable the probe rewrite option. Make sure you add the annotation to the
 anywhere else (for example, on an enclosing deployment resource).
 
 {{< text yaml >}}
+kubectl apply -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -114,6 +115,7 @@ spec:
             port: 8001
           initialDelaySeconds: 5
           periodSeconds: 5
+EOF
 {{< /text >}}
 
 This approach allows you to disable the health check probe rewrite gradually on individual deployments,

@@ -1,6 +1,10 @@
 ---
-title: Helm Changes
+title: Istio 1.2 Helm Changes
 description: Details the Helm chart installation options differences between Istio 1.1 and Istio 1.2.
+publishdate: 2019-06-18
+release: 1.2
+subtitle: Minor Release
+linktitle: 1.2 Helm Changes
 weight: 30
 keywords: []
 ---

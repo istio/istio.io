@@ -25,7 +25,7 @@ istioctl analyze --all-namespaces
 }
 
 ! read -r -d '' snip_analyze_all_namespace_sample_response <<\ENDSNIP
-Warning [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
+Info [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection.
 ENDSNIP
 
 snip_fix_default_namespace() {
@@ -45,10 +45,9 @@ istioctl analyze samples/bookinfo/networking/bookinfo-gateway.yaml samples/booki
 }
 
 ! read -r -d '' snip_analyze_sample_destrule_out <<\ENDSNIP
-Error [IST0101] (Gateway bookinfo-gateway.default samples/bookinfo/networking/bookinfo-gateway.yaml:7) Referenced selector not found: "istio=ingressgateway"
 Error [IST0101] (VirtualService bookinfo.default samples/bookinfo/networking/bookinfo-gateway.yaml:39) Referenced host not found: "productpage"
 Error: Analyzers found issues when analyzing namespace: default.
-See https://istio.io/v1.8/docs/reference/config/analysis for more information about causes and resolutions.
+See https://istio.io/v1.11/docs/reference/config/analysis for more information about causes and resolutions.
 ENDSNIP
 
 snip_analyze_networking_directory() {
@@ -75,7 +74,8 @@ spec:
 ...
 status:
   validationMessages:
-  - documentation_url: https://istio.io/v1.8/docs/reference/config/analysis/ist0101/?ref=status-controller
+  - documentation_url: https://istio.io/v1.11/docs/reference/config/analysis/ist0101/?ref=status-controller
+    level: 3
     type:
       code: IST0101
 ENDSNIP
@@ -89,9 +89,7 @@ istioctl analyze -k --namespace frod
 }
 
 ! read -r -d '' snip_analyze_k_frod_out <<\ENDSNIP
-Warning [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection
-Error: Analyzers found issues when analyzing namespace: frod.
-See https://istio.io/v1.8/docs/reference/config/analysis for more information about causes and resolutions.
+Info [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection.
 ENDSNIP
 
 snip_analyze_suppress0102() {

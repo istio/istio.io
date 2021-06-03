@@ -25,7 +25,7 @@ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: deny-all
+  name: allow-nothing
   namespace: default
 spec:
   {}
@@ -34,8 +34,8 @@ EOF
 
 snip_configure_access_control_for_workloads_using_http_traffic_2() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "AuthorizationPolicy"
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: "productpage-viewer"
   namespace: default
@@ -43,6 +43,7 @@ spec:
   selector:
     matchLabels:
       app: productpage
+  action: ALLOW
   rules:
   - to:
     - operation:
@@ -52,8 +53,8 @@ EOF
 
 snip_configure_access_control_for_workloads_using_http_traffic_3() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "AuthorizationPolicy"
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: "details-viewer"
   namespace: default
@@ -61,6 +62,7 @@ spec:
   selector:
     matchLabels:
       app: details
+  action: ALLOW
   rules:
   - from:
     - source:
@@ -73,8 +75,8 @@ EOF
 
 snip_configure_access_control_for_workloads_using_http_traffic_4() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "AuthorizationPolicy"
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: "reviews-viewer"
   namespace: default
@@ -82,6 +84,7 @@ spec:
   selector:
     matchLabels:
       app: reviews
+  action: ALLOW
   rules:
   - from:
     - source:
@@ -94,8 +97,8 @@ EOF
 
 snip_configure_access_control_for_workloads_using_http_traffic_5() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "AuthorizationPolicy"
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: "ratings-viewer"
   namespace: default
@@ -103,6 +106,7 @@ spec:
   selector:
     matchLabels:
       app: ratings
+  action: ALLOW
   rules:
   - from:
     - source:
@@ -114,7 +118,7 @@ EOF
 }
 
 snip_clean_up_1() {
-kubectl delete authorizationpolicy.security.istio.io/deny-all
+kubectl delete authorizationpolicy.security.istio.io/allow-nothing
 kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
 kubectl delete authorizationpolicy.security.istio.io/details-viewer
 kubectl delete authorizationpolicy.security.istio.io/reviews-viewer

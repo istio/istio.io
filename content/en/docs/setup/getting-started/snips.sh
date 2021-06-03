@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/setup/getting-started/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/trace-generation.sh"
 
 snip_download_istio_download_1() {
 curl -L https://istio.io/downloadIstio | sh -
@@ -101,7 +102,7 @@ reviews-v3-7dbcdcbc56-m8dph       2/2     Running   0          2m41s
 ENDSNIP
 
 snip_deploy_the_sample_application_bookinfo_4() {
-kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -s productpage:9080/productpage | grep -o "<title>.*</title>"
+kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
 }
 
 ! read -r -d '' snip_deploy_the_sample_application_bookinfo_4_out <<\ENDSNIP
@@ -226,8 +227,13 @@ echo "http://$GATEWAY_URL/productpage"
 
 snip_view_the_dashboard_dashboard_1() {
 kubectl apply -f samples/addons
-while ! kubectl wait --for=condition=available --timeout=600s deployment/kiali -n istio-system; do sleep 1; done
+kubectl rollout status deployment/kiali -n istio-system
 }
+
+! read -r -d '' snip_view_the_dashboard_dashboard_1_out <<\ENDSNIP
+Waiting for deployment "kiali" rollout to finish: 0 of 1 updated replicas are available...
+deployment "kiali" successfully rolled out
+ENDSNIP
 
 snip_view_the_dashboard_dashboard_2() {
 istioctl dashboard kiali
@@ -240,4 +246,8 @@ istioctl manifest generate --set profile=demo | kubectl delete --ignore-not-foun
 
 snip_uninstall_2() {
 kubectl delete namespace istio-system
+}
+
+snip_uninstall_3() {
+kubectl label namespace default istio-injection-
 }

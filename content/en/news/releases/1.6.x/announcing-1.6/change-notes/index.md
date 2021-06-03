@@ -1,7 +1,11 @@
 ---
-title: Change Notes
+title: Istio 1.6 Change Notes
 description: Istio 1.6 release notes.
 weight: 10
+release: 1.6
+subtitle: Minor Release
+linktitle: 1.6 Change Notes
+publishdate: 2020-05-21
 ---
 
 ## Traffic Management
@@ -58,4 +62,4 @@ weight: 10
 
 ## Documentation changes
 
-- ***Added*** new and improved Istio documentation. For more information, see [Website content changes](/about/log/).
+- ***Added*** new and improved Istio documentation. For more information, see [Website content changes](/docs/releases/log/).

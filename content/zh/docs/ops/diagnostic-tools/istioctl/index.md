@@ -6,6 +6,8 @@ keywords: [istioctl,bash,zsh,shell,command-line]
 aliases:
  - /zh/help/ops/component-debugging
  - /zh/docs/ops/troubleshooting/istioctl
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 您可以通过检查各个组件的[日志](/zh/docs/ops/diagnostic-tools/component-logging/)或者通过[自检](/zh/docs/ops/diagnostic-tools/controlz/)机制来了解其功能。如果还不够的话，以下步骤将会告诉您如何深入了解。

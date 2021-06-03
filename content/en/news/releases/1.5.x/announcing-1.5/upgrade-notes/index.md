@@ -1,7 +1,11 @@
 ---
-title: Upgrade Notes
+title: Istio 1.5 Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.5.
 weight: 20
+release: 1.5
+subtitle: Minor Release
+linktitle: 1.5 Upgrade Notes
+publishdate: 2020-03-05
 ---
 
 This page describes changes you need to be aware of when upgrading from

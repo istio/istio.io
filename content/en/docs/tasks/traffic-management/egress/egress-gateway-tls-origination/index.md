@@ -92,7 +92,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 1.  Verify that your `ServiceEntry` was applied correctly by sending a request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
     location: https://edition.cnn.com/politics
@@ -201,7 +201,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 1.  Send an HTTP request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 200 OK
     ...
     {{< /text >}}
@@ -578,7 +578,7 @@ to hold the configuration of the NGINX server:
 1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>

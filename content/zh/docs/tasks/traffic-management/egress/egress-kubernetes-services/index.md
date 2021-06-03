@@ -3,11 +3,18 @@ title: Kubernetes Egress 流量服务
 description: 展示如何配置 Istio Kubernetes 外部服务。
 keywords: [traffic-management,egress]
 weight: 60
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname) 服务和带 [Endpoints](https://kubernetes.io/docs/concepts/services-networking/service/#services-without-selectors) 的 Kubernetes 服务使你可以创建一个外部服务的本地 DNS 别名。这个 DNS 别名与本地服务的 DNS 条目具有相同的形式，即 `<service name>.<namespace name>.svc.cluster.local`。DNS 别名为您的工作负载提供“位置透明性”：工作负载可以以相同的方式调用本地和外部服务。如果您决定在某个时间在集群内部部署外部服务，您只需更新其 Kubernetes 服务以引用本地版本即可。工作负载将继续运行，而不会有任何变化。
 
 这部分内容表明这些访问外部服务的 Kubernetes 机制在 Istio 中依然有效。您只需要配置使用 TLS 模式即可，并不需要 Istio 的[双向 TLS](/zh/docs/concepts/security/#mutual-TLS-authentication)。因为外部服务不是 Istio 服务网格的一部分，所以它们无法执行 Istio 的双向 TLS。您在配置 TLS 模式时，一要按照外部服务的 TLS 模式的要求、二要遵从您的工作负载访问外部服务的方式。当您的工作负载发起的是 HTTP 请求但是外部服务需要 TLS，你可以通过 Istio 发起 TLS。当您的工作负载已经使用 TLS 来加密流量，您可以禁用 Istio 的双向 TLS。
+
+{{< warning >}}
+本页介绍 Istio 如何与现有 Kubernetes 配置集成。对于新部署，我们建议
+遵循[访问出口服务](/zh/docs/tasks/traffic-management/egress/egress-control/)。
+{{< /warning >}}
 
 虽然此部分的示例使用 HTTP 协议，但是用于引导出口流量的 Kubernetes 服务也可以与其他协议一起使用。
 
@@ -100,17 +107,19 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
 1. 通过带有 Istio Sidecar 的源 pod 通过 Kubernetes 服务的主机名访问 `httpbin.org`。注意 Istio Sidecar 添加的 headers，例如，`X-Istio-Attributes` 和 `X-Envoy-Decorator-Operation`。另请注意 `Host` header 等于您的服务的主机名。
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS my-httpbin.default.svc.cluster.local/headers
     {
       "headers": {
         "Accept": "*/*",
+        "Content-Length": "0",
         "Host": "my-httpbin.default.svc.cluster.local",
-        "User-Agent": "curl/7.55.0",
+        "User-Agent": "curl/7.64.0",
         "X-B3-Sampled": "0",
-        "X-B3-Spanid": "5b68b3f953945a08",
-        "X-B3-Traceid": "0847ba2513aa0ffc5b68b3f953945a08",
+        "X-B3-Spanid": "5795fab599dca0b8",
+        "X-B3-Traceid": "5079ad3a4af418915795fab599dca0b8",
         "X-Envoy-Decorator-Operation": "my-httpbin.default.svc.cluster.local:80/*",
-        "X-Istio-Attributes": "CigKGGRlc3RpbmF0aW9uLnNlcnZpY2UubmFtZRIMEgpteS1odHRwYmluCioKHWRlc3RpbmF0aW9uLnNlcnZpY2UubmFtZXNwYWNlEgkSB2RlZmF1bHQKOwoKc291cmNlLnVpZBItEitrdWJlcm5ldGVzOi8vc2xlZXAtNjZjOGQ3OWZmNS04aG1neC5kZWZhdWx0CkAKF2Rlc3RpbmF0aW9uLnNlcnZpY2UudWlkEiUSI2lzdGlvOi8vZGVmYXVsdC9zZXJ2aWNlcy9teS1odHRwYmluCkIKGGRlc3RpbmF0aW9uLnNlcnZpY2UuaG9zdBImEiRteS1odHRwYmluLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWw="
+        "X-Envoy-Peer-Metadata": "...",
+        "X-Envoy-Peer-Metadata-Id": "sidecar~10.28.1.74~sleep-6bdb595bcb-drr45.default~default.svc.cluster.local"
       }
     }
     {{< /text >}}

@@ -21,13 +21,13 @@ export GO_TOP
 
 GO ?= go
 
-GOARCH_LOCAL := $(TARGET_ARCH)
+export GOARCH_LOCAL := $(TARGET_ARCH)
 export GOOS_LOCAL := $(TARGET_OS)
 export IN_BUILD_CONTAINER := $(IN_BUILD_CONTAINER)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
 # For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
-ISTIO_IMAGE_VERSION ?= 1.8-alpha
+ISTIO_IMAGE_VERSION ?= 1.11-alpha
 export ISTIO_IMAGE_VERSION
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
@@ -80,10 +80,7 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
-doc-owners:
-	@scripts/doc_owners.sh
-
-gen: snips doc-owners tidy-go
+gen: snips tidy-go format-go
 
 gen-check: gen check-clean-repo
 
@@ -143,7 +140,10 @@ netlify: netlify_install
 update_ref_docs:
 	@scripts/grab_reference_docs.sh $(SOURCE_BRANCH_NAME)
 
-update_all: update_ref_docs update_examples
+update_test_reference:
+	@go get istio.io/istio@$(SOURCE_BRANCH_NAME) && go mod tidy
+
+update_all: update_ref_docs update_test_reference
 
 foo2:
 	hugo version
@@ -203,4 +203,4 @@ test_status:
 
 include common/Makefile.common.mk
 
-.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_examples update_all
+.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_all

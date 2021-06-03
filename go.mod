@@ -2,10 +2,6 @@ module istio.io/istio.io
 
 go 1.15
 
-replace github.com/golang/glog => github.com/istio/glog v0.0.0-20190424172949-d7cfb6fa2ccd
-
-replace k8s.io/klog => github.com/istio/klog v0.0.0-20190424230111-fb7481ea8bcf
-
 replace github.com/spf13/viper => github.com/istio/viper v1.3.3-0.20190515210538-2789fed3109c
 
 // For license
@@ -27,6 +23,15 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 replace github.com/evanphx/json-patch => github.com/evanphx/json-patch v0.0.0-20190815234213-e83c0a1c26c8
 
 require (
-	istio.io/istio v0.0.0-20201002175829-cb446b90f9d8
-	istio.io/pkg v0.0.0-20200922180714-670b76a68558
+	github.com/golang/sync v0.0.0-20180314180146-1d60e4601c6f
+	github.com/pmezard/go-difflib v1.0.0
+	istio.io/client-go v1.10.0-rc.1.0.20210512214749-e6f28edf3fce // indirect
+	istio.io/gogo-genproto v0.0.0-20210511212328-954676fb66ee // indirect
+	istio.io/istio v0.0.0-20210529115609-bb5f17a98f45
+	istio.io/pkg v0.0.0-20210528151021-2059ed14a0e6
+	k8s.io/apimachinery v0.21.0
+	k8s.io/client-go v0.21.0
 )
+
+// Pending https://github.com/kubernetes/kube-openapi/pull/220
+replace k8s.io/kube-openapi => github.com/howardjohn/kube-openapi v0.0.0-20210104181841-c0b40d2cb1c8

@@ -593,7 +593,7 @@ demonstrated a simple policy that allowed certain URL paths only. We also showed
 ## Cleanup
 
 1.  Perform the instructions in [Cleanup](/docs/tasks/traffic-management/egress/egress-gateway//#cleanup) section of the
-[Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway//) example.
+[Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) example.
 
 1.  Delete the logging and policy checks configuration:
 

@@ -52,16 +52,16 @@ addons to require authentication when exposing them externally.
 
 This example uses self-signed certificates, which may not be appropriate for production usages. For these cases, consider using [cert-manager](/docs/ops/integrations/certmanager/) or other tools to provision certificates. You may also visit the [Securing Gateways with HTTPS](/docs/tasks/traffic-management/ingress/secure-ingress/) task for general information on using HTTPS on the gateway.
 
-1. Setup the certificates. This example uses `openssl` to self sign.
+1. Set up the certificates. This example uses `openssl` to self sign.
 
-{{< text bash >}}
-$ CERT_DIR=/tmp/certs
-$ mkdir -p ${CERT_DIR}
-$ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj "/O=example Inc./CN=*.${INGRESS_DOMAIN}" -keyout ${CERT_DIR}/ca.key -out ${CERT_DIR}/ca.crt
-$ openssl req -out ${CERT_DIR}/cert.csr -newkey rsa:2048 -nodes -keyout ${CERT_DIR}/tls.key -subj "/CN=*.${INGRESS_DOMAIN}/O=example organization"
-$ openssl x509 -req -days 365 -CA ${CERT_DIR}/ca.crt -CAkey ${CERT_DIR}/ca.key -set_serial 0 -in ${CERT_DIR}/cert.csr -out ${CERT_DIR}/tls.crt
-$ kubectl create -n istio-system secret tls telemetry-gw-cert --key=${CERT_DIR}/tls.key --cert=${CERT_DIR}/tls.crt
-{{< /text >}}
+    {{< text bash >}}
+    $ CERT_DIR=/tmp/certs
+    $ mkdir -p ${CERT_DIR}
+    $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj "/O=example Inc./CN=*.${INGRESS_DOMAIN}" -keyout ${CERT_DIR}/ca.key -out ${CERT_DIR}/ca.crt
+    $ openssl req -out ${CERT_DIR}/cert.csr -newkey rsa:2048 -nodes -keyout ${CERT_DIR}/tls.key -subj "/CN=*.${INGRESS_DOMAIN}/O=example organization"
+    $ openssl x509 -req -days 365 -CA ${CERT_DIR}/ca.crt -CAkey ${CERT_DIR}/ca.key -set_serial 0 -in ${CERT_DIR}/cert.csr -out ${CERT_DIR}/tls.crt
+    $ kubectl create -n istio-system secret tls telemetry-gw-cert --key=${CERT_DIR}/tls.key --cert=${CERT_DIR}/tls.crt
+    {{< /text >}}
 
 1. Apply networking configuration for the telemetry addons.
 

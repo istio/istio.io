@@ -1,48 +1,59 @@
 ---
 title: 使用 Google Kubernetes Engine 快速开始
 description: 在 Google Kubernetes Engine (GKE) 上快速搭建 Istio 服务。
-weight: 15
+weight: 20
 skip_seealso: true
 aliases:
     - /zh/docs/setup/kubernetes/prepare/platform-setup/gke/
     - /zh/docs/setup/kubernetes/platform-setup/gke/
 keywords: [platform-setup,kubernetes,gke,google]
+owner: istio/wg-environments-maintainers
+test: no
 ---
 
-{{< tip >}}
-Google 为 GKE 提供了一个插件，
-您可以使用它来代替手动安装 Istio。
-要确定该插件是否适合您，请参阅 [Istio on GKE](https://cloud.google.com/istio/docs/istio-on-gke/overview)
-以获得更多信息。
-{{< /tip >}}
-
-依照以下操作指南为安装 Istio 准备一个 GKE 集群。
-
-{{< warning >}}
-需要在 Istio 中启用[秘钥发现服务](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration)（SDS），请使用 Kubernetes 1.13 或更高版本。
-{{< /warning >}}
+依照以下操作指南为 Istio 准备一个 GKE 集群。
 
 1. 创建一个新集群。
 
     {{< text bash >}}
-    $ gcloud container clusters create <cluster-name> \
+    $ export PROJECT_ID=`gcloud config get-value project` && \
+      export M_TYPE=n1-standard-2 && \
+      export ZONE=us-west2-a && \
+      export CLUSTER_NAME=${PROJECT_ID}-${RANDOM} && \
+      gcloud services enable container.googleapis.com && \
+      gcloud container clusters create $CLUSTER_NAME \
       --cluster-version latest \
-      --machine-type=n1-standard-2 \
+      --machine-type=$M_TYPE \
       --num-nodes 4 \
-      --zone <zone> \
-      --project <project-id>
+      --zone $ZONE \
+      --project $PROJECT_ID
     {{< /text >}}
 
     {{< tip >}}
-    默认安装 Mixer 要求节点的 vCPU 大于 1。
-    如果您要使用[演示配置文件](/zh/docs/setup/additional-setup/config-profiles/)，
-    您可以删除 `--machine-type` 参数，以使用较小 `n1-standard-1` 机器配置代替。
+    Istio的默认安装要求节点 vCPU 大于 1，如果您要使用[配置文件示例](/zh/docs/setup/additional-setup/config-profiles/)，您可以删除 `--machine-type` 参数，以使用较小 `n1-standard-1` 机器配置代替。
     {{< /tip >}}
 
     {{< warning >}}
-    如果需要使用 Istio CNI 功能，
-    需要在 `gcloud container clusters create` 命令中加入 `--enable-network-policy` 参数，
-    以启用 GKE 集群的 [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) 功能。
+    如果需要使用 Istio CNI 功能，需要在 `gcloud container clusters create` 命令中加入 `--enable-network-policy` 参数，以启用 GKE 集群的 [Network-Policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) 功能。
+    {{< /warning >}}
+
+    {{< warning >}}
+    **Private GKE Cluster**
+
+    Pilot 检测 Validation Webhook 需要 15017 端口，但自动创建的防火墙规则不会打开这个端口。
+
+    根据以下操作查看防火墙规则以允许 Master 访问：
+
+    {{< text bash >}}
+    $ gcloud compute firewall-rules list --filter="name~gke-${CLUSTER_NAME}-[0-9a-z]*-master"
+    {{< /text >}}
+
+    替换当前的防火墙规则以允许 Master 访问：
+
+    {{< text bash >}}
+    $ gcloud compute firewall-rules update <firewall-rule-name> --allow tcp:10250,tcp:443,tcp:15017
+    {{< /text >}}
+
     {{< /warning >}}
 
 1. 为 `kubectl` 获取认证凭据。
@@ -53,7 +64,7 @@ Google 为 GKE 提供了一个插件，
         --project <project-id>
     {{< /text >}}
 
-1. 为了给 Istio 创建 RBAC 规则，需要给当前用户赋予集群管理员（admin）权限，因此这里进行授权操作。
+1. 为 Istio 创建 RBAC 规则，需要授予当前用户集群管理员（admin）权限，根据如下命令进行授权操作。
 
     {{< text bash >}}
     $ kubectl create clusterrolebinding cluster-admin-binding \

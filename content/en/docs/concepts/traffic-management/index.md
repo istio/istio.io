@@ -483,8 +483,7 @@ spec:
     - ext-host.example.com
     tls:
       mode: SIMPLE
-      serverCertificate: /tmp/tls.crt
-      privateKey: /tmp/tls.key
+      credentialName: ext-host-cert
 {{< /text >}}
 
 This gateway configuration lets HTTPS traffic from `ext-host.example.com` into the mesh on

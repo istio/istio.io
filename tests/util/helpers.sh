@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # shellcheck disable=SC2155,SC2030,SC2031
 
 # Copyright Istio Authors
@@ -70,11 +70,12 @@ _set_ingress_environment_variables() {
 #   kubectl wait --for=condition=Ready pod --all --timeout=60s
 
 # Wait for rollout of named deployment
-# usage: _wait_for_deployment <namespace> <deployment name>
+# usage: _wait_for_deployment <namespace> <deployment name> <optional: context>
 _wait_for_deployment() {
     local namespace="$1"
     local name="$2"
-    if ! kubectl -n "$namespace" rollout status deployment "$name" --timeout 5m; then
+    local context="${3:-}"
+    if ! kubectl --context="$context" -n "$namespace" rollout status deployment "$name" --timeout 5m; then
         echo "Failed rollout of deployment $name in namespace $namespace"
         exit 1
     fi
@@ -83,16 +84,15 @@ _wait_for_deployment() {
 # Wait for Istio config to propagate
 # usage: _wait_for_istio <kind> <namespace> <name>
 _wait_for_istio() {
-# TODO: Put back when istioctl wait is functiuoning correctly
-#    local kind="$1"
-#    local namespace="$2"
-#    local name="$3"
+    local kind="$1"
+    local namespace="$2"
+    local name="$3"
     local start=$(date +%s)
-#    if ! istioctl experimental wait --for=distribution --timeout=10s "$kind" "$name.$namespace"; then
-#        echo "Failed distribution of $kind $name in namespace $namespace"
-#        istioctl ps
-#        echo "TEST: wait for failed, but continuing."
-#    fi
+    if ! istioctl experimental wait --for=distribution --timeout=10s "$kind" "$name.$namespace"; then
+        echo "Failed distribution of $kind $name in namespace $namespace"
+        istioctl ps
+        echo "TEST: wait for failed, but continuing."
+    fi
     echo "Duration: $(($(date +%s)-start)) seconds"
 }
 

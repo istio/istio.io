@@ -26,8 +26,8 @@ kubectl create ns istio-io-health
 
 snip_liveness_and_readiness_probes_using_the_command_approach_2() {
 kubectl apply -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
   name: "default"
   namespace: "istio-io-health"
@@ -51,6 +51,7 @@ liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 ENDSNIP
 
 ! read -r -d '' snip_disable_the_http_probe_rewrite_for_a_pod_1 <<\ENDSNIP
+kubectl apply -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -79,6 +80,7 @@ spec:
             port: 8001
           initialDelaySeconds: 5
           periodSeconds: 5
+EOF
 ENDSNIP
 
 snip_disable_the_probe_rewrite_globally_1() {
