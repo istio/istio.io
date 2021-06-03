@@ -8,25 +8,38 @@ test: no
 ---
 
 Along with creating a service mesh, Istio allows you to manage [gateways](/docs/concepts/traffic-management/#gateways),
-which run at the edge of the mesh, providing fine-grained control over traffic entering and leaving the mesh.
+which are Envoy proxies running at the edge of the mesh, providing fine-grained control over traffic entering and leaving the mesh.
 
-Follow this guide to deploy one or more gateways.
+Some of Istio's built in [configuration profiles](/docs/setup/additional-setup/config-profiles/) deploy gateways during installation.
+For example, a call to `istioctl install` with [default settings](/docs/setup/install/istioctl/#install-istio-using-the-default-profile)
+will deploy an ingress gateway along with the control plane.
+Although fine for evaluation and simple use cases, this couples the gateway to the control plane, making management and upgrade more complicated.
+For production Istio deployments, it is highly recommended to decouple these to allow independent operation.
+
+Follow this guide to separately deploy and manage one or more gateways in a production installation of Istio.
 
 ## Prerequisites
 
 This guide requires the Istio control plane [to be installed](/docs/setup/install/) before proceeding.
 
-## Installing the gateway with injection
+{{< tip >}}
+You can use the `minimal` profile, for example `istioctl install --set profile=minimal`, to prevent any gateways from being deployed
+during installation.
+{{< /tip >}}
 
-Using the same mechanisms as [Istio sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), the Envoy proxy configuration for gateways can similarly be auto-injected.
+## Deploying a gateway
 
-This gives developers full control over the gateway deployment, while also simplifying operations.
+Using the same mechanisms as [Istio sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection),
+the Envoy proxy configuration for gateways can similarly be auto-injected.
+
+Using auto-injection for gateway deployments is recommended as it gives developers full control over the gateway deployment,
+while also simplifying operations.
 When a new upgrade is available, or a configuration has changed, gateway pods can be updated by simply restarting them.
 This makes the experience of operating a gateway deployment the same as operating sidecars.
 
 To support users with existing deployment tools, Istio provides a few different ways to deploy a gateway.
 Each method will produce the same result.
-Choose the method you are most familiar with:
+Choose the method you are most familiar with.
 
 {{< tip >}}
 As a security best practice, it is recommended to deploy the gateway in a different namespace from the control plane.
@@ -35,11 +48,6 @@ As a security best practice, it is recommended to deploy the gateway in a differ
 {{< tabset category-name="gateway-install-type" >}}
 
 {{< tab name="IstioOperator" category-value="iop" >}}
-
-A call to `istioctl install` with [default settings](/docs/setup/install/istioctl/#install-istio-using-the-default-profile) will deploy a gateway by default.
-However, this couples it to the control plane, making management and upgrade more complicated.
-It is highly recommended to decouple these and allow independent operation.
-This can be done by selecting the `minimal` profile, for example `istioctl install --set profile=minimal`.
 
 First, setup an `IstioOperator` configuration file, called `ingress.yaml` here:
 
@@ -169,8 +177,11 @@ subjects:
   name: default
 {{< /text >}}
 
+{{< warning >}}
 This example shows the bare minimum needed to get a gateway running. For production usage, additional
-configuration such as Horizontal Pod Autoscaler, Pod Disruption Budget, and resource requests/limits are recommended.
+configuration such as `HorizontalPodAutoscaler`, `PodDisruptionBudget`, and resource requests/limits are recommended.
+These are automatically included when using the other gateway installation methods.
+{{< /warning >}}
 
 {{< tip >}}
 The `sidecar.istio.io/inject` label on the pod is used in this example to enable injection. Just like application sidecar injection, this can instead be controlled at the namespace level.
