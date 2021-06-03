@@ -386,6 +386,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>EnableRedisFilter enables injection of `envoy.filters.network.redis_proxy` in the filter chain.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_ROUTE_COLLAPSE_OPTIMIZATION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will merge virtual hosts with the same routes into a single virtual host, as an optimization.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_SERVICEENTRY_SELECT_PODS</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -540,6 +546,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, Pilot will use EndpointSlices as the source of endpoints for Kubernetes services. By default, this is false, and Endpoints will be used. This requires the Kubernetes EndpointSlice controller to be enabled. Currently this is mutual exclusive - either Endpoints or EndpointSlices will be used</td>
+</tr>
+<tr>
+<td><code>PILOT_USE_TARGET_PORT_FOR_GATEWAY_ROUTES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, routes will use the target port of the gateway service in the route name, not the service port.</td>
 </tr>
 <tr>
 <td><code>PILOT_WORKLOAD_ENTRY_GRACE_PERIOD</code></td>
