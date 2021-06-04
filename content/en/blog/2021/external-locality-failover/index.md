@@ -51,7 +51,7 @@ spec:
    ports:
      http: 80
  - address: dynamodb.us-west-1.amazonaws.com
-   locality: us-west1
+   locality: us-west
    ports:
      http: 80
 {{< /text >}}
@@ -129,7 +129,7 @@ spec:
  resolution: DNS
  endpoints:
  - address: dynamodb.us-east-1.amazonaws.com
-   locality: us-central1
+   locality: us-east1
    ports:
      http: 81 # INVALID - This is purposefully wrong to trigger failover
  - address: dynamodb.us-west-1.amazonaws.com
