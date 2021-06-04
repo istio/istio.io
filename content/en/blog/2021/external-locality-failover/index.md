@@ -210,6 +210,6 @@ spec:
 
  The `DestinationRule` now performs TLS origination and configures the outlier detection. The rule also has a [failover](/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting) field configured where you can specify exactly what regions are failover targets. This is useful when you have several regions defined.
 
-## **Wrapping Up**
+## Wrapping Up
 
 Istio’s `VirtualService` and `DestinationRule` API’s provide traffic routing, failure recovery and fault injection features so that you can create resilient applications. The ServiceEntry API extends many of these features to external services that are not part of your service mesh.
