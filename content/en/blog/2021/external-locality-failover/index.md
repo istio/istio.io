@@ -19,7 +19,7 @@ Similar to services running inside the service mesh, you can configure Istio to 
 
 ## Define external endpoints using a ServiceEntry
 
-First, determine the location of your workloads.
+[Locality load balancing](/docs/tasks/traffic-management/locality-load-balancing/) works based on `region` or `zone`, which are usually inferred from labels set on the Kubernetes nodes. First, determine the location of your workloads:
 
 {{< text bash >}}
 $ kubectl describe node | grep failure-domain.beta.kubernetes.io/region
@@ -29,7 +29,7 @@ $ kubectl describe node | grep failure-domain.beta.kubernetes.io/region
 
 In this example, the GKE cluster nodes are running in `us-east1`.
 
-Next, apply a `ServiceEntry` to create a `mydb.com` service that’s backed by the two DynamoDB endpoints. Set the `locality` of your primary endpoint to the same region as your workload.
+Next, create a `ServiceEntry` which aggregates the endpoints you want to use. In this example, we have selected `mydb.com` as the host. This is the address your application should be configured to connect to. Set the `locality` of the primary endpoint to the same region as your workload:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1beta1
