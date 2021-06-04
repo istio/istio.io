@@ -27,7 +27,7 @@ $ kubectl describe node | grep failure-domain.beta.kubernetes.io/region
                     failure-domain.beta.kubernetes.io/region=us-east1
 {{< /text >}}
 
-In this example, the GKE cluster nodes are running in `us-east1`
+In this example, the GKE cluster nodes are running in `us-east1`.
 
 Next, apply a `ServiceEntry` to create a `mydb.com` service that’s backed by the two DynamoDB endpoints. Set the `locality` of your primary endpoint to the same region as your workload.
 
