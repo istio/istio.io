@@ -213,5 +213,3 @@ spec:
 ## **Wrapping Up**
 
 Istio’s `VirtualService` and `DestinationRule` API’s provide traffic routing, failure recovery and fault injection features so that you can create resilient applications. The ServiceEntry API extends many of these features to external services that are not part of your service mesh.
-
-As a Field Engineer at [Solo.io](https://www.solo.io/), I help users solve interesting problems such as these using Istio. If you have any questions, feel free to reach out to me on our [Slack](https://slack.solo.io/).
