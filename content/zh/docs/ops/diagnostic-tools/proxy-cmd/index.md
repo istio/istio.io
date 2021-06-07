@@ -1,5 +1,5 @@
 ---
-title: 调试 Envoy 和 Pilot
+title: 调试 Envoy 和 Istiod
 description: 描述诊断与流量管理相关的 Envoy 配置问题的工具和技术。
 weight: 20
 keywords: [debug,proxy,status,config,pilot,envoy]
@@ -29,31 +29,30 @@ Istio 提供了两个非常有价值的命令来帮助诊断流量管理配置�
 
 {{< text bash >}}
 $ istioctl proxy-status
-PROXY                                                  CDS        LDS        EDS               RDS          PILOT                            VERSION
-details-v1-6dcc6fbb9d-wsjz4.default                    SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-tfdvh     1.1.2
-istio-egressgateway-c49694485-l9d5l.istio-system       SYNCED     SYNCED     SYNCED     NOT SENT     istio-pilot-75bdf98789-tfdvh     1.1.2
-istio-ingress-6458b8c98f-7ks48.istio-system            SYNCED     SYNCED     SYNCED     NOT SENT     istio-pilot-75bdf98789-n2kqh     1.1.2
-istio-ingressgateway-7d6874b48f-qxhn5.istio-system     SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
-productpage-v1-6c886ff494-hm7zk.default                SYNCED     SYNCED     SYNCED     STALE        istio-pilot-75bdf98789-n2kqh     1.1.2
-ratings-v1-5d9ff497bb-gslng.default                    SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
-reviews-v1-55d4c455db-zjj2m.default                    SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
-reviews-v2-686bbb668-99j76.default                     SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-tfdvh     1.1.2
-reviews-v3-7b9b5fdfd6-4r52s.default                    SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
+NAME                                                   CDS        LDS        EDS        RDS          ISTIOD                      VERSION
+details-v1-558b8b4b76-qzqsg.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.7.0
+istio-ingressgateway-66c994c45c-cmb7x.istio-system     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-6cf8d4f9cb-wm7x6     1.7.0
+productpage-v1-6987489c74-nc7tj.default                SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.7.0
+prometheus-7bdc59c94d-hcp59.istio-system               SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.7.0
+ratings-v1-7dc98c7588-5m6xj.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.7.0
+reviews-v1-7f99cc4496-rtsqn.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.7.0
+reviews-v2-7d79d5bd5d-tj6kf.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.7.0
+reviews-v3-7dbcdcbc56-t8wrx.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.7.0
 {{< /text >}}
 
-如果列表中缺少代理，这意味着它目前没有连接到 Pilot 实例，因此不会接收任何配置。
+如果列表中缺少代理，这意味着它目前没有连接到 Istiod 实例，因此不会接收任何配置。
 
-* `SYNCED` 意思是 Envoy 知晓了 Pilot 已经将最新的配置发送给了它。
-* `NOT SENT` 意思是 Pilot 没有发送任何信息给 Envoy。这通常是因为 Pilot 没什么可发送的。
-* `STALE` 意思是 Pilot 已经发送了一个更新到 Envoy，但还没有收到应答。这通常意味着 Envoy 和 Pilot 之间存在网络问题，或者 Istio 自身的 bug。
+* `SYNCED` 意思是 Envoy 知晓了 {{< gloss >}}Istiod{{< /gloss >}} 已经将最新的配置发送给了它。
+* `NOT SENT` 意思是 Istiod 没有发送任何信息给 Envoy。这通常是因为 Istiod 没什么可发送的。
+* `STALE` 意思是 Istiod 已经发送了一个更新到 Envoy，但还没有收到应答。这通常意味着 Envoy 和 Istiod 之间存在网络问题，或者 Istio 自身的 bug。
 
-## 检查 Envoy 和 Istio Pilot 的差异{#retrieve-diffs-between-envoy-and-Istio-pilot}
+## 检查 Envoy 和 Istiod 的差异{#retrieve-diffs-between-envoy-and-Istiod}
 
-通过提供代理 ID，`proxy-status` 命令还可以用来检查 Envoy 已加载的配置和 Pilot 发送给它的配置有什么异同，这可以帮您准确定位哪些配置是不同步的，以及问题出在哪里。
+通过提供代理 ID，`proxy-status` 命令还可以用来检查 Envoy 已加载的配置和 Istiod 发送给它的配置有什么异同，这可以帮您准确定位哪些配置是不同步的，以及问题出在哪里。
 
 {{< text bash json >}}
 $ istioctl proxy-status details-v1-6dcc6fbb9d-wsjz4.default
---- Pilot Clusters
+--- Istiod Clusters
 +++ Envoy Clusters
 @@ -374,36 +374,14 @@
              "edsClusterConfig": {
@@ -94,7 +93,7 @@ $ istioctl proxy-status details-v1-6dcc6fbb9d-wsjz4.default
                    }
 
 Listeners Match
-Routes Match
+Routes Match (RDS last loaded at Tue, 04 Aug 2020 11:52:54 IST)
 {{< /text >}}
 
 从这儿可以看到，监听器和路由是匹配的，但集群不同步。
@@ -105,14 +104,30 @@ Routes Match
 
 {{< text bash >}}
 $ istioctl proxy-config cluster -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
-SERVICE FQDN                                                                     PORT      SUBSET     DIRECTION     TYPE
-BlackHoleCluster                                                                 -         -          -             STATIC
-details.default.svc.cluster.local                                                9080      -          outbound      EDS
-heapster.kube-system.svc.cluster.local                                           80        -          outbound      EDS
-istio-citadel.istio-system.svc.cluster.local                                     8060      -          outbound      EDS
-istio-citadel.istio-system.svc.cluster.local                                     15014     -          outbound      EDS
-istio-egressgateway.istio-system.svc.cluster.local                               80        -          outbound      EDS
+SERVICE FQDN                                                               PORT      SUBSET     DIRECTION     TYPE           DESTINATION RULE
+BlackHoleCluster                                                           -         -          -             STATIC
+agent                                                                      -         -          -             STATIC
+details.default.svc.cluster.local                                          9080      -          outbound      EDS            details.default
+istio-ingressgateway.istio-system.svc.cluster.local                        80        -          outbound      EDS
+istio-ingressgateway.istio-system.svc.cluster.local                        443       -          outbound      EDS
+istio-ingressgateway.istio-system.svc.cluster.local                        15021     -          outbound      EDS
+istio-ingressgateway.istio-system.svc.cluster.local                        15443     -          outbound      EDS
+istiod.istio-system.svc.cluster.local                                      443       -          outbound      EDS
+istiod.istio-system.svc.cluster.local                                      853       -          outbound      EDS
+istiod.istio-system.svc.cluster.local                                      15010     -          outbound      EDS
+istiod.istio-system.svc.cluster.local                                      15012     -          outbound      EDS
+istiod.istio-system.svc.cluster.local                                      15014     -          outbound      EDS
+kube-dns.kube-system.svc.cluster.local                                     53        -          outbound      EDS
+kube-dns.kube-system.svc.cluster.local                                     9153      -          outbound      EDS
+kubernetes.default.svc.cluster.local                                       443       -          outbound      EDS
 ...
+productpage.default.svc.cluster.local                                      9080      -          outbound      EDS
+prometheus_stats                                                           -         -          -             STATIC
+ratings.default.svc.cluster.local                                          9080      -          outbound      EDS
+reviews.default.svc.cluster.local                                          9080      -          outbound      EDS
+sds-grpc                                                                   -         -          -             STATIC
+xds-grpc                                                                   -         -          -             STRICT_DNS
+zipkin                                                                     -         -          -             STRICT_DNS
 {{< /text >}}
 
 为了调试 Envoy 您需要理解 Envoy 集群、监听器、路由、endpoints 以及它们是如何交互的。我们将使用带有 `-o json` 参数的 `proxy-config` 命令，根据标志过滤出并跟随特定的 Envoy，它将请求从 `productpage` pod 发送到 `reviews` pod 9080 端口。
@@ -125,45 +140,48 @@ istio-egressgateway.istio-system.svc.cluster.local                              
 
 {{< text bash >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs
-    ADDRESS            PORT      TYPE
-    172.21.252.250     15005     TCP <--+
-    172.21.252.250     15011     TCP    |
-    172.21.79.56       42422     TCP    |
-    172.21.160.5       443       TCP    |
-    172.21.157.6       443       TCP    |
-    172.21.117.222     443       TCP    |
-    172.21.0.10        53        TCP    |
-    172.21.126.131     443       TCP    |   Receives outbound non-HTTP traffic for relevant IP:PORT pair from listener `0.0.0.0_15001`
-    172.21.160.5       31400     TCP    |
-    172.21.81.159      9102      TCP    |
-    172.21.0.1         443       TCP    |
-    172.21.126.131     80        TCP    |
-    172.21.119.8       443       TCP    |
-    172.21.112.64      80        TCP    |
-    172.21.179.54      443       TCP    |
-    172.21.165.197     443       TCP <--+
-    0.0.0.0            9090      HTTP <-+
-    0.0.0.0            8060      HTTP   |
-    0.0.0.0            15010     HTTP   |
-    0.0.0.0            15003     HTTP   |
-    0.0.0.0            15004     HTTP   |
-    0.0.0.0            15014     HTTP   |   Receives outbound HTTP traffic for relevant port from listener `0.0.0.0_15001`
-    0.0.0.0            15007     HTTP   |
-    0.0.0.0            8080      HTTP   |
-    0.0.0.0            9091      HTTP   |
-    0.0.0.0            9080      HTTP   |
-    0.0.0.0            80        HTTP <-+
-    0.0.0.0            15001     TCP    // Receives all inbound and outbound traffic to the pod from IP tables and hands over to virtual listener
-    172.30.164.190     9080      HTTP   // Receives all inbound traffic on 9080 from listener `0.0.0.0_15001`
+    ADDRESS       PORT  MATCH                                            DESTINATION
+    10.96.0.10    53    ALL                                              Cluster: outbound|53||kube-dns.kube-system.svc.cluster.local
+    0.0.0.0       80    App: HTTP                                        Route: 80
+    0.0.0.0       80    ALL                                              PassthroughCluster
+    10.100.93.102 443   ALL                                              Cluster: outbound|443||istiod.istio-system.svc.cluster.local
+    10.111.121.13 443   ALL                                              Cluster: outbound|443||istio-ingressgateway.istio-system.svc.cluster.local
+    10.96.0.1     443   ALL                                              Cluster: outbound|443||kubernetes.default.svc.cluster.local
+    10.100.93.102 853   App: HTTP                                        Route: istiod.istio-system.svc.cluster.local:853
+    10.100.93.102 853   ALL                                              Cluster: outbound|853||istiod.istio-system.svc.cluster.local
+    0.0.0.0       9080  App: HTTP                                        Route: 9080
+    0.0.0.0       9080  ALL                                              PassthroughCluster
+    0.0.0.0       9090  App: HTTP                                        Route: 9090
+    0.0.0.0       9090  ALL                                              PassthroughCluster
+    10.96.0.10    9153  App: HTTP                                        Route: kube-dns.kube-system.svc.cluster.local:9153
+    10.96.0.10    9153  ALL                                              Cluster: outbound|9153||kube-dns.kube-system.svc.cluster.local
+    0.0.0.0       15001 ALL                                              PassthroughCluster
+    0.0.0.0       15006 Addr: 10.244.0.22/32:15021                       inbound|15021|mgmt-15021|mgmtCluster
+    0.0.0.0       15006 Addr: 10.244.0.22/32:9080                        Inline Route: /*
+    0.0.0.0       15006 Trans: tls; App: HTTP TLS; Addr: 0.0.0.0/0       Inline Route: /*
+    0.0.0.0       15006 App: HTTP; Addr: 0.0.0.0/0                       Inline Route: /*
+    0.0.0.0       15006 App: Istio HTTP Plain; Addr: 10.244.0.22/32:9080 Inline Route: /*
+    0.0.0.0       15006 Addr: 0.0.0.0/0                                  InboundPassthroughClusterIpv4
+    0.0.0.0       15006 Trans: tls; App: TCP TLS; Addr: 0.0.0.0/0        InboundPassthroughClusterIpv4
+    0.0.0.0       15010 App: HTTP                                        Route: 15010
+    0.0.0.0       15010 ALL                                              PassthroughCluster
+    10.100.93.102 15012 ALL                                              Cluster: outbound|15012||istiod.istio-system.svc.cluster.local
+    0.0.0.0       15014 App: HTTP                                        Route: 15014
+    0.0.0.0       15014 ALL                                              PassthroughCluster
+    0.0.0.0       15021 ALL                                              Inline Route: /healthz/ready*
+    10.111.121.13 15021 App: HTTP                                        Route: istio-ingressgateway.istio-system.svc.cluster.local:15021
+    10.111.121.13 15021 ALL                                              Cluster: outbound|15021||istio-ingressgateway.istio-system.svc.cluster.local
+    0.0.0.0       15090 ALL                                              Inline Route: /stats/prometheus*
+    10.111.121.13 15443 ALL                                              Cluster: outbound|15443||istio-ingressgateway.istio-system.svc.cluster.local
     {{< /text >}}
 
 1. 从上面的信息可以看到，每一个 sidecar 有一个绑定到 `0.0.0.0:15001` 的监听器，来确定 IP 表将所有进出 Pod 的流量路由到哪里。监听器设置 `useOriginalDst` 为 true 意味着它将请求传递给最适合原始请求目的地的监听器。如果找不到匹配的虚拟监听器，它会将请求发送到直接连接到目的地的 `PassthroughCluster`。
 
-    {{< text bash json >}}
+     {{< text bash json >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -o json
     [
         {
-            "name": "virtual",
+            "name": "virtualOutbound",
             "address": {
                 "socketAddress": {
                     "address": "0.0.0.0",
@@ -174,21 +192,46 @@ istio-egressgateway.istio-system.svc.cluster.local                              
                 {
                     "filters": [
                         {
+                            "name": "istio.stats",
+                            "typedConfig": {
+                                "@type": "type.googleapis.com/udpa.type.v1.TypedStruct",
+                                "typeUrl": "type.googleapis.com/envoy.extensions.filters.network.wasm.v3.Wasm",
+                                "value": {
+                                    "config": {
+                                        "configuration": "{\n  \"debug\": \"false\",\n  \"stat_prefix\": \"istio\"\n}\n",
+                                        "root_id": "stats_outbound",
+                                        "vm_config": {
+                                            "code": {
+                                                "local": {
+                                                    "inline_string": "envoy.wasm.stats"
+                                                }
+                                            },
+                                            "runtime": "envoy.wasm.runtime.null",
+                                            "vm_id": "tcp_stats_outbound"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
                             "name": "envoy.tcp_proxy",
-                            "config": {
-                                "cluster": "PassthroughCluster",
-                                "stat_prefix": "PassthroughCluster"
+                            "typedConfig": {
+                                "@type": "type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy",
+                                "statPrefix": "PassthroughCluster",
+                                "cluster": "PassthroughCluster"
                             }
                         }
-                    ]
+                    ],
+                    "name": "virtualOutbound-catchall-tcp"
                 }
             ],
-            "useOriginalDst": true
+            "trafficDirection": "OUTBOUND",
+            "hiddenEnvoyDeprecatedUseOriginalDst": true
         }
     ]
     {{< /text >}}
 
-1. 我们的请求是到端口 `9080` 的出站 HTTP 请求，它将被传递给 `0.0.0.0:9080` 的虚拟监听器。这一监听器将检索在它配置的 RDS 里的路由配置。在这个例子中它将寻找 Pilot（通过 ADS）配置在 RDS 中的路由 `9080`。
+1. 我们的请求是到端口 `9080` 的出站 HTTP 请求，它将被传递给 `0.0.0.0:9080` 的虚拟监听器。这一监听器将检索在它配置的 RDS 里的路由配置。在这个例子中它将寻找 Istiod（通过 ADS）配置在 RDS 中的路由 `9080`。
 
     {{< text bash json >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs -o json --address 0.0.0.0 --port 9080
@@ -223,22 +266,25 @@ istio-egressgateway.istio-system.svc.cluster.local                              
                         "reviews.default.svc:9080",
                         "reviews.default",
                         "reviews.default:9080",
-                        "172.21.152.34",
-                        "172.21.152.34:9080"
+                        "10.98.88.0",
+                        "10.98.88.0:9080"
                     ],
                     "routes": [
                         {
+                            "name": "default",
                             "match": {
                                 "prefix": "/"
                             },
                             "route": {
                                 "cluster": "outbound|9080||reviews.default.svc.cluster.local",
-                                "timeout": "0.000s"
-                            },
+                                "timeout": "0s",
+                            }
+                        }
+                    ]
     ...
     {{< /text >}}
 
-1. 此集群配置为从 Pilot（通过 ADS）检索关联的 endpoints。所以 Envoy 会使用 `serviceName` 字段作为主键，来检查 endpoint 列表并把请求代理到其中之一。
+1. 此集群配置为从 Istiod（通过 ADS）检索关联的 endpoints。所以 Envoy 会使用 `serviceName` 字段作为主键，来检查 endpoint 列表并把请求代理到其中之一。
 
     {{< text bash json >}}
     $ istioctl proxy-config cluster productpage-v1-6c886ff494-7vxhs --fqdn reviews.default.svc.cluster.local -o json
@@ -248,16 +294,22 @@ istio-egressgateway.istio-system.svc.cluster.local                              
             "type": "EDS",
             "edsClusterConfig": {
                 "edsConfig": {
-                    "ads": {}
+                    "ads": {},
+                    "resourceApiVersion": "V3"
                 },
                 "serviceName": "outbound|9080||reviews.default.svc.cluster.local"
             },
-            "connectTimeout": "1.000s",
+            "connectTimeout": "10s",
             "circuitBreakers": {
                 "thresholds": [
-                    {}
+                    {
+                        "maxConnections": 4294967295,
+                        "maxPendingRequests": 4294967295,
+                        "maxRequests": 4294967295,
+                        "maxRetries": 4294967295
+                    }
                 ]
-            }
+            },
         }
     ]
     {{< /text >}}
@@ -266,15 +318,15 @@ istio-egressgateway.istio-system.svc.cluster.local                              
 
     {{< text bash json >}}
     $ istioctl proxy-config endpoints productpage-v1-6c886ff494-7vxhs --cluster "outbound|9080||reviews.default.svc.cluster.local"
-    ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER
-    172.17.0.17:9080     HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
-    172.17.0.18:9080     HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
-    172.17.0.5:9080      HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
+    ENDPOINT            STATUS      OUTLIER CHECK     CLUSTER
+    172.17.0.7:9080     HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
+    172.17.0.8:9080     HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
+    172.17.0.9:9080     HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
     {{< /text >}}
 
 ## 检查 bootstrap 配置{#inspecting-bootstrap-configuration}
 
-到目前为止，我们已经查看了从 Pilot 检索到的配置（大部分），然而 Envoy 需要一些 bootstrap 配置，其中包括诸如在何处可以找到 Pilot 之类的信息。使用下面的命令查看：
+到目前为止，我们已经查看了从 Istiod 检索到的配置（大部分），然而 Envoy 需要一些 bootstrap 配置，其中包括诸如在何处可以找到 Istiod 之类的信息。使用下面的命令查看：
 
 {{< text bash json >}}
 $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
@@ -284,51 +336,72 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
             "id": "router~172.30.86.14~istio-ingressgateway-7d6874b48f-qxhn5.istio-system~istio-system.svc.cluster.local",
             "cluster": "istio-ingressgateway",
             "metadata": {
-                    "POD_NAME": "istio-ingressgateway-7d6874b48f-qxhn5",
-                    "istio": "sidecar"
+                    "CLUSTER_ID": "Kubernetes",
+                    "EXCHANGE_KEYS": "NAME,NAMESPACE,INSTANCE_IPS,LABELS,OWNER,PLATFORM_METADATA,WORKLOAD_NAME,MESH_ID,SERVICE_ACCOUNT,CLUSTER_ID",
+                    "INSTANCE_IPS": "10.244.0.7",
+                    "ISTIO_PROXY_SHA": "istio-proxy:f98b7e538920abc408fbc91c22a3b32bc854d9dc",
+                    "ISTIO_VERSION": "1.7.0",
+                    "LABELS": {
+                                "app": "istio-ingressgateway",
+                                "chart": "gateways",
+                                "heritage": "Tiller",
+                                "istio": "ingressgateway",
+                                "pod-template-hash": "68bf7d7f94",
+                                "release": "istio",
+                                "service.istio.io/canonical-name": "istio-ingressgateway",
+                                "service.istio.io/canonical-revision": "latest"
+                            },
+                    "MESH_ID": "cluster.local",
+                    "NAME": "istio-ingressgateway-68bf7d7f94-sp226",
+                    "NAMESPACE": "istio-system",
+                    "OWNER": "kubernetes://apis/apps/v1/namespaces/istio-system/deployments/istio-ingressgateway",
+                    "ROUTER_MODE": "sni-dnat",
+                    "SDS": "true",
+                    "SERVICE_ACCOUNT": "istio-ingressgateway-service-account",
+                    "WORKLOAD_NAME": "istio-ingressgateway"
                 },
-            "buildVersion": "0/1.8.0-dev//RELEASE"
+            "userAgentBuildVersion": {
+                "version": {
+                    "majorNumber": 1,
+                    "minorNumber": 15
+                },
+                "metadata": {
+                        "build.type": "RELEASE",
+                        "revision.sha": "f98b7e538920abc408fbc91c22a3b32bc854d9dc",
+                        "revision.status": "Clean",
+                        "ssl.version": "BoringSSL"
+                    }
+            },
         },
 ...
 {{< /text >}}
 
-## 验证到 Istio Pilot 的连通性{#verifying-connectivity-to-Istio-pilot}
+## 验证到 Istiod 的连通性{#verifying-connectivity-to-Istiod}
 
-验证与 Pilot 的连通性是一个有用的故障排除步骤。服务网格内的每个代理容器都应该能和 Pilot 通信。这可以通过几个简单的步骤来实现：
+验证与 Istiod 的连通性是一个有用的故障排除步骤。服务网格内的每个代理容器都应该能和 Istiod 通信。这可以通过几个简单的步骤来实现：
 
-1. 获取 Istio Ingress pod 的名称：
-
-    {{< text bash >}}
-    $ INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingressgateway\- | awk '{print$1}'); echo ${INGRESS_POD_NAME};
-    {{< /text >}}
-
-1. 通过 exec 进入 Istio Ingress pod：
+1. 创建一个 `sleep` pod：
 
     {{< text bash >}}
-    $ kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
+    $ kubectl create namespace foo
+    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
     {{< /text >}}
 
-1. 使用 `curl` 测试与 Pilot 的连通性。下面的示例使用了默认的 Pilot 配置参数和开启双向 TLS 来调用 v1 注册 API：
+1. 使用`curl`测试 Istiod 的连接。下面的示例使用默认 Istiod 配置参数和启用相互 TLS 调用 v1 注册 API：
 
     {{< text bash >}}
-    $ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:8080/debug/edsz
+    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl -sS istiod.istio-system:15014/debug/endpointz
     {{< /text >}}
 
-    如果双向 TLS 是关闭的：
-
-    {{< text bash >}}
-    $ curl http://istio-pilot:8080/debug/edsz
-    {{< /text >}}
-
-对网格内的每个服务，您将会收到一个响应，列举了 "service-key" 和 "hosts"。
+您应该收到一个响应，其中列出了网格中每个服务的“服务”和“端点”。
 
 ## Istio 使用的 Envoy 版本是什么？{#what-envoy-version-is-Istio-using}
 
-要在部署中找出 Envoy 的版本，您可以通过 `exec` 进入容器并查询 `server_info` endpoint：
+要在部署中找出 Envoy 的版本，您可以通过 `exec` 进入容器并查询 `server_info` 终端：
 
 {{< text bash >}}
-$ kubectl exec -it PODNAME -c istio-proxy -n NAMESPACE pilot-agent request GET server_info
+$ kubectl exec -it productpage-v1-6b746f74dc-9stvs -c istio-proxy -n default  -- pilot-agent request GET server_info --log_as_json | jq {version}
 {
- "version": "48bc83d8f0582fc060ef76d5aa3d75400e739d9e/1.12.0-dev/Clean/RELEASE/BoringSSL"
+ "version": "2d4ec97f3ac7b3256d060e1bb8aa6c415f5cef63/1.17.0/Clean/RELEASE/BoringSSL"
 }
 {{< /text >}}
