@@ -1,5 +1,5 @@
 ---
-title: Configurability [Beta/Experimental]
+title: Configurability&dagger;
 description: How to configure tracing options (beta/experimental).
 weight: 60
 keywords: [telemetry,tracing]

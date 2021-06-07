@@ -1,5 +1,5 @@
 ---
-title: Distributing WebAssembly Modules (Experimental)
+title: Distributing WebAssembly Modules&dagger;
 description: Describes how to make remote WebAssembly modules available in the mesh.
 weight: 10
 aliases:
