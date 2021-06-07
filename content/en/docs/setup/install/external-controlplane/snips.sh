@@ -89,7 +89,7 @@ istioctl manifest generate -f remote-config-cluster.yaml | kubectl apply --conte
 }
 
 snip_set_up_the_remote_config_cluster_3() {
-kubectl get mutatingwebhookconfiguration -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
+kubectl get mutatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
 }
 
 ! read -r -d '' snip_set_up_the_remote_config_cluster_3_out <<\ENDSNIP
@@ -393,7 +393,7 @@ istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --conte
 }
 
 snip_register_the_new_cluster_4() {
-kubectl get mutatingwebhookconfiguration -n external-istiod --context="${CTX_SECOND_CLUSTER}"
+kubectl get mutatingwebhookconfiguration --context="${CTX_SECOND_CLUSTER}"
 }
 
 ! read -r -d '' snip_register_the_new_cluster_4_out <<\ENDSNIP
