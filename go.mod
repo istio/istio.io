@@ -26,11 +26,10 @@ require (
 	github.com/golang/sync v0.0.0-20180314180146-1d60e4601c6f
 	github.com/pmezard/go-difflib v1.0.0
 	istio.io/client-go v1.10.0-rc.1.0.20210512214749-e6f28edf3fce // indirect
-	istio.io/gogo-genproto v0.0.0-20210511212328-954676fb66ee // indirect
-	istio.io/istio v0.0.0-20210529115609-bb5f17a98f45
+	istio.io/istio v0.0.0-20210604191759-0f317e2a34eb
 	istio.io/pkg v0.0.0-20210528151021-2059ed14a0e6
-	k8s.io/apimachinery v0.21.0
-	k8s.io/client-go v0.21.0
+	k8s.io/apimachinery v0.21.1
+	k8s.io/client-go v0.21.1
 )
 
 // Pending https://github.com/kubernetes/kube-openapi/pull/220
