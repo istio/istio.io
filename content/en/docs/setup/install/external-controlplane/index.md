@@ -185,7 +185,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 1. Confirm that the remote cluster's webhook configuration has been installed:
 
     {{< text bash >}}
-    $ kubectl get mutatingwebhookconfiguration -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
+    $ kubectl get mutatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
     NAME                                     WEBHOOKS   AGE
     istio-sidecar-injector-external-istiod   4          6m24s
     {{< /text >}}
@@ -568,7 +568,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 1. Confirm that the remote cluster's webhook configuration has been installed:
 
     {{< text bash >}}
-    $ kubectl get mutatingwebhookconfiguration -n external-istiod --context="${CTX_SECOND_CLUSTER}"
+    $ kubectl get mutatingwebhookconfiguration --context="${CTX_SECOND_CLUSTER}"
     NAME                                     WEBHOOKS   AGE
     istio-sidecar-injector-external-istiod   4          4m13s
     {{< /text >}}
