@@ -19,13 +19,13 @@ and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) 
 1. Install the Gateway API CRDs:
 
     {{< text bash >}}
-    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.2.0" | kubectl apply -f -
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.3.0" | kubectl apply -f -
     {{< /text >}}
 
-1. Install Istio, or reconfigure an existing installation to enable the Gateway API controller:
+1. Install Istio:
 
     {{< text bash >}}
-    $ istioctl install --set values.pilot.env.PILOT_ENABLED_SERVICE_APIS=true
+    $ istioctl install
     {{< /text >}}
 
 1. Follow the instructions in the [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) sections of the [Ingress Gateways task](/docs/tasks/traffic-management/ingress/ingress-control/) in order to retrieve the external IP address of your ingress gateway.
