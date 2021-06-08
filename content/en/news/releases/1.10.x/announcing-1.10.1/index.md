@@ -15,6 +15,6 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Fixed** an issue causing the `Host` header to not be modifiable for specific destinations in `VirtualService` ([Issue #33226](https://github.com/istio/istio/issues/33226))
+- **Fixed** an issue causing the `Host` header to not be modifiable for specific destinations in a `VirtualService` ([Issue #33226](https://github.com/istio/istio/issues/33226))
 
-- **Fixed** an issue making it impossible to set PDB `maxUnavailable` field in 'IstioOperator' ([Issue #31910](https://github.com/istio/istio/issues/31910))
+- **Fixed** an issue that made it impossible to set the PDB `maxUnavailable` field in `IstioOperator` ([Issue #31910](https://github.com/istio/istio/issues/31910))
