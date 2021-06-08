@@ -266,7 +266,7 @@ spec:
               stat_prefix: http_local_rate_limiter
     - applyTo: HTTP_ROUTE
       match:
-        context: SIDECAR_OUTBOUND
+        context: SIDECAR_INBOUND
         routeConfiguration:
           vhost:
             name: "inbound|http|9080"
