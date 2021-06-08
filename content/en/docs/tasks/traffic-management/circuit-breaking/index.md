@@ -108,7 +108,7 @@ governed by Istio.
 Pass in `curl` to indicate that you just want to make one call:
 
     {{< text bash >}}
-    $ export FORTIO_POD=$(kubectl get pods -lapp=fortio -o 'jsonpath={.items[0].metadata.name}')
+    $ export FORTIO_POD=$(kubectl get pods -l app=fortio -o 'jsonpath={.items[0].metadata.name}')
     $ kubectl exec "$FORTIO_POD" -c fortio -- /usr/bin/fortio curl -quiet http://httpbin:8000/get
     HTTP/1.1 200 OK
     server: envoy
