@@ -21,11 +21,11 @@
 ####################################################################################################
 
 snip_setup_1() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.2.0" | kubectl apply -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.3.0" | kubectl apply -f -
 }
 
 snip_setup_2() {
-istioctl install --set values.pilot.env.PILOT_ENABLED_SERVICE_APIS=true
+istioctl install
 }
 
 snip_configuring_a_gateway_1() {
