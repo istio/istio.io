@@ -376,11 +376,11 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--proxyComponentLogLevel &lt;string&gt;</code></td>
-<td>The component log level used to start the Envoy proxy  (default `misc:error`)</td>
+<td>The component log level used to start the Envoy proxy. Deprecated, use proxyLogLevel instead  (default ``)</td>
 </tr>
 <tr>
 <td><code>--proxyLogLevel &lt;string&gt;</code></td>
-<td>The log level used to start the Envoy proxy (choose from {trace, debug, info, warning, error, critical, off})  (default `warning`)</td>
+<td>The log level used to start the Envoy proxy (choose from {trace, debug, info, warning, error, critical, off}).Level may also include one or more scopes, such as &#39;info,misc:error,upstream:debug&#39;  (default `warning,misc:error`)</td>
 </tr>
 <tr>
 <td><code>--serviceCluster &lt;string&gt;</code></td>
@@ -412,6 +412,10 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--debug-port &lt;int32&gt;</code></td>
+<td>Set the port to make a local request to. The default points to the Envoy admin API.  (default `15000`)</td>
+</tr>
 <tr>
 <td><code>--log_as_json</code></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
