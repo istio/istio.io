@@ -95,7 +95,7 @@ $ kubectl exec --context="${CTX_CLUSTER1}" -n uninjected-sample -c sleep \
 Hello version: v2, instance: helloworld-v2-54df5f84b-z28p5
 {{< /text >}}
 
-If successful, there should responses only from `helloworld-v2`. Repeat the steps, but send traffic from `cluster2`
+If successful, there should be responses only from `helloworld-v2`. Repeat the steps, but send traffic from `cluster2`
 to `cluster1`.
 
 If this succeeds, you can rule out connectivity issues. If it does not, the cause of the problem may lie outside your
