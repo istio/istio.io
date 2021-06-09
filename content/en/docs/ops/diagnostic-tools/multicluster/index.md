@@ -39,8 +39,8 @@ upstream connect error or disconnect/reset before headers. reset reason: local r
 {{< /text >}}
 
 While Istio provides service discovery capabilities to make it easier, cross-cluster traffic should still succeed
-if pods in each cluster are on a single network without Istio. To rule out issues with TLS/mTLS, we can do a manual
-traffic test using pods without an Istio sidecar.
+if pods in each cluster are on a single network without Istio. To rule out issues with TLS/mTLS, you can do a manual
+traffic test using pods without Istio sidecars.
 
 In each cluster, create a new namespace for this test. Do _not_ enable sidecar injection:
 
