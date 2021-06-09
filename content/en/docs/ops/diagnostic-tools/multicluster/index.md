@@ -31,7 +31,7 @@ There are many possible causes to the problem:
 ### Connectivity and firewall issues
 
 In some environments it may not be apparent that a firewall is blocking traffic between your clusters. It's possible
-that `ICMP` (ping) traffic may succeed, but HTTP and other types of traffic do not. This can appear as a timeout, or 
+that `ICMP` (ping) traffic may succeed, but HTTP and other types of traffic do not. This can appear as a timeout, or
 in some cases a more confusing error such as:
 
 {{< text plain >}}
@@ -70,7 +70,6 @@ $ kubectl apply --context="${CTX_CLUSTER2}" \
     -f samples/sleep/sleep.yaml -n uninjected-sample
 {{< /text >}}
 
-
 Verify that there is a helloworld pod running in `cluster2`, using the `-o wide` flag, so we can get the Pod IP:
 
 {{< text bash >}}
@@ -97,10 +96,10 @@ Hello version: v2, instance: helloworld-v2-54df5f84b-z28p5
 {{< /text >}}
 
 If successful, there should responses only from `helloworld-v2`. Repeat the steps, but send traffic from `cluster2`
-to `cluster1`. 
+to `cluster1`.
 
 If this succeeds, you can rule out connectivity issues. If it does not, the cause of the problem may lie outside your
-Istio configuration. 
+Istio configuration.
 
 ### Locality Load Balancing
 
