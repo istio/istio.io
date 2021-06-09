@@ -34,7 +34,7 @@ In some environments it may not be apparent that a firewall is blocking traffic 
 that `ICMP` (ping) traffic may succeed, but HTTP and other types of traffic do not. This can appear as a timeout, or 
 in some cases a more confusing error such as:
 
-{{< text >}}
+{{< text plain >}}
 upstream connect error or disconnect/reset before headers. reset reason: local reset, transport failure reason: TLS error: 268435612:SSL routines:OPENSSL_internal:HTTP_REQUEST
 {{< /text >}}
 
@@ -52,21 +52,18 @@ $ kubectl create --context="${CTX_CLUSTER2}" namespace uninjected-sample
 Then deploy the same apps used in [verify multicluster installation](/docs/setup/install/multicluster/verify/):
 
 {{< text bash >}}
-# hello world service
 $ kubectl apply --context="${CTX_CLUSTER1}" \
     -f samples/helloworld/helloworld.yaml \
     -l service=helloworld -n uninjected-sample
 $ kubectl apply --context="${CTX_CLUSTER2}" \
     -f samples/helloworld/helloworld.yaml \
     -l service=helloworld -n uninjected-sample
-# hello world deployment
 $ kubectl apply --context="${CTX_CLUSTER1}" \
     -f samples/helloworld/helloworld.yaml \
     -l version=v1 -n uninjected-sample
 $ kubectl apply --context="${CTX_CLUSTER2}" \
     -f samples/helloworld/helloworld.yaml \
     -l version=v2 -n uninjected-sample
-# sleep deployment
 $ kubectl apply --context="${CTX_CLUSTER1}" \
     -f samples/sleep/sleep.yaml -n uninjected-sample
 $ kubectl apply --context="${CTX_CLUSTER2}" \
