@@ -28,6 +28,79 @@ we would expect both `v1` and `v2` responses, indicating traffic is going to bot
 
 There are many possible causes to the problem:
 
+### Connectivity and firewall issues
+
+In some environments it may not be apparent that a firewall is blocking traffic between your clusters. It's possible
+that `ICMP` (ping) traffic may succeed, but HTTP and other types of traffic do not. This can appear as a timeout, or
+in some cases a more confusing error such as:
+
+{{< text plain >}}
+upstream connect error or disconnect/reset before headers. reset reason: local reset, transport failure reason: TLS error: 268435612:SSL routines:OPENSSL_internal:HTTP_REQUEST
+{{< /text >}}
+
+While Istio provides service discovery capabilities to make it easier, cross-cluster traffic should still succeed
+if pods in each cluster are on a single network without Istio. To rule out issues with TLS/mTLS, you can do a manual
+traffic test using pods without Istio sidecars.
+
+In each cluster, create a new namespace for this test. Do _not_ enable sidecar injection:
+
+{{< text bash >}}
+$ kubectl create --context="${CTX_CLUSTER1}" namespace uninjected-sample
+$ kubectl create --context="${CTX_CLUSTER2}" namespace uninjected-sample
+{{< /text >}}
+
+Then deploy the same apps used in [verify multicluster installation](/docs/setup/install/multicluster/verify/):
+
+{{< text bash >}}
+$ kubectl apply --context="${CTX_CLUSTER1}" \
+    -f samples/helloworld/helloworld.yaml \
+    -l service=helloworld -n uninjected-sample
+$ kubectl apply --context="${CTX_CLUSTER2}" \
+    -f samples/helloworld/helloworld.yaml \
+    -l service=helloworld -n uninjected-sample
+$ kubectl apply --context="${CTX_CLUSTER1}" \
+    -f samples/helloworld/helloworld.yaml \
+    -l version=v1 -n uninjected-sample
+$ kubectl apply --context="${CTX_CLUSTER2}" \
+    -f samples/helloworld/helloworld.yaml \
+    -l version=v2 -n uninjected-sample
+$ kubectl apply --context="${CTX_CLUSTER1}" \
+    -f samples/sleep/sleep.yaml -n uninjected-sample
+$ kubectl apply --context="${CTX_CLUSTER2}" \
+    -f samples/sleep/sleep.yaml -n uninjected-sample
+{{< /text >}}
+
+Verify that there is a helloworld pod running in `cluster2`, using the `-o wide` flag, so we can get the Pod IP:
+
+{{< text bash >}}
+$ kubectl --context="${CTX_CLUSTER2}" -n uninjected-sample get pod -o wide
+NAME                             READY   STATUS    RESTARTS   AGE   IP           NODE     NOMINATED NODE   READINESS GATES
+helloworld-v2-54df5f84b-z28p5    1/1     Running   0          43s   10.100.0.1   node-1   <none>           <none>
+sleep-557747455f-jdsd8           1/1     Running   0          41s   10.100.0.2   node-2   <none>           <none>
+{{< /text >}}
+
+Take note of the `IP` column for `helloworld`. In this case, it is `10.100.0.1`:
+
+{{< text bash >}}
+$ REMOTE_POD_IP=10.100.0.1
+{{< /text >}}
+
+Next, attempt to send traffic from the `sleep` pod in `cluster1` directly to this Pod IP:
+
+{{< text bash >}}
+$ kubectl exec --context="${CTX_CLUSTER1}" -n uninjected-sample -c sleep \
+    "$(kubectl get pod --context="${CTX_CLUSTER1}" -n uninjected-sample -l \
+    app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    -- curl -sS $REMOTE_POD_IP:5000/hello
+Hello version: v2, instance: helloworld-v2-54df5f84b-z28p5
+{{< /text >}}
+
+If successful, there should be responses only from `helloworld-v2`. Repeat the steps, but send traffic from `cluster2`
+to `cluster1`.
+
+If this succeeds, you can rule out connectivity issues. If it does not, the cause of the problem may lie outside your
+Istio configuration.
+
 ### Locality Load Balancing
 
 [Locality load balancing](/docs/tasks/traffic-management/locality-load-balancing/failover/#configure
