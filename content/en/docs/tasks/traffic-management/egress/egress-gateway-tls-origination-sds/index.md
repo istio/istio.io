@@ -182,11 +182,19 @@ to hold the configuration of the NGINX server:
           containers:
           - name: my-nginx
             image: nginx
+            lifecycle:
+              postStart:
+                exec:
+                  command:
+                    - /bin/sh
+                    - -c
+                    - |
+                      cp /etc/nginxconf/nginx.conf /etc/nginx/nginx.conf; nginx -s reload;                   
             ports:
             - containerPort: 443
             volumeMounts:
             - name: nginx-config
-              mountPath: /etc/nginx
+              mountPath: /etc/nginxconf
               readOnly: true
             - name: nginx-server-certs
               mountPath: /etc/nginx-server-certs
