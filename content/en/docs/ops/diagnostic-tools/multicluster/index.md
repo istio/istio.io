@@ -68,7 +68,7 @@ $ kubectl apply --context="${CTX_CLUSTER1}" \
     -f samples/sleep/sleep.yaml -n uninjected-sample
 $ kubectl apply --context="${CTX_CLUSTER2}" \
     -f samples/sleep/sleep.yaml -n uninjected-sample
-{{ < /text >}}
+{{< /text >}}
 
 
 Verify that there is a helloworld pod running in `cluster2`, using the `-o wide` flag, so we can get the Pod IP:
