@@ -94,10 +94,10 @@ The following ports and protocols are used by the Istio sidecar proxy (Envoy).
 |----|----|----|----|
 | 15000 | TCP | Envoy admin port (commands/diagnostics) | Yes |
 | 15001 | TCP | Envoy outbound | No |
-| 15002 | HBONE | Reserved for HBONE | No |
 | 15004 | HTTP | Debug port | Yes |
 | 15006 | TCP | Envoy inbound | No |
-| 15008 | TCP | Envoy tunnel port (inbound) | No |
+| 15008 | TCP | HBONE mTLS tunnel port | No |
+| 15009 | TCP | HBONE port for secure networks | No |
 | 15020 | HTTP | Merged Prometheus telemetry from Istio agent, Envoy, and application | No |
 | 15021 | HTTP | Health checks | No |
 | 15090 | HTTP | Envoy Prometheus telemetry | No |
