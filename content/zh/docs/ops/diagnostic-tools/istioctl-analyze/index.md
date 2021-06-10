@@ -113,7 +113,6 @@ status:
 $ istioctl install --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
-
 ### 通过 CLI 忽略特定的分析者消息{#ignoring-specific-analyzer-messages-via-cli}
 
 有时您可能会发现在某些情况下隐藏或忽略分析器消息很有用。 例如，想象这样一种情况，其中发出一条关于您无权更新的资源的消息：
@@ -135,7 +134,7 @@ $ istioctl analyze -k --namespace frod --suppress "IST0102=Namespace frod"
 {{< text syntax=bash snip_id=analyze_suppress_frod_0107_baz >}}
 $ # Suppress code IST0102 on namespace frod and IST0107 on all pods in namespace baz
 $ istioctl analyze -k --all-namespaces --suppress "IST0102=Namespace frod" --suppress "IST0107=Pod *.baz"
-{{< /text >}} 
+{{< /text >}}
 
 ### 通过注释忽略特定的分析器消息{#ignoring-specific-analyzer-messages-via-annotations}
 
