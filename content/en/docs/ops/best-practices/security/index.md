@@ -75,7 +75,7 @@ While these normalization options represent recommendations from HTTP standards 
 applications may interpret a URL in any way it chooses to. When using denial policies, ensure that you understand how your application behaves.
 {{< /warning >}}
 
-For a complete list of supported normalizations, please refer to the [authorization policy normalization](/docs/reference/config/security/normalization/).
+For a complete list of supported normalizations, please refer to [authorization policy normalization](/docs/reference/config/security/normalization/).
 
 ### Examples of configuration
 

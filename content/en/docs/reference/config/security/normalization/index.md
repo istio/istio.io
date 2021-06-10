@@ -6,9 +6,10 @@ owner: istio/wg-security-maintainers
 test: n/a
 ---
 
-This page describes all the supported normalizations in the authorization policy. The normalized request will be used for the evaluation of authorization policy.
+This page describes all the supported normalizations in the authorization policy. The normalized request will be used for
+both the evaluation of authorization policies and the request that is ultimately sent to the backend server.
 
-For more information, refer to the [authorization normalization best practices](/docs/ops/best-practices/security/#customize-your-system-on-path-normalization).
+For more information, please refer to [authorization normalization best practices](/docs/ops/best-practices/security/#customize-your-system-on-path-normalization).
 
 ## Path Related
 
@@ -49,8 +50,8 @@ This is disabled by default but can be enabled with the normalization option `ME
 
 ### 4. Single dot and double dots (`/./`, `/../`)
 
-Istio will resolve single dot `/./` and double dot `/../` according to the [RFC 3986](https://tools.ietf.org/html/rfc3986#section-6).
-The singe dot will be resolved as current directory, and the double dots will be resolved as parent directory.
+Istio will resolve single dot `/./` and double dot `/../` according to [RFC 3986](https://tools.ietf.org/html/rfc3986#section-6).
+The single dot will be resolved as the current directory, and the double dots will be resolved as the parent directory.
 
 For example, `/public/./data/abc/../xyz` will be normalized to `/public/data/xyz`.
 
@@ -79,13 +80,13 @@ This applies to the header name specified in the `request.headers[<header-name>]
 
 ### 1. Case-insensitive matching
 
-Istio authorization policy will compare the header name in case-insensitive approach.
+Istio authorization policy will compare the header name with a case-insensitive approach.
 
 This is enabled by default.
 
 ### 2. Duplicate headers
 
-Istio will merge duplicate headers to a single header by concatenating all values using comma as separator.
+Istio will merge duplicate headers to a single header by concatenating all values using comma as a separator.
 
 The authorization policy will do a simple string match on the merged headers. For example, a request with header
 `x-header: foo` and `x-header: bar` will be merged to `x-header: foo,bar`.
