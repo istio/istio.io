@@ -40,6 +40,11 @@ debug and diagnose their Istio mesh.
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="istioctl-admin">istioctl admin</h2>
@@ -82,6 +87,11 @@ debug and diagnose their Istio mesh.
 <td><code>--selector &lt;string&gt;</code></td>
 <td><code>-l</code></td>
 <td>label selector  (default `app=istiod`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -154,6 +164,11 @@ debug and diagnose their Istio mesh.
 <td><code>--stack-trace-level &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of stack trace level  for scopes in format &lt;scope&gt;:&lt;stack-trace-level&gt;[,&lt;scope&gt;:&lt;stack-trace-level&gt;,...] Possible values for &lt;stack-trace-level&gt;: none, error, warn, info, debug  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -264,6 +279,11 @@ debug and diagnose their Istio mesh.
 <td><code>-v</code></td>
 <td>Enable verbose output </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-analyze Examples">Examples</h3>
@@ -321,6 +341,11 @@ debug and diagnose their Istio mesh.
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -432,6 +457,11 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td></td>
 <td>Maximum amount of time to spend fetching logs. When timeout is reached only the logs captured so far are saved to the archive.  (default `30m0s`)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="istioctl-bug-report-version">istioctl bug-report version</h2>
@@ -542,6 +572,11 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td></td>
 <td>Maximum amount of time to spend fetching logs. When timeout is reached only the logs captured so far are saved to the archive.  (default `30m0s`)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="istioctl-dashboard">istioctl dashboard</h2>
@@ -595,6 +630,11 @@ istioctl d [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -655,6 +695,11 @@ istioctl d [flags]
 <td><code>--selector &lt;string&gt;</code></td>
 <td><code>-l</code></td>
 <td>Label selector  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -726,6 +771,11 @@ istioctl d [flags]
 <td><code>-l</code></td>
 <td>Label selector  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-dashboard-envoy Examples">Examples</h3>
@@ -788,6 +838,11 @@ istioctl d [flags]
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-dashboard-grafana Examples">Examples</h3>
@@ -844,6 +899,11 @@ istioctl d [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -902,6 +962,11 @@ istioctl d [flags]
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-dashboard-kiali Examples">Examples</h3>
@@ -958,6 +1023,11 @@ istioctl d [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -1016,6 +1086,11 @@ istioctl d [flags]
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-dashboard-skywalking Examples">Examples</h3>
@@ -1073,6 +1148,11 @@ istioctl d [flags]
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-dashboard-zipkin Examples">Examples</h3>
@@ -1112,6 +1192,11 @@ istioctl d [flags]
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -1178,6 +1263,11 @@ Use &#39;add-to-mesh&#39; as an alternate to namespace-wide auto injection for t
 <td><code>--valuesFile &lt;string&gt;</code></td>
 <td></td>
 <td>Injection values configuration filename.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -1266,6 +1356,11 @@ istioctl experimental add-to-mesh dep &lt;deployment&gt; [flags]
 <td><code>--valuesFile &lt;string&gt;</code></td>
 <td></td>
 <td>Injection values configuration filename.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -1359,6 +1454,11 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td></td>
 <td>Injection values configuration filename.  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-add-to-mesh-external-service Examples">Examples</h3>
@@ -1437,6 +1537,11 @@ See https://istio.io/v1.11/docs/ops/deployment/requirements/</p>
 <td></td>
 <td>Injection values configuration filename.  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-add-to-mesh-service Examples">Examples</h3>
@@ -1480,6 +1585,11 @@ See https://istio.io/v1.11/docs/ops/deployment/requirements/</p>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -1525,6 +1635,11 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-authz-check Examples">Examples</h3>
@@ -1568,6 +1683,11 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-config Examples">Examples</h3>
@@ -1606,6 +1726,11 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -1695,6 +1820,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td></td>
 <td>Type of the generated secret. supported values = [remote config]  (default `remote`)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-create-remote-secret Examples">Examples</h3>
@@ -1746,6 +1876,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="istioctl-experimental-describe-pod">istioctl experimental describe pod</h2>
@@ -1787,6 +1922,11 @@ the configuration objects that affect that pod.</p>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -1836,6 +1976,11 @@ the configuration objects that affect that service.</p>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-describe-service Examples">Examples</h3>
@@ -1874,6 +2019,11 @@ the configuration objects that affect that service.</p>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-injector Examples">Examples</h3>
@@ -1911,6 +2061,11 @@ the configuration objects that affect that service.</p>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -1988,6 +2143,11 @@ THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <td><code>--timeout &lt;duration&gt;</code></td>
 <td></td>
 <td>The duration to wait before failing  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--xds-address &lt;string&gt;</code></td>
@@ -2078,6 +2238,11 @@ also provides the inverse of &#34;istioctl kube-inject -f&#34;.
 <td><code>-o</code></td>
 <td>Modified output Kubernetes resource filename  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-kube-uninject Examples">Examples</h3>
@@ -2137,6 +2302,11 @@ calculated over a time interval of 1 minute.
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-metrics Examples">Examples</h3>
@@ -2188,6 +2358,11 @@ calculated over a time interval of 1 minute.
 <td><code>--skip-controlplane</code></td>
 <td></td>
 <td>skip checking the control plane </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -2265,6 +2440,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td><code>--timeout &lt;duration&gt;</code></td>
 <td></td>
 <td>The duration to wait before failing  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--xds-address &lt;string&gt;</code></td>
@@ -2348,6 +2528,11 @@ The &#39;add-to-mesh&#39; command can be used to add or restore the sidecar.</p>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-remove-from-mesh Examples">Examples</h3>
@@ -2398,6 +2583,11 @@ istioctl experimental remove-from-mesh dep &lt;deployment&gt; [flags]
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -2450,6 +2640,11 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-remove-from-mesh-external-service Examples">Examples</h3>
@@ -2499,6 +2694,11 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -2561,6 +2761,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>-v</code></td>
 <td>Enable verbose output </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="istioctl-experimental-revision-describe">istioctl experimental revision describe</h2>
@@ -2613,6 +2818,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>--verbose</code></td>
 <td><code>-v</code></td>
 <td>Enable verbose output </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -2678,6 +2888,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>--verbose</code></td>
 <td><code>-v</code></td>
 <td>Enable verbose output </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -2749,6 +2964,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>-v</code></td>
 <td>Enable verbose output </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="istioctl-experimental-revision-tag-generate">istioctl experimental revision tag generate</h2>
@@ -2819,6 +3039,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--verbose</code></td>
 <td><code>-v</code></td>
 <td>Enable verbose output </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--webhook-name &lt;string&gt;</code></td>
@@ -2895,6 +3120,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>-v</code></td>
 <td>Enable verbose output </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-revision-tag-list Examples">Examples</h3>
@@ -2963,6 +3193,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--verbose</code></td>
 <td><code>-v</code></td>
 <td>Enable verbose output </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -3039,6 +3274,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--verbose</code></td>
 <td><code>-v</code></td>
 <td>Enable verbose output </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--webhook-name &lt;string&gt;</code></td>
@@ -3146,6 +3386,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>-v</code></td>
 <td>Verbose output. </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-uninstall Examples">Examples</h3>
@@ -3235,6 +3480,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--timeout &lt;duration&gt;</code></td>
 <td></td>
 <td>The duration to wait before failing  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--xds-address &lt;string&gt;</code></td>
@@ -3329,6 +3579,11 @@ istioctl x version --xds-label istio.io/rev=default
 <td></td>
 <td>The duration to wait before failing  (default `30s`)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-wait Examples">Examples</h3>
@@ -3370,6 +3625,11 @@ istioctl x version --xds-label istio.io/rev=default
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-workload Examples">Examples</h3>
@@ -3409,6 +3669,11 @@ istioctl x version --xds-label istio.io/rev=default
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -3501,6 +3766,11 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <td>The token duration in seconds (default: 1 hour)  (default `3600`)</td>
 </tr>
 <tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+<tr>
 <td><code>--workloadIP &lt;string&gt;</code></td>
 <td></td>
 <td>IP address of the workload used in the WorkloadEntry  (default ``)</td>
@@ -3544,6 +3814,11 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -3608,6 +3883,11 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 <td><code>--serviceAccount &lt;string&gt;</code></td>
 <td><code>-s</code></td>
 <td>The service identity to associate with the workload instances  (default `default`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -3707,6 +3987,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td></td>
 <td>Verify the Istio control plane after installation/in-place upgrade </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-install Examples">Examples</h3>
@@ -3799,6 +4084,11 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 <td>injection values configuration filename.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+<tr>
 <td><code>--webhookConfig &lt;string&gt;</code></td>
 <td></td>
 <td>MutatingWebhookConfiguration name for Istio  (default `istio-sidecar-injector`)</td>
@@ -3862,6 +4152,11 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -3936,6 +4231,11 @@ e.g.
 <td><code>--verbose</code></td>
 <td><code>-v</code></td>
 <td>Verbose output. </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -4022,6 +4322,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
 settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.11/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -4132,6 +4437,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td></td>
 <td>Verify the Istio control plane after installation/in-place upgrade </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-manifest-install Examples">Examples</h3>
@@ -4178,6 +4488,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -4257,6 +4572,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>--tag &lt;string&gt;</code></td>
 <td></td>
 <td>The tag for the operator controller image.  (default `unknown`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -4344,6 +4664,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td>The tag for the operator controller image.  (default `unknown`)</td>
 </tr>
 <tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+<tr>
 <td><code>--watchedNamespaces &lt;string&gt;</code></td>
 <td></td>
 <td>The namespaces the operator controller watches, could be namespace list separated by comma, eg. &#39;ns1,ns2&#39;  (default `istio-system`)</td>
@@ -4403,6 +4728,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>-r</code></td>
 <td>Target revision for the operator.  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="istioctl-options">istioctl options</h2>
@@ -4435,6 +4765,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -4473,6 +4808,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -4530,6 +4870,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -4607,6 +4952,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>-o</code></td>
 <td>Output format: one of json|yaml|flags  (default `yaml`)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="istioctl-profile-list">istioctl profile list</h2>
@@ -4660,6 +5010,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="istioctl-proxy-config">istioctl proxy-config</h2>
@@ -4697,6 +5052,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format: one of json|yaml|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -4790,6 +5150,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td></td>
 <td>Output more information </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-proxy-config-all Examples">Examples</h3>
@@ -4852,6 +5217,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format: one of json|yaml|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -4930,6 +5300,11 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--subset &lt;string&gt;</code></td>
 <td></td>
 <td>Filter clusters by substring of Subset field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -5014,6 +5389,11 @@ istioctl proxy-config ep [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--status &lt;string&gt;</code></td>
 <td></td>
 <td>Filter endpoints by status field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -5104,6 +5484,11 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td></td>
 <td>Output more information </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-proxy-config-listener Examples">Examples</h3>
@@ -5176,6 +5561,11 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--selector &lt;string&gt;</code></td>
 <td><code>-l</code></td>
 <td>Label selector  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -5250,6 +5640,11 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td></td>
 <td>Output more information </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-proxy-config-route Examples">Examples</h3>
@@ -5315,6 +5710,11 @@ istioctl proxy-config s [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>-o</code></td>
 <td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-proxy-config-secret Examples">Examples</h3>
@@ -5372,6 +5772,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -5475,6 +5880,11 @@ settings (--set meshConfig.enableTracing=true). See documentation for more info:
 <td></td>
 <td>Verify the Istio control plane after installation/in-place upgrade </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="istioctl-validate">istioctl validate</h2>
@@ -5522,6 +5932,11 @@ settings (--set meshConfig.enableTracing=true). See documentation for more info:
 <td><code>--referential</code></td>
 <td><code>-x</code></td>
 <td>Enable structural validation for policy and telemetry </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -5602,6 +6017,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-verify-install Examples">Examples</h3>
@@ -5669,6 +6089,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Use --short=false to generate full version information </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
