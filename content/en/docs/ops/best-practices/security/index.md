@@ -129,13 +129,72 @@ apiVersion: v1
       ...
 {{< /text >}}
 
-### Less common normalization configurations
+### Mitigation for unsupported normalization
 
-#### Case Normalization
+This section describes various mitigation for unsupported normalization. These could be useful when you find a specific
+normalization that is not supported by Istio.
+
+Please make sure you understand the mitigation thoroughly and use it carefully. Some mitigation is just best-effort workaround
+that is not well tested or rely on things that are not supported by Istio.
+
+#### Safer Authorization Policy Pattern
+
+Use the `ALLOW-with-positive-matching` or `DENY-with-negative-matching` patterns whenever possible. These authorization policy
+patterns are safer because the worst result in the case of policy mismatch is just an unexpected 403 rejection instead of
+an authorization policy bypass.
+
+The `ALLOW-with-positive-matching` pattern is to use the `ALLOW` action only with **positive** matching fields (e.g. `paths`, `values`)
+and do not use any of the **negative** matching fields (e.g. `notPaths`, `notValues`).
+
+The `DENY-with-negative-matching` pattern is to use the `DENY` action only with **negative** matching fields (e.g. `notPaths`, `notValues`)
+and do not use any of the **positive** matching fields (e.g. `paths`, `values`).
+
+For example, the authorization policy below uses the `ALLOW-with-positive-matching` pattern to allow requests at path `/public`:
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: foo
+spec:
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        paths: ["/public"]
+{{< /text >}}
+
+The above policy explicitly lists the allowed path (`/public`). This means the request path must be exactly the same as
+`/public` to let the request allowed by the policy. Any other requests will be rejected by default eliminating the risk
+of unknown normalization behavior causing policy bypass.
+
+The following is another example using the `DENY-with-negative-matching` pattern to achieve the same result:
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: foo
+spec:
+  action: DENY
+  rules:
+  - to:
+    - operation:
+        notPaths: ["/public"]
+{{< /text >}}
+
+#### Custom normalization logic
+
+You can apply custom normalization logic using the WASM or Lua filter. It is recommended to use the WAM filter because
+it's officially supported and also used by Istio. The Lua filter could also be used if you need a quick proof-of-concept
+but please be aware the Lua filter is not supported by Istio.
+
+##### Example custom normalization (case normalization)
 
 In some environments, it may be useful to have paths in authorization policies compared in a case insensitive manner.
 For example, treating `https://myurl/get` and `https://myurl/GeT` as equivalent.
-In those cases, the `EnvoyFilter` shown below can be used.
+
+In those cases, the `EnvoyFilter` shown below can be used to insert a Lua filter to normalize the path to lower case.
 This filter will change both the path used for comparison and the path presented to the application.
 
 {{< text syntax=yaml snip_id=ingress_case_insensitive_envoy_filter >}}
@@ -153,10 +212,8 @@ spec:
         filterChain:
           filter:
             name: "envoy.filters.network.http_connection_manager"
-            subFilter:
-              name: "envoy.filters.http.router"
     patch:
-      operation: INSERT_BEFORE
+      operation: INSERT_FIRST
       value:
         name: envoy.lua
         typed_config:
@@ -167,6 +224,23 @@ spec:
                 request_handle:headers():replace(":path", string.lower(path))
               end
 {{< /text >}}
+
+#### Specialized Web Application Firewall (WAF)
+
+Many specialized Web Application Firewall (WAF) products provide more normalization options. It can be deployed in
+front of the Istio ingress gateway to normalize requests entering the mesh, the authorization policy will then be enforced
+on the normalized requests. Please refer to your specific WAF product for configuring the normalization options.
+
+#### Feature request to Istio
+
+If you believe Istio should officially support a specific normalization, you could follow the [reporting a vulnerability](/docs/releases/security-vulnerabilities/#reporting-a-vulnerability)
+page to send a feature request about the specific normalization to the Istio Product Security Work Group for initial evaluation.
+
+Please do not open any issues in public without first contacting the Istio Product Security Work Group because the
+issue might be considered as a security vulnerability that needs to be fixed in private.
+
+If Istio Product Security Work Group evaluates the feature request not a security vulnerability, an issue will be opened
+in public for further discussions of the feature request.
 
 ## Understand traffic capture limitations
 
