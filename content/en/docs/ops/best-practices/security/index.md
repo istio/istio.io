@@ -96,38 +96,38 @@ The normalized URL paths, or the original URL paths if _NONE_ is selected, will 
 
 You can use `istioctl` to update the [mesh config](/docs/reference/config/istio.mesh.v1alpha1/):
 
-    {{< text bash >}}
-    $ istioctl upgrade --set meshConfig.pathNormalization.normalization=DECODE_AND_MERGE_SLASHES
-    {{< /text >}}
+{{< text bash >}}
+$ istioctl upgrade --set meshConfig.pathNormalization.normalization=DECODE_AND_MERGE_SLASHES
+{{< /text >}}
 
 or by altering your operator overrides file
 
-    {{< text bash >}}
-    $ cat <<EOF > iop.yaml
-    apiVersion: install.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      meshConfig:
-        pathNormalization:
-          normalization: DECODE_AND_MERGE_SLASHES
-    EOF
-    $ istioctl install -f iop.yaml
-    {{< /text >}}
+{{< text bash >}}
+$ cat <<EOF > iop.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    pathNormalization:
+      normalization: DECODE_AND_MERGE_SLASHES
+EOF
+$ istioctl install -f iop.yaml
+{{< /text >}}
 
 Alternatively, if you want to directly edit the mesh config,
 you can add the [`pathNormalization`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ProxyPathNormalization)
 to the [mesh config](/docs/reference/config/istio.mesh.v1alpha1/), which is the `istio-<REVISION_ID>` configmap in the `istio-system` namespace.
 For example, if you choose the `DECODE_AND_MERGE_SLASHES` option, you modify the mesh config as the following:
 
-    {{< text yaml >}}
-    apiVersion: v1
-      data:
-        mesh: |-
-          ...
-          pathNormalization:
-            normalization: DECODE_AND_MERGE_SLASHES
-          ...
-    {{< /text >}}
+{{< text yaml >}}
+apiVersion: v1
+  data:
+    mesh: |-
+      ...
+      pathNormalization:
+        normalization: DECODE_AND_MERGE_SLASHES
+      ...
+{{< /text >}}
 
 ### Less common normalization configurations
 
@@ -138,35 +138,35 @@ For example, treating `https://myurl/get` and `https://myurl/GeT` as equivalent.
 In those cases, the `EnvoyFilter` shown below can be used.
 This filter will change both the path used for comparison and the path presented to the application.
 
-    {{< text syntax=yaml snip_id=ingress_case_insensitive_envoy_filter >}}
-    apiVersion: networking.istio.io/v1alpha3
-    kind: EnvoyFilter
-    metadata:
-      name: ingress-case-insensitive
-      namespace: istio-system
-    spec:
-      configPatches:
-      - applyTo: HTTP_FILTER
-        match:
-          context: GATEWAY
-          listener:
-            filterChain:
-              filter:
-                name: "envoy.filters.network.http_connection_manager"
-                subFilter:
-                  name: "envoy.filters.http.router"
-        patch:
-          operation: INSERT_BEFORE
-          value:
-            name: envoy.lua
-            typed_config:
-                "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
-                inlineCode: |
-                  function envoy_on_request(request_handle)
-                    local path = request_handle:headers():get(":path")
-                    request_handle:headers():replace(":path", string.lower(path))
-                  end
-    {{< /text >}}
+{{< text syntax=yaml snip_id=ingress_case_insensitive_envoy_filter >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: ingress-case-insensitive
+  namespace: istio-system
+spec:
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: GATEWAY
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.filters.network.http_connection_manager"
+            subFilter:
+              name: "envoy.filters.http.router"
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: envoy.lua
+        typed_config:
+            "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
+            inlineCode: |
+              function envoy_on_request(request_handle)
+                local path = request_handle:headers():get(":path")
+                request_handle:headers():replace(":path", string.lower(path))
+              end
+{{< /text >}}
 
 ## Understand traffic capture limitations
 
@@ -428,20 +428,20 @@ If you are using `istioctl` to install, support will be automatically detected. 
 
 To determine if your cluster supports third party tokens, look for the `TokenRequest` API. If this returns no response, then the feature is not supported:
 
-    {{< text bash >}}
-    $ kubectl get --raw /api/v1 | jq '.resources[] | select(.name | index("serviceaccounts/token"))'
-    {
-        "name": "serviceaccounts/token",
-        "singularName": "",
-        "namespaced": true,
-        "group": "authentication.k8s.io",
-        "version": "v1",
-        "kind": "TokenRequest",
-        "verbs": [
-            "create"
-        ]
-    }
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl get --raw /api/v1 | jq '.resources[] | select(.name | index("serviceaccounts/token"))'
+{
+    "name": "serviceaccounts/token",
+    "singularName": "",
+    "namespaced": true,
+    "group": "authentication.k8s.io",
+    "version": "v1",
+    "kind": "TokenRequest",
+    "verbs": [
+        "create"
+    ]
+}
+{{< /text >}}
 
 While most cloud providers support this feature now, many local development tools and custom installations may not prior to Kubernetes 1.20. To enable this feature, please refer to the [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection).
 
