@@ -427,6 +427,32 @@ No
 Yes
 </td>
 </tr>
+<tr id="EnvoyFilter-priority">
+<td><code>priority</code></td>
+<td><code>int32</code></td>
+<td>
+<p>Priority defines the order in which patch sets are applied within a context.
+When one patch depends on another patch, the order of patch application
+is significant. The API provides two primary ways to order patches.
+Patch sets in the root namespace are applied before the patch sets in the
+workload namespace. Patches within a patch set are processed in the order
+that they appear in the <code>configPatches</code> list.</p>
+
+<p>The default value for priority is 0 and the range is [ min-int32, max-int32 ].
+A patch set with a negative priority is processed before the default. A patch
+set with a positive priority is processed after the default.</p>
+
+<p>It is recommended to start with priority values that are multiples of 10
+to leave room for further insertion.</p>
+
+<p>Patch sets are sorted in the following ascending key order:
+priority, creation time, fully qualified resource name.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
