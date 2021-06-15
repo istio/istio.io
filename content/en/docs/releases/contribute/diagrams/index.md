@@ -13,10 +13,10 @@ test: n/a
 Welcome to the Istio diagram guide!
 
 The guide is available as an [SVG file](./diagram-guidelines.svg) or as a
-[Google Draw file](https://docs.google.com/drawings/d/1f3NyutAQIDOA8ojGNyMA5JAJllDShZGQAFfdD01XdSc/edit)
+[Google Drawings file](https://docs.google.com/drawings/d/1f3NyutAQIDOA8ojGNyMA5JAJllDShZGQAFfdD01XdSc/edit)
 to allow you to reuse the shapes and styles with ease. Use these guidelines to
 create SVG diagrams for the Istio website using any vector graphics tool like
-Google Draw, InkScape, or Illustrator. Please ensure that the text in your
+Google Drawings, Inkscape, or Illustrator. Please ensure that the text in your
 diagrams remains editable.
 
 Our goal is to drive consistency across all diagrams in our website to ensure
@@ -35,13 +35,13 @@ To create your diagrams, follow these steps:
 1. [Contribute](/docs/releases/contribute/add-content) your diagram to our
    documentation.
 
-If you create the diagram in Google Draw, follow these steps:
+If you create the diagram in Google Drawings, follow these steps:
 
-1. Put your diagram in our [team drive](https://drive.google.com/corp/drive/u/0/folders/1jczscJueUBR3IOvH30q9HAZX0jC7GSyW).
+1. Put your diagram in our [shared drive](https://drive.google.com/corp/drive/u/0/folders/17r1m4nfyr9xbfbpMqZsreMvFLCD4bgvx).
 1. When the diagram is complete, export it as SVG and include the SVG
    file in your PR.
 1. Leave a comment in the Markdown file containing the diagram with the
-   URL to the Google Draw file.
+   URL to the Google Drawings file.
 
 If your diagram depicts a process, **do not add the descriptions of the steps**
 to the diagram. Instead, only add the numbers of the steps to the diagram and
