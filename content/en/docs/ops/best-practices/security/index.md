@@ -31,7 +31,9 @@ It takes effort to configure the correct authorization policies to best protect 
 It is important to understand the implications of these configurations as Istio cannot determine the proper authorization for all users.
 Please follow this section in its entirety.
 
-### Apply default-deny authorization policies
+### Safer Authorization Policy Pattern
+
+#### Apply default-deny authorization policies
 
 We recommend you define your Istio authorization policies following the default-deny pattern to enhance your cluster's security posture.
 The default-deny authorization pattern means your system denies all requests by default, and you define the conditions in which the requests are allowed.
@@ -41,6 +43,52 @@ The latter typically being a security incident while the former may result in a 
 For example, in the [authorization for HTTP traffic task](/docs/tasks/security/authorization/authz-http/),
 the authorization policy named `allow-nothing` makes sure all traffic is denied by default.
 From there, other authorization policies allow traffic based on specific conditions.
+
+#### Use `ALLOW-with-positive-matching` and `DENY-with-negative-match` patterns
+
+Use the `ALLOW-with-positive-matching` or `DENY-with-negative-matching` patterns whenever possible. These authorization policy
+patterns are safer because the worst result in the case of policy mismatch is an unexpected 403 rejection instead of
+an authorization policy bypass.
+
+The `ALLOW-with-positive-matching` pattern is to use the `ALLOW` action only with **positive** matching fields (e.g. `paths`, `values`)
+and do not use any of the **negative** matching fields (e.g. `notPaths`, `notValues`).
+
+The `DENY-with-negative-matching` pattern is to use the `DENY` action only with **negative** matching fields (e.g. `notPaths`, `notValues`)
+and do not use any of the **positive** matching fields (e.g. `paths`, `values`).
+
+For example, the authorization policy below uses the `ALLOW-with-positive-matching` pattern to allow requests at path `/public`:
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: foo
+spec:
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        paths: ["/public"]
+{{< /text >}}
+
+The above policy explicitly lists the allowed path (`/public`). This means the request path must be exactly the same as
+`/public` to let the request allowed by the policy. Any other requests will be rejected by default eliminating the risk
+of unknown normalization behavior causing policy bypass.
+
+The following is another example using the `DENY-with-negative-matching` pattern to achieve the same result:
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: foo
+spec:
+  action: DENY
+  rules:
+  - to:
+    - operation:
+        notPaths: ["/public"]
+{{< /text >}}
 
 ### Customize your system on path normalization
 
@@ -131,63 +179,17 @@ apiVersion: v1
 
 ### Mitigation for unsupported normalization
 
-This section describes various mitigation for unsupported normalization. These could be useful when you find a specific
+This section describes various mitigations for unsupported normalization. These could be useful when you find a specific
 normalization that is not supported by Istio.
 
 Please make sure you understand the mitigation thoroughly and use it carefully. Some mitigation is just best-effort workaround
 that is not well tested or rely on things that are not supported by Istio.
 
-#### Safer Authorization Policy Pattern
-
-Use the `ALLOW-with-positive-matching` or `DENY-with-negative-matching` patterns whenever possible. These authorization policy
-patterns are safer because the worst result in the case of policy mismatch is just an unexpected 403 rejection instead of
-an authorization policy bypass.
-
-The `ALLOW-with-positive-matching` pattern is to use the `ALLOW` action only with **positive** matching fields (e.g. `paths`, `values`)
-and do not use any of the **negative** matching fields (e.g. `notPaths`, `notValues`).
-
-The `DENY-with-negative-matching` pattern is to use the `DENY` action only with **negative** matching fields (e.g. `notPaths`, `notValues`)
-and do not use any of the **positive** matching fields (e.g. `paths`, `values`).
-
-For example, the authorization policy below uses the `ALLOW-with-positive-matching` pattern to allow requests at path `/public`:
-
-{{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: foo
-spec:
-  action: ALLOW
-  rules:
-  - to:
-    - operation:
-        paths: ["/public"]
-{{< /text >}}
-
-The above policy explicitly lists the allowed path (`/public`). This means the request path must be exactly the same as
-`/public` to let the request allowed by the policy. Any other requests will be rejected by default eliminating the risk
-of unknown normalization behavior causing policy bypass.
-
-The following is another example using the `DENY-with-negative-matching` pattern to achieve the same result:
-
-{{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: foo
-spec:
-  action: DENY
-  rules:
-  - to:
-    - operation:
-        notPaths: ["/public"]
-{{< /text >}}
-
 #### Custom normalization logic
 
 You can apply custom normalization logic using the WASM or Lua filter. It is recommended to use the WAM filter because
-it's officially supported and also used by Istio. The Lua filter could also be used if you need a quick proof-of-concept
-but please be aware the Lua filter is not supported by Istio.
+it's officially supported and also used by Istio. You could use the Lua filter for quick proof-of-concept DEMO but we do
+not recommend using the Lua filter in production because it is not supported by Istio.
 
 ##### Example custom normalization (case normalization)
 
