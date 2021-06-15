@@ -8,8 +8,8 @@ owner: istio/wg-networking-maintainers
 test: n/a
 ---
 
-One of the goals of Istio is to act as a "transparent proxy" that can be dropped in place into an existing cluster and allow traffic to continue to function as previously.
-However, there are some important ways that Istio causes traffic to be handled differently than a typical Kubernetes cluster, due to additional features (such as request load balancing) and architectural constraints.
+One of the goals of Istio is to act as a "transparent proxy" which can be dropped into an existing cluster, allowing traffic to continue to flow as before.
+However, there are powerful ways Istio can manage traffic differently than a typical Kubernetes cluster because of the additional features such as request load balancing.
 To understand what is happening in your mesh, it is important to understand how Istio routes traffic.
 
 {{< warning >}}
@@ -18,49 +18,49 @@ This document describes low level implementation details. For a higher level ove
 
 ## Protocols
 
-Unlike Kubernetes, Istio has the ability to process higher level protocols such as HTTP and TLS.
+Unlike Kubernetes, Istio has the ability to process application level protocols such as HTTP and TLS.
 In general, there are three classes of protocols Istio understands:
 
 * HTTP, which includes HTTP/1.1, HTTP/2, and gRPC. Note that this does not include TLS encrypted traffic (HTTPS).
 * TLS, which includes HTTPS.
-* Opaque TCP bytes.
+* Raw TCP bytes.
 
-Which protocol is used is determined by [protocol selection](/docs/ops/configuration/traffic-management/protocol-selection/).
+The [protocol selection](/docs/ops/configuration/traffic-management/protocol-selection/) document describes how Istio decides which protocol is used.
 
 The use of "TCP" can be confusing, as in other contexts it is used to distinguish between other L4 protocols, such as UDP.
-When referring to the TCP protocol in Istio, this typically means we are treating it as an opaque stream of bytes,
-and not parsing higher level constructs such as TLS or HTTP.
+When referring to the TCP protocol in Istio, this typically means we are treating it as a raw stream of bytes,
+and not parsing application level protocols such as TLS or HTTP.
 
 ## Traffic Routing
 
-When the Istio proxy receives a request, it must decide where to forward the request to, if anywhere.
-By default, this will be the original service that was request, unless [customized](/docs/tasks/traffic-management/traffic-shifting/).
+When an Envoy proxy receives a request, it must decide where, if anywhere, to forward it to.
+By default, this will be to the original service that was requested, unless [customized](/docs/tasks/traffic-management/traffic-shifting/).
 How this works depends on the protocol used.
 
 ### TCP
 
 When processing TCP traffic, Istio has a very small amount of useful information to route the connection - only the destination IP and Port.
-Fortunately, this is enough to determine the intended Service; the proxy is configured to listen on each service IP:Port pair and forward traffic to that service.
+These attributes are used to determine the intended Service; the proxy is configured to listen on each service IP (`<Kubernetes ClusterIP>:<Port>`) pair and forward traffic to the upstream service.
 
-For customizations, a TCP `VirtualService` can be configured, which allows [matching on specific IPs and ports](/docs/reference/config/networking/virtual-service/#L4MatchAttributes).
+For customizations, a TCP `VirtualService` can be configured, which allows [matching on specific IPs and ports](/docs/reference/config/networking/virtual-service/#L4MatchAttributes) and routing it to different upstream services than requested.
 
 ### TLS
 
-When processing TLS traffic, Istio has slightly more information available than raw TCP: we can inspect the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication).
+When processing TLS traffic, Istio has slightly more information available than raw TCP: we can inspect the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) field presented during the TLS handshake.
 
-For standard Services, the same IP:Port matching as raw TCP is used.
-However, for services that do not have a Service IP defined, such as [ExternalName services](#externalname-services), the SNI will be used for routing.
+For standard Services, the same IP:Port matching is used as for raw TCP.
+However, for services that do not have a Service IP defined, such as [ExternalName services](#externalname-services), the SNI field will be used for routing.
 
-Additionally, custom routing can be configured with a TLS `VirtualService` to [match on SNI](/docs/reference/config/networking/virtual-service/#TLSMatchAttributes).
+Additionally, custom routing can be configured with a TLS `VirtualService` to [match on SNI](/docs/reference/config/networking/virtual-service/#TLSMatchAttributes) and route requests to custom destinations.
 
 ### HTTP
 
-HTTP allows much richer routing than TCP and TLS. With HTTP, we are able to route individual HTTP requests, rather than just connections.
-In addition, a [number of different request attributes](/docs/reference/config/networking/virtual-service/#HTTPMatchRequest) are available, such as host, path, headers, query parameters, etc.
+HTTP allows much richer routing than TCP and TLS. With HTTP, you can route individual HTTP requests, rather than just connections.
+In addition, a [number of rich attributes](/docs/reference/config/networking/virtual-service/#HTTPMatchRequest) are available, such as host, path, headers, query parameters, etc.
 
 While TCP and TLS traffic generally behave the same with or without Istio (assuming no configuration has been applied to customize the routing), HTTP has significant differences.
 
-* Istio will load balance individual requests. In general, this is highly desirably, especially in scenarios with long-lived connections such as gRPC and HTTP/2, where connection level load balancing is ineffective.
+* Istio will load balance individual requests. In general, this is highly desirable, especially in scenarios with long-lived connections such as gRPC and HTTP/2, where connection level load balancing is ineffective.
 * Requests are routed based on the port and *`Host` header*, rather than port and IP. This means the destination IP address is effectively ignored. For example, `curl 8.8.8.8 -H "Host: productpage.default.svc.cluster.local"`, would be routed to the `productpage` Service.
 
 ## Unmatched traffic
