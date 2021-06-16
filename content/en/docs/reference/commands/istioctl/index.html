@@ -5233,6 +5233,9 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
   ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
   istioctl proxy-config bootstrap --file envoy-config.json
 
+  # Show a human-readable Istio and Envoy version summary
+  istioctl proxy-config bootstrap -o short
+
 </code></pre>
 <h2 id="istioctl-proxy-config-cluster">istioctl proxy-config cluster</h2>
 <p>Retrieve information about cluster configuration for the Envoy instance in the specified pod.</p>
