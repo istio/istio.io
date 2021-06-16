@@ -179,16 +179,16 @@ apiVersion: v1
 
 ### Mitigation for unsupported normalization
 
-This section describes various mitigations for unsupported normalization. These could be useful when you find a specific
+This section describes various mitigations for unsupported normalization. These could be useful when you need a specific
 normalization that is not supported by Istio.
 
-Please make sure you understand the mitigation thoroughly and use it carefully. Some mitigation is just best-effort workaround
-that is not well tested or rely on things that are not supported by Istio.
+Please make sure you understand the mitigation thoroughly and use it carefully as some mitigations rely on things that are
+out the scope of Istio and also not supported by Istio.
 
 #### Custom normalization logic
 
 You can apply custom normalization logic using the WASM or Lua filter. It is recommended to use the WAM filter because
-it's officially supported and also used by Istio. You could use the Lua filter for quick proof-of-concept DEMO but we do
+it's officially supported and also used by Istio. You could use the Lua filter for a quick proof-of-concept DEMO but we do
 not recommend using the Lua filter in production because it is not supported by Istio.
 
 ##### Example custom normalization (case normalization)
@@ -229,8 +229,8 @@ spec:
 
 #### Specialized Web Application Firewall (WAF)
 
-Many specialized Web Application Firewall (WAF) products provide more normalization options. It can be deployed in
-front of the Istio ingress gateway to normalize requests entering the mesh, the authorization policy will then be enforced
+Many specialized Web Application Firewall (WAF) products provide additional normalization options. They can be deployed in
+front of the Istio ingress gateway to normalize requests entering the mesh. The authorization policy will then be enforced
 on the normalized requests. Please refer to your specific WAF product for configuring the normalization options.
 
 #### Feature request to Istio
@@ -241,8 +241,8 @@ page to send a feature request about the specific normalization to the Istio Pro
 Please do not open any issues in public without first contacting the Istio Product Security Work Group because the
 issue might be considered as a security vulnerability that needs to be fixed in private.
 
-If Istio Product Security Work Group evaluates the feature request not a security vulnerability, an issue will be opened
-in public for further discussions of the feature request.
+If the Istio Product Security Work Group evaluates the feature request to not be a security vulnerability, an issue will
+be opened in public for further discussions of the feature request.
 
 ## Understand traffic capture limitations
 
