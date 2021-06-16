@@ -1,10 +1,11 @@
 ---
-title: Configurability†
-description: How to configure tracing options (beta/experimental).
+title: Configurability
+description: How to configure tracing options.
 weight: 60
 keywords: [telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
+status: beta/experimental
 ---
 
 Istio provides the ability to configure advanced tracing options,
