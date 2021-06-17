@@ -87,7 +87,7 @@ Follow these instructions to prepare a GKE cluster for Istio.
 In some cases, a firewall rule must be explicitly created to allow cross-cluster traffic
 
 {{< warning >}}
-The following instructions will allow communication for *all* clusters in your project. Adjust the commands as needed.
+The following instructions will allow communication between *all* clusters in your project. Adjust the commands as needed.
 {{< /warning >}}
 
 1. Gather information about your clusters' network
