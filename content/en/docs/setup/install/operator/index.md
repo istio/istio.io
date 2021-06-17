@@ -77,6 +77,10 @@ To avoid a vulnerability, ensure that the operator deployment is sufficiently se
 To install the Istio `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/)
 using the operator, run the following command:
 
+{{< warning >}}
+Prior to Istio 1.10.0, the namespace `istio-system` needs to be created before installing the operator. As of Istio 1.10.0, this is no longer required.
+{{< /warning >}}
+
 {{< text syntax=bash snip_id=create_demo_profile >}}
 $ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
