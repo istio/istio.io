@@ -11,8 +11,6 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-# Cluster creation
-
 Follow these instructions to prepare a GKE cluster for Istio.
 
 1. Create a new cluster.
