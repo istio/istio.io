@@ -90,6 +90,10 @@ To be part of a mesh, Kubernetes pods must satisfy the following requirements:
 
 The following ports and protocols are used by the Istio sidecar proxy (Envoy).
 
+{{< warning >}}
+To avoid port conflicts with sidecars, applications should not use any of the ports used by Envoy.
+{{< /warning >}}
+
 | Port | Protocol | Description | Pod-internal only |
 |----|----|----|----|
 | 15000 | TCP | Envoy admin port (commands/diagnostics) | Yes |
@@ -109,8 +113,6 @@ The following ports and protocols are used by the Istio control plane (istiod).
 | 8080 | HTTP | Debug interface (deprecated) | No |
 | 443 | HTTPS | Webhooks | No |
 | 15014 | HTTP | Control plane monitoring | No |
-
-To avoid port conflicts with sidecars, applications should not use any of the ports used by Envoy.
 
 ## Server First Protocols
 
