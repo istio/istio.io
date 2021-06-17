@@ -5,7 +5,7 @@ weight: 65
 keywords: [security,access-control,rbac,authorization,dry-run]
 owner: istio/wg-security-maintainers
 test: no
-status: experimental
+status: Experimental
 ---
 
 This task shows you how to set up an Istio authorization policy using a new [experimental annotation `istio.io/dry-run`](/docs/reference/config/annotations/)

@@ -8,7 +8,7 @@ aliases:
 keywords: [extensibility,Wasm,WebAssembly]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
-status: experimental
+status: Experimental
 ---
 
 {{< boilerplate experimental-feature-warning >}}

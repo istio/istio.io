@@ -7,7 +7,7 @@ aliases:
     - /docs/tasks/security/custom-ca-k8s/
 owner: istio/wg-security-maintainers
 test: no
-status: experimental
+status: Experimental
 ---
 
 {{< boilerplate experimental >}}

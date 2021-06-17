@@ -31,8 +31,8 @@
             {{ $linktitle := .LinkTitle }}
             {{ if isset .Params "status" }}
                 {{ $status := .Params.status }}
-                {{ if in $status "experimental" }}
-                    {{ $linktitle = printf "%s%s" ($linktitle) "†" }}
+                {{ if in $status "Experimental" }}
+                    {{ $linktitle = printf "%s%s" ($linktitle) "*" }}
                 {{ end }}
                 {{ $desc = printf "%s (%s)" (trim $desc ".") (.Params.status) }}
             {{ end }}

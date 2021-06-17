@@ -5,7 +5,7 @@ weight: 30
 keywords: [kubernetes,upgrading,gateway]
 owner: istio/wg-environments-maintainers
 test: no
-status: experimental
+status: Experimental
 ---
 
 {{< boilerplate experimental >}}

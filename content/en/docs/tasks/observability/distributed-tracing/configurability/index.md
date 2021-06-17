@@ -5,7 +5,7 @@ weight: 60
 keywords: [telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
-status: beta/experimental
+status: Beta/Experimental
 ---
 
 Istio provides the ability to configure advanced tracing options,
