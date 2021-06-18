@@ -1,10 +1,11 @@
 ---
-title: Configuring Gateway Network Topology (Alpha)
+title: Configuring Gateway Network Topology
 description: How to configure gateway network topology.
 weight: 60
 keywords: [traffic-management,ingress,gateway]
 owner: istio/wg-networking-maintainers
 test: yes
+status: Alpha
 ---
 
 ## Forwarding external client attributes (IP address, certificate info) to destination workloads
