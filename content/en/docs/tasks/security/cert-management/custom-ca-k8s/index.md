@@ -39,7 +39,7 @@ Note that this example should only be used for basic evaluation. The use of the 
         pilot:
           k8s:
             env:
-            # Indicate to Istiod that we use an Custom Certificate Authority
+            # Indicate to Istiod that we use a Custom Certificate Authority
             - name: EXTERNAL_CA
               value: ISTIOD_RA_KUBERNETES_API
             # Tells Istiod to use the Kubernetes legacy CA Signer
