@@ -1,5 +1,5 @@
 ---
-title: Using the Telemetry API [Experimental]
+title: Configuring tracing using the Telemetry API (Experimental)
 description: How to configure tracing options using the Telemetry API (experimental).
 weight: 10
 keywords: [telemetry,tracing]
@@ -7,10 +7,9 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
-Istio provides a Telemetry API that enables flexible configuration of tracing behavior. The experimental
+Istio provides a Telemetry API that enables flexible configuration of tracing behavior. The
 Telemetry API offers controls over tracing options such as sampling rates and custom tags for individual
-spans, as well as backend provider selection. The options are configurable down to the the individual
-workload level and provide override behavior.
+spans, as well as backend provider selection.
 
 ## Before you begin
 
@@ -22,7 +21,9 @@ workload level and provide override behavior.
 
 The Telemetry API offers tracing behavior configuration control over the following at the mesh, namespace, and workload levels:
 
-- **provider selection** - allows selection of backend providers (providers are configured in `MeshConfig`) for reporting.
+- **provider selection** - allows selection of backend providers
+([providers](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider)
+are configured in `MeshConfig`) for reporting.
 
 - **sampling percentage** - allows control the rate of trace sampling applied to received requests *for which no prior sampling decision has been made*.
 
@@ -32,7 +33,8 @@ The Telemetry API offers tracing behavior configuration control over the followi
 
 ### Workload Selection
 
-Individual workloads within a namespace are selected via a [`selector`](/docs/reference/config/type/workload-selector/#WorkloadSelector) which allows selection of workloads based on labels.
+Individual workloads within a namespace are selected via a [`selector`](/docs/reference/config/type/workload-selector/#WorkloadSelector)
+which allows label-based selection of workloads.
 
 It is not valid to have two different `Telemetry` resources select the same workload using `selector`. Likewise, it is not valid to have two
 distinct `Telemetry` resources in a namespace with no `selector` specified.
@@ -46,7 +48,7 @@ Telemetry API resources inherit configuration from parent resources in the Istio
 1.  workload (namespace-scoped resource with a workload `selector`)
 
 A Telemetry API resource in the root configuration namespace, typically `istio-system`, provides mesh-wide defaults for behavior.
-Do not to specify any workload-specific selector in the root configuration namespace (it will be ignored).
+Do not specify any workload-specific selector in the root configuration namespace (it will be ignored).
 
 Namespace-specific overrides for the mesh-wide configuration can be achieved by applying a new `Telemetry` resource in the desired
 namespace (without a workload selector). Any `Tracing` fields specified in the namespace configuration will completely override
@@ -69,13 +71,13 @@ providers to use in tracing, edit the `MeshConfig` for your mesh via:
 
 {{< text bash >}}
 $ kubectl -n istio-system edit configmap istio
-{{</ text >}}
+{{< /text >}}
 
 The full set of configuration options is described in the [reference docs for MeshConfig](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
 Typical configuration includes service address and port for the provider, as well as establishing
 a limit on max tag length supported by the provider.
 
-Each configured provider *must* be named. That name will be used to refer to the provider in the
+Each configured provider *must* be uniquely named. That name will be used to refer to the provider in the
 Telemetry API.
 
 An example set of provider configuration in `MeshConfig` is:
@@ -94,7 +96,7 @@ data:
           maxTagLength: 256
       defaultProviders: # If a default provider is not specified, Telemetry resources must fully-specify a provider
           tracing: "stacky-driver"
-{{</ text >}}
+{{< /text >}}
 
 ### Configuring mesh-wide tracing behavior
 
@@ -111,14 +113,14 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-  - providers: # only a single tracing provider can be selected at this time
+  - providers: # only a single tracing provider is supported at this time
     - name: zippy-kin
     customTags:
       foo:
         literal:
           value: bar
     randomSamplingPercentage: 100
-{{</ text >}}
+{{< /text >}}
 
 This configuration overrides the default provider from `MeshConfig`, setting the mesh default to be the `"zippy-kin"`
 provider. It also sets the mesh-wide sampling percentage to be `100`, and configures a tag to be added to all trace
@@ -142,7 +144,7 @@ spec:
         header:
           name: userId
           defaultValue: unknown
-{{</ text >}}
+{{< /text >}}
 
 When deployed with into a mesh with the prior mesh-wide example configuration, this will result in
 tracing behavior in the `myapp` namespace that sends trace spans to the `zippy-kin` provider and
@@ -154,7 +156,7 @@ overrides the behavior configured in the `mesh-default.istio-system` resource.
 {{< tip >}}
 Any tracing configuration in a `Telemetry` resource completely overrides configuration of its parent resource in the
 configuration hierarchy. This includes provider selection.
-{{</ tip >}}
+{{< /tip >}}
 
 ### Configuring workload-specific tracing behavior
 
@@ -176,7 +178,7 @@ spec:
       service.istio.io/canonical-name: frontend
   tracing:
   - disableSpanReporting: true
-{{</ text >}}
+{{< /text >}}
 
 In this case, tracing will be disabled for the `frontend` workload in the `myapp` namespace. Istio will still forward the tracing headers,
 but no spans will be reported to the configured tracing provider.
@@ -184,4 +186,4 @@ but no spans will be reported to the configured tracing provider.
 {{< tip >}}
 It is not valid to have two `Telemetry` resources with workload selectors select the same workload. In those cases,
 Istio tracing behavior is undefined.
-{{</ tip >}}
+{{< /tip >}}
