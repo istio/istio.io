@@ -324,6 +324,18 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
 </tr>
 <tr>
+<td><code>ENABLE_MCS_AUTOEXPORT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will automatically generate MCS ServiceExport objects for each service in each cluster. Services defined to be cluster-local in MeshConfig are excluded.</td>
+</tr>
+<tr>
+<td><code>ENABLE_MCS_SERVICE_DISCOVERY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will enable Kubernetes MCS service discovery mode. In this mode, service endpoints in a cluster will only discoverable within the same cluster unless explicitly exported (via the ServiceExport CR).</td>
+</tr>
+<tr>
 <td><code>ENABLE_MULTICLUSTER_HEADLESS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -568,12 +580,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will allow any upstream cluster to be used with AUTO_PASSTHROUGH. This option is intended for backwards compatibility only and is not secure with untrusted downstreams; it will be removed in the future.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_MCS_SERVICEEXPORT</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, Pilot will generate MCS ServiceExport objects for every non cluster-local service in the cluster</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_MONGO_FILTER</code></td>
@@ -874,6 +880,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Whether to try to load CA certs from a remote Kubernetes cluster. Used for external Istiod.</td>
+</tr>
+<tr>
+<td><code>VALIDATION_WEBHOOK_CONFIG_NAME</code></td>
+<td>String</td>
+<td><code>istio-istio-system</code></td>
+<td>Name of the validatingwebhookconfiguration to patch. Empty will skip using cluster admin to patch.</td>
 </tr>
 <tr>
 <td><code>XDS_AUTH</code></td>
