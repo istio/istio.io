@@ -1,7 +1,7 @@
 ---
 title: FAQ
 description: 关于 Istio 的常见问题。
-subtitle: Istio 解决了开发人员和运营商在单一应用程序向分布式微服务架构过渡时所面临的挑战
+subtitle: 在您搜索有关 Istio 和服务网格技术的信息时，我们希望此常见问题解答对您有所帮助
 weight: 1
 layout: faq-landing
 aliases: 
@@ -9,7 +9,6 @@ aliases:
   - /zh/docs/reference/faq.html
   - /zh/help/faq/
   - /zh/faq.html
-icon: faq
 skip_toc: false
 skip_byline: true
 skip_pagenav: true
