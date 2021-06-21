@@ -75,7 +75,7 @@ The above policy explicitly lists the allowed path (`/public`). This means the r
 `/public` to let the request allowed by the policy. Any other requests will be rejected by default eliminating the risk
 of unknown normalization behavior causing policy bypass.
 
-The following is another example using the `DENY-with-negative-matching` pattern to achieve the same result:
+The following is an example using the `DENY-with-negative-matching` pattern to achieve the same result:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -187,7 +187,7 @@ out the scope of Istio and also not supported by Istio.
 
 #### Custom normalization logic
 
-You can apply custom normalization logic using the WASM or Lua filter. It is recommended to use the WAM filter because
+You can apply custom normalization logic using the WASM or Lua filter. It is recommended to use the WASM filter because
 it's officially supported and also used by Istio. You could use the Lua filter for a quick proof-of-concept DEMO but we do
 not recommend using the Lua filter in production because it is not supported by Istio.
 
@@ -235,13 +235,13 @@ on the normalized requests. Please refer to your specific WAF product for config
 
 #### Feature request to Istio
 
-If you believe Istio should officially support a specific normalization, you could follow the [reporting a vulnerability](/docs/releases/security-vulnerabilities/#reporting-a-vulnerability)
+If you believe Istio should officially support a specific normalization, you can follow the [reporting a vulnerability](/docs/releases/security-vulnerabilities/#reporting-a-vulnerability)
 page to send a feature request about the specific normalization to the Istio Product Security Work Group for initial evaluation.
 
 Please do not open any issues in public without first contacting the Istio Product Security Work Group because the
-issue might be considered as a security vulnerability that needs to be fixed in private.
+issue might be considered a security vulnerability that needs to be fixed in private.
 
-If the Istio Product Security Work Group evaluates the feature request to not be a security vulnerability, an issue will
+If the Istio Product Security Work Group evaluates the feature request as not a security vulnerability, an issue will
 be opened in public for further discussions of the feature request.
 
 ## Understand traffic capture limitations
