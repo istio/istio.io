@@ -90,6 +90,80 @@ spec:
         notPaths: ["/public"]
 {{< /text >}}
 
+### Understand path normalization in authorization policy
+
+The enforcement point of authorization policy is the Envoy proxy which is different from the actual resource access point that is
+usually in the backend application. A policy mismatch happens when the Envoy proxy and the backend application interprets the request
+differently.
+
+The mismatch leads to either unexpected rejection or policy bypass. The latter is usually a security incident that needs to be
+fixed immediately, and it's also why we need path normalization in the authorization policy.
+
+For example, you have an authorization policy to reject requests with path `/data/secret`. A request with path `/data//secret` will
+not be rejected because it does not match with the path defined in the authorization policy due to the extra forward slash `/` in the path.
+
+The request goes through and later the backend application returns the same response that it returns for the path `/data/secret`
+because the backend application normalizes the path `/data//secret` to `/data/secret` as it considers the double forward slashes
+`//` is equivalent to a single forward slash `/`.
+
+In this example, the policy enforcement point (Envoy proxy) had a different understanding of the path than to the resource access
+point (backend application). The different understanding caused the mismatch and subsequently the bypass of the authorization policy.
+
+This becomes a complicated problem because of the following factors:
+
+* Lacking of a clear standard of the normalization.
+
+* Backends and frameworks in different layers have their own special normalization.
+
+* Applications can even have arbitrary normalizations for its own use cases.
+
+Istio authorization policy implements built-in support of various basic normalization options to help you to better address
+the problem:
+
+* Read the [Guideline on configuring the path normalization option](/docs/ops/best-practices/security/#guideline-on-configuring-the-path-normalization-option)
+  to understand which normalization option you should use.
+
+* Read the [Customize your system on path normalization](/docs/ops/best-practices/security/#customize-your-system-on-path-normalization) to
+  understand the detail of each normalization option.
+
+* Read the [Mitigation for unsupported normalization](/docs/ops/best-practices/security/#mitigation-for-unsupported-normalization) for
+  alternative solutions in case you need any unsupported normalization options.
+
+### Guideline on configuring the path normalization option
+
+#### Case 1: You do not need normalization at all
+
+Before diving into the details of configuring normalization, you should first make sure if you actually need any of the normalizations.
+
+You do not need the normalization if you do not use authorization policy in the first place or if your authorization policy does not
+use any `path` fields.
+
+You may not need the normalization if all your authorization policies follow the safer authorization pattern which the worst
+case is unexpected rejection instead of policy bypass.
+
+#### Case 2: You need normalization but not sure which normalization option to use
+
+You need normalization but you have no idea of which option to use. The safest choice is the strictest normalization option
+that provides the maximum level of normalization in the authorization policy.
+
+This is often the case due to the fact that complicated multi-layered systems making it practically impossible to figure
+out which normalization are actually happening to the request.
+
+You could use less strict normalization option if it already satisfies your requirements and you are sure of its implications.
+
+For either options, make sure you write both positive and negative tests specifically for your requirements to verify the
+normalization is working as expected. The tests are useful in catching potential bypass issues caused by misunderstanding
+or incomplete knowledge of the normalization happening to your request.
+
+Refer to the [Customize your system on path normalization](/docs/ops/best-practices/security/#customize-your-system-on-path-normalization)
+for more details of configuring the normalization option.
+
+#### Case 3: You need an unsupported normalization option
+
+If you need specific normalization option that is not supported by Istio yet, please follow the
+[Mitigation for unsupported normalization](/docs/ops/best-practices/security/#mitigation-for-unsupported-normalization)
+for customized normalization support or create a feature request to the Istio community.
+
 ### Customize your system on path normalization
 
 Istio authorization policies can be based on the URL paths in the HTTP request.
@@ -125,7 +199,7 @@ applications may interpret a URL in any way it chooses to. When using denial pol
 
 For a complete list of supported normalizations, please refer to [authorization policy normalization](/docs/reference/config/security/normalization/).
 
-### Examples of configuration
+#### Examples of configuration
 
 Ensuring Envoy normalizes request paths to match your backend services' expectation is critical to the security of your system.
 The following examples can be used as reference for you to configure your system.
@@ -142,7 +216,7 @@ The normalized URL paths, or the original URL paths if _NONE_ is selected, will 
 | Normalizes request paths based on [RFC 3986](https://tools.ietf.org/html/rfc3986), decodes [percent-encoded](https://tools.ietf.org/html/rfc3986#section-2.1) slashes and merges slashes | `DECODE_AND_MERGE_SLASHES` |
 | Processes request paths in a way that is incompatible with [RFC 3986](https://tools.ietf.org/html/rfc3986) | `NONE` |
 
-### How to configure
+#### How to configure
 
 You can use `istioctl` to update the [mesh config](/docs/reference/config/istio.mesh.v1alpha1/):
 
