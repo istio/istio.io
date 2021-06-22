@@ -70,5 +70,6 @@ Please keep up-to-date and use a supported version.
 
 | Minor Releases             | Patched versions with no known CVEs  |
 |----------------------------|--------------------------------------|
+| 1.10x                      | 1.10.0+                              |
 | 1.9.x                      | 1.9.5+                               |
 | 1.8 and earlier            | None                                 |
