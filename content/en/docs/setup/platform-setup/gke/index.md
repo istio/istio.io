@@ -82,13 +82,13 @@ Follow these instructions to prepare a GKE cluster for Istio.
 
 ## Multi-cluster communication
 
-In some cases, a firewall rule must be explicitly created to allow cross-cluster traffic
+In some cases, a firewall rule must be explicitly created to allow cross-cluster traffic.
 
 {{< warning >}}
 The following instructions will allow communication between *all* clusters in your project. Adjust the commands as needed.
 {{< /warning >}}
 
-1. Gather information about your clusters' network
+1. Gather information about your clusters' network.
 
     {{< text bash >}}
     $ function join_by { local IFS="$1"; shift; echo "$*"; }
@@ -98,7 +98,7 @@ The following instructions will allow communication between *all* clusters in yo
     $ ALL_CLUSTER_NETTAGS=$(join_by , $(echo "${ALL_CLUSTER_NETTAGS}"))
     {{< /text >}}
 
-1. Create the firewall rule
+1. Create the firewall rule.
 
     {{< text bash >}}
     $ gcloud compute firewall-rules create istio-multicluster-pods \
