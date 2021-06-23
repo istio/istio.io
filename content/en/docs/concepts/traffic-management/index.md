@@ -11,6 +11,7 @@ aliases:
     - /docs/concepts/traffic-management/load-balancing
     - /docs/concepts/traffic-management/request-routing
     - /docs/concepts/traffic-management/pilot.html
+    - /docs/concepts/traffic-management/overview.html
 owner: istio/wg-networking-maintainers
 test: no
 ---
