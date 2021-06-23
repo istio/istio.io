@@ -92,7 +92,7 @@ spec:
 
 ### Understand path normalization in authorization policy
 
-The enforcement point of authorization policy is the Envoy proxy which is different from the actual resource access point that is
+The enforcement point of authorization policies is the Envoy proxy which is different from the actual resource access point that is
 usually in the backend application. A policy mismatch happens when the Envoy proxy and the backend application interprets the request
 differently.
 
@@ -100,11 +100,11 @@ The mismatch leads to either unexpected rejection or policy bypass. The latter i
 fixed immediately, and it's also why we need path normalization in the authorization policy.
 
 For example, you have an authorization policy to reject requests with path `/data/secret`. A request with path `/data//secret` will
-not be rejected because it does not match with the path defined in the authorization policy due to the extra forward slash `/` in the path.
+not be rejected because it does not match the path defined in the authorization policy due to the extra forward slash `/` in the path.
 
 The request goes through and later the backend application returns the same response that it returns for the path `/data/secret`
 because the backend application normalizes the path `/data//secret` to `/data/secret` as it considers the double forward slashes
-`//` is equivalent to a single forward slash `/`.
+`//` equivalent to a single forward slash `/`.
 
 In this example, the policy enforcement point (Envoy proxy) had a different understanding of the path than to the resource access
 point (backend application). The different understanding caused the mismatch and subsequently the bypass of the authorization policy.
@@ -121,7 +121,7 @@ Istio authorization policy implements built-in support of various basic normaliz
 the problem:
 
 * Read the [Guideline on configuring the path normalization option](/docs/ops/best-practices/security/#guideline-on-configuring-the-path-normalization-option)
-  to understand which normalization option you should use.
+  to understand which normalization options you may want to use.
 
 * Read the [Customize your system on path normalization](/docs/ops/best-practices/security/#customize-your-system-on-path-normalization) to
   understand the detail of each normalization option.
@@ -133,21 +133,21 @@ the problem:
 
 #### Case 1: You do not need normalization at all
 
-Before diving into the details of configuring normalization, you should first make sure if you actually need any of the normalizations.
+Before diving into the details of configuring normalization, you should first make sure whether any of the normalizations are needed.
 
-You do not need the normalization if you do not use authorization policy in the first place or if your authorization policy does not
+You do not need the normalization if you do not use authorization policies or if your authorization policies do not
 use any `path` fields.
 
-You may not need the normalization if all your authorization policies follow the safer authorization pattern which the worst
-case is unexpected rejection instead of policy bypass.
+You may not need the normalization if all your authorization policies follow the safer authorization pattern which, in the worst
+case, is unexpected rejection instead of policy bypass.
 
 #### Case 2: You need normalization but not sure which normalization option to use
 
 You need normalization but you have no idea of which option to use. The safest choice is the strictest normalization option
 that provides the maximum level of normalization in the authorization policy.
 
-This is often the case due to the fact that complicated multi-layered systems making it practically impossible to figure
-out which normalization are actually happening to the request.
+This is often the case due to the fact that complicated multi-layered systems make it practically impossible to figure
+out which normalization are actually happening to the request beyond the enforcement point.
 
 You could use less strict normalization option if it already satisfies your requirements and you are sure of its implications.
 
