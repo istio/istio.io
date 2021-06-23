@@ -8,11 +8,18 @@ skip_byline: true
 skip_pagenav: true
 aliases:
     - /zh/service-mesh.html
+    - /zh/docs/concepts/what-is-istio/overview
+    - /zh/docs/concepts/what-is-istio/goals
+    - /zh/about/intro
+    - /zh/docs/concepts/what-is-istio/
+    - /zh/latest/docs/concepts/what-is-istio/  
 doc_type: about
 ---
 [comment]: <> (TODO: Replace Service mesh graphic placeholder)
 
+{{< centered_block >}}
 {{< figure src="/img/service-mesh.svg" alt="服务网格" title="通过在部署的每个应用程序中添加代理“sidecar”，Istio 让您可以为应用程序感知流量管理、不可思议的可观察性和强大的安全功能编程到网络中。" >}}
+{{< /centered_block >}}
 
 {{< centered_block >}}
 
@@ -57,10 +64,9 @@ Istio 由两个部分组成：控制平面和数据平面。
 代理与您在集群中启动的每个服务一起部署，或者与运行在虚拟机上的服务一起运行。
 
 控制平面获取您所需的配置和服务视图，并动态地对代理服务器进行编程，随着规则或环境的变化更新它们。
-{{< /centered_block >}}
-
 {{< figure src="/img/service-mesh-before.svg" alt="使用 Istio 前" title="使用 Istio 前" >}}
 {{< figure src="/img/service-mesh.svg" alt="使用 Istio 后" title="使用 Istio 后" >}}
+{{< /centered_block >}}
 
 # 概念{#concepts}
 
@@ -72,7 +78,6 @@ Istio 的流量路由规则可以让您轻松地控制服务之间的流量和 A
 Istio 为服务网格内的所有通信生成详细的遥测数据。这种遥测技术提供了服务行为的可观测性，使运营商能够排除故障、维护和优化其应用。 更好的是，它不会给服务开发人员带来任何额外的负担。通过 Istio，操作人员可以全面了解被监视的服务如何与其他服务以及 Istio 组件本身交互。
 
 Istio 的遥测技术包括详细的指标、分布式跟踪和完整的访问日志。有了 Istio，您就可以得到全面全面的服务网格可观察性。
-
 {{< /feature_block>}}
 
 {{< feature_block header="安全性能" image="security.svg" >}}
