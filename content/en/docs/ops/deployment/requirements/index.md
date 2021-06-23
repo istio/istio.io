@@ -98,21 +98,25 @@ To avoid port conflicts with sidecars, applications should not use any of the po
 |----|----|----|----|
 | 15000 | TCP | Envoy admin port (commands/diagnostics) | Yes |
 | 15001 | TCP | Envoy outbound | No |
+| 15004 | HTTP | Debug port | Yes |
 | 15006 | TCP | Envoy inbound | No |
-| 15008 | TCP | Envoy tunnel port (inbound) | No |
+| 15008 | H2 | HBONE mTLS tunnel port | No |
+| 15009 | H2C | HBONE port for secure networks | No |
 | 15020 | HTTP | Merged Prometheus telemetry from Istio agent, Envoy, and application | No |
 | 15021 | HTTP | Health checks | No |
+| 15053 | DNS  | DNS port, if capture is enabled | Yes |
 | 15090 | HTTP | Envoy Prometheus telemetry | No |
 
 The following ports and protocols are used by the Istio control plane (istiod).
 
 | Port | Protocol | Description | Local host only |
 |----|----|----|----|
-| 15010 | GRPC | XDS and CA services (Plaintext) | No |
-| 15012 | GRPC | XDS and CA services (TLS, recommended for production use) | No |
-| 8080 | HTTP | Debug interface (deprecated) | No |
-| 443 | HTTPS | Webhooks | No |
+| 443 | HTTPS | Webhooks service port | No |
+| 8080 | HTTP | Debug interface (deprecated, container port only) | No |
+| 15010 | GRPC | XDS and CA services (Plaintext, only for secure networks) | No |
+| 15012 | GRPC | XDS and CA services (TLS and mTLS, recommended for production use) | No |
 | 15014 | HTTP | Control plane monitoring | No |
+| 15017 | HTTPS | Webhook container port, forwarded from 443 | No |
 
 ## Server First Protocols
 
