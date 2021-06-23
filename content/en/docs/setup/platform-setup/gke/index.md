@@ -79,3 +79,32 @@ Follow these instructions to prepare a GKE cluster for Istio.
         --clusterrole=cluster-admin \
         --user=$(gcloud config get-value core/account)
     {{< /text >}}
+
+## Multi-cluster communication
+
+In some cases, a firewall rule must be explicitly created to allow cross-cluster traffic.
+
+{{< warning >}}
+The following instructions will allow communication between *all* clusters in your project. Adjust the commands as needed.
+{{< /warning >}}
+
+1. Gather information about your clusters' network.
+
+    {{< text bash >}}
+    $ function join_by { local IFS="$1"; shift; echo "$*"; }
+    $ ALL_CLUSTER_CIDRS=$(gcloud --project $PROJECT_ID container clusters list --format='value(clusterIpv4Cidr)' | sort | uniq)
+    $ ALL_CLUSTER_CIDRS=$(join_by , $(echo "${ALL_CLUSTER_CIDRS}"))
+    $ ALL_CLUSTER_NETTAGS=$(gcloud --project $PROJECT_ID compute instances list --format='value(tags.items.[0])' | sort | uniq)
+    $ ALL_CLUSTER_NETTAGS=$(join_by , $(echo "${ALL_CLUSTER_NETTAGS}"))
+    {{< /text >}}
+
+1. Create the firewall rule.
+
+    {{< text bash >}}
+    $ gcloud compute firewall-rules create istio-multicluster-pods \
+        --allow=tcp,udp,icmp,esp,ah,sctp \
+        --direction=INGRESS \
+        --priority=900 \
+        --source-ranges="${ALL_CLUSTER_CIDRS}" \
+        --target-tags="${ALL_CLUSTER_NETTAGS}" --quiet
+    {{< /text >}}
