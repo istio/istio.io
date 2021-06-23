@@ -236,6 +236,6 @@ Communication between Envoy and the app happens on 127.0.0.1, and is not encrypt
 
 Due to the fact that the sidecar container mounts a local storage volume, the
 node autoscaler is unable to evict nodes with the injected pods. This is
-a [known issue](https://github.com/istio/istio/issues/19395). The workaround is
+a [known issue](https://github.com/kubernetes/autoscaler/issues/3947). The workaround is
 to add a pod annotation `"cluster-autoscaler.kubernetes.io/safe-to-evict":
 "true"` to the injected pods.
