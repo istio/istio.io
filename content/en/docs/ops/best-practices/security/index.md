@@ -72,7 +72,7 @@ spec:
 {{< /text >}}
 
 The above policy explicitly lists the allowed path (`/public`). This means the request path must be exactly the same as
-`/public` to let the request allowed by the policy. Any other requests will be rejected by default eliminating the risk
+`/public` to allow the request. Any other requests will be rejected by default eliminating the risk
 of unknown normalization behavior causing policy bypass.
 
 The following is an example using the `DENY-with-negative-matching` pattern to achieve the same result:
