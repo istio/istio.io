@@ -527,7 +527,8 @@ to be applied to a cluster.</p>
 <td><code>uint32</code></td>
 <td>
 <p>The service port for which this cluster was generated.  If
-omitted, applies to clusters for any port.</p>
+omitted, applies to clusters for any port.
+<strong>Note:</strong> for inbound cluster, it is the service target port.</p>
 
 </td>
 <td>
@@ -541,7 +542,8 @@ No
 <p>The fully qualified service name for this cluster. If omitted,
 applies to clusters for any service. For services defined
 through service entries, the service name is same as the hosts
-defined in the service entry.</p>
+defined in the service entry.
+<strong>Note:</strong> for inbound cluster, this is ignored.</p>
 
 </td>
 <td>
