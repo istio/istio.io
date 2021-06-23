@@ -524,9 +524,6 @@ traffic for services running outside of the mesh, including the following tasks:
     [fault injection](#fault-injection) policies for external destinations.
 -   Run a mesh service in a Virtual Machine (VM) by
     [adding VMs to your mesh](/docs/examples/virtual-machines/).
--   Logically add services from a different cluster to the mesh to configure a
-    [multicluster Istio mesh](/docs/setup/install/multicluster)
-    on Kubernetes.
 
 You don’t need to add a service entry for every external service that you want
 your mesh services to use. By default, Istio configures the Envoy proxies to
