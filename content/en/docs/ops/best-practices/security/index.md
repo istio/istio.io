@@ -31,9 +31,9 @@ It takes effort to configure the correct authorization policies to best protect 
 It is important to understand the implications of these configurations as Istio cannot determine the proper authorization for all users.
 Please follow this section in its entirety.
 
-### Safer Authorization Policy Pattern
+### Safer Authorization Policy Patterns
 
-#### Apply default-deny authorization policies
+#### Use default-deny patterns
 
 We recommend you define your Istio authorization policies following the default-deny pattern to enhance your cluster's security posture.
 The default-deny authorization pattern means your system denies all requests by default, and you define the conditions in which the requests are allowed.
@@ -56,7 +56,7 @@ and do not use any of the **negative** matching fields (e.g. `notPaths`, `notVal
 The `DENY-with-negative-matching` pattern is to use the `DENY` action only with **negative** matching fields (e.g. `notPaths`, `notValues`)
 and do not use any of the **positive** matching fields (e.g. `paths`, `values`).
 
-For example, the authorization policy below uses the `ALLOW-with-positive-matching` pattern to allow requests at path `/public`:
+For example, the authorization policy below uses the `ALLOW-with-positive-matching` pattern to allow requests to path `/public`:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
