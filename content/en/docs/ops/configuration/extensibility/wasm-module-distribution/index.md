@@ -1,5 +1,5 @@
 ---
-title: Distributing WebAssembly Modules (Experimental)
+title: Distributing WebAssembly Modules
 description: Describes how to make remote WebAssembly modules available in the mesh.
 weight: 10
 aliases:
@@ -8,6 +8,7 @@ aliases:
 keywords: [extensibility,Wasm,WebAssembly]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
+status: Experimental
 ---
 
 {{< boilerplate experimental-feature-warning >}}

@@ -1,10 +1,11 @@
 ---
-title: Dry Run (Experimental)
+title: Dry Run
 description: Shows how to dry-run an authorization policy without enforcing it.
 weight: 65
 keywords: [security,access-control,rbac,authorization,dry-run]
 owner: istio/wg-security-maintainers
 test: no
+status: Experimental
 ---
 
 This task shows you how to set up an Istio authorization policy using a new [experimental annotation `istio.io/dry-run`](/docs/reference/config/annotations/)

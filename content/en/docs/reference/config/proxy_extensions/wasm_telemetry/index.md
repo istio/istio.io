@@ -1,11 +1,12 @@
 ---
-title: Wasm-based Telemetry (Experimental)
+title: Wasm-based Telemetry
 description: How to enable telemetry generation with the Wasm runtime.
 weight: 60
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 aliases:
     - /docs/reference/config/telemetry/telemetry_v2_with_wasm/
+status: Experimental
 ---
 
 By default, telemetry generation is enabled as compiled-in Istio proxy filters. The same filters are also compiled to WebAssembly (Wasm) modules and shipped with Istio proxy. To enable telemetry generation with the Wasm runtime, install Istio with the `preview` profile:

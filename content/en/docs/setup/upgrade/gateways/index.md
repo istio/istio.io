@@ -1,10 +1,11 @@
 ---
-title: Managing Gateways with Multiple Revisions (Experimental)
+title: Managing Gateways with Multiple Revisions
 description: Configuring and upgrading Istio with gateways.
 weight: 30
 keywords: [kubernetes,upgrading,gateway]
 owner: istio/wg-environments-maintainers
 test: no
+status: Experimental
 ---
 
 {{< boilerplate experimental >}}
