@@ -70,4 +70,4 @@ Istio 集成了开箱即用的 [Prometheus 的时序数据库和监控系统](ht
 
 ## 加入 Istio 社区{#join-the-Istio-community}
 
-我们欢迎您通过加入 [Istio 社区](/zh/about/community/join/) 提出并反馈问题。
+我们欢迎您通过加入 [Istio 社区](/zh/get-involved/) 提出并反馈问题。
