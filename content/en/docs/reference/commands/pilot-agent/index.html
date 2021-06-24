@@ -311,7 +311,7 @@ remove_toc_prefix: 'pilot-agent '
 </tbody>
 </table>
 <h2 id="pilot-agent-proxy">pilot-agent proxy</h2>
-<p>Envoy proxy agent</p>
+<p>XDS proxy agent</p>
 <pre class="language-bash"><code>pilot-agent proxy [flags]
 </code></pre>
 <table class="command-flags">
@@ -645,6 +645,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>The identity provider for credential. Currently default supported identity provider is GoogleComputeEngine</td>
 </tr>
 <tr>
+<td><code>DISABLE_ENVOY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Disables all Envoy agent features.</td>
+</tr>
+<tr>
 <td><code>ECC_SIGNATURE_ALGORITHM</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -733,6 +739,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code></code></td>
 <td>The url of GKE cluster</td>
+</tr>
+<tr>
+<td><code>GRPC_XDS_BOOTSTRAP</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Path where gRPC expects to read a bootstrap file. Agent will generate one if set.</td>
 </tr>
 <tr>
 <td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
