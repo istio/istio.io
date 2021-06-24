@@ -124,6 +124,6 @@ Istio 直接帮助你执行这些任务来增强 Kubernetes 的价值。有关�
    但是，您现在必须修改您的代码才能使用这些库。您的业务代码将膨胀，业务逻辑将与报告、路由、策略、网络逻辑混合在一起。
    由于您的微服务使用不同的编程语言，因此您必须学习、使用和更新多个库。
 
-参阅 [Istio 服务网格](/zh/docs/concepts/what-is-istio/#what-is-a-service-mesh) 以了解 Istio 如何执行此处以及更多内容中提到的任务。接下来的模块中，您将探索 Istio 的各种功能。
+参阅 [Istio 服务网格](/zh/about/service-mesh/) 以了解 Istio 如何执行此处以及更多内容中提到的任务。接下来的模块中，您将探索 Istio 的各种功能。
 
 您已经准备好 [在 `productpage` 中启用 Istio](/zh/docs/examples/microservices-istio/add-istio/)。
