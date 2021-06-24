@@ -31,7 +31,9 @@ It takes effort to configure the correct authorization policies to best protect 
 It is important to understand the implications of these configurations as Istio cannot determine the proper authorization for all users.
 Please follow this section in its entirety.
 
-### Apply default-deny authorization policies
+### Safer Authorization Policy Patterns
+
+#### Use default-deny patterns
 
 We recommend you define your Istio authorization policies following the default-deny pattern to enhance your cluster's security posture.
 The default-deny authorization pattern means your system denies all requests by default, and you define the conditions in which the requests are allowed.
@@ -41,6 +43,52 @@ The latter typically being a security incident while the former may result in a 
 For example, in the [authorization for HTTP traffic task](/docs/tasks/security/authorization/authz-http/),
 the authorization policy named `allow-nothing` makes sure all traffic is denied by default.
 From there, other authorization policies allow traffic based on specific conditions.
+
+#### Use `ALLOW-with-positive-matching` and `DENY-with-negative-match` patterns
+
+Use the `ALLOW-with-positive-matching` or `DENY-with-negative-matching` patterns whenever possible. These authorization policy
+patterns are safer because the worst result in the case of policy mismatch is an unexpected 403 rejection instead of
+an authorization policy bypass.
+
+The `ALLOW-with-positive-matching` pattern is to use the `ALLOW` action only with **positive** matching fields (e.g. `paths`, `values`)
+and do not use any of the **negative** matching fields (e.g. `notPaths`, `notValues`).
+
+The `DENY-with-negative-matching` pattern is to use the `DENY` action only with **negative** matching fields (e.g. `notPaths`, `notValues`)
+and do not use any of the **positive** matching fields (e.g. `paths`, `values`).
+
+For example, the authorization policy below uses the `ALLOW-with-positive-matching` pattern to allow requests to path `/public`:
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: foo
+spec:
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        paths: ["/public"]
+{{< /text >}}
+
+The above policy explicitly lists the allowed path (`/public`). This means the request path must be exactly the same as
+`/public` to allow the request. Any other requests will be rejected by default eliminating the risk
+of unknown normalization behavior causing policy bypass.
+
+The following is an example using the `DENY-with-negative-matching` pattern to achieve the same result:
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: foo
+spec:
+  action: DENY
+  rules:
+  - to:
+    - operation:
+        notPaths: ["/public"]
+{{< /text >}}
 
 ### Customize your system on path normalization
 
@@ -131,13 +179,26 @@ apiVersion: v1
       ...
 {{< /text >}}
 
-### Less common normalization configurations
+### Mitigation for unsupported normalization
 
-#### Case Normalization
+This section describes various mitigations for unsupported normalization. These could be useful when you need a specific
+normalization that is not supported by Istio.
+
+Please make sure you understand the mitigation thoroughly and use it carefully as some mitigations rely on things that are
+out the scope of Istio and also not supported by Istio.
+
+#### Custom normalization logic
+
+You can apply custom normalization logic using the WASM or Lua filter. It is recommended to use the WASM filter because
+it's officially supported and also used by Istio. You could use the Lua filter for a quick proof-of-concept DEMO but we do
+not recommend using the Lua filter in production because it is not supported by Istio.
+
+##### Example custom normalization (case normalization)
 
 In some environments, it may be useful to have paths in authorization policies compared in a case insensitive manner.
 For example, treating `https://myurl/get` and `https://myurl/GeT` as equivalent.
-In those cases, the `EnvoyFilter` shown below can be used.
+
+In those cases, the `EnvoyFilter` shown below can be used to insert a Lua filter to normalize the path to lower case.
 This filter will change both the path used for comparison and the path presented to the application.
 
 {{< text syntax=yaml snip_id=ingress_case_insensitive_envoy_filter >}}
@@ -155,10 +216,8 @@ spec:
         filterChain:
           filter:
             name: "envoy.filters.network.http_connection_manager"
-            subFilter:
-              name: "envoy.filters.http.router"
     patch:
-      operation: INSERT_BEFORE
+      operation: INSERT_FIRST
       value:
         name: envoy.lua
         typed_config:
@@ -169,6 +228,23 @@ spec:
                 request_handle:headers():replace(":path", string.lower(path))
               end
 {{< /text >}}
+
+#### Specialized Web Application Firewall (WAF)
+
+Many specialized Web Application Firewall (WAF) products provide additional normalization options. They can be deployed in
+front of the Istio ingress gateway to normalize requests entering the mesh. The authorization policy will then be enforced
+on the normalized requests. Please refer to your specific WAF product for configuring the normalization options.
+
+#### Feature request to Istio
+
+If you believe Istio should officially support a specific normalization, you can follow the [reporting a vulnerability](/docs/releases/security-vulnerabilities/#reporting-a-vulnerability)
+page to send a feature request about the specific normalization to the Istio Product Security Work Group for initial evaluation.
+
+Please do not open any issues in public without first contacting the Istio Product Security Work Group because the
+issue might be considered a security vulnerability that needs to be fixed in private.
+
+If the Istio Product Security Work Group evaluates the feature request as not a security vulnerability, an issue will
+be opened in public for further discussions of the feature request.
 
 ## Understand traffic capture limitations
 
