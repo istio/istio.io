@@ -5,7 +5,6 @@ description: 了解如何部署、使用和运维 Istio。
 weight: 1
 skip_toc: true
 skip_sidebar: true
-icon: docs
 test: n/a
 doc_type: docs
 ---
@@ -14,4 +13,4 @@ doc_type: docs
 
 - [FAQ](/zh/about/faq)
 - [词汇表](/zh/docs/reference/glossary)。
-- [文档归档](https://archive.istio.io/)中包括了历史版本的快照。
+- [文档归档](https://istio.io/archive/)中包括了历史版本的快照。
