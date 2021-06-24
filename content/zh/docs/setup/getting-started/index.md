@@ -397,7 +397,7 @@ Istio 和[几个](/zh/docs/ops/integrations)遥测应用做了集成。
 
 ## 加入 Istio 社区
 
-我们欢迎你加入 [Istio 社区](/zh/about/community/join/)，
+我们欢迎您加入 [Istio 社区](/zh/get-involved/)，
 提出问题，并给我们以反馈。
 
 ## 卸载
