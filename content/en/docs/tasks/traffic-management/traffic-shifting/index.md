@@ -15,7 +15,6 @@ A common use case is to migrate traffic gradually from an older version of a mic
 In Istio, you accomplish this goal by configuring a sequence of routing rules that redirect a percentage of traffic
 from one destination to another.
 
-
 In this task, you will use send 50% of traffic to `reviews:v1` and 50% to `reviews:v3`. Then, you will
 complete the migration by sending 100% of traffic to `reviews:v3`.
 
