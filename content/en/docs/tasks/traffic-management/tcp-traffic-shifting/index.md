@@ -9,14 +9,13 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-This task shows you how to gradually migrate TCP traffic from one version of a
-microservice to another. For example, you might migrate TCP traffic from an
-older version to a new version.
+This task shows you how to shift TCP traffic from one version of a microservice to another.
 
-A common use case is to migrate TCP traffic gradually from one version of a
-microservice to another. In Istio, you accomplish this goal by configuring a
-sequence of rules that route a percentage of TCP traffic to one service or
-another. In this task, you will send 100% of the TCP traffic to `tcp-echo:v1`.
+A common use case is to migrate TCP traffic gradually from an older version of a microservice to a new one.
+In Istio, you accomplish this goal by configuring a sequence of routing rules that redirect a percentage of TCP traffic
+from one destination to another.
+
+In this task, you will send 100% of the TCP traffic to `tcp-echo:v1`.
 Then, you will route 20% of the TCP traffic to `tcp-echo:v2` using Istio's
 weighted routing feature.
 
