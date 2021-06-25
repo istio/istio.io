@@ -52,4 +52,5 @@ System and Istiod performance may be impacted as this disables XDS caching.
 
 ## Credit
 
-We would like to thank John Howard (Google) for reporting this issue.
+We would like to thank the team at `Sopra Banking Software` (`Nishant Virmani`, `Stephane Mercier` and `Antonin Nycz`)
+as well as John Howard (Google) for reporting this issue.
