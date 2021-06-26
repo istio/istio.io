@@ -58,6 +58,7 @@ Istio 授权策略能够基于 HTTP 请求的 URL 路径实现。[路径规范�
 完整的所支持规范化列表，请参考[授权策略规范](/zh/docs/reference/config/security/normalization/)。
 
 ### 配置示例{#examples-of-configuration}
+
 确保 Envoy 对于请求路径的规范化能够符合后端负载期望对于您的系统安全十分重要。以下示例能够作为您系统配置的参考。
 已经规范化后的 URL 路径，或者因选择了 _NONE_ 而保留的原始 URL 路径将会：
 
@@ -184,6 +185,7 @@ Istio 可以从一个 sidecar 代理或者网关上进行 [TLS 发起](/zh/docs/
 如果该字段未设置，服务器证书将不会被验证。
 
 例如：
+
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
@@ -408,6 +410,6 @@ $ kubectl get --raw /api/v1 | jq '.resources[] | select(.name | index("serviceac
 
 ## 配置下游连接数限制{#configure-a-limit-on-downstream-connections}
 
-默认情况，Istio (以及 Envoy) 没有对下游连接数的限制。但这可能被恶意活动所利用(见 [security bulletin 2020-007](/news/security/istio-security-2020-007/))。为了解决，您需要在您的环境中配置合适的连接数限制。
+默认情况，Istio (以及 Envoy) 没有对下游连接数的限制。但这可能被恶意活动所利用(见 [security bulletin 2020-007](/zh/news/security/istio-security-2020-007/))。为了解决，您需要在您的环境中配置合适的连接数限制。
 
 {{< boilerplate cve-2020-007-configmap >}}
