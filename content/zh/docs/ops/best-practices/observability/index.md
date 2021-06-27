@@ -7,7 +7,7 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
-## 使用 Prometheus 进行生产规模的监控{#using-prometheus-for-production-scale-monitoring}
+## 使用 Prometheus 进行生产规模的监控{#using-Prometheus-for-production-scale-monitoring}
 
 使用 Istio 以及 Prometheus 进行生产规模的监控时推荐的方式是使用[分层联邦](https://prometheus.io/docs/prometheus/latest/federation/#hierarchical-federation)并且结合一组[记录规则](https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/)。
 
