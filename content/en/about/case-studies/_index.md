@@ -8,3 +8,5 @@ doc_type: about
 type: case-studies
 sidebar_none: true
 ---
+
+[comment]: <> (To add yourself as an Istio user, please see https://github.com/istio/istio.io/blob/master/CONTRIBUTING.md.)
