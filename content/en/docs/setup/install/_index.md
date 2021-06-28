@@ -6,7 +6,7 @@ weight: 20
 content_above: true
 aliases:
     - /docs/setup/kubernetes/install/
-test: n/a
+test: table-of-contents
 ---
 
 If you need help choosing, refer to our

@@ -26,6 +26,7 @@ echo "Istio Documents Summary: \
    $(find "${docs}" -name '*.md' -exec grep --quiet '^test: yes$' {} \; -print | wc -l) (tested) \
    $(find "${docs}" -name '*.md' -exec grep --quiet '^test: no$' {} \; -print | wc -l) (untested) \
    $(find "${docs}" -name '*.md' -exec grep --quiet '^test: n/a$' {} \; -print | wc -l) (n/a) \
+   $(find "${docs}" -name '*.md' -exec grep --quiet '^test: table-of-contents$' {} \; -print | wc -l) (table-of-contents) \
    $(find "${docs}" -name '*.md' -print | wc -l) (total)"
 
 echo ""
@@ -35,6 +36,7 @@ echo "=========="
 echo "Summary: \
    $(find "${docs}/tasks" -name '*.md' -exec grep --quiet '^test: yes$' {} \; -print | wc -l) (tested) \
    $(find "${docs}/tasks" -name '*.md' -exec grep --quiet '^test: no$' {} \; -print | wc -l) (untested) \
+   $(find "${docs}/tasks" -name '*.md' -exec grep --quiet '^test: table-of-contents$' {} \; -print | wc -l) (table-of-contents) \
    $(find "${docs}/tasks" -name '*.md' -exec grep --quiet '^test: n/a$' {} \; -print | wc -l) (n/a)"
 
 echo ""
@@ -54,6 +56,7 @@ echo "============="
 echo "Summary: \
    $(find "${docs}/examples" -name '*.md' -exec grep --quiet '^test: yes$' {} \; -print | wc -l) (tested) \
    $(find "${docs}/examples" -name '*.md' -exec grep --quiet '^test: no$' {} \; -print | wc -l) (untested) \
+   $(find "${docs}/examples" -name '*.md' -exec grep --quiet '^test: table-of-contents$' {} \; -print | wc -l) (table-of-contents) \
    $(find "${docs}/examples" -name '*.md' -exec grep --quiet '^test: n/a$' {} \; -print | wc -l) (n/a)"
 
 echo ""
@@ -73,6 +76,7 @@ echo "=========="
 echo "Summary: \
    $(find "${docs}/setup" -name '*.md' -exec grep --quiet '^test: yes$' {} \; -print | wc -l) (tested) \
    $(find "${docs}/setup" -name '*.md' -exec grep --quiet '^test: no$' {} \; -print | wc -l) (untested) \
+   $(find "${docs}/setup" -name '*.md' -exec grep --quiet '^test: table-of-contents$' {} \; -print | wc -l) (table-of-contents) \
    $(find "${docs}/setup" -name '*.md' -exec grep --quiet '^test: n/a$' {} \; -print | wc -l) (n/a)"
 
 echo ""
@@ -92,6 +96,7 @@ echo "==============="
 echo "Summary: \
    $(find "${docs}/ops" -name '*.md' -exec grep --quiet '^test: yes$' {} \; -print | wc -l) (tested) \
    $(find "${docs}/ops" -name '*.md' -exec grep --quiet '^test: no$' {} \; -print | wc -l) (untested) \
+   $(find "${docs}/ops" -name '*.md' -exec grep --quiet '^test: table-of-contents$' {} \; -print | wc -l) (table-of-contents) \
    $(find "${docs}/ops" -name '*.md' -exec grep --quiet '^test: n/a$' {} \; -print | wc -l) (n/a)"
 
 echo ""

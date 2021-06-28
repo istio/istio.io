@@ -5,5 +5,5 @@ weight: 30
 aliases:
     - /docs/samples/index.html
     - /docs/guides/index.html
-test: n/a
+test: table-of-contents
 ---

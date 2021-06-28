@@ -5,7 +5,7 @@ description: Learn how to deploy, use, and operate Istio.
 weight: 1
 skip_toc: true
 skip_sidebar: true
-test: n/a
+test: table-of-contents
 doc_type: docs
 ---
 
