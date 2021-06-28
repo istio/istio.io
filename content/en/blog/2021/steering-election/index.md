@@ -8,7 +8,7 @@ keywords: [istio,steering,governance,community,election]
 
 Last year we [introduced a new Steering Committee charter](/blog/2020/steering-changes/), which shares governance responsibilities between Contribution Seats, selected based on contributions to the project, and Community Seats, elected by the project members. We [elected four members](/blog/2020/steering-election-results/), with the committee representing seven different companies.
 
-It's now time to kick off our 2021 election for Community Seats. Members have two weeks to submit nominations, and voting will run from 12 to 25 July. You can learn all about the election, including how to stand and how to vote, in the [istio/community repo on GitHub](https://github.com/istio/community/tree/master/steering/elections/2021).
+It's now time to kick off our 2021 election for Community Seats. Members have two weeks to submit nominations, and voting will run from 12 to 25 July. You can learn all about the election, including how to stand and how to vote, in the [`istio/community` repository on GitHub](https://github.com/istio/community/tree/master/steering/elections/2021).
 
 Just like last year, any [project member](https://github.com/istio/community/blob/master/ROLES.md#member) can stand for election.  All Istio members who have been active in the last 12 months are eligible to vote.
 
