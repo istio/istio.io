@@ -106,7 +106,7 @@ and referred to by its name. It could be deployed in the mesh with or without pr
 further use `PeerAuthentication` to enable mTLS between the proxy and your external authorization service.
 
 The `CUSTOM` action is currently in the **experimental stage**; the API might change in a non-backward compatible way based on user feedback.
-The authorization policy rules currently don't support authentication fields (e.g. source principal or JWT claim) when used with the 
+The authorization policy rules currently don't support authentication fields (e.g. source principal or JWT claim) when used with the
 `CUSTOM` action. Only one provider is allowed for a given workload, but you can still use different providers on different workloads.
 
 For more information, please see the [Better External Authorization design doc](https://docs.google.com/document/d/1V4mCQCw7mlGp0zSQQXYoBdbKMDnkPOjeyUb85U07iSI/edit#).
