@@ -13,7 +13,7 @@ test: no
 
 在 Istio 1.3 中，我们新增了 [`istioctl experimental describe`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-describe-pod) 命令。
 一些配置可以影响 {{< gloss >}}pod{{< /gloss >}}，要理解这些配置，您可以利用这个命令行工具得到一些必要的信息。
-这份指南向您展示如何使用这个实验性子命令来查看一个 pod 是否在网格中并验证它的配置。
+这份指南向您展示如何使用这个实验性质的命令来查看一个 pod 是否在网格中并验证它的配置。
 
 该命令的基本用法如下：
 
@@ -35,12 +35,17 @@ $ istioctl experimental describe <pod-name>[.<namespace>]
 如果 pod 里没有 {{< gloss >}}Envoy{{< /gloss >}} 代理或者代理没启动，`istioctl describe` 命令会返回一个警告。
 另外，如果 [pods 的 Istio 需求](/zh/docs/ops/deployment/requirements/)未完全满足，该命令也会警告。
 
-例如，下面的命令发出的警告表示一个 `kubernetes-dashboard` pod 不被包含在服务网格内，因为它没有 sidecar：
+例如，下面的命令发出的警告表示一个 `kube-dns` pod 不被包含在服务网格内，因为它没有 sidecar：
 
 {{< text bash >}}
-$ export DASHBOARD_POD=$(kubectl -n kube-system get pod -l k8s-app=kubernetes-dashboard -o jsonpath='{.items[0].metadata.name}')
-$ istioctl x describe pod -n kube-system $DASHBOARD_POD
-WARNING: kubernetes-dashboard-7996b848f4-nbns2.kube-system is not part of mesh; no Istio sidecar
+$ export KUBE_POD=$(kubectl -n kube-system get pod -l k8s-app=kube-dns -o jsonpath='{.items[0].metadata.name}')
+$ istioctl x describe pod -n kube-system $KUBE_POD
+Pod: coredns-f9fd979d6-2zsxk
+   Pod Ports: 53/UDP (coredns), 53 (coredns), 9153 (coredns)
+WARNING: coredns-f9fd979d6-2zsxk is not part of mesh; no Istio sidecar
+--------------------
+2021-01-22T16:10:14.080091Z     error   klog    an error occurred forwarding 42785 -> 15000: error forwarding port 15000 to pod 692362a4fe313005439a873a1019a62f52ecd02c3de9a0957cd0af8f947866e5, uid : failed to execute portforward in network namespace "/var/run/netns/cni-3c000d0a-fb1c-d9df-8af8-1403e6803c22": failed to dial 15000: dial tcp4 127.0.0.1:15000: connect: connection refused[]
+Error: failed to execute command on sidecar: failure running port forward process: Get "http://localhost:42785/config_dump": EOF
 {{< /text >}}
 
 但对于服务网格内的 pod，如 Bookinfo 的 `ratings` 服务，该命令就不会报警，而是输出该 pod 的 Istio 配置：
@@ -48,12 +53,11 @@ WARNING: kubernetes-dashboard-7996b848f4-nbns2.kube-system is not part of mesh; 
 {{< text bash >}}
 $ export RATINGS_POD=$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')
 $ istioctl experimental describe pod $RATINGS_POD
-Pod: ratings-v1-f745cf57b-qrxl2
-Pod Ports: 9080 (ratings), 15090 (istio-proxy)
+Pod: ratings-v1-7dc98c7588-8jsbw
+   Pod Ports: 9080 (ratings), 15090 (istio-proxy)
 --------------------
 Service: ratings
-   Port: http 9080/HTTP
-Pilot reports that pod enforces HTTP/mTLS and clients speak HTTP
+   Port: http 9080/HTTP targets pod port 9080
 {{< /text >}}
 
 该输出展示了下列信息：
@@ -61,7 +65,6 @@ Pilot reports that pod enforces HTTP/mTLS and clients speak HTTP
 - Pod 内的服务容器的端口，如本例中的 `ratings` 容器的 `9080`。
 - Pod 内的 `istio-proxy` 容器的端口，如本例中的 `15090`。
 - Pod 内的服务所用的协议，如本例中的端口 `9080` 上的 `HTTP`。
-- Pod 的双向 TLS 设置。
 
 ## 验证 destination rule 配置{#verify-destination-rule-configurations}
 
@@ -84,7 +87,6 @@ DestinationRule: ratings for "ratings"
    Matching subsets: v1
       (Non-matching subsets v2,v2-mysql,v2-mysql-vm)
    Traffic Policy TLS Mode: ISTIO_MUTUAL
-Pilot reports that pod enforces HTTP/mTLS and clients speak mTLS
 {{< /text >}}
 
 该命令现在显示了更多的输出：

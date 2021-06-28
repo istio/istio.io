@@ -136,6 +136,10 @@ $ brew install bash-completion
 
 根据您选择的 shell，按照以下步骤在您的系统开启 `istioctl` 命令补全 :
 
+{{< warning >}}
+您需要下载包含自动补全文件（在`/tools`目录下）的 Istio 完整发行版本。如果你没有这么做, 现在请[下载 Istio 完整发行版本](/zh/docs/setup/getting-started/#download) 。
+{{< /warning >}}
+
 {{< tabset category-name="profile" >}}
 
 {{< tab name="Bash" category-value="bash" >}}
