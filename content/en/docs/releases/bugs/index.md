@@ -80,7 +80,7 @@ containing:
 ## Documentation bugs
 
 Search our [documentation issue database](https://github.com/istio/istio.io/issues/) to see if
-we already know about your problem and learn about when we think we can fix
-it. If you don't find your problem in the database, please navigate to the page
-with the problem, then select the gear menu at the
-top right of this page, and finally chose *Report a Site Bug*.
+we already know about your problem and learn about when we think we can fix it. If you don't
+find your problem in the database, please [report the issue there](https://github.com/istio/istio.io/issues/new).
+If you want to submit a proposed edit to a page, you will find an "Edit this Page on GitHub"
+link at the bottom right of every page.
