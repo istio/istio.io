@@ -12,7 +12,7 @@ to their customers), *professional services* (who offer implementation support
 or consulting for Istio) and *integrations* (commercial or open source products
 that work with Istio).
 
-To add an entry to this page, edit [data/companies.yaml](data/companies.yaml)
+To add an entry to this page, edit [data/companies.yml](data/companies.yml)
 and add your information in the `providers`, `pro_services` or `integrations`
 section, as appropriate. Please add your company logo, preferably in SVG
 format, to [static/logos](static/logos).
@@ -25,7 +25,7 @@ are not demeed to be in good standing in the community.
 Are you running Istio in production?  List yourself on our [Case Studies](https://istio.io/latest/about/case-studies/) page.
 
 If you want to add your logo to our wall of users, add an entry to the `users`
-section in [data/companies.yaml](data/companies.yaml), and add your logo,
+section in [data/companies.yml](data/companies.yml), and add your logo,
 preferably in SVG format, to [static/logos](static/logos).
 
 If you'd like to be interviewed for a full case study, please [create an issue](https://github.com/istio/istio.io/issues/new),
