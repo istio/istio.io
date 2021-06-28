@@ -1,10 +1,11 @@
 ---
-title: Configuring tracing using the Telemetry API (Experimental)
-description: How to configure tracing options using the Telemetry API (experimental).
+title: Configuring tracing using the Telemetry API
+description: How to configure tracing options using the Telemetry API.
 weight: 10
 keywords: [telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
+status: Experimental
 ---
 
 Istio provides a Telemetry API that enables flexible configuration of tracing behavior. The
