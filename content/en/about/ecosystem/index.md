@@ -12,7 +12,7 @@ aliases:
 doc_type: about
 ---
 
-[comment]: <> (To add an Istio provider, professional services consultancy or integration, please edit /data/companies.yaml and add your logo to /static/logos.)
+[comment]: <> (To add an Istio provider, professional services consultancy or integration, please see https://github.com/istio/istio.io/blob/master/CONTRIBUTING.md.)
 
 {{< tabset category-name="ecosystem-type" class="tabset--ecosystem" forget-tab=true >}}
 
