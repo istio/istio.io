@@ -1,3 +1,5 @@
+# Please see [CONTRIBUTING.md](/CONTRIBUTING.md) to learn more about editing this file.
+
 providers:
   - name: "Google Cloud's Anthos Service Mesh"
     logo: "/logos/google-cloud.png"
