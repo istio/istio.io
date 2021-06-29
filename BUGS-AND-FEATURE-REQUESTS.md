@@ -7,4 +7,4 @@ You can report bugs and feature requests to the Istio team in one of three place
 - [Community and Governance Issues](https://github.com/istio/community/issues)
 
 For security vulnerabilities, please don't report a bug (which is public) and instead follow
-[these procedures](https://istio.io/latest/docs/releases/security-vulnerabilities/).
+[these procedures](https://istio.io/about/security-vulnerabilities/).
