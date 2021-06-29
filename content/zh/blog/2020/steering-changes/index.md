@@ -35,7 +35,7 @@ Istio 社区有许多出色的贡献者，包括开发人员、SREs 和网格管
 
 我们还想明确的是，没有一个供应商拥有对 Istio 项目多数投票控制权，不管他们的贡献有多大。我们已经对公司可以拥有的席位数量实施了限制，这样他们既不能一致赢得投票，也不能否决委员会其他成员的决定。
 
-## 2020 年委员会和选举{#the-2020-Committee-and-election}
+## 2020 年委员会和选举{#the-2020-committee-and-election}
 
 根据我们的[席位分配流程](https://docs.google.com/spreadsheets/d/1Dt-h9s8G7Wyt4r16ZVqcmdWXDuCaPC0kPS21BuAfCL8/edit#gid=0)，今年谷歌将分配 5 个席位，IBM/Red Hat 将分配 3 个席位。作为过去 12 个月 Istio 的第三大贡献者，我们很高兴地宣布 Salesforce 赢得了一个贡献席位。
 
