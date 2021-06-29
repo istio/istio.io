@@ -23,4 +23,4 @@ TOC members are elected by the Steering Committee from the [working group leads]
 
 Congratulations to John and Brian!
 
-As our new TOC members step into their roles, they will be vacating their current positions as working group leads. We are always on the lookout for community members who are interested in joining, or leading, Istio working groups. If you’re interested, please reach out in the working group channels [on Slack](https://slack.istio.io/), or during the [public working group meetings](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings) of your interest.  
+As our new TOC members step into their roles, they will be vacating their current positions as working group leads. We are always on the lookout for community members who are interested in joining, or leading, Istio working groups. If you’re interested, please reach out in the working group channels [on Slack](https://slack.istio.io/), or during the [public working group meetings](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings) of your interest.
