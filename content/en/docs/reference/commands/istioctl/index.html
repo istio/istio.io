@@ -4007,6 +4007,9 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
   # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
   istioctl install --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
 
+  # For setting boolean-string option, it should be enclosed quotes and escaped with a backslash (\).
+  istioctl install --set meshConfig.defaultConfig.proxyMetadata.PROXY_XDS_VIA_AGENT=\&#34;false\&#34;
+
 </code></pre>
 <h2 id="istioctl-kube-inject">istioctl kube-inject</h2>
 <p>
@@ -4343,6 +4346,9 @@ settings (--set meshConfig.enableTracing=true). See documentation for more info:
   # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
   istioctl manifest generate --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
 
+  # For setting boolean-string option, it should be enclosed quotes and escaped with a backslash (\).
+  istioctl manifest generate --set meshConfig.defaultConfig.proxyMetadata.PROXY_XDS_VIA_AGENT=\&#34;false\&#34;
+
 </code></pre>
 <h2 id="istioctl-manifest-install">istioctl manifest install</h2>
 <p>The install command generates an Istio install manifest and applies it to a cluster.</p>
@@ -4456,6 +4462,9 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 
   # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
   istioctl install --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
+
+  # For setting boolean-string option, it should be enclosed quotes and escaped with a backslash (\).
+  istioctl install --set meshConfig.defaultConfig.proxyMetadata.PROXY_XDS_VIA_AGENT=\&#34;false\&#34;
 
 </code></pre>
 <h2 id="istioctl-operator">istioctl operator</h2>
@@ -6171,6 +6180,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>String</td>
 <td><code></code></td>
 <td>Pipe separted GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
+</tr>
+<tr>
+<td><code>GCP_QUOTA_PROJECT</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Allows specification of a quota project to be used in requests to GCP APIs.</td>
 </tr>
 <tr>
 <td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
