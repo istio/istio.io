@@ -11,7 +11,7 @@ aliases:
 keywords: [kubernetes,multicluster]
 simple_list: true
 content_above: true
-test: n/a
+test: table-of-contents
 owner: istio/wg-environments-maintainers
 ---
 Follow this guide to install an Istio {{< gloss >}}service mesh{{< /gloss >}}

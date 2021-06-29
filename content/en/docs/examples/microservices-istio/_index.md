@@ -4,7 +4,7 @@ description: This modular tutorial provides new users with hands-on experience u
 weight: 100
 simple_list: true
 content_above: true
-test: n/a
+test: table-of-contents
 ---
 
 It is intended for self-guided users or instructors who train
