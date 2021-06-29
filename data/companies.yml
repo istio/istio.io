@@ -207,6 +207,10 @@ integrations:
     description: "Application layer protection for Istio service mesh"
     details:
       - "Provides complete layer 7 protection for microservices architecture applications."
+  - name: "Solo.io"
+    logo: "/logos/solo.png"
+    url: "https://www.solo.io/"
+    description: "Solo.io offers Gloo Mesh, building on Istio, with expert support."
   - name: "Sysdig"
     logo: "/logos/sysdig.svg"
     url: "https://sysdig.com/blog/monitor-istio/"
@@ -221,9 +225,9 @@ integrations:
       - "Space Cloud integrates with Kubernetes and Istio natively to bring to you a highly scalable Serverless Platform. It encrypts all traffic by default and lets you describe communication policies to protect your microservices."
 
 pro_services:
-  - name: "Your Name Here"
-    logo: "/logos/istio.svg"
-    url: "https://istio.io/"
+  - name: "Solo.io"
+    logo: "/logos/solo.svg"
+    url: "https://solo.io/"
     description: "Submit a PR to add your company here!"
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
