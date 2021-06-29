@@ -7,25 +7,25 @@ owner: istio/wg-security-maintainers
 test: no
 ---
 
-Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密，认证，授权和审计（AAA）工具来保护你的服务和数据。但是，为了更好地使用这些安全特性，必须按照最佳实践操作。这里建议您在阅读下文前回顾[安全概述](/zh/docs/concepts/security/)。
+Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密，认证，授权和审计（AAA）工具来保护您的服务和数据。但是，为了更好地使用这些安全特性，必须按照最佳实践操作。这里建议您在阅读下文前回顾[安全概述](/zh/docs/concepts/security/)。
 
 ## 双向 TLS{#mutual-tls}
 
-Istio 会在可能情况下[自动](/zh/docs/ops/configuration/traffic-management/tls-configuration/#auto-mtls)地对流量进行[双向 MTLS](/zh/docs/concepts/security/#mutual-tls-authentication) 加密。但是，默认情况下代理会工作在[宽容模式](/zh/docs/concepts/security/#permissive-mode)下，这意味着代理会允许双向 TLS 认证的流量以及纯文本流量。
+Istio 会在尽可能[自动](/zh/docs/ops/configuration/traffic-management/tls-configuration/#auto-mtls)地对流量进行[双向 TLS](/zh/docs/concepts/security/#mutual-tls-authentication) 加密。但是，默认情况下代理会工作在[宽容模式](/zh/docs/concepts/security/#permissive-mode)下，这意味着代理会允许双向 TLS 认证的流量以及纯文本流量。
 
 尽管对于渐进式配置或允许流量来自没有 Istio 代理的客户端来说，这个模式是必需的。这个模式也削弱了安全。因此，建议尽早[迁移到 strict 模式](/zh/docs/tasks/security/authentication/mtls-migration/)，为了强制在流量进行双向 TLS 认证。
 
 双向 TLS 本身不总是能够保证安全流量，因为它只提供了认证，而不是授权。这意味着任何拥有有效证书的人都可以访问负载。
 
-为了真正实现安全流量，建议同时配置[认证策略](/zh/docs/tasks/security/authorization/)。这些配置通过创建细粒度的策略来允许或拒绝流量。例如，你可以配置只允许来自 `app` 命名空间的请求访问 `hello-world` 负载。
+为了真正实现安全流量，建议同时配置[认证策略](/zh/docs/tasks/security/authorization/)。这些配置通过创建细粒度的策略来允许或拒绝流量。例如，您可以配置只允许来自 `app` 命名空间的请求访问 `hello-world` 负载。
 
 ## 授权策略{#authorization-policies}
 
-Istio [授权](/zh/docs/concepts/security/#authorization)在 Istio 安全中扮演了至关重要的角色。它通过配置正确的授权策略来尽最大可能保护你的集群。因此理解下面这些配置的含义十分重要，因为 Istio 不能替所有的用户决定合适的授权策略。请您完整地阅读以下章节。
+Istio [授权](/zh/docs/concepts/security/#authorization)在 Istio 安全中扮演了至关重要的角色。它通过配置正确的授权策略来尽最大可能保护您的集群。因此理解下面这些配置的含义十分重要，因为 Istio 不能替所有的用户决定合适的授权策略。请您完整地阅读以下章节。
 
 ### 配置 default-deny 授权策略{#apply-default-deny-authorization-policies}
 
-Istio 推荐您根据 default-deny 模式来定义您的 Istio 授权策略，从而增强您的集群安全性。 Default-deny 授权策略意味着您的系统在默认情况下拒绝所有请求，并且您需要定义允许请求的条件。如果您忘记定义某些条件，对应的流量会被拒绝，而不是被意外的允许。后者是一个典型的安全事故，而前者只是会可能导致较差的用户体验，或者负载停机，而或者不符合您的服务水平目标/服务水平协议。
+我们推荐您根据将 Istio 的策略设置成默认拒绝(default-deny)，从而增强您的集群安全性。 default-deny 授权策略意味着您的系统在默认情况下拒绝所有请求，并且您需要定义允许请求的条件。如果您忘记定义某些条件，对应的流量会被拒绝，而不是被意外的允许。后者是一个典型的安全事故，而前者只是会可能导致较差的用户体验，或者负载停机，而或者不符合您的服务水平目标/服务水平协议。
 
 例如，在 [HTTP 流量任务的授权](/zh/docs/tasks/security/authorization/authz-http/)中，命名为 `allow-nothing` 的授权策略确保了所有流量在默认情况下被拒绝。在此之上，其他的授权策略可以基于特定需求允许流量通过。
 
@@ -52,7 +52,7 @@ Istio 授权策略能够基于 HTTP 请求的 URL 路径实现。[路径规范�
 1. 合并斜线。
 
 {{< warning >}}
-尽管这些规范化选项是 HTTP 标准和业界推荐设置。应用本身也可能选择使用自定义的 URL。因此，当使用否定性的策略时，确保您理解你的应用。
+尽管这些规范化选项是 HTTP 标准和业界推荐设置。应用本身也可能选择使用自定义的 URL。因此，当使用否定性的策略时，确保理解您的应用。
 {{< /warning >}}
 
 完整的所支持规范化列表，请参考[授权策略规范](/zh/docs/reference/config/security/normalization/)。
