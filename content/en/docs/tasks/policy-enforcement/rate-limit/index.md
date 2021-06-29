@@ -157,7 +157,7 @@ backend, is used below.
             context: GATEWAY
             routeConfiguration:
               vhost:
-                name: "*:80"
+                name: ""
                 route:
                   action: ANY
           patch:
