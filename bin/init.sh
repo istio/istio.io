@@ -67,7 +67,7 @@ esac
 # Location where istioctl will be run from.
 export ISTIOIO_BIN=${ISTIOIO_BIN:-"/gobin"}
 LONG_SHA=$(git rev-parse "${ISTIO_SHA}")
-export TAG=${ISTIO_IMAGE_VERSION}.${LONG_SHA}
+export TAG=${TAG:-${ISTIO_IMAGE_VERSION}.${LONG_SHA}}
 export VERSION=${TAG}
 export ISTIO_VERSION=${TAG}
 echo "TAG=${TAG}"
