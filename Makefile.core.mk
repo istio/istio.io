@@ -37,7 +37,7 @@ export ISTIO_SHA
 # If one needs to test before a docker.io build is available (using a public test build),
 # the export HUB and TAG can be commented out, and the initial HUB un-commented
 # HUB ?= gcr.io/istio-testing
-export HUB := docker.io/istio
+export HUB := gcr.io/istio-release
 export TAG ?= 1.10.2
 
 ifeq ($(HUB),)
