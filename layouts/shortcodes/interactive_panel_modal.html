@@ -32,7 +32,7 @@
 
     function insertCompanyModalDetails(company) {
         clearModal();
-        insertParagraphs(company.details);
+        insertParagraphs(company);
         insertLogo(company);
     }
 
@@ -41,14 +41,20 @@
         companyLogoPanel.innerHTML = "";
     }
 
-    function insertParagraphs(paragraphs) {
-        if(paragraphs) {
-            paragraphs.forEach(paragraph => {
+    function insertParagraphs(company) {
+        if(company.details) {
+            company.details.forEach(paragraph => {
                 let para = document.createElement("p");
                 const node = document.createTextNode(paragraph);
                 para.appendChild(node);
                 companyDetails.appendChild(para);
             });
+        }
+        if (company.url && company.name) {
+            let link = document.createElement("a");
+            link.href = company.url;
+            link.text = company.name;
+            companyDetails.append(link)
         }
     }
 
