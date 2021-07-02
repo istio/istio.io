@@ -225,8 +225,12 @@ pro_services:
     logo: "/logos/cloudzone.svg"
     url: "https://cloudzone.io/"
 <<<<<<< HEAD
+<<<<<<< HEAD
     description: ""
     details:
+=======
+    description:
+>>>>>>> 82bb57b98 (adding cloudzone to companies.yml)
 =======
     description:
 >>>>>>> 82bb57b98 (adding cloudzone to companies.yml)
