@@ -224,7 +224,7 @@ pro_services:
   - name: "CloudZone"
     logo: "/logos/cloudzone.svg"
     url: "https://cloudzone.io/"
-    details:
+    details: "With over 8 years of cloud consulting experience, CloudZone provides consulting services and execution of end-to-end Kubernetes and DevOps projects including platform architecture, CI/CD automations, service meshes and more."
     description:
       - "At CloudZone, we’ve been actively involved with Kubernetes and Istio since the very first editions came out." 
       - "In today’s fast-paced, ever-changing world, we continue to research the field keeping up to date so that we can bring you the very latest thinking and solutions, whether we are supporting you through the provision of consulting, design, training or production support services."
