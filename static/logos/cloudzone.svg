@@ -4,6 +4,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	 viewBox="0 0 700 302.88" style="enable-background:new 0 0 700 302.88;" xml:space="preserve">
 =======
 	 viewBox="0 0 720 720" style="enable-background:new 0 0 720 720;" xml:space="preserve">
@@ -14,6 +15,9 @@
 =======
 	 viewBox="0 0 720 720" style="enable-background:new 0 0 720 720;" xml:space="preserve">
 >>>>>>> 82bb57b98 (adding cloudzone to companies.yml)
+=======
+	 viewBox="0 0 700 302.88" style="enable-background:new 0 0 700 302.88;" xml:space="preserve">
+>>>>>>> fa2bd64c4 (fixed logo)
 <style type="text/css">
 	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#5FA9E2;}
 	.st1{fill:#732281;}
@@ -24,6 +28,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fa2bd64c4 (fixed logo)
 <path class="st0" d="M76.6,144.8c-0.19-1.14-0.28-2.29-0.28-3.44c0-1.15,0.1-2.31,0.28-3.44c1.67-10.05,10.4-17.42,20.58-17.42
 	c5.55,0,10.83,2.18,14.75,6.11l1.59,1.59c0.27,0.27,0.71,0.27,0.98,0l8.72-8.72c0.27-0.27,0.27-0.71,0-0.98l-1.59-1.59
 	c-6.5-6.51-15.26-10.13-24.45-10.13c-17.43,0-32.18,13-34.32,30.3c-0.18,1.42-0.26,2.85-0.26,4.28c0,1.43,0.09,2.86,0.26,4.28
@@ -113,6 +120,7 @@
 	c-1.91-0.07-3.71-0.51-5.32-1.25c-0.02-0.01-0.03-0.01-0.05-0.02c-0.17-0.08-0.34-0.16-0.5-0.25c-5.04-2.49-8.42-7.68-8.42-13.46
 	v-37.58c0-0.38-0.31-0.7-0.7-0.7h-12.33c-0.38,0-0.7,0.31-0.7,0.7v37.57c0,13.04,8.92,24.54,21.53,27.81
 	C244.27,175.03,245.33,175.33,247.26,175.65z"/>
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 82bb57b98 (adding cloudzone to companies.yml)
@@ -218,4 +226,6 @@
 >>>>>>> 82bb57b98 (adding cloudzone to companies.yml)
 =======
 >>>>>>> 82bb57b98 (adding cloudzone to companies.yml)
+=======
+>>>>>>> fa2bd64c4 (fixed logo)
 </svg>
