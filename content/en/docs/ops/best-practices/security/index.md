@@ -138,8 +138,8 @@ Before diving into the details of configuring normalization, you should first ma
 You do not need the normalization if you do not use authorization policies or if your authorization policies do not
 use any `path` fields.
 
-You may not need the normalization if all your authorization policies follow the safer authorization pattern which, in the worst
-case, is unexpected rejection instead of policy bypass.
+You may not need the normalization if all your authorization policies follow the [safer authorization pattern](/docs/ops/best-practices/security/#safer-authorization-policy-patterns)
+which, in the worst case, is unexpected rejection instead of policy bypass.
 
 #### Case 2: You need normalization but not sure which normalization option to use
 
