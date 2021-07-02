@@ -300,9 +300,6 @@ namespaces by default.</p>
 the virtual service is declared in. Similarly the value &ldquo;*&rdquo; is reserved and
 defines an export to all namespaces.</p>
 
-<p>NOTE: in the current release, the <code>exportTo</code> value is restricted to
-&ldquo;.&rdquo; or &ldquo;*&rdquo; (i.e., the current namespace or all namespaces).</p>
-
 </td>
 <td>
 No
@@ -545,7 +542,7 @@ spec:
     protocol: HTTP
   resolution: DNS
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: my-wiki-rule
