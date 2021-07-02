@@ -6,7 +6,7 @@ attribution: "Iris Ding (Intel), Maria Cruz (Google)"
 keywords: [community,meetup]
 ---
 
-随着云原生技术在国内的普及，Istio近两年在中国也越来越受到开发者的广泛应用，几乎所有中国的CSP都在基于Istio创建和运行他们的service mesh产品。自从2021年2月举办的第一届IstioCon技术峰会广受开发者们欢迎，开发者们也表达了强烈的诉求，希望能看到和参与更多的Istio技术meetup，有更多的技术爱好者一起来共同分享交流。
+随着云原生技术在国内的普及，Istio近两年在中国也越来越受到开发者的广泛应用，几乎所有中国的CSP都在基于Istio创建和运行他们的Service Mesh产品。自从2021年2月举办的第一届IstioCon技术峰会广受开发者们欢迎，开发者们也表达了强烈的诉求，希望能看到和参与更多的Istio技术Meetup，有更多的技术爱好者一起来共同分享交流。
 
 为此Istio社区联动了信通院、阿里云、华为云、英特尔、腾讯云、Tetrate六位合作伙伴共同主办国内首届Istio Meetup China，并邀请了多位业内专家和大家一起分享全面的Istio技术实践。干货实在，席位有限，先到先得。
 
@@ -14,7 +14,7 @@ keywords: [community,meetup]
 
 **活动地点**：北京市海淀区花园北路52号中国信息通信研究院 科研楼二层工业互联网展厅（正对北门的黄色大楼）
 
-## 日程安排
+## 日程安排{#agenda}
 
 | 时间 (中国本地时间GMT+8) | 议题 |
 | --- | --- |
