@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 45
+number_of_entries: 47
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -1063,6 +1063,28 @@ No
 No
 </td>
 </tr>
+<tr id="MeshConfig-ExtensionProvider-prometheus" class="oneof">
+<td><code>prometheus</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-PrometheusMetricsProvider">PrometheusMetricsProvider (oneof)</a></code></td>
+<td>
+<p>Configures a Prometheus metrics provider.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-envoy_file_access_log" class="oneof">
+<td><code>envoyFileAccessLog</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-EnvoyFileAccessLogProvider">EnvoyFileAccessLogProvider (oneof)</a></code></td>
+<td>
+<p>Configures an Envoy File Access Log provider.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -1070,6 +1092,9 @@ No
 <section>
 <p>Holds the name references to the providers that will be used by default
 in other Istio configuration resources if the provider is not specified.</p>
+
+<p>These names must match a provider defined in <code>extension_providers</code> that is
+one of the supported tracing providers.</p>
 
 <table class="message-fields">
 <thead>
@@ -1083,11 +1108,31 @@ in other Istio configuration resources if the provider is not specified.</p>
 <tbody>
 <tr id="MeshConfig-DefaultProviders-tracing">
 <td><code>tracing</code></td>
-<td><code>string</code></td>
+<td><code>string[]</code></td>
 <td>
-<p>Name of the default provider for tracing. This must match a provider
-defined in <code>extension_providers</code> that is one of the support tracing
-providers.</p>
+<p>Name of the default provider(s) for tracing.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-DefaultProviders-metrics">
+<td><code>metrics</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Name of the default provider(s) for metrics.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-DefaultProviders-access_logging">
+<td><code>accessLogging</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Name of the default provider(s) for access logging.</p>
 
 </td>
 <td>
@@ -1833,6 +1878,36 @@ No
 <td>
 <p>Optional. Controls the overall path length allowed in a reported span.
 NOTE: currently only controls max length of the path tag.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-PrometheusMetricsProvider">MeshConfig.ExtensionProvider.PrometheusMetricsProvider</h2>
+<section>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-EnvoyFileAccessLogProvider">MeshConfig.ExtensionProvider.EnvoyFileAccessLogProvider</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-EnvoyFileAccessLogProvider-path">
+<td><code>path</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path to a local file to write the access log entries.
+If unspecified, defaults to <code>/dev/stdout</code>.</p>
 
 </td>
 <td>
