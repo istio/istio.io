@@ -1,6 +1,6 @@
 ---
 title: "The first local Istio meetup is here!"
-description: "Join Istio community experts in China"
+description: "Join Istio community experts in China."
 publishdate: 2021-07-06
 attribution: "Iris Ding (Intel), Maria Cruz (Google)"
 keywords: [community,meetup]
