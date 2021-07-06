@@ -6,17 +6,17 @@ attribution: "Iris Ding (Intel), Maria Cruz (Google)"
 keywords: [community,meetup,China]
 ---
 
-With the rapid popularization of cloud native technology in China, Istio has also gained popularity in this corner of the world. Almost all Chinese CSPs have creating and are running service mesh products based on Istio. 
+With the rapid popularization of cloud native technology in China, Istio has also gained popularity in this corner of the world. Almost all Chinese CSPs have creating and are running service mesh products based on Istio.
 
 We welcomed thousands of Istio users and developers to the first IstioCon in February 2021, and the attendees expressed an interest in participating in more meetups and helping to grow the community at the local level.
 
-To this end, the Istio community united six partners — the China Academy of Information and Communications Technology, Alibaba Cloud, Huawei Cloud, Intel, Tencent Cloud, and Tetrate — to co-host the first official Istio Community Meetup China. We have invited a number of industry experts to share comprehensive Istio technical practices with everyone at an in-person meetup. We will serve some refreshments, and seats are limited, so we will operate on a first-come first-served basis. [Please register to attend](https://www.huodongxing.com/event/7604616393700?td=3381727549788).
+To this end, the Istio community united six partners — the China Academy of Information and Communications Technology, Alibaba Cloud, Huawei Cloud, Intel, Tencent Cloud, and Tetrate — to co-host the first official Istio Community Meetup China. We have invited a number of industry experts to share comprehensive Istio technical practices with everyone at an in-person meetup. We will serve some refreshments, and seats are limited, so we will operate on a first-come first-served basis. **[Please register to attend](https://www.huodongxing.com/event/7604616393700?td=3381727549788)**.
 
 **Time and day:** 13:30-17:30 (CST), July 10, 2021
 
 **Venue:** Industrial Internet Exhibition Hall, 2nd Floor, Research Building, China Academy of Information and Communications Technology, No. 52 Huayuan North Road, Haidian District, Beijing
 
-### Agenda
+# Agenda
 
 | Session time (CST) | Title |
 | --- | --- |
