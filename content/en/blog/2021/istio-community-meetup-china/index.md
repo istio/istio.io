@@ -18,7 +18,7 @@ To this end, the Istio community united six partners — the China Academy of In
 
 ### Agenda
 
-| Time (CST) | Session |
+| Session time (CST) | Title |
 | --- | --- |
 | 13:30 - 13:50 | Sign in |
 | 13:50 - 14:00 | Welcome speech-Craig Box (Istio steering committee member), Ding Shaojun (Iris Ding) (Intel cloud computing engineer)|
