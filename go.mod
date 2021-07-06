@@ -26,8 +26,8 @@ require (
 	github.com/golang/sync v0.0.0-20180314180146-1d60e4601c6f
 	github.com/pmezard/go-difflib v1.0.0
 	istio.io/client-go v1.10.0-rc.1.0.20210512214749-e6f28edf3fce // indirect
-	istio.io/istio v0.0.0-20210626020555-62c094676c7d
-	istio.io/pkg v0.0.0-20210624191937-348e54e0e0ad
+	istio.io/istio v0.0.0-20210703170724-b012e6e3f5ce
+	istio.io/pkg v0.0.0-20210702140656-1615cfceaeae
 	k8s.io/apimachinery v0.21.1
 	k8s.io/client-go v0.21.1
 )
