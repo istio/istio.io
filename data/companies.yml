@@ -219,6 +219,14 @@ integrations:
       - "Space Cloud integrates with Kubernetes and Istio natively to bring to you a highly scalable Serverless Platform. It encrypts all traffic by default and lets you describe communication policies to protect your microservices."
 
 pro_services:
+  - name: "Jetstack"
+    logo: "/logos/jetstack-logo.png"
+    url: "https://jetstack.io/"
+    description: "Jetstack is an established Cloud Native technology services company with deep industry expertise helping enterprises build platform infrastructure using Kubernetes."
+    details:
+      - "Jetstack builds enterprise cloud native infrastructure and provides a range professional services and on-site CRE support."
+      - "Our flagship product, Jetstack Secure, builds on top of the highly successful open source cert-manager project and integrates with Istio to provide pod level observability and easily supports preferred private PKI solutions for multi-mesh deployments."
+      - "Our open source credentials and deep expertise as a Kubernetes services provider empowers development and security teams to build multiple Istio mesh environments that scale with full machine identity protection and efficient workload management."
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://istio.io/"
