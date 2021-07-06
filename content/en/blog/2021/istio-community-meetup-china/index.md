@@ -6,7 +6,9 @@ attribution: "Iris Ding (Intel), Maria Cruz (Google)"
 keywords: [community,meetup]
 ---
 
-With the popularization of cloud native technology in China, Istio has also gained popularity in this corner of the world in the past two years. Almost all Chinese CSPs are creating and running their service mesh products based on Istio. Since the first IstioCon held in February 2021, the project has been widely welcomed by developers. Developers have also expressed an interest in participating in more Istio meetups and helping to grow the community at the local level. This is an opportunity to share and exchange across the globe.
+With the rapid popularization of cloud native technology in China, Istio has also gained popularity in this corner of the world. Almost all Chinese CSPs have creating and are running service mesh products based on Istio. 
+
+We welcomed thousands of Istio users and developers to the first IstioCon in February 2021, and the attendees expressed an interest in participating in more meetups and helping to grow the community at the local level.
 
 To this end, the Istio community united six partners from China Academy of Information and Communications Technology, Alibaba Cloud, Huawei Cloud, Intel, Tencent Cloud, and Tetrate to co-host the first domestic Istio Meetup China, and invited a number of industry experts to share comprehensive Istio technical practices with everyone. This will be an in-person meetup, we will serve some refreshments, and seats are limited, so we will operate on a first-come first-served basis. Please register via [this link](https://www.huodongxing.com/event/7604616393700?td=3381727549788).
 
