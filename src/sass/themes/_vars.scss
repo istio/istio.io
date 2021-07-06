@@ -1,14 +1,22 @@
 
 $backgroundColor: var(--backgroundColor);
 
+$primaryColor: var(--primaryColor);
+$secondaryColor: var(--secondaryColor);
+$accentColor: var(--accentColor);
+$secondaryAccentColor: var(--secondaryAccentColor);
+
 $textColor: var(--textColor);
 $textCodeColor: var(--textCodeColor);
 $disabledTextColor: var(--disabledTextColor);
 
+$inputBorderColor: var(--inputBorderColor);
 $linkColor: var(--linkColor);
 $linkHoverColor: var(--linkHoverColor);
 $linkDisabledColor: var(--linkDisabledColor);
 $linkActiveColor: var(--linkActiveColor);
+$paleGray: var(--paleGray);
+$textGray: var(--textGray);
 
 $h1Color: var(--h1Color);
 $h2Color: var(--h2Color);
@@ -23,6 +31,7 @@ $dividerBarColor: var(--dividerBarColor);
 $glossaryHeaderColor: var(--glossaryHeaderColor);
 $deprecatedBackgroundColor: var(--deprecateBackgroundColor);
 $boxBorderColor: var(--boxBorderColor);
+$inputBorderColor: var(--inputBorderColor);
 
 $quoteCalloutBackgroundColor: var(--quoteCalloutBackgroundColor);
 $quoteCalloutBorderColor: var(--quoteCalloutBorderColor);
@@ -60,15 +69,12 @@ $popoverHeaderTextColor: var(--popoverHeaderTextColor);
 $popoverBackgroundColor: var(--popoverBackgroundColor);
 $popoverTextColor: var(--popoverTextColor);
 
-$headerLightShadowColor: var(--headerLightShadowColor);
-$headerDarkShadowColor: var(--heaserDarkShadowColor);
-
 $figureBackgroundColor: var(--figureBackgroundColor);
 $figureCaptionColor: var(--figureCaptionColor);
 
-$heroLogoColor: var(--heroLogoColor);
 $landingPanelBackgroundColor: var(--landingPanelBackgroundColor);
 $landingPanelBorderColor: var(--landingPanelBorderColor);
+$landingPanelTitleColor: var(--landingPanelTitleColor);
 $landingPanelTextColor: var(--landingPanelTextColor);
 $landingPanelShadowColor: var(--landingPanelShadowColor);
 $landingPanelShadowHoverColor: var(--landingPanelShadowHoverColor);
@@ -92,11 +98,12 @@ $stickerLinkActiveColor: var(--stickerLinkActiveColor);
 
 $bannerBackgroundColor: var(--bannerBackgroundColor);
 $bannerTextColor: var(--bannerTextColor);
-$bannerBorderColor: var(--bannerBorderColor);
 $bannerLinkColor: var(--bannerLinkColor);
 $bannerLinkHoverColor: var(--bannerLinkHoverColor);
 $bannerLinkDisabledColor: var(--bannerLinkDisabledColor);
 $bannerLinkActiveColor: var(--bannerLinkActiveColor);
+
+$modalBackgroundColor: var(--modalBackgroundColor);
 
 $textWeight: var(--textWeight);
 $linkWeight: var(--linkWeight);
@@ -108,7 +115,6 @@ $h5Weight: var(--h5Weight);
 $h6Weight: var(--h6Weight);
 $tableHeaderWeight: var(--tableHeaderWeight);
 $boldTextWeight: var(--boldTextWeight);
-$heroLeadWeight: var(--heroLeadTextWeight);
 $blogAttributeWeight: var(--blogAttributeWeight);
 $sectionIndexLinkWeight: var(--sextionIndexLinkWeight);
 $buttonWeight: var(--buttonWeight);
@@ -120,3 +126,8 @@ $glossaryWordWeight: var(--glossaryWordWeight);
 $figureCaptionWeight: var(--figureCaptionWeight);
 $textCodeWeight: var(--textCodeWeight);
 $faqQuestionWeight: var(--faqQuestionWeight);
+
+$regularWeight: var(--regularWeight);
+$mediumWeight: var(--mediumWeight);
+$semiBoldWeight: var(--semiBoldWeight);
+$boldWeight: var(--boldWeight);

@@ -7,7 +7,7 @@ aliases:
     - /docs/tasks/telemetry/using-istio-dashboard/
     - /docs/tasks/telemetry/metrics/using-istio-dashboard/
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 This task shows you how to setup and use the Istio Dashboard to monitor mesh
@@ -19,8 +19,10 @@ the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio](/docs/setup) in your cluster. If not enabled in your chosen configuration profile, enable the Grafana addon `--set values.grafana.enabled=true` [option](https://archive.istio.io/v1.4/docs/reference/config/installation-options/).
-* Deploy [Bookinfo](/docs/examples/bookinfo/) application.
+* [Install Istio](/docs/setup) in your cluster.
+* Install the [Grafana Addon](/docs/ops/integrations/grafana/#option-1-quick-start).
+* Install the [Prometheus Addon](/docs/ops/integrations/prometheus/#option-1-quick-start).
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) application.
 
 ## Viewing the Istio dashboard
 
@@ -30,8 +32,8 @@ the example application throughout this task.
 
     {{< text bash >}}
     $ kubectl -n istio-system get svc prometheus
-    NAME         CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
-    prometheus   10.59.241.54   <none>        9090/TCP   2m
+    NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+    prometheus   ClusterIP   10.100.250.202   <none>        9090/TCP   103s
     {{< /text >}}
 
 1.  Verify that the Grafana service is running in your cluster.
@@ -40,8 +42,8 @@ the example application throughout this task.
 
     {{< text bash >}}
     $ kubectl -n istio-system get svc grafana
-    NAME      CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-    grafana   10.59.247.103   <none>        3000/TCP   2m
+    NAME      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+    grafana   ClusterIP   10.103.244.103   <none>        3000/TCP   2m25s
     {{< /text >}}
 
 1.  Open the Istio Dashboard via the Grafana UI.
@@ -49,7 +51,7 @@ the example application throughout this task.
     In Kubernetes environments, execute the following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+    $ istioctl dashboard grafana
     {{< /text >}}
 
     Visit [http://localhost:3000/dashboard/db/istio-mesh-dashboard](http://localhost:3000/dashboard/db/istio-mesh-dashboard) in your web browser.
@@ -63,9 +65,7 @@ the example application throughout this task.
     For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
     browser or issue the following command:
 
-    {{< text bash >}}
-    $ curl http://$GATEWAY_URL/productpage
-    {{< /text >}}
+    {{< boilerplate trace-generation >}}
 
     {{< tip >}}
     `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
@@ -110,15 +110,7 @@ the example application throughout this task.
     This gives details about metrics for each workload and then inbound workloads (workloads that are sending request to
     this workload) and outbound services (services to which this workload send requests) for that workload.
 
-### About the Grafana addon
-
-The Grafana addon is a preconfigured instance of Grafana. The base image
-([`grafana/grafana`](https://hub.docker.com/r/grafana/grafana/)) has been
-modified to start with both a Prometheus data source and the Istio Dashboard
-installed. The base install files for Istio, and Mixer in particular, ship with
-a default configuration of global (used for every service) metrics. The Istio
-Dashboard is built to be used in conjunction with the default Istio metrics
-configuration and a Prometheus backend.
+### About the Grafana dashboards
 
 The Istio Dashboard consists of three main sections:
 

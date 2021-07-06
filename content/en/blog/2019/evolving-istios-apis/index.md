@@ -60,4 +60,4 @@ Oh, and if for some reason you judge a toolbox by the list of CRDs it installs, 
 
 All service meshes and, by extension, Istio seeks to automate complex infrastructure operations, like networking and security. That means there will always be complexity in its APIs, but Istio will always aim to solve the needs of operators, while continuing to evolve the API to provide robust building blocks and prioritize flexibility through role-centric abstractions.
 
-We can't wait for you to join our [community](/about/community/join/) to see what you build with Istio next!
+We can't wait for you to join our [community](/get-involved/) to see what you build with Istio next!

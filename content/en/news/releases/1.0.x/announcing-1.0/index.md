@@ -54,7 +54,7 @@ While this is a significant milestone for the project there’s lots more to do.
 
 If you’re new to Istio and looking to use it for your deployment we’d love to hear from you. Take a look at [our docs](/docs/) or stop by our
 [chat forum](https://discuss.istio.io). If you’d like
-to go deeper and [contribute to the project](/about/community) come to one of our community meetings and say hello.
+to go deeper and [contribute to the project](/get-involved) come to one of our community meetings and say hello.
 
 ## Thanks
 
@@ -78,7 +78,7 @@ has been removed.
 
 ### Policy and telemetry
 
-- **Updated Attributes**. The set of [attributes](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/) used to describe the source and
+- **Updated Attributes**. The set of [attributes](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/attribute-vocabulary/) used to describe the source and
 destination of traffic have been completely revamped in order to be more
 precise and comprehensive.
 
@@ -103,7 +103,7 @@ in addition to the server-side telemetry.
 
 - **SignalFX**. There is a new `signalfx` adapter.
 
-- **Stackdriver**. The [`stackdriver`](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) adapter has been substantially enhanced in this
+- **Stackdriver**. The [`stackdriver`](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) adapter has been substantially enhanced in this
 release to add new features and improve performance.
 
 ### Security

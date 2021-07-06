@@ -239,9 +239,6 @@ namespaces by default.</p>
 the destination rule is declared in. Similarly, the value &ldquo;*&rdquo; is reserved and
 defines an export to all namespaces.</p>
 
-<p>NOTE: in the current release, the <code>exportTo</code> value is restricted to
-&ldquo;.&rdquo; or &ldquo;*&rdquo; (i.e., the current namespace or all namespaces).</p>
-
 </td>
 <td>
 No
@@ -493,36 +490,36 @@ the User cookie as the hash key.</p>
 <p>{{<tabset category-name="example">}}
 {{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
 
-<pre><code class="language-yaml"> apiVersion: networking.istio.io/v1alpha3
- kind: DestinationRule
- metadata:
-   name: bookinfo-ratings
- spec:
-   host: ratings.prod.svc.cluster.local
-   trafficPolicy:
-     loadBalancer:
-       consistentHash:
-         httpCookie:
-           name: user
-           ttl: 0s
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: bookinfo-ratings
+spec:
+  host: ratings.prod.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: user
+          ttl: 0s
 </code></pre>
 
 <p>{{</tab>}}</p>
 
 <p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 
-<pre><code class="language-yaml"> apiVersion: networking.istio.io/v1beta1
- kind: DestinationRule
- metadata:
-   name: bookinfo-ratings
- spec:
-   host: ratings.prod.svc.cluster.local
-   trafficPolicy:
-     loadBalancer:
-       consistentHash:
-         httpCookie:
-           name: user
-           ttl: 0s
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: bookinfo-ratings
+spec:
+  host: ratings.prod.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: user
+          ttl: 0s
 </code></pre>
 
 <p>{{</tab>}}
@@ -694,7 +691,7 @@ spec:
         http2MaxRequests: 1000
         maxRequestsPerConnection: 10
     outlierDetection:
-      consecutiveErrors: 7
+      consecutive5xxErrors: 7
       interval: 5m
       baseEjectionTime: 15m
 </code></pre>
@@ -717,7 +714,7 @@ spec:
         http2MaxRequests: 1000
         maxRequestsPerConnection: 10
     outlierDetection:
-      consecutiveErrors: 7
+      consecutive5xxErrors: 7
       interval: 5m
       baseEjectionTime: 15m
 </code></pre>
@@ -735,6 +732,37 @@ spec:
 </tr>
 </thead>
 <tbody>
+<tr id="OutlierDetection-split_external_local_origin_errors">
+<td><code>splitExternalLocalOriginErrors</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Determines whether to distinguish local origin failures from external errors. If set to true
+consecutive<em>local</em>origin_failure is taken into account for outlier detection calculations.
+This should be used when you want to derive the outlier detection status based on the errors
+seen locally such as failure to connect, timeout while connecting etc. rather than the status code
+retuned by upstream service. This is especially useful when the upstream service explicitly returns
+a 5xx for some requests and you want to ignore those responses from upstream service while determining
+the outlier detection status of a host.
+Defaults to false.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="OutlierDetection-consecutive_local_origin_failures">
+<td><code>consecutiveLocalOriginFailures</code></td>
+<td><code><a href="#google-protobuf-UInt32Value">UInt32Value</a></code></td>
+<td>
+<p>The number of consecutive locally originated failures before ejection
+occurs. Defaults to 5. Parameter takes effect only when split<em>external</em>local<em>origin</em>errors
+is set to true.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="OutlierDetection-consecutive_gateway_errors">
 <td><code>consecutiveGatewayErrors</code></td>
 <td><code><a href="#google-protobuf-UInt32Value">UInt32Value</a></code></td>
@@ -1494,9 +1522,13 @@ No
 <td><code>idleTimeout</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>The idle timeout for upstream connection pool connections. The idle timeout is defined as the period in which there are no active requests.
-If not set, the default is 1 hour. When the idle timeout is reached the connection will be closed.
-Note that request based timeouts mean that HTTP/2 PINGs will not keep the connection alive. Applies to both HTTP1.1 and HTTP2 connections.</p>
+<p>The idle timeout for upstream connection pool connections. The idle timeout
+is defined as the period in which there are no active requests.
+If not set, the default is 1 hour. When the idle timeout is reached,
+the connection will be closed. If the connection is an HTTP/2
+connection a drain sequence will occur prior to closing the connection.
+Note that request based timeouts mean that HTTP/2 PINGs will not
+keep the connection alive. Applies to both HTTP1.1 and HTTP2 connections.</p>
 
 </td>
 <td>
@@ -1508,6 +1540,19 @@ No
 <td><code><a href="#ConnectionPoolSettings-HTTPSettings-H2UpgradePolicy">H2UpgradePolicy</a></code></td>
 <td>
 <p>Specify if http1.1 connection should be upgraded to http2 for the associated destination.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ConnectionPoolSettings-HTTPSettings-use_client_protocol">
+<td><code>useClientProtocol</code></td>
+<td><code>bool</code></td>
+<td>
+<p>If set to true, client protocol will be preserved while initiating connection to backend.
+Note that when this is set to true, h2<em>upgrade</em>policy will be ineffective i.e. the client
+connections will not be upgraded to http2.</p>
 
 </td>
 <td>
@@ -1578,10 +1623,13 @@ No
 <p>Describes how traffic originating in the &lsquo;from&rsquo; zone or sub-zone is
 distributed over a set of &lsquo;to&rsquo; zones. Syntax for specifying a zone is
 {region}/{zone}/{sub-zone} and terminal wildcards are allowed on any
-segment of the specification. Examples:
-* - matches all localities
-us-west/* - all zones and sub-zones within the us-west region
-us-west/zone-1/* - all sub-zones within us-west/zone-1</p>
+segment of the specification. Examples:</p>
+
+<p><code>*</code> - matches all localities</p>
+
+<p><code>us-west/*</code> - all zones and sub-zones within the us-west region</p>
+
+<p><code>us-west/zone-1/*</code> - all sub-zones within us-west/zone-1</p>
 
 <table class="message-fields">
 <thead>
@@ -1609,7 +1657,7 @@ No
 <td><code>map&lt;string,&nbsp;uint32&gt;</code></td>
 <td>
 <p>Map of upstream localities to traffic distribution weights. The sum of
-all weights should be == 100. Any locality not assigned a weight will
+all weights should be 100. Any locality not present will
 receive no traffic.</p>
 
 </td>

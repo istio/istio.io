@@ -32,7 +32,7 @@ For this task you can use your favorite tool to generate certificates and keys. 
 
     {{< text bash >}}
     $ openssl req -out nginx.example.com.csr -newkey rsa:2048 -nodes -keyout nginx.example.com.key -subj "/CN=nginx.example.com/O=some organization"
-    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in nginx.example.com.csr -out nginx.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in nginx.example.com.csr -out nginx.example.com.crt
     {{< /text >}}
 
 ## Deploy an NGINX server
@@ -137,7 +137,7 @@ to hold the configuration of the NGINX server:
     printed correctly, i.e., `common name (CN)` is equal to `nginx.example.com`.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name})" -c istio-proxy -- curl -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
+    $ kubectl exec "$(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name})" -c istio-proxy -- curl -sS -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
     ...
     SSL connection using TLSv1.2 / ECDHE-RSA-AES256-GCM-SHA384
     ALPN, server accepted to use http/1.1

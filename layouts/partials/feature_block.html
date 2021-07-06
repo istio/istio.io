@@ -1,0 +1,23 @@
+<div class="feature-block{{ if .class}} {{.class}}{{end}}">
+    {{ if .image }}
+        <div class="feature-block-image">
+            {{ partial "inline_image.html" .image }}
+        </div>
+    {{ end }}
+
+    {{ if or .header .opening_paragraph }}
+        <div>
+            {{ with .header }}
+                <h2 class="feature-block-header">{{- . -}}</h2>
+            {{ end }}
+
+            <div class="feature-block-text">
+                <p>{{- .opening_paragraph -}}</p>
+        
+                <div class="feature-block-text-btn">
+                    <a href="{{.url}}" class="btn">{{ i18n "learn_more" }}</a>
+                </div>
+            </div>
+        </div>
+    {{ end }}
+</div>

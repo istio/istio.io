@@ -6,6 +6,8 @@ keywords: [istioctl,bash,zsh,shell,command-line]
 aliases:
  - /zh/help/ops/component-debugging
  - /zh/docs/ops/troubleshooting/istioctl
+owner: istio/wg-user-experience-maintainers
+test: no
 ---
 
 您可以通过检查各个组件的[日志](/zh/docs/ops/diagnostic-tools/component-logging/)或者通过[自检](/zh/docs/ops/diagnostic-tools/controlz/)机制来了解其功能。如果还不够的话，以下步骤将会告诉您如何深入了解。
@@ -133,6 +135,10 @@ $ brew install bash-completion
 ### 开启自动补全 {#enabling-auto-completion}
 
 根据您选择的 shell，按照以下步骤在您的系统开启 `istioctl` 命令补全 :
+
+{{< warning >}}
+您需要下载包含自动补全文件（在`/tools`目录下）的 Istio 完整发行版本。如果你没有这么做, 现在请[下载 Istio 完整发行版本](/zh/docs/setup/getting-started/#download) 。
+{{< /warning >}}
 
 {{< tabset category-name="profile" >}}
 

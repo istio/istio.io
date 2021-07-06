@@ -7,7 +7,7 @@ aliases:
     - /docs/tasks/telemetry/querying-metrics/
     - /docs/tasks/telemetry/metrics/querying-metrics/
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 This task shows you how to query for Istio Metrics using Prometheus. As part of
@@ -18,8 +18,9 @@ the example application throughout this task.
 
 ## Before you begin
 
-[Install Istio](/docs/setup/) in your cluster and deploy an
-application.
+* [Install Istio](/docs/setup) in your cluster.
+* Install the [Prometheus Addon](/docs/ops/integrations/prometheus/#option-1-quick-start).
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) application.
 
 ## Querying Istio metrics
 
@@ -39,7 +40,7 @@ application.
     browser or issue the following command:
 
     {{< text bash >}}
-    $ curl http://$GATEWAY_URL/productpage
+    $ curl "http://$GATEWAY_URL/productpage"
     {{< /text >}}
 
     {{< tip >}}
@@ -76,13 +77,13 @@ You can also see the query results graphically by selecting the Graph tab undern
 
 Other queries to try:
 
--   Total count of all requests to the `productpage` service:
+*   Total count of all requests to the `productpage` service:
 
     {{< text plain >}}
     istio_requests_total{destination_service="productpage.default.svc.cluster.local"}
     {{< /text >}}
 
-- Total count of all requests to `v3` of the `reviews` service:
+*   Total count of all requests to `v3` of the `reviews` service:
 
     {{< text plain >}}
     istio_requests_total{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
@@ -90,7 +91,7 @@ Other queries to try:
 
     This query returns the current total count of all requests to the v3 of the `reviews` service.
 
--   Rate of requests over the past 5 minutes to all instances of the `productpage` service:
+*   Rate of requests over the past 5 minutes to all instances of the `productpage` service:
 
     {{< text plain >}}
     rate(istio_requests_total{destination_service=~"productpage.*", response_code="200"}[5m])
@@ -107,12 +108,12 @@ docs](https://prometheus.io/docs/querying/basics/).
 
 ## Cleanup
 
--   Remove any `istioctl` processes that may still be running using control-C or:
+*   Remove any `istioctl` processes that may still be running using control-C or:
 
     {{< text bash >}}
     $ killall istioctl
     {{< /text >}}
 
--   If you are not planning to explore any follow-on tasks, refer to the
+*   If you are not planning to explore any follow-on tasks, refer to the
     [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
     to shutdown the application.

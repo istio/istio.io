@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.operator.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 57
+number_of_entries: 63
 ---
 <p>Configuration affecting Istio control plane installation version and shape.</p>
 
@@ -17,6 +17,22 @@ number_of_entries: 57
 The spec is a used to define a customization of the default profile values that are supplied with each Istio release.
 Because the spec is a customization API, specifying an empty IstioOperatorSpec results in a default Istio
 component values.</p>
+
+<pre><code class="language-yaml">apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: default
+  hub: gcr.io/istio-testing
+  tag: latest
+  revision: 1-8-0
+  meshConfig:
+    accessLogFile: /dev/stdout
+    enableTracing: true
+  components:
+    egressGateways:
+    - name: istio-egressgateway
+      enabled: true
+</code></pre>
 
 <table class="message-fields">
 <thead>
@@ -32,10 +48,14 @@ component values.</p>
 <td><code>profile</code></td>
 <td><code>string</code></td>
 <td>
-<p>Path or name for the profile e.g.
-    - minimal (looks in profiles dir for a file called minimal.yaml)
-    - /tmp/istio/install/values/custom/custom-install.yaml (local file path)
-default profile is used if this field is unset.</p>
+<p>Path or name for the profile e.g.</p>
+
+<ul>
+<li>minimal (looks in profiles dir for a file called minimal.yaml)</li>
+<li>/tmp/istio/install/values/custom/custom-install.yaml (local file path)</li>
+</ul>
+
+<p>default profile is used if this field is unset.</p>
 
 </td>
 <td>
@@ -46,8 +66,11 @@ No
 <td><code>installPackagePath</code></td>
 <td><code>string</code></td>
 <td>
-<p>Path for the install package. e.g.
-    - /tmp/istio-installer/nightly (local file path)</p>
+<p>Path for the install package. e.g.</p>
+
+<ul>
+<li>/tmp/istio-installer/nightly (local file path)</li>
+</ul>
 
 </td>
 <td>
@@ -58,7 +81,7 @@ No
 <td><code>hub</code></td>
 <td><code>string</code></td>
 <td>
-<p>Root for docker image paths e.g. docker.io/istio</p>
+<p>Root for docker image paths e.g. <code>docker.io/istio</code></p>
 
 </td>
 <td>
@@ -69,7 +92,7 @@ No
 <td><code>tag</code></td>
 <td><code><a href="#TypeInterface">TypeInterface</a></code></td>
 <td>
-<p>Version tag for docker images e.g. 1.0.6</p>
+<p>Version tag for docker images e.g. <code>1.7.2</code></p>
 
 </td>
 <td>
@@ -81,7 +104,9 @@ No
 <td><code>string</code></td>
 <td>
 <p>Namespace to install control plane resources into. If unset, Istio will be installed into the same namespace
-as the IstioOperator CR.</p>
+as the <code>IstioOperator</code> CR. You must also set <code>values.global.istioNamespace</code> if you wish to install Istio in
+a custom namespace.
+If you have enabled CNI, you must  exclude this namespace by adding it to the list <code>values.cni.excludeNamespaces</code>.</p>
 
 </td>
 <td>
@@ -93,6 +118,18 @@ No
 <td><code>string</code></td>
 <td>
 <p>Identify the revision this installation is associated with.
+This option is currently experimental.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-default_revision">
+<td><code>defaultRevision</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Identify whether this revision is the default revision for the cluster
 This option is currently experimental.</p>
 
 </td>
@@ -123,25 +160,14 @@ component.</p>
 No
 </td>
 </tr>
-<tr id="IstioOperatorSpec-addon_components">
-<td><code>addonComponents</code></td>
-<td><code>map&lt;string,&nbsp;<a href="#ExternalComponentSpec">ExternalComponentSpec</a>&gt;</code></td>
-<td>
-<p>Extra addon components which are not explicitly specified above.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="IstioOperatorSpec-values">
 <td><code>values</code></td>
 <td><code><a href="#TypeMapStringInterface">TypeMapStringInterface</a></code></td>
 <td>
-<p>Overrides for default values.yaml. This is a validated pass-through to Helm templates.
-See the Helm installation options for schema details: https://istio.io/docs/reference/config/installation-options/.
-Anything that is available in IstioOperatorSpec should be set above rather than using the passthrough. This
-includes Kubernetes resource settings for components in KubernetesResourcesSpec.</p>
+<p>Overrides for default <code>values.yaml</code>. This is a validated pass-through to Helm templates.
+See the <a href="https://istio.io/v1.5/docs/reference/config/installation-options/">Helm installation options</a> for schema details.
+Anything that is available in <code>IstioOperatorSpec</code> should be set above rather than using the passthrough. This
+includes Kubernetes resource settings for components in <code>KubernetesResourcesSpec</code>.</p>
 
 </td>
 <td>
@@ -152,7 +178,20 @@ No
 <td><code>unvalidatedValues</code></td>
 <td><code><a href="#TypeMapStringInterface">TypeMapStringInterface</a></code></td>
 <td>
-<p>Unvalidated overrides for default values.yaml. Used for custom templates where new parameters are added.</p>
+<p>Unvalidated overrides for default <code>values.yaml</code>. Used for custom templates where new parameters are added.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-addon_components" class="deprecated ">
+<td><code>addonComponents</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#ExternalComponentSpec">ExternalComponentSpec</a>&gt;</code></td>
+<td>
+<p>Deprecated.
+Users should manage the installation of addon components on their own.
+Refer to samples/addons for demo installation of addon components.</p>
 
 </td>
 <td>
@@ -180,14 +219,17 @@ No
 <td><code>status</code></td>
 <td><code><a href="#InstallStatus-Status">Status</a></code></td>
 <td>
-<p>Overall status of all components controlled by the operator.
-- If all components have status NONE, overall status is NONE.
-- If all components are HEALTHY, overall status is HEALTHY.
-- If one or more components are RECONCILING and others are HEALTHY, overall status is RECONCILING.
-- If one or more components are UPDATING and others are HEALTHY, overall status is UPDATING.
-- If components are a mix of RECONCILING, UPDATING and HEALTHY, overall status is UPDATING.
-- If any component is in ERROR state, overall status is ERROR.
-- If further action is needed for reconciliation to proceed, overall status is ACTION_REQUIRED.</p>
+<p>Overall status of all components controlled by the operator.</p>
+
+<ul>
+<li>If all components have status <code>NONE</code>, overall status is <code>NONE</code>.</li>
+<li>If all components are <code>HEALTHY</code>, overall status is <code>HEALTHY</code>.</li>
+<li>If one or more components are <code>RECONCILING</code> and others are <code>HEALTHY</code>, overall status is <code>RECONCILING</code>.</li>
+<li>If one or more components are <code>UPDATING</code> and others are <code>HEALTHY</code>, overall status is <code>UPDATING</code>.</li>
+<li>If components are a mix of <code>RECONCILING</code>, <code>UPDATING</code> and <code>HEALTHY</code>, overall status is <code>UPDATING</code>.</li>
+<li>If any component is in <code>ERROR</code> state, overall status is <code>ERROR</code>.</li>
+<li>If further action is needed for reconciliation to proceed, overall status is <code>ACTION_REQUIRED</code>.</li>
+</ul>
 
 </td>
 <td>
@@ -251,24 +293,6 @@ No
 No
 </td>
 </tr>
-<tr id="IstioComponentSetSpec-policy">
-<td><code>policy</code></td>
-<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-telemetry">
-<td><code>telemetry</code></td>
-<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="IstioComponentSetSpec-cni">
 <td><code>cni</code></td>
 <td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
@@ -282,6 +306,8 @@ No
 <td><code>istiodRemote</code></td>
 <td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
 <td>
+<p>Remote cluster using an external control plane.</p>
+
 </td>
 <td>
 No
@@ -802,6 +828,43 @@ No
 No
 </td>
 </tr>
+<tr id="KubernetesResourcesSpec-securityContext">
+<td><code>securityContext</code></td>
+<td><code><a href="#PodSecurityContext">PodSecurityContext</a></code></td>
+<td>
+<p>k8s pod security context
+<a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod">https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod</a></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-volumes">
+<td><code>volumes</code></td>
+<td><code><a href="#k8s-io-api-core-v1-Volume">Volume[]</a></code></td>
+<td>
+<p>k8s volume
+<a href="https://kubernetes.io/docs/concepts/storage/volumes/">https://kubernetes.io/docs/concepts/storage/volumes/</a>
+Volumes defines the collection of Volume to inject into the pod.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-volumeMounts">
+<td><code>volumeMounts</code></td>
+<td><code><a href="#k8s-io-api-core-v1-VolumeMount">VolumeMount[]</a></code></td>
+<td>
+<p>k8s volumeMounts
+VolumeMounts defines the collection of VolumeMount to inject into containers.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="KubernetesResourcesSpec-overlays">
 <td><code>overlays</code></td>
 <td><code><a href="#K8sObjectOverlay">K8sObjectOverlay[]</a></code></td>
@@ -1228,7 +1291,7 @@ No
 </tr>
 <tr id="ExternalMetricSource-targetValue">
 <td><code>targetValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1237,7 +1300,7 @@ No
 </tr>
 <tr id="ExternalMetricSource-targetAverageValue">
 <td><code>targetAverageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1272,7 +1335,7 @@ No
 </tr>
 <tr id="HTTPGetAction-port">
 <td><code>port</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1729,7 +1792,7 @@ No
 </tr>
 <tr id="ObjectMetricSource-targetValue">
 <td><code>targetValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1747,7 +1810,7 @@ No
 </tr>
 <tr id="ObjectMetricSource-averageValue">
 <td><code>averageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1887,7 +1950,7 @@ No
 <tbody>
 <tr id="PodDisruptionBudgetSpec-minAvailable">
 <td><code>minAvailable</code></td>
-<td><code>uint32</code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1905,7 +1968,7 @@ No
 </tr>
 <tr id="PodDisruptionBudgetSpec-maxUnavailable">
 <td><code>maxUnavailable</code></td>
-<td><code>uint32</code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1940,7 +2003,7 @@ No
 </tr>
 <tr id="PodsMetricSource-targetAverageValue">
 <td><code>targetAverageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2117,7 +2180,7 @@ No
 </tr>
 <tr id="ResourceFieldSelector-divisor">
 <td><code>divisor</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2152,7 +2215,7 @@ No
 </tr>
 <tr id="ResourceMetricSource-targetAverageUtilization">
 <td><code>targetAverageUtilization</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code>int32</code></td>
 <td>
 </td>
 <td>
@@ -2161,7 +2224,7 @@ No
 </tr>
 <tr id="ResourceMetricSource-targetAverageValue">
 <td><code>targetAverageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2222,7 +2285,7 @@ No
 <tbody>
 <tr id="RollingUpdateDeployment-maxUnavailable">
 <td><code>maxUnavailable</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2231,7 +2294,7 @@ No
 </tr>
 <tr id="RollingUpdateDeployment-maxSurge">
 <td><code>maxSurge</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2462,7 +2525,7 @@ No
 </tr>
 <tr id="ServicePort-targetPort">
 <td><code>targetPort</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2523,7 +2586,7 @@ No
 <tbody>
 <tr id="TCPSocketAction-port">
 <td><code>port</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2630,6 +2693,280 @@ No
 <tr id="WeightedPodAffinityTerm-podAffinityTerm">
 <td><code>podAffinityTerm</code></td>
 <td><code><a href="#PodAffinityTerm">PodAffinityTerm</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PodSecurityContext">PodSecurityContext</h2>
+<section>
+<p>See k8s.io.api.core.v1.PodSecurityContext.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PodSecurityContext-seLinuxOptions">
+<td><code>seLinuxOptions</code></td>
+<td><code><a href="#SELinuxOptions">SELinuxOptions</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-runAsUser">
+<td><code>runAsUser</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-runAsNonRoot">
+<td><code>runAsNonRoot</code></td>
+<td><code>bool</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-supplementalGroups">
+<td><code>supplementalGroups</code></td>
+<td><code>int64[]</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-fsGroup">
+<td><code>fsGroup</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-runAsGroup">
+<td><code>runAsGroup</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-sysctls">
+<td><code>sysctls</code></td>
+<td><code><a href="#Sysctl">Sysctl[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-windowsOptions">
+<td><code>windowsOptions</code></td>
+<td><code><a href="#WindowsSecurityContextOptions">WindowsSecurityContextOptions</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-fsGroupChangePolicy">
+<td><code>fsGroupChangePolicy</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-seccompProfile">
+<td><code>seccompProfile</code></td>
+<td><code><a href="#SeccompProfile">SeccompProfile</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SELinuxOptions">SELinuxOptions</h2>
+<section>
+<p>See k8s.io.api.core.v1.SELinuxOptions.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SELinuxOptions-user">
+<td><code>user</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SELinuxOptions-role">
+<td><code>role</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SELinuxOptions-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SELinuxOptions-level">
+<td><code>level</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Sysctl">Sysctl</h2>
+<section>
+<p>See k8s.io.api.core.v1.Sysctl.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Sysctl-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Sysctl-value">
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="WindowsSecurityContextOptions">WindowsSecurityContextOptions</h2>
+<section>
+<p>See k8s.io.api.core.v1.WindowsSecurityContextOptions.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="WindowsSecurityContextOptions-gmsaCredentialSpecName">
+<td><code>gmsaCredentialSpecName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WindowsSecurityContextOptions-gmsaCredentialSpec">
+<td><code>gmsaCredentialSpec</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WindowsSecurityContextOptions-runAsUserName">
+<td><code>runAsUserName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SeccompProfile">SeccompProfile</h2>
+<section>
+<p>See k8s.io.api.core.v1.SeccompProfile.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SeccompProfile-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SeccompProfile-localhostProfile">
+<td><code>localhostProfile</code></td>
+<td><code>string</code></td>
 <td>
 </td>
 <td>
@@ -2751,6 +3088,146 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="k8s-io-api-core-v1-Volume">k8s.io.api.core.v1.Volume</h2>
+<section>
+<p>Volume represents a named volume in a pod that may be accessed by any container in the pod.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="k8s-io-api-core-v1-Volume-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Volume&rsquo;s name.
+Must be a DNS_LABEL and unique within the pod.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-Volume-volumeSource">
+<td><code>volumeSource</code></td>
+<td><code><a href="#k8s-io-api-core-v1-VolumeSource">VolumeSource</a></code></td>
+<td>
+<p>VolumeSource represents the location and type of the mounted volume.
+If not specified, the Volume is implied to be an EmptyDir.
+This implied behavior is deprecated and will be removed in a future version.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="k8s-io-api-core-v1-VolumeMount">k8s.io.api.core.v1.VolumeMount</h2>
+<section>
+<p>VolumeMount describes a mounting of a Volume within a container.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="k8s-io-api-core-v1-VolumeMount-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>This must match the Name of a Volume.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-readOnly">
+<td><code>readOnly</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Mounted read-only if true, read-write otherwise (false or unspecified).
+Defaults to false.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-mountPath">
+<td><code>mountPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path within the container at which the volume should be mounted.  Must
+not contain &lsquo;:&rsquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-subPath">
+<td><code>subPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path within the volume from which the container&rsquo;s volume should be mounted.
+Defaults to &ldquo;&rdquo; (volume&rsquo;s root).
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-mountPropagation">
+<td><code>mountPropagation</code></td>
+<td><code>string</code></td>
+<td>
+<p>mountPropagation determines how mounts are propagated from the host
+to container and the other way around.
+When not set, MountPropagationNone is used.
+This field is beta in 1.10.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-subPathExpr">
+<td><code>subPathExpr</code></td>
+<td><code>string</code></td>
+<td>
+<p>Expanded path within the volume from which the container&rsquo;s volume should be mounted.
+Behaves similarly to SubPath but environment variable references $(VAR_NAME) are expanded using the container&rsquo;s environment.
+Defaults to &ldquo;&rdquo; (volume&rsquo;s root).
+SubPathExpr and SubPath are mutually exclusive.
+This field is beta in 1.15.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">k8s.io.apimachinery.pkg.apis.meta.v1.LabelSelector</h2>
 <section>
 <p>A label selector is a label query over a set of resources. The result of matchLabels and
@@ -2788,89 +3265,6 @@ No
 <p>matchExpressions is a list of label selector requirements. The requirements are ANDed.
 +optional</p>
 
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="k8s-io-apimachinery-pkg-api-resource-Quantity">k8s.io.apimachinery.pkg.api.resource.Quantity</h2>
-<section>
-<p>Quantity is a fixed-point representation of a number.
-It provides convenient marshaling/unmarshaling in JSON and YAML,
-in addition to String() and Int64() accessors.</p>
-
-<p>The serialization format is:</p>
-
-<p><quantity>        ::= <signedNumber><suffix>
-  (Note that <suffix> may be empty, from the &ldquo;&rdquo; case in <decimalSI>.)
-<digit>           ::= 0 | 1 | &hellip; | 9
-<digits>          ::= <digit> | <digit><digits>
-<number>          ::= <digits> | <digits>.<digits> | <digits>. | .<digits>
-<sign>            ::= &ldquo;+&rdquo; | &ldquo;-&rdquo;
-<signedNumber>    ::= <number> | <sign><number>
-<suffix>          ::= <binarySI> | <decimalExponent> | <decimalSI>
-<binarySI>        ::= Ki | Mi | Gi | Ti | Pi | Ei
-  (International System of units; See: http://physics.nist.gov/cuu/Units/binary.html)
-<decimalSI>       ::= m | &ldquo;&rdquo; | k | M | G | T | P | E
-  (Note that 1024 = 1Ki but 1000 = 1k; I didn&rsquo;t choose the capitalization.)
-<decimalExponent> ::= &ldquo;e&rdquo; <signedNumber> | &ldquo;E&rdquo; <signedNumber></p>
-
-<p>No matter which of the three exponent forms is used, no quantity may represent
-a number greater than 2^63-1 in magnitude, nor may it have more than 3 decimal
-places. Numbers larger or more precise will be capped or rounded up.
-(E.g.: 0.1m will rounded up to 1m.)
-This may be extended in the future if we require larger or smaller quantities.</p>
-
-<p>When a Quantity is parsed from a string, it will remember the type of suffix
-it had, and will use the same type again when it is serialized.</p>
-
-<p>Before serializing, Quantity will be put in &ldquo;canonical form&rdquo;.
-This means that Exponent/suffix will be adjusted up or down (with a
-corresponding increase or decrease in Mantissa) such that:
-  a. No precision is lost
-  b. No fractional digits will be emitted
-  c. The exponent (or suffix) is as large as possible.
-The sign will be omitted unless the number is negative.</p>
-
-<p>Examples:
-  1.5 will be serialized as &ldquo;1500m&rdquo;
-  1.5Gi will be serialized as &ldquo;1536Mi&rdquo;</p>
-
-<p>Note that the quantity will NEVER be internally represented by a
-floating point number. That is the whole point of this exercise.</p>
-
-<p>Non-canonical values will still parse as long as they are well formed,
-but will be re-emitted in their canonical form. (So always use canonical
-form, or don&rsquo;t diff.)</p>
-
-<p>This format is intended to make it difficult to use these numbers without
-writing some sort of special handling code in the hopes that that will
-cause implementors to also use a fixed point implementation.</p>
-
-<p>+protobuf=true
-+protobuf.embed=string
-+protobuf.options.marshal=false
-+protobuf.options.(gogoproto.goproto_stringer)=false
-+k8s:deepcopy-gen=true
-+k8s:openapi-gen=true</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="k8s-io-apimachinery-pkg-api-resource-Quantity-string">
-<td><code>string</code></td>
-<td><code>string</code></td>
-<td>
 </td>
 <td>
 No
@@ -2931,7 +3325,7 @@ No
 <td>
 <p>Overall status only and would not be set as a component status.
 Action is needed from the user for reconciliation to proceed
-e.g. There are proxies still pointing to the control plane revision when try to remove an IstioOperator CR.</p>
+e.g. There are proxies still pointing to the control plane revision when try to remove an <code>IstioOperator</code> CR.</p>
 
 </td>
 </tr>

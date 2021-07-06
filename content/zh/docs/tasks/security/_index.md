@@ -5,4 +5,5 @@ weight: 19
 aliases:
     - /zh/docs/tasks/istio-auth.html
     - /zh/docs/tasks/security/authz-permissive
+test: n/a
 ---

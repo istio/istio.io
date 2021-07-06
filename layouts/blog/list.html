@@ -1,0 +1,75 @@
+{{ define "main" }}
+<main class="primary blog-content">
+    <div>
+        <article>
+            <h1>{{ .Params.title }}</h1>
+            <p class="blog-description">{{ .Params.description }}</p>
+
+            {{ $.Scratch.Set "years" (slice ) }}
+            {{ $.Scratch.Set "noYears" 0 }}
+            {{ $pages := (where .Site.RegularPages "Section" "blog").ByPublishDate.Reverse }}
+            {{ range $pages }}
+                {{ with .Params.publishdate }}
+                    {{ if eq ( printf "%T" (substr . 0 4) ) "string"  }}
+                        {{ if ( not ( in ($.Scratch.Get "years") (substr . 0 4) ) ) }}
+                            {{ $.Scratch.Add "years" (substr . 0 4) }}
+                        {{ end }}
+                    {{ end }}
+                {{ end }}
+            {{ end }}
+
+            <div class="year-buttons">
+                {{ range $.Scratch.Get "years" }}
+                    <button xx class="year-button" id='year-{{ . }}' onclick="applyFilter(this)">
+                        {{ . }}
+                    </button>
+                {{ end }}
+            </div>
+            <div class="posts-list">
+                {{ range $pages }}
+                    <a class="post-card tf-filter-item" href="{{ .RelPermalink }}" data-years='{{ (substr .Params.publishdate 0 4) }}'
+                    >
+                        <div class="post-date">
+                            <p>{{ (.Params.publishdate).Format "Jan 2, 2006" }}</p>
+                        </div>
+                        <div>
+                            <h4 class="post-title">{{ .Title }}</h4>
+                            <p class="post-summary">
+                                {{ .Params.description }}    
+                            </p>
+                            <p class="post-author">By {{ replace (replace .Params.attribution "(" "- ") ")" "" }}</p>
+                        </div>    
+                    </a>
+                {{ end }}
+            </div>
+
+            {{ partial "subscribe_button.html" (dict "section" "blog") }}
+            {{ partial "primary_bottom.html" . }}
+
+<script src='{{ "js/categories-filter.js" | relURL }}'></script>
+<script>
+    var htfConfig = {
+        filters: [
+            {
+                name: 'categories',
+                prefix: 'year-',
+                buttonClass: 'year-button',
+                allSelector: '#selectAllAuthors',
+                attrName: 'data-years',
+            }
+        ],
+      showItemClass: "show-item",
+      filterItemClass: "tf-filter-item",
+      activeButtonClass: "active",
+      populateCount: true,
+      numberToView:999,
+      setDisabledButtonClass: "disable-button"
+    }
+    var htf = new CategoriesFilter(htfConfig);
+    function applyFilter (element) {
+        var category = element.id.split('year-');
+        htf.checkFilter(category[1],'year-');
+    }
+</script>
+    
+{{ end }}

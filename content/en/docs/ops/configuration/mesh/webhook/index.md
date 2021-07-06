@@ -25,8 +25,8 @@ configuration and `MutatingAdmissionWebhooks` for automatically
 injecting the sidecar proxy into user pods.
 
 The webhook setup guides assuming general familiarity with Kubernetes
-Dynamic Admission Webhooks. Consult the [Kubernetes API references](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/) for
-detailed documentation of the mutating and validating webhook configuration.
+Dynamic Admission Webhooks. Consult the Kubernetes API references for
+detailed documentation of the [Mutating Webhook Configuration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#mutatingwebhookconfiguration-v1-admissionregistration-k8s-io) and [Validating Webhook Configuration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#validatingwebhookconfiguration-v1-admissionregistration-k8s-io).
 
 ## Verify dynamic admission webhook prerequisites
 
@@ -41,14 +41,15 @@ webhooks and dependent features are not functioning properly.
 
     {{< text bash >}}
     $ kubectl version --short
-    Client Version: v1.10.2
-    Server Version: v1.10.4-gke.0
+    Client Version: v1.19.0
+    Server Version: v1.19.1
     {{< /text >}}
 
-1. `admissionregistration.k8s.io/v1beta1` should be enabled
+1. `admissionregistration.k8s.io/v1` should be enabled
 
     {{< text bash >}}
-    $ kubectl api-versions | grep admissionregistration.k8s.io/v1beta1
+    $ kubectl api-versions | grep admissionregistration.k8s.io/v1
+    admissionregistration.k8s.io/v1
     admissionregistration.k8s.io/v1beta1
     {{< /text >}}
 

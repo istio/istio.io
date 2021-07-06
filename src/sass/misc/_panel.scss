@@ -1,0 +1,203 @@
+.panels {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: -2.5rem -2rem 0;
+
+    &--grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 320px);
+        grid-gap: 2.5rem;
+        margin-top: 0;
+
+        .panel {
+            margin: 0;
+        }
+    }
+}
+
+.panel {
+    display: inline-block;
+    width: 100%;
+    max-width: 320px;
+    min-height: 320px;
+    font-family: inherit;
+    color: $landingPanelTextColor;
+    background: url("/img/panel-background.svg");
+    text-align: center;
+    margin: $panel-margin-top 0 0;
+    padding: 2.25rem;
+    text-decoration: none !important;
+
+    @media (min-width: $bp-sm) {
+        margin: $panel-margin-top 1.25rem 0;
+    }
+
+    .panel-title {
+        color: $landingPanelTitleColor;
+        font-size: 1.75rem;
+        font-weight: $semiBoldWeight;
+    }
+
+    .panel-text {
+        color: $landingPanelTextColor;
+        font-size: 1.125rem;
+        margin: 1.125rem 0 0;
+        flex: 1;
+        font-weight: $mediumWeight;
+    }
+
+    .panel-img-top {
+        text-align: center;
+        padding: 0;
+        margin-bottom: 2rem;
+
+        svg {
+            height: 72px;
+            fill: $accentColor;
+        }
+    }
+
+    .panel-body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .panel-btn {
+        margin-top: 1.5rem;
+        align-self: center;
+
+        &:hover {
+            color: #ffffff;
+        }
+    }
+
+    .panel-author {
+        font-size: 1.125rem;
+        margin-top: 2.125rem;
+        color: $primaryColor;
+        font-weight: $boldWeight;
+        line-height: 1.2;
+    }
+
+    .panel-logo {
+        margin-top: 2.125rem;
+        position: relative;
+        height: 60px;
+        width: 100%;
+        transition: filter .175s ease-in;
+
+        img {
+            max-height: 100%;
+            max-width: 200px;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+
+            @media(min-width: $bp-md) {
+                max-width: 310px;
+            }
+        }
+    }
+
+    .panel-description {
+        font-size: 1.125rem;
+        font-weight: $mediumWeight;
+        line-height: 1.5;
+    }
+
+    &--dark {
+        background: $secondaryAccentColor;
+
+        .panel-title { color: $accentColor; }
+
+        .btn {
+            border-color: #7dc5f2;
+            color: #7dc5f2;
+
+            &:hover {
+                background-color: #7dc5f2;
+                color: $secondaryAccentColor;
+            }
+        }
+    }
+
+    &--transparent {
+        background: unset;
+        padding: 0;
+        min-height: auto;
+
+        .panel-title,
+        .panel-text {
+            color: $primaryColor;
+        }
+
+        .panel-body { height: auto; }
+
+        @media (max-width: $bp-sm) {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+
+    &--carousel {
+        margin: 0 auto;
+        height: 100%;
+
+        .panel-title { flex-grow: 1; }
+    }
+
+    &--bordered {
+        background: none;
+        color: $secondaryColor;
+        border: 2px solid $secondaryColor;
+
+        .quote-text { flex-grow: 1; }
+
+        .panel-logo img { max-width: 200px; }
+
+        .panel-btn {
+            margin-top: 2.625rem;
+
+            &:hover {
+                border-color: $secondaryColor;
+                color: $secondaryColor;
+            }
+        }
+    }
+
+    &--carousel-quote {
+        background: transparent;
+        margin: 0 auto;
+        text-align: center;
+        padding: 0;
+        min-height: auto;
+
+        @media (min-width: $bp-md) {
+            max-width: 650px;
+
+            .quote-text {
+                font-size: $font-size--xxl;
+            }
+        }
+    }
+}
+
+button.panel,
+a.panel {
+    cursor: pointer;
+}
+
+.tabset--ecosystem {
+    .panel-logo {
+        margin-top: 0;
+        margin-bottom: 2.125rem;
+    }
+}

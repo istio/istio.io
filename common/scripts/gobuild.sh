@@ -49,7 +49,7 @@ GOBUILDFLAGS=${GOBUILDFLAGS:-""}
 IFS=' ' read -r -a GOBUILDFLAGS_ARRAY <<< "$GOBUILDFLAGS"
 
 GCFLAGS=${GCFLAGS:-}
-export CGO_ENABLED=0
+export CGO_ENABLED=${CGO_ENABLED:-0}
 
 if [[ "${STATIC}" !=  "1" ]];then
     LDFLAGS=""
@@ -78,14 +78,14 @@ if [[ "${minimum_go_version}" != $(echo -e "${minimum_go_version}\n${go_version[
     echo "Warning: Detected that you are using an older version of the Go compiler. Istio requires ${minimum_go_version} or greater."
 fi
 
-OPTIMIZATION_FLAGS="-trimpath"
+OPTIMIZATION_FLAGS=(-trimpath)
 if [ "${DEBUG}" == "1" ]; then
-    OPTIMIZATION_FLAGS=""
+    OPTIMIZATION_FLAGS=()
 fi
 
 time GOOS=${BUILD_GOOS} GOARCH=${BUILD_GOARCH} ${GOBINARY} build \
         ${V} "${GOBUILDFLAGS_ARRAY[@]}" ${GCFLAGS:+-gcflags "${GCFLAGS}"} \
         -o "${OUT}" \
-        ${OPTIMIZATION_FLAGS} \
+        "${OPTIMIZATION_FLAGS[@]}" \
         -pkgdir="${GOPKG}/${BUILD_GOOS}_${BUILD_GOARCH}" \
         -ldflags "${LDFLAGS} ${LD_EXTRAFLAGS}" "${@}"

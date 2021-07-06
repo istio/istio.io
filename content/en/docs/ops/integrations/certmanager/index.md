@@ -23,7 +23,7 @@ Consult the [cert-manager installation documentation](https://cert-manager.io/do
 cert-manager can be used to write a secret to Kubernetes, which can then be referenced by a Gateway. To get started, configure a `Certificate` resource, following the [cert-manager documentation](https://cert-manager.io/docs/usage/certificate/). The `Certificate` should be created in the same namespace as the `istio-ingressgateway` deployment. For example, a `Certificate` may look like:
 
 {{< text yaml >}}
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: ingress-cert

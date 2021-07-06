@@ -20,7 +20,7 @@ We're pleased to announce the availability of Istio 0.3. Please see below for wh
 ## General
 
 Starting with 0.3, Istio is switching to a monthly release cadence. We hope this will help accelerate our ability
-to deliver timely improvements. See [here](/about/feature-stages/) for information on the state of individual features
+to deliver timely improvements. See [here](/docs/releases/feature-stages/) for information on the state of individual features
 for this release.
 
 This is a fairly modest release in terms of new features as the team put emphasis on internal
@@ -44,7 +44,7 @@ which helps with incremental migration to Istio.
 significant drop in average latency for authorization checks.
 
 - **Improved list Adapter**. The Mixer 'list' adapter now supports regular expression matching. See the adapter's
-[configuration options](/docs/reference/config/policy-and-telemetry/adapters/list/) for details.
+[configuration options](https://istio.io/v0.3/docs/reference/config/policy-and-telemetry/adapters/list/) for details.
 
 - **Configuration Validation**. Mixer does more extensive validation of configuration state in order to catch problems earlier.
 We expect to invest more in this area in coming releases.

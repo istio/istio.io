@@ -21,19 +21,25 @@ export GO_TOP
 
 GO ?= go
 
-GOARCH_LOCAL := $(TARGET_ARCH)
-GOOS_LOCAL := $(TARGET_OS)
+export GOARCH_LOCAL := $(TARGET_ARCH)
+export GOOS_LOCAL := $(TARGET_OS)
+export IN_BUILD_CONTAINER := $(IN_BUILD_CONTAINER)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
 # For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
-ISTIO_IMAGE_VERSION ?= 1.7-alpha
+ISTIO_IMAGE_VERSION ?= 1.11-alpha
 export ISTIO_IMAGE_VERSION
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
 ISTIO_SHA ?= $(shell < ${ISTIOIO_GO}/go.mod grep 'istio.io/istio v' | cut -d'-' -f3)
 export ISTIO_SHA
 
+# If one needs to test before a docker.io build is available (using a public test build),
+# the export HUB and TAG can be commented out, and the initial HUB un-commented
 HUB ?= gcr.io/istio-testing
+# export HUB := docker.io/istio
+# export TAG ?= 1.7.3
+
 ifeq ($(HUB),)
   $(error "HUB cannot be empty")
 endif
@@ -66,7 +72,7 @@ baseurl := "$(URL)"
 endif
 
 # Which branch of the Istio source code do we fetch stuff from
-SOURCE_BRANCH_NAME ?= release-1.7
+SOURCE_BRANCH_NAME ?= master
 
 site:
 	@scripts/gen_site.sh
@@ -74,10 +80,7 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
-doc-owners:
-	@scripts/doc_owners.sh
-
-gen: snips doc-owners tidy-go
+gen: snips tidy-go format-go
 
 gen-check: gen check-clean-repo
 
@@ -137,7 +140,10 @@ netlify: netlify_install
 update_ref_docs:
 	@scripts/grab_reference_docs.sh $(SOURCE_BRANCH_NAME)
 
-update_all: update_ref_docs update_examples
+update_test_reference:
+	@go get istio.io/istio@$(SOURCE_BRANCH_NAME) && go mod tidy
+
+update_all: update_ref_docs update_test_reference
 
 foo2:
 	hugo version
@@ -195,9 +201,6 @@ test.kube.postsubmit: test.kube.presubmit
 test_status:
 	@scripts/test_status.sh
 
-# make lint-yaml seems to fail with pipefail, so remove now.
-# SHELL = /bin/bash
-
 include common/Makefile.common.mk
 
-.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_examples update_all
+.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_all

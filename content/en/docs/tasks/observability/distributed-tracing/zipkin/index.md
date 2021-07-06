@@ -6,7 +6,7 @@ keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 aliases:
     - /docs/tasks/zipkin-tracing.html
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 After completing this task, you understand how to have your application participate in tracing with [Zipkin](https://zipkin.io/),
@@ -18,23 +18,18 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 ## Before you begin
 
-1.  To set up Istio, follow the instructions in the [Installation guide](/docs/setup/install/istioctl)
-    and then configure:
+1.  Follow the [Zipkin installation](/docs/ops/integrations/zipkin/#installation) documentation to deploy Zipkin into your cluster.
 
-    a) a demo/test environment by setting the `--set values.tracing.enabled=true` and `--set values.tracing.provider=zipkin` install options to enable tracing "out of the box"
-
-    b) a production environment by referencing an existing Zipkin instance and then setting the `--set values.global.tracer.zipkin.address=<zipkin-collector-service>.<zipkin-collector-namespace>:9411` install option.
-
-    {{< warning >}}
-    When you enable tracing, you can set the sampling rate that Istio uses for tracing.
-    Use the `pilot.traceSampling` option to set the sampling rate. The default sampling rate is 1%.
-    {{< /warning >}}
+1.  When you enable tracing, you can set the sampling rate that Istio uses for tracing.
+    Use the `meshConfig.defaultConfig.tracing.sampling` option during installation to
+    [set the sampling rate](/docs/tasks/observability/distributed-tracing/configurability/#customizing-trace-sampling).
+    The default sampling rate is 1%.
 
 1.  Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
 ## Accessing the dashboard
 
-[Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways) details how to configure access to the Istio addons through a gateway. Alternatively, to use a Kubernetes ingress, specify the option `--set values.tracing.ingress.enabled=true` during install.
+[Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways) details how to configure access to the Istio addons through a gateway.
 
 For testing (and temporary access), you may also use port-forwarding. Use the following, assuming you've deployed Zipkin to the `istio-system` namespace:
 
@@ -49,13 +44,12 @@ $ istioctl dashboard zipkin
 
     {{< boilerplate trace-generation >}}
 
-1.  From the top panel, select a service of interest (or 'all') from the **Service Name** drop-down list and click
-    **Find Traces**:
+1.  From the search panel, click on the plus sign. Select `serviceName` from the first drop-down list, `productpage.default` from second drop-down, and then click the search icon:
 
     {{< image link="./istio-tracing-list-zipkin.png" caption="Tracing Dashboard" >}}
 
-1.  Click on the most recent trace at the top to see the details corresponding to the
-    latest request to the `/productpage`:
+1.  Click on the `ISTIO-INGRESSGATEWAY` search result to see the details corresponding to the
+    latest request to `/productpage`:
 
     {{< image link="./istio-tracing-details-zipkin.png" caption="Detailed Trace View" >}}
 
@@ -74,4 +68,3 @@ $ istioctl dashboard zipkin
 1.  If you are not planning to explore any follow-on tasks, refer to the
     [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
     to shutdown the application.
-

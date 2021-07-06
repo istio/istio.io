@@ -1,0 +1,9 @@
+<a href="{{ .url }}" class="panel panel--bordered">
+    <div class="panel-body">
+        <div class="quote-text">{{- .case_study.quote -}}</div>
+        <div class="panel-logo">
+            <img src="{{ .case_study.logo }}" alt="{{ .case_study.companyName }} logo" title="{{ .case_study.companyName }}" />
+        </div>
+        <span class="btn btn--secondary panel-btn">{{ i18n "learn_more" }}</span>
+    </div>
+</a>

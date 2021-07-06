@@ -1,6 +1,10 @@
 ---
-title: Change Notes
+title: Istio 1.2 Change Notes
+release: 1.2
+subtitle: Minor Release
+linktitle: 1.2 Change Notes
 description: Istio 1.2 release notes.
+publishdate: 2019-06-18
 weight: 10
 aliases:
     - /about/notes/1.2
@@ -13,7 +17,7 @@ aliases:
 
 ## Traffic management
 
-- **Improved** [locality based routing](/docs/ops/configuration/traffic-management/locality-load-balancing/) in multicluster environments.
+- **Improved** [locality based routing](/docs/tasks/traffic-management/locality-load-balancing/) in multicluster environments.
 - **Improved** outbound traffic policy in [`ALLOW_ANY` mode](https://archive.istio.io/v1.2/docs/reference/config/installation-options/#global-options). Traffic for unknown HTTP/HTTPS hosts on an existing port will be [forwarded as is](/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services). Unknown traffic will be logged in Envoy access logs.
 - **Added** support for setting HTTP idle timeouts to upstream services.
 - **Improved** Sidecar support for [NONE mode](/docs/reference/config/networking/sidecar/#CaptureMode) (without iptables) .

@@ -1,0 +1,17 @@
+{{ $skipPageNav := .Scratch.Get "skipPageNav" }}
+{{ if not (or .Params.skip_pagenav $skipPageNav) }}
+    {{ if or .NextInSection .PrevInSection }}
+        <nav class="pagenav">
+            <div class="left">
+                {{ if .NextInSection }}
+                    <a title="{{ .NextInSection.Description }}" href="{{ .NextInSection.Permalink }}" class="next-link">{{- partial "icon.html" "left-arrow" -}}{{- .NextInSection.LinkTitle -}}</a>
+                {{ end }}
+            </div>
+            <div class="right">
+                {{ if .PrevInSection }}
+                    <a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.Permalink }}" class="next-link">{{- .PrevInSection.LinkTitle -}}{{- partial "icon.html" "right-arrow" -}}</a>
+                {{ end }}
+            </div>
+        </nav>
+    {{ end }}
+{{ end }}

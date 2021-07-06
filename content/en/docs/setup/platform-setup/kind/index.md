@@ -17,6 +17,7 @@ Follow these instructions to prepare a kind cluster for Istio installation.
 - Please use the latest Go version.
 - To use kind, you will also need to [install docker](https://docs.docker.com/install/).
 - Install the latest version of [kind](https://kind.sigs.k8s.io/docs/user/quick-start/).
+- Increase Docker's [memory limit](/docs/setup/platform-setup/docker/).
 
 ## Installation steps
 
@@ -75,7 +76,7 @@ Follow these instructions to setup Dashboard for kind.
 1.  To deploy Dashboard, run the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.1.0/aio/deploy/recommended.yaml
     {{< /text >}}
 
 1.  Verify that Dashboard is deployed and running.

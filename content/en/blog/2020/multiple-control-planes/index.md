@@ -15,7 +15,7 @@ Istio 1.6 will support a new upgrade model to safely canary-deploy new versions 
 
 Upgrading Istio is a complicated process. During the transition period between two versions, which might take a long time for large clusters, there are version differences between proxies and the control plane. In the old model the old and new control planes use the same Service, traffic is randomly distributed between the two, offering no control to the user. However, in the new model, there is not cross-version communication. Look at how the upgrade changes:
 
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSbj4B52oEtQ8wGvmaSy29Zao3Q8Ex-w6JaripuJThMTK4F4bxDZkyNUSaexz8Rp8v4QCuDB2dAZkrv/embed?start=false&loop=true&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR2R_Nd1XsjriBfwbqmcBc8KtdP4McDqNpp8S5v6woq28FnsW-kATBrKtLEG9k61DuBwTgFKLWyAxuK/embed?start=false&loop=true&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
 ## Configuring
 

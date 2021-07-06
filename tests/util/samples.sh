@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # shellcheck disable=SC2155
 
 # Copyright Istio Authors
@@ -37,12 +37,12 @@ startup_sleep_sample() {
     kubectl delete pods -l app=sleep --force
     set -e
 
-    kubectl apply -f samples/sleep/sleep.yaml
+    kubectl apply -f samples/sleep/sleep.yaml -n default
     _wait_for_deployment default sleep
 }
 
 cleanup_sleep_sample() {
-    kubectl delete -f samples/sleep/sleep.yaml || true
+    kubectl delete -f samples/sleep/sleep.yaml -n default || true
 }
 
 startup_httpbin_sample() {
@@ -76,10 +76,9 @@ sample_http_request() {
     local args=""
     if [[ -n "$user" ]]; then
         # make request as logged in user
-        kubectl exec "$sleep_pod" -c sleep -n "default" -- curl -c sample.cookies "$ingress_url/login" --data "username=$user&passwd=password"
-        args="-b sample.cookies"
+        kubectl exec "$sleep_pod" -c sleep -n "default" -- curl -c /tmp/sample.cookies "$ingress_url/login" --data "username=$user&passwd=password"
+        args="-b /tmp/sample.cookies"
     fi
-
     # shellcheck disable=SC2086
     response=$(kubectl exec "$sleep_pod" -c sleep -n "default" -- \
         curl "$ingress_url$path" $args -s --retry 3 --retry-connrefused --retry-delay 5)

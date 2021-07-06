@@ -7,7 +7,7 @@ aliases:
     - /docs/tasks/telemetry/tcp-metrics
     - /docs/tasks/telemetry/metrics/tcp-metrics/
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 This task shows how to configure Istio to automatically gather telemetry for TCP
@@ -19,7 +19,7 @@ as the example throughout this task.
 ## Before you begin
 
 * [Install Istio](/docs/setup) in your cluster and deploy an
-application.
+application. You must also install [Prometheus](/docs/ops/integrations/prometheus/).
 
 * This task assumes that the Bookinfo sample will be deployed in the `default`
 namespace. If you use a different namespace, update the
@@ -36,6 +36,8 @@ example configuration and commands.
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
+        serviceaccount/bookinfo-ratings-v2 created
+        deployment.apps/ratings-v2 created
         {{< /text >}}
 
         If you are using manual sidecar injection, run the following command instead:
@@ -52,6 +54,8 @@ example configuration and commands.
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@
+        service/mongodb created
+        deployment.apps/mongodb-v1 created
         {{< /text >}}
 
         If you are using manual sidecar injection, run the following command instead:
@@ -87,8 +91,8 @@ example configuration and commands.
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
-        Created config virtual-service/default/reviews at revision 3003
-        Created config virtual-service/default/ratings at revision 3004
+        virtualservice.networking.istio.io/reviews created
+        virtualservice.networking.istio.io/ratings created
         {{< /text >}}
 
 1.  Send traffic to the sample application.
@@ -97,7 +101,7 @@ example configuration and commands.
     browser or use the following command:
 
     {{< text bash >}}
-    $ curl http://$GATEWAY_URL/productpage
+    $ curl http://"$GATEWAY_URL/productpage"
     {{< /text >}}
 
     {{< tip >}}
@@ -110,7 +114,7 @@ example configuration and commands.
     using the following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+    $ istioctl dashboard prometheus
     {{< /text >}}
 
     View the values for the TCP metrics in the Prometheus browser window.  Select **Graph**.
@@ -142,7 +146,7 @@ In this task, you used Istio configuration to
 automatically generate and report metrics for all traffic to a TCP service
 within the mesh.
 TCP Metrics for all active connections are recorded every `15s` by default and this timer is configurable
-via `[tcpReportingDurationconfig](/docs/reference/config/proxy_extensions/stats/#PluginConfig)`.
+via [`tcpReportingDuration`](/docs/reference/config/proxy_extensions/stats/#PluginConfig).
 Metrics for a connection are also recorded at the end of the connection.
 
 ### TCP attributes
@@ -171,7 +175,7 @@ This protocol extends TCP as follows:
 *   Remove the `port-forward` process:
 
     {{< text bash >}}
-    $ killall kubectl
+    $ killall istioctl
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the

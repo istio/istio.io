@@ -1,0 +1,41 @@
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        new Splide('.solutions', {
+            type: 'loop',
+            perPage: 3,
+            start: 1,
+            arrows: false,
+            gap: '2.5rem',
+            fixedWidth: '320px',
+            breakpoints: {
+                1120: {
+                    perPage: 1,
+                    fixedWidth: 0,
+                    padding: 0
+                }
+            }
+        }).mount();
+    });
+</script>
+
+{{ $solutionPages := where .Site.RegularPages "Type" "solutions" }}
+
+{{ with $solutionPages }}
+    <div class="solutions splide istio-splide">
+        <div class="splide__track">
+            <ul class="splide__list">
+                {{ range first 5 . }}
+                    <li class="splide__slide">
+                        {{ partial "solutions_carousel_panel" (dict "header" .Params.Title "url" .RelPermalink) }}
+                    </li>
+                {{ end }}
+            </ul>
+        </div>
+    </div>
+{{ end }}
+
+<div class="cta-container">
+    <a href="{{"/about/solutions" | relLangURL }}" class="btn"> {{ i18n "go_to_solutions" }}</a>
+</div>

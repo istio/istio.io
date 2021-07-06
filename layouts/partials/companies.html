@@ -1,0 +1,11 @@
+<div class="companies-grid">
+    {{ if .first_items }}
+        {{ range first .first_items .items }}
+            {{ partial "company_logo.html" (dict "logo" .logo "alt" .name "link" .url) }}
+        {{ end }}
+    {{ else }}
+        {{ range .items }}
+            {{ partial "company_logo.html" (dict "logo" .logo "alt" .name "link" .url) }}
+        {{ end }}
+    {{ end }}
+</div>

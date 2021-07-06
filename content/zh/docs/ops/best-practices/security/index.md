@@ -3,6 +3,8 @@ title: 安全最佳实践
 description: 使用 Istio 保护应用的最佳实践。
 force_inline_toc: true
 weight: 30
+owner: istio/wg-security-maintainers
+test: no
 ---
 
 本节提供了一些部署准则，以帮助确保服务网格的安全。

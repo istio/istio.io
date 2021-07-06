@@ -8,12 +8,17 @@ aliases:
 owner: istio/wg-security-maintainers
 test: n/a
 ---
+
 To ease the process of hardening docker images, Istio provides a set of images based on  [distroless images](https://github.com/GoogleContainerTools/distroless)
 
 ## Install distroless images
 
 Follow the [Installation Steps](/docs/setup/install/istioctl/) to setup Istio.
 Add the option `--set tag={{< istio_full_version >}}-distroless` to use the *distroless images*.
+
+{{< text bash >}}
+$ istioctl install --set tag={{< istio_full_version >}}-distroless
+{{< /text >}}
 
 ## Benefits
 

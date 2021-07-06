@@ -12,32 +12,42 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-Istio supports proxying all TCP traffic by default, but in order to provide additional capabilities,
-such as routing and rich metrics, the protocol must be determined.
-This can be done automatically or explicitly specified.
+Istio supports proxying any TCP traffic. This includes HTTP, HTTPS, gRPC, as well as raw TCP protocols.
+In order to provide additional capabilities, such as routing and rich metrics, the protocol must be determined. This can be done automatically or explicitly specified.
 
-## Manual protocol selection
+Non-TCP based protocols, such as UDP, are not proxied. These protocols will continue to function as normal, without
+any interception by the Istio proxy but cannot be used in proxy-only components such as ingress or egress gateways.
+
+## Automatic protocol selection
+
+Istio can automatically detect HTTP and HTTP/2 traffic. If the protocol cannot automatically be determined, traffic will be treated as plain TCP traffic.
+
+{{< tip >}}
+Server First protocols, such as MySQL, are incompatible with automatic protocol selection. See [Server first protocols](/docs/ops/deployment/requirements#server-first-protocols) for more information.
+{{< /tip >}}
+
+## Explicit protocol selection
 
 Protocols can be specified manually in the Service definition.
 
 This can be configured in two ways:
 
-- By the name of port the port, like `name: <protocol>[-<suffix>]`.
-- In Kubernetes 1.18+, by the `appProtocol` field, like `appProtocol: <protocol>`.
+- By the name of the port: `name: <protocol>[-<suffix>]`.
+- In Kubernetes 1.18+, by the `appProtocol` field: `appProtocol: <protocol>`.
 
 The following protocols are supported:
 
-- `grpc`
-- `grpc-web`
 - `http`
 - `http2`
 - `https`
+- `tcp`
+- `tls`
+- `grpc`
+- `grpc-web`
 - `mongo`
 - `mysql`\*
 - `redis`\*
-- `tcp`
-- `tls`
-- `udp`
+- `udp` (UDP will not be proxied, but the port can be explicitly declared as UDP)
 
 \* These protocols are disabled by default to avoid accidentally enabling experimental features.
 To enable them, configure the corresponding Pilot [environment variables](/docs/reference/commands/pilot-discovery/#envvars).
@@ -56,12 +66,3 @@ spec:
   - number: 80
     name: http-web
 {{< /text >}}
-
-## Automatic protocol selection
-
-Istio can automatically detect HTTP and HTTP/2 traffic. If the protocol cannot automatically be determined, traffic will be treated as plain TCP traffic.
-
-This feature is enabled by default. It can be turned off by providing the following install options:
-
-- `--set values.pilot.enableProtocolSniffingForOutbound=false` to disable protocol detection for outbound listeners whose port protocol is not specified or unsupported.
-- `--set values.pilot.enableProtocolSniffingForInbound=false` to disable protocol detection for inbound listeners whose port protocol is not specified or unsupported.

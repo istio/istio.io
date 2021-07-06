@@ -1,7 +1,11 @@
 ---
-title: Change Notes
+title: Istio 1.4 Change Notes
 description: Istio 1.4 release notes.
+release: 1.4
+subtitle: Minor Release
+linktitle: 1.4 Change Notes
 weight: 10
+publishdate: 2019-11-14
 ---
 
 ## Traffic management
@@ -40,7 +44,7 @@ weight: 10
 
 ## Installation
 
-- **Added** the experimental [operator controller](/docs/setup/install/standalone-operator/) for dynamic updates to an Istio installation.
+- **Added** the experimental [operator controller](/docs/setup/install/operator/) for dynamic updates to an Istio installation.
 - **Removed** the `proxy_init` Docker image. Instead, the `istio-init` container reuses the `proxyv2` image.
 - **Updated** the base image to `ubuntu:bionic`.
 

@@ -34,18 +34,10 @@ REPOS=(
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"
     https://github.com/istio/api.git@"${SOURCE_BRANCH_NAME}"
     https://github.com/istio/proxy.git@"${SOURCE_BRANCH_NAME}"
-    https://github.com/apigee/istio-mixer-adapter.git@master
-    https://github.com/osswangxining/alicloud-istio-grpcadapter.git@master
-    https://github.com/vmware/wavefront-adapter-for-istio.git@master
-    https://github.com/layer5io/layer5-istio-adapter.git@master
-    https://github.com/apache/skywalking-data-collect-protocol.git@master
-    https://github.com/ibm-cloud-security/app-identity-and-access-adapter.git@master
-    https://github.com/newrelic/newrelic-istio-adapter.git@master
 )
 
 # The components to build and extract usage docs from.
 COMPONENTS=(
-    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@mixer/cmd/mixs@mixs
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@istioctl/cmd/istioctl@istioctl
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@pilot/cmd/pilot-agent@pilot-agent
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@pilot/cmd/pilot-discovery@pilot-discovery
@@ -85,7 +77,7 @@ locate_file() {
     FN=${FN%.html}
     PP=$(echo "${FNP}" | rev | cut -d'/' -f2- | rev)
     mkdir -p "${ROOTDIR}/content/en/docs${PP}/${FN}"
-    sed -E -e 's/(href="https:\/\/istio.io.*)\.html/\1\//' -e 's/href="https:\/\/istio.io/href="/g' -e 's/href="\/latest\//href="\//g' "${FILENAME}" >"${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
+    sed -E -e 's/(href="https:\/\/istio.io.*)\.html/\1\//' -e 's/href="https:\/\/istio.io(\/[^vV])/href="\1/g' -e 's/href="\/latest\//href="\//g' "${FILENAME}" >"${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
 
     LEN=${#WORK_DIR}
 
@@ -98,6 +90,10 @@ locate_file() {
 
     sed -i -e "s/title: /WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE '${REPOX}' REPO\ntitle: /g" "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
     sed -i -e "s/title: /source_repo: ${REPOX}\ntitle: /g" "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
+}
+
+handle_feature_status_scraping() {
+    curl "https://raw.githubusercontent.com/istio/enhancements/${SOURCE_BRANCH_NAME}/features.yaml" -o "${ROOTDIR}/data/features.yaml"
 }
 
 handle_doc_scraping() {
@@ -182,3 +178,6 @@ handle_components
 
 echo "Fetching config analysis data"
 handle_config_analysis_messages
+
+echo "Handling feature status"
+handle_feature_status_scraping

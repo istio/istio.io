@@ -56,7 +56,7 @@ Google, IBM and Lyft joined forces to create Istio from a desire to provide a re
 Istio is a completely open development project. Today we are releasing version 0.1, which works in a Kubernetes cluster, and we plan to have major new
 releases every 3 months, including support for additional environments. Our goal is to enable developers and operators to rollout and operate microservices
 with agility, complete visibility of the underlying network, and uniform control and security in all environments. We look forward to working with the Istio
-community and our partners towards these goals, following our [roadmap](/about/feature-stages/).
+community and our partners towards these goals, following our [roadmap](/docs/releases/feature-stages/).
 
 Visit [here](https://github.com/istio/istio/releases) to get the latest released bits.
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Copyright Istio Authors
 #
@@ -14,7 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-exec 5> "${REPO_ROOT}/out/${TEST_DEBUG_FILE}"
-BASH_XTRACEFD="5"
+echo "Creating test debug file: ${TEST_DEBUG_FILE}"
+
+# Dynamically select an unused file descriptor (requires bash 4.1+)
+exec {FD}> "${TEST_DEBUG_FILE}"
+export BASH_XTRACEFD="${FD}"
 export PS4='+${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
 set -x

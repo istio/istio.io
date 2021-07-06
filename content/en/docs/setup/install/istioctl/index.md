@@ -1,5 +1,5 @@
 ---
-title: Customizable Install with Istioctl
+title: Install with Istioctl
 description: Install and customize any Istio configuration profile for in-depth evaluation or production use.
 weight: 10
 keywords: [istioctl,kubernetes]
@@ -27,7 +27,7 @@ via command-line options for individual settings or for passing a yaml file cont
 {{< tip >}}
 Providing the full configuration in an `IstioOperator` CR is considered an Istio best practice for production
 environments. It also gives you the option of completely delegating the job of install management to an
-[Istio Operator](/docs/setup/install/standalone-operator), instead of doing it manually using `istioctl`.
+[Istio Operator](/docs/setup/install/operator), instead of doing it manually using `istioctl`.
 {{< /tip >}}
 
 ## Prerequisites
@@ -59,10 +59,33 @@ Various settings can be configured to modify the installations. For example, to 
 $ istioctl install --set meshConfig.accessLogFile=/dev/stdout
 {{< /text >}}
 
+{{< tip >}}
+Many of the examples on this page and elsewhere in the documentation are written using `--set` to modify installation
+parameters, rather than passing a configuration file with `-f`. This is done to make the examples more compact.
+The two methods are equivalent, but `-f` is strongly recommended for production. The above command would be written as
+follows using `-f`:
+
+{{< text yaml >}}
+# my-config.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    accessLogFile: /dev/stdout
+{{< /text >}}
+
+{{< text bash >}}
+$ istioctl install -f my-config.yaml
+{{< /text >}}
+
+{{< /tip >}}
+
+{{< tip >}}
+The full API is documented in the [`IstioOperator` API reference](/docs/reference/config/istio.operator.v1alpha1/).
 In general, you can use the `--set` flag in `istioctl` as you would with
-Helm. The only difference is you must
-prefix the setting paths with `values.` because this is the path to the Helm pass-through API in the
-[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/).
+Helm, and the Helm `values.yaml` API is currently supported for backwards compatibility. The only difference is you must
+prefix the legacy `values.yaml` paths with `values.` because this is the prefix for the Helm pass-through API.
+{{< /tip >}}
 
 ## Install from external charts
 
@@ -70,7 +93,7 @@ By default, `istioctl` uses compiled-in charts to generate the install manifest.
 `istioctl` for auditing and customization purposes and can be found in the release tar in the
 `manifests` directory.
 `istioctl` can also use external charts rather than the compiled-in ones. To select external charts, set
-the `charts` flag to a local file system path:
+the `manifests` flag to a local file system path:
 
 {{< text bash >}}
 $ istioctl install --manifests=manifests/
@@ -94,7 +117,22 @@ $ istioctl install --set profile=demo
 ## Check what's installed
 
 The `istioctl` command saves the `IstioOperator` CR that was used to install Istio in a copy of the CR named `installed-state`.
-You can inspect this CR if you lose track of what is installed in a cluster.
+Instead of inspecting the deployments, pods, services and other resources that were installed by Istio, for example:
+
+{{< text bash >}}
+$ kubectl -n istio-system get deploy
+NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
+istio-egressgateway    1/1     1            1           25s
+istio-ingressgateway   1/1     1            1           24s
+istiod                 1/1     1            1           20s
+{{< /text >}}
+
+You can inspect the `installed-state` CR, to see what is installed in the cluster, as well as all custom settings.
+For example, dump its content into a YAML file using the following command:
+
+{{< text bash >}}
+$ kubectl -n istio-system get IstioOperator installed-state -o yaml > installed-state.yaml
+{{< /text >}}
 
 The `installed-state` CR is also used to perform checks in some `istioctl` commands and should therefore not be removed.
 
@@ -106,12 +144,13 @@ accessible to `istioctl` by using this command:
 {{< text bash >}}
 $ istioctl profile list
 Istio configuration profiles:
-    minimal
-    preview
-    remote
     default
     demo
     empty
+    minimal
+    openshift
+    preview
+    remote
 {{< /text >}}
 
 ## Display the configuration of a profile
@@ -142,23 +181,12 @@ $ istioctl profile dump --config-path components.pilot demo
 enabled: true
 k8s:
   env:
-  - name: POD_NAME
-    valueFrom:
-      fieldRef:
-        apiVersion: v1
-        fieldPath: metadata.name
-  - name: POD_NAMESPACE
-    valueFrom:
-      fieldRef:
-        apiVersion: v1
-        fieldPath: metadata.namespace
-  - name: GODEBUG
-    value: gctrace=1
   - name: PILOT_TRACE_SAMPLING
     value: "100"
-  - name: CONFIG_NAMESPACE
-    value: istio-config
-...
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100Mi
 {{< /text >}}
 
 ## Show differences in profiles
@@ -230,7 +258,7 @@ customized install using these commands:
 
 {{< text bash >}}
 $ istioctl manifest generate > 1.yaml
-$ istioctl manifest generate -f samples/operator/pilot-k8s.yaml > 2.yaml
+$ istioctl manifest generate -f operator/samples/pilot-k8s.yaml > 2.yaml
 $ istioctl manifest diff 1.yaml 2.yaml
 Differences of manifests are:
 
@@ -275,389 +303,27 @@ Then run the following `verify-install` command to see if the installation was s
 $ istioctl verify-install -f $HOME/generated-manifest.yaml
 {{< /text >}}
 
-## Customizing the configuration
-
-In addition to installing any of Istio's built-in
-[configuration profiles](/docs/setup/additional-setup/config-profiles/),
-`istioctl install` provides a complete API for customizing the configuration.
-
-- [The `IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
-
-The configuration parameters in this API can be set individually using `--set` options on the command
-line. For example, to enable the control plane security feature in a default configuration profile, use this command:
-
-{{< text bash >}}
-$ istioctl install --set values.global.controlPlaneSecurityEnabled=true
-{{< /text >}}
-
-Alternatively, the `IstioOperator` configuration can be specified in a YAML file and passed to
-`istioctl` using the `-f` option:
-
-{{< text bash >}}
-$ istioctl install -f samples/operator/pilot-k8s.yaml
-{{< /text >}}
-
-{{< tip >}}
-For backwards compatibility, the previous [Helm installation options](https://archive.istio.io/v1.4/docs/reference/config/installation-options/), with the exception of Kubernetes resource settings,
-are also fully supported. To set them on the command line, prepend the option name with "`values.`".
-For example, the following command overrides the `pilot.traceSampling` Helm configuration option:
-
-{{< text bash >}}
-$ istioctl install --set values.pilot.traceSampling=0.1
-{{< /text >}}
-
-Helm values can also be set in an `IstioOperator` CR (YAML file) as described in
-[Customize Istio settings using the Helm API](#customize-istio-settings-using-the-helm-api), below.
-
-If you want to set Kubernetes resource settings, use the `IstioOperator` API as described in
- [Customize Kubernetes settings](#customize-kubernetes-settings).
-{{< /tip >}}
-
-### Identify an Istio component
-
-The `IstioOperator` API defines components as shown in the table below:
-
-| Components |
-| ------------|
-`base` |
-`pilot` |
-`proxy` |
-`telemetry` |
-`policy` |
-`ingressGateways` |
-`egressGateways` |
-`cni` |
-
-### Configure component settings
-
-After you identify the name of the component from the previous table, you can use the API to set the values
-using the `--set` flag, or create an overlay file and use the `--filename` flag. The `--set` flag
-works well for customizing a few parameters. Overlay files are designed for more extensive customization, or
-tracking configuration changes.
-
-The simplest customization is to turn a component on or off from the configuration profile default.
-
-To disable the telemetry component in a default configuration profile, use this command:
-
-{{< text bash >}}
-$ istioctl install --set components.telemetry.enabled=false
-{{< /text >}}
-
-Alternatively, you can disable the telemetry component using a configuration overlay file:
-
-1. Create this file with the name `telemetry_off.yaml` and these contents:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  components:
-    telemetry:
-      enabled: false
-{{< /text >}}
-
-1. Use the `telemetry_off.yaml` overlay file with the `istioctl install` command:
-
-{{< text bash >}}
-$ istioctl install -f telemetry_off.yaml
-{{< /text >}}
-
-Another customization is to select different namespaces for features and components. The following is an example
-of installation namespace customization:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-metadata:
-  namespace: istio-system
-spec:
-  components:
-    citadel:
-      namespace: istio-citadel
-{{< /text >}}
-
-Applying this file will cause the default profile to be applied, with components being installed into the following
-namespaces:
-
-- The Citadel component is installed into `istio-citadel` namespace
-- Remaining Istio components installed into istio-system namespace
-
-### Configure gateways
-
-Gateways are a special type of component, since multiple ingress and egress gateways can be defined. In the
-[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/), gateways are defined as a list type.
-The `default` profile installs one ingress gateway, called `istio-ingressgateway`. You can inspect the default values
-for this gateway:
-
-{{< text bash >}}
-$ istioctl profile dump --config-path components.ingressGateways
-$ istioctl profile dump --config-path values.gateways.istio-ingressgateway
-{{< /text >}}
-
-These commands show both the `IstioOperator` and Helm settings for the gateway, which are used together to define the
-generated gateway resources. The built-in gateways can be customized just like any other component.
-A new user gateway can be created by adding a new list entry:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  components:
-    ingressGateways:
-      - name: istio-ingressgateway
-        enabled: true
-      - namespace: user-ingressgateway-ns
-        name: ilb-gateway
-        enabled: true
-        k8s:
-          resources:
-            requests:
-              cpu: 200m
-          serviceAnnotations:
-            cloud.google.com/load-balancer-type: "internal"
-          service:
-            ports:
-            - port: 8060
-              targetPort: 8060
-              name: tcp-citadel-grpc-tls
-            - port: 5353
-              name: tcp-dns
-{{< /text >}}
-
-Note that Helm values (`spec.values.gateways.istio-ingressgateway/egressgateway`) are shared by all ingress/egress
-gateways. If these must be customized per gateway, it is recommended to use a separate IstioOperator CR to generate
-a manifest for the user gateways, separate from the main Istio installation:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  profile: empty
-  components:
-    ingressGateways:
-      - name: ilb-gateway
-        namespace: user-ingressgateway-ns
-        enabled: true
-        # Copy settings from istio-ingressgateway as needed.
-  values:
-    gateways:
-      istio-ingressgateway:
-        debug: error
-{{< /text >}}
-
-### Customize Kubernetes settings
-
-The `IstioOperator` API allows each component's Kubernetes settings to be customized in a consistent way.
-
-Each component has a [`KubernetesResourceSpec`](/docs/reference/config/istio.operator.v1alpha1/#KubernetesResourcesSpec),
-which allows the following settings to be changed. Use this list to identify the setting to customize:
-
-1. [Resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container)
-1. [Readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
-1. [Replica count](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
-1. [`HorizontalPodAutoscaler`](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
-1. [`PodDisruptionBudget`](https://kubernetes.io/docs/concepts/workloads/pods/disruptions/#how-disruption-budgets-work)
-1. [Pod annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
-1. [Service annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
-1. [`ImagePullPolicy`](https://kubernetes.io/docs/concepts/containers/images/)
-1. [Priority class name](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass)
-1. [Node selector](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector)
-1. [Affinity and anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
-1. [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
-1. [Toleration](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
-1. [Strategy](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
-1. [Env](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
-
-All of these Kubernetes settings use the Kubernetes API definitions, so [Kubernetes documentation](https://kubernetes.io/docs/concepts/) can be used for reference.
-
-The following example overlay file adjusts the resources and horizontal pod autoscaling
-settings for Pilot:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  components:
-    pilot:
-      k8s:
-        resources:
-          requests:
-            cpu: 1000m # override from default 500m
-            memory: 4096Mi # ... default 2048Mi
-        hpaSpec:
-          maxReplicas: 10 # ... default 5
-          minReplicas: 2  # ... default 1
-        nodeSelector:
-          master: "true"
-        tolerations:
-        - key: dedicated
-          operator: Exists
-          effect: NoSchedule
-        - key: CriticalAddonsOnly
-          operator: Exists
-{{< /text >}}
-
-Use `istioctl install` to apply the modified settings to the cluster:
-
-{{< text syntax="bash" repo="operator" >}}
-$ istioctl install -f samples/operator/pilot-k8s.yaml
-{{< /text >}}
-
-### Customize Istio settings using the Helm API
-
-The `IstioOperator` API includes a pass-through interface to the [Helm API](https://archive.istio.io/v1.4/docs/reference/config/installation-options/)
-using the `values` field.
-
-The following YAML file configures global and Pilot settings through the Helm API:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    pilot:
-      traceSampling: 0.1 # override from 1.0
-    global:
-      monitoringPort: 15050
-{{< /text >}}
-
-Some parameters will temporarily exist in both the Helm and `IstioOperator` APIs, including Kubernetes resources,
-namespaces and enablement settings. The Istio community recommends using the `IstioOperator` API as it is more
-consistent, is validated, and follows the [community graduation process](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
-
-## Advanced install customization
-
-### Customizing external charts and profiles
-
-The `istioctl` `install`, `manifest generate` and `profile` commands can use any of the following sources for charts and
-profiles:
-
-- compiled in charts. This is the default if no `--manifests` option is set. The compiled in charts are the same as those
-in the `manifests/` directory of the Istio release `.tgz`.
-- charts in the local file system, e.g., `istioctl install --manifests istio-{{< istio_full_version >}}/manifests`
-- charts in GitHub, e.g., `istioctl install --manifests https://github.com/istio/istio/releases/download/{{< istio_full_version >}}/istio-{{< istio_full_version >}}-linux-arm64.tar.gz`
-
-Local file system charts and profiles can be customized by editing the files in `manifests/`. For extensive changes,
-we recommend making a copy of the `manifests` directory and make changes there. Note, however, that the content layout
-in the `manifests` directory must be preserved.
-
-Profiles, found under `manifests/profiles/`, can be edited and new ones added by creating new files with the
-desired profile name and a `.yaml` extension. `istioctl` scans the `profiles` subdirectory and all profiles found there
-can be referenced by name in the `IstioOperatorSpec` profile field. Built-in profiles are overlaid on the default profile YAML before user
-overlays are applied. For example, you can create a new profile file called `custom1.yaml` which customizes some settings
-from the `default` profile, and then apply a user overlay file on top of that:
-
-{{< text bash >}}
-$ istioctl generate --manifests mycharts/ --set profile=custom1 -f path-to-user-overlay.yaml
-{{< /text >}}
-
-In this case, the `custom1.yaml` and `user-overlay.yaml` files will be overlaid on the `default.yaml` file to obtain the
-final values used as the input for manifest generation.
-
-In general, creating new profiles is not necessary since a similar result can be achieved by passing multiple overlay
-files. For example, the command above is equivalent to passing two user overlay files:
-
-{{< text bash >}}
-$ istioctl generate --manifests mycharts/ -f manifests/profiles/custom1.yaml -f path-to-user-overlay.yaml
-{{< /text >}}
-
-Creating a custom profile is only required if you need to refer to the profile by name through the `IstioOperatorSpec`.
-
-### Patching the output manifest
-
-The `IstioOperator` CR, input to `istioctl`, is used to generate the output manifest containing the
-Kubernetes resources to be applied to the cluster. The output manifest can be further customized to add, modify or delete resources
-through the `IstioOperator` [overlays](/docs/reference/config/istio.operator.v1alpha1/#K8sObjectOverlay) API, after it is
-generated but before it is applied to the cluster.
-
-The following example overlay file (`patch.yaml`) demonstrates the type of output manifest patching that can be done:
-
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  profile: empty
-  hub: docker.io/istio
-  tag: 1.1.6
-  components:
-    pilot:
-      enabled: true
-      namespace: istio-control
-      k8s:
-        overlays:
-          - kind: Deployment
-            name: istiod
-            patches:
-              # Select list item by value
-              - path: spec.template.spec.containers.[name:discovery].args.[30m]
-                value: "60m" # overridden from 30m
-              # Select list item by key:value
-              - path: spec.template.spec.containers.[name:discovery].ports.[containerPort:8080].containerPort
-                value: 1234
-              # Override with object (note | on value: first line)
-              - path: spec.template.spec.containers.[name:discovery].env.[name:POD_NAMESPACE].valueFrom
-                value: |
-                  fieldRef:
-                    apiVersion: v2
-                    fieldPath: metadata.myPath
-              # Deletion of list item
-              - path: spec.template.spec.containers.[name:discovery].env.[name:REVISION]
-              # Deletion of map item
-              - path: spec.template.spec.containers.[name:discovery].securityContext
-          - kind: Service
-            name: istiod
-            patches:
-              - path: spec.ports.[name:https-dns].port
-                value: 11111 # OVERRIDDEN
-{{< /text >}}
-
-Passing the file to `istioctl manifest generate -f patch.yaml` applies the above patches to the default profile output
-manifest. The two patched resources will be modified as shown below (some parts of the resources are omitted for
-brevity):
-
-{{< text yaml >}}
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: istiod
-spec:
-  template:
-    spec:
-      containers:
-      - args:
-        - 60m
-        env:
-        - name: POD_NAMESPACE
-          valueFrom:
-            fieldRef:
-              apiVersion: v2
-              fieldPath: metadata.myPath
-        name: discovery
-        ports:
-        - containerPort: 1234
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: istiod
-spec:
-  ports:
-  - name: https-dns
-    port: 11111
----
-{{< /text >}}
-
-Note that the patches are applied in the given order. Each patch is applied over the output from the
-previous patch. Paths in patches that don't exist in the output manifest will be created.
-
-### List item path selection
-
-Both the `istioctl --set` flag and the `k8s.overlays` field in `IstioOperator` CR support list item selection by `[index]`, `[value]` or by `[key:value]`.
-The --set flag also creates any intermediate nodes in the path that are missing in the resource.
+See [Customizing the installation configuration](/docs/setup/additional-setup/customize-installation/) for additional information on customizing the install.
 
 ## Uninstall Istio
 
-To uninstall Istio, run the following command:
+To completely uninstall Istio from a cluster, run the following command:
+
+{{< text bash >}}
+$ istioctl x uninstall --purge
+{{< /text >}}
+
+{{< warning >}}
+The optional `--purge` flag will remove all Istio resources, including cluster-scoped resources that may be shared with other Istio control planes.
+{{< /warning >}}
+
+Alternatively, to remove only a specific Istio control plane, run the following command:
+
+{{< text bash >}}
+$ istioctl x uninstall <your original installation options>
+{{< /text >}}
+
+or
 
 {{< text bash >}}
 $ istioctl manifest generate <your original installation options> | kubectl delete -f -

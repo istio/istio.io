@@ -1,5 +1,5 @@
 ---
-title: Authorization policies with a deny action
+title: Explicit Deny
 description: Shows how to set up access control to deny traffic explicitly.
 weight: 40
 keywords: [security,access-control,rbac,authorization,deny]
@@ -7,14 +7,15 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-This task shows you how to set up Istio authorization policy that denies HTTP traffic
-in an Istio mesh. Learn more in our [authorization concept page](/docs/concepts/security/#authorization).
+This task shows you how to set up Istio authorization policy of `DENY` action to explicitly deny traffic in an Istio
+mesh. This is different from the `ALLOW` action because the `DENY` action has higher priority and will not be
+bypassed by any `ALLOW` actions.
 
 ## Before you begin
 
-Before tackling this task you must perform the following actions:
+Before you begin this task, do the following:
 
-* Read the [authorization concept](/docs/concepts/security/#authorization).
+* Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
 
 * Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio.
 
@@ -26,14 +27,14 @@ Before tackling this task you must perform the following actions:
 
     {{< text bash >}}
     $ kubectl create ns foo
-    $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
     {{< /text >}}
 
 * Verify that `sleep` talks to `httpbin` with the following command:
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
@@ -71,14 +72,14 @@ In this case, the policy denies requests if their method is `GET`.
 1. Verify that `GET` requests are denied:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/get" -X GET -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/get" -X GET -sS -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
 1. Verify that `POST` requests are allowed:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/post" -X POST -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/post" -X POST -sS -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -112,14 +113,14 @@ a header value that is not `admin`:
 1. Verify that `GET` requests with the HTTP header `x-token: admin` are allowed:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/get" -X GET -H "x-token: admin" -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/get" -X GET -H "x-token: admin" -sS -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
 1. Verify that GET requests with the HTTP header `x-token: guest` are denied:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/get" -X GET -H "x-token: guest" -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/get" -X GET -H "x-token: guest" -sS -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 

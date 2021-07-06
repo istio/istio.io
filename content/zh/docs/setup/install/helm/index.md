@@ -1,335 +1,268 @@
 ---
-title: 使用 Helm 自定义安装
-description: 安装和配置 Istio 以进行深入评估或用于生产。
-weight: 20
+title: 使用 Helm 安装
+linktitle: 使用 Helm 安装
+description: 安装、配置、并深入评估 Istio。
+weight: 27
 keywords: [kubernetes,helm]
-aliases:
-    - /zh/docs/setup/kubernetes/helm.html
-    - /zh/docs/tasks/integrating-services-into-istio.html
-    - /zh/docs/setup/kubernetes/helm-install/
-    - /zh/docs/setup/kubernetes/install/helm/
+owner: istio/wg-environments-maintainers
 icon: helm
+test: no
 ---
 
-{{< warning >}}
-Helm 的安装方法已被弃用。
-请改用[使用 {{< istioctl >}} 安装](/zh/docs/setup/install/istioctl/)。
-{{< /warning >}}
+请跟随本指南一起，使用
+ [Helm](https://helm.sh/docs/) 安装、配置、并深入评估 Istio 网格系统。
+本指南用到的 Helm chart、以及使用 [Istioctl](/zh/docs/setup/install/istioctl/)、[Operator](/zh/docs/setup/install/operator/) 安装 Istio 时用到的 chart，它们都是相同的底层 chart。
 
-请按照本指南安装和配置 Istio 网格，以进行深入评估或用于生产。
+此特性目前处于 [alpha](/zh/about/feature-stages/) 阶段。
 
-这种安装方式使用 [Helm](https://github.com/helm/helm) charts 自定义 Istio 控制平面和 Istio 数据平面的 sidecar。
-你只需使用 `helm template` 生成配置并使用 `kubectl apply` 命令安装它, 或者你可以选择使用 `helm install` 让
-[Tiller](https://helm.sh/docs/topics/architecture/#components)
- 来完全管理安装。
+## 先决条件 {#prerequisites}
 
-通过这些说明, 您可以选择 Istio 内置的任何一个
-[配置文件](/zh/docs/setup/additional-setup/config-profiles/)
-并根据的特定的需求进行进一步的自定义配置。
+1. [下载 Istio 发行版](/zh/docs/setup/getting-started/#download).
 
-## 先决条件
+1. 执行必要的[平台安装](/zh/docs/setup/platform-setup/).
 
-1. [下载 Istio 发行版](/zh/docs/setup/getting-started/#download)。
-1. 完成必要的 [Kubernetes 平台设置](/zh/docs/setup/platform-setup/)。
-1. 检查 [Pod 和服务的要求](/zh/docs/ops/deployment/requirements/)。
-1. [安装高于 2.10 版本的 Helm 客户端](https://github.com/helm/helm#install)。
+1. 检查 [Pod 和服务的要求](/zh/docs/ops/deployment/requirements/).
+
+1. [安装 Helm 客户端](https://helm.sh/docs/intro/install/) ，需高于 3.1.1 版本。
 
     {{< warning >}}
-    请使用 2.x 版本的 Helm。不支持 Helm 3。
+    Istio 安装不再支持 Helm2。
     {{< /warning >}}
 
-## 添加 Helm chart 仓库
+本文命令使用的 Helm charts 来自于 Istio 发行包，存放于目录 `manifests/charts`。
 
-本指南的以下命令使用了包含 Istio 发行版镜像的 Helm charts。
-如果要使用 Istio 发行版 Helm chart ，建议使用下面的命令添加 Istio 发行版仓库：
+## 安装步骤 {#installation-steps}
 
-{{< text bash >}}
-$ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/charts/
-{{< /text >}}
+将目录转到发行包的根目录，按照以下说明进行操作。
 
-## 安装步骤
+{{< warning >}}
+default chart 配置将安全的第三方令牌映射到服务账户令牌，
+此令牌将被 Istio 代理用于认证 Istio 控制平面。
+继续安装下面 chart 之前，你需要用下面
+[步骤](/zh/docs/ops/best-practices/security/#configure-third-party-service-account-tokens)
+验证：在集群中，第三方令牌是否启用。
+如果尚未启用第三方令牌，你应该将参数 `--set global.jwtPolicy=first-party-jwt` 添加到 Helm 安装命令中。
+如果设置 `jwtPolicy` 时出了问题，各类pod，比如关联到 `istiod`、网关的 pod、
+以及被注入 Envoy 代理的工作负载的 Pod等等，都会因为缺少 `istio-token` 卷的原因，而不能部署。
 
-将目录切换到 Istio 发行版的根目录，然后在以下两个**互斥**选项选择一种安装：
+{{< /warning >}}
 
-1. 如果您不使用 Tiller 部署 Istio，请查看[方案 1](/zh/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template)。
-1. 如果您使用 [Helm 的 Tiller pod](https://helm.sh/) 来管理 Istio 发行版, 请查看[方案 2](/zh/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install)。
-
-{{< tip >}}
-默认情况下，Istio 使用 `LoadBalancer` 服务类型。而有些平台是不支持 `LoadBalancer`
-服务的。对于不支持 `LoadBalancer` 服务类型的平台, 执行下面的步骤时，可以在 Helm 命令中加入 `--set gateways.istio-ingressgateway.type=NodePort` 选项，使用 `NodePort` 来替代 `LoadBalancer` 服务类型。
-{{< /tip >}}
-
-### 方案 1: 使用 `helm template` 命令安装{#option-1-install-with-helm-via-helm-template}
-
-在您的集群没有按照 [Tiller](https://helm.sh/docs/topics/architecture/#components)
- 而且您也不想安装它的情况下，选择此方案安装。
-
-1. 为 Istio 组件创建命名空间 `istio-system`：
+1. 为 Istio 组件，创建命名空间 `istio-system` :
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
     {{< /text >}}
 
-1. 使用 `kubectl apply` 安装所有 Istio 的
-    [自定义资源](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-    (CRDs) ：
+1. 安装 Istio base chart，它包含了 Istio 控制平面用到的集群范围的资源：
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
+    $ helm install istio-base manifests/charts/base -n istio-system
     {{< /text >}}
 
-1. {{< boilerplate verify-crds >}}
-
-1. 选择一个[配置文件](/zh/docs/setup/additional-setup/config-profiles/)
-    接着部署与您选择的配置文件相对应的 Istio 核心组件。
-    我们建议在生产环境使用**默认**的配置文件：
-
-    {{< tip >}}
-    您可以添加一个或多个 `--set <key>=<value>` 来进一步自定义 helm 命令的[安装选项](/zh/docs/reference/config/installation-options/) 。
-    {{< /tip >}}
-
-{{< tabset category-name="helm_profile" >}}
-
-{{< tab name="default" category-value="default" >}}
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl apply -f -
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="demo" category-value="demo" >}}
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo.yaml | kubectl apply -f -
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="minimal" category-value="minimal" >}}
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-minimal.yaml | kubectl apply -f -
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="sds" category-value="sds" >}}
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-sds-auth.yaml | kubectl apply -f -
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Istio CNI enabled" category-value="cni" >}}
-
-安装 [Istio CNI](/zh/docs/setup/additional-setup/cni/) 组件：
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system | kubectl apply -f -
-{{< /text >}}
-
-将 `--set istio_cni.enabled=true` 设置追加到 helm 命令上，来启用 Istio CNI 插件。
-以 Istio **默认**配置文件为例：
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --set istio_cni.enabled=true | kubectl apply -f -
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
-### 方案 2: 在 Helm 和 Tiller 的环境中使用 `helm install` 命令安装{#option-2-install-with-helm-and-tiller-via-helm-install}
-
-这个方案使用 Helm 和 [Tiller](https://helm.sh/docs/topics/architecture/#components) 来对 Istio 的生命周期进行管理。
-
-{{< boilerplate helm-security-warning >}}
-
-1. 请确保您的集群的 Tiller 设置了 `cluster-admin` 角色的 Service Account。
-   如果还没有定义，请执行下面命令创建：
+1. 安装 Istio discovery chart，它用于部署 `istiod` 服务：
 
     {{< text bash >}}
-    $ kubectl apply -f @manifests/UPDATING-CHARTS.md@
+    $ helm install istiod manifests/charts/istio-control/istio-discovery \
+        --set global.hub="docker.io/istio" \
+        --set global.tag="{{< istio_full_version >}}" \
+        -n istio-system
     {{< /text >}}
 
-1. 使用 Service Account 在集群上安装 Tiller：
+1. (可选项) 安装 Istio 的入站网关 chart，它包含入站网关组件：
 
     {{< text bash >}}
-    $ helm init --service-account tiller
+    $ helm install istio-ingress manifests/charts/gateways/istio-ingress \
+        --set global.hub="docker.io/istio" \
+        --set global.tag="{{< istio_full_version >}}" \
+        -n istio-system
     {{< /text >}}
 
-1. 安装 `istio-init` chart，来启动 Istio CRD 的安装过程：
+1. (可选项) 安装 Istio 的出站网关 chart，它包含了出站网关组件：
 
     {{< text bash >}}
-    $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
+    $ helm install istio-egress manifests/charts/gateways/istio-egress \
+        --set global.hub="docker.io/istio" \
+        --set global.tag="{{< istio_full_version >}}" \
+        -n istio-system
     {{< /text >}}
 
-1. {{< boilerplate verify-crds >}}
+## 验证安装 {#verifying-the-installation}
 
-1. 选择一个[配置文件](/zh/docs/setup/additional-setup/config-profiles/)
-    接着部署与您选择的配置文件相对应的 `istio` 的核心组件。
-    我们建议在生成环境部署中使用**默认**配置文件:
-
-    {{< tip >}}
-    您可以添加一个或多个 `--set <key>=<value>` 来进一步定义 Helm 命令的
-    [安装选项](/zh/docs/reference/config/installation-options/)。
-    {{< /tip >}}
-
-{{< tabset category-name="helm_profile" >}}
-
-{{< tab name="default" category-value="default" >}}
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="demo" category-value="demo" >}}
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="minimal" category-value="minimal" >}}
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-minimal.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="sds" category-value="sds" >}}
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-sds-auth.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Istio CNI enabled" category-value="cni" >}}
-
-安装 [Istio CNI](/zh/docs/setup/additional-setup/cni/) chart：
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio-cni --name istio-cni --namespace kube-system
-{{< /text >}}
-
-将 `--set istio_cni.enabled=true` 设置追加到 helm 命令上，来启用 Istio CNI 插件。
-以 Istio **默认**配置文件为例：
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set istio_cni.enabled=true
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
-## 验证安装
-
-1. 查询[配置文件](/zh/docs/setup/additional-setup/config-profiles/)的组件表，验证是否已部署了与您选择的配置文件相对应的 Kubernetes 服务
-
-    {{< text bash >}}
-    $ kubectl get svc -n istio-system
-    {{< /text >}}
-
-1. 确保相应的 Kubernetes Pod 已部署并且 `STATUS` 是 `Running`：
+1. 确认命名空间 `istio-system` 中所有 Kubernetes pods 均已部署，且返回值中 `STATUS` 的值为 `Running`：
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
     {{< /text >}}
 
-## 卸载
+## 更新 Istio 配置 {#updating-your-configuration}
 
-- 如果你使用 `helm template` 命令安装的 Istio，使用如下命令卸载：
+你可以用自己的安装参数，覆盖掉前面用到的 Istio Helm chart 的默认行为，
+然后按照 Helm 升级流程来定制安装你的 Istio 网格系统。
+至于可用的配置项，你可以在 `values.yaml` 文件内找到，
+此文件位于你的 Istio 发行包的 `manifests/charts` 目录中。
 
-{{< tabset category-name="helm_profile" >}}
+{{< warning >}}
+注意：上面说到的 Istio Helm chart values 特性正在紧张的开发中，尚属于试验阶段。
+升级到新版本的 Istio，涉及到把你的定制参数迁移到新 API 定义中去。
+{{< /warning >}}
 
-{{< tab name="default" category-value="default" >}}
+定制安装支持两种方式：
+[`ProxyConfig`](/zh/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) 方式和
+Helm 值文件方式。
+其中， `ProxyConfig` 支持模式验证，但非结构化的 Helm 值文件不支持，所以更推荐使用前者。
 
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl delete -f -
-$ kubectl delete namespace istio-system
-{{< /text >}}
+## 使用 Helm 升级 {#upgrading-using-helm}
 
-{{< /tab >}}
-
-{{< tab name="demo" category-value="demo" >}}
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo.yaml | kubectl delete -f -
-$ kubectl delete namespace istio-system
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="minimal" category-value="minimal" >}}
+在你的集群中升级 Istio 之前，建议备份你的定制安装配置文件，以备不时之需。
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-minimal.yaml | kubectl delete -f -
-$ kubectl delete namespace istio-system
+$ kubectl get crds | grep 'istio.io' | cut -f1-1 -d "." | \
+    xargs -n1 -I{} sh -c "kubectl get --all-namespaces -o yaml {}; echo ---" > $HOME/ISTIO_RESOURCE_BACKUP.yaml
 {{< /text >}}
 
-{{< /tab >}}
-
-{{< tab name="sds" category-value="sds" >}}
+可以这样恢复你定制的配置文件：
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-sds-auth.yaml | kubectl delete -f -
-$ kubectl delete namespace istio-system
+$ kubectl apply -f $HOME/ISTIO_RESOURCE_BACKUP.yaml
 {{< /text >}}
 
-{{< /tab >}}
+### 从非 Helm 安装迁移 {#migrating-from-non-helm-installations}
 
-{{< tab name="Istio CNI enabled" category-value="cni" >}}
+如果你需要将使用 `istioctl` 或 Operator 安装的 Istio 迁移到 Helm，
+那要删除当前 Istio 控制平面资源，并根据上面的说明，使用 Helm 重新安装 Istio。
+在删除当前 Istio 时，前外不能删掉 Istio 的客户资源定义（CRDs），以免丢掉你的定制 Istio 资源。
 
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --set istio_cni.enabled=true | kubectl delete -f -
-{{< /text >}}
+{{< warning >}}
+建议：从集群中删除 Istio 前，使用上面的说明备份你的 Istio 资源。
+{{< /warning >}}
 
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system | kubectl delete -f -
-{{< /text >}}
+依据你的安装方式，选择
+[Istioctl 卸载指南](/zh/docs/setup/install/istioctl#uninstall-istio) 或
+[Operator 卸载指南](/zh/docs/setup/install/operator/#uninstall)。
 
-{{< /tab >}}
+### 金丝雀升级 (推荐) {#canary-upgrade}
 
-{{< /tabset >}}
+按照下面步骤，安装一个金丝雀版本的 Istio 控制平面，验证新版本是否兼容现有的配置和数据平面：
 
-- 如果您使用的 Helm 和 Tiller 安装的 Istio, 使用如下命令卸载：
+{{< warning >}}
+注意：安装金丝雀版本的 `istiod` 服务后，主版本和金丝雀版本共享来自 base chart 的底层集群范围的资源。
+
+当前，Istio 出站和入站网关的金丝雀升级支持尚且处于
+[紧张的开发过程](/zh/docs/setup/upgrade/gateways/)，
+属于 `experimental` （实验）阶段。
+{{< /warning >}}
+
+1. 设置版本，安装金丝雀版本的 Istio discovery chart:
 
     {{< text bash >}}
-    $ helm delete --purge istio
-    $ helm delete --purge istio-init
-    $ helm delete --purge istio-cni
+    $ helm install istiod-canary manifests/charts/istio-control/istio-discovery \
+        --set revision=canary \
+        --set global.hub="docker.io/istio" \
+        --set global.tag=<version_to_upgrade> \
+        -n istio-system
+    {{< /text >}}
+
+1. 验证在你的集群中运行了两个版本的 `istiod` ：
+
+    {{< text bash >}}
+    $ kubectl get pods -l app=istiod -L istio.io/rev -n istio-system
+      NAME                            READY   STATUS    RESTARTS   AGE   REV
+      istiod-5649c48ddc-dlkh8         1/1     Running   0          71m   default
+      istiod-canary-9cc9fd96f-jpc7n   1/1     Running   0          34m   canary
+    {{< /text >}}
+
+1. 按照 [这里的](/zh/docs/setup/upgrade/#data-plane) 步骤在金丝雀版本的控制平面中测试或迁移存量工作负载。
+
+1. 在你验证并迁移工作负载到金丝雀版本的控制平面之后，即可删除老版本的控制平面：
+
+    {{< text bash >}}
+    $ helm delete istiod -n istio-system
+    {{< /text >}}
+
+### 就地升级 {#in-place-upgrade}
+
+使用 Helm 的升级流程，在你的集群中就地升级 Istio：
+
+{{< warning >}}
+此升级路径仅支持 Istio 1.8+ 的版本。
+
+将用于覆盖默认配置的值文件（values file）或自定义选项添加到下面的命令中，
+以在 Helm 升级过程中保留自定义配置。
+{{< /warning >}}
+
+1. 升级 Istio base chart:
+
+    {{< text bash >}}
+    $ helm upgrade istio-base manifests/charts/base -n istio-system
+    {{< /text >}}
+
+1. 升级 Istio discovery chart:
+
+    {{< text bash >}}
+    $ helm upgrade istiod manifests/charts/istio-control/istio-discovery \
+        --set global.hub="docker.io/istio" \
+        --set global.tag=<version_to_upgrade> \
+        -n istio-system
+    {{< /text >}}
+
+1. (可选项) 如果集群中安装了 Istio 的入站或出站网关 charts，则升级它们：
+
+    {{< text bash >}}
+    $ helm upgrade istio-ingress manifests/charts/gateways/istio-ingress \
+        --set global.hub="docker.io/istio" \
+        --set global.tag=<version_to_upgrade>\
+        -n istio-system
+    $ helm upgrade istio-egress manifests/charts/gateways/istio-egress \
+        --set global.hub="docker.io/istio" \
+        --set global.tag=<version_to_upgrade> \
+        -n istio-system
+    {{< /text >}}
+
+## 卸载 {#uninstall}
+
+卸载前面安装的 chart，以便卸载 Istio 和它的各个组件。
+
+1. 列出在命名空间 `istio-system` 中安装的所有 Istio chart：
+
+    {{< text bash >}}
+    $ helm ls -n istio-system
+    {{< /text >}}
+
+1. (可选项) 删除 Istio 的入/出站网关 chart:
+
+    {{< text bash >}}
+    $ helm delete istio-egress -n istio-system
+    $ helm delete istio-ingress -n istio-system
+    {{< /text >}}
+
+1. 删除 Istio discovery chart:
+
+    {{< text bash >}}
+    $ helm delete istiod -n istio-system
+    {{< /text >}}
+
+1. 删除 Istio base chart:
+
+    {{< warning >}}
+    通过 Helm 删除 chart 并不会级联删除它安装的定制资源定义（CRD）。
+    {{< /warning >}}
+
+    {{< text bash >}}
+    $ helm delete istio-base -n istio-system
+    {{< /text >}}
+
+1. 删除命名空间 `istio-system`：
+
+    {{< text bash >}}
     $ kubectl delete namespace istio-system
     {{< /text >}}
 
-## 删除 CRD 和 Istio 配置
+### (可选项) 删除 Istio 安装的 CRD {#deleting-customer-resource-definition-installed}
 
-Istio 的设计中，其自定义资源以 CRD 的形式存在于 Kubernetes 环境之中。CRD 中包含了运维过程中产生的运行时配置。正因如此，我们建议运维人员应该显式的对其进行删除，从而避免意外操作。
+永久删除 CRD， 会删除你在集群中创建的所有 Istio 资源。
+用下面命令永久删除集群中安装的 Istio CRD：
 
-{{< warning >}}
-CRD 的删除，意味着删掉所有的用户配置。
-{{< /warning >}}
-
-`istio-init` Chart 包含了 `istio-init/files` 目录中的所有原始 CRD。下载该 Chart 之后，可以简单的使用 `kubectl` 删除 CRD。要永久删除 Istio 的 CRD 以及所有 Istio 配置, 请运行如下命令
-
-{{< text bash >}}
-$ kubectl delete -f install/kubernetes/helm/istio-init/files
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get crd | grep --color=never 'istio.io' | awk '{print $1}' \
+        | xargs -n1 kubectl delete crd
+    {{< /text >}}

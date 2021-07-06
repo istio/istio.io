@@ -247,14 +247,13 @@ reserved name <code>mesh</code>.</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: bookinfo-Mongo
+  name: bookinfo-mongo
   namespace: bookinfo-namespace
 spec:
   hosts:
   - mongosvr.prod.svc.cluster.local # name of internal Mongo service
   gateways:
-  - some-config-namespace/my-gateway # can omit the namespace if gateway is in same
-                                       namespace as virtual service.
+  - some-config-namespace/my-gateway # can omit the namespace if gateway is in same namespace as virtual service.
   tcp:
   - match:
     - port: 27017
@@ -272,14 +271,13 @@ spec:
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: bookinfo-Mongo
+  name: bookinfo-mongo
   namespace: bookinfo-namespace
 spec:
   hosts:
   - mongosvr.prod.svc.cluster.local # name of internal Mongo service
   gateways:
-  - some-config-namespace/my-gateway # can omit the namespace if gateway is in same
-                                       namespace as virtual service.
+  - some-config-namespace/my-gateway # can omit the namespace if gateway is in same namespace as virtual service.
   tcp:
   - match:
     - port: 27017
@@ -380,7 +378,7 @@ on which this gateway configuration should be applied.
 By default workloads are searched across all namespaces based on label selectors.
 This implies that a gateway resource in the namespace &ldquo;foo&rdquo; can select pods in
 the namespace &ldquo;bar&rdquo; based on labels.
-This behavior can be controlled via the PILOT<em>SCOPE</em>GATEWAY<em>TO</em>NAMESPACE
+This behavior can be controlled via the <code>PILOT_SCOPE_GATEWAY_TO_NAMESPACE</code>
 environment variable in istiod. If this variable is set
 to true, the scope of label search is restricted to the configuration
 namespace in which the the resource is present. In other words, the Gateway
@@ -559,6 +557,24 @@ connections.</p>
 </td>
 <td>
 Yes
+</td>
+</tr>
+<tr id="Server-bind">
+<td><code>bind</code></td>
+<td><code>string</code></td>
+<td>
+<p>The ip or the Unix domain socket to which the listener should be bound
+to. Format: <code>x.x.x.x</code> or <code>unix:///path/to/uds</code> or <code>unix://@foobar</code>
+(Linux abstract namespace). When using Unix domain sockets, the port
+number should be 0.
+This can be used to restrict the reachability of this server to be gateway internal only.
+This is typically used when a gateway needs to communicate to another mesh service
+e.g. publishing metrics. In such case, the server created with the
+specified bind will not be available to external gateway clients.</p>
+
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Server-hosts">
@@ -918,7 +934,10 @@ value. This server is typically used to provide connectivity
 between services in disparate L3 networks that otherwise do
 not have direct connectivity between their respective
 endpoints. Use of this mode assumes that both the source and
-the destination are using Istio mTLS to secure traffic.</p>
+the destination are using Istio mTLS to secure traffic.
+In order for this mode to be enabled, the gateway deployment
+must be configured with the <code>ISTIO_META_ROUTER_MODE=sni-dnat</code>
+environment variable.</p>
 
 </td>
 </tr>

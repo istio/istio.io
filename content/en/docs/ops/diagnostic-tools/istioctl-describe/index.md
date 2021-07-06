@@ -44,15 +44,18 @@ proxy is not present in a pod or if the proxy has not started. Additionally, the
 if some of the [Istio requirements for pods](/docs/ops/deployment/requirements/)
 are not met.
 
-For example, the following command produces a warning indicating a `kubernetes-dashboard`
+For example, the following command produces a warning indicating a `kube-dns`
 pod is not part of the service mesh because it has no sidecar:
 
 {{< text bash >}}
-$ export DASHBOARD_POD=$(kubectl -n kube-system get pod -l k8s-app=kubernetes-dashboard -o jsonpath='{.items[0].metadata.name}')
-$ istioctl x describe pod -n kube-system $DASHBOARD_POD
-WARNING: kubernetes-dashboard-7996b848f4-nbns2.kube-system is not part of mesh; no Istio sidecar
+$ export KUBE_POD=$(kubectl -n kube-system get pod -l k8s-app=kube-dns -o jsonpath='{.items[0].metadata.name}')
+$ istioctl x describe pod -n kube-system $KUBE_POD
+Pod: coredns-f9fd979d6-2zsxk
+   Pod Ports: 53/UDP (coredns), 53 (coredns), 9153 (coredns)
+WARNING: coredns-f9fd979d6-2zsxk is not part of mesh; no Istio sidecar
 --------------------
-Error: failed to execute command on sidecar: error execing into kubernetes-dashboard-7996b848f4-nbns2/kube-system istio-proxy container: container istio-proxy is not valid for pod kubernetes-dashboard-7996b848f4-nbns2
+2021-01-22T16:10:14.080091Z     error   klog    an error occurred forwarding 42785 -> 15000: error forwarding port 15000 to pod 692362a4fe313005439a873a1019a62f52ecd02c3de9a0957cd0af8f947866e5, uid : failed to execute portforward in network namespace "/var/run/netns/cni-3c000d0a-fb1c-d9df-8af8-1403e6803c22": failed to dial 15000: dial tcp4 127.0.0.1:15000: connect: connection refused[]
+Error: failed to execute command on sidecar: failure running port forward process: Get "http://localhost:42785/config_dump": EOF
 {{< /text >}}
 
 The command will not produce such a warning for a pod that is part of the mesh,
@@ -61,12 +64,11 @@ the Bookinfo `ratings` service for example, but instead will output the Istio co
 {{< text bash >}}
 $ export RATINGS_POD=$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')
 $ istioctl experimental describe pod $RATINGS_POD
-Pod: ratings-v1-f745cf57b-qrxl2
-Pod Ports: 9080 (ratings), 15090 (istio-proxy)
+Pod: ratings-v1-7dc98c7588-8jsbw
+   Pod Ports: 9080 (ratings), 15090 (istio-proxy)
 --------------------
 Service: ratings
-   Port: http 9080/HTTP
-Pilot reports that pod enforces HTTP/mTLS and clients speak HTTP
+   Port: http 9080/HTTP targets pod port 9080
 {{< /text >}}
 
 The output shows the following information:
@@ -74,7 +76,6 @@ The output shows the following information:
 - The ports of the service container in the pod, `9080` for the `ratings` container in this example.
 - The ports of the `istio-proxy` container in the pod, `15090` in this example.
 - The protocol used by the service in the pod, `HTTP` over port `9080` in this example.
-- The mutual TLS settings for the pod.
 
 ## Verify destination rule configurations
 
@@ -100,7 +101,6 @@ DestinationRule: ratings for "ratings"
    Matching subsets: v1
       (Non-matching subsets v2,v2-mysql,v2-mysql-vm)
    Traffic Policy TLS Mode: ISTIO_MUTUAL
-Pilot reports that pod enforces HTTP/mTLS and clients speak mTLS
 {{< /text >}}
 
 The command now shows additional output:

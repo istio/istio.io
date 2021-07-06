@@ -330,7 +330,7 @@ to hold the configuration of the NGINX server:
 1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>
@@ -356,7 +356,7 @@ to hold the configuration of the NGINX server:
 1.  Remove the Istio configuration items you created:
 
     {{< text bash >}}
-    $ kubectl delete destinationrule originate-tls-for-nginx
+    $ kubectl delete destinationrule originate-tls-for-nginx -n istio-system
     $ kubectl delete virtualservice direct-nginx-through-egress-gateway
     $ kubectl delete destinationrule egressgateway-for-nginx
     $ kubectl delete gateway istio-egressgateway
@@ -659,7 +659,7 @@ to hold the configuration of the NGINX server:
 1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>
@@ -707,6 +707,7 @@ to hold the configuration of the NGINX server:
 
     {{< text bash >}}
     $ rm ./nginx.conf
+    $ rm ./gateway-patch.json
     {{< /text >}}
 
 ## Cleanup

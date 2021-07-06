@@ -1,6 +1,6 @@
 ---
 title: Configuration Analysis Messages
-description: Documents the individual error and warning messages produced during configurarion analysis.
+description: Documents the individual error and warning messages produced during configuration analysis.
 weight: 70
 layout: analysis-landing
 test: n/a

@@ -2,7 +2,7 @@
 title: Observability
 description: Describes the telemetry and monitoring features provided by Istio.
 weight: 40
-keywords: [policies,telemetry,control,config]
+keywords: [telemetry,metrics,logs,tracing]
 aliases:
     - /docs/concepts/policy-and-control/mixer.html
     - /docs/concepts/policy-and-control/mixer-config.html
@@ -76,8 +76,8 @@ In addition to the proxy-level metrics, Istio provides a set of service-oriented
 basic service monitoring needs: latency, traffic, errors, and saturation. Istio ships with a default set of
 [dashboards](/docs/tasks/observability/metrics/using-istio-dashboard/) for monitoring service behaviors based on these metrics.
 
-The [standard Istio metrics](/docs/reference/config/policy-and-telemetry/metrics/) are
-exported to [Prometheus](/docs/reference/config/policy-and-telemetry/adapters/prometheus/) by default.
+The [standard Istio metrics](/docs/reference/config/metrics/) are
+exported to [Prometheus](/docs/ops/integrations/prometheus/) by default.
 
 Use of the service-level metrics is entirely optional. Operators may choose to turn off generation and collection of these metrics to meet their individual
 needs.
@@ -131,7 +131,7 @@ Istio supports a number of tracing backends, including [Zipkin](/docs/tasks/obse
 [Datadog](https://www.datadoghq.com/blog/monitor-istio-with-datadog/). Operators control the sampling rate for trace generation (that is, the rate at
 which tracing data is generated per request). This allows operators to control the amount and rate of tracing data being produced for their mesh.
 
-More information about Distributed Tracing with Istio is found in our [FAQ on Distributed Tracing](/faq/distributed-tracing/).
+More information about Distributed Tracing with Istio is found in our [FAQ on Distributed Tracing](/about/faq/#distributed-tracing).
 
 Example Istio-generated distributed trace for a single request:
 

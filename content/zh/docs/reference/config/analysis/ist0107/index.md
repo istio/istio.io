@@ -1,6 +1,8 @@
 ---
 title: MisplacedAnnotation
 layout: analysis-message
+owner: istio/wg-user-experience-maintainers
+test: n/a
 ---
 
 此消息发生在当 Istio {{< gloss >}}annotation{{< /gloss >}} 被添加到无效的资源上或资源的错误位置时。

@@ -40,5 +40,3 @@ Istio supports the following service identities on different platforms:
   account refers to the existing service account just like the identities that
   the customer’s Identity Directory manages.
 
-Typically, the [trust domain](/docs/reference/glossary/#trust-domain) specifies
-the mesh the identity belongs to.
