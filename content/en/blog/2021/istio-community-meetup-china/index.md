@@ -1,6 +1,6 @@
 ---
-title: "The first local Istio meetup is here!"
-description: "Join Istio community experts in China."
+title: "Join us at the Istio Community Meetup in China"
+description: "The Chinese Istio community comes together in Beijing."
 publishdate: 2021-07-06
 attribution: "Iris Ding (Intel), Maria Cruz (Google)"
 keywords: [community,meetup]
@@ -29,4 +29,3 @@ To this end, the Istio community united six partners from China Academy of Infor
 | 16:45 - 17:15 | Securing workload deployment with Istio CNI Zhang Zhihan Tetrate |
 
 We want to thank our community members in China for working on producing this event, especially Iris Ding, Wei W Hu, Jimmy Song, Zhonghu Xu, Xining Wang, and Huabing Zhao. We hope many people can join this amazing event!
-
