@@ -30,4 +30,4 @@ To this end, the Istio community united six partners — the China Academy of In
 | 16:15 - 16:45 | Full-stack service mesh-Aeraki helps you manage any seven-tier traffic in Istio Huabing Zhao Senior Engineer, Tencent Cloud |
 | 16:45 - 17:15 | Securing workload deployment with Istio CNI Zhang Zhihan Tetrate |
 
-We want to thank our community members in China for working on producing this event, especially Iris Ding, Wei W Hu, Jimmy Song, Zhonghu Xu, Xining Wang, and Huabing Zhao. We hope many people can join this amazing event!
+We want to thank our community in China who have worked on this event, especially Iris Ding, Wei W Hu, Jimmy Song, Zhonghu Xu, Xining Wang, and Huabing Zhao. We hope you can join!
