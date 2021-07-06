@@ -3,7 +3,7 @@ title: "Join us at the Istio Community Meetup in China"
 description: "The Chinese Istio community comes together in Beijing."
 publishdate: 2021-07-06
 attribution: "Iris Ding (Intel), Maria Cruz (Google)"
-keywords: [community,meetup]
+keywords: [community,meetup,China]
 ---
 
 With the rapid popularization of cloud native technology in China, Istio has also gained popularity in this corner of the world. Almost all Chinese CSPs have creating and are running service mesh products based on Istio. 
