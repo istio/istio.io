@@ -21,13 +21,13 @@ To this end, the Istio community united six partners — the China Academy of In
 | Session time (CST) | Title |
 | --- | --- |
 | 13:30 - 13:50 | Sign in |
-| 13:50 - 14:00 | Welcome speech-Craig Box (Istio steering committee member), Ding Shaojun (Iris Ding) (Intel cloud computing engineer)|
-| 14:00 - 14:30 | Interpretation of the "Service Grid Technical Capability Requirements" Standard Yin Xia Mengxue, Engineer, Cloud Computing Department, Academy of Information and Communications Technology |
-| 14:30 - 15:00 | Service Mesh Data Plane Hot Upgrade Technology Sharing Shi Zehuan Alibaba Cloud |
-| 15:00 - 15:30 | "Envoy Principle Introduction and Online Problem Pit" Zhang Wei: Huawei Cloud Service Mesh Data Plane Technical Expert |
+| 13:50 - 14:00 | *Welcome*<br>Craig Box, Istio Steering Committee member, Google Cloud<br>Iris Ding, cloud computing engineer, Intel|
+| 14:00 - 14:30 | *Interpretation of the "Service Grid Technical Capability Requirements" Standard*<br>Yin Xia Mengxue, Engineer, Cloud Computing Department, Academy of Information and Communications Technology |
+| 14:30 - 15:00 | *Service Mesh Data Plane Hot Upgrade*<br>Shi Zehuan, Alibaba Cloud |
+| 15:00 - 15:30 | *Envoy Principle Introduction and Online Problem Pit*<br>Zhang Wei, Data Plane Technical Expert, Huawei Cloud Service Mesh |
 | 15:30 - 15:45 | Coffee break |
-| 15:45 - 16:15 | Use eBPF to accelerate Istio/Envoy network - Zhong Luyao Intel |
-| 16:15 - 16:45 | Full-stack service mesh-Aeraki helps you manage any seven-tier traffic in Istio Huabing Zhao Senior Engineer, Tencent Cloud |
-| 16:45 - 17:15 | Securing workload deployment with Istio CNI Zhang Zhihan Tetrate |
+| 15:45 - 16:15 | *Use eBPF to accelerate Istio/Envoy networking*<br>Zhong Luyao, Intel |
+| 16:15 - 16:45 | *Full-stack service mesh: how Aeraki helps you manage any Layer 7 traffic in Istio*<br>Huabing Zhao, Senior Engineer, Tencent Cloud |
+| 16:45 - 17:15 | *Securing workload deployment with Istio CNI*<br>Zhang Zhihan, Tetrate |
 
 We want to thank our community in China who have worked on this event, especially Iris Ding, Wei W Hu, Jimmy Song, Zhonghu Xu, Xining Wang, and Huabing Zhao. We hope you can join!
