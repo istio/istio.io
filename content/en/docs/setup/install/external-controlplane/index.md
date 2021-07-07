@@ -206,7 +206,6 @@ and installing the sidecar injector webhook configuration on the remote cluster 
       --context="${CTX_REMOTE_CLUSTER}" \
       --type=config \
       --namespace=external-istiod \
-      --service-account istiod \
       --create-service-account=false | \
       kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
