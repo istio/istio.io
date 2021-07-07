@@ -2410,9 +2410,8 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>The amount of time allowed for connections to complete on proxy shutdown.
-On receiving <code>SIGTERM</code> or <code>SIGINT</code>, <code>istio-agent</code> tells the active Envoy to start draining,
-preventing any new connections and allowing existing connections to complete. It then
-sleeps for the <code>termination_drain_duration</code> and then kills any remaining active Envoy processes.
+On receiving <code>SIGTERM</code> or <code>SIGINT</code>, <code>istio-agent</code> tells the active Envoy to sleep for the <code>termination_drain_duration</code> and then starts draining. It then prevents any new connections, while allowing existing connections to complete. It then it kills any remaining active Envoy processes.
+
 If not set, a default of <code>5s</code> will be applied.</p>
 
 </td>
