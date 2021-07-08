@@ -37,15 +37,16 @@ Note that this example should only be used for basic evaluation. The use of the 
       apiVersion: install.istio.io/v1alpha1
       kind: IstioOperator
       spec:
-        pilot:
-          k8s:
-            env:
-            # Indicate to Istiod that we use a Custom Certificate Authority
-            - name: EXTERNAL_CA
-              value: ISTIOD_RA_KUBERNETES_API
-            # Tells Istiod to use the Kubernetes legacy CA Signer
-            - name: K8S_SIGNER
-              value: kubernetes.io/legacy-unknown
+        components:
+          pilot:
+            k8s:
+              env:
+              # Indicate to Istiod that we use a Custom Certificate Authority
+              - name: EXTERNAL_CA
+                value: ISTIOD_RA_KUBERNETES_API
+              # Tells Istiod to use the Kubernetes legacy CA Signer
+              - name: K8S_SIGNER
+                value: kubernetes.io/legacy-unknown
       EOF
     $ istioctl install --set profile=demo -f ./istio.yaml
     {{< /text >}}
@@ -240,7 +241,7 @@ When the workloads are deployed, above, they send CSR Requests to Istiod which f
 1. Get the certificate chain and CA root certificate used by the Istio proxies for mTLS.
 
     {{< text bash >}}
-    $ istioctl pc secret <pod-name> -o json > proxy_secret
+    $ istioctl pc secret <pod-name> -n bookinfo -o json > proxy_secret
     {{< /text >}}
 
    The `proxy_secret` json file contains the CA root certificate for mTLS in the `trustedCA` field. Note that this certificate is base64 encoded.
