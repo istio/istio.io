@@ -150,7 +150,11 @@ You will need to download the full Istio release containing the auto-completion 
 
 Installing the bash auto-completion file
 
-If you are using bash, the `istioctl` auto-completion file is located in the `tools` directory. To use it, copy the `istioctl.bash` file to your home directory, then add the following line to source the `istioctl` tab completion file from your `.bashrc` file:
+If you are using bash, the `istioctl` auto-completion file is located in the `tools` directory. 
+
+You can also generate it by running `istioctl collateral completion --bash -o .`.
+
+To use it, copy the `istioctl.bash` file to your home directory, then add the following line to source the `istioctl` tab completion file from your `.bashrc` file:
 
 {{< text bash >}}
 $ source ~/istioctl.bash
@@ -162,7 +166,11 @@ $ source ~/istioctl.bash
 
 Installing the ZSH auto-completion file
 
-For ZSH users, the `istioctl` auto-completion file is located in the `tools` directory. Copy the `_istioctl` file to your home directory, or any directory of your choosing (update directory in script snippet below), and source the `istioctl` auto-completion file in your `.zshrc` file as follows:
+For ZSH users, the `istioctl` auto-completion file is located in the `tools` directory.
+
+You can also generate it by running `istioctl collateral completion --zsh -o .`.
+
+Copy the `_istioctl` file to your home directory, or any directory of your choosing (update directory in script snippet below), and source the `istioctl` auto-completion file in your `.zshrc` file as follows:
 
 {{< text zsh >}}
 source ~/_istioctl
