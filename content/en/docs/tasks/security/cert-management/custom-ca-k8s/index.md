@@ -241,7 +241,7 @@ When the workloads are deployed, above, they send CSR Requests to Istiod which f
 1. Get the certificate chain and CA root certificate used by the Istio proxies for mTLS.
 
     {{< text bash >}}
-    $ istioctl pc secret <pod-name> -o json > proxy_secret
+    $ istioctl pc secret <pod-name> -n bookinfo -o json > proxy_secret
     {{< /text >}}
 
    The `proxy_secret` json file contains the CA root certificate for mTLS in the `trustedCA` field. Note that this certificate is base64 encoded.
