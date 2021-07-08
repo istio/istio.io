@@ -495,7 +495,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>PILOT_DEBOUNCE_AFTER</code></td>
 <td>Time Duration</td>
 <td><code>100ms</code></td>
-<td>The delay added to config/registry events for debouncing. This will delay the push by at least this internal. If no change is detected within this period, the push will happen,  otherwise we&#39;ll keep delaying until things settle, up to a max of PILOT_DEBOUNCE_MAX.</td>
+<td>The delay added to config/registry events for debouncing. This will delay the push by at least this interval. If no change is detected within this period, the push will happen,  otherwise we&#39;ll keep delaying until things settle, up to a max of PILOT_DEBOUNCE_MAX.</td>
 </tr>
 <tr>
 <td><code>PILOT_DEBOUNCE_MAX</code></td>
@@ -556,6 +556,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will wait for the completion of a receive operation beforeexecuting a push operation. This is a form of flow control and is useful inenvironments with high rates of push requests to each gateway. By default,this is false.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_GATEWAY_API_STATUS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to true, gateway-api resources will have status written to them</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_HEADLESS_SERVICE_POD_LISTENERS</code></td>
@@ -766,6 +772,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Floating-Point</td>
 <td><code>100</code></td>
 <td>If status is enabled, controls the QPS with which status will be updated.  See https://godoc.org/k8s.io/client-go/rest#Config QPS</td>
+</tr>
+<tr>
+<td><code>PILOT_STATUS_UPDATE_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>500ms</code></td>
+<td>Interval to update the XDS distribution status.</td>
 </tr>
 <tr>
 <td><code>PILOT_TRACE_SAMPLING</code></td>
