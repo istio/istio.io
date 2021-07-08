@@ -105,7 +105,6 @@ istioctl x create-remote-secret \
   --context="${CTX_REMOTE_CLUSTER}" \
   --type=config \
   --namespace=external-istiod \
-  --service-account istiod \
   --create-service-account=false | \
   kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
 }
