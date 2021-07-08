@@ -37,6 +37,20 @@ To get started, check out https://istio.io/latest/docs/setup/getting-started/
 
 {{< boilerplate helm-backup >}}
 
+### Upgrading Custom Resource Definitions (CRDs)
+
+{{< warning >}}
+Helm does not [upgrade or delete]((https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations))
+CRDs when performing an upgrade. Given this restriction, additional measures are required to ensure that
+Istio is up to date when performing an upgrade.
+{{< /warning >}}
+
+Istio ships CRDs with its helm charts; they are not templated and are found in the base chart under
+a `crds` folder. However, upgrading Istio with Helm requires a change in workflow different from other
+charts due to the required CRDs be updated for proper functionality.
+
+Please examine the following sections closely as they've been recently been altered.
+
 ### Canary upgrade (recommended)
 
 You can install a canary version of Istio control plane to validate that the new
@@ -51,6 +65,12 @@ primary and canary installations.
 Currently, the support for canary upgrades for Istio ingress and egress
 gateways is [actively in development](/docs/setup/upgrade/gateways/) and is considered `experimental`.
 {{< /warning >}}
+
+1. Use kubectl to apply the latest CRDs:
+
+    {{< text bash >}}
+    $ kubectl apply -f manifests/charts/base/crds
+    {{< /text >}}
 
 1. Install a canary version of the Istio discovery chart by setting the revision
    value:
@@ -80,6 +100,12 @@ gateways is [actively in development](/docs/setup/upgrade/gateways/) and is cons
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
+1. Upgrade the Istio base chart:
+
+    {{< text bash >}}
+    $ helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
+    {{< /text >}}
+
 ### In place upgrade
 
 You can perform an in place upgrade of Istio in your cluster using the Helm
@@ -92,10 +118,16 @@ Add your override values file or custom options to the commands below to
 preserve your custom configuration during Helm upgrades.
 {{< /warning >}}
 
+1. Use kubectl to apply the latest CRDs:
+
+    {{< text bash >}}
+    $ kubectl apply -f manifests/charts/base/crds
+    {{< /text >}}
+
 1. Upgrade the Istio base chart:
 
     {{< text bash >}}
-    $ helm upgrade istio-base manifests/charts/base -n istio-system
+    $ helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
     {{< /text >}}
 
 1. Upgrade the Istio discovery chart:
