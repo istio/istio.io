@@ -233,10 +233,16 @@ pro_services:
     logo: "/logos/istio.svg"
     url: "https://istio.io/"
     description: "Submit a PR to add your company here!"
+    details:
+      - "Add information about your how your company supports Istio."
+      - "You can add multiple paragraphs."    
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://istio.io/"
     description: "Submit a PR to add your company here!"
+    details:
+      - "Add information about your how your company supports Istio."
+      - "You can add multiple paragraphs."    
 
 users:
   - name: "1-800-Flowers.com"

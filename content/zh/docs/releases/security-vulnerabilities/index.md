@@ -5,7 +5,6 @@ weight: 35
 aliases:
     - /zh/about/security-vulnerabilities
     - /zh/latest/about/security-vulnerabilities
-icon: vulnerabilities
 owner: istio/wg-docs-maintainers
 test: n/a
 ---
@@ -15,7 +14,7 @@ test: n/a
 ## 报告漏洞{#reporting-a-vulnerability}
 
 要进行漏洞报告，请将包含漏洞详细信息的电子邮件发送到 [istio-security-vulnerability-reports@googlegroups.com](mailto:istio-security-vulnerability-reports@googlegroups.com)，
-对于与潜在安全漏洞无关的普通产品错误，请转到我们的[报告错误](/zh/about/bugs/)页面以了解如何操作。
+对于与潜在安全漏洞无关的普通产品错误，请转到我们的[报告错误](/zh/docs/releases/bugs/)页面以了解如何操作。
 
 ### 何时报告安全漏洞？{#when-to-report-a-security-vulnerability}
 
