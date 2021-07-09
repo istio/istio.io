@@ -161,7 +161,7 @@ $ istioctl collateral completion --bash -o .
 Copy it to a directory of your choosing (`$HOME` in the example) and then source it from your `.bashrc` file.
 
 {{< text bash >}}
-source $HOME/istioctl.bash
+$ source $HOME/istioctl.bash
 {{< /text >}}
 
 {{< /tab >}}
@@ -174,14 +174,14 @@ For ZSH users, the `_istioctl` auto-completion file is located in the `tools` di
 
 You can also generate it by running:
 
-{{< text bash >}}
+{{< text zsh >}}
 $ istioctl collateral completion --zsh -o .
 {{< /text >}}
 
 Copy it to a directory of your choosing (`$HOME` in the example) and then source it from your `.zshrc` file.
 
 {{< text zsh >}}
-source $HOME/_istioctl
+$ source $HOME/_istioctl
 {{< /text >}}
 
 You may also add the `_istioctl` file to a directory listed in the `fpath` variable. To achieve this, place the `_istioctl` file in an existing directory in the `fpath`, or create a new directory and add it to the `fpath` variable in your `~/.zshrc` file.
