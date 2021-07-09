@@ -218,10 +218,6 @@ to hold the configuration of the NGINX server:
     Note that the secret name for an Istio CA-only certificate must end with `-cacert` and the secret **must** be
     created in the same namespace as Istio is deployed in, `istio-system` in this case.
 
-    {{< warning >}}
-    The secret name **should not** begin with `istio` or `prometheus`, and the secret **should not** contain a `token` field.
-    {{< /warning >}}
-
 1.  Create an egress `Gateway` for `my-nginx.mesh-external.svc.cluster.local`, port 443, and destination rules and
     virtual services to direct the traffic through the egress gateway and from the egress gateway to the external
     service.
@@ -545,11 +541,6 @@ to hold the configuration of the NGINX server:
     To support integration with various tools, Istio supports a few different Secret formats.
 
     In this example. a single generic Secret with keys `tls.key`, `tls.crt`, and `ca.crt` is used.
-
-    {{< warning >}}
-    The secret name **should not** begin with `istio` or `prometheus`, and
-    the secret **should not** contain a `token` field.
-    {{< /warning >}}
 
 1.  Create an egress `Gateway` for `my-nginx.mesh-external.svc.cluster.local`, port 443, and destination rules and
     virtual services to direct the traffic through the egress gateway and from the egress gateway to the external
