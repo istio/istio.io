@@ -4,11 +4,124 @@ source_repo: https://github.com/istio/istio
 title: pilot-discovery
 description: Istio Pilot.
 generator: pkg-collateral-docs
-number_of_entries: 5
+number_of_entries: 10
 max_toc_level: 2
 remove_toc_prefix: 'pilot-discovery '
 ---
 <p>Istio Pilot provides fleet-wide traffic management capabilities in the Istio Service Mesh.</p>
+<h2 id="pilot-discovery-completion">pilot-discovery completion</h2>
+<p>
+Generate the autocompletion script for pilot-discovery for the specified shell.
+See each sub-command&#39;s help for details on how to use the generated script.
+</p>
+<h2 id="pilot-discovery-completion-bash">pilot-discovery completion bash</h2>
+<p>
+Generate the autocompletion script for the bash shell.</p>
+<p>This script depends on the &#39;bash-completion&#39; package.
+If it is not installed already, you can install it via your OS&#39;s package manager.</p>
+<p>To load completions in your current shell session:
+$ source &lt;(pilot-discovery completion bash)</p>
+<p>To load completions for every new session, execute once:
+Linux:
+  $ pilot-discovery completion bash &gt; /etc/bash_completion.d/pilot-discovery
+MacOS:
+  $ pilot-discovery completion bash &gt; /usr/local/etc/bash_completion.d/pilot-discovery</p>
+<p>You will need to start a new shell for this setup to take effect.
+  </p>
+<pre class="language-bash"><code>pilot-discovery completion bash
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-discovery-completion-fish">pilot-discovery completion fish</h2>
+<p>
+Generate the autocompletion script for the fish shell.</p>
+<p>To load completions in your current shell session:
+$ pilot-discovery completion fish | source</p>
+<p>To load completions for every new session, execute once:
+$ pilot-discovery completion fish &gt; ~/.config/fish/completions/pilot-discovery.fish</p>
+<p>You will need to start a new shell for this setup to take effect.
+</p>
+<pre class="language-bash"><code>pilot-discovery completion fish [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-discovery-completion-powershell">pilot-discovery completion powershell</h2>
+<p>
+Generate the autocompletion script for powershell.</p>
+<p>To load completions in your current shell session:
+PS C:\&gt; pilot-discovery completion powershell | Out-String | Invoke-Expression</p>
+<p>To load completions for every new session, add the output of the above command
+to your powershell profile.
+</p>
+<pre class="language-bash"><code>pilot-discovery completion powershell [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-discovery-completion-zsh">pilot-discovery completion zsh</h2>
+<p>
+Generate the autocompletion script for the zsh shell.</p>
+<p>If shell completion is not already enabled in your environment you will need
+to enable it.  You can execute the following once:</p>
+<p>$ echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</p>
+<p>To load completions for every new session, execute once:
+# Linux:
+$ pilot-discovery completion zsh &gt; &#34;${fpath[1]}/_pilot-discovery&#34;
+# macOS:
+$ pilot-discovery completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot-discovery</p>
+<p>You will need to start a new shell for this setup to take effect.
+</p>
+<pre class="language-bash"><code>pilot-discovery completion zsh [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
+</tr>
+</tbody>
+</table>
 <h2 id="pilot-discovery-discovery">pilot-discovery discovery</h2>
 <p>Start Istio proxy discovery service.</p>
 <pre class="language-bash"><code>pilot-discovery discovery [flags]
@@ -522,6 +635,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, pilot will run istio analyzers and write analysis errors to the Status field of any Istio Resources</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_CDS_CACHE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will cache CDS responses. Note: this depends on PILOT_ENABLE_XDS_CACHE.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -806,7 +925,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr>
 <td><code>PILOT_XDS_CACHE_SIZE</code></td>
 <td>Integer</td>
-<td><code>20000</code></td>
+<td><code>60000</code></td>
 <td>The maximum number of cache entries for the XDS cache.</td>
 </tr>
 <tr>
