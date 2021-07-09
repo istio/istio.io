@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: pilot-agent
 description: Istio Pilot agent.
 generator: pkg-collateral-docs
-number_of_entries: 8
+number_of_entries: 13
 max_toc_level: 2
 remove_toc_prefix: 'pilot-agent '
 ---
@@ -52,6 +52,309 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-agent-completion">pilot-agent completion</h2>
+<p>
+Generate the autocompletion script for pilot-agent for the specified shell.
+See each sub-command&#39;s help for details on how to use the generated script.
+</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, kube, mockcred, model, sds, spiffe, stsclient, stsserver, telemetry, token, trustBundle, validation, validationController, wasm, wle, xdsproxy]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, kube, mockcred, model, sds, spiffe, stsclient, stsserver, telemetry, token, trustBundle, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, kube, mockcred, model, sds, spiffe, stsclient, stsserver, telemetry, token, trustBundle, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-agent-completion-bash">pilot-agent completion bash</h2>
+<p>
+Generate the autocompletion script for the bash shell.</p>
+<p>This script depends on the &#39;bash-completion&#39; package.
+If it is not installed already, you can install it via your OS&#39;s package manager.</p>
+<p>To load completions in your current shell session:
+$ source &lt;(pilot-agent completion bash)</p>
+<p>To load completions for every new session, execute once:
+Linux:
+  $ pilot-agent completion bash &gt; /etc/bash_completion.d/pilot-agent
+MacOS:
+  $ pilot-agent completion bash &gt; /usr/local/etc/bash_completion.d/pilot-agent</p>
+<p>You will need to start a new shell for this setup to take effect.
+  </p>
+<pre class="language-bash"><code>pilot-agent completion bash
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, kube, mockcred, model, sds, spiffe, stsclient, stsserver, telemetry, token, trustBundle, validation, validationController, wasm, wle, xdsproxy]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, kube, mockcred, model, sds, spiffe, stsclient, stsserver, telemetry, token, trustBundle, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, kube, mockcred, model, sds, spiffe, stsclient, stsserver, telemetry, token, trustBundle, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-agent-completion-fish">pilot-agent completion fish</h2>
+<p>
+Generate the autocompletion script for the fish shell.</p>
+<p>To load completions in your current shell session:
+$ pilot-agent completion fish | source</p>
+<p>To load completions for every new session, execute once:
+$ pilot-agent completion fish &gt; ~/.config/fish/completions/pilot-agent.fish</p>
+<p>You will need to start a new shell for this setup to take effect.
+</p>
+<pre class="language-bash"><code>pilot-agent completion fish [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, kube, mockcred, model, sds, spiffe, stsclient, stsserver, telemetry, token, trustBundle, validation, validationController, wasm, wle, xdsproxy]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, kube, mockcred, model, sds, spiffe, stsclient, stsserver, telemetry, token, trustBundle, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, kube, mockcred, model, sds, spiffe, stsclient, stsserver, telemetry, token, trustBundle, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-agent-completion-powershell">pilot-agent completion powershell</h2>
+<p>
+Generate the autocompletion script for powershell.</p>
+<p>To load completions in your current shell session:
+PS C:\&gt; pilot-agent completion powershell | Out-String | Invoke-Expression</p>
+<p>To load completions for every new session, add the output of the above command
+to your powershell profile.
+</p>
+<pre class="language-bash"><code>pilot-agent completion powershell [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, kube, mockcred, model, sds, spiffe, stsclient, stsserver, telemetry, token, trustBundle, validation, validationController, wasm, wle, xdsproxy]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, kube, mockcred, model, sds, spiffe, stsclient, stsserver, telemetry, token, trustBundle, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, kube, mockcred, model, sds, spiffe, stsclient, stsserver, telemetry, token, trustBundle, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-agent-completion-zsh">pilot-agent completion zsh</h2>
+<p>
+Generate the autocompletion script for the zsh shell.</p>
+<p>If shell completion is not already enabled in your environment you will need
+to enable it.  You can execute the following once:</p>
+<p>$ echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</p>
+<p>To load completions for every new session, execute once:
+# Linux:
+$ pilot-agent completion zsh &gt; &#34;${fpath[1]}/_pilot-agent&#34;
+# macOS:
+$ pilot-agent completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot-agent</p>
+<p>You will need to start a new shell for this setup to take effect.
+</p>
+<pre class="language-bash"><code>pilot-agent completion zsh [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, kube, mockcred, model, sds, spiffe, stsclient, stsserver, telemetry, token, trustBundle, validation, validationController, wasm, wle, xdsproxy]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, kube, mockcred, model, sds, spiffe, stsclient, stsserver, telemetry, token, trustBundle, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, default, dns, gcecred, googleca, healthcheck, klog, kube, mockcred, model, sds, spiffe, stsclient, stsserver, telemetry, token, trustBundle, validation, validationController, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
 </tr>
 </tbody>
 </table>
@@ -915,6 +1218,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, pilot will run istio analyzers and write analysis errors to the Status field of any Istio Resources</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_CDS_CACHE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will cache CDS responses. Note: this depends on PILOT_ENABLE_XDS_CACHE.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1199,7 +1508,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr>
 <td><code>PILOT_XDS_CACHE_SIZE</code></td>
 <td>Integer</td>
-<td><code>20000</code></td>
+<td><code>60000</code></td>
 <td>The maximum number of cache entries for the XDS cache.</td>
 </tr>
 <tr>
