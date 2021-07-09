@@ -9,12 +9,15 @@ aliases:
     - /zh/about/contribute/writing-a-new-topic.html
     - /zh/about/contribute/creating-and-editing-pages
     - /zh/create
+    - /zh/about/contribute
+    - /zh/latest/about/contribute
 keywords: [contribute, github, docs, shortcodes, code-blocks, website]
 list_below: true
+owner: istio/wg-docs-maintainers
 icon: contribute
 ---
 
-欢迎使用 Istio 文档贡献指南。本节包含撰写文档、博客和其他类型的[内容](/zh/about/contribute/add-content/#content-types)所需的所有信息。
+欢迎使用 Istio 文档贡献指南。本节包含撰写文档、博客和其他类型的[内容](/zh/docs/releases/contribute/add-content/#content-types)所需的所有信息。
 
 Istio 的内容是多语言的。在 `content` 文件夹中，您可以找到以下可用语言的文件夹：
 
