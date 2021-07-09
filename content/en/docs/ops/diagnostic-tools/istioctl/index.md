@@ -150,14 +150,18 @@ You will need to download the full Istio release containing the auto-completion 
 
 Installing the bash auto-completion file
 
-If you are using bash, the `istioctl.bash` auto-completion file is located in the `tools` directory. 
+If you are using bash, the `istioctl.bash` auto-completion file is located in the `tools` directory.
 
-You can also generate it by running `istioctl collateral completion --bash -o .`.
-
-To use it, copy the `istioctl.bash` file to your home directory, then add the following line to source the `istioctl.bash` tab completion file from your `.bashrc` file:
+You can also generate it by running:
 
 {{< text bash >}}
-$ source ~/istioctl.bash
+$ istioctl collateral completion --bash -o .
+{{< /text >}}
+
+Copy it to a directory of your choosing (`$HOME` in the example) and then source it from your `.bashrc` file.
+
+{{< text bash >}}
+source $HOME/istioctl.bash
 {{< /text >}}
 
 {{< /tab >}}
@@ -168,12 +172,16 @@ Installing the ZSH auto-completion file
 
 For ZSH users, the `_istioctl` auto-completion file is located in the `tools` directory.
 
-You can also generate it by running `istioctl collateral completion --zsh -o .`.
+You can also generate it by running:
 
-Copy the `_istioctl` file to your home directory, or any directory of your choosing (update directory in script snippet below), and source the `_istioctl` auto-completion file in your `.zshrc` file as follows:
+{{< text bash >}}
+$ istioctl collateral completion --zsh -o .
+{{< /text >}}
+
+Copy it to a directory of your choosing (`$HOME` in the example) and then source it from your `.zshrc` file.
 
 {{< text zsh >}}
-source ~/_istioctl
+source $HOME/_istioctl
 {{< /text >}}
 
 You may also add the `_istioctl` file to a directory listed in the `fpath` variable. To achieve this, place the `_istioctl` file in an existing directory in the `fpath`, or create a new directory and add it to the `fpath` variable in your `~/.zshrc` file.
