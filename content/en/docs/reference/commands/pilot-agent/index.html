@@ -457,6 +457,11 @@ $ pilot-agent completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot-age
 <td>Instead of only capturing DNS traffic to DNS server IP, capture all DNS traffic at port 53. This setting is only effective when redirect dns is enabled. </td>
 </tr>
 <tr>
+<td><code>--cni-mode</code></td>
+<td></td>
+<td>Whether to run as CNI plugin. </td>
+</tr>
+<tr>
 <td><code>--dry-run</code></td>
 <td><code>-n</code></td>
 <td>Do not call any external dependencies like iptables </td>
@@ -575,6 +580,16 @@ $ pilot-agent completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot-age
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--network-namespace &lt;string&gt;</code></td>
+<td></td>
+<td>The network namespace that iptables rules should be applied to.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output-paths &lt;string&gt;</code></td>
+<td></td>
+<td>A file path to write the applied iptables rules to.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--probe-timeout &lt;duration&gt;</code></td>
