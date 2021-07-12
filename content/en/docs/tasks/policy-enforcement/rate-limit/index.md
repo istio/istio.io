@@ -105,11 +105,11 @@ backend, is used below.
                 # domain can be anything! Match it to the ratelimter service config
                 domain: productpage-ratelimit
                 failure_mode_deny: true
+                timeout: 10s
                 rate_limit_service:
                   grpc_service:
                     envoy_grpc:
                       cluster_name: rate_limit_cluster
-                    timeout: 10s
                   transport_api_version: V3
         - applyTo: CLUSTER
           match:
