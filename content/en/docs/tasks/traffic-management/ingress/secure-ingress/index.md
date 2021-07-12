@@ -62,11 +62,6 @@ For this task you can use your favorite tool to generate certificates and keys. 
     $ kubectl create -n istio-system secret tls httpbin-credential --key=httpbin.example.com.key --cert=httpbin.example.com.crt
     {{< /text >}}
 
-    {{< warning >}}
-    The secret name **should not** begin with `istio` or `prometheus`, and
-    the secret **should not** contain a `token` field.
-    {{< /warning >}}
-
 1.  Define a gateway with a `servers:` section for port 443, and specify values for
     `credentialName` to be `httpbin-credential`. The values are the same as the
     secret's name. The TLS mode should have the value of `SIMPLE`.
