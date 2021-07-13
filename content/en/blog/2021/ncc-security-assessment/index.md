@@ -6,7 +6,7 @@ attribution: "Neeraj Poddar (Aspen Mesh), on behalf of Istio Product Security Wo
 keywords: [istio,security,audit,ncc,assessment]
 ---
 
-Istio service mesh has gained wide production adoption across a wide variety of
+The Istio service mesh has gained wide production adoption across a wide variety of
 industries. The success of the project, and its critical usage for enforcing key
 security policies in infrastructure warranted an open and neutral assessment of
 the security risks associated with the project.
