@@ -14,10 +14,10 @@ the security risks associated with the project.
 To achieve this goal, the Istio community contracted the
 [NCC Group](https://www.nccgroup.com/) last year to
 conduct a third-party security assessment of the project. The goal of the review
-was “to identify security issues related to the Istio code base, highlight
+was "to identify security issues related to the Istio code base, highlight
 high-risk configurations commonly used by administrators, and provide
 perspective on whether security features sufficiently address the concerns they
-are designed to provide”.
+are designed to provide".
 
 NCC Group carried out the review over a period of five weeks with collaboration
 from subject matter experts across the Istio community. In this blog, we will
@@ -38,17 +38,17 @@ Product Security Working Group has issued several security releases as new
 vulnerabilities were disclosed, along with fixes to address concerns raised in
 the new report.
 
-An important conclusion from the report is that the auditors found no “Critical”
+An important conclusion from the report is that the auditors found no "Critical"
 issues within the Istio project. This finding validates the continuous and
 proactive security review and vulnerability management process implemented by
 Istio’s Product Security Working Group (PSWG). For the remaining issues surfaced
 by the report, the PSWG went to work on addressing them, and we are glad to
-report that all issues marked “High”, and several marked “Medium/Low”, have been
+report that all issues marked "High", and several marked "Medium/Low", have been
 resolved in the releases following the report.
 
 The report also makes strategic recommendations around creating a hardening
 guide which is now available in our
-[Security Best Practices](https://istio.io/latest/docs/ops/best-practices/security/)
+[Security Best Practices](/docs/ops/best-practices/security/)
 guide. This is a comprehensive document which pulls together recommendations
 from security experts within the Istio community, and industry leaders running
 Istio in production. Work is underway to create an opinionated and hardened
@@ -71,7 +71,7 @@ The debug endpoint mentioned in the report is enabled by default (as of Istio
 1.10) to allow users to debug their Istio service mesh using the `istioctl` tool.
 It can be disabled by setting the environment variable `ENABLE_DEBUG_ON_HTTP` to
 false as mentioned in the [Security Best
-Practices](https://istio.io/latest/docs/ops/best-practices/security/#control-plane)
+Practices](/docs/ops/best-practices/security/#control-plane)
 guide. Additionally, in an upcoming version (1.11), this debug endpoint will
 be secured by default and a valid Kubernetes service account token will be
 required to gain access.
@@ -79,8 +79,7 @@ required to gain access.
 ### Lack of security related documentation
 
 The report points out gaps in the security related documentation published with
-Istio 1.6. Since then, we have created a detailed [Security Best
-Practices](https://istio.io/latest/docs/ops/best-practices/security/)
+Istio 1.6. Since then, we have created a detailed [Security Best Practices](/docs/ops/best-practices/security/)
 guide with recommendations to ensure users can deploy Istio securely to meet
 their requirements.  Moving forward, we will continue to augment this
 documentation with more hardening recommendations. We advise users to monitor
@@ -95,9 +94,9 @@ restrictive depending upon your requirements.  However, the report surfaced
 missing links in our documentation related to best practices and guiding our
 users to secure their environments. To address them, we have added a section to
 our Security Best Practices guide with steps for running
-[Gateways](https://istio.io/latest/docs/ops/best-practices/security/#gateways) securely.
+[Gateways](/docs/ops/best-practices/security/#gateways) securely.
 In particular, the section describing [using namespace prefixes in hosts
-specification](https://istio.io/latest/docs/ops/best-practices/security/#avoid-overly-broad-hosts-configurations)
+specification](/docs/ops/best-practices/security/#avoid-overly-broad-hosts-configurations)
 on Gateway resources is strongly recommended to harden your
 configuration and prevent this type of request hijacking.
 
@@ -113,10 +112,10 @@ highlighted in the report, if this deployment topology is not a requirement in
 your environment it is strongly recommended to co-locate Gateway resources with
 your gateway workloads and set the environment variable
 `PILOT_SCOPE_GATEWAY_TO_NAMESPACE` to true. Please refer to the
-[gateway deployment topologies guide](https://istio.io/latest/docs/setup/additional-setup/gateway/#gateway-deployment-topologies)
+[gateway deployment topologies guide](/docs/setup/additional-setup/gateway/#gateway-deployment-topologies)
 to understand the various recommended deployment models by the
 Istio community. Additionally, as mentioned in the
-[Security Best Practices](https://istio.io/latest/docs/ops/best-practices/security/#restrict-gateway-creation-privileges)
+[Security Best Practices](/docs/ops/best-practices/security/#restrict-gateway-creation-privileges)
 guide, Gateway resource creation should be access controlled using Kubernetes
 RBAC or other policy enforcement mechanisms to ensure only authorized entities
 can create them.
@@ -127,22 +126,22 @@ There are two medium severity issues reported related to debug information
 exposed at various levels within the project which can be used to gain access to
 sensitive information or orchestrate Denial of Service (DOS) attacks. While
 Istio by default enables these debug interfaces for profiling or enabling tools
-like “istioctl”, they can be disabled by setting the environment variable
+like "istioctl", they can be disabled by setting the environment variable
 `ENABLE_DEBUG_ON_HTTP` to false as discussed above.
 
-The report correctly points out that various utilities like sudo, tcpdump, etc.
+The report correctly points out that various utilities like `sudo`, `tcpdump`, etc.
 installed in the default images shipped by Istio can lead to privilege
 escalation attacks. These utilities are  provided to aid runtime debugging of
 packets flowing through the mesh, and users are recommended to use
-[hardened versions](https://istio.io/latest/docs/ops/configuration/security/harden-docker-images/)
+[hardened versions](/docs/ops/configuration/security/harden-docker-images/)
 of these images in production.
 
 The report also surfaces a known architectural limitation with any sidecar
 proxy-based service mesh implementation which uses `iptables` for intercepting
 traffic. This mechanism is susceptible to
-[sidecar proxy bypass](https://istio.io/latest/docs/ops/best-practices/security/#understand-traffic-capture-limitations),
+[sidecar proxy bypass](/docs/ops/best-practices/security/#understand-traffic-capture-limitations),
 which is a valid concern for secure environments. It can be addressed by following the
-[defense-in-depth](https://istio.io/latest/docs/ops/best-practices/security/#defense-in-depth-with-networkpolicy)
+[defense-in-depth](/docs/ops/best-practices/security/#defense-in-depth-with-networkpolicy)
 recommendation of the Security Best Practices guide. We are
 also investigating more secure options in collaboration with the Kubernetes
 community.
@@ -152,8 +151,7 @@ community.
 You may have noticed a trend in the findings of the assessment and the
 recommendations made to address them. Istio provides various configuration
 options to create a more secure installation based on your requirement, and we
-have introduced a comprehensive [Security Best
-Practices](https://istio.io/latest/docs/ops/best-practices/security)
+have introduced a comprehensive [Security Best Practices](/docs/ops/best-practices/security)
 guide for our users to follow. As Istio is widely adopted in production, it is
 a tradeoff for us between switching to secure defaults and possible migration
 issues for our existing users on upgrades. The Istio Product Security Working
