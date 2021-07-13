@@ -61,7 +61,7 @@ Currently, the support for canary upgrades for Istio ingress and egress
 gateways is [actively in development](/docs/setup/upgrade/gateways/) and is considered `experimental`.
 {{< /warning >}}
 
-1. Use kubectl to apply the latest CRDs:
+1. Upgrade the Kubernetes custom resource definitions ({{< gloss >}}CRDs{{</ gloss >}}):
 
     {{< text bash >}}
     $ kubectl apply -f manifests/charts/base/crds
