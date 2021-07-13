@@ -40,9 +40,7 @@ To get started, check out https://istio.io/latest/docs/setup/getting-started/
 ### Upgrading Custom Resource Definitions (CRDs)
 
 {{< warning >}}
-Helm does not [upgrade or delete](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations)
-CRDs when performing an upgrade. Given this restriction, additional measures are required to ensure that
-Istio is up to date when performing an upgrade.
+[Helm does not upgrade or delete CRDs](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) when performing an upgrade. Because of this restriction, an additional step is required when upgrading Istio with Helm.
 {{< /warning >}}
 
 Istio ships CRDs with its helm charts; they are not templated and are found in the base chart under
@@ -150,4 +148,3 @@ preserve your custom configuration during Helm upgrades.
 ## Uninstall
 
 Please refer to the uninstall section in our [Helm install guide](/docs/setup/install/helm/#uninstall).
-
