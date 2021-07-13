@@ -113,7 +113,7 @@ Add your override values file or custom options to the commands below to
 preserve your custom configuration during Helm upgrades.
 {{< /warning >}}
 
-1. Use kubectl to apply the latest CRDs:
+1. Upgrade the Kubernetes custom resource definitions ({{< gloss >}}CRDs{{</ gloss >}}):
 
     {{< text bash >}}
     $ kubectl apply -f manifests/charts/base/crds
