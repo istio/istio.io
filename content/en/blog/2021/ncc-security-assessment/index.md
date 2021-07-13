@@ -111,8 +111,9 @@ security requirements like running on dedicated nodes for instance. As
 highlighted in the report, if this deployment topology is not a requirement in
 your environment it is strongly recommended to co-locate Gateway resources with
 your gateway workloads and set the environment variable
-`PILOT_SCOPE_GATEWAY_TO_NAMESPACE` to true. Please refer to the
-[gateway deployment topologies guide](/docs/setup/additional-setup/gateway/#gateway-deployment-topologies)
+`PILOT_SCOPE_GATEWAY_TO_NAMESPACE` to true.
+
+Please refer to the [gateway deployment topologies guide](/docs/setup/additional-setup/gateway/#gateway-deployment-topologies)
 to understand the various recommended deployment models by the
 Istio community. Additionally, as mentioned in the
 [Security Best Practices](/docs/ops/best-practices/security/#restrict-gateway-creation-privileges)
