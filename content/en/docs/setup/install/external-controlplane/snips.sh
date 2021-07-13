@@ -68,12 +68,10 @@ metadata:
   namespace: external-istiod
 spec:
   profile: external
-  components:
-    base:
-      enabled: true
   values:
     global:
       istioNamespace: external-istiod
+      configCluster: true
     pilot:
       configMap: true
     istiodRemote:
@@ -106,7 +104,9 @@ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXT
 istioctl x create-remote-secret \
   --context="${CTX_REMOTE_CLUSTER}" \
   --type=config \
-  --namespace=external-istiod | \
+  --namespace=external-istiod \
+  --service-account=istiod \
+  --create-service-account=false | \
   kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
@@ -363,15 +363,6 @@ curl -s "http://${GATEWAY_URL}/hello"
 Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
 ENDSNIP
 
-snip_register_the_new_cluster_1() {
-istioctl x create-remote-secret \
-  --context="${CTX_SECOND_CLUSTER}" \
-  --name="${SECOND_CLUSTER_NAME}" \
-  --type=remote \
-  --namespace=external-istiod | \
-  kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}" #TODO use --context="{CTX_EXTERNAL_CLUSTER}" when #31946 is fixed.
-}
-
 snip_get_second_config_cluster_iop() {
 cat <<EOF > second-config-cluster.yaml
 apiVersion: install.istio.io/v1alpha1
@@ -388,18 +379,29 @@ spec:
 EOF
 }
 
-snip_register_the_new_cluster_3() {
+snip_register_the_new_cluster_2() {
+kubectl create namespace external-istiod --context="${CTX_SECOND_CLUSTER}"
 istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
 }
 
-snip_register_the_new_cluster_4() {
+snip_register_the_new_cluster_3() {
 kubectl get mutatingwebhookconfiguration --context="${CTX_SECOND_CLUSTER}"
 }
 
-! read -r -d '' snip_register_the_new_cluster_4_out <<\ENDSNIP
+! read -r -d '' snip_register_the_new_cluster_3_out <<\ENDSNIP
 NAME                                     WEBHOOKS   AGE
 istio-sidecar-injector-external-istiod   4          4m13s
 ENDSNIP
+
+snip_register_the_new_cluster_4() {
+istioctl x create-remote-secret \
+  --context="${CTX_SECOND_CLUSTER}" \
+  --name="${SECOND_CLUSTER_NAME}" \
+  --type=remote \
+  --namespace=external-istiod \
+  --create-service-account=false | \
+  kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}" #TODO use --context="{CTX_EXTERNAL_CLUSTER}" when #31946 is fixed.
+}
 
 snip_setup_eastwest_gateways_1() {
 samples/multicluster/gen-eastwest-gateway.sh \

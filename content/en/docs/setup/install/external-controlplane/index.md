@@ -147,10 +147,10 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 
 #### Set up the remote config cluster
 
-1. Create the remote cluster's Istio install configuration, which installs the injection webhook that uses the
-    external control plane's injector, instead of a locally deployed one. Because this cluster
-    also serves as the config cluster, the Istio CRDs and `istio` configmap (i.e., global mesh config)
-    are also installed by setting `base.enabled` and `pilot.configMap` to `true`:
+1. Use the `external` profile to configure the remote cluster's Istio installation. This installs an injection
+    webhook that uses the external control plane's injector, instead of a locally deployed one. Because this cluster
+    will also serve as the config cluster, the Istio CRDs and other resources that will be needed on the remote cluster
+    are also installed by setting `global.configCluster` and `pilot.configMap` to `true`:
 
     {{< text syntax=bash snip_id=get_remote_config_cluster_iop >}}
     $ cat <<EOF > remote-config-cluster.yaml
@@ -160,12 +160,10 @@ and installing the sidecar injector webhook configuration on the remote cluster 
       namespace: external-istiod
     spec:
       profile: external
-      components:
-        base:
-          enabled: true
       values:
         global:
           istioNamespace: external-istiod
+          configCluster: true
         pilot:
           configMap: true
         istiodRemote:
@@ -207,7 +205,9 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     $ istioctl x create-remote-secret \
       --context="${CTX_REMOTE_CLUSTER}" \
       --type=config \
-      --namespace=external-istiod | \
+      --namespace=external-istiod \
+      --service-account=istiod \
+      --create-service-account=false | \
       kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
@@ -520,26 +520,6 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 
 ### Register the new cluster
 
-1. Create a secret with credentials to allow the control plane to access the endpoints on the second remote cluster
-    and install it:
-
-    {{< text bash >}}
-    $ istioctl x create-remote-secret \
-      --context="${CTX_SECOND_CLUSTER}" \
-      --name="${SECOND_CLUSTER_NAME}" \
-      --type=remote \
-      --namespace=external-istiod | \
-      kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}" #TODO use --context="{CTX_EXTERNAL_CLUSTER}" when #31946 is fixed.
-    {{< /text >}}
-
-    Note that unlike the first remote cluster of the mesh, which also serves as the config cluster, the `--type` argument
-    is set to `remote` this time, instead of `config`.
-
-    {{< tip >}}
-    Note that the new secret can be applied in either the remote (config) cluster or in the external cluster,
-    because the external istiod is watching for additions in both clusters.
-    {{< /tip >}}
-
 1. Create the remote Istio install configuration, which installs the injection webhook that uses the
     external control plane's injector, instead of a locally deployed one:
 
@@ -562,6 +542,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     Then, install the configuration on the remote cluster:
 
     {{< text bash >}}
+    $ kubectl create namespace external-istiod --context="${CTX_SECOND_CLUSTER}"
     $ istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
     {{< /text >}}
 
@@ -572,6 +553,27 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     NAME                                     WEBHOOKS   AGE
     istio-sidecar-injector-external-istiod   4          4m13s
     {{< /text >}}
+
+1. Create a secret with credentials to allow the control plane to access the endpoints on the second remote cluster
+    and install it:
+
+    {{< text bash >}}
+    $ istioctl x create-remote-secret \
+      --context="${CTX_SECOND_CLUSTER}" \
+      --name="${SECOND_CLUSTER_NAME}" \
+      --type=remote \
+      --namespace=external-istiod \
+      --create-service-account=false | \
+      kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}" #TODO use --context="{CTX_EXTERNAL_CLUSTER}" when #31946 is fixed.
+    {{< /text >}}
+
+    Note that unlike the first remote cluster of the mesh, which also serves as the config cluster, the `--type` argument
+    is set to `remote` this time, instead of `config`.
+
+    {{< tip >}}
+    Note that the new secret can be applied in either the remote (config) cluster or in the external cluster,
+    because the external istiod is watching for additions in both clusters.
+    {{< /tip >}}
 
 ### Setup east-west gateways
 
