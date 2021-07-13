@@ -34,7 +34,7 @@ To get started, check out https://istio.io/latest/docs/setup/getting-started/
 {{< /text >}}
 
 {{< warning >}}
-[Helm does not upgrade or delete CRDs](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) when performing an upgrade. Because of this restriction, an additional step is required when upgrading Istio with Helm using kubectl.
+[Helm does not upgrade or delete CRDs](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) when performing an upgrade. Because of this restriction, an additional step is required when upgrading Istio with Helm.
 {{< /warning >}}
 
 ### Create a backup
