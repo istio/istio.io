@@ -33,18 +33,13 @@ $ istioctl x precheck
 To get started, check out https://istio.io/latest/docs/setup/getting-started/
 {{< /text >}}
 
+{{< warning >}}
+[Helm does not upgrade or delete CRDs](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) when performing an upgrade. Because of this restriction, an additional step is required when upgrading Istio with Helm using kubectl.
+{{< /warning >}}
+
 ### Create a backup
 
 {{< boilerplate helm-backup >}}
-
-### Upgrading Custom Resource Definitions (CRDs)
-
-{{< warning >}}
-[Helm does not upgrade or delete CRDs](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) when performing an upgrade. Because of this restriction, an additional step is required when upgrading Istio with Helm.
-{{< /warning >}}
-
-Istio ships CRDs with its helm charts; they are not templated and are found in the base chart under
-the `crds` folder. Upgrading Istio with Helm requires a change in workflow due to the required updating of CRDs for proper functionality.
 
 ### Canary upgrade (recommended)
 
