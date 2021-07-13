@@ -999,6 +999,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, istiod will automatically generate MCS ServiceExport objects for each service in each cluster. Services defined to be cluster-local in MeshConfig are excluded.</td>
 </tr>
 <tr>
+<td><code>ENABLE_MCS_HOST</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will provide an alias &lt;svc&gt;.&lt;namespace&gt;.svc.clusterset.local for each Kubernetes service. Clients must, however, be able to successfully lookup these DNS hosts. That means that either Istio DNS interception must be enabled or an MCS controller must be used.</td>
+</tr>
+<tr>
 <td><code>ENABLE_MCS_SERVICE_DISCOVERY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
