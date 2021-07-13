@@ -1,6 +1,6 @@
 ---
 title: "Announcing the results of Istio’s first security assessment"
-description: Results of NCC security assessment.
+description: Results of a third-party security review by NCC Group.
 publishdate: 2021-07-13
 attribution: "Neeraj Poddar (Aspen Mesh), on behalf of Istio Product Security Working Group"
 keywords: [istio,security,audit,ncc,assessment]
