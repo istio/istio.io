@@ -33,6 +33,10 @@ $ istioctl x precheck
 To get started, check out https://istio.io/latest/docs/setup/getting-started/
 {{< /text >}}
 
+{{< warning >}}
+[Helm does not upgrade or delete CRDs](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) when performing an upgrade. Because of this restriction, an additional step is required when upgrading Istio with Helm.
+{{< /warning >}}
+
 ### Create a backup
 
 {{< boilerplate helm-backup >}}
@@ -51,6 +55,12 @@ primary and canary installations.
 Currently, the support for canary upgrades for Istio ingress and egress
 gateways is [actively in development](/docs/setup/upgrade/gateways/) and is considered `experimental`.
 {{< /warning >}}
+
+1. Upgrade the Kubernetes custom resource definitions ({{< gloss >}}CRDs{{</ gloss >}}):
+
+    {{< text bash >}}
+    $ kubectl apply -f manifests/charts/base/crds
+    {{< /text >}}
 
 1. Install a canary version of the Istio discovery chart by setting the revision
    value:
@@ -80,6 +90,12 @@ gateways is [actively in development](/docs/setup/upgrade/gateways/) and is cons
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
+1. Upgrade the Istio base chart:
+
+    {{< text bash >}}
+    $ helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
+    {{< /text >}}
+
 ### In place upgrade
 
 You can perform an in place upgrade of Istio in your cluster using the Helm
@@ -92,10 +108,16 @@ Add your override values file or custom options to the commands below to
 preserve your custom configuration during Helm upgrades.
 {{< /warning >}}
 
+1. Upgrade the Kubernetes custom resource definitions ({{< gloss >}}CRDs{{</ gloss >}}):
+
+    {{< text bash >}}
+    $ kubectl apply -f manifests/charts/base/crds
+    {{< /text >}}
+
 1. Upgrade the Istio base chart:
 
     {{< text bash >}}
-    $ helm upgrade istio-base manifests/charts/base -n istio-system
+    $ helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
     {{< /text >}}
 
 1. Upgrade the Istio discovery chart:
@@ -118,4 +140,3 @@ preserve your custom configuration during Helm upgrades.
 ## Uninstall
 
 Please refer to the uninstall section in our [Helm install guide](/docs/setup/install/helm/#uninstall).
-
