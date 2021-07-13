@@ -46,8 +46,6 @@ To get started, check out https://istio.io/latest/docs/setup/getting-started/
 Istio ships CRDs with its helm charts; they are not templated and are found in the base chart under
 the `crds` folder. Upgrading Istio with Helm requires a change in workflow due to the required updating of CRDs for proper functionality.
 
-Please examine the following sections closely as they've been recently been altered.
-
 ### Canary upgrade (recommended)
 
 You can install a canary version of Istio control plane to validate that the new
