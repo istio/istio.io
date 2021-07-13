@@ -9,7 +9,7 @@ aliases:
     - /news/announcing-1.10.3
 ---
 
-This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.10.2 and Istio 1.10.3
+This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.10.2 and Istio 1.10.3.
 
 {{< relnote >}}
 
