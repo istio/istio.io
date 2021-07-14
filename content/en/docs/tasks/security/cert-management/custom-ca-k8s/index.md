@@ -138,7 +138,7 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
 1. Get the public key of the CA. This is encoded in the secret "signer-ca-*" in the signer-ca-system namespace.
 
     {{< text bash >}}
-    $ kubectl get secrets signer-ca-5hff5h74hm -o json
+    $ kubectl get secrets signer-ca-5hff5h74hm -n signer-ca-system -o json
     {{< /text >}}
 
    The `tls.crt` field contains the base64 encoded public key file. Record this for future use.
@@ -157,6 +157,7 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
       data:
       root-cert.pem: <tls.cert from the step above>
       EOF
+    $ kubectl create namespace istio-system
     $ kubectl apply -f external-ca-secret.yaml
     {{< /text >}}
 
@@ -218,6 +219,10 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
     EOF
     $ istioctl install --set profile=demo -f ./istio.yaml
     {{< /text >}}
+
+    {{< warning >}}
+    Note that `istiod-clusterrole-istio-system` might be the right ClusterRole instead of `istiod-istio-system` when encountering error like this `error  failed to approve CSR (csr-workload-xxxxxx): certificatesigningrequests.certificates.k8s.io "csr-workload-xxxxxx" is forbidden: user not permitted to approve requests with signerName "yyyyyy"`, however user can not just replace above ClusterRole's name with `istiod-clusterrole-istio-system` due to there would be no `istiod-clusterrole-istio-system` before Istio's installation completed, so user need to use `kubectl edit` to append above rule content to ClusterRole `istiod-clusterrole-istio-system` before Istio installation timeout.
+    {{< /warning >}}
 
 1. Deploy the `bookinfo` sample application in the bookinfo namespace.
 
