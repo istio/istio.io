@@ -969,6 +969,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Disables all Envoy agent features.</td>
 </tr>
 <tr>
+<td><code>DNS_PROXY_ADDR</code></td>
+<td>String</td>
+<td><code>localhost:15053</code></td>
+<td>Custom address for the DNS proxy. If it ends with :53 and running as root allows running without iptable DNS capture</td>
+</tr>
+<tr>
 <td><code>ECC_SIGNATURE_ALGORITHM</code></td>
 <td>String</td>
 <td><code></code></td>

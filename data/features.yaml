@@ -80,10 +80,10 @@ features:
       maturity: Alpha
       nextExpectedPromotion: ""
     area: Traffic Management
-  - name: "Kubernetes Service APIs"
+  - name: "Kubernetes Gateway APIs"
     link: "/docs/tasks/traffic-management/ingress/gateway-api/"
     level:
-      checklist: features/service_apis.md
+      checklist: features/k8s-gateway-apis.md
       maturity: Alpha
       nextExpectedPromotion: ""
     area: Traffic Management
