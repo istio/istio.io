@@ -240,7 +240,7 @@ Assume Istio is installed with the following configuration:
 - `mTLS mode` set to `STRICT` within the mesh
 - `meshConfig.outboundTrafficPolicy.mode` set to `ALLOW_ANY`
 
-Consider `nginx` is deployed as a `StatefulSet` in the default namespace and a corresponding `Headless Service` is defined as shown below: 
+Consider `nginx` is deployed as a `StatefulSet` in the default namespace and a corresponding `Headless Service` is defined as shown below:
 
 {{< text yaml >}}
 apiVersion: v1
@@ -293,67 +293,66 @@ spec:
           storage: 1Gi
 {{< /text >}}
 
-Let us assume we have a [sleep](https://github.com/istio/istio/blob/1.10.2/samples/sleep/sleep.yaml) pod `Deployment` as well in the default namespace.
+Let us assume we have a [sleep]({{< github_tree >}}/samples/sleep) pod `Deployment` as well in the default namespace.
 
 Now, let us consider 3 possible scenarios based on the port `name` defined in the headless service:
 
 1. Port `name` set to `web` (as shown in the example above) or any other custom name
 
-  - Request without Host header:
-      
+    - Request without Host header:
+
         When `nginx` is accessed without the Host header, the sidecar proxy on the client-side fails to find the route entry to `nginx` and fails with `HTTP 404 NR`.
 
         {{< text bash >}}
         $ kubectl exec -it sleep-557747455f-blkgt -c sleep -- sh
         / $ curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
-          404/ 
+          404/
         {{< /text >}}
 
         Here, `10.1.1.171` is the Pod IP of one of the replicas of `nginx` and the service is accessed on `containerPort` 80.
-
-  - Request with Host header:
+    - Request with Host header:
 
         When `nginx` is accessed with the correct Host header, it successfully returns `HTTP 200 OK`.
 
         {{< text bash >}}
         $ kubectl exec -it sleep-557747455f-blkgt -c sleep -- sh
         / $ curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
-          200/ 
+          200/
         {{< /text >}}
 
 1. Port `name` set to `http` or `http-web` or `http-<custom_name>`
 
-  - Request without Host header:
+    - Request without Host header:
 
         When `nginx` is accessed without the Host header, the request goes via the `PassthroughCluster` to the server-side, but the sidecar proxy on the server-side fails to find the route entry to `nginx` and fails with `HTTP 503 UC`.
 
         {{< text bash >}}
         $ kubectl exec -it sleep-557747455f-blkgt -c sleep -- sh
         / $ curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
-          503/ 
+          503/
         {{< /text >}}
 
-  - Request with Host header:
+    - Request with Host header:
 
-        The behaviour is very similar to how it is described for the case with the Host header in the previous scenario. The only difference here is that the HTTP Inspector listener filter is NOT triggerred on the server-side, since the port name already has a prefix `http`. 
-        
+        The behavior is very similar to how it is described for the case with the Host header in the previous scenario. The only difference here is that the HTTP Inspector listener filter is NOT triggered on the server-side, since the port name already has a prefix `http`.
+
         A request to `nginx` with the correct Host header successfully returns `HTTP 200 OK`.
 
 1. Port `name` set to `tcp` or `tcp-web` or `tcp-<custom_name>`
-  
-    With this naming, the Host header is NOT needed to access `nginx`. In this scenario, only the `TCP Proxy` network filter on the sidecar proxy is used, both on the client-side and server-side. HTTP Connection Manager is not used at all and therefore, any kind of header is not expected in the request. 
-    
+
+    With this naming, the Host header is NOT needed to access `nginx`. In this scenario, only the `TCP Proxy` network filter on the sidecar proxy is used, both on the client-side and server-side. HTTP Connection Manager is not used at all and therefore, any kind of header is not expected in the request.
+
     A request to `nginx` with or without the Host header successfully returns `HTTP 200 OK`.
-    
+
     This is useful in certain scenarios where a client may not be able to include header information in the request.
-    
+
     {{< text bash >}}
     $ kubectl exec -it sleep-557747455f-blkgt -c sleep -- sh
     / $ curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
-      200/ 
+      200/
 
     / $ curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
-      200/ 
+      200/
     {{< /text >}}
 
 ## TLS configuration mistakes
