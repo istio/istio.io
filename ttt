@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo $-
+if [[ "$-" == *"i"* ]]; then
+  echo "interactive"
+fi
