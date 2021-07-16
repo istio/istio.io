@@ -1,13 +1,16 @@
 ---
-title: Feature Status
-description: List of features and their release stages.
+title: 功能状态
+description: 特性及其发布阶段的列表。
 weight: 10
 aliases:
     - /zh/docs/reference/release-roadmap.html
     - /zh/docs/reference/feature-stages.html
     - /zh/docs/welcome/feature-stages.html
     - /zh/docs/home/roadmap.html
-icon: feature-status
+    - /zh/about/feature-stages
+    - /zh/latest/about/feature-stages
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 <!--
@@ -15,94 +18,53 @@ Note: this contains feature status from
 https://docs.google.com/spreadsheets/d/1Nbjat-juyQ8AWhkq3njLckmHM8TRL4O-sjm9Bfr9zrU/edit#gid=0
 -->
 
-This page lists the relative maturity and support
-level of every Istio feature. Please note that the phases (Alpha, Beta, and Stable) are applied to individual features
-within the project, not to the project as a whole. Here is a high level description of what these labels mean.
+本页面列出了每个 Istio 特性的相对成熟度和支持级别。请注意阶段适用于项目中的个别特性，而不是整个项目的特性。这是对这些内容的高级描述标签。
 
-## Feature phase definitions
+## 功能定义阶段{#feature-phase-definitions}
 
-|            | Alpha      | Beta         | Stable
-|-------------------|-------------------|-------------------|-------------------
-|   **Purpose**         | Demo-able, works end-to-end but has limitations.  If you use it in production and encounter a serious issue we may not be able to fix it for you, so be sure that you can continue to function if you have to disable it | Usable in production, not a toy anymore | Dependable, production hardened
-|   **API**         | No guarantees on backward compatibility    | APIs are versioned         | Dependable, production-worthy. APIs are versioned, with automated version conversion for backward compatibility
-|  **Performance**         | Not quantified or guaranteed     | Not quantified or guaranteed         | Performance (latency/scale) is quantified, documented, with guarantees against regression
-|   **Deprecation Policy**        | None     | Weak - 3 months         | Dependable,  Firm. 1 year notice will be provided before changes
-| **Security** | Security vulnerabilities will be handled publicly as simple bug fixes | Security vulnerabilities will be handled according to our [security vulnerability policy](/zh/about/security-vulnerabilities/) | Security vulnerabilities will be handled according to our [security vulnerability policy](/zh/about/security-vulnerabilities/)
+|                       | Experimental                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Alpha                                                                                                                                                                                                                                                                                                                                                                                                                                              | Beta                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Stable                                                                                                                                      |
+|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| 目的               | 功能正在积极开发中，面向用户的 API 可能会发生变化。用户应极其谨慎地部署实验性功能，最好是在非生产环境中，因为实验版本可能需要迁移工作。                                                                                                                                                                                                                                    | 用于获取有关设计或功能的反馈或查看试探性设计的执行情况等。针对开发人员和专家用户。                                                                                                                                                                                                                                                                                                                  | 用于审查生产中的解决方案，但没有长期承诺，以评估其可行性、性能、可用​​性等。针对所有用户。                                                                                                                                                                                                                                                                                                                                 | 可靠生产。                                                                                                            |
+| 稳定性             | 可能是错误。使用该功能可能会暴露错误。默认不活动。                                                                                                                                                                                                                                                                                                                                                                                                    | 可能是错误。使用该功能可能会暴露错误。默认不活动                                                                                                                                                                                                                                                                                                                                                                            | 代码经过良好测试。该功能对于生产使用是安全的。                                                                                                                                                                                                                                                                                                                                                                                                                                 | 代码经过良好测试且稳定。在生产中广泛部署是安全的。                                                               |
+| 安全性              | 使用该功能可能存在明显的安全漏洞。发现的漏洞可能不会广泛传播。                                                                                                                                                                                                                                                                                                                                                   | 使用该功能可能存在明显的安全漏洞。发现的漏洞可能不会广泛传播。                                                                                                                                                                                                                                                                                                                           | 任何发现的安全漏洞都将公开披露和修补。                                                                                                                                                                                                                                                                                                                                                                                                              | 任何发现的安全漏洞都将公开披露和修补。                                                             |
+| 性能           | 性能特征未知。启用实验功能可能会对性能产生不利影响。                                                                                                                                                                                                                                                                                                                                                               | 性能要求作为设计的一部分进行评估。                                                                                                                                                                                                                                                                                                                                                                                           | 性能和可扩展性是有特点的，但可能有警告。                                                                                                                                                                                                                                                                                                                                                                                                                         | 性能（延迟/规模）被量化和记录，并保证不会回归。                                               |
+| 支持               | 不保证向后兼容性。该功能可能随时被删除，恕不另行通知。                                                                                                                                                                                                                                                                                                                                                                            | 不保证向后兼容性。该功能可能随时被删除，恕不另行通知。                                                                                                                                                                                                                                                                                                                                                    | 整体功能不会被删除，但细节可能会发生变化。                                                                                                                                                                                                                                                                                                                                                                                                                          | 该功能将出现在许多后续版本的已发布软件中。                                                                  |
+| 弃用政策    | 无，功能可以随时删除。                                                                                                                                                                                                                                                                                                                                                                                                                                  | 无，功能可以随时删除。                                                                                                                                                                                                                                                                                                                                                                                                           | 弱，可以提前 3 个月通知删除功能。                                                                                                                                                                                                                                                                                                                                                                                                                              | 强大的功能可以在提前 1 年通知的情况下删除，但通常会有一个支持的升级路径来替换功能。 |API 版本名称包含 dev（例如 v1dev1）。                                                                                                                                                                                                                                                                                                                                                                                                                          | API 版本名称包含 alpha（例如 v1alpha1）。                                                                                                                                                                                                                                                                                                                                                                                               | API 版本名称包含 beta（例如 v1beta1）。                                                                                                                                                                                                                                                                                                                                                                                                                                          |API 版本是 `vX`，其中 X 是一个整数（例如 v1）。                                                                                    |
+| 可用性          | 该功能可能在主 Istio 存储库中可用，也可能不可用。该功能可能会也可能不会出现在 Istio 版本中。如果它确实出现在 Istio 版本中，它将默认被禁用。除了使用该功能所需的任何配置外，该功能还需要一个显式标志来启用，以便打开开发功能。                                                                                                                         | 该功能已提交给 Istio 存储库。该功能出现在 Istio 的官方版本中。该功能需要明确的用户操作才能使用，例如标志翻转、配置资源的使用、显式安装操作或调用的 API。当某个功能被禁用时，它不得影响系统稳定性。 |在官方 Istio 版本中默认启用。 |与测试版相同。                                                                                                                               |
+| 观众              | 其他开发人员在功能或概念验证方面密切合作。 |该功能面向有兴趣提供早期反馈的开发人员和专家用户。 |有兴趣提供有关功能的反馈的用户。                                                                                                                                                                                                                                                                                                                                                                                                                                          | 所有用户。                                                                                                                                  |
+| 完整性          | 功能的功能有限。此功能可用作概念证明。 |某些 API 操作或 CLI 命令可能未实现 该功能不需要进行 API 审查（在正常代码审查之上对 API 进行密集和有针对性的审查）。                                                                                                                                                                                                                                                              | 应实施所有 API 操作和 CLI 命令 端到端测试完整且可靠 该 API 已经过全面的 API 审查并被认为是完整的，尽管在 beta 期间使用经常会出现审查期间未考虑的 API 问题。 |与测试版相同。 |
+|文档 |实验性功能在自动生成的参考文档中被标记为实验性或不公开。                                                                                                                                                                                                                                                                                                                                                                 | Alpha 功能在自动生成的参考文档中标记为 alpha。描述该功能的作用、如何启用它、限制和警告的基本文档，以及指向该功能所基于的问题或设计文档的指针。 |发布到 Istio.io 的完整功能文档 除了基本的 alpha 级文档，beta 文档还包括示例、教程、术语表条目等。                                                                                                                                                                                                                                                                                                             | 与测试版相同。 |
+|可升级性 |实验性功能的架构和语义可能会在较新版本中发生变化，但无法保证在升级期间需要更改配置的向后兼容性。 API 版本的增加速度可能比发布节奏快，开发人员无需维护多个版本以实现向后兼容性。当架构或语义以不兼容的方式更改时，鼓励开发人员增加 API 版本。 | alpha 功能的架构和语义可能会在以后的软件版本中发生变化，在现有的 Istio 安装中没有任何保留配置对象的规定 API 版本的增长速度可能比发布节奏快，开发人员不需要维护多个版本 开发人员应该增加 API模式或语义以不兼容的方式更改时的版本。 |架构和语义可能会在以后的软件版本中更改 如果发生这种情况，将记录升级路径 在某些情况下，对象将自动转换为新版本 在其他情况下，可能需要手动升级 手动升级可能需要停机对于依赖新功能的任何事物，并且可能需要将对象手动转换为新版本 当需要手动转换时，项目将提供有关该过程的文档。 |在随后的软件版本中只允许严格兼容的更改。 |
+|测试 |该功能的存在不得影响任何已发布的功能。                                                                                                                                                                                                                                                                                                                                                                                                        | 该功能由单元测试和集成测试覆盖，其中启用了该功能并且测试是非脆弱的。测试可能无法涵盖所有​​极端情况，但已经涵盖了最常见的情况。测试代码覆盖率 >= 70%。当该功能被禁用时，它不会降低系统的性能。 |集成测试涵盖边缘情况以及常见用例。集成测试涵盖了该功能上报告的所有问题。该功能具有涵盖该功能示例/教程的端到端测试。测试代码覆盖率 >= 80%。 | Beta 的超集，包括对 Beta 期间发现的任何问题的测试。测试代码覆盖率 >= 90%。 |
+|可靠性 |用户不应期望可靠的功能可能未经测试。                                                                                                                                                                                                                                                                                                                                                                                                     | 由于该功能相对较新，并且可能缺乏完整的端到端测试，因此通过标志启用该功能可能会暴露导致 Istio 不稳定的错误（例如，控制循环中的错误可能会迅速创建过多的对象，耗尽 API 存储空间） . |由于该功能具有 e2e 测试，因此启用该功能不应在不相关的功能中产生新的错误。由于该功能相对较新，因此可能存在小错误。                                                                                                                                                                                                                                                                                                                     | 高的。该功能经过充分测试，适用于所有用途，稳定可靠。 |
+|支持 | Istio 社区没有承诺改进、维护或完成该功能，并且该功能可能会在新版本中完全删除。 | Istio 没有承诺完成该功能 该功能可能会在以后的软件版本中完全删除。| Istio 承诺在后续稳定版本中以某种形式完成该功能通常这会在 3 个月内发生，但有时更长的版本应该同时支持两个连续版本（例如 v1alpha1 和 v1beta1；或 v1beta1 和 v1），至少支持一个发布周期（一般为3个月），让用户有足够的时间升级和迁移资源。 |该功能将继续存在于许多后续版本中。 |
+|推荐用例 |在短期开发或测试环境中，旨在征求用户的早期反馈以制定开发工作。                                                                                                                                                                                                                                                                                                                                      | 在短期开发或测试环境中，由于可升级性的复杂性和缺乏长期支持。 |在开发或测试环境中。在生产环境中作为功能评估的一部分以提供反馈。                                                                                                                                                                                                                                                                                                                                                     | 任何。                                                                                                                                        |
 
-## Istio features
+## Istio 特性{#Istio-features}
 
-Below is our list of existing features and their current phases. This information will be updated after every monthly release.
+以下是我们现有功能及其当前阶段的列表。此信息将在每次发布后更新。
+实验性功能特意未在此页面上列出。
 
-### Traffic management
+### 运输管理{#traffic-management}
 
-| Feature           | Phase
-|-------------------|-------------------
-| Protocols: HTTP1.1 / HTTP2 / gRPC / TCP | Stable
-| Protocols: Websockets / MongoDB  | Stable
-| Traffic Control: label/content based routing, traffic shifting | Stable
-| Resilience features: timeouts, retries, connection pools, outlier detection | Stable
-| Gateway: Ingress, Egress for all protocols | Stable
-| TLS termination and SNI Support in Gateways | Stable
-| SNI (multiple certs) at ingress | Stable
-| [Locality load balancing](/zh/docs/ops/configuration/traffic-management/locality-load-balancing/) | Beta
-| Enabling custom filters in Envoy | Alpha
-| CNI container interface | Alpha
-| [Sidecar API](/zh/docs/reference/config/networking/sidecar/) | Beta
+{{< features section="Traffic Management" >}}
 
-### Observability
+### 可观察性{#observability}
 
-| Feature           | Phase
-|-------------------|-------------------
-| [Prometheus Integration](/zh/docs/tasks/observability/metrics/querying-metrics/) | Stable
-| [Local Logging (STDIO)](/zh/docs/tasks/observability/logs/collecting-logs/) | Stable
-| [Statsd Integration](/zh/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
-| [Client and Server Telemetry Reporting](/zh/docs/reference/config/policy-and-telemetry/) | Stable
-| [Service Dashboard in Grafana](/zh/docs/tasks/observability/metrics/using-istio-dashboard/) | Stable
-| [Istio Component Dashboard in Grafana](/zh/docs/tasks/observability/metrics/using-istio-dashboard/) | Stable
-| [Distributed Tracing](/zh/docs/tasks/observability/distributed-tracing/) | Stable
-| [Stackdriver Integration](/zh/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Beta
-| [Distributed Tracing to Zipkin / Jaeger](/zh/docs/tasks/observability/distributed-tracing/) | Beta
-| [Logging with Fluentd](/zh/docs/tasks/observability/logs/fluentd/) | Beta
-| [Trace Sampling](/zh/docs/tasks/observability/distributed-tracing/overview/#trace-sampling) | Beta
+{{< features section="Observability" >}}
 
-### Security and policy enforcement
+### 可扩展性{#extensibility}
 
-| Feature           | Phase
-|-------------------|-------------------
-| [Deny Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Stable
-| [List Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
-| [Pluggable Key/Cert Support for Istio CA](/zh/docs/tasks/security/plugin-ca-cert/)        | Stable
-| [Service-to-service mutual TLS](/zh/docs/concepts/security/#mutual-TLS-authentication)         | Stable
-| [Kubernetes: Service Credential Distribution](/zh/docs/concepts/security/#PKI)   | Stable
-| [VM: Service Credential Distribution](/zh/docs/concepts/security/#PKI)         | Beta
-| [Mutual TLS Migration](/zh/docs/tasks/security/authentication/mtls-migration)    | Beta
-| [Cert management on Ingress Gateway](/zh/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Beta
-| [Authorization](/zh/docs/concepts/security/#authorization)   | Beta
-| [End User (JWT) Authentication](/zh/docs/concepts/security/#authentication)  | Alpha
-| [OPA Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
+{{< features section="Extensibility" >}}
 
-### Core
+### 安全和政策执行{#security-and-policy-enforcement}
 
-| Feature           | Phase
-|-------------------|-------------------
-| [Standalone Operator](/zh/docs/setup/install/standalone-operator/) | Beta
-| [Kubernetes: Envoy Installation and Traffic Interception](/zh/docs/setup/) | Stable
-| [Kubernetes: Istio Control Plane Installation](/zh/docs/setup/) | Stable
-| [Attribute Expression Language](/zh/docs/reference/config/policy-and-telemetry/expression-language/) | Stable
-| Mixer Out-of-Process Adapter Authoring Model | Beta
-| [Helm](/zh/docs/setup/install/helm/) | Beta
-| [Multicluster Mesh over VPN](/zh/docs/setup/install/multicluster/) | Alpha
-| [Kubernetes: Istio Control Plane Upgrade](/zh/docs/setup/) | Beta
-| Consul Integration | Alpha
-| Basic Configuration Resource Validation | Beta
-| Configuration Processing with Galley | Beta
-| [Mixer Self Monitoring](/zh/faq/mixer/#mixer-self-monitoring) | Beta
-| [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | deprecated
-| [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Beta
-| [Istio CNI plugin](/zh/docs/setup/additional-setup/cni/) | Alpha
-| IPv6 support for Kubernetes | Alpha
-| [Distroless base images for Istio](/zh/docs/ops/configuration/security/harden-docker-images/) | Alpha
+{{< features section="Security and policy enforcement" >}}
+
+### 核心{#core}
+
+{{< features section="Core" >}}
 
 {{< idea >}}
-Please get in touch by joining our [community](/zh/about/community/) if there are features you'd like to see in our future releases!
+如果您希望在我们的未来版本中看到某些功能，请通过[加入我们的社区](/zh/get-involved/)与我们联系！
 {{< /idea >}}
