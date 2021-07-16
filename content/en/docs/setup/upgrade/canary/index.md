@@ -28,8 +28,8 @@ $ istioctl x precheck
 {{< /text >}}
 
 Note that when using revision-based upgrades jumping across two patch versions is supported (e.g. upgrading directly from
-version `1.8` to `1.10`). This is in contrast to in-place upgrades where it is required to upgrade across patch
-releases one at a time.
+version `1.8` to `1.10`). This is in contrast to in-place upgrades where it is required to upgrade to each intermediate patch
+release.
 
 ## Control plane
 
