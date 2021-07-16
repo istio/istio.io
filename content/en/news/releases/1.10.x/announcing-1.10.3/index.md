@@ -3,7 +3,7 @@ title: Announcing Istio 1.10.3
 linktitle: 1.10.3
 subtitle: Patch Release
 description: Istio 1.10.3 patch release.
-publishdate: 2021-07-19
+publishdate: 2021-07-16
 release: 1.10.3
 aliases:
     - /news/announcing-1.10.3
