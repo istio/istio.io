@@ -120,7 +120,7 @@ Manually relabeling namespaces when moving them to a new revision can be tedious
 [Revision tags](/docs/reference/commands/istioctl/#istioctl-experimental-tag) solve this problem.
 [Revision tags](/docs/reference/commands/istioctl/#istioctl-experimental-tag) are stable identifiers that point to revisions and can be used to avoid relabeling namespaces. Rather than relabeling the namespace, a mesh operator can simply change the tag to point to a new revision. All namespaces labeled with that tag will be updated at the same time.
 
-### Usage 
+### Usage
 
 Consider a cluster with two revisions installed, `1-9-5` and `1-10-0`. The cluster operator creates a revision tag `prod-stable`,
 pointed at the older, stable `1-9-5` version, and a revision tag `prod-canary` pointed at the newer `1-10-0` revision. That
@@ -143,7 +143,7 @@ The cluster operator can view this mapping in addition to tagged namespaces thro
 {{< text bash >}}
 $ istioctl tag list
 TAG         REVISION NAMESPACES
-prod-canary 1-10-0   ...   
+prod-canary 1-10-0   ...
 prod-stable 1-9-5    ...
 {{< /text >}}
 
