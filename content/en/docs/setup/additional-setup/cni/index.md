@@ -5,7 +5,7 @@ weight: 70
 aliases:
     - /docs/setup/kubernetes/install/cni
     - /docs/setup/kubernetes/additional-setup/cni
-keywords: [kubernetes,cni,sidecar,proxy,network,helm]
+keywords: [cni]
 owner: istio/wg-networking-maintainers
 test: no
 ---
@@ -38,7 +38,7 @@ replaces the functionality provided by the `istio-init` container.
 1. Install Kubernetes with the container runtime supporting CNI and `kubelet` configured
   with the main [CNI](https://github.com/containernetworking/cni) plugin enabled via `--network-plugin=cni`.
     * AWS EKS, Azure AKS, and IBM Cloud IKS clusters have this capability.
-    * Google Cloud GKE clusters has CNI enableds when any of the following features is enabled:
+    * Google Cloud GKE clusters has CNI enabled when any of the following features is enabled:
        [network policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy),
        [intranode visibility](https://cloud.google.com/kubernetes-engine/docs/how-to/intranode-visibility),
        [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity),
@@ -71,13 +71,13 @@ EOF
 $ istioctl install -f istio-cni.yaml
 {{< /text >}}
 
-This will deploy an `istio-cni-node` Daemonset into the cluster, which installs Istio CNI plugin bianry to each node and set up needed configuration for the plugin.
-The `istio-cni-node` Daemonset runs with [`system-node-critical`](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `PriorityClass`.
+This will deploy an `istio-cni-node` DaemonSet into the cluster, which installs Istio CNI plugin binary to each node and set up needed configuration for the plugin.
+The `istio-cni-node` DaemonSet runs with [`system-node-critical`](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `PriorityClass`.
 
 There are several commonly used install options:
 
-* `components.cni.namespace=kube-system` configures the namespace to install the CNI Daemonset.
-* `values.cni.cniBinDir` and `values.cni.cniConfDir` configure the directory pathes to install plugin binary and create plugin configuration.
+* `components.cni.namespace=kube-system` configures the namespace to install the CNI DaemonSet.
+* `values.cni.cniBinDir` and `values.cni.cniConfDir` configure the directory paths to install plugin binary and create plugin configuration.
   `values.cni.cniConfFileName` configures the name of plugin configuration file.
 * `values.cni.chained` controls whether to configure the Istio CNI plugin as a chained CNI plugin.
 
@@ -87,6 +87,7 @@ The `istio-cni` plugin is expected to work with any hosted Kubernetes leveraging
 Some platforms required special installation settings.
 
 * Google Kubernetes Engine
+
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -104,6 +105,7 @@ spec:
 {{< /text >}}
 
 * Red Hat OpenShift 4.2+
+
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -126,13 +128,62 @@ spec:
       chained: false
 {{< /text >}}
 
-## Manage CNI
+## Operation details
 
 ### Upgrade
 
+When upgrading Istio with [in-place upgrade](/docs/setup/upgrade/in-place/),
+CNI component can be upgraded together with the control plane using one `IstioOperator` resource.
 
+When upgrading Istio with [canary upgrade](/docs/setup/upgrade/canary/), since CNI component runs as a cluster singleton,
+it is recommended to operate and upgrade CNI separately from the revisioned control plane.
+The following `IstioOperator` can be used to operate CNI component independently.
 
-### CNI race condition repairing
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: empty # Do not include other components
+  components:
+    cni:
+      enabled: true
+  values:
+    cni:
+      excludeNamespaces:
+        - istio-system
+        - kube-system
+{{< /text >}}
+
+When installing revisioned control plane with CNI component enabled,
+`values.istio_cni.enabled` needs to be set, so that sidecar injector does not `istio-init` `initContainer`.
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  revision: REVISION_NAME
+  ...
+  values:
+    istio_cni:
+      enabled: true
+  ...
+{{< /text >}}
+
+CNI at version `1.x` is compatible with control plane at version `1.x-1`, `1.x`, and `1.x+1`,
+which means CNI and control plane can be upgraded in any order, as long as their version difference is within one minor version.
+
+### Race condition & mitigation
+
+Istio CNI DaemonSet installs the CNI network plugin into every node.
+However, a time gap exists between the DaemonSet gets scheduled onto a node, and the CNI plugin gets installed and ready to be used.
+There is a chance that an application pod starts up during that time gap, and `kubelet` has no knowledge of the Istio CNI plugin.
+The result is that the application pod comes up without Istio traffic redirection and bypasses Istio sidecar.
+
+To mitigate the race between an application pod and the Istio CNI DaemonSet,
+an `istio-validation` init container is added as part of the sidecar injection,
+which detects if traffic redirection is set up correctly, and blocks pod starting up if not.
+The CNI DaemonSet will detect and evict pod stuck at such state. The new pod starts up should have traffic redirection set up properly.
+This mitigation is enabled by default and can be turned off by setting `values.cni.repair.enabled` to false.
 
 ### Traffic redirection parameters
 
@@ -145,6 +196,11 @@ See [resource annotations](/docs/reference/config/annotations) for available par
 
 The Istio CNI plugin runs in the container runtime process space.
 Due to this, the `kubelet` process writes the plugin's log entries into its log.
+In addition to `kubelet` log, the CNI plugin also sends its log to the CNI DaemonSet.
+See [CNI troubleshooting guide](/docs/ops/diagnostic-tools/cni/) for more details.
+
+The CNI DaemonSet [generates metrics](/docs/reference/commands/install-cni/#metrics),
+which can be used to monitor CNI installation, readiness, and race condition mitigation.
 
 ### Compatibility with application init containers
 
