@@ -52,10 +52,6 @@ test: yes
     $ kubectl create -n istio-system secret tls httpbin-credential --key=httpbin.example.com.key --cert=httpbin.example.com.crt
     {{< /text >}}
 
-    {{< warning >}}
-    Secret 名字 **不能** 以 `istio` 或 `prometheus` 开头, 且不能包含 `token` 字段。
-    {{< /warning >}}
-
 1.  为端口443定义一个带有 `servers:` 部分的网关，并将 `credentialName` 的值指定为 `httpbin-credential`。这些值与 Secret 名称相同。 TLS 模式的值应为 `SIMPLE`。
 
     {{< text bash >}}
