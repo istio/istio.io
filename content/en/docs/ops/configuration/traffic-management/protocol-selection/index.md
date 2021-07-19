@@ -9,7 +9,7 @@ aliases:
   - /help/tasks/traffic-management/protocol-selection
   - /docs/ops/traffic-management/protocol-selection
 owner: istio/wg-networking-maintainers
-test: no
+test: n/a
 ---
 
 Istio supports proxying any TCP traffic. This includes HTTP, HTTPS, gRPC, as well as raw TCP protocols.

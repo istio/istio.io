@@ -11,7 +11,7 @@ aliases:
     - /docs/concepts/security/mutual-tls.html
     - /docs/concepts/policies/
 owner: istio/wg-security-maintainers
-test: no
+test: n/a
 ---
 
 Breaking down a monolithic application into atomic services offers various

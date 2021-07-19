@@ -8,7 +8,7 @@ aliases:
   - /help/ops/deploy-guidelines
   - /docs/ops/traffic-management/deploy-guidelines
 owner: istio/wg-networking-maintainers
-test: no
+test: n/a
 ---
 
 This section provides specific deployment or configuration guidelines to avoid networking or traffic management issues.

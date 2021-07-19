@@ -13,7 +13,7 @@ aliases:
     - /docs/concepts/traffic-management/pilot.html
     - /docs/concepts/traffic-management/overview.html
 owner: istio/wg-networking-maintainers
-test: no
+test: n/a
 ---
 
 Istio’s traffic routing rules let you easily control the flow

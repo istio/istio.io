@@ -11,7 +11,7 @@ aliases:
     - /docs/concepts/policies-and-telemetry/config/
     - /docs/concepts/policies-and-telemetry/
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: n/a
 ---
 
 Istio generates detailed telemetry for all service communications within a mesh. This telemetry provides *observability* of service behavior,
