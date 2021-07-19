@@ -20,8 +20,7 @@
 #          docs/setup/additional-setup/cni/index.md
 ####################################################################################################
 
-snip_install_istio_with_cni_plugin_1() {
-cat << EOF > istio-cni.yaml
+! read -r -d '' snip_install_istio_with_cni_plugin_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -33,9 +32,7 @@ spec:
       excludeNamespaces:
         - istio-system
         - kube-system
-EOF
-istioctl install -f istio-cni.yaml
-}
+ENDSNIP
 
 ! read -r -d '' snip_hosted_kubernetes_settings_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1

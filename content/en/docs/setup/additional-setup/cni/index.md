@@ -52,10 +52,9 @@ replaces the functionality provided by the `istio-init` container.
 
 ### Install Istio with CNI plugin
 
-In most environments, a basic Istio cluster with CNI enabled can be installed using the following install configuration:
+In most environments, a basic Istio cluster with CNI enabled can be installed using the following configuration:
 
-{{< text bash >}}
-$ cat << EOF > istio-cni.yaml
+{{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -67,8 +66,6 @@ spec:
       excludeNamespaces:
         - istio-system
         - kube-system
-EOF
-$ istioctl install -f istio-cni.yaml
 {{< /text >}}
 
 This will deploy an `istio-cni-node` DaemonSet into the cluster, which installs Istio CNI plugin binary to each node and set up needed configuration for the plugin.
