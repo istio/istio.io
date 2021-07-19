@@ -7,7 +7,7 @@ aliases:
     - /docs/setup/kubernetes/additional-setup/cni
 keywords: [cni]
 owner: istio/wg-networking-maintainers
-test: no
+test: yes
 ---
 
 Follow this guide to install, configure, and use an Istio mesh using the Istio Container Network Interface
@@ -191,16 +191,6 @@ To redirect traffic in the application pod's network namespace to/from the Istio
 the Istio CNI plugin configures the namespace's iptables.
 You can adjust traffic redirection parameters using pod annotations, such as ports and IP ranges to be included or excluded from redirection.
 See [resource annotations](/docs/reference/config/annotations) for available parameters.
-
-### Logging & Monitoring
-
-The Istio CNI plugin runs in the container runtime process space.
-Due to this, the `kubelet` process writes the plugin's log entries into its log.
-In addition to `kubelet` log, the CNI plugin also sends its log to the CNI DaemonSet.
-See [CNI troubleshooting guide](/docs/ops/diagnostic-tools/cni/) for more details.
-
-The CNI DaemonSet [generates metrics](/docs/reference/commands/install-cni/#metrics),
-which can be used to monitor CNI installation, readiness, and race condition mitigation.
 
 ### Compatibility with application init containers
 
