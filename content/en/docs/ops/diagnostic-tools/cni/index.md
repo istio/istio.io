@@ -37,8 +37,24 @@ A common issue with Istio CNI is that pod fails to start up due to container net
 Typically the failure reason is written to the pod events and is visible via pod description.
 
 {{< text bash >}}
-$ kubectl describe pod FAILED_POD_NAME
+$ kubectl describe pod POD_NAME -n POD_NAMESPACE
 {{< /text >}}
+
+If pod keeps getting init error, check the init container `istio-validation` log and
+see if it complains about connection refused:
+
+{{< text bash >}}
+$ kubectl logs POD_NAME -n POD_NAMESPACE -c istio-validation
+...
+2021-07-20T05:30:17.111930Z     error   Error connecting to 127.0.0.6:15002: dial tcp 127.0.0.1:0->127.0.0.6:15002: connect: connection refused
+2021-07-20T05:30:18.112503Z     error   Error connecting to 127.0.0.6:15002: dial tcp 127.0.0.1:0->127.0.0.6:15002: connect: connection refused
+...
+2021-07-20T05:30:22.111676Z     error   validation timeout
+{{< /text >}}
+
+This happens because pod traffic redirection is not set up correctly by Istio CNI and
+the `istio-validation` init container blocks pod startup to prevent traffic bypass.
+You can check `istio-cni-node` DaemonSet log and look for pod ID to see if there are any errors or unexpected network setup behaviors.
 
 The other symptom of malfunctioned Istio CNI is that the application pod keeps being evicted at start-up time.
 This is typically because the CNI plugin is not properly installed, thus pod traffic redirection cannot be set up.
