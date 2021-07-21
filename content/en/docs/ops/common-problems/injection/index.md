@@ -6,7 +6,7 @@ weight: 40
 aliases:
   - /docs/ops/troubleshooting/injection
 owner: istio/wg-user-experience-maintainers
-test: no
+test: n/a
 ---
 
 ## The result of sidecar injection was not what I expected

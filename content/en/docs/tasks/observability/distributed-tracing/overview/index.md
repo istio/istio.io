@@ -6,7 +6,7 @@ keywords: [telemetry,tracing]
 aliases:
  - /docs/tasks/telemetry/distributed-tracing/overview/
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: n/a
 ---
 
 Distributed tracing enables users to track a request through mesh that is distributed across multiple services.

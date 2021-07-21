@@ -19,7 +19,7 @@ aliases:
   - /help/ops/setup/required-pod-capabilities
   - /docs/ops/prep/requirements
 owner: istio/wg-environments-maintainers
-test: no
+test: n/a
 ---
 
 Istio provides a great deal of functionality to applications with little or no impact on the application code itself.

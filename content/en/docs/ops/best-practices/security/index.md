@@ -4,7 +4,7 @@ description: Best practices for securing applications using Istio.
 force_inline_toc: true
 weight: 30
 owner: istio/wg-security-maintainers
-test: no
+test: n/a
 ---
 
 Istio security features provide strong identity, powerful policy, transparent TLS encryption, and authentication, authorization and audit (AAA) tools to protect your services and data.
