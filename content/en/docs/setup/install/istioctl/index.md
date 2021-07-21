@@ -258,7 +258,7 @@ customized install using these commands:
 
 {{< text bash >}}
 $ istioctl manifest generate > 1.yaml
-$ istioctl manifest generate -f operator/samples/pilot-k8s.yaml > 2.yaml
+$ istioctl manifest generate -f samples/operator/pilot-k8s.yaml > 2.yaml
 $ istioctl manifest diff 1.yaml 2.yaml
 Differences of manifests are:
 
