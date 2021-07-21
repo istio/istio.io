@@ -43,7 +43,7 @@ replaces the functionality provided by the `istio-init` container.
        [intranode visibility](https://cloud.google.com/kubernetes-engine/docs/how-to/intranode-visibility),
        [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity),
        [pod security policy](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#overview),
-       and [dataplane v2](https://cloud.google.com/kubernetes-engine/docs/concepts/dataplane-v2).
+       or [dataplane v2](https://cloud.google.com/kubernetes-engine/docs/concepts/dataplane-v2).
     * OpenShift has CNI enabled by default.
 
 1. Install Kubernetes with the [ServiceAccount admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#serviceaccount) enabled.
@@ -61,11 +61,6 @@ spec:
   components:
     cni:
       enabled: true
-  values:
-    cni:
-      excludeNamespaces:
-        - istio-system
-        - kube-system
 {{< /text >}}
 
 This will deploy an `istio-cni-node` DaemonSet into the cluster, which installs Istio CNI plugin binary to each node and set up needed configuration for the plugin.
@@ -95,9 +90,6 @@ spec:
       namespace: kube-system
   values:
     cni:
-      excludeNamespaces:
-        - istio-system
-        - kube-system
       cniBinDir: /home/kubernetes/bin
 {{< /text >}}
 
@@ -116,9 +108,6 @@ spec:
       injectedAnnotations:
         k8s.v1.cni.cncf.io/networks: istio-cni
     cni:
-      excludeNamespaces:
-        - istio-system
-        - kube-system
       cniBinDir: /var/lib/cni/bin
       cniConfDir: /etc/cni/multus/net.d
       cniConfFileName: istio-cni.conf
@@ -186,7 +175,8 @@ This mitigation is enabled by default and can be turned off by setting `values.c
 
 To redirect traffic in the application pod's network namespace to/from the Istio proxy sidecar,
 the Istio CNI plugin configures the namespace's iptables.
-You can adjust traffic redirection parameters using pod annotations, such as ports and IP ranges to be included or excluded from redirection.
+You can adjust traffic redirection parameters using the same pod annotations as normal,
+such as ports and IP ranges to be included or excluded from redirection.
 See [resource annotations](/docs/reference/config/annotations) for available parameters.
 
 ### Compatibility with application init containers
