@@ -17,6 +17,6 @@ This release note describes what’s different between Istio 1.9.1 and Istio 1.9
 
 - **Added** validator for empty regex match. ([Issue 34065](https://github.com/istio/istio/issues/34065))
 
-- **Fixed** endpointslice races leading to error state. ([Issue 33672](https://github.com/istio/istio/issues/33672))
+- **Fixed** `EndpointSlice` races leading to error state. ([Issue 33672](https://github.com/istio/istio/issues/33672))
 
-- **Fixed** endpointslice creating duplicate IPs on service update.
+- **Fixed** `EndpointSlice` creating duplicate IPs on service update.
