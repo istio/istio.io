@@ -9,7 +9,7 @@ aliases:
     - /news/announcing-1.9.7
 ---
 
-This release note describes what’s different between Istio 1.9.1 and Istio 1.9.2.
+This release note describes what’s different between Istio 1.9.6 and Istio 1.9.7.
 
 {{< relnote >}}
 
