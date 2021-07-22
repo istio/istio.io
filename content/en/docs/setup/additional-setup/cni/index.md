@@ -31,6 +31,12 @@ setup phase, thereby removing the [requirement for the `NET_ADMIN` and `NET_RAW`
 for users deploying pods into the Istio mesh.  The Istio CNI plugin
 replaces the functionality provided by the `istio-init` container.
 
+{{< tip >}}
+Note: The Istio CNI plugin operates as a chained CNI plugin, and it needs to be used with other main CNI plugins,
+such as [PTP](https://www.cni.dev/plugins/current/main/ptp/), and [Calico](https://docs.projectcalico.org/about/about-calico).
+See [compatibility with other CNI plugins](#compatibility-with-other-cni-plugins) for details.
+{{< /tip >}}
+
 ## Install CNI
 
 ### Prerequisites
@@ -65,6 +71,8 @@ spec:
 
 This will deploy an `istio-cni-node` DaemonSet into the cluster, which installs Istio CNI plugin binary to each node and set up needed configuration for the plugin.
 The `istio-cni-node` DaemonSet runs with [`system-node-critical`](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `PriorityClass`.
+
+{{< image width="60%" link="./cni.svg" caption="Istio CNI" >}}
 
 There are several commonly used install options:
 
