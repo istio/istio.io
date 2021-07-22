@@ -27,11 +27,6 @@ spec:
   components:
     cni:
       enabled: true
-  values:
-    cni:
-      excludeNamespaces:
-        - istio-system
-        - kube-system
 ENDSNIP
 
 ! read -r -d '' snip_hosted_kubernetes_settings_1 <<\ENDSNIP
@@ -44,9 +39,6 @@ spec:
       namespace: kube-system
   values:
     cni:
-      excludeNamespaces:
-        - istio-system
-        - kube-system
       cniBinDir: /home/kubernetes/bin
 ENDSNIP
 
@@ -63,9 +55,6 @@ spec:
       injectedAnnotations:
         k8s.v1.cni.cncf.io/networks: istio-cni
     cni:
-      excludeNamespaces:
-        - istio-system
-        - kube-system
       cniBinDir: /var/lib/cni/bin
       cniConfDir: /etc/cni/multus/net.d
       cniConfFileName: istio-cni.conf
