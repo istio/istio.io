@@ -33,7 +33,7 @@ replaces the functionality provided by the `istio-init` container.
 
 {{< tip >}}
 Note: The Istio CNI plugin operates as a chained CNI plugin, and it needs to be used with other main CNI plugins,
-such as [PTP](https://www.cni.dev/plugins/current/main/ptp/), and [Calico](https://docs.projectcalico.org/about/about-calico).
+such as [PTP](https://www.cni.dev/plugins/current/main/ptp/), and [Calico](https://docs.projectcalico.org).
 See [compatibility with other CNI plugins](#compatibility-with-other-cni-plugins) for details.
 {{< /tip >}}
 
