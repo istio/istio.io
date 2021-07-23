@@ -22,8 +22,7 @@ spans, as well as backend provider selection.
 
 The Telemetry API offers tracing behavior configuration control over the following at the mesh, namespace, and workload levels:
 
-- **provider selection** - allows selection of [backend providers
-(configured in MeshConfig)](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) for reporting.
+- **provider selection** - allows selection of [backend providers](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) for reporting.
 
 - **sampling percentage** - allows control of the rate of trace sampling applied to received requests *for which no prior sampling decision has been made*.
 
@@ -48,7 +47,7 @@ Telemetry API resources inherit configuration from parent resources in the Istio
 1.  workload (namespace-scoped resource with a workload `selector`)
 
 A Telemetry API resource in the root configuration namespace, typically `istio-system`, provides mesh-wide defaults for behavior.
-Any workload-specific selector in the root configuration namespace will be ignored/rejected. It is not valid to define multiple 
+Any workload-specific selector in the root configuration namespace will be ignored/rejected. It is not valid to define multiple
 mesh-wide Telemetry API resources in the root configuration namespace.
 
 Namespace-specific overrides for the mesh-wide configuration can be achieved by applying a new `Telemetry` resource in the desired
