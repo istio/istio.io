@@ -11,7 +11,7 @@ status: Beta/Experimental
 ---
 
 {{< tip >}}
-Users are encouraged to transition to the [Telemetry API for tracing configuration](/docs/tasks/observability/distributed-tracing/configurability/telemetry-api/).
+Users are encouraged to transition to the [Telemetry API](/docs/tasks/observability/distributed-tracing/configurability/telemetry-api/) for tracing configuration.
 {{</ tip >}}
 
 Istio provides the ability to configure advanced tracing options,
