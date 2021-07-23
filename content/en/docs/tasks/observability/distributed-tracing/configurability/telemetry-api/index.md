@@ -49,7 +49,7 @@ Telemetry API resources inherit configuration from parent resources in the Istio
 1.  workload (namespace-scoped resource with a workload `selector`)
 
 A Telemetry API resource in the root configuration namespace, typically `istio-system`, provides mesh-wide defaults for behavior.
-Do not specify any workload-specific selector in the root configuration namespace (it will be ignored).
+Do not specify any workload-specific selector in the root configuration namespace (it will be ignored). It is not valid to define multiple mesh-wide Telemetry API resource in the root configuration namespace.
 
 Namespace-specific overrides for the mesh-wide configuration can be achieved by applying a new `Telemetry` resource in the desired
 namespace (without a workload selector). Any `Tracing` fields specified in the namespace configuration will completely override
