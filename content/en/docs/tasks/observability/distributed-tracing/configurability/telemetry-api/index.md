@@ -9,7 +9,7 @@ status: Experimental
 ---
 
 Istio provides a Telemetry API that enables flexible configuration of tracing behavior. The
-Telemetry API offers controls over tracing options such as sampling rates and custom tags for individual
+Telemetry API offers control over tracing options such as sampling rates and custom tags for individual
 spans, as well as backend provider selection.
 
 ## Before you begin
