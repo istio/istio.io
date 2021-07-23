@@ -38,7 +38,6 @@ When you set the `istio-injection=enabled` label on a namespace and the injectio
 
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead, you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
-
 #### Deploying an app
 
 Deploy sleep app. Verify both deployment and pod have a single container.
@@ -135,7 +134,6 @@ The injector is configured with the following logic:
 1. If either label is disabled, the pod is not injected
 1. If either label is enabled, the pod is injected
 1. If neither label is set, the pod is injected if `.values.sidecarInjectorWebhook.enableNamespacesByDefault` is enabled. This is not enabled by default, so generally this means the pod is not injected.
-
 
 ### Manual sidecar injection
 
