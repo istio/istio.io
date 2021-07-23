@@ -14,7 +14,7 @@ spans, as well as backend provider selection.
 
 ## Before you begin
 
-1.  Ensure that your applications propagate tracing headers as described [here](/docs/tasks/observability/distributed-tracing/overview/).
+1.  Ensure that your applications [propagate tracing headers](/docs/tasks/observability/distributed-tracing/overview/).
 1.  Follow the tracing installation guide located under [Integrations](/docs/ops/integrations/)
     to install your preferred tracing provider.
 
