@@ -26,7 +26,7 @@ The Telemetry API offers tracing behavior configuration control over the followi
 ([providers](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider)
 are configured in `MeshConfig`) for reporting.
 
-- **sampling percentage** - allows control the rate of trace sampling applied to received requests *for which no prior sampling decision has been made*.
+- **sampling percentage** - allows control of the rate of trace sampling applied to received requests *for which no prior sampling decision has been made*.
 
 - **custom tags** - allows control over any custom tags to add to each generated tracing span.
 
