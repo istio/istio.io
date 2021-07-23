@@ -66,7 +66,7 @@ Alternatively, a `Certificate` can be created as described in [Istio Gateway](#i
 
 {{< text yaml >}}
 apiVersion: networking.k8s.io/v1beta1
-Kind: Ingress
+kind: Ingress
 metadata:
   name: ingress
   annotations:
