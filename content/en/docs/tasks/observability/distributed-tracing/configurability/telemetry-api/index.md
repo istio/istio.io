@@ -22,9 +22,8 @@ spans, as well as backend provider selection.
 
 The Telemetry API offers tracing behavior configuration control over the following at the mesh, namespace, and workload levels:
 
-- **provider selection** - allows selection of backend providers
-([providers](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider)
-are configured in `MeshConfig`) for reporting.
+- **provider selection** - allows selection of [backend providers
+(configured in MeshConfig)](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) for reporting.
 
 - **sampling percentage** - allows control of the rate of trace sampling applied to received requests *for which no prior sampling decision has been made*.
 
