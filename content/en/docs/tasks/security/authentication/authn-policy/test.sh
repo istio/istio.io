@@ -55,12 +55,9 @@ snip_enable_mutual_tls_per_workload_1
 snip_enable_mutual_tls_per_workload_2
 _wait_for_istio peerauthentication bar httpbin
 
-_verify_same  snip_enable_mutual_tls_per_workload_3 "$snip_enable_mutual_tls_per_workload_3_out"
-
 # Ignore snip_enable_mutual_tls_per_workload_4()--it's just text.
 
 snip_enable_mutual_tls_per_workload_5
-snip_enable_mutual_tls_per_workload_6
 _wait_for_istio peerauthentication bar httpbin
 
 _verify_same  snip_enable_mutual_tls_per_workload_7 "$snip_enable_mutual_tls_per_workload_7_out"
@@ -68,8 +65,6 @@ _verify_same  snip_enable_mutual_tls_per_workload_7 "$snip_enable_mutual_tls_per
 snip_policy_precedence_1
 snip_policy_precedence_2
 _wait_for_istio peerauthentication foo overwrite-example
-
-_verify_same  snip_policy_precedence_3 "$snip_policy_precedence_3_out"
 
 snip_cleanup_part_2_1
 
