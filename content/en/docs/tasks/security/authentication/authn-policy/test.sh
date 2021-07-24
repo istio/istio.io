@@ -54,7 +54,6 @@ _verify_same  snip_namespacewide_policy_2 "$snip_namespacewide_policy_2_out"
 snip_enable_mutual_tls_per_workload_1
 snip_enable_mutual_tls_per_workload_2
 _wait_for_istio peerauthentication bar httpbin
-_wait_for_istio destinationrule  bar httpbin
 
 _verify_same  snip_enable_mutual_tls_per_workload_3 "$snip_enable_mutual_tls_per_workload_3_out"
 
@@ -63,14 +62,12 @@ _verify_same  snip_enable_mutual_tls_per_workload_3 "$snip_enable_mutual_tls_per
 snip_enable_mutual_tls_per_workload_5
 snip_enable_mutual_tls_per_workload_6
 _wait_for_istio peerauthentication bar httpbin
-_wait_for_istio destinationrule  bar httpbin
 
 _verify_same  snip_enable_mutual_tls_per_workload_7 "$snip_enable_mutual_tls_per_workload_7_out"
 
 snip_policy_precedence_1
 snip_policy_precedence_2
 _wait_for_istio peerauthentication foo overwrite-example
-_wait_for_istio destinationrule  foo overwrite-example
 
 _verify_same  snip_policy_precedence_3 "$snip_policy_precedence_3_out"
 
