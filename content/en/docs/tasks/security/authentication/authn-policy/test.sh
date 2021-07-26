@@ -60,7 +60,7 @@ _wait_for_istio peerauthentication bar httpbin
 snip_enable_mutual_tls_per_workload_4
 _wait_for_istio peerauthentication bar httpbin
 
-_verify_same  snip_enable_mutual_tls_per_workload_5 "$snip_enable_mutual_tls_per_workload_4"
+_verify_same  snip_enable_mutual_tls_per_workload_5 "$snip_policy_precedence_2_out"
 
 snip_policy_precedence_1
 snip_policy_precedence_2
