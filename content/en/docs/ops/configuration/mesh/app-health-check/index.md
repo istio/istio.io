@@ -15,10 +15,11 @@ test: yes
 ---
 
 [Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
-describes several ways to configure liveness and readiness probes including:
+describes several ways to configure liveness and readiness probes:
 
 1. [Command](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command)
 1. [HTTP request](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-http-request)
+1. [TCP probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-tcp-liveness-probe)
 
 The command approach works with Istio regardless of whether or not mutual TLS is enabled.
 
@@ -26,13 +27,21 @@ The HTTP request approach, on the other hand, requires special Istio configurati
 This is because the health check requests to the `liveness-http` service are sent by Kubelet,
 which does not have an Istio issued certificate. Therefore when mutual TLS is enabled,
 the health check requests will fail.
-
 Istio solves this problem by rewriting the application `PodSpec` readiness/liveness probe,
 so that the probe request is sent to the [sidecar agent](/docs/reference/commands/pilot-agent/).
 The sidecar agent then redirects the request to the application, strips the response body, only returning the response code.
 
-This feature is enabled by default in all built-in Istio [configuration profiles](/docs/setup/additional-setup/config-profiles/)
-but can be disabled as described below.
+TCP probe based checks always need special handling, because:
+
+- Istio will redirect any incoming traffic into the sidecar any TCP port will appear open.
+- For TCP probes the Kubelet simply checks, if some process is listening on the specified port.
+
+As a consequence the probes would always succeed as long as the sidecar is running.
+Istio will therefore also rewrite the application `PodSpec` readiness/liveness probes.
+The sidecar agent will then do the port check while avoiding the traffic redirection.
+
+The rewriting of all problematic probes is enabled by default in all built-in Istio
+[configuration profiles](/docs/setup/additional-setup/config-profiles/) but can be disabled as described below.
 
 ## Liveness and readiness probes using the command approach
 
@@ -78,7 +87,7 @@ liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 As stated previously, Istio uses probe rewrite to implement HTTP probes by default. You can disable this
 feature either for specific pods, or globally.
 
-### Disable the HTTP probe rewrite for a pod
+### Disable the probe rewrite for a pod {#disable-the-http-probe-rewrite-for-a-pod}
 
 You can [annotate the pod](/docs/reference/config/annotations/) with `sidecar.istio.io/rewriteAppHTTPProbers: "false"`
 to disable the probe rewrite option. Make sure you add the annotation to the
