@@ -113,7 +113,7 @@ export GATEWAY_URL=$(kubectl \
     -n external-istiod get svc istio-ingressgateway \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
-_verify_contains snip_enable_gateways_ "Hello version: v1"
+_verify_contains snip_enable_gateways_6 "Hello version: v1"
 
 # Adding clusters to the mesh.
 
@@ -143,8 +143,11 @@ snip_setup_eastwest_gateways_6
 snip_validate_the_installation_1
 snip_validate_the_installation_2
 _verify_like snip_validate_the_installation_3 "$snip_validate_the_installation_3_out"
-_verify_like snip_validate_the_installation_4 "$snip_validate_the_installation_4_out"
-_verify_like snip_validate_the_installation_5 "$snip_validate_the_installation_5_out"
+_verify_contains snip_validate_the_installation_4 "Hello version:"
+_verify_lines snip_validate_the_installation_5 "
++  Hello version: v1
++  Hello version: v2
+"
 
 # @cleanup
 _set_kube_vars # helper function to initialize KUBECONFIG_FILES and KUBE_CONTEXTS
