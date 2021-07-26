@@ -113,7 +113,38 @@ export GATEWAY_URL=$(kubectl \
     -n external-istiod get svc istio-ingressgateway \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
-_verify_contains snip_enable_gateways_6 "Hello version: v1"
+_verify_contains snip_enable_gateways_ "Hello version: v1"
+
+# Adding clusters to the mesh.
+
+export CTX_SECOND_CLUSTER="${KUBE_CONTEXTS[1]}"
+export SECOND_CLUSTER_NAME="${CTX_SECOND_CLUSTER}"
+
+snip_get_second_config_cluster_iop
+echo y | snip_register_the_new_cluster_2
+
+# Confirm remote cluster’s webhook configuration has been installed
+_verify_like snip_register_the_new_cluster_3 "$snip_register_the_new_cluster_3_out"
+
+# Create a secret with credentials to allow the control plane to access the endpoints on the second remote cluster and install it
+snip_register_the_new_cluster_4
+
+# Setup east-west gateways
+snip_setup_eastwest_gateways_1
+snip_setup_eastwest_gateways_2
+
+_verify_like snip_setup_eastwest_gateways_3 "$snip_setup_eastwest_gateways_3_out"
+_verify_like snip_setup_eastwest_gateways_4 "$snip_setup_eastwest_gateways_4_out"
+
+snip_setup_eastwest_gateways_5
+snip_setup_eastwest_gateways_6
+
+# Validate the installation.
+snip_validate_the_installation_1
+snip_validate_the_installation_2
+_verify_like snip_validate_the_installation_3 "$snip_validate_the_installation_3_out"
+_verify_like snip_validate_the_installation_4 "$snip_validate_the_installation_4_out"
+_verify_like snip_validate_the_installation_5 "$snip_validate_the_installation_5_out"
 
 # @cleanup
 _set_kube_vars # helper function to initialize KUBECONFIG_FILES and KUBE_CONTEXTS
