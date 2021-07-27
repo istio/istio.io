@@ -145,8 +145,8 @@ snip_validate_the_installation_2
 _verify_like snip_validate_the_installation_3 "$snip_validate_the_installation_3_out"
 _verify_contains snip_validate_the_installation_4 "Hello version:"
 _verify_lines snip_validate_the_installation_5 "
-+  Hello version: v1
-+  Hello version: v2
++ Hello version: v1
++ Hello version: v2
 "
 
 # @cleanup
@@ -173,4 +173,4 @@ kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
 kubectl delete ns external-istiod --context="${CTX_SECOND_CLUSTER}"
 kubectl delete ns istio-system --context="${CTX_REMOTE_CLUSTER}" # TODO: remove when https://github.com/istio/istio/issues/31495 fixed
 
-rm external-istiod-gw.yaml remote-config-cluster.yaml external-istiod.yaml controlplane-gateway.yaml
+rm external-istiod-gw.yaml remote-config-cluster.yaml external-istiod.yaml controlplane-gateway.yaml eastwest-gateway-1.yaml eastwest-gateway-2.yaml second-config-cluster.yaml
