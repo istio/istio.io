@@ -12,6 +12,7 @@ enableGitInfo = true
 enableEmoji = false
 buildFuture = true
 staticDir = ["static", "generated"]
+baseURL = "https://cloudnative.to/istio.io"
 
 # we use Netlify server-side redirects instead of generated aliases
 disableAliases = true
