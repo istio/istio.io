@@ -81,9 +81,17 @@ There are several commonly used install options:
   `values.cni.cniConfFileName` configures the name of plugin configuration file.
 * `values.cni.chained` controls whether to configure the Istio CNI plugin as a chained CNI plugin.
 
+{{< tip >}}
+Note there is a time gap between a node becomes schedulable and Istio CNI plugin becomes ready on that node.
+If an application pod starts up during that time gap, it is possible that the traffic redirection is not properly set up and traffic can bypass Istio sidecar.
+This race condition is mitigated by a `detect and repair` method.
+Please take a look at [race condition & mitigation](#race-condition-mitigation) section to understand the implication of this mitigation.
+{{< /tip >}}
+
 ### Hosted Kubernetes settings
 
 The `istio-cni` plugin is expected to work with any hosted Kubernetes leveraging CNI plugins.
+The default installation configuration works with most platforms.
 Some platforms required special installation settings.
 
 * Google Kubernetes Engine
@@ -203,6 +211,11 @@ Avoid this traffic loss with one or both of the following settings:
   CIDRs the init containers communicate with.
 * Set the `traffic.sidecar.istio.io/excludeOutboundPorts` annotation to disable redirecting traffic to the
   specific outbound ports the init containers use.
+
+{{< warning >}}
+Please use the above settings with caution, since the IP/port exclusion annotations not only apply to init container traffic,
+but also application container traffic. i.e the application traffic sends to the configured IP/port will bypass Istio sidecar.
+{{< /warning >}}
 
 ### Compatibility with other CNI plugins
 
