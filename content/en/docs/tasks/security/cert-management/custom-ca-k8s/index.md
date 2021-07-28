@@ -216,7 +216,6 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
     $ istioctl install --set profile=demo -f ./istio.yaml
     {{< /text >}}
 
-
 1. Deploy the `bookinfo` sample application in the bookinfo namespace.
 
     {{< text bash >}}
