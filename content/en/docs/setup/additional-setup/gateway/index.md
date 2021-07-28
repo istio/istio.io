@@ -52,7 +52,7 @@ As a security best practice, it is recommended to deploy the gateway in a differ
 First, setup an `IstioOperator` configuration file, called `ingress.yaml` here:
 
 {{< text yaml >}}
-apiVersion: operator.istio.io/v1alpha1
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   name: ingress
