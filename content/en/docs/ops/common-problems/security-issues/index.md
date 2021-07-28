@@ -9,7 +9,7 @@ aliases:
     - /help/ops/troubleshooting/repairing-citadel
     - /docs/ops/troubleshooting/repairing-citadel
 owner: istio/wg-security-maintainers
-test: no
+test: n/a
 ---
 
 ## End-user authentication fails
