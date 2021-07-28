@@ -173,24 +173,6 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
     kind: IstioOperator
     spec:
       components:
-        base:
-          k8s:
-            overlays:
-              # Amend ClusterRole to add permission for istiod to approve certificate signing by custom signer
-              - kind: ClusterRole
-                name: istiod-istio-system
-                patches:
-                  - path: rules[-1]
-                    value: |
-                      apiGroups:
-                      - certificates.k8s.io
-                      resourceNames:
-                      # Name of k8s external Signer in this example
-                      - example.com/foo
-                      resources:
-                      - signers
-                      verbs:
-                      - approve
         pilot:
           k8s:
             env:
@@ -201,28 +183,39 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
               - name: K8S_SIGNER
                 value: example.com/foo
             overlays:
-            - kind: Deployment
-              name: istiod
-              patches:
-                - path: spec.template.spec.containers[0].volumeMounts[-1]
-                  value: |
-                    # Mount external CA certificate into Istiod
-                    name: external-ca-cert
-                    mountPath: /etc/external-ca-cert
-                    readOnly: true
-                - path: spec.template.spec.volumes[-1]
-                  value: |
-                    name: external-ca-cert
-                    secret:
-                      secretName: external-ca-cert
-                      optional: true
+              # Amend ClusterRole to add permission for istiod to approve certificate signing by custom signer
+              - kind: ClusterRole
+                name: istiod-clusterrole-istio-system
+                patches:
+                  - path: rules[-1]
+                    value: |
+                      apiGroups:
+                      - certificates.k8s.io
+                      resourceNames:
+                      - example.com/foo
+                      resources:
+                      - signers
+                      verbs:
+                      - approve
+              - kind: Deployment
+                name: istiod
+                patches:
+                  - path: spec.template.spec.containers[0].volumeMounts[-1]
+                    value: |
+                      # Mount external CA certificate into Istiod
+                      name: external-ca-cert
+                      mountPath: /etc/external-ca-cert
+                      readOnly: true
+                  - path: spec.template.spec.volumes[-1]
+                    value: |
+                      name: external-ca-cert
+                      secret:
+                        secretName: external-ca-cert
+                        optional: true
     EOF
     $ istioctl install --set profile=demo -f ./istio.yaml
     {{< /text >}}
 
-    {{< warning >}}
-    Note that `istiod-clusterrole-istio-system` might be the right ClusterRole instead of `istiod-istio-system` when encountering error like this `error  failed to approve CSR (csr-workload-xxxxxx): certificatesigningrequests.certificates.k8s.io "csr-workload-xxxxxx" is forbidden: user not permitted to approve requests with signerName "yyyyyy"`, however user can not just replace above ClusterRole's name with `istiod-clusterrole-istio-system` due to there would be no `istiod-clusterrole-istio-system` before Istio's installation completed, so user need to use `kubectl edit` to append above rule content to ClusterRole `istiod-clusterrole-istio-system` before Istio installation timeout.
-    {{< /warning >}}
 
 1. Deploy the `bookinfo` sample application in the bookinfo namespace.
 
