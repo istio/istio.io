@@ -300,7 +300,7 @@ ENDSNIP
 
 snip_enable_gateways_1() {
 cat <<EOF > istio-ingressgateway.yaml
-apiVersion: operator.istio.io/v1alpha1
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   profile: empty
@@ -319,7 +319,7 @@ istioctl install -f istio-ingressgateway.yaml --context="${CTX_REMOTE_CLUSTER}"
 
 snip_enable_gateways_2() {
 cat <<EOF > istio-egressgateway.yaml
-apiVersion: operator.istio.io/v1alpha1
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   profile: empty
