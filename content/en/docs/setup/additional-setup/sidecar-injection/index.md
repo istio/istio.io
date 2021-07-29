@@ -231,7 +231,7 @@ Completely custom templates can also be defined at installation time.
 For example, to define a custom template that injects the `GREETING` environment variable into the `istio-proxy` container:
 
 {{< text yaml >}}
-apiVersion: operator.istio.io/v1alpha1
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   name: istio

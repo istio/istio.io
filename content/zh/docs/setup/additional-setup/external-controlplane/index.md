@@ -401,7 +401,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
 
     {{< text bash >}}
     $ cat <<EOF > istio-ingressgateway.yaml
-    apiVersion: operator.istio.io/v1alpha1
+    apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
       profile: empty
@@ -422,7 +422,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
 
     {{< text bash >}}
     $ cat <<EOF > istio-egressgateway.yaml
-    apiVersion: operator.istio.io/v1alpha1
+    apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
       profile: empty
