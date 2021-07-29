@@ -114,7 +114,7 @@ istiod-canary-6956db645c-vwhsk
 
 The output confirms that the pod is using `istiod-canary` revision of the control plane.
 
-## Stable revision labels
+## Stable revision labels (experimental)
 
 Manually relabeling namespaces when moving them to a new revision can be tedious and error-prone.
 [Revision tags](/docs/reference/commands/istioctl/#istioctl-experimental-tag) solve this problem.
