@@ -25,15 +25,15 @@ is a replacement for the `istio-init` container that performs the same
 networking functionality but without requiring Istio users to enable elevated
 Kubernetes RBAC permissions.
 
-The Istio CNI plugin identifies Istio user application pods with Istio sidecars requiring traffic redirection and
-performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle's network
+The Istio CNI plugin identifies user application pods with sidecars requiring traffic redirection and
+sets this up in the Kubernetes pod lifecycle's network
 setup phase, thereby removing the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/requirements/)
 for users deploying pods into the Istio mesh.  The Istio CNI plugin
 replaces the functionality provided by the `istio-init` container.
 
 {{< tip >}}
-Note: The Istio CNI plugin operates as a chained CNI plugin, and it needs to be used with other main CNI plugins,
-such as [PTP](https://www.cni.dev/plugins/current/main/ptp/), and [Calico](https://docs.projectcalico.org).
+Note: The Istio CNI plugin operates as a chained CNI plugin, and it needs to be used with another CNI plugin,
+such as [PTP](https://www.cni.dev/plugins/current/main/ptp/) or [Calico](https://docs.projectcalico.org).
 See [compatibility with other CNI plugins](#compatibility-with-other-cni-plugins) for details.
 {{< /tip >}}
 
@@ -44,7 +44,7 @@ See [compatibility with other CNI plugins](#compatibility-with-other-cni-plugins
 1. Install Kubernetes with the container runtime supporting CNI and `kubelet` configured
   with the main [CNI](https://github.com/containernetworking/cni) plugin enabled via `--network-plugin=cni`.
     * AWS EKS, Azure AKS, and IBM Cloud IKS clusters have this capability.
-    * Google Cloud GKE clusters has CNI enabled when any of the following features is enabled:
+    * Google Cloud GKE clusters have CNI enabled when any of the following features are enabled:
        [network policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy),
        [intranode visibility](https://cloud.google.com/kubernetes-engine/docs/how-to/intranode-visibility),
        [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity),
@@ -69,28 +69,28 @@ spec:
       enabled: true
 {{< /text >}}
 
-This will deploy an `istio-cni-node` DaemonSet into the cluster, which installs Istio CNI plugin binary to each node and set up needed configuration for the plugin.
-The `istio-cni-node` DaemonSet runs with [`system-node-critical`](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `PriorityClass`.
+This will deploy an `istio-cni-node` DaemonSet into the cluster, which installs the Istio CNI plugin binary to each node and sets up the necessary configuration for the plugin.
+The CNI DaemonSet runs with [`system-node-critical`](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `PriorityClass`.
 
 {{< image width="60%" link="./cni.svg" caption="Istio CNI" >}}
 
 There are several commonly used install options:
 
 * `components.cni.namespace=kube-system` configures the namespace to install the CNI DaemonSet.
-* `values.cni.cniBinDir` and `values.cni.cniConfDir` configure the directory paths to install plugin binary and create plugin configuration.
-  `values.cni.cniConfFileName` configures the name of plugin configuration file.
-* `values.cni.chained` controls whether to configure the Istio CNI plugin as a chained CNI plugin.
+* `values.cni.cniBinDir` and `values.cni.cniConfDir` configure the directory paths to install the plugin binary and create plugin configuration.
+  `values.cni.cniConfFileName` configures the name of the plugin configuration file.
+* `values.cni.chained` controls whether to configure the plugin as a chained CNI plugin.
 
 {{< tip >}}
-Note there is a time gap between a node becomes schedulable and Istio CNI plugin becomes ready on that node.
-If an application pod starts up during that time gap, it is possible that the traffic redirection is not properly set up and traffic can bypass Istio sidecar.
-This race condition is mitigated by a `detect and repair` method.
+There is a time gap between a node becomes schedulable and the Istio CNI plugin becomes ready on that node.
+If an application pod starts up during this time, it is possible that traffic redirection is not properly set up and traffic would be able to bypass the Istio sidecar.
+This race condition is mitigated by a "detect and repair" method.
 Please take a look at [race condition & mitigation](#race-condition-mitigation) section to understand the implication of this mitigation.
 {{< /tip >}}
 
 ### Hosted Kubernetes settings
 
-The `istio-cni` plugin is expected to work with any hosted Kubernetes leveraging CNI plugins.
+The `istio-cni` plugin is expected to work with any hosted Kubernetes version using CNI plugins.
 The default installation configuration works with most platforms.
 Some platforms required special installation settings.
 
@@ -134,12 +134,12 @@ spec:
 
 ### Upgrade
 
-When upgrading Istio with [in-place upgrade](/docs/setup/upgrade/in-place/),
+When upgrading Istio with [in-place upgrade](/docs/setup/upgrade/in-place/), the
 CNI component can be upgraded together with the control plane using one `IstioOperator` resource.
 
-When upgrading Istio with [canary upgrade](/docs/setup/upgrade/canary/), since CNI component runs as a cluster singleton,
-it is recommended to operate and upgrade CNI separately from the revisioned control plane.
-The following `IstioOperator` can be used to operate CNI component independently.
+When upgrading Istio with [canary upgrade](/docs/setup/upgrade/canary/), because the CNI component runs as a cluster singleton,
+it is recommended to operate and upgrade the CNI component separately from the revisioned control plane.
+The following `IstioOperator` can be used to operate the CNI component independently.
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -156,8 +156,8 @@ spec:
         - kube-system
 {{< /text >}}
 
-When installing revisioned control plane with CNI component enabled,
-`values.istio_cni.enabled` needs to be set, so that sidecar injector does not `istio-init` `initContainer`.
+When installing revisioned control planes with the CNI component enabled,
+`values.istio_cni.enabled` needs to be set, so that sidecar injector does not inject the `istio-init``initContainer`.
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -171,20 +171,20 @@ spec:
   ...
 {{< /text >}}
 
-CNI at version `1.x` is compatible with control plane at version `1.x-1`, `1.x`, and `1.x+1`,
+The CNI plugin at version `1.x` is compatible with control plane at version `1.x-1`, `1.x`, and `1.x+1`,
 which means CNI and control plane can be upgraded in any order, as long as their version difference is within one minor version.
 
 ### Race condition & mitigation
 
-Istio CNI DaemonSet installs the CNI network plugin into every node.
-However, a time gap exists between the DaemonSet gets scheduled onto a node, and the CNI plugin gets installed and ready to be used.
-There is a chance that an application pod starts up during that time gap, and `kubelet` has no knowledge of the Istio CNI plugin.
+The Istio CNI DaemonSet installs the CNI network plugin on every node.
+However, a time gap exists between when the DaemonSet pod gets scheduled onto a node, and the CNI plugin is installed and ready to be used.
+There is a chance that an application pod starts up during that time gap, and the `kubelet` has no knowledge of the Istio CNI plugin.
 The result is that the application pod comes up without Istio traffic redirection and bypasses Istio sidecar.
 
 To mitigate the race between an application pod and the Istio CNI DaemonSet,
 an `istio-validation` init container is added as part of the sidecar injection,
-which detects if traffic redirection is set up correctly, and blocks pod starting up if not.
-The CNI DaemonSet will detect and evict pod stuck at such state. The new pod starts up should have traffic redirection set up properly.
+which detects if traffic redirection is set up correctly, and blocks the pod starting up if not.
+The CNI DaemonSet will detect and evict any pod stuck in such state. When the new pod starts up, it should have traffic redirection set up properly.
 This mitigation is enabled by default and can be turned off by setting `values.cni.repair.enabled` to false.
 
 ### Traffic redirection parameters
@@ -214,7 +214,7 @@ Avoid this traffic loss with one or both of the following settings:
 
 {{< warning >}}
 Please use the above settings with caution, since the IP/port exclusion annotations not only apply to init container traffic,
-but also application container traffic. i.e the application traffic sends to the configured IP/port will bypass Istio sidecar.
+but also application container traffic. i.e. application traffic sent to the configured IP/port will bypass the Istio sidecar.
 {{< /warning >}}
 
 ### Compatibility with other CNI plugins
