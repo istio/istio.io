@@ -7,7 +7,7 @@ owner: istio/wg-networking-maintainers
 test: n/a
 ---
 
-This page describes how to troubleshoot issues with Istio CNI.
+This page describes how to troubleshoot issues with the Istio CNI plugin.
 Before reading this, you should read the [CNI installation and operation guide](/docs/setup/additional-setup/cni/).
 
 ## Log
