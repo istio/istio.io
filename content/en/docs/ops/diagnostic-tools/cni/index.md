@@ -1,6 +1,6 @@
 ---
-title: Troubleshooting CNI
-description: Describes tools and techniques to diagnose issues with CNI.
+title: Troubleshooting the Istio CNI plugin
+description: Describes tools and techniques to diagnose issues using Istio with the CNI plugin.
 weight: 90
 keywords: [debug,cni]
 owner: istio/wg-networking-maintainers
