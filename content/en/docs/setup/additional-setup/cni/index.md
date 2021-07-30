@@ -32,7 +32,7 @@ for users deploying pods into the Istio mesh.  The Istio CNI plugin
 replaces the functionality provided by the `istio-init` container.
 
 {{< tip >}}
-Note: The Istio CNI plugin operates as a chained CNI plugin, and it needs to be used with another CNI plugin,
+Note: The Istio CNI plugin operates as a chained CNI plugin, and it is designed to be used with another CNI plugin,
 such as [PTP](https://www.cni.dev/plugins/current/main/ptp/) or [Calico](https://docs.projectcalico.org).
 See [compatibility with other CNI plugins](#compatibility-with-other-cni-plugins) for details.
 {{< /tip >}}
@@ -157,7 +157,7 @@ spec:
 {{< /text >}}
 
 When installing revisioned control planes with the CNI component enabled,
-`values.istio_cni.enabled` needs to be set, so that sidecar injector does not inject the `istio-init``initContainer`.
+`values.istio_cni.enabled` needs to be set, so that sidecar injector does not inject the `istio-init` init container.
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -197,7 +197,7 @@ See [resource annotations](/docs/reference/config/annotations) for available par
 
 ### Compatibility with application init containers
 
-The Istio CNI plugin may cause networking connectivity problems for any application `initContainers`. When using Istio CNI, `kubelet`
+The Istio CNI plugin may cause networking connectivity problems for any application init containers. When using Istio CNI, `kubelet`
 starts an injected pod with the following steps:
 
 1. The Istio CNI plugin sets up traffic redirection to the Istio sidecar proxy within the pod.

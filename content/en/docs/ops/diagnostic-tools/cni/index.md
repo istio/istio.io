@@ -57,7 +57,7 @@ Typically the failure reason is written to the pod events, and is visible via po
 $ kubectl describe pod POD_NAME -n POD_NAMESPACE
 {{< /text >}}
 
-If a pod keeps getting init error, check the init container `istio-validation` log for 
+If a pod keeps getting init error, check the init container `istio-validation` log for
 "connection refused" errors like the following:
 
 {{< text bash >}}
@@ -77,7 +77,7 @@ the `istio-validation` init container blocks pod startup, to prevent traffic byp
 To see if there were any errors or unexpected network setup behaviors,
 search the `istio-cni-node` for the pod ID.
 
-Another symptom of a malfunctioned CNI plugin is that the application pod is continuously evicted at start-up time.  
+Another symptom of a malfunctioned CNI plugin is that the application pod is continuously evicted at start-up time.
 This is typically because the plugin is not properly installed, thus pod traffic redirection cannot be set up.
 CNI [race repair logic](/docs/setup/additional-setup/cni/#race-condition-mitigation) considers the pod is broken due to the race condition and evicts the pod continuously.
 When running into this issue,  check the CNI DaemonSet log for information on why the plugin could not be properly installed.
