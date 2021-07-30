@@ -138,7 +138,7 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
 1. Get the public key of the CA. This is encoded in the secret "signer-ca-*" in the signer-ca-system namespace.
 
     {{< text bash >}}
-    $ kubectl get secrets signer-ca-5hff5h74hm -o json
+    $ kubectl get secrets signer-ca-5hff5h74hm -n signer-ca-system -o json
     {{< /text >}}
 
    The `tls.crt` field contains the base64 encoded public key file. Record this for future use.
@@ -172,24 +172,6 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
     kind: IstioOperator
     spec:
       components:
-        base:
-          k8s:
-            overlays:
-              # Amend ClusterRole to add permission for istiod to approve certificate signing by custom signer
-              - kind: ClusterRole
-                name: istiod-istio-system
-                patches:
-                  - path: rules[-1]
-                    value: |
-                      apiGroups:
-                      - certificates.k8s.io
-                      resourceNames:
-                      # Name of k8s external Signer in this example
-                      - example.com/foo
-                      resources:
-                      - signers
-                      verbs:
-                      - approve
         pilot:
           k8s:
             env:
@@ -200,21 +182,35 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
               - name: K8S_SIGNER
                 value: example.com/foo
             overlays:
-            - kind: Deployment
-              name: istiod
-              patches:
-                - path: spec.template.spec.containers[0].volumeMounts[-1]
-                  value: |
-                    # Mount external CA certificate into Istiod
-                    name: external-ca-cert
-                    mountPath: /etc/external-ca-cert
-                    readOnly: true
-                - path: spec.template.spec.volumes[-1]
-                  value: |
-                    name: external-ca-cert
-                    secret:
-                      secretName: external-ca-cert
-                      optional: true
+              # Amend ClusterRole to add permission for istiod to approve certificate signing by custom signer
+              - kind: ClusterRole
+                name: istiod-clusterrole-istio-system
+                patches:
+                  - path: rules[-1]
+                    value: |
+                      apiGroups:
+                      - certificates.k8s.io
+                      resourceNames:
+                      - example.com/foo
+                      resources:
+                      - signers
+                      verbs:
+                      - approve
+              - kind: Deployment
+                name: istiod
+                patches:
+                  - path: spec.template.spec.containers[0].volumeMounts[-1]
+                    value: |
+                      # Mount external CA certificate into Istiod
+                      name: external-ca-cert
+                      mountPath: /etc/external-ca-cert
+                      readOnly: true
+                  - path: spec.template.spec.volumes[-1]
+                    value: |
+                      name: external-ca-cert
+                      secret:
+                        secretName: external-ca-cert
+                        optional: true
     EOF
     $ istioctl install --set profile=demo -f ./istio.yaml
     {{< /text >}}
