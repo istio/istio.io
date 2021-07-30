@@ -10,7 +10,7 @@ test: no
 Upgrading Istio can be done by first running a canary deployment of the new control plane, allowing you
 to monitor the effect of the upgrade with a small percentage of the workloads before migrating all of the
 traffic to the new version. This is much safer than doing an
-[in place upgrade](/docs/setup/upgrade/in-place/) and is the recommended upgrade method.
+[in-place upgrade](/docs/setup/upgrade/in-place/) and is the recommended upgrade method.
 
 When installing Istio, the `revision` installation setting can be used to deploy multiple independent control planes
 at the same time. A canary version of an upgrade can be started by installing the new Istio version's control plane
@@ -27,9 +27,13 @@ $ istioctl x precheck
   To get started, check out https://istio.io/latest/docs/setup/getting-started/
 {{< /text >}}
 
-Note that when using revision-based upgrades jumping across two patch versions is supported (e.g. upgrading directly from
+{{< idea >}}
+
+When using revision-based upgrades jumping across two patch versions is supported (e.g. upgrading directly from
 version `1.8` to `1.10`). This is in contrast to in-place upgrades where it is required to upgrade to each intermediate patch
 release.
+
+{{< /idea >}}
 
 ## Control plane
 
@@ -117,8 +121,8 @@ The output confirms that the pod is using `istiod-canary` revision of the contro
 ## Stable revision labels (experimental)
 
 Manually relabeling namespaces when moving them to a new revision can be tedious and error-prone.
-[Revision tags](/docs/reference/commands/istioctl/#istioctl-experimental-tag) solve this problem.
-[Revision tags](/docs/reference/commands/istioctl/#istioctl-experimental-tag) are stable identifiers that point to revisions and can be used to avoid relabeling namespaces. Rather than relabeling the namespace, a mesh operator can simply change the tag to point to a new revision. All namespaces labeled with that tag will be updated at the same time.
+[Revision tags](/docs/reference/commands/istioctl/#istioctl-tag) solve this problem.
+[Revision tags](/docs/reference/commands/istioctl/#istioctl-tag) are stable identifiers that point to revisions and can be used to avoid relabeling namespaces. Rather than relabeling the namespace, a mesh operator can simply change the tag to point to a new revision. All namespaces labeled with that tag will be updated at the same time.
 
 ### Usage
 
@@ -169,9 +173,9 @@ control plane. Notice that no namespace relabeling was required to migrate workl
 
 The revision pointed to by the tag `default` is considered the ***default revision*** and has additional semantic meaning.
 
-The `default` tag will inject for the `istio-injection=enabled` namespace selector and `sidecar.istio.io/inject=true` object
+The `default` revision will inject sidecars for the `istio-injection=enabled` namespace selector and `sidecar.istio.io/inject=true` object
 selector in addition to the `istio.io/rev=default` selectors. This makes it possible to migrate from using non-revisioned Istio to using
-a revision **entirely without relabeling namespaces**. To make a revision `1-10-0` the default, run:
+a revision entirely without relabeling namespaces. To make a revision `1-10-0` the default, run:
 
 {{< text bash >}}
 $ istioctl tag set default --revision 1-10-0
