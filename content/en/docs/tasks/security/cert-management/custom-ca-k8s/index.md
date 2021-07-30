@@ -157,7 +157,6 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
       data:
       root-cert.pem: <tls.cert from the step above>
       EOF
-    $ kubectl create namespace istio-system
     $ kubectl apply -f external-ca-secret.yaml
     {{< /text >}}
 
