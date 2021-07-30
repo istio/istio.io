@@ -192,7 +192,7 @@ stream {
   server {
     resolver 8.8.8.8 ipv6=off; #if using in kubernetes it may help to use the kube dns resolver (kube-dns.kube-system.svc.cluster.local)
     listen       127.0.0.1:18443;
-    proxy_pass   $ssl_preread_server_name:443;
+    proxy_pass   \$ssl_preread_server_name:443; #should remove the `\` when running as its an artifact of bash scripting
     ssl_preread  on;
   }
 }
