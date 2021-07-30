@@ -8,9 +8,9 @@ test: no
 ---
 
 Upgrading Istio can be done by first running a canary deployment of the new control plane, allowing you
-to monitor the effect of the upgrade with a small percentage of the workloads, before migrating all of the
+to monitor the effect of the upgrade with a small percentage of the workloads before migrating all of the
 traffic to the new version. This is much safer than doing an
-[in place upgrade](/docs/setup/upgrade/in-place/) and is the recommended upgrade method.
+[in-place upgrade](/docs/setup/upgrade/in-place/) and is the recommended upgrade method.
 
 When installing Istio, the `revision` installation setting can be used to deploy multiple independent control planes
 at the same time. A canary version of an upgrade can be started by installing the new Istio version's control plane
@@ -26,6 +26,14 @@ $ istioctl x precheck
 ✔ No issues found when checking the cluster. Istio is safe to install or upgrade!
   To get started, check out https://istio.io/latest/docs/setup/getting-started/
 {{< /text >}}
+
+{{< idea >}}
+
+When using revision-based upgrades jumping across two patch versions is supported (e.g. upgrading directly from
+version `1.8` to `1.10`). This is in contrast to in-place upgrades where it is required to upgrade to each intermediate patch
+release.
+
+{{< /idea >}}
 
 ## Control plane
 
@@ -65,17 +73,6 @@ NAME                            WEBHOOKS   AGE
 istio-sidecar-injector          1          7m56s
 istio-sidecar-injector-canary   1          3m18s
 {{< /text >}}
-
-{{< warning >}}
-Due to [a bug](https://github.com/istio/istio/issues/28880) in the creation of the `ValidatingWebhookConfiguration` during install, initial installations of Istio __must not__ specify a revision. As a temporary workaround, for Istio resource validation to continue working after removing the non-revisioned Istio installation, the `istiod` service must be manually pointed to the revision that should handle validation.
-
-One way to accomplish this is to manually create a service called `istiod` pointing to the target revision using [this service]({{< github_blob >}}/manifests/charts/istio-control/istio-discovery/templates/service.yaml) as a template. Another option is to run the command below, where `<REVISION>` is the name of the revision that should handle validation. This command creates an `istiod` service pointed to the target revision.
-
-{{< text bash >}}
-$ kubectl get service -n istio-system -o json istiod-<REVISION> | jq '.metadata.name = "istiod" | del(.spec.clusterIP) | del(.spec.clusterIPs)' | kubectl apply -f -
-{{< /text >}}
-
-{{</ warning >}}
 
 ## Data plane
 
@@ -123,34 +120,70 @@ The output confirms that the pod is using `istiod-canary` revision of the contro
 
 ## Stable revision labels (experimental)
 
-Manually relabeling namespaces when moving them to a new revision can be tedious and error-prone. [Revision tags](/docs/reference/commands/istioctl/#istioctl-experimental-tag) are a solution to this. [Revision tags](/docs/reference/commands/istioctl/#istioctl-experimental-tag) are stable identifiers that point to revisions and can be used to avoid relabeling namespaces. Rather than relabeling the namespace, a mesh operator can simply change the tag to point to a new revision. All namespaces with that tag will be updated at the same time.
+Manually relabeling namespaces when moving them to a new revision can be tedious and error-prone.
+[Revision tags](/docs/reference/commands/istioctl/#istioctl-tag) solve this problem.
+[Revision tags](/docs/reference/commands/istioctl/#istioctl-tag) are stable identifiers that point to revisions and can be used to avoid relabeling namespaces. Rather than relabeling the namespace, a mesh operator can simply change the tag to point to a new revision. All namespaces labeled with that tag will be updated at the same time.
 
-Consider a cluster with two revisions installed, `1-7-6` and `1-8-0`. The cluster operator creates a revision tag `prod`, pointed at the older, stable `1-7-6` version, and a revision tag `canary` pointed at the newer `1-8-0` revision. That state could be reached via these commands:
+### Usage
 
-{{< text bash >}}
-$ istioctl x revision tag set prod --revision 1-7-6
-$ istioctl x revision tag set canary --revision 1-8-0
-{{< /text >}}
-
-{{< image width="40%"
-    link="/docs/setup/upgrade/canary/revision-tag-1.png"
-    caption="Namespaces A and B pointed to 1-7-6, namespace C pointed to 1-8-0"
-    >}}
-
-After the operator is satisfied with the stability of the `canary` tagged control planes, namespaces labeled `istio.io/rev=prod` can be updated with one action by modifying the `prod` revision tag to point to the newer `1-8-0` revision.
+Consider a cluster with two revisions installed, `1-9-5` and `1-10-0`. The cluster operator creates a revision tag `prod-stable`,
+pointed at the older, stable `1-9-5` version, and a revision tag `prod-canary` pointed at the newer `1-10-0` revision. That
+state could be reached via these commands:
 
 {{< text bash >}}
-$ istioctl x revision tag set prod --revision 1-8-0
+$ istioctl tag set prod-stable --revision 1-9-5
+$ istioctl tag set prod-canary --revision 1-10-0
 {{< /text >}}
 
-Now, the situation is as shown in the diagram below:
+The resulting mapping between revisions, tags, and namespaces is as shown below:
 
-{{< image width="40%"
-    link="/docs/setup/upgrade/canary/revision-tag-2.png"
-    caption="Namespaces A, B, and C pointed to 1-8-0"
+{{< image width="70%"
+    link="/docs/setup/upgrade/canary/tags.png"
+    caption="Two namespaces pointed to prod-stable and one pointed to prod-canary"
     >}}
 
-Restarting the injected workloads in namespaces `A` and `B` will result in those workloads using the `1.8.0` control plane.
+The cluster operator can view this mapping in addition to tagged namespaces through the `istioctl tag list` command:
+
+{{< text bash >}}
+$ istioctl tag list
+TAG         REVISION NAMESPACES
+prod-canary 1-10-0   ...
+prod-stable 1-9-5    ...
+{{< /text >}}
+
+After the cluster operator is satisfied with the stability of the control plane tagged with `prod-canary`, namespaces labeled
+`istio.io/rev=prod-stable` can be updated with one action by modifying the `prod-stable` revision tag to point to the newer
+`1-10-0` revision.
+
+{{< text bash >}}
+$ istioctl tag set prod-stable --revision 1-10-0
+{{< /text >}}
+
+Now, the situation is as below:
+
+{{< image width="70%"
+    link="/docs/setup/upgrade/canary/tags-updated.png"
+    caption="Namespace labels unchanged but now all namespaces pointed to 1-10-0"
+>}}
+
+Restarting injected workloads in the namespaces marked `prod-stable` will now result in those workloads using the `1-10-0`
+control plane. Notice that no namespace relabeling was required to migrate workloads to the new revision.
+
+### Default tag
+
+The revision pointed to by the tag `default` is considered the ***default revision*** and has additional semantic meaning.
+
+The `default` revision will inject sidecars for the `istio-injection=enabled` namespace selector and `sidecar.istio.io/inject=true` object
+selector in addition to the `istio.io/rev=default` selectors. This makes it possible to migrate from using non-revisioned Istio to using
+a revision entirely without relabeling namespaces. To make a revision `1-10-0` the default, run:
+
+{{< text bash >}}
+$ istioctl tag set default --revision 1-10-0
+{{< /text >}}
+
+When using the `default` tag alongside an existing non-revisioned Istio installation it is recommended to remove the old
+`MutatingWebhookConfiguration` (typically called `istio-sidecar-injector`) to avoid having both the older and newer control
+planes attempt injection.
 
 ## Uninstall old control plane
 
