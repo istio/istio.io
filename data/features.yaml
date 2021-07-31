@@ -300,9 +300,3 @@ features:
       maturity: Alpha
       nextExpectedPromotion: ""
     area: Core
-  - name: "Revision tags (stable revision labels)"
-    level:
-      checklist: features/revision_tags.md
-      maturity: Experimental
-      nextExpectedPromotion: "1.12"
-    area: Core
