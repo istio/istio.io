@@ -252,6 +252,7 @@ cyber
 DaemonSet
 Datadog
 datapath
+dataplane
 dataset
 datastore
 Datawire
@@ -396,6 +397,7 @@ interoperate
 interoperation
 intra-cluster
 intrahost
+intranode
 ip_address
 ip
 IPs
@@ -691,6 +693,7 @@ Salesforce
 sandboxed
 sandboxing
 sayin
+schedulable
 schemas
 SDKs
 sds
