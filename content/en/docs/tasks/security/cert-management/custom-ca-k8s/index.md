@@ -127,7 +127,7 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
     $ kubectl apply -f local-ca.yaml
     {{< /text >}}
 
-   Ensure that all the services are running.
+    Ensure that all the services are running.
 
     {{< text bash >}}
     $ kubectl get services -n signer-ca-system
@@ -232,7 +232,7 @@ When the workloads are deployed, above, they send CSR Requests to Istiod which f
     $ kubectl get pods -n bookinfo
     {{< /text >}}
 
-   Pick any of the running pods for the next step.
+    Pick any of the running pods for the next step.
 
 1. Get the certificate chain and CA root certificate used by the Istio proxies for mTLS.
 
@@ -240,7 +240,7 @@ When the workloads are deployed, above, they send CSR Requests to Istiod which f
     $ istioctl pc secret <pod-name> -n bookinfo -o json > proxy_secret
     {{< /text >}}
 
-   The `proxy_secret` json file contains the CA root certificate for mTLS in the `trustedCA` field. Note that this certificate is base64 encoded.
+    The `proxy_secret` json file contains the CA root certificate for mTLS in the `trustedCA` field. Note that this certificate is base64 encoded.
 
 1. Compare the CA root certificate obtained in the step above with "root-cert.pem" value in external-ca-cert. These two should be the same.
 
