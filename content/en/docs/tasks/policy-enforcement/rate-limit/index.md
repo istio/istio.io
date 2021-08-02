@@ -196,10 +196,11 @@ spec:
       app: productpage
   configPatches:
     - applyTo: HTTP_FILTER
-      listener:
-        filterChain:
-          filter:
-            name: "envoy.filters.network.http_connection_manager"
+      match:
+        listener:
+          filterChain:
+            filter:
+              name: "envoy.filters.network.http_connection_manager"
       patch:
         operation: INSERT_BEFORE
         value:
@@ -251,10 +252,11 @@ spec:
       app: productpage
   configPatches:
     - applyTo: HTTP_FILTER
-      listener:
-        filterChain:
-          filter:
-            name: "envoy.filters.network.http_connection_manager"
+      match:
+        listener:
+          filterChain:
+            filter:
+              name: "envoy.filters.network.http_connection_manager"
       patch:
         operation: INSERT_BEFORE
         value:
@@ -266,7 +268,7 @@ spec:
               stat_prefix: http_local_rate_limiter
     - applyTo: HTTP_ROUTE
       match:
-        context: SIDECAR_OUTBOUND
+        context: SIDECAR_INBOUND
         routeConfiguration:
           vhost:
             name: "inbound|http|9080"
