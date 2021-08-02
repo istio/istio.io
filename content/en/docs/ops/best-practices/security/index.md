@@ -506,10 +506,6 @@ This adds a [requirement](/docs/ops/deployment/requirements/) for the `NET_ADMIN
 
 To reduce privileges granted to pods, Istio offers a [CNI plugin](/docs/setup/additional-setup/cni/) which removes this requirement.
 
-{{< warning >}}
-The Istio CNI plugin is currently an alpha feature.
-{{< /warning >}}
-
 ## Use hardened docker images
 
 Istio's default docker images, including those run by the control plane, gateway, and sidecar proxies, are based on `ubuntu`.
