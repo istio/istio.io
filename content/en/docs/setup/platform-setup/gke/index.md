@@ -37,7 +37,7 @@ Follow these instructions to prepare a GKE cluster for Istio.
     {{< /tip >}}
 
     {{< warning >}}
-    To use the Istio CNI feature, please check [CNI installation guide](/docs/setup/additional-setup/cni/#prerequisites)
+    To use the Istio CNI feature, please check the [CNI installation guide](/docs/setup/additional-setup/cni/#prerequisites)
     for the prerequisite to install Istio CNI on GKE.
     {{< /warning >}}
 
