@@ -37,10 +37,8 @@ Follow these instructions to prepare a GKE cluster for Istio.
     {{< /tip >}}
 
     {{< warning >}}
-    To use the Istio CNI feature, the
-    [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy)
-    GKE feature must be enabled in the cluster.  Use the `--enable-network-policy` flag in
-    the `gcloud container clusters create` command.
+    To use the Istio CNI feature on GKE, please check the [CNI installation guide](/docs/setup/additional-setup/cni/#prerequisites)
+    for prerequisite cluster configuration steps.
     {{< /warning >}}
 
     {{< warning >}}
