@@ -146,9 +146,9 @@ Verify the `caBundle` in the `mutatingwebhookconfiguration` matches the
    root certificate mounted in the `istiod` pod.
 
 {{< text bash >}}
-$ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml -o jsonpath='{.webhooks[0].clientConfig.caBundle}' | md5sum
+$ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o jsonpath='{.webhooks[0].clientConfig.caBundle}' | md5sum
 4b95d2ba22ce8971c7c92084da31faf0  -
-$ kubectl -n istio-system get secret istiod-service-account-token -o jsonpath='{.data.root-cert\.pem}' | md5sum
+$ kubectl -n istio-system get secret istio-ca-secret -o jsonpath='{.data.ca-cert\.pem}' | md5sum
 4b95d2ba22ce8971c7c92084da31faf0  -
 {{< /text >}}
 
