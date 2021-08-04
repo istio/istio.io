@@ -26,6 +26,7 @@ The command approach works with no changes required, but HTTP requests and TCP p
 The health check requests to the `liveness-http` service are sent by Kubelet.
 This becomes a problem when mutual TLS is enabled, because the Kubelet does not have an Istio issued certificate.
 Therefore the health check requests will fail.
+
 TCP probe checks need special handling, because Istio redirects all incoming traffic into the sidecar, and so all TCP ports appear open.  The Kubelet simply checks if some process is listening on the specified port, and so the probe will always succeed as long as the sidecar is running.
 
 Istio solves both these problems by rewriting the application `PodSpec` readiness/liveness probe,
@@ -74,7 +75,7 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 {{< /text >}}
 
-## Liveness and readiness probes using the HTTP request approach
+## Liveness and readiness probes using the HTTP or TCP approach {#liveness-and-readiness-probes-using-the-http-request-approach}
 
 As stated previously, Istio uses probe rewrite to implement HTTP/TCP probes by default. You can disable this
 feature either for specific pods, or globally.
