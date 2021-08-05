@@ -62,6 +62,11 @@ current `<minor>` release. A patch is usually a small change relative to the `<m
 | 1.6             | No                    | May 21, 2020        | November 23, 2020    | 1.15, 1.16, 1.17, 1.18        |                                               |
 | 1.5 and earlier | No                    |                     |                      |                               |                                               |
 
+{{< warning >}}
+Kubernetes 1.22 removed some deprecated APIs, and versions of Istio prior to 1.10.0 will no longer work. If you are
+upgrading your Kubernetes version, make sure that the Istio version is still supported.
+{{< /warning >}}
+
 ## Supported releases without known Common Vulnerabilities and Exposures (CVEs)
 
 {{< warning >}}
