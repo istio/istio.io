@@ -37,7 +37,7 @@ the Kubernetes API server, as shown in the above diagram.
 ### Clusters
 
 This guide requires that you have two Kubernetes clusters with any of the
-supported Kubernetes versions: {{< supported_kubernetes_versions >}}.
+[supported Kubernetes versions:](/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
 
 The first cluster will host the {{< gloss >}}external control plane{{< /gloss >}} installed in the
 `external-istiod` namespace. An ingress gateway is also installed in the `istio-system` namespace to provide

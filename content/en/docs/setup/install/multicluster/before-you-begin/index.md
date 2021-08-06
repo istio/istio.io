@@ -17,7 +17,7 @@ In addition, review the requirements and perform the initial steps below.
 ### Cluster
 
 This guide requires that you have two Kubernetes clusters with any of the
-supported Kubernetes versions: {{< supported_kubernetes_versions >}}.
+[supported Kubernetes versions:](/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
 
 ### API Server Access
 
