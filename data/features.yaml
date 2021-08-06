@@ -60,12 +60,6 @@ features:
       maturity: Alpha
       nextExpectedPromotion: ""
     area: Traffic Management
-  - name: "CNI container interface"
-    level:
-      checklist: features/cni.md
-      maturity: Alpha
-      nextExpectedPromotion: ""
-    area: Traffic Management
   - name: "Sidecar API"
     link: "/docs/reference/config/networking/sidecar/"
     level:
@@ -268,8 +262,8 @@ features:
   - name: "Istio CNI Plugin"
     link: "/docs/setup/additional-setup/cni/"
     level:
-      checklist: ""
-      maturity: Alpha
+      checklist: "features/cni.md"
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Core
   - name: "IPv6 Support for Kubernetes"
