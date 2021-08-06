@@ -15,7 +15,7 @@ which causes the sidecar injector to inject the sidecar at the start of the
 pod's container list and configures it to block the start of all other
 containers until the proxy is ready.  This option is disabled by default.
  ([Issue #11130](https://github.com/istio/istio/issues/11130))
-- **Added** SDS support for Client Certificate and CA certificate used for [TLS/mTLS Origination from Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds/) using `DestinationRule`.
+- **Added** SDS support for Client Certificate and CA certificate used for [TLS/mTLS Origination from Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) using `DestinationRule`.
   ([Issue #14039](https://github.com/istio/istio/issues/14039))
 
 ## Security
