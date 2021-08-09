@@ -347,9 +347,9 @@ This enables a strong [defense in depth](https://en.wikipedia.org/wiki/Defense_i
 For example, you may choose to only allow traffic to port `9080` of our `reviews` application.
 In the event of a compromised pod or security vulnerability in the cluster, this may limit or stop an attackers progress.
 
-Depending on the actual implementation, the network policy may not have effect to existing connections in the Istio proxies.
-You may need to restart the Istio proxies after applying the network policy so that the existing connections will be closed and
-new connections will be subject to the network policy.
+Depending on the actual implementation, changes to network policy may not affect existing connections in the Istio proxies.
+You may need to restart the Istio proxies after applying the policy so that existing connections will be closed and
+new connections will be subject to the new policy.
 
 ### Securing egress traffic
 
