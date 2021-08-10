@@ -3,7 +3,7 @@ title: Change Notes
 linktitle: 1.11.0
 subtitle: Minor Release
 description: Istio 1.11.0 release notes.
-publishdate: 2020-07-29
+publishdate: 2020-08-10
 release: 1.11.0
 weight: 10
 aliases:
@@ -89,7 +89,7 @@ Istio will automatically create `ServiceExport` in all clusters for each service
 - **Fixed** an issue to enableCoreDump using the sidecar annotation
  ([reference]( https://istio.io/latest/docs/reference/config/annotations/)) ([Issue #26668](https://github.com/istio/istio/issues/26668))
 
-- **Fixed** an issue where app call itself by podIP in TPROXY mode could neither be intercepted by inbound nor outbound.
+- **Fixed** where both inbound and outbound apps were unable to intercept traffic when using `podIP` in TPROXY interception mode.
   ([Issue #31095](https://github.com/istio/istio/issues/31095))
 
 - **Fixed** an issue where subject alternate names specified in service entry are not considered while building TLS context.
@@ -193,7 +193,7 @@ The istiodRemote component now includes all of the resources needed for either a
 - **Updated** the base image versions to be built on `ubuntu:focal` and `debian10` (for distroless).
   
 
-- **Updated** Jaeger addon to the latest version v1.22.
+- **Updated** Jaeger addon to v1.22.
   
 
 

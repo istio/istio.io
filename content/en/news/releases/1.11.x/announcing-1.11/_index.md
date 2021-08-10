@@ -3,7 +3,7 @@ title: Announcing Istio 1.11
 linktitle: "1.11"
 subtitle: Major Update
 description: Istio 1.11 release announcement.
-publishdate: 2021-05-18
+publishdate: 2021-08-10
 release: 1.11.0
 skip_list: true
 aliases:
