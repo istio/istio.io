@@ -27,7 +27,7 @@ features should work, although this is not an exhaustive list and other features
   * Header match and URI match in the format `/ServiceName/RPCName`
   * Override destination host and subset.
   * Weighted traffic shifting.
-  * // TODO does timeout work (I think we must set MaxStreamDuration for this to work – I don' think we do today)
+  * // TODO does timeout work (I think we must set MaxStreamDuration for this to work – I don't think we do today)
   * // TODO do retries work
   * // TODO do faults work
   * // TODO does mirror work
@@ -38,7 +38,7 @@ features should work, although this is not an exhaustive list and other features
 
 ## Architecture Overview
 
-{{< image width="80%" link="./architecture.svg" caption="Diagram of how gRPC services communicate with the istiod." >}}
+{{< image width="80%" link="./architecture.svg" caption="Diagram of how gRPC services communicate with the istiod" >}}
 
 Although this doesn't use a proxy for data plane communication, it still requires an agent for initialization and
 communication with the control-plane. First, the agent generates a [bootstrap file](https://github.com/grpc/proposal/blob/master/A27-xds-global-load-balancing.md#xdsclient-and-bootstrap-file).
@@ -121,25 +121,25 @@ creds, err := xds.NewServerCredentials(xdscreds.ServerOptions{FallbackCreds: ins
 server = xds.NewGRPCServer(grpc.Creds(creds))
 {{< /text >}}
 
-### In the environment
-
-// TODO talk about env vars required for bootstrap, security, etc; describe what Istio sets for you.
 
 ### In your Kubernetes Deployment
 
 Assuming your application code is compatible, the Pod simply needs the annotation “inject.istio.io/templates: grpc-agent”. 
-This will set the environment variables described above, and add the agent sidecar discussed in Architecture Overview.
+This adds a sidecar container running the agent described above, and some environment variables that gRPC uses to find
+the bootstrap file and enable certain features.
 
-// TODO Hold app till proxy (adding to template, won't be in 1.11.0)
-
+For gRPC servers, your Pod should also be annotated with `proxy.istio.io/config: '{"holdApplicationUntilProxyStarts": true}'` 
+to make sure the in-agent xDS proxy and bootstrap file are ready before your gRPC server is initialized. 
 
 ## Example
-
-// TODO prereqs 
 
 Istio has a pre-made application, echo, that already supports both serverside and clientside proxyless gRPC. 
 In this guide we will deploy echo with the grpc-agent template and demonstrate some supported traffic policies
 and how to enable mTLS. 
+
+### Prerequisites
+
+This guide requires the Istio (1.11+) control plane [to be installed](/docs/setup/install/) before proceeding.
 
 ### Deploy the application
 
@@ -160,7 +160,8 @@ echo-v1-69d6d96cb7-gpcpd   2/2     Running   0          58s
 echo-v2-5c6cbf6dc7-dfhcb   2/2     Running   0          58s
 {{< /text >}}
 
-Make some requests from the application
+### Test the gRPC resolver
+
 Firt, port-forward `17171` to one of the Pods. This port is a non-XDS backed gRPC server that allows making requests from the port-forwarded Pod. 
 
 {{< text bash >}}
@@ -180,10 +181,76 @@ Handling connection for 17171
 {{< /text >}}
 
 ### Creating subsets with destination rule
-// TODO 
+
+First, create a subset for each version of the workload.
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: echo
+  namespace: echo-grpc
+spec:
+  host: echo.echo-grpc.svc.cluster.local
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+EOF
+{{< /text >}}
 
 ### Traffic shifting
-// TODO 
+
+Using the subsets defined above, you can send 80 percent of the traffic to a specific version:
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: echo
+  namespace: echo-grpc
+spec:
+  hosts:
+  - echo.echo-grpc.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: echo.echo-grpc.svc.cluster.local
+        subset: v1
+      weight: 20
+    - destination:
+        host: echo.echo-grpc.svc.cluster.local
+        subset: v2
+      weight: 80
+EOF
+{{< /text >}}
+
+Now, send a set of 10 requests:
+
+{{< text bash >}}
+$ grpcurl -plaintext -d '{"url": "xds:///echo.echo-grpc.svc.cluster.local:7070", "count": 10}' :17171 proto
+.EchoTestService/ForwardEcho | jq -r '.output | join("")'  | grep ServiceVersion
+{{< /text >}}
+
+The response should contain mostly `v2` responses:
+
+{{< text plain >}}
+[0 body] ServiceVersion=v2
+[1 body] ServiceVersion=v2
+[2 body] ServiceVersion=v1
+[3 body] ServiceVersion=v2
+[4 body] ServiceVersion=v1
+[5 body] ServiceVersion=v2
+[6 body] ServiceVersion=v2
+[7 body] ServiceVersion=v2
+[8 body] ServiceVersion=v2
+[9 body] ServiceVersion=v2
+{{< /text >}}
 
 ### Enabling mTLS
 // TODO 
