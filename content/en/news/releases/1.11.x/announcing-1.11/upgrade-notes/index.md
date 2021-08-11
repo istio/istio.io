@@ -4,9 +4,6 @@ description: Important changes to consider when upgrading to Istio 1.11.0.
 weight: 20
 ---
 
-{{< warning >}}
-This is an automatically generated rough draft of the release notes and has not yet been reviewed.
-{{< /warning >}}
 
 When you upgrade from Istio 1.10.0 to Istio 1.11.0, you need to consider the changes on this page.
 These notes detail the changes which purposefully break backwards compatibility with Istio 1.10.0.
@@ -14,6 +11,7 @@ The notes also mention changes which preserve backwards compatibility while intr
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.10.0.
 
 ## The istiodRemote installation component now includes config cluster resources.
+
 Installing Istio on a remote cluster that is using an external control plane was previously done by disabling the `base` and `pilot`
 components and enabling the `istiodRemote` component in the IOP:
 
@@ -66,12 +64,14 @@ values:
 {{< /text >}}
 
 ## Host header fallback disabled by default for Prometheus metrics for *all* inbound traffic.
+
 Host header fallback for determining values for Prometheus `destination_service` labels has been disabled for all incoming traffic.
 Previously, this was disabled *only* for traffic arriving at Gateways. If you are relying on host header fallback behavior to properly
 label the `destination_service` in Prometheus metrics for traffic originating from out-of-mesh workloads, then you will need to update the telemetry
 configuration to enable host header fallback.
 
 ## EnvoyFilter `match.routeConfiguration.vhost.name` semantics change
+
 `EnvoyFilter` matches rely on internal implementation details to match generated xDS segments, which is subject to change at any time.
 
 In this release, the [virtual host name match](https://istio.io/latest/docs/reference/config/networking/envoy-filter/#EnvoyFilter-RouteConfigurationMatch-VirtualHostMatch) may have different results.

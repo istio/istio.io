@@ -16,11 +16,6 @@ This is an automatically generated rough draft of the release notes and has not 
 
 # Release Notes
 
-## Deprecation Notices
-
-These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/about/feature-stages/#feature-phase-definitions). Please consider upgrading your environment to remove the deprecated functionality.
-
-
 
 ## Traffic Management
 
@@ -49,14 +44,11 @@ from other clusters that are on the same network.
 The recommended way to access the debug interface is through `istioctl experimental internal-debug`, which handles
 this automatically.
   
-
-- **Added** the `ShutdownDuration` flag to [pilot-discovery](/docs/reference/commands/pilot-discovery/) so that users can configure the duration istiod needs to terminate gracefully. The default value is 10s.
+- **Added** the `shutdownDuration` flag to [pilot-discovery](/docs/reference/commands/pilot-discovery/) so that users can configure the duration istiod needs to terminate gracefully. The default value is 10s.
   
-
 - **Added** an environment variable `PILOT_STATUS_UPDATE_INTERVAL` that is the interval to update the XDS distribution status and its default value is `500ms`.
-  
 
-- **Added** The Istio sidecar agent will offer HTTP endpoint localhost:15004/debug/<typeurl>.  GET requests
+- **Added** the HTTP endpoint localhost:15004/debug/<typeurl> to the Istio sidecar agent.  GET requests
 to that URL will be resolved by sending an xDS discovery "event" to istiod.  This can be disabled by setting
 the following in the Istio Operator: `meshConfig.defaultConfig.proxyMetadata.PROXY_XDS_DEBUG_VIA_AGENT=false`
   ([Issue #22274](https://github.com/istio/istio/issues/22274))
@@ -85,7 +77,6 @@ endpoints. this process can be automated by enabling the Istio flag `ENABLE_MCS_
 Istio will automatically create `ServiceExport` in all clusters for each service.
   ([Issue #29384](https://github.com/istio/istio/issues/29384))
 
-
 - **Fixed** an issue to enableCoreDump using the sidecar annotation
  ([reference]( https://istio.io/latest/docs/reference/config/annotations/)) ([Issue #26668](https://github.com/istio/istio/issues/26668))
 
@@ -108,20 +99,15 @@ match the route `/foo/` but not the route `/foo`.
 
 - **Fixed** an issue allowing ServiceEntries to act as instances in other namespaces.
   
-
 - **Fixed** an issue causing proxies to send `Transfer-Encoding` headers with `1xx` and `204` responses.
   
-
 - **Fixed** reconciliation logic in the validation webhook controller to rate-limit
 the retries in the loop. This should drastically reduce churn (and generated logs)
 in cases of misconfiguration.
   ([Issue #32210](https://github.com/istio/istio/issues/32210))
 
-
-
 - **Optimized** generated routing configuration to merge virtual hosts with the same routing configuration. This improves performance for Virtual Services with multiple hostnames defined.
   ([Issue #28659](https://github.com/istio/istio/issues/28659))
-
 
 ## Security
 
@@ -137,8 +123,6 @@ in cases of misconfiguration.
 
 ## Telemetry
 
-
-
 - **Updated** Prometheus telemetry behavior for inbound traffic to disable host header fallback by default. This will
 prevent traffic coming from out-of-mesh locations from potentially polluting the `destination_service` dimension in
 metrics with junk data (and exploding metrics cardinality). With this change, it is possible that users relying on
@@ -146,25 +130,17 @@ host headers for labeling the destination service for inbound traffic from out-o
 labeled as `unknown`. The behavior can be restored by modifying Istio configuration to remove the `disable_host_header_fallback: true`
 configuration.
   
-
 - **Added** support for [Apache SkyWalking](https://skywalking.apache.org/) tracer. Now you can run the `istioctl dashboard skywalking` command to view skywalking dashboard UI.
   ([Issue #32588](https://github.com/istio/istio/pull/32588))
 
 - **Added** a new metric to `istiod` to report server uptime.
   
-
 - **Added** a new metric (`istiod_managed_clusters`) to `istiod` to track the number of clusters managed by an
 `istiod` instance.
   
-
-
 - **Fixed** Prometheus [metrics merging](/docs/ops/integrations/prometheus/#option-1-metrics-merging) to
 correctly handle the case where the application metrics are exposed as [OpenMetrics](https://github.com/OpenObservability/OpenMetrics).
   ([Issue #33474](https://github.com/istio/istio/issues/33474))
-
-
-
-
 
 ## Extensibility
 
@@ -189,34 +165,23 @@ The istiodRemote component now includes all of the resources needed for either a
 
 - **Improved** the size of container images, decreasing each image by up to 50mb. As a result, the `linux-tools-generic` package, as well as dependencies (including `python`) are no longer installed.
   
-
 - **Updated** the base image versions to be built on `ubuntu:focal` and `debian10` (for distroless).
   
-
 - **Updated** Jaeger addon to v1.22.
   
-
-
-
 - **Fixed** the upgrade and downgrade message of the control plane.
   ([Issue #32749](https://github.com/istio/istio/issues/32749))
 
 - **Fixed** Removing the empty caBundle default value from Chart to allow a GitOps approach
   ([Issue #33052](https://github.com/istio/istio/issues/33052))
 
-
 - **Removed** the `istio.io/rev` label injected on pods and replaced it with the `istio.io/injectedBy` label.
   ([Issue #33447](https://github.com/istio/istio/issues/33447))
-
-
 
 ## istioctl
 
 - **Promoted** the `istioctl experimental revision tag` command group to `istioctl tag`.
   
-
-
-
 - **Added** `--workloadIP` flag to `istioctl x workload entry configure`, which sets the configuration for the workload IP that the sidecar proxy uses to auto register a workload Entry. 
 Usually required when the VM workloads aren't in the same network as the primary cluster to which they register. 
   ([Issue #32462](https://github.com/istio/istio/issues/32462))
@@ -229,20 +194,12 @@ Usually required when the VM workloads aren't in the same network as the primary
 
 - **Added** a new analyzer to check for `image: auto` in Pods and Deployments that will not be injected.
   
-
 - **Added** support for auto-completion of the namespace for istioctl.
   
-
 - **Added** istioctl now supports completion for Kubernetes pods, services.
   
-
-
 - **Fixed** user-agent in all istio binaries to include version.
 **Added** --vklog option to enable verbose logging in client-go.
   ([Issue #28231](https://github.com/istio/istio/issues/28231))
-
-
-
-
 
 ## Documentation changes
