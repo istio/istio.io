@@ -13,8 +13,8 @@ test: no
 
 Follow these instructions to prepare an OpenShift cluster for Istio.
 
-By default, OpenShift doesn't allow containers running with user ID 0.
-You must enable containers running with UID 0 for Istio's service accounts
+By default, OpenShift doesn't allow containers running with user ID 1337.
+You must enable containers running with UID 1337 for Istio's service accounts
 by running the command below. Make sure to replace `istio-system` if you are
 deploying Istio in another namespace:
 
