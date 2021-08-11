@@ -189,7 +189,7 @@ $ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: echo
+  name: echo-versions
   namespace: echo-grpc
 spec:
   host: echo.echo-grpc.svc.cluster.local
@@ -253,7 +253,78 @@ The response should contain mostly `v2` responses:
 {{< /text >}}
 
 ### Enabling mTLS
-// TODO 
+
+Due to the changes to the application itself required to enable security in gRPC, Istio's traditional method of
+automatically detecting mTLS support is unreliable. For this reason, the initial release requires explicitly enabling
+mTLS on both the client and server.
+
+To enable client-side mTLS, apply a `DestinationRule` with `tls` settings:
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: echo-mtls
+  namespace: echo-grpc
+spec:
+  host: echo.echo-grpc.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+EOF
+{{< /text >}}  
+
+Now an attempt to call the server that is not yet configured for mTLS will fail.
+
+{{< text bash >}}
+$ grpcurl -plaintext -d '{"url": "xds:///echo.echo-grpc.svc.cluster.local:7070", "count": 1}' :17171 proto
+.EchoTestService/ForwardEcho | jq -r '.output | join("")'
+Handling connection for 17171
+ERROR:
+  Code: Unknown
+  Message: 1/1 requests had errors; first error: rpc error: code = Unavailable desc = all SubConns are in TransientFailure
+{{< /text >}}
+
+To enable server-size mTLS, apply a `PeerAuthentication`.
+
+{{< warning >}}
+The following policy forces STRICT mTLS for the entire mesh. There is a bug in the initial (1.11.0) release
+that prevents namespacelevel or workload level `PeerAuthentication` (fixed by [#34639](https://github.com/istio/istio/pull/34639)
+).
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -f -
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: istio-system
+spec:
+  mtls:
+    mode: STRICT
+EOF
+{{< /text >}}  
+
+Requests will start to succeed after applying the policy.
+
+{{< text bash >}}
+$ grpcurl -plaintext -d '{"url": "xds:///echo.echo-grpc.svc.cluster.local:7070"}' :17171 proto.EchoTestService/ForwardEcho | jq -r '.output | join("")'
+Handling connection for 17171
+[0] grpcecho.Echo(&{xds:///echo.echo-grpc.svc.cluster.local:7070 map[] 0  5s false })
+[0 body] x-request-id=0
+[0 body] Host=echo.echo-grpc.svc.cluster.local:7070
+[0 body] content-type=application/grpc
+[0 body] user-agent=grpc-go/1.39.1
+[0 body] StatusCode=200
+[0 body] ServiceVersion=v1
+[0 body] ServicePort=17070
+[0 body] Cluster=
+[0 body] IP=10.68.1.18
+[0 body] IstioVersion=
+[0 body] Echo=
+[0 body] Hostname=echo-v1-7cf5b76586-z5p8l
+{{< /text >}}  
 
 ## Limitations
 
