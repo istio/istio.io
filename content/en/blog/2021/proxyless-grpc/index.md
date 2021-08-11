@@ -60,7 +60,7 @@ The following side-effect import will register the xDS resolvers and balancers w
 `main` package or in the same package calling `grpc.Dial`.   
 
 {{< text go >}}
-_ "google.golang.org/grpc/xds"
+import _ "google.golang.org/grpc/xds"
 {{< /text >}}
 
 When creating a gRPC connection the URL must use the `xds:///` scheme. For now, the fully-qualified domain name must be
