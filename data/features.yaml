@@ -243,7 +243,7 @@ features:
     link: "/docs/setup/install/external-controlplane/"
     level:
       checklist: features/external_istiod.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Core
   - name: "Kubernetes: Istio In-Place Control Plane Upgrade"
