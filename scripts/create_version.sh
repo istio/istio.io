@@ -169,6 +169,10 @@ advance_master_to_next_release() {
     " data/args.yml
 
     sed -i "s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= ${MASTER}/" Makefile.core.mk
+
+    go get go get istio.io/istio@${MASTER}
+    go mod tidy
+
     make update_all gen
 
     if [[ $(git status --porcelain) ]]; then
