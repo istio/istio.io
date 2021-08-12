@@ -1,5 +1,5 @@
 ---
-title: Change Notes
+title: Istio 1.11 Change Notes
 linktitle: 1.11.0
 subtitle: Minor Release
 description: Istio 1.11.0 release notes.
