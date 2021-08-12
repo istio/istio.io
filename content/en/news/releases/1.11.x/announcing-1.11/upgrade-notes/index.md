@@ -1,6 +1,7 @@
 ---
-title: Upgrade Notes
+title: Istio 1.11 Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.11.0.
+publishdate: 2021-08-12
 weight: 20
 ---
 
