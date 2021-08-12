@@ -272,25 +272,12 @@ spec:
       labels:
         app: nginx
     spec:
-      terminationGracePeriodSeconds: 10
       containers:
       - name: nginx
         image: k8s.gcr.io/nginx-slim:0.8
         ports:
         - containerPort: 80
           name: web
-        volumeMounts:
-        - name: www
-          mountPath: /usr/share/nginx/html
-  volumeClaimTemplates:
-  - metadata:
-      name: www
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "my-storage-class"
-      resources:
-        requests:
-          storage: 1Gi
 {{< /text >}}
 
 Let us assume we have a [sleep]({{< github_tree >}}/samples/sleep) pod `Deployment` as well in the default namespace.
