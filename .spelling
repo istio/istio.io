@@ -28,6 +28,7 @@
 1.9.x
 1.9.x.
 1.10.x
+1.11.x
 1.x
 10ms
 10s
@@ -272,6 +273,7 @@ Deutsche
 devirtualization
 Devirtualization
 devops
+discoverability
 discuss.istio.io
 distro
 Distroless
@@ -578,6 +580,7 @@ OpenAPI
 OpenCensus
 OpenID
 OpenID_Connect
+OpenMetrics
 OpenShift
 openusage.org
 OpenSSL
@@ -725,6 +728,7 @@ sidecar
 sidecar.env
 SignalFX
 sinkInfo
+SkyWalking
 SLOs
 SMEs
 Snell-Feikema
@@ -794,6 +798,7 @@ trustability
 tunneling
 UID
 UIDs
+uint32
 ulimit
 uncomment
 uncommented
