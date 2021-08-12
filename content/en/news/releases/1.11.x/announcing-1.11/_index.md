@@ -19,6 +19,8 @@ Istio 1.11.0 is officially supported on Kubernetes versions `1.18.0` to `1.22.x`
 
 This is the third Istio release of 2021. We would like to thank the entire Istio community, and especially the release managers [John Wendell (Red Hat)](https://github.com/jwendell), [Ryan King (Solo.io)](https://github.com/ryantking) and [Steve Zhang (Intel)](https://github.com/zhlsunshine) for helping to get Istio 1.11.0 published.
 
+{{< relnote >}}
+
 Here are some highlights for this release:
 
 ## CNI plugin (Beta)
