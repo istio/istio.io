@@ -169,11 +169,12 @@ installed above.
 ## Uninstall stable revision label resources
 
 If you decide to continue using the old control plane, instead of completing the upgrade,
-you can uninstall the newer revision using
+you can uninstall the newer revision and its tag by first issuing
 `helm template istiod manifests/charts/istio-control/istio-discovery -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`.
+You must them uninstall the version of istio that it pointed to by following the uninstall procedure above.
 
-However, in this case you must first reinstall the gateway(s) for the previous revision manually,
-because the uninstall command will not automatically revert the previously in-place upgraded ones.
+If you installed the gateway(s) for this revision using in-place upgrades, you must also reinstall the gateway(s) for the previous revision manually,
+Removing the previous revision and its tags will not automatically revert the previously in-place upgraded gateway(s).
 
 ### (Optional) Deleting CRDs installed by Istio
 
