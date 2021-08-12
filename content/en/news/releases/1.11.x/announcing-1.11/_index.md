@@ -59,7 +59,7 @@ To improve the sidecar injection experience, `istio-injection` and `sidecar.isti
 
 ## Kubernetes Multi-cluster Services (MCS) support (Experimental)
 
-The Kubernetes project is building an [API](https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api) that allows service owners or mesh admins to control the export of services and their endpoints across the mesh.
+The Kubernetes project is building an [multi-cluster services API](https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api) that allows service owners or mesh admins to control the export of services and their endpoints across the mesh.
 
 Istio 1.11 adds experimental support for multi-cluster services. Once enabled, the discoverability of service endpoints is determined by client location and whether the service has been exported. Endpoints residing within the same cluster as the client will always be discoverable. Endpoints within a different cluster, however, will only be discoverable by the client if they were exported to the mesh.
 
