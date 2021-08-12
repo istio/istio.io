@@ -29,9 +29,7 @@ By default Istio injects an [init container](https://kubernetes.io/docs/concepts
 
 The CNI plugin can be chained with other plugins, and supports most hosted Kubernetes implementations.
 
-In this release, we have promoted the CNI plugin functionality to Beta by improving our documentation and testing to ensure users can enable this feature safely in production.
-
-[Learn how to install Istio with the CNI plugin](/docs/setup/additional-setup/cni/)
+In this release, we have promoted the CNI plugin functionality to Beta by improving our documentation and testing to ensure users can enable this feature safely in production. [Learn how to install Istio with the CNI plugin.](/docs/setup/additional-setup/cni/)
 
 ## External control plane (Beta)
 
