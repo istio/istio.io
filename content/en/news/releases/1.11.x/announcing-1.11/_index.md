@@ -14,17 +14,16 @@ aliases:
 We are pleased to announce the release of Istio 1.11!
 
 {{< tip >}}
-Istio 1.11.0 is officially supported on Kubernetes versions 1.18.0 to 1.22.x
+Istio 1.11.0 is officially supported on Kubernetes versions `1.18.0` to `1.22.x`
 {{< /tip >}}
 
-This is the third Istio release of 2021. We would like to thank the entire Istio community, and especially the release managers [Jonh Wendell (Red Hat)](https://github.com/jwendell), [Ryan King (Solo.io)](https://github.com/ryantking) and [Steve Zhang (Intel)](https://github.com/zhlsunshine) for helping to get Istio 1.11.0 published.
+This is the third Istio release of 2021. We would like to thank the entire Istio community, and especially the release managers [John Wendell (Red Hat)](https://github.com/jwendell), [Ryan King (Solo.io)](https://github.com/ryantking) and [Steve Zhang (Intel)](https://github.com/zhlsunshine) for helping to get Istio 1.11.0 published.
 
 Here are some highlights for this release:
 
 ## CNI plugin (Beta)
 
-By default Istio injects an [init container](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) in pods deployed in the mesh. The istio-init container sets up the pod network traffic redirection to/from the Istio sidecar proxy using iptables. This requires the user or service account deploying pods in the mesh to have sufficient permissions to deploy [containers with the NET_ADMIN and NET_RAW capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container). Requiring Istio users to  have elevated Kubernetes privileges can be problematic for security compliance within an organization. The Istio CNI plugin is a replacement for the istio-init container that performs the same networking functionality, but without requiring Istio users to enable elevated Kubernetes permissions.
-
+By default Istio injects an [init container](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) in pods deployed in the mesh. The `istio-init` container sets up the pod network traffic redirection to/from the Istio sidecar proxy using iptables. This requires the user or service account deploying pods in the mesh to have sufficient permissions to deploy [containers with the `NET_ADMIN` and `NET_RAW` capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container). Requiring Istio users to  have elevated Kubernetes privileges can be problematic for security compliance within an organization. The Istio CNI plugin is a replacement for the `istio-init` container that performs the same networking functionality, but without requiring Istio users to enable elevated Kubernetes permissions.
 
 The CNI plugin can be chained with other plugins, and supports most hosted Kubernetes implementations.
 
@@ -50,13 +49,13 @@ In addition to these changes, we have released new [Installing Gateways](https:/
 
 ## Updates to revision and tag deployments
 
-In Istio 1.6 we added support for running multiple control planes simultaneously, which allows you to do a [canary deployment of a new Istio version](https://istio.io/latest/blog/2020/multiple-control-planes/).  In 1.10, we introduced [revision tags](https://istio.io/latest/blog/2021/revision-tags/), which lets you mark a revision as "production" or "testing" and minimises the chance of error when upgrading.
+In Istio 1.6 we added support for running multiple control planes simultaneously, which allows you to do a [canary deployment of a new Istio version](https://istio.io/latest/blog/2020/multiple-control-planes/).  In 1.10, we introduced [revision tags](https://istio.io/latest/blog/2021/revision-tags/), which lets you mark a revision as "production" or "testing" and minimizes the chance of error when upgrading.
 
 The `istioctl tag` command has graduated out of experimental in 1.11. You can also now specify a default revision for the control plane. This helps further simplify the canary upgrade from a non-revisioned control plane to a new version.
 
 We also fixed an [outstanding issue](https://github.com/istio/istio/issues/28880) with upgrades - you can safely perform a canary upgrade of your control plane regardless of whether or not it was installed using a revision.
 
-To improve the sidecar injection experience, istio-injection and sidecar.istio.io/inject labels are introduced. We highly recommend you to switch to use injection labels as they perform better than injection annotations. We intend to deprecate the injection annotations in a future release.
+To improve the sidecar injection experience, `istio-injection` and `sidecar.istio.io/inject` labels are introduced. We highly recommend you to switch to use injection labels as they perform better than injection annotations. We intend to deprecate the injection annotations in a future release.
 
 ## Kubernetes Multi-cluster Services (MCS) support (Experimental)
 
@@ -64,7 +63,7 @@ The Kubernetes project is building an [API](https://github.com/kubernetes/enhanc
 
 Istio 1.11 adds experimental support for multi-cluster services. Once enabled, the discoverability of service endpoints is determined by client location and whether the service has been exported. Endpoints residing within the same cluster as the client will always be discoverable. Endpoints within a different cluster, however, will only be discoverable by the client if they were exported to the mesh.
 
-Note that Istio does not yet support the behavior for the _cluster.local_ and _clusterset.local_ hosts as defined by the MCS spec. Clients should continue to address services using either cluster.local or svc.namespace.
+Note that Istio does not yet support the behavior for the `cluster.local` and `clusterset.local` hosts as defined by the MCS spec. Clients should continue to address services using either `cluster.local` or `svc.namespace`.
 
 This is the first phase in [our plan](https://docs.google.com/document/d/1K8hvQ83UcJ9a7U8oqXIefwr6pFJn-VBEi40Ak-fwQtk/edit) to support MCS. Stay tuned!
 
