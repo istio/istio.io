@@ -55,7 +55,7 @@ The `istioctl tag` command has graduated out of experimental in 1.11. You can al
 
 We also fixed an [outstanding issue](https://github.com/istio/istio/issues/28880) with upgrades - you can safely perform a canary upgrade of your control plane regardless of whether or not it was installed using a revision.
 
-To improve the sidecar injection experience, `istio-injection` and `sidecar.istio.io/inject` labels are introduced. We highly recommend you to switch to use injection labels as they perform better than injection annotations. We intend to deprecate the injection annotations in a future release.
+To improve the sidecar injection experience, `istio-injection` and `sidecar.istio.io/inject` labels were introduced. We recommend you to switch to using injection labels, as they perform better than injection annotations. We intend to deprecate the injection annotations in a future release.
 
 ## Kubernetes Multi-cluster Services (MCS) support (Experimental)
 
