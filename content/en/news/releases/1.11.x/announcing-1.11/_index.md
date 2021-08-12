@@ -43,7 +43,7 @@ Istio provides gateways as a way to interface with the outside world. You can de
 
 In the past, an Istio version would deploy a gateway as a Deployment which had a completely separate proxy configuration to all the rest of the sidecar proxies in the cluster. This made management and upgrade of the gateway complex, especially when multiple gateways were deployed in the cluster. One common issue was that settings from the control plane passed down to sidecar proxies and the gateways could drift, causing unexpected issues.
 
-Gateway injection moves the management of gateways to the same method as sidecar proxies . Configuration that you set on your proxies globally will apply to your gateways, and complex configurations that weren't possible (for example, running a Gateway as a DaemonSet) are now easy. You can also update your Gateways to the latest version after a cluster upgrade simply by restarting the pods.
+Gateway injection moves the management of gateways to the same method as sidecar proxies. Configuration that you set on your proxies globally will apply to your gateways, and complex configurations that weren't possible (for example, running a gateway as a DaemonSet) are now easy. You can also update your gateways to the latest version after a cluster upgrade simply by restarting the pods.
 
 In addition to these changes, we have released new [Installing Gateways](/docs/setup/additional-setup/gateway/) documentation, which covers best practices for installation, management, and upgrade of gateways.
 
