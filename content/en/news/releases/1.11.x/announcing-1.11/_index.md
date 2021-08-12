@@ -39,7 +39,7 @@ In 1.11, this feature has been promoted to Beta. [Learn how you can set up a mes
 
 ## Gateway injection
 
-Istio provides gateways as a way to interface with the outside world. You can deploy ingress gateways for incoming traffic originating outside your cluster and egress gateways for outgoing traffic from your applications to services deployed outside your cluster.
+Istio provides gateways as a way to interface with the outside world. You can deploy [ingress gateways](/docs/tasks/traffic-management/ingress/ingress-control/), for incoming traffic originating outside your cluster, and [egress gateways](/docs/tasks/traffic-management/egress/egress-gateway/), for outgoing traffic from your applications to services deployed outside your cluster.
 
 In the past, an Istio version would deploy a gateway as a Deployment which had a completely separate proxy configuration to all the rest of the sidecar proxies in the cluster. This made management and upgrade of the gateway complex, especially when multiple gateways were deployed in the cluster. One common issue was that settings from the control plane passed down to sidecar proxies and the gateways could drift, causing unexpected issues.
 
