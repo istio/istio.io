@@ -12,13 +12,13 @@ aliases:
 
 ## Traffic Management
 
-- **Promoted** [CNI](/docs/setup/additional-setup/cni/) to beta ([Issue #86](https://github.com/istio/enhancements/issues/86)).
+- **Promoted** [CNI](/docs/setup/additional-setup/cni/) to beta. ([Issue #86](https://github.com/istio/enhancements/issues/86))
 
 - **Improved** resolution of headless services via in-agent DNS to include endpoints
 from other clusters that are on the same network.
   ([Issue #27342](https://github.com/istio/istio/issues/27342))
 
-- **Improved** usage of `AUTO_PASSTHROUGH` Gateways to no longer require configuring the `ISTIO_META_ROUTER_MODE` environment variable on the gateway deployment; instead, it is automatically detected
+- **Improved** usage of `AUTO_PASSTHROUGH` Gateways to no longer require configuring the `ISTIO_META_ROUTER_MODE` environment variable on the gateway deployment; instead, it is automatically detected.
   ([Issue #33127](https://github.com/istio/istio/issues/33127))
 
 - **Improved** CNI network plugin to send logs to the CNI DaemonSet. This allows viewing CNI logs using `kubectl logs`, instead of looking at kubelet logs.
@@ -39,7 +39,7 @@ this automatically.
 
 - **Added** the HTTP endpoint localhost:15004/debug/\<`typeurl`\> to the Istio sidecar agent. GET requests
 to that URL will be resolved by sending an xDS discovery "event" to istiod.  This can be disabled by setting
-the following in the Istio Operator: `meshConfig.defaultConfig.proxyMetadata.PROXY_XDS_DEBUG_VIA_AGENT=false`
+the following in the Istio Operator: `meshConfig.defaultConfig.proxyMetadata.PROXY_XDS_DEBUG_VIA_AGENT=false`.
   ([Issue #22274](https://github.com/istio/istio/issues/22274))
 
 - **Added** support for overriding the locality of the `WorkloadGroup` template in
@@ -66,7 +66,7 @@ endpoints. this process can be automated by enabling the Istio flag `ENABLE_MCS_
 Istio will automatically create `ServiceExport` in all clusters for each service.
   ([Issue #29384](https://github.com/istio/istio/issues/29384))
 
-- **Fixed** an issue to `enableCoreDump` using the sidecar annotation
+- **Fixed** an issue to `enableCoreDump` using the sidecar annotation.
  ([reference]( https://istio.io/latest/docs/reference/config/annotations/)) ([Issue #26668](https://github.com/istio/istio/issues/26668))
 
 - **Fixed** where both inbound and outbound apps were unable to intercept traffic when using `podIP` in TPROXY interception mode.
@@ -140,7 +140,7 @@ The `istiodRemote` component now includes all of the resources needed for either
 - **Fixed** the upgrade and downgrade message of the control plane.
   ([Issue #32749](https://github.com/istio/istio/issues/32749))
 
-- **Removed** the empty `caBundle` default value from Chart to allow a GitOps approach
+- **Removed** the empty `caBundle` default value from Chart to allow a GitOps approach.
   ([Issue #33052](https://github.com/istio/istio/issues/33052))
 
 ## istioctl
@@ -163,7 +163,7 @@ Usually required when the VM workloads aren't in the same network as the primary
 
 - **Added** istioctl now supports completion for Kubernetes pods, services.
 
-- **Fixed** user-agent in all Istio binaries to include version.
-
 - **Added** `--vklog` option to enable verbose logging in client-go.
   ([Issue #28231](https://github.com/istio/istio/issues/28231))
+  
+- **Fixed** user-agent in all Istio binaries to include version.
