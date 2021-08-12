@@ -25,7 +25,7 @@ replace github.com/evanphx/json-patch => github.com/evanphx/json-patch v0.0.0-20
 require (
 	github.com/golang/sync v0.0.0-20180314180146-1d60e4601c6f
 	github.com/pmezard/go-difflib v1.0.0
-	istio.io/istio v0.0.0-20210810163120-4a0a9e8b2515
+	istio.io/istio v0.0.0-20210812154527-57d639a4fd19
 	istio.io/pkg v0.0.0-20210809175755-95ff2e6f6c81
 	k8s.io/apimachinery v0.21.2
 	k8s.io/client-go v0.21.2
