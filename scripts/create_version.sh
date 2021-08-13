@@ -170,7 +170,7 @@ advance_master_to_next_release() {
 
     sed -i "
         s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= ${MASTER}/;
-        s/^ISTIO_IMAGE_VERSION ?=.*$/ISTIO_IMAGE_VERSION ?= ${MASTER}-alpha/
+        s/^ISTIO_IMAGE_VERSION ?=.*$/ISTIO_IMAGE_VERSION ?= ${NEXT_MINOR}-alpha/
     " Makefile.core.mk
 
     go get go get istio.io/istio@"${MASTER}"
