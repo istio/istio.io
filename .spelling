@@ -26,7 +26,9 @@
 1.8.x
 1.8.x.
 1.9.x
+1.9.x.
 1.10.x
+1.11.x
 1.x
 10ms
 10s
@@ -252,6 +254,7 @@ cyber
 DaemonSet
 Datadog
 datapath
+dataplane
 dataset
 datastore
 Datawire
@@ -270,6 +273,7 @@ Deutsche
 devirtualization
 Devirtualization
 devops
+discoverability
 discuss.istio.io
 distro
 Distroless
@@ -396,6 +400,7 @@ interoperate
 interoperation
 intra-cluster
 intrahost
+intranode
 ip_address
 ip
 IPs
@@ -575,6 +580,7 @@ OpenAPI
 OpenCensus
 OpenID
 OpenID_Connect
+OpenMetrics
 OpenShift
 openusage.org
 OpenSSL
@@ -691,6 +697,7 @@ Salesforce
 sandboxed
 sandboxing
 sayin
+schedulable
 schemas
 SDKs
 sds
@@ -721,6 +728,7 @@ sidecar
 sidecar.env
 SignalFX
 sinkInfo
+SkyWalking
 SLOs
 SMEs
 Snell-Feikema
@@ -790,6 +798,7 @@ trustability
 tunneling
 UID
 UIDs
+uint32
 ulimit
 uncomment
 uncommented

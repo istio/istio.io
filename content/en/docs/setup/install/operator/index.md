@@ -60,11 +60,19 @@ To avoid a vulnerability, ensure that the operator deployment is sufficiently se
     {{< tip >}}
     You can alternatively deploy the operator using Helm:
 
-    {{< text bash >}}
-    $ helm install istio-operator manifests/charts/istio-operator \
-      --set operatorNamespace=istio-operator \
-      --set watchedNamespaces="istio-namespace1\,istio-namespace2"
-    {{< /text >}}
+    1. Create a namespace `istio-operator`.
+
+        {{< text bash >}}
+        $ kubectl create namespace istio-operator
+        {{< /text >}}
+
+    1. Install operator using helm.
+
+        {{< text bash >}}
+        $ helm install istio-operator manifests/charts/istio-operator \
+            --set watchedNamespaces="istio-namespace1\,istio-namespace2" \
+            -n istio-operator
+        {{< /text >}}
 
     {{< boilerplate helm-hub-tag >}}
 

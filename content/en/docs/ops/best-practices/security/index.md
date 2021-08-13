@@ -347,6 +347,10 @@ This enables a strong [defense in depth](https://en.wikipedia.org/wiki/Defense_i
 For example, you may choose to only allow traffic to port `9080` of our `reviews` application.
 In the event of a compromised pod or security vulnerability in the cluster, this may limit or stop an attackers progress.
 
+Depending on the actual implementation, changes to network policy may not affect existing connections in the Istio proxies.
+You may need to restart the Istio proxies after applying the policy so that existing connections will be closed and
+new connections will be subject to the new policy.
+
 ### Securing egress traffic
 
 A common misconception is that options like [`outboundTrafficPolicy: REGISTRY_ONLY`](/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services) acts as a security policy preventing all access to undeclared services.
@@ -505,10 +509,6 @@ In order to transparently capture all traffic, Istio relies on `iptables` rules 
 This adds a [requirement](/docs/ops/deployment/requirements/) for the `NET_ADMIN` and `NET_RAW` [capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container) to be available to the pod.
 
 To reduce privileges granted to pods, Istio offers a [CNI plugin](/docs/setup/additional-setup/cni/) which removes this requirement.
-
-{{< warning >}}
-The Istio CNI plugin is currently an alpha feature.
-{{< /warning >}}
 
 ## Use hardened docker images
 

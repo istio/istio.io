@@ -37,7 +37,7 @@ the Kubernetes API server, as shown in the above diagram.
 ### Clusters
 
 This guide requires that you have two Kubernetes clusters with any of the
-supported Kubernetes versions: {{< supported_kubernetes_versions >}}.
+[supported Kubernetes versions:](/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
 
 The first cluster will host the {{< gloss >}}external control plane{{< /gloss >}} installed in the
 `external-istiod` namespace. An ingress gateway is also installed in the `istio-system` namespace to provide
@@ -426,7 +426,7 @@ including gateways, if needed.
 
     {{< text bash >}}
     $ cat <<EOF > istio-ingressgateway.yaml
-    apiVersion: operator.istio.io/v1alpha1
+    apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
       profile: empty
@@ -447,7 +447,7 @@ including gateways, if needed.
 
     {{< text bash >}}
     $ cat <<EOF > istio-egressgateway.yaml
-    apiVersion: operator.istio.io/v1alpha1
+    apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
       profile: empty
@@ -495,8 +495,6 @@ including gateways, if needed.
     {{< /text >}}
 
 ## Adding clusters to the mesh (optional) {#adding-clusters}
-
-{{< boilerplate experimental >}}
 
 This section shows you how to expand an existing external control plane mesh to multicluster by adding another remote cluster.
 This allows you to easily distribute services and use [location-aware routing and fail over](/docs/tasks/traffic-management/locality-load-balancing/) to support high availability of your application.

@@ -216,7 +216,7 @@ spec:
 可以在安装时定义一个自定义模板，例如，将 `GREETING` 环境变量注入到 `istio-proxy` 容器中：
 
 {{< text yaml >}}
-apiVersion: operator.istio.io/v1alpha1
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   name: istio
