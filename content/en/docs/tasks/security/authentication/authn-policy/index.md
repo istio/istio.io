@@ -158,7 +158,7 @@ You see requests still succeed, except for those from the client that doesn't ha
 
 ### Cleanup part 1
 
-Remove global authentication policy and destination rules added in the session:
+Remove global authentication policy added in the session:
 
 {{< text bash >}}
 $ kubectl delete peerauthentication -n istio-system default
@@ -201,9 +201,7 @@ sleep.legacy to httpbin.legacy: 200
 
 ### Enable mutual TLS per workload
 
-To set a peer authentication policy for a specific workload, you must configure the `selector` section and specify the labels that match the desired workload. However, Istio cannot aggregate workload-level policies for outbound mutual TLS traffic to a service. Configure a destination rule to manage that behavior.
-
-For example, the following peer authentication policy and destination rule enable strict mutual TLS for the `httpbin.bar` workload:
+To set a peer authentication policy for a specific workload, you must configure the `selector` section and specify the labels that match the desired workload. For example, the following peer authentication policy enables strict mutual TLS for the `httpbin.bar` workload:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -218,22 +216,6 @@ spec:
       app: httpbin
   mtls:
     mode: STRICT
-EOF
-{{< /text >}}
-
-And a destination rule:
-
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -n bar -f -
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: "httpbin"
-spec:
-  host: "httpbin.bar.svc.cluster.local"
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
 EOF
 {{< /text >}}
 
@@ -281,28 +263,7 @@ spec:
 EOF
 {{< /text >}}
 
-As before, you also need a destination rule:
-
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -n bar -f -
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: "httpbin"
-spec:
-  host: httpbin.bar.svc.cluster.local
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
-    portLevelSettings:
-    - port:
-        number: 8000
-      tls:
-        mode: DISABLE
-EOF
-{{< /text >}}
-
-1. The port value in the peer authentication policy is the container's port. The value the destination rule is the service's port.
+1. The port value in the peer authentication policy is the container's port.
 1. You can only use `portLevelMtls` if the port is bound to a service. Istio ignores it otherwise.
 
 {{< text bash >}}
@@ -341,22 +302,6 @@ spec:
 EOF
 {{< /text >}}
 
-and destination rule:
-
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -n foo -f -
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: "overwrite-example"
-spec:
-  host: httpbin.foo.svc.cluster.local
-  trafficPolicy:
-    tls:
-      mode: DISABLE
-EOF
-{{< /text >}}
-
 Re-running the request from `sleep.legacy`, you should see a success return code again (200), confirming service-specific policy overrides the namespace-wide policy.
 
 {{< text bash >}}
@@ -366,13 +311,11 @@ $ kubectl exec "$(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..me
 
 ### Cleanup part 2
 
-Remove policies and destination rules created in the above steps:
+Remove policies created in the above steps:
 
 {{< text bash >}}
 $ kubectl delete peerauthentication default overwrite-example -n foo
 $ kubectl delete peerauthentication httpbin -n bar
-$ kubectl delete destinationrules overwrite-example -n foo
-$ kubectl delete destinationrules httpbin -n bar
 {{< /text >}}
 
 ## End-user authentication
