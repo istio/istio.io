@@ -134,7 +134,7 @@ $ helm template istiod manifests/charts/istio-control/istio-discovery -s templat
 $ helm template istiod manifests/charts/istio-control/istio-discovery -s templates/revision-tags.yaml --set revisionTags={default} --set revision=1-10-0 -n istio-system | kubectl apply -f -
 {{< /text >}}
 
-{{< boilerplate revision-tags-default-intro >}}
+{{< boilerplate revision-tags-default-outro >}}
 
 ### In place upgrade
 

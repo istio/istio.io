@@ -151,7 +151,7 @@ $ istioctl tag set prod-stable --revision 1-10-0
 $ istioctl tag set default --revision 1-10-0
 {{< /text >}}
 
-{{< boilerplate revision-tags-default-intro >}}
+{{< boilerplate revision-tags-default-outro >}}
 
 ## Uninstall old control plane
 
