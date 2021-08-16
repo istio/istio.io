@@ -407,7 +407,6 @@ snip_setup_eastwest_gateways_1() {
 samples/multicluster/gen-eastwest-gateway.sh \
     --mesh mesh1 --cluster "${REMOTE_CLUSTER_NAME}" --network network1 > eastwest-gateway-1.yaml
 istioctl manifest generate -f eastwest-gateway-1.yaml \
-    --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
     --set values.global.istioNamespace=external-istiod | \
     kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
 }
@@ -416,7 +415,6 @@ snip_setup_eastwest_gateways_2() {
 samples/multicluster/gen-eastwest-gateway.sh \
     --mesh mesh1 --cluster "${SECOND_CLUSTER_NAME}" --network network2 > eastwest-gateway-2.yaml
 istioctl manifest generate -f eastwest-gateway-2.yaml \
-    --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
     --set values.global.istioNamespace=external-istiod | \
     kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
 }
