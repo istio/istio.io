@@ -1,53 +1,62 @@
 features:
   - name: "Protocols:HTTP1.1/HTTP2/gRPC/TCP"
+    id: "traffic.http_protocols"
     level:
       checklist: ""
       maturity: Stable
       nextExpectedPromotion: ""
     area: Traffic Management
   - name: "Protocols:Websockets/MongoDB"
+    id: "traffic.websocket_protocols"
     level:
       checklist: ""
       maturity: Stable
       nextExpectedPromotion: ""
     area: Traffic Management
   - name: "Traffic Control: label/content based routing, traffic shifting"
+    id: "traffic.control"
     level:
       checklist: ""
       maturity: Stable
       nextExpectedPromotion: ""
     area: Traffic Management
   - name: "Resilience features: timeouts, retries, connection pools, outlier detection"
+    id: "traffic.resilience"
     level:
       checklist: ""
       maturity: Stable
       nextExpectedPromotion: ""
     area: Traffic Management
   - name: "Gateway: Ingress, Egress for all protocols"
+    id: "traffic.ingress_gateway"
     level:
       checklist: ""
       maturity: Stable
       nextExpectedPromotion: ""
     area: Traffic Management
   - name: "Gateway Injection"
+    id: :"traffic.gateway_injection"
     level:
       checklist: features/gateway_injection.md
       maturity: Alpha
       nextExpectedPromotion: "1.11"
     area: Traffic Management
   - name: "TLS termination and SNI Support in Gateways"
+    id: "traffic.tls_termination"
     level:
       checklist: ""
       maturity: Stable
       nextExpectedPromotion: ""
     area: Traffic Management
   - name: "SNI (multiple certs) at ingress"
+    id: "traffic.multi_cert_ingress_sni"
     level:
       checklist: ""
       maturity: Stable
       nextExpectedPromotion: ""
     area: Traffic Management
   - name: "Locality load balancing"
+    id: "traffic.locality_load_balancing"
     link: "/docs/tasks/traffic-management/locality-load-balancing/"
     level:
       checklist: ""
@@ -55,12 +64,14 @@ features:
       nextExpectedPromotion: ""
     area: Traffic Management
   - name: "Enabling custom filters in Envoy"
+    id: "traffic.custom_envoy_filters"
     level:
       checklist: ""
       maturity: Alpha
       nextExpectedPromotion: ""
     area: Traffic Management
   - name: "Sidecar API"
+    id: "traffic.sidecar"
     link: "/docs/reference/config/networking/sidecar/"
     level:
       checklist: ""
@@ -68,6 +79,7 @@ features:
       nextExpectedPromotion: ""
     area: Traffic Management
   - name: "DNS Proxying"
+    id: "traffic.dns_proxying"
     link: "/docs/ops/configuration/traffic-management/dns-proxy/"
     level:
       checklist: ""
@@ -81,19 +93,23 @@ features:
       maturity: Alpha
       nextExpectedPromotion: ""
     area: Traffic Management
+    id: "traffic.k8s_gateway_apis"
   - name: "Gateway Network Topology Configuration"
+    id: "traffic.gateway_topology"
     level:
        checklist: features/configuring_gateway_network_topology.md
        maturity: Alpha
        nextExpectedPromotion: ""
     area: Traffic Management
   - name: "Kubernetes Multi-Cluster Service (MCS) Discovery"
+    id: :"traffic.kubernetes_mcs"
     level:
       checklist: features/kubernetes_mcs.md
       maturity: Experimental
       nextExpectedPromotion: "1.11"
     area: Traffic Management
   - name: "Prometheus Integration"
+    id: "traffic.prometheus"
     link: "/docs/tasks/observability/metrics/querying-metrics/"
     level:
       checklist: ""
@@ -101,6 +117,7 @@ features:
       nextExpectedPromotion: ""
     area: Observability
   - name: "Service Dashboard in Grafana"
+    id: "observability.grafana"
     link: "/docs/tasks/observability/metrics/using-istio-dashboard/"
     level:
       checklist: ""
@@ -108,6 +125,7 @@ features:
       nextExpectedPromotion: ""
     area: Observability
   - name: "Distributed Tracing"
+    id: "observability.distributed_tracing"
     link: "/docs/tasks/observability/distributed-tracing/"
     level:
       checklist: ""
@@ -115,6 +133,7 @@ features:
       nextExpectedPromotion: ""
     area: Observability
   - name: "Stackdriver Integration"
+    id: "observability.stackdriver"
     link: "/docs/reference/config/proxy_extensions/stackdriver/"
     level:
       checklist: ""
@@ -122,6 +141,7 @@ features:
       nextExpectedPromotion: ""
     area: Observability
   - name: "Distributed Tracing to Zipkin/Jaeger"
+    id: "observability.distributed_zipkin_tracing"
     link: "/docs/tasks/observability/distributed-tracing/"
     level:
       checklist: ""
@@ -129,6 +149,7 @@ features:
       nextExpectedPromotion: ""
     area: Observability
   - name: "Trace Sampling"
+    id: "observability.trace_sampling"
     link: "/docs/tasks/observability/distributed-tracing/configurability/#trace-sampling"
     level:
       checklist: ""
@@ -136,6 +157,7 @@ features:
       nextExpectedPromotion: ""
     area: Observability
   - name: "Request Classification"
+    id: "observability.request_classification"
     link: "/docs/tasks/observability/metrics/classify-metrics/"
     level:
       checklist: ""
@@ -143,12 +165,14 @@ features:
       nextExpectedPromotion: ""
     area: Observability
   - name: "WebAssembly Extension"
+    id: "observability.webassembly"
     level:
       checklist: ""
       maturity: Alpha
       nextExpectedPromotion: ""
     area: Extensibility
   - name: "Service-to-service Mutual TLS"
+    id: "extensability.mtls"
     link: "/docs/concepts/security/#mutual-tls-authentication"
     level:
       checklist: ""
@@ -156,6 +180,7 @@ features:
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "Kubernetes: Service Credential Distribution"
+    id: "observabilility.service_credential_distribution"
     link: "/docs/concepts/security/#pki"
     level:
       checklist: ""
@@ -163,6 +188,7 @@ features:
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "Certificate management on Ingress Gateway"
+    id: "security.ingress_cert_management"
     link: "/docs/tasks/traffic-management/ingress/secure-ingress"
     level:
       checklist: ""
@@ -170,6 +196,7 @@ features:
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "Pluggable Key/Cert Support for istio CA"
+    id: "security.istioca_pluggable_cert_support"
     link: "/docs/tasks/security/cert-management/plugin-ca-cert/"
     level:
       checklist: ""
@@ -177,6 +204,7 @@ features:
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "Authorization"
+    id: "security.authorization"
     link: "/docs/concepts/security/#authorization"
     level:
       checklist: ""
@@ -184,6 +212,7 @@ features:
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "End User (JWT) Authentication"
+    id: "security.jwt_authentication"
     link: "/docs/concepts/security/#authentication"
     level:
       checklist: ""
@@ -191,6 +220,7 @@ features:
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "Automatic mutual TLS"
+    id: "security.automatic_mtls"
     link: "/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls"
     level:
       checklist: features/auto_mtls.md
@@ -198,6 +228,7 @@ features:
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "VM: Service Credential Distribution"
+    id: "security.vm_credential_distribution"
     link: "/docs/concepts/security/#pki"
     level:
       checklist: ""
@@ -205,6 +236,7 @@ features:
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "Mutual TLS Migration"
+    id: "security.mtls_migration"
     link: "/docs/tasks/security/authentication/mtls-migration"
     level:
       checklist: ""
@@ -212,6 +244,7 @@ features:
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "In-Cluster Operator"
+    id: "core.in_cluster_operator"
     link: "/docs/setup/install/operator/"
     level:
       checklist: ""
@@ -219,6 +252,7 @@ features:
       nextExpectedPromotion: ""
     area: Core
   - name: "Kubernetes: Envoy Installation and Traffic Interception"
+    id: "core.envoy_installation"
     link: "/docs/setup/"
     level:
       checklist: ""
@@ -226,6 +260,7 @@ features:
       nextExpectedPromotion: ""
     area: Core
   - name: "Kubernetes: Istio Control Plane Installation"
+    id: "core.control_plane_installation"
     link: "/docs/setup/"
     level:
       checklist: ""
@@ -233,6 +268,7 @@ features:
       nextExpectedPromotion: ""
     area: Core
   - name: "Multicluster Mesh"
+    id: "core.multicluster"
     link: "/docs/setup/install/multicluster/"
     level:
       checklist: features/Multi-cluster support.md
@@ -240,6 +276,7 @@ features:
       nextExpectedPromotion: ""
     area: Core
   - name: "External Control Plane"
+    id: "core.external_control_plane"
     link: "/docs/setup/install/external-controlplane/"
     level:
       checklist: features/external_istiod.md
@@ -247,6 +284,7 @@ features:
       nextExpectedPromotion: ""
     area: Core
   - name: "Kubernetes: Istio In-Place Control Plane Upgrade"
+    id: "core.in_place_upgrade"
     link: "/docs/setup/upgrade/in-place"
     level:
       checklist: ""
@@ -254,12 +292,14 @@ features:
       nextExpectedPromotion: ""
     area: Core
   - name: "Basic Configuration Resource Validation"
+    id: "core.config_resource_validation"
     level:
       checklist: ""
       maturity: Beta
       nextExpectedPromotion: ""
     area: Core
   - name: "Istio CNI Plugin"
+    id: "core.cni"
     link: "/docs/setup/additional-setup/cni/"
     level:
       checklist: "features/cni.md"
@@ -267,6 +307,7 @@ features:
       nextExpectedPromotion: ""
     area: Core
   - name: "IPv6 Support for Kubernetes"
+    id: "core.ipv6"
     level:
       checklist: ""
       maturity: Alpha
@@ -274,6 +315,7 @@ features:
       nextExpectedPromotion: ""
     area: Core
   - name: "Distroless Base Images for Istio"
+    id: "core.distroless"
     link: "/docs/ops/configuration/security/harden-docker-images/"
     level:
       checklist: features/distroless_images.md
@@ -281,6 +323,7 @@ features:
       nextExpectedPromotion: ""
     area: Core
   - name: "Virtual Machine Integration"
+    id: "core.vm_integration"
     link: "/docs/setup/install/virtual-machine/"
     level:
       checklist: features/virtual_machines.md
@@ -288,9 +331,26 @@ features:
       nextExpectedPromotion: ""
     area: Core
   - name: "Helm Based Installation"
+    id: "core.helm_installation"
     link: "/docs/setup/install/helm/"
     level:
       checklist: features/helm_v3_support.md
       maturity: Alpha
       nextExpectedPromotion: ""
     area: Core
+  - name: "Revision Based Upgrade"
+    link: "/docs/setup/upgrade/canary/"
+    level:
+      checklist: features/canary_based_revision_install.md
+      maturity: Alpha
+      nextExpectedPromotion: ""
+    area: Core
+    id: "core.revision_based_upgrade"
+  - name: "Revision Tags"
+    link: "/docs/setup/upgrade/canary/#stable-revision-labels-experimental"
+    level:
+      checklist: features/revision_tags.md
+      maturity: Alpha
+      nextExpectedPromotion: ""
+    area: Core
+    id: "core.revision_tags"

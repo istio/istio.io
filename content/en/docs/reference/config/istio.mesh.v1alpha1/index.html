@@ -557,36 +557,6 @@ If not specified, this will be enabled by default.</p>
 No
 </td>
 </tr>
-<tr id="MeshConfig-verify_certificate_at_client">
-<td><code>verifyCertificateAtClient</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
-<td>
-<p><code>VerifyCertificateAtClient</code> sets the mesh global default for peer certificate validation
-at the client-side proxy when <code>SIMPLE</code> TLS or <code>MUTUAL</code> TLS (non <code>ISTIO_MUTUAL</code>) origination
-modes are used. This setting can be overridden at the host level via DestinationRule API.
-By default, <code>VerifyCertificateAtClient</code> is <code>true</code>.</p>
-
-<p><code>CaCertificates</code>: If set, proxy verifies CA signature based on given CaCertificates. If unset,
-and VerifyCertificateAtClient is true, proxy uses default System CA bundle. If unset and
-<code>VerifyCertificateAtClient</code> is false, proxy will not verify the CA.</p>
-
-<p><code>SubjectAltNames</code>: If set, proxy verifies subject alt names are present in the SAN. If unset,
-and <code>VerifyCertificateAtClient</code> is true, proxy uses host in destination rule to verify the SANs.
-If unset, and <code>VerifyCertificateAtClient</code> is false, proxy does not verify SANs.</p>
-
-<p>For SAN, client-side proxy will exact match host in <code>DestinationRule</code> as well as one level
-wildcard if the specified host in DestinationRule doesn&rsquo;t contain a wildcard.
-For example, if the host in <code>DestinationRule</code> is <code>x.y.com</code>, client-side proxy will
-match either <code>x.y.com</code> or <code>*.y.com</code> for the SAN in the presented server certificate.
-For wildcard host name in DestinationRule, client-side proxy will do a suffix match. For example,
-if host is <code>*.x.y.com</code>, client-side proxy will verify the presented server certificate SAN matches
-`<code>.x.y.com</code> suffix.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="MeshConfig-extension_providers">
 <td><code>extensionProviders</code></td>
 <td><code><a href="#MeshConfig-ExtensionProvider">ExtensionProvider[]</a></code></td>

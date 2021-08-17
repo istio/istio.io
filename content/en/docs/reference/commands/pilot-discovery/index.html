@@ -9,11 +9,39 @@ max_toc_level: 2
 remove_toc_prefix: 'pilot-discovery '
 ---
 <p>Istio Pilot provides fleet-wide traffic management capabilities in the Istio Service Mesh.</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="pilot-discovery-completion">pilot-discovery completion</h2>
 <p>
 Generate the autocompletion script for pilot-discovery for the specified shell.
 See each sub-command&#39;s help for details on how to use the generated script.
 </p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="pilot-discovery-completion-bash">pilot-discovery completion bash</h2>
 <p>
 Generate the autocompletion script for the bash shell.</p>
@@ -42,6 +70,10 @@ MacOS:
 <td><code>--no-descriptions</code></td>
 <td>disable completion descriptions </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="pilot-discovery-completion-fish">pilot-discovery completion fish</h2>
@@ -67,6 +99,10 @@ $ pilot-discovery completion fish &gt; ~/.config/fish/completions/pilot-discover
 <td><code>--no-descriptions</code></td>
 <td>disable completion descriptions </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="pilot-discovery-completion-powershell">pilot-discovery completion powershell</h2>
@@ -90,6 +126,10 @@ to your powershell profile.
 <tr>
 <td><code>--no-descriptions</code></td>
 <td>disable completion descriptions </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -119,6 +159,10 @@ $ pilot-discovery completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot
 <tr>
 <td><code>--no-descriptions</code></td>
 <td>disable completion descriptions </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -223,12 +267,12 @@ $ pilot-discovery completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, default, gateway, grpcgen, klog, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, telemetry, trustBundle, validation, validationController, validationServer, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, default, gateway, grpcgen, installer, klog, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, gateway, grpcgen, klog, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, telemetry, trustBundle, validation, validationController, validationServer, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, gateway, grpcgen, installer, klog, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -253,7 +297,7 @@ $ pilot-discovery completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, gateway, grpcgen, klog, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, telemetry, trustBundle, validation, validationController, validationServer, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, gateway, grpcgen, installer, klog, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, serverca, source, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -278,7 +322,7 @@ $ pilot-discovery completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot
 <tr>
 <td><code>--networksConfig &lt;string&gt;</code></td>
 <td></td>
-<td>File name for Istio mesh networks configuration. If not specified, a default mesh networks will be used.  (default `/etc/istio/config/meshNetworks`)</td>
+<td>File name for Istio mesh networks configuration. If not specified, a default mesh networks will be used.  (default `./etc/istio/config/meshNetworks`)</td>
 </tr>
 <tr>
 <td><code>--plugins &lt;stringSlice&gt;</code></td>
@@ -327,12 +371,31 @@ Insecure values: TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_R
 <td></td>
 <td>File containing the x509 private key matching --tlsCertFile  (default ``)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="pilot-discovery-request">pilot-discovery request</h2>
 <p>Makes an HTTP request to Pilot metrics/debug endpoint</p>
 <pre class="language-bash"><code>pilot-discovery request &lt;method&gt; &lt;path&gt; [&lt;body&gt;] [flags]
 </code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="pilot-discovery-version">pilot-discovery version</h2>
 <p>Prints out build version information</p>
 <pre class="language-bash"><code>pilot-discovery version [flags]
@@ -356,6 +419,11 @@ Insecure values: TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_R
 <td><code>-s</code></td>
 <td>Use --short=false to generate full version information </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="envvars">Environment variables</h2>
@@ -375,6 +443,18 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code></code></td>
 <td>Expected audience in the tokens. </td>
+</tr>
+<tr>
+<td><code>AUTO_RELOAD_PLUGIN_CERTS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, if user introduces new intermediate plug-in CA, user need not to restart istiod to pick up certs.Istiod picks newly added intermediate plug-in CA certs and updates it. Plug-in new Root-CA not supported.</td>
+</tr>
+<tr>
+<td><code>CERT_SIGNER_DOMAIN</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The cert signer domain info</td>
 </tr>
 <tr>
 <td><code>CITADEL_ENABLE_JITTER_FOR_ROOT_CERT_ROTATOR</code></td>
@@ -417,6 +497,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Time Duration</td>
 <td><code>24h0m0s</code></td>
 <td>The default TTL of issued workload certificates. Applied when the client sets a non-positive TTL in the CSR.</td>
+</tr>
+<tr>
+<td><code>ENABLE_AUTO_MTLS_CHECK_POLICIES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Enable the auto mTLS EDS output to consult the PeerAuthentication Policy, only set the {tlsMode: istio}  when server side policy enables mTLS PERMISSIVE or STRICT.</td>
 </tr>
 <tr>
 <td><code>ENABLE_CA_SERVER</code></td>
@@ -482,7 +568,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>GCP_METADATA</code></td>
 <td>String</td>
 <td><code></code></td>
-<td>Pipe separted GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
+<td>Pipe separated GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
 </tr>
 <tr>
 <td><code>GCP_QUOTA_PROJECT</code></td>
@@ -590,7 +676,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>KUBERNETES_SERVICE_HOST</code></td>
 <td>String</td>
 <td><code></code></td>
-<td>Kuberenetes service host, set automatically when running in-cluster</td>
+<td>Kubernetes service host, set automatically when running in-cluster</td>
 </tr>
 <tr>
 <td><code>K_REVISION</code></td>
@@ -643,7 +729,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr>
 <td><code>PILOT_ENABLE_CDS_CACHE</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If true, Pilot will cache CDS responses. Note: this depends on PILOT_ENABLE_XDS_CACHE.</td>
 </tr>
 <tr>
@@ -741,6 +827,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, protocol sniffing will be used for outbound listeners whose port protocol is not specified or unsupported</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_RDS_CACHE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will cache RDS responses. Note: this depends on PILOT_ENABLE_XDS_CACHE.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
@@ -842,7 +934,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, checks to see if the configured JwksUri in RequestAuthentication is a mesh cluster URL and configures Remote Jwks to let Envoy fetch the Jwks instead of Istiod.</td>
+<td>If enabled, checks to see if the configured JwksUri in RequestAuthentication is a mesh cluster URL and configures remote Jwks to let Envoy fetch the Jwks instead of Istiod.</td>
 </tr>
 <tr>
 <td><code>PILOT_JWT_PUB_KEY_REFRESH_INTERVAL</code></td>
@@ -975,6 +1067,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, readiness probes will be sent to &#39;localhost&#39;. Otherwise, they will be sent to the Pod&#39;s IP, matching Kubernetes&#39; behavior.</td>
+</tr>
+<tr>
+<td><code>REWRITE_TCP_PROBES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If false, TCP probes will not be rewritten and therefor always succeed when a sidecar is used.</td>
 </tr>
 <tr>
 <td><code>ROOT_CA_DIR</code></td>
