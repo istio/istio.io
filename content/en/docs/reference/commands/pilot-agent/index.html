@@ -53,6 +53,10 @@ remove_toc_prefix: 'pilot-agent '
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="pilot-agent-completion">pilot-agent completion</h2>
@@ -103,6 +107,10 @@ See each sub-command&#39;s help for details on how to use the generated script.
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -170,6 +178,10 @@ MacOS:
 <td><code>--no-descriptions</code></td>
 <td>disable completion descriptions </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="pilot-agent-completion-fish">pilot-agent completion fish</h2>
@@ -231,6 +243,10 @@ $ pilot-agent completion fish &gt; ~/.config/fish/completions/pilot-agent.fish</
 <td><code>--no-descriptions</code></td>
 <td>disable completion descriptions </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="pilot-agent-completion-powershell">pilot-agent completion powershell</h2>
@@ -290,6 +306,10 @@ to your powershell profile.
 <tr>
 <td><code>--no-descriptions</code></td>
 <td>disable completion descriptions </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -355,6 +375,10 @@ $ pilot-agent completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot-age
 <tr>
 <td><code>--no-descriptions</code></td>
 <td>disable completion descriptions </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -435,6 +459,11 @@ $ pilot-agent completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot-age
 <td><code>--redirect-dns</code></td>
 <td></td>
 <td>Enable capture of dns traffic by istio-agent </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -626,6 +655,11 @@ $ pilot-agent completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot-age
 <td></td>
 <td>Skip iptables apply </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="pilot-agent-proxy">pilot-agent proxy</h2>
@@ -716,6 +750,10 @@ $ pilot-agent completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot-age
 <td><code>--tokenManagerPlugin &lt;string&gt;</code></td>
 <td>Token provider specific plugin name.  (default `GoogleTokenExchange`)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="pilot-agent-request">pilot-agent request</h2>
@@ -769,6 +807,10 @@ $ pilot-agent completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot-age
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -840,6 +882,11 @@ $ pilot-agent completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot-age
 <td><code>-s</code></td>
 <td>Use --short=false to generate full version information </td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="pilot-agent-wait">pilot-agent wait</h2>
@@ -906,6 +953,10 @@ $ pilot-agent completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot-age
 <td><code>--url &lt;string&gt;</code></td>
 <td>URL to use in requests  (default `http://localhost:15021/healthz/ready`)</td>
 </tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="envvars">Environment variables</h2>
@@ -920,6 +971,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>AUTO_RELOAD_PLUGIN_CERTS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, if user introduces new intermediate plug-in CA, user need not to restart istiod to pick up certs.Istiod picks newly added intermediate plug-in CA certs and updates it. Plug-in new Root-CA not supported.</td>
+</tr>
 <tr>
 <td><code>BOOTSTRAP_XDS_AGENT</code></td>
 <td>Boolean</td>
@@ -943,6 +1000,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code></code></td>
 <td>Explicitly set the root CA to expect for the CA connection.</td>
+</tr>
+<tr>
+<td><code>CERT_SIGNER_DOMAIN</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The cert signer domain info</td>
 </tr>
 <tr>
 <td><code>CLUSTER_ID</code></td>
@@ -979,6 +1042,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code></code></td>
 <td>The type of ECC signature algorithm to use when generating private keys</td>
+</tr>
+<tr>
+<td><code>ENABLE_AUTO_MTLS_CHECK_POLICIES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Enable the auto mTLS EDS output to consult the PeerAuthentication Policy, only set the {tlsMode: istio}  when server side policy enables mTLS PERMISSIVE or STRICT.</td>
 </tr>
 <tr>
 <td><code>ENABLE_CA_SERVER</code></td>
@@ -1062,7 +1131,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td><code>GCP_METADATA</code></td>
 <td>String</td>
 <td><code></code></td>
-<td>Pipe separted GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
+<td>Pipe separated GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
 </tr>
 <tr>
 <td><code>GCP_QUOTA_PROJECT</code></td>
@@ -1155,6 +1224,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td></td>
 </tr>
 <tr>
+<td><code>ISTIO_META_CERT_SIGNER</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The cert signer info for workload cert</td>
+</tr>
+<tr>
 <td><code>ISTIO_META_CLUSTER_ID</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -1194,7 +1269,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td><code>KUBERNETES_SERVICE_HOST</code></td>
 <td>String</td>
 <td><code></code></td>
-<td>Kuberenetes service host, set automatically when running in-cluster</td>
+<td>Kubernetes service host, set automatically when running in-cluster</td>
 </tr>
 <tr>
 <td><code>K_REVISION</code></td>
@@ -1247,7 +1322,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr>
 <td><code>PILOT_ENABLE_CDS_CACHE</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If true, Pilot will cache CDS responses. Note: this depends on PILOT_ENABLE_XDS_CACHE.</td>
 </tr>
 <tr>
@@ -1345,6 +1420,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, protocol sniffing will be used for outbound listeners whose port protocol is not specified or unsupported</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_RDS_CACHE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will cache RDS responses. Note: this depends on PILOT_ENABLE_XDS_CACHE.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
@@ -1446,7 +1527,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, checks to see if the configured JwksUri in RequestAuthentication is a mesh cluster URL and configures Remote Jwks to let Envoy fetch the Jwks instead of Istiod.</td>
+<td>If enabled, checks to see if the configured JwksUri in RequestAuthentication is a mesh cluster URL and configures remote Jwks to let Envoy fetch the Jwks instead of Istiod.</td>
 </tr>
 <tr>
 <td><code>PILOT_JWT_PUB_KEY_REFRESH_INTERVAL</code></td>
@@ -1593,12 +1674,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If set to true, the agent will listen on 15004 and offer pilot&#39;s XDS istio.io/debug debug API there.</td>
 </tr>
 <tr>
-<td><code>PROXY_XDS_VIA_AGENT</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If set to true, envoy will proxy XDS calls via the agent instead of directly connecting to istiod. This option will be removed once the feature is stabilized.</td>
-</tr>
-<tr>
 <td><code>REQUIRE_3P_TOKEN</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1609,6 +1684,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, readiness probes will be sent to &#39;localhost&#39;. Otherwise, they will be sent to the Pod&#39;s IP, matching Kubernetes&#39; behavior.</td>
+</tr>
+<tr>
+<td><code>REWRITE_TCP_PROBES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If false, TCP probes will not be rewritten and therefor always succeed when a sidecar is used.</td>
 </tr>
 <tr>
 <td><code>SECRET_GRACE_PERIOD_RATIO</code></td>
