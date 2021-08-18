@@ -1122,6 +1122,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If this is set to true, one Istiod will control remote clusters including CA.</td>
 </tr>
 <tr>
+<td><code>FILE_DEBOUNCE_DURATION</code></td>
+<td>Time Duration</td>
+<td><code>100ms</code></td>
+<td>The duration for which the file read operation is delayed once file update is detected</td>
+</tr>
+<tr>
 <td><code>FILE_MOUNTED_CERTS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1671,7 +1677,13 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td><code>PROXY_XDS_DEBUG_VIA_AGENT</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
-<td>If set to true, the agent will listen on 15004 and offer pilot&#39;s XDS istio.io/debug debug API there.</td>
+<td>If set to true, the agent will listen on tap port and offer pilot&#39;s XDS istio.io/debug debug API there.</td>
+</tr>
+<tr>
+<td><code>PROXY_XDS_DEBUG_VIA_AGENT_PORT</code></td>
+<td>Integer</td>
+<td><code>15004</code></td>
+<td>Agent debugging port.</td>
 </tr>
 <tr>
 <td><code>REQUIRE_3P_TOKEN</code></td>
