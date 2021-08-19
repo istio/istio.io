@@ -2,7 +2,7 @@
 title: Support for Istio 1.9 has ended
 subtitle: Support Announcement
 description: Istio 1.9 end of life announcement.
-publishdate: 2021-08-18
+publishdate: 2021-08-24
 ---
 
 As [previously announced](/news/support/announcing-1.9-eol/), support for Istio 1.9 has now officially ended.
