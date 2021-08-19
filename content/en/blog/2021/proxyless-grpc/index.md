@@ -180,6 +180,20 @@ Handling connection for 17171
 [4 body] Hostname=echo-v1-7cf5b76586-bgn6t
 {{< /text >}}
 
+You can also use Kubernetes-like name resolution for short names:
+
+{{< text bash >}}
+$ grpcurl -plaintext -d '{"url": "xds:///echo:7070"}' :17171 proto.EchoTestService/ForwardEcho | jq -r '.output | join
+("")'  | grep Hostname
+[0 body] Hostname=echo-v1-7cf5b76586-ltr8q
+$ grpcurl -plaintext -d '{"url": "xds:///echo.echo-grpc:7070"}' :17171 proto.EchoTestService/ForwardEcho | jq -r
+ '.output | join("")'  | grep Hostname
+[0 body] Hostname=echo-v1-7cf5b76586-ltr8q
+$ grpcurl -plaintext -d '{"url": "xds:///echo.echo-grpc.svc:7070"}' :17171 proto.EchoTestService/ForwardEcho | jq -r
+ '.output | join("")'  | grep Hostname
+[0 body] Hostname=echo-v2-cf97bd94d-jt5mf
+{{< /text >}}
+
 ### Creating subsets with destination rule
 
 First, create a subset for each version of the workload.
@@ -298,8 +312,8 @@ $ cat <<EOF | kubectl apply -f -
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
-  name: default
-  namespace: istio-system
+  name: echo-mtls
+  namespace: echo-grpc
 spec:
   mtls:
     mode: STRICT
@@ -328,13 +342,19 @@ Handling connection for 17171
 
 ## Limitations
 
-// TODO 
-Strict mtls only - must configure in both DR and PA. No plain TLS yet.
-Only Round Robin load balancing (gRPC supports ring-hash, we don’t yet)
-Application-code gotchas:
-Health-checks: With mTLS enabled, your healthcheck must use a different port or it will fail authentication. 
-Race between grpc.Serve(listener), and bootstrap getting created by agent. 
-Hold app till proxy (adding to template, won't be in 1.11.0)
+The initial release comes with several limitations that may be fixed in a future version:
+
+* Auto-mTLS isn't supported, and permissive mode isn't supported. Instead we require explicit mTLS configuration with
+ `STRICT` on the server and `ISTIO_MUTUAL` on the client. Envoy can be used during the migration to `STRICT`.
+* `grpc.Serve(listener)` or `grpc.Dial("xds:///...")` called before the bootstrap is written or xDS proxy is ready can
+ cause a failure. `holdApplicationUntilProxyStarts` can be used to work around this, or the application can be more
+ robust to these failures.
+* If the xDS-enabled gRPC server uses mTLS then you will need to make sure your health checks can work around this
+  Either a separate port should be used, or your health-checking client needs a way to get the proper client
+  certificates. 
+* The implementation of xDS in gRPC does not match Envoys. Certain behaviors may be different, and some features may
+  be missing. The [gRFCs](https://github.com/grpc/proposal) may provide more detail. Make sure to test that any Istio 
+  configuration actually applies on your proxyless gRPC apps. 
 
 ## Performance
 
