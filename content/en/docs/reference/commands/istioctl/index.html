@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 97
+number_of_entries: 98
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -5900,6 +5900,60 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
   # Reset levels of all the loggers to default value (warning).
   istioctl proxy-config log &lt;pod-name[.namespace]&gt; -r
 
+</code></pre>
+<h2 id="istioctl-proxy-config-rootca-compare">istioctl proxy-config rootca-compare</h2>
+<p>Compare ROOTCA values for given 2 pods to check the connectivity between them.</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
+<pre class="language-bash"><code>istioctl proxy-config rootca-compare [pod/]&lt;name-1&gt;[.&lt;namespace-1&gt;] [pod/]&lt;name-2&gt;[.&lt;namespace-2&gt;] [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl proxy-config rootca-compare [pod/]&lt;name-1&gt;[.&lt;namespace-1&gt;] [pod/]&lt;name-2&gt;[.&lt;namespace-2&gt;] [flags]
+istioctl proxy-config rc [pod/]&lt;name-1&gt;[.&lt;namespace-1&gt;] [pod/]&lt;name-2&gt;[.&lt;namespace-2&gt;] [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-proxy-config-rootca-compare Examples">Examples</h3>
+<pre class="language-bash"><code>  # Compare ROOTCA values for given 2 pods to check the connectivity between them.
+  istioctl proxy-config rootca-compare &lt;pod-name-1[.namespace]&gt; &lt;pod-name-2[.namespace]&gt;
 </code></pre>
 <h2 id="istioctl-proxy-config-route">istioctl proxy-config route</h2>
 <p>Retrieve information about route configuration for the Envoy instance in the specified pod.</p>
