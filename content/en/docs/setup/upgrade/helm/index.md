@@ -99,7 +99,7 @@ gateways is [actively in development](/docs/setup/upgrade/gateways/) and is cons
 ### Stable revision labels (experimental)
 
 {{< warning >}}
-This workflow is only supported from Istio versions 1.10 and above.
+Stable revision labels are only supported when updating Istio from and to Istio versions 1.10+.
 {{< /warning >}}
 
 {{< boilerplate revision-tags-preamble >}}
