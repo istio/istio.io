@@ -2146,6 +2146,9 @@ the configuration objects that affect that pod.</p>
 <p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental describe pod &lt;pod&gt; [flags]
 </code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl experimental describe po &lt;pod&gt; [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <tr>
@@ -3598,6 +3601,10 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 
  # Change the revision tag to reference the &#34;1-8-1&#34; revision
  istioctl tag set prod --revision 1-8-1 --overwrite
+
+ # Make revision &#34;1-8-1&#34; the default revision, both resulting in that revision handling injection for &#34;istio-injection=enabled&#34;
+ # and validating resources cluster-wide
+ istioctl tag set default --revision 1-8-1
 
  # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-1&#34; revision
  kubectl rollout restart deployments -n test-ns
@@ -6485,6 +6492,10 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 
  # Change the revision tag to reference the &#34;1-8-1&#34; revision
  istioctl tag set prod --revision 1-8-1 --overwrite
+
+ # Make revision &#34;1-8-1&#34; the default revision, both resulting in that revision handling injection for &#34;istio-injection=enabled&#34;
+ # and validating resources cluster-wide
+ istioctl tag set default --revision 1-8-1
 
  # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-1&#34; revision
  kubectl rollout restart deployments -n test-ns
