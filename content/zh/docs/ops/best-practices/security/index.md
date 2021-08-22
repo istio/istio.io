@@ -149,25 +149,25 @@ spec:
 
 ## 理解流量拦截的局限性{#understand-traffic-capture-limitations}
 
-Istio sidecar 原理为拦截入站和出站流量并将它们转发到 sidecar 代理。
+Istio Sidecar 原理为拦截入站和出站流量并将它们转发到 Sidecar 代理。
 
 但是，并不是*全部*的流量都被拦截：
 
 * 转发只针对基于 TCP 的流量。任何 UDP 或 ICMP 包不会被拦截或更改。
-* 入站拦截在很多 [sidecar 使用的端口](/zh/docs/ops/deployment/requirements/#ports-used-by-istio) 以及端口 22 不生效。此列表可以通过例如 `traffic.sidecar.istio.io/excludeInboundPorts` 的设置拓展。
+* 入站拦截在很多 [Sidecar 使用的端口](/zh/docs/ops/deployment/requirements/#ports-used-by-istio) 以及端口 22 不生效。此列表可以通过例如 `traffic.sidecar.istio.io/excludeInboundPorts` 的设置拓展。
 * 出站拦截可以通过类似 `traffic.sidecar.istio.io/excludeOutboundPorts` 的配置以及其他多种方式取消。
 
-总的来说，一个应用和他的 sidecar 代理之间的安全边界微乎其微。Sidecar 设置基于 pod 粒度设置，并且二者运行在同一个网络/进程空间。因此，应用可能移除拦截规则，并且移除，修改，或替换 sidecar 代理。这允许一个 pod 将出站流量有意地绕过它的 sidecar 或者 有意允许入站流量绕过它的 sidecar。
+总的来说，一个应用和他的 Sidecar 代理之间的安全边界微乎其微。Sidecar 设置基于 Pod 粒度设置，并且二者运行在同一个网络/进程空间。因此，应用可能移除拦截规则，并且移除，修改，或替换 Sidecar 代理。这允许一个 Pod 将出站流量有意地绕过它的 Sidecar 或者 有意允许入站流量绕过它的 Sidecar。
 
-因此，仅依赖 Istio 来拦截全部流量是不安全的。取而代之，正确的安全边界是，一个客户端不应该能够绕过*另一个* pod 的 sidecar。
+因此，仅依赖 Istio 来拦截全部流量是不安全的。取而代之，正确的安全边界是，一个客户端不应该能够绕过*另一个* Pod 的 Sidecar。
 
-例如，如果在端口 `9080` 上运行 `reviews` 应用，便应认为所有从 `productpage` 应用来的流量都应被 `review` sidecar 代理拦截，在 sidecar 上便可以进行 Istio 认证和授权策略配置。
+例如，如果在端口 `9080` 上运行 `reviews` 应用，便应认为所有从 `productpage` 应用来的流量都应被 `review` Sidecar 代理拦截，在 Sidecar 上便可以进行 Istio 认证和授权策略配置。
 
 ### 基于 `NetworkPolicy` 的纵深防御{#defense-in-depth-with-network-policy}
 
 为了进一步确保流量安全， Istio 策略可以基于 Kubernetes [网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)。这将启动强大的[纵深防御](https://en.wikipedia.org/wiki/Defense_in_depth_(computing))策略来进一步确保您的网格安全性。
 
-例如，您可以只允许流量通过端口 `9080` 进入应用 `reviews`。在存在达不到安全标准的 pod 或者有安全弱点情况下，这可能限制或者阻止攻击者。
+例如，您可以只允许流量通过端口 `9080` 进入应用 `reviews`。在存在达不到安全标准的 Pod 或者有安全弱点情况下，这可能限制或者阻止攻击者。
 
 ### 确保 egress 流量安全{#securing-egress-traffic}
 
@@ -178,7 +178,7 @@ Istio sidecar 原理为拦截入站和出站流量并将它们转发到 sidecar 
 
 ## 进行 TLS 发起中在目标规则上配置 TLS 验证{#configure-TLS-verification-in-destination-rule-when-using-TLS-origination}
 
-Istio 可以从一个 sidecar 代理或者网关上进行 [TLS 发起](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)。
+Istio 可以从一个 Sidecar 代理或者网关上进行 [TLS 发起](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)。
 这使得从应用发出的纯文本 HTTP 流量可以透明地“升级”到 HTTPS。
 
 当进行 `DestinationRule`中的 `tls` 字段配置时，应格外注意 `caCertificates` 字段。
@@ -318,9 +318,9 @@ Istio 可以[自动确定流量协议](/zh/docs/ops/configuration/traffic-manage
 
 ## CNI 网络容器接口{#CNI}
 
-为了透明地劫持所以流量， Istio 依赖 通过 `istio-init` `initContainer` 配置 `iptables` 规则。这增加了一个[要求](/zh/docs/ops/deployment/requirements/)，即需要提供给 pod `NET_ADMIN` 和 `NET_RAW` [capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container)。
+为了透明地劫持所以流量， Istio 依赖 通过 `istio-init` `initContainer` 配置 `iptables` 规则。这增加了一个[要求](/zh/docs/ops/deployment/requirements/)，即需要提供给 Pod `NET_ADMIN` 和 `NET_RAW` [capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container)。
 
-为了减少给予 pods 的权限， Istio 提供了 [CNI plugin](/zh/docs/setup/additional-setup/cni/) 功能，即不再需要以上权限。
+为了减少给予 Pods 的权限， Istio 提供了 [CNI plugin](/zh/docs/setup/additional-setup/cni/) 功能，即不再需要以上权限。
 
 {{< warning >}}
 Istio CNI 插件目前仍是 alpha 特性。
@@ -328,7 +328,7 @@ Istio CNI 插件目前仍是 alpha 特性。
 
 ## 使用精简 docker 镜像{#use-hardened-docker-images}
 
-Istio 默认 docker 镜像，包括那些控制面，网关， sidecar 代理正在使用的镜像，都斯基于 `ubuntu`。这提供了多种工具，例如 `bash` 以及 `curl`，这权衡了提供便利和增加攻击接口之间的利弊。
+Istio 默认 docker 镜像，包括那些控制面，网关， Sidecar 代理正在使用的镜像，都斯基于 `ubuntu`。这提供了多种工具，例如 `bash` 以及 `curl`，这权衡了提供便利和增加攻击接口之间的利弊。
 
 同时 Istio 也提供了更精简的基于 [distroless images](/zh/docs/ops/configuration/security/harden-docker-images/) 的镜像，此镜像减少了其中的依赖。
 
@@ -376,14 +376,14 @@ Istiod 为了便利暴露了几个未认证的纯本文端口。理想情况下�
 
 代理暴露了一系列端口。暴露给外部的是端口 `15090` (遥测) 和 port `15021` (健康检测)。
 端口 `15020` 和 `15000` 提供了调试终端。这两者只暴露给 `localhost`。
-因此结果是，应用运行在了代理也有访问权限的同一个 pod 中，即 sidecar 和应用之间没有信任边界。
+因此结果是，应用运行在了代理也有访问权限的同一个 Pod 中，即 Sidecar 和应用之间没有信任边界。
 
 ## 配置第三方服务账户 tokens {#configure-third-party-service-account-tokens}
 
 为了认证 Istio 数据面， Istio 代理使用服务账户 tokens。 Kubernetes 支持两种类型的 tokens ：
 
 * 第三方 tokens，拥有有范围限制的受众以及有效期。
-* 第一方 tokens，没有有效期以及挂在到全部 pods 上。
+* 第一方 tokens，没有有效期以及挂在到全部 Pods 上。
 
 因为第一方 token 的性质较为不安全， Istio 默认使用第三方 tokens。但是该特性并未在全部的 Kubernetes 平台上启用。
 
