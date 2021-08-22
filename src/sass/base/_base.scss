@@ -92,6 +92,10 @@ table {
     border-spacing: 0;
     width: 100%;
     display: table;
+    @media (max-width: $bp-sm) {
+        display: block;
+        overflow-x: auto;
+    }
 }
 
 table p:first-of-type {
