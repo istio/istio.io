@@ -87,6 +87,14 @@ test: yes
 
 1. 向客户端注入 Istio Sidecar 代理，以便 Istio 对其网络交互进行管理：
 
+    如果你启用了[自动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) ，可以直接部署 `fortio` 应用：
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/httpbin/sample-client/fortio-deploy.yaml@
+    {{< /text >}}
+
+    否则，你需要在部署 `fortio` 应用前手动注入 Sidecar：
+
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/sample-client/fortio-deploy.yaml@)
     {{< /text >}}
@@ -94,15 +102,15 @@ test: yes
 1. 登入客户端 Pod 并使用 Fortio 工具调用 `httpbin` 服务。`-curl` 参数表明发送一次调用：
 
     {{< text bash >}}
-    $ FORTIO_POD=$(kubectl get pod | grep fortio | awk '{ print $1 }')
-    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/bin/fortio -- load -curl  http://httpbin:8000/get
+    $ export FORTIO_POD=$(kubectl get pods -l app=fortio -o 'jsonpath={.items[0].metadata.name}')
+    $ kubectl exec "$FORTIO_POD" -c fortio -- /usr/bin/fortio curl -quiet http://httpbin:8000/get
     HTTP/1.1 200 OK
     server: envoy
-    date: Tue, 16 Jan 2018 23:47:00 GMT
+    date: Tue, 25 Feb 2020 20:25:52 GMT
     content-type: application/json
+    content-length: 586
     access-control-allow-origin: *
     access-control-allow-credentials: true
-    content-length: 445
     x-envoy-upstream-service-time: 36
 
     {
@@ -110,12 +118,12 @@ test: yes
       "headers": {
         "Content-Length": "0",
         "Host": "httpbin:8000",
-        "User-Agent": "istio/fortio-0.6.2",
+        "User-Agent": "fortio.org/fortio-1.3.1",
+        "X-B3-Parentspanid": "8fc453fb1dec2c22",
         "X-B3-Sampled": "1",
-        "X-B3-Spanid": "824fbd828d809bf4",
-        "X-B3-Traceid": "824fbd828d809bf4",
-        "X-Ot-Span-Context": "824fbd828d809bf4;824fbd828d809bf4;0000000000000000",
-        "X-Request-Id": "1ad2de20-806e-9622-949a-bd1d9735a3f4"
+        "X-B3-Spanid": "071d7f06bc94943c",
+        "X-B3-Traceid": "86a929a0e76cda378fc453fb1dec2c22",
+        "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/default/sa/httpbin;Hash=68bbaedefe01ef4cb99e17358ff63e92d04a4ce831a35ab9a31d3c8e06adb038;Subject=\"\";URI=spiffe://cluster.local/ns/default/sa/default"
       },
       "origin": "127.0.0.1",
       "url": "http://httpbin:8000/get"
