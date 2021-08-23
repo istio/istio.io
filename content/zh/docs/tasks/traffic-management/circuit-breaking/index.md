@@ -79,10 +79,10 @@ test: yes
           maxEjectionPercent: 100
     {{< /text >}}
 
-## 增加一个客户{#adding-a-client}
+## 增加一个客户端{#adding-a-client}
 
 创建客户端程序以发送流量到 `httpbin` 服务。这是一个名为 [Fortio](https://github.com/istio/fortio)
-的负载测试客户的，其可以控制连接数、并发数及发送 HTTP 请求的延迟。通过 Fortio 能够有效的触发前面
+的负载测试客户端，它可以控制连接数、并发数及发送 HTTP 请求的延迟。通过 Fortio 能够有效的触发前面
 在 `DestinationRule` 中设置的熔断策略。
 
 1. 向客户端注入 Istio Sidecar 代理，以便 Istio 对其网络交互进行管理：
