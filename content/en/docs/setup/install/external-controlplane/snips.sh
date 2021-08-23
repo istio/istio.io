@@ -442,11 +442,6 @@ kubectl --context="${CTX_REMOTE_CLUSTER}" apply -n external-istiod -f \
     samples/multicluster/expose-services.yaml
 }
 
-snip_setup_eastwest_gateways_6() {
-kubectl --context="${CTX_SECOND_CLUSTER}" apply -n external-istiod -f \
-    samples/multicluster/expose-services.yaml
-}
-
 snip_validate_the_installation_1() {
 kubectl create --context="${CTX_SECOND_CLUSTER}" namespace sample
 kubectl label --context="${CTX_SECOND_CLUSTER}" namespace sample istio-injection=enabled

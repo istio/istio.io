@@ -137,7 +137,6 @@ _verify_like snip_setup_eastwest_gateways_3 "$snip_setup_eastwest_gateways_3_out
 _verify_like snip_setup_eastwest_gateways_4 "$snip_setup_eastwest_gateways_4_out"
 
 snip_setup_eastwest_gateways_5
-snip_setup_eastwest_gateways_6
 
 # Validate the installation.
 snip_validate_the_installation_1
