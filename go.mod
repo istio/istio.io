@@ -20,7 +20,7 @@ require (
 	github.com/pmezard/go-difflib v1.0.0
 	istio.io/client-go v1.11.0-rc.3 // indirect
 	istio.io/gogo-genproto v0.0.0-20210809183655-16cc1841f1f7 // indirect
-	istio.io/istio v0.0.0-20210814125632-8efca561efca
+	istio.io/istio v0.0.0-20210820155641-dceadfc91e5d
 	istio.io/pkg v0.0.0-20210809175755-95ff2e6f6c81
 	k8s.io/apimachinery v0.22.0
 	k8s.io/client-go v0.22.0
