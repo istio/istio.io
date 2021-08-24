@@ -614,11 +614,6 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
         @samples/multicluster/expose-services.yaml@
     {{< /text >}}
 
-    {{< text bash >}}
-    $ kubectl --context="${CTX_SECOND_CLUSTER}" apply -n external-istiod -f \
-        @samples/multicluster/expose-services.yaml@
-    {{< /text >}}
-
 ### Validate the installation
 
 1. Create, and label for injection, the `sample` namespace on the remote cluster:
