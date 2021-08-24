@@ -7,7 +7,7 @@ keywords: [security, PKI, certificate, Citadel]
 target_release: 1.1
 ---
 
-Istio 自签名证书的默认有效期为 1 年。如果您正在使用 Istio 自签名证书，您需要在到期前安排定期根转换。根证书到期可能会导致整个群集意外中断。此问题会影响使用 1.0.7 和 1.1.7 以下版本创建的新群集。
+Istio 自签名证书的默认有效期为 1 年。如果您正在使用 Istio 自签名证书，您需要在到期前安排定期根转换。根证书到期可能会导致整个群集意外中断。此问题会影响使用 1.0.7 和 1.1.7 以下版本创建的新集群。
 
 有关如何判断证书年龄和如何执行轮换的信息，请参见[延长 Istio 自签名证书的有效期](https://istio.io/v1.7/docs/ops/configuration/security/root-transition/)。
 
