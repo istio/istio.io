@@ -53,7 +53,7 @@ icon: cadence
 [Kubernetes 1.22删除了一些已弃用的API](https://kubernetes.io/blog/2021/07/14/upcoming-changes-in-kubernetes-1-22/)，因此1.10.0之前的Istio版本将不再工作。如果您正在升级Kubernetes版本，请确保Istio的版本仍然受到支持。
 {{< /warning >}}
 
-## 没有已经常见漏洞（CVEs）的版本{#releases-without-known-Common-Vulnerabilities-and-Exposures}
+## 没有已知常见漏洞（CVEs）的版本{#releases-without-known-Common-Vulnerabilities-and-Exposures}
 
 {{< warning >}}
 Istio 不保证超出支持窗口期的 Minor 版本都有已知的 CVEs 补丁。请使用最新和受支持的版本。
