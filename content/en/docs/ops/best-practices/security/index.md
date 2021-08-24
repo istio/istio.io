@@ -302,6 +302,28 @@ spec:
               end
 {{< /text >}}
 
+#### Writing Host Match Policies
+
+Istio generates hostnames for both the hostname itself and all matching ports. For instance, a virtual service or Gateway for a host of `httpbin.foo` generates a config matching `httpbin.foo` and `httpbin.foo:*`. However, exact match authorization policies only match the exact string given for the `hosts` or `notHosts` fields. [Authorization policy rules](/docs/reference/config/security/authorization-policy/#Rule) matching hosts should be written using
+prefix matches instead of exact matches.  For example, for an `AuthorizationPolicy` matching the Envoy configuration generated for a hostname of `httpbin.com`, you would use `hosts: ["httpbin.com", "httpbin.com:*"]` as shown in the below `AuthorizationPolicy`.
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: httpbin
+  namespace: foo
+spec:
+  action: DENY
+  rules:
+  - from:
+    - source:
+        namespaces: ["dev"]
+    to:
+    - operation:
+        hosts: ["httpbin.com", "httpbin.com:*"]
+{{< /text >}}
+
 #### Specialized Web Application Firewall (WAF)
 
 Many specialized Web Application Firewall (WAF) products provide additional normalization options. They can be deployed in

@@ -247,6 +247,13 @@ CVE-2021-31920
 CVE-2021-29492
 CVE-2021-31921
 CVE-2021-34824
+CVE-2021-32777
+CVE-2021-32778
+CVE-2021-32779
+CVE-2021-32780
+CVE-2021-32781
+CVE-2021-39155
+CVE-2021-39156
 CVEs
 cves
 cvss
@@ -258,9 +265,11 @@ dataplane
 dataset
 datastore
 Datawire
+deallocated
 debian
 decapsulated
 declaratively
+decompressor
 Delayering
 Demailly
 deployment
@@ -429,6 +438,7 @@ ISTIO-SECURITY-2020-006
 ISTIO-SECURITY-2021-005
 ISTIO-SECURITY-2021-006
 ISTIO-SECURITY-2021-007
+ISTIO-SECURITY-2021-008
 istio-system
 istio.io
 istio.io.
@@ -448,6 +458,7 @@ Jog
 jQuery
 json
 JSON-formatted
+json-transcoder
 jwcrypto
 JWT
 jwt.io
@@ -892,6 +903,7 @@ Xining
 Xu
 yaml
 yamls
+Yangmin
 Yessenov
 yournamespace
 Youtube
@@ -902,6 +914,7 @@ Zhao
 Zhihan
 Zhong
 Zhonghu
+Zhu
 Zipkin
 
  - search.md
