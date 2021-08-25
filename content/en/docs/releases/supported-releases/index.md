@@ -56,7 +56,7 @@ current `<minor>` release. A patch is usually a small change relative to the `<m
 | master          | No, development only  |                     |                      |                               |                           |
 | 1.11            | Yes                   | August 12, 2021     | ~Feb 2022 (Expected) | 1.19, 1.20, 1.21, 1.22        | 1.16, 1.17, 1.18          |
 | 1.10            | Yes                   | May 18, 2021        | ~Nov 2021 (Expected) | 1.18, 1.19, 1.20, 1.21        | 1.16, 1.17, 1.22          |
-| 1.9             | Yes                   | February 9, 2021    | Aug 24, 2021         | 1.17, 1.18, 1.19, 1.20        | 1.15, 1.16                |
+| 1.9             | No                    | February 9, 2021    | Aug 24, 2021         | 1.17, 1.18, 1.19, 1.20        | 1.15, 1.16                |
 | 1.8             | No                    | November 10, 2020   | May 12, 2021         | 1.16, 1.17, 1.18, 1.19        | 1.15                      |
 | 1.7             | No                    | August 21, 2020     | Feb 25, 2021         | 1.16, 1.17, 1.18              | 1.15                      |
 | 1.6 and earlier | No                    |                     |                      |                               |                           |
@@ -74,7 +74,7 @@ Please keep up-to-date and use a supported version.
 
 | Minor Releases             | Patched versions with no known CVEs  |
 |----------------------------|--------------------------------------|
-| 1.11.x                     | 1.11.0+                              |
-| 1.10.x                     | 1.10.2+                              |
-| 1.9.x                      | 1.9.6+                               |
+| 1.11.x                     | 1.11.1+                              |
+| 1.10.x                     | 1.10.4+                              |
+| 1.9.x                      | 1.9.8                                |
 | 1.8 and earlier            | None                                 |
