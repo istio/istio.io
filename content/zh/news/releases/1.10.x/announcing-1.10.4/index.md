@@ -29,7 +29,7 @@ aliases:
 
 - [CVE-2021-32778](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32778) (CVSS score 8.6，High)：Envoy 存在一个可远程利用的漏洞，其中 Envoy 客户端打开并重置大量 HTTP/2 请求可能会导致 CPU 消耗过多。
 
-- [CVE-2021-32780](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32780) (CVSS score 8.6，High)：Envoy 存在一个可远程利用的漏洞，不受信任的上游服务可以通过发送 GOAWAY 帧和 SETTINGS 帧，并将 `SETTINGS_MAX_CONCURRENT_STREAMS` 参数设置为 0，导致Envoy异常终止。
+- [CVE-2021-32780](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32780) (CVSS score 8.6，High)：Envoy 存在一个可远程利用的漏洞，不受信任的上游服务可以通过发送 GOAWAY 帧和 SETTINGS 帧，并将 `SETTINGS_MAX_CONCURRENT_STREAMS` 参数设置为 0，导致 Envoy 异常终止。
   注意：该漏洞不影响下游客户的连接。
 
 - [CVE-2021-32781](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32781) (CVSS score 8.6，High)：Envoy 存在一个可远程利用的漏洞，该漏洞影响 Envoy 的解压器、json-transcoder 或 grpc-web 扩展，或修改和增加请求或响应体的大小的专有扩展。在 Envoy 扩展中修改和增加体的大小超过内部缓冲区的大小，可能会导致 Envoy 访问已分配的内存并异常终止。
