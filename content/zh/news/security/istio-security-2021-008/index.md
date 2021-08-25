@@ -122,7 +122,7 @@ Envoy 包含一个可远程利用的漏洞，Envoy 的 `decompressor`, `json-tra
 * Istio 1.11.1 或更高版本， 如果使用 1.11.x
 * 您的云提供商指定的补丁版本
 
-## 非CVE漏洞{#non-cve-vulnerabilities}
+## 非 CVE 漏洞{#non-cve-vulnerabilities}
 
 ### Istio 不会忽略 `AuthorizationPolicy`、`host` 和 `notHosts` 中的端口比较{#istio-does-not-ignore-ports-in-authorizationpolicy-host-and-nothosts-comparisons}
 
