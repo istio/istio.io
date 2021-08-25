@@ -11,7 +11,7 @@ target_release: 1.4
 
 默认情况下，`Galley` 和 `Sidecar Injector` 管理它们自己 `Webhook` 的配置。如果出现漏洞（例如，缓冲区溢出）它们便会受到威胁，可能会带来一些安全隐患。所以，配置 `Webhook` 是一项权限很高的操作，因为 `Webhook` 会监控和更改所有 `Kubernetes` 资源。
 
-在以下示例中，攻击者破坏了 `Galley` 并修改了 `Galley` 的 `Webhook` 配置，以便于窃听所有 `Kubernetes` 机密（攻击者对 `clientConfig` 进行了修改，将 `Secrets` 资源改变为攻击者自己所拥有的服务）。
+在以下示例中，攻击者破坏了 `Galley` 并修改了 `Galley` 的 `Webhook` 配置，以便于窃听所有 `Kubernetes` 机密（攻击者对 `clientConfig` 进行了修改，将 `Secret` 资源改变为攻击者自己所拥有的服务）。
 
 {{< image width="70%"
     link="./example_attack.png"
