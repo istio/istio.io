@@ -10,7 +10,7 @@ test: no
 
 Follow this guide to upgrade and configure an Istio mesh using
 [Helm](https://helm.sh/docs/) for in-depth evaluation.  This guide assumes you have already performed an
-[installation with Helm](../../install/helm) for a previous minor or patch version of Istio.
+[installation with Helm](/docs/setup/install/helm) for a previous minor or patch version of Istio.
 
 {{< boilerplate helm-preamble >}}
 
@@ -95,6 +95,46 @@ gateways is [actively in development](/docs/setup/upgrade/gateways/) and is cons
     {{< text bash >}}
     $ helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
     {{< /text >}}
+
+### Stable revision labels (experimental)
+
+{{< warning >}}
+Stable revision labels are only supported when updating Istio from and to Istio versions 1.10+.
+{{< /warning >}}
+
+{{< boilerplate revision-tags-preamble >}}
+
+#### Usage
+
+{{< boilerplate revision-tags-usage >}}
+
+{{< text bash >}}
+$ helm template istiod manifests/charts/istio-control/istio-discovery -s templates/revision-tags.yaml --set revisionTags={prod-stable} --set revision=1-9-5 -n istio-system | kubectl apply -f -
+$ helm template istiod manifests/charts/istio-control/istio-discovery -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=1-10-0 -n istio-system | kubectl apply -f -
+{{< /text >}}
+
+{{< warning >}}
+These commands create new `MutatingWebhookConfiguration` resources in your cluster, however, they are not owned by any Helm chart due to `kubectl` manually applying the templates. See the instructions
+below to uninstall revision tags.
+{{< /warning >}}
+
+{{< boilerplate revision-tags-middle >}}
+
+{{< text bash >}}
+$ helm template istiod manifests/charts/istio-control/istio-discovery -s templates/revision-tags.yaml --set revisionTags={prod-stable} --set revision=1-10-0 -n istio-system | kubectl apply -f -
+{{< /text >}}
+
+{{< boilerplate revision-tags-prologue >}}
+
+#### Default tag
+
+{{< boilerplate revision-tags-default-intro >}}
+
+{{< text bash >}}
+$ helm template istiod manifests/charts/istio-control/istio-discovery -s templates/revision-tags.yaml --set revisionTags={default} --set revision=1-10-0 -n istio-system | kubectl apply -f -
+{{< /text >}}
+
+{{< boilerplate revision-tags-default-outro >}}
 
 ### In place upgrade
 
