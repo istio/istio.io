@@ -47,7 +47,7 @@ function setup_vm() {
     -v "${WORK_DIR}:/root" -v "${PWD}/content/en/docs/setup/install/virtual-machine:/test" \
     ${EXTRA_VM_ARGS:-} \
     -w "/root" \
-    gcr.io/istio-release/base:1.9-dev.2
+    gcr.io/istio-release/base:1.11-dev.6
 
   POD_CIDR=$(kubectl get node -ojsonpath='{.items[0].spec.podCIDR}')
   DOCKER_IP=$(docker inspect -f "{{ .NetworkSettings.Networks.kind.IPAddress }}" istio-testing-control-plane)
