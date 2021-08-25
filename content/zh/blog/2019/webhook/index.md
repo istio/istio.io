@@ -18,7 +18,7 @@ target_release: 1.4
     caption="攻击示例"
     >}}
 
-为了防止这种攻击，`Istio` 1.4 引入了一项新功能，可以使用 `Istioctl` 更安全地管理 `Webhook`：
+为了防止这种攻击，`Istio` 1.4 引入了一项新功能，可以使用 `istioctl` 更安全地管理 `Webhook`：
 
 1. `istioctl` 替代 `Galley` 和 `Sidecar Injector` 去管理 `Webhook` 配置。`Galley` 和 `Sidecar Injector` 已经被解除特殊权限，因此即便受到侵入，它们也无法更改 `Webhook` 的配置。
 
