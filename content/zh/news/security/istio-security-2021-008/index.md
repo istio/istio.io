@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2021-008
 subtitle: 安全公告
-description: 多个与AuthorizationPolicy、EnvoyFilter和Envoy相关的CVEs。
+description: 多个与 AuthorizationPolicy、EnvoyFilter 和 Envoy 相关的 CVEs。
 cves: [CVE-2021-32777, CVE-2021-32781, CVE-2021-32778, CVE-2021-32780, CVE-2021-39155, CVE-2021-39156]
 cvss: "8.6"
 vector: "AV:L/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
@@ -15,7 +15,7 @@ skip_seealso: true
 
 ## CVE{#cves}
 
-Envoy以及下面的Istio容易受到六个新发现的漏洞的攻击（注意 Envoy 的 CVE-2021-32779 与 Istio 的 CVE-2021-39156 合并）：
+Envoy 以及下面的 Istio 容易受到六个新发现的漏洞的攻击（注意 Envoy 的 CVE-2021-32779 与 Istio 的 CVE-2021-39156 合并）：
 
 ### CVE-2021-39156 (CVE-2021-32779){#cve-2021-39156-cve-2021-32779}
 
@@ -96,7 +96,7 @@ Envoy 包含一个可远程利用的漏洞，其中 Envoy 客户端打开然后�
 
 ### CVE-2021-32780{#cve-2021-32780}
 
-Envoy 包含一个可远程利用的漏洞，其中不受信任的上游服务可能会导致 Envoy 通过发送 GOAWAY 祯和设置 `SETTINGS_MAX_CONCURRENT_STREAMS` 参数为0的SETTINGS 帧异常终止。有关更多信息，请参阅[CVE-2021-32780](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32780)。
+Envoy 包含一个可远程利用的漏洞，其中不受信任的上游服务可能会导致 Envoy 通过发送 GOAWAY 祯和设置 `SETTINGS_MAX_CONCURRENT_STREAMS` 参数为0的 SETTINGS 帧异常终止。有关更多信息，请参阅[CVE-2021-32780](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32780)。
 
 * CVSS 得分: 8.6
 
@@ -104,18 +104,18 @@ Envoy 包含一个可远程利用的漏洞，其中不受信任的上游服务�
 
 ### CVE-2021-32781{#cve-2021-32781}
 
-Envoy 包含一个可远程利用的漏洞，Envoy的 `decompressor`, `json-transcoder` 或者 `grpc-web` 扩展或修改，并增加请求或响应主体的大小专有扩展。在Envoy扩展中修改和增加主体的大小超出内部缓冲区大小可能会导致 Envoy 访问已释放的内存并异常终止。有关更多信息，请参阅[CVE-2021-32781](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32781)。
+Envoy 包含一个可远程利用的漏洞，Envoy 的 `decompressor`, `json-transcoder` 或者 `grpc-web` 扩展或修改，并增加请求或响应主体的大小专有扩展。在 Envoy 扩展中修改和增加主体的大小超出内部缓冲区大小可能会导致 Envoy 访问已释放的内存并异常终止。有关更多信息，请参阅[CVE-2021-32781](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32781)。
 
 * CVSS 得分: 8.6
 
 如果出现以下情况，您会受到此漏洞的影响：
 
-* 您使用早 1.9.8, 1.10.4 或 1.11.1 的 Isto补丁版本。
+* 您使用早 1.9.8, 1.10.4 或 1.11.1 的 Isto 补丁版本。
 * 您使用[`EnvoyFilters`](/zh/docs/reference/config/networking/envoy-filter/).
 
 ### 防范措施{#mitigation}
 
-要防范上述CVE，请将您的集群更新到最新的受支持的版本：
+要防范上述 CVE，请将您的集群更新到最新的受支持的版本：
 
 * Istio 1.9.8 或更高版本，如果使用 1.9.x
 * Istio 1.10.4 或更高版本，如果使用 1.10.x
@@ -124,15 +124,15 @@ Envoy 包含一个可远程利用的漏洞，Envoy的 `decompressor`, `json-tran
 
 ## 非CVE漏洞{#non-cve-vulnerabilities}
 
-### Istio不会忽略`AuthorizationPolicy`、`host`和`notHosts`中的端口比较{#istio-does-not-ignore-ports-in-authorizationpolicy-host-and-nothosts-comparisons}
+### Istio 不会忽略 `AuthorizationPolicy`、`host` 和 `notHosts` 中的端口比较{#istio-does-not-ignore-ports-in-authorizationpolicy-host-and-nothosts-comparisons}
 
-创建`VirtualService` 或 `Gateway`时，Istio 生成匹配主机名本身和具有所有匹配端口的主机名的配置。例如，主机`httpbin.foo`生成的`VirtualService` 或 `Gateway` 配置匹配 `httpbin.foo` 和 `httpbin.foo:*`。但是，`AuthorizationPolicy` 使用精确匹配，仅匹配 `hosts` 或 `notHosts` 字段给出的精确字符串。
+创建 `VirtualService` 或 `Gateway` 时，Istio 生成匹配主机名本身和具有所有匹配端口的主机名的配置。例如，主机 `httpbin.foo` 生成的 `VirtualService` 或 `Gateway` 配置匹配 `httpbin.foo` 和 `httpbin.foo:*` 。但是，`AuthorizationPolicy` 使用精确匹配，仅匹配 `hosts` 或 `notHosts` 字段给出的精确字符串。
 
-如果您使用`AuthorizationPolicy` 对 [`hosts`或`notHosts`](/zh/docs/reference/config/security/authorization-policy/#Operation)进行精确的字符串比较，您的集群会受到影响。
+如果您使用 `AuthorizationPolicy` 对 [`hosts` 或 `notHosts`](/zh/docs/reference/config/security/authorization-policy/#Operation)进行精确的字符串比较，您的集群会受到影响。
 
-#### `AuthorizationPolicy`防范{#authorizationPolicy-mitigation}
+#### `AuthorizationPolicy` 防范{#authorizationPolicy-mitigation}
 
-更新您的授权策略[规则](/docs/reference/config/security/authorization-policy/#Rule) 以使用前缀匹配而不是精确匹配。例如，要匹配主机`httpbin.com`的`VirtualService`或`Gateway`，请使用`hosts: ["httpbin.com", "httpbin.com:*"]`创建一个`AuthorizationPolicy`，如下所示。
+更新您的授权策略[规则](/docs/reference/config/security/authorization-policy/#Rule) 以使用前缀匹配而不是精确匹配。例如，要匹配主机 `httpbin.com` 的 `VirtualService` 或 `Gateway` ，请使用`hosts: ["httpbin.com", "httpbin.com:*"]`创建一个`AuthorizationPolicy`，如下所示。
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
