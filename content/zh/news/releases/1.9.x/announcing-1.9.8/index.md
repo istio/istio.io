@@ -31,6 +31,6 @@ aliases:
 
 - [CVE-2021-32781](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32781) (CVSS score 8.6，High)：Envoy 存在一个可远程利用的漏洞，该漏洞影响 Envoy 的解压器、json-transcoder 或 grpc-web 扩展，或修改和增加请求或响应体的大小的专有扩展。在 Envoy 扩展中修改和增加体的大小超过内部缓冲区的大小，可能会导致 Envoy 访问已分配的内存并异常终止。
 
-## 改动
+## 变更
 
 - **修复** 修复了用户向网关 `cipherSuites` 添加无效的密码的问题。 ([Issue 34084](https://github.com/istio/istio/issues/34084))
