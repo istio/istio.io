@@ -7,7 +7,7 @@ keywords: [security, kubernetes, webhook]
 target_release: 1.4
 ---
 
-`Istio` 有两个 `webhook`，分别是 `Galley` 和 `Sidecar Injector`。`Galley` 负责验证 `Kubernetes` 资源，`Sidecar Injector` 负责将 `Sidecar` 容器注入 `Istio`中。
+`Istio` 有两个 `Webhook`，分别是 `Galley` 和 `Sidecar Injector`。`Galley` 负责验证 `Kubernetes` 资源，`Sidecar Injector` 负责将 `Sidecar` 容器注入 `Istio`中。
 
 默认情况下，`Galley` 和 `Sidecar Injector` 管理它们自己 `Webhook` 的配置。如果出现漏洞（例如，缓冲区溢出）它们便会受到威胁，可能会带来一些安全隐患。所以，配置 `Webhook` 是一项权限很高的操作，因为 `Webhook` 会监控和更改所有 `Kubernetes` 资源。
 
