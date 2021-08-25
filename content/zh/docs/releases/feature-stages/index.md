@@ -13,11 +13,6 @@ owner: istio/wg-docs-maintainers
 test: n/a
 ---
 
-<!--
-Note: this contains feature status from
-https://docs.google.com/spreadsheets/d/1Nbjat-juyQ8AWhkq3njLckmHM8TRL4O-sjm9Bfr9zrU/edit#gid=0
--->
-
 本页面列出了每个 Istio 特性的相对成熟度和支持级别。请注意阶段适用于项目中的个别特性，而不是整个项目的特性。这是对这些内容的高级描述标签。
 
 ## 功能定义阶段{#feature-phase-definitions}
@@ -45,7 +40,7 @@ https://docs.google.com/spreadsheets/d/1Nbjat-juyQ8AWhkq3njLckmHM8TRL4O-sjm9Bfr9
 以下是我们现有功能及其当前阶段的列表。此信息将在每次发布后更新。
 实验性功能特意未在此页面上列出。
 
-### 运输管理{#traffic-management}
+### 流量管理{#traffic-management}
 
 {{< features section="Traffic Management" >}}
 
