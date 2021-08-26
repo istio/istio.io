@@ -23,7 +23,7 @@ aliases:
   Istio 存在一个可远程利用的漏洞，路径中带有片段（例如#Section）的 HTTP 请求可能会绕过 Istio 基于 URI 路径的授权策略。
     - __CVSS Score__：8.1 [CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N](https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N)
 
-### Envoy 安全更新{#envoy-ecurity-updates}
+### Envoy 安全更新{#envoy-security-updates}
 
 - [CVE-2021-32777](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32777) (CVSS score 8.6, High)：Envoy 存在一个可远程利用的漏洞，当使用 `ext_authz` 扩展时，带有多个值标头的 HTTP 请求可能会绕过授权策略。
 
