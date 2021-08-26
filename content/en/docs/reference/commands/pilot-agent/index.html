@@ -516,6 +516,11 @@ $ pilot-agent completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot-age
 <td>set listen port for failure detection  (default `15002`)</td>
 </tr>
 <tr>
+<td><code>--istio-exclude-interfaces &lt;string&gt;</code></td>
+<td></td>
+<td>Comma separated list of NIC (optional). Neither inbound nor outbound traffic will be captured. It  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istio-inbound-interception-mode &lt;string&gt;</code></td>
 <td><code>-m</code></td>
 <td>The mode used to redirect inbound connections to Envoy, either &#34;REDIRECT&#34; or &#34;TPROXY&#34;  (default ``)</td>
@@ -538,7 +543,7 @@ $ pilot-agent completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot-age
 <tr>
 <td><code>--istio-local-exclude-ports &lt;string&gt;</code></td>
 <td><code>-d</code></td>
-<td>Comma separated list of inbound ports to be excluded from redirection to Envoy (optional). Only applies  when all inbound traffic (i.e. &#34;*&#34;) is being redirected (default to $ISTIO_LOCAL_EXCLUDE_PORTS)  (default ``)</td>
+<td>Comma separated list of inbound ports to be excluded from redirection to Envoy (optional). Only applies when all inbound traffic (i.e. &#34;*&#34;) is being redirected (default to $ISTIO_LOCAL_EXCLUDE_PORTS)  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istio-local-outbound-ports-exclude &lt;string&gt;</code></td>
