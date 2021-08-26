@@ -27,14 +27,19 @@ features should work, although this is not an exhaustive list and other features
   * Header match and URI match in the format `/ServiceName/RPCName`
   * Override destination host and subset.
   * Weighted traffic shifting.
-  * // TODO does timeout work (I think we must set MaxStreamDuration for this to work – I don't think we do today)
-  * // TODO do retries work
-  * // TODO do faults work
-  * // TODO does mirror work
-  * // tested not working: rewrite
 * [`PeerAuthentication`](/docs/reference/config/security/peer_authentication/):
   * Only `DISABLE` and `STRICT` are supported. Other modes will be treated as `DSIABLE`.
   * Support for auto-mTLS may exist in a future release.
+
+Other featues including faults, retries, timeouts, mirroring and rewrite rules may be supported in a future release.
+Some of these features are awaiting implementation in gRPC, and others work in Istio to support. The status of xDS
+features in gRPC can be found [here](https://github.com/grpc/grpc/blob/master/doc/grpc_xds_features.md). The status of
+Istio's support will exist in future official docs.
+
+{{< warning >}}
+This is feature is [experimental](https://istio.io/latest/docs/releases/feature-stages/). Standard Istio features will
+come supported here over time along with improvements to the overall design.
+{{< /warning >}}
 
 ## Architecture Overview
 
@@ -63,8 +68,7 @@ The following side-effect import will register the xDS resolvers and balancers w
 import _ "google.golang.org/grpc/xds"
 {{< /text >}}
 
-When creating a gRPC connection the URL must use the `xds:///` scheme. For now, the fully-qualified domain name must be
-used to reach your service.
+When creating a gRPC connection the URL must use the `xds:///` scheme.
 
 {{< text go >}}
 conn, err := grpc.DialContext(ctx, "xds:///foo.ns.svc.cluster.local:7070")
@@ -303,9 +307,9 @@ ERROR:
 To enable server-size mTLS, apply a `PeerAuthentication`.
 
 {{< warning >}}
-The following policy forces STRICT mTLS for the entire mesh. There is a bug in the initial (1.11.0) release
-that prevents namespacelevel or workload level `PeerAuthentication` (fixed by [#34639](https://github.com/istio/istio/pull/34639)
-).
+The following policy forces STRICT mTLS for the entire mesh. There is a bug
+that prevents namespace level or workload level `PeerAuthentication`; fixed in 1.11.2)
+{{< /warning >}}
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
