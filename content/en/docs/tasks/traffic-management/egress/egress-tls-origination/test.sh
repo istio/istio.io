@@ -23,6 +23,9 @@ source "tests/util/samples.sh"
 
 # @setup profile=default
 
+# Make sure default namespace is injected
+kubectl label namespace default istio-injection=enabled || true
+
 # Deploy sample and set up variable pointing to it
 startup_sleep_sample
 snip_before_you_begin_3
