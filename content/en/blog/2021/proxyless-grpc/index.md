@@ -8,7 +8,7 @@ attribution: "Steven Landow (Google)"
 ## Background
 
 Recent releases of gRPC have added support for consuming [`xDS`](https://blog.envoyproxy.io/the-universal-data-plane-api-d15cec7a)
-directly. This means you can get many of the benefits of a service mesh, without the overhead of a sidecar proxy. 
+directly. This means you can get many of the benefits of a service mesh, without the overhead of a sidecar proxy.
 
 Istio 1.11 adds experimental support for basic service discovery, some `VirtualService` based traffic policy, and
 mutual TLS.
@@ -20,18 +20,18 @@ features should work, although this is not an exhaustive list and other features
 
 * Basic service discovery. Your gRPC service can reach other pods and virtual machines registered in the mesh.
 * [`DestinationRule`](/docs/reference/config/networking/destination-rule/):
-  * Subsets: Your gRPC service can split traffic based on label selectors to different groups of instances. 
-  * The only Istio `loadBalancer` currently supported is `ROUND_ROBIN`, `consistentHash` will be added in the future.
-  * `tls` settings are restricted to `DISABLE` or `ISTIO_MUTUAL`. Other modes will be treated as `DISABLE`.
+    * Subsets: Your gRPC service can split traffic based on label selectors to different groups of instances.
+    * The only Istio `loadBalancer` currently supported is `ROUND_ROBIN`, `consistentHash` will be added in the future.
+    * `tls` settings are restricted to `DISABLE` or `ISTIO_MUTUAL`. Other modes will be treated as `DISABLE`.
 * [`VirtualService`](/docs/reference/config/networking/virtual-service/):
-  * Header match and URI match in the format `/ServiceName/RPCName`
-  * Override destination host and subset.
-  * Weighted traffic shifting.
+    * Header match and URI match in the format `/ServiceName/RPCName`
+    * Override destination host and subset.
+    * Weighted traffic shifting.
 * [`PeerAuthentication`](/docs/reference/config/security/peer_authentication/):
-  * Only `DISABLE` and `STRICT` are supported. Other modes will be treated as `DSIABLE`.
-  * Support for auto-mTLS may exist in a future release.
+    * Only `DISABLE` and `STRICT` are supported. Other modes will be treated as `DSIABLE`.
+    * Support for auto-mTLS may exist in a future release.
 
-Other featues including faults, retries, timeouts, mirroring and rewrite rules may be supported in a future release.
+Other features including faults, retries, timeouts, mirroring and rewrite rules may be supported in a future release.
 Some of these features are awaiting implementation in gRPC, and others work in Istio to support. The status of xDS
 features in gRPC can be found [here](https://github.com/grpc/grpc/blob/master/doc/grpc_xds_features.md). The status of
 Istio's support will exist in future official docs.
@@ -49,20 +49,20 @@ Although this doesn't use a proxy for data plane communication, it still require
 communication with the control-plane. First, the agent generates a [bootstrap file](https://github.com/grpc/proposal/blob/master/A27-xds-global-load-balancing.md#xdsclient-and-bootstrap-file).
 This tells the `gRPC` library how to connect to `istiod`, where it can find certificates for data plane communication,
 and what metadata to send to the control plane. Next, the agent acts as an `xDS` proxy, connecting and authenticating
-with `istiod` on the application's behalf. Finally, the agent fetches and rotates certificates used in data plane
-traffic. 
+with `istiod` on the application's behalf. Finally, the agent fetches and rotates certificates used in data plane traffic.
 
 ## Changes to application code
 
-> Here we cover gRPC’s XDS support in Go. See <insert link> for information on other languages. 
+{{< tip >}}
+This section covers gRPC’s XDS support in Go. Similar APIs exist for other languages.
+{{< /tip >}}
 
-To enable the xDS features in gRPC, there are a handful of required changes your application must make. Your gRPC
-version should be at least `1.39.0`. 
+To enable the xDS features in gRPC, there are a handful of required changes your application must make. Your gRPC version should be at least `1.39.0`.
 
 ### In the client
 
 The following side-effect import will register the xDS resolvers and balancers within gRPC. It should be added in your
-`main` package or in the same package calling `grpc.Dial`.   
+`main` package or in the same package calling `grpc.Dial`.
 
 {{< text go >}}
 import _ "google.golang.org/grpc/xds"
@@ -74,7 +74,7 @@ When creating a gRPC connection the URL must use the `xds:///` scheme.
 conn, err := grpc.DialContext(ctx, "xds:///foo.ns.svc.cluster.local:7070")
 {{< /text >}}
 
-Additionally, for (m)TLS support, a special `TransportCredentials` option has to be passed to `DialContext`. 
+Additionally, for (m)TLS support, a special `TransportCredentials` option has to be passed to `DialContext`.
 The `FallbackCreds` allow us to succeed when istiod doesn’t send security config.
 
 {{< text go >}}
@@ -83,13 +83,13 @@ import "google.golang.org/grpc/credentials/xds"
 ...
 
 creds, err := xds.NewClientCredentials(xds.ClientOptions{
-  FallbackCreds: insecure.NewCredentials()
+FallbackCreds: insecure.NewCredentials()
 })
 // handle err
 conn, err := grpc.DialContext(
-  ctx, 
-  "xds:///foo.ns.svc.cluster.local:7070",
-  grpc.WithTransportCredentials(creds),
+ctx,
+"xds:///foo.ns.svc.cluster.local:7070",
+grpc.WithTransportCredentials(creds),
 )
 {{< /text >}}
 
@@ -113,7 +113,7 @@ Your generated `RegisterFooServer` function should look like the following:
 
 {{< text go >}}
 func RegisterFooServer(s grpc.ServiceRegistrar, srv FooServer) {
-	s.RegisterService(&FooServer_ServiceDesc, srv)
+s.RegisterService(&FooServer_ServiceDesc, srv)
 }
 {{< /text >}}
 
@@ -125,21 +125,19 @@ creds, err := xds.NewServerCredentials(xdscreds.ServerOptions{FallbackCreds: ins
 server = xds.NewGRPCServer(grpc.Creds(creds))
 {{< /text >}}
 
-
 ### In your Kubernetes Deployment
 
-Assuming your application code is compatible, the Pod simply needs the annotation “inject.istio.io/templates: grpc-agent”. 
+Assuming your application code is compatible, the Pod simply needs the annotation `inject.istio.io/templates: grpc-agent`.
 This adds a sidecar container running the agent described above, and some environment variables that gRPC uses to find
 the bootstrap file and enable certain features.
 
-For gRPC servers, your Pod should also be annotated with `proxy.istio.io/config: '{"holdApplicationUntilProxyStarts": true}'` 
-to make sure the in-agent xDS proxy and bootstrap file are ready before your gRPC server is initialized. 
+For gRPC servers, your Pod should also be annotated with `proxy.istio.io/config: '{"holdApplicationUntilProxyStarts": true}'`
+to make sure the in-agent xDS proxy and bootstrap file are ready before your gRPC server is initialized.
 
 ## Example
 
-Istio has a pre-made application, echo, that already supports both serverside and clientside proxyless gRPC. 
-In this guide we will deploy echo with the grpc-agent template and demonstrate some supported traffic policies
-and how to enable mTLS. 
+In this guide you will deploy `echo`, an application that already supports both server-side and client-side 
+proxyless gRPC. With this app you can try out some supported traffic policies enabling mTLS.
 
 ### Prerequisites
 
@@ -166,7 +164,8 @@ echo-v2-5c6cbf6dc7-dfhcb   2/2     Running   0          58s
 
 ### Test the gRPC resolver
 
-Firt, port-forward `17171` to one of the Pods. This port is a non-XDS backed gRPC server that allows making requests from the port-forwarded Pod. 
+First, port-forward `17171` to one of the Pods. This port is a non-xDS backed gRPC server that allows making
+requests from the port-forwarded Pod.
 
 {{< text bash >}}
 $ kubectl -n echo-grpc port-forward $(kubectl -n echo-grpc get pods -l version=v1 -ojsonpath='{.items[0].metadata.name}') 17171 &
@@ -191,10 +190,10 @@ $ grpcurl -plaintext -d '{"url": "xds:///echo:7070"}' :17171 proto.EchoTestServi
 ("")'  | grep Hostname
 [0 body] Hostname=echo-v1-7cf5b76586-ltr8q
 $ grpcurl -plaintext -d '{"url": "xds:///echo.echo-grpc:7070"}' :17171 proto.EchoTestService/ForwardEcho | jq -r
- '.output | join("")'  | grep Hostname
+'.output | join("")'  | grep Hostname
 [0 body] Hostname=echo-v1-7cf5b76586-ltr8q
 $ grpcurl -plaintext -d '{"url": "xds:///echo.echo-grpc.svc:7070"}' :17171 proto.EchoTestService/ForwardEcho | jq -r
- '.output | join("")'  | grep Hostname
+'.output | join("")'  | grep Hostname
 [0 body] Hostname=echo-v2-cf97bd94d-jt5mf
 {{< /text >}}
 
@@ -207,19 +206,19 @@ $ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: echo-versions
-  namespace: echo-grpc
+name: echo-versions
+namespace: echo-grpc
 spec:
-  host: echo.echo-grpc.svc.cluster.local
-  subsets:
-  - name: v1
-    labels:
-      version: v1
-  - name: v2
-    labels:
-      version: v2
-EOF
-{{< /text >}}
+host: echo.echo-grpc.svc.cluster.local
+subsets:
+- name: v1
+  labels:
+  version: v1
+- name: v2
+  labels:
+  version: v2
+  EOF
+  {{< /text >}}
 
 ### Traffic shifting
 
@@ -230,23 +229,23 @@ $ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: echo
-  namespace: echo-grpc
+name: echo
+namespace: echo-grpc
 spec:
-  hosts:
-  - echo.echo-grpc.svc.cluster.local
+hosts:
+- echo.echo-grpc.svc.cluster.local
   http:
-  - route:
+- route:
     - destination:
-        host: echo.echo-grpc.svc.cluster.local
-        subset: v1
+      host: echo.echo-grpc.svc.cluster.local
+      subset: v1
       weight: 20
     - destination:
-        host: echo.echo-grpc.svc.cluster.local
-        subset: v2
+      host: echo.echo-grpc.svc.cluster.local
+      subset: v2
       weight: 80
-EOF
-{{< /text >}}
+      EOF
+      {{< /text >}}
 
 Now, send a set of 10 requests:
 
@@ -283,15 +282,15 @@ $ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: echo-mtls
-  namespace: echo-grpc
+name: echo-mtls
+namespace: echo-grpc
 spec:
-  host: echo.echo-grpc.svc.cluster.local
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
+host: echo.echo-grpc.svc.cluster.local
+trafficPolicy:
+tls:
+mode: ISTIO_MUTUAL
 EOF
-{{< /text >}}  
+{{< /text >}}
 
 Now an attempt to call the server that is not yet configured for mTLS will fail.
 
@@ -300,8 +299,8 @@ $ grpcurl -plaintext -d '{"url": "xds:///echo.echo-grpc.svc.cluster.local:7070",
 .EchoTestService/ForwardEcho | jq -r '.output | join("")'
 Handling connection for 17171
 ERROR:
-  Code: Unknown
-  Message: 1/1 requests had errors; first error: rpc error: code = Unavailable desc = all SubConns are in TransientFailure
+Code: Unknown
+Message: 1/1 requests had errors; first error: rpc error: code = Unavailable desc = all SubConns are in TransientFailure
 {{< /text >}}
 
 To enable server-size mTLS, apply a `PeerAuthentication`.
@@ -316,13 +315,13 @@ $ cat <<EOF | kubectl apply -f -
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
-  name: echo-mtls
-  namespace: echo-grpc
+name: echo-mtls
+namespace: echo-grpc
 spec:
-  mtls:
-    mode: STRICT
+mtls:
+mode: STRICT
 EOF
-{{< /text >}}  
+{{< /text >}}
 
 Requests will start to succeed after applying the policy.
 
@@ -342,39 +341,39 @@ Handling connection for 17171
 [0 body] IstioVersion=
 [0 body] Echo=
 [0 body] Hostname=echo-v1-7cf5b76586-z5p8l
-{{< /text >}}  
+{{< /text >}}
 
 ## Limitations
 
 The initial release comes with several limitations that may be fixed in a future version:
 
 * Auto-mTLS isn't supported, and permissive mode isn't supported. Instead we require explicit mTLS configuration with
- `STRICT` on the server and `ISTIO_MUTUAL` on the client. Envoy can be used during the migration to `STRICT`.
+  `STRICT` on the server and `ISTIO_MUTUAL` on the client. Envoy can be used during the migration to `STRICT`.
 * `grpc.Serve(listener)` or `grpc.Dial("xds:///...")` called before the bootstrap is written or xDS proxy is ready can
- cause a failure. `holdApplicationUntilProxyStarts` can be used to work around this, or the application can be more
- robust to these failures.
+  cause a failure. `holdApplicationUntilProxyStarts` can be used to work around this, or the application can be more
+  robust to these failures.
 * If the xDS-enabled gRPC server uses mTLS then you will need to make sure your health checks can work around this
   Either a separate port should be used, or your health-checking client needs a way to get the proper client
-  certificates. 
+  certificates.
 * The implementation of xDS in gRPC does not match Envoys. Certain behaviors may be different, and some features may
-  be missing. The [gRFCs](https://github.com/grpc/proposal) may provide more detail. Make sure to test that any Istio 
-  configuration actually applies on your proxyless gRPC apps. 
+  be missing. The [`gRFCs`](https://github.com/grpc/proposal) may provide more detail. Make sure to test that any Istio
+  configuration actually applies on your proxyless gRPC apps.
 
 ## Performance
 
 ## Experiment Setup
 
 * Using Fortio, a Go-based load testing app
-  * Slightly modified, to support gRPC’s XDS features (PR)
+    * Slightly modified, to support gRPC’s XDS features (PR)
 * Resources:
-  * GKE 1.20 cluster with 3 e2-standard-16 nodes (16cpu + 64GB RAM each)
-  * Fortio client/server app: 1500m CPU, 1000Mi memory
-  * Sidecar (istio-agent and/or Envoy proxy) : 1cpu, 512Mi ram
+    * GKE 1.20 cluster with 3 `e2-standard-16` nodes (16cpu + 64GB RAM each)
+    * Fortio client/server app: 1.5 vCPU, 1000 MiB memory
+    * Sidecar (istio-agent and possibly Envoy proxy) : 1 vCPU, 512 MiB memory
 * Workload types tested:
-  * Baseline: regular gRPC with no Envoy proxy or Proxyless xDS in use
-  * Envoy: standard istio-agent + Envoy proxy sidecar
-  * Proxyless: gRPC using the xDS gRPC server implementation and xds:/// resolver on the client
-  * mTLS enabled/disabled via PeerAuthentication and DestinationRule
+    * Baseline: regular gRPC with no Envoy proxy or Proxyless xDS in use
+    * Envoy: standard istio-agent + Envoy proxy sidecar
+    * Proxyless: gRPC using the xDS gRPC server implementation and `xds:///` resolver on the client
+    * mTLS enabled/disabled via `PeerAuthentication` and `DestinationRule`
 
 ## Results
 
@@ -388,14 +387,13 @@ massive improvement that still allows for advanced traffic management features a
 
 ### istio-proxy container resource usage
 
-|                     | Client mCPU | Client Memory (MiB) | Server mCPU | Server Memory (mCPU) |
+|                     | Client `mCPU` | Client Memory (`MiB`) | Server `mCPU` | Server Memory (`MiB`) |
 |---------------------|-------------|---------------------|-------------|----------------------|
 | Envoy Plaintext     | 320.44      | 66.93               | 243.78      | 64.91                |
 | Envoy mTLS          | 340.87      | 66.76               | 309.82      | 64.82                |
 | Proxyless Plaintext | 0.72        | 23.54               | 0.84        | 24.31                |
 | Proxyless mTLS      | 0.73        | 25.05               | 0.78        | 25.43                |
 
-Even though we still require an agent, the agent uses less than 0.1% of a full vCPU, and only 25 MiB of memory, which is less than half of what it requires to run Envoy. 
+Even though we still require an agent, the agent uses less than 0.1% of a full vCPU, and only 25 MiB of memory, which is less than half of what it requires to run Envoy.
 
-These metrics don’t include additional resource usage by gRPC in the application container, but serve to demonstrate the resource usage impact of the istio-agent when running in this mode. 
-
+These metrics don’t include additional resource usage by gRPC in the application container, but serve to demonstrate the resource usage impact of the istio-agent when running in this mode.
