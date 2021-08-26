@@ -106,7 +106,7 @@ func init() {
 			},
 		)
 		if err != nil {
-			scopes.Framework.Fatalf("Error occurred while traversing content:", err)
+			scopes.Framework.Fatalf("Error occurred while traversing content: %v", err)
 		}
 	}
 

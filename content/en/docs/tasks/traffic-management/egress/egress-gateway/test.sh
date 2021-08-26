@@ -23,6 +23,9 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
+# Make sure default namespace is injected
+kubectl label namespace default istio-injection=enabled || true
+
 # Deploy sleep sample and set up variable pointing to it
 # Start the sleep sample
 startup_sleep_sample
