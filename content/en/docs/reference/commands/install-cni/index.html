@@ -28,6 +28,10 @@ remove_toc_prefix: 'install-cni '
 <td>Name of the CNI configuration file  (default ``)</td>
 </tr>
 <tr>
+<td><code>--cni-enable-reinstall</code></td>
+<td>Whether to reinstall CNI configuration and binary files </td>
+</tr>
+<tr>
 <td><code>--cni-net-dir &lt;string&gt;</code></td>
 <td>Directory on the host where CNI network plugins are installed  (default `/etc/cni/net.d`)</td>
 </tr>
@@ -623,6 +627,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>String</td>
 <td><code></code></td>
 <td>Name of the CNI configuration file</td>
+</tr>
+<tr>
+<td><code>CNI_ENABLE_REINSTALL</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Whether to reinstall CNI configuration and binary files</td>
 </tr>
 <tr>
 <td><code>CNI_NETWORK_CONFIG</code></td>
