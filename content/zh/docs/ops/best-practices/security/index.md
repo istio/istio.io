@@ -25,7 +25,7 @@ Istio [授权](/zh/docs/concepts/security/#authorization)在 Istio 安全中扮�
 
 ### 配置 default-deny 授权策略{#apply-default-deny-authorization-policies}
 
-我们推荐您根据将 Istio 的策略设置成默认拒绝(default-deny)，从而增强您的集群安全性。 default-deny 授权策略意味着您的系统在默认情况下拒绝所有请求，并且您需要定义允许请求的条件。如果您忘记定义某些条件，对应的流量会被拒绝，而不是被意外的允许。后者是一个典型的安全事故，而前者只是会可能导致较差的用户体验，或者负载停机，而或者不符合您的服务水平目标/服务水平协议。
+我们推荐您将 Istio 的策略设置成默认拒绝(default-deny)，从而增强您的集群安全性。 default-deny 授权策略意味着您的系统在默认情况下拒绝所有请求，并且您需要定义允许请求的条件。如果您忘记定义某些条件，对应的流量会被拒绝，而不是被意外的允许。后者是一个典型的安全事故，而前者只是会可能导致较差的用户体验，或者负载停机，而或者不符合您的服务水平目标/服务水平协议。
 
 例如，在 [HTTP 流量任务的授权](/zh/docs/tasks/security/authorization/authz-http/)中，命名为 `allow-nothing` 的授权策略确保了所有流量在默认情况下被拒绝。在此之上，其他的授权策略可以基于特定需求允许流量通过。
 
@@ -176,9 +176,9 @@ Istio Sidecar 原理为拦截入站和出站流量并将它们转发到 Sidecar 
 尽管上面的设置可以防止意外的依赖，如果您想要确保 egress 的流量安全并强制所有的出站流量都通过代理，您应该使用 [Egress Gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/)。
 当结合[网络策略](/zh/docs/tasks/traffic-management/egress/egress-gateway/#apply-kubernetes-network-policies)一起使用时，您可以强制所有出站流量，或者部分通过 egress 网关。这确保了即使客户端因意外或者被恶意绕过它的代理，请求将会被阻止。
 
-## 进行 TLS 发起中在目标规则上配置 TLS 验证{#configure-TLS-verification-in-destination-rule-when-using-TLS-origination}
+## 当使用 TLS 源时在目标规则上配置 TLS 验证{#configure-TLS-verification-in-destination-rule-when-using-TLS-origination}
 
-Istio 可以从一个 Sidecar 代理或者网关上进行 [TLS 发起](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)。
+Istio 提供了从 Sidecar 代理或者网关上[发起 TLS](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/) 的能力。
 这使得从应用发出的纯文本 HTTP 流量可以透明地“升级”到 HTTPS。
 
 当进行 `DestinationRule`中的 `tls` 字段配置时，应格外注意 `caCertificates` 字段。
@@ -328,7 +328,7 @@ Istio CNI 插件目前仍是 alpha 特性。
 
 ## 使用精简 docker 镜像{#use-hardened-docker-images}
 
-Istio 默认 docker 镜像，包括那些控制面，网关， Sidecar 代理正在使用的镜像，都斯基于 `ubuntu`。这提供了多种工具，例如 `bash` 以及 `curl`，这权衡了提供便利和增加攻击接口之间的利弊。
+Istio 默认 docker 镜像，包括那些控制面，网关， Sidecar 代理正在使用的镜像，都是基于 `ubuntu`。这提供了多种工具，例如 `bash` 以及 `curl`，这权衡了提供便利和增加攻击接口之间的利弊。
 
 同时 Istio 也提供了更精简的基于 [distroless images](/zh/docs/ops/configuration/security/harden-docker-images/) 的镜像，此镜像减少了其中的依赖。
 
@@ -374,7 +374,7 @@ Istiod 为了便利暴露了几个未认证的纯本文端口。理想情况下�
 
 ### 数据面{#data-plane}
 
-代理暴露了一系列端口。暴露给外部的是端口 `15090` (遥测) 和 port `15021` (健康检测)。
+代理暴露了一系列端口。暴露给外部的是端口 `15090` (遥测) 和 端口 `15021` (健康检测)。
 端口 `15020` 和 `15000` 提供了调试终端。这两者只暴露给 `localhost`。
 因此结果是，应用运行在了代理也有访问权限的同一个 Pod 中，即 Sidecar 和应用之间没有信任边界。
 
