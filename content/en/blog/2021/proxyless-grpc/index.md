@@ -1,7 +1,7 @@
 ---
 title: "gRPC Proxyless Service Mesh"
 description: Introduction to Istio support for gRPC's proxyless service mesh features.
-publishdate: 2021-08-15
+publishdate: 2021-08-31
 attribution: "Steven Landow (Google)"
 ---
 
@@ -136,7 +136,7 @@ to make sure the in-agent xDS proxy and bootstrap file are ready before your gRP
 
 ## Example
 
-In this guide you will deploy `echo`, an application that already supports both server-side and client-side 
+In this guide you will deploy `echo`, an application that already supports both server-side and client-side
 proxyless gRPC. With this app you can try out some supported traffic policies enabling mTLS.
 
 ### Prerequisites
@@ -150,7 +150,7 @@ Create an injection-enabled namespace `echo-grpc`. Next deploy two instances of 
 {{< text bash >}}
 $ kubectl create namespace echo-grpc
 $ kubectl label namespace echo-grpc istio-injection=enabled
-$ kubectl -n echo-grpc apply -f samples/echo/echo-grpc.yaml
+$ kubectl -n echo-grpc apply -f samples/echo/echo.yaml
 {{< /text >}}
 
 Make sure the two pods are running:
@@ -366,9 +366,9 @@ The initial release comes with several limitations that may be fixed in a future
 * Using Fortio, a Go-based load testing app
     * Slightly modified, to support gRPC’s XDS features (PR)
 * Resources:
-    * GKE 1.20 cluster with 3 `e2-standard-16` nodes (16cpu + 64GB RAM each)
-    * Fortio client/server app: 1.5 vCPU, 1000 MiB memory
-    * Sidecar (istio-agent and possibly Envoy proxy) : 1 vCPU, 512 MiB memory
+    * GKE 1.20 cluster with 3 `e2-standard-16` nodes (16 CPUs + 64 GB memory each)
+    * Fortio client and server apps: 1.5 vCPU, 1000 MiB memory
+    * Sidecar (istio-agent and possibly Envoy proxy): 1 vCPU, 512 MiB memory
 * Workload types tested:
     * Baseline: regular gRPC with no Envoy proxy or Proxyless xDS in use
     * Envoy: standard istio-agent + Envoy proxy sidecar
@@ -379,8 +379,8 @@ The initial release comes with several limitations that may be fixed in a future
 
 ### Latency
 
-{{< image width="40%" link="./latencies_p50.svg" caption="p50 latency comparison chart" >}}
-{{< image width="40%" link="./latencies_p99.svg" caption="p99 latency comparison chart" >}}
+{{< image width="80%" link="./latencies_p50.svg" caption="p50 latency comparison chart" >}}
+{{< image width="80%" link="./latencies_p99.svg" caption="p99 latency comparison chart" >}}
 
 There is a marginal increase in latency when using the proxyless gRPC resolvers. Compared to Envoy however, this is a
 massive improvement that still allows for advanced traffic management features and mTLS.
@@ -394,6 +394,8 @@ massive improvement that still allows for advanced traffic management features a
 | Proxyless Plaintext | 0.72        | 23.54               | 0.84        | 24.31                |
 | Proxyless mTLS      | 0.73        | 25.05               | 0.78        | 25.43                |
 
-Even though we still require an agent, the agent uses less than 0.1% of a full vCPU, and only 25 MiB of memory, which is less than half of what it requires to run Envoy.
+Even though we still require an agent, the agent uses less than 0.1% of a full vCPU, and only 25 MiB of memory,
+which is less than half of what running Envoy requires.
 
-These metrics don’t include additional resource usage by gRPC in the application container, but serve to demonstrate the resource usage impact of the istio-agent when running in this mode.
+These metrics don’t include additional resource usage by gRPC in the application container,
+but serve to demonstrate the resource usage impact of the istio-agent when running in this mode.
