@@ -71,27 +71,27 @@ check_content() {
         FAILED=1
     fi
 
-    if grep -nrP -e "\(https://istio.io/(?!v[0-9]\.[0-9]/|archive/)" .; then
+    if grep -nrP --include "*.md" -e "\(https://istio.io/(?!v[0-9]\.[0-9]/|archive/)" .; then
         echo "Ensure markdown content uses relative references to istio.io"
         FAILED=1
     fi
 
-    if grep -nr -e "(https://preliminary.istio.io" .; then
+    if grep -nr --include "*.md" -e "(https://preliminary.istio.io" .; then
         echo "Ensure markdown content doesn't contain references to preliminary.istio.io"
         FAILED=1
     fi
 
-    if grep -nr -e https://github.com/istio/istio/blob/ .; then
+    if grep -nr --include "*.md" -e https://github.com/istio/istio/blob/ .; then
         echo "Ensure markdown content uses {{< github_blob >}}"
         FAILED=1
     fi
 
-    if grep -nr -e https://github.com/istio/istio/tree/ .; then
+    if grep -nr --include "*.md" -e https://github.com/istio/istio/tree/ .; then
         echo "Ensure markdown content uses {{< github_tree >}}"
         FAILED=1
     fi
 
-    if grep -nr --exclude='*.sh' -e https://raw.githubusercontent.com/istio/istio/ .; then
+    if grep -nr --include "*.md" -e https://raw.githubusercontent.com/istio/istio/ .; then
         echo "Ensure markdown content uses {{< github_file >}}"
         FAILED=1
     fi
