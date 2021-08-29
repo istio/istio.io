@@ -34,7 +34,7 @@ spec:
     app: httpbin
 {{< /text >}}
 
-In this example, the port `foo-http` does follow the syntax: `name: <protocol>[-<suffix>]`.
+In this example, the port name `foo-http` does not follow the syntax: `name: <protocol>[-<suffix>]`.
 
 ## How to resolve
 
