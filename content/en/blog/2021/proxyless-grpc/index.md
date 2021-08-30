@@ -37,7 +37,7 @@ features in gRPC can be found [here](https://github.com/grpc/grpc/blob/master/do
 Istio's support will exist in future official docs.
 
 {{< warning >}}
-This is feature is [experimental](https://istio.io/latest/docs/releases/feature-stages/). Standard Istio features will
+This is feature is [experimental](/docs/releases/feature-stages/). Standard Istio features will
 come supported here over time along with improvements to the overall design.
 {{< /warning >}}
 
