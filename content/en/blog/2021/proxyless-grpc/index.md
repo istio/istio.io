@@ -32,13 +32,13 @@ features should work, although this is not an exhaustive list and other features
     * Support for auto-mTLS may exist in a future release.
 
 Other features including faults, retries, timeouts, mirroring and rewrite rules may be supported in a future release.
-Some of these features are awaiting implementation in gRPC, and others work in Istio to support. The status of xDS
-features in gRPC can be found [here](https://github.com/grpc/grpc/blob/master/doc/grpc_xds_features.md). The status of
-Istio's support will exist in future official docs.
+Some of these features are awaiting implementation in gRPC, and others require work in Istio to support. The status
+of xDS features in gRPC can be found [here](https://github.com/grpc/grpc/blob/master/doc/grpc_xds_features.md). The
+status of Istio's support will exist in future official docs.
 
 {{< warning >}}
-This is feature is [experimental](/docs/releases/feature-stages/). Standard Istio features will
-come supported here over time along with improvements to the overall design.
+This is feature is [experimental](/docs/releases/feature-stages/). Standard Istio features will become supported
+over time along with improvements to the overall design.
 {{< /warning >}}
 
 ## Architecture Overview
@@ -95,7 +95,7 @@ grpc.WithTransportCredentials(creds),
 
 ### On the server
 
-To support server-side configurations, such as mTLS, there are a couple of modifications that must be made here as well.
+To support server-side configurations, such as mTLS, there are a couple of modifications that must be made.
 
 First, we use a special constructor to create the `GRPCServer`:
 
@@ -352,7 +352,7 @@ The initial release comes with several limitations that may be fixed in a future
 * `grpc.Serve(listener)` or `grpc.Dial("xds:///...")` called before the bootstrap is written or xDS proxy is ready can
   cause a failure. `holdApplicationUntilProxyStarts` can be used to work around this, or the application can be more
   robust to these failures.
-* If the xDS-enabled gRPC server uses mTLS then you will need to make sure your health checks can work around this
+* If the xDS-enabled gRPC server uses mTLS then you will need to make sure your health checks can work around this.
   Either a separate port should be used, or your health-checking client needs a way to get the proper client
   certificates.
 * The implementation of xDS in gRPC does not match Envoys. Certain behaviors may be different, and some features may
@@ -361,7 +361,7 @@ The initial release comes with several limitations that may be fixed in a future
 
 ## Performance
 
-## Experiment Setup
+### Experiment Setup
 
 * Using Fortio, a Go-based load testing app
     * Slightly modified, to support gRPC’s XDS features (PR)
@@ -375,15 +375,13 @@ The initial release comes with several limitations that may be fixed in a future
     * Proxyless: gRPC using the xDS gRPC server implementation and `xds:///` resolver on the client
     * mTLS enabled/disabled via `PeerAuthentication` and `DestinationRule`
 
-## Results
-
 ### Latency
 
 {{< image width="80%" link="./latencies_p50.svg" caption="p50 latency comparison chart" >}}
 {{< image width="80%" link="./latencies_p99.svg" caption="p99 latency comparison chart" >}}
 
-There is a marginal increase in latency when using the proxyless gRPC resolvers. Compared to Envoy however, this is a
-massive improvement that still allows for advanced traffic management features and mTLS.
+There is a marginal increase in latency when using the proxyless gRPC resolvers. Compared to Envoy this is a massive
+improvement that still allows for advanced traffic management features and mTLS.
 
 ### istio-proxy container resource usage
 
