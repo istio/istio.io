@@ -1,17 +1,19 @@
 ---
 title: "gRPC Proxyless Service Mesh"
 description: Introduction to Istio support for gRPC's proxyless service mesh features.
-publishdate: 2021-08-31
+publishdate: 2021-09-02
 attribution: "Steven Landow (Google)"
 ---
 
 ## Background
 
-Recent releases of gRPC have added support for consuming [`xDS`](https://blog.envoyproxy.io/the-universal-data-plane-api-d15cec7a)
-directly. This means you can get many of the benefits of a service mesh, without the overhead of a sidecar proxy.
+Istio dynamically configures its Envoy sidecar proxies using a set of discovery APIs, collectively known as the xDS APIs.
+These APIs aim to become a universal data-plane API. The gRPC project has started to implement the xDS APIs, which means
+you can manage gRPC workloads without having to deploy an Envoy sidecar along with them. You can learn more about the
+integration in a [KubeCon EU 20201 talk from Megan Yahya](https://www.youtube.com/watch?v=cGJXkZ7jiDk).
 
-Istio 1.11 adds experimental support for basic service discovery, some `VirtualService` based traffic policy, and
-mutual TLS.
+Istio 1.11 adds experimental support for adding gRPC services directly to the mesh. We support basic service 
+discovery, some VirtualService based traffic policy, and mutual TLS.
 
 ## Supported Features
 
