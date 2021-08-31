@@ -107,6 +107,7 @@ table p:last-of-type {
 }
 
 td {
+    word-break: break-word;
 
     code {
         word-break: normal;
