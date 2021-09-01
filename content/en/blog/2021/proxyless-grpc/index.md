@@ -5,15 +5,13 @@ publishdate: 2021-09-02
 attribution: "Steven Landow (Google)"
 ---
 
-## Background
-
 Istio dynamically configures its Envoy sidecar proxies using a set of discovery APIs, collectively known as the
 [xDS APIs](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/dynamic_configuration).
 These APIs aim to become a [universal data-plane API](https://blog.envoyproxy.io/the-universal-data-plane-api-d15cec7a?gi=64aa2eea0283).
 The gRPC project has started to implement the xDS APIs, which means you can manage gRPC workloads without having to deploy
-an Envoy sidecar along with them. You can learn more about the integration in a [KubeCon EU 20201 talk from Megan Yahya](https://www.youtube.com/watch?v=cGJXkZ7jiDk).
+an Envoy sidecar along with them. You can learn more about the integration in a [KubeCon EU 2021 talk from Megan Yahya](https://www.youtube.com/watch?v=cGJXkZ7jiDk).
 
-Istio 1.11 adds experimental support for adding gRPC services directly to the mesh. We support basic service 
+Istio 1.11 adds experimental support for adding gRPC services directly to the mesh. We support basic service
 discovery, some VirtualService based traffic policy, and mutual TLS.
 
 ## Supported Features
