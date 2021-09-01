@@ -120,70 +120,38 @@ The output confirms that the pod is using `istiod-canary` revision of the contro
 
 ## Stable revision labels (experimental)
 
-Manually relabeling namespaces when moving them to a new revision can be tedious and error-prone.
-[Revision tags](/docs/reference/commands/istioctl/#istioctl-tag) solve this problem.
-[Revision tags](/docs/reference/commands/istioctl/#istioctl-tag) are stable identifiers that point to revisions and can be used to avoid relabeling namespaces. Rather than relabeling the namespace, a mesh operator can simply change the tag to point to a new revision. All namespaces labeled with that tag will be updated at the same time.
+{{< tip >}}
+If you're using Helm, refer to the [Helm upgrade documentation](/docs/setup/upgrade/helm).
+{{</ tip >}}
+
+{{< boilerplate revision-tags-preamble >}}
 
 ### Usage
 
-Consider a cluster with two revisions installed, `1-9-5` and `1-10-0`. The cluster operator creates a revision tag `prod-stable`,
-pointed at the older, stable `1-9-5` version, and a revision tag `prod-canary` pointed at the newer `1-10-0` revision. That
-state could be reached via these commands:
+{{< boilerplate revision-tags-usage >}}
 
 {{< text bash >}}
 $ istioctl tag set prod-stable --revision 1-9-5
 $ istioctl tag set prod-canary --revision 1-10-0
 {{< /text >}}
 
-The resulting mapping between revisions, tags, and namespaces is as shown below:
-
-{{< image width="70%"
-    link="/docs/setup/upgrade/canary/tags.png"
-    caption="Two namespaces pointed to prod-stable and one pointed to prod-canary"
-    >}}
-
-The cluster operator can view this mapping in addition to tagged namespaces through the `istioctl tag list` command:
-
-{{< text bash >}}
-$ istioctl tag list
-TAG         REVISION NAMESPACES
-prod-canary 1-10-0   ...
-prod-stable 1-9-5    ...
-{{< /text >}}
-
-After the cluster operator is satisfied with the stability of the control plane tagged with `prod-canary`, namespaces labeled
-`istio.io/rev=prod-stable` can be updated with one action by modifying the `prod-stable` revision tag to point to the newer
-`1-10-0` revision.
+{{< boilerplate revision-tags-middle >}}
 
 {{< text bash >}}
 $ istioctl tag set prod-stable --revision 1-10-0
 {{< /text >}}
 
-Now, the situation is as below:
-
-{{< image width="70%"
-    link="/docs/setup/upgrade/canary/tags-updated.png"
-    caption="Namespace labels unchanged but now all namespaces pointed to 1-10-0"
->}}
-
-Restarting injected workloads in the namespaces marked `prod-stable` will now result in those workloads using the `1-10-0`
-control plane. Notice that no namespace relabeling was required to migrate workloads to the new revision.
+{{< boilerplate revision-tags-prologue >}}
 
 ### Default tag
 
-The revision pointed to by the tag `default` is considered the ***default revision*** and has additional semantic meaning.
-
-The `default` revision will inject sidecars for the `istio-injection=enabled` namespace selector and `sidecar.istio.io/inject=true` object
-selector in addition to the `istio.io/rev=default` selectors. This makes it possible to migrate from using non-revisioned Istio to using
-a revision entirely without relabeling namespaces. To make a revision `1-10-0` the default, run:
+{{< boilerplate revision-tags-default-intro >}}
 
 {{< text bash >}}
 $ istioctl tag set default --revision 1-10-0
 {{< /text >}}
 
-When using the `default` tag alongside an existing non-revisioned Istio installation it is recommended to remove the old
-`MutatingWebhookConfiguration` (typically called `istio-sidecar-injector`) to avoid having both the older and newer control
-planes attempt injection.
+{{< boilerplate revision-tags-default-outro >}}
 
 ## Uninstall old control plane
 
