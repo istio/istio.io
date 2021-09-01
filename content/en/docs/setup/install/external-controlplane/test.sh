@@ -21,6 +21,11 @@ set -e
 set -u
 set -o pipefail
 
+kubectl_get_egress_gateway_for_remote_cluster() {
+  response=$(kubectl get pod -l app=istio-egressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}" -o jsonpath="{.items[*].status.phase}")
+  echo "$response"
+}
+
 # Override some snip functions to configure the istiod gateway using TLS passthrough in the test environemnt.
 
 snip_get_external_istiod_iop_modified() {
@@ -104,16 +109,20 @@ _verify_contains snip_deploy_a_sample_application_4 "Hello version: v1"
 echo y | snip_enable_gateways_1
 #echo y | snip_enable_gateways_2
 
-_verify_like snip_enable_gateways_3 "$snip_enable_gateways_3_out"
-
 snip_enable_gateways_4
+
+_verify_same kubectl_get_egress_gateway_for_remote_cluster "Running" 
+
+_verify_like snip_enable_gateways_5 "$snip_enable_gateways_5_out"
+
+snip_enable_gateways_6
 
 export GATEWAY_URL=$(kubectl \
     --context="${CTX_REMOTE_CLUSTER}" \
     -n external-istiod get svc istio-ingressgateway \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
-_verify_contains snip_enable_gateways_6 "Hello version: v1"
+_verify_contains snip_enable_gateways_8 "Hello version: v1"
 
 # Adding clusters to the mesh.
 
