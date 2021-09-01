@@ -96,6 +96,15 @@ table {
         display: block;
         overflow-x: auto;
     }
+
+    p {
+        word-break: break-word;
+
+        a,
+        code {
+            word-break: break-word;
+        }
+    }
 }
 
 table p:first-of-type {
