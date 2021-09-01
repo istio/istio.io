@@ -153,7 +153,7 @@ Create an injection-enabled namespace `echo-grpc`. Next deploy two instances of 
 {{< text bash >}}
 $ kubectl create namespace echo-grpc
 $ kubectl label namespace echo-grpc istio-injection=enabled
-$ kubectl -n echo-grpc apply -f samples/echo-grpc/echo-grpc.yaml
+$ kubectl -n echo-grpc apply -f samples/grpc-echo/grpc-echo.yaml
 {{< /text >}}
 
 Make sure the two pods are running:
