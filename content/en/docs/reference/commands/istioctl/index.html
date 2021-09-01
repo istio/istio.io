@@ -3972,6 +3972,11 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <td>The name of the kubeconfig context to use  (default ``)</td>
 </tr>
 <tr>
+<td><code>--externalIP &lt;string&gt;</code></td>
+<td></td>
+<td>External IP address of the workload  (default ``)</td>
+</tr>
+<tr>
 <td><code>--file &lt;string&gt;</code></td>
 <td><code>-f</code></td>
 <td>filename of the WorkloadGroup artifact. Leave this field empty if using the API server  (default ``)</td>
@@ -3985,6 +3990,11 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <td><code>--ingressService &lt;string&gt;</code></td>
 <td></td>
 <td>Name of the Service to be used as the ingress gateway, in the format &lt;service&gt;.&lt;namespace&gt;. If no namespace is provided, the default istio-system namespace will be used.  (default `istio-eastwestgateway`)</td>
+</tr>
+<tr>
+<td><code>--internalIP &lt;string&gt;</code></td>
+<td></td>
+<td>Internal IP address of the workload  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -4025,11 +4035,6 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--workloadIP &lt;string&gt;</code></td>
-<td></td>
-<td>IP address of the workload used in the WorkloadEntry  (default ``)</td>
 </tr>
 </tbody>
 </table>
