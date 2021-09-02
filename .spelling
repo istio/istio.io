@@ -107,6 +107,7 @@ API
 api-server
 Apigee
 APIs
+apiVersion
 Aporeto
 AppOptics
 appswitch
@@ -207,6 +208,7 @@ CSRs
 Ctrl
 Customizable
 customizable
+customTags
 CVE
 CVE-2019-12243
 CVE-2019-12995
@@ -315,6 +317,7 @@ example.com
 ExecAction
 executables
 Exfiltrating
+extensionProviders
 ExternalName
 ext-authz
 facto
@@ -733,6 +736,7 @@ Shi
 shortcode
 shortcodes
 Shriram
+SkyWalking
 sidebar_multicard
 sidebar_none
 sidecar
@@ -788,6 +792,7 @@ team2
 team2-ns
 Telekom
 telemetryv2_
+telemetry.istio.io
 templated
 Tencent
 test-api
@@ -833,6 +838,7 @@ uptime
 URIs
 url
 user
+userId
 user1
 UTF-8
 v0.14.0
@@ -890,6 +896,7 @@ wildcard
 wildcarded
 wildcards
 workgroup
+workload
 www.google.com
 x-envoy-upstream-rq-timeout-ms
 X.509

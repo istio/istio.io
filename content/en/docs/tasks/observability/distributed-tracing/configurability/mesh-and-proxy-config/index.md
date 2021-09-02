@@ -1,12 +1,18 @@
 ---
-title: Configurability
-description: How to configure tracing options.
-weight: 60
+title: Configure tracing using MeshConfig and Pod annotations
+description: How to configure tracing options using MeshConfig and pod annotations.
+weight: 11
 keywords: [telemetry,tracing]
+aliases:
+ - /docs/tasks/observability/distributed-tracing/configurability/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 status: Beta/Experimental
 ---
+
+{{< tip >}}
+Users are encouraged to transition to the [Telemetry API](/docs/tasks/observability/distributed-tracing/configurability/telemetry-api/) for tracing configuration.
+{{</ tip >}}
 
 Istio provides the ability to configure advanced tracing options,
 such as sampling rate and adding custom tags to reported spans.
