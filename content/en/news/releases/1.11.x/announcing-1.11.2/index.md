@@ -17,12 +17,14 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Improved** `istioctl install` to give more details during installation failures.
 
+- **Added** support for gRPC configuring workloads via xDS without an Envoy proxy.
+
 - **Added** two mutually-exclusive flags to `istioctl x workload entry configure`
     - **`--internal-ip`** configures the VM workload with a private IP address used for workload auto registration and health probes.
     - **`--external-ip`** configures the VM workload with a public IP address used for workload auto registration. Meanwhile, it configures health probes to be performed through localhost. By setting the environment variable `REWRITE_PROBE_LEGACY_LOCALHOST_DESTINATION` to true.
   ([Issue #34411](https://github.com/istio/istio/issues/34411))
 
-- **Added** topology label "topology.istio.io/network" to IstioEndpoint if it does not exist in pod/workload label.
+- **Added** topology label `topology.istio.io/network` to `IstioEndpoint` if it does not exist in pod/workload label.
 
 - **Added** Adds a configuration `FILE_DEBOUNCE_DURATION` that allows users to configure the duration SDS server should wait after it sees first file change event. This is useful in File mounted certificate flows to ensure key and cert are fully written before they are pushed to Envoy. Default is `100ms`.
 
