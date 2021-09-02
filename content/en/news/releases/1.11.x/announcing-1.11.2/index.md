@@ -26,11 +26,11 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Added** topology label `topology.istio.io/network` to `IstioEndpoint` if it does not exist in pod/workload label.
 
-- **Added** Adds a configuration `FILE_DEBOUNCE_DURATION` that allows users to configure the duration SDS server should wait after it sees first file change event. This is useful in File mounted certificate flows to ensure key and cert are fully written before they are pushed to Envoy. Default is `100ms`.
+- **Added** a configuration `FILE_DEBOUNCE_DURATION` that allows users to configure the duration SDS server should wait after it sees first file change event. This is useful in File mounted certificate flows to ensure key and cert are fully written before they are pushed to Envoy. Default is `100ms`.
 
-- **Fixed** Fixed unexpected info logs for Istio when using command line tool `istioctl profile diff` and `istioctl profile dump`.
+- **Fixed** unexpected info logs for Istio when using command line tool `istioctl profile diff` and `istioctl profile dump`.
 
-- **Fixed** Fixed issue of deployment analyzer ignores service namespaces during the analysis process.
+- **Fixed** issue of deployment analyzer ignoring service namespaces during the analysis process.
 
 - **Fixed** `DestinationRule` updates not triggering an update for `AUTO_PASSTHROUGH` listeners on gateways.
   ([Issue #34944](https://github.com/istio/istio/issues/34944))

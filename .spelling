@@ -444,7 +444,6 @@ istio.io
 istio.io.
 IstioBirthday
 IstioCon
-IstioEndpoint
 istioctl
 istiod
 Istiod
@@ -802,7 +801,6 @@ TLS-secured
 ToC
 toolbelt
 toolchain
-topology.istio.io
 touchpoints
 tradeoff
 tradeoffs
