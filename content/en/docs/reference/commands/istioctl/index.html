@@ -7067,12 +7067,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, Pilot will keep track of old versions of distributed config for this duration.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLED_SERVICE_APIS</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If this is set to true, support for Kubernetes gateway-api (github.com/kubernetes-sigs/gateway-api) will  be enabled. In addition to this being enabled, the gateway-api CRDs need to be installed.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_ANALYSIS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -7119,6 +7113,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will wait for the completion of a receive operation beforeexecuting a push operation. This is a form of flow control and is useful inenvironments with high rates of push requests to each gateway. By default,this is false.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_GATEWAY_API</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to true, support for Kubernetes gateway-api (github.com/kubernetes-sigs/gateway-api) will  be enabled. In addition to this being enabled, the gateway-api CRDs need to be installed.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_GATEWAY_API_STATUS</code></td>
@@ -7179,6 +7179,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, protocol sniffing will be used for outbound listeners whose port protocol is not specified or unsupported</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_QUIC_LISTENERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, QUIC listeners will be generated wherever there are listeners terminating TLS on gateways if the gateway service exposes a UDP port with the same number (for example 443/TCP and 443/UDP)</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_RDS_CACHE</code></td>
