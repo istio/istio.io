@@ -123,7 +123,7 @@ Istio 通过客户端和服务器端 PEPs 建立服务到服务的通信通道�
 
 Istio 将 `TLSv1_2` 作为最低 TLS 版本为客户端和服务器配置了如下的加密套件:
 
-- `CDHE-ECDSA-AES256-GCM-SHA384`
+- `ECDHE-ECDSA-AES256-GCM-SHA384`
 
 - `ECDHE-RSA-AES256-GCM-SHA384`
 
