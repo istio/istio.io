@@ -19,15 +19,17 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Added** two mutually-exclusive flags to `istioctl x workload entry configure`
 
-* `--internal-ip` configures the VM workload with a private IP address used for workload auto registration and health probes.
-* `--external-ip` configures the VM workload with a public IP address used for workload auto registration. Meanwhile, it configures health probes to be performed through localhost. By setting the environment variable `REWRITE_PROBE_LEGACY_LOCALHOST_DESTINATION` to true.
+  - * `--internal-ip` configures the VM workload with a private IP address used for workload auto registration and health probes.
+  - * `--external-ip` configures the VM workload with a public IP address used for workload auto registration. Meanwhile, it configures health probes to be performed through localhost. By setting the environment variable `REWRITE_PROBE_LEGACY_LOCALHOST_DESTINATION` to true.
   ([Issue #34411](https://github.com/istio/istio/issues/34411))
 
 - **Added** topology label "topology.istio.io/network" to IstioEndpoint if it does not exist in pod/workload label.
 
-- **Fixed** `istioctl profile diff` and `istioctl profile dump` have unexpected info logs.
+- **Added** Adds a configuration `FILE_DEBOUNCE_DURATION` that allows users to configure the duration SDS server should wait after it sees first file change event. This is useful in File mounted certificate flows to ensure key and cert are fully written before they are pushed to Envoy. Default is `100ms`.
 
-- **Fixed** the deployment analyzer is ignoring service namespaces during the analysis process.
+- **Fixed** Fixed unexpected info logs for Istio when using command line tool `istioctl profile diff` and `istioctl profile dump`.
+
+- **Fixed** Fixed issue of deployment analyzer ignores service namespaces during the analysis process.
 
 - **Fixed** `DestinationRule` updates not triggering an update for `AUTO_PASSTHROUGH` listeners on gateways.
   ([Issue #34944](https://github.com/istio/istio/issues/34944))
