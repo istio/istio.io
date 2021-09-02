@@ -2192,7 +2192,9 @@ No
 <section>
 <p>Describes the retry policy to use when a HTTP request fails. For
 example, the following rule sets the maximum number of retries to 3 when
-calling ratings:v1 service, with a 2s timeout per retry attempt.</p>
+calling ratings:v1 service, with a 2s timeout per retry attempt.
+A retry will be attempted if there is a connect-failure, refused_stream
+or when the upstream server responds with Service Unavailable(503).</p>
 
 <p>{{<tabset category-name="example">}}
 {{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
@@ -2212,7 +2214,7 @@ spec:
     retries:
       attempts: 3
       perTryTimeout: 2s
-      retryOn: gateway-error,connect-failure,refused-stream
+      retryOn: connect-failure,refused-stream,503
 </code></pre>
 
 <p>{{</tab>}}</p>
@@ -2285,8 +2287,9 @@ No
 <td>
 <p>Specifies the conditions under which retry takes place.
 One or more policies can be specified using a ‘,’ delimited list.
-See the <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-on">retry policies</a>
-and <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-grpc-on">gRPC retry policies</a> for more details.</p>
+If retry<em>on specifies a valid HTTP status, it will be added to retriable</em>status<em>codes retry policy.
+See the [retry policies](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http</em>filters/router<em>filter#x-envoy-retry-on)
+and [gRPC retry policies](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http</em>filters/router_filter#x-envoy-retry-grpc-on) for more details.</p>
 
 </td>
 <td>
