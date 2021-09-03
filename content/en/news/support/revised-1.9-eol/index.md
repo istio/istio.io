@@ -1,5 +1,5 @@
 ---
-title: Revised: Support for Istio 1.9 ends on October 5th, 2021
+title: Revised - Support for Istio 1.9 ends on October 5th, 2021
 subtitle: Support Announcement
 description: Revised Istio 1.9 end of life announcement.
 publishdate: 2021-09-03

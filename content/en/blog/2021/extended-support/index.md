@@ -1,6 +1,6 @@
 ---
 title: "Announcing Extended Support for Istio 1.9"
-description: "Allowing for Less Frequent Upgrades"
+description: "Allowing for Less Frequent Upgrades."
 publishdate: 2021-09-03
 attribution: "Mitch Connors (Google), Lin Sun (Solo.io)"
 keywords: [upgrade,Istio,support]
