@@ -619,6 +619,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If enabled, pilot will update the CRD Status field of all istio resources with reconciliation status.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_TELEMETRY_LABEL</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, pilot will add telemetry related metadata to cluster and endpoint resources, which will be consumed by telemetry filter.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_VIRTUAL_SERVICE_DELEGATE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
