@@ -13,7 +13,7 @@ and within the mesh. However, configuring TLS settings can be confusing and a co
 This document attempts to explain the various connections involved when sending requests in Istio and how
 their associated TLS settings are configured.
 Refer to [TLS configuration mistakes](/docs/ops/common-problems/network-issues/#tls-configuration-mistakes)
-for a summary of some the most common TSL configuration problems.
+for a summary of some the most common TLS configuration problems.
 
 ## Sidecars
 
