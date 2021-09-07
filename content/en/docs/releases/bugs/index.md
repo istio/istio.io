@@ -43,7 +43,7 @@ The `istioctl bug-report` command is only available with `istioctl` version `1.8
 {{< /tip >}}
 
 {{< tip >}}
-If you are running bug-report on a large cluster, it might fail to complete. Please use the `--include ns1,ns2` option to target the collection of proxy configs and logs only for the relevant namespaces. For more bug-report options, please visit [the istioctl bug-report reference](/reference/commands/istioctl/#istioctl-bug-report)
+If you are running `bug-report` on a large cluster, it might fail to complete. Please use the `--include ns1,ns2` option to target the collection of proxy commands and logs only for the relevant namespaces. For more bug-report options, please visit [the istioctl bug-report reference](/docs/reference/commands/istioctl/#istioctl-bug-report)
 {{< /tip >}}
 
 If you are unable to use the `bug-report` command, please attach your own archive
@@ -74,21 +74,21 @@ containing:
         {{< text bash >}}
         $ kubectl logs -n istio-system -l app=istiod
         {{< /text >}}
-    
+
     * Ingress Gateway logs:
-    
+
         {{< text bash >}}
         $ for ns in $(kubectl get ns -o jsonpath='{.items[*].metadata.name}') ; do kubectl logs -l istio=ingressgateway -n $ns ; done
         {{< /text >}}
-    
+
     * Egress Gateway logs:
-    
+
         {{< text bash >}}
         $ for ns in $(kubectl get ns -o jsonpath='{.items[*].metadata.name}') ; do kubectl logs -l istio=egressgateway -n $ns ; done
         {{< /text >}}
-    
+
     * Sidecar logs:
-    
+
         {{< text bash >}}
         $ for ns in $(kubectl get ns -o jsonpath='{.items[*].metadata.name}') ; do kubectl logs -l service.istio.io/canonical-revision -c istio-proxy -n $ns ; done
         {{< /text >}}
