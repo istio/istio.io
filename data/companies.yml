@@ -100,6 +100,12 @@ integrations:
     description: "cert-manager can be used to sign workload certificates in an Istio service mesh."
     details:
       - "Calico network policy for Istio lets you enforce application layer attributes like HTTP methods or paths, and cryptographically secure identities for Istio-enabled apps."
+  - name: "Casbin"
+    logo: "/logos/casbin.png"
+    url: "https://casbin.org/docs/en/envoy"
+    description: "Casbin is an authorization library that supports ACL, RBAC, ABAC for multiple languages."
+    details: 
+      - "Casbin's Envoy middleware can be used to integrate Istio with a gRPC server to perform role based authorization of users."
   - name: "Cilium"
     logo: "/logos/cilium.svg"
     url: "https://docs.cilium.io/en/latest/gettingstarted/istio/"
