@@ -49,6 +49,12 @@ If you are running `bug-report` on a large cluster, it might fail to complete. P
 If you are unable to use the `bug-report` command, please attach your own archive
 containing:
 
+* Output of istioctl analyze:
+
+    {{< text bash >}}
+    $ istioctl analyze --all-namespaces
+    {{< /text >}}
+
 * Pods, services, deployments, and endpoints across all namespaces:
 
     {{< text bash >}}
@@ -67,7 +73,9 @@ containing:
     $ kubectl --namespace istio-system get cm -o yaml
     {{< /text >}}
 
-* Current and previous logs from all Istio components and sidecar
+* Current and previous logs from all Istio components and sidecars:
+
+  Here some examples on how to obtain those, please adapt for your environment:
 
     * Istiod logs:
 
@@ -78,13 +86,13 @@ containing:
     * Ingress Gateway logs:
 
         {{< text bash >}}
-        $ for ns in $(kubectl get ns -o jsonpath='{.items[*].metadata.name}') ; do kubectl logs -l istio=ingressgateway -n $ns ; done
+        $ kubectl logs -l istio=ingressgateway -n istio-system
         {{< /text >}}
 
     * Egress Gateway logs:
 
         {{< text bash >}}
-        $ for ns in $(kubectl get ns -o jsonpath='{.items[*].metadata.name}') ; do kubectl logs -l istio=egressgateway -n $ns ; done
+        $ kubectl logs -l istio=egressgateway -n istio-system
         {{< /text >}}
 
     * Sidecar logs:
@@ -99,11 +107,6 @@ containing:
     $ kubectl get istio-io --all-namespaces -o yaml
     {{< /text >}}
 
-* Output of istioctl analyze:
-
-    {{< text bash >}}
-    $ istioctl analyze --all-namespaces
-    {{< /text >}}
 
 ## Documentation bugs
 
