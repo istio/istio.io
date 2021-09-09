@@ -43,7 +43,11 @@ The `istioctl bug-report` command is only available with `istioctl` version `1.8
 {{< /tip >}}
 
 {{< tip >}}
-If you are running `bug-report` on a large cluster, it might fail to complete. Please use the `--include ns1,ns2` option to target the collection of proxy commands and logs only for the relevant namespaces. For more bug-report options, please visit [the istioctl bug-report reference](/docs/reference/commands/istioctl/#istioctl-bug-report)
+If you are running `bug-report` on a large cluster, it might fail to complete.
+Please use the `--include ns1,ns2` option to target the collection of proxy
+commands and logs only for the relevant namespaces. For more bug-report options,
+please visit [the istioctl bug-report
+reference](/docs/reference/commands/istioctl/#istioctl-bug-report).
 {{< /tip >}}
 
 If you are unable to use the `bug-report` command, please attach your own archive
@@ -73,33 +77,32 @@ containing:
     $ kubectl --namespace istio-system get cm -o yaml
     {{< /text >}}
 
-* Current and previous logs from all Istio components and sidecars:
+* Current and previous logs from all Istio components and sidecars.
+Here some examples on how to obtain those, please adapt for your environment:
 
-  Here some examples on how to obtain those, please adapt for your environment:
+* Istiod logs:
 
-    * Istiod logs:
+    {{< text bash >}}
+    $ kubectl logs -n istio-system -l app=istiod
+    {{< /text >}}
 
-        {{< text bash >}}
-        $ kubectl logs -n istio-system -l app=istiod
-        {{< /text >}}
+* Ingress Gateway logs:
 
-    * Ingress Gateway logs:
+    {{< text bash >}}
+    $ kubectl logs -l istio=ingressgateway -n istio-system
+    {{< /text >}}
 
-        {{< text bash >}}
-        $ kubectl logs -l istio=ingressgateway -n istio-system
-        {{< /text >}}
+* Egress Gateway logs:
 
-    * Egress Gateway logs:
+    {{< text bash >}}
+    $ kubectl logs -l istio=egressgateway -n istio-system
+    {{< /text >}}
 
-        {{< text bash >}}
-        $ kubectl logs -l istio=egressgateway -n istio-system
-        {{< /text >}}
+* Sidecar logs:
 
-    * Sidecar logs:
-
-        {{< text bash >}}
-        $ for ns in $(kubectl get ns -o jsonpath='{.items[*].metadata.name}') ; do kubectl logs -l service.istio.io/canonical-revision -c istio-proxy -n $ns ; done
-        {{< /text >}}
+    {{< text bash >}}
+    $ for ns in $(kubectl get ns -o jsonpath='{.items[*].metadata.name}') ; do kubectl logs -l service.istio.io/canonical-revision -c istio-proxy -n $ns ; done
+    {{< /text >}}
 
 * All Istio configuration artifacts:
 
