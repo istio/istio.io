@@ -107,7 +107,6 @@ containing:
     $ kubectl get istio-io --all-namespaces -o yaml
     {{< /text >}}
 
-
 ## Documentation bugs
 
 Search our [documentation issue database](https://github.com/istio/istio.io/issues/) to see if
