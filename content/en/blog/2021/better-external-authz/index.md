@@ -19,7 +19,7 @@ cannot be supported with this model, for example:
 - You have your own in-house authorization system that cannot be easily migrated to, or cannot be easily replaced by, the
   authorization policy.
 
-- You want to integrate with a 3rd-party solution (e.g. [Open Policy Agent](https://www.openpolicyagent.org/docs/latest/envoy-authorization/)
+- You want to integrate with a 3rd-party solution (e.g. [Open Policy Agent](https://www.openpolicyagent.org/docs/latest/envoy-introduction/)
   or [`oauth2` proxy](https://github.com/oauth2-proxy/oauth2-proxy)) which may require use of the
   [low-level Envoy configuration APIs](/docs/reference/config/networking/envoy-filter/) in Istio, or may not be possible
   at all.
