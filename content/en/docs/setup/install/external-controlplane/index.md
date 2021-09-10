@@ -452,19 +452,13 @@ $ istioctl install -f istio-ingressgateway.yaml --context="${CTX_REMOTE_CLUSTER}
 {{< tab name="Helm" category-value="helm" >}}
 
 {{< text bash >}}
-$ cat <<EOF > values.yaml
-gateways:
-  istio-ingressgateway:
-    # Enable gateway injection
-    injectionTemplate: gateway
-    name: istio-ingressgateway
-EOF
-$ helm install istio-ingress manifests/charts/gateways/istio-ingress  -f values.yaml -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}"
-{{< /text >}}
+$ helm install istio-ingressgateway istio/gateway -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}"
+    {{< /text >}}
 
-{{< /tab >}}
+See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
-{{< /tabset >}}
+    {{< /tab >}}
+    {{< /tabset >}}
 
 You can optionally enable other gateways as well. For example, an egress gateway:
 
@@ -496,19 +490,13 @@ $ istioctl install -f istio-egressgateway.yaml --context="${CTX_REMOTE_CLUSTER}"
 {{< tab name="Helm" category-value="helm" >}}
 
 {{< text bash >}}
-$ cat <<EOF > values.yaml
-gateways:
-  istio-egressgateway:
-    # Enable gateway injection
-    injectionTemplate: gateway
-    name: istio-egressgateway
-EOF
-$ helm install istio-egress manifests/charts/gateways/istio-egress  -f values.yaml -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}"
-{{< /text >}}
+$ helm install istio-egressgateway istio/gateway -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}" --set service.type=ClusterIP
+    {{< /text >}}
 
-{{< /tab >}}
+See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
-{{< /tabset >}}
+    {{< /tab >}}
+    {{< /tabset >}}
 
 #### Test the ingress gateway
 
