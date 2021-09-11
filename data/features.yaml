@@ -243,6 +243,14 @@ features:
       maturity: Beta
       nextExpectedPromotion: ""
     area: Security and policy enforcement
+  - name: "External Authorization"
+    id: "security.external_authorization"
+    link: "/docs/tasks/security/authorization/authz-custom"
+    level:
+      checklist: ""
+      maturity: Alpha
+      nextExpectedPromotion: ""
+    area: Security and policy enforcement
   - name: "In-Cluster Operator"
     id: "core.in_cluster_operator"
     link: "/docs/setup/install/operator/"

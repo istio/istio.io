@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.VirtualService
 aliases: [/docs/reference/config/networking/v1alpha3/virtual-service]
-number_of_entries: 24
+number_of_entries: 25
 ---
 <p>Configuration affecting traffic routing. Here are a few terms useful to define
 in the context of traffic routing.</p>
@@ -2029,6 +2029,44 @@ this value.</p>
 No
 </td>
 </tr>
+<tr id="HTTPRedirect-port" class="oneof oneof-start">
+<td><code>port</code></td>
+<td><code>uint32 (oneof)</code></td>
+<td>
+<p>On a redirect, overwrite the port portion of the URL with this value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPRedirect-derive_port" class="oneof">
+<td><code>derivePort</code></td>
+<td><code><a href="#HTTPRedirect-RedirectPortSelection">RedirectPortSelection (oneof)</a></code></td>
+<td>
+<p>On a redirect, dynamically set the port:
+* FROM<em>PROTOCOL</em>DEFAULT: automatically set to 80 for HTTP and 443 for HTTPS.
+* FROM<em>REQUEST</em>PORT: automatically use the port of the request.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPRedirect-scheme">
+<td><code>scheme</code></td>
+<td><code>string</code></td>
+<td>
+<p>On a redirect, overwrite the scheme portion of the URL with this value.
+For example, <code>http</code> or <code>https</code>.
+If unset, the original scheme will be used.
+If <code>derivePort</code> is set to <code>FROM_PROTOCOL_DEFAULT</code>, this will impact the port used as well</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="HTTPRedirect-redirect_code">
 <td><code>redirectCode</code></td>
 <td><code>uint32</code></td>
@@ -2853,6 +2891,29 @@ No
 </td>
 <td>
 No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HTTPRedirect-RedirectPortSelection">HTTPRedirect.RedirectPortSelection</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HTTPRedirect-RedirectPortSelection-FROM_PROTOCOL_DEFAULT">
+<td><code>FROM_PROTOCOL_DEFAULT</code></td>
+<td>
+</td>
+</tr>
+<tr id="HTTPRedirect-RedirectPortSelection-FROM_REQUEST_PORT">
+<td><code>FROM_REQUEST_PORT</code></td>
+<td>
 </td>
 </tr>
 </tbody>
