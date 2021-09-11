@@ -1787,6 +1787,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Name of the validatingwebhookconfiguration to patch. Empty will skip using cluster admin to patch.</td>
 </tr>
 <tr>
+<td><code>VERIFY_CERTIFICATE_AT_CLIENT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, certificates received by the proxy will be verified against the OS CA certificate bundle.</td>
+</tr>
+<tr>
 <td><code>XDS_AUTH</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
