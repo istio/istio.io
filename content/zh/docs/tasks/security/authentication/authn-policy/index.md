@@ -141,7 +141,7 @@ sleep.legacy to httpbin.legacy: 200
 
 ### 清除部分 1{#cleanup-part-1}
 
-删除在会话中添加的全局身份验证策略和 `destination rules`：
+删除在会话中添加的全局身份验证策略：
 
 {{< text bash >}}
 $ kubectl delete peerauthentication -n istio-system default
@@ -184,9 +184,7 @@ sleep.legacy to httpbin.legacy: 200
 
 ### 为每个工作负载启用双向 TLS{#enable-mutual-TLS-per-workload}
 
-要为特定工作负载设置对等身份验证策略，必须配置 `selector` 字段并指定与所需工作负载匹配的标签。然而 Istio 不能将出站双向 TLS 流量的工作负载策略聚合到服务。您应该配置 destination rule 来管理该行为。
-
-例如，以下对等身份验证策略和 destination rule 将为 `httpbin.bar` 服务启用严格的双向 TLS：
+要为特定工作负载设置对等身份验证策略，必须配置 `selector` 字段并指定与所需工作负载匹配的标签。例如，以下对等身份验证策略和 destination rule 将为 `httpbin.bar` 服务启用严格的双向 TLS：
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -201,22 +199,6 @@ spec:
       app: httpbin
   mtls:
     mode: STRICT
-EOF
-{{< /text >}}
-
-添加一个 destination rule：
-
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -n bar -f -
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: "httpbin"
-spec:
-  host: "httpbin.bar.svc.cluster.local"
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
 EOF
 {{< /text >}}
 
@@ -264,27 +246,6 @@ spec:
 EOF
 {{< /text >}}
 
-对 destination rule 也做相应修改：
-
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -n bar -f -
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: "httpbin"
-spec:
-  host: httpbin.bar.svc.cluster.local
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
-    portLevelSettings:
-    - port:
-        number: 8000
-      tls:
-        mode: DISABLE
-EOF
-{{< /text >}}
-
 1. 对等身份验证策略中的端口值为容器的端口。destination rule 的值是服务的端口。
 1. 如果端口绑定到服务则只能使用 `portLevelMtls` 配置，其他配置将被 Istio 忽略。
 
@@ -323,22 +284,6 @@ spec:
 EOF
 {{< /text >}}
 
-同时修改 destination rule：
-
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -n foo -f -
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: "overwrite-example"
-spec:
-  host: httpbin.foo.svc.cluster.local
-  trafficPolicy:
-    tls:
-      mode: DISABLE
-EOF
-{{< /text >}}
-
 重新执行来自 `sleep.legacy` 的请求，您应该又会看到请求成功返回 200 代码，证明了特定服务策略覆盖了命名空间范围的策略。
 
 {{< text bash >}}
@@ -348,13 +293,11 @@ $ kubectl exec "$(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..me
 
 ### 清除部分 2{#cleanup-part-2}
 
-删除之前步骤中创建的策略和 destination rules：
+删除之前步骤中创建的策略：
 
 {{< text bash >}}
 $ kubectl delete peerauthentication default overwrite-example -n foo
 $ kubectl delete peerauthentication httpbin -n bar
-$ kubectl delete destinationrules overwrite-example -n foo
-$ kubectl delete destinationrules httpbin -n bar
 {{< /text >}}
 
 ## 终端用户认证{#end-user-authentication}
