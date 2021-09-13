@@ -77,28 +77,27 @@ containing:
     $ kubectl --namespace istio-system get cm -o yaml
     {{< /text >}}
 
-* Current and previous logs from all Istio components and sidecars.
-Here some examples on how to obtain those, please adapt for your environment:
+* Current and previous logs from all Istio components and sidecars. Here some examples on how to obtain those, please adapt for your environment:
 
-  * Istiod logs:
+    * Istiod logs:
 
         {{< text bash >}}
         $ kubectl logs -n istio-system -l app=istiod
         {{< /text >}}
 
-  * Ingress Gateway logs:
+    * Ingress Gateway logs:
 
         {{< text bash >}}
         $ kubectl logs -l istio=ingressgateway -n istio-system
         {{< /text >}}
 
-  * Egress Gateway logs:
+    * Egress Gateway logs:
 
         {{< text bash >}}
         $ kubectl logs -l istio=egressgateway -n istio-system
         {{< /text >}}
 
-  * Sidecar logs:
+    * Sidecar logs:
 
         {{< text bash >}}
         $ for ns in $(kubectl get ns -o jsonpath='{.items[*].metadata.name}') ; do kubectl logs -l service.istio.io/canonical-revision -c istio-proxy -n $ns ; done
