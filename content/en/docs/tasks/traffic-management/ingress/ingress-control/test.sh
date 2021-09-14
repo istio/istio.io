@@ -57,6 +57,37 @@ _verify_elided snip_configuring_ingress_using_an_istio_gateway_3 "$snip_configur
 # access the httpbin service
 _verify_elided snip_configuring_ingress_using_an_istio_gateway_4 "$snip_configuring_ingress_using_an_istio_gateway_4_out"
 
+# configure route based on JWT claims
+snip_configuring_ingress_routing_based_on_jwt_claims_1
+snip_configuring_ingress_routing_based_on_jwt_claims_2
+
+# wait for rules to propagate
+_wait_for_istio requestauthentication istio-system ingress-jwt
+_wait_for_istio virtualservice default httpbin
+
+# validate without JWT
+_verify_elided snip_configuring_ingress_routing_based_on_jwt_claims_3 "snip_configuring_ingress_routing_based_on_jwt_claims_3_out"
+
+# validate with invalid JWT
+_verify_elided snip_configuring_ingress_routing_based_on_jwt_claims_4 "snip_configuring_ingress_routing_based_on_jwt_claims_4_out"
+
+# Pull the Istio branch from the docs configuration file.
+ISTIO_BRANCH=$(yq r "${REPO_ROOT}"/data/args.yml 'source_branch_name')
+export TOKEN_GROUP
+export TOKEN_NO_GROUP
+
+# validate with valid and matched JWT
+TOKEN_GROUP_URL="https://raw.githubusercontent.com/istio/istio/${ISTIO_BRANCH}/security/tools/jwt/samples/groups-scope.jwt"
+TOKEN_GROUP=$(curl "${TOKEN_GROUP_URL}" -s)
+_verify_elided snip_configuring_ingress_routing_based_on_jwt_claims_5 "snip_configuring_ingress_routing_based_on_jwt_claims_5_out"
+_verify_elided snip_configuring_ingress_routing_based_on_jwt_claims_6 "snip_configuring_ingress_routing_based_on_jwt_claims_6_out"
+
+# validate with valid but unmatched JWT
+TOKEN_NO_GROUP_URL="https://raw.githubusercontent.com/istio/istio/${ISTIO_BRANCH}/security/tools/jwt/samples/demo.jwt"
+TOKEN_NO_GROUP=$(curl "${TOKEN_NO_GROUP_URL}" -s)
+_verify_elided snip_configuring_ingress_routing_based_on_jwt_claims_7 "snip_configuring_ingress_routing_based_on_jwt_claims_7_out"
+_verify_elided snip_configuring_ingress_routing_based_on_jwt_claims_8 "snip_configuring_ingress_routing_based_on_jwt_claims_8_out"
+
 # configure for web browser
 snip_accessing_ingress_services_using_a_browser_1
 
