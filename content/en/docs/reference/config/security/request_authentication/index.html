@@ -52,6 +52,34 @@ spec:
 </code></pre>
 
 <ul>
+<li>A policy in the root namespace (&ldquo;istio-system&rdquo; by default) applies to workloads in all namespaces
+in a mesh. The following policy makes all workloads only accept requests that contain a
+valid JWT token.</li>
+</ul>
+
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: req-authn-for-all
+  namespace: istio-system
+spec:
+  jwtRules:
+  - issuer: &quot;issuer-foo&quot;
+    jwksUri: https://example.com/.well-known/jwks.json
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: require-jwt-for-all
+  namespace: istio-system
+spec:
+  rules:
+  - from:
+    - source:
+        requestPrincipals: [&quot;*&quot;]
+</code></pre>
+
+<ul>
 <li>The next example shows how to set a different JWT requirement for a different <code>host</code>. The <code>RequestAuthentication</code>
 declares it can accept JWTs issued by either <code>issuer-foo</code> or <code>issuer-bar</code> (the public key set is implicitly
 set from the OpenID Connect spec).</li>
