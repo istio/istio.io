@@ -27,11 +27,8 @@ snip_create_demo_profile
 sleep 30s
 _wait_for_deployment istio-system istiod
 
-# shellcheck disable=SC2034
-export CMP_MATCH_IP_PENDING=true
 # shellcheck disable=SC2154
 _verify_like snip_kubectl_get_svc "$snip_kubectl_get_svc_out"
-unset CMP_MATCH_IP_PENDING
 
 # shellcheck disable=SC2154
 _verify_like snip_kubectl_get_pods "$snip_kubectl_get_pods_out"
