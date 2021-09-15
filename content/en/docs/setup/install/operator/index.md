@@ -86,7 +86,9 @@ To install the Istio `demo` [configuration profile](/docs/setup/additional-setup
 using the operator, run the following command:
 
 {{< warning >}}
-Prior to Istio 1.10.0, the namespace `istio-system` needs to be created before installing the operator. As of Istio 1.10.0, this is no longer required.
+Prior to Istio 1.10.0, the namespace `istio-system` needs to be created before installing the operator. As of  Istio 1.10.0, the `istioctl operator init` will create the `istio-system` namespace.
+
+If you use something other than `istioctl operator init`, then the `istio-system` namespace needs to be created manually.
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=create_demo_profile >}}
