@@ -242,7 +242,7 @@ istioctl dashboard kiali
 snip_uninstall_1() {
 kubectl delete -f samples/addons
 istioctl manifest generate --set profile=demo | kubectl delete --ignore-not-found=true -f -
-kubectl delete mutatingwebhookconfigurations istio-revision-tag-default
+istioctl tag remove default
 }
 
 snip_uninstall_2() {
