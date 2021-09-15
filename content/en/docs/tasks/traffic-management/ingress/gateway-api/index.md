@@ -19,7 +19,7 @@ and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) 
 1. Install the Gateway API CRDs:
 
     {{< text bash >}}
-    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.3.0" | kubectl apply -f -
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.4.0-rc1" | kubectl apply -f -
     {{< /text >}}
 
 1. Install Istio:
@@ -44,14 +44,14 @@ See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for inform
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.x-k8s.io/v1alpha1
+    apiVersion: gateway.networking.k8s.io/v1alpha2
     kind: GatewayClass
     metadata:
       name: istio
     spec:
       controller: istio.io/gateway-controller
     ---
-    apiVersion: networking.x-k8s.io/v1alpha1
+    apiVersion: gateway.networking.k8s.io/v1alpha2
     kind: Gateway
     metadata:
       name: gateway
@@ -59,27 +59,23 @@ See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for inform
     spec:
       gatewayClassName: istio
       listeners:
-      - hostname: "*"
+      - nname:default:
+      - hostname: "*.example.com"
         port: 80
         protocol: HTTP
-        routes:
+        allowedRoutes:
           namespaces:
             from: All
-          selector:
-            matchLabels:
-              selected: "yes"
-          kind: HTTPRoute
     ---
-    apiVersion: networking.x-k8s.io/v1alpha1
+    apiVersion: gateway.networking.k8s.io/v1alpha2
     kind: HTTPRoute
     metadata:
       name: http
       namespace: default
-      labels:
-        selected: "yes"
     spec:
-      gateways:
-        allow: All
+      parentRefs:
+      - name: gateway
+        namesapce: istio-system
       hostnames: ["httpbin.example.com"]
       rules:
       - matches:
@@ -90,7 +86,8 @@ See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for inform
         - type: RequestHeaderModifier
           requestHeaderModifier:
             add:
-              my-added-header: added-value
+              - name: my-added-header
+                value: added-value
         forwardTo:
         - serviceName: httpbin
           port: 8000
