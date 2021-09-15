@@ -30,7 +30,7 @@ to identify trends and differences in traffic over time, access to historical da
 
 ### Option 2: Install Prometheus Operator
 
-You can install Prometheus from [Github](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack).
+You can install Prometheus from [GitHub](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack).
 
 It is important that the following values are passed to the helm chart to pick up the Monitors defined below.
 
