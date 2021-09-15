@@ -59,8 +59,8 @@ See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for inform
     spec:
       gatewayClassName: istio
       listeners:
-      - nname:default:
-      - hostname: "*.example.com"
+      - name: default
+        hostname: "*.example.com"
         port: 80
         protocol: HTTP
         allowedRoutes:
@@ -75,7 +75,7 @@ See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for inform
     spec:
       parentRefs:
       - name: gateway
-        namesapce: istio-system
+        namespace: istio-system
       hostnames: ["httpbin.example.com"]
       rules:
       - matches:
@@ -86,10 +86,10 @@ See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for inform
         - type: RequestHeaderModifier
           requestHeaderModifier:
             add:
-              - name: my-added-header
-                value: added-value
-        forwardTo:
-        - serviceName: httpbin
+            - name: my-added-header
+              value: added-value
+        backendRefs:
+        - name: httpbin
           port: 8000
     EOF
     {{< /text >}}
