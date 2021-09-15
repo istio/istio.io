@@ -78,7 +78,7 @@ Istio supports to control its behavior.
 					<td>Alpha</td>
 				
 					<td>[Pod]</td>
-					<td>A workload label that indicates the name of the cluster that contains the workload. This is typically configured during control plane installation, using either an auto-generated or admin-specified value. Setting this allows workload selection by cluster. For example, a service owner could create a DestinationRule containing a subset per cluster and then use these subsets to control traffic flow to each cluster independently.</td>
+					<td>This label is applied to a workload internally that identifies the Kubernetes cluster containing the workload. The cluster ID is specified during Istio installation for each cluster via `values.global.multiCluster.clusterName`. It should be noted that this is only used internally within Istio and is not an actual label on workload pods. If a pod contains this label, it will be overridden by Istio internally with the cluster ID specified during Istio installation. This label provides a way to select workloads by cluster when using DestinationRules. For example, a service owner could create a DestinationRule containing a subset per cluster and then use these subsets to control traffic flow to each cluster independently.</td>
 				</tr>
 			
 		
