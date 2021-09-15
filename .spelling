@@ -631,6 +631,8 @@ pluggability
 pluggable
 png
 Poddar
+PodMonitor
+PodMonitors
 Posta
 pprof
 pre-connected
@@ -724,6 +726,8 @@ servicegraph-example
 ServiceEntry
 ServiceMeshCon
 ServiceMesher
+ServiceMonitor
+ServiceMonitors
 sha256
 Shamsher
 sharded
