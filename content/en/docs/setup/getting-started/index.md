@@ -426,6 +426,7 @@ resources because they may have been deleted hierarchically.
 {{< text bash >}}
 $ kubectl delete -f @samples/addons@
 $ istioctl manifest generate --set profile=demo | kubectl delete --ignore-not-found=true -f -
+$ istioctl tag remove default
 {{< /text >}}
 
 The `istio-system` namespace is not removed by default.
