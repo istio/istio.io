@@ -34,8 +34,11 @@ export ISTIO_IMAGE_VERSION
 ISTIO_SHA ?= $(shell < ${ISTIOIO_GO}/go.mod grep 'istio.io/istio v' | cut -d'-' -f3)
 export ISTIO_SHA
 
+# export ISTIO_LONG_SHA here. We will set the value in the `init` target
+export ISTIO_LONG_SHA
+
 # In the case that the images are build as part of a the normal public istio/istio pipeline,
-# we only need to export the pipleine HUB value.
+# we only need to export the pipeline HUB value.
 # If the images were built as part of the private pipeline (as for security releases),
 # we export the HUB and TAG for the images once they are published.
 # HUB ?= gcr.io/istio-testing
@@ -74,7 +77,7 @@ baseurl := "$(URL)"
 endif
 
 # Which branch of the Istio source code do we fetch stuff from
-SOURCE_BRANCH_NAME ?= release-1.11
+export SOURCE_BRANCH_NAME ?= release-1.11
 
 site:
 	@scripts/gen_site.sh
@@ -179,7 +182,6 @@ preinit:
 
 init: preinit
 	$(eval ISTIO_LONG_SHA := $(shell cd ${ISTIO_GO} && git rev-parse ${ISTIO_SHA}))
-	@export ISTIO_LONG_SHA
 	@echo "ISTIO_LONG_SHA=${ISTIO_LONG_SHA}"
 ifndef TAG
 	$(eval TAG := ${ISTIO_IMAGE_VERSION}.${ISTIO_LONG_SHA})
