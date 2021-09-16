@@ -30,7 +30,7 @@ _verify_like snip_viewing_the_istio_dashboard_1 "$snip_viewing_the_istio_dashboa
 _verify_like snip_viewing_the_istio_dashboard_2 "$snip_viewing_the_istio_dashboard_2_out"
 
 # TODO: Deploying bookinfo and sending requests through ingress gateway
-# seems like a common pattern for many tests. Should be moved to tests/util. 
+# seems like a common pattern for many tests. Should be moved to tests/util.
 kubectl label namespace default istio-injection=enabled --overwrite
 startup_bookinfo_sample
 _set_ingress_environment_variables
@@ -41,24 +41,24 @@ bpsnip_trace_generation__1
 snip_viewing_the_istio_dashboard_3 &
 
 # For verification, we only check if the dashboards are accessible, but not its actual contents
-# TODO: Is it worth checking API calls and output for Grafana case? 
+# TODO: Is it worth checking API calls and output for Grafana case?
 function access_grafana_istio_mesh_dashboard() {
-  curl -L -s -o /dev/null -w '%{http_code}' "http://localhost:3000/dashboard/db/istio-mesh-dashboard"
+  curl -L -s -o /dev/null -w '%{http_code}' "http://localhost:3000/d/G8wLrJIZk/istio-mesh-dashboard"
 }
 
 function access_grafana_istio_service_dashboard() {
-  curl -L -s -o /dev/null -w '%{http_code}' "http://localhost:3000/dashboard/db/istio-service-dashboard"
+  curl -L -s -o /dev/null -w '%{http_code}' "http://localhost:3000/d/LJ_uJAvmk/istio-service-dashboard"
 }
 
 function access_grafana_istio_workload_dashboard() {
-  curl -L -s -o /dev/null -w '%{http_code}' "http://localhost:3000/dashboard/db/istio-workload-dashboard"
+  curl -L -s -o /dev/null -w '%{http_code}' "http://localhost:3000/d/UbsSZTDik/istio-workload-dashboard"
 }
 
 # Grafana calls this behind the scenes. It sends a query to prometheus
 # The long and scary query is copied straight from requests page in browser
 # and some parameters are edited. Basically it is a URL-encoded prometheus query
 function query_request_count_to_productpage() {
-  curl -L -s 'http://localhost:3000/api/datasources/proxy/1/api/v1/query?query=%20sum(istio_requests_total%7Breporter%3D%22destination%22%2C%20destination_service%3D~%22productpage.default.svc.cluster.local%22%2C%20source_workload_namespace%3D~%22istio-system%22%7D)%20by%20(source_workload)%20or%20sum(istio_tcp_sent_bytes_total%7Breporter%3D%22destination%22%2C%20destination_service%3D~%22productpage.default.svc.cluster.local%22%2C%20source_workload_namespace%3D~%22istio-system%22%7D)%20by%20(source_workload)' | jq -r '.status' 
+  curl -L -s 'http://localhost:3000/api/datasources/proxy/1/api/v1/query?query=%20sum(istio_requests_total%7Breporter%3D%22destination%22%2C%20destination_service%3D~%22productpage.default.svc.cluster.local%22%2C%20source_workload_namespace%3D~%22istio-system%22%7D)%20by%20(source_workload)%20or%20sum(istio_tcp_sent_bytes_total%7Breporter%3D%22destination%22%2C%20destination_service%3D~%22productpage.default.svc.cluster.local%22%2C%20source_workload_namespace%3D~%22istio-system%22%7D)%20by%20(source_workload)' | jq -r '.status'
 }
 
 # This Prometheus query is from Mesh dashboard
