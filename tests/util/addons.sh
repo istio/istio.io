@@ -17,11 +17,17 @@
 
 source "tests/util/helpers.sh"
 
-GRAFANA_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/master/samples/addons/grafana.yaml"
-KIALI_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/master/samples/addons/kiali.yaml"
-PROMETHEUS_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/master/samples/addons/prometheus.yaml"
-ZIPKIN_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/master/samples/addons/extras/zipkin.yaml"
-JAEGER_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/master/samples/addons/jaeger.yaml"
+if [[ "${ISTIO_LONG_SHA:-}" == "" ]]; then
+  base=$SOURCE_BRANCH_NAME
+else
+  base=$ISTIO_LONG_SHA
+fi
+
+GRAFANA_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/$base/samples/addons/grafana.yaml"
+KIALI_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/$base/samples/addons/kiali.yaml"
+PROMETHEUS_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/$base/samples/addons/prometheus.yaml"
+ZIPKIN_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/$base/samples/addons/extras/zipkin.yaml"
+JAEGER_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/$base/samples/addons/jaeger.yaml"
 
 # Deploy the addons specified and wait for the deployment to complete. Currently
 # Zipkin, Jaeger, Grafana, Kiali and Prometheus are supported.
