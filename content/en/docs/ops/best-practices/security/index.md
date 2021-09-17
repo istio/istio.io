@@ -387,8 +387,14 @@ This ensures that even if a client accidentally or maliciously bypasses their si
 Istio offers the ability to [originate TLS](/docs/tasks/traffic-management/egress/egress-tls-origination/) from a sidecar proxy or gateway.
 This enables applications that send plaintext HTTP traffic to be transparently "upgraded" to HTTPS.
 
-Care must be taken when configuring the `DestinationRule`'s `tls` setting to specify the `caCertificates` field.
-When this is not set, the servers certificate will not be verified.
+Care must be taken when configuring the `DestinationRule`'s `tls` setting to specify the `caCertificates` and `subjectAltNames` fields.
+The `caCertificate` can be automatically set as the OS CA certificate by enabling the environment variable `VERIFY_CERTIFICATE_AT_CLIENT=true` on Istiod.
+Specifying the `caCertificates` in a `DestinationRule` will take priority and the OS CA Cert will not be used.
+
+{{< warning >}}
+When `caCertificates` is not set, the servers certificate will not be verified.
+When `subjectAltNames` is not set, the Subject Alternative Names of the servers certificate will not be verified.
+{{< /warning >}}
 
 For example:
 
@@ -403,6 +409,8 @@ spec:
     tls:
       mode: SIMPLE
       caCertificates: /etc/ssl/certs/ca-certificates.crt
+      subjectAltNames:
+      - "google.com"
 {{< /text >}}
 
 ## Gateways
