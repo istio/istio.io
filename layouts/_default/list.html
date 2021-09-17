@@ -54,7 +54,6 @@
                 {{ end }}
             </ul>
         {{ else }}
-            {{- $decoration := .Params.decoration -}}
             {{ range $pages }}
                 {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
                 {{ if and (eq $parentDir $pageLocation)  (not .Params.draft) }}
@@ -77,10 +76,6 @@
                         <h5>
                             <a href="{{ .Permalink }}">
                                 {{- .Title -}}
-
-                                {{- if $decoration -}}
-                                    <i class="{{ $decoration }}" data-prefix="{{ .RelPermalink }}"></i>
-                                {{- end -}}
                             </a>
                         </h5>
                         {{- if ne .PublishDate.Year 0001 -}}
