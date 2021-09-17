@@ -35,7 +35,6 @@ babel --source-maps --minified --no-comments --presets minify \
   tmp/js/prism.js \
   tmp/js/codeBlocks.js \
   tmp/js/links.js \
-  tmp/js/readTracking.js \
   tmp/js/resizeObserver.js \
   tmp/js/scroll.js \
   tmp/js/overlays.js \
