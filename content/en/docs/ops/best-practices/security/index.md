@@ -397,7 +397,7 @@ In order to verify the server's certificate it is important that both `caCertifi
 
 Verification of the certificate presented by the server against a CA is not sufficient, as the Subject Alternative Names must also be validated.
 
-If VERIFY_CERTIFICATE_AT_CLIENT is set, but `subjectAltNames` is not set then you are not verifying all credentials.
+If `VERIFY_CERTIFICATE_AT_CLIENT` is set, but `subjectAltNames` is not set then you are not verifying all credentials.
 
 If no CA certificate is being used, `subjectAltNames` will not be used regardless of it being set or not.
 {{< /warning >}}
