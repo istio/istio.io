@@ -4,5 +4,4 @@ description: Announcements for the 1.10 release and its associated patch release
 weight: 19
 list_by_publishdate: true
 layout: release-grid
-decoration: dot
 ---
