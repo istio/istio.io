@@ -77,7 +77,7 @@ of the application that needs the external authorization.
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
-name: external-authz-grpc-local
+  name: external-authz-grpc-local
 spec:
   hosts:
   - "external-authz-grpc.local" # The service name to be used in the extension provider in the mesh config.
