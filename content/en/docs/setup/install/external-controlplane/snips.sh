@@ -320,10 +320,10 @@ istioctl install -f istio-ingressgateway.yaml --context="${CTX_REMOTE_CLUSTER}"
 snip_enable_gateways_2() {
 cat <<EOF > values.yaml
 gateways:
-    istio-ingressgateway:
-      # Enable gateway injection
-      injectionTemplate: gateway
-      name: istio-ingressgateway
+  istio-ingressgateway:
+    # Enable gateway injection
+    injectionTemplate: gateway
+    name: istio-ingressgateway
 EOF
 helm install istio-ingress manifests/charts/gateways/istio-ingress  -f values.yaml -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}"
 }
@@ -350,38 +350,38 @@ istioctl install -f istio-egressgateway.yaml --context="${CTX_REMOTE_CLUSTER}"
 snip_enable_gateways_4() {
 cat <<EOF > values.yaml
 gateways:
-    istio-egressgateway:
-      # Enable gateway injection
-      injectionTemplate: gateway
-      name: istio-egressgateway
+  istio-egressgateway:
+    # Enable gateway injection
+    injectionTemplate: gateway
+    name: istio-egressgateway
 EOF
 helm install istio-egress manifests/charts/gateways/istio-egress  -f values.yaml -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}"
 }
 
-snip_enable_gateways_5() {
+snip_test_the_ingress_gateway_1() {
 kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
-! read -r -d '' snip_enable_gateways_5_out <<\ENDSNIP
+! read -r -d '' snip_test_the_ingress_gateway_1_out <<\ENDSNIP
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-ingressgateway-7bcd5c6bbd-kmtl4   1/1     Running   0          8m4s
 ENDSNIP
 
-snip_enable_gateways_6() {
+snip_test_the_ingress_gateway_2() {
 kubectl apply -f samples/helloworld/helloworld-gateway.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
 }
 
-snip_enable_gateways_7() {
+snip_test_the_ingress_gateway_3() {
 export INGRESS_HOST=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 export INGRESS_PORT=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 }
 
-snip_enable_gateways_8() {
+snip_test_the_ingress_gateway_4() {
 curl -s "http://${GATEWAY_URL}/hello"
 }
 
-! read -r -d '' snip_enable_gateways_8_out <<\ENDSNIP
+! read -r -d '' snip_test_the_ingress_gateway_4_out <<\ENDSNIP
 Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
 ENDSNIP
 

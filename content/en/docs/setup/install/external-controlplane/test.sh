@@ -107,22 +107,21 @@ _verify_like snip_deploy_a_sample_application_3 "$snip_deploy_a_sample_applicati
 _verify_contains snip_deploy_a_sample_application_4 "Hello version: v1"
 
 echo y | snip_enable_gateways_1
-#echo y | snip_enable_gateways_2
 
 snip_enable_gateways_4
 
 _verify_same kubectl_get_egress_gateway_for_remote_cluster "Running" 
 
-_verify_like snip_enable_gateways_5 "$snip_enable_gateways_5_out"
+_verify_like snip_test_the_ingress_gateway_1 "$snip_test_the_ingress_gateway_1_out"
 
-snip_enable_gateways_6
+snip_test_the_ingress_gateway_2
 
 export GATEWAY_URL=$(kubectl \
     --context="${CTX_REMOTE_CLUSTER}" \
     -n external-istiod get svc istio-ingressgateway \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
-_verify_contains snip_enable_gateways_8 "Hello version: v1"
+_verify_contains snip_test_the_ingress_gateway_4 "Hello version: v1"
 
 # Adding clusters to the mesh.
 
