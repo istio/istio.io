@@ -388,12 +388,18 @@ Istio offers the ability to [originate TLS](/docs/tasks/traffic-management/egres
 This enables applications that send plaintext HTTP traffic to be transparently "upgraded" to HTTPS.
 
 Care must be taken when configuring the `DestinationRule`'s `tls` setting to specify the `caCertificates` and `subjectAltNames` fields.
-The `caCertificate` can be automatically set as the OS CA certificate by enabling the environment variable `VERIFY_CERTIFICATE_AT_CLIENT=true` on Istiod.
+The `caCertificate` can be automatically set as the Operating System CA certificate by enabling the environment variable `VERIFY_CERTIFICATE_AT_CLIENT=true` on Istiod.
+If the Operating System CA certificate being automatically used is only desired for select host(s), the environment variable `VERIFY_CERTIFICATE_AT_CLIENT=false` on Istiod, `caCertificates` can be set to `system` in the desired `DestinationRule`(s).
 Specifying the `caCertificates` in a `DestinationRule` will take priority and the OS CA Cert will not be used.
 
 {{< warning >}}
-When `caCertificates` is not set, the servers certificate will not be verified.
-When `subjectAltNames` is not set, the Subject Alternative Names of the servers certificate will not be verified.
+In order to verify the server's certificate it is important that both `caCertificates` and `subjectAltNames` be set.
+
+Verification of the certificate presented by the server against a CA is not sufficient, as the Subject Alternative Names must also be validated.
+
+If VERIFY_CERTIFICATE_AT_CLIENT is set, but `subjectAltNames` is not set then you are not verifying all credentials.
+
+If no CA certificate is being used, `subjectAltNames` will not be used regardless of it being set or not.
 {{< /warning >}}
 
 For example:
