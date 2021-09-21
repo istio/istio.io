@@ -1426,6 +1426,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, pilot will allow any upstream cluster to be used with AUTO_PASSTHROUGH. This option is intended for backwards compatibility only and is not secure with untrusted downstreams; it will be removed in the future.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_METADATA_EXCHANGE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, pilot will add metadata exchange filters, which will be consumed by telemetry filter.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_MONGO_FILTER</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1550,12 +1556,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Enables the use of HTTP 1.0 in the outbound HTTP listeners, to support legacy applications.</td>
-</tr>
-<tr>
-<td><code>PILOT_HTTP_DELAYED_CLOSE_TIMEOUT</code></td>
-<td>Time Duration</td>
-<td><code>1s</code></td>
-<td>The delayed close timeout is for downstream HTTP connections. This should be set to a high value or disable it when peer is reading large chunk of data and to give an opportunity to initiate the close sequence properly. A value of 0s disables this</td>
 </tr>
 <tr>
 <td><code>PILOT_INBOUND_PROTOCOL_DETECTION_TIMEOUT</code></td>
