@@ -1,15 +1,18 @@
 ---
 title: "gRPC Proxyless Service Mesh"
 description: Introduction to Istio support for gRPC's proxyless service mesh features.
-publishdate: 2021-09-02
+publishdate: 2021-09-23
 attribution: "Steven Landow (Google)"
 ---
 
 Istio dynamically configures its Envoy sidecar proxies using a set of discovery APIs, collectively known as the
 [xDS APIs](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/dynamic_configuration).
 These APIs aim to become a [universal data-plane API](https://blog.envoyproxy.io/the-universal-data-plane-api-d15cec7a?gi=64aa2eea0283).
-The gRPC project has started to implement the xDS APIs, which means you can manage gRPC workloads without having to deploy
-an Envoy sidecar along with them. You can learn more about the integration in a [KubeCon EU 2021 talk from Megan Yahya](https://www.youtube.com/watch?v=cGJXkZ7jiDk).
+The gRPC project has significant support for the xDS APIs, which means you can manage gRPC workloads 
+without having to deploy an Envoy sidecar along with them. You can learn more about the integration in a 
+[KubeCon EU 2021 talk from Megan Yahya](https://www.youtube.com/watch?v=cGJXkZ7jiDk). The latest updates on gRPC's
+support can be found in their [proposals](https://github.com/grpc/proposal/search?q=xds) along with implementation 
+status.
 
 Istio 1.11 adds experimental support for adding gRPC services directly to the mesh. We support basic service
 discovery, some VirtualService based traffic policy, and mutual TLS.
@@ -207,19 +210,19 @@ $ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-name: echo-versions
-namespace: echo-grpc
+  name: echo-versions
+  namespace: echo-grpc
 spec:
-host: echo.echo-grpc.svc.cluster.local
-subsets:
-- name: v1
-  labels:
-  version: v1
-- name: v2
-  labels:
-  version: v2
-  EOF
-  {{< /text >}}
+  host: echo.echo-grpc.svc.cluster.local
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+EOF
+{{< /text >}}
 
 ### Traffic shifting
 
@@ -230,29 +233,28 @@ $ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-name: echo
-namespace: echo-grpc
+  name: echo-weights
+  namespace: echo-grpc
 spec:
-hosts:
-- echo.echo-grpc.svc.cluster.local
+  hosts:
+  - echo.echo-grpc.svc.cluster.local
   http:
-- route:
+  - route:
     - destination:
-      host: echo.echo-grpc.svc.cluster.local
-      subset: v1
+        host: echo.echo-grpc.svc.cluster.local
+        subset: v1
       weight: 20
     - destination:
-      host: echo.echo-grpc.svc.cluster.local
-      subset: v2
+        host: echo.echo-grpc.svc.cluster.local
+        subset: v2
       weight: 80
-      EOF
-      {{< /text >}}
+EOF
+{{< /text >}}
 
 Now, send a set of 10 requests:
 
 {{< text bash >}}
-$ grpcurl -plaintext -d '{"url": "xds:///echo.echo-grpc.svc.cluster.local:7070", "count": 10}' :17171 proto
-.EchoTestService/ForwardEcho | jq -r '.output | join("")'  | grep ServiceVersion
+$ grpcurl -plaintext -d '{"url": "xds:///echo.echo-grpc.svc.cluster.local:7070", "count": 10}' :17171 proto.EchoTestService/ForwardEcho | jq -r '.output | join("")'  | grep ServiceVersion
 {{< /text >}}
 
 The response should contain mostly `v2` responses:
@@ -283,21 +285,20 @@ $ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-name: echo-mtls
-namespace: echo-grpc
+  name: echo-mtls
+  namespace: echo-grpc
 spec:
-host: echo.echo-grpc.svc.cluster.local
-trafficPolicy:
-tls:
-mode: ISTIO_MUTUAL
+  host: echo.echo-grpc.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
 EOF
 {{< /text >}}
 
 Now an attempt to call the server that is not yet configured for mTLS will fail.
 
 {{< text bash >}}
-$ grpcurl -plaintext -d '{"url": "xds:///echo.echo-grpc.svc.cluster.local:7070", "count": 1}' :17171 proto
-.EchoTestService/ForwardEcho | jq -r '.output | join("")'
+$ grpcurl -plaintext -d '{"url": "xds:///echo.echo-grpc.svc.cluster.local:7070"}' :17171 proto.EchoTestService/ForwardEcho | jq -r '.output | join("")'
 Handling connection for 17171
 ERROR:
 Code: Unknown
@@ -307,8 +308,7 @@ Message: 1/1 requests had errors; first error: rpc error: code = Unavailable des
 To enable server-size mTLS, apply a `PeerAuthentication`.
 
 {{< warning >}}
-The following policy forces STRICT mTLS for the entire mesh. There is a bug
-that prevents namespace level or workload level `PeerAuthentication`; fixed in 1.11.2)
+The following policy forces STRICT mTLS for the entire namespace.
 {{< /warning >}}
 
 {{< text bash >}}
@@ -316,11 +316,11 @@ $ cat <<EOF | kubectl apply -f -
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
-name: echo-mtls
-namespace: echo-grpc
+  name: echo-mtls
+  namespace: echo-grpc
 spec:
-mtls:
-mode: STRICT
+  mtls:
+    mode: STRICT
 EOF
 {{< /text >}}
 
