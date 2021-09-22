@@ -11,7 +11,7 @@ These APIs aim to become a [universal data-plane API](https://blog.envoyproxy.io
 The gRPC project has significant support for the xDS APIs, which means you can manage gRPC workloads 
 without having to deploy an Envoy sidecar along with them. You can learn more about the integration in a 
 [KubeCon EU 2021 talk from Megan Yahya](https://www.youtube.com/watch?v=cGJXkZ7jiDk). The latest updates on gRPC's
-support can be found in their [proposals](https://github.com/grpc/proposal/search?q=xds) along with implementation 
+support can be found in their [proposals](https://github.com/grpc/proposal/search?q=xds) along with implementation
 status.
 
 Istio 1.11 adds experimental support for adding gRPC services directly to the mesh. We support basic service
@@ -25,7 +25,8 @@ features should work, although this is not an exhaustive list and other features
 * Basic service discovery. Your gRPC service can reach other pods and virtual machines registered in the mesh.
 * [`DestinationRule`](/docs/reference/config/networking/destination-rule/):
     * Subsets: Your gRPC service can split traffic based on label selectors to different groups of instances.
-    * The only Istio `loadBalancer` currently supported is `ROUND_ROBIN`, `consistentHash` will be added in the future.
+    * The only Istio `loadBalancer` currently supported is `ROUND_ROBIN`, `consistentHash` will be added in the
+      future versions of Istio (it is supported by gRPC).
     * `tls` settings are restricted to `DISABLE` or `ISTIO_MUTUAL`. Other modes will be treated as `DISABLE`.
 * [`VirtualService`](/docs/reference/config/networking/virtual-service/):
     * Header match and URI match in the format `/ServiceName/RPCName`
@@ -50,10 +51,11 @@ over time along with improvements to the overall design.
 {{< image width="80%" link="./architecture.svg" caption="Diagram of how gRPC services communicate with the istiod" >}}
 
 Although this doesn't use a proxy for data plane communication, it still requires an agent for initialization and
-communication with the control-plane. First, the agent generates a [bootstrap file](https://github.com/grpc/proposal/blob/master/A27-xds-global-load-balancing.md#xdsclient-and-bootstrap-file).
-This tells the `gRPC` library how to connect to `istiod`, where it can find certificates for data plane communication,
-and what metadata to send to the control plane. Next, the agent acts as an `xDS` proxy, connecting and authenticating
-with `istiod` on the application's behalf. Finally, the agent fetches and rotates certificates used in data plane traffic.
+communication with the control-plane. First, the agent generates a [bootstrap file](https://github.com/grpc/proposal/blob/master/A27-xds-global-load-balancing.md#xdsclient-and-bootstrap-file)
+at startup the same way it would generate bootstrap for Envoy. This tells the `gRPC` library how to connect to`istiod`,
+where it can find certificates for data plane communication, and what metadata to send to the control plane. Next, the
+agent acts as an `xDS` proxy, connecting and authenticating with `istiod` on the application's behalf. Finally, the
+agent fetches and rotates certificates used in data plane traffic.
 
 ## Changes to application code
 
