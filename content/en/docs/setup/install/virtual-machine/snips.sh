@@ -179,7 +179,7 @@ sudo cp "${HOME}"/istio-token /var/run/secrets/tokens/istio-token
 }
 
 snip_configure_the_virtual_machine_5() {
-sudo cp "${HOME}"/cluster.env /var/lib/istio/envoy/cluster.env
+sudo cp "${HOME}"/*.env /var/lib/istio/envoy/
 }
 
 snip_configure_the_virtual_machine_6() {

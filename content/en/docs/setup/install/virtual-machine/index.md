@@ -285,6 +285,7 @@ If third party tokens are not enabled, you should add the option `--set values.g
 
 Next, use the `istioctl x workload entry` command to generate:
 
+* `sidecar.env`: Contains metadata specific to each VM like istiod address to fetch CA.
 * `cluster.env`: Contains metadata that identifies what namespace, service account, network CIDR and (optionally) what inbound ports to capture.
 * `istio-token`: A Kubernetes token used to get certs from the CA.
 * `mesh.yaml`: Provides `ProxyConfig` to configure `discoveryAddress`, health-checking probes, and some authentication options.
@@ -367,10 +368,10 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
     {{< /tabset >}}
 
-1. Install `cluster.env` within the directory `/var/lib/istio/envoy/`:
+1. Install `cluster.env` and `sidecar.env` within the directory `/var/lib/istio/envoy/`:
 
     {{< text bash >}}
-    $ sudo cp "${HOME}"/cluster.env /var/lib/istio/envoy/cluster.env
+    $ sudo cp "${HOME}"/*.env /var/lib/istio/envoy/
     {{< /text >}}
 
 1. Install the [Mesh Config](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) to `/etc/istio/config/mesh`:
