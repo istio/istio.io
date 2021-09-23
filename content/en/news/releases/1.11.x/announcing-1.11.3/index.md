@@ -3,7 +3,7 @@ title: Announcing Istio 1.11.3
 linktitle: 1.11.3
 subtitle: Patch Release
 description: Istio 1.11.3 patch release.
-publishdate: 2020-07-29
+publishdate: 2021-09-24
 release: 1.11.3
 aliases:
     - /news/announcing-1.11.3
@@ -23,9 +23,9 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** `istioctl analyze` command to not output [IST0132] message when analyzing the gateway of the virtual service.
   ([Issue #34653](https://github.com/istio/istio/issues/34653))
 
-- **Fixed** a bug using Service's pointer address to get its instances in case that a sidecar's egress listener has port.
+- **Fixed** a bug using a Service's pointer address to get its instances in the case where a sidecar's egress listener has a port.
 
-- **Fixed** a bug in "image: auto" analyzer causing it to fail to take into account Deployment namespace.
+- **Fixed** a bug in the "image: auto" analyzer causing it to fail to take into account the Deployment namespace.
   ([Issue #34929](https://github.com/istio/istio/issues/34929))
 
 - **Fixed** `istioctl x workload` command output to set the correct `discoveryAddress` for revisioned control-planes.
@@ -36,5 +36,5 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** an issue causing memory to not be freed after XDS clients disconnect.
 
-- **Fixed** an issues occurring when multiple `VirtualServices` with the same name exist in different namespaces.
+- **Fixed** an issue occurring when multiple `VirtualServices` with the same name exist in different namespaces.
   ([Issue #35127](https://github.com/istio/istio/issues/35127))
