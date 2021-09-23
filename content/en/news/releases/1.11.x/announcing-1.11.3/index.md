@@ -3,7 +3,7 @@ title: Announcing Istio 1.11.3
 linktitle: 1.11.3
 subtitle: Patch Release
 description: Istio 1.11.3 patch release.
-publishdate: 2021-09-24
+publishdate: 2021-09-23
 release: 1.11.3
 aliases:
     - /news/announcing-1.11.3
@@ -31,7 +31,7 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** `istioctl x workload` command output to set the correct `discoveryAddress` for revisioned control-planes.
   ([Issue #34058](https://github.com/istio/istio/issues/34058))
 
-- **Fixed** `BenchmarkAnalyzersArtificialBlankData100` test. Also, fixed the gateway analyzer message reporting if there is no selector in the gateway spec.
+- **Fixed** gateway analyzer message reporting if there is no selector in the gateway spec.
   ([Issue #35093](https://github.com/istio/istio/issues/35093))
 
 - **Fixed** an issue causing memory to not be freed after XDS clients disconnect.
