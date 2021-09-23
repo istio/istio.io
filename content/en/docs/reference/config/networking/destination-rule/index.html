@@ -1353,8 +1353,7 @@ No
 <section>
 <p>Consistent Hash-based load balancing can be used to provide soft
 session affinity based on HTTP headers, cookies or other
-properties. This load balancing policy is applicable only for HTTP
-connections. The affinity to a particular destination host will be
+properties. The affinity to a particular destination host will be
 lost when one or more hosts are added/removed from the destination
 service.</p>
 
@@ -1394,7 +1393,8 @@ No
 <td><code>useSourceIp</code></td>
 <td><code>bool (oneof)</code></td>
 <td>
-<p>Hash based on the source IP address.</p>
+<p>Hash based on the source IP address.
+This is applicable for both TCP and HTTP connections.</p>
 
 </td>
 <td>
