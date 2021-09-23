@@ -462,3 +462,6 @@ users:
   - name: "Zendesk"
     logo: "/logos/zendesk.svg"
     url: "https://www.zendesk.com/"
+  - name: "Bitvavo"
+    logo: "/press/black/bitvavo-mark-and-logo/bitvavo-mark-and-logo-black.svg"
+    url: "https://www.bitvavo.com/"
