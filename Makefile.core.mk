@@ -142,8 +142,21 @@ netlify: netlify_install
 	@scripts/build_site.sh "/latest"
 	@scripts/include_archive_site.sh
 
+# ISTIO_API_GIT_SOURCE allows to override the default Istio API repository, https://github.com/istio/api@$(SOURCE_BRANCH_NAME)
+# with, for example, a mapped local directory: file:///work/istio/api@branch-name when running `update_ref_docs`.
+#
+# The format for ISTIO_API_GIT_SOURCE value is {GIT_URL}@{TARGET_BRANCH_NAME}.
+#
+# Note that when running with BUILD_WITH_CONTAINER=1, we can map the local directory by setting
+# the ADDITIONAL_CONTAINER_OPTIONS environment variable as shown in the below example:
+#
+# $ BUILD_WITH_CONTAINER=1 \
+#   ISTIO_API_GIT_SOURCE="file:///work/istio/api@branchname" \
+#   ADDITIONAL_CONTAINER_OPTIONS="-v /path/to/local/istio/api:/work/istio/api" \
+#   	make update_ref_docs
+export ISTIO_API_GIT_SOURCE ?=
 update_ref_docs:
-	@scripts/grab_reference_docs.sh $(SOURCE_BRANCH_NAME)
+	@scripts/grab_reference_docs.sh $(SOURCE_BRANCH_NAME) $(ISTIO_API_GIT_SOURCE)
 
 update_test_reference:
 	@go get istio.io/istio@$(SOURCE_BRANCH_NAME) && go mod tidy
