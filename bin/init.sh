@@ -18,6 +18,9 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+# Workaround https://github.com/kubernetes/test-infra/issues/23741. Should be removed once its fixed upstream
+ iptables -t mangle -A POSTROUTING -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+
 export ISTIO_REMOTE=${ISTIO_REMOTE:-origin}
 export ISTIO_BRANCH=${ISTIO_BRANCH:-master}
 
