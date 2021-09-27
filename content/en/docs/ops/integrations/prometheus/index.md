@@ -30,7 +30,7 @@ to identify trends and differences in traffic over time, access to historical da
 
 ### Option 2: Install Prometheus Operator
 
-You can install Prometheus from [GitHub](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack).
+You can install Prometheus from [prometheus-community/kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack).
 
 It is important that the following values are passed to the helm chart to pick up the Monitors defined below.
 
@@ -167,7 +167,18 @@ tls_config:
   ca_file: /etc/prom-certs/root-cert.pem
   cert_file: /etc/prom-certs/cert-chain.pem
   key_file: /etc/prom-certs/key.pem
-  insecure_skip_verify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod ceritifcate
+  insecure_skip_verify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod certificate
+{{< /text >}}
+
+If you are using ServiceMonitors and PodMonitors, adjust the monitors from above as follows:
+
+{{< text yaml >}}
+scheme: https
+tlsConfig:
+  caFile: /etc/prom-certs/root-cert.pem
+  certFile: /etc/prom-certs/cert-chain.pem
+  keyFile: /etc/prom-certs/key.pem
+  insecureSkipVerify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod certificate
 {{< /text >}}
 
 ## Best practices
