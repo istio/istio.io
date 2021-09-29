@@ -85,4 +85,4 @@ This optimization may be temporarily disabled by setting `PILOT_ENABLE_ROUTE_COL
 
 A new `hostPath` volume `/var/run/istio-cni` is added to the CNI DaemonSet, which is used to collect CNI network plugin logs at CNI DaemonSet pod.
 If you have `PodSecurityPolicy` defined to [allowlist `hostPaths`](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#volumes-and-file-systems) for your CNI DaemonSet,
-`/var/run/istio-cni` also needs to be added to the list.
+`/var/run/istio-cni` also needs to be added to the list. CNI will not start in absence of this change.
