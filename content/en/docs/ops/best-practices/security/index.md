@@ -387,8 +387,22 @@ This ensures that even if a client accidentally or maliciously bypasses their si
 Istio offers the ability to [originate TLS](/docs/tasks/traffic-management/egress/egress-tls-origination/) from a sidecar proxy or gateway.
 This enables applications that send plaintext HTTP traffic to be transparently "upgraded" to HTTPS.
 
-Care must be taken when configuring the `DestinationRule`'s `tls` setting to specify the `caCertificates` field.
-When this is not set, the servers certificate will not be verified.
+Care must be taken when configuring the `DestinationRule`'s `tls` setting to specify the `caCertificates`, `subjectAltNames`, and `sni` fields.
+The `caCertificate` can be automatically set from the system's certificate store's CA certificate by enabling the environment variable `VERIFY_CERTIFICATE_AT_CLIENT=true` on Istiod.
+If the Operating System CA certificate being automatically used is only desired for select host(s), the environment variable `VERIFY_CERTIFICATE_AT_CLIENT=false` on Istiod, `caCertificates` can be set to `system` in the desired `DestinationRule`(s).
+Specifying the `caCertificates` in a `DestinationRule` will take priority and the OS CA Cert will not be used.
+By default, egress traffic does not send SNI during the TLS handshake.
+SNI must be set in the `DestinationRule` to ensure the host properly handle the request.
+
+{{< warning >}}
+In order to verify the server's certificate it is important that both `caCertificates` and `subjectAltNames` be set.
+
+Verification of the certificate presented by the server against a CA is not sufficient, as the Subject Alternative Names must also be validated.
+
+If `VERIFY_CERTIFICATE_AT_CLIENT` is set, but `subjectAltNames` is not set then you are not verifying all credentials.
+
+If no CA certificate is being used, `subjectAltNames` will not be used regardless of it being set or not.
+{{< /warning >}}
 
 For example:
 
@@ -403,6 +417,9 @@ spec:
     tls:
       mode: SIMPLE
       caCertificates: /etc/ssl/certs/ca-certificates.crt
+      subjectAltNames:
+      - "google.com"
+      sni: "google.com"
 {{< /text >}}
 
 ## Gateways
