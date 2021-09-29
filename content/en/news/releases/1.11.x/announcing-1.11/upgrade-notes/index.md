@@ -80,3 +80,9 @@ Previously, each domain name had its own virtual host. As an optimization, multi
 This means that an Envoy Filter previously matching a specific virtual host may now apply to more domains than in previous releases.
 
 This optimization may be temporarily disabled by setting `PILOT_ENABLE_ROUTE_COLLAPSE_OPTIMIZATION=false` on the Istiod deployment.
+
+## New `hostPath` added to CNI DaemonSet
+
+A new `hostPath` volume `/var/run/istio-cni` is added to the CNI DaemonSet, which is used to collect CNI network plugin logs at CNI DaemonSet pod.
+If you have `PodSecurityPolicy` defined to [allowlist `hostPaths`](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#volumes-and-file-systems) for your CNI DaemonSet,
+`/var/run/istio-cni` also needs to be added to the list. CNI will not start in absence of this change.
