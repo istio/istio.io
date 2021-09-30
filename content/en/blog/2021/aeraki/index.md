@@ -125,7 +125,7 @@ spec:
           weight: 80
 ```
 
-Hope this helps if you need to manage protocols other than HTTP in a service mesh. Reach out [zhaohuabing@gmail.com](mail to:zhaohuabing@gmail.com) if you have any questions.
+Hope this helps if you need to manage protocols other than HTTP in a service mesh. Reach out [zhaohuabing](https://zhaohuabing.com/) if you have any questions.
 
 ## Reference
 * [Aeraki Github](https://github.com/aeraki-framework)
