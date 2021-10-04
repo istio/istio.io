@@ -44,9 +44,9 @@ helm ls -n istio-system
 }
 
 ! read -r -d '' snip_helm_ls_out <<\ENDSNIP
-NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART        APP VERSION
-istio-base istio-system 1        2021-09-30 22:01:09.943641722 +0000 UTC deployed base-1.0.0   1.0.0
-istiod     istio-system 1        2021-09-30 22:01:10.758636333 +0000 UTC deployed istiod-1.0.0 1.0.0
+NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
+istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
+istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
 ENDSNIP
 
 snip_delete_delete_gateway_charts() {
