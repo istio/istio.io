@@ -190,6 +190,5 @@ kubectl get ingress --all-namespaces
 snip_cleanup_1() {
 kubectl delete gateway httpbin-gateway
 kubectl delete virtualservice httpbin
-kubectl delete requestauthentication -n istio-system ingress-jwt
 kubectl delete --ignore-not-found=true -f samples/httpbin/httpbin.yaml
 }
