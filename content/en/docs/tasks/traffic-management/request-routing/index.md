@@ -137,8 +137,7 @@ adds a custom `end-user` header to all outbound HTTP requests to the reviews
 service.
 
 Istio also supports routing based on strongly authenticated JWT on ingress gateway, refer to the
-[configuring ingress routing based on JWT claims](/docs/tasks/traffic-management/ingress/ingress-control#configuring-ingress-routing-based-on-jwt-claims)
-for more details.
+[JWT claim based routing](/docs/tasks/security/authentication/jwt-route) for more details.
 
 Remember, `reviews:v2` is the version that includes the star ratings feature.
 
