@@ -17,6 +17,6 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Fixed** jwt unauthorized responses to now include a `www-authenticate` header, according to the [RFC 6750](https://datatracker.ietf.org/doc/html/rfc6750#section-3) specification.
+- **Fixed** JWT unauthorized responses to now include a `www-authenticate` header, according to the [RFC 6750](https://datatracker.ietf.org/doc/html/rfc6750#section-3) specification.
 - **Fixed** Istiod memory leak after proxies have disconnected.
 - **Fixed** `DestinationRule` updates not triggering an update for `AUTO_PASSTHROUGH` listeners on gateways.
