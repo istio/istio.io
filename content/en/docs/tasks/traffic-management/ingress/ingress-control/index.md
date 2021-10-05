@@ -316,6 +316,5 @@ Delete the `Gateway` and `VirtualService` configuration, and shutdown the [httpb
 {{< text bash >}}
 $ kubectl delete gateway httpbin-gateway
 $ kubectl delete virtualservice httpbin
-$ kubectl delete requestauthentication -n istio-system ingress-jwt
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}
