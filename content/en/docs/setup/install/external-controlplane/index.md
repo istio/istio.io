@@ -453,7 +453,7 @@ $ istioctl install -f istio-ingressgateway.yaml --context="${CTX_REMOTE_CLUSTER}
 
 {{< text bash >}}
 $ helm install istio-ingressgateway istio/gateway -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}"
-    {{< /text >}}
+{{< /text >}}
 
 See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
@@ -491,12 +491,12 @@ $ istioctl install -f istio-egressgateway.yaml --context="${CTX_REMOTE_CLUSTER}"
 
 {{< text bash >}}
 $ helm install istio-egressgateway istio/gateway -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}" --set service.type=ClusterIP
-    {{< /text >}}
+{{< /text >}}
 
 See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
-    {{< /tab >}}
-    {{< /tabset >}}
+{{< /tab >}}
+{{< /tabset >}}
 
 #### Test the ingress gateway
 
