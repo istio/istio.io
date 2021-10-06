@@ -359,7 +359,7 @@ The initial release comes with several limitations that may be fixed in a future
   Either a separate port should be used, or your health-checking client needs a way to get the proper client
   certificates.
 * The implementation of xDS in gRPC does not match Envoys. Certain behaviors may be different, and some features may
-  be missing. The [`gRFCs`](https://github.com/grpc/proposal) may provide more detail. Make sure to test that any Istio
+  be missing. The [feature status for gRPC](https://github.com/grpc/grpc/blob/master/doc/grpc_xds_features.md) provides more detail. Make sure to test that any Istio
   configuration actually applies on your proxyless gRPC apps.
 
 ## Performance
