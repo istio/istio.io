@@ -58,7 +58,7 @@ $ helm status istiod -n istio-system
 
 You can provide override settings specific to any Istio Helm chart used above
 and follow the Helm upgrade workflow to customize your Istio mesh installation.
-The available configurable options can be found by using `helm show values istio/<chart>`,
+The available configurable options can be found by using `helm show values istio/<chart>`;
 for example `helm show values istio/gateway`.
 
 ### Migrating from non-Helm installations
@@ -93,7 +93,7 @@ installed above.
     istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
     {{< /text >}}
 
-1. (Optional) Delete Istio ingress/egress chart:
+1. (Optional) Delete any Istio gateway chart installations:
 
     {{< text syntax=bash snip_id=delete_delete_gateway_charts >}}
     $ helm delete istio-ingress -n istio-ingress

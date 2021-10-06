@@ -79,8 +79,8 @@ You can alternatively deploy the operator using Helm:
     {{< /text >}}
 
 Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
-    to run the above command.
-    {{< /tip >}}
+to run the above command.
+{{< /tip >}}
 
 {{< warning >}}
 Prior to Istio 1.10.0, the namespace `istio-system` needed to be created before installing the operator. As of Istio 1.10.0, the `istioctl operator init` will create the `istio-system` namespace.
