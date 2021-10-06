@@ -304,25 +304,39 @@ spec:
 
 #### Writing Host Match Policies
 
-Istio generates hostnames for both the hostname itself and all matching ports. For instance, a virtual service or Gateway for a host of `httpbin.foo` generates a config matching `httpbin.foo` and `httpbin.foo:*`. However, exact match authorization policies only match the exact string given for the `hosts` or `notHosts` fields. [Authorization policy rules](/docs/reference/config/security/authorization-policy/#Rule) matching hosts should be written using
-prefix matches instead of exact matches.  For example, for an `AuthorizationPolicy` matching the Envoy configuration generated for a hostname of `httpbin.com`, you would use `hosts: ["httpbin.com", "httpbin.com:*"]` as shown in the below `AuthorizationPolicy`.
+Istio generates hostnames for both the hostname itself and all matching ports. For instance, a virtual service or Gateway
+for a host of `example.com` generates a config matching `example.com` and `example.com:*`. However, exact match authorization
+policies only match the exact string given for the `hosts` or `notHosts` fields.
+
+[Authorization policy rules](/docs/reference/config/security/authorization-policy/#Rule) matching hosts should be written using
+prefix matches instead of exact matches.  For example, for an `AuthorizationPolicy` matching the Envoy configuration generated
+for a hostname of `example.com`, you would use `hosts: ["example.com", "example.com:*"]` as shown in the below `AuthorizationPolicy`.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: httpbin
-  namespace: foo
+  name: ingress-host
+  namespace: istio-system
 spec:
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
   action: DENY
   rules:
-  - from:
-    - source:
-        namespaces: ["dev"]
-    to:
+  - to:
     - operation:
-        hosts: ["httpbin.com", "httpbin.com:*"]
+        hosts: ["example.com", "example.com:*"]
 {{< /text >}}
+
+Additionally, the `host` and `notHosts` fields should generally only be used on gateway for external traffic entering the mesh
+and not on sidecars for traffic within the mesh. This is because the sidecar on server side (where the authorization policy is enforced)
+does not use the `Host` header when redirecting the request to the application. This makes the `host` and `notHost` meaningless
+on sidecar because a client could reach out to the application using explicit IP address and arbitrary `Host` header instead of
+the service name.
+
+If you really need to enforce access control based on the `Host` header on sidecars for any reason, follow with the [default-deny patterns](/docs/ops/best-practices/security/#use-default-deny-patterns)
+which would reject the request if the client uses an arbitrary `Host` header.
 
 #### Specialized Web Application Firewall (WAF)
 
