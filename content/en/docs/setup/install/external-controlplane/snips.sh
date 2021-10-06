@@ -314,7 +314,7 @@ spec:
       istio-ingressgateway:
         injectionTemplate: gateway
 EOF
-istioctl install -f istio-ingressgateway.yaml --context="${CTX_REMOTE_CLUSTER}"
+istioctl install -f istio-ingressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_enable_gateways_2() {
@@ -344,7 +344,7 @@ spec:
       istio-egressgateway:
         injectionTemplate: gateway
 EOF
-istioctl install -f istio-egressgateway.yaml --context="${CTX_REMOTE_CLUSTER}"
+istioctl install -f istio-egressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_enable_gateways_4() {

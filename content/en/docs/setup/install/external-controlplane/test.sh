@@ -178,6 +178,5 @@ istioctl manifest generate -f eastwest-gateway-2.yaml | kubectl delete --context
 kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
 kubectl delete ns external-istiod --context="${CTX_SECOND_CLUSTER}"
-kubectl delete ns istio-system --context="${CTX_REMOTE_CLUSTER}" # TODO: remove when https://github.com/istio/istio/issues/31495 fixed
 
 rm external-istiod-gw.yaml remote-config-cluster.yaml external-istiod.yaml controlplane-gateway.yaml eastwest-gateway-1.yaml eastwest-gateway-2.yaml second-config-cluster.yaml
