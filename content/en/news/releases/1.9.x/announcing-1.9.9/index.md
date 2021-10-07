@@ -3,7 +3,7 @@ title: Announcing Istio 1.9.9
 linktitle: 1.9.9
 subtitle: Patch Release
 description: Istio 1.9.9 patch release.
-publishdate: 2021-10-09
+publishdate: 2021-10-08
 release: 1.9.9
 aliases:
     - /news/announcing-1.9.9
