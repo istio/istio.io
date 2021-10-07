@@ -11,7 +11,7 @@ Aeraki [Air-rah-ki] is the Greek word for 'breeze'. While Istio connects microse
 
 ## Lack of Protocols Support in Service Mesh
 
-Now we are facing some challenges with service mesh:
+We are now facing some challenges with service meshes:
 
 * Istio and other popular service mesh implementations have very limited support for layer 7 protocols other than HTTP and gRPC.
 * Envoy RDS(Route Discovery Service) is solely designed for HTTP. Other protocols such as Dubbo and Thrift can only use listener in-line routes for traffic management, which breaks existing connections when routes change.
@@ -26,13 +26,11 @@ Those obstacles make it very hard, if not impossible, for users to manage the tr
 
 {{< image link="./protocols.png" caption="Common Layer-7 Protocols Used in Microservices" >}}
 
-If you have already invested a lot of effort in migrating to Service Mesh, of course, you want to get the most out of it — managing the traffic of all the protocols in your microservices, not just HTTP.
+If you have already invested a lot of effort in migrating to a service mesh, of course, you want to get the most out of it — managing the traffic of all the protocols in your microservices.
 
 ## Aeraki's approach
 
-To address these problems, we create an open-source project, [Aeraki](https://github.com/aeraki-framework), to provide a non-intrusive, extendable way to manage any layer-7 traffic in an Istio service mesh.
-
-Aeraki [Air-rah-ki] is the Greek word for ‘breeze’. While Istio connects microservices in a service mesh, Aeraki provides a framework to allow Istio to support more layer-7 protocols other than just HTTP and gRPC. We hope that this breeze can help Istio sail a little further.
+To address these problems, we created an open-source project [Aeraki](https://github.com/aeraki-framework). Aeraki [Air-rah-ki] is the Greek word for ‘breeze’. While Istio connects microservices in a service mesh, Aeraki provides a framework to allow Istio to support more layer-7 protocols. We hope this breeze can help Istio sail a little further.
 
 {{< image link="./aeraki-architecture.png" caption="Aeraki Architecture" >}}
 
@@ -45,7 +43,7 @@ Aeraki Framework consists of the following components:
 
 Need to manage a proprietary protocol in Istio service mesh? All you need to do is just implementing the [codec interface](https://github.com/aeraki-framework/meta-protocol-proxy/blob/ac788327239bd794e745ce18b382da858ddf3355/src/meta_protocol_proxy/codec/codec.h#L118). Aeraki Framework will take care of all the others for you. It’s so easy!
 
-Aeraki also has plugins for the protocols which are too  "special" to be fit into the MetaProtocol framework, such as [Redis](https://github.com/aeraki-framework/aeraki/blob/master/docs/zh/redis.md) and Kafka, so these protocols can be managed in Istio service mesh as well.
+Most request/response style protocols can be built on top of the MetaProtocol Proxy. However, some protocols' routing policies are too "special" to be normalized in MetaProtocol. For example, Redis proxy uses a slot number to map a client query to a specific Redis server node, and the slot number is computed by the key in the request. Aeraki can still manage those protocols as long as there's an available Envoy Filter in the Envoy proxy side. Currently, [Redis](https://github.com/aeraki-framework/aeraki/blob/master/docs/zh/redis.md) and Kafka are supported in Aeraki.
 
 ## Deep Dive Into MetaProtocol
 
@@ -125,7 +123,7 @@ spec:
           weight: 80
 {{< /text >}}
 
-Hope this helps if you need to manage protocols other than HTTP in a service mesh. Reach out [zhaohuabing](https://zhaohuabing.com/) if you have any questions.
+Hope this helps if you need to manage protocols other than HTTP in a service mesh. Reach out to [zhaohuabing](https://zhaohuabing.com/) if you have any questions.
 
 ## Reference
 
