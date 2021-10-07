@@ -318,14 +318,7 @@ istioctl install -f istio-ingressgateway.yaml --set values.global.istioNamespace
 }
 
 snip_enable_gateways_2() {
-cat <<EOF > values.yaml
-gateways:
-  istio-ingressgateway:
-    # Enable gateway injection
-    injectionTemplate: gateway
-    name: istio-ingressgateway
-EOF
-helm install istio-ingress manifests/charts/gateways/istio-ingress  -f values.yaml -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}"
+helm install istio-ingressgateway istio/gateway -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_enable_gateways_3() {
@@ -348,14 +341,7 @@ istioctl install -f istio-egressgateway.yaml --set values.global.istioNamespace=
 }
 
 snip_enable_gateways_4() {
-cat <<EOF > values.yaml
-gateways:
-  istio-egressgateway:
-    # Enable gateway injection
-    injectionTemplate: gateway
-    name: istio-egressgateway
-EOF
-helm install istio-egress manifests/charts/gateways/istio-egress  -f values.yaml -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}"
+helm install istio-egressgateway istio/gateway -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}" --set service.type=ClusterIP
 }
 
 snip_test_the_ingress_gateway_1() {

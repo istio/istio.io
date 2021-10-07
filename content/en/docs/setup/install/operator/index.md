@@ -258,8 +258,6 @@ $ helm install istio-operator manifests/charts/istio-operator \
   --set revision=1-9-0
 {{< /text >}}
 
-{{< boilerplate helm-hub-tag >}}
-
 Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
 to run the above command.
 {{< /tip >}}
