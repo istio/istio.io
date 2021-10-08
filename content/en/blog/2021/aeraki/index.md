@@ -30,20 +30,18 @@ If you have already invested a lot of effort in migrating to a service mesh, of 
 
 ## Aeraki's approach
 
-To address these problems, we created an open-source project [Aeraki](https://github.com/aeraki-framework). Aeraki [Air-rah-ki] is the Greek word for ‘breeze’. While Istio connects microservices in a service mesh, Aeraki provides a framework to allow Istio to support more layer-7 protocols. We hope this breeze can help Istio sail a little further.
+To address these problems, we create an open-source project, [Aeraki](https://github.com/aeraki-framework), to provide a non-intrusive, extendable way to manage any layer-7 traffic in an Istio service mesh.
 
 {{< image link="./aeraki-architecture.png" caption="Aeraki Architecture" >}}
 
-Aeraki Framework consists of the following components:
+As this diagram shows, Aeraki Framework consists of the following components:
 
 * Aeraki: [Aeraki](https://github.com/aeraki-framework/aeraki) provides high-level, user-friendly traffic management rules to operations, translates the rules to envoy filter configurations, and leverages Istio’s `EnvoyFilter` API to push the configurations to the sidecar proxies. Aeraki also serves as the RDS server for MetaProtocol proxies in the data plane. Contrary to Envoy RDS, which focuses on HTTP, Aeraki RDS is aimed to provide a general dynamic route capability for all layer-7 protocols.
 * MetaProtocol Proxy: [MetaProtocol Proxy](https://github.com/aeraki-framework/meta-protocol-proxy) provides common capabilities for Layer-7 protocols, such as load balancing, circuit breaker, load balancing, routing, rate limiting, fault injection, and auth. Layer-7 protocols can be built on top of MetaProtocol. To add a new protocol into the service mesh, the only thing you need to do is implementing the [codec interface](https://github.com/aeraki-framework/meta-protocol-proxy/blob/ac788327239bd794e745ce18b382da858ddf3355/src/meta_protocol_proxy/codec/codec.h#L118) and a couple of lines of configuration. If you have special requirements which can’t be accommodated by the built-in capabilities, MetaProtocol Proxy also has an application-level filter chain mechanism, allowing users to write their own layer-7 filters to add custom logic into MetaProtocol Proxy.
 
-[Dubbo](https://github.com/aeraki-framework/meta-protocol-proxy/tree/master/src/application_protocols/dubbo) and [Thrift](https://github.com/aeraki-framework/meta-protocol-proxy/tree/master/src/application_protocols/thrift) have already been implemented based on MetaProtocol. More protocols are on the way.
+[Dubbo](https://github.com/aeraki-framework/meta-protocol-proxy/tree/master/src/application_protocols/dubbo) and [Thrift](https://github.com/aeraki-framework/meta-protocol-proxy/tree/master/src/application_protocols/thrift) have already been implemented based on MetaProtocol. More protocols are on the way. If you're using a close-source, proprietary protocol, you can also manage it in your service mesh simply by writing a MetaProtocol codec for it.
 
-Need to manage a proprietary protocol in Istio service mesh? All you need to do is just implementing the [codec interface](https://github.com/aeraki-framework/meta-protocol-proxy/blob/ac788327239bd794e745ce18b382da858ddf3355/src/meta_protocol_proxy/codec/codec.h#L118). Aeraki Framework will take care of all the others for you. It’s so easy!
-
-Most request/response style protocols can be built on top of the MetaProtocol Proxy. However, some protocols' routing policies are too "special" to be normalized in MetaProtocol. For example, Redis proxy uses a slot number to map a client query to a specific Redis server node, and the slot number is computed by the key in the request. Aeraki can still manage those protocols as long as there's an available Envoy Filter in the Envoy proxy side. Currently, [Redis](https://github.com/aeraki-framework/aeraki/blob/master/docs/zh/redis.md) and Kafka are supported in Aeraki.
+Most request/response style, stateless protocols can be built on top of the MetaProtocol Proxy. However, some protocols' routing policies are too "special" to be normalized in MetaProtocol. For example, Redis proxy uses a slot number to map a client query to a specific Redis server node, and the slot number is computed by the key in the request. Aeraki can still manage those protocols as long as there's an available Envoy Filter in the Envoy proxy side. Currently, for protocols in this category, [Redis](https://github.com/aeraki-framework/aeraki/blob/master/docs/zh/redis.md) and Kafka are supported in Aeraki.
 
 ## Deep Dive Into MetaProtocol
 
@@ -71,7 +69,7 @@ The response path is similar to the request path, only in a different direction.
 
 ## An Example
 
-[Dubbo](https://github.com/aeraki-framework/meta-protocol-proxy/tree/master/src/application_protocols/dubbo) and [Thrift](https://github.com/aeraki-framework/meta-protocol-proxy/tree/master/src/application_protocols/thrift) have already been implemented based on MetaProtocol, which are supported by Aeraki Framework out of the box. If you need to implement another protocol, you can follow the below steps(use Thrift as an example):
+If you need to implement an application protocol based on MetaProtocol, you can follow the below steps(use Thrift as an example):
 
 ### Data Plane
 
