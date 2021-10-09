@@ -300,6 +300,7 @@ docker.io
 dogfood
 double-tls
 Drucker
+Dubbo
 Duggirala
 DynamoDB
 e.g.
@@ -470,6 +471,7 @@ JWTs
 JWT_RULE
 JWKS-URI
 k8s
+Kafka
 katacoda
 Kaul
 Keepalived
@@ -528,6 +530,8 @@ memcached
 memcached-2's
 Mengxue
 MetalLB
+metaprotocol
+MetaProtocol
 MeshConfig
 Mesos
 mesos-dns
@@ -637,6 +641,7 @@ pluggable
 png
 Poddar
 Posta
+PostgreSQL
 pprof
 pre-connected
 pre-parsed
@@ -669,6 +674,7 @@ pwd
 qps
 quay.io
 quo
+RabbitMQ
 radis
 Rajagopalan
 ratelimit-handler
@@ -920,6 +926,7 @@ Zack
 Zehuan
 Zhang
 Zhao
+zhaohuabing
 Zhihan
 Zhong
 Zhonghu
