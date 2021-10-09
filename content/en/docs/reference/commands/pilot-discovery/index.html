@@ -523,22 +523,28 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
 </tr>
 <tr>
-<td><code>ENABLE_MCS_AUTOEXPORT</code></td>
+<td><code>ENABLE_MCS_AUTO_EXPORT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, istiod will automatically generate MCS ServiceExport objects for each service in each cluster. Services defined to be cluster-local in MeshConfig are excluded.</td>
+<td>If enabled, istiod will automatically generate Kubernetes Multi-Cluster Services (MCS) ServiceExport resources for every service in the mesh. Services defined to be cluster-local in MeshConfig are excluded.</td>
+</tr>
+<tr>
+<td><code>ENABLE_MCS_CLUSTER_LOCAL</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will treat the host `&lt;svc&gt;.&lt;namespace&gt;.svc.cluster.local` as defined by the Kubernetes Multi-Cluster Services (MCS) spec. In this mode, requests to `cluster.local` will be routed to only those endpoints residing within the same cluster as the client. Requires that both ENABLE_MCS_SERVICE_DISCOVERY and ENABLE_MCS_HOST also be enabled.</td>
 </tr>
 <tr>
 <td><code>ENABLE_MCS_HOST</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, istiod will provide an alias &lt;svc&gt;.&lt;namespace&gt;.svc.clusterset.local for each Kubernetes service. Clients must, however, be able to successfully lookup these DNS hosts. That means that either Istio DNS interception must be enabled or an MCS controller must be used.</td>
+<td>If enabled, istiod will configure a Kubernetes Multi-Cluster Services (MCS) host (&lt;svc&gt;.&lt;namespace&gt;.svc.clusterset.local) for each service exported (via ServiceExport) in at least one cluster. Clients must, however, be able to successfully lookup these DNS hosts. That means that either Istio DNS interception must be enabled or an MCS controller must be used. Requires that ENABLE_MCS_SERVICE_DISCOVERY also be enabled.</td>
 </tr>
 <tr>
 <td><code>ENABLE_MCS_SERVICE_DISCOVERY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, istiod will enable Kubernetes MCS service discovery mode. In this mode, service endpoints in a cluster will only discoverable within the same cluster unless explicitly exported (via the ServiceExport CR).</td>
+<td>If enabled, istiod will enable Kubernetes Multi-Cluster Services (MCS) service discovery mode. In this mode, service endpoints in a cluster will only be discoverable within the same cluster unless explicitly exported via ServiceExport.</td>
 </tr>
 <tr>
 <td><code>ENABLE_MULTICLUSTER_HEADLESS</code></td>
