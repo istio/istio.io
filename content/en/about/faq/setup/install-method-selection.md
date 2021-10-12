@@ -56,7 +56,7 @@ The following lists some of the pros and cons of each of the available methods:
 
 1. [Istio Operator](/docs/setup/install/operator/)
 
-    **Using the operator is not recommended for new installations. While the in-cluster operator will continue to be supported,
+    **Using the operator is not recommended for new installations. While the operator will continue to be supported,
     new feature requests will not be prioritized.**
 
     Simple installation path without `istioctl` binaries. Can be used for simplified upgrade workflows where running an in-cluster privileged controller is not a concern.

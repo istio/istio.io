@@ -10,8 +10,8 @@ test: no
 ---
 
 {{< warning >}}
-Use of the in-cluster operator for new Istio installations is discouraged in favor of the [Helm](/docs/setup/install/helm)
-and [Istioctl](/docs/setup/install/istioctl) installation methods. While the in-cluster operator will continue to be supported,
+Use of the operator for new Istio installations is discouraged in favor of the [Helm](/docs/setup/install/helm)
+and [Istioctl](/docs/setup/install/istioctl) installation methods. While the operator will continue to be supported,
 new feature requests will not be prioritized.
 {{< /warning >}}
 
