@@ -9,6 +9,12 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
+{{< warning >}}
+Use of the in-cluster operator for new Istio installations is discouraged in favor of the [Helm](/docs/setup/install/istioctl)
+and [Istioctl](/docs/setup/install/helm) installation methods. While the in-cluster operator will continue to be supported,
+new feature requests will not be prioritized.
+{{< /warning >}}
+
 Instead of manually installing, upgrading, and uninstalling Istio in a production environment,
 you can instead let the Istio [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 manage the installation for you.
