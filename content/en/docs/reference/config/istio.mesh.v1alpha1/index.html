@@ -811,6 +811,38 @@ The certificate is retrieved from the endpoint.</p>
 No
 </td>
 </tr>
+<tr id="MeshConfig-CertificateData-cert_signers">
+<td><code>certSigners</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. Specify the kubernetes signers (External CA) that use this trustAnchor
+when Istiod is acting as RA(registration authority)
+If set, they are used for these signers. Otherwise, this trustAnchor is used for all signers.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-CertificateData-trust_domains">
+<td><code>trustDomains</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. Specify the list of trust domains to which this trustAnchor data belongs.
+If set, they are used for these trust domains. Otherwise, this trustAnchor is used for default trust domain
+and its aliases.
+Note that we can have multiple trustAnchor data for a same trust<em>domain.
+In that case, trustAnchors with a same trust domain will be merged and used together to verify peer certificates.
+If neither cert</em>signers nor trust<em>domains is set, this trustAnchor is used for all trust domains and all signers.
+If only trust</em>domains is set, this trustAnchor is used for these trust<em>domains and all signers.
+If only cert</em>signers is set, this trustAnchor is used for these cert<em>signers and all trust domains.
+If both cert</em>signers and trust_domains is set, this trustAnchor is only used for these signers and trust domains.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
