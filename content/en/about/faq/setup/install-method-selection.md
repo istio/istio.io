@@ -62,7 +62,7 @@ The following lists some of the pros and cons of each of the available methods:
     {{< /warning >}}
 
     Simple installation path without `istioctl` binaries. Can be used for simplified upgrade workflows where running an in-cluster privileged controller is not a concern.
-    This method is suitable where strict auditing or augmentation of output manifests is needed.
+    This method is suitable where strict auditing or augmentation of output manifests is not needed.
 
     Pros:
 
