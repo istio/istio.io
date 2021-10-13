@@ -443,7 +443,7 @@ spec:
     protocol: HTTP
 {{< /text >}}
 
-Note that with this configuration your application will need to send plaintext requests to port 433,
+Note that with this configuration your application will need to send plaintext requests to port 443,
 like `curl http://httpbin.org:443`, because TLS origination does not change the port.
 However, starting in Istio 1.8, you can expose HTTP port 80 to the application (e.g., `curl http://httpbin.org`)
 and then redirect requests to `targetPort` 443 for the TLS origination:
