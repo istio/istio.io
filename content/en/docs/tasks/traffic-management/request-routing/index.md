@@ -132,10 +132,12 @@ Next, you will change the route configuration so that all traffic from a specifi
 is routed to a specific service version. In this case, all traffic from a user
 named Jason will be routed to the service `reviews:v2`.
 
-Note that Istio doesn't have any special, built-in understanding of user
-identity. This example is enabled by the fact that the `productpage` service
+This example is enabled by the fact that the `productpage` service
 adds a custom `end-user` header to all outbound HTTP requests to the reviews
 service.
+
+Istio also supports routing based on strongly authenticated JWT on ingress gateway, refer to the
+[JWT claim based routing](/docs/tasks/security/authentication/jwt-route) for more details.
 
 Remember, `reviews:v2` is the version that includes the star ratings feature.
 
