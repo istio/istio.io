@@ -61,7 +61,8 @@ The following lists some of the pros and cons of each of the available methods:
     new feature requests will not be prioritized.
     {{< /warning >}}
 
-    Simple installation path without `istioctl` binaries. Can be used for simplified upgrade workflows where running an in-cluster privileged controller is not a concern.
+    The Istio operator provides an installation path without needing the `istioctl` binary.
+    This can be used for simplified upgrade workflows where running an in-cluster privileged controller is not a concern.
     This method is suitable where strict auditing or augmentation of output manifests is not needed.
 
     Pros:
