@@ -367,7 +367,7 @@ before receiving any data from the client.
 Currently, the authorization policy only supports enforcing access control on inbound traffic and not the outbound traffic.
 
 It also does not support server-first TCP protocols because the first bytes are sent by the server application even before
-it receiving any data from the client. In this cse, the initial first bytes sent by the server are returned to the client
+it received any data from the client. In this case, the initial first bytes sent by the server are returned to the client
 directly without going through the access control check of the authorization policy.
 
 You should not use the authorization policy if the first bytes sent by the server-first TCP protocols include any sensitive
@@ -375,7 +375,7 @@ data that need to be protected by proper authorization.
 
 You could still use the authorization policy in this case if the first bytes does not include any sensitive data, for example,
 the first bytes are used for negotiating the connection with data that are publicly accessible to any clients. The authorization
-policy will work as usual for following requests sent by the client after the first bytes.
+policy will work as usual for the following requests sent by the client after the first bytes.
 
 ## Understand traffic capture limitations
 
