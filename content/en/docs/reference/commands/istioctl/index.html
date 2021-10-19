@@ -7426,6 +7426,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td></td>
 </tr>
 <tr>
+<td><code>PRIORITIZED_LEADER_ELECTION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, the default revision will steal leader locks from non-default revisions</td>
+</tr>
+<tr>
 <td><code>REQUIRE_3P_TOKEN</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -7603,6 +7609,9 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful sidecar injection requests.</td></tr>
 <tr><td><code>startup_duration_seconds</code></td><td><code>LastValue</code></td><td>The time from the process starting to being marked ready.</td></tr>
 <tr><td><code>version</code></td><td><code>LastValue</code></td><td>Version of operator binary</td></tr>
+<tr><td><code>webhook_patch_attempts_total</code></td><td><code>Sum</code></td><td>Webhook patching attempts</td></tr>
+<tr><td><code>webhook_patch_failures_total</code></td><td><code>Sum</code></td><td>Webhook patching total failures</td></tr>
+<tr><td><code>webhook_patch_retries_total</code></td><td><code>Sum</code></td><td>Webhook patching retries</td></tr>
 <tr><td><code>xds_cache_evictions</code></td><td><code>Sum</code></td><td>Total number of xds cache evictions.</td></tr>
 <tr><td><code>xds_cache_reads</code></td><td><code>Sum</code></td><td>Total number of xds cache xdsCacheReads.</td></tr>
 <tr><td><code>xds_cache_size</code></td><td><code>LastValue</code></td><td>Current size of xds cache</td></tr>
