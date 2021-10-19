@@ -21,7 +21,7 @@
 ####################################################################################################
 
 snip_setup_1() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.4.0-rc1" | kubectl apply -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.4.0" | kubectl apply -f -
 }
 
 snip_setup_2() {
@@ -33,19 +33,14 @@ kubectl apply -f samples/httpbin/httpbin.yaml
 }
 
 snip_configuring_a_gateway_2() {
+kubectl create namespace istio-ingress
+kubectl label namespace istio-ingress istio-injection=enabled
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1alpha2
-kind: GatewayClass
-metadata:
-  name: istio
-spec:
-  controller: istio.io/gateway-controller
----
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: Gateway
 metadata:
   name: gateway
-  namespace: istio-system
+  namespace: istio-ingress
 spec:
   gatewayClassName: istio
   listeners:
@@ -65,12 +60,12 @@ metadata:
 spec:
   parentRefs:
   - name: gateway
-    namespace: istio-system
+    namespace: istio-ingress
   hostnames: ["httpbin.example.com"]
   rules:
   - matches:
     - path:
-        type: Prefix
+        type: PathPrefix
         value: /get
     filters:
     - type: RequestHeaderModifier
@@ -85,7 +80,9 @@ EOF
 }
 
 snip_configuring_a_gateway_3() {
-curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/get"
+kubectl wait -n istio-ingress --for=condition=ready gateways.gateway.networking.k8s.io gateway
+INGRESS_HOST="$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')"
+curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
 }
 
 ! read -r -d '' snip_configuring_a_gateway_3_out <<\ENDSNIP
@@ -95,7 +92,7 @@ server: istio-envoy
 ENDSNIP
 
 snip_configuring_a_gateway_4() {
-curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
+curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 }
 
 ! read -r -d '' snip_configuring_a_gateway_4_out <<\ENDSNIP

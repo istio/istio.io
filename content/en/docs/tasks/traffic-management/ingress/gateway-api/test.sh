@@ -27,9 +27,8 @@ source "tests/util/samples.sh"
 snip_setup_1
 
 # install Istio with PILOT_ENABLED_SERVICE_APIS flag enabled
-istioctl install --set values.pilot.env.PILOT_ENABLED_SERVICE_APIS=true -y
+istioctl install --set profile=minimal -y
 _wait_for_deployment istio-system istiod
-_wait_for_deployment istio-system istio-ingressgateway
 
 startup_httpbin_sample
 
