@@ -19,7 +19,7 @@ and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) 
 1. Install the Gateway API CRDs:
 
     {{< text bash >}}
-    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.4.0-rc1" | kubectl apply -f -
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.4.0" | kubectl apply -f -
     {{< /text >}}
 
 1. Install Istio:
@@ -27,8 +27,6 @@ and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) 
     {{< text bash >}}
     $ istioctl install
     {{< /text >}}
-
-1. Follow the instructions in the [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) sections of the [Ingress Gateways task](/docs/tasks/traffic-management/ingress/ingress-control/) in order to retrieve the external IP address of your ingress gateway.
 
 ## Configuring a Gateway
 
@@ -43,19 +41,14 @@ See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for inform
 1. Deploy the Gateway API configuration:
 
     {{< text bash >}}
+    $ kubectl create namespace istio-ingress
+    $ kubectl label namespace istio-ingress istio-injection=enabled
     $ kubectl apply -f - <<EOF
-    apiVersion: gateway.networking.k8s.io/v1alpha2
-    kind: GatewayClass
-    metadata:
-      name: istio
-    spec:
-      controller: istio.io/gateway-controller
-    ---
     apiVersion: gateway.networking.k8s.io/v1alpha2
     kind: Gateway
     metadata:
       name: gateway
-      namespace: istio-system
+      namespace: istio-ingress
     spec:
       gatewayClassName: istio
       listeners:
@@ -75,12 +68,12 @@ See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for inform
     spec:
       parentRefs:
       - name: gateway
-        namespace: istio-system
+        namespace: istio-ingress
       hostnames: ["httpbin.example.com"]
       rules:
       - matches:
         - path:
-            type: Prefix
+            type: PathPrefix
             value: /get
         filters:
         - type: RequestHeaderModifier
@@ -97,7 +90,9 @@ See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for inform
 1.  Access the _httpbin_ service using _curl_:
 
     {{< text bash >}}
-    $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/get"
+    $ kubectl wait -n istio-ingress --for=condition=ready gateways.gateway.networking.k8s.io gateway
+    $ INGRESS_HOST="$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')"
+    $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
     HTTP/1.1 200 OK
     server: istio-envoy
     ...
@@ -110,7 +105,7 @@ See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for inform
 1.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
 
     {{< text bash >}}
-    $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
+    $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
     HTTP/1.1 404 Not Found
     ...
     {{< /text >}}
