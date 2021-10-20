@@ -88,6 +88,7 @@ See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for inform
     {{< /text >}}
 
 1.  Set the Ingress IP
+
     {{< text bash >}}
     $ kubectl wait -n istio-ingress --for=condition=ready gateways.gateway.networking.k8s.io gateway
     $ export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')
