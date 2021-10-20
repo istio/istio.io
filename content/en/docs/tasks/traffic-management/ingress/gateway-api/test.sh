@@ -27,26 +27,26 @@ source "tests/util/samples.sh"
 snip_setup_1
 
 # install Istio with PILOT_ENABLED_SERVICE_APIS flag enabled
-istioctl install --set values.pilot.env.PILOT_ENABLED_SERVICE_APIS=true -y
+istioctl install --set profile=minimal -y
 _wait_for_deployment istio-system istiod
-_wait_for_deployment istio-system istio-ingressgateway
 
 startup_httpbin_sample
 
 # setup the Gateway and GatewayClass
 snip_configuring_a_gateway_2
 
-# configure $INGRESS_HOST and $INGRESS_PORT
-_set_ingress_environment_variables
+# setup the Ingress IP
+snip_configuring_a_gateway_3
 
-# send CURL traffic to http://$INGRESS_HOST:$INGRESS_PORT/get (expected 200)
-_verify_elided snip_configuring_a_gateway_3 "$snip_configuring_a_gateway_3_out"
-
-# send CURL traffic to http://$INGRESS_HOST:$INGRESS_PORT/get (expected 404)
+# send CURL traffic to http://$INGRESS_HOST/get (expected 200)
 _verify_elided snip_configuring_a_gateway_4 "$snip_configuring_a_gateway_4_out"
+
+# send CURL traffic to http://$INGRESS_HOST/get (expected 404)
+_verify_elided snip_configuring_a_gateway_5 "$snip_configuring_a_gateway_5_out"
 
 
 # @cleanup
 cleanup_httpbin_sample
-kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.1.0" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.4.0" | kubectl delete -f -
 kubectl delete ns istio-system
+kubectl delete ns istio-ingress
