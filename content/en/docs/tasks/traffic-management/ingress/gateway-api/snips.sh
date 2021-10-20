@@ -81,21 +81,24 @@ EOF
 
 snip_configuring_a_gateway_3() {
 kubectl wait -n istio-ingress --for=condition=ready gateways.gateway.networking.k8s.io gateway
-export INGRESS_HOST="$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')"
+export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')
+}
+
+snip_configuring_a_gateway_4() {
 curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
 }
 
-! read -r -d '' snip_configuring_a_gateway_3_out <<\ENDSNIP
+! read -r -d '' snip_configuring_a_gateway_4_out <<\ENDSNIP
 HTTP/1.1 200 OK
 server: istio-envoy
 ...
 ENDSNIP
 
-snip_configuring_a_gateway_4() {
+snip_configuring_a_gateway_5() {
 curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 }
 
-! read -r -d '' snip_configuring_a_gateway_4_out <<\ENDSNIP
+! read -r -d '' snip_configuring_a_gateway_5_out <<\ENDSNIP
 HTTP/1.1 404 Not Found
 ...
 ENDSNIP

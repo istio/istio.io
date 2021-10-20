@@ -87,11 +87,15 @@ See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for inform
     EOF
     {{< /text >}}
 
+1.  Set the Ingress IP
+    {{< text bash >}}
+    $ kubectl wait -n istio-ingress --for=condition=ready gateways.gateway.networking.k8s.io gateway
+    $ export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')
+    {{< /text >}}
+
 1.  Access the _httpbin_ service using _curl_:
 
     {{< text bash >}}
-    $ kubectl wait -n istio-ingress --for=condition=ready gateways.gateway.networking.k8s.io gateway
-    $ export INGRESS_HOST="$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')"
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
     HTTP/1.1 200 OK
     server: istio-envoy
