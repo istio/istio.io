@@ -35,13 +35,10 @@ startup_httpbin_sample
 # setup the Gateway and GatewayClass
 snip_configuring_a_gateway_2
 
-# configure $INGRESS_HOST and $INGRESS_PORT
-_set_ingress_environment_variables
-
-# send CURL traffic to http://$INGRESS_HOST:$INGRESS_PORT/get (expected 200)
+# send CURL traffic to http://$INGRESS_HOST/get (expected 200)
 _verify_elided snip_configuring_a_gateway_3 "$snip_configuring_a_gateway_3_out"
 
-# send CURL traffic to http://$INGRESS_HOST:$INGRESS_PORT/get (expected 404)
+# send CURL traffic to http://$INGRESS_HOST/get (expected 404)
 _verify_elided snip_configuring_a_gateway_4 "$snip_configuring_a_gateway_4_out"
 
 
@@ -49,3 +46,4 @@ _verify_elided snip_configuring_a_gateway_4 "$snip_configuring_a_gateway_4_out"
 cleanup_httpbin_sample
 kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.1.0" | kubectl delete -f -
 kubectl delete ns istio-system
+kubectl delete ns istio-ingress

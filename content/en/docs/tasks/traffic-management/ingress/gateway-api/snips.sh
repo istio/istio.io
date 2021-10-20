@@ -81,7 +81,7 @@ EOF
 
 snip_configuring_a_gateway_3() {
 kubectl wait -n istio-ingress --for=condition=ready gateways.gateway.networking.k8s.io gateway
-INGRESS_HOST="$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')"
+export INGRESS_HOST="$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')"
 curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
 }
 

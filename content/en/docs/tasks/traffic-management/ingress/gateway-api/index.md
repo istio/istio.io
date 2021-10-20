@@ -91,7 +91,7 @@ See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for inform
 
     {{< text bash >}}
     $ kubectl wait -n istio-ingress --for=condition=ready gateways.gateway.networking.k8s.io gateway
-    $ INGRESS_HOST="$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')"
+    $ export INGRESS_HOST="$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')"
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
     HTTP/1.1 200 OK
     server: istio-envoy
