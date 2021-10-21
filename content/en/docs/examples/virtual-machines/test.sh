@@ -64,7 +64,7 @@ run_in_vm "
 
 # We do not have systemd, need to start mysql manually
 docker exec --privileged -d vm mysqld --skip-grant-tables
-# Wait for mysql to be ready
+# Wait for mysql to become ready
 run_in_vm "while ! sudo mysql 2> /dev/null; do echo retrying mysql...; sleep 5; done"
 
 run_in_vm snip_running_mysql_on_the_vm_3
