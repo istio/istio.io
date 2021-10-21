@@ -355,6 +355,28 @@ issue might be considered a security vulnerability that needs to be fixed in pri
 If the Istio Product Security Work Group evaluates the feature request as not a security vulnerability, an issue will
 be opened in public for further discussions of the feature request.
 
+### Known limitations
+
+This section lists known limitations of the authorization policy.
+
+#### Server-first TCP protocols are not supported
+
+Server-first TCP protocols mean the server application will send the first bytes right after accepting the TCP connection
+before receiving any data from the client.
+
+Currently, the authorization policy only supports enforcing access control on inbound traffic and not the outbound traffic.
+
+It also does not support server-first TCP protocols because the first bytes are sent by the server application even before
+it received any data from the client. In this case, the initial first bytes sent by the server are returned to the client
+directly without going through the access control check of the authorization policy.
+
+You should not use the authorization policy if the first bytes sent by the server-first TCP protocols include any sensitive
+data that need to be protected by proper authorization.
+
+You could still use the authorization policy in this case if the first bytes does not include any sensitive data, for example,
+the first bytes are used for negotiating the connection with data that are publicly accessible to any clients. The authorization
+policy will work as usual for the following requests sent by the client after the first bytes.
+
 ## Understand traffic capture limitations
 
 The Istio sidecar works by capturing both inbound traffic and outbound traffic and directing them through the sidecar proxy.
