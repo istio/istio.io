@@ -9,7 +9,7 @@ aliases:
     - /zh/news/announcing-1.11.1
 ---
 
-此版本修复了在 8 月 24 日发布的帖子[ISTIO-SECURITY-2021-008](/zh/news/security/istio-security-2021-008)中描述的安全漏洞。本次发布说明主要描述 Istio 1.11.0 和 1.11.1 版本之间的区别。
+此版本修复了在 8 月 24 日发布的帖子 [ISTIO-SECURITY-2021-008](/zh/news/security/istio-security-2021-008) 中描述的安全漏洞。本次发布说明主要描述 Istio 1.11.0 和 1.11.1 版本之间的区别。
 
 {{< relnote >}}
 
