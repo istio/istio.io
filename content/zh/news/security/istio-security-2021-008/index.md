@@ -83,7 +83,7 @@ Envoy 包含一个可远程利用的漏洞，当使用 `ext_authz` 扩展时，�
 
 如果出现一下情况，您会受此漏洞的影响：
 
-* 您使用早于 1.9.8, 1.10.4 或 1.11.1 的 Istio 补丁版本。
+* 您使用早于 1.9.8，1.10.4 或 1.11.1 的 Istio 补丁版本。
 * 您用 [`EnvoyFilters`](/zh/docs/reference/config/networking/envoy-filter/)。
 
 ### CVE-2021-32778
