@@ -94,7 +94,7 @@ Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes
     {{< /text >}}
 
     {{< tip >}}
-    如果集群运行在一个不支持外部负载均衡器的环境中（例如：minikube），`istio-ingressgateway` 的 `EXTERNAL-IP` 将显示为 `<pending>` 状态。请使用服务的 `NodePort` 或 端口转发来访问网关。
+    如果集群运行在一个不支持外部负载均衡器的环境中（例如：minikube），`istio-ingressgateway` 的 `EXTERNAL-IP` 将显示为 `<pending>` 状态。请使用服务的 `NodePort` 或端口转发来访问网关。
     {{< /tip >}}
 
     请确保关联的 Kubernetes pod 已经部署，并且 `STATUS` 为 `Running`：
