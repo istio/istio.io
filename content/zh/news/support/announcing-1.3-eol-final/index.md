@@ -7,4 +7,4 @@ publishdate: 2020-02-14
 
 如[先前宣布](/zh/news/support/announcing-1.3-eol/)的一样，Istio 1.3 版本的支持现已正式终止。
 
-我们将不再为 1.3 提供针对安全问题和关键错误的修复程序，因此，如果您尚未升级，我们建议您升级到最新版本的 Istio（{{<istio_release_name>}}）。
+我们将不再为 Istio 1.3 版本提供针对安全问题和关键错误的修复程序，因此，如果您尚未升级，我们建议您升级到最新版本的 Istio（{{<istio_release_name>}}）。
