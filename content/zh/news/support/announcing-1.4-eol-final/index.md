@@ -7,4 +7,4 @@ publishdate: 2020-06-05
 
 正如[先前宣布](/zh/news/support/announcement-1.4-eol/)一样，对 Istio 1.4 的支持现在已经正式结束。
 
-此时，我们将不再向后移植针对安全问题和关键错误的修复程序至 1.4 ，因此我们衷心鼓励您升级到最新版本的 Istio（{{<istio_release_name>}}）。
+我们将不再为 Istio 1.4 版本提供针对安全问题和关键错误的修复程序，因此，如果您尚未升级，我们建议您升级到最新版本的 Istio（{{<istio_release_name>}}）。
