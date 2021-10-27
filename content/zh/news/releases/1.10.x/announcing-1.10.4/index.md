@@ -9,7 +9,7 @@ aliases:
     - /zh/news/announcing-1.10.4
 ---
 
-此版本修复了在 8 月 24 日发布的帖子[ISTIO-SECURITY-2021-008](/zh/news/security/istio-security-2021-008)中描述的安全问题以及一些小漏洞，提高了稳健性。本次发布说明主要描述 Istio 1.10.3 和 1.10.4 版本之间的不同之处。
+此版本修复了在 8 月 24 日发布的帖子 [ISTIO-SECURITY-2021-008](/zh/news/security/istio-security-2021-008) 中描述的安全问题以及一些小漏洞，提高了稳健性。本次发布说明主要描述 Istio 1.10.3 和 1.10.4 版本之间的不同之处。
 
 {{< relnote >}}
 
