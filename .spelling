@@ -200,6 +200,8 @@ ControlZ
 CoreDNS
 coreos
 Costin
+CPU
+CPUs
 CR
 CRD
 CRs
@@ -347,12 +349,14 @@ frontends
 gamified
 gapped
 Gather.town
+GB
 gbd
 GCP
 GCP-IAM
 GCP_OPTS
 gcr.io
 gdb
+GiB
 git
 GitHub
 GitOps
@@ -523,6 +527,7 @@ macOS
 Mandar
 Manolache
 Marshalers
+MB
 Meetup
 meetup
 meetups
@@ -536,6 +541,7 @@ MeshConfig
 Mesos
 mesos-dns
 metadata
+MiB
 MicroK8s
 microservice
 microservices
@@ -916,6 +922,7 @@ xDS
 Xia
 Xining
 Xu
+Yahya
 yaml
 yamls
 Yangmin
@@ -932,10 +939,3 @@ Zhong
 Zhonghu
 Zhu
 Zipkin
-
- - search.md
-searchresults
-gcse
-MB
-CPU
-CPUs
