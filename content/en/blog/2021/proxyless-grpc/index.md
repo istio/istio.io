@@ -1,7 +1,7 @@
 ---
 title: "gRPC Proxyless Service Mesh"
 description: Introduction to Istio support for gRPC's proxyless service mesh features.
-publishdate: 2021-09-23
+publishdate: 2021-10-28
 attribution: "Steven Landow (Google)"
 ---
 
@@ -25,15 +25,15 @@ features should work, although this is not an exhaustive list and other features
 * Basic service discovery. Your gRPC service can reach other pods and virtual machines registered in the mesh.
 * [`DestinationRule`](/docs/reference/config/networking/destination-rule/):
     * Subsets: Your gRPC service can split traffic based on label selectors to different groups of instances.
-    * The only Istio `loadBalancer` currently supported is `ROUND_ROBIN`, `consistentHash` will be added in the
+    * The only Istio `loadBalancer` currently supported is `ROUND_ROBIN`, `consistentHash` will be added in
       future versions of Istio (it is supported by gRPC).
     * `tls` settings are restricted to `DISABLE` or `ISTIO_MUTUAL`. Other modes will be treated as `DISABLE`.
 * [`VirtualService`](/docs/reference/config/networking/virtual-service/):
-    * Header match and URI match in the format `/ServiceName/RPCName`
+    * Header match and URI match in the format `/ServiceName/RPCName`.
     * Override destination host and subset.
     * Weighted traffic shifting.
 * [`PeerAuthentication`](/docs/reference/config/security/peer_authentication/):
-    * Only `DISABLE` and `STRICT` are supported. Other modes will be treated as `DSIABLE`.
+    * Only `DISABLE` and `STRICT` are supported. Other modes will be treated as `DISABLE`.
     * Support for auto-mTLS may exist in a future release.
 
 Other features including faults, retries, timeouts, mirroring and rewrite rules may be supported in a future release.
@@ -52,7 +52,7 @@ over time along with improvements to the overall design.
 
 Although this doesn't use a proxy for data plane communication, it still requires an agent for initialization and
 communication with the control-plane. First, the agent generates a [bootstrap file](https://github.com/grpc/proposal/blob/master/A27-xds-global-load-balancing.md#xdsclient-and-bootstrap-file)
-at startup the same way it would generate bootstrap for Envoy. This tells the `gRPC` library how to connect to`istiod`,
+at startup the same way it would generate bootstrap for Envoy. This tells the `gRPC` library how to connect to `istiod`,
 where it can find certificates for data plane communication, and what metadata to send to the control plane. Next, the
 agent acts as an `xDS` proxy, connecting and authenticating with `istiod` on the application's behalf. Finally, the
 agent fetches and rotates certificates used in data plane traffic.
@@ -307,7 +307,7 @@ Code: Unknown
 Message: 1/1 requests had errors; first error: rpc error: code = Unavailable desc = all SubConns are in TransientFailure
 {{< /text >}}
 
-To enable server-size mTLS, apply a `PeerAuthentication`.
+To enable server-side mTLS, apply a `PeerAuthentication`.
 
 {{< warning >}}
 The following policy forces STRICT mTLS for the entire namespace.
