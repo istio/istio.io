@@ -28,7 +28,7 @@ Follow this guide to install and configure an Istio mesh using
 
     {{< warning >}}
     When performing a revisioned installation, the base chart requires the `--defaultRevision` value to be set for resource
-    validation to function. More information on the  `--defaultRevision` option can be found in the Helm upgrade documentation.
+    validation to function. More information on the `--defaultRevision` option can be found in the Helm upgrade documentation.
     {{< /warning >}}
 
     {{< text syntax=bash snip_id=install_base >}}
