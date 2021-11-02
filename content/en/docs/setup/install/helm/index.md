@@ -26,6 +26,11 @@ Follow this guide to install and configure an Istio mesh using
 1. Install the Istio base chart which contains cluster-wide resources used by
    the Istio control plane:
 
+    {{< warning >}}
+    When performing a revisioned installation, the base chart requires the `--defaultRevision` value to be set for resource
+    validation to function. More information on the `--defaultRevision` option can be found in the Helm upgrade documentation.
+    {{< /warning >}}
+
     {{< text syntax=bash snip_id=install_base >}}
     $ helm install istio-base istio/base -n istio-system
     {{< /text >}}

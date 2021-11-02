@@ -76,10 +76,10 @@ primary and canary installations.
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
-1. Upgrade the Istio base chart:
+1. Upgrade the Istio base chart, making the new revision the default.
 
     {{< text bash >}}
-    $ helm upgrade istio-base istio/base -n istio-system --skip-crds
+    $ helm upgrade istio-base istio/base --defaultRevision canary -n istio-system --skip-crds
     {{< /text >}}
 
 ### Stable revision labels (experimental)
