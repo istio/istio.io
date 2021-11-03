@@ -26,7 +26,7 @@ This will deploy Kiali into your cluster. This is intended for demonstration onl
 
 ### Option 2: Customizable install
 
-The Kiali project offers its own [quick start guide](https://kiali.io/documentation/latest/quick-start) and [customizable installation methods](https://kiali.io/documentation/latest/installation-guide). We recommend production users follow those instructions to ensure they stay up to date with the latest versions and best practices.
+The Kiali project offers its own [quick start guide](https://kiali.io/docs/installation/quick-start) and [customizable installation methods](https://kiali.io/docs/installation/installation-guide). We recommend production users follow those instructions to ensure they stay up to date with the latest versions and best practices.
 
 ## Usage
 
