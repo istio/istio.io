@@ -29,6 +29,7 @@
 1.9.x.
 1.10.x
 1.11.x
+1.12.x
 1.x
 10ms
 10s
@@ -115,6 +116,7 @@ appswitch
 AppSwitch
 architected
 args.yaml
+arm64
 AssemblyScript
 Atlassian
 AttributeGen
@@ -432,6 +434,7 @@ istio-discovery
 istio-ecosystem
 istio-identity
 istio-mixer
+istio-operator
 istio-proxy
 ISTIO-SECURITY-2019-003
 ISTIO-SECURITY-2019-004
@@ -779,6 +782,7 @@ struct
 Styra
 src
 Srinath
+subcommands
 subdomain
 subdomains
 subnet
