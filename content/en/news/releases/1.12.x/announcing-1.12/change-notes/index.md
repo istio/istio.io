@@ -22,8 +22,8 @@ These notices describe functionality that will be removed in a future release ac
 
 ## Traffic Management
 
-- '**Improved** TCP probes now working as expected: When using TCP probes with older versions of Istio the check was always successful, even if the application didn't open the port.'
- ([details]( https://istio.io/latest/docs/ops/configuration/mesh/app-health-check/)) 
+- **Improved** TCP probes now working as expected: When using TCP probes with older versions of Istio the check was always successful, even if the application didn't open the port.
+  ([details](https://istio.io/latest/docs/ops/configuration/mesh/app-health-check)) 
 
 - **Improved** support for headless services with undeclared protocols to not required specific `Host` headers.
   ([Issue #34679](https://github.com/istio/istio/issues/34679))
@@ -43,13 +43,15 @@ These notices describe functionality that will be removed in a future release ac
 - **Added** the ability for users to specify Envoy's `LOGICAL_DNS` as a connection type for a cluster using `DNS_ROUND_ROBIN` in ServiceEntry.
   ([Issue #35475](https://github.com/istio/istio/issues/35475))
 
-- **Added** `failoverPriority` load balancing traffic policy, which allows users to set an ordered list of labels used to sort endpoints to do priority based load balancing.  
+- **Added** `failoverPriority` load balancing traffic policy, which allows users to set an ordered list of labels used to sort endpoints to do priority based load balancing.
+  ([Pull Request #34740](https://github.com/istio/istio/pull/34740))
 
 - **Added** support for creating mirrored QUIC listeners for non-passthrough HTTPS listeners at gateways
+  ([Pull Request #33817](https://github.com/istio/istio/pull/33817))
   
 
 - **Added** support for the `v1alpha2` version of the [gateway-api](https://gateway-api.org/).
-  
+  ([Pull Request #35009](https://github.com/istio/istio/pull/35009))
 
 - **Added** experimental support for the `cluster.local` host behavior as defined by the Kubernetes Multi-Cluster Services (MCS) spec. This feature is off by default, but can be enabled by setting the following flags in Istio: `ENABLE_MCS_CLUSTER_LOCAL`, `ENABLE_MCS_HOST` and `ENABLE_MCS_SERVICE_DISCOVERY`. When enabled, requests to the `cluster.local` host will be routed to only those endpoints residing within the same cluster as the client.
   ([Issue #35424](https://github.com/istio/istio/issues/35424))
@@ -82,8 +84,8 @@ These notices describe functionality that will be removed in a future release ac
   ([Issue #35385](https://github.com/istio/istio/issues/35385))
 
 - **Added** values to the Istio Gateway Helm charts for configuring annotations on the ServiceAccount.  Can be used to enable [IAM Roles for Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) on AWS EKS.
+  ([Pull Request #33914](https://github.com/istio/istio/pull/33914))
   
-
 - **Fixed** the `EnvoyExternalAuthorizationHttpProvider` to match HTTP headers in a case-insensitive way.
   ([Issue #35220](https://github.com/istio/istio/issues/35220))
 
@@ -101,6 +103,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Updated** `istioctl tag set default` to control which revision handles Istio resource validation. The revision indicated
 through the default tag will also win leader elections and assume singleton cluster responsibilities.
+  ([Pull Request #35286](https://github.com/istio/istio/pull/35286))
   
 
 - **Added** labels on pod level for istio-operator and istiod. 
@@ -109,9 +112,8 @@ through the default tag will also win leader elections and assume singleton clus
 - **Added** pilot service annotations on helm chart
   ([Issue #35229](https://github.com/istio/istio/issues/35229))
 
-- **Added** Support arm64 api for operator, add nodeAffinity arm64 expression.
+- **Added** Support arm64 API for operator, add nodeAffinity arm64 expression.
   ([Pull Request #35648](https://github.com/istio/istio/pull/35648))
-  
 
 - **Fixed** a bug where specifying same port number with different protocols (TCP and UDP)
 lead to incorrect merging and rendered erroneous manifest.
@@ -130,11 +132,11 @@ lead to incorrect merging and rendered erroneous manifest.
 
 - **Improved** destination rule ca analyzer to show exact error line when using `istioctl analyze`,
 otherwise it will show the first line of its yaml configuration chunk.
-  
+  ([Issue #22872](https://github.com/istio/istio/issues/22872))
 
 - **Updated** `istioctl x create-remote-secret` and `istioctl x remote-clusters` to the top level command, out of
 experimental.
-  
+  ([Issue #33799](https://github.com/istio/istio/issues/33799))
 
 - **Added** `istioctl install` will now do `IST0139` analysis on webhooks.
   ([Issue #33537](https://github.com/istio/istio/issues/33537))
@@ -165,7 +167,7 @@ and the service registry sync status of each cluster.
   ([Issue #35593](https://github.com/istio/istio/issues/35593))
 
 - **Fixed** the release tar URL by adding the patch version.
-  
+  ([Pull Request #35712](https://github.com/istio/istio/pull/35712))
 
 - **Fixed** an issue in istioctl bug-report where --context and --kubeconfig were not being honored.
   ([Issue #35574](https://github.com/istio/istio/issues/35574))
