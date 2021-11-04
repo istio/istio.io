@@ -67,6 +67,9 @@ providers:
   - name: "Red Kubes Otomi Container Platform"
     logo: "/logos/redkubes.svg"
     url: "https://redkubes.com/integrations/"   
+  - name: "Tencent Cloud Mesh"
+    logo: "/logos/tencent-cloud.svg"
+    url: "https://cloud.tencent.com/product/tcm"
 
 integrations:
   - name: "Ambassador"
