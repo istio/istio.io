@@ -70,6 +70,9 @@ providers:
   - name: "Tencent Cloud Mesh"
     logo: "/logos/tencent-cloud.svg"
     url: "https://cloud.tencent.com/product/tcm"
+  - name: "Daocloud Service Mesh"
+    logo: "/logos/daocloud.svg"
+    url: "https://www.daocloud.io/dsm"
 
 integrations:
   - name: "Ambassador"
