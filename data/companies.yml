@@ -228,6 +228,12 @@ integrations:
     description: "Space Cloud is a Kubernetes based serverless platform that provides instant, realtime APIs on any database, with event triggers and unified APIs for your custom business logic."
     details:
       - "Space Cloud integrates with Kubernetes and Istio natively to bring to you a highly scalable Serverless Platform. It encrypts all traffic by default and lets you describe communication policies to protect your microservices."
+  - name: "Aeraki"
+    logo: "/logos/aeraki.png"
+    url: "https://github.com/aeraki-framework/"
+    description: "Aeraki extends Istio to manage traffic for any layer-7 protocols."
+    details:
+      - "Aeraki [Air-rah-ki] is the Greek word for ‘breeze’. While Istio connects microservices in a service mesh, Aeraki provides a framework to allow Istio to support more layer-7 protocols other than HTTP and gRPC. We hope this breeze can help Istio sail a little further."
 
 pro_services:
   - name: "CloudZone"
