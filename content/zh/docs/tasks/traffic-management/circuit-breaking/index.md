@@ -45,7 +45,7 @@ test: yes
             http1MaxPendingRequests: 1
             maxRequestsPerConnection: 1
         outlierDetection:
-          consecutiveErrors: 1
+          consecutive5xxErrors: 1
           interval: 1s
           baseEjectionTime: 3m
           maxEjectionPercent: 100
