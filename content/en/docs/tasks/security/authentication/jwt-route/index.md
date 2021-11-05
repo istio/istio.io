@@ -76,7 +76,7 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
     on ingress gateways.
 
     Note: the request authentication will only check the JWT if it exists in the request. To make the JWT required and
-    reject the request if it does not include JWT, apply the authorization policy as specifeid in the [task](/docs/tasks/security/authentication/authn-policy#require-a-valid-token).
+    reject the request if it does not include JWT, apply the authorization policy as specified in the [task](/docs/tasks/security/authentication/authn-policy#require-a-valid-token).
 
 1. Update the virtual service to route based on validated JWT claims:
 
