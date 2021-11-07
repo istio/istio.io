@@ -13,7 +13,7 @@ test: no
 
 根据以下操作指南 为 Istio 准备一个 OpenShift 集群。
 
-默认情况下，OpenShift 不允许容器使用 User ID（UID）0 来运行。通过以下命令可以让 Istio 的服务账户（Service Accounts）以 UID 0 来运行容器（如果您将 Istio 部署到其它 Namespace，请注意替换 `istio-system` ）：
+默认情况下，OpenShift 不允许容器使用 User ID（UID）1337 来运行。通过以下命令可以让 Istio 的服务账户（Service Accounts）以 UID 1337 来运行容器（如果您将 Istio 部署到其它 Namespace，请注意替换 `istio-system` ）：
 
 {{< text bash >}}
 $ oc adm policy add-scc-to-group anyuid system:serviceaccounts:istio-system
