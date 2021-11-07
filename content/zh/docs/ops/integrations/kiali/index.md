@@ -26,7 +26,7 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/kiali.yaml
 
 ### 方法2：自定义安装{#option-2-customizable-install}
 
-Kiali 项目提供了自己的[快速入门指南](https://kiali.io/documentation/latest/quick-start)和[自定义安装方法](https://kiali.io/documentation/latest/installation-guide)。我们建议生产用户遵循这些说明，确保了解最新版本和最佳方式。
+Kiali 项目提供了自己的[快速入门指南](https://kiali.io/docs/installation/quick-start)和[自定义安装方法](https://kiali.io/docs/installation/installation-guide)。我们建议生产用户遵循这些说明，确保了解最新版本和最佳方式。
 
 ## 使用{#usage}
 
