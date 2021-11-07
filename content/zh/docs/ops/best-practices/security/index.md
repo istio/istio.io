@@ -322,10 +322,6 @@ Istio 可以[自动确定流量协议](/zh/docs/ops/configuration/traffic-manage
 
 为了减少给予 Pods 的权限， Istio 提供了 [CNI plugin](/zh/docs/setup/additional-setup/cni/) 功能，即不再需要以上权限。
 
-{{< warning >}}
-Istio CNI 插件目前仍是 alpha 特性。
-{{< /warning >}}
-
 ## 使用精简 docker 镜像{#use-hardened-docker-images}
 
 Istio 默认 docker 镜像，包括那些控制面，网关， Sidecar 代理正在使用的镜像，都是基于 `ubuntu`。这提供了多种工具，例如 `bash` 以及 `curl`，这权衡了提供便利和增加攻击接口之间的利弊。
