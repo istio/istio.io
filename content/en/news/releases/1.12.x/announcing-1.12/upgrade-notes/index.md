@@ -14,9 +14,10 @@ The notes also mention changes which preserve backwards compatibility while intr
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.12.0.
 
 ## TCP probes now working as expected
-When using TCP probes with older versions of Istio the check was always successful, even if the application didn't open the port.
-This may cause problems when upgrading: If you had a misconfiguration in a TCP probe (e.g wrong port) you maybe haven't noticed.
-After the upgrade a misconfigured TCP probe will fail and therefore might cause downtime.
+When using TCP probes with older versions of Istio, the check was always successful. TCP probes simply check the port will accept a connection, and because all traffic is first redirected to the Istio sidecar, the sidecar will always accept the connection.
+In Istio 1.12, this issue is resolved by using the [same mechanism used for HTTP probes](/docs/ops/configuration/mesh/app-health-check/).
+As a result, TCP probes in 1.12+ will start to properly check the health of the configured port. If your probes previously would have failed, they may now start failing unexpectedly.
+This change can be disabled temporarily by setting the `REWRITE_TCP_PROBES=false` environment variable in the Istiod deployment. The entire probe rewrite feature (HTTP and TCP) can also [be disabled](https://istio.io/latest/docs/ops/configuration/mesh/app-health-check/#liveness-and-readiness-probes-using-the-http-request-approach).
 
 ## Default revision must be switched when performing a revision-based upgrade.
 When installing a new Istio control plane revision the previous resource validator will remain unchanged to prevent

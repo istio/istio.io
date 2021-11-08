@@ -23,15 +23,15 @@ These notices describe functionality that will be removed in a future release ac
 ## Traffic Management
 
 - **Improved** TCP probes now working as expected: When using TCP probes with older versions of Istio the check was always successful, even if the application didn't open the port.
-  ([details](https://istio.io/latest/docs/ops/configuration/mesh/app-health-check)) 
+  ([details](/news/releases/1.12.x/announcing-1.12/upgrade-notes/#tcp-probes-now-working-as-expected)) 
 
-- **Improved** support for headless services with undeclared protocols to not required specific `Host` headers.
+- **Improved** support for headless services with undeclared protocols to not require specific `Host` headers.
   ([Issue #34679](https://github.com/istio/istio/issues/34679))
 
-- **Added** validator for empty regex match.
+- **Added** validator for empty regex match in VirtualService, preventing invalid Envoy configuration.
   ([Issue #34065](https://github.com/istio/istio/issues/34065))
 
-- **Added** support for `sourceip` hash load balancing in TCP proxy.
+- **Added** support for `useSourceIP` [consistent hash load balancing](/docs/reference/config/networking/destination-rule/#LoadBalancerSettings-ConsistentHashLB) for TCP traffic. Previously, only HTTP was supported.
   ([Issue #33558](https://github.com/istio/istio/issues/33558))
 
 - **Added** support for envoy to track active connections during drain and quit if active connections become zero instead of waiting for entire drain duration. This is disabled by default and can be enabled by setting `EXIT_ON_ZERO_ACTIVE_CONNECTIONS` to true.
