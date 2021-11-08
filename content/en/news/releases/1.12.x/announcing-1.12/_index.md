@@ -23,19 +23,57 @@ Istio 1.12.0 is officially supported on Kubernetes versions `1.18.0` to `1.22.0`
 
 Here are some of the highlights of the release:
 
-## WasmPlugin
-Provides a mechanism to extend the functionality provided by the Istio proxy through WebAssembly filters.
+## WebAssembly API
 
-## Using Official Helm Repository
-Istio is now using an official Helm repository. More information can be found [here](istio.io/latest/docs/setup/install/helm/#prerequisites).
+[WebAssembly](/docs/concepts/wasm/) has been an important project, in development for [over 3 years](/latest/blog/2020/wasm-announce/), to bring advanced extensibility to Istio, by allowing users to dynamically load custom-built extensions at runtime.
+However, until now, configuring WebAssembly plugins has been experimental and hard to use.
 
-## Global HTTP Retry Policy
+In Istio 1.12, we have improved this experience by adding a first-class API to configure WebAssembly plugins: [WasmPlugin](/docs/reference/config/proxy_extensions/wasm-plugin/).
 
-## Topology Aware Load Balancing
-Support general prioritized load balancing specified by a set of general labels.
+With `WasmPlugin`, you can easily deploy custom plugins to individual proxies, or even the entire mesh.
+
+The API is currently in alpha and evolving. [Your feedback](/latest/get-involved/) is appreciated!
 
 ## Telemetry API
 
-## Verify Certificate At Client
-`VERIFY_CERTIFICATE_AT_CLIENT` is `false` by default for Istio 1.12.
-Unless specified, `caCertificates` in `DestinationRule`s do not get used to validate certificates for `SIMPLE` and `MUTUAL` TLS. Enabling the environmental variable `VERIFY_CERTIFICATE_AT_CLIENT=true` in istiod will automatically set `caCertificates` from the system's certificate store's CA certificate. If the system's CA certificate is only desired for select hosts, set the environmental variable `VERIFY_CERTIFICATE_AT_CLIENT=false` in istiod and set `caCertificates` as `system` for those select hosts' `DestinationRule`. Specifying the `caCertificate` in a `DestinationRule` will take priority and the system CA certificate will not be used.
+In Istio 1.11, the start of the brand new [`Telemetry` API](/docs/reference/config/telemetry/) to bring a standardized API to configure tracing, logging, and metrics in Istio.
+In 1.12, we continued work in this direction, expanding support for configuring metrics and access logging to the API.
+
+To get started, check out the docs:
+<!-- TODO links once docs merge -->
+
+* Telemetry API overview
+* Tracing
+* Metrics
+* Access Logging
+
+The API is currently in alpha and evolving. [Your feedback](/latest/get-involved/) is appreciated!
+
+## Helm support
+
+Istio 1.12 features a number of improvements to our [Helm installation support](/docs/setup/install/helm/), and paves the path for the feature to graduate to beta in the future.
+
+An official Helm repository has been published to further simplify on-boarding, resolving one of the [most popular GitHub feature requests](https://github.com/istio/istio/issues/7505).
+Check out the new [getting started](/docs/setup/install/helm/#prerequisites) instructions for more information.
+
+These charts can also be found at the [ArtifactHub](https://artifacthub.io/packages/search?org=istio).
+
+In addition, a new refined [`gateway` chart](https://artifacthub.io/packages/helm/istio-official/gateway) has been published.
+This chart replaces the old `istio-ingressgateway` and `istio-egressgateway` charts to greatly simplify management of gateways and follow Helm best practices.
+
+## Kubernetes Gateway API
+
+Istio has added full support for the `v1alpha2` release of the [Kubernetes Gateway API](http://gateway-api.org/).
+This API aims to unify the diverse set of APIs used by Istio, Kubernetes `Ingress`, and other proxies, to define a powerful, extensible API to configure traffic routing.
+
+While the API is not yet targeted for production workloads, the API and Istio's implementation is rapidly evolving.
+To try it out, check out the [Kubernetes Gateway API](/docs/tasks/traffic-management/ingress/gateway-api/) documentation.
+
+## And much, much more
+
+* Default Retry Policies have been added to [Mesh Config](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), allowing users configuring the default retry strategy in a single location, rather than repeating configuration in every VirtualService.
+* A new `failoverPriority` configuration has been added to [Locality Load Balancing configuration](/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting), allowing customizing how pods are prioritized. For example, pods within the same network can be given additional priority.
+* New configuration to make [secure TLS origination simpler](/docs/ops/best-practices/security/#configure-tls-verification-in-destination-rule-when-using-tls-origination) has been added.
+* In case you missed it: initial support has been added for [gRPC native "Proxyless" Service Mesh](/blog/2021/proxyless-grpc/).
+* Experimental support for HTTP/3 Gateways [has been added](https://github.com/istio/istio/wiki/(Experimental)-QUIC-and-HTTP-3-support-in-Istio-gateways).
+* For the full list of changes, the see the [Change Notes](/news/releases/1.12.x/announcing-1.12/change-notes/).
