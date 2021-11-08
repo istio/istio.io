@@ -21,11 +21,7 @@
 ####################################################################################################
 
 snip_setup_1() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.4.0" | kubectl apply -f -
-}
-
-snip_setup_2() {
-istioctl install
+kubectl get crd gateways.gateway.networking.k8s.io || { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.4.0" | kubectl apply -f -; }
 }
 
 snip_configuring_a_gateway_1() {
@@ -34,7 +30,6 @@ kubectl apply -f samples/httpbin/httpbin.yaml
 
 snip_configuring_a_gateway_2() {
 kubectl create namespace istio-ingress
-kubectl label namespace istio-ingress istio-injection=enabled
 kubectl apply -f - <<EOF
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: Gateway
@@ -101,4 +96,34 @@ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 ! read -r -d '' snip_configuring_a_gateway_5_out <<\ENDSNIP
 HTTP/1.1 404 Not Found
 ...
+ENDSNIP
+
+! read -r -d '' snip_automated_deployment_1 <<\ENDSNIP
+spec:
+  addresses:
+  - value: 192.0.2.0
+    type: IPAddress
+ENDSNIP
+
+! read -r -d '' snip_manual_deployment_1 <<\ENDSNIP
+spec:
+  addresses:
+  - value: ingress.istio-gateways.svc.cluster.local
+    type: Hostname
+ENDSNIP
+
+! read -r -d '' snip_mesh_traffic_1 <<\ENDSNIP
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: HTTPRoute
+metadata:
+  name: mesh
+spec:
+  parentRefs:
+  - kind: Mesh
+    name: istio
+  hostnames: ["example.com"]
+  rules:
+  - backendRefs:
+    - name: example
+      port: 80
 ENDSNIP
