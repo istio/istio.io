@@ -33,7 +33,7 @@ for your specific needs. The following built-in configuration profiles are curre
     {{< /warning >}}
 
 1. **minimal**: same as the default profile, but only the control plane components are installed.
-    This allows you to configure the control plane and data plane components (e.g., gateways) using [separate profiles](/docs/setup/upgrade/gateways/#installation-with-istioctl).
+    This allows you to configure the control plane and data plane components (e.g., gateways) using [separate profiles](/docs/setup/additional-setup/gateway/#deploying-a-gateway).
 
 1. **external**: used for configuring a {{< gloss >}}remote cluster{{< /gloss >}} that is managed by an
     {{< gloss >}}external control plane{{< /gloss >}} or by a control plane in a {{< gloss >}}primary cluster{{< /gloss >}}
