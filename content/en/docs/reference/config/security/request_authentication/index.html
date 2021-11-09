@@ -146,15 +146,22 @@ spec:
         paths: [&quot;/healthz&quot;]
 </code></pre>
 
+<p>[Experimental] Routing based on derived <a href="/docs/reference/config/security/conditions/">metadata</a>
+is now supported. A prefix &lsquo;@&rsquo; is used to denote a match against internal metadata instead of the headers in the request.
+Currently this feature is only supported for the following metadata:</p>
+
 <ul>
-<li>When applied on a Gateway, you can also use the special header name <code>x-jwt-claim</code> for matching JWT claims in
-the VirtualService. Claims of type string or list of string are supported and nested claims are also supported using
-<code>.</code> as a separator for claim names. Examples: <code>x-jwt-claim.admin</code> matches the claim &ldquo;admin&rdquo; and <code>x-jwt-claim.group.id</code>
-matches the nested claims &ldquo;group&rdquo; and &ldquo;id&rdquo;.</li>
+<li><code>request.auth.claims.{claim-name}[.{sub-claim}]*</code> which are extracted from validated JWT tokens. The claim name
+currently does not support the <code>.</code> character. Examples: <code>request.auth.claims.sub</code> and <code>request.auth.claims.name.givenName</code>.</li>
 </ul>
 
-<p>The following example creates the request authentication and authorization policies for JWT validation on ingress
-gateway and routes requests based on the &ldquo;version&rdquo; claim in the validated JWT.</p>
+<p>The use of matches against JWT claim metadata is only supported in Gateways. The following example shows:</p>
+
+<ul>
+<li>RequestAuthentication to decode and validate a JWT. This also makes the <code>@request.auth.claims</code> available for use in the VirtualService.</li>
+<li>AuthorizationPolicy to check for valid principals in the request. This makes the JWT required for the request.</li>
+<li>VirtualService to route the request based on the &ldquo;sub&rdquo; claim.</li>
+</ul>
 
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
@@ -166,7 +173,7 @@ spec:
    matchLabels:
      app: istio-ingressgateway
   jwtRules:
-  - issuer: &quot;issuer-foo&quot;
+  - issuer: &quot;example.com&quot;
     jwksUri: https://example.com/.well-known/jwks.json
 ---
 apiVersion: security.istio.io/v1beta1
@@ -193,23 +200,21 @@ spec:
   gateways:
   - istio-ingressgateway
   http:
-  - name: &quot;v2-route&quot;
+  - name: &quot;v2&quot;
     match:
     - headers:
-        x-jwt-claim.version:
-          exact: &quot;v2&quot;
+        &quot;@request.auth.claims.sub&quot;:
+          exact: &quot;dev&quot;
     route:
     - destination:
         host: foo.prod.svc.cluster.local
         subset: v2
-  - name: &quot;default-route&quot;
+  - name: &quot;default&quot;
     route:
     - destination:
         host: foo.prod.svc.cluster.local
         subset: v1
 </code></pre>
-
-<p><strong>Note:</strong> This routing is only supported on Gateways and proper request authentication must first be applied to validate the JWT.</p>
 
 <table class="message-fields">
 <thead>

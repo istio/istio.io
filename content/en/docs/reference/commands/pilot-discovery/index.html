@@ -272,12 +272,12 @@ $ pilot-discovery completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, default, gateway, grpcgen, installer, klog, kube, mcp, model, pkica, processing, resource, retry, rootcertrotator, secretcontroller, serverca, source, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, default, gateway, grpcgen, installer, klog, kube, mcp, model, pkica, processing, resource, retry, rootcertrotator, secretcontroller, serverca, source, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, gateway, grpcgen, installer, klog, kube, mcp, model, pkica, processing, resource, retry, rootcertrotator, secretcontroller, serverca, source, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, gateway, grpcgen, installer, klog, kube, mcp, model, pkica, processing, resource, retry, rootcertrotator, secretcontroller, serverca, source, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -302,7 +302,7 @@ $ pilot-discovery completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, gateway, grpcgen, installer, klog, kube, mcp, model, pkica, processing, resource, retry, rootcertrotator, secretcontroller, serverca, source, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, gateway, grpcgen, installer, klog, kube, mcp, model, pkica, processing, resource, retry, rootcertrotator, secretcontroller, serverca, source, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -554,7 +554,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr>
 <td><code>ENABLE_MULTICLUSTER_HEADLESS</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If true, the DNS name table for a headless service will resolve to same-network endpoints in any cluster.</td>
 </tr>
 <tr>
@@ -1277,6 +1277,11 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped sidecar injection requests.</td></tr>
 <tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful sidecar injection requests.</td></tr>
 <tr><td><code>startup_duration_seconds</code></td><td><code>LastValue</code></td><td>The time from the process starting to being marked ready.</td></tr>
+<tr><td><code>wasm_cache_entries</code></td><td><code>LastValue</code></td><td>number of Wasm remote fetch cache entries.</td></tr>
+<tr><td><code>wasm_cache_lookup_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetch cache lookups.</td></tr>
+<tr><td><code>wasm_config_conversion_count</code></td><td><code>Sum</code></td><td>number of Wasm config conversion count and results, including success, no remote load, marshal failure, remote fetch failure, miss remote fetch hint.</td></tr>
+<tr><td><code>wasm_config_conversion_duration</code></td><td><code>Distribution</code></td><td>Total time in milliseconds istio-agent spends on converting remote load in Wasm config.</td></tr>
+<tr><td><code>wasm_remote_fetch_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetches and results, including success, download failure, and checksum mismatch.</td></tr>
 <tr><td><code>webhook_patch_attempts_total</code></td><td><code>Sum</code></td><td>Webhook patching attempts</td></tr>
 <tr><td><code>webhook_patch_failures_total</code></td><td><code>Sum</code></td><td>Webhook patching total failures</td></tr>
 <tr><td><code>webhook_patch_retries_total</code></td><td><code>Sum</code></td><td>Webhook patching retries</td></tr>
