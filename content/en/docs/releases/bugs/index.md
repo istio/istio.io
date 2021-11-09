@@ -38,6 +38,9 @@ all of the relevant state from your Kubernetes cluster:
 
 Then attach the produced `bug-report.tgz` with your reported problem.
 
+If your mesh spans multiple clusters, run `istioctl bug-report` against each cluster, specifying the `--context`
+or `--kubeconfig` flags.
+
 {{< tip >}}
 The `istioctl bug-report` command is only available with `istioctl` version `1.8.0` and higher but it can be used to also collect the information from an older Istio version installed in your cluster.
 {{< /tip >}}
