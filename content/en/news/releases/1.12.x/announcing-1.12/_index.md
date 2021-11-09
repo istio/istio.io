@@ -15,7 +15,7 @@ We are pleased to announce the release of Istio 1.12!
 
 {{< relnote >}}
 
-This is the last release of 2021. We would like to thank the entire Istio community.
+This is the last release of 2021. We would like to thank the entire Istio community, and especially the release managers [Daniel Grimm](https://github.com/dgn) from Red Hat and [Kenan O'Neal](https://github.com/Kmoneal) from Aspen Mesh, for helping to get 1.12.0 published.
 
 {{< tip >}}
 Istio 1.12.0 is officially supported on Kubernetes versions `1.18.0` to `1.22.0`.
