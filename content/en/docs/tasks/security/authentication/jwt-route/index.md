@@ -4,7 +4,7 @@ description: Shows you how to use Istio authentication policy to route requests 
 weight: 10
 keywords: [security,authentication,jwt,route]
 owner: istio/wg-security-maintainers
-test: no
+test: yes
 status: Experimental
 ---
 
@@ -72,6 +72,12 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
     The request authentication enables JWT validation on the Istio ingress gateway so that the validated JWT claims
     can later be used in the virtual service for routing purposes.
 
+    The request authentication is applied on the ingress gateway because the JWT claim based routing is only supported
+    on ingress gateways.
+
+    Note: the request authentication will only check the JWT if it exists in the request. To make the JWT required and
+    reject the request if it does not include JWT, apply the authorization policy as specified in the [task](/docs/tasks/security/authentication/authn-policy#require-a-valid-token).
+
 1. Update the virtual service to route based on validated JWT claims:
 
     {{< text bash >}}
@@ -91,7 +97,7 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
         - uri:
             prefix: /headers
           headers:
-            x-jwt-claim.groups: # "x-jwt-claim" is a reserved header for matching JWT claims only.
+            "@request.auth.claims.groups":
               exact: group1
         route:
         - destination:
@@ -101,8 +107,12 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
     EOF
     {{< /text >}}
 
-   The virtual service uses the reserved header `x-jwt-claim` to match the validated JWT claims that are made available
-   by the request authentication.
+    The virtual service uses the reserved header `"@request.auth.claims.groups"` to match with the JWT claim `groups`.
+    The prefix `@` denotes it is matching with the metadata derived from the JWT validation and not with HTTP headers.
+
+    Claim of type string, list of string and nested claims are supported. Use the `.` as a separator for nested claim
+    names. For example, `"@request.auth.claims.name.givenName"` matches the nested claim `name` and `givenName`. Claim
+    name with the `.` character is currently not supported.
 
 ## Validating ingress routing based on JWT claims
 
@@ -114,7 +124,7 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
     ...
     {{< /text >}}
 
-   You can also create the authorization policy to explicitly reject the request with HTTP code 403 when JWT is missing.
+    You can also create the authorization policy to explicitly reject the request with HTTP code 403 when JWT is missing.
 
 1. Validate the ingress gateway returns the HTTP code 401 with invalid JWT:
 
@@ -124,7 +134,7 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
     ...
     {{< /text >}}
 
-   The 401 is returned by the request authentication because the JWT failed the validation.
+    The 401 is returned by the request authentication because the JWT failed the validation.
 
 1. Validate the ingress gateway routes the request with a valid JWT token that includes the claim `groups: group1`:
 
@@ -151,12 +161,6 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
     HTTP/1.1 404 Not Found
     ...
     {{< /text >}}
-
-Note the `x-jwt-claim` is a reserved header name for matching the validated JWT claims only. It will not match the normal
-HTTP headers.
-
-Claims of type string or list of string are supported and nested claims are also supported using `.` as a separator for
-claim names. For example, `x-jwt-claim.admin` matches the claim "admin" and `x-jwt-claim.group.id` matches the nested claims "group" and "id".
 
 ## Cleanup
 
