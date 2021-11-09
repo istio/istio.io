@@ -10,7 +10,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-This task describes how to configure Istio to expose a service outside the service mesh cluster, using the Kubernetes [Gateway API](https://gateway-api.sigs.k8s.io/).
+This task describes how to configure Istio to expose a service outside the service mesh cluster using the Kubernetes [Gateway API](https://gateway-api.sigs.k8s.io/).
 These APIs are an actively developed evolution of the Kubernetes [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
 and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) APIs.
 
@@ -29,15 +29,15 @@ Both the API (owned by Kubernetes SIG-NETWORK) and the Istio implementation are 
 
 ## Differences from Istio APIs
 
-The Gateway APIs share a lot of similarities to the Istio APIs (such as Gateway and VirtualService).
-The main resource even shares the same name (`Gateway`), and the resources serve similar goals.
+The Gateway APIs share a lot of similarities to the Istio APIs such as Gateway and VirtualService.
+The main resource shares the same name, `Gateway`, and the resources serve similar goals.
 
 The new Gateway APIs aim to take the learnings from various Kubernetes ingress implementations, including Istio,
 to build a standardized vendor neutral API. These APIs generally serve the same purposes as Istio Gateway and VirtualService,
 with a few key differences:
 
 * In Istio APIs, a `Gateway` *configures* an existing gateway Deployment/Service that has [been deployed](/docs/setup/additional-setup/gateway/).
-  In the Gateway APIs, the `Gateway` resource both configures *and* deploys a gateway.
+  In the Gateway APIs, the `Gateway` resource both *configures and deploys* a gateway.
   See [Deployment Methods](#deployment-methods) for more information.
 * In the Istio `VirtualService`, all protocols are configured within a single resource.
   In the Gateway APIs, each protocol type has its own resource, such as `HTTPRoute` and `TCPRoute`.
@@ -105,7 +105,7 @@ In this example, we will deploy a simple application and expose it externally us
     EOF
     {{< /text >}}
 
-1.  Set the Ingress IP
+1.  Set the Ingress Host
 
     {{< text bash >}}
     $ kubectl wait -n istio-ingress --for=condition=ready gateways.gateway.networking.k8s.io gateway
@@ -137,7 +137,7 @@ In this example, we will deploy a simple application and expose it externally us
 
 In the example above, you did not need to install an ingress gateway `Deployment` prior to configuring a Gateway.
 In the default configuration, a gateway `Deployment` and `Service` is automatically provisioned based on the `Gateway` configuration.
-For advanced use cases, manual deployment is still allowed
+For advanced use cases, manual deployment is still allowed.
 
 ### Automated Deployment
 
@@ -148,24 +148,24 @@ These resources can be customized in a few ways:
 
 * Annotations and labels on the `Gateway` will be copied to the `Service` and `Deployment`.
   This allows configuring things such as [Internal load balancers](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer) that read from these fields.
-* Istio offers a few additional annotations to configure the generated resources:
+* Istio offers an additional annotation to configure the generated resources:
 
-|Annotation|Purpose|
-|----------|-------|
-|`networking.istio.io/service-type`|Controls the `Service.spec.type` field. For example, set to `ClusterIP` to not expose the service externally. The default is `LoadBalancer`.|
+    |Annotation|Purpose|
+    |----------|-------|
+    |`networking.istio.io/service-type`|Controls the `Service.spec.type` field. For example, set to `ClusterIP` to not expose the service externally. The default is `LoadBalancer`.|
 
 * The `Service.spec.loadBalancerIP` field can be explicit set by configuring the `addresses` field:
 
-{{< text yaml >}}
-spec:
-  addresses:
-  - value: 192.0.2.0
-    type: IPAddress
-{{< /text >}}
+    {{< text yaml >}}
+    spec:
+      addresses:
+      - value: 192.0.2.0
+        type: IPAddress
+    {{< /text >}}
 
 Note: only one address may be specified.
 
-* (Advanced) the generated Pod configuration can be configured by [Custom Injection Templates](/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental)
+* (Advanced) The generated Pod configuration can be configured by [Custom Injection Templates](/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental)
 
 ### Manual Deployment
 
