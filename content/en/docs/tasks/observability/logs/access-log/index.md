@@ -1,5 +1,5 @@
 ---
-title: Getting Envoy's Access Logs
+title: Envoy Access Logs
 description: This task shows you how to configure Envoy proxies to print access logs to their standard output.
 weight: 10
 keywords: [telemetry,logs]
@@ -20,6 +20,31 @@ The standard output of Envoy's containers can then be printed by the `kubectl lo
 {{< boilerplate start-httpbin-service >}}
 
 ## Enable Envoy's access logging
+
+Istio offers a few ways to enable access logs. Use of the Telemetry API is recommended
+
+### Using Telemetry API
+
+The Telemetry API can be used to enable or disable access logs:
+
+{{< text yaml >}}
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+spec:
+  accessLogging:
+  - {}
+{{< /text >}}
+
+The above example provides and empty object (`{}`), as we do not want to configure anything other than default settings.
+
+Similar configuration can also be applied on an individual namespace, or to an individual workload, to control logging at a fine grained level.
+
+For more information about using the Telemetry API, see the [Telemetry API overview](/docs/tasks/observability/telemetry/).
+
+### Using Mesh Config
 
 If you used an `IstioOperator` CR to install Istio, add the following field to your configuration:
 
