@@ -630,6 +630,24 @@ If not set, the NormalizationType.DEFAULT configuration will be used.</p>
 No
 </td>
 </tr>
+<tr id="MeshConfig-default_http_retry_policy">
+<td><code>defaultHttpRetryPolicy</code></td>
+<td><code><a href="/docs/reference/config/networking/virtual-service/#HTTPRetry">HTTPRetry</a></code></td>
+<td>
+<p>Configure the default HTTP retry policy.
+The default number of retry attempts is set at 2 for these errors:
+  &ldquo;connect-failure,refused-stream,unavailable,cancelled,retriable-status-codes&rdquo;.
+Setting the number of attempts to 0 disables retry policy globally.
+This setting can be overriden on a per-host basis using the Virtual Service
+API.
+All settings in the retry policy except <code>perTryTimeout</code> can currently be
+configured globally via this field.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
