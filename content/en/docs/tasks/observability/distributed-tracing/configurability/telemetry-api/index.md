@@ -95,7 +95,8 @@ data:
         stackdriver:
           maxTagLength: 256
       defaultProviders: # If a default provider is not specified, Telemetry resources must fully-specify a provider
-          tracing: "cloudtrace"
+          tracing:
+          -  "cloudtrace"
 {{< /text >}}
 
 ### Configuring mesh-wide tracing behavior
