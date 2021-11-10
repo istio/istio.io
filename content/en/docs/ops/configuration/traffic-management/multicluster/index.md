@@ -7,15 +7,16 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
+### Services that are not the same
+
 Within a multicluster mesh, [namespace sameness](https://github.com/kubernetes/community/blob/master/sig-multicluster/namespace-sameness-position-statement.md)
 applies and all namespaces with a given name are considered to be the same namespace. If multiple clusters contain a
 `Service` with the same namespaced name, they will be recognized as a single combined service. By default, traffic is
-load-balanced across all clusters in the mesh for a given service. In some cases, that behavior is not desirable, and
-this document describes the different options for overriding that default.
+load-balanced across all clusters in the mesh for a given service. 
 
-## Cluster Local Services
+If there is no case where this traffic should be sent across clusters, consider giving the services a different name in each cluster.
 
-### `DestinationRule` subsets 
+### Partitioning Service Endpoints (i.e. creating subsets) 
 
 Using the label `topology.istio.io/cluster` in the subset selector for a DestinationRule, you can create
 per-cluster subsets.
@@ -36,32 +37,44 @@ spec:
       topology.istio.io/cluster: cluster-2
 {{< /text >}}
 
-To restrict traffic to only the local cluster, add a VirtualService. You can extend this configuration
-to apply traffic shifting or mirroring rules on a per-cluster basis.
+Using these subsets you can create various routing rules based on the cluster such as [mirroring](/docs/tasks/traffic-management/mirroring/)
+or [shifting](/docs/tasks/traffic-management/traffic-shifting/).
+
+### Keeping traffic in-cluster
+
+In some cases the default cross-cluster load balancing behavior is not desirable. To keep traffic "cluster-local" (i.e.
+traffic sent from `cluster-a` will only reach destinations in `cluster-a`), there are multiple-approaches.
+
+#### Restrict destination subsets in `VirtualService`
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-name: mysvc-vs
+  name: mysvc-vs
 spec:
   hosts:
   - mysvc.myns.svc.cluster.local
   http:
   - name: "cluster-1-local"
+    match:
+    - sourceLabels:
+        topology.istio.io/cluster: "cluster-1"
     route:
     - destination:
-      host: mysvc.myns.svc.cluster.local
-      subset: cluster-1
+        host: mysvc.myns.svc.cluster.local
+        subset: cluster-1
+  - name: "cluster-2-local"
+    match:
+    - sourceLabels:
+        topology.istio.io/cluster: "cluster-2"
+    route:
+    - destination:
+        host: mysvc.myns.svc.cluster.local
+        subset: cluster-2
 {{< /text >}}
 
-### Per-cluster `Service` or `Namespace`
-
-If `Services` aren't meant to be used cross-cluster at all, it may make sense to simply give them unique names in each
-cluster. Naming the service `svc-a` in `cluster-a` and `svc-b` in `cluster-b` will ensure there is no cross-cluster
-communication.
-
-### `MeshConfig`
+#### Global `MeshConfig` settings
 
 Hostnames or wildcards can also be marked as `cluster-local`
 
@@ -104,3 +117,4 @@ serviceSettings:
 {{< /tab >}}
 
 {{< /tabset >}}
+
