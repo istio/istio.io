@@ -157,15 +157,20 @@ These resources can be customized in a few ways:
 * The `Service.spec.loadBalancerIP` field can be explicit set by configuring the `addresses` field:
 
     {{< text yaml >}}
+    apiVersion: gateway.networking.k8s.io/v1alpha2
+    kind: Gateway
+    metadata:
+      name: gateway
     spec:
       addresses:
       - value: 192.0.2.0
         type: IPAddress
+    ...
     {{< /text >}}
 
 Note: only one address may be specified.
 
-* (Advanced) The generated Pod configuration can be configured by [Custom Injection Templates](/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental)
+* (Advanced) The generated Pod configuration can be configured by [Custom Injection Templates](/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental).
 
 ### Manual Deployment
 
@@ -176,10 +181,15 @@ When this option is done, you will need to manually link the `Gateway` to the `S
 To link a `Gateway` to a `Service`, configure the `addresses` field to point to a **single** `Hostname`.
 
 {{< text yaml >}}
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: Gateway
+metadata:
+  name: gateway
 spec:
   addresses:
   - value: ingress.istio-gateways.svc.cluster.local
     type: Hostname
+...
 {{< /text >}}
 
 ## Mesh Traffic
