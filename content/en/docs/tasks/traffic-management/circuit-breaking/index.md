@@ -51,7 +51,7 @@ when calling the `httpbin` service:
             http1MaxPendingRequests: 1
             maxRequestsPerConnection: 1
         outlierDetection:
-          consecutiveErrors: 1
+          consecutive5xxErrors: 1
           interval: 1s
           baseEjectionTime: 3m
           maxEjectionPercent: 100
@@ -76,7 +76,7 @@ when calling the `httpbin` service:
             maxConnections: 1
         outlierDetection:
           baseEjectionTime: 3m
-          consecutiveErrors: 1
+          consecutive5xxErrors: 1
           interval: 1s
           maxEjectionPercent: 100
     {{< /text >}}
