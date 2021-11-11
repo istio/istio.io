@@ -18,7 +18,7 @@ We are pleased to announce the release of Istio 1.12!
 This is the last release of 2021. We would like to thank the entire Istio community, and especially the release managers [Daniel Grimm](https://github.com/dgn) from Red Hat and [Kenan O'Neal](https://github.com/Kmoneal) from Aspen Mesh, for helping to get 1.12.0 published.
 
 {{< tip >}}
-Istio 1.12.0 is officially supported on Kubernetes versions `1.18.0` to `1.22.0`.
+Istio 1.12.0 is officially supported on Kubernetes versions `1.18` to `1.22`.
 {{< /tip >}}
 
 Here are some of the highlights of the release:
@@ -59,7 +59,7 @@ Check out the new [getting started](/docs/setup/install/helm/#prerequisites) ins
 These charts can also be found at the [ArtifactHub](https://artifacthub.io/packages/search?org=istio).
 
 In addition, a new refined [`gateway` chart](https://artifacthub.io/packages/helm/istio-official/gateway) has been published.
-This chart replaces the old `istio-ingressgateway` and `istio-egressgateway` charts to greatly simplify management of gateways and follow Helm best practices.
+This chart replaces the old `istio-ingressgateway` and `istio-egressgateway` charts to greatly simplify management of gateways and follow Helm best practices. Please visit the gateway injection page for issues migrating to the new helm chart.
 
 ## Kubernetes Gateway API
 
