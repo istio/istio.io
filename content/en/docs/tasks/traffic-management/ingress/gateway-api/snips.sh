@@ -99,17 +99,27 @@ HTTP/1.1 404 Not Found
 ENDSNIP
 
 ! read -r -d '' snip_automated_deployment_1 <<\ENDSNIP
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: Gateway
+metadata:
+  name: gateway
 spec:
   addresses:
   - value: 192.0.2.0
     type: IPAddress
+...
 ENDSNIP
 
 ! read -r -d '' snip_manual_deployment_1 <<\ENDSNIP
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: Gateway
+metadata:
+  name: gateway
 spec:
   addresses:
   - value: ingress.istio-gateways.svc.cluster.local
     type: Hostname
+...
 ENDSNIP
 
 ! read -r -d '' snip_mesh_traffic_1 <<\ENDSNIP
