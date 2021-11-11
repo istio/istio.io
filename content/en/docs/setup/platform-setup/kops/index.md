@@ -8,6 +8,10 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
+{{< tip >}}
+This is no longer required for kops 1.22+.
+{{< /tip >}}
+
 If you wish to run Istio [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration) (SDS) for your mesh on Kops managed clusters, you must add [extra configurations](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) to enable service account token projection volumes in the api-server.
 
 1. Open the configuration file:
@@ -19,7 +23,7 @@ If you wish to run Istio [Secret Discovery Service](https://www.envoyproxy.io/do
 1. Add the following in the configuration file:
 
     {{< text yaml >}}
-    kubeAPIServer:
+      kubeAPIServer:
         apiAudiences:
         - api
         - istio-ca
