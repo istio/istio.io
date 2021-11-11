@@ -260,25 +260,23 @@ customized install using these commands:
 $ istioctl manifest generate > 1.yaml
 $ istioctl manifest generate -f samples/operator/pilot-k8s.yaml > 2.yaml
 $ istioctl manifest diff 1.yaml 2.yaml
-Differences of manifests are:
+Differences in manifests are:
 
-Object Deployment:istio-system:istio-pilot has diffs:
+
+Object Deployment:istio-system:istiod has diffs:
 
 spec:
   template:
     spec:
       containers:
-        '[0]':
+        '[#0]':
           resources:
             requests:
               cpu: 500m -> 1000m
               memory: 2048Mi -> 4096Mi
-      nodeSelector: -> map[master:true]
-      tolerations: -> [map[effect:NoSchedule key:dedicated operator:Exists] map[key:CriticalAddonsOnly
-        operator:Exists]]
 
 
-Object HorizontalPodAutoscaler:istio-system:istio-pilot has diffs:
+Object HorizontalPodAutoscaler:istio-system:istiod has diffs:
 
 spec:
   maxReplicas: 5 -> 10
