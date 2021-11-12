@@ -95,7 +95,7 @@ spec:
     randomSamplingPercentage: 100
 {{< /text >}}
 
-This configuration overrides the default provider from `MeshConfig`, setting the mesh default to be the `"ocaltrace`
+This configuration overrides the default provider from `MeshConfig`, setting the mesh default to be the `localtrace`
 provider. It also sets the mesh-wide sampling percentage to be `100`, and configures a tag to be added to all trace
 spans with a name of `foo` and a value of `bar`.
 
