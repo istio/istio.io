@@ -16,6 +16,40 @@ load-balanced across all clusters in the mesh for a given service.
 
 If there is no case where this traffic should be sent across clusters, consider giving the services a different name in each cluster.
 
+### Locality Load Balancing
+
+When using a multi-cluster mesh for redundancy and resiliency, it may be desirable to only send cross-cluster traffic
+when necessary. Using [Locality Load Balancing](/docs/tasks/traffic-management/locality-load-balancing/) settings, you
+can configure locality weighted distribution or failover.
+
+On top of default locality components of `region/zone/subzone`, you can use [`failoverPriority`](/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting)
+to failover based on the cluster or network explicitly. Using the following destination rule, traffic will prefer first
+in-cluster traffic, then in-network, then in-region, etc.
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: mysvc-cluster-failover
+spec:
+  host: mysvc.myns.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+      localityLbSetting:
+        enabled: true
+        failoverPriority:
+        - "topology.istio.io/cluster"
+        - "topology.istio.io/network"
+        - "topology.kubernetes.io/region"
+        - "topology.kubernetes.io/zone"
+        - "topology.istio.io/subzone"
+    outlierDetection:
+      consecutive5xxErrors: 1
+      interval: 1s
+      baseEjectionTime: 1m
+{{< /text >}}
+
 ### Partitioning Service Endpoints (i.e. creating subsets) 
 
 Using the label `topology.istio.io/cluster` in the subset selector for a DestinationRule, you can create
@@ -25,7 +59,7 @@ per-cluster subsets.
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
-  name: mysvc-dr
+  name: mysvc-per-cluster-dr
 spec:
   host: mysvc.myns.svc.cluster.local
   subsets:
@@ -51,7 +85,7 @@ traffic sent from `cluster-a` will only reach destinations in `cluster-a`), ther
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: mysvc-vs
+  name: mysvc-cluster-local-vs
 spec:
   hosts:
   - mysvc.myns.svc.cluster.local
