@@ -23,7 +23,7 @@ If you wish to run Istio [Secret Discovery Service](https://www.envoyproxy.io/do
 1. Add the following in the configuration file:
 
     {{< text yaml >}}
-      kubeAPIServer:
+    kubeAPIServer:
         apiAudiences:
         - api
         - istio-ca
