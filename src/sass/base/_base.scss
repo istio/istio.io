@@ -178,6 +178,7 @@ tr th:last-child {
 
 tr td:last-child {
     border-right: 1px solid $boxBorderColor;
+    word-break: break-word;
 }
 
 thead+tbody tr:first-child td:first-child {
