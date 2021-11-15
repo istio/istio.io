@@ -120,6 +120,11 @@ You can configure inter-cluster communication based on the
 example, if two clusters reside on the same underlying network, you can enable
 cross-cluster communication by simply configuring firewall rules.
 
+Within a multicluster mesh, all services are shared by default, according to the
+concept of {{< gloss "namespace sameness" >}}namespace sameness{{< /gloss >}}.
+[Traffic management rules](/docs/ops/configuration/traffic-management/multicluster)
+provide fine-grained control over the behavior of multicluster traffic.
+
 ### DNS with multiple clusters
 
 When a client application makes a request to some host, it must first perform a
