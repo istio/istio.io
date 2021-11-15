@@ -35,12 +35,12 @@ Istio 包含一个可远程利用的漏洞，[CVE-2021-39156](https://cve.mitre.
   [ALLOW 操作](/zh/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) 和
   [`operation.notPaths`](/zh/docs/reference/config/security/authorization-policy/#Operation) 一起使用。
 
-采用 [防范措施](#mitigation)，在授权和路由之前删除请求 URI 的片段部分。这可以防止在其 URI 中包含片段的请求绕过基于没有片段部分的 URI 的授权策略。
+如果采用 [防范措施](#mitigation)，在授权和路由之前删除请求 URI 的片段部分。这可以防止在其 URI 中包含片段的请求绕过基于没有片段部分的 URI 的授权策略。
 
-要退出 [防范措施](#mitigation) 的新行为，将保留 URI 中的片段部分。您可以按照如下方式配置您的安装。
+如果不采用 [防范措施](#mitigation) 的新策略，将保留 URI 中的片段部分。您可以按照如下方式配置您的安装：
 
 {{< warning >}}
-禁止新行为将使您的路径正常化，如上所述，并且被认为是不安全的。在使用此选项之前，请确保您已在任何安全策略中对此进行了调整。
+禁止新策略将使您的路径正常化，如上所述，并且被认为是不安全的。在使用此选项之前，请确保您已在任何安全策略中对此进行了调整。
 {{< /warning >}}
 
 {{< text yaml >}}
@@ -58,7 +58,7 @@ spec:
 
 ### CVE-2021-39155
 
-Istio 包含一个可远程利用的漏洞，当使用基于 `hosts` 或 `notHosts` 的规则时 HTTP 请求可能会绕过 Istio 授权策略。在易受攻击的版本中， Istio 授权策略以区分大小写的方式比较 HTTP 的 `Host` 或 `:authority` 头，这与 [RFC 4343](https://datatracker.ietf.org/doc/html/rfc4343) 不一致。例如，用户可能有一个拒绝带有 host `secret.com` 的请求的授权策略，但攻击者可以通过发送带有主机名 `Secret.com` 的请求来绕过这一点，路由流将流量路由到 `secret.com` 这一违反了策略的后端。
+Istio 包含一个可远程利用的漏洞，当使用基于 `hosts` 或 `notHosts` 的规则时， HTTP 请求可能会绕过 Istio 授权策略。在易受攻击的版本中， Istio 授权策略以区分大小写的方式比较 HTTP 的 `Host` 或 `:authority` 头，这与 [RFC 4343](https://datatracker.ietf.org/doc/html/rfc4343) 不一致。例如，用户可能有一个拒绝带有 host `secret.com` 的请求的授权策略，但攻击者可以通过发送带有主机名 `Secret.com` 的请求来绕过这一点，流量将被路由到 `secret.com` ，这一行为违反了授权策略。
 
 有关更多信息，请参阅 [CVE-2021-39155](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-39155)。
 
@@ -77,7 +77,7 @@ Istio 包含一个可远程利用的漏洞，当使用基于 `hosts` 或 `notHos
 
 ### CVE-2021-32777
 
-Envoy 包含一个可远程利用的漏洞，当使用 `ext_authz` 扩展时，带有多个值标头的  HTTP 请求可能会执行不完整的授权策略检查。当请求头包含多个值时，外部授权服务器只会看到给定头的最后一个值。有关更多信息，请参阅 [CVE-2021-32777](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32777) 。
+Envoy 包含一个可远程利用的漏洞，当使用 `ext_authz` 扩展时，带有多个值标头的 HTTP 请求可能会执行不完整的授权策略检查。当请求头包含多个值时，外部授权服务器只会看到给定头的最后一个值。有关更多信息，请参阅 [CVE-2021-32777](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32777) 。
 
 * CVSS 得分: 8.6
 
@@ -88,7 +88,7 @@ Envoy 包含一个可远程利用的漏洞，当使用 `ext_authz` 扩展时，�
 
 ### CVE-2021-32778
 
-Envoy 包含一个可远程利用的漏洞，其中 Envoy 客户端打开然后重置大量的 HTTP/2 请求可能会导致 CPU 消耗过多。有关信息，请参阅 [CVE-2021-32778](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32778)。
+Envoy 包含一个可远程利用的漏洞，其中 Envoy 客户端打开后重置大量的 HTTP/2 请求，可能会导致 CPU 消耗过多。有关信息，请参阅 [CVE-2021-32778](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32778)。
 
 * CVSS 得分: 8.6
 
@@ -104,7 +104,7 @@ Envoy 包含一个可远程利用的漏洞，其中不受信任的上游服务�
 
 ### CVE-2021-32781
 
-Envoy 包含一个可远程利用的漏洞，Envoy 的 `decompressor`, `json-transcoder` 或者 `grpc-web` 扩展或修改，并增加请求或响应主体的大小专有扩展。在 Envoy 扩展中修改和增加主体的大小超出内部缓冲区大小可能会导致 Envoy 访问已释放的内存并异常终止。有关更多信息，请参阅 [CVE-2021-32781](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32781)。
+Envoy 包含一个可远程利用的漏洞，它会影响 Envoy 的 `decompressor`, `json-transcoder` 或者 `grpc-web` 插件，同时会影响能够修改或增加请求或响应主体的大小的专有插件。在 Envoy 插件中修改和增加主体的大小超出内部缓冲区大小可能会导致 Envoy 访问已释放的内存并异常终止。有关更多信息，请参阅 [CVE-2021-32781](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32781)。
 
 * CVSS 得分: 8.6
 
