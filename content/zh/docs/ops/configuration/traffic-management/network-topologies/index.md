@@ -1,10 +1,11 @@
 ---
-title: 配置 Gateway 网络拓扑 [实验特性]
-description: 如何配置 Gateway 网络拓扑 [实验特性]。
+title: 配置 Gateway 网络拓扑
+description: 如何配置 Gateway 网络拓扑。
 weight: 60
 keywords: [traffic-management,ingress,gateway]
 owner: istio/wg-networking-maintainers
-test: no
+test: yes
+status: Alpha
 ---
 
 ## 向目的地的工作负载转发外部客户端属性（IP 地址、证书信息）{#forwarding-external-client-attributes-to-destination-workloads}
