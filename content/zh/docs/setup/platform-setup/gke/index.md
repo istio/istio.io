@@ -71,3 +71,32 @@ test: no
         --clusterrole=cluster-admin \
         --user=$(gcloud config get-value core/account)
     {{< /text >}}
+
+## 多集群通信 {#multi-cluster-communication}
+
+在某些情况下，必须明确创建防火墙规则以允许跨集群流量。
+
+{{< warning >}}
+以下说明将允许您项目中**所有**集群之间的通信。根据需要调整命令。
+{{< /warning >}}
+
+1. 收集有关集群网络的信息。
+
+    {{< text bash >}}
+    $ function join_by { local IFS="$1"; shift; echo "$*"; }
+    $ ALL_CLUSTER_CIDRS=$(gcloud --project $PROJECT_ID container clusters list --format='value(clusterIpv4Cidr)' | sort | uniq)
+    $ ALL_CLUSTER_CIDRS=$(join_by , $(echo "${ALL_CLUSTER_CIDRS}"))
+    $ ALL_CLUSTER_NETTAGS=$(gcloud --project $PROJECT_ID compute instances list --format='value(tags.items.[0])' | sort | uniq)
+    $ ALL_CLUSTER_NETTAGS=$(join_by , $(echo "${ALL_CLUSTER_NETTAGS}"))
+    {{< /text >}}
+
+1. 创建防火墙规则。
+
+    {{< text bash >}}
+    $ gcloud compute firewall-rules create istio-multicluster-pods \
+        --allow=tcp,udp,icmp,esp,ah,sctp \
+        --direction=INGRESS \
+        --priority=900 \
+        --source-ranges="${ALL_CLUSTER_CIDRS}" \
+        --target-tags="${ALL_CLUSTER_NETTAGS}" --quiet
+    {{< /text >}}
