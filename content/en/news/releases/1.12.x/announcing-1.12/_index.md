@@ -75,5 +75,5 @@ To try it out, check out the [Kubernetes Gateway API](/docs/tasks/traffic-manage
 * A new `failoverPriority` configuration has been added to [Locality Load Balancing configuration](/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting), allowing customizing how pods are prioritized. For example, pods within the same network can be given additional priority.
 * New configuration to make [secure TLS origination simpler](/docs/ops/best-practices/security/#configure-tls-verification-in-destination-rule-when-using-tls-origination) has been added.
 * In case you missed it: initial support has been added for [gRPC native "Proxyless" Service Mesh](/blog/2021/proxyless-grpc/).
-* Experimental support for HTTP/3 Gateways [has been added](https://github.com/istio/istio/wiki/(Experimental)-QUIC-and-HTTP-3-support-in-Istio-gateways).
+* Experimental support for HTTP/3 Gateways [has been added](https://github.com/istio/istio/wiki/Experimental-QUIC-and-HTTP-3-support-in-Istio-gateways).
 * For the full list of changes, the see the [Change Notes](/news/releases/1.12.x/announcing-1.12/change-notes/).
