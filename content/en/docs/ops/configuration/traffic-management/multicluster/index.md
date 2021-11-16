@@ -10,7 +10,7 @@ test: no
 ### Prerequisites
 
 1. Read [Deployment Models](/docs/ops/deployment/deployment-models/#multiple-clusters)
-2. Make sure your deployed services follow the concept of {{< gloss "namespace sameness" >}}namespace sameness{{< /gloss >}}.
+1. Make sure your deployed services follow the concept of {{< gloss "namespace sameness" >}}namespace sameness{{< /gloss >}}.
 
 ### Keeping traffic in-cluster
 
@@ -60,10 +60,10 @@ serviceSettings:
 
 ### Partitioning Services {#partitioning-services}
 
-[DestinationRule.subsets](/docs/reference/config/networking/destination-rule/#Subset) allows partitioning a service
+[`DestinationRule.subsets`](/docs/reference/config/networking/destination-rule/#Subset) allows partitioning a service
 by selecting labels. These labels can be the labels from Kubernetes metadata, or from [built-in labels](/docs/reference/config/labels/).
-One of these built-in labels, `topology.istio.io/cluster`, in the subset selector for a DestinationRule allows creating
-per-cluster subsets.
+One of these built-in labels, `topology.istio.io/cluster`, in the subset selector for a `DestinationRule` allows
+creating per-cluster subsets.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1beta1
@@ -111,38 +111,4 @@ spec:
     - destination:
         host: mysvc.myns.svc.cluster.local
         subset: cluster-2
-{{< /text >}}
-
-### Locality Load Balancing
-
-When using a multi-cluster mesh for redundancy and resiliency, it may be desirable to only send cross-cluster traffic
-when necessary. Using [Locality Load Balancing](/docs/tasks/traffic-management/locality-load-balancing/) settings, you
-can configure locality weighted distribution or failover.
-
-On top of default locality components of `region/zone/subzone`, you can use [`failoverPriority`](/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting)
-to failover based on the cluster or network explicitly. Using the following destination rule, traffic will prefer first
-in-cluster traffic, then in-network, then in-region, etc.
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
-kind: DestinationRule
-metadata:
-  name: mysvc-cluster-failover
-spec:
-  host: mysvc.myns.svc.cluster.local
-  trafficPolicy:
-    loadBalancer:
-      simple: ROUND_ROBIN
-      localityLbSetting:
-        enabled: true
-        failoverPriority:
-        - "topology.istio.io/cluster"
-        - "topology.istio.io/network"
-        - "topology.kubernetes.io/region"
-        - "topology.kubernetes.io/zone"
-        - "topology.istio.io/subzone"
-    outlierDetection:
-      consecutive5xxErrors: 1
-      interval: 1s
-      baseEjectionTime: 1m
 {{< /text >}}
