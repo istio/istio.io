@@ -7,12 +7,13 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-### Prerequisites
+Within a multicluster mesh, traffic rules specific to the cluster topology may be desirable. This document describes
+a few ways to manage traffic in a multicluster mesh. Before reading this guide:
 
 1. Read [Deployment Models](/docs/ops/deployment/deployment-models/#multiple-clusters)
 1. Make sure your deployed services follow the concept of {{< gloss "namespace sameness" >}}namespace sameness{{< /gloss >}}.
 
-### Keeping traffic in-cluster
+# Keeping traffic in-cluster
 
 In some cases the default cross-cluster load balancing behavior is not desirable. To keep traffic "cluster-local" (i.e.
 traffic sent from `cluster-a` will only reach destinations in `cluster-a`), mark hostnames or wildcards as `clusterLocal`
@@ -58,7 +59,7 @@ serviceSettings:
 
 {{< /tabset >}}
 
-### Partitioning Services {#partitioning-services}
+# Partitioning Services {#partitioning-services}
 
 [`DestinationRule.subsets`](/docs/reference/config/networking/destination-rule/#Subset) allows partitioning a service
 by selecting labels. These labels can be the labels from Kubernetes metadata, or from [built-in labels](/docs/reference/config/labels/).
