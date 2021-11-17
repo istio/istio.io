@@ -150,7 +150,7 @@ features:
     area: Observability
   - name: "Trace Sampling"
     id: "observability.trace_sampling"
-    link: "/docs/tasks/observability/distributed-tracing/configurability/#trace-sampling"
+    link: "/docs/tasks/observability/distributed-tracing/mesh-and-proxy-config/#trace-sampling"
     level:
       checklist: ""
       maturity: Beta
