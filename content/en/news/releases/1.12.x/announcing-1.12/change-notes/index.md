@@ -10,20 +10,10 @@ aliases:
     - /news/announcing-1.12.0
 ---
 
-{{< warning >}}
-This is an automatically generated rough draft of the release notes and has not yet been reviewed.
-{{< /warning >}}
-
-# Release Notes
-
-## Deprecation Notices
-
-These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definitions). Please consider upgrading your environment to remove the deprecated functionality.
-
 ## Traffic Management
 
 - **Improved** TCP probes now working as expected: When using TCP probes with older versions of Istio the check was always successful, even if the application didn't open the port.
-  ([details](/news/releases/1.12.x/announcing-1.12/upgrade-notes/#tcp-probes-now-working-as-expected)) 
+  ([details](/news/releases/1.12.x/announcing-1.12/upgrade-notes/#tcp-probes-now-working-as-expected))
 
 - **Improved** support for headless services with undeclared protocols to not require specific `Host` headers.
   ([Issue #34679](https://github.com/istio/istio/issues/34679))
@@ -39,7 +29,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Added** support for `trafficPolicy.loadBalancer.consistentHash` in `DestinationRule` for proxyless gRPC clients.
   ([Pull Request #35333](https://github.com/istio/istio/pull/35333))
-  
+
 - **Added** the ability for users to specify Envoy's `LOGICAL_DNS` as a connection type for a cluster using `DNS_ROUND_ROBIN` in ServiceEntry.
   ([Issue #35475](https://github.com/istio/istio/issues/35475))
 
@@ -48,7 +38,6 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Added** support for creating mirrored QUIC listeners for non-passthrough HTTPS listeners at gateways
   ([Pull Request #33817](https://github.com/istio/istio/pull/33817))
-  
 
 - **Added** support for the `v1alpha2` version of the [gateway-api](https://gateway-api.org/).
   ([Pull Request #35009](https://github.com/istio/istio/pull/35009))
@@ -70,14 +59,13 @@ These notices describe functionality that will be removed in a future release ac
 - **Improved** performance of TLS certificate Secret watches to reduce memory usage.
   ([Issue #35231](https://github.com/istio/istio/issues/35231))
 
-
 - **Added** support to istiod to notice `cacerts` file changes via the `AUTO_RELOAD_PLUGIN_CERTS` env var.
   ([Issue #31522](https://github.com/istio/istio/issues/31522))
 
 - **Added** `VERTIFY_CERT_AT_CLIENT` environmental variable to istiod. Setting `VERTIFY_CERT_AT_CLIENT` to `true` will verify server certificates using the OS CA certificates when not using a `DestinationRule` `caCertificates` field.
   ([Issue #33472](https://github.com/istio/istio/issues/33472))
 
-- **Added** Auto mTLS support for workload level peer authentication. You no longer need to configure destination rule when servers are configured with workload level peer authentication policy. This can be disabled by setting `ENABLE_AUTO_MTLS_CHECK_POLICIES` to "false". 
+- **Added** Auto mTLS support for workload level peer authentication. You no longer need to configure destination rule when servers are configured with workload level peer authentication policy. This can be disabled by setting `ENABLE_AUTO_MTLS_CHECK_POLICIES` to "false".
   ([Issue #33809](https://github.com/istio/istio/issues/33809))
 
 - **Added** the support of integrating with GKE workload certificates.
@@ -88,7 +76,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Added** support for JWT claim based routing on ingress gateways.
   ([Pull Request #35762](https://github.com/istio/istio/pull/35762))
-  
+
 - **Fixed** the `EnvoyExternalAuthorizationHttpProvider` to match HTTP headers in a case-insensitive way.
   ([Issue #35220](https://github.com/istio/istio/issues/35220))
 
@@ -107,9 +95,8 @@ These notices describe functionality that will be removed in a future release ac
 - **Updated** `istioctl tag set default` to control which revision handles Istio resource validation. The revision indicated
 through the default tag will also win leader elections and assume singleton cluster responsibilities.
   ([Pull Request #35286](https://github.com/istio/istio/pull/35286))
-  
 
-- **Added** labels on pod level for istio-operator and istiod. 
+- **Added** labels on pod level for istio-operator and istiod.
   ([Issue #33879](https://github.com/istio/istio/issues/33879))
 
 - **Added** pilot service annotations on helm chart
