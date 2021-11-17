@@ -36,7 +36,7 @@ The API is currently in alpha and evolving. [Your feedback](/get-involved/) is a
 
 ## Telemetry API
 
-In Istio 1.11, the start of the brand new [`Telemetry` API](/docs/reference/config/telemetry/) to bring a standardized API to configure tracing, logging, and metrics in Istio.
+In Istio 1.11, we introduced a brand new [`Telemetry` API](/docs/reference/config/telemetry/) to bring a standardized API to configure tracing, logging, and metrics in Istio.
 In 1.12, we continued work in this direction, expanding support for configuring metrics and access logging to the API.
 
 To get started, check out the docs:
@@ -59,7 +59,7 @@ Check out the new [getting started](/docs/setup/install/helm/#prerequisites) ins
 These charts can also be found at the [ArtifactHub](https://artifacthub.io/packages/search?org=istio).
 
 In addition, a new refined [`gateway` chart](https://artifacthub.io/packages/helm/istio-official/gateway) has been published.
-This chart replaces the old `istio-ingressgateway` and `istio-egressgateway` charts to greatly simplify management of gateways and follow Helm best practices. Please visit the gateway injection page for issues migrating to the new helm chart.
+This chart replaces the old `istio-ingressgateway` and `istio-egressgateway` charts to greatly simplify management of gateways and follow Helm best practices. Please visit the gateway injection page for instructions migrating to the new helm chart.
 
 ## Kubernetes Gateway API
 
