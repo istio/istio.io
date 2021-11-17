@@ -87,7 +87,7 @@ aliases:
 
 ## Extensibility
 
-- **Added** support for Istio `WasmPlugin` API
+- **Added** support for Istio `WasmPlugin` API.
   ([Pull Request #33374](https://github.com/istio/istio/pull/33374))
 
 ## Installation
