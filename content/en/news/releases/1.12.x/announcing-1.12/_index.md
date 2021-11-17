@@ -25,14 +25,14 @@ Here are some of the highlights of the release:
 
 ## WebAssembly API
 
-[WebAssembly](/docs/concepts/wasm/) has been an important project, in development for [over 3 years](/latest/blog/2020/wasm-announce/), to bring advanced extensibility to Istio, by allowing users to dynamically load custom-built extensions at runtime.
+[WebAssembly](/docs/concepts/wasm/) has been an important project, in development for [over 3 years](/blog/2020/wasm-announce/), to bring advanced extensibility to Istio, by allowing users to dynamically load custom-built extensions at runtime.
 However, until now, configuring WebAssembly plugins has been experimental and hard to use.
 
 In Istio 1.12, we have improved this experience by adding a first-class API to configure WebAssembly plugins: [WasmPlugin](/docs/reference/config/proxy_extensions/wasm-plugin/).
 
 With `WasmPlugin`, you can easily deploy custom plugins to individual proxies, or even the entire mesh.
 
-The API is currently in alpha and evolving. [Your feedback](/latest/get-involved/) is appreciated!
+The API is currently in alpha and evolving. [Your feedback](/get-involved/) is appreciated!
 
 ## Telemetry API
 
@@ -47,7 +47,7 @@ To get started, check out the docs:
 * Metrics
 * Access Logging
 
-The API is currently in alpha and evolving. [Your feedback](/latest/get-involved/) is appreciated!
+The API is currently in alpha and evolving. [Your feedback](/get-involved/) is appreciated!
 
 ## Helm support
 
