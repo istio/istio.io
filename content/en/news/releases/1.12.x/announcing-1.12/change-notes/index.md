@@ -3,7 +3,7 @@ title: Change Notes
 linktitle: 1.12.0
 subtitle: Minor Release
 description: Istio 1.12.0 release notes.
-publishdate: 2021-11-16
+publishdate: 2021-11-18
 release: 1.12.0
 weight: 10
 aliases:
@@ -11,9 +11,6 @@ aliases:
 ---
 
 ## Traffic Management
-
-- **Improved** TCP probes now working as expected: When using TCP probes with older versions of Istio the check was always successful, even if the application didn't open the port.
-  ([details](/news/releases/1.12.x/announcing-1.12/upgrade-notes/#tcp-probes-now-working-as-expected))
 
 - **Improved** support for headless services with undeclared protocols to not require specific `Host` headers.
   ([Issue #34679](https://github.com/istio/istio/issues/34679))
@@ -36,7 +33,7 @@ aliases:
 - **Added** `failoverPriority` load balancing traffic policy, which allows users to set an ordered list of labels used to sort endpoints to do priority based load balancing.
   ([Pull Request #34740](https://github.com/istio/istio/pull/34740))
 
-- **Added** support for creating mirrored QUIC listeners for non-passthrough HTTPS listeners at gateways
+- **Added** support for creating mirrored QUIC listeners for non-passthrough HTTPS listeners at gateways.
   ([Pull Request #33817](https://github.com/istio/istio/pull/33817))
 
 - **Added** support for the `v1alpha2` version of the [gateway-api](https://gateway-api.org/).
@@ -45,13 +42,16 @@ aliases:
 - **Added** experimental support for the `cluster.local` host behavior as defined by the Kubernetes Multi-Cluster Services (MCS) spec. This feature is off by default, but can be enabled by setting the following flags in Istio: `ENABLE_MCS_CLUSTER_LOCAL`, `ENABLE_MCS_HOST` and `ENABLE_MCS_SERVICE_DISCOVERY`. When enabled, requests to the `cluster.local` host will be routed to only those endpoints residing within the same cluster as the client.
   ([Issue #35424](https://github.com/istio/istio/issues/35424))
 
+- **Fixed** TCP probes. When using TCP probes with older versions of Istio the check was always successful, even if the application didn't open the port.
+  ([details](/news/releases/1.12.x/announcing-1.12/upgrade-notes/#tcp-probes-now-working-as-expected))
+
 - **Fixed** Gateway API xRoute does not forward the traffic to that backend when weight `0`.
   ([Issue #34129](https://github.com/istio/istio/issues/34129))
 
 - **Fixed** an issue in which ADS would hang due to the wrong `syncCh` size being provided.
   ([Pull Request #34633](https://github.com/istio/istio/pull/34633))
 
-- **Fixed** and issue causing Ingress resources with the same name but different namespaces from conflicting.
+- **Fixed** an issue causing Ingress resources with the same name but different namespaces from conflicting.
   ([Issue #31833](https://github.com/istio/istio/issues/31833))
 
 ## Security
@@ -59,16 +59,16 @@ aliases:
 - **Improved** performance of TLS certificate Secret watches to reduce memory usage.
   ([Issue #35231](https://github.com/istio/istio/issues/35231))
 
-- **Added** support to istiod to notice `cacerts` file changes via the `AUTO_RELOAD_PLUGIN_CERTS` env var.
+- **Added** support to istiod to notice `cacerts` file changes via the `AUTO_RELOAD_PLUGIN_CERTS` environment variable.
   ([Issue #31522](https://github.com/istio/istio/issues/31522))
 
-- **Added** `VERTIFY_CERT_AT_CLIENT` environmental variable to istiod. Setting `VERTIFY_CERT_AT_CLIENT` to `true` will verify server certificates using the OS CA certificates when not using a `DestinationRule` `caCertificates` field.
+- **Added** `VERTIFY_CERT_AT_CLIENT` environment variable to istiod. Setting `VERTIFY_CERT_AT_CLIENT` to `true` will verify server certificates using the OS CA certificates when not using a `DestinationRule` `caCertificates` field.
   ([Issue #33472](https://github.com/istio/istio/issues/33472))
 
-- **Added** Auto mTLS support for workload level peer authentication. You no longer need to configure destination rule when servers are configured with workload level peer authentication policy. This can be disabled by setting `ENABLE_AUTO_MTLS_CHECK_POLICIES` to "false".
+- **Added** Auto mTLS support for workload level peer authentication. You no longer need to configure destination rule when servers are configured with workload level peer authentication policy. This can be disabled by setting `ENABLE_AUTO_MTLS_CHECK_POLICIES` to `false`.
   ([Issue #33809](https://github.com/istio/istio/issues/33809))
 
-- **Added** the support of integrating with GKE workload certificates.
+- **Added** support for integration of GKE workload certificates.
   ([Issue #35385](https://github.com/istio/istio/issues/35385))
 
 - **Added** values to the Istio Gateway Helm charts for configuring annotations on the ServiceAccount.  Can be used to enable [IAM Roles for Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) on AWS EKS.
@@ -99,25 +99,25 @@ through the default tag will also win leader elections and assume singleton clus
 - **Added** labels on pod level for istio-operator and istiod.
   ([Issue #33879](https://github.com/istio/istio/issues/33879))
 
-- **Added** pilot service annotations on helm chart
+- **Added** pilot service annotations on helm chart.
   ([Issue #35229](https://github.com/istio/istio/issues/35229))
 
-- **Added** Support arm64 API for operator, add nodeAffinity arm64 expression.
+- **Added** support for arm64 API for operator, add nodeAffinity arm64 expression.
   ([Pull Request #35648](https://github.com/istio/istio/pull/35648))
 
 - **Fixed** a bug where specifying same port number with different protocols (TCP and UDP)
-lead to incorrect merging and rendered erroneous manifest.
+lead to incorrect merging and rendered an erroneous manifest.
   ([Issue #33841](https://github.com/istio/istio/issues/33841))
 
-- **Fixed** Istioctl does not wait on CNI DaemonSet update
+- **Fixed** Istioctl not wait on CNI DaemonSet update.
   ([Issue #34811](https://github.com/istio/istio/issues/34811))
 
-- **Fixed** No Permission to list `ServiceExport` from remote clusters in primary cluster.
+- **Fixed** no Permission to list `ServiceExport` from remote clusters in primary cluster.
   ([Issue #35068](https://github.com/istio/istio/issues/35068))
 
 ## istioctl
 
-- **Improved** Analyzers reports output to match the naming scheme expected by the API, i.e `<ns>/<name>` instead of `<name>.<ns>`.
+- **Improved** analyzers report output to match the naming scheme expected by the API, i.e `<ns>/<name>` instead of `<name>.<ns>`.
   ([Issue #35405](https://github.com/istio/istio/issues/35405))
 
 - **Improved** destination rule ca analyzer to show exact error line when using `istioctl analyze`,
@@ -135,7 +135,7 @@ experimental.
 and the service registry sync status of each cluster.
   ([Issue #33799](https://github.com/istio/istio/issues/33799))
 
-- **Added** the pod alias `po` for users to use `istioctl x describe po`, which is consistent with `kubectl` command.
+- **Added** the pod alias `po` for users to use `istioctl x describe po`, which is consistent with the `kubectl` command.
   ([Pull Request #34802](https://github.com/istio/istio/pull/34802))
 
 - **Added** precheck now detects usage of Alpha Annotations.
@@ -144,7 +144,7 @@ and the service registry sync status of each cluster.
 - **Added** `istioctl operator dump` now supports the `watchedNamespaces` argument to specify the namespaces the operator controller watches.
   ([Issue #35485](https://github.com/istio/istio/issues/35485))
 
-- **Fixed** `istioctl operator` subcommands now support remote URLs specified in the `--manifests` argument.
+- **Fixed** `istioctl operator` subcommands to now support remote URLs specified in the `--manifests` argument.
   ([Issue #34896](https://github.com/istio/istio/issues/34896))
 
 - **Fixed** `istioctl admin log` format.

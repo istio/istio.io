@@ -4,8 +4,8 @@ description: Important changes to consider when upgrading to Istio 1.12.0.
 weight: 20
 ---
 
-When you upgrade from Istio 1.11.0 to Istio 1.12.0, you need to consider the changes on this page.
-These notes detail the changes which purposefully break backwards compatibility with Istio 1.11.0.
+When you upgrade from Istio 1.10.0 or 1.11.0 to Istio 1.12.0, you need to consider the changes on this page.
+These notes detail the changes which purposefully break backwards compatibility with Istio 1.10.0 and 1.11.0.
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.12.0.
 
