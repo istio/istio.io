@@ -29,6 +29,7 @@
 1.9.x.
 1.10.x
 1.11.x
+1.12.x
 1.x
 10ms
 10s
@@ -115,6 +116,8 @@ appswitch
 AppSwitch
 architected
 args.yaml
+arm64
+ArtifactHub
 AssemblyScript
 Atlassian
 AttributeGen
@@ -348,6 +351,7 @@ frontend
 frontends
 gamified
 gapped
+gateway-api
 Gather.town
 GB
 gbd
@@ -432,6 +436,7 @@ istio-discovery
 istio-ecosystem
 istio-identity
 istio-mixer
+istio-operator
 istio-proxy
 ISTIO-SECURITY-2019-003
 ISTIO-SECURITY-2019-004
@@ -479,6 +484,7 @@ Kafka
 katacoda
 Kaul
 Keepalived
+Kenan
 key.pem
 Keycloak
 Khaliq
@@ -582,6 +588,7 @@ nginx
 NICs
 NiFi
 NLBs
+nodeAffinity
 Node.js
 no-brainer
 non-revisioned
@@ -601,6 +608,7 @@ onboard
 Onboard
 onboarding
 Onboarding
+O'Neal
 onwards
 OpenAPI
 OpenCensus
@@ -779,6 +787,7 @@ struct
 Styra
 src
 Srinath
+subcommands
 subdomain
 subdomains
 subnet
@@ -892,6 +901,7 @@ VPNs
 Warman
 Wasm
 wasme
+WasmPlugin
 WeaveWorks
 WebAssembly
 webhook
@@ -921,6 +931,7 @@ x86
 xDS
 Xia
 Xining
+xRoute
 Xu
 Yahya
 yaml
