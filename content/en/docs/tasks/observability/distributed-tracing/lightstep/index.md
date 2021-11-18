@@ -178,7 +178,7 @@ server-side span of the call. The screenshot shows that the call took 14.60 ms.
 ## Trace sampling
 
 Istio captures traces at a configurable trace sampling percentage. To learn how to modify the trace sampling percentage,
-visit the [Distributed Tracing trace sampling section](../configurability/#trace-sampling).
+visit the [Distributed Tracing trace sampling section](/docs/tasks/observability/distributed-tracing/mesh-and-proxy-config/#customizing-trace-sampling).
 
 When using Lightstep, we do not recommend reducing the trace sampling percentage below 100%. To handle a high traffic mesh, consider scaling up the size of your satellite pool.
 

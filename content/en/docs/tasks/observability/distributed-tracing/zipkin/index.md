@@ -22,7 +22,7 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 1.  When you enable tracing, you can set the sampling rate that Istio uses for tracing.
     Use the `meshConfig.defaultConfig.tracing.sampling` option during installation to
-    [set the sampling rate](/docs/tasks/observability/distributed-tracing/configurability/#customizing-trace-sampling).
+    [set the sampling rate](/docs/tasks/observability/distributed-tracing/mesh-and-proxy-config/#customizing-trace-sampling).
     The default sampling rate is 1%.
 
 1.  Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
