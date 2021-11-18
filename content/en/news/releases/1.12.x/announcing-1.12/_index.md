@@ -40,12 +40,11 @@ In Istio 1.11, we introduced a brand new [`Telemetry` API](/docs/reference/confi
 In 1.12, we continued work in this direction, expanding support for configuring metrics and access logging to the API.
 
 To get started, check out the docs:
-<!-- TODO links once docs merge -->
 
-* Telemetry API overview
-* Tracing
-* Metrics
-* Access Logging
+* [Telemetry API overview](/docs/tasks/observability/telemetry/)
+* [Tracing](/docs/tasks/observability/distributed-tracing/)
+* [Metrics](/docs/tasks/observability/metrics/)
+* [Access Logging](/docs/tasks/observability/logs/access-log/)
 
 The API is currently in alpha and evolving. [Your feedback](/get-involved/) is appreciated!
 
