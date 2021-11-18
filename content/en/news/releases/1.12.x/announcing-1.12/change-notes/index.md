@@ -2,7 +2,7 @@
 title: Istio 1.12 Change Notes
 linktitle: 1.12.0
 subtitle: Minor Release
-description: Istio 1.12.0 release notes.
+description: Istio 1.12.0 change notes.
 publishdate: 2021-11-18
 release: 1.12.0
 weight: 10
