@@ -161,5 +161,3 @@ and the service registry sync status of each cluster.
 
 - **Fixed** an issue in istioctl bug-report where --context and --kubeconfig were not being honored.
   ([Issue #35574](https://github.com/istio/istio/issues/35574))
-
-## Documentation changes
