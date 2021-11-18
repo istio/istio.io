@@ -8,6 +8,10 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
+{{< tip >}}
+No special configuration is required to run Istio on Kubernetes clusters version 1.22 or newer. For prior Kubernetes versions, you will need to continue to perform these steps.
+{{< /tip >}}
+
 If you wish to run Istio [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration) (SDS) for your mesh on Kops managed clusters, you must add [extra configurations](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) to enable service account token projection volumes in the api-server.
 
 1. Open the configuration file:
