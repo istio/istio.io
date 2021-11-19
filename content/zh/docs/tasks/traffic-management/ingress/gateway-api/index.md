@@ -10,7 +10,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-本任务描述如何配置 Istio ，以使用 Kubernetes Gateway API 在 service mesh 集群外部暴露服务。
+本任务描述如何配置 Istio ，以使用 Kubernetes Gateway API 在 Service Mesh 集群外部暴露服务。
 这些 API 是 Kubernetes [Service](https://kubernetes.io/docs/concepts/services-networking/service/) 和 [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) API 的积极发展演进。
 
 
@@ -28,12 +28,12 @@ API (由 Kubernetes SIG-NETWORK 拥有)和 Istio 的实现方式都有可能在�
     $ kubectl get crd gateways.gateway.networking.k8s.io || { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.4.0" | kubectl apply -f -; }
     {{< /text >}}
 
-## 与 Istio API 的区别{#Differences-from-Istio-APIs }
+## 与 Istio API 的区别{#differences-from-Istio-APIs }
 
 Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处。
 主资源使用相同的  `Gateway` 名称，并且这些资源服务于相类似的目标。
 
-新的 Gateway API 致力于从 Kubernetes 的各种 Ingress 实现(包括 Istio )中吸取经验，以构建标准化的，独立于供应商的 API。
+新的 Gateway API 致力于从 Kubernetes 的各种 Ingress 实现（包括 Istio）中吸取经验，以构建标准化的，独立于供应商的 API。
 这些 API 通常与 Istio Gateway 和 VirtualService 具有相同的用途，但有一些关键的区别：
 
 *  Istio API 中的`Gateway` 仅配置已部署的现有网关 Deployment/Service，
@@ -131,11 +131,11 @@ Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处
     ...
     {{< /text >}}
 
-## 部署方法{#Deployment-methods}
+## 部署方法{#deployment-methods}
 
-在上面的示例中，在配置网关之前，你不需要安装 ingress 网关 `Deployment` 。因为在默认配置中会根据 `Gateway` 配置自动分发网关`Deployment` 和 `Service` ，但是对于高级别的用例，仍然允许手动部署。
+在上面的示例中，在配置网关之前，您不需要安装 ingress 网关 `Deployment` 。因为在默认配置中会根据 `Gateway` 配置自动分发网关`Deployment` 和 `Service` ，但是对于高级别的用例，仍然允许手动部署。
 
-### 自动部署{#Automated-Deployment}
+### 自动部署{#automated-deployment}
 
 默认情况下，每个 `Gateway` 将自动提供相同名称的 `Service` 和 `Deployment`。如果 `Gateway` 发生变化(例如添加了一个新端口)，这些配置将会自动更新。
 
@@ -167,9 +167,9 @@ Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处
 
 * (高级用法)生成的 Pod 配置可以通过[自定义注入模板](/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental)进行配置。
 
-### 手动部署{#Manual-Deployment}
+### 手动部署{#manual-deployment}
 
-如果你不希望使用自动部署，可以进行[手动配置](/docs/setup/additional-setup/gateway/) `Deployment` 和 `Service`。
+如果您不希望使用自动部署，可以进行[手动配置](/docs/setup/additional-setup/gateway/) `Deployment` 和 `Service`。
 
 完成此选项后，您将需要手动将 `Gateway` 链接到 `Service`，并保持它们的端口配置同步。
 
