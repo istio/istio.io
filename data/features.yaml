@@ -2,7 +2,7 @@ features:
   - name: "Protocols:HTTP1.1/HTTP2/gRPC/TCP"
     id: "traffic.http_protocols"
     level:
-      checklist: ""
+      checklist: features/protocol-support.md
       maturity: Stable
       nextExpectedPromotion: ""
     area: Traffic Management
@@ -82,7 +82,7 @@ features:
     id: "traffic.dns_proxying"
     link: "/docs/ops/configuration/traffic-management/dns-proxy/"
     level:
-      checklist: ""
+      checklist: features/dns-proxying.md
       maturity: Alpha
       nextExpectedPromotion: ""
     area: Traffic Management
@@ -207,7 +207,7 @@ features:
     id: "security.authorization"
     link: "/docs/concepts/security/#authorization"
     level:
-      checklist: ""
+      checklist: features/authorization.md
       maturity: Beta
       nextExpectedPromotion: ""
     area: Security and policy enforcement
@@ -251,6 +251,14 @@ features:
       maturity: Alpha
       nextExpectedPromotion: ""
     area: Security and policy enforcement
+  - name: "Authorization Dry Run"
+    id: "security.authorization_dry_run"
+    link: "/docs/tasks/security/authorization/authz-dry-run"
+    level:
+      checklist: features/dry_run_authorization_policy.md
+      maturity: Experimental
+      nextExpectedPromotion: "1.13"
+    area: Security and policy enforcement
   - name: "In-Cluster Operator"
     id: "core.in_cluster_operator"
     link: "/docs/setup/install/operator/"
@@ -271,7 +279,7 @@ features:
     id: "core.control_plane_installation"
     link: "/docs/setup/"
     level:
-      checklist: ""
+      checklist: features/control-plane-installation.md
       maturity: Stable
       nextExpectedPromotion: ""
     area: Core
@@ -317,7 +325,7 @@ features:
   - name: "IPv6 Support for Kubernetes"
     id: "core.ipv6"
     level:
-      checklist: ""
+      checklist: features/ipv6-support.md
       maturity: Alpha
       maturityNotes: Dual-stack IPv4 and IPv6 is not supported.
       nextExpectedPromotion: ""

@@ -50,7 +50,7 @@ COMPONENTS=(
 )
 
 # The repo to fetch config analysis message data from
-CONFIG_ANALYSIS_MESSAGE_REPO="https://github.com/istio/istio.git@${SOURCE_BRANCH_NAME}@galley/pkg/config/analysis/msg/messages.yaml"
+CONFIG_ANALYSIS_MESSAGE_REPO="https://github.com/istio/istio.git@${SOURCE_BRANCH_NAME}@pkg/config/analysis/msg/messages.yaml"
 
 SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ROOTDIR=$(dirname "${SCRIPTPATH}")

@@ -196,11 +196,11 @@ $ operator completion zsh &gt; /usr/local/share/zsh/site-functions/_operator</p>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, default, grpcgen, installer, klog, kube, mcp, model, patch, processing, resource, retry, source, spiffe, telemetry, tpath, translator, trustBundle, util, validation, validationController, wasm, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, default, file, grpcgen, installer, klog, kube, model, patch, processing, proxyconfig, resource, retry, spiffe, telemetry, tpath, translator, trustBundle, util, validation, validationController, wasm, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, grpcgen, installer, klog, kube, mcp, model, patch, processing, resource, retry, source, spiffe, telemetry, tpath, translator, trustBundle, util, validation, validationController, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, file, grpcgen, installer, klog, kube, model, patch, processing, proxyconfig, resource, retry, spiffe, telemetry, tpath, translator, trustBundle, util, validation, validationController, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -220,7 +220,7 @@ $ operator completion zsh &gt; /usr/local/share/zsh/site-functions/_operator</p>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, grpcgen, installer, klog, kube, mcp, model, patch, processing, resource, retry, source, spiffe, telemetry, tpath, translator, trustBundle, util, validation, validationController, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, file, grpcgen, installer, klog, kube, model, patch, processing, proxyconfig, resource, retry, spiffe, telemetry, tpath, translator, trustBundle, util, validation, validationController, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -449,6 +449,18 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>String</td>
 <td><code></code></td>
 <td>KNative revision, set if running in knative</td>
+</tr>
+<tr>
+<td><code>MCS_API_GROUP</code></td>
+<td>String</td>
+<td><code>multicluster.x-k8s.io</code></td>
+<td>The group to be used for the Kubernetes Multi-Cluster Services (MCS) API.</td>
+</tr>
+<tr>
+<td><code>MCS_API_VERSION</code></td>
+<td>String</td>
+<td><code>v1alpha1</code></td>
+<td>The version to be used for the Kubernets Multi-Cluster Services (MCS) API.</td>
 </tr>
 <tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
@@ -925,20 +937,6 @@ These environment variables affect the behavior of the <code>operator</code> com
 <tr><td><code>cr_merge_failure_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR merge failures</td></tr>
 <tr><td><code>cr_validation_error_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR validation failures</td></tr>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
-<tr><td><code>galley_runtime_processor_event_span_duration_milliseconds</code></td><td><code>Distribution</code></td><td>The duration between each incoming event</td></tr>
-<tr><td><code>galley_runtime_processor_events_processed_total</code></td><td><code>Count</code></td><td>The number of events that have been processed</td></tr>
-<tr><td><code>galley_runtime_processor_snapshot_events_total</code></td><td><code>Distribution</code></td><td>The number of events per snapshot</td></tr>
-<tr><td><code>galley_runtime_processor_snapshot_lifetime_duration_milliseconds</code></td><td><code>Distribution</code></td><td>The duration of each snapshot</td></tr>
-<tr><td><code>galley_runtime_processor_snapshots_published_total</code></td><td><code>Count</code></td><td>The number of snapshots that have been published</td></tr>
-<tr><td><code>galley_runtime_state_type_instances_total</code></td><td><code>LastValue</code></td><td>The number of type instances per type URL</td></tr>
-<tr><td><code>galley_runtime_strategy_on_change_total</code></td><td><code>Count</code></td><td>The number of times the strategy's onChange has been called</td></tr>
-<tr><td><code>galley_runtime_strategy_timer_max_time_reached_total</code></td><td><code>Count</code></td><td>The number of times the max time has been reached</td></tr>
-<tr><td><code>galley_runtime_strategy_timer_quiesce_reached_total</code></td><td><code>Count</code></td><td>The number of times a quiesce has been reached</td></tr>
-<tr><td><code>galley_runtime_strategy_timer_resets_total</code></td><td><code>Count</code></td><td>The number of times the timer has been reset</td></tr>
-<tr><td><code>galley_source_kube_dynamic_converter_failure_total</code></td><td><code>Count</code></td><td>The number of times a dynamnic kubernetes source failed converting a resources</td></tr>
-<tr><td><code>galley_source_kube_dynamic_converter_success_total</code></td><td><code>Count</code></td><td>The number of times a dynamic kubernetes source successfully converted a resource</td></tr>
-<tr><td><code>galley_source_kube_event_error_total</code></td><td><code>Count</code></td><td>The number of times a kubernetes source encountered errored while handling an event</td></tr>
-<tr><td><code>galley_source_kube_event_success_total</code></td><td><code>Count</code></td><td>The number of times a kubernetes source successfully handled an event</td></tr>
 <tr><td><code>galley_validation_config_delete_error</code></td><td><code>Count</code></td><td>k8s webhook configuration delete error</td></tr>
 <tr><td><code>galley_validation_config_load</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)loads</td></tr>
 <tr><td><code>galley_validation_config_load_error</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)load error</td></tr>

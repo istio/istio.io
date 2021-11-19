@@ -1,0 +1,68 @@
+###############################################
+# set server-side redirects in this file      #
+# see https://www.netlify.com/docs/redirects/ #
+# test at https://play.netlify.com/redirects  #
+###############################################
+
+# Redirect golang vanity imports for istio.io
+/istio/* go-get=1 /latest/golang/istio.html 200
+/pkg/* go-get=1 /latest/golang/pkg.html 200
+/api/* go-get=1 /latest/golang/api.html 200
+/gogo-genproto/* go-get=1 /latest/golang/gogo-genproto.html 200
+/test-infra/* go-get=1 /latest/golang/test-infra.html 200
+/tools/* go-get=1 /latest/golang/tools.html 200
+/operator/* go-get=1 /latest/golang/operator.html 200
+/client-go/* go-get=1 /latest/golang/client-go.html 200
+/release-builder/* go-get=1 /latest/golang/release-builder.html 200
+/proxy/*  go-get=1 /latest/golang/proxy.html 200
+
+# Redirect default Netlify subdomain to primary domain
+https://istio.netlify.com/* https://istio.io/:splat 301!
+
+# Redirect to translated sites
+/  /latest/zh   302  Language=zh
+/zh /latest/zh
+/zh/* /latest/zh/:splat
+
+# Redirect for the helm charts
+/charts/ https://storage.googleapis.com/istio-release/releases/1.11.4/charts/ 301
+
+# Redirects for all aliases
+
+# Download scripts
+/downloadIstio https://raw.githubusercontent.com/istio/istio/master/release/downloadIstioCandidate.sh
+/downloadIstioctl https://raw.githubusercontent.com/istio/istio/master/release/downloadIstioCtl.sh
+
+# Redirect static folder
+/img/* /latest/img/:splat
+/misc/* /latest/misc/:splat
+/talks/* /latest/talks/:splat
+/favicons/* /latest/favicons/:splat
+/favicon.ico /latest/favicons/favicon.ico 200
+/logos/* /latest/logos/:splat
+
+# navigating to a page without /latest on front, add /latest
+
+/v1.11/pt-br/ /v1.11/pt-br/
+/v1.11/pt-br.html /v1.11/pt-br/
+
+# redirect current version to /latest
+/v1.11/* /latest/:splat
+
+#redirect next version to preliminary
+/v1.12/* https://preliminary.istio.io/latest/:splat
+
+http://archive.istio.io/ http://istio.io/archive 301!
+http://archive.istio.io/* http://istio.io/:splat 301!
+https://archive.istio.io/ https://istio.io/archive 301!
+https://archive.istio.io/* https://istio.io/:splat 301!
+
+# migration from old design to new
+/about / 301!
+/latest/about /latest 301!
+# /faq/ /about/faq
+/faq/* /about/faq/
+# /latest/faq/ /about/faq
+/latest/faq/* /about/faq/
+/about/faq/* /about/faq/
+/latest/about/faq/* /about/faq/
