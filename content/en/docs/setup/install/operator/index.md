@@ -1,12 +1,13 @@
 ---
 title: Istio Operator Install
 description: Instructions to install Istio in a Kubernetes cluster using the Istio operator.
-weight: 20
+weight: 99
 keywords: [kubernetes, operator]
 aliases:
     - /docs/setup/install/standalone-operator
 owner: istio/wg-environments-maintainers
 test: no
+status: Beta
 ---
 
 {{< warning >}}
