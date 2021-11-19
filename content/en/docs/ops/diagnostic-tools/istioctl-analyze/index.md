@@ -100,7 +100,7 @@ spec:
 ...
 status:
   validationMessages:
-  - documentation_url: https://istio.io/v{{< istio_version >}}/docs/reference/config/analysis/ist0101/?ref=status-controller
+  - documentation_url: https://istio.io/v{{< istio_version >}}/docs/reference/config/analysis/ist0101/
     level: 3
     type:
       code: IST0101
