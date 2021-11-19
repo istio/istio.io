@@ -215,6 +215,15 @@ expected output. The framework includes the following built-in verify functions:
    variables. You can also specify the expected number of consecutive successes
    by setting the `VERIFY_CONSECUTIVE` environment variable.
 
+1. **`_verify_regex`** `func` `expected`
+
+   Runs `func` and compares the output with the regex string `expected`. If the output
+   does not match with the regex string `expected`,
+   wait a second and try again, up to two minutes by default. The retry behavior
+   can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+   variables. You can also specify the expected number of consecutive successes
+   by setting the `VERIFY_CONSECUTIVE` environment variable.
+
 1. **`_verify_like`** `func` `expected`
 
    Runs `func` and compares the output with `expected`. If the output is not
