@@ -17,7 +17,7 @@ Istio 会在尽可能[自动](/zh/docs/ops/configuration/traffic-management/tls-
 
 双向 TLS 本身不总是能够保证安全流量，因为它只提供了认证，而不是授权。这意味着任何拥有有效证书的人都可以访问负载。
 
-为了真正实现安全流量，建议同时配置[认证策略](/zh/docs/tasks/security/authorization/)。这些配置通过创建细粒度的策略来允许或拒绝流量。例如，您可以配置只允许来自 `app` 命名空间的请求访问 `hello-world` 负载。
+为了真正实现安全流量，建议同时配置[授权策略](/zh/docs/tasks/security/authorization/)。这些配置通过创建细粒度的策略来允许或拒绝流量。例如，您可以配置只允许来自 `app` 命名空间的请求访问 `hello-world` 负载。
 
 ## 授权策略{#authorization-policies}
 
