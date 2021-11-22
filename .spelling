@@ -124,6 +124,7 @@ AttributeGen
 Auth0
 AuthenticationPolicy
 AuthorizationPolicy
+AuthorizationPolicies
 authorizer
 AuthPolicy
 authz
@@ -157,6 +158,7 @@ bring-your-own-identity
 Brooks
 bt
 Budinsky
+buildah
 bytecode
 BytecodeAlliance
 c.f.
@@ -209,6 +211,7 @@ CR
 CRD
 CRs
 CRDs
+crypto
 CSPs
 CSRs
 Ctrl
@@ -275,6 +278,7 @@ datastore
 Datawire
 deallocated
 debian
+debuggability
 decapsulated
 declaratively
 decompressor
@@ -782,6 +786,7 @@ Statsd
 stdout
 Steitz
 Stoney
+strace
 strongSwan
 struct
 Styra
