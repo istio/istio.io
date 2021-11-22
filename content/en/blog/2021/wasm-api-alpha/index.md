@@ -107,7 +107,7 @@ This is especially useful to debug Wasm program’s execution at runtime, for ex
 
 The next one is about metrics. Wasm extensions have been able to define their own custom metrics and expose them in Envoy just like any other metric, but prior to Istio 1.12, all of these custom metrics are prefixed by `envoy_` Prometheus namespace and users were not be able to have their own namespaces. Now, you can choose whatever namespace you want, and your metrics are exposed in Envoy as-is without being prefixed by `envoy_`. 
 
-Note that in order to actually expose these custom metrics, you have to configure [`ProxyConfig.proxyStatsMatcher`](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig-ProxyStatsMatcher) in `meshConfig` for global configuration or in `proxy.istio.io/config` for per proxy configuration. For detail, please refer to [`Envoy Statistics`](../../docs/ops/configuration/telemetry/envoy-stats/).
+Note that in order to actually expose these custom metrics, you have to configure [`ProxyConfig.proxyStatsMatcher`](../../docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig-ProxyStatsMatcher) in `meshConfig` for global configuration or in `proxy.istio.io/config` for per proxy configuration. For detail, please refer to [`Envoy Statistics`](../../docs/ops/configuration/telemetry/envoy-stats/).
 
 ### Bug fixes, and more!
 
