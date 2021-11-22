@@ -31,12 +31,12 @@ API (由 Kubernetes SIG-NETWORK 拥有)和 Istio 的实现方式都有可能在�
 ## 与 Istio API 的区别{#differences-from-Istio-APIs }
 
 Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处。
-主资源使用相同的`Gateway` 名称，并且这些资源服务于相类似的目标。
+主资源使用相同的 `Gateway`名称，并且这些资源服务于相类似的目标。
 
 新的 Gateway API 致力于从 Kubernetes 的各种 Ingress 实现（包括 Istio）中吸取经验，以构建标准化的，独立于供应商的 API。
 这些 API 通常与 Istio Gateway 和 VirtualService 具有相同的用途，但有一些关键的区别：
 
-* Istio API 中的`Gateway` 仅配置已部署的现有网关 Deployment/Service，
+*  Istio API 中的`Gateway` 仅配置已部署的现有网关 Deployment/Service，
 * 而在 Gateway API 中的`Gateway` 资源不仅配置也会部署网关。有关更多信息，请参阅具体 [部署方法](#deployment-methods) 。
 * 在 Istio `VirtualService` 中，所有协议都在单一的资源中配置，
 * 而在 Gateway API 中，每种协议类型都有自己的资源，例如 `HTTPRoute` 和 `TCPRoute`。
