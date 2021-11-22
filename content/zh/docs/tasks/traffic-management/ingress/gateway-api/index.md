@@ -38,7 +38,7 @@ Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处
 
 *  Istio API 中的`Gateway` 仅配置已部署的现有网关 Deployment/Service，而在 Gateway API 中的`Gateway` 资源不仅配置也会部署网关。有关更多信息，请参阅具体 [部署方法](#deployment-methods) 。
 * 在 Istio `VirtualService` 中，所有协议都在单一的资源中配置，
-而在 Gateway API 中，每种协议类型都有自己的资源，例如 `HTTPRoute` 和  `TCPRoute`。
+而在 Gateway API 中，每种协议类型都有自己的资源，例如 `HTTPRoute` 和 `TCPRoute`。
 * 虽然 Gateway API  提供了大量丰富的路由功能，但它还没有涵盖 Istio 的全部特性。
   因此，正在进行的工作是扩展 API 以覆盖这些用例，以及利用 API 的[可拓展性](https://gateway-api.sigs.k8s.io/#gateway-api-concepts)来更好地暴露 Istio 的功能。
 
