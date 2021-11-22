@@ -44,7 +44,7 @@ The next field below that is the `phase`. This determines where in the proxy’s
 
 `pluginConfig` is used for configuring your Wasm plugin. Whatever you put into this field will be encoded in JSON and passed on to your filter, where you can access it in the configuration callback of the Proxy-Wasm SDKs. For example, you can retrieve the config on `onConfigure` in [C++ SDK](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/fd0be8405db25de0264bdb78fae3a82668c03782/proxy_wasm_api.h#L329-L331), `on_configure` in [Rust SDK](https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/v0.1.4/src/dispatcher.rs#L255) or `OnPluginStart` call back in [Go SDK](https://github.com/tetratelabs/proxy-wasm-go-sdk/blob/v0.15.0/proxywasm/types/context.go#L74).
 
-The `url` field specifies where to pull the Wasm module. You’ll notice that the `url` in this case is a docker URI - this is because apart from loading Wasm modules via HTTP, HTTPS and the local file system (using file://), we are introducing the OCI image format as the preferred mechanism for distributing wasm modules.
+The `url` field specifies where to pull the Wasm module. You’ll notice that the `url` in this case is a docker URI - this is because apart from loading Wasm modules via HTTP, HTTPS and the local file system (using file://), we are introducing the OCI image format as the preferred mechanism for distributing Wasm modules.
 
 ## Wasm image specification
 
@@ -105,11 +105,11 @@ This is especially useful to debug Wasm program’s execution at runtime, for ex
 
 ### Arbitrary Prometheus namespace in in-Wasm metrics
 
-The next one is about metrics. Wasm extensions have been able to define their own custom metrics and expose them in Envoy just like any other metric, but prior to Istio 1.12, all of these custom metrics are prefixed by `envoy_` Prometheus namespace and users were not be able to have their own namespaces. Now, you can choose whatever namespace you want, and your metrics are exposed in Envoy as-is without being prefixed by `envoy_`. 
+The next one is about metrics. Wasm extensions have been able to define their own custom metrics and expose them in Envoy just like any other metric, but prior to Istio 1.12, all of these custom metrics are prefixed by `envoy_` Prometheus namespace and users were not be able to have their own namespaces. Now, you can choose whatever namespace you want, and your metrics are exposed in Envoy as-is without being prefixed by `envoy_`.
 
 Note that in order to actually expose these custom metrics, you have to configure [`ProxyConfig.proxyStatsMatcher`](../../docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig-ProxyStatsMatcher) in `meshConfig` for global configuration or in `proxy.istio.io/config` for per proxy configuration. For detail, please refer to [`Envoy Statistics`](../../docs/ops/configuration/telemetry/envoy-stats/).
 
-### Bug fixes, and more!
+### Bug fixes, and more
 
 In addition to all of the above, we have fixed tons of bugs found in Envoy and refactored the original code. Notably now all of the Istio specific Wasm related codes in proxy have been removed, meaning that Istio telemetry and any other Proxy-Wasm based Istio extensions just depend on Proxy-Wasm ABI and the upstream Envoy implementation. This proves that the direction of the Proxy-Wasm project towards defining generic Wasm ABI to extend network proxies is on the right track.
 
