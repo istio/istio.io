@@ -44,7 +44,7 @@ The next field below that is the `phase`. This determines where in the proxy’s
 
 `pluginConfig` is used for configuring your Wasm plugin. Whatever you put into this field will be encoded in JSON and passed on to your filter, where you can access it in the configuration callback of the Proxy-Wasm SDKs. For example, you can retrieve the config on `onConfigure` in [C++ SDK](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/fd0be8405db25de0264bdb78fae3a82668c03782/proxy_wasm_api.h#L329-L331), `on_configure` in [Rust SDK](https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/v0.1.4/src/dispatcher.rs#L255) or `OnPluginStart` call back in [Go SDK](https://github.com/tetratelabs/proxy-wasm-go-sdk/blob/v0.15.0/proxywasm/types/context.go#L74).
 
-The `url` field specifies where to pull the Wasm module. You’ll notice that the `url` in this case is a docker URI - this is because apart from loading Wasm modules via HTTP, HTTPS and the local file system (using file://), we are introducing a container image format to package Wasm extensions for Istio.
+The `url` field specifies where to pull the Wasm module. You’ll notice that the `url` in this case is a docker URI - this is because apart from loading Wasm modules via HTTP, HTTPS and the local file system (using file://), we are introducing the OCI image format as the preferred mechanism for distributing wasm modules.
 
 ## Wasm image specification
 
@@ -68,7 +68,11 @@ In addition, Istio 1.12 expands this capability to the Wasm OCI images. That mea
 
 The Wasm runtime powered by V8 in Envoy has been shipped as of Istio 1.5, and there has been a lot of improvements since then.
 
+### WASI supports
+
 First of all, some of the WASI (WebAssembly System Interface) system calls are supported now. For example, `clock_time_get` system call can be made from Wasm programs, which means that you can use `std::time::SystemTime::now()` in Rust or `time.Now().UnixNano()` in Go for Envoy Wasm extensions just like any other native platform. Another example is that `random_get` is supported by Envoy now, so the "crypto/rand" package is available in Go as a cryptographically secure random number generator. We are currently actively looking into file system support as we have seen the requests for reading and writing local files from Wasm programs running in Envoy.
+
+### Debuggability
 
 Next is the improvement in debuggability. Now the Envoy runtime emits the stack trace of your program when it causes runtime errors, for example, when null pointer exceptions occur in C++, or the panic function is called in Go or Rust. Previously Envoy did not say anything about the cause of errors, but now you can see the trace which can be used to debug your programs:
 
@@ -84,6 +88,8 @@ Proxy-Wasm plugin in-VM backtrace:
 
 The above is an example output of the stack trace for Go SDK based Wasm extensions. You might notice that you want file names and lines in the trace lines -- that is another huge future work and is currently an open issue since it has something to do with the DWARF format for WebAssembly and the Exception Handling proposal to WebAssembly specification.
 
+### Strace support for Wasm programs
+
 Also you can see strace equivalent logs emitted by Envoy. With Istio proxy’s component log level `wasm:trace`, we can observe all the system calls and Proxy-Wasm ABI calls that go across the boundary between Wasm virtual machines and Envoy. The following is an example log stream of such strace logs:
 
 {{< text plain >}}
@@ -97,7 +103,11 @@ Also you can see strace equivalent logs emitted by Envoy. With Istio proxy’s c
 
 This is especially useful to debug Wasm program’s execution at runtime, for example, to verify it is not making any malicious system calls.
 
+### Arbitrary Prometheus namespace in in-Wasm metrics
+
 The next one is about metrics. Wasm extensions have been able to define their own custom metrics and expose them in Envoy just like any other metric, but prior to Istio 1.12, all of these custom metrics are prefixed by `envoy_` Prometheus namespace and users were not be able to have their own namespaces. Now, you can choose whatever namespace you want, and your metrics are exposed in Envoy as-is without being prefixed by `envoy_`.
+
+### Bug fixes, and more!
 
 In addition to all of the above, we have fixed tons of bugs found in Envoy and refactored the original code. Notably now all of the Istio specific Wasm related codes in proxy have been removed, meaning that Istio telemetry and any other Proxy-Wasm based Istio extensions just depend on Proxy-Wasm ABI and the upstream Envoy implementation. This proves that the direction of the Proxy-Wasm project towards defining generic Wasm ABI to extend network proxies is on the right track.
 
