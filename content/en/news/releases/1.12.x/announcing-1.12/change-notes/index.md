@@ -80,7 +80,7 @@ aliases:
 - **Fixed** the `EnvoyExternalAuthorizationHttpProvider` to match HTTP headers in a case-insensitive way.
   ([Issue #35220](https://github.com/istio/istio/issues/35220))
 
-- **Graduated** the [external authorization](/docs/tasks/security/authorization/authz-custom) from experimental to alpha stage.
+- **Promoted** the [external authorization](/docs/tasks/security/authorization/authz-custom) from experimental to alpha stage.
   ([Pull Request #104](https://github.com/istio/enhancements/pull/104))
 
 ## Telemetry
