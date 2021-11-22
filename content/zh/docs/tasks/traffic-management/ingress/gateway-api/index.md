@@ -11,7 +11,7 @@ test: yes
 ---
 
 本任务描述如何配置 Istio ，以使用 Kubernetes Gateway API 在 Service Mesh 集群外部暴露服务。
-这些 API 是 Kubernetes [Service](https://kubernetes.io/docs/concepts/services-networking/service/) 和 [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) API 的积极发展演进。
+这些 API 是 Kubernetes [Service](https://kubernetes.io/zh/docs/concepts/services-networking/service/) 和 [Ingress](https://kubernetes.io/zh/docs/concepts/services-networking/ingress/) API 的积极发展演进。
 
 
 
@@ -31,16 +31,14 @@ API (由 Kubernetes SIG-NETWORK 拥有)和 Istio 的实现方式都有可能在�
 ## 与 Istio API 的区别{#differences-from-Istio-APIs }
 
 Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处。
-主资源使用相同的  `Gateway` 名称，并且这些资源服务于相类似的目标。
+主资源使用相同的 `Gateway` 名称，并且这些资源服务于相类似的目标。
 
 新的 Gateway API 致力于从 Kubernetes 的各种 Ingress 实现（包括 Istio）中吸取经验，以构建标准化的，独立于供应商的 API。
 这些 API 通常与 Istio Gateway 和 VirtualService 具有相同的用途，但有一些关键的区别：
 
-*  Istio API 中的`Gateway` 仅配置已部署的现有网关 Deployment/Service，
-  而在 Gateway API 中的`Gateway` 资源不仅配置也会部署网关。
-  有关更多信息，请参阅具体 [部署方法](#deployment-methods) 。
+*  Istio API 中的`Gateway` 仅配置已部署的现有网关 Deployment/Service，而在 Gateway API 中的`Gateway` 资源不仅配置也会部署网关。有关更多信息，请参阅具体 [部署方法](#deployment-methods) 。
 * 在 Istio `VirtualService` 中，所有协议都在单一的资源中配置，
-  而在 Gateway API 中，每种协议类型都有自己的资源，例如 `HTTPRoute` 和  `TCPRoute`。
+而在 Gateway API 中，每种协议类型都有自己的资源，例如 `HTTPRoute` 和  `TCPRoute`。
 * 虽然 Gateway API  提供了大量丰富的路由功能，但它还没有涵盖 Istio 的全部特性。
   因此，正在进行的工作是扩展 API 以覆盖这些用例，以及利用 API 的[可拓展性](https://gateway-api.sigs.k8s.io/#gateway-api-concepts)来更好地暴露 Istio 的功能。
 
@@ -141,7 +139,7 @@ Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处
 
 这些资源可以通过以下几种方式进行定义：
 
-* 将`Gateway` 上的注释和标签复制到 `Service` 和 `Deployment`。这就允许配置从上述字段中读取到的内容，如配置[内部负载均衡器](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)等。
+* 将`Gateway` 上的注释和标签复制到 `Service` 和 `Deployment`。这就允许配置从上述字段中读取到的内容，如配置[内部负载均衡器](https://kubernetes.io/zh/docs/concepts/services-networking/service/#internal-load-balancer)等。
 * Istio 提供了一个额外的注释来配置生成的资源:
 
     |Annotation| 用途                                                         |
