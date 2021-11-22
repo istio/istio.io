@@ -7,11 +7,11 @@ attribution: "Daniel Grimm(Red Hat), Pengyuan Bian(Google), Takeshi Yoneda(Tetra
 keywords: [wasm,extensibility,WebAssembly]
 ---
 
-[At the Istio 1.9 release](../wasm-progress/), we introduced experimental support for Wasm module distribution and wasm extensions ecosystem repository for canonical examples and use cases of Wasm extension development. Over the past 9 months, the Istio, Envoy, and Proxy-Wasm communities have continued our joint efforts to make WebAssembly (Wasm) extensibility stable, reliable, and easy to adopt, and we are pleased to announce Alpha support for Wasm extensibility at Istio 1.12 release! Let’s walk through the updates to Wasm support through the Istio 1.12 release.
+[At the Istio 1.9 release](../wasm-progress/), we introduced experimental support for Wasm module distribution and Wasm extensions ecosystem repository for canonical examples and use cases of Wasm extension development. Over the past 9 months, the Istio, Envoy, and Proxy-Wasm communities have continued our joint efforts to make WebAssembly (Wasm) extensibility stable, reliable, and easy to adopt, and we are pleased to announce Alpha support for Wasm extensibility at Istio 1.12 release! Let’s walk through the updates to Wasm support through the Istio 1.12 release.
 
 ## New WasmPlugin API
 
-With the new WasmPlugin API in the extensions.istio.io namespace, we’re introducing a new high-level API for extending the functionality of the Istio Proxy with custom WebAssembly (Wasm) modules. This effort builds on the excellent work that has gone into the [Proxy-Wasm](https://github.com/proxy-wasm) specification and implementation over the last two years. From now on, you no longer need to use EnvoyFilter resources to add custom Wasm modules to your proxies. Instead, you can now use WasmPlugin directly:
+With the new WasmPlugin API in the `extensions.istio.io` namespace, we’re introducing a new high-level API for extending the functionality of the Istio Proxy with custom WebAssembly (Wasm) modules. This effort builds on the excellent work that has gone into the [Proxy-Wasm](https://github.com/proxy-wasm) specification and implementation over the last two years. From now on, you no longer need to use `EnvoyFilter` resources to add custom Wasm modules to your proxies. Instead, you can now use WasmPlugin directly:
 
 {{< text yaml >}}
 apiVersion: extensions.istio.io/v1alpha1
@@ -33,27 +33,27 @@ spec:
   url: docker.io/your-org/your-filter:1.0.0
 {{< /text >}}
 
-There are a lot of similarities and a few differences between WasmPlugin and EnvoyFilter, so let’s go through the fields one by one. The above example deploys a Wasm module to all workloads (including gateway pods) that match it’s `selector` - this very much works the same as in an EnvoyFilter.
+There are a lot of similarities and a few differences between WasmPlugin and `EnvoyFilter`, so let’s go through the fields one by one. The above example deploys a Wasm module to all workloads (including gateway pods) that match it’s `selector` - this very much works the same as in an `EnvoyFilter`.
 
 The next field below that is the `phase`. This determines where in the proxy’s filter chain the Wasm module will be injected. We have defined four distinct phases for injection:
 
-AUTHN: this is prior to any istio authentication filters, meaning it is executed even before the remote mTLS certificates are verified.
-AUTHZ: just after the istio authentication filters and before any authorization filters, i.e. before AuthorizationPolicies have been applied.
+AUTHN: this is prior to any Istio authentication filters, meaning it is executed even before the remote mTLS certificates are verified.
+AUTHZ: just after the Istio authentication filters and before any authorization filters, i.e. before AuthorizationPolicies have been applied.
 STATS:
 
-`pluginConfig` is used for configuring your Wasm module. Whatever you put into this field will be encoded in JSON and passed on to your filter, where you can access it in the on_configure() callback of the proxy-wasm-sdk.
+`pluginConfig` is used for configuring your Wasm plugin. Whatever you put into this field will be encoded in JSON and passed on to your filter, where you can access it in the configuration callback of the Proxy-Wasm SDKs. For example, you can retrieve the config on `on_configure` in [Rust SDK](https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/v0.1.4/src/dispatcher.rs#L255) or `OnPluginStart` call back in [Go SDK](https://github.com/tetratelabs/proxy-wasm-go-sdk/blob/v0.15.0/proxywasm/types/context.go#L74).
 
-The `url` field specifies where to pull the Wasm module. You’ll notice that the `url` in this case is a docker URI - this is because apart from loading .wasm modules via http, https and the local filesystem (using file://), we are introducing a container image format to package Wasm extensions for Istio.
+The `url` field specifies where to pull the Wasm module. You’ll notice that the `url` in this case is a docker URI - this is because apart from loading Wasm modules via HTTP, HTTPS and the local file system (using file://), we are introducing a container image format to package Wasm extensions for Istio.
 
 ## Wasm image specification
 
-We believe that containers are the ideal way to store, publish and manage proxy extensions, so we worked with solo.io to extend their existing Proxy-Wasm container format with a variant that aims to be compatible with all registries and CLI toolchains. Depending on your processes, you can now either build your proxy extension containers using solo’s wasme tool or straight up with your existing container CLI tooling such as docker or buildah. Istio supports both variants.
+We believe that containers are the ideal way to store, publish and manage proxy extensions, so we worked with Solo.io to extend their existing Proxy-Wasm container format with a variant that aims to be compatible with all registries and CLI toolchain. Depending on your processes, you can now either build your proxy extension containers using solo’s wasme tool or straight up with your existing container CLI tooling such as Docker CLI or [buildah](https://buildah.io/). Istio supports both variants.
 
 For detail, please refer to [the link here](https://github.com/solo-io/wasm/tree/master/spec), and learn [how to build OCI images](https://github.com/solo-io/wasm/tree/master/spec#how-can-i-build-images) that are consumable by Istio agent.
 
 ## Image fetcher in Istio agent
 
-As of 1.9, Istio-agent provides a reliable solution for loading Wasm binaries fetched from remote HTTP sources configured in the EnvoyFilters by leveraging the xDS proxy inside istio-agent and Envoy’s Extension Configuration Discovery Service (ECDS). The same mechanism applies for the new Wasm API implementation in Istio 1.12, and you can use HTTP remote resources reliably without the concern that Envoy might get stuck in bad configurations when the remote fetch fails.
+As of 1.9, Istio-agent provides a reliable solution for loading Wasm binaries fetched from remote HTTP sources configured in the `EnvoyFilters` by leveraging the xDS proxy inside istio-agent and Envoy’s Extension Configuration Discovery Service (ECDS). The same mechanism applies for the new Wasm API implementation in Istio 1.12, and you can use HTTP remote resources reliably without the concern that Envoy might get stuck in bad configurations when the remote fetch fails.
 
 In addition, Istio 1.12 expands this capability to the Wasm OCI images. That means the Istio agent is now able to fetch Wasm images from any OCI registry including Docker Hub, Google Container Registry(GCR), Amazon Elastic Container Registry (Amazon ECR), etc. After fetching images, Istio-agent extracts and caches Wasm binaries from them, and then inserts them into Envoy filter chains.
 
@@ -81,9 +81,9 @@ Proxy-Wasm plugin in-VM backtrace:
   4:  0xea15 - proxy_on_request_headers
 {{< /text >}}
 
-The above is an example output of the stack trace for Go SDK-based Wasm extensions. You might notice that you want file names and lines in the trace lines -- that is another huge future work and is currently an open issue since it has something to do with the DWARF format for WebAssembly and the Exception Handling proposal to WebAssembly specification.
+The above is an example output of the stack trace for Go SDK based Wasm extensions. You might notice that you want file names and lines in the trace lines -- that is another huge future work and is currently an open issue since it has something to do with the DWARF format for WebAssembly and the Exception Handling proposal to WebAssembly specification.
 
-Also you can see strace-ish logs emitted by Envoy. With Istio proxy’s component log level "wasm:trace", you can see all the system calls and Proxy-Wasm ABI calls that go across the boundary between Wasm virtual machines and Envoy.
+Also you can see strace equivalent logs emitted by Envoy. With Istio proxy’s component log level `wasm:trace`, we can observe all the system calls and Proxy-Wasm ABI calls that go across the boundary between Wasm virtual machines and Envoy. The following is an example log stream of such strace logs:
 
 {{< text plain >}}
 [host->vm] proxy_on_context_create(2, 1)
@@ -96,7 +96,7 @@ Also you can see strace-ish logs emitted by Envoy. With Istio proxy’s componen
 
 This is especially useful to debug Wasm program’s execution at runtime, for example, to verify it is not making any malicious system calls.
 
-The next one is about metrics. Wasm extensions have been able to define their own custom metrics and expose them in Envoy just like any other metric, but prior to Istio 1.12, all of these custom metrics are prefixed by "envoy_” Prometheus namespace and users were not be able to have their own namespaces. Now, you can choose whatever namespace you want, and your metrics are exposed in Envoy as-is without being prefixed by "envoy_”.
+The next one is about metrics. Wasm extensions have been able to define their own custom metrics and expose them in Envoy just like any other metric, but prior to Istio 1.12, all of these custom metrics are prefixed by `envoy_` Prometheus namespace and users were not be able to have their own namespaces. Now, you can choose whatever namespace you want, and your metrics are exposed in Envoy as-is without being prefixed by `envoy_`.
 
 In addition to all of the above, we have fixed tons of bugs found in Envoy and refactored the original code. Notably now all of the Istio specific Wasm related codes in proxy have been removed, meaning that Istio telemetry and any other Proxy-Wasm based Istio extensions just depend on Proxy-Wasm ABI and the upstream Envoy implementation. This proves that the direction of the Proxy-Wasm project towards defining generic Wasm ABI to extend network proxies is on the right track.
 
