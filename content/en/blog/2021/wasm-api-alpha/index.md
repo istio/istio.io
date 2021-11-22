@@ -37,11 +37,12 @@ There are a lot of similarities and a few differences between WasmPlugin and `En
 
 The next field below that is the `phase`. This determines where in the proxy’s filter chain the Wasm module will be injected. We have defined four distinct phases for injection:
 
-AUTHN: this is prior to any Istio authentication filters, meaning it is executed even before the remote mTLS certificates are verified.
-AUTHZ: just after the Istio authentication filters and before any authorization filters, i.e. before AuthorizationPolicies have been applied.
-STATS:
+* `AUTHN`: prior to any Istio authentication filters, meaning it is executed even before the remote mTLS certificates are verified.
+* `AUTHZ`: after the Istio authentication filters and before any authorization filters, i.e. before AuthorizationPolicies have been applied.
+* `STATS`: after all authorization filters and prior to the Istio stats filter.
+* `UNSPECIFIED_PHASE`: let the control plane decide where to insert. This will generally be at the end of the filter chain, right before the Router. This is the default value for this `phase` field.
 
-`pluginConfig` is used for configuring your Wasm plugin. Whatever you put into this field will be encoded in JSON and passed on to your filter, where you can access it in the configuration callback of the Proxy-Wasm SDKs. For example, you can retrieve the config on `on_configure` in [Rust SDK](https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/v0.1.4/src/dispatcher.rs#L255) or `OnPluginStart` call back in [Go SDK](https://github.com/tetratelabs/proxy-wasm-go-sdk/blob/v0.15.0/proxywasm/types/context.go#L74).
+`pluginConfig` is used for configuring your Wasm plugin. Whatever you put into this field will be encoded in JSON and passed on to your filter, where you can access it in the configuration callback of the Proxy-Wasm SDKs. For example, you can retrieve the config on `onConfigure` in [C++ SDK](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/fd0be8405db25de0264bdb78fae3a82668c03782/proxy_wasm_api.h#L329-L331), `on_configure` in [Rust SDK](https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/v0.1.4/src/dispatcher.rs#L255) or `OnPluginStart` call back in [Go SDK](https://github.com/tetratelabs/proxy-wasm-go-sdk/blob/v0.15.0/proxywasm/types/context.go#L74).
 
 The `url` field specifies where to pull the Wasm module. You’ll notice that the `url` in this case is a docker URI - this is because apart from loading Wasm modules via HTTP, HTTPS and the local file system (using file://), we are introducing a container image format to package Wasm extensions for Istio.
 
