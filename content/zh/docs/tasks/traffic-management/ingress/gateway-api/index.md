@@ -3,8 +3,8 @@ title: Kubernetes Gateway API
 description: 描述在 Istio 中如何配置 Kubernetes Gateway API。
 weight: 50
 aliases:
-    - /docs/tasks/traffic-management/ingress/service-apis/
-    - /latest/docs/tasks/traffic-management/ingress/service-apis/
+    - /zh/docs/tasks/traffic-management/ingress/service-apis/
+    - /latest/zh/docs/tasks/traffic-management/ingress/service-apis/
 keywords: [traffic-management,ingress]
 owner: istio/wg-networking-maintainers
 test: yes
