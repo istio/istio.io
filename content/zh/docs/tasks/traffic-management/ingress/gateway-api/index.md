@@ -49,7 +49,7 @@ Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处
 
 在本例中，我们将部署一个简单的应用程序，并使用 `Gateway` 将其暴露到外部。
 
-1. 首先部署一个测试应用:
+1. 首先部署一个测试应用：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
@@ -141,7 +141,7 @@ Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处
 这些资源可以通过以下几种方式进行定义：
 
 * 将`Gateway` 上的注释和标签复制到 `Service` 和 `Deployment`。这就允许配置从上述字段中读取到的内容，如配置[内部负载均衡器](https://kubernetes.io/zh/docs/concepts/services-networking/service/#internal-load-balancer)等。
-* Istio 提供了一个额外的注释来配置生成的资源:
+* Istio 提供了一个额外的注释来配置生成的资源：
 
     |Annotation| 用途                                                         |
     |----------|-------|
@@ -162,13 +162,13 @@ Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处
         ...
         {{< /text >}}
 
-请注意:仅能指定一个地址。
+请注意：仅能指定一个地址。
 
-* (高级用法)生成的 Pod 配置可以通过[自定义注入模板](/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental)进行配置。
+* (高级用法)生成的 Pod 配置可以通过[自定义注入模板](/zh/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental)进行配置。
 
 ### 手动部署{#manual-deployment}
 
-如果您不希望使用自动部署，可以进行[手动配置](/docs/setup/additional-setup/gateway/) `Deployment` 和 `Service`。
+如果您不希望使用自动部署，可以进行[手动配置](/zh/docs/setup/additional-setup/gateway/) `Deployment` 和 `Service`。
 
 完成此选项后，您将需要手动将 `Gateway` 链接到 `Service`，并保持它们的端口配置同步。
 
