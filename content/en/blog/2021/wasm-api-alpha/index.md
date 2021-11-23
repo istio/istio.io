@@ -46,6 +46,9 @@ The next field below that is the `phase`. This determines where in the proxy’s
 
 The `url` field specifies where to pull the Wasm module. You’ll notice that the `url` in this case is a docker URI - this is because apart from loading Wasm modules via HTTP, HTTPS and the local file system (using file://), we are introducing the OCI image format as the preferred mechanism for distributing Wasm modules.
 
+One last thing to note is currently the Wasm Plugin API only appiles to inbound HTTP filter chains.
+Adding support for network filters and outbound traffics is the future work.
+
 ## Wasm image specification
 
 We believe that containers are the ideal way to store, publish and manage proxy extensions, so we worked with Solo.io to extend their existing Proxy-Wasm container format with a variant that aims to be compatible with all registries and CLI toolchain. Depending on your processes, you can now build your proxy extension containers using your existing container CLI tooling such as Docker CLI or [buildah](https://buildah.io/).
