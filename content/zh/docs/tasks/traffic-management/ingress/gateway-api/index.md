@@ -124,7 +124,6 @@ Gateway API 与 Istio API （如 Gateway 和 VirtualService）有很多相似之
     请注意，使用 `-H` 标志可以将 *Host* HTTP 标头设置为
     "httpbin.example.com"。这一步是必需的，因为 `HTTPRoute` 已配置为处理"httpbin.example.com"的请求，
     但是在测试环境中，该主机没有 DNS 绑定，只是将请求发送到入口 IP。
-    
 1.  访问其他没有被显式暴露的 URL 时，将看到 HTTP 404 错误：
 
     {{< text bash >}}
