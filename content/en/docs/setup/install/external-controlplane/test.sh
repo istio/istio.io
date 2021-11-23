@@ -91,10 +91,10 @@ export EXTERNAL_ISTIOD_ADDR=$(kubectl \
 snip_get_remote_config_cluster_iop
 
 #set +e #ignore failures here
-echo y | snip_set_up_the_remote_config_cluster_2
+echo y | snip_set_up_the_remote_config_cluster_3
 #set -e
 
-_verify_like snip_set_up_the_remote_config_cluster_3 "$snip_set_up_the_remote_config_cluster_3_out"
+_verify_like snip_set_up_the_remote_config_cluster_4 "$snip_set_up_the_remote_config_cluster_4_out"
 
 # Install istiod on the external cluster.
 

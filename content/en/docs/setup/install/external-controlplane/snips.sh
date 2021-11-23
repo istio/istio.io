@@ -81,16 +81,34 @@ spec:
 EOF
 }
 
-snip_set_up_the_remote_config_cluster_2() {
+! read -r -d '' snip_set_up_the_remote_config_cluster_2 <<\ENDSNIP
+components:
+  istiodRemote:
+    k8s:
+      overlays:
+      - kind: MutatingWebhookConfiguration
+        name: istio-sidecar-injector-external-istiod
+        patches:
+        - path: webhooks[0].clientConfig.caBundle
+          value: "${CACERT}"
+        - path: webhooks[1].clientConfig.caBundle
+          value: "${CACERT}"
+        - path: webhooks[2].clientConfig.caBundle
+          value: "${CACERT}"
+        - path: webhooks[3].clientConfig.caBundle
+          value: "${CACERT}"
+ENDSNIP
+
+snip_set_up_the_remote_config_cluster_3() {
 kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
 istioctl manifest generate -f remote-config-cluster.yaml | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
 }
 
-snip_set_up_the_remote_config_cluster_3() {
+snip_set_up_the_remote_config_cluster_4() {
 kubectl get mutatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
 }
 
-! read -r -d '' snip_set_up_the_remote_config_cluster_3_out <<\ENDSNIP
+! read -r -d '' snip_set_up_the_remote_config_cluster_4_out <<\ENDSNIP
 NAME                                     WEBHOOKS   AGE
 istio-sidecar-injector-external-istiod   4          6m24s
 ENDSNIP
@@ -122,9 +140,9 @@ spec:
     rootNamespace: external-istiod
     defaultConfig:
       discoveryAddress: $EXTERNAL_ISTIOD_ADDR:15012
-      proxyMetadata:
-        XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
-        CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+    proxyMetadata:
+      XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+      CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
   components:
     pilot:
       enabled: true
@@ -239,27 +257,6 @@ spec:
           host: istiod.external-istiod.svc.cluster.local
           port:
             number: 443
----
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: external-istiod-dr
-  namespace: external-istiod
-spec:
-  host: istiod.external-istiod.svc.cluster.local
-  trafficPolicy:
-    portLevelSettings:
-    - port:
-        number: 15012
-      tls:
-        mode: SIMPLE
-      connectionPool:
-        http:
-          h2UpgradePolicy: UPGRADE
-    - port:
-        number: 443
-      tls:
-        mode: SIMPLE
 EOF
 }
 

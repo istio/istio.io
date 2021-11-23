@@ -57,6 +57,41 @@ need to modify the installation procedure to enable access. For example, the
 [multicluster configuration](#adding-clusters) could also be used to enable access
 to the API server.
 
+### Istio CA certificates
+
+Since Istio remote cluster will communicate with Istio external control plane cluster
+via TLS connections invoked by Istio mutating web hooks running in remote cluster,
+it is essential that the Istio mutating webhook in remote cluster trusts the
+Istio control plane injection service whose connection shall be encrypted by either
+the ingress gateway or the external control plane itself. This is especially important
+when your Istio certificates are self signed. Thus the external control plane
+root certificate (not to be confused with its private key) shall be available when set
+up your Istio component in remote cluster such as the mutating web hook.
+
+There are number of ways to obtain such certificate. If you are setting up a production environment,
+most likely your certificates come from Trusted Certificate Authority such as `VeriSign` or
+`SecureTrust`, you should already have the certificate in your possession, and you do not have to configure
+your Istio web hooks to trust additional certificates.
+
+{{< tip >}}
+When you use self signed certificates for your environment, the certificate used by external control plane
+must be trusted by the Istio web hooks running in your remote cluster, extra configuration step is needed.
+Please see the later section on using self signed certificates.
+{{< /tip >}}
+
+Please refer to [Certificate Management](https://kubernetes.io/docs/tasks/security/cert-management/) for
+more information about Istio certificates management and [Plug in CA Certificates](https://kubernetes.io/docs/tasks/security/cert-management/plugin-ca-cert/) how to generate self signed certificates and apply the generated
+certificates for your Istio components. Regardless where the certificates may come from, the root certificate
+used by external control plane needs to be available during the setup process, this document assumes that
+you have access to this certificate and its base 64 encoded content is saved in an environment variable named CACERT
+
+For example: If your root cert is named `myrootcert.crt` in your current directory, you may run the following
+command to get the certificate base 64 encoded into the CACERT environment variable.
+
+{{< text syntax=bash snip_id=none >}}
+$ export CACERT=$(cat myrootcert.crt | base64 -w0)
+{{< /text >}}
+
 ### Environment Variables
 
 The following environment variables will be used throughout to simplify the instructions:
@@ -67,14 +102,16 @@ Variable | Description
 `CTX_REMOTE_CLUSTER` | The context name in the default [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) used for accessing the remote cluster.
 `REMOTE_CLUSTER_NAME` | The name of the remote cluster.
 `EXTERNAL_ISTIOD_ADDR` | The hostname for the ingress gateway on the external control plane cluster. This is used by the remote cluster to access the external control plane.
-`SSL_SECRET_NAME` | The name of the secret that holds the TLS certs for the ingress gateway on the external control plane cluster.
+`SSL_SECRET_NAME` | The name of the secret that holds the TLS certs for the ingress gateway which exposes the external control plane services when your ingress gateway is not using PASSTHROUGH TLS mode. If your ingress gateway is using PASSTHROUGH TLS mode, you do not need to set up this variable.
+`CACERT` | see Istio CA certificates above
 
-Set the `CTX_EXTERNAL_CLUSTER`, `CTX_REMOTE_CLUSTER`, and `REMOTE_CLUSTER_NAME` now. You will set the others later.
+Set the `CTX_EXTERNAL_CLUSTER`, `CTX_REMOTE_CLUSTER`, `REMOTE_CLUSTER_NAME` and `CACERT` now. You will set the others later.
 
 {{< text syntax=bash snip_id=none >}}
 $ export CTX_EXTERNAL_CLUSTER=<your external cluster context>
 $ export CTX_REMOTE_CLUSTER=<your remote cluster context>
 $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
+$ export CACERT=<your base 64 encode external cluster Istio root CA cert>
 {{< /text >}}
 
 ## Cluster configuration
@@ -138,7 +175,8 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     although in this example you will only deploy a single external istiod in the `external-istiod` namespace.
     {{< /tip >}}
 
-1. Configure your environment to expose the Istio ingress gateway service using a public hostname with TLS. Set the `EXTERNAL_ISTIOD_ADDR` environment variable to the hostname and `SSL_SECRET_NAME` environment variable to the secret that holds the TLS certs:
+1. Configure your environment to expose the Istio ingress gateway service using a public hostname with TLS. Set the `EXTERNAL_ISTIOD_ADDR` environment variable to the hostname and `SSL_SECRET_NAME` environment variable to the secret that holds the TLS certs when you do not use PASSTHROUGH TLS mode. If you do use PASSTHROUGH TLS mode, you do not
+need to setup `SSL_SECRET_NAME` environment variable:
 
     {{< text syntax=bash snip_id=none >}}
     $ export EXTERNAL_ISTIOD_ADDR=<your external istiod host>
@@ -151,6 +189,8 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     webhook that uses the external control plane's injector, instead of a locally deployed one. Because this cluster
     will also serve as the config cluster, the Istio CRDs and other resources that will be needed on the remote cluster
     are also installed by setting `global.configCluster` and `pilot.configMap` to `true`:
+
+    when use certificates issued by Trusted Certificate Authority:
 
     {{< text syntax=bash snip_id=get_remote_config_cluster_iop >}}
     $ cat <<EOF > remote-config-cluster.yaml
@@ -171,6 +211,28 @@ and installing the sidecar injector webhook configuration on the remote cluster 
         base:
           validationURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/validate
     EOF
+    {{< /text >}}
+
+    {{ < tip > }}
+    When use self signed certificates, add the following snipt when producing remote-config-cluster.yaml file
+    {< /tip >}}
+
+    {{< text yaml >}}
+    components:
+      istiodRemote:
+        k8s:
+          overlays:
+          - kind: MutatingWebhookConfiguration
+            name: istio-sidecar-injector-external-istiod
+            patches:
+            - path: webhooks[0].clientConfig.caBundle
+              value: "${CACERT}"
+            - path: webhooks[1].clientConfig.caBundle
+              value: "${CACERT}"
+            - path: webhooks[2].clientConfig.caBundle
+              value: "${CACERT}"
+            - path: webhooks[3].clientConfig.caBundle
+              value: "${CACERT}"
     {{< /text >}}
 
     Then, install the configuration on the remote cluster:
@@ -229,9 +291,9 @@ and installing the sidecar injector webhook configuration on the remote cluster 
         rootNamespace: external-istiod
         defaultConfig:
           discoveryAddress: $EXTERNAL_ISTIOD_ADDR:15012
-          proxyMetadata:
-            XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
-            CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+        proxyMetadata:
+          XDS_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
+          CA_ROOT_CA: /etc/ssl/certs/ca-certificates.crt
       components:
         pilot:
           enabled: true
@@ -350,29 +412,13 @@ and installing the sidecar injector webhook configuration on the remote cluster 
               host: istiod.external-istiod.svc.cluster.local
               port:
                 number: 443
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: external-istiod-dr
-      namespace: external-istiod
-    spec:
-      host: istiod.external-istiod.svc.cluster.local
-      trafficPolicy:
-        portLevelSettings:
-        - port:
-            number: 15012
-          tls:
-            mode: SIMPLE
-          connectionPool:
-            http:
-              h2UpgradePolicy: UPGRADE
-        - port:
-            number: 443
-          tls:
-            mode: SIMPLE
     EOF
     {{< /text >}}
+
+    {{< tip >}}
+    When use self signed certificates, you can use PASSTHROUGH in your gateway to avoid
+    extra configurations.
+    {{< /tip >}}
 
     Then, apply the configuration on the external cluster:
 
