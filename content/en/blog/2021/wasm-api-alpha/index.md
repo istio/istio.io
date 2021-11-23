@@ -38,7 +38,7 @@ There are a lot of similarities and a few differences between WasmPlugin and `En
 The next field below that is the `phase`. This determines where in the proxy’s filter chain the Wasm module will be injected. We have defined four distinct phases for injection:
 
 * `AUTHN`: prior to any Istio authentication filters, meaning it is executed even before the remote mTLS certificates are verified.
-* `AUTHZ`: after the Istio authentication filters and before any authorization filters, i.e. before AuthorizationPolicies have been applied.
+* `AUTHZ`: after the Istio authentication filters and before any first class authorization filters, i.e. before AuthorizationPolicies have been applied.
 * `STATS`: after all authorization filters and prior to the Istio stats filter.
 * `UNSPECIFIED_PHASE`: let the control plane decide where to insert. This will generally be at the end of the filter chain, right before the Router. This is the default value for this `phase` field.
 
@@ -48,7 +48,7 @@ The `url` field specifies where to pull the Wasm module. You’ll notice that th
 
 ## Wasm image specification
 
-We believe that containers are the ideal way to store, publish and manage proxy extensions, so we worked with Solo.io to extend their existing Proxy-Wasm container format with a variant that aims to be compatible with all registries and CLI toolchain. Depending on your processes, you can now either build your proxy extension containers using solo’s wasme tool or straight up with your existing container CLI tooling such as Docker CLI or [buildah](https://buildah.io/). Istio supports both variants.
+We believe that containers are the ideal way to store, publish and manage proxy extensions, so we worked with Solo.io to extend their existing Proxy-Wasm container format with a variant that aims to be compatible with all registries and CLI toolchain. Depending on your processes, you can now either build your proxy extension containers using solo’s wasme tool or straight up with your existing container CLI tooling such as Docker CLI or [buildah](https://buildah.io/).
 
 For detail, please refer to [the link here](https://github.com/solo-io/wasm/tree/master/spec), and learn [how to build OCI images](https://github.com/solo-io/wasm/tree/master/spec#how-can-i-build-images) that are consumable by Istio agent.
 
@@ -109,12 +109,8 @@ The next one is about metrics. Wasm extensions have been able to define their ow
 
 Note that in order to actually expose these custom metrics, you have to configure [`ProxyConfig.proxyStatsMatcher`](../../../docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig-ProxyStatsMatcher) in `meshConfig` for global configuration or in `proxy.istio.io/config` for per proxy configuration. For detail, please refer to [`Envoy Statistics`](../../../docs/ops/configuration/telemetry/envoy-stats/).
 
-### Bug fixes, and more
-
-In addition to all of the above, we have fixed tons of bugs found in Envoy and refactored the original code. Notably now all of the Istio specific Wasm related codes in proxy have been removed, meaning that Istio telemetry and any other Proxy-Wasm based Istio extensions just depend on Proxy-Wasm ABI and the upstream Envoy implementation. This proves that the direction of the Proxy-Wasm project towards defining generic Wasm ABI to extend network proxies is on the right track.
-
 ## Future work and looking for feedback
 
-Although we have announced the alpha availability of Wasm plugins, there are still a lot of aspects that are left to be completed. The one important thing is the "Image pull secrets” support in the Wasm API -- this way we would be able to consume the OCI images in the private repository easily in Istio. Others include signature verification of Wasm binaries, runtime improvements in Envoy, Proxy-Wasm SDK improvements, documentation, etc.
+Although we have announced the alpha availability of Wasm plugins, there are still a lot of aspects that are left to be completed. The one important thing is the "Image pull secrets” support in the Wasm API -- this way we would be able to consume the OCI images in the private repository easily in Istio. Others include the first class support for L4 filters, signature verification of Wasm binaries, runtime improvements in Envoy, Proxy-Wasm SDK improvements, documentation, etc.
 
 That means, this is just the beginning of the 1st-class Wasm support in Istio. We would love to hear feedback from users so that we could improve the developer experience with the Wasm plugins!
