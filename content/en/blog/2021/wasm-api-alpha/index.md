@@ -46,7 +46,7 @@ The next field below that is the `phase`. This determines where in the proxy’s
 
 The `url` field specifies where to pull the Wasm module. You’ll notice that the `url` in this case is a docker URI - this is because apart from loading Wasm modules via HTTP, HTTPS and the local file system (using file://), we are introducing the OCI image format as the preferred mechanism for distributing Wasm modules.
 
-One last thing to note is currently the Wasm Plugin API only appiles to inbound HTTP filter chains.
+One last thing to note is currently the Wasm Plugin API only applies to inbound HTTP filter chains.
 Adding support for network filters and outbound traffics is the future work.
 
 ## Wasm image specification
