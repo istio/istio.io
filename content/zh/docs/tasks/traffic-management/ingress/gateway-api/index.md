@@ -187,17 +187,11 @@ spec:
     ...
     {{< /text >}}
 
-## 网格流量{#Mesh-Traffic}
+## 网格流量{#mesh-traffic}
 
 Gateway API 也可以用来配置网格流量，具体做法是先配置 `parentRef` ，然后指向`istio` `Mesh`来实现的。这个资源实际上并不存在于集群中，只是用来标识要使用的 Istio 网格参数。
 
 例如，要将对 `example.com` 的调用重定向到另外一个名为 `example` 的集群内的 `Service`：
-
-The Gateway API can also be used to configure mesh traffic.
-This is done by configuring the `parentRef`, to point to the `istio` `Mesh`.
-This resource does not actually exist in the cluster and is only used to signal that the Istio mesh should be used.
-
-For example, to redirect calls to `example.com` to an in-cluster `Service` named `example`：
 
 {{< text yaml >}}
 apiVersion: gateway.networking.k8s.io/v1alpha2
