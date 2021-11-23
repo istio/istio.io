@@ -11,13 +11,12 @@ test: yes
 ---
 
 本任务描述如何配置 Istio ，以使用 Kubernetes Gateway API 在 Service Mesh 集群外部暴露服务。
-这些 API 是 Kubernetes [Service](https://kubernetes.io/zh/docs/concepts/services-networking/service/) 和 [Ingress](https://kubernetes.io/zh/docs/concepts/services-networking/ingress/) API 的积极发展演进。
-
-
+这些 API 是 Kubernetes [Service](https://kubernetes.io/zh/docs/concepts/services-networking/service/) 
+和 [Ingress](https://kubernetes.io/zh/docs/concepts/services-networking/ingress/) API 的积极发展演进。
 
 {{< warning >}}
 该特性目前被认为是 alpha 版本。
-API (由 Kubernetes SIG-NETWORK 拥有)和 Istio 的实现方式都有可能在进一步升级之前发生改变。
+API （由 Kubernetes SIG-NETWORK 拥有）和 Istio 的实现方式都有可能在进一步升级之前发生改变。
 {{< /warning >}}。
 
 ## 设置 {#setup}
@@ -30,18 +29,21 @@ API (由 Kubernetes SIG-NETWORK 拥有)和 Istio 的实现方式都有可能在�
 
 ## 与 Istio API 的区别{#differences-from-Istio-APIs }
 
-Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处。
+Gateway API 与 Istio API （如 Gateway 和 VirtualService）有很多相似之处。
 主资源使用相同的`Gateway`名称，并且这些资源服务于相类似的目标。
 
-新的 Gateway API 致力于从 Kubernetes 的各种 Ingress 实现（包括 Istio）中吸取经验，以构建标准化的，独立于供应商的 API。
+新的 Gateway API 致力于从 Kubernetes 的各种 Ingress 实现（包括 Istio）中吸取经验，
+以构建标准化的，独立于供应商的 API。
 这些 API 通常与 Istio Gateway 和 VirtualService 具有相同的用途，但有一些关键的区别：
 
 * Istio API 中的`Gateway` 仅配置已部署的现有网关 Deployment/Service，
-* 而在 Gateway API 中的`Gateway` 资源不仅配置也会部署网关。有关更多信息，请参阅具体 [部署方法](#deployment-methods) 。
+而在 Gateway API 中的`Gateway` 资源不仅配置也会部署网关。
+有关更多信息，请参阅具体 [部署方法](#deployment-methods) 。
 * 在 Istio `VirtualService` 中，所有协议都在单一的资源中配置，
 * 而在 Gateway API 中，每种协议类型都有自己的资源，例如 `HTTPRoute` 和 `TCPRoute`。
 * 虽然 Gateway API  提供了大量丰富的路由功能，但它还没有涵盖 Istio 的全部特性。
-  因此，正在进行的工作是扩展 API 以覆盖这些用例，以及利用 API 的[可拓展性](https://gateway-api.sigs.k8s.io/#gateway-api-concepts)来更好地暴露 Istio 的功能。
+  因此，正在进行的工作是扩展 API 以覆盖这些用例，以及利用 API 的[可拓展性](https://gateway-api.sigs.k8s.io/#gateway-api-concepts)
+  来更好地暴露 Istio 的功能。
 
 ## 配置网关 {#configuring-a-gateway}
 
@@ -68,7 +70,6 @@ Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处
     spec:
       gatewayClassName: istio
       listeners:
-
       - name: default
         hostname: "*.example.com"
         port: 80
@@ -86,23 +87,23 @@ Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处
       parentRefs:
       - name: gateway
         namespace: istio-ingress
-        hostnames: ["httpbin.example.com"]
-        rules:
+      hostnames: ["httpbin.example.com"]
+      rules:
       - matches:
         - path:
             type: PathPrefix
             value: /get
-            filters:
+        filters:
         - type: RequestHeaderModifier
           requestHeaderModifier:
             add:
             - name: my-added-header
               value: added-value
-              backendRefs:
+        backendRefs:
         - name: httpbin
           port: 8000
-          EOF
-          {{< /text >}}
+    EOF
+    {{< /text >}}
 
 1.  设置主机 Ingress
 
@@ -120,7 +121,9 @@ Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处
     ...
     {{< /text >}}
 
-    请注意，使用 `-H` 标志可以将 *Host* HTTP 标头设置为"httpbin.example.com"。这一步是必需的，因为 `HTTPRoute` 已配置为处理"httpbin.example.com"的请求，但是在测试环境中，该主机没有 DNS 绑定，只是将请求发送到入口 IP。
+    请注意，使用 `-H` 标志可以将 *Host* HTTP 标头设置为
+    "httpbin.example.com"。这一步是必需的，因为 `HTTPRoute` 已配置为处理"httpbin.example.com"的请求，
+    但是在测试环境中，该主机没有 DNS 绑定，只是将请求发送到入口 IP。
     
 1.  访问其他没有被显式暴露的 URL 时，将看到 HTTP 404 错误：
 
@@ -132,20 +135,24 @@ Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处
 
 ## 部署方法{#deployment-methods}
 
-在上面的示例中，在配置网关之前，您不需要安装 ingress 网关 `Deployment` 。因为在默认配置中会根据 `Gateway` 配置自动分发网关`Deployment` 和 `Service` ，但是对于高级别的用例，仍然允许手动部署。
+在上面的示例中，在配置网关之前，您不需要安装 ingress 网关 `Deployment`。
+因为在默认配置中会根据 `Gateway` 配置自动分发网关`Deployment` 和 `Service`。
+但是对于高级别的用例，仍然允许手动部署。
 
 ### 自动部署{#automated-deployment}
 
-默认情况下，每个 `Gateway` 将自动提供相同名称的 `Service` 和 `Deployment`。如果 `Gateway` 发生变化(例如添加了一个新端口)，这些配置将会自动更新。
+默认情况下，每个 `Gateway` 将自动提供相同名称的 `Service` 和 `Deployment`。
+如果 `Gateway` 发生变化（例如添加了一个新端口），这些配置将会自动更新。
 
 这些资源可以通过以下几种方式进行定义：
 
-* 将`Gateway` 上的注释和标签复制到 `Service` 和 `Deployment`。这就允许配置从上述字段中读取到的内容，如配置[内部负载均衡器](https://kubernetes.io/zh/docs/concepts/services-networking/service/#internal-load-balancer)等。
+* 将`Gateway` 上的注释和标签复制到 `Service` 和 `Deployment`。
+这就允许配置从上述字段中读取到的内容，如配置[内部负载均衡器](https://kubernetes.io/zh/docs/concepts/services-networking/service/#internal-load-balancer)等。
 * Istio 提供了一个额外的注释来配置生成的资源：
 
     |Annotation| 用途                                                         |
     |----------|-------|
-    |`networking.istio.io/service-type`|控制 `Service.spec.type` 字段。 例如，设置 `ClusterIP` 为不对外暴露服务 ， 将会默认为`LoadBalancer` 。|
+    |`networking.istio.io/service-type`|控制 `Service.spec.type` 字段。 例如，设置 `ClusterIP` 为不对外暴露服务 ， 将会默认为`LoadBalancer`。|
 
 * 通过配置 `addresses` 字段可以显式设置 `Service.spec.loadBalancerIP` 字段：
 
@@ -156,15 +163,14 @@ Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处
       name: gateway
     spec:
       addresses:
-    
       - value: 192.0.2.0
         type: IPAddress
-        ...
-        {{< /text >}}
+    ...
+    {{< /text >}}
 
 请注意：仅能指定一个地址。
 
-* (高级用法)生成的 Pod 配置可以通过[自定义注入模板](/zh/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental)进行配置。
+* （高级用法）生成的 Pod 配置可以通过[自定义注入模板](/zh/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental)进行配置。
 
 ### 手动部署{#manual-deployment}
 
@@ -181,15 +187,16 @@ metadata:
   name: gateway
 spec:
   addresses:
-
   - value: ingress.istio-gateways.svc.cluster.local
     type: Hostname
-    ...
-    {{< /text >}}
+...
+{{< /text >}}
 
 ## 网格流量{#mesh-traffic}
 
-Gateway API 也可以用来配置网格流量，具体做法是先配置 `parentRef` ，然后指向`istio` `Mesh`来实现的。这个资源实际上并不存在于集群中，只是用来标识要使用的 Istio 网格参数。
+Gateway API 也可以用来配置网格流量。
+具体做法是先配置 `parentRef` ，然后指向`istio` `Mesh`来实现的。
+这个资源实际上并不存在于集群中，只是用来标识要使用的 Istio 网格参数。
 
 例如，要将对 `example.com` 的调用重定向到另外一个名为 `example` 的集群内的 `Service`：
 
@@ -200,12 +207,11 @@ metadata:
   name: mesh
 spec:
   parentRefs:
-
   - kind: Mesh
     name: istio
-    hostnames: ["example.com"]
-    rules:
+  hostnames: ["example.com"]
+  rules:
   - backendRefs:
     - name: example
       port: 80
-      {{< /text >}}
+{{< /text >}}
