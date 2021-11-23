@@ -49,7 +49,7 @@ Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处
 
 在本例中，我们将部署一个简单的应用程序，并使用 `Gateway` 将其暴露到外部。
 
-1. 首先部署一个测试应用:
+1. 首先部署一个测试应用：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
@@ -141,7 +141,7 @@ Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处
 这些资源可以通过以下几种方式进行定义：
 
 * 将`Gateway` 上的注释和标签复制到 `Service` 和 `Deployment`。这就允许配置从上述字段中读取到的内容，如配置[内部负载均衡器](https://kubernetes.io/zh/docs/concepts/services-networking/service/#internal-load-balancer)等。
-* Istio 提供了一个额外的注释来配置生成的资源:
+* Istio 提供了一个额外的注释来配置生成的资源：
 
     |Annotation| 用途                                                         |
     |----------|-------|
@@ -162,7 +162,7 @@ Gateway API 与 Istio API (如 Gateway 和 VirtualService )有很多相似之处
         ...
         {{< /text >}}
 
-请注意:仅能指定一个地址。
+请注意：仅能指定一个地址。
 
 * (高级用法)生成的 Pod 配置可以通过[自定义注入模板](/zh/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental)进行配置。
 
@@ -191,13 +191,13 @@ spec:
 
 Gateway API 也可以用来配置网格流量，具体做法是先配置 `parentRef` ，然后指向`istio` `Mesh`来实现的。这个资源实际上并不存在于集群中，只是用来标识要使用的 Istio 网格参数。
 
-例如，要将对 `example.com` 的调用重定向到另外一个名为 `example` 的集群内的 `Service`:
+例如，要将对 `example.com` 的调用重定向到另外一个名为 `example` 的集群内的 `Service`：
 
 The Gateway API can also be used to configure mesh traffic.
 This is done by configuring the `parentRef`, to point to the `istio` `Mesh`.
 This resource does not actually exist in the cluster and is only used to signal that the Istio mesh should be used.
 
-For example, to redirect calls to `example.com` to an in-cluster `Service` named `example`:
+For example, to redirect calls to `example.com` to an in-cluster `Service` named `example`：
 
 {{< text yaml >}}
 apiVersion: gateway.networking.k8s.io/v1alpha2
