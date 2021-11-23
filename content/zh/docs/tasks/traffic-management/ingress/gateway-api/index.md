@@ -10,7 +10,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-本任务描述如何配置 Istio ，以使用 Kubernetes Gateway API 在 Service Mesh 集群外部暴露服务。
+本任务描述如何配置 Istio，以使用 Kubernetes Gateway API 在 Service Mesh 集群外部暴露服务。
 这些 API 是 Kubernetes [Service](https://kubernetes.io/zh/docs/concepts/services-networking/service/) 
 和 [Ingress](https://kubernetes.io/zh/docs/concepts/services-networking/ingress/) API 的积极发展演进。
 
