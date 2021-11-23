@@ -48,9 +48,9 @@ The `url` field specifies where to pull the Wasm module. You’ll notice that th
 
 ## Wasm image specification
 
-We believe that containers are the ideal way to store, publish and manage proxy extensions, so we worked with Solo.io to extend their existing Proxy-Wasm container format with a variant that aims to be compatible with all registries and CLI toolchain. Depending on your processes, you can now either build your proxy extension containers using solo’s wasme tool or straight up with your existing container CLI tooling such as Docker CLI or [buildah](https://buildah.io/).
+We believe that containers are the ideal way to store, publish and manage proxy extensions, so we worked with Solo.io to extend their existing Proxy-Wasm container format with a variant that aims to be compatible with all registries and CLI toolchain. Depending on your processes, you can now build your proxy extension containers using your existing container CLI tooling such as Docker CLI or [buildah](https://buildah.io/).
 
-For detail, please refer to [the link here](https://github.com/solo-io/wasm/tree/master/spec), and learn [how to build OCI images](https://github.com/solo-io/wasm/tree/master/spec#how-can-i-build-images) that are consumable by Istio agent.
+For detail, please refer to [the link here](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/how-to-build-oci-images.md), and learn how to build OCI images that are consumable by Istio agent.
 
 ## Image fetcher in Istio agent
 
