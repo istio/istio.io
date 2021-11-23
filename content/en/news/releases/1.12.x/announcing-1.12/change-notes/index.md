@@ -74,11 +74,14 @@ aliases:
 - **Added** values to the Istio Gateway Helm charts for configuring annotations on the ServiceAccount.  Can be used to enable [IAM Roles for Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) on AWS EKS.
   ([Pull Request #33914](https://github.com/istio/istio/pull/33914))
 
-- **Added** support for JWT claim based routing on ingress gateways.
+- **Added** support for [JWT claim based routing](/docs/tasks/security/authentication/jwt-route) on ingress gateways.
   ([Pull Request #35762](https://github.com/istio/istio/pull/35762))
 
 - **Fixed** the `EnvoyExternalAuthorizationHttpProvider` to match HTTP headers in a case-insensitive way.
   ([Issue #35220](https://github.com/istio/istio/issues/35220))
+
+- **Promoted** the [external authorization](/docs/tasks/security/authorization/authz-custom) feature from Experimental to Alpha.
+  ([Pull Request #104](https://github.com/istio/enhancements/pull/104))
 
 ## Telemetry
 
