@@ -74,9 +74,10 @@ spec:
   - ratings
 ...
 status:
+  observedGeneration: "1"
   validationMessages:
-  - documentation_url: https://istio.io/v1.13/docs/reference/config/analysis/ist0101/?ref=status-controller
-    level: 3
+  - documentationUrl: https://istio.io/v1.13/docs/reference/config/analysis/ist0101/
+    level: ERROR
     type:
       code: IST0101
 ENDSNIP
