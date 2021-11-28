@@ -1,17 +1,17 @@
 ---
-title: 基于 JWT 声明的路由
-description: 演示如何使用基于 JWT 声明路由请求的 Istio 身份验证策略。
-weight: 10
-keywords: [security,authentication,jwt,route]
-owner: istio/wg-security-maintainers
-test: yes
-status: Experimental
+title： 基于 JWT 声明的路由
+description：演示如何使用基于 JWT 声明路由请求的 Istio 身份验证策略。
+weight： 10
+keywords： [security,authentication,jwt,route]
+owner： istio/wg-security-maintainers
+test： yes
+status： Experimental
 ---
 
 本任务向您展示如何实现基于 Istio 入口网关上的 JWT 声明路由请求，来使用请求身份认证
 和虚拟服务。
 
-注意:该特性只支持 Istio 入口网关，并且需要使用请求身份验证和虚拟
+注意：该特性只支持 Istio 入口网关，并且需要使用请求身份验证和虚拟
 服务来根据 JWT 声明进行正确的验证和路由。
 
 {{< boilerplate experimental-feature-warning >}}
@@ -22,7 +22,7 @@ status: Experimental
 
 * 使用[Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio。
 
-* 在一个命名空间中,部署一个 `httpbin` 工作负载，例如 `foo`，
+* 在一个命名空间中，部署一个 `httpbin` 工作负载，例如 `foo`，
 并通过 Istio 入口网关使用以下命令暴露它：
 
     {{< text bash >}}
@@ -158,15 +158,15 @@ Istio 入口网关支持基于经过身份验证的 JWT 的路由，这对于基
     ...
     {{< /text >}}
 
-## 清除{#cleanup}
+## Cleanup
 
-* 移除 `foo` 命名空间：
+* Remove the namespace foo:
 
     {{< text bash >}}
     $ kubectl delete namespace foo
     {{< /text >}}
 
-* 移除请求身份认证：
+* Remove the request authentication:
 
     {{< text bash >}}
     $ kubectl delete requestauthentication ingress-jwt -n istio-system
