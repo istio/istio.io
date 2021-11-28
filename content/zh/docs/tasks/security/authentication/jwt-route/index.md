@@ -1,11 +1,11 @@
 ---
-title： 基于 JWT 声明的路由
-description：演示如何使用基于 JWT 声明路由请求的 Istio 身份验证策略。
-weight： 10
-keywords： [security,authentication,jwt,route]
-owner： istio/wg-security-maintainers
-test： yes
-status： Experimental
+title: 基于 JWT 声明的路由
+description: 演示如何使用基于 JWT 声明路由请求的 Istio 身份验证策略。
+weight: 10
+keywords: [security,authentication,jwt,route]
+owner: istio/wg-security-maintainers
+test: yes
+status: Experimental
 ---
 
 本任务向您展示如何实现基于 Istio 入口网关上的 JWT 声明路由请求，来使用请求身份认证
