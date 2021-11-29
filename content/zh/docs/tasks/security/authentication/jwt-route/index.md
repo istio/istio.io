@@ -1,11 +1,11 @@
 ---
-title： 基于 JWT 声明的路由
-description：演示如何使用基于 JWT 声明路由请求的 Istio 身份验证策略。
-weight： 10
-keywords： [security,authentication,jwt,route]
-owner： istio/wg-security-maintainers
-test： yes
-status： Experimental
+title: 基于 JWT 声明的路由
+description: 演示如何使用基于 JWT 声明路由请求的 Istio 身份验证策略。
+weight: 10
+keywords: [security,authentication,jwt,route]
+owner: istio/wg-security-maintainers
+test: yes
+status: Experimental
 ---
 
 本任务向您展示如何实现基于 Istio 入口网关上的 JWT 声明路由请求，来使用请求身份认证
@@ -20,9 +20,9 @@ status： Experimental
 
 * 理解 Istio [身份认证策略](/zh/docs/concepts/security/#authentication-policies)和[虚拟服务](/zh/docs/concepts/traffic-management/#virtual-services)相关概念。
 
-* 使用[Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio。
+* 使用 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio 。
 
-* 在一个命名空间中，部署一个 `httpbin` 工作负载，例如 `foo`，
+* 在一个命名空间中，部署一个 `httpbin` 工作负载，例如 `foo` ，
 并通过 Istio 入口网关使用以下命令暴露它：
 
     {{< text bash >}}
@@ -69,7 +69,7 @@ Istio 入口网关支持基于经过身份验证的 JWT 的路由，这对于基
     EOF
     {{< /text >}}
 
-    这个请求身份验证将在 Iitio 网关上启用 JWT 校验，以便验证过的 JWT 声明稍后可以在虚拟服务中用于路由功能。
+    这个请求身份验证将在 Istio 网关上启用 JWT 校验，以便验证过的 JWT 声明稍后可以在虚拟服务中用于路由功能。
 
     这个请求身份验证只应用于入口网关，因为基于路由的 JWT 声明仅在入口网关上得到支持。
 
@@ -104,15 +104,15 @@ Istio 入口网关支持基于经过身份验证的 JWT 的路由，这对于基
     EOF
     {{< /text >}}
 
-    虚拟服务使用保留的消息头 `"@request.auth.claims.groups"` 来匹配 JWT 声明中的 `groups`。
+    虚拟服务使用保留的消息头 `"@request.auth.claims.groups"` 来匹配 JWT 声明中的 `groups` 。
     前缀的 `@` 表示它与来自 JWT 验证的元数据匹配，而不是与 HTTP 消息头匹配。
     JWT 支持字符串类型的声明、字符串列表和嵌套声明。使用 `.` 作为嵌套声明名称的分隔符。
-    例如， `"@request.auth.claims.name.givenName"` 匹配嵌套声明 `name` 和 `givenName`。 使用 `.` 字符作为声明
+    例如， `"@request.auth.claims.name.givenName"` 匹配嵌套声明 `name` 和 `givenName` 。 使用 `.` 字符作为声明
     名称在当前是不被支持的。
 
 ## 基于 JWT 声明验证入口路由{#validating-ingress-routing-based-on-JWT-claims}
 
-1. 验证入口网关返回没有 JWT 的 HTTP 404代码：
+1. 验证入口网关返回没有 JWT 的 HTTP 404 代码：
 
     {{< text bash >}}
     $ curl -s -I "http://$INGRESS_HOST:$INGRESS_PORT/headers"
@@ -120,9 +120,9 @@ Istio 入口网关支持基于经过身份验证的 JWT 的路由，这对于基
     ...
     {{< /text >}}
 
-    您还可以创建授权策略，以便在缺少 JWT 时使用 HTTP 403代码显式拒绝请求。
+    您还可以创建授权策略，以便在缺少 JWT 时使用 HTTP 403 代码显式拒绝请求。
 
-1. 验证入口网关返回带有无效 JWT 的 HTTP 401代码：
+1. 验证入口网关返回带有无效 JWT 的 HTTP 401 代码：
 
     {{< text bash >}}
     $ curl -s -I "http://$INGRESS_HOST:$INGRESS_PORT/headers" -H "Authorization: Bearer some.invalid.token"
@@ -130,9 +130,9 @@ Istio 入口网关支持基于经过身份验证的 JWT 的路由，这对于基
     ...
     {{< /text >}}
 
-    401是由请求身份验证返回的，因为 JWT 没有验证失败。
+    401 是由请求身份验证返回的，因为 JWT 声明验证失败。
 
-1. 使用包含 `groups: group1`声明的有效 JWT 令牌验证入口网关路由请求：
+1. 使用包含 `groups: group1` 声明的有效 JWT 令牌验证入口网关路由请求：
 
     {{< text syntax="bash" expandlinks="false" >}}
     $ TOKEN_GROUP=$(curl {{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt -s) && echo "$TOKEN_GROUP" | cut -d '.' -f2 - | base64 --decode -
@@ -145,7 +145,7 @@ Istio 入口网关支持基于经过身份验证的 JWT 的路由，这对于基
     ...
     {{< /text >}}
 
-1. 验证入口网关，返回了带有有效 JWT 的 HTTP 404代码，但不包含 `groups: group1` 声明：
+1. 验证入口网关，返回了带有有效 JWT 的 HTTP 404 代码，但不包含 `groups: group1` 声明：
 
     {{< text syntax="bash" expandlinks="false" >}}
     $ TOKEN_NO_GROUP=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN_NO_GROUP" | cut -d '.' -f2 - | base64 --decode -
@@ -158,15 +158,15 @@ Istio 入口网关支持基于经过身份验证的 JWT 的路由，这对于基
     ...
     {{< /text >}}
 
-## Cleanup
+## 清除{#cleanup}
 
-* Remove the namespace foo:
+* 移除名称为 foo 的命名空间：
 
     {{< text bash >}}
     $ kubectl delete namespace foo
     {{< /text >}}
 
-* Remove the request authentication:
+* 移除身份认证：
 
     {{< text bash >}}
     $ kubectl delete requestauthentication ingress-jwt -n istio-system
