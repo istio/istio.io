@@ -20,7 +20,7 @@ on a minor release do not contain backward incompatible changes.
 
 ## Support policy
 
-We produce new builds of Istio for each commit. Around once a quarter, we build a minor release and run through several
+We produce new builds of Istio for each commit. Once a quarter, we build a minor release and run through several
 additional tests as well as release qualification. We release patch versions for issues found in minor releases.
 
 The various types of releases represent a different product quality level and level of assistance from the Istio community.
@@ -30,9 +30,15 @@ assistance. Separately, 3rd parties and partners may offer longer-term support s
 |Type              | Support Level                                                                                                         | Quality and Recommended Use
 |------------------|-----------------------------------------------------------------------------------------------------------------------|----------------------------
 |Development Build | No support                                                                                                            | Dangerous, may not be fully reliable. Useful to experiment with.
-|Minor Release     | Support is provided until 3 months after the next minor release                                                       | Safe to deploy in production. Users are encouraged to upgrade to these releases as soon as possible.
+|Minor Release     | Support is provided until 4 and a half months after the next minor release                                            | Safe to deploy in production. Users are encouraged to upgrade to these releases as soon as possible.
 |Patch             | Same as the corresponding Minor release                                                                               | Users are encouraged to adopt patch releases as soon as they are available for a given release.
 |Security Patch    | Same as a Patch, however, it will not contain any additional code other than the security fix from the previous patch | Given the nature of security fixes, users are **strongly** encouraged to adopt security patches after release.
+
+{{< tip >}}
+Minor releases occur every 3 months and are supported for 4 and a half months after the next
+minor release, which means a minor version is supported until 6 weeks after the minor version 2 after it is released. This provides a six-week window to
+perform a direct upgrade while remaining within both releases' support windows.
+{{< /tip >}}
 
 You can find available releases on the [releases page](https://github.com/istio/istio/releases),
 and if you're the adventurous type, you can learn about our development builds on the [development builds wiki](https://github.com/istio/istio/wiki/Dev%20Builds).
@@ -56,7 +62,7 @@ current `<minor>` release. A patch is usually a small change relative to the `<m
 | master          | No, development only |                   |                        |                               |                           |
 | 1.12            | Yes                  | November 18, 2021 | ~June 2022 (Expected)  | 1.19, 1.20, 1.21, 1.22        | 1.16, 1.17, 1.18          |
 | 1.11            | Yes                  | August 12, 2021   | ~Mar 2022 (Expected)   | 1.19, 1.20, 1.21, 1.22        | 1.16, 1.17, 1.18          |
-| 1.10            | Yes                  | May 18, 2021      | ~Dec 2021 (Expected)   | 1.18, 1.19, 1.20, 1.21        | 1.16, 1.17, 1.22          |
+| 1.10            | Yes                  | May 18, 2021      | Dec 30, 2021           | 1.18, 1.19, 1.20, 1.21        | 1.16, 1.17, 1.22          |
 | 1.9             | Yes                  | February 9, 2021  | Oct 8, 2021            | 1.17, 1.18, 1.19, 1.20        | 1.15, 1.16                |
 | 1.8             | No                   | November 10, 2020 | May 12, 2021           | 1.16, 1.17, 1.18, 1.19        | 1.15                      |
 | 1.7             | No                   | August 21, 2020   | Feb 25, 2021           | 1.16, 1.17, 1.18              | 1.15                      |
