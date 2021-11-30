@@ -108,7 +108,6 @@ Istio 入口网关支持基于经过身份验证的 JWT 的路由，这对于基
     前缀的 `@` 表示它与来自 JWT 验证的元数据匹配，而不是与 HTTP 消息头匹配。
     JWT 支持字符串类型的声明、字符串列表和嵌套声明。使用 `.` 作为嵌套声明名称的分隔符。
     例如， `"@request.auth.claims.name.givenName"` 匹配嵌套声明 `name` 和 `givenName` 。 当前不支持使用 `.` 字符作为声明名称。
-    名称在当前是不被支持的。
 
 ## 基于 JWT 声明验证入口路由{#validating-ingress-routing-based-on-JWT-claims}
 
