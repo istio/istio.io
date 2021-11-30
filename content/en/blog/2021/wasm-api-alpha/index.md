@@ -37,7 +37,7 @@ There are a lot of similarities and a few differences between WasmPlugin and `En
 
 The next field below that is the `phase`. This determines where in the proxy’s filter chain the Wasm module will be injected. We have defined four distinct phases for injection:
 
-* `AUTHN`: prior to any Istio authentication filters, meaning it is executed even before the remote mTLS certificates are verified.
+* `AUTHN`: prior to any Istio authentication and authorization filters.
 * `AUTHZ`: after the Istio authentication filters and before any first class authorization filters, i.e. before AuthorizationPolicies have been applied.
 * `STATS`: after all authorization filters and prior to the Istio stats filter.
 * `UNSPECIFIED_PHASE`: let the control plane decide where to insert. This will generally be at the end of the filter chain, right before the Router. This is the default value for this `phase` field.
