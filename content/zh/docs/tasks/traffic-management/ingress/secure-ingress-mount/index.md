@@ -38,7 +38,7 @@ TLS 所必需的私钥、服务器证书和根证书使用基于文件挂载的�
 
     {{< text bash >}}
     $ openssl req -out httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
-    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin.example.com.csr -out httpbin.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin.example.com.csr -out httpbin.example.com.crt
     {{< /text >}}
 
 ## 基于文件挂载的方式配置 TLS ingress 网关{#configure-a-TLS-ingress-gateway-with-a-file-mount-based-approach}
@@ -231,7 +231,7 @@ TLS 所必需的私钥、服务器证书和根证书使用基于文件挂载的�
 
     {{< text bash >}}
     $ openssl req -out httpbin-client.example.com.csr -newkey rsa:2048 -nodes -keyout httpbin-client.example.com.key -subj "/CN=httpbin-client.example.com/O=httpbin's client organization"
-    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin-client.example.com.csr -out httpbin-client.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin-client.example.com.csr -out httpbin-client.example.com.crt
     {{< /text >}}
 
 1. 重新用 _curl_ 发送之前的请求，这次通过参数传递客户端证书（添加 `--cert` 选项）和您的私钥（`--key` 选项）：
@@ -264,7 +264,7 @@ Ingress 网关将向客户端提供与每个请求的服务器相对应的唯一
 
 {{< text bash >}}
 $ openssl req -out bookinfo.com.csr -newkey rsa:2048 -nodes -keyout bookinfo.com.key -subj "/CN=bookinfo.com/O=bookinfo organization"
-$ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in bookinfo.com.csr -out bookinfo.com.crt
+$ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in bookinfo.com.csr -out bookinfo.com.crt
 {{< /text >}}
 
 ### 使用新证书重新部署 `istio-ingressgateway`{#redeploy-Istio-ingress-gateway-with-the-new-certificate}
