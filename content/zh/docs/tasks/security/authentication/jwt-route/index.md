@@ -22,7 +22,7 @@ status: Experimental
 
 * 使用 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio 。
 
-* 在一个命名空间中，部署一个 `httpbin` 工作负载，例如 `foo` ，
+* 在 `foo` 命名空间中，部署一个 `httpbin` 工作负载 ，
 并通过 Istio 入口网关使用以下命令暴露它：
 
     {{< text bash >}}
