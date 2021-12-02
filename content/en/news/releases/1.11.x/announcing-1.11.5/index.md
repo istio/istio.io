@@ -13,7 +13,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 {{< relnote >}}
 
-# Changes
+## Changes
 
 - **Added** istiod deployment respect `values.pilot.nodeSelector`.
   ([Issue #36110](https://github.com/istio/istio/issues/36110))
@@ -26,5 +26,5 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** `LbEndpointValidationError.LoadBalancingWeight: value must be greater than or equal to 1`  from Envoy when
 multi-network gateways are configured via `MeshNetworks`.
 
-- **Fixed** workload name metric labels are not correctly populated for CronJob at k8s 1.21+.
+- **Fixed** workload name metric labels are not correctly populated for `CronJob` at k8s 1.21+.
   ([Issue #35563](https://github.com/istio/istio/issues/35563))
