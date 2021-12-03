@@ -13,7 +13,7 @@ a few ways to manage traffic in a multicluster mesh. Before reading this guide:
 1. Read [Deployment Models](/docs/ops/deployment/deployment-models/#multiple-clusters)
 1. Make sure your deployed services follow the concept of {{< gloss "namespace sameness" >}}namespace sameness{{< /gloss >}}.
 
-# Keeping traffic in-cluster
+## Keeping traffic in-cluster
 
 In some cases the default cross-cluster load balancing behavior is not desirable. To keep traffic "cluster-local" (i.e.
 traffic sent from `cluster-a` will only reach destinations in `cluster-a`), mark hostnames or wildcards as `clusterLocal`
@@ -59,7 +59,7 @@ serviceSettings:
 
 {{< /tabset >}}
 
-# Partitioning Services {#partitioning-services}
+## Partitioning Services {#partitioning-services}
 
 [`DestinationRule.subsets`](/docs/reference/config/networking/destination-rule/#Subset) allows partitioning a service
 by selecting labels. These labels can be the labels from Kubernetes metadata, or from [built-in labels](/docs/reference/config/labels/).
@@ -113,3 +113,10 @@ spec:
         host: mysvc.myns.svc.cluster.local
         subset: cluster-2
 {{< /text >}}
+
+
+The subsetting approach can accomplish the same goals as [`MeshConfig.serviceSettings`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ServiceSettings-Settings),
+but mixes service-level policy with topology-level policy. For example, a rule that sends 10% of traffic to `v2` of some service now needs twice the
+number of subsets (i.e. `cluster-1-v2`, `cluster-2-v2`). This approach should be preferred only when you need more granular control of when to route
+based on the cluster.
+ 
