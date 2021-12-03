@@ -83,7 +83,7 @@ The latency, throughput, and the proxies' CPU and memory consumption are measure
 ### CPU and memory
 
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
-and memory. As of Istio {{< istio_release_name >}}, a proxy consumes about 0.5 vCPU per 1000
+and memory. In Istio {{< istio_release_name >}}, a proxy consumes about 0.5 vCPU per 1000
 requests per second.
 
 The memory consumption of the proxy depends on the total configuration state the proxy holds.
@@ -97,7 +97,7 @@ request rate doesn't affect the memory consumption.
 
 Since Istio injects a sidecar proxy on the data path, latency is an important
 consideration.
-Every additional feature Istio adds also adds to the path length inside the proxy and potentially affects latency.
+Every feature Istio adds also adds to the path length inside the proxy and potentially affects latency.
 
 The Envoy proxy collects raw telemetry data after a response is sent to the
 client. The time spent collecting raw telemetry for a request does not contribute
