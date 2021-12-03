@@ -115,8 +115,7 @@ spec:
 {{< /text >}}
 
 
-The subsetting approach can accomplish the same goals as [`MeshConfig.serviceSettings`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ServiceSettings-Settings),
+The subset approach can accomplish the same goals as [`MeshConfig.serviceSettings`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ServiceSettings-Settings),
 but mixes service-level policy with topology-level policy. For example, a rule that sends 10% of traffic to `v2` of some service now needs twice the
 number of subsets (i.e. `cluster-1-v2`, `cluster-2-v2`). This approach should be preferred only when you need more granular control of when to route
 based on the cluster.
- 
