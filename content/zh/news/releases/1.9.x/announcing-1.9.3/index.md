@@ -9,7 +9,7 @@ aliases:
     - /zh/news/announcing-1.9.3
 ---
 
-这个版本修复了[我们4月15日的帖子](/news/security/istio-security-2021-003)中描述的安全漏洞。
+这个版本修复了[我们4月15日的帖子](/zh/news/security/istio-security-2021-003)中描述的安全漏洞。
 
 {{< relnote >}}
 
