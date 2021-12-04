@@ -9,8 +9,8 @@ aliases:
     - /zh/news/announcing-1.10.2
 ---
 
-这个版本修复了我们 6 月 24 日的文章 [ISTIO-SECURITY-2021-007](/news/security/istio-security-2021-007) 中描述的安全漏洞，以及一些小错误修复，
-从而提高了系统的健壮性。这个版本说明描述了 Istio 1.10.1 和 Istio 1.10.2 之间的区别。 
+这个版本修复了我们 6 月 24 日的文章 [ISTIO-SECURITY-2021-007](/zh/news/security/istio-security-2021-007) 中描述的安全漏洞，以及一些小错误修复，
+从而提高了系统的健壮性。这个版本说明描述了 Istio 1.10.1 和 Istio 1.10.2 之间的区别。
 
 {{< relnote >}}
 
