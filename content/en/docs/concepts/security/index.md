@@ -600,10 +600,9 @@ spec:
      values: ["https://accounts.google.com"]
 {{< /text >}}
 
-The following example shows an authorization policy that denies requests if the
-source is not the `foo` namespace:
+This [example](http://istio.io/latest/docs/reference/config/security/authorization-policy/#deny-policy) shows an authorization policy that denies requests if the source is not the `foo` namespace:
 
-{{< text yaml >}}
+<!-- {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -623,7 +622,7 @@ spec:
 
 The deny policy takes precedence over the allow policy. Requests matching allow
 policies can be denied if they match a deny policy. Istio evaluates deny
-policies first to ensure that an allow policy can't bypass a deny policy.
+policies first to ensure that an allow policy can't bypass a deny policy. -->
 
 #### Policy Target
 
@@ -683,10 +682,9 @@ match:
 - The `ipBlocks` under the `source` section
 - The `ports` field under the `to` section
 
-The following example policy allows access at paths with the `/test/*` prefix
-or the `*/info` suffix.
+This [example](http://istio.io/latest/docs/reference/config/security/authorization-policy/#value-matching) policy allows access at paths with the `/test/*` prefix or the `*/info` suffix.
 
-{{< text yaml >}}
+<!-- {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -701,7 +699,7 @@ spec:
   - to:
     - operation:
         paths: ["/test/*", "*/info"]
-{{< /text >}}
+{{< /text >}} -->
 
 #### Exclusion matching
 
@@ -732,10 +730,9 @@ spec:
         requestPrincipals: ["*"]
 {{< /text >}}
 
-The following example denies the request to the `/admin` path for requests
-without request principals:
+This [example](http://istio.io/latest/docs/reference/config/security/authorization-policy/#exclusion-matching) denies the request to the `/admin` path for requests without request principals:
 
-{{< text yaml >}}
+<!-- {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -753,7 +750,7 @@ spec:
     from:
     - source:
         notRequestPrincipals: ["*"]
-{{< /text >}}
+{{< /text >}} -->
 
 #### `allow-nothing`, `deny-all` and `allow-all` policy
 
@@ -777,11 +774,9 @@ spec:
   # the rules field is not specified, and the policy will never match.
 {{< /text >}}
 
-The following example shows a `DENY` policy that explicitly denies all access. It will always deny the request even if
-there is another `ALLOW` policy allowing the request because the `DENY` policy takes precedence over the `ALLOW` policy.
-This is useful if you want to temporarily disable all access to the workload.
+This [example](http://istio.io/latest/docs/reference/config/security/authorization-policy/#deny-all) shows a `DENY` policy that explicitly denies all access. It will always deny the request even if there is another `ALLOW` policy allowing the request because the `DENY` policy takes precedence over the `ALLOW` policy. This is useful if you want to temporarily disable all access to the workload.
 
-{{< text yaml >}}
+<!-- {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -791,13 +786,11 @@ spec:
   # the rules field has an empty rule, and the policy will always match.
   rules:
   - {}
-{{< /text >}}
+{{< /text >}} -->
 
-The following example shows an `ALLOW` policy that allows full access to the workload. It will make other `ALLOW` policies
-useless as it will always allow the request. It might be useful if you want to temporarily expose full access to the
-workload. Note the request could still be denied due to `CUSTOM` and `DENY` policies.
+This [example](http://istio.io/latest/docs/reference/config/security/authorization-policy/#allow-all) shows an `ALLOW` policy that allows full access to the workload. It will make other `ALLOW` policies useless as it will always allow the request. It might be useful if you want to temporarily expose full access to the workload. Note the request could still be denied due to `CUSTOM` and `DENY` policies.
 
-{{< text yaml >}}
+<!-- {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -807,7 +800,7 @@ spec:
   # This matches everything.
   rules:
   - {}
-{{< /text >}}
+{{< /text >}} -->
 
 #### Custom conditions
 
@@ -867,10 +860,9 @@ spec:
        methods: ["GET", "POST"]
 {{< /text >}}
 
-To allow only authenticated users, set `principals` to `"*"` instead, for
-example:
+To allow only authenticated users, set `principals` to `"*"` instead, for [example](http://istio.io/latest/docs/reference/config/security/authorization-policy/#authenticated-auth):
 
-{{< text yaml >}}
+<!-- {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -889,7 +881,7 @@ spec:
    to:
    - operation:
        methods: ["GET", "POST"]
-{{< /text >}}
+{{< /text >}} -->
 
 ### Using Istio authorization on plain TCP protocols
 

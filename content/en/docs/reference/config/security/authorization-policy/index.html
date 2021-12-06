@@ -821,3 +821,117 @@ spec:
 </tbody>
 </table>
 </section>
+<h2 id="AuthorizationPolicy-Examples">Examples</h2>
+<h4 id="deny-policy">1. Authorization policy that denies requests if the source is not the `foo` namespace: </h4>
+<pre><code class="language-yaml">
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: httpbin-deny
+ namespace: foo
+spec:
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ action: DENY
+ rules:
+ - from:
+   - source:
+       notNamespaces: ["foo"]
+</code></pre>
+
+<p>The deny policy takes precedence over the allow policy. Requests matching allow
+policies can be denied if they match a deny policy. Istio evaluates deny
+policies first to ensure that an allow policy can't bypass a deny policy. </p>
+
+<h4 id="value-matching">2. Policy which allows access at paths with the `/test/*` prefix
+or the `*/info` suffix. </h4>
+
+<pre><code class="language-yaml">
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: tester
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: products
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        paths: ["/test/*", "*/info"]
+</code></pre>
+
+<h4 id="exclusion-matching">3. Denies the request to the `/admin` path for requests
+without request principals: </h4>
+
+<pre><code class="language-yaml">
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: enable-jwt-for-admin
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: products
+  action: DENY
+  rules:
+  - to:
+    - operation:
+        paths: ["/admin"]
+    from:
+    - source:
+        notRequestPrincipals: ["*"]
+</code></pre> 
+
+<h4 id="deny-all">4. `DENY` policy that explicitly denies all access.</h4>
+<pre><code class="language-yaml">
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: deny-all
+spec:
+  action: DENY
+  # the rules field has an empty rule, and the policy will always match.
+  rules:
+  - {}
+</code></pre>
+
+<h4 id="allow-all">5. `ALLOW` policy that allows full access to the workload.</h4>
+<pre><code class="language-yaml">
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-all
+spec:
+  action: ALLOW
+  # This matches everything.
+  rules:
+  - {}
+</code></pre>
+
+<h4 id="authenticated-auth">6. The following example will authorize only the authenticated users.</h4>
+<pre><code class="language-yaml">
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: httpbin
+ namespace: foo
+spec:
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ action: ALLOW
+ rules:
+ - from:
+   - source:
+       principals: ["*"]
+   to:
+   - operation:
+       methods: ["GET", "POST"]
+</code></pre>
