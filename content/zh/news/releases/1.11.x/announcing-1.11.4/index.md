@@ -21,5 +21,5 @@ aliases:
 - **修复** 修复了同时创建 Service 和 Gateway 导致服务被忽略的问题。
   ([Issue #35172](https://github.com/istio/istio/issues/35172))
 
-- **修复** 修复了由于 Service Entry 选择 Pods 时导致的 Endpoints 发送更新却无应答的问题。
+- **修复** 修复了由于 Service Entry 选择 Pod 时导致的 Endpoint 发送更新却无应答的问题。
   ([Issue #35404](https://github.com/istio/istio/issues/35404))
