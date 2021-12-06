@@ -30,8 +30,8 @@ istioctl operator init --watchedNamespaces=istio-namespace1,istio-namespace2
 
 snip_prerequisites_3() {
 helm install istio-operator manifests/charts/istio-operator \
-  --set operatorNamespace=istio-operator \
-  --set watchedNamespaces="istio-namespace1\,istio-namespace2"
+  --set watchedNamespaces="istio-namespace1\,istio-namespace2" \
+  -n istio-operator
 }
 
 snip_create_demo_profile() {
@@ -145,8 +145,8 @@ istio-1.8.1/bin/istioctl operator init --revision 1-8-1
 
 snip_canary_upgrade_3() {
 helm install istio-operator manifests/charts/istio-operator \
-  --set operatorNamespace=istio-operator \
   --set watchedNamespaces=istio-system \
+  -n istio-operator \
   --set revision=1-9-0
 }
 
