@@ -19,6 +19,8 @@ In some cases the default cross-cluster load balancing behavior is not desirable
 traffic sent from `cluster-a` will only reach destinations in `cluster-a`), mark hostnames or wildcards as `clusterLocal`
 using [`MeshConfig.serviceSettings`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ServiceSettings-Settings).
 
+For example, you can enforce cluster-local traffic for an individual service, all services in a particular namespace, or globally for all services in the mesh, as follows:
+
 {{< tabset category-name="meshconfig" >}}
 
 {{< tab name="per-service" category-value="service" >}}
