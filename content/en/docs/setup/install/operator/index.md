@@ -260,8 +260,8 @@ You can alternatively use Helm to deploy another operator with a different revis
 
 {{< text bash >}}
 $ helm install istio-operator manifests/charts/istio-operator \
-  --set operatorNamespace=istio-operator \
   --set watchedNamespaces=istio-system \
+  -n istio-operator \
   --set revision=1-9-0
 {{< /text >}}
 
