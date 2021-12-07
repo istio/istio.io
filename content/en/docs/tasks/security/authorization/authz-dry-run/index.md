@@ -137,7 +137,7 @@ Caching and propagation overhead can cause some delay.
     envoy_http_inbound_0_0_0_0_80_rbac{app="httpbin",authz_dry_run_action="deny",authz_dry_run_result="denied",instance="10.44.1.11:15020",istio_io_rev="default",job="kubernetes-pods",kubernetes_namespace="foo",kubernetes_pod_name="httpbin-74fb669cc6-95qm8",pod_template_hash="74fb669cc6",security_istio_io_tlsMode="istio",service_istio_io_canonical_name="httpbin",service_istio_io_canonical_revision="v1",version="v1"}  20
     {{< /text >}}
 
-1. The queried metric has value `20` (you might find different value depending on how many requests you have sent.
+1. The queried metric has value `20` (you might find a different value depending on how many requests you have sent.
    It's expected as long as the value is greater than 0).
    This means the dry-run policy applied to the `httpbin` workload on port `80` matched one request. The policy would
    reject the request once if it was not in dry-run mode.
