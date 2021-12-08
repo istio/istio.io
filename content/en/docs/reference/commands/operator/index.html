@@ -470,6 +470,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>The interval for istiod to fetch the jwks_uri for the jwks public key.</td>
 </tr>
 <tr>
+<td><code>PILOT_MAX_REQUESTS_PER_SECOND</code></td>
+<td>Floating-Point</td>
+<td><code>0</code></td>
+<td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently.</td>
+</tr>
+<tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
 <td>Integer</td>
 <td><code>100</code></td>

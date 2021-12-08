@@ -672,6 +672,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If this is set to true, one Istiod will control remote clusters including CA.</td>
 </tr>
 <tr>
+<td><code>FILE_DEBOUNCE_DURATION</code></td>
+<td>Time Duration</td>
+<td><code>100ms</code></td>
+<td>The duration for which the file read operation is delayed once file update is detected</td>
+</tr>
+<tr>
 <td><code>FILE_MOUNTED_CERTS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -778,6 +784,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If set to true, enable the capture of outgoing DNS packets on port 53, redirecting to istio-agent on :15053</td>
+</tr>
+<tr>
+<td><code>ISTIO_META_DNS_CONNTRACK_ZONE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set to true, enable the use of conntrack zone for iptables for DNS redirection</td>
 </tr>
 <tr>
 <td><code>ISTIO_MULTIROOT_MESH</code></td>
@@ -1042,6 +1054,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Time Duration</td>
 <td><code>20m0s</code></td>
 <td>The interval for istiod to fetch the jwks_uri for the jwks public key.</td>
+</tr>
+<tr>
+<td><code>PILOT_MAX_REQUESTS_PER_SECOND</code></td>
+<td>Floating-Point</td>
+<td><code>0</code></td>
+<td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently.</td>
 </tr>
 <tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
