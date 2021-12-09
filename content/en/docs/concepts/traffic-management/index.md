@@ -597,7 +597,7 @@ in a particular namespace, or choose specific workloads using a
 `workloadSelector`. For example, the following sidecar configuration configures
 all services in the `bookinfo` namespace to only reach services running in the
 same namespace and the Istio control plane (currently needed to use Istio’s
-policy and telemetry features):
+telemetry features):
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
