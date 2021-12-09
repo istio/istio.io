@@ -231,7 +231,7 @@ integrations:
   - name: "Slime"
     logo: "/logos/slime.png"
     url: "https://github.com/slime-io"
-    description: "Slime is an intelligent service mesh manager for Istio.
+    description: "Slime is an intelligent service mesh manager for Istio."
     details:
       - "Slime has a modular architecture that makes it easy to organize and manage various extensions which are focused on enhancing the capabilities and improving the ease of use of Istio."
       - "Using Slime, you can define dynamic service management strategies, which are automatically and conveniently converted to Istio/Envoy configuration."
