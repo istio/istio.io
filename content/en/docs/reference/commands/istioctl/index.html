@@ -395,7 +395,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--duration &lt;duration&gt;</code></td>
 <td></td>
-<td>How far to go back in time from end-time for log entries to include in the archive. Default is infinity. If set, start-time must be unset.  (default `0s`)</td>
+<td>How far to go back in time from end-time for log entries to include in the archive. Default is infinity. If set, --start-time must be unset.  (default `0s`)</td>
 </tr>
 <tr>
 <td><code>--end-time &lt;string&gt;</code></td>
@@ -450,7 +450,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--start-time &lt;string&gt;</code></td>
 <td></td>
-<td>Start time for the range of log entries to include in the archive. Default is the infinite past. If set, Since must be unset.  (default ``)</td>
+<td>Start time for the range of log entries to include in the archive. Default is the infinite past. If set, --duration must be unset.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--timeout &lt;duration&gt;</code></td>
@@ -500,7 +500,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--duration &lt;duration&gt;</code></td>
 <td></td>
-<td>How far to go back in time from end-time for log entries to include in the archive. Default is infinity. If set, start-time must be unset.  (default `0s`)</td>
+<td>How far to go back in time from end-time for log entries to include in the archive. Default is infinity. If set, --start-time must be unset.  (default `0s`)</td>
 </tr>
 <tr>
 <td><code>--end-time &lt;string&gt;</code></td>
@@ -565,7 +565,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--start-time &lt;string&gt;</code></td>
 <td></td>
-<td>Start time for the range of log entries to include in the archive. Default is the infinite past. If set, Since must be unset.  (default ``)</td>
+<td>Start time for the range of log entries to include in the archive. Default is the infinite past. If set, --duration must be unset.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--timeout &lt;duration&gt;</code></td>
@@ -7315,6 +7315,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Time Duration</td>
 <td><code>1s</code></td>
 <td>Protocol detection timeout for inbound listener</td>
+</tr>
+<tr>
+<td><code>PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS</code></td>
+<td>String</td>
+<td><code>gcp,azure,exec,openstack,clientkey,clientCertificate,tokenFile</code></td>
+<td>Comma separated list of potentially insecure kubeconfig authentication options that are allowed for multicluster authentication.Support values: all authProviders (`gcp`, `azure`, `exec`, `openstack`), `clientKey`, `clientCertificate`, `tokenFile`, and `exec`.</td>
 </tr>
 <tr>
 <td><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></td>
