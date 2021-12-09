@@ -231,10 +231,11 @@ integrations:
   - name: "Slime"
     logo: "/logos/slime.png"
     url: "https://github.com/slime-io"
-    description: "Slime extends, supports, manages Istio and helps to use Istio right."
+    description: "Slime is an intelligent service mesh manager for Istio.
     details:
-      - "Slime has built a manager-modules architecture that makes it easy to organize and manage various extensions which are focused on enhancing the capabilities and improving the ease of use of Istio."
-      - "Slime is like Slime, it can be any shape you want and you can do anything in it that is good for Istio's ecology."
+      - "Slime has a modular architecture that makes it easy to organize and manage various extensions which are focused on enhancing the capabilities and improving the ease of use of Istio."
+      - "Using Slime, you can define dynamic service management strategies, which are automatically and conveniently converted to Istio/Envoy configuration."
+      - "Just like its namesake, Slime can be any shape you want and it is good for Istio's ecology!"
   - name: "Sysdig"
     logo: "/logos/sysdig.svg"
     url: "https://sysdig.com/blog/monitor-istio/"
