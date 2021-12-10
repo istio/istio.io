@@ -10,6 +10,129 @@ schema: istio.extensions.v1alpha1.WasmPlugin
 aliases: [/docs/reference/config/extensions/v1alpha1/wasm-plugin]
 number_of_entries: 3
 ---
+<p>WasmPlugins provides a mechanism to extend the functionality provided by
+the Istio proxy through WebAssembly filters.</p>
+
+<p>Order of execution (as part of Envoy&rsquo;s filter chain) is determined by
+phase and priority settings, allowing the configuration of complex
+interactions between user-supplied WasmPlugins and Istio&rsquo;s internal
+filters.</p>
+
+<p>Examples:</p>
+
+<p>AuthN Filter deployed to ingress-gateway that implements an OpenID flow
+and populates the <code>Authorization</code> header with a JWT to be consumed by
+Istio AuthN.</p>
+
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: WasmPlugin
+metadata:
+  name: openid-connect
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  url: file:///opt/filters/openid.wasm
+  sha256: 1ef0c9a92b0420cf25f7fe5d481b231464bc88f486ca3b9c83ed5cc21d2f6210
+  phase: AUTHN
+  pluginConfig:
+    openid_server: authn
+    openid_realm: ingress
+</code></pre>
+
+<p>This is the same as the last example, but using an OCI image.</p>
+
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: WasmPlugin
+metadata:
+  name: openid-connect
+  namespace: istio-ingress
+spec:
+  selector:
+    labels:
+      istio: ingressgateway
+  url: oci://private-registry:5000/openid-connect/openid:latest
+  imagePullPolicy: IfNotPresent
+  imagePullSecret: private-registry-pull-secret
+  phase: AUTHN
+  pluginConfig:
+    openid_server: authn
+    openid_realm: ingress
+</code></pre>
+
+<p>And a more complex example that deploys three WasmPlugins and orders them
+using <code>phase</code> and <code>priority</code>. The (hypothetical) setup is that the
+<code>openid-connect</code> filter performs an OpenID Connect flow to authenticate the
+user, writing a signed JWT into the Authorization header of the request,
+which can be verified by the Istio authn plugin. Then, the <code>acl-check</code> plugin
+kicks in, passing the JWT to a policy server, which in turn responds with a
+signed token that contains information about which files and functions of the
+system are available to the user that was previously authenticated. The
+<code>acl-check</code> filter writes this token to a header. Finally, the <code>check-header</code>
+filter verifies the token in that header and makes sure that the token&rsquo;s
+contents (the permitted &lsquo;function&rsquo;) matches its plugin configuration.</p>
+
+<p>The resulting filter chain looks like this:
+-&gt; openid-connect -&gt; istio.authn -&gt; acl-check -&gt; check-header -&gt; router</p>
+
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: WasmPlugin
+metadata:
+  name: openid-connect
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  url: oci://private-registry:5000/openid-connect/openid:latest
+  imagePullPolicy: IfNotPresent
+  imagePullSecret: private-registry-pull-secret
+  phase: AUTHN
+  pluginConfig:
+    openid_server: authn
+    openid_realm: ingress
+</code></pre>
+
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: WasmPlugin
+metadata:
+  name: acl-check
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  url: oci://private-registry:5000/acl-check/acl:latest
+  imagePullPolicy: Always
+  imagePullSecret: private-registry-pull-secret
+  phase: AUTHZ
+  priority: 1000
+  pluginConfig:
+    acl_server: some_server
+    set_header: authz_complete
+</code></pre>
+
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: WasmPlugin
+metadata:
+  name: check-header
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  url: oci://private-registry:5000/check-header:latest
+  imagePullPolicy: IfNotPresent
+  imagePullSecret: private-registry-pull-secret
+  phase: AUTHZ
+  priority: 10
+  pluginConfig:
+    read_header: authz_complete
+    verification_key: a89gAzxvls0JKAKIJSBnnvvvkIO
+    function: read_data
+</code></pre>
+
 <h2 id="WasmPlugin">WasmPlugin</h2>
 <section>
 <p>WasmPlugins provides a mechanism to extend the functionality provided by
@@ -217,8 +340,6 @@ Do not specify <code>PluginPhase</code> if the plugin is independent of others.<
 <section>
 <p>The pull behaviour to be applied when fetching an OCI image,
 mirroring K8s behaviour.</p>
-
-<p>buf:lint:ignore ENUM<em>VALUE</em>UPPER<em>SNAKE</em>CASE</p>
 
 <table class="enum-values">
 <thead>

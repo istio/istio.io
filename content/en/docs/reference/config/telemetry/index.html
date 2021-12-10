@@ -8,8 +8,198 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.telemetry.v1alpha1.Telemetry
 aliases: [/docs/reference/config/telemetry/v1alpha1/telemetry]
-number_of_entries: 15
+number_of_entries: 16
 ---
+<p>Telemetry defines how the telemetry is generated for workloads within a mesh.</p>
+
+<p>For mesh level configuration, put the resource in root configuration namespace for
+your Istio installation <em>without</em> a workload selector.</p>
+
+<p>For any namespace, including the root configuration namespace, it is only valid
+to have a single workload selector-less Telemetry resource.</p>
+
+<p>For resources with a workload selector, it is only valid to have one resource selecting
+any given workload.</p>
+
+<p>The hierarchy of Telemetry configuration is as follows:
+1. Workload-specific configuration
+1. Namespace-specific configuration
+1. Root namespace configuration</p>
+
+<p>Examples:</p>
+
+<p>Policy to enable random sampling for 10% of traffic:</p>
+
+<pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+spec:
+  # no selector specified, applies to all workloads
+  tracing:
+  - randomSamplingPercentage: 10.00
+</code></pre>
+
+<p>Policy to disable trace reporting for the &ldquo;foo&rdquo; workload (note: tracing
+context will still be propagated):</p>
+
+<pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: foo-tracing
+  namespace: bar
+spec:
+  selector:
+    matchLabels:
+      service.istio.io/canonical-name: foo
+  tracing:
+  - disableSpanReporting: true
+</code></pre>
+
+<p>Policy to select the alternate zipkin provider for trace reporting:</p>
+
+<pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: foo-tracing-alternate
+  namespace: baz
+spec:
+  selector:
+    matchLabels:
+      service.istio.io/canonical-name: foo
+  tracing:
+  - providers:
+    - name: &quot;zipkin-alternate&quot;
+    randomSamplingPercentage: 10.00
+</code></pre>
+
+<p>Policy to add a custom tag from a literal value:</p>
+
+<pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+spec:
+  # no selector specified, applies to all workloads
+  tracing:
+  - randomSamplingPercentage: 10.00
+    customTags:
+      my_new_foo_tag:
+        literal:
+          value: &quot;foo&quot;
+</code></pre>
+
+<p>Policy to disable server-side metrics for Stackdriver for an entire mesh:</p>
+
+<pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+spec:
+  # no selector specified, applies to all workloads
+  metrics:
+  - providers:
+    - name: stackdriver
+    overrides:
+    - match:
+        metric: ALL_METRICS
+        mode: SERVER
+      disabled: true
+</code></pre>
+
+<p>Policy to add dimensions to all Prometheus metrics for the <code>foo</code> namespace:</p>
+
+<pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: namespace-metrics
+  namespace: foo
+spec:
+  # no selector specified, applies to all workloads in the namespace
+  metrics:
+  - providers:
+    - name: prometheus
+    overrides:
+    # match clause left off matches all istio metrics, client and server
+    - tagOverrides:
+        request_method:
+          value: &quot;request.method&quot;
+        request_host:
+          value: &quot;request.host&quot;
+</code></pre>
+
+<p>Policy to remove the response_code dimension on some Prometheus metrics for
+the <code>bar.foo</code> workload:</p>
+
+<pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: remove-response-code
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      service.istio.io/canonical-name: bar
+  metrics:
+  - providers:
+    - name: prometheus
+    overrides:
+    - match:
+        metric: REQUEST_COUNT
+      tagOverrides:
+        response_code:
+          operation: REMOVE
+    - match:
+        metric: REQUEST_DURATION
+      tagOverrides:
+        response_code:
+          operation: REMOVE
+    - match:
+        metric: REQUEST_BYTES
+      tagOverrides:
+        response_code:
+          operation: REMOVE
+    - match:
+        metric: RESPONSE_BYTES
+      tagOverrides:
+        response_code:
+          operation: REMOVE
+</code></pre>
+
+<p>Policy to enable access logging for the entire mesh:</p>
+
+<pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+spec:
+  # no selector specified, applies to all workloads
+  accessLogging:
+  - providers:
+    - name: envoyFileAccessLogger
+    # By default, this turns on access logging (no need to set `disabled: false`).
+    # Unspecified `disabled` will be treated as `disabled: false`, except in
+    # cases where a parent configuration has marked as `disabled: true`. In
+    # those cases, `disabled: false` must be set explicitly to override.
+</code></pre>
+
+<p>Policy to disable access logging for the <code>foo</code> namespace:</p>
+
+<pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: namespace-no-log
+  namespace: foo
+spec:
+  # no selector specified, applies to all workloads in the namespace
+  accessLogging:
+  - disabled: true
+</code></pre>
+
 <h2 id="Telemetry">Telemetry</h2>
 <section>
 
@@ -401,6 +591,18 @@ future releases.</p>
 No
 </td>
 </tr>
+<tr id="AccessLogging-filter">
+<td><code>filter</code></td>
+<td><code><a href="#AccessLogging-Filter">Filter</a></code></td>
+<td>
+<p>Optional. If specified, this filter will be used to select specific
+requests/connections for logging.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -599,6 +801,37 @@ Examples include: &ldquo;string(destination.port)&rdquo; and &ldquo;request.host
 Istio exposes all standard <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attributes">Envoy attributes</a>.
 Additionally, Istio exposes node metadata as attributes.
 More information is provided in the <a href="/docs/tasks/observability/metrics/customize-metrics/#use-expressions-for-values">customization docs</a>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="AccessLogging-Filter">AccessLogging.Filter</h2>
+<section>
+<p>Allows specification of an access log filter.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="AccessLogging-Filter-expression">
+<td><code>expression</code></td>
+<td><code>string</code></td>
+<td>
+<p>CEL expression for selecting when requests/connections should be logged.
+Examples:
+- <code>response.code &gt;= 400</code>
+- <code>connection.mtls &amp;&amp; request.url_path.contains('v1beta3')</code></p>
 
 </td>
 <td>
