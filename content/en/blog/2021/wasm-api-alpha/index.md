@@ -2,16 +2,16 @@
 title: Announcing the alpha availability of WebAssembly Plugins
 description: Introduction of Wasm Plugin API, and updates on Envoy and Istio's Wasm based plugins.
 publishdate: 2021-11-25
-attribution: "Daniel Grimm(Red Hat), Pengyuan Bian(Google), Takeshi Yoneda(Tetrate)"
+attribution: "Daniel Grimm (Red Hat), Pengyuan Bian (Google), Takeshi Yoneda (Tetrate)"
 
 keywords: [wasm,extensibility,WebAssembly]
 ---
 
-[At the Istio 1.9 release](../wasm-progress/), we introduced experimental support for Wasm module distribution and Wasm extensions ecosystem repository for canonical examples and use cases of Wasm extension development. Over the past 9 months, the Istio, Envoy, and Proxy-Wasm communities have continued our joint efforts to make WebAssembly (Wasm) extensibility stable, reliable, and easy to adopt, and we are pleased to announce Alpha support for Wasm extensibility at Istio 1.12 release! Let’s walk through the updates to Wasm support through the Istio 1.12 release.
+[At the Istio 1.9 release](../wasm-progress/), we introduced experimental support for WebAssembly(Wasm) module distribution and Wasm extensions ecosystem repository for canonical examples and use cases of Wasm extension development. Over the past 9 months, the Istio, Envoy, and Proxy-Wasm communities have continued our joint efforts to make Wasm extensibility stable, reliable, and easy to adopt, and we are pleased to announce Alpha support for Wasm extensibility at Istio 1.12 release! Let’s walk through the updates to Wasm support through the Istio 1.12 release.
 
 ## New WasmPlugin API
 
-With the new WasmPlugin API in the `extensions.istio.io` namespace, we’re introducing a new high-level API for extending the functionality of the Istio Proxy with custom WebAssembly (Wasm) modules. This effort builds on the excellent work that has gone into the [Proxy-Wasm](https://github.com/proxy-wasm) specification and implementation over the last two years. From now on, you no longer need to use `EnvoyFilter` resources to add custom Wasm modules to your proxies. Instead, you can now use WasmPlugin directly:
+With the new WasmPlugin API in the `extensions.istio.io` namespace, we’re introducing a new high-level API for extending the functionality of the Istio Proxy with custom Wasm modules. This effort builds on the excellent work that has gone into the [Proxy-Wasm](https://github.com/proxy-wasm) specification and implementation over the last two years. From now on, you no longer need to use `EnvoyFilter` resources to add custom Wasm modules to your proxies. Instead, you can now use WasmPlugin directly:
 
 {{< text yaml >}}
 apiVersion: extensions.istio.io/v1alpha1
@@ -38,7 +38,7 @@ There are a lot of similarities and a few differences between WasmPlugin and `En
 The next field below that is the `phase`. This determines where in the proxy’s filter chain the Wasm module will be injected. We have defined four distinct phases for injection:
 
 * `AUTHN`: prior to any Istio authentication and authorization filters.
-* `AUTHZ`: after the Istio authentication filters and before any first class authorization filters, i.e. before AuthorizationPolicies have been applied.
+* `AUTHZ`: after the Istio authentication filters and before any first-class authorization filters, i.e. before AuthorizationPolicies have been applied.
 * `STATS`: after all authorization filters and prior to the Istio stats filter.
 * `UNSPECIFIED_PHASE`: let the control plane decide where to insert. This will generally be at the end of the filter chain, right before the Router. This is the default value for this `phase` field.
 
@@ -51,9 +51,9 @@ Adding support for network filters and outbound traffics is the future work.
 
 ## Wasm image specification
 
-We believe that containers are the ideal way to store, publish and manage proxy extensions, so we worked with Solo.io to extend their existing Proxy-Wasm container format with a variant that aims to be compatible with all registries and CLI toolchain. Depending on your processes, you can now build your proxy extension containers using your existing container CLI tooling such as Docker CLI or [buildah](https://buildah.io/).
+We believe that containers are the ideal way to store, publish and manage proxy extensions, so we worked with Solo.io to extend their existing Proxy-Wasm container format with a variant that aims to be compatible with all registries and theCLI toolchain. Depending on your processes, you can now build your proxy extension containers using your existing container CLI tooling such as Docker CLI or [buildah](https://buildah.io/).
 
-For detail, please refer to [the link here](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/how-to-build-oci-images.md), and learn how to build OCI images that are consumable by Istio agent.
+To learn how to build OCI images, please refer to [this link](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/how-to-build-oci-images.md).
 
 ## Image fetcher in Istio agent
 
@@ -69,15 +69,15 @@ In addition, Istio 1.12 expands this capability to the Wasm OCI images. That mea
 
 ## Improvements in Envoy Wasm runtime
 
-The Wasm runtime powered by V8 in Envoy has been shipped as of Istio 1.5, and there has been a lot of improvements since then.
+The Wasm runtime powered by V8 in Envoy has been shipped as of Istio 1.5 and there has been a lot of improvements since then.
 
 ### WASI supports
 
-First of all, some of the WASI (WebAssembly System Interface) system calls are supported now. For example, `clock_time_get` system call can be made from Wasm programs, which means that you can use `std::time::SystemTime::now()` in Rust or `time.Now().UnixNano()` in Go for Envoy Wasm extensions just like any other native platform. Another example is that `random_get` is supported by Envoy now, so the "crypto/rand" package is available in Go as a cryptographically secure random number generator. We are currently actively looking into file system support as we have seen the requests for reading and writing local files from Wasm programs running in Envoy.
+First, some of the WASI (WebAssembly System Interface) system calls are now supported. For example, `clock_time_get` system call can be made from Wasm programs, which means that you can use `std::time::SystemTime::now()` in Rust or `time.Now().UnixNano()` in Go for Envoy Wasm extensions just like any other native platform. Another example is that `random_get` is supported by Envoy now, so the "crypto/rand" package is available in Go as a cryptographically secure random number generator. We are currently actively looking into file system support as we have seen the requests for reading and writing local files from Wasm programs running in Envoy.
 
 ### Debuggability
 
-Next is the improvement in debuggability. Now the Envoy runtime emits the stack trace of your program when it causes runtime errors, for example, when null pointer exceptions occur in C++, or the panic function is called in Go or Rust. Previously Envoy did not say anything about the cause of errors, but now you can see the trace which can be used to debug your programs:
+Next is the improvement in debuggability. Now the Envoy runtime emits the stack trace of your program when it causes runtime errors, for example, when null pointer exceptions occur in C++, or the panic function is called in Go or Rust. Previously Envoy did not say anything about the cause of errors, but you can see the trace which can be used to debug your programs:
 
 {{< text plain >}}
 Function: proxy_on_request_headers failed: Uncaught RuntimeError: unreachable
@@ -93,7 +93,7 @@ The above is an example output of the stack trace for Go SDK based Wasm extensio
 
 ### Strace support for Wasm programs
 
-Also you can see strace equivalent logs emitted by Envoy. With Istio proxy’s component log level `wasm:trace`, we can observe all the system calls and Proxy-Wasm ABI calls that go across the boundary between Wasm virtual machines and Envoy. The following is an example log stream of such strace logs:
+You can see strace equivalent logs emitted by Envoy. With Istio proxy’s component log level `wasm:trace`, we can observe all the system calls and Proxy-Wasm ABI calls that go across the boundary between Wasm virtual machines and Envoy. The following is an example log stream of such strace logs:
 
 {{< text plain >}}
 [host->vm] proxy_on_context_create(2, 1)
@@ -108,12 +108,12 @@ This is especially useful to debug Wasm program’s execution at runtime, for ex
 
 ### Arbitrary Prometheus namespace for in-Wasm metrics
 
-The next one is about metrics. Wasm extensions have been able to define their own custom metrics and expose them in Envoy just like any other metric, but prior to Istio 1.12, all of these custom metrics are prefixed by `envoy_` Prometheus namespace and users were not be able to have their own namespaces. Now, you can choose whatever namespace you want, and your metrics are exposed in Envoy as-is without being prefixed by `envoy_`.
+The next one is about metrics. Wasm extensions have been able to define their own custom metrics and expose them in Envoy just like any other metric, but prior to Istio 1.12, all of these custom metrics are prefixed by `envoy_` Prometheus namespace and users were not able to have their own namespaces. Now, you can choose whatever namespace you want, and your metrics are exposed in Envoy as-is without being prefixed by `envoy_`.
 
 Note that in order to actually expose these custom metrics, you have to configure [`ProxyConfig.proxyStatsMatcher`](../../../docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig-ProxyStatsMatcher) in `meshConfig` for global configuration or in `proxy.istio.io/config` for per proxy configuration. For detail, please refer to [`Envoy Statistics`](../../../docs/ops/configuration/telemetry/envoy-stats/).
 
 ## Future work and looking for feedback
 
-Although we have announced the alpha availability of Wasm plugins, there are still a lot of aspects that are left to be completed. The one important thing is the "Image pull secrets” support in the Wasm API -- this way we would be able to consume the OCI images in the private repository easily in Istio. Others include the first class support for L4 filters, signature verification of Wasm binaries, runtime improvements in Envoy, Proxy-Wasm SDK improvements, documentation, etc.
+Although we have announced the alpha availability of Wasm plugins, there are still a lot of aspects that are left to be completed. The one important thing is the "Image pull secrets” support in the Wasm API -- this way we would be able to consume the OCI images in the private repository easily in Istio. Others include the first-class support for L4 filters, signature verification of Wasm binaries, runtime improvements in Envoy, Proxy-Wasm SDK improvements, documentation, etc.
 
 That means, this is just the beginning of the 1st-class Wasm support in Istio. We would love to hear feedback from users so that we could improve the developer experience with the Wasm plugins!
