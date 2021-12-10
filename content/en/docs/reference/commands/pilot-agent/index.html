@@ -1018,6 +1018,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>The cert signer domain info</td>
 </tr>
 <tr>
+<td><code>CLOUD_PLATFORM</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Clound Platform on which proxy is running, if not specified,Istio will try to discover the platform. Valid platform values aws,azure,gcp,none.</td>
+</tr>
+<tr>
 <td><code>CLUSTER_ID</code></td>
 <td>String</td>
 <td><code>Kubernetes</code></td>
@@ -1106,6 +1112,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, the DNS name table for a headless service will resolve to same-network endpoints in any cluster.</td>
+</tr>
+<tr>
+<td><code>ENABLE_PROBE_KEEPALIVE_CONNECTIONS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, readiness probes will keep the connection from pilot-agent to the application alive. This mirrors older Istio versions&#39; behaviors, but not kubelet&#39;s.</td>
 </tr>
 <tr>
 <td><code>ENABLE_WASM_TELEMETRY</code></td>
@@ -1598,6 +1610,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Time Duration</td>
 <td><code>1s</code></td>
 <td>Protocol detection timeout for inbound listener</td>
+</tr>
+<tr>
+<td><code>PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of potentially insecure kubeconfig authentication options that are allowed for multicluster authentication.Support values: all authProviders (`gcp`, `azure`, `exec`, `openstack`), `clientKey`, `clientCertificate`, `tokenFile`, and `exec`.</td>
 </tr>
 <tr>
 <td><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></td>

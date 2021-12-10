@@ -87,6 +87,18 @@ __cmp_elided() {
     return 0
 }
 
+# Returns 0 if $out matches the regex string $expected.  Otherwise, returns 1.
+__cmp_regex() {
+    local out="${1//$'\r'}"
+    local expected=$2
+
+    if [[ "$out" =~ $expected ]]; then
+        return 0
+    fi
+
+    return 1
+}
+
 # Returns 0 if the first line of $out matches the first line in $expected.
 # Otherwise, returns 1.
 __cmp_first_line() {
@@ -365,6 +377,18 @@ _verify_elided() {
     local func=$1
     local expected=$2
     __verify_with_retry __cmp_elided "$func" "$expected"
+}
+
+# Runs $func and compares the output with regex string $expected.  If the output does not
+# match the regex string $expected,
+# wait a second and try again, up to two minutes by default. The retry behavior
+# can be changed by setting the `VERIFY_TIMEOUT` and `VERIFY_DELAY` environment
+# variables. You can also specify the expected number of consecutive successes
+# by setting the VERIFY_CONSECUTIVE environment variable.
+_verify_regex() {
+    local func=$1
+    local expected=$2
+    __verify_with_retry __cmp_regex "$func" "$expected"
 }
 
 # Runs $func and compares the output with $expected.  If the first line of

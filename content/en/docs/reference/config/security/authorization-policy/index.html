@@ -133,52 +133,8 @@ namespace, the policy applies to all namespaces in a mesh.</li>
 
 <p>For example,</p>
 
-<p>The following authorization policy applies to workloads containing label
-&ldquo;app: httpbin&rdquo; in namespace bar.</p>
-
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: policy
-  namespace: bar
-spec:
-  selector:
-    matchLabels:
-      app: httpbin
-</code></pre>
-
-<p>The following authorization policy applies to all workloads in namespace foo.</p>
-
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
- name: policy
- namespace: foo
-spec:
-  {}
-</code></pre>
-
-<p>The following authorization policy applies to workloads containing label
-&ldquo;version: v1&rdquo; in all namespaces in the mesh. (Assuming the root namespace is
-configured to &ldquo;istio-config&rdquo;).</p>
-
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
- name: policy
- namespace: istio-config
-spec:
- selector:
-   matchLabels:
-     version: v1
-</code></pre>
-
-<h2 id="AuthorizationPolicy">AuthorizationPolicy</h2>
-<section>
-<p>AuthorizationPolicy enables access control on workloads.</p>
-
-<p>For example, the following authorization policy allows nothing and effectively denies all requests to workloads
-in namespace foo.</p>
+<p>The following authorization policy applies to all workloads in namespace foo. It allows nothing and effectively denies
+all requests to workloads in namespace foo.</p>
 
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -201,6 +157,38 @@ spec:
  - {}
 </code></pre>
 
+<p>The following authorization policy applies to workloads containing label &ldquo;app: httpbin&rdquo; in namespace bar. It allows
+nothing and effectively denies all requests to the selected workloads.</p>
+
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-nothing
+  namespace: bar
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+</code></pre>
+
+<p>The following authorization policy applies to workloads containing label &ldquo;version: v1&rdquo; in all namespaces in the mesh.
+(Assuming the root namespace is configured to &ldquo;istio-system&rdquo;).</p>
+
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: allow-nothing
+ namespace: istio-system
+spec:
+ selector:
+   matchLabels:
+     version: v1
+</code></pre>
+
+<h2 id="AuthorizationPolicy">AuthorizationPolicy</h2>
+<section>
+<p>AuthorizationPolicy enables access control on workloads.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -215,9 +203,11 @@ spec:
 <td><code>selector</code></td>
 <td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
-<p>Optional. Workload selector decides where to apply the authorization policy.
-If not set, the authorization policy will be applied to all workloads in the
-same namespace as the authorization policy.</p>
+<p>Optional. The selector decides where to apply the authorization policy. The selector will match with workloads
+in the same namespace as the authorization policy. If the authorization policy is in the root namespace, the selector
+will additionally match with workloads in all namespaces.</p>
+
+<p>If not set, the selector will match all workloads.</p>
 
 </td>
 <td>
@@ -228,11 +218,10 @@ No
 <td><code>rules</code></td>
 <td><code><a href="#Rule">Rule[]</a></code></td>
 <td>
-<p>Optional. A list of rules to match the request. A match occurs when at least
-one rule matches the request.</p>
+<p>Optional. A list of rules to match the request. A match occurs when at least one rule matches the request.</p>
 
-<p>If not set, the match will never occur. This is equivalent to setting a
-default of deny for the target workloads.</p>
+<p>If not set, the match will never occur. This is equivalent to setting a default of deny for the target workloads if
+the action is ALLOW.</p>
 
 </td>
 <td>
@@ -243,7 +232,7 @@ No
 <td><code>action</code></td>
 <td><code><a href="#AuthorizationPolicy-Action">Action</a></code></td>
 <td>
-<p>Optional. The action to take if the request is matched with the rules.</p>
+<p>Optional. The action to take if the request is matched with the rules. Default is ALLOW if not specified.</p>
 
 </td>
 <td>
@@ -358,8 +347,9 @@ notIpBlocks: [&quot;1.2.3.4&quot;]
 <td><code>principals</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of source peer identities (i.e. service account), which
-matches to the &ldquo;source.principal&rdquo; attribute. This field requires mTLS enabled.</p>
+<p>Optional. A list of peer identities derived from the peer certificate. The peer identity is in the format of
+<code>&quot;&lt;TRUST_DOMAIN&gt;/ns/&lt;NAMESPACE&gt;/sa/&lt;SERVICE_ACCOUNT&gt;&quot;</code>, for example, <code>&quot;cluster.local/ns/default/sa/productpage&quot;</code>.
+This field requires mTLS enabled and is the same as the <code>source.principal</code> attribute.</p>
 
 <p>If not set, any principal is allowed.</p>
 
@@ -372,7 +362,7 @@ No
 <td><code>notPrincipals</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of negative match of source peer identities.</p>
+<p>Optional. A list of negative match of peer identities.</p>
 
 </td>
 <td>
@@ -383,8 +373,9 @@ No
 <td><code>requestPrincipals</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of request identities (i.e. &ldquo;iss/sub&rdquo; claims), which
-matches to the &ldquo;request.auth.principal&rdquo; attribute.</p>
+<p>Optional. A list of request identities derived from the JWT. The request identity is in the format of
+<code>&quot;&lt;ISS&gt;/&lt;SUB&gt;&quot;</code>, for example, <code>&quot;example.com/sub-1&quot;</code>. This field requires request authentication enabled and is the
+same as the <code>request.auth.principal</code> attribute.</p>
 
 <p>If not set, any request principal is allowed.</p>
 
@@ -408,8 +399,8 @@ No
 <td><code>namespaces</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of namespaces, which matches to the &ldquo;source.namespace&rdquo;
-attribute. This field requires mTLS enabled.</p>
+<p>Optional. A list of namespaces derived from the peer certificate.
+This field requires mTLS enabled and is the same as the <code>source.namespace</code> attribute.</p>
 
 <p>If not set, any namespace is allowed.</p>
 
@@ -433,9 +424,8 @@ No
 <td><code>ipBlocks</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of IP blocks, which matches to the &ldquo;source.ip&rdquo; attribute.
-Populated from the source address of the IP packet.
-Single IP (e.g. &ldquo;1.2.3.4&rdquo;) and CIDR (e.g. &ldquo;1.2.3.0/24&rdquo;) are supported.</p>
+<p>Optional. A list of IP blocks, populated from the source address of the IP packet. Single IP (e.g. &ldquo;1.2.3.4&rdquo;) and
+CIDR (e.g. &ldquo;1.2.3.0/24&rdquo;) are supported. This is the same as the <code>source.ip</code> attribute.</p>
 
 <p>If not set, any IP is allowed.</p>
 
@@ -459,12 +449,12 @@ No
 <td><code>remoteIpBlocks</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of IP blocks, which matches to the &ldquo;remote.ip&rdquo; attribute.
-Populated from X-Forwarded-For header or proxy protocol.
+<p>Optional. A list of IP blocks, populated from X-Forwarded-For header or proxy protocol.
 To make use of this field, you must configure the numTrustedProxies field of the gatewayTopology under the meshConfig
 when you install Istio or using an annotation on the ingress gateway.  See the documentation here:
 <a href="/docs/ops/configuration/traffic-management/network-topologies/">Configuring Gateway Network Topology</a>.
-Single IP (e.g. &ldquo;1.2.3.4&rdquo;) and CIDR (e.g. &ldquo;1.2.3.0/24&rdquo;) are supported.</p>
+Single IP (e.g. &ldquo;1.2.3.4&rdquo;) and CIDR (e.g. &ldquo;1.2.3.0/24&rdquo;) are supported.
+This is the same as the <code>remote.ip</code> attribute.</p>
 
 <p>If not set, any IP is allowed.</p>
 
@@ -514,7 +504,9 @@ notPaths: [&quot;/admin*&quot;]
 <td><code>hosts</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of hosts, which matches to the &ldquo;request.host&rdquo; attribute.</p>
+<p>Optional. A list of hosts as specified in the HTTP request. The match is case-insensitive.
+See the <a href="/docs/ops/best-practices/security/#writing-host-match-policies">security best practices</a> for
+recommended usage of this field.</p>
 
 <p>If not set, any host is allowed. Must be used only with HTTP.</p>
 
@@ -527,7 +519,7 @@ No
 <td><code>notHosts</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of negative match of hosts.</p>
+<p>Optional. A list of negative match of hosts as specified in the HTTP request. The match is case-insensitive.</p>
 
 </td>
 <td>
@@ -538,7 +530,7 @@ No
 <td><code>ports</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of ports, which matches to the &ldquo;destination.port&rdquo; attribute.</p>
+<p>Optional. A list of ports as specified in the connection.</p>
 
 <p>If not set, any port is allowed.</p>
 
@@ -551,7 +543,7 @@ No
 <td><code>notPorts</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of negative match of ports.</p>
+<p>Optional. A list of negative match of ports as specified in the connection.</p>
 
 </td>
 <td>
@@ -562,7 +554,7 @@ No
 <td><code>methods</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of methods, which matches to the &ldquo;request.method&rdquo; attribute.
+<p>Optional. A list of methods as specified in the HTTP request.
 For gRPC service, this will always be &ldquo;POST&rdquo;.</p>
 
 <p>If not set, any method is allowed. Must be used only with HTTP.</p>
@@ -576,7 +568,7 @@ No
 <td><code>notMethods</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of negative match of methods.</p>
+<p>Optional. A list of negative match of methods as specified in the HTTP request.</p>
 
 </td>
 <td>
@@ -587,9 +579,9 @@ No
 <td><code>paths</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of paths, which matches to the &ldquo;request.url_path&rdquo; attribute.
-For gRPC service, this will be the fully-qualified name in the form of
-&ldquo;/package.service/method&rdquo;.</p>
+<p>Optional. A list of paths as specified in the HTTP request. See the <a href="/docs/reference/config/security/normalization/">Authorization Policy Normalization</a>
+for details of the path normalization.
+For gRPC service, this will be the fully-qualified name in the form of &ldquo;/package.service/method&rdquo;.</p>
 
 <p>If not set, any path is allowed. Must be used only with HTTP.</p>
 
@@ -793,7 +785,7 @@ the extension by specifying the name of the provider.
 One example use case of the extension is to integrate with a custom external authorization system to delegate
 the authorization decision to it.</p>
 
-<p>Note: The CUSTOM action is currently an <strong>experimental feature</strong> and is subject to breaking changes in later versions.</p>
+<p>Note: The CUSTOM action is currently an <strong>alpha feature</strong> and is subject to breaking changes in later versions.</p>
 
 <p>The following authorization policy applies to an ingress gateway and delegates the authorization check to a named extension
 &ldquo;my-custom-authz&rdquo; if the request path has prefix &ldquo;/admin/&rdquo;.</p>

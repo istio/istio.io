@@ -230,8 +230,11 @@ spec:
 <td><code>selector</code></td>
 <td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
-<p>The selector determines the workloads to apply the RequestAuthentication on.
-If not set, the policy will be applied to all workloads in the same namespace as the policy.</p>
+<p>Optional. The selector decides where to apply the request authentication policy. The selector will match with workloads
+in the same namespace as the request authentication policy. If the request authentication policy is in the root namespace,
+the selector will additionally match with workloads in all namespaces.</p>
+
+<p>If not set, the selector will match all workloads.</p>
 
 </td>
 <td>
@@ -244,7 +247,7 @@ No
 <td>
 <p>Define the list of JWTs that can be validated at the selected workloads&rsquo; proxy. A valid token
 will be used to extract the authenticated identity.
-Each rule will be activated only when a token is presented at the location recorgnized by the
+Each rule will be activated only when a token is presented at the location recognized by the
 rule. The token will be validated based on the JWT rule config. If validation fails, the request will
 be rejected.
 Note: if more than one token is presented (at different locations), the output principal is nondeterministic.</p>
