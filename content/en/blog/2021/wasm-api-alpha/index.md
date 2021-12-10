@@ -33,7 +33,7 @@ spec:
   url: docker.io/your-org/your-filter:1.0.0
 {{< /text >}}
 
-There are a lot of similarities and a few differences between WasmPlugin and `EnvoyFilter`, so let’s go through the fields one by one. 
+There are a lot of similarities and a few differences between WasmPlugin and `EnvoyFilter`, so let’s go through the fields one by one.
 
 The above example deploys a Wasm module to all workloads (including gateway pods) that match it’s `selector` - this very much works the same as in an `EnvoyFilter`.
 
