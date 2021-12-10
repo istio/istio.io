@@ -272,12 +272,12 @@ $ pilot-discovery completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, default, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, processing, proxyconfig, resource, retry, rootcertrotator, secretcontroller, serverca, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, default, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, processing, proxyconfig, retry, rootcertrotator, secretcontroller, serverca, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, processing, proxyconfig, resource, retry, rootcertrotator, secretcontroller, serverca, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, processing, proxyconfig, retry, rootcertrotator, secretcontroller, serverca, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -302,7 +302,7 @@ $ pilot-discovery completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, processing, proxyconfig, resource, retry, rootcertrotator, secretcontroller, serverca, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, default, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, processing, proxyconfig, retry, rootcertrotator, secretcontroller, serverca, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -492,6 +492,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Grace period percentile for self-signed root cert.</td>
 </tr>
 <tr>
+<td><code>CLOUD_PLATFORM</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Clound Platform on which proxy is running, if not specified,Istio will try to discover the platform. Valid platform values aws,azure,gcp,none.</td>
+</tr>
+<tr>
 <td><code>CLUSTER_ID</code></td>
 <td>String</td>
 <td><code>Kubernetes</code></td>
@@ -556,6 +562,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, the DNS name table for a headless service will resolve to same-network endpoints in any cluster.</td>
+</tr>
+<tr>
+<td><code>ENABLE_PROBE_KEEPALIVE_CONNECTIONS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, readiness probes will keep the connection from pilot-agent to the application alive. This mirrors older Istio versions&#39; behaviors, but not kubelet&#39;s.</td>
 </tr>
 <tr>
 <td><code>ENABLE_WASM_TELEMETRY</code></td>
@@ -970,6 +982,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Time Duration</td>
 <td><code>1s</code></td>
 <td>Protocol detection timeout for inbound listener</td>
+</tr>
+<tr>
+<td><code>PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of potentially insecure kubeconfig authentication options that are allowed for multicluster authentication.Support values: all authProviders (`gcp`, `azure`, `exec`, `openstack`), `clientKey`, `clientCertificate`, `tokenFile`, and `exec`.</td>
 </tr>
 <tr>
 <td><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></td>
