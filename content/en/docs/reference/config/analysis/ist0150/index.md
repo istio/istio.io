@@ -32,8 +32,7 @@ spec:
   type: ExternalName
 {{< /text >}}
 
-
-In this example, the port name `tcp` follows the syntax: `name: <protocol>`. However, for ExnernalName services, there is no service IP defined, so the SNI field is needed for routing.
+In this example, the port name `tcp` follows the syntax: `name: <protocol>`. However, for ExternalName services, there is no service IP defined, so the SNI field is needed for routing.
 
 ## How to resolve
 
