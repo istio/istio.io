@@ -53,7 +53,7 @@ Adding support for network filters and outbound traffics is the future work.
 
 ## Wasm image specification
 
-We believe that containers are the ideal way to store, publish and manage proxy extensions, so we worked with Solo.io to extend their existing Proxy-Wasm container format with a variant that aims to be compatible with all registries and theCLI toolchain. Depending on your processes, you can now build your proxy extension containers using your existing container CLI tooling such as Docker CLI or [buildah](https://buildah.io/).
+We believe that containers are the ideal way to store, publish and manage proxy extensions, so we worked with Solo.io to extend their existing Proxy-Wasm container format with a variant that aims to be compatible with all registries and the CLI toolchain. Depending on your processes, you can now build your proxy extension containers using your existing container CLI tooling such as Docker CLI or [buildah](https://buildah.io/).
 
 To learn how to build OCI images, please refer to [this link](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/how-to-build-oci-images.md).
 
