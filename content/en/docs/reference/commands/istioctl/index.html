@@ -405,7 +405,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--exclude &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-system,kube-public,kube-node-lease,local-path-storage"]`)</td>
+<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-node-lease,local-path-storage,kube-system,kube-public"]`)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
@@ -510,7 +510,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--exclude &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-system,kube-public,kube-node-lease,local-path-storage"]`)</td>
+<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-node-lease,local-path-storage,kube-system,kube-public"]`)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
@@ -3296,6 +3296,11 @@ injection labels.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--auto-inject-namespaces</code></td>
+<td></td>
+<td>If set to true, the sidecars should be automatically injected into all namespaces by default </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -3530,6 +3535,11 @@ injection labels.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--auto-inject-namespaces</code></td>
+<td></td>
+<td>If set to true, the sidecars should be automatically injected into all namespaces by default </td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -6288,6 +6298,11 @@ injection labels.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--auto-inject-namespaces</code></td>
+<td></td>
+<td>If set to true, the sidecars should be automatically injected into all namespaces by default </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -6476,6 +6491,11 @@ injection labels.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--auto-inject-namespaces</code></td>
+<td></td>
+<td>If set to true, the sidecars should be automatically injected into all namespaces by default </td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
