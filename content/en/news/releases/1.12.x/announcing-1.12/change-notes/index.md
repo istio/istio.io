@@ -62,7 +62,7 @@ aliases:
 - **Added** support to istiod to notice `cacerts` file changes via the `AUTO_RELOAD_PLUGIN_CERTS` environment variable.
   ([Issue #31522](https://github.com/istio/istio/issues/31522))
 
-- **Added** `VERTIFY_CERT_AT_CLIENT` environment variable to istiod. Setting `VERTIFY_CERT_AT_CLIENT` to `true` will verify server certificates using the OS CA certificates when not using a `DestinationRule` `caCertificates` field.
+- **Added** `VERIFY_CERT_AT_CLIENT` environment variable to istiod. Setting `VERIFY_CERT_AT_CLIENT` to `true` will verify server certificates using the OS CA certificates when not using a `DestinationRule` `caCertificates` field.
   ([Issue #33472](https://github.com/istio/istio/issues/33472))
 
 - **Added** Auto mTLS support for workload level peer authentication. You no longer need to configure destination rule when servers are configured with workload level peer authentication policy. This can be disabled by setting `ENABLE_AUTO_MTLS_CHECK_POLICIES` to `false`.
