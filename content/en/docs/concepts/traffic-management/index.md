@@ -21,8 +21,8 @@ of traffic and API calls between services. Istio simplifies configuration of
 service-level properties like circuit breakers, timeouts, and retries, and makes
 it easy to set up important tasks like A/B testing, canary rollouts, and staged
 rollouts with percentage-based traffic splits. It also provides out-of-box
-failure recovery features that help make your application
-more robust against failures of dependent services or the network.
+reliability features that help make your application
+more resilient against failures of dependent services or the network.
 
 Istio’s traffic management model relies on the {{< gloss >}}Envoy{{</ gloss >}}
 proxies that are deployed along with your services. All traffic that your mesh
