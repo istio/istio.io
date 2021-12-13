@@ -69,7 +69,7 @@ func (s SnapshotValidator) run(ctx framework.TestContext) {
 	diffFile := filepath.Join(ctx.WorkDir(), "diff.txt")
 
 	// Retry the comparison
-	if _, err = retry.Do(func() (result interface{}, completed bool, err error) {
+	if _, err = retry.UntilComplete(func() (result interface{}, completed bool, err error) {
 		// Generate the new snapshot.
 		s.After.run(ctx)
 
