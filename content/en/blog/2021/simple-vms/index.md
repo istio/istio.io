@@ -63,9 +63,9 @@ Due to the fact that this installation method does not require access to the und
 
 ### gRPC to JSON
 
-This technique can also be leveraged to enable virtual machine applications to communicate with gRPC applications without having to implement the gRPC endpoints. Using envoys gRPC / JSON transcoding, the virtual machine application can communicate with its local envoy over REST and envoy will translate that to gRPC.
+This technique can also be leveraged to enable virtual machine applications to communicate with gRPC applications without having to implement the gRPC endpoints. Using envoys gRPC / JSON transformation, the virtual machine application can communicate with its local envoy over REST and envoy will translate that to gRPC.
 
-![gRPC to JSON Transcoding](./grpc-json-transcoding.png)
+![gRPC to JSON Transformation](./grpc-json-transcoding.png)
 
 ### Multi Direction
 
