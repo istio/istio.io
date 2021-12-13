@@ -7,7 +7,7 @@ attribution: "Daniel Grimm (Red Hat), Pengyuan Bian (Google), Takeshi Yoneda (Te
 keywords: [wasm,extensibility,WebAssembly]
 ---
 
-[At the Istio 1.9 release](../wasm-progress/), we introduced experimental support for WebAssembly(Wasm) module distribution and Wasm extensions ecosystem repository for canonical examples and use cases of Wasm extension development. Over the past 9 months, the Istio, Envoy, and Proxy-Wasm communities have continued our joint efforts to make Wasm extensibility stable, reliable, and easy to adopt, and we are pleased to announce Alpha support for Wasm extensibility at Istio 1.12 release! Let’s walk through the updates to Wasm support through the Istio 1.12 release.
+[Istio 1.9 introduced](../wasm-progress/) experimental support for WebAssembly (Wasm) module distribution and a Wasm extensions ecosystem repository with canonical examples and use cases for extension development. Over the past 9 months, the Istio, Envoy, and Proxy-Wasm communities have continued our joint efforts to make Wasm extensibility stable, reliable, and easy to adopt, and we are pleased to announce Alpha support for Wasm extensibility at Istio 1.12 release! Let’s walk through the updates to Wasm support through the Istio 1.12 release.
 
 ## New WasmPlugin API
 
