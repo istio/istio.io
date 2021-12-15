@@ -5,7 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-This message occurs for services of type ExternalName when the port doesn't follow the [Istio service port naming convention](/docs/ops/deployment/requirements/), the port is unnamed or the port is named tcp.
+This message occurs for services of type ExternalName when the port doesn't follow Istio service port naming convention, the port is unnamed or the port is named tcp.
 
 ## Example
 
@@ -36,4 +36,6 @@ In this example, the port name `tcp` follows the syntax: `name: <protocol>`. How
 
 ## How to resolve
 
-- If you have an ExternalName service type, and the protocol is TCP, rename the port to `<protocol>[-<suffix>]` or `<protocol>`  where protocol is HTTPS or TLS;
+- If you have an ExternalName service type, and the protocol is TCP, rename the port to `<protocol>[-<suffix>]` or `<protocol>` where protocol is https or TLS. To learn more, review 
+docs on [explicit protocol selection](/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection).
+
