@@ -40,7 +40,7 @@ The above example deploys a Wasm module to all workloads (including gateway pods
 The next field below that is the `phase`. This determines where in the proxy’s filter chain the Wasm module will be injected. We have defined four distinct phases for injection:
 
 * `AUTHN`: prior to any Istio authentication and authorization filters.
-* `AUTHZ`: after the Istio authentication filters and before any first-class authorization filters, i.e. before AuthorizationPolicies have been applied.
+* `AUTHZ`: after the Istio authentication filters and before any first-class authorization filters, i.e., before `AuthorizationPolicy` resources have been applied.
 * `STATS`: after all authorization filters and prior to the Istio stats filter.
 * `UNSPECIFIED_PHASE`: let the control plane decide where to insert. This will generally be at the end of the filter chain, right before the router. This is the default value for this `phase` field.
 
