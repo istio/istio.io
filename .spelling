@@ -124,7 +124,6 @@ AttributeGen
 Auth0
 AuthenticationPolicy
 AuthorizationPolicy
-AuthorizationPolicies
 authorizer
 AuthPolicy
 authz
