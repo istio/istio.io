@@ -91,7 +91,7 @@ Proxy-Wasm plugin in-VM backtrace:
   4:  0xea15 - proxy_on_request_headers
 {{< /text >}}
 
-The above is an example stack trace from a Go-SDK based Wasm extension. You might notice that the output does not include file names and line numbers in the trace. This is an important future work item and open issue related to the DWARF format for WebAssembly and the Exception Handling proposal for the WebAssembly specification.
+The above is an example stack trace from a Go SDK based Wasm extension. You might notice that the output does not include file names and line numbers in the trace. This is an important future work item and open issue related to the DWARF format for WebAssembly and the Exception Handling proposal for the WebAssembly specification.
 
 ### Strace support for Wasm programs
 
