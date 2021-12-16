@@ -1,6 +1,6 @@
 ---
 title: Announcing the alpha availability of WebAssembly Plugins
-description: Introduction of Wasm Plugin API, and updates on Envoy and Istio's Wasm based plugins.
+description: Introduction to the new Wasm Plugin API and updates to the Wasm-based plugin support in Envoy and Istio.
 publishdate: 2021-12-16
 attribution: "Daniel Grimm (Red Hat), Pengyuan Bian (Google), Takeshi Yoneda (Tetrate)"
 
