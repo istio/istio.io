@@ -35,7 +35,7 @@ spec:
 
 There are a lot of similarities and a few differences between `WasmPlugin` and `EnvoyFilter`, so let’s go through the fields one by one.
 
-The above example deploys a Wasm module to all workloads (including gateway pods) that match it’s `selector` - this very much works the same as in an `EnvoyFilter`.
+The above example deploys a Wasm module to all workloads (including gateway pods) that match the `selector` field - this very much works the same as in an `EnvoyFilter`.
 
 The next field below that is the `phase`. This determines where in the proxy’s filter chain the Wasm module will be injected. We have defined four distinct phases for injection:
 
