@@ -116,6 +116,6 @@ Note that in order to actually expose these custom metrics, you have to configur
 
 ## Future work and looking for feedback
 
-Although we have announced the alpha availability of Wasm plugins, there are still a lot of work left to be done. One important work item is "Image pull secrets” support in the Wasm API which will allow you to easily consume OCI images in a private repository. Others include first-class support for L4 filters, signature verification of Wasm binaries, runtime improvements in Envoy, Proxy-Wasm SDK improvements, documentation, etc.
+Although we have announced the alpha availability of Wasm plugins, there is still a lot of work left to be done. One important work item is "Image pull secrets” support in the Wasm API which will allow you to easily consume OCI images in a private repository. Others include first-class support for L4 filters, signature verification of Wasm binaries, runtime improvements in Envoy, Proxy-Wasm SDK improvements, documentation, etc.
 
 This is just the beginning of our plan to provide 1st-class Wasm support in Istio. We would love to hear your feedback so that we can improve the developer experience using Wasm plugins, in future releases of Istio!
