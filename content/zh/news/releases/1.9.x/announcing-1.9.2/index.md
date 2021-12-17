@@ -15,13 +15,13 @@ aliases:
 
 ## 改变{#changes}
 
-- **修复** 修复了一个问题。所以现在在 `EnvoyFilter` 中配置参数时，传输套接字的参数将会被包含在其中。
+- **修复** 修复了一个问题。现在在 `EnvoyFilter` 中配置参数时，传输套接字的参数将会被包含在其中。
   ([Issue #28996](https://github.com/istio/istio/issues/28996))
 
 - **修复** 修复了在 `istiod` 中禁用默认入口控制器后导致日志泄露的问题。
   ([Issue #31336](https://github.com/istio/istio/issues/31336))
 
-- **修复** 修正了一个问题，所以现在的 Kubernetes API 服务器默认情况下认为是存在于集群本地内。 这意味着任何试图访问 `kubernetes.default.svc` 的 pod 都
+- **修复** 修正了一个问题，现在的 Kubernetes API 服务器默认情况下认为是存在于集群本地内。 这意味着任何试图访问 `kubernetes.default.svc` 的 pod 都
 将被定向到集群内的服务器。
   ([Issue #31340](https://github.com/istio/istio/issues/31340))
 
