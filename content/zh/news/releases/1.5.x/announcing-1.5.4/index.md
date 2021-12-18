@@ -9,7 +9,7 @@ aliases:
     - /zh/news/announcing-1.5.4
 ---
 
-该版本修复了我们在 [2020 年 5 月 12 日](/news/security/istio-security-2020-005)新闻报道中描述的安全漏洞。
+该版本修复了我们在 [2020 年 5 月 12 日的新闻报道](/zh/news/security/istio-security-2020-005)中描述的安全漏洞。
 
 这个版本说明描述了 Istio 1.5.4 和 Istio 1.5.3 之间的区别。
 
