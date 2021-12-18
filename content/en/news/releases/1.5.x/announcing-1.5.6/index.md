@@ -25,7 +25,7 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** election lock for namespace configmap controller.
 - **Fixed** `istioctl validate -f` for `networking.istio.io/v1beta1` rules ([Issue 24064](https://github.com/istio/istio/issues/24064))
 - **Fixed** aggregate clusters configuration ([Issue 23909](https://github.com/istio/istio/issues/23909))
-- **Fixed** Prometheus mTLS poods scraping ([Issue 22391](https://github.com/istio/istio/issues/22391))
+- **Fixed** Prometheus mTLS pods scraping ([Issue 22391](https://github.com/istio/istio/issues/22391))
 - **Fixed** ingress crash for overlapping hosts without match ([Issue 22910](https://github.com/istio/istio/issues/22910))
 - **Fixed** Istio telemetry Pod crashes ([Issue 23813](https://github.com/istio/istio/issues/23813))
 - **Removed** hard-coded operator namespace ([Issue 24073](https://github.com/istio/istio/issues/24073))
