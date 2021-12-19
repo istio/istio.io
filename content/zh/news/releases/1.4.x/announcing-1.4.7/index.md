@@ -9,7 +9,7 @@ aliases:
     - /zh/news/announcing-1.4.7
 ---
 
-该版本修复了[我们2020年3月25日新闻帖子](/zh/news/security/istio-security-2020-004)中描述的安全漏洞。这个版本说明描述了 Istio 1.4.6 和 Istio 1.4.7 之间的区别。
+该版本修复了[我们在 2020 年 3 月 25 日新闻帖子](/zh/news/security/istio-security-2020-004)中描述的安全漏洞。这个版本说明描述了 Istio 1.4.6 和 Istio 1.4.7 之间的区别。
 
 {{< relnote >}}
 
