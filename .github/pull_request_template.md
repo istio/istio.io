@@ -1,7 +1,8 @@
-Please provide a description for what this PR is for.
+**Please provide a description for what this PR is for.**
 
-And to help us figure out who should review this PR, please 
-put an X in all the areas that this PR affects.
+
+
+**To help us figure out who should review this PR, please put an X in all the areas that this PR affects.**
 
 - [ ] Configuration Infrastructure
 - [ ] Docs
@@ -14,5 +15,6 @@ put an X in all the areas that this PR affects.
 - [ ] User Experience
 - [ ] Developer Infrastructure
 
-<!-- add the source link in Reference if this is a translation PR-->
-Reference: 
+**Please check any characteristics that apply to this pull request.**
+
+- [ ] If this is a **Translation** PR, please provide the reference URL of the translated English docs.
