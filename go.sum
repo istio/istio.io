@@ -1816,8 +1816,9 @@ google.golang.org/grpc v1.38.0/go.mod h1:NREThFqKR1f3iQ6oBuvc5LadQuXVGo9rkm5ZGrQ
 google.golang.org/grpc v1.39.0/go.mod h1:PImNr+rS9TWYb2O4/emRugxiyHZ5JyHW5F+RPnDzfrE=
 google.golang.org/grpc v1.39.1/go.mod h1:PImNr+rS9TWYb2O4/emRugxiyHZ5JyHW5F+RPnDzfrE=
 google.golang.org/grpc v1.40.0/go.mod h1:ogyxbiOoUXAkP+4+xa6PZSE9DZgIHtSpzjDTB9KAK34=
-google.golang.org/grpc v1.42.0 h1:XT2/MFpuPFsEX2fWh3YQtHkZ+WYZFQRfaUgLZYj/p6A=
 google.golang.org/grpc v1.42.0/go.mod h1:k+4IHHFw41K8+bbowsex27ge2rCb65oeWqe4jJ590SU=
+google.golang.org/grpc v1.43.0 h1:Eeu7bZtDZ2DpRCsLhUlcrLnvYaMK1Gz86a+hMVvELmM=
+google.golang.org/grpc v1.43.0/go.mod h1:k+4IHHFw41K8+bbowsex27ge2rCb65oeWqe4jJ590SU=
 google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.1.0/go.mod h1:6Kw0yEErY5E/yWrBtf03jp27GLLJujG4z/JK95pnjjw=
 google.golang.org/protobuf v0.0.0-20200109180630-ec00e32a8dfd/go.mod h1:DFci5gLYBciE7Vtevhsrf46CRTquxDuWsQurQQe4oz8=
 google.golang.org/protobuf v0.0.0-20200221191635-4d8936d0db64/go.mod h1:kwYJMbMJ01Woi6D6+Kah6886xMZcty6N08ah7+eCXa0=
@@ -1898,8 +1899,8 @@ istio.io/client-go v1.12.0-alpha.5.0.20211208194816-5819817ac555/go.mod h1:9VOWF
 istio.io/gogo-genproto v0.0.0-20210113155706-4daf5697332f/go.mod h1:6BwTZRNbWS570wHX/uR1Wqk5e0157TofTAUMzT7N4+s=
 istio.io/gogo-genproto v0.0.0-20211208193508-5ab4acc9eb1e h1:z2WI3y55w0K3c6hmarcp5EcOiP4vVpTBXA8nYstP+cE=
 istio.io/gogo-genproto v0.0.0-20211208193508-5ab4acc9eb1e/go.mod h1:vJDAniIqryf/z///fgZqVPKJ7N2lBk7Gg8DCTB7oCfU=
-istio.io/istio v0.0.0-20211213162415-b088e284803b h1:B5kyDhomv0XT/iuuyYZDCbjOrSh1j3KjPinVaLdOyD8=
-istio.io/istio v0.0.0-20211213162415-b088e284803b/go.mod h1:1q2v1Z83C2l2TOnKXGkkQnlaHm4768L4NiHxPxlI4Pc=
+istio.io/istio v0.0.0-20211218095151-873ba55abcd9 h1:WuazlLckZsdjZaQpFnQV8sj0b4Wa/Kq4Ir3ynb5iS8Y=
+istio.io/istio v0.0.0-20211218095151-873ba55abcd9/go.mod h1:UJTp4/6N4FyCNlOojXtz07vo5mVf/qp/oAEh/KA74TI=
 istio.io/pkg v0.0.0-20211208181334-1db9fc84b3bc h1:Gc0251sYOhGIIupu/wwjWAo09dOmLaI3T7sLK+fcy7w=
 istio.io/pkg v0.0.0-20211208181334-1db9fc84b3bc/go.mod h1:7r1G5ivNr72J94vULyw/dIF6ZfXBQzqbwXHHL31vats=
 k8s.io/api v0.18.2/go.mod h1:SJCWI7OLzhZSvbY7U8zwNl9UA4o1fizoug34OV/2r78=
