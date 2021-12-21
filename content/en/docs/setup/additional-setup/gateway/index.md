@@ -52,7 +52,7 @@ As a security best practice, it is recommended to deploy the gateway in a differ
 First, setup an `IstioOperator` configuration file, called `ingress.yaml` here:
 
 {{< text yaml >}}
-apiVersion: operator.istio.io/v1alpha1
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   name: ingress
@@ -84,27 +84,16 @@ $ istioctl install -f ingress.yaml
 {{< /tab >}}
 {{< tab name="Helm" category-value="helm" >}}
 
-First, set up a values configuration file, called `values.yaml` here:
-
-{{< text yaml >}}
-gateways:
-  istio-ingressgateway:
-    # Enable gateway injection
-    injectionTemplate: gateway
-    # Set a name for the gateway
-    name: ingressgateway
-    labels:
-      # Set a unique label for the gateway. This is required to ensure Gateways
-      # can select this workload
-      istio: ingressgateway
-{{< /text >}}
-
-Then install using standard `helm` commands:
+Install using standard `helm` commands:
 
 {{< text bash >}}
 $ kubectl create namespace istio-ingress
-$ helm install istio-ingress manifests/charts/gateways/istio-ingress -n istio-ingress -f values.yaml
+$ helm install istio-ingress istio/gateway -n istio-ingress
 {{< /text >}}
+
+To see possible supported configuration values, run `helm show values istio/gateway`.
+The Helm repository [README](https://artifacthub.io/packages/helm/istio-official/gateway) contains additional information
+on usage.
 
 {{< /tab >}}
 

@@ -17,31 +17,25 @@
 
 source "tests/util/helpers.sh"
 
-GRAFANA_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/master/samples/addons/grafana.yaml"
-KIALI_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/master/samples/addons/kiali.yaml"
-PROMETHEUS_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/master/samples/addons/prometheus.yaml"
-ZIPKIN_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/master/samples/addons/extras/zipkin.yaml"
-JAEGER_MANIFEST_URL="https://raw.githubusercontent.com/istio/istio/master/samples/addons/jaeger.yaml"
-
 # Deploy the addons specified and wait for the deployment to complete. Currently
 # Zipkin, Jaeger, Grafana, Kiali and Prometheus are supported.
 function _deploy_and_wait_for_addons() {
   for arg in "$@"; do
     case "$arg" in
-    zipkin)     kubectl apply -f "$ZIPKIN_MANIFEST_URL"
+    zipkin)     kubectl apply -f samples/addons/extras/zipkin.yaml
                  _wait_for_deployment istio-system zipkin
                  ;;
-    grafana)    kubectl apply -f "$GRAFANA_MANIFEST_URL"
+    grafana)    kubectl apply -f samples/addons/grafana.yaml
                  _wait_for_deployment istio-system grafana
                  ;;
-    jaeger)     kubectl apply -f "$JAEGER_MANIFEST_URL"
+    jaeger)     kubectl apply -f samples/addons/jaeger.yaml
                  _wait_for_deployment istio-system jaeger
                  ;;
-    kiali)      kubectl apply -f "$KIALI_MANIFEST_URL" || true # ignore first errors
-                 kubectl apply -f "$KIALI_MANIFEST_URL" # Need to apply twice due to a reace condition
+    kiali)      kubectl apply -f samples/addons/kiali.yaml || true # ignore first errors
+                 kubectl apply -f samples/addons/kiali.yaml # Need to apply twice due to a reace condition
                  _wait_for_deployment istio-system kiali
                  ;;
-    prometheus) kubectl apply -f "$PROMETHEUS_MANIFEST_URL"
+    prometheus) kubectl apply -f samples/addons/prometheus.yaml
                  _wait_for_deployment istio-system prometheus
                  ;;
     *)           echo "unknown parameter $arg"
@@ -55,15 +49,15 @@ function _deploy_and_wait_for_addons() {
 function _undeploy_addons() {
   for arg in "$@"; do
     case "$arg" in
-    zipkin)      kubectl delete -f "$ZIPKIN_MANIFEST_URL"
+    zipkin)      kubectl delete -f samples/addons/extras/zipkin.yaml
                   ;;
-    grafana)     kubectl delete -f "$GRAFANA_MANIFEST_URL"
+    grafana)     kubectl delete -f samples/addons/grafana.yaml
                   ;;
-    jaeger)      kubectl delete -f "$JAEGER_MANIFEST_URL"
+    jaeger)      kubectl delete -f samples/addons/jaeger.yaml
                   ;;
-    kiali)       kubectl delete -f "$KIALI_MANIFEST_URL"
+    kiali)       kubectl delete -f samples/addons/kiali.yaml
                   ;;
-    prometheus)  kubectl delete -f "$PROMETHEUS_MANIFEST_URL"
+    prometheus)  kubectl delete -f samples/addons/prometheus.yaml
                   ;;
     *)            echo "unknown parameter $arg"
                   exit 1

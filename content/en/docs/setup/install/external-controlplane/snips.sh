@@ -300,7 +300,7 @@ ENDSNIP
 
 snip_enable_gateways_1() {
 cat <<EOF > istio-ingressgateway.yaml
-apiVersion: operator.istio.io/v1alpha1
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   profile: empty
@@ -314,12 +314,16 @@ spec:
       istio-ingressgateway:
         injectionTemplate: gateway
 EOF
-istioctl install -f istio-ingressgateway.yaml --context="${CTX_REMOTE_CLUSTER}"
+istioctl install -f istio-ingressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_enable_gateways_2() {
+helm install istio-ingressgateway istio/gateway -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}"
+}
+
+snip_enable_gateways_3() {
 cat <<EOF > istio-egressgateway.yaml
-apiVersion: operator.istio.io/v1alpha1
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   profile: empty
@@ -333,33 +337,37 @@ spec:
       istio-egressgateway:
         injectionTemplate: gateway
 EOF
-istioctl install -f istio-egressgateway.yaml --context="${CTX_REMOTE_CLUSTER}"
+istioctl install -f istio-egressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
-snip_enable_gateways_3() {
+snip_enable_gateways_4() {
+helm install istio-egressgateway istio/gateway -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}" --set service.type=ClusterIP
+}
+
+snip_test_the_ingress_gateway_1() {
 kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
-! read -r -d '' snip_enable_gateways_3_out <<\ENDSNIP
+! read -r -d '' snip_test_the_ingress_gateway_1_out <<\ENDSNIP
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-ingressgateway-7bcd5c6bbd-kmtl4   1/1     Running   0          8m4s
 ENDSNIP
 
-snip_enable_gateways_4() {
+snip_test_the_ingress_gateway_2() {
 kubectl apply -f samples/helloworld/helloworld-gateway.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
 }
 
-snip_enable_gateways_5() {
+snip_test_the_ingress_gateway_3() {
 export INGRESS_HOST=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 export INGRESS_PORT=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 }
 
-snip_enable_gateways_6() {
+snip_test_the_ingress_gateway_4() {
 curl -s "http://${GATEWAY_URL}/hello"
 }
 
-! read -r -d '' snip_enable_gateways_6_out <<\ENDSNIP
+! read -r -d '' snip_test_the_ingress_gateway_4_out <<\ENDSNIP
 Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
 ENDSNIP
 
@@ -407,7 +415,6 @@ snip_setup_eastwest_gateways_1() {
 samples/multicluster/gen-eastwest-gateway.sh \
     --mesh mesh1 --cluster "${REMOTE_CLUSTER_NAME}" --network network1 > eastwest-gateway-1.yaml
 istioctl manifest generate -f eastwest-gateway-1.yaml \
-    --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
     --set values.global.istioNamespace=external-istiod | \
     kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
 }
@@ -416,7 +423,6 @@ snip_setup_eastwest_gateways_2() {
 samples/multicluster/gen-eastwest-gateway.sh \
     --mesh mesh1 --cluster "${SECOND_CLUSTER_NAME}" --network network2 > eastwest-gateway-2.yaml
 istioctl manifest generate -f eastwest-gateway-2.yaml \
-    --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
     --set values.global.istioNamespace=external-istiod | \
     kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
 }
@@ -441,11 +447,6 @@ ENDSNIP
 
 snip_setup_eastwest_gateways_5() {
 kubectl --context="${CTX_REMOTE_CLUSTER}" apply -n external-istiod -f \
-    samples/multicluster/expose-services.yaml
-}
-
-snip_setup_eastwest_gateways_6() {
-kubectl --context="${CTX_SECOND_CLUSTER}" apply -n external-istiod -f \
     samples/multicluster/expose-services.yaml
 }
 

@@ -20,7 +20,7 @@ test: n/a
 
 - **区域**：区域内的一组计算资源。通过在区域内的多个区域中运行服务，可以在区域内的区域之间进行故障转移，同时保持最终用户的数据地域性。在Kubernetes 中，标签 [`topology.kubernetes.io/zone`](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#topologykubernetesiozone) 确定节点的区域。
 
-- **分区**：允许管理员进一步细分区域，以实现更细粒度的控制，例如“相同机架”。Kubernetes 中不存在分区的概念。结果，Istio 引入了自定义节点标签 [`topology.istio.io/subzone`](https://github.com/istio/api/blob/master/label/label.go#L42) 来定义分区。
+- **分区**：允许管理员进一步细分区域，以实现更细粒度的控制，例如“相同机架”。Kubernetes 中不存在分区的概念。结果，Istio 引入了自定义节点标签 [`topology.istio.io/subzone`](https://github.com/istio/api/blob/master/label/labels.yaml#L76) 来定义分区。
 
 {{< tip >}}
 如果您使用托管的 Kubernetes 服务，则云提供商应为您配置区域和区域标签。如果您正在运行自己的 Kubernetes 集群，则需要将这些标签添加到您的节点上。

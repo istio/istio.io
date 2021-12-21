@@ -52,10 +52,10 @@ Assuming you know which namespaces to include as part of the service mesh, as a 
     namespace: istio-system
     spec:
     # You may override parts of meshconfig by uncommenting the following lines.
-    meshConfig:
-      discoverySelectors:
-        - matchLabels:
-            istio-discovery: enabled
+      meshConfig:
+        discoverySelectors:
+          - matchLabels:
+              istio-discovery: enabled
     EOF
     {{< /text >}}
 

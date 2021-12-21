@@ -11,7 +11,7 @@ aliases:
 keywords: [kubernetes,multicluster]
 simple_list: true
 content_above: true
-test: n/a
+test: table-of-contents
 owner: istio/wg-environments-maintainers
 ---
 按照本指南安装跨多个集群（{{< gloss "cluster" >}}clusters{{< /gloss >}}） 的

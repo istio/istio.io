@@ -43,6 +43,7 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 /misc/* /latest/misc/:splat
 /talks/* /latest/talks/:splat
 /favicons/* /latest/favicons/:splat
+/favicon.ico /latest/favicons/favicon.ico 200
 /logos/* /latest/logos/:splat
 
 # navigating to a page without /latest on front, add /latest

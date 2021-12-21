@@ -32,12 +32,14 @@ elif [[ ${LOCAL_ARCH} == x86_64 ]]; then
     export TARGET_ARCH=amd64
 elif [[ ${LOCAL_ARCH} == armv8* ]]; then
     export TARGET_ARCH=arm64
+elif [[ ${LOCAL_ARCH} == arm64* ]]; then
+    export TARGET_ARCH=arm64
 elif [[ ${LOCAL_ARCH} == aarch64* ]]; then
     export TARGET_ARCH=arm64
 elif [[ ${LOCAL_ARCH} == armv* ]]; then
     export TARGET_ARCH=arm
 elif [[ ${LOCAL_ARCH} == s390x ]]; then
-￼    export TARGET_ARCH=s390x
+    export TARGET_ARCH=s390x
 elif [[ ${LOCAL_ARCH} == ppc64le ]]; then
     export TARGET_ARCH=ppc64le
 else
@@ -63,7 +65,7 @@ fi
 
 # Build image to use
 if [[ "${IMAGE_VERSION:-}" == "" ]]; then
-  export IMAGE_VERSION=master-2021-07-20T19-29-39
+  export IMAGE_VERSION=master-2021-12-16T01-41-09
 fi
 if [[ "${IMAGE_NAME:-}" == "" ]]; then
   export IMAGE_NAME=build-tools
@@ -95,7 +97,7 @@ do
 done
 
 # Set conditional host mounts
-export CONDITIONAL_HOST_MOUNTS=${CONDITIONAL_HOST_MOUNTS:-}
+export CONDITIONAL_HOST_MOUNTS="${CONDITIONAL_HOST_MOUNTS:-} "
 container_kubeconfig=''
 
 # docker conditional host mount (needed for make docker push)

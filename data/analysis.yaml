@@ -504,3 +504,53 @@ messages:
         type: string
       - name: hosts
         type: string
+
+  - name: "ImageAutoWithoutInjectionWarning"
+    code: IST0146
+    level: Warning
+    description: "Deployments with `image: auto` should be targeted for injection."
+    template: "%s %s contains `image: auto` but does not match any Istio injection webhook selectors."
+    url: "https://istio.io/latest/docs/reference/config/analysis/ist0146/"
+    args:
+      - name: resourceType
+        type: string
+      - name: resourceName
+        type: string
+
+  - name: "ImageAutoWithoutInjectionError"
+    code: IST0147
+    level: Error
+    description: "Pods with `image: auto` should be targeted for injection."
+    template: "%s %s contains `image: auto` but does not match any Istio injection webhook selectors."
+    url: "https://istio.io/latest/docs/reference/config/analysis/ist0147/"
+    args:
+      - name: resourceType
+        type: string
+      - name: resourceName
+        type: string
+
+  - name: "NamespaceInjectionEnabledByDefault"
+    code: IST0148
+    level: Info
+    description: "user namespace should be injectable if Istio is installed with enableNamespacesByDefault enabled and neither injection label is set."
+    template: "is enabled for Istio injection, as Istio is installed with enableNamespacesByDefault as true."
+    url: "https://istio.io/latest/docs/reference/config/analysis/ist0148/"
+
+  - name: "JwtClaimBasedRoutingWithoutRequestAuthN"
+    code: IST0149
+    level: Error
+    description: "Virtual service using JWT claim based routing without request authentication."
+    template: "The virtual service uses the JWT claim based routing (key: %s) but found no request authentication for the gateway (%s) pod (%s). The request authentication must first be applied for the gateway pods to validate the JWT token and make the claims available for routing."
+    args:
+      - name: key
+        type: string
+      - name: gateway
+        type: string
+      - name: pod
+        type: string
+        
+  - name: "ExternalNameServiceTypeInvalidPortName"
+    code: IST0150
+    level: Warning
+    description: "Proxy may prevent tcp named ports and unmatched traffic for ports serving TCP protocol from being forwarded correctly for ExternalName services."
+    template: "Port name for ExternalName service is invalid. Proxy may prevent tcp named ports and unmatched traffic for ports serving TCP protocol from being forwarded correctly"

@@ -35,24 +35,21 @@ This can be configured in two ways:
 - By the name of the port: `name: <protocol>[-<suffix>]`.
 - In Kubernetes 1.18+, by the `appProtocol` field: `appProtocol: <protocol>`.
 
+Note that behavior at the Gateway differs in some cases as the gateway can terminate TLS and the protocol can be negotiated.
+
 The following protocols are supported:
 
-- `http`
-- `http2`
-- `https`
-- `tcp`
-- `tls`
-- `grpc`
-- `grpc-web`
-- `mongo`
-- `mysql`\*
-- `redis`\*
-- `udp` (UDP will not be proxied, but the port can be explicitly declared as UDP)
+| Protocol                              | Sidecar Purpose                                                                                                                                                         | Gateway Purpose                                                                                                                                                         |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `http`                                | Plaintext HTTP/1.1 traffic                                                                                                                                              | Plaintext HTTP (1.1 or 2) traffic                                                                                                                                       |
+| `http2`                               | Plaintext HTTP/2 traffic                                                                                                                                                | Plaintext HTTP (1.1 or 2) traffic                                                                                                                                       |
+| `https`                               | TLS Encrypted data. Because the Sidecar does not decrypt TLS traffic, this is the same as `tls`                                                                         | TLS Encrypted HTTP (1.1 or 2) traffic                                                                                                                                   |
+| `tcp`                                 | Opaque TCP data stream                                                                                                                                                  | Opaque TCP data stream                                                                                                                                                  |
+| `tls`                                 | TLS Encrypted data                                                                                                                                                      | TLS Encrypted data                                                                                                                                                      |
+| `grpc`                                | Same as `http2`                                                                                                                                                         | Same as `http2`                                                                                                                                                         |  |
+| `grpc-web`, `mongo`, `mysql`, `redis` | Experimental application protocol support. To enable them, configure the corresponding Pilot [environment variables](/docs/reference/commands/pilot-discovery/#envvars). If not enabled, treated as opaque TCP data stream | Experimental application protocol support. To enable them, configure the corresponding Pilot [environment variables](/docs/reference/commands/pilot-discovery/#envvars). If not enabled, treated as opaque TCP data stream |
 
-\* These protocols are disabled by default to avoid accidentally enabling experimental features.
-To enable them, configure the corresponding Pilot [environment variables](/docs/reference/commands/pilot-discovery/#envvars).
-
-Below is an example of a Service that defines a `mysql` port by `appProtocol` and an `http` port by name:
+Below is an example of a Service that defines a `https` port by `appProtocol` and an `http` port by name:
 
 {{< text yaml >}}
 kind: Service
@@ -62,7 +59,7 @@ spec:
   ports:
   - number: 3306
     name: database
-    appProtocol: mysql
+    appProtocol: https
   - number: 80
     name: http-web
 {{< /text >}}

@@ -1,13 +1,20 @@
 ---
 title: Istio Operator Install
 description: Instructions to install Istio in a Kubernetes cluster using the Istio operator.
-weight: 20
+weight: 99
 keywords: [kubernetes, operator]
 aliases:
     - /docs/setup/install/standalone-operator
 owner: istio/wg-environments-maintainers
 test: no
+status: Beta
 ---
+
+{{< warning >}}
+Use of the operator for new Istio installations is discouraged in favor of the [Istioctl](/docs/setup/install/istioctl)
+and [Helm](/docs/setup/install/helm) installation methods. While the operator will continue to be supported,
+new feature requests will not be prioritized.
+{{< /warning >}}
 
 Instead of manually installing, upgrading, and uninstalling Istio in a production environment,
 you can instead let the Istio [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
@@ -36,50 +43,63 @@ To avoid a vulnerability, ensure that the operator deployment is sufficiently se
 
 1. Install the [{{< istioctl >}} command](/docs/ops/diagnostic-tools/istioctl/).
 
-1. Deploy the Istio operator:
+## Install
 
-    {{< text syntax=bash snip_id=create_istio_operator >}}
-    $ istioctl operator init
-    {{< /text >}}
+### Deploy the Istio operator
 
-    This command runs the operator by creating the following resources in the `istio-operator` namespace:
+The `istioctl` command can be used to automatically deploy the Istio operator:
 
-    - The operator custom resource definition
-    - The operator controller deployment
-    - A service to access operator metrics
-    - Necessary Istio operator RBAC rules
+{{< text syntax=bash snip_id=create_istio_operator >}}
+$ istioctl operator init
+{{< /text >}}
 
-    You can configure which namespace the operator controller is installed in, the namespace(s) the operator watches, the installed Istio image sources and versions, and more. For example, you can pass one or more namespaces to watch using the `--watchedNamespaces` flag:
+This command runs the operator by creating the following resources in the `istio-operator` namespace:
+
+- The operator custom resource definition
+- The operator controller deployment
+- A service to access operator metrics
+- Necessary Istio operator RBAC rules
+
+You can configure which namespace the operator controller is installed in, the namespace(s) the operator watches, the installed Istio image sources and versions, and more. For example, you can pass one or more namespaces to watch using the `--watchedNamespaces` flag:
+
+{{< text bash >}}
+$ istioctl operator init --watchedNamespaces=istio-namespace1,istio-namespace2
+{{< /text >}}
+
+See the [`istioctl operator init` command reference](/docs/reference/commands/istioctl/#istioctl-operator-init) for details.
+
+{{< tip >}}
+You can alternatively deploy the operator using Helm:
+
+1. Create a namespace `istio-operator`.
 
     {{< text bash >}}
-    $ istioctl operator init --watchedNamespaces=istio-namespace1,istio-namespace2
+    $ kubectl create namespace istio-operator
     {{< /text >}}
 
-    See the [`istioctl operator init` command reference](/docs/reference/commands/istioctl/#istioctl-operator-init) for details.
-
-    {{< tip >}}
-    You can alternatively deploy the operator using Helm:
+1. Install operator using Helm.
 
     {{< text bash >}}
     $ helm install istio-operator manifests/charts/istio-operator \
-      --set operatorNamespace=istio-operator \
-      --set watchedNamespaces="istio-namespace1\,istio-namespace2"
+        --set watchedNamespaces="istio-namespace1\,istio-namespace2" \
+        -n istio-operator
     {{< /text >}}
 
-    {{< boilerplate helm-hub-tag >}}
-
-    Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
-    to run the above command.
-    {{< /tip >}}
-
-## Install
-
-To install the Istio `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/)
-using the operator, run the following command:
+Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
+to run the above command.
+{{< /tip >}}
 
 {{< warning >}}
-Prior to Istio 1.10.0, the namespace `istio-system` needs to be created before installing the operator. As of Istio 1.10.0, this is no longer required.
+Prior to Istio 1.10.0, the namespace `istio-system` needed to be created before installing the operator. As of Istio 1.10.0, the `istioctl operator init` will create the `istio-system` namespace.
+
+If you use something other than `istioctl operator init`, then the `istio-system` namespace needs to be created manually.
 {{< /warning >}}
+
+### Install Istio with the operator
+
+With the operator installed, you can now create a mesh by deploying an `IstioOperator` resource.
+To install the Istio `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/)
+using the operator, run the following command:
 
 {{< text syntax=bash snip_id=create_demo_profile >}}
 $ kubectl apply -f - <<EOF
@@ -240,12 +260,10 @@ You can alternatively use Helm to deploy another operator with a different revis
 
 {{< text bash >}}
 $ helm install istio-operator manifests/charts/istio-operator \
-  --set operatorNamespace=istio-operator \
   --set watchedNamespaces=istio-system \
+  -n istio-operator \
   --set revision=1-9-0
 {{< /text >}}
-
-{{< boilerplate helm-hub-tag >}}
 
 Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
 to run the above command.

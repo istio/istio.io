@@ -1,10 +1,12 @@
 ---
-title: Egress Gateways with TLS Origination (File Mount)
-description: Describes how to configure an Egress Gateway to perform TLS origination to external services using file mount certificates.
+title: Egress Gateways with TLS Origination
+description: Describes how to configure an Egress Gateway to perform TLS origination to external services.
 weight: 40
 keywords: [traffic-management,egress]
 aliases:
   - /docs/examples/advanced-gateways/egress-gateway-tls-origination/
+  - /docs/examples/advanced-gateways/egress-gateway-tls-origination-sds/
+  - /docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds/
 owner: istio/wg-networking-maintainers
 test: yes
 ---
@@ -263,14 +265,14 @@ For this task you can use your favorite tool to generate certificates and keys. 
 
     {{< text bash >}}
     $ openssl req -out my-nginx.mesh-external.svc.cluster.local.csr -newkey rsa:2048 -nodes -keyout my-nginx.mesh-external.svc.cluster.local.key -subj "/CN=my-nginx.mesh-external.svc.cluster.local/O=some organization"
-    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt
     {{< /text >}}
 
 1.  Generate client certificate and private key:
 
     {{< text bash >}}
     $ openssl req -out client.example.com.csr -newkey rsa:2048 -nodes -keyout client.example.com.key -subj "/CN=client.example.com/O=client organization"
-    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
     {{< /text >}}
 
 ### Deploy a mutual TLS server
@@ -393,80 +395,20 @@ to hold the configuration of the NGINX server:
     EOF
     {{< /text >}}
 
-### Redeploy the egress gateway with the client certificates
-
-1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
-   certificates.
-
-    {{< text bash >}}
-    $ kubectl create -n istio-system secret tls nginx-client-certs --key client.example.com.key --cert client.example.com.crt
-    $ kubectl create -n istio-system secret generic nginx-ca-certs --from-file=example.com.crt
-    {{< /text >}}
-
-1.  To include a volume mounted from the new created secret, update the `istio-egressgateway` deployment.
-    To patch the `istio-egressgateway` deployment, create the following `gateway-patch.json` file:
-
-    {{< text bash >}}
-    $ cat > gateway-patch.json <<EOF
-    [{
-      "op": "add",
-      "path": "/spec/template/spec/containers/0/volumeMounts/0",
-      "value": {
-        "mountPath": "/etc/istio/nginx-client-certs",
-        "name": "nginx-client-certs",
-        "readOnly": true
-      }
-    },
-    {
-      "op": "add",
-      "path": "/spec/template/spec/volumes/0",
-      "value": {
-      "name": "nginx-client-certs",
-        "secret": {
-          "secretName": "nginx-client-certs",
-          "optional": true
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/spec/template/spec/containers/0/volumeMounts/1",
-      "value": {
-        "mountPath": "/etc/istio/nginx-ca-certs",
-        "name": "nginx-ca-certs",
-        "readOnly": true
-      }
-    },
-    {
-      "op": "add",
-      "path": "/spec/template/spec/volumes/1",
-      "value": {
-      "name": "nginx-ca-certs",
-        "secret": {
-          "secretName": "nginx-ca-certs",
-          "optional": true
-        }
-      }
-    }]
-    EOF
-    {{< /text >}}
-
-1.  Apply `istio-egressgateway` deployment patch with the following command:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system patch --type=json deploy istio-egressgateway -p "$(cat gateway-patch.json)"
-    {{< /text >}}
-
-1.  Verify that the key and the certificate are successfully loaded in the `istio-egressgateway` pod:
-
-    {{< text bash >}}
-    $ kubectl exec -n istio-system "$(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}')" -- ls -al /etc/istio/nginx-client-certs /etc/istio/nginx-ca-certs
-    {{< /text >}}
-
-    `tls.crt` and `tls.key` should exist in `/etc/istio/nginx-client-certs`, while `ca-chain.cert.pem` in
-    `/etc/istio/nginx-ca-certs`.
-
 ### Configure mutual TLS origination for egress traffic
+
+1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's certificates:
+
+    {{< text bash >}}
+    $ kubectl create secret -n istio-system generic client-credential --from-file=tls.key=client.example.com.key \
+      --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
+    {{< /text >}}
+
+    The secret **must** be created in the same namespace as the egress gateway is deployed in, `istio-system` in this case.
+
+    To support integration with various tools, Istio supports a few different Secret formats.
+
+    In this example. a single generic Secret with keys `tls.key`, `tls.crt`, and `ca.crt` is used.
 
 1.  Create an egress `Gateway` for `my-nginx.mesh-external.svc.cluster.local`, port 443, and destination rules and
     virtual services to direct the traffic through the egress gateway and from the egress gateway to the external
@@ -568,9 +510,7 @@ to hold the configuration of the NGINX server:
             number: 443
           tls:
             mode: MUTUAL
-            clientCertificate: /etc/istio/nginx-client-certs/tls.crt
-            privateKey: /etc/istio/nginx-client-certs/tls.key
-            caCertificates: /etc/istio/nginx-ca-certs/example.com.crt
+            credentialName: client-credential # this must match the secret created earlier to hold client certs
             sni: my-nginx.mesh-external.svc.cluster.local
     EOF
     {{< /text >}}
@@ -605,7 +545,7 @@ to hold the configuration of the NGINX server:
 
     {{< text bash >}}
     $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
-    $ kubectl delete secret istio-egressgateway-certs istio-egressgateway-ca-certs nginx-client-certs nginx-ca-certs -n istio-system
+    $ kubectl delete secret client-credential istio-egressgateway-certs istio-egressgateway-ca-certs nginx-client-certs nginx-ca-certs -n istio-system
     $ kubectl delete configmap nginx-configmap -n mesh-external
     $ kubectl delete service my-nginx -n mesh-external
     $ kubectl delete deployment my-nginx -n mesh-external

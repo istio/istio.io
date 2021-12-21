@@ -34,7 +34,7 @@ test: no
     {{< /tip >}}
 
     {{< warning >}}
-    如果需要使用 Istio CNI 功能，需要在 `gcloud container clusters create` 命令中加入 `--enable-network-policy` 参数，以启用 GKE 集群的 [Network-Policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) 功能。
+    要在 GKE 上使用 Istio CNI 功能，请查看[CNI 安装指南](/zh/docs/setup/additional-setup/cni/#prerequisites)了解先决条件集群配置步骤。
     {{< /warning >}}
 
     {{< warning >}}
@@ -70,4 +70,33 @@ test: no
     $ kubectl create clusterrolebinding cluster-admin-binding \
         --clusterrole=cluster-admin \
         --user=$(gcloud config get-value core/account)
+    {{< /text >}}
+
+## 多集群通信 {#multi-cluster-communication}
+
+在某些情况下，必须明确创建防火墙规则以允许跨集群流量。
+
+{{< warning >}}
+以下说明将允许您项目中**所有**集群之间的通信。根据需要调整命令。
+{{< /warning >}}
+
+1. 收集有关集群网络的信息。
+
+    {{< text bash >}}
+    $ function join_by { local IFS="$1"; shift; echo "$*"; }
+    $ ALL_CLUSTER_CIDRS=$(gcloud --project $PROJECT_ID container clusters list --format='value(clusterIpv4Cidr)' | sort | uniq)
+    $ ALL_CLUSTER_CIDRS=$(join_by , $(echo "${ALL_CLUSTER_CIDRS}"))
+    $ ALL_CLUSTER_NETTAGS=$(gcloud --project $PROJECT_ID compute instances list --format='value(tags.items.[0])' | sort | uniq)
+    $ ALL_CLUSTER_NETTAGS=$(join_by , $(echo "${ALL_CLUSTER_NETTAGS}"))
+    {{< /text >}}
+
+1. 创建防火墙规则。
+
+    {{< text bash >}}
+    $ gcloud compute firewall-rules create istio-multicluster-pods \
+        --allow=tcp,udp,icmp,esp,ah,sctp \
+        --direction=INGRESS \
+        --priority=900 \
+        --source-ranges="${ALL_CLUSTER_CIDRS}" \
+        --target-tags="${ALL_CLUSTER_NETTAGS}" --quiet
     {{< /text >}}

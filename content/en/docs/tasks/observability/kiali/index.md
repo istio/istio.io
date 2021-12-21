@@ -18,7 +18,7 @@ the mesh and your Istio configuration objects.
 {{< idea >}}
 This task does not cover all of the features provided by Kiali.
 To learn about the full set of features it supports,
-see the [Kiali website](http://kiali.io/documentation/latest/features/).
+see the [Kiali website](https://kiali.io/docs/features/).
 {{< /idea >}}
 
 This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as the example throughout. This task
@@ -166,7 +166,7 @@ request traffic to route to two or more workloads.
 
 ## Validating Istio configuration
 
-Kiali can validate your Istio resources to ensure they follow proper conventions and semantics. Any problems detected in the configuration of your Istio resources can be flagged as errors or warnings depending on the severity of the incorrect configuration. See the [Kiali validations page](https://kiali.io/documentation/latest/validations/) for the list of all validation checks Kiali performs.
+Kiali can validate your Istio resources to ensure they follow proper conventions and semantics. Any problems detected in the configuration of your Istio resources can be flagged as errors or warnings depending on the severity of the incorrect configuration. See the [Kiali validations page](https://kiali.io/docs/features/validations/) for the list of all validation checks Kiali performs.
 
 {{< idea >}}
 Istio provides `istioctl analyze` which provides analysis in a way that can be used in a CI pipeline. The two approaches can be complementary.
@@ -229,7 +229,7 @@ when it detects incorrect configurations.
 
 1.  Hover over the red icon to view the tool tip message that informs you of the validation check that triggered the error.
     For more details on the cause of the error and how to resolve it, look up the validation error message on the
-    [Kiali Validations page](https://kiali.io/documentation/latest/validations/).
+    [Kiali Validations page](https://kiali.io/docs/features/validations/).
 
     {{< image width="80%" link="./kiali-istioconfig3-details-yaml3.png" caption="YAML Editor Showing Error Tool Tip" >}}
 
@@ -241,11 +241,11 @@ when it detects incorrect configurations.
 
 ## Additional Features
 
-Kiali has many more features than reviewed in this task, such as an [integration with Jaeger tracing](https://kiali.io/documentation/latest/features/#_detail_traces).
+Kiali has many more features than reviewed in this task, such as an [integration with Jaeger tracing](https://kiali.io/docs/features/tracing/).
 
-For more details on these additional features, see the [Kiali documentation](https://kiali.io/documentation/latest/features/).
+For more details on these additional features, see the [Kiali documentation](https://kiali.io/docs/features/).
 
-For a deeper exploration of Kiali it is recommended to run through the [Kiali Tutorial](https://kiali.io/documentation/latest/tutorial/).
+For a deeper exploration of Kiali it is recommended to run through the [Kiali Tutorial](https://kiali.io/docs/tutorials/).
 
 ## Cleanup
 

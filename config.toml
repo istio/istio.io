@@ -69,7 +69,7 @@ disableAliases = true
         delimiter = ""
 
 [outputs]
-  home = ["HTML", "RSS", "REDIR", "JSON"]
+  home = ["HTML", "RSS", "REDIR"]
   section = ["HTML"]
 
 [outputFormats]
@@ -80,8 +80,6 @@ disableAliases = true
         baseName = "_redirects"
         isPlainText = true
         notAlternative = true
-    [outputFormats.JSON]
-        baseName = "_tracked_pages"
 
 [related]
     # Only include matches with rank >= threshold. This is a normalized rank between 0 and 100.

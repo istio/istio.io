@@ -7,11 +7,9 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-This task shows you how to set up an Istio authorization policy using a new experimental value for the [action field](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action), `CUSTOM`,
-to delegate the access control to an external authorization system. This can be used to integrate with [OPA authorization](https://www.openpolicyagent.org/docs/latest/envoy-authorization/),
+This task shows you how to set up an Istio authorization policy using a new value for the [action field](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action), `CUSTOM`,
+to delegate the access control to an external authorization system. This can be used to integrate with [OPA authorization](https://www.openpolicyagent.org/docs/latest/envoy-introduction/),
 [`oauth2-proxy`](https://github.com/oauth2-proxy/oauth2-proxy), your own custom external authorization server and more.
-
-{{< boilerplate experimental-feature-warning >}}
 
 ## Before you begin
 
@@ -77,7 +75,7 @@ of the application that needs the external authorization.
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
-name: external-authz-grpc-local
+  name: external-authz-grpc-local
 spec:
   hosts:
   - "external-authz-grpc.local" # The service name to be used in the extension provider in the mesh config.

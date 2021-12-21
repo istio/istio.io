@@ -1,12 +1,15 @@
-<figure>
+<div>
     <aside class="callout quote">
-        <div class="quote-text">
+        <div class="type">
+            {{ partial "large_icon.html" "callout-quote" }}
+        </div>
+        <div class="content">
             {{- $text := partial "strip_indent.html" (dict "content" .Inner "pos" .Position) -}}
             {{- $text | markdownify -}}
         </div>
 
         {{ with .Get "caption" }}
-            <figcaption class="quote-author">{{.}}</figcaption>
+            <div class="quote-author">{{.}}</div>
         {{ end }}
     </aside>
-</figure>
+</div>

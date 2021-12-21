@@ -36,7 +36,7 @@ function properly if the cluster is misconfigured. You can follow
 these steps once the cluster has been configured and dynamic
 webhooks and dependent features are not functioning properly.
 
-1. Verify you’re using a supported version ({{< supported_kubernetes_versions >}}) of
+1. Verify you’re using a [supported version](/docs/releases/supported-releases#support-status-of-istio-releases) ({{< supported_kubernetes_versions >}}) of
    [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and of the Kubernetes server:
 
     {{< text bash >}}

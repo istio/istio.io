@@ -18,27 +18,38 @@ set -u
 
 set -o pipefail
 
+# rewrite-repo invokes bash make to rewrite a snippet to avoid installing from a real helm repository, and instead uses
+# local files
+# shellcheck disable=SC2001
+function rewrite-repo() {
+  # get function definition: https://stackoverflow.com/a/6916952/374797
+  cmd="$(type "${1:?snip}" | sed '1,3d;$d')"
+  cmd="$(echo "${cmd}" | sed 's|istio/base|manifests/charts/base|')"
+  cmd="$(echo "${cmd}" | sed 's|istio/istiod|manifests/charts/istio-control/istio-discovery|')"
+  cmd="$(echo "${cmd}" | sed 's|istio/gateway|manifests/charts/gateway|')"
+  eval "${cmd}"
+}
+
 # @setup profile=none
 
-snip_create_istio_system_namespace
-snip_install_base
+# Delete a vailidatingwebhookconfiguration that seems to have been left around from a prior test.
+kubectl delete validatingwebhookconfigurations.admissionregistration.k8s.io istiod-default-validator  --ignore-not-found
 
-snip_install_discovery
+snip_create_istio_system_namespace
+rewrite-repo snip_install_base
+
+rewrite-repo snip_install_discovery
 _wait_for_deployment istio-system istiod
 
-snip_install_ingressgateway
-_wait_for_deployment istio-system istio-ingressgateway
-
-snip_install_egressgateway
-_wait_for_deployment istio-system istio-egressgateway
+rewrite-repo snip_install_ingressgateway
+_wait_for_deployment istio-ingress istio-ingress
 
 # shellcheck disable=SC2154
 _verify_like snip_helm_ls "$snip_helm_ls_out"
 
 # @cleanup
+snip_delete_delete_gateway_charts
+snip_helm_delete_discovery_chart
+snip_helm_delete_base_chart
 snip_delete_crds
-helm delete -n istio-system istio-egressgateway
-helm delete -n istio-system istio-ingressgateway
-helm delete -n istio-system istiod
-helm delete -n istio-system istio-base
-kubectl delete ns istio-system
+snip_delete_istio_system_namespace

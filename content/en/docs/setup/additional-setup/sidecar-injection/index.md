@@ -38,47 +38,6 @@ When you set the `istio-injection=enabled` label on a namespace and the injectio
 
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead, you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
-### Manual sidecar injection
-
-To manually inject a deployment, use [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject):
-
-{{< text bash >}}
-$ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
-serviceaccount/sleep created
-service/sleep created
-deployment.apps/sleep created
-{{< /text >}}
-
-By default, this will use the in-cluster configuration. Alternatively, injection can be done using local copies of the configuration.
-
-{{< text bash >}}
-$ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
-$ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.values}' > inject-values.yaml
-$ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
-{{< /text >}}
-
-Run `kube-inject` over the input file and deploy.
-
-{{< text bash >}}
-$ istioctl kube-inject \
-    --injectConfigFile inject-config.yaml \
-    --meshConfigFile mesh-config.yaml \
-    --valuesFile inject-values.yaml \
-    --filename @samples/sleep/sleep.yaml@ \
-    | kubectl apply -f -
-serviceaccount/sleep created
-service/sleep created
-deployment.apps/sleep created
-{{< /text >}}
-
-Verify that the sidecar has been injected into the sleep pod with `2/2` under the READY column.
-
-{{< text bash >}}
-$ kubectl get pod  -l app=sleep
-NAME                     READY   STATUS    RESTARTS   AGE
-sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
-{{< /text >}}
-
 #### Deploying an app
 
 Deploy sleep app. Verify both deployment and pod have a single container.
@@ -176,6 +135,47 @@ The injector is configured with the following logic:
 1. If either label is enabled, the pod is injected
 1. If neither label is set, the pod is injected if `.values.sidecarInjectorWebhook.enableNamespacesByDefault` is enabled. This is not enabled by default, so generally this means the pod is not injected.
 
+### Manual sidecar injection
+
+To manually inject a deployment, use [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject):
+
+{{< text bash >}}
+$ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
+serviceaccount/sleep created
+service/sleep created
+deployment.apps/sleep created
+{{< /text >}}
+
+By default, this will use the in-cluster configuration. Alternatively, injection can be done using local copies of the configuration.
+
+{{< text bash >}}
+$ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
+$ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.values}' > inject-values.yaml
+$ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
+{{< /text >}}
+
+Run `kube-inject` over the input file and deploy.
+
+{{< text bash >}}
+$ istioctl kube-inject \
+    --injectConfigFile inject-config.yaml \
+    --meshConfigFile mesh-config.yaml \
+    --valuesFile inject-values.yaml \
+    --filename @samples/sleep/sleep.yaml@ \
+    | kubectl apply -f -
+serviceaccount/sleep created
+service/sleep created
+deployment.apps/sleep created
+{{< /text >}}
+
+Verify that the sidecar has been injected into the sleep pod with `2/2` under the READY column.
+
+{{< text bash >}}
+$ kubectl get pod  -l app=sleep
+NAME                     READY   STATUS    RESTARTS   AGE
+sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
+{{< /text >}}
+
 ## Customizing injection
 
 Generally, pod are injected based on the sidecar injection template, configured in the `istio-sidecar-injector` configmap.
@@ -231,7 +231,7 @@ Completely custom templates can also be defined at installation time.
 For example, to define a custom template that injects the `GREETING` environment variable into the `istio-proxy` container:
 
 {{< text yaml >}}
-apiVersion: operator.istio.io/v1alpha1
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   name: istio

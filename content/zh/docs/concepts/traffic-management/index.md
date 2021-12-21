@@ -11,8 +11,9 @@ aliases:
     - /zh/docs/concepts/traffic-management/load-balancing
     - /zh/docs/concepts/traffic-management/request-routing
     - /zh/docs/concepts/traffic-management/pilot.html
+    - /zh/docs/concepts/traffic-management/overview.html
 owner: istio/wg-networking-maintainers
-test: no
+test: n/a
 ---
 
 Istio 的流量路由规则可以让您很容易的控制服务之间的流量和 API 调用。Istio 简化了服务级别属性的配置，比如熔断器、超时和重试，并且能轻松的设置重要的任务，如 A/B 测试、金丝雀发布、基于流量百分比切分的概率发布等。它还提供了开箱即用的故障恢复特性，有助于增强应用的健壮性，从而更好地应对被依赖的服务或网络发生故障的情况。
@@ -321,7 +322,6 @@ spec:
 -   为外部目标 redirect 和转发请求，例如来自 web 端的 API 调用，或者流向遗留老系统的服务。
 -   为外部目标定义[重试](#retries)、[超时](#timeouts)和[故障注入](#fault-injection)策略。
 -   添加一个运行在虚拟机的服务来[扩展您的网格](/zh/docs/examples/virtual-machines/single-network/#running-services-on-the-added-VM)。
--   从逻辑上添加来自不同集群的服务到网格，在 Kubernetes 上实现一个[多集群 Istio 网格](/zh/docs/setup/install/multicluster)。
 
 您不需要为网格服务要使用的每个外部服务都添加服务入口。默认情况下，Istio 配置 Envoy 代理将请求传递给未知服务。但是，您不能使用 Istio 的特性来控制没有在网格中注册的目标流量。
 
@@ -375,7 +375,7 @@ spec:
 
 您可能希望在较庞大的应用程序中限制这样的 sidecar 可达性，配置每个代理能访问网格中的任意服务可能会因为高内存使用量而影响网格的性能。
 
-您可以指定将 sidecar 配置应用于特定命名空间中的所有工作负载，或者使用 `workloadSelector` 选择特定的工作负载。例如，下面的 sidecar 配置将 `bookinfo` 命名空间中的所有服务配置为仅能访问运行在相同命名空间和 Istio 控制平面中的服务（目前需要使用 Istio 的策略和遥测功能）：
+您可以指定将 sidecar 配置应用于特定命名空间中的所有工作负载，或者使用 `workloadSelector` 选择特定的工作负载。例如，下面的 sidecar 配置将 `bookinfo` 命名空间中的所有服务配置为仅能访问运行在相同命名空间和 Istio 控制平面中的服务（Istio 的egress和遥测功能需要使用）：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3

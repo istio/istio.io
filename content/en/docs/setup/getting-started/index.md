@@ -18,7 +18,7 @@ advanced [deployment models](/docs/ops/deployment/deployment-models/), refer to 
 FAQ page.
 
 These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
-compatible version of Kubernetes ({{< supported_kubernetes_versions >}}). You can use any supported platform, for
+[supported version](/docs/releases/supported-releases#support-status-of-istio-releases) of Kubernetes ({{< supported_kubernetes_versions >}}). You can use any supported platform, for
 example [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or
 others specified by the
 [platform-specific setup instructions](/docs/setup/platform-setup/).
@@ -426,6 +426,7 @@ resources because they may have been deleted hierarchically.
 {{< text bash >}}
 $ kubectl delete -f @samples/addons@
 $ istioctl manifest generate --set profile=demo | kubectl delete --ignore-not-found=true -f -
+$ istioctl tag remove default
 {{< /text >}}
 
 The `istio-system` namespace is not removed by default.

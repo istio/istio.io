@@ -38,7 +38,7 @@ with SDS (especially automatic rotation), even if they are mounted as files.
 This is an important security best practice.
 
 The above item applies to Gateway pods. It is [now possible](https://github.com/istio/istio/issues/14039) for
-[Egress Gateways that do TLS/mTLS origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds/)
+[Egress Gateways that do TLS/mTLS origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/)
 to provision client certificates as secrets.
 
 [We improved](https://github.com/istio/istio/issues/26224) Trust Domain Validation to validate TCP traffic as well.

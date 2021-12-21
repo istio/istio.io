@@ -2,15 +2,19 @@
 title: 版本支持
 description: 当前支持的 Istio 版本。
 weight: 35
-icon: cadence
+aliases:
+    - /zh/about/supported-releases
+    - /zh/latest/about/supported-releases
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 此页面列出了当前支持的版本的状态，时间表和策略。受支持的 Istio 版本包括处于维护窗口期以及为安全问题和错误提供了补丁的版本。Minor 版本中的补丁版本不包含向后的兼容性。
 
 * [支持策略](#support-policy)
 * [命名方案](#naming-scheme)
-* [Istio 版本的支持状态](#support-status-of-Istio-releases)
-* [没有通用漏洞披露（CVEs）的版本](#releases-without-known-Common-Vulnerabilities-and-Exposures)
+* [Istio 版本的支持状态](#support-status-of-istio-releases)
+* [没有已知常见漏洞（CVEs）的版本](#releases-without-known-Common-Vulnerabilities-and-Exposures)
 
 ## 支持策略{#support-policy}
 
@@ -39,23 +43,29 @@ icon: cadence
 
 ## Istio 版本的支持状态{#support-status-of-Istio-releases}
 
-| 版本         | 目前支持   | 发行日期        | 停止维护         | 支持的 Kubernetes 版本 | 未测试，可能支持的 Kubernetes 版本 |
-|-----------------|-----------------------|---------------------|---------------------|-------------------------------|-----------------------------------------------|
-| master          | 否，仅限开发  |                     |                     |                               |                                               |
-| 1.9             | 是                   | 2021年2月9日    | ～2021年8月（预期） | 1.17, 1.18, 1.19, 1.20        | 1.15, 1.16                                    |
-| 1.8             | 是                   | 2020年11月10日   | ～2021年5月（预期） | 1.16, 1.17, 1.18, 1.19        | 1.15                                          |
-| 1.7             | 否                    | 2020年8月21日     | 2021年2月25日        | 1.16, 1.17, 1.18              | 1.15                                          |
-| 1.6             | 否                    | 2020年5月21日        | 2020年11月23日   | 1.15, 1.16, 1.17, 1.18        |                                               |
-| 1.5 及更早 | 否                    |                     |                     |                               |                                               |
+| 版本       | 目前支持     | 发行日期       | 停止维护             | 支持的 Kubernetes 版本 | 未测试，可能支持的 Kubernetes 版本 |
+| ---------- | ------------ | -------------- | -------------------- | ---------------------- | ---------------------------------- |
+| master     | 否，仅限开发 |                |                      |                        |                                    |
+| 1.11       | 是           | 2021年8月12日  | ～2022年2月（预期）  | 1.19,1.20,1.21,1.22    | 1.16,1.17,1.18                     |
+| 1.10       | 是           | 2021年5月18日  | ～2021年11月（预期） | 1.18,1.19,1.20,1.21    | 1.16,1.17,1.22                     |
+| 1.9        | 否           | 2021年2月9日   | 2021年8月24日        | 1.17, 1.18, 1.19, 1.20 | 1.15, 1.16                         |
+| 1.8        | 否           | 2020年11月10日 | 2021年5月12日        | 1.16, 1.17, 1.18, 1.19 | 1.15                               |
+| 1.7        | 否           | 2020年8月21日  | 2021年2月25日        | 1.16, 1.17, 1.18       | 1.15                               |
+| 1.6 及更早 | 否           |                |                      |                        |                                    |
 
-## 没有通用漏洞披露（CVEs）的版本{#releases-without-known-Common-Vulnerabilities-and-Exposures}
+{{< warning >}}
+[Kubernetes 1.22 删除了一些已弃用的 API](https://kubernetes.io/blog/2021/07/14/upcoming-changes-in-kubernetes-1-22/)，因此 1.10.0 之前的 Istio 版本将不再工作。如果您正在升级 Kubernetes 版本，请确保 Istio 的版本仍然受到支持。
+{{< /warning >}}
+
+## 没有已知常见漏洞（CVEs）的版本{#releases-without-known-Common-Vulnerabilities-and-Exposures}
 
 {{< warning >}}
 Istio 不保证超出支持窗口期的 Minor 版本都有已知的 CVEs 补丁。请使用最新和受支持的版本。
 {{< /warning >}}
 
-| Minor 版本             | 没有已知 CVEs 的补丁版本  |
-|----------------------------|--------------------------------------|
-| 1.9.x                      | 1.9.1+                               |
-| 1.8.x                      | 1.8.1+                               |
-| 1.7 及更早            | 无                                 |
+| Minor 版本 | 没有已知 CVEs 的补丁版本 |
+| ---------- | ------------------------ |
+| 1.11.x     | 1.11.1+                  |
+| 1.10.x     | 1.10.4+                  |
+| 1.9.x      | 1.9.8+                   |
+| 1.8 及更早 | 无                       |

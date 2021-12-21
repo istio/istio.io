@@ -5,7 +5,7 @@ weight: 100
 icon: classroom
 simple_list: true
 content_above: true
-test: n/a
+test: table-of-contents
 ---
 
 适用于自学者或者培训的讲师。从设置集群以控制在本地计算机上运行的微服务示例的步骤开始，并最终展示了使用 Istio 的一些关键的微服务管理任务。

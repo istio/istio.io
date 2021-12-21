@@ -54,7 +54,7 @@ the example application throughout this task.
     $ istioctl dashboard grafana
     {{< /text >}}
 
-    Visit [http://localhost:3000/dashboard/db/istio-mesh-dashboard](http://localhost:3000/dashboard/db/istio-mesh-dashboard) in your web browser.
+    Visit [http://localhost:3000/d/G8wLrJIZk/istio-mesh-dashboard](http://localhost:3000/d/G8wLrJIZk/istio-mesh-dashboard) in your web browser.
 
     The Istio Dashboard will look similar to:
 
@@ -85,7 +85,7 @@ the example application throughout this task.
 1.  Visualize Service Dashboards.
 
     From the Grafana dashboard's left hand corner navigation menu, you can navigate to Istio Service Dashboard or visit
-    [http://localhost:3000/dashboard/db/istio-service-dashboard](http://localhost:3000/dashboard/db/istio-service-dashboard) in your web browser.
+    [http://localhost:3000/d/LJ_uJAvmk/istio-service-dashboard](http://localhost:3000/d/LJ_uJAvmk/istio-service-dashboard) in your web browser.
 
     {{< tip >}}
     You may need to select a service in the Service dropdown.
@@ -101,7 +101,7 @@ the example application throughout this task.
 1.  Visualize Workload Dashboards.
 
     From the Grafana dashboard's left hand corner navigation menu, you can navigate to Istio Workload Dashboard or visit
-    [http://localhost:3000/dashboard/db/istio-workload-dashboard](http://localhost:3000/dashboard/db/istio-workload-dashboard) in your web browser.
+    [http://localhost:3000/d/UbsSZTDik/istio-workload-dashboard](http://localhost:3000/d/UbsSZTDik/istio-workload-dashboard) in your web browser.
 
     The Istio Workload Dashboard will look similar to:
 

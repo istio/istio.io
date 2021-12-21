@@ -2,13 +2,13 @@
 Here are some instructions how you can customize pages of the [Istio website](https://www.istio.io).
 
 ## Pages
-1. [Homepage](##homepage)
-2. [About](##about)
-3. [FAQ](##faq)
-4. [Blog](##blog)
-5. [Get involved](##get-involved)
-6. [Documentation](##documentation)
-7. [Info banner](##info-banner)
+1. [Homepage](#homepage)
+2. [About](#about)
+3. [FAQ](#faq)
+4. [Blog](#blog)
+5. [Get involved](#get-involved)
+6. [Documentation](#documentation)
+7. [Info banner](#info-banner)
 
 ## Homepage
 Homepage landing panels are created using the ```{{< content_panel >}}``` shortcode providing the `type` of the panel, `title`, `text`, `button` and `url` (example below).

@@ -96,6 +96,25 @@ Istio supports to control its behavior.
 			
 		
 			
+		
+			
+		
+			
+				
+					<tr>
+				
+					<td><code>istio.io/dry-run</code></td>
+				
+					<td>Alpha</td>
+				
+					<td>[AuthorizationPolicy]</td>
+					<td>Specifies whether or not the given resource is in dry-run mode. See https://istio.io/latest/docs/tasks/security/authorization/authz-dry-run/ for more information.</td>
+				</tr>
+			
+		
+			
+		
+			
 				
 					<tr>
 				
@@ -283,6 +302,19 @@ Istio supports to control its behavior.
 				
 					<tr>
 				
+					<td><code>sidecar.istio.io/extraStatTags</code></td>
+				
+					<td>Alpha</td>
+				
+					<td>[Pod]</td>
+					<td>An additional list of tags to extract from the in-proxy Istio telemetry. each additional tag needs to be present in this list.</td>
+				</tr>
+			
+		
+			
+				
+					<tr>
+				
 					<td><code>sidecar.istio.io/inject</code></td>
 				
 					<td>Beta</td>
@@ -354,6 +386,19 @@ Istio supports to control its behavior.
 				
 					<td>[Pod]</td>
 					<td>Specifies the Docker image to be used by the Envoy sidecar.</td>
+				</tr>
+			
+		
+			
+				
+					<tr>
+				
+					<td><code>sidecar.istio.io/proxyImageType</code></td>
+				
+					<td>Alpha</td>
+				
+					<td>[Pod]</td>
+					<td>Specifies the Docker image type to be used by the Envoy sidecar. Istio publishes debug and distroless image types for every release tag.</td>
 				</tr>
 			
 		

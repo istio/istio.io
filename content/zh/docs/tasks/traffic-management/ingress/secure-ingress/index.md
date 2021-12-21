@@ -39,7 +39,7 @@ test: yes
 
     {{< text bash >}}
     $ openssl req -out httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
-    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin.example.com.csr -out httpbin.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin.example.com.csr -out httpbin.example.com.crt
     {{< /text >}}
 
 ### 配置单机TLS入口网关
@@ -123,7 +123,7 @@ test: yes
     $ mkdir new_certificates
     $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout new_certificates/example.com.key -out new_certificates/example.com.crt
     $ openssl req -out new_certificates/httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout new_certificates/httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
-    $ openssl x509 -req -days 365 -CA new_certificates/example.com.crt -CAkey new_certificates/example.com.key -set_serial 0 -in new_certificates/httpbin.example.com.csr -out new_certificates/httpbin.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA new_certificates/example.com.crt -CAkey new_certificates/example.com.key -set_serial 0 -in new_certificates/httpbin.example.com.csr -out new_certificates/httpbin.example.com.crt
     $ kubectl create -n istio-system secret tls httpbin-credential \
     --key=new_certificates/httpbin.example.com.key \
     --cert=new_certificates/httpbin.example.com.crt
@@ -223,7 +223,7 @@ test: yes
 
     {{< text bash >}}
     $ openssl req -out helloworld-v1.example.com.csr -newkey rsa:2048 -nodes -keyout helloworld-v1.example.com.key -subj "/CN=helloworld-v1.example.com/O=helloworld organization"
-    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in helloworld-v1.example.com.csr -out helloworld-v1.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in helloworld-v1.example.com.csr -out helloworld-v1.example.com.crt
     {{< /text >}}
 
 1.  创建 `helloworld-credential` secret:
@@ -372,7 +372,7 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=t
 
     {{< text bash >}}
     $ openssl req -out client.example.com.csr -newkey rsa:2048 -nodes -keyout client.example.com.key -subj "/CN=client.example.com/O=client organization"
-    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
     {{< /text >}}
 
 1. 重新发送带客户端证书和私钥的 `curl` 请求。使用 --cert 标志传递客户端证书，使用 --key 标志传递私钥。
@@ -393,11 +393,22 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=t
             `"""`
     {{< /text >}}
 
+## 更多信息 {#more-info}
+
+### 密钥格式 {#key-format}
+
 Istio 支持读取不同的 Secret 格式，以支持与各种工具（例如[cert-manager](/zh/docs/ops/integrations/certmanager/))的集成：
 
 * 如上所述，包含 `tls.key` 和 `tls.crt` 的 TLS secret。对于双向 TLS，可以使用 `ca.crt` 密钥。
 * 包含 `key` 和 `cert` 的通用 Secret。对于双向 TLS，可以使用 `cacert` 密钥。
 * 包含 `key` 和 `cert` 的通用 Secret。对于双向 TLS，还可以单独设置名为 `<secret>-cacert` 的通用 secret，该 secret 含 `cacert` 密钥。例如，`httpbin-credential` 包含 `key` 和 `cert`，而 `httpbin-credential-cacert` 包含 `cacert`。
+* `cacert` 密钥可以是由单个 CA 证书连接组成的 CA 包。
+
+### SNI 路由
+
+具有除 `*` 以外的 `hosts` 字段值的 HTTPS `Gateway` 将执行
+[SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)在转发请求之前匹配，
+这可能会导致某些请求失败。有关详细信息，请参阅[配置 SNI 路由](/zh/docs/ops/common-problems/network-issues/#configuring-sni-routing-when-not-sending-sni)。
 
 ## Troubleshooting {#troubleshooting}
 

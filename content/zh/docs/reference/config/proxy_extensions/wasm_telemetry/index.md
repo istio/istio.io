@@ -1,11 +1,12 @@
 ---
-title: 基于 Wasm 的遥测[实验特性]
+title: 基于 Wasm 的遥测
 description: 如何使用 Wasm 进行遥测。
 weight: 60
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 aliases:
     - /zh/docs/reference/config/telemetry/telemetry_v2_with_wasm/
+status: Experimental
 ---
 
 默认情况下，遥测默认启用并作为一个 `filter` 被编译在 Istio 代理中，同时也被编译成 WebAssembly (Wasm) 模块，并随 Istio proxy 一起发布。若要使用 Wasm 进行遥测，请使用 `preview` 属性安装 Istio 。

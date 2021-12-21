@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 96
+number_of_entries: 98
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -352,8 +352,8 @@ debug and diagnose their Istio mesh.
 <h2 id="istioctl-bug-report">istioctl bug-report</h2>
 <p>bug-report selectively captures cluster information and logs into an archive to help diagnose problems.
 Proxy logs can be filtered using:
-  --include|--exclude ns1,ns2.../dep1,dep2.../pod1,pod2.../cntr1,cntr.../lbl1=val1,lbl2=val2.../ann1=val1,ann2=val2...
-where ns=namespace, dep=deployment, cntr=container, lbl=label, ann=annotation</p>
+  --include|--exclude ns1,ns2.../dep1,dep2.../pod1,pod2.../lbl1=val1,lbl2=val2.../ann1=val1,ann2=val2.../cntr1,cntr...
+where ns=namespace, dep=deployment, lbl=label, ann=annotation, cntr=container</p>
 <p>The filter spec is interpreted as &#39;must be in (ns1 OR ns2) AND (dep1 OR dep2) AND (cntr1 OR cntr2)...&#39;
 The log will be included only if the container matches at least one include filter and does not match any exclude filters.
 All parts of the filter are optional and can be omitted e.g. ns1//pod1 filters only for namespace ns1 and pod1.
@@ -395,7 +395,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--duration &lt;duration&gt;</code></td>
 <td></td>
-<td>How far to go back in time from end-time for log entries to include in the archive. Default is infinity. If set, start-time must be unset.  (default `0s`)</td>
+<td>How far to go back in time from end-time for log entries to include in the archive. Default is infinity. If set, --start-time must be unset.  (default `0s`)</td>
 </tr>
 <tr>
 <td><code>--end-time &lt;string&gt;</code></td>
@@ -405,7 +405,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--exclude &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-system, kube-public, kube-node-lease, local-path-storage"]`)</td>
+<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-node-lease,local-path-storage,kube-system,kube-public"]`)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
@@ -450,7 +450,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--start-time &lt;string&gt;</code></td>
 <td></td>
-<td>Start time for the range of log entries to include in the archive. Default is the infinite past. If set, Since must be unset.  (default ``)</td>
+<td>Start time for the range of log entries to include in the archive. Default is the infinite past. If set, --duration must be unset.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--timeout &lt;duration&gt;</code></td>
@@ -500,7 +500,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--duration &lt;duration&gt;</code></td>
 <td></td>
-<td>How far to go back in time from end-time for log entries to include in the archive. Default is infinity. If set, start-time must be unset.  (default `0s`)</td>
+<td>How far to go back in time from end-time for log entries to include in the archive. Default is infinity. If set, --start-time must be unset.  (default `0s`)</td>
 </tr>
 <tr>
 <td><code>--end-time &lt;string&gt;</code></td>
@@ -510,7 +510,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--exclude &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-system, kube-public, kube-node-lease, local-path-storage"]`)</td>
+<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-node-lease,local-path-storage,kube-system,kube-public"]`)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
@@ -565,7 +565,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--start-time &lt;string&gt;</code></td>
 <td></td>
-<td>Start time for the range of log entries to include in the archive. Default is the infinite past. If set, Since must be unset.  (default ``)</td>
+<td>Start time for the range of log entries to include in the archive. Default is the infinite past. If set, --duration must be unset.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--timeout &lt;duration&gt;</code></td>
@@ -1546,7 +1546,7 @@ Use &#39;add-to-mesh&#39; as an alternate to namespace-wide auto injection for t
 <p>&#39;istioctl experimental add-to-mesh deployment&#39; restarts pods with the Istio sidecar.  Use &#39;add-to-mesh&#39;
 to test deployments for compatibility with Istio.  It can be used instead of namespace-wide auto-injection of sidecars and is especially helpful for compatibility testing.</p>
 <p>If your deployment does not function after using &#39;add-to-mesh&#39; you must re-deploy it and troubleshoot it for Istio compatibility.
-See https://istio.io/v1.11/docs/ops/deployment/requirements/</p>
+See https://istio.io/v1.13/docs/ops/deployment/requirements/</p>
 <p>See also &#39;istioctl experimental remove-from-mesh deployment&#39; which does the reverse.</p>
 <p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental add-to-mesh deployment &lt;deployment&gt; [flags]
@@ -1727,7 +1727,7 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <p>istioctl experimental add-to-mesh service restarts pods with the Istio sidecar.  Use &#39;add-to-mesh&#39;
 to test deployments for compatibility with Istio.  It can be used instead of namespace-wide auto-injection of sidecars and is especially helpful for compatibility testing.</p>
 <p>If your service does not function after using &#39;add-to-mesh&#39; you must re-deploy it and troubleshoot it for Istio compatibility.
-See https://istio.io/v1.11/docs/ops/deployment/requirements/</p>
+See https://istio.io/v1.13/docs/ops/deployment/requirements/</p>
 <p>See also &#39;istioctl experimental remove-from-mesh service&#39; which does the reverse.</p>
 <p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental add-to-mesh service &lt;service&gt; [flags]
@@ -2043,8 +2043,8 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -2070,7 +2070,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <tr>
 <td><code>--service-account &lt;string&gt;</code></td>
 <td></td>
-<td>Create a secret with this service account&#39;s credentials. Use &#34;istio-reader-service-account&#34; as default value if --type is &#34;remote&#34;, use &#34;istiod-service-account&#34; as default value if --type is &#34;config&#34;.  (default ``)</td>
+<td>Create a secret with this service account&#39;s credentials. Default value is &#34;istio-reader-service-account&#34; if --type is &#34;remote&#34;, &#34;istiod&#34; if --type is &#34;config&#34;.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--type &lt;SecretType&gt;</code></td>
@@ -2146,6 +2146,9 @@ the configuration objects that affect that pod.</p>
 <p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl experimental describe pod &lt;pod&gt; [flags]
 </code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl experimental describe po &lt;pod&gt; [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <tr>
@@ -2664,6 +2667,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>The name of the kubeconfig context to use  (default ``)</td>
 </tr>
 <tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Envoy config dump JSON file  (default ``)</td>
+</tr>
+<tr>
 <td><code>--insecure</code></td>
 <td></td>
 <td>Skip server certificate and domain verification. (NOT SECURE!) </td>
@@ -2746,6 +2754,51 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
   istioctl x ps --xds-label istio.io/rev=default
 
 </code></pre>
+<h2 id="istioctl-experimental-remote-clusters">istioctl experimental remote-clusters</h2>
+<p>Lists the remote clusters each istiod instance is connected to.</p>
+<pre class="language-bash"><code>istioctl experimental remote-clusters [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>Control plane revision  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="istioctl-experimental-remove-from-mesh">istioctl experimental remove-from-mesh</h2>
 <p>&#39;istioctl experimental remove-from-mesh&#39; restarts pods without an Istio sidecar or removes external service access configuration.
 Use &#39;remove-from-mesh&#39; to quickly test uninjected behavior as part of compatibility troubleshooting.
@@ -2999,8 +3052,8 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3057,8 +3110,8 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3127,8 +3180,8 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3202,8 +3255,8 @@ without manual relabeling of the &#34;istio.io/rev&#34; tag.
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3243,6 +3296,11 @@ injection labels.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--auto-inject-namespaces</code></td>
+<td></td>
+<td>If set to true, the sidecars should be automatically injected into all namespaces by default </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -3261,8 +3319,8 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3358,8 +3416,8 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3426,8 +3484,8 @@ revision tag before removing using the &#34;istioctl tag list&#34; command.
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3478,6 +3536,11 @@ injection labels.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--auto-inject-namespaces</code></td>
+<td></td>
+<td>If set to true, the sidecars should be automatically injected into all namespaces by default </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -3496,8 +3559,8 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3554,6 +3617,10 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
  # Change the revision tag to reference the &#34;1-8-1&#34; revision
  istioctl tag set prod --revision 1-8-1 --overwrite
 
+ # Make revision &#34;1-8-1&#34; the default revision, both resulting in that revision handling injection for &#34;istio-injection=enabled&#34;
+ # and validating resources cluster-wide
+ istioctl tag set default --revision 1-8-1
+
  # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-1&#34; revision
  kubectl rollout restart deployments -n test-ns
 
@@ -3605,8 +3672,8 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -3629,7 +3696,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.11/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -3964,12 +4031,17 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <tr>
 <td><code>--clusterID &lt;string&gt;</code></td>
 <td></td>
-<td>The ID used to identify the cluster  (default `Kubernetes`)</td>
+<td>The ID used to identify the cluster  (default ``)</td>
 </tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--externalIP &lt;string&gt;</code></td>
+<td></td>
+<td>External IP address of the workload  (default ``)</td>
 </tr>
 <tr>
 <td><code>--file &lt;string&gt;</code></td>
@@ -3985,6 +4057,11 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <td><code>--ingressService &lt;string&gt;</code></td>
 <td></td>
 <td>Name of the Service to be used as the ingress gateway, in the format &lt;service&gt;.&lt;namespace&gt;. If no namespace is provided, the default istio-system namespace will be used.  (default `istio-eastwestgateway`)</td>
+</tr>
+<tr>
+<td><code>--internalIP &lt;string&gt;</code></td>
+<td></td>
+<td>Internal IP address of the workload  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -4025,11 +4102,6 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--workloadIP &lt;string&gt;</code></td>
-<td></td>
-<td>IP address of the workload used in the WorkloadEntry  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -4206,8 +4278,8 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -4230,7 +4302,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.11/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4288,6 +4360,16 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 </thead>
 <tbody>
 <tr>
+<td><code>--authority &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Subject Alternative Name (for example istiod.istio-system.svc)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--cert-dir &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Endpoint certificate directory  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -4301,6 +4383,11 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 <td><code>--injectConfigFile &lt;string&gt;</code></td>
 <td></td>
 <td>Injection configuration filename. Cannot be used with --injectConfigMapName  (default ``)</td>
+</tr>
+<tr>
+<td><code>--insecure</code></td>
+<td></td>
+<td>Skip server certificate and domain verification. (NOT SECURE!) </td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -4333,14 +4420,24 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 <td>Modified output Kubernetes resource filename  (default ``)</td>
 </tr>
 <tr>
+<td><code>--plaintext</code></td>
+<td></td>
+<td>Use plain-text HTTP/2 when connecting to server (no TLS). </td>
+</tr>
+<tr>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
+<td><code>--timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>The duration to wait before failing  (default `30s`)</td>
+</tr>
+<tr>
 <td><code>--valuesFile &lt;string&gt;</code></td>
 <td></td>
-<td>injection values configuration filename.  (default ``)</td>
+<td>Injection values configuration filename.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -4351,6 +4448,21 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 <td><code>--webhookConfig &lt;string&gt;</code></td>
 <td></td>
 <td>MutatingWebhookConfiguration name for Istio  (default `istio-sidecar-injector`)</td>
+</tr>
+<tr>
+<td><code>--xds-address &lt;string&gt;</code></td>
+<td></td>
+<td>XDS Endpoint  (default ``)</td>
+</tr>
+<tr>
+<td><code>--xds-label &lt;string&gt;</code></td>
+<td></td>
+<td>Istiod pod label selector  (default ``)</td>
+</tr>
+<tr>
+<td><code>--xds-port &lt;int&gt;</code></td>
+<td></td>
+<td>Istiod pod port  (default `15012`)</td>
 </tr>
 </tbody>
 </table>
@@ -4556,8 +4668,8 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -4580,7 +4692,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.11/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -4662,8 +4774,8 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -4686,7 +4798,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.11/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4814,8 +4926,8 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -4842,6 +4954,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--watchedNamespaces &lt;string&gt;</code></td>
+<td></td>
+<td>The namespaces the operator controller watches, could be namespace list separated by comma, eg. &#39;ns1,ns2&#39;  (default `istio-system`)</td>
 </tr>
 </tbody>
 </table>
@@ -4904,8 +5021,8 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -5127,8 +5244,8 @@ istioctl install --set profile=demo  # Use a profile from the list
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -5203,8 +5320,8 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -5266,8 +5383,8 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -5851,6 +5968,60 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
   istioctl proxy-config log &lt;pod-name[.namespace]&gt; -r
 
 </code></pre>
+<h2 id="istioctl-proxy-config-rootca-compare">istioctl proxy-config rootca-compare</h2>
+<p>Compare ROOTCA values for given 2 pods to check the connectivity between them.</p>
+<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
+<pre class="language-bash"><code>istioctl proxy-config rootca-compare [pod/]&lt;name-1&gt;[.&lt;namespace-1&gt;] [pod/]&lt;name-2&gt;[.&lt;namespace-2&gt;] [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl proxy-config rootca-compare [pod/]&lt;name-1&gt;[.&lt;namespace-1&gt;] [pod/]&lt;name-2&gt;[.&lt;namespace-2&gt;] [flags]
+istioctl proxy-config rc [pod/]&lt;name-1&gt;[.&lt;namespace-1&gt;] [pod/]&lt;name-2&gt;[.&lt;namespace-2&gt;] [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-proxy-config-rootca-compare Examples">Examples</h3>
+<pre class="language-bash"><code>  # Compare ROOTCA values for given 2 pods to check the connectivity between them.
+  istioctl proxy-config rootca-compare &lt;pod-name-1[.namespace]&gt; &lt;pod-name-2[.namespace]&gt;
+</code></pre>
 <h2 id="istioctl-proxy-config-route">istioctl proxy-config route</h2>
 <p>Retrieve information about route configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config route [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
@@ -6127,6 +6298,11 @@ injection labels.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--auto-inject-namespaces</code></td>
+<td></td>
+<td>If set to true, the sidecars should be automatically injected into all namespaces by default </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -6145,8 +6321,8 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -6316,6 +6492,11 @@ injection labels.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--auto-inject-namespaces</code></td>
+<td></td>
+<td>If set to true, the sidecars should be automatically injected into all namespaces by default </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -6334,8 +6515,8 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -6382,12 +6563,16 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
  # Change the revision tag to reference the &#34;1-8-1&#34; revision
  istioctl tag set prod --revision 1-8-1 --overwrite
 
+ # Make revision &#34;1-8-1&#34; the default revision, both resulting in that revision handling injection for &#34;istio-injection=enabled&#34;
+ # and validating resources cluster-wide
+ istioctl tag set default --revision 1-8-1
+
  # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-1&#34; revision
  kubectl rollout restart deployments -n test-ns
 
 </code></pre>
 <h2 id="istioctl-upgrade">istioctl upgrade</h2>
-<p>The upgrade command checks for upgrade version eligibility and, if eligible, upgrades the Istio control plane components in-place. Warning: traffic may be disrupted during upgrade. Please ensure PodDisruptionBudgets are defined to maintain service continuity.</p>
+<p>The upgrade command is an alias for the install command that performs additional upgrade-related checks.</p>
 <pre class="language-bash"><code>istioctl upgrade [flags]
 </code></pre>
 <table class="command-flags">
@@ -6423,7 +6608,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--force</code></td>
 <td></td>
-<td>Apply the upgrade without eligibility checks </td>
+<td>Proceed even with validation errors. </td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -6439,8 +6624,8 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -6458,12 +6643,13 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/i
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.11/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
 <td><code>-y</code></td>
-<td>If skip-confirmation is set, skips the prompting confirmation for value changes in this upgrade </td>
+<td>The skipConfirmation determines whether the user is prompted for confirmation.
+If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
 </tr>
 <tr>
 <td><code>--verify</code></td>
@@ -6593,8 +6779,8 @@ istioctl experimental precheck.
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.11.0/manifests)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.11/istio-1.11-linux-amd64.tar.gz).
+(e.g. ~/Downloads/istio-1.13.0/manifests)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz).
   (default ``)</td>
 </tr>
 <tr>
@@ -6700,10 +6886,34 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 </thead>
 <tbody>
 <tr>
+<td><code>AUTO_RELOAD_PLUGIN_CERTS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, if user introduces new intermediate plug-in CA, user need not to restart istiod to pick up certs.Istiod picks newly added intermediate plug-in CA certs and updates it. Plug-in new Root-CA not supported.</td>
+</tr>
+<tr>
+<td><code>CERT_SIGNER_DOMAIN</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The cert signer domain info</td>
+</tr>
+<tr>
+<td><code>CLOUD_PLATFORM</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Clound Platform on which proxy is running, if not specified,Istio will try to discover the platform. Valid platform values aws,azure,gcp,none.</td>
+</tr>
+<tr>
 <td><code>CLUSTER_ID</code></td>
 <td>String</td>
 <td><code>Kubernetes</code></td>
 <td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
+</tr>
+<tr>
+<td><code>ENABLE_AUTO_MTLS_CHECK_POLICIES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Enable the auto mTLS EDS output to consult the PeerAuthentication Policy, only set the {tlsMode: istio}  when server side policy enables mTLS PERMISSIVE or STRICT.</td>
 </tr>
 <tr>
 <td><code>ENABLE_CA_SERVER</code></td>
@@ -6724,28 +6934,40 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
 </tr>
 <tr>
-<td><code>ENABLE_MCS_AUTOEXPORT</code></td>
+<td><code>ENABLE_MCS_AUTO_EXPORT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, istiod will automatically generate MCS ServiceExport objects for each service in each cluster. Services defined to be cluster-local in MeshConfig are excluded.</td>
+<td>If enabled, istiod will automatically generate Kubernetes Multi-Cluster Services (MCS) ServiceExport resources for every service in the mesh. Services defined to be cluster-local in MeshConfig are excluded.</td>
+</tr>
+<tr>
+<td><code>ENABLE_MCS_CLUSTER_LOCAL</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will treat the host `&lt;svc&gt;.&lt;namespace&gt;.svc.cluster.local` as defined by the Kubernetes Multi-Cluster Services (MCS) spec. In this mode, requests to `cluster.local` will be routed to only those endpoints residing within the same cluster as the client. Requires that both ENABLE_MCS_SERVICE_DISCOVERY and ENABLE_MCS_HOST also be enabled.</td>
 </tr>
 <tr>
 <td><code>ENABLE_MCS_HOST</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, istiod will provide an alias &lt;svc&gt;.&lt;namespace&gt;.svc.clusterset.local for each Kubernetes service. Clients must, however, be able to successfully lookup these DNS hosts. That means that either Istio DNS interception must be enabled or an MCS controller must be used.</td>
+<td>If enabled, istiod will configure a Kubernetes Multi-Cluster Services (MCS) host (&lt;svc&gt;.&lt;namespace&gt;.svc.clusterset.local) for each service exported (via ServiceExport) in at least one cluster. Clients must, however, be able to successfully lookup these DNS hosts. That means that either Istio DNS interception must be enabled or an MCS controller must be used. Requires that ENABLE_MCS_SERVICE_DISCOVERY also be enabled.</td>
 </tr>
 <tr>
 <td><code>ENABLE_MCS_SERVICE_DISCOVERY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, istiod will enable Kubernetes MCS service discovery mode. In this mode, service endpoints in a cluster will only discoverable within the same cluster unless explicitly exported (via the ServiceExport CR).</td>
+<td>If enabled, istiod will enable Kubernetes Multi-Cluster Services (MCS) service discovery mode. In this mode, service endpoints in a cluster will only be discoverable within the same cluster unless explicitly exported via ServiceExport.</td>
 </tr>
 <tr>
 <td><code>ENABLE_MULTICLUSTER_HEADLESS</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If true, the DNS name table for a headless service will resolve to same-network endpoints in any cluster.</td>
+</tr>
+<tr>
+<td><code>ENABLE_PROBE_KEEPALIVE_CONNECTIONS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, readiness probes will keep the connection from pilot-agent to the application alive. This mirrors older Istio versions&#39; behaviors, but not kubelet&#39;s.</td>
 </tr>
 <tr>
 <td><code>ENABLE_WASM_TELEMETRY</code></td>
@@ -6763,7 +6985,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>GCP_METADATA</code></td>
 <td>String</td>
 <td><code></code></td>
-<td>Pipe separted GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
+<td>Pipe separated GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
 </tr>
 <tr>
 <td><code>GCP_QUOTA_PROJECT</code></td>
@@ -6910,6 +7132,18 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>KNative revision, set if running in knative</td>
 </tr>
 <tr>
+<td><code>MCS_API_GROUP</code></td>
+<td>String</td>
+<td><code>multicluster.x-k8s.io</code></td>
+<td>The group to be used for the Kubernetes Multi-Cluster Services (MCS) API.</td>
+</tr>
+<tr>
+<td><code>MCS_API_VERSION</code></td>
+<td>String</td>
+<td><code>v1alpha1</code></td>
+<td>The version to be used for the Kubernets Multi-Cluster Services (MCS) API.</td>
+</tr>
+<tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
 <td>String</td>
 <td><code>istiod</code></td>
@@ -6934,12 +7168,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, Pilot will keep track of old versions of distributed config for this duration.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLED_SERVICE_APIS</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If this is set to true, support for Kubernetes gateway-api (github.com/kubernetes-sigs/gateway-api) will  be enabled. In addition to this being enabled, the gateway-api CRDs need to be installed.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_ANALYSIS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -6960,7 +7188,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr>
 <td><code>PILOT_ENABLE_CROSS_CLUSTER_WORKLOAD_ENTRY</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
 </tr>
 <tr>
@@ -6986,6 +7214,18 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will wait for the completion of a receive operation beforeexecuting a push operation. This is a form of flow control and is useful inenvironments with high rates of push requests to each gateway. By default,this is false.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_GATEWAY_API</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to true, support for Kubernetes gateway-api (github.com/kubernetes-sigs/gateway-api) will  be enabled. In addition to this being enabled, the gateway-api CRDs need to be installed.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_GATEWAY_API_DEPLOYMENT_CONTROLLER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to true, gateway-api resources will automatically provision in cluster deployment, services, etc</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_GATEWAY_API_STATUS</code></td>
@@ -7024,6 +7264,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, pilot will allow any upstream cluster to be used with AUTO_PASSTHROUGH. This option is intended for backwards compatibility only and is not secure with untrusted downstreams; it will be removed in the future.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_METADATA_EXCHANGE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, pilot will add metadata exchange filters, which will be consumed by telemetry filter.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_MONGO_FILTER</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -7048,6 +7294,18 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, protocol sniffing will be used for outbound listeners whose port protocol is not specified or unsupported</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_QUIC_LISTENERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, QUIC listeners will be generated wherever there are listeners terminating TLS on gateways if the gateway service exposes a UDP port with the same number (for example 443/TCP and 443/UDP)</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_RDS_CACHE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will cache RDS responses. Note: this depends on PILOT_ENABLE_XDS_CACHE.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -7070,6 +7328,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will update the CRD Status field of all istio resources with reconciliation status.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_TELEMETRY_LABEL</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, pilot will add telemetry related metadata to cluster and endpoint resources, which will be consumed by telemetry filter.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_VIRTUAL_SERVICE_DELEGATE</code></td>
@@ -7132,28 +7396,34 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Enables the use of HTTP 1.0 in the outbound HTTP listeners, to support legacy applications.</td>
 </tr>
 <tr>
-<td><code>PILOT_HTTP_DELAYED_CLOSE_TIMEOUT</code></td>
-<td>Time Duration</td>
-<td><code>1s</code></td>
-<td>The delayed close timeout is for downstream HTTP connections. This should be set to a high value or disable it when peer is reading large chunk of data and to give an opportunity to initiate the close sequence properly. A value of 0s disables this</td>
-</tr>
-<tr>
 <td><code>PILOT_INBOUND_PROTOCOL_DETECTION_TIMEOUT</code></td>
 <td>Time Duration</td>
 <td><code>1s</code></td>
 <td>Protocol detection timeout for inbound listener</td>
 </tr>
 <tr>
+<td><code>PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of potentially insecure kubeconfig authentication options that are allowed for multicluster authentication.Support values: all authProviders (`gcp`, `azure`, `exec`, `openstack`), `clientKey`, `clientCertificate`, `tokenFile`, and `exec`.</td>
+</tr>
+<tr>
 <td><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, checks to see if the configured JwksUri in RequestAuthentication is a mesh cluster URL and configures Remote Jwks to let Envoy fetch the Jwks instead of Istiod.</td>
+<td>If enabled, checks to see if the configured JwksUri in RequestAuthentication is a mesh cluster URL and configures remote Jwks to let Envoy fetch the Jwks instead of Istiod.</td>
 </tr>
 <tr>
 <td><code>PILOT_JWT_PUB_KEY_REFRESH_INTERVAL</code></td>
 <td>Time Duration</td>
 <td><code>20m0s</code></td>
 <td>The interval for istiod to fetch the jwks_uri for the jwks public key.</td>
+</tr>
+<tr>
+<td><code>PILOT_MAX_REQUESTS_PER_SECOND</code></td>
+<td>Floating-Point</td>
+<td><code>100</code></td>
+<td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently.</td>
 </tr>
 <tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
@@ -7222,12 +7492,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, Pilot will use EndpointSlices as the source of endpoints for Kubernetes services. By default, this is false, and Endpoints will be used. This requires the Kubernetes EndpointSlice controller to be enabled. Currently this is mutual exclusive - either Endpoints or EndpointSlices will be used</td>
 </tr>
 <tr>
-<td><code>PILOT_USE_TARGET_PORT_FOR_GATEWAY_ROUTES</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If true, routes will use the target port of the gateway service in the route name, not the service port.</td>
-</tr>
-<tr>
 <td><code>PILOT_WORKLOAD_ENTRY_GRACE_PERIOD</code></td>
 <td>Time Duration</td>
 <td><code>10s</code></td>
@@ -7258,6 +7522,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td></td>
 </tr>
 <tr>
+<td><code>PRIORITIZED_LEADER_ELECTION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, the default revision will steal leader locks from non-default revisions</td>
+</tr>
+<tr>
 <td><code>REQUIRE_3P_TOKEN</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -7268,6 +7538,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, readiness probes will be sent to &#39;localhost&#39;. Otherwise, they will be sent to the Pod&#39;s IP, matching Kubernetes&#39; behavior.</td>
+</tr>
+<tr>
+<td><code>REWRITE_TCP_PROBES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If false, TCP probes will not be rewritten and therefor always succeed when a sidecar is used.</td>
 </tr>
 <tr>
 <td><code>SHARED_MESH_CONFIG</code></td>
@@ -7297,7 +7573,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>UNSAFE_ENABLE_ADMIN_ENDPOINTS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If this is set to true, dangerous admin endpoins will be exposed on the debug interface. Not recommended for production.</td>
+<td>If this is set to true, dangerous admin endpoints will be exposed on the debug interface. Not recommended for production.</td>
 </tr>
 <tr>
 <td><code>UNSAFE_PILOT_ENABLE_RUNTIME_ASSERTIONS</code></td>
@@ -7310,6 +7586,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>String</td>
 <td><code>istio-istio-system</code></td>
 <td>Name of the validatingwebhookconfiguration to patch. Empty will skip using cluster admin to patch.</td>
+</tr>
+<tr>
+<td><code>VERIFY_CERTIFICATE_AT_CLIENT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, certificates received by the proxy will be verified against the OS CA certificate bundle.</td>
 </tr>
 <tr>
 <td><code>XDS_AUTH</code></td>
@@ -7342,20 +7624,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>cr_merge_failure_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR merge failures</td></tr>
 <tr><td><code>cr_validation_error_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR validation failures</td></tr>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
-<tr><td><code>galley_runtime_processor_event_span_duration_milliseconds</code></td><td><code>Distribution</code></td><td>The duration between each incoming event</td></tr>
-<tr><td><code>galley_runtime_processor_events_processed_total</code></td><td><code>Count</code></td><td>The number of events that have been processed</td></tr>
-<tr><td><code>galley_runtime_processor_snapshot_events_total</code></td><td><code>Distribution</code></td><td>The number of events per snapshot</td></tr>
-<tr><td><code>galley_runtime_processor_snapshot_lifetime_duration_milliseconds</code></td><td><code>Distribution</code></td><td>The duration of each snapshot</td></tr>
-<tr><td><code>galley_runtime_processor_snapshots_published_total</code></td><td><code>Count</code></td><td>The number of snapshots that have been published</td></tr>
-<tr><td><code>galley_runtime_state_type_instances_total</code></td><td><code>LastValue</code></td><td>The number of type instances per type URL</td></tr>
-<tr><td><code>galley_runtime_strategy_on_change_total</code></td><td><code>Count</code></td><td>The number of times the strategy's onChange has been called</td></tr>
-<tr><td><code>galley_runtime_strategy_timer_max_time_reached_total</code></td><td><code>Count</code></td><td>The number of times the max time has been reached</td></tr>
-<tr><td><code>galley_runtime_strategy_timer_quiesce_reached_total</code></td><td><code>Count</code></td><td>The number of times a quiesce has been reached</td></tr>
-<tr><td><code>galley_runtime_strategy_timer_resets_total</code></td><td><code>Count</code></td><td>The number of times the timer has been reset</td></tr>
-<tr><td><code>galley_source_kube_dynamic_converter_failure_total</code></td><td><code>Count</code></td><td>The number of times a dynamnic kubernetes source failed converting a resources</td></tr>
-<tr><td><code>galley_source_kube_dynamic_converter_success_total</code></td><td><code>Count</code></td><td>The number of times a dynamic kubernetes source successfully converted a resource</td></tr>
-<tr><td><code>galley_source_kube_event_error_total</code></td><td><code>Count</code></td><td>The number of times a kubernetes source encountered errored while handling an event</td></tr>
-<tr><td><code>galley_source_kube_event_success_total</code></td><td><code>Count</code></td><td>The number of times a kubernetes source successfully handled an event</td></tr>
 <tr><td><code>galley_validation_config_delete_error</code></td><td><code>Count</code></td><td>k8s webhook configuration delete error</td></tr>
 <tr><td><code>galley_validation_config_load</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)loads</td></tr>
 <tr><td><code>galley_validation_config_load_error</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)load error</td></tr>
@@ -7423,6 +7691,14 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful sidecar injection requests.</td></tr>
 <tr><td><code>startup_duration_seconds</code></td><td><code>LastValue</code></td><td>The time from the process starting to being marked ready.</td></tr>
 <tr><td><code>version</code></td><td><code>LastValue</code></td><td>Version of operator binary</td></tr>
+<tr><td><code>wasm_cache_entries</code></td><td><code>LastValue</code></td><td>number of Wasm remote fetch cache entries.</td></tr>
+<tr><td><code>wasm_cache_lookup_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetch cache lookups.</td></tr>
+<tr><td><code>wasm_config_conversion_count</code></td><td><code>Sum</code></td><td>number of Wasm config conversion count and results, including success, no remote load, marshal failure, remote fetch failure, miss remote fetch hint.</td></tr>
+<tr><td><code>wasm_config_conversion_duration</code></td><td><code>Distribution</code></td><td>Total time in milliseconds istio-agent spends on converting remote load in Wasm config.</td></tr>
+<tr><td><code>wasm_remote_fetch_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetches and results, including success, download failure, and checksum mismatch.</td></tr>
+<tr><td><code>webhook_patch_attempts_total</code></td><td><code>Sum</code></td><td>Webhook patching attempts</td></tr>
+<tr><td><code>webhook_patch_failures_total</code></td><td><code>Sum</code></td><td>Webhook patching total failures</td></tr>
+<tr><td><code>webhook_patch_retries_total</code></td><td><code>Sum</code></td><td>Webhook patching retries</td></tr>
 <tr><td><code>xds_cache_evictions</code></td><td><code>Sum</code></td><td>Total number of xds cache evictions.</td></tr>
 <tr><td><code>xds_cache_reads</code></td><td><code>Sum</code></td><td>Total number of xds cache xdsCacheReads.</td></tr>
 <tr><td><code>xds_cache_size</code></td><td><code>LastValue</code></td><td>Current size of xds cache</td></tr>

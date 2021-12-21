@@ -24,7 +24,7 @@ owner: istio/wg-networking-maintainers
 -------- | -------- | -------
 0 | `region1.zone1` | 地区、区域、分区全部匹配。
 1 | None | 由于此任务不使用分区，因此没有其他分区的匹配项。
-2 | `region1.zone2` | 同一个地区内的不用区域。
+2 | `region1.zone2` | 同一个地区内的不同区域。
 3 | `region2.zone3` | 没有匹配项，但是为 `region1`->`region2` 定义了故障转移。
 4 | `region3.zone4` | 没有匹配项并且没有为 `region1`->`region3` 定义故障转移。
 

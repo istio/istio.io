@@ -27,15 +27,20 @@ export IN_BUILD_CONTAINER := $(IN_BUILD_CONTAINER)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
 # For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
-ISTIO_IMAGE_VERSION ?= 1.11-alpha
+ISTIO_IMAGE_VERSION ?= 1.13-alpha
 export ISTIO_IMAGE_VERSION
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
 ISTIO_SHA ?= $(shell < ${ISTIOIO_GO}/go.mod grep 'istio.io/istio v' | cut -d'-' -f3)
 export ISTIO_SHA
 
-# If one needs to test before a docker.io build is available (using a public test build),
-# the export HUB and TAG can be commented out, and the initial HUB un-commented
+# export ISTIO_LONG_SHA here. We will set the value in the `init` target
+export ISTIO_LONG_SHA
+
+# In the case that the images are build as part of a the normal public istio/istio pipeline,
+# we only need to export the pipeline HUB value.
+# If the images were built as part of the private pipeline (as for security releases),
+# we export the HUB and TAG for the images once they are published.
 HUB ?= gcr.io/istio-testing
 # export HUB := docker.io/istio
 # export TAG ?= 1.7.3
@@ -72,7 +77,7 @@ baseurl := "$(URL)"
 endif
 
 # Which branch of the Istio source code do we fetch stuff from
-SOURCE_BRANCH_NAME ?= release-1.11
+export SOURCE_BRANCH_NAME ?= master
 
 site:
 	@scripts/gen_site.sh
@@ -137,8 +142,21 @@ netlify: netlify_install
 	@scripts/build_site.sh "/latest"
 	@scripts/include_archive_site.sh
 
+# ISTIO_API_GIT_SOURCE allows to override the default Istio API repository, https://github.com/istio/api@$(SOURCE_BRANCH_NAME)
+# with, for example, a mapped local directory: file:///work/istio/api@branch-name when running `update_ref_docs`.
+#
+# The format for ISTIO_API_GIT_SOURCE value is {GIT_URL}@{TARGET_BRANCH_NAME}.
+#
+# Note that when running with BUILD_WITH_CONTAINER=1, we can map the local directory by setting
+# the ADDITIONAL_CONTAINER_OPTIONS environment variable as shown in the below example:
+#
+# $ BUILD_WITH_CONTAINER=1 \
+#   ISTIO_API_GIT_SOURCE="file:///work/istio/api@branchname" \
+#   ADDITIONAL_CONTAINER_OPTIONS="-v /path/to/local/istio/api:/work/istio/api" \
+#   	make update_ref_docs
+export ISTIO_API_GIT_SOURCE ?=
 update_ref_docs:
-	@scripts/grab_reference_docs.sh $(SOURCE_BRANCH_NAME)
+	@scripts/grab_reference_docs.sh $(SOURCE_BRANCH_NAME) $(ISTIO_API_GIT_SOURCE)
 
 update_test_reference:
 	@go get istio.io/istio@$(SOURCE_BRANCH_NAME) && go mod tidy
@@ -177,7 +195,6 @@ preinit:
 
 init: preinit
 	$(eval ISTIO_LONG_SHA := $(shell cd ${ISTIO_GO} && git rev-parse ${ISTIO_SHA}))
-	@export ISTIO_LONG_SHA
 	@echo "ISTIO_LONG_SHA=${ISTIO_LONG_SHA}"
 ifndef TAG
 	$(eval TAG := ${ISTIO_IMAGE_VERSION}.${ISTIO_LONG_SHA})

@@ -127,7 +127,7 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
     $ kubectl apply -f local-ca.yaml
     {{< /text >}}
 
-   Ensure that all the services are running.
+    Ensure that all the services are running.
 
     {{< text bash >}}
     $ kubectl get services -n signer-ca-system
@@ -138,7 +138,7 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
 1. Get the public key of the CA. This is encoded in the secret "signer-ca-*" in the signer-ca-system namespace.
 
     {{< text bash >}}
-    $ kubectl get secrets signer-ca-5hff5h74hm -o json
+    $ kubectl get secrets signer-ca-5hff5h74hm -n signer-ca-system -o json
     {{< /text >}}
 
    The `tls.crt` field contains the base64 encoded public key file. Record this for future use.
@@ -172,24 +172,6 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
     kind: IstioOperator
     spec:
       components:
-        base:
-          k8s:
-            overlays:
-              # Amend ClusterRole to add permission for istiod to approve certificate signing by custom signer
-              - kind: ClusterRole
-                name: istiod-istio-system
-                patches:
-                  - path: rules[-1]
-                    value: |
-                      apiGroups:
-                      - certificates.k8s.io
-                      resourceNames:
-                      # Name of k8s external Signer in this example
-                      - example.com/foo
-                      resources:
-                      - signers
-                      verbs:
-                      - approve
         pilot:
           k8s:
             env:
@@ -200,21 +182,35 @@ Refer to the [Kubernetes CSR documentation](https://kubernetes.io/docs/reference
               - name: K8S_SIGNER
                 value: example.com/foo
             overlays:
-            - kind: Deployment
-              name: istiod
-              patches:
-                - path: spec.template.spec.containers[0].volumeMounts[-1]
-                  value: |
-                    # Mount external CA certificate into Istiod
-                    name: external-ca-cert
-                    mountPath: /etc/external-ca-cert
-                    readOnly: true
-                - path: spec.template.spec.volumes[-1]
-                  value: |
-                    name: external-ca-cert
-                    secret:
-                      secretName: external-ca-cert
-                      optional: true
+              # Amend ClusterRole to add permission for istiod to approve certificate signing by custom signer
+              - kind: ClusterRole
+                name: istiod-clusterrole-istio-system
+                patches:
+                  - path: rules[-1]
+                    value: |
+                      apiGroups:
+                      - certificates.k8s.io
+                      resourceNames:
+                      - example.com/foo
+                      resources:
+                      - signers
+                      verbs:
+                      - approve
+              - kind: Deployment
+                name: istiod
+                patches:
+                  - path: spec.template.spec.containers[0].volumeMounts[-1]
+                    value: |
+                      # Mount external CA certificate into Istiod
+                      name: external-ca-cert
+                      mountPath: /etc/external-ca-cert
+                      readOnly: true
+                  - path: spec.template.spec.volumes[-1]
+                    value: |
+                      name: external-ca-cert
+                      secret:
+                        secretName: external-ca-cert
+                        optional: true
     EOF
     $ istioctl install --set profile=demo -f ./istio.yaml
     {{< /text >}}
@@ -236,7 +232,7 @@ When the workloads are deployed, above, they send CSR Requests to Istiod which f
     $ kubectl get pods -n bookinfo
     {{< /text >}}
 
-   Pick any of the running pods for the next step.
+    Pick any of the running pods for the next step.
 
 1. Get the certificate chain and CA root certificate used by the Istio proxies for mTLS.
 
@@ -244,7 +240,7 @@ When the workloads are deployed, above, they send CSR Requests to Istiod which f
     $ istioctl pc secret <pod-name> -n bookinfo -o json > proxy_secret
     {{< /text >}}
 
-   The `proxy_secret` json file contains the CA root certificate for mTLS in the `trustedCA` field. Note that this certificate is base64 encoded.
+    The `proxy_secret` json file contains the CA root certificate for mTLS in the `trustedCA` field. Note that this certificate is base64 encoded.
 
 1. Compare the CA root certificate obtained in the step above with "root-cert.pem" value in external-ca-cert. These two should be the same.
 

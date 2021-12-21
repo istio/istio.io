@@ -302,6 +302,42 @@ spec:
               end
 {{< /text >}}
 
+#### Writing Host Match Policies
+
+Istio generates hostnames for both the hostname itself and all matching ports. For instance, a virtual service or Gateway
+for a host of `example.com` generates a config matching `example.com` and `example.com:*`. However, exact match authorization
+policies only match the exact string given for the `hosts` or `notHosts` fields.
+
+[Authorization policy rules](/docs/reference/config/security/authorization-policy/#Rule) matching hosts should be written using
+prefix matches instead of exact matches.  For example, for an `AuthorizationPolicy` matching the Envoy configuration generated
+for a hostname of `example.com`, you would use `hosts: ["example.com", "example.com:*"]` as shown in the below `AuthorizationPolicy`.
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: ingress-host
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
+  action: DENY
+  rules:
+  - to:
+    - operation:
+        hosts: ["example.com", "example.com:*"]
+{{< /text >}}
+
+Additionally, the `host` and `notHosts` fields should generally only be used on gateway for external traffic entering the mesh
+and not on sidecars for traffic within the mesh. This is because the sidecar on server side (where the authorization policy is enforced)
+does not use the `Host` header when redirecting the request to the application. This makes the `host` and `notHost` meaningless
+on sidecar because a client could reach out to the application using explicit IP address and arbitrary `Host` header instead of
+the service name.
+
+If you really need to enforce access control based on the `Host` header on sidecars for any reason, follow with the [default-deny patterns](/docs/ops/best-practices/security/#use-default-deny-patterns)
+which would reject the request if the client uses an arbitrary `Host` header.
+
 #### Specialized Web Application Firewall (WAF)
 
 Many specialized Web Application Firewall (WAF) products provide additional normalization options. They can be deployed in
@@ -318,6 +354,28 @@ issue might be considered a security vulnerability that needs to be fixed in pri
 
 If the Istio Product Security Work Group evaluates the feature request as not a security vulnerability, an issue will
 be opened in public for further discussions of the feature request.
+
+### Known limitations
+
+This section lists known limitations of the authorization policy.
+
+#### Server-first TCP protocols are not supported
+
+Server-first TCP protocols mean the server application will send the first bytes right after accepting the TCP connection
+before receiving any data from the client.
+
+Currently, the authorization policy only supports enforcing access control on inbound traffic and not the outbound traffic.
+
+It also does not support server-first TCP protocols because the first bytes are sent by the server application even before
+it received any data from the client. In this case, the initial first bytes sent by the server are returned to the client
+directly without going through the access control check of the authorization policy.
+
+You should not use the authorization policy if the first bytes sent by the server-first TCP protocols include any sensitive
+data that need to be protected by proper authorization.
+
+You could still use the authorization policy in this case if the first bytes does not include any sensitive data, for example,
+the first bytes are used for negotiating the connection with data that are publicly accessible to any clients. The authorization
+policy will work as usual for the following requests sent by the client after the first bytes.
 
 ## Understand traffic capture limitations
 
@@ -347,6 +405,10 @@ This enables a strong [defense in depth](https://en.wikipedia.org/wiki/Defense_i
 For example, you may choose to only allow traffic to port `9080` of our `reviews` application.
 In the event of a compromised pod or security vulnerability in the cluster, this may limit or stop an attackers progress.
 
+Depending on the actual implementation, changes to network policy may not affect existing connections in the Istio proxies.
+You may need to restart the Istio proxies after applying the policy so that existing connections will be closed and
+new connections will be subject to the new policy.
+
 ### Securing egress traffic
 
 A common misconception is that options like [`outboundTrafficPolicy: REGISTRY_ONLY`](/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services) acts as a security policy preventing all access to undeclared services.
@@ -361,8 +423,22 @@ This ensures that even if a client accidentally or maliciously bypasses their si
 Istio offers the ability to [originate TLS](/docs/tasks/traffic-management/egress/egress-tls-origination/) from a sidecar proxy or gateway.
 This enables applications that send plaintext HTTP traffic to be transparently "upgraded" to HTTPS.
 
-Care must be taken when configuring the `DestinationRule`'s `tls` setting to specify the `caCertificates` field.
-When this is not set, the servers certificate will not be verified.
+Care must be taken when configuring the `DestinationRule`'s `tls` setting to specify the `caCertificates`, `subjectAltNames`, and `sni` fields.
+The `caCertificate` can be automatically set from the system's certificate store's CA certificate by enabling the environment variable `VERIFY_CERTIFICATE_AT_CLIENT=true` on Istiod.
+If the Operating System CA certificate being automatically used is only desired for select host(s), the environment variable `VERIFY_CERTIFICATE_AT_CLIENT=false` on Istiod, `caCertificates` can be set to `system` in the desired `DestinationRule`(s).
+Specifying the `caCertificates` in a `DestinationRule` will take priority and the OS CA Cert will not be used.
+By default, egress traffic does not send SNI during the TLS handshake.
+SNI must be set in the `DestinationRule` to ensure the host properly handle the request.
+
+{{< warning >}}
+In order to verify the server's certificate it is important that both `caCertificates` and `subjectAltNames` be set.
+
+Verification of the certificate presented by the server against a CA is not sufficient, as the Subject Alternative Names must also be validated.
+
+If `VERIFY_CERTIFICATE_AT_CLIENT` is set, but `subjectAltNames` is not set then you are not verifying all credentials.
+
+If no CA certificate is being used, `subjectAltNames` will not be used regardless of it being set or not.
+{{< /warning >}}
 
 For example:
 
@@ -377,6 +453,9 @@ spec:
     tls:
       mode: SIMPLE
       caCertificates: /etc/ssl/certs/ca-certificates.crt
+      subjectAltNames:
+      - "google.com"
+      sni: "google.com"
 {{< /text >}}
 
 ## Gateways
@@ -505,10 +584,6 @@ In order to transparently capture all traffic, Istio relies on `iptables` rules 
 This adds a [requirement](/docs/ops/deployment/requirements/) for the `NET_ADMIN` and `NET_RAW` [capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container) to be available to the pod.
 
 To reduce privileges granted to pods, Istio offers a [CNI plugin](/docs/setup/additional-setup/cni/) which removes this requirement.
-
-{{< warning >}}
-The Istio CNI plugin is currently an alpha feature.
-{{< /warning >}}
 
 ## Use hardened docker images
 

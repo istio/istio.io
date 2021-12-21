@@ -22,14 +22,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{ $decoration := .Params.decoration }}
                         {{ range $pages }}
                             {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
                             {{ if and (eq $parentDir $pageLocation) (not .Params.draft) }}
                                 <tr>
-                                    <td style="white-space: nowrap;"><a href="{{ .Permalink }}">{{ .LinkTitle }}
-                                        {{- if $decoration -}}<i class="{{ $decoration }}" data-prefix="{{ .RelPermalink }}"></i>{{- end -}}
-                                    </a></td>
+                                    <td style="white-space: nowrap;">
+                                        <a href="{{ .Permalink }}">
+                                            {{ .LinkTitle }}
+                                        </a>
+                                    </td>
 
                                     <td>{{ .PublishDate.Format (i18n "page_publish_date_format") -}}</td>
 

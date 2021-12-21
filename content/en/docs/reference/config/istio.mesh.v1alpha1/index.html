@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 47
+number_of_entries: 51
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -73,7 +73,7 @@ MongoDB, etc. Envoy will timeout on the protocol detection after
 the specified period, defaulting to non mTLS plain TCP
 traffic. Set this field to tweak the period that Envoy will wait
 for the client to send the first bits of data. (MUST BE &gt;=1ms or
-0s to disable). Default detection timeout is 5s.</p>
+0s to disable). Default detection timeout is 0s (no timeout).</p>
 
 </td>
 <td>
@@ -557,36 +557,6 @@ If not specified, this will be enabled by default.</p>
 No
 </td>
 </tr>
-<tr id="MeshConfig-verify_certificate_at_client">
-<td><code>verifyCertificateAtClient</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
-<td>
-<p><code>VerifyCertificateAtClient</code> sets the mesh global default for peer certificate validation
-at the client-side proxy when <code>SIMPLE</code> TLS or <code>MUTUAL</code> TLS (non <code>ISTIO_MUTUAL</code>) origination
-modes are used. This setting can be overridden at the host level via DestinationRule API.
-By default, <code>VerifyCertificateAtClient</code> is <code>true</code>.</p>
-
-<p><code>CaCertificates</code>: If set, proxy verifies CA signature based on given CaCertificates. If unset,
-and VerifyCertificateAtClient is true, proxy uses default System CA bundle. If unset and
-<code>VerifyCertificateAtClient</code> is false, proxy will not verify the CA.</p>
-
-<p><code>SubjectAltNames</code>: If set, proxy verifies subject alt names are present in the SAN. If unset,
-and <code>VerifyCertificateAtClient</code> is true, proxy uses host in destination rule to verify the SANs.
-If unset, and <code>VerifyCertificateAtClient</code> is false, proxy does not verify SANs.</p>
-
-<p>For SAN, client-side proxy will exact match host in <code>DestinationRule</code> as well as one level
-wildcard if the specified host in DestinationRule doesn&rsquo;t contain a wildcard.
-For example, if the host in <code>DestinationRule</code> is <code>x.y.com</code>, client-side proxy will
-match either <code>x.y.com</code> or <code>*.y.com</code> for the SAN in the presented server certificate.
-For wildcard host name in DestinationRule, client-side proxy will do a suffix match. For example,
-if host is <code>*.x.y.com</code>, client-side proxy will verify the presented server certificate SAN matches
-`<code>.x.y.com</code> suffix.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="MeshConfig-extension_providers">
 <td><code>extensionProviders</code></td>
 <td><code><a href="#MeshConfig-ExtensionProvider">ExtensionProvider[]</a></code></td>
@@ -654,6 +624,24 @@ sidecars and gateways, which includes routing decisions in outbound direction (c
 authorization policy match and enforcement in inbound direction (server proxy), and the URL
 path proxied to the upstream service.
 If not set, the NormalizationType.DEFAULT configuration will be used.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-default_http_retry_policy">
+<td><code>defaultHttpRetryPolicy</code></td>
+<td><code><a href="/docs/reference/config/networking/virtual-service/#HTTPRetry">HTTPRetry</a></code></td>
+<td>
+<p>Configure the default HTTP retry policy.
+The default number of retry attempts is set at 2 for these errors:
+  &ldquo;connect-failure,refused-stream,unavailable,cancelled,retriable-status-codes&rdquo;.
+Setting the number of attempts to 0 disables retry policy globally.
+This setting can be overriden on a per-host basis using the Virtual Service
+API.
+All settings in the retry policy except <code>perTryTimeout</code> can currently be
+configured globally via this field.</p>
 
 </td>
 <td>
@@ -835,6 +823,38 @@ https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE<em>Trust</em>Domai
 The endpoint should support authentication based on Web PKI:
 https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE<em>Trust</em>Domain<em>and</em>Bundle.md#521-web-pki
 The certificate is retrieved from the endpoint.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-CertificateData-cert_signers">
+<td><code>certSigners</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. Specify the kubernetes signers (External CA) that use this trustAnchor
+when Istiod is acting as RA(registration authority)
+If set, they are used for these signers. Otherwise, this trustAnchor is used for all signers.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-CertificateData-trust_domains">
+<td><code>trustDomains</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. Specify the list of trust domains to which this trustAnchor data belongs.
+If set, they are used for these trust domains. Otherwise, this trustAnchor is used for default trust domain
+and its aliases.
+Note that we can have multiple trustAnchor data for a same trust<em>domain.
+In that case, trustAnchors with a same trust domain will be merged and used together to verify peer certificates.
+If neither cert</em>signers nor trust<em>domains is set, this trustAnchor is used for all trust domains and all signers.
+If only trust</em>domains is set, this trustAnchor is used for these trust<em>domains and all signers.
+If only cert</em>signers is set, this trustAnchor is used for these cert<em>signers and all trust domains.
+If both cert</em>signers and trust_domains is set, this trustAnchor is only used for these signers and trust domains.</p>
 
 </td>
 <td>
@@ -1079,6 +1099,28 @@ No
 <td><code><a href="#MeshConfig-ExtensionProvider-EnvoyFileAccessLogProvider">EnvoyFileAccessLogProvider (oneof)</a></code></td>
 <td>
 <p>Configures an Envoy File Access Log provider.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-envoy_http_als" class="oneof">
+<td><code>envoyHttpAls</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-EnvoyHttpGrpcV3LogProvider">EnvoyHttpGrpcV3LogProvider (oneof)</a></code></td>
+<td>
+<p>Configures an Envoy Access Logging Service provider for HTTP traffic.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-envoy_tcp_als" class="oneof">
+<td><code>envoyTcpAls</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-EnvoyTcpGrpcV3LogProvider">EnvoyTcpGrpcV3LogProvider (oneof)</a></code></td>
+<td>
+<p>Configures an Envoy Access Logging Service provider for TCP traffic.</p>
 
 </td>
 <td>
@@ -1814,6 +1856,17 @@ NOTE: currently only controls max length of the path tag.</p>
 No
 </td>
 </tr>
+<tr id="MeshConfig-ExtensionProvider-StackdriverProvider-logging">
+<td><code>logging</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-StackdriverProvider-Logging">Logging</a></code></td>
+<td>
+<p>Optional. Controls Stackdriver logging behavior.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -1892,6 +1945,9 @@ No
 </section>
 <h2 id="MeshConfig-ExtensionProvider-EnvoyFileAccessLogProvider">MeshConfig.ExtensionProvider.EnvoyFileAccessLogProvider</h2>
 <section>
+<p>Defines configuration for Envoy-based access logging that writes to
+local files (and/or standard streams).</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -1907,7 +1963,279 @@ No
 <td><code>string</code></td>
 <td>
 <p>Path to a local file to write the access log entries.
+This may be used to write to streams, via <code>/dev/stderr</code> and <code>/dev/stdout</code>
 If unspecified, defaults to <code>/dev/stdout</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyFileAccessLogProvider-log_format">
+<td><code>logFormat</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-EnvoyFileAccessLogProvider-LogFormat">LogFormat</a></code></td>
+<td>
+<p>Optional. Allows overriding of the default access log format.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-EnvoyHttpGrpcV3LogProvider">MeshConfig.ExtensionProvider.EnvoyHttpGrpcV3LogProvider</h2>
+<section>
+<p>Defines configuration for an Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/grpc/v3/als.proto#grpc-access-log-service-als">Access Logging Service</a>
+integration for HTTP traffic.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-EnvoyHttpGrpcV3LogProvider-service">
+<td><code>service</code></td>
+<td><code>string</code></td>
+<td>
+<p>REQUIRED. Specifies the service that implements the Envoy ALS gRPC authorization service.
+The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
+to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
+service defined by the Kubernetes service or ServiceEntry.</p>
+
+<p>Example: &ldquo;envoy-als.foo.svc.cluster.local&rdquo; or &ldquo;bar/envoy-als.example.com&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyHttpGrpcV3LogProvider-port">
+<td><code>port</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>REQUIRED. Specifies the port of the service.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyHttpGrpcV3LogProvider-log_name">
+<td><code>logName</code></td>
+<td><code>string</code></td>
+<td>
+<p>Optional. The friendly name of the access log.
+Defaults:
+-  &ldquo;http<em>envoy</em>accesslog&rdquo;
+-  &ldquo;listener<em>envoy</em>accesslog&rdquo;</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyHttpGrpcV3LogProvider-filter_state_objects_to_log">
+<td><code>filterStateObjectsToLog</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. Additional filter state objects to log.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyHttpGrpcV3LogProvider-additional_request_headers_to_log">
+<td><code>additionalRequestHeadersToLog</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. Additional request headers to log.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyHttpGrpcV3LogProvider-additional_response_headers_to_log">
+<td><code>additionalResponseHeadersToLog</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. Additional response headers to log.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyHttpGrpcV3LogProvider-additional_response_trailers_to_log">
+<td><code>additionalResponseTrailersToLog</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. Additional response trailers to log.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-EnvoyTcpGrpcV3LogProvider">MeshConfig.ExtensionProvider.EnvoyTcpGrpcV3LogProvider</h2>
+<section>
+<p>Defines configuration for an Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/grpc/v3/als.proto#grpc-access-log-service-als">Access Logging Service</a>
+integration for TCP traffic.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-EnvoyTcpGrpcV3LogProvider-service">
+<td><code>service</code></td>
+<td><code>string</code></td>
+<td>
+<p>REQUIRED. Specifies the service that implements the Envoy ALS gRPC authorization service.
+The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
+to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
+service defined by the Kubernetes service or ServiceEntry.</p>
+
+<p>Example: &ldquo;envoy-als.foo.svc.cluster.local&rdquo; or &ldquo;bar/envoy-als.example.com&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyTcpGrpcV3LogProvider-port">
+<td><code>port</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>REQUIRED. Specifies the port of the service.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyTcpGrpcV3LogProvider-log_name">
+<td><code>logName</code></td>
+<td><code>string</code></td>
+<td>
+<p>Optional. The friendly name of the access log.
+Defaults:
+- &ldquo;tcp<em>envoy</em>accesslog&rdquo;
+- &ldquo;listener<em>envoy</em>accesslog&rdquo;</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyTcpGrpcV3LogProvider-filter_state_objects_to_log">
+<td><code>filterStateObjectsToLog</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. Additional filter state objects to log.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-StackdriverProvider-Logging">MeshConfig.ExtensionProvider.StackdriverProvider.Logging</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-StackdriverProvider-Logging-labels">
+<td><code>labels</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>Collection of tag names and tag expressions to include in the log
+entry. Conflicts are resolved by the tag name by overriding previously
+supplied values.</p>
+
+<p>Example:
+  labels:
+    path: request.url_path
+    foo: request.headers[&lsquo;x-foo&rsquo;]</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-EnvoyFileAccessLogProvider-LogFormat">MeshConfig.ExtensionProvider.EnvoyFileAccessLogProvider.LogFormat</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-EnvoyFileAccessLogProvider-LogFormat-text" class="oneof oneof-start">
+<td><code>text</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>Textual format for the envoy access logs. Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators">command operators</a> may be
+used in the format. The <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-strings">format string documentation</a>
+provides more information.</p>
+
+<p>NOTE: Istio will insert a newline (&lsquo;\n&rsquo;) on all formats (if missing).</p>
+
+<p>Example: <code>text: &quot;%LOCAL_REPLY_BODY%:%RESPONSE_CODE%:path=%REQ(:path)%&quot;</code></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyFileAccessLogProvider-LogFormat-labels" class="oneof">
+<td><code>labels</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct (oneof)</a></code></td>
+<td>
+<p>Structured format for the envoy access logs. Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators">command operators</a>
+can be used as values for fields within the Struct. Values are rendered
+as strings, numbers, or boolean values, as appropriate
+(see: <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-dictionaries">format dictionaries</a>). Nested JSON is
+supported for some command operators (e.g. FILTER<em>STATE or DYNAMIC</em>METADATA).</p>
+
+<p>Example:</p>
+
+<pre><code>labels:
+  status: &quot;%RESPONSE_CODE%&quot;
+  message: &quot;%LOCAL_REPLY_BODY%&quot;
+</code></pre>
 
 </td>
 <td>
@@ -2501,6 +2829,17 @@ No
 This includes the certificates defined in MeshConfig and any other certificates that Istiod uses as CA.
 The plugin certificates (the &lsquo;cacerts&rsquo; secret), self-signed certificates (the &lsquo;istio-ca-secret&rsquo; secret)
 are added automatically by Istiod.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-image">
+<td><code>image</code></td>
+<td><code><a href="/docs/reference/config/networking/proxy-config/#ProxyImage">ProxyImage</a></code></td>
+<td>
+<p>Specifies the details of the proxy image.</p>
 
 </td>
 <td>

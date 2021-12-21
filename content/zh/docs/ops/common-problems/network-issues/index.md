@@ -19,7 +19,7 @@ test: no
 $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 {{< /text >}}
 
-在默认的访问日志输出格式中，Envoy 响应标志和 Mixer 策略状态位于响应状态码之后，如果您使用自定义日志输出格式，请确保包含 `%RESPONSE_FLAGS%` 和 `%DYNAMIC_METADATA(istio.mixer:status) %`。
+在默认的访问日志输出格式中，Envoy 响应标志位于响应状态码之后，如果您使用自定义日志输出格式，请确保包含 `%RESPONSE_FLAGS%`。
 
 参考 [Envoy 响应标志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags)查看更多有关响应标志的细节。
 
@@ -28,16 +28,6 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 - `NR`：没有配置路由，请检查您的 `DestinationRule` 或者 `VirtualService` 配置。
 - `UO`：上游溢出导致断路，请在 `DestinationRule` 检查您的熔断器配置。
 - `UF`：未能连接到上游，如果您正在使用 Istio 认证，请检查[双向 TLS 配置冲突](#service-unavailable-errors-after-setting-destination-rule)。
-
-如果一个请求的响应标志是 `UAEX` 并且 Mixer 策略状态不是 `-`，表示这个请求被 Mixer 拒绝。
-
-通用 Mixer 策略状态如下：
-
-- `UNAVAILABLE`：Envoy 不能连接到 Mixer 并且策略被配置为失败自动关闭。
-- `UNAUTHENTICATED`：请求被 Mixer 认证组件拒绝。
-- `PERMISSION_DENIED`：请求被 Mixer 认证组件拒绝。
-- `RESOURCE_EXHAUSTED`：请求被 Mixer 指标组件拒绝。
-- `INTERNAL`：因为 Mixer 内部错误请求被拒绝。
 
 ## 路由规则似乎没有对流量生效{#route-rules-don't-seem-to-affect-traffic-flow}
 

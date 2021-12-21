@@ -37,7 +37,7 @@ the Kubernetes API server, as shown in the above diagram.
 ### Clusters
 
 This guide requires that you have two Kubernetes clusters with any of the
-supported Kubernetes versions: {{< supported_kubernetes_versions >}}.
+[supported Kubernetes versions:](/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
 
 The first cluster will host the {{< gloss >}}external control plane{{< /gloss >}} installed in the
 `external-istiod` namespace. An ingress gateway is also installed in the `istio-system` namespace to provide
@@ -422,47 +422,83 @@ including gateways, if needed.
 
 #### Enable gateways
 
-1. Enable an ingress gateway on the remote cluster:
+Enable an ingress gateway on the remote cluster:
 
-    {{< text bash >}}
-    $ cat <<EOF > istio-ingressgateway.yaml
-    apiVersion: operator.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      profile: empty
-      components:
-        ingressGateways:
-        - namespace: external-istiod
-          name: istio-ingressgateway
-          enabled: true
-      values:
-        gateways:
-          istio-ingressgateway:
-            injectionTemplate: gateway
-    EOF
-    $ istioctl install -f istio-ingressgateway.yaml --context="${CTX_REMOTE_CLUSTER}"
-    {{< /text >}}
+{{< tabset category-name="ingress-gateway-install-type" >}}
 
-1. Enable an egress gateway, or other gateways, on the remote cluster (optional):
+{{< tab name="IstioOperator" category-value="iop" >}}
 
-    {{< text bash >}}
-    $ cat <<EOF > istio-egressgateway.yaml
-    apiVersion: operator.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      profile: empty
-      components:
-        egressGateways:
-        - namespace: external-istiod
-          name: istio-egressgateway
-          enabled: true
-      values:
-        gateways:
-          istio-egressgateway:
-            injectionTemplate: gateway
-    EOF
-    $ istioctl install -f istio-egressgateway.yaml --context="${CTX_REMOTE_CLUSTER}"
-    {{< /text >}}
+{{< text bash >}}
+$ cat <<EOF > istio-ingressgateway.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: empty
+  components:
+    ingressGateways:
+    - namespace: external-istiod
+      name: istio-ingressgateway
+      enabled: true
+  values:
+    gateways:
+      istio-ingressgateway:
+        injectionTemplate: gateway
+EOF
+$ istioctl install -f istio-ingressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+{{< text bash >}}
+$ helm install istio-ingressgateway istio/gateway -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}"
+{{< /text >}}
+
+See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
+
+    {{< /tab >}}
+    {{< /tabset >}}
+
+You can optionally enable other gateways as well. For example, an egress gateway:
+
+{{< tabset category-name="egress-gateway-install-type" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
+{{< text bash >}}
+$ cat <<EOF > istio-egressgateway.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: empty
+  components:
+    egressGateways:
+    - namespace: external-istiod
+      name: istio-egressgateway
+      enabled: true
+  values:
+    gateways:
+      istio-egressgateway:
+        injectionTemplate: gateway
+EOF
+$ istioctl install -f istio-egressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+{{< text bash >}}
+$ helm install istio-egressgateway istio/gateway -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}" --set service.type=ClusterIP
+{{< /text >}}
+
+See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
+
+{{< /tab >}}
+{{< /tabset >}}
+
+#### Test the ingress gateway
 
 1. Confirm that the Istio ingress gateway is running:
 
@@ -495,8 +531,6 @@ including gateways, if needed.
     {{< /text >}}
 
 ## Adding clusters to the mesh (optional) {#adding-clusters}
-
-{{< boilerplate experimental >}}
 
 This section shows you how to expand an existing external control plane mesh to multicluster by adding another remote cluster.
 This allows you to easily distribute services and use [location-aware routing and fail over](/docs/tasks/traffic-management/locality-load-balancing/) to support high availability of your application.
@@ -583,7 +617,6 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     $ @samples/multicluster/gen-eastwest-gateway.sh@ \
         --mesh mesh1 --cluster "${REMOTE_CLUSTER_NAME}" --network network1 > eastwest-gateway-1.yaml
     $ istioctl manifest generate -f eastwest-gateway-1.yaml \
-        --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
         --set values.global.istioNamespace=external-istiod | \
         kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
     {{< /text >}}
@@ -592,7 +625,6 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     $ @samples/multicluster/gen-eastwest-gateway.sh@ \
         --mesh mesh1 --cluster "${SECOND_CLUSTER_NAME}" --network network2 > eastwest-gateway-2.yaml
     $ istioctl manifest generate -f eastwest-gateway-2.yaml \
-        --set values.gateways.istio-ingressgateway.injectionTemplate=gateway \
         --set values.global.istioNamespace=external-istiod | \
         kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
     {{< /text >}}
@@ -615,11 +647,6 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 
     {{< text bash >}}
     $ kubectl --context="${CTX_REMOTE_CLUSTER}" apply -n external-istiod -f \
-        @samples/multicluster/expose-services.yaml@
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl --context="${CTX_SECOND_CLUSTER}" apply -n external-istiod -f \
         @samples/multicluster/expose-services.yaml@
     {{< /text >}}
 

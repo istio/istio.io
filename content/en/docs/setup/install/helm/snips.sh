@@ -19,29 +19,24 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/setup/install/helm/index.md
 ####################################################################################################
-source "content/en/boilerplates/snips/helm-backup.sh"
+source "content/en/boilerplates/snips/helm-prereqs.sh"
 
 snip_create_istio_system_namespace() {
 kubectl create namespace istio-system
 }
 
 snip_install_base() {
-helm install istio-base manifests/charts/base -n istio-system
+helm install istio-base istio/base -n istio-system
 }
 
 snip_install_discovery() {
-helm install istiod manifests/charts/istio-control/istio-discovery \
-    -n istio-system
+helm install istiod istio/istiod -n istio-system --wait
 }
 
 snip_install_ingressgateway() {
-helm install istio-ingress manifests/charts/gateways/istio-ingress \
-    -n istio-system
-}
-
-snip_install_egressgateway() {
-helm install istio-egress manifests/charts/gateways/istio-egress \
-    -n istio-system
+kubectl create namespace istio-ingress
+kubectl label namespace istio-ingress istio-injection=enabled
+helm install istio-ingress istio/gateway -n istio-ingress --wait
 }
 
 snip_helm_ls() {
@@ -49,16 +44,14 @@ helm ls -n istio-system
 }
 
 ! read -r -d '' snip_helm_ls_out <<\ENDSNIP
-NAME            NAMESPACE       REVISION    UPDATED                                 STATUS      CHART                    APP VERSION
-istio-base      istio-system    1           ... ... ... ...                         deployed    base-1.9.0
-istio-egress    istio-system    1           ... ... ... ...                         deployed    istio-egress-1.9.0
-istio-ingress   istio-system    1           ... ... ... ...                         deployed    istio-ingress-1.9.0
-istiod          istio-system    1           ... ... ... ...                         deployed    istio-discovery-1.9.0
+NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
+istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
+istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
 ENDSNIP
 
 snip_delete_delete_gateway_charts() {
-helm delete istio-egress -n istio-system
-helm delete istio-ingress -n istio-system
+helm delete istio-ingress -n istio-ingress
+kubectl delete namespace istio-ingress
 }
 
 snip_helm_delete_discovery_chart() {
@@ -74,6 +67,5 @@ kubectl delete namespace istio-system
 }
 
 snip_delete_crds() {
-kubectl get crd | grep --color=never 'istio.io' | awk '{print $1}' \
-    | xargs -n1 kubectl delete crd
+kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
 }

@@ -9,21 +9,14 @@ test: no
 ---
 
 Follow this guide to upgrade and configure an Istio mesh using
-[Helm](https://helm.sh/docs/) for in-depth evaluation.  This guide assumes you have already performed an
-[installation with Helm](../../install/helm) for a previous minor or patch version of Istio.
+[Helm](https://helm.sh/docs/).  This guide assumes you have already performed an
+[installation with Helm](/docs/setup/install/helm) for a previous minor or patch version of Istio.
 
 {{< boilerplate helm-preamble >}}
-
-{{< boilerplate helm-hub-tag >}}
 
 {{< boilerplate helm-prereqs >}}
 
 ## Upgrade steps
-
-Change directory to the root of the release package and then
-follow the instructions below.
-
-{{< boilerplate helm-jwt-warning >}}
 
 Before upgrading Istio, it is recommended to run the `istioctl x precheck` command to make sure the upgrade is compatible with your environment.
 
@@ -37,10 +30,6 @@ To get started, check out https://istio.io/latest/docs/setup/getting-started/
 [Helm does not upgrade or delete CRDs](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) when performing an upgrade. Because of this restriction, an additional step is required when upgrading Istio with Helm.
 {{< /warning >}}
 
-### Create a backup
-
-{{< boilerplate helm-backup >}}
-
 ### Canary upgrade (recommended)
 
 You can install a canary version of Istio control plane to validate that the new
@@ -51,9 +40,6 @@ the steps below:
 Note that when you install a canary version of the `istiod` service, the underlying
 cluster-wide resources from the base chart are shared across your
 primary and canary installations.
-
-Currently, the support for canary upgrades for Istio ingress and egress
-gateways is [actively in development](/docs/setup/upgrade/gateways/) and is considered `experimental`.
 {{< /warning >}}
 
 1. Upgrade the Kubernetes custom resource definitions ({{< gloss >}}CRDs{{</ gloss >}}):
@@ -66,7 +52,7 @@ gateways is [actively in development](/docs/setup/upgrade/gateways/) and is cons
    value:
 
     {{< text bash >}}
-    $ helm install istiod-canary manifests/charts/istio-control/istio-discovery \
+    $ helm install istiod-canary istio/istiod \
         --set revision=canary \
         -n istio-system
     {{< /text >}}
@@ -90,11 +76,47 @@ gateways is [actively in development](/docs/setup/upgrade/gateways/) and is cons
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
-1. Upgrade the Istio base chart:
+1. Upgrade the Istio base chart, making the new revision the default.
 
     {{< text bash >}}
-    $ helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
+    $ helm upgrade istio-base istio/base --defaultRevision canary -n istio-system --skip-crds
     {{< /text >}}
+
+### Stable revision labels (experimental)
+
+{{< boilerplate revision-tags-preamble >}}
+
+#### Usage
+
+{{< boilerplate revision-tags-usage >}}
+
+{{< text bash >}}
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-stable} --set revision=1-9-5 -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=1-10-0 -n istio-system | kubectl apply -f -
+{{< /text >}}
+
+{{< warning >}}
+These commands create new `MutatingWebhookConfiguration` resources in your cluster, however, they are not owned by any Helm chart due to `kubectl` manually applying the templates. See the instructions
+below to uninstall revision tags.
+{{< /warning >}}
+
+{{< boilerplate revision-tags-middle >}}
+
+{{< text bash >}}
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-stable} --set revision=1-10-0 -n istio-system | kubectl apply -f -
+{{< /text >}}
+
+{{< boilerplate revision-tags-prologue >}}
+
+#### Default tag
+
+{{< boilerplate revision-tags-default-intro >}}
+
+{{< text bash >}}
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={default} --set revision=1-10-0 -n istio-system | kubectl apply -f -
+{{< /text >}}
+
+{{< boilerplate revision-tags-default-outro >}}
 
 ### In place upgrade
 
@@ -102,8 +124,6 @@ You can perform an in place upgrade of Istio in your cluster using the Helm
 upgrade workflow.
 
 {{< warning >}}
-This upgrade path is only supported from Istio version 1.8 and above.
-
 Add your override values file or custom options to the commands below to
 preserve your custom configuration during Helm upgrades.
 {{< /warning >}}
@@ -123,18 +143,13 @@ preserve your custom configuration during Helm upgrades.
 1. Upgrade the Istio discovery chart:
 
     {{< text bash >}}
-    $ helm upgrade istiod manifests/charts/istio-control/istio-discovery \
-        -n istio-system
+    $ helm upgrade istiod istio/istiod -n istio-system
     {{< /text >}}
 
-1. (Optional) Upgrade the Istio ingress or egress gateway charts if installed in
-   your cluster:
+1. (Optional) Upgrade and gateway charts  installed in your cluster:
 
     {{< text bash >}}
-    $ helm upgrade istio-ingress manifests/charts/gateways/istio-ingress \
-        -n istio-system
-    $ helm upgrade istio-egress manifests/charts/gateways/istio-egress \
-        -n istio-system
+    $ helm upgrade istio-ingress istio/gateway -n istio-ingress
     {{< /text >}}
 
 ## Uninstall

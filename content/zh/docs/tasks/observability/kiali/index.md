@@ -15,7 +15,7 @@ test: no
 最后，您使用 Kiali Public API 返回的 JSON 数据生成图形数据。
 
 {{< idea >}}
-这个任务并不包括 Kiali 提供的所有特性。要了解它所支持的全部功能，请查看 [Kiali 官网](http://kiali.io/documentation/latest/features/)。
+这个任务并不包括 Kiali 提供的所有特性。要了解它所支持的全部功能，请查看 [Kiali 官网](http://kiali.io/docs/features/)。
 {{< /idea >}}
 
 此任务始终将 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用程序作为示例。
@@ -24,7 +24,7 @@ test: no
 
 {{< tip >}}
 以下说明假设您已安装过 `istioctl` 并使用它来安装 Kiali。
-不使用 `istioctl` 来安装 Kiali, 请参考 [Kiali 安装说明](https://www.kiali.io/documentation/getting-started/)。
+不使用 `istioctl` 来安装 Kiali, 请参考 [Kiali 安装说明](https://kiali.io/docs/installation/)。
 {{< /tip >}}
 
 ### 创建 secret{#create-a-secret}
@@ -228,7 +228,7 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
 
 ## 验证 Istio 配置{#validating-Istio-configuration}
 
-Kiali 可以验证您的 Istio 资源，以确保它们遵循正确的约定和语义。根据错误配置的严重程度，在 Istio 资源的配置中检测到的任何问题都可以标记为错误或警告。有关 Kiali 执行的所有验证检查的列表，请参考 [Kiali Validations page](https://kiali.io/documentation/latest/validations/)。
+Kiali 可以验证您的 Istio 资源，以确保它们遵循正确的约定和语义。根据错误配置的严重程度，在 Istio 资源的配置中检测到的任何问题都可以标记为错误或警告。有关 Kiali 执行的所有验证检查的列表，请参考 [Kiali Validations page](https://kiali.io/docs/features/validations/)。
 
 {{< idea >}}
 Istio 1.4 引入了 `istioctl analyze`，它使您能够以在 CI 管道中使用的方式执行类似的分析。
@@ -299,11 +299,11 @@ Kiali 提供了一个 YAML 编辑器，用于查看和编辑 Istio 配置资源�
     {{< image width="80%" link="./kiali-istioconfig3-details-yaml1.png" caption="YAML Editor Showing Validation Errors and Warnings" >}}
 
 1. 将鼠标悬停在黄色图标上可以查看工具提示消息，该消息提示您触发了警告的验证检查。
-    有关警告起因和解决方法的更多详细信息，请在 [Kiali Validations page](http://kiali.io/documentation/validations/) 上查找验证警告消息。
+    有关警告起因和解决方法的更多详细信息，请在 [Kiali Validations page](https://kiali.io/docs/features/validations/) 上查找验证警告消息。
 
     {{< image width="80%" link="./kiali-istioconfig3-details-yaml2.png" caption="YAML Editor Showing Warning Tool Tip" >}}
 
-1. 将鼠标悬停在红色图标上可以查看工具提示消息，该消息提示您触发错误的验证检查。有关错误原因和解决方法的更多详细信息，请在 [Kiali Validations page](http://kiali.io/documentation/validations/) 上查找验证错误消息。
+1. 将鼠标悬停在红色图标上可以查看工具提示消息，该消息提示您触发错误的验证检查。有关错误原因和解决方法的更多详细信息，请在 [Kiali Validations page](https://kiali.io/docs/features/validations/) 上查找验证错误消息。
 
     {{< image width="80%" link="./kiali-istioconfig3-details-yaml3.png" caption="YAML Editor Showing Error Tool Tip" >}}
 

@@ -15,6 +15,12 @@ We’re excited to announce the release of Istio 1.10! We’d like to give a spe
 
 This is our second release of 2021 and like our last few releases we’ve continued to improve Day 2 operations for Istio users.
 
+{{< relnote >}}
+
+{{< tip >}}
+Istio 1.10.0 is officially supported on Kubernetes versions `1.18.0` to `1.21.x`.
+{{< /tip >}}
+
 A few of this release’s highlights:
 
 ## Discovery Selectors

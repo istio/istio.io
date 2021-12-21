@@ -4,7 +4,7 @@ description: Shows how to dry-run an authorization policy without enforcing it.
 weight: 65
 keywords: [security,access-control,rbac,authorization,dry-run]
 owner: istio/wg-security-maintainers
-test: no
+test: yes
 status: Experimental
 ---
 
@@ -25,7 +25,7 @@ Before you begin this task, do the following:
 * Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio.
 
 * Deploy Zipkin for checking dry-run tracing results. Follow the [Zipkin task](/docs/tasks/observability/distributed-tracing/zipkin/)
-  to install Zipkin in the cluster. Make sure the sampling rate is set to 100 which allows you to quickly reproduce the trace span in the task.
+  to install Zipkin in the cluster.
 
 * Deploy Prometheus for checking dry-run metric results. Follow the [Prometheus task](/docs/tasks/observability/metrics/querying-metrics/)
   to install the Prometheus in the cluster.
@@ -85,16 +85,37 @@ Caching and propagation overhead can cause some delay.
     EOF
     {{< /text >}}
 
-1. Verify a request to path `/headers` is allowed because the policy is created in dry-run mode:
+    You can also use the following command to quickly change an existing authorization policy to dry-run mode:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -s
+    $ kubectl annotate --overwrite authorizationpolicies deny-path-headers -n foo istio.io/dry-run='true'
+    {{< /text >}}
+
+1. Verify a request to path `/headers` is allowed because the policy is created in dry-run mode, run the following command
+   to send 20 requests from `sleep` to `httpbin`, the request includes the header `X-B3-Sampled: 1` to always trigger the Zipkin tracing:
+
+    {{< text bash >}}
+    $ for i in {1..20}; do kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/headers -H "X-B3-Sampled: 1" -s -o /dev/null -w "%{http_code}\n"; done
+    200
+    200
+    200
+    ...
     {{< /text >}}
 
 ## Check dry-run result in proxy log
 
-1. The dry-run results can be found in the proxy debug log, similar to `shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]`.
-   See the [troubleshooting guide](/docs/ops/common-problems/security-issues/#ensure-proxies-enforce-policies-correctly) for more details.
+1. The dry-run results can be found in the proxy debug log in the format of `shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]`.
+   Run the following command to check the log:
+
+    {{< text bash >}}
+    $ kubectl logs "$(kubectl -n foo -l app=httpbin get pods -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo | grep "shadow denied"
+    2021-11-19T20:20:48.733099Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
+    2021-11-19T20:21:45.502199Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
+    2021-11-19T20:22:33.065348Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
+    ...
+    {{< /text >}}
+
+   Also see the [troubleshooting guide](/docs/ops/common-problems/security-issues/#ensure-proxies-enforce-policies-correctly) for more details of the logging.
 
 ## Check dry-run result in metric using Prometheus
 
@@ -104,18 +125,26 @@ Caching and propagation overhead can cause some delay.
     $ istioctl dashboard prometheus
     {{< /text >}}
 
-1. In the Prometheus dashboard, search for the metric `envoy_http_inbound_0_0_0_0_80_rbac{authz_dry_run_result!=""}`. The
-   following is an example metric output:
+1. In the Prometheus dashboard, search for the following metric:
 
     {{< text plain >}}
-    envoy_http_inbound_0_0_0_0_80_rbac{app="httpbin",authz_dry_run_action="deny",authz_dry_run_result="allowed",instance="10.44.1.11:15020",istio_io_rev="default",job="kubernetes-pods",kubernetes_namespace="foo",kubernetes_pod_name="httpbin-74fb669cc6-95qm8",pod_template_hash="74fb669cc6",security_istio_io_tlsMode="istio",service_istio_io_canonical_name="httpbin",service_istio_io_canonical_revision="v1",version="v1"} 0
-    envoy_http_inbound_0_0_0_0_80_rbac{app="httpbin",authz_dry_run_action="deny",authz_dry_run_result="denied",instance="10.44.1.11:15020",istio_io_rev="default",job="kubernetes-pods",kubernetes_namespace="foo",kubernetes_pod_name="httpbin-74fb669cc6-95qm8",pod_template_hash="74fb669cc6",security_istio_io_tlsMode="istio",service_istio_io_canonical_name="httpbin",service_istio_io_canonical_revision="v1",version="v1"}  1
+    envoy_http_inbound_0_0_0_0_80_rbac{authz_dry_run_action="deny",authz_dry_run_result="denied"}
     {{< /text >}}
 
-1. The metric `envoy_http_inbound_0_0_0_0_80_rbac{authz_dry_run_result="denied"}` has value `1` (you might find different
-   value depending on how many requests you have sent. It's expected as long as the value is greater than 0).
+1.  Verify the queried metric result as follows:
+
+    {{< text plain >}}
+    envoy_http_inbound_0_0_0_0_80_rbac{app="httpbin",authz_dry_run_action="deny",authz_dry_run_result="denied",instance="10.44.1.11:15020",istio_io_rev="default",job="kubernetes-pods",kubernetes_namespace="foo",kubernetes_pod_name="httpbin-74fb669cc6-95qm8",pod_template_hash="74fb669cc6",security_istio_io_tlsMode="istio",service_istio_io_canonical_name="httpbin",service_istio_io_canonical_revision="v1",version="v1"}  20
+    {{< /text >}}
+
+1. The queried metric has value `20` (you might find a different value depending on how many requests you have sent.
+   It's expected as long as the value is greater than 0).
    This means the dry-run policy applied to the `httpbin` workload on port `80` matched one request. The policy would
    reject the request once if it was not in dry-run mode.
+
+1. The following is a screenshot of the Prometheus dashboard:
+
+    {{< image width="100%" link="./prometheus.png" caption="Prometheus dashboard" >}}
 
 ## Check dry-run result in tracing using Zipkin
 
@@ -135,6 +164,10 @@ Caching and propagation overhead can cause some delay.
     istio.authorization.dry_run.deny_policy.name: ns[foo]-policy[deny-path-headers]-rule[0]
     istio.authorization.dry_run.deny_policy.result: denied
     {{< /text >}}
+
+1. The following is a screenshot of the Zipkin dashboard:
+
+    {{< image width="100%" link="./trace.png" caption="Zipkin dashboard" >}}
 
 ## Summary
 

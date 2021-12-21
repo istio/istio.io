@@ -21,6 +21,23 @@ set -e
 set -u
 set -o pipefail
 
+# rewrite-repo invokes bash make to rewrite a snippet to avoid installing from a real helm repository, and instead uses
+# local files
+# shellcheck disable=SC2001
+function rewrite-repo() {
+  # get function definition: https://stackoverflow.com/a/6916952/374797
+  cmd="$(type "${1:?snip}" | sed '1,3d;$d')"
+  cmd="$(echo "${cmd}" | sed 's|istio/base|manifests/charts/base|')"
+  cmd="$(echo "${cmd}" | sed 's|istio/istiod|manifests/charts/istio-control/istio-discovery|')"
+  cmd="$(echo "${cmd}" | sed 's|istio/gateway|manifests/charts/gateway|')"
+  eval "${cmd}"
+}
+
+kubectl_get_egress_gateway_for_remote_cluster() {
+  response=$(kubectl get pod -l app=istio-egressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}" -o jsonpath="{.items[*].status.phase}")
+  echo "$response"
+}
+
 # Override some snip functions to configure the istiod gateway using TLS passthrough in the test environemnt.
 
 snip_get_external_istiod_iop_modified() {
@@ -101,36 +118,79 @@ _verify_like snip_deploy_a_sample_application_3 "$snip_deploy_a_sample_applicati
 
 _verify_contains snip_deploy_a_sample_application_4 "Hello version: v1"
 
+# Install ingress with istioctl
 echo y | snip_enable_gateways_1
-#echo y | snip_enable_gateways_2
 
-_verify_like snip_enable_gateways_3 "$snip_enable_gateways_3_out"
+# And egress with helm
+rewrite-repo snip_enable_gateways_4
 
-snip_enable_gateways_4
+_verify_same kubectl_get_egress_gateway_for_remote_cluster "Running" 
+
+_verify_like snip_test_the_ingress_gateway_1 "$snip_test_the_ingress_gateway_1_out"
+
+snip_test_the_ingress_gateway_2
 
 export GATEWAY_URL=$(kubectl \
     --context="${CTX_REMOTE_CLUSTER}" \
     -n external-istiod get svc istio-ingressgateway \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
-_verify_contains snip_enable_gateways_6 "Hello version: v1"
+_verify_contains snip_test_the_ingress_gateway_4 "Hello version: v1"
+
+# Adding clusters to the mesh.
+
+export CTX_SECOND_CLUSTER="${KUBE_CONTEXTS[1]}"
+export SECOND_CLUSTER_NAME="${CTX_SECOND_CLUSTER}"
+
+snip_get_second_config_cluster_iop
+echo y | snip_register_the_new_cluster_2
+
+# Confirm remote cluster’s webhook configuration has been installed
+_verify_like snip_register_the_new_cluster_3 "$snip_register_the_new_cluster_3_out"
+
+# Create a secret with credentials to allow the control plane to access the endpoints on the second remote cluster and install it
+snip_register_the_new_cluster_4
+
+# Setup east-west gateways
+snip_setup_eastwest_gateways_1
+snip_setup_eastwest_gateways_2
+
+_verify_like snip_setup_eastwest_gateways_3 "$snip_setup_eastwest_gateways_3_out"
+_verify_like snip_setup_eastwest_gateways_4 "$snip_setup_eastwest_gateways_4_out"
+
+snip_setup_eastwest_gateways_5
+
+# Validate the installation.
+snip_validate_the_installation_1
+snip_validate_the_installation_2
+_verify_like snip_validate_the_installation_3 "$snip_validate_the_installation_3_out"
+_verify_contains snip_validate_the_installation_4 "Hello version:"
+_verify_lines snip_validate_the_installation_5 "
++ Hello version: v1
++ Hello version: v2
+"
 
 # @cleanup
 _set_kube_vars # helper function to initialize KUBECONFIG_FILES and KUBE_CONTEXTS
 export CTX_EXTERNAL_CLUSTER="${KUBE_CONTEXTS[0]}"
 export CTX_REMOTE_CLUSTER="${KUBE_CONTEXTS[2]}"
+export CTX_SECOND_CLUSTER="${KUBE_CONTEXTS[1]}"
 
 # TODO put the cleanup instructions in the doc and then call the snips.
 kubectl delete ns sample --context="${CTX_REMOTE_CLUSTER}"
+kubectl delete ns sample --context="${CTX_SECOND_CLUSTER}"
 
 kubectl delete -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 
 istioctl manifest generate -f remote-config-cluster.yaml | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f -
+istioctl manifest generate -f second-config-cluster.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f -
 istioctl manifest generate -f external-istiod.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f -
 istioctl manifest generate -f controlplane-gateway.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f -
+istioctl manifest generate -f eastwest-gateway-1.yaml | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f - 
+istioctl manifest generate -f eastwest-gateway-2.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f - 
 
 kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
-kubectl delete ns istio-system --context="${CTX_REMOTE_CLUSTER}" # TODO: remove when https://github.com/istio/istio/issues/31495 fixed
+kubectl delete ns external-istiod --context="${CTX_SECOND_CLUSTER}"
 
-rm external-istiod-gw.yaml remote-config-cluster.yaml external-istiod.yaml controlplane-gateway.yaml
+rm external-istiod-gw.yaml remote-config-cluster.yaml external-istiod.yaml controlplane-gateway.yaml eastwest-gateway-1.yaml eastwest-gateway-2.yaml second-config-cluster.yaml

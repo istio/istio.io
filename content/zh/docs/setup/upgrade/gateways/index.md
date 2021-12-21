@@ -1,10 +1,11 @@
 ---
-title: 多版本的 Gateway  管理 [实验性]
-description: 使用 Gateway  配置和升级 Istio (实验性)。
+title: 多版本的 Gateway 管理
+description: 使用 Gateway 配置和升级 Istio。
 weight: 30
 keywords: [kubernetes,upgrading,gateway]
 owner: istio/wg-environments-maintainers
 test: no
+status: Experimental
 ---
 
 {{< boilerplate experimental >}}
