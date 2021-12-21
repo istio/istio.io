@@ -219,7 +219,7 @@ You must use the `runAsUser 1337` workaround if [DNS proxying](/docs/ops/configu
 {{< /tip >}}
 
 {{< warning >}}
-Please use the above traffic capture exclusion annotations with caution, since the IP/port exclusion annotations not only apply to init container traffic,
+Please use traffic capture exclusions with caution, since the IP/port exclusion annotations not only apply to init container traffic,
 but also application container traffic. i.e. application traffic sent to the configured IP/port will bypass the Istio sidecar.
 {{< /warning >}}
 
