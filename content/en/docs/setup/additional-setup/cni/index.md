@@ -207,13 +207,18 @@ starts an injected pod with the following steps:
 Init containers execute before the sidecar proxy starts, which can result in traffic loss during their execution.
 Avoid this traffic loss with one or both of the following settings:
 
+* Set the user of init container to `1337` using `runAsUser`. This will make traffic from init container bypass Istio iptables capture.
+  Application container traffic will still be captured as usual.
 * Set the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to disable redirecting traffic to any
   CIDRs the init containers communicate with.
 * Set the `traffic.sidecar.istio.io/excludeOutboundPorts` annotation to disable redirecting traffic to the
   specific outbound ports the init containers use.
 
+If [DNS proxying](/docs/ops/configuration/traffic-management/dns-proxy/) is enabled,
+and init container sends traffic with host name and needs DNS resolution, only the first workaround listed above will work.
+
 {{< warning >}}
-Please use the above settings with caution, since the IP/port exclusion annotations not only apply to init container traffic,
+Please use the above traffic capture exclusion annotatioins with caution, since the IP/port exclusion annotations not only apply to init container traffic,
 but also application container traffic. i.e. application traffic sent to the configured IP/port will bypass the Istio sidecar.
 {{< /warning >}}
 
