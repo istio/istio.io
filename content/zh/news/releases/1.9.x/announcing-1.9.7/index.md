@@ -13,7 +13,7 @@ aliases:
 
 {{< relnote >}}
 
-## 变化
+## 变化{#changes}
 
 - **新增** 空正则表达式匹配的验证器。([Issue 34065](https://github.com/istio/istio/issues/34065))
 
