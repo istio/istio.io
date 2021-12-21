@@ -214,8 +214,9 @@ Avoid this traffic loss with one of the following settings:
 # Set the `traffic.sidecar.istio.io/excludeOutboundPorts` annotation to disable redirecting traffic to the
   specific outbound ports the init containers use.
 
-If [DNS proxying](/docs/ops/configuration/traffic-management/dns-proxy/) is enabled,
-and init container sends traffic with host name and needs DNS resolution, only the first workaround listed above will work.
+{{< tip >}}
+You must use the `runAsUser 1337` workaround if [DNS proxying](/docs/ops/configuration/traffic-management/dns-proxy/) is enabled, and an init container sends traffic to a host name which requires DNS resolution.
+{{< /tip >}}
 
 {{< warning >}}
 Please use the above traffic capture exclusion annotations with caution, since the IP/port exclusion annotations not only apply to init container traffic,
