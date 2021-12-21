@@ -9,7 +9,7 @@ aliases:
     - /zh/news/announcing-1.9.5
 ---
 
-此版本修复了我们在 5 月 11 日的文章中描述的 [ISTIO-SECURITY-2021-005](/zh/news/security/istio-security-2021-005) 和 [ISTIO-SECURITY-2021-006](/zh/news/security/istio-security-2021-006) 两个安全漏洞。  
+此版本修复了我们在 5 月 11 日的文章中描述的 [ISTIO-SECURITY-2021-005](/zh/news/security/istio-security-2021-005) 和 [ISTIO-SECURITY-2021-006](/zh/news/security/istio-security-2021-006) 两个安全漏洞。
 
 {{< relnote >}}
 
