@@ -218,7 +218,7 @@ If [DNS proxying](/docs/ops/configuration/traffic-management/dns-proxy/) is enab
 and init container sends traffic with host name and needs DNS resolution, only the first workaround listed above will work.
 
 {{< warning >}}
-Please use the above traffic capture exclusion annotatioins with caution, since the IP/port exclusion annotations not only apply to init container traffic,
+Please use the above traffic capture exclusion annotations with caution, since the IP/port exclusion annotations not only apply to init container traffic,
 but also application container traffic. i.e. application traffic sent to the configured IP/port will bypass the Istio sidecar.
 {{< /warning >}}
 
