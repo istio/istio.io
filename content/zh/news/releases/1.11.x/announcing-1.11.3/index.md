@@ -18,7 +18,7 @@ aliases:
 - **更新** 更新了允许指定的 NICs 绕过 Istio iptables 中的流量捕获。
   ([Issue #34753](https://github.com/istio/istio/issues/34753))
 
-- **新增** 为 Istio Gateway Helm chrats 新增了一个 vaules，用于配置 `ServiceAccount` 上的注释。可用于在 AWS EKS 上启用[服务帐户 IAM 角色](https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/iam-roles-for-service-accounts.html)。
+- **新增** 为 Istio Gateway Helm charts 新增了一个 values，用于配置 `ServiceAccount` 上的注释。可用于在 AWS EKS 上启用[服务帐户 IAM 角色](https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/iam-roles-for-service-accounts.html)。
 
 - **修复** 修复了 `istioctl analyze` 命令在分析虚拟服务网关时不输出 [IST0132] 消息的问题。
   ([Issue #34653](https://github.com/istio/istio/issues/34653))
