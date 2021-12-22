@@ -207,7 +207,9 @@ starts an injected pod with the following steps:
 Init containers execute before the sidecar proxy starts, which can result in traffic loss during their execution.
 Avoid this traffic loss with one of the following settings:
 
-1. Set the `uid` of the init container to `1337` using `runAsUser`. This will make traffic from the init container bypass Istio's `iptables` capture.
+1. Set the `uid` of the init container to `1337` using `runAsUser`.
+  `1337` is the [`uid` used by the sidecar proxy](/docs/ops/deployment/requirements/#pod-requirements).
+   Traffic sent by this `uid` will not be captured by the Istio's `iptables` rule.
    Application container traffic will still be captured as usual.
 1. Set the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to disable redirecting traffic to any
    CIDRs the init containers communicate with.
