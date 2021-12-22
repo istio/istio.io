@@ -61,7 +61,7 @@ The `pluginConfig` field will be converted to the following JSON string, which w
 }
 {{< /text >}}
 
-For more example usage of `WasmPlugin` API, please take a look at the [API reference](/docs/reference/config/proxy_extensions/wasm-plugin/).
+For more example usage of the `WasmPlugin` API, please take a look at the [API reference](/docs/reference/config/proxy_extensions/wasm-plugin/).
 
 There are several known limitations with this module distribution mechanism, which will be addressed in future releases:
 
