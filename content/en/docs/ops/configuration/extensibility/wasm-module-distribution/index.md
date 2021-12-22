@@ -18,7 +18,7 @@ Istio makes this possible by allowing the proxy agent to dynamically download Wa
 
 ## Configure an HTTP Filter with a Remote Wasm Module
 
-Here we will walk through an example of adding a basic auth extension to our mesh. We will configure Istio to pull a [basic auth module](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth) from a remote image registry and load it with configuration to run the module on calls to the `/productpage` path.
+In this example, you will add a HTTP Basic auth extension to your mesh. You will configure Istio to pull the [Basic auth module](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth) from a remote image registry and load it. It will be configured to run on calls to `/productpage`.
 
 To configure a WebAssembly filter with a remote Wasm module, create a `WasmPlugin` resource:
 
