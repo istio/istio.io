@@ -405,7 +405,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--exclude &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-node-lease,local-path-storage,kube-system,kube-public"]`)</td>
+<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-system,kube-public,kube-node-lease,local-path-storage"]`)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
@@ -510,7 +510,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--exclude &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-node-lease,local-path-storage,kube-system,kube-public"]`)</td>
+<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-system,kube-public,kube-node-lease,local-path-storage"]`)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
@@ -4939,6 +4939,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0
 <td><code>--operatorNamespace &lt;string&gt;</code></td>
 <td></td>
 <td>The namespace the operator controller is installed into.  (default `istio-operator`)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|yaml  (default `yaml`)</td>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
