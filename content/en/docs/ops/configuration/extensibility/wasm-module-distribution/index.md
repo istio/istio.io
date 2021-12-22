@@ -13,7 +13,7 @@ status: Alpha
 
 Istio provides the ability to [extend proxy functionality using WebAssembly (Wasm)](/blog/2020/wasm-announce/).
 One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime.
-But first these extensions must be distributed to the proxy.
+These extensions must first be distributed to the Envoy proxy.
 Istio makes this possible by allowing the Istio agent to dynamically download Wasm modules.
 
 ## Configure an HTTP Filter with a Remote Wasm Module
