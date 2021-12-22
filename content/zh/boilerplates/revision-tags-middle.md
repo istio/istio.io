@@ -3,7 +3,7 @@
 修订、标签和命名空间之间的结果映射如下所示：
 
 {{< image width="70%"
-link="/docs/setup/upgrade/canary/tags.png"
+link="/zh/docs/setup/upgrade/canary/tags.png"
 caption="Two namespaces pointed to prod-stable and one pointed to prod-canary"
 >}}
 
