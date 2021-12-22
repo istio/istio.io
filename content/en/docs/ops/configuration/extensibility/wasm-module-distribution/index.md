@@ -87,6 +87,6 @@ To learn more about Wasm module development, please refer to the guides provided
 which is maintained by the Istio community and used to develop Istio's Telemetry Wasm extension:
 
 - [Write, test, deploy, and maintain a Wasm extension with C++](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md)
-- [Build Istio Wasm plugin compatible OCI images](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/how-to-build-oci-images.md)
+- [Build Istio Wasm plugin-compatible OCI images](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/how-to-build-oci-images.md)
 - [Write unit tests for C++ Wasm extensions](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-cpp-unit-test.md)
 - [Write integration tests for Wasm extensions](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-integration-test.md)
