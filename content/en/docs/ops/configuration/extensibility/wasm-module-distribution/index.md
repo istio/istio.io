@@ -45,7 +45,7 @@ spec:
           - "YWRtaW4zOmFkbWluMw=="
 {{< /text >}}
 
-With this configuration, an HTTP filter will be injected into ingress gateway proxies as an authentication filter.
+An HTTP filter will be injected into ingress gateway proxies as an authentication filter.
 When the configuration reaches Istio proxy, the Istio agent will intercept the `WasmPlugin` configuration, download remote Wasm modules from the OCI image registry to a local file, and inject the HTTP filter by referencing that local Wasm module file.
 The `pluginConfig` field will be converted to the following JSON string, which will be loaded by the basic auth plugin at initialization:
 
