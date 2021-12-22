@@ -66,7 +66,7 @@ For more example usage of the `WasmPlugin` API, please take a look at the [API r
 There are several known limitations with this module distribution mechanism, which will be addressed in future releases:
 
 - Only HTTP filters are supported.
-- Modules can only be fetched from public OCI image registry.
+- Modules can only be fetched from a public OCI image registry.
 
 ## Monitor Wasm Module Distribution
 
