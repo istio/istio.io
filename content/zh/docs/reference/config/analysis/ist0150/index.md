@@ -12,7 +12,7 @@ test: no
 您将收到以下信息：
 
 {{< text plain >}}
-注意，如果 [IST0150] (Service nginx.default) ExternalName 服务的端口名称无效。代理可能会对以 TCP 命名和服务于 TCP 协议的端口中的不匹配流量的正确转发进行阻止。
+注意，当 [IST0150] (Service nginx.default) ExternalName 服务的端口名称无效。将收到代理对以 TCP 命名和服务于 TCP 协议的端口中的不匹配流量的正确转发进行阻止。
 {{< /text >}}
 
 当您的集群有以下服务：
