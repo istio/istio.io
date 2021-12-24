@@ -484,7 +484,7 @@ spec:
       notRequestPrincipals: ["*"]
     to:
     - operation:
-        paths: ["/headers"]
+       paths: ["/headers"]
 EOF
 {{< /text >}}
 
