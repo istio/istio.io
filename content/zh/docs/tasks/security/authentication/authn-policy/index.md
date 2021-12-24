@@ -451,7 +451,7 @@ spec:
   rules:
   - from:
     - source:
-      notRequestPrincipals: ["*"]
+        notRequestPrincipals: ["*"]
 EOF
 {{< /text >}}
 
@@ -484,7 +484,7 @@ spec:
       notRequestPrincipals: ["*"]
       to:
     - operation:
-      paths: ["/headers"]
+        paths: ["/headers"]
 EOF
 {{< /text >}}
 
