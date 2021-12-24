@@ -482,7 +482,7 @@ spec:
   - from:
     - source:
       notRequestPrincipals: ["*"]
-      to:
+    to:
     - operation:
         paths: ["/headers"]
 EOF
