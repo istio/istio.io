@@ -481,10 +481,10 @@ spec:
   rules:
   - from:
     - source:
-      notRequestPrincipals: ["*"]
+        notRequestPrincipals: ["*"]
     to:
     - operation:
-       paths: ["/headers"]
+        paths: ["/headers"]
 EOF
 {{< /text >}}
 
