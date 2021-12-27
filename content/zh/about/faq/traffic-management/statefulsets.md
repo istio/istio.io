@@ -1,5 +1,5 @@
 ---
-title: Istio 可以与 StatefulSets 和 headless Services 一起使用吗？
+title: Istio 可以与 StatefulSets 和 Headless Service 一起使用吗？
 weight: 35
 ---
 
