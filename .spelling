@@ -152,6 +152,7 @@ bol.com
 Bookinfo
 bookinfo
 boolean
+breakpoint
 bring-your-own-CA
 bring-your-own-identity
 Brooks
@@ -303,6 +304,7 @@ Dropdown
 DNS
 DNS_AUTO_ALLOCATE
 doc_type
+Dockerfile
 docker-compose's
 docker.io
 dogfood
@@ -374,6 +376,7 @@ GKE-Workloads
 GlueCon
 Gloo
 Gmail
+GoLand
 GoLang
 googleapis.com
 googlegroups.com
@@ -417,6 +420,7 @@ initializer
 initializers
 injector
 Inkscape
+IntelliJ
 int64
 interdependencies
 Interdependencies
