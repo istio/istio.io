@@ -491,6 +491,11 @@ $ pilot-agent completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot-age
 <td>Whether to run as CNI plugin. </td>
 </tr>
 <tr>
+<td><code>--drop-invalid</code></td>
+<td></td>
+<td>Enable invalid drop in the iptables rules </td>
+</tr>
+<tr>
 <td><code>--dry-run</code></td>
 <td><code>-n</code></td>
 <td>Do not call any external dependencies like iptables </td>
@@ -1292,6 +1297,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If set to true, enable the capture of outgoing DNS packets on port 53, redirecting to istio-agent on :15053</td>
+</tr>
+<tr>
+<td><code>ISTIO_META_INVALID_DROP</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set to true, enable the invalid drop iptables rule, default false will cause iptables reset out of window packets</td>
 </tr>
 <tr>
 <td><code>ISTIO_MULTIROOT_MESH</code></td>
