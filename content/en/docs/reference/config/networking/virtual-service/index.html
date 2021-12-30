@@ -1696,10 +1696,9 @@ Yes
 <td><code>weight</code></td>
 <td><code>int32</code></td>
 <td>
-<p>The proportion of traffic to be forwarded to the service
-version. (0-100). Sum of weights across destinations SHOULD BE == 100.
-If there is only one destination in a rule, the weight value is assumed to
-be 100.</p>
+<p>Weight specifies the relative proportion of traffic to be forwarded to the destination. A destination will receive <code>weight/(sum of all weights)</code> requests.
+If there is only one destination in a rule, it will receive all traffic.
+Otherwise, if weight is <code>0</code>, the destination will not receive any traffic.</p>
 
 </td>
 <td>
@@ -1750,9 +1749,9 @@ Yes
 <td><code>weight</code></td>
 <td><code>int32</code></td>
 <td>
-<p>The proportion of traffic to be forwarded to the service
-version. If there is only one destination in a rule, all traffic will be
-routed to it irrespective of the weight.</p>
+<p>Weight specifies the relative proportion of traffic to be forwarded to the destination. A destination will receive <code>weight/(sum of all weights)</code> requests.
+If there is only one destination in a rule, it will receive all traffic.
+Otherwise, if weight is <code>0</code>, the destination will not receive any traffic.</p>
 
 </td>
 <td>
