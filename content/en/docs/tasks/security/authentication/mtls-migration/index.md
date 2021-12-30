@@ -131,12 +131,15 @@ We recommend you use [Istio Authorization](/docs/tasks/security/authorization/au
 
 ## Lock down mutual TLS for the entire mesh
 
+The mesh-wide peer authentication policy should not have a selector and must be applied in the **root namespace**.
+
 {{< text bash >}}
 $ kubectl apply -n istio-system -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
   name: "default"
+  namespace: "istio-system"
 spec:
   mtls:
     mode: STRICT
