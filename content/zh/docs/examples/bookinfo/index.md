@@ -169,6 +169,10 @@ $ curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
 运行以下命令为 Bookinfo 服务创建的默认的目标规则：
 
 * 如果**没有**启用双向 TLS，请执行以下命令：
+    
+{{< text bash >}}
+$ kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
+{{< /text >}}
 
 {{< tip >}}
 `default` 和 `demo` 的[配置文件](/zh/docs/setup/additional-setup/config-profiles/)默认情况下启用了[自动双向TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls)。要执行双向 TLS，请使用 `samples/bookinfo/networking/destination-rule-all-mtls.yaml` 中的目标规则。
