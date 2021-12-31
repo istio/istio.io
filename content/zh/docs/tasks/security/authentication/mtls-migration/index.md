@@ -141,7 +141,7 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 然而，开启 `PERMISSIVE` 模式时，系统默认不对明文请求进行认证或授权检查。
 推荐使用 [Istio 授权](/zh/docs/tasks/security/authorization/authz-http/)来为不同的请求路径配置不同的授权策略。
 
-## 锁定整个网格的 mTLS{#lock-down-mutual-tls-for-the-entire-mesh}
+## 锁定整个网格的 mTLS{#lock-down-mutual-TLS-for-the-entire-mesh}
 
 {{< text bash >}}
 $ kubectl apply -n istio-system -f - <<EOF
