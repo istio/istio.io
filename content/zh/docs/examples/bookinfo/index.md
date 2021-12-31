@@ -167,15 +167,13 @@ $ curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
 在使用 Istio 控制 Bookinfo 版本路由之前，您需要在[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)中定义好可用的版本，命名为 *subsets* 。
 
 运行以下命令为 Bookinfo 服务创建的默认的目标规则：
-
-* 如果**没有**启用双向 TLS，请执行以下命令：
     
 {{< text bash >}}
 $ kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
 {{< /text >}}
 
 {{< tip >}}
-`default` 和 `demo` 的[配置文件](/zh/docs/setup/additional-setup/config-profiles/)默认情况下启用了[自动双向TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls)。要执行双向 TLS，请使用 `samples/bookinfo/networking/destination-rule-all-mtls.yaml` 中的目标规则。
+`default` 和 `demo` 的[配置文件](/zh/docs/setup/additional-setup/config-profiles/)默认情况下启用了[自动双向 TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls)。要强制执行双向 TLS，请使用 `samples/bookinfo/networking/destination-rule-all-mtls.yaml` 中的目标规则。
 {{< /tip >}}
 
 等待几秒钟，以使目标规则生效。
