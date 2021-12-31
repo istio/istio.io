@@ -12,7 +12,7 @@ weight: 20
 
 ## TCP 探针现在按照预期工作{#TCP-probes-now-working-as-expected}
 
-当对旧版本的 Istio 使用 TCP 探针时，检查总是成功的。TCP 探针只是简单地检查端口是否会接受连接，并且因为所有流量首先重定向到 Istio sidecar，所以 sidecar 将始终接受连接。
+当对旧版本的 Istio 使用 TCP 探针时，检查总是成功的。TCP 探针只是简单地检查端口是否会接受连接，并且因为所有流量首先重定向到 Istio Sidecar，所以 Sidecar 将始终接受连接。
 在 Istio 1.12 中，通过使用与 [HTTP 探针相同的机制](/zh/docs/ops/configuration/mesh/app-health-check/)解决了这个问题。
 因此，1.12+ 中的 TCP 探针将开始正确检查配置端口的健康状况。当您的探针以前会失败时，现在将可能会接受到意外开始失败的反馈。
 可以通过在 Istiod 部署中设置 `REWRITE_TCP_PROBES=false` 环境变量来临时禁用此更改。也可以[禁用](/zh/docs/ops/configuration/mesh/app-health-check/#liveness-and-readiness-probes-using-the-http-request-approach)整个探针重写功能（HTTP 和 TCP）。
