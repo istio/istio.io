@@ -167,7 +167,7 @@ $ curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
 在使用 Istio 控制 Bookinfo 版本路由之前，您需要在[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)中定义好可用的版本，命名为 *subsets* 。
 
 运行以下命令为 Bookinfo 服务创建的默认的目标规则：
-    
+
 {{< text bash >}}
 $ kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
 {{< /text >}}
