@@ -117,10 +117,14 @@ EOF
 此时，源自 `sleep.legacy` 的请求将响应失败。
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.foo to httpbin.foo: 200
+sleep.foo to httpbin.bar: 200
 sleep.bar to httpbin.foo: 200
-sleep.legacy to httpbin.foo: 503
+sleep.bar to httpbin.bar: 200
+sleep.legacy to httpbin.foo: 000
+command terminated with exit code 56
+sleep.legacy to httpbin.bar: 200
 {{< /text >}}
 
 如果你安装 Istio 时带有参数 `values.global.proxy.privileged=true`，那么你可以使用 `tcpdump` 来验证流量是否被加密。
@@ -136,6 +140,27 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 若无法将所有服务迁移至 Istio （注入 Envoy sidecar），则必须开启 `PERMISSIVE` 模式。
 然而，开启 `PERMISSIVE` 模式时，系统默认不对明文请求进行认证或授权检查。
 推荐使用 [Istio 授权](/zh/docs/tasks/security/authorization/authz-http/)来为不同的请求路径配置不同的授权策略。
+
+## 锁定整个网格的 mTLS{#lock-down-mutual-TLS-for-the-entire-mesh}
+
+{{< text bash >}}
+$ kubectl apply -n istio-system -f - <<EOF
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: "default"
+spec:
+  mtls:
+    mode: STRICT
+EOF
+{{< /text >}}
+
+现在，`foo` 和 `bar` 命名空间都强制执行仅双向 TLS 流量，因此您应该会看到来自 `sleep.legacy` 的请求
+访问两个命名空间的服务都失败了。
+
+{{< text bash >}}
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+{{< /text >}}
 
 ## 清除{#cleanup}
 
