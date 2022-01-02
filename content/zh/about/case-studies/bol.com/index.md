@@ -27,7 +27,7 @@ Bol.com 是荷兰最大的在线零售商，销售从书籍到电子产品再到
 
 Roland Kool 是 bol.com 团队解决这个问题的系统工程师之一。面对 Kubernetes 集群中的可用 IP 地址空间无法满足不断增长的业务需求问题，团队需要一种解决方案，使溢出的 IP 地址能够进入其他集群。此外，这种新的多集群 Kubernetes 部署将带来新的网络挑战，因为应用程序将需要一种新的方法来进行服务发现、负载均衡和安全通信。
 
-## 解决方案：具有服务网格的多集群{#solution-Multiple-Clusters-with-a-Service-Mesh}
+## 解决方案：具有服务网格的多集群{#solution-multiple-clusters-with-a-service-mesh}
 
 解决方案似乎引入额外的集群，但它们遇到了安全需求和保护服务之间流量的网络策略的问题。
 
@@ -39,7 +39,7 @@ Istio 的[多集群部署模型](/zh/docs/ops/deployment/deployment-models/#mult
 
 这些变化使 bol.com 能够通过添加新的 Kubernetes 集群来扩展新增的业务需求，同时保持服务发现、负载均衡所需的安全策略。
 
-## 为什么是 Istio?{#why-Istio?}
+## 为什么是 Istio?{#why-istio?}
 
 当 bol.com 最初开始迁移到 Kubernetes 时，Istio 的版本仅为 0.2。它似乎还没有准备好进行生产，所以他们在没有 Istio 的情况下继续前进。他们最初开始认真研究 Istio 是在 1.0 版左右，但在部署和实施方面遇到了太多问题。并且由于没有紧急的用例，他们便搁置了这个想法。
 
@@ -49,7 +49,7 @@ Istio 的[多集群部署模型](/zh/docs/ops/deployment/deployment-models/#mult
 
 Bol.com 需要一个支持多集群部署的服务网格，而 Istio 正好符合这个要求。此外，Istio 还提供了满足特定需求所需的细粒度控制。
 
-## 结果：启用 DevOps{#results-enabling-DevOps}
+## 结果：启用 DevOps{#results-enabling-devOps}
 
 “Istio 的部署是轻而易举的，”Roland Kool 解释道。“您安装它，它就会运行。”
 
