@@ -126,7 +126,7 @@ aliases:
   ([Issue #22872](https://github.com/istio/istio/issues/22872))
 
 - **更新** 将 `istioctl x create-remote-secret` 和 `istioctl x remote-clusters` 更新为最高的命令，
-并退出实验。 
+并退出实验。
   ([Issue #33799](https://github.com/istio/istio/issues/33799))
 
 - **新增** `istioctl install` 现在将对 webhook 做 `IST0139` 分析。
