@@ -39,7 +39,7 @@ Istio 的[多集群部署模型](/zh/docs/ops/deployment/deployment-models/#mult
 
 这些变化使 bol.com 能够通过添加新的 Kubernetes 集群来扩展新增的业务需求，同时保持服务发现、负载均衡所需的安全策略。
 
-## 为什么是 Istio?{#why-istio?}
+## 为什么是 Istio?{#why-istio}
 
 当 bol.com 最初开始迁移到 Kubernetes 时，Istio 的版本仅为 0.2。它似乎还没有准备好进行生产，所以他们在没有 Istio 的情况下继续前进。他们最初开始认真研究 Istio 是在 1.0 版左右，但在部署和实施方面遇到了太多问题。并且由于没有紧急的用例，他们便搁置了这个想法。
 
