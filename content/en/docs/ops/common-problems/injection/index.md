@@ -148,7 +148,7 @@ Verify the `caBundle` in the `mutatingwebhookconfiguration` matches the
 {{< text bash >}}
 $ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml -o jsonpath='{.webhooks[0].clientConfig.caBundle}' | md5sum
 4b95d2ba22ce8971c7c92084da31faf0  -
-$ kubectl -n istio-system get secret istiod-service-account-token -o jsonpath='{.data.root-cert\.pem}' | md5sum
+$ kubectl -n istio-system get configmap istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' | base64 -w 0 | md5sum
 4b95d2ba22ce8971c7c92084da31faf0  -
 {{< /text >}}
 
