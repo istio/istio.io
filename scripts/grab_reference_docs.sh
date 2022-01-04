@@ -82,7 +82,7 @@ locate_file() {
     FN=${FN%.html}
     PP=$(echo "${FNP}" | rev | cut -d'/' -f2- | rev)
     mkdir -p "${ROOTDIR}/content/zh/docs${PP}/${FN}"
-    sed -E -e 's/(href="https:\/\/istio.io.*)\.html/\1\//' -e 's/href="https:\/\/istio.io(\/[^vV])/href="\1/g' -e 's/href="\/latest\/zh\//href="\//g' "${FILENAME}" >"${ROOTDIR}/content/zh/docs${PP}/${FN}/index.html"
+    sed -E -e 's/(href="https:\/\/istio.io.*)\.html/\1\//' -e 's/href="https:\/\/istio.io(\/[^vV])/href="\1/g' -e 's/href="\/latest\/zh\//href="\/zh\//g' -e 's/href="\/docs\//href="\/zh\/docs\//g' "${FILENAME}" >"${ROOTDIR}/content/zh/docs${PP}/${FN}/index.html"
 
     LEN=${#WORK_DIR}
 

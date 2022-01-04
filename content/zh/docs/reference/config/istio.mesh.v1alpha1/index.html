@@ -82,7 +82,7 @@ No
 </tr>
 <tr id="MeshConfig-tcp_keepalive">
 <td><code>tcpKeepalive</code></td>
-<td><code><a href="/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-TCPSettings-TcpKeepalive">TcpKeepalive</a></code></td>
+<td><code><a href="/zh/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-TCPSettings-TcpKeepalive">TcpKeepalive</a></code></td>
 <td>
 <p>If set then set <code>SO_KEEPALIVE</code> on the socket to enable TCP Keepalives.</p>
 
@@ -247,7 +247,7 @@ destination. Users are strongly encouraged to use ServiceEntries
 to explicitly declare any external dependencies, instead of using
 <code>ALLOW_ANY</code>, so that traffic to these services can be
 monitored. Can be overridden at a Sidecar level by setting the
-<code>OutboundTrafficPolicy</code> in the <a href="/docs/reference/config/networking/sidecar/#OutboundTrafficPolicy">Sidecar
+<code>OutboundTrafficPolicy</code> in the <a href="/zh/docs/reference/config/networking/sidecar/#OutboundTrafficPolicy">Sidecar
 API</a>.
 Default mode is <code>ALLOW_ANY</code> which means outbound traffic to unknown destinations will be allowed.</p>
 
@@ -420,7 +420,7 @@ No
 </tr>
 <tr id="MeshConfig-locality_lb_setting">
 <td><code>localityLbSetting</code></td>
-<td><code><a href="/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting">LocalityLoadBalancerSetting</a></code></td>
+<td><code><a href="/zh/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting">LocalityLoadBalancerSetting</a></code></td>
 <td>
 <p>Locality based load balancing distribution or failover settings.</p>
 
@@ -632,7 +632,7 @@ No
 </tr>
 <tr id="MeshConfig-default_http_retry_policy">
 <td><code>defaultHttpRetryPolicy</code></td>
-<td><code><a href="/docs/reference/config/networking/virtual-service/#HTTPRetry">HTTPRetry</a></code></td>
+<td><code><a href="/zh/docs/reference/config/networking/virtual-service/#HTTPRetry">HTTPRetry</a></code></td>
 <td>
 <p>Configure the default HTTP retry policy.
 The default number of retry attempts is set at 2 for these errors:
@@ -682,7 +682,7 @@ No
 </tr>
 <tr id="ConfigSource-tls_settings">
 <td><code>tlsSettings</code></td>
-<td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
+<td><code><a href="/zh/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
 <p>Use the tls_settings to specify the tls mode to use. If the MCP server
 uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
@@ -930,7 +930,7 @@ No
 </tr>
 <tr id="MeshConfig-CA-tls_settings">
 <td><code>tlsSettings</code></td>
-<td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
+<td><code><a href="/zh/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
 <p>Use the tls<em>settings to specify the tls mode to use.
 Regarding tls</em>settings:
@@ -2373,7 +2373,7 @@ No
 </tr>
 <tr id="Tracing-tls_settings">
 <td><code>tlsSettings</code></td>
-<td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
+<td><code><a href="/zh/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
 <p>Use the tls_settings to specify the tls mode to use. If the remote tracing service
 uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
@@ -2752,7 +2752,7 @@ No
 <td><code>meshId</code></td>
 <td><code>string</code></td>
 <td>
-<p>The unique identifier for the <a href="/docs/reference/glossary/#service-mesh">service mesh</a>
+<p>The unique identifier for the <a href="/zh/docs/reference/glossary/#service-mesh">service mesh</a>
 All control planes running in the same service mesh should specify the same mesh ID.
 Mesh ID is used to label telemetry reports for cases where telemetry from multiple meshes is mixed together.</p>
 
@@ -2763,7 +2763,7 @@ No
 </tr>
 <tr id="ProxyConfig-readiness_probe">
 <td><code>readinessProbe</code></td>
-<td><code><a href="/docs/reference/config/networking/workload-group/#ReadinessProbe">ReadinessProbe</a></code></td>
+<td><code><a href="/zh/docs/reference/config/networking/workload-group/#ReadinessProbe">ReadinessProbe</a></code></td>
 <td>
 <p>VM Health Checking readiness probe. This health check config exactly mirrors the
 kubernetes readiness probe configuration both in schema and logic.
@@ -2837,7 +2837,7 @@ No
 </tr>
 <tr id="ProxyConfig-image">
 <td><code>image</code></td>
-<td><code><a href="/docs/reference/config/networking/proxy-config/#ProxyImage">ProxyImage</a></code></td>
+<td><code><a href="/zh/docs/reference/config/networking/proxy-config/#ProxyImage">ProxyImage</a></code></td>
 <td>
 <p>Specifies the details of the proxy image.</p>
 
@@ -2888,7 +2888,7 @@ No
 </tr>
 <tr id="RemoteService-tls_settings">
 <td><code>tlsSettings</code></td>
-<td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
+<td><code><a href="/zh/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
 <p>Use the <code>tls_settings</code> to specify the tls mode to use. If the remote service
 uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
@@ -2901,7 +2901,7 @@ No
 </tr>
 <tr id="RemoteService-tcp_keepalive">
 <td><code>tcpKeepalive</code></td>
-<td><code><a href="/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-TCPSettings-TcpKeepalive">TcpKeepalive</a></code></td>
+<td><code><a href="/zh/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-TCPSettings-TcpKeepalive">TcpKeepalive</a></code></td>
 <td>
 <p>If set then set <code>SO_KEEPALIVE</code> on the socket to enable TCP Keepalives.</p>
 

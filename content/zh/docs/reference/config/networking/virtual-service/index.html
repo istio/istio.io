@@ -189,7 +189,7 @@ properties of the corresponding hosts, including those for multiple
 HTTP and TCP ports. Alternatively, the traffic properties of a host
 can be defined using more than one VirtualService, with certain
 caveats. Refer to the
-<a href="/docs/ops/best-practices/traffic-management/#split-virtual-services">Operations Guide</a>
+<a href="/zh/docs/ops/best-practices/traffic-management/#split-virtual-services">Operations Guide</a>
 for details.</p>
 
 <p><em>Note for Kubernetes users</em>: When short names are used (e.g. &ldquo;reviews&rdquo;
@@ -316,7 +316,7 @@ destination.host should unambiguously refer to a service in the service
 registry. Istio&rsquo;s service registry is composed of all the services found
 in the platform&rsquo;s service registry (e.g., Kubernetes services, Consul
 services), as well as services declared through the
-<a href="/docs/reference/config/networking/service-entry/#ServiceEntry">ServiceEntry</a> resource.</p>
+<a href="/zh/docs/reference/config/networking/service-entry/#ServiceEntry">ServiceEntry</a> resource.</p>
 
 <p><em>Note for Kubernetes users</em>: When short names are used (e.g. &ldquo;reviews&rdquo;
 instead of &ldquo;reviews.default.svc.cluster.local&rdquo;), Istio will interpret
@@ -576,7 +576,7 @@ spec:
 <p>The name of a service from the service registry. Service
 names are looked up from the platform&rsquo;s service registry (e.g.,
 Kubernetes services, Consul services, etc.) and from the hosts
-declared by <a href="/docs/reference/config/networking/service-entry/#ServiceEntry">ServiceEntry</a>. Traffic forwarded to
+declared by <a href="/zh/docs/reference/config/networking/service-entry/#ServiceEntry">ServiceEntry</a>. Traffic forwarded to
 destinations that are not found in either of the two, will be dropped.</p>
 
 <p><em>Note for Kubernetes users</em>: When short names are used (e.g. &ldquo;reviews&rdquo;
@@ -2295,7 +2295,7 @@ spec:
 <td>
 <p>Number of retries to be allowed for a given request. The interval
 between retries will be determined automatically (25ms+). When request
-<code>timeout</code> of the <a href="/docs/reference/config/networking/virtual-service/#HTTPRoute">HTTP route</a>
+<code>timeout</code> of the <a href="/zh/docs/reference/config/networking/virtual-service/#HTTPRoute">HTTP route</a>
 or <code>per_try_timeout</code> is configured, the actual number of retries attempted also depends on
 the specified request <code>timeout</code> and <code>per_try_timeout</code> values.</p>
 
@@ -2310,7 +2310,7 @@ Yes
 <td>
 <p>Timeout per attempt for a given request, including the initial call and any retries. Format: 1h/1m/1s/1ms. MUST BE &gt;=1ms.
 Default is same value as request
-<code>timeout</code> of the <a href="/docs/reference/config/networking/virtual-service/#HTTPRoute">HTTP route</a>,
+<code>timeout</code> of the <a href="/zh/docs/reference/config/networking/virtual-service/#HTTPRoute">HTTP route</a>,
 which means no timeout.</p>
 
 </td>
