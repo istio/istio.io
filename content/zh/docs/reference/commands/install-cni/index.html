@@ -1,62 +1,15 @@
 ---
 WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/istio' REPO
 source_repo: https://github.com/istio/istio
-title: operator
-description: The Istio operator.
+title: install-cni
+description: Install and configure Istio CNI plugin on a node, detect and repair pod which is broken by race condition.
 generator: pkg-collateral-docs
-number_of_entries: 9
+number_of_entries: 8
 max_toc_level: 2
-remove_toc_prefix: 'operator '
+remove_toc_prefix: 'install-cni '
 ---
-<p>The Istio operator.</p>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td>Paths to a kubeconfig. Only required if out-of-cluster.  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="operator-completion">operator completion</h2>
-<p>
-Generate the autocompletion script for operator for the specified shell.
-See each sub-command&#39;s help for details on how to use the generated script.
-</p>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td>Paths to a kubeconfig. Only required if out-of-cluster.  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="operator-completion-bash">operator completion bash</h2>
-<p>
-Generate the autocompletion script for the bash shell.</p>
-<p>This script depends on the &#39;bash-completion&#39; package.
-If it is not installed already, you can install it via your OS&#39;s package manager.</p>
-<p>To load completions in your current shell session:
-$ source &lt;(operator completion bash)</p>
-<p>To load completions for every new session, execute once:
-Linux:
-  $ operator completion bash &gt; /etc/bash_completion.d/operator
-MacOS:
-  $ operator completion bash &gt; /usr/local/etc/bash_completion.d/operator</p>
-<p>You will need to start a new shell for this setup to take effect.
-  </p>
-<pre class="language-bash"><code>operator completion bash
+<p>Install and configure Istio CNI plugin on a node, detect and repair pod which is broken by race condition.</p>
+<pre class="language-bash"><code>install-cni [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -67,117 +20,29 @@ MacOS:
 </thead>
 <tbody>
 <tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td>Paths to a kubeconfig. Only required if out-of-cluster.  (default ``)</td>
+<td><code>--chained-cni-plugin</code></td>
+<td>Whether to install CNI plugin as a chained or standalone </td>
 </tr>
 <tr>
-<td><code>--no-descriptions</code></td>
-<td>disable completion descriptions </td>
-</tr>
-</tbody>
-</table>
-<h2 id="operator-completion-fish">operator completion fish</h2>
-<p>
-Generate the autocompletion script for the fish shell.</p>
-<p>To load completions in your current shell session:
-$ operator completion fish | source</p>
-<p>To load completions for every new session, execute once:
-$ operator completion fish &gt; ~/.config/fish/completions/operator.fish</p>
-<p>You will need to start a new shell for this setup to take effect.
-</p>
-<pre class="language-bash"><code>operator completion fish [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td>Paths to a kubeconfig. Only required if out-of-cluster.  (default ``)</td>
+<td><code>--cni-conf-name &lt;string&gt;</code></td>
+<td>Name of the CNI configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--no-descriptions</code></td>
-<td>disable completion descriptions </td>
-</tr>
-</tbody>
-</table>
-<h2 id="operator-completion-powershell">operator completion powershell</h2>
-<p>
-Generate the autocompletion script for powershell.</p>
-<p>To load completions in your current shell session:
-PS C:\&gt; operator completion powershell | Out-String | Invoke-Expression</p>
-<p>To load completions for every new session, add the output of the above command
-to your powershell profile.
-</p>
-<pre class="language-bash"><code>operator completion powershell [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td>Paths to a kubeconfig. Only required if out-of-cluster.  (default ``)</td>
+<td><code>--cni-enable-reinstall</code></td>
+<td>Whether to reinstall CNI configuration and binary files </td>
 </tr>
 <tr>
-<td><code>--no-descriptions</code></td>
-<td>disable completion descriptions </td>
-</tr>
-</tbody>
-</table>
-<h2 id="operator-completion-zsh">operator completion zsh</h2>
-<p>
-Generate the autocompletion script for the zsh shell.</p>
-<p>If shell completion is not already enabled in your environment you will need
-to enable it.  You can execute the following once:</p>
-<p>$ echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</p>
-<p>To load completions for every new session, execute once:
-# Linux:
-$ operator completion zsh &gt; &#34;${fpath[1]}/_operator&#34;
-# macOS:
-$ operator completion zsh &gt; /usr/local/share/zsh/site-functions/_operator</p>
-<p>You will need to start a new shell for this setup to take effect.
-</p>
-<pre class="language-bash"><code>operator completion zsh [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td>Paths to a kubeconfig. Only required if out-of-cluster.  (default ``)</td>
+<td><code>--cni-net-dir &lt;string&gt;</code></td>
+<td>Directory on the host where CNI network plugins are installed  (default `/etc/cni/net.d`)</td>
 </tr>
 <tr>
-<td><code>--no-descriptions</code></td>
-<td>disable completion descriptions </td>
+<td><code>--cni-network-config &lt;string&gt;</code></td>
+<td>CNI configuration template as a string  (default ``)</td>
 </tr>
-</tbody>
-</table>
-<h2 id="operator-server">operator server</h2>
-<p>Starts the Istio operator server</p>
-<pre class="language-bash"><code>operator server [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
 <tr>
-<th>Flags</th>
-<th>Description</th>
+<td><code>--cni-network-config-file &lt;string&gt;</code></td>
+<td>CNI config template as a file  (default ``)</td>
 </tr>
-</thead>
-<tbody>
 <tr>
 <td><code>--ctrlz_address &lt;string&gt;</code></td>
 <td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
@@ -187,12 +52,24 @@ $ operator completion zsh &gt; /usr/local/share/zsh/site-functions/_operator</p>
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
 </tr>
 <tr>
-<td><code>--force</code></td>
-<td>Proceed even with validation errors. </td>
+<td><code>--kube-ca-file &lt;string&gt;</code></td>
+<td>CA file for kubeconfig. Defaults to the same as install-cni pod  (default ``)</td>
 </tr>
 <tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td>Paths to a kubeconfig. Only required if out-of-cluster.  (default ``)</td>
+<td><code>--kubecfg-file-name &lt;string&gt;</code></td>
+<td>Name of the kubeconfig file which CNI plugin will use when interacting with API server  (default `ZZZ-istio-cni-kubeconfig`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig-mode &lt;int&gt;</code></td>
+<td>File mode of the kubeconfig file  (default `384`)</td>
+</tr>
+<tr>
+<td><code>--log-level &lt;string&gt;</code></td>
+<td>Fallback value for log level in CNI config file, if not specified in helm template  (default `warn`)</td>
+</tr>
+<tr>
+<td><code>--log-uds-address &lt;string&gt;</code></td>
+<td>The UDS server address which CNI plugin will copy log ouptut to  (default `/var/run/istio-cni/log.sock`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -200,11 +77,11 @@ $ operator completion zsh &gt; /usr/local/share/zsh/site-functions/_operator</p>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, file, grpcgen, installer, klog, kube, model, patch, processing, proxyconfig, retry, spiffe, telemetry, tpath, translator, trustBundle, util, validation, validationController, wasm, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, cni, default, install, klog, repair]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, file, grpcgen, installer, klog, kube, model, patch, processing, proxyconfig, retry, spiffe, telemetry, tpath, translator, trustBundle, util, validation, validationController, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, cni, default, install, klog, repair] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -224,7 +101,138 @@ $ operator completion zsh &gt; /usr/local/share/zsh/site-functions/_operator</p>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, file, grpcgen, installer, klog, kube, model, patch, processing, proxyconfig, retry, spiffe, telemetry, tpath, translator, trustBundle, util, validation, validationController, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, cni, default, install, klog, repair] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--monitoring-port &lt;int&gt;</code></td>
+<td>HTTP port to serve prometheus metrics  (default `15014`)</td>
+</tr>
+<tr>
+<td><code>--mounted-cni-net-dir &lt;string&gt;</code></td>
+<td>Directory on the container where CNI networks are installed  (default `/host/etc/cni/net.d`)</td>
+</tr>
+<tr>
+<td><code>--repair-broken-pod-label-key &lt;string&gt;</code></td>
+<td>The key portion of the label which will be set by the ace repair if label pods is true  (default `cni.istio.io/uninitialized`)</td>
+</tr>
+<tr>
+<td><code>--repair-broken-pod-label-value &lt;string&gt;</code></td>
+<td>The value portion of the label which will be set by the race repair if label pods is true  (default `true`)</td>
+</tr>
+<tr>
+<td><code>--repair-delete-pods</code></td>
+<td>Controller will delete pods when detecting pod broken by race condition </td>
+</tr>
+<tr>
+<td><code>--repair-enabled</code></td>
+<td>Whether to enable race condition repair or not </td>
+</tr>
+<tr>
+<td><code>--repair-field-selectors &lt;string&gt;</code></td>
+<td>A set of field selectors in label=value format that will be added to the pod list filters  (default ``)</td>
+</tr>
+<tr>
+<td><code>--repair-init-container-exit-code &lt;int&gt;</code></td>
+<td>Expected exit code for the init container when crash-looping because of CNI misconfiguration  (default `126`)</td>
+</tr>
+<tr>
+<td><code>--repair-init-container-name &lt;string&gt;</code></td>
+<td>The name of the istio init container (will crash-loop if CNI is not configured for the pod)  (default `istio-validation`)</td>
+</tr>
+<tr>
+<td><code>--repair-init-container-termination-message &lt;string&gt;</code></td>
+<td>The expected termination message for the init container when crash-looping because of CNI misconfiguration  (default ``)</td>
+</tr>
+<tr>
+<td><code>--repair-label-pods</code></td>
+<td>Controller will label pods when detecting pod broken by race condition </td>
+</tr>
+<tr>
+<td><code>--repair-label-selectors &lt;string&gt;</code></td>
+<td>A set of label selectors in label=value format that will be added to the pod list filters  (default ``)</td>
+</tr>
+<tr>
+<td><code>--repair-node-name &lt;string&gt;</code></td>
+<td>The name of the managed node (will manage all nodes if unset)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--repair-run-as-daemon</code></td>
+<td>Controller will run in a loop </td>
+</tr>
+<tr>
+<td><code>--repair-sidecar-annotation &lt;string&gt;</code></td>
+<td>An annotation key that indicates this pod contains an istio sidecar. All pods without this annotation will be ignored.The value of the annotation is ignored.  (default `sidecar.istio.io/status`)</td>
+</tr>
+<tr>
+<td><code>--skip-cni-binaries &lt;istio-cni&gt;</code></td>
+<td>Binaries that should not be installed. Currently Istio only installs one binary istio-cni  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--skip-tls-verify</code></td>
+<td>Whether to use insecure TLS in kubeconfig file </td>
+</tr>
+<tr>
+<td><code>--update-cni-binaries</code></td>
+<td>Whether to refresh existing binaries when installing CNI </td>
+</tr>
+</tbody>
+</table>
+<h2 id="install-cni-completion">install-cni completion</h2>
+<p>
+Generate the autocompletion script for install-cni for the specified shell.
+See each sub-command&#39;s help for details on how to use the generated script.
+</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, cni, default, install, klog, repair]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, cni, default, install, klog, repair] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, cni, default, install, klog, repair] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -232,9 +240,293 @@ $ operator completion zsh &gt; /usr/local/share/zsh/site-functions/_operator</p>
 </tr>
 </tbody>
 </table>
-<h2 id="operator-version">operator version</h2>
+<h2 id="install-cni-completion-bash">install-cni completion bash</h2>
+<p>
+Generate the autocompletion script for the bash shell.</p>
+<p>This script depends on the &#39;bash-completion&#39; package.
+If it is not installed already, you can install it via your OS&#39;s package manager.</p>
+<p>To load completions in your current shell session:
+$ source &lt;(install-cni completion bash)</p>
+<p>To load completions for every new session, execute once:
+Linux:
+  $ install-cni completion bash &gt; /etc/bash_completion.d/install-cni
+MacOS:
+  $ install-cni completion bash &gt; /usr/local/etc/bash_completion.d/install-cni</p>
+<p>You will need to start a new shell for this setup to take effect.
+  </p>
+<pre class="language-bash"><code>install-cni completion bash
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, cni, default, install, klog, repair]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, cni, default, install, klog, repair] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, cni, default, install, klog, repair] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
+</tr>
+</tbody>
+</table>
+<h2 id="install-cni-completion-fish">install-cni completion fish</h2>
+<p>
+Generate the autocompletion script for the fish shell.</p>
+<p>To load completions in your current shell session:
+$ install-cni completion fish | source</p>
+<p>To load completions for every new session, execute once:
+$ install-cni completion fish &gt; ~/.config/fish/completions/install-cni.fish</p>
+<p>You will need to start a new shell for this setup to take effect.
+</p>
+<pre class="language-bash"><code>install-cni completion fish [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, cni, default, install, klog, repair]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, cni, default, install, klog, repair] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, cni, default, install, klog, repair] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
+</tr>
+</tbody>
+</table>
+<h2 id="install-cni-completion-powershell">install-cni completion powershell</h2>
+<p>
+Generate the autocompletion script for powershell.</p>
+<p>To load completions in your current shell session:
+PS C:\&gt; install-cni completion powershell | Out-String | Invoke-Expression</p>
+<p>To load completions for every new session, add the output of the above command
+to your powershell profile.
+</p>
+<pre class="language-bash"><code>install-cni completion powershell [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, cni, default, install, klog, repair]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, cni, default, install, klog, repair] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, cni, default, install, klog, repair] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
+</tr>
+</tbody>
+</table>
+<h2 id="install-cni-completion-zsh">install-cni completion zsh</h2>
+<p>
+Generate the autocompletion script for the zsh shell.</p>
+<p>If shell completion is not already enabled in your environment you will need
+to enable it.  You can execute the following once:</p>
+<p>$ echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</p>
+<p>To load completions for every new session, execute once:
+# Linux:
+$ install-cni completion zsh &gt; &#34;${fpath[1]}/_install-cni&#34;
+# macOS:
+$ install-cni completion zsh &gt; /usr/local/share/zsh/site-functions/_install-cni</p>
+<p>You will need to start a new shell for this setup to take effect.
+</p>
+<pre class="language-bash"><code>install-cni completion zsh [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, cni, default, install, klog, repair]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, cni, default, install, klog, repair] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, cni, default, install, klog, repair] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
+</tr>
+</tbody>
+</table>
+<h2 id="install-cni-version">install-cni version</h2>
 <p>Prints out build version information</p>
-<pre class="language-bash"><code>operator version [flags]
+<pre class="language-bash"><code>install-cni version [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -246,9 +538,59 @@ $ operator completion zsh &gt; /usr/local/share/zsh/site-functions/_operator</p>
 </thead>
 <tbody>
 <tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
 <td></td>
-<td>Paths to a kubeconfig. Only required if out-of-cluster.  (default ``)</td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, cni, default, install, klog, repair]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, cni, default, install, klog, repair] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, cni, default, install, klog, repair] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
@@ -263,7 +605,7 @@ $ operator completion zsh &gt; /usr/local/share/zsh/site-functions/_operator</p>
 </tbody>
 </table>
 <h2 id="envvars">Environment variables</h2>
-These environment variables affect the behavior of the <code>operator</code> command. Please use with caution as these environment variables are experimental and can change anytime.
+These environment variables affect the behavior of the <code>install-cni</code> command. Please use with caution as these environment variables are experimental and can change anytime.
 <table class="envvars">
 <thead>
 <tr>
@@ -287,16 +629,46 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>The cert signer domain info</td>
 </tr>
 <tr>
-<td><code>CLOUD_PLATFORM</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Clound Platform on which proxy is running, if not specified,Istio will try to discover the platform. Valid platform values aws,azure,gcp,none.</td>
+<td><code>CHAINED_CNI_PLUGIN</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Whether to install CNI plugin as a chained or standalone</td>
 </tr>
 <tr>
 <td><code>CLUSTER_ID</code></td>
 <td>String</td>
 <td><code>Kubernetes</code></td>
 <td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
+</tr>
+<tr>
+<td><code>CNI_CONF_NAME</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Name of the CNI configuration file</td>
+</tr>
+<tr>
+<td><code>CNI_ENABLE_REINSTALL</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Whether to reinstall CNI configuration and binary files</td>
+</tr>
+<tr>
+<td><code>CNI_NETWORK_CONFIG</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>CNI configuration template as a string</td>
+</tr>
+<tr>
+<td><code>CNI_NETWORK_CONFIG_FILE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>CNI config template as a file</td>
+</tr>
+<tr>
+<td><code>CNI_NET_DIR</code></td>
+<td>String</td>
+<td><code>/etc/cni/net.d</code></td>
+<td>Directory on the host where CNI network plugins are installed</td>
 </tr>
 <tr>
 <td><code>ENABLE_AUTO_MTLS_CHECK_POLICIES</code></td>
@@ -353,12 +725,6 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If true, the DNS name table for a headless service will resolve to same-network endpoints in any cluster.</td>
 </tr>
 <tr>
-<td><code>ENABLE_PROBE_KEEPALIVE_CONNECTIONS</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, readiness probes will keep the connection from pilot-agent to the application alive. This mirrors older Istio versions&#39; behaviors, but not kubelet&#39;s.</td>
-</tr>
-<tr>
 <td><code>ENABLE_WASM_TELEMETRY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -369,18 +735,6 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If this is set to true, one Istiod will control remote clusters including CA.</td>
-</tr>
-<tr>
-<td><code>GCP_METADATA</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Pipe separated GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
-</tr>
-<tr>
-<td><code>GCP_QUOTA_PROJECT</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Allows specification of a quota project to be used in requests to GCP APIs.</td>
 </tr>
 <tr>
 <td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
@@ -399,12 +753,6 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Istio agent will intercept ECDS resource update, downloads Wasm module, and replaces Wasm module remote load with downloaded local module file.</td>
-</tr>
-<tr>
-<td><code>ISTIO_BOOTSTRAP</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
 </tr>
 <tr>
 <td><code>ISTIO_DEFAULT_REQUEST_TIMEOUT</code></td>
@@ -443,28 +791,40 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If enabled, mesh will support certificates signed by more than one trustAnchor for ISTIO_MUTUAL mTLS</td>
 </tr>
 <tr>
-<td><code>ISTIO_PROMETHEUS_ANNOTATIONS</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>JWT_POLICY</code></td>
 <td>String</td>
 <td><code>third-party-jwt</code></td>
 <td>The JWT validation policy.</td>
 </tr>
 <tr>
-<td><code>K8S_INGRESS_NS</code></td>
+<td><code>KUBECFG_FILE_NAME</code></td>
 <td>String</td>
-<td><code></code></td>
-<td></td>
+<td><code>ZZZ-istio-cni-kubeconfig</code></td>
+<td>Name of the kubeconfig file which CNI plugin will use when interacting with API server</td>
 </tr>
 <tr>
-<td><code>K_REVISION</code></td>
+<td><code>KUBECONFIG_MODE</code></td>
+<td>Integer</td>
+<td><code>384</code></td>
+<td>File mode of the kubeconfig file</td>
+</tr>
+<tr>
+<td><code>KUBE_CA_FILE</code></td>
 <td>String</td>
 <td><code></code></td>
-<td>KNative revision, set if running in knative</td>
+<td>CA file for kubeconfig. Defaults to the same as install-cni pod</td>
+</tr>
+<tr>
+<td><code>LOG_LEVEL</code></td>
+<td>String</td>
+<td><code>warn</code></td>
+<td>Fallback value for log level in CNI config file, if not specified in helm template</td>
+</tr>
+<tr>
+<td><code>LOG_UDS_ADDRESS</code></td>
+<td>String</td>
+<td><code>/var/run/istio-cni/log.sock</code></td>
+<td>The UDS server address which CNI plugin will copy log ouptut to</td>
 </tr>
 <tr>
 <td><code>MCS_API_GROUP</code></td>
@@ -477,6 +837,18 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>String</td>
 <td><code>v1alpha1</code></td>
 <td>The version to be used for the Kubernets Multi-Cluster Services (MCS) API.</td>
+</tr>
+<tr>
+<td><code>MONITORING_PORT</code></td>
+<td>Integer</td>
+<td><code>15014</code></td>
+<td>HTTP port to serve prometheus metrics</td>
+</tr>
+<tr>
+<td><code>MOUNTED_CNI_NET_DIR</code></td>
+<td>String</td>
+<td><code>/host/etc/cni/net.d</code></td>
+<td>Directory on the container where CNI networks are installed</td>
 </tr>
 <tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
@@ -851,28 +1223,88 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>The timeout to send the XDS configuration to proxies. After this timeout is reached, Pilot will discard that push.</td>
 </tr>
 <tr>
-<td><code>POD_NAME</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>PRIORITIZED_LEADER_ELECTION</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, the default revision will steal leader locks from non-default revisions</td>
 </tr>
 <tr>
-<td><code>REQUIRE_3P_TOKEN</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>Reject k8s default tokens, without audience. If false, default K8S token will be accepted</td>
+<td><code>REPAIR_BROKEN_POD_LABEL_KEY</code></td>
+<td>String</td>
+<td><code>cni.istio.io/uninitialized</code></td>
+<td>The key portion of the label which will be set by the ace repair if label pods is true</td>
 </tr>
 <tr>
-<td><code>REWRITE_PROBE_LEGACY_LOCALHOST_DESTINATION</code></td>
+<td><code>REPAIR_BROKEN_POD_LABEL_VALUE</code></td>
+<td>String</td>
+<td><code>true</code></td>
+<td>The value portion of the label which will be set by the race repair if label pods is true</td>
+</tr>
+<tr>
+<td><code>REPAIR_DELETE_PODS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, readiness probes will be sent to &#39;localhost&#39;. Otherwise, they will be sent to the Pod&#39;s IP, matching Kubernetes&#39; behavior.</td>
+<td>Controller will delete pods when detecting pod broken by race condition</td>
+</tr>
+<tr>
+<td><code>REPAIR_ENABLED</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Whether to enable race condition repair or not</td>
+</tr>
+<tr>
+<td><code>REPAIR_FIELD_SELECTORS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>A set of field selectors in label=value format that will be added to the pod list filters</td>
+</tr>
+<tr>
+<td><code>REPAIR_INIT_CONTAINER_EXIT_CODE</code></td>
+<td>Integer</td>
+<td><code>126</code></td>
+<td>Expected exit code for the init container when crash-looping because of CNI misconfiguration</td>
+</tr>
+<tr>
+<td><code>REPAIR_INIT_CONTAINER_NAME</code></td>
+<td>String</td>
+<td><code>istio-validation</code></td>
+<td>The name of the istio init container (will crash-loop if CNI is not configured for the pod)</td>
+</tr>
+<tr>
+<td><code>REPAIR_INIT_CONTAINER_TERMINATION_MESSAGE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The expected termination message for the init container when crash-looping because of CNI misconfiguration</td>
+</tr>
+<tr>
+<td><code>REPAIR_LABEL_PODS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Controller will label pods when detecting pod broken by race condition</td>
+</tr>
+<tr>
+<td><code>REPAIR_LABEL_SELECTORS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>A set of label selectors in label=value format that will be added to the pod list filters</td>
+</tr>
+<tr>
+<td><code>REPAIR_NODE_NAME</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The name of the managed node (will manage all nodes if unset)</td>
+</tr>
+<tr>
+<td><code>REPAIR_RUN_AS_DAEMON</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Controller will run in a loop</td>
+</tr>
+<tr>
+<td><code>REPAIR_SIDECAR_ANNOTATION</code></td>
+<td>String</td>
+<td><code>sidecar.istio.io/status</code></td>
+<td>An annotation key that indicates this pod contains an istio sidecar. All pods without this annotation will be ignored.The value of the annotation is ignored.</td>
 </tr>
 <tr>
 <td><code>REWRITE_TCP_PROBES</code></td>
@@ -887,22 +1319,22 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
 </tr>
 <tr>
+<td><code>SKIP_CNI_BINARIES</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Binaries that should not be installed. Currently Istio only installs one binary `istio-cni`</td>
+</tr>
+<tr>
+<td><code>SKIP_TLS_VERIFY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Whether to use insecure TLS in kubeconfig file</td>
+</tr>
+<tr>
 <td><code>SPIFFE_BUNDLE_ENDPOINTS</code></td>
 <td>String</td>
 <td><code></code></td>
 <td>The SPIFFE bundle trust domain to endpoint mappings. Istiod retrieves the root certificate from each SPIFFE bundle endpoint and uses it to verify client certifiates from that trust domain. The endpoint must be compliant to the SPIFFE Bundle Endpoint standard. For details, please refer to https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md . No need to configure this for root certificates issued via Istiod or web-PKI based root certificates. Use || between &lt;trustdomain, endpoint&gt; tuples. Use | as delimiter between trust domain and endpoint in each tuple. For example: foo|https://url/for/foo||bar|https://url/for/bar</td>
-</tr>
-<tr>
-<td><code>TERM</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Specifies terminal type.  Use &#39;dumb&#39; to suppress color output</td>
-</tr>
-<tr>
-<td><code>TOKEN_AUDIENCES</code></td>
-<td>String</td>
-<td><code>istio-ca</code></td>
-<td>A list of comma separated audiences to check in the JWT token before issuing a certificate. The token is accepted if it matches with one of the audiences</td>
 </tr>
 <tr>
 <td><code>UNSAFE_ENABLE_ADMIN_ENDPOINTS</code></td>
@@ -915,6 +1347,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, addition runtime asserts will be performed. These checks are both expensive and panic on failure. As a result, this should be used only for testing.</td>
+</tr>
+<tr>
+<td><code>UPDATE_CNI_BINARIES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Whether to refresh existing binaries when installing CNI</td>
 </tr>
 <tr>
 <td><code>VALIDATION_WEBHOOK_CONFIG_NAME</code></td>
@@ -934,12 +1372,6 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td><code>true</code></td>
 <td>If true, will authenticate XDS clients.</td>
 </tr>
-<tr>
-<td><code>XDS_AUTH_PLAINTEXT</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>Authenticate plain text requests - used if Istiod is behind a gateway handling TLS</td>
-</tr>
 </tbody>
 </table>
 <h2 id="metrics">Exported metrics</h2>
@@ -948,94 +1380,9 @@ These environment variables affect the behavior of the <code>operator</code> com
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>auto_registration_deletes_total</code></td><td><code>Sum</code></td><td>Total number of auto registration cleaned up by periodic timer.</td></tr>
-<tr><td><code>auto_registration_errors_total</code></td><td><code>Sum</code></td><td>Total number of auto registration errors.</td></tr>
-<tr><td><code>auto_registration_success_total</code></td><td><code>Sum</code></td><td>Total number of successful auto registrations.</td></tr>
-<tr><td><code>auto_registration_unregister_total</code></td><td><code>Sum</code></td><td>Total number of unregistrations.</td></tr>
-<tr><td><code>auto_registration_updates_total</code></td><td><code>Sum</code></td><td>Total number of auto registration updates.</td></tr>
-<tr><td><code>cache_flush_total</code></td><td><code>Sum</code></td><td>number of times operator cache was flushed</td></tr>
-<tr><td><code>controller_sync_errors_total</code></td><td><code>Sum</code></td><td>Total number of errorMetric syncing controllers.</td></tr>
-<tr><td><code>cr_deletion_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR deleted</td></tr>
-<tr><td><code>cr_merge_failure_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR merge failures</td></tr>
-<tr><td><code>cr_validation_error_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR validation failures</td></tr>
-<tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
-<tr><td><code>galley_validation_config_delete_error</code></td><td><code>Count</code></td><td>k8s webhook configuration delete error</td></tr>
-<tr><td><code>galley_validation_config_load</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)loads</td></tr>
-<tr><td><code>galley_validation_config_load_error</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)load error</td></tr>
-<tr><td><code>galley_validation_config_update_error</code></td><td><code>Count</code></td><td>k8s webhook configuration update error</td></tr>
-<tr><td><code>galley_validation_config_updates</code></td><td><code>Count</code></td><td>k8s webhook configuration updates</td></tr>
-<tr><td><code>get_cr_error_total</code></td><td><code>Sum</code></td><td>Number of times fetching CR from apiserver failed</td></tr>
 <tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
-<tr><td><code>istiod_managed_clusters</code></td><td><code>LastValue</code></td><td>Number of clusters managed by istiod</td></tr>
-<tr><td><code>legacy_path_translation_total</code></td><td><code>Sum</code></td><td>Number of times a legacy API path is translated</td></tr>
-<tr><td><code>manifest_patch_error_total</code></td><td><code>Sum</code></td><td>Number of times K8S patch overlays failed</td></tr>
-<tr><td><code>manifest_render_error_total</code></td><td><code>Sum</code></td><td>Number of times error occurred during rendering output manifest</td></tr>
-<tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
-<tr><td><code>owned_resource_total</code></td><td><code>LastValue</code></td><td>Number of resources currently owned by the operator</td></tr>
-<tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
-<tr><td><code>pilot_conflict_outbound_listener_http_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard http listeners with current wildcard tcp listener.</td></tr>
-<tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_http</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard tcp listeners with current wildcard http listener.</td></tr>
-<tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
-<tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
-<tr><td><code>pilot_duplicate_envoy_clusters</code></td><td><code>LastValue</code></td><td>Duplicate envoy clusters caused by service entries with same hostname</td></tr>
-<tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
-<tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
-<tr><td><code>pilot_inbound_updates</code></td><td><code>Sum</code></td><td>Total number of updates received by pilot.</td></tr>
-<tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
-<tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
-<tr><td><code>pilot_k8s_cfg_events</code></td><td><code>Sum</code></td><td>Events from k8s config.</td></tr>
-<tr><td><code>pilot_k8s_endpoints_pending_pod</code></td><td><code>LastValue</code></td><td>Number of endpoints that do not currently have any corresponding pods.</td></tr>
-<tr><td><code>pilot_k8s_endpoints_with_no_pods</code></td><td><code>Sum</code></td><td>Endpoints that does not have any corresponding pods.</td></tr>
-<tr><td><code>pilot_k8s_reg_events</code></td><td><code>Sum</code></td><td>Events from k8s registry.</td></tr>
-<tr><td><code>pilot_no_ip</code></td><td><code>LastValue</code></td><td>Pods not found in the endpoint table, possibly invalid.</td></tr>
-<tr><td><code>pilot_proxy_convergence_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between config change and a proxy receiving all required configuration.</td></tr>
-<tr><td><code>pilot_proxy_queue_time</code></td><td><code>Distribution</code></td><td>Time in seconds, a proxy is in the push queue before being dequeued.</td></tr>
-<tr><td><code>pilot_push_triggers</code></td><td><code>Sum</code></td><td>Total number of times a push was triggered, labeled by reason for the push.</td></tr>
-<tr><td><code>pilot_sds_certificate_errors_total</code></td><td><code>Sum</code></td><td>Total number of failures to fetch SDS key and certificate.</td></tr>
-<tr><td><code>pilot_services</code></td><td><code>LastValue</code></td><td>Total services known to pilot.</td></tr>
-<tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
-<tr><td><code>pilot_total_xds_internal_errors</code></td><td><code>Sum</code></td><td>Total number of internal XDS errors in pilot.</td></tr>
-<tr><td><code>pilot_total_xds_rejects</code></td><td><code>Sum</code></td><td>Total number of XDS responses from pilot rejected by proxy.</td></tr>
-<tr><td><code>pilot_virt_services</code></td><td><code>LastValue</code></td><td>Total virtual services known to pilot.</td></tr>
-<tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
-<tr><td><code>pilot_xds</code></td><td><code>LastValue</code></td><td>Number of endpoints connected to this pilot using XDS.</td></tr>
-<tr><td><code>pilot_xds_cds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected CDS configs.</td></tr>
-<tr><td><code>pilot_xds_config_size_bytes</code></td><td><code>Distribution</code></td><td>Distribution of configuration sizes pushed to clients</td></tr>
-<tr><td><code>pilot_xds_delayed_push_timeouts_total</code></td><td><code>Sum</code></td><td>Total number of XDS pushes that are delayed and timed out</td></tr>
-<tr><td><code>pilot_xds_delayed_pushes_total</code></td><td><code>Sum</code></td><td>Total number of XDS pushes that are delayed.</td></tr>
-<tr><td><code>pilot_xds_eds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected EDS.</td></tr>
-<tr><td><code>pilot_xds_expired_nonce</code></td><td><code>Sum</code></td><td>Total number of XDS requests with an expired nonce.</td></tr>
-<tr><td><code>pilot_xds_lds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected LDS.</td></tr>
-<tr><td><code>pilot_xds_push_context_errors</code></td><td><code>Sum</code></td><td>Number of errors (timeouts) initiating push context.</td></tr>
-<tr><td><code>pilot_xds_push_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to push lds, rds, cds and eds.</td></tr>
-<tr><td><code>pilot_xds_pushes</code></td><td><code>Sum</code></td><td>Pilot build and send errors for lds, rds, cds and eds.</td></tr>
-<tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
-<tr><td><code>pilot_xds_send_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to send generated configuration.</td></tr>
-<tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
-<tr><td><code>remote_cluster_sync_timeouts_total</code></td><td><code>Sum</code></td><td>Number of times remote clusters took too long to sync, causing slow startup that excludes remote clusters.</td></tr>
-<tr><td><code>render_manifest_total</code></td><td><code>Sum</code></td><td>Number of component manifests rendered</td></tr>
-<tr><td><code>resource_creation_total</code></td><td><code>Sum</code></td><td>Number of resources created by the operator</td></tr>
-<tr><td><code>resource_deletion_total</code></td><td><code>Sum</code></td><td>Number of resources deleted by the operator</td></tr>
-<tr><td><code>resource_prune_total</code></td><td><code>Sum</code></td><td>Number of resources pruned by the operator</td></tr>
-<tr><td><code>resource_update_total</code></td><td><code>Sum</code></td><td>Number of resources updated by the operator</td></tr>
-<tr><td><code>scrape_failures_total</code></td><td><code>Sum</code></td><td>The total number of failed scrapes.</td></tr>
-<tr><td><code>scrapes_total</code></td><td><code>Sum</code></td><td>The total number of scrapes.</td></tr>
-<tr><td><code>sidecar_injection_failure_total</code></td><td><code>Sum</code></td><td>Total number of failed sidecar injection requests.</td></tr>
-<tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of sidecar injection requests.</td></tr>
-<tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped sidecar injection requests.</td></tr>
-<tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful sidecar injection requests.</td></tr>
-<tr><td><code>startup_duration_seconds</code></td><td><code>LastValue</code></td><td>The time from the process starting to being marked ready.</td></tr>
-<tr><td><code>version</code></td><td><code>LastValue</code></td><td>Version of operator binary</td></tr>
-<tr><td><code>wasm_cache_entries</code></td><td><code>LastValue</code></td><td>number of Wasm remote fetch cache entries.</td></tr>
-<tr><td><code>wasm_cache_lookup_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetch cache lookups.</td></tr>
-<tr><td><code>wasm_config_conversion_count</code></td><td><code>Sum</code></td><td>number of Wasm config conversion count and results, including success, no remote load, marshal failure, remote fetch failure, miss remote fetch hint.</td></tr>
-<tr><td><code>wasm_config_conversion_duration</code></td><td><code>Distribution</code></td><td>Total time in milliseconds istio-agent spends on converting remote load in Wasm config.</td></tr>
-<tr><td><code>wasm_remote_fetch_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetches and results, including success, download failure, and checksum mismatch.</td></tr>
-<tr><td><code>webhook_patch_attempts_total</code></td><td><code>Sum</code></td><td>Webhook patching attempts</td></tr>
-<tr><td><code>webhook_patch_failures_total</code></td><td><code>Sum</code></td><td>Webhook patching total failures</td></tr>
-<tr><td><code>webhook_patch_retries_total</code></td><td><code>Sum</code></td><td>Webhook patching retries</td></tr>
-<tr><td><code>xds_cache_evictions</code></td><td><code>Sum</code></td><td>Total number of xds cache evictions.</td></tr>
-<tr><td><code>xds_cache_reads</code></td><td><code>Sum</code></td><td>Total number of xds cache xdsCacheReads.</td></tr>
-<tr><td><code>xds_cache_size</code></td><td><code>LastValue</code></td><td>Current size of xds cache</td></tr>
+<tr><td><code>istio_cni_install_ready</code></td><td><code>LastValue</code></td><td>Whether the CNI plugin installation is ready or not</td></tr>
+<tr><td><code>istio_cni_installs_total</code></td><td><code>Sum</code></td><td>Total number of CNI plugins installed by the Istio CNI installer</td></tr>
+<tr><td><code>istio_cni_repair_pods_repaired_total</code></td><td><code>Sum</code></td><td>Total number of pods repaired by repair controller</td></tr>
 </tbody>
 </table>

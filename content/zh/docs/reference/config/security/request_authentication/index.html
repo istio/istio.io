@@ -13,7 +13,7 @@ number_of_entries: 1
 <h2 id="RequestAuthentication">RequestAuthentication</h2>
 <section>
 <p>RequestAuthentication defines what request authentication methods are supported by a workload.
-If will reject a request if the request contains invalid authentication information, based on the
+It will reject a request if the request contains invalid authentication information, based on the
 configured authentication rules. A request that does not contain any authentication credentials
 will be accepted but will not have any authenticated identity. To restrict access to authenticated
 requests only, this should be accompanied by an authorization rule.
@@ -26,8 +26,8 @@ Examples:</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
- name: httpbin
- namespace: foo
+  name: httpbin
+  namespace: foo
 spec:
   selector:
     matchLabels:
@@ -39,82 +39,182 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
- name: httpbin
- namespace: foo
+  name: httpbin
+  namespace: foo
 spec:
- selector:
-   matchLabels:
-     app: httpbin
- rules:
- - from:
-   - source:
-       requestPrincipals: [&quot;*&quot;]
+  selector:
+    matchLabels:
+      app: httpbin
+  rules:
+  - from:
+    - source:
+        requestPrincipals: [&quot;*&quot;]
+</code></pre>
+
+<ul>
+<li>A policy in the root namespace (&ldquo;istio-system&rdquo; by default) applies to workloads in all namespaces
+in a mesh. The following policy makes all workloads only accept requests that contain a
+valid JWT token.</li>
+</ul>
+
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: req-authn-for-all
+  namespace: istio-system
+spec:
+  jwtRules:
+  - issuer: &quot;issuer-foo&quot;
+    jwksUri: https://example.com/.well-known/jwks.json
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: require-jwt-for-all
+  namespace: istio-system
+spec:
+  rules:
+  - from:
+    - source:
+        requestPrincipals: [&quot;*&quot;]
 </code></pre>
 
 <ul>
 <li>The next example shows how to set a different JWT requirement for a different <code>host</code>. The <code>RequestAuthentication</code>
-declares it can accpet JWTs issuer by either <code>issuer-foo</code> or <code>issuer-bar</code> (the public key set is implicitly
-set from the OpenID Connect spec).
-&ldquo;`yaml
-apiVersion: security.istio.io/v1beta1
+declares it can accept JWTs issued by either <code>issuer-foo</code> or <code>issuer-bar</code> (the public key set is implicitly
+set from the OpenID Connect spec).</li>
+</ul>
+
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
-name: httpbin
-namespace: foo
+  name: httpbin
+  namespace: foo
 spec:
-selector:
-matchLabels:
-  app: httpbin
-jwtRules:
+  selector:
+    matchLabels:
+      app: httpbin
+  jwtRules:
+  - issuer: &quot;issuer-foo&quot;
+  - issuer: &quot;issuer-bar&quot;
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: httpbin
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  rules:
+  - from:
+    - source:
+        requestPrincipals: [&quot;issuer-foo/*&quot;]
+    to:
+    - operation:
+        hosts: [&quot;example.com&quot;]
+  - from:
+    - source:
+        requestPrincipals: [&quot;issuer-bar/*&quot;]
+    to:
+    - operation:
+        hosts: [&quot;another-host.com&quot;]
+</code></pre>
 
 <ul>
-<li>issuer: &ldquo;issuer-foo&rdquo;</li>
-<li>issuer: &ldquo;issuer-bar&rdquo;
-&mdash;
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-name: httpbin
-namespace: foo
-spec:
-selector:
-matchLabels:
-app: httpbin
-rules:</li>
-<li>from:</li>
-<li>source:
-requestPrincipals: [&ldquo;issuer-foo/*&rdquo;]
-to:
-hosts: [&ldquo;example.com&rdquo;]</li>
-<li>from:</li>
-<li>source:
-requestPrincipals: [&ldquo;issuer-bar/<em>&rdquo;]
-to:
-hosts: [&ldquo;another-host.com&rdquo;]
-<code>
-- You can fine tune the authorization policy to set different requirement per path. For example,
-to require JWT on all paths, except /healthz, the same `RequestAuthentication` can be used, but the
-authorization policy could be:
-</code>yaml
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-name: httpbin
-namespace: foo
-spec:
-selector:
-matchLabels:
-app: httpbin
-rules:
-- from:
-- source:
-requestPrincipals: [&rdquo;</em>&rdquo;]
-- to:
-- operation:
-paths: [&ldquo;/healthz]
-&ldquo;`</li>
-</ul></li>
+<li>You can fine tune the authorization policy to set different requirement per path. For example,
+to require JWT on all paths, except /healthz, the same <code>RequestAuthentication</code> can be used, but the
+authorization policy could be:</li>
 </ul>
+
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: httpbin
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  rules:
+  - from:
+    - source:
+        requestPrincipals: [&quot;*&quot;]
+  - to:
+    - operation:
+        paths: [&quot;/healthz&quot;]
+</code></pre>
+
+<p>[Experimental] Routing based on derived <a href="/latest/docs/reference/config/security/conditions/">metadata</a>
+is now supported. A prefix &lsquo;@&rsquo; is used to denote a match against internal metadata instead of the headers in the request.
+Currently this feature is only supported for the following metadata:</p>
+
+<ul>
+<li><code>request.auth.claims.{claim-name}[.{sub-claim}]*</code> which are extracted from validated JWT tokens. The claim name
+currently does not support the <code>.</code> character. Examples: <code>request.auth.claims.sub</code> and <code>request.auth.claims.name.givenName</code>.</li>
+</ul>
+
+<p>The use of matches against JWT claim metadata is only supported in Gateways. The following example shows:</p>
+
+<ul>
+<li>RequestAuthentication to decode and validate a JWT. This also makes the <code>@request.auth.claims</code> available for use in the VirtualService.</li>
+<li>AuthorizationPolicy to check for valid principals in the request. This makes the JWT required for the request.</li>
+<li>VirtualService to route the request based on the &ldquo;sub&rdquo; claim.</li>
+</ul>
+
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: jwt-on-ingress
+  namespace: istio-system
+spec:
+ selector:
+   matchLabels:
+     app: istio-ingressgateway
+  jwtRules:
+  - issuer: &quot;example.com&quot;
+    jwksUri: https://example.com/.well-known/jwks.json
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: require-jwt
+  namespace: istio-system
+spec:
+ selector:
+   matchLabels:
+     app: istio-ingressgateway
+  rules:
+  - from:
+    - source:
+        requestPrincipals: [&quot;*&quot;]
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: route-jwt
+spec:
+  hosts:
+  - foo.prod.svc.cluster.local
+  gateways:
+  - istio-ingressgateway
+  http:
+  - name: &quot;v2&quot;
+    match:
+    - headers:
+        &quot;@request.auth.claims.sub&quot;:
+          exact: &quot;dev&quot;
+    route:
+    - destination:
+        host: foo.prod.svc.cluster.local
+        subset: v2
+  - name: &quot;default&quot;
+    route:
+    - destination:
+        host: foo.prod.svc.cluster.local
+        subset: v1
+</code></pre>
 
 <table class="message-fields">
 <thead>
@@ -128,10 +228,13 @@ paths: [&ldquo;/healthz]
 <tbody>
 <tr id="RequestAuthentication-selector">
 <td><code>selector</code></td>
-<td><code><a href="/zh/docs/reference/config/type/v1beta1/workload-selector.html#WorkloadSelector">WorkloadSelector</a></code></td>
+<td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
-<p>The selector determines the workloads to apply the RequestAuthentication on.
-If not set, the policy will be applied to all workloads in the same namespace as the policy.</p>
+<p>Optional. The selector decides where to apply the request authentication policy. The selector will match with workloads
+in the same namespace as the request authentication policy. If the request authentication policy is in the root namespace,
+the selector will additionally match with workloads in all namespaces.</p>
+
+<p>If not set, the selector will match all workloads.</p>
 
 </td>
 <td>
@@ -140,11 +243,11 @@ No
 </tr>
 <tr id="RequestAuthentication-jwt_rules">
 <td><code>jwtRules</code></td>
-<td><code><a href="/zh/docs/reference/config/security/jwt.html#JWTRule">JWTRule[]</a></code></td>
+<td><code><a href="/docs/reference/config/security/jwt/#JWTRule">JWTRule[]</a></code></td>
 <td>
 <p>Define the list of JWTs that can be validated at the selected workloads&rsquo; proxy. A valid token
 will be used to extract the authenticated identity.
-Each rule will be activated only when a token is presented at the location recorgnized by the
+Each rule will be activated only when a token is presented at the location recognized by the
 rule. The token will be validated based on the JWT rule config. If validation fails, the request will
 be rejected.
 Note: if more than one token is presented (at different locations), the output principal is nondeterministic.</p>

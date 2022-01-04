@@ -10,47 +10,6 @@ schema: istio.security.v1beta1.JWTRule
 aliases: [/docs/reference/config/security/v1beta1/jwt]
 number_of_entries: 2
 ---
-<h2 id="JWTHeader">JWTHeader</h2>
-<section>
-<p>This message specifies a header location to extract JWT token.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="JWTHeader-name">
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>
-<p>The HTTP header name.</p>
-
-</td>
-<td>
-Yes
-</td>
-</tr>
-<tr id="JWTHeader-prefix">
-<td><code>prefix</code></td>
-<td><code>string</code></td>
-<td>
-<p>The prefix that should be stripped before decoding the token.
-For example, for &ldquo;Authorization: Bearer <token>&rdquo;, prefix=&ldquo;Bearer &rdquo; with a space at the end.
-If the header doesn&rsquo;t have this exact prefix, it is considerred invalid.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="JWTRule">JWTRule</h2>
 <section>
 <p>JSON Web Token (JWT) token format for authentication as defined by
@@ -62,8 +21,8 @@ authentication flow.</p>
 
 <p>Spec for a JWT that is issued by <code>https://example.com</code>, with the audience claims must be either
 <code>bookstore_android.apps.example.com</code> or <code>bookstore_web.apps.example.com</code>.
-The token should be presented at the <code>Authorization</code> header (default). The Json web key set (JWKS)
-will be discovered followwing OpenID Connect protocol.</p>
+The token should be presented at the <code>Authorization</code> header (default). The JSON Web Key Set (JWKS)
+will be discovered following OpenID Connect protocol.</p>
 
 <pre><code class="language-yaml">issuer: https://example.com
 audiences:
@@ -71,12 +30,12 @@ audiences:
   bookstore_web.apps.example.com
 </code></pre>
 
-<p>This example specifies token in non-default location (<code>x-goog-iap-jwt-assertion</code> header). It also
+<p>This example specifies a token in a non-default location (<code>x-goog-iap-jwt-assertion</code> header). It also
 defines the URI to fetch JWKS explicitly.</p>
 
 <pre><code class="language-yaml">issuer: https://example.com
 jwksUri: https://example.com/.secret/jwks.json
-jwtHeaders:
+fromHeaders:
 - &quot;x-goog-iap-jwt-assertion&quot;
 </code></pre>
 
@@ -144,7 +103,7 @@ Google service account).</p>
 
 <p>Example: <code>https://www.googleapis.com/oauth2/v1/certs</code></p>
 
-<p>Note: Only one of jwks<em>uri and jwks should be used. jwks</em>uri will be ignored if it does.</p>
+<p>Note: Only one of <code>jwksUri</code> and <code>jwks</code> should be used.</p>
 
 </td>
 <td>
@@ -158,7 +117,7 @@ No
 <p>JSON Web Key Set of public keys to validate signature of the JWT.
 See https://auth0.com/docs/jwks.</p>
 
-<p>Note: Only one of jwks<em>uri and jwks should be used. jwks</em>uri will be ignored if it does.</p>
+<p>Note: Only one of <code>jwksUri</code> and <code>jwks</code> should be used.</p>
 
 </td>
 <td>
@@ -172,7 +131,7 @@ No
 <p>List of header locations from which JWT is expected. For example, below is the location spec
 if JWT is expected to be found in <code>x-jwt-assertion</code> header, and have &ldquo;Bearer &rdquo; prefix:</p>
 
-<pre><code>  fromHeaders:
+<pre><code class="language-yaml">  fromHeaders:
   - name: x-jwt-assertion
     prefix: &quot;Bearer &quot;
 </code></pre>
@@ -189,7 +148,7 @@ No
 <p>List of query parameters from which JWT is expected. For example, if JWT is provided via query
 parameter <code>my_token</code> (e.g /path?my_token=<JWT>), the config is:</p>
 
-<pre><code>  fromParams:
+<pre><code class="language-yaml">  fromParams:
   - &quot;my_token&quot;
 </code></pre>
 
@@ -215,7 +174,48 @@ No
 <td><code>forwardOriginalToken</code></td>
 <td><code>bool</code></td>
 <td>
-<p>If set to true, the orginal token will be kept for the ustream request. Default is false.</p>
+<p>If set to true, the original token will be kept for the upstream request. Default is false.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="JWTHeader">JWTHeader</h2>
+<section>
+<p>This message specifies a header location to extract JWT token.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="JWTHeader-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>The HTTP header name.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="JWTHeader-prefix">
+<td><code>prefix</code></td>
+<td><code>string</code></td>
+<td>
+<p>The prefix that should be stripped before decoding the token.
+For example, for &ldquo;Authorization: Bearer <token>&rdquo;, prefix=&ldquo;Bearer &rdquo; with a space at the end.
+If the header doesn&rsquo;t have this exact prefix, it is considered invalid.</p>
 
 </td>
 <td>
