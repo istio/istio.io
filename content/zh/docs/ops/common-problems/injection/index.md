@@ -129,7 +129,7 @@ Warning  FailedCreate  3m (x17 over 8m)  replicaset-controller  Error creating: 
 {{< text bash >}}
 $ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml -o jsonpath='{.webhooks[0].clientConfig.caBundle}' | md5sum
 4b95d2ba22ce8971c7c92084da31faf0  -
-$ kubectl -n istio-system get configmap istio-ca-root-cert -o jsonpath="{.data.root-cert\.pem}" | base64 -w 0 | md5sum
+$ kubectl -n istio-system get configmap istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' | base64 -w 0 | md5sum
 4b95d2ba22ce8971c7c92084da31faf0  -
 {{< /text >}}
 
