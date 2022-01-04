@@ -56,7 +56,7 @@ SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ROOTDIR=$(dirname "${SCRIPTPATH}")
 
 WORK_DIR="$(mktemp -d)"
-COMP_OUTPUT_DIR="${ROOTDIR}/content/en/docs/reference/commands"
+COMP_OUTPUT_DIR="${ROOTDIR}/content/zh/docs/reference/commands"
 
 export GOOS=linux
 export GOARCH=amd64
@@ -81,20 +81,20 @@ locate_file() {
     FN=$(echo "${FNP}" | rev | cut -d'/' -f1 | rev)
     FN=${FN%.html}
     PP=$(echo "${FNP}" | rev | cut -d'/' -f2- | rev)
-    mkdir -p "${ROOTDIR}/content/en/docs${PP}/${FN}"
-    sed -E -e 's/(href="https:\/\/istio.io.*)\.html/\1\//' -e 's/href="https:\/\/istio.io(\/[^vV])/href="\1/g' -e 's/href="\/latest\//href="\//g' "${FILENAME}" >"${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
+    mkdir -p "${ROOTDIR}/content/zh/docs${PP}/${FN}"
+    sed -E -e 's/(href="https:\/\/istio.io.*)\.html/\1\//' -e 's/href="https:\/\/istio.io(\/[^vV])/href="\1/g' -e 's/href="\/latest\/zh\//href="\/zh\//g' -e 's/href="\/docs\//href="\/zh\/docs\//g' -e 's/\[\/docs\//\[\/zh\/docs\//g' "${FILENAME}" >"${ROOTDIR}/content/zh/docs${PP}/${FN}/index.html"
 
     LEN=${#WORK_DIR}
 
     if [[ "${REPO_URL}" != "https://github.com/istio/istio.git" && "${REPO_URL}" != "https://github.com/istio/api.git" && "${REPO_URL}" != "https://github.com/istio/proxy.git" ]]; then
-        sed -i -e 's/layout: protoc-gen-docs/layout: partner-component/g' "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
+        sed -i -e 's/layout: protoc-gen-docs/layout: partner-component/g' "${ROOTDIR}/content/zh/docs${PP}/${FN}/index.html"
     fi
 
     REPOX=${REPO_URL/.git/}
     REPOX=${REPOX//\//\\\/}
 
-    sed -i -e "s/title: /WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE '${REPOX}' REPO\ntitle: /g" "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
-    sed -i -e "s/title: /source_repo: ${REPOX}\ntitle: /g" "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
+    sed -i -e "s/title: /WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE '${REPOX}' REPO\ntitle: /g" "${ROOTDIR}/content/zh/docs${PP}/${FN}/index.html"
+    sed -i -e "s/title: /source_repo: ${REPOX}\ntitle: /g" "${ROOTDIR}/content/zh/docs${PP}/${FN}/index.html"
 }
 
 handle_feature_status_scraping() {
@@ -173,7 +173,7 @@ handle_config_analysis_messages() {
 }
 
 # delete all the existing generated files so that any stale files are removed
-find "${ROOTDIR}/content/en/docs/reference" -name '*.html' -type f -print0 | xargs -0 rm 2>/dev/null
+find "${ROOTDIR}/content/zh/docs/reference" -name '*.html' -type f -print0 | xargs -0 rm 2>/dev/null
 
 # Prepare the work directory
 mkdir -p "${WORK_DIR}"
