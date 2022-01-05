@@ -21,13 +21,13 @@ aliases:
 - **新增** 新增了对 TCP 流量 `useSourceIP` [一致哈希负载均衡的](/zh/docs/reference/config/networking/destination-rule/#LoadBalancerSettings-ConsistentHashLB)支持，在以前，这只支持 HTTP。
   ([Issue #33558](https://github.com/istio/istio/issues/33558))
 
-- **新增** 新增了对  Envoy 的支持，以在排空期间跟踪活动连接，并在活动连接变为零时退出，而不是等待整个排空持续进行。默认情况下这是禁用的，，可以通过设置 `EXIT_ON_ZERO_ACTIVE_CONNECTIONS` 为 true 来启用。
+- **新增** 新增了对 Envoy 的支持，以在排空期间跟踪活动连接，并在活动连接变为零时退出，而不是等待整个排空持续进行。默认情况下这是禁用的，可以通过设置 `EXIT_ON_ZERO_ACTIVE_CONNECTIONS` 为 true 来启用。
   ([Issue #34855](https://github.com/istio/istio/issues/34855))
 
-- **新增** 新增了对无代理的 gRPC 客户端 `DestinationRule` 中  `trafficPolicy.loadBalancer.consistentHash` 的支持。
+- **新增** 新增了对无代理的 gRPC 客户端 `DestinationRule` 中 `trafficPolicy.loadBalancer.consistentHash` 的支持。
   ([Pull Request #35333](https://github.com/istio/istio/pull/35333))
 
-- **新增** 新增了在 ServiceEntry 中，用户可以使用 `DNS_ROUND_ROBIN` 将指定 Envoy 的  `LOGICAL_DNS` 作为集群的连接类型功能。
+- **新增** 新增了在 ServiceEntry 中，用户可以使用 `DNS_ROUND_ROBIN` 将指定 Envoy 的 `LOGICAL_DNS` 作为集群的连接类型功能。
   ([Issue #35475](https://github.com/istio/istio/issues/35475))
 
 - **新增** 新增了 `failoverPriority` 负载均衡流量策略，允许用户设置用于排序端点的有序标签列表，用于对端点进行排序，以实现基于优先级的负载均衡。
@@ -99,13 +99,13 @@ aliases:
 通过默认标签指示的修订版本也将赢得领导选举资源和承担单例集群责任。
   ([Pull Request #35286](https://github.com/istio/istio/pull/35286))
 
-- **新增** 在 pod 级别为 istio-operator 和 istiod 新增了标签。
+- **新增** 在 Pod 级别为 istio-operator 和 istiod 新增了标签。
   ([Issue #33879](https://github.com/istio/istio/issues/33879))
 
 - **新增** 在 helm chart 上新增了 pilot 服务注释。
   ([Issue #35229](https://github.com/istio/istio/issues/35229))
 
-- **新增** 新增了 operator 对 arm64 API 的支持，以及新增了 nodeAffinity arm64 表达式。
+- **新增** 新增了 Operator 对 arm64 API 的支持，以及新增了 nodeAffinity arm64 表达式。
   ([Pull Request #35648](https://github.com/istio/istio/pull/35648))
 
 - **修复** 修复了使用不同协议（TCP 和 UDP）指定相同端口号导致错误合并和呈现错误的清单的错误。
@@ -151,7 +151,7 @@ aliases:
 - **修复** 修复了 `istioctl admin log` 格式。
   ([Issue #34982](https://github.com/istio/istio/issues/34982))
 
-- **修复了** 修复了在第一次安装 Istio 时没有使用 'istio-system' 作为 Istio 命名空间，APP pods（比如 httpbin）无法创建的问题。`istioctl install`， `istioctl tag set` 和 `istioctl tag generate` 将受到影响。例如，用户可以设置指定的命名空间（以 `mesh-1` 为例），通过 `istioctl install --set profile=demo --set values.global.istioNamespace=mesh-1 -y` 来安装 Istio。
+- **修复了** 修复了在第一次安装 Istio 时没有使用 'istio-system' 作为 Istio 命名空间，APP pods（比如 httpbin）无法创建的问题。`istioctl install`，`istioctl tag set` 和 `istioctl tag generate` 将受到影响。例如，用户可以设置指定的命名空间（以 `mesh-1` 为例），通过 `istioctl install --set profile=demo --set values.global.istioNamespace=mesh-1 -y` 来安装 Istio。
   ([Issue #35539](https://github.com/istio/istio/issues/35539))
 
 - **修复** 修复了当 `--exclude` 没有设置时，`istioctl bug-report` 会显示额外的默认系统命名空间的问题。
