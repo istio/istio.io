@@ -47,7 +47,7 @@ serviceSettings:
 
 {{< /tab >}}
 
-{{< tab name="global" category-value="service" >}}
+{{< tab name="global" category-value="global" >}}
 
 {{< text yaml >}}
 serviceSettings:
