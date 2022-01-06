@@ -417,7 +417,7 @@ kubectl logs -l istio=egressgateway -n istio-system | grep 'my-nginx.mesh-extern
 
 snip_cleanup_the_mutual_tls_origination_example_1() {
 kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
-kubectl delete secret client-credential istio-egressgateway-certs istio-egressgateway-ca-certs nginx-client-certs nginx-ca-certs -n istio-system
+kubectl delete secret client-credential -n istio-system
 kubectl delete configmap nginx-configmap -n mesh-external
 kubectl delete service my-nginx -n mesh-external
 kubectl delete deployment my-nginx -n mesh-external
