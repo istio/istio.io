@@ -600,7 +600,7 @@ spec:
      values: ["https://accounts.google.com"]
 {{< /text >}}
 
-This [example](https://istio.io/latest/docs/ops/configuration/security/security-policy-examples/#authorization-policy-that-denies-requests-if-the-source-is-not-the-foo-namespace) shows an authorization policy that denies requests if the source is not the `foo` namespace:
+This [example](/docs/ops/configuration/security/security-policy-examples/#authorization-policy-that-denies-requests-if-the-source-is-not-the-foo-namespace) shows an authorization policy that denies requests if the source is not the `foo` namespace:
 
 #### Policy Target
 
@@ -657,7 +657,7 @@ match:
 - The `ipBlocks` under the `source` section
 - The `ports` field under the `to` section
 
-This [example](https://istio.io/latest/docs/ops/configuration/security/security-policy-examples/#value-matching-policy-which-allows-the-access-at-paths-with-the-test-prefix-or-the-info-suffix) policy allows access at paths with the `/test/*` prefix or the `*/info` suffix.
+This [example](/docs/ops/configuration/security/security-policy-examples/#value-matching-policy-which-allows-the-access-at-paths-with-the-test-prefix-or-the-info-suffix) policy allows access at paths with the `/test/*` prefix or the `*/info` suffix.
 
 #### Exclusion matching
 
@@ -688,7 +688,7 @@ spec:
         requestPrincipals: ["*"]
 {{< /text >}}
 
-This [example](https://istio.io/latest/docs/ops/configuration/security/security-policy-examples/#exclusion-matching-denies-the-request-to-the-admin-path-for-requests-without-request-principals) denies the request to the `/admin` path for requests without request principals:
+This [example](/docs/ops/configuration/security/security-policy-examples/#exclusion-matching-denies-the-request-to-the-admin-path-for-requests-without-request-principals) denies the request to the `/admin` path for requests without request principals:
 
 #### `allow-nothing`, `deny-all` and `allow-all` policy
 
@@ -712,9 +712,9 @@ spec:
   # the rules field is not specified, and the policy will never match.
 {{< /text >}}
 
-This [example](https://istio.io/latest/docs/ops/configuration/security/security-policy-examples#deny-all-deny-policy-that-explicitly-denies-all-access) shows a `DENY` policy that explicitly denies all access. It will always deny the request even if there is another `ALLOW` policy allowing the request because the `DENY` policy takes precedence over the `ALLOW` policy. This is useful if you want to temporarily disable all access to the workload.
+This [example](/docs/ops/configuration/security/security-policy-examples#deny-all-deny-policy-that-explicitly-denies-all-access) shows a `DENY` policy that explicitly denies all access. It will always deny the request even if there is another `ALLOW` policy allowing the request because the `DENY` policy takes precedence over the `ALLOW` policy. This is useful if you want to temporarily disable all access to the workload.
 
-This [example](https://istio.io/latest/docs/ops/configuration/security/security-policy-examples/#allow-all-allow-policy-that-allows-full-access-to-the-workload) shows an `ALLOW` policy that allows full access to the workload. It will make other `ALLOW` policies useless as it will always allow the request. It might be useful if you want to temporarily expose full access to the workload. Note the request could still be denied due to `CUSTOM` and `DENY` policies.
+This [example](/docs/ops/configuration/security/security-policy-examples/#allow-all-allow-policy-that-allows-full-access-to-the-workload) shows an `ALLOW` policy that allows full access to the workload. It will make other `ALLOW` policies useless as it will always allow the request. It might be useful if you want to temporarily expose full access to the workload. Note the request could still be denied due to `CUSTOM` and `DENY` policies.
 
 #### Custom conditions
 
@@ -774,7 +774,7 @@ spec:
        methods: ["GET", "POST"]
 {{< /text >}}
 
-To allow only authenticated users, set `principals` to `"*"` instead, for [example](https://istio.io/latest/docs/ops/configuration/security/security-policy-examples#autenticated-identity-the-following-example-will-authorize-only-the-authenticated-users):
+To allow only authenticated users, set `principals` to `"*"` instead, for [example](/docs/ops/configuration/security/security-policy-examples#autenticated-identity-the-following-example-will-authorize-only-the-authenticated-users):
 
 ### Using Istio authorization on plain TCP protocols
 

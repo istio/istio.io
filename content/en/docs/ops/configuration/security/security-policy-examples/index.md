@@ -275,7 +275,7 @@ spec:
   - {}
 {{< /text >}}
 
-### Autenticated Identity : The following example will authorize only the authenticated users
+### Authenticated Identity : The following example will authorize only the authenticated users
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1

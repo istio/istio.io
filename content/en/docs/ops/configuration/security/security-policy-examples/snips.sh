@@ -141,3 +141,103 @@ spec:
         notNamespaces: ["foo"]
         notPrincipals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
 ENDSNIP
+
+! read -r -d '' snip_authorization_policy_that_denies_requests_if_the_source_is_not_the_foo_namespace_1 <<\ENDSNIP
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: httpbin-deny
+ namespace: foo
+spec:
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ action: DENY
+ rules:
+ - from:
+   - source:
+       notNamespaces: ["foo"]
+ENDSNIP
+
+! read -r -d '' snip_value_matching__policy_which_allows_the_access_at_paths_with_the_test_prefix_or_the_info_suffix_1 <<\ENDSNIP
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: tester
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: products
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        paths: ["/test/*", "*/info"]
+ENDSNIP
+
+! read -r -d '' snip_exclusion_matching__denies_the_request_to_the_admin_path_for_requests_without_request_principals_1 <<\ENDSNIP
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: enable-jwt-for-admin
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: products
+  action: DENY
+  rules:
+  - to:
+    - operation:
+        paths: ["/admin"]
+    from:
+    - source:
+        notRequestPrincipals: ["*"]
+ENDSNIP
+
+! read -r -d '' snip_denyall__deny_policy_that_explicitly_denies_all_access_1 <<\ENDSNIP
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: deny-all
+spec:
+  action: DENY
+  # the rules field has an empty rule, and the policy will always match.
+  rules:
+  - {}
+ENDSNIP
+
+! read -r -d '' snip_allowall__allow_policy_that_allows_full_access_to_the_workload_1 <<\ENDSNIP
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-all
+spec:
+  action: ALLOW
+  # This matches everything.
+  rules:
+  - {}
+ENDSNIP
+
+! read -r -d '' snip_authenticated_identity__the_following_example_will_authorize_only_the_authenticated_users_1 <<\ENDSNIP
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: httpbin
+ namespace: foo
+spec:
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ action: ALLOW
+ rules:
+ - from:
+   - source:
+       principals: ["*"]
+   to:
+   - operation:
+       methods: ["GET", "POST"]
+ENDSNIP
