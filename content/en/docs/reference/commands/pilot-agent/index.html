@@ -1209,6 +1209,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td></td>
 </tr>
 <tr>
+<td><code>INVALID_DROP</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set to true, enable the invalid drop iptables rule, default false will cause iptables reset out of window packets</td>
+</tr>
+<tr>
 <td><code>IPTABLES_TRACE_LOGGING</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1297,12 +1303,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If set to true, enable the capture of outgoing DNS packets on port 53, redirecting to istio-agent on :15053</td>
-</tr>
-<tr>
-<td><code>ISTIO_META_INVALID_DROP</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If set to true, enable the invalid drop iptables rule, default false will cause iptables reset out of window packets</td>
 </tr>
 <tr>
 <td><code>ISTIO_MULTIROOT_MESH</code></td>
