@@ -182,8 +182,7 @@ remove_toc_prefix: 'install-cni '
 </tbody>
 </table>
 <h2 id="install-cni-completion">install-cni completion</h2>
-<p>
-Generate the autocompletion script for install-cni for the specified shell.
+<p>Generate the autocompletion script for install-cni for the specified shell.
 See each sub-command&#39;s help for details on how to use the generated script.
 </p>
 <table class="command-flags">
@@ -241,19 +240,18 @@ See each sub-command&#39;s help for details on how to use the generated script.
 </tbody>
 </table>
 <h2 id="install-cni-completion-bash">install-cni completion bash</h2>
-<p>
-Generate the autocompletion script for the bash shell.</p>
+<p>Generate the autocompletion script for the bash shell.</p>
 <p>This script depends on the &#39;bash-completion&#39; package.
 If it is not installed already, you can install it via your OS&#39;s package manager.</p>
-<p>To load completions in your current shell session:
-$ source &lt;(install-cni completion bash)</p>
-<p>To load completions for every new session, execute once:
-Linux:
-  $ install-cni completion bash &gt; /etc/bash_completion.d/install-cni
-MacOS:
-  $ install-cni completion bash &gt; /usr/local/etc/bash_completion.d/install-cni</p>
+<p>To load completions in your current shell session:</p>
+<p>	source &lt;(install-cni completion bash)</p>
+<p>To load completions for every new session, execute once:</p>
+<p>#### Linux:</p>
+<p>	install-cni completion bash &gt; /etc/bash_completion.d/install-cni</p>
+<p>#### macOS:</p>
+<p>	install-cni completion bash &gt; /usr/local/etc/bash_completion.d/install-cni</p>
 <p>You will need to start a new shell for this setup to take effect.
-  </p>
+</p>
 <pre class="language-bash"><code>install-cni completion bash
 </code></pre>
 <table class="command-flags">
@@ -315,12 +313,11 @@ MacOS:
 </tbody>
 </table>
 <h2 id="install-cni-completion-fish">install-cni completion fish</h2>
-<p>
-Generate the autocompletion script for the fish shell.</p>
-<p>To load completions in your current shell session:
-$ install-cni completion fish | source</p>
-<p>To load completions for every new session, execute once:
-$ install-cni completion fish &gt; ~/.config/fish/completions/install-cni.fish</p>
+<p>Generate the autocompletion script for the fish shell.</p>
+<p>To load completions in your current shell session:</p>
+<p>	install-cni completion fish | source</p>
+<p>To load completions for every new session, execute once:</p>
+<p>	install-cni completion fish &gt; ~/.config/fish/completions/install-cni.fish</p>
 <p>You will need to start a new shell for this setup to take effect.
 </p>
 <pre class="language-bash"><code>install-cni completion fish [flags]
@@ -384,10 +381,9 @@ $ install-cni completion fish &gt; ~/.config/fish/completions/install-cni.fish</
 </tbody>
 </table>
 <h2 id="install-cni-completion-powershell">install-cni completion powershell</h2>
-<p>
-Generate the autocompletion script for powershell.</p>
-<p>To load completions in your current shell session:
-PS C:\&gt; install-cni completion powershell | Out-String | Invoke-Expression</p>
+<p>Generate the autocompletion script for powershell.</p>
+<p>To load completions in your current shell session:</p>
+<p>	install-cni completion powershell | Out-String | Invoke-Expression</p>
 <p>To load completions for every new session, add the output of the above command
 to your powershell profile.
 </p>
@@ -452,16 +448,15 @@ to your powershell profile.
 </tbody>
 </table>
 <h2 id="install-cni-completion-zsh">install-cni completion zsh</h2>
-<p>
-Generate the autocompletion script for the zsh shell.</p>
+<p>Generate the autocompletion script for the zsh shell.</p>
 <p>If shell completion is not already enabled in your environment you will need
 to enable it.  You can execute the following once:</p>
-<p>$ echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</p>
-<p>To load completions for every new session, execute once:
-# Linux:
-$ install-cni completion zsh &gt; &#34;${fpath[1]}/_install-cni&#34;
-# macOS:
-$ install-cni completion zsh &gt; /usr/local/share/zsh/site-functions/_install-cni</p>
+<p>	echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</p>
+<p>To load completions for every new session, execute once:</p>
+<p>#### Linux:</p>
+<p>	install-cni completion zsh &gt; &#34;${fpath[1]}/_install-cni&#34;</p>
+<p>#### macOS:</p>
+<p>	install-cni completion zsh &gt; /usr/local/share/zsh/site-functions/_install-cni</p>
 <p>You will need to start a new shell for this setup to take effect.
 </p>
 <pre class="language-bash"><code>install-cni completion zsh [flags]
