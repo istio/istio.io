@@ -83,8 +83,8 @@ features:
     link: "/docs/ops/configuration/traffic-management/dns-proxy/"
     level:
       checklist: features/dns-proxying.md
-      maturity: Alpha
-      nextExpectedPromotion: ""
+      maturity: Beta
+      nextExpectedPromotion: "1.13"
     area: Traffic Management
   - name: "Kubernetes Gateway APIs"
     link: "/docs/tasks/traffic-management/ingress/gateway-api/"
