@@ -20,7 +20,7 @@ keywords: [更新，Istio，补丁]
 $ istioctl x revision tag set stable --revision 1-8-5
 {{< /text >}}
 
-如果你的 1.8 安装没有相关的修订，我们可以使用以下命令创建此修订标记：
+如果您的 1.8 安装没有相关的修订，我们可以使用以下命令创建此修订标记：
 
 {{< text bash >}}
 $ istioctl x revision tag set stable --revision default
@@ -52,7 +52,7 @@ stable 1-10-0        ...
 $ kubectl rollout restart deployments -n …
 {{< /text >}}
 
-在将工作负载转移到新的 Istio 版本后，注意到了一个问题吗？没问题！因为你用的是金丝雀升级，旧的控制平面仍在运行，我们可以切换回去。
+在将工作负载转移到新的 Istio 版本后，注意到了一个问题吗？没问题！因为您用的是金丝雀升级，旧的控制平面仍在运行，我们可以切换回去。
 
 {{< text bash >}}
 $ istioctl x revision tag set prod --revision 1-8-5
