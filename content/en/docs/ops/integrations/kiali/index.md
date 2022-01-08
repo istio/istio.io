@@ -30,4 +30,4 @@ The Kiali project offers its own [quick start guide](https://kiali.io/docs/insta
 
 ## Usage
 
-For more information about using Kiali, see the [Visualizing Your Mesh](/docs/tasks/observability/kiali/index.md) task.
+For more information about using Kiali, see the [Visualizing Your Mesh](https://github.com/istio/istio.io/blob/master/content/en/docs/tasks/observability/kiali/index.md) task.
