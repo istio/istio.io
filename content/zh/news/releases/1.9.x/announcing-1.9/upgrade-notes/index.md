@@ -24,7 +24,7 @@ publishdate: 2021-02-09
 依赖于不受支持的行为，您应该相应地更新您的 PeerAuthentication。
 如果您没有在通过过滤器链上使用每端口级别的 PeerAuthentication，则无需执行任何操作。
 
-##  添加到跟踪跨度的 Service Tag{#service-tags-added-to-trace-spans}
+## 添加到跟踪跨度的 Service Tag{#service-tags-added-to-trace-spans}
 
 Istio 现在将 Envoy 配置为在生成的跟踪跨度中，包含标识工作负载规范服务的标签。
 
@@ -32,7 +32,7 @@ Istio 现在将 Envoy 配置为在生成的跟踪跨度中，包含标识工作�
 
 要禁用这些附加标签，请修改 'istiod' 部署以将环境变量设置为 `PILOT_ENABLE_ISTIO_TAGS=false`。
 
-## `EnvoyFilter` XDS v2 移除{#envoy-filter-XDS-v2-removal}
+## EnvoyFilter XDS v2 移除{#envoy-filter-XDS-v2-removal}
 
 Envoy 已删除对 XDS v2 API 的支持。`EnvoyFilter` 依赖的这些 API 必须在升级之前更新。
 
