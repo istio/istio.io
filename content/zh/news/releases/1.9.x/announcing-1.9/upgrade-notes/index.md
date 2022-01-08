@@ -32,7 +32,7 @@ Istio 现在将 Envoy 配置为在生成的跟踪跨度中，包含标识工作�
 
 要禁用这些附加标签，请修改 'istiod' 部署以将环境变量设置为 `PILOT_ENABLE_ISTIO_TAGS=false`。
 
-## 移除 `EnvoyFilter` XDS v2{#envoyfilter-xds-v2-removal}
+## `EnvoyFilter` XDS v2 removal{#envoyfilter-xds-v2-removal}
 
 Envoy 已删除对 XDS v2 API 的支持。`EnvoyFilter` 依赖的这些 API 必须在升级之前更新。
 
