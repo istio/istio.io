@@ -8,7 +8,7 @@ Mixer在 [Istio 1.8 版本中被移除](/zh/news/releases/1.8.x/announcing-1.8/#
 
 对于内置适配器，提供了几种替代方案：
 
-* `Prometheus` 和 `Stackdriver` 集成是作为[代理扩展]实现的(/zh/docs/reference/config/proxy_extensions/)。
+* `Prometheus` 和 `Stackdriver` 集成是作为[代理扩展](/zh/docs/reference/config/proxy_extensions/)实现的。
     这两个扩展生成的 Telemetry 的定制可以通过[请求分类](/zh/docs/tasks/observability/metrics/classify-metrics/)和 [Prometheus 指标定制](/zh/docs/tasks/observability/metrics/customize-metrics/)来实现。
 * Global 和 Local Rate-Limiting (`memquota` 和 `redisquota` 适配器)功能是通过[基于 Envoy 的速率限制解决方案提供的](/zh/docs/tasks/policy-enforcement/rate-limit/)。
 * `OPA` 适配器被[基于 Envoy ext-authz 的解决方案](/zh/docs/tasks/security/authorization/authz-custom/)所取代，该解决方案支持与 [OPA 策略代理的集成](https://www.openpolicyagent.org/docs/latest/envoy-introduction/)。
