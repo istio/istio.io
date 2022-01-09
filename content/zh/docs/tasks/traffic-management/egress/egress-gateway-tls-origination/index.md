@@ -629,7 +629,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
     {{< text bash >}}
     $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
-    $ kubectl delete secret istio-egressgateway-certs istio-egressgateway-ca-certs nginx-client-certs nginx-ca-certs -n istio-system
+    $ kubectl delete secret client-credential -n istio-system
     $ kubectl delete configmap nginx-configmap -n mesh-external
     $ kubectl delete service my-nginx -n mesh-external
     $ kubectl delete deployment my-nginx -n mesh-external
