@@ -13,7 +13,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 {{< relnote >}}
 
-# Changes
+## Changes
 
 - **Added** privileged flag to Istio-CNI Helm charts to set `securityContext` flag.
   ([Issue #34211](https://github.com/istio/istio/issues/34211))
@@ -29,7 +29,7 @@ mutating webhook and added --auto-inject-namespaces flag to `istioctl tag` contr
   ([Issue #36258](https://github.com/istio/istio/issues/36258))
 
 - **Fixed** the incorrect format of version and revision in the build info.
-  ([Pull Request #36409](https://github.com/istio/istio/pull/36409)) 
+  ([Pull Request #36409](https://github.com/istio/istio/pull/36409))
 
 - **Fixed** an issue where stale endpoints can be configured when a service gets deleted and created again.
   ([Issue #36510](https://github.com/istio/istio/issues/36510))
