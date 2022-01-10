@@ -405,7 +405,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--exclude &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-node-lease,local-path-storage,kube-system,kube-public"]`)</td>
+<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-node-lease,kube-public,kube-system,local-path-storage"]`)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
@@ -510,7 +510,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--exclude &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-node-lease,local-path-storage,kube-system,kube-public"]`)</td>
+<td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-node-lease,kube-public,kube-system,local-path-storage"]`)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
@@ -580,8 +580,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 </tbody>
 </table>
 <h2 id="istioctl-completion">istioctl completion</h2>
-<p>
-Generate the autocompletion script for istioctl for the specified shell.
+<p>Generate the autocompletion script for istioctl for the specified shell.
 See each sub-command&#39;s help for details on how to use the generated script.
 </p>
 <table class="command-flags">
@@ -621,19 +620,18 @@ See each sub-command&#39;s help for details on how to use the generated script.
 </tbody>
 </table>
 <h2 id="istioctl-completion-bash">istioctl completion bash</h2>
-<p>
-Generate the autocompletion script for the bash shell.</p>
+<p>Generate the autocompletion script for the bash shell.</p>
 <p>This script depends on the &#39;bash-completion&#39; package.
 If it is not installed already, you can install it via your OS&#39;s package manager.</p>
-<p>To load completions in your current shell session:
-$ source &lt;(istioctl completion bash)</p>
-<p>To load completions for every new session, execute once:
-Linux:
-  $ istioctl completion bash &gt; /etc/bash_completion.d/istioctl
-MacOS:
-  $ istioctl completion bash &gt; /usr/local/etc/bash_completion.d/istioctl</p>
+<p>To load completions in your current shell session:</p>
+<p>	source &lt;(istioctl completion bash)</p>
+<p>To load completions for every new session, execute once:</p>
+<p>#### Linux:</p>
+<p>	istioctl completion bash &gt; /etc/bash_completion.d/istioctl</p>
+<p>#### macOS:</p>
+<p>	istioctl completion bash &gt; /usr/local/etc/bash_completion.d/istioctl</p>
 <p>You will need to start a new shell for this setup to take effect.
-  </p>
+</p>
 <pre class="language-bash"><code>istioctl completion bash
 </code></pre>
 <table class="command-flags">
@@ -678,12 +676,11 @@ MacOS:
 </tbody>
 </table>
 <h2 id="istioctl-completion-fish">istioctl completion fish</h2>
-<p>
-Generate the autocompletion script for the fish shell.</p>
-<p>To load completions in your current shell session:
-$ istioctl completion fish | source</p>
-<p>To load completions for every new session, execute once:
-$ istioctl completion fish &gt; ~/.config/fish/completions/istioctl.fish</p>
+<p>Generate the autocompletion script for the fish shell.</p>
+<p>To load completions in your current shell session:</p>
+<p>	istioctl completion fish | source</p>
+<p>To load completions for every new session, execute once:</p>
+<p>	istioctl completion fish &gt; ~/.config/fish/completions/istioctl.fish</p>
 <p>You will need to start a new shell for this setup to take effect.
 </p>
 <pre class="language-bash"><code>istioctl completion fish [flags]
@@ -730,10 +727,9 @@ $ istioctl completion fish &gt; ~/.config/fish/completions/istioctl.fish</p>
 </tbody>
 </table>
 <h2 id="istioctl-completion-powershell">istioctl completion powershell</h2>
-<p>
-Generate the autocompletion script for powershell.</p>
-<p>To load completions in your current shell session:
-PS C:\&gt; istioctl completion powershell | Out-String | Invoke-Expression</p>
+<p>Generate the autocompletion script for powershell.</p>
+<p>To load completions in your current shell session:</p>
+<p>	istioctl completion powershell | Out-String | Invoke-Expression</p>
 <p>To load completions for every new session, add the output of the above command
 to your powershell profile.
 </p>
@@ -781,16 +777,15 @@ to your powershell profile.
 </tbody>
 </table>
 <h2 id="istioctl-completion-zsh">istioctl completion zsh</h2>
-<p>
-Generate the autocompletion script for the zsh shell.</p>
+<p>Generate the autocompletion script for the zsh shell.</p>
 <p>If shell completion is not already enabled in your environment you will need
 to enable it.  You can execute the following once:</p>
-<p>$ echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</p>
-<p>To load completions for every new session, execute once:
-# Linux:
-$ istioctl completion zsh &gt; &#34;${fpath[1]}/_istioctl&#34;
-# macOS:
-$ istioctl completion zsh &gt; /usr/local/share/zsh/site-functions/_istioctl</p>
+<p>	echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</p>
+<p>To load completions for every new session, execute once:</p>
+<p>#### Linux:</p>
+<p>	istioctl completion zsh &gt; &#34;${fpath[1]}/_istioctl&#34;</p>
+<p>#### macOS:</p>
+<p>	istioctl completion zsh &gt; /usr/local/share/zsh/site-functions/_istioctl</p>
 <p>You will need to start a new shell for this setup to take effect.
 </p>
 <pre class="language-bash"><code>istioctl completion zsh [flags]
@@ -4939,6 +4934,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.13.0
 <td><code>--operatorNamespace &lt;string&gt;</code></td>
 <td></td>
 <td>The namespace the operator controller is installed into.  (default `istio-operator`)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|yaml  (default `yaml`)</td>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>

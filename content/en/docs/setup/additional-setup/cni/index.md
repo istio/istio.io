@@ -205,15 +205,23 @@ starts an injected pod with the following steps:
 1. The Istio sidecar proxy starts in the pod along with the pod's other containers.
 
 Init containers execute before the sidecar proxy starts, which can result in traffic loss during their execution.
-Avoid this traffic loss with one or both of the following settings:
+Avoid this traffic loss with one of the following settings:
 
-* Set the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to disable redirecting traffic to any
-  CIDRs the init containers communicate with.
-* Set the `traffic.sidecar.istio.io/excludeOutboundPorts` annotation to disable redirecting traffic to the
-  specific outbound ports the init containers use.
+1. Set the `uid` of the init container to `1337` using `runAsUser`.
+  `1337` is the [`uid` used by the sidecar proxy](/docs/ops/deployment/requirements/#pod-requirements).
+   Traffic sent by this `uid` is not captured by the Istio's `iptables` rule.
+   Application container traffic will still be captured as usual.
+1. Set the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to disable redirecting traffic to any
+   CIDRs the init containers communicate with.
+1. Set the `traffic.sidecar.istio.io/excludeOutboundPorts` annotation to disable redirecting traffic to the
+   specific outbound ports the init containers use.
+
+{{< tip >}}
+You must use the `runAsUser 1337` workaround if [DNS proxying](/docs/ops/configuration/traffic-management/dns-proxy/) is enabled, and an init container sends traffic to a host name which requires DNS resolution.
+{{< /tip >}}
 
 {{< warning >}}
-Please use the above settings with caution, since the IP/port exclusion annotations not only apply to init container traffic,
+Please use traffic capture exclusions with caution, since the IP/port exclusion annotations not only apply to init container traffic,
 but also application container traffic. i.e. application traffic sent to the configured IP/port will bypass the Istio sidecar.
 {{< /warning >}}
 
