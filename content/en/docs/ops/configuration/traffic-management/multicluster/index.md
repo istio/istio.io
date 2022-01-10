@@ -28,9 +28,9 @@ For example, you can enforce cluster-local traffic for an individual service, al
 {{< text yaml >}}
 serviceSettings:
 - settings:
-  clusterLocal: true
+    clusterLocal: true
   hosts:
-    - "mysvc.myns.svc.cluster.local"
+  - "mysvc.myns.svc.cluster.local"
 {{< /text >}}
 
 {{< /tab >}}
@@ -40,9 +40,9 @@ serviceSettings:
 {{< text yaml >}}
 serviceSettings:
 - settings:
-  clusterLocal: true
+    clusterLocal: true
   hosts:
-    - "*.myns.svc.cluster.local"
+  - "*.myns.svc.cluster.local"
 {{< /text >}}
 
 {{< /tab >}}
@@ -52,9 +52,9 @@ serviceSettings:
 {{< text yaml >}}
 serviceSettings:
 - settings:
-  clusterLocal: true
+    clusterLocal: true
   hosts:
-    - "*"
+  - "*"
 {{< /text >}}
 
 {{< /tab >}}
