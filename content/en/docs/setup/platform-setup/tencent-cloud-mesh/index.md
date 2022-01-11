@@ -27,7 +27,7 @@ After creating a Tencent Kubernetes Engine or Elastic Kubernetes Service cluster
 
 1. Click the **Create** button in the upper-left corner.
 
-1. Enter the mesh name. 
+1. Enter the mesh name.
 
     {{< tip >}}
     The mesh name can be 1–60 characters long and it can contain numbers, Chinese characters, English letters, and hyphens (-).
@@ -59,7 +59,7 @@ After creating a Tencent Kubernetes Engine or Elastic Kubernetes Service cluster
 
     {{< image link="./tps.png" caption="Configure Observability" >}}
 
-1. Configure the Observability of Metrics, Tracing and Logging. 
+1. Configure the Observability of Metrics, Tracing and Logging.
 
     {{< tip >}}
     Besides the default Cloud Monitor services, You can choose to open the advanced external services like [Managed Service for Prometheus](https://cloud.tencent.com/product/tmp) and the [Cloud Log Service](https://cloud.tencent.com/product/cls).
