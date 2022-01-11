@@ -248,8 +248,8 @@ features:
     link: "/docs/tasks/security/authorization/authz-dry-run"
     level:
       checklist: features/dry_run_authorization_policy.md
-      maturity: Experimental
-      nextExpectedPromotion: "1.13"
+      maturity: Alpha
+      nextExpectedPromotion: "1.14"
     area: Security and policy enforcement
   - name: "In-Cluster Operator"
     id: "core.in_cluster_operator"
