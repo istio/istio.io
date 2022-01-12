@@ -864,6 +864,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Reject k8s default tokens, without audience. If false, default K8S token will be accepted</td>
 </tr>
 <tr>
+<td><code>RESOLVE_HOSTNAME_GATEWAYS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, hostnames in the LoadBalancer addresses of a Service will be resolved at the control plane for use in cross-network gateways.</td>
+</tr>
+<tr>
 <td><code>REWRITE_PROBE_LEGACY_LOCALHOST_DESTINATION</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>

@@ -1302,6 +1302,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>An annotation key that indicates this pod contains an istio sidecar. All pods without this annotation will be ignored.The value of the annotation is ignored.</td>
 </tr>
 <tr>
+<td><code>RESOLVE_HOSTNAME_GATEWAYS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, hostnames in the LoadBalancer addresses of a Service will be resolved at the control plane for use in cross-network gateways.</td>
+</tr>
+<tr>
 <td><code>REWRITE_TCP_PROBES</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
