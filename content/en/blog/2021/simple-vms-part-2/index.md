@@ -40,7 +40,6 @@ metadata:
   name: istio-install
   namespace: istio-system
 spec:
-  # only the control plane components are installed (https://istio.io/latest/docs/setup/additional-setup/config-profiles/)
   profile: minimal
   hub: gcr.io/istio-release
   tag: 1.12.0
