@@ -1,7 +1,7 @@
 ---
 title: "Part 2 - Implementing an easier way to add virtual machines to Istio service mesh"
-description: Reducing complexity by simplifying the virtual machine on-boarding experience.
-publishdate: 2021-12-20
+description: How to statically configure envoy to join a mesh.
+publishdate: 2022-01-17
 attribution: "Nick Nellis (Solo.io)"
 keywords: [virtualmachine,Istio,networking,envoy]
 ---
