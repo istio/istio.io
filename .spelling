@@ -98,6 +98,8 @@ AKS-Engine
 Alibaba
 allow_missing
 allowlist
+alpn
+alpnProtocols
 alt
 analytics
 Anantheswaran
@@ -491,6 +493,7 @@ Kenan
 key.pem
 Keycloak
 Khaliq
+k3d
 Kiali
 Kibana
 Knative
@@ -773,6 +776,7 @@ SkyWalking
 SLOs
 SMEs
 Snell-Feikema
+sni
 SNI
 SolarWinds
 Solo.io
@@ -830,6 +834,7 @@ timeframe
 timestamp
 timestamps
 TLS
+tls_certificates
 TLS-secured
 ToC
 toolbelt
@@ -837,6 +842,8 @@ toolchain
 touchpoints
 tradeoff
 tradeoffs
+Transcoding
+transcoding
 Trulia
 trustability
 tunneling
