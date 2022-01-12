@@ -1,7 +1,7 @@
 ---
 title: Tencent Cloud Mesh
 description: Instructions to setup Tencent Cloud Mesh for Istio.
-weight: 60
+weight: 65
 skip_seealso: true
 aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/tcm/
@@ -35,12 +35,12 @@ After creating a Tencent Kubernetes Engine or Elastic Kubernetes Service cluster
 
 1. Select the **Region** and **Zone** in which the cluster resides.
 
-1. Choose the Istio version. Tencent Cloud Mesh supports the latest two major versions of Istio now.
+1. Choose the Istio version. Tencent Cloud Mesh supports the latest two major versions of Istio.
 
 1. Choose the service mesh mode: `Standalone` or `Hosted`.
 
     {{< tip >}}
-    Tencent Cloud Mesh supports the **Standalone mode** (Istiod is running in the user cluster and managed by users) and the **Hosted mode** (Istiod is hosted by Tencent Cloud Mesh Team).
+    Tencent Cloud Mesh supports **Standalone mode** (Istiod is running in the user cluster and managed by users) and **Hosted mode** (Istiod is hosted by Tencent Cloud Mesh Team).
     {{< /tip >}}
 
 1. Configure the Egress traffic policy:  `Register Only` or `Allow Any` .
