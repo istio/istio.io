@@ -101,7 +101,7 @@ spec:
     tls:
       mode: AUTO_PASSTHROUGH
     hosts:
-    - "*" 
+    - "*"
 {{< /text >}}
 
 The `AUTO_PASSTRHOUGH` config automatically registers the mesh applications with the east/west gateway. You can view the available services by running the following `istioctl` command.
