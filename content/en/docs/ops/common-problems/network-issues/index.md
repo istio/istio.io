@@ -233,7 +233,7 @@ server {
 }
 {{< /text >}}
 
-## 404 or 503 error while accessing headless services
+## 503 error while accessing headless services
 
 Assume Istio is installed with the following configuration:
 
@@ -252,8 +252,8 @@ metadata:
 spec:
   ports:
   - port: 80
-    name: web      # Port name
-  clusterIP: None  # Creates a Headless Service
+    name: http-web  # Explicitly defining an http port
+  clusterIP: None   # Creates a Headless Service
   selector:
     app: nginx
 ---
@@ -280,67 +280,64 @@ spec:
           name: web
 {{< /text >}}
 
+The port name `http-web` in the Service definition explicitly specifies the http protocol for that port.
+
 Let us assume we have a [sleep]({{< github_tree >}}/samples/sleep) pod `Deployment` as well in the default namespace.
+When `nginx` is accessed from this `sleep` pod using its Pod IP (this is one of the common ways to access a headless service), the request goes via the `PassthroughCluster` to the server-side, but the sidecar proxy on the server-side fails to find the route entry to `nginx` and fails with `HTTP 503 UC`.
 
-Now, let us consider 3 possible scenarios based on the port `name` defined in the headless service:
+{{< text bash >}}
+$ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+$ kubectl exec -it $SOURCE_POD -c sleep -- sh
+/ $ curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+  503/
+{{< /text >}}
 
-1. Port `name` set to `web` (as shown in the example above) or any other custom name
+`10.1.1.171` is the Pod IP of one of the replicas of `nginx` and the service is accessed on `containerPort` 80.
 
-    - Request without Host header:
+Here are some of the ways to avoid this 503 error:
 
-        When `nginx` is accessed without the Host header, the sidecar proxy on the client-side fails to find the route entry to `nginx` and fails with `HTTP 404 NR`.
+1. Specify the correct Host header:
 
-        {{< text bash >}}
-        $ kubectl exec -it sleep-557747455f-blkgt -c sleep -- sh
-        / $ curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
-          404/
-        {{< /text >}}
+    The Host header in the curl request above will be the Pod IP by default. Specifying the Host header as `nginx.default` in our request to `nginx` successfully returns `HTTP 200 OK`.
 
-        Here, `10.1.1.171` is the Pod IP of one of the replicas of `nginx` and the service is accessed on `containerPort` 80.
-    - Request with Host header:
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh
+    / $ curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+      200/
+    {{< /text >}}
 
-        When `nginx` is accessed with the correct Host header, it successfully returns `HTTP 200 OK`.
+1. Set port name to `tcp` or `tcp-web` or `tcp-<custom_name>`:
 
-        {{< text bash >}}
-        $ kubectl exec -it sleep-557747455f-blkgt -c sleep -- sh
-        / $ curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
-          200/
-        {{< /text >}}
+    Here the protocol is explicitly specified as `tcp`. In this case, only the `TCP Proxy` network filter on the sidecar proxy is used both on the client-side and server-side. HTTP Connection Manager is not used at all and therefore, any kind of header is not expected in the request.
 
-1. Port `name` set to `http` or `http-web` or `http-<custom_name>`
-
-    - Request without Host header:
-
-        When `nginx` is accessed without the Host header, the request goes via the `PassthroughCluster` to the server-side, but the sidecar proxy on the server-side fails to find the route entry to `nginx` and fails with `HTTP 503 UC`.
-
-        {{< text bash >}}
-        $ kubectl exec -it sleep-557747455f-blkgt -c sleep -- sh
-        / $ curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
-          503/
-        {{< /text >}}
-
-    - Request with Host header:
-
-        The behavior is very similar to how it is described for the case with the Host header in the previous scenario. The only difference here is that the HTTP Inspector listener filter is NOT triggered on the server-side, since the port name already has a prefix `http`.
-
-        A request to `nginx` with the correct Host header successfully returns `HTTP 200 OK`.
-
-1. Port `name` set to `tcp` or `tcp-web` or `tcp-<custom_name>`
-
-    With this naming, the Host header is NOT needed to access `nginx`. In this scenario, only the `TCP Proxy` network filter on the sidecar proxy is used, both on the client-side and server-side. HTTP Connection Manager is not used at all and therefore, any kind of header is not expected in the request.
-
-    A request to `nginx` with or without the Host header successfully returns `HTTP 200 OK`.
+    A request to `nginx` with or without explicitly setting the Host header successfully returns `HTTP 200 OK`.
 
     This is useful in certain scenarios where a client may not be able to include header information in the request.
 
     {{< text bash >}}
-    $ kubectl exec -it sleep-557747455f-blkgt -c sleep -- sh
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh
     / $ curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
       200/
-
     / $ curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
       200/
     {{< /text >}}
+
+1. Use domain name instead of Pod IP:
+
+    A specific instance of a headless service can also be accessed using just the domain name.
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh
+    / $ curl web-0.nginx.default -s -o /dev/null -w "%{http_code}"
+      200/
+    {{< /text >}}
+
+    Here `web-0` is the pod name of one of the 3 replicas of `nginx`.
+
+Refer to this [traffic routing](/docs/ops/configuration/traffic-management/traffic-routing/) page for some additional information on headless services and traffic routing behavior for different protocols.
 
 ## TLS configuration mistakes
 
