@@ -285,7 +285,7 @@ metadata:
   namespace : egress
 spec:
   hosts:
-  - httpbin.com
+  - example.com
   exportTo:
   - &quot;.&quot;
   location: MESH_EXTERNAL
@@ -307,7 +307,7 @@ metadata:
   namespace : egress
 spec:
   hosts:
-  - httpbin.com
+  - example.com
   exportTo:
   - &quot;.&quot;
   location: MESH_EXTERNAL
@@ -384,7 +384,7 @@ metadata:
   namespace: egress
 spec:
   hosts:
-  - httpbin.com
+  - example.com
   exportTo:
   - &quot;*&quot;
   gateways:
@@ -404,7 +404,7 @@ spec:
       - istio-egressgateway
     route:
     - destination:
-        host: httpbin.com
+        host: example.com
 </code></pre>
 
 <p>{{</tab>}}</p>
@@ -418,7 +418,7 @@ metadata:
   namespace: egress
 spec:
   hosts:
-  - httpbin.com
+  - example.com
   exportTo:
   - &quot;*&quot;
   gateways:
@@ -438,7 +438,7 @@ spec:
       - istio-egressgateway
     route:
     - destination:
-        host: httpbin.com
+        host: example.com
 </code></pre>
 
 <p>{{</tab>}}
@@ -624,7 +624,7 @@ metadata:
   namespace : httpbin-ns
 spec:
   hosts:
-  - httpbin.com
+  - example.com
   location: MESH_INTERNAL
   ports:
   - number: 80
@@ -649,7 +649,7 @@ metadata:
   namespace : httpbin-ns
 spec:
   hosts:
-  - httpbin.com
+  - example.com
   location: MESH_INTERNAL
   ports:
   - number: 80
