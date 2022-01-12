@@ -13,7 +13,7 @@ A lot of Istio users would like to connect their virtual machines to their servi
 
 ## Preface
 
-As explained in [part 1](/blog/2021/simple-vms/), to reduce complexity of initialization we will not be registering the virtual machine with Istio. Instead we will be issuing a certificate directly to the virtual machine and manually configuring the virtual machine envoy to communicate inside the mesh via the east/west gateway. First we will need to organize our certificates so that the service mesh applications will trust these external workloads.
+As explained in [part 1](/blog/2021/simple-vms/), to reduce complexity of the virtual machine initialization we will not be registering it with Istio. Instead we will be issuing a certificate directly to the virtual machine and manually configuring the envoy instance to communicate inside the mesh via the east/west gateway. First we will need to organize our certificates so that the service mesh applications will trust these external workloads.
 
 ## Certificate Management
 
@@ -135,7 +135,7 @@ ADDRESS PORT  MATCH
 
 ![Virtual Machine Configuration](./vm-configuration.png)
 
-Since we will not be connecting the virtual machine to istiod, we will need to provide the configuration manually. We will need to create an inbound listener for the virtual machine application to communicate through.
+Because we will not be connecting envoy to an external xDS server, we will need to provide the configuration manually. We will need to create an inbound listener for the virtual machine application to communicate through.
 
 ### Envoy listener and router
 
@@ -169,7 +169,7 @@ static_resources:
 
 ```
 
-We then need to configure where the traffic will need to be sent. As shown in the &quot;Istio setup and deployment&quot; section, all traffic will be proxied with mTLS to the mesh application. Below is the cluster resource that we need to create in order to have secure communication with the mesh application. This is also where we use our generated certificates to encrypt the communication.
+We then need to configure where the traffic will need to be sent. As shown in the "Istio setup and deployment" section, all traffic will be proxied with mTLS to the mesh application. Below is the cluster resource that we need to create in order to have secure communication with the mesh application. This is also where we use our generated certificates to encrypt the communication.
 
 ```yaml
 static_resources:
@@ -235,7 +235,7 @@ services:
 
 **tls_certificates**
 
-The generated client mTLS certificates should be mounted and referenced in this cluster configuration block. For
+The generated client mTLS certificates should be mounted and referenced in this cluster configuration block.
 
 ## gRPC / JSON Transcoding
 
