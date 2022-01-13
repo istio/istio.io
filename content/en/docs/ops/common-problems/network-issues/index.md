@@ -223,6 +223,111 @@ server {
 }
 {{< /text >}}
 
+## 503 error while accessing headless services
+
+Assume Istio is installed with the following configuration:
+
+- `mTLS mode` set to `STRICT` within the mesh
+- `meshConfig.outboundTrafficPolicy.mode` set to `ALLOW_ANY`
+
+Consider `nginx` is deployed as a `StatefulSet` in the default namespace and a corresponding `Headless Service` is defined as shown below:
+
+{{< text yaml >}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  ports:
+  - port: 80
+    name: http-web  # Explicitly defining an http port
+  clusterIP: None   # Creates a Headless Service
+  selector:
+    app: nginx
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  serviceName: "nginx"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: k8s.gcr.io/nginx-slim:0.8
+        ports:
+        - containerPort: 80
+          name: web
+{{< /text >}}
+
+The port name `http-web` in the Service definition explicitly specifies the http protocol for that port.
+
+Let us assume we have a [sleep]({{< github_tree >}}/samples/sleep) pod `Deployment` as well in the default namespace.
+When `nginx` is accessed from this `sleep` pod using its Pod IP (this is one of the common ways to access a headless service), the request goes via the `PassthroughCluster` to the server-side, but the sidecar proxy on the server-side fails to find the route entry to `nginx` and fails with `HTTP 503 UC`.
+
+{{< text bash >}}
+$ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+$ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+  503
+{{< /text >}}
+
+`10.1.1.171` is the Pod IP of one of the replicas of `nginx` and the service is accessed on `containerPort` 80.
+
+Here are some of the ways to avoid this 503 error:
+
+1. Specify the correct Host header:
+
+    The Host header in the curl request above will be the Pod IP by default. Specifying the Host header as `nginx.default` in our request to `nginx` successfully returns `HTTP 200 OK`.
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+      200
+    {{< /text >}}
+
+1. Set port name to `tcp` or `tcp-web` or `tcp-<custom_name>`:
+
+    Here the protocol is explicitly specified as `tcp`. In this case, only the `TCP Proxy` network filter on the sidecar proxy is used both on the client-side and server-side. HTTP Connection Manager is not used at all and therefore, any kind of header is not expected in the request.
+
+    A request to `nginx` with or without explicitly setting the Host header successfully returns `HTTP 200 OK`.
+
+    This is useful in certain scenarios where a client may not be able to include header information in the request.
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+      200
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+      200
+    {{< /text >}}
+
+1. Use domain name instead of Pod IP:
+
+    A specific instance of a headless service can also be accessed using just the domain name.
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl web-0.nginx.default -s -o /dev/null -w "%{http_code}"
+      200
+    {{< /text >}}
+
+    Here `web-0` is the pod name of one of the 3 replicas of `nginx`.
+
+Refer to this [traffic routing](/docs/ops/configuration/traffic-management/traffic-routing/) page for some additional information on headless services and traffic routing behavior for different protocols.
+
 ## TLS configuration mistakes
 
 Many traffic management problems
