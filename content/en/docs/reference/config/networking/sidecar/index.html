@@ -399,6 +399,86 @@ spec:
 <p>{{</tab>}}
 {{</tabset>}}</p>
 
+<p>The following example declares a <code>Sidecar</code> configuration in the
+<code>prod-us1</code> namespace for all pods with labels <code>app: ratings</code>
+belonging to the <code>ratings.prod-us1</code> service.  The service accepts
+inbound HTTPS traffic on port 8443 and the sidecar proxy terminates
+one way TLS using the given server certificates.
+The traffic is then forwarded to the attached workload instance
+listening on a Unix domain socket.
+It is expected that PeerAuthentication policy would be configured
+in order to set mTLS mode to &ldquo;DISABLE&rdquo; on specific
+ports.
+In this example, the mTLS mode is disabled on PORT 80.
+This feature is currently experimental.</p>
+
+<p>{{<tabset category-name="example">}}
+{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: ratings
+  namespace: prod-us1
+spec:
+  workloadSelector:
+    labels:
+      app: ratings
+  ingress:
+  - port:
+      number: 80
+      protocol: HTTPS
+      name: somename
+    defaultEndpoint: unix:///var/run/someuds.sock
+    tls:
+      mode: SIMPLE
+      privateKey: &quot;/etc/certs/privatekey.pem&quot;
+      serverCertificate: &quot;/etc/certs/servercert.pem&quot;
+</code></pre>
+
+<p>{{</tab>}}</p>
+
+<p>{{<tab name="v1" category-value="v1">}}</p>
+
+<pre><code class="language-yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: ratings
+  labels:
+    app: ratings
+    service: ratings
+spec:
+  ports:
+  - port: 8443
+    name: https
+    targetPort: 80
+  selector:
+    app: ratings
+</code></pre>
+
+<p>{{</tab>}}</p>
+
+<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
+
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: ratings-peer-auth
+  namespace: prod-us1
+spec:
+  selector:
+    matchLabels:
+      app: ratings
+  mtls:
+    mode: STRICT
+  portLevelMtls:
+    80:
+      mode: DISABLE
+</code></pre>
+
+<p>{{</tab>}}
+{{</tabset>}}</p>
+
 <h2 id="Sidecar">Sidecar</h2>
 <section>
 <p><code>Sidecar</code> describes the configuration of the sidecar proxy that mediates
