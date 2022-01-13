@@ -50,7 +50,7 @@ Introduced a flag `meshConfig.defaultConfig.proxyMetadata.INVALID_DROP` to contr
 - **Fixed** endpoint slice cache memory leak.
   ([Pull Request #36518](https://github.com/istio/istio/pull/36518))
 
-- **Fixed** changes in delegate virtual service not taking effect when RDS cache enabled
+- **Fixed** changes in delegate virtual service not taking effect when RDS cache enabled.
   ([Issue #36525](https://github.com/istio/istio/issues/36525))
 
 - **Fixed** an issue when using Envoy [`v3alpha`](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.20.0#incompatible-behavior-changes) APIs in `EnvoyFilter`s.
