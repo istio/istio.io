@@ -362,3 +362,11 @@ features:
       nextExpectedPromotion: ""
     area: Core
     id: "core.revision_tags"
+  - name: "Configurable Telemetry Production"
+    area: Observability
+    id: "observability.api"
+    link: "https://istio.io/latest/docs/tasks/observability/telemetry/"
+    level:
+      checklist: features/telemetry_api.md
+      maturity: Experimental
+      nextExpectedPromotion: "1.13"
