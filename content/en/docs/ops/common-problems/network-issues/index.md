@@ -287,9 +287,8 @@ When `nginx` is accessed from this `sleep` pod using its Pod IP (this is one of 
 
 {{< text bash >}}
 $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-$ kubectl exec -it $SOURCE_POD -c sleep -- sh
-/ $ curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
-  503/
+$ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+  503
 {{< /text >}}
 
 `10.1.1.171` is the Pod IP of one of the replicas of `nginx` and the service is accessed on `containerPort` 80.
@@ -302,9 +301,8 @@ Here are some of the ways to avoid this 503 error:
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-    $ kubectl exec -it $SOURCE_POD -c sleep -- sh
-    / $ curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
-      200/
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+      200
     {{< /text >}}
 
 1. Set port name to `tcp` or `tcp-web` or `tcp-<custom_name>`:
@@ -317,11 +315,13 @@ Here are some of the ways to avoid this 503 error:
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-    $ kubectl exec -it $SOURCE_POD -c sleep -- sh
-    / $ curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
-      200/
-    / $ curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
-      200/
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+      200
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+      200
     {{< /text >}}
 
 1. Use domain name instead of Pod IP:
@@ -330,9 +330,8 @@ Here are some of the ways to avoid this 503 error:
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-    $ kubectl exec -it $SOURCE_POD -c sleep -- sh
-    / $ curl web-0.nginx.default -s -o /dev/null -w "%{http_code}"
-      200/
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl web-0.nginx.default -s -o /dev/null -w "%{http_code}"
+      200
     {{< /text >}}
 
     Here `web-0` is the pod name of one of the 3 replicas of `nginx`.
