@@ -9,7 +9,7 @@ aliases:
     - /news/announcing-1.12.2
 ---
 
-This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.12.1 and Istio 1.12.2
+This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.12.1 and Istio 1.12.2.
 
 {{< relnote >}}
 
@@ -21,7 +21,7 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** an issue where enabling tracing with telemetry API would cause a malformed host header being used at the trace report request.
   ([Issue #35750](https://github.com/istio/istio/issues/35750))
 
-- **Fixed** `istioctl pc log` command label selector not selected the default pod.
+- **Fixed** `istioctl pc log` command label selector not selecting the default pod.
   ([Issue #36182](https://github.com/istio/istio/issues/36182))
 
 - **Fixed** an issue where `istioctl analyze` falsely warned of a VirtualService prefix match overlap.
