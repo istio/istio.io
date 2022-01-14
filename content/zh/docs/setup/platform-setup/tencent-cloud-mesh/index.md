@@ -8,7 +8,7 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-## 准备工作
+## 准备工作 {#prerequisites}
 
 请参考以下的说明为 Istio 搭建一个 [Tencent Kubernetes Engine](https://cloud.tencent.com/product/tke) 或者 [Elastic Kubernetes Service](https://cloud.tencent.com/product/eks) 集群
 
@@ -16,7 +16,7 @@ test: n/a
 
 {{< image link="./tke.png" caption="创建集群" >}}
 
-## 步骤
+## 步骤 {#procedure}
 
 在创建了一个 TKE 或者 EKS 集群之后，您能够在 [Tencent Cloud Mesh](https://cloud.tencent.com/product/tcm) 中快速的部署和使用 Istio。
 
@@ -53,7 +53,7 @@ test: n/a
 1. 选择开启 Sidecar 就绪保障。
 
     {{< tip >}}
-    开启后业务容器将等待 Sidecar ready 后再启动，将一定程度增加 Pod 启动时长，建议对于业务逻辑中有 Sidecar 功能强依赖的服务开启。
+    开启后业务容器将等待 Sidecar 就绪后再启动，将一定程度增加 Pod 启动时长，建议对于业务逻辑中有 Sidecar 功能强依赖的服务开启。
     {{< /tip >}}
 
     {{< image link="./ingress-egress.png" caption="配置 Gateway" >}}
