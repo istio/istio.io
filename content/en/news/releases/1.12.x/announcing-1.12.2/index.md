@@ -24,6 +24,9 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** `istioctl pc log` command label selector not selected the default pod.
   ([Issue #36182](https://github.com/istio/istio/issues/36182))
 
+- **Fixed** an issue where `istioctl analyze` falsely warned of a VirtualService prefix match overlap.
+  ([Issue #36245](https://github.com/istio/istio/issues/36245))
+
 - **Fixed** omitted setting `.Values.sidecarInjectiorWebhook.enableNamespacesByDefault` in the default revision
 mutating webhook and added --auto-inject-namespaces flag to `istioctl tag` controlling this setting.
   ([Issue #36258](https://github.com/istio/istio/issues/36258))
