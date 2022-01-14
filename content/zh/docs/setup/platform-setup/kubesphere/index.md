@@ -15,7 +15,7 @@ test: no
 根据如下指示准备 [KubeSphere Container Platform](https://github.com/kubesphere/kubesphere) 环境。您可以通过 KubeSphere 在 Linux 机器上快速安装一个 Kubernetes 集群。
 
 {{< tip >}}
-KubeSphere 提供了[All-in-One](https://kubesphere.io/docs/installation/all-in-one/) 和 [Multi-Node](https://kubesphere.io/docs/installation/multi-node/)两种模式的安装。这使得 Kubernetes 和 Istio 可以在一个统一的 web 控制台中进行快速设置和管理。详细信息请参考 [Multi-node Installation](https://kubesphere.io/docs/installation/multi-node/)
+KubeSphere 提供了[All-in-One](https://kubesphere.io/docs/installation/all-in-one/) 和 [Multi-Node](https://kubesphere.io/docs/installation/multi-node/) 两种模式的安装。这使得 Kubernetes 和 Istio 可以在一个统一的 web 控制台中进行快速设置和管理。详细信息请参考 [Multi-node Installation](https://kubesphere.io/docs/installation/multi-node/)
 {{< /tip >}}
 
 ## 先决条件 {#prerequisites}
@@ -72,4 +72,4 @@ KubeSphere 提供了[All-in-One](https://kubesphere.io/docs/installation/all-in-
 
 ## 在 Kubernetes 中启用 Istio 安装
 
-KubeSphere 会在 Kubernetes 环境中安装 Istio。现在可以参考[Enable Service Mesh](https://kubesphere.io/docs/pluggable-components/service-mesh/)来启用 Istio。
+KubeSphere 会在 Kubernetes 环境中安装 Istio。现在可以参考 [Enable Service Mesh](https://kubesphere.io/docs/pluggable-components/service-mesh/) 来启用 Istio。
