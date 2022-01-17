@@ -81,7 +81,7 @@ spec:
               name: tls
 {{< /text >}}
 
-We also need to tell the east/west gateway to forward secure requests to the intended destination. To do this we create a simple Istio Gateway configuration.
+We also need to tell the east-west gateway to forward secure requests to the intended destination inside the mesh. To do this we create a simple Istio Gateway configuration.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
