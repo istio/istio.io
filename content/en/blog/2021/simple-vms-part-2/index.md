@@ -29,7 +29,7 @@ The simplest way to organize your certificates is to create a shared root CA. Th
 
 The setup for Istio to accept outside secured connections is very trivial. Using the IstioOperator configuration an east/west gateway needs to be created and configured to pass through connections.
 
-### Creating the east/west gateway
+### Creating the east-west gateway
 
 Below is an example of an Istio installation of just istiod and the east-west gateway shown above. `PILOT_SKIP_VALIDATE_TRUST_DOMAIN` is enabled so that the virtual machines can have their own SPIFFE ID format.
 
