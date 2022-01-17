@@ -21,7 +21,7 @@ Since Istio will not be issuing the certificates for the virtual machines, it wi
 
 ![Certificate Management](./cert-architecture.png)
 
-The simplest way to organize your certificates is to create a shared root CA. Then two intermediate CA certificates can be issued and used for creating Istio workload certificates and one for virtual machine certificates. The virtual machine CA could easily be managed by a third party certificate management system like Hashicorp's Vault.
+The simplest way to organize your certificates is to create a shared root CA. Then, two intermediate CA certificates can be issued and used for creating the Istio workload and virtual machine certificates. The virtual machine CA could easily be managed by a third party certificate management system like Hashicorp's Vault.
 
 ## Istio Setup and Deployment
 
