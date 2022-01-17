@@ -9,7 +9,7 @@ keywords: [virtualmachine,Istio,networking,envoy]
 
 Part 1 - [An easier way to add virtual machines to Istio service mesh](/blog/2021/simple-vms/)
 
-A lot of Istio users would like to connect their virtual machines to their service mesh but the current process is very cumbersome and hard to automate. This series explains a simpler way to connect outside applications securely to your applications running in a service mesh. If you would like to know more about why this might work for you, check out part 1 here.
+A lot of Istio users would like to connect their virtual machines to their service mesh but the current process is very cumbersome and hard to automate. This series explains a simpler way to connect outside applications securely to your applications running in a service mesh. If you would like to know more about why this might work for you, check out [part 1 here](/blog/2021/simple-vms/).
 
 ## Preface
 
