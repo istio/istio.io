@@ -13,7 +13,7 @@ A lot of Istio users would like to connect their virtual machines to their servi
 
 ## Preface
 
-As explained in [part 1](/blog/2021/simple-vms/), to reduce complexity of the virtual machine initialization we will not be registering it with Istio. Instead we will be issuing a certificate directly to the virtual machine and manually configuring the envoy instance to communicate inside the mesh via the east/west gateway. First we will need to organize our certificates so that the service mesh applications will trust these external workloads.
+As explained in [part 1](/blog/2021/simple-vms/), to reduce the complexity of virtual machine initialization, we will not be registering it with Istio using the currently [documented approach](/docs/setup/install/virtual-machine/#configure-the-virtual-machine). Instead, we will be issuing a certificate directly to the virtual machine and manually configuring the envoy instance running in the virtual machine to communicate to the mesh via the east/west gateway. First, we will need to organize our certificates so that the service mesh applications will trust these external workloads.
 
 ## Certificate Management
 
