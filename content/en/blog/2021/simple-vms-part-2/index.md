@@ -103,7 +103,7 @@ spec:
     - "*"
 {{< /text >}}
 
-The `AUTO_PASSTRHOUGH` config automatically registers the mesh applications with the east/west gateway. You can view the available services by running the following `istioctl` command.
+The `AUTO_PASSTRHOUGH` config automatically registers the mesh applications with the east-west gateway. You can view the available services by running the following `istioctl` command.
 
 {{< text bash >}}
 $ istioctl proxy-config listener -n istio-system <east_west_gateway_pod>
