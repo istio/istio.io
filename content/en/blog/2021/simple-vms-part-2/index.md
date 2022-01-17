@@ -134,7 +134,7 @@ ADDRESS PORT  MATCH
 
 ![Virtual Machine Configuration](./vm-configuration.png)
 
-Because we will not be connecting envoy to an external xDS server, we will need to provide the configuration manually. We will need to create an inbound listener for the virtual machine application to communicate through.
+Because we will not be connecting the envoy in the virtual machine to an external xDS server, we will need to provide its configuration manually. We will need to create an inbound listener for the virtual machine application to communicate through.
 
 ### Envoy listener and router
 
