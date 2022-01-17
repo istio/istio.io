@@ -1,6 +1,6 @@
 ---
 title: "Part 2 - Implementing an easier way to add virtual machines to Istio service mesh"
-description: How to statically configure envoy to join a mesh.
+description: How to statically configure envoy in a VM to join a mesh.
 publishdate: 2022-01-17
 attribution: "Nick Nellis (Solo.io)"
 keywords: [virtualmachine,Istio,networking,envoy]
