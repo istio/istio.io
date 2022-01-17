@@ -207,7 +207,7 @@ static_resources:
 
 #### sni
 
-This field is what the east-west gateway uses to forward traffic to the correct mesh application. It needs to match exactly as the listener is defined as shown in the `istioctl` command.
+This field is what the east-west gateway uses to forward traffic to the correct mesh application. It needs to match the listener of the mesh application shown in the `istioctl proxy-config listener` command above.
 
 #### alpnProtocols
 
