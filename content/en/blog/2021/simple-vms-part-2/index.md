@@ -31,7 +31,7 @@ The setup for Istio to accept outside secured connections is very trivial. Using
 
 ### Creating the east/west gateway
 
-Below is an example of an Istio installation of just istiod and the east/west gateway shown above. `PILOT_SKIP_VALIDATE_TRUST_DOMAIN` is enabled so that the virtual machines can have their own SPIFFE ID format.
+Below is an example of an Istio installation of just istiod and the east-west gateway shown above. `PILOT_SKIP_VALIDATE_TRUST_DOMAIN` is enabled so that the virtual machines can have their own SPIFFE ID format.
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
