@@ -18,7 +18,7 @@ simplifies signing and validation of signed Open Container Initiative (OCI) arti
 such as docker images.
 
 In Istio, we sign all officially published docker images as part of our release
-process using our own private key. End users can then verify these images using
+process using our own private key starting with Istio 1.12. End users can then verify these images using
 the process described below.
 
 This process is suitable for either manual execution or integration with build
