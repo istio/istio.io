@@ -2,9 +2,8 @@
 title: Image Signing And Validation
 description: Describes how to use image signatures to verify the provenance of Istio images.
 weight: 35
-aliases:
-    - /docs/ops/best-practices/image-signing-validation/
-keywords: [install]
+aliases: []
+keywords: [install,signing]
 owner: istio/wg-environments-maintainers
 test: n/a
 ---
@@ -48,7 +47,7 @@ To validate a docker image, do the following:
 $ ./cosign-binary verify --key {{< static "/misc/istio-key.pub" >}} {{< istio_docker_image "pilot" >}}
 {{< /text >}}
 
-This process will work for any released image or release candidate built with Istio build infrastructure.
+This process will work for any released image or release candidate built with the Istio build infrastructure.
 
 An example with output:
 
