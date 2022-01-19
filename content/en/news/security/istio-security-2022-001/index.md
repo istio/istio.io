@@ -11,7 +11,7 @@ keywords: [CVE]
 skip_seealso: true
 ---
 
-((< security_bulletin >))
+{{< security_bulletin >}}
 
 ## CVE
 
