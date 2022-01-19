@@ -81,6 +81,7 @@ _V2_
 _v2_
 _v3_
 a.k.a.
+Aakash2017
 abc
 abcde12345
 accounts.my
@@ -264,6 +265,8 @@ CVE-2021-32780
 CVE-2021-32781
 CVE-2021-39155
 CVE-2021-39156
+CVE-2022-21679
+CVE-2022-21701
 CVEs
 cves
 cvss
@@ -456,6 +459,8 @@ ISTIO-SECURITY-2021-005
 ISTIO-SECURITY-2021-006
 ISTIO-SECURITY-2021-007
 ISTIO-SECURITY-2021-008
+ISTIO-SECURITY-2022-001
+ISTIO-SECURITY-2022-002
 istio-system
 istio.io
 istio.io.
@@ -698,6 +703,7 @@ Rajagopalan
 ratelimit-handler
 RawVM
 rbac
+RDS
 re-applied
 re-patch
 reachability
@@ -908,6 +914,7 @@ Wasm
 wasme
 WasmPlugin
 WeaveWorks
+Weems
 WebAssembly
 webhook
 Webhooks
