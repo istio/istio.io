@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 51
+number_of_entries: 52
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -2486,9 +2486,9 @@ No
 No
 </td>
 </tr>
-<tr id="ProxyConfig-service_cluster">
+<tr id="ProxyConfig-service_cluster" class="oneof oneof-start">
 <td><code>serviceCluster</code></td>
-<td><code>string</code></td>
+<td><code>string (oneof)</code></td>
 <td>
 <p>Service cluster defines the name for the <code>service_cluster</code> that is
 shared by all Envoy instances. This setting corresponds to
@@ -2503,6 +2503,18 @@ source/caller&rsquo;s identity (e.g., IP address) is encoded in the
 receives API calls from Envoy, it uses the value of the <code>service-node</code>
 flag to compute routes that are relative to the service instances
 located at that IP address.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-tracing_service_name" class="oneof">
+<td><code>tracingServiceName</code></td>
+<td><code><a href="#ProxyConfig-TracingServiceName">TracingServiceName (oneof)</a></code></td>
+<td>
+<p>Used by Envoy proxies to assign the values for the service names in trace
+spans.</p>
 
 </td>
 <td>
@@ -3659,6 +3671,45 @@ See the
 <code>X-B3-SpanId</code>, and <code>X-B3-Sampled</code> HTTP headers. See
 <a href="https://github.com/openzipkin/b3-propagation">B3 header propagation README</a>
 for details.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ProxyConfig-TracingServiceName">ProxyConfig.TracingServiceName</h2>
+<section>
+<p>Allows specification of various Istio-supported naming schemes for the
+Envoy <code>service_cluster</code> value. The <code>servce_cluster</code> value is primarily used
+by Envoys to provide service names for tracing spans.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-TracingServiceName-APP_LABEL_AND_NAMESPACE">
+<td><code>APP_LABEL_AND_NAMESPACE</code></td>
+<td>
+<p>Default scheme. Uses the <code>app</code> label and workload namespace to construct
+a cluster name. If the <code>app</code> label does not exist <code>istio-proxy</code> is used.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-TracingServiceName-CANONICAL_NAME_ONLY">
+<td><code>CANONICAL_NAME_ONLY</code></td>
+<td>
+<p>Uses the canonical name for a workload (<em>excluding namespace</em>).</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-TracingServiceName-CANONICAL_NAME_AND_NAMESPACE">
+<td><code>CANONICAL_NAME_AND_NAMESPACE</code></td>
+<td>
+<p>Uses the canonical name and namespace for a workload.</p>
 
 </td>
 </tr>
