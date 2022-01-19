@@ -235,14 +235,6 @@ features:
       maturity: Beta
       nextExpectedPromotion: ""
     area: Security and policy enforcement
-  - name: "Mutual TLS Migration"
-    id: "security.mtls_migration"
-    link: "/docs/tasks/security/authentication/mtls-migration"
-    level:
-      checklist: ""
-      maturity: Beta
-      nextExpectedPromotion: ""
-    area: Security and policy enforcement
   - name: "External Authorization"
     id: "security.external_authorization"
     link: "/docs/tasks/security/authorization/authz-custom"
