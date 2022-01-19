@@ -720,6 +720,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>If true, the DNS name table for a headless service will resolve to same-network endpoints in any cluster.</td>
 </tr>
 <tr>
+<td><code>ENABLE_TLS_ON_SIDECAR_INGRESS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, the TLS configuration on Sidecar.ingress will take effect</td>
+</tr>
+<tr>
 <td><code>ENABLE_WASM_TELEMETRY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1300,6 +1306,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>String</td>
 <td><code>sidecar.istio.io/status</code></td>
 <td>An annotation key that indicates this pod contains an istio sidecar. All pods without this annotation will be ignored.The value of the annotation is ignored.</td>
+</tr>
+<tr>
+<td><code>RESOLVE_HOSTNAME_GATEWAYS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, hostnames in the LoadBalancer addresses of a Service will be resolved at the control plane for use in cross-network gateways.</td>
 </tr>
 <tr>
 <td><code>REWRITE_TCP_PROBES</code></td>

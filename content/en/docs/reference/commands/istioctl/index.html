@@ -220,6 +220,11 @@ debug and diagnose their Istio mesh.
 <td>The severity level of analysis at which to set a non-zero exit code. Valid values: [Info Warning Error]  (default `Error`)</td>
 </tr>
 <tr>
+<td><code>--ignore-unknown</code></td>
+<td></td>
+<td>Don&#39;t complain about un-parseable input documents, for cases where analyze should run only on k8s compliant inputs. </td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -4410,6 +4415,11 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--operatorFileName &lt;string&gt;</code></td>
+<td></td>
+<td>Path to file containing IstioOperator custom resources. If configs from files like meshConfigFile, valuesFile are provided, they will be overridden by iop config values.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Modified output Kubernetes resource filename  (default ``)</td>
@@ -6970,6 +6980,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, readiness probes will keep the connection from pilot-agent to the application alive. This mirrors older Istio versions&#39; behaviors, but not kubelet&#39;s.</td>
 </tr>
 <tr>
+<td><code>ENABLE_TLS_ON_SIDECAR_INGRESS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, the TLS configuration on Sidecar.ingress will take effect</td>
+</tr>
+<tr>
 <td><code>ENABLE_WASM_TELEMETRY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -7532,6 +7548,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Reject k8s default tokens, without audience. If false, default K8S token will be accepted</td>
+</tr>
+<tr>
+<td><code>RESOLVE_HOSTNAME_GATEWAYS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, hostnames in the LoadBalancer addresses of a Service will be resolved at the control plane for use in cross-network gateways.</td>
 </tr>
 <tr>
 <td><code>REWRITE_PROBE_LEGACY_LOCALHOST_DESTINATION</code></td>
