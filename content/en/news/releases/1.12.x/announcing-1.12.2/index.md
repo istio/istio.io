@@ -9,14 +9,17 @@ aliases:
     - /news/announcing-1.12.2
 ---
 
-This release fixes the security vulnerability described in our January 18th post, [ISTIO-SECURITY-2022-001](/news/security/istio-security-2022-001) as well as a few minor bug fixes to improve robustness. This release note describes what’s different between Istio 1.12.1 and Istio 1.12.2.
+This release fixes security vulnerabilities described on January 18th ([ISTIO-SECURITY-2022-001](/news/security/istio-security-2022-001) and [ISTIO-SECURITY-2022-002](/news/security/istio-security-2022-002)) and includes minor bug fixes to improve robustness. This release note describes what’s different between Istio 1.12.1 and Istio 1.12.2.
 
 {{< relnote >}}
 
 ## Security Update
 
 - __[CVE-2022-21679](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2CVE-2022-21679i])__:
-  Istio 1.12.0/1.12.1 contain a vulnerability where 1.11 proxy configuration is generated incorrectly affecting the `hosts` and `notHosts` field in the authorization policy.
+  Istio versions 1.12.0 and 1.12.1 contain a vulnerability where configuration for proxies at version 1.11 is generated incorrectly, affecting the `hosts` and `notHosts` field in the authorization policy.
+
+- __[CVE-2022-21701](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2CVE-2022-21679i])__:
+  Istio versions 1.12.0 and 1.12.1 are vulnerable to a privilege escalation attack. Users who have `CREATE` permission for `gateways.gateway.networking.k8s.io` objects can escalate this privilege to create other resources that they may not have access to, such as `Pod`.
 
 ## Changes
 
