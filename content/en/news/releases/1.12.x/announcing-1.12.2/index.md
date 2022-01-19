@@ -18,6 +18,9 @@ This release fixes the security vulnerability described in our January 18th post
 - __[CVE-2022-21679](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2CVE-2022-21679i])__:
   Istio 1.12.0/1.12.1 contain a vulnerability where 1.11 proxy configuration is generated incorrectly affecting the `hosts` and `notHosts` field in the authorization policy.
 
+- __[CVE-2022-21701](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2CVE-2022-21679i])__:
+  Istio version 1.12.0 and 1.12.1 are vulnerable to a privilege escalation attack. Users who have `CREATE` permission for `gateways.gateway.networking.k8s.io` objects can escalate this privilege to create other resources that they may not have access to, such as `Pod`.
+
 ## Changes
 
 - **Added** privileged flag to Istio-CNI Helm charts to set `securityContext` flag.

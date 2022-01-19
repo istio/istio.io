@@ -266,6 +266,7 @@ CVE-2021-32781
 CVE-2021-39155
 CVE-2021-39156
 CVE-2022-21679
+CVE-2022-21701
 CVEs
 cves
 cvss
@@ -911,6 +912,7 @@ Wasm
 wasme
 WasmPlugin
 WeaveWorks
+Weems
 WebAssembly
 webhook
 Webhooks
