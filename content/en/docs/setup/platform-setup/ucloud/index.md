@@ -20,7 +20,9 @@ You can deploy a Kubernetes cluster to UCloud quickly and easily, which fully su
 
 1. Log on to the [UCloud UK8S console](https://console.ucloud.cn/uk8s/manage), and click **Create Cluster** button.
 
-1. Choose dedicated or hosted cluster version. If dedicated cluster is chosen, 3 master nodes are required. If you choose hosted version, the masters and core components like api-server, etcd, scheduler will be maintained by UCloud.
+1. Choose dedicated or managed cluster version. If dedicated cluster is chosen, 3 master nodes are required. If you choose managed version, the masters and core components like api-server, etcd, scheduler will be maintained by UCloud.
+
+1. Select the **region** and **zone** in which the cluster resides.
 
 1. Config Masters(in dedicated version) and Nodes, or keep the default configuration.
 

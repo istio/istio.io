@@ -18,7 +18,9 @@ test: n/a
 
 1. 登陆 [优刻得容器云控制台](https://console.ucloud.cn/uk8s/manage)，并且点击左上角的创建集群按钮。
 
-1. 选择托管版或者专有版，如果选择专有版，需要创建三台Master节点， 如果选择托管版，Master节点以及核心组件，例如api-server, etcd, scheduler等都会由UCloud进行管理。
+1. 选择托管版或者专有版。如果选择专有版，需要创建三台Master节点。如果选择托管版，Master节点以及核心组件，例如api-server, etcd, scheduler等都会由UCloud进行管理。
+
+1. 选择集群所在的 **region** 和 **zone**。
 
 1. 选择Master（在专有版中）和Node节点配置，或者直接使用默认配置。
 
