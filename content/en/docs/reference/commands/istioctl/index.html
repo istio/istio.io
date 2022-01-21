@@ -7436,6 +7436,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>The interval for istiod to fetch the jwks_uri for the jwks public key.</td>
 </tr>
 <tr>
+<td><code>PILOT_LEGACY_INGRESS_BEHAVIOR</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, istio ingress will perform the legacy behavior, which does not meet https://kubernetes.io/docs/concepts/services-networking/ingress/#multiple-matches.</td>
+</tr>
+<tr>
 <td><code>PILOT_MAX_REQUESTS_PER_SECOND</code></td>
 <td>Floating-Point</td>
 <td><code>100</code></td>
