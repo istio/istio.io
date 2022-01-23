@@ -87,7 +87,7 @@ data:
       envoyExtAuthzHttp:
         service: "ext-authz.foo.svc.cluster.local"
         port: "8000"
-        includeHeadersInCheck: ["x-ext-authz"]
+        includeRequestHeadersInCheck: ["x-ext-authz"]
 ENDSNIP
 
 ! read -r -d '' snip_define_the_external_authorizer_3 <<\ENDSNIP
@@ -98,7 +98,7 @@ data:
       envoyExtAuthzHttp:
         service: "oauth2-proxy.foo.svc.cluster.local"
         port: "4180" # The default port used by oauth2-proxy.
-        includeHeadersInCheck: ["authorization", "cookie"] # headers sent to the oauth2-proxy in the check request.
+        includeRequestHeadersInCheck: ["authorization", "cookie"] # headers sent to the oauth2-proxy in the check request.
         headersToUpstreamOnAllow: ["authorization", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token"] # headers sent to backend application when request is allowed.
         headersToDownstreamOnDeny: ["content-type", "set-cookie"] # headers sent back to the client when request is denied.
 ENDSNIP
