@@ -86,6 +86,11 @@ check_content() {
         FAILED=1
     fi
 
+    if grep -nr --include "*.md" -e https://github.com/istio/api/blob/ .; then
+        echo "Ensure markdown content uses {{< github_api_blob >}}"
+        FAILED=1
+    fi
+
     if grep -nr --include "*.md" -e https://github.com/istio/istio/tree/ .; then
         echo "Ensure markdown content uses {{< github_tree >}}"
         FAILED=1
