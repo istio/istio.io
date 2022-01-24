@@ -130,13 +130,15 @@ spec:
   template:
     metadata:
       ...
-      proxy.istio.io/config: |
-        tracing:
-          sampling: 10
-          custom_tags:
-            my_tag_header:
-              header:
-                name: host
+      annotations:
+        ...
+        proxy.istio.io/config: |
+          tracing:
+            sampling: 10
+            custom_tags:
+              my_tag_header:
+                header:
+                  name: host
     spec:
       ...
 {{< /text >}}
