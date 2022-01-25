@@ -1486,6 +1486,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, pilot will allow any upstream cluster to be used with AUTO_PASSTHROUGH. This option is intended for backwards compatibility only and is not secure with untrusted downstreams; it will be removed in the future.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Gateway&#39;s with ISTIO_MUTUAL mode and credentialName configured will use simple TLS. This is to retain legacy behavior only and not recommended for use beyond migration.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_METADATA_EXCHANGE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
