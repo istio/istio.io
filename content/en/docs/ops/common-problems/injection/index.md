@@ -244,4 +244,4 @@ to add a pod annotation `"cluster-autoscaler.kubernetes.io/safe-to-evict":
 
 Many applications execute commands or checks which require network connectivity during their startup. This causes restarts or hangs of the applications if the istio-proxy sidecar container is not ready. In this cases you can use the feature `holdApplicationUntilProxyStarts`, which causes the sidecar injector to inject the sidecar at the start of the pod’s container list and configures it to block the start of all other containers until the proxy is ready.
 
-Can be addedd as a global config option `"values.global.proxy.holdApplicationUntilProxyStarts: true"` or as a pod annotation `proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'`.
+Can be added as a global config option `values.global.proxy.holdApplicationUntilProxyStarts: true` or as a pod annotation `proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'`.
