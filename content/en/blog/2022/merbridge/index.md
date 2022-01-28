@@ -10,24 +10,25 @@ keywords: [Istio,ebpf,iptables,sidecar]
 
 Currently, service mesh technologies lead by Istio are attracting more and more attention of enterprises. The secret of Istio’s abilities of traffic management, security, observability and policy is all in the Envoy. Istio uses Envoy as the sidecar to intercept service traffic with the help of iptables technology in order to do all the functionalities.
 
-However, there are shortcomings in using iptables to do the interception. Since it’s highly versatile to filter packets, several routing rules are applied to form the filter chain before reaching to the destination socket. Due to the need to intercept both the inbound and the outbound traffic, when adding the sidecar part to the datapath, the original path needs to be processed twice in the kernel mode now becomes four times. As a result, the performance will be losed a lot since the datapath is long and being doubled. If the application requires high-performance, it will obviously be impacted.
+However, there are shortcomings in using iptables to do the interception. Since it’s highly versatile to filter packets, several routing rules are applied to form the filter chain before reaching to the destination socket. Due to the need to intercept both the inbound and the outbound traffic, when adding the sidecar part to the datapath, the original path needs to be processed twice in the kernel mode now becomes four times. As a result, the performance will be lost a lot since the data-path is long and being doubled. If the application requires high-performance, it will obviously be impacted.
 
-In the past two years, eBPF becomes a hot-trending technology, and many projects based on eBPF have been raised to the community. Projects such as Cilium, [px.dev](http://px.dev) provide great cases of eBPF in observability and network packet processing. With eBPF’s `sockops` and `redir` capabilities, data packets can be processed efficiently by directly being transported from the inbound socket to the outbound socket. In Istio scenarios, it will be possible to use eBPF to replace iptables rules to accelerate the dataplane traffic by shorten the datapath.
+In the past two years, eBPF becomes a hot-trending technology, and many projects based on eBPF have been raised to the community. Projects like Cilium, [px.dev](http://px.dev) provide us with great cases of eBPF in observability and network packet processing. With eBPF’s `sockops` and `redir` capabilities, data packets can be processed efficiently by directly being transported from the inbound socket to the outbound socket. In Istio scenarios, it will be possible to use eBPF to replace iptables rules to accelerate the data-plane traffic by shorten the data-path.
 
-Now that we have open sourced the Merbridge project, just apply the following command to your Istio-managed cluster, and you will directly get the eBPF ability to achieve network acceleration.
+Now that we have open sourced the Merbridge project, and by applying the following command to your Istio-managed cluster, you will directly get the eBPF ability to achieve network acceleration.
 
-```bash
-kubectl apply -f https://raw.githubusercontent.com/merbridge/merbridge/main/deploy/all-in-one.yaml
-```
+{{< text bash >}}
+$ kubectl apply -f https://raw.githubusercontent.com/merbridge/merbridge/main/deploy/all-in-one.yaml
+{{< /text >}}
 
-> Attention：Currently only support kernel version ≥ 5.15. Please check your kernel version to make sure eBPF functions properly.
->
+{{< warning >}}
+Attention：Currently only support kernel version ≥ 5.15. Please check your kernel version to make sure eBPF functions properly.
+{{< /warning >}}
 
-### Utilize eBPF sockops for performance optimization
+### Utilize eBPF `sockops` for performance optimization
 
-Network connection is essentially socket communication. eBPF provides a function [bpf_msg_redirect_hash]([https://man7.org/linux/man-pages/man7/bpf-helpers.7.html](https://man7.org/linux/man-pages/man7/bpf-helpers.7.html)), to directly forward the packets sent by the application in the inbound socket to the outbound socket, which can noticeably optimize the processing of the packets in the kernel.
+Network connection is essentially socket communication. eBPF provides us with a function `bpf_msg_redirect_hash`, to directly forward the packets sent by the application in the inbound socket to the outbound socket, which can noticeably optimize the processing of the packets in the kernel.
 
-Here a `sock_map` is the curcial part to record the socket rules because an existing socket connection needs to be selected from the `sock_map` according to the current data packet information. Therefore, the socket information needs to be stored to the map at the hook of sockops or somewhere else, and being provided according to the key formed by given information(usually quadruple).
+Here the `sock_map` is the crucial part to record the socket rules because an existing socket connection needs to be selected from the `sock_map` according to the current data packet information. Therefore, the socket information needs to be stored to the map at the hook of `sockops` or somewhere else, and being provided according to the key formed by given information(usually quadruple).
 
 ## Approaches
 
@@ -54,7 +55,7 @@ As mentioned above, we would like to use eBPF’s `sockops` to bypass iptables t
 When we look back at iptables itself, the traffic redirection part utilizes its DNAT function. When trying to simulate the capabilities of iptables using eBPF, to implement the capabilities similar to iptables DNAT is the key part, and there are two main parts:
 
 1. Modify the destination address when the connection is initiated so that traffic can be sent to the new interface.
-2. Enable Enovy to identify the original destination adress to be able to identify the specific traffic.
+1. Enable Enovy to identify the original destination adress to be able to identify the specific traffic.
 
 For the first part, we can use eBPF’s `connect` program to process it, by modifying `user_ip` and `user_port`.
 
@@ -67,9 +68,9 @@ Then, we have to modify this call process through eBPF’s `get_sockopts` functi
 Referring to the figure below, when an application initiates a request, it will go through the following steps:
 
 1. When the application initiates a connection, the `connect` program will modify the destination address to `127.x.y.z:15001`, and use `cookie_original_dst` to save the original destination address.
-2. In the `sockops` program, the current socket information and the quadruple are saved in `sock_pair_map`. At the same time, the same quadruple and its corresponding original destination address will be written to `pair_original_dest`. (Cookie is not used here because it cannot be obtained in the `get_sockopt` program)
-3. After envoy receives the connection, it will call `get_sockopt` function to read the destination address of the current connection. `get_sockopt` function will extract and return the original destination address from `pair_original_dst` according to the quadruple information. Thus, the connection is completely established.
-4. In the data transportation step, the `redir` program will read the sock information from `sock_pair_map` according to the quadruple information, and then forward it directly through `bpf_msg_redirect_hash` to speed up the request.
+1. In the `sockops` program, the current socket information and the quadruple are saved in `sock_pair_map`. At the same time, the same quadruple and its corresponding original destination address will be written to `pair_original_dest` (Cookie is not used here because it cannot be obtained in the `get_sockopt` program).
+1. After envoy receives the connection, it will call `get_sockopt` function to read the destination address of the current connection. `get_sockopt` function will extract and return the original destination address from `pair_original_dst` according to the quadruple information. Thus, the connection is completely established.
+1. In the data transportation step, the `redir` program will read the sock information from `sock_pair_map` according to the quadruple information, and then forward it directly through `bpf_msg_redirect_hash` to speed up the request.
 
 {{< image link="./2.png" caption="Processing Outbound Traffic" >}}
 
@@ -103,8 +104,9 @@ When Envoy tries to establish the connection, we do redirect it to port 15006. H
 
 When the next request is sent, the same process above will not be performed anymore. We will check directly from the `process_ip` map if the destination address is the same as the current IP address.
 
-> Envoy will retry when the request fails, and this retry process will only occur once, which means the subsequent requests will be super fast.
->
+{{< warning >}}
+Envoy will retry when the request fails, and this retry process will only occur once, which means the subsequent requests will be super fast.
+{{< /warning >}}
 
 {{< image link="./4.png" caption="Same-node acceleration" >}}
 
@@ -126,8 +128,9 @@ As above, using eBPF to process the traffic on the machine can greatly reduce th
 
 ## Performance test
 
-> Currently the tests below are basic, and not tested in production yet.
->
+{{< warning >}}
+Currently the tests below are basic, and not tested in production yet.
+{{< /warning >}}
 
 The graph below shows the overall latency after using eBPF instead of iptables (lower is better):
 
@@ -158,5 +161,3 @@ Reference:
 [https://ebpf.io/](https://ebpf.io/)
 
 [https://cilium.io/](https://cilium.io/)
-
-[https://man7.org/linux/man-pages/man7/bpf-helpers.7.html](https://man7.org/linux/man-pages/man7/bpf-helpers.7.html)
