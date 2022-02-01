@@ -117,6 +117,7 @@ appswitch
 AppSwitch
 architected
 args.yaml
+Arielli
 arm64
 ArtifactHub
 AssemblyScript
@@ -217,6 +218,7 @@ crypto
 CSPs
 CSRs
 Ctrl
+Cusa
 Customizable
 customizable
 customTags
@@ -336,6 +338,7 @@ Exfiltrating
 extensionProviders
 ExternalName
 ext-authz
+Ezequiel
 facto
 failover
 failovers
@@ -705,6 +708,7 @@ quo
 RabbitMQ
 radis
 Rajagopalan
+Rappi
 ratelimit-handler
 RawVM
 rbac
@@ -713,6 +717,8 @@ re-applied
 re-patch
 reachability
 rearchitect
+rebalance
+rebalances
 recomposition
 redeployments
 relabeling
