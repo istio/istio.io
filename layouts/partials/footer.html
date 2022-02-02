@@ -95,7 +95,7 @@
                 
                 {{ $fileDir := "" }}
                 {{ with .File }}
-                    {{ $fileDir = .Dir }}
+                    {{ $fileDir = "" + .Dir }}
                 {{ end }}
     
                 {{ if or .Site.Data.args.archive .Site.Data.args.archive_landing }}
