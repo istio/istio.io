@@ -32,7 +32,7 @@ Follow these instructions to prepare a kind cluster for Istio installation.
     {{< tip >}}
     You can use the following command to create a `kind` cluster with an associated external load balancer.
     Otherwise you will need to access gateways and other k8s loadbalancer-type services using the service’s node port,
-    because `kind` does no provide an external loadbalancer by default.
+    because `kind` does not provide an external loadbalancer by default.
 
     {{< text bash >}}
     $ @samples/kind-lb/setupkind.sh@ --cluster-name istio-testing
