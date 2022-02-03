@@ -29,6 +29,17 @@ Follow these instructions to prepare a kind cluster for Istio installation.
 
     `--name` is used to assign a specific name to the cluster. By default, the cluster will be given the name `kind`.
 
+    {{< tip >}}
+    You can use the following command to create a `kind` cluster with an associated external load balancer.
+    Otherwise you will need to access gateways and other k8s loadbalancer-type services using the service’s node port,
+    because `kind` does no provide an external loadbalancer by default:
+
+    {{< text bash >}}
+    $ @samples/kind-lb/setupkind.sh@
+    {{< /text >}}
+
+    {{< /tip >}}
+
 1.  To see the list of kind clusters, use the following command:
 
     {{< text bash >}}
