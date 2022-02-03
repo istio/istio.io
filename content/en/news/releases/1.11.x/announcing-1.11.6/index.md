@@ -21,15 +21,15 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Added** an option to disable a number of nonstandard kubeconfig authentication methods when using multicluster secret by configuring the
 `PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS` environment variable in Istiod. By default, this option is configured to allow all methods; future versions will restrict this by default.
 
-- **Fixed** an issue where enabling tracing with telemetry API will cause malformed host header being used at the trace report request.  ([Issue #35750](https://github.com/istio/istio/issues/35750)),([Issue #36166](https://github.com/istio/istio/issues/36166)),([Issue #36521](https://github.com/istio/istio/issues/36521))
+- **Fixed** an issue where enabling tracing with telemetry API would cause a malformed host header being used at the trace report request.  ([Issue #35750](https://github.com/istio/istio/issues/35750)),([Issue #36166](https://github.com/istio/istio/issues/36166)),([Issue #36521](https://github.com/istio/istio/issues/36521))
 
-- **Fixed** correct error format after json marshal in virtual machine config
+- **Fixed** error format after json marshal in virtual machine config.
   ([Issue #36358](https://github.com/istio/istio/issues/36358))
 
-- **Fixed** endpoint slice cache memory leak
+- **Fixed** endpoint slice cache memory leak.
 
 - **Fixed** an issue where `EnvoyFilter` patches on `virtualOutbound-blackhole` could cause memory leaks.
 
-- **Fixed** an issue where using `ISTIO_MUTUAL` TLS mode in Gateways while also setting `credentialName` cause mutual TLS to not be configured.
+- **Fixed** an issue where using `ISTIO_MUTUAL` TLS mode in Gateways while also setting `credentialName` causes mutual TLS to not be configured.
 For backwards compatibility, this only introduces a warning. To enable the new behavior, set the `PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME=true`
 environment variable in Istiod. This will cause invalid configurations to be rejected, and will be the default behavior in future releases.
