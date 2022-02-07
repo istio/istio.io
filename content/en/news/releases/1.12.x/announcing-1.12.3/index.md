@@ -23,10 +23,10 @@ This release contains bug fixes to improve robustness. This release note describ
 suites will be ignored and logged.
   ([Issue #36805](https://github.com/istio/istio/issues/36805))
 
-- **Fixed** Helm chart generates invalid manifest when given boolean or numeric value for environment variables.
+- **Fixed** Helm chart generating an invalid manifest when given a boolean or numeric value for environment variables.
   ([Issue #36946](https://github.com/istio/istio/issues/36946))
 
-- **Fixed** correct error format after json marshaling in virtual machine config
+- **Fixed** error format after json marshaling in virtual machine config.
   ([Issue #36358](https://github.com/istio/istio/issues/36358))
 
-- **Fixed** an issue where using `ISTIO_MUTUAL` TLS mode in Gateways while also setting `credentialName` caused mutual TLS to not be configured. This configuration is now rejected, as `ISTIO_MUTUAL` is intended to be used without `credentialName` set. The old behavior can be retained by configuring the `PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME=true` environment variable in Istiod.
+- **Fixed** an issue where using `ISTIO_MUTUAL` TLS mode in Gateways while also setting `credentialName` causes mutual TLS to not be configured. This configuration is now rejected, as `ISTIO_MUTUAL` is intended to be used without `credentialName` set. The old behavior can be retained by configuring the `PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME=true` environment variable in Istiod.
