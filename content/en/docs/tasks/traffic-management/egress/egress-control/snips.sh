@@ -194,11 +194,11 @@ grep service_cluster_ip_range cluster/config.yaml
 service_cluster_ip_range: 10.0.0.1/24
 ENDSNIP
 
-snip_google_container_engine_gke_1() {
+snip_google_kubernetes_engine_gke_1() {
 gcloud container clusters describe XXXXXXX --zone=XXXXXX | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
 }
 
-! read -r -d '' snip_google_container_engine_gke_1_out <<\ENDSNIP
+! read -r -d '' snip_google_kubernetes_engine_gke_1_out <<\ENDSNIP
 clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
 ENDSNIP
