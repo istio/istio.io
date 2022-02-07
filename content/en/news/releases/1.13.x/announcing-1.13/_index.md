@@ -20,5 +20,10 @@ Istio 1.13.0 is officially supported on Kubernetes versions `1.19` to `1.23`.
 
 Here are some of the highlights of the release:
 
-TODO!
+
+
+- **Added** support for hostname-based multi-network gateways for east-west traffic. The hostname will be resolved in
+the control plane and each of the IPs will be used as an endpoint. This behaviour can be disabled by setting
+`RESOLVE_HOSTNAME_GATEWAYS=false` for istiod.  ([Issue #29359](https://github.com/istio/istio/issues/29359))
+  - Context: This issue prevented most AWS/EKS users from setting up multi-network meshes.
 
