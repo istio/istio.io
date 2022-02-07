@@ -30,7 +30,8 @@ metadata:
   namespace: istio-system
 spec:
   accessLogging:
-  - {}
+    - providers:
+      - name: envoy
 ENDSNIP
 
 ! read -r -d '' snip_using_mesh_config_1 <<\ENDSNIP

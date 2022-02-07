@@ -267,12 +267,12 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, processing, proxyconfig, retry, rootcertrotator, secretcontroller, serverca, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, processing, proxyconfig, retry, rootcertrotator, secretcontroller, serverca, serviceentry, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, processing, proxyconfig, retry, rootcertrotator, secretcontroller, serverca, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, processing, proxyconfig, retry, rootcertrotator, secretcontroller, serverca, serviceentry, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -297,7 +297,7 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, processing, proxyconfig, retry, rootcertrotator, secretcontroller, serverca, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, processing, proxyconfig, retry, rootcertrotator, secretcontroller, serverca, serviceentry, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -847,6 +847,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, pilot will allow any upstream cluster to be used with AUTO_PASSTHROUGH. This option is intended for backwards compatibility only and is not secure with untrusted downstreams; it will be removed in the future.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Gateway&#39;s with ISTIO_MUTUAL mode and credentialName configured will use simple TLS. This is to retain legacy behavior only and not recommended for use beyond migration.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_METADATA_EXCHANGE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1003,9 +1009,15 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>The interval for istiod to fetch the jwks_uri for the jwks public key.</td>
 </tr>
 <tr>
+<td><code>PILOT_LEGACY_INGRESS_BEHAVIOR</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, istio ingress will perform the legacy behavior, which does not meet https://kubernetes.io/docs/concepts/services-networking/ingress/#multiple-matches.</td>
+</tr>
+<tr>
 <td><code>PILOT_MAX_REQUESTS_PER_SECOND</code></td>
 <td>Floating-Point</td>
-<td><code>100</code></td>
+<td><code>25</code></td>
 <td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently.</td>
 </tr>
 <tr>

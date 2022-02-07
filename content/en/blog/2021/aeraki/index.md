@@ -98,7 +98,7 @@ Similar to Istio, protocols are identified by service port prefix. Please name s
 
 ### Traffic management
 
-You can change the route via `MataRouter` CRD. For example: send 20% of the requests to v1 and 80% to v2:
+You can change the route via `MetaRouter` CRD. For example: send 20% of the requests to v1 and 80% to v2:
 
 {{< text yaml >}}
 apiVersion: metaprotocol.aeraki.io/v1alpha1

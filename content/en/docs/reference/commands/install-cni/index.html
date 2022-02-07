@@ -972,6 +972,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>If enabled, pilot will allow any upstream cluster to be used with AUTO_PASSTHROUGH. This option is intended for backwards compatibility only and is not secure with untrusted downstreams; it will be removed in the future.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Gateway&#39;s with ISTIO_MUTUAL mode and credentialName configured will use simple TLS. This is to retain legacy behavior only and not recommended for use beyond migration.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_METADATA_EXCHANGE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1128,9 +1134,15 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>The interval for istiod to fetch the jwks_uri for the jwks public key.</td>
 </tr>
 <tr>
+<td><code>PILOT_LEGACY_INGRESS_BEHAVIOR</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, istio ingress will perform the legacy behavior, which does not meet https://kubernetes.io/docs/concepts/services-networking/ingress/#multiple-matches.</td>
+</tr>
+<tr>
 <td><code>PILOT_MAX_REQUESTS_PER_SECOND</code></td>
 <td>Floating-Point</td>
-<td><code>100</code></td>
+<td><code>25</code></td>
 <td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently.</td>
 </tr>
 <tr>

@@ -35,10 +35,11 @@ metadata:
   namespace: istio-system
 spec:
   accessLogging:
-  - {}
+    - providers:
+      - name: envoy
 {{< /text >}}
 
-The above example provides and empty object (`{}`), as we do not want to configure anything other than default settings.
+The above example uses the default `envoy` access log provider, and we do not configure anything other than default settings.
 
 Similar configuration can also be applied on an individual namespace, or to an individual workload, to control logging at a fine grained level.
 

@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 98
+number_of_entries: 99
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -1632,7 +1632,7 @@ istioctl experimental add-to-mesh dep &lt;deployment&gt; [flags]
   istioctl x add dep ratings-v1
 </code></pre>
 <h2 id="istioctl-experimental-add-to-mesh-external-service">istioctl experimental add-to-mesh external-service</h2>
-<p>istioctl experimental add-to-mesh external-service create a ServiceEntry and 
+<p>istioctl experimental add-to-mesh external-service create a ServiceEntry and
 a Service without selector for the specified external service in Istio service mesh.
 The typical usage scenario is Mesh Expansion on VMs.</p>
 <p>See also &#39;istioctl experimental remove-from-mesh external-service&#39; which does the reverse.</p>
@@ -2245,6 +2245,70 @@ the configuration objects that affect that service.</p>
 </table>
 <h3 id="istioctl-experimental-describe-service Examples">Examples</h3>
 <pre class="language-bash"><code>  istioctl experimental describe service productpage
+</code></pre>
+<h2 id="istioctl-experimental-envoy-stats">istioctl experimental envoy-stats</h2>
+<p>Retrieve Envoy emitted metrics for the specified pod.</p>
+<pre class="language-bash"><code>istioctl experimental envoy-stats [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl experimental es [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|yaml|prom  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--type &lt;string&gt;</code></td>
+<td><code>-t</code></td>
+<td>Where to grab the stats: one of server|clusters  (default `server`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-envoy-stats Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve Envoy emitted metrics for the specified pod.
+  istioctl experimental envoy-stats &lt;pod-name[.namespace]&gt;
+
+  # Retrieve Envoy server metrics in prometheus format
+  istioctl experimental envoy-stats &lt;pod-name[.namespace]&gt; --output prom
+
+  # Retrieve Envoy cluster metrics
+  istioctl experimental envoy-stats &lt;pod-name[.namespace]&gt; --type clusters
+
 </code></pre>
 <h2 id="istioctl-experimental-injector">istioctl experimental injector</h2>
 <p>List sidecar injector and sidecar versions</p>
@@ -7280,6 +7344,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, pilot will allow any upstream cluster to be used with AUTO_PASSTHROUGH. This option is intended for backwards compatibility only and is not secure with untrusted downstreams; it will be removed in the future.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Gateway&#39;s with ISTIO_MUTUAL mode and credentialName configured will use simple TLS. This is to retain legacy behavior only and not recommended for use beyond migration.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_METADATA_EXCHANGE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -7436,9 +7506,15 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>The interval for istiod to fetch the jwks_uri for the jwks public key.</td>
 </tr>
 <tr>
+<td><code>PILOT_LEGACY_INGRESS_BEHAVIOR</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, istio ingress will perform the legacy behavior, which does not meet https://kubernetes.io/docs/concepts/services-networking/ingress/#multiple-matches.</td>
+</tr>
+<tr>
 <td><code>PILOT_MAX_REQUESTS_PER_SECOND</code></td>
 <td>Floating-Point</td>
-<td><code>100</code></td>
+<td><code>25</code></td>
 <td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently.</td>
 </tr>
 <tr>

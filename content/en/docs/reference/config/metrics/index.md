@@ -118,3 +118,7 @@ For TCP traffic, Istio generates the following metrics:
 
 *   **Source Cluster**: This identifies the cluster of the source workload.
     This is set by: `global.multiCluster.clusterName` at cluster install time.
+
+*   **gRPC Response Status**: This identifies the response status of the gRPC. This
+    label is present only on gRPC metrics.
+
