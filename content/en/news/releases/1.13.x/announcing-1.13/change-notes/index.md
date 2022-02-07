@@ -27,6 +27,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Improved** istio-agent health probe rewrite to not re-use connections, mirring Kubernetes' probing behavior.
   ([Issue #36390](https://github.com/istio/istio/issues/36390))
 
+
 - **Improved** the default `PILOT_MAX_REQUESTS_PER_SECOND`, which limits the number of **new** XDS connections per second,
 to 25 (from 100). This has been shown to improve performance under high load.
 
@@ -40,44 +41,52 @@ for service discovery for Kubernetes 1.21 or later. To switch back to the old
 the control plane and each of the IPs will be used as an endpoint. This behaviour can be disabled by setting
 `RESOLVE_HOSTNAME_GATEWAYS=false` for istiod.  ([Issue #29359](https://github.com/istio/istio/issues/29359))
 
-- **Added** support rewriting gRPC probes
+- **Added** support rewriting gRPC probes.
+
 
 - **Added** a feature flag `PILOT_LEGACY_INGRESS_BEHAVIOR`, default to false.
 If this is set to true, istio ingress will perform the legacy behavior,
 which does not meet https://kubernetes.io/docs/concepts/services-networking/ingress/#multiple-matches.
   ([Issue #35033](https://github.com/istio/istio/issues/35033))
 
-- **Fixed** listeners to balance between Envoy worker threads. Fixes (#18152)[https://github.com/istio/istio/issues/18152).  ([Issue #18152](https://github.com/istio/istio/issues/18152))
+- **Fixed** listeners to balance between Envoy worker threads. ([Issue #18152](https://github.com/istio/istio/issues/18152))
+
 
 - **Fixed** an issue where specifying conflict protocols for a service target port
 will cause unstable protocol selection for that port.
   ([Issue #36462](https://github.com/istio/istio/issues/36462))
 
+
 - **Fixed** an issue where scaling endpoint for a service from 0 to 1
 might cause client side serivce account verification populated incorrectly.
   ([Issue #36456](https://github.com/istio/istio/issues/36456))
 
+
 - **Fixed** an issue where TcpKeepalive setting at mesh config is not honored.
   ([Issue #36499](https://github.com/istio/istio/issues/36499))
+
 
 - **Fixed** an issue where stale endpoints can be configured when a service gets deleted and created again.
   ([Issue #36510](https://github.com/istio/istio/issues/36510))
 
+
 - **Fixed** an issue where istiod crashes if prioritized leader election (controlled via `PRIORITIZED_LEADER_ELECTION` env variable) is disabled.  ([Issue #36541](https://github.com/istio/istio/issues/36541))
+
 
 - **Fixed** an issue that sidecar iptables will cause intermittent connection reset due to the out of window packet.
 Introduced a flag meshConfig.defaultConfig.proxyMetadata.INVALID_DROP to control this setting.
   ([Issue #36566](https://github.com/istio/istio/pull/36566))
 
+
 - **Fixed** an issue where in place upgrade will cause tcp connection between <1.12 proxy and 1.12 proxy to fail.
   ([Issue #36797](https://github.com/istio/istio/pull/36797))
+
 
 - **Fixed** an issue where `EnvoyFilter` with ANY patch context will skip adding new clusters and listeners at gateway.
 
 
 - **Fixed** an issue causing HTTP/1.0 requests to be rejected (with a `426 Upgrade Required` error) in some cases.
   ([Issue #36707](https://github.com/istio/istio/issues/36707))
-
 
 
 - **Fixed** an issue where using `ISTIO_MUTUAL` TLS mode in Gateways while also setting `credentialName` cause mutual TLS to not be configured.
@@ -88,8 +97,10 @@ The old behavior can be retaind by configuring the `PILOT_ENABLE_LEGACY_ISTIO_MU
 - **Fixed** changes in delegate virtual service do not take effect when rds cache enabled
   ([Issue #36525](https://github.com/istio/istio/issues/36525))
 
+
 - **Fixed** an issue causing mTLS errors for traffic on port 22, by including port 22 in iptables by default.
   ([Issue #35733](https://github.com/istio/istio/issues/35733))
+
 
 - **Fixed** an issue causing hostnames overlapping the cluster domain (such as `example.local`) to generate invalid routes.
   ([Issue #35676](https://github.com/istio/istio/issues/35676))
@@ -99,9 +110,12 @@ The old behavior can be retaind by configuring the `PILOT_ENABLE_LEGACY_ISTIO_MU
 
 - **Promoted** the authorization policy dry-run mode to alpha.
  ([usage]( https://istio.io/latest/docs/tasks/security/authorization/authz-dry-run/)) ([Issue #112](https://github.com/istio/enhancements/pull/112))
- - **Added** TLS settings to the sidecar API in order to enable TLS/mTLS termination on the sidecar proxy for requests
- coming from outside the mesh.
-   ([Issue #35111](https://github.com/istio/istio/issues/35111))
+
+
+- **Added** TLS settings to the sidecar API in order to enable TLS/mTLS termination on the sidecar proxy for requests
+coming from outside the mesh. ([Issue #35111](https://github.com/istio/istio/issues/35111))
+
+
 - **Fixed** a copule of issues in the ext-authz filter affecting the behavior of the gRPC check response API. Please
 see the [Envoy release note](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.20.0#bug-fixes) for more
 details of the bug fixes if you are using authorization policies with the ext-authz gRPC extension provider in Istio.
