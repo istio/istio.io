@@ -274,6 +274,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
           caAddress: $EXTERNAL_ISTIOD_ADDR:15012
           istioNamespace: external-istiod
           operatorManageWebhooks: true
+          configValidation: false
           meshID: mesh1
     EOF
     {{< /text >}}
