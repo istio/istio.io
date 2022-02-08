@@ -14,6 +14,7 @@ The notes also mention changes which preserve backwards compatibility while intr
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.12.x.
 
 ## Health Probes will no longer re-use connections
+
 Health probes using the istio-agent [health probe rewrite](https://istio.io/latest/docs/ops/configuration/mesh/app-health-check/) will
 now no longer re-use connections for the probe. This behavior was changed to match probing behavior of Kubernetes',
 and may also improve probe reliability for applications using short idle timeouts.
@@ -24,6 +25,7 @@ For most applications, this will not be noticeably different.
 If you need to revert to the old behavior, the `ENABLE_PROBE_KEEPALIVE_CONNECTION=true` environment variable in the proxy may be set.
 
 ## Multicluster Secret Authentication Changes
+
 When kubeconfig files are created to [enable endpoint discovery](https://istio.io/latest/docs/setup/install/multicluster/multi-primary/#enable-endpoint-discovery)
 in multicluster installations, the authentication methods allowed in the configuration is now limited.
 
@@ -34,6 +36,7 @@ A new environment variable, `PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS`, is
 For example, if `exec` authentication is used, set `PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS=exec`.
 
 ## Port 22 iptables capture changes
+
 In previous versions, port 22 was excluded from iptables capture. This mitigates risk of getting locked out of a VM
 when using Istio on VMs. This configuration was hardcoded into the iptables logic, meaning there was no way to
 capture traffic on port 22.
