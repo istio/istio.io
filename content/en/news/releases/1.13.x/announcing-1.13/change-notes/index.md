@@ -172,7 +172,7 @@ errors when non-k8s yaml files are found in a file or directory.
 
 - **Fixed** `operator init --dry-run` creates unexpected namespaces.
 
-**Fixed** correct error format after json marshal in virtual machine config
+- **Fixed** error format after json marshal in virtual machine config.
   ([Issue #36358](https://github.com/istio/istio/issues/36358))
 
 ## Documentation changes
