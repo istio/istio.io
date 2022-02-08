@@ -1,0 +1,12 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: WorkloadGroup
+metadata:
+  name: "mysqldb"
+  namespace: "vm"
+spec:
+  metadata:
+    labels:
+      app: "mysqldb"
+  template:
+    serviceAccount: "default"
+    network: ""
