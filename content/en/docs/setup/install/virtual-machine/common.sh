@@ -47,7 +47,7 @@ function setup_vm() {
     -v "${WORK_DIR}:/root" -v "${PWD}/content/en/docs/setup/install/virtual-machine:/test" \
     ${EXTRA_VM_ARGS:-} \
     -w "/root" \
-    gcr.io/istio-release/base:master-2022-01-14T19-01-09
+    gcr.io/istio-release/base:${BASE_VERSION}
 
   POD_CIDR=$(kubectl get node -ojsonpath='{.items[0].spec.podCIDR}')
   DOCKER_IP=$(docker inspect -f "{{ .NetworkSettings.Networks.kind.IPAddress }}" istio-testing-control-plane)
@@ -69,7 +69,7 @@ function setup_vm() {
     snip_configure_the_virtual_machine_1
     snip_configure_the_virtual_machine_2
     # TODO: we should probably have a better way to get the debian package
-    curl -LO https://storage.googleapis.com/istio-build/dev/1.13-alpha.5698d7291554bad89fd9282dbc718c1c25be2982/deb/istio-sidecar.deb
+    curl -LO https://storage.googleapis.com/istio-build/dev/${TAG}/deb/istio-sidecar.deb
     sudo dpkg -i istio-sidecar.deb
     snip_configure_the_virtual_machine_5
     snip_configure_the_virtual_machine_6

@@ -205,6 +205,9 @@ ifdef VARIANT
 endif
 	@export TAG
 	@echo "TAG=${TAG}"
+	$(eval BASE_VERSION := =$(shell cd ${ISTIO_GO} && grep BASE_VERSION Makefile.core.mk | awk '{ print $3}'))
+	@echo "BASE_VERSION=${BASE_VERSION}"
+	@export BASE_VERSION
 
 # doc test framework
 include tests/tests.mk
