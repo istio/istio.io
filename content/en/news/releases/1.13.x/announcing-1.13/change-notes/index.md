@@ -1,5 +1,5 @@
 ---
-title: Announcing Istio 1.13.0
+title: Istio 1.13 Change Notes
 linktitle: 1.13.0
 subtitle: Minor Release
 description: Istio 1.13.0 minor release.
