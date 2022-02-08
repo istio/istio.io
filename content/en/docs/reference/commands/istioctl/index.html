@@ -2612,6 +2612,11 @@ calculated over a time interval of 1 minute.
 <td>The name of the kubeconfig context to use  (default ``)</td>
 </tr>
 <tr>
+<td><code>--duration &lt;duration&gt;</code></td>
+<td><code>-d</code></td>
+<td>Duration of query metrics, default value is 1m.  (default `1m0s`)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -2636,6 +2641,9 @@ calculated over a time interval of 1 minute.
 <h3 id="istioctl-experimental-metrics Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve workload metrics for productpage-v1 workload
   istioctl experimental metrics productpage-v1
+
+  # Retrieve workload metrics for various services with custom duration
+  istioctl experimental metrics productpage-v1 -d 2m
 
   # Retrieve workload metrics for various services in the different namespaces
   istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
