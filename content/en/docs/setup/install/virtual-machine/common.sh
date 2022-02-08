@@ -54,9 +54,6 @@ function setup_vm() {
   # Here, we run the snippets *inside* the docker VM. This mirrors the docs telling to run the commands
   # on the VM
 
-  # On release branch, this should use https://storage.googleapis.com/istio-build/dev/1.${MINOR}-dev
-  DEV_VERSION=$(curl https://storage.googleapis.com/istio-build/dev/latest)
-
   docker exec --privileged vm bash -c "
     # Setup connectivity
     ip route add ${POD_CIDR} via ${DOCKER_IP}
@@ -73,7 +70,7 @@ function setup_vm() {
     snip_configure_the_virtual_machine_1
     snip_configure_the_virtual_machine_2
     # TODO: we should probably have a better way to get the debian package
-    curl -LO https://storage.googleapis.com/istio-build/dev/${DEV_VERSION}/deb/istio-sidecar.deb
+    curl -LO https://storage.googleapis.com/istio-build/dev/${VERSION}/deb/istio-sidecar.deb
     sudo dpkg -i istio-sidecar.deb
     snip_configure_the_virtual_machine_5
     snip_configure_the_virtual_machine_6
