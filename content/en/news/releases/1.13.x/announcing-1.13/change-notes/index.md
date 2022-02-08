@@ -134,7 +134,7 @@ mutating webhook and added --auto-inject-namespaces flag to `istioctl tag` contr
 - **Fixed** an issue where setting `includeInboundPorts` with helm values does not take effect.
   ([Issue #36644](https://github.com/istio/istio/issues/36644))
 
-- **Fixed** an issue that was preventing the chart to be used as a chart depency
+- **Fixed** an issue that was preventing the chart to be used as a chart dependency.
   ([Issue #35495](https://github.com/istio/istio/issues/35495))
 
 - **Fixed** Helm chart generates invalid manifest when given boolean or numeric value for environment variables.
