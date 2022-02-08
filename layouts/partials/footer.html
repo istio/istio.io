@@ -27,7 +27,7 @@
         <hr class="footer-separator" role="separator"/>
 
         <div class="info footer-info">
-            <a class="logo" href="{{ $home.Permalink }}">
+            <a class="logo" href="{{ $home.Permalink }}" aria-label="logotype">
                 {{ with resources.Get "inline_images/istio-logo-with-brand.svg" }}{{ .Content | safeHTML }}{{ end }}
             </a>
 
