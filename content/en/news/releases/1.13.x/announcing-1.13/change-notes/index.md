@@ -78,7 +78,7 @@ Introduced a flag meshConfig.defaultConfig.proxyMetadata.INVALID_DROP to control
 This configuration is now rejected, as `ISTIO_MUTUAL` is intended to be used without `credentialName` set.
 The old behavior can be retaind by configuring the `PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME=true` environment variable in Istiod.
 
-- **Fixed** changes in delegate virtual service do not take effect when rds cache enabled
+- **Fixed** changes in delegate virtual service do not take effect when rds cache enabled.
   ([Issue #36525](https://github.com/istio/istio/issues/36525))
 
 - **Fixed** an issue causing mTLS errors for traffic on port 22, by including port 22 in iptables by default.
