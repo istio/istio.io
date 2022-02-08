@@ -69,7 +69,7 @@ function setup_vm() {
     snip_configure_the_virtual_machine_1
     snip_configure_the_virtual_machine_2
     # TODO: we should probably have a better way to get the debian package
-    curl -LO https://storage.googleapis.com/istio-build/dev/1.9-alpha.cdae086ca8cae8be174c8feee509841f89792e43/deb/istio-sidecar.deb
+    curl -LO https://storage.googleapis.com/istio-build/dev/1.13-alpha.5698d7291554bad89fd9282dbc718c1c25be2982/deb/istio-sidecar.deb
     sudo dpkg -i istio-sidecar.deb
     snip_configure_the_virtual_machine_5
     snip_configure_the_virtual_machine_6
