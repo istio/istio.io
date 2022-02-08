@@ -342,6 +342,7 @@ emojis
 enablement
 endUser-to-Service
 env
+envoyproxy
 etcd
 example.com
 ExecAction
@@ -655,6 +656,7 @@ OpenSSL
 openssl
 OpenTracing
 operationalize
+optname
 OS-level
 Ostrowski
 outsized
@@ -719,6 +721,7 @@ Proxyless
 Pub/Sub
 PubNub
 pwd
+px.dev
 qps
 quay.io
 quo
