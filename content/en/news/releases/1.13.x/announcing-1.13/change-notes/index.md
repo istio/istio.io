@@ -112,29 +112,28 @@ the Telemetry API.
 
 ## Installation
 
-- **Added** privileged flag to Istio-CNI Helm charts to set `securityContext` flag.
+- **Added** a privileged flag to Istio-CNI Helm charts to set `securityContext` flag.
   ([Issue #34211](https://github.com/istio/istio/issues/34211))
 
-- **Added** istiod deployment respect `values.pilot.nodeSelector`.
+- **Updated** istiod deployment to respect `values.pilot.nodeSelector`.
   ([Issue #36110](https://github.com/istio/istio/issues/36110))
 
-- **Fixed** the in-cluster operator can't prune resources when the Istio control plane have active proxies connected.
+- **Fixed** an issue where the in-cluster operator can't prune resources when the Istio control plane has active proxies connected.
   ([Issue #35657](https://github.com/istio/istio/issues/35657))
 
-- **Fixed** omitted setting .Values.sidecarInjectiorWebhook.enableNamespacesByDefault in the default revision
-mutating webhook and added --auto-inject-namespaces flag to `istioctl tag` controlling this setting.
+- **Fixed** omission of the `.Values.sidecarInjectiorWebhook.enableNamespacesByDefault` setting in the default revision mutating webhook, and added `--auto-inject-namespaces` flag to `istioctl tag` controlling this setting.
   ([Issue #36258](https://github.com/istio/istio/issues/36258))
 
-- **Fixed** an issue where setting `includeInboundPorts` with helm values does not take effect.
+- **Fixed** an issue where setting `includeInboundPorts` with Helm values did not take effect.
   ([Issue #36644](https://github.com/istio/istio/issues/36644))
 
-- **Fixed** an issue that was preventing the chart to be used as a chart dependency.
+- **Fixed** an issue that was preventing the Helm chart to be used as a chart dependency.
   ([Issue #35495](https://github.com/istio/istio/issues/35495))
 
-- **Fixed** Helm chart generates invalid manifest when given boolean or numeric value for environment variables.
+- **Fixed** that the Helm chart generated an invalid manifest when given boolean or numeric values for environment variables.
   ([Issue #36946](https://github.com/istio/istio/issues/36946))
 
-- **Removed** support for a number of nonstandard kubeconfig authentication methods when using multicluster secret.
+- **Removed** support for a number of nonstandard `kubeconfig` authentication methods when using multicluster secrets.
 
 ## istioctl
 
