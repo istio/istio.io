@@ -626,7 +626,7 @@ A common symptom of this is for the load balancer health checks to succeed while
 Please refer to the [IPv6 enabled cluster](https://docs.google.com/document/d/1a6eZ6ldF2l7De3vX-SBAHmuJ00uxlgpPznHocG7zcfs/edit?usp=sharing) for more information.
 {{< /tip >}}
 
-There may be error messages similar with [Issue](https://github.com/istio/istio/issues/34358) when using some istioctl commands, such as `istioctl proxy-config`, `istioctl proxy-status` and `istioctl dashboard`, etc. All these commands are implemented via `Istio prot forward`. The reason might be caused by the container runtime in user's Kubernetes cluster. To avoid this error, please make sure to follow rules:
+There may be error messages similar with [Issue](https://github.com/istio/istio/issues/34358) when using some istioctl commands, such as `istioctl proxy-config`, `istioctl proxy-status` and `istioctl dashboard`, etc. All these commands are implemented via `Istio prot forward`. The reason might be caused by the container runtime in user's Kubernetes cluster. To avoid this error, please make sure to follow the rules:
 
-  - `If Docker as the container runtime`： User need to change the runtime from `Docker` to `containerd`
-  - `If containerd as the container runtime`： User should guarantee that the `containerd` version is higher than 1.5.0
+- `If Docker as the container runtime`： User need to change the runtime from `Docker` to `containerd`
+- `If containerd as the container runtime`： User should guarantee that the `containerd` version is higher than 1.5.0
