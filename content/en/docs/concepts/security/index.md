@@ -159,6 +159,7 @@ Istio provides two types of authentication:
    Connect providers, for example:
     - [ORY Hydra](https://www.ory.sh/)
     - [Keycloak](https://www.keycloak.org/)
+    - [Casdoor](https://casdoor.org/)
     - [Auth0](https://auth0.com/)
     - [Firebase Auth](https://firebase.google.com/docs/auth/)
     - [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect)
