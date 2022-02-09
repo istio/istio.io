@@ -57,10 +57,12 @@ introduced in Alpha in Istio 1.8, has been promoted to Beta in this release.
 [Authorization policy dry-run mode](https://istio.io/latest/docs/tasks/security/authorization/authz-dry-run/) has also
 been promoted from Experimental to Alpha.
 
-## Upcoming security releases
+## Upgrading to 1.13
 
 Please note that [Istio 1.13.1 will be released on February 22](https://discuss.istio.io/t/upcoming-istio-v1-11-7-v1-12-4-and-v1-13-1-security-releases/12264)
 to address various security vulnerabilities.
+
+When you upgrade, we would like to hear from you! Please take a few minutes to respond to a brief [survey](https://forms.gle/pzWZpAvMVBecaQ9h9) to let us know how we’re doing.
 
 ## Join us at IstioCon
 
