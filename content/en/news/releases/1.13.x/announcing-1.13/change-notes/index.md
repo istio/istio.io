@@ -170,8 +170,3 @@ errors when non-k8s yaml files are found in a file or directory.
 ## Documentation changes
 
 - **Fixed** formatting of the telemetry configuration reference page.
-
-# Security update
-
-- This feature extends the `IstioIngressListener` on Sidecar API to allow TLS/mTLS for
-requests originating from outside of the mesh.
