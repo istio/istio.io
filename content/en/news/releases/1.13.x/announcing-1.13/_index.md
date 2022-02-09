@@ -3,7 +3,7 @@ title: Announcing Istio 1.13
 linktitle: 1.13
 subtitle: Major Update
 description: Istio 1.13 release announcement.
-publishdate: 2022-02-08
+publishdate: 2022-02-09
 release: 1.13.0
 skip_list: true
 aliases:
@@ -21,10 +21,9 @@ This is the first Istio release of 2022. We would like to thank the entire Istio
 Istio 1.13.0 is officially supported on Kubernetes versions `1.20` to `1.23`.
 {{< /tip >}}
 
-
 Here are some of the highlights of the release:
 
-## Configure the Istio sidecar proxy with the ProxyConfig API
+## Configure the Istio sidecar proxy with the `ProxyConfig` API
 
 Previous versions of Istio allowed configuration of proxy-level Envoy options with the [mesh-wide settings API](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig).
 In 1.13, we have promoted this configuration to its open top-level custom resource, `ProxyConfig`. Like other Istio
@@ -33,12 +32,12 @@ configuration APIs, this CR can be configured globally, per-namespace, or per-wo
 In the initial release, you can configure concurrency and proxy image type through the `ProxyConfig` CR.  This will
 expand in future releases.
 
-For more information, check out the [ProxyConfig documentation](https://istio.io/latest/docs/reference/config/networking/proxy-config/).
+For more information, check out the [`ProxyConfig` documentation](https://istio.io/latest/docs/reference/config/networking/proxy-config/).
 
 ## Continued improvements to the Telemetry API
 
 We continue to refine the new [Telemetry API](https://istio.io/latest/docs/tasks/observability/telemetry/), introduced
-in Istio 1.11. In 1.13, we added support for [logging with OpenTelemetry](https://opentelemetry.io/docs/reference/specification/logs/overview/), [filtering access logs](https://istio.io/latest/docs/reference/config/telemetry/#AccessLogging-Filter),
+in Istio 1.11. In 1.13, we added support for [logging with `OpenTelemetry`](https://opentelemetry.io/docs/reference/specification/logs/overview/), [filtering access logs](https://istio.io/latest/docs/reference/config/telemetry/#AccessLogging-Filter),
 and customizing the trace service name. There are also a large number of bug fixes and improvements.
 
 ## Support for hostname based load balancers for multi-network gateways
@@ -52,7 +51,7 @@ gateway of a remote cluster on EKS.
 
 ## Feature updates
 
-The [WorkloadGroup](https://istio.io/latest/docs/reference/config/networking/workload-group/) API feature, first
+The [`WorkloadGroup`](https://istio.io/latest/docs/reference/config/networking/workload-group/) API feature, first
 introduced in Alpha in Istio 1.8, has been promoted to Beta in this release.
 
 [Authorization policy dry-run mode](https://istio.io/latest/docs/tasks/security/authorization/authz-dry-run/) has also

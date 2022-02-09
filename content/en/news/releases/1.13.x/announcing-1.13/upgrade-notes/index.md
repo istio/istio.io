@@ -1,14 +1,14 @@
 ---
 title: Istio 1.13 Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.13.0.
-publishdate: 2022-02-08
+publishdate: 2022-02-09
 weight: 20
 ---
 
 When you upgrade from Istio 1.12.x to Istio 1.13.0, you need to consider the changes on this page.
 These notes detail the changes which purposefully break backwards compatibility with Istio 1.13.0.
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
-Changes are only included if the new behavior would be unexpected to a user of Istio 1.12.x.
+Changes are only included if the new behavior would be unexpected to a user of Istio `1.12.x`.
 
 ## Health Probes will no longer re-use connections
 
@@ -35,7 +35,7 @@ For example, if `exec` authentication is used, set `PILOT_INSECURE_MULTICLUSTER_
 ## Port 22 iptables capture changes
 
 In previous versions, port 22 was excluded from iptables capture. This mitigates risk of getting locked out of a VM
-when using Istio on VMs. This configuration was hardcoded into the iptables logic, meaning there was no way to
+when using Istio on VMs. This configuration was hard coded into the iptables logic, meaning there was no way to
 capture traffic on port 22.
 
 The iptables logic now no longer has special logic on port 22. Instead, the `istioctl x workload entry configure`
