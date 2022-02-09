@@ -3,7 +3,7 @@ title: Istio 1.13 Change Notes
 linktitle: 1.13.0
 subtitle: Minor Release
 description: Istio 1.13.0 change notes.
-publishdate: 2021-02-09
+publishdate: 2022-02-09
 release: 1.13.0
 weight: 10
 aliases:
