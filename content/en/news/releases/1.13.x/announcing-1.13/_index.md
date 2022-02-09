@@ -66,9 +66,9 @@ When you upgrade, we would like to hear from you! Please take a few minutes to r
 
 ## Join us at IstioCon
 
-IstioCon 2022, set for April 25-29, will be the second annual conference for the Istio community. This year's conference
+[IstioCon 2022](https://events.istio.io/istiocon-2022/), set for April 25-29, will be the second annual conference for the Istio community. This year's conference
 will again be 100% virtual, connecting community members across the globe with Istio's ecosystem of developers, partners
-and vendors. Visit the [conference website](https://events.istio.io/) for all the information related to the event.
+and vendors. Visit the [conference website](https://events.istio.io/istiocon-2022/) for all the information related to the event.
 
 You can also join the conversation at [Discuss Istio](https://discuss.istio.io/), or join our [Slack workspace](https://slack.istio.io/).
 Would you like to contribute directly to Istio? Find and join one of our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us improve.
