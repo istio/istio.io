@@ -81,11 +81,6 @@ else
   make "${ISTIO_OUT}/release/istioctl-linux-amd64"
   cp -a "${ISTIO_OUT}/release/istioctl-linux-amd64" /gobin/istioctl
 fi
-# Get base version tag
-BASE_VERSION=$(grep BASE_VERSION Makefile.core.mk | awk '{ print $3}')
-export BASE_VERSION
-echo "BASE_VERSION=${BASE_VERSION}"
-
 
 popd > /dev/null
 
