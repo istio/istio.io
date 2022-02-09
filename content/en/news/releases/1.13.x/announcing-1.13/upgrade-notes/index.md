@@ -24,7 +24,7 @@ If you need to revert to the old behavior, the `ENABLE_PROBE_KEEPALIVE_CONNECTIO
 ## Multicluster Secret Authentication Changes
 
 When kubeconfig files are created to [enable endpoint discovery](https://istio.io/latest/docs/setup/install/multicluster/multi-primary/#enable-endpoint-discovery)
-in multicluster installations, the authentication methods allowed in the configuration is now limited.
+in multicluster installations, the authentication methods allowed in the configuration is now limited to improve the security.
 
 The two authentication methods output but `istioctl create-remote-secret` (`oidc` and `token`), are not impacted.
 As a result, only users that are creating custom kubeconfig files will be impacted.
