@@ -163,6 +163,12 @@ integrations:
     description: "Flagger is a Progressive Delivery Operator for Kubernetes."
     details:
       - "Flagger can run automated application analysis, testing, promotion and rollback for Canary (progressive traffic shifting), A/B Testing (HTTP headers and cookies traffic routing) and Blue/Green (traffic switching and mirroring) using Istio."
+  - name: "Gloo Edge"
+    logo: "/logos/gloo.png"
+    url: "https://www.solo.io/products/gloo-edge/"
+    description: "Gloo Edge is a Kubernetes native API gateway and ingress controller built on Envoy Proxy to facilitate and secure application traffic at the edge"
+    details:
+      - "Gloo Edge is a feature-rich, Kubernetes-native ingress controller, and next-generation API gateway. Gloo edge integrates nicely with Istio and services running in Istio mesh."
   - name: "Keyfactor Command"
     logo: "/logos/keyfactor.svg"
     url: "https://blog.keyfactor.com/secure-istio-mtls"
