@@ -72,7 +72,7 @@ Introduced a flag `meshConfig.defaultConfig.proxyMetadata.INVALID_DROP` to contr
 This configuration is now rejected, as `ISTIO_MUTUAL` is intended to be used without `credentialName` set.
 The old behavior can be retained by configuring the `PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME=true` environment variable in Istiod.
 
-- **Fixed** an issue where changes in a delegate VirtualService do not take effect when RDS cache is enabled.
+- **Fixed** an issue where changes in a delegate VirtualService do not take effect when RDS cache is enabled. asdasdsad 
   ([Issue #36525](https://github.com/istio/istio/issues/36525))
 
 - **Fixed** an issue causing mTLS errors for traffic on port 22, by including port 22 in iptables by default.
@@ -81,9 +81,9 @@ The old behavior can be retained by configuring the `PILOT_ENABLE_LEGACY_ISTIO_M
 - **Fixed** an issue causing hostnames overlapping the cluster domain (such as `example.local`) to generate invalid routes.
   ([Issue #35676](https://github.com/istio/istio/issues/35676))
 
- - **Fixed** an issue that if duplicated cipher suites were configured in Gateway, they were pushed to Envoy configuration. With this fix, duplicated cipher
- suites will be ignored and logged.
- ([Issue #36805](https://github.com/istio/istio/issues/36805))
+- **Fixed** an issue that if duplicated cipher suites were configured in Gateway, they were pushed to Envoy configuration. With this fix, duplicated cipher
+suites will be ignored and logged.
+  ([Issue #36805](https://github.com/istio/istio/issues/36805))
 
 ## Security
 
