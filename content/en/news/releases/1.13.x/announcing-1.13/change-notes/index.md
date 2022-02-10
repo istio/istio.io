@@ -83,7 +83,7 @@ The old behavior can be retained by configuring the `PILOT_ENABLE_LEGACY_ISTIO_M
 
 ## Security
 
-- **Promoted** [authorization policy dry-run mode](https://istio.io/latest/docs/tasks/security/authorization/authz-dry-run/) to Alpha. ([Issue #112](https://github.com/istio/enhancements/pull/112))
+- **Promoted** [authorization policy dry-run mode](/docs/tasks/security/authorization/authz-dry-run/) to Alpha. ([Issue #112](https://github.com/istio/enhancements/pull/112))
 
 - **Added** TLS settings to the sidecar API in order to enable TLS/mTLS termination on the sidecar proxy for requests
 coming from outside the mesh. ([Issue #35111](https://github.com/istio/istio/issues/35111))
