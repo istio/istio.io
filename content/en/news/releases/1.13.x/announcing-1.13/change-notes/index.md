@@ -81,7 +81,7 @@ The old behavior can be retained by configuring the `PILOT_ENABLE_LEGACY_ISTIO_M
 - **Fixed** an issue causing hostnames overlapping the cluster domain (such as `example.local`) to generate invalid routes.
   ([Issue #35676](https://github.com/istio/istio/issues/35676))
 
- **Fixed** an issue that if duplicated cipher suites were configured in Gateway, they were pushed to Envoy configuration. With this fix, duplicated cipher
+ - **Fixed** an issue that if duplicated cipher suites were configured in Gateway, they were pushed to Envoy configuration. With this fix, duplicated cipher
  suites will be ignored and logged.
  ([Issue #36805](https://github.com/istio/istio/issues/36805))
 
