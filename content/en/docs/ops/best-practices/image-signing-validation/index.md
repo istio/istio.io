@@ -44,7 +44,7 @@ $ openssl dgst -sha256 \
 To validate a docker image, do the following:
 
 {{< text bash >}}
-$ ./cosign-binary verify --key {{< static "/misc/istio-key.pub" >}} {{< istio_docker_image "pilot" >}}
+$ ./cosign-binary verify --key "https://istio.io/misc/istio-key.pub" {{< istio_docker_image "pilot" >}}
 {{< /text >}}
 
 This process will work for any released image or release candidate built with the Istio build infrastructure.
@@ -52,7 +52,7 @@ This process will work for any released image or release candidate built with th
 An example with output:
 
 {{< text bash >}}
-$ cosign verify --key {{< static "/misc/istio-key.pub" >}} gcr.io/istio-release/pilot:1.12.0
+$ cosign verify --key "https://istio.io/misc/istio-key.pub" gcr.io/istio-release/pilot:1.12.0
 
 
 Verification for gcr.io/istio-release/pilot:1.12.0 --
