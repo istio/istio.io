@@ -12,7 +12,7 @@ This page describes how to use [Cosign](https://github.com/sigstore/cosign) to
 validate the provenance of Istio image artifacts.
 
 Cosign is a tool developed as part of the
-[sigstore](https://www.sigstore.dev/https://www.sigstore.dev/) project which
+[sigstore](https://www.sigstore.dev) project which
 simplifies signing and validation of signed Open Container Initiative (OCI) artifacts,
 such as docker images.
 
@@ -30,13 +30,15 @@ Before you begin, please do the following:
 1. Download the latest
    [Cosign](https://github.com/sigstore/cosign/releases/latest) build for your
    architecture, as well as its signature.
-1. Validate the cosign binary signature: 
+1. Validate the cosign binary signature:
+
    {{< text bash >}}
 $ openssl dgst -sha256 \
-	-verify <(curl -ssL https://raw.githubusercontent.com/sigstore/cosign/main/release/release-cosign.pup) \
-	-signature /path/to/cosign.sig \
-	/path/to/cosign-binary
+    -verify <(curl -ssL https://raw.githubusercontent.com/sigstore/cosign/main/release/release-cosign.pup) \
+    -signature /path/to/cosign.sig \
+    /path/to/cosign-binary
     {{< /text >}}
+
 1. Run `chmod +x` to make the Cosign binary executable
 
 ## Validating Image
