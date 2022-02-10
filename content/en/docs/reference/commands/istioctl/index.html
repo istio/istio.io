@@ -1904,7 +1904,7 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
   istioctl x authz check httpbin-88ddbcfdd-nt5jb
 
   # Check AuthorizationPolicy applied to one pod under a deployment
-  istioctl proxy-status deployment/productpage-v1
+  istioctl x authz check deployment/productpage-v1
 
   # Check AuthorizationPolicy from Envoy config dump file:
   istioctl x authz check -f httpbin_config_dump.json
