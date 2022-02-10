@@ -3,7 +3,7 @@ title: Announcing Istio 1.13
 linktitle: 1.13
 subtitle: Major Update
 description: Istio 1.13 release announcement.
-publishdate: 2022-02-09
+publishdate: 2022-02-11
 release: 1.13.0
 skip_list: true
 aliases:
