@@ -141,7 +141,7 @@ the Telemetry API.
 - **Fixed** that the Helm chart generated an invalid manifest when given boolean or numeric values for environment variables.
   ([Issue #36946](https://github.com/istio/istio/issues/36946))
 
-  **Fixed** detection of `prometheus.io.scrape` annotations when merging metrics.
+- **Fixed** detection of `prometheus.io.scrape` annotations when merging metrics.
   ([Issue #31187](https://github.com/istio/istio/issues/31187))
 
 ## istioctl
