@@ -91,7 +91,7 @@ coming from outside the mesh. ([Issue #35111](https://github.com/istio/istio/iss
 - **Fixed** a couple of issues in the ext-authz filter affecting the behavior of the gRPC check response API. Please
 see the [Envoy release note](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.20.0#bug-fixes) for more
 details of the bug fixes if you are using authorization policies with the ext-authz gRPC extension provider in Istio.
-([Issue #35480](https://github.com/istio/istio/issues/35480#issuecomment-952420951))
+([Issue #35480](https://github.com/istio/istio/issues/35480))
 
 ## Telemetry
 
@@ -133,7 +133,6 @@ the Telemetry API.
 
 - **Fixed** that the Helm chart generated an invalid manifest when given boolean or numeric values for environment variables.
   ([Issue #36946](https://github.com/istio/istio/issues/36946))
-
 
 ## istioctl
 
