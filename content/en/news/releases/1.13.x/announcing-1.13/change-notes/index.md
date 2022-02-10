@@ -84,7 +84,7 @@ The old behavior can be retained by configuring the `PILOT_ENABLE_LEGACY_ISTIO_M
  **Fixed** an issue that if duplicated cipher suites were configured in Gateway, they were pushed to Envoy configuration. With this fix, duplicated cipher
  suites will be ignored and logged.
  ([Issue #36805](https://github.com/istio/istio/issues/36805))
- 
+
 ## Security
 
 - **Added** TLS settings to the sidecar API in order to enable TLS/mTLS termination on the sidecar proxy for requests
@@ -143,7 +143,7 @@ the Telemetry API.
 
   **Fixed** detection of `prometheus.io.scrape` annotations when merging metrics.
   ([Issue #31187](https://github.com/istio/istio/issues/31187))
-  
+
 ## istioctl
 
 - **Added** `istioctl analyze` will display a warning when service of type ExternalName have invalid port name or port name is tcp.
