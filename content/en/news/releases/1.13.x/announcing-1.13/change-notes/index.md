@@ -14,19 +14,6 @@ aliases:
 
 - **Added** an API (CRD) for configuring `ProxyConfig` values containing a stable subset of the configuration from `MeshConfig.DefaultConfig`.
 
-- **Promoted** `WorkloadGroup` to v1beta1.
-  ([Issue #25652](https://github.com/istio/istio/issues/25652))
-
-- **Improved** istio-agent health probe rewrite to not re-use connections, mirroring Kubernetes' probing behavior.
-  ([Issue #36390](https://github.com/istio/istio/issues/36390))
-
-- **Improved** the default `PILOT_MAX_REQUESTS_PER_SECOND`, which limits the number of **new** XDS connections per second,
-to 25 (from 100). This has been shown to improve performance under high load.
-
-- **Updated** the control plane to read `EndpointSlice` instead of `Endpoints`
-for service discovery for Kubernetes 1.21 or later. To switch back to the old
-`Endpoints` based behavior set `PILOT_USE_ENDPOINT_SLICE=false` in istiod.
-
 - **Added** support for hostname-based multi-network gateways for east-west traffic. The hostname will be resolved in
 the control plane and each of the IPs will be used as an endpoint. This behavior can be disabled by setting
 `RESOLVE_HOSTNAME_GATEWAYS=false` for istiod.  ([Issue #29359](https://github.com/istio/istio/issues/29359))
@@ -39,6 +26,19 @@ If this is set to true, Istio ingress will perform the legacy behavior, which do
   ([Issue #35033](https://github.com/istio/istio/issues/35033))
 
 - **Added** support for listeners to balance between Envoy worker threads via `proxyMetadata`. ([Issue #18152](https://github.com/istio/istio/issues/18152))
+
+- **Promoted** `WorkloadGroup` to v1beta1.
+  ([Issue #25652](https://github.com/istio/istio/issues/25652))
+
+- **Improved** istio-agent health probe rewrite to not re-use connections, mirroring Kubernetes' probing behavior.
+  ([Issue #36390](https://github.com/istio/istio/issues/36390))
+
+- **Improved** the default `PILOT_MAX_REQUESTS_PER_SECOND`, which limits the number of **new** XDS connections per second,
+to 25 (from 100). This has been shown to improve performance under high load.
+
+- **Updated** the control plane to read `EndpointSlice` instead of `Endpoints`
+for service discovery for Kubernetes 1.21 or later. To switch back to the old
+`Endpoints` based behavior set `PILOT_USE_ENDPOINT_SLICE=false` in istiod.
 
 - **Fixed** an issue where specifying conflict protocols for a service target port
 will cause unstable protocol selection for that port.
@@ -83,10 +83,10 @@ The old behavior can be retained by configuring the `PILOT_ENABLE_LEGACY_ISTIO_M
 
 ## Security
 
-- **Promoted** [authorization policy dry-run mode](/docs/tasks/security/authorization/authz-dry-run/) to Alpha. ([Issue #112](https://github.com/istio/enhancements/pull/112))
-
 - **Added** TLS settings to the sidecar API in order to enable TLS/mTLS termination on the sidecar proxy for requests
 coming from outside the mesh. ([Issue #35111](https://github.com/istio/istio/issues/35111))
+
+- **Promoted** [authorization policy dry-run mode](/docs/tasks/security/authorization/authz-dry-run/) to Alpha. ([Issue #112](https://github.com/istio/enhancements/pull/112))
 
 - **Fixed** a couple of issues in the ext-authz filter affecting the behavior of the gRPC check response API. Please
 see the [Envoy release note](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.20.0#bug-fixes) for more
@@ -98,6 +98,9 @@ details of the bug fixes if you are using authorization policies with the ext-au
 - **Added** configuration for selecting service name generation scheme in Envoy-generated trace spans.
   ([Issue #36162](https://github.com/istio/istio/issues/36162) and [#12644](https://github.com/istio/istio/issues/12644))
 
+- **Added** Common Expression Language (CEL) filter support for access logs.
+  ([Issue #36514](https://github.com/istio/istio/issues/36514))
+
 - **Added** access logging providers and controls for access log filtering to
 the Telemetry API.
 
@@ -106,13 +109,12 @@ the Telemetry API.
 - **Improved** Istiod `JWTRule`: Failed `JWKS` requests are now logged with truncation to 100 characters.
   ([Issue #35663](https://github.com/istio/istio/issues/35663))
 
-- **Added** Common Expression Language (CEL) filter support for access logs.
-  ([Issue #36514](https://github.com/istio/istio/issues/36514))
-
 ## Installation
 
 - **Added** a privileged flag to Istio-CNI Helm charts to set `securityContext` flag.
   ([Issue #34211](https://github.com/istio/istio/issues/34211))
+
+- **Removed** support for a number of nonstandard `kubeconfig` authentication methods when using multicluster secrets.
 
 - **Updated** istiod deployment to respect `values.pilot.nodeSelector`.
   ([Issue #36110](https://github.com/istio/istio/issues/36110))
@@ -132,7 +134,6 @@ the Telemetry API.
 - **Fixed** that the Helm chart generated an invalid manifest when given boolean or numeric values for environment variables.
   ([Issue #36946](https://github.com/istio/istio/issues/36946))
 
-- **Removed** support for a number of nonstandard `kubeconfig` authentication methods when using multicluster secrets.
 
 ## istioctl
 
