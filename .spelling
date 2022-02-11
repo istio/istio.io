@@ -30,6 +30,7 @@
 1.10.x
 1.11.x
 1.12.x
+1.13.x
 1.x
 10ms
 10s
@@ -135,6 +136,7 @@ Autoscalers
 autoscalers
 autoscaling
 AutoTrader
+Avelar
 az
 backend
 backends
@@ -526,6 +528,7 @@ kyzy
 L3-4
 L4-L6
 Landlow
+Landow
 learnings
 LibreSSL
 lifecycle
