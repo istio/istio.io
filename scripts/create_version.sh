@@ -164,12 +164,12 @@ advance_master_to_next_release() {
         s/^version: .*$/version: \"${NEXT_MINOR}\"/;
         s/^full_version: .*$/full_version: \"${NEXT_MINOR}.0\"/;
         s/^previous_version: .*$/previous_version: \"${CURR_MINOR}\"/;
-        s/^export SOURCE_BRANCH_NAME ?=.*$/export SOURCE_BRANCH_NAME ?= ${MASTER}/;
+        s/^source_branch_name:.*$/source_branch_name: ${MASTER}/;
         s/^doc_branch_name: .*$/doc_branch_name: ${MASTER}/
     " data/args.yml
 
     sed -i "
-        s/^SOURCE_BRANCH_NAME ?=.*$/SOURCE_BRANCH_NAME ?= ${MASTER}/;
+        s/^export SOURCE_BRANCH_NAME ?=.*$/export SOURCE_BRANCH_NAME ?= ${MASTER}/;
         s/^ISTIO_IMAGE_VERSION ?=.*$/ISTIO_IMAGE_VERSION ?= ${NEXT_MINOR}-alpha/
     " Makefile.core.mk
 
