@@ -1032,7 +1032,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr>
 <td><code>CREDENTIAL_FETCHER_TYPE</code></td>
 <td>String</td>
-<td><code></code></td>
+<td><code>JWT</code></td>
 <td>The type of the credential fetcher. Currently supported types include GoogleComputeEngine</td>
 </tr>
 <tr>
@@ -1082,6 +1082,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
+</tr>
+<tr>
+<td><code>ENABLE_LEGACY_LB_ALGORITHM_DEFAULT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, destinations for which no LB algorithm is specified will use the legacy default, ROUND_ROBIN. Care should be taken when using ROUND_ROBIN in general as it can overburden endpoints, especially when weights are used.</td>
 </tr>
 <tr>
 <td><code>ENABLE_MCS_AUTO_EXPORT</code></td>
@@ -1196,6 +1202,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code>etc/istio/proxy/grpc-bootstrap.json</code></td>
 <td>Path where gRPC expects to read a bootstrap file. Agent will generate one if set.</td>
+</tr>
+<tr>
+<td><code>HTTP_STRIP_FRAGMENT_FROM_PATH_UNSAFE_IF_DISABLED</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td></td>
 </tr>
 <tr>
 <td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
@@ -1564,12 +1576,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If true, pilot will add telemetry related metadata to cluster and endpoint resources, which will be consumed by telemetry filter.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_VIRTUAL_SERVICE_DELEGATE</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If set to false, virtualService delegate will not be supported.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1676,6 +1682,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, a gateway workload can only select gateway resources in the same namespace. Gateways with same selectors in different namespaces will not be applicable.</td>
+</tr>
+<tr>
+<td><code>PILOT_SEND_UNHEALTHY_ENDPOINTS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Pilot will include unhealthy endpoints in EDS pushes and even if they are sent Envoy does not use them for load balancing.</td>
 </tr>
 <tr>
 <td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
@@ -1892,6 +1904,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, certificates received by the proxy will be verified against the OS CA certificate bundle.</td>
+</tr>
+<tr>
+<td><code>WASM_INSECURE_REGISTRIES</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>allow agent pull wasm plugin from insecure registries, for example: &#39;localhost:5000,docker-registry:5000&#39;</td>
 </tr>
 <tr>
 <td><code>XDS_AUTH</code></td>

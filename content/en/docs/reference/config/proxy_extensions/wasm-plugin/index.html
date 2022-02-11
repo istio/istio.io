@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.extensions.v1alpha1.WasmPlugin
 aliases: [/docs/reference/config/extensions/v1alpha1/wasm-plugin]
-number_of_entries: 3
+number_of_entries: 6
 ---
 <p>WasmPlugins provides a mechanism to extend the functionality provided by
 the Istio proxy through WebAssembly filters.</p>
@@ -59,6 +59,32 @@ spec:
   pluginConfig:
     openid_server: authn
     openid_realm: ingress
+</code></pre>
+
+<p>This is the same as the last example, but using VmConfig to configure environment variables in the VM.</p>
+
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: WasmPlugin
+metadata:
+  name: openid-connect
+  namespace: istio-ingress
+spec:
+  selector:
+    labels:
+      istio: ingressgateway
+  url: oci://private-registry:5000/openid-connect/openid:latest
+  imagePullPolicy: IfNotPresent
+  imagePullSecret: private-registry-pull-secret
+  phase: AUTHN
+  pluginConfig:
+    openid_server: authn
+    openid_realm: ingress
+  vmConfig:
+    env:
+    - name: POD_NAME
+      valueFrom: HOST
+    - name: TRUST_DOMAIN
+      value: &quot;cluster.local&quot;
 </code></pre>
 
 <p>And a more complex example that deploys three WasmPlugins and orders them
@@ -288,6 +314,100 @@ namespace of the <code>WasmPlugins</code>. Defaults to <code>0</code>.</p>
 No
 </td>
 </tr>
+<tr id="WasmPlugin-vm_config">
+<td><code>vmConfig</code></td>
+<td><code><a href="#VmConfig">VmConfig</a></code></td>
+<td>
+<p>Configuration for a Wasm VM.
+more details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/wasm/v3/wasm.proto#extensions-wasm-v3-vmconfig">here</a>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="VmConfig">VmConfig</h2>
+<section>
+<p>Configuration for a Wasm VM.
+more details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/wasm/v3/wasm.proto#extensions-wasm-v3-vmconfig">here</a>.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="VmConfig-env">
+<td><code>env</code></td>
+<td><code><a href="#EnvVar">EnvVar[]</a></code></td>
+<td>
+<p>Specifies environment variables to be injected to this VM.
+Note that if a key does not exist, it will be ignored.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="EnvVar">EnvVar</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="EnvVar-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Required
+Name of the environment variable. Must be a C_IDENTIFIER.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVar-value_from">
+<td><code>valueFrom</code></td>
+<td><code><a href="#EnvValueSource">EnvValueSource</a></code></td>
+<td>
+<p>Required
+Source for the environment variable&rsquo;s value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVar-value">
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td>
+<p>Value for the environment variable.
+Note that if <code>value_from</code> is <code>HOST</code>, it will be ignored.
+Defaults to &ldquo;&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -371,6 +491,33 @@ will pull the latest version.</p>
 <td>
 <p>We will always pull the latest version of an image when applying
 this plugin.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="EnvValueSource">EnvValueSource</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="EnvValueSource-INLINE">
+<td><code>INLINE</code></td>
+<td>
+<p>Explicitly given key-value pairs to be injected to this VM</p>
+
+</td>
+</tr>
+<tr id="EnvValueSource-HOST">
+<td><code>HOST</code></td>
+<td>
+<p><em>Istio-proxy&rsquo;s</em> environment variables exposed to this VM.</p>
 
 </td>
 </tr>
