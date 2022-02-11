@@ -30,7 +30,6 @@ installation, be sure to change the `signing_key` in Kiali's ConfigMap when usin
 authentication strategy other than `anonymous`.
 {{< /idea >}}
 
-
 ### Option 2: Customizable install
 
 The Kiali project offers its own [quick start guide](https://kiali.io/docs/installation/quick-start) and [customizable installation methods](https://kiali.io/docs/installation/installation-guide). We recommend production users follow those instructions to ensure they stay up to date with the latest versions and best practices.
