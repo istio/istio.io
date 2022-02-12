@@ -2853,6 +2853,18 @@ Names starting with <code>ISTIO_META_</code> will be included in the generated b
 No
 </td>
 </tr>
+<tr id="ProxyConfig-runtime_values">
+<td><code>runtimeValues</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/runtime">runtime configuration</a> to set during bootstrapping.
+This enables setting experimental, unsafe, unsupported, and deprecated features that should be used with extreme caution.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="ProxyConfig-status_port">
 <td><code>statusPort</code></td>
 <td><code>int32</code></td>
@@ -3879,6 +3891,14 @@ source IP addresses during redirection.</p>
 source and destination IP addresses and ports, so that they can be used for advanced
 filtering and manipulation. This mode also configures the sidecar to run with the
 <code>CAP_NET_ADMIN</code> capability, which is required to use <code>TPROXY</code>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-InboundInterceptionMode-NONE">
+<td><code>NONE</code></td>
+<td>
+<p>The <code>NONE</code> mode does not configure redirect to Envoy at all. This is an advanced
+configuration that typically requires changes to user applications.</p>
 
 </td>
 </tr>
