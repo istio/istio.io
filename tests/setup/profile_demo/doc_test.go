@@ -23,10 +23,10 @@ import (
 )
 
 func TestMain(m *testing.M) {
+	// nolint: staticcheck
 	framework.
 		NewSuite(m).
 		Setup(istio.Setup(nil, setupConfig)).
-		RequireSingleCluster().
 		Run()
 }
 
