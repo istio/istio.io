@@ -45,8 +45,8 @@ will cause unstable protocol selection for that port.
   ([Issue #36462](https://github.com/istio/istio/issues/36462))
 
 - **Fixed** an issue where scaling endpoint for a service from 0 to 1
-might cause client side service account verification populated incorrectly.
-  ([Issue #36456](https://github.com/istio/istio/issues/36456))
+might cause client side service account verification to be populated incorrectly.
+  ([Issue #36465](https://github.com/istio/istio/issues/36465) and #31534(https://github.com/istio/istio/issues/31534))
 
 - **Fixed** an issue where the `TcpKeepalive` setting at mesh config is not honored.
   ([Issue #36499](https://github.com/istio/istio/issues/36499))
