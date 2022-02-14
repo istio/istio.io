@@ -1,4 +1,4 @@
-{{ $home := .Site.BaseURL }}
+{{ $home := .Site.BaseURL | printf "%s%s" (os.Getenv "DEPLOY_PRIME_URL") }}
 
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
@@ -9,6 +9,7 @@
     {{ end }}
     <link>{{ $home }}</link>
     <image>
+      <title>Istio Blog and News</title>
       <url>{{ $home }}/favicons/android-192x192.png</url>
       <link>{{ $home }}</link>
     </image>
@@ -21,14 +22,12 @@
         {{ if not $post.Draft }}
           <item>
             <title>{{ $post.Title }}</title>
-            <description>{{ $post.Content | html }}</description>
+            <description>{{ `<![CDATA[` | safeHTML }}{{ $post.Content | safeHTML }}{{ `]]>` | safeHTML }}</description>
             <pubDate>{{ $post.PublishDate.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
-            <link>{{ $post.Permalink }}</link>
-            <author>{{ $post.Params.attribution }}</author>
-            <guid isPermaLink="true">{{ $post.Permalink }}</guid>
-
+            <link>{{ $home }}{{ $post.RelPermalink }}</link>
+            <guid isPermaLink="true">{{ $home }}{{ $post.RelPermalink }}</guid>
             {{ range $kw := $post.Keywords }}
-                <category>{{ $kw }}</category>
+              <category>{{ $kw }}</category>
             {{ end }}
           </item>
         {{ end }}
@@ -41,14 +40,12 @@
       {{ if and (not $post.Draft) $post.IsPage }}
         <item>
           <title>{{ $post.Title }}</title>
-          <description>{{ $post.Content | html }}</description>
+          <description>{{ `<![CDATA[` | safeHTML }}{{ $post.Content | safeHTML }}{{ `]]>` | safeHTML }}</description>
           <pubDate>{{ $post.PublishDate.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
-          <link>{{ $post.Permalink }}</link>
-          <author>{{ $post.Params.attribution }}</author>
-          <guid isPermaLink="true">{{ $post.Permalink }}</guid>
-
+          <link>{{ $home }}{{ $post.RelPermalink }}</link>
+          <guid isPermaLink="true">{{ $home }}{{ $post.RelPermalink }}</guid>
           {{ range $kw := $post.Keywords }}
-            <category>{{ $kw }}</category>
+          <category>{{ $kw }}</category>
           {{ end }}
         </item>
       {{ end }}
