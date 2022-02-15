@@ -1,4 +1,4 @@
-{{ $home := .Site.BaseURL | printf "%s%s" (os.Getenv "DEPLOY_PRIME_URL") }}
+{{ $home := .Site.BaseURL | printf "%s%s" (os.Getenv "URL") }}
 
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
