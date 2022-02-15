@@ -16,9 +16,9 @@ IstioCon 2022, set for April 25-29, will be the second annual conference for Ist
 IstioCon provides an opportunity to showcase the lessons learned from running Istio in production, hands-on experiences from the Istio community, and will feature maintainers from across the Istio ecosystem. This year’s IstioCon features sessions focused on sharing real world examples, case studies, and success stories that can inspire newcomers to use Istio in production. The content will range from introductory to advanced levels, split into four main topic tracks:
 
 * **Getting started & getting involved**
-* **Tools, features & functionality** Observability, traceability, and other things built on top of Istio.
-* **Infrastructure & networking** Specific interest in talks addressing performance, cost, and multi-cloud environments.
-* **Tech evolution & what's next** The evolution of Istio, new standards, new extensions, and how to address problems that are interesting to tackle.
+* **Tools, features & functionality:** Observability, traceability, and other things built on top of Istio.
+* **Infrastructure & networking:** How Istio works, with deep-dives into performance, cost, and multi-cloud environments.
+* **Tech evolution & what's next:** The evolution of Istio, new standards, new extensions, and how to address problems that are interesting to tackle.
 
 At this time, we encourage Istio users, developers, partners, and advocates to [submit a session proposal through the conference’s CFP portal](https://sessionize.com/istiocon-2022/). The conference offers a mix of keynotes, technical talks, lightning talks, workshops, and roadmap sessions. Choose from the following formats to submit a session proposal for IstioCon:
 
