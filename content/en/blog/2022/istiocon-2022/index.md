@@ -13,9 +13,8 @@ IstioCon 2022, set for April 25-29, will be the second annual conference for Ist
     alt="IstioCon logo"
     >}}
 
-All the information related to IstioCon will be published on the [conference website](https://events.istio.io/). IstioCon provides an opportunity to showcase the lessons learned from running Istio in production, hands-on experiences from the Istio community, and will feature maintainers from across the Istio ecosystem. At this time, we encourage Istio users, developers, partners, and advocates to [submit a session proposal through the conference's CFP portal](https://sessionize.com/istiocon-2021/). The conference offers a mix of keynotes, technical talks, lightning talks, workshops, and roadmap sessions. Choose from the following formats to submit a session proposal for IstioCon:
-
 IstioCon provides an opportunity to showcase the lessons learned from running Istio in production, hands-on experiences from the Istio community, and will feature maintainers from across the Istio ecosystem. This year’s IstioCon features sessions focused on sharing real world examples, case studies, and success stories that can inspire newcomers to use Istio in production. The content will range from introductory to advanced levels, split into four main topic tracks:
+
 * **Getting started & getting involved**
 * **Tools, features & functionality** Observability, traceability, and other things built on top of Istio.
 * **Infrastructure & networking** Specific interest in talks addressing performance, cost, and multi-cloud environments.
@@ -28,6 +27,6 @@ At this time, we encourage Istio users, developers, partners, and advocates to [
 * **Workshop:** 160 minute (2h 40m), in-depth, hands-on presentation with 1–4 speakers
 * **Lighting Talk:** 10 minute presentation, limited to 1 speaker
 
-This community-led event also has an interactive social hour to take the load off and mesh with the Istio community, vendors, and maintainers. Participation in the event is free of charge, and will only require participants to register in order to join.
+This community-led event also has an interactive social hour to take the load off and mesh with the Istio community, vendors, and maintainers. Participation in the event is free of charge, and will only require participants to register in order to attend.
 
 Stay tuned to hear more about this conference, and we hope you can join us at IstioCon 2022!
