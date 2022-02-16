@@ -37,7 +37,7 @@
 
                 {{ range $supportedLanguages}}
                     {{ $active := eq $currentLanguage .code }}
-                    <a tabindex="-1" role="menuitem" lang="{{.code}}" id="switch-lang-{{.code}}" class="footer-languages-item {{ if $active }}active{{ end }}">
+                    <a tabindex="-1" lang="{{.code}}" id="switch-lang-{{.code}}" class="footer-languages-item {{ if $active }}active{{ end }}">
                         {{ if $active }}{{ partial "icon.html" "tick" }}{{ end }}
                         {{ .name }}
                     </a>
@@ -102,27 +102,27 @@
 
                 {{ if or .Site.Data.args.archive .Site.Data.args.archive_landing }}
                     <li class="footer-base-releases-item">
-                        <a tabindex="-1" class="footer-base-releases-link" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{ $fileDir }}');return false;">{{ i18n "current_release" }}</a>
+                        <a tabindex="-1" class="footer-base-releases-link" onclick="navigateToUrlOrRoot('https://istio.io/{{ $fileDir }}');return false;">{{ i18n "current_release" }}</a>
                     </li>
                     <li class="footer-base-releases-item">
-                        <a tabindex="-1" class="footer-base-releases-link" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{ $fileDir }}');return false;">{{ i18n "next_release" }}</a>
+                        <a tabindex="-1" class="footer-base-releases-link" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{ $fileDir }}');return false;">{{ i18n "next_release" }}</a>
                     </li>
                     <li class="footer-base-releases-item">
-                        <a tabindex="-1" class="footer-base-releases-link" role="menuitem" href="https://istio.io/archive">{{ i18n "archived_releases" }}</a>
+                        <a tabindex="-1" class="footer-base-releases-link" href="https://istio.io/archive">{{ i18n "archived_releases" }}</a>
                     </li>
                 {{ else if .Site.Data.args.preliminary }}
                     <li class="footer-base-releases-item">
-                        <a tabindex="-1" class="footer-base-releases-link" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{ $fileDir }}');return false;">{{ i18n "current_release" }}</a>
+                        <a tabindex="-1" class="footer-base-releases-link" onclick="navigateToUrlOrRoot('https://istio.io/{{ $fileDir }}');return false;">{{ i18n "current_release" }}</a>
                     </li>
                     <li class="footer-base-releases-item">
-                        <a tabindex="-1" class="footer-base-releases-link" role="menuitem" href="https://istio.io/archive">{{ i18n "archived_releases" }}</a>
+                        <a tabindex="-1" class="footer-base-releases-link" href="https://istio.io/archive">{{ i18n "archived_releases" }}</a>
                     </li>
                 {{ else }}
                     <li class="footer-base-releases-item">
-                        <a tabindex="-1" class="footer-base-releases-link" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{ $fileDir }}');return false;">{{ i18n "next_release" }}</a>
+                        <a tabindex="-1" class="footer-base-releases-link" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{ $fileDir }}');return false;">{{ i18n "next_release" }}</a>
                     </li>
                     <li class="footer-base-releases-item">
-                        <a tabindex="-1" class="footer-base-releases-link" role="menuitem" href="https://istio.io/archive">{{ i18n "archived_releases" }}</a>
+                        <a tabindex="-1" class="footer-base-releases-link" href="https://istio.io/archive">{{ i18n "archived_releases" }}</a>
                     </li>
                 {{ end }}
             </ul>
