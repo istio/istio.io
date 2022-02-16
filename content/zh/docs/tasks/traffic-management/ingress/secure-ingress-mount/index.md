@@ -384,7 +384,7 @@ $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key
 1. 发送到 _Bookinfo_ `productpage` 的请求：
 
     {{< text bash >}}
-    $ curl -o /dev/null -s -v -w "%{http_code}\n" -HHost:bookinfo.com --resolve bookinfo.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt -HHost:bookinfo.com https://bookinfo.com:$SECURE_INGRESS_PORT/productpage
+    $ curl -o /dev/null -s -v -w "%{http_code}\n" -HHost:bookinfo.com --resolve bookinfo.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt https://bookinfo.com:$SECURE_INGRESS_PORT/productpage
     ...
     Server certificate:
       subject: CN=bookinfo.com; O=bookinfo organization
