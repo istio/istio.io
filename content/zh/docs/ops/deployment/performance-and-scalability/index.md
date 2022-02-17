@@ -105,8 +105,10 @@ the two proxies add about 1.7 ms and 2.7 ms to the 90th and 99th percentile late
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
 for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 16 client connections, 2 proxy workers and mutual TLS enabled.
 -->
-在 mesh 内部，请求会依次遍历客户端和服务器端代理。在 Istio {{< istio_release_name >}} 的默认配置中（即带有遥测 v2 的 Istio），两个代理分别在基线数据平面延迟的 90 和 99 分位延迟上增加约 1.7 和 2.7 毫秒。
-我们使用 `http/1.1` 协议的 [Istio 基准测试](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)获得了这些结果，测试标准是每秒 1000 请求，负载为 1KB，使用了 16 个客户端连接和 2 个代理 wroker 并启用双向 TLS。
+在 mesh 内部，请求会依次遍历客户端和服务器端代理。在 Istio {{< istio_release_name >}} 的默认配置中（即带有遥测 v2 的 Istio），
+两个代理分别在基线数据平面延迟的 90 和 99 分位延迟上增加约 1.7 和 2.7 毫秒。
+我们使用 `http/1.1` 协议的 [Istio 基准测试](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)获得了这些结果，
+测试标准是每秒 1000 请求，负载为 1KB，使用了 16 个客户端连接和 2 个代理 wroker 并启用双向 TLS 。
 
 {{< image width="90%"
     link="latency_p90_fortio_with_jitter.svg"
