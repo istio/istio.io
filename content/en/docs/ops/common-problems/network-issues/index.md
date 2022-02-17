@@ -620,7 +620,7 @@ Most cloud load balancers will not forward the SNI, so if you are terminating TL
 
 A common symptom of this is for the load balancer health checks to succeed while real traffic fails.
 
-## Unchanged EnvoyFilter configuration suddenly stops working
+## Unchanged envoy filter configuration suddenly stops working
 
 An `EnvoyFilter` configuration that specifies an insert position relative to another filter can be very
 fragile because, by default, the order of evaluation is based on the creation time of the filters.
@@ -649,11 +649,11 @@ error log to indicate that this filter has not been added to the chain.
 
 This is particularly problematic when matching telemetry filters, like `istio.stats`, because they are version
 specific (i.e., they include the `proxyVersion` field in their match criteria) and therefore will be replaced
-by newer ones when upgrading Istio. As a result, an `EnvoyFilter` like the one above may intially be working
+by newer ones when upgrading Istio. As a result, an `EnvoyFilter` like the one above may initially be working
 perfectly but after upgrading Istio to a newer version it will no longer be included in the network filter
 chain of the sidecars.
 
 To avoid this issue, you can either change the operation to one that does not depend on the presence of
-another filter (e.g., `INSTERT_FIRST`), or set an exlicit priority in the `EnvoyFilter` to override the
-default creation time-based ordering. For example, adding `priorty: 10` to the above filter will ensure
+another filter (e.g., `INSERT_FIRST`), or set an explicit priority in the `EnvoyFilter` to override the
+default creation time-based ordering. For example, adding `priority: 10` to the above filter will ensure
 that it is applied after the `istio.stats` filter which has a default priority of 0.
