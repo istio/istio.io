@@ -394,11 +394,8 @@ spec:
       context: SIDECAR_OUTBOUND
       listener:
         portNumber: 443
-        filterChain:
-          filter:
-            name: istio.stats
     patch:
-      operation: INSERT_BEFORE
+      operation: INSERT_FIRST
       value:
          name: forward_downstream_sni
          config: {}
@@ -426,11 +423,8 @@ spec:
       context: GATEWAY
       listener:
         portNumber: 443
-        filterChain:
-          filter:
-            name: istio.stats
     patch:
-      operation: INSERT_BEFORE
+      operation: INSERT_FIRST
       value:
          name: sni_verifier
          config: {}
