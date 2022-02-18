@@ -63,3 +63,15 @@ spec:
   - number: 80
     name: http-web
 {{< /text >}}
+
+## Gateways
+
+For HTTP gateways, if the protocol is not explicitly declared to be HTTP/1.1 (`http`) or HTTP/2 (`http2` or  `grpc`), the Gateway cannot automatically detect which protocol
+to use when forwarding to the backend Service.
+Instead, it will always use HTTP/1.1.
+If you want to automatically use the protocol the client used, the [`useClientProtocol`](https://istio.io/latest/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-HTTPSettings) option can be enabled for that Service.
+
+{{< warning >}}
+HTTPS Gateways will always [advertise](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation) support for HTTP/1.1 and HTTP/2.
+This means that modern clients will often use HTTP/2, which may cause issues when using `useClientProtocol` if your application does not support HTTP/2.
+{{< /warning >}}
