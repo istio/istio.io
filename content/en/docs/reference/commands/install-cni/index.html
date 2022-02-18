@@ -1032,6 +1032,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>If true, Pilot will merge virtual hosts with the same routes into a single virtual host, as an optimization.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_SERVICEENTRY_SELECT_PODS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, service entries with selectors will select pods from the cluster. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_STATUS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
