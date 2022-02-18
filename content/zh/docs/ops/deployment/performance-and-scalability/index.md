@@ -73,7 +73,7 @@ requests per second.
 <!--
 The memory consumption of the proxy depends on the total configuration state the proxy holds.
 A large number of listeners, clusters, and routes can increase memory usage.
-In a large namespace with [namespace isolation](/docs/reference/config/networking/sidecar/) enabled, the proxy consumes approximately 50 MB of memory.
+In a large namespace with [namespace isolation](/zh/docs/reference/config/networking/sidecar/) enabled, the proxy consumes approximately 50 MB of memory.
 -->
 代理的内存消耗取决于它的总体配置状态。大量的监听器、集群和路由会增加内存使用量。在启用了[命名空间隔离](/zh/docs/reference/config/networking/sidecar/)的大型命名空间中，代理消耗大约 50 MB 的内存。
 
