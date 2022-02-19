@@ -25,6 +25,7 @@ function handleLinks(): void {
         anchor.className = "self-link";
         anchor.href = "#" + node.id;
         anchor.setAttribute("aria-hidden", "true");
+        anchor.setAttribute("tabindex", "-1");
         anchor.innerHTML = "<svg class='icon'><use xlink:href='" + iconFile + "#links'/></svg>";
 
         node.appendChild(anchor);
