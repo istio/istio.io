@@ -390,10 +390,10 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
 1. 使用`curl`测试 Istiod 的连接。下面的示例使用默认 Istiod 配置参数和启用相互 TLS 调用 v1 注册 API：
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl -sS istiod.istio-system:15014/debug/endpointz
+    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl -sS istiod.istio-system:15014/version
     {{< /text >}}
 
-您应该收到一个响应，其中列出了网格中每个服务的“服务”和“端点”。
+您应该收到一个响应，其中列出了 Istiod 的版本。
 
 ## Istio 使用的 Envoy 版本是什么？{#what-envoy-version-is-Istio-using}
 
