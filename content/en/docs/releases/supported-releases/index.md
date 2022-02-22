@@ -76,9 +76,9 @@ Please keep up-to-date and use a supported version.
 
 | Minor Releases             | Patched versions with no known CVEs  |
 |----------------------------|--------------------------------------|
-| 1.13.x                     | 1.13.0+                              |
-| 1.12.x                     | 1.12.2+                              |
-| 1.11.x                     | 1.11.1+                              |
+| 1.13.x                     | 1.13.1+                              |
+| 1.12.x                     | 1.12.4+                              |
+| 1.11.x                     | 1.11.7+                              |
 | 1.10.x                     | 1.10.4+                              |
 | 1.9.x                      | 1.9.9                                |
 | 1.8 and earlier            | None                                 |
