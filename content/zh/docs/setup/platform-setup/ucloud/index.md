@@ -20,7 +20,7 @@ test: n/a
 
 1. 选择托管版或者专有版。如果选择专有版，需要创建三台Master节点。如果选择托管版，Master节点以及核心组件，例如api-server, etcd, scheduler等都会由UCloud进行管理。
 
-1. 选择集群所在的 **region** 和 **zone**。
+1. 选择集群所在的 **地域** 和 **可用区**。
 
 1. 选择Master（在专有版中）和Node节点配置，或者直接使用默认配置。
 
