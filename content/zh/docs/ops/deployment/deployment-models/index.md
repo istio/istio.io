@@ -98,6 +98,9 @@ Kubernetes 在每个集群都默认配置此行为，这有助于限制由错误
 您可以根据[网络](#network-models)和云提供商所支持的选项来配置集群间通信。
 例如，若两个集群位于同一基础网络，则可以通过简单地配置防火墙规则来启用跨集群通信。
 
+在多集群网格中，所有的服务都是默认共享的，根据{{< gloss "namespace sameness" >}}命名空间一致性{{< /gloss >}} 的概念。
+[流量管理规则](/zh/docs/ops/configuration/traffic-management/multicluster)对多集群的流量提供了细粒度的控制。
+
 ## 网络模型{#network-models}
 
 许多生产系统需要多个网络或子网来实现隔离和高可用性。
