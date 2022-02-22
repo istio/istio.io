@@ -55,4 +55,4 @@ If you are running Istio in a multi-cluster environment or if you have exposed y
 
 ## Credit
 
-We would like to thank John Howard(Google) for the report and the fix.
+We would like to thank John Howard (Google) for the report and the fix.
