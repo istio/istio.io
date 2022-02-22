@@ -28,6 +28,16 @@ kind 主要是为了测试 Kubernetes 自身而设计的，但它也可用于本
 
     `--name` 用于为集群指定一个名字。默认情况下，该集群将会名为 `kind`。
 
+    {{< tip >}}
+    您可以使用下面的命令来创建一个关联外部负载均衡的 `kind` 集群。
+    否则您需要使用服务的 node 端口访问网关或其他 k8s 负载均衡类型的服务。因为 `kind` 默认不提供外部负载均衡。
+
+    {{< text bash >}}
+    $ @samples/kind-lb/setupkind.sh@ --cluster-name istio-testing
+    {{< /text >}}
+
+    {{< /tip >}}
+
 1. 使用下列命令查看 kind 集群列表：
 
     {{< text bash >}}
