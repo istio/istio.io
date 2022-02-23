@@ -79,4 +79,4 @@ Please keep up-to-date and use a supported version.
 | 1.13.x           | 1.13.1+                             |
 | 1.12.x           | 1.12.4+                             |
 | 1.11.x           | 1.11.7+                             |
-| 1.10 and earlier | All versions are vulnerable         |
+| 1.10 and earlier | None, all versions are vulnerable   |
