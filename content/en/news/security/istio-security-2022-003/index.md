@@ -68,7 +68,7 @@ The following CVEs did not have patches for the version of Envoy used in Istio 1
 does not believe that it is affected by this issue.
 
 - __[CVE-2022-21656](https://github.com/envoyproxy/envoy/security/advisories/GHSA-c9g7-xwcv-pjx2])__:
-  (CVSS Score 3.1, Low): X.509 `subjectAltName` matching (and nameConstraints) bypass
+  (CVSS Score 3.1, Low): X.509 `subjectAltName` matching (and `nameConstraints`) bypass
 
 The following CVEs were not patched as they were not provided to Istio prior to Envoy's release. It will be patched in a
 future version of Istio. Istio is not affected by this vulnerability, however, Istio 1.11.7, 1.12.4 and 1.13.1 did not patch this.
