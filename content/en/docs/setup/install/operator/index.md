@@ -16,7 +16,7 @@ and [Helm](/docs/setup/install/helm) installation methods. While the operator wi
 new feature requests will not be prioritized.
 {{< /warning >}}
 
-Instead of manually installing, upgrading, and uninstalling Istio in a production environment,
+Instead of manually installing, upgrading, and uninstalling Istio,
 you can instead let the Istio [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 manage the installation for you.
 This relieves you of the burden of managing different `istioctl` versions.
