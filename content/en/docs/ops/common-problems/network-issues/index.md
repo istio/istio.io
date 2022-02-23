@@ -620,7 +620,7 @@ Most cloud load balancers will not forward the SNI, so if you are terminating TL
 
 A common symptom of this is for the load balancer health checks to succeed while real traffic fails.
 
-## Unchanged envoy filter configuration suddenly stops working
+## Unchanged Envoy filter configuration suddenly stops working
 
 An `EnvoyFilter` configuration that specifies an insert position relative to another filter can be very
 fragile because, by default, the order of evaluation is based on the creation time of the filters.
@@ -656,4 +656,4 @@ filter chain of the sidecars.
 To avoid this issue, you can either change the operation to one that does not depend on the presence of
 another filter (e.g., `INSERT_FIRST`), or set an explicit priority in the `EnvoyFilter` to override the
 default creation time-based ordering. For example, adding `priority: 10` to the above filter will ensure
-that it is applied after the `istio.stats` filter which has a default priority of 0.
+that it is processed after the `istio.stats` filter which has a default priority of 0.
