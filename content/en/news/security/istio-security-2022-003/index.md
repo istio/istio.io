@@ -46,7 +46,7 @@ to be transparent.
 - __[CVE-2022-21655](https://github.com/envoyproxy/envoy/security/advisories/GHSA-7r5p-7fmh-jxpg])__:
   (CVSS Score 7.5, High): Incorrect handling of internal redirects to routes with a direct response entry.
 
-The following CVEs only affected Istio 1.12.0-1.12.3 and 1.13.0. It did not affect Istio 1.11.
+The following CVEs only affected Istio 1.12.0-1.12.3 and 1.13.0. They did not affect Istio 1.11.
 
 - __[CVE-2022-23606](https://github.com/envoyproxy/envoy/security/advisories/GHSA-9vp2-4cp7-vvxf])__:
   (CVSS Score 4.4, Moderate): Stack exhaustion when a cluster is deleted via Cluster Discovery Service.
