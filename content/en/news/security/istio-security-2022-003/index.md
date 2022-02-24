@@ -31,37 +31,16 @@ For simple installations, istiod is typically only reachable from within the clu
 At this time it is not believed that Istio is vulnerable to these CVEs in Envoy. They are listed, however,
 to be transparent.
 
-- __[CVE-2021-43824](https://github.com/envoyproxy/envoy/security/advisories/GHSA-vj5m-rch8-5r2p])__:
-  (CVSS Score 6.5, Medium): Potential null pointer dereference when using JWT filter `safe_regex` match.
-
-- __[CVE-2021-43825](https://github.com/envoyproxy/envoy/security/advisories/GHSA-h69p-g6xg-mhhh])__:
-  (CVSS Score 6.1, Medium):  Use-after-free when response filters increase response data, and increased data exceeds downstream buffer limits.
-
-- __[CVE-2021-43826](https://github.com/envoyproxy/envoy/security/advisories/GHSA-cmx3-fvgf-83mf])__:
-  (CVSS Score 6.1, Medium): Use-after-free when tunneling TCP over HTTP, if downstream disconnects during upstream connection establishment.
-
-- __[CVE-2022-21654](https://github.com/envoyproxy/envoy/security/advisories/GHSA-5j4x-g36v-m283])__:
-  (CVSS Score 7.3, High): Incorrect configuration handling allows mTLS session re-use without re-validation after validation settings have changed.
-
-- __[CVE-2022-21655](https://github.com/envoyproxy/envoy/security/advisories/GHSA-7r5p-7fmh-jxpg])__:
-  (CVSS Score 7.5, High): Incorrect handling of internal redirects to routes with a direct response entry.
-
-The following CVEs only affected Istio 1.12.0-1.12.3 and 1.13.0. They did not affect Istio 1.11.
-
-- __[CVE-2022-23606](https://github.com/envoyproxy/envoy/security/advisories/GHSA-9vp2-4cp7-vvxf])__:
-  (CVSS Score 4.4, Moderate): Stack exhaustion when a cluster is deleted via Cluster Discovery Service.
-
-The following CVEs did not have patches for the version of Envoy used in Istio 1.11. While the CVE exists, Istio
-does not believe that it is affected by this issue.
-
-- __[CVE-2022-21656](https://github.com/envoyproxy/envoy/security/advisories/GHSA-c9g7-xwcv-pjx2])__:
-  (CVSS Score 3.1, Low): X.509 `subjectAltName` matching (and `nameConstraints`) bypass
-
-The following CVEs were not patched as they were not provided to Istio prior to Envoy's release. It will be patched in a
-future version of Istio. Istio is not affected by this vulnerability, however, Istio 1.11.7, 1.12.4 and 1.13.1 did not patch this.
-
-- __[CVE-2022-21657](https://github.com/envoyproxy/envoy/security/advisories/GHSA-837m-wjrv-vm5g])__:
-  (CVSS Score 3.1, Low): X.509 Extended Key Usage and Trust Purposes bypass
+| CVE ID                                                                                         | Score, Rating | Description                                                                                                               | Fixed in 1.13.1  | Fixed in 1.12.4  | Fixed in 1.11.7  |
+|------------------------------------------------------------------------------------------------|---------------|---------------------------------------------------------------------------------------------------------------------------|------------------|------------------|------------------|
+| [CVE-2021-43824](https://github.com/envoyproxy/envoy/security/advisories/GHSA-vj5m-rch8-5r2p]) | 6.5, Medium   | Potential null pointer dereference when using JWT filter `safe_regex` match.                                              | yes              | yes              | yes              |
+| [CVE-2021-43825](https://github.com/envoyproxy/envoy/security/advisories/GHSA-h69p-g6xg-mhhh]) | 6.1, Medium   | Use-after-free when response filters increase response data, and increased data exceeds downstream buffer limits.         | yes              | yes              | yes              |
+| [CVE-2021-43826](https://github.com/envoyproxy/envoy/security/advisories/GHSA-cmx3-fvgf-83mf]) | 6.1, Medium   | Use-after-free when tunneling TCP over HTTP, if downstream disconnects during upstream connection establishment.          | yes              | yes              | yes              |
+| [CVE-2022-21654](https://github.com/envoyproxy/envoy/security/advisories/GHSA-5j4x-g36v-m283]) | 7.3, High     | Incorrect configuration handling allows mTLS session re-use without re-validation after validation settings have changed. | yes              | yes              | yes              |
+| [CVE-2022-21655](https://github.com/envoyproxy/envoy/security/advisories/GHSA-7r5p-7fmh-jxpg]) | 7.5, High     | Incorrect handling of internal redirects to routes with a direct response entry.                                          | yes              | yes              | yes              |
+| [CVE-2022-23606](https://github.com/envoyproxy/envoy/security/advisories/GHSA-9vp2-4cp7-vvxf]) | 4.4, Moderate | Stack exhaustion when a cluster is deleted via Cluster Discovery Service.                                                 | yes              | yes              | N/A              |
+| [CVE-2022-21656](https://github.com/envoyproxy/envoy/security/advisories/GHSA-c9g7-xwcv-pjx2]) | 3.1, Low      | X.509 `subjectAltName` matching (and `nameConstraints`) bypass.                                                           | yes              | yes              | Won't fix        |
+| [CVE-2022-21657](https://github.com/envoyproxy/envoy/security/advisories/GHSA-837m-wjrv-vm5g]) | 3.1, Low      | X.509 Extended Key Usage and Trust Purposes bypass                                                                        | No, next release | No, next release | No, next release |
 
 ## Am I Impacted?
 
