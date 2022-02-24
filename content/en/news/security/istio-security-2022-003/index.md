@@ -48,4 +48,4 @@ You are at most risk if you are running Istio in a multi-cluster environment, or
 
 ## Credit
 
-We would like to thank `Adam Korczynski` ([`ADA Logics`](https://adalogics.com)) and `John Howard` (Google) for the report and the fix.
+We would like to thank Adam Korczynski ([`ADA Logics`](https://adalogics.com)) and John Howard (Google) for the report and the fix.
