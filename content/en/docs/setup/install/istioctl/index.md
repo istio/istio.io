@@ -24,7 +24,6 @@ The `istioctl` command supports the full [`IstioOperator` API](/docs/reference/c
 via command-line options for individual settings or for passing a yaml file containing an `IstioOperator`
 {{<gloss CRDs>}}custom resource (CR){{</gloss>}}.
 
-
 ## Prerequisites
 
 Before you begin, check the following prerequisites:
