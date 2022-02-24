@@ -619,3 +619,14 @@ Most cloud load balancers will not forward the SNI, so if you are terminating TL
 - Disable SNI matching in the `Gateway` by setting the hosts field to `*`
 
 A common symptom of this is for the load balancer health checks to succeed while real traffic fails.
+
+## Port-forward error for Istio in dual-stack or `ipv6-only` cluster
+
+{{< tip >}}
+Please refer to the [IPv6 enabled cluster document](https://docs.google.com/document/d/1a6eZ6ldF2l7De3vX-SBAHmuJ00uxlgpPznHocG7zcfs) for more information.
+{{< /tip >}}
+
+There may be error messages similar to those found in this [issue](https://github.com/istio/istio/issues/34358) when using some istioctl commands, such as `istioctl proxy-config`, `istioctl proxy-status` and `istioctl dashboard`, etc. All these commands are implemented via `Istio port-forward`. The error might be caused by the container runtime in the user's Kubernetes cluster. To avoid this error, please make sure to follow the rules:
+
+- `If Docker is the container runtime`： User needs to change the runtime from `Docker` to `containerd`,
+- `If containerd is the container runtime`： User should verify that the `containerd` version is higher than 1.5.0.
