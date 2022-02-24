@@ -68,27 +68,6 @@ $ istioctl operator init --watchedNamespaces=istio-namespace1,istio-namespace2
 
 See the [`istioctl operator init` command reference](/docs/reference/commands/istioctl/#istioctl-operator-init) for details.
 
-{{< tip >}}
-You can alternatively deploy the operator using Helm:
-
-1. Create a namespace `istio-operator`.
-
-    {{< text bash >}}
-    $ kubectl create namespace istio-operator
-    {{< /text >}}
-
-1. Install operator using Helm.
-
-    {{< text bash >}}
-    $ helm install istio-operator manifests/charts/istio-operator \
-        --set watchedNamespaces="istio-namespace1\,istio-namespace2" \
-        -n istio-operator
-    {{< /text >}}
-
-Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
-to run the above command.
-{{< /tip >}}
-
 {{< warning >}}
 Prior to Istio 1.10.0, the namespace `istio-system` needed to be created before installing the operator. As of Istio 1.10.0, the `istioctl operator init` will create the `istio-system` namespace.
 
