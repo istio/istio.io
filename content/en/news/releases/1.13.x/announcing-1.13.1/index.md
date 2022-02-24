@@ -18,7 +18,7 @@ This release fixes the security vulnerabilities described in our February 22nd p
 - __[CVE-2022-23635](https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=CVE-2022-23635])__:
   CVE-2022-23635 (CVSS Score 7.5, High):  Unauthenticated control plane denial of service attack.
 
-### Envoy changes
+### Envoy CVEs
 
 At this time it is not believed that Istio is vulnerable to these CVEs in Envoy. They are listed, however,
 to be transparent.
