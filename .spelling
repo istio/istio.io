@@ -141,6 +141,7 @@ az
 backend
 backends
 backoff
+backport
 base64
 Bazel
 Berben
@@ -519,7 +520,8 @@ Kibana
 Knative
 Kool
 Kops
-Krishnan
+Korczynski
+Krishnanback
 Kristián
 Kuat
 Kube
