@@ -619,3 +619,41 @@ Most cloud load balancers will not forward the SNI, so if you are terminating TL
 - Disable SNI matching in the `Gateway` by setting the hosts field to `*`
 
 A common symptom of this is for the load balancer health checks to succeed while real traffic fails.
+
+## Unchanged Envoy filter configuration suddenly stops working
+
+An `EnvoyFilter` configuration that specifies an insert position relative to another filter can be very
+fragile because, by default, the order of evaluation is based on the creation time of the filters.
+Consider a filter with the following specification:
+
+{{< text yaml >}}
+spec:
+  configPatches:
+  - applyTo: NETWORK_FILTER
+    match:
+      context: SIDECAR_OUTBOUND
+      listener:
+        portNumber: 443
+        filterChain:
+          filter:
+            name: istio.stats
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        ...
+{{< /text >}}
+
+To work properly, this filter configuration depends on the `istio.stats` filter having an older creation time
+than it. Otherwise, the `INSERT_BEFORE` operation will be silently ignored. There will be nothing in the
+error log to indicate that this filter has not been added to the chain.
+
+This is particularly problematic when matching filters, like `istio.stats`, that are version
+specific (i.e., that include the `proxyVersion` field in their match criteria). Such filters may be removed
+or replaced by newer ones when upgrading Istio. As a result, an `EnvoyFilter` like the one above may initially
+be working perfectly but after upgrading Istio to a newer version it will no longer be included in the network
+filter chain of the sidecars.
+
+To avoid this issue, you can either change the operation to one that does not depend on the presence of
+another filter (e.g., `INSERT_FIRST`), or set an explicit priority in the `EnvoyFilter` to override the
+default creation time-based ordering. For example, adding `priority: 10` to the above filter will ensure
+that it is processed after the `istio.stats` filter which has a default priority of 0.
