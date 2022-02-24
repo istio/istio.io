@@ -74,9 +74,9 @@ Istio does not guarantee that minor releases that fall outside the support windo
 Please keep up-to-date and use a supported version.
 {{< /warning >}}
 
-| Minor Releases   | Patched versions with no known CVEs |
-|------------------|-------------------------------------|
-| 1.13.x           | 1.13.1+                             |
-| 1.12.x           | 1.12.4+                             |
-| 1.11.x           | 1.11.7+                             |
-| 1.10 and earlier | None, all versions are vulnerable   |
+| Minor Releases   | Patched versions with no known CVEs           |
+|------------------|-----------------------------------------------|
+| 1.13.x           | 1.13.1+                                       |
+| 1.12.x           | 1.12.4+                                       |
+| 1.11.x           | 1.11.7+                                       |
+| 1.10 and earlier | None, all versions have known vulnerabilities |
