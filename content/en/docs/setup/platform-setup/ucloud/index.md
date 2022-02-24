@@ -1,6 +1,6 @@
 ---
 title: UCloud
-description: Instructions to setup an Ucloud Kubernetes cluster for Istio.
+description: Instructions to setup an UCloud Kubernetes cluster for Istio.
 weight: 70
 skip_seealso: true
 aliases:
