@@ -7,7 +7,7 @@ test: no
 owner: istio/wg-environments-maintainers
 ---
 
-除了手动在生产环境中安装、升级、和卸载 Istio，您还可以用 Istio [Operator](https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/) 管理安装。
+除了手动安装、升级、和卸载 Istio，您还可以用 Istio [Operator](https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/) 管理安装。
 这样做还能缓解管理不同 Istio 版本的负担。
 您只需简单的更新 Operator {{<gloss CRDs>}}自定义资源（CR）{{</gloss>}}即可， Operator 控制器将为您应用更改的相应配置。
 
