@@ -14,7 +14,7 @@ This page describes the built-in configuration profiles that can be used when
 The profiles provide customization of the Istio control plane and of the sidecars for the Istio data plane.
 
 You can start with one of Istio’s built-in configuration profiles and then further
-[customize the configuration](/docs/setup/install/istioctl/#customizing-the-configuration)
+[customize the configuration](/docs/setup/additional-setup/customize-installation/)
 for your specific needs. The following built-in configuration profiles are currently available:
 
 1. **default**: enables components according to the default settings of the

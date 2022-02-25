@@ -81,6 +81,7 @@ else
   make "${ISTIO_OUT}/release/istioctl-linux-amd64"
   cp -a "${ISTIO_OUT}/release/istioctl-linux-amd64" /gobin/istioctl
 fi
+
 popd > /dev/null
 
 # Copy install, samples, and tool files over from Istio. These are needed by the tests.

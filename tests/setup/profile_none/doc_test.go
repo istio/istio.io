@@ -22,7 +22,6 @@ import (
 
 func TestMain(m *testing.M) {
 	framework.NewSuite(m).
-		RequireSingleCluster().
 		Run()
 }
 

@@ -33,7 +33,7 @@ Your cluster may be impacted if:
 If you are unable to upgrade, any of the following will prevent this vulnerability:
 
 * Remove the `gateways.gateway.networking.k8s.io` `CustomResourceDefinition`.
-* Set `PILOT_ENABLE_GATEWAY_API_DEPLOYMENT_CONTROLLER=true` environment variable in Istiod.
+* Set `PILOT_ENABLE_GATEWAY_API_DEPLOYMENT_CONTROLLER=false` environment variable in Istiod.
 * Remove `CREATE` permissions for `gateways.gateway.networking.k8s.io` objects from untrusted users.
 
 ## Credit

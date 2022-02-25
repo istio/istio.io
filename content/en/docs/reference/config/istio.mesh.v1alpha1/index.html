@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 52
+number_of_entries: 54
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -1127,6 +1127,17 @@ No
 No
 </td>
 </tr>
+<tr id="MeshConfig-ExtensionProvider-envoy_otel_als" class="oneof">
+<td><code>envoyOtelAls</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider">EnvoyOpenTelemetryLogProvider (oneof)</a></code></td>
+<td>
+<p>Configures an Envoy Open Telemetry Access Logging Service provider.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -1490,6 +1501,26 @@ the downstream.
 When a header is included in this list, <em>Path</em>, <em>Status</em>, <em>Content-Length</em>, <em>WWWAuthenticate</em> and <em>Location</em> are
 automatically added.
 Note, the body from the authorization service is always included in the response to downstream.</p>
+
+<p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
+https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
+- Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
+- Prefix match: &ldquo;abc<em>&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
+- Suffix match: &ldquo;</em>abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider-headers_to_downstream_on_allow">
+<td><code>headersToDownstreamOnAllow</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>List of headers from the authorization service that should be forwarded to downstream when the authorization
+check result is allowed (HTTP code 200).
+If not specified, the original response will not be modified and forwarded to downstream as-is.
+Note, any existing headers will be overridden.</p>
 
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
 https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
@@ -2158,6 +2189,75 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider">MeshConfig.ExtensionProvider.EnvoyOpenTelemetryLogProvider</h2>
+<section>
+<p>Defines configuration for an Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto">OpenTelemetry (gRPC) Access Log</a></p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-service">
+<td><code>service</code></td>
+<td><code>string</code></td>
+<td>
+<p>REQUIRED. Specifies the service that implements the Envoy ALS gRPC authorization service.
+The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
+to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
+service defined by the Kubernetes service or ServiceEntry.</p>
+
+<p>Example: &ldquo;envoy-als.foo.svc.cluster.local&rdquo; or &ldquo;bar/envoy-als.example.com&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-port">
+<td><code>port</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>REQUIRED. Specifies the port of the service.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-log_name">
+<td><code>logName</code></td>
+<td><code>string</code></td>
+<td>
+<p>Optional. The friendly name of the access log.
+Defaults:
+- &ldquo;otel<em>envoy</em>accesslog&rdquo;</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-log_format">
+<td><code>logFormat</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-LogFormat">LogFormat</a></code></td>
+<td>
+<p>Optional. Format for the proxy access log
+Empty value results in proxy&rsquo;s default access log format, following Envoy access logging formatting.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="MeshConfig-ExtensionProvider-StackdriverProvider-Logging">MeshConfig.ExtensionProvider.StackdriverProvider.Logging</h2>
 <section>
 <table class="message-fields">
@@ -2229,6 +2329,60 @@ can be used as values for fields within the Struct. Values are rendered
 as strings, numbers, or boolean values, as appropriate
 (see: <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-dictionaries">format dictionaries</a>). Nested JSON is
 supported for some command operators (e.g. FILTER<em>STATE or DYNAMIC</em>METADATA).</p>
+
+<p>Example:</p>
+
+<pre><code>labels:
+  status: &quot;%RESPONSE_CODE%&quot;
+  message: &quot;%LOCAL_REPLY_BODY%&quot;
+</code></pre>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-LogFormat">MeshConfig.ExtensionProvider.EnvoyOpenTelemetryLogProvider.LogFormat</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-LogFormat-text">
+<td><code>text</code></td>
+<td><code>string</code></td>
+<td>
+<p>Textual format for the envoy access logs. Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators">command operators</a> may be
+used in the format. The <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-strings">format string documentation</a>
+provides more information.
+Alias to <code>body</code> filed in <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto">Open Telemetry</a>
+Example: <code>text: &quot;%LOCAL_REPLY_BODY%:%RESPONSE_CODE%:path=%REQ(:path)%&quot;</code></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-LogFormat-labels">
+<td><code>labels</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
+<td>
+<p>Optional. Additional attributes that describe the specific event occurrence.
+Structured format for the envoy access logs. Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators">command operators</a>
+can be used as values for fields within the Struct. Values are rendered
+as strings, numbers, or boolean values, as appropriate
+(see: <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-dictionaries">format dictionaries</a>). Nested JSON is
+supported for some command operators (e.g. FILTER<em>STATE or DYNAMIC</em>METADATA).
+Alias to <code>attributes</code> filed in <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto">Open Telemetry</a></p>
 
 <p>Example:</p>
 
@@ -2713,6 +2867,18 @@ No
 <td>
 <p>Additional environment variables for the proxy.
 Names starting with <code>ISTIO_META_</code> will be included in the generated bootstrap and sent to the XDS server.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-runtime_values">
+<td><code>runtimeValues</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/runtime">runtime configuration</a> to set during bootstrapping.
+This enables setting experimental, unsafe, unsupported, and deprecated features that should be used with extreme caution.</p>
 
 </td>
 <td>
@@ -3745,6 +3911,14 @@ source IP addresses during redirection.</p>
 source and destination IP addresses and ports, so that they can be used for advanced
 filtering and manipulation. This mode also configures the sidecar to run with the
 <code>CAP_NET_ADMIN</code> capability, which is required to use <code>TPROXY</code>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-InboundInterceptionMode-NONE">
+<td><code>NONE</code></td>
+<td>
+<p>The <code>NONE</code> mode does not configure redirect to Envoy at all. This is an advanced
+configuration that typically requires changes to user applications.</p>
 
 </td>
 </tr>

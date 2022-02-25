@@ -42,7 +42,7 @@ doc_type: get-involved
 2. The [Istio Community README](https://github.com/istio/community/blob/master/README.md) is the **starting point for contributors** who want to work on code, docs or other parts of Istio.
 3. You can access our [**trove of technical content and working documents**](https://drive.google.com/corp/drive/folders/0ADmbrU7ueGOUUk9PVA) by joining the [istio-team-drive-access@ Google Group](https://groups.google.com/forum/#!forum/istio-team-drive-access).
 4. You can participate in the [**working groups**](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) which focus on particular areas of interest, such as docs, security, and networking.
-5. Interested in helping with **Chinese language documentation**? Join the [ServiceMesher community](https://www.servicemesher.com/).
+5. Interested in helping with **Chinese language documentation**? Join the [Cloud Native Community(China)](https://cloudnative.to).
 {{% /involve_block %}}
 
 {{% involve_block title="Understand oversight and planning" subtitle="Istio has two key committees that oversee the project: Steering and Technical Oversight." icon="magnifier" %}}

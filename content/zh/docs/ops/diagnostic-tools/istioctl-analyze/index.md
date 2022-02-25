@@ -44,9 +44,10 @@ $ istioctl analyze --namespace default
 
 {{< text syntax=bash snip_id=analyze_sample_destrule >}}
 $ istioctl analyze @samples/bookinfo/networking/bookinfo-gateway.yaml@ @samples/bookinfo/networking/destination-rule-all.yaml@
-Error [IST0101] (VirtualService bookinfo.default samples/bookinfo/networking/bookinfo-gateway.yaml:39) Referenced host not found: "productpage"
+Error [IST0101] (Gateway default/bookinfo-gateway samples/bookinfo/networking/bookinfo-gateway.yaml:7) Referenced selector not found: "istio=ingressgateway"
+Error [IST0101] (VirtualService default/bookinfo samples/bookinfo/networking/bookinfo-gateway.yaml:39) Referenced host not found: "productpage"
 Error: Analyzers found issues when analyzing namespace: default.
-See https://istio.io/v{{< istio_version >}}/zh/docs/reference/config/analysis for more information about causes and resolutions.
+See https://istio.io/v{{< istio_version >}}/docs/reference/config/analysis for more information about causes and resolutions.
 {{< /text >}}
 
 分析整个 `networking` 目录：
@@ -94,9 +95,10 @@ spec:
   - ratings
 ...
 status:
+  observedGeneration: "1"
   validationMessages:
-  - documentation_url: https://istio.io/v{{< istio_version >}}/zh/docs/reference/config/analysis/ist0101/?ref=status-controller
-    level: 3
+  - documentationUrl: https://istio.io/v{{< istio_version >}}/docs/reference/config/analysis/ist0101/
+    level: ERROR
     type:
       code: IST0101
 {{< /text >}}

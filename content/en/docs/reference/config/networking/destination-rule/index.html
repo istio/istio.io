@@ -28,7 +28,7 @@ spec:
   host: ratings.prod.svc.cluster.local
   trafficPolicy:
     loadBalancer:
-      simple: LEAST_CONN
+      simple: LEAST_REQUEST
 </code></pre>
 
 <p>{{</tab>}}</p>
@@ -43,7 +43,7 @@ spec:
   host: ratings.prod.svc.cluster.local
   trafficPolicy:
     loadBalancer:
-      simple: LEAST_CONN
+      simple: LEAST_REQUEST
 </code></pre>
 
 <p>{{</tab>}}
@@ -66,7 +66,7 @@ spec:
   host: ratings.prod.svc.cluster.local
   trafficPolicy:
     loadBalancer:
-      simple: LEAST_CONN
+      simple: LEAST_REQUEST
   subsets:
   - name: testversion
     labels:
@@ -88,7 +88,7 @@ spec:
   host: ratings.prod.svc.cluster.local
   trafficPolicy:
     loadBalancer:
-      simple: LEAST_CONN
+      simple: LEAST_REQUEST
   subsets:
   - name: testversion
     labels:
@@ -123,7 +123,7 @@ spec:
     - port:
         number: 80
       loadBalancer:
-        simple: LEAST_CONN
+        simple: LEAST_REQUEST
     - port:
         number: 9080
       loadBalancer:
@@ -145,7 +145,7 @@ spec:
     - port:
         number: 80
       loadBalancer:
-        simple: LEAST_CONN
+        simple: LEAST_REQUEST
     - port:
         number: 9080
       loadBalancer:
@@ -346,7 +346,7 @@ spec:
   host: ratings.prod.svc.cluster.local
   trafficPolicy:
     loadBalancer:
-      simple: LEAST_CONN
+      simple: LEAST_REQUEST
   subsets:
   - name: testversion
     labels:
@@ -368,7 +368,7 @@ spec:
   host: ratings.prod.svc.cluster.local
   trafficPolicy:
     loadBalancer:
-      simple: LEAST_CONN
+      simple: LEAST_REQUEST
   subsets:
   - name: testversion
     labels:
@@ -559,6 +559,21 @@ No
 <td>
 <p>Locality load balancer settings, this will override mesh wide settings in entirety, meaning no merging would be performed
 between this object and the object one in MeshConfig</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LoadBalancerSettings-warmup_duration_secs">
+<td><code>warmupDurationSecs</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>Represents the warmup duration of Service. If set, the newly created endpoint of service
+remains in warmup mode starting from its creation time for the duration of this window and
+Istio progressively increases amount of traffic for that endpoint instead of sending proportional amount of traffic.
+This should be enabled for services that require warm up time to serve full production load with reasonable latency.
+Currently this is only supported for ROUND<em>ROBIN and LEAST</em>CONN load balancers.</p>
 
 </td>
 <td>
@@ -1832,19 +1847,11 @@ No
 </tr>
 </thead>
 <tbody>
-<tr id="LoadBalancerSettings-SimpleLB-ROUND_ROBIN">
-<td><code>ROUND_ROBIN</code></td>
+<tr id="LoadBalancerSettings-SimpleLB-UNSPECIFIED">
+<td><code>UNSPECIFIED</code></td>
 <td>
-<p>Round Robin policy. Default</p>
-
-</td>
-</tr>
-<tr id="LoadBalancerSettings-SimpleLB-LEAST_CONN">
-<td><code>LEAST_CONN</code></td>
-<td>
-<p>The least request load balancer uses an O(1) algorithm which selects
-two random healthy hosts and picks the host which has fewer active
-requests.</p>
+<p>No load balancing algorithm has been specified by the user. Istio
+will select an appropriate default.</p>
 
 </td>
 </tr>
@@ -1865,6 +1872,33 @@ requested by the caller without doing any form of load
 balancing. This option must be used with care. It is meant for
 advanced use cases. Refer to Original Destination load balancer in
 Envoy for further details.</p>
+
+</td>
+</tr>
+<tr id="LoadBalancerSettings-SimpleLB-ROUND_ROBIN">
+<td><code>ROUND_ROBIN</code></td>
+<td>
+<p>A basic round robin load balancing policy. This is generally unsafe
+for many scenarios (e.g. when enpoint weighting is used) as it can
+overburden endpoints. In general, prefer to use LEAST<em>REQUEST as a
+drop-in replacement for ROUND</em>ROBIN.</p>
+
+</td>
+</tr>
+<tr id="LoadBalancerSettings-SimpleLB-LEAST_REQUEST">
+<td><code>LEAST_REQUEST</code></td>
+<td>
+<p>The least request load balancer spreads load across endpoints, favoring
+endpoints with the least outstanding requests. This is generally safer
+and outperforms ROUND<em>ROBIN in nearly all cases. Prefer to use
+LEAST</em>REQUEST as a drop-in replacement for ROUND_ROBIN.</p>
+
+</td>
+</tr>
+<tr id="LoadBalancerSettings-SimpleLB-LEAST_CONN" class="deprecated ">
+<td><code>LEAST_CONN</code></td>
+<td>
+<p>Deprecated. Use LEAST_REQUEST instead.</p>
 
 </td>
 </tr>

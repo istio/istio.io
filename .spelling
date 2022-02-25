@@ -30,6 +30,7 @@
 1.10.x
 1.11.x
 1.12.x
+1.13.x
 1.x
 10ms
 10s
@@ -117,6 +118,7 @@ appswitch
 AppSwitch
 architected
 args.yaml
+Arielli
 arm64
 ArtifactHub
 AssemblyScript
@@ -128,11 +130,13 @@ AuthorizationPolicy
 authorizer
 AuthPolicy
 authz
+autoscaled
 autoscaler
 Autoscalers
 autoscalers
 autoscaling
 AutoTrader
+Avelar
 az
 backend
 backends
@@ -147,6 +151,7 @@ bitpipe
 BlackHole
 BlackHoleCluster
 Blatt
+Bluecore
 BluePerf
 boilerplates
 bol.com
@@ -215,6 +220,7 @@ crypto
 CSPs
 CSRs
 Ctrl
+Cusa
 Customizable
 customizable
 customTags
@@ -267,6 +273,13 @@ CVE-2021-39155
 CVE-2021-39156
 CVE-2022-21679
 CVE-2022-21701
+CVE-2021-43824
+CVE-2021-43825
+CVE-2021-43826
+CVE-2022-21654
+CVE-2022-21655
+CVE-2022-23606
+CVE-2022-23635
 CVEs
 cves
 cvss
@@ -285,6 +298,7 @@ decapsulated
 declaratively
 decompressor
 Delayering
+Delucca
 Demailly
 deployment
 dereference
@@ -333,6 +347,7 @@ Exfiltrating
 extensionProviders
 ExternalName
 ext-authz
+Ezequiel
 facto
 failover
 failovers
@@ -461,6 +476,7 @@ ISTIO-SECURITY-2021-007
 ISTIO-SECURITY-2021-008
 ISTIO-SECURITY-2022-001
 ISTIO-SECURITY-2022-002
+ISTIO-SECURITY-2022-003
 istio-system
 istio.io
 istio.io.
@@ -515,10 +531,12 @@ Kubernetes
 kubernetes.default
 kube-proxy
 KubeSphere
+Kumar
 kyzy
 L3-4
 L4-L6
 Landlow
+Landow
 learnings
 LibreSSL
 lifecycle
@@ -618,6 +636,7 @@ Onboard
 onboarding
 Onboarding
 O'Neal
+onsite
 onwards
 OpenAPI
 OpenCensus
@@ -700,6 +719,7 @@ quo
 RabbitMQ
 radis
 Rajagopalan
+Rappi
 ratelimit-handler
 RawVM
 rbac
@@ -708,6 +728,8 @@ re-applied
 re-patch
 reachability
 rearchitect
+rebalance
+rebalances
 recomposition
 redeployments
 relabeling
@@ -767,6 +789,7 @@ sharding
 Shi
 shortcode
 shortcodes
+Shray
 Shriram
 SkyWalking
 sidebar_multicard

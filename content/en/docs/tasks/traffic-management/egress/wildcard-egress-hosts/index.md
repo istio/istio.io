@@ -533,11 +533,8 @@ The SNI proxy will forward the traffic to port `443`.
           context: SIDECAR_OUTBOUND
           listener:
             portNumber: 443
-            filterChain:
-              filter:
-                name: istio.stats
         patch:
-          operation: INSERT_BEFORE
+          operation: INSERT_FIRST
           value:
              name: forward_downstream_sni
              config: {}
@@ -567,11 +564,8 @@ The SNI proxy will forward the traffic to port `443`.
           context: GATEWAY
           listener:
             portNumber: 443
-            filterChain:
-              filter:
-                name: istio.stats
         patch:
-          operation: INSERT_BEFORE
+          operation: INSERT_FIRST
           value:
              name: sni_verifier
              config: {}

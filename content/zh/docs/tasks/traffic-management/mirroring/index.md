@@ -121,8 +121,8 @@ test: yes
         spec:
           containers:
           - name: sleep
-            image: tutum/curl
-            command: ["/bin/sleep","infinity"]
+            image: curlimages/curl
+            command: ["/bin/sleep","3650d"]
             imagePullPolicy: IfNotPresent
     EOF
     {{< /text >}}

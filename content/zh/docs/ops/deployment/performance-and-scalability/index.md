@@ -63,46 +63,84 @@ Pilot 根据用户编写的配置文件和系统当前状态来配置 sidecar �
 
 ### CPU 和内存 {#CPU-and-memory}
 
-由于 sidecar 代理在数据路径上执行额外的工作，它需要消耗 CPU 和内存。以 Istio 1.1 举例，1000 QPS 会使用大约 0.6 vCPU。
+<!--
+Since the sidecar proxy performs additional work on the data path, it consumes CPU
+and memory. In Istio {{< istio_release_name >}}, a proxy consumes about 0.5 vCPU per 1000
+requests per second.
+-->
+由于 sidecar 代理在数据路径上执行额外的工作，它需要消耗 CPU 和内存。以 Istio {{< istio_release_name >}} 举例，1000 QPS 会使用大约 0.5 vCPU。
 
-代理的内存消耗取决于它的总体配置状态。大量的监听器、集群和路由会增加内存使用量。Istio 1.1 引入了命名空间隔离来限制配置被下发到代理的范围。在一个比较大的命名空间中，代理将消耗大约 50 MB 的内存。
+<!--
+The memory consumption of the proxy depends on the total configuration state the proxy holds.
+A large number of listeners, clusters, and routes can increase memory usage.
+In a large namespace with [namespace isolation](/zh/docs/reference/config/networking/sidecar/) enabled, the proxy consumes approximately 50 MB of memory.
+-->
+代理的内存消耗取决于它的总体配置状态。大量的监听器、集群和路由会增加内存使用量。在启用了[命名空间隔离](/zh/docs/reference/config/networking/sidecar/)的大型命名空间中，代理消耗大约 50 MB 的内存。
 
 由于代理通常不缓存通过的数据，请求速率不会影响内存消耗。
 
 ### 延迟 {#latency}
 
-因为 Istio 在数据路径上注入了一个 sidecar 代理，所以延迟是重要的考量因素。Istio 向代理添加了身份验证和 Mixer 过滤器。每一个额外的过滤器都会增加代理内的路径长度并影响延迟。
+<!--
+Since Istio injects a sidecar proxy on the data path, latency is an important consideration. Every feature Istio adds also adds to the path length inside the proxy and potentially affects latency.
+-->
+由于 Istio 在数据路径上注入了一个 sidecar 代理，因此延迟是一个重要的考虑因素。 Istio 添加的每个功能也会增加代理内部的路径长度，并可能影响延迟。
 
-响应被返回给客户端后，Envoy 代理将收集原始的遥测数据。为请求收集原始遥测数据所花费的时间并没有统计在完成该请求所需的总时间里。但是，worker 在忙着处理请求时是不会立刻开始处理下一个请求的。此过程会增加下一个请求的队列等待时间并影响平均延迟和尾部延迟。实际的尾部延迟取决于流量模式。
-
-在网格内部，一个请求会先遍历客户端代理，然后遍历服务端代理。在 90% 的情况下，数据路径上的这两个代理每 1000 QPS 会产生 6.3 ms 的延迟。
-
-90% 的情况下仅服务端代理会增加 1.7 ms 的延迟。
+<!--
+The Envoy proxy collects raw telemetry data after a response is sent to the
+client. The time spent collecting raw telemetry for a request does not contribute
+to the total time taken to complete that request. However, since the worker
+is busy handling the request, the worker won't start handling the next request
+immediately. This process adds to the queue wait time of the next request and affects
+average and tail latencies. The actual tail latency depends on the traffic pattern.
+-->
+Envoy 代理在向客户端发送响应后收集原始遥测数据。为请求收集原始遥测数据所花费的时间不计入完成该请求所花费的总时间。但由于 worker 正忙于处理请求，它不会立即开始下一个请求的处理。此过程会增加下一个请求的队列等待时间，并影响平均延迟和尾延迟。实际的尾部延迟取决于流量模式。
 
 ### Istio {{< istio_release_name >}} 的延迟 {#latency-for-Istio}
 
-Istio {{< istio_release_name >}} 的默认配置在 90% 的情况下使数据平面的延迟比基线增加了 6.3 ms。我们通过 `http/1.1` 协议的 [Istio 基准测试](https://github.com/istio/tools/tree/master/perf/benchmark)获得了结果，测试标准是每秒 1000 请求，负载为 1KB，使用了 16 个客户端连接和 2 个代理，双向 TLS 打开状态。
-
-在接下来的 Istio 版本中我们会把 `istio-policy` 和 `istio-telemetry` 的功能移动到 `TelemetryV2` 的代理。这将降低通过系统的数据流量，从而减少 CPU 使用和延迟。
+<!--
+Inside the mesh, a request traverses the client-side proxy and then the server-side
+proxy. In the default configuration of Istio {{< istio_release_name >}} (i.e. Istio with telemetry v2),
+the two proxies add about 1.7 ms and 2.7 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency.
+We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
+for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 16 client connections, 2 proxy workers and mutual TLS enabled.
+-->
+在 mesh 内部，请求会依次遍历客户端和服务器端代理。在 Istio {{< istio_release_name >}} 的默认配置中（即带有遥测 v2 的 Istio），
+两个代理分别在基线数据平面延迟的 90 和 99 分位延迟上增加约 1.7 和 2.7 毫秒。
+我们使用 `http/1.1` 协议的 [Istio 基准测试](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)获得了这些结果，
+测试标准是每秒 1000 请求，负载为 1KB，使用了 16 个客户端连接和 2 个代理 worker 并启用双向 TLS。
 
 {{< image width="90%"
-    link="latency_p90.svg"
-    alt="P90 latency vs client connections"
-    caption="P90 latency vs client connections"
+    link="latency_p90_fortio_with_jitter.svg"
+    alt="P90 延迟 vs 客户端连接"
+    caption="P90 延迟 vs 客户端连接"
 >}}
 
+{{< image width="90%"
+    link="latency_p99_fortio_with_jitter.svg"
+    alt="P99 延迟 vs 客户端连接"
+    caption="P99 延迟 vs 客户端连接"
+>}}
+
+<!--
+- `baseline` Client pod directly calls the server pod, no sidecars are present.
+- `none_both` Istio proxy with no Istio specific filters configured.
+- `v2-stats-wasm_both` Client and server sidecars are present with telemetry v2 `v8` configured.
+- `v2-stats-nullvm_both` Client and server sidecars are present with telemetry v2 `nullvm` configured by default. This is the default Istio configuration.
+- `v2-sd-full-nullvm_both` Export Stackdriver metrics, access logs and edges with telemetry v2 `nullvm` configured.
+- `v2-sd-nologging-nullvm_both` Same as above, but does not export access logs.
+-->
 - `baseline` 客户端 pod 直接调用服务端 pod，没有 sidecar 参与。
-- `server-sidecar` 服务端 sidecar。
-- `both-sidecars` 客户端和服务端 sidecar 都参与测试。这也是网格的默认情况。
-- `nomixer-both` 没有 Mixer 的 **both-sidecars** 模式。
-- `nomixer-server` 没有 Mixer 的 **server-sidecar** 模式。
-- `telemetryv2-nullvm_both` 使用遥测 v2 的 **both-sidecars** 模式。目标是将来执行与 "No Mixer" 相同的功能。
-- `telemetryv2-nullvm_serveronly` 使用遥测 v2 的 **server-sidecars** 模式。目标是将来执行与 "No Mixer" 相同的功能。
+- `none_both` 未配置 Istio 特定过滤器的 Istio 代理。
+- `v2-stats-wasm_both` 客户端和服务器 sidecar 配置了遥测 v2 `v8`。
+- `v2-stats-nullvm_both` 客户端和服务器 sidecar 默认配置遥测 v2 `nullvm`。这是默认的 Istio 配置。
+- `v2-sd-full-nullvm_both` 导出 Stackdriver 指标、访问日志和配置了遥测 v2 `nullvm` 的边缘。
+- `v2-sd-nologging-nullvm_both` 同上，但不导出访问日志。
 
 ### 基准测试工具 {#benchmarking-tools}
 
 Istio 使用下面的工具进行基准测试：
 
 - [`fortio.org`](https://fortio.org/) - 一个恒定的吞吐量负载测试工具。
-- [`blueperf`](https://github.com/blueperf/) - 一个仿真云原生应用。
+- [`nighthawk`](https://github.com/envoyproxy/nighthawk) - 基于 Envoy 的负载测试工具。
 - [`isotope`](https://github.com/istio/tools/tree/master/isotope) - 一个具有可配置拓扑结构的综合应用程序。

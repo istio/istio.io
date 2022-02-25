@@ -215,7 +215,7 @@ new content directory. This ensures that the linting rules apply to your new con
 available on preliminary.istio.io and will make it so your language will be supported in the language selection menu.
 
 - Get an Istio GitHub administrator to create a new maintainer team for your language. For French, this would be
-`WG - Docs Mintainers/French`.
+`WG - Docs Maintainers/French`.
 
 - Edit the file `CODEOWNERS` and add entries for your language to give the new team you've created ownership over
 the translated content and translation table file.
