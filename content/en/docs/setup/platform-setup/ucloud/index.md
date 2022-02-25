@@ -33,3 +33,7 @@ You can deploy a Kubernetes cluster to UCloud quickly and easily, which fully su
 1. Click the **Submit my order** button in the pop-up page.
 
 1. The k8s cluster will be running in about ten minutes later;
+
+The image below shows the GUI where you create and configure the cluster:
+
+{{< image link="./deploy-uk8s.png" caption="Deploy UK8S" >}}

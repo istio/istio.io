@@ -31,3 +31,7 @@ test: n/a
 1. 在新弹出的页面点击 **立即支付**按钮。
 
 1. 等待10分钟左右，K8S集群即可正常运行。
+
+下图显示了配置购买集群的界面：
+
+{{< image link="./deploy-uk8s.png" caption="Deploy UK8S" >}}
