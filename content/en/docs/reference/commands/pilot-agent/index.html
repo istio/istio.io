@@ -1324,6 +1324,22 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, mesh will support certificates signed by more than one trustAnchor for ISTIO_MUTUAL mTLS</td>
 </tr>
 <tr>
+<td><code>ISTIO_OUTBOUND_OWNER_GROUPS</code></td>
+<td>String</td>
+<td><code>*</code></td>
+<td>Comma separated list of groups whose outgoing traffic is to be redirected to Envoy.
+A group can be specified either by name or by a numeric GID.
+The wildcard character &#34;*&#34; can be used to configure redirection of traffic from all groups.</td>
+</tr>
+<tr>
+<td><code>ISTIO_OUTBOUND_OWNER_GROUPS_EXCLUDE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of groups whose outgoing traffic is to be excluded from redirection to Envoy.
+A group can be specified either by name or by a numeric GID.
+Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected to Envoy.</td>
+</tr>
+<tr>
 <td><code>ISTIO_PROMETHEUS_ANNOTATIONS</code></td>
 <td>String</td>
 <td><code></code></td>
