@@ -7,7 +7,7 @@ aliases:
     - /zh/docs/ops/troubleshooting/grafana
     - /zh/docs/ops/troubleshooting/missing-traces
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: n/a
 ---
 
 ## 在 Mac 上运行 Istio 时，Zipkin 不生效{#no-traces-appearing-in-Zipkin-when-running-Istio-locally-on-mac}

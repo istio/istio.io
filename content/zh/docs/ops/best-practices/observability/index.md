@@ -4,7 +4,7 @@ description: 使用 Istio 观测应用时的最佳实践。
 force_inline_toc: true
 weight: 50
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: n/a
 ---
 
 ## 使用 Prometheus 进行生产规模的监控{#using-Prometheus-for-production-scale-monitoring}

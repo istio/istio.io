@@ -8,7 +8,7 @@ aliases:
   - /zh/help/ops/troubleshooting/network-issues
   - /zh/docs/ops/troubleshooting/network-issues
 owner: istio/wg-networking-maintainers
-test: no
+test: n/a
 ---
 
 ## 请求被 Envoy 拒绝{#requests-are-rejected-by-envoy}

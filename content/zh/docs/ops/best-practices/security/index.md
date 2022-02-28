@@ -4,7 +4,7 @@ description: 使用 Istio 保护应用的最佳实践。
 force_inline_toc: true
 weight: 30
 owner: istio/wg-security-maintainers
-test: no
+test: n/a
 ---
 
 Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密，认证，授权和审计（AAA）工具来保护您的服务和数据。但是，为了更好地使用这些安全特性，必须按照最佳实践操作。这里建议您在阅读下文前回顾[安全概述](/zh/docs/concepts/security/)。

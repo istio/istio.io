@@ -19,7 +19,7 @@ aliases:
   - /zh/help/ops/setup/required-pod-capabilities
   - /zh/docs/ops/prep/requirements
 owner: istio/wg-environments-maintainers
-test: no
+test: n/a
 ---
 
 作为 Istio 服务网格中的一部分，Kubernetes 集群中的 Pod 和 Service 必须满足以下要求：

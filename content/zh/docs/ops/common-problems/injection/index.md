@@ -6,7 +6,7 @@ weight: 40
 aliases:
   - /zh/docs/ops/troubleshooting/injection
 owner: istio/wg-user-experience-maintainers
-test: no
+test: n/a
 ---
 
 ## 注入的结果和预期不一致{#the-result-of-sidecar-injection-was-not-what-i-expected}
