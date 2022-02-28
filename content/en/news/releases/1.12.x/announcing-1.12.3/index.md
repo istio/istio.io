@@ -11,6 +11,8 @@ aliases:
 
 This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.12.2 and Istio 1.12.3.
 
+{{< relnote >}}
+
 ## Changes
 
 - **Fixed** an issue where scaling endpoint for a service from 0 to 1 might cause client side service account verification to be populated incorrectly.
