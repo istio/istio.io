@@ -1,7 +1,7 @@
 # Testing istio.io Content
 
 This folder contains framework utilies and instructions for testing the content on
-[istio.io](http://istio.io). More specifically, these tests confirm that the example, task, and
+[istio.io](https://istio.io). More specifically, these tests confirm that the example, task, and
 other documents, which contain instructions in the form of bash commands and expected output,
 are working as documented.
 
