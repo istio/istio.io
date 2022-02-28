@@ -2,7 +2,7 @@
 title: Istio 1.12.1 发布公告
 linktitle: 1.12.1
 subtitle: 补丁发布
-description: Istio 1.12.1 补丁发布
+description: Istio 1.12.1 补丁发布。
 publishdate: 2021-12-07
 release: 1.12.1
 aliases:
