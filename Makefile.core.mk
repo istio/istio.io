@@ -37,13 +37,15 @@ export ISTIO_SHA
 # export ISTIO_LONG_SHA here. We will set the value in the `init` target
 export ISTIO_LONG_SHA
 
+# NOTE:  This NO longer works to use a private repo as the VM code looks for a specifc commit!!
+#
 # In the case that the images are build as part of a the normal public istio/istio pipeline,
 # we only need to export the pipeline HUB value.
 # If the images were built as part of the private pipeline (as for security releases),
 # we export the HUB and TAG for the images once they are published.
 HUB ?= gcr.io/istio-testing
-# export HUB := docker.io/istio
-# export TAG ?= 1.7.3
+# export HUB := gcr.io/istio-release
+# export TAG ?= 1.13.1
 
 ifeq ($(HUB),)
   $(error "HUB cannot be empty")
