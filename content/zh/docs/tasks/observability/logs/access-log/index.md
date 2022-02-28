@@ -18,11 +18,11 @@ Istio 最简单的日志类型是 [Envoy 的访问日志](https://www.envoyproxy
 
 ## 开启 Envoy 访问日志{#enable-envoy-s-access-logging}
 
-Istio 提供了几种启用访问日志的方法。建议使用遥测 API。
+Istio 提供了几种启用访问日志的方法。建议使用遥测 API
 
-### 使用 Telemetry API{#using-telemetry-API}
+### 使用遥测 API{#using-telemetry-API}
 
-遥测 API 可以开启或关闭访问日志:
+遥测 API 可以开启或关闭访问日志：
 
 {{< text yaml >}}
 apiVersion: telemetry.istio.io/v1alpha1
@@ -40,16 +40,22 @@ spec:
 
 类似的配置也可以应用于单独的名称空间或单独的工作负载，以在细粒度级别控制日志记录。
 
-有关使用遥测API的详细信息，请参见 [Telemetry API 概览](/zh/docs/tasks/observability/telemetry/).
+关于使用遥测 API 的更多信息，请参见[遥测 API 概述](/zh/docs/tasks/observability/telemetry/)。
 
-### 使用 Mesh 配置{$using-mesh-config}
+### 使用网格配置{#using-mesh-config}
 
-如果你使用 `IstioOperator` CR来安装 Istio，请在你的配置中添加以下字段:
+如果你使用 `IstioOperator` CR 来安装 Istio，请在你的配置中添加以下字段:
 
 {{< text yaml >}}
 spec:
   meshConfig:
     accessLogFile: /dev/stdout
+{{< /text >}}
+
+否则，在原来的 `istioctl install` 命令中添加相同的设置，例如:
+
+{{< text syntax=bash snip_id=none >}}
+$ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
 {{< /text >}}
 
 您也可以通过设置 `accessLogEncoding` 为 `JSON` 或 `TEXT` 来在两种格式之间切换。
@@ -99,23 +105,12 @@ spec:
 | `%REQUESTED_SERVER_NAME%` | `-` | `outbound_.8000_._.httpbin.foo.svc.cluster.local`
 | `%ROUTE_NAME%` | `default` | `default`
 
-否则，在原来的 `istioctl install` 命令中添加相同的设置，例如:
-
-{{< text syntax=bash snip_id=none >}}
-$ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
-{{< /text >}}
-
 ## 测试访问日志{#test-the-access-log}
 
 1. 从 `sleep` 向 `httpbin` 发送一个请求:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -v httpbin:8000/status/418
-    *   Trying 172.21.13.94...
-    * TCP_NODELAY set
-    * Connected to httpbin (172.21.13.94) port 8000 (#0)
-    > GET /status/418 HTTP/1.1
-
+    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
     ...
     < HTTP/1.1 418 Unknown
     < server: envoy
@@ -130,7 +125,6 @@ $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogF
           |       ;/
           \_     _/
             `"""`
-    * Connection #0 to host httpbin left intact
     {{< /text >}}
 
 1. 检查 `sleep` 的日志:
