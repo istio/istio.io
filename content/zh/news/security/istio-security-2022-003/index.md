@@ -18,7 +18,7 @@ skip_seealso: true
 ### CVE-2022-23635{#cve-2022-23635}
 
 - __[CVE-2022-23635](https://github.com/istio/istio/security/advisories/GHSA-856q-xv3c-7f2f)__:
-  (CVSS 评分 7.5, 高):  控制平面不能拒绝未经身份验证的服务攻击。
+  (CVSS 评分 7.5，高):  控制平面不能拒绝未经身份验证的服务攻击。
 
 Istio 控制平面 istiod 容易受到请求处理错误的影响，允许恶意攻击者发送特制消息，
 允许恶意攻击者发送特制消息，从而导致控制平面崩溃。此端点通过 TLS 15012 端口提供服务，
