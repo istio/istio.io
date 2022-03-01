@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2022-003
 subtitle: 安全公告
-description: 多个与 istiod Denial of Service 和 Envoy 相关的 CVEs。
+description: Multiple CVEs related to istiod Denial of Service and Envoy.
 cves: [CVE-2022-23635, CVE-2021-43824, CVE-2021-43825, CVE-2021-43826, CVE-2022-21654, CVE-2022-21655, CVE-2022-23606]
 cvss: "7.5",
 vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
