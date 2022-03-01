@@ -35,5 +35,5 @@ aliases:
   ([问题 #35563](https://github.com/istio/istio/issues/35563))
 
 - **修复** 修复了带有任何补丁上下文的 `EnvoyFilter` 会跳过在网关处添加新集群和监听器的问题。
- 
+
 - **修复** 修复了 `EnvoyFilter` 补丁在 `virtualOutbound-blackhole` 上可能导致内存泄漏的问题。
