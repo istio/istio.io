@@ -31,5 +31,5 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** an issue where `EnvoyFilter` patches on `virtualOutbound-blackhole` could cause memory leaks.
 
 - **Fixed** an issue where using `ISTIO_MUTUAL` TLS mode in Gateways while also setting `credentialName` causes mutual TLS to not be configured.
-For backwards compatibility, this only introduces a warning. To enable the new behavior, set the `PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME=true`
+For backwards compatibility, this only introduces a warning. To enable the new behavior, set the `PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME=false`
 environment variable in Istiod. This will cause invalid configurations to be rejected, and will be the default behavior in future releases.
