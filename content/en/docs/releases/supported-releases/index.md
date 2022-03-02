@@ -30,7 +30,7 @@ assistance. Separately, 3rd parties and partners may offer longer-term support s
 | Type              | Support Level                                                                                                         | Quality and Recommended Use                                                                                    |
 |-------------------|-----------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
 | Development Build | No support                                                                                                            | Dangerous, may not be fully reliable. Useful to experiment with.                                               |
-| Minor Release     | Support is provided until 3 months after the next minor release                                                       | Safe to deploy in production. Users are encouraged to upgrade to these releases as soon as possible.           |
+| Minor Release     | Support is provided until 6 weeks after the second subsequent minor release                                                       | Safe to deploy in production. Users are encouraged to upgrade to these releases as soon as possible.           |
 | Patch             | Same as the corresponding Minor release                                                                               | Users are encouraged to adopt patch releases as soon as they are available for a given release.                |
 | Security Patch    | Same as a Patch, however, it will not contain any additional code other than the security fix from the previous patch | Given the nature of security fixes, users are **strongly** encouraged to adopt security patches after release. |
 
@@ -57,7 +57,7 @@ current `<minor>` release. A patch is usually a small change relative to the `<m
 | 1.13            | Yes                  | February 11, 2022 | ~October 2022 (Expected) | 1.20, 1.21, 1.22, 1.23        | 1.16, 1.17, 1.18, 1.19    |
 | 1.12            | Yes                  | November 18, 2021 | ~June 2022 (Expected)    | 1.19, 1.20, 1.21, 1.22        | 1.16, 1.17, 1.18          |
 | 1.11            | Yes                  | August 12, 2021   | ~Mar 2022 (Expected)     | 1.18, 1.19, 1.20, 1.21, 1.22  | 1.16, 1.17                |
-| 1.10            | No                   | May 18, 2021      | Dec 30, 2021             | 1.18, 1.19, 1.20, 1.21        | 1.16, 1.17, 1.22          |
+| 1.10            | No                   | May 18, 2021      | Jan 7, 2022             | 1.18, 1.19, 1.20, 1.21        | 1.16, 1.17, 1.22          |
 | 1.9             | No                   | February 9, 2021  | Oct 8, 2021              | 1.17, 1.18, 1.19, 1.20        | 1.15, 1.16                |
 | 1.8             | No                   | November 10, 2020 | May 12, 2021             | 1.16, 1.17, 1.18, 1.19        | 1.15                      |
 | 1.7             | No                   | August 21, 2020   | Feb 25, 2021             | 1.16, 1.17, 1.18              | 1.15                      |
