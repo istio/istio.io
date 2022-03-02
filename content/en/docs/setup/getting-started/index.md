@@ -44,11 +44,11 @@ Follow these steps to get started with Istio:
     The command above downloads the latest release (numerically) of Istio.
     You can pass variables on the command line to download a specific version
     or to override the processor architecture.
-    For example, to download Istio 1.6.8 for the x86_64 architecture,
+    For example, to download Istio {{< istio_full_version >}} for the x86_64 architecture,
     run:
 
     {{< text bash >}}
-    $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.8 TARGET_ARCH=x86_64 sh -
+    $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION={{< istio_full_version >}} TARGET_ARCH=x86_64 sh -
     {{< /text >}}
 
     {{< /tip >}}
