@@ -45,6 +45,10 @@ Choose the method you are most familiar with.
 As a security best practice, it is recommended to deploy the gateway in a different namespace from the control plane.
 {{< /tip >}}
 
+All methods listed below rely on [Injection](/docs/setup/additional-setup/sidecar-injection/) to populate additional pod settings at runtime.
+In order to support this, the namespace the gateway is deployed in must not have the `istio-injection=disabled` label.
+If it does, you will see pods failing to startup attempting to pull the `auto` image, which is a placeholder that is intended to be replaced when a pod is created.
+
 {{< tabset category-name="gateway-install-type" >}}
 
 {{< tab name="IstioOperator" category-value="iop" >}}

@@ -51,6 +51,9 @@ Follow this guide to install and configure an Istio mesh using
 
     See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
+   Note: the namespace the gateway is deployed in must not have a `istio-injection=disabled` label.
+   See [Controlling the injection policy](/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) for more info.
+
 ## Verifying the installation
 
 Status of the installation can be verified using Helm:
