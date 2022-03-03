@@ -19,7 +19,7 @@ This release contains bug fixes to improve robustness. This release note describ
   ([Pull Request #37454](https://github.com/istio/istio/pull/37454))
 
 - **Fixed** an issue where CNI ignored traffic annotations.
-  ([Issue # =37637](https://github.com/istio/istio/issues/37637))
+  ([Issue #37637](https://github.com/istio/istio/issues/37637))
 
 - **Fixed** a bug where cache entries were never updated.
   ([Pull Request #37578](https://github.com/istio/istio/pull/37578))
