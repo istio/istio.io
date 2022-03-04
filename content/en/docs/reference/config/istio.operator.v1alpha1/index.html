@@ -3106,7 +3106,7 @@ No
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>Volume&rsquo;s name.
+<p>name of the volume.
 Must be a DNS_LABEL and unique within the pod.
 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names</p>
 
@@ -3119,7 +3119,7 @@ No
 <td><code>volumeSource</code></td>
 <td><code><a href="#k8s-io-api-core-v1-VolumeSource">VolumeSource</a></code></td>
 <td>
-<p>VolumeSource represents the location and type of the mounted volume.
+<p>volumeSource represents the location and type of the mounted volume.
 If not specified, the Volume is implied to be an EmptyDir.
 This implied behavior is deprecated and will be removed in a future version.</p>
 
@@ -3217,7 +3217,6 @@ No
 Behaves similarly to SubPath but environment variable references $(VAR_NAME) are expanded using the container&rsquo;s environment.
 Defaults to &ldquo;&rdquo; (volume&rsquo;s root).
 SubPathExpr and SubPath are mutually exclusive.
-This field is beta in 1.15.
 +optional</p>
 
 </td>
@@ -3232,7 +3231,8 @@ No
 <section>
 <p>A label selector is a label query over a set of resources. The result of matchLabels and
 matchExpressions are ANDed. An empty label selector matches all objects. A null
-label selector matches no objects.</p>
+label selector matches no objects.
++structType=atomic</p>
 
 <table class="message-fields">
 <thead>
