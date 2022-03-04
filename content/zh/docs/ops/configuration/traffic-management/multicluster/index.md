@@ -12,7 +12,7 @@ test: no
 1. 阅读 [Deployment Models](/zh/docs/ops/deployment/deployment-models/#multiple-clusters)。
 1. 确保您部署的服务遵循以下概念 {{< gloss "namespace sameness" >}}命名空间的相同{{< /gloss >}}。
 
-## 保持集群内的流量
+## 保持集群内的流量 {#keeping-traffic-in-cluster}
 
 在某些情况下，默认的跨集群负载平衡操作是不可取的。为了保持流量的 "cluster-local" (及：
 从 `cluster-a` 发送的流量将只会到达 `cluster-a` 中的目的地。), 将主机名或通配符标记为 `clusterLocal`
