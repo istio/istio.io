@@ -115,6 +115,8 @@ Istio [Bookinfo](/zh/docs/examples/bookinfo/) 示例包含四个独立的微服�
 
 请注意，Istio 对用户身份没有任何特殊的内置机制。事实上，`productpage` 服务在所有到 `reviews` 服务的 HTTP 请求中都增加了一个自定义的 `end-user` 请求头，从而达到了本例子的效果。
 
+Istio 还支持在入口网关上基于强认证 JWT 的路由，参考 [JWT基于声明的路由](/zh/docs/tasks/security/authentication/jwt-route)
+
 请记住，`reviews:v2` 是包含星级评分功能的版本。
 
 1. 运行以下命令以启用基于用户的路由：
