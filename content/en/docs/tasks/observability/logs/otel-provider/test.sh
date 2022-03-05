@@ -23,9 +23,9 @@ source "tests/util/samples.sh"
 
 # @setup profile=minimal
 
-snip_using_telemetry_api_1
-
 snip_using_telemetry_api_2
+
+snip_using_telemetry_api_3
 
 kubectl label namespace default istio-injection=enabled --overwrite
 
