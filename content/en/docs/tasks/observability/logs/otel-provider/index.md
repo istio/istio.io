@@ -1,18 +1,15 @@
 ---
-title: OpenTelemetry Provider
-description: This task shows you how to configure Envoy proxies to print access logs with OpenTelemetry Provider.
+title: OpenTelemetry
+description: This task shows you how to configure Envoy proxies to send access logs with OpenTelemetry collector.
 weight: 10
 keywords: [telemetry,logs]
-aliases:
-    - /docs/tasks/telemetry/access-log
-    - /docs/tasks/telemetry/logs/access-log/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
 After completing this task, you understand how to have your application participate in [Envoy's access logging](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage) with [OpenTelemetry (gRPC) Access Log](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto).
-Envoy proxies send access information to [otel-collector](https://github.com/open-telemetry/opentelemetry-collector)'s standard output.
-The standard output of otel-collector's containers can then be printed by the `kubectl logs` command.
+In this example, the Envoy proxies send access logs to an [OpenTelemetry collector](https://github.com/open-telemetry/opentelemetry-collector), which is configured to print the logs to standard output.
+The standard output of the OpenTelemetry collector can then be accessed via the `kubectl logs` command.
 
 {{< boilerplate before-you-begin-egress >}}
 
@@ -22,13 +19,23 @@ The standard output of otel-collector's containers can then be printed by the `k
 
 ## Enable Envoy's access logging
 
-Istio offers a few ways to enable access logs. Use of the Telemetry API is recommended
+To enable access logging, use the [Telemetry API](/docs/tasks/observability/telemetry/).
 
 ### Using Telemetry API
 
 The Telemetry API can be used to enable or disable access logs:
 
-Run the following script to edit the `MeshConfig`, update the YAML files to add `otel` provider.
+Edit `MeshConfig` to add an OpenTelemetry provider, named `otel`.  This will involve adding an extension provider stanza like:
+
+{{< text yaml >}}
+extensionProviders:
+- name: otel
+  envoyOtelAls:
+    service: otel-collector.istio-system.svc.cluster.local
+    port: 4317
+{{< /text >}}
+
+The final configuration should look something like:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n istio-system -f -
@@ -57,6 +64,8 @@ data:
   meshNetworks: 'networks: {}'
 EOF
 {{< /text >}}
+
+Add a Telemetry resource that tells Istio to send access logs to the OpenTelemetry collector.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n istio-system -f -

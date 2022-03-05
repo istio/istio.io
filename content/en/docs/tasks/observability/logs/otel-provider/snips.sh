@@ -23,7 +23,15 @@ source "content/en/boilerplates/snips/before-you-begin-egress.sh"
 source "content/en/boilerplates/snips/start-httpbin-service.sh"
 source "content/en/boilerplates/snips/start-otel-collector-service.sh"
 
-snip_using_telemetry_api_1() {
+! read -r -d '' snip_using_telemetry_api_1 <<\ENDSNIP
+	    extensionProviders:
+	    - name: otel
+	      envoyOtelAls:
+	        service: otel-collector.istio-system.svc.cluster.local
+	        port: 4317
+ENDSNIP
+
+snip_using_telemetry_api_2() {
 cat <<EOF | kubectl apply -n istio-system -f -
 apiVersion: v1
 kind: ConfigMap
@@ -51,7 +59,7 @@ data:
 EOF
 }
 
-snip_using_telemetry_api_2() {
+snip_using_telemetry_api_3() {
 cat <<EOF | kubectl apply -n istio-system -f -
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
