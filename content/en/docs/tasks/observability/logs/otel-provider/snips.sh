@@ -24,11 +24,11 @@ source "content/en/boilerplates/snips/start-httpbin-service.sh"
 source "content/en/boilerplates/snips/start-otel-collector-service.sh"
 
 ! read -r -d '' snip_using_telemetry_api_1 <<\ENDSNIP
-	    extensionProviders:
-	    - name: otel
-	      envoyOtelAls:
-	        service: otel-collector.istio-system.svc.cluster.local
-	        port: 4317
+extensionProviders:
+- name: otel
+  envoyOtelAls:
+    service: otel-collector.istio-system.svc.cluster.local
+    port: 4317
 ENDSNIP
 
 snip_using_telemetry_api_2() {
