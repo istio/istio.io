@@ -6,7 +6,7 @@ attribution: "Kebe Liu (DaoCloud), Xiaopeng Han (DaoCloud), Hui Li (DaoCloud)"
 keywords: [Istio,ebpf,iptables,sidecar]
 ---
 
-Currently, service mesh technologies, led by Istio, are attracting more and more attention from enterprises. The secret of Istio’s abilities in traffic management, security, observability and policy is all in the Envoy proxy. Istio uses Envoy as the "sidecar" to intercept service traffic, with the kernels `netfilter` packet filter functionality configured by iptables.
+The secret of Istio’s abilities in traffic management, security, observability and policy is all in the Envoy proxy. Istio uses Envoy as the "sidecar" to intercept service traffic, with the kernel's `netfilter` packet filter functionality configured by iptables.
 
 There are shortcomings in using iptables to perform this interception. Since `netfilter` is a highly versatile tool for filtering packets, several routing rules and data filtering processes are applied before reaching the destination socket. For example, from the network layer to the transport layer, `netfilter` will be used for processing for several times with the rules predefined, like `pre_routing`, `post_routing` and etc. When the packet becomes a TCP packet or UDP packet, and is forwarded to user space, some additional steps like packet validation, protocol policy processing and destination socket searching will be performed. When a sidecar is configured to intercept traffic, the original data path can become very long, since duplicated steps are performed several times.
 
