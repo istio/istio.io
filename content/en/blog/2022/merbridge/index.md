@@ -30,7 +30,7 @@ Network connection is essentially socket communication. eBPF provides a function
 
 The `sock_map` is the crucial piece in recording information for packet forwarding. When a packet arrives, an existing socket is selected from the `sock_map` to forward the packet to. As a result, we need to save all the socket information for packets to make the transportation process function properly. When there are new socket operations — like a new socket being created — the `sock_ops` function is executed.  The socket metadata is obtained and stored in the `sock_map` to be used when processing packets. The common key type in the `sock_map` is a "quadruple" of source and destination addresses and ports. With the key and the rules stored in the map, the destination socket will be found when a new packet arrives.
 
-## The Merbridge approaches
+## The Merbridge approach
 
 Let's introduce the detailed design and implementation principles of Merbridge step by step, with a real scenario.
 
