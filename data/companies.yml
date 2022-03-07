@@ -66,7 +66,7 @@ providers:
     url: "https://portal.nutanix.com/page/documents/details?targetId=Karbon-Platform-Services-Project-User-Guide:ks-ks-istio-r.html"
   - name: "Red Kubes Otomi Container Platform"
     logo: "/logos/redkubes.svg"
-    url: "https://redkubes.com/integrations/"   
+    url: "https://redkubes.com/integrations/"
   - name: "Tencent Cloud Mesh"
     logo: "/logos/tencent-cloud.svg"
     url: "https://cloud.tencent.com/product/tcm"
@@ -94,7 +94,7 @@ integrations:
     logo: "/logos/ambassador.svg"
     url: "https://www.getambassador.io/docs/edge-stack/latest/howtos/istio/"
     description: "Ambassador Edge Stack and Istio can be deployed together on Kubernetes."
-    details: 
+    details:
       - "In this configuration, incoming traffic from outside the cluster is first routed through the Ambassador Edge Stack, which then routes the traffic to Istio-powered services. The Ambassador Edge Stack handles authentication, edge routing, TLS termination, and other traditional edge functions."
   - name: "Apigee"
     logo: "/logos/apigee.svg"
@@ -125,7 +125,7 @@ integrations:
     logo: "/logos/casbin.png"
     url: "https://casbin.org/docs/en/envoy"
     description: "Casbin is an authorization library that supports ACL, RBAC, ABAC for multiple languages."
-    details: 
+    details:
       - "Casbin's Envoy middleware can be used to integrate Istio with a gRPC server to perform role based authorization of users."
   - name: "Cilium"
     logo: "/logos/cilium.svg"
@@ -266,8 +266,8 @@ pro_services:
     logo: "/logos/cloudzone.svg"
     url: "https://cloudzone.io/"
     description: "With over 8 years of cloud consulting experience, CloudZone provides consulting services and execution of end-to-end Kubernetes and DevOps projects including platform architecture, CI/CD automations, service meshes and more."
-    details: 
-      - "At CloudZone, we’ve been actively involved with Kubernetes and Istio since the very first editions came out." 
+    details:
+      - "At CloudZone, we’ve been actively involved with Kubernetes and Istio since the very first editions came out."
       - "In today’s fast-paced, ever-changing world, we continue to research the field keeping up to date so that we can bring you the very latest thinking and solutions, whether we are supporting you through the provision of consulting, design, training or production support services."
       - "Our certified Kubernetes administrators and cloud experts are highly skilled in building production-grade Kubernetes systems with the latest Cloud native tools for automating application deployment, scaling and management, together with the open source Istio service mesh for connecting, securing, controlling and observing services."
   - name: "DoneOps"
@@ -292,7 +292,7 @@ pro_services:
     description: "Submit a PR to add your company here!"
     details:
       - "Add information about your how your company supports Istio."
-      - "You can add multiple paragraphs."    
+      - "You can add multiple paragraphs."
 
 users:
   - name: "1-800-Flowers.com"
@@ -318,7 +318,7 @@ users:
     url: "https://www.chiper.co"
   - name: "Constant Contact"
     logo: "/logos/constant-contact-logo.svg"
-    url: "https://www.constantcontact.com"  
+    url: "https://www.constantcontact.com"
   - name: "Continental"
     logo: "/logos/continental.svg"
     url: "https://www.continental-corporation.com"
@@ -451,6 +451,9 @@ users:
   - name: "Spotify"
     logo: "/logos/spotify.svg"
     url: "https://www.spotify.com/"
+  - name: "Stilingue"
+    logo: "/logos/stilingue.svg"
+    url: "https://stilingue.com.br"
   - name: "Swoop Finance Ltd"
     logo: "/logos/swoopfunding.svg"
     url: "https://www.swoopfunding.com/"
