@@ -7,8 +7,8 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
-After completing this task, you understand how to have your application participate in [Envoy's access logging](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage) with [OpenTelemetry (gRPC) Access Log](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto).
-In this example, the Envoy proxies send access logs to an [OpenTelemetry collector](https://github.com/open-telemetry/opentelemetry-collector), which is configured to print the logs to standard output.
+The Envoy proxies can be configured to export their [access logs](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage) in [OpenTelemetry format](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto).
+In this example, the proxies send access logs to an [OpenTelemetry collector](https://github.com/open-telemetry/opentelemetry-collector), which is configured to print the logs to standard output.
 The standard output of the OpenTelemetry collector can then be accessed via the `kubectl logs` command.
 
 {{< boilerplate before-you-begin-egress >}}
@@ -21,11 +21,7 @@ The standard output of the OpenTelemetry collector can then be accessed via the 
 
 To enable access logging, use the [Telemetry API](/docs/tasks/observability/telemetry/).
 
-### Using Telemetry API
-
-The Telemetry API can be used to enable or disable access logs:
-
-Edit `MeshConfig` to add an OpenTelemetry provider, named `otel`.  This will involve adding an extension provider stanza like:
+Edit `MeshConfig` to add an OpenTelemetry provider, named `otel`.  This involves adding an extension provider stanza:
 
 {{< text yaml >}}
 extensionProviders:
@@ -65,7 +61,7 @@ data:
 EOF
 {{< /text >}}
 
-Add a Telemetry resource that tells Istio to send access logs to the OpenTelemetry collector.
+Next, add a Telemetry resource that tells Istio to send access logs to the OpenTelemetry collector.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n istio-system -f -
