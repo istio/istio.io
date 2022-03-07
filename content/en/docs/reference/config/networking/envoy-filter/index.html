@@ -332,16 +332,20 @@ spec:
   # The second patch instructs to apply the above Wasm filter to the listener/http connection manager.
   - applyTo: HTTP_FILTER
     match:
-      context: SIDECAR_INBOUND
+      listener:
+        filterChain:
+          filter:
+            name: envoy.filters.network.http_connection_manager
+            subFilter:
+              name: envoy.filters.http.router
     patch:
-      operation: ADD
-      filterClass: AUTHZ # This filter will run *after* the Istio authz filter.
+      operation: INSERT_BEFORE
       value:
         name: my-wasm-extension # This must match the name above
         config_discovery:
           config_source:
             ads: {}
-          type_urls: [&quot;envoy.extensions.filters.http.wasm.v3.Wasm&quot;]
+          type_urls: [&quot;type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm&quot;]
 </code></pre>
 
 <p>The following example adds a Wasm service extension for all proxies using a locally available Wasm file.
