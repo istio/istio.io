@@ -13,9 +13,9 @@ skip_seealso: true
 
 {{< security_bulletin >}}
 
-## CVE{#cve}
+## CVE{#CVE}
 
-### CVE-2022-23635{#cve-2022-23635}
+### CVE-2022-23635{#CVE-2022-23635}
 
 - __[CVE-2022-23635](https://github.com/istio/istio/security/advisories/GHSA-856q-xv3c-7f2f)__:
   (CVSS 评分 7.5，高):  控制平面不能拒绝未经身份验证的服务攻击。
