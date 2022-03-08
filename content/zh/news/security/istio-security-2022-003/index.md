@@ -5,9 +5,9 @@ description: Multiple CVEs related to istiod Denial of Service and Envoy.
 cves: [CVE-2022-23635, CVE-2021-43824, CVE-2021-43825, CVE-2021-43826, CVE-2022-21654, CVE-2022-21655, CVE-2022-23606]
 cvss: "7.5"
 vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-版本: ["1.11.0" 之前所有的版本，"1.11.0 到 1.11.6"，"1.12.0 到 1.12.3"，"1.13.0"]
-发布时间: 2022-02-22
-关键字: [CVE]
+releases: ["All releases prior to 1.11.0", "1.11.0 to 1.11.6", "1.12.0 to 1.12.3", "1.13.0"]
+publishdate: 2022-02-22
+keywords: [CVE]
 skip_seealso: true
 ---
 
