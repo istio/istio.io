@@ -33,8 +33,7 @@ extensionProviders:
 
 The final configuration should look something like:
 
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -n istio-system -f -
+{{< text yaml >}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -58,7 +57,6 @@ data:
     rootNamespace: istio-system
     trustDomain: cluster.local
   meshNetworks: 'networks: {}'
-EOF
 {{< /text >}}
 
 Next, add a Telemetry resource that tells Istio to send access logs to the OpenTelemetry collector.
