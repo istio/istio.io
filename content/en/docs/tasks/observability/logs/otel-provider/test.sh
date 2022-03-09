@@ -21,10 +21,9 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
-# @setup profile=minimal
+# @setup profile=demo
 
-snip_enable_envoys_access_logging_2
-
+# Apply Telemetry config
 snip_enable_envoys_access_logging_3
 
 kubectl label namespace default istio-injection=enabled --overwrite

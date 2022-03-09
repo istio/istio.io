@@ -31,8 +31,7 @@ extensionProviders:
     port: 4317
 ENDSNIP
 
-snip_enable_envoys_access_logging_2() {
-cat <<EOF | kubectl apply -n istio-system -f -
+! read -r -d '' snip_enable_envoys_access_logging_2 <<\ENDSNIP
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -56,8 +55,7 @@ data:
     rootNamespace: istio-system
     trustDomain: cluster.local
   meshNetworks: 'networks: {}'
-EOF
-}
+ENDSNIP
 
 snip_enable_envoys_access_logging_3() {
 cat <<EOF | kubectl apply -n istio-system -f -
