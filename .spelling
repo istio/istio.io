@@ -653,6 +653,7 @@ OpenID
 OpenID_Connect
 OpenMetrics
 OpenShift
+OpenTelemetry
 openusage.org
 OpenSSL
 openssl
