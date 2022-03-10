@@ -173,7 +173,7 @@ EOF
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_4() {
-istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+istioctl manifest generate -f external-istiod.yaml | kubectl apply --context="${CTX_EXTERNAL_CLUSTER}" -f -
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_5() {
