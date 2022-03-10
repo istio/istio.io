@@ -31,6 +31,8 @@ test: n/a
     $ istioctl bug-report
     {{< /text >}}
 
+如果您的网格跨越了多个集群，对每个集群运行 `istioctl bug-report` 并指定 `--context` 或者 `--kubeconfig` 标识。
+
 然后将得到的 `bug-report.tgz` 文件一起报告。
 
 {{< tip >}}
