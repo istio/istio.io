@@ -14,7 +14,7 @@ owner: istio/wg-environments-maintainers
 本指南帮你快速评估 Istio。
 如果你已经熟悉 Istio，或兴趣点在安装其他配置类型、
 高级[部署模型](/zh/docs/ops/deployment/deployment-models/)，
-请参阅[我们应该采用哪种 Istio 安装方法？](/zh/faq/setup/#install-method-selection) 的 FAQ 页面。
+请参阅[我们应该采用哪种 Istio 安装方法？](/zh/about/faq/#install-method-selection) 的 FAQ 页面。
 
 完成下面步骤需要你有一个 {{< gloss >}}cluster{{< /gloss >}}，
 且运行着兼容版本的 Kubernetes ({{< supported_kubernetes_versions >}})。
