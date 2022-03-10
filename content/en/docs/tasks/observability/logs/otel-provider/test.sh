@@ -23,6 +23,9 @@ source "tests/util/samples.sh"
 
 # @setup profile=demo
 
+# Start the otel sample
+startup_otel_sample
+
 # Apply Telemetry config
 snip_enable_envoys_access_logging_3
 
@@ -35,11 +38,9 @@ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadat
 # Start the httpbin sample
 startup_httpbin_sample
 
-# Start the otel sample
-startup_otel_sample
-
 # Make curl request to httpbin
 _verify_elided snip_test_the_access_log_1 "$snip_test_the_access_log_1_out"
+
 
 # Check the logs
 _verify_contains snip_test_the_access_log_2 "outbound|8000||httpbin.default.svc.cluster.local"

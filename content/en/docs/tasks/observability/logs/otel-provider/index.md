@@ -62,13 +62,15 @@ data:
 Next, add a Telemetry resource that tells Istio to send access logs to the OpenTelemetry collector.
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -n istio-system -f -
+$ cat <<EOF | kubectl apply -n default -f -
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
-  name: mesh-default
-  namespace: istio-system
+  name: sleep-logging
 spec:
+  selector:
+    matchLabels:
+      app: sleep
   accessLogging:
     - providers:
       - name: otel
@@ -178,6 +180,7 @@ Note that the messages corresponding to the request appear in logs of the Istio 
 Shutdown the [sleep]({{< github_tree >}}/samples/sleep) and [httpbin]({{< github_tree >}}/samples/httpbin) services:
 
 {{< text bash >}}
+$ kubectl delete telemetry sleep-logging
 $ kubectl delete -f @samples/sleep/sleep.yaml@
 $ kubectl delete -f @samples/httpbin/httpbin.yaml@
 $ kubectl delete -f @samples/open-telemetry/otel.yaml@
