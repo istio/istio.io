@@ -283,6 +283,8 @@ CVE-2022-21679
 CVE-2022-21701
 CVE-2022-23606
 CVE-2022-23635
+CVE-2022-24726
+CVE-2022-24921
 CVEs
 cves
 cvss
@@ -397,6 +399,7 @@ GlueCon
 Gloo
 Gmail
 GoLang
+Golang
 googleapis.com
 googlegroups.com
 Grafana
@@ -481,6 +484,7 @@ ISTIO-SECURITY-2021-008
 ISTIO-SECURITY-2022-001
 ISTIO-SECURITY-2022-002
 ISTIO-SECURITY-2022-003
+ISTIO-SECURITY-2022-004
 istio-system
 istio.io
 istio.io.
@@ -653,6 +657,7 @@ OpenID
 OpenID_Connect
 OpenMetrics
 OpenShift
+OpenTelemetry
 openusage.org
 OpenSSL
 openssl
