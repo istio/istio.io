@@ -58,13 +58,15 @@ data:
 ENDSNIP
 
 snip_enable_envoys_access_logging_3() {
-cat <<EOF | kubectl apply -n istio-system -f -
+cat <<EOF | kubectl apply -n default -f -
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
-  name: mesh-default
-  namespace: istio-system
+  name: sleep-logging
 spec:
+  selector:
+    matchLabels:
+      app: sleep
   accessLogging:
     - providers:
       - name: otel
@@ -121,6 +123,7 @@ kubectl logs -l app=otel-collector -n istio-system
 ENDSNIP
 
 snip_cleanup_1() {
+kubectl delete telemetry sleep-logging
 kubectl delete -f samples/sleep/sleep.yaml
 kubectl delete -f samples/httpbin/httpbin.yaml
 kubectl delete -f samples/open-telemetry/otel.yaml
