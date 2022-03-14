@@ -30,7 +30,7 @@ assistance. Separately, 3rd parties and partners may offer longer-term support s
 | Type              | Support Level                                                                                                         | Quality and Recommended Use                                                                                    |
 |-------------------|-----------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
 | Development Build | No support                                                                                                            | Dangerous, may not be fully reliable. Useful to experiment with.                                               |
-| Minor Release     | Support is provided until 6 weeks after the second subsequent minor release                                                       | Safe to deploy in production. Users are encouraged to upgrade to these releases as soon as possible.           |
+| Minor Release     | Support provided until 6 weeks after the N+2 minor release (ex. 1.11 supported until 6 weeks after 1.13.0 is released)|
 | Patch             | Same as the corresponding Minor release                                                                               | Users are encouraged to adopt patch releases as soon as they are available for a given release.                |
 | Security Patch    | Same as a Patch, however, it will not contain any additional code other than the security fix from the previous patch | Given the nature of security fixes, users are **strongly** encouraged to adopt security patches after release. |
 
