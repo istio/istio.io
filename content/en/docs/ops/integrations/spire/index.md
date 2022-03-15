@@ -168,7 +168,8 @@ $ INGRESS_POD_UID=$(kubectl get pods -n istio-system $INGRESS_POD -o jsonpath='{
 $ SPIRE_SERVER_POD=$(kubectl get pod -l app=spire-server -n spire -o jsonpath="{.items[0].metadata.name}")
 {{< /text >}}
 
-3. Attest the SPIRE Agent running on the node:
+3. Register an entry for the SPIRE Agent running on the node:
+
 {{< text bash >}}
 $ kubectl exec -n spire $SPIRE_SERVER_POD -- \
 /opt/spire/bin/spire-server entry create \
