@@ -28,7 +28,7 @@ Istio 控制平面 istiod 容易受到请求处理错误的影响，允许恶意
 
 ### Envoy CVEs{#envoy-cves}
 
-At this time it is not believed that Istio is vulnerable to these CVEs in Envoy. They are listed, however,目前，人们认为 Istio 不会受到 Envoy 中的这些 CVE 的攻击。然而，还是在下面把它们列出来了，
+目前，人们认为 Istio 不会受到 Envoy 中的这些 CVE 的攻击。然而，还是在下面把它们列出来了，
 以让大家都了解。
 
 | CVE ID                                                                                        | Score, Rating | 描述                                                                                                               | 在 1.13.1 中修复   | 在 1.12.4 中修复   | 在 1.11.7 中修复                 |
