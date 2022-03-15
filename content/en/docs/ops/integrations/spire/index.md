@@ -9,9 +9,10 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-[SPIRE](https://spiffe.io/docs/latest/spire-about/spire-concepts/) is a production-ready implementation of the SPIFFE specification that performs node and workload attestation in order to securely issue cryptographic identities to workloads running in heterogeneous environments.  
-SPIRE can be configured as a source of cryptographic identities for Istio workloads through an integration with [Envoy's SDS API](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret).
-Istio can detect the existence of a UNIX domain socket that implements the Envoy SDS API on a defined socket path, allowing Envoy to communicate and fetch identities directly from it.
+[SPIRE](https://spiffe.io/docs/latest/spire-about/spire-concepts/) is a production-ready implementation of the SPIFFE specification that performs node and workload attestation in order to securely
+issue cryptographic identities to workloads running in heterogeneous environments. SPIRE can be configured as a source of cryptographic identities for Istio workloads through an integration with
+[Envoy's SDS API](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret). Istio can detect the existence of a UNIX domain socket that implements the Envoy SDS API on a defined
+socket path, allowing Envoy to communicate and fetch identities directly from it.
 
 This integration with SPIRE provides flexible attestation options not available with the default Istio identity management while harnessing Istio's powerful service management.
 For example, SPIRE's plugin architecture enables diverse workload attestation options beyond the Kubernetes namespace and service account attestation offered by Istio.
